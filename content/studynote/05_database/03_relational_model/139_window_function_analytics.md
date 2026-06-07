@@ -3,8 +3,8 @@ title: "139. Window Function Analytics"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Window Function은 <strong><a href="/studynote/05_database/04_transactions_concurrency/522_group_by/">GROUP BY</a> 없이 행 단위로 집계·순위·이전/다음 행 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>를 수행하는 SQL:2003 표준 함수이며, OVER([PARTITION BY](/studynote/05_database/07_exam_summary/436_window_function_over/) ... ORDER BY ...)로 윈도우를 정의한다.
 > 2. **가치**: GROUP BY는 결과를 그룹별 1행으로 축소하지만, Window Function은 <strong>원본 행을 유지하면서 집계 결과를 함께 표시</strong>하여 [상관 서브쿼리](/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/)를 대체하고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 향상시킨다.

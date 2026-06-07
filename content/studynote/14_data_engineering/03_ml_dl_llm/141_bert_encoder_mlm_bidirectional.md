@@ -2,9 +2,9 @@
 title: "141. Bert Encoder Mlm Bidirectional"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) Encoder는 <strong><a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> Encoder를 12/24층 쌓아</strong> [MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/)(15% 마스킹)과 NSP로 양방향 사전 학습한 모델이며, [CLS] 토큰으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·유사도, 각 토큰 출력으로 [NER](/studynote/16_bigdata/05_analysis/117_ner/)·QA를 수행한다.
 > 2. **가치**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-Base(110M)·[BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-Large(340M)의 사전 학습 후, <strong>소량의 라벨 데이터로 <a href="/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a></strong>하면 11개 NLU 벤치마크를 동시 갱신(2018)하여 "사전 학습+[미세 조정](/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)" 패러다임을 확립했다.

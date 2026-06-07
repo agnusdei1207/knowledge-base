@@ -3,8 +3,8 @@ title: "127. Information Engineering Methodology Ie"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IE(Information 엔진ering)는 <strong>기업 전체 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중심으로 정보 시스템을 체계적으로 개발</strong>하는 방법론으로, [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)(정보전략계획)->BAA(업무영역분석)->BSD(시스템 설계)->SC(구축)의 4단계로 구성된다.
 > 2. **가치**: 프로세스 중심 개발은 시스템마다 독립적으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 설계하여 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 중복·불일치</strong>가 발생하지만, IE는 <strong>전사 <a href="/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>을 먼저 수립</strong>하여 시스템 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장한다.

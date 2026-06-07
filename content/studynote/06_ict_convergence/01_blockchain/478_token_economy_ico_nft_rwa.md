@@ -3,8 +3,8 @@ title: "Token Economy: ICO, NFT, RWA"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 478
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [토큰 이코노미](/studynote/06_ict_convergence/01_blockchain/026_token_economy/)([Token Economy](/studynote/06_ict_convergence/01_blockchain/026_token_economy/))는 FT(Fungible Token, 대체 가능 토큰)와 NFT([Non-Fungible Token](/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/), 대체 불가 토큰)로 디지털·실물 자산을 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올려 <strong>프로그래머블 자산</strong>으로 만드는 생태계다.

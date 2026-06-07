@@ -3,8 +3,8 @@ title: "Spectre"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 483
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스펙터 (Spectre)는 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)과 추측 실행을 속여 피해자 코드가 잠깐 잘못된 경로를 실행하게 만들고, 그때 남은 캐시 흔적을 통해 비밀 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추정하는 일시적 실행 계열 취약점이다.

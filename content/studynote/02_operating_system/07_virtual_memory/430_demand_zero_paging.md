@@ -3,8 +3,8 @@ title: "430. Demand Zero Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 430
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수요 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [제로화](/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)(Demand [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/studynote/02_operating_system/04_synchronization/259_paging/) 또는 [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill-On-Demand, ZFOD)는 프로그램이 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되지 않은 거대 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)([BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) 영역이나 [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 할당받을 때, <strong>OS가 램을 즉시 주지 않고 빈껍데기만 매핑해 두었다가, 실제 쓸 때(Demand) 빈 프레임을 가져와 보안을 위해 0(<a href="/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)으로 가득 채워(세탁) 건네주는 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 할당 기법</strong>이다.

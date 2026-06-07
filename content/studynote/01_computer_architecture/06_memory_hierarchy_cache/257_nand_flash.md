@@ -3,8 +3,8 @@ title: "NAND Flash"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 257
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NAND (Not AND) 플래시는 셀을 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 문자열(String)로 묶어 배선 면적을 줄인 비휘발성 메모리라서, [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 직접 실행성보다 고집적·저비용 저장에 최적화되어 있다.

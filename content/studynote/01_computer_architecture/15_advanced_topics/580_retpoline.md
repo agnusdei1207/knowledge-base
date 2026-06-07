@@ -3,9 +3,8 @@ title: "580. Retpoline (Return Trampoline)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 580
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Retpoline (Return Trampoline)은 간접 호출·간접 점프를 `call`·`ret` 기반 thunk로 바꿔, 투기적 경로는 반환 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 버퍼 (Return [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Buffer, RSB)가 가리키는 안전한 루프에 가두고 실제 경로만 원래 목적지로 보내는 [Spectre](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) variant 2 완화 기법이다.

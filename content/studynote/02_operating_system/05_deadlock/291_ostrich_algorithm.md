@@ -3,8 +3,8 @@ title: "291. Ostrich Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 291
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Ostrich [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 맹수가 다가오면 모래에 머리를 박고 '문제가 없다'고 외면하는 타조의 습성에서 유래한 최적화 패러다임으로, 수학적으로 일어날 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 극히 낮은 데드락 발생 자체를 시스템 레벨에서 "무시(Ignorance)"하는 전략을 뜻한다.

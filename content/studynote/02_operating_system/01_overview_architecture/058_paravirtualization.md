@@ -3,8 +3,8 @@ title: "Hypercall"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 반가상화(Paravirtualization)는 게스트 OS가 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 직접 협력하도록 수정된 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 방식이다.

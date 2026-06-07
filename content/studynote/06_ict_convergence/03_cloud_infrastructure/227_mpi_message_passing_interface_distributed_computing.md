@@ -3,8 +3,8 @@ title: "Message Passing Interface"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MPI 기반 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 ([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/) Interface): MPI ([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/) Interface) - [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 헌법를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

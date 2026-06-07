@@ -3,8 +3,8 @@ title: "Chain of Responsibility Pros and Cons"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 200
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [책임 연쇄 패턴](/studynote/11_design_supervision/06_exam_summary/395_process/)의 장점은 '느슨한 결합'과 '동적 체인 구성'이며, 단점은 '처리 보장 없음'과 '[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드(긴 체인)'이다. 실무에서는 이 트레이드오프를 인식하고 패턴을 적절히 적용해야 한다.

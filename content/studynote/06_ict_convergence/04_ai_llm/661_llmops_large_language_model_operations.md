@@ -3,8 +3,8 @@ title: "LLMOps Large Language Model Operations"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 661
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLMOps는 LLM의 데이터 파이프라인·파인튜닝(LoRA/QLoRA, DPO/RLHF)·서빙(vLLM, TGI, Triton)·RAG(임베딩/벡터DB)·평가·모니터링·거버넌스를 통합 관리하는 End-to-End 운영 체계로, 전통 MLOps 대비 "비결정성·프롬프트 의존성·할루시네이션·토큰 비용"이라는 4대 변수를 추가로 다룬다.

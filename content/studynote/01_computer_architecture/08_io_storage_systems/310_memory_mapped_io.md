@@ -3,8 +3,8 @@ title: "Memory-Mapped I/O"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 310
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 맵 I/O (Memory-Mapped I/O, MMIO)는 장치 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 메모리 주소 공간 안에 배치해, <strong>CPU (Central Processing Unit)</strong>가 일반 `Load/Store` 명령으로 주변 장치를 제어하게 만드는 방식이다.

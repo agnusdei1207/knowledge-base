@@ -3,8 +3,8 @@ title: "154. Database Index B Tree Search Optimization"
 date: "2026-05-03"
 tags:
   - "studynote-database"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 인덱스(Index)는 거대한 원본 테이블(Table) 쇳덩이를 1밀리미터도 건드리지 않은 채, 오직 검색에 자주 쓰이는 <strong>'특정 컬럼 값(<a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'과 그 값이 살고 있는 진짜 집 주소 포인터('ROWID') 두 개만을 쏙 빼내어 -> 별도의 독립된 하드디스크 공간에 '가나다순(Sort)'으로 100% 빡빡하게 정렬해 쌓아둔 요약 장부(색인)</strong>다.
 > 2. **가치**: 1억 명 중 홍길동 1명을 찾으려고 1억 건을 쌩으로 다 뒤지는 미친 짓(Full Table Scan)을 막아내고 -> **뿌리(Root) -> 가지(Branch) -> 잎사귀(Leaf)** 로 뻗어 나가는 <strong><a href="/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a> (균형 트리 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong> 를 타며 단 3~4번의 블록 I/O 점프만으로 0.001초 만에 타겟을 스나이퍼 암살하는 극한의 조회([SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)) 스피드를 창조해 낸다.

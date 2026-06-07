@@ -3,8 +3,8 @@ title: "2's Complement"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 2의 보수(Two's Complement)는 [부호 있는 정수](/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)를 표현하는 표준 방식으로, 덧셈기 하나로 덧셈과 뺄셈을 모두 처리하게 만든다.

@@ -3,8 +3,8 @@ title: "BPMN"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BPMN (Business [Process](/studynote/12_it_management/05_security_compliance/943_process/) Model and Notation)은 사람이 수행하는 업무와 시스템이 수행하는 처리를 같은 흐름도 위에서 표준 기호로 표현하는 비즈니스 프로세스 모델링 언어다.

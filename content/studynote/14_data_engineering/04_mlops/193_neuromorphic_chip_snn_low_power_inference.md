@@ -3,8 +3,8 @@ title: "193. Neuromorphic Chip Snn Low Power Inference"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [뉴로모픽 컴퓨팅](/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)([Neuromorphic Computing](/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/))은 인간 뇌의 신경 회로를 모방한 비폰노이만(Non-von Neumann) 아키텍처로, 이벤트 구동(Event-Driven) 처리로 대기 전력을 거의 제로로 만든다.
 > 2. **가치**: [SNN](/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)(Spiking Neural Network)은 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)(전기 펄스)가 있을 때만 연산하므로 기존 [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) 대비 에너지 효율이 100~1,000배 높아 배터리 기반 엣지 디바이스에 혁신적이다.

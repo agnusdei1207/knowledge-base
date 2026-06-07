@@ -3,8 +3,8 @@ title: "Prepared Statement /"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 371
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SQL [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/) ([SQL Injection](/studynote/09_security/uncategorized/1036_sql_injection/)) 공격 및 방어 수단 (Prepared Statement / 바인드 파라미터)는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

@@ -3,8 +3,8 @@ title: "Openflow Protocol Sdn Southbound Flow Table"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1094
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OpenFlow](/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Openflow Protocol](/studynote/03_network/17_sdn_nfv/998_openflow_protocol/) [Sdn](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) Southbound Flow Table)는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

@@ -3,8 +3,8 @@ title: "499. Sdi Hardware Dependency"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 499
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SDI (Software-Defined Infrastructure)는 인프라 제어를 소프트웨어로 추상화하지만, 실제 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·격리·보안은 그 아래 하드웨어 능력에 크게 의존한다.

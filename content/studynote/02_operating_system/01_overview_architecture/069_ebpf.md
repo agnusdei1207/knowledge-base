@@ -3,8 +3,8 @@ title: "069. Ebpf"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: eBPF는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 안전하게 실행되는 샌드박스형 프로그램 프레임워크다.

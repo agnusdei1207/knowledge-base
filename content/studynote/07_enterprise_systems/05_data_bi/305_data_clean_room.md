@@ -3,8 +3,8 @@ title: "Data Clean Room"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 305
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clean Room은 양사가 원시 PII (Personally Identifiable Information) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유하지 않고 집계 인사이트만 교환하는 프라이버시 보존 협업 환경이다.

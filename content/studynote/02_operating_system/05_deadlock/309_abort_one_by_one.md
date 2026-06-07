@@ -3,8 +3,8 @@ title: "Abort One By One"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 309
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 복구](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) 과정에서 한 번에 모두를 죽여 억울한 희생자를 낳았던 야만적 `Abort All`의 부작용을 타파하기 위해, 비용이 가장 싼(만만한) 한 놈(Victim)부터 <strong>하나씩(One-by-One) 목을 치고, 다시 탐지(<a href="/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>) 스캔을 돌려 데드락 원형이 끊겼는지 점진적으로 간을 보며 소탕하는 정밀 타격 방식</strong>이다.

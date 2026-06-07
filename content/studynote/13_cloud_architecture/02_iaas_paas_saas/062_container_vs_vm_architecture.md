@@ -2,9 +2,9 @@
 title: "VM"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))은 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 위에 각자 Guest OS(Guest [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))를 올려 하드웨어를 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)하고, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))는 Host OS의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 공유하며 프로세스만 격리하는 OS 수준 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)다.

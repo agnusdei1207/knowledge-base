@@ -3,8 +3,8 @@ title: "244. Switching Method Fragment Free"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 244
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프래그먼트 프리 (Fragment-free)는 컷스루(Cut-through)의 맹속과 스토어 앤 포워드(Store-and-forward)의 에러 검사 장점을 반반씩 섞은 <strong>절충형(Hybrid) <a href="/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/">스위칭 방식</a></strong>이다.

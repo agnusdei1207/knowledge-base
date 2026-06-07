@@ -3,9 +3,8 @@ title: "035. XGBoost & LightGBM"
 date: "2026-03-03"
 tags:
   - "studynote-ai"
+weight: 35
 ---
-
-
 > **핵심 인사이트**
 > 1. XGBoost (Extreme [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/))와 LightGBM은 모두 [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) 계열의 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 테이블 형식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/))에서 최고 수준의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이는 ML 표준 도구다.
 > 2. XGBoost는 레벨 단위(Level-wise) 트리 성장으로 안정적이고, LightGBM은 리프 단위(Leaf-wise) 트리 성장으로 더 빠르고 낮은 메모리로 동일 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.

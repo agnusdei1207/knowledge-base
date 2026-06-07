@@ -3,8 +3,8 @@ title: "Array Processor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 374
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 ([Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) Processor)는 동일한 명령을 다수의 연산 소자에 동시에 뿌려, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모양과 하드웨어의 모양을 맞추는 공간 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.

@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "550. 정보통신기술사 ICT 신기술 통합 정리 (PE ICT Emerging Technologies Comprehensive Review)"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 550
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보통신기술사(PE, Professional Engineer) ICT 신기술 영역은 Web3/블록체인, IoT/모빌리티, 클라우드 인프라, AI/LLM, 데이터 과학 등 5대 축의 키워드를 각 영역 고유의 원리와 융합 관계까지 파악해야 논술에서 깊이 있는 답안이 나온다.

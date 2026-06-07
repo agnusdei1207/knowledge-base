@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 171
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보보호 및 개인정보보호 관리체계 (ISMS-P, Personal Information & Information Security Management System)는 보안 통제와 개인정보 처리 통제를 한 범위 안에서 운영·점검·개선하도록 요구하는 국내 통합 인증 체계다.

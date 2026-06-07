@@ -3,8 +3,8 @@ title: "HMB, Host Memory Buffer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 704
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HMB (Host Memory Buffer)는 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)이 없는 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 호스트 메모리 일부를 빌려 매핑 정보와 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 캐시하는 기능이다.

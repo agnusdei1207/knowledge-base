@@ -3,8 +3,8 @@ title: "Kernel Memory Allocation Characteristics"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 421
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 사용할 메모리를 할당받는 방식은 일반 유저 프로세스가 겪는 '게으른 가상 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)([Lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) [Paging](/studynote/02_operating_system/04_synchronization/259_paging/))'과 달리, 할당 즉시 <strong>실제 물리 램(RAM)을 배정받아야 하며 반드시 하드웨어적으로 연속된(Contiguous) 프레임을 보장받아야 하는 극도로 보수적인 특성</strong>을 지닌다.

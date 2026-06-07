@@ -3,8 +3,8 @@ title: "154. Instruction Tuning"
 date: "2026-05-03"
 tags:
   - "studynote-ai"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [인스트럭션 튜닝](/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/)([Instruction Tuning](/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/))은 인터넷 글자만 무지성으로 읽고 '다음 단어 맞추기(빈칸 채우기)'만 할 줄 알던 깡통 범용 모델([Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))에게 -> 인간의 텍스트가 <strong>단순한 글씨가 아니라 '나에게 내리는 명령(<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a>)' 이라는 의도(<a href="/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a>)를 파악하고 그 양식에 맞춰 대답하도록 세뇌시키는 1차 예절 교육(SFT)</strong>이다.
 > 2. **가치**: 이 수술을 거치기 전의 모델([GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3 등)은 "프랑스의 수도는?" 이라고 물으면 "영국의 수도는? 일본의 수도는?" 하고 질문만 앵무새처럼 무한 복사 나열하며 뻗었지만 💥 -> 튜닝을 거친 모델(ChatGPT)은 딱 멈춰서 "파리입니다" 라고 대화의 맥락을 100% 끊고 완벽히 정답만 뱉어내는 진짜 챗봇 비서로 차원 도약 환생한다.

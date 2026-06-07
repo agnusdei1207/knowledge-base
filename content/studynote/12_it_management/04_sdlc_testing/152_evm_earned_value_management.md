@@ -3,8 +3,8 @@ title: "152. Evm Earned Value Management"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EVM([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/))은 "사장님 통장에 돈 50% 썼으니 일도 50% 끝났겠지 ㅋ" 라는 멍청한 뇌피셜 희망 회로(Hope)를 도끼로 찢어발기고 -> <strong>계획한 예산(<a href="/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/">PV</a>), 실제로 쓴 돈(<a href="/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/">AC</a>), 그리고 진짜 삽질해서 완성해 낸 쇳덩이 가치(<a href="/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>)</strong> 3차원 십자 융합 지표로 프로젝트의 피 터지는 생존 건강 상태를 실시간 스캔 치는 엑스레이 레이더다.
 > 2. **가치**: 대형 차세대 100억 프로젝트가 런칭일 3달 앞두고 터지는 적자 폭사 셧다운([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 파국) 멸망을 막기 위해 -> 시작 20% 극초반 시점부터 <strong>비용 효율(<a href="/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a>)과 일정 효율(<a href="/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a>) 인바디 성적표</strong>를 0.1초 컷 소수점 단위로 까발려 조기 경보 사이렌(Early Warning) 록온 쉴드를 터뜨려 주는 PM(아키텍트)의 절대 권력 생명줄이다.

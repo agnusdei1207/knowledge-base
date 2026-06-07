@@ -3,9 +3,8 @@ title: "145. COCOMO (Constructive Cost Model)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 145
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: COCOMO (Constructive Cost Model)의 본질은 소스코드 라인 수 (LOC, Lines of [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 예측하여 인월(Man-Month)을 산출하는 알고리즘을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

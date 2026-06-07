@@ -3,8 +3,8 @@ title: "483. Raid Overview"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 483
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RAID (Redundant [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks)는 여러 개의 저렴한 독립적 물리 디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 또는 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))를 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 묶어 하나의 거대한 단일 스토리지 볼륨으로 추상화하는 스토리지 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(Storage [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) 아키텍처다.

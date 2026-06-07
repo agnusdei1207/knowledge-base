@@ -3,8 +3,8 @@ title: "297. Ip Address Exhaustion Classful Addressing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 297
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IP 주소 고갈 문제, 클라스풀 주소체계는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "099. One To One Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일대일 (One-to-One) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델은 사용자 공간의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(ULT) 하나당 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(KLT)를 1:1로 직접 매핑하여 실행 권한을 부여하는 아키텍처다.

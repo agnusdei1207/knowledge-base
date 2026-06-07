@@ -1,10 +1,11 @@
 ---
 title: "064. Relation Domain"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 도메인(Domain)은 관계형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 속성이 가질 수 있는 합법적인 원자값(Atomic Value)들의 집합이다.

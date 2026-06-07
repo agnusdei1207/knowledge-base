@@ -3,8 +3,8 @@ title: "Immersion Cooling"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 602
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이머전 쿨링 (Immersion Cooling)은 서버 보드와 전원 부품을 전기가 통하지 않는 절연 액체 속에 직접 담가, 탱크 전체를 냉각 매체로 사용하는 [액침 냉각](/studynote/06_ict_convergence/03_cloud_infrastructure/235_immersion_cooling_datacenter/) 구조다.

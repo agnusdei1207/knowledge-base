@@ -3,9 +3,8 @@ title: "214. YARN (Yet Another Resource Negotiator)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 214
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [YARN](/studynote/14_data_engineering/01_infrastructure/020_yarn/)(Yet Another Resource Negotiator)은 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 CPU와 메모리를 중앙에서 조율하는 범용 리소스 관리자로, [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x에서 도입되어 MapReduce뿐 아니라 Spark·Flink·Tez 등 다양한 처리 엔진을 동일 클러스터에서 실행 가능하게 한다.

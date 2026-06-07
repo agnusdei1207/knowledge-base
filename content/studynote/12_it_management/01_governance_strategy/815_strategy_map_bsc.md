@@ -3,8 +3,8 @@ title: "815. Strategy Map Bsc"
 date: "2026-04-02"
 tags:
   - "studynote-it-management"
+weight: 815
 ---
-
 # [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Map) - [BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/) 기반 조직 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구
 
 > ⚠️ 이 문서는 조직의 비전과 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 추상적인 구호에서 벗어나, 원인과 결과의 명확한 논리적 연결 고리(Cause-and-Effect Linkage)로 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하여 모든 구성원이 동일한 목표를 향해 정렬되도록 돕는 IT 경영 및 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 관리 도구인 '[전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도'를 심층 분석합니다.

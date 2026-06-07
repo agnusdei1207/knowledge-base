@@ -3,8 +3,8 @@ title: "Not Only SQL"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 274
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) (Not Only SQL) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)은 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)리스(Schemaless), 수평적 확장([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)), [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처에 초점을 맞춘 개념이다.

@@ -3,8 +3,8 @@ title: "511. Dns Hierarchical Distributed Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 511
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DNS 계층적 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 구조 (루트는 이름 해석과 네트워크 관리에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

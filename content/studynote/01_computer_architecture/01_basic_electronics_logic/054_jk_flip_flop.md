@@ -3,8 +3,8 @@ title: "J-K Flip-Flop"
 date: "2026-05-01"
 tags:
   - "studynote-computer-architecture"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) (J-K [Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))은 S/R [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 금지 상태를 해결한 순차회로다.

@@ -3,8 +3,8 @@ title: "081. Sparse Table"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스파스 테이블(Sparse Table)은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 구간 최솟값 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(RMQ, Range Minimum Query)를 O(1) 시간에 응답하기 위해 전처리(Preprocessing) O(n log n)를 수행하는 정적(Static) 자료구조로, 2의 거듭제곱 구간을 미리 계산·저장하여 겹침 허용(Overlap) 방식으로 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 처리한다.
 > 2. **가치**: 스파스 테이블의 핵심은 "[멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))"을 가진 연산(min, max, [gcd](/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/))에 대해 구간이 겹쳐도 결과가 오염되지 않는다는 점이다. 이 덕분에 구간을 두 개의 겹치는 구간으로 덮어 O(1) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 가능하다.

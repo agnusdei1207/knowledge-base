@@ -2,9 +2,9 @@
 title: "FinOps Cloud Financial Optimization"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 351
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 클라우드 재무 최적화 3단계는 엔터프라이즈 환경에서 클라우드 비용과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 같은 표에서 관리하기 위해 쓰이는 핵심 기준이며, 특히 [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 클라우드 재무 최적화 3단계, [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) Cloud Financial Optimization, 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

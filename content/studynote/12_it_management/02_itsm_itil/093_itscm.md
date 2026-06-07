@@ -3,8 +3,8 @@ title: "ITSCM, IT Service Continuity Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성 관리 (ITSCM, IT [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Continuity [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 본질은 대형 재난/재해 발생 시 핵심 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))하기 위한 예방 및 BCP 연계 관리를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

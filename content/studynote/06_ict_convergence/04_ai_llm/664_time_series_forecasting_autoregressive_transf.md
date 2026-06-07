@@ -3,8 +3,8 @@ title: "Time Series Forecasting Autoregressive Transformer"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 664
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 데이터의 시간적·변량간(long-range, cross-variate) 의존성을 Multi-Head Self-Attention으로 포착하고, 자기회귀(Autoregressive) 디코더가 prior output을 컨텍스트로 재투영하여 multi-step 미래를 순차 생성하는 encoder-decoder 패러다임. 핵심 수식: $\hat{y}_{t+1}, \ldots, \hat{y}_{t+H} = \arg\max P(y_{t+1:H} \mid y_{t-L+1:t}; \theta)$을 step-by-step rollout으로 근사.

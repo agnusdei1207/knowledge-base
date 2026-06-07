@@ -3,8 +3,8 @@ title: "Equalizer"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다이버시티 시스템 (Diversity System)은 서로 독립적으로 약해지는 여러 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 복사본을 확보해 깊은 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Deep [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))을 통계적으로 피하는 기법이고, 이퀄라이저 ([Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))는 왜곡된 채널 응답을 추정해 심볼 간 간섭 (Inter-Symbol Interference, ISI)을 복원하는 수신기 처리 기법이다.

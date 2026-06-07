@@ -3,8 +3,8 @@ title: "Tickless Kernel"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 불필요한 주기적 타이머 틱을 줄여 전력과 오버헤드를 낮추는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계다.

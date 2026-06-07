@@ -3,8 +3,8 @@ title: "046. Chatops Bot Collaboration"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. ChatOps는 운영 작업을 채팅 플랫폼에 통합하는 협업 모델 — "대화 주도 개발 운영(Conversation-Driven [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))"으로, 슬랙/팀즈 채널에서 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 배포·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링·[인시던트 대응](/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/)을 수행하며 팀 전체가 맥락을 실시간 공유한다.
 > 2. ChatOps의 핵심 가치는 투명성과 학습 — 모든 운영 작업이 채팅 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 기록되어 누가 언제 무엇을 했는지 추적 가능하며, 주니어 엔지니어가 시니어의 운영 패턴을 자연스럽게 학습하는 효과가 있다.

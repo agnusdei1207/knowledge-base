@@ -3,8 +3,8 @@ title: "Confusion Matrix"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 252
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [혼동 행렬](/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)([Confusion Matrix](/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/), 오차 행렬)은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델의 예측 결과를 <strong>실제 정답과 비교하여 4가지 경우(TP, TN, <a href="/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>, FN)로 세분화</strong>한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 도구다.

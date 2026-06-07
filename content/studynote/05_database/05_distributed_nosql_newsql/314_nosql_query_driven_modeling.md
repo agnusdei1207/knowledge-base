@@ -3,8 +3,8 @@ title: "314. Nosql Query Driven Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 314
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 모델링 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 아닌 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 주도 설계 (Query-driven Modeling), [역정규화](/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 내재화에 초점을 둔 모델이다.

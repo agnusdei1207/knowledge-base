@@ -3,8 +3,8 @@ title: "031. Echo"
 date: "2026-04-29"
 tags:
   - "studynote-network"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 에코(Echo, 반향)는 송신한 신호가 수신단에서 반사되어 송신단으로 되돌아오는 현상이다. 전화 통화에서 자기 목소리가 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어 들릴 때의 그 현상이다. 음향 에코(Acoustic Echo)와 전기 에코(Electrical Echo) 두 종류가 있다.
 > 2. **가치**: AEC(Acoustic Echo Cancellation, 음향 에코 제거)는 화상회의·스마트스피커·핸즈프리 통화의 필수 기술이다. 스피커에서 나오는 소리가 마이크에 다시 들어가는 것을 적응 필터(Adaptive Filter)로 실시간 제거한다.

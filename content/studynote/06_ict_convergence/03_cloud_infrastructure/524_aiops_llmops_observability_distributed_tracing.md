@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 524
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AIOps(AI for IT Operations)는 ML로 IT 이벤트를 분석·자동 치유하고, LLMOps는 대형 언어 모델(LLM, Large Language Model) 특화 MLOps이며, 옵저버빌리티(Observability)는 로그·메트릭·트레이스 3원칙으로 시스템 내부 상태를 외부에서 추론 가능하게 만드는 설계 철학이다.

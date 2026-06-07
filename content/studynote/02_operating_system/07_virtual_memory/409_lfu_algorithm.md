@@ -3,8 +3,8 @@ title: "409. Lfu Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 409
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 램(RAM)에 빈 공간이 없을 때, 과거부터 현재까지 <strong>가장 적게 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>된(호출된 횟수가 제일 적은) <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 "앞으로도 안 쓸 잉여 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>"로 간주하고 디스크로 쫓아내는 빈도(Frequency) 기반의 타겟팅 기법</strong>이다.

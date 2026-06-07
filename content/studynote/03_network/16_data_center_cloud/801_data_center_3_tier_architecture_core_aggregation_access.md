@@ -3,8 +3,8 @@ title: "801. Data Center 3 Tier Architecture Core Aggregation Access"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 801
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 3-Tier 아키텍처는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

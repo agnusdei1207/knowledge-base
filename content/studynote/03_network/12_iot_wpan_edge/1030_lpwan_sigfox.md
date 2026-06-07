@@ -3,8 +3,8 @@ title: "1030. Lpwan Sigfox"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1030
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SigFox(시그폭스)는 프랑스의 동명 회사가 독자 개발한 [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)([저전력 광역 통신망](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)) 기술로, 아주 좁은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(Ultra Narrow Band, 100Hz)을 사용하여 전파의 도달 거리를 극대화한 통신 규격이자 서비스다.

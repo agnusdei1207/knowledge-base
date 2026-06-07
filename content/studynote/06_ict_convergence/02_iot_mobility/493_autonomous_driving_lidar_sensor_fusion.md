@@ -3,8 +3,8 @@ title: "Autonomous Driving SAE Levels and Sensor Fusion"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 493
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SAE J3016은 자율주행을 0~5단계로 정의하며, 핵심 기준은 "누가 운전 과제를 수행하고, 누가 시스템을 모니터링하며, 어떤 ODD(Operational Design [Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 동작하는가"이다.

@@ -3,9 +3,8 @@ title: "282. L2TP/IPsec (L2TP/IPsec)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 282
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [L2TP](/studynote/03_network/07_network_layer_routing/379_l2tp_layer_2_tunneling_protocol/)/IPsec는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

@@ -3,8 +3,8 @@ title: "Active Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [액티브](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 러닝 ([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 쓸데없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100만 장에 전부 정답표(라벨링)를 다는 무식한 인간의 노가다를 멈추고, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 먼저 대충 학습한 뒤 <strong>"나 이 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 헷갈려서 도저히 모르겠으니까, 이것만 인간 선생님이 정답 좀 알려주세요!"</strong>라고 가장 훈련 가치가 높은 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 스스로 쏙쏙 골라 요청하는 지능형 학습 최적화 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.

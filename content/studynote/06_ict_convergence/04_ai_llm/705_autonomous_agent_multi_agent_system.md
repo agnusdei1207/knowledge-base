@@ -3,8 +3,8 @@ title: "Autonomous Agent Multi-Agent System"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 705
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자율 에이전트(Autonomous Agent)는 LLM을 추론 엔진(Reasoning Engine)으로 사용하여 **계획(Planning) -> 행동(Action) -> 관찰(Observation)** 사이클을 자율 반복하는 개체이며, 멀티에이전트 시스템(MAS, Multi-Agent System)은 FIPA-ACL, MCP, A2A 같은 **에이전트 통신언어(ACL)** 와 계약망(Contract Net), Supervisor, Blackboard 같은 **조정 메커니즘(Orchestration)** 을 통해 개별 에이전트들의 BDI(Belief-Desire-Intention) 모델을 공유·협상하게 함으로써 단일 LLM의 컨텍스트 윈도우(예: 128K~1M token) 한계를 **역할 분할(Role Specialization)** 과 **상호 검증(Peer Verification)** 으로 돌파하는 분산 인지 아키텍처이다.

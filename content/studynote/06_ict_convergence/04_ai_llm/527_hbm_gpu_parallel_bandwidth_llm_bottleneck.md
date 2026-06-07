@@ -3,8 +3,8 @@ title: "HBM GPU Parallel Bandwidth LLM Bottleneck"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 527
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 추론은 연산(Compute Bound)이 아닌 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(Memory [Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Bound) 병목이 지배적이며, [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))은 DRAM을 수직 적층해 1TB/s 이상의 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 이 병목을 완화한다.

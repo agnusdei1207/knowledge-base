@@ -3,8 +3,8 @@ title: "214. Sliding Window Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 슬라이딩 윈도우 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

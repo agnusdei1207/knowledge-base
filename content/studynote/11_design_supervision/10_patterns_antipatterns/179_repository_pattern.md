@@ -3,8 +3,8 @@ title: "Repository Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레파지토리 패턴 (Repository Pattern)은 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [애그리게이트](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)를 메모리 컬렉션처럼 조회·저장하게 만드는 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 SQL이나 ORM (Object-Relational [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 세부사항보다 비즈니스 의미에 집중하게 한다.

@@ -1,11 +1,11 @@
 ---
 title: "005. Audit Standards"
 date: "2026-04-05"
-description: "행정안전부가 고시한 정보시스템 감리기준의 체계, 주요 내용 및 실무 적용 방법"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 5
 ---
-
 # 05. 정보시스템 감리기준
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "Follow-up Audit"
 date: "2026-05-05"
 tags:
   - "studynote-design-supervision"
+weight: 601
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리(Follow-up [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))는 본 감리(수석 감리원이 문제점을 지적한 단계)가 끝난 후, 발주처와 수행사가 감리 결과 조치 내역을 <strong>실제로 제대로 고쳤는지(시정 조치) 물리적으로 재검증하는 최종 확정 단계</strong>다.
 > 2. **가치**: 감리원이 지적만 하고 끝난다면 수행사는 눈가림식 보고서만 제출하고 시스템을 방치할 것이다. [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리는 지적 사항에 대한 강제력 있는 클로징(Closing)을 부여하여 감리의 실효성을 완성하는 거버넌스의 종착역이다.

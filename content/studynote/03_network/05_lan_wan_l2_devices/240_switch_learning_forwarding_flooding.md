@@ -3,8 +3,8 @@ title: "Flooding"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수신/학습 / 전달 / 플러딩은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

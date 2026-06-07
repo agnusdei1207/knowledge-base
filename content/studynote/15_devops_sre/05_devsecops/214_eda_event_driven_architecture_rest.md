@@ -3,8 +3,8 @@ title: "EDA, Event-Driven Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 Pub/Sub 플랫폼으로 대규모 이벤트 스트림을 처리하는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 시스템.

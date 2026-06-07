@@ -3,8 +3,8 @@ title: "GIC: Generic Interrupt Controller, APIC: Advanced Programmable Interrupt
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 560
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티코어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 장치가 낸 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 "어느 코어가 처리할지" 결정하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로, 단순 전달이 아니라 코어 친화도, 우선순위, 현재 부하, [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 경계를 함께 고려하는 하드웨어 스케줄링 계층이다.

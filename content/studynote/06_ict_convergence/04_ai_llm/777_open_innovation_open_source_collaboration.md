@@ -3,8 +3,8 @@ title: "Open Innovation Open Source Collaboration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 777
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Henry Chesbrough(2003)의 개방형 혁신(Open Innovation) 패러다임과 Linus Torvalds(1991~)의 GNU/Linux·Git 기반 오픈소스 협업 모델이 융합되어, 지식과 코드가 조직 경계를 넘어 **Inbound(유입)–Internal R&D(내부)–Outbound(유출) 3축 + Coupled(결합형)** 으로 순환하는 생태계 거버넌스 체계입니다.

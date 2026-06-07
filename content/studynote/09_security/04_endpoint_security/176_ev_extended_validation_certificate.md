@@ -3,8 +3,8 @@ title: "176. Ev Extended Validation Certificate"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Extended [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 암호 강도를 높이는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 아니라, [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)가 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통제권과 함께 신청 조직의 법적 실체·운영 실재성·신청 권한을 더 엄격하게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 발급하는 신원 강화형 X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서다.

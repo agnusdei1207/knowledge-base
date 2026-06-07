@@ -3,9 +3,8 @@ title: "167. BFF (Backend For Frontend)"
 date: "2026-04-09"
 tags:
   - "studynote-enterprise-systems"
+weight: 167
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BFF](/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) ([Backend For Frontend](/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/))는 모바일, 웹, 스마트 TV처럼 서로 다른 화면 경험을 가진 클라이언트마다 전용 백엔드를 두어 필요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조합과 형식을 맞춰 주는 패턴이다.

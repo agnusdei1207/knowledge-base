@@ -3,8 +3,8 @@ title: "Recommendation Collaborative Content Based"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 716
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 추천 시스템은 **협업 필터링(CF: User-Item Matrix의 잠재 요인 분해 - SVD/ALS/NMF)**과 **콘텐츠 기반 필터링(CBF: Item Feature Vector의 유사도 - TF-IDF, Word2Vec, BERT 임베딩)**이라는 두 축의 알고리즘 패러다임으로 구성되며, 실제 운영 환경에서는 이 둘을 결합한 **하이브리드 모델(Weighted, Switching, Cascade, Feature Augmentation)**로 진화하고 있습니다.

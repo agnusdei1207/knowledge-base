@@ -3,8 +3,8 @@ title: "Foveated Rendering - GPU"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HMD (Head Mounted Display) 시선 추적과 포비티드 렌더링은 사용자의 시선 좌표를 실시간으로 추정해, 눈의 중심시야만 최고 해상도로 그리고 주변부는 더 거칠게 렌더링하는 지각 기반 최적화다.

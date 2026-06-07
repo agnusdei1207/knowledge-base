@@ -3,8 +3,8 @@ title: "Multiprocessor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 375
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 프로세서 (Multiprocessor)는 두 개 이상의 프로세서가 하나의 시스템 안에서 메모리와 입출력 자원을 협력해 사용하는 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.

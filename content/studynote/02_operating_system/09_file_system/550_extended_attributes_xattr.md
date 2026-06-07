@@ -3,8 +3,8 @@ title: "Extended Attributes, xattr"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 550
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 기본 i-node는 크기가 256 Bytes로 철저히 제한되어 있어, "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름, 권한, 수정일자, 디스크 주소" 만 담아도 꽉 차버린다([메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 한계 늪!). 이를 극복하기 위해 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 별도의 "비밀 주머니(xattr)" 를 하나 더 달아, <strong>"<a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>-Value (이름표=값) 형태의 문자열 포맷으로 무한한 사용자 커스텀 꼬리표 장부를 메달아버리는 스토리지 기생 공간 창출 렌더"</strong> 다.

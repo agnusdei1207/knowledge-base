@@ -3,9 +3,8 @@ title: "104. NMAC (Nested MAC)"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 104
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NMAC (Nested [Message Authentication Code](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 독립적인 두 개의 비밀 키($K_1$, $K_2$)를 사용하여 내부 해시와 외부 해시를 중첩(Nested)해서 실행하는 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 해시 아키텍처다.
 > 2. **가치**: [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 단순히 키를 붙였을 때 발생하는 길이 확장 공격(Length Extension Attack)을 완벽하게 방어하며, 해시 기반 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 안전성을 수학적 증명(Provable [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))으로 확립한 최초의 논리적 뼈대다.

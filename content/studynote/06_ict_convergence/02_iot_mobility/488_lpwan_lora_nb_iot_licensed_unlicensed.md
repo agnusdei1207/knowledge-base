@@ -3,8 +3,8 @@ title: "LPWAN: LoRa NB-IoT Licensed Unlicensed"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 488
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)([Low-Power Wide-Area Network](/studynote/03_network/12_iot_wpan_edge/615_lpwan_low_power_wide_area_network/))은 수 km 이상의 넓은 지역에 배터리로 10년 이상 동작하는 수백만 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기를 연결하기 위해 설계된 저전력 광역 통신 기술 군(群)이다.

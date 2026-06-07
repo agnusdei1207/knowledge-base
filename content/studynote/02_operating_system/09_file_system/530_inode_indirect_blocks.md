@@ -3,8 +3,8 @@ title: "530. Inode Indirect Blocks"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 530
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 529장에서 배운 12개의 '다이렉트 블록' 슬롯이 꽉 차서(고작 48KB 한계) 튕겨 나간 대용량 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들의 주소를 수용하기 위해, <strong>본체 i-node 안에 주소를 직접 적지 않고 "장부가 있는 디스크 블록의 주소" 를 가리키는 포인터 트리 구조(간접 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong> 를 1단, 2단, 3단(Triple) 깊이로 무한 증식시키는 엑사바이트 클라우드 확장 S/W 아키텍처다.

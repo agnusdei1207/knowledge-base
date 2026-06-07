@@ -3,9 +3,8 @@ title: "631. SDDC (Software Defined Data Center)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 631
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 정의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 ([Software-Defined Data Center](/studynote/13_cloud_architecture/01_virtualization/023_sddc_software_defined_data_center/), SDDC)는 서버, 스토리지, 네트워크를 각각 장비로 다루지 않고, 소프트웨어가 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)·[풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)·[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어하는 하나의 자원 집합으로 다루는 운영 모델이다.

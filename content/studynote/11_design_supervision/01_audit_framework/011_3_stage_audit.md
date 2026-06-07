@@ -1,11 +1,11 @@
 ---
 title: "011. 3 Stage Audit"
 date: "2024-05-20"
-description: "정보시스템 구축 사업의 효과성, 효율성, 안전성을 검증하는 요구정의, 설계, 종료 단계의 3단계 감리 프레임워크 심층 분석"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 11
 ---
-
 # [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) (3-Stage [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))
 
 #### 핵심 인사이트 (3줄 요약)

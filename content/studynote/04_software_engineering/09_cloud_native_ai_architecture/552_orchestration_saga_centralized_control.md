@@ -3,8 +3,8 @@ title: "552. Orchestration Saga Centralized Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 552
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) - 중앙 통제기가 흐름 제어은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

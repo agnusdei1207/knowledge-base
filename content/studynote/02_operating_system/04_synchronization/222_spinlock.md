@@ -3,8 +3,8 @@ title: "Spinlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스핀락 (Spinlock)은 스레드가 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 진입하려 할 때 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))이 이미 잠겨있으면, OS 대기실([Wait Queue](/studynote/02_operating_system/02_process_thread/089_wait_queue/))로 물러나지 않고 <strong>락이 풀릴 때까지 제자리에서 무한 루프(<code>while</code>)를 돌며 CPU를 소모(<a href="/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>)하는 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 기법</strong>이다.

@@ -2,9 +2,9 @@
 title: "PKI & Protocols"
 tags:
   - "security"
+  - "studynote-security"
 weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PKI (Public Key Infrastructure)는 비대칭 암호화를 기반으로 디지털 인증서의 발행, 관리, 폐기를 담당하는 신뢰 인프라이며, 보안 프로토콜은 통신 주체 간의 안전한 데이터 교환을 위한 정형화된 규약이다.

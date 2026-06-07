@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: FP-Growth (Frequent Pattern Growth)는 후보집합을 대량 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 않고 Frequent Pattern Tree (FP-tree)를 통해 빈발 항목집합을 찾는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

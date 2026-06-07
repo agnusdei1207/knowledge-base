@@ -3,8 +3,8 @@ title: "105. Clustering Analysis"
 date: "2024-03-20"
 tags:
   - "studynote-bigdata"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">비지도 학습</a>(Unsupervised):</strong> 정답(Label)이 없는 상태에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 유사성(Similarity/Distance)만을 기준으로 그룹을 나누는 탐색적 기법.
 - <strong><a href="/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>와 분리도:</strong> 같은 군집 내의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 가깝게(Intra-cluster), 서로 다른 군집 간의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 멀게(Inter-cluster) 배치하는 것이 핵심 목표임.

@@ -3,8 +3,8 @@ title: "Hardware Support for Task Scheduling"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 515
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 작업 스케줄링 하드웨어 지원은 준비된 작업을 큐잉하고, 우선순위와 의존성을 판단하며, 실행 유닛에 배분하는 빠른 경로를 전용 하드웨어가 담당하게 해 스케줄링 결정을 사이클 단위로 줄이는 구조다.

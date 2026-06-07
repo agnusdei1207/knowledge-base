@@ -3,8 +3,8 @@ title: "Double Buffering"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 455
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이중 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))은 스토리지와 입출력 경로 최적화에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

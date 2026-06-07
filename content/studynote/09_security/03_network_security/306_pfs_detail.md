@@ -3,8 +3,8 @@ title: "Perfect Forward Secrecy, PFS"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 306
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 완전 [전방 비밀성](/studynote/09_security/03_network_security/139_pfs_perfect_forward_secrecy/) 세부 (Perfect [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy, PFS)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

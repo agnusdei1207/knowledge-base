@@ -3,8 +3,8 @@ title: "144. Hub And Spoke Architecture Eai"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Hub](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke 심화에서 Hub는 <strong><a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 변환(Transformation)·<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)·<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>(<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)·<a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 변환</strong>을 수행하며, [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(Spoke)가 각 시스템과의 연결을 담당한다.
 > 2. **가치**: Hub의 정규 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(Canonical [Data Model](/studynote/05_database/01_db_architecture_relational/014_data_model_components/))로 <strong>N개 시스템의 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 포맷을 통일</strong>하면, 새 시스템 추가 시 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 1개만 추가하면 된다.

@@ -3,8 +3,8 @@ title: "NX Bit / Data Execution Prevention, DEP"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 593
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DEP](/studynote/09_security/04_endpoint_security/336_dep/) ([Data Execution Prevention](/studynote/09_security/04_endpoint_security/336_dep/))와 [NX Bit](/studynote/09_security/04_endpoint_security/335_nx_bit/) ([No-eXecute Bit](/studynote/09_security/04_endpoint_security/335_nx_bit/))는 메모리 상의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역([스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 힙)에서 기계어 코드가 실행되는 것을 하드웨어 및 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 레벨에서 원천 차단하는 보안 기술이다.

@@ -3,8 +3,8 @@ title: "MVP/MVVM Data Binding"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Model-View-Presenter](/studynote/04_software_engineering/04_testing_quality/211_mvp_mvvm_architecture_frontend/)) 는 Presenter가 View를 직접 참조해 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 제어하고, MVVM (Model-[View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-ViewModel) 은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Binding)으로 View와 ViewModel이 자동 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된다.

@@ -3,8 +3,8 @@ title: "Static Prediction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정적 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) (Static Prediction)은 실행 중 이력 없이, 분기 명령의 형태·방향·컴파일러 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)만으로 다음 경로를 미리 정하는 고정 규칙 기반 예측이다.

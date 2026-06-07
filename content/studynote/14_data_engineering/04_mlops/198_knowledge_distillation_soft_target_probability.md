@@ -3,8 +3,8 @@ title: "198. Knowledge Distillation Soft Target Probability"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))는 대형 교사 모델(Teacher Model)의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포(소프트 타겟)를 소형 학생 모델(Student Model)이 모방하여, 크기를 줄이면서도 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최대한 유지하는 경량화 기법이다.
 > 2. **가치**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) -> DistilBERT처럼 파라미터 40% 감소 시 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 97% 유지가 가능하며, 온도 매개변수([Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/))로 클래스 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 정보까지 전이하는 것이 일반 Hard Label 학습 대비 핵심 차별점이다.

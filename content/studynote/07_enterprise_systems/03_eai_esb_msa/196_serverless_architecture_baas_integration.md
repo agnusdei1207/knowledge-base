@@ -2,9 +2,9 @@
 title: "196. Serverless Architecture Baas Integration"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서버리스 아키텍처](/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)는 서버가 사라진다는 뜻이 아니라, 인프라 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)·패치·오토스케일링 책임을 클라우드가 맡고 개발자는 기능과 이벤트 흐름에 집중하는 운영 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 모델이다.

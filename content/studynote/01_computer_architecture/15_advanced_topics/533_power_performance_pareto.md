@@ -3,8 +3,8 @@ title: "533. Power Performance Pareto"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 533
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [전력-성능 트레이드오프](/studynote/01_computer_architecture/03_architecture_basics_performance/156_power_performance_tradeoff/) 파레토 곡선은 같은 공정과 같은 워크로드 조건에서, 더 낮은 전력이나 더 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 동시에 개선할 수 없는 비지배 설계점들의 경계선이다.

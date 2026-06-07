@@ -1,10 +1,11 @@
 ---
 title: "102. Jit Just In Time Kanban"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) (Just In Time)는 "필요한 물품을, 필요한 시간에, 딱 필요한 수량만큼만 생산한다"는 도요타(Toyota)의 혁명적인 철학으로, 과잉 생산과 재고를 악의 근원으로 규정한다.

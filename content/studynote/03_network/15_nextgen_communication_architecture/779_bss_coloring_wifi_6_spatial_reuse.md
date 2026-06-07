@@ -3,8 +3,8 @@ title: "779. Bss Coloring Wifi 6 Spatial Reuse"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 779
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

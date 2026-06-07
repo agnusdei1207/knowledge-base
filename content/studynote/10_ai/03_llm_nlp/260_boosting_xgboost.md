@@ -3,8 +3,8 @@ title: "Boosting"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 이전 모델이 틀린 샘플에 더 높은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여하며 순차적([직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/))으로 약한 학습기(Weak Learner)를 쌓아 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 줄이는 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.

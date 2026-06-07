@@ -3,8 +3,8 @@ title: "060. Container Virtualization"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 가상화는 호스트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하면서 프로세스 단위로 격리하는 OS 수준 가상화다.

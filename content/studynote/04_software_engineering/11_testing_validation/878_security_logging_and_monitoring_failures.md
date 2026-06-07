@@ -3,8 +3,8 @@ title: "878. Security Logging And Monitoring Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 878
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Security Logging](/studynote/04_software_engineering/11_testing_validation/918_security_logging/) and Monitoring Failures ([보안 로깅](/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) 및 모니터링 실패)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

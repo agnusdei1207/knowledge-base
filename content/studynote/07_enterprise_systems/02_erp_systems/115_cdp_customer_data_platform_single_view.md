@@ -3,8 +3,8 @@ title: "115. Cdp Customer Data Platform Single View"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CDP](/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Platform)는 웹·앱·매장·[CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·소셜 등 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 모든 고객 접점 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수집하여 통합 고객 프로파일(Single <a href="/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a> <a href="/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>을 구축하는 패키지 소프트웨어다.
 > 2. **가치**: DMP([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Platform)가 익명 [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 기반·광고 타겟팅 전용이라면, CDP는 <strong>실명(<a href="/studynote/12_it_management/05_security_compliance/928_cdp_first_party/">1st Party</a>) <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반</strong>으로 고객 ID를 통합하여 마케팅·CS·영업 전 부서에서 활용 가능한 <strong>360+ 고객 뷰</strong>를 제공한다.

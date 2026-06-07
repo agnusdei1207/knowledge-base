@@ -3,8 +3,8 @@ title: "105. Build Caching Optimization Docker Layer"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빌드 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 최적화는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 변하지 않는 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Dependencies](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/))과 이전 빌드의 중간 결과물을 재사용하여 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 조립하는 가속 기술이다.

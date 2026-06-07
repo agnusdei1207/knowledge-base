@@ -3,8 +3,8 @@ title: "IaC Terraform Immutable Infrastructure"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 504
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))는 인프라 구성을 코드로 선언하여 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 재현성, 자동화를 확보하는 방법론이며, Terraform은 그 사실상 표준 도구다.

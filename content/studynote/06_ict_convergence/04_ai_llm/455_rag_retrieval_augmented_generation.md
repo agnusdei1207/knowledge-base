@@ -3,8 +3,8 @@ title: "RAG Retrieval Augmented Generation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 455
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 검색 증강 외부 주입 ([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) Retrieval Augmented Generation): 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))가 자신이 모르는 외부 정보나 최신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물어볼 때 거짓말([환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))을 뱉는 것을 막기 위해, 질문에 답하기 직전에 회사…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

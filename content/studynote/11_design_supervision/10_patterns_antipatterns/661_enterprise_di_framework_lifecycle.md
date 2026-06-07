@@ -3,8 +3,8 @@ title: "Spring Bean Lifecycle"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 661
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [의존성 주입](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)(DI, [Dependency Injection](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 프레임워크는 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 연결 책임을 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 역전시켜 강결합을 줄이고, Spring Bean 생명주기는 그 객체가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·주입·초기화·사용·소멸되는 과정을 표준화한다.
 2. **가치**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 교체, [테스트 더블](/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/) 주입, AOP [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 적용, 환경별 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리를 쉽게 하므로 엔터프라이즈 시스템의 변경 대응력이 커진다.

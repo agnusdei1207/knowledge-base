@@ -3,8 +3,8 @@ title: "Snowflake Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 335
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스노우플레이크 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) ([Snowflake Schema](/studynote/12_it_management/05_security_compliance/955_snowflake_schema/))는 [차원 테이블](/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)을 [3NF](/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 중복 제거, 조인 복잡성 증가 눈송이 형태에 초점을 둔 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)이다.

@@ -3,8 +3,8 @@ title: "CWPP, Cloud Workload Protection Platform"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 255
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 워크로드의 런타임 행동을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 보안 계층.

@@ -3,8 +3,8 @@ title: "963. Resiliency And Fault Tolerance Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 963
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) ([Resiliency](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 및 [결함 허용](/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 패턴은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

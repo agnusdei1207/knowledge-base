@@ -3,8 +3,8 @@ title: "617. Fhe Modular Multiplier"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 617
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 완전 [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) (Fully [Homomorphic Encryption](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/), FHE)에서 가장 비싼 연산은 결국 거대한 계수 집합에 대해 반복되는 모듈러 곱셈과 모듈러 감소이며, 대규모 모듈러 곱셈기는 이 병목을 전용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 바꾸는 핵심 연산 블록이다.

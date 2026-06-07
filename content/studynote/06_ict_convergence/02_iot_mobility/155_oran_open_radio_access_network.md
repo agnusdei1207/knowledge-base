@@ -3,8 +3,8 @@ title: "O-RAN, Open Radio Access Network"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 랜 ([O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/), Open Radio Access Network): 기지국 장비의 하드웨어와 소프트웨어를 분리하고 인터페이스를 개방형(오픈 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 표준으로 전환하여 벤더 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 탈피 ([화이트박스 스위치](/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/) 활용)를 이해하는 핵심 개념으로, 주파수와 기지국 자원을 효율적으로 써야 하면서도 초저지연·대규모 접속을 동시에 만족해야 하는 문제를 설명하는 데 쓰인다.

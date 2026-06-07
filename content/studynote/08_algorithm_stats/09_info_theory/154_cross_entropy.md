@@ -2,9 +2,9 @@
 title: "154. Cross Entropy"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크로스 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q) = -Σ P(x)·log Q(x)는 *실제 분포 P를 가정하고 모델 분포 Q로 코딩할 때 평균 코드 길이* — 항상 진짜 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P) 이상이다.

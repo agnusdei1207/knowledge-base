@@ -3,8 +3,8 @@ title: "Batch Window Bottleneck Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배치 윈도우 병목 감리는 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) 윈도우(Window)와 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 병목 관리 체계에서 일정 여유(Margin), 의존 체인(Dependency Chain), [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 튜닝([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) Tuning)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

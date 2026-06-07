@@ -3,8 +3,8 @@ title: "685. Lun Masking"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 685
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LUN (Logical Unit Number) 마스킹은 공유 스토리지에서 "어떤 호스트가 어떤 볼륨을 볼 수 있는가"를 결정하는 가시성 제어 기술이다.

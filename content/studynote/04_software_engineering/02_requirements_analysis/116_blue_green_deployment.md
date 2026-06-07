@@ -3,8 +3,8 @@ title: "116. Blue Green Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 블루/그린 배포는 현재 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Blue)과 신버전(Green)을 <strong>동시에 운영</strong>하고, 로드밸런서/라우터의 트래픽을 <strong>한 번에 Blue->Green으로 전환</strong>하여 무중단 배포를 실현하는 전략이다.
 > 2. **가치**: 문제 발생 시 트래픽을 **Green->Blue로 즉시 되돌려** [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 초 단위로 가능하며, 전환 전 Green 환경에서 <strong>완전한 프로덕션급 테스트</strong>를 수행할 수 있다.

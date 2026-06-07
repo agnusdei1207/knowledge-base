@@ -3,8 +3,8 @@ title: "153. Soap Simple Object Access Protocol"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SOAP(Simple Object Access [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 엔터프라이즈 [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 생태계에서 이기종 시스템(Java ↔ C# ↔ COBOL) 간 핑퐁 통신을 100% 무결점 보장하기 위해, **모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload)를 반드시 `<Envelope><Header><Body>` 라는 3단 강철 XML 텍스트 규격 껍데기 포장지 안에 우겨넣어 던지게 강제 록온([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 치는 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 헌법**이다. (이름에 Simple이 들어가지만 우주 최강 무겁고 뚱뚱한 게 팩폭 딜레마다).
 > 2. **가치**: 모바일 앱의 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 깃털 통신이 "걍 알몸으로 가볍게 날리자 끊겨서 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗으면 재시도(Retry) 때리지 뭐 ㅋ" 하는 스타트업 꿀 빨기 마인드라면, SOAP는 <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">WS-[Security</a> 암호화 떡칠], <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">WS-ReliableMessaging 무조건 100% 배달 전송 보장 [트랜잭션</a> 락킹]</strong> 이라는 무자비한 엔터프라이즈 스펙(WS-* 확장 표준 쇳덩이들)을 헤더(Header)에 무한 조립 이식 쑤셔 박을 수 있는 금융/의료/국방망의 절대 생존 보증 수표 장갑차다.

@@ -3,8 +3,8 @@ title: "222. Agriculture Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 정밀농업([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Agriculture)은 "밭 전체를 같은 방법으로 관리"에서 "각 구역의 상태에 맞게 맞춤 처리"로의 전환이며, 이를 가능하게 하는 것이 빅데이터다.

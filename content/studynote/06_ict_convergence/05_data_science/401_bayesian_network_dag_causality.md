@@ -3,8 +3,8 @@ title: "DAG"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 401
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이지안 네트워크 확률적 방향성 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 인과 모델 (DAG): 1. **본질**: 베이지안 네트워크는 수십 개의 변수들이 서로 어떻게 영향을 주는지(인과관계)를 화살표로 연결한 '방향성 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(DAG)'와, 그 화살표마다 확률을 적어놓은 '조…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

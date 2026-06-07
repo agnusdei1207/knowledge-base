@@ -3,9 +3,8 @@ title: "148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast"
 date: "2026-05-03"
 tags:
   - "studynote-network"
+weight: 148
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DSL (Digital Subscriber Line) 기술은 기존에 깔려 있던 구리 전화선의 남는 고주파수 대역을 활용해, 선로 교체 없이 메가비트급 고속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신을 제공한 혁신적인 주파수 분할 기술이다.
 > 2. **가치**: ADSL (Asymmetric DSL)은 사용자의 다운로드 성향에 맞춰 주파수 대역을 비대칭으로 할당해 2000년대 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷 대중화를 이끌었으며, VDSL과 G.fast는 전송 거리를 줄이는 대신 속도를 극한으로 끌어올렸다.

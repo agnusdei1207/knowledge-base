@@ -3,8 +3,8 @@ title: "V"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 388
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 강화학습 상태 가치 및 행동 가치(Q) 차이 [Q-Learning](/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 오프 폴리시 타겟 갱신망 (V): 1. **본질**: 강화학습은 "지금 어떤 행동을 해야 나중에 보상(점수)을 제일 많이 받을까?"를 학습하는 것인데, 이를 위해 내가 서 있는 자리의 점수인 '상태 가치(V)'와, 이 자…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

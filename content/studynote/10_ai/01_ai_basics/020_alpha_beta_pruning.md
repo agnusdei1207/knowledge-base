@@ -1,11 +1,11 @@
 ---
 title: "020. Alpha Beta Pruning"
 date: "2024-05-24"
-description: "미니맥스 트리의 연산량을 극적으로 줄여주는 탐색 공간 최적화 기법"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 20
 ---
-
 # 20. 알파-베타 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Alpha](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)-Beta [Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))
 
 #### 핵심 인사이트 (3줄 요약)

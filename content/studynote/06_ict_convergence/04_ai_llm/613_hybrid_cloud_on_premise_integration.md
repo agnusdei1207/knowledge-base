@@ -3,8 +3,8 @@ title: "Hybrid Cloud On-premise Integration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 613
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이브리드 클라우드 온프레미스 통합은(는) 온프레미스 시스템과 퍼블릭 클라우드를 네트워크, 신원, 데이터, 운영 프로세스로 연결하는 아키텍처이다.

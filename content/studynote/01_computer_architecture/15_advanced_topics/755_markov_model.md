@@ -3,8 +3,8 @@ title: "755. Markov Model"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 755
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Markov Model [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 분석은 시스템을 "정상, 열화, 고장, 수리 중" 같은 상태 집합으로 보고, 상태 사이 전이율을 이용해 시간에 따른 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 계산하는 동적 모델이다.

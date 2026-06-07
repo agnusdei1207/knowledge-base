@@ -3,8 +3,8 @@ title: "044. Togaf"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/)([The Open Group](/studynote/12_it_management/03_ea_isp/113_togaf/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Framework)는 엔터프라이즈 아키텍처([EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 개발·관리하는 세계 표준 프레임워크로 — 비즈니스·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·애플리케이션·기술의 4개 아키텍처 도메인과 [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)([Architecture Development Method](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/)) 9단계 사이클로 구성된다.
 > 2. [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)([Architecture Development Method](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/))은 예비 단계 -> A(비전) -> B(비즈니스) -> C(정보시스템) -> D(기술) -> E(기회/해결) -> F(마이그레이션) -> G(거버넌스) -> H([변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/))의 순환 사이클로 — 아키텍처가 비즈니스 전략과 IT 구현 사이의 단절을 메우는 체계적 접근법이다.

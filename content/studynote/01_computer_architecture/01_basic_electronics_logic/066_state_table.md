@@ -3,8 +3,8 @@ title: "State Table"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상태표([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Table)는 현재 상태와 입력에 따라 다음 상태와 출력을 표로 정리한 형식이다.

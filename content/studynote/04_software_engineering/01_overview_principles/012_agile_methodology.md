@@ -1,11 +1,11 @@
 ---
 title: "012. Agile Methodology"
 date: "2024-05-01"
-description: "변화하는 비즈니스 요구에 신속하게 대응하기 위해 가치 중심적, 점진적으로 소프트웨어를 개발하는 최신 실무 철학과 프레임워크"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 12
 ---
-
 # [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론 ([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Methodology) 개요
 
 #### 핵심 인사이트 (3줄 요약)

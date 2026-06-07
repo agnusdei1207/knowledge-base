@@ -3,8 +3,8 @@ title: "Cloud Security CSPM CWPP CNAPP"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 632
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CSPM(Cloud Security Posture Management)은 클라우드 설정 오류(Misconfiguration)와 컴플라이언스 위반을 IaC·API 기반으로 지속 탐지하는 **클라우드 구성 보안(Control Plane)** 기술이며, CWPP(Cloud Workload Protection Platform)는 VM·컨테이너·서버리스 등 **워크로드 런타임 행위 기반** 보호에 특화된 **컴퓨트 계층 보안 기술**이고, CNAPP(Cloud-Native Application Protection Platform)은 CSPM·CWPP·CIEM·DSPM·IaC Scanning·KSPM을 단일 데이터 그래프(Single Data Graph) 위에 통합한 **클라우드 네이티브 종합 방어 체계**이다.

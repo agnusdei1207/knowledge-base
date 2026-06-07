@@ -3,8 +3,8 @@ title: "Concurrency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 266
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 병행 투명성 (Concurrency) / 장애 투명성 (Failure) / 지역 사상 투명성 (Local [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

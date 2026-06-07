@@ -3,8 +3,8 @@ title: "Recommendation System Collaborative Deep Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 669
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Collaborative Deep Learning(CDL)은 Stacked Denoising AutoEncoder(SDAE)로 콘텐츠 피처를 비선형 잠재공간에 임베딩하고, 이를 Probabilistic Matrix Factorization(PMF)의 Rating 잠재벡터와 Joint Bayesian Framework로 결합해 CF의 sparsity 문제와 Cold-start 문제를 동시에 완화하는 **"End-to-End SDAE + PMF 통합 확률 그래프 모델"** 이다.

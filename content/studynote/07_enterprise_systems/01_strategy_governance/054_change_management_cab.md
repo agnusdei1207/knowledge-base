@@ -3,8 +3,8 @@ title: "Change Management CAB"
 date: "2026-05-01"
 tags:
   - "studynote-enterprise-systems"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) ([Change Management](/studynote/04_software_engineering/01_overview_principles/027_change_management/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변경의 위험을 통제하는 [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) ([IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/)) 절차다.

@@ -2,9 +2,9 @@
 title: "Quick Sort Optimization"
 date: "2026-03-25"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 15
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 최악의 [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) O(n^)를 방지하기 위해 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기법을 고도화함
 - 3-Way Partitioning을 통해 중복 키가 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 효율성을 극대화함

@@ -3,8 +3,8 @@ title: "False Sharing"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 409
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 거짓 공유 (False Sharing)는 서로 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 독립된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다뤄도, 물리적으로 같은 캐시 라인 (Cache Line)에 놓여 있으면 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 하드웨어가 같은 공유 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 오인해 무효화 트래픽을 만드는 현상이다.

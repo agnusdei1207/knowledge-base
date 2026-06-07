@@ -3,8 +3,8 @@ title: "Spark Deployment Modes"
 date: "2024-03-23"
 tags:
   - "studynote-bigdata"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 스파크 배포 모드는 애플리케이션의 드라이버(Driver)와 실행기(Executor)가 물리적으로 어디에서 실행될지 결정하는 운영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 - 클러스터 관리자([YARN](/studynote/14_data_engineering/01_infrastructure/020_yarn/), [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), Mesos 등)의 종류와 네트워크 위치에 따라 Local, [Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/), Cluster 모드로 구분된다.

@@ -3,8 +3,8 @@ title: "mlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 422
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 고정([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Pinning / [Locking](/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/))은 운영체제가 램(RAM)이 모자라 [페이지 교체 알고리즘](/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)을 돌려 희생양을 쫓아내려 할 때, <strong>특정 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>에 닻(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 내려 절대로 디스크 스왑(Swap) 영역으로 쫓겨나지 않고 램에 영구 상주(Pinned)하도록 강제하는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 기술</strong>이다.

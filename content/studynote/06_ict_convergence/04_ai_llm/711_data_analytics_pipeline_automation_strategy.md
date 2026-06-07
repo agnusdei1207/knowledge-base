@@ -3,8 +3,8 @@ title: "Data Analytics Pipeline Automation Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 711
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 분석 파이프라인 자동화는 **DataOps** 원칙(버전 관리, CI/CD, IaC, 테스트 자동화, 모니터링)을 데이터 영역에 적용하여, **Ingestion(CDC/Streaming) -> Lakehouse(Delta/Iceberg) -> Transformation(dbt/Spark) -> Orchestration(Airflow/Dagster) -> Serving/Reverse ETL** 전 계층을 코드 기반 선언형 파이프라인으로 통합하는 전략입니다.

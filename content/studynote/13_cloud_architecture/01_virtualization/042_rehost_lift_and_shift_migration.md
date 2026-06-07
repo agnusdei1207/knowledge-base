@@ -3,8 +3,8 @@ title: "042. Rehost Lift And Shift Migration"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 42
 ---
-
 > **핵심 인사이트**
 > 1. Rehost([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift)는 클라우드 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 가장 빠르고 위험이 낮은 방법으로, [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 워크로드를 코드 수정 없이 클라우드 VM으로 이전하지만 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 최적화([PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 오토스케일링)를 활용하지 못해 비용 절감 효과가 제한적이다.
 > 2. AWS MGN(Application Migration [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), Azure Migrate, Google Migrate for Compute 엔진 같은 자동화 도구가 Rehost를 대폭 단순화했으나, 성공적인 Rehost는 반드시 네트워크 설계([VPC](/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), 서브넷), 보안 그룹, 스토리지 용량 계획을 사전에 수립해야 한다.

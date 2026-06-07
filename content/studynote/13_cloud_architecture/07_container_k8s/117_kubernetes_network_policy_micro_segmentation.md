@@ -3,8 +3,8 @@ title: "117. Kubernetes Network Policy Micro Segmentation"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 117
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K8s Network Policy는 <strong><a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> 간 네트워크 트래픽을 라벨 기반으로 허용/거부</strong>하는 선언적 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙이며, [마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)([Micro-segmentation](/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))을 통해 클러스터 내부 <strong>East-West 트래픽을 제어</strong>한다.
 > 2. **가치**: 기본 K8s는 <strong>모든 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> 간 통신이 허용(Flat Network)</strong>되므로, 하나의 Pod가 침투당하면 클러스터 전체가 위험하다. Network Policy로 <strong>"frontend -> backend만 허용, backend -> DB만 허용"</strong>처럼 최소 권한을 적용한다.

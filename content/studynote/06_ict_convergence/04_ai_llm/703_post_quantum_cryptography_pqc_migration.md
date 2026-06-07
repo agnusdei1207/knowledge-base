@@ -3,8 +3,8 @@ title: "Post Quantum Cryptography PQC Migration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 703
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자컴퓨터의 쇼어(Shor) 알고리즘이 RSA/ECC 기반 공개키암호를 다항식 시간에 해독함에 따라, NIST FIPS 203/204/205 표준(ML-KEM, ML-DSA, SLH-DSA)을 중심으로 격자(lattice), 해시(hash), 코드(code) 기반의 양자내성 알고리즘으로 전환하는 전사적 암호체계 모빌리티 전략이며, 본질은 "암호학적 민첩성(Crypto-Agility)" 확보이다.

@@ -3,8 +3,8 @@ title: "Unpacked BCD"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 언팩드 [BCD](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Unpacked [Binary Coded Decimal](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 1바이트(8비트) 공간의 하위 4비트에만 10진수 숫자($0 \sim 9$) 하나를 저장하고, 상위 4비트에는 문자열 출력을 위한 존(Zone) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 채워 넣는 거시적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷이다.

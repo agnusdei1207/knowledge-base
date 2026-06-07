@@ -2,9 +2,9 @@
 title: "IoT: Internet of Things"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 411
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지/[포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) 아키텍처는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지/[포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) 아키텍처, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/): Internet of Things, 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

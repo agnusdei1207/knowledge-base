@@ -3,8 +3,8 @@ title: "551. Quota Disk Limit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 551
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 용량이 100TB라도, 만약 유저 A 혼자 야동을 100TB다운받아 독식(Monopolize 과부하 파단)해버리면 나머지 B~Z 사용자 수천 명은 빈 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개조차 못 만들고 서버가 동반 무정지로 뻗어버리는 전산망 코마([OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 생지옥)에 빠진다. 이를 OS 가 묵사발 내기 위해 <strong>"각 유저(또는 그룹)마다 '너는 딱 10GB까지만 써 컷!' 이라고 목줄(강제 한계 블록 제한 렌더)을 물리적으로 걸어 잠그는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 자원 통제 아크"</strong> 가 Quota 다.

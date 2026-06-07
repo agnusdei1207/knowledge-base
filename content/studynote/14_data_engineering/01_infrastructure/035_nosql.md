@@ -3,8 +3,8 @@ title: "035. Nosql"
 date: "2026-03-03"
 tags:
   - "studynote-data-engineering"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. NoSQL ([Not Only SQL](/studynote/05_database/05_distributed_nosql_newsql/274_nosql/))은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB의 고정 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)와 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 일부 포기하는 대신, 수평 확장([Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))·고가용성·대용량 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 처리에 최적화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 패러다임이다.
 > 2. NoSQL은 단일 기술이 아니라 문서([Document](/studynote/14_data_engineering/01_infrastructure/037_document/)), 키-값(Key-Value), 열(Column-Family), [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 등 4가지 주요 모델로 구성되며, 각 모델은 특정 워크로드에 최적화된다.

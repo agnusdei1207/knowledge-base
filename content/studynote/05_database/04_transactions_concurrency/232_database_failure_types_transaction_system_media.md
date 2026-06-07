@@ -3,8 +3,8 @@ title: "Database Failure Types Transaction System Media"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 장애 유형은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 장애, 시스템 장애, 미디어 장애에 초점을 맞춘 개념이다.

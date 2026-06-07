@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폴딩 주파수(Folding Frequency)는 샘플링 주파수의 절반에 해당하는 경계 주파수다.

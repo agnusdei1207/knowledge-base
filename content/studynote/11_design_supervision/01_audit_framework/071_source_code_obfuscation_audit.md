@@ -2,9 +2,9 @@
 title: "071. Source Code Obfuscation Audit"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소스코드 [난독화](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 점검은 코드 [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)을 어렵게 만드는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 조치가 제대로 적용됐는지 보는 것이다.

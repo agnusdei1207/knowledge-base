@@ -3,8 +3,8 @@ title: "346. Worst Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 346
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최악 적합(Worst-Fit)은 동적 메모리 할당 시 빈 공간 장부(Free List) 전체를 뒤져서 프로세스가 들어갈 수 있는 <strong>가장 거대하게 큰 빈 공간(Largest Hole)을 의도적으로 선택하여 쪼개는 역발상 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

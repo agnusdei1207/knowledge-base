@@ -3,8 +3,8 @@ title: "150. Unity Catalog"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. Unity Catalog는 Databricks의 통합 거버넌스 솔루션으로, <strong>3-수준 <a href="/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>(<a href="/studynote/05_database/07_exam_summary/394_catalog_metadata/">catalog</a>.<a href="/studynote/05_database/04_transactions_concurrency/505_schema/">schema</a>.table)</strong>를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·ML 모델·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 단일 제어 지점에서 관리한다.
 2. <strong>컬럼/행 수준의 세밀한 접근 제어(<a href="/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-Grained</a> <a href="/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a>)</strong>, <strong><a href="/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a> 자동 추적</strong>, <strong><a href="/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong>를 제공하여 [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/), [HIPAA](/studynote/09_security/17_framework_compliance/1058_hipaa/), SOC2 규정 준수를 지원한다.

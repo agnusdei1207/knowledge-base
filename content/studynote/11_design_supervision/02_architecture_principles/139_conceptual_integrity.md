@@ -3,8 +3,8 @@ title: "Conceptual Integrity"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) ([Conceptual Integrity](/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/))은 프레드릭 브룩스(Frederick Brooks)가 '맨먼스 미신(The Mythical Man-Month)'에서 제안한 개념으로, 소프트웨어 시스템이 단일한 설계 철학과 일관된 원칙으로 관통되어, 어느 부분을 보더라도 동일한 설계자(또는 설계 철학)가 만든 것처럼 느껴지는 아키텍처 통일성을 의미한다.

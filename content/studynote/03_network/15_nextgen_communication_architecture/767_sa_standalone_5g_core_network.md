@@ -3,8 +3,8 @@ title: "767. Sa Standalone 5G Core Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 767
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SA 풀 전환 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 슬라이싱 전…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

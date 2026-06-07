@@ -3,8 +3,8 @@ title: "Lanes - x1, x4, x8, x16"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 357
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 레인은 송신 1쌍과 수신 1쌍으로 이루어진 독립 전송 통로이며, [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 링크의 최소 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 단위다.

@@ -3,8 +3,8 @@ title: "219. Declarative Yaml"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 목표 상태와 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 차이를 줄이는 방향으로 시스템을 계속 수렴시키는 운영 모델.

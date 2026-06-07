@@ -3,9 +3,8 @@ title: "358. TF-IDF (Term Frequency - Inverse Document Frequency)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 358
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TF-IDF](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) (Term Frequency - Inverse [Document](/studynote/14_data_engineering/01_infrastructure/037_document/) Frequency): 텍스트 단어 중요도 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/). 특정 문서에 많이 나올수록(TF 증가), 전체 문서군에 드물게 나올수록(IDF 증가) [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 높음를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

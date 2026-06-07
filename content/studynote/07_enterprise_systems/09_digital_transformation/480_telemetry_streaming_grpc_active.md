@@ -2,9 +2,9 @@
 title: "Streaming Telemetry, gRPC, Active Monitoring"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 480
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 텔레메트리 스트리밍 [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 탈피 능동 감시는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 텔레메트리 스트리밍 [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 탈피 능동 감시, [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 탈피, Streaming Telemetry의 경계를 분명히 만드는 데 의미가 있다.

@@ -3,8 +3,8 @@ title: "458. Quic Tls 1 3 Integration"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 458
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

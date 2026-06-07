@@ -3,8 +3,8 @@ title: "Neuromorphic Chip Neural Network Hardware"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 599
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뉴로모픽 칩 신경망 하드웨어은(는) 뇌의 스파이크 신호와 병렬 연결 구조를 모방해 저전력 이벤트 기반 연산을 수행하는 하드웨어이다.

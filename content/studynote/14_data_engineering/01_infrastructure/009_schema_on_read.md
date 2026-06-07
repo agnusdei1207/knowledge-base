@@ -1,11 +1,11 @@
 ---
 title: "009. Schema On Read"
 date: "2024-05-15"
-description: "데이터 레이크의 핵심 저장 방식인 스키마 온 리드의 동작 메커니즘, 장단점 및 하둡/스파크 생태계에서의 실무 적용 전략을 심층 분석합니다."
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 9
 ---
-
 # [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 리드 ([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read)
 
 #### 핵심 인사이트 (3줄 요약)

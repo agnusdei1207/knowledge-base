@@ -3,8 +3,8 @@ title: "114. Bptt Backpropagation Through Time"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BPTT([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/) Through Time)는 RNN의 순환 구조를 <strong>시간 축으로 펼친(Unfolding) 후 일반 <a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>를 적용</strong>하는 학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, 펼친 길이 T에 비례하여 $O(T)$의 시간·메모리 비용이 발생한다.
 > 2. **가치**: 시퀀스 길이 T가 길수록 과거 정보를 반영할 수 있지만, [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발이 심해지고 메모리가 폭발하므로 실무에서는 <strong>Truncated BPTT(일정 길이 k로 잘라서 <a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>)</strong>를 사용한다.

@@ -3,9 +3,9 @@ title: "Queue"
 date: "2024-03-24"
 tags:
   - "datastructure"
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. <strong><a href="/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>(First-In, First-Out)</strong> 원칙에 따라 먼저 삽입된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 먼저 제거되는 선형 자료구조이다.
 2. 삽입 연산은 **Enqueue(Rear)**, 제거 연산은 <strong>Dequeue(Front)</strong>를 통해 수행되며, 주로 대기열 관리 및 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 버퍼링에 활용된다.

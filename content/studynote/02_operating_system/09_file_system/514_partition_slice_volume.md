@@ -3,8 +3,8 @@ title: "Volume"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 514
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크고 멍청한 하나의 쇳덩어리 하드디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))를 OS가 통째로 다루기엔 비효율적이므로, <strong>"<a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 칼질을 내어 독립된 여러 개의 작은 디스크(C드라이브, D드라이브)처럼 착각하게 쪼개는 행위"</strong> 가 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)([Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 유닉스에선 [Slice](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))이다.

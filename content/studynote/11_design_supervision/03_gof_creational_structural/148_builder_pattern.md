@@ -3,8 +3,8 @@ title: "148. Builder Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [빌더](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) ([Builder](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 패턴은 파라미터가 수십 개에 달하는 복잡한 객체의 <strong>'<a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 과정(조립)'과 '최종 표현 방법'을 분리</strong>하여, 동일한 조립 공정으로 서로 다른 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 가진 객체를 유연하게 만들어내는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational) [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이다.
 > 2. **가치**: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자에 파라미터가 무한정 늘어나는 텔레스코핑 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)(점층적 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자)의 지옥을 박살 낸다. 메서드 체이닝(Method [Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))을 통해 어떤 값이 들어가는지 직관적으로 코드를 읽게 해 주며, 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 가독성을 극대화한다.

@@ -3,8 +3,8 @@ title: "Image Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 289
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이미지 분할 (Image [Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/))은 사진 속 모든 픽셀(Pixel)에 "이 픽셀은 고양이", "저 픽셀은 하늘"처럼 클래스 레이블을 붙이는 픽셀 단위 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제로, 물체 탐지([Object Detection](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))보다 훨씬 세밀한 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 요구한다.

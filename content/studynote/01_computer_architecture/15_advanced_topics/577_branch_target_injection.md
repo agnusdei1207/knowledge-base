@@ -3,8 +3,8 @@ title: "Branch Target Injection"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 577
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분기 목표 주입 (Branch Target [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/))은 공격자가 간접 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 ([Indirect](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictor)와 분기 목표 버퍼 (Branch Target Buffer, [BTB](/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/))를 오염시켜, 피해자의 간접 호출·간접 점프가 악성 [가젯](/studynote/09_security/04_endpoint_security/345_gadget_rop/) 쪽으로 투기 실행 (Speculative Execution)되게 만드는 [Spectre](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) variant 2 계열 공격이다.

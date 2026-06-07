@@ -3,8 +3,8 @@ title: "159. Snowflake Data Lake"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. Snowflake는 전통적 SQL 중심 DW를 넘어 External Tables와 Iceberg Tables를 통해 <strong>객체 스토리지(S3/ADLS/GCS)의 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 직접 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>하는 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 방향으로 확장하고 있다.
 2. <strong>스토리지-컴퓨팅 완전 분리(Decoupled <a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>가 Snowflake의 핵심 설계 원칙이며, Virtual Warehouse(컴퓨팅)를 독립적으로 [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)/다운하여 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용을 탄력적으로 제어한다.

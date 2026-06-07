@@ -3,8 +3,8 @@ title: "Response Time"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 반환 시간 (Turnaround Time), 대기 시간 (Waiting Time), [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))은 하나의 프로세스 생애를 서로 다른 기준점으로 잰 세 개의 시계로, 완료까지의 총 시간, [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) 대기 누적 시간, 첫 반응까지의 시간을 각각 보여 준다.

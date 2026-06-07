@@ -3,8 +3,8 @@ title: "Big Data Platform Selection Criteria"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터 플랫폼 선택은 특정 벤더를 고르는 일이 아니라, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모·[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구·[동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)·거버넌스·팀 운영 역량에 맞는 플랫폼 패밀리를 고르는 설계 문제다.

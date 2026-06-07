@@ -3,8 +3,8 @@ title: "575. Shadow Deployment Traffic Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 575
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 섀도우 배포 ([Shadow Deployment](/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) / 트래픽 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)) - 실운영 트래픽을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 신규 버전에 테스트은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

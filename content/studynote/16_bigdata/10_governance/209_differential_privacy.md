@@ -3,8 +3,8 @@ title: "209. Differential Privacy"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 차등 프라이버시([Differential Privacy](/studynote/09_security/16_data_privacy/817_differential_privacy/), DP)는 Cynthia Dwork(2006)이 제안한 수학적 프라이버시 프레임워크로, 어떤 개인의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함 여부에 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 출력이 통계적으로 구분 불가능하게 보장하며, 개인 기여가 결과에 드러나지 않는다.

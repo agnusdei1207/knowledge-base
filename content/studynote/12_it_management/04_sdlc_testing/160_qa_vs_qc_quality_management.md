@@ -3,8 +3,8 @@ title: "Quality Assurance vs Quality Control, vs"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: QA (Quality Assurance, 품질 보증)는 올바른 프로세스로 품질을 예방하는 활동이고, QC (Quality Control, 품질 통제)는 만들어진 산출물에서 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 검출하는 활동이다.

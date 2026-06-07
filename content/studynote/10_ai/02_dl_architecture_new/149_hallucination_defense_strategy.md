@@ -3,8 +3,8 @@ title: "Hallucination Defense Strategy"
 date: "2026-05-03"
 tags:
   - "studynote-ai"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [할루시네이션](/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)) 방어 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 빈칸을 그럴싸한 허위 정보로 창작해 내는 통계적 본능을 물리치고, 출력의 사실 기반성(Factuality)과 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))을 강제로 록온([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-on)하는 기술적 통제 체계다.
 > 2. **가치**: 아무리 파라미터가 거대한 모델이라도 방어 쉴드 없이 엔터프라이즈 B2B 환경(의료, 법률, 금융)에 배포하면, 한 번의 치명적 거짓말로 기업이 법적 소송과 파산에 이르는 대재앙을 낳으므로 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 상용화의 절대 0순위 생존 조건이다.

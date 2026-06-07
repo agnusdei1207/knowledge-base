@@ -3,8 +3,8 @@ title: "DataOps Pipeline Automation Quality"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 745
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터옵스 파이프라인 자동화 품질은 Extract->Ingest->Transform->Validate->Serve 전 구간을 GitOps 기반 CI/CD 파이프라인(예: dbt + Airflow + Great Expectations + Argo Workflows)으로 묶고, 스키마 회귀·신선도·분포 드리프트 같은 품질 신호를 코드-커밋 단계에서 차단(shift-left)하는 "엔지니어링 등급 데이터 거버넌스" 체계이다.

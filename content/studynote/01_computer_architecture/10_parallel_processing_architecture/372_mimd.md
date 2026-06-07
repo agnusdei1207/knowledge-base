@@ -3,8 +3,8 @@ title: "372. Mimd"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 372
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MIMD (Multiple [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 여러 처리 요소가 각자 다른 명령과 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 독립적으로 수행하는 범용 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 아키텍처다.

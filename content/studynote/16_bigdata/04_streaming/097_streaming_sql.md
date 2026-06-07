@@ -3,8 +3,8 @@ title: "097. Streaming Sql"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 스트리밍 SQL (Streaming SQL)은 무한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에 지속적으로 실행되는 SQL [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로, 표준 SQL에 윈도우 함수·[워터마크](/studynote/16_bigdata/04_streaming/085_watermark/)·스트림-테이블 조인 등 스트리밍 고유 연산이 추가된 형태이며, ksqlDB ([Confluent](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)), Flink SQL ([Apache Flink](/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/)), [Spark Structured Streaming](/studynote/16_bigdata/03_spark/061_structured_streaming/) SQL이 3대 주요 엔진이다.

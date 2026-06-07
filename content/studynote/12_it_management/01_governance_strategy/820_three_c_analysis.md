@@ -3,8 +3,8 @@ title: "C"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 820
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 3C 분석의 핵심은 고객(C고객), 자사(Company), 경쟁사(Competitor)라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.

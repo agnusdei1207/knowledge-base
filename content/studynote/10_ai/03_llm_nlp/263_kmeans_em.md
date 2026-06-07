@@ -3,8 +3,8 @@ title: "Kmeans EM"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 263
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-Means 클러스터링([K-Means Clustering](/studynote/10_ai/01_ai_basics/057_k_means_clustering_unsupervised_learning/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 군집으로 분할하기 위해 각 점을 가장 가까운 중심점(Centroid)에 할당하고, 중심점을 반복 재계산하는 EM([Expectation-Maximization](/studynote/08_algorithm_stats/08_stats/142_em_algorithm/)) 구조의 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

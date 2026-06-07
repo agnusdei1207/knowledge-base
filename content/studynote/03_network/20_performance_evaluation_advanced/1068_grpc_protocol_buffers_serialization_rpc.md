@@ -3,8 +3,8 @@ title: "1068. Grpc Protocol Buffers Serialization Rpc"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1068
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

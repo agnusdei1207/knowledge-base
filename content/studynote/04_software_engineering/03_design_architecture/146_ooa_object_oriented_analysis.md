@@ -3,8 +3,8 @@ title: "146. Ooa Object Oriented Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OOA는 <strong>문제 영역(Problem <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)을 객체·클래스·<a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>·메서드·<a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>로 모델링</strong>하는 분석 기법이며, [구조적 분석](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)([DFD](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))의 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스 분리"와 달리 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>+행위를 객체로 캡슐화</strong>한다.
 > 2. **가치**: 현실 세계를 객체로 모델링하므로 <strong>분석 결과가 설계·구현으로 자연스럽게 전이(<a href="/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong>되며, 재사용·확장성이 높다.

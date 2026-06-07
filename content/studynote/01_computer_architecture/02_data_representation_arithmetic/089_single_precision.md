@@ -3,8 +3,8 @@ title: "Single Precision, FP32"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단정밀도 (Single [Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), FP32)는 [IEEE 754](/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 표준에 정의된 32비트 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 포맷으로, 부호 1비트, 지수 8비트, 가수 23비트로 아키텍처 공간을 분할한 가장 대중적인 실수 표현 규격이다.

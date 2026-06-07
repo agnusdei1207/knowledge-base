@@ -3,8 +3,8 @@ title: "ARP"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 315
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ARP는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

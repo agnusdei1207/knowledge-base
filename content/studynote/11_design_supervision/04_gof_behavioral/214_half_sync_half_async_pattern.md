@@ -3,8 +3,8 @@ title: "Half-Sync/Half-Async Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Half-Sync/Half-Async (하프-싱크/하프-어싱크) 패턴은 비동기 I/O 수신 계층과 동기 비즈니스 로직 처리 계층을 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 분리함으로써, 두 세계의 장점을 동시에 취하는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 아키텍처 패턴이다.

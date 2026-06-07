@@ -2,9 +2,9 @@
 title: "129. Activation Function"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 활성화 함수는 <strong>신경망의 각 뉴런 출력에 적용되는 비선형 변환</strong>이며, 이것이 없으면 아무리 깊은 신경망도 **단일 선형 변환과 동일**(표현력 없음)하다.
 > 2. **가치**: [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)->[Tanh](/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)->[ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/)->GELU->SwiGLU의 발전이 딥러닝 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 직접적으로 향상시켰으며, <strong>ReLU가 <a href="/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a> 문제를 해결</strong>하여 딥러닝 르네상스를 열었다.

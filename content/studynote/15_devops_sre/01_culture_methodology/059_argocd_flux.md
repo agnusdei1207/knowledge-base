@@ -3,8 +3,8 @@ title: "059. Argocd Flux"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Argo CD와 Flux는 Git에 선언적으로 저장된 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 원하는 상태를 지속적으로 맞춰 주는 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 도구다.

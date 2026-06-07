@@ -3,8 +3,8 @@ title: "104. Kubernetes Namespace Logical Cluster Isolation"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/))는 단일 물리 클러스터 내에서 자원과 오브젝트를 논리적으로 분할하여 가상의 경계를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 격리 메커니즘이다.

@@ -3,8 +3,8 @@ title: "Liquid Cooling"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 601
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 액체 냉각 시스템 (Liquid Cooling)은 열이 가장 집중되는 칩 근처에서 액체 냉매가 직접 열을 받아 배관과 열교환기로 옮기는 구조로, 공랭보다 훨씬 낮은 열저항 경로를 만든다.

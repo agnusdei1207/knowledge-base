@@ -1,10 +1,11 @@
 ---
 title: "071. Relu Rectified Linear Unit Activation"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ReLU는 입력이 양수면 그대로, 음수면 0을 내보내는 매우 단순한 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)다.

@@ -3,8 +3,8 @@ title: "Multidimensional OLAP"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 307
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) ([Online Analytical Processing](/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/)) 큐브는 사전 집계를 통해 BI [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 1초 이내로 단축하는 다차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조다.

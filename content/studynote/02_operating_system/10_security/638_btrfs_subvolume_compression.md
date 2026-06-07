@@ -3,8 +3,8 @@ title: "Btrfs Subvolume Compression"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 638
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Btrfs ([B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진영이 ZFS에 대항하기 위해 만든 차세대 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로, [Copy-on-Write](/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 철학을 기반으로 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 볼륨 매니저 기능을 통합한 다목적 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 인프라다.

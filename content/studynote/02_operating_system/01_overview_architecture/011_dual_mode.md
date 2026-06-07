@@ -3,8 +3,8 @@ title: "Kernel Mode"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 11
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 듀얼 모드 (Dual Mode)는 CPU (Central Processing Unit)가 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행할 때 사용자 모드 (User Mode)와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)로 권한을 분리하여 시스템 자원을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 보안 아키텍처다.
 > 2. **가치**: 사용자 애플리케이션의 오동작이나 악의적인 공격이 하드웨어 및 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 핵심 영역으로 전파되는 것을 하드웨어 수준에서 차단하여 전체 시스템의 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/studynote/09_security/01_intro_principles/003_integrity/))을 보장한다.

@@ -3,8 +3,8 @@ title: "138. Sql Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 서브쿼리([Subquery](/studynote/05_database/04_transactions_concurrency/523_subquery/))는 <strong>SQL 문 안에 중첩된 또 다른 <a href="/studynote/05_database/04_transactions_concurrency/520_select/">SELECT</a> 문</strong>이며, WHERE·FROM·[SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)·HAVING 절에서 사용할 수 있고, 스칼라·[인라인 뷰](/studynote/05_database/03_relational_model/141_inline_view_subquery/)·상관(Correlated) 서브쿼리로 구분된다.
 > 2. **가치**: JOIN으로 해결하기 어려운 **"평균보다 높은 급여의 직원"·"각 부서의 최고 급여"** 등의 복합 조건을 <strong>직관적으로 표현</strong>할 수 있다.

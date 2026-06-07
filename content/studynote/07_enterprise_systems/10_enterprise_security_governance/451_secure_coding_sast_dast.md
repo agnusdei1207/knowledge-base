@@ -2,9 +2,9 @@
 title: "Secure Coding, SAST, DAST"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 451
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) [SAST DAST](/studynote/12_it_management/05_security_compliance/192_sast_dast_security_analysis/) 정적/[동적 분석](/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 체계는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) [SAST DAST](/studynote/12_it_management/05_security_compliance/192_sast_dast_security_analysis/) 정적/[동적 분석](/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 체계, [Secure Coding](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/), SAST의 경계를 분명히 만드는 데 의미가 있다.

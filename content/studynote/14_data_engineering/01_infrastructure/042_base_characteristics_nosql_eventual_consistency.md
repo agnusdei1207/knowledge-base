@@ -3,8 +3,8 @@ title: "042. Base Characteristics Nosql Eventual Consistency"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 42
 ---
-
 > **핵심 인사이트**
 > 1. BASE(Basically Available, Soft-state, [Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))는 ACID의 엄격한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 포기하고 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 분산성을 극대화한 NoSQL의 설계 철학으로, [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리에서 [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance를 선택한 시스템이 필연적으로 채택하는 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델이다.
 > 2. BASE의 핵심인 [Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([결과적 일관성](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))는 "언젠가는 모든 노드가 같은 값을 갖게 된다"는 보장으로, Amazon Dynamo의 사례처럼 짧은 불일치 윈도우 동안 읽기 요청이 구버전 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반환할 수 있다 — 이것이 허용되는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(소셜 피드, 장바구니)와 불허되는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(금융 결제, 재고)를 구분하는 기준이 된다.

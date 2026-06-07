@@ -3,8 +3,8 @@ title: "403. Beladys Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 403
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벨라디의 모순(Belady's [Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))은 컴퓨터에 <strong>물리적 메모리(RAM 프레임)를 더 많이 꽂아주어 공간을 늘려줬음에도 불구하고, 오히려 램이 좁을 때보다 <a href="/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)가 더 많이 터져버리는 기괴하고 논리적으로 이해 안 되는 시스템 오류 현상</strong>이다.

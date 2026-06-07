@@ -3,8 +3,8 @@ title: "182. Cloud Service Models Overview"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) (Infrastructure [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) (Platform [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 "무엇을 빌리느냐"보다 <strong>누가 어느 계층을 운영하느냐</strong>를 나누는 책임 공유 모델이다.

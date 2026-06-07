@@ -1,10 +1,11 @@
 ---
 title: "Cook-Levin"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 887
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [체인법](/studynote/08_algorithm_stats/04_datastructure/069_chaining/) (Chaining)은 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)에서 서로 다른 키가 같은 공간을 할당받는 '충돌([Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이 발생했을 때, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 줄줄이 엮어서 저장하는 가장 고전적이고 직관적인 해결책이다.

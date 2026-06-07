@@ -3,8 +3,8 @@ title: "452. Dma Scatter Gather"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 452
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [산란](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)-수집(Scatter-Gather) DMA는 램(RAM)의 물리적 주소가 4KB [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 갈기갈기 찢어져 있을 때, 디스크나 랜카드에서 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼와 <strong>여러 개의 찢어진 물리 프레임에 알아서 흩뿌리거나(Scatter), 흩어진 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>들을 한 번에 모아서(Gather) 전송해 주는 고도화된 지능형 하드웨어 I/O 기술</strong>이다.

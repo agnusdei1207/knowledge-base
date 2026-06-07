@@ -3,8 +3,8 @@ title: "BLE, Bluetooth Low Energy"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 저전력 ([BLE](/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/), [Bluetooth Low Energy](/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)): [비컨](/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)([Beacon](/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 활용 위치 기반 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이해하는 핵심 개념으로, 현실의 센서와 기기를 저전력으로 연결하고 안정적으로 관리해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Return to Zero"
 date: "2026-03-03"
 tags:
   - "studynote-network"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. RZ(Return to [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))는 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기의 절반에서 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 반드시 0V로 복귀하는 라인 코딩으로, [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 전환 자체가 클락 정보를 내포해 별도 클락 선 없이 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 가능한 자기 클락킹(Self-Clocking) 코딩이다.
 > 2. RZ의 핵심 단점은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비효율성 — [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기의 50%만 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하고 나머지 50%는 0으로 복귀하므로, 동일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 NRZ 대비 2배의 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요하다.

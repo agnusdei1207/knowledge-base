@@ -3,8 +3,8 @@ title: "Static Factory Method"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정적 [팩토리 메서드](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) (Static [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 대신 이름 있는 정적 메서드로 객체를 제공해, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 의도와 반환 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외부에 명확히 드러내는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기법이다.

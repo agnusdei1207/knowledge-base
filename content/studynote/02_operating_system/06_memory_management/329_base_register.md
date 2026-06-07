@@ -3,8 +3,8 @@ title: "329. Base Register"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 329
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이스 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Base [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 또는 재배치 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Relocation [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 프로세스가 물리 메모리의 어느 위치에 적재되었는지, 그 <strong>시작 기준 주소(Base Address)</strong>를 저장하는 특수 목적 하드웨어 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)이다.

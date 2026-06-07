@@ -1,10 +1,11 @@
 ---
 title: "Value Stream Mapping"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) (Value [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 제품의 요구사항이 고객에게 전달되기까지의 전체 개발 라이프사이클을 그려, 실제 가치를 만드는 시간과 낭비되는 대기 시간을 분리해 내는 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기법이다.

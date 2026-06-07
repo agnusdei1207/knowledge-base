@@ -3,8 +3,8 @@ title: "MyData & Blockchain Receipt"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/)([MyData](/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))는 기관(은행, 통신사)이 독점하던 내 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)의 통제권([데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/))을 개인에게 돌려주어 자유로운 이동과 융합을 강제하는 법적/기술적 거버넌스이며, <strong><a href="/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 영수증</strong>은 이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 승인 내역을 위변조 불가능하게 박제하는 신뢰 앵커(Trust Anchor)다.
 > 2. **가치**: 고객이 "내 신용카드 결제 내역을 A 핀테크 앱으로 보내!"라고 동의(Consent)할 때, 그 동의 내역이 중앙 서버가 아닌 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 원장에 영수증으로 기록됨으로써 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공자와 수신자 간의 '책임 공방(부인 방지)'을 원천 차단한다.

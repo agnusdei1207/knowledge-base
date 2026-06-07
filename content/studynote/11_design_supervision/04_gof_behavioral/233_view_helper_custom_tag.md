@@ -3,8 +3,8 @@ title: "View Helper Custom Tag Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뷰헬퍼 ([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Helper) 와 커스텀 태그 (Custom Tag) 는 프레젠테이션 레이어 (Presentation Layer) 의 반복적인 표현 로직을 재사용 가능한 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 캡슐화한다.

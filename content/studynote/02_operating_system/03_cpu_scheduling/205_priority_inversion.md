@@ -3,8 +3,8 @@ title: "Priority Inversion"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 우선순위 역전 (Priority Inversion)은 우선순위가 높은 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 공유 자원에 접근하려 할 때, 우선순위가 낮은 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 그 자원의 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 쥐고 놓지 않아 높은 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 무한정 대기(Block)하게 되는 <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>와 스케줄링이 충돌하여 빚어낸 최악의 데드락 유사 버그</strong>다.

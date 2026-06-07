@@ -1,10 +1,11 @@
 ---
 title: "100. Cross Docking Logistics"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크로스 도킹 (Cross-Docking)은 입고된 상품을 물류센터 창고에 보관(저장)하지 않고, 하역하자마자 즉시 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 출고장으로 이동시켜 배송 차량에 환적하는 극한의 물류 통과 기법이다.

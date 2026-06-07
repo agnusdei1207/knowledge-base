@@ -3,8 +3,8 @@ title: "Write-Ahead Logging"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: WAL (Write-Ahead [Logging](/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/)) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 전 반드시 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)부터 디스크에 안전하게 기록에 초점을 맞춘 개념이다.

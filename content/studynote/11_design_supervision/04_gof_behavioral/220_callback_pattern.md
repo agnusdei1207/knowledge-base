@@ -3,8 +3,8 @@ title: "Callback Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Callback (콜백) 패턴은 함수를 인수로 전달하여 특정 이벤트나 작업 완료 시점에 호출되도록 하는 역전된 제어(Inversion of Control) 메커니즘이다 — "나중에 전화해줄게" 방식의 비동기 통지.

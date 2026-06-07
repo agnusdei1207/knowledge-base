@@ -1,11 +1,11 @@
 ---
 title: "097. MIMO (Multiple-Input Multiple-Output)"
 date: "2026-03-04"
-description: "송수신 양측에 다수의 안테나를 배치하여 채널 용량과 신뢰성을 동시에 극대화하는 MIMO 기술의 구조와 실무 적용 방안"
 tags:
   - "network"
+  - "studynote-network"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MIMO (Multiple-Input Multiple-Output)는 송신기와 수신기 모두에 다수의 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 장착하여 독립적인 여러 전파 경로를 생성해 내는 물리계층 핵심 통신 기술이다.
 > 2. **가치**: 주파수 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이나 송신 전력을 늘리지 않고도, 공간을 활용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 속도를 배가시키거나([공간 다중화](/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)) 통신 신뢰성을 극대화(공간 다이버시티)할 수 있다.

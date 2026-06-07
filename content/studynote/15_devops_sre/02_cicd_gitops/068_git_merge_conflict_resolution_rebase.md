@@ -2,9 +2,9 @@
 title: "Rebase vs Merge"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 병합 충돌은 서로 다른 브랜치가 같은 부분을 다르게 수정해 Git이 자동 병합하지 못할 때 발생한다.

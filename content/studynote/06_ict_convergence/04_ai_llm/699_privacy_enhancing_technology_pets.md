@@ -3,8 +3,8 @@ title: "Privacy Enhancing Technology PETs"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 699
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PETs(Privacy Enhancing Technologies)와 연합 분석(Federated Analysis)의 결합은 **"원천 데이터 비노출 + 다자간 협업 연산 + 수학적 프라이버시 보장"**을 동시에 달성하는 기술 스택으로, 차등 프라이버시(DP), 동형 암호(HE), 보안 다자간 계산(SMPC), 영지식 증명(ZKP), 신뢰 실행 환경(TEE), 연합 학습(FL)이 7대 축을 형성하며, 데이터 주권·규제 준수·가치 추출의 트릴레마를 해소한다.

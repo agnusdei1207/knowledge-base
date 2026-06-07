@@ -2,9 +2,9 @@
 title: "ISO 27001 / ISMS-P"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 474
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [ISO 27001 ISMS](/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 위험 통제 보안 규격은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [ISO 27001 ISMS](/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 위험 통제 보안 규격, ISO 27001, [ISMS](/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P의 경계를 분명히 만드는 데 의미가 있다.

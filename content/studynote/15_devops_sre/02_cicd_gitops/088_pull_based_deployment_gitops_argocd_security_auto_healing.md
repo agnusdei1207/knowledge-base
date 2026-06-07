@@ -2,9 +2,9 @@
 title: "088. Pull Based Deployment Gitops Argocd Security Auto Healing"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 풀 기반(Pull-based) 배포는 클러스터 내부에 설치된 에이전트(예: ArgoCD)가 외부 Git 저장소를 주기적으로 관찰하여, 변경된 배포 명세서를 스스로 끌어와 적용하는 아키텍처다.

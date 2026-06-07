@@ -3,8 +3,8 @@ title: "Qualitative Risk Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-security"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정성적 위험 분석(Qualitative [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)은 위험을 High/Medium/Low 또는 1~5 척도로 정의하고 위협 발생 가능성(Likelihood)과 영향도(Impact)를 주관적으로 평가하여 위험 매트릭스([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Matrix)에 위치시키는 방법론이다.
 > 2. **가치**: 정확한 자산 가치·발생 확률을 수치화하기 어려운 상황에서 빠르게 위험 우선순위를 도출한다. 전문가 인터뷰, 설문, 브레인스토밍으로 단기간에 전체 위험 지도를 그릴 수 있다.

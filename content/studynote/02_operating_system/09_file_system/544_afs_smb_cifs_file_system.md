@@ -3,8 +3,8 @@ title: "Windows"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 544
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 543장 NFS가 '서버한테 계속 물어보는 원격 실시간 둔갑술' 이라면, <strong>AFS(Andrew <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> System)</strong> 는 <strong>"아예 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 내 하드디스크(로컬 캐시)로 훔쳐 복사 통째 이주시켜서, 작업 다 끝나고 나서만 서버에 던져주는 은둔형(<a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> stateful) <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 아크 결착"</strong> 이다. 한편 <strong>SMB/CIFS</strong>는 마이크로소프트가 윈도우 OS의 `\\공유폴더` 를 지배하기 위해 뿌리내린 또 다른 배타적 잠금([Locking](/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 중심의 거시 전송 표준 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 렌더다.

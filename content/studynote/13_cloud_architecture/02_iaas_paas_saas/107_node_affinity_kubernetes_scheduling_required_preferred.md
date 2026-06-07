@@ -3,8 +3,8 @@ title: "107. Node Affinity Kubernetes Scheduling Required Preferred"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 노드 어피니티 (Node [Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))는 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 자신이 실행될 노드(Node)의 조건을 명시하여, [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 특정 라벨(Label)을 가진 노드에 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 배치하도록 유도하는 규칙이다.

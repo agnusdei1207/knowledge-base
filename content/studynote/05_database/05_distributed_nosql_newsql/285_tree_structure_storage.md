@@ -3,8 +3,8 @@ title: "Tree Structure Storage"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 285
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어은 Cypher (Neo4j), Gremlin, SPARQL에 초점을 맞춘 개념이다.

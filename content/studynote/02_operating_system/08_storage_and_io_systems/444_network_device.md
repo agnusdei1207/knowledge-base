@@ -3,8 +3,8 @@ title: "Network Device"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 444
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 장치(Network Interface Card, [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 유닉스의 "모든 것은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다(블록/문자)"라는 철학의 틀에 담기엔 패킷(Packet)의 크기(가변적)와 통신 구조([비동기적](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/), 이벤트 지향)가 너무 기형적이어서, <strong>기존 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템(<a href="/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a>) 밖으로 뛰쳐나와 '<a href="/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(<a href="/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a>)'이라는 독자적인 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 세계관을 구축한 이단아적 하드웨어 장치</strong>다.

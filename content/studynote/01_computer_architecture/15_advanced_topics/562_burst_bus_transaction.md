@@ -3,8 +3,8 @@ title: "Burst Bus Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 562
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 한 번의 주소 제시와 중재로 연속된 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) beat를 끊기지 않게 전송하여, 제어 오버헤드를 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 나눠 담는 다중 전송 방식이다.

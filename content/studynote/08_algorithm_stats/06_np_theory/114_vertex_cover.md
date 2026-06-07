@@ -3,8 +3,8 @@ title: "114. Vertex Cover"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 114
 ---
-
 > **핵심 인사이트**
 > 1. 버텍스 커버(Vertex Cover)란 그래프의 모든 엣지에 대해 최소한 하나의 끝점을 포함하는 정점 집합으로 — k-버텍스 커버 결정 문제(크기 k 이하의 버텍스 커버가 존재하는가?)는 클리크(Clique)로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.
 > 2. 버텍스 커버와 독립 집합은 "서로 보완 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)"로 — G의 버텍스 커버 C이면 G에서 C를 제외한 집합 V-C가 독립 집합이 되어, 버텍스 커버 최소화 = 독립 집합 최대화와 동치이며 이 두 문제는 같은 NP-하드 문제이다.

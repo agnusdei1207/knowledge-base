@@ -3,8 +3,8 @@ title: "024. Okr Objectives And Key Results"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [OKR](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) ([Objectives and Key Results](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/), 목표 및 핵심 결과)은 인텔 앤디 그로브(Andy Grove)가 [MBO](/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)([Management by Objectives](/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/))를 개선하여 개발하고 구글이 전사 도입한 성과 관리 프레임워크로, 정성적 O (목표)와 정량적 KR (핵심 결과 3~5개)의 쌍으로 목표와 측정을 연결한다.
 > 2. **가치**: OKR의 핵심은 "달성률 70%를 성공으로 본다"는 도전적 목표(Moonshot Goal) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)이다. 100% 달성을 목표로 하면 안전한 목표만 세우게 되어 혁신이 없어지며, OKR의 투명한 공유는 전사 정렬(Alignment)과 집중(Focus)을 동시에 달성한다.

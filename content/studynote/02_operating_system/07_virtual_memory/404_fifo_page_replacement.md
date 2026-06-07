@@ -3,8 +3,8 @@ title: "404. Fifo Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 404
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)(First-In, First-Out) [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/)는 램(RAM)에 빈 프레임이 없을 때, 물리 메모리에 <strong>가장 '먼저' 올라와서 가장 오랫동안 자리를 차지하고 있었던 늙은 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>부터 순서대로 쫓아내는 가장 단순 무식한 교체 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

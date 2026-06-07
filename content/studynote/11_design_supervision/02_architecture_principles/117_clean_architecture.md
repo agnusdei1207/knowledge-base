@@ -3,8 +3,8 @@ title: "Clean Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 117
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클린 아키텍처](/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) ([Clean Architecture](/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))는 로버트 마틴(Robert C. Martin)이 2012년 제안한 아키텍처로, 엔티티(Entity)->유스케이스(Use Case)->인터페이스 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(Interface [Adapter](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))->프레임워크 계층으로 구성된 동심원 구조에서 의존성이 항상 안쪽([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 향해야 한다는 의존성 규칙(Dependency Rule)을 핵심으로 한다.

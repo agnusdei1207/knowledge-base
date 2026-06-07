@@ -1,11 +1,11 @@
 ---
 title: "SDMA, Space Division Multiple Access"
 date: "2026-03-04"
-description: "무선 통신에서 동일한 주파수와 시간 자원을 사용하여 공간적으로 분리된 여러 사용자에게 데이터를 전송하는 SDMA의 핵심 원리와 실무 아키텍처"
 tags:
   - "network"
+  - "studynote-network"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 공간 분할 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (SDMA, Space [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))은 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [빔포밍](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([Beamforming](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))을 활용해 전파를 특정 방향으로 쏘아, 동일한 주파수와 시간 슬롯을 여러 사용자가 동시에 재사용하는 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술이다.
 > 2. **가치**: 추가적인 주파수 대역 할당 없이 셀(Cell) 수용 용량과 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수에 비례하여 획기적으로 증대시키는 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 초연결망의 근간이다.

@@ -3,8 +3,8 @@ title: "363. Gnn Knowledge Graph Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 363
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프 신경망](/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/) ([GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/))과 [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)) 연계 DB 시스템는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

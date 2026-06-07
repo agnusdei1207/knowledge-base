@@ -3,8 +3,8 @@ title: "iostat, vmstat"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 617
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: I/O [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 (Bottleneck) 탐색법 (iostat, vmstat)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

@@ -3,8 +3,8 @@ title: "Block Device"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 442
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블록 장치(Block Device)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트씩 쪼개지 않고, <strong>512바이트나 4KB 단위의 고정된 크기인 '블록(Block)' 덩어리로만 묶어서 읽고 쓰는 저장장치(<a href="/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>, <a href="/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>)</strong>를 의미하는 운영체제의 하드웨어 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이다.

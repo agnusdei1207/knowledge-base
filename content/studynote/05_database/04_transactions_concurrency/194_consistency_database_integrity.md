@@ -3,8 +3,8 @@ title: "Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일관성 (Consistency)은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 전후에 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 제약조건([무결성](/studynote/09_security/01_intro_principles/003_integrity/)) 유지 - 병행제어/[무결성 제약조건](/studynote/05_database/02_modeling_normalization/073_integrity_constraints_overview/) 보장에 초점을 맞춘 개념이다.

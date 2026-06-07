@@ -3,8 +3,8 @@ title: "646. Blockchain Storage Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 646
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 스토리지 병목은 거래 1건이 단순 추가 기록으로 끝나지 않고, <strong>상태 조회·해시 갱신·키값 저장소 정리 작업</strong>으로 분해되면서 많은 무작위 읽기와 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 일으키는 데서 생긴다.

@@ -3,8 +3,8 @@ title: "Interpreter Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Interpreter](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) ([해석자](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/)) 패턴은 언어나 문법의 각 규칙을 클래스로 표현하고, 해당 언어로 작성된 문장을 AST (Abstract Syntax Tree, 추상 구문 트리)로 파싱한 뒤 평가(Evaluate)하는 구조를 제공한다.

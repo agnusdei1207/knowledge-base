@@ -3,8 +3,8 @@ title: "Slack Variable"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 367
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [서포트 벡터 머신](/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/))의 소프트 마진(Soft Margin)은 선형 분리 불가능한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위해 슬랙 변수(Slack Variable) ξᵢ ≥ 0을 도입해 일부 샘플이 마진 경계를 위반하도록 허용하는 완화된 최적화 공식이다.

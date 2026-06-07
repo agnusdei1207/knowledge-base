@@ -3,8 +3,8 @@ title: "008. Loosely Coupled System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 8
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 약결합 시스템 (Loosely Coupled System)은 각 프로세서가 자신만의 독립된 메모리(Local Memory)를 가지며, 네트워크를 통한 메시지 패싱([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/)) 방식으로 협업하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 시스템이다.
 > 2. **가치**: 자원 공유로 인한 병목이 없어 무한에 가까운 수평적 확장([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))이 가능하고, 특정 노드 장애가 전체로 전파되지 않는 높은 [결함 허용](/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 능력을 제공한다.

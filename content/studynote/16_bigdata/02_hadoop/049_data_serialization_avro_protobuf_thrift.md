@@ -3,8 +3,8 @@ title: "049. Data Serialization Avro Protobuf Thrift"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 49
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Avro, [Protocol Buffers](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/)(Protobuf), Apache Thrift는 구조화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 언어·플랫폼 독립적인 바이너리 형식으로 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화(Serialization)하는 프레임워크로, [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)/XML 대비 크기·속도에서 탁월한 효율을 제공한다.
 > 2. **가치**: 빅데이터 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 형식 선택은 네트워크 비용·[처리 지연](/studynote/03_network/01_data_communication/019_처리_지연/)·스토리지 비용에 직접 영향을 준다. [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화에 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 대신 Avro를 사용하면 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 크기가 50~70% 줄고 역직렬화 속도가 10배 이상 빨라질 수 있다.

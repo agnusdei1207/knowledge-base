@@ -3,8 +3,8 @@ title: "Secure Enclave"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 790
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 엔클레이브는 메인 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 분리된 전용 보안 실행 구역으로, 키 관리와 민감 연산을 독립 프로세서·메모리·부트 체인 위에서 수행한다.

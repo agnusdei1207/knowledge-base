@@ -3,8 +3,8 @@ title: "vs"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 전술은 거대한 딥러닝 모델이나 수백 기가의 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대의 좁은 VRAM(메모리)에 들어가지 않아 터지는 폭발([OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 막기 위해, 수십~수백 대의 GPU를 엮어 무거운 짐을 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 단위로 쪼갤 것인가(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화), 뇌 구조 단위로 쪼갤 것인가(모델 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화)</strong>를 결정하는 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 인프라 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처다.

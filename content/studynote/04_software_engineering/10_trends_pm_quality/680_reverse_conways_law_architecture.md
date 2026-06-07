@@ -3,8 +3,8 @@ title: "680. Reverse Conways Law Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 680
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 역 콘웨이 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 아키텍처에 맞춘 조직 구성은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

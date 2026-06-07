@@ -3,8 +3,8 @@ title: "Fine-Tuning /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파인튜닝 [전이 학습](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 방법론 ([Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) / [미세 조정](/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)): 1. **본질**: [LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) ([Low-Rank Adaptation](/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/))는 거대 모델의 원래 가중치는 고정시키고, 아주 작은 크기의 행렬 두 개를 추가하여 그 차이(Delta)만 학습시키는 효…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

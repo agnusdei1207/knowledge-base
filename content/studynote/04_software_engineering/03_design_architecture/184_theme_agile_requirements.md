@@ -3,8 +3,8 @@ title: "184. Theme Agile Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테마 (Theme)는 여러 [에픽](/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/) ([Epic](/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/))과 유저 스토리 ([User Story](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))를 하나의 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 목적 아래 묶는 <strong>가장 상위 수준의 요구사항 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 축</strong>이다.

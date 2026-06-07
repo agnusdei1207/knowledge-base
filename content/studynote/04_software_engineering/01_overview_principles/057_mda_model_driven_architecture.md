@@ -1,10 +1,11 @@
 ---
 title: "057. Mda Model Driven Architecture"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MDA (Model Driven [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 코드를 먼저 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 모델을 먼저 만들고, 그 모델을 플랫폼 코드로 변환하는 접근이다.

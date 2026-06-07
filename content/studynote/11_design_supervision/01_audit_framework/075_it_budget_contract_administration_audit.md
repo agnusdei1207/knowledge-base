@@ -2,9 +2,9 @@
 title: "075. It Budget Contract Administration Audit"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT (Information Technology) 예산·계약 행정 감리는 돈을 아끼는 절차가 아니라, 승인 범위·계약 조항·검수 증거·정산 금액이 한 줄로 이어지는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 통제다.

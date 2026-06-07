@@ -3,8 +3,8 @@ title: "Tech Ethics Digital Rights Responsible Innovation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 773
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기술 윤리·디지털 권리·책임 있는 혁신(Responsible Innovation, RRI)은 **가치 민감 설계(Value Sensitive Design, VSD)**, **설명 가능 AI(Explainable AI, XAI)**, **프라이버시 강화 기술(Privacy Enhancing Technologies, PETs)**, **알고리즘 영향평가(Algorithmic Impact Assessment, AIA)**를 AI·데이터 시스템의 설계-학습-배포-폐기 전 생애주기(SDLC)에 내재화하여 편향(Bias), 불투명성(Opacity), 통제 불능(Autonomy), 책임 희석(Diffusion of Responsibility)을 공학적 제어점(Control Point)으로 관리하는 체계이다.

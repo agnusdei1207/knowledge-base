@@ -3,8 +3,8 @@ title: "Zero Trust Architecture ZTNA SASE NIST SP 800-207"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 372
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) ([제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))는 "절대 신뢰하지 말고, 항상 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하라(Never Trust, Always Verify)"는 원칙으로, 기존 경계 기반 보안(내부는 신뢰)이 원격 근무·클라우드·[SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 환경에서 무효화된 현실에 대응하는 [NIST SP 800-207](/studynote/09_security/17_framework_compliance/850_nist_sp_800_207/) 기반 아키텍처 패러다임이다.

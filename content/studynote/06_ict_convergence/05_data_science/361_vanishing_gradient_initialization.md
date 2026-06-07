@@ -3,8 +3,8 @@ title: "Vanishing Gradient"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 361
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그래디언트 소실 대비 [가중치 초기화](/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/) (Xavier, He) ([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)): 1. **본질**: 그래디언트 소실([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))은 딥러닝 모델이 오차(Error)를 고치기 위해 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/))를 할 때, 미분값(기울기)이 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

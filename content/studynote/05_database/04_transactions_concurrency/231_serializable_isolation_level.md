@@ -3,9 +3,8 @@ title: "231. Serializable (Serializable Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 231
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Serializable (레벨 3)은 완벽한 직렬화, 가장 엄격 (모든 이상현상 방지, [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 최저)에 초점을 맞춘 개념이다.

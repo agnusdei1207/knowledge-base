@@ -3,8 +3,8 @@ title: "-HW"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 536
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLVM [IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 변환은 다양한 소스 언어를 하드웨어 독립적인 중간 표현 ([IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/), Intermediate Representation)으로 바꾼 뒤, 이를 각 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에 맞는 기계어로 낮추는 컴파일러-하드웨어 연결 과정이다.

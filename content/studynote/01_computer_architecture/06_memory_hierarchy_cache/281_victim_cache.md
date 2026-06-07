@@ -3,8 +3,8 @@ title: "Victim Cache"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 희생자 캐시 (Victim Cache)는 L1 캐시 ([Level 1 Cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))에서 방금 축출된 블록을 잠시 보관해, [직접 사상](/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) 캐시의 약점인 충돌 미스 (Conflict Miss)를 완화하는 초소형 완전 연관 버퍼다.

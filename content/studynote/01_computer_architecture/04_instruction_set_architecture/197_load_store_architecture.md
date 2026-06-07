@@ -3,8 +3,8 @@ title: "Load-Store Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로드/스토어 아키텍처 (Load-Store [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 메모리 접근을 `LOAD`와 `STORE`에만 맡기고, 산술·[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 사이에서만 수행하게 만드는 역할 분리형 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 구조다.

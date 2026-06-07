@@ -3,9 +3,8 @@ title: "418. IDOR (Insecure Direct Object Reference)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 418
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IDOR (Insecure [Direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Object [Reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

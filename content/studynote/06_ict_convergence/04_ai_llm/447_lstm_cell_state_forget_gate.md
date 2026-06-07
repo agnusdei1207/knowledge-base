@@ -3,8 +3,8 @@ title: "LSTM CELL State Forget GATE"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 447
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 장기 기억 셀 게이트 ([LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) CELL [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Forget GATE): 1. **본질**: [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)([Long Short-Term Memory](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))은 RNN이 과거의 기억을 금방 까먹는 건망증([기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/))을 고치기 위해, '단기 기억(Hidden [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))' …를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

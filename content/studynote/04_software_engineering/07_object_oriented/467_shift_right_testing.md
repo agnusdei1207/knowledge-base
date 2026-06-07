@@ -3,8 +3,8 @@ title: "467. Shift Right Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 467
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시프트 라이트 테스팅 (Shift-Right Testing) - 운영 환경(오른쪽)에서의 테스트 ([카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), [카오스 엔지니어링](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

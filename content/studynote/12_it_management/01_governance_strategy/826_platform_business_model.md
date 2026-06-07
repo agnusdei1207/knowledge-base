@@ -3,8 +3,8 @@ title: "Platform Business Model"
 date: "2026-03-04"
 tags:
   - "studynote-it-management"
+weight: 826
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [플랫폼 비즈니스 모델](/studynote/12_it_management/01_governance_strategy/825_platform_business_model/)([Platform Business Model](/studynote/12_it_management/01_governance_strategy/825_platform_business_model/))은 양면 또는 다면 시장에서 참여자들 간의 상호작용을 중개해 [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/studynote/12_it_management/01_governance_strategy/824_network_effect/))를 통해 가치를 창출하는 디지털 비즈니스의 핵심 패러다임이다.
 > 2. 플랫폼의 경쟁력은 [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(참여자가 늘수록 가치 증가)와 멀티호밍 비용(전환 비용)에 달려 있으며, 승자독식(Winner-takes-all) 특성으로 시장 지배력이 급격히 집중된다.

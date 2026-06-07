@@ -3,8 +3,8 @@ title: "241. Monte Carlo Bigeye"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 옵저버빌리티](/studynote/16_bigdata/13_intro_trends/255_data_observability/) (Monte Carlo, Bigeye) [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 빅데이터 [데이터 옵저버빌리티](/studynote/16_bigdata/13_intro_trends/255_data_observability/) 관점에서 기준, 실행, 증거를 맞춰 보는 통제 점검 방식를 다루는 주제다.

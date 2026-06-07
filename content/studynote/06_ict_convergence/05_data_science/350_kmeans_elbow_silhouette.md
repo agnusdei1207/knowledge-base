@@ -3,8 +3,8 @@ title: "Elbow Method"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 350
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-Means 클러스터링의 엘보우 기법 / 실루엣 계수 (Silhouette Score) 최적 K값 탐색 (Elbow Method): 1. **본질**: K-Means 클러스터링은 정답이 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 비슷한 특징을 가진 K개의 그룹으로 묶어주는 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))의 대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

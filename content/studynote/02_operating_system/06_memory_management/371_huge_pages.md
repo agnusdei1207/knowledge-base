@@ -3,8 +3,8 @@ title: "371. Huge Pages"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 371
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 거대 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Huge Pages)는 현대 컴퓨터의 램(RAM) 용량이 기가/테라바이트 급으로 폭발함에 따라, 기존의 '4KB'라는 잘게 썬 깍두기 규격을 버리고 <strong>2MB, 1GB 등 엄청나게 큰 통나무 규격으로 물리 메모리를 할당하고 매핑하는 기술</strong>이다.

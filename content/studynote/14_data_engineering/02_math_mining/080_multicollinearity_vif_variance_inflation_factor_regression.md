@@ -3,8 +3,8 @@ title: "080. Multicollinearity Vif Variance Inflation Factor Regression"
 date: "2026-04-11"
 tags:
   - "studynote-data-engineering"
+weight: 80
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다중 공선성(Multicollinearity)은 다중 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) 시 독립변수(X)들끼리 서로 너무 강한 선형 상관관계를 가져, 종속변수(Y)에 미치는 각 변수의 순수한 영향력(회귀 계수)을 파악할 수 없게 만드는 치명적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질병이다.
 > 2. **탐지 (VIF)**: 이 질병의 심각도를 진단하는 지표가 VIF([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 팽창 지수)이며, 통상적으로 VIF 값이 10을 초과하면 해당 변수들 간에 강한 다중 공선성이 있다고 판단하여 조치를 취해야 한다.

@@ -3,8 +3,8 @@ title: "Energy Proportional Computing"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 474
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에너지 비례 컴퓨팅 (Energy-Proportional Computing)은 시스템 소비전력이 실제 부하 수준에 가깝게 오르내리도록 만드는 설계 철학으로, 특히 유휴 상태의 바닥 전력을 낮추는 데 초점을 둔다.

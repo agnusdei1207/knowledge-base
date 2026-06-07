@@ -1,10 +1,11 @@
 ---
 title: "O2O"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 옴니채널은 모든 접점에서 하나의 고객 경험을 제공하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

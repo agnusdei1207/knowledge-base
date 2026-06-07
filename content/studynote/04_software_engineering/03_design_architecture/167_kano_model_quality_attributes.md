@@ -3,8 +3,8 @@ title: "167. Kano Model Quality Attributes"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카노 모델 (Kano Model)은 기능의 구현 정도와 고객 만족도가 항상 비례하지 않는다는 사실을 바탕으로, 요구사항을 당연적·일원적·매력적 품질 등으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 비선형 품질 분석 틀이다.

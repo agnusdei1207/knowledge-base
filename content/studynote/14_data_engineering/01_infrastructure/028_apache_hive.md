@@ -3,9 +3,8 @@ title: "28. Apache Hive"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
+weight: 28
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Hive는 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/)(또는 S3) 위에 SQL 인터페이스(HiveQL)를 제공하는 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 인프라다. SQL [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)/Tez/Spark 잡으로 변환하여 대규모 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)를 SQL로 가능하게 한다.
 > 2. **가치**: SQL 기반 분석가가 Java 없이 페타바이트급 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 수 있게 했다. [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore(HMS)는 테이블 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)·[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 정보를 중앙 집중 관리하여 Spark, Presto, Trino 등 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔진이 공유하는 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준이 됐다.

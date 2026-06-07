@@ -3,8 +3,8 @@ title: "GPT Large Language Model Pre-training"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 642
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GPT 사전학습은 대규모 텍스트에서 다음 토큰 예측 목표를 학습하여 언어 패턴, 지식, 추론 단서를 하나의 decoder-only 트랜스포머에 압축하는 과정이다.

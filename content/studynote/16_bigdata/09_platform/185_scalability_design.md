@@ -3,8 +3,8 @@ title: "185. Scalability Design"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 확장성 설계는 서버를 더 붙이는 기술이 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가, [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 증가, 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 감당하도록 저장·계산·네트워크 병목을 구조적으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 아키텍처 설계다.

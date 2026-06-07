@@ -2,11 +2,9 @@
 title: "108. 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)"
 date: "2026-04-10"
 tags:
-  - "studynote-algorithm"
+  - "studynote-it-management"
 weight: 108
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 서픽스 트리(Suffix Tree)와 서픽스 배열(Suffix Array)은 특정 문자열의 모든 '접미사(Suffix)'를 추출하여 트리나 배열 형태로 정렬해 둔 '문자열 검색용 초고속 인덱스(Index) 사전'이다.
 > 2. **가치**: 기존에 텍스트 전체를 처음부터 끝까지 뒤져야 했던 O(N*M)의 비효율적인 문자열 검색을, 텍스트의 길이(N)와 무관하게 오직 내가 찾고자 하는 패턴의 길이(M)인 O(M) 또는 O(M log N) 만에 찾아내는 기적의 검색 속도를 제공한다.

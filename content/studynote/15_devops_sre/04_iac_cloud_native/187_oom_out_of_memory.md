@@ -3,8 +3,8 @@ title: "187. Oom Out Of Memory"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 고갈 시 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 또는 런타임이 프로세스를 강제 종료하는 자원 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘.

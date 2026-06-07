@@ -3,8 +3,8 @@ title: "033. Enq Ack Nak Eot"
 date: "2026-03-03"
 tags:
   - "studynote-network"
+weight: 33
 ---
-
 > **핵심 인사이트 3줄**
 > 1. ENQ·ACK·[NAK](/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)·EOT는 [BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/)(Binary [Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Communication) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 핵심 제어 문자로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 회선 확보·긍정/부정 응답·전송 종료를 담당한다.
 > 2. 이 제어 문자 체계는 반이중 통신에서 양방향 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환을 위한 기본 핸드셰이킹 메커니즘의 원형이며, 현대 [ARQ](/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 직접적 선조다.

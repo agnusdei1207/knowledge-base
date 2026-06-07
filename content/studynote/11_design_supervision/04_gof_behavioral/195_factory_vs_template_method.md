@@ -3,8 +3,8 @@ title: "Factory Method vs Template Method"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 팩터리 메서드 패턴과 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴은 모두 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)과 서브클래스 위임을 사용하지만, 팩터리 메서드는 '어떤 객체를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할지'를 서브클래스에 위임하고, [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 '[알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 어떤 단계를 어떻게 수행할지'를 서브클래스에 위임하는 것이 핵심 차이다.

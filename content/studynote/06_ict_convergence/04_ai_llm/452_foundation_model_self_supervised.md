@@ -3,8 +3,8 @@ title: "Foundation Model SELF Supervised"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 452
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 자기 지도 ([Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) SELF Supervised): 1. **본질**: [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)([Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))은 특정한 하나의 일(예: 번역)만 하도록 훈련된 과거의 편식하는 AI를 버리고, 인터넷에 있는 세상의 모든 텍스트와 지…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

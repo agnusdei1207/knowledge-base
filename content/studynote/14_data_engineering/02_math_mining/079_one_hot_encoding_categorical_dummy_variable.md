@@ -3,8 +3,8 @@ title: "079. One Hot Encoding Categorical Dummy Variable"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 79
 ---
-
 # 79. 원-핫 인코딩 (One-hot Encoding) - 범주형 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 변수화
 
 > ⚠️ 이 문서는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 오직 '숫자'만 씹어먹고 소화할 수 있는데, 엑셀 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "직업: 학생, 직장인, 백수" 또는 "지역: 서울, 부산, 대전"처럼 더하기 빼기가 불가능한 '글자(문자열)'가 잔뜩 들어있을 때, <strong>이 문자를 단순히 1, 2, 3 같은 숫자로 치환하면 AI가 "3번(대전)이 1번(서울)보다 3배 더 큰 가치를 지녔구나!"라고 멍청한 오해를 하는 대참사를 막기 위해, 컬럼을 가로로 쫙 찢어발겨 오직 <code>0</code>과 <code>1</code>이라는 평등한 희소 벡터(Sparse Vector)로 변환해 주는 마취제 같은 필수 전처리 기법인 '원-핫 인코딩'</strong>을 다룹니다.

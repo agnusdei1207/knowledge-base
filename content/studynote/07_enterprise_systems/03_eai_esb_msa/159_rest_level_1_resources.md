@@ -3,8 +3,8 @@ title: "159. Rest Level 1 Resources"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 159
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 1은 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 설계에서 애플리케이션 프로그래밍 인터페이스 ([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 다루는 대상을 <strong>행위가 아니라 리소스 (Resource) 중심으로 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>하기 시작한 단계</strong>다.

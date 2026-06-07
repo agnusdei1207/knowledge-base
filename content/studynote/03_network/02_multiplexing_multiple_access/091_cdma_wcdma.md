@@ -1,11 +1,11 @@
 ---
 title: "WCDMA"
 date: "2026-03-31"
-description: "CDMA 시스템에서 동기화 방식에 따른 기지국 간 동기화 여부와 WCDMA의 발전 과정 및 기술적 특징 비교 분석"
 tags:
   - "network"
+  - "studynote-network"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동기식 [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 GPS (Global Positioning System)를 통해 기지국 간 시간을 완벽히 일치시키는 반면, 비동기식 [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (WCDMA)는 GPS 없이 각 기지국의 독립적인 타이밍을 허용하며 스크램블링 코드로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.

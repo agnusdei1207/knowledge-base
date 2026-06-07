@@ -3,8 +3,8 @@ title: "073. Central Limit Theorem Clt Sample Mean Normal Distribution"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [중심 극한 정리](/studynote/08_algorithm_stats/08_stats/139_clt/)는 표본 수가 충분히 크면 표본평균의 분포가 정규분포에 가까워진다는 정리다.

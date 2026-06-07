@@ -3,8 +3,8 @@ title: "140. Event Driven Architecture Eda"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EDA는 <strong>이벤트(상태 변화 알림)를 중심으로 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 통신을 설계</strong>하는 아키텍처이며, 이벤트 생산자->이벤트 브로커([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))->이벤트 소비자의 비동기·느슨 결합 구조이다.
 > 2. **가치**: 동기 호출([REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))은 호출자가 <strong>응답까지 블로킹</strong>되고 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 강결합이지만, EDA는 <strong>비동기·느슨 결합</strong>으로 확장성·탄력성이 높다.

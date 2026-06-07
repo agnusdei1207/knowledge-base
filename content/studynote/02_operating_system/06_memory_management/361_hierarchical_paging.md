@@ -3,8 +3,8 @@ title: "361. Hierarchical Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 361
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다단계 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)(Hierarchical [Paging](/studynote/02_operating_system/04_synchronization/259_paging/))은 32비트/64비트 시스템에서 기하급수적으로 거대해지는 단일 1차원 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)의 용량을 줄이기 위해, <strong><a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 자체를 또 다른 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>로 쪼개어 트리(Tree) 구조의 목차를 만드는 아키텍처</strong>다.

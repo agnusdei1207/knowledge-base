@@ -3,8 +3,8 @@ title: "Cloud-init"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 659
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `cloud-init`은 클라우드 환경(AWS, GCP, OpenStack)에서 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 인스턴스가 <strong>최초로 부팅(<a href="/studynote/14_data_engineering/02_math_mining/120_concept/">Bootstrapping</a>)될 때, 사용자의 개입 없이 OS를 자동으로 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>하고 <a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화</strong>해 주는 파이썬 기반의 업계 표준 패키지다.

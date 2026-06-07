@@ -3,8 +3,8 @@ title: "Model-Agnostic Meta-Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 390
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MAML (Model-Agnostic Meta-[Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 "소수의 예시로 빠르게 새 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)에 적응하는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터"를 학습하는 [메타 러닝](/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 이중 루프 최적화로 외부(outer) 루프는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터, 내부(inner) 루프는 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 적응을 담당한다.

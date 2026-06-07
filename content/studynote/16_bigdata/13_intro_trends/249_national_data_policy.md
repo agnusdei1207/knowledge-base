@@ -3,8 +3,8 @@ title: "249. National Data Policy"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
+weight: 249
 ---
-
 > **핵심 인사이트**
 > 1. 「[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업진흥 및 이용촉진에 관한 기본법」([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법, 2022년 시행)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 국가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 자산으로 선언하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산·거래·활용의 기본 원칙과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 생태계 육성 체계를 규정한 한국 최초의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기본법이다.
 > 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법의 핵심은 공정한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이용 보장([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독점 방지) + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기술·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 산업 육성 + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바우처 법적 근거 마련의 3축이며, 기존 [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)(PIPA)과 상호 보완 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.

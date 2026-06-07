@@ -3,8 +3,8 @@ title: "Distributed Transparency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 262
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 투명성 6가지 규칙은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

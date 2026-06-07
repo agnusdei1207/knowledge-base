@@ -3,8 +3,8 @@ title: "Starvation / Indefinite Blocking"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 또는 무기한 봉쇄 (Indefinite [Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))는 시스템 전체는 계속 일하고 있지만, 특정 프로세스나 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 불공정한 선택 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 때문에 실행 기회를 무기한 뒤로 미루는 현상이다.

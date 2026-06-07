@@ -2,9 +2,9 @@
 title: "089. Argocd Gitops Continuous Delivery Kubernetes"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아고씨디 (ArgoCD)는 Git 저장소를 유일한 진실의 원천 ([Single Source of Truth](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))으로 삼아, [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 클러스터의 상태를 Git의 선언적 명세와 100% 동일하게 지속적으로 맞추는 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 배포 컨트롤러다.
 > 2. **가치**: 배포 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 외부 ([Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 등)에서 `kubectl apply`를 강제 실행하는 보안/복잡성 한계를 극복하고, K8s 내부에서 Git을 당겨오는 (Pull) 방식을 통해 인프라의 완벽한 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)와 즉각적인 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) ([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))을 실현한다.

@@ -3,8 +3,8 @@ title: "223. Education Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 교육 빅데이터의 핵심 가치는 <strong>학습자 개개인의 이해도와 위험 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 실시간으로 감지</strong>하여 교사와 학습 시스템이 즉각 반응하게 하는 것이다.

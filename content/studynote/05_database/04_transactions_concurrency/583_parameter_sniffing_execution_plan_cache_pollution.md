@@ -3,8 +3,8 @@ title: "583. Parameter Sniffing Execution Plan Cache Pollution"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 583
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로시저 플랜 캐시 스니핑 (Parameter Sniffing) 캐시 오염 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 악화는 질의 처리·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관점에서 자주 쓰이는 질의 최적화 개념이다.

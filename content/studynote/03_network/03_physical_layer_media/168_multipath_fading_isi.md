@@ -3,8 +3,8 @@ title: "168. Multipath Fading Isi"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 경로 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) ([Multipath](/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))은 하나의 전파가 여러 반사·회절 경로를 거쳐 시간차와 위상차를 가진 채 도착하면서, 수신 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기와 파형이 흔들리는 무선 채널 현상이다.

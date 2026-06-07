@@ -3,8 +3,8 @@ title: "221. Bounded Context Ddd Msa Boundary"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 바운디드 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) (Bounded [Context](/studynote/02_operating_system/01_overview_architecture/033_context/)) - 경계가 명확한 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

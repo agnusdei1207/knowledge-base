@@ -3,8 +3,8 @@ title: "766. Fallout Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 766
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폴아웃 (Fallout)은 스토어 버퍼 (Store Buffer)에 남아 있는 값과 주소 단서를, 스토어-투-로드 포워딩 (Store-to-Load Forwarding) 경로를 악용해 투기적으로 노출시키는 [MDS](/studynote/01_computer_architecture/15_advanced_topics/764_mds/) ([Microarchitectural Data Sampling](/studynote/09_security/04_endpoint_security/380_mds_attack/)) 계열 공격이다.

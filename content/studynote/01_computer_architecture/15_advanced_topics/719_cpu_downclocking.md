@@ -3,8 +3,8 @@ title: "719. Cpu Downclocking"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 719
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU 클럭 다운클럭킹(안전 모드)은 평상시 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위한 [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)가 아니라, 온도나 전력 조건이 한계를 넘을 때 하드웨어가 강제로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 깎아 실리콘을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 비상 제어다.

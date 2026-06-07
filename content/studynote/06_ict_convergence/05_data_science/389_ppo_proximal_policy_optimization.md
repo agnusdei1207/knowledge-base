@@ -3,8 +3,8 @@ title: "Clipping"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 389
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 근위 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 클리핑 폭주 통제 서로게이트 (Clipping): 1. **본질**: [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)(근위 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화)는 챗GPT 등 현대 거대 인공지능이 인간의 피드백을 받아들여 똑똑해질 때([RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 사용하는 강화학습의 최적화 알고리즘으로, AI가 "어떤 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "No Read Up, No Write Down"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 580
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벨-라파둘라 모델은 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([강제적 접근 제어](/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/))에서 적용되는 <strong>"정보 유출(<a href="/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> 침해)을 방지"</strong>하기 위한 두 가지 기본 규칙을 제시한다. <strong>No Read Up (NRU)</strong>과 <strong>No Write Down (NWD)</strong>이 핵심이다.

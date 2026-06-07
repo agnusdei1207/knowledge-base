@@ -3,8 +3,8 @@ title: "EVM Schedule Performance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 285
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 일정성과 감리는 획득가치관리([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/), [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))를 활용한 일정 성과 통제에서 획득가치(Earned Value), 일정 차이(Schedule [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)), 일정성과지수(Schedule [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

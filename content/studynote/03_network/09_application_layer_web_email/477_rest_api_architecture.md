@@ -3,9 +3,8 @@ title: "477. REST API (Representational State Transfer)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 477
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

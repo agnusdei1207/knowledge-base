@@ -2,9 +2,9 @@
 title: "168. Service Discovery"
 date: "2026-04-10"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/studynote/12_it_management/05_security_compliance/946_service_discovery/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름과 살아 있는 인스턴스의 인터넷 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 주소 (IP, Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 및 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 연결해 주는 동적 위치 해석 체계다.

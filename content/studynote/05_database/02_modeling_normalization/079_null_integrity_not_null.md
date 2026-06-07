@@ -3,8 +3,8 @@ title: "079. Null Integrity Not Null"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 `NULL`은 0이나 공백(Space)이 아니라 <strong>"아직 값이 할당되지 않았음(Unknown)" 또는 "해당 사항 없음(Inapplicable)"</strong>을 뜻하는 관계형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 특유의 미지의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 상태다.
 > 2. **가치**: `NOT NULL` 제약조건은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 단계에서 비즈니스 로직상 '절대 비어 있어서는 안 되는 필수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 주민등록번호, 계좌잔액)'가 누락된 채 테이블에 삽입되는 쓰레기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원천 차단하는 가장 1차적인 방패다.

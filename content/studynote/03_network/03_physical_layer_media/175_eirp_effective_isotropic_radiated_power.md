@@ -1,10 +1,11 @@
 ---
 title: "EIRP, Effective Isotropic Radiated Power"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 실제 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 특정 방향으로 방사한 최대 전력을, 이상적인 [등방성 안테나](/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/) (Isotropic Radiator) 기준으로 환산한 값이다.

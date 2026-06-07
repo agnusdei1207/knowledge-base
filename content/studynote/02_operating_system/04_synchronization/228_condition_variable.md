@@ -3,8 +3,8 @@ title: "Condition Variable"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조건 변수 (Condition Variable)는 특정 조건(상태)이 만족될 때까지 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 <strong>뮤텍스(<a href="/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>) 락을 풀고 수면(Sleep) 상태로 대기</strong>시키고, 조건이 만족되면 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 <strong><a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(<a href="/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>/Broadcast)를 보내 깨워주는</strong> 이벤트 통지형 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체다.

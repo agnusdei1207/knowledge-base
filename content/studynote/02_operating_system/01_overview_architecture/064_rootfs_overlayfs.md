@@ -3,8 +3,8 @@ title: "OverlayFS"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Root Filesystem은 시스템이 부팅된 직후 `/` 아래에 붙는 기본 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이고, OverlayFS는 읽기 전용 계층 위에 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 계층을 얹는 union [mount](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 방식이다.

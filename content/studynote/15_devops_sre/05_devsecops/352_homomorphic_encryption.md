@@ -3,8 +3,8 @@ title: "Homomorphic Encryption"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 352
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/)([Homomorphic Encryption](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복호화하지 않은 상태에서도 일부 계산을 수행할 수 있게 해, [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)와 민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하면서 분석을 가능하게 하는 기술이다.

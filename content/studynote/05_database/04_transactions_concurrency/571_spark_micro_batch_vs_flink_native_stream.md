@@ -3,8 +3,8 @@ title: "571. Spark Micro Batch Vs Flink Native Stream"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 571
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.

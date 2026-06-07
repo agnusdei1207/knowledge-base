@@ -3,8 +3,8 @@ title: "Control Hazard / Branch Hazard"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제어 해저드 (Control Hazard)는 분기 명령의 실제 다음 주소가 아직 확정되지 않았는데도 파이프라인이 먼저 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오면서 생기는 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 흐름의 불확실성</strong>이다.

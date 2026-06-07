@@ -3,9 +3,8 @@ title: "715. Caldera (Caldera)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 715
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Caldera는 [위협 헌팅](/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

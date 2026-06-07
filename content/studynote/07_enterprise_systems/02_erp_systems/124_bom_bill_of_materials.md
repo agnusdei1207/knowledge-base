@@ -3,8 +3,8 @@ title: "124. Bom Bill Of Materials"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BOM은 <strong>제품을 구성하는 모든 부품·원자재·반조립품의 계층적 목록</strong>이며, 각 부품의 수량·사양·대체품을 정의하여 설계->조달->제조->[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기준 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 역할을 한다.
 > 2. **가치**: BOM이 부정확하면 부품 발주 오류·제조 라인 정지·완제품 불량이 발생하며, E-BOM(설계 관점)->M-BOM(제조 관점)->S-BOM([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관점) 변환이 제조업 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 핵심이다.

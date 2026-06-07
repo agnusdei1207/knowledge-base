@@ -3,8 +3,8 @@ title: "Pipeline Hazards"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파이프라인 해저드 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Hazards)는 여러 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 겹쳐 흘려보내는 순간, 자원 충돌·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성·분기 불확실성 때문에 이상적인 흐름이 깨지는 병목 현상이다.

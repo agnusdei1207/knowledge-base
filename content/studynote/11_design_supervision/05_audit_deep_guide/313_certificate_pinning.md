@@ -3,8 +3,8 @@ title: "Certificate Pinning"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 313
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인증서 핀닝](/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/)([Certificate Pinning](/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/))는 서버 인증서 지문, 앱 내 신뢰 저장소, 갱신 실패 예외 처리를 한 체계로 묶어 판단하는 보안 감리 주제다.

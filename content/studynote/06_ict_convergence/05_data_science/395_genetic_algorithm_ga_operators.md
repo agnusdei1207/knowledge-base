@@ -3,8 +3,8 @@ title: "GA"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 395
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적합도(Fitness), 룰렛 휠 선택, 교차(Crossover), 변이(Mutation) ([GA](/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/)): 1. **본질**: 유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([GA](/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/), Genetic [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 찰스 다윈의 "적자생존(Survival of the Fittest)" 진화론을 컴퓨터 코드로 옮겨, 무작위로 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

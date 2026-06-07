@@ -3,8 +3,8 @@ title: "693. Zero Trust Architecture Least Privilege"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 693
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [제로 트러스트 아키텍처](/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) [최소 권한 원칙](/studynote/09_security/01_intro_principles/010_least_privilege/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

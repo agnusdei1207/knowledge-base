@@ -2,9 +2,9 @@
 title: "034. Bcg Matrix Portfolio"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. BCG 매트릭스(BCG Growth-Share Matrix)는 시장 성장률과 상대 시장 점유율 두 축으로 사업 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오를 Star·Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/)·Question Mark·Dog 4개 영역으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 투자 배분을 결정한다.
 > 2. BCG 매트릭스의 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 Cash Cow의 현금 흐름으로 Star와 Question Mark에 투자하고, Dog는 철수하는 순환 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리에 있다.

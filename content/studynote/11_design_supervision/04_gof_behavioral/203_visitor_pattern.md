@@ -3,8 +3,8 @@ title: "Visitor Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조(Element)와 그 위에서 수행되는 연산([Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))을 분리하여, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 변경하지 않고도 새로운 연산을 추가할 수 있게 한다.

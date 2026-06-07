@@ -3,8 +3,8 @@ title: "Reservation Access"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 전송 시 발생하는 막대한 충돌 피해를 막기 위해, 메인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 전 '매우 짧은 예약 슬롯(Mini-slot)'을 이용해 미리 채널 사용권을 확보하는 [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식이다.

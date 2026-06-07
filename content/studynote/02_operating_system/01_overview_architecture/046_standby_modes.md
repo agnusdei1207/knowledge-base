@@ -3,8 +3,8 @@ title: "046. Standby Modes"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. 대기 모드(Standby/Sleep Mode)는 OS가 시스템 전력을 절감하면서도 빠른 복귀를 보장하는 전력 관리 상태 — [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/)(Advanced Configuration and [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) 표준이 S0(완전 활성)부터 S5(소프트 파워오프)까지 6단계를 정의한다.
 > 2. CPU P-State와 C-State는 OS 전력 관리의 핵심 — C-State는 CPU 유휴 시 코어별 절전(C0~C10), P-State는 [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/)(Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Frequency Scaling)로 성능-전력 균형을 조절하며 Linux의 cpufreq 드라이버가 이를 제어한다.

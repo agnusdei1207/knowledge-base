@@ -3,8 +3,8 @@ title: "087. Deployment Kubernetes Workload Rolling Update"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: Rolling update는 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) (K8s) Deployment가 새 ReplicaSet을 점진적으로 늘리고 기존 ReplicaSet을 줄여가며 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가동을 유지하는 배포 방식이다.

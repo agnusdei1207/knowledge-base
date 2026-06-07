@@ -3,8 +3,8 @@ title: "SCA, Software Composition Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 80
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성과 전이 의존성의 취약점, 라이선스, [CVE](/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 노출을 추적하는 [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 통제.

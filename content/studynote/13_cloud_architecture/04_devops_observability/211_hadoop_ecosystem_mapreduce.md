@@ -3,8 +3,8 @@ title: "Hadoop Ecosystem"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))은 단일 서버 한계를 넘기 위해 수천 대의 범용 서버에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))하고 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프레임워크로, Apache Software Foundation(ASF)의 핵심 프로젝트다.

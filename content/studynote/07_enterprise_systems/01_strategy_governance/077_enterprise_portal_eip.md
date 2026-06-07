@@ -2,9 +2,9 @@
 title: "077. Enterprise Portal Eip"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 77
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EP (Enterprise Portal) / EIP (Enterprise Information Portal)은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 기업 정보를 한 화면에서 접근하게 하는 단일 창구다.
 > 2. **가치**: [SSO](/studynote/09_security/11_iam_access_control/531_sso/) ([Single Sign-On](/studynote/09_security/11_iam_access_control/531_sso/)), 개인화, 검색, 업무 위젯을 묶으면 사용자는 시스템을 찾아다니지 않아도 된다.

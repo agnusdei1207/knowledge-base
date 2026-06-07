@@ -3,8 +3,8 @@ title: "423. Decision Coverage"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 423
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩 실행은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

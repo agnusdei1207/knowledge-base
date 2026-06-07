@@ -3,8 +3,8 @@ title: "DORA"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
+weight: 352
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표는 변경 관리와 운영 자동화에서 안전한 배포를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 협업 효율을 동시에 끌어올린다.

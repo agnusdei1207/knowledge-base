@@ -3,8 +3,8 @@ title: "ZombieLoad"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 767
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 좀비로드 (ZombieLoad)는 필 버퍼 (Fill Buffer)에 남아 있는 최근 로드 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 예외나 보조 처리로 중단될 로드 명령이 투기적으로 받아 가게 만들어 샘플링하는 [MDS](/studynote/01_computer_architecture/15_advanced_topics/764_mds/) ([Microarchitectural Data Sampling](/studynote/09_security/04_endpoint_security/380_mds_attack/)) 공격이다.

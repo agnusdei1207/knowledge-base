@@ -2,9 +2,9 @@
 title: "Open Addressing"
 date: "2024-05-22"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 개방 주소법은 [해시 충돌](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 발생 시 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 내부의 <strong>다른 빈 버킷(Empty Bucket)</strong>을 찾아 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 충돌 해결 기법이다.
 - 포인터를 사용하는 [체인법](/studynote/08_algorithm_stats/04_datastructure/069_chaining/)과 달리 테이블 내부 공간만을 활용하므로 캐시 효율(Cache Locality)이 높고 오버헤드가 적다.

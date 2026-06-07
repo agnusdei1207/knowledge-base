@@ -3,8 +3,8 @@ title: "120. Data Reverse Engineering"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 120
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 <strong>문서 없는 기존 DB의 물리 <a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(테이블·컬럼·<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>·FK)를 분석하여 ERD·개념 모델·<a href="/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a>을 복원</strong>하는 프로세스다.
 > 2. **가치**: 레거시 시스템은 설계 문서가 분실·미작성된 경우가 많아, [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 없이는 <strong>시스템 <a href="/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/">현행화</a>·마이그레이션·리팩터링이 불가능</strong>하다.

@@ -2,9 +2,9 @@
 title: "Overview Architecture"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 운영체제 (Operating System)는 사용자 및 응용 프로그램과 하드웨어 사이의 중재자로서, 물리적 자원을 추상화하고 효율적으로 관리하여 시스템의 성능과 편의성을 극대화하는 시스템 소프트웨어이다.

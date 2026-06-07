@@ -3,8 +3,8 @@ title: "ISMS P Mock Audit Architecture Consistency"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) 모의심사 아키텍처 정합성 감리는 정보보호 및 [개인정보보호](/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) 관리체계(Information [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) and Privacy [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System, [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/)) 모의심사와 통제 아키텍처 정합성 체계에서 통제 아키텍처(Control [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)), 증적 연계(Evidence Linkage), 개선 로드맵(Remediation Roadmap)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "Hamming Code"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 해밍 코드(Hamming [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 사이사이에 여러 개의 [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 교차 결합하여 심어 넣음으로써, <strong>스스로 에러 위치를 찾아내고 1비트를 고칠 수 있는 자기 정정 코드(FEC)</strong>다.
 > 2. **가치**: 단순 오류 검출([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))에 그쳤던 기존 패리티의 한계를 깨고, 재전송([ARQ](/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)) 요청 없이 송신된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 즉각적인 수정(Correction)을 수행해 실시간 시스템의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)을 없앴다.

@@ -3,8 +3,8 @@ title: "Data Quality Audit"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 정보 시스템 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 의사결정과 업무 수행에 적합한지를 6대 품질 지표(완전성·유효성·[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)·적시성·[보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))로 체계적으로 측정하고 개선하는 활동이다.
 > 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제는 "Garbage In, Garbage Out(GIGO)" 원칙에 따라 분석·[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·의사결정 시스템의 신뢰성을 직접 훼손하므로, [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리는 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리와 동등한 중요성을 갖는다.

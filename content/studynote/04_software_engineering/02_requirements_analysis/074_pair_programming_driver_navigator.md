@@ -1,10 +1,11 @@
 ---
 title: "074. Pair Programming Driver Navigator"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페어 프로그래밍은 두 사람이 한 자리에서 함께 코드를 만드는 개발 방식이다.

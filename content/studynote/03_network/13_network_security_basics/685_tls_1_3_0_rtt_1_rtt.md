@@ -3,8 +3,8 @@ title: "685. Tls 1 3 0 Rtt 1 Rtt"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 685
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

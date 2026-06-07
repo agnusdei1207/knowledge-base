@@ -3,8 +3,8 @@ title: "035. Pmbok 10 Knowledge Areas"
 date: "2026-03-03"
 tags:
   - "studynote-software-engineering"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)로 구조화한 국제 표준 프레임워크다.
 > 2. 각 지식 영역은 착수·계획·실행·감시통제·종료의 5개 [프로세스 그룹](/studynote/02_operating_system/02_process_thread/159_process_group/)과 교차되어 49개 프로세스를 구성한다([PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 6th).

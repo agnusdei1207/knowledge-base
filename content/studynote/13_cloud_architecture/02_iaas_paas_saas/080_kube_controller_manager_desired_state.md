@@ -2,9 +2,9 @@
 title: "ReplicaSet"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 80
 ---
-
 # Kube-Controller Manager - [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 영원한 상태 유지 감시자 (Control Loop)
 
 ## 핵심 인사이트 (3줄 요약)

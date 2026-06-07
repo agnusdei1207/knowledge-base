@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 21
 ---
-
 # 21. 샤논의 [채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) (Shannon Capacity) - 잡음 채널
 
 ## 핵심 인사이트 (3줄 요약)

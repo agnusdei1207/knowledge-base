@@ -3,8 +3,8 @@ title: "Canary Token"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 696
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 토큰 ([Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) Token)는 [위협 헌팅](/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

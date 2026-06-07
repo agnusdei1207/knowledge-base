@@ -3,8 +3,8 @@ title: "AIOps IT Operations Intelligence Anomaly"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 744
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AIOps 이상 탐지는 시계열 메트릭·로그·트레이스의 다차원 관측 데이터에 대해 통계 모델(ARIMA, EWMA), 머신러닝(Isolation Forest, One-Class SVM), 딥러닝(LSTM-Autoencoder, Transformer) 알고리즘을 결합해 정상 패턴(Normal Behavior Profile)을 학습하고, 실시간 스트림에서 벗어나는 관측치(점/맥락/집단 이상)를 자동 식별·진단·근본원인분석(RCA)하는 MLOps 기반 IT 운영 체계이다.

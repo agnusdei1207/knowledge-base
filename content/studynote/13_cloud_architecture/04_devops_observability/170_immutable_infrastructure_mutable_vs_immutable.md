@@ -3,8 +3,8 @@ title: "Immutable Infrastructure"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가변 인프라는 실행 중인 서버를 직접 고치는 운영 방식이고, [불변 인프라](/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 변경을 새 이미지와 새 인스턴스로 표현하는 배포 방식이다.

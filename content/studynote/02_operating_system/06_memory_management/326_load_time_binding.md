@@ -3,8 +3,8 @@ title: "Relocatable Code"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 326
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 '컴파일 시간 하드코딩'의 미련함을 깨닫고, 프로그램이 메모리에 진짜로 띄워질(Load) 때 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(OS)가 메모리 텅 빈 곳을 스캔해서 "이번엔 5000번지부터 써라"고 던져주면, 빌드 시 짜둔 상대 주소표(+Offset)에 5000을 쫙 더해서 안착시키는 이사(Relocate) 기법</strong>이다.

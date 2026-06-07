@@ -1,10 +1,11 @@
 ---
 title: "088. Identifier In Er Model"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Identifier)는 `ER (Entity-Relationship)` 모델에서 특정 개체 (Entity) 인스턴스를 유일하게 구별해내는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 또는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 집합이다.

@@ -2,9 +2,9 @@
 title: "213. Swot Ahp Analytic Hierarchy Process Decision Making"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SWOT-AHP는 SWOT (Strengths, Weaknesses, Opportunities, Threats)의 정성 분석을 AHP (Analytic Hierarchy [Process](/studynote/12_it_management/05_security_compliance/943_process/))의 계층 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 계산으로 수치화해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 우선순위를 도출하는 방식이다.

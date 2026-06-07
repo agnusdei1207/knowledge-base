@@ -3,9 +3,8 @@ title: "515. MBR (Master Boot Record) vs GPT (GUID Partition Table)"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 515
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크를 여러 개의 방([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))으로 쪼갰다면, 이 방들이 "몇 기가의 크기로, 어디부터 어디까지(주소) 선이 그어져 있는지" 를 기록하는 <strong>디스크의 맨 앞단 0번지에 위치한 '<a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 목차(장부)'</strong> 가 바로 MBR과 [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 구조체다.

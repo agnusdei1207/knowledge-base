@@ -3,8 +3,8 @@ title: "157. Time Series Deep Learning Tcn Transformer"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: TCN (Temporal Convolutional Network, 시간 [합성곱 신경망](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 팽창 인과 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Dilated Causal [Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))으로 긴 시계열을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리해 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM의 순차 처리 병목을 제거한다.
 > 2. **가치**: 팽창률(Dilation Rate)을 지수적으로 키워 적은 레이어로 긴 역사(Long History)를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하며, [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) Time-Series 모델과 함께 현대 시계열 예측의 표준이 되었다.

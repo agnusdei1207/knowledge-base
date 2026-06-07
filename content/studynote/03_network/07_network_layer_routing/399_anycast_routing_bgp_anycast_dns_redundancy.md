@@ -3,8 +3,8 @@ title: "399. Anycast Routing Bgp Anycast Dns Redundancy"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 399
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Anycast [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "335. Swapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 335
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스와핑 (Swapping)은 메모리 부족 시 실행 중인 프로세스 전체(또는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위)를 디스크의 백킹 스토어 (Backing Store)로 이동시켜 메모리를 확보하는 OS 메모리 관리 기법이다.

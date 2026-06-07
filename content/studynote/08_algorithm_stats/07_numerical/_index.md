@@ -2,9 +2,9 @@
 title: "Numerical Methods"
 tags:
   - "algorithm_stats"
+  - "studynote-algorithm-stats"
 weight: 7
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수치 해석 (Numerical Analysis)은 해석학적으로 풀기 어려운 복잡한 수학 문제를 컴퓨터의 반복 연산을 통해 근사적인 수치 해로 도출하는 기법이며, 최적화 공학은 이를 활용하여 제약 조건 하의 최적 상태를 찾는 학문이다.

@@ -3,8 +3,8 @@ title: "DeFi Decentralized Finance Smart Contract"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 553
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DeFi 탈중앙화 금융 스마트 계약 프로토콜은(는) 예치, 대출, 교환, 파생상품, 수익 분배 규칙을 스마트 계약에 배치해 중개기관 없이 금융 상태 전이를 수행하는 프로토콜 집합이다.

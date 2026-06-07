@@ -3,8 +3,8 @@ title: "Acknowledgment Number, 32bit"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 409
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)응답번호는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

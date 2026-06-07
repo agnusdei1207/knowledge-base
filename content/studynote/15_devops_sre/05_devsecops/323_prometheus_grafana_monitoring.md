@@ -3,9 +3,8 @@ title: "Prometheus Grafana Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 323
 ---
-
-
 > **핵심 인사이트**
 > - [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) (프로메테우스)는 Pull 방식의 시계열 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집 시스템으로, PromQL로 강력한 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 가능하다.
 > - [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) (그라파나)는 [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·Loki·Tempo를 포함한 다양한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)소스를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 대시보드 도구다.

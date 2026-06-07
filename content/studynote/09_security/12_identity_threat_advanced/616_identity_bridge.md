@@ -3,8 +3,8 @@ title: "616. Identity Bridge"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 616
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Identity [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) (신원 가교)는 신원 위협에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

@@ -3,9 +3,8 @@ title: "443. UCIe (Universal Chiplet Interconnect Express)"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 443
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: UCIe (Universal [Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) Interconnect Express)는 하나의 거대한 칩을 고집하던 설계를 여러 [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/))으로 나누고, 그 조각들을 표준 방식으로 연결해 <strong>패키지 내부에서 하나의 시스템처럼 동작</strong>하게 만드는 다이 간 인터커넥트 표준이다.

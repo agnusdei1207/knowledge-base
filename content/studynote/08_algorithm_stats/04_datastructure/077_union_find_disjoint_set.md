@@ -3,8 +3,8 @@ title: "077. Union Find Disjoint Set"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 77
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Union-Find](/studynote/12_it_management/02_itsm_itil/854_union_find/) (또는 Disjoint Set Union, [DSU](/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/))는 여러 원소들을 서로소 집합(Disjoint Set)으로 관리하며, Union(두 집합 합치기)과 Find(원소의 소속 집합 루트 찾기) 연산을 효율적으로 지원하는 자료구조다.
 > 2. **가치**: Union-Find는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 연결 요소(Connected Components) 판별, [크루스칼](/studynote/08_algorithm_stats/03_graph_search/042_kruskal/)([Kruskal](/studynote/08_algorithm_stats/03_graph_search/042_kruskal/)) [MST](/studynote/08_algorithm_stats/03_graph_search/041_mst/) (Minimum Spanning Tree, [최소 신장 트리](/studynote/08_algorithm_stats/03_graph_search/041_mst/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 사이클 검출에 핵심 역할을 한다. 경로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)(Path [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/))과 랭크 기반 합집합(Union by Rank)을 적용하면 거의 상수 시간(아커만 함수의 역함수, α(n)≈4)에 각 연산을 처리한다.

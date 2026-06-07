@@ -3,8 +3,8 @@ title: "Cell-based Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 226
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 완전한 자급 셀 단위로 분리해 장애 반경을 제한하는 방식.

@@ -3,8 +3,8 @@ title: "Trim Command"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 481
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TRIM (Trim) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에서 삭제된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [논리적 블록 주소](/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/) (LBA, Logical Block Address)를 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 컨트롤러에 명시적으로 알려주는 ATA (Advanced Technology Attachment) 기반 표준 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다.

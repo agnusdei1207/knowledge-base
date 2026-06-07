@@ -3,8 +3,8 @@ title: "J2EE Framework Patterns"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: J2EE (Java 2 Platform, Enterprise Edition) 프레임워크 패턴은 웹 계층, 비즈니스 계층, 통합 계층 사이에서 반복되는 엔터프라이즈 문제를 표준화한 계층형 설계 패턴 묶음이다.

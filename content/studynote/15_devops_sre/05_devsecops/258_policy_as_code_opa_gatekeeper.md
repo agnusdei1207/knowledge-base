@@ -3,8 +3,8 @@ title: "Policy as Code / OPA Gatekeeper"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 258
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안과 거버넌스 규칙을 코드로 관리해 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 런타임에서 일관되게 집행하는 방식.

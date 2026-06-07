@@ -2,9 +2,9 @@
 title: "171. Fallback Resilience Pattern"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폴백 ([Fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))은 원격 호출 실패나 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) ([Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 개방 시, 오류를 그대로 전파하지 않고 안전한 대체 응답으로 전환하는 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성 (Resilience) 응답 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

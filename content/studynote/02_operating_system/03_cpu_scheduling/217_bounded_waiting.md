@@ -3,8 +3,8 @@ title: "Bounded Waiting"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 한정된 대기 (Bounded Waiting)는 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 3대 필수 조건 중 마지막으로, 프로세스가 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 진입하겠다고 요청한 시점부터 허락될 때까지 <strong>다른 프로세스들이 새치기해서 먼저 들어가는 '횟수'에 수학적인 한계(Bound)가 있어야 한다</strong>는 원칙이다.

@@ -3,8 +3,8 @@ title: "PagedAttention / vLLM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 292
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페이즈드 어텐션 (PagedAttention / vLLM): OS의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 기법을 차용하여 VRAM 내 KV 캐시 파편화를 방지하고 연속 할당하여 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 활용률을 극대화하는 서빙 아키텍처 최적화 기법를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

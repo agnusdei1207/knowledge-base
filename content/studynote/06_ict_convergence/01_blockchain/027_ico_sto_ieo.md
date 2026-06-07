@@ -3,8 +3,8 @@ title: "027. Ico Sto Ieo"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ICO (Initial Coin Offering), STO ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering), IEO (Initial Exchange Offering)는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 디지털 자산을 발행하여 프로젝트 자금을 조달하는 세 가지 방식으로, 규제 강도와 투자자 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준에서 큰 차이가 있다.
 > 2. **가치**: ICO -> STO -> IEO로의 진화는 "[블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 자금 조달의 제도화" 방향을 보여준다. ICO는 규제 없이 빠른 자금 조달이 가능하지만 사기(Scam) 위험이 높고, STO는 증권법 적용으로 투자자 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)가 강화되며, IEO는 거래소가 중개자 역할을 하여 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높인다.

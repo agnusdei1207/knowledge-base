@@ -3,8 +3,8 @@ title: "Zero Knowledge Rollup zk-Rollup Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 579
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ZK Rollup 영지식 롤업 프로토콜은(는) 다수 거래를 L2에서 실행하고 유효성 증명만 L1에 제출해 확장성과 보안을 동시에 확보하는 롤업 방식이다.

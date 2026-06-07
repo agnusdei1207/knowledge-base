@@ -2,9 +2,9 @@
 title: "185. Log Aggregation Fluentd Elasticsearch"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로그 수집](/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 통합은 여러 서버와 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 흩어진 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 중앙 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 모아 검색 가능한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 바꾸는 구조이며, [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서는 사실상 기본 운영 인프라다.

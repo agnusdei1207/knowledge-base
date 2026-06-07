@@ -3,8 +3,8 @@ title: "EA Model Synchronization Rate Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 303
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 모델 [현행화](/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 동기화율 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 전사아키텍처([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/), [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) 모델의 [현행화](/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 동기화율 관리 체계에서 갱신 주기(Update Cadence), 모델 저장소(Model Repository), 포트폴리오 연계(Portfolio Alignment)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -1,10 +1,11 @@
 ---
 title: "1058. Streaming Telemetry Network Monitoring"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 1058
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스트리밍 텔레메트리는 장비가 상태를 능동적으로 보내는 Push 기반 실시간 관측 방식이다.

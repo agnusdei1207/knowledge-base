@@ -1,11 +1,11 @@
 ---
 title: "016. Kick Off Meeting"
 date: "2026-03-04"
-description: "정보시스템 감리에서 착수 회의의 정의, 이해관계자 간 조율 체계 및 실무적 중요성을 심층 분석합니다."
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 16
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 착수 회의(Kick-off Meeting)는 [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 시작 시점에 발주자, 피감리인, 감리법인 3자가 모여 감리의 범위, 일정, 상호 협조 사항을 합의하는 공식적 시작점입니다.
 > 2. **가치**: 감리 중 발생할 수 있는 이견을 사전 차단하고, 피감리인의 수검 부담을 경감시키며, 프로젝트 성공이라는 공통 목표를 향한 파트너십을 구축하는 데 기여합니다.

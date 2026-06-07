@@ -3,8 +3,8 @@ title: "Instruction Format"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Format)은 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))가 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 어떤 칸으로 나눌지 정한 문법이며, CPU (Central Processing Unit)와 컴파일러가 같은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 같은 뜻으로 읽게 만드는 공용 약속이다.

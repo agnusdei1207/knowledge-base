@@ -2,9 +2,9 @@
 title: "IT Service Catalog"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) (IT [Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/))는 사용자가 요청할 수 있는 <strong>현재 제공 가능한 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>만</strong> 비즈니스 언어로 정리한 공식 메뉴판이다.

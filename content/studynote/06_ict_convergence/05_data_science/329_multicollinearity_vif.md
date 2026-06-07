@@ -3,8 +3,8 @@ title: "Multicollinearity"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 329
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다중 공선성](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) ([Multicollinearity](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)): 독립변수들 간 높은 상관관계로 회귀 계수 왜곡 (VIF 지수 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이상 시 변수 제거)를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "1's Complement"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1의 보수 (1's Complement)는 양수의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 모두 뒤집어 음수를 표현하는 방식이다.

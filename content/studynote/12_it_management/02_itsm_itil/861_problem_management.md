@@ -3,8 +3,8 @@ title: "Problem Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 861
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 문제 관리 (Problem [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 본질은 다수의 인시던트를 유발하는 '근본 원인(Root Cause)'을 찾아내어 '알려진 오류(Known Error)'로 등록하고 영구적 해결책 제시를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

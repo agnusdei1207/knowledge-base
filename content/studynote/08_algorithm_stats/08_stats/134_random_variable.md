@@ -2,9 +2,9 @@
 title: "134. Random Variable"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 134
 ---
-
 ## 핵심 인사이트
 
 > [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 (Random Variable) 는 "실험의 결과를 숫자로 번역하는 함수"다 — 동전 앞뒷면이라는 질적 결과를 0/1 이라는 수치로 바꿔야 수학을 적용할 수 있다.

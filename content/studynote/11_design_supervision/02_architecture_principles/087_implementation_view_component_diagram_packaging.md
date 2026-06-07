@@ -2,9 +2,9 @@
 title: "087. Implementation View Component Diagram Packaging"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: 구현 뷰 (Implementation [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 소프트웨어를 어떤 패키지·[모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)·[컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 나눠 빌드하고 관리할지를 보여주는 구조다.

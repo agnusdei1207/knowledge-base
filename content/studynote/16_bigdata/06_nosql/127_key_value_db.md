@@ -3,8 +3,8 @@ title: "127. Key Value Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 키-값 DB는 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 구조를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경으로 확장한 가장 단순하면서 가장 빠른 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 모델로, O(1) 조회 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 본질적 강점이다.
 - **가치**: [세션 관리](/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/)·[캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)·장바구니처럼 단순 키로 즉시 조회해야 하는 워크로드에서 RDBMS 대비 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 빠른 응답속도를 제공한다.

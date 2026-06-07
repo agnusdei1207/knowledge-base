@@ -3,8 +3,8 @@ title: "061. Asynchronous Counter"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Asynchronous [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))는 앞 단계 Flip-Flop의 출력이 다음 단계의 클럭이 되는 ripple 구조의 순차 논리회로다.

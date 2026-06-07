@@ -3,8 +3,8 @@ title: "Deny Hold And Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 294
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 예방](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) 중 '[점유 대기](/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 부정 (Deny [Hold-and-Wait](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/))' 모델은, 프로세스가 특정 자원을 보유한(Hold) 채 다른 여분의 퍼즐 조각 자원(Wait)을 가져오려 욕심부리는 걸 시스템 강제로 끊어내어 "한 번에 다 쥐게 하거나, 모두 포기시켜 빈손으로 다시 줍게 만드는(All-Or-Nothing)" 할당 철학이다.

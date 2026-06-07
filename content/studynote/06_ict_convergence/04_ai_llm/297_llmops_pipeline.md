@@ -3,9 +3,8 @@ title: "297. LLMOps (Llmops Pipeline)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 297
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLMOps](/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) ([Llmops](/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/)): 기존 MLOps에 더해 대규모 모델 튜닝([PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)), 프롬프트 관리, [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 파이프라인 지속 개선, [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 모니터링 기능이 추가된 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 특화 운영 파이프라인를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

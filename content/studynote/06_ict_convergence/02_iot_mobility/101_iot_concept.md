@@ -3,8 +3,8 @@ title: "101. Iot Concept"
 date: "2024-03-21"
 tags:
   - "studynote-ict-convergence"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 사물인터넷 (IoT, Internet of Things)은 주변의 모든 사물에 센서와 통신 모듈을 내장하여, 물리적 세계의 정보를 디지털화하고 인터넷에 연결하는 초연결 네트워크 기술이다.
 2. **가치**: 인간의 명시적 개입 없이 사물들끼리 스스로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집, 분석, 통신하여 최적의 물리적 동작을 수행하는 'Sense-Think-Act' 자동화 루프를 완성한다.

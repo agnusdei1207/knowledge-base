@@ -3,8 +3,8 @@ title: "EA Portal Refresh Rate and Currency Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 663
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 포털 갱신율과 현행성 감리는 전사아키텍처 포털([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/) Portal)의 갱신율과 현행성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계에서 운영 거버넌스(Operational Governance), [데이터 스튜어드십](/studynote/12_it_management/05_security_compliance/273_data_stewardship/)([Data Stewardship](/studynote/12_it_management/05_security_compliance/273_data_stewardship/)), 활용도(Practical Usage)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

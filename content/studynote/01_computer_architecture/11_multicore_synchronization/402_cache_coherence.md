@@ -3,8 +3,8 @@ title: "Cache Coherence"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 402
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Cache Coherence)은 멀티코어 CPU (Central Processing Unit)에서 같은 메모리 주소의 복사본이 여러 캐시에 존재할 때, 어떤 복사본이 최신인지 하드웨어가 한 목소리로 맞추는 규칙이다.

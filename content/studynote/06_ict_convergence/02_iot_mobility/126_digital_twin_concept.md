@@ -3,8 +3,8 @@ title: "126. Digital Twin Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 디지털 트윈은 <strong>물리적 자산·프로세스·시스템의 가상 복제본</strong>을 만들어, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 반영하면서 <strong>시뮬레이션·예측·최적화</strong>를 수행하는 기술이다.
 > 2. **가치**: 실제 공장·건물·도시를 변경하기 전에 가상으로 시뮬레이션하여 <strong>위험 없이 최적 방안을 탐색</strong>할 수 있으며, 예측 정비(고장 전 감지)로 다운타임을 50%+ 감소시킨다.

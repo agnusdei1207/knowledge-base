@@ -3,8 +3,8 @@ title: "051. Data Catalog Metadata Discovery"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 51
 ---
-
 # 51. [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))
 
 > ⚠️ 이 문서는 기업 내 수천 개의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 흩어진 테이블들이 어떤 의미를 담고 있고, 누가 만들었으며, 언제 마지막으로 업데이트되었는지에 대한 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/))'를 긁어모아, <strong>분석가와 현업 직원이 구글 검색하듯 사내 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쉽게 찾아 쓸 수 있게 해주는 '<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 도서관의 색인(<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>) 시스템'</strong>을 다룹니다.

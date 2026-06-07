@@ -3,8 +3,8 @@ title: "Hash Sharding vs Directory Sharding"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 DB 노드에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장해 단일 노드 한계를 넘는 수평 확장([Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 실현하는 핵심 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB 기법이다.

@@ -3,8 +3,8 @@ title: "558. Proc Sysfs Virtual Filesystem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 558
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속에서 돌아가는 CPU 온도, RAM 여유량, 프로세스 1번의 상태 등은 100% 바이너리 C 구조체([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리)다. 일반 유저가 이 숫자를 보려면 원래 특수 시스템 콜(`ioctl`) 깡통을 두드려야 하지만, 리눅스는 <strong>"모든 것은 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이다(Everything is a <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">file</a>)"</strong> 철학을 극대화하여 <strong>이 엄청난 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 변수들을 단순히 <code>cat /proc/cpuinfo</code> 로 읽을 수 있는 가상의 텍스트 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(가짜 폴더 렌더)</strong> 로 둔갑(Illusion 스왑) 시켰다.

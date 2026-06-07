@@ -3,8 +3,8 @@ title: "Curse OF Dimensionality PCA"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 425
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 차원의 저주 [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 해결 ([Curse OF Dimensionality](/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/) [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)): 1. **본질**: 차원의 저주([Curse of Dimensionality](/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))는 머신러닝에서 예측 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려고 변수(차원)를 수십, 수백 개로 계속 늘리다 보면, 어느 순간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

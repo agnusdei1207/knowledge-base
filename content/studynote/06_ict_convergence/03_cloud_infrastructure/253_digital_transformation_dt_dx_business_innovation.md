@@ -3,8 +3,8 @@ title: "DT/DX, Digital Transformation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 253
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) (DT/[DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/), [Digital Transformation](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)): 기업 생태계 전반을 디지털 인프라 기반으로 혁신를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

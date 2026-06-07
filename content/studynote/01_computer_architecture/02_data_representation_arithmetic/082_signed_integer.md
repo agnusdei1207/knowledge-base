@@ -3,8 +3,8 @@ title: "Signed Integer"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부호 있는 정수(Signed Integer)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최상위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 희생하여 양수(+)와 음수(-)를 동시에 표현하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 체계다.
 > 2. **가치**: 2의 보수(2's Complement) 표현 방식을 융합함으로써 컴퓨터가 [감산기](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)([Subtractor](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)) 없이 덧셈기(Adder) 하나만으로 모든 사칙연산을 완벽히 처리하게 만든 기적의 설계다.

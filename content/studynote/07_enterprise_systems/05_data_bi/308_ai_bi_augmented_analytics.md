@@ -3,8 +3,8 @@ title: "Augmented Analytics"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Augmented Analytics (증강 분석)는 ML/AI가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비·인사이트 발견·결과 해석을 자동화하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문가 없이도 분석이 가능하게 하는 패러다임이다.

@@ -3,8 +3,8 @@ title: "Bus Master"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 350
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터 ([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Master)는 시스템 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 주소와 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 먼저 내보내며 전송을 시작할 수 있는 주도 장치다.

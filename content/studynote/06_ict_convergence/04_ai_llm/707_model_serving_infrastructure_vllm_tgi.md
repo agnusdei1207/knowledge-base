@@ -3,8 +3,8 @@ title: "Model Serving Infrastructure vLLM TGI"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 707
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: vLLM은 PagedAttention을 통해 KV Cache를 OS 페이징처럼 비연속적 블록(Block)으로 관리하여 메모리 파편화를 제거하고, TGI(HuggingFace)는 Rust 기반의 async runtime(Tokio) 위에 tensor parallelism과 Flash Attention을 결합해 안정적인 처리량을 보장하는 LLM 추론 전용 서빙 프레임워크다.

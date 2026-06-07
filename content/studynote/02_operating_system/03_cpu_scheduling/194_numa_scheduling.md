@@ -3,8 +3,8 @@ title: "194. Numa Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) (불균일 메모리 접근) 아키텍처는 다수의 코어가 하나의 거대한 메모리를 공유하는 SMP의 병목을 부수기 위해, <strong>물리적인 CPU 칩(<a href="/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>)마다 전용 로컬 메모리(Local Memory)를 묶어 '노드(Node)'로 분리</strong>한 최신 엔터프라이즈 하드웨어 구조다.

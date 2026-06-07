@@ -3,8 +3,8 @@ title: "155. Microwave Characteristics"
 date: "2026-05-03"
 tags:
   - "studynote-network"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마이크로파](/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)([Microwave](/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/))는 1GHz부터 300GHz 대역의 극초고주파 전파 텐트로, 파장 길이가 수 mm ~ 30cm에 불과해 이름에 '마이크로(Micro 작다)'가 붙은 <strong>'빛(Light)과 똑같이 벽을 못 뚫고 오직 거울반사 100% 직진만 쓩 🚀 쏘아 갈기는 물리 계층(L1)의 스나이퍼 레이저 빔 쇳덩이'</strong>다.
 > 2. **가치**: 파장이 뱀처럼 휘어지지 않아 산맥 장애물 만나면 회절 우회 기만(Diffraction) 1바이트도 못 치고 다 튕겨 박살 뻗음 타죽는 유리 멘탈(음영 사각 파국 💥)을 가졌으나!! -> 역으로 주파수가 미친 듯이 우주 폭발 높아서 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">100Gbps 4K 홀로그램 트래픽 [데이터</a> 짐짝 1만 톤을 한 방에 싣고 광속 텔레포트 패스 수송 치는 초광대역폭(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> 꿀빨기 ✨)의 압살 스케일 펌핑 통치력]</strong>을 유일하게 지녔다.

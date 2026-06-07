@@ -3,8 +3,8 @@ title: "114. Graph Analytics"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분석 ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) Analytics)은 노드 (Node)와 엣지 (Edge)로 구성된 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 PageRank·커뮤니티 탐지·최단 경로·삼각형 수 (Triangle Count) 등의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 적용하여 구조적 패턴과 영향력을 분석하는 기법이다.
 > 2. **가치**: [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)), 소셜 네트워크, [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 사기 탐지 네트워크, [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 등 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 본질인 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 일반 테이블 기반 분석이 놓치는 구조적 인사이트를 제공한다.

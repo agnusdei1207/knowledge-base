@@ -3,8 +3,8 @@ title: "Retrieval-Augmented Generation /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RAG ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/) / [검색 증강 생성](/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)): [할루시네이션](/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 극복 아키텍처. 사용자 질문 수신 시 ①외부 사내 DB/문서에서 관련 문단 검색(Retrieve) -> ②검색된 문단을 프롬프트에 주입(Augment) -> ③LLM이 참조하…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

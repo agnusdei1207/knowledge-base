@@ -3,8 +3,8 @@ title: "541. Log Structured File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 541
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 539장 저널링 시스템의 "[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(일기장) 따로 쓰고 $\to$ 나중에 진짜 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본진 위치 찾아가서 덮어쓰기 구이(노가다 이중 굽기 랜덤 I/O 랙!)" 하는 멍청한 비효율을 거세 멸망시킨 우주적 혁신이다. <strong>"아예 폴더와 본진 구조를 없애! 그냥 들어오는 모든 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(수정본, <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>, 메타껍데기)를 순서대로 디스크 끝까지 무한 연판장 일기장(Log) 꼬리표로 이어 붙여 달리기만 해버려 결착 빔!!"</strong> 라는 사상을 탑재했다.

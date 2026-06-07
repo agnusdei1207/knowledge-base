@@ -2,9 +2,9 @@
 title: "233. Stakeholder Matrix"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 매트릭스는 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 매트릭스, [Stakeholder](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/), 영향력-관심도 행렬 맵의 경계를 분명히 만드는 데 의미가 있다.

@@ -3,8 +3,8 @@ title: "Issue Width"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 237
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 발급 폭 (Issue Width)은 한 클럭 사이클에 스케줄러가 실행 가능한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 몇 개까지 실행 유닛으로 동시에 내보낼 수 있는지를 정하는 백엔드의 실질적 차선 수다.

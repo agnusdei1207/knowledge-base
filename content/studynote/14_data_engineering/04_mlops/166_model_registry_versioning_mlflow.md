@@ -3,8 +3,8 @@ title: "166. Model Registry Versioning Mlflow"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모델 [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Model [Registry](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))는 ML 모델의 전체 생명주기(실험 -> 스테이징 -> 프로덕션 -> 아카이브)를 중앙에서 관리하는 시스템으로, 모델 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·[메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)·[아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 단일 저장소에 통합한다.
 > 2. **가치**: 모델 계보(Lineage) 추적으로 "어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로, 어떤 코드로, 어떤 파라미터로" 학습된 모델인지를 완전 재현 가능하게 보존하여 규제 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 버그 디버깅을 지원한다.

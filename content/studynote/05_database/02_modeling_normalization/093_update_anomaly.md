@@ -1,10 +1,11 @@
 ---
 title: "093. Update Anomaly"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 갱신 이상 (Update [Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))은 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)되지 않은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서 중복 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 일부만 변경되어, 논리적 모순이 발생하는 현상이다.

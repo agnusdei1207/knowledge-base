@@ -3,8 +3,8 @@ title: "AI Inference Optimization TensorRT ONNX"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 659
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ONNX(Open Neural Network Exchange)는 프레임워크 비종속 모델 교환을 위한 **프로토콜 버퍼 기반 중간 표현(Intermediate Representation, IR)** 표준이며, TensorRT는 NVIDIA GPU의 CUDA/SM(Streaming Multiprocessor)·Tensor Core 자원에 **Layer Fusion·Kernel Auto-Tuning·FP16/INT8 Quantization**을 자동 적용하는 **추론 전용 런타임 컴파일러**입니다. 두 기술은 `PyTorch/TensorFlow/JAX -> ONNX Export -> TensorRT Engine(plan)` 파이프라인으로 결합되어, 학습-배포 간 의미적·구조적 격차를 해소합니다.

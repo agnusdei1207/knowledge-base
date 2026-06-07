@@ -1,10 +1,11 @@
 ---
 title: "061. Agile Manifesto"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언문([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Manifesto)은 문서와 절차 중심 개발의 한계를 넘기 위해 작성된 소프트웨어 개발 선언이다.

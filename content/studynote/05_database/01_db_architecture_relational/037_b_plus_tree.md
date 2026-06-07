@@ -3,8 +3,8 @@ title: "037. B Plus Tree"
 date: "2026-03-03"
 tags:
   - "studynote-database"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. B+트리는 B트리의 변형으로, 모든 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(레코드 포인터)를 리프 노드에만 저장하고, 내부 노드는 순수하게 탐색 키만 보유하는 구조다 — 이 분리 덕분에 내부 노드 팬아웃(Fan-out)이 극대화된다.
 > 2. 리프 노드들이 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 연결되어 있어 범위 탐색(BETWEEN, ORDER BY, LIKE 'prefix%')이 O(log n + k)로 매우 효율적이며, 이것이 B트리 대신 B+트리가 RDBMS [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 표준이 된 이유다.

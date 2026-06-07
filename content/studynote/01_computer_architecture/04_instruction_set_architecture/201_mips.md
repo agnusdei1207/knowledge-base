@@ -3,9 +3,8 @@ title: "201. MIPS"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 201
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MIPS ([Microprocessor](/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) without Interlocked [Pipeline Stages](/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/))는 하드웨어를 단순하게 만들기 위해 [명령어 형식](/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/), 파이프라인, 제어 방식을 매우 규칙적으로 정리한 대표적인 [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))다.

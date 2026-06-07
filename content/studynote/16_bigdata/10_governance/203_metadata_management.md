@@ -3,8 +3,8 @@ title: "203. Metadata Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/))는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 관한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"로, 비즈니스 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)(의미), 기술 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)(구조), 운영 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)(이력)의 3계층으로 구성되며 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색성·계보·거버넌스의 기반이다.

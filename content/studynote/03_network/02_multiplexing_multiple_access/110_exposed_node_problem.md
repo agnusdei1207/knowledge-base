@@ -3,8 +3,8 @@ title: "Exposed Node Problem"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 노출 노드 문제는 물리적으로 충분히 통신할 수 있는 상황임에도 불구하고, 주변 다른 단말의 통신 전파를 엿듣고(Carrier Sense) 불필요하게 송신을 포기하는 무선망의 '과잉 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)' 현상이다.

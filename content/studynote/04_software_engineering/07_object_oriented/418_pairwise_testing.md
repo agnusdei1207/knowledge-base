@@ -3,8 +3,8 @@ title: "418. Pairwise Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 418
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅 ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) Testing) - 변수 값들의 모든 쌍(Pair) 조합이 최소 한 번 테스트되도록 최적화 (조합 폭발 방지)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

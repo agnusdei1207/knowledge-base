@@ -3,8 +3,8 @@ title: "Pirate Metrics"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 43
 ---
-
 > **핵심 인사이트**
 > 1. AARRR([Acquisition](/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) -> Activation -> [Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) -> Referral -> Revenue)은 Dave McClure가 2007년 제안한 스타트업 성장 지표 프레임워크로 — 각 단계별 전환율을 측정하고 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/)) 단계를 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)해 집중 개선하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 성장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이다.
 > 2. AARRR의 핵심 통찰은 "가장 약한 단계가 전체 성장을 제한한다"는 병목 이론으로 — Activation 단계에서 30%를 잃으면 이후 아무리 Retention을 개선해도 시작 사용자가 적어 효과가 제한되므로 단계 순서대로 개선 우선순위를 정해야 한다.

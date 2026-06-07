@@ -3,8 +3,8 @@ title: "Micro Frontends"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 248
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로 프론트엔드](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) 아키텍처 ([Micro Frontends](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)): UI 프론트엔드 파트도 독립적 배포 가능한 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 뷰로 분할 개발를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,9 +3,8 @@ title: "548. OpenID Connect"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 548
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OpenID Connect는 이름 해석과 네트워크 관리에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

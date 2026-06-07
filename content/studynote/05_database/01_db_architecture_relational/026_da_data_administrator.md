@@ -3,8 +3,8 @@ title: "026. Da Data Administrator"
 date: "2026-04-29"
 tags:
   - "studynote-database"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Administrator, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리자)는 조직 전체의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Asset)을 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 관리하는 역할로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준 정의, [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 설계·검토, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/)) 관리를 담당한다. DBA가 특정 DB 시스템의 운영·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 책임진다면, DA는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 의미·품질·거버넌스를 책임진다.
 > 2. **가치**: 대규모 금융·공공 기관에서 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부서마다 다른 이름(고객ID vs 회원번호), 다른 형식(날짜: YYYYMMDD vs YYYY-MM-[DD](/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/))으로 관리되면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합(EDW, [MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/))이 불가능해진다. DA는 전사 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준을 수립하여 이 문제를 해결한다.

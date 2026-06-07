@@ -3,9 +3,8 @@ title: "244. LSN (Log Sequence Number)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 244
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LSN (Log Sequence Number)은 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 레코드 고유 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호에 초점을 맞춘 개념이다.

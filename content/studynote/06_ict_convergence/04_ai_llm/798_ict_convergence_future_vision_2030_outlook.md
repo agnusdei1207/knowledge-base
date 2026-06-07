@@ -3,8 +3,8 @@ title: "ICT Convergence Future Vision 2030 Outlook"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 798
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합 2030은 AI-Native 네트워크(AI-RAN), 엣지-클라우드 연속체(Edge-Cloud Continuum), 6G 테라헤르츠(THz) 통신, 디지털 트윈(Digital Twin), 양자-내성 암호(PQC, Post-Quantum Cryptography) 및 Web3 기반 신뢰 인프라가 도시·산업·보건·에너지 5대 수직(Vertical) 도메인과 결합되어 **초연결·자율·지속가능** 시너지를 구현하는 패러다임임.

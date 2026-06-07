@@ -3,8 +3,8 @@ title: "030. Software Reuse Cbd"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어 재사용(Software Reuse)은 이미 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 소프트웨어 자산을 새 시스템 개발에 활용하는 전략이다. CBD(Component-Based Development)는 독립적으로 배포 가능한 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 단위로 소프트웨어를 개발·조립하는 방법론이다.
 > 2. **가치**: 재사용은 생산성 향상·품질 개선·비용 절감의 세 가지 이점을 동시에 제공한다. CBD는 인터페이스 기반 조립(Black-box Reuse)으로 최고 수준의 재사용성을 실현한다.

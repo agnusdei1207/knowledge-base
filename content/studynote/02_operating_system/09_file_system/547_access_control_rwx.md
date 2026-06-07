@@ -3,8 +3,8 @@ title: "r=4, w=2, x=1"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 547
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(텍스트 등)에 누구나 접근하면 해킹으로 서버가 파괴되므로, <strong>"<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 1개마다 그 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 지배하는 '주인(User)', 주인의 친구들(Group), 그리고 생판 남(Other)' 이라는 3계급으로 철저히 신분을 쪼개고, 그들에게 각각 읽기(r), <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(w), 실행(x)의 권한 블록을 차등 결합 렌더"</strong> 시키는 가장 고전적이고 원초적인 UNIX 통제 인프라다.

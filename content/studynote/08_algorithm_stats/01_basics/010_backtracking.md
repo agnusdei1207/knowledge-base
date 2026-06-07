@@ -1,10 +1,11 @@
 ---
 title: "010. Backtracking"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 10
 ---
-
 # [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 백트래킹 (Backtracking)
 
 ## 핵심 인사이트 (3줄 요약)

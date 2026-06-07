@@ -1,10 +1,11 @@
 ---
 title: "097. Wms Warehouse Management System"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: WMS (Warehouse [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)는 물류 센터 내에서 자재의 입고, 보관(Location), 피킹, 출고에 이르는 모든 물리적 흐름과 작업자의 동선을 실시간으로 최적화하고 통제하는 두뇌 시스템이다.

@@ -3,8 +3,8 @@ title: "123. Soa Vs Msa Comparison"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([Service Oriented Architecture](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))는 <strong><a href="/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">Enterprise Service Bus</a>) 중심의 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 통합</strong>이고, MSA는 <strong><a href="/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a> 없이 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 직접 경량 통신(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>/<a href="/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>/이벤트)</strong>하는 경량 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처이다.
 > 2. **가치**: SOA의 ESB는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환·라우팅을 중앙에서 처리하지만, <strong>ESB가 <a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>(<a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>)·병목</strong>이 되며, MSA는 ESB를 제거하고 <strong>스마트 엔드포인트·덤 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a></strong> 원칙으로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자율성을 극대화했다.

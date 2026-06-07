@@ -3,8 +3,8 @@ title: "147. Crystals Dilithium Ml Dsa"
 date: "2026-04-19"
 tags:
   - "studynote-security"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CRYSTALS-Dilithium(크리스탈스-딜리시움)은 격자(Lattice) 수학 문제의 어려움에 기반한 양자 내성(Post-[Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/), [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 디지털 서명 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, NIST(National Institute of Standards and Technology)가 2024년 ML-DSA([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Lattice-Based [Digital Signature](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), FIPS 204)로 표준화했다.
 > 2. **가치**: [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)([Quantum Computer](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))가 [RSA](/studynote/09_security/03_network_security/110_rsa/)·[ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 기반 기존 디지털 서명을 수초 내에 파괴할 수 있는 시대를 대비해, <strong>양자 공격에 안전한 디지털 서명 표준</strong>으로 인터넷·[PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)([Public Key Infrastructure](/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) 인프라를 미래 보호한다.

@@ -3,8 +3,8 @@ title: "Convergence Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 377
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [퍼셉트론 수렴 정리](/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) 선형 매핑 분리망 (Convergence Theorem): 1. **본질**: [퍼셉트론 수렴 정리](/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/)는 "만약 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 직선 하나로 완벽하게 두 그룹으로 쪼개질 수 있는 상태(선형 분리 가능, Linearly Separable)라면, [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 알고리…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

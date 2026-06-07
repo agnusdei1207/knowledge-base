@@ -3,8 +3,8 @@ title: "Media Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 미디어 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 디스크 손상 시 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(덤프) 아카이브와 로그를 이용해 롤포워드(Roll-forward) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 초점을 맞춘 개념이다.

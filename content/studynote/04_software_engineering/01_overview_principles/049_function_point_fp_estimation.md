@@ -3,8 +3,8 @@ title: "049. Function Point Fp Estimation"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/), [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/))는 소프트웨어의 기능적 규모를 사용자 관점에서 측정하는 표준 방법론 — 코드 라인(LOC)이나 기술적 복잡도가 아닌 사용자가 인식하는 기능(입력, 출력, 조회, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 인터페이스)을 기준으로 측정하여 언어·기술에 독립적이다.
 > 2. 미조정 [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)(UFP) × 기술 복잡도 조정 인자(VAF)가 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 계산의 두 단계 — UFP는 5가지 기능 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(EI, EO, EQ, ILF, EIF)의 가중합이고, VAF는 14개 일반 시스템 특성(GSC)으로 0.65~1.35 범위에서 조정된다.

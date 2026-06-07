@@ -3,8 +3,8 @@ title: "188. Oom Memory Protection Gc Spark Spill"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/studynote/02_operating_system/02_process_thread/157_oom_killer/))은 [메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/)·과다 적재·비효율적 파티셔닝이 복합적으로 작용하여 JVM 힙이 고갈되는 현상으로, <strong>Spark 메모리 모델(Execution/Storage 통합 메모리)</strong>을 이해하고 Tungsten 엔진과 스필(Spill) 메커니즘을 활용하는 것이 핵심이다.

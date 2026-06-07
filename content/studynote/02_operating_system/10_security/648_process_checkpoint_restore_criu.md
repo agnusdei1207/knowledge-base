@@ -3,8 +3,8 @@ title: "648. Process Checkpoint Restore Criu"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 648
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CRIU (Checkpoint/Restore In Userspace)는 리눅스 환경에서 <strong>실행 중인 프로세스(또는 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>)를 일시 정지(Freeze)하고 메모리와 상태를 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로 덤프(Checkpoint)한 뒤, 나중에 혹은 다른 서버에서 그 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로부터 프로세스를 정확히 복원(Restore)하여 실행을 재개</strong>하는 사용자 공간(User-space) 도구다.

@@ -1,10 +1,11 @@
 ---
 title: "100. Sre Site Reliability Engineering Error Budget"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SRE (Site [Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) 엔진ering)는 구글이 고안한 운영 철학으로, 시스템 운영(Ops) 업무를 매뉴얼 작업이 아닌 소프트웨어 엔지니어링 코드(자동화) 기반으로 해결하는 접근법이다.

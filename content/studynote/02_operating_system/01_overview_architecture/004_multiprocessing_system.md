@@ -3,8 +3,8 @@ title: "Multiprocessing System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다중 처리 시스템 (Multiprocessing System)은 두 개 이상의 CPU (Central Processing Unit)가 메모리와 입출력 장치 등을 공유하며 여러 작업을 동시에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (Parallel)로 처리하는 고성능 컴퓨팅 아키텍처다.
 > 2. **가치**: 단일 프로세서의 물리적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 극복하여 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 획기적으로 높이고, 특정 CPU 장애 시에도 다른 CPU가 작업을 승계하는 [결함 허용](/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 통해 시스템 가용성을 보장한다.

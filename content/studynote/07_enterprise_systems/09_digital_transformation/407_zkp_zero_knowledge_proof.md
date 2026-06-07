@@ -2,9 +2,9 @@
 title: "ZKP: Zero-Knowledge Proof"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 407
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) 비대화형은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) 비대화형, [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/): [Zero-Knowledge Proof](/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), ZKP의 경계를 분명히 만드는 데 의미가 있다.

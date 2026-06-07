@@ -1,11 +1,11 @@
 ---
 title: "005. Authenticity"
 date: "2023-10-24"
-description: "정보 주체의 신원과 정보 출처의 진위 여부를 암호학적으로 증명하는 인증성의 원리, PKI 및 실무 적용 방안"
 tags:
   - "security"
+  - "studynote-security"
+weight: 5
 ---
-
 # [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성 (Authenticity)
 
 #### 핵심 인사이트 (3줄 요약)

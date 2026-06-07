@@ -3,8 +3,8 @@ title: "Multi-cluster Kubernetes Federation High-Availability Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 364
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티클러스터 K8s Federation은 지리적으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 여러 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 클러스터를 단일 제어 평면으로 관리해 [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)), 레이턴시 최적화, 컴플라이언스 경계 분리를 동시에 달성하는 고가용성 아키텍처다.

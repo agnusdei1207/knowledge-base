@@ -3,8 +3,8 @@ title: "102. Blake2 Blake3"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BLAKE 패밀리 (BLAKE2, BLAKE3)는 "안전한 암호학적 해시는 느리다"는 고정관념을 부수고, 소프트웨어 환경([SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)에 극도로 최적화하여 설계된 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 차세대 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)다.

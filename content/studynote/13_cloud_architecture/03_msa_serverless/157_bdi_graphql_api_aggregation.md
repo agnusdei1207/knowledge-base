@@ -3,8 +3,8 @@ title: "BFF Pattern / GraphQL"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서 클라이언트가 N개 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 각각 호출하는 N+1 문제를 해결하기 위해, [BFF](/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/) ([Backend for Frontend](/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)) 패턴은 클라이언트 유형별 전용 집계 레이어를 두고, GraphQL은 단일 엔드포인트에서 원하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 선택적으로 조회한다.
 > 2. **가치**: 오버패칭 (Over-fetching)과 언더패칭 (Under-fetching)을 동시에 제거하여 네트워크 효율을 높이고, 클라이언트 요구사항 변화에 [백엔드 서비스](/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) 수정 없이 대응 가능하다.

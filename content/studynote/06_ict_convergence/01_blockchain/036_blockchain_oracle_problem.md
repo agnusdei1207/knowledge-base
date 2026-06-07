@@ -3,8 +3,8 @@ title: "Blockchain Oracle Problem"
 date: "2026-03-03"
 tags:
   - "studynote-ict-convergence"
+weight: 36
 ---
-
 > **핵심 인사이트**
 > 1. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 오라클 문제([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Problem)는 스마트 컨트랙트가 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 외부(실세계) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 가져올 수 없다는 구조적 한계로, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 결정론적 실행 환경과 비결정론적 외부 세계 사이의 간극이다.
 > 2. 스마트 컨트랙트는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내부 상태만 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하므로, 외부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(가격·날씨·스포츠 결과)를 체인으로 가져오는 오라클이 단일 실패 지점(Single Point of Failure)이 될 수 있다.

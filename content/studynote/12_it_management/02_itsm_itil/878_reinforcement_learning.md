@@ -1,11 +1,11 @@
 ---
 title: "878. Reinforcement Learning"
 date: "2026-04-05"
-description: "강화학습의 기본 개념, 에이전트-환경 상호작용, MDP, Q-Learning, DQN, Policy Gradient"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 878
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 강화학습 (Reinforcement [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 에이전트(Agent)가 환경([Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하며, 현재 상태에서 미래의 누적 보상(Reward)을 최대화하는 최적의 행동 규칙([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 시행착오를 통해 스스로 찾아내는 머신러닝의 한 분야다.

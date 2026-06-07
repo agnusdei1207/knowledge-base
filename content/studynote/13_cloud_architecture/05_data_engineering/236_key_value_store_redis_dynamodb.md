@@ -3,8 +3,8 @@ title: "236. Key Value Store Redis Dynamodb"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [키-값 저장소](/studynote/14_data_engineering/01_infrastructure/036_key_value/)([Key-Value Store](/studynote/14_data_engineering/01_infrastructure/036_key_value/))는 고유한 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 값(Value)을 O(1) 시간에 조회하는 가장 단순한 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 구조로, <strong>밀리초 이하 응답 속도</strong>가 핵심 가치다.
 > 2. **가치**: Redis는 인메모리 기반으로 문자열·해시·리스트·셋·정렬셋 등 <strong>풍부한 자료구조</strong>를 제공해 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·캐시·리더보드에, DynamoDB는 완전관리형 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)로 <strong>무한 확장</strong>에 적합하다.

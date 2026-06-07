@@ -3,8 +3,8 @@ title: "030. Audit Automation Tools"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 감리 자동화는 전통 수작업 감리의 한계(문서 검토 병목, 전문가 의존, 비용)를 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·분석 도구로 극복하는 접근이다. [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)·코드 품질·아키텍처 적합성·보안 취약점을 자동화 도구로 검증한다.
 > 2. **가치**: 자동화 도구는 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(주관적 판단 제거)·속도(대규모 [코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/) 즉시 분석)·반복성(매 커밋 자동 실행)의 세 가지 강점을 가진다. 감리 전문가는 도구가 발견한 이슈의 비즈니스 영향을 판단하는 역할로 전환된다.

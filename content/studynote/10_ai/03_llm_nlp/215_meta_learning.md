@@ -3,8 +3,8 @@ title: "Meta Learning / Learning to Learn"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메타 러닝](/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) (Meta [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 단순히 '고양이를 알아보는 법(일반 딥러닝)'을 배우는 것이 아니라, <strong>"내가 낯선 것을 마주쳤을 때 어떻게 하면 10분 만에 빠르게 배울 수 있는가?"라는 '배우는 방법 그 자체(<a href="/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> to Learn)'</strong>를 통달하도록 뇌(신경망 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값)를 훈련시키는 궁극의 상위 차원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

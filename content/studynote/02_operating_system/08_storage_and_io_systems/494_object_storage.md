@@ -3,8 +3,8 @@ title: "Amazon S3"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 494
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오브젝트 스토리지는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)) 방식의 거추장스러운 '디렉토리 계층 구조(Tree)'나 블록([SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)) 방식의 '기계적 섹터 매핑' 껍데기를 완전히 파괴하고 걷어낸 뒤, 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 끝없이 넓은 평판(Flat [Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 바닥에 깡그리 흩뿌려 놓고 고유한 'ID값([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))' 과 '라벨표([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/))' 만으로 식별해 꺼내 쓰는 <strong><a href="/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a> 기반의 클라우드 특화 초대용량 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장 아키텍처</strong>다.

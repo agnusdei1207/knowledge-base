@@ -3,8 +3,8 @@ title: "Quantum Computing and Post-Quantum Cryptography"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 351
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)([Quantum Computing](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/))은 중첩과 얽힘을 이용해 특정 문제를 고전 컴퓨터와 다른 방식으로 풀며, 특히 쇼어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 대수적 구조를 이용하는 기존 공개키 암호를 위협한다.

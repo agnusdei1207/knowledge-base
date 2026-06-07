@@ -2,9 +2,9 @@
 title: "Kubernetes OOM Killer & Multi-Cluster Scheduling"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 446
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 다중 클러스터 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬링 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 다중 클러스터 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬링 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/), [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) & Multi-Cluster Scheduling, OOM의 경계를 분명히 만드는 데 의미가 있다.

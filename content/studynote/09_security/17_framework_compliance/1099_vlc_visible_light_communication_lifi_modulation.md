@@ -3,8 +3,8 @@ title: "Li-Fi"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1099
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가시광 통신](/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) ([VLC](/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)) 라이파이 (Li-Fi)는 보안 확장 개념에서 복잡한 보안 문제를 요소와 관계로 나눠 설명하게 해 주는 구조화된 틀이다.

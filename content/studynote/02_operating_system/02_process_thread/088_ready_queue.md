@@ -3,8 +3,8 @@ title: "Ready Queue"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Ready [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) (준비 큐)는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 내에 존재하며, 실행에 필요한 모든 자원을 확보하고 오직 CPU (Central Processing Unit) 할당만을 기다리는 프로세스들의 대기열이다.

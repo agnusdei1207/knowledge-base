@@ -3,8 +3,8 @@ title: "Blockchain Scalability TPS Latency"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 지표 ([Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Scalability TPS [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)): TPS (Transactions Per Second), 레이턴시 ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))를 이해하는 핵심 개념으로, 중앙 기관 없이 상태를 공유하고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 문제를 설명하는 데 쓰인다.

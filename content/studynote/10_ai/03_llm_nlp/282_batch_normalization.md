@@ -3,8 +3,8 @@ title: "Batch Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 282
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배치 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Batch [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), BN)는 각 미니배치 내에서 활성화 값을 평균=0, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)=1로 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)한 뒤 학습 가능한 스케일(γ)과 이동(β) 파라미터로 복원함으로써 내부 공변량 이동(Internal Covariate Shift)을 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하고 학습을 가속한다.

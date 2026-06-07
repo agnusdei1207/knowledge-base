@@ -1,10 +1,11 @@
 ---
 title: "085. Travel Rule Vasp Fatf"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 트래블 룰(Travel Rule)은 가상자산 이전 때 송신자와 수신자 정보를 함께 넘겨 자금세탁 위험을 낮추는 규칙이다.

@@ -1,10 +1,11 @@
 ---
 title: "081. K8S Worker Node Components"
+date: "2026-06-07"
 tags:
   - "cloud_architecture"
-date: "2026-06-07"
+  - "studynote-cloud-architecture"
+weight: 81
 ---
-
 # K8s 워커 노드 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 3가지 - [Kubelet](/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/), Kube-Proxy, [Container Runtime](/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/)
 
 ## 핵심 인사이트 (3줄 요약)

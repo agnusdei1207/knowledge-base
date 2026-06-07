@@ -3,8 +3,8 @@ title: "200. Real Time Kernel Preempt Rt"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 200
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실시간 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Real-time [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 범용 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 치명적 약점인 "[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 코드 실행 중 선점 불가(Non-preemptible)" 족쇄를 박살 내고, 언제 어떠한 상황에서도([인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 제외) 최우선 실시간 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 즉각적으로 CPU를 탈취할 수 있도록 개조된 **완전 선점형(Fully Preemptible)** 아키텍처다.

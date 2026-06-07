@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **HDFS의 일꾼(Worker)**: [데이터노드](/studynote/14_data_engineering/01_infrastructure/015_datanode/)([DataNode](/studynote/14_data_engineering/01_infrastructure/015_datanode/))는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 블록(Block) 단위로 로컬 디스크에 직접 저장하고 관리하는 물리적 서버 노드입니다.
 - **상태 보고 (Heartbeat)**: [네임노드](/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/))에게 주기적으로 하트비트와 블록 리포트를 전송하여, 자신의 생존 여부와 저장된 블록의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 보고합니다.

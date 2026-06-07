@@ -3,8 +3,8 @@ title: "157. Terahertz Thz 6G"
 date: "2026-04-05"
 tags:
   - "studynote-network"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테라헤르츠 (THz, Terahertz) 대역은 대체로 0.1THz~10THz 사이의 초고주파 영역으로, [밀리미터파](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) ([mmWave](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/), Millimeter [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))보다 훨씬 넓은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 제공하는 차세대 무선 통신 후보이다.

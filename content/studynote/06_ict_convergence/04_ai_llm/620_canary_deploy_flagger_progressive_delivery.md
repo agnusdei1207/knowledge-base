@@ -3,8 +3,8 @@ title: "Canary Deploy Flagger Progressive Delivery"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 620
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Flagger는 Kubernetes 환경에서 Istio/Linkerd/App Mesh/NGINX 등의 Service Mesh 또는 Ingress Controller를 활용하여 **Canary CRD(Custom Resource Definition)** 기반으로 트래픽을 점진적으로 전환하고, Prometheus 메트릭과 Webhook 테스트를 통해 자동 승격/롤백하는 **GitOps 친화적 Progressive Delivery Operator**이다.

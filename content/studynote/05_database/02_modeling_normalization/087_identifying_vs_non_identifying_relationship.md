@@ -1,10 +1,11 @@
 ---
 title: "Non-identifying"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Identifying [Relationship](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))는 자식 엔터티의 키가 부모 키를 포함해 구성되는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로, 자식의 존재와 정체성이 부모에 종속된다.

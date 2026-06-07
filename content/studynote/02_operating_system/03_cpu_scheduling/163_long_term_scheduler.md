@@ -3,8 +3,8 @@ title: "163. Long Term Scheduler"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 장기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)인 Long-term Scheduler는 디스크의 작업 풀에서 어떤 작업을 메모리에 올려 프로세스로 진입시킬지 결정하는 입장 통제 장치다.

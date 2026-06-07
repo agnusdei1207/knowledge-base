@@ -3,8 +3,8 @@ title: "346. Batch Size Generalization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 346
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 큰 배치 사이즈 (Large Batch) 는 손실 경관 (Loss Landscape) 에서 샤프 미니마 (Sharp Minima) 로 수렴해 과적합 ([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 경향이 있고, 작은 배치 (Small Batch) 는 노이즈가 많은 기울기 덕분에 플랫 미니마 (Flat Minima) 로 수렴해 일반화 (Generalization) 가 향상된다.

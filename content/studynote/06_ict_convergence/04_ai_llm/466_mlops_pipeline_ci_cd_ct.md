@@ -3,8 +3,8 @@ title: "466. Mlops Pipeline Ci Cd Ct"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 466
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 주피터 노트북(Jupyter)에서 실험용으로 만든 딥러닝 코드를, 실제 고객이 1년 365일 1초의 끊김 없이 쓸 수 있도록 코딩(Dev)부터 배포(Ops)까지의 전 과정을 톱니바퀴처럼 자동화한 파이프라인 철학이다.

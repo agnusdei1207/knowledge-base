@@ -3,8 +3,8 @@ title: "More than Moore"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 534
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: More than Moore는 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 선폭 축소만으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올리던 시대를 넘어, 이종 집적과 패키지 수준 통합으로 시스템 가치를 키우는 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 발전 전략이다.

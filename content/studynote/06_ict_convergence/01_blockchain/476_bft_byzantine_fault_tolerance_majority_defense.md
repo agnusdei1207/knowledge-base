@@ -3,8 +3,8 @@ title: "Byzantine Fault Tolerance Majority Defense"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 476
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)(Byzantine [Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), [비잔틴 장애 허용](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/))는 최대 <strong>f개의 악의적 노드</strong>가 존재해도 정상 합의를 보장하기 위해 <strong>3f+1개 이상의 노드</strong>가 필요하다는 수학적 원리다.

@@ -3,8 +3,8 @@ title: "571. Protection Vs Security"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 571
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: <strong>보호(Protection)</strong>는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 정상 프로세스들이 서로의 메모리나 자원에 실수로 침범하지 못하게 막는 <strong>내부 교통정리 체계(Internal Mechanism)</strong>이고, <strong>보안(<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>은 해커나 [바이러스](/studynote/02_operating_system/10_security/589_virus/) 등 외부 적의 침입을 차단하는 <strong>외곽 방어망(External <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>이다.

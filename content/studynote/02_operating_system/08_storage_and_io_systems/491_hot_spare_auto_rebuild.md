@@ -3,8 +3,8 @@ title: "491. Hot Spare Auto Rebuild"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 491
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 핫 스페어(Hot Spare)란 전기가 켜져 동작 중인 고가용성 [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 서버/스토리지 샷시 안에 미리 빈 깡통 디스크를 꽂아두고 대기시키다가, 기존 사용 중인 디스크 중 하나가 고장 나면 <strong>이를 즉각 감지해 관리자의 개입 없이 자동으로 그 빈 공간으로 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Rebuilding)를 투입하는 자동 예비 교체 시스템</strong>이다.

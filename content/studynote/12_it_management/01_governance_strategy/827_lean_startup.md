@@ -3,8 +3,8 @@ title: "Lean Startup"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 827
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 린 스타트업의 핵심은 에릭 리스, '만들고-측정하고-학습하는' (Build-Measure-Learn) [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 적용라는 점에 있다. 이를 현장 의사결정에 연결하는 아키텍처 정렬 구조로 이해하면 된다.

@@ -3,8 +3,8 @@ title: "Memory Dependence Predictor"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 507
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 의존성 예측기 (Memory Dependence Predictor)는 주소가 아직 계산되지 않은 상태에서, 젊은 로드가 오래된 스토어를 추월해도 안전한지를 과거 충돌 이력으로 미리 판단하는 장치다.

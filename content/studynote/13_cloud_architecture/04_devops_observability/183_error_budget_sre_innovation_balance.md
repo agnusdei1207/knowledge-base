@@ -3,8 +3,8 @@ title: "183. Error Budget Sre Innovation Balance"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [에러 예산](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))은 [Service Level Objective](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ([SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))를 100%보다 낮게 두고, 그 차이만큼을 "변경과 실패가 허용되는 운영 여유"로 계산한 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 통제 장치다.

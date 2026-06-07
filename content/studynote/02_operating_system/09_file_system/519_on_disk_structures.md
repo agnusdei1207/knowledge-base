@@ -3,8 +3,8 @@ title: "On Disk Structures"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 519
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터 전원을 끄면 메모리(RAM)에 있던 [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 객체(슈퍼블록, 덴트리)들은 싹 다 증발한다. 따라서 하드디스크라는 영원한 철판 위에 <strong>"부팅 코드, <a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 전체 정보, 폴더 이름 장부, 실제 <a href="/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/">파일 속성</a>"</strong> 을 반드시 기록해 둬야 다음 날 컴퓨터를 켤 때 이 세계관이 다시 되살아날 수 있다.

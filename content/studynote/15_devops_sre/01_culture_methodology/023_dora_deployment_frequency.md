@@ -3,8 +3,8 @@ title: "DORA Deployment Frequency"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 배포 빈도([Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency)는 조직이 프로덕션 환경에 코드를 배포하는 빈도를 측정하는 핵심 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과 지표로, 팀의 소프트웨어 전달 역량(Software Delivery Capability)과 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도를 직접적으로 반영한다.
 > 2. **가치**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구(2019 [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Report)는 Elite 팀이 하루 여러 번 배포(On Demand)하며, 이 팀들이 Low 팀(수개월에 1회)보다 배포 속도 208배, [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 106배, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 2604배 우수하다는 것을 수만 개 조직 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했다.

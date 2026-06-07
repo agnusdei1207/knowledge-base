@@ -3,8 +3,8 @@ title: "BERT Bidirectional Encoder Pre-training"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 643
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BERT는 Transformer Encoder만을 비대칭으로 stacking하여 MLM(Masked Language Model)과 NSP(Next Sentence Prediction) 두 가지 비지도 사전학습 태스크로 **양방향 컨텍스트(Bidirectional Context)**를 동시 모델링하며, `[CLS]` 토큰의 pooled output이 문장 쌍 분류의 sentence-level representation 역할을 수행한다.

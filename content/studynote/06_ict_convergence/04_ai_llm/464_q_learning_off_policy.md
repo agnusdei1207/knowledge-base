@@ -3,8 +3,8 @@ title: "Off-Policy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 464
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Q-Learning은 환경의 법칙(전이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) P)을 전혀 몰라도, 무작정 부딪히고 깨지며(Trial and Error) "이 상태(S)에서 이 행동(A)을 하면 최종 점수(Q)가 몇 점이더라"라는 거대한 컨닝 페이퍼(Q-Table)를 스스로 채워나가는 강화학습의 절대적인 뼈대다.

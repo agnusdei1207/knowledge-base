@@ -3,8 +3,8 @@ title: "HPC"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 548
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자율주행용 HPC (High-Performance Computing)는 카메라·레이더·라이다·지도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한곳으로 모아 인지, 경로 계획, 차량 제어를 수행하는 중앙 계산 플랫폼이다.

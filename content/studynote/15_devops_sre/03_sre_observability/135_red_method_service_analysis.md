@@ -3,8 +3,8 @@ title: "135. Red Method Service Analysis"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RED 메서드는 <strong>Rate(초당 요청 수)·Errors(에러율)·Duration(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>)</strong>의 3가지 지표로 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)의 상태를 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 Weaveworks의 방법론이다.
 > 2. **가치**: USE는 인프라(CPU·메모리) 중심이지만, RED는 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>·엔드포인트) 관점</strong>에서 사용자 경험에 직접 영향을 미치는 지표에 집중한다.

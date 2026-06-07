@@ -1,11 +1,11 @@
 ---
 title: "Subcarrier"
 date: "2026-03-30"
-description: "OFDM 시스템에서 대역폭을 잘게 쪼개어 다중경로 간섭을 방어하는 부반송파의 원리와 실무 적용"
 tags:
   - "network"
+  - "studynote-network"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 부반송파(Subcarrier)는 넓은 대역을 잘게 나눈 좁은 주파수 채널로, 하나의 심볼(Symbol)을 실어 나르는 운반선이다.

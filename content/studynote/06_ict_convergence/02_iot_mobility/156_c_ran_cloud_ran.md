@@ -3,9 +3,8 @@ title: "156. C-RAN (Cloud RAN)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 156
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: C-RAN (Cloud RAN): 기지국의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리부([BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)/DU)를 한 곳의 클라우드 센터에 모아 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 관리하고 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU)만 엣지에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치하는 구조를 이해하는 핵심 개념으로, 주파수와 기지국 자원을 효율적으로 써야 하면서도 초저지연·대규모 접속을 동시에 만족해야 하는 문제를 설명하는 데 쓰인다.

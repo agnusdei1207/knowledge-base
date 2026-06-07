@@ -2,9 +2,9 @@
 title: "168. Integer Programming"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IP (Integer Programming, 정수 계획법) 는 결정 변수가 정수여야 하는 최적화 — LP보다 훨씬 어렵고 ([NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) in general) 실세계의 이진(0/1) 결정 문제를 직접 모델링한다.

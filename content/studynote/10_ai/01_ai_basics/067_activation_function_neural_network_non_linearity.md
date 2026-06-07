@@ -1,10 +1,11 @@
 ---
 title: "067. Activation Function Neural Network Non Linearity"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 신경망의 선형 결합 결과에 비선형성을 넣어 표현력을 높이는 함수다.

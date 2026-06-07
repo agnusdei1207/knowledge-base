@@ -2,9 +2,9 @@
 title: "Copy-on-Write"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레이어드 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 여러 읽기 전용 레이어를 쌓고 변경분만 별도로 관리하는 구조다.

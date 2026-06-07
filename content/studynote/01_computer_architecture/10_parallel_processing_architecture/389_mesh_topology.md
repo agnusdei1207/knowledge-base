@@ -3,8 +3,8 @@ title: "389. Mesh Topology"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 389
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메시 (Mesh) 토폴로지는 노드를 격자 형태로 배치하고 이웃 노드끼리만 연결해, 배선 복잡도를 통제하면서도 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 통신 경로를 확보하는 정적 [상호 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/) (Static [Interconnection Network](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/))이다.

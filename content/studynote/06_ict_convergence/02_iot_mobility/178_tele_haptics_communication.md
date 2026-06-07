@@ -3,8 +3,8 @@ title: "178. Tele Haptics Communication"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 텔레햅틱 (Tele-haptics) 통신은 원격지의 로봇·가상 객체와 손의 위치, 힘, 진동, 질감 정보를 양방향으로 교환하는 폐루프 제어형 네트워크이며, 디지털 후각은 냄새 분자 자체가 아니라 향 조합 레시피를 전달해 현지 장치가 다시 재현하는 방식으로 결합된다.

@@ -3,8 +3,8 @@ title: "LLM"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Text-to-SQL on BigData ([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))으로 자연어 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 빅데이터 자연어 질의 관점에서 단계와 산출물을 표준화해 품질 편차를 줄이는 절차 방식를 다루는 주제다.

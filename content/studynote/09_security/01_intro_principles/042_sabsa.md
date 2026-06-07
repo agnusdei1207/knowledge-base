@@ -3,9 +3,8 @@ title: "042. SABSA (Sherwood Applied Business Security Architecture)"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 42
 ---
-
-
 > **핵심 인사이트**
 > 1. SABSA(Sherwood Applied Business [Security Architecture](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/))는 [자크만 프레임워크](/studynote/09_security/01_intro_principles/041_zachman_framework/)([Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/))를 보안에 특화 적용한 [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 방법론으로, 비즈니스 요구사항에서 시작하여 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)·물리·기술 계층까지 "위에서 아래로([Top-down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))" 보안을 설계하는 완전한 생명주기 프레임워크다.
 > 2. SABSA의 6대 계층(Contextual->Conceptual->Logical->Physical->[Component](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)->Operational)과 6대 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 열(What/How/Where/Who/When/Why)의 36셀 매트릭스는 비즈니스 컨텍스트부터 운영 절차까지 [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)의 완전성을 보장한다.

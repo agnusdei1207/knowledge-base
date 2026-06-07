@@ -3,8 +3,8 @@ title: "Brainstorming 4 Principles"
 date: "2026-04-15"
 tags:
   - "studynote-software-engineering"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 브레인스토밍은 비판을 잠시 멈추고 많은 아이디어를 빠르게 뽑아내는 발상 기법이다.

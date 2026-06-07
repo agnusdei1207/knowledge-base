@@ -3,8 +3,8 @@ title: "Software Configuration Management,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SCM ([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))은 소프트웨어 산출물을 형상 항목 ([Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) 단위로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 변경을 승인·기록·[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하는 통제 체계다.

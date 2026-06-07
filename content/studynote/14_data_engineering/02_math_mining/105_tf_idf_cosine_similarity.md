@@ -3,8 +3,8 @@ title: "TF-IDF & Cosine Similarity"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `TF-IDF`는 텍스트 내 단어의 단순 빈도(TF)와 문서 간 희소성(IDF)을 결합하여 정보적 가치를 수치화하는 기법이며, `코사인 유사도 (Cosine Similarity)`는 벡터화된 문서 간의 방향(각도)을 측정해 의미적 유사성을 판별하는 거리 지표다.

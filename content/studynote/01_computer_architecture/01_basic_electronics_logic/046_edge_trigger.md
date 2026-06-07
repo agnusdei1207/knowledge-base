@@ -3,8 +3,8 @@ title: "046. Edge Trigger"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Edge Trigger)는 클럭 신호의 엣지(Rising 또는 Falling) 순간에만 데이터를 샘플링하는 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 동작 방식 — 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)([Level Trigger](/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/))보다 타이밍 제어가 정밀하며 현대 디지털 회로에서 표준이다.
 > 2. 상승 에지(Rising Edge) [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 0->1 전환 순간에 입력 D를 포착해 출력 Q에 저장 — 클럭 사이클당 단 한 번 데이터가 업데이트되므로 레이스 컨디션([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 제거된다.

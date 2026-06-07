@@ -3,9 +3,8 @@ title: "357. SMOTE (Synthetic Minority Over-sampling Technique)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 357
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) (Synthetic Minority Over-sampling Technique): 소수 클래스의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 [K-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) 기반으로 선형 보간하여 합성 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

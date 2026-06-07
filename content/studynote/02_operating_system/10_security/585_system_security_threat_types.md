@@ -3,8 +3,8 @@ title: "System Security Threat Types"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 585
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보 보안의 3대 목표는 <strong><a href="/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>(<a href="/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a>)</strong>, <strong><a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>, <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong>이며, 이에 <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>을 더하여 4가지 보안 위협 유형으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.

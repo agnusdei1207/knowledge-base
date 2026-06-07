@@ -3,8 +3,8 @@ title: "Cloud Service Models IaaS PaaS SaaS FaaS"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 499
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클라우드 서비스 모델](/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/)은 '제어권 vs 관리 부담'의 트레이드오프로, 위로 갈수록([IaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)->[FaaS](/studynote/12_it_management/05_security_compliance/342_faas/)) 관리할 것은 줄고 제어권도 줄어든다.

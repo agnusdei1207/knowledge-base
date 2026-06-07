@@ -3,8 +3,8 @@ title: "070. Asic"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ASIC은 특정 용도에 맞게 한 번 설계·제작된 전용 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)다.

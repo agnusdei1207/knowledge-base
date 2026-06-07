@@ -3,8 +3,8 @@ title: "400. Local Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 400
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지역 교체(Local Replacement)는 물리 램(RAM)에 빈방이 모자라 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아낼 때, 시스템 전체를 뒤져서 남의 방을 뺏는 [전역 교체](/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(Global)와 달리, <strong>오직 해당 프로세스 자신에게 애초에 할당된 램 프레임 풀(Pool) 안에서만 희생양을 골라 돌려막기(Swap)를 하는 폐쇄적인 교체 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이다.

@@ -3,8 +3,8 @@ title: "Membership Service Provider"
 date: "2026-04-10"
 tags:
   - "studynote-ict-convergence"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Hyperledger Fabric은 신원(MSP), 실행/저장(Peer), 순서 정렬(Orderer)을 분리한 모듈형 퍼미션드 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이다.

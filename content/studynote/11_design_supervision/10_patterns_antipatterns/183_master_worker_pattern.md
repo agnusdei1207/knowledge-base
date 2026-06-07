@@ -3,8 +3,8 @@ title: "Master-Worker Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마스터-워커 패턴 (Master-Worker Pattern)은 중앙 조정자(Master)가 큰 작업을 여러 단위로 분할하고, 실행자(Worker)에게 배분한 뒤 결과를 집계하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.

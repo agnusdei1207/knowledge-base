@@ -3,8 +3,8 @@ title: "057. Compensating Controls"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보완 통제(Compensating Controls)는 기본 통제를 그대로 적용할 수 없을 때, 다른 수단을 조합해 같은 수준의 위험 감소를 만드는 대체 통제다.

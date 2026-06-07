@@ -3,8 +3,8 @@ title: "Snooping Bus Bottleneck"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 510
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스누핑 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목 현상 (Snooping [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))은 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 요청과 메모리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 하나의 공유 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 직렬화되면서, 코어 수 증가와 함께 브로드캐스트 비용이 시스템 한계를 규정하는 현상이다.

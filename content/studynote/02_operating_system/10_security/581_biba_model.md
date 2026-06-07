@@ -3,8 +3,8 @@ title: "No Read Down, No Write Up"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 581
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비바 모델은 [벨-라파둘라 모델](/studynote/02_operating_system/10_security/580_bell_lapadula_model/)과 대칭되는 접근 제어 모델로, <strong>"정보의 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(변조/조작 방지)"</strong>을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 것이 목적이다. 두 가지 기본 규칙인 <strong>No Read Down (NRD)</strong>과 <strong>No Write Up (NWU)</strong>을 제시한다.

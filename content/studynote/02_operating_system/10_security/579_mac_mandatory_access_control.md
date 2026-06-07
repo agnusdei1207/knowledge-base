@@ -3,8 +3,8 @@ title: "579. Mac Mandatory Access Control"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 579
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MAC은 시스템 관리자가 모든 <strong>주체(프로세스)</strong>와 <strong>객체(<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)</strong>에 <strong>보안 등급 라벨(<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Label)</strong>을 부여하고, 이 라벨 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 기반으로 접근을 <strong>강제(Mandatory)</strong>로 통제하는 방식이다.

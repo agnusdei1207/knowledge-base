@@ -3,8 +3,8 @@ title: "Swapping"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 162
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)인 Medium-term Scheduler는 메모리 압박이 심할 때 일부 프로세스를 일시 중단 상태로 옮기고 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/))해 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도를 낮추는 조정 장치다.

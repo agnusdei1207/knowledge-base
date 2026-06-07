@@ -2,9 +2,9 @@
 title: "065. Audit Trail Worm Storage Compliance"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Trail)은 누가 언제 무엇을 했는지 남기는 변경 불가성 중심의 기록 체계다.

@@ -3,8 +3,8 @@ title: "111. Observability Metrics Logs Traces"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 관측 가능성([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))은 시스템의 <strong>외부 출력(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a>·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a>·Traces)만으로 내부 상태를 추론</strong>할 수 있는 능력이며, 기존 모니터링(알려진 문제 감시)을 넘어 <strong>"몰랐던 문제(Unknown Unknowns)"까지 진단</strong>하는 패러다임이다.
 > 2. **가치**: 3대 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)=수치, [Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)=이벤트, Traces=요청 경로)를 상호 연결(Correlation)하여, [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 <strong>장애의 근본 원인(Root Cause)을 수분 내 특정 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>·함수·라인</strong>까지 추적한다.

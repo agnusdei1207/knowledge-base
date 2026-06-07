@@ -3,8 +3,8 @@ title: "061. Data Mining Framework Kdd Crisp Dm"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이닝은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 돌리는 일이 아니라, 문제 정의부터 배포까지 이어지는 프로세스다.

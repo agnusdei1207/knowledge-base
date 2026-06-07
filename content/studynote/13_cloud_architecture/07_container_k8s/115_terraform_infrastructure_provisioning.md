@@ -3,8 +3,8 @@ title: "115. Terraform Infrastructure Provisioning"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Terraform은 HashiCorp가 개발한 <strong>선언적 <a href="/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>(<a href="/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> 도구로, HCL(HashiCorp Configuration Language)로 인프라를 정의하면 `terraform apply`로 AWS·Azure·GCP 등 <strong>다중 클라우드에 자동 <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>한다.
 > 2. **가치**: AWS 콘솔 클릭으로 인프라를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 재현 불가·추적 불가·리뷰 불가이지만, Terraform은 인프라를 <strong>코드로 Git에 관리</strong>하여 변경 이력·[코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/)·자동 배포가 가능하다.

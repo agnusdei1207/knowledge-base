@@ -3,9 +3,8 @@ title: "55. Zachman Framework"
 date: "2026-05-01"
 tags:
   - "studynote-software-engineering"
+weight: 55
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Zachman](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework는 기업 아키텍처를 질문 축과 관점 축으로 정리하는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다.

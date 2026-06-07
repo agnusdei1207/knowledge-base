@@ -3,8 +3,8 @@ title: "Stream Processing"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스트림 처리([Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Processing)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 즉시 밀리초~초 단위로 실시간 처리하는 방식으로, <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)을 최소화</strong>하여 실시간 의사결정을 가능하게 한다.
 > 2. **가치**: [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([FDS](/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/)), 실시간 추천, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 모니터링처럼 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 가치가 시간이 지남에 따라 급격히 감소</strong>하는 워크로드에서 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 대비 압도적 우위를 갖는다.

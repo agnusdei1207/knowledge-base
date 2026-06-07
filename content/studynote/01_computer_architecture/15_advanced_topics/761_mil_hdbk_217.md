@@ -3,8 +3,8 @@ title: "761. Mil Hdbk 217"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 761
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MIL-HDBK-217 (Military Handbook 217)은 전자부품의 기본 고장률에 온도, 환경, 품질 계수를 반영해 시스템 고장률을 예측하는 고전적 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 산정 프레임워크다.

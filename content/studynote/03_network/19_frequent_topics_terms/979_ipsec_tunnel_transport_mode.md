@@ -3,8 +3,8 @@ title: "979. Ipsec Tunnel Transport Mode"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 979
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPSec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

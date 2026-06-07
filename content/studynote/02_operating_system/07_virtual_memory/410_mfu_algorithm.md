@@ -3,8 +3,8 @@ title: "410. Mfu Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 410
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MFU(Most Frequently Used) [페이지 교체 알고리즘](/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)은 램(RAM)에 빈 공간이 없을 때, 과거부터 지금까지 <strong>가장 많이 참조된(조회수 1등) <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 쫓아내는 상식을 파괴하는 역발상(Reverse Logic) 기법</strong>이다.

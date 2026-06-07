@@ -3,8 +3,8 @@ title: "290. Data Mart"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 290
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 RDB의 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 NoSQL의 수평적 확장성([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 결합 패러다임에 초점을 둔 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

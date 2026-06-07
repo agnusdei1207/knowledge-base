@@ -3,8 +3,8 @@ title: "236. Data Contract"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계약 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Contract) [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 안정성 보장 생산자-소비자 합의은 빅데이터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계약 관점에서 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 운영을 연결해 반복 가능한 질서를 만드는 관리 방식를 다루는 주제다.

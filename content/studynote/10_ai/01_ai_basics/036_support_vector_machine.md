@@ -3,8 +3,8 @@ title: "Support Vector Machine, SVM"
 date: "2026-03-03"
 tags:
   - "studynote-ai"
+weight: 36
 ---
-
 > **핵심 인사이트**
 > 1. [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 두 클래스를 분리하는 초평면(Hyperplane) 중 마진(Margin, 클래스 간 간격)이 최대인 것을 찾는 최대 마진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 소규모·고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 강력한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 > 2. [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))은 비선형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원 특성 공간으로 암묵적으로 변환해 선형 분리를 가능하게 하며, 실제로 변환을 수행하지 않고 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수만으로 내적을 계산한다.

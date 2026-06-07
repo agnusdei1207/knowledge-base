@@ -3,8 +3,8 @@ title: "ZK-Rollup"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 616
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-Knowledge Proof](/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) 가속 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 프로버가 반복 수행하는 유한체 연산, 수론적 변환, 다중 스칼라 곱셈, 해시·약속 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 <strong>대규모 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 연산과 메모리 계층으로 전용화한 칩</strong>이다.

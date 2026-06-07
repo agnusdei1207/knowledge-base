@@ -3,8 +3,8 @@ title: "Von Neumann Architecture"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 폰 노이만 아키텍처는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))뿐만 아니라 그것을 조작하는 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(Program <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a>)까지 하나의 동일한 메모리(Memory)에 내장(Stored-program)</strong>하여 읽고 실행하는 컴퓨터 설계 철학이다.
 > 2. **가치**: 프로그램이 바뀔 때마다 하드웨어의 전선을 일일이 다시 꽂아야 했던(Hardwired) 에니악(ENIAC)의 물리적 재조립 방식을, 단순히 메모리에 새 소프트웨어를 복사해 넣는 논리적 재배치 방식으로 혁명시켜 범용 컴퓨터(General Purpose Computer)의 시대를 열었다.

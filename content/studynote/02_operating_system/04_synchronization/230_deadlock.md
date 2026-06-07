@@ -3,8 +3,8 @@ title: "Deadlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 230
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))는 두 개 이상의 프로세스나 스레드가 서로가 점유하고 있는 자원([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))이 반환되기만을 기다리며, 그 누구도 영원히 전진([Progress](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/))하지 못하고 시스템이 마비되는 <strong><a href="/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 프로그래밍의 최악의 버그 현상</strong>이다.

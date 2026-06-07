@@ -1,10 +1,11 @@
 ---
 title: "106. Fenwick Tree"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `BIT (Binary Indexed Tree)`라고도 불리는 [펜윅 트리](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)(Fenwick Tree)는 숫자의 2진수 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산을 활용해 '구간의 합(Range Sum)'과 '값의 변경(Point Update)'을 모두 $O(\log N)$에 처리하는 트리형 자료구조다.

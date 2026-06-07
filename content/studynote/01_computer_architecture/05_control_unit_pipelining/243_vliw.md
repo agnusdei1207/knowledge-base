@@ -3,9 +3,8 @@ title: "243. VLIW (Very Long Instruction Word)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 243
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VLIW (Very Long [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Word](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))는 여러 개의 독립 연산을 하나의 긴 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)로 묶고, 그 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 순서를 하드웨어가 아니라 컴파일러가 미리 결정하는 정적 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 구조다.

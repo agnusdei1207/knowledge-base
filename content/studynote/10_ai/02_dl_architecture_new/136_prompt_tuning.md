@@ -3,8 +3,8 @@ title: "136. Prompt Tuning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 136
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Prompt Tuning은 <strong>모델 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 동결하고, 입력 앞에 붙이는 연속(Soft) 프롬프트 벡터만 학습</strong>하여 특정 작업에 적응하는 [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 기법이며, 학습 파라미터가 전체의 <strong>0.01% 미만</strong>이다.
 > 2. **가치**: 모델 자체를 건드리지 않으므로 <strong>하나의 모델로 수천 개의 다른 프롬프트(=<a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>)</strong>를 동시에 서빙할 수 있으며, 배포·관리가 극도로 효율적이다.

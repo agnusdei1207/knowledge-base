@@ -3,8 +3,8 @@ title: "536. Buffer Cache Page Cache"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 536
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 모터의 극악한 속도(밀리초 ms 단위)를 극복하기 위해, 메인 메모리(RAM 나노초 ns 단위)의 남는 공간을 하드디스크의 임시 거처(캐시)로 쓰는 아키텍처다. 과거에는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)와 디스크 섹터 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)(Buffer Cache)를 두 개의 독립된 캐시로 분리 관리(이중 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 충돌 늪)했다.

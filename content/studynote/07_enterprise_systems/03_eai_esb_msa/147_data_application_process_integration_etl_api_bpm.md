@@ -3,8 +3,8 @@ title: "ETL / API / BPM"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엔터프라이즈 통합은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 시스템 사이의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·기능·프로세스를 하나의 흐름으로 연결하는 것으로, <strong><a href="/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a>(Extract-Transform-Load)은 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합</strong>, <strong><a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">Application Programming Interface</a>)와 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지는 애플리케이션 통합</strong>, <strong><a href="/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/">BPM</a>(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/">Business Process Management</a>)은 비즈니스 프로세스 통합</strong>을 각각 담당한다.
 > 2. **가치**: [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·[SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)·레거시 시스템이 공존하는 엔터프라이즈 환경에서, [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 구조를 허물고 <strong>단일 정보 흐름(<a href="/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">Single Source of Truth</a>)</strong> 을 확보하는 통합 아키텍처의 핵심 기술 삼각형이다.

@@ -3,8 +3,8 @@ title: "533. Snmp Commands Get Set Trap"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 533
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SNMP](/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령은 이름 해석과 네트워크 관리에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

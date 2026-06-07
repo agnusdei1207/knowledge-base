@@ -3,8 +3,8 @@ title: "141. Multi Master Replication"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [멀티 마스터 복제](/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 여러 노드 또는 리전에서 동시에 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 허용하여 단일 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터의 지리적 병목과 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)을 제거하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 아키텍처다.
 - **가치**: 글로벌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 "가장 가까운 리전에 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 가능해져 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 수백ms에서 수ms로 줄어들고, 리전 전체 장애 시에도 다른 리전이 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 계속 수용한다.

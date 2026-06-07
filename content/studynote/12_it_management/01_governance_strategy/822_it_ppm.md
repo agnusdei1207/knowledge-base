@@ -3,8 +3,8 @@ title: "IT PPM"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 822
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 포트폴리오 관리의 핵심은 IT 투자를 인프라, [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 정보, [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 자산으로 분류하여 예산 최적화라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

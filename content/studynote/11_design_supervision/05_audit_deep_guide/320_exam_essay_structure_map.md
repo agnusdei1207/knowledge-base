@@ -3,8 +3,8 @@ title: "IT Audit Essay Structure Map"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 320
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 감리 논술 답안 구조 맵는 정의와 필요성, 비교와 사례, 기술사 판단 문장를 한 체계로 묶어 판단하는 설계·감리 주제다.

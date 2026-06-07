@@ -3,8 +3,8 @@ title: "Ambassador Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 659
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앰배서더 (Ambassador) 패턴은 레거시 또는 다국어 클라이언트 옆에 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 두어 원격 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출의 공통 기능을 대신 처리하는 클라우드 패턴이다.

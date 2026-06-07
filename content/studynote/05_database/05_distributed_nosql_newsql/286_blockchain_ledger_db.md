@@ -3,8 +3,8 @@ title: "Time Series Database, TSDB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 286
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시계열 데이터베이스](/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/) (Time Series [Database](/studynote/05_database/04_transactions_concurrency/501_database/), TSDB)는 시간순 로깅 특화, [InfluxDB](/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/), Prometheus에 초점을 둔 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

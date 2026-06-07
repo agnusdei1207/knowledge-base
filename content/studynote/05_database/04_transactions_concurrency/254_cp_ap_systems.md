@@ -3,8 +3,8 @@ title: "HBase, MongoDB"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 254
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템 ([HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/), [MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/) 기본) / [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템 ([Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/), [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/)) / [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 시스템 (RDBMS, 네트워크 분할 없는 단일망)은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

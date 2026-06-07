@@ -3,8 +3,8 @@ title: "241. Machine Learning Basics"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 머신러닝(Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 인간의 오만을 꺾은 기술이다. 과거엔 천재 개발자가 "고양이는 귀가 뾰족하고 수염이 있다"는 규칙(If-Then)을 컴퓨터에 직접 코딩으로 우겨넣으려다 실패했다. 머신러닝은 <strong>"규칙 따윈 묻지 마! 그냥 고양이 사진 10만 장(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>/경험)을 던져줄 테니, 컴퓨터 네가 알아서 눈치껏 수학적 패턴(규칙)을 찾아내!"</strong>라고 패러다임을 뒤집어버린 혁명이다.

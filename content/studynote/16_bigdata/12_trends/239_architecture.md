@@ -3,8 +3,8 @@ title: "239. Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 빅데이터 (엣지 집계 후 클라우드 전송, [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감)은 빅데이터 엣지 분석 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.

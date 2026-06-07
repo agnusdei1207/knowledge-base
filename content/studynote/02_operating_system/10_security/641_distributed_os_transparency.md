@@ -3,8 +3,8 @@ title: "Transparency: , , ,"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 641
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Distributed OS)에서 <strong>투명성(Transparency)</strong>이란 물리적으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 여러 대의 컴퓨터 자원을 사용자가 마치 '단일한 하나의 강력한 컴퓨터'를 사용하는 것처럼 느끼게 만들어주는 논리적 은폐 기술이다.

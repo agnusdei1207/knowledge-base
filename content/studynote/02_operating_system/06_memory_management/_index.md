@@ -2,9 +2,9 @@
 title: "Memory Management"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 6
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 관리 (Memory Management)는 한정된 물리적 메모리 자원을 여러 프로세스에게 효율적으로 할당하고 보호하며, 주소 변환 (Address Translation)을 통해 응용 프로그램에게 연속된 논리적 주소 공간을 제공하는 과정이다.

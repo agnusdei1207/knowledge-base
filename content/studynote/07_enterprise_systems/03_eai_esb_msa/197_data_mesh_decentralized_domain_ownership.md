@@ -2,9 +2,9 @@
 title: "Data Mesh"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 분석용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀의 공용 자산이 아니라, 각 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 책임지는 [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/) ([Data Product](/studynote/16_bigdata/07_data_lake/154_data_product/))으로 다루는 운영 모델이다.

@@ -3,8 +3,8 @@ title: "Wide Column Store"
 date: "2026-03-03"
 tags:
   - "studynote-data-engineering"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. 와이드 컬럼 저장소(Wide Column Store)는 행 키(Row [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하되, 각 행이 서로 다른 컬럼 집합을 가질 수 있는 스파스 매트릭스 구조로, 스키마가 행마다 다를 수 있는 반정형 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 최적화되어 있다.
 > 2. [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 설계가 [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)/[HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/) 성능의 90%를 결정 — [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 핫스팟(Hot Spot)을 만들거나 너무 세밀하면 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 효과가 사라지며, "[쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 중심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링(Query-Driven Modeling)"이 관계형 DB의 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 완전히 다른 설계 철학이다.

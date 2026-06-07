@@ -1,11 +1,11 @@
 ---
 title: "172. Business Case Roi Analysis"
 date: "2026-04-03"
-description: "소프트웨어 투자안을 비용, 편익, 위험, 현금흐름 관점에서 정당화하는 비즈니스 케이스와 ROI 분석을 정리한다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈니스 케이스 (Business Case)는 "이 프로젝트를 왜 해야 하는가"를 기술이 아니라 비용, 편익, 위험, 일정, [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 적합성의 언어로 설명하는 투자 의사결정 문서다.

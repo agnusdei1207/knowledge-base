@@ -3,8 +3,8 @@ title: "Capacitance"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
+weight: 6
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정전용량 (Capacitance, $C$)은 유전체를 사이에 둔 두 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)에 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가했을 때 얼마나 많은 전하(Charge)를 구속하여 저장할 수 있는지를 나타내는 물리량($C = Q/V$)이다.
 > 2. **가치**: 메모리 아키텍처에서는 1비트의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃어버리지 않게 지켜주는 든든한 댐의 크기지만, 로직 배선에서는 스위칭 속도를 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 <strong>기생 커패시턴스 (Parasitic Capacitance)</strong>로 흑화한다.

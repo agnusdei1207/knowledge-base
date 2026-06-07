@@ -3,8 +3,8 @@ title: "785. Backhaul Midhaul Xhaul Transport Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 785
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [미드홀](/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

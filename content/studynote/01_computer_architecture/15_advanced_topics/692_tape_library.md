@@ -3,8 +3,8 @@ title: "Tape Library"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 692
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테이프 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 대량의 테이프 카트리지를 로봇이 자동으로 장착·회수하는 deep archive 시스템으로, 매우 느리지만 매우 싸고 오래 가는 저장 구조다.

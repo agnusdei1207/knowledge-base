@@ -3,8 +3,8 @@ title: "041. Zachman Framework"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 자크만 프레임워크([Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/))는 엔터프라이즈 아키텍처([EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 6가지 관점([이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/))×6가지 질문(What/How/Where/Who/When/Why)의 36셀 매트릭스로 체계화한 온톨로지로, 아키텍처 산출물을 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 누락을 방지하는 메타프레임워크다.
 > 2. 보안 관점에서 자크만 프레임워크는 [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/)(정보보호 관리체계)·[SABSA](/studynote/09_security/01_intro_principles/042_sabsa/)(Sherwood Applied Business [Security Architecture](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)) 등 [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 설계에서 각 계층의 보안 요구사항을 빠짐없이 도출하는 구조화 도구로 활용된다.

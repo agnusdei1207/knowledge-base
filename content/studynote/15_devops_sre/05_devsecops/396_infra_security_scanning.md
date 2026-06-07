@@ -3,8 +3,8 @@ title: "Infrastructure Security Scanning Checkov Trivy"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 396
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인프라 보안 스캐닝 IaC 취약점 사전 탐지은(는) 개발, 배포, 운영 전 과정에 보안 통제를 내재화하는 DevSecOps 핵심 주제다.

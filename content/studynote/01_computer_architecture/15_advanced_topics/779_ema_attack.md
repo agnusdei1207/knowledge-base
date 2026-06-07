@@ -3,8 +3,8 @@ title: "779. Ema Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 779
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EMA (Electromagnetic Analysis)는 칩 내부 스위칭 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 만드는 근접 전자기장을 프로브로 수집해, 전원선에 직접 닿지 않고도 내부 연산의 누설을 읽는 비접촉 부채널 공격이다.

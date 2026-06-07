@@ -3,8 +3,8 @@ title: "Blockchain Privacy Mixing Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 569
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블록체인 프라이버시 믹싱 프로토콜은(는) 공개 원장에서 송신자, 수신자, 금액의 연결 가능성을 낮추기 위해 믹싱, 링 서명, 영지식 증명 등을 사용하는 프라이버시 기술이다.

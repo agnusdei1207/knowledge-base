@@ -3,8 +3,8 @@ title: "056. Deterrent Controls"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제(Deterrent Controls)는 공격자를 물리적으로 막기보다, "하면 들키고 처벌받는다"는 인식을 심어 행동 의지를 꺾는 통제다.

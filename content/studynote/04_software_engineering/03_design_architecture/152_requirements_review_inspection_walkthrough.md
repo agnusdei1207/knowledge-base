@@ -1,11 +1,11 @@
 ---
 title: "152. Requirements Review Inspection Walkthrough"
 date: "2026-05-03"
-description: "결함이 코드 쇳덩이(런타임 버그)로 파멸적 전이(Transfer)가 되기 직전! 문서(명세서) 페이퍼 종이 위에 누워있을 때 동료와 전문가의 집단 지성 스캐너로 사전에 모순을 찢고 록온 척살해 내는 가장 싸고 파괴적인 정적 테스트 쉴드"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [요구사항 검토](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)([Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))는 소프트웨어를 톰캣 서버에 올려 런타임 실행(Run)하지 않고!! 걍 기획자가 쓴 한글 텍스트 명세서(SRS) 설계도 문서 쪼가리를 사람의 뇌와 눈깔로 깐깐하게 엑스레이 스캔 심사하여 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 빵꾸([Defect](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))를 찾아내는 <strong>가장 강력한 정적 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(Static <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>) 예방 의학 방폭문</strong>이다.
 > 2. **가치**: 코딩 다 끝내고 오픈 날 버그 뜯어고쳐 DB 엎는 비용이 100만 원(파국 💀)이라면, 요구사항 문서 뼈대 단계에서 연필로 쭉 긋고 한 줄 텍스트 수정 컷 치는 비용은 단돈 100원([ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 가성비 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배 압살 🚀)에 불과하다. 생명주기([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 최선봉 대문 앞단에서 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 폭탄 뇌관을 미리 사살 소각시켜 런타임 눈덩이 스노우볼 재작업(Rework) 멸망을 막아낸다.

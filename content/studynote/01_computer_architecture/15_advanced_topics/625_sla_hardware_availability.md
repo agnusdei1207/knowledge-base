@@ -3,8 +3,8 @@ title: "625. Sla Hardware Availability"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 625
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/), [Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))은 시스템이 얼마나 오래 살아 있어야 하는지를 숫자로 약속한 계약이며, 하드웨어 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 설계 목표로 바꿔 준다.

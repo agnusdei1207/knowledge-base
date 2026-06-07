@@ -3,8 +3,8 @@ title: "123. Pipe"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파이프 (Pipe)는 UNIX 계열 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 [부모 프로세스](/studynote/02_operating_system/02_process_thread/105_parent_child_process/)([Parent Process](/studynote/02_operating_system/02_process_thread/105_parent_child_process/))와 자식 프로세스(Child [Process](/studynote/12_it_management/05_security_compliance/943_process/)) 간에 반수신(Half-Duplex) 방식으로 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림([Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 가장 기본적인 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/studynote/12_it_management/05_security_compliance/943_process/) Communication) 메커니즘이다.

@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 19
 ---
-
 # 19. 처리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Processing Delay) - 헤더 검사, [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
 
 ## 핵심 인사이트 (3줄 요약)

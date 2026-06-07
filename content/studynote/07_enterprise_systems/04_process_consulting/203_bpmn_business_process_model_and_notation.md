@@ -2,10 +2,9 @@
 title: "203. BPMN (Business Process Model and Notation)"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 203
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BPMN은 사람에게는 읽기 쉬운 프로세스 그림이면서, 엔진에게는 실행 의미를 전달하는 표준 모델링 언어다.

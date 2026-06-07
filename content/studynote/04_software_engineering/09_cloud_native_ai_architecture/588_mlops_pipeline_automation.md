@@ -3,8 +3,8 @@ title: "588. Mlops Pipeline Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 588
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 파이프라인 - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 모델 학습(Training), 서빙(Serving), 모니터링 자동화은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

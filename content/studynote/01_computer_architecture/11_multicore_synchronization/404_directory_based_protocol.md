@@ -3,8 +3,8 @@ title: "Directory-based Protocol"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 404
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Directory](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)-based [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))은 각 캐시 라인의 보유자와 수정 권한을 홈 노드(Home Node)의 장부에 기록해, 브로드캐스트 대신 필요한 캐시에만 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 보내는 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 방식이다.

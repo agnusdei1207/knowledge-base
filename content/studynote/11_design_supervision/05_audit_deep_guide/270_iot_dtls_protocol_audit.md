@@ -3,8 +3,8 @@ title: "IoT DTLS Protocol Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 270
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [DTLS](/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 감리는 [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(Internet of Things, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 환경의 데이터그램 전송 계층 보안(Datagram Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [DTLS](/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/)) 통신 체계에서 기기 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Device [Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/)), 경량 암호화(Lightweight Encryption), 키 갱신([Key Rotation](/studynote/09_security/03_network_security/156_key_rotation/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

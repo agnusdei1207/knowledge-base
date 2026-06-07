@@ -1,10 +1,11 @@
 ---
 title: "084. Kanban Board Wip Limit"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 칸반 (Kanban)은 작업 흐름을 보이게 하고, WIP ([Work In Progress](/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) 제한으로 동시에 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 일을 줄이는 흐름 관리 방식이다.

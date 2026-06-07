@@ -3,8 +3,8 @@ title: "Perceptron XOR Problem Hidden Layer"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 433
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) XOR 한계 은닉층 ([Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) XOR Problem Hidden Layer): 1. **본질**: [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)([Single-layer Perceptron](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/))은 신경망의 가장 단순한 원조 모델로, 오직 '직선 하나'만을 그어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 동강 내는 기능밖에 없어 복잡…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

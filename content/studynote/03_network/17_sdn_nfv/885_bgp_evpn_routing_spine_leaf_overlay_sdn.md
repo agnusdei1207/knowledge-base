@@ -3,8 +3,8 @@ title: "885. Bgp Evpn Routing Spine Leaf Overlay Sdn"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 885
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

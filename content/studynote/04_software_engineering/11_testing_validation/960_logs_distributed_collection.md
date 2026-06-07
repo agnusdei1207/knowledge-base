@@ -3,8 +3,8 @@ title: "ELK Stack - Elasticsearch, Logstash, Kibana / Fluentd"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 960
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) - [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [로그 수집](/studynote/09_security/13_secops_ir_forensics/626_log_collection/) (ELK [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) - [Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), Logstash, [Kibana](/studynote/16_bigdata/08_visualization/169_kibana/) / Fluentd)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

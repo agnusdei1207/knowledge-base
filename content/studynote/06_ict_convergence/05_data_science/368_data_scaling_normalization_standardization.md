@@ -3,8 +3,8 @@ title: "K-NN, SVM, PCA /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 368
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 민감도 ([K-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/), [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 등 거리/[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 기반 모델은 필수): 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Scaling)은 '연봉(천만 원)'과 '나이(살)'처럼 단위(Scale)와 덩치가 전혀 다른 변수들을, 0~1 사이로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)([Min-Max](/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/))하…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

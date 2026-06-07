@@ -3,8 +3,8 @@ title: "Major Page Fault / I/O"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 429
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 환경에서 발생하는 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))는 해결하기 위해 겪어야 하는 고통의 무게에 따라, <strong>디스크(I/O) 접근 없이 램 내부의 조작만으로 0.001초 만에 쓱 해결되는 '마이너(Minor) 폴트'</strong>와 <strong>무거운 하드디스크(Swap)까지 덜그럭거리며 데이터를 퍼와야 해서 1초 이상 서버를 마비시키는 '메이저(Major) 폴트'</strong>로 극명하게 나뉜다.

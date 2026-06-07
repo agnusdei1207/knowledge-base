@@ -3,8 +3,8 @@ title: "667. Container Runtime Hw Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 667
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `runc`는 여러 리눅스 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 조합해 각 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 `/dev`, 네트워크 인터페이스, 프로세스 번호, 호스트명 같은 HW (Hardware) 인접 자원의 "보이는 세계"를 따로 만들어 주는 런타임이다.

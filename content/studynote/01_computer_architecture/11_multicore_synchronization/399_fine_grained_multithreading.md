@@ -3,8 +3,8 @@ title: "Fine-grained"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 399
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 세밀한 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Fine-grained [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 한 코어가 <strong>매 클럭 사이클 (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> Cycle)마다 실행 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 바꾸는</strong> 방식으로, 한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 즉시 덮어 버리는 하드웨어 스케줄링 기법이다.

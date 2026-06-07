@@ -3,8 +3,8 @@ title: "035. Line Coding & Block Coding"
 date: "2026-03-03"
 tags:
   - "studynote-network"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. 라인 코딩(Line Coding)은 디지털 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 물리적 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)([전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 패턴)로 변환하는 방식으로, DC 성분 제거·[동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·오류 검출 기능을 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 자체에 내포시켜야 한다.
 > 2. 블록 코딩([Block Coding](/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/))은 mB/nB 방식으로 원래 m비트를 n비트(n>m)로 확장해 DC 균형 유지와 타이밍 복구를 위한 여유 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Redundant [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 추가한다.

@@ -3,8 +3,8 @@ title: "Return"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서브루틴 호출 (Call)과 복귀 (Return)는 [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))의 다음 실행 위치를 보존한 뒤 다른 코드 블록으로 이동하고, 작업이 끝나면 그 위치로 정확히 되돌아오게 만드는 제어 흐름 메커니즘이다.

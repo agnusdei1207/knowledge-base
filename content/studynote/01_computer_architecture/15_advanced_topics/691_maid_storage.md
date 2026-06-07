@@ -3,9 +3,8 @@ title: "691. MAID (Massive Array of Idle Disks)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 691
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MAID (Massive [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) of [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Disks)는 모든 디스크를 항상 돌리는 대신, 실제로 필요한 소수의 디스크만 깨워서 읽고 쓰게 만드는 대규모 저전력 아카이브 스토리지 구조다.

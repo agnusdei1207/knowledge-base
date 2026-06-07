@@ -3,8 +3,9 @@ title: "015. Disposability"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 15
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 폐기 가능성 원칙은 애플리케이션 프로세스가 언제든즉각적으로 시작되고 종료될 수 있어야 하며, 갑작스러운 종료(강제 종료, Kill)에도 시스템이정합성을실わない와/과いう설계요구이다.
 > 2. **가치**: 폐기 가능성을 확보하면 [무중단 배포](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/), 빠른 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/), 그리고 장애 시즉시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능해져 시스템의 Overall [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)이 크게 향상된다.

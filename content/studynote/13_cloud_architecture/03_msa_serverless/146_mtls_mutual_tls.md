@@ -3,8 +3,8 @@ title: "146. Mtls Mutual Tls"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: mTLS는 <strong>클라이언트와 서버가 양쪽 모두 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(상호 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>하는 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 확장이며, [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))에서 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 통신의 암호화·<a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>·<a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>을 보장하는 핵심 메커니즘이다.
 > 2. **가치**: 일반 TLS는 <strong>서버만 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>(클라이언트는 아무나)하지만, mTLS는 <strong>양쪽 모두 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>하여 [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크에서 "네트워크 내부라도 신뢰하지 않는" 원칙을 실현한다.

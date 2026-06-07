@@ -3,8 +3,8 @@ title: "136. Cross Join Cartesian Product"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 136
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CROSS JOIN은 <strong>두 테이블의 모든 행을 서로 조합(<a href="/studynote/05_database/07_exam_summary/412_cartesian_product/">Cartesian Product</a>)</strong>하여 N×M 행을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 연산이며, 조인 조건 없이 모든 가능한 조합을 만든다.
 > 2. **가치**: 의도적 사용은 드물지만, <strong><a href="/studynote/04_software_engineering/11_testing_validation/836_test_data_management/">테스트 데이터</a> <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·달력×시간대 조합·모든 조합 비교</strong> 등에 활용되며, 실수로 사용 시 행 폭발(100×100=[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000행)에 주의해야 한다.

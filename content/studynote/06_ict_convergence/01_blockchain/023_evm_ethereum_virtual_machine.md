@@ -3,8 +3,8 @@ title: "023. Evm Ethereum Virtual Machine"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) (Ethereum [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 이더리움 가상 머신)은 이더리움 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))를 결정론적(Deterministic)으로 실행하는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 세계 컴퓨터의 실행 환경으로, 전 세계 수천 개의 노드가 동일한 코드를 완전히 동일한 결과로 실행하는 것을 보장한다.
 > 2. **가치**: EVM은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)-Based) 256비트 아키텍처로 설계되어 암호학적 연산(해시, 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 네이티브로 지원하며, [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/)) 메커니즘으로 무한 루프(Halting Problem)를 차단하여 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 전체의 안전성과 일관성을 지킨다.

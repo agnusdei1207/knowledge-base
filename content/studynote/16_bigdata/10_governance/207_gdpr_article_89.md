@@ -3,8 +3,8 @@ title: "207. Gdpr Article 89"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) (General [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Regulation, EU [개인정보보호](/studynote/09_security/16_data_privacy/803_privacy_law_comparison/)규정) 제89조는 공익 기록·과학적 연구·역사적 연구·통계 목적을 위한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리에 목적 제한(Article 5(1)(b)) 예외를 허용하되, 가명처리·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화·기술적 조치를 조건으로 한다.

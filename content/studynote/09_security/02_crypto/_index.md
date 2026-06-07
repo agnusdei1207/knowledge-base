@@ -2,9 +2,9 @@
 title: "Cryptography"
 tags:
   - "security"
+  - "studynote-security"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 암호학은 수학적 알고리즘을 통해 정보를 판독 불가능한 상태로 변환하여 기밀성, 무결성, 가용성 및 부인 방지를 보장하는 보안의 핵심 기술이다.

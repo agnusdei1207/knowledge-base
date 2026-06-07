@@ -3,8 +3,8 @@ title: "Fine Tuning Transfer Learning Domain Adaptation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 644
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대규모 사전학습 모델(LLM/VLM/Foundation Model)의 파라미터 공간을 소스 도메인 $\mathcal{D}_S$에서 타겟 도메인 $\mathcal{D}_T$으로 적응시키기 위해, Feature Extractor 동결 + Task-Specific Head 재학습(Frozen Feature Extraction), 부분 파라미터 미세조정(LoRA, Adapter, Prefix-Tuning), 그리고 도메인 불변 표현 학습(DANN, MMD, CORAL, Adversarial DA)을 결합한 **계층적 파라미터 재사용 및 분포 정렬(Alignment) 메커니즘**.

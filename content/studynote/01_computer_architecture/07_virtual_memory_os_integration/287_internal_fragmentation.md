@@ -3,8 +3,8 @@ title: "Internal Fragmentation"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 287
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [내부 단편화](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))는 고정 크기 블록으로 메모리를 나눌 때, 할당된 블록 안쪽에 남지만 다른 요청에는 재사용할 수 없는 공간 낭비다.

@@ -3,8 +3,8 @@ title: "Rigorous 2PL"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 강건한 [2PL](/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/) (Rigorous [2PL](/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/))은 S-Lock, X-Lock 모두 커밋 전까지 보유에 초점을 맞춘 개념이다.

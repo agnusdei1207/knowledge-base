@@ -3,8 +3,8 @@ title: "MTBF/MTTR Optimization"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MTBF](/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) ([Mean Time Between Failures](/studynote/04_software_engineering/06_software_architecture/358_mtbf/), 평균 고장 간격)는 장애가 얼마나 드물게 일어나는지를, [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) ([Mean Time To Repair](/studynote/04_software_engineering/06_software_architecture/359_mttr/) or Restore, 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)는 장애가 났을 때 얼마나 빨리 정상화하는지를 보여 주며, 두 값의 조합이 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 결정한다.

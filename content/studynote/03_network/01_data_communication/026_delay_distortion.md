@@ -3,8 +3,8 @@ title: "026. Delay Distortion"
 date: "2026-04-29"
 tags:
   - "studynote-network"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 왜곡(Delay Distortion)은 전송 매체에서 서로 다른 주파수 성분이 서로 다른 속도로 전파되어 수신 측에서 파형이 변형되는 현상이다. 특히 디지털 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 고조파(Harmonic) 성분들이 서로 다른 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 갖게 되어 심볼 간 간섭(ISI, Inter-Symbol Interference)을 유발한다.
 > 2. **가치**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 왜곡은 유선 전화선(DSL), [동축 케이블](/studynote/03_network/03_physical_layer_media/127_coaxial_cable/), 광섬유 등 모든 유선 매체에서 발생하며, 높은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송률(bps)에서 ISI가 심해져 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율(BER, [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate)을 급격히 상승시킨다. [등화기](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/)([Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))는 주파수별 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 보정하여 이 왜곡을 제거하는 핵심 장치다.

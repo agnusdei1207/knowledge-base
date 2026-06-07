@@ -3,8 +3,8 @@ title: "Random Forest"
 date: "2026-03-03"
 tags:
   - "studynote-ai"
+weight: 33
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/))는 [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)) + 특성 무작위화(Feature Randomness)를 결합해 다수의 독립적인 [의사결정 트리](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)를 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)하는 강력한 지도학습 모델이다.
 > 2. 각 트리가 부트스트랩 샘플과 무작위 선택된 특성 부분집합으로 학습해 상관관계가 낮은 다양한 트리를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 다수결/평균으로 최종 예측한다.

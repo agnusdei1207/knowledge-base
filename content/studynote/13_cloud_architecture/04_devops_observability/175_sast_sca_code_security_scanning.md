@@ -3,8 +3,8 @@ title: "Static Application Security Testing, Software Composition Analysis; SAST
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Static Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing ([SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))는 직접 작성한 코드의 취약한 흐름을, [Software Composition Analysis](/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/) ([SCA](/studynote/09_security/05_web_app_security/453_sca/))는 가져다 쓴 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 전이 의존성의 알려진 위험을 추적하는 상보적 검사다.

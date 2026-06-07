@@ -3,8 +3,8 @@ title: "Active Record ORM Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 235
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [액티브](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 ([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Record) 는 DB ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 테이블의 각 행(Row)을 객체로 1:1 매핑하고, 해당 객체 안에 저장(save), 삭제(delete), 조회(find) 같은 DB ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 접근 메서드를 직접 포함한다.

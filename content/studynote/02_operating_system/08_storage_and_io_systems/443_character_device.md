@@ -3,8 +3,8 @@ title: "Character Device"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 443
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 문자 장치(Character Device)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 4KB 블록 덩어리로 묶어서 관리하는 디스크와 달리, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>1바이트(문자) 단위의 연속된 흐름(<a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)으로 쪼르륵 내보내고 받으며, 오직 '순차적(Sequential) 접근'만 허용하는 I/O 장치들의 논리적 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>다.

@@ -3,8 +3,8 @@ title: "303. Stream Processing Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 303
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [역색인](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/) ([Inverted Index](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 구조는 단어(Term)가 포함된 문서 ID 리스트 매핑 (검색 엔진 핵심)에 초점을 둔 구조이다.

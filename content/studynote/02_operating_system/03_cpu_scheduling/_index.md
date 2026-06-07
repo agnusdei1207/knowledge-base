@@ -2,9 +2,9 @@
 title: "CPU Scheduling"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU 스케줄링 (CPU Scheduling)은 준비 큐 (Ready Queue)에 대기 중인 프로세스들 중 어떤 프로세스에 CPU를 할당할지 결정하여 시스템 자원의 효율성과 처리량을 최적화하는 과정이다.

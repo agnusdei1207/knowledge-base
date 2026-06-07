@@ -3,8 +3,8 @@ title: "062. Perceptron Rosenblatt Single Layer"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)([Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 입력의 가중합이 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 1, 아니면 0을 내는 단층 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.

@@ -3,8 +3,8 @@ title: "261. Rstp Backup Port And Alternate Port"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 261
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 대체 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가는 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

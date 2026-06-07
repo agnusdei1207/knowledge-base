@@ -3,8 +3,8 @@ title: "384. Pure Demand Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 384
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순수 [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)(Pure [Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 프로세스를 시작할 때 <strong>물리 메모리(RAM)에 단 1장의 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>조차 미리 올려두지 않고 텅 빈 채로 강제 실행</strong>시켜, 첫 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)부터 무자비하게 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 터뜨리며 시작하는 극단적인 [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) 전략이다.

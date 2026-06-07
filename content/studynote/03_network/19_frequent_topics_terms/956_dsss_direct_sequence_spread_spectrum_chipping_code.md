@@ -3,8 +3,8 @@ title: "956. Dsss Direct Sequence Spread Spectrum Chipping Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 956
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DSSS는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

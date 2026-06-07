@@ -3,8 +3,8 @@ title: "Feature Engineering Auto Feature Generation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 749
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자동 피처 생성(Automated Feature Generation, AFG)은 원천 변수(Raw Variables)에 대해 **다항식 확장(Polynomial Expansion), 교차항(Cross Features), 시계열 집계(Windowed Aggregations), 비선형 변환(Non-linear Transformations), 임베딩 기반 합성(Embedding-based Synthesis)**을 탐색-생성-평가 루프(Search-Generate-Evaluate Loop)로 자동화하여 Featuretools·tsfresh·OneBM·Cognito·AutoFeat·LFE·OpenFE 같은 엔진이 후보 피처 공간(H_candidate)을 체계적으로 조합·선별하는 메커니리즘이다.

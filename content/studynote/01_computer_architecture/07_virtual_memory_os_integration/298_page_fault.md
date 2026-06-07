@@ -3,8 +3,8 @@ title: "Page Fault"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))는 CPU (Central Processing Unit)가 참조한 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 현재 RAM (Random Access Memory)에 없거나 접근 권한 조건을 만족하지 않을 때, 하드웨어가 OS ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 제어를 넘기는 예외 경계다.

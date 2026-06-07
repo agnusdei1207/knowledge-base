@@ -3,8 +3,8 @@ title: "Comparator"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
+weight: 43
 ---
-
 > **핵심 인사이트**
 > 1. 비교기(Comparator)는 두 이진수 A와 B를 비교하여 A>B, A=B, A<B 세 가지 출력을 만드는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)(산술논리연산장치)의 조건 분기 판단과 [정렬 네트워크](/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)의 기본 구성 요소이다.
 > 2. 1비트 비교기는 XNOR(동치), AND/NOT 조합으로 구현하지만, 다비트 비교기는 [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)([Most Significant Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))부터 우선 비교하는 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교(Iterative) 방식과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교(Parallel) 방식의 속도-비용 트레이드오프가 존재한다.

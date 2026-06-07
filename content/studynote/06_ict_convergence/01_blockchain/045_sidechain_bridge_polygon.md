@@ -3,8 +3,8 @@ title: "Polygon"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. 사이드체인(Sidechain)은 메인체인(Main Chain)과 양방향 페그(Two-Way Peg)로 연결된 독립 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) — 메인체인의 보안을 활용하면서 독자적 합의 규칙으로 더 빠르고 저렴한 트랜잭션을 처리하며, Polygon PoS가 대표적 Ethereum 사이드체인이다.
 > 2. 브릿지([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))는 서로 다른 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 간 자산/데이터를 이전하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) — Lock-and-Mint(원체인 잠금 + 대상체인 발행) 방식이 일반적이며, 브릿지 스마트 컨트랙트는 해커의 주요 공격 표적(2022년 Ronin 해킹 6,100억원)이다.

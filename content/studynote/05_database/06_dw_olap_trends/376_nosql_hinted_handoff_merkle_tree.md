@@ -3,8 +3,8 @@ title: "376. Nosql Hinted Handoff Merkle Tree"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 376
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 톨러런스 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Hinted Handoff, Anti-[entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 매커니즘 / [머클 트리](/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 비교)는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

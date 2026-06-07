@@ -3,8 +3,8 @@ title: "Linux O1 Scheduler"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리눅스 O(1) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 실행 대기 중인 프로세스의 개수($N$)가 10개든 10만 개든 상관없이, 다음 실행할 프로세스를 찾는 데 걸리는 탐색 시간이 항상 **상수 시간 $O(1)$**로 고정된 혁신적인 스케줄링 알고리즘이다.

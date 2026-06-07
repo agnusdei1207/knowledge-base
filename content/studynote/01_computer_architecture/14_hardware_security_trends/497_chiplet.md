@@ -3,8 +3,8 @@ title: "497. Chiplet"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 497
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 칩렛 (Chiplet) 아키텍처는 거대한 단일 다이 대신 기능별로 나눈 여러 다이를 하나의 패키지 안에서 시스템처럼 묶는 설계 방식이다.

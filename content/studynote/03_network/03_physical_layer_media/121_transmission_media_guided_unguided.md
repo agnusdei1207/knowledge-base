@@ -3,8 +3,8 @@ title: "Unguided"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전송 매체는 송신기와 수신기 간의 전자기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 전달하는 물리적 경로이며, [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 궤적을 물리적으로 제한하느냐에 따라 유도 매체와 비유도 매체로 대별된다.

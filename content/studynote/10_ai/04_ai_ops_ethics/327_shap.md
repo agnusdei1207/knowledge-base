@@ -3,9 +3,8 @@ title: "327. SHAP (SHapley Additive exPlanations)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 327
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SHAP (SHapley Additive exPlanations)은 협력 게임 이론의 <strong>샤플리 값(Shapley Value)</strong>을 ML 예측 설명에 적용하여, 각 특징이 예측에 기여한 양을 공정하게 분배하는 수학적으로 엄격한 [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법론이다.

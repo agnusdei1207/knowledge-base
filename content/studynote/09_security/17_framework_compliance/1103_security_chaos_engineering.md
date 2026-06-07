@@ -3,8 +3,8 @@ title: "Security Chaos ering, SCE"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 카오스 공학 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Chaos 엔진ering](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/), [SCE](/studynote/07_enterprise_systems/02_erp_systems/096_sce_supply_chain_execution_oms/))는 보안 확장 개념에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

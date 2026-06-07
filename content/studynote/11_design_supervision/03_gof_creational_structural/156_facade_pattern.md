@@ -3,8 +3,8 @@ title: "Facade Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파사드 패턴 ([Facade](/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) Pattern)은 GoF 구조 패턴으로, 복잡한 서브시스템(Subsystem)의 복잡한 인터페이스들을 하나의 단순화된 통합 인터페이스([Facade](/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))로 감싸, 클라이언트가 서브시스템의 복잡성을 알지 못해도 쉽게 사용할 수 있게 하는 패턴이다.

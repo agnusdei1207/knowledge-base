@@ -3,8 +3,8 @@ title: "091. Lean Startup Pivot"
 date: "2026-03-31"
 tags:
   - "studynote-software-engineering"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) ([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/))은 농구에서 한 발을 축으로 고정하고 다른 발을 돌려 방향을 전환하듯, 회사의 궁극적 비전은 유지하면서 제품, 타겟 고객, 수익 모델 등 핵심 전략을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 과감하게 수정하는 행위다.

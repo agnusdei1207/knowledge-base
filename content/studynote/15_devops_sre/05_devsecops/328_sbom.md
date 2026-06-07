@@ -3,8 +3,8 @@ title: "Software Bill of Materials Supply Chain Defense SPDX CycloneDX VEX"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 328
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([Software Bill of Materials](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))은 소프트웨어를 구성하는 모든 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 라이선스의 공식 인벤토리로, [공급망 공격](/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)(SolarWinds, XZ Utils 사태) 이후 소프트웨어 투명성의 핵심 수단이 되었다.

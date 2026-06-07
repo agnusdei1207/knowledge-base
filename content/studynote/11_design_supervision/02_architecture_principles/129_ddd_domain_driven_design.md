@@ -3,8 +3,8 @@ title: "DDD: Domain-Driven Design"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도메인 주도 설계](/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/studynote/12_it_management/05_security_compliance/310_architecture/), [Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))는 비즈니스 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 복잡성을 소프트웨어로 직접 반영하기 위해, 비즈니스 전문가([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가)와 개발자가 [유비쿼터스 언어](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)([Ubiquitous Language](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))를 공유하고, [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)), 에그리게이트([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)), [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Event)를 핵심 구성 단위로 사용하여 복잡한 엔터프라이즈 소프트웨어를 설계하는 방법론이다.

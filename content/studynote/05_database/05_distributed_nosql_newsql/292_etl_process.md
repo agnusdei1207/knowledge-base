@@ -3,8 +3,8 @@ title: "CockroachDB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 292
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 칵로치DB (CockroachDB)는 생존성 극대화 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) SQL [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

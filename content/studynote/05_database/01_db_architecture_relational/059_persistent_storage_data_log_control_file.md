@@ -3,8 +3,8 @@ title: "059. Persistent Storage Data Log Control File"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 영구 저장소는 DB 인스턴스가 메모리 밖에 남기는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 제어 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 집합이다.

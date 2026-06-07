@@ -3,8 +3,8 @@ title: "Cause Of Thrashing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 414
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))이 폭발하는 가장 근본적이고 기계적인 원인은, 각 프로세스가 에러 없이 단 1개의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하기 위해 <strong>하드웨어적으로 절대 보장받아야 하는 '최소 프레임 수(Minimum Frames)'조차 운영체제가 빼앗아 가버렸기 때문</strong>이다.

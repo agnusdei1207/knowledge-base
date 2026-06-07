@@ -3,8 +3,8 @@ title: "Object Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 677
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오브젝트 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) ([Object Storage](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로나 블록 주소 대신, 고유 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ([Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), ID)와 풍부한 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)로 관리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 모델이다.

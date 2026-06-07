@@ -3,8 +3,8 @@ title: "826. Kube Proxy Service Load Balancing Iptables Ipvs"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 826
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Kube-Proxy [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로드밸런싱은 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

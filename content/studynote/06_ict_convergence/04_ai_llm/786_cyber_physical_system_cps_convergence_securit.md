@@ -3,8 +3,8 @@ title: "Cyber Physical System CPS Convergence Security"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 786
 ---
-
 # 786. 사이버 물리 시스템 CPS 융합 보안 (Cyber-Physical System CPS Convergence Security)
 
 ## 핵심 인사이트 (3줄 요약)

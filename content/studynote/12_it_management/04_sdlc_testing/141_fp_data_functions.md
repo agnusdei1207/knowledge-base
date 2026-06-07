@@ -3,8 +3,8 @@ title: "Data Functions"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기능 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Functions)의 본질은 ILF (내부 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), DB 저장 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), EIF (외부 연계 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 타 시스템 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 단계별 산출물과 품질 게이트로 관리하는 데 있다.
 > 2. **가치**: 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

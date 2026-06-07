@@ -3,9 +3,8 @@ title: "716. PCIe AER (Advanced Error Reporting)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 716
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) AER ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express Advanced Error Reporting)은 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치와 루트 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 오류 상태, 심각도, 패킷 헤더 정보를 구조적으로 기록하고 운영체제에 전달하는 오류 보고 확장 기능이다.

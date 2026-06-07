@@ -3,8 +3,8 @@ title: "880. Overlay Underlay Sdn Controller Plane Duality"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 880
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오버레이 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) vs 언더레이 SDN는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Deadlock Recovery"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 복구](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))는 탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))을 통해 시스템에 데드락이 발생했음을 확인한 후, <strong>특정 프로세스를 강제로 종료(Kill)하거나 자원을 뺏어(Preemption) 데드락의 순환 고리(Cycle)를 물리적으로 끊어내는 사후 조치</strong>다.

@@ -3,8 +3,8 @@ title: "790. P4 Programming Network Data Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 790
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 프로그래밍 모델 [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

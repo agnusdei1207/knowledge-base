@@ -3,8 +3,8 @@ title: "Command Query Responsibility Segregation"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 303
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델과 읽기 모델을 분리해 확장성과 최적화를 다르게 가져가는 패턴.

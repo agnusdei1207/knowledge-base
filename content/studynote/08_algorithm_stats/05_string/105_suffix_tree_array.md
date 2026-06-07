@@ -2,9 +2,9 @@
 title: "Suffix Tree & Suffix Array"
 date: "2024-03-24"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **문자열 분석의 만능 도구**: 주어진 문자열의 모든 접미사(Suffix)를 효율적으로 저장하여 부분 문자열 검색, 반복 패턴 찾기 등을 O(M) 수준으로 해결합니다.
 2. <strong>접미사 트리 vs <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>: 트리는 최강의 검색 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(O(m))을 자랑하고, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 구현의 간결함과 메모리 효율성(O(n))에서 우위를 점합니다.

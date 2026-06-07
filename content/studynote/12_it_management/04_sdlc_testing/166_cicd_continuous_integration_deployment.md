@@ -3,8 +3,8 @@ title: "Continuous Integration/Continuous Deployment, /"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 코드 변경을 빌드·테스트·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·배포 가능한 산출물까지 자동 흐름으로 연결해, 통합과 배포를 이벤트가 아니라 일상 작업으로 바꾸는 개발 운영 체계다.

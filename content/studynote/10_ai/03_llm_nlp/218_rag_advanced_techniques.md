@@ -3,8 +3,8 @@ title: "Advanced RAG"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 고도화 기법 (Advanced [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))은 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(거짓말)을 부리지 않도록 외부 문서를 먹여주는 단순한 베이직 RAG를 넘어, 수십만 장의 PDF에서 정확한 딱 한 문단을 오차 없이 저격해 끌고 오기 위해 <strong>청킹(Chunking), <a href="/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/">하이브리드 검색</a>(<a href="/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/">Hybrid Search</a>), 재랭킹(Re-ranking)</strong>이라는 3중 거름망을 겹겹이 두른 엔터프라이즈급 팩트 색출 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.

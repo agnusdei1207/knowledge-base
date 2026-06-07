@@ -3,8 +3,8 @@ title: "Memory Consistency Model"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 410
 ---
-
 # 메모리 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델 (Memory [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Model)
 
 ## 핵심 인사이트 (3줄 요약)

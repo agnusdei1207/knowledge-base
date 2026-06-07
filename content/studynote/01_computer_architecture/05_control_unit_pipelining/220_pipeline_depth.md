@@ -3,8 +3,8 @@ title: "Pipeline Depth"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파이프라인 깊이 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Depth)는 하나의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경로를 몇 개의 단계로 잘라 [클럭 주기](/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)를 얼마나 짧게 만들 것인지 정하는, CPU (Central Processing Unit) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계의 핵심 레버다.

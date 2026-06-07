@@ -3,8 +3,8 @@ title: "One-Hot Encoding"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 248
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)([One-Hot Encoding](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/))은 범주형 변수(Categorical Variable)의 각 범주를 서로 독립된 이진 열(0 또는 1)로 변환하여, 범주 간 순서나 크기 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 임의로 부여하지 않는 수치화 방법이다.

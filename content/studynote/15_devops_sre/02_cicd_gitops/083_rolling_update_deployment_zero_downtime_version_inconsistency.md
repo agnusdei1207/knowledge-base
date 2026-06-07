@@ -2,9 +2,9 @@
 title: "083. Rolling Update Deployment Zero Downtime Version Inconsistency"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/) (Rolling Update)는 기존 Pod를 한 번에 하나 또는 소수씩 새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 교체하면서 원하는 replica 수를 유지하는 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 - **가치**: 추가 인프라를 거의 쓰지 않고 [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime을 달성할 수 있어, 기본 [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 가장 널리 쓰인다.

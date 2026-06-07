@@ -3,8 +3,8 @@ title: "523. Contiguous Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 523
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 때, 영화 1GB 크기만큼의 조각들을 디스크 원판에 흩뿌리지 않고 무조건 1번부터 25만 번까지 **"1개의 거대하고 완전하게 이어진 빈 공간 덩어리"** 에 통째로 밀어 넣어 할당하는 가장 원시적이고 무식한 방식이다.

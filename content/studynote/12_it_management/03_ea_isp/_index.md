@@ -2,9 +2,9 @@
 title: "EA & ISP"
 tags:
   - "it_management"
+  - "studynote-it-management"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엔터프라이즈 아키텍처 (EA)는 기업의 비즈니스 목표와 IT 자원을 유기적으로 연결하는 거시적 청사진이며, ISP (Information Strategy Planning)는 이를 수립하기 위한 중장기 전략 수립 과정이다.

@@ -2,9 +2,9 @@
 title: "Audit Framework"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보시스템 감리 (Information System Audit)는 발주자와 사업자로부터 독립된 제3자의 관점에서 정보시스템의 구축 및 운영에 관한 사항을 종합적으로 점검하고 개선안을 제시하는 품질 보증 (QA) 활동이다.

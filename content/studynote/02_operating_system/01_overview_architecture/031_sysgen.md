@@ -3,8 +3,8 @@ title: "031. Sysgen"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SYSGEN(System Generation, 시스템 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 특정 하드웨어 환경에 맞게 OS를 빌드·구성하는 과정이다. 일반적인 OS 코드베이스를 특정 CPU 아키텍처·메모리 크기·디바이스 드라이버 조합에 맞게 컴파일·링크하는 작업이다.
 > 2. **가치**: SYSGEN은 전통적으로 메인프레임·[임베디드 시스템](/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)에서 중요했다. 현대 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 `make menuconfig`으로 수천 개 옵션을 선택해 최적화된 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이미지를 빌드하는 SYSGEN 과정을 거친다.

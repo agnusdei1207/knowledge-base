@@ -3,8 +3,8 @@ title: "Cloud Data Lake Architecture Design"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 634
 ---
-
 ```markdown
 # 634. 클라우드 데이터 레이크 아키텍처 설계 (Cloud Data Lake Architecture Design)
 

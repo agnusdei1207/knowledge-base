@@ -1,11 +1,11 @@
 ---
 title: "CCB"
 date: "2026-03-04"
-description: "식별된 형상 항목(CI)에 대한 변경 요구를 체계적으로 검토, 승인, 추적하는 형상 관리의 핵심 제어 메커니즘"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 22
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 형상 통제는 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 형상 항목([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 변경 사항을 무분별하게 적용하지 못하도록, [변경 통제 위원회](/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))를 통해 검토, 승인, 반려하는 게이트키퍼 프로세스이다.
 > 2. **가치**: 변경으로 인한 부작용(Side-effect)을 사전에 차단하고, 프로젝트의 [범위 크리프](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))를 방지하여 시스템의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 품질을 유지한다.

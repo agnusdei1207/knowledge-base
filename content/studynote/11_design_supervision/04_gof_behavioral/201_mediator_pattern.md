@@ -3,8 +3,8 @@ title: "Mediator Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 미디에이터 패턴 ([Mediator Pattern](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))은 GoF 행위 패턴으로, 객체들이 직접 참조하며 복잡하게 상호작용하는 대신, [중재자](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Mediator](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)) 객체를 통해 통신하게 하여 객체 간 N:N 결합을 N:1+1:N으로 단순화하는 패턴이다.

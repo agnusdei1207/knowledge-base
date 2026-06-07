@@ -3,8 +3,8 @@ title: "Gustafson's Law"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 145
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 구스타프슨의 법칙 (Gustafson's Law)은 프로세서 수가 늘어날수록 같은 문제를 더 빨리 끝내는 데 그치지 않고, <strong>같은 시간 안에 더 큰 문제를 푸는 방향으로 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 해석해야 한다</strong>는 확장형 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모델이다.

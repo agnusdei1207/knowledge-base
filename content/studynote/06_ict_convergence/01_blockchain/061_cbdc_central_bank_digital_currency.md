@@ -3,8 +3,8 @@ title: "061. Cbdc Central Bank Digital Currency"
 date: "2026-04-07"
 tags:
   - "studynote-ict-convergence"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CBDC (Central Bank Digital Currency)는 중앙은행이 직접 발행하고 가치를 보증하는 공식 디지털 법정화폐다.

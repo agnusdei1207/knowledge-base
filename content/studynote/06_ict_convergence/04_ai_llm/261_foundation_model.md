@@ -3,8 +3,8 @@ title: "Foundation Model"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 261
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) ([Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)): 스탠퍼드 HAI 정의, 방대한 무라벨 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자기지도 학습하여 여러 다운스트림 태스크에 전이 가능한 거대 범용 모델를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

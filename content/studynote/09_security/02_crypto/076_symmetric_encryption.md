@@ -1,11 +1,10 @@
 ---
 title: "076. Symmetric Encryption"
 date: "2026-03-26"
-description: "동일한 키로 암호화와 복호화를 수행하는 대칭키 암호 시스템"
 tags:
-  - "studynote-software-engineering"
+  - "studynote-security"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대칭키 암호(Symmetric Encryption)는 같은 비밀키로 암호화와 복호화를 모두 수행하는 암호 방식이다.

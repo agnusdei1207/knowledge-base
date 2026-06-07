@@ -3,8 +3,8 @@ title: "104. Resnet Residual Network Skip Connection Bottleneck"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) ([Residual Network](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/))은 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변형하지 않고 다음 층으로 직접 전달하는 우회로(Skip Connection)를 도입해 잔차(Residual)만 학습하게 만든 신경망 구조다.
 > 2. **가치**: 망이 깊어질수록 오차 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 사라지는 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제를 해결하여, 딥러닝 모델의 층수를 152층 이상으로 획기적으로 깊게 쌓을 수 있게 만들었다.

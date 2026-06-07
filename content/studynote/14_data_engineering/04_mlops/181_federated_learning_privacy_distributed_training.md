@@ -3,8 +3,8 @@ title: "181. Federated Learning Privacy Distributed Training"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연방 학습 ([Federated Learning](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 모으지 않고, 각 참여 노드가 로컬에서 학습한 모델 업데이트만 집계해 전역 모델을 만드는 프라이버시 우선 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 방식이다.

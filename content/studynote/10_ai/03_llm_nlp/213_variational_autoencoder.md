@@ -3,8 +3,8 @@ title: "VAE"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 변이형 [오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) ([VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/), Variational [Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))는 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 점(Point) 하나로 멍청하게 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하던 기존 [오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)의 한계를 부수고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'평균과 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>으로 이루어진 뭉게구름(<a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 분포)' 형태로 찌그러뜨려 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>하는 통계학적 마법이 결합 된 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>형 딥러닝 아키텍처</strong>다.

@@ -3,8 +3,8 @@ title: "713. Kvm Over Ip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 713
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: KVM (Keyboard, Video, Mouse) 오버 IP는 [BMC](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))가 서버의 화면과 입력 장치를 네트워크로 중계하는 <strong>대역외(Out-of-Band) 원격 콘솔</strong>이다.

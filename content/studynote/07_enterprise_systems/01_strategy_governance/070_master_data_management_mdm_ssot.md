@@ -1,10 +1,11 @@
 ---
 title: "Single Source of Truth"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MDM은 고객, 제품, 조직 같은 핵심 기준정보를 전사적으로 일관되게 관리하는 체계다.

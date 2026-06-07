@@ -3,8 +3,8 @@ title: "021. Digital Vs Analog"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 21
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아날로그(Analog) 시스템은 자연계 물리량처럼 연속적인 값을 다루며, 디지털(Digital) 시스템은 이 연속된 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 0과 1이라는 불연속적인 이산값(Discrete Value)으로 쪼개어 처리하는 체계다.
 > 2. **가치**: 디지털 시스템은 특정 임계 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 구간(Noise Margin)을 방어막으로 설정하여, 전송 중 발생하는 노이즈 왜곡을 무시하고 원래의 0과 1로 100% 복원해 내는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/))을 제공한다.

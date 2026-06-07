@@ -3,8 +3,8 @@ title: "843. Hadoop Rack Awareness Data Replication Topology"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 843
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하둡 랙 인식은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

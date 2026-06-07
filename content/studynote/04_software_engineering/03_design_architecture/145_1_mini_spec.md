@@ -3,8 +3,8 @@ title: "145. 1 Mini Spec"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 145
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Mini-Spec은 <strong>DFD의 최하위 프로세스(기본 프로세스)의 로직을 구조적 영어(Structured English)·의사결정표·의사결정트리</strong>로 상세 기술하는 프로세스 명세서이다.
 > 2. **가치**: DFD는 "무엇을" 보여주지만 <strong>"어떻게 변환하는지"</strong>는 보여주지 않으며, Mini-Spec이 각 프로세스의 **입력->변환 규칙->출력을 명확히** 정의한다.

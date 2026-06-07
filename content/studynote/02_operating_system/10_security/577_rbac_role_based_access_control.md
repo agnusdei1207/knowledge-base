@@ -3,8 +3,8 @@ title: "577. Rbac Role Based Access Control"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 577
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RBAC은 **"사용자(User)"와 **"권한(Permission)"** 사이에 **"역할(Role)"**을 매개로 두어, N:M [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 2개의 1:N [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 분할하는 모델이다.

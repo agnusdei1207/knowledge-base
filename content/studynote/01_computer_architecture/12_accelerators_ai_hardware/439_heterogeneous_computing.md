@@ -3,8 +3,8 @@ title: "Heterogeneous Computing"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 439
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이기종 컴퓨팅 ([Heterogeneous](/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Computing)은 CPU (Central Processing Unit), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), DSP (Digital [Signal](/studynote/02_operating_system/02_process_thread/130_signal/) Processor)처럼 구조가 다른 연산 자원을 한 시스템에서 역할 분담시키는 방식이다.

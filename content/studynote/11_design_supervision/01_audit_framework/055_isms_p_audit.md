@@ -3,8 +3,8 @@ title: "ISMS-P Audit"
 date: "2026-05-01"
 tags:
   - "studynote-design-supervision"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) 감사는 정보보호와 [개인정보보호](/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) 관리체계가 요구사항대로 운영되는지 확인하는 감사다.

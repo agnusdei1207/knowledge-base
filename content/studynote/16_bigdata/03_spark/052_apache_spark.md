@@ -3,8 +3,8 @@ title: "Unified Analytics"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 52
 ---
-
 # [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) - 인메모리 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)처리의 황량한 변신
 
 > ⚠️ 이 문서는 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) MapReduce의 디스크 입출력 병목(Disk I/O [Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))을 인메모리(In-Memory) 연산으로 완전 탈피하여 실제 벤치마크에서 최대 100배 빠른 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한 차세대 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진인 Apache Spark의 핵심 아키텍처, [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 체계, 그리고 다양한 워크로드(DataFrame/SQL/ML/[Graph](/studynote/12_it_management/03_ea_isp/888_graph/))를 단일 플랫폼에서 unified(통합) 처리하는 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조를 기술사 수준에서 심층 분석합니다.

@@ -3,9 +3,8 @@ title: "752. FMEA (Failure Mode and Effects Analysis)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 752
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FMEA (Failure Mode and Effects Analysis)는 시스템의 각 기능이 **어떻게 망가질 수 있는지(Failure Mode), 그 결과 어떤 영향이 번지는지(Effects)** 를 구조적으로 나열하고 우선순위를 매기는 예방적 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 분석이다.

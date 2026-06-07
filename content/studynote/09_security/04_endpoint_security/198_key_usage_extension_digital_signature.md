@@ -3,8 +3,8 @@ title: "Key Usage Extension Digital Signature"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Usage 확장 ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Usage Extension [Digital Signature](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

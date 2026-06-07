@@ -3,8 +3,8 @@ title: "Chaos ering"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카오스 엔지니어링](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 멀쩡히 돌아가고 있는 프로덕션(라이브) 시스템에 고의로 서버 종료, [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 등 통제된 재앙(장애)을 주입하여, 시스템의 숨겨진 약점을 폭로하는 과학적 실험 기법이다.
 > 2. **가치**: "우리 시스템은 서버 1대가 죽어도 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(HA)로 잘 버틸 거야"라는 뇌피셜 가설을 런타임에 직접 박살 내며 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함으로써, 고객이 겪을 진짜 대재앙을 사전에 100% 차단하고 시스템의 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)([Resiliency](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/))을 무한대로 펌핑시킨다.

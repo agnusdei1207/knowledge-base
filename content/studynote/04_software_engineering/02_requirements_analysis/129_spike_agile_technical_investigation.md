@@ -3,8 +3,8 @@ title: "129. Spike Agile Technical Investigation"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Spike는 Agile에서 <strong>기술적 불확실성·위험을 해소하기 위한 시간 제한(Timebox) 조사·실험 활동</strong>이며, 스토리 추정이 불가능할 때 "먼저 조사해보자"로 수행된다.
 > 2. **가치**: 기술적 불확실성(새 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계·아키텍처 선택)이 있으면 <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/">스토리 포인트</a> 추정이 불가능</strong>하고 스프린트가 예측 불가능해지므로, Spike로 사전 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 <strong>리스크를 제거</strong>한다.

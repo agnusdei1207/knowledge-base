@@ -3,8 +3,8 @@ title: "Smart Building Energy Management BEMS"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 730
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BEMS(Building Energy Management System)는 BACnet/IP·Modbus TCP·KNX·oBIX·Project Haystack 등 다중 OT/IT 프로토콜을 통합하여 HVAC·조명·전력·신재생 자산을 5계층(필드->자동화->관리->경영->클라우드) 구조로 수렴하고, 시계열 DB·디지털 트윈·강화학습(RL)·LSTM 기반 부하 예측을 결합해 kWh 단위 최적 제어를 수행하는 사이버-물리 에너지 시스템이다.

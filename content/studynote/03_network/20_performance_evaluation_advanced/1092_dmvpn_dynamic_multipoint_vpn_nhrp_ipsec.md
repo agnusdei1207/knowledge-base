@@ -3,8 +3,8 @@ title: "1092. Dmvpn Dynamic Multipoint Vpn Nhrp Ipsec"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1092
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DMVPN](/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

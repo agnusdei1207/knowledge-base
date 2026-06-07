@@ -3,8 +3,8 @@ title: "156. Recommendation System Deepfm Collaborative Filtering"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 딥러닝 기반 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)([Collaborative Filtering](/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/))의 잠재 요인과 딥러닝의 비선형 특징 상호작용을 결합해, 사용자-아이템 매핑의 복잡한 패턴을 포착한다.
 > 2. **가치**: DeepFM은 특징 공학 없이 저차원(Linear)과 고차원(Deep) 상호작용을 동시에 학습해 클릭률([CTR](/studynote/09_security/02_crypto/090_ctr_mode/)) 예측에서 최고 성능을 달성한다.

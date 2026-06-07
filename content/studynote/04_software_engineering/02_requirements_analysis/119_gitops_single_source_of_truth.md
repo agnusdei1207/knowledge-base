@@ -3,8 +3,8 @@ title: "119. Gitops Single Source Of Truth"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 119
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GitOps는 <strong>Git 리포지토리를 인프라·애플리케이션의 단일 진실 원천(Single Source of Truth)</strong>으로 삼고, Git에 선언된 상태와 실제 클러스터 상태를 <strong>자동으로 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Reconciliation)</strong>하는 운영 패러다임이다.
 > 2. **가치**: 수동 `kubectl apply`·콘솔 조작은 변경 이력이 없고 리뷰가 불가능하지만, GitOps는 <strong>모든 변경이 <a href="/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a>->리뷰->머지->자동 적용</strong> 흐름을 따르므로 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성·재현성·[롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 보장된다.

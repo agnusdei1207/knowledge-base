@@ -1,10 +1,11 @@
 ---
 title: "047. Quick Sort"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 47
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 퀵 정렬(Quick Sort)은 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/))이라는 기준값을 선정하고, 이를 기준으로 작은 값은 왼쪽, 큰 값은 오른쪽으로 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)([Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/))하는 과정을 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 반복하는 [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 알고리즘이다.
 > 2. **가치**: 추가 메모리를 거의 쓰지 않는 제자리(In-place) 정렬이면서 하드웨어 캐시 효율이 극도로 높아, 현실의 일반적인 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 상수항 오버헤드가 가장 낮고 압도적으로 빠르다.

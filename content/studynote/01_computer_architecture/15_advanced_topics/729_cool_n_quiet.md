@@ -3,9 +3,8 @@ title: "729. AMD Cool'n'Quiet"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 729
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AMD (Advanced Micro Devices)의 Cool'n'Quiet는 데스크톱 중앙처리장치 (Central Processing Unit, CPU)가 가벼운 부하에서 배수와 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 함께 낮추는 [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) 기반 전력 관리 기술이다.

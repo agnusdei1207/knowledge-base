@@ -3,8 +3,8 @@ title: "Trusted Execution Environment"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 972
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TEE](/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) 기반 ML (Trusted Execution [Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

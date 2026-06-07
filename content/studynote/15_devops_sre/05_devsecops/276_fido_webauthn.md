@@ -3,8 +3,8 @@ title: "FIDO / WebAuthn"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공개키 기반 챌린지 응답으로 패스워드 의존을 줄이는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 표준.

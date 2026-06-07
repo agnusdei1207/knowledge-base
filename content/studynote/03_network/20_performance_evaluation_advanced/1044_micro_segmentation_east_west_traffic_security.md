@@ -3,8 +3,8 @@ title: "1044. Micro Segmentation East West Traffic Security"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1044
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

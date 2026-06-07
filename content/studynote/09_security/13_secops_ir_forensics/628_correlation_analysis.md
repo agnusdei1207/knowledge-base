@@ -3,8 +3,8 @@ title: "Correlation Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 628
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [상관 분석](/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) ([Correlation Analysis](/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/))는 보안 운영·포렌식에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

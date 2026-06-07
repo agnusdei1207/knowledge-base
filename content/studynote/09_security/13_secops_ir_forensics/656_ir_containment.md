@@ -3,8 +3,8 @@ title: "Containment"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 656
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 억제 (Containment)는 보안 운영·포렌식에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 521
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동형 암호(HE, Homomorphic Encryption)는 암호화 상태 그대로 연산하여 클라우드에 원문을 노출하지 않으며, PQC(Post-Quantum Cryptography)는 양자 컴퓨터의 RSA/ECC 파괴 위협에 대응하는 수학적 하드 문제 기반 암호다.

@@ -3,8 +3,8 @@ title: "PMO vs Audit"
 date: "2026-05-01"
 tags:
   - "studynote-design-supervision"
+weight: 627
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ([Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 발주자 편에서 프로젝트를 추진·조정하는 관리 조직이고, 감리는 제3자 관점에서 객관적으로 평가하는 독립 조직이다.

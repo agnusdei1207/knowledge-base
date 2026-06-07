@@ -3,8 +3,8 @@ title: "Distributed Lock Observability"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 락 병목 관측은 락 획득 대기, 보유 시간, 실패율, 경합 대상을 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스로 계측해 "보이지 않는 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 구간"을 드러내는 관측성 기법이다.

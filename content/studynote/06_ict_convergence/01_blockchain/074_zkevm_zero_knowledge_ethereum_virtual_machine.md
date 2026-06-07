@@ -2,10 +2,9 @@
 title: "74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)"
 date: "2026-04-07"
 tags:
-  - "studynote-blockchain"
+  - "studynote-ict-convergence"
+weight: 74
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: zkEVM은 제로 지식 증명을 활용해 이더리움 실행을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 가상 머신이다.

@@ -3,8 +3,8 @@ title: "4NF"
 date: "2026-04-10"
 tags:
   - "studynote-database"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 제4정규형(4NF)은 BCNF까지 완벽하게 통과한 테이블에서, 서로 아무런 논리적 연관이 없는 두 개 이상의 독립적인 다중값(M:N 리스트)을 하나의 테이블에 우겨 넣었을 때 발생하는 [다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)([MVD](/studynote/05_database/07_exam_summary/400_mvd_4nf/), Multi-Valued Dependency)을 제거하는 고급 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계다.
 > 2. **가치**: 관계없는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들이 서로 카테시안 곱(경우의 수 폭발)으로 결합되어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무한히 중복 뻥튀기되는 현상을 차단하고, 수정/삭제 시 발생하는 [갱신 이상](/studynote/05_database/02_modeling_normalization/093_update_anomaly/)([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 원천적으로 방지한다.

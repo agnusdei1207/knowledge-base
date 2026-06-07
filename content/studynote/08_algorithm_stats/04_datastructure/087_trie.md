@@ -3,8 +3,8 @@ title: "087. Trie"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 트라이([Trie](/studynote/08_algorithm_stats/04_datastructure/066_trie/), Prefix Tree)는 문자열 집합을 저장하고 검색하는 트리 자료 구조다. 루트에서 리프까지의 경로가 하나의 문자열을 나타내며, 공통 접두사(Prefix)를 공유하는 문자열들이 같은 노드를 공유한다.
 > 2. **가치**: 트라이에서 문자열 검색 시간은 O(L) (L = 문자열 길이)로, 비교 기반 검색(O(N log N))이나 해시맵(충돌 시 O(N))보다 최악 성능이 보장된다. 자동 완성·사전 검색·IP [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 핵심 자료 구조다.

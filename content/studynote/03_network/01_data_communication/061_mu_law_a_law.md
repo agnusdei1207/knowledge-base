@@ -1,11 +1,11 @@
 ---
 title: "061. Companding: μ-law & A-law"
 date: "2024-05-15"
-description: "인간의 청각 특성을 반영하여 양자화 잡음을 제어하고 통신 대역폭을 최적화하는 비선형 압축 및 신장 기술의 핵심 원리"
 tags:
   - "network"
+  - "studynote-network"
+weight: 61
 ---
-
 # 61. 컴팬딩/압신 (Companding) - μ-law 및 A-law
 
 ## 핵심 인사이트 (3줄 요약)

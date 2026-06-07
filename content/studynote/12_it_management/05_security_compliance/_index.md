@@ -2,9 +2,9 @@
 title: "Security & Compliance"
 tags:
   - "it_management"
+  - "studynote-it-management"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 거버넌스는 조직의 정보 보안 활동이 비즈니스 목표와 일치하도록 이사회가 주도하여 리스크를 관리하고 자원을 최적화하는 전략적 통제 체계이다.

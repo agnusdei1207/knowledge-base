@@ -3,8 +3,8 @@ title: "DID Decentralized Identity ZKP Self-Sovereign Identity"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 370
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (Decentralized [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))는 중앙 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관 없이 개인이 자신의 신원을 직접 소유·제어하는 SSI (Self-Sovereign Identity) 패러다임의 기술 구현으로, W3C [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 표준과 VC (Verifiable Credential)/VP (Verifiable Presentation) 생태계가 기반이다.

@@ -2,9 +2,9 @@
 title: "111. Markov Chain Transition Matrix"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)([Markov Chain](/studynote/08_algorithm_stats/08_stats/140_markov_chain/))은 <strong>"미래 상태는 오직 현재 상태에만 의존하고 과거 경로와 무관하다"</strong>는 [마르코프 성질](/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/studynote/08_algorithm_stats/08_stats/141_markov_property/), 무기억성)을 만족하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 모델이다.
 > 2. **가치**: 전이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 행렬(Transition Matrix) $P$를 정의하면, $\[pi](/studynote/12_it_management/01_governance_strategy/805_process_innovation/) P = \[pi](/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$를 만족하는 <strong>정상 분포(Stationary Distribution)</strong>로 수렴하는 장기 균형 상태를 예측할 수 있어 PageRank·날씨 예측·금융 모델링의 수학적 기반이 된다.

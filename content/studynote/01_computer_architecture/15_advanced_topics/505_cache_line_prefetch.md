@@ -3,8 +3,8 @@ title: "Cache Line Prefetching"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 505
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 라인 프리패치 (Cache Line [Prefetching](/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))는 CPU (Central Processing Unit)가 아직 요구하지 않은 캐시 라인을 접근 패턴으로 예측해 먼저 가져옴으로써, 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 현재 실행 뒤에 숨기는 기술이다.

@@ -3,8 +3,8 @@ title: "Double Word"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 더블 [워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)(Double [Word](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), Dword)는 기준 [워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)의 2배 크기를 뜻하는 상대적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위다.

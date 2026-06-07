@@ -3,8 +3,8 @@ title: "1025. C V2X Wave Dsrc"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1025
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

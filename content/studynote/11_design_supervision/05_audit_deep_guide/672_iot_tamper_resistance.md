@@ -3,8 +3,8 @@ title: "IoT Device Tamper Resistance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 672
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things) 디바이스 변조 저항성 진단는 디버그 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 차단, 보안 부트, 물리 봉인·탬퍼 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 한 체계로 묶어 판단하는 보안 감리 주제다.

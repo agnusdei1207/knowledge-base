@@ -1,10 +1,11 @@
 ---
 title: "063. Relation Tuple Cardinality"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 튜플(Tuple)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)([Relation](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))에서 한 행(Row)을 뜻하고, 카디널리티(Cardinality)는 그 튜플의 개수다.

@@ -3,8 +3,8 @@ title: "298. Safe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 회피](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) 철학에서 정의하는 '안전 상태([Safe](/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'란, [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 시스템 내의 모든 프로세스들이 순서대로 자신의 최대 한도(Max Need)까지 자원을 요구하더라도 데드락 없이 무사히 작업을 완료하고 반납할 수 있는 <strong>'단 하나의 안전 순서(<a href="/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)'라도 존재하는 확정적 평화 지대</strong>를 뜻한다.

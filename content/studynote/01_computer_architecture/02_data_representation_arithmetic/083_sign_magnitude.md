@@ -3,8 +3,8 @@ title: "Sign-Magnitude"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Sign-Magnitude 표현은 [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 부호로 두고 나머지를 절댓값으로 두는 가장 직관적인 이진수 표현이다.

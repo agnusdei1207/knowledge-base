@@ -3,8 +3,8 @@ title: "243. Switching Method Store And Forward"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토어 앤 포워드 (Store-and-[forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) 방식은 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 머리부터 끝 꼬리(FCS)까지 <strong>전체 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 내부 버퍼(메모리)에 완전히 다 받아들인 후에만 포워딩을 시작하는 가장 안정적인 전송 방식</strong>이다.

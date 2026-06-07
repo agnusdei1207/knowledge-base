@@ -3,8 +3,8 @@ title: "634. Edge Ai Chip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 634
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 칩 아키텍처([Edge AI](/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/) Chip [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 센서 가까운 곳에서 추론을 수행하기 위해 연산 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용을 먼저 줄이도록 설계된 저전력 가속 구조다.

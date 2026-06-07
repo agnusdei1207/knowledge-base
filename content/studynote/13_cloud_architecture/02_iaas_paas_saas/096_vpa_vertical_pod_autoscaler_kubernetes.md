@@ -3,8 +3,8 @@ title: "096. Vpa Vertical Pod Autoscaler Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VPA (Vertical [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Autoscaler)는 개수를 늘리는 대신, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체의 CPU 및 메모리 [할당량](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)(Request/Limit)을 통째로 키우거나 줄이는 수직 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 엔진이다.

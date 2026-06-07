@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 525
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공간 컴퓨팅(Spatial Computing)은 현실 공간과 디지털 정보를 융합하고, 마이크로 프론트엔드(Micro Frontends)는 모노리식 SPA를 독립 배포 가능한 UI 조각으로 분해하며, WebAssembly(WASM)는 브라우저와 엣지에서 C/C++/Rust를 네이티브에 가까운 속도로 실행한다.

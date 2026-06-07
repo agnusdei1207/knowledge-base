@@ -1,10 +1,11 @@
 ---
 title: "090. Intelligent Erp Ai Machine Learning"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인텔리전트 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Intelligent [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 전통적인 기록 시스템 (SOR)에 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)), [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) (ML), 로봇 프로세스 자동화 ([RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))를 내재화하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석부터 의사결정 제안, 반복 업무 자동화까지 수행하는 지능형 통합 경영 시스템이다.

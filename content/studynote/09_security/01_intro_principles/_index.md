@@ -2,9 +2,9 @@
 title: "Intro & Principles"
 tags:
   - "security"
+  - "studynote-security"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보 보안 (Information Security)은 조직의 핵심 자산을 위협으로부터 보호하기 위해 기밀성, 무결성, 가용성 (CIA Triad)을 보장하는 관리적·기술적·물리적 통제 체계이다.

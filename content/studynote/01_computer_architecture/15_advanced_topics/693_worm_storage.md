@@ -3,8 +3,8 @@ title: "693. Worm Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 693
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [WORM](/studynote/02_operating_system/10_security/590_worm/) (Write Once Read Many) 스토리지는 이미 기록된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존 기간 동안 다시 쓰거나 삭제하지 못하게 막아, 읽기는 허용하되 변경은 금지하는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 중심 저장 방식이다.

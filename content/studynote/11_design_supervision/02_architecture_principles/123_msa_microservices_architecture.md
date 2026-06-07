@@ -3,8 +3,8 @@ title: "MSA, Microservices Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/), [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/))는 하나의 대형 모놀리식(monolithic) 시스템을 비즈니스 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 기능별로 독립 배포·운영 가능한 소규모 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들로 분해하여, 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자체 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 소유하고 경량 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/))로 통신하는 아키텍처 스타일이다.

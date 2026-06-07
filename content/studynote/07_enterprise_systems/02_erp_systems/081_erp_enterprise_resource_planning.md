@@ -2,10 +2,9 @@
 title: "81. ERP (Enterprise Resource Planning)"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 81
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ERP (Enterprise Resource Planning)는 재무·생산·구매·영업·인사 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 기준 정보와 프로세스로 묶는 전사 통합 운영 플랫폼이다.

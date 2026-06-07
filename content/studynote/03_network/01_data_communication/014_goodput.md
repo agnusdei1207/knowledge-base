@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 14
 ---
-
 # 14. [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) / 굿풋 (Goodput)
 
 ## 핵심 인사이트 (3줄 요약)

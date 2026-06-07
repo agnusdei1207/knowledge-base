@@ -3,8 +3,8 @@ title: "026. Value Chain Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))은 마이클 포터(Michael Porter)가 1985년 《경쟁 우위(Competitive Advantage)》에서 제시한 프레임워크로, 기업이 제품·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 생산하고 고객에게 전달하는 과정을 주활동(Primary Activities)과 지원 활동([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Activities)으로 분해하여 경쟁 우위(Cost Advantage 또는 Differentiation)의 원천을 파악한다.
 > 2. **가치**: [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 분석은 "어느 활동에서 비용을 낮추거나 차별화를 창출할 수 있는가?"를 체계적으로 진단한다. [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 맥락에서 각 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동에 IT/AI를 접목하여 경쟁 우위를 창출하는 "디지털 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)(Digital [Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))" 분석이 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)·[CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 투자 정당화의 핵심 도구가 된다.

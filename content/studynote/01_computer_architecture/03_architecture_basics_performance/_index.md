@@ -2,9 +2,9 @@
 title: "Architecture Basics & Performance"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터 구조의 기초는 폰 노이만 (Von Neumann) 아키텍처를 기반으로 제어, 연산, 기억, 입력, 출력 장치의 유기적 결합을 다루며, 성능 분석은 명령어 실행 시간과 자원 활용률을 정량적으로 측정하는 과정이다.

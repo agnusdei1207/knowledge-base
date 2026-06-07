@@ -3,8 +3,8 @@ title: "NL Join, Nested Loop Join"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 중첩 루프 조인 (NL [Join](/studynote/05_database/04_transactions_concurrency/521_join/), [Nested Loop Join](/studynote/05_database/07_exam_summary/431_nested_loop_join/))은 선행 집합에서 뽑힌 각 행마다 후행 집합을 반복 탐색해 조인하는, 가장 직관적인 물리 조인 방식이다.

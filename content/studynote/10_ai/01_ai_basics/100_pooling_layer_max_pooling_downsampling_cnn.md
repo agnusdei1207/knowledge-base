@@ -3,8 +3,8 @@ title: "100. Pooling Layer Max Pooling Downsampling Cnn"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층([Pooling Layer](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 [합성곱 층](/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)(Conv Layer)이 추출한 고해상도 [특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기를 공간적으로 축소(Downsampling)하여 가장 두드러진 특징만 남기는 극단적인 [데이터 압축](/studynote/08_algorithm_stats/09_info_theory/159_compression/)기다.
 - **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량과 파라미터 연산량을 획기적으로 줄여 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하고, 피사체의 위치 변화에도 동일한 특징으로 인식하게 하는 공간 이동 불변성(Translation Invariance)을 부여한다.

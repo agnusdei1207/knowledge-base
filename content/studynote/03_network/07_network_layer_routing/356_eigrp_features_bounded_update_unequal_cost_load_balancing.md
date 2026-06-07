@@ -3,8 +3,8 @@ title: "356. Eigrp Features Bounded Update Unequal Cost Load Balancing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 356
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EIGRP](/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) 특징: 부분/바운디드 업데이트,…는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

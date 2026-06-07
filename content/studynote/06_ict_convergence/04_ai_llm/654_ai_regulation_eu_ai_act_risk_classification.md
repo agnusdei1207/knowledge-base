@@ -3,8 +3,8 @@ title: "AI Regulation EU AI Act Risk Classification"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 654
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EU AI Act는 AI 시스템을 **수용 불가(Prohibited) / 고위험(High-Risk) / 제한 위험(Limited Risk) / 최소 위험(Minimal Risk)** 4단계로 분류하고, 별도로 **범용 AI(GPAI) 및 시스템 리스크 GPAI**를 규율하는 **위험 기반 수평-수직 규율(horizontal & vertical risk-based regulatory framework)**이다. Annex I(유니온 하모니제이션 법령 대상 제품의 안전부품), Annex II(8대 고위험 영역), Annex III(생체인식·감정인식·심층위조 등 투명성 의무)로 객관적 분류 기준을 코드화한다.

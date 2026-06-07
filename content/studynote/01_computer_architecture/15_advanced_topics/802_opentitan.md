@@ -3,8 +3,8 @@ title: "OpenTitan"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 802
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OpenTitan은 RTL ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Transfer Level)부터 펌웨어까지 공개해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성을 높인 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 실리콘 [Root of Trust](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) 프로젝트다.

@@ -2,9 +2,9 @@
 title: "057. Stack"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스택 (Stack)은 LIFO (Last In First Out) 원칙에 따라 가장 나중에 삽입된 원소가 가장 먼저 제거되는 선형 자료구조로, push·[pop](/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)·peek 모두 O(1)이다.

@@ -3,8 +3,8 @@ title: "027. Oozie Airflow"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 27
 ---
-
 # Apache Oozie와 Airflow - 워크플로우 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 진화
 
 > ⚠️ 이 문서는 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 환경에서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)처리태스크([맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/), 스park, hive등)의 실행 순서와 의존성을 정의하고 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링하는 워크플로우 오케스트레이터(Workflow Orchestrator)인 Apache Oozie와, Python 기반의 모던 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구인 Apache Airflow의 아키텍처 차이([DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 처리, Operaner 모델, [멀티 테넌시](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/))와, 오늘날 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 분야에서 Airflow가주류이 된 배경과 각 도구의 적합한 활용 시나리오를 기술사 수준에서 심층 분석합니다.

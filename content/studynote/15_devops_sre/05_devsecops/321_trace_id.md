@@ -3,9 +3,8 @@ title: "Distributed Tracing Trace ID"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 321
 ---
-
-
 > **핵심 인사이트**
 > - [Distributed Tracing](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) ([분산 추적](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))은 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 단일 요청의 전체 흐름을 Trace ID로 연결해 병목·오류를 추적한다.
 > - Trace (트레이스)는 연관된 Span (스팬)의 집합이고, 각 Span은 하나의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 작업 단위를 나타낸다.

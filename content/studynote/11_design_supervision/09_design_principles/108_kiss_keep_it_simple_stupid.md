@@ -3,8 +3,8 @@ title: "KISS, Keep It Simple, Stupid"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [KISS](/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) (Keep It Simple, Stupid, 단순성 유지 원칙)는 소프트웨어 설계와 구현에서 불필요한 복잡성을 제거하고 가능한 가장 단순한 해법을 선택해야 한다는 원칙이며, 복잡성 자체가 결함의 온상이 된다는 관찰에서 출발한다.

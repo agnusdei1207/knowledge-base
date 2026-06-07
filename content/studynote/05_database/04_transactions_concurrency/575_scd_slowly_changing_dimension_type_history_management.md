@@ -3,8 +3,8 @@ title: "575. Scd Slowly Changing Dimension Type History Management"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 575
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Slowly Changing Dimension ([SCD](/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 1, 2, 3) 시계열 이력 차원 이력 관리 모델는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 모델이다.

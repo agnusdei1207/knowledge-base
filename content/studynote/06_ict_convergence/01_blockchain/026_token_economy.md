@@ -3,8 +3,8 @@ title: "026. Token Economy"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 토큰 이코노미(Token Economy)는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 토큰(Token)을 매개로 참여자들의 행동을 경제적 인센티브로 유도하는 설계 체계다. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 특성과 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 자동화를 결합하여, 중앙 기관 없이 신뢰할 수 있는 경제 시스템을 구성한다.
 > 2. **가치**: 비트코인의 채굴 보상(Mining Reward)이 최초의 성공적 토큰 이코노미로, "정직하게 작업 증명을 수행하면 비트코인 보상"이라는 인센티브가 네트워크 보안을 유지한다. [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) (Decentralized Finance), [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) ([Decentralized Autonomous Organization](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)), NFT 생태계의 경제 설계가 모두 토큰 이코노미에 기반한다.

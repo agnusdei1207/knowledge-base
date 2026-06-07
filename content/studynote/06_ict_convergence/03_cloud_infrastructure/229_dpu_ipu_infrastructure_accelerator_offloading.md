@@ -3,9 +3,8 @@ title: "229. DPU / IPU (Data Processing Unit)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 229
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) / [IPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/437_ipu/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Processing Unit): 서버 CPU가 처리하던 네트워킹, 보안, 스토리지 패킷 처리 기능을 전용 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 카드로 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)하여 CPU는 애플리케이션 연산에만 집중하게 하는 칩 (클라우드 인프라 가속기)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Test Automation Coverage Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 279
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테스트 자동화 커버리지 감리는 테스트 자동화(Test Automation) 범위와 커버리지(Coverage) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계에서 위험기반 커버리지([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Based Coverage), [통합 테스트](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)), 플래키 테스트(Flaky Test)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

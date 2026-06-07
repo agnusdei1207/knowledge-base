@@ -3,8 +3,8 @@ title: "205. Data Security Governance"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보안 거버넌스](/studynote/09_security/01_intro_principles/006_security_governance/)는 암호화(저장/전송/키 관리)·접근 제어([RBAC](/studynote/09_security/11_iam_access_control/569_rbac/)/[ABAC](/studynote/09_security/11_iam_access_control/572_abac/)/[ReBAC](/studynote/09_security/11_iam_access_control/575_rebac/))·[데이터 마스킹](/studynote/09_security/16_data_privacy/819_data_masking/)(정적/동적)·[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[DLP](/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)([Data Loss Prevention](/studynote/09_security/16_data_privacy/823_dlp/))의 다층 방어 체계로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.

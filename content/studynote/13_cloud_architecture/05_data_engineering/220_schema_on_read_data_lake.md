@@ -3,8 +3,8 @@ title: "Schema-on-Read"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장할 때 구조를 강제하지 않고, 분석가가 읽을 때 비로소 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 정의하는 <strong>"나중 결정" <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 > 2. **가치**: 미래에 필요한 모든 분석 형태를 미리 알 수 없는 대용량 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>있는 그대로 보존</strong>해 탐색적 분석([EDA](/studynote/12_it_management/02_itsm_itil/064_eda/))과 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링이 가능하다.

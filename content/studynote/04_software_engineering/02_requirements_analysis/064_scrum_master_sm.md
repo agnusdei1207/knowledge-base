@@ -1,10 +1,11 @@
 ---
 title: "064. Scrum Master Sm"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터([Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) Master, [SM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))는 팀이 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 원칙과 이벤트를 올바르게 수행하도록 돕는 서번트 리더(Servant Leader)다.

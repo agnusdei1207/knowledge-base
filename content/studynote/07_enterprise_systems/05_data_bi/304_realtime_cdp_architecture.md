@@ -3,8 +3,8 @@ title: "Real-time CDP Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CDP](/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([C고객 Data Platform](/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))는 [1st Party](/studynote/12_it_management/05_security_compliance/928_cdp_first_party/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 고객 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 통합하여 단일 고객 프로필을 구축하는 플랫폼이다.

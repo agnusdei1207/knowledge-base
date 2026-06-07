@@ -3,8 +3,8 @@ title: "Transaction Processing Monitor"
 date: "2026-03-03"
 tags:
   - "studynote-database"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. TP [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)([Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing [Monitor](/studynote/02_operating_system/04_synchronization/229_monitor/))는 대량의 [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 안정적으로 처리하기 위해 미들웨어 계층에서 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 조율·[로드 밸런싱](/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)·자원 관리를 담당한다.
 > 2. [2PC](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)([Two-Phase Commit](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))와 XA [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 ACID를 보장하며, 금융·항공·통신 등 미션 크리티컬 시스템의 기반 인프라다.

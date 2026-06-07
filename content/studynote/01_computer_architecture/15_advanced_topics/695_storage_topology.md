@@ -3,8 +3,8 @@ title: "FC-AL, FC-SW"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 695
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토리지 네트워크 토폴로지는 서버와 스토리지를 어떤 연결 구조로 묶느냐에 따라 병목, 확장성, 장애 범위가 달라지는 [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) ([Storage Area Network](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))의 핵심 설계 요소다.

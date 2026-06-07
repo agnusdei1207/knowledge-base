@@ -3,8 +3,8 @@ title: "550. Smart Factory Gateway"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 550
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 엣지 게이트웨이 하드웨어 (HW, Hardware)는 운영기술 ([OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/), [Operational Technology](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)) 설비망과 정보기술 (IT, Information Technology) 시스템 사이에서 산업용 인터페이스를 종단하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준 모델로 정규화하는 현장형 중간 노드다.

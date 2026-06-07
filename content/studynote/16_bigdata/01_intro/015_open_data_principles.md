@@ -1,11 +1,11 @@
 ---
 title: "Findable/Accessible/Interoperable/Reusable"
 date: "2024-05-23"
-description: "데이터의 기계 판독성과 재사용성을 극대화하는 FAIR 원칙의 아키텍처 및 실무 도입 전략"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
+weight: 15
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 단순히 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 웹에 공개하는 것을 넘어, 사람뿐만 아니라 기계(Machine) 시스템이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스스로 **찾고(Findable), 접근하고(Accessible), 연동하며(Interoperable), 재사용(Reusable)** 할 수 있도록 정의한 글로벌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 지침이다.
 > 2. **가치**: 파편화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))를 타파하고 고도화된 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)와 영구 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(PID)를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생명주기를 늘려 연구 및 비즈니스 융합의 한계 비용을 영점에 수렴하게 한다.

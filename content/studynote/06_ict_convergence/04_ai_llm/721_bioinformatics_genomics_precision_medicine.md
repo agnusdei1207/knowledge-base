@@ -3,8 +3,8 @@ title: "Bioinformatics Genomics Precision Medicine"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 721
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NGS(Next-Generation Sequencing) 기반의 WGS/WES/RNA-seq 데이터로부터 BWA-MEM -> GATK HaplotypeCaller/DeepVariant 기반의 변이 호출(Variant Calling)과 VEP/ANNOVAR를 통한 임상 주석(Annotation), PharmGKB/ClinVar 기반의 의학적 해석(Clinical Interpretation)을 거쳐 환자에게 최적화된 약물·예후·위험도를 도출하는 GA4GH/VCF 표준 기반의 정밀의료 파이프라인이다.

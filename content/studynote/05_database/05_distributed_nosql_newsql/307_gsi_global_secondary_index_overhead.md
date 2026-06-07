@@ -3,8 +3,8 @@ title: "307. Gsi Global Secondary Index Overhead"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 307
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 글로벌 보조 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (GSI, Global Secondary [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경 오버헤드는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 요소이다.

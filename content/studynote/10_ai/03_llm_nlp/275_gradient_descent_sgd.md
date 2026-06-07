@@ -3,8 +3,8 @@ title: "Stochastic Gradient Descent"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 275
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 경사 하강법(GD, [Gradient Descent](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))은 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/))의 기울기(Gradient) 반대 방향으로 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 반복 갱신해 최솟값을 찾는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 배치 크기에 따라 Batch GD / SGD / Mini-batch GD 세 가지로 구분된다.

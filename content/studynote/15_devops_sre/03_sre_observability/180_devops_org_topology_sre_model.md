@@ -3,8 +3,8 @@ title: "180. Devops Org Topology Sre Model"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직 토폴로지는 "누가 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만들고, 누가 운영하며, 어디까지 책임을 지는가"를 구조로 고정하는 방식이며, 잘못된 토폴로지는 좋은 도구도 티켓 공장으로 만든다.

@@ -3,8 +3,8 @@ title: "Reverse Diffusion Process"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 391
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디퓨전 모델](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 가우시안 노이즈를 점진적으로 추가하는 순방향 과정 ([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/studynote/12_it_management/05_security_compliance/943_process/))과 노이즈에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원하는 역방향 과정 (Reverse [Process](/studynote/12_it_management/05_security_compliance/943_process/))을 [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)으로 정의하며, 신경망이 역방향 전이 분포를 학습한다.

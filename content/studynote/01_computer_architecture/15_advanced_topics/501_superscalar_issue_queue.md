@@ -3,8 +3,8 @@ title: "Superscalar Issue Queue"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 501
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [수퍼스칼라](/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) ([Superscalar](/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)) 코어의 발급 큐 (Issue [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 [레지스터 리네이밍](/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) ([Register Renaming](/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/))을 마친 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 잠시 붙잡아 두고, 피연산자가 준비된 것만 골라 실행 유닛으로 내보내는 <strong>동적 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>다.

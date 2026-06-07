@@ -1,11 +1,11 @@
 ---
 title: "Walsh Code"
 date: "2026-03-30"
-description: "CDMA의 직교성 메커니즘, 확산 스펙트럼, 전력 제어 및 실무적 한계 분석"
 tags:
   - "network"
+  - "studynote-network"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 시간이나 주파수를 쪼개지 않고, 동일한 대역을 다수가 공유하되 서로 직교하는 고유 암호([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 곱해 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 분리하는 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술이다.

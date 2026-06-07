@@ -3,8 +3,8 @@ title: "Cyborg Technology Brain Computer Interface BCI"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 720
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BCI는 신경활동(전위/스파이크/대사신호)을 디지털 신호로 변환하여 외부기기 제어·피드백을 수행하는 시스템으로, 침습식(Intracortical/ECoG)·반침습식·비침습식(EEG/fNIRS) 계층별 트레이드오프가 존재하며 신경 복호화(Neural Decoding)와 자극 인코딩(Neural Encoding)의 양방향 폐루프(Closed-loop) 구조로 정의된다.

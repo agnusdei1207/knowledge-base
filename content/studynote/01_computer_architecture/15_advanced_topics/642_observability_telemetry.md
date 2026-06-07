@@ -3,8 +3,8 @@ title: "642. Observability Telemetry"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 642
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 옵저버빌리티 (Observability) 하드웨어 텔레메트리는 중앙처리장치 (Central Processing Unit, CPU), 메모리, 저장장치, 네트워크 장비가 내놓는 전력·온도·오류·[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 수집해 시스템 내부 상태를 설명 가능하게 만든다.

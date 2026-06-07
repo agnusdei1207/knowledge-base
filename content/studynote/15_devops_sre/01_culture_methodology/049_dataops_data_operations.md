@@ -3,8 +3,8 @@ title: "049. Dataops Data Operations"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. [DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Operations)는 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙(자동화·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링)을 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 적용하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 개발->테스트->배포->운영 사이클을 자동화하는 방법론 — "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)"로, [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)·품질·속도를 동시에 향상시킨다.
 > 2. [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 DataOps의 핵심 실천 — 코드 변경처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 로직(dbt 모델) 변경도 [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)->자동 테스트->스테이징->프로덕션 배포 워크플로우로 관리하며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 테스트 실패 시 자동 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 가능해야 한다.

@@ -3,8 +3,8 @@ title: "EA Governance"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 거버넌스 ([EA Governance](/studynote/12_it_management/03_ea_isp/906_ea_governance_arb_architecture_review_board/))의 본질은 수립된 EA가 현업 정보화 사업에 제대로 준수([Compliance](/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))되는지 심의/통제하는 조직 및 절차를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

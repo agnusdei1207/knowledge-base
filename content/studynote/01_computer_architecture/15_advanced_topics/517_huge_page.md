@@ -3,8 +3,8 @@ title: "Huge Page"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 517
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [거대 페이지](/studynote/02_operating_system/06_memory_management/371_huge_pages/) (Huge [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))는 기본 4KB [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)보다 훨씬 큰 2MB·1GB 단위로 가상 메모리를 매핑해, 같은 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 엔트리로 더 넓은 주소 공간을 덮게 만드는 번역 단위 최적화다.

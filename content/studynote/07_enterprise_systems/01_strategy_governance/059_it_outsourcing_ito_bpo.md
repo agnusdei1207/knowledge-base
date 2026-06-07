@@ -3,8 +3,8 @@ title: "059. It Outsourcing Ito Bpo"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ITO](/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/)(Information Technology Outsourcing)는 IT 운영·개발을, [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)([Business Process Outsourcing](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))는 업무 프로세스 자체를 외부 전문업체에 맡기는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

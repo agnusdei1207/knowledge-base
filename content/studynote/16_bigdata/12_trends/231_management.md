@@ -3,8 +3,8 @@ title: "231. Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 확산 ([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권, 자율 [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/))은 빅데이터 [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 관점에서 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 운영을 연결해 반복 가능한 질서를 만드는 관리 방식를 다루는 주제다.

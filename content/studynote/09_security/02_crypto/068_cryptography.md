@@ -3,8 +3,8 @@ title: "068. Cryptography"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 암호학은 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지를 제공하는 수학 기반 보안 기술이다.

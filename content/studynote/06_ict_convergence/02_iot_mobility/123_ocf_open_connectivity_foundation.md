@@ -3,8 +3,8 @@ title: "123. Ocf Open Connectivity Foundation"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OCF는 <strong>이기종 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스 간 <a href="/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/">상호운용성</a>(<a href="/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/">Interoperability</a>)을 보장</strong>하는 개방형 표준으로, 제조사·[프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 관계없이 디바이스가 <strong>자동 발견(Discovery)·통신·보안 연결</strong>될 수 있도록 한다.
 > 2. **가치**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스가 제조사마다 독자 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용하면 "삼성 냉장고↔LG 에어컨" 연동이 불가능하지만, OCF 표준을 따르면 <strong>브랜드 무관하게 자동 연동</strong>된다.

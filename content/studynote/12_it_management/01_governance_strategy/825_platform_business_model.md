@@ -3,8 +3,8 @@ title: "Platform Business Model"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 825
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [플랫폼 비즈니스](/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/) 모델의 핵심은 양면 시장(Two-sided Market) 교차 네트워크 효과라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.

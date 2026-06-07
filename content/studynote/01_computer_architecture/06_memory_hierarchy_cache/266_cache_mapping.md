@@ -3,8 +3,8 @@ title: "Cache Mapping"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 266
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 맵핑 방식 (Cache [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 주기억장치 블록이 캐시의 어느 위치에 들어갈 수 있는지를 정하는 배치 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Placement [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))이며, 사실상 캐시의 검색 범위를 하드웨어적으로 제한하는 규칙이다.

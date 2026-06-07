@@ -3,8 +3,8 @@ title: "MIN, Multistage Interconnection Network"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 392
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다단 연결망 (MIN, Multistage [Interconnection Network](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/))은 거대한 단일 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대신 작은 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 여러 단계로 배열해, 연결 비용과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사이의 균형을 잡는 동적 상호연결망이다.

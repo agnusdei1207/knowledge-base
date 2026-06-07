@@ -2,9 +2,9 @@
 title: "GoF – Behavioral"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GoF 행위 패턴 (Behavioral Patterns)은 객체나 클래스 사이의 알고리즘과 책임 분배에 집중하며, 객체 간의 결합도를 낮추면서 복잡한 제어 흐름을 효율적으로 관리하는 설계 양식이다.

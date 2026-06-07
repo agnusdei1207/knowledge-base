@@ -3,8 +3,8 @@ title: "Big Data Reference Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처는 수집·저장·처리·서빙을 분리한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) 위에, 거버넌스·보안·품질·[메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 가로지르는 제어 평면(Control Plane)을 올린 설계 청사진이다.

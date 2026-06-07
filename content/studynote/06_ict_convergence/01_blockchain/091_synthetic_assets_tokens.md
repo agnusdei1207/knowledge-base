@@ -1,10 +1,11 @@
 ---
 title: "091. Synthetic Assets Tokens"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 합성 자산 (Synthetic Assets)은 주식, 원자재, 법정화폐 등 오프체인의 실물 자산 가격을 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)와 오라클을 이용해 온체인에서 1:1로 추종하게 만든 파생 토큰이다.

@@ -3,8 +3,8 @@ title: "Resource Allocation Graph, RAG"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [자원 할당 그래프](/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 시스템 내의 프로세스(원)와 자원(사각형) 간의 <strong>'요청(Request)'과 '할당(Assignment)' 관계를 화살표(방향 간선)로 시각화한 수학적 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 모델</strong>이다.

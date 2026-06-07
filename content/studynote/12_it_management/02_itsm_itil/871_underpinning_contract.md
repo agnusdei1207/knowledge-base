@@ -3,9 +3,8 @@ title: "871. UC (Underpinning Contract)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 871
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: UC (Underpinning Contract)의 본질은 외부 외주 공급업체(통신사, 벤더)와의 기초 지원 계약을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

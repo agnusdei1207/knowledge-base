@@ -3,8 +3,8 @@ title: "024. Swot Analysis Tows Matrix"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SWOT 분석은 조직의 내부 강점(Strengths)·약점(Weaknesses)과 외부 기회(Opportunities)·위협(Threats)을 체계적으로 식별하는 [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 도구이며, TOWS 매트릭스는 이 4개 요소를 교차하여 SO·[ST](/studynote/09_security/12_identity_threat_advanced/587_st/)·WO·WT 4가지 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 도출하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 도구다.
 > 2. **가치**: SWOT 만으로는 분석에 그치지만, TOWS 매트릭스를 통해 "강점으로 기회를 활용(SO)"·"약점을 보완하여 위협 방어(WT)" 등 구체적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 대안이 도출되어 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 완성도가 높아진다.

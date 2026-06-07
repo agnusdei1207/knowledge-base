@@ -3,8 +3,8 @@ title: "Data Sovereignty"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
+weight: 250
 ---
-
 > **핵심 인사이트**
 > 1. [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data Sovereignty](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 국가/개인의 법률과 거버넌스 체계에 따라 통제되어야 한다는 원칙으로, 클라우드 글로벌화로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 국경을 넘나드는 시대에 국가 안보·경제적 이해·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)의 핵심 쟁점으로 부상했다.
 > 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 현지화([Data Localization](/studynote/09_security/16_data_privacy/810_data_localization/))는 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 실현 수단이지만 무역 장벽이 될 수 있으며 — 러시아·중국의 강제 현지화부터 GDPR의 국외 이전 제한까지 그 강도와 방식이 국가별로 크게 다르다.

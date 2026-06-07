@@ -3,8 +3,8 @@ title: "Diffusion Model Image Generation Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 650
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디퓨전 모델은 고정된 마르코프 체인(Forward Process)을 통해 점진적으로 가우시안 노이즈를 주입한 뒤, U-Net 기반 신경망으로 학습된 역방향 과정(Reverse Process) ε_θ(x_t, t)을 통해 노이즈를 복원하는 계층적 잠재 변수 생성 모델(Latent Hierarchical Generative Model)임.

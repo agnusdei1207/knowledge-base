@@ -3,8 +3,8 @@ title: "151. Pert Three Point Estimation"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PERT(Program Evaluation and [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Technique)는 R&D처럼 세상에 처음 해보는 일이라 "도대체 며칠 걸릴지 1도 모르겠는 멘붕 늪" 프로젝트에서 -> 개발자한테 <strong>낙관치(최단), 최빈치(보통), 비관치(최악) 3개 <a href="/studynote/08_algorithm_stats/08_stats/134_random_variable/">확률 변수</a>를 강제로 다 토해내게 쥐어짜서 베타 분포(Beta) 수학 믹서기로 갈아버리는 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>론적 일정 엑스레이 튜닝기</strong>다.
 > 2. **가치**: "무조건 10일 걸림 ㅋ" 확정 짓던 낡은 결정론적(Deterministic) [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) 엑셀 막대기의 치명적 오만함 맹점을 도끼로 찢어발겼다! 3점 추정 수식 `(O + 4M + P) / 6` 을 통해 -> 코더의 뇌피셜 희망 사항을 척살하고 가장 현실 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은 묵직한 팩트 <strong>기대 시간(<a href="/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/">Te</a>)</strong>과 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 오차(<a href="/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> 쉴드를 0.1초 만에 록온([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 쳐 산출해 낸다.

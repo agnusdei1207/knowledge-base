@@ -3,8 +3,8 @@ title: "UI UX Heuristic Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 262
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: UI/UX [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 감리는 사용자 인터페이스와 사용자 경험(User Interface/User Experience, UI/UX) [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가 체계에서 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가([Heuristic](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Evaluation), [인지 부하](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)), 과업 완료율([Task](/studynote/02_operating_system/02_process_thread/150_task/) Completion Rate)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

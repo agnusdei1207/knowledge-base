@@ -2,9 +2,9 @@
 title: "145. Peft Lora Low Rank Adaptation"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 145
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LoRA는 <strong>사전 학습된 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 행렬 W에 저랭크 분해 행렬(A·B)을 추가</strong>하여, 전체 파라미터의 <strong>0.1~1%만 학습</strong>하면서도 Full Fine-tuning과 유사한 성능을 달성하는 [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)([Parameter-Efficient Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)) 기법이다.
 > 2. **가치**: 7B 모델 Full FT는 <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리 112GB+(FP16)</strong> 필요하지만, LoRA는 <strong>추가 파라미터만 학습</strong>하여 단일 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(24GB)로도 가능하다. [QLoRA](/studynote/10_ai/05_data_science_ml/404_qlora/)(4비트 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)+[LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))는 더 적은 메모리로 가능하다.

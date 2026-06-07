@@ -3,8 +3,8 @@ title: "150. Code Based Pqc Bike Hqc"
 date: "2026-05-03"
 tags:
   - "studynote-security"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 코드 기반 암호([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)-Based [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))는 우주 통신망에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨졌을 때 복구하는 <strong>'<a href="/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/">오류 정정 부호</a>(Error-Correction <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong> 이론을 흑마법으로 역이용하여, 평문에 일부러 엉망진창 노이즈(Error)를 섞고 숨겨 해커의 머리를 부숴버리는 키 교환([KEM](/studynote/09_security/03_network_security/134_kem_key_encapsulation/)) 메커니즘이다.
 > 2. **가치**: 1등 표준인 격자 기반(Kyber)이 미래의 수학 천재에게 논리적으로 털렸을 때(단일 실패 점 [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 붕괴)를 대비한 가장 유력한 <strong>인류 최후의 플랜 B (<a href="/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> <a href="/studynote/09_security/03_network_security/134_kem_key_encapsulation/">KEM</a> <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 방어막)</strong> 0순위 후보다. 특히 Classic McEliece는 무려 40년 넘게 전 세계 해커들의 공격을 무상처로 버텨낸 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)계의 절대 부서지지 않는 '초고대 콘크리트 벙커'다.

@@ -3,8 +3,8 @@ title: "Laney, 2001"
 date: "2026-03-26"
 tags:
   - "studynote-bigdata"
+weight: 1
 ---
-
 > **핵심 인사이트**
 > 1. **본질**: 단일 컴퓨터의 물리적 한계를 초월하는 막대한 규모, 속도, 다양성을 지닌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수천 대의 범용 서버 클러스터에서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하는 패러다임.
 > 2. **가치**: 기존 RDBMS로는 불가능했던 전수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 가능케 하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정과 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 예측 모델의 기반이 됨.

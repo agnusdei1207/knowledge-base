@@ -2,9 +2,9 @@
 title: "Distributed, NoSQL & NewSQL"
 tags:
   - "database"
+  - "studynote-database"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분산 데이터베이스는 물리적으로 떨어진 여러 노드에 데이터를 나누어 저장하여 확장성과 가용성을 높이는 기술이며, NoSQL과 NewSQL은 CAP 이론의 한계를 극복하기 위해 등장한 현대적 저장 아키텍처이다.

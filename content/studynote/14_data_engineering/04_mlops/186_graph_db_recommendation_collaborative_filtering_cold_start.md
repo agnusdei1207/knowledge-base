@@ -3,8 +3,8 @@ title: "186. Graph Db Recommendation Collaborative Filtering Cold Start"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 추천은 사용자-아이템-[속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 <strong><a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 구조 자체를 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>로 표현</strong>하여, 매트릭스 분해보다 복잡한 다홉(Multi-hop) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴을 실시간으로 탐색하는 추천 패러다임이다.

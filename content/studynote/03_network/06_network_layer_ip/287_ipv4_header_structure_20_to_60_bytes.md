@@ -3,8 +3,8 @@ title: "287. Ipv4 Header Structure 20 To 60 Bytes"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 287
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 패킷은 알맹이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))를 감싸는 껍질로, 라우터가 목적지를 찾아 배달할 수 있도록 이정표 역할을 하는 <strong>'최소 20바이트에서 최대 60바이트' 크기의 헤더(Header)</strong>를 가진다.

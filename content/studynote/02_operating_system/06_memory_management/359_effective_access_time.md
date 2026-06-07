@@ -3,8 +3,8 @@ title: "EAT, Effective Access Time"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 359
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Ratio)은 CPU가 요청한 가상 주소를 캐시([TLB](/studynote/02_operating_system/06_memory_management/357_tlb/))에서 1번 만에 찾아내는 성공 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이며, 실질 메모리 접근 시간(EAT: Effective Access Time)은 히트 시의 빠른 시간과 미스 시의 느린 시간을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 가중 평균 낸 <strong>'실제 사용자가 체감하는 평균 메모리 속도'</strong>를 의미한다.

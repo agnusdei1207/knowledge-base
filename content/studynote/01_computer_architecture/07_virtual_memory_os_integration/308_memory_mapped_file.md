@@ -3,8 +3,8 @@ title: "Memory-Mapped File"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메모리 맵 파일](/studynote/02_operating_system/02_process_thread/131_mmap_ipc/) (Memory-Mapped [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 "읽어 와서 복사하는 대상"이 아니라, 프로세스의 [가상 주소 공간](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 안에 직접 연결되는 메모리 구간으로 다루게 만드는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 기법이다.

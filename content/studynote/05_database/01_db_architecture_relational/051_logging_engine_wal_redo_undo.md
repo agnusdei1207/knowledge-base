@@ -3,8 +3,8 @@ title: "Logging"
 date: "2026-04-30"
 tags:
   - "studynote-database"
+weight: 51
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로깅 엔진 ([Logging](/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) 엔진)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)보다 먼저 변경 이력을 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 기록하는 WAL ([Write-Ahead Logging](/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/)) 원칙으로, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [원자성](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) ([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))과 [영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) ([Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))을 보장하는 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 핵심 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이다.

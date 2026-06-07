@@ -3,8 +3,8 @@ title: "312. Victim Selection Cost"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교착 상태를 끊어내기 위해 어떤 프로세스의 멱살을 잡고 자원을 뺏을지(또는 강제 종료시킬지) 결정할 때 사용하는 경제학적 <strong>비용 손실 최적화(Cost Minimization) 수식의 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 타게팅 체계</strong>다.

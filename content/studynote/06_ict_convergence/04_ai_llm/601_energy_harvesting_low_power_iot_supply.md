@@ -3,8 +3,8 @@ title: "Energy Harvesting Low Power IoT Supply"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 601
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에너지 하베스팅 저전력 IoT 전원은(는) 빛, 열, 진동, RF 등 주변 에너지를 수집해 배터리 교체가 어려운 IoT 장치의 전원을 보조하는 기술이다.

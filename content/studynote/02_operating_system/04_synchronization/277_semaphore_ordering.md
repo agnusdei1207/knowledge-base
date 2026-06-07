@@ -3,8 +3,8 @@ title: "Ordering"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 277
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/)를 이용한 순서 제어 (Ordering)는 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 용도를 넘어, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 특정 작업을 완료해야만 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 자신의 다음 작업을 진행하게 강제하는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 비동기 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 랑데부 메커니즘이다.

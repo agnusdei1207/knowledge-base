@@ -3,8 +3,8 @@ title: "Hive Metastore, AWS Glue"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 342
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) ([Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore, AWS Glue)는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 자산 검색 지원에 초점을 둔 분석 플랫폼 개념이다.

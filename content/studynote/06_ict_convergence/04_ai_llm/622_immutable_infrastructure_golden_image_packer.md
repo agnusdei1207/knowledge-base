@@ -3,8 +3,8 @@ title: "Immutable Infrastructure Golden Image Packer"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 622
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 불변 인프라 Golden Image Packer은(는) 서버를 운영 중 수정하지 않고, 검증된 이미지로 새 인스턴스를 교체 배포하는 인프라 운영 방식이다.

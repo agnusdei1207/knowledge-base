@@ -3,8 +3,8 @@ title: "Apache Kafka"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 230
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Kafka는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 스트리밍 플랫폼으로, 수천만 TPS(Transactions Per Second)의 대규모 실시간 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·이벤트를 **내구성 있게 보관하며 다수의 소비자가 독립적으로 읽어갈 수 있는** 고가용 메시지 브로커다.
 > 2. **가치**: 생산자(Producer)와 소비자(Consumer)를 <strong>분리(Decoupling)</strong>하여 시스템 간 결합도를 낮추고, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기반 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 수평 확장이 가능하며, 메시지를 디스크에 영속 저장해 재처리를 지원한다.

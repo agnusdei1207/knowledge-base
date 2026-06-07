@@ -3,8 +3,8 @@ title: "Inspection and Peer Review Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 280
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 동료검토 감리는 [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection)과 동료검토([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/))를 통한 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방 체계에서 검토 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)([Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) [Checklist](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)), [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방([Defect](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Prevention), 재작업 감소(Rework Reduction)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

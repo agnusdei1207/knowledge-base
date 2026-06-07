@@ -3,8 +3,8 @@ title: "562. Docker Image Layer Optimization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 562
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 이미지 계층(Layer) 최소화 기법은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Bind Variable"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 바인드 변수 (Bind Variable)은 파싱 결과 재사용, SQL [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/) 방지, 하드 파싱 (Hard Parsing) 방지 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점에 초점을 맞춘 개념이다.

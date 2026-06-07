@@ -3,8 +3,8 @@ title: "174. Hash Join"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해시 조인 (Hash [Join](/studynote/05_database/04_transactions_concurrency/521_join/))은 작은 입력을 메모리 버킷 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)로 만든 뒤, 큰 입력을 한 번 훑으며 같은 조인 키를 찾는 <strong>동등 조인 (Equality <a href="/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>) 특화 물리 연산</strong>이다.

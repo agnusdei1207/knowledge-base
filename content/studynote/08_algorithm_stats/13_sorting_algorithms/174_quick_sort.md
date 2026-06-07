@@ -2,9 +2,9 @@
 title: "Quick Sort"
 date: "2026-05-06"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))은 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) ([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/)) 하나를 기준으로 원소를 좌우로 분할하고, 각 부분 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 다시 정렬하는 <strong><a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>) 기반 정렬</strong>이다.

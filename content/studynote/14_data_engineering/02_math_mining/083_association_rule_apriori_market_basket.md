@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/) 탐색 (Association Rule Mining)은 거래 데이터에서 X -> Y 형태의 동시 발생 패턴을 찾아내는 규칙 기반 마이닝이다.
 - **가치**: [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)), [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)), [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))를 함께 봐야 빈도·신뢰·우연 초과 여부를 분리해서 판단할 수 있다.

@@ -3,8 +3,8 @@ title: "Interceptor / Filter Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인터셉터 / 필터 패턴은 요청·응답 흐름 바깥에 횡단 관심사(Cross-Cutting Concern)를 체인 형태로 배치해, 핵심 비즈니스 로직을 건드리지 않고 공통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 삽입하는 설계망 구조다.

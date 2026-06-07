@@ -2,9 +2,9 @@
 title: "FHE, Fully Homomorphic Encryption"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 468
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) 암호문 연산은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) 암호문 연산, [FHE](/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/), Fully Homomorphic Encryption의 경계를 분명히 만드는 데 의미가 있다.

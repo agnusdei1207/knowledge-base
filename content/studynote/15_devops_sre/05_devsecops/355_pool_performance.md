@@ -3,8 +3,8 @@ title: "CXL Chiplet Memory Pool"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 355
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/))은 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 5.0/6.0 물리 계층을 기반으로 CPU, [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 메모리 확장 장치 간 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) (Cache-Coherent) [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 접근을 가능하게 하는 개방형 인터커넥트 표준이다.

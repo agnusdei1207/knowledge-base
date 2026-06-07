@@ -3,9 +3,8 @@ title: "331. RAID (Redundant Array of Independent Disks)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 331
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) (Redundant [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks)는 여러 물리 디스크를 하나의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨처럼 묶어, 단일 디스크의 한계를 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 측면에서 보완하는 스토리지 구성 방식이다.

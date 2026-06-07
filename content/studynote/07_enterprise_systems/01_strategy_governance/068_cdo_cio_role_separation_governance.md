@@ -1,10 +1,11 @@
 ---
 title: "068. Cdo Cio Role Separation Governance"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CDO는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 거버넌스를, CIO는 정보시스템과 IT 운영을 책임지는 역할이다.

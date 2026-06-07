@@ -1,11 +1,11 @@
 ---
 title: "018. Admin Processes"
 date: "2026-03-04"
-description: "12 팩터 앱의 마지막 원칙으로, 데이터베이스 마이그레이션이나 일회성 스크립트 실행 등 관리 작업을 일반 서비스와 동일한 환경(코드, 설정, 릴리스)에서 실행하여 안정성을 확보하는 기법"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 18
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스 마이그레이션](/studynote/15_devops_sre/05_devsecops/271_ddl_liquibase/), 비정상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보정 스크립트, REPL 셸 접속 등 일회성 관리(Admin) 프로세스를 일반 장기 실행 애플리케이션과 완전히 동일한 릴리스 환경([코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/), [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/), [도커 이미지](/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/))에서 실행하라는 12 팩터(Twelve-Factor) 원칙이다.
 > 2. **가치**: 관리자가 임의의 환경이나 로컬 PC에서 스크립트를 실행하여 발생하는 예기치 못한 운영망 파괴(장애)를 원천 차단하고, 모든 관리 작업에 대한 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))와 재현성을 보장한다.

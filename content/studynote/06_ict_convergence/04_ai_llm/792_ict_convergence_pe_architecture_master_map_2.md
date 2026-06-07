@@ -3,8 +3,8 @@ title: "ICT Convergence PE Architecture Master Map 2"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 792
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합 아키텍처 마스터 맵 2는 **Edge-Cloud-AI Continuum** 위에서 5G/6G 네트워크 슬라이싱, Digital Twin, Federated Learning, Hyper-Automation, Zero-Trust Security Mesh가 유기적으로 결합된 **AI-Native 초연결 지능형 인프라**의 총체적 청사진을 다룬다.

@@ -3,8 +3,8 @@ title: "047. Prescriptive Analytics"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 47
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 처방 분석(Prescriptive Analytics)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 4단계 중 최고 수준으로, "무엇이 일어날 것인가([예측 분석](/studynote/16_bigdata/02_hadoop/046_predictive_analytics/))"를 넘어 "어떤 행동을 취해야 하는가"를 구체적으로 처방하는 분석 방법이다. 최적화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(OR, Operations Research), 시뮬레이션, 강화학습(RL)을 결합하여 최적 의사결정을 도출한다.
 > 2. **가치**: 처방 분석은 의사결정 자동화의 핵심 기술로, 물류 최적화([UPS](/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) ORION: 연간 1억 마일 절감), 동적 가격 책정(항공사 수익 관리), 의료 치료 최적화, 금융 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 재조정에 실시간으로 활용된다.

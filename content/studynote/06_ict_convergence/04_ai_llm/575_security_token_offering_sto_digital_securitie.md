@@ -3,8 +3,8 @@ title: "Security Token Offering STO Digital Securities"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 575
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: STO 증권형 토큰 디지털 증권은(는) 주식, 채권, 부동산 수익권 같은 증권성 권리를 블록체인 토큰으로 발행·유통하는 디지털 증권 모델이다.

@@ -3,8 +3,8 @@ title: "LoRA, Low-Rank Adaptation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 283
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로라 ([LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [Low-Rank Adaptation](/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/)): PEFT의 대표 기법. 거대 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 사이에 낮은 차원(Rank)의 랭크 분해 행렬 2개를 삽입하여 그것만 훈련시킨 후 나중에 원본 행렬에 더함 (VRAM 사용량 획기적 절약)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

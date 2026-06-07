@@ -3,8 +3,8 @@ title: "338. Pca Principal Component Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 338
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 차원 축소법 [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) (주성분 분석): [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분산을 최대로 보존하는 직교 축 도출를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

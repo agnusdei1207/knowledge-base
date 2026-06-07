@@ -3,8 +3,8 @@ title: "039. Naive Bayes"
 date: "2026-03-04"
 tags:
   - "studynote-ai"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)([Naive Bayes](/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))는 베이즈 정리와 "모든 특성이 조건부 독립"이라는 단순(Naive) 가정을 결합한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 이 가정은 현실에서는 거짓이지만 놀랍도록 잘 동작한다 — 특히 고차원·소량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 강점을 보인다.
 > 2. 핵심 공식: P(클래스|특성들) ∝ P(클래스) × ∏P(특성i|클래스) — 사전 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Prior)에 각 특성의 우도(Likelihood)를 곱하여 사후 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Posterior)이 가장 큰 클래스를 선택한다.

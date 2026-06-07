@@ -3,8 +3,8 @@ title: "UAT C Signoff Acceptance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: UAT 고객 서명 인수인계 감리는 사용자 [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)(User [Acceptance Test](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/), UAT)와 고객 서명 인수인계 체계에서 수용 기준([Acceptance Criteria](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/)), [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유예([Defect](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Waiver), 서명 완료(Signoff Completion)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

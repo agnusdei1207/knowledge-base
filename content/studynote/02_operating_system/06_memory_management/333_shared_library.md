@@ -3,8 +3,8 @@ title: "333. Shared Library"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 333
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))는 메모리에 단 하나만 적재되어 여러 프로세스가 동시에 사용할 수 있도록 설계된 코드 덩어리이며, 스터브 ([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))는 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 이 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 <strong>실제 메모리 주소를 런타임에 찾을 수 있도록 돕는 작은 연락처 코드(포인터)</strong>이다.

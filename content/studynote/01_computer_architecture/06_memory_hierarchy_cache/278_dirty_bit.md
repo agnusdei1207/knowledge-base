@@ -3,8 +3,8 @@ title: "Dirty Bit"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 278
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Dirty Bit](/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))는 캐시 라인이나 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 원본 메모리와 달라졌는지를 표시하는 1비트 상태 정보로, "이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나중에 반드시 다시 써야 하는가"를 결정한다.

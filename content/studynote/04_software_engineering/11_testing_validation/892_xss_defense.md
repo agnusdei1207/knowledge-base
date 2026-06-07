@@ -3,8 +3,8 @@ title: "892. Xss Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 892
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [크로스 사이트 스크립팅](/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) ([XSS](/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)) 방어은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

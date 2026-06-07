@@ -1,11 +1,11 @@
 ---
 title: "877. Recommendation System"
 date: "2026-04-05"
-description: "추천 시스템의 개념, 협업 필터링, 콘텐츠 기반 필터링, 딥러닝 기반 추천, 실전 적용 사례"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 877
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) (Recommendation System)은 정보 과부하 시대에 사용자의 과거 행동과 취향 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여, 사용자가 능동적으로 검색하기 전에 가장 적합한 아이템을 먼저 제안하는 큐레이션 엔진이다.

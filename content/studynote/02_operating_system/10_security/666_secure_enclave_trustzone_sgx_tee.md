@@ -3,8 +3,8 @@ title: "666. Secure Enclave Trustzone Sgx Tee"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 666
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)마저 해커에게 뚫릴 수 있다는 전제하에, CPU 하드웨어 내부에 OS조차 접근할 수 없는 절대적인 '비밀의 방'을 만들어 민감한 연산(암호화, [생체 인증](/studynote/09_security/uncategorized/1047_biometric_authentication/))을 수행하는 아키텍처가 <strong>보안 엔클레이브(<a href="/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/">Secure Enclave</a>) 및 <a href="/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">TEE</a></strong>다.

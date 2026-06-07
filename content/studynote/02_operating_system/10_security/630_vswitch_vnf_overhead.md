@@ -3,8 +3,8 @@ title: "630. Vswitch Vnf Overhead"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 630
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(vSwitch)는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 내부에 소프트웨어로 구현된 L2/L3 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로, 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 간의 통신과 외부 네트워크 연결을 담당하지만 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 거치면서 발생하는 잦은 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 문맥 교환으로 인해 치명적인 <strong>패킷 <a href="/studynote/03_network/01_data_communication/019_처리_지연/">처리 지연</a>(Overhead)</strong>을 유발한다.

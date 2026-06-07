@@ -1,10 +1,11 @@
 ---
 title: "Shift-Left Security"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) (Development, [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), and Operations)의 핵심인 '보안의 좌측 이동 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))'은 소프트웨어 개발 수명 주기 ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 맨 우측(마지막 배포 단계)에 있던 보안 검사를 맨 좌측(기획 및 코딩 단계)으로 전진 배치하는 사상이다.
 > 2. **가치**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인 내부에 [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)([SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)), [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 분석([SCA](/studynote/09_security/05_web_app_security/453_sca/)) 등의 자동화 도구를 심어, 보안 통제가 개발 속도를 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/)) 현상을 원천적으로 제거한다.

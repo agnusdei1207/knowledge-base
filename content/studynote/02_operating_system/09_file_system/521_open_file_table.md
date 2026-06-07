@@ -3,8 +3,8 @@ title: "521. Open File Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 521
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크에 있는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이를 무조건 메모리에 올려둬야 한다. 이때 "누가, 이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 며칠 몇 시에 열었고, 현재 몇 번째 줄을 읽고 있으며([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터), 수정 권한은 있는지" 를 추적하는 <strong>동적 감시 장부(<a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>)</strong> 가 바로 '열린 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 테이블(Open [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Table)'이다.

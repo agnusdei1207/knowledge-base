@@ -3,8 +3,8 @@ title: "Proxy Pattern Types"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 159
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 패턴은 실제 객체 (Real Subject)와 동일한 인터페이스를 가진 대리 객체를 앞단에 두어, 클라이언트가 원본 대신 대리자를 통해 접근하도록 만드는 [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)이다.

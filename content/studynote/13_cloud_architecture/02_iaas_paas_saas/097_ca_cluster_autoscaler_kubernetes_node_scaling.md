@@ -3,8 +3,8 @@ title: "097. Ca Cluster Autoscaler Kubernetes Node Scaling"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Cluster Autoscaler)는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 자원 부족으로 배정받지 못하는 `Pending` 상태를 감지하여 물리적 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 노드) 자체를 자동으로 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)하는 인프라 확장 기술이다.

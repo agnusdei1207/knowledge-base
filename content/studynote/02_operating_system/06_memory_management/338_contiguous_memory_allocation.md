@@ -3,8 +3,8 @@ title: "Contiguous Memory Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 338
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연속 메모리 할당(Contiguous Memory Allocation)은 하나의 프로세스가 요구하는 크기 전체를 물리적 메모리의 <strong>인접한 공간(연속된 주소)에 끊어짐 없이 통째로 배정</strong>하는 가장 고전적이고 직관적인 메모리 관리 기법이다.

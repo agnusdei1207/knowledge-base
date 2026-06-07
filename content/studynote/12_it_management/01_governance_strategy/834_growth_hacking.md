@@ -3,8 +3,8 @@ title: "Growth Hacking"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
+weight: 834
 ---
-
 > **핵심 인사이트**
 > 1. [그로스 해킹](/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)([Growth Hacking](/studynote/12_it_management/01_governance_strategy/833_growth_hacking/))은 마케팅·제품·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통합해 급속 성장을 달성하는 IT 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, [OKR](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)(Objectives and [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results)과 연동하면 측정 가능한 성장 목표를 체계적으로 달성할 수 있다.
 > 2. AARRR 퍼널([Acquisition](/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) -> Activation -> [Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) -> Referral -> Revenue)의 각 단계에서 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 식별하고 실험을 통해 개선하는 것이 [그로스 해킹](/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)의 핵심이며, 이는 전통 마케팅의 직관 의존을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정으로 대체한다.

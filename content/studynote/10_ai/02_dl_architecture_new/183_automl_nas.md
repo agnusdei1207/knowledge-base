@@ -3,8 +3,8 @@ title: "AutoML"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) ([Automated Machine Learning](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/))은 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 배치 크기, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수 같은 HPO (Hyperparameter Optimization)와 경우에 따라 [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) (Neural [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Search)까지 자동화해, 모델 설계 공간을 체계적으로 탐색하는 최적화 프레임워크다.

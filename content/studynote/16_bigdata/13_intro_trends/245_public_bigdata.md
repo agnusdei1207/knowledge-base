@@ -3,8 +3,8 @@ title: "Public Big Data"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
+weight: 245
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 공공 빅데이터는 정부·공공기관이 생산·보유한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 민간에 개방해 사회·경제적 가치를 창출하는 [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)의 핵심 인프라다.
 > 2. 한국의 공공데이터포털([data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).go.kr)은 78,000여 개 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 제공하며, 교통·복지·의료·환경 분야 혁신 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기반이 되고 있다.

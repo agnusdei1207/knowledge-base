@@ -2,9 +2,9 @@
 title: "169. Client Side Vs Server Side Discovery"
 date: "2026-04-10"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)에서 차이는 "누가 [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 조회하고 인스턴스를 고르는가"에 있다. 호출 애플리케이션이 직접 하면 클라이언트 사이드, [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)나 로드밸런서가 대신하면 서버 사이드다.

@@ -1,10 +1,11 @@
 ---
 title: "073. Xp Extreme Programming"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: XP는 코딩 품질과 고객 피드백을 극대화하는 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발 방법론이다.

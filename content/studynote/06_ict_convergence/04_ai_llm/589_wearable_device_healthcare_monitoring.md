@@ -3,8 +3,8 @@ title: "Wearable Device Healthcare Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 589
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 웨어러블 헬스케어 모니터링은(는) 손목밴드, 패치, 스마트워치 등 착용 센서로 생체 신호를 지속 수집해 건강 상태를 분석하는 기술이다.

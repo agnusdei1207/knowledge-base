@@ -3,8 +3,8 @@ title: "192. Edge Ai Onnx Tensorrt Model Serialization"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엣지 AI는 모델을 클라우드 대신 엣지 디바이스에서 추론하여 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 실시간 처리와 오프라인 동작을 실현한다.
 > 2. **가치**: ONNX(Open Neural Network Exchange)는 프레임워크 독립적 모델 교환 포맷이고, TensorRT는 NVIDIA GPU에서 레이어 융합·[양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로 추론 속도를 최대 8배 향상한다.

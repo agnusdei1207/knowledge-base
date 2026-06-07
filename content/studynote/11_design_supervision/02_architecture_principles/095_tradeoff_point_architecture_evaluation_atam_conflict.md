@@ -2,9 +2,9 @@
 title: "095. Tradeoff Point Architecture Evaluation Atam Conflict"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상충점 (Trade-off Point)은 소프트웨어 아키텍처에서 하나의 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Quality [Attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))을 향상시키면 필연적으로 다른 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 저하되는 모순적 교차점이다.

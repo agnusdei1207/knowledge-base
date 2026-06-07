@@ -2,9 +2,9 @@
 title: "017. Radix Sort"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 17
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [기수](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) 정렬은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자릿수(digit) 단위로 분리해 각 자릿수마다 안정 정렬을 반복 적용함으로써 O(d·n) 시간에 정수를 정렬한다.
 > 2. **가치**: 자릿수 d가 상수에 가까운 고정 길이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(전화번호, IP 주소, 주민번호 등)에서 O(n)에 수렴하며 대용량 정수 정렬에 강점을 보인다.

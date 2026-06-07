@@ -3,8 +3,8 @@ title: "155. Peer Review"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/))는 수십 명이 회의실에 감금되어 피 터지게 팩폭 린치를 치는 [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection)의 쇳덩이 군대식 야만을 찢어발기고!! -> <strong>작성자가 자기 코드를 바로 옆자리 동료(<a href="/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/">Peer</a>)에게 툭 던져, 커피 마시며 가볍게 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 빵꾸(<a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">Defect</a>)를 짚어주고 1초 컷 핑퐁 훈수(Feedback)를 두는 가장 비공식적이고 민첩한(<a href="/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 정적 테스트 방어막 텐트</strong>다.
 > 2. **가치**: "내가 짠 예술 코드는 무결점 신성불가침임 ㅋ 터치 컷!" 이라며 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 우물 늪에 빠져 고립 타 죽던 코더의 망상 뇌피셜(Ego)을 도끼로 쪼개 부수고 -> 타인의 차가운 눈깔 스캐너를 통해 <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">버그 조기 척살 + 100억 회사 코어 지식([Domain</a> Knowledge)의 100% 오토 다운로드 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Sync)]</strong> 라는 궁극의 1타 쌍피 가성비 다이어트 기적을 창조해 낸다.

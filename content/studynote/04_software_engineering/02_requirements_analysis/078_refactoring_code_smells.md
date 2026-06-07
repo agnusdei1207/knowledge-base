@@ -1,10 +1,11 @@
 ---
 title: "078. Refactoring Code Smells"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) (Refactoring)은 외부 동작은 그대로 두고 내부 구조만 더 읽기 좋고 바꾸기 쉽게 만드는 작업이다.

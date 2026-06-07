@@ -2,9 +2,9 @@
 title: "116. Kernel Density Estimation"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: KDE([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Density Estimation)는 <strong>히스토그램의 연속적 일반화</strong>로, 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트에 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 함수(가우시안 등)를 배치</strong>하고 합산하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 밀도 함수(PDF)를 <strong>비모수적으로 추정</strong>하는 기법이다.
 > 2. **가치**: 히스토그램은 bin 크기에 따라 모양이 크게 달라지고 불연속적이지만, KDE는 <strong>매끄러운(Smooth) 연속 곡선</strong>으로 밀도를 표현하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포의 진정한 형태를 더 정확하게 파악한다.

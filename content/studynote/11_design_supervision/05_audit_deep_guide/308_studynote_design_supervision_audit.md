@@ -3,8 +3,8 @@ title: "Session Timeout and Duplicate Login Control Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)과 중복로그인 차단 감리는 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))과 중복 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 차단(Concurrent [Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Control) 체계에서 비활성 시간 제한(Inactivity [Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), 동시 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제어(Concurrent [Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Control), 재인증(Re [Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

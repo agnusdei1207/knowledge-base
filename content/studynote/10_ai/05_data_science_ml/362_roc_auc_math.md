@@ -3,8 +3,8 @@ title: "Receiver Operating Characteristic / Area Under Curve"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 362
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ROC(Receiver Operating Characteristic, 수신자 조작 특성) 곡선은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 임계값(Threshold)을 변화시키면서 TPR(True Positive Rate, [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/))과 FPR(False Positive Rate, 거짓 양성률)의 트레이드오프를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하며, AUC(Area Under Curve)는 이 곡선 아래 면적으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 전반적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [0,1]로 수치화한다.

@@ -3,8 +3,8 @@ title: "MSP, Managed Service Provider"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 837
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 매니지드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 핵심은 [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 설계, 이전, 운영 대행 전문 기업라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

@@ -3,8 +3,8 @@ title: "1081. Ips Signature Regular Expression Regex"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1081
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPS](/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

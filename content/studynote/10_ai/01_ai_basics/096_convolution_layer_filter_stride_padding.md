@@ -3,8 +3,8 @@ title: "096. Convolution Layer Filter Stride Padding"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층 ([Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) Layer)은 2차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 공간적 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 유지한 채, 작은 필터(Filter)를 이동시키며 지역적 특징을 추출하는 연산 계층이다.

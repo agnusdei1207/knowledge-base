@@ -3,8 +3,8 @@ title: "Emergent Abilities"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 265
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 창발성 (Emergent Abilities): 파라미터와 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 특정 임계치를 넘겼을 때, 사전에 프로그래밍/학습하지 않은 복잡한 추론 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 능력이 스스로 발현되는 현상를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

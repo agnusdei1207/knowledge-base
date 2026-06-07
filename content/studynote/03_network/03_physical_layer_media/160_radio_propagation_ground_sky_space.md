@@ -3,8 +3,8 @@ title: "Space Wave"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 160
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전파의 전달 경로는 주파수와 대기 조건에 따라 지표면을 따라가는 지상파 (Ground [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)), 전리층을 이용하는 천파 (Sky [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)), 가시거리로 직진하는 공간파 (Space [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))로 구분된다.

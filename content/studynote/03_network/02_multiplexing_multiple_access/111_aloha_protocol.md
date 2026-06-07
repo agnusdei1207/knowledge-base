@@ -3,8 +3,8 @@ title: "111. Aloha Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하와이 대학에서 개발한 최초의 무선 라디오 패킷 통신망으로, 노드가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원할 때 언제든 즉시 전송하는 '무작위 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)(Random [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))' 기술의 근원이다.

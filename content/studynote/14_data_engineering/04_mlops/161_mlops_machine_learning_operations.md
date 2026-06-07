@@ -3,8 +3,8 @@ title: "161. Mlops Machine Learning Operations"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML 모델의 개발(Dev)과 운영(Ops)을 통합하여, 실험실 모델을 신뢰할 수 있는 프로덕션 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 자동화하는 전체 생명주기 관리 체계다.
 > 2. **가치**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD에 [CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ([Continuous Training](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/))을 더해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·코드·모델 3축을 동시에 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하고, [모델 드리프트](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)에 자동으로 반응함으로써 운영 비용을 절감하고 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 지속 보장한다.

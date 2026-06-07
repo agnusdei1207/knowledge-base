@@ -3,8 +3,8 @@ title: "228. Cnn 1D 2D 3D Video Medical"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [합성곱 신경망](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)([CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 단순히 평면 사진(2D)의 강아지를 찾는 눈알에 불과했던 것을 넘어, 필터(도장)의 움직이는 방향(차원)을 1차원(선), 2차원(면), 3차원(공간/시간)으로 구부리고 확장시켜 <strong>세상의 모든 센서 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>와 시공간의 흐름을 뜯어먹는 만능 비전(Vision) 아키텍처</strong>로 진화했다.

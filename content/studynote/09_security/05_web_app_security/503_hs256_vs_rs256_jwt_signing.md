@@ -3,8 +3,8 @@ title: "JWT"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 503
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HS256 vs RS256 ([JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 서명 방식 비교)는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

@@ -3,8 +3,8 @@ title: "Drone Swarm Flight Unmanned Logistics"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 735
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 드론 군집 비행 무인 물류 배송은 **분산 합의 알고리즘(Consensus Algorithm)**, **Boids 모델 기반 플록킹(Flocking)**, **5G URLLC + MESH 통신**, **UTM(UAS Traffic Management)**을 결합한 *N-to-N 다중 에이전트 협업 물류 시스템*으로, 단일 드론의 페이로드/내구성 한계를 *가상 구조체(Virtual Structure)* 방식으로 확장한 것이다.

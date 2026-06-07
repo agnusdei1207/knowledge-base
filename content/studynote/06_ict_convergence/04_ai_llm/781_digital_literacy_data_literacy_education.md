@@ -3,8 +3,8 @@ title: "Digital Literacy Data Literacy Education"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 781
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EU **DigComp 2.2**(정보·데이터 리터러시, 커뮤니케이션·협업, 디지털 콘텐츠 제작, 안전, 문제해결 5영역 8수준)와 DAMA-DMBOK·Gartner 4단계(Awareness->Foundational->Practitioner->Expert) 데이터 리터러시 프레임워크를 통합한, **데이터 수집->정제->EDA->통계추론->시각화->커뮤니케이션** 전 사이클의 비판적·통계적 사고력 함양 교육 체계.

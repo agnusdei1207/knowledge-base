@@ -2,9 +2,9 @@
 title: "170. Circuit Breaker Pattern"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) ([Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 패턴은 최근 실패율과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 관찰해, 문제가 있는 외부 의존성 호출을 잠시 차단하고 빠르게 실패시키는 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성 (Resilience) 제어 장치다.

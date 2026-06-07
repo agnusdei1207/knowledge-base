@@ -3,8 +3,8 @@ title: "089. Confusion Matrix Tp Fp Fn Tn"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 혼동 행렬 (Confusion Matrix)은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델의 예측 결과 (Positive/Negative)와 실제 정답을 교차하여 2x2 형태의 행렬로 표현한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가의 원천 도표다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형 ([Imbalanced Data](/studynote/06_ict_convergence/05_data_science/356_imbalanced_data_sampling/)) 상황에서 단순 '정확도 (Accuracy)'가 모델의 실패를 감추는 착시 현상을 방지하고, 어떤 유형의 오류를 더 많이 내는지 직관적으로 보여준다.

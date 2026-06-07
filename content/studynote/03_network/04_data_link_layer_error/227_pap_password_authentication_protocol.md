@@ -3,9 +3,8 @@ title: "227. PAP (Password Authentication Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 227
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PAP ([Password Authentication](/studynote/09_security/uncategorized/1046_password_authentication/) [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 점대점 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([PPP](/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)) 링크 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 과정에서 사용되는 가장 기초적인 2-Way 핸드셰이크 기반의 평문(Cleartext) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식이다.

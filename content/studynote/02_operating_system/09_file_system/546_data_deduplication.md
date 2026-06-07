@@ -3,8 +3,8 @@ title: "546. Data Deduplication"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 546
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 ZIP 기반 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)([Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/))" 이 단일 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부의 여백을 쥐어짜는 기술이라면, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 중복 제거(Deduplication)</strong> 는 **"서버 전체 하드디스크를 스캔해서, 똑같은 내용을 담은 4KB 블록 10만 개가 발견되면, 딱 1개(원본 마스터)만 남기고 나머지 99,999개는 전부 그 원본을 가리키는 포인터(껍데기 화살표)로 치환해버리는 거시적 스토리지 거세 렌더"** 이다.

@@ -3,8 +3,8 @@ title: "NOR Flash"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 258
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NOR 플래시 (NOR Flash)는 셀을 비트선에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 매달아 주소를 직접 지정해 읽을 수 있는 비휘발성 메모리라서, 저장장치이면서도 코드 읽기 관점에서는 읽기 전용 메모리 ([Read Only Memory](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/))처럼 동작한다.

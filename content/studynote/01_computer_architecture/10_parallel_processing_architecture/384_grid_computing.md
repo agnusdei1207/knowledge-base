@@ -3,8 +3,8 @@ title: "Grid Computing"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 384
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그리드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/051_grid_computing/) ([Grid Computing](/studynote/02_operating_system/01_overview_architecture/051_grid_computing/))은 서로 다른 기관이 가진 이기종 자원을 광역 네트워크로 묶어, 하나의 거대한 문제를 잘게 나눈 뒤 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하는 약결합 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 모델이다.

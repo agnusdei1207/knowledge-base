@@ -3,8 +3,8 @@ title: "PCIe Switch Fabric"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 520
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 제한된 루트 컴플렉스 ([Root Complex](/studynote/01_computer_architecture/09_system_bus_interconnects/358_root_complex/)) 레인을 패킷 스위칭 구조로 분기해, 더 많은 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))·[SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))·[NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card)를 하나의 I/O 토폴로지 안에 붙이게 만드는 확장용 내부 네트워크다.

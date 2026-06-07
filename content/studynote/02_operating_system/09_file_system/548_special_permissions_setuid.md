@@ -3,8 +3,8 @@ title: "Special Permissions Setuid"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 548
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 rwx 권한만으로는 "일반 유저가 자기 비밀번호를 바꾸려면 최고 관리자(Root)만 만질 수 있는 `/etc/shadow` [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정해야 한다" 는 딜레마(권한 모순 늪!)를 풀 수 없다. 이를 해소하기 위해 만들어진 <strong>"이 프로그램을 실행하는 그 순간만큼은, 이 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 주인의 영혼(UID)으로 빙의(둔갑 스왑)시켜주마!"</strong> 라는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 조건부 신분 상승 렌더다.

@@ -3,8 +3,8 @@ title: "222. Cni Container Network Interface Calico"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 네트워크 연결을 제공하는 플러그인 표준.

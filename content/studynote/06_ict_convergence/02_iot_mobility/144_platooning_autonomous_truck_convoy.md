@@ -3,8 +3,8 @@ title: "144. Platooning Autonomous Truck Convoy"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 군집주행(Platooning)은 <strong>선두 차량을 따라 후속 차량들이 V2V 통신으로 자동 추종</strong>하며, 차간 거리를 수m로 유지하여 공기 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 줄이고 연비를 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15% 향상시키는 기술이다.
 > 2. **가치**: 장거리 트럭 운송에서 <strong>연료비 절감·운전자 피로 감소·도로 이용 효율 향상</strong>을 동시에 달성하며, 물류 혁신의 핵심이다.

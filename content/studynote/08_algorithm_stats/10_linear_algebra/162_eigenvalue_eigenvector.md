@@ -2,9 +2,9 @@
 title: "162. Eigenvalue Eigenvector"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 162
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Av](/studynote/09_security/04_endpoint_security/323_antivirus/) = λv — 행렬 변환 A 아래서 *방향이 바뀌지 않고 크기만 λ배 되는 특별한 벡터 v* 가 고유벡터이며, 이것이 행렬의 핵심 구조를 드러낸다.

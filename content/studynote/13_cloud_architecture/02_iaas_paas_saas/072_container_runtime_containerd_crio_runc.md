@@ -1,10 +1,11 @@
 ---
 title: "containerd, CRI-O, runc"
+date: "2026-06-07"
 tags:
   - "cloud_architecture"
-date: "2026-06-07"
+  - "studynote-cloud-architecture"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임은 이미지를 실제 프로세스로 실행하는 저수준 엔진이다.

@@ -3,8 +3,8 @@ title: "137. Transactional Outbox Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 137
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transactional Outbox는 <strong>비즈니스 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 이벤트를 같은 DB 트랜잭션으로 저장(Outbox 테이블)</strong>한 후, 별도 프로세스([CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)·[Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))가 Outbox에서 이벤트를 읽어 메시지 브로커로 발행하는 패턴이다.
 > 2. **가치**: "주문 저장 + [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 발행"을 별도로 하면 <strong>DB 저장 성공·<a href="/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> 발행 실패</strong> 시 불일치가 발생하지만, Outbox는 <strong>단일 트랜잭션으로 <a href="/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>을 보장</strong>한다.

@@ -1,11 +1,11 @@
 ---
 title: "06. Apache Tez"
+date: "2026-06-07"
 tags:
   - "bigdata"
-date: "2026-06-07"
+  - "studynote-bigdata"
+weight: 28
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Tez는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 생태계의 뼈대였던 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 엔진의 극악한 속도와 멍청한 입출력 한계를 박살 내기 위해 탄생한, <strong><a href="/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> (<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>, 방향성 비순환 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>) 기반의 차세대 고성능 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 엔진</strong>이다.
 > 2. **가치**: 기존 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 작은 연산 하나를 끝낼 때마다 꼬박꼬박 느려터진 하드디스크([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))에 임시 결과를 적고 다시 읽어오는 바보짓을 반복했다. Tez는 수십 개의 복잡한 SQL 연산([Hive](/studynote/05_database/04_transactions_concurrency/544_hive/)/Pig)을 하나의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 흐름([DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))으로 묶어 메모리 위에서 중간 디스크 I/O 없이 미끄러지듯 한 방에 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 처리를 갈겨버림으로써 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도를 10배~100배 이상 폭발적으로 끌어올린다.

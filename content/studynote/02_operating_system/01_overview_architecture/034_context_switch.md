@@ -2,9 +2,9 @@
 title: "034. Context Switch"
 date: "2026-03-04"
 tags:
-  - "studynote-os"
+  - "studynote-operating-system"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))은 CPU가 현재 실행 중인 프로세스/[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태를 PCB/TCB에 저장하고 다른 프로세스/[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태를 복원하는 OS 핵심 메커니즘이다.
 > 2. [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭은 순수 오버헤드(직접 비용: [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장/복원, 간접 비용: CPU 캐시·[TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)로, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 전환이 프로세스 간 전환보다 훨씬 가볍다.

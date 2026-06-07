@@ -3,9 +3,8 @@ title: "658. Intel VT-x"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 658
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Intel VT-x (Intel [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Technology for x86)는 x86 아키텍처의 고전적 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 난제를 하드웨어로 푸는 실행 프레임워크다.

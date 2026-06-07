@@ -3,8 +3,8 @@ title: "044. Shell"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. 셸(Shell)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 사용자 사이의 인터페이스로 — 사용자의 명령을 해석·실행하는 명령 해석기([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) [Interpreter](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/))이며, 이름처럼 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 감싸는 "껍데기" 역할을 한다.
 > 2. 셸 스크립트는 변수·조건·반복·함수·파이프를 지원하는 완전한 프로그래밍 언어이며 — 프로세스 포크(fork)/익스큐트(exec) 시스템 콜의 흐름을 직접 제어하므로, OS 자동화·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 핵심 도구이다.

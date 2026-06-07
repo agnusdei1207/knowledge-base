@@ -3,8 +3,8 @@ title: "QFD, Quality Function Deployment"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 품질 기능 전개 (Quality Function [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), QFD)는 고객의 목소리 (Voice of [C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/), VOC)를 설계 특성, 부품 특성, 공정, 테스트 기준으로 단계적으로 변환해 주는 요구사항 전개 방법론이다.

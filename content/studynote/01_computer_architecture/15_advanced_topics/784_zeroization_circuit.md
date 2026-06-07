@@ -3,8 +3,8 @@ title: "784. Zeroization Circuit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 784
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제로화 (Zeroization) 회로는 탬퍼 감지나 승인된 긴급 명령이 들어왔을 때, 비밀 정보를 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능한 상태로 만드는 하드웨어 경로로서, 휘발성 저장소는 즉시 소거하고 비휘발성 비밀은 삭제·무효화·crypto erase 방식으로 끊어낸다.

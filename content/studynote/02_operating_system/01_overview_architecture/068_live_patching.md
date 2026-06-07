@@ -3,8 +3,8 @@ title: "068. Live Patching"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Live Patching은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 재부팅 없이 취약점이나 버그를 패치하는 기술이다.

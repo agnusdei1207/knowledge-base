@@ -1,10 +1,11 @@
 ---
 title: "085. Erp Implementation Lifecycle"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 구축 생명주기는 패키지 도입이 아니라 업무 표준화와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관을 함께 설계하는 변화 관리 과정이다.

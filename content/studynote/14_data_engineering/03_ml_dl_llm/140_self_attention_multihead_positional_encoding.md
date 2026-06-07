@@ -2,9 +2,9 @@
 title: "140. Self Attention Multihead Positional Encoding"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Self-Attention은 <strong>시퀀스 내 모든 위치 쌍의 관련도를 계산</strong>하는 메커니즘이고, Multi-Head는 <strong>h개의 독립 Attention을 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 수행</strong>하여 다양한 관점의 패턴을 학습하며, Positional Encoding은 <strong>순서 정보를 주입</strong>한다.
 > 2. **가치**: RNN은 순차 처리로 위치 정보가 자연 반영되지만, Transformer는 **순서 정보가 없으므로** [Positional Encoding](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)(사인/코사인 or 학습)으로 위치를 알려줘야 한다.

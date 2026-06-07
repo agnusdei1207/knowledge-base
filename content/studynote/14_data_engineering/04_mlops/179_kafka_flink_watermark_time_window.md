@@ -3,8 +3,8 @@ title: "Watermark"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Kafka는 재생 가능한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를, Flink는 상태 기반 이벤트 시간(Event Time) 처리 엔진을 제공하여 실시간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 계산 가능한 시간 모델로 바꾼다.

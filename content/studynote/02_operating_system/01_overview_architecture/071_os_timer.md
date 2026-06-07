@@ -3,8 +3,8 @@ title: "071. Os Timer"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 타이머는 시간을 재고 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시켜 작업을 스케줄링하는 핵심 장치다.

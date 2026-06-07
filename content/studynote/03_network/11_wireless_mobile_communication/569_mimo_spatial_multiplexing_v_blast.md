@@ -3,8 +3,8 @@ title: "V-BLAST"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 569
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기반 [공간 다중화](/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) 체계는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

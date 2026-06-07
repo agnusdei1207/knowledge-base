@@ -3,9 +3,8 @@ title: "245. Compensation Log Record (CLR)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 245
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Compensation Log Record (CLR)은 [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) 수행 시 남기는 보상 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (중복 [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) 방지)에 초점을 맞춘 개념이다.

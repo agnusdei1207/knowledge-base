@@ -3,8 +3,8 @@ title: "794. Continuous Deployment Rollback Automation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 794
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 자동화 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 파이프라인 구성은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Moore Machine"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무어 머신(Moore Machine)은 출력이 현재 입력이 아니라 현재 상태에만 의존하는 상태 मशीन이다.

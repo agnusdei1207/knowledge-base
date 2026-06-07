@@ -3,8 +3,8 @@ title: "Chaos ering Shadow Deployment Circuit Breaker"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 507
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 복원력(Resilience) 기술은 "장애가 일어나지 않을 것"을 가정하는 대신 "장애는 반드시 일어난다"를 전제로, 사전에 시스템을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.

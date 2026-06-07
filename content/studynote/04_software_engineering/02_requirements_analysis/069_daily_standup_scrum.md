@@ -1,10 +1,11 @@
 ---
 title: "069. Daily Standup Scrum"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데일리 스크럼은 매일 15분 내외로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황과 장애물을 공유하는 짧은 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 회의다.

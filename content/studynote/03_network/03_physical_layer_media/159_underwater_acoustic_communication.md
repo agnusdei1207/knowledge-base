@@ -3,8 +3,8 @@ title: "159. Underwater Acoustic Communication"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 음향 통신 (수중 음파 통신)은 물속에서 전자기파보다 훨씬 멀리 전달되는 음파를 이용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 통신 방식이다.

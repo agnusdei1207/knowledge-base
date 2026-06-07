@@ -3,8 +3,8 @@ title: "206. Sidecar Pod"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 주 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 보조 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 붙여 공통 기능을 분리하는 패턴.

@@ -2,9 +2,9 @@
 title: "128. Newton Raphson"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뉴턴-랩슨(Newton-Raphson) 방법은 함수의 접선(Tangent Line)을 반복 이용해 근(Root)을 찾는 수치 해석 알고리즘으로, 이차 수렴(Quadratic Convergence) — 매 단계마다 유효 자릿수가 2배 증가 — 이 특징이다.

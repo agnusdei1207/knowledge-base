@@ -3,8 +3,8 @@ title: "TensorFlow Tensors: Scalar, Vector, Matrix, Tensor"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 텐서(Tensor)는 스칼라(0차원)부터 N차원까지의 숫자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아내는 일관된 다차원 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 구조이자, 텐서플로우(TensorFlow) 연산의 기본 단위이다.

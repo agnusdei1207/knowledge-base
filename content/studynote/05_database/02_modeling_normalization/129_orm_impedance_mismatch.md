@@ -3,8 +3,8 @@ title: "Object-Relational Mismatch"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치([Impedance](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) Mismatch)는 <strong>객체지향 프로그래밍의 객체 모델과 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 DB의 테이블 모델 간 구조적 차이</strong>로 인해 발생하는 매핑 어려움이며, ORM(Object-Relational [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))이 이를 자동으로 해결한다.
 > 2. **가치**: 수동 SQL은 객체↔테이블 변환 코드가 <strong>전체 코드의 30~40%</strong>를 차지하며 유지보수 부담이 크지만, ORM은 <strong>객체를 자동으로 테이블에 매핑</strong>하여 생산성을 대폭 향상시킨다.

@@ -3,8 +3,8 @@ title: "AI Model Performance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 271
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 품질 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계에서 정확도(Accuracy), 추론 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간(Inference [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), [모델 드리프트](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)([Model Drift](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "086. Des Data Encryption Standard"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DES ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Encryption Standard)는 64비트 블록과 56비트 유효 키를 쓰는 대칭키 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)다.

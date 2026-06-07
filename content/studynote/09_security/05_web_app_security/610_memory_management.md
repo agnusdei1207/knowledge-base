@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "610. 메모리 관리 보안 (Memory Management Security)"
 date: "2026-05-08"
-categories: "studynote-security"
+tags:
+  - "studynote-security"
+weight: 610
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 관리 보안 (Memory Management Security)는 보안 확장 개념에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

@@ -3,8 +3,8 @@ title: "Enhanced Second Chance Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 408
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존 클럭 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 '최근 사용 여부([참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))' 하나만 보고 희생양을 골랐다면, 개선된 [2차 기회 알고리즘](/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)은 여기에 <strong>'<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정 여부(<a href="/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">변경 비트</a>/<a href="/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">Dirty Bit</a>)'를 추가 결합하여 2개의 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 조합(00, 01, <a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>, <a href="/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)으로 교체 타겟의 계급을 나누는 고도화된 타겟팅 기법</strong>이다.

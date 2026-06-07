@@ -3,8 +3,8 @@ title: "Edge Computing"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 350
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))은 연산과 저장을 중앙 클라우드가 아니라 사용자·센서·기기 가까운 지점으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 네트워크 부담을 줄이는 구조다.

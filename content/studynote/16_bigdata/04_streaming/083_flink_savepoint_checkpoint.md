@@ -3,8 +3,8 @@ title: "083. Flink Savepoint Checkpoint"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Flink의 Checkpoint (체크포인트)는 자동으로 주기적으로 스트리밍 상태 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 저장하여 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 지원하고, [Savepoint](/studynote/05_database/04_transactions_concurrency/200_savepoint_partial_rollback/) (세이브포인트)는 사용자가 수동으로 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하여 애플리케이션 업그레이드·마이그레이션·디버깅에 사용하는 명시적 상태 보존 메커니즘이다.

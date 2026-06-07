@@ -3,8 +3,8 @@ title: "681. Erasure Coding"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 681
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EC (Erasure Coding)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 조각과 패리티 조각으로 분해해, 일부 장치가 사라져도 수학적으로 원본을 복원하는 저장 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 기술이다.

@@ -3,8 +3,8 @@ title: "Min-Max"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 382
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 퍼지 집합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 제어 소속도 연산 함수 ([Min-Max](/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/)): 1. **본질**: [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)([Fuzzy Logic](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))는 참(1)과 거짓(0)으로만 세상을 흑백 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 나누던 컴퓨터에게, "조금 따뜻하다", "매우 덥다"처럼 0과 1 사이의 연속적인 '…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

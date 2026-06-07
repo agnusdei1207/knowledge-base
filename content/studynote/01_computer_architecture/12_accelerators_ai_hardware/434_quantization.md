@@ -3,8 +3,8 @@ title: "Quantization, INT8, INT4"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 434
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자화 (Quantization)는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 모델의 연속값을 더 적은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 이산값으로 바꾸어, 메모리 이동량과 연산 회로 복잡도를 동시에 줄이는 표현 변환 기술이다.

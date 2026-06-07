@@ -3,8 +3,8 @@ title: "Decentralized Storage IPFS Filecoin"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 564
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탈중앙 저장소 IPFS Filecoin은(는) 콘텐츠 주소화 해시와 분산 노드 저장을 이용해 파일 위치가 아니라 내용 식별자로 데이터를 조회하는 저장 구조이다.

@@ -3,8 +3,8 @@ title: "382. Positional Encoding Math"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 382
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 [어텐션 메커니즘](/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)은 위치 정보가 없으므로, [포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) ([Positional Encoding](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))을 토큰 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더해 시퀀스 내 위치 정보를 주입한다.

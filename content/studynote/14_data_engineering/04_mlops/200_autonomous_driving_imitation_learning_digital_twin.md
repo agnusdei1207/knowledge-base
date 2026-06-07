@@ -3,8 +3,8 @@ title: "200. Autonomous Driving Imitation Learning Digital Twin"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 200
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모방 학습(Imitation [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 전문가 시연(Expert Demonstration)에서 행동 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 학습하는 방법으로, 보상 함수 설계 없이 복잡한 자율주행 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 효율적으로 획득한다.
 > 2. **가치**: [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 기반 시뮬레이터로 현실에서 수집 불가능한 위험 상황(코너 케이스)을 안전하게 무한 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 갭([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Gap) 극복이 자율주행 AI의 핵심 과제다.

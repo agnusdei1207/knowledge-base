@@ -3,8 +3,8 @@ title: "128. Blameless Postmortem"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Blameless Postmortem은 <strong>장애 발생 후 '누가' 실수했는가가 아니라 '무엇이(시스템·프로세스)' 실패했는가</strong>를 분석하여 재발을 방지하는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 문화이다.
 > 2. **가치**: 개인을 비난하면 <strong>실수를 숨기는 문화</strong>가 형성되어 장애 원인이 은폐되지만, Blameless 문화에서는 <strong>솔직한 공유</strong>가 가능하여 시스템 개선·자동화·프로세스 강화로 이어진다.

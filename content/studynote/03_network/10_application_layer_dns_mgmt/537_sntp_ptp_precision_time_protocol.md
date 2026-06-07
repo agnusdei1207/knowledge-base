@@ -3,9 +3,8 @@ title: "537. SNTP (Simple NTP) / PTP (Precision Time Protocol, IEEE 1588"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 537
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SNTP / PTP ([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [Ti](/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/)…는 이름 해석과 네트워크 관리에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

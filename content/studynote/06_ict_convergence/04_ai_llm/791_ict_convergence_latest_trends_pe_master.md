@@ -3,8 +3,8 @@ title: "ICT Convergence Latest Trends PE Master"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 791
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 생성형 AI(LLM/Foundation Model), 디지털 트윈, 엣지 AI, 6G/TSN, Web3·블록체인이 **Cyber-Physical System(CPS)** 위에서 결합되어 "인지-판단-실행"이 자율 루프를 이루는 **초연결·초지능 융합 체계**로 수렴하는 현상

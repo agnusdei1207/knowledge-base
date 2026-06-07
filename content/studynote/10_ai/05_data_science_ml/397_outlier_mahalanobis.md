@@ -3,8 +3,8 @@ title: "Outlier Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 397
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마할라노비스 거리](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) ([Mahalanobis Distance](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 공분산 구조를 반영해 특성 간 상관관계와 척도 차이를 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)한 거리 측정으로, 유클리드 거리가 포착하지 못하는 다변량 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) (Multivariate [Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))를 탐지한다.

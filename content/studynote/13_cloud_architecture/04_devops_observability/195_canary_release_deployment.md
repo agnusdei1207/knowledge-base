@@ -3,8 +3,8 @@ title: "Canary Release"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 신버전을 전체 트래픽의 극소수(1~5%)에게만 먼저 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하여 에러율을 관찰하고, 안전 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 점진적으로 100%까지 올리는 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 최소화 배포 기법이다.

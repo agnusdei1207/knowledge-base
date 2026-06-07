@@ -3,8 +3,8 @@ title: "119. Log Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 119
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 분석 (Log Analysis)은 시스템·애플리케이션·네트워크에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 대규모 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 수집·파싱·집계하여 이상 감지, 보안 위협, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목, 사용자 행동 패턴을 발굴하는 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기법이다.
 > 2. **가치**: ELK ([Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)-Logstash-[Kibana](/studynote/16_bigdata/08_visualization/169_kibana/)) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 Fluentd를 통해 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 수천 개 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 실시간으로 통합하고, [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security Information and Event Management](/studynote/09_security/13_secops_ir_forensics/625_siem_architecture/))과 연계하여 보안 사고를 즉각 탐지한다.

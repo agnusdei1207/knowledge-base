@@ -3,8 +3,8 @@ title: "943. Compensating Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 943
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) ([Compensating Transaction](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) - 롤백을 논리적으로 수행하는 역방향 연산은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Blockchain Scalability Trilemma Resolution"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 561
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블록체인 확장성 트릴레마 해결 전략은(는) 탈중앙성, 보안성, 확장성 세 목표가 상호 제약되는 상황에서 계층화, 샤딩, 롤업, 데이터 가용성으로 균형점을 찾는 설계 문제이다.

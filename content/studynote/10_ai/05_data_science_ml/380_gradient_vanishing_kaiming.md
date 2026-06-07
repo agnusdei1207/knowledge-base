@@ -3,8 +3,8 @@ title: "Vanishing/Exploding Gradient"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 380
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))은 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 깊은 레이어로 갈수록 기울기가 0에 수렴하고, [기울기 폭발](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) ([Exploding Gradient](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/))은 기울기가 지수적으로 커지는 현상으로 깊은 신경망 학습을 방해한다.

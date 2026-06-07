@@ -3,8 +3,8 @@ title: "Risk Avoidance & Treatment"
 date: "2026-03-04"
 tags:
   - "studynote-security"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 위험 처리([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Treatment)는 회피(Avoidance)·감소(Reduction)·전가(Transfer)·수용(Acceptance) 4가지 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 조합으로, 각 위험의 발생 가능성·영향도·비용-편익 분석을 기반으로 선택한다.
 > 2. 위험 회피([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Avoidance)는 위험 유발 활동 자체를 중단하는 가장 확실한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이나, 비즈니스 기회 손실을 수반하므로 [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/))이 허용 불가 수준일 때만 적용한다.

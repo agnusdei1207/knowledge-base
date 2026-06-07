@@ -3,8 +3,8 @@ title: "089. Rb Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Red-Black Tree는 각 노드에 색(Red/Black)을 부여하는 5가지 규칙으로 균형을 유지하는 자가 균형 BST다. AVL보다 균형 조건이 덜 엄격하지만, 삽입·삭제가 더 빠르다.
 > 2. **가치**: Red-Black Tree의 높이는 2 log₂(N+1) 이하로 보장된다. 따라서 검색·삽입·삭제 모두 O(log N)이다. C++ STL의 map/set/multimap, Java의 TreeMap/TreeSet, Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 CFS [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 Red-Black Tree를 사용한다.

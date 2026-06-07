@@ -3,8 +3,8 @@ title: "466. Logical Block Address Lba"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 466
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 블록 주소(LBA)는 하드디스크의 복잡한 물리적 구조(원판, 바늘, 트랙)를 깡그리 숨기고, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)에게 디스크를 <strong>"0번부터 N번까지 쭉 늘어선 단순한 1차원 블록(Sector) <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>"</strong>로 보이게끔 속여서 보여주는 매핑 아키텍처다.

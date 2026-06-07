@@ -3,8 +3,8 @@ title: "469. Model Based Testing Mbt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 469
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 기반 테스팅 (MBT, Model-Based Testing) - 시스템 모델([UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 등)에서 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/) 자동 생성은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

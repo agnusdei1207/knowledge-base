@@ -3,8 +3,8 @@ title: "572. Dataops Automated Testing Canary Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 572
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 옵스](/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) 자동화 테스트 [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 검증망 설계는 운영·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 관점에서 자주 쓰이는 운영 관리 개념이다.

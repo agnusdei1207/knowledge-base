@@ -2,9 +2,9 @@
 title: "146. Confidence Interval"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 146
 ---
-
 ## 핵심 인사이트
 
 > 신뢰 구간([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Interval)의 올바른 해석은 "이 구간이 모수를 포함할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%"가 아니라, "이 방법을 반복 사용하면 구간들의 95%가 모수를 포함한다"는 절차적 보장이다 — 모수는 고정값이므로 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 대상이 될 수 없다.

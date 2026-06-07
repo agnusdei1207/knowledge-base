@@ -3,8 +3,8 @@ title: "894. Oam Operations Administration Maintenance Fault Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 894
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OAM 망 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

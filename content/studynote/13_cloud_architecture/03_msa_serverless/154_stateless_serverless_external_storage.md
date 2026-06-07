@@ -3,8 +3,8 @@ title: "154. Stateless Serverless External Storage"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)/AWS [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) 함수 봇은 유저가 핑을 찌르는 단 0.1초의 찰나에만 허공에 켜져 연산을 치고 -> 일이 끝나면 1초의 미련도 없이 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 램(RAM) 메모리를 100% 완전 소각 삭제(Terminate) 자살해 버리는 <strong>태생적 '상태 비저장(<a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 기억 상실)' 깡통 뇌 구조</strong>를 가진다.
 > 2. **가치**: 이 램(RAM) 기억상실증의 극단적 다이어트 제약 덕분에 -> [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 봇은 앞 유저([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 눈치를 볼 필요 0% 없이, 블랙프라이데이 1,000만 트래픽 폭격 순간에 10만 대의 봇으로 무혈 <strong>수평 확장(<a href="/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a> 증식 복사 🚀)</strong>을 0.01초 만에 튕겨 낼 수 있는 [12-Factor App](/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/) [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 절대 헌법의 무결점 뼈대를 완성했다.

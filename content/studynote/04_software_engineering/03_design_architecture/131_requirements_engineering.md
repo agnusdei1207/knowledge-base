@@ -3,8 +3,8 @@ title: "131. Requirements Engineering"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항 공학은 <strong>요구 도출(Elicitation)->분석(Analysis)->명세(<a href="/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)-><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)->관리(<a href="/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong>의 체계적 프로세스로 소프트웨어가 무엇을 해야 하는지를 정의한다.
 > 2. **가치**: 프로젝트 실패의 60%+가 요구사항 문제(누락·모호·변경)에서 발생하며, 개발 후반 요구 변경 비용은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 대비 <strong>50~200배</strong>이므로 체계적 공학이 필수이다.

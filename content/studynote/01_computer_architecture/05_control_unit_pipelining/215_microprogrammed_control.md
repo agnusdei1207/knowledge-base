@@ -3,8 +3,8 @@ title: "Microprogrammed Control"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로프로그래밍 (Microprogrammed Control)은 제어 유닛의 동작 규칙을 복잡한 배선 대신 [제어 메모리](/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) ([Control Memory](/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/))에 저장된 [마이크로명령어](/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/) ([Microinstruction](/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/)) 순서로 표현하는 방식이다.

@@ -3,9 +3,8 @@ title: "237. PUE (Power Usage Effectiveness)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 237
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PUE ([Power Usage Effectiveness](/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/)): [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

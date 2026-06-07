@@ -3,8 +3,8 @@ title: "134. Peft"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PEFT는 <strong>Foundation Model의 전체 파라미터 중 극소수(0.1~1%)만 추가·학습</strong>하여 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 적응하는 기법의 총칭이며, [LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)·[Adapter](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)·Prefix Tuning·Prompt Tuning이 대표이다.
 > 2. **가치**: 70B LLM을 Full FT하려면 A100 8장+가 필요하지만, [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)([QLoRA](/studynote/10_ai/05_data_science_ml/404_qlora/))로는 <strong>소비자 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 1장(24GB)</strong>으로도 Fine-tuning이 가능하여 민주화를 실현한다.

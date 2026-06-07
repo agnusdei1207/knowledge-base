@@ -3,8 +3,8 @@ title: "210. Synthetic Data"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [합성 데이터](/studynote/09_security/16_data_privacy/818_synthetic_data/)([Synthetic Data](/studynote/09_security/16_data_privacy/818_synthetic_data/))는 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성·패턴을 학습하여 원본 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)를 포함하지 않으면서 통계적으로 동등한 가상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 기술로, [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)·[VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)·통계적 방법론이 주요 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기법이다.

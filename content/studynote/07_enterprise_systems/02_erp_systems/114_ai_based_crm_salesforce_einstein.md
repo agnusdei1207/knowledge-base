@@ -3,8 +3,8 @@ title: "114. Ai Based Crm Salesforce Einstein"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 CRM은 운영·분석·협업 CRM에 <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 엔진을 내장</strong>하여, 리드 스코어링·이탈 예측·자동 응답·[감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)을 **실시간·자동으로** 수행하는 차세대 CRM이다.
 > 2. **가치**: Salesforce Einstein이 대표적이며, "이 거래가 성사될 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 85%", "이 고객은 다음 달 이탈 위험 72%"와 같은 <strong>예측 인사이트를 <a href="/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a> 화면에 자동 표시</strong>한다.

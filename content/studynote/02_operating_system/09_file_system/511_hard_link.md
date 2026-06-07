@@ -3,8 +3,8 @@ title: "511. Hard Link"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 511
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드 링크(Hard Link)는 겉보기엔 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 두 개로 복사된 것처럼 보이지만, <strong>"완벽하게 똑같은 하드디스크의 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 번호(Inode Number) 하나를 2개의 이름표가 사이좋게 나눠 갖고 가리키는 상태"</strong> 로 두 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 주종 관계가 없는 완전히 동등한 평행 우주다.

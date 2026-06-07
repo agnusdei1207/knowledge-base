@@ -3,8 +3,8 @@ title: "Lazy Evaluation"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Spark의 [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))는 트랜스포메이션(map, filter 등) 연산을 즉시 실행하지 않고 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(유향 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))에 기록했다가, 액션(count, save 등)이 호출될 때 Catalyst Optimizer가 전체 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 최적화한 후 한 번에 실행하는 방식이다.

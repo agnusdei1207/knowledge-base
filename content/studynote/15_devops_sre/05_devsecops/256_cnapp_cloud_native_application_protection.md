@@ -3,9 +3,8 @@ title: "256. CNAPP (Cloud-Native Application Protection Platform)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 256
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/), [CWPP](/studynote/15_devops_sre/05_devsecops/332_cwpp/), [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 보안을 한 화면으로 묶는 통합 클라우드 보안 플랫폼.

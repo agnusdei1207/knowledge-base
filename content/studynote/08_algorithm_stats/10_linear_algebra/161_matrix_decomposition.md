@@ -2,9 +2,9 @@
 title: "161. Matrix Decomposition"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 행렬 분해는 *복잡한 행렬을 구조가 명확한 작은 행렬들의 곱으로 분해*하는 것 — LU(삼각), QR(직교×상삼각), [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) ([Singular Value Decomposition](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/), [특이값 분해](/studynote/10_ai/05_data_science_ml/342_svd/)) 각각이 다른 특성을 활용한다.

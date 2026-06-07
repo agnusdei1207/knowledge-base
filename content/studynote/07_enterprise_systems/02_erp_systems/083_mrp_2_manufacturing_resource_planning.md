@@ -1,10 +1,11 @@
 ---
 title: "083. Mrp 2 Manufacturing Resource Planning"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I ([Material Requirements Planning](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))은 자재 소요량을 맞추는 데 강하지만, [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II (Manufacturing Resource Planning)는 설비, 인력, 재무까지 포함해 "실행 가능한 계획"으로 확장한다.

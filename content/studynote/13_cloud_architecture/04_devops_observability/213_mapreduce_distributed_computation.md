@@ -3,8 +3,8 @@ title: "MapReduce"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MapReduce는 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Map(필터링·변환)과 Reduce(집계·합산) 두 단계로 분할하여 수천 노드에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 연산 프레임워크로, 구글 논문(2004)을 기반으로 Hadoop이 구현했다.

@@ -3,8 +3,8 @@ title: "Memory Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 796
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 암호화는 CPU와 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 사이를 오가는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하드웨어 엔진으로 실시간 암복호화해, 외부 메모리와 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 평문이 오래 남지 않게 하는 기술이다.

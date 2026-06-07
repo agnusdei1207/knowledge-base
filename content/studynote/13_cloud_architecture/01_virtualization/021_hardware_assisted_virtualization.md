@@ -2,9 +2,9 @@
 title: "021. Hardware Assisted Virtualization"
 date: "2026-04-02"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 21
 ---
-
 # [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) (Hardware-assisted [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))
 
 > ⚠️ 이 문서는 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 인프라의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 돌파한 핵심 기술인 '[하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)([Intel VT-x](/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/), [AMD-V](/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/))'의 아키텍처, 링 프라이비리지(Ring Privilege) 제어 원리, 그리고 소프트웨어 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와의 트레이드오프를 심층 분석합니다.

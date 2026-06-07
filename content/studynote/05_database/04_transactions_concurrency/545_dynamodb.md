@@ -3,8 +3,8 @@ title: "545. Dynamodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 545
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 파라 파라미터 매핑 ORM 보안 내재화 방식는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

@@ -3,9 +3,8 @@ title: "620. Privileged Identity Management (PIM)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 620
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Privileged [Identity Management](/studynote/09_security/11_iam_access_control/527_identity_management/) ([PIM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/))는 신원 위협에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

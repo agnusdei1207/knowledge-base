@@ -3,8 +3,8 @@ title: "Micro-segmentation ZTNA Zero Trust Network Access Cilium eBPF Kubernetes
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 330
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)([Micro-segmentation](/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))은 네트워크를 작은 보안 구역으로 분리해 공격자가 내부에 침투해도 횡적(Lateral) 이동을 차단하는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 경계 보안([Perimeter Security](/studynote/09_security/18_iot_ot_physical/936_perimeter_security/))의 성벽 안은 안전하다는 가정을 버리는 [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust의 핵심 구현체다.

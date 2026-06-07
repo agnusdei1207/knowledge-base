@@ -3,8 +3,8 @@ title: "Risk Management"
 date: "2026-03-19"
 tags:
   - "studynote-software-engineering"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 소프트웨어 프로젝트 위험 관리([Risk Management](/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))->분석(Analysis)->대응(Response)->모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.
 > 2. 위험은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/))×영향도(Impact)의 곱으로 우선순위가 결정되며, 위험 노출도([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Exposure) = P × I 매트릭스를 통해 한정된 대응 자원을 고위험 항목에 집중 투자하는 의사결정을 지원한다.

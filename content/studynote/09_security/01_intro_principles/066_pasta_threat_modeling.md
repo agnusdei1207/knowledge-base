@@ -3,8 +3,8 @@ title: "066. Pasta Threat Modeling"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PASTA는 비즈니스 목표에서 시작해 공격 시뮬레이션과 위협 분석까지 이어지는 7단계 [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) 프레임워크다.

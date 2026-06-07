@@ -3,8 +3,8 @@ title: "Parallel Adder-Subtractor"
 date: "2026-03-03"
 tags:
   - "studynote-computer-architecture"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가감산기(Parallel Adder-Subtractor)는 단일 회로에서 ADD(덧셈)와 SUB(뺄셈)를 모두 처리하는 복합 산술 회로로, SUB 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 하나로 XOR 게이트를 통한 B 반전과 Carry-In=1(2의 보수 +1)을 동시에 제어한다.
 > 2. n비트 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가감산기의 핵심은 Ripple Carry vs Carry Lookahead 트레이드오프 — Ripple Carry는 단순하지만 n단 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), CLA([Carry Lookahead Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/))는 복잡하지만 O(log n) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 고속 CPU에 필수다.

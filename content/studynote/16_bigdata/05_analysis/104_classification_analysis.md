@@ -3,8 +3,8 @@ title: "104. Classification Analysis"
 date: "2024-03-20"
 tags:
   - "studynote-bigdata"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **범주 예측:** 입력된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특징(Feature)을 기반으로 해당 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 속할 미리 정의된 집단(Class/Label)을 판별하는 [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)의 핵심.
 - **결정 경계 (Decision Boundary):** 서로 다른 클래스를 가장 잘 구분하는 최적의 경계면을 수학적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 찾아냄.

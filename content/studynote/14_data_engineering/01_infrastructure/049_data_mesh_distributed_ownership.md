@@ -3,8 +3,8 @@ title: "049. Data Mesh Distributed Ownership"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 중앙화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 아니라 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)(비즈니스 단위)이 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소유·관리·제공하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임 — 중앙 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 조직 성장에 따라 병목·[사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)·품질 저하로 이어지는 문제를 해결한다.
 > 2. "[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership) + [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a Product)"이 [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 핵심 원칙 — 각 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀은 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내부 고객(다른 팀)을 위한 "제품"으로 취급하며, [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)·문서·품질 기준을 함께 제공해야 한다.

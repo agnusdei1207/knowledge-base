@@ -2,9 +2,9 @@
 title: "Euclidean vs Manhattan Distance"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 유클리드 거리(L2 Norm)는 두 점 사이의 **최단 직선 거리** $\sqrt{\sum(x_i-y_i)^2}$이고, 맨해튼 거리(L1 Norm)는 축을 따라 이동하는 **격자형 거리** $\sum|x_i-y_i|$로, 동일한 민코프스키 거리(Minkowski Distance)의 $p=2$, $p=1$ 특수 케이스다.
 > 2. **가치**: 거리 함수 선택에 따라 [K-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/), K-Means, [Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)/Ridge 등 ML 알고리즘의 **결과와 수렴 속도가 크게 달라지며**, [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 민감도에서 결정적 차이가 발생한다.

@@ -3,8 +3,8 @@ title: "Backing Store"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 390
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스왑 공간(Swap Space) 또는 베이킹 스토어(Backing Store)는 물리 메모리(RAM)가 꽉 찼을 때, 운영체제가 당장 쓰지 않는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각들을 램에서 끄집어내어 임시로 보관해 두는 <strong>하드디스크(또는 <a href="/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>) 상의 특수 목적 창고(Hidden Storage)</strong>다.

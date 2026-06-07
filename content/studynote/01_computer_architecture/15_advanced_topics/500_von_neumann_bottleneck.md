@@ -3,8 +3,8 @@ title: "500. Von Neumann Bottleneck"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 500
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폰 노이만 병목은 연산기보다 메모리 접근과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 더 느리고 더 비싸서, CPU (Central Processing Unit)가 계산보다 기다림에 더 많은 시간을 쓰게 되는 현상이다.

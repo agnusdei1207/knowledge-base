@@ -3,8 +3,8 @@ title: "Data Deduplication"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 682
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 중복 제거](/studynote/02_operating_system/09_file_system/546_data_deduplication/)는 같은 내용을 가진 블록이나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 한 번만 저장하고, 나머지는 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 정보로 연결해 물리 저장량을 줄이는 기술이다.

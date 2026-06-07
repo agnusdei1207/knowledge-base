@@ -3,8 +3,8 @@ title: "Multilevel Page Table"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 289
 ---
-
 # 289. 다단계 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) (Multilevel [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/))
 
 ## 핵심 인사이트 (3줄 요약)

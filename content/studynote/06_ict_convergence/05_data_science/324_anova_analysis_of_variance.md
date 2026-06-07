@@ -3,8 +3,8 @@ title: "ANOVA"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 324
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산 분석](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) ([ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)): 3개 이상 집단 평균 차이 비교 (F-분포)를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

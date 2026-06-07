@@ -1,11 +1,11 @@
 ---
 title: "083. Cross Validation"
 date: "2026-04-05"
-description: "교차 검증의 개념, K-Fold, Stratified K-Fold, Leave-One-Out 등 다양한 검증 기법과 장단점 비교"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) (Cross [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 조각으로 번갈아 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트로 사용해, 한 번의 분할 운빨을 평균화하는 평가 방법이다.

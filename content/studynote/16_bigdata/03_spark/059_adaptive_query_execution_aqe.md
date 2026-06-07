@@ -3,8 +3,8 @@ title: "Adaptive Query Execution, AQE"
 date: "2024-03-23"
 tags:
   - "studynote-bigdata"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - AQE는 Spark 3.0의 핵심 기능으로, [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 도중에 수집된 실제 통계 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 동적으로 변경한다.
 - 셔플 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 합병(Coalesce), 조인 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 변경(Shuffle -> Broadcast), 조인 스큐(Skew) 자동 최적화라는 3대 핵심 기능을 제공한다.

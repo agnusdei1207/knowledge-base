@@ -3,8 +3,8 @@ title: "123. Pdm Product Data Management"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PDM은 CAD 도면·[BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)·설계 문서 등 <strong>제품 설계 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리·접근 제어·변경 이력 추적</strong>을 수행하는 시스템으로, PLM의 핵심 하위 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이다.
 > 2. **가치**: 설계팀이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버에 CAD를 저장하면 <strong><a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 충돌·권한 없는 수정·변경 이력 누락</strong>이 발생하지만, PDM은 <strong>체크인/체크아웃·리비전 관리·워크플로 승인</strong>으로 설계 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 보장한다.

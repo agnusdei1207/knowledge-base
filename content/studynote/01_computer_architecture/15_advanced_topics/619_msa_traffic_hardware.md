@@ -3,8 +3,8 @@ title: "619. Msa Traffic Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 619
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/), MSA)에서는 잘게 쪼개진 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 작은 요청을 계속 주고받기 때문에, 트래픽 처리 하드웨어의 핵심은 높은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)보다도 많은 패킷 수와 낮은 꼬리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 감당하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 마련하는 데 있다.

@@ -3,8 +3,8 @@ title: "CVE Scanner Reporting and Remediation Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 309
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CVE](/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)(Common Vulnerabilities and Exposures) 스캐너 주기 보고와 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조치는 취약점 자산 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 패치 서비스수준협약([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)), 예외 승인 이력를 한 체계로 묶어 판단하는 보안 감리 주제다.

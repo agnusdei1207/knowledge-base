@@ -3,8 +3,8 @@ title: "MLP, Multi-Layer Perceptron"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 266
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)(MLP, Multi-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 입력층(Input Layer)-은닉층(Hidden Layer)-출력층(Output Layer)으로 구성되며, 비선형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)(Non-linear [Activation Function](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/))를 통해 [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)이 해결 못 하는 XOR 같은 비선형 문제를 해결한다.

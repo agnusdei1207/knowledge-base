@@ -3,8 +3,8 @@ title: "Forensic Image"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 699
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 포렌식 이미지 (Forensic Image)는 [위협 헌팅](/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

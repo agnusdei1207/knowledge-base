@@ -2,9 +2,9 @@
 title: "CXL: Compute Express Link"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 432
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) [메모리 풀링](/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) 아키텍처는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) [메모리 풀링](/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) 아키텍처, [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/): [Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), CXL의 경계를 분명히 만드는 데 의미가 있다.

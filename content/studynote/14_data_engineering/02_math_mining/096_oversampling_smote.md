@@ -3,8 +3,8 @@ title: "096. Oversampling Smote"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) (Synthetic Minority Over-sampling Technique)는 소수 클래스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 복사하지 않고, 기존 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 사이의 선형 보간([Interpolation](/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/))을 통해 새로운 가상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '합성'하는 증강 기법이다.

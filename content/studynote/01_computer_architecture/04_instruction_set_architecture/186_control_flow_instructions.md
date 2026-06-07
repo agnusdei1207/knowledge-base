@@ -3,8 +3,8 @@ title: "Control Flow"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제어 흐름 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Control Flow Instructions)는 [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 바꿔 <strong>다음에 읽을 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 주소 자체를 재지정</strong>하는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)군이다.

@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "989. 서비스 거부 공격 (DoS/DDoS)"
 date: "2026-05-08"
-categories: "studynote-security"
+tags:
+  - "studynote-security"
+weight: 989
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서비스 거부 공격 (DoS/DDoS)는 보안 확장 개념에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

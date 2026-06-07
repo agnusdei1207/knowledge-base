@@ -3,8 +3,8 @@ title: "593. Digital Twin Integration Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 593
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 소프트웨어 통합 통신 아키텍처은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

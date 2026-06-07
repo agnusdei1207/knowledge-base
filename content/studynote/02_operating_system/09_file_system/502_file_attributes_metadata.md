@@ -3,8 +3,8 @@ title: "502. File Attributes Metadata"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 502
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 우리가 보는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 진짜 내용물([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 있는 게 아니라, OS가 이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 관리하기 위해 꼬리표처럼 몰래 붙여놓은 <strong>"<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 대한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a>, <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>)"</strong> 가 반드시 암약한다. 여기엔 이름, 고유 번호([식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)), 위치, 크기, 소유자 권한, 그리고 시간([생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/수정 타임스탬프) 정보가 총망라된다.

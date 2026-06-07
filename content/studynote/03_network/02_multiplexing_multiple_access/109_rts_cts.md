@@ -3,9 +3,8 @@ title: "109. RTS/CTS (Request To Send / Clear To Send)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 109
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 은닉 노드 문제는 물리적으로 서로 전파가 닿지 않는 두 단말기가 중앙의 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)([Access Point](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에게 동시에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하여 발생하는 보이지 않는 충돌 현상이다.

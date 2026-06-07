@@ -3,8 +3,8 @@ title: "1095. Mec Mobile Edge Computing Local Breakout 5G"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1095
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MEC](/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) ([모바일 엣지 컴퓨팅](/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/))는 보안 확장 개념에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

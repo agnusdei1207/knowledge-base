@@ -1,10 +1,11 @@
 ---
 title: "Hyper-connected Society"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 초연결 사회 (Hyper-connected Society)는 사람과 사람의 연결을 넘어 사물, 공간, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 세상의 모든 요소가 인터넷망과 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 등으로 24시간 끊김 없이 상호 연결된 융합 유기체적 사회다.

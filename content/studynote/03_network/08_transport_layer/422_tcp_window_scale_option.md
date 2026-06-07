@@ -3,8 +3,8 @@ title: "Window Scale Option"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 422
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 윈도우 스케일옵션은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

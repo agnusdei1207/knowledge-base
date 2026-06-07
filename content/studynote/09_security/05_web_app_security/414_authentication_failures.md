@@ -3,9 +3,8 @@ title: "414. Authentication Failures (Authentication Failures)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 414
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/) Failures는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

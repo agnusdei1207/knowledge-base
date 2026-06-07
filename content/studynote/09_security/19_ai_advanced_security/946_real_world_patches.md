@@ -3,8 +3,8 @@ title: "Real-world Adversarial Patches"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 946
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 물리 세계 적대적 공격 (Real-world Adversarial Patches)는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

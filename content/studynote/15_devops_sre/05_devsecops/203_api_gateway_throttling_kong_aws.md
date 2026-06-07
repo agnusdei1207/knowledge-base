@@ -3,8 +3,8 @@ title: "API Gateway"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라이언트 진입점에서 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 제한, 관측을 집중 제어하는 계층.

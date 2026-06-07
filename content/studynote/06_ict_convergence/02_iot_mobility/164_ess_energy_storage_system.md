@@ -1,12 +1,11 @@
 ---
 title: "164. ESS (Energy Storage System)"
 date: "2026-04-09"
-description: "ESS는 전력을 저장했다가 필요한 시점에 다시 공급해 부하 평준화와 재생에너지 변동 대응을 돕는 에너지 저장 인프라다."
 tags:
   - "studynote"
+  - "studynote-ict-convergence"
+weight: 164
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ESS (Energy Storage System)는 남는 전기를 저장했다가 필요한 시점에 다시 공급해 전력의 시간 차를 조절하는 장치다.

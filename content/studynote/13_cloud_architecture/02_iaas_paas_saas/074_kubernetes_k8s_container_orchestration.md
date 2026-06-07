@@ -2,9 +2,9 @@
 title: "074. Kubernetes K8S Container Orchestration"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 쿠버네티스는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 배치하고 운영하는 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼이다.

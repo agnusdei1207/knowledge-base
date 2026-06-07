@@ -3,8 +3,8 @@ title: "Database Index Overhead DML Performance Degradation"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 단점은 [DML](/studynote/12_it_management/02_itsm_itil/867_dml/)(Insert, Update, Delete) 시 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 수정 오버헤드 발생에 초점을 맞춘 개념이다.

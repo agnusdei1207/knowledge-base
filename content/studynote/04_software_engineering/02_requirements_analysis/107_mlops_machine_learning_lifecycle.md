@@ -1,10 +1,11 @@
 ---
 title: "107. Mlops Machine Learning Lifecycle"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 실험실에서 만든 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 운영 서버에 올리고, 지속적으로 학습시켜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부패를 막는 전 과정의 자동화 생태계다.
 > 2. **가치**: 기존 소프트웨어의 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포)에 [CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ([Continuous Training](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), 지속적 학습)를 결합하여, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 따른 예측 정확도 저하 ([Model Drift](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/))를 실시간으로 탐지하고 복구한다.

@@ -3,8 +3,8 @@ title: "969. Agile Scrum Roles"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 969
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -2,9 +2,9 @@
 title: "Patterns & Anti-Patterns"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
 weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디자인 패턴 심화는 기본 GoF 패턴을 넘어 현대적인 클라우드 네이티브 환경과 마이크로서비스에 적합한 패턴들을 다루며, 안티패턴은 겉보기에는 좋아 보이지만 실제로는 시스템에 해를 끼치는 잘못된 설계 양식이다.

@@ -3,8 +3,8 @@ title: "Synthetic Monitoring"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 합성 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 (Synthetic Monitoring)은 실제 사용자를 기다리지 않고, [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 클라이언트가 미리 정의한 시나리오를 주기적으로 실행해 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 능동적으로 점검하는 방법이다.

@@ -2,9 +2,9 @@
 title: "131. Loss Function Optimizer Gradient Descent"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 딥러닝 학습은 <strong>①<a href="/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a>(<a href="/studynote/12_it_management/02_itsm_itil/087_loss_function/">Loss Function</a>)로 예측과 정답의 차이를 측정</strong>하고, <strong>②<a href="/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a>(<a href="/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/">Gradient Descent</a>)으로 손실을 줄이는 방향을 계산</strong>하며, <strong>③<a href="/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>(<a href="/studynote/12_it_management/02_itsm_itil/088_optimizer/">Optimizer</a>)가 가중치를 업데이트</strong>하는 3단계 순환이다.
 > 2. **가치**: 이 3가지가 잘못되면 학습이 수렴하지 않거나(발산), 지역 최솟값에 갇히거나(과소적합), 과적합되므로 <strong>각 요소의 선택이 모델 성능을 직접 결정</strong>한다.

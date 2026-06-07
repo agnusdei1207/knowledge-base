@@ -1,11 +1,11 @@
 ---
 title: "Security Framework & Compliance"
 date: "2025-02-24"
-description: "ISMS-P, ISO 27001, NIST CSF, SOC 2 등 정보보호 관리체계 및 IT 거버넌스 아키텍처 통합 분석"
 tags:
   - "security"
+  - "studynote-security"
+weight: 17
 ---
-
 # 보안 프레임워크 및 컴플라이언스 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Framework & [Compliance](/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))
 
 #### 핵심 인사이트 (3줄 요약)

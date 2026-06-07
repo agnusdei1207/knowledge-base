@@ -3,8 +3,8 @@ title: "580. Domain Integrity Check Constraint Regex"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 580
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도메인 무결성](/studynote/05_database/02_modeling_normalization/076_domain_integrity/) CHECK 구문 [정규 표현식](/studynote/08_algorithm_stats/05_string/104_regex/) 입력 통제 규칙는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링·정합성 관점에서 자주 쓰이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 개념이다.

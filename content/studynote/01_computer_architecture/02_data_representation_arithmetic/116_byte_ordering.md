@@ -3,8 +3,8 @@ title: "Byte Ordering"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬([Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Ordering](/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))은 1바이트(8비트)를 초과하는 멀티바이트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(int, float 등)를 연속된 메모리 주소나 네트워크 스트림에 **어떤 순서로 끊어 배치할 것인지** 약속한 아키텍처 규약이다.
 > 2. **가치**: 이기종 시스템(x86, ARM, 네트워크 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 물리적으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 발생하는 <strong>'해석의 오해(Endianness <a href="/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/">War</a>)'를 차단</strong>하고, 일관된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화(Serialization)를 보장한다.

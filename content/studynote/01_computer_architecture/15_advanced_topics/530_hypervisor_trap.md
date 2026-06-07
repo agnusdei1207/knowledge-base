@@ -3,8 +3,8 @@ title: "530. Hypervisor Trap"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 530
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))은 게스트 운영체제가 민감한 명령이나 이벤트를 실행했을 때 CPU (Central Processing Unit)가 이를 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) Exit로 바꾸어 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에게 제어권을 넘기는 강제 인터셉트 메커니즘이다.

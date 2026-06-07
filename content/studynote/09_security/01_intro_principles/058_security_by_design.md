@@ -3,8 +3,8 @@ title: "058. Security By Design"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 내재적 보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) by Design)은 보안을 나중에 덧붙이는 것이 아니라 설계 단계부터 내장하는 접근이다.

@@ -3,8 +3,8 @@ title: "Namespaces"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 700
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 하나의 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 컨트롤러 뒤에 있는 저장공간을 여러 개의 독립적인 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [블록 장치](/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)로 나누어, 호스트가 각각을 별도 디스크처럼 인식하게 만드는 구조다.

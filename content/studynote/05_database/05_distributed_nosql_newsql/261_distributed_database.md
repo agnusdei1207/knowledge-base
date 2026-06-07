@@ -3,8 +3,8 @@ title: "Distributed Database"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 261
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) (Distributed [Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 목표은 단일 시스템처럼 보이게 하는 투명성(Transparency) 제공에 초점을 맞춘 개념이다.

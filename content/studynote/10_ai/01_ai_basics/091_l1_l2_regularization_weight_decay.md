@@ -3,8 +3,8 @@ title: "091. L1 L2 Regularization Weight Decay"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L1/L2 규제는 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 과도하게 집착하여 특정 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)($W$)를 비정상적으로 키우는 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 막기 위해 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/))에 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 크기에 비례하는 수학적 벌점(Penalty)을 부여하는 기법이다.

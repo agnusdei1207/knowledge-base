@@ -3,9 +3,8 @@ title: "645. Cyber Kill Chain (Cyber Kill Chain)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 645
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Cyber Kill Chain는 보안 운영·포렌식에서 복잡한 보안 문제를 요소와 관계로 나눠 설명하게 해 주는 구조화된 틀이다.

@@ -3,8 +3,8 @@ title: "Data Mesh"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 343
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 중앙 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀이 모든 것을 처리하는 구조를 넘어, 각 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제품처럼 소유·운영하게 만드는 조직/플랫폼 모델이다.

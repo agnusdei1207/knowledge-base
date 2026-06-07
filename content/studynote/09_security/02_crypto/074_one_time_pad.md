@@ -3,8 +3,8 @@ title: "One-Time Pad"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일회용 패드는 평문과 같은 길이의 완전한 난수 키를 한 번만 사용하는 암호 방식이다.

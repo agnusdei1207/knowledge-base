@@ -3,8 +3,8 @@ title: "377. Numa Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 377
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NUMA(Non-[Uniform Memory Access](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/))는 멀티 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/)(CPU가 2개 이상 꽂힌 서버) 환경에서, 모든 CPU가 하나의 거대한 RAM을 공유하던 [UMA](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/)(균일 접근)의 병목을 부수기 위해 <strong>CPU <a href="/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>마다 전용 로컬 RAM 덩어리(Node)를 찢어 달아놓은 비대칭 하드웨어 아키텍처</strong>다.

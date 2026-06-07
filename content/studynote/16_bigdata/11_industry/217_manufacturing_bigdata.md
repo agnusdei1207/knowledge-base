@@ -3,8 +3,8 @@ title: "217. Manufacturing Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 제조 빅데이터의 핵심 가치는 <strong>계획되지 않은 다운타임(Unplanned Downtime) 제거</strong>에 있다. 설비 1시간 정지 손실이 수억 원인 산업에서 예지정비는 투자 대비 효과가 가장 높다.

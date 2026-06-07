@@ -3,8 +3,8 @@ title: "031. Lead Time Cycle Time"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))은 고객 요청부터 배포까지 총 시간이고, 사이클 타임(Cycle Time)은 개발 시작부터 배포까지 시간이다. [Lead Time](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ≥ Cycle Time이며, 둘의 차이가 "요청 대기 시간"이다.
 > 2. **가치**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/)([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 4대 지표 중 하나가 "변경 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time for Changes](/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/))"이다. Elite 팀은 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 1시간 미만이고, Low 팀은 6개월 이상이다.

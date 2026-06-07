@@ -3,8 +3,8 @@ title: "Agile Management"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 34
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 경영의 핵심은 불확실성이 높은 환경에서 빠르게 MVP를 출시하고 학습을 반복하는 조직론라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

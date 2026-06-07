@@ -3,8 +3,8 @@ title: "Multicomputer"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 376
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 컴퓨터 (Multicomputer)는 각 노드가 자기 프로세서, 메모리, 운영체제까지 독립적으로 가진 채 네트워크로 협력하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리형 [MIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) (Multiple [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 구조다.

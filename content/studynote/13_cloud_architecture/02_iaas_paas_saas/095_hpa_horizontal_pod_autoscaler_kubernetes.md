@@ -3,8 +3,8 @@ title: "095. Hpa Horizontal Pod Autoscaler Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HPA (Horizontal [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Autoscaler)는 트래픽 증가에 대응하여 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 개수를 동적으로 늘리거나 줄이는 수평 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 자동화 컨트롤러다.

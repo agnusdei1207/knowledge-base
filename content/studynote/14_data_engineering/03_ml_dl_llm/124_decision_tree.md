@@ -2,9 +2,9 @@
 title: "124. Decision Tree"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 의사결정 트리는 <strong><a href="/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 값에 따라 데이터를 반복적으로 분할(Split)</strong>하여 트리 구조의 규칙을 학습하는 **해석 가능한(Interpretable)** [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·회귀 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: "나이 ≥ 30 -> 소득 ≥ 5000만원 -> 대출 승인"처럼 <strong>규칙이 인간이 읽을 수 있는 형태</strong>로 표현되어, 블랙박스 모델과 달리 <strong>의사결정 근거를 설명</strong>할 수 있다.

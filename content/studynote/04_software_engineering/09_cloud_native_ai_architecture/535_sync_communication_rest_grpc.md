@@ -3,8 +3,8 @@ title: "Protocol Buffers"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 535
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 통신 - [REST API](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/), [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) ([Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Buffers)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

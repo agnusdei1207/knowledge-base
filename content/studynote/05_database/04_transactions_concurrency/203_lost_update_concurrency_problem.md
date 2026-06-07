@@ -3,8 +3,8 @@ title: "Lost Update"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 갱신 손실 (Lost Update)은 둘 이상의 트랜잭션이 동시 갱신 시, 이전 값이 덮어써져 손실에 초점을 맞춘 개념이다.

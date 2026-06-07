@@ -3,8 +3,8 @@ title: "Certification Process"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 837
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ISMS](/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차 (Certification [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 보안 프레임워크·컴플라이언스에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

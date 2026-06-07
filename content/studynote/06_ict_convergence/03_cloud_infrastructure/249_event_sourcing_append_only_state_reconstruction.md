@@ -3,8 +3,8 @@ title: "Event Sourcing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이벤트 소싱 ([Event Sourcing](/studynote/12_it_management/05_security_compliance/307_event_sourcing/)): 상태([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 최종 결과만 DB에 저장하는 게 아니라, 상태를 변화시킨 모든 '이벤트 이력'을 스트림으로 저장하여 불일치 방지 및 재생(Replay) 허용를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Terminated"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: [프로세스 상태](/studynote/02_operating_system/02_process_thread/086_process_state/) 전이 ([Process](/studynote/12_it_management/05_security_compliance/943_process/) [State Transition](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/))는 New, Ready, Running, Waiting/Blocked, Terminated 사이의 이동 규칙을 정의해 스케줄러가 CPU 시간을 공정하게 나누게 한다.

@@ -3,8 +3,8 @@ title: "Bias-Variance Tradeoff"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))-[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) 트레이드오프는 모델의 총 예측 오차(Total Error)가 편향^(Bias^) + [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) + 노이즈(Noise)로 분해됨을 나타내는 원리로, 모델 복잡도(Complexity)를 늘리면 편향은 낮아지지만 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 높아지는 상충 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 존재한다.
 > 2. **가치**: 과소적합([Underfitting](/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))은 높은 편향의 증상이고, 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))은 높은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)의 증상이다. 이 두 극단 사이에서 최적 모델 복잡도를 찾는 것이 ML(Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 모델 튜닝의 핵심 문제이며, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)), [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)), [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross-Validation](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))이 이 트레이드오프를 관리하는 주요 도구다.

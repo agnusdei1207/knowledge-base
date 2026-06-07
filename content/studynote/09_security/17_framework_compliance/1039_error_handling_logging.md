@@ -3,8 +3,8 @@ title: "Error Handling & Logging Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1039
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오류 처리와 로깅 보안 (Error Handling & [Logging](/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 보안 확장 개념에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

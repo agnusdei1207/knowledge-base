@@ -3,8 +3,8 @@ title: "CAP Theorem in Distributed Systems"
 date: "2026-05-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 수천 대의 서버로 구성된 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 시스템이 <strong>C(<a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>), A(<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>), P(네트워크 분할 허용성)</strong>의 3가지 절대 가치 중, 물리적 한계로 인해 <strong>동시에 최대 2가지만 가질 수 있다는 컴퓨터 공학의 불가능성(Impossibility) 증명</strong>이다.
 > 2. **가치**: "우리 DB는 절대 안 죽고(A), 언제나 최신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보여주며(C), 네트워크가 붕괴해도 완벽히 작동합니다(P)!"라고 사기를 치는 벤더사들의 영업 멘트를 박살 내고, 아키텍트에게 비즈니스 목적에 맞춰 무엇을 포기할지(Trade-off) 냉혹한 결단을 내리게 하는 쇳덩어리 기준점이다.

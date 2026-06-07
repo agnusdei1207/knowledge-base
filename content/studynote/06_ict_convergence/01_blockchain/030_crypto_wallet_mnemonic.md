@@ -3,8 +3,8 @@ title: "030. Crypto Wallet Mnemonic"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암호화폐 지갑(Crypto Wallet)은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 자산의 소유권을 증명하는 개인키(Private [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 안전하게 보관하는 도구다. 지갑이 "돈을 보관"하는 게 아니라 "소유권 증명서(개인키)를 보관"한다.
 > 2. **가치**: BIP-39 니모닉(Mnemonic)은 128~256비트 엔트로피를 12~24개 단어로 인코딩한 시드 문구(Seed Phrase)다. 니모닉 -> 시드 -> 마스터키 -> 수백만 개 하위키 파생이 가능한 HD(Hierarchical Deterministic) 지갑의 기반이다.

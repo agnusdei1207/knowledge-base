@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 175
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 업무 연속성 계획 (BCP, Business Continuity Plan)은 재난 상황에서도 핵심 업무를 이어 가기 위한 경영·운영 전략이고, 재해 복구 시스템 (DRS, Disaster Recovery System)은 그중 정보시스템 복구를 담당하는 기술 아키텍처다.

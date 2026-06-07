@@ -3,8 +3,8 @@ title: "DNS Spoofing"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1074
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/studynote/02_operating_system/10_security/598_spoofing/) ([DNS Spoofing](/studynote/03_network/19_frequent_topics_terms/976_dns_spoofing/))는 보안 확장 개념에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

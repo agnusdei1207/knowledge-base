@@ -3,8 +3,8 @@ title: "Meltdown"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 482
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멜트다운 (Meltdown)은 일부 CPU (Central Processing Unit)가 사용자 모드에서 접근할 수 없는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소를 일시적으로 먼저 읽고, 그 값을 캐시 흔적으로 남긴 뒤 나중에 권한 예외를 내는 현상을 악용하는 [마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 취약점이다.

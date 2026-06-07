@@ -3,8 +3,8 @@ title: "195. Dataops"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 195
 ---
-
 # [데이터옵스](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) ([DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/)) - [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)화
 
 > ⚠️ 이 문서는 소프트웨어 개발의 [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 철학을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 영역에 적용한 '[데이터옵스](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)([DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/))'의 핵심 개념, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 기반 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 자동화, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링, 그리고 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀 운영 방식을 기술사 수준에서 심층 분석합니다.

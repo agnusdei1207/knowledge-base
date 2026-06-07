@@ -3,8 +3,8 @@ title: "AI Semiconductor NPU HBM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 316
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 생태계 ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Semiconductor](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)): [텐서 코어](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)([Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속, [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목 파훼를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

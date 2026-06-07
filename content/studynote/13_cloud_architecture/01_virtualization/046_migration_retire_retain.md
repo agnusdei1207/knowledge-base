@@ -3,8 +3,8 @@ title: "046. Migration Retire Retain"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. Retire(폐기)와 Retain(유지)은 Gartner의 클라우드 마이그레이션 "6R" [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 일부 — 모든 시스템을 클라우드로 이전하는 것이 목표가 아니라, 최적의 위치(클라우드/[온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)/폐기)를 찾는 것이 핵심이다.
 > 2. Retire는 가장 높은 ROI를 가져오는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 분석 결과 기업의 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 애플리케이션이 실제 사용되지 않으며, 이를 폐기하면 라이선스·인프라·운영 비용을 즉시 절감할 수 있다.

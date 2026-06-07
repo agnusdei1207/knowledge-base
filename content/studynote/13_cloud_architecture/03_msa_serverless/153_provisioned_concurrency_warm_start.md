@@ -3,8 +3,8 @@ title: "153. Provisioned Concurrency Warm Start"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [프로비저닝된 동시성](/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/)([Provisioned Concurrency](/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/))은 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(AWS [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))의 치명적 결함인 '부팅 랙([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))'을 척살하기 위해, 아키텍트가 아마존(AWS)에 <strong>기본료(돈)를 더 바치고 "야! 내 함수 봇 N마리는 밤새우더라도 절대 죽이지 말고 항상 램(RAM) 예열해서 깨워놔 쾅!" 이라고 강제 록온(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-on) 치는 인프라 텐트 쉴드</strong>다.
 > 2. **가치**: 트래픽이 0명에서 1만 명으로 1초 만에 수직 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 튀는 선착순 티켓팅 오픈 찰나의 순간!! -> [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)의 3초 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 뻗음(Dead Zone)을 0.001초 컷 제로 랙(Zero-[Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))으로 100% 우주 무결점 회피 스킵 패스 쳐버리며, <strong>일관된 웜 스타트(Warm Start 쾌속 즉답) 생존 스피드를 보장</strong>한다.

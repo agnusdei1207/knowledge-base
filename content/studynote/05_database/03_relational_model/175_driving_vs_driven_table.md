@@ -3,8 +3,8 @@ title: "Driven Table / Inner Table"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 드라이빙 테이블 (Driving Table)은 조인의 시작점이면서 이후 반복 횟수를 결정하는 집합이고, 드리븐 테이블 (Driven Table)은 그 반복마다 탐색되는 대상이다.

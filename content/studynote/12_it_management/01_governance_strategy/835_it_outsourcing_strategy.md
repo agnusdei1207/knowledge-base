@@ -3,8 +3,8 @@ title: "835. It Outsourcing Strategy"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 835
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 아웃소싱 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심은 핵심 역량 집중, 비용 절감, 전문성 활용 목적라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

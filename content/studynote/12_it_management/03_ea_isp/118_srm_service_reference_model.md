@@ -3,8 +3,8 @@ title: "Service Reference Model,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SRM ([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/))의 본질은 애플리케이션 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 기능 표준화를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

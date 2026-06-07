@@ -3,8 +3,8 @@ title: "Clock Gating"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 470
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클럭 게이팅 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Gating)은 일이 없는 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 뱅크와 기능 블록에 클럭 전달 자체를 멈춰, 불필요한 스위칭 활동을 원천 차단하는 대표적인 [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 절감 기법이다.

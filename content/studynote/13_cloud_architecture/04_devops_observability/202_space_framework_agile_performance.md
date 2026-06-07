@@ -3,8 +3,8 @@ title: "SPACE Framework"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SPACE는 개발자 생산성(Developer Productivity)을 단일 지표가 아닌 5가지 차원으로 측정하는 프레임워크로, "코드 줄 수"나 "커밋 수" 같은 단순 지표의 함정을 피한다.

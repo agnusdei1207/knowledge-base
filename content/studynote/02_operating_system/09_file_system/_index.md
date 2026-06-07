@@ -2,9 +2,9 @@
 title: "File System"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파일 시스템 (File System)은 보조 기억장치의 물리적 블록들을 논리적인 파일 및 디렉터리 구조로 추상화하여, 데이터의 영속적 저장과 효율적인 탐색 및 접근 제어를 가능하게 하는 운영체제의 관리 체계이다.

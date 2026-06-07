@@ -3,8 +3,8 @@ title: "Model Registry"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 324
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모델 레지스트리](/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) ([Model Registry](/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/))는 ML 모델의 학습 파라미터·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)·배포 상태를 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별로 중앙 관리하는 저장소로, 소프트웨어의 패키지 [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)(PyPI, npm)와 유사하게 ML 모델의 생명주기를 추적하고 거버넌스를 제공한다.

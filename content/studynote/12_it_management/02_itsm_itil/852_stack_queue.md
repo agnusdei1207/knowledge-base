@@ -1,10 +1,11 @@
 ---
 title: "Stack / Queue"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 852
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 LIFO, 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 원칙을 따르는 기본 자료 구조다.

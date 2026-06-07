@@ -3,8 +3,8 @@ title: "923. Cloud Native Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 923
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 네이티브 ([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처 철학은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

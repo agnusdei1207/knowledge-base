@@ -3,8 +3,8 @@ title: "864. Network Slice Orchestrator Sdn Nfv Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 864
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 [슬라이스](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

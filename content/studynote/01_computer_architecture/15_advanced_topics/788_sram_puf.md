@@ -3,9 +3,8 @@ title: "788. SRAM PUF (Physical Unclonable Function)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 788
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) PUF는 전원 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 순간 교차 결합 인버터가 어느 쪽으로 먼저 기울어지는지를 이용해 칩 고유의 시작 패턴을 뽑아내는 [PUF](/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) 구조다.

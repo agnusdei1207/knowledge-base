@@ -3,8 +3,8 @@ title: "OTA Over-the-Air Update Firmware Management"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 605
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OTA 펌웨어 업데이트 관리은(는) 원격 장치의 펌웨어와 설정을 네트워크로 배포·검증·롤백하는 운영 기술이다.

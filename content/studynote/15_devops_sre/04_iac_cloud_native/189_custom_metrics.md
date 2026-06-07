@@ -3,8 +3,8 @@ title: "189. Custom Metrics"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU나 메모리 대신 결제 성공률, 대기 주문 수처럼 비즈니스 문맥을 반영한 지표를 계측하는 방법.

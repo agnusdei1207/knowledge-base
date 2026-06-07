@@ -2,9 +2,9 @@
 title: "6R: Rehost, Replatform, Refactor, Repurchase, Retire, Retain"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 6R은 기존 시스템을 클라우드로 옮길 때 Rehost, Replatform, [Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), Repurchase, Retire, Retain 중 어떤 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 택할지 정리하는 프레임워크다.

@@ -3,8 +3,8 @@ title: "171. Pkcs12 Pfx"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PKCS#12 (Public-[Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) Standards #12)는 개인키, X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, 중간 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 ([CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority) 체인을 하나의 암호화 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 묶는 표준이며, 현장에서는 `.p12` 또는 `.pfx` ([Personal Information](/studynote/09_security/16_data_privacy/781_personal_information/) Exchange) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 가장 많이 만난다.

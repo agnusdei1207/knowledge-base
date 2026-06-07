@@ -3,8 +3,8 @@ title: "Digital Identity Verification eKYC Remote"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 759
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: eKYC(electronic Know Your Customer)는 ICAO 9303 기반 신원증명서(MRZ/PKI), ISO/IEC 30107-3 Presentation Attack Detection, NIST SP 800-63 IAL2/IAL3 생체인증 프레임워크를 결합하여 비대면 채널에서 **"진짜 사람이 진짜 신분증으로 신원 주장을 한다"**는 3요소를 원격으로 검증하는 기술 집합이다.

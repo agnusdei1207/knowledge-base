@@ -2,9 +2,9 @@
 title: "Cloud Service Models"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 423
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [IaaS PaaS SaaS BaaS FaaS](/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/) [클라우드 서비스 모델](/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/)은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [IaaS PaaS SaaS BaaS FaaS](/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/) [클라우드 서비스 모델](/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/), [Cloud Service Models](/studynote/06_ict_convergence/03_cloud_infrastructure/182_cloud_service_models_overview/), 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

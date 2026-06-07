@@ -3,8 +3,8 @@ title: "Data Governance Metadata Standard Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 266
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준 감리는 [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)([Data Governance](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/))와 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준화([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/) Standardization) 체계에서 메타모델(Metamodel), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Ownership), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보(Lineage)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

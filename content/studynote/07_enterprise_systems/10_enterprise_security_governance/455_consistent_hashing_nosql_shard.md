@@ -2,9 +2,9 @@
 title: "Consistent Hashing & NoSQL Sharding"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 455
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [컨시스턴트 해싱](/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/) [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 샤드 리밸런싱 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [컨시스턴트 해싱](/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/) [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 샤드 리밸런싱 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/), [Consistent Hashing](/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/) & [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) [Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/), 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

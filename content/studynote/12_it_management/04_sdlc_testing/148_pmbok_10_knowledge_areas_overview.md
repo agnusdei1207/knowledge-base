@@ -3,8 +3,8 @@ title: "PMBOK 10 Knowledge Areas Overview"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge)의 10대 지식 영역은 일정, 비용, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등 거대한 프로젝트를 성공으로 이끌기 위해 PM(프로젝트 관리자)이 통제해야 할 모든 관리 분야를 논리적으로 분류한 실무 지식 체계 표준이다.
 > 2. **가치**: 10개의 지식 영역은 제각각 노는 것이 아니라 '통합관리(Integration)'를 허브로 삼아 유기적으로 연결되어, 범위([Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/)) 하나가 변경되면 일정과 비용이 연쇄적으로 자동 수정되어야 하는 거대한 톱니바퀴 시스템 구조를 갖는다.

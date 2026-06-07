@@ -3,8 +3,8 @@ title: "InfiniBand RDMA"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 522
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인피니밴드](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 [인피니밴드](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) ([InfiniBand](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) 패브릭 위에서 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))를 수행해, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 복사와 문맥 전환 없이 원격 메모리에 직접 접근하게 만드는 초저지연 통신 구조다.

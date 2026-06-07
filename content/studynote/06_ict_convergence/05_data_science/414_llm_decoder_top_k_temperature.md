@@ -3,8 +3,8 @@ title: "Top-K"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 414
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 탑-K , 템퍼리처 제어 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 텍스트 [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) 변화율 망 (Top-K): 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델)의 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))는 다음 단어를 뱉어낼 때, 5만 개의 단어 사전에 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 매겨놓고 주사위를 던지는 방식을 쓰는데, 이때 어떤 단어들을 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

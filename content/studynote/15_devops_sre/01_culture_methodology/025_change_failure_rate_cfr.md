@@ -3,8 +3,8 @@ title: "025. Change Failure Rate Cfr"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CFR (Change Failure Rate, 변경 실패율)은 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment, [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 연구·평가) 4대 핵심 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 하나로, "전체 배포 건수 대비 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애·[롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)·핫픽스를 유발한 배포의 비율"을 측정하여 배포 프로세스의 안정성을 정량화한다.
 > 2. **가치**: CFR은 배포 빈도([Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency)와 반비례하는 경향이 있다고 오해하기 쉽지만, [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구에 따르면 Elite 팀은 배포 빈도도 높고 CFR도 낮다(0~15%). 고품질 자동화 테스트, 점진적 배포([Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)/Blue-Green), [피처 플래그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))가 이 역설을 가능하게 한다.

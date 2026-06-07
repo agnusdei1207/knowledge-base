@@ -3,9 +3,8 @@ title: "885. FIPS 140-3 (Cryptographic Module Standard)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 885
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FIPS 140-3 (Cryptographic [Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Standard)는 보안 프레임워크·컴플라이언스에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

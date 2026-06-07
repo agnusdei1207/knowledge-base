@@ -3,8 +3,8 @@ title: "Saga Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 252
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Saga](/studynote/12_it_management/05_security_compliance/305_saga/) 패턴은 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경의 긴 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Long Lived [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 처리, 이벤트 기반 [로컬 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/) 분할 및 [보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)([Compensating Transaction](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) 수행에 초점을 맞춘 개념이다.

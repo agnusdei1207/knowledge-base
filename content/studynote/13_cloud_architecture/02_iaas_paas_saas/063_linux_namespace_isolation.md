@@ -2,9 +2,9 @@
 title: "063. Linux Namespace Isolation"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Linux Namespace는 프로세스가 보는 PID, 네트워크, [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/), 사용자 등의 시야를 분리하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리 기능이다.

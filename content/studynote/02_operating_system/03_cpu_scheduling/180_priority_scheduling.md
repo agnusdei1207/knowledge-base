@@ -3,8 +3,8 @@ title: "180. Priority Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 우선순위 스케줄링 (Priority Scheduling)은 Ready 큐에 있는 프로세스 중 우선순위 값이 가장 높은 작업에게 CPU (Central Processing Unit)를 먼저 주는 스케줄링 방식이다.

@@ -3,8 +3,8 @@ title: "Kernel Panic"
 date: "2026-03-03"
 tags:
   - "studynote-operating-system"
+weight: 36
 ---
-
 > **핵심 인사이트**
 > 1. [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Panic은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능한 오류를 탐지했을 때 시스템을 안전하게 중단시키는 최후의 방어 메커니즘으로, Linux의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉과 Windows의 BSOD (Blue Screen of Death)가 대표적이다.
 > 2. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉의 주요 원인은 NULL 포인터 역참조, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/), 하드웨어 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(메모리 오류), 드라이버 버그이며, `dmesg`와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [로그 분석](/studynote/16_bigdata/05_analysis/119_log_analysis/)이 진단의 시작이다.

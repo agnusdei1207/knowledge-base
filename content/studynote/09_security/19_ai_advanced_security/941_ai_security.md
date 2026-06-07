@@ -3,8 +3,8 @@ title: "AI Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 941
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안 ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

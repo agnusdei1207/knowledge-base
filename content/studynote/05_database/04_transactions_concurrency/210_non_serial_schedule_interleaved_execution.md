@@ -3,8 +3,8 @@ title: "Non-serial Schedule"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비직렬 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) (Non-[serial Schedule](/studynote/05_database/04_transactions_concurrency/209_serial_schedule_sequential_execution/))은 인터리빙 방식 병행 실행에 초점을 맞춘 개념이다.

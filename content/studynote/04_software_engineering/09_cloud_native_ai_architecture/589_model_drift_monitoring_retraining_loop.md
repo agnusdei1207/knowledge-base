@@ -3,8 +3,8 @@ title: "589. Model Drift Monitoring Retraining Loop"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 589
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모델 드리프트](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) ([Model Drift](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) / [Data Drift](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) 모니터링 및 재학습 루프 설계은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Performance Metrics TPS/Response Time"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 256
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단의 3대 지표인 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Response Time](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)), 동시 사용자 수(Concurrent User), [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS, Transactions Per Second)은 상호 의존적이며, 하나의 최적화가 다른 지표에 영향을 준다.

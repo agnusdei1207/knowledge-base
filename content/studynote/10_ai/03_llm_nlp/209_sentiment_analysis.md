@@ -3,8 +3,8 @@ title: "Sentiment Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ([Sentiment Analysis](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/))은 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간이 작성한 텍스트(리뷰, 트윗, 기사)의 행간에 숨겨진 감정 상태를 <strong>'긍정(Positive)', '부정(Negative)', '중립(Neutral)'이라는 통계적 스코어(Score)</strong>로 발라내는 자연어 처리(NLP) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기술의 꽃이다.

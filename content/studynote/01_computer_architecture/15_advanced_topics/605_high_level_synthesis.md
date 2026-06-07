@@ -3,8 +3,8 @@ title: "HLS, High-Level Synthesis"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 605
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고수준 합성은 C/C++·SystemC 같은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 모델을 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전송 수준 ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Transfer Level, RTL) 회로로 바꾸는 컴파일러형 설계 기법이며, 실제 결과물은 코드 문장보다도 연산 의존성과 메모리 구조가 좌우한다.

@@ -3,8 +3,8 @@ title: "228. Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 부동산 빅데이터 (시세 예측, 상권 분석, 인구 이동 분석)은 빅데이터 부동산 응용 관점에서 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 운영을 연결해 반복 가능한 질서를 만드는 관리 방식를 다루는 주제다.

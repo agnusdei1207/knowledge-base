@@ -3,8 +3,8 @@ title: "Regression OLS VIF Multicollinearity"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 514
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OLS(Ordinary Least Squares, 최소 자승법)는 잔차(Residual) 제곱합을 최소화해 독립변수와 종속변수의 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 추정하며, 회귀 계수의 최량 선형 불편 추정량(BLUE)을 보장한다.

@@ -2,9 +2,9 @@
 title: "193. Openapi Specification Swagger Api Design"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OpenAPI Specification](/studynote/09_security/05_web_app_security/495_oas_openapi_specification/) ([OAS](/studynote/09_security/05_web_app_security/495_oas_openapi_specification/))은 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))의 경로, 파라미터, 요청 본문, 응답, 보안 규칙을 기계가 읽을 수 있는 계약 문서로 정의하는 표준이다.

@@ -3,8 +3,8 @@ title: "Ostrich Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [타조 알고리즘](/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) ([Ostrich Algorithm](/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/))은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 해결하기 위한 수학적 기법이 아니라, <strong>"발생 빈도가 극히 낮고 해결 비용이 너무 크다면, 데드락 문제를 아예 무시하고 발생하게 놔둔다"</strong>는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 극단적이고 현실적인 대응 철학이다.

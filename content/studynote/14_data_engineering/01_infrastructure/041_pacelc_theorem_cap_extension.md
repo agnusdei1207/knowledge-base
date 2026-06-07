@@ -3,8 +3,8 @@ title: "PACELC Theorem"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/)(파셀크) 정리는 Daniel Abadi(2012)가 [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리의 한계를 극복하기 위해 제안한 확장 모델로, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 발생 시(P) [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(A)/[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C) 트레이드오프 외에 정상 상태에서도 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(L, [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))/[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C, [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 트레이드오프가 존재함을 명시한다.
 > 2. [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리가 "[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 발생"이라는 극단적 상황만 다루는 반면, PACELC는 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 없는 정상 운영 상황에서도 "낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(L) vs 강한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C)"의 선택이 필요함을 보여줌으로써 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 선택의 실무적 기준을 제시한다.

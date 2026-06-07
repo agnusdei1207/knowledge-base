@@ -3,8 +3,8 @@ title: "047. Columnar Store Olap"
 date: "2026-04-05"
 tags:
   - "studynote-database"
+weight: 47
 ---
-
 > **핵심 인사이트**
 > 1. 컬럼 기반 스토리지(Columnar Store)는 동일 컬럼의 값을 연속으로 저장하여 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 극적인 I/O 절감을 달성 — "[SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) AVG(price) FROM orders"처럼 특정 컬럼만 읽는 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 행 기반 저장보다 100배 이상 빠를 수 있다.
 > 2. 컬럼 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 컬럼 스토리지의 또 다른 핵심 장점 — 동일 컬럼의 값은 타입이 동일하고 중복이 많아 [RLE](/studynote/08_algorithm_stats/05_string/099_rle/)(Run-Length Encoding), 사전 인코딩(Dictionary Encoding), [비트맵 인덱스](/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)([Bitmap Index](/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)) 등으로 5~20배 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 가능하다.

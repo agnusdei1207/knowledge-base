@@ -3,8 +3,8 @@ title: "550. Saga Pattern Local Transactions Chain"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 550
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사가 패턴](/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/studynote/12_it_management/05_security_compliance/948_saga_pattern/)) - [로컬 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)들의 연속된 체인은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

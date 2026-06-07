@@ -3,8 +3,8 @@ title: "Micro Frontend"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 354
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로 프론트엔드](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)([Micro Frontend](/studynote/13_cloud_architecture/05_data_engineering/346_process/))는 거대한 단일 웹 애플리케이션을 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 분리해, 각 팀이 UI 조각을 독립적으로 개발·배포하도록 만드는 프론트엔드 아키텍처다.

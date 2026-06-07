@@ -3,8 +3,8 @@ title: "352. Page Size"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 352
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Size)는 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 메모리 시스템에서 가상 메모리와 물리 메모리를 썰어내는 <strong>기본 단위 블록의 규격</strong>으로, 역사적으로 512바이트에서 시작해 현대에는 <strong>4KB (4096 Bytes)</strong>가 절대 표준으로 자리 잡았다.

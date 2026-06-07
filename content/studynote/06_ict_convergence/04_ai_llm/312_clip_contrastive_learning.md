@@ -3,8 +3,8 @@ title: "CLIP, Contrastive Language-Image Pre-training"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클립 ([CLIP](/studynote/10_ai/05_data_science_ml/408_clip/), [Contrastive Language-Image Pre-training](/studynote/10_ai/05_data_science_ml/408_clip/)): 이미지와 그에 해당하는 텍스트 설명 쌍(Pair)을 같은 잠재 공간에 가깝게 임베딩하는 대조 학습(Contrastive [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 기법 (제로샷 이미지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 혁신)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

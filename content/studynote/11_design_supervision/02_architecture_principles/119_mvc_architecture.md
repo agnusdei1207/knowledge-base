@@ -3,8 +3,8 @@ title: "MVC, Model-View-Controller"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 119
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MVC ([Model-View-Controller](/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/), [모델-뷰-컨트롤러](/studynote/04_software_engineering/04_testing_quality/210_mvc_model_view_controller_architecture/))는 사용자 인터페이스 코드를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Model), 화면 표현([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)), 입력 처리 제어(Controller)로 분리하여 각 관심사가 독립적으로 변경될 수 있게 하는 가장 널리 사용되는 UI 아키텍처 패턴이다.

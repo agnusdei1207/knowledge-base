@@ -3,8 +3,8 @@ title: "Indirect Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 간접 사이클 ([Indirect](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Cycle)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 직접 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳이 아니라, <strong>실제 주소가 저장된 위치</strong>를 가리킬 때 한 번 더 메모리를 읽어 유효 주소 (Effective Address, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 확정하는 단계다.

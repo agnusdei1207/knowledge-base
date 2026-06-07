@@ -3,9 +3,8 @@ title: "711. CrackMapExec (CrackMapExec)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 711
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CrackMapExec는 [위협 헌팅](/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

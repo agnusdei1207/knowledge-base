@@ -3,9 +3,8 @@ title: "248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 248
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DTP와 VTP는 수십~수백 대의 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 엮인 거대한 기업망에서, 관리자가 일일이 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 뚫고 VLAN을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 <strong>"수작업 노가다"를 없애기 위해 시스코(<a href="/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a>)가 독자 개발한 자동화 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다.

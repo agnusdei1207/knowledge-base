@@ -3,8 +3,8 @@ title: "103. Cicd Metrics Dashboard Deployment Analytics"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 대시보드는 코드 커밋부터 배포 완료까지 이어지는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 전 과정을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 수치화하여 시각적으로 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 체계다.

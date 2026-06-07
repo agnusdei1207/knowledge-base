@@ -2,9 +2,9 @@
 title: "Automated Market Maker,"
 date: "2026-03-04"
 tags:
-  - "studynote-ict"
+  - "studynote-ict-convergence"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. AMM(Automated Market Maker, 자동화 시장 조성자)은 전통적인 오더북 거래소 대신 수학적 공식(CPMM: x·y=k)으로 자산 가격을 자동 결정하는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 거래 메커니즘이다.
 > 2. 유니스왑(Uniswap)은 Ethereum 기반 최초의 성공적인 AMM DEX로, 유동성 공급자(LP)가 자산 쌍을 예치해 수수료(0.3%)를 획득하고, 트레이더는 슬리피지를 감수하며 즉시 거래한다.

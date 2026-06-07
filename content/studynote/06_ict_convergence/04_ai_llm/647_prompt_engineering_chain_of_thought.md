@@ -3,8 +3,8 @@ title: "Prompt Engineering Chain of Thought"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 647
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Chain-of-Thought(CoT)는 LLM이 최종 답안을 도출하기 전 **명시적 중간 추론 단계(intermediate reasoning steps)** 를 토큰 단위로 생성하도록 유도하는 프롬프트 엔지니어링 기법으로, 2022년 Google Research의 Wei et al.이 NeurIPS에서 공개한 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models" 논문에서 체계화되었으며, Arithmetic(GSM8K), Commonsense(CSQA), Symbolic(Last Letter) 등 다중 벤치마크에서 SOTA를 달성한 핵심 기법임.

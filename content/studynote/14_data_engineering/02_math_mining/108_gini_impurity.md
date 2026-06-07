@@ -2,9 +2,9 @@
 title: "Gini Impurity"
 date: "2024-03-23"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 지니 불순도(Gini Impurity)는 기계 학습의 결정 트리([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)) 모델이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분할할 때, 특정 노드에 서로 다른 클래스(정답)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 혼합되어 있는지를 측정하는 통계적 이질성 지표다.
 > 2. **가치**: 불순도가 0일 때 해당 노드에 단 하나의 클래스만 존재함(완벽한 순수 상태)을 의미하며, [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 방식과 달리 복잡한 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log) 연산 없이 단순한 확률의 제곱합 연산만으로 계산되므로 연산 속도가 압도적으로 빠르다.

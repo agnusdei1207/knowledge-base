@@ -3,8 +3,8 @@ title: "342. External Fragmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 342
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 외부 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)(External [Fragmentation](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))는 프로세스들이 메모리에 동적으로 적재되고 해제되기를 반복하면서, 메모리 전체에 <strong>작은 빈 공간(Hole)들이 연속되지 않고 벌집처럼 뿔뿔이 흩어져 있는 낭비 상태</strong>를 의미한다.

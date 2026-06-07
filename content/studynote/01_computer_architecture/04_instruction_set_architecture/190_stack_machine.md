@@ -3,8 +3,8 @@ title: "Stack Machine"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Machine)은 연산 대상의 위치를 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 적지 않고, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단의 값들을 암묵적으로 사용하는 <strong>0-주소 실행 모델</strong>이다.

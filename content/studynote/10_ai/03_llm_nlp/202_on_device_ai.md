@@ -3,8 +3,8 @@ title: "On-Device AI"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온디바이스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([On-Device AI](/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/))는 사용자의 스마트폰, 노트북, 자율주행차 안에서 <strong>외부 클라우드 인터넷(Wi-Fi, <a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>) 연결 없이 오직 기기 자체에 내장된 칩셋(<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a>/<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>)만으로 <a href="/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 추론(Inference)을 100% 로컬에서 돌려버리는 독립 생태계 기술</strong>이다.

@@ -3,9 +3,8 @@ title: "935. RPKI (Resource Public Key Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 935
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RPKI](/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

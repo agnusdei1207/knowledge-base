@@ -3,8 +3,8 @@ title: "385. Prepaging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 385
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선행 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)(Prepaging)은 [순수 요구 페이징](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)([Pure Demand Paging](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/))의 치명적 약점인 '[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 시 폭우처럼 쏟아지는 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 렉([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) Penalty)'을 막기 위해, <strong>CPU가 요구하지도 않았는데 OS가 눈치껏 인접한 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 여러 장을 한 번에 뭉텅이로 램에 미리 퍼다 나르는 예측 적재 기법</strong>이다.

@@ -3,8 +3,8 @@ title: "465. Dqn Deep Q Network"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 465
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DQN(Deep Q-Network)은 강화학습이 쓰던 종이 수첩(Q-Table)을 찢어버리고, 그 자리에 딥러닝([CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) 신경망을 꽂아 넣어 "어떤 복잡한 화면(픽셀)이 들어오든, 각 행동(상/하/좌/우)을 했을 때 받을 점수를 함수로 예측해 내는" 초거대 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 뇌다.

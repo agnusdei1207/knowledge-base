@@ -3,8 +3,8 @@ title: "155. Timeout Synchronization Strategy"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무한 대기를 방지하기 위해 요청별 최대 대기 시간을 명시하는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치.

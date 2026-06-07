@@ -3,9 +3,8 @@ title: "283. CNN (Convolutional Neural Network)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 283
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/), [합성곱 신경망](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 [합성곱 연산](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)([Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))으로 이미지의 <strong>지역적 공간 패턴</strong>을 추출하고, <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유(<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Sharing)</strong>와 <strong>이동 불변성(Translation Invariance)</strong>으로 파라미터를 대폭 줄이면서 이미지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·탐지·분할에 탁월한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.

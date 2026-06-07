@@ -2,9 +2,9 @@
 title: "Delta Encoding, Parquet, Columnar Storage"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 466
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [델타 인코딩](/studynote/05_database/06_dw_olap_trends/379_delta_encoding_gorilla_compression/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [파케이](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 컬럼 스토리지는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [델타 인코딩](/studynote/05_database/06_dw_olap_trends/379_delta_encoding_gorilla_compression/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [파케이](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 컬럼 스토리지, [Delta Encoding](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/), Parquet의 경계를 분명히 만드는 데 의미가 있다.

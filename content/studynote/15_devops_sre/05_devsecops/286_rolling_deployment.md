@@ -1,11 +1,10 @@
 ---
-weight = 286
 title: "286. 롤링 배포 (점진 교체 무중단)"
 date: "2026-05-08"
-[extra]
-categories: "studynote-devops-sre"
+tags:
+  - "studynote-devops-sre"
+weight: 286
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 롤링 배포 (점진 교체 무중단)는 security 관점에서 목표 상태, 실행 절차, 검증 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

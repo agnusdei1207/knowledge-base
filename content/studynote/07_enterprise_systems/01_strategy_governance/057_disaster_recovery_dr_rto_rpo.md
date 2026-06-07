@@ -1,10 +1,11 @@
 ---
 title: "057. Disaster Recovery Dr Rto Rpo"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))는 재난 이후 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 빨리, 얼마나 적게 잃고 되살릴지 정하는 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

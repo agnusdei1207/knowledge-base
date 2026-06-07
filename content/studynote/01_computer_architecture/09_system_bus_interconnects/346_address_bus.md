@@ -3,8 +3,8 @@ title: "Address Bus"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 346
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 주소 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Address [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 CPU (Central Processing Unit)나 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 마스터가 "어느 위치를 접근할지"를 하드웨어에 지정하는 위치 정보 전용 경로다.

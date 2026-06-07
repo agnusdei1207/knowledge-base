@@ -3,8 +3,8 @@ title: "BASE Properties"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 257
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BASE [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 Basically Available, Soft-state, Eventually consistent (NoSQL의 특성, ACID의 반대)에 초점을 맞춘 개념이다.

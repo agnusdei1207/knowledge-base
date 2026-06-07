@@ -2,9 +2,9 @@
 title: "066. Gitlab Flow Environment Branch Strategy"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GitLab Flow는 main과 환경 브랜치(dev/staging/prod 등)를 연결해 배포 흐름을 명확히 하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

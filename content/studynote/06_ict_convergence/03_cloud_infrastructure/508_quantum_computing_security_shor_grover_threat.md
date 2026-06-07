@@ -3,8 +3,8 @@ title: "Quantum Computing Security Shor Grover Threat"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 508
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 쇼어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [RSA](/studynote/09_security/03_network_security/110_rsa/)/[ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 공개키 암호를 다항 시간에 풀어 현재 인터넷 보안의 근간을 위협하고, 그로버 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)'s [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 대칭키 강도를 절반으로 낮춘다.

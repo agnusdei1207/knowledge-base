@@ -3,8 +3,8 @@ title: "069. Type 1 2 Error Statistical Power"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1종 오류(Type I)는 참인 H0를 기각하는 오류이고, 2종 오류(Type II)는 거짓인 H0를 기각하지 못하는 오류다.

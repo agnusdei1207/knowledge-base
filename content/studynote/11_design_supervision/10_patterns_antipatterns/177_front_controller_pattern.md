@@ -3,8 +3,8 @@ title: "Front Controller Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프론트 컨트롤러 (Front Controller) 패턴은 모든 웹 요청을 단일 진입점으로 모아 공통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용한 뒤 적절한 핸들러로 위임하는 웹 계층 제어 패턴이다.

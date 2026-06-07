@@ -1,11 +1,11 @@
 ---
 title: "SPOF"
 date: "2023-10-24"
-description: "HDFS의 파일 디렉터리 트리와 블록 매핑 장부를 메모리에서 중앙 관리하는 마스터 노드 구조 및 SPOF 한계 돌파 기술"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 14
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [분산 파일 시스템](/studynote/02_operating_system/09_file_system/553_distributed_file_system/)([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))의 지휘관으로, 수천 대의 워커 노드([DataNode](/studynote/14_data_engineering/01_infrastructure/015_datanode/))에 흩어져 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록들의 주소와 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 트리를 주 메모리(RAM)에 올려두고 관리하는 중앙 마스터 장부 시스템이다.
 > 2. **가치**: 클라이언트가 테라바이트급 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽거나 쓰려 할 때, 디스크를 뒤지지 않고 메모리 상의 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 트리를 0.01초 만에 검색하여 즉각적인 물리적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치(Block [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))를 라우팅해 준다.

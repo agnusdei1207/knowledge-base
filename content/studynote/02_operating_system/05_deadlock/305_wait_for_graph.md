@@ -3,8 +3,8 @@ title: "305. Wait For Graph"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 305
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대기 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Wait-for [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 시각화한 원본 '[자원 할당 그래프](/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))'에서 **'자원 정점(네모 상자)'을 모두 지워버리고**, 오직 "어떤 프로세스가 어떤 프로세스의 완료를 멱살 쥐듯 기다리고 있는가"라는 <strong>사람(프로세스) 간의 직접적인 원한 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(의존성)만 남긴 초경량 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 위상 지도</strong>다.

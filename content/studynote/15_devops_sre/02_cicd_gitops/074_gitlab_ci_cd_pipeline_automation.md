@@ -2,9 +2,9 @@
 title: "074. Gitlab Ci Cd Pipeline Automation"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GitLab [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 GitLab에 내장된 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화 시스템이다.

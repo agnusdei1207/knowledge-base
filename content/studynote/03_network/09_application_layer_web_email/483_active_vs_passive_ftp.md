@@ -3,8 +3,8 @@ title: "483. Active Vs Passive Ftp"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 483
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 액티브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

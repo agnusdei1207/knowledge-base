@@ -3,8 +3,8 @@ title: "694. Confidential Computing Data In Use"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 694
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [기밀 컴퓨팅](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인 유즈(In Use) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Kafka Partitioning Strategy"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) ([아파치 카프카](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))의 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 단위이자 순서 보장의 경계로, [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 따라 "어느 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 어떤 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 들어가는지"가 결정되며 이는 소비자 그룹의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 순서 보장에 직접 영향을 미친다.

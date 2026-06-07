@@ -3,8 +3,8 @@ title: "Release and Deployment Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 866
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 릴리스 및 배포 관리 (Release and [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 본질은 변경된 소프트웨어/하드웨어를 실제 운영 환경에 이관하는 통제 절차를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

@@ -3,8 +3,8 @@ title: "Synchronous Bus"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 348
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동기식 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 모든 참여 장치가 하나의 공통 클럭 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))을 기준으로 같은 시점에 주소, 제어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 시간 합의형 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조다.

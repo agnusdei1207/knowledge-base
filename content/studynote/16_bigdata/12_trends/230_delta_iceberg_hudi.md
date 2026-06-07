@@ -3,8 +3,8 @@ title: "230. Delta Iceberg Hudi"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 230
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 주류화 (Delta, Iceberg, Hudi) 개방형 포맷 경쟁은 빅데이터 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 트렌드 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.

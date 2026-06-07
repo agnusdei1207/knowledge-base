@@ -2,9 +2,9 @@
 title: "Strategy & Governance"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전사 전략 및 엔터프라이즈 거버넌스는 기업의 비즈니스 목표를 실현하기 위해 IT와 비즈니스를 정렬시키고, 전사적 아키텍처 (EA)를 기반으로 자원 배분과 리스크를 통합 관리하는 경영 체계이다.

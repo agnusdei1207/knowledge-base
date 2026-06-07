@@ -3,8 +3,8 @@ title: "Secure Session Management"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1038
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 안전한 [세션 관리](/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) (Secure [Session Management](/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/))는 보안 확장 개념에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

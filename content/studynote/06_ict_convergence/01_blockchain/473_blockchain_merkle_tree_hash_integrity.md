@@ -3,8 +3,8 @@ title: "Blockchain Merkle Tree and Hash Integrity"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 473
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [머클 트리](/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/))는 SHA-256 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)로 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 이진 트리로 요약하여, <strong>단 하나의 <a href="/studynote/06_ict_convergence/01_blockchain/008_merkle_root/">머클 루트</a>(<a href="/studynote/06_ict_convergence/01_blockchain/008_merkle_root/">Merkle Root</a>)</strong>만으로 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 구조다.

@@ -3,8 +3,8 @@ title: "256. Roc Auc"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 256
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ROC 곡선(ROC Curve, Receiver Operating Characteristic)은 임계값(Threshold)을 변화시키면서 TPR([재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/))과 FPR의 트레이드오프를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 곡선이다.

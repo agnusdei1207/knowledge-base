@@ -3,8 +3,8 @@ title: "180. Data Hub"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Hub](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스와 소비자 사이에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 자체와 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/)), 계보(Lineage), [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 함께 관리하는 중앙 조정 계층이다.

@@ -3,8 +3,8 @@ title: "Super App Platform Strategy Mini Program"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 765
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 슈퍼앱(WeChat, Alipay, Kakao, Naver)이 운영·중개하는 **컨테이너형 경량 런타임(WebView + JSCore/V8 + Native Bridge) 위에서 DSL(WXML/AXML/KML)로 작성된 패키지형 애플리케이션**을 OTA로 분산 배포하고, 플랫폼의 결제·인증·위치·푸시·광고 API를 위임 호출하는 2-Tier Software Distribution 아키텍처

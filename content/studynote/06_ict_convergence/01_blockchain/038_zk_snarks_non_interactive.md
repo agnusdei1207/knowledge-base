@@ -3,8 +3,8 @@ title: "Non-Interactive Zero-Knowledge Proof"
 date: "2026-03-03"
 tags:
   - "studynote-ict-convergence"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. zk-SNARK(Succinct Non-interactive ARguments of Knowledge)는 영지식 증명을 단 한 번의 메시지 전송으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 만든 비대화형 프로토콜로, 블록체인에서 여러 라운드 상호작용 없이 스마트 컨트랙트가 즉시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 > 2. 핵심 구성 요소는 신뢰 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)(Trusted Setup, [CRS](/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/): Common [Reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) String)으로 생성된 증명 키(pk)와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 키(vk)로, 이 CRS가 안전하게 폐기되지 않으면 위조 증명이 가능한 독성 폐기물(Toxic Waste) 문제가 있다.

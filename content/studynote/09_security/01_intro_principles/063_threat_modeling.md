@@ -3,8 +3,8 @@ title: "Threat Modeling"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/))은 시스템 설계 단계에서 자산, 공격면, 신뢰 경계, 위협을 체계적으로 찾는 보안 분석이다.

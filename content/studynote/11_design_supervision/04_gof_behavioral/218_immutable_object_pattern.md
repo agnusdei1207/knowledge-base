@@ -3,8 +3,8 @@ title: "Immutable Object Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Immutable Object](/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/) (불변 객체) 패턴은 한번 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 객체의 상태를 절대 변경하지 않도록 설계하여, 공유 가능한 안전한 값(Value)으로 사용하는 패턴이다.

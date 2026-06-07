@@ -3,8 +3,8 @@ title: "049. Ensemble Learning Bagging Boosting"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. [앙상블 학습](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)([Ensemble Learning](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/))은 여러 약한 학습기(Weak Learner)를 결합하여 하나의 강한 학습기(Strong Learner)를 만드는 방법 — "두 머리가 하나보다 낫다"는 집단 지성의 수학적 구현이며, 단일 모델보다 낮은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) 또는 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 달성한다.
 > 2. [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이고, [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 편향을 줄이는 상이한 메커니즘 — [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)은 부트스트랩 샘플로 독립적 모델을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 훈련하여 과적합을 방지하고, [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 이전 모델의 오류에 집중하여 순차적으로 편향을 낮춘다.

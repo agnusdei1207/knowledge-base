@@ -1,11 +1,11 @@
 ---
 title: "093. Cell Breathing Phenomenon"
 date: "2026-03-31"
-description: "CDMA 네트워크에서 가입자 수와 간섭량에 따라 기지국의 서비스 커버리지가 동적으로 수축하고 팽창하는 현상의 원리와 대응 방안"
 tags:
   - "network"
+  - "studynote-network"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 셀 호흡 (Cell Breathing) 현상이란 기지국에 접속하는 사용자가 증가해 잡음(간섭)이 심해지면 기지국의 유효 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반경이 줄어들고, 사용자가 적어지면 다시 넓어지는 유기적 네트워크 커버리지 수축 현상이다.
 > 2. **가치**: 채널 수가 엄격히 고정된 옛날 방식과 달리, 간섭량이라는 한계치 내에서 가입자를 유연하게 밀어 넣을 수 있는 CDMA의 연성 용량 (Soft Capacity) 특성을 대변하는 가장 중요한 기술적 지표다.

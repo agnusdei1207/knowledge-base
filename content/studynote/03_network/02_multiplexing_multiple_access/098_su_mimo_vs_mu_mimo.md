@@ -1,12 +1,11 @@
 ---
 title: "98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)"
 date: "2026-03-04"
-description: "단일 사용자 중심의 무선 통신 한계를 극복하고 다수 사용자에게 동시 다발적인 공간 다중화를 제공하는 SU-MIMO와 MU-MIMO의 심층 구조 비교"
 tags:
   - "network"
+  - "studynote-network"
+weight: 98
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SU-MIMO는 기지국의 다중 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ([Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 자원을 특정 순간 오직 한 명의 사용자에게 모두 할당하는 방식이며, MU-MIMO는 공간 분할을 통해 여러 사용자에게 동시에 빔을 쏘아 할당하는 방식이다.

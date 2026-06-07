@@ -3,8 +3,8 @@ title: "Multimodal AI"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 331
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Multimodal AI](/studynote/06_ict_convergence/04_ai_llm/286_multimodal_ai/))는 텍스트·이미지·오디오·비디오·센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 서로 다른 <strong>모달리티(Modality, 감각 양식)</strong>의 정보를 동시에 이해하고 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 AI로, 인간처럼 여러 감각을 통합적으로 활용하는 범용 AI에 한 발 더 가까운 아키텍처다.

@@ -3,9 +3,8 @@ title: "342. NVMe (Non-Volatile Memory Express)"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
+weight: 342
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))는 낸드 플래시 기반 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))의 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 높은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 살리기 위해, [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 위에서 동작하도록 다시 설계한 저장장치 명령 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.

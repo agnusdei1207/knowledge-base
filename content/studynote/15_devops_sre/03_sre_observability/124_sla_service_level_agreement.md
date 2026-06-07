@@ -3,8 +3,8 @@ title: "124. Sla Service Level Agreement"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLA는 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 제공자와 고객 간의 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질에 대한 공식 계약</strong>이며, [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 미달 시 <strong>크레딧 환불·위약금 등 법적 책임</strong>이 발생하는 비즈니스 문서이다.
 > 2. **가치**: SLA가 없으면 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 시 "얼마나 보상받을 수 있는가?"에 대한 기준이 없지만, SLA는 <strong>99.9% <a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 미달 시 월 요금의 <a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 크레딧</strong> 등 명확한 보상 규칙을 정의한다.

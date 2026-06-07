@@ -3,8 +3,8 @@ title: "563. Hash Collision Chaining Linear Probing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 563
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해시 충돌(Collision) 체이닝 방식 및 선형 탐사 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 DB 매핑는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.

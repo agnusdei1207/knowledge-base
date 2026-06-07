@@ -3,8 +3,8 @@ title: "151. Namespace Isolation"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 격리([Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/) [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 특정 프로세스([Process](/studynote/12_it_management/05_security_compliance/943_process/)) 무리에게 "네가 이 컴퓨터의 주인이며, 다른 놈들은 세상에 존재하지 않는다"는 완벽한 착각(Illusion)을 심어주는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 레벨의 0순위 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 흑마법이다.
 > 2. **가치**: 낡고 무거운 하드웨어 전체를 가짜로 띄우는 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))의 CPU 오버헤드 늪을 파괴하고! 오직 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 '이름표(ID) 매핑 테이블' 찌끄레기 포인터 하나만 비틀어서 0.01초 빛의 속도로 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 완벽히 분리된 방폭문 텐트([Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))를 띄워버리는 [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 제국의 심장 엔진이다.

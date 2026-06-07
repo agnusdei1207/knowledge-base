@@ -3,8 +3,8 @@ title: "605. Password Salting Hash"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 605
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패스워드 솔팅 (Salting)은 사용자의 평문 비밀번호를 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 해시(Hash) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 변환하기 직전에, 무작위의 고유한 난수 문자열([Salt](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 덧붙여 해시 결과값을 완전히 뒤섞어버리는 보안 기법이다.

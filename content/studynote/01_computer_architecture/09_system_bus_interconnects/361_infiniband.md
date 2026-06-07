@@ -3,8 +3,8 @@ title: "InfiniBand"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 361
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인피니밴드 (InfiniBand)는 범용 인터넷용 네트워크가 아니라, 서버와 가속기 노드 사이를 <strong>초저지연·고대역폭으로 묶기 위해 설계된 채널 기반 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>드 패브릭 (Switched Fabric)</strong> 이다.

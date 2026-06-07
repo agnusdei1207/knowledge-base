@@ -3,8 +3,8 @@ title: "MicroVM, Firecracker"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로VM (MicroVM, Firecracker): [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([FaaS](/studynote/12_it_management/05_security_compliance/342_faas/)) 환경에서 극강의 부팅 속도(수 밀리초)와 가상머신급 보안 격리를 동시 제공하는 초경량 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기술를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

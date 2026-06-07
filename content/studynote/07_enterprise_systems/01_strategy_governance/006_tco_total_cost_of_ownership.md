@@ -1,11 +1,11 @@
 ---
 title: "006. Tco Total Cost Of Ownership"
 date: "2026-03-04"
-description: "IT 자산의 도입부터 폐기까지 발생하는 모든 직간접적 비용을 측정하고 관리하는 총 소유 비용 (TCO)의 아키텍처와 실무 적용 방안"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 6
 ---
-
 # 06. 총 소유 비용 ([TCO](/studynote/12_it_management/01_governance_strategy/016_tco/), Total Cost of Ownership)
 
 #### 핵심 인사이트 (3줄 요약)

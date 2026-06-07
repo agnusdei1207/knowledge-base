@@ -3,8 +3,8 @@ title: "Trunk Port"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L2 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 연결 대상이 누구냐에 따라 <strong>접근 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Access <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)</strong>와 <strong>트렁크 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Trunk <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)</strong> 두 가지 모드 중 하나로 동작해야 하며, 이는 [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 환경을 구성하는 뼈대다.

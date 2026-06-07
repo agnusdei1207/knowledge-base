@@ -3,8 +3,8 @@ title: "089. Cbc Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CBC (Cipher Block [Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/)) 모드는 현재 블록의 평문을 암호화하기 직전에, **이전 블록에서 튀어나온 암호문 찌꺼기를 끌어와 XOR(배타적 논리합)로 비벼서 마치 쇠사슬(Chain)처럼 블록들을 엮는** 가장 대중적인 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드다.
 > 2. **가치**: 똑같은 내용의 글자(예: "AAAA")가 여러 번 반복되어 들어오더라도, 매번 이전 블록에서 넘어온 완전히 다른 난수 찌꺼기와 섞이기 때문에, 출력되는 암호문이 매번 달라져 평문의 윤곽선(패턴)을 100% 소멸시킨다.

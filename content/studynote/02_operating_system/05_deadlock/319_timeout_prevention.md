@@ -3,8 +3,8 @@ title: "319. Timeout Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 319
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 환상형 대기 고리를 수학적으로 찾거나 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 시뮬레이션 돌리는 모든 데드락 예방/회피/탐지 이론들을 깡그리 무시하고, 단순히 <strong>"특정 스레드가 자원을 기다린 지 N초(임계 시간)가 경과하면 묻지도 따지지도 않고 데드락으로 간주해 버려서 에러 내고 <a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 시키는 야성적 실무 제어 수단"</strong>이다.

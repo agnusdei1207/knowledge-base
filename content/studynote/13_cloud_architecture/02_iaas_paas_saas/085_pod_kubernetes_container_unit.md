@@ -3,8 +3,8 @@ title: "085. Pod Kubernetes Container Unit"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: Pod는 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) (K8s)에서 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링·배포되는 가장 작은 단위이며, 하나 이상의 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 묶어 같은 네트워크와 저장소를 공유하게 만든다.

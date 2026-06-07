@@ -3,8 +3,8 @@ title: "183. Data Orchestration"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작업 그 자체를 처리하는 엔진이 아니라, 어떤 작업을 언제 어떤 의존성으로 실행하고 실패 시 어떻게 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할지를 관리하는 제어 평면이다.

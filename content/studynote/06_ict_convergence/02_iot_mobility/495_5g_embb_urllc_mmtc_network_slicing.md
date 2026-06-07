@@ -3,8 +3,8 @@ title: "5G eMBB uRLLC mMTC Network Slicing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 495
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 5G의 핵심 가치는 빠른 속도([eMBB](/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/))만이 아니라, 1ms 초저지연([uRLLC](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))과 km^당 100만 기기 동시 접속([mMTC](/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/))이라는 서로 상충하는 세 가지 요구사항을 단일 물리망 위에서 [네트워크 슬라이싱](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)([Network Slicing](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/))으로 동시 충족하는 데 있다.

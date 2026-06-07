@@ -2,9 +2,9 @@
 title: "DataOps: Automated Data Pipeline Development"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [데이터옵스](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) 자동 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 개발론은 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 [데이터옵스](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) 자동 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 개발론, [DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/), [DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/): Automated [Data Pipeline](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) Development의 경계를 분명히 만드는 데 의미가 있다.

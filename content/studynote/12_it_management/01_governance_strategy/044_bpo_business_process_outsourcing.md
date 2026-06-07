@@ -3,9 +3,8 @@ title: "44. BPO (Business Process Outsourcing)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 44
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BPO의 핵심은 IT뿐 아니라 인사, 총무 등 비즈니스 프로세스 자체를 아웃소싱라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

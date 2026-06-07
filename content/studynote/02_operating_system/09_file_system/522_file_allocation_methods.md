@@ -3,8 +3,8 @@ title: "File Allocation Methods"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 522
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사용자는 하나의 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(1GB)을 "연결된 1개의 커다란 덩어리" 로 느끼지만, 컴퓨터 하드디스크 밑바닥에서는 이 영화가 4KB짜리 작은 조각(블록) **25만 개로 산산조각 나서 흩뿌려져 저장** 된다. 이 25만 개의 조각을 어떤 방식의 규칙으로 디스크 원판 위에 배치할 것인지 묻는 아키텍처가 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 할당 방법(Allocation Methods)" 이다.

@@ -3,9 +3,8 @@ title: "709. IPMI (Intelligent Platform Management Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 709
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IPMI (Intelligent Platform [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Interface)는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 주 CPU (Central Processing Unit)가 멈춰도 서버의 전원, 센서, 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 제어할 수 있게 만든 하드웨어 관리 표준이다.

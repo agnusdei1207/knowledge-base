@@ -3,8 +3,8 @@ title: "657. Vfio Virtual Function Io Passthrough"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 657
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VFIO (Virtual Function I/O)는 호스트 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 디바이스 드라이버를 우회([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)하여, [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 등)를 유저 스페이스(가상머신이나 [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 앱)에 직접 꽂아주는(Passthrough) 안전한 I/O [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 프레임워크다.

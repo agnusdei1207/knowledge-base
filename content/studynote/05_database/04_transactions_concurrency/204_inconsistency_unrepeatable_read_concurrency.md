@@ -3,8 +3,8 @@ title: "Inconsistency / Unrepeatable Read"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모순성 (Inconsistency / Unrepeatable Read)은 동일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반복 읽기 시 값이 달라지는 현상에 초점을 맞춘 개념이다.

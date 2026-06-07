@@ -3,8 +3,8 @@ title: "CDC, Clock Domain Crossing"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 607
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클럭 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 교차는 서로 다른 주파수·위상·지터 특성을 가진 두 시간 기준 사이에서 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 안전하게 넘기는 설계 문제이며, 핵심은 값을 옮기는 것보다 메타스테이빌리티 (Metastability)를 시스템 밖으로 가두는 데 있다.

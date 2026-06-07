@@ -3,8 +3,8 @@ title: "098. Coefficient Of Determination R Squared"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 결정 계수(R-Squared, $R^2$)는 회귀 모델이 종속 변수의 전체 변동성 중 얼마나 많은 부분을 설명(Explain)할 수 있는지를 0에서 1 사이의 비율로 나타낸 상대적 평가지표다.

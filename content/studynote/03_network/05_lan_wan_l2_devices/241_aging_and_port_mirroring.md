@@ -3,8 +3,8 @@ title: "Port Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) / [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

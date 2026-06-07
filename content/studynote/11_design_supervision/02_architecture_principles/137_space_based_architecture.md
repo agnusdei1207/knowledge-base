@@ -3,8 +3,8 @@ title: "Space-Based Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 137
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공간 기반 아키텍처 ([SBA](/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/), [Space-Based Architecture](/studynote/11_design_supervision/03_gof_creational_structural/186_space_based_architecture/))는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)(Tuple Space / [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid)를 중앙 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소로 사용하여, 처리 유닛(Processing Unit)들이 DB 대신 메모리 그리드에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 읽고 쓰며 극한의 확장성과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 달성하는 아키텍처 패턴이다.

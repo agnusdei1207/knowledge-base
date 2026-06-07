@@ -3,8 +3,8 @@ title: "Thrashing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 257
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스래싱 (Thrashing)은 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 너무 많은 프로세스가 동시에 실행되어 물리적 램(RAM)이 고갈되었을 때, CPU가 실제 연산(유저 코드)은 전혀 하지 못하고 <strong>디스크와 램 사이에서 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 교체하는 데만 시스템 자원을 100% 탕진하는 붕괴 상태</strong>다.

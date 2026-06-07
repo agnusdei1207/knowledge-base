@@ -3,8 +3,8 @@ title: "AI Phishing"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 959
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [피싱](/studynote/09_security/15_malware_attack_vectors/752_phishing/) ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Phishing](/studynote/09_security/15_malware_attack_vectors/752_phishing/))는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

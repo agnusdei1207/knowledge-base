@@ -3,8 +3,8 @@ title: "140. Lidar Light Detection And Ranging Tof"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LiDAR는 <strong>레이저 펄스를 발사하여 반사 시간(ToF, Time of Flight)으로 물체까지의 거리를 정밀 측정</strong>하고, 초당 수십만~수백만 포인트의 3D 포인트 클라우드를 생성하는 센서이다.
 > 2. **가치**: 카메라는 2D 이미지만 제공하고 깊이 추정이 부정확하지만, LiDAR는 <strong>cm 단위의 정밀 3D 거리 측정</strong>으로 자율주행·지형 측량·건설·로봇에 핵심이다.

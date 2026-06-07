@@ -3,8 +3,8 @@ title: "ANN: Approximate Nearest Neighbor"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 300
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터 인덱싱 ([ANN](/studynote/05_database/06_dw_olap_trends/350_ann/): [Approximate Nearest Neighbor](/studynote/05_database/06_dw_olap_trends/351_hnsw/)): [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/) 대신 탐색 속도를 취한 벡터 DB [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([HNSW](/studynote/05_database/06_dw_olap_trends/351_hnsw/), IVFFlat, [PQ](/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) 등)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "109. Image Segmentation Semantic Instance U Net Pixel"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [이미지 분할](/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/)([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/))은 Bounding Box의 둔탁한 한계를 넘어, 입력 이미지의 <strong>모든 픽셀에 클래스 레이블을 할당하는 Pixel-wise <a href="/studynote/12_it_management/03_ea_isp/107_classification/">Classification</a></strong>으로 객체의 정확한 윤곽을 도려낸다.
 > 2. **가치**: 의료 MRI 암세포 경계 추출, 자율주행 차선·보행자 분리, 영상 편집 누끼 따기 등 **1픽셀의 오차가 생명과 직결되는** 초정밀 시각 인지 기술이다.

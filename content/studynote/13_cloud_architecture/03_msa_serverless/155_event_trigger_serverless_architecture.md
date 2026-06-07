@@ -3,8 +3,8 @@ title: "Event Trigger Serverless"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수는 특정 이벤트([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드, 메시지 큐 알람, [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청, [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 등)가 발생할 때만 자동 실행되며, 이벤트 소스 매핑 (Event Source [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))이 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)와 함수를 연결한다.
 > 2. **가치**: 이벤트 기반 자동화 망을 구성하면 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 명시적 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 없이 느슨하게 결합된 비동기 처리 파이프라인을 구축할 수 있다.

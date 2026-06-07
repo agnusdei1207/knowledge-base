@@ -3,8 +3,8 @@ title: "Bayesian Network Posterior Update"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 364
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이즈 정리 사후 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 갱신 구조망 파악 (Bayesian Network Posterior Update): 1. **본질**: 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(증거)가 들어올 때마다 과거의 믿음(사전 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/))을 수학적으로 업데이트하여 더 정확한 미래 예측(사후 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/))을 도출하는 갱새로운 유형의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 모델 아키텍처다.를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

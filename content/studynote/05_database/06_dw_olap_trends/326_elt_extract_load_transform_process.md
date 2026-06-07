@@ -3,8 +3,8 @@ title: "326. Elt Extract Load Transform Process"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 326
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ELT](/studynote/14_data_engineering/01_infrastructure/034_elt/) (Extract, Load, Transform) 프로세스는 클라우드 기반 현대 아키텍처, 먼저 적재 후 웨어하우스 내에서 변환 처리에 초점을 둔 처리 프로세스이다.

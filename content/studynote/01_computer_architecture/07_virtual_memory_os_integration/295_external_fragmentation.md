@@ -3,8 +3,8 @@ title: "External Fragmentation"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))는 메모리 총량이 부족해서가 아니라, **연속된 빈 공간의 형태가 무너져서** 할당이 실패하는 현상이다.

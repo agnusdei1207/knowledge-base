@@ -3,8 +3,8 @@ title: "SVR"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 404
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서포트 벡터 회귀](/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/) 튜브 입실론(ε) 경계 모형 (SVR): 1. **본질**: [서포트 벡터 회귀](/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/)(SVR)는 두 집단을 나누는 선([SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))을 뒤집어, 예측선(초평면) 주변에 입실론($\varepsilon$)이라는 튜브(여백)를 씌우고 "이 튜브 안…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

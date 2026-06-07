@@ -1,9 +1,10 @@
 ---
 title: "Chaos Engineering"
 date: "2026-05-09"
-categories = ["studynote-devops-sre"]
+tags:
+  - "studynote-devops-sre"
+weight: 324
 ---
-
 > **핵심 인사이트**
 > - Chaos Engineering (카오스 엔지니어링)은 프로덕션 시스템에 의도적 장애를 주입해 시스템의 약점을 사전에 발견하는 규율이다.
 > - Steady State Hypothesis (정상 상태 가설)을 정의하고, 실험 후 시스템이 가설을 유지하는지 검증하는 과학적 방법론이다.

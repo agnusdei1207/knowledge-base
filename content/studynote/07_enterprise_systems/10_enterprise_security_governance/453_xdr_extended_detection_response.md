@@ -2,9 +2,9 @@
 title: "XDR, Extended Detection and Response"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 453
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [XDR](/studynote/02_operating_system/02_process_thread/127_xdr_external_data_representation/) 통합 탐지 대응은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [XDR](/studynote/02_operating_system/02_process_thread/127_xdr_external_data_representation/) 통합 탐지 대응, [XDR](/studynote/02_operating_system/02_process_thread/127_xdr_external_data_representation/), Extended [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response의 경계를 분명히 만드는 데 의미가 있다.

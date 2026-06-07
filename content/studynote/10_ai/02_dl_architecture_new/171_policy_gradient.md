@@ -3,8 +3,8 @@ title: "Policy Gradient"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [정책 경사](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)법 ([Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/))은 행동가치 함수 `Q(s, a)`를 우회해, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) `πθ(a|s)` 자체를 파라미터화하고 기대 보상 `J(θ)`를 직접 최대화하는 강화학습 방법이다.

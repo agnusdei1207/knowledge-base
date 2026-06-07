@@ -3,8 +3,8 @@ title: "Resnet Residual Connection Gradient"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 444
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 잔차 연결 기울기 전달 ([Resnet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) Residual Connection Gradient): 1. **본질**: [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)([Residual Network](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/))은 신경망이 20층을 넘어가면 오히려 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지는 저주([기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/))를 풀기 위해, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 여러 층을 거칠 때 생기는 …를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

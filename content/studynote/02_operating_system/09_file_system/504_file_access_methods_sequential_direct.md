@@ -3,8 +3,8 @@ title: "Direct Access / Random Access"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 504
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 테이프나 하드디스크 속의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정보 조각(Record)을 읽어 들일 때, <strong>"무조건 첫 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>부터 순서대로 책을 훑어 넘겨야만 뒤의 내용을 볼 수 있는가(순차 접근)"</strong>, 아니면 <strong>"<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 번호만 알면 1초 만에 책의 352쪽으로 확 점프해서 원하는 줄만 빼먹을 수 있는가(직접 접근)"</strong>를 결정짓는 읽기 알고리즘의 2대 축이다.

@@ -3,8 +3,8 @@ title: "Adagrad Rmsprop"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 364
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Adagrad(Adaptive Gradient [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))와 RMSProp(Root Mean [Square](/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) Propagation)은 각 파라미터마다 다른 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 적응적으로 조정하는 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)로, 희소(Sparse) 특성이 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 SGD보다 빠른 수렴을 달성한다.

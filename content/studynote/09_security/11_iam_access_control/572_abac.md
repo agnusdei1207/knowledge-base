@@ -3,9 +3,8 @@ title: "572. ABAC (Attribute-Based Access Control)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 572
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ABAC (Attribute-Based [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/))는 신원·접근 제어에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

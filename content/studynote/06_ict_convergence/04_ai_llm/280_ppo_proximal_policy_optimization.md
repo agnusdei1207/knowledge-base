@@ -3,8 +3,8 @@ title: "Semantic Cache"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 280
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시맨틱 캐시 (Semantic Cache): 이전 질문의 의미 벡터값을 저장해두고, 유사한(정확히 일치하지 않아도) 질문이 오면 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) API를 호출하지 않고 캐시에서 답변 즉시 반환 ([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 단축, 비용 절감)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

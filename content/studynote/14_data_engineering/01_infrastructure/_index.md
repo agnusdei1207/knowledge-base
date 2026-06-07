@@ -2,9 +2,9 @@
 title: "Data Infrastructure"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 인프라는 다양한 소스에서 발생하는 방대한 데이터를 수집, 저장, 관리하기 위한 물리적·논리적 기반 시설이며, 수집 아키텍처는 데이터의 신선도와 무결성을 보장하며 호수로 끌어오는 첫 번째 혈관이다.

@@ -3,8 +3,8 @@ title: "DI Framework & Spring Bean Lifecycle"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/)([의존성 주입](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 프레임워크는 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·의존성 연결·생명주기 관리의 책임을 애플리케이션 코드에서 프레임워크(IoC [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 역전시키며, 스프링(Spring)의 빈 생명주기는 인스턴스화 -> [의존성 주입](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) -> 초기화(PostConstruct) -> 사용 -> 소멸(PreDestroy) 단계로 이루어진다.

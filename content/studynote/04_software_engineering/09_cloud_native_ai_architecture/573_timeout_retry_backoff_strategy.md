@@ -3,8 +3,8 @@ title: "573. Timeout Retry Backoff Strategy"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 573
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 타임아웃 ([Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 및 재시도 (Retry) 백오프(Backoff) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

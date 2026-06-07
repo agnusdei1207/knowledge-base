@@ -3,8 +3,8 @@ title: "Vendor Independence Open Standard Portability"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 784
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 특정 벤더의 독점 API, 프로토콜, 런타임, 데이터 포맷에 종속되지 않도록 **OCI(Open Container Initiative), POSIX, ANSI SQL, OASIS/ISO 표준, OpenAPI 3.1, W3C 명세** 등 중립적 인터페이스 계층을 채택하고, 이를 통해 워크로드·데이터·인증·메시징을 이식 가능하게 만드는 전략.

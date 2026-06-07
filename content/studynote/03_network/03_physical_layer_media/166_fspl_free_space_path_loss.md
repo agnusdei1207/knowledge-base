@@ -3,8 +3,8 @@ title: "FSPL, Free Space Path Loss"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자유 공간 경로 손실 (Free Space Path Loss, FSPL)은 장애물이나 반사가 없는 이상적인 공간에서도 전파 에너지가 넓게 퍼지면서 수신 전력이 감소하는 기본 손실 모델이다.

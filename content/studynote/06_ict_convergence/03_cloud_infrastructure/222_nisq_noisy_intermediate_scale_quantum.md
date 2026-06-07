@@ -3,8 +3,8 @@ title: "NISQ, Noisy Intermediate-Scale Quantum"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 노이즈 있는 중간 규모 양자 기술 (NISQ, Noisy Intermediate-Scale [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)): 현재의 [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 발전 단계 (오류 정정이 완벽하지 않음)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

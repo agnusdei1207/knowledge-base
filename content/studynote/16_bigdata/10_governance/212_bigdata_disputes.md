@@ -3,8 +3,8 @@ title: "212. Bigdata Disputes"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 빅데이터 법적 분쟁은 ①[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, ②수집 동의, ③목적 외 사용, ④국가 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이전, ⑤자동화 의사결정의 5대 유형으로 구분되며, 각각 다른 법적 근거와 판례가 형성되고 있다.

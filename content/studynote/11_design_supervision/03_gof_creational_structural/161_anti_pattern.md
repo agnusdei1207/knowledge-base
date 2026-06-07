@@ -3,8 +3,8 @@ title: "Anti-Pattern"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 161
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 안티 패턴 (Anti-Pattern)은 문제를 해결하는 것처럼 보이지만 시간이 지날수록 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)와 복잡도를 키워 시스템을 더 어렵게 만드는 반복적 실패 구조다.

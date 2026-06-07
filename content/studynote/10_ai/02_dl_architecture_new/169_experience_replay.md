@@ -3,8 +3,8 @@ title: "Experience Replay"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 경험 재생 (Experience Replay)은 에이전트가 모은 과거 전이(상태, 행동, 보상, 다음 상태)를 버퍼에 저장한 뒤 무작위로 다시 학습해, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과 파라미터 업데이트를 분리하는 오프폴리시 ([Off-Policy](/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/)) 강화학습의 핵심 장치다.

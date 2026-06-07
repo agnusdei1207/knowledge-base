@@ -3,8 +3,8 @@ title: "349. Svd Als Recommendation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 349
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 및 ALS (Alternating Least Squares) 추천 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연산 ([특이값 분해](/studynote/10_ai/05_data_science_ml/342_svd/)): 1. **본질**: [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)([특이값 분해](/studynote/10_ai/05_data_science_ml/342_svd/))는 모든 직사각형 행렬을 세 개의 행렬($U, \Sigma, V^T$)로 완벽하게 쪼개는 수학적 기법이며, ALS(교대 [최소 제곱법](/studynote/06_ict_convergence/05_data_science/327_ordinary_least_squares_ols/))는 이 분해 과…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

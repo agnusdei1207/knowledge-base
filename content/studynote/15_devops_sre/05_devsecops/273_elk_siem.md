@@ -3,8 +3,8 @@ title: "Security Information and Event Management"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 273
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 이벤트를 수집, [상관 분석](/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/), 경보로 연결하는 관제 체계.

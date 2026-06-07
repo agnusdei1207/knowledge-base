@@ -3,8 +3,8 @@ title: "301. Opt Replacement"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 301
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OPT](/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) (Optimal Replacement)는 앞으로 가장 늦게 다시 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)될 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 내보내는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로, 주어진 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)열에서 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 수를 이론적으로 최소화한다.

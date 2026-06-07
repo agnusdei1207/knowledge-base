@@ -3,8 +3,8 @@ title: "Message Passing Hardware Queue"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 565
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메시지 패싱 하드웨어 큐 ([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/) Hardware [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 공유 캐시 라인을 붙잡고 싸우는 대신, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 소유권을 <strong>명시적 메시지</strong>로 옮겨 코어·가속기 사이 협업을 만드는 하드웨어 통신 구조다.

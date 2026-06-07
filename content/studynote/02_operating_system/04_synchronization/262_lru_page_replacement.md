@@ -3,8 +3,8 @@ title: "262. Lru Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 262
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LRU (Least Recently Used)는 메모리(RAM)가 꽉 차서 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 내쫓아야 할 때, <strong>"가장 오랫동안 사용되지 않은(Least Recently Used) <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 1순위 희생양으로 삼아 교체"</strong>하는 통계 기반의 교체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

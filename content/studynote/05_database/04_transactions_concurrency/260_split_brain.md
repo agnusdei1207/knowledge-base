@@ -3,8 +3,8 @@ title: "260. Split Brain"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스플릿 브레인](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) ([Split Brain](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)) 현상는 네트워크 단절로 두 개의 마스터가 독립적 작동 (Quorum/과반수 투표로 방지)에 초점을 둔 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

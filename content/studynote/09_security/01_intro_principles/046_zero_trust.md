@@ -3,8 +3,8 @@ title: "046. Zero Trust"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))는 "절대 신뢰하지 말고, 항상 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하라(Never Trust, Always Verify)" 원칙 — 전통적 경계 보안(내부=안전, 외부=위험)이 클라우드·원격근무 시대에 무의미해지면서 등장한 새로운 보안 패러다임이다.
 > 2. [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 3대 핵심 원칙 — ① 명시적 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(모든 접근 항상 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), ② 최소 권한 접근([Least Privilege](/studynote/09_security/01_intro_principles/010_least_privilege/)), ③ 침해 가정(Assume Breach, 항상 침해된 것으로 가정하고 격리)이며 이 세 가지의 동시 실현이 핵심이다.

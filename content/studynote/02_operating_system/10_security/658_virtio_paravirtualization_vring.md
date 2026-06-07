@@ -3,8 +3,8 @@ title: "658. Virtio Paravirtualization Vring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 658
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Virtio는 가상머신(Guest OS)이 물리적 하드웨어([NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), 디스크)를 직접 제어하는 척 속이는 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)([Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/))의 끔찍한 오버헤드를 버리고, 자신이 가상머신임을 인지한 상태에서 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 효율적으로 협력 통신하는 <strong><a href="/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a>(<a href="/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">Paravirtualization</a>) I/O의 사실상 표준(Defacto) 프레임워크</strong>다.

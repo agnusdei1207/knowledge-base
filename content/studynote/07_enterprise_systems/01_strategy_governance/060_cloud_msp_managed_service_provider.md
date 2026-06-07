@@ -3,8 +3,8 @@ title: "060. Cloud Msp Managed Service Provider"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise-systems"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 MSP는 클라우드 도입, 운영, 최적화를 대신 수행하는 전문 관리 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.

@@ -3,8 +3,8 @@ title: "397. Frame Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 397
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프레임 할당(Frame Allocation)은 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 한정된 <strong>물리 메모리(Free Frames)라는 파이를 시스템에 띄워진 여러 프로세스들에게 '몇 개씩 쪼개어 나눠줄 것인가'를 결정</strong>하는 운영체제의 거시적 자원 분배 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

@@ -3,8 +3,8 @@ title: "1049. Ntp Gps Network Time Synchronization"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1049
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NTP](/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Genai Legal Copyright Scraping"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 226
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI의 법적 논쟁은 크게 두 가지 전쟁터로 나뉜다. 첫째는 <strong>"AI를 똑똑하게 훈련(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)시킬 때 남의 그림이나 글을 허락 없이 긁어다(Scraping) 써도 되는가(공정 이용)?"</strong>이고, 둘째는 <strong>"그렇게 똑똑해진 AI가 버튼 하나 딸깍 눌러 만들어낸 기가 막힌 소설과 그림(<a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>물)에 인간의 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">저작권</a>을 인정해 줄 것인가?"</strong>이다.

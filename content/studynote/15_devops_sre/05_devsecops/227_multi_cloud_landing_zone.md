@@ -3,8 +3,8 @@ title: "227. Multi Cloud Landing Zone"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 계정, 네트워크, 보안, 거버넌스를 표준형으로 준비한 클라우드 기초 설계.

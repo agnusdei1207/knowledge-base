@@ -3,8 +3,8 @@ title: "156. Fallback Mechanism Cache Degraded"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 주 경로 실패 시 캐시, 기본값, 축소 기능 등 대체 경로로 사용자 경험을 보존하는 방식.

@@ -3,8 +3,8 @@ title: "Data Clumps Refactoring"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 244
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clumps) 는 항상 함께 등장하는 변수 묶음이 별도 클래스로 추상화되지 않아 중복·불일치·유효성 분산을 유발하는 [코드 스멜](/studynote/04_software_engineering/06_software_architecture/370_code_smell/)이다.

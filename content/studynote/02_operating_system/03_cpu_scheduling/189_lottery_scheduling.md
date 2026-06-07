@@ -3,8 +3,8 @@ title: "189. Lottery Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 복권 스케줄링 (Lottery Scheduling)은 각 프로세스에게 중요도에 비례하는 개수의 '복권(Tickets)'을 나누어주고, [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 <strong>무작위 난수(Random) 추첨을 통해 당첨된 복권을 가진 프로세스에게 CPU를 할당</strong>하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 기반 스케줄링 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

@@ -3,8 +3,8 @@ title: "662. Android Binder Ipc Thread Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 662
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 바인더(Binder)는 안드로이드 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/)([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/))과 원격 프로시저 호출([RPC](/studynote/02_operating_system/02_process_thread/126_rpc/))을 담당하는 독자적인 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 기반의 인프라다. 모든 앱과 시스템 서비스가 바인더를 통해 대화한다.

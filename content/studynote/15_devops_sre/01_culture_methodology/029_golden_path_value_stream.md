@@ -3,8 +3,8 @@ title: "Golden Path & Value Stream"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 골든 패스(Golden Path)는 플랫폼 팀이 개발자에게 권장하는 표준 개발·배포 경로이고, 가치 흐름(Value [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))은 아이디어에서 고객 전달까지 모든 단계의 흐름을 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 린([Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 개념이다. 둘 다 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 흐름의 최적화를 목표로 한다.
 > 2. **가치**: [가치 흐름 맵핑](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)([Value Stream Mapping](/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/), [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/))은 전체 소프트웨어 전달 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 낭비(Waste)를 찾아 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 단축한다. 일반적으로 전체 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)의 85~95%는 대기 시간([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time)이며, VSM은 이를 가시화한다.

@@ -3,9 +3,8 @@ title: "528. SR-IOV (Single Root I/O Virtualization)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 528
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))는 하나의 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 장치를 여러 개의 Virtual Function (VF)으로 분할해, 여러 가상 머신 ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 거의 직접 장치 큐를 사용하게 만드는 기술이다.

@@ -3,8 +3,8 @@ title: "Power Distribution Unit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 651
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서버 랙 PDU ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Distribution Unit)는 [무정전 전원 장치](/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) (Uninterruptible [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply, [UPS](/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/))나 분전반에서 내려온 전력을 랙 내부의 여러 서버로 안전하게 나누고 계측하는 마지막 배전 계층이다.

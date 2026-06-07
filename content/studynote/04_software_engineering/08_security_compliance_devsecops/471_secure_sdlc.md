@@ -3,8 +3,8 @@ title: "471. Secure Sdlc"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 471
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 개발 보안 (Secure [SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) - 기획, 설계, 구현, 테스트 전 단계 보안 활동은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

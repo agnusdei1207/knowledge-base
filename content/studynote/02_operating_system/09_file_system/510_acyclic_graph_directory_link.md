@@ -3,8 +3,8 @@ title: "510. Acyclic Graph Directory Link"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 510
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존의 완벽한 트리(Tree) 구조는 "어느 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이든 반드시 단 1명의 부모 폴더만 가져야 한다"는 폐쇄적 독재 룰이었다. 하지만 협업(Share)을 위해 내 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 **"내 폴더(부모)에도 있고, 동시에 직장 동료의 폴더(또 다른 부모)에도 존재하는 기적(양다리 구조 다중 부모)"** 을 허용하면서, 트리가 얽히고설킨 '[그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/studynote/12_it_management/03_ea_isp/888_graph/))'의 형태로 진화한 것이 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)다.

@@ -3,8 +3,8 @@ title: "049. Sr Latch"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. SR 래치(Set-Reset [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 디지털 회로의 가장 기본적인 기억 소자 — NOR 또는 NAND 게이트 2개의 교차 결합(Cross-Coupling)으로 이전 상태를 유지하는 피드백 루프를 형성하며, 모든 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)과 메모리의 근간이다.
 > 2. 출력이 입력으로 피드백되는 순차 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Sequential Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/))의 핵심 원리 — 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Combinational Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/))가 현재 입력만으로 출력을 결정하는 반면, SR 래치는 이전 상태를 기억하여 출력이 입력 변화 후에도 유지된다.

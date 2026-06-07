@@ -3,8 +3,8 @@ title: "File Carving Network Forensics Pcap Signature Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1072
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서버실 보안 ([File Carving](/studynote/03_network/18_optical_nextgen_automation/938_file_carving/) [Network Forensics](/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) Pcap Signature [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

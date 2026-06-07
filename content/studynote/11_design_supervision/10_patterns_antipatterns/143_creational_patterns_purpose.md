@@ -3,8 +3,8 @@ title: "Creational Patterns Purpose"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 143
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) ([Creational Patterns](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/))은 객체 인스턴스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 캡슐화해 클라이언트가 구체 클래스와 직접 결합되지 않게 만든다.

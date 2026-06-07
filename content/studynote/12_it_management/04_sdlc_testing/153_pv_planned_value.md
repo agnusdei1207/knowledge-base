@@ -3,8 +3,8 @@ title: "153. Pv Planned Value"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PV (Planned Value, 계획 가치 / BCWS)는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)(획득 가치 관리) 3차원 엑스레이 생태계에서, 런칭 전날 사장님 도장 쾅 찍은 프로젝트 100억 원 전체 예산표([WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))를 시간 흐름(Time)에 따라 쪼개서 늘어놓은 <strong>"오늘 아침 9시 이 시점까지는 최소한 10억어치 삽질 작업이 100% 끝났어야 정상이지 ㅋ" 라는 차가운 팩트 목표 <a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>(<a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a> 텐트 쉴드)</strong>이다.
 > 2. **가치**: 이 PV(내비게이션 모범 예상 경로) 쇳덩이 지표가 0.1초 컷 록온([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 박혀있지 않으면 -> 코더들이 10억어치 일을 해왔든([EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)), 통장 돈 20억을 불태워 썼든([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) -> "그래서 지금 우리가 런칭 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 지각([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 뻗음 빵꾸 상태냐 ㅋ 아님 쾌속 스키 타고 우주 조기 오픈 질주하는 상태냐 🚀?" 를 1바이트 찌끄레기 수치로도 절대 수학적 판독 척살 팩폭 칠 수가 없는 가장 절대 척추 심판대다.

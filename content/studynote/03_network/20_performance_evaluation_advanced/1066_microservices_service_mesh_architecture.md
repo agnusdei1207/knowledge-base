@@ -3,8 +3,8 @@ title: "1066. Microservices Service Mesh Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1066
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 패싱은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

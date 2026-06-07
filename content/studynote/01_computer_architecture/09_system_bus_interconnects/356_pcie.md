@@ -3,9 +3,8 @@ title: "356. PCIe (PCI Express)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 356
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PCIe ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express)는 여러 장치가 하나의 선을 공유하던 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 버리고, 장치마다 독립 경로를 주는 고속 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 인터커넥트다.

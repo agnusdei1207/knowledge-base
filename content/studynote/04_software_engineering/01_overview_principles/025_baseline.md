@@ -3,8 +3,8 @@ title: "025. Baseline"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기준선(Baseline)은 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))에서 공식적으로 검토·승인된 형상 항목([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))의 집합으로, 변경을 통제하는 기준점이자 향후 개발의 출발점이 되는 공식 스냅샷이다.
 > 2. **가치**: 기준선이 없으면 "어느 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 공식 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인가?"를 알 수 없어 개발팀이 서로 다른 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 기준으로 작업하는 혼란이 발생한다. 기준선은 팀 전체가 동일한 기준점에서 협업하고, [변경 통제 위원회](/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 공식 승인 없이는 변경할 수 없는 안정화된 기반을 제공한다.

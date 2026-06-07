@@ -3,8 +3,8 @@ title: "379. Cache Coloring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 379
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 컬러링([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring)은 하드웨어 캐시(L1/L2)가 주소를 매핑할 때 특정 세트(Set)에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 집중되어 튕겨나가는 <strong>캐시 충돌(Cache Conflict Miss)을 막기 위해, <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 물리 메모리(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)를 할당할 때 색깔표(Color)를 부여하듯 골고루 엇갈리게 흩뿌려주는 소프트웨어-하드웨어 협동 최적화 기법</strong>이다.

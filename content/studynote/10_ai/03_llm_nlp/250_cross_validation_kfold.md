@@ -3,8 +3,8 @@ title: "Cross-Validation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 250
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교차 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Cross-[Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))은 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 다른 방식으로 분할하여 모델을 반복 평가함으로써, 단일 분할의 편향을 제거하고 <strong>일반화 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(Generalization <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)을 더 <a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 추정</strong>하는 기법이다.

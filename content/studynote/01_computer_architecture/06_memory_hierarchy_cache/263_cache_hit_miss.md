@@ -3,8 +3,8 @@ title: "Miss"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 263
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 히트 (Cache Hit)는 CPU (Central Processing Unit)가 요청한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 현재 캐시 계층에 있어 즉시 반환되는 상태이고, 캐시 미스 (Cache Miss)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없어 더 느린 하위 계층까지 내려가야 하는 상태다.

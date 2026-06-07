@@ -3,8 +3,8 @@ title: "644. Zero Trust Hardware Rot"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 644
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 [루트 오브 트러스트](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) (Hardware [Root of Trust](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/), RoT)는 부팅의 가장 첫 단계에서 신뢰를 시작하는 불변 하드웨어 기준점으로, 이후 실행될 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 소프트웨어를 순차적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.

@@ -3,8 +3,8 @@ title: "Prompt ering"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 305
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [프롬프트 엔지니어링](/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt 엔진ering](/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/))은 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 변경하지 않고, 입력 텍스트(프롬프트)의 구조·형식·예시를 정교하게 설계하여 원하는 출력을 이끌어내는 기술로, "모델이 아닌 질문을 최적화하는" 패러다임이다.

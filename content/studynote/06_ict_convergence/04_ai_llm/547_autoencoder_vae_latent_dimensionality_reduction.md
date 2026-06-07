@@ -3,8 +3,8 @@ title: "Autoencoder VAE Latent Vector Dimensionality Reduction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 547
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)([Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))는 고차원 입력을 저차원 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/)) 잠재 코드로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한 후 원본 재구성을 학습하는 비지도 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 모델이며, [VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))는 잠재 공간을 연속 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포(가우시안)로 모델링해 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)까지 가능하게 한다.

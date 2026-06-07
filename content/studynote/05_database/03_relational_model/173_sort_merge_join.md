@@ -3,8 +3,8 @@ title: "Sort Merge Join"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소트 머지 조인 (Sort Merge [Join](/studynote/05_database/04_transactions_concurrency/521_join/))은 양쪽 입력을 조인 키 순서로 맞춘 뒤, 앞에서부터 한 번씩만 전진하며 매칭하는 <strong>순서 기반 조인</strong>이다.

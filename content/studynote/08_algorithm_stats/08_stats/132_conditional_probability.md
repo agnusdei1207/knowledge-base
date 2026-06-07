@@ -2,9 +2,9 @@
 title: "A|B"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 132
 ---
-
 ## 핵심 인사이트
 
 > 조건부 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) (Conditional [Probability](/studynote/08_algorithm_stats/08_stats/130_probability/)) P(A|B) 는 "B라는 제약된 세계 안에서 A가 일어날 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"이다. 전체 표본공간을 B로 축소하는 것이 핵심이다.

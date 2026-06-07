@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 22
 ---
-
-
 # 가치 사슬 (Value Chain) 분석 - IT 결합을 통한 경쟁 우위 창출 모델
 
 > ⚠️ 이 문서는 마이클 포터(Michael Porter)가 제안한 비즈니스 전략 프레임워크인 '가치 사슬(Value Chain)'의 핵심 구조(주활동과 지원활동)를 파악하고, 각 사슬 구간에 IT 시스템(ERP, SCM, CRM 등)이 어떻게 융합되어 기업의 마진(Margin)을 극대화하는지 심층 분석합니다.

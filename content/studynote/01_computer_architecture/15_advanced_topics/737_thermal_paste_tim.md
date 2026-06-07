@@ -3,8 +3,8 @@ title: "TIM"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 737
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서멀 페이스트는 TIM (Thermal Interface Material)의 한 형태로, 금속보다 열을 더 잘 옮기는 재료가 아니라 CPU와 쿨러 사이의 미세 공기층을 밀어내어 접촉 열저항을 줄이는 충전재다.

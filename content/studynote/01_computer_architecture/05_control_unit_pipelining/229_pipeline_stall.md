@@ -3,8 +3,8 @@ title: "Pipeline Stall / Bubble"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파이프라인 스톨 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Stall)은 다음 단계가 아직 받아들일 준비를 못 했을 때 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)을 잠시 멈추고, 필요하면 버블 (Bubble)이라는 빈 사이클을 삽입해 순서를 보존하는 제어 동작이다.

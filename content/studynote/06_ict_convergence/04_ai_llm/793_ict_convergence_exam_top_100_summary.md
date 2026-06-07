@@ -3,8 +3,8 @@ title: "ICT Convergence Exam Top 100 Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 793
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합은 **CPS(Cyber-Physical System)** 위에서 **5G·AI·Cloud·IoT·Big Data**가 OT(운용기술) 도메인과 결합되어 **데이터-분석-제어**의闭环(Closed Loop) 구조를 형성하는 것이다. 핵심은 단일 기술이 아니라 **개방형 참조 아키텍처(RAMI 4.0, IIIRA, 3C->5C)** 기반의 계층 간 인터페이스 규격화다.

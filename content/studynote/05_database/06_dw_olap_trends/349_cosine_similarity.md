@@ -3,8 +3,8 @@ title: "Cosine Similarity"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 349
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [코사인 유사도](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) ([Cosine Similarity](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))는 벡터 간 각도 측정에 초점을 둔 분석 플랫폼 개념이다.

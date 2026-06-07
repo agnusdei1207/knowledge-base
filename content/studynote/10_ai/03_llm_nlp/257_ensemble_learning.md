@@ -3,8 +3,8 @@ title: "257. Ensemble Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 257
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앙상블(Ensemble) 학습은 여러 약한 학습기(Weak Learner)를 결합하여 단일 강한 학습기(Strong Learner)보다 뛰어난 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 만드는 메타 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

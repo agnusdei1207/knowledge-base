@@ -3,8 +3,8 @@ title: "Logistic Regression"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 331
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ([Logistic Regression](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)): 종속 변수가 이진(범주형)일 때, 오즈비(Odds Ratio)에 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 취해 선형 결합으로 매핑, [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)(S자) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 반환를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

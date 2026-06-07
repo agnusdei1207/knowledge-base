@@ -3,8 +3,8 @@ title: "138. Newsql"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: NewSQL은 전통 RDBMS의 ACID([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) 보장과 SQL 인터페이스를 유지하면서 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 수준의 수평 확장([Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 동시에 달성하는 차세대 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.
 - **가치**: 기존 RDBMS 앱을 최소 코드 변경으로 글로벌 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 마이그레이션할 수 있으며, NoSQL로 전환 시 포기해야 했던 [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)·[트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[외래 키](/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)를 그대로 활용한다.

@@ -3,8 +3,8 @@ title: "AI"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RLAIF](/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) ([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback)는 인간이 직접 텍스트 답변의 순위를 매기던 RLHF의 비용과 속도 한계를 극복하기 위해, 인간 대신 <strong>'더 거대하고 똑똑한 교사 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(예: <a href="/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4)'가 피드백 평가와 채점을 대행</strong>하게 하는 모델 정렬(Alignment) 기법이다.

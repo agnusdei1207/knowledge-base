@@ -3,8 +3,8 @@ title: "O-RAN Open Radio Access Network Fronthaul Whitebox Disaggregation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 362
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) (Open Radio Access Network)은 전통적으로 단일 벤더가 독점하던 RAN을 O-RU/O-DU/O-CU 기능 단위로 분리하고, 개방형 인터페이스(Open [Fronthaul](/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/))와 화이트박스 하드웨어로 다중 벤더 생태계를 구축하는 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 인프라 개방화 표준이다.

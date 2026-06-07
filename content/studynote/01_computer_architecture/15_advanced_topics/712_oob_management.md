@@ -3,8 +3,8 @@ title: "OOB Management"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 712
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OOB (Out-of-Band) 관리는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽이 흐르는 운영망과 분리된 별도 제어 평면(Control Plane)을 두어, 장애 중에도 서버를 관찰·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있게 만드는 운영 아키텍처다.

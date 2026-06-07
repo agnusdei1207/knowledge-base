@@ -2,9 +2,9 @@
 title: "061. Container Lightweight Virtualization"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))는 애플리케이션과 의존성을 이미지로 묶고, 호스트 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하면서 격리된 프로세스로 실행하는 경량 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술이다.

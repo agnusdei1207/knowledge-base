@@ -3,8 +3,8 @@ title: "Bellman Equation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 372
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벨만 방정식(Bellman Equation)은 강화학습([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))에서 "[현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 가치 = 즉각 보상 + 미래 최적 가치의 할인합"이라는 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)적(Recursive) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 최적 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)(Optimal [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 수식화한다.

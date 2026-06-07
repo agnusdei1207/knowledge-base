@@ -3,8 +3,8 @@ title: "586. Antenna Gain Dbm Half Power Beam Width"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 586
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각…는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

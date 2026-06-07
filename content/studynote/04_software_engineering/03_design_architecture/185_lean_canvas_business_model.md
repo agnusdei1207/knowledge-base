@@ -3,8 +3,8 @@ title: "185. Lean Canvas Business Model"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 린 캔버스 ([Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Canvas)는 스타트업이나 신사업 아이디어를 9개의 블록에 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해, <strong>가설 중심</strong>으로 비즈니스 모델을 점검하는 1페이지 설계 도구다.

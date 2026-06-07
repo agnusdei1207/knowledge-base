@@ -3,8 +3,8 @@ title: "Inverted File Flat"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 354
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) IVFFlat (Inverted [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Flat)는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 요소이다.

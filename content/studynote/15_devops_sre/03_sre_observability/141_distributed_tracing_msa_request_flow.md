@@ -3,8 +3,8 @@ title: "141. Distributed Tracing Msa Request Flow"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산 트레이싱](/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)은 <strong>하나의 사용자 요청이 여러 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>를 거치는 전체 경로를 Trace ID로 추적</strong>하는 기술이며, 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구간을 Span으로 기록하여 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·에러 지점을 정확히 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
 > 2. **가치**: MSA에서 "API가 느리다"는 <strong>어떤 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 병목인지</strong> [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만으로는 알 수 없지만, 트레이싱은 <strong>A->B->C->D 전체 호출 체인의 각 구간 소요 시간</strong>을 Waterfall로 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.

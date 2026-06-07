@@ -3,8 +3,8 @@ title: "385. Third Party Cookie Deprecation Cdw"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 385
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서드파티 (3rd Party) [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 소멸에 대비한 퍼스트파티 고객 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(CDW) 아키텍처는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 아키텍처이다.

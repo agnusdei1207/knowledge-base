@@ -3,8 +3,8 @@ title: "IT Audit"
 date: "2026-05-01"
 tags:
   - "studynote-it-management"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 정보시스템의 통제, 보안, 운영, 준법 상태를 독립적으로 확인하는 활동이다.

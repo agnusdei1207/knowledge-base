@@ -3,8 +3,8 @@ title: "Industrial Ethernet"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 630
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 산업용 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준은 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

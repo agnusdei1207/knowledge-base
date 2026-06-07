@@ -5,7 +5,6 @@ tags:
   - "studynote-security"
 weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability은(는) 컴퓨터 과학의 핵심 개념으로, 시스템의 효율성·안전성·확장성을 높이기 위한 이론적 토대이자 실무 설계 원칙이다.

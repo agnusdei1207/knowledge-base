@@ -2,11 +2,9 @@
 title: "105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화"
 date: "2026-04-05"
 tags:
-  - "studynote-bigdata"
+  - "studynote-it-management"
 weight: 105
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 1. **본질**: 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)은 본격적인 가설 검정이나 머신러닝 알고리즘 적용에 앞서, 통계 수치와 시각화를 통해 데이터 자체의 구조와 결측치, 패턴을 직관적으로 관찰하는 첫 단추다.

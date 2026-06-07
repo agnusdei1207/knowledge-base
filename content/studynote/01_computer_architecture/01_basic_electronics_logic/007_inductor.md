@@ -3,8 +3,8 @@ title: "Inductor"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
+weight: 7
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인덕터 (Inductor)는 구리 선을 코일 형태로 감아 만든 소자로, 흐르는 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 변화에 저항하며 전기에너지를 자기장(Magnetic Field) 형태로 임시 저장하는 전기적 관성(Inertia) 덩어리다.
 > 2. **가치**: 마더보드의 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (<strong><a href="/studynote/01_computer_architecture/15_advanced_topics/742_vrm/">VRM</a></strong>)에서 벅 컨버터의 심장 역할을 하며, 거친 고압의 스위칭 펄스를 묵직하게 받아내 부드러운 저전압 직류(DC)로 다림질하여 코어에 공급한다.

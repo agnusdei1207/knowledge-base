@@ -1,10 +1,11 @@
 ---
 title: "Filecoin, Arweave"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Filecoin은 저장 용량과 검색에 시장 가격을 붙여 증명 가능한 저장을 사는 구조이고, Arweave는 영구 보관을 목표로 하는 endowment 모델이다.

@@ -3,8 +3,8 @@ title: "Cache Memory"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 259
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 메모리 (Cache Memory)는 CPU (Central Processing Unit)와 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이의 속도 차이를 완충하기 위해, 자주 쓸 가능성이 높은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가까운 [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory)에 복사해 두는 계층형 저장장치다.

@@ -3,8 +3,8 @@ title: "PoW vs PoS Consensus Mechanism"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 475
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PoW(Proof of Work, [작업 증명](/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/))은 연산 비용으로 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권을 경쟁하고, PoS(Proof of Stake, [지분 증명](/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/))은 담보 자산으로 검증자를 선정해 에너지 없이 같은 보안을 달성한다.

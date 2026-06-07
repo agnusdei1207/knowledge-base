@@ -3,8 +3,8 @@ title: "087. Weight Initialization Xavier He Glorot"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)와 기울기의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 유지해 딥러닝 학습이 멈추거나 폭주하지 않게 하는 출발점이다.

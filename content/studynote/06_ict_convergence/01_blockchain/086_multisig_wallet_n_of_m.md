@@ -1,10 +1,11 @@
 ---
 title: "086. Multisig Wallet N Of M"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Multi-Signature (다중 서명) 지갑은 M-of-N 정책으로 출금을 승인하는 구조다.

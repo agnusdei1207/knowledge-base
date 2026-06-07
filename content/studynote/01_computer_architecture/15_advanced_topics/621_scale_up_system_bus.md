@@ -3,8 +3,8 @@ title: "621. Scale Up System Bus"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 621
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스케일 업 (Scale-Up) [시스템 버스](/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)는 여러 CPU [소켓](/studynote/02_operating_system/02_process_thread/125_socket/)과 대용량 메모리를 하나의 서버 이미지로 묶어, <strong><a href="/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> 기반의 단일 대형 시스템</strong>처럼 동작하게 하는 내부 상호연결 구조다.

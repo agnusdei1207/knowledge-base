@@ -3,8 +3,8 @@ title: "Commit Command Transaction Complete"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: COMMIT [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 성공적 완료, 디스크 반영 확정에 초점을 맞춘 개념이다.

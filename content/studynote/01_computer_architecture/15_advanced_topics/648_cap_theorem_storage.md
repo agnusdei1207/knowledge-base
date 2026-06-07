@@ -3,8 +3,8 @@ title: "648. Cap Theorem Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 648
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캡 정리 ([CAP Theorem](/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지에서 네트워크 분단이 발생했을 때, <strong><a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> (<a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong> 과 <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> 을 동시에 완벽히 보장할 수 없다는 장애 시점의 선택 원리를 설명한다.

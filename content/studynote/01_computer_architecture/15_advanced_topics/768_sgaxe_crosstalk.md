@@ -3,8 +3,8 @@ title: "768. Sgaxe Crosstalk"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 768
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SGAxe와 CrossTalk는 "신뢰 실행 환경은 안전하다" 또는 "다른 코어는 충분히 멀다"는 가정을 무너뜨린 후속 [마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 부채널 공격으로, 각각 [Intel SGX](/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/) ([Software Guard Extensions](/studynote/09_security/04_endpoint_security/389_sgx/)) 내부 비밀과 코어 간 특수 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 경로를 노렸다.

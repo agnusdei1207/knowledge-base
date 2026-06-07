@@ -3,8 +3,8 @@ title: "Momentum"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모멘텀(Momentum)은 이전 기울기 방향을 속도 벡터(Velocity)로 누적해 관성(Inertia)을 부여함으로써 SGD의 진동을 줄이고 [지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)(Local Minimum) 탈출 능력을 높이는 최적화 기법이다.

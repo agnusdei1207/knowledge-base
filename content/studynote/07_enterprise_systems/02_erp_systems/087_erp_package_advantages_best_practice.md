@@ -1,10 +1,11 @@
 ---
 title: "087. Erp Package Advantages Best Practice"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 패키지는 재무·구매·생산·인사 같은 핵심 업무를 하나의 표준 프로세스로 묶는 통합 플랫폼이다.

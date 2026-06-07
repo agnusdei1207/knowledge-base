@@ -3,9 +3,8 @@ title: "133. POSIX IPC"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 133
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: POSIX [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication)는 IEEE Std 1003.1 (POSIX.1) 표준에 규격화된 [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘 세트로, [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/)), [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/)), 메시지 큐 (Message [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 ([File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor) 기반으로 제공하여 System V IPC의 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 복잡성과 이식성 문제를 근본적으로 해결한 차세대 표준이다.

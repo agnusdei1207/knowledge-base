@@ -3,8 +3,8 @@ title: "Memory Hierarchy"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 245
 ---
-
 # 245. [메모리 계층 구조](/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) ([Memory Hierarchy](/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/))
 
 ## 핵심 인사이트 (3줄 요약)

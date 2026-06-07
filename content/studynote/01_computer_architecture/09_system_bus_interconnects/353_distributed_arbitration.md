@@ -3,8 +3,8 @@ title: "353. Distributed Arbitration"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 353
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재 (Distributed Arbitration)는 중앙 중재기 없이 각 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터가 동일한 중재 규칙을 공유하며, 충돌이 생기면 스스로 우선순위를 비교해 승자를 남기는 방식이다.

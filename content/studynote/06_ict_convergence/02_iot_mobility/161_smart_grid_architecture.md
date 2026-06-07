@@ -3,8 +3,8 @@ title: "161. Smart Grid Architecture"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 161
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 스마트 그리드 (Smart Grid)는 전력망에 정보통신기술 (ICT, Information and Communications Technology)을 결합해 <strong>전력 흐름과 정보 흐름을 동시에 제어하는 지능형 전력 인프라</strong>다.

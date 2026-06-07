@@ -3,8 +3,8 @@ title: "177. Serverless Observability Xray"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([FaaS](/studynote/12_it_management/05_security_compliance/342_faas/)) 환경의 관측은 서버를 보는 일이 아니라, 짧게 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제되는 실행 단위 사이로 흐르는 요청 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)를 추적하는 일이다.

@@ -3,8 +3,8 @@ title: "317. Versioning Data Model Design"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 317
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 버저닝 (Versioning) [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 설계는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 모델이다.

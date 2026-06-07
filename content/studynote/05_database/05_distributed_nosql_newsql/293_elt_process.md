@@ -3,8 +3,8 @@ title: "TiDB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 티아이디비 (TiDB)는 [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) (Hybrid Transactional/Analytical Processing) 지원 NewSQL에 초점을 둔 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

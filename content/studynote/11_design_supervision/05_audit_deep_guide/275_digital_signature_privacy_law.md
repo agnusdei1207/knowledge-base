@@ -3,8 +3,8 @@ title: "Digital Signature and Privacy Law Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 275
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [전자서명](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)과 [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/) 감리는 [전자서명](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)([Digital Signature](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)) 서비스와 [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)(Privacy Law) 준수 체계에서 동의 관리(Consent [Management](/studynote/12_it_management/05_security_compliance/1013_management/)), 본인확인(Identity [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 보존·파기([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) and Disposal)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

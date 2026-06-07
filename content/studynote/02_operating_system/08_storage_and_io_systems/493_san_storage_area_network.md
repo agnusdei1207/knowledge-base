@@ -3,8 +3,8 @@ title: "Fibre Channel, iSCSI"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 493
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SAN(Storage Area Network)은 일반적인 인터넷/사무용 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 랜선을 타지 않고, 오직 서버(Host)와 거대 스토리지(Storage) 덩어리들만을 연결하기 위해 '블록(Block) I/O 통신' [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 전용의 광케이블([Fibre Channel](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))과 특수 고속 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)망을 별도로 완전히 구축한 <strong>"<a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 스토리지 전용 지하 고속도로 망"</strong> 모델이다.

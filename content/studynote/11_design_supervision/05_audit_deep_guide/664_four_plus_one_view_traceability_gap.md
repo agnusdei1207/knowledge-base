@@ -3,8 +3,8 @@ title: "4 Plus 1 View Traceability Gap Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 664
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 4+1 뷰 미비와 유지보수 추적 단절은 4+1 뷰 산출물 미비로 인한 유지보수 추적 단절 위험에서 개발 뷰(Development [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)), [유스케이스 뷰](/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/)(Use Case [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)), 추적 매트릭스([Traceability](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) Matrix)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

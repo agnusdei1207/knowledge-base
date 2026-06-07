@@ -3,8 +3,8 @@ title: "IT ROI"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보 기술 투자 평가 ([IT ROI](/studynote/12_it_management/03_ea_isp/910_it_roi_pre_progress_post_evaluation_evm/))의 본질은 사전 평가, [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 평가, 사후 평가 체계를 의미와 해석 기준을 분명히 해 실제 의사결정에 쓰이게 만드는 데 있다.
 > 2. **가치**: 측정식의 의미와 해석 기준을 정확히 이해해야 숫자가 보고용 장식이 아니라 실제 투자·운영 판단 도구가 된다.

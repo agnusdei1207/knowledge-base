@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "594. WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재"
 date: "2026-05-09"
-categories: "studynote-database"
+tags:
+  - "studynote-database"
+weight: 594
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재는 트랜잭션·회복 관점에서 자주 쓰이는 트랜잭션 제어 개념이다.

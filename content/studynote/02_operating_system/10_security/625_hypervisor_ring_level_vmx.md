@@ -3,8 +3,8 @@ title: "Ring -1 VMX Root/Non-Root"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 625
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존 x86 아키텍처의 링(Ring) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델(Ring 0~3)은 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 고려하지 않고 설계되어, 게스트 OS가 자신이 하드웨어를 독점한다고 착각하게 만드는 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)([Paravirtualization](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/))나 이진 변환(Binary Translation)이라는 복잡한 소프트웨어적 우회(Trap-and-Emulate)를 강제했다.

@@ -3,8 +3,8 @@ title: "Block"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 475
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 솔리드 [스테이트](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 드라이브([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 모터와 바늘(Head)로 긁어 읽던 아날로그 하드디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 멸종시키고, 전자가 방(Cell) 안에 갇혀있는지 없는지로 0과 1을 판별하는 <strong>낸드 플래시(<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/">NAND Flash</a>) <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 메모리로 저장장치를 100% 디지털화한 하드웨어 혁명</strong>이다.

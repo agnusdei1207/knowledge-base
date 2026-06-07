@@ -1,11 +1,11 @@
 ---
 title: "008. Audit Perspective"
 date: "2026-04-05"
-description: "절차, 산출물, 성과 관점을 중심으로 한 정보시스템 감리의 3대 관점 체계와 실무 적용"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 8
 ---
-
 # 08. 감리 관점
 
 #### 핵심 인사이트 (3줄 요약)

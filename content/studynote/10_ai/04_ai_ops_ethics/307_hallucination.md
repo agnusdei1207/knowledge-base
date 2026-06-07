@@ -3,8 +3,8 @@ title: "Hallucination"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 307
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [할루시네이션](/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) ([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/), [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))은 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 사실에 기반하지 않은 정보를 매우 자신감 있게 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 현상으로, 모델이 "모른다"고 말하지 않고 그럴듯한 거짓 사실을 창작해 내는 근본적 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 문제다.

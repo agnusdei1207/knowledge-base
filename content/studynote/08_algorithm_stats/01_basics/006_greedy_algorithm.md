@@ -1,10 +1,11 @@
 ---
 title: "006. Greedy Algorithm"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 6
 ---
-
 # 06. 탐욕 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Greedy [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
 ## 핵심 인사이트 (3줄 요약)

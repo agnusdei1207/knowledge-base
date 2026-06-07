@@ -3,8 +3,8 @@ title: "Deque — Double-Ended Queue"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 덱(Deque, Double-Ended [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))은 양쪽 끝에서 삽입·삭제가 모두 가능한 자료구조다. 큐([FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))와 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(LIFO)의 기능을 모두 포함하는 슈퍼셋이다.
 > 2. **가치**: 슬라이딩 윈도우 최댓값/최솟값 문제에서 덱을 사용하면 O(n) 시간에 해결 가능하다(단순 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 O(n^)). 이중 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 또는 순환 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 구현하며 모든 연산이 O(1) 분할 상환이다.

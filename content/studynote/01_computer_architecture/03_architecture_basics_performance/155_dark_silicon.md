@@ -3,8 +3,8 @@ title: "155. Dark Silicon"
 date: "2026-05-03"
 tags:
   - "studynote-computer-architecture"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다크 실리콘(Dark Silicon)은 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정이 나노 단위로 미친 듯이 미세화되어 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)(코어) 개수는 10배로 우주 팽창 증식했는데 -> <strong>발열과 전력 누수 한계(TDP 쿨링 장벽) 때문에 그 코어들을 동시에 100% 다 켜지 못하고 절반 이상은 강제로 전원을 끄고 어둠(Dark) 속에 잉여 시체로 재워둬야만 칩이 타 죽지 않는 잔혹한 열역학적 딜레마 현상</strong>이다.
 > 2. **가치**: "소자가 작아지면 전기를 덜 먹는다"는 황금 룰([데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) [Dennard Scaling](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/))이 양자 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 터짐으로 파산 사형 선고를 받으며 강림했다. 이 팩폭 덕분에 "무식하게 똑같은 CPU 코어 100개만 떡칠하면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 무한 펌핑 됨 ㅋ" 이라는 <strong>대칭형 멀티코어의 뇌피셜(Utilization Wall 사용률의 벽 💥)이 처참히 박살 붕괴</strong>되었다.

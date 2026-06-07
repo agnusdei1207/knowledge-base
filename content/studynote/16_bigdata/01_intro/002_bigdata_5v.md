@@ -1,11 +1,11 @@
 ---
 title: "002. Bigdata 5V"
 date: "2024-05-24"
-description: "3V를 넘어 데이터의 신뢰성(Veracity)과 비즈니스 가치(Value)를 창출하는 데이터 거버넌스 및 분석 아키텍처"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
+weight: 2
 ---
-
 # 빅데이터 5V (3V + Veracity, Value)
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "Multi-core Processor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 393
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티코어 프로세서 (Multi-core Processor)는 한 칩 안에 여러 CPU 코어 (Central Processing Unit Core)를 넣어, 클럭만 높이지 않고도 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 능력을 키우는 구조다.

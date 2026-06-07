@@ -3,8 +3,8 @@ title: "Entity and Value Object"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 132
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엔티티 (Entity)는 고유 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)로 구별되는 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체로 시간이 지나도 동일성이 유지되는 반면, 값 객체 (Value Object)는 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 없이 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 값 전체로 동일성이 결정되는 불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념으로, 복사·비교·교체가 자유롭다.

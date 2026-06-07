@@ -3,8 +3,8 @@ title: "Firmware Security Uefi"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 384
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 보안 [UEFI Secure Boot](/studynote/09_security/04_endpoint_security/206_uefi_secure_boot_verification/) ([Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Uefi](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

@@ -3,8 +3,8 @@ title: "110. Operational Crm Sfa Ma Css"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 운영 [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Operational [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))은 영업·마케팅·콜센터 등 <strong>프론트 오피스(Front-Office) 고객 접점 업무를 자동화</strong>하여, 현장 직원이 매일 사용하는 실시간 고객 대응 시스템이다.
 > 2. **가치**: 영업 자동화(SFA)·마케팅 자동화(MA)·고객 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지원([CSS](/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/))의 <strong>3대 엔진</strong>이 영업 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/), 캠페인 자동 발송, CTI 기반 상담 팝업을 제공하여 고객 전환율과 만족도를 극대화한다.

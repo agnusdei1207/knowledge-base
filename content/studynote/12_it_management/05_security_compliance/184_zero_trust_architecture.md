@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 184
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제로 트러스트 아키텍처 (Zero Trust Architecture, ZTA)는 내부망 여부를 신뢰 근거로 삼지 않고, 모든 접근 요청마다 사용자·기기·워크로드·데이터 민감도를 다시 평가하는 정책 기반 보안 구조다.

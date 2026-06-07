@@ -3,8 +3,8 @@ title: "DAO Decentralized Autonomous Organization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 554
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DAO 탈중앙화 자율 조직은(는) 토큰 보유자나 멤버가 제안, 투표, 집행을 스마트 계약과 운영 규약으로 수행하는 온체인 거버넌스 조직이다.

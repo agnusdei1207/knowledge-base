@@ -3,8 +3,8 @@ title: "Log Management ELK Stack Loki Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 625
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로그 관리는 **수집(Agent/Beats/Vector)** -> **전송/변환(Buffer/Logstash/Promtail)** -> **저장·인덱싱(Elasticsearch/Loki+TSDB)** -> **분석·시각화(Kibana/Grafana)**의 4-Stage 파이프라인으로 구성되며, ELK는 **풀텍스트 인덱스 기반 전문 검색**, Loki는 **라벨 인덱스 + Chunk 압축 스토어**로 상반된 인덱싱 철학을 채택한다.

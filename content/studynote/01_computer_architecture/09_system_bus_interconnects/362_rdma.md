@@ -3,9 +3,8 @@ title: "362. RDMA (Remote Direct Memory Access)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 362
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))는 원격 서버의 메모리에 네트워크를 통해 직접 읽기·쓰기를 수행하게 해, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로에서 CPU (Central Processing Unit)와 OS ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 개입을 크게 줄이는 통신 방식이다.

@@ -3,8 +3,8 @@ title: "386. Valid Invalid Bit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 386
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유효-무효 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Valid-Invalid Bit](/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/))는 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)의 각 엔트리(PTE)마다 1비트씩 할당되어, 해당 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 <strong>현재 물리 메모리(RAM)에 실제로 올라와 있는지(Valid), 아니면 디스크에 있거나 아예 쓰지 않는 공간인지(Invalid)를 하드웨어(<a href="/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)에게 알려주는 <a href="/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>다.

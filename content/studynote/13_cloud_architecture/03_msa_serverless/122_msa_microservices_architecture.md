@@ -3,8 +3,8 @@ title: "122. Msa Microservices Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MSA는 <strong>애플리케이션을 비즈니스 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 단위의 독립 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 분리</strong>하여, 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 <strong>자체 DB·<a href="/studynote/15_devops_sre/01_culture_methodology/007_codebase/">코드베이스</a>·배포 파이프라인</strong>을 가지고 독립적으로 개발·배포·[스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되는 아키텍처다.
 > 2. **가치**: 모놀리식에서는 주문 기능 수정이 전체 재배포를 요구하지만, MSA에서는 <strong>주문 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>만 독립 배포</strong>하므로 배포 빈도^·장애 격리^·팀 자율성^이 가능하다.

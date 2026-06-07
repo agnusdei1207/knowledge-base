@@ -3,8 +3,8 @@ title: "096. Ind Cca2"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IND-CCA2 (Indistinguishability under Adaptive [Chosen Ciphertext Attack](/studynote/09_security/02_crypto/093_cca/))는 해커가 실시간으로 조작된 암호문을 해독 서버(오라클)에 던져 에러 반응을 수집하는 극한의 공격 환경에서도 평문의 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 전혀 얻을 수 없는 궁극의 안전성 상태다.

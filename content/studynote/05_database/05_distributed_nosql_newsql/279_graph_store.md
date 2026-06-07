@@ -3,8 +3,8 @@ title: "Graph Store"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 279
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 저장소 ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) Store)은 노드(Node), 엣지(Edge), [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Property) 구조, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 최적화, Neo4j, Amazon Neptune에 초점을 맞춘 개념이다.

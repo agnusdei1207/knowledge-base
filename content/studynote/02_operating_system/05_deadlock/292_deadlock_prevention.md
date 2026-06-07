@@ -3,8 +3,8 @@ title: "292. Deadlock Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 292
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 예방 ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Prevention)은 데드락 발생의 4가지 필요조건([상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 중 <strong>단 하나라도 시스템 차원에서 원천적으로 부정(Denial)하거나 구조적으로 성립하지 못하도록 강제</strong>하는 방어 설계 패러다임이다.

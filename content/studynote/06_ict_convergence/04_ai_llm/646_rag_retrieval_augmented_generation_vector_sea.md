@@ -3,8 +3,8 @@ title: "RAG Retrieval Augmented Generation Vector Search"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 646
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RAG(Retrieval-Augmented Generation)는 대규모 언어 모델(LLM)의 환각(hallucination) 문제와 지식 cutoff 한계를 해결하기 위해, 외부 지식베이스에서 **Dense Vector 검색**(Dense Passage Retrieval, DPR)을 통해 관련 문서를 검색하고 이를 LLM의 컨텍스트로 주입하는 검색-증강-생성 파이프라인이다. 핵심은 **임베딩 모델**(BGE, E5, OpenAI text-embedding-3, Cohere embed-v3)과 **ANN(Approximate Nearest Neighbor) 인덱스**(HNSW, IVF-PQ, ScaNN)를 통한 시맨틱 검색이다.

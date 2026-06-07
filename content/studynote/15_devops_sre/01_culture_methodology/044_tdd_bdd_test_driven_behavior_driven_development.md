@@ -3,8 +3,8 @@ title: "044. Tdd Bdd Test Driven Behavior Driven Development"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. [TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/studynote/11_design_supervision/06_exam_summary/411_process/))는 "테스트 먼저 작성 -> 최소 코드로 통과 -> [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)"의 Red-Green-[Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-엔진ering)를 방지하고, 변경에 안전한 [코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 만드는 개발 방법론이다.
 > 2. [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)([Behavior-Driven Development](/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))는 TDD의 "무엇을 테스트할지 불명확함" 문제를 해결하기 위해 Dan North가 제안한 확장으로 — Gherkin 언어(Given-When-Then)로 비즈니스 시나리오를 자연어로 작성하여 비개발자와의 공통 언어를 확보한다.

@@ -1,10 +1,10 @@
 ---
-title: "CNAPP Cloud Native Application Protection Platform CSPM CWPP Risk Graph Wiz Agentless"
+title: "CNAPP Cloud Native Application Protection Platform CSPM CWPP Risk Graph Wiz"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 333
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CNAPP](/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/) ([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Application [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Platform, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 애플리케이션 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 플랫폼)은 [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) + [CWPP](/studynote/15_devops_sre/05_devsecops/332_cwpp/) + [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 보안 스캔 + [컨테이너 보안](/studynote/04_software_engineering/11_testing_validation/905_container_security/)을 단일 플랫폼으로 통합한 클라우드 보안 솔루션이다. Gartner가 2021년 명명했다.

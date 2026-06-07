@@ -3,8 +3,8 @@ title: "Virtualization Architecture"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 아키텍처는 물리 자원을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 여러 독립 실행 환경을 만드는 구조다.

@@ -3,8 +3,8 @@ title: "Binary Semaphore"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이진 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) (Binary [Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/))는 카운터의 값이 오직 <strong>0과 1만을 가질 수 있도록 제한된 특수한 형태의 <a href="/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a></strong>로, 본질적으로 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))의 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))를 달성하는 데 특화된 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체다.

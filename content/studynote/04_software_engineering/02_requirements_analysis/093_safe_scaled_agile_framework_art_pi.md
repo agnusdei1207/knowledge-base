@@ -3,8 +3,8 @@ title: "093. Safe Scaled Agile Framework Art Pi"
 date: "2026-05-10"
 tags:
   - "studynote-software-engineering"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAFe ([Scaled Agile](/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) Framework)는 10명 남짓의 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)을 넘어, 수백 명의 개발자와 임원진 전체를 거대한 '[애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 릴리즈 열차 ([ART](/studynote/02_operating_system/10_security/621_art_android_runtime/))'에 태워 기업 전체 규모로 확장시킨 관료주의형 [대규모 애자일](/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크다.
 > 2. **가치**: "개발자 맘대로"가 아니라 임원진의 깐깐한 예산 통제(포트폴리오)와 [Top-Down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 기획을 완벽히 보장하면서도, 바닥에서는 2주 단위의 민첩한 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 굴러가도록 설계하여 보수적 대기업이 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 도입할 명분을 제공했다.

@@ -3,8 +3,8 @@ title: "Data Lakehouse"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 342
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))는 [오브젝트 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)의 확장성과 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)·SQL [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결합하려는 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 모델이다.

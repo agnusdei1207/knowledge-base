@@ -3,8 +3,8 @@ title: "CLIP Multimodal Contrastive Image-Text Alignment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 534
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CLIP](/studynote/10_ai/05_data_science_ml/408_clip/)([Contrastive Language-Image Pre-training](/studynote/10_ai/05_data_science_ml/408_clip/))은 4억 쌍의 이미지-텍스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 대조 학습(Contrastive [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))으로 이미지 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)와 텍스트 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 동일한 잠재 공간에 정렬해 제로샷(Zero-Shot) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 이해를 가능하게 한다.

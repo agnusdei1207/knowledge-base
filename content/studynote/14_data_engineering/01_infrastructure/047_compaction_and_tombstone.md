@@ -3,8 +3,8 @@ title: "047. Compaction And Tombstone"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 47
 ---
-
 > **핵심 인사이트**
 > 1. 컴팩션([Compaction](/studynote/02_operating_system/06_memory_management/347_compaction/))은 LSM 트리 기반 DB에서 여러 SSTable을 합쳐 중복 제거와 공간 효율화를 수행하는 백그라운드 프로세스 — [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)·RocksDB·HBase에서 지속적으로 발생하며, [쓰기 증폭](/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))과 공간 효율 사이의 트레이드오프를 관리한다.
 > 2. [툼스톤](/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/)([Tombstone](/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))은 LSM 기반 DB에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제를 표시하는 특수 마커 — 실제 즉각 삭제 대신 삭제 표시([Tombstone](/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))를 쓰고, 이후 컴팩션 시 실제 삭제가 이루어지며, [툼스톤](/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/) 축적이 읽기 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 저하시키는 "[툼스톤](/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/) 문제"가 중요한 운영 과제다.

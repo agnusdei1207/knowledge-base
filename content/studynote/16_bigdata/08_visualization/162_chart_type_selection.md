@@ -3,8 +3,8 @@ title: "162. Chart Type Selection"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 162
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 차트 유형 선택은 "어떤 차트가 예쁜가"가 아니라 "독자에게 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이야기(비교/추세/비율/분포/상관/흐름/지리)를 전달할 것인가"에서 시작하는 커뮤니케이션 설계다.

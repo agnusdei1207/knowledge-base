@@ -3,8 +3,8 @@ title: "Turing TEST Machine Intelligence"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 421
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/) 기계 지능 평가 ([Turing TEST](/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/) Machine Intelligence): 1. **본질**: [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/)([Turing Test](/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/))는 컴퓨터 과학의 아버지 앨런 튜링이 제안한 실험으로, 심사관이 벽 너머에 있는 인간과 컴퓨터와 번갈아 채팅을 해보고 누가 인간인지 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

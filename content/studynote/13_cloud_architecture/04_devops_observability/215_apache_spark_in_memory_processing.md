@@ -3,8 +3,8 @@ title: "Apache Spark"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Apache Spark는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리(RAM)에 올려 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산하는 통합 분석 엔진으로, MapReduce의 디스크 I/O 병목을 제거하여 반복 처리와 실시간 처리에서 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 빠른 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 실현한다.

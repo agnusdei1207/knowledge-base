@@ -3,8 +3,8 @@ title: "045. Relational Calculus"
 date: "2026-04-05"
 tags:
   - "studynote-database"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. [관계 해석](/studynote/05_database/07_exam_summary/410_relational_calculus/)(Relational Calculus)은 "무엇을(What)" 원하는지를 선언적으로 기술하는 비절차적 질의 언어 — [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)([Relational Algebra](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/))가 "어떻게(How)" 검색할지 절차를 기술하는 것과 대비되며, SQL은 [관계 해석](/studynote/05_database/07_exam_summary/410_relational_calculus/)의 정신을 계승한 선언적 언어다.
 > 2. [관계 해석](/studynote/05_database/07_exam_summary/410_relational_calculus/)에는 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) [관계 해석](/studynote/05_database/07_exam_summary/410_relational_calculus/)(TRC)과 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [관계 해석](/studynote/05_database/07_exam_summary/410_relational_calculus/)(DRC) 두 종류 — TRC는 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(행)을 변수로 사용해 조건을 기술하고, DRC는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 값을 변수로 사용하며, SQL은 TRC에 더 가깝다.

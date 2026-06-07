@@ -3,8 +3,8 @@ title: "149. Network Slicing 5G Architecture"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 네트워크 슬라이싱(Network Slicing)은 1개의 거대한 물리적 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 인프라 망([안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/), 코어망)을 SDN과 [NFV](/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 칼날로 썰어, [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 지연율이 완벽히 독립 보장된 N개의 '논리적 맞춤형 프라이빗 전용망([Slice](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))'으로 찢어내는 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 핵심 아키텍처다.
 > 2. **가치**: 자율주행([uRLLC](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) 1ms) 트래픽과 수백만 명의 유튜브([eMBB](/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) 4K) 트래픽이 한 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)에 뒤엉켜 뻗는 파국을 차단한다. 완벽한 찢기([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 덕분에, 유튜브 망이 디도스를 맞아 타 죽더라도 옆 방의 자율주행 망은 단 1바이트의 피해(Spill-over) 없이 무결점으로 쌩쌩 달린다.

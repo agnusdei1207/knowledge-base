@@ -3,9 +3,8 @@ title: "Observability Metrics Logs Traces"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 320
 ---
-
-
 > **핵심 인사이트**
 > - [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) ([관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/))는 [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces 세 기둥(Three Pillars)으로 시스템 내부 상태를 외부에서 추론하는 능력이다.
 > - Monitoring([모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링)은 알고 있는 것을 감시하지만, Observability는 알 수 없는 것도 질문할 수 있게 한다.

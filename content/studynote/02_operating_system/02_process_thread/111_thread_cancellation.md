@@ -3,8 +3,8 @@ title: "111. Thread Cancellation"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 취소([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Cancellation)는 한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 실행을 중단시키는 메커니즘이다. 비동기식 취소(즉시 중단)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소([취소 점](/studynote/02_operating_system/02_process_thread/112_cancellation_point/)점에서만 중단) 두 방식이 있으며, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소가 안전하고 실무적으로 선호된다.

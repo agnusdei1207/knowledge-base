@@ -3,9 +3,8 @@ title: "408. CLIP (Contrastive Language-Image Pre-training)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 408
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CLIP (Contrastive Language-Image Pre-[training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))은 인터넷의 방대한 이미지-텍스트 쌍(Image-Text Pairs)을 대조 학습(Contrastive [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))하여, 텍스트와 이미지 사이의 공통된 의미 공간(Joint [Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) Space)을 학습하는 [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 모델이다.

@@ -3,8 +3,8 @@ title: "049. Shadow It Risk Management"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. 클라우드 시대의 섀도 IT는 개인 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 사용을 넘어 무단 클라우드 인프라 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)(Shadow Cloud)으로 확대 — 개발자가 신용카드로 AWS 계정을 직접 개설하거나, 팀이 IT 승인 없이 Azure 구독을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면서 기업 보안 경계가 무너진다.
 > 2. [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)([Cloud Security](/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/studynote/12_it_management/05_security_compliance/1013_management/))이 클라우드 섀도 IT 탐지와 거버넌스의 핵심 도구 — 다중 클라우드 환경에서 리소스 구성 오류(Misconfiguration), 공개 S3 버킷, 과도한 권한을 자동으로 탐지하고 컴플라이언스 위반을 실시간으로 모니터링한다.

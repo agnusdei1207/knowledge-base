@@ -3,8 +3,8 @@ title: "762. Agile Epic Story Theme Task"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 762
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [에픽](/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/), 스토리, [테마](/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 계층은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

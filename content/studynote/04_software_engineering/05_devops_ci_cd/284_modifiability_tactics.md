@@ -3,8 +3,8 @@ title: "284. Modifiability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 284
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)/변경용이성 (Modifiability) - 국소화, 결합 방지, 의존성 지연은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

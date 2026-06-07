@@ -3,8 +3,8 @@ title: "287. Resource Allocation Graph"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 287
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Resource-Allocation [Graph](/studynote/12_it_management/03_ea_isp/888_graph/), [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 내 존재하는 프로세스 집합과 가용 자원 집합 간의 요청(Request) 및 점유(Assignment/Allocated) 상태의 얽힘을 명확하게 도식화하고 모델링하는 방향성 유향 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 도구이다.

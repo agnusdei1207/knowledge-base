@@ -3,8 +3,8 @@ title: "Work Stealing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 271
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 프로그래밍에서 모든 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 단 하나의 전역 큐(Global [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 작업을 꺼내가려 하면 '큐 락([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))' 경합 때문에 시스템 전체가 느려지는데, Work Stealing은 <strong>각 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>에게 독립적인 로컬 큐를 부여하여 <a href="/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a>을 원천적으로 회피</strong>하는 아키텍처다.

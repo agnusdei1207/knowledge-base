@@ -3,8 +3,8 @@ title: "161. Composite Index Leading Column"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 161
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 결합 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)에서 여러 컬럼을 **하나의 정렬 키 순서로 묶어** 탐색 경로를 만드는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다.

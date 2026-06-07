@@ -3,8 +3,8 @@ title: "Transformer SELF Attention"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 449
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 셀프 어텐션 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) ([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [SELF Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/)): 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 "단어는 순서대로 읽어야 한다"는 RNN의 수십 년 된 강박관념을 완전히 부숴버리고, 문장의 100개 단어를 **한 번에 통째로**…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

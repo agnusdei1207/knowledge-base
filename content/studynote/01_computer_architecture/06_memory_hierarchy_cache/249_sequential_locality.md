@@ -3,8 +3,8 @@ title: "Sequential Locality"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순차적 지역성 (Sequential Locality)은 프로그램이 메모리 주소를 "근처"가 아니라 **일정한 방향과 간격으로 차례차례** 접근하는 성질이다.

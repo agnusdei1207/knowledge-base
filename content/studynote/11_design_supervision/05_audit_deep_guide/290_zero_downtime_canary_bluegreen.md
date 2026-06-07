@@ -3,8 +3,8 @@ title: "Zero Downtime Canary Blue Green Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 290
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [무중단 배포](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 블루그린 감리는 [무중단 배포](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)([Zero Downtime Deployment](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/))를 위한 [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/))·블루그린(Blue Green) 전략에서 트래픽 분할(Traffic Split), [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 경로([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/) Path), [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Version [Compatibility](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

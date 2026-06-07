@@ -3,8 +3,8 @@ title: "125. Api Gateway Functions"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 125
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway의 핵심 기능은 <strong>요청 <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(URL-><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 매핑)·<a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>/<a href="/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>(<a href="/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>·OAuth2)·<a href="/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a>(과부하 방지)·<a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 변환(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>↔<a href="/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>)·응답 집계(Composition)</strong>이다.
 > 2. **가치**: 이 기능들이 없으면 모든 마이크로서비스가 <strong>개별적으로 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>·로깅·Rate Limiting을 구현</strong>해야 하지만, Gateway에서 중앙 처리하면 <strong>코드 중복 제거·<a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이 보장된다.

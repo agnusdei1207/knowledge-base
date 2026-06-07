@@ -3,8 +3,8 @@ title: "6G Vision Terahertz Intelligent Network"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 595
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 6G 비전 테라헤르츠 지능형 네트워크은(는) 테라헤르츠 통신, AI 네이티브 제어, 초공간 커버리지, 센싱-통신 융합을 지향하는 차세대 이동통신 비전이다.

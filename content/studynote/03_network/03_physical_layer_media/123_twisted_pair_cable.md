@@ -3,8 +3,8 @@ title: "Twisted Pair Cable"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 두 가닥의 구리 도선을 규칙적인 나선형으로 꼬아(Twisted) 한 쌍(Pair)으로 만든 매체로, 차동 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 전송 방식과 결합하여 외부 노이즈를 획기적으로 상쇄한다.

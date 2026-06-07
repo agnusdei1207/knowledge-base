@@ -3,8 +3,8 @@ title: "121. Indirect Communication"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 간접 통신 ([Indirect](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Communication)은 메시지를 송수신 프로세스가 직접 주고받지 않고, 운영체제가 관리하는 우편함(Mailbox) 또는 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))라는 중간 매개체(Intermediate Entity)를 경유하여 통신하는 방식이다.

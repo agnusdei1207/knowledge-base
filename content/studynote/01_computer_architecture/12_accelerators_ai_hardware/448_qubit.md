@@ -3,8 +3,8 @@ title: "Qubit"
 date: "2026-03-28"
 tags:
   - "studynote-computer-architecture"
+weight: 448
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 큐비트는 [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Bit의 줄임말로, 0 또는 1 중 하나만 고르는 고전 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 달리 <strong>중첩 상태</strong>와 <strong>위상 정보</strong>까지 담는 양자 정보의 최소 단위다.

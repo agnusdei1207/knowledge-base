@@ -3,8 +3,8 @@ title: "SGD, Stochastic Gradient Descent"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 학습 시 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 한 번 업데이트하기 위해 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 계산하는 것(Full Batch)을 포기하고, 통계학적 '샘플링(Stochastic)'에 기반하여 일부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 32개, 64개)만 랜덤하게 뽑아내어 재빨리 오차를 구하고 업데이트를 시도하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

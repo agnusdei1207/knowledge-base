@@ -3,8 +3,8 @@ title: "ARIES Algorithm Recovery Analysis Redo Undo"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARIES [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현대 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 표준 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Analysis, [Redo](/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/), [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) 3단계 페이즈)에 초점을 맞춘 개념이다.

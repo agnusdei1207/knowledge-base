@@ -3,8 +3,8 @@ title: "167. Fading Large Scale Small Scale"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페이딩 (Fading)은 무선 채널에서 수신 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기와 위상이 거리·장애물·다중 경로 ([Multipath](/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/))·이동 속도 때문에 시간과 공간에 따라 흔들리는 현상이다.

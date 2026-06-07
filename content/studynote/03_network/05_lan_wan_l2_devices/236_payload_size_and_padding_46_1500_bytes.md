@@ -3,8 +3,8 @@ title: "Padding"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페이로드 크기, [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

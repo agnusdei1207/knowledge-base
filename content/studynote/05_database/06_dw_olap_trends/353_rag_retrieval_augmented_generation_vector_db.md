@@ -3,8 +3,8 @@ title: "353. Rag Retrieval Augmented Generation Vector Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 353
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) 패턴는 벡터 DB를 연동하여 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 방지 프레임워크에 초점을 둔 설계 패턴이다.

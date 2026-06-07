@@ -3,8 +3,8 @@ title: "587. Star Transformation Fact Dimension Bitmap Index"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 587
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스타 변환 (Star Transformation) 팩트/차원 조인 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 스캔 효율화 기법는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 기법이다.

@@ -3,8 +3,8 @@ title: "121. Cicd Pipeline Automation"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 코드 변경 시 <strong>빌드·테스트를 자동 실행(<a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>: <a href="/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>)</strong>하고, 검증된 코드를 <strong>스테이징·프로덕션에 자동 배포(CD: <a href="/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a>/<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>)</strong>하는 소프트웨어 엔지니어링의 핵심 자동화 체계다.
 > 2. **가치**: 수동 빌드·배포는 인적 오류·시간 낭비·릴리스 공포(Fear of Release)를 유발하지만, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인은 <strong>커밋->빌드->테스트->배포를 30분 이내에 자동 완료</strong>하여 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표(배포 빈도·[리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))를 극적으로 개선한다.

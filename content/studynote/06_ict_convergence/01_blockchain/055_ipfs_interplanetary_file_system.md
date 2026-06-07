@@ -3,9 +3,8 @@ title: "55. IPFS (InterPlanetary File System)"
 date: "2026-05-01"
 tags:
   - "studynote-ict-convergence"
+weight: 55
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IPFS (InterPlanetary [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)는 콘텐츠 주소 기반의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.

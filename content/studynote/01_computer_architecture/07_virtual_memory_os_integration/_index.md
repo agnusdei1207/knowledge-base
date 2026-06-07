@@ -2,9 +2,9 @@
 title: "Virtual Memory & OS Integration"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 7
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상 메모리 하드웨어 지원은 CPU가 생성한 가상 주소를 실제 RAM의 물리 주소로 고속 변환하기 위해 MMU (Memory Management Unit)와 TLB (Translation Lookaside Buffer)를 활용하는 아키텍처적 결합이다.

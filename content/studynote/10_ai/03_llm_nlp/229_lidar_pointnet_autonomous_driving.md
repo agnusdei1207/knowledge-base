@@ -3,8 +3,8 @@ title: "PointNet"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PointNet은 자율주행 자동차 지붕에서 쏘아 올린 수백만 개의 점(Point Cloud, 라이다 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 기존 방식처럼 평면 사진(2D)이나 깍두기 블록(Voxel)으로 변환하지 않고, <strong>점(Point)이 가진 3차원 (x,y,z) 좌표 날것(<a href="/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a>)을 그대로 신경망에 들이붓는 세계 최초의 3D 직접 학습 딥러닝 아키텍처</strong>다.

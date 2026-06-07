@@ -3,8 +3,8 @@ title: "466. Shift Left Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 466
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing) - 테스트 활동을 개발 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(왼쪽) 단계로 당겨 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조기 발견은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

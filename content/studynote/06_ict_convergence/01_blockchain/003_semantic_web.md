@@ -1,10 +1,11 @@
 ---
 title: "003. Semantic Web"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 3
 ---
-
 # 03. 시맨틱 웹 (Semantic Web)
 
 ## 핵심 인사이트 (3줄 요약)

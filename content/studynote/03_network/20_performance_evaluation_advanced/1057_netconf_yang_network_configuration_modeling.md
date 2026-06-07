@@ -1,10 +1,11 @@
 ---
 title: "1057. Netconf Yang Network Configuration Modeling"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 1057
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: YANG은 네트워크 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)의 구조와 규칙을 정의하는 모델이고, NETCONF는 그 모델을 장비에 안전하게 주입하는 전송 프로토콜이다.

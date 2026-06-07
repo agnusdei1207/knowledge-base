@@ -3,8 +3,8 @@ title: "Rowhammer"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 484
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로우해머 공격 (Rowhammer)은 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)의 특정 행을 매우 빠르게 반복 활성화해, 인접 행의 전하를 흔들고 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플립을 유발하는 하드웨어 교란 공격이다.

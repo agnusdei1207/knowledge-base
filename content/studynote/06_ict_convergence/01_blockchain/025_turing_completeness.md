@@ -3,8 +3,8 @@ title: "025. Turing Completeness"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 튜링 완전성(Turing Completeness)은 어떤 계산 시스템이 튜링 기계(Turing Machine)와 동일한 계산 능력을 갖는지 나타내는 개념으로, 조건 분기(if-else), 반복(loop), 임의 메모리 접근이 가능하면 이론적으로 모든 계산 가능한 함수를 구현할 수 있다.
 > 2. **가치**: 이더리움 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([Ethereum Virtual Machine](/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/))은 Solidity로 작성된 튜링 완전 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 실행할 수 있어 복잡한 [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)·[DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 로직을 구현 가능하다. 반면 비트코인 스크립트는 의도적으로 튜링 불완전(Turing Incomplete)하게 설계되어 무한 루프를 원천 차단하고 단순 거래 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에만 사용한다.

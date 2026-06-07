@@ -1,10 +1,11 @@
 ---
 title: "067. Data Steward Data Quality"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스튜어드는 현업 부서의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 정의를 실무적으로 책임지는 역할이다.

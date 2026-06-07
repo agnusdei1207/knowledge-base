@@ -3,8 +3,8 @@ title: "261. Tdd Test Driven Development"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 261
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실패하는 테스트를 먼저 쓰고 최소 구현 후 리팩터링하는 개발 사이클.

@@ -3,8 +3,8 @@ title: "EDFA, SOA,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 약해진 광신호를 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 바꾸지 않고, 희토류 이온의 유도 방출이나 비선형 [산란](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 등 양자역학적 원리를 이용해 광 영역에서 빛의 세기를 그대로 직접 증폭하는 아키텍처다.

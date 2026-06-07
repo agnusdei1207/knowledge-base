@@ -3,8 +3,8 @@ title: "610. Littles Law"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 610
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리틀의 법칙(Little's Law)은 안정적인(Stable) 대기열 시스템에서 "시스템 내 총 고객 수(L) = 도착률(λ) × 체류 시간(W)"이라는 단순하지만 보편적인 관계식을 제공하는, 대기 행렬 이론(Queueing Theory)의 가장 기본적이고 강력한 법칙이다.

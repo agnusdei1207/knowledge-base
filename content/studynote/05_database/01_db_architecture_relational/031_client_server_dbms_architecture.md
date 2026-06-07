@@ -3,8 +3,8 @@ title: "031. Client Server Dbms Architecture"
 date: "2026-04-29"
 tags:
   - "studynote-database"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클라이언트-서버 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) 아키텍처는 DB 엔진을 서버에 중앙 집중화하고, 클라이언트는 SQL 요청만 전송하는 구조다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 방식(모든 클라이언트가 DB [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 직접 접근)의 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)·보안·[무결성](/studynote/09_security/01_intro_principles/003_integrity/) 문제를 해결했다.
 > 2. **가치**: 2-Tier(클라이언트-DB 서버), 3-Tier(클라이언트-앱서버-DB 서버), N-Tier([마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 구조로 발전하며 확장성과 [보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 높아졌다. 3-Tier는 현대 웹 애플리케이션의 표준 구조다.

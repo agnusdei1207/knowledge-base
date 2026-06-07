@@ -3,8 +3,8 @@ title: "554. Ecc Circuit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 554
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오류 정정 부호](/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/) (Error Correction [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ECC) 회로는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 여분의 검사 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 붙여 코드워드로 저장하고, 읽을 때 신드롬 (Syndrome) 연산으로 오류 위치나 오류 패턴을 판별해 즉시 수정하는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 회로다.

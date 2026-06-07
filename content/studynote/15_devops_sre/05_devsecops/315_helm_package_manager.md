@@ -3,9 +3,8 @@ title: "Helm Package Manager"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 315
 ---
-
-
 > **핵심 인사이트**
 > - [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([헬름](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/))은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 패키지 매니저로, 복잡한 애플리케이션을 Chart (차트) 단위로 묶어 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리한다.
 > - Go 템플릿 기반의 `values.yaml` 파라미터화로 같은 Chart를 개발·스테이징·운영에 환경별로 다르게 배포할 수 있다.

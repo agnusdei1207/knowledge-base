@@ -3,8 +3,8 @@ title: "618. Soa Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 618
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 지향 아키텍처](/studynote/04_software_engineering/04_testing_quality/212_soa_service_oriented_architecture_esb/) ([Service-Oriented Architecture](/studynote/07_enterprise_systems/06_exam_summary/362_soa_wsdl_uddi_soap/), SOA)는 비교적 큰 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들을 표준 인터페이스로 연결하는 구조이므로, 하드웨어 관심사는 단순 중앙처리장치 (Central Processing Unit, CPU) 증설보다 네트워크, 메시지 변환, 보안 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/), [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 I/O를 균형 있게 갖추는 데 있다.

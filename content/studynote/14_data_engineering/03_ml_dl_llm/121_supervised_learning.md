@@ -2,9 +2,9 @@
 title: "121. Supervised Learning"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 지도 학습은 <strong>입력(X)과 정답 라벨(y)의 쌍</strong>으로 구성된 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통해 모델이 <strong>X->y 매핑 함수를 학습</strong>하는 ML 패러다임이며, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/studynote/12_it_management/03_ea_isp/107_classification/))와 회귀(Regression)로 나뉜다.
 > 2. **가치**: 정답 라벨이 주어지므로 <strong>명확한 평가 기준(정확도·<a href="/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a>)</strong>이 있어 모델 성능을 객관적으로 측정할 수 있으며, 가장 성숙하고 실무에서 널리 사용되는 ML 방식이다.

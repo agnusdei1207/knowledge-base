@@ -3,8 +3,8 @@ title: "eCryptfs / Windows EFS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 561
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 노트북을 분실했을 때, 도둑은 윈도우 로그인 암호를 몰라도 배를 가르고 하드디스크([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))만 쏙 뽑아 다른 데 꽂으면 모든 야동과 기밀문서를 평문으로 100% 읽을 수 있다(오프라인 [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 파단). 이를 물리치기 위해 <strong>"<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이 램(RAM)에서 하드 블록으로 떨어지기 직전 <a href="/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 계층에서 CPU가 미친 덧셈(<a href="/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> 암호)을 때려 하드웨어에는 외계어 난수 덩어리로 굽는 '스토리지 자동 방검복 아크'"</strong> 가 바로 암호화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EFS/eCryptfs)이다.

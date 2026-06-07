@@ -3,8 +3,8 @@ title: "388. Spanner Truetime Clock Skew"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 388
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 노드 간 클럭 스큐([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Skew) 해결용 스패너(Spanner) 트루타임 원리는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

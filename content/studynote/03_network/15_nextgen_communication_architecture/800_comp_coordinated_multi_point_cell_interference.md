@@ -3,8 +3,8 @@ title: "800. Comp Coordinated Multi Point Cell Interference"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 800
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 주파수 집성 기술 고급 모델 연대 전방위 고…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

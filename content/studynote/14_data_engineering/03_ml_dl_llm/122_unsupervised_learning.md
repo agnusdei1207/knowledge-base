@@ -2,9 +2,9 @@
 title: "122. Unsupervised Learning"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비지도 학습은 **정답 라벨 없이** [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>내재된 구조·패턴·군집을 자동 발견</strong>하는 ML 패러다임이며, 클러스터링·[차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)·[이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이 대표 기법이다.
 > 2. **가치**: 실세계 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **95% 이상은 라벨이 없으므로**, 라벨링 없이도 고객 세그먼테이션·이상 거래 탐지·[데이터 시각화](/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)에 활용할 수 있다.

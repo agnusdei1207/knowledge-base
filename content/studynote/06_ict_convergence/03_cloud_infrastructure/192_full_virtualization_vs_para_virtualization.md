@@ -3,8 +3,8 @@ title: "Full Virtualization"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) vs [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) (Para-[virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) ([Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)): [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ([Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)) vs [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) (Para-[Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

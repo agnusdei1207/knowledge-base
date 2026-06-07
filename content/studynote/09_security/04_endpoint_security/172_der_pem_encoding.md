@@ -3,8 +3,8 @@ title: "172. Der Pem Encoding"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DER (Distinguished Encoding Rules)는 ASN.1 (Abstract Syntax Notation One) 구조를 하나의 규칙으로 직렬화한 이진 표현이고, PEM (Privacy-Enhanced Mail)은 그 DER [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 Base64 텍스트와 헤더·푸터로 감싼 표현이다.

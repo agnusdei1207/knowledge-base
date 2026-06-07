@@ -3,8 +3,8 @@ title: "Smart Health Remote Monitoring Biosensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 731
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트 헬스 원격 모니터링 바이오센서는 **생체수용체(Bioreceptor: 효소/항체/aptamer) -> 트랜스듀서(전기화학/광학/압전) -> AFE+ADC -> BLE/5G SoC -> 엣지 AI**의 5단 파이프라인으로 µV~mV급 생체신호를 실시간 디지털화·암호화 전송하는 **의료용 IoT 엣지 노드**이며, **SaMD(Software as a Medical Device)** 소프트웨어 라이프사이클(IEC 62304)과 결합되어 만성질환을 continuous care로 전환한다.

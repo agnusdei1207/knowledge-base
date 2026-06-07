@@ -3,8 +3,8 @@ title: "Flash Memory"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 256
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플래시 메모리 (Flash Memory)는 플로팅 게이트 (Floating Gate) 또는 전하 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 구조에 전하를 가둬, 전원이 꺼져도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하는 비휘발성 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 메모리다.

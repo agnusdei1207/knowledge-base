@@ -3,8 +3,8 @@ title: "Meta Transaction Gasless User Experience"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 572
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메타 트랜잭션 가스리스 사용자 경험은(는) 사용자가 직접 가스비를 내지 않고 서명한 요청을 릴레이어가 대신 제출해 블록체인 사용 장벽을 낮추는 패턴이다.

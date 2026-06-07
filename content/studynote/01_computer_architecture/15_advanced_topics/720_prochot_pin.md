@@ -3,8 +3,8 @@ title: "720. Prochot Pin"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 720
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PROCHOT# (Processor Hot) 핀은 CPU가 과열 임계점에 도달했음을 알리거나, 반대로 플랫폼 외부 장치가 CPU에 강제 감속을 요청할 때 쓰는 활성-로우(Active-Low) 열 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)선이다.

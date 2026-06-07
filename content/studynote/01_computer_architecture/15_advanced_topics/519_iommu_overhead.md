@@ -3,8 +3,8 @@ title: "IOMMU Performance Overhead"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 519
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input-Output [Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드는 장치의 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 요청이 주소 변환과 접근 제어를 거치면서 생기는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 그리고 그 매핑을 만들고 지우는 소프트웨어 관리 비용의 합이다.

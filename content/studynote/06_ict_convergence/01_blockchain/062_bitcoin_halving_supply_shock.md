@@ -1,10 +1,11 @@
 ---
 title: "062. Bitcoin Halving Supply Shock"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비트코인 반감기(Halving)는 블록 보상(Block Subsidy)이 약 4년마다 절반으로 줄어드는 발행 규칙이다.

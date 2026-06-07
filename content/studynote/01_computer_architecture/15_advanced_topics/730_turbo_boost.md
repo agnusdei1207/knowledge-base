@@ -3,8 +3,8 @@ title: "Turbo Boost"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 730
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인텔 터보부스트 (Turbo Boost)는 중앙처리장치 (Central Processing Unit, CPU)가 전력·[전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)·온도 여유가 있을 때 기본 클럭(Base [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))보다 높은 배수로 일시적으로 상승하는 자동 부스트 기술이다.

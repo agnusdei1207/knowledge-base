@@ -3,8 +3,8 @@ title: "Agentic AI Workflows"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 536
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에이전틱 AI는 단일 응답을 넘어, 목표를 달성하기 위해 스스로 계획을 세우고 도구를 사용하며 반복(Iteration)하는 자율적 실행 체계이다.

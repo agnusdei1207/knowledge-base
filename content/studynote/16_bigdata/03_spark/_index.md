@@ -2,9 +2,9 @@
 title: "Apache Spark"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아파치 스파크 (Apache Spark)는 하둡의 디스크 I/O 병목을 해결하기 위해 RDD (Resilient Distributed Dataset)라는 추상화 모델을 기반으로 인메모리 (In-Memory) 분산 연산을 수행하는 2세대 빅데이터 처리 엔진이다.

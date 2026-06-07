@@ -3,8 +3,8 @@ title: "205. Knowledge Graph Rag"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))는 세상의 수많은 파편화된 지식들을 `<주어-동사-목적어>`(예: 아인슈타인-태어났다-독일)라는 '노드(점)와 엣지(선)'의 3원칙 거미줄 망으로 엮어, <strong>컴퓨터가 인간의 언어를 단순한 통계가 아닌 '인과 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>의 팩트(Fact)'로 100% 완벽하게 이해할 수 있도록 만든 구조화된 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>다.

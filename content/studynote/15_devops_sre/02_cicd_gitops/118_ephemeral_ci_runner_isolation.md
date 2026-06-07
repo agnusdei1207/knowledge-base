@@ -3,8 +3,8 @@ title: "118. Ephemeral Ci Runner Isolation"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Ephemeral [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Runner는 <strong>빌드마다 새로운 러너(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>/<a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)를 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고, 빌드 완료 후 즉시 삭제</strong>하는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실행 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 이전 빌드의 잔여물(캐시·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·프로세스)이 다음 빌드에 영향을 주지 않는 <strong>완전 격리(Clean Room)</strong>를 보장한다.
 > 2. **가치**: 영구 러너(Persistent Runner)는 이전 빌드의 `node_modules`·악성 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[환경 변수](/studynote/02_operating_system/02_process_thread/156_environment_variables/)가 남아 <strong>빌드 오염(Build Pollution)·보안 침해</strong>를 유발하지만, Ephemeral 러너는 매번 깨끗한 상태에서 시작한다.

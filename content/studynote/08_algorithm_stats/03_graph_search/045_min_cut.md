@@ -2,9 +2,9 @@
 title: "045. Min Cut"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 45
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최소 컷 (Min Cut)은 소스와 싱크를 분리하는 간선 집합 중 총 용량이 최소인 것이며, Max-Flow Min-Cut 정리에 의해 최소 컷의 용량 = [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)이 성립한다.

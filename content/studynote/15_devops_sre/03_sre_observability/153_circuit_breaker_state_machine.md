@@ -3,8 +3,8 @@ title: "153. Circuit Breaker State Machine"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))는 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 핑퐁 환경에서 내가 찌른 타 부서 서버(Downstream)가 랙 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어버려 에러를 뿜을 때 -> 내 쓰레드([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))까지 대기 타다 동반 타죽는 멸망을 막기 위해 <strong>"에러율 50% 넘으면 즉시 중간 다리 핏줄(회로) <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 쾅 내려(OPEN 차단) 연결을 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 100% 완전 절단 절연 치는 오토 방폭문 패턴"</strong>이다.
 > 2. **가치**: 뒷단 장애 1개가 앞단 게이트웨이와 전사 서버 100만 대의 [메모리 풀](/studynote/02_operating_system/06_memory_management/369_memory_pool/)을 연쇄 도미노로 꽉 채워 터뜨리는 최악의 우주 대재앙 <strong>캐스케이딩 페일리어(Cascading Failure 연쇄 파국 💥)</strong>를 도끼로 찍어 단 1개의 나노 구역 고립 찰과상 쉴드로 극한 압살 축소 척살해 내어 전체 100% 무결점 생존망 복원력([Resiliency](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/))을 사수한다.

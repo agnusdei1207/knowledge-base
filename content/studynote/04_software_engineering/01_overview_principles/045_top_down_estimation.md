@@ -3,8 +3,8 @@ title: "045. Top Down Estimation"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. 하향식([Top-Down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 비용 산정은 시스템 전체를 먼저 추정한 후 세부 요소로 분해하는 방식 — 전문가 경험이나 유추 비교(Analogous Estimation)를 기반으로 빠르게 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 예산을 잡을 수 있으나, 세부 설계가 없는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 정확도가 낮다.
 > 2. 하향식 산정의 대표 기법은 전문가 감정(Expert Judgment), [델파이](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)([Delphi](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)), 유추 산정(Analogous) — 과거 유사 프로젝트 데이터와 전문가 직관을 활용해 신속하게 추정하며, 아키텍처 수준의 이해만으로도 적용 가능하다.

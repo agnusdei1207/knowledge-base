@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 5
 ---
-
 # 5. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 시간 ([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Duration) / 심볼 시간 (Symbol Duration)
 
 ## 핵심 인사이트 (3줄 요약)

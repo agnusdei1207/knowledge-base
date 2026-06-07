@@ -3,8 +3,8 @@ title: "Certificate Chain of Trust"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인증서 체인 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 End Entity 인증서가 혼자 신뢰되는 것이 아니라, Intermediate [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Intermediate Certificate Authority)와 Root [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Root Certificate Authority)까지 이어지는 서명 경로가 클라이언트의 Trust Store에 닿는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 과정이다.

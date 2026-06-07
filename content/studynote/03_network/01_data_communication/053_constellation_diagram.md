@@ -3,8 +3,8 @@ title: "Constellation Diagram"
 date: "2026-05-01"
 tags:
   - "studynote-network"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 성상도 (Constellation Diagram)는 I/Q 평면에서 심볼 배치를 보여 주는 변조 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구다.

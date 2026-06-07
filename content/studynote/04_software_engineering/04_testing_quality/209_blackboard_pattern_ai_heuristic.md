@@ -3,8 +3,8 @@ title: "209. Blackboard Pattern Ai Heuristic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블랙보드 패턴 (Blackboard Pattern) - 음성/패턴 인식, 공용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)소스를 여러 지식 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 참조은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

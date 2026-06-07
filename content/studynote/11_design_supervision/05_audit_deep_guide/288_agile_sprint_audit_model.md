@@ -3,8 +3,8 @@ title: "Agile Sprint Audit Model"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 288
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리모델은 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)([Sprint](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) 단위 감리 모델에서 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표([Sprint](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Goal), 완료 기준(Definition of Done), 속도 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(Velocity [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

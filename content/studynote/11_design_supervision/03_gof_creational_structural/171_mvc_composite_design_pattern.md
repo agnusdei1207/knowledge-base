@@ -3,8 +3,8 @@ title: "MVC Composite Design Pattern"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MVC ([Model-View-Controller](/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))는 단순히 클래스를 3개로 나누는 규칙이 아니라, 상태 관리·표현·입력 조정을 분리하는 아키텍처이며 실제 구현에서는 [옵저버](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) ([Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)), [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) ([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)), [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) ([Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/)) 같은 GoF (Gang of Four) 패턴의 복합체로 동작한다.

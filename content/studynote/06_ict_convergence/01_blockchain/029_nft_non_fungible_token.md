@@ -3,8 +3,8 @@ title: "Non-Fungible Token"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NFT(Non-Fungible Token)는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 고유성·소유권·이전 이력이 보장되는 디지털 자산 표준이다. FT(Fungible Token, 동질)와 달리 각 NFT는 고유 ID와 메타데이터를 가져 대체 불가능하다. 이더리움 ERC-721이 표준이다.
 > 2. **가치**: 디지털 자산에 희소성과 소유권을 부여한다. 예술품·게임 아이템·[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)·티켓·학위증명서 등 디지털 세계의 모든 고유 자산을 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 표현할 수 있다. 거래 이력이 불변 기록되어 진품 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능하다.

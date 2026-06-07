@@ -3,8 +3,8 @@ title: "575. Virtual Address Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 575
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가상 주소 공간](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 분리는 각 프로세스가 자신만의 주소 지도를 갖도록 하고, [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))가 그 지도와 권한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 기준으로 접근을 번역·차단함으로써 같은 시스템 안에서도 서로 다른 메모리 세계를 보게 만드는 기술이다.

@@ -3,8 +3,8 @@ title: "Transformer Architecture Attention Mechanism"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 641
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트랜스포머 어텐션은 입력 토큰의 Query·Key·Value 벡터 간 내적(QK^T/√d_k) 후 softmax 가중합으로 모든 위치 간 동적 연관성을 O(1) 거리로 포착하는 셀프 어텐션(Self-Attention) 메커니즘이며, 인코더-디코더·크로스·마스크드·멀티헤드 등 변형이 BERT·GPT·ViT·TTS 등 전 영역을 지배한다.

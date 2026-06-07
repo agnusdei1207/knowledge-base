@@ -3,8 +3,8 @@ title: "073. Enigma"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Enigma는 로터와 플러그보드로 구성된 기계식 다중 치환 암호기다.

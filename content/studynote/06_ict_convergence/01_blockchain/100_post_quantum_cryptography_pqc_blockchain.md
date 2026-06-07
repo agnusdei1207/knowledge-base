@@ -1,10 +1,11 @@
 ---
 title: "100. Post Quantum Cryptography Pqc Blockchain"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자 내성 암호](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/), [Post-Quantum Cryptography](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 기반 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 전환은 [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 쇼어(Shor) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의해 기존 [타원곡선](/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 서명체계가 무력화되는 위협을 방어하기 위한 암호 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 작업이다.

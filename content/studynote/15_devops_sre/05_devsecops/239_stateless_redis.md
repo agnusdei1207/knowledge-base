@@ -3,8 +3,8 @@ title: "239. Stateless Redis"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)과 상태를 외부 저장소에 두고 애플리케이션 인스턴스는 무상태로 유지하는 설계.

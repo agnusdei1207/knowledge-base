@@ -3,8 +3,8 @@ title: "Memory Scrubbing"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 555
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 스크러빙 (Memory Scrubbing)은 메모리 전체를 주기적으로 읽어 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correction [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 잠재 오류를 미리 찾아 고치고 다시 기록하는 선제적 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 기법이다.

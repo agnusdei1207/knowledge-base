@@ -3,8 +3,8 @@ title: "Diffusion Model"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [디퓨전 모델](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 노이즈를 점진적으로 더하는 정방향 과정과, 그 노이즈를 역으로 제거하는 과정을 학습해 새로운 샘플을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.

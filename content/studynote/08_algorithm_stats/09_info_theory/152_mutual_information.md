@@ -2,9 +2,9 @@
 title: "152. Mutual Information"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상호 정보량 I(X;Y)는 X와 Y가 *공유하는 정보*의 양 — Y를 알면 X의 불확실성이 얼마나 줄어드는지를 측정한다.

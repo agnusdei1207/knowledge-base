@@ -2,9 +2,9 @@
 title: "098. Aho Corasick"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아호-코라식 (Aho-Corasick) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 여러 패턴을 하나의 유한 자동자 (Finite Automaton)로 컴파일하여, 텍스트를 단 한 번 순회하면서 O(n + m + z) 시간에 모든 패턴의 등장 위치를 동시에 찾는 다중 패턴 매칭 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

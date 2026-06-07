@@ -3,8 +3,8 @@ title: "002. Multiprogramming"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 2
 ---
-
 # [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))
 
 ## 핵심 인사이트 (3줄 요약)

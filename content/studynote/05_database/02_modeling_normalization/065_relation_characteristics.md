@@ -1,10 +1,11 @@
 ---
 title: "065. Relation Characteristics"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)([Relation](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))은 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)의 집합이므로 순서가 없고, 각 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)은 유일해야 하며, [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값은 원자적(Atomic)이어야 한다.

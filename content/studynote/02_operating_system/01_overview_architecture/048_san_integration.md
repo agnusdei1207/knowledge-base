@@ -3,8 +3,8 @@ title: "048. San Integration"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)([Storage Area Network](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))은 서버와 스토리지 장치를 전용 고속 네트워크로 연결하는 아키텍처 — 일반 IP 네트워크와 분리된 [Fibre Channel](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 또는 [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 전용 망으로 블록 수준 스토리지를 제공하며, 서버가 스토리지를 로컬 디스크처럼 인식한다.
 > 2. SAN의 핵심 가치는 스토리지 통합과 유연한 할당 — 여러 서버가 스토리지 풀을 공유하여 스토리지 활용률을 높이고, 서버 다운 없이 스토리지를 동적으로 재할당할 수 있어 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영 효율을 극대화한다.

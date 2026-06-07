@@ -3,8 +3,8 @@ title: "Robotics Autonomous Navigation Motion Planning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 719
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로보틱스 자율 내비게이션 모션 플래닝은 **C-Space(구성공간) 상에서 시작 자세(q_start)에서 목표 자세(q_goal)까지 충돌 회피와 운동학적/동역학적 제약(Kinodynamic Constraints)을 만족하는 최적 궤적 τ(t) = {q(t), q̇(t), q̈(t)}를 생성**하는 문제로, **전역 경로 계획(Global Planner)**과 **지역 궤적 최적화(Local Trajectory Optimizer)**의 이계층 구조가 핵심이다.

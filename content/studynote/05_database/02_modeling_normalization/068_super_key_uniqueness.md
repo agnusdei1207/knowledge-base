@@ -1,10 +1,11 @@
 ---
 title: "068. Super Key Uniqueness"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 슈퍼 키(Super [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 튜플을 유일하게 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있지만 최소성을 만족하지 않을 수 있는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합이다.

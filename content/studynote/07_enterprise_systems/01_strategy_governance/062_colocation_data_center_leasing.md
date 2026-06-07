@@ -2,9 +2,9 @@
 title: "062. Colocation Data Center Leasing"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코로케이션(Colocation)은 고객이 소유한 서버를 전문 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에 두고, 공간·전력·네트워크·냉각만 임대하는 방식이다.

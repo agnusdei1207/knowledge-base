@@ -3,8 +3,8 @@ title: "524. Linked Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 524
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 [연속 할당](/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 치명적 단점인 "이빨 빠진 공간([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 낭비" 를 박살 내기 위해, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 4KB 블록 단위로 산산조각 내어 디스크의 **비어있는 아무 구석에나 일단 쑤셔 박고, 블록 끝자락에 다음 블록의 주소(포인터)를 적어 기차놀이처럼 꼬리를 무는 방식** 이다.

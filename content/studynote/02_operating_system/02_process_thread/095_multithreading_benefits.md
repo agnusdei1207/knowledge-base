@@ -3,8 +3,8 @@ title: "095. Multithreading Benefits"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Multithreading)는 하나의 프로세스 내에서 여러 실행 흐름을 독립적으로 배치하여 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 구현함으로써 응답성 (Responsiveness), 자원 공유 (Resource Sharing), 경제성 (Economy), 다중 처리기 활용 (Scalability)을 극대화하는 아키텍처 기법이다.

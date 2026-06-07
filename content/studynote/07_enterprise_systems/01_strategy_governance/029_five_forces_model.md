@@ -3,8 +3,8 @@ title: "Porter Five Forces"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 포터의 5 Forces는 산업 구조 내 경쟁 강도를 결정하는 5가지 힘(기존 경쟁, 신규 진입자 위협, 대체재 위협, 구매자 협상력, 공급자 협상력)을 분석하는 프레임워크다. 산업의 구조적 매력도와 수익 잠재력을 평가한다.
 > 2. **가치**: 기업이 어느 산업에 진입할지, 어떤 포지셔닝을 취할지, 어떤 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 경쟁 우위를 방어할지를 결정하는 체계적 분석 도구다. SWOT보다 산업 구조적 요인을 구체적으로 분석한다.

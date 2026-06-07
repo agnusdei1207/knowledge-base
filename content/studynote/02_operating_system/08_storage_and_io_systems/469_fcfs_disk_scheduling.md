@@ -3,8 +3,8 @@ title: "469. Fcfs Disk Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 469
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(First-Come, First-Served) [디스크 스케줄링](/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)은 수십 개의 디스크 I/O 요청이 큐에 쌓였을 때, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 위치(트랙 번호)는 깡그리 무시하고 <strong>오직 큐에 '먼저 도착한 순서(시간)'대로만 디스크 바늘(Head)을 움직여 처리하는 가장 원시적인 큐잉 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

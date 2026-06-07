@@ -3,8 +3,8 @@ title: "404. Socket Address Ip Port Combination"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 404
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 주소 = IP 주소 + [포트 번호](/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

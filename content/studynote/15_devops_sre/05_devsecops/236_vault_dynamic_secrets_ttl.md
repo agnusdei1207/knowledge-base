@@ -3,8 +3,8 @@ title: "236. Vault Dynamic Secrets Ttl"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)과 임시 자격증명을 발급해 비밀 정보를 중앙에서 통제하는 방식.

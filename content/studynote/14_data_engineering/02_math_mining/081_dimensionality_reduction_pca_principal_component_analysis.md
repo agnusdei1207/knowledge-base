@@ -3,8 +3,8 @@ title: "081. Dimensionality Reduction Pca Principal Component Analysis"
 date: "2026-04-12"
 tags:
   - "studynote-data-engineering"
+weight: 81
 ---
-
 # 81. 차원 축소 ([Dimensionality Reduction](/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/)) 및 [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))
 
 ## 핵심 인사이트 (3줄 요약)

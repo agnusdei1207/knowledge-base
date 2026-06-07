@@ -3,8 +3,8 @@ title: "181. Reverse Engineering Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)을 통한 요구사항 추출은 문서가 없거나 신뢰할 수 없을 때, 기존 시스템의 코드·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·화면·인터페이스·운영 흔적을 분석해 현재 요구사항 [AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ([현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))를 복원하는 작업이다.

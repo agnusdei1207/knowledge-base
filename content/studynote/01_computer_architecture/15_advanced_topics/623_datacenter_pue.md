@@ -3,8 +3,8 @@ title: "Power Usage Effectiveness"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 623
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전력 사용 효율성 ([PUE](/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/), [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Usage Effectiveness)은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)가 끌어온 전체 전력 중에서, 실제 정보기술 장비 (IT Equipment)에 얼마나 집중적으로 전기를 쓰는지 보여주는 시설 효율 지표다.

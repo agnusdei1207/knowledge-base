@@ -2,9 +2,9 @@
 title: "Resilient Distributed Dataset"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [아파치 스파크](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)의 가장 기본적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조로, 여러 노드에 흩어져 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) 객체처럼 다룰 수 있게 해주는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합이다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 장애에 대비하는 대신, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 과정(Lineage)을 기억함으로써 장애 발생 시 해당 부분만 즉시 재계산하여 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 고효율 [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)을 제공한다.

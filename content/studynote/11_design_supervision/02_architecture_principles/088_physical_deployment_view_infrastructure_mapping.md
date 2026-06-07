@@ -2,9 +2,9 @@
 title: "088. Physical Deployment View Infrastructure Mapping"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 물리/배포 뷰 (Physical/[Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 설계된 소프트웨어 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)들이 실제 하드웨어 서버, 네트워크, 스토리지 인프라에 어떻게 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치되는지 보여주는 도면이다.

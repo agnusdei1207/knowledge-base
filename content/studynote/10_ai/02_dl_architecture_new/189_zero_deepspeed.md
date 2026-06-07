@@ -3,9 +3,8 @@ title: "189. ZeRO (Zero Redundancy Optimizer)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 189
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ZeRO](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) ([Zero Redundancy Optimizer](/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/))는 마이크로소프트(Microsoft)의 DeepSpeed [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 선보인 기적의 메모리 최적화 기술로, 멀티 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 시 각 GPU가 중복(Redundancy)해서 들고 있던 훈련 변수([옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/), 기울기, [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 과감히 N등분으로 찢어서 각자 나눠 갖게 만드는 아키텍처다.

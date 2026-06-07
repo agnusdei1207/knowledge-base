@@ -3,8 +3,8 @@ title: "113. Kubeflow Mlops Orchestration"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kubeflow는 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 위에서 <strong>ML 워크플로 전체(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전처리 -> 학습 -> <a href="/studynote/10_ai/01_ai_basics/041_bagging_boosting/">하이퍼파라미터 튜닝</a> -> 서빙 -> 모니터링)</strong>를 선언적으로 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 기반 <strong><a href="/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> 플랫폼</strong>이다.
 > 2. **가치**: 주피터 노트북에서 실험한 모델을 프로덕션에 올리려면 Docker화·스케줄링·[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 할당·A/B 서빙 등 <strong>"ML의 마지막 1마일"</strong>을 해결해야 하며, [Kubeflow](/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) Pipelines가 이를 <strong><a href="/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a>(방향 비순환 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>)로 자동화</strong>한다.

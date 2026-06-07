@@ -3,8 +3,8 @@ title: "Page Replacement Algorithms"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 401
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Page Replacement Algorithm](/studynote/02_operating_system/07_virtual_memory/395_page_replacement_algorithm/))은 빈 프레임이 없을 때 발생하는 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 상황에서, <strong>디스크로 내쫓을 희생양(Victim) <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 결정하는 운영체제의 생존 수식</strong>이다.

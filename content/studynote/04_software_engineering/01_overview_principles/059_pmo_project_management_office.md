@@ -3,8 +3,8 @@ title: "059. Pmo Project Management Office"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PMO([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Office)는 프로젝트 관리 방식과 기준을 전사적으로 표준화하는 조직이다.

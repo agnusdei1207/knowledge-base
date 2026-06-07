@@ -3,8 +3,8 @@ title: "TLS/SSL Vulnerability History"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL 취약점 역사 ([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL Vulnerability History)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

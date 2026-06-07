@@ -3,8 +3,8 @@ title: "168. Airflow Dag Pipeline Scheduling"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Airflow는 파이썬 코드로 워크플로우를 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향성 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 정의하고, [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이를 자동 실행·모니터링하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼이다.
 > 2. **가치**: 복잡한 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 의존성 관리, 실패 재시도, 시각적 모니터링을 코드로 표현(Configuration [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))하여 유지보수성과 가시성을 동시에 높인다.

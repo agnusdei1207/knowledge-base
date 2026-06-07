@@ -1,10 +1,11 @@
 ---
 title: "Antenna Gain, dBi, dBd"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 이득 ([Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Gain)은 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 전력을 새로 만드는 값이 아니라, 주어진 방사 전력을 특정 방향으로 얼마나 집중시키는지를 나타내는 지향성·효율의 지표다.

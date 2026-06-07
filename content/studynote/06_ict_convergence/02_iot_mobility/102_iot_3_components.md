@@ -3,8 +3,8 @@ title: "102. Iot 3 Components"
 date: "2024-03-21"
 tags:
   - "studynote-ict-convergence"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/); Internet of Things) 시스템은 현실의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 **디바이스(Device)**, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 **네트워크(Network)**, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 가치를 창출하는 <strong>플랫폼(Platform)</strong>의 3대 구성 요소로 이루어진다.

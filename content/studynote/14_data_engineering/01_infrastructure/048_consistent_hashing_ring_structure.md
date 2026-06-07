@@ -3,8 +3,8 @@ title: "048. Consistent Hashing Ring Structure"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. 일관 해싱([Consistent Hashing](/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/))은 노드 추가/제거 시 최소한의 키 재배치만 발생하도록 설계된 해싱 기법 — 전통적인 모듈러 해싱([key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) % N)은 노드 수 N이 변하면 거의 모든 키를 재매핑해야 하지만, 일관 해싱은 (K/N)개의 키만 이동한다.
 > 2. 링(Ring) 구조 + 가상 노드(Virtual Node)의 조합이 핵심 — 0~2^32 범위의 원형 해시 공간에 노드를 배치하고, 가상 노드를 통해 균등 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 달성하는 [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)·[DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/)·[Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster의 근간이다.

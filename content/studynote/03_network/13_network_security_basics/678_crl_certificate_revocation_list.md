@@ -3,8 +3,8 @@ title: "678. Crl Certificate Revocation List"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 678
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CRL 스펙 및 폐기 문제 및 배포 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

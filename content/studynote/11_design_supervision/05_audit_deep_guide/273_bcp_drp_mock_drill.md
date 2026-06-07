@@ -3,8 +3,8 @@ title: "BCP DRP Mock Drill Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 273
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BCP/DRP 모의훈련 감리는 업무연속성계획(Business Continuity Plan, BCP)과 재해복구계획(Disaster [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Plan, DRP) 모의훈련 체계에서 훈련 시나리오(Drill Scenario), [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 시점·시간([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Point/Time Objective, [RPO](/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)/[RTO](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)), [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 증적([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Evidence)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

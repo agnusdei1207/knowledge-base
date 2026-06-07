@@ -3,8 +3,8 @@ title: "AVX, NEON"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 같은 연산을 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요소에 한 번에 적용해, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 키우는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 방식이다.

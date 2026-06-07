@@ -3,8 +3,8 @@ title: "Separation of Compute and Storage / Cloud DW"
 date: "2026-05-01"
 tags:
   - "studynote-data-engineering"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨트와 스토리지 분리는 연산과 저장을 분리해 각각 독립적으로 확장하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스 구조다.

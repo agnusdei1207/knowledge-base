@@ -3,8 +3,8 @@ title: "Thermal Throttling"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 473
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서멀 스로틀링 (Thermal Throttling)은 접합 온도 (Junction [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/), Tj)가 최대 접합 온도 ([TjMax](/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/))에 가까워질 때 주파수·[전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·실행률을 자동으로 낮춰 열 발생을 줄이는 하드웨어 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 제어다.

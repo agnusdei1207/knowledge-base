@@ -3,8 +3,8 @@ title: "Technology Forecasting Hype Cycle Roadmap"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 776
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Gartner Hype Cycle은 기술의 가시적 기대치(Visibility)와 성숙도(Maturity)를 5단계(Innovation Trigger -> Peak of Inflated Expectations -> Trough of Disillusionment -> Slope of Enlightenment -> Plateau of Productivity)로 시각화한 기술 예측 프레임워크이며, Technology Roadmap은 시간 축(Time Horizon)에 따른 기술 진화·이전·대체 경로를 MIL(Market-Industry-Leverage) 또는 GTM(Go-To-Market) 관점에서 매핑하는 전략 산출물이다.

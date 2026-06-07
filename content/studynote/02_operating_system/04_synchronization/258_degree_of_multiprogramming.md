@@ -3,8 +3,8 @@ title: "Degree of Multiprogramming"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 258
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도 (Degree of [Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/), DOM)는 운영체제가 <strong>"현재 메인 메모리(RAM)에 동시에 적재하여 스케줄링 풀(Pool)로 관리하고 있는 활성 프로세스의 총개수"</strong>를 의미하는 거시적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다.

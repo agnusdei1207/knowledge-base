@@ -3,8 +3,8 @@ title: "Performance Equation"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식 ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Equation)은 CPU 실행 시간 (CPU [Execution Time](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))을 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 수, <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>당 사이클 수, 클럭 시간</strong>으로 분해해 병목의 위치를 보이게 만드는 분석 틀이다.

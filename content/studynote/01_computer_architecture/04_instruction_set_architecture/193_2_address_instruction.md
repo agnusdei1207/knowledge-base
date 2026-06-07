@@ -3,8 +3,8 @@ title: "193. 2 Address Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 2-주소 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Two-Address [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 두 개의 주소 필드를 가지되, 그중 하나가 입력과 결과 저장 위치를 겸하는 **파괴적 갱신** 구조다.

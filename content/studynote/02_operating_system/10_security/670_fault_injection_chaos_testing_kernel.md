@@ -3,8 +3,8 @@ title: "670. Fault Injection Chaos Testing Kernel"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 670
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입(Fault [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/))은 소프트웨어 인프라가 실제 장애 상황(디스크 I/O 에러, 메모리 할당 실패, 네트워크 단절)에서 올바르게 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되거나 우아하게 죽는지(Graceful Degradation)를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위해 <strong>고의로 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>에 오류를 발생시키는 <a href="/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> 기법</strong>이다.

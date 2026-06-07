@@ -2,9 +2,9 @@
 title: "Memory Hierarchy & Cache"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 6
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 계층 구조 (Memory Hierarchy)는 속도, 용량, 가격의 트레이드오프를 해결하기 위해 고속의 소량 메모리부터 저속의 대용량 저장장치까지 피라미드 형태로 배치한 아키텍처이며, 캐시 메모리 (Cache Memory)는 그 정점에서 CPU와 주기억장치 간의 속도 차이를 완충한다.

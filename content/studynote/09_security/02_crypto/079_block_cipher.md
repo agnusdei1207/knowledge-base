@@ -3,8 +3,8 @@ title: "Block Cipher - DES, AES"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([Block Cipher](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/))는 평문([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 1비트씩 쪼개지 않고, <strong>64비트나 128비트 크기의 덩어리(Block) 단위로 뭉텅 썰어서 한 번에 암호화/복호화</strong>를 수행하는 [대칭키 암호화](/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/) 알고리즘의 절대 표준이다.
 > 2. **가치**: 데이터를 갈기갈기 섞는 혼돈(Confusion)과 퍼뜨리는 확산(Diffusion) 연산을 수십 번의 라운드(Round) 동안 쇳덩어리(XOR 게이트) 내부에서 반복시켜, 현대의 슈퍼컴퓨터로도 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 없이 원본을 역추적할 수 없는 완벽한 아수라장을 만들어낸다.

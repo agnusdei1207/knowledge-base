@@ -3,8 +3,8 @@ title: "1085. Ipsec Ikev2 Tunnel Negotiation Vpn"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1085
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/studynote/09_security/03_network_security/280_ikev2/) 터널 협상은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

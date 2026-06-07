@@ -3,8 +3,8 @@ title: "ISP"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 788
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보통신서비스제공자 ([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

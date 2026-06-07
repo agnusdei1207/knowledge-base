@@ -3,8 +3,8 @@ title: "157. Operational Debt Dark Debt"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 운영 부채 (Operational Debt)는 자동화되지 않은 반복 작업, 숨겨진 의존성, 부실한 런북이 누적되어 운영 조직의 속도와 복원력을 갉아먹는 문제이며, 그중 인식되지 않는 부분이 다크 데트 (Dark Debt)다.

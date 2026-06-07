@@ -3,8 +3,8 @@ title: "TCN vs RNN"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TCN ([Temporal Convolutional Network](/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/))은 주식 가격, 날씨, 심전도처럼 "시간의 흐름(순서)"이 목숨보다 중요한 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 딥러닝으로 예측할 때, 전통적으로 쓰던 느려터진 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM을 갖다 버리고 <strong>이미지 처리용 1D <a href="/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>(<a href="/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>)을 기형적으로 개조해 시간의 흐름을 빛의 속도로 꿰뚫어 보게 만든 깡패 아키텍처</strong>다.

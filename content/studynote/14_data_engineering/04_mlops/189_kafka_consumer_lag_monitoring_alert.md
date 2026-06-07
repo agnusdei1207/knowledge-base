@@ -3,8 +3,8 @@ title: "189. Kafka Consumer Lag Monitoring Alert"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 컨슈머 랙([Consumer Lag](/studynote/16_bigdata/04_streaming/089_consumer_lag/))은 <strong>프로듀서(Producer)의 최신 오프셋(Log End Offset)과 컨슈머(Consumer)의 현재 오프셋(<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> Offset) 차이</strong>로, 메시지 처리 지연의 핵심 지표이자 스트리밍 파이프라인 건전성의 척도다.

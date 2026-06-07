@@ -3,8 +3,8 @@ title: "171. Smart City Platform Architecture"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트 시티 플랫폼은 도시 전역의 [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things) 센서, 교통 시스템, 폐쇄회로 텔레비전 ([CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/), Closed-Circuit Television), 공공 업무 시스템을 공통 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 이벤트 흐름으로 묶는 도시 운영 플랫폼이다.

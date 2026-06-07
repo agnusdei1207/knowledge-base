@@ -1,11 +1,11 @@
 ---
 title: "017. Logs Event Stream"
 date: "2026-03-04"
-description: "12 팩터 앱의 11번째 원칙으로, 애플리케이션은 로그 파일 관리에 개입하지 않고 표준 출력(stdout)으로 이벤트 스트림을 뿜어내어 중앙집중식 관측성을 확보하는 아키텍처"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 17
 ---
-
 # 17. [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) - [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 이벤트 스트림으로 취급
 
 #### 핵심 인사이트 (3줄 요약)

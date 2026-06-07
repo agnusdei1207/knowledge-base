@@ -3,8 +3,8 @@ title: "Private 5G, / 5G"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프라이빗 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) ([Private 5G](/studynote/13_cloud_architecture/05_data_engineering/365_5g_tsn/))는 공장, 병원, 항만, 캠퍼스 같은 특정 구역 안에 기업이나 기관이 직접 구축·통제하는 비공중망 (NPN, Non-Public Network) 기반 5세대 이동통신망이다.

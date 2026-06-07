@@ -2,9 +2,9 @@
 title: "048. Bubble Sort Algorithm"
 date: "2026-04-02"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 48
 ---
-
 # 거품 정렬 ([Bubble Sort](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 > ⚠️ 이 문서는 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기초이자 비교 기반(Comparison-based) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 가장 원초적인 형태인 '거품 정렬([Bubble Sort](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/))'의 동작 원리, [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) 한계, 그리고 교육적/이론적 가치를 심층 분석합니다.

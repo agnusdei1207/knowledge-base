@@ -3,8 +3,8 @@ title: "Mocking / Unit Test / Test Double"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Test Double](/studynote/04_software_engineering/11_testing_validation/850_test_double/) ([테스트 더블](/studynote/12_it_management/05_security_compliance/1008_test_double_isolation/))은 외부 의존성(DB, 네트워크, 외부 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 가짜([Fake](/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/)) 객체로 대체하여, 테스트 대상 코드(SUT, System Under Test)만을 순수하게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 격리 기법이다.

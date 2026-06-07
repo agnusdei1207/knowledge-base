@@ -3,8 +3,8 @@ title: "XAI"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 설명 가능한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Explainable [Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/))는 모델 정확도만 보는 것이 아니라, 예측이 나온 이유를 사람의 언어로 해석 가능한 형태로 풀어내는 계층이다.

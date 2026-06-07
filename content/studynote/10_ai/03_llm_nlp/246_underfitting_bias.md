@@ -3,8 +3,8 @@ title: "Underfitting"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 246
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 과소적합(Underfitting)은 모델이 지나치게 단순하여 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)조차 제대로 학습하지 못하고, 훈련 오차와 테스트 오차가 모두 높은 상태다.

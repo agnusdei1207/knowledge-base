@@ -3,8 +3,8 @@ title: "Computer Vision Object Detection Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 667
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 객체 탐지(Object Detection)와 세그멘테이션(Segmentation)은 이미지 내 객체의 위치(BBox), 클래스, 픽셀 단위 마스크를 예측하는 컴퓨터 비전의 3대 핵심 태스크로, **R-CNN 계열(2-stage) -> YOLO/SSD 계열(1-stage) -> Mask R-CNN/Mask2Former -> DETR/SAM(Transformer/Foundation Model)**로 패러다임이 진화하며 정확도(mAP)-속도(FPS)-일반화(Zero-shot) 트레이드오프를 정량적으로 해결하는 것이 본질이다.

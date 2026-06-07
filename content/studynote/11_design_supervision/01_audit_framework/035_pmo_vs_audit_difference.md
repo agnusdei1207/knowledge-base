@@ -3,8 +3,8 @@ title: "035. Pmo Vs Audit Difference"
 date: "2026-03-03"
 tags:
   - "studynote-design-supervision"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ([Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 조직 내부의 프로젝트 지원·표준화·거버넌스 기관이고, 감리([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))는 제3자가 프로젝트의 법적·기술적 준수 여부를 독립적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 외부 통제 메커니즘이다.
 > 2. PMO는 '잘 되게 돕는 역할', 감리는 '제대로 됐는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 역할' — 목적과 독립성이 근본적으로 다르다.

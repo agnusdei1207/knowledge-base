@@ -3,8 +3,8 @@ title: "043. Dark Launching Shadow Traffic"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 43
 ---
-
 > **핵심 인사이트**
 > 1. 다크 런칭([Dark Launching](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/))과 섀도우 트래픽(Shadow Traffic)은 실제 사용자에게 영향 없이 프로덕션 환경에서 새 기능/[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 테스트하는 배포 기법으로 — 스테이징 환경과 프로덕션의 트래픽 패턴 차이에서 오는 테스트 한계를 극복한다.
 > 2. 섀도우 트래픽은 프로덕션 요청을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 신규 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전달하고 응답을 비교(Shadow Comparison)하지만 사용자에게는 기존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 응답만 반환하므로 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 가능성이 있는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(POST/PUT/DELETE) 요청에 대해서는 신중한 격리 처리가 필수이다.

@@ -2,9 +2,9 @@
 title: "069. Commit Message Convention Feat Fix"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 커밋 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 컨벤션은 변경 의도를 짧고 일관되게 표현하는 규칙이다.

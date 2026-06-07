@@ -3,8 +3,8 @@ title: "094. Data Availability Da Layer Celestia"
 date: "2024-05-15"
 tags:
   - "studynote-ict-convergence"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)) 계층은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 연산이나 합의를 제외하고, 오직 "모든 노드가 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다운로드하고 확인할 수 있는가?"만을 보장하는 전담 인프라다.

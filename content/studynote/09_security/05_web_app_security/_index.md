@@ -2,9 +2,9 @@
 title: "Web & App Security"
 tags:
   - "security"
+  - "studynote-security"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 웹 및 애플리케이션 보안은 사용자와 접점이 되는 서비스 계층의 취약점을 악용한 공격 (SQL Injection, XSS 등)으로부터 비즈니스 로직과 데이터를 보호하는 소프웨어적 방어 체계이다.

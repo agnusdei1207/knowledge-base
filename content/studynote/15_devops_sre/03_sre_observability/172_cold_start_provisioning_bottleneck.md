@@ -3,8 +3,8 @@ title: "172. Cold Start Provisioning Bottleneck"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))는 애플리케이션 코드가 느린 문제가 아니라, 0개의 가용 인스턴스에서 요청을 받았을 때 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)·런타임 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화·준비 완료까지 거치는 전체 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다.

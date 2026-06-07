@@ -1,11 +1,11 @@
 ---
 title: "086. Cyclic Prefix (CP) & Guard Interval (GI)"
 date: "2026-03-30"
-description: "OFDM 시스템에서 다중경로 간섭(ISI)을 방지하고 직교성을 유지하기 위한 순환 전치의 원리와 실무 적용"
 tags:
   - "network"
+  - "studynote-network"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OFDM (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))에서 CP (Cyclic Prefix)와 GI (Guard Interval)는 ISI (Inter-Symbol Interference)를 막는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간이다.

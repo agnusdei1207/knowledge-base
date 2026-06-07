@@ -3,9 +3,9 @@ title: "Overview Principles"
 tags:
   - "Process Models"
   - "Software Engineering"
+  - "studynote-software-engineering"
 weight: 1
 ---
-
 > 💡 **핵심 인사이트**
 > - 소프트웨어 공학은 소프트웨어의 비용, 일정, 품질 사이의 균형을 찾는 학문으로, 엔지니어링 원칙을 소프트웨어 개발에 체계적으로 적용한다.
 > - 폭포모형(폭포수 모델)에서 애자일 모델로의 패러다임 전환은 변화 대응능력과복용성(재사용성)을 동시에 달성하려는 시도다.

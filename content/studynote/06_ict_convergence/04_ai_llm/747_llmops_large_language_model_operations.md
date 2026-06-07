@@ -3,8 +3,8 @@ title: "LLMOps Large Language Model Operations"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 747
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLMOps는 대규모 언어 모델(LLM)의 데이터 수집·전처리, 파인튜닝(PEFT/LoRA/QLoRA), RAG 파이프라인, 프롬프트 엔지니어링, 추론 서빙(vLLM/TGI/Triton), 분산 학습(DeepSpeed/FSDP/NeMo), 평가(LLM-as-a-Judge/Human Eval), 모니터링(Langfuse/Phoenix/Arize), 거버넌스(PII·유해성·할루시네이션 탐지) 전 라이프사이클을 MLOps 위에 **LLM 고유 차원(비결정성·토큰 비용·컨텍스트 윈도우·드리프트·멀티모달·에이전트)**을 통합 관리하는 운영 프레임워크이다.

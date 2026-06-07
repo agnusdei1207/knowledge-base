@@ -3,8 +3,8 @@ title: "079. Monotonic Stack"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 단조 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Monotonic [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 내 원소가 단조 증가(Monotonically Increasing) 또는 단조 감소(Monotonically Decreasing) 순서를 유지하는 특수 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 패턴으로, 배열에서 각 원소의 "다음으로 더 큰 원소(Next Greater Element)" 또는 "다음으로 더 작은 원소"를 O(n)에 찾는 데 특화되어 있다.
 > 2. **가치**: 단순 이중 루프로 각 원소의 NGE(Next Greater Element)를 구하면 O(n^)이지만, 단조 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 각 원소가 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 한 번 삽입·한 번 제거되어 전체 O(n)을 보장한다. 히스토그램 최대 직사각형(LeetCode 84), 빗물 트래핑(LeetCode 42), 주식 가격 스팬(LeetCode 901) 등 경쟁 프로그래밍의 클래식 문제들이 이 패턴으로 해결된다.

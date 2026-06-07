@@ -1,10 +1,11 @@
 ---
 title: "Femto Cell"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 매크로셀 ([Macro Cell](/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/))은 넓은 지역을 덮는 거대 기지국 계층이고, 스몰셀 (Small Cell)은 그 안에서 용량과 실내 커버리지를 촘촘히 보강하는 저전력 셀 계층이며, 펨토셀 (Femto Cell)은 그중 가장 작은 실내형 셀이다.

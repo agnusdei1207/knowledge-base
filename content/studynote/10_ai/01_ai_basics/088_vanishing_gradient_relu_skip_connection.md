@@ -3,8 +3,8 @@ title: "088. Vanishing Gradient Relu Skip Connection"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기울기 소실 ([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))은 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 과정에서 미분값이 층을 지날 때마다 작아져, 결국 앞단 층의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 업데이트되지 않는 현상이다.

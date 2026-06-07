@@ -3,8 +3,8 @@ title: "185. Byte Counting Framing"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트 ([Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Counting) 방식은 프레임 (Frame) 시작 부분에 길이 정보를 적어 두고, 수신기가 그 숫자만큼 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 읽어 프레임 경계를 정하는 가장 단순한 길이 기반 [프레이밍](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) 기법이다.

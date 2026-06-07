@@ -3,8 +3,8 @@ title: "221. K8S Clusterip Nodeport Loadbalancer Ingress"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ClusterIP, NodePort, LoadBalancer, [Ingress](/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 등으로 내부·외부 접근 방식을 나누는 노출 모델.

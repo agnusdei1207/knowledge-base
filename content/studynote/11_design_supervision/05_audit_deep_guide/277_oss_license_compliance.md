@@ -3,8 +3,8 @@ title: "OSS License Compliance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 277
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OSS](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이선스 준수 감리는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 소프트웨어(Open Source Software, [OSS](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 라이선스 준수 관리 체계에서 소프트웨어 자산목록(Inventory), 의무사항 분석(License Obligation Analysis), 소프트웨어 자재명세서(Software [Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

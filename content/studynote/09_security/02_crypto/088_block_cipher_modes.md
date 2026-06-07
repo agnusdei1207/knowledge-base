@@ -3,8 +3,8 @@ title: "088. Block Cipher Modes"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드([Block Cipher](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) Modes of [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))는 고정된 길이(예: 128비트)만 암호화할 수 있는 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 긴 평문 데이터에 반복적으로 적용하기 위한 '연결 절차'다.

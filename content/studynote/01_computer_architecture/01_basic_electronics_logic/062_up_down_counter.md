@@ -3,8 +3,8 @@ title: "Up/Down Counter"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 업/다운 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Up/Down [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))는 제어 신호에 따라 값을 증가하거나 감소시킬 수 있는 양방향 순차 논리회로다.

@@ -3,8 +3,8 @@ title: "Chaos Engineering Litmus Gremlin"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 627
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카오스 엔지니어링 Litmus은(는) 의도적으로 장애를 주입해 시스템이 예상대로 복구되는지 검증하는 신뢰성 공학 방법이다.

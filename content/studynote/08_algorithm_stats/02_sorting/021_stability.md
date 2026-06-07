@@ -2,9 +2,9 @@
 title: "021. Stability"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 21
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 안정 정렬(Stable Sort)은 동일한 키를 가진 원소들의 상대적 순서를 정렬 전후로 보존하는 성질이며, 이는 기능적 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)이 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미론의 문제다.
 > 2. **가치**: 다중 기준 정렬(성 -> 이름 순), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 조인 후 정렬, [기수 정렬](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)의 올바른 동작에 있어 안정성이 결과의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 보장하는 핵심 조건이다.

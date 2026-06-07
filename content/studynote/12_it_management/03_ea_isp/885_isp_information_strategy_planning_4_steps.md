@@ -3,8 +3,8 @@ title: "885. Isp Information Strategy Planning 4 Steps"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 885
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 계획 (ISP, Information [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)은 조직의 중장기 비즈니스 목표를 달성하기 위해, IT 시스템을 어떻게 구축할 것인지 마스터플랜을 짜는 사전 컨설팅 방법론이다.

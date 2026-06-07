@@ -3,8 +3,8 @@ title: "Synchronous Counter"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동기식 카운터는 모든 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 하나의 공통 클럭을 공유하며 동시에 상태를 바꾸는 순차 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)회로다.

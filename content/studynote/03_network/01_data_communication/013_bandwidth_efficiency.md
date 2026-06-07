@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 13
 ---
-
 # 13. [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)), [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-효율성 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ## 핵심 인사이트 (3줄 요약)

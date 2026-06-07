@@ -3,9 +3,8 @@ title: "200. 12-Factor App (12 Factor APP Cloud Native Principles)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 200
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 12-Factor App (12 Factor APP [Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Principles): [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 애플리케이션 개발을 위한 12가지 베스트 프랙티스 ([코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/), [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 격리, [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 외부화, [무상태 프로세스](/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/) 등)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

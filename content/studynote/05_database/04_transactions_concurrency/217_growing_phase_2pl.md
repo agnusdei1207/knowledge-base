@@ -3,8 +3,8 @@ title: "Growing Phase"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 확장 단계 (Growing Phase)은 락 획득만 가능, 반납 불가에 초점을 맞춘 개념이다.

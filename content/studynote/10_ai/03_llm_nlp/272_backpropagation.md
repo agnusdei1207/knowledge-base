@@ -3,8 +3,8 @@ title: "Backpropagation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 272
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 역전파(Backpropagation)는 <strong>연쇄 법칙(Chain Rule)</strong>을 이용해 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/))의 기울기(Gradient)를 출력층에서 입력층 방향으로 효율적으로 계산하여 각 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(W)와 편향(b)을 갱신하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

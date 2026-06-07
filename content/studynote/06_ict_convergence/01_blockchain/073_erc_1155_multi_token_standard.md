@@ -1,10 +1,11 @@
 ---
 title: "- NFT FT ,"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ERC-1155는 한 계약에서 여러 토큰 종류를 동시에 다루는 멀티 토큰 표준이다.

@@ -3,8 +3,8 @@ title: "689. Nvram Logging"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 689
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NVRAM (Non-Volatile Random Access Memory) 로깅은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 핵심 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 디스크보다 훨씬 CPU (Central Processing Unit) 가까운 비휘발성 메모리에 먼저 영속화해, 동기 커밋의 병목을 줄이는 저장 경로 최적화다.

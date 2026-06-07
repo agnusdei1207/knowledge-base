@@ -3,8 +3,8 @@ title: "Data Hazard"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 해저드 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Hazard)는 파이프라인에서 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 실행 순서는 겹치는데 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 순서는 겹칠 수 없어서, 뒤 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아직 완성되지 않은 값을 너무 일찍 쓰려 할 때 생기는 시간 충돌이다.

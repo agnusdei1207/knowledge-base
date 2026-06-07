@@ -3,8 +3,8 @@ title: "022. Apache Kafka"
 date: "2026-04-02"
 tags:
   - "studynote-data-engineering"
+weight: 22
 ---
-
 # [아파치 카프카](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) ([Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)) - [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 스트리밍 플랫폼
 
 > ⚠️ 이 문서는 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 실시간 메시지 파이프라인의 심장 역할을 하며, 수백만 건의 이벤트를 초당 수십만 개 수준으로 처리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)형 고성능 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스트리밍 시스템인 '[아파치 카프카](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)([Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))'의 핵심 아키텍처와 Pub/Sub 메세지 큐 원리를 심층 분석합니다.

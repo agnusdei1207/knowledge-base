@@ -1,11 +1,11 @@
 ---
 title: "007. Data Lake"
 date: "2024-05-15"
-description: "정형, 반정형, 비정형 데이터를 원시(Raw) 상태로 무한 저장하는 데이터 레이크의 아키텍처, 스키마 온 리드 원리, 그리고 데이터 늪(Swamp) 방지 전략을 분석합니다."
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 7
 ---
-
 # [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))
 
 #### 핵심 인사이트 (3줄 요약)

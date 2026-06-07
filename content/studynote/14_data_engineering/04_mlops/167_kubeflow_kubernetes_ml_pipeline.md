@@ -3,8 +3,8 @@ title: "167. Kubeflow Kubernetes Ml Pipeline"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kubeflow는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 위에서 ML 워크로드를 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)하는 플랫폼으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반의 재현 가능한 ML 파이프라인을 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 정의하고 실행할 수 있게 한다.
 > 2. **가치**: Kubeflow Pipelines로 ML 워크플로우를 표준화하고, Katib으로 하이퍼파라미터 자동 최적화([AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/))를 실행하며, KServe로 멀티 프레임워크 모델을 단일 플랫폼에서 서빙함으로써 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 전 과정을 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 생태계 안에서 통합한다.

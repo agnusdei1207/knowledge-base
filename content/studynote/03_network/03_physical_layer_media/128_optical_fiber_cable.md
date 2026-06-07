@@ -3,8 +3,8 @@ title: "Optical Fiber Cable"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 광섬유 케이블은 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 대신 '빛(레이저/[LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))'을 이용하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하며, [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 높은 코어(Core)와 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 낮은 클래딩(Cladding) 구조를 통해 전반사를 유도한다.

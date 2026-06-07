@@ -3,8 +3,8 @@ title: "Record Length & File Organization"
 date: "2026-03-04"
 tags:
   - "studynote-database"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 레코드(Record)는 DB에서 관련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필드의 집합 단위로, 고정 길이(Fixed-Length)와 가변 길이(Variable-Length) 방식은 저장 밀도·접근 속도·관리 복잡도 사이에 근본적 트레이드오프가 있다.
 > 2. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조직 방식(순차·직접·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 순차)은 저장 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 물리적 특성과 접근 패턴(순차 읽기 vs 랜덤 접근)에 따라 최적 선택이 달라진다.

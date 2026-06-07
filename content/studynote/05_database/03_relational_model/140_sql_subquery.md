@@ -3,8 +3,8 @@ title: "140. Sql Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EXISTS는 <strong>서브쿼리 결과가 존재하는지(T/F) 판별</strong>하는 반존재(Semi-[Join](/studynote/05_database/04_transactions_concurrency/521_join/)) 연산이고, IN은 <strong>값 목록에 포함되는지 판별</strong>하며, 대량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 EXISTS가 IN보다 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋은 경우가 많다.
 > 2. **가치**: "주문이 있는 고객만"([EXISTS](/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/))과 "주문이 없는 고객"(NOT [EXISTS](/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/))은 실무에서 가장 빈번한 패턴이며, <strong><a href="/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>가 IN-><a href="/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/">EXISTS</a>, 서브쿼리->JOIN으로 자동 변환</strong>하기도 한다.

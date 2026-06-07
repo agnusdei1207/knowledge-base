@@ -3,8 +3,8 @@ title: "Edge Cloud MEC CDN Distributed Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 636
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단말로부터 1홉~수십 km 이내의 네트워크 종단(기지국, CO, POP)에 컴퓨팅·스토리지·콘텐츠 캐시를 분산 배치하고, ETSI MEC·3GPP EDGEAPP 표준 기반으로 워크로드를 동적 오케스트레이션하여 중앙 클라우드 대비 RTT를 10~50ms -> 1~5ms로 단축하는 **지연시간 최소화형 분산 컴퓨팅 패러다임**입니다.

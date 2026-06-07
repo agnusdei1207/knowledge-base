@@ -3,8 +3,8 @@ title: "188. Perf Iostat Vmstat Tcpdump Sre"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: perf, iostat, vmstat, tcpdump 같은 도구로 CPU, I/O, 메모리, 네트워크 병목을 계층별로 해석하는 방법.

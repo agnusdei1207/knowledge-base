@@ -3,8 +3,8 @@ title: "Context Switch"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 문맥 교환 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) [Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))은 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 CPU가 실행 중이던 프로세스([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 상태([Context](/studynote/02_operating_system/01_overview_architecture/033_context/))를 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에서 메모리(PCB/TCB)로 저장하고, 다음 실행할 프로세스의 상태를 메모리에서 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 복원하는 물리적 전환 작업이다.

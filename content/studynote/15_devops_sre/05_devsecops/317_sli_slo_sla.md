@@ -3,9 +3,8 @@ title: "SLI SLO SLA Error Budget"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 317
 ---
-
-
 > **핵심 인사이트**
 > - [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 측정하는 지표, [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 내부 목표, [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))는 외부 계약이다.
 > - [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) (에러 버짓)은 SLO에서 도출되며, 개발팀이 혁신을 추진할 수 있는 "허용 가능한 불안정성"의 양이다.

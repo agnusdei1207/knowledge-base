@@ -3,8 +3,8 @@ title: "089. Consumer Lag"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Consumer Lag (소비자 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽의 최신 오프셋(Latest Offset)과 Consumer 그룹이 커밋한 오프셋(Committed Offset)의 차이로, "Consumer가 Producer보다 얼마나 뒤처져 있는가"를 나타내는 스트리밍 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심 건강 지표다.

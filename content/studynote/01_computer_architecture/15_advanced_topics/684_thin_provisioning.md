@@ -3,8 +3,8 @@ title: "Thin Provisioning"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 684
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 씬 프로비저닝은 호스트에 보여 주는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 용량과 실제로 예약한 물리 용량을 분리해, 데이터가 쓰일 때만 블록을 배정하는 저장 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술이다.

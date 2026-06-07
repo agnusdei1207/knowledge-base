@@ -3,8 +3,8 @@ title: "Purdue Model ICS OT Security IEC 62443 Smart Factory"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 366
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Purdue 모델([ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)-95)은 [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) ([Operational Technology](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)) 환경을 Level 0~4로 계층화해 제어망과 기업망을 물리적·[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 분리하는 [ICS](/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) ([Industrial Control System](/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/)) 보안 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처이며, IEC 62443은 이 구조의 국제 보안 표준이다.

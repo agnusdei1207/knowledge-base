@@ -3,8 +3,8 @@ title: "Dual Redundancy"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 456
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이중화 (Dual Redundancy)는 핵심 부품을 두 벌로 구성해 하나가 고장 나도 다른 하나가 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어받게 만드는 구조이며, 목표는 장비 강화가 아니라 <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a> 제거</strong>다.

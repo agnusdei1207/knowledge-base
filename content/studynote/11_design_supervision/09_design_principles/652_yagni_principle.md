@@ -3,8 +3,8 @@ title: "You Aren't Gonna Need It"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 652
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - YAGNI는 아직 요구되지 않은 기능·계층·확장 포인트를 미리 만들지 말라는 실용주의 설계 원칙이다.
 - 오버엔지니어링을 줄이면 개발 속도, 테스트 범위, 유지보수 비용이 함께 낮아진다.

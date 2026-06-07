@@ -2,9 +2,9 @@
 title: "070. Graph Datastructure"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그래프 ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/))는 G = (V, E)로 정의되며, 정점(Vertex)과 간선(Edge)의 집합으로 복잡한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 연결성을 표현하는 비선형 자료구조다.

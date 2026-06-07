@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 신뢰도(Confidence)는 [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/)에서 전건(X)이 주어졌을 때 후건(Y)이 함께 나타날 [조건부 확률](/studynote/08_algorithm_stats/08_stats/132_conditional_probability/)이다.

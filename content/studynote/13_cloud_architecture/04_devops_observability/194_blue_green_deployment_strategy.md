@@ -3,8 +3,8 @@ title: "Blue-Green Deployment"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 현재 운영 환경(Blue)과 완전히 동일한 규모의 신버전 환경(Green)을 사전 구성해두고, 트래픽을 한 번에 전환하는 '즉시 스위칭' 배포 패턴이다.

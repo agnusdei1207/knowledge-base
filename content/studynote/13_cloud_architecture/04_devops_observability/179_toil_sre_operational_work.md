@@ -3,8 +3,8 @@ title: "Toil - SRE"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [토일](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)([Toil](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유지에는 필요하지만 사람 손으로 반복되고 자동화 가능하며 장기 자산을 남기지 않는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 운영 노동이다.

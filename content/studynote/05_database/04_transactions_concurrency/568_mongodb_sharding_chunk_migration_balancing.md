@@ -3,8 +3,8 @@ title: "568. Mongodb Sharding Chunk Migration Balancing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 568
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 몽고DB [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 청크 마이그레이션 백그라운드 밸런싱 모형 분석망는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)·확장형 저장소 관점에서 자주 쓰이는 확장형 저장소 개념이다.

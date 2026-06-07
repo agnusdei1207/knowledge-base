@@ -3,8 +3,8 @@ title: "154. Esb Enterprise Service Bus Soa"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) ([Enterprise Service Bus](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))는 거대한 전사 기업 인프라에서 수백 개의 낡고 새로운 이기종 서버([ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), C언어 메인프레임) 쇳덩이들이 서로 1:1([Point-to-Point](/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 다이렉트 직통 찌르기로 얽혀 뻗어버리는 스파게티 강결합 지옥을 척살 타파하기 위해 -> <strong>정중앙을 관통하는 거대한 1통짜리 '<a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/">데이터 버스</a>(<a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> 고속도로)'를 뚫어주는 <a href="/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SOA</a> 0순위 지능형 백본 미들웨어(Middleware) 대장 봇</strong>이다.
 > 2. **가치**: A 자바(Java) 서버는 구형 XML을 쏘고 B 파이썬(Python) 서버는 새로운 유형의 JSON을 받을 때, 서로 소스코드를 1바이트 뜯어고칠 필요 0% 없이!! -> <strong>ESB가 중간 허공에서 패킷 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지를 스윽 가로채 낚아채어(Intercept) -> 지 뱃속에서 포맷을 1초 컷 오토 번역(Transformation) 치고 알맞은 목적지로 핑퐁 배달(<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> 록온)</strong>해 주어 각 서버가 서로의 알맹이 존재(IP)를 전혀 1도 몰라도 100% 무결점 통신하게 만드는 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 파괴 분리(Decoupling)의 위대한 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터키다.

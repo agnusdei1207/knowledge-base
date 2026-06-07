@@ -3,8 +3,8 @@ title: "CBDC Central Bank Digital Currency Design"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 555
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CBDC 중앙은행 디지털 화폐 설계은(는) 중앙은행이 발행하는 디지털 법정화폐를 소매 또는 도매 결제망에서 계정형 또는 토큰형으로 유통시키는 통화 인프라 설계이다.

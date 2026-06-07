@@ -3,8 +3,8 @@ title: "093. Thread Shared Resources"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 자원 공유는 단일 프로세스 ([Process](/studynote/12_it_management/05_security_compliance/943_process/)) 내에서 동작하는 여러 실행 흐름이 주소 공간 중 코드 ([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙 ([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역과 열린 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Open Files)을 공동으로 소유하고 직접 접근하는 메커니즘이다.
 > 2. **가치**: 독립된 주소 공간을 갖는 [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/) ([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)) 방식에 비해, 메모리를 직접 읽고 쓰는 자원 공유 구조는 [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 오버헤드를 대폭 줄이고 전체 시스템 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 극대화한다.

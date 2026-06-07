@@ -3,8 +3,8 @@ title: "Provisioned Concurrency"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로비저닝된 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) (Provisioned [Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)): [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 해결을 위해 유휴 컨테이너를 미리 예열해두는 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 옵션를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

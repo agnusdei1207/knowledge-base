@@ -1,11 +1,11 @@
 ---
 title: "071. Multiplexing"
 date: "2024-05-20"
-description: "다중화의 본질적 개념, 아키텍처(MUX/DeMUX) 구조, 프로토콜 레이어 융합 및 실무 경제성 분석"
 tags:
   - "network"
+  - "studynote-network"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중화는 하나의 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 여러 신호가 공유하도록 묶는 기술이다.

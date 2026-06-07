@@ -3,9 +3,8 @@ title: "230. Repeatable Read (Repeatable read Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 230
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Repeatable Read (레벨 2)은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 읽은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 락 유지 (MySQL 기본, [Phantom Read](/studynote/05_database/04_transactions_concurrency/207_phantom_read_insert_range_query/) 발생 가능성)에 초점을 맞춘 개념이다.

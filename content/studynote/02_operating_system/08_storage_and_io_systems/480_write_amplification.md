@@ -3,8 +3,8 @@ title: "480. Write Amplification"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 480
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 증폭(Write Amplification, [WAF](/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)가 고작 4KB의 작은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 SSD에 쓰라고 명령했는데, 내부에서 덮어쓰기 불가([Erase-before-write](/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/)) 구조와 [가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 삽질이 겹쳐져 <strong>실제 물리적 낸드 플래시 칩에는 그 수배~수십 배에 달하는 2MB~8MB의 막대한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 연산이 폭발적으로 연쇄 다발 하는 재앙적 현상</strong>이다.

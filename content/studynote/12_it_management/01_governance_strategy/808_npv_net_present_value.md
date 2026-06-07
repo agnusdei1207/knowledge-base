@@ -3,8 +3,8 @@ title: "Net Present Value,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 808
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NPV의 핵심은 미래의 현금 흐름을 현재 가치로 할인하여 합산 ([NPV](/studynote/12_it_management/01_governance_strategy/013_npv/) > 0 이면 투자 타당성 있음)를 현장 의사결정에 연결하는 측정·경제성 구조에 있다.

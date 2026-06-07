@@ -3,8 +3,8 @@ title: "Multilevel Queue Scheduling"
 date: "2026-05-06"
 tags:
   - "studynote-operating-system"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다단계 큐 스케줄링 (Multilevel [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Scheduling)은 [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))를 하나로 두지 않고, 시스템·대화형·배치 작업처럼 <strong>성격이 다른 프로세스를 서로 다른 큐로 고정 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>해 관리하는 기법이다.

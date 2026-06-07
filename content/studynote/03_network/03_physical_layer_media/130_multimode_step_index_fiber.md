@@ -3,8 +3,8 @@ title: "Multi-mode Step-index"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 모드 계단형(Step-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 광섬유는 코어(Core)가 굵어 여러 경로(모드)의 빛이 동시에 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하며, 코어와 클래딩의 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 차이가 계단처럼 뚜렷하게 끊어지는 구조를 갖는다.

@@ -2,9 +2,9 @@
 title: "Culture & Methodology"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데브옵스 (DevOps)는 개발 (Development)과 운영 (Operations)의 사일로 (Silo)를 제거하고, 공유된 목표를 향해 협업하며 지속적으로 가치를 전달하는 조직 문화이자 방법론이다.

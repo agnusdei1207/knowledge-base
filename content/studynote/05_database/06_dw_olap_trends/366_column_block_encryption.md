@@ -3,8 +3,8 @@ title: "366. Column Block Encryption"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 366
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컬럼 레벨 암호화 / 블록 레벨 암호화는 보안·프라이버시 관점에서 자주 쓰이는 [고립화 수준](/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/)이다.

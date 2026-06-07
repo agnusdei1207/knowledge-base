@@ -3,8 +3,8 @@ title: "Cohesion"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 112
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))는 하나의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(함수·클래스·패키지) 내부 요소들이 얼마나 하나의 목적을 위해 강하게 연결되어 있는지를 측정하는 척도로, 높을수록 단일 책임이 명확하고 이해하기 쉬운 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)임을 의미한다.

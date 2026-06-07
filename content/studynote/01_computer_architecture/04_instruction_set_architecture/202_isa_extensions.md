@@ -3,8 +3,8 @@ title: "ISA Extensions"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 확장 ([ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) Extensions)은 기본 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조인 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에 선택적 기능을 덧붙여, 특정 작업을 더 적은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 더 적은 에너지로 처리하게 만드는 구조적 가속 장치다.

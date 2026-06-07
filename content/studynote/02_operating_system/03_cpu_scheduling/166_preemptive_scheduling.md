@@ -3,8 +3,8 @@ title: "Preemptive Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선점형 스케줄링 (Preemptive Scheduling)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 현재 실행 중인 작업의 CPU를 강제로 회수해 더 적절한 작업에 재할당할 수 있게 하는 스케줄링 방식이다.

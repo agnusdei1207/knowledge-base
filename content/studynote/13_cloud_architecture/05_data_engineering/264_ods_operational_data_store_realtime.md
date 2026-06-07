@@ -3,8 +3,8 @@ title: "Operational Data Store"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
+weight: 264
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ODS](/studynote/05_database/05_distributed_nosql_newsql/291_ods/) - 준실시간 보고는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 실시간 처리를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 협업 효율을 동시에 끌어올린다.

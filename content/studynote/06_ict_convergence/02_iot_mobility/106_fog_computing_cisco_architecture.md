@@ -1,10 +1,11 @@
 ---
 title: "106. Fog Computing Cisco Architecture"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 포그 컴퓨팅 (Fog Computing)은 중앙 집중형 클라우드와 말단 엣지 디바이스 사이에 라우터/게이트웨이 기반의 중간 연산 계층(포그 노드)을 두어 부하를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하는 아키텍처다.

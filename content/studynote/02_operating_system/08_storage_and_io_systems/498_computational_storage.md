@@ -3,8 +3,8 @@ title: "498. Computational Storage"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 498
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨테이셔널 스토리지([Smart SSD](/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/))는 단순히 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장만 하고 잠자코 누워있던 멍청한 [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 깡통 디스크([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 안에 아예 <strong>작은 두뇌(ARM 코어나 <a href="/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/">FPGA</a> 연산 칩)</strong> 를 집어넣어, CPU가 시키기 전에 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 스스로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾고 가공([압축](/studynote/02_operating_system/06_memory_management/347_compaction/)/암호화/DB쿼리)해버리는 지능형 연산 저장소 혁명이다.

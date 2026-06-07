@@ -3,8 +3,8 @@ title: "107. Process Termination"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로세스 종료 ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Termination)는 실행 중인 프로세스가 OS에 자원 반환을 요청하여 생명주기를 마감하는 과정으로, `exit()` 시스템 콜이나 `Signal`(시그널)을 통해 수행된다.
 > 2. **가치**: 점유하던 메모리, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 (FD), [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체를 OS가 안전하게 회수하게 하여 자원 누수 (Resource Leak)를 막고, 부모 프로세스에 종료 상태를 보고하게 한다.

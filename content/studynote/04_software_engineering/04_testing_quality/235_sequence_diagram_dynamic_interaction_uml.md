@@ -3,8 +3,8 @@ title: "235. Sequence Diagram Dynamic Interaction Uml"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 235
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시퀀스 다이어그램 (Sequence Diagram) - 시간 흐름에 따른 상호작용 (동적)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

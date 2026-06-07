@@ -3,8 +3,8 @@ title: "108. Ltv Life Time Value"
 date: "2026-04-10"
 tags:
   - "studynote-enterprise-systems"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LTV(Life Time Value, 고객 생애 가치)는 어떤 신규 고객이 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 최초 가입한 순간부터 탈퇴하여 영원히 떠날 때까지의 전체 생애 주기 동안, 기업에 창출해 줄 것으로 예상되는 '순이익의 누적 총합(현재 가치)'이다.
 > 2. **가치**: 단 1회의 첫 결제액만 보는 근시안적 시야에서 벗어나, 고객의 '미래 반복 구매력'까지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 정량화함으로써 [구독 경제](/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)(Subscription) 모델에서 특정 고객에게 얼마까지 혜택을 퍼주어도 되는지(마케팅 예산 상한선)를 결정하는 절대적 나침반이 된다.

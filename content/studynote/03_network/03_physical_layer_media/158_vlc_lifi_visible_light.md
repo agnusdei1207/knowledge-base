@@ -3,8 +3,8 @@ title: "158. Vlc Lifi Visible Light"
 date: "2026-04-05"
 tags:
   - "studynote-network"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가시광 통신 ([VLC](/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/), Visible Light Communication)은 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) (Light Emitting [Diode](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) 조명의 빛 세기를 사람 눈에 느껴지지 않을 만큼 빠르게 변조해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 광무선 통신 기술이다.

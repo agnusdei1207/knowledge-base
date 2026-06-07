@@ -3,8 +3,8 @@ title: "Strict 2PL"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엄격한 [2PL](/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/) (Strict [2PL](/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/))은 X-Lock을 커밋 전까지 보유 ([연쇄 복귀](/studynote/05_database/04_transactions_concurrency/206_cascading_rollback_unrecoverable_schedule/) 방지)에 초점을 맞춘 개념이다.

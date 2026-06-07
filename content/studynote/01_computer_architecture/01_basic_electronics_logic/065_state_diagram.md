@@ -3,8 +3,8 @@ title: "State Diagram"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상태도([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Diagram)는 시스템의 상태와 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 화살표로 표현한 모델이다.

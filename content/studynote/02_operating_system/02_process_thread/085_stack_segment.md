@@ -3,8 +3,8 @@ title: "085. Stack Segment"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 영역은 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 때 생기는 프레임(Frame)을 쌓아 두는 프로세스 메모리 영역이다.

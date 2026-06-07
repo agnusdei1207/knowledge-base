@@ -3,8 +3,8 @@ title: "217. Kubernetes"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선언형 리소스와 제어 루프로 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행을 조정하는 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼.

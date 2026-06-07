@@ -3,8 +3,8 @@ title: "Failover/Failback Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 159
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 페일오버 ([Failover](/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))는 주 시스템 장애 시 대체 시스템으로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 책임을 넘기는 전환 메커니즘이고, 페일백 (Failback)은 주 시스템 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 다시 원래 경로로 복귀시키는 운영 절차다.

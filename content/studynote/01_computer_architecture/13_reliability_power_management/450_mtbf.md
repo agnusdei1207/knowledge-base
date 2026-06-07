@@ -3,8 +3,8 @@ title: "450. Mtbf"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 450
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MTBF (Mean Time Between Failures)는 <strong>수리 가능한 시스템이 두 번의 고장 사이에서 평균적으로 얼마나 오래 정상 동작하는지</strong>를 나타내는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 지표다.

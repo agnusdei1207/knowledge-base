@@ -3,8 +3,8 @@ title: "156. Environment Variables"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 환경 변수 ([Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) Variables) [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)은 프로세스와 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

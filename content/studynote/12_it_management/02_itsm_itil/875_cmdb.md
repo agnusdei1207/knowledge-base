@@ -3,9 +3,8 @@ title: "875. CMDB (Configuration Management Database)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 875
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMDB ([Configuration Management](/studynote/12_it_management/02_itsm_itil/873_configuration_management/) [Database](/studynote/05_database/04_transactions_concurrency/501_database/))의 본질은 모든 CI의 정보와 종속 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 저장된 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) (인시던트 영향도 분석 시 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

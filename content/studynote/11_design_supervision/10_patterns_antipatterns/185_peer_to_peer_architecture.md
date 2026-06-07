@@ -3,8 +3,8 @@ title: "Peer-to-Peer Architecture"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 피어투피어 ([Peer-to-Peer](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/), [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 아키텍처는 각 노드가 서버와 클라이언트 역할을 함께 수행하며 자원과 트래픽 부담을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 패턴이다.

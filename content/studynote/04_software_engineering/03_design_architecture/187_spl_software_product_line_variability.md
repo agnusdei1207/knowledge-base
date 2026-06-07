@@ -3,8 +3,8 @@ title: "187. Spl Software Product Line Variability"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소프트웨어 제품 라인](/studynote/04_software_engineering/01_overview_principles/019_software_product_line/) (SPL) 요구사항 가변성(Variability) 분석은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

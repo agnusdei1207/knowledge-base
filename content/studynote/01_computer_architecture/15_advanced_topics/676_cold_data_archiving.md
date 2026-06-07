@@ -3,8 +3,8 @@ title: "676. Cold Data Archiving"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 676
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 콜드 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Cold [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 아카이빙은 거의 읽지 않지만 삭제할 수 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 운영 저장소에서 분리해, 저비용·고내구성 저장소에 장기 보존하는 설계다.

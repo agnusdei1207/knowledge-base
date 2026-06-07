@@ -1,11 +1,11 @@
 ---
 title: "MYCIN, DENDRAL"
 date: "2024-05-20"
-description: "특정 도메인의 인간 전문가 지식을 룰 기반으로 구현한 인공지능의 1세대 성공 모델"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 9
 ---
-
 # 9. [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/) ([Expert System](/studynote/10_ai/03_llm_nlp/233_expert_system/))
 
 #### 핵심 인사이트 (3줄 요약)

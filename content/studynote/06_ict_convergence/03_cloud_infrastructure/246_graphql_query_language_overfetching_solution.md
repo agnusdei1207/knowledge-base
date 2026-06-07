@@ -3,9 +3,8 @@ title: "246. GraphQL (Graphql Query Language Overfetching Solution)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 246
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GraphQL ([Graphql Query Language](/studynote/03_network/09_application_layer_web_email/478_graphql_query_language/) Overfetching Solution): 클라이언트가 필요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필드만 명시하여 한 번의 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 쿼리로 복합 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 (오버패칭 Overfetching 문제 해결)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

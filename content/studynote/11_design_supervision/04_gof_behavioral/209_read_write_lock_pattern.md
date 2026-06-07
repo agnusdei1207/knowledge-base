@@ -3,8 +3,8 @@ title: "Read-Write Lock Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Read-Write Lock](/studynote/02_operating_system/04_synchronization/280_read_write_lock/) ([읽기-쓰기 락](/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) 패턴은 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 동시 읽기([공유 락](/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/), Shared [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))는 허용하고, [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시에만 단독 접근([배타 락](/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/), Exclusive [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 보장하여 읽기 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 동시에 달성한다.

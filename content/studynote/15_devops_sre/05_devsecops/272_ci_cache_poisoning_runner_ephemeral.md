@@ -3,8 +3,8 @@ title: "Ephemeral"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 272
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빌드 실행 환경을 일회성으로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 캐시 오염과 자격증명 잔존 위험을 줄이는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).

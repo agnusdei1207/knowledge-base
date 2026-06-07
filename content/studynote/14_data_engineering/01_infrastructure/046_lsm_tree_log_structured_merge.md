@@ -3,8 +3,8 @@ title: "046. Lsm Tree Log Structured Merge"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. LSM([Log-Structured Merge-Tree](/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/)) 트리는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집약적 워크로드에 최적화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 — 임의 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random Write)를 순차 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential Write)로 변환해 [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/SSD에서 극적인 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 성능을 달성하며, RocksDB·[Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)·[HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/)·LevelDB의 스토리지 엔진으로 사용된다.
 > 2. LSM의 핵심 트레이드오프는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)^ vs 읽기v — 컴팩션([Compaction](/studynote/02_operating_system/06_memory_management/347_compaction/)) 과정 없이는 여러 레벨에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 분산되어 읽기 성능이 저하되며, Bloom Filter가 불필요한 디스크 읽기를 방지하는 핵심 최적화 도구다.

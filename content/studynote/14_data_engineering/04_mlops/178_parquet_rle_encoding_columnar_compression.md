@@ -3,8 +3,8 @@ title: "178. Parquet Rle Encoding Columnar Compression"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Parquet은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 행(Row)이 아니라 열(Column) 단위로 저장해, 분석 엔진이 필요한 컬럼만 읽고 같은 성질의 값을 더 강하게 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하게 만드는 대표적인 컬럼형 저장 포맷이다.

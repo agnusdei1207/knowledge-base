@@ -1,10 +1,11 @@
 ---
 title: "103. First Normal Form 1Nf Atomic Value"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제1정규형 (1NF, [First Normal Form](/studynote/05_database/04_transactions_concurrency/526_first_normal_form/))은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)이 되기 위한 최소 조건으로, 모든 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) 값이 더 이상 쪼갤 수 없는 단일한 원자값 (Atomic Value)이어야 한다는 규칙이다.

@@ -3,8 +3,8 @@ title: "Data Integrity Migration Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 255
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/)) 이행 감리는 소스 시스템의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 타겟 시스템으로 100% 정확하게 이전되었는지를 정량적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 작업이다.

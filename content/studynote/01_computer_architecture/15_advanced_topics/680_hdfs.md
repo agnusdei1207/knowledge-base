@@ -3,9 +3,8 @@ title: "680. HDFS (Hadoop Distributed File System)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 680
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [Distributed File System](/studynote/02_operating_system/09_file_system/553_distributed_file_system/))는 대용량 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 큰 블록으로 나눠 여러 범용 서버에 저장하는, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심의 [분산 파일 시스템](/studynote/02_operating_system/09_file_system/553_distributed_file_system/)이다.

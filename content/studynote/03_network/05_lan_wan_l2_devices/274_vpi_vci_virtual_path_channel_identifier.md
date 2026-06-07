@@ -3,9 +3,8 @@ title: "274. VPI / VCI (Virtual Path/Channel Identifier)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 274
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VPI와 VCI는 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 헤더 안에 들어있는 번호로, IP 주소나 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 철저히 배제하고 <strong>망 내부의 길을 뚫어주는 프레임 릴레이의 DLCI와 같은 역할을 하는 2단계 계층적 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 연결 <a href="/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a></strong>다.

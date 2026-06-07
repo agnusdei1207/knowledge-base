@@ -3,8 +3,8 @@ title: "Server Certificate Expiration Monitoring Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 307
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서버 인증서 만료 모니터링 감리는 서버 인증서(Server Certificate) 만료 모니터링과 갱신 운영 체계에서 인증서 자산목록(Certificate Inventory), 만료 알림(Expiry Alert), 자동 갱신(Renewal Automation)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -2,9 +2,9 @@
 title: "Incident Management"
 date: "2026-05-01"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인시던트 관리](/studynote/12_it_management/02_itsm_itil/859_incident_management/) ([Incident Management](/studynote/12_it_management/02_itsm_itil/859_incident_management/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단이나 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 발생했을 때, 근본 원인보다 먼저 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빠르게 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 운영 프로세스다.

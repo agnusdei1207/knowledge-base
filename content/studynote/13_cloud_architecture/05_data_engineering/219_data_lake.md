@@ -3,8 +3,9 @@ title: "219. Data Lake"
 date: "2026-03-04"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong>무제한 원시 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장:</strong> 정형(DB), 반정형([JSON](/studynote/11_design_supervision/06_exam_summary/343_json/), Log), 비정형(이미지, 영상) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가공 없이 원본 그대로 대량 저장할 수 있는 중앙 저장소이다.
 - <strong><a href="/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a> (<a href="/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a>):</strong> [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장할 때 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 정의하지 않고, 나중에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어서 분석할 때 필요에 따라 구조를 입히는 유연한 방식이다.

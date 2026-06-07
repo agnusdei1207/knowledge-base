@@ -3,8 +3,8 @@ title: "NSH"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 873
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "591. 가비지 컬렉터 (MVCC Undo/Redo 블록 회수 진공 프로세스 Vacuum) 데이터 정리"
 date: "2026-05-09"
-categories: "studynote-database"
+tags:
+  - "studynote-database"
+weight: 591
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가비지 컬렉터 (MVCC Undo/Redo 블록 회수 진공 프로세스 Vacuum) 데이터 정리는 트랜잭션·회복 관점에서 자주 쓰이는 처리 프로세스이다.

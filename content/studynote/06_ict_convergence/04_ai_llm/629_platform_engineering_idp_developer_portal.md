@@ -3,8 +3,8 @@ title: "Platform Engineering IDP Developer Portal"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 629
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Internal Developer Platform(IDP)은 Kubernetes·Terraform·ArgoCD 등 분산된 셀프서비스 컴포넌트를 Backstage 기반 Service Catalog·Golden Path·Scaffolder로 통합하여, 개발자가 인프라 추상화 계층(Platform Abstraction Layer) 위에서 "Day-0/1/2" 전 과정을 단일 포털로 수행하게 만드는 엔지니어링 시스템이다.

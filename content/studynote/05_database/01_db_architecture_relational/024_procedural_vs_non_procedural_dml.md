@@ -3,8 +3,8 @@ title: "024. Procedural Vs Non Procedural Dml"
 date: "2026-04-29"
 tags:
   - "studynote-database"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DML](/studynote/12_it_management/02_itsm_itil/867_dml/) ([Data Manipulation Language](/studynote/05_database/01_db_architecture_relational/021_dml/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작어)은 절차적(Procedural) 방식과 비절차적(Non-Procedural) 방식으로 구분되며, 절차적 DML은 레코드를 어떻게(HOW) 탐색할지 지정하고 비절차적 DML은 무엇을(WHAT) 원하는지만 선언한다.
 > 2. **가치**: 비절차적 DML인 SQL은 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화(Query Optimization)를 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))에 위임하여 개발자가 접근 경로를 몰라도 최적 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하므로, 생산성과 이식성이 절차적 [DML](/studynote/12_it_management/02_itsm_itil/867_dml/) 대비 월등히 높다.

@@ -3,8 +3,8 @@ title: "Backpropagation"
 date: "2026-04-02"
 tags:
   - "studynote-ai"
+weight: 22
 ---
-
 # [몬테카를로 트리 탐색](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) ([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))의 4단계 라이프사이클
 
 > ⚠️ 이 문서는 무한대에 가까운 경우의 수를 가진 탐색 공간에서, 딥러닝과 결합하여 강화학습([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))의 정점인 알파고(AlphaGo)를 탄생시킨 핵심 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 MCTS의 '선택-확장-시뮬레이션-[역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)' 4단계 메커니즘을 심층 분석합니다.

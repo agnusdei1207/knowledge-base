@@ -2,9 +2,9 @@
 title: "146. Quantization Qlora Model Compression"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))는 <strong>FP32/FP16 가중치를 INT8/INT4로 축소</strong>하여 메모리·연산을 줄이는 모델 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기법이며, QLoRA는 <strong>4비트 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>된 모델에 LoRA를 적용</strong>하여 단일 소비자 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(24GB)에서 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Fine-tuning을 가능하게 했다.
 > 2. **가치**: 7B 모델 FP16은 <strong>14GB 메모리</strong>이지만, 4비트 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 시 <strong>3.5GB</strong>로 축소되어 소비자 GPU에서 추론·학습이 가능하다.

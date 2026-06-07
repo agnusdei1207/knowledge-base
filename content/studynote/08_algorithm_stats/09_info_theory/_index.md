@@ -4,7 +4,6 @@ tags:
   - "studynote-algorithm-stats"
 weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보 이론(Information Theory)은 클로드 섀넌(Claude Shannon)이 1948년 창시한 이론으로, <strong>정보의 양을 수학적으로 정량화</strong>하고 최적의 데이터 압축·전송 한계를 규정한다.
 > 2. **가치**: 엔트로피(Entropy)·상호 정보량(Mutual Information)·KL 발산(KL-Divergence)은 머신러닝의 의사결정 트리·VAE·GANs·Transformer 등 핵심 알고리즘의 수학적 기반이다.

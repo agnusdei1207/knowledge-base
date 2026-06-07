@@ -3,8 +3,8 @@ title: "Throughput"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 처리량 (Throughput)은 시스템이 단위 시간 동안 <strong>완료해 낸 작업의 총량</strong>이며, "얼마나 빨리 하나를 끝내는가"보다 "얼마나 많이 계속 끝내는가"를 본다.

@@ -3,8 +3,8 @@ title: "Zero Knowledge Proof, ZKP"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1016
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Knowledge Proof, [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))는 암호·키 관리에서 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 키 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.

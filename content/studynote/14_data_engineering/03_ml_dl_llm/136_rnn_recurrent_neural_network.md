@@ -2,9 +2,9 @@
 title: "136. Rnn Recurrent Neural Network"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 136
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RNN은 <strong>은닉 상태(Hidden <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 이전 시점에서 현재 시점으로 순환(Recurrence)하여 시퀀스 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(텍스트·시계열·음성)의 순서 의존성을 학습</strong>하는 신경망이다.
 > 2. **가치**: CNN은 공간 패턴, RNN은 <strong>시간 패턴</strong>을 처리하며, 기계 번역·음성 인식·시계열 예측의 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 핵심 아키텍처였다. 단, [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Long-term Dependency](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/))에 취약하다.

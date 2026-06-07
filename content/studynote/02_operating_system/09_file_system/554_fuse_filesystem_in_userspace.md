@@ -3,8 +3,8 @@ title: "SSHFS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 554
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 원래 새로운 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4, NTFS)을 짜서 디스크를 굴리려면 OS의 코어인 '[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)' 을 직접 C언어로 코딩해서 재부팅해야 하는 무서운 헬게이트였다. <strong>FUSE</strong>는 이 철칙을 부수고, <strong>"<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>에는 딱 껍데기 통역기(FUSE <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>)만 남겨둔 채 실제 '<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 저장하고 지우는 복잡한 로직'은 평범한 응용 프로그램(Userspace) 위에서 파이썬이나 자바로도 쉽게 짜게 해주는 아웃소싱 브릿지 렌더"</strong> 다.

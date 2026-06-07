@@ -3,8 +3,8 @@ title: "Speech Recognition TTS ASR Voice Synthesis"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 668
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 음성 인식(ASR)은 음향 모델(Acoustic Model, AM)·발음 모델(Pronunciation Lexicon)·언어 모델(Language Model, LM)의 3-그램 결합으로 음소 시퀀스를 텍스트 토큰으로 매핑하는 과정이며, TTS는 텍스트 -> 음소/멜 스펙트로그램 -> 신경망 보코더(Vocoder)를 통한 파형 합성으로 구성된다. Whisper, Conformer, VITS, FastSpeech 2와 같은 End-to-End Transformer 기반 모델이 기존 HMM/GMM 파이프라인을 대체하고 있다.

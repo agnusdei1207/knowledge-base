@@ -2,9 +2,9 @@
 title: "159. Compression"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 *중복성 (Redundancy) 제거* — 무손실은 통계적 중복 제거, 손실은 지각적 불필요 정보 제거라는 근본 원리가 다르다.

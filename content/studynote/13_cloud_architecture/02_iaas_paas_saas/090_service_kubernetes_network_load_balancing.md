@@ -3,8 +3,8 @@ title: "090. Service Kubernetes Network Load Balancing"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 서비스(Service)는 수시로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸하며 IP가 변하는 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))들 앞단에 위치하여, 변하지 않는 고정된 진입점(IP 및 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))을 제공하는 논리적 네트워크 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이다.
 > 2. **가치**: 클라이언트(또는 다른 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))가 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 현재 상태나 개수를 몰라도, 서비스 이름만으로 통신할 수 있게 하여 인프라의 변동성과 애플리케이션의 연결성을 완벽하게 분리(Decoupling)한다.

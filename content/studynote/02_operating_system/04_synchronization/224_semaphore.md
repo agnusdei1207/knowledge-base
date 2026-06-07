@@ -3,8 +3,8 @@ title: "Semaphore"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 세마포어 (Semaphore)는 단순한 1인용 자물쇠([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))를 넘어, <strong>'사용 가능한 자원의 개수(정수)'</strong>를 나타내는 카운터를 기반으로 여러 개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 자원에 접근할 수 있게 제어하는 범용 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체다.

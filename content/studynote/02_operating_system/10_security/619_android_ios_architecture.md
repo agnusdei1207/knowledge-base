@@ -3,8 +3,8 @@ title: "Android vs iOS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 619
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Android는 Google이 주도하는 오픈 소스 (Open Source) 모바일 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Linux [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 위에 [ART](/studynote/02_operating_system/10_security/621_art_android_runtime/) ([Android Runtime](/studynote/02_operating_system/10_security/621_art_android_runtime/)) 가상머신과 Java/Kotlin 애플리케이션 프레임워크를 탑재한 구조이며, iOS는 Apple이 개발한 폐쇄형 모바일 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 XNU (X is Not Unix) [하이브리드 커널](/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) 위에 Swift/Objective-C 네이티브 런타임을 탑재한 구조다.

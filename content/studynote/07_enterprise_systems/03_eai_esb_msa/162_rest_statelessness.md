@@ -3,8 +3,8 @@ title: "162. Rest Statelessness"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 162
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 무상태성 (Statelessness)은 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))에서 <strong>각 요청이 스스로 완결된 정보를 담아 서버가 이전 대화를 기억하지 않아도 처리 가능해야 한다</strong>는 제약이다.

@@ -3,8 +3,8 @@ title: "ON Device SLM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 320
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 기반 온디바이스 [SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/) 구동 경량 아키텍처 (ON Device [SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/)): 1. **본질**: 인터넷 연결(클라우드 서버) 없이 스마트폰, 노트북 등 개인 기기(On-device)에서 독자적으로 돌아가도록 수십~수백억 개 수준으로 파라미터 크기를 줄인 소형 언어…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

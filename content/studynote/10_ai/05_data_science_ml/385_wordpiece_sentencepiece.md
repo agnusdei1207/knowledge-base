@@ -3,8 +3,8 @@ title: "Wordpiece Sentencepiece"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 385
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: WordPiece는 언어 모델 우도(Log-Likelihood) 증가량을 기준으로 서브워드를 병합하고, SentencePiece는 공백을 특수 문자로 처리해 언어에 독립적인 원시 텍스트 토크나이징을 구현한다.

@@ -1,11 +1,11 @@
 ---
 title: "Security/Safeguard,"
 date: "2026-04-05"
-description: "성공적인 정보화 사업을 보장하기 위한 감리의 핵심 목표인 효과성, 효율성, 안전성(보안성)의 메커니즘과 실무 적용"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 2
 ---
-
 # 02. 감리의 3대 목적: 효과성, 효율성, 안전성
 
 #### 핵심 인사이트 (3줄 요약)

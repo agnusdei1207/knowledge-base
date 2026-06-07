@@ -3,8 +3,8 @@ title: "177. Delta Lakehouse Time Travel Transaction"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Delta Lakehouse는 [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 같은 오픈 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위에 Delta Log를 더해 ACID ([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) 테이블 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 만드는 방식이다.

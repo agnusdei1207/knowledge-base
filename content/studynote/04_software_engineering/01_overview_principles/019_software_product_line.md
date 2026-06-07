@@ -1,11 +1,11 @@
 ---
 title: "019. Software Product Line"
 date: "2026-03-04"
-description: "도메인 공학과 애플리케이션 공학을 통해 소프트웨어 핵심 자산의 재사용을 극대화하는 SPL 아키텍처를 심층 분석합니다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 19
 ---
-
 # 19. 소프트웨어 제품 라인 ([SPL](/studynote/04_software_engineering/03_design_architecture/187_spl_software_product_line_variability/), Software Product Line) - [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)/어플리케이션 공학
 
 #### 핵심 인사이트 (3줄 요약)

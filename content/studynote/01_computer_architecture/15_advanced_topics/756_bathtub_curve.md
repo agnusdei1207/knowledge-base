@@ -3,8 +3,8 @@ title: "756. Bathtub Curve"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 756
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배스터브 곡선 (Bathtub Curve)은 부품의 고장률이 시간 내내 일정하지 않고, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량기·안정기·마모기로 바뀐다는 사실을 보여 주는 수명 주기 모델이다.

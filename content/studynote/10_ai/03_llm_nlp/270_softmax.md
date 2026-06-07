@@ -3,8 +3,8 @@ title: "Softmax"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 270
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트맥스(Softmax) 함수는 K개의 임의 실수 벡터를 합이 1인 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 변환하며, 다중 클래스 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Multi-class [Classification](/studynote/12_it_management/03_ea_isp/107_classification/))의 출력층에서 "각 클래스에 속할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"을 반환한다.

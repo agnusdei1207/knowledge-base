@@ -3,8 +3,8 @@ title: "DaemonSet"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 311
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데몬셋](/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/) ([DaemonSet](/studynote/11_design_supervision/06_exam_summary/334_process/))은 [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 관점에서 목표 상태, 실행 절차, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

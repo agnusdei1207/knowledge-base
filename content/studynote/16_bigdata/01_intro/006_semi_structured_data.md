@@ -1,11 +1,11 @@
 ---
 title: "006. Semi Structured Data"
 date: "2024-05-20"
-description: "JSON/XML/CSV 등 반정형 데이터의 구조, 파싱 메커니즘, 그리고 실무적 활용 방안"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
+weight: 6
 ---
-
 # [반정형 데이터](/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/) ([Semi-Structured Data](/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/))
 
 #### 핵심 인사이트 (3줄 요약)

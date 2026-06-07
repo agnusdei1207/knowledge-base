@@ -3,8 +3,8 @@ title: "Voltage Glitching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 771
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 볼티지 글리칭 ([Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Glitching)은 칩의 VDD (공급 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 ns~μs 단위로 순간적으로 떨어뜨려, 정상 동작하던 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경로의 타이밍 여유를 깨고 [instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) skip이나 연산 오류를 유도하는 <strong>능동형 <a href="/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/">fault injection</a></strong>이다.

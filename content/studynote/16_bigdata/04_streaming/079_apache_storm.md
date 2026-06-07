@@ -1,11 +1,11 @@
 ---
 title: "04. Apache Storm"
+date: "2026-06-07"
 tags:
   - "bigdata"
-date: "2026-06-07"
+  - "studynote-bigdata"
+weight: 79
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [아파치 스톰](/studynote/16_bigdata/02_hadoop/044_apache_storm/)([Apache Storm](/studynote/16_bigdata/02_hadoop/044_apache_storm/))은 과거 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 중심의 굼벵이 같은 배치(Batch) 처리 시대에 혜성처럼 등장하여, 수백만 건의 트윗이나 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>메모리 상에서 '이벤트 1건'이 발생할 때마다 1밀리초(ms) 단위의 미친 속도로 즉각 낚아채어 계산해 내는 1세대 진정한 실시간 스트림(Real-time <a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>) 프로세싱 엔진</strong>이다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물고기(Tuple)로 비유하면, 물고기를 강에 풀어놓는 수도꼭지 역할의 **스파우트(Spout)** 와, 물고기를 그물로 낚아채어 요리하고 다음 사람에게 던져주는 <strong><a href="/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/">볼트</a>(Bolt)</strong> 라는 직관적인 노드들로 네트워크(토폴로지)를 구성하여, [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 복잡한 비즈니스 로직을 완벽한 흐름도([DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))로 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 냈다.

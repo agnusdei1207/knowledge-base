@@ -3,8 +3,8 @@ title: "Statistics Basics Mean Variance Skewness Kurtosis"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 510
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [기술 통계](/studynote/16_bigdata/05_analysis/100_descriptive_statistics/)([Descriptive Statistics](/studynote/16_bigdata/05_analysis/100_descriptive_statistics/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 중심(Central Tendency), 산포(Spread), 형태(Shape)를 네 가지 척도로 압축한다.

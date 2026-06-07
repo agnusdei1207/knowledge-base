@@ -1,10 +1,11 @@
 ---
 title: "012. Approximation Algorithm"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 12
 ---
-
 # 12. 근사 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Approximation [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
 ## 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "TensorRT / ONNX"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파이토치(PyTorch)로 학습시킨 모델을 그대로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 서버(운영 환경)에 올리면 속도가 너무 느려서 뻗어버린다. <strong>ONNX</strong>는 서로 다른 딥러닝 언어들을 하나로 통일하는 '공용어(표준 포맷)'이고, <strong>TensorRT</strong>는 이 표준화된 모델을 NVIDIA [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 하드웨어 칩셋에 완벽하게 들러붙도록 극한으로 깎고 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 '엔진 튜닝 컴파일러'다.

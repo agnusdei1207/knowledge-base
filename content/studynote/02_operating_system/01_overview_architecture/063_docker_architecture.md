@@ -3,8 +3,8 @@ title: "063. Docker Architecture"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Docker는 클라이언트-서버 구조에서 Docker CLI, Docker 엔진(dockerd), containerd, runc가 협업해 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들고 실행하는 플랫폼이다.

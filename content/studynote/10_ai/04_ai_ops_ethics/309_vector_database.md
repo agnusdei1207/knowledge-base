@@ -3,8 +3,8 @@ title: "Vector Database"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 309
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) ([Vector Database](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/))는 텍스트·이미지·오디오 등의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원 실수 벡터([임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))로 변환하여 저장하고, [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 벡터와의 수학적 거리([코사인 유사도](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/), L2 거리)로 의미적으로 유사한 항목을 고속 검색하는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.

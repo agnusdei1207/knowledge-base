@@ -3,8 +3,8 @@ title: "Vector Database"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 277
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) ([Vector Database](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)): [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 검색의 핵심, 텍스트/이미지를 다차원 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 텐서로 변환 저장하고 [코사인 유사도](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 연산으로 문맥적(Semantic) 의미가 가까운 문서를 빛의 속도로 추출 ([Milvus](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/), Pinec…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

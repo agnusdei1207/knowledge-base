@@ -2,9 +2,9 @@
 title: "Diffusion Model, Latent Diffusion"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 477
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [디퓨전 모델](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 잠재 공간 노이즈 역산 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) AI은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [디퓨전 모델](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 잠재 공간 노이즈 역산 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Diffusion Model](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/), Latent Diffusion의 경계를 분명히 만드는 데 의미가 있다.

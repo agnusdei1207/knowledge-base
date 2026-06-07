@@ -2,9 +2,9 @@
 title: "IaC: Infrastructure as Code"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 428
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [불변 인프라](/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) [테라폼](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [불변 인프라](/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) [테라폼](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/): [Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/), 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

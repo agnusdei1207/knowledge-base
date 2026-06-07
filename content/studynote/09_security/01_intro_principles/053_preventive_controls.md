@@ -3,8 +3,8 @@ title: "Preventive Controls"
 date: "2026-05-01"
 tags:
   - "studynote-security"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 예방 통제 (Preventive Controls)는 사고가 나기 전에 위협의 발생이나 확산을 막는 보안 통제다.

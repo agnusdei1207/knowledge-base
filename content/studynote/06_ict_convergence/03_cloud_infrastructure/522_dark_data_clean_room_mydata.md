@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 522
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다크 데이터(Dark Data)는 수집됐으나 활용되지 않는 데이터(전체의 80%+)이며, 데이터 클린 룸(Data Clean Room)은 원시 데이터 미공유 상태에서 두 기업이 집계 분석을 교환하고, 마이데이터(MyData)는 개인이 자신의 데이터 통제권을 직접 행사하는 제도다.

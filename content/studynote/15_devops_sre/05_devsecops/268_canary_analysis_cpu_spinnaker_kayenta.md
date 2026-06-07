@@ -3,8 +3,8 @@ title: "268. Canary Analysis Cpu Spinnaker Kayenta"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 268
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 작은 비율의 트래픽만 새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 흘려보내 통계적으로 안전성을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 점진 배포 방식.

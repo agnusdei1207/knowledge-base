@@ -3,8 +3,8 @@ title: "611. Thread Protocol Ipv6 Mesh Wpan"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 611
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

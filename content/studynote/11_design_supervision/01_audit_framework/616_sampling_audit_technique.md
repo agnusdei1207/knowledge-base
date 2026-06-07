@@ -3,8 +3,8 @@ title: "Sampling Audit Technique"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 616
 ---
-
 > **핵심 인사이트**
 > 1. 감리에서 전수 검토(100% 검사)는 비용·시간상 불가능한 경우가 많으므로, 통계적 샘플링(Statistical [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))을 통해 모집단(Population)의 특성을 신뢰 수준([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Level)과 허용 오차(Tolerable Error) 내에서 추론한다.
 > 2. 샘플링 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))는 샘플이 모집단을 대표하지 못할 위험으로, 표본 크기(Sample Size)가 클수록 줄어들지만 영구적으로 제거되지는 않는다 — 이것이 샘플링 기반 감리 의견의 근본적 한계이자 전제이다.

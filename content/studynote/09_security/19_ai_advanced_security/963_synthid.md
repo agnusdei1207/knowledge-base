@@ -3,9 +3,8 @@ title: "963. SynthID (SynthID)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 963
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SynthID는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

@@ -3,8 +3,8 @@ title: "Error-Correcting Code"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 463
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error-Correcting [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 메모리는 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)에 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 여분의 검사용 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 함께 기록해, 메모리에서 발생하는 단일 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 자동 정정하고 이중 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 즉시 탐지하는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 장치다.

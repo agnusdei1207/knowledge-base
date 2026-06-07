@@ -3,8 +3,8 @@ title: "Service Level Indicator,"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 지표)는 사용자가 실제로 겪은 성공·실패·[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 일정한 분모와 시간 창으로 계산한 관측 수치다.

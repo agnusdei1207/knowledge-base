@@ -3,8 +3,8 @@ title: "Biometric Auth FIDO2 Passkey Authentication"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 702
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FIDO2는 W3C WebAuthn과 FIDO Alliance CTAP2로 구성된 공개키 기반(passwordless) 인증 표준이며, Passkey는 이 표준 위에서 RP(Relying Party)·Authenticator·User Verification(생체/PIN) 결합을 통해 비밀번호·OTP·SMS 인증을 대체하는 credential(공개키+개인키 쌍)이다.

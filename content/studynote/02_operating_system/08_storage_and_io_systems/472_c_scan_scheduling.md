@@ -3,8 +3,8 @@ title: "472. C Scan Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 472
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: C-SCAN(Circular SCAN)은 엘리베이터(SCAN) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 양방향으로 움직이며 발생시키던 '위치에 따른 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)의 심각한 편차'를 해결하기 위해, <strong>디스크 헤드가 오직 '한쪽 방향'으로만 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 훑으며 전진하고, 끝에 도달하면 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 읽지 않은 채 출발점으로 빛의 속도로 복귀하는 <a href="/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 순환 큐잉 기법</strong>이다.

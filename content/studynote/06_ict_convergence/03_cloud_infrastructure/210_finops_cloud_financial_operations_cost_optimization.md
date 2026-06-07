@@ -3,9 +3,8 @@ title: "210. FinOps (Cloud Financial Operations)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 210
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) (Cloud Financial Operations): 기술, 비즈니스, 재무 팀이 협력하여 클라우드 비용을 투명하게 관리/최적화하는 클라우드 재무 관리 문화를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

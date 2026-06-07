@@ -3,8 +3,8 @@ title: "027. Unikernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [유니커널](/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)([Unikernel](/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/))은 단일 응용 프로그램과 OS [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 컴파일 타임에 하나의 실행 가능 이미지로 결합하여, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 위에서 직접 실행되는 최소화 단일 주소 공간 OS([Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) OS)다.
 > 2. **가치**: [유니커널](/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)은 전통 OS 대비 공격 표면(Attack Surface)이 극소화되고(불필요한 시스템 콜·드라이버·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제거), 부팅 시간이 밀리초 단위이며, 메모리 풋프린트가 MB 단위로 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)보다 더 경량화된다.

@@ -3,8 +3,8 @@ title: "Write-Invalidate"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 405
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무효화 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Invalidate)은 한 코어가 공유 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때 새 값을 모두에게 배포하지 않고, 다른 캐시 복사본을 먼저 무효(Invalid)로 만들어 단일 최신본의 소유권을 확보하는 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 갱신 방식이다.

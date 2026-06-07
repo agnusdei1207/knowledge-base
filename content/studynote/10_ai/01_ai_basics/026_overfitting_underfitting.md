@@ -3,8 +3,8 @@ title: "026. Overfitting Underfitting"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))은 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈까지 학습하여 새 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락하는 현상이고, 과소적합([Underfitting](/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))은 모델이 너무 단순하여 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴조차 포착하지 못하는 현상이다. 둘 다 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 일반화(Generalization)를 방해한다.
 > 2. **가치**: 과적합은 훈련 오차v [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차^로 진단하고, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(L1/L2), [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation), [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/)([Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/))로 대응한다. 과소적합은 훈련·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 모두^로 진단하고, 모델 복잡도 증가, [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링, 훈련 시간 연장으로 대응한다.

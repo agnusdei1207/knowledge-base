@@ -3,8 +3,8 @@ title: "Stored-program Concept"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 125
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 내장형 프로그램(Stored-program)은 컴퓨터가 실행할 '[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'를 외부 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 천공카드가 아닌, <strong>컴퓨터 내부의 고속 메모리에 '<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>'와 동일한 2진수 형태로 적재(Load)해 두고 순차적으로 꺼내 쓰는 설계 사상</strong>이다.
 > 2. **가치**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 수동으로 꽂았다 뺐다 하던 하드웨어 재조립의 지옥에서 벗어나, 소프트웨어만 바꾸면 동일한 기계(CPU)로 미적분도 풀고 게임도 할 수 있는 <strong>'소프트웨어(범용 컴퓨터)의 시대'</strong>를 열어젖힌 빅뱅이다.

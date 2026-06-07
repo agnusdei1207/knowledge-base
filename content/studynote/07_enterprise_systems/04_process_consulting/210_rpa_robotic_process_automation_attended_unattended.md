@@ -2,9 +2,9 @@
 title: "210. Rpa Robotic Process Automation Attended Unattended"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))는 기존 시스템을 크게 바꾸지 않고 사용자 화면과 입력 동작을 소프트웨어 봇으로 자동화하는 비침습적 자동화 기술이다.

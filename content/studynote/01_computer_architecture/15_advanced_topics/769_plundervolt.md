@@ -3,8 +3,8 @@ title: "Plundervolt"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 769
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플런더버그 (Plundervolt)는 Intel 프로세서의 [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) 제어 경로를 악용해, 보안 연산 순간에 코어 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 낮추고 그 결과 생긴 계산 오류를 공격에 이용하는 <strong>소프트웨어 유도형 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> <a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 주입</strong>이다.

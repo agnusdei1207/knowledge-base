@@ -3,8 +3,8 @@ title: "115. Text Summarization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 텍스트 요약 (Text Summarization)은 긴 문서를 짧고 핵심적인 텍스트로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 NLP 기법으로, 원문 문장을 그대로 추출하는 추출적 (Extractive) 방법과 새로운 문장을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 추상적 (Abstractive) 방법으로 구분된다.
 > 2. **가치**: 법률 문서·의학 논문·뉴스 기사·회의록 등 매일 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 대규모 텍스트를 자동으로 요약함으로써 정보 과부하를 해소하고, 의사결정자가 핵심 정보에 빠르게 접근하도록 지원한다.

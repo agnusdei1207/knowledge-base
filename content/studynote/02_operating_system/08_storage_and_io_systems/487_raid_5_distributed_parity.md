@@ -3,8 +3,8 @@ title: "RAID 5 Distributed Parity"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 487
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 치명적 결함인 '단일 패리티 전담 디스크 병목'을 해소하기 위해, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록과 패리티(복원 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 어레이를 구성하는 <strong>모든 디스크들에 골고루 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Distributed) 교차 순환 기록하는</strong> 패리티 [스트라이핑](/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 아키텍처다.

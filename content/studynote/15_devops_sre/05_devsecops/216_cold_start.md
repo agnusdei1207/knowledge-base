@@ -3,8 +3,8 @@ title: "Cold Start"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유휴 후 처음 호출되는 함수나 워크로드가 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 겪는 현상.

@@ -3,8 +3,8 @@ title: "995. Network Slicing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 995
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [네트워크 슬라이싱](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,9 +3,8 @@ title: "619. ID Governance (IGA)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 619
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ID Governance (IGA)는 신원 위협에서 복잡한 보안 문제를 요소와 관계로 나눠 설명하게 해 주는 구조화된 틀이다.

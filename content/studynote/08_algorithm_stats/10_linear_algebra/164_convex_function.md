@@ -2,9 +2,9 @@
 title: "164. Convex Function"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 볼록 함수 (Convex Function) 는 *어느 두 점을 잡아도 그 사이 곡선이 직선 아래에 있는 함수* — 이 단 하나의 성질이 "[지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) = 전역 최솟값"을 보장한다.

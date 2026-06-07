@@ -2,9 +2,9 @@
 title: "059. Micro Segmentation East West Traffic"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/), 애플리케이션 단위로 세밀한 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용해 내부 트래픽까지 통제하는 보안 방식이다.

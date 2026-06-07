@@ -3,8 +3,8 @@ title: "116. First Party Data Cookie Less Strategy"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [1st Party](/studynote/12_it_management/05_security_compliance/928_cdp_first_party/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [3rd Party](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 폐지(Chrome 2025)에 대응하여, 기업이 <strong>자사 채널(웹·앱·매장·이메일)에서 고객 동의 하에 직접 수집한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 활용하여 마케팅·분석·개인화를 수행하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: [3rd Party](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)로 다른 사이트의 행동을 추적하던 시대가 끝나면서, <strong>자사 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 품질·양·활용 역량</strong>이 마케팅 경쟁력의 핵심이 되었다. [CDP](/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([C고객 Data Platform](/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))가 [1st Party](/studynote/12_it_management/05_security_compliance/928_cdp_first_party/) Data를 수집·통합·활성화하는 핵심 인프라다.

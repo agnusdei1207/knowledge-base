@@ -3,8 +3,8 @@ title: "Working Set Model"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 305
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [워킹 셋 모델](/studynote/02_operating_system/07_virtual_memory/416_working_set_model/) ([Working Set Model](/studynote/02_operating_system/07_virtual_memory/416_working_set_model/))은 프로세스가 최근 일정 구간 동안 실제로 자주 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 집합을 기준으로 필요한 메모리 크기를 추정하는 방식이다.

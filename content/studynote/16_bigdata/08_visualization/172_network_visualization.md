@@ -3,8 +3,8 @@ title: "Network Visualization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) (Network Visualization)는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 노드와 엣지로 그려 주는 작업이 아니라, 중심성·커뮤니티·[브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 같은 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조를 사람이 읽을 수 있는 위치·색·크기로 번역하는 분석 기법이다.

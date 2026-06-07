@@ -3,8 +3,8 @@ title: "Immutable Infrastructure"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [불변 인프라](/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)) 원칙은 운영 중인 서버에 직접 [SSH](/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속하여 변경하는 것을 금지하고, 모든 변경은 코드->빌드->배포 파이프라인을 통해서만 적용하여 Configuration Drift를 원천 차단한다.

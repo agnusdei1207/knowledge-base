@@ -3,8 +3,8 @@ title: "Unstructured Data Text Mining Preprocessing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 682
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비정형 텍스트(HTML, SNS, PDF, 로그, 한글 코퍼스)는 구조화된 형태소·토큰 단위로 정규화되어야만 TF-IDF, Word2Vec, BERT 임베딩 등 후속 마이닝 모델(토픽 모델링·감성분석·NER·문서분류)이 통계적·의미적 신호를 추출할 수 있으며, 한글의 교착어적 특성(조사·어미 변형, 띄어쓰기 비일관성) 때문에 영어권 Stemmer/Lemmatizer와 다른 형태소 분석기(KoNLPy, Mecab, Khaiii, OKT) 기반의 어절 분리·품사 태깅이 필수적이다.

@@ -3,8 +3,8 @@ title: "273. Mediator Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 273
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 중재자 (Mediator) - 객체 간의 복잡한 상호작용을 캡슐화하여 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 저하은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

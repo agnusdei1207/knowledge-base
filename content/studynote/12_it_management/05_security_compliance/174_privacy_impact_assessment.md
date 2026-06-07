@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 174
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개인정보 영향평가 (PIA, Privacy Impact Assessment)는 새로운 시스템이나 중대한 변경이 정보주체의 권리와 프라이버시에 미칠 위험을 사전에 분석하고 설계 단계에서 통제 조치를 반영하는 평가 체계다.

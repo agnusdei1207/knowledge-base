@@ -2,9 +2,9 @@
 title: "DB Architecture & Relational"
 tags:
   - "database"
+  - "studynote-database"
 weight: 1
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 데이터베이스는 데이터의 영속적 저장소로, 파일 시스템과의 근본적 차이는 트랜잭션 처리, 동시성 제어, 회복 메커니즘을 내장하여 데이터 무결성을 보장한다는 점이다.

@@ -3,8 +3,8 @@ title: "Embedded System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 임베디드 시스템 (Embedded System)은 특정한 목적을 수행하기 위해 하드웨어와 소프트웨어가 밀접하게 결합된 시스템으로, 제한된 자원(Memory, [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), CPU) 하에서 최적의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내도록 설계된 전용 컴퓨팅 시스템이다.
 > 2. **가치**: 일상 가전부터 고정밀 산업 기기까지 모든 기기에 지능을 부여하며, 저전력 설계와 고도의 신뢰성을 바탕으로 인간의 개입 없이 독립적으로 동작하는 자동화의 핵심이다.

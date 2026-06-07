@@ -3,8 +3,8 @@ title: "Character Device"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 441
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 세상에 존재하는 수만 가지의 각기 다른 하드웨어 I/O 기기들을 통제하기 위해, 이들을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전송 단위와 탐색(Seek) 가능 여부에 따라 크게 <strong>'<a href="/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">블록 장치</a>(<a href="/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">Block Device</a>)'와 '<a href="/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/">문자 장치</a>(<a href="/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/">Character Device</a>)'라는 두 개의 거대한 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 클래스로 쪼개어 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>한다.

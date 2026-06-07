@@ -2,9 +2,9 @@
 title: "090. Architecture Drivers Quality Attributes Constraints"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/) ([Architecture Drivers](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/))는 소프트웨어 아키텍처의 형태와 근본적인 설계 결정을 좌우하는 핵심 요구사항들의 집합이다.

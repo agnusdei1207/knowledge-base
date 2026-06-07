@@ -3,8 +3,8 @@ title: "Attribute"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 속성 (Attribute)은 타원, 개체의 특성에 초점을 맞춘 개념이다.

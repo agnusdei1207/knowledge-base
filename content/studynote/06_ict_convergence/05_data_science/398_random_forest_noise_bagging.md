@@ -3,8 +3,8 @@ title: "Random Forest Noise Bagging"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 398
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 노이즈 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스플릿 브레인](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 의사결정 방어 [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/) Noise [Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)): 1. **본질**: [의사결정 트리](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 쓸데없는 변수(노이즈 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 들어오면, 그걸로도 열심히 질문을 던져서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 쪼개는 '[스플릿 브레인](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)(Split B…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

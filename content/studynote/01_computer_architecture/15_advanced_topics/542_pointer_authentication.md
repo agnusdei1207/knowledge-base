@@ -3,8 +3,8 @@ title: "Pointer Authentication, ARM PAC"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 542
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 포인터 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (Pointer [Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/))은 AArch64 포인터의 미사용 상위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에 PAC (Pointer [Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 기록하고, 사용 직전에 비밀 키와 문맥 값을 이용해 다시 검증함으로써 포인터 위변조를 막는 하드웨어 보안 기법이다.

@@ -3,8 +3,8 @@ title: "Dispersion"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)(Dispersion)은 광섬유를 통과하는 빛의 펄스가 이동 경로 나 파장의 차이로 인해 진행할수록 시간 축으로 넓게 퍼지는 물리적 왜곡 현상이다.

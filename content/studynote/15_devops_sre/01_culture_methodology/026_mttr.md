@@ -3,8 +3,8 @@ title: "026. Mttr"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time to Recover/Repair, 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)은 시스템 장애 발생부터 정상 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 걸린 평균 시간으로, [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 4대 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 "복원력([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))"을 측정하는 핵심 지표다.
 > 2. **가치**: MTTR은 단순히 빠른 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)만을 의미하지 않는다. 장애 탐지([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) -> 대응(Response) -> 원인 파악(Diagnosis) -> [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))의 4단계 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체를 최적화해야 낮출 수 있다. 어느 한 단계의 병목이 전체 MTTR을 지배한다.

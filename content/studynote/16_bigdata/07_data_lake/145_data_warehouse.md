@@ -3,8 +3,8 @@ title: "Data Warehouse"
 date: "2024-05-22"
 tags:
   - "studynote-bigdata"
+weight: 145
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. 기업의 의사결정을 지원하기 위해 여러 시스템의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>주제 중심적, 통합적, 시계열적, 비휘발성</strong>으로 구성한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이다.
 2. 저장 전 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하고 가공하는 <strong><a href="/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/">스키마 온 라이트</a>(<a href="/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/">Schema-on-Write</a>)</strong> 방식을 사용하여 높은 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보장한다.

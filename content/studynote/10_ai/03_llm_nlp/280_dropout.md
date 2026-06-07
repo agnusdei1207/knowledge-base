@@ -3,8 +3,8 @@ title: "Dropout"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 280
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 드롭아웃([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))은 학습 시 매 미니배치마다 뉴런을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) p로 무작위 비활성화하여 특정 뉴런들이 서로 공동 적응(Co-adaptation)하는 것을 막고, 다수의 희소 네트워크(Sparse Network)를 동시에 학습하는 <strong><a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a>(<a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">Ensemble</a>) 효과</strong>를 낸다.

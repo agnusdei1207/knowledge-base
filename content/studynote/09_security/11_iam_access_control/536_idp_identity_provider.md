@@ -3,9 +3,8 @@ title: "536. IdP (Identity Provider)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 536
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IdP (Identity [Provider](/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/))는 신원·접근 제어에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

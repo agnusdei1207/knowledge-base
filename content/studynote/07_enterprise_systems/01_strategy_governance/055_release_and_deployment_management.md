@@ -3,8 +3,8 @@ title: "Release and Deployment Management"
 date: "2026-05-01"
 tags:
   - "studynote-enterprise-systems"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 릴리스 관리 (Release [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 변경을 묶어 안정적으로 배포 가능한 단위로 준비하는 활동이다.

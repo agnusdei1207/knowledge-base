@@ -3,8 +3,8 @@ title: "Data Ethics Bias Audit Fairness Metrics"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 689
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 윤리 편향 감사는 AI/ML 시스템의 학습 데이터, 모델 출력, 의사결정 전 과정에서 **역사적·표본·측정·학습·평가·배포 편향(Historical/Sampling/Measurement/Learning/Evaluation/Deployment Bias)**을 식별하고, **Demographic Parity, Equalized Odds, Predictive Parity, Calibration, Individual Fairness, Counterfactual Fairness** 등 6대 이상의 상호 배타적이지 않은(Mathematical Impossibility Theorem) 공정성 지표를 통해 정량화하는 체계적 거버넌스 프로세스이다.

@@ -3,8 +3,8 @@ title: "Data Drift"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ([Data Drift](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))는 모델이 학습한 입력 분포 `P_train(X)`와 실제 서빙 입력 분포 `P_serving(X)`가 달라지는 현상으로, 보통 `P(Y|X)`의 의미 자체는 크게 바뀌지 않은 상태를 가리킨다.

@@ -3,8 +3,8 @@ title: "151. Aws Lambda Cloud Functions"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))는 서버가 물리적으로 없다는 뜻이 아니라, 개발자가 서버의 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/), OS 패치, 오토스케일링 같은 인프라 노가다를 클라우드 벤더(AWS/GCP/Azure)에게 100% 짬처리(Off-loading)하고 오직 <strong>비즈니스 로직(함수 코드 Function)에만 집중하는 <a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a>의 최종 진화 모델</strong>이다.
 > 2. **가치**: 24시간 내내 켜져서 돈을 퍼먹던 좀비 서버([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))를 죽이고, 유저가 클릭(Event)하는 <strong>그 0.01초 찰나에만 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>가 허공에서 팟! 켜져서 연산하고 즉시 자살 소각</strong>되므로, 1밀리초(ms) 단위의 완벽한 Pay-[as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-you-go(쓴 만큼만 내는) 자본주의 극강 다이어트를 달성했다.

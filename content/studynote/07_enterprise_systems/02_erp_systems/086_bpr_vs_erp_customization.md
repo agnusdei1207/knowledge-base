@@ -1,10 +1,11 @@
 ---
 title: "086. Bpr Vs Erp Customization"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/))은 업무를 다시 설계하고, [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 표준 프로세스에 맞춰 운영하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

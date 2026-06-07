@@ -3,8 +3,8 @@ title: "Bankers Data Structure"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 302
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에츠허르 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))의 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 데드락 회피 시뮬레이션을 돌리기 위해 실시간 메모리에 유지해야 하는 <strong>4대 장부(Matrix)</strong>인 `Available`(남은 자원), `Max`(최대 필요량), `Allocation`(현재 빌려준 양), `Need`(앞으로 빌려줄 양)를 의미한다.

@@ -3,8 +3,8 @@ title: "Singleton Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 싱글턴 패턴 ([Singleton](/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) Pattern)은 GoF [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 클래스의 인스턴스가 오직 하나만 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되도록 보장하고, 그 인스턴스에 대한 전역 접근점(Global [Access Point](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))을 제공하는 패턴이다.

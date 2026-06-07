@@ -3,8 +3,8 @@ title: "IBN"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제어 평면과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 분리해 중앙 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반으로 네트워크를 구성하는 방식.

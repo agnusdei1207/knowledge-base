@@ -3,8 +3,8 @@ title: "043. It Outsourcing Ito Strategy"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
+weight: 43
 ---
-
 > **핵심 인사이트**
 > 1. IT 아웃소싱(ITO, IT Outsourcing)은 내부 IT 기능의 전부 또는 일부를 외부 전문 업체에 위임하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정으로 — "핵심 역량에 집중(Core Competency Focus)"과 "비용 절감"이 주된 동기이지만, 동시에 의존성 증가, 지식 유출, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 통제 어려움이라는 트레이드오프를 내포한다.
 > 2. ITO 성공의 핵심은 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/)) 설계 — [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/), 패널티/인센티브 구조, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 측정 방법을 계약 초기에 명확히 정의해야 하며, 단순 비용 절감 목표보다 "[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 유지"와 "지식 이전(Knowledge Transfer)" 조항이 장기적으로 더 중요하다.

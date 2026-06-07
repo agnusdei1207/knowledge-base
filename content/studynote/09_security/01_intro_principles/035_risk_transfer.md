@@ -3,8 +3,8 @@ title: "Risk Transfer"
 date: "2026-03-03"
 tags:
   - "studynote-security"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. [위험 전가](/studynote/09_security/01_intro_principles/051_risk_transfer/)([Risk Transfer](/studynote/09_security/01_intro_principles/051_risk_transfer/))는 조직이 특정 위험의 재정적 결과를 보험, 계약, 아웃소싱 등을 통해 제3자에게 이전하는 위험 처리([Risk Response](/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/)) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. 위험 자체가 사라지는 게 아니라 재정적 책임만 이전되므로, [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/))과 이전 비용(보험료, 계약 비용)을 반드시 고려해야 한다.

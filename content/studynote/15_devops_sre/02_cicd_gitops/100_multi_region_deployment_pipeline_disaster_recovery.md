@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티 리전 (Multi-Region) 배포 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 애플리케이션을 지리적으로 분리된 여러 클라우드 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에 안전하게 동시/순차 배포하여 글로벌 고가용성을 확보하는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 아키텍처다.

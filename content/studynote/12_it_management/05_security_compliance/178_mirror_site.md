@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 178
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 미러 사이트 (Mirror Site)는 주 센터와 거의 동일한 인프라를 원격지에 구축하고 데이터를 동기식으로 반영해, 재해 시점에도 같은 상태의 서비스를 이어받도록 설계한 최고 수준 DR (Disaster Recovery) 구조다.

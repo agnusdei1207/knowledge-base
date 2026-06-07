@@ -3,8 +3,8 @@ title: "SSH Tunnel/Port Forwarding"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SSH](/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 터널/[포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) ([SSH](/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) Tunnel/[Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Forwarding)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

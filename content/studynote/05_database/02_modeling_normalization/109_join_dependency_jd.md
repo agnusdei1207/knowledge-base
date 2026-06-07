@@ -3,8 +3,8 @@ title: "109. Join Dependency Jd"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 조인 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(JD, [Join](/studynote/05_database/04_transactions_concurrency/521_join/) Dependency)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) R을 <strong>3개 이상의 투영(Projection)으로 분해한 뒤 <a href="/studynote/05_database/07_exam_summary/413_natural_join/">자연 조인</a>(<a href="/studynote/05_database/07_exam_summary/413_natural_join/">Natural Join</a>)으로 재결합했을 때 원본과 100% 동일하게 복원되는 <a href="/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a> 성질</strong>을 기술하는 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이다.
 > 2. **가치**: [4NF](/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)([다치 종속성](/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/) 제거)까지 통과한 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>2개 분해로는 가짜 <a href="/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/">튜플</a>(Spurious Tuple)이 생겨 손실 분해가 발생하는 극한 사례</strong>를 식별하고, 3개 이상 분해로 해결하는 유일한 이론적 도구다.

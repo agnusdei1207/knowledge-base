@@ -3,8 +3,8 @@ title: "Main Memory Compression"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 525
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) (Main Memory [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/))은 CPU (Central Processing Unit)와 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 투명하게 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 저장해, 물리 메모리를 늘리지 않고도 더 큰 작업 집합을 주기억장치 안에 붙잡아 두는 기술이다.

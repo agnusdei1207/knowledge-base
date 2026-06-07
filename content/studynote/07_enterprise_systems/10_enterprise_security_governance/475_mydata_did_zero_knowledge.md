@@ -2,9 +2,9 @@
 title: "MyData, DID, Zero-Knowledge Proof"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 475
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 영지식 신원은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 영지식 신원, [MyData](/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/), DID의 경계를 분명히 만드는 데 의미가 있다.

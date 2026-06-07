@@ -3,8 +3,8 @@ title: "Concurrency Control /"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 ([Concurrency Control](/studynote/05_database/04_transactions_concurrency/508_concurrency_control/) / 병행 제어)의 목적은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지, 다중 사용자 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화에 초점을 맞춘 개념이다.

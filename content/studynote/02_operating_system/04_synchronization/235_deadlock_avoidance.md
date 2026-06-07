@@ -3,8 +3,8 @@ title: "Deadlock Avoidance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 235
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 회피](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) ([Deadlock Avoidance](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/))는 시스템에 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생할 가능성을 사전에 시뮬레이션하여, [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 후 시스템이 <strong><a href="/studynote/02_operating_system/05_deadlock/298_safe_state/">안전 상태</a>(<a href="/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a>)를 유지할 수 있을 때만 자원을 내어주고, 그렇지 않으면(<a href="/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>) 요청을 대기시키는 예측 기반의 동적 통제 기법</strong>이다.

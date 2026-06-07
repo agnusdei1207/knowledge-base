@@ -3,8 +3,8 @@ title: "Distributed Deadlock Detection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 318
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 한 대의 컴퓨터가 아니라 전 세계에 흩어진 노드끼리 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 쏘아댈 때, A서버는 B서버의 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 완료를 기다리고 B서버는 A서버를 기다리는 등 <strong>지구 스케일로 맞물려버린 거대한 통신 단절(Global <a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)의 원형 고리를 찾아내 끊어내는 네트워크 추적망 기술</strong>이다.

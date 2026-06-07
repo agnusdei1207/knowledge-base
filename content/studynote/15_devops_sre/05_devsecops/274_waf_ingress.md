@@ -3,8 +3,8 @@ title: "274. Waf Ingress"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 274
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 계층에서 악성 패턴을 차단하는 애플리케이션 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/).

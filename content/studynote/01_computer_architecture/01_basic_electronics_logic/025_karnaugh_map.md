@@ -3,8 +3,8 @@ title: "025. Karnaugh Map"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 카르노 맵(Karnaugh Map, K-Map)은 2~6변수 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수의 최소화를 [그레이 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)([Gray Code](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 격자에서 인접한 1들을 시각적으로 묶어 최소 SOP (Sum of Products) 또는 POS (Product of Sums) 표현을 도출하는 불 대수([Boolean Algebra](/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/)) 최적화 도구다.
 > 2. **가치**: 불 대수 대수 조작으로 수행하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 최소화는 오류가 발생하기 쉽지만, K-Map은 인접 셀 묶기(2ⁿ 크기 그룹)라는 직관적 규칙으로 최소 게이트 수를 가진 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 결정적(Deterministic)으로 도출하여 하드웨어 설계·[FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 합성의 전처리 단계로 사용된다.

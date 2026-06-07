@@ -3,8 +3,8 @@ title: "Multithreading"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 397
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티스레딩 ([Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 하나의 프로세스 ([Process](/studynote/12_it_management/05_security_compliance/943_process/)) 안에 여러 실행 흐름을 두어, 같은 주소 공간을 공유하면서도 여러 작업을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 또는 동시적으로 처리하게 만드는 구조다.

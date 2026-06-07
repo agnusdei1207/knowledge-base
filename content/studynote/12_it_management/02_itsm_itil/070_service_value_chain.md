@@ -3,8 +3,8 @@ title: "Service Value Chain"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 4 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) ([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))의 본질은 계획(Plan), 개선(Improve), 참여(Engage), 설계 및 전환(Design & Transition), 획득/구축(Obtain/Build), 제공 및 지원(Deliver & [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

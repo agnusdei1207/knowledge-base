@@ -3,8 +3,8 @@ title: "Cosine Similarity"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 359
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [코사인 유사도](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)([Cosine Similarity](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))는 두 벡터 사이의 각도(θ)의 코사인 값으로 방향적 유사성을 측정하며, 벡터의 크기(magnitude)를 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하므로 문서 길이에 무관한 텍스트 유사도 측정에 최적화된 거리 척도다.

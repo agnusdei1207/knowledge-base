@@ -1,10 +1,11 @@
 ---
 title: "057. Solidity Smart Contract Language"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 솔리디티(Solidity)는 이더리움에서 스마트 컨트랙트를 작성하기 위한 정적 타입(Statically Typed) 언어다.

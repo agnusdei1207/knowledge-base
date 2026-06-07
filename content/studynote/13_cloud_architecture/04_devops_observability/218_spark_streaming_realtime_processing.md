@@ -3,8 +3,8 @@ title: "218. Spark Streaming Realtime Processing"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Spark Structured Streaming은 실시간 스트림 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "무한히 쌓이는 테이블(Unbounded Table)"로 추상화하여 배치와 동일한 DataFrame API로 처리하는 실시간 처리 엔진이며, 마이크로 배치와 연속 처리 두 모드를 지원한다.

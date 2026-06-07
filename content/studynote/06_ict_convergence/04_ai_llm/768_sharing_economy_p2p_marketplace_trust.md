@@ -3,8 +3,8 @@ title: "Sharing Economy P2P Marketplace Trust"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 768
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: P2P 마켓플레이스 신뢰는 Akerlof의 "Lemons Problem"이 양면 시장 구조에서 발현하는 정보 비대칭을 해결하기 위한 **평판 시스템(Reputation System) + 신원 검증(Identity Proofing) + 에스크로(Escrow) + 분쟁 해결(Dispute Resolution)** 4축 통합 아키텍처이며, EigenTrust·HodgeRank·Bayesian Reputation 등 알고리즘으로 정량화된다.

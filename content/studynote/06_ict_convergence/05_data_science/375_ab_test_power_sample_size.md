@@ -3,8 +3,8 @@ title: "AB TEST Power Sample SIZE"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 375
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A/B 테스트 검정력 계산 및 샘플 사이즈 결정 모형 ([AB TEST](/studynote/04_software_engineering/11_testing_validation/844_ab_test/) [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Sample SIZE): 1. **본질**: A/B 테스트에서 실험을 시작하기 전에 "대체 몇 명의 고객에게 테스트를 해야 우연이 아닌 진짜 결과를 얻을 수 있을까?"를 통계학의 '검정력([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))'과 '최소 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "187. Time Series Interpolation Rollup Dashboard"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 DB([Time-Series Database](/studynote/11_design_supervision/06_exam_summary/340_process/))는 타임스탬프를 기본 인덱스로 삼아 <strong>시간 순서 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 고속 삽입·<a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·집계</strong>에 특화된 스토리지로, 일반 RDBMS 대비 100배 이상의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우위를 제공한다.

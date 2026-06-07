@@ -3,8 +3,8 @@ title: "Dynamic Memory Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 797
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 [메모리 암호화](/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)는 모든 메모리를 같은 방식으로 암호화하는 대신, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도·접근 빈도·위협 수준에 따라 키와 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꾸는 적응형 [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 개념이다.

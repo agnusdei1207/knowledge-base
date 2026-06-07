@@ -3,8 +3,8 @@ title: "176. Automl Hyperparameter Optimization Bayesian"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AutoML (Automated Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))에서 하이퍼파라미터 최적화는 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 만드는 비싼 블랙박스 함수를 적은 실험으로 최대한 잘 탐색하는 문제이며, 베이지안 탐색은 그 블랙박스를 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 근사해 다음 실험을 고른다.

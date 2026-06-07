@@ -3,8 +3,8 @@ title: "298. Molap Rolap Holap"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 몽고DB ([MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/)) 아키텍처는 레플리카 셋 (Replica Set), 샤드 클러스터 (mongos, [config](/studynote/15_devops_sre/01_culture_methodology/009_config/) server, shard)에 초점을 둔 아키텍처이다.

@@ -3,8 +3,8 @@ title: "151. Steady State Hypothesis Validation"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정상 상태 가설(Steady [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Hypothesis)은 라이브 망에 무지성 폭탄을 던지는 카오스 실험([Chaos 엔진ering](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))에서, <strong>"폭탄을 맞았을 때 우리 시스템이 뻗었나 안 뻗었나?"를 채점하기 위해 사전에 반드시 록온(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-on) 박아두는 '비즈니스 <a href="/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 팩트 생존 <a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>'</strong>이다.
 > 2. **가치**: "[파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 3개가 떴다"는 낡은 내부 인프라 쇳덩이 지표를 찢어 버리고, <strong>"어떤 에러 테러가 터져도 유저의 [결제 성공률 99.9% 보장] 1가지만 방어 쉴드 쳐서 살아남으면 승리(Success)한다 🚀"</strong>는 철저한 고객 지향적([SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반) 맷집([Resiliency](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 복원력 측정의 투시 엑스레이를 쟁취했다.

@@ -3,8 +3,8 @@ title: "182. Epic Agile Requirements"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에픽 ([Epic](/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/))은 한 번의 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) ([Sprint](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) 안에 끝내기 어려운 큰 요구사항을 사용자 가치 단위로 묶어 놓은 상위 백로그 항목이다.

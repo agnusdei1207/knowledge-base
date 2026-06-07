@@ -3,8 +3,8 @@ title: "624. Rtm Requirements Traceability Matrix Validation"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 624
 ---
-
 > **핵심 인사이트**
 > 1. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))은 요구사항과 설계·개발·테스트 산출물 간의 연결 고리를 추적하는 표 — "요구사항 RQ-001이 어느 설계 문서, 어느 코드, 어느 테스트 케이스에 반영되었는가"를 한눈에 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며, 누락·중복·불일치를 방지한다.
 > 2. 양방향 추적성(Bi-directional [Traceability](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 RTM의 핵심 가치 — 전방 추적([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/): 요구사항->테스트)은 "모든 요구사항이 테스트되었는가" [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 후방 추적(Backward: 테스트->요구사항)은 "모든 테스트가 요구사항에 기반하는가(불필요 테스트 탐지)" [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이다.

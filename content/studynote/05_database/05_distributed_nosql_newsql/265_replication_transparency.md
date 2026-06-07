@@ -3,8 +3,8 @@ title: "Replication Transparency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 265
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 투명성 ([Replication](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) Transparency)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 유지 및 갱신 투명에 초점을 맞춘 개념이다.

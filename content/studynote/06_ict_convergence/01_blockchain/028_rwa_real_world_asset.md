@@ -3,8 +3,8 @@ title: "Real World Asset Tokenization"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 28
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RWA(Real World Asset) [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)는 부동산·채권·예술품·탄소 크레딧 등 실물 자산을 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 토큰으로 표현하여 분할 소유권, 즉각 결제, 24/7 거래를 가능하게 하는 금융 혁신이다.
 > 2. **가치**: 전통 자산 시장의 3대 문제(유동성 부족, 높은 진입 장벽, 느린 결제)를 동시에 해결한다. 1억 원짜리 부동산을 1만 개의 1만 원 토큰으로 쪼개면 소액 투자자도 참여 가능하며, 결제는 T+0 즉시 완결된다.

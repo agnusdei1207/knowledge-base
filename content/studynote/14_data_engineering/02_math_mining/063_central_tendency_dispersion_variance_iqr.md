@@ -3,8 +3,8 @@ title: "063. Central Tendency Dispersion Variance Iqr"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 중심 경향도는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 대표값을, 산포도는 그 값이 얼마나 퍼져 있는지를 보여준다.

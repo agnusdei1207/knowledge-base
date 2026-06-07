@@ -3,8 +3,8 @@ title: "098. Saam Software Architecture Analysis Method"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SAAM](/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/) ([Software Architecture](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method)은 [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)가 향후 요구사항 변경(시나리오)을 얼마나 쉽게 수용할 수 있는지를 평가하는 체계적 방법론이다.

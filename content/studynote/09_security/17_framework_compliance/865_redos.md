@@ -3,9 +3,8 @@ title: "865. ReDoS (Regular Expression Denial of Service)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 865
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ReDoS (Regular Expression Denial of [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

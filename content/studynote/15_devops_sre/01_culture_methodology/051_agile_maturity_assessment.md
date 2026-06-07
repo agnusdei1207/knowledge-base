@@ -3,8 +3,8 @@ title: "Agile Maturity Assessment"
 date: "2026-05-05"
 tags:
   - "studynote-devops-sre"
+weight: 51
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도 평가([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Maturity Assessment)는 조직이 겉으로만 스탠드업 미팅을 흉내 내는 '무늬만 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Fake](/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) [Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))'인지, 실제로 비즈니스 가치를 민첩하게 배포하는 진정한 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 상태인지 <strong>정량적/정성적으로 진단하는 측정 프레임워크</strong>다.
 > 2. **가치**: "우리 팀은 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 일해"라는 주관적 착각을 박살 내고, 문화(Culture), 프로세스([Process](/studynote/12_it_management/05_security_compliance/943_process/)), 기술([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 측면에서 현재의 레벨을 진단하여 다음 단계로 도약하기 위한 구체적인 로드맵(투자 계획)을 제시한다.

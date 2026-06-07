@@ -2,9 +2,9 @@
 title: "Agile User Story INVEST Principle"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 244
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) INVEST 원칙은 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) INVEST 원칙, [User Story](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/), INVEST의 경계를 분명히 만드는 데 의미가 있다.

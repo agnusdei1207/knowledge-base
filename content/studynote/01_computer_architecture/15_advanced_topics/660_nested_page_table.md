@@ -3,8 +3,8 @@ title: "Nested Page Table, NPT"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 660
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 중첩 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) (Nested [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/), NPT)은 게스트 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)를 호스트 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)로 바꾸는 2차 주소 변환을 하드웨어가 직접 수행하게 만든 메모리 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술이다.

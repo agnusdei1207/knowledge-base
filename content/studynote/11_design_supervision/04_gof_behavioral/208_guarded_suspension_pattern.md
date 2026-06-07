@@ -3,8 +3,8 @@ title: "Guarded Suspension Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Guarded Suspension (가드 서스펜션) 패턴은 특정 가드 조건(Guard Condition)이 충족될 때까지 요청 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 <strong>일시 중단(suspend)</strong>시키고, 조건이 만족되면 재개하는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 패턴이다.

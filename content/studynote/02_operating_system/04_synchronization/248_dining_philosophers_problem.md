@@ -3,8 +3,8 @@ title: "248. Dining Philosophers Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 248
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 식사하는 철학자 문제는 N개의 프로세스가 N개의 공유 자원을 순환 방식으로 점유하려 할 때 발생하는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))와 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 동시에 예방하는 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 설계 문제다.

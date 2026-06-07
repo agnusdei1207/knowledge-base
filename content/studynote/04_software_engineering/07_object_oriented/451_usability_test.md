@@ -3,8 +3,8 @@ title: "451. Usability Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 451
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사용성](/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트 ([Usability](/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) Test) - 사용자가 시스템을 얼마나 쉽게 다룰 수 있는지 UI/UX 관점 평가은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

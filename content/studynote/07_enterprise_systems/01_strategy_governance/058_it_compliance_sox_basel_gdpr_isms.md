@@ -2,9 +2,9 @@
 title: "058. It Compliance Sox Basel Gdpr Isms"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 컴플라이언스는 법과 규제를 IT 시스템과 절차로 실제 준수하고 증명하는 일이다.

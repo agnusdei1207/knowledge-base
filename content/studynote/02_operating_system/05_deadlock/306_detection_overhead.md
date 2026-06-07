@@ -3,8 +3,8 @@ title: "Detection Overhead"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 306
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 무방비로 열어두고 사후에 잡는 '탐지([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))' 모델의 가장 큰 딜레마는, 이 <strong>탐지 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 1초에 한 번 돌릴지 10분에 한 번 돌릴지 정하는 '감찰 주기(Invokation Frequency) 튜닝'의 어려움</strong>에 있다.

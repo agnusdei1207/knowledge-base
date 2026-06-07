@@ -3,8 +3,8 @@ title: "Tensor Core"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 427
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 텐서 코어 (Tensor Core)는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 안에 넣은 행렬 연산 전용 유닛으로, 딥러닝의 핵심인 행렬 곱셈-누적을 스칼라 연산보다 훨씬 큰 단위로 처리한다.

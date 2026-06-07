@@ -1,11 +1,11 @@
 ---
 title: "017. A Star Algorithm"
 date: "2024-05-24"
-description: "실제 비용과 예상 비용을 합산하여 최단 경로를 탐색하는 최적 탐색 알고리즘"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 17
 ---
-
 # 17. A* (A-Star) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 #### 핵심 인사이트 (3줄 요약)

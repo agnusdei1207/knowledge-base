@@ -3,8 +3,8 @@ title: "Class Table Inheritance"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CTI (Class Table Inheritance, 클래스 테이블 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 는 부모 클래스와 각 자식 클래스가 별도 테이블을 갖고, 자식 테이블의 PK (Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 가 부모 테이블의 FK (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 를 겸해 조인으로 연결된다.

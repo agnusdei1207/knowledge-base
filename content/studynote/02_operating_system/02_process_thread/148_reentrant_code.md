@@ -3,8 +3,8 @@ title: "Reentrant Code / Pure Code"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 재진입 가능 코드 (Reentrant [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 실행 중인 함수가 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 등에 의해 중단되고 다시 호출되더라도, 정적/전역 상태를 오염시키지 않아 이전 실행과 새로운 실행 모두 안전하게 완료되는 코드이다.
 > 2. **가치**: 시그널 핸들러 ([Signal](/studynote/02_operating_system/02_process_thread/130_signal/) Handler)나 [인터럽트 서비스 루틴](/studynote/02_operating_system/01_overview_architecture/020_isr/) ([ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/))처럼 비동기적으로 흐름을 가로채는 환경에서, 시스템이 예측 불가능한 충돌이나 데드락 없이 안정적으로 동작하게 만든다.

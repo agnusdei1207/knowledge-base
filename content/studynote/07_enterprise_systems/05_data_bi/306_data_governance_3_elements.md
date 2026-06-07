@@ -3,8 +3,8 @@ title: "Data Governance"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 306
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기업 자산으로 관리하는 원칙([정책](/studynote/10_ai/02_dl_architecture_new/164_policy/))·조직(역할)·프로세스+IT 시스템의 3요소 체계다.

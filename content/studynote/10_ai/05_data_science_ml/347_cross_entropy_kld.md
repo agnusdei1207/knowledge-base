@@ -3,8 +3,8 @@ title: "Kullback-Leibler Divergence"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 347
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))와 KLD(Kullback-Leibler Divergence, 쿨백-라이블러 발산)는 두 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 P와 Q가 얼마나 다른지를 정보량([비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)으로 측정하는 분포 거리 척도이며, 딥러닝 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 수학적 근거다.

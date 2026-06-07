@@ -3,8 +3,8 @@ title: "Biological Computing DNA Storage Molecular"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 789
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 생물학적 컴퓨팅은 A(Adenine), T(Thymine), G(Guanine), C(Cytosine) 4개의 뉴클레오타이드를 정보의 기본 단위로 사용하며, DNA 합성(Synthesis) -> 저장(Storage) -> 증폭(PCR) -> 시퀀싱(Sequencing) -> 디코딩(Decoding)의 파이프라인으로 디지털 정보를 분자 수준에서 처리하는 기술임. 분자 기계(Molecular Machine)는 DNA 가닥 치환 반응(Strand Displacement)이나 효소 반응(Polymerase, Ligase, Restriction Enzyme)을 통해 0과 1의 논리 연산 또는 기계적 움직임을 수행함.

@@ -3,8 +3,8 @@ title: "Command & Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 639
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 드론 통신 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

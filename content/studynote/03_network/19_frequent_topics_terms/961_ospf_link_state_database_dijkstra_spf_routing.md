@@ -3,8 +3,8 @@ title: "LSDB"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 961
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

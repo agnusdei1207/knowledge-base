@@ -3,9 +3,8 @@ title: "698. iSCSI (Internet Small Computer System Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 698
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: iSCSI (Internet Small Computer System Interface)는 SCSI (Small Computer System Interface) 블록 명령을 [Transmission Control Protocol](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) / Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (IP) 위에 실어, 범용 [Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 네트워크를 통해 원격 디스크를 로컬 디스크처럼 보이게 하는 기술이다.

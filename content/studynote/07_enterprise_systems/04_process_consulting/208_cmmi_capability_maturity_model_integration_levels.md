@@ -2,9 +2,9 @@
 title: "208. Cmmi Capability Maturity Model Integration Levels"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) ([Capability Maturity Model Integration](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/))는 조직이 소프트웨어와 시스템 개발을 얼마나 반복 가능하고 예측 가능하게 수행하는지 평가하는 프로세스 성숙도 모델이다.

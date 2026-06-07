@@ -3,8 +3,8 @@ title: "179. Time Quantum Context Switch"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시간 [할당량](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) (Time [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/), Time [Slice](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))은 선점형 스케줄러가 한 프로세스에게 허용하는 "연속 CPU (Central Processing Unit) 사용 시간의 최대치"다.

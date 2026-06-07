@@ -3,8 +3,8 @@ title: "021. Monte Carlo Tree Search Mcts"
 date: "2026-04-02"
 tags:
   - "studynote-ai"
+weight: 21
 ---
-
 # [몬테카를로 트리 탐색](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) ([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/), Monte Carlo Tree Search)
 
 > ⚠️ 이 문서는 알파고(AlphaGo)를 무적의 바둑 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)으로 만든 핵심 [휴리스틱 탐색](/studynote/10_ai/01_ai_basics/015_heuristic_search/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 '[몬테카를로 트리 탐색](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))'의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 기반 원리, 4단계 핵심 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 그리고 딥러닝과의 아키텍처 융합 모델을 심도 있게 분석합니다.

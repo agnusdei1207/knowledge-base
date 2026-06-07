@@ -3,8 +3,8 @@ title: "Cloud Migration 6R Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 638
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 마이그레이션 6R 전략(Rehost, Replatform, Repurchase, Refactor, Retain, Retire)은 AWS가 체계화하고 Gartner/McKinsey 등이 변형 채택한 워크로드 분류 의사결정 프레임워크로, 기존 온프레미스 자산을 클라우드로 이전할 때 **"어떻게(How)"** 이전할지를 6가지 표준화된 패턴으로 분류하여 일관된 의사결정 기준을 제공한다.

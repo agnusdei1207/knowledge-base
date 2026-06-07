@@ -3,8 +3,8 @@ title: "183. Hpkp Http Public Key Pinning Deprecated"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HPKP ([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Public [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Pinning)는 서버가 `Public-Key-Pins` 헤더로 "앞으로는 이 공개키 지문과 일치하는 인증서만 신뢰하라"고 브라우저에 동적으로 전달하던 웹 [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) 보강 기법이다.

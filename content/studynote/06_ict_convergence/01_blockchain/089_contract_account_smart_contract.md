@@ -1,10 +1,11 @@
 ---
 title: "089. Contract Account Smart Contract"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이더리움 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 CA (Contract Account, 컨트랙트 계정)는 사람이 개인키로 직접 열고 닫는 지갑이 아니라, 네트워크에 영구적으로 배포된 <strong><a href="/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 코드(<a href="/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a> <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)에 의해 자율적으로 통제되는 로봇 계정</strong>이다.
 > 2. **가치**: 단순한 암호화폐 송금을 넘어, "특정 조건이 만족되면 자동으로 자금을 집행하라"는 복잡한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 금융([DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) 규칙이나 NFT 발행 로직을 중앙 보증인 없이 100% 무결하게 실행하는 이더리움 가상머신([EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))의 심장이다.

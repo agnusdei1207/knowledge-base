@@ -3,8 +3,8 @@ title: "Namespaces and cgroups"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 307
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 [cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) ([Namespaces](/studynote/01_computer_architecture/15_advanced_topics/700_nvme_namespaces/) and [cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/))는 [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 관점에서 목표 상태, 실행 절차, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

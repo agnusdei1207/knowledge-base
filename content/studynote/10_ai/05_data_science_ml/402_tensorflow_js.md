@@ -3,8 +3,8 @@ title: "402. Tensorflow Js"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 402
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TensorFlow.js는 자바스크립트를 사용하여 웹 브라우저나 Node.js 환경에서 직접 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델을 학습시키고 배포(Inference)할 수 있는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)다.

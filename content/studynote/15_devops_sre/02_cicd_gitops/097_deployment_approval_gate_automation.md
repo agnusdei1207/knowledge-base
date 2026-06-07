@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배포 승인 게이트 (Approval Gate)는 소프트웨어가 개발 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))에서 프로덕션 운영 환경(CD)으로 넘어갈 때, 비즈니스 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)와 품질을 점검하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적/물리적 차단막이다.

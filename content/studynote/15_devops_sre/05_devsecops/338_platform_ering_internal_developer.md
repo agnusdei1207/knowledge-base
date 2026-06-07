@@ -3,8 +3,8 @@ title: "Platform ering Internal Developer Platform Golden Path Backstage DX"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 338
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Platform 엔진ering은 개발자가 인프라, 배포, [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링을 직접 다루지 않고도 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빠르게 개발·운영할 수 있는 자기 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Self-[service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 플랫폼을 구축하는 엔지니어링 분야다.

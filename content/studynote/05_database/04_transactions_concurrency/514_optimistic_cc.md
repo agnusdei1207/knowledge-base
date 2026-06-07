@@ -3,8 +3,8 @@ title: "Optimistic Cc"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 514
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [팩트 테이블](/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

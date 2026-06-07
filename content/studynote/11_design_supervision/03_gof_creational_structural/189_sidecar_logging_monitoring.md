@@ -3,8 +3,8 @@ title: "Sidecar, Logging & Monitoring Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사이드카 패턴](/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/) ([Sidecar Pattern](/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/))은 주 애플리케이션 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 동일한 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 보조 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))를 배포하여, 로깅·모니터링·보안·네트워크 관리 등의 횡단 관심사(Cross-Cutting Concern)를 애플리케이션 코드에서 분리하는 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 패턴이다.

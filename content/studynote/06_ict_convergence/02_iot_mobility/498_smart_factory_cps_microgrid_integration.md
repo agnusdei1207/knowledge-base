@@ -3,8 +3,8 @@ title: "Smart Factory CPS Microgrid Integration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 498
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)([Smart Factory](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))는 [CPS](/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)(Cyber-Physical System)로 사이버 세계(디지털 제어)와 물리 세계(생산 공정)를 실시간 연동하며, [OPC UA](/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/)(산업 자동화 표준 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))와 [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/)([Time-Sensitive Networking](/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/))으로 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 산업 통신을 구현한다.

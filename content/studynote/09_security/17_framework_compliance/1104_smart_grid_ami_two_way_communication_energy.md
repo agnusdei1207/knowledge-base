@@ -3,8 +3,8 @@ title: "Smart Grid Ami Two Way Communication Energy"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망 ([Smart Grid](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [Ami](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) Two Way Communication Energy)는 보안 확장 개념에서 복잡한 보안 문제를 요소와 관계로 나눠 설명하게 해 주는 구조화된 틀이다.

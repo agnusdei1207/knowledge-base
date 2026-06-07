@@ -3,8 +3,8 @@ title: "Scaled Dot-Product Attention"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 381
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스케일드 닷 프로덕트 어텐션 (Scaled [Dot](/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-Product Attention)은 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) (Query) Q와 키 ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) K의 내적을 차원 √dₖ로 나눠 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)한 뒤 [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/)를 적용하고, 이를 값 (Value) V에 곱해 [컨텍스트 벡터](/studynote/10_ai/02_dl_architecture_new/120_context_vector/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.

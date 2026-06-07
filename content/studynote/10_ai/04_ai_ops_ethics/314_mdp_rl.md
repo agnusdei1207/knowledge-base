@@ -3,8 +3,8 @@ title: "Markov Decision Process"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 314
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MDP](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) (Markov Decision [Process](/studynote/12_it_management/05_security_compliance/943_process/), [마르코프 결정 과정](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/))는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 수학적 기반으로, 에이전트(Agent)가 환경([Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하는 문제를 <strong>상태(<a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)·행동(Action)·보상(Reward)·전이 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>(Transition <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>의 4요소로 정형화하는 프레임워크다.

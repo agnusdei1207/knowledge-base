@@ -3,8 +3,8 @@ title: "Multi-Sig and Account Abstraction ERC-4337"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 542
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티시그(Multi-Sig, Multi-Signature)는 M-of-N 서명 구조로 단일 키 분실 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 제거하고, ERC-4337 [계정 추상화](/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/)(Account [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))는 [EOA](/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/)([Externally Owned Account](/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))를 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 계정으로 업그레이드하여 <strong>지갑 로직을 프로그래머블</strong>하게 만든다.

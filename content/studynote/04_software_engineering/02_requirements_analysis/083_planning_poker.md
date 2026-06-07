@@ -1,10 +1,11 @@
 ---
 title: "083. Planning Poker"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Planning Poker는 각자가 먼저 숫자를 말하지 않고 동시에 카드를 공개해 앵커링 효과 (Anchoring Effect)를 줄이는 상대적 산정 기법이다.

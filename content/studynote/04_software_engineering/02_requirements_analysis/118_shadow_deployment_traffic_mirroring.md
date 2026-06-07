@@ -3,8 +3,8 @@ title: "118. Shadow Deployment Traffic Mirroring"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 섀도 배포는 실제 프로덕션 트래픽을 <strong>신버전에 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>(<a href="/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>)</strong>하되, 신버전의 응답은 **사용자에게 반환하지 않고 버리는** 방식으로 실 트래픽 기반 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 실제 사용자 1%가 신버전 응답을 받으므로 장애 영향이 있지만, 섀도 배포는 <strong>사용자 영향 제로(<a href="/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Impact)</strong>로 신버전을 프로덕션 트래픽으로 테스트한다.

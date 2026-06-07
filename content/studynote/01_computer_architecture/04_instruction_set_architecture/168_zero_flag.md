@@ -3,8 +3,8 @@ title: "Zero Flag"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제로 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Flag](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), ZF)는 산술논리장치 ([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))의 연산 결과가 정확히 0일 때 1로 설정되는 상태 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)이며, 결과값의 의미를 한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 압축한 조건 코드다.

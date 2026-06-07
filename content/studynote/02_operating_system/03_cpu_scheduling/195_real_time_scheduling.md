@@ -3,8 +3,8 @@ title: "195. Real Time Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실시간 스케줄링 (Real-time Scheduling)은 프로세스가 아무리 빠르게 끝나는가(속도)보다, 시스템과 약속한 <strong>주어진 마감 시간 (<a href="/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a>) 이내에 100% 확실하게 논리적/물리적 연산을 완료하는가(예측 가능성, Determinism)</strong>를 절대적 최우선 목표로 삼는 아키텍처다.

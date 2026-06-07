@@ -1,11 +1,10 @@
 ---
 title: "078. Hybrid Encryption"
 date: "2026-03-26"
-description: "대칭키 암호와 비대칭키 암호의 장점을 결합한 암호 시스템"
 tags:
-  - "studynote-software-engineering"
+  - "studynote-security"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이브리드 암호는 대칭키로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 암호화하고, 비대칭키로 그 대칭키만 안전하게 전달한다.

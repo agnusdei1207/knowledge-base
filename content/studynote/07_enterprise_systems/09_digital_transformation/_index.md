@@ -2,9 +2,9 @@
 title: "Digital Transformation"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 트랜스포메이션 (DX)은 단순히 IT 기술을 도입하는 것을 넘어, 클라우드, AI, 데이터 등 파괴적 기술을 활용하여 기업의 비즈니스 모델, 조직 문화, 고객 경험을 근본적으로 재정의하는 경영 혁신이다.

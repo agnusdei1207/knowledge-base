@@ -3,8 +3,8 @@ title: "258. Vector Clock"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 258
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터 시계 (Vector [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) / 타임스탬프는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 충돌 해결에 초점을 둔 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

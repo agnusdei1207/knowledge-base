@@ -3,9 +3,8 @@ title: "420. CUDA (Compute Unified Device Architecture)"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 420
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CUDA (Compute Unified Device [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 NVIDIA [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 그래픽 전용 장치가 아니라 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산 장치로 직접 다루게 만든 프로그래밍 모델이자 소프트웨어 플랫폼이다.

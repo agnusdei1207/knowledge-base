@@ -3,8 +3,8 @@ title: "628. Container Runtime Oci"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 628
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 과거 [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))라는 단일 거대 소프트웨어가 독점하던 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생태계는, 기술의 발전과 함께 '이미지 포맷'과 '실행 엔진'을 분리하여 개방형 표준으로 정의하는 <strong><a href="/studynote/13_cloud_architecture/05_data_engineering/333_process/">OCI</a> (<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/">Open Container Initiative</a>)</strong> 규격으로 파편화 및 표준화되었다.

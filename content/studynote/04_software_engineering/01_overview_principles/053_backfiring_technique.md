@@ -3,8 +3,8 @@ title: "Backfiring Technique"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 백파이어링(Backfiring) 기법은 이미 짜여 있는 기존 프로그램의 <strong>소스 코드 라인 수(LOC)</strong>를 기반으로, 프로그래밍 언어별 환산 계수를 곱해 역으로 소프트웨어의 <strong><a href="/studynote/12_it_management/04_sdlc_testing/140_function_point/">기능 점수</a>(<a href="/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>, <a href="/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>)</strong>를 추정하는 [리버스 엔지니어링](/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) 척도다.
 > 2. **가치**: 설계 문서가 증발해 버린 수십 년 된 레거시(Legacy) 시스템을 차세대 시스템으로 전환(Migration)할 때, 코드 길이만으로 기능의 규모와 재구축 예산을 빠르고 저렴하게 산정하는 유일한 구명조끼 역할을 한다.

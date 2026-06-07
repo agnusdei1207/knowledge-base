@@ -3,8 +3,8 @@ title: "Serializer/Deserializer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 553
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) SerDes (Serializer/Deserializer)는 넓은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 소수의 고속 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 레인으로 바꿔, 핀 수와 배선 길이는 억제하면서도 칩 간 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 계속 높이는 물리 계층 핵심 회로다.

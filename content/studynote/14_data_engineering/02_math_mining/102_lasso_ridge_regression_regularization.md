@@ -3,8 +3,8 @@ title: "Regularization"
 date: "2024-05-22"
 tags:
   - "studynote-data-engineering"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 라쏘 (Lasso)와 릿지 (Ridge)는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 과도하게 맞춰지는 과적합 ([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하기 위해 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 크기에 제약을 가하는 규제 ([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 기법이다.
 > 2. **가치**: 비용 함수에 패널티를 부여하여 편향 ([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 약간 희생하는 대신 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 크게 줄여, 처음 보는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대해서도 안정적인 예측력(일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 제공한다.

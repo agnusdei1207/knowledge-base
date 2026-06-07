@@ -3,8 +3,8 @@ title: "Extended Service Set"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 571
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무선 LAN 구조 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/): [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/), ESS는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

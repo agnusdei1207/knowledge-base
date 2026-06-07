@@ -3,8 +3,8 @@ title: "Technology Commercialization Startup Ecosystem"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 778
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기술 사업화는 TRL(Technology Readiness Level) 1->9 단계에 MRL(Market Readiness Level)·CRL(Commercialization Readiness Level)을 결합한 다차원 게이트이며, VC는 Technology Risk와 Market Risk를 단계별 Risk Capital로 분산해 Technology-Push에서 Market-Pull로 전환시키는 자본-멘토-네트워크 3-in-1 금융仲介

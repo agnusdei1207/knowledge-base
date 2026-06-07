@@ -3,8 +3,8 @@ title: "Microburst Traffic Spike Detection"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로버스트 (Microburst)는 밀리초~수백 밀리초 동안 순간 유입률이 급증해 큐와 버퍼를 넘치게 만드는 짧은 트래픽 폭주로, 분 단위 평균 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에는 거의 보이지 않는다.

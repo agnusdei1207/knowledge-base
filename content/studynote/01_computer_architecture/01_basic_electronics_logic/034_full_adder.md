@@ -3,8 +3,8 @@ title: "034. Full Adder"
 date: "2026-03-04"
 tags:
   - "studynote-computer-architecture"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 전가산기(Full Adder)는 두 입력 비트와 이전 자리의 올림수(Carry-in)를 합산해 합(Sum)과 올림수(Carry-out)를 출력하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [반가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)([Half Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)) 2개와 OR 게이트 1개로 구성된다.
 > 2. 전가산기 n개를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결한 [리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)([Ripple Carry Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/))는 가장 단순한 n비트 덧셈기이나, 올림수가 차례로 전파되는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Carry [Propagation Delay](/studynote/03_network/01_data_communication/016_전파_지연/))이 O(n)이어서 고속 회로에는 부적합하다.

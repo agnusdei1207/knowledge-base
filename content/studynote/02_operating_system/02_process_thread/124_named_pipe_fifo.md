@@ -3,8 +3,8 @@ title: "124. Named Pipe Fifo"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지명 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) (Named [Pipe](/studynote/02_operating_system/02_process_thread/123_pipe/) / [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 상에 이름을 가진 특수 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 존재하여, 부모-자식 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 없는 독립적인 프로세스 간에도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달할 수 있는 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/studynote/12_it_management/05_security_compliance/943_process/) Communication) 메커니즘이다.

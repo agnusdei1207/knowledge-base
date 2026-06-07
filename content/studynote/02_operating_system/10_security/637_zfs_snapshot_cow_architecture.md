@@ -3,8 +3,8 @@ title: "637. Zfs Snapshot Cow Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 637
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ZFS (Zettabyte [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)는 기존의 LVM([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨 관리자)과 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 계층을 하나로 통합한 차세대 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로, 그 아키텍처의 절대적 뼈대는 <strong><a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>, <a href="/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/">쓰기 시 복사</a>)</strong> [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 모델이다.

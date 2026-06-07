@@ -3,8 +3,8 @@ title: "Responsible AI Fairness Bias Audit"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 753
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 책임 있는 AI 공정성 편향 감사는 모델 개발 전(Pre-training)·중(In-training)·후(Post-training) 전 생애주기에서 인구통계학적 형평성 지표(Demographic Parity, Equalized Odds, Counterfactual Fairness 등)를 정량 측정하고, Statistical Parity Difference·Disparate Impact Ratio·Equal Opportunity Difference를 임계치(보통 0.1 또는 80% Rule) 대비 검증하여 교차편향(Intersectional Bias)을 교정·문서화하는 체계적 거버넌스 프로세스이다.

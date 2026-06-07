@@ -3,8 +3,8 @@ title: "333. Multidimensional Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 333
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다차원 모델링는 팩트 (Fact / 측정값)와 차원 (Dimension / 분석 기준) 구성에 초점을 둔 모델이다.

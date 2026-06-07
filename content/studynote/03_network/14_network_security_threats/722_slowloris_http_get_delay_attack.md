@@ -3,8 +3,8 @@ title: "722. Slowloris Http Get Delay Attack"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 722
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트래픽 혼잡공격 유도 및 캡챠 적용은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "579. Referential Integrity Cascade Restrict Set Null"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 579
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링·정합성 관점에서 자주 쓰이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 개념이다.

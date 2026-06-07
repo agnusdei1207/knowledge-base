@@ -3,8 +3,8 @@ title: "Design Debt / Technical Debt"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 설계 부채 (Design Debt), 또는 [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ([Technical Debt](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))는 [워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 커닝햄(Ward Cunningham)이 제안한 개념으로, 빠른 출시를 위해 최선이 아닌 설계나 구현을 선택했을 때 발생하는 '이자가 붙는 미래의 추가 작업'을 금융 부채에 비유한 것이다.

@@ -3,8 +3,8 @@ title: "volatile"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 272
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 더블 체크드 락킹([DCL](/studynote/05_database/01_db_architecture_relational/022_dcl/))은 객체가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었는지 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 1차로 확인하고, 안 되어 있을 때만 락을 걸고 2차로 확인하여 객체를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는, <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 오버헤드를 줄이려는 목적의 <a href="/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a></strong>이다.

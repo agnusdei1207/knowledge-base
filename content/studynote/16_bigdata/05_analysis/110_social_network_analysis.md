@@ -3,8 +3,8 @@ title: "110. Social Network Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SNA](/studynote/12_it_management/03_ea_isp/107_classification/) (Social Network Analysis)는 개인·조직·시스템을 노드 (Node)로, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 엣지 (Edge)로 모델링하여 네트워크 구조와 정보 흐름을 분석하는 수학적·통계적 기법이다.
 > 2. **가치**: 중심성 지표 (연결·매개·근접·고유벡터)로 핵심 인플루언서와 정보 병목을 발견하고, 커뮤니티 탐지 (Community [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))로 숨겨진 집단 구조를 드러내어 마케팅·보안·역학 조사에 활용한다.

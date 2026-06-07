@@ -3,8 +3,8 @@ title: "Apache Kafka Topic Partition Offset Consumer Group ISR vs RabbitMQ"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 340
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Apache Kafka는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 스트리밍 플랫폼으로 Topic-[Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)-Offset 구조로 대용량 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 내구성 있게 저장하고 전달한다. [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 소비(Consume)해도 삭제하지 않고 보존 기간 동안 유지하므로, 여러 Consumer Group이 독립적으로 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 수 있다.

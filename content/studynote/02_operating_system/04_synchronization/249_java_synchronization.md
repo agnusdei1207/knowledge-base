@@ -3,8 +3,8 @@ title: "Java Synchronization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Java는 언어 수준에서 `synchronized` 키워드로 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 기반 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 제공하며, `wait()/notify()/notifyAll()`로 [조건 변수](/studynote/02_operating_system/04_synchronization/228_condition_variable/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 지원하는 고수준 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 모델을 채택했다.

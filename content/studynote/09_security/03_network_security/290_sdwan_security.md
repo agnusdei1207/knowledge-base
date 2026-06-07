@@ -3,8 +3,8 @@ title: "Software-Defined WAN"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 290
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SD-WAN](/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 보안 개요 (Software-Defined WAN)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

@@ -3,8 +3,8 @@ title: "126. Toil Sre"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Toil은 <strong>수동적·반복적·자동화 가능·전술적·장기적 가치 없는 운영 작업</strong>이며, [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어의 <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">Toil</a> 비율을 50% 미만으로 유지</strong>하여 나머지를 엔지니어링(자동화·시스템 개선)에 투자하는 것이 SRE의 핵심 원칙이다.
 > 2. **가치**: Toil이 50%를 넘으면 엔지니어가 <strong>소방수(장애 대응)</strong>만 하게 되어 근본 개선이 불가능하고, Toil이 줄면 <strong>시스템 안정성·개발자 생산성·직원 만족도</strong>가 동시에 향상된다.

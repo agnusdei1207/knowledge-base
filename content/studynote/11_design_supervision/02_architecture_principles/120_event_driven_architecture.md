@@ -3,8 +3,8 @@ title: "EDA, Event-Driven Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 120
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EDA](/studynote/12_it_management/02_itsm_itil/064_eda/) ([Event-Driven Architecture](/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [이벤트 주도 아키텍처](/studynote/11_design_supervision/06_exam_summary/367_architecture/))는 시스템 상태 변화를 이벤트(event)로 표현하고, 생산자(Producer)가 이벤트를 발행(Publish)하면 관심 있는 소비자(Consumer)가 비동기적으로 구독(Subscribe)하여 처리하는 방식으로 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 최소화하는 [아키텍처 스타일](/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/)이다.

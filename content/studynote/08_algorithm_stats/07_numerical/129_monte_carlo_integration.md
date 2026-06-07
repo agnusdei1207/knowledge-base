@@ -2,9 +2,9 @@
 title: "129. Monte Carlo Integration"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 몬테카를로 수치적분(Monte Carlo Integration)은 무작위 표본 추출(Random [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))로 적분값을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 추정하는 방법으로, 오차가 O(1/√n) — 차원에 무관한 수렴 속도가 핵심이다.

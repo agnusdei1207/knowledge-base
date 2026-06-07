@@ -3,8 +3,8 @@ title: "Data Independence"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 504
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 핫 덤프 콜드 덤프은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

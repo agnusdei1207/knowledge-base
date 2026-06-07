@@ -3,8 +3,8 @@ title: "122. Qkv System"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Q(Query)·K([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))·V(Value)는 <strong>Attention 연산의 3대 구성 요소</strong>로, Query가 "무엇을 찾는가", Key가 "각 위치의 매칭 키", Value가 "실제 정보"를 담당한다. $\text{Attention}(Q,K,V) = \text{[softmax](/studynote/10_ai/03_llm_nlp/270_softmax/)}(\frac{QK^T}{\sqrt{d_k}})V$
 > 2. **가치**: Bahdanau Attention은 Score 함수가 암묵적이었으나, QKV 분리로 **Query·Key로 유사도를 계산하고 Value에서 정보를 가져오는** 명시적 구조가 되어 [Multi-Head Attention](/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/)·Cross-Attention 등 <strong>다양한 확장이 가능</strong>해졌다.

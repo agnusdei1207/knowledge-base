@@ -3,8 +3,8 @@ title: "Micro-Segmentation Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 310
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로세그멘테이션([Micro-Segmentation](/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)) 기반 수평 이동 방어 아키텍처는 보안 구역 분리, 동적 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어, 동서 트래픽 가시화를 한 체계로 묶어 판단하는 설계·감리 주제다.

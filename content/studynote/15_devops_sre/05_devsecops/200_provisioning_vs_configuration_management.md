@@ -3,8 +3,8 @@ title: "Configuration Management"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 200
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 서버 내부의 패키지, [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 맞추는 운영 영역.

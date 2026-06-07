@@ -1,11 +1,11 @@
 ---
 title: "004. Cobit Framework"
 date: "2026-03-04"
-description: "ISACA가 제정한 엔터프라이즈 IT 거버넌스 및 통제 프레임워크인 COBIT의 원칙, 아키텍처 및 실무 도입 방안"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 4
 ---
-
 # [COBIT](/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크 (Control Objectives for Information and related Technology)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: COBIT은 [ISACA](/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/)(정보시스템감사통제협회)에서 개발한 엔터프라이즈 IT 거버넌스 및 관리를 위한 글로벌 비즈니스 프레임워크의 사실상 표준(De facto standard)이다.

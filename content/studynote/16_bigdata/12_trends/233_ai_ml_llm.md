@@ -3,8 +3,8 @@ title: "ML , LLM"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) + 빅데이터 융합 (대규모 ML 학습, [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)은 빅데이터 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.

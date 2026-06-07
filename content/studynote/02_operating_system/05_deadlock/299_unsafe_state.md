@@ -3,8 +3,8 @@ title: "299. Unsafe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 회피](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) 철학에서 정의하는 '불안전 상태(Unsafe [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'란, 모든 프로세스를 무사히 졸업시키며 자원을 회수할 수 있는 <strong>단 하나의 '안전 순서(<a href="/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)조차 그려지지 않는 잠재적 파국 지대'</strong>를 뜻한다.

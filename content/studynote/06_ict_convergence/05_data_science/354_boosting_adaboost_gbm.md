@@ -3,8 +3,8 @@ title: "AdaBoost, GBM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 354
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 기법 ([AdaBoost](/studynote/12_it_management/02_itsm_itil/077_Adaboost/), GBM): 트리 오차 수정 반복 연산를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

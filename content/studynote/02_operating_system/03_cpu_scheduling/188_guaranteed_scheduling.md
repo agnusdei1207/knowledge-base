@@ -3,8 +3,8 @@ title: "Guaranteed Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보장 스케줄링 (Guaranteed Scheduling)은 시스템에 로그인한 $N$명의 사용자(또는 프로세스)에게 CPU [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 정확히 $\frac{1}{N}$을 엄격하게 수치적으로 보장(Guarantee)하겠다는 고객-시스템 간의 계약 기반 스케줄링 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

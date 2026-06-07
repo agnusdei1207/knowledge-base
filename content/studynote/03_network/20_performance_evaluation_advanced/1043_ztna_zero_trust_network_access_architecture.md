@@ -3,8 +3,8 @@ title: "1043. Ztna Zero Trust Network Access Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1043
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "130. Seci Model Knowledge Creation"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SECI 모델은 노나카 이쿠지로(1995)가 제안한 <strong>조직 지식 창조 이론</strong>으로, 암묵지↔[형식지](/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)의 4가지 변환(사회화->외부화->결합화->내면화)의 나선형 순환을 통해 새로운 지식이 창조된다.
 > 2. **가치**: 지식을 단순 저장이 아닌 <strong>변환·순환·창조</strong>의 관점으로 보며, 조직이 학습하고 혁신하는 메커니즘을 설명한다.

@@ -3,9 +3,8 @@ title: "973. Responsible AI (Responsible AI)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 973
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Responsible AI는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능성과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 범위를 조정하는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기준 또는 처리 기법이다.

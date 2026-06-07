@@ -3,8 +3,8 @@ title: "Container"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너 가상화](/studynote/02_operating_system/01_overview_architecture/060_container_virtualization/) (Container): Guest OS 없이 호스트 OS 커널을 공유하며 프로세스 격리 (초경량, [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 기동)를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

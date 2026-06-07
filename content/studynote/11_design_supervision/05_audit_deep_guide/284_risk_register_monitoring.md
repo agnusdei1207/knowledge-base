@@ -3,8 +3,8 @@ title: "Risk Register Monitoring Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 284
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 위험등록부 모니터링 감리는 위험등록부([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))를 활용한 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 모니터링 체계에서 유발 지표(Trigger Indicator), 위험 소유자([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Owner), 대응 추적(Response Tracking)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

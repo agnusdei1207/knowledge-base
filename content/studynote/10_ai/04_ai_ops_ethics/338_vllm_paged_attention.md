@@ -3,8 +3,8 @@ title: "338. Vllm Paged Attention"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 338
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: vLLM 의 PagedAttention ([페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)드 어텐션) 은 OS 의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 아이디어를 KV 캐시 ([Key-Value Cache](/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/)) 에 적용해, 사전 할당 없이 블록 단위 동적 메모리 관리로 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) ([Fragmentation](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 를 90% 이상 제거한다.

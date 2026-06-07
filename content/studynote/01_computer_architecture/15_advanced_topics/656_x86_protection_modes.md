@@ -3,8 +3,8 @@ title: "656. X86 Protection Modes"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 656
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: x86 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드는 권한 수준과 메모리 접근을 하드웨어가 직접 검사해, 사용자 프로그램의 오류가 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체로 번지지 않도록 막는 안전 장치다.

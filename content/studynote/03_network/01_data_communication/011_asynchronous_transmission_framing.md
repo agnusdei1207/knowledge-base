@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 11
 ---
-
 # [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 비동기식 전송 - 시작/정지 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Start/Stop [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)), [프레이밍](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 에러
 
 ## 핵심 인사이트 (3줄 요약)

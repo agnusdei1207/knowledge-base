@@ -3,8 +3,8 @@ title: "I/O Bound Process"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: I/O 바운드 프로세스 (Input/Output Bound [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 CPU 연산보다 디스크·네트워크·사용자 입력을 기다리는 시간이 더 긴 작업이다.

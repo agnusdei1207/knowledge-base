@@ -3,8 +3,8 @@ title: "vs"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 여러 고객이 하나의 플랫폼을 공유하되 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 분리하는 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 설계.

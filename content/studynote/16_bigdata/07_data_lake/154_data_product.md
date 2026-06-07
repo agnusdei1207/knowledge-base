@@ -3,8 +3,8 @@ title: "154. Data Product"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Product)은 단순한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 아니라 <strong>명확한 인터페이스(<a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>), <a href="/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> (<a href="/studynote/12_it_management/02_itsm_itil/869_sla/">Service Level Agreement</a>), 소유권, 품질 계약</strong>을 갖춘 독립적으로 배포 가능한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위다.
 2. [데이터 계약](/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/studynote/16_bigdata/12_trends/236_data_contract/))은 생산자(Producer)와 소비자(Consumer) 사이의 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)·[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)·품질 기대값을 명시한 공식 협약으로, [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 브레이킹 체인지를 사전에 방지한다.

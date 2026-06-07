@@ -3,9 +3,8 @@ title: "187. FaaS (Function as a Service / Serverless)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 187
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) / [Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)): 인프라 관리 없이 함수 단위로 코드만 배포 및 호출 시 과금 (AWS [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

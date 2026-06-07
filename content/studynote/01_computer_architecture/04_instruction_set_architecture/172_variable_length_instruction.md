@@ -3,8 +3,8 @@ title: "Variable-Length Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가변 길이 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Variable-Length [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 연산 종류와 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 표현에 따라 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이가 달라지는 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 설계로, 코드 공간은 절약하지만 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계 판독을 하드웨어가 떠안게 만든다.

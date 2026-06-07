@@ -3,8 +3,8 @@ title: "Memory Protection Keys"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 375
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 키([Memory Protection](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) Keys, MPK)는 동일한 프로세스 내부의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간 안에서도, 특정 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 구역마다 자물쇠 번호([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 부여하고 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 열쇠 꾸러미 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 주어 <strong>프로세스 내(In-process) <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 접근 권한을 극도로 빠르고 세밀하게 통제하는 하드웨어 보안 기술</strong>이다.

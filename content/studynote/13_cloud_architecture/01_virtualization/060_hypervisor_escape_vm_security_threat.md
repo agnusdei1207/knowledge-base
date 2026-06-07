@@ -2,9 +2,9 @@
 title: "060. Hypervisor Escape Vm Security Threat"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) Escape([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 탈출)는 Guest VM이 가상 장치나 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 취약점을 통해 Hypervisor나 Host OS로 권한을 뚫고 나가는 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Escape 공격이다.

@@ -3,8 +3,8 @@ title: "036. Apache Hive Sql Interface"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 36
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 복잡한 자바 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 코드를 작성하지 않고도, 표준 SQL과 유사한 HiveQL을 통해 대규모 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 질의할 수 있는 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층임.
 - 메타스토어(Metastore)를 통해 비정형 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 '[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)'라는 의미를 부여하여 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([Data Warehouse](/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))의 기능을 수행함.

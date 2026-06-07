@@ -3,8 +3,8 @@ title: "Model Card"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 스코어카드(Model Card)는 수십억 개의 파라미터가 꼬여있는 정체불명의 블랙박스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 도대체 <strong>누가 만들었고, 어떤 훈련 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(스펙)를 먹고 자랐으며, 어느 인종이나 성별에 끔찍한 차별(편향, <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)을 뿜어낼 수 있는지 그 치부까지 낱낱이 기록해 두는 '<a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델 전용 영양 성분표이자 부작용 경고장'</strong>이다.

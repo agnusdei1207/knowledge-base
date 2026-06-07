@@ -3,8 +3,8 @@ title: "1079. Network Segregation Physical Logical Vdi"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1079
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [망분리](/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

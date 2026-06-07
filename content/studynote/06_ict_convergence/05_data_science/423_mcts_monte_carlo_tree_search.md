@@ -3,8 +3,8 @@ title: "MCTS Monte Carlo TREE Search"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 423
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 알파고 시뮬 트리 탐색 ([MCTS Monte Carlo](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) TREE Search): 1. **본질**: [MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)(Monte Carlo Tree Search)는 바둑처럼 경우의 수가 우주의 원자보다 많아 모든 수를 끝까지 계산([Minimax](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/))하는 것이 불가능할 때, 무작위…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

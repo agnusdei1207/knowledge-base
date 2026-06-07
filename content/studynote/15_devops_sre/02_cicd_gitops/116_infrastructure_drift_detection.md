@@ -3,8 +3,8 @@ title: "116. Infrastructure Drift Detection"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인프라 드리프트(Drift)란 <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> 코드(<a href="/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>/CloudFormation)에 정의된 기대 상태와 실제 클라우드 인프라 상태가 불일치</strong>하는 현상이며, Drift Detection은 이를 자동으로 탐지·알림·복원하는 프로세스다.
 > 2. **가치**: 운영자가 콘솔에서 수동 변경(보안 그룹 열기, 인스턴스 타입 변경)하면 [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 코드와 실제가 달라져 **"코드가 진실이 아니게"** 되며, 이후 `terraform apply` 시 예기치 않은 변경이 발생한다.

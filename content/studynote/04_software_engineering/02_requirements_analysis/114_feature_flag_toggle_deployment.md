@@ -3,8 +3,8 @@ title: "114. Feature Flag Toggle Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [피처 플래그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))는 코드에 <strong>if/else <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 삽입</strong>하여, 배포(Deploy)와 릴리즈(Release)를 분리하고 <strong>런타임에 기능 ON/OFF를 즉시 전환</strong>할 수 있게 하는 소프트웨어 배포 전략이다.
 > 2. **가치**: 코드는 이미 프로덕션에 배포되었지만 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 OFF이므로 사용자에게 보이지 않는 <strong>다크 런칭(<a href="/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/">Dark Launching</a>)</strong>이 가능하며, 문제 발생 시 <strong>코드 <a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 없이 <a href="/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>만 OFF</strong>하면 즉시 무력화된다.

@@ -3,8 +3,8 @@ title: "922. Segregation Of Duties Control Logic"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 922
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 조직 분리 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 (SoD, Segregation of Duties)의 SW 통제 로직은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

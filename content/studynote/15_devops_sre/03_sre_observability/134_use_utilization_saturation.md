@@ -5,7 +5,6 @@ tags:
   - "studynote-devops-sre"
 weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: USE 메서드 - 인프라 자원 분석 방법론(Utilization, Saturation, Errors)은(는) 컴퓨터 과학의 핵심 개념으로, 시스템의 효율성·안전성·확장성을 높이기 위한 이론적 토대이자 실무 설계 원칙이다.

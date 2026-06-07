@@ -3,8 +3,8 @@ title: "Service Mesh Istio Envoy Data Plane"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 616
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서비스 메시 Istio Envoy 데이터 플레인은(는) 마이크로서비스 간 통신을 사이드카 프록시와 제어 평면으로 관리해 보안, 관측, 트래픽 제어를 제공하는 구조이다.

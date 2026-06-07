@@ -3,8 +3,8 @@ title: "059. Bloom Filter False Positive Disk Io"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)([Bloom Filter](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))는 원본 데이터를 저장하지 않고 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)과 해시 함수로 집합 포함 여부를 빠르게 추정하는 확률적 자료구조다.

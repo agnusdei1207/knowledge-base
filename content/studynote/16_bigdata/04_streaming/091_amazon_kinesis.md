@@ -3,8 +3,8 @@ title: "091. Amazon Kinesis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Amazon Kinesis [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Streams (아마존 키네시스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림)은 샤드(Shard) 기반의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 스트리밍 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로, 샤드 1개당 1MB/s [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·2MB/s 읽기 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 가지며 AWS 완전 관리형으로 인프라 없이 [실시간 데이터 스트리밍](/studynote/07_enterprise_systems/05_data_bi/300_realtime_data_streaming_kafka_cdc/)을 시작할 수 있다.

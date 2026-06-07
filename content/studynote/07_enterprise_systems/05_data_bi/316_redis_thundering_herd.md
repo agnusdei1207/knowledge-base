@@ -2,9 +2,9 @@
 title: "316. Redis Thundering Herd"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 316
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선더링 허드 (Thundering Herd)는 캐시 만료(Cache Expiration) 또는 장애 시 다수의 클라이언트가 동시에 DB에 요청을 쏟아내어 DB가 다운되는 현상으로, [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) ([레디스](/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)) 캐시 기반 시스템에서 반드시 사전 설계가 필요한 장애 패턴이다.

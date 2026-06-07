@@ -3,8 +3,8 @@ title: "297. Snowflake Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 297
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레디스 ([Redis](/studynote/05_database/04_transactions_concurrency/542_redis/)) 자료구조는 String, List, Set, Sorted Set, Hash에 초점을 둔 구조이다.

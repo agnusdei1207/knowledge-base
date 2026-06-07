@@ -3,8 +3,8 @@ title: "119. Quantum Complexity"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 119
 ---
-
 > **핵심 인사이트**
 > 1. BQP(Bounded-error [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) time)는 양자 컴퓨터가 다항 시간에 효율적으로 풀 수 있는 문제 클래스 — 고전 컴퓨터의 P에 대응하며, Shor [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(인수분해)과 [Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(탐색)이 BQP의 대표적 예다.
 > 2. BQP와 NP의 관계는 아직 미지수 — BQP⊄NP, NP⊄BQP인지 모두 미증명이며, 현재 P ⊆ BQP ⊆ PSPACE가 알려진 포함 관계다. 양자 컴퓨터가 모든 NP 문제를 빠르게 풀지는 못한다(NP⊄BQP로 추정).

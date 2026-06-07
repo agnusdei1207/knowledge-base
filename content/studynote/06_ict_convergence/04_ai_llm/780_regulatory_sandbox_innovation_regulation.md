@@ -3,8 +3,8 @@ title: "Regulatory Sandbox Innovation Regulation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 780
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 4차 산업혁명 신기술(AI·블록체인·자율주행·UAM·디지털헬스)이 기존 *사전규제(ex-ante)* 체계의 *경로의존성(Path Dependency)*과 충돌할 때, **시간·공간·인원·횟수**를 한정하여 **입증책임 완화(Probatio Diabolica 완화)** 하에 실증하는 **Test-Bed 기반 면허·특례 인가 프레임워크**

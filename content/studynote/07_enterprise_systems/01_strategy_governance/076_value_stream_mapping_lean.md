@@ -2,9 +2,9 @@
 title: "076. Value Stream Mapping Lean"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)([Value Stream Mapping](/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/), [가치 흐름 매핑](/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/))은 고객 요청부터 최종 인도까지의 흐름을 한 장에 그려 낭비(Muda)와 병목을 찾는 [Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) 도구다.

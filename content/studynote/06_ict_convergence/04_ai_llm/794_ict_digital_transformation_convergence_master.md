@@ -3,8 +3,8 @@ title: "ICT Digital Transformation Convergence Master"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 794
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합 디지털 전환은 AI·빅데이터·IoT·클라우드·5G·블록체인·디지털트윈을 CPS(Cyber-Physical System) 기반으로 결합하여, 물리·디지털 공간의 경계를 허무는 4차 산업혁명 핵심 패러다임이며, 데이터-지식-지능의 3단계 가치 사슬을 자동화·예측·최적화로 전환하는 기술 프레임워크이다.

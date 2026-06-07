@@ -1,11 +1,11 @@
 ---
 title: "OFDM, Orthogonal FDM"
 date: "2026-03-30"
-description: "초고속 데이터를 수천 개의 저속 부반송파로 쪼개어 직교성 기반으로 빈틈없이 다중화한 5G와 Wi-Fi의 핵심 물리 아키텍처"
 tags:
   - "network"
+  - "studynote-network"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OFDM (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))은 넓은 대역을 서로 직교하는 많은 [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)로 나눠 전송하는 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 방식이다.

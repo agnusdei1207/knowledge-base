@@ -3,8 +3,8 @@ title: "3PC, Three-Phase Commit"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 251
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 3단계 커밋 (3PC, Three-Phase Commit)은 2PC의 블로킹 한계 보완 (Pre-Commit 추가)에 초점을 맞춘 개념이다.

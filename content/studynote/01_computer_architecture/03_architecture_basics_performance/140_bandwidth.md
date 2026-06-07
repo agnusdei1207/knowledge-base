@@ -3,8 +3,8 @@ title: "Bandwidth"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대역폭 (Bandwidth)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 <strong>단위 시간 동안 감당할 수 있는 최대 전송량</strong>이며, 연산 장치가 아니라 통로의 크기를 평가하는 지표다.

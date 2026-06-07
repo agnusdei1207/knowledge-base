@@ -3,8 +3,8 @@ title: "Dynamic Storage Allocation Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 343
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 메모리 할당 문제는 가변 분할 방식의 메모리 환경이나 애플리케이션의 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역에서, 크기가 제각각인 빈 구멍(Free Hole)들의 리스트 중 <strong>"새로운 프로세스(또는 객체)를 어느 빈 구멍에 넣는 것이 가장 효율적인가?"</strong>를 결정하는 배치 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 문제다.

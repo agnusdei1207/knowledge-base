@@ -3,8 +3,8 @@ title: "091. Gcm Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)은 [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) 모드의 '[초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 암호화' 능력에, 갈루아 체(Galois Field) 수학을 이용한 '[초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([GMAC](/studynote/09_security/02_crypto/106_gmac/))'을 하나로 융합한 [AEAD](/studynote/09_security/02_crypto/092_aead/) ([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

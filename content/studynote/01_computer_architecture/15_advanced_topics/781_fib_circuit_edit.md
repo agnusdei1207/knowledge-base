@@ -3,8 +3,8 @@ title: "781. Fib Circuit Edit"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 781
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FIB (Focused Ion Beam) 수정은 패키지를 벗겨 노출한 다이 위에서 이온 빔으로 금속선과 절연막을 국소 가공해, 기존 회로를 끊거나 새로운 우회선을 만드는 침습적 회로 편집이다.

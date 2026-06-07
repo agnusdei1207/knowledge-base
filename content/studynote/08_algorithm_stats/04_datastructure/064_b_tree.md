@@ -2,9 +2,9 @@
 title: "B-Tree"
 date: "2026-03-05"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong>다분 탐색 트리(Multi-way Search Tree)</strong>의 일종으로, 모든 리프 노드가 같은 깊이를 가지는 균형 트리(Balanced Tree)임.
 - 노드 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬된 상태를 유지하며, 하나의 노드에 여러 자식 노드를 가질 수 있어 대량의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 <strong>디스크 기반 <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 및 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템</strong>에 최적화됨.

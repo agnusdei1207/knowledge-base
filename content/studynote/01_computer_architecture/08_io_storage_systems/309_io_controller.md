@@ -3,8 +3,8 @@ title: "I/O Module"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 309
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 입출력 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (I/O [Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))은 CPU (Central Processing Unit)와 주변장치 사이에서 명령, 상태, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 번역과 완충을 맡는 하드웨어 중개 계층이다.

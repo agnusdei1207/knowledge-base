@@ -3,8 +3,8 @@ title: "Acquisition"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 42
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AARRR 퍼널의 핵심은 획득(Acquisition), 활성화(Activation), 유지([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/)), 추천(Referral), 수익(Revenue)라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.

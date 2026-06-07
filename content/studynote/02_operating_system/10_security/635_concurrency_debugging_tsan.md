@@ -3,8 +3,8 @@ title: "ThreadSanitizer"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 635
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그([경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이스)는 발생 시점이 극도로 비결정적(Non-deterministic)이어서, 수백만 번 실행해도 한 번 나올까 말까 한 '하이젠버그(Heisenbug)'의 형태를 띤다.

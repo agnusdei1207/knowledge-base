@@ -3,9 +3,8 @@ title: "697. FCoE (Fibre Channel over Ethernet)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 697
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FCoE ([Fibre Channel](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) over [Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))는 [Fibre Channel](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) ([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)) 프레임을 [Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 캡슐화하여, Local Area Network (LAN)와 [Storage Area Network](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) ([SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))의 물리 배선을 하나의 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Ethernet으로 수렴시키는 기술이다.

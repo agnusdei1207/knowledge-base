@@ -1,10 +1,11 @@
 ---
 title: "056. Bcp Business Continuity Plan Bia"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BCP (Business Continuity Plan)는 재난이 와도 핵심 업무를 멈추지 않게 만드는 전사 생존 계획이다.

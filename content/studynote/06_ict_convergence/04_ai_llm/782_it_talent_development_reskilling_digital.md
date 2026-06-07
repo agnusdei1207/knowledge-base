@@ -3,8 +3,8 @@ title: "IT Talent Development Reskilling Digital"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 782
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 4차산업혁명(AI·클라우드·데이터·보안) 핵심역량과 NCS(국가직무능력표준)·SFIA(정보화기능역량체계) 기반 직무역량 갭(Gap)을 분석하여, 직무재설계(Job Redesign)->역량진단->개인화 학습경로(LXP/Micro-learning)->현업 적용(On-the-Job Training)->성과측정(KPI 기반 ROI)의闭环(Closed-loop) 체계를 통해 기존 인력을 디지털 전환 인재로 전환하는 조직학습(Organizational Learning) 프레임워크.

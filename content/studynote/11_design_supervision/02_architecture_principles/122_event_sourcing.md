@@ -3,8 +3,8 @@ title: "Event Sourcing"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 시스템의 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 저장하는 대신, 그 상태에 이르기까지의 모든 상태 변화 이벤트(event)를 영구적이고 순서가 보장된 추가 전용(append-only) 이벤트 스트림으로 저장하고, 이 이벤트들을 순서대로 재생(replay)하여 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 복원하는 패턴이다.

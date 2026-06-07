@@ -2,9 +2,9 @@
 title: "Cloud-Native & AI Architecture"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
 weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 네이티브 (Cloud Native)는 클라우드의 이점을 극대화하기 위해 컨테이너, MSA, DevOps를 기반으로 구축된 현대적 개발 방법론이며, AI 소프트웨어 공학은 AI 모델의 비결정적 특성을 수용하는 새로운 공학적 패러다임이다.

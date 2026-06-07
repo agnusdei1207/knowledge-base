@@ -3,9 +3,8 @@ title: "274. ToT / GoT (Graph of Thoughts) (Tree of Thoughts)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 274
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ToT](/studynote/10_ai/02_dl_architecture_new/147_concept/) / GoT ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) of Thoughts) (Tree of Thoughts): 단일 사슬을 넘어 여러 추론 경로를 탐색/평가하며 분기하는 고도화 프롬프팅를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

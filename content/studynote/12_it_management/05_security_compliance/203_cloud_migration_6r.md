@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 203
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클라우드 마이그레이션 6R 기법의 본질은 Rehost(그대로 이전), Replatform(OS/DB 변경 이전), Refactor(MSA/PaaS로 구조 전면 수정), Repurchase(SaaS 구매 대체)를 서비스 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.
 > 2. **가치**: 서비스 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.

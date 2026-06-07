@@ -3,8 +3,8 @@ title: "Tech Debt Management Modernization Priority"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 783
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기술 부채 관리 현대화 전략 우선순위는 Martin Fowler의 Technical Debt Quadrant(Deliberate·Inadvertent × Reckless·Prudent) 분류와 SQALE 분석 모델을 기반으로, 부채 항목별 **이자 비용(Interest Rate)**, **원금(Principal)**, **마이그레이션 위험도(Migration Risk Index)**, **ROI Payback Period**를 정량화하여 Strangler Fig Pattern·Branch by Abstraction·Anti-Corruption Layer로 우선 해소하는 엔터프라이즈 아키텍처 의사결정 체계이다.

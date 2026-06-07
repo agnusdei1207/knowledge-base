@@ -3,8 +3,8 @@ title: "687. Storage Controller Cache Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 687
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토리지 컨트롤러 캐시 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 완료 응답 전에 더티 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 두 컨트롤러의 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)된 캐시에 동시에 올려 두는 고가용성 장치 내부 기술이다.

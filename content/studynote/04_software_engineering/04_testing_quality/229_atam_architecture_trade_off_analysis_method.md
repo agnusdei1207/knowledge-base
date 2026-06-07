@@ -3,8 +3,8 @@ title: "229. Atam Architecture Trade Off Analysis Method"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ATAM ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) - 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간 상충 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 분석은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

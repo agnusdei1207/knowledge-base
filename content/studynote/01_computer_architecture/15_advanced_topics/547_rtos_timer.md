@@ -3,8 +3,8 @@ title: "547. Rtos Timer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 547
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 타이머는 독립된 하드웨어 클럭을 세어 일정 시점에 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 비교 일치, 캡처, 워치독 리셋 같은 이벤트를 발생시키는 시간 기준 장치다.

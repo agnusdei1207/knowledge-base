@@ -1,10 +1,11 @@
 ---
 title: "101. Lossless Join Decomposition"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 무손실 분해 (Lossless-[Join](/studynote/05_database/04_transactions_concurrency/521_join/) Decomposition)는 하나의 거대한 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 두 개로 분해한 후 다시 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/))했을 때, 원래의 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 동일하게 복원됨을 수학적으로 보장하는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 과정의 필수 조건이다.
 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유실되는 것뿐만 아니라, 분해 전에는 없었던 가짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Spurious Tuples)가 생성되어 정보의 정확성이 심각하게 훼손되는 현상을 원천 차단한다.

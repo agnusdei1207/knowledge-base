@@ -1,10 +1,11 @@
 ---
 title: "095. Nexus Scaled Agile Framework"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 넥서스 (Nexus)는 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 창시자 켄 슈와버가 제안한 [대규모 애자일](/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) ([Scaled Agile](/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)) 프레임워크로, 3~9개의 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 단일 제품을 개발할 때 발생하는 코드 충돌과 파이프라인 의존성 (Dependency)을 통제하기 위한 확장형 방법론이다.

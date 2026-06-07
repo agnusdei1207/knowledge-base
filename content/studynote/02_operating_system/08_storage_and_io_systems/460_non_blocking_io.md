@@ -3,8 +3,8 @@ title: "460. Non Blocking Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 460
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 논블로킹 I/O(Non-[blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O)는 프로세스([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 OS에게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(디스크/네트워크)를 요구했을 때, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 아직 도착하지 않아도 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 기절(Sleep)시키지 않고 즉각 "아직 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 없음(EAGAIN)" 에러 코드를 뱉어버린 뒤 제어권을 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>에게 돌려주는 I/O 아키텍처</strong>다.

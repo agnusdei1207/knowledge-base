@@ -3,8 +3,8 @@ title: "042. Rollup L2 Solution"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
+weight: 42
 ---
-
 > **핵심 인사이트**
 > 1. 롤업(Rollup)은 수천 개의 트랜잭션을 오프체인(Layer 2)에서 처리하고 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·묶어서 Layer 1 메인넷에 하나의 배치로 제출하는 L2 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 솔루션으로, 이더리움의 TPS 한계(15 TPS)를 100~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 TPS로 대폭 향상시킨다.
 > 2. 롤업은 보안 증명 방식에 따라 Optimistic Rollup(사기 증명, 7일 인출 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))과 ZK Rollup(유효성 증명, 즉시 완결성)으로 분류되며, Optimistic은 개발 용이성, ZK는 더 강한 보안성과 빠른 완결성이 트레이드오프다.

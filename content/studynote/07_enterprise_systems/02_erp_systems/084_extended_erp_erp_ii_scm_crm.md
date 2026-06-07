@@ -1,10 +1,11 @@
 ---
 title: "ERP II"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) II (Extended [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))를 회사 밖의 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과 고객 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)까지 확장한 통합 운영 모델이다.

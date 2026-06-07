@@ -3,9 +3,8 @@ title: "253. DDR SDRAM (Double Data Rate)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 253
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DDR [SDRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) (Double [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Rate [Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random Access Memory)은 같은 [클럭 주기](/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 안에서 상승 에지와 하강 에지 모두를 사용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 보내며, 메모리 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 체감 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 높인 동기식 주기억장치 기술이다.

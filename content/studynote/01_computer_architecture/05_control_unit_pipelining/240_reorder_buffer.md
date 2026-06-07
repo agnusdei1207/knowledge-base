@@ -3,8 +3,8 @@ title: "ROB, Reorder Buffer"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 재주문 버퍼 (Reorder Buffer, ROB)는 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)으로 뒤섞인 완료 순서를 다시 프로그램 순서로 정렬해, 마지막 커밋만은 순차적으로 수행하게 만드는 은퇴 대기열이다.

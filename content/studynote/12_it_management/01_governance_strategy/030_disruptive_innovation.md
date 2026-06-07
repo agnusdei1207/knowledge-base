@@ -3,8 +3,8 @@ title: "030. Disruptive Innovation"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 와해성 혁신(Disruptive Innovation)은 처음에는 기존 주류 시장보다 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮지만 더 저렴하고 간단하여 새로운 시장·고객층을 창출한 뒤, 점차 주류 시장을 잠식하는 현상이다. Clayton Christensen이 1997년 제시한 이론이다.
 > 2. **가치**: 와해성 혁신의 핵심 통찰은 '기존 강자가 왜 신기술에 대응 실패하는가'다. 기존 기업은 현재 고마진 고객 유지에 집중하다가 저가 신기술이 시장 하단에서 올라와 주류를 잠식할 때 대응이 늦어진다(Innovator's Dilemma).

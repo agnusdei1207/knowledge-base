@@ -3,8 +3,8 @@ title: "Thrashing"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))은 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템이 계산보다 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/)와 디스크 입출력에 더 많은 시간을 쓰게 되면서, CPU (Central Processing Unit) 이용률과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 함께 무너지는 메모리 붕괴 상태다.

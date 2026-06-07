@@ -3,8 +3,8 @@ title: "529. Memory Safety Rust Go"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 529
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 안전성(Memory Safety) 보장을 위한 [Rust](/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go 언어 도입 동향은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

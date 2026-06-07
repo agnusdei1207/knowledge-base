@@ -3,8 +3,8 @@ title: "118. Dimensional Modeling Star Schema"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 차원 모델링은 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서 <strong>분석 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 극대화</strong>하기 위해, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong><a href="/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/">팩트 테이블</a>(측정값)과 디멘전 테이블(분석 축)</strong>로 구성하는 설계 기법이다.
 > 2. **가치**: [3NF](/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 OLTP에 최적이지만, 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)([GROUP BY](/studynote/05_database/04_transactions_concurrency/522_group_by/)·SUM·AVG)에는 JOIN이 과다하여 느리다. 차원 모델링은 <strong>비정규화된 디멘전</strong>으로 JOIN을 최소화하여 <strong><a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 속도를 <a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~100배 향상</strong>시킨다.

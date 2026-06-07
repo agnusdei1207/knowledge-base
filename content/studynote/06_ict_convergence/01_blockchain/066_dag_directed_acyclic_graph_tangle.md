@@ -1,10 +1,11 @@
 ---
 title: "IOTA Tangle"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))는 블록이 아닌 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)들이 서로를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하며 확장되는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 구조다.

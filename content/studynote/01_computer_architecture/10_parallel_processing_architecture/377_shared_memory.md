@@ -3,8 +3,8 @@ title: "Shared Memory"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 377
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템 ([Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/))은 여러 프로세서가 하나의 전역 주소 공간을 함께 바라보며, `load/store`만으로 협력할 수 있게 만드는 강결합 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.

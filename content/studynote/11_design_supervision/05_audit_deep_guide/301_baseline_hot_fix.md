@@ -3,8 +3,8 @@ title: "Baseline and Hot Fix Control Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 301
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이스라인과 Hot fix 통제 감리는 형상 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))과 긴급 수정(Hot fix) 통제 체계에서 긴급 변경(Emergency Change), [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/)), 승인 추적(Approval Trail)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

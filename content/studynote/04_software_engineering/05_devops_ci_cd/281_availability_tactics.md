@@ -3,8 +3,8 @@ title: "281. Availability Tactics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) - [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지, [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 예방 전술은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

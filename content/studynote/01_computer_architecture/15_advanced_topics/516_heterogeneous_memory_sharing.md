@@ -3,8 +3,8 @@ title: "Heterogeneous Memory Sharing"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 516
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이종 컴퓨팅 메모리 공유는 중앙 처리 장치 (Central Processing Unit, CPU)와 그래픽 처리 장치 ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 같은 서로 다른 장치가 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대해 공통 주소 체계와 일관된 접근 규칙을 갖도록 만드는 기술이다.

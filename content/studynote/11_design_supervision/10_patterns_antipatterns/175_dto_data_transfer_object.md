@@ -3,8 +3,8 @@ title: "Data Transfer Object Pattern"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DTO ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object)는 계층이나 프로세스 경계를 넘길 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 묶어 전달하는 전송 전용 객체로, 비즈니스 규칙보다 계약과 페이로드 형태에 초점을 둔다.

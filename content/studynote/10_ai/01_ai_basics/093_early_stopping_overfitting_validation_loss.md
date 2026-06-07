@@ -3,8 +3,8 @@ title: "093. Early Stopping Overfitting Validation Loss"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/))는 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈까지 암기하는 과적합 ([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 막기 위해, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 ([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) Loss)가 반등하는 시점에 학습을 강제 중단하는 규제 ([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 기법이다.

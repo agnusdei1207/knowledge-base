@@ -1,11 +1,11 @@
 ---
 title: "Granular Noise"
 date: "2024-05-24"
-description: "델타 변조의 두 가지 치명적 양자화 잡음 발생 원리와 트레이드오프 분석"
 tags:
   - "network"
+  - "studynote-network"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 경사 과부하 잡음은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 변화가 너무 빨라 스텝이 따라가지 못할 때, 그래뉼러 잡음은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 변화가 너무 작아 계단이 거칠게 들릴 때 발생한다.

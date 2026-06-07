@@ -3,8 +3,8 @@ title: "169. Model Serving Engine Triton Tensorflow Serving"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모델 서빙 엔진 (Model Serving 엔진)은 학습된 ML 모델을 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) API로 실시간 제공하는 인프라로, TensorFlow Serving과 NVIDIA Triton Inference Server가 각각 단일 프레임워크와 멀티 프레임워크 서빙의 대표 솔루션이다.
 > 2. **가치**: 동적 배치 (Dynamic [Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))로 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률을 극대화하고, 모델 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))과 TensorRT 변환으로 지연시간을 수십 배 단축하여 대규모 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 SLA를 충족한다.

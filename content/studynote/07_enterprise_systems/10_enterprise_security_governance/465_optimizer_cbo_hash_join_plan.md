@@ -2,9 +2,9 @@
 title: "CBO, Hash Join, Query Optimizer"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 465
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) CBO [해시 조인](/studynote/05_database/03_relational_model/174_hash_join/) 네스티드 루프 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) CBO [해시 조인](/studynote/05_database/03_relational_model/174_hash_join/) 네스티드 루프 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/), CBO, Hash Join의 경계를 분명히 만드는 데 의미가 있다.

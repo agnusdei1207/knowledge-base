@@ -3,8 +3,8 @@ title: "111. Licensed Lpwan Nb Iot Lte M"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 면허 대역 LPWAN은 통신사가 보유한 <strong><a href="/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 면허 주파수 대역</strong>을 활용하여 [NB-IoT](/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)(200kHz 협대역)와 [LTE-M](/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)(1.4MHz 광대역)으로 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스에 <strong>통신사급 <a href="/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>(품질 보장)</strong>를 제공하는 [3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 국제 표준 기술이다.
 > 2. **가치**: 비면허 [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)([LoRa](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)·[Sigfox](/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/))이 Best Effort인 반면, 면허 대역은 통신사 기지국 인프라를 그대로 활용하여 <strong><a href="/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a> 보장·이동성(<a href="/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>)·양방향 통신</strong>이 가능하며 별도 GW 구축이 불필요하다.

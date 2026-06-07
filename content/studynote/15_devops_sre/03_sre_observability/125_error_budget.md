@@ -3,8 +3,8 @@ title: "125. Error Budget"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 125
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Error Budget은 <strong>SLO에서 파생되는 허용 가능 장애 시간/비율</strong>이며, "100% - [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)"로 계산한다. [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)=99.9%이면 [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)=0.1%=**30일 기준 약 43분**.
 > 2. **가치**: Error Budget은 <strong>"얼마나 더 위험을 감수(배포·실험)해도 되는가"의 정량적 기준</strong>이다. Budget이 남아있으면 공격적 배포, 소진되면 안정화에 집중하여 <strong>속도와 안정의 갈등을 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 해결</strong>한다.

@@ -3,8 +3,8 @@ title: "Immediate"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 즉시 주소 지정 (Immediate Addressing)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 필드를 메모리 주소가 아니라 상수값 그 자체로 해석하는 방식이다.

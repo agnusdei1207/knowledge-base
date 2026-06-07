@@ -3,8 +3,8 @@ title: "152. Embedding"
 date: "2026-05-03"
 tags:
   - "studynote-ai"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))은 컴퓨터가 전혀 이해하지 못하는 텍스트(단어, 문장), 이미지 등의 비정형 껍데기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 -> [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 신경망이 씹고 뜯고 연산할 수 있는 수천 차원의 <strong>실수 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(고밀집 벡터, Dense Vector)로 변환 투영하여 우주 공간에 점(Point)으로 록온(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-on)</strong> 시키는 0순위 번역 믹서기다.
 > 2. **가치**: 기존에 "사과=1, 바나나=2" 번호표를 매기던 원시적 깡통 짓([One-Hot Encoding](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/))을 도끼로 찢어발겼다. 단어들의 '의미적 맥락'과 '[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'를 벡터 점들 사이의 기하학적 거리(방향과 크기)로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 냄으로써, <strong>"왕 - 남자 + 여자 = 여왕"</strong>이라는 경이로운 의미론적 수학 연산(Semantic Math)을 창조해 낸 자연어 처리(NLP)의 절대 척추다.

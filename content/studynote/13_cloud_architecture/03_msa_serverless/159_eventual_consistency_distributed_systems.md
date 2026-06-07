@@ -3,8 +3,8 @@ title: "Eventual Consistency"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [결과적 일관성](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) ([Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))이란 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 즉각적인 강일관성(Strong [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 대신 "충분한 시간이 흐르면 모든 노드의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일치하게 된다"는 사상으로, [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 이론의 A([가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))와 P([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 내성) 선택 시 C([일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))를 완화한 결과다.
 > 2. **가치**: [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 없이도 높은 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 유지하면서 최종적으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 보장하므로, [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경의 비동기 이벤트 기반 아키텍처와 완벽하게 부합한다.

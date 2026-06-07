@@ -3,8 +3,8 @@ title: "210. Hadoop Ecosystem Overview"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터의 본질은 기존 RDBMS가 처리하기 어려운 대규모·고속·다양한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하여 새로운 비즈니스 인사이트를 추출하는 것이며, 3V([Volume](/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)·Velocity·Variety)가 정의의 핵심이다.

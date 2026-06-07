@@ -3,8 +3,8 @@ title: "181. Multicloud Data Platform"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티클라우드 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 두 개 이상의 [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)에 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 계산 자원을 하나의 운영 모델로 묶되, 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리는 가능한 한 각 클라우드 현지에서 수행하도록 설계한 통합 [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)다.

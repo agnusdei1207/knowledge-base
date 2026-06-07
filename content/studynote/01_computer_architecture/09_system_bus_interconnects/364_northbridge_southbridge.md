@@ -3,8 +3,8 @@ title: "Southbridge"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 364
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 노스브리지 (Northbridge)와 사우스브리지 (Southbridge)는 메인보드의 모든 장치를 한 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 몰아넣지 않고, <strong>고속 경로와 저속 경로를 계층적으로 분리</strong>해 병목을 줄이던 전통적 칩셋 구조다.

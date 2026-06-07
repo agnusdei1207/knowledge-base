@@ -3,8 +3,8 @@ title: "Cloud Migration"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 마이그레이션 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Cloud Migration): 6R (Rehost/[Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift, Replatform, Repurchase, [Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), Retire, Retain)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

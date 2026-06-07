@@ -1,11 +1,11 @@
 ---
 title: "003. Integrity"
 date: "2023-10-24"
-description: "데이터의 위변조를 탐지하고 원본의 완전성을 보장하기 위한 무결성의 핵심 원리, 해시, 전자서명 및 실무 적용 방안"
 tags:
   - "security"
+  - "studynote-security"
+weight: 3
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 무결성은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 시점부터 전송, 저장, 처리되는 모든 과정에서 인가되지 않은 방식이나 주체에 의해 변경(위조, 변조, 삭제)되지 않았음을 보장하는 특성이다.
 > 2. **가치**: 금융 거래, 전자 계약, 시스템 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 등에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 '신뢰'를 담보하며, [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/)이 뚫리더라도 무결성이 보장되면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 오염에 의한 2차 피해(예: [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 설치, 송금액 변경)를 막을 수 있다.

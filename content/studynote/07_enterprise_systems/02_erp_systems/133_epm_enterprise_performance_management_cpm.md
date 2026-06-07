@@ -3,8 +3,8 @@ title: "133. Epm Enterprise Performance Management Cpm"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EPM(Enterprise [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/), =[CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/))은 <strong>기업의 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 목표를 재무·운영 성과 지표로 분해하고 계획->실행-><a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링->분석의 순환으로 경영 성과를 관리</strong>하는 시스템이다.
 > 2. **가치**: ERP가 "운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기록"한다면, EPM은 <strong>"<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 분석하여 의사결정을 지원"</strong>하며, 예산 계획·실적 비교·시나리오 분석·[KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/) 대시보드가 핵심 기능이다.

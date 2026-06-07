@@ -2,9 +2,9 @@
 title: "155. Channel Capacity"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 채널 용량 C는 *오류 없는 정보 전송의 이론적 최댓값* — 이를 넘으면 임의로 낮은 오류율 달성이 불가능하다.

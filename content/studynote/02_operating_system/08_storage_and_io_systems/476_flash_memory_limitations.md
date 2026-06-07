@@ -3,8 +3,8 @@ title: "Wear-out"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 476
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 낸드 플래시([NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/)) 메모리는 자기장을 쓰는 HDD와 달리 전자를 가둬 0과 1을 판별하는데, 물리적 특성상 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 덮어쓰는(Overwrite) 것이 불가능하며 반드시 지우고(Erase) 나서야 쓸 수 있는 Erase-before-write 족쇄</strong>를 차고 있다.

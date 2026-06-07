@@ -3,8 +3,8 @@ title: "D Flip-Flop"
 date: "2026-05-01"
 tags:
   - "studynote-computer-architecture"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) (D [Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))은 클록 엣지에서 입력 D를 1비트 상태로 저장하는 동기식 순차회로다.

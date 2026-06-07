@@ -2,9 +2,9 @@
 title: "638. Project Sponsor Steering Committee Decision"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 638
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로젝트 스폰서는 예산과 방향을 후원하고, 스티어링 커미티는 큰 의사결정과 조정을 담당한다.

@@ -2,9 +2,9 @@
 title: "050. Selection Sort Algorithm"
 date: "2026-04-02"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 50
 ---
-
 # [선택 정렬](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) ([Selection Sort](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 > ⚠️ 이 문서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최솟값(또는 최댓값)을 탐색하여 지정된 위치로 교환하는 방식의 비교 기반(Comparison-based) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 '[선택 정렬](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)([Selection Sort](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/))'의 구조, 수학적 복잡도, 그리고 메모리 관점의 특징을 심층 분석합니다.

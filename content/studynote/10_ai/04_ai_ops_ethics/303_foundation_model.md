@@ -3,8 +3,8 @@ title: "Foundation Model"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 303
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) ([Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))은 대규모 비라벨 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 사전 학습되어 폭넓은 일반 지식을 내재화한 뒤, [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 또는 프롬프트로 다양한 다운스트림 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)에 적응할 수 있는 범용 대형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이다.

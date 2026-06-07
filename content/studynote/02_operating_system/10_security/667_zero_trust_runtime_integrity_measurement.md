@@ -3,8 +3,8 @@ title: "667. Zero Trust Runtime Integrity Measurement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 667
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제로 트러스트([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust)는 "내부망에 있으니까 안전하겠지"라는 가정을 버리고, 모든 접근과 실행을 끊임없이 의심하고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 보안 철학이다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 레벨에서 이를 구현하는 핵심이 바로 <strong>런타임 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>망(Runtime <a href="/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a> Measurement)</strong>이다.

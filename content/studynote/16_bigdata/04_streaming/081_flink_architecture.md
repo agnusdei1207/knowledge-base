@@ -3,8 +3,8 @@ title: "081. Flink Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Apache Flink](/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) ([아파치 플링크](/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/))의 아키텍처는 클러스터를 조율하는 JobManager (잡매니저)와 실제 연산을 실행하는 TaskManager ([태스크](/studynote/02_operating_system/02_process_thread/150_task/)매니저)의 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-워커 구조로, 사용자 프로그램을 JobGraph (잡 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))로 변환하고 각 연산자([Operator](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))를 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)로 분해하여 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 실행한다.

@@ -3,8 +3,8 @@ title: "139. Cqrs Msa"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CQRS는 <strong><a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(<a href="/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)와 읽기(Query)를 별도의 모델·저장소로 분리</strong>하는 패턴이며, [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 RDBMS, 읽기는 비정규화된 뷰/ElasticSearch로 최적화한다.
 > 2. **가치**: 단일 모델로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·읽기를 모두 처리하면 <strong>읽기 최적화(비정규화)와 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 정합성(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>)이 상충</strong>하지만, CQRS는 각각을 독립적으로 최적화하여 성능과 확장성을 동시에 달성한다.

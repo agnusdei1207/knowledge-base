@@ -3,8 +3,8 @@ title: "084. Momentum Optimizer Local Minima Escape"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모멘텀](/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) ([Momentum](/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 과거 기울기를 누적한 속도로 현재 파라미터를 갱신해, 단발성 잡음에 덜 흔들리게 만든다.

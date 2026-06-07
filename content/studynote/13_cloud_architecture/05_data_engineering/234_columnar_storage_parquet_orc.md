@@ -3,8 +3,8 @@ title: "234. Columnar Storage Parquet Orc"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컬럼 지향 스토리지(Columnar Storage)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>행(Row) 단위가 아닌 열(Column) 단위로 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장</strong>하여 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 필요한 열만 읽어 I/O를 극적으로 절감한다.
 > 2. **가치**: 동일 열의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 타입이 동일하므로 <strong><a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>률이 5~10배 높고</strong>, 특정 열만 선택적으로 읽는 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 로우 기반 대비 수십 배 빠른 스캔 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.

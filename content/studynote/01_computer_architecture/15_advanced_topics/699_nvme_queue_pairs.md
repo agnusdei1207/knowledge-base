@@ -3,8 +3,8 @@ title: "Queue Pairs"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 699
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 큐 쌍은 Submission [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) (제출 큐)와 Completion [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) (완료 큐)를 한 세트로 묶어, 여러 CPU 코어가 서로 락을 덜 걸고 [Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 명령을 보낼 수 있게 만든 구조다.

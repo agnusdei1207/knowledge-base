@@ -3,8 +3,8 @@ title: "Subnetting"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서브네팅은 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

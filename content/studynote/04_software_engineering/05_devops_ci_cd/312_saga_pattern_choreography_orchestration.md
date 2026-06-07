@@ -3,8 +3,8 @@ title: "Orchestration"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사가 ([Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴의 코레오그래피 (Choreography) vs [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

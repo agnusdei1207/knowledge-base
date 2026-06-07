@@ -3,8 +3,8 @@ title: "TF-IDF Cosine Similarity Text Mining Word2Vec"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 518
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TF-IDF](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)(Term Frequency-Inverse [Document](/studynote/14_data_engineering/01_infrastructure/037_document/) Frequency)는 문서 내 단어 빈도를 전체 문서에서의 희귀도로 보정해 단어 중요도를 정량화 — BoW(Bag of Words)의 한계를 극복한 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 방식이다.

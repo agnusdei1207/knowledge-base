@@ -3,8 +3,8 @@ title: "Agile Management"
 date: "2026-03-03"
 tags:
   - "studynote-it-management"
+weight: 33
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 관리([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 짧은 반복 주기([스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))를 통해 고객 가치를 지속 전달하고, 변화에 신속히 적응하는 인간 중심의 경량 프로젝트 관리 방식이다.
 > 2. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언(2001년)의 4대 가치와 12원칙이 이론 기반이며, [Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)·[Kanban](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)·SAFe가 주요 실천 프레임워크로 대부분의 IT 프로젝트에 적용되고 있다.

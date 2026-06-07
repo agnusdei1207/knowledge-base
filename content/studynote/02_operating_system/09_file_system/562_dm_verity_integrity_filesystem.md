@@ -3,8 +3,8 @@ title: "dm-verity / Android"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 562
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해커가 안드로이드 폰을 루팅(Rooting)해서 시스템 OS [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1KB를 몰래 심었다. 예전엔 부팅이 잘 됐지만, 요즘 폰은 켜질 때 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디바이스 매퍼(Device Mapper) 층에 박혀 있는 <strong><code>dm-verity (기기 무결성 검증 렌더)</code> 가 출동하여, <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템을 읽을 때마다 해당 블록의 SHA-256 해시를 번개처럼 떠서 순정 삼성/애플에서 제조한 오리지널 해시값과 1:1 대조하는 미친 감시망</strong> 을 돌린다.

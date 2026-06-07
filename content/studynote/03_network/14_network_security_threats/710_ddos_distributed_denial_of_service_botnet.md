@@ -3,8 +3,8 @@ title: "710. Ddos Distributed Denial Of Service Botnet"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 710
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

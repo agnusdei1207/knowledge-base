@@ -1,11 +1,11 @@
 ---
 title: "Spread Spectrum"
 date: "2024-05-24"
-description: "전송 신호의 대역폭을 의도적으로 넓혀 잡음 강인성과 보안성을 확보하는 통신 기술"
 tags:
   - "network"
+  - "studynote-network"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스펙트럼 확산은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 대역을 넓게 퍼뜨려 잡음과 간섭에 강하게 만드는 기법이다.

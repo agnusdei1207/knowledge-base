@@ -3,8 +3,8 @@ title: "275. Lock Contention Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 275
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락 경합([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) Contention)은 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하나의 락([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/) 등)을 획득하기 위해 줄을 서면서 CPU 코어가 일을 못하고 대기(Sleep/Block)하는 현상이며, 시스템의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 수직 하락시키는 주범이다.

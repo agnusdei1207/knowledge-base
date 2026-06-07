@@ -2,9 +2,9 @@
 title: "Zipkin, Jaeger"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산 추적](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) ([Distributed Tracing](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))은 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 하나의 사용자 요청이 여러 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지나는 동안 같은 Trace ID와 Span 계층으로 연결해 전체 호출 여정을 복원하는 관측성 인프라다.

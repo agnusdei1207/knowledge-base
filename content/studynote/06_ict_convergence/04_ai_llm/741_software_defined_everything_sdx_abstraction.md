@@ -3,8 +3,8 @@ title: "Software Defined Everything SDx Abstraction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 741
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SDx(Software Defined Everything)는 네트워크(SDN), 스토리지(SDS), 컴퓨팅(SDC), 보안(SD-Security) 등 모든 인프라 자원의 **제어 평면(Control Plane)과 데이터 평면(Data Plane)을 분리**하고, 이를 **추상화 계층(Abstraction Layer)**을 통해 API로 노출하여 프로그래머블하게 자원을 제어하는 패러다임이다. 핵심은 "인프라 자원의 가상화 + 중앙 집중화 + 자동화"의 3축 융합이다.

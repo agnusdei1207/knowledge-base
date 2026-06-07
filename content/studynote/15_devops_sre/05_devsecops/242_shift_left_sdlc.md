@@ -3,8 +3,8 @@ title: "Shift-Left"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 설계 판단을 [SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 앞단으로 이동시키는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).

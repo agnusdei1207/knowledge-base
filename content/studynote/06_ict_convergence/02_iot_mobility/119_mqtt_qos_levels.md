@@ -3,8 +3,8 @@ title: "119. Mqtt Qos Levels"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 119
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [MQTT](/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))는 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 보장 수준을 3단계(0: 최대 1회, 1: 최소 1회, 2: 정확히 1회)로 정의하며, <strong>Publisher->Broker와 Broker->Subscriber 각각에 독립적으로 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>된다.
 > 2. **가치**: 온도 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 0, 유실 허용)와 결제 명령([QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2, 정확히 1회 필수)처럼, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 중요도에 따라 전달 보장 수준을 선택</strong>하여 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·배터리·[신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 균형을 맞춘다.

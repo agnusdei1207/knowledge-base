@@ -3,8 +3,8 @@ title: "Limitations Of 2PL Deadlock Cascading Rollback"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 2PL의 한계은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 발생 가능성, [연쇄 복귀](/studynote/05_database/04_transactions_concurrency/206_cascading_rollback_unrecoverable_schedule/) 위험에 초점을 맞춘 개념이다.

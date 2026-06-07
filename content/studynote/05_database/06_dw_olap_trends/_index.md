@@ -2,9 +2,9 @@
 title: "DW, OLAP & Trends"
 tags:
   - "database"
+  - "studynote-database"
 weight: 6
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 웨어하우스 (DW)는 의사결정을 지원하기 위해 전사적 데이터를 주제 중심적으로 통합·정제하여 축적하는 분석 전용 저장소이며, OLAP는 이를 다차원적으로 분석하는 기술이다.

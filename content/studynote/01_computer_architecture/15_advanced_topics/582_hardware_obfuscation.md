@@ -3,8 +3,8 @@ title: "Hardware Obfuscation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 582
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 기반 [난독화](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로의 기능을 바로 읽거나 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 못하도록, <strong><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 구조를 숨기거나 비밀 키 없이는 정상 동작하지 않게 만드는 <a href="/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">공급망 보안</a> 기술</strong>이다.

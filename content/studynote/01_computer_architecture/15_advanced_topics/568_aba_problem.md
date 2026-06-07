@@ -3,8 +3,8 @@ title: "ABA Problem,"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 568
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ABA 문제 (ABA Problem)는 비교-교환 ([Compare-and-Swap](/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/), [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))이 "지금 값이 같은가"만 보고 판단할 때, 실제로는 `A -> B -> A`라는 변경 이력이 있었음을 놓쳐 잘못된 성공을 선언하는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류다.

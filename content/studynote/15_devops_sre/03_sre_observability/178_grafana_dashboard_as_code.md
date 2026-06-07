@@ -3,8 +3,8 @@ title: "178. Grafana Dashboard As Code"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) Dashboard [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 대시보드를 클릭 결과물이 아니라 배포 가능한 코드 자산으로 취급해, 관측 화면을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 함께 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하는 방식이다.

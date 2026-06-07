@@ -2,9 +2,9 @@
 title: "Architecture Principles"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 아키텍처 (Software Architecture)는 시스템의 골격이 되는 주요 구성 요소와 이들 간의 상호작용 및 제약 조건을 정의하며, 비기능적 요구사항인 품질 속성을 만족시키기 위한 근본적인 설계 의사결정이다.

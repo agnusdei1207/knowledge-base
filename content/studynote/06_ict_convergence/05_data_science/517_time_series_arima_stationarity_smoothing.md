@@ -3,8 +3,8 @@ title: "Time Series ARIMA Stationarity Smoothing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 517
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정상성([Stationarity](/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/)) — 평균·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 시간에 따라 변하지 않음 — 은 [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 모델링의 전제 조건이며, ADF 검정(Augmented Dickey-Fuller Test)으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 차분(Differencing)으로 달성한다.

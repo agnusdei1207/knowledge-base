@@ -2,9 +2,9 @@
 title: "141. Markov Property"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 141
 ---
-
 ## 핵심 인사이트
 
 > 마르코프 성질(Markov Property)은 "미래는 현재만 알면 충분하며, 과거는 현재가 요약해준다"는 조건부 독립(Conditional [Independence](/studynote/08_algorithm_stats/08_stats/133_independence/)) 원칙으로, 복잡한 시계열 문제를 다루기 쉽게 만드는 핵심 가정이다.

@@ -3,8 +3,8 @@ title: "2PL, Two-Phase Locking"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 2단계 락킹 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([2PL](/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/), [Two-Phase Locking](/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/))은 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 가능성 보장을 위한 락 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 초점을 맞춘 개념이다.

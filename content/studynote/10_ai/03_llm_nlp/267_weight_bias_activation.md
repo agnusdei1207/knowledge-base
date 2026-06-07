@@ -3,8 +3,8 @@ title: "Activation Function"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 267
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뉴런 출력은 `y = f(W·x + b)`로 정의된다 — <strong>가중치(Weight, W)</strong>는 입력의 중요도를 결정하고, <strong>편향(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>, b)</strong>은 활성화 임계값을 이동시키며, <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a>(<a href="/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">Activation Function</a>, f)</strong>는 비선형성을 도입한다.

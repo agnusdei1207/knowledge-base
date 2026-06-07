@@ -3,8 +3,8 @@ title: "064. Skewness Kurtosis Log Transformation"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 왜도(Skewness)는 분포의 비대칭 정도를, 첨도(Kurtosis)는 꼬리와 뾰족함의 정도를 보여준다.

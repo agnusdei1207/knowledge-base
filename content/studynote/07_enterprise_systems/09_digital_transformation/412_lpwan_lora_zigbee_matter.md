@@ -2,9 +2,9 @@
 title: "LPWAN: Low Power Wide Area Network"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 412
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) [지그비](/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) [매터](/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 통신 표준은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) [지그비](/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) [매터](/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 통신 표준, [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/): Low [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wide Area Network, LPWAN의 경계를 분명히 만드는 데 의미가 있다.

@@ -3,8 +3,8 @@ title: "052. Cloud Computing Os"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 컴퓨팅 (Cloud Computing)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS) 개념을 네트워크 너머의 자원 풀에 확장해, 하드웨어를 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하고 공유하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 인프라 모델이다.

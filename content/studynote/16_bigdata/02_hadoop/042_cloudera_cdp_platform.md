@@ -3,9 +3,8 @@ title: "Cloudera CDP (Cloudera Data Platform)"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 42
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 1. <strong><a href="/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a></strong>는 클라우드와 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 환경을 통합 관리하는 클라우데라의 차세대 하이브리드 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이다.
 2. SDX(Shared [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Experience)를 통해 이기종 인프라 상에서도 일관된 보안, 거버넌스 및 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/)를 보장한다.

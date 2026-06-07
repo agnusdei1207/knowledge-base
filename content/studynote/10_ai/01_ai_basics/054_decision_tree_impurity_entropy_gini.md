@@ -3,8 +3,8 @@ title: "Decision Tree Impurity: Entropy/Gini"
 date: "2026-05-01"
 tags:
   - "studynote-ai"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 의사결정나무는 불순도 (Impurity)를 줄이는 방향으로 분할을 선택한다.

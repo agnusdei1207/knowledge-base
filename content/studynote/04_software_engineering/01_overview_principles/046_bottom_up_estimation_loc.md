@@ -3,8 +3,8 @@ title: "046. Bottom Up Estimation Loc"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. 상향식([Bottom-Up](/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) 비용 산정은 [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)([Work Breakdown Structure](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))의 개별 작업 단위에서 시작해 합산하는 방식 — 세부 계획이 확정된 후 적용 가능하며, 하향식보다 정확하지만 시간이 많이 소요된다.
 > 2. LOC(Lines of [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), 소스 코드 라인 수)는 가장 오래되고 직관적인 소프트웨어 규모 측정 지표 — 생산성(LOC/인월)과 비용(비용/LOC)으로 산정하나, 언어·개발자 숙련도·코딩 스타일에 크게 의존하는 한계가 있다.

@@ -3,8 +3,8 @@ title: "Rolling Update Deployment"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 구버전 인스턴스를 하나씩 끄고 신버전을 하나씩 켜면서 트래픽을 점진적으로 이전하는 가장 보편적인 [무중단 배포](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 방식이다.

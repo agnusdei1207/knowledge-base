@@ -3,8 +3,8 @@ title: "Snowflake Data Clean Room"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 386
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing / Clean Room) 보안 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교환 모델 ([Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/) [Data Clean Room](/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/) 등)는 보안·프라이버시 관점에서 자주 쓰이는 모델이다.

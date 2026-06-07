@@ -3,8 +3,8 @@ title: "138. Digital Onboarding Automation Ux"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 디지털 온보딩은 <strong>고객·직원의 최초 등록·가입 과정을 디지털로 완전 자동화</strong>하는 것이며, eKYC(전자 본인 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))·[전자 서명](/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)·[RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)·[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 문서 인식이 핵심 기술이다.
 > 2. **가치**: 오프라인 온보딩은 수일~수주가 걸리지만, 디지털 온보딩은 <strong>수분 내 완료</strong>되어 고객 이탈률을 50%+ 줄이고 운영 비용을 절감한다.

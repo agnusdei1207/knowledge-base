@@ -3,8 +3,8 @@ title: "549. Sensor Fusion Accelerator"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 549
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 첨단 운전자 보조 시스템 (ADAS, Advanced Driver Assistance Systems) [센서 퓨전](/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/) 가속기는 카메라, 레이더, 라이다, 관성 센서의 이질적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공통 시간축과 좌표계로 맞춘 뒤 하나의 환경 모델로 합성하는 전용 하드웨어다.

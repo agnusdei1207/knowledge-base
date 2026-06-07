@@ -3,8 +3,8 @@ title: "257. Data Fabric"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 257
 ---
-
 > **핵심 인사이트**
 > 1. [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)와 AI로 통합·자동화하는 아키텍처 패러다임 — [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))가 조직·[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중심의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이라면, [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 기술 자동화 중심의 통합으로 두 접근법은 상호 보완적이다.
 > 2. [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 핵심은 "지능형 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 레이어" — 능동 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/))가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보(Lineage), 품질, 접근 패턴을 자동 학습하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견·통합·관리를 자동화하는 것이 기존 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)와의 핵심 차별점이다.

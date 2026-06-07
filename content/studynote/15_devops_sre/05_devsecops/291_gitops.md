@@ -3,8 +3,8 @@ title: "GitOps"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 291
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Git을 목표 상태의 단일 진실원으로 삼고 클러스터 내부 에이전트가 reconciliation을 수행하는 운영 모델.

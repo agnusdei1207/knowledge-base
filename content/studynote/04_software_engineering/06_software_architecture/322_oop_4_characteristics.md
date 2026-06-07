@@ -3,8 +3,8 @@ title: "322. Oop 4 Characteristics"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 322
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 다형성, [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

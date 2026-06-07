@@ -1,10 +1,11 @@
 ---
 title: "063. Mempool Transaction Queue"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멤풀(Mempool)은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 아직 포함되지 않은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 네트워크 노드에 임시로 대기하는 공간이다.

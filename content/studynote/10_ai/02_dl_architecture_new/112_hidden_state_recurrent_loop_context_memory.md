@@ -3,8 +3,8 @@ title: "112. Hidden State Recurrent Loop Context Memory"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 112
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 은닉 상태(Hidden [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), $h_t$)는 RNN이 시간 단계 t까지 읽은 <strong>모든 과거 입력의 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>된 요약(<a href="/studynote/10_ai/02_dl_architecture_new/120_context_vector/">Context Vector</a>)</strong>이며, 순환 루프(Recurrent Loop)를 통해 $h_{t-1}$이 다음 단계의 입력으로 재주입되어 <strong>시간적 문맥을 유지</strong>한다.
 > 2. **가치**: $h_t = f(W_h \cdot h_{t-1} + W_x \cdot x_t + b)$로 정의되어, 과거 기억($h_{t-1}$)과 현재 입력($x_t$)을 <strong>비선형 함수(<a href="/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/">tanh</a>/<a href="/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a>)로 혼합</strong>하여 새 기억($h_t$)을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이것이 RNN의 "기억력"의 수학적 실체다.

@@ -3,8 +3,9 @@ title: "007. Codebase"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 7
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 코드베이스(Codebase) 원칙은 모든 소프트웨어 애플리케이션이 단 하나의 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 저장소와 1:1로 매핑되어야 하며, 이 코드베이스로부터 개발, 스테이징, 프로덕션 등 여러 환경을 일관되게 배포할 수 있어야 한다는 12팩터 앱의 제1원칙이다.
 > 2. **가치**: 코드 파편화를 방지하고 단일 진실 공급원(SSOT)을 제공하여, 환경 간 코드 불일치로 인한"내 PC에서는 되는데 서버에서는 안 된다"는 문제를 원천 차단한다.

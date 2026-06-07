@@ -3,8 +3,8 @@ title: "158. Requirements Management Change Control"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 요구사항 관리 (Requirements [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 확정된 요구사항을 [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))으로 고정하고, 이후의 변경 요청을 평가·승인·기록하며 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 관리하는 통제 활동이다.

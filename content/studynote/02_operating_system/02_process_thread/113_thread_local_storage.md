@@ -3,8 +3,8 @@ title: "TLS, Thread-Local Storage"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-Local Storage)는 각 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 독립적으로 소유하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 공간이다. 전역 변수(global variable)와 달리 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 변수는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간에 공유되지 않으므로 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 안전하게 접근할 수 있다.

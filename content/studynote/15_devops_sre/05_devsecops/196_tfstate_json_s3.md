@@ -3,8 +3,8 @@ title: "tfstate"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [테라폼](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)이 실제 리소스와 코드 간 매핑을 기억하는 상태 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/).

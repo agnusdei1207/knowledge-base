@@ -1,11 +1,11 @@
 ---
 title: "017. Rack Awareness"
 date: "2025-01-01"
-description: "분산 클러스터에서 스위치나 전원 장애 등 랙(Rack) 단위의 대규모 결함을 방어하기 위한 지능형 데이터 분산 배치 기법"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 17
 ---
-
 # 랙 인지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Rack Awareness [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
 #### 핵심 인사이트 (3줄 요약)

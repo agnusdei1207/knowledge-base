@@ -3,8 +3,8 @@ title: "Reentrant Lock / Recursive Lock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 279
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 재진입 가능 락(Reentrant [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 요청할 때, 그 락을 이미 쥐고 있는 주인이 '나 자신(현재 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))'이라면, 멈춰 세우지(Block) 않고 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Count)만 1 증가시킨 뒤 그대로 통과시켜 주는 뮤텍스의 변형 모델이다.

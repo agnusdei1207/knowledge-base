@@ -3,8 +3,8 @@ title: "292. Cloud Native Dw Snowflake Bigquery Redshift"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 292
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) (Cloud-Native [Data Warehouse](/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))는 스토리지와 컴퓨팅을 분리하여 무제한 확장과 사용량 기반 과금을 실현한 차세대 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 아키텍처다.

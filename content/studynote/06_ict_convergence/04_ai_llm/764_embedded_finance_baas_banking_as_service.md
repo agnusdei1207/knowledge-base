@@ -3,8 +3,8 @@ title: "Embedded Finance BaaS Banking as Service"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 764
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BaaS(Banking as a Service)는 은행의 핵심 기능(계좌발급, KYC/AML, 결제, 송금, 대출 실행)을 마이크로서비스형 RESTful API와 SDK로 추상화하여 비금융 플랫폼이 화이트라벨 방식으로 금융 기능을 임베드할 수 있게 하는 클라우드 네이티브 금융 인프라이며, 임베디드 금융(Embedded Finance)은 이를 비금융 UX 흐름(E-commerce, SaaS, ERP, 모빌리티) 내부에 컨텍스트 단위로 내장하여 사용자가 인지하지 못하는 사이렌트 금융(Silent Finance)을 구현하는 패러다임이다.

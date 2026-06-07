@@ -3,8 +3,8 @@ title: "125. Socket"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 125
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소켓 (Socket)은 네트워크 상에서 프로세스 간 통신을 가능하게 하는 양방향 통신 종단점 (Endpoint)으로, IP (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 주소와 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 번호의 조합으로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)되는 소프트웨어적 창구다.

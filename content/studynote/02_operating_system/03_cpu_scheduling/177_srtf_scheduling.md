@@ -3,8 +3,8 @@ title: "177. Srtf Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SRTF (Shortest Remaining Time First)는 현재 실행 중인 작업까지 포함해 <strong>남은 CPU (Central Processing Unit) 실행 시간이 가장 짧은 프로세스</strong>를 즉시 선택하는 [선점형 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/)이다.

@@ -3,8 +3,8 @@ title: "AI Hallucination Prevention Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 652
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLM(대규모 언어 모델)이 학습 데이터에 없거나 통계적 패턴으로 그럴듯하게 조합한 **사실 무근거(factually unfounded) 콘텐츠를 사실로 출력하는 현상**(Intrinsic/Extrinsic Hallucination)을, **RAG(Retrieval-Augmented Generation)·Grounded Decoding·Constitutional AI·Fact-Verification Pipeline**의 4계층 방어 체계로 억제하는 기법

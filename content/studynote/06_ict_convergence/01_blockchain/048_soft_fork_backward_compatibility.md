@@ -3,8 +3,8 @@ title: "048. Soft Fork Backward Compatibility"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. 소프트 포크(Soft Fork)는 하위 호환(Backward Compatible) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 업그레이드 — 업그레이드하지 않은 노드(구버전)도 새 규칙으로 만들어진 블록을 유효하다고 인식하며, 네트워크 분리 없이 규칙을 강화할 수 있다.
 > 2. 소프트 포크의 핵심은 "규칙을 강화(Tighten)"하는 것 — 이전에 허용되던 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 유형을 새 규칙에서 제한하거나, 기존 필드를 재해석하여 새 기능을 추가한다. 구버전 노드는 새 블록이 기존 규칙을 여전히 따르는지만 검증하므로 분기 없이 동작한다.

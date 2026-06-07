@@ -2,9 +2,9 @@
 title: "002. Time Complexity"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시간 복잡도는 입력 크기 n에 따른 연산 횟수 증가율을 수학적으로 표현하며, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 성능의 언어다.
 > 2. **가치**: Big-O(최악), Ω(최선), Θ(평균) 표기법을 통해 다양한 환경에서 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 동작을 예측하고 비교한다.

@@ -3,8 +3,8 @@ title: "581. Tablespace System Capacity Management Datafiles"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 581
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테이블 스페이스 시스템 용량 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 관리 물리 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 그룹핑 구성 정책는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

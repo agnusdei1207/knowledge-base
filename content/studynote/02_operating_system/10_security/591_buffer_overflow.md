@@ -3,8 +3,8 @@ title: "591. Buffer Overflow"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 591
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: C언어나 C++ 로 짠 프로그램은 메모리(버퍼) 의 끝을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않는 멍청한 함수(`strcpy`, `gets`) 를 쓴다. 해커가 10칸짜리 버퍼에 100글자를 강제로 밀어 넣으면, 그 넘쳐흐른 글자([Overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 빔!) 들이 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리의 핵심 제어판인 **복귀 주소(RET, Return Address) 를 조작된 16진수로 덮어버려 프로그램의 실행 흐름을 통째로 훔치는(Hijacking)** 소프트웨어 파괴의 근원이다.

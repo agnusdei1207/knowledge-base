@@ -3,8 +3,8 @@ title: "Data Orchestration Airflow Dagster"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 675
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 오케스트레이션은 분산된 데이터 파이프라인을 **DAG(Directed Acyclic Graph)** 모델로 추상화하여 스케줄링·의존성 관리·모니터링·재시도·백필을 통합 제어하는 소프트웨어 공학적 기법이며, **Airflow는 Task-centric(DAG Run/Task Instance)**, **Dagster는 Asset-centric(Software-Defined Asset + IOManager)** 패러다임을 각각 채택한 두 개의 상보적 프레임워크이다.

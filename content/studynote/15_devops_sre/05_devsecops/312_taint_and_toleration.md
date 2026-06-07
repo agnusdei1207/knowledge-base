@@ -3,9 +3,8 @@ title: "Taint and Toleration"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 312
 ---
-
-
 > **핵심 인사이트**
 > - [Taint](/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/) ([테인트](/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/))는 노드에 붙이는 "거부 스티커"이고, Toleration (톨러레이션)은 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 그 스티커를 허용하는 "면역 카드"다.
 > - 세 가지 효과(NoSchedule / PreferNoSchedule / NoExecute)로 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 제어 강도를 조절한다.

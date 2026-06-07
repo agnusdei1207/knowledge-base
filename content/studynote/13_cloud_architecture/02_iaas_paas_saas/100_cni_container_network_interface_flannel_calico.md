@@ -3,8 +3,8 @@ title: "100. Cni Container Network Interface Flannel Calico"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CNI](/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) ([Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Network Interface)는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 IP를 할당하고 오버레이 통신망을 구성하는 과정을 외부 플러그인에게 위임하기 위한 표준 규격이다.

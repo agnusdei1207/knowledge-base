@@ -3,8 +3,8 @@ title: "117. Martech Marketing Technology Convergence"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 117
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마테크(MarTech)는 <strong>마케팅(Marketing) + 기술(Technology)</strong>의 합성어로, 마케팅 자동화·분석·개인화·고객 경험(CX) 관리를 수행하는 <strong>소프트웨어 도구와 플랫폼의 총체적 생태계</strong>를 의미한다.
 > 2. **가치**: 마테크 랜드스케이프(Landscape)에는 **14,000개 이상의 도구**(2024 기준)가 존재하며, [CDP](/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)·MA(Marketing Automation)·CMS·분석·ABM·소셜 등 카테고리로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다. 기업은 이들을 조합하여 <strong>마테크 <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>(MarTech <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong>을 구성한다.

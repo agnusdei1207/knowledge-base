@@ -3,8 +3,8 @@ title: "Rack Scale Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 639
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 랙 스케일 아키텍처 (Rack Scale [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/), [RSA](/studynote/09_security/03_network_security/110_rsa/))는 서버 한 대를 완성품으로 보는 대신, 랙 전체를 하나의 조립형 컴퓨터로 보고 자원을 배치하는 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계 방식이다.

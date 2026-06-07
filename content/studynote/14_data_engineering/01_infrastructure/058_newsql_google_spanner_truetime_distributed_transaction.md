@@ -3,8 +3,8 @@ title: "Spanner"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NewSQL은 SQL과 ACID를 유지하면서도 수평 확장을 가능하게 하려는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 관계형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 계열이다.

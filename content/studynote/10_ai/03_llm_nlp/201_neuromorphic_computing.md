@@ -3,8 +3,8 @@ title: "Neuromorphic Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [뉴로모픽 컴퓨팅](/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/) ([Neuromorphic Computing](/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/))은 인간의 뇌신경 구조를 소프트웨어(수식)가 아니라 <strong>하드웨어(<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩) 뼈대 그 자체로 100% 모방</strong>하여, 뉴런과 시냅스의 전기적 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) 통신 방식을 회로에 구워버린 궁극의 인공 두뇌 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)다.

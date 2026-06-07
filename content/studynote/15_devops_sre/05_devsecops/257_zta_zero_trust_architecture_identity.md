@@ -3,8 +3,8 @@ title: "ZTA, Zero Trust Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 257
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 내부망이라는 이유만으로 신뢰하지 않고 매 요청마다 신원과 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 보안 모델.

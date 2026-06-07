@@ -3,8 +3,8 @@ title: "Cache-Control: max-age, no-cache, no-store"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 473
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 제어 헤더는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

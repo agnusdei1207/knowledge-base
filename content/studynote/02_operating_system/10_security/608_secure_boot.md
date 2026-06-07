@@ -3,8 +3,8 @@ title: "608. Secure Boot"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 608
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Secure Boot(보안 부팅)은 [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)(Unified Extensible [Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 시스템 부팅 시 실행되는 모든 코드([부트로더](/studynote/02_operating_system/01_overview_architecture/029_bootloader/), [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 드라이버)의 디지털 서명(Signature)을 신뢰할 수 있는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인(Certificate Chain)으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여, 서명되지 않은 악성 코드의 실행을 부팅 최초 단계에서 원천 차단하는 보안 메커니즘이다.

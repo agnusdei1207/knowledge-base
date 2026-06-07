@@ -2,9 +2,9 @@
 title: "075. Kubernetes K8S Cluster Architecture"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) (K8s) 클러스터는 원하는 상태를 선언하고, Control Plane이 그 상태를 계산하며, [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane이 실제 Pod를 실행하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 시스템이다.

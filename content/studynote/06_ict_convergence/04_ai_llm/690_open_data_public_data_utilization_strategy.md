@@ -3,8 +3,8 @@ title: "Open Data Public Data Utilization Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 690
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈·공공데이터 활용 전략은 **W3C DCAT-AP 3.0 메타데이터 표준**, **REST/OData/GraphQL API 게이트웨이**, **KOGL Type 1(공공누리) 라이선스 체계**, 그리고 **FAIR(Findable, Accessible, Interoperable, Reusable) 원칙**을 기반으로, 분산된 1·2·3종 공공기관의 이종(heterogeneous) 데이터를 통합 카탈로그로 제공·연계·분석하는 데이터 거버넌스 프레임워크이다.

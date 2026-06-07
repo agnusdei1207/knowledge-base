@@ -3,8 +3,8 @@ title: "133. Fine Tuning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Fine-tuning은 <strong>사전 학습된 Foundation Model의 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특화 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 추가 학습하여 특정 작업 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 최적화</strong>하는 기법이며, Full [Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)·[LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)·Prompt Tuning으로 구분된다.
 > 2. **가치**: 사전 학습 모델은 범용이라 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)(의료·법률)에서 정확도가 부족하지만, Fine-tuning으로 <strong>소량 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만으로도 전문 모델 수준</strong>을 달성한다.

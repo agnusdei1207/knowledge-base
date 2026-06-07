@@ -3,9 +3,8 @@ title: "242. WAF (Web Application Firewall)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 242
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [WAF](/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) (Web Application [Firewall](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

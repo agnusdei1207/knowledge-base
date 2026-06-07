@@ -2,9 +2,9 @@
 title: "MVP Hypothesis Canvas / A/B Testing"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 245
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 가설 캔버스 및 AB 테스팅 실험 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 가설 캔버스 및 AB 테스팅 실험 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/), [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) Hypothesis Canvas의 경계를 분명히 만드는 데 의미가 있다.

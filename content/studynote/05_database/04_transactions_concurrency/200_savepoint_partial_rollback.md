@@ -3,9 +3,8 @@ title: "200. SAVEPOINT (Savepoint Partial Rollback)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 200
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SAVEPOINT은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내 중간 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지점 설정에 초점을 맞춘 개념이다.

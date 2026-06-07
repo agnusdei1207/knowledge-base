@@ -3,8 +3,8 @@ title: "499. Sql Injection Defense"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 499
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SQL [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/) 방어 - Prepared Statement (파라미터화된 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)), ORM 프레임워크 사용은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

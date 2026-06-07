@@ -3,8 +3,8 @@ title: "System Bus"
 date: "2026-04-25"
 tags:
   - "studynote-computer-architecture"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시스템 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (System [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 CPU (Central Processing Unit), 주기억장치, 입출력 장치가 주소·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 공유 규칙에 따라 교환하는 공통 통신 경로다.

@@ -3,8 +3,8 @@ title: "Kubernetes Pod Orchestration Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 502
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), K8s)는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 배포, [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 자가 치유(Self-Healing)를 자동화하는 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼이며, 선언적([Declarative](/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 방식으로 '원하는 상태([Desired State](/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))'를 명세한다.

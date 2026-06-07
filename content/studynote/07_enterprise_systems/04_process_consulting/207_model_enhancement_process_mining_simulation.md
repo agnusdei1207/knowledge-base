@@ -2,9 +2,9 @@
 title: "207. Model Enhancement Process Mining Simulation"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 향상 (Model Enhancement)은 [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)) 결과를 읽고 끝내는 것이 아니라, 실제 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 근거로 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ([AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) 프로세스를 목표 상태 (TO-BE) 프로세스로 재설계하는 개선 단계다.

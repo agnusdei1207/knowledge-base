@@ -3,8 +3,8 @@ title: "178. Condition Pushdown"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조건 푸시 다운 (Condition Pushdown)은 바깥 질의의 필터 조건을 [인라인 뷰](/studynote/05_database/03_relational_model/141_inline_view_subquery/)나 서브쿼리 안쪽으로 전달해, 같은 결과를 더 작은 중간 결과로 계산하게 만드는 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 재작성이다.

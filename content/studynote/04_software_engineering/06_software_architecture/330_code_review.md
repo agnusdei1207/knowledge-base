@@ -3,8 +3,8 @@ title: "330. Code Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 330
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코드 리뷰 ([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) - [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)), 풀 리퀘스트 ([PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 기반 검토은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

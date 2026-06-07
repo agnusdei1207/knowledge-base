@@ -3,8 +3,8 @@ title: "GitOps Security Sealed Secrets SOPS"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 395
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GitOps 보안 Git 기반 배포 보안 강화은(는) 개발, 배포, 운영 전 과정에 보안 통제를 내재화하는 DevSecOps 핵심 주제다.

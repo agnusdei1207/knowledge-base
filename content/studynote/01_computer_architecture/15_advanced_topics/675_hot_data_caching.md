@@ -3,8 +3,8 @@ title: "675. Hot Data Caching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 675
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 핫 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Hot [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)은 자주 접근되거나 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 매우 민감한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 빠른 메모리·스토리지 계층에 사본으로 두어, 원본 저장소 접근을 줄이는 지역성 기반 최적화다.

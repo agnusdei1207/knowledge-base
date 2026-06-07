@@ -3,8 +3,8 @@ title: "778. 3D Mimo Full Dimension Elevation Beamforming"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 778
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 3D [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

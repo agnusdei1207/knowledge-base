@@ -3,8 +3,8 @@ title: "Hardware Lock Elision, HLE"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 566
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 [락 엘리전](/studynote/02_operating_system/04_synchronization/270_lock_elision/) (Hardware [Lock Elision](/studynote/02_operating_system/04_synchronization/270_lock_elision/), HLE)은 락 자체를 없애는 기술이 아니라, 충돌이 없을 것이라고 가정하고 <strong>실제 락 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>를 생략한 채 <a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>을 추측 실행</strong>하는 하드웨어 최적화다.

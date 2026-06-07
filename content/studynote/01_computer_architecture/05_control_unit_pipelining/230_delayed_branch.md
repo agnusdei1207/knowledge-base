@@ -3,8 +3,8 @@ title: "Delayed Branch"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 230
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 분기 (Delayed Branch)는 분기 결과가 늦게 확정되는 파이프라인에서, 분기 직후 1개 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 항상 실행하도록 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 차원에서 약속해 [제어 해저드](/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/))를 줄이는 기법이다.

@@ -3,8 +3,8 @@ title: "180. Cdc Debezium Binlog Realtime Sync"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [변경 데이터 캡처](/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/))는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Database](/studynote/05_database/04_transactions_concurrency/501_database/), DB)의 INSERT·UPDATE·DELETE를 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 읽어 순서 있는 변경 이벤트 스트림으로 바꾸는 기술이다.

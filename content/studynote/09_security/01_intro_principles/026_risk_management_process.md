@@ -3,8 +3,8 @@ title: "026. Risk Management Process"
 date: "2026-04-29"
 tags:
   - "studynote-security"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보보안 위험 관리([Risk Management](/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 자산(Asset)에 대한 위협(Threat)이 취약점(Vulnerability)을 통해 발생시킬 수 있는 위험([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·분석·평가하고, 허용 가능한 수준으로 낮추기 위한 통제(Control)를 선택·구현·모니터링하는 지속적 프로세스다.
 > 2. **가치**: 위험 관리 없이는 조직이 가장 중요한 자산을 보호하는 데 투자를 집중하지 못하고 모든 곳에 균등하게(=비효율적으로) 보안 투자를 분산시킨다. 위험 관리는 제한된 보안 예산을 "가장 높은 위험"에 우선 배분하는 경제적 의사결정 프레임워크다.

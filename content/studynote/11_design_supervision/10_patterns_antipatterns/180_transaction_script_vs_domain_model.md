@@ -3,8 +3,8 @@ title: "Transaction Script vs Domain Model"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script는 유스케이스별 절차를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 함수에 모아 처리하는 방식이고, [Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 비즈니스 규칙과 상태 변화를 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체 안에 캡슐화하는 방식이다.

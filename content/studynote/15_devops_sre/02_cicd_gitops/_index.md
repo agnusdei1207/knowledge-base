@@ -2,9 +2,9 @@
 title: "CI/CD & GitOps"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CI/CD는 지속적 통합 (Continuous Integration)과 지속적 배포 (Continuous Deployment)를 통해 코드 변경 사항을 자동으로 빌드, 테스트 및 릴리즈하는 파이프라인 기술이며, GitOps는 Git 리포지토리를 시스템의 '절대적 진실 (SSOT)'로 삼아 인프라와 앱의 상태를 관리하는 방식이다.

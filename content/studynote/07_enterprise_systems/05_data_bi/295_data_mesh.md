@@ -2,9 +2,9 @@
 title: "Data Mesh"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리를 중앙 집중형([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)/[DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서 벗어나, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단위로 책임을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시키고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '제품(Product)'으로 제공하는 아키텍처 및 조직 패러다임이다.
 > 2. **가치**: 중앙 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 병목 현상을 해소하고, 비즈니스 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식이 가장 풍부한 팀이 직접 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 거버넌스를 책임지게 함으로써 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 속도를 높인다.

@@ -3,8 +3,8 @@ title: "Impulse Noise / Thermal Noise"
 date: "2026-04-29"
 tags:
   - "studynote-network"
+weight: 28
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 열 잡음(Thermal Noise, 존슨-나이퀴스트 잡음)은 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 내 전자의 열 운동으로 인해 항상 존재하는 배경 잡음(Gaussian 분포)이고, 충격 잡음(Impulse Noise)은 번개·전기 스파크·스위칭 같은 순간적 외부 충격으로 발생하는 비정기적·고진폭 잡음이다.
 > 2. **가치**: 두 잡음의 특성 차이가 통신 시스템 설계에 직결된다. 열 잡음은 온도에 비례하고 예측 가능하여 SNR과 Shannon 용량 계산의 기준이 된다. 충격 잡음은 예측 불가능하고 순간적으로 매우 큰 에너지를 가지므로 오류 정정 코드([ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))의 버스트 오류 처리 능력이 핵심이다.

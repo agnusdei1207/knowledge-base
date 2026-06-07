@@ -3,8 +3,8 @@ title: "Data Governance"
 date: "2026-05-01"
 tags:
   - "studynote-it-management"
+weight: 842
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거버넌스 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Governance)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질, 보안, 표준, 책임을 전사적으로 다루는 운영 체계다.

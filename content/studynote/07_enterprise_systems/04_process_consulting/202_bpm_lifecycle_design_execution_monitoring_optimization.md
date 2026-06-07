@@ -2,9 +2,9 @@
 title: "Business Process Management Lifecycle"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BPM](/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) ([Business Process Management](/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/)) 라이프사이클은 업무를 한 번 설계하고 끝내는 프로젝트가 아니라, 설계·실행·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링·최적화를 반복하며 프로세스를 계속 진화시키는 관리 체계다.

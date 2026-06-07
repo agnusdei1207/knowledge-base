@@ -3,8 +3,8 @@ title: "133. Cmmi Capability Maturity Model Integration Levels"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMMI (Capability [Maturity Model](/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration) 5단계 모델의 본질은 소프트웨어 개발 조직의 프로세스 성숙도 평가 국제 표준을 단계별 산출물과 품질 게이트로 관리하는 데 있다.
 > 2. **가치**: 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

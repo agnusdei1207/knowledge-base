@@ -3,8 +3,8 @@ title: "vLLM PagedAttention KV Cache Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 528
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: vLLM(Variable-length [Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) inference)의 PagedAttention은 OS [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 개념을 KV 캐시에 적용해 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 제거하고 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 최대 24배 향상시킨다.

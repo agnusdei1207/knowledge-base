@@ -3,8 +3,8 @@ title: "Vendor Lock-in / Knative"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 각 벤더 고유의 이벤트 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 형식, SDK에 종속되어 코드·인프라를 다른 클라우드로 이식하기 어려운 벤더 락인 ([Vendor Lock-in](/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 리스크를 내포한다.
 > 2. **가치**: Knative, OpenFaaS 같은 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) 프레임워크를 활용하면 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 위에서 벤더 중립적 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경을 구축해 이식성을 보장할 수 있다.

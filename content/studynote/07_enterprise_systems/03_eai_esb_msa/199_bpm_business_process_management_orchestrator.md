@@ -2,9 +2,9 @@
 title: "199. Bpm Business Process Management Orchestrator"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈니스 프로세스 관리 (BPM, Business [Process](/studynote/12_it_management/05_security_compliance/943_process/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 사람 업무와 [시스템 호출](/studynote/02_operating_system/01_overview_architecture/013_system_call/)이 섞인 장기 프로세스를 모델로 정의하고, 엔진이 그 순서를 실행·추적하게 만드는 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 체계다.

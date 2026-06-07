@@ -3,8 +3,8 @@ title: "MCMC"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 376
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 몬테카를로 샘플링 통계 기법 베이지안 근사 (MCMC): 1. **본질**: MCMC([Markov Chain](/studynote/08_algorithm_stats/08_stats/140_markov_chain/) Monte Carlo)는 수학적으로 정확히 풀 수 없는([NP-Hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)) 극도로 복잡한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포나 적분 문제를, 컴퓨터의 난수 발생(M…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Operand"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 160
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 피연산자 (Operand)는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실제로 다룰 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체 또는 그 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치를 지정하는 정보다.

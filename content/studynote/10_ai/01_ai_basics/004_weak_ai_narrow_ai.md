@@ -1,11 +1,11 @@
 ---
 title: "004. Weak Ai Narrow Ai"
 date: "2026-03-04"
-description: "특정 도메인과 제한된 작업에 특화되어 현대 산업을 주도하는 실용적 인공지능 패러다임"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 4
 ---
-
 # 4. 약인공지능 (Weak [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) / Narrow [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))
 
 #### 핵심 인사이트 (3줄 요약)

@@ -2,9 +2,9 @@
 title: "Zero-Copy Cloning"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 294
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 않고, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)만을 복사하여 원본과 동일한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가진 새로운 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 환경을 즉시 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 기술이다.
 > 2. **가치**: 수 테라바이트(TB) 규모의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 몇 초 만에 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할 수 있으며, [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본에서 수정이 발생한 부분만 별도로 저장하므로 스토리지 비용을 극적으로 절감한다.

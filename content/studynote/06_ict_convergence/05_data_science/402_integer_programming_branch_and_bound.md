@@ -3,8 +3,8 @@ title: "Branch and Bound"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 402
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정수 계획법 선형 완화 [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) 최적 탐색 ([Branch and Bound](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)): 1. **본질**: 정수 계획법([Integer Programming](/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/))은 공장 생산량, 트럭 대수처럼 "소수점(예: 트럭 1.5대)으로 답이 나오면 안 되는" 최적화 문제를 풀 때, 일단 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

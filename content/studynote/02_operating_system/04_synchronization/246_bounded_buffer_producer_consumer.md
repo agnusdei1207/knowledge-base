@@ -3,8 +3,8 @@ title: "246. Bounded Buffer Producer Consumer"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 246
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유한 버퍼 문제는 정해진 크기의 버퍼를 공유하는 생산자 (Producer)와 소비자 (Consumer)가 버퍼 가득 참과 비어 있음이라는 두 가지 경계 조건에서 안전하게 협력하기 위한 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제다.

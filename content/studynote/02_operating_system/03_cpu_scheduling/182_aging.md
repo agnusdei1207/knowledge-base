@@ -3,8 +3,8 @@ title: "182. Aging"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 노화 (Aging)는 레디 큐 ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))에서 오래 기다린 프로세스의 우선순위를 시간에 비례해 점진적으로 높여, 결국 CPU (Central Processing Unit) 실행 기회를 얻도록 만드는 동적 스케줄링 보정 기법이다.

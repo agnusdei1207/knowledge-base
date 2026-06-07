@@ -3,8 +3,8 @@ title: "init"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고아 프로세스(Orphan [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 부모 프로세스가 자식보다 먼저 종료되었을 때, 부모를 잃은 자식 프로세스를 의미한다. 운영체제는 이러한 고아를 init 프로세스(PID 1) 또는 subreaper가 새 부모로 입양하여 좀비화를 방지한다.

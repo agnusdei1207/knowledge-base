@@ -1,10 +1,11 @@
 ---
 title: "Burnup Chart"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 번다운/번업 차트는 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)나 프로젝트의 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)을 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 [애자일 관리](/studynote/12_it_management/01_governance_strategy/033_agile_management/) 도구다.

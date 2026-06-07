@@ -3,8 +3,8 @@ title: "092. Recall Sensitivity Hit Rate"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 재현율([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))은 실제 정답이 양성(Positive)인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합 중에서, 모델이 정확하게 양성이라고 짚어낸 비율을 측정하는 평가 지표다.
 > 2. **가치**: 모델이 실제 불량이나 질병을 음성으로 잘못 판정(False Negative)하여 발생하는 치명적인 피해와 리스크를 방어하는 가장 핵심적인 방어선 역할을 한다.

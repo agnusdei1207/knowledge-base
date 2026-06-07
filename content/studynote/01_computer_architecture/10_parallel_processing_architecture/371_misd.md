@@ -3,9 +3,8 @@ title: "371. MISD"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 371
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MISD (Multiple [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Single [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))는 하나의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에 여러 명령 흐름을 적용하는 구조로, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장보다 <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>·필터링·안전성 확보</strong>에 더 가까운 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 개념이다.

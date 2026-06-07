@@ -3,8 +3,8 @@ title: "103. Logistic Regression Sigmoid"
 date: "2024-05-22"
 tags:
   - "studynote-data-engineering"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ([Logistic Regression](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))는 '회귀'라는 이름을 가졌지만, 실제로는 결과값을 0과 1 사이의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환하여 두 범주 중 하나를 예측하는 '이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Binary [Classification](/studynote/12_it_management/03_ea_isp/107_classification/))' 알고리즘이다.

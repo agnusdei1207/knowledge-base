@@ -3,8 +3,8 @@ title: "Single Two Level Directory Ufd"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 507
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크가 처음 발명된 옛날에는 폴더([Directory](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))가 지구상에 딱 '1개(Single-level)' 밖에 없어서 전 세계 모든 사용자가 한 폴더에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 때려 넣었다. 그러다 보니 내 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 남의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름이 충돌해 지워지는 재앙을 막기 위해, OS가 사용자별로 "아 너네 각자 개인 폴더(UFD) 1개씩 줄게!" 하고 방을 찢어준 것이 '2단계([Two-level](/studynote/02_operating_system/02_process_thread/101_two_level_model/))' [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 탄생이다.

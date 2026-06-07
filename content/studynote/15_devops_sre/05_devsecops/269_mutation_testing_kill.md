@@ -3,8 +3,8 @@ title: "Mutation Testing /"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 269
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코드를 의도적으로 변형해 기존 테스트가 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 잡아내는지 평가하는 품질 기법.

@@ -3,8 +3,8 @@ title: "578. Supertype Subtype Physical Data Model Conversion"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 578
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수퍼타입/서브타입 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 물리 변환 1:1 병합 테이블 최적 접근 모델는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 모델이다.

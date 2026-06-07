@@ -3,9 +3,8 @@ title: "745. SOAR (Security Orchestration, Automation and Response)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 745
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SOAR는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

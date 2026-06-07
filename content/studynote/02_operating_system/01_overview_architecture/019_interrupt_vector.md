@@ -3,8 +3,8 @@ title: "Interrupt Vector"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 19
 ---
-
 # [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 벡터 및 벡터 테이블 ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Vector & Vector Table)
 
 ## 핵심 인사이트 (3줄 요약)

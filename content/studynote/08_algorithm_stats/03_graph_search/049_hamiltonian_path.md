@@ -2,9 +2,9 @@
 title: "049. Hamiltonian Path"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 49
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해밀턴 경로 (Hamiltonian Path)는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 정점을 정확히 한 번씩 방문하는 경로로, 존재 판별 자체가 NP-완전 ([NP-Complete](/studynote/08_algorithm_stats/06_np_theory/108_np_complete/)) 문제다.

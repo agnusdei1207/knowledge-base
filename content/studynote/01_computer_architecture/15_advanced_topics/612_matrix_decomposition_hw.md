@@ -3,8 +3,8 @@ title: "612. Matrix Decomposition Hw"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 612
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [행렬 분해](/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 전용 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조는 LU 분해 (Lower-Upper Decomposition)와 QR 분해 (QR Decomposition)를 처리 요소 (Processing Element, PE) 배열의 국소 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름으로 바꿔, 선형대수의 단계적 소거 과정을 하드웨어 파이프라인으로 구현한 아키텍처다.

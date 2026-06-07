@@ -3,8 +3,8 @@ title: "149. Prompt Engineering Cot Few Shot"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프롬프트 엔지니어링([Prompt 엔진ering](/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/))은 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 뇌파([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 1바이트도 뜯어고치지 않고, 오직 인간이 텍스트 지시어(Input)를 미친 듯이 정교하게 튜닝하여 출력 품질을 극대화하는 <strong>가장 저비용 초고효율의 통제 흑마법</strong>이다.
 > 2. **가치**: `Few-Shot`(예시 2~3개 던져주기)과 `CoT (Chain of Thought, 단계적 추론 락킹)` 기법을 융합하면, GPT가 찍기([확률](/studynote/08_algorithm_stats/08_stats/130_probability/))로 대충 뱉던 멍청한 오답을 척살하고 전문가 뺨치는 수학적 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 추론(Reasoning) 100% 정답 쾌속 출력 모드로 강제 체질 개조시켜 버린다.

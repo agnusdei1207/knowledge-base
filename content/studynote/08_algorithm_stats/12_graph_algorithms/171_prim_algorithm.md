@@ -2,9 +2,9 @@
 title: "Prim's Algorithm"
 date: "2026-05-06"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프림 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Prim's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [최소 신장 트리](/studynote/08_algorithm_stats/03_graph_search/041_mst/) ([MST](/studynote/08_algorithm_stats/03_graph_search/041_mst/), Minimum Spanning Tree) 문제에서, 이미 선택한 정점 집합과 바깥 정점을 잇는 간선 중 가장 가벼운 간선을 반복해서 추가하며 하나의 트리를 키워 가는 탐욕 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

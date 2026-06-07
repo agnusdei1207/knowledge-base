@@ -3,8 +3,8 @@ title: "157. Data Analysis Services"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. 클라우드 관리형 빅데이터 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Amazon EMR, Azure HDInsight, GCP Dataproc)는 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/Spark 클러스터를 수 분 내에 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)하고, 운영 완료 후 즉시 종료하여 <strong>사용한 시간만큼만 비용을 지불</strong>하는 탄력적 컴퓨팅을 제공한다.
 2. 세 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모두 <strong>컴퓨팅과 스토리지를 분리(Decoupled <a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>하여 S3/ADLS/GCS에 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 클러스터가 독립적으로 처리할 수 있어 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처와 자연스럽게 통합된다.

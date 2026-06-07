@@ -3,8 +3,8 @@ title: "Distributed Tracing - OpenTelemetry, Jaeger"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산 추적](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)([Distributed Tracing](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))은 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 하나의 사용자 요청이 수십 개 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연쇄 호출할 때, 고유 Trace ID로 전체 흐름을 추적하여 병목 구간과 장애 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 정확히 파악하는 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)의 세 번째 기둥이다.
 > 2. **가치**: "응답이 느리다"는 증상에서 "Service-C의 DB [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 180ms를 차지한다"처럼 정확한 병목 위치와 소요 시간 분해가 가능해져 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 장애 진단이 근본적으로 달라진다.

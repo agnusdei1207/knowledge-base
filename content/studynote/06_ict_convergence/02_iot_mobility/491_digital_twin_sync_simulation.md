@@ -3,8 +3,8 @@ title: "Digital Twin Synchronization and Simulation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 491
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))은 물리 엔티티(Physical Entity)·가상 모델(Virtual Model)·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connection) 3요소로 구성된 실시간 디지털 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 시스템으로, 물리 세계와 디지털 세계가 양방향으로 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된다.

@@ -3,8 +3,8 @@ title: "219. Media Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 미디어 빅데이터는 <strong>시청 행동 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 분석하여 "무엇을 언제 추천할 것인가"를 결정하며, 이는 플랫폼의 체류 시간(Engagement)과 직결된다.

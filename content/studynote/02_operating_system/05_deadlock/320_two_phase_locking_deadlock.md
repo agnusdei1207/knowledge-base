@@ -3,8 +3,8 @@ title: "Two Phase Locking Deadlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 320
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 세계에서 직렬성(Serializability) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수명 내내 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 쥐는 시기([Growing Phase](/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/))와 일정 시점 뒤에 전부 뿜뿜 푸는 시기([Shrinking Phase](/studynote/05_database/04_transactions_concurrency/218_shrinking_phase_2pl_cascading_rollback/)) 2단계를 엄격히 쪼개놓은 <strong><a href="/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 락(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 통제 아키텍처</strong>다.

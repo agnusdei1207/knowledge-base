@@ -3,8 +3,9 @@ title: "012. Stateless Processes"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 12
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 무상태 프로세스 원칙은 애플리케이션이 각 요청/응답 사이클 간에 상태를 저장하지 않고 실행되며, 필요한 상태는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 캐시 같은 외부 자원에 저장해야 한다는 12팩터 앱의 제6원칙이다.
 > 2. **가치**: 무상태로 설계된 애플리케이션은 수평적 확장이 용이하고, 인스턴스 장애 시에도 다른 인스턴스가즉시에 작업을인き계ぐこ와/과가あり, 배포 및 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)이 단순화된다.

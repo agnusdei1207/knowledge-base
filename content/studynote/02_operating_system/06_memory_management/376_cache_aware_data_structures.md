@@ -3,8 +3,8 @@ title: "Cache-aware Data Structures"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 376
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 인식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조(Cache-aware [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structures)는 CPU 내부의 L1/L2 캐시 라인(Cache Line, 보통 64바이트)의 물리적 크기와 구조를 소프트웨어 개발자가 명시적으로 인지하고, <strong>메모리에 저장되는 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 크기와 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 방식을 캐시 라인에 정확히 맞춰 정렬(Alignment)</strong>하는 설계 기법이다.

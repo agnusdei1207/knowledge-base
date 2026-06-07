@@ -3,8 +3,8 @@ title: "Immersion Cooling"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 235
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 액침 냉각 ([Immersion Cooling](/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)): [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 발열 해소를 위해 서버 전체를 비전도성 특수 액체 냉매에 담가 식히는 고효율 친환경 냉각 기술를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

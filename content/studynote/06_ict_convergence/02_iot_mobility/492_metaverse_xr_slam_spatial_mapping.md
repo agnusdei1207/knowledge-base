@@ -3,8 +3,8 @@ title: "Metaverse, XR, SLAM Spatial Mapping"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 492
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)([Metaverse](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/))의 핵심 기반 기술은 XR(Extended Reality, VR+AR+MR)과 [SLAM](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)(Simultaneous Localization and [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))이다. SLAM은 미지 환경에서 동시에 자기 위치를 추정하고 주변 지도를 작성하는 공간 인식 알고리즘으로, XR 경험의 물리-디지털 정합성을 보장한다.

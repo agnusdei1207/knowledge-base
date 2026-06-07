@@ -3,8 +3,8 @@ title: "Hit Ratio"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 264
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 적중률 ([Hit Ratio](/studynote/02_operating_system/06_memory_management/359_effective_access_time/))은 CPU (Central Processing Unit)가 요청한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시에 이미 있어 하위 메모리로 내려가지 않고 끝난 비율이며, 캐시가 실제로 시간을 얼마나 아껴 주는지 보여주는 핵심 지표다.

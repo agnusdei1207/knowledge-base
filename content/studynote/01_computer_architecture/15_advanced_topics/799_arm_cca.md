@@ -3,9 +3,8 @@ title: "799. ARM CCA (Confidential Compute Architecture)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 799
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARM CCA는 ARMv9 기반 시스템에서 Realm이라는 별도 실행 세계를 도입해, 하이퍼바이저조차 들여다볼 수 없는 기밀 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 환경을 만드는 아키텍처다.

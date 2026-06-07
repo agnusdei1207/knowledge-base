@@ -3,8 +3,8 @@ title: "Observability vs Monitoring"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링은 <strong>"사전에 예상한 문제를 대시보드로 감시"</strong>하는 것이고, [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))은 <strong>"예상하지 못한 문제도 시스템 출력(<a href="/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>·트레이스)만으로 내부 상태를 추론"</strong>할 수 있는 시스템 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다.
 > 2. **가치**: [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링만으로는 "CPU 80% 알림"은 받지만 **"왜 80%인지"를 모르고**, [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)은 트레이스·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 따라가며 <strong>근본 원인을 실시간 탐색</strong>할 수 있다.

@@ -3,8 +3,8 @@ title: "CL.TE, TE.CL, H2.CL"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 524
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HTTP Request Smuggling](/studynote/09_security/05_web_app_security/523_http_request_smuggling_concept/) 유형 (CL.[TE](/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/), [TE](/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/).CL, H2.CL)는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

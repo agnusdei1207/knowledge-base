@@ -3,8 +3,8 @@ title: "Key-Value Store"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [키-값 저장소](/studynote/14_data_engineering/01_infrastructure/036_key_value/) ([Key-Value Store](/studynote/14_data_engineering/01_infrastructure/036_key_value/))은 속도 최적화, [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/), Memcached, Amazon DynamoDB에 초점을 맞춘 개념이다.

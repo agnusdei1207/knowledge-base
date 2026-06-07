@@ -3,8 +3,8 @@ title: "207. Deadline Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데드라인 스케줄링 ([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) Scheduling)은 프로세스([태스크](/studynote/02_operating_system/02_process_thread/150_task/))가 시스템에 진입할 때 <strong>"반드시 이때까지는 연산을 끝마쳐야 한다"는 명시적인 시간(<a href="/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a>)</strong>을 선언하고, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 시간 약속을 지키기 위해 CPU [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 동적으로 할당하는 실시간(Real-time) 스케줄링 패러다임이다.

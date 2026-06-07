@@ -3,8 +3,8 @@ title: "147. Ebpf Kernel Observability Cilium"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [eBPF](/studynote/02_operating_system/10_security/615_ebpf/)(Extended [Berkeley Packet Filter](/studynote/02_operating_system/01_overview_architecture/069_ebpf/))는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드를 수정하거나 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 로드하지 않고도, <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간(<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Space)에 안전하게 샌드박스화된 프로그램을 동적으로 삽입해 네트워크 트래픽·시스템 콜·<a href="/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/">함수 호출</a> 이벤트를 오버헤드 없이 관측·필터링</strong>하는 혁신적 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기술이다.
 > 2. **가치**: [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Sidecar Proxy](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)) 없이도 네트워크 관측성([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))을 구현하고, 시스템 콜 수준의 [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/)을 런타임에 적용하며, [XDP](/studynote/01_computer_architecture/15_advanced_topics/670_xdp/)([Express Data Path](/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/))로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 직접 패킷을 처리해 DDoS 방어·로드밸런싱이 가능하다.

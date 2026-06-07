@@ -3,8 +3,8 @@ title: "540. Mongodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 540
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 가상화](/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) [연방 쿼리](/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) ([Federated Query](/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/)) 실행 엔진는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)·확장형 저장소 관점에서 자주 쓰이는 확장형 저장소 개념이다.

@@ -1,10 +1,11 @@
 ---
 title: "066. Null Value Three Valued Logic"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NULL은 값이 없다는 뜻이 아니라, 아직 모름(Unknown) 또는 해당 없음(Inapplicable)을 뜻하는 특수 마커다.

@@ -3,8 +3,8 @@ title: "S"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 818
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SWOT 분석의 핵심은 강점(S), 약점(W), 기회(O), 위협(T) 및 교차 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (SO, [ST](/studynote/09_security/12_identity_threat_advanced/587_st/), WO, WT)라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.

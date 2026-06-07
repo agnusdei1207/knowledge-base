@@ -3,8 +3,8 @@ title: "212. Synchronization Mechanisms"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동기화 (Synchronization)는 다수의 프로세스나 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 공용 자원(Shared Resource)에 동시 접근할 때 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/studynote/09_security/01_intro_principles/003_integrity/))이 파괴되는 것을 막기 위해, <strong>실행 순서를 제어하고 접근을 <a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)하는 시스템적 약속</strong>이다.

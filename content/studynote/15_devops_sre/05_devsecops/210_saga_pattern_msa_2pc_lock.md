@@ -3,8 +3,8 @@ title: "Saga Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)을 여러 [로컬 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)과 보상 동작으로 구성하는 패턴.

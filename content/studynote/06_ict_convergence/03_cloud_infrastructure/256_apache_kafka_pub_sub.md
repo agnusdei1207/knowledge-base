@@ -3,8 +3,8 @@ title: "Apache Kafka"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 256
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) ([Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)): 대규모 실시간 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 및 이벤트 스트리밍 처리를 위한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)형 메시지 큐 (Pub/Sub 모델, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

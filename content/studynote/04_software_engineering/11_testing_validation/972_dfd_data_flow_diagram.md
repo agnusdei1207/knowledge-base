@@ -3,8 +3,8 @@ title: "972. Dfd Data Flow Diagram"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 972
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DFD](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

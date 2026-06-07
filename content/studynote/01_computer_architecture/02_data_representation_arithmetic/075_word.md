@@ -3,8 +3,8 @@ title: "Word"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 워드(Word)는 CPU (Central Processing Unit)가 한 번에 다루는 자연 단위이며, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)·[버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭을 묶는 아키텍처의 기본 척도다.

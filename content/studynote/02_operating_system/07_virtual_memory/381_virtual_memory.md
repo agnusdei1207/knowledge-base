@@ -3,8 +3,8 @@ title: "381. Virtual Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 381
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상 메모리(Virtual Memory)는 프로세스 전체가 메모리에 한 번에 적재되어야 한다는 과거의 강박을 버리고, <strong>프로그램의 일부만 물리 메모리(RAM)에 올린 채 나머지는 디스크(<a href="/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>/<a href="/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>)에 두고 필요할 때마다 교체하며 실행하는 <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 핵심 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 기술</strong>이다.

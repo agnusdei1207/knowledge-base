@@ -3,8 +3,8 @@ title: "Performance Reference Model,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [PRM](/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/) ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/), 성과 [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/))의 본질은 IT 투자 성과 평가 지표 모델을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

@@ -3,8 +3,8 @@ title: "177. View Merging Query Transformation"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뷰 머징 ([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Merging)은 [인라인 뷰](/studynote/05_database/03_relational_model/141_inline_view_subquery/)나 [단순 뷰](/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/)의 경계를 없애고 하나의 질의 블록으로 다시 써서, [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 전체 조인 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 한 번에 최적화하게 만드는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 변환 (Query Transformation)이다.

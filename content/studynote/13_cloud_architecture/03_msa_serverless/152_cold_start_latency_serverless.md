@@ -3,8 +3,8 @@ title: "152. Cold Start Latency Serverless"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))는 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)/[FaaS](/studynote/12_it_management/05_security_compliance/342_faas/)) 환경에서 한동안 호출되지 않아 램(RAM)에서 완전히 소멸(Scale-to-[Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))되었던 함수 봇이 -> 갑자기 유저의 핑을 맞고 깨어나 <strong><a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 새로 파고 언어 런타임(JVM 등)을 부팅하느라 발생하는 1~5초짜리 <a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구동 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 랙 병목 현상</strong>이다.
 > 2. **가치**: 유휴 서버 유지비(기본료)를 0원으로 깎아 먹는 극강의 'Pay-[as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-you-go(종량제)' 자본 다이어트 마법을 얻어낸 대가(Trade-off)로 시스템 아키텍트가 반드시 이빨 꽉 깨물고 짊어져야만 하는 태생적 인프라 족쇄이자 세금이다.

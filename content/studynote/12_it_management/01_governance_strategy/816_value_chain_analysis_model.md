@@ -3,8 +3,8 @@ title: "816. Value Chain Analysis Model"
 date: "2026-04-02"
 tags:
   - "studynote-it-management"
+weight: 816
 ---
-
 # [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) ([Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석 - IT 결합을 통한 경쟁 우위 창출 모델
 
 > ⚠️ 이 문서는 마이클 포터(Michael Porter)가 제안한 비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크인 '[가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))'의 핵심 구조(주활동과 지원활동)를 파악하고, 각 사슬 구간에 IT 시스템([ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 등)이 어떻게 융합되어 기업의 마진(Margin)을 극대화하는지 심층 분석합니다.

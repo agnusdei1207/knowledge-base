@@ -3,8 +3,8 @@ title: "EA Framework"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 895
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 ([EA Framework](/studynote/12_it_management/03_ea_isp/111_ea_framework/))의 본질은 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 구축을 위한 방법론, 산출물 정의, 메타모델 구조 체계를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

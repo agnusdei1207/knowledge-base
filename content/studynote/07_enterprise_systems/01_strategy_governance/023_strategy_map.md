@@ -3,8 +3,8 @@ title: "Strategy Map"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [전략 체계도](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) ([Strategy Map](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/))는 [균형 성과 기록표](/studynote/12_it_management/01_governance_strategy/019_bsc/) ([BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/), Balanced Scorecard)의 4대 관점—재무, 고객, 내부 프로세스, 학습 및 성장—간 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표의 인과관계를 화살표로 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 한 장짜리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 스토리보드다.

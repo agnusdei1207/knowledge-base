@@ -2,9 +2,9 @@
 title: "Pipeline as Code"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선언적 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 Jenkinsfile로 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 흐름을 코드로 정의하는 방식이다.

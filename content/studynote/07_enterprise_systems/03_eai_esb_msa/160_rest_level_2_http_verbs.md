@@ -3,8 +3,8 @@ title: "160. Rest Level 2 Http Verbs"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 2는 리소스별 URI (Uniform Resource [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))에 더해, <strong><a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> (<a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HyperText Transfer Protocol</a>) 메서드 의미를 작업 종류에 맞게 분리하는 단계</strong>다.

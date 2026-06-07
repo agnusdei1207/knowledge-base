@@ -3,8 +3,8 @@ title: "150. Hallucination Rag Retrieval Augmented Generation"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [할루시네이션](/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))은 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 자신이 모르는 빈칸 지식을 그럴싸한 통계 확률로 뇌피셜 지어내어 뱉는 기만적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이며, <strong><a href="/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>(<a href="/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/">검색 증강 생성</a>)</strong>는 이를 척살하기 위해 모델이 대답하기 직전에 사내 DB 문서 팩트를 먼저 1초 컷 스캔 쳐서 입에 떠먹여 주는(오픈북 커닝) 실무 표준 방패다.
 > 2. **가치**: 모델의 뇌파(파라미터)를 뜯어고쳐 수천만 원 GPU를 태우는 파인튜닝([Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))의 늪을 파괴하고! 걍 사내 PDF 백과사전만 벡터 DB에 꽂아 넣으면 매일 0.1초 만에 최신 보안 규정을 업데이트 반영할 수 있는 극강의 [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 가성비 튜닝술이다.

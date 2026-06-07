@@ -3,8 +3,8 @@ title: "412. Ecn Flags Cwr Ece Congestion Notification"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 412
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ECN 징후 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

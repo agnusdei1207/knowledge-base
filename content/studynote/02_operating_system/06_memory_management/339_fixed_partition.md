@@ -3,8 +3,8 @@ title: "Fixed Partition"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 339
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고정 분할 방식(Fixed [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 운영체제가 부팅될 때 물리 메모리를 <strong>사전에 정해진 크기의 여러 <a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(방)으로 영구적으로 쪼개어 놓고</strong>, 각 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 하나의 프로세스만 들어가도록 하는 가장 원시적인 [연속 메모리 할당](/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 기법이다.

@@ -3,8 +3,8 @@ title: "Inverted Page Table Hash"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 433
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [역 페이지 테이블](/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)([Inverted Page Table](/studynote/02_operating_system/06_memory_management/363_inverted_page_table/))은 메모리 낭비를 줄이기 위해 전 세계(시스템)에 장부를 딱 1개만 두어 $O(N)$의 끔찍한 순차 탐색 렉을 유발하는데, 이를 **단 1~2회의 메모리 접근만으로 끊어내기 위해 `[PID, Page Number]`를 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 삼아 $O(1)$ 속도로 인덱스를 꽂아주는 하드웨어 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([Hash Function](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)) 융합 아키텍처**다.

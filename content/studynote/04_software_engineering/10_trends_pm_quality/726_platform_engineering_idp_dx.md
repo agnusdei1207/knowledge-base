@@ -3,8 +3,8 @@ title: "DX"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 726
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [플랫폼 엔지니어링](/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

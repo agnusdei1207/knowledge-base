@@ -3,8 +3,8 @@ title: "Large Language Model Retrieval-Augmented Generation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 346
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/))는 모델 내부 파라미터만 믿지 않고, 외부 지식 저장소에서 근거 문서를 검색해 답변 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 주입하는 아키텍처다.

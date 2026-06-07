@@ -3,8 +3,8 @@ title: "SOW Scope Management Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 286
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SOW 범위관리 감리는 작업범위기술서(Statement of Work, SOW) 기반 범위 통제 체계에서 산출물 경계(Deliverable Boundary), 변경 통제(Change Control), 수용 기준([Acceptance Criteria](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "516. Mount Mechanism"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 516
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크나 USB에 아무리 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(NTFS, ext4)을 예쁘게 포맷해 뒀더라도, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이를 인식하려면 <strong>"기존 내 루트 <a href="/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a>(<code>/</code>) 트리의 나뭇가지 중 하나(마운트 포인트)를 꺾어버리고, 그 자리에 새 디스크의 뿌리를 접붙여 연결하는 수술"</strong> 이 필요한데 이것이 마운트(Mount)다.

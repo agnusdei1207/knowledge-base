@@ -3,8 +3,8 @@ title: "Blockchain Governance On-chain Off-chain"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 567
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블록체인 거버넌스 온체인 오프체인은(는) 프로토콜 변경, 파라미터 조정, 자금 집행, 하드포크 대응을 온체인 투표와 오프체인 사회적 합의로 결정하는 체계이다.

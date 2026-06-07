@@ -3,8 +3,8 @@ title: "139. Actor Model"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 액터 모델은 동시 시스템을 설계하기 위한 수학적 모델로, 독립적인 액터들이 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)을 통해서만 상호작용하며 상태를 캡슐화한다.

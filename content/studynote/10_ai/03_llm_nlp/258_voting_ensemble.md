@@ -3,8 +3,8 @@ title: "Voting"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 258
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보팅(Voting)은 서로 다른 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(이종 모델, [Heterogeneous](/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Models)들의 예측을 집계하는 가장 단순한 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법이다.

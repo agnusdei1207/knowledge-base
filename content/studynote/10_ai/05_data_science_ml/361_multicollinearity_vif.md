@@ -3,8 +3,8 @@ title: "Variance Inflation Factor"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 361
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다중 공선성](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)([Multicollinearity](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))은 회귀 모델에서 [독립 변수](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들 간에 강한 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 존재할 때 발생하는 현상으로, 계수 추정이 불안정해지고 해석이 불가능해진다. VIF([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 팽창 지수)는 이를 수치화한 진단 도구다.

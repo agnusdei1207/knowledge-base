@@ -3,8 +3,8 @@ title: "362. Privacy Preserving Db"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 362
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프라이버시 보존형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) 검색 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 적용 기초)는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

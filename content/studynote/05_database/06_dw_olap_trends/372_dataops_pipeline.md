@@ -3,8 +3,8 @@ title: "DataOps"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 372
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 옵스](/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) ([DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/))는 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포/[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 개발 문화에 초점을 둔 분석 플랫폼 개념이다.

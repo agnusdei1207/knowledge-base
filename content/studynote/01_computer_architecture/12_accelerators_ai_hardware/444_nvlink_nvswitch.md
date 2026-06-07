@@ -3,9 +3,8 @@ title: "444. NVLink / NVSwitch"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 444
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NVLink / NVSwitch는 여러 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 거대한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 모델의 파라미터와 활성값을 주고받을 때, 범용 버스인 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express)의 병목을 피하도록 만든 고대역폭 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 전용 인터커넥트 패브릭이다.

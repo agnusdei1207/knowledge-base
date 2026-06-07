@@ -3,8 +3,8 @@ title: "534. Linked List Free Space"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 534
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 철판의 텅 빈 구역(블록)들을 관리할 전광판(장부 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 중앙에 따로 만들지 않고! **첫 번째 빈 블록 철판 안에 "다음 빈 블록은 저기 100번에 있다!" 라고 꼬리 포인터를 쑤셔 적어 빈칸끼리 줄줄이 징검다리로 잇는(Linked) 파편화 위임 구조** 다.

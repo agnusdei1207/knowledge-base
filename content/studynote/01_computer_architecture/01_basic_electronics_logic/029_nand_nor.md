@@ -3,8 +3,8 @@ title: "NAND/NOR Gates"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NAND(Not-AND)와 NOR(Not-OR) 게이트는 각각 단독으로 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 구현할 수 있는 <strong>범용 게이트(<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/">Universal Gate</a>)</strong>다. AND, OR, NOT, XOR 등 모든 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 NAND 또는 NOR만으로 대체 구현 가능하다.
 > 2. **가치**: [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 제조 공정에서 NAND 게이트가 AND/OR 대비 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 적고(CMOS에서 4T vs 6T) 속도가 빠르다. 실제 CPU·[FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 내부 대부분의 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 NAND 게이트로 합성(Synthesis)된다.

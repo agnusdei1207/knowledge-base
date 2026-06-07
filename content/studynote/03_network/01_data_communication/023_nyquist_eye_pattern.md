@@ -3,8 +3,8 @@ title: "Nyquist Eye Pattern"
 date: "2026-04-29"
 tags:
   - "studynote-network"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 나이퀴스트 아이 패턴(Eye Pattern)은 디지털 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 오실로스코프로 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)할 때 여러 심볼 주기를 겹쳐 그려서 만들어지는 눈동자 모양의 다이어그램으로, 채널 품질과 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 열화([Signal](/studynote/02_operating_system/02_process_thread/130_signal/) Degradation) 정도를 단 한 눈에 판독할 수 있게 해 주는 강력한 물리 계층 진단 도구다.
 > 2. **가치**: 아이 오프닝(Eye Opening) 크기가 크고 명확할수록 노이즈 마진(Noise Margin)이 넉넉하고 BER([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate, [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율)이 낮아 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 통신이 가능하며, 반대로 패턴이 흐려지거나 닫힐수록 인터심볼 간섭(ISI, Inter-Symbol Interference)이나 지터(Jitter)가 심각함을 즉각 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.

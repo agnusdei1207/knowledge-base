@@ -3,8 +3,8 @@ title: "Event Sourcing Replay Monitoring"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 ([Event Sourcing](/studynote/12_it_management/05_security_compliance/307_event_sourcing/) Replay Monitoring)은 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 다시 재생해 프로젝션 (Projection)이나 집계 상태를 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 때, [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률·처리 속도·정합성 오류·예상 완료 시간까지 관측하는 운영 기법이다.

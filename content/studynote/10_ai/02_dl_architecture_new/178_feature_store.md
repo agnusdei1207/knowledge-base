@@ -3,8 +3,8 @@ title: "Feature Store"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피처 스토어](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))는 모델이 사용하는 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의, 시점별 값, 온라인·오프라인 제공 경로를 한곳에서 관리해 학습과 추론이 같은 의미의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보게 만드는 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) 인프라다.

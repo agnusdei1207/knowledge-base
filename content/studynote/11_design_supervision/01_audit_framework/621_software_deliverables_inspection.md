@@ -3,8 +3,8 @@ title: "621. Software Deliverables Inspection"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 621
 ---
-
 > **핵심 인사이트**
 > 1. 소프트웨어 산출물 검사(Software Deliverables Inspection)는 개발 생명주기의 각 단계에서 작성되는 문서·코드·테스트 결과물을 체계적으로 검토하여 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기 발견하는 품질 보증 활동으로 — Fagan이 증명한 바와 같이 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 개발 단계에서 발견하면 운영 단계보다 100배 저렴하다.
 > 2. 검사 유형은 [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)), [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(Walkthrough), [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection), [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))로 구분되며 — Fagan [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 가장 공식적인 절차(계획->개요->준비->검사->수정->추적)로 역할 분리(작성자, 검사자, 진행자, 기록자)를 통해 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견율을 최대화한다.

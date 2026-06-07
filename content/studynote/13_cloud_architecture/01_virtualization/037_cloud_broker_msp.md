@@ -3,8 +3,8 @@ title: "Cloud Broker & MSP"
 date: "2026-03-03"
 tags:
   - "studynote-cloud-architecture"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. 클라우드 브로커(Cloud Broker)는 기업과 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([CSP](/studynote/09_security/05_web_app_security/475_csp/)) 사이에서 중개·통합·조율 역할을 하는 존재로, NIST [SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-145에서 5가지 역할 중 하나로 정의되어 있다.
 > 2. MSP([Managed Service Provider](/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/))는 고객의 클라우드 인프라를 대신 관리·운영하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로, 클라우드 도입 후 운영 복잡성을 외부에 위임하는 대표적 방식이며, 멀티클라우드 환경에서 더욱 중요해지고 있다.

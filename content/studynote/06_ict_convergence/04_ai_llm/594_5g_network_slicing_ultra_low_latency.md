@@ -3,8 +3,8 @@ title: "5G Network Slicing Ultra Low Latency"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 594
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 5G 네트워크 슬라이싱 초저지연은(는) 하나의 물리 5G망을 서비스 요구사항별 논리망으로 분리해 대역폭, 지연, 신뢰성을 보장하는 기술이다.

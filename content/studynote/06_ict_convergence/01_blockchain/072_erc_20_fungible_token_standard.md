@@ -1,10 +1,11 @@
 ---
 title: "072. Erc 20 Fungible Token Standard"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ERC-20은 이더리움에서 대체 가능한 토큰의 동작 규격을 정의한 표준이다.

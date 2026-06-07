@@ -3,8 +3,8 @@ title: "184. Data Catalog Integration"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 흩어진 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 하나의 검색·계보·책임 체계로 묶어, 조직이 "무슨 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있고 얼마나 믿을 만한지"를 공통 언어로 이해하게 만드는 플랫폼 작업이다.

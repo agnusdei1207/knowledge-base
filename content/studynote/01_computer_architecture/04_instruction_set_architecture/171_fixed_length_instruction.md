@@ -3,8 +3,8 @@ title: "Fixed-Length Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고정 길이 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Fixed-Length [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 모든 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 같은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭으로 맞춰, CPU (Central Processing Unit)가 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계를 따로 찾지 않고 즉시 인출·해독하게 만드는 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 설계 방식이다.

@@ -3,8 +3,8 @@ title: "PageRank, BFS DB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 383
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (PageRank, [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 최단경로 매핑 DB 엔진 연산)는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

@@ -3,8 +3,8 @@ title: "164. Concept Drift Target Mapping Change"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컨셉 드리프트 ([Concept](/studynote/14_data_engineering/02_math_mining/120_concept/) Drift)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 X와 정답 레이블 Y의 조건부 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) P(Y|X)가 변화하는 현상으로, [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)보다 감지가 어렵고 모델에 더 치명적인 영향을 미친다.
 > 2. **가치**: ADWIN, DDM 등 온라인 학습 기반 드리프트 감지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 P(Y|X) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화를 조기 포착하고, 윈도우 기반 재학습이나 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 적응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 변화에 민첩하게 대응할 수 있다.

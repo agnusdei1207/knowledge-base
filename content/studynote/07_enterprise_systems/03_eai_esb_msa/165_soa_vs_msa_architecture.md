@@ -3,8 +3,8 @@ title: "165. Soa Vs Msa Architecture"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 165
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [서비스 지향 아키텍처](/studynote/04_software_engineering/04_testing_quality/212_soa_service_oriented_architecture_esb/) ([SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), [Service-Oriented Architecture](/studynote/07_enterprise_systems/06_exam_summary/362_soa_wsdl_uddi_soap/))와 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))는 모두 시스템을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분해하지만, SOA는 전사 통합과 재사용에, MSA는 독립 배포와 자율적 변화 대응에 더 큰 무게를 둔다.

@@ -3,8 +3,8 @@ title: "NLG Report Automation Insight Generation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 686
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NLG 기반 보고서 자동화는 정형·비정형 데이터에서 Content Determination -> Document Planning -> Surface Realization 파이프라인을 거치며, Retrieval-Augmented Generation(RAG)과 Knowledge Graph를 결합해 사실 일관성(Factual Consistency)과 도메인 신뢰성을 확보한 인사이트 산출 체계이다.

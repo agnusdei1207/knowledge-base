@@ -3,9 +3,8 @@ title: "71. CPLD"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 71
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPLD는 비교적 작은 규모의 프로그래머블 로직을 제공하는 반도체다.

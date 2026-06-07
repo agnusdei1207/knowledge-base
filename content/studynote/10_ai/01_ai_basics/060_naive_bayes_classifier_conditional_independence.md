@@ -3,8 +3,8 @@ title: "060. Naive Bayes Classifier Conditional Independence"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 조건부 독립을 가정하고 베이즈 정리로 클래스 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산하는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.

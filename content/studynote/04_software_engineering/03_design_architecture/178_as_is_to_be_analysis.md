@@ -1,10 +1,11 @@
 ---
 title: "178. As Is To Be Analysis"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AS-IS (현재 상태) / TO-BE (미래 상태) 분석은 현재 업무·시스템·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·조직의 실제 모습을 파악하고, 목표 상태를 정의한 뒤, 그 사이의 차이(Gap)를 이행 과제로 바꾸는 변화 설계 기법이다.

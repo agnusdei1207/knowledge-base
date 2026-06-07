@@ -3,8 +3,8 @@ title: "DBaaS, Database as a Service"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 관리형 DB (DBaaS, [Database](/studynote/05_database/04_transactions_concurrency/501_database/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 AWS RDS, Azure SQL 등에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

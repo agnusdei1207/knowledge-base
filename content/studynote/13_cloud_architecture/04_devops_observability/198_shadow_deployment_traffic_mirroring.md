@@ -3,8 +3,8 @@ title: "Shadow Deployment / Traffic Mirroring"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 운영 환경의 실제 트래픽을 100% [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))하여 격리된 신버전 서버로 전달하되, 그 응답은 버리고 운영 서버 응답만 사용자에게 반환하는 완전 격리 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법이다.

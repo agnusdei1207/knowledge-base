@@ -3,8 +3,8 @@ title: "Consistent Hashing"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 283
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일관된 해싱 ([Consistent Hashing](/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/))은 노드 추가/삭제 시 재배치 최소화 (링 구조 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/))에 초점을 맞춘 개념이다.

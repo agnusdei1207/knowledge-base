@@ -3,8 +3,8 @@ title: "038. Ambidextrous Organization"
 date: "2026-03-03"
 tags:
   - "studynote-enterprise-systems"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. 엔터프라이즈 맥락에서 [양손잡이 조직](/studynote/12_it_management/01_governance_strategy/037_ambidextrous_organization/)은 기존 IT 시스템 안정 운영(Mode 1 = Exploit)과 디지털 혁신 실험(Mode 2 = Explore)을 동시에 수행하는 IT 거버넌스 구조로, [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))의 성패를 결정하는 핵심 조직 설계 요소다.
 > 2. 구조적 분리 없이 단순히 "혁신하라"고 지시하면, 성과 압박을 받는 기존 팀은 항상 단기 운영 문제에 집중하고 혁신을 미루게 된다 — 이것이 수직 계열화된 대기업이 [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)에 실패하는 가장 흔한 패턴이다.

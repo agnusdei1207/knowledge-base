@@ -3,8 +3,8 @@ title: "106. Taint Toleration Kubernetes Node Scheduling Repel"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 테인트 (Taint)와 톨러레이션 (Toleration)은 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 특정 노드(Node)에 스케줄링되는 것을 노드 입장에서 거부하고, 이를 예외적으로 허용하는 방어적 스케줄링 통제 기법이다.
 > 2. **가치**: 고가의 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드나 특정 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전용 노드에 무관한 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 배치되어 자원을 고갈시키는 것을 물리적으로 차단하여, 클러스터의 목적별 자원 격리를 완벽하게 보장한다.

@@ -3,8 +3,8 @@ title: "Interrupt Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클 ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Cycle)은 현재 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과를 아키텍처 상태에 안전하게 반영한 뒤, 외부 사건이나 내부 예외를 처리하기 위해 정상 흐름에서 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 제어권을 넘기는 <strong>복귀 가능한 우회 절차</strong>다.

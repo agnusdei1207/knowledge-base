@@ -3,8 +3,8 @@ title: "Smart Contract Verification Coprocessor"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 615
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드가 반복적으로 수행하는 해시, 서명, 상태 증명, 프리컴파일 연산을 호스트 프로세서에서 떼어 내어 <strong>결정론적 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 핵심만 전용 하드웨어로 처리</strong>하는 장치다.

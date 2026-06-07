@@ -2,9 +2,9 @@
 title: "158. Error Correcting Codes"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting Codes, 오류 정정 부호) 는 *잉여(redundancy) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 추가해 전송·저장 중 발생한 오류를 자동 검출/정정*하는 체계다.

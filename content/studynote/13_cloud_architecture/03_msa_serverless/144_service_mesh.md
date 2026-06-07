@@ -3,8 +3,8 @@ title: "144. Service Mesh"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)는 <strong>각 마이크로서비스에 <a href="/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a> <a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>(Envoy)를 배치</strong>하여, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신의 <strong>로드밸런싱·<a href="/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a>·<a href="/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a>·트레이싱·트래픽 제어</strong>를 애플리케이션 코드 변경 없이 인프라 레벨에서 처리하는 패턴이다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 로직(재시도·[타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)·암호화)을 <strong>각 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 직접 구현하면 중복·불일치</strong>가 발생하지만, [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)는 <strong><a href="/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>가 일괄 처리</strong>하여 일관성을 보장한다.

@@ -3,8 +3,8 @@ title: "Distribution System,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 572
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AP / DS는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Time-Series DB Downsampling"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 309
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 DB의 다운샘플링(Downsampling)은 고해상도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시간 경과에 따라 자동으로 저해상도로 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)하여 스토리지를 최대 99.97%까지 절감한다.

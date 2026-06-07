@@ -3,8 +3,8 @@ title: "Data Mart"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 323
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 마트](/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) ([Data Mart](/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))는 특정 부서/조직 중심의 소규모 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Kimball](/studynote/12_it_management/05_security_compliance/954_kimball/) 모델 - 상향식)에 초점을 둔 분석 플랫폼 개념이다.

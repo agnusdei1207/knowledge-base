@@ -3,8 +3,8 @@ title: "MCTS"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 몬테카를로 트리 탐색 (MCTS)은 [미니맥스](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)처럼 우주의 모든 경우의 수를 완벽하게 계산하려다 뻗어버리는 바보 짓을 버리고, <strong>"지금 여기서부터 게임 끝날 때까지 눈 감고 무작위(Random)로 바둑을 1만 판 막 둬봐! 그래서 제일 많이 이긴 승률 높은 길로 가자!"라는 무식하지만 압도적인 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 통계적 도박 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

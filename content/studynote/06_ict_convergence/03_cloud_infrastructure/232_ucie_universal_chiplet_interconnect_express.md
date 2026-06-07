@@ -3,9 +3,8 @@ title: "232. UCIe (Universal Chiplet Interconnect Express)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 232
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [UCIe](/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/) (Universal [Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) Interconnect Express): [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) 간 상호 연결 통신 고속화 범용 표준를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

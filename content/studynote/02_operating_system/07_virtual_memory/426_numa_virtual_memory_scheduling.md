@@ -3,8 +3,8 @@ title: "NUMA / numactl"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 426
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링은 다중 CPU [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 서버에서, 프로세스의 <strong>가상 주소를 물리 프레임에 매핑(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)할 때 '어느 CPU 턱밑에 있는 로컬 램(Local Node RAM)을 떼어줄 것인가'를 결정하는 고도화된 공간 인식 할당 기법</strong>이다.

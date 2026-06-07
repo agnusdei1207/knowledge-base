@@ -3,8 +3,8 @@ title: "Law of Demeter, Principle of Least Knowledge"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디미터 법칙 ([Law of Demeter](/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/), LoD)은 객체가 협력할 때 "직접적인 이웃([immediate](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) neighbor)"하고만 대화하고, 이웃의 내부 구조를 탐색하여 깊은 체이닝([chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))으로 다른 객체에 접근하는 것을 금지하는 [최소 지식의 원칙](/studynote/11_design_supervision/09_design_principles/653_law_of_demeter/)(Principle of Least Knowledge)이다.

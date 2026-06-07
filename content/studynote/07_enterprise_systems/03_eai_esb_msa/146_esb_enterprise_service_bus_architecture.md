@@ -3,8 +3,8 @@ title: "146. Esb Enterprise Service Bus Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ESB는 <strong><a href="/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>-and-Spoke의 Hub를 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>징 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>로 확장</strong>한 통합 미들웨어이며, [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 변환·[라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·[프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 중재·보안을 <strong>표준화된 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 인프라</strong>에서 수행한다.
 > 2. **가치**: Hub의 [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제를 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a></strong>로 해결하고, [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([Service Oriented Architecture](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))의 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 연결 백본</strong>으로 기능하며, [WSDL](/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/)·[SOAP](/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/)·XML 기반 표준 통합을 제공한다.

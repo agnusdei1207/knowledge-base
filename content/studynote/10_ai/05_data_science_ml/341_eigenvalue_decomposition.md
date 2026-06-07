@@ -3,8 +3,8 @@ title: "Eigenvalue Decomposition, EVD"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 341
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고유값 분해 (EVD, Eigenvalue Decomposition) 는 정방 행렬 A 를 A = QΛQᵀ 로 분해하는데, Q 는 고유벡터 (Eigenvector) 로 이루어진 직교 행렬이고, Λ 는 고유값 (Eigenvalue) 이 대각에 놓인 행렬이다.

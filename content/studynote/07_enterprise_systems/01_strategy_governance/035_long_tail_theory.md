@@ -3,8 +3,8 @@ title: "Long Tail Theory"
 date: "2026-03-03"
 tags:
   - "studynote-enterprise-systems"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. [Long Tail](/studynote/12_it_management/01_governance_strategy/031_long_tail/) Theory(Chris Anderson, 2004)는 소수의 인기 상품(Head)보다 다수의 비인기 상품([Long Tail](/studynote/12_it_management/01_governance_strategy/031_long_tail/))의 합산 매출이 더 클 수 있다는 디지털 경제학 이론이다.
 > 2. 물리적 진열 공간 제약이 없는 디지털 플랫폼(Amazon, Netflix, Spotify)은 롱테일 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 틈새시장을 통합해 전통 소매업을 압도한다.

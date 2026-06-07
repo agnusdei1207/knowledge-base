@@ -3,8 +3,8 @@ title: "736. Log 6W1H Worm Storage Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 736
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

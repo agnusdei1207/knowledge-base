@@ -3,8 +3,8 @@ title: "Secure Boot"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 477
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [보안 부팅](/studynote/02_operating_system/10_security/608_secure_boot/) ([Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/))은 [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) (Unified Extensible [Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 부팅 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 실행될 코드를 서명 기반으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)보다 먼저 침투하는 악성 부트 코드를 차단하는 신뢰 시작점이다.

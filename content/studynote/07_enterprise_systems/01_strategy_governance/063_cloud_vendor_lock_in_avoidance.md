@@ -2,9 +2,9 @@
 title: "063. Cloud Vendor Lock In Avoidance"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 벤더 락인(Cloud [Vendor Lock-in](/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))은 특정 클라우드의 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식, 운영 습관에 깊이 묶여 다른 환경으로 옮기기 어려워지는 상태다.

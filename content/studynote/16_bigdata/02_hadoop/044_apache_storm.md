@@ -3,8 +3,8 @@ title: "044. Apache Storm"
 date: "2024-03-24"
 tags:
   - "studynote-bigdata"
+weight: 44
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **네이티브 스트리밍:** 마이크로배치 방식이 아닌, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나하나를 즉시 처리하는 이벤트 기반 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 실시간 연산 프레임워크.
 - **토폴로지 구조:** Spout([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집)와 Bolt([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환/집계)를 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(비순환 방향 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 묶어 중단 없는 [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 흐름 구현.

@@ -3,8 +3,8 @@ title: "CQRS Event Sourcing Saga Pattern"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 506
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/)([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기 모델을 분리하고, [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 상태 대신 이벤트 이력을 저장하며, [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/studynote/12_it_management/05_security_compliance/305_saga/))는 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)을 [보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)으로 관리한다.

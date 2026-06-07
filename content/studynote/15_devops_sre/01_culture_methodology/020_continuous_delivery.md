@@ -1,11 +1,11 @@
 ---
 title: "020. Continuous Delivery"
 date: "2026-03-04"
-description: "지속적 통합(CI)을 통과한 코드를 프로덕션 환경으로 안전하게 릴리스할 수 있는 상태로 자동 유지하며, 최종 배포 의사결정을 비즈니스 요구에 맞게 통제하는 파이프라인 아키텍처"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 20
 ---
-
 # 20. 지속적 전달 (CD, [Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))
 
 #### 핵심 인사이트 (3줄 요약)

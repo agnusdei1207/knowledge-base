@@ -3,8 +3,8 @@ title: "575. Acl Access Control List"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 575
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([접근 제어 목록](/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/))은 [접근 제어 행렬](/studynote/02_operating_system/10_security/573_access_matrix/)을 <strong>객체(<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>) 기준</strong>으로 분할하여, 각 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "누구(Object)가 어떤 권한(Subject)을 가지는지" 목록을 저장하는 방식이다.

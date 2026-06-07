@@ -3,8 +3,8 @@ title: "K8s Architecture Master Worker Components"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K8s [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) (K8s [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Master Worker Components): [마스터 노드](/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) ([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server, [etcd](/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/), Scheduler, Controller Manager), 워커 노드 ([Kubelet](/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/), Kube-proxy, [컨테이너 런타임](/studynote/02_operating_system/10_security/628_container_runtime_oci/))를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

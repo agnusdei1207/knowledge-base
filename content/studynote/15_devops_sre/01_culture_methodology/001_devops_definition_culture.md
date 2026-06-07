@@ -3,8 +3,9 @@ title: "001. Devops Sasang"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 1
 ---
-
 # [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 사상
 
 #### 핵심 인사이트 (3줄 요약)

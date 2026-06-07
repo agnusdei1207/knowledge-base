@@ -3,8 +3,8 @@ title: "Semantic Cache for RAG Cost and Latency Reduction"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 359
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시맨틱 캐시](/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) ([Semantic Cache](/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/))는 벡터 [유사도 검색](/studynote/05_database/06_dw_olap_trends/348_similarity_search/)으로 의미적으로 동일한 질문의 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 응답을 재사용해, [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 토큰 비용과 응답 레이턴시를 동시에 줄이는 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 계층이다.

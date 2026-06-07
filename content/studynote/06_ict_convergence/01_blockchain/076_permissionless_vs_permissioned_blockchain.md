@@ -1,10 +1,11 @@
 ---
 title: "076. Permissionless Vs Permissioned Blockchain"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 "누가 네트워크에 들어올 수 있는가"에 따라 Permissionless와 Permissioned로 갈라진다.

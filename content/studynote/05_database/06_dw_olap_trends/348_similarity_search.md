@@ -3,8 +3,8 @@ title: "Similarity Search"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 348
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유사도 검색 (Similarity Search)는 벡터 간 거리/각도 기반 의미적 탐색 연산 (키워드 일치 검색의 대안)에 초점을 둔 분석 플랫폼 개념이다.

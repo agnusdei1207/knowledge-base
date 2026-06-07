@@ -3,8 +3,8 @@ title: "076. Skip List"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)([Skip List](/studynote/12_it_management/03_ea_isp/894_skip_list/))는 1990년 William Pugh가 고안한 확률적 자료구조(Probabilistic [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure)로, 여러 레벨의 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))를 계층화하여 평균 O(log n) 탐색·삽입·삭제를 달성하는 정렬된 딕셔너리(Sorted Dictionary) 구현체다.
 > 2. **가치**: [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)는 균형 [이진 탐색 트리](/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)(AVL, [Red-Black Tree](/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))와 동일한 평균 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공하면서, 트리 회전(Rotation) 없이 확률적 랜덤화로 균형을 유지하므로 구현이 단순하고 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 환경에서 [Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 구현이 용이하다.

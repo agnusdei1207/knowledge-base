@@ -3,8 +3,8 @@ title: "Oauth2 Vs OIDC"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 542
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OAuth 2.0 vs [OIDC](/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 비교 (Oauth2 Vs [OIDC](/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/))는 신원·접근 제어에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

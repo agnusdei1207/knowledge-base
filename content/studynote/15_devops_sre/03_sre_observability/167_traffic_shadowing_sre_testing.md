@@ -3,8 +3,8 @@ title: "Traffic Shadowing"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트래픽 섀도잉 (Traffic Shadowing)은 운영 요청의 복사본을 신버전에 동시에 보내되, 사용자 응답은 기존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 사용하게 해 실제 트래픽 조건에서 새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기법이다.

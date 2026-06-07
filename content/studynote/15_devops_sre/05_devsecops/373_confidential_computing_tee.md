@@ -3,8 +3,8 @@ title: "Confidential Computing TEE SGX TrustZone"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 373
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컨피덴셜 컴퓨팅(Confidential Computing)은 데이터가 **사용 중(In-Use)**일 때도 하드웨어 기반 격리 실행 환경(TEE, Trusted Execution Environment)으로 보호하여, 저장(At-Rest)·전송(In-Transit) 보호만으로는 불가능한 **3중 완전 암호화**를 실현하는 기술이다.

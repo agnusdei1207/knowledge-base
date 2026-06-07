@@ -3,8 +3,8 @@ title: "Distribution"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선택도 (Selectivity)는 조건이 전체 행 중 몇 퍼센트를 남기는지, [기수](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 (Cardinality)은 컬럼 값의 서로 다른 개수, 분포도 (Distribution)는 그 값들이 고르게 퍼졌는지 치우쳤는지를 보여 주는 통계 축이다.

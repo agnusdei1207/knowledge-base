@@ -3,8 +3,8 @@ title: "238. 6R Rehost Replatform Refactor"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 워크로드 특성에 따라 Rehost, Replatform, [Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 등 전환 방식을 구분하는 마이그레이션 프레임.

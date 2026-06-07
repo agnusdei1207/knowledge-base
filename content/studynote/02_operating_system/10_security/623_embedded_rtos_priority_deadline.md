@@ -3,8 +3,8 @@ title: "623. Embedded Rtos Priority Deadline"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 623
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RTOS (Real-Time [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))는 범용 OS(Windows, Linux)처럼 '최대한 빨리' 처리하는 것이 목표가 아니라, 정해진 시간([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) 안에 '반드시' 작업을 완료하는 결정론적(Deterministic) 실행을 최우선으로 하는 운영체제다.

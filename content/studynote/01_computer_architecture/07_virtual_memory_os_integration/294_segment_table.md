@@ -3,8 +3,8 @@ title: "Segment Table"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 294
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세그먼트 테이블](/studynote/02_operating_system/06_memory_management/365_segment_table/) ([Segment Table](/studynote/02_operating_system/06_memory_management/365_segment_table/))은 세그멘트 번호를 실제 메모리 위치와 접근 규칙으로 바꾸는 <strong>주소 변환표이자 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 정책표</strong>다.

@@ -3,8 +3,8 @@ title: "Distributed Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 클라우드 (Distributed Cloud): [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 다양한 물리적 위치(고객사, 통신사 엣지)에 배포하면서 중앙 집중형 통제권은 CSP가 유지하는 모델를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Spot Instance, - , RI"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터 비용 최적화 ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)은 빅데이터 비용 관점에서 현상을 숫자로 바꿔 비교 가능한 의사결정을 만드는 지표 체계를 다루는 주제다.

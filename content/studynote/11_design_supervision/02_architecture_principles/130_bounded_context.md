@@ -3,8 +3,8 @@ title: "Bounded Context"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))는 DDD의 핵심 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 패턴으로, 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 유효하고 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 적용되는 명확한 경계를 정의한다. 동일한 용어('고객')도 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)(주문 BC의 고객 vs 마케팅 BC의 고객)에 따라 다른 속성과 의미를 가질 수 있음을 명시적으로 구분한다.

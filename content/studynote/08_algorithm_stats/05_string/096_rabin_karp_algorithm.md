@@ -2,9 +2,9 @@
 title: "096. Rabin Karp Algorithm"
 date: "2024-03-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **해시 기반 탐색**: 문자열을 수치화된 해시(Hash) 값으로 변환하여 매칭 여부를 빠르게 판단하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)임.
 2. **롤링 해시 (Rolling Hash)**: 이전 윈도우의 해시값을 활용하여 다음 윈도우의 해시를 $O(1)$에 계산하는 슬라이딩 윈도우 기법을 사용함.

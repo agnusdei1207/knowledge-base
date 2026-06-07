@@ -3,8 +3,8 @@ title: "Kubernetes, K8s"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 쿠버네티스 ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), K8s): 수백/수천 개의 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 스케줄링, 배포, 로드밸런싱, [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)하는 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

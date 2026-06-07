@@ -3,8 +3,8 @@ title: "Kernel Privilege Escalation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 357
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Privilege Escalation](/studynote/09_security/04_endpoint_security/356_privilege_escalation/))는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

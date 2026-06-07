@@ -3,8 +3,8 @@ title: "Access Review"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 580
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 접근 검토 (Access [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))는 신원·접근 제어에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

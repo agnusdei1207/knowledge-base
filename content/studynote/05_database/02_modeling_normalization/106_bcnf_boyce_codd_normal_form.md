@@ -1,10 +1,11 @@
 ---
 title: "3NF"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BCNF](/studynote/05_database/04_transactions_concurrency/529_bcnf/) (Boyce-Codd Normal Form)는 [제3정규형](/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))을 만족하는 릴레이션에서, 일반 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK)의 일부를 결정하는 [이상 현상](/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)(역하극상)을 제거하는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계다.

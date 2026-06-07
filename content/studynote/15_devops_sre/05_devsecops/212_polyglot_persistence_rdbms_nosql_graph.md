@@ -3,8 +3,8 @@ title: "Polyglot Persistence"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특성에 맞춰 서로 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술을 혼합하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).

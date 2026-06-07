@@ -3,8 +3,8 @@ title: "Test Data Masking"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 마스킹](/studynote/09_security/16_data_privacy/819_data_masking/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 운영 환경(Production)의 리얼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 개발/테스트 환경으로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 올 때, 이름, 주민번호, 계좌번호 등 민감한 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)(PII)를 비식별화([Anonymization](/studynote/09_security/16_data_privacy/812_anonymization/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 자동 변조하여 주입하는 [보안 자동화](/studynote/09_security/13_secops_ir_forensics/638_security_automation/) 체계다.
 > 2. **가치**: "운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 테스트해야 엣지 케이스를 잡을 수 있다"는 개발자의 요구와 "[개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)([ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/), [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/))을 어기면 감옥에 간다"는 보안팀의 딜레마를 완벽하게 해결하여, 안전한 고품질 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 테스트 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 극대화한다.

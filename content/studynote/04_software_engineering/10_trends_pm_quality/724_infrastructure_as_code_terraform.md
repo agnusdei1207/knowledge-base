@@ -3,8 +3,8 @@ title: "724. Infrastructure As Code Terraform"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 724
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인프라스트럭처 애즈 코드](/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/) ([IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) [테라폼](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

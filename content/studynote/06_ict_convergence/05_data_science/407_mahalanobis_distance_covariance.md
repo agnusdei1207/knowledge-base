@@ -3,8 +3,8 @@ title: "407. Mahalanobis Distance Covariance"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 407
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마할라노비스 거리](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) (공분산 고려 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 투영 거리): 1. **본질**: [마할라노비스 거리](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)([Mahalanobis Distance](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/))는 단순히 자로 잰 물리적 거리([유클리디안 거리](/studynote/05_database/06_dw_olap_trends/350_ann/))를 넘어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 방향으로 길쭉하게 퍼져 있는지(공분산)…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

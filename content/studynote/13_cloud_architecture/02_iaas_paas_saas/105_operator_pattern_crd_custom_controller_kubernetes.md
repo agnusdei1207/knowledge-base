@@ -3,8 +3,8 @@ title: "105. Operator Pattern Crd Custom Controller Kubernetes"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오퍼레이터 패턴](/studynote/13_cloud_architecture/01_virtualization/057_operator_pattern/) ([Operator Pattern](/studynote/04_software_engineering/11_testing_validation/957_operator_pattern/))은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 기본 관리 기능을 확장하여, 복잡한 상태 유지(Stateful) 애플리케이션의 운영 지식을 코드로 구현한 자동화 로봇이다.

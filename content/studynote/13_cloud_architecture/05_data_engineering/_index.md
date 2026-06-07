@@ -2,9 +2,9 @@
 title: "Data Engineering"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 데이터 엔지니어링은 서버리스 (Serverless) 및 관리형 서비스 (Managed Services)를 활용하여, 방대한 데이터의 수집, 저장, 정제, 분석 파이프라인을 구축하고 최적화하는 공학적 프로세스이다.

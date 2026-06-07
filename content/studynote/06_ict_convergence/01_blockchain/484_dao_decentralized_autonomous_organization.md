@@ -3,8 +3,8 @@ title: "DAO, Decentralized Autonomous Organization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 484
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)([Decentralized Autonomous Organization](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/), [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 자율 조직)는 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 조직의 규칙을 코드화하여, <strong>CEO 없이 토큰 홀더의 투표로 의사결정</strong>이 이루어지는 새로운 조직 형태다.

@@ -3,8 +3,8 @@ title: "Neo4j, AWS Neptune"
 date: "2026-05-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [그래프 데이터베이스](/studynote/14_data_engineering/01_infrastructure/039_graph_db/)([Graph DB](/studynote/14_data_engineering/01_infrastructure/039_graph_db/))는 테이블(표) 형태를 버리고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>노드(Node, 점)</strong>와 그들 간의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 나타내는 <strong>엣지(Edge, 선)</strong>라는 1급 객체(First-class citizen)로 물리적 저장소에 직결시키는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 아키텍처다.
 > 2. **가치**: [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB(RDBMS)에서 수천만 건의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 4~5번씩 조인([JOIN](/studynote/05_database/04_transactions_concurrency/521_join/))하다가 서버가 터져버리는 '초연결 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색(예: 친구의 친구의 친구 찾기)' 연산을, 포인터 추적(Index-free [Adjacency](/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))을 통해 O(1) 수준의 광속으로 해결한다.

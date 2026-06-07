@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 롤백([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))은 프로덕션 배포 직후 치명적 장애나 에러율 급증이 감지되었을 때, 트래픽을 즉시 이전의 안정적인 구버전으로 되돌려 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 확보하는 자동화 방어선이다.

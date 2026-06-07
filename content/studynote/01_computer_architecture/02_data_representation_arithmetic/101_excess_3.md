@@ -3,8 +3,8 @@ title: "Excess-3 Code"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 3초과 코드(Excess-3 [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 기본 [BCD](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)([Binary Coded Decimal](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)) 코드의 각 10진수 값에 미리 $+3$ (`0011`)을 더해 저장하는 비가중치(Unweighted) 인코딩 방식이다.
 > 2. **가치**: 값의 배열을 중앙으로 이동시킴으로써, 단순히 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전시키는 것(NOT 연산)만으로 10진수의 9의 보수가 생성되는 '자기 보수(Self-Complementing)' 특성을 확보한다.

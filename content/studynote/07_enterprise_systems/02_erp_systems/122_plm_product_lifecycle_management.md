@@ -3,8 +3,8 @@ title: "122. Plm Product Lifecycle Management"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PLM은 제품의 <strong>기획->설계->제조-><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>->폐기까지 전 생명주기에 걸친 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>·프로세스·사람을 통합 관리</strong>하는 엔터프라이즈 시스템이다.
 > 2. **가치**: CAD 도면·[BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)(부품 목록)·변경 이력·품질 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부서별로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)되면 <strong>설계 변경 누락·부품 불일치·품질 사고</strong>가 발생하지만, PLM이 <strong>단일 제품 <a href="/studynote/16_bigdata/09_platform/180_data_hub/">데이터 허브</a></strong>를 제공하여 전사 협업을 보장한다.

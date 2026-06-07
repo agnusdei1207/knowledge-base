@@ -1,11 +1,11 @@
 ---
 title: "004. Bigdata Necessity"
 date: "2024-05-24"
-description: "폭발적인 데이터 증가와 비정형 데이터의 범람 속에서 빅데이터 아키텍처 도입이 생존의 필수가 된 근본 원인 분석"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
+weight: 4
 ---
-
 # 빅데이터 도입 필요성 (제타바이트 시대와 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 급증)
 
 #### 핵심 인사이트 (3줄 요약)

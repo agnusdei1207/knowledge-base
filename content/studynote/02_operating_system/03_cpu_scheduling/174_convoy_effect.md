@@ -3,8 +3,8 @@ title: "174. Convoy Effect"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 호위 효과 (Convoy Effect)는 [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First-Come, First-Served) 같은 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out) 스케줄링에서 긴 CPU (Central Processing Unit) 바운드 작업 하나가 앞을 막아, 짧은 I/O (Input/Output) 바운드 작업들이 줄줄이 지연되는 현상이다.

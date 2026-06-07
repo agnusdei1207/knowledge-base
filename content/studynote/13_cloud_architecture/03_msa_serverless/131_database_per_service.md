@@ -3,8 +3,8 @@ title: "131. Database Per Service"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Database](/studynote/05_database/04_transactions_concurrency/501_database/) per Service는 <strong>각 마이크로서비스가 독립적인 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>베이스를 소유</strong>하여 다른 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 직접 DB에 접근하지 못하고 <strong>오직 API로만 통신</strong>하는 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴이다.
 > 2. **가치**: 공유 DB에서는 한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 <strong>다른 모든 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>에 영향</strong>을 주지만, DB per Service는 <strong>독립 배포·독립 <a href="/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>·기술 다양성(<a href="/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/">Polyglot Persistence</a>)</strong>을 보장한다.

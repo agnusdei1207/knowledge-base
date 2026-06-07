@@ -3,8 +3,8 @@ title: "Level 1 Cache"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L1 캐시 (Level 1 Cache)는 CPU (Central Processing Unit) 코어가 가장 먼저 조회하는 초근접 저장소로, 메모리 계층에서 "가장 작지만 가장 빨라야 하는" 구간이다.

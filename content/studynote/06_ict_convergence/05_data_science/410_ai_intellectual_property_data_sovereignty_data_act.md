@@ -3,8 +3,8 @@ title: "Data Sovereignty"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 410
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 지적 재산권 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 유럽 [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Act 법제 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sovereignty): 1. **본질**: [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sovereignty)은 "국민이나 기업이 만들어낸 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 그 나라의 법과 통제를 받아야 한다"는 개념이며, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 지재권 문제는 "남의 그림이나…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

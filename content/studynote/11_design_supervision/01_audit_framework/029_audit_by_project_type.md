@@ -3,8 +3,8 @@ title: "Audit by Project Type"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/)는 프로젝트 특성(신규 개발, 운영·유지보수, 패키지 도입, 클라우드 전환)에 따라 감리 초점과 점검 항목이 달라진다. 단순히 체크리스트를 적용하는 것이 아니라 프로젝트 유형에 맞는 맞춤형 감리가 필요하다.
 > 2. **가치**: 신규 개발 감리는 아키텍처 적절성·개발 품질·보안 설계에 집중하는 반면, 운영 감리는 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 이행·장애 대응 프로세스·변경 관리에 집중한다. 패키지 도입 감리는 커스터마이징 리스크와 밴더 의존성을, 클라우드 감리는 [CSP](/studynote/09_security/05_web_app_security/475_csp/) 책임 분리와 보안 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 중점 점검한다.

@@ -3,8 +3,8 @@ title: "Bagging & Random Forest"
 date: "2026-05-05"
 tags:
   - "studynote-ai"
+weight: 51
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))은 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 복원 추출로 여러 개의 가짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋(Bootstrap)을 만든 뒤, 각각 독립된 모델을 훈련시켜 그 결과를 다수결(투표)로 합치는 <strong><a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 기법</strong>이다.
 > 2. **가치**: 결정 트리([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)) 특유의 치명적 단점인 '학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 미친 듯이 최적화되는 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))' 현상을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 투표의 힘으로 억눌러, 모델의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 획기적으로 낮춘다.

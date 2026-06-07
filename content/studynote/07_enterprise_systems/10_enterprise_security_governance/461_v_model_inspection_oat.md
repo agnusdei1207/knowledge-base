@@ -2,9 +2,9 @@
 title: "V-Model, Inspection, OAT"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 461
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 V-모델 [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 정적 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [OAT](/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 V-모델 [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 정적 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [OAT](/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/), [V-Model](/studynote/12_it_management/04_sdlc_testing/132_v_model_sdlc_verification_validation_testing/), Inspection의 경계를 분명히 만드는 데 의미가 있다.

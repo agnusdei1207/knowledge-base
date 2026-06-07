@@ -1,10 +1,11 @@
 ---
 title: "087. Account Abstraction Erc 4337"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: Account [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) ([AA](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))은 계정의 권한과 수수료 규칙을 지갑이 스스로 정의하게 만드는 모델이다.

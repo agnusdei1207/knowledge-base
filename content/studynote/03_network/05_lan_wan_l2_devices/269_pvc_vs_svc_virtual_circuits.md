@@ -3,9 +3,8 @@ title: "269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 269
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패킷 교환망(X.25, [프레임 릴레이](/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/), [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 등)에서 출발지와 목적지 간의 논리적인 길(가상 회선, Virtual Circuit)을 **어떻게 맺고 유지하느냐에 따라 PVC와 SVC 두 가지 방식으로 나뉜다**.

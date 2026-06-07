@@ -3,8 +3,8 @@ title: "KV Cache Pagedattention"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLM이 대답을 만들어낼 때마다 과거에 자기가 내뱉은 단어들의 수학적 기억([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value)을 매번 처음부터 다시 계산하지 않고 저장해 두는 <strong>KV 캐시(Cache)</strong>는 끔찍한 메모리 파편화를 일으킨다. 이를 해결하기 위해 기존 컴퓨터 OS의 <strong><a href="/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> <a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>) 기법을 딥러닝 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리 관리로 그대로 훔쳐 와서 쪼개 넣은 혁명이 바로 PagedAttention (vLLM 프레임워크의 심장)</strong>이다.

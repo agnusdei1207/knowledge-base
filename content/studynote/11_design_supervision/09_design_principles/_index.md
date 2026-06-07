@@ -2,9 +2,9 @@
 title: "Design Principles"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
 weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 객체지향 설계 원칙 (SOLID)은 변화에 유연하고 유지보수가 용이한 소프트웨어를 만들기 위한 5가지 핵심 가이드라인이며, 추상화와 캡슐화를 통해 결합도를 낮추는 것을 목표로 한다.

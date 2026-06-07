@@ -2,9 +2,9 @@
 title: "Enterprise Integration Test: OAT / UAT"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 엔터프라이즈 [통합 테스트](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) [OAT](/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)/UAT [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 엔터프라이즈 [통합 테스트](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) [OAT](/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)/UAT [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/), [OAT](/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/), [운영 인수 테스트](/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)의 경계를 분명히 만드는 데 의미가 있다.

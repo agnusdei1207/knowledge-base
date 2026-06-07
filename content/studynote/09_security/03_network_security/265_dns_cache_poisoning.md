@@ -3,9 +3,8 @@ title: "265. DNS Cache Poisoning (DNS Cache Poisoning)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 265
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Poisoning는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

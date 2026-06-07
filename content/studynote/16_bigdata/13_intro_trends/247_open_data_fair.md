@@ -3,8 +3,8 @@ title: "247. Open Data Fair"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
+weight: 247
 ---
-
 > **핵심 인사이트**
 > 1. FAIR 원칙은 2016년 Nature Scientific Data에 발표된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 원칙으로, 연구 및 오픈데이터가 기계 처리 가능하도록 F(Findable)·A(Accessible)·I(Interoperable)·R(Reusable) 4원칙을 충족해야 한다는 기준이다.
 > 2. FAIR는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '공개'하는 것이 아니라 '재사용 가능하게' 만드는 것에 중점을 두며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공개하지 않더라도 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 FAIR하게 유지할 수 있다.

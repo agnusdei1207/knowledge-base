@@ -3,8 +3,8 @@ title: "Bit Stuffing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 950
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

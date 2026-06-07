@@ -2,9 +2,9 @@
 title: "219. Benchmarking Best Practice"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벤치마킹 (Benchmarking)은 자사 성과를 외부의 최고 수준([Best Practice](/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/))과 비교해 격차를 측정하고, 그 성과를 만드는 프로세스를 학습하는 체계적 개선 방법이다.

@@ -3,8 +3,8 @@ title: "141. Focus Group Interview Fgi"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: FGI(Focus Group Interview)는 <strong>6~10명의 대상 사용자를 모아 모더레이터가 <a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>하는 구조화된 그룹 토론</strong>으로, 사용자의 인식·태도·니즈를 심층적으로 파악하는 정성적 도출 기법이다.
 > 2. **가치**: 1:1 인터뷰는 개인 의견만 듣지만, FGI는 <strong>참가자 간 상호작용(동의·반박·영감)</strong>에서 개인 인터뷰로는 나오지 않는 <strong>집단적 인사이트</strong>를 발견한다.

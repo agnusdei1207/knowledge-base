@@ -2,9 +2,9 @@
 title: "Monotonic Queue"
 date: "2026-03-03"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 92
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [단조 스택](/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/)([Monotonic Stack](/studynote/08_algorithm_stats/04_datastructure/079_monotonic_stack/))은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 내 원소가 단조 증가 또는 단조 감소 순서를 유지하도록 관리해, 각 원소의 Next Greater/Smaller Element를 O(n)에 찾는 기법이다.
 > 2. 히스토그램 최대 직사각형·빗물 트래핑·주식 가격 스팬 등 "현재 원소보다 크거나 작은 가장 가까운 원소"를 찾는 문제 유형에 최적화된 패턴이다.

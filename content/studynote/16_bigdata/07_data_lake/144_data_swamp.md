@@ -3,8 +3,8 @@ title: "Data Swamp"
 date: "2024-05-22"
 tags:
   - "studynote-bigdata"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))의 거버넌스와 관리가 부재하여, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 출처와 의미를 알 수 없게 된 쓸모없는 저장소</strong>를 말한다.
 2. [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/))와 [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)의 부실로 인해 분석가가 원하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾을 수 없어 분석 효율이 극도로 저하된 상태이다.

@@ -3,8 +3,8 @@ title: "039. Gantt Chart"
 date: "2026-03-04"
 tags:
   - "studynote-software-engineering"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. 간트 차트(Gantt Chart)는 프로젝트 작업([Task](/studynote/02_operating_system/02_process_thread/150_task/))을 가로 막대로 표현하여 시작일·종료일·진행률·선후관계를 한눈에 보여주는 일정 관리 도구로, 1910년대 Henry L. Gantt가 고안한 이후 현재까지 가장 널리 사용되는 프로젝트 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 도구다.
 > 2. 간트 차트의 핵심 정보는 '의존성(Dependency)'과 '크리티컬 패스(Critical Path)' — 선행 작업 없이 시작할 수 없는 작업들의 연쇄와 전체 프로젝트 기간을 결정하는 가장 긴 경로를 시각적으로 드러낸다.

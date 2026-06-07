@@ -3,8 +3,8 @@ title: "231. Kafka Topic Partition Consumer Group"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 카프카의 Topic([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 채널)·[Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(물리 분할)·[Consumer Group](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 소비)은 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 확장과 메시지 순서 보장을 동시에 달성</strong>하기 위한 3-Layer 설계다.
 > 2. **가치**: [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수만큼 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 수준이 결정되고, [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내 각 컨슈머가 전담 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 가져가므로 <strong>소비자 수를 늘리기만 해도 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>이 선형 확장</strong>된다.

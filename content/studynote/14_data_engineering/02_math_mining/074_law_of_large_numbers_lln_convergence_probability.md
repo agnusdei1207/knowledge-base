@@ -3,8 +3,8 @@ title: "074. Law Of Large Numbers Lln Convergence Probability"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대수의 법칙은 표본평균이 표본 수가 커질수록 기대값에 가까워진다는 법칙이다.

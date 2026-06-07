@@ -3,8 +3,8 @@ title: "Response Time"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 응답 시간 (Response Time)은 요청이 들어온 순간부터 사용자가 결과를 받기까지의 <strong>전체 경과 시간</strong>이며, CPU (Central Processing Unit) 실행 시간만이 아니라 대기와 입출력까지 모두 포함한다.

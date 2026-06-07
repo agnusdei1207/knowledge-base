@@ -3,8 +3,8 @@ title: "Naive Bayes"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 264
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 나이브 베이즈([Naive Bayes](/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))는 베이즈 정리(Bayes' Theorem)를 기반으로, 모든 특징(Feature)이 서로 조건부 독립(Conditional [Independence](/studynote/08_algorithm_stats/08_stats/133_independence/))이라는 '순진한(Naive)' 가정 하에 사후 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Posterior [Probability](/studynote/08_algorithm_stats/08_stats/130_probability/))을 계산하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.

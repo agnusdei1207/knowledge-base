@@ -3,8 +3,8 @@ title: "075. Spark 35 Improvements"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 3.5는 2023년 릴리스되어 Python [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (PySpark)의 기능 강화, Spark Connect (원격 클라이언트 연결), ANSI SQL 지원 확대, 구조화된 스트리밍([Structured Streaming](/studynote/16_bigdata/03_spark/061_structured_streaming/)) 고도화를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링·ML 워크플로우의 생산성과 이식성을 높인 메이저 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이다.
 > 2. **가치**: Spark Connect는 Spark 서버에 경량 클라이언트로 원격 접속하여 Jupyter Notebook·로컬 IDE에서 클러스터 Spark를 직접 활용할 수 있게 하여 개발 경험([DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))을 대폭 향상시키며, Python UDTF (User-Defined Table Function)와 PyArrow 기반 최적화로 PySpark [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 격차를 줄였다.

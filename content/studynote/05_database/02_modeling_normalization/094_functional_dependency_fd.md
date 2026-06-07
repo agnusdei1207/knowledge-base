@@ -3,8 +3,8 @@ title: "Functional Dependency, FD"
 date: "2024-05-15"
 tags:
   - "studynote-database"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 함수적 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) (Functional Dependency)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내에서 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) X의 값이 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) Y의 값을 유일하게 결정하는 수학적 종속 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)($X \rightarrow Y$)다.

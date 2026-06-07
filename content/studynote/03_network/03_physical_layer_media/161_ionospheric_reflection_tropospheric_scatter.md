@@ -3,8 +3,8 @@ title: "161. Ionospheric Reflection Tropospheric Scatter"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전리층 반사와 대류권 [산란](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)은 지구 곡률 때문에 직선 가시거리 밖으로 나가기 어려운 전파를 대기층의 성질을 이용해 더 멀리 보내는 BLOS (Beyond Line of Sight) 통신 기법이다.

@@ -3,8 +3,8 @@ title: "387. Page Fault"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 387
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)는 CPU가 접근하려는 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 조각([페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))이 현재 물리 메모리(RAM)에 존재하지 않고 디스크에 있을 때, 하드웨어 MMU가 냅다 발생시키는 <strong>'살려달라'는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>) <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>다.

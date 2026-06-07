@@ -2,9 +2,9 @@
 title: "PEFT / LoRA"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 437
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [PEFT LoRA](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 저차원 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 효율적 파인튜닝은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [PEFT LoRA](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 저차원 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 효율적 파인튜닝, [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/), LoRA의 경계를 분명히 만드는 데 의미가 있다.

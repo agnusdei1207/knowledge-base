@@ -3,8 +3,8 @@ title: "Change Data Capture /"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)([Change Data Capture](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [변경 데이터 캡처](/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/))는 운영 DB의 <strong><a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(<a href="/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/">Redo</a> Log/Binlog)</strong>를 직접 읽어 INSERT·UPDATE·DELETE 이벤트를 실시간 추출하는 기술로, DB에 추가 부하 없이 변경분만 캡처한다.
 > 2. **가치**: 전통적 ETL의 "전체 테이블 스캔 주기 배치" 대신, <strong>밀리초 단위 실시간 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>를 가능하게 하여 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)·DW의 신선도를 획기적으로 향상한다.

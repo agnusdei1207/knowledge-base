@@ -1,10 +1,11 @@
 ---
 title: "Mastodon, Bluesky, Nostr"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Web3 (Web 3.0) 소셜 네트워크는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 중심으로 바뀌어 계정과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 주도권을 플랫폼 밖으로 옮기려는 시도다.

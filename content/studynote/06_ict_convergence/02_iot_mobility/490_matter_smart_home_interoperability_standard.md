@@ -3,8 +3,8 @@ title: "Matter Smart Home Interoperability Standard"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 490
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Matter](/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)(구 [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) CHIP)는 Apple·Google·Amazon·Samsung이 주도하는 CSA(Connectivity Standards Alliance) 기반의 스마트홈 통합 표준으로, 서로 다른 생태계의 기기들이 단일 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 상호 운용([Interoperability](/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/))되도록 설계되었다.

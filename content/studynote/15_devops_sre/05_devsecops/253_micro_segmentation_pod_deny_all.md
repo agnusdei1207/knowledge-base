@@ -3,8 +3,8 @@ title: "Micro-segmentation"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 253
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신을 기본 차단하고 필요한 흐름만 허용하는 네트워크 최소 권한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).

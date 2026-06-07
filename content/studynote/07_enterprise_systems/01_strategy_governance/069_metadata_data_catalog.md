@@ -1,10 +1,11 @@
 ---
 title: "Data Catalog"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 구조, 의미, 출처를 설명하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다.

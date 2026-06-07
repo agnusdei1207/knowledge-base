@@ -3,8 +3,8 @@ title: "SVM Hyperplane Kernel Margin"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 432
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 초평면 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 마진 ([SVM Hyperplane Kernel](/studynote/10_ai/03_llm_nlp/261_svm_hyperplane_kernel/) Margin): 1. **본질**: [서포트 벡터 머신](/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/)([SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 그룹으로 자를 때, 양쪽 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로부터 가장 멀리 떨어져서 '안전거리(Margin)'를 최대로 확보하는 가장 뚱뚱하고 완벽한 선…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Storage Tiering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 674
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토리지 티어링 (Storage Tiering)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 온도, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감도, 보존 성격에 따라 서로 다른 저장 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 계층에 배치하고 다시 이동시키는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 저장 전략이다.

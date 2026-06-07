@@ -3,8 +3,8 @@ title: "Model Monitoring Performance Degradation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 751
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 모니터링-성능 저하 감지-알림-재학습은 Data/Concept Drift를 통계적·분포적 방법으로 탐지하여 임계치 기반 트리거와 CI/CT 파이프라인을 통해 자동 재학습(Re-training) 및 배포(Re-deployment)를 수행하는 **MLOps 폐루프(Closed-loop) 모델 수명주기 관리 체계**이다.

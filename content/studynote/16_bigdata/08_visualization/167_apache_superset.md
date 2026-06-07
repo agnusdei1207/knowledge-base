@@ -3,8 +3,8 @@ title: "167. Apache Superset"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Apache Superset은 Airbnb에서 시작하여 2021년 Apache Top-Level Project로 승격된 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) BI 플랫폼으로, SQL Lab(고급 SQL 에디터)과 40개 이상의 차트 유형을 무료로 제공하며 엔터프라이즈 도구와 기능적으로 경쟁 가능하다.

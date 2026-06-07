@@ -3,8 +3,8 @@ title: "504. Iptv Multicast Igmp Pim"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 504
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IPTV [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

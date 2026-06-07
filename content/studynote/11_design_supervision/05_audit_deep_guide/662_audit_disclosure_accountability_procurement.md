@@ -3,8 +3,8 @@ title: "Audit Disclosure Accountability in Public Procurement"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 662
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 감리 공시와 조달 책임성 확보는 공공 조달(Public Procurement) 환경의 감리 공시와 책임성 확보 체계에서 투명성(Transparency), 벌칙 조항(Penalty Clause), 공급자 통제(Vendor Governance)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

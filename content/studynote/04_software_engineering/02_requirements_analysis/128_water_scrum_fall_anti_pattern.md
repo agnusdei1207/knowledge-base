@@ -3,8 +3,8 @@ title: "128. Water Scrum Fall Anti Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Water-[Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)-Fall은 <strong>요구사항은 Waterfall식(상의하달), 개발만 <a href="/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/">Scrum</a>, 배포는 다시 Waterfall식(긴 릴리스 주기)</strong>으로 운영되는 안티패턴이며, Agile의 외형만 차용하고 핵심 원칙은 실행하지 않는다.
 > 2. **가치**: 조직이 "우리는 Agile을 한다"고 주장하지만 <strong>실제로는 계획·배포에서 Waterfall을 유지</strong>하면 Agile의 이점(빠른 피드백·적응)이 사라지고, 개발팀만 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 압박을 받는 악순환이 발생한다.

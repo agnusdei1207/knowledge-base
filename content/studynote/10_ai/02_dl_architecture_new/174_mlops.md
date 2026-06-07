@@ -3,9 +3,8 @@ title: "174. MLOps (Machine Learning Operations)"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 174
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 코드, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 실행 환경, 운영 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 하나의 관리 체계로 묶어 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 개발·배포·재학습·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링을 반복 가능하게 만드는 운영 아키텍처다.

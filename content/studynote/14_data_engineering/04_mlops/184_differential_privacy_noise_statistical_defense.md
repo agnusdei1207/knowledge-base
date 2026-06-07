@@ -3,8 +3,8 @@ title: "Differential Privacy Noise Statistical Defense"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [차분 프라이버시](/studynote/10_ai/05_data_science_ml/396_differential_privacy/) ([Differential Privacy](/studynote/09_security/16_data_privacy/817_differential_privacy/), DP)는 한 사람의 레코드가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에 있든 없든 결과 분포가 거의 달라지지 않게 만들어, 개인 기여를 통계적으로 숨기는 노이즈 기반 방어다.

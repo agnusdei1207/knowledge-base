@@ -3,8 +3,8 @@ title: "ITIL 4 Service Value System Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 4 SVS 운영가치체계 감리는 정보기술 인프라 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 4(Information Technology Infrastructure [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 4, [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 4)의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 체계([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Value System, SVS)에서 지배 원칙(Guiding Principles), [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Service Value Chain](/studynote/12_it_management/02_itsm_itil/070_service_value_chain/)), 지속적 개선(Continual Improvement)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

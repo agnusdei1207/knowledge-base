@@ -3,8 +3,8 @@ title: "Modern Standby, S0ix"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 726
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모던 스탠바이 (Modern Standby)는 Windows가 S0 Low [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 기반으로 제공하는 화면 꺼짐 전원 모델로, 전통적인 S3 절전과 달리 시스템이 논리적으로 S0 안에 머문다.

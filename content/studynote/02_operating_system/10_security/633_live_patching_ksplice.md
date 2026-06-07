@@ -3,8 +3,8 @@ title: "Ksplice"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 633
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [라이브 패칭](/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)([Live Patching](/studynote/02_operating_system/01_overview_architecture/068_live_patching/), 무정전 업데이트)은 서버의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에 치명적인 보안 취약점이 발견되었을 때, <strong>서버를 재부팅(Reboot)하지 않고 실행 중인 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 메모리 상의 코드를 실시간으로 교체</strong>하는 기술이다.

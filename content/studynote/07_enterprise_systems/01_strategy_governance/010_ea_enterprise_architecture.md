@@ -1,11 +1,11 @@
 ---
 title: "010. Ea Enterprise Architecture"
 date: "2026-03-04"
-description: "기업의 비즈니스, 데이터, 애플리케이션, 기술 인프라를 체계적으로 구조화한 청사진인 EA의 프레임워크(Zachman, TOGAF)와 실무 거버넌스"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 10
 ---
-
 # [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 전사적 아키텍처 ([EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), Enterprise [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))
 
 #### 핵심 인사이트 (3줄 요약)

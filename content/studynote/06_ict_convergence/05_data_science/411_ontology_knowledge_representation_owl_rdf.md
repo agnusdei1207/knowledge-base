@@ -3,8 +3,8 @@ title: "OWL, RDF"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 411
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지식 정보 시스템 온톨로지 (OWL, RDF 규격 표현): 1. **본질**: 온톨로지(Ontology)는 철학의 '존재론'에서 빌려온 개념으로, 세상의 모든 사물(개념)들이 서로 어떤 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)([속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))를 맺고 있는지를 컴퓨터가 이해할 수 있는 단어 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

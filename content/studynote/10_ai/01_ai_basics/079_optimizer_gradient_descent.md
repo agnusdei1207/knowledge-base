@@ -3,8 +3,8 @@ title: "Optimizer & Gradient Descent"
 date: "2026-05-05"
 tags:
   - "studynote-ai"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))은 딥러닝 모델이 정답과 오답의 차이([손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/), Loss)를 줄이기 위해, 현재 위치의 <strong>미분 값(기울기, Gradient)을 계산하여 경사가 깎이는 아랫방향으로 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)를 업데이트</strong>하는 수학적 탐색 네비게이션이다.
 > 2. **가치**: 수천만 개의 파라미터가 얽혀 있어 인간의 뇌로는 절대 풀 수 없는 복잡한 다차원 방정식의 최적 해(가장 오차가 적은 지점, Global Minimum)를, 단순히 맹인 모드로 발밑의 경사만 더듬어가며 기계적으로 찾아내는 극강의 쇳덩어리 최적화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

@@ -3,8 +3,8 @@ title: "474. Linux Io Schedulers"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 474
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리눅스 I/O [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 수십 개의 유저 앱들이 하드디스크나 SSD에 읽고 쓰겠다고 마구잡이로 던진 1차원적인 요청([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))들을 가로채, <strong>하드웨어의 물리적 한계(<a href="/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>)를 덮어주고 프로세스 간의 공평성을 보장하도록 순서와 타이밍을 재배치(Sorting &amp; Merging)하는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 내부의 관제탑</strong>이다.

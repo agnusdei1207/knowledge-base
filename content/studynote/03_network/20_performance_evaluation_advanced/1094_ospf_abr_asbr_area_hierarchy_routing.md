@@ -3,8 +3,8 @@ title: "1094. Ospf Abr Asbr Area Hierarchy Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1094
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

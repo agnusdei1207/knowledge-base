@@ -3,8 +3,8 @@ title: "565. In Memory Db Bgsave Cow Checkpoint"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 565
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인 메모리 DB 디스크 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 체크포인트 방식 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최소화 아키텍처는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 아키텍처이다.

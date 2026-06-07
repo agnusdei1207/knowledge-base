@@ -3,8 +3,8 @@ title: "045. Columnar Storage Format Parquet Orc"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. 컬럼형 저장 형식([Columnar Storage](/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/) Format)은 행(Row) 대신 열(Column) 단위로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장해 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 I/O를 극적으로 줄이는 빅데이터 핵심 기술 — 수백만 행에서 특정 열 5개만 조회할 때 행 기반은 전체 행을 읽지만, 컬럼형은 해당 열만 읽는다.
 > 2. Apache Parquet와 ORC(Optimized Row Columnar)는 현재 빅데이터 생태계의 양대 표준 — Parquet는 Spark·다중 언어 생태계에서 강점, ORC는 [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 최적화와 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 지원에서 강점이며, 두 형식 모두 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·술어 푸시다운(Predicate Pushdown)을 지원한다.

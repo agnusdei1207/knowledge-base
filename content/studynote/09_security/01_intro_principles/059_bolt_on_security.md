@@ -3,8 +3,8 @@ title: "059. Bolt On Security"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사후 보안(Bolt-on [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 시스템을 만든 뒤 외곽에 보안 장비와 솔루션을 덧붙여 막으려는 땜질식 접근이다.

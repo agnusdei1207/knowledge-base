@@ -3,8 +3,8 @@ title: "LOS, Line-of-Sight"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 162
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LOS (Line-of-Sight) 통신은 송신기와 수신기 사이에 직접 경로가 확보되어 고주파 전파가 큰 차폐 없이 전달되는 통신 조건이다.

@@ -3,9 +3,8 @@ title: "196. CISC (Complex Instruction Set Computer)"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 196
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CISC (Complex [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 하나의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 더 많은 일을 실어 보내어, 프로그래머와 메모리 사용량의 부담을 줄이려는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 설계 철학이다.

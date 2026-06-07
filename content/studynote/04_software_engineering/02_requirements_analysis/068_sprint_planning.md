@@ -1,10 +1,11 @@
 ---
 title: "Sprint Planning"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 회의는 이번 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에서 무엇을 만들고 어떻게 할지 합의하는 킥오프다.

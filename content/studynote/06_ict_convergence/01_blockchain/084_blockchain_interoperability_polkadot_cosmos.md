@@ -1,10 +1,11 @@
 ---
 title: "084. Blockchain Interoperability Polkadot Cosmos"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [상호운용성](/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)은 서로 다른 체인이 자산·상태·메시지를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 방식으로 주고받는 능력이다.

@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 7
 ---
-
 # 07. [기저대역](/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) 전송 ([Baseband](/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) / 대역통과 전송 (Broadband)
 
 ## 핵심 인사이트 (3줄 요약)

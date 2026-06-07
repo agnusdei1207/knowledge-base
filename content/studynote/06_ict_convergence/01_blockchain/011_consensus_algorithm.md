@@ -1,11 +1,11 @@
 ---
 title: "011. Consensus Algorithm"
 date: "2024-05-18"
-description: "분산 노드 간 상태 일치 달성 매커니즘"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
+weight: 11
 ---
-
 # 합의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Consensus [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
 #### 핵심 인사이트 (3줄 요약)

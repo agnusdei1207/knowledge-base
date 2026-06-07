@@ -3,8 +3,8 @@ title: "721. Package C States"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 721
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패키지 C-State는 개별 코어가 아니라 CPU (Central Processing Unit) 패키지 전체가 유휴 상태일 때, 코어 바깥의 언코어(Uncore) 영역까지 함께 절전시키는 칩 단위 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태다.

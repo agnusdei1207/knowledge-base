@@ -3,8 +3,8 @@ title: "Aggregate Root"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에그리게이트 루트 ([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) Root)는 DDD의 전술적 패턴으로, 관련 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체들의 클러스터(에그리게이트)를 대표하는 단일 진입점 엔티티이며, 에그리게이트 내부 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장하고 외부로부터 내부 객체에 대한 직접 접근을 차단하는 '[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 경계'를 형성한다.

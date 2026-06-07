@@ -3,8 +3,8 @@ title: "460. Quic Packet Loss Recovery Unique Packet Number"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 460
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패킷 손실 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 개선은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

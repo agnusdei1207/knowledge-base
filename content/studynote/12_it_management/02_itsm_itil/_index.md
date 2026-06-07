@@ -2,9 +2,9 @@
 title: "ITSM & ITIL"
 tags:
   - "it_management"
+  - "studynote-it-management"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 서비스 관리 (ITSM)는 고객의 요구에 부합하는 IT 서비스를 설계, 구축, 운영 및 개선하는 일련의 활동이며, ITIL v4는 이를 위한 '서비스 가치 체계 (SVS)' 중심의 글로벌 베스트 프랙티스이다.

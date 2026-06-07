@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지지도 (Support)는 거래 집합에서 항목집합이 얼마나 자주 등장하는지를 나타내는 빈도 지표다.

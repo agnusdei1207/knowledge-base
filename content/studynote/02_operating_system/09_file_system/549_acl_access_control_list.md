@@ -3,8 +3,8 @@ title: "549. Acl Access Control List"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 549
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 rwx 권한 체계가 세상 사람을 딱 3단계(나, 내그룹, 남들)로만 나누는 편협한 틀이었다면, <strong>ACL(<a href="/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/">접근 제어 목록</a>)</strong> 은 그 제한을 박살 내고 <strong>"존에게는 읽기! 마이크에게는 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 금지! A팀에게는 실행만! 이라는 특정 유저/그룹 100만 명의 지명 수배지를 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 뒤꼬리에 주렁주렁 무한대로 매달아 핀셋(<a href="/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-grained</a>) 제어 렌더!"</strong> 를 실현한 아키텍처다.

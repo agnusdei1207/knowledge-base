@@ -3,8 +3,8 @@ title: "085. Watermark"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 워터마크(Watermark)는 스트리밍 시스템에서 "이벤트 시간 T의 워터마크 = T인 이벤트는 이제 모두 도착했다고 가정한다"는 의미의 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 표시기([Progress](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) Indicator)로, `Watermark = max_event_time - allowed_lateness`로 계산되며 이 값을 초과하면 윈도우가 닫힌다.

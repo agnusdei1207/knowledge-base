@@ -3,8 +3,8 @@ title: "792. Api Gateway Authentication Routing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 792
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 병목 관리망은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

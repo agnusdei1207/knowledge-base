@@ -3,8 +3,8 @@ title: "Adapter vs Facade"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))는 맞지 않는 인터페이스를 연결하는 변환 패턴이고, [퍼사드](/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) ([Facade](/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))는 복잡한 서브시스템을 단순한 진입점으로 감싸는 단순화 패턴이다.

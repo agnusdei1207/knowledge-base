@@ -3,8 +3,8 @@ title: "ADAM Optimizer Adaptive Learning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 438
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 관성 적응 속도 ([ADAM Optimizer](/studynote/14_data_engineering/03_ml_dl_llm/132_adam_optimizer/) [Adaptive Learning](/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/)): 1. **본질**: [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)([Adaptive Moment Estimation](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))은 딥러닝이 산을 내려갈 때, "과거에 달리던 관성(방향)은 그대로 살리고, 발밑이 험한지 평탄한지를 스캔해서…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

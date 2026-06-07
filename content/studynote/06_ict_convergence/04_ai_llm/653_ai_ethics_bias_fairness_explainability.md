@@ -3,8 +3,8 @@ title: "AI Ethics Bias Fairness Explainability"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 653
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AI 윤리·편향·공정성·설명가능성(Explainable AI, XAI)은 데이터 수집->학습->배포의 MLOps 전 사이클에 **Bias Detection(예: AIF360, Fairlearn)**, **Fairness Constraint Optimization(예: Equalized Odds Post-processing, Reweighing)**, **Interpretability Layer(예: SHAP, LIME, Integrated Gradients, Grad-CAM, Attention Rollout)**를 계층적으로 주입하여, 모델의 결정 근거를 **인과적(causal)·반사실적(counterfactual)** 수준에서 추적 가능하게 만드는 Responsible AI(책임 있는 AI) 엔지니어링 패러다임이다.

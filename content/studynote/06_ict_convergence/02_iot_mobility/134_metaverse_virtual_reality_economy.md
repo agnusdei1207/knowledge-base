@@ -3,8 +3,8 @@ title: "134. Metaverse Virtual Reality Economy"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)는 <strong>물리 세계와 병행하는 3D 가상 세계</strong>에서 아바타를 통해 사회·경제·문화 활동을 하는 플랫폼이며, 가상 현실 경제는 [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 내에서 <strong>디지털 자산(NFT·토큰)을 거래하는 경제 시스템</strong>이다.
 > 2. **가치**: 물리적 한계(공간·이동·비용) 없이 <strong>글로벌 협업·교육·엔터테인먼트·커머스</strong>가 가능하며, 크리에이터 이코노미가 [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)의 경제 동력이다.

@@ -3,8 +3,8 @@ title: "Concept Drift"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨셉 드리프트](/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ([Concept Drift](/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/))는 입력 분포의 흔들림이 아니라, 같은 입력 `X`가 어떤 정답 `Y`로 이어지는 의미 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 즉 `P(Y|X)` 자체가 시간에 따라 바뀌는 현상이다.

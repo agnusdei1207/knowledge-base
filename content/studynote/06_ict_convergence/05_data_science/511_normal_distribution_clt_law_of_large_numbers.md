@@ -3,8 +3,8 @@ title: "Normal Distribution CLT Law of Large Numbers"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 511
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [중심 극한 정리](/studynote/08_algorithm_stats/08_stats/139_clt/)([CLT](/studynote/08_algorithm_stats/08_stats/139_clt/), Central Limit Theorem)는 "모집단 분포가 무엇이든 표본 크기 n ≥ 30이면 표본 평균이 [정규 분포](/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)에 수렴한다"는 통계 추론의 이론적 토대다.

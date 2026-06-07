@@ -3,8 +3,8 @@ title: "Standard Vs Paging Swapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 337
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 표준 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)(Standard [Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/))은 100MB짜리 <strong>프로세스 전체</strong>를 통째로 디스크와 메모리 사이로 이동시키는 무식하고 고전적인 방식이며, [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)([Paging](/studynote/02_operating_system/04_synchronization/259_paging/) System [Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/))은 전체 중 당장 필요한 <strong>4KB 크기의 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 조각</strong>만 잘게 썰어서 이동시키는 현대적인 정밀 기법이다.

@@ -3,8 +3,8 @@ title: "Data Mapper Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mapper) 는 비즈니스 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체와 DB ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) [영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 레이어를 완전히 분리하여, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체는 DB 존재를 모르고 별도 Mapper 클래스가 두 세계를 연결한다.

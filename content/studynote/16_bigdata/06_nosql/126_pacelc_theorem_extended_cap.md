@@ -3,8 +3,8 @@ title: "PACELC Theorem"
 date: "2024-05-22"
 tags:
   - "studynote-bigdata"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **CAP의 한계 보완:** 네트워크 장애([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 시뿐만 아니라 정상(Else) 상황에서의 트레이드오프까지 정의한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 확장 이론임.
 - <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> vs <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>:</strong> 시스템이 정상 작동할 때도 "응답 속도(L)"를 중시할지, "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일치(C)"를 중시할지를 추가적으로 선택해야 함을 강조함.

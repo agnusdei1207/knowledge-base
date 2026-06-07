@@ -3,8 +3,8 @@ title: "Database Users"
 date: "2026-04-29"
 tags:
   - "studynote-database"
+weight: 28
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 사용자는 DB와 상호작용하는 방식에 따라 최종 사용자(Naive/Sophisticated/[Standalone](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)), 응용 프로그래머(Application Programmer), [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)([Database Administrator](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 > 2. **가치**: 사용자 유형에 따라 접근 방식·권한·인터페이스가 달라야 한다. 일반 사용자는 GUI 폼(Form)으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력하고, 응용 프로그래머는 API를 통해 접근하며, DBA는 직접 [DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/)/[DCL](/studynote/05_database/01_db_architecture_relational/022_dcl/) 명령을 실행한다. 이 차별화된 접근 제어가 DB 보안의 핵심이다.

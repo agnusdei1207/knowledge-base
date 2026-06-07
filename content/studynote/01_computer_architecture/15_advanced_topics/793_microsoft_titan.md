@@ -3,8 +3,8 @@ title: "Microsoft Titan Security Chip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 793
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Microsoft Titan은 Azure 서버에서 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 경로를 감시하고 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)·탐지·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 수행하도록 설계된 하드웨어 [루트 오브 트러스트](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) 계열 아키텍처다.

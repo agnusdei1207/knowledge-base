@@ -3,8 +3,8 @@ title: "116. Topic Modeling"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 토픽 모델링 (Topic Modeling)은 레이블 없는 대규모 문서 집합에서 숨겨진 주제 (Topic) 구조를 자동으로 발굴하는 비지도 NLP 기법으로, LDA (Latent Dirichlet Allocation)가 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델로 30년간 표준으로 자리잡아 왔다.
 > 2. **가치**: 수십만 건의 고객 리뷰, SNS 포스트, 뉴스 기사, 논문 초록에서 인간이 사전 정의 없이 주제 구조를 발견할 수 있어, 탐색적 분석과 트렌드 감지에 특히 강력하다.

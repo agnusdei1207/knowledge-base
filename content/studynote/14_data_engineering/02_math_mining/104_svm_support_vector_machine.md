@@ -3,8 +3,8 @@ title: "SVM, Support Vector Machine"
 date: "2024-05-22"
 tags:
   - "studynote-data-engineering"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서포트 벡터 머신 ([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 두 클래스 간의 거리가 최대가 되도록 결정 경계 (Hyperplane)를 찾는 기하학적 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알고리즘이다.

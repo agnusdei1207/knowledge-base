@@ -2,9 +2,9 @@
 title: "032. Hash Search"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 32
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))로 키를 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 변환하여 O(1) 평균 시간에 탐색·삽입·삭제를 수행하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

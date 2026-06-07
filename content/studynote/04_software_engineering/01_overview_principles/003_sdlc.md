@@ -1,11 +1,11 @@
 ---
 title: "SDLC, Software Development Life Cycle"
 date: "2024-05-20"
-description: "소프트웨어 생명주기(SDLC)의 각 단계별 핵심 목적, 데이터 흐름, 그리고 프로세스 관점의 공학적 모델링 분석"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 3
 ---
-
 # 소프트웨어 생명주기 ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어의 탄생(요구사항 수집)부터 폐기까지의 전 과정을 규격화하여, 예측 가능하고 통제 가능한 단계로 분할한 표준 프레임워크.

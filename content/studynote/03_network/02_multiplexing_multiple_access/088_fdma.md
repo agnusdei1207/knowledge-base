@@ -1,12 +1,11 @@
 ---
 title: "88. FDMA (Frequency Division Multiple Access)"
 date: "2026-03-30"
-description: "초기 무선 통신에서 대역폭을 쪼개어 채널을 할당하는 FDMA의 한계와 실무적 낭비 요인"
 tags:
   - "network"
+  - "studynote-network"
+weight: 88
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FDMA (Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 통신 시스템의 전체 주파수 대역을 좁은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 여러 채널로 쪼개어 다수의 사용자에게 고정 할당하는 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술이다.

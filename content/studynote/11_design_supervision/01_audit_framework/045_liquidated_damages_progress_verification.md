@@ -3,8 +3,8 @@ title: "Liquidated Damages Progress Verification"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
+weight: 45
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사업자 지체상금 분쟁 예방을 위한 진척도 및 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사유 증빙 점검은 기준, 증거, 조치의 연결을 관리하는 감리·통제 주제로서, [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 실행 결과 사이의 편차를 재현 가능한 형태로 드러내는 데 목적이 있다.

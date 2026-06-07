@@ -3,8 +3,8 @@ title: "Obfuscation & Reverse ering Defense"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 254
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소스코드 [난독화](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)([Obfuscation](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))는 [리버스 엔지니어링](/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/)([Reverse 엔진ering](/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))의 비용을 높이는 "시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Time-Cost) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"이지, 완전한 방어가 아니다.

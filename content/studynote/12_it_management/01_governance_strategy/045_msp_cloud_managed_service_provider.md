@@ -3,8 +3,8 @@ title: "045. Msp Cloud Managed Service Provider"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. MSP([Managed Service Provider](/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/))는 고객 IT 인프라·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 대신 관리·운영하는 아웃소싱 파트너 — 클라우드 시대의 MSP는 단순 인프라 관리를 넘어 클라우드 아키텍처 설계·최적화·보안·거버넌스까지 통합 제공하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 파트너로 진화했다.
 > 2. MSP의 핵심 가치는 규모의 경제와 전문성 — 중소기업이 확보하기 어려운 클라우드 보안·[FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 전문 인력을 MSP를 통해 구독형으로 활용하며, AWS/Azure/GCP 공식 파트너십([APM](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), Expert MSP 등)이 역량을 보증한다.

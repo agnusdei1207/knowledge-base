@@ -3,8 +3,8 @@ title: "Deny Circular Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 296
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 예방](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) 관점에서의 [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/) 부정 (Deny [Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 기법은 시스템 내의 모든 자원([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))에 고유한 일련번호(ID)를 부여하고 무조건 <strong>오름차순(Ascending order)</strong>으로만 자원을 요청하도록 애플리케이션에 룰을 강제하는 체계다([Lock Hierarchy](/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)).

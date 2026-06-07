@@ -3,8 +3,8 @@ title: "Digital Transformation"
 date: "2026-05-01"
 tags:
   - "studynote-it-management"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 전환은 기술 도입을 넘어 비즈니스 모델, 프로세스, 조직 문화를 함께 바꾸는 변화다.

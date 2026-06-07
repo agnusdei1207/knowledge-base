@@ -3,8 +3,8 @@ title: "576. Capability List"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 576
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Capability List는 접근 제어 행렬을 <strong>주체(프로세스/사용자) 기준</strong>으로 분할하여, 각 사용자가 "어떤 객체에 어떤 권한을 가지는지" 목록을 **프로세스의 메모리(PCB)에 티켓 형태로** 저장하는 방식이다.

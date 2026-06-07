@@ -3,8 +3,8 @@ title: "Vertical Fragmentation"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 269
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수직 분할 (Vertical [Fragmentation](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))은 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(열) 단위 분할, [프로젝트 연산](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) (PK 반드시 포함)에 초점을 맞춘 개념이다.

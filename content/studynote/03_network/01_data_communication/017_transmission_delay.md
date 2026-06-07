@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 17
 ---
-
 # 17. 전송 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Transmission Delay) - 패킷길이/[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)
 
 ## 핵심 인사이트 (3줄 요약)

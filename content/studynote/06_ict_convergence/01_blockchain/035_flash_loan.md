@@ -3,8 +3,8 @@ title: "Flash Loan"
 date: "2026-03-03"
 tags:
   - "studynote-ict-convergence"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. Flash Loan은 블록체인의 [원자성](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))을 이용해 담보 없이 대규모 자금을 빌리고, 하나의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 사용 후 즉시 상환하는 [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 혁신 금융 도구다.
 > 2. 상환 실패 시 전체 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(revert)되므로 대출자는 손실 위험이 없지만, 공격자는 이를 악용해 가격 조작, 재진입 공격(Reentrancy)에 활용한다.

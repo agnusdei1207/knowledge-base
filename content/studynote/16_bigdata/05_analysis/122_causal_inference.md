@@ -3,8 +3,8 @@ title: "122. Causal Inference"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인과 추론(Causal Inference)은 관찰 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 또는 실험 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 "X가 Y의 원인인가?" 즉 X를 변화시켰을 때 Y가 어떻게 달라지는가를 통계적으로 추정하는 방법론으로, 단순 상관관계(Correlation) 분석과 근본적으로 다르다.
 > 2. **가치**: 빅데이터 분석의 한계는 대부분 상관관계를 인과관계로 오해하는 것이다. "아이스크림 판매량 증가 -> 익사 사고 증가"는 상관관계지만 인과관계가 아니다(공통 원인: 더운 날씨). 인과 추론은 이 혼동변수(Confounder)를 제어하여 실제 인과효과를 추정한다.

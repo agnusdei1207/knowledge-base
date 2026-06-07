@@ -3,8 +3,8 @@ title: "104. Process Creation"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로세스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Creation)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 실행 중인 프로그램을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고 새로운 작업을 지시하는 메커니즘으로, 유닉스(Unix) 계열에서는 `fork()`와 `exec()` 시스템 콜의 조합으로 이루어진다.
 > 2. **가치**: 기존 프로세스(Parent)를 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 뼈대를 만들고(`fork`), 그 내부에 새로운 프로그램의 영혼을 덮어씌우는(`exec`) 분리된 접근법을 통해 프로세스 계층 구조를 직관적으로 관리하고 쉘([Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/))의 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 같은 유연한 동작을 가능하게 한다.

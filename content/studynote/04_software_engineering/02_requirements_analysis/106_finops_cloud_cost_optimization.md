@@ -1,10 +1,11 @@
 ---
 title: "106. Finops Cloud Cost Optimization"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) ([Cloud Financial Operations](/studynote/06_ict_convergence/03_cloud_infrastructure/210_finops_cloud_financial_operations_cost_optimization/))는 개발팀(Dev), 운영팀(Ops), 그리고 재무팀(Finance)이 하나의 팀이 되어, 클라우드 환경의 유연성을 훼손하지 않으면서도 지출의 비즈니스 가치를 극대화하는 재무 관리 문화이자 프레임워크다.
 > 2. **가치**: 클라우드의 '무한 자동 확장'이 가져오는 치명적인 요금 폭탄(Bill Shock) 리스크를 제어하고, 단순히 비용을 깎는 것이 아니라 "클라우드에 투입한 1달러당 얼마의 수익이 창출되는가"라는 단위 경제성 (Unit Economics) 달성을 목표로 한다.

@@ -2,9 +2,9 @@
 title: "Hybrid Multi-Cloud"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 424
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [하이브리드 멀티 클라우드 록인 회피](/studynote/15_devops_sre/05_devsecops/349_process/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [하이브리드 멀티 클라우드 록인 회피](/studynote/15_devops_sre/05_devsecops/349_process/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), Hybrid [Multi-Cloud](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/), 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

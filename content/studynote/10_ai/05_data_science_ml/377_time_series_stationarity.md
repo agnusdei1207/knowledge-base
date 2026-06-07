@@ -3,8 +3,8 @@ title: "Stationarity"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 377
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정상성 (Stationarity)은 시계열의 평균·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)·자기공분산이 시간에 따라 변하지 않는 성질로, [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) ([AutoRegressive Integrated Moving Average](/studynote/14_data_engineering/05_exam_keywords/229_time_series_arima_stationarity_collaborative_filtering/)) 등 고전 시계열 모델의 필수 전제 조건이다.

@@ -1,10 +1,11 @@
 ---
 title: "Product Owner, PO"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제품 책임자(Product Owner, PO)는 스크럼에서 제품 백로그와 우선순위를 책임지고 비즈니스 가치를 극대화하는 역할이다.

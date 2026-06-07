@@ -2,9 +2,9 @@
 title: "BizDevOps Squad Agile"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BizDevOps 스쿼드는 비즈니스, 개발, 운영 인력을 하나의 제품 단위로 묶어 <strong>아이디어에서 운영까지의 핸드오프를 줄이는 조직 구조</strong>다.

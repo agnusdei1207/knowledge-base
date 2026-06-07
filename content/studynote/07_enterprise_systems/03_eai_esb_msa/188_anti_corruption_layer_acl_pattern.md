@@ -2,9 +2,9 @@
 title: "188. Anti Corruption Layer Acl Pattern"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 부패 방지 계층 (Anti-Corruption Layer, [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))은 신규 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델과 레거시 모델 사이에 번역 계층을 두어, 오래된 시스템의 용어와 규칙이 새 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부로 스며드는 것을 차단하는 경계 패턴이다.

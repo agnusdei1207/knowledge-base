@@ -3,8 +3,8 @@ title: "Laplace Smoothing"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 350
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라플라스 스무딩(Laplace Smoothing, 라플라스 평활화)은 [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)([Naive Bayes](/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/)) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기에서 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 등장하지 않은 단어(미등장 어휘)로 인한 [조건부 확률](/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) P(w|c) = 0 문제를 가상 카운트 α를 추가해 해결하는 기법이다.

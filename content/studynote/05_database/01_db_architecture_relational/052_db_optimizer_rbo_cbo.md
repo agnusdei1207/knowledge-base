@@ -3,8 +3,8 @@ title: "052. Db Optimizer Rbo Cbo"
 date: "2026-05-01"
 tags:
   - "studynote-database"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) ([Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 SQL 문을 실제로 어떻게 실행할지 결정하는 DBMS의 의사결정 엔진이다.

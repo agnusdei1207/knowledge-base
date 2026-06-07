@@ -3,8 +3,8 @@ title: "152. Whetstone"
 date: "2026-05-03"
 tags:
   - "studynote-computer-architecture"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 웻스톤(Whetstone)은 단순 정수 덧셈을 벗어나, <strong>삼각함수, 지수 연산, <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 인덱싱 등 고난도 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a>(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">Floating Point</a>) 실수 연산</strong>을 컴퓨터가 초당 얼마나 폭발적으로 씹어 넘기는지를 측정하기 위해 1972년 발명된 역사상 최초의 합성 벤치마크(Synthetic [Benchmark](/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/))다.
 > 2. **가치**: 이 벤치마크는 당시 "CPU 클럭 속도"만으로 우열을 가리던 기만적인 시장에 철퇴를 내리며, 칩 내부에 박혀 있는 특수 수학 천재 부품인 <strong>'FPU(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 유닛)'의 실전 기하학/수치해석 연산 파워를 MWIPS라는 절대 지표로 정량화</strong>시킨 위대한 선구자다.

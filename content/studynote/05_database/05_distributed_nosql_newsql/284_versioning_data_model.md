@@ -3,8 +3,8 @@ title: "MapReduce"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 284
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) ([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))은 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)/Hadoop의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 프로그래밍 모델 (Map: 매핑/필터링, Reduce: 집계)에 초점을 맞춘 개념이다.

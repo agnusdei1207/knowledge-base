@@ -3,8 +3,8 @@ title: "VNF"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1092
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NFV](/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 기반 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([VNF](/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

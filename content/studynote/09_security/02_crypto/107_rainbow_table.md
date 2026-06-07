@@ -3,8 +3,8 @@ title: "107. Rainbow Table"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레인보우 테이블 (Rainbow Table)은 일방향 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)로 암호화된 비밀번호를 역산하기 위해, 가능한 모든 평문과 해시값의 쌍을 특수한 체인(Chain) 구조로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하여 미리 계산해 둔 거대한 오프라인 사전(Dictionary)이다.

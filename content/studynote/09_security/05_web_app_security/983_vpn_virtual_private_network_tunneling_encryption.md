@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "983. VPN (가상 사설망)"
 date: "2026-05-08"
-categories: "studynote-security"
+tags:
+  - "studynote-security"
+weight: 983
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VPN (가상 사설망)는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 보호 개념이다.

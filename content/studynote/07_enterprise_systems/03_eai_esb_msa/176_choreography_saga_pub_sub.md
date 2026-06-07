@@ -2,9 +2,9 @@
 title: "176. Choreography Saga Pub Sub"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [코레오그래피 사가](/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/) ([Choreography Saga](/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/))는 중앙 오케스트레이터 없이, 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [로컬 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)을 커밋한 뒤 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트를 발행하고 다음 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이를 구독해 흐름을 이어 가는 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 조정 방식이다.

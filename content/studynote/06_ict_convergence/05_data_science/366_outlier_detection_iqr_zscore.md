@@ -3,8 +3,8 @@ title: "Outlier"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 366
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 제거 (IQR 1.5 규칙, Z-score) ([Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)): 1. **본질**: [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))는 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 일반적인 패턴에서 극단적으로 혼자 뚝 떨어져 있는 튀는 값을 의미하며, 이를 통계적으로 색출하기 위해 표준편차를 쓰는 **Z-s…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "297. Deadlock Avoidance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 297
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 회피 ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Avoidance)는 자원을 아예 주지 않는 가혹한 '예방(Prevention)'과 터지고 나서 치우는 '[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))'의 타협점으로, 프로세스가 자원을 요청할 때마다 OS가 시뮬레이션을 돌려 향후 <strong>시스템이 파국(교착)으로 갈 위협이 없는 '<a href="/studynote/02_operating_system/05_deadlock/298_safe_state/">안전 상태</a>(<a href="/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a>)'일 때만 자원을 승인</strong>하는 동적 회피 모델이다.

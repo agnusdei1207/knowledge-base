@@ -3,8 +3,8 @@ title: "Best Matching 25"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 417
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BM25 (Best Matching 25)는 질의어 빈도, 문서 길이, 단어 희귀도를 함께 반영해 문서를 점수화하는 <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 정보 검색 랭킹 함수</strong>다.

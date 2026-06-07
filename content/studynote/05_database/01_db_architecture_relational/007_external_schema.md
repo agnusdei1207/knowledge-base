@@ -1,11 +1,11 @@
 ---
 title: "007. External Schema"
 date: "2024-05-20"
-description: "사용자 및 응용 프로그램 관점의 데이터베이스 논리적 구조와 논리적 데이터 독립성의 실무적 응용"
 tags:
   - "database"
+  - "studynote-database"
+weight: 7
 ---
-
 # 외부 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) (External [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/))
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 3단계 아키텍처(ANSI/SPARC) 중 최상위에 위치하며, 개별 사용자나 응용 프로그램이 바라보는 개인화된 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조(서브 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/))입니다.

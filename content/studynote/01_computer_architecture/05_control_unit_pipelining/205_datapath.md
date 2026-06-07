@@ -3,8 +3,8 @@ title: "Datapath"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스 (Datapath)는 CPU (Central Processing Unit) 내부에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고, 선택하고, 연산하고, 다시 저장하는 실제 하드웨어 경로의 집합이다.

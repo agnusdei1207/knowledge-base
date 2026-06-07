@@ -3,8 +3,8 @@ title: "423. Large Page Performance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 423
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대형 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Large [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) / Hugepage)는 1980년대부터 굳어진 '[가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 기본 단위는 4KB'라는 낡은 규격을 부수고, 최신 CPU 아키텍처의 지원을 받아 <strong>2MB, 심지어 1GB 단위의 통짜 거대 블록으로 메모리를 할당하고 매핑하는 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 극한의 튜닝 기술</strong>이다.

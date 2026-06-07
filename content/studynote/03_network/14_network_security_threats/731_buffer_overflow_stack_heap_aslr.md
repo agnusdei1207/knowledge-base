@@ -3,8 +3,8 @@ title: "731. Buffer Overflow Stack Heap Aslr"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 731
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

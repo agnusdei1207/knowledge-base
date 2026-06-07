@@ -3,8 +3,9 @@ title: "package.json, pom.xml"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 8
 ---
-
 # 종속성 격리
 
 #### 핵심 인사이트 (3줄 요약)

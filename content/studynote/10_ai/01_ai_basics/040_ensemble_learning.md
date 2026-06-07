@@ -3,8 +3,8 @@ title: "Ensemble Learning"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
+weight: 40
 ---
-
 > **핵심 인사이트**
 > 1. [앙상블 학습](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)([Ensemble Learning](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/))은 여러 약한 학습기(Weak Learner)를 결합하여 단일 강한 학습기보다 우수한 예측 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하는 기법으로, "다수결의 지혜"를 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 구현한 것이다.
 > 2. [Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)(Bootstrap Aggregating)은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 줄여 과적합을 방지하고([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/)), Boosting은 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 줄여 강한 예측기를 만들며(XGBoost), Stacking은 이질적 모델의 예측을 메타 학습기로 결합한다.

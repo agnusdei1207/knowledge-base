@@ -3,8 +3,8 @@ title: "Smart Mobility MaaS Integrated Transportation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 696
 ---
-
 # 📚 기술사 학습 노트: 696. 스마트 모빌리티 MaaS 통합 교통
 
 ---

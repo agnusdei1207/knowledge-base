@@ -3,8 +3,8 @@ title: "181. Data Link Layer Roles"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Layer)은 물리 계층 (Physical Layer)의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 흐름을 프레임 (Frame)이라는 의미 있는 단위로 묶어, 인접한 두 노드 사이의 링크 단위 전달 규칙을 만든다.

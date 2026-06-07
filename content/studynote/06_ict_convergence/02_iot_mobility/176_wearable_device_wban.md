@@ -3,8 +3,8 @@ title: "WBAN, Wireless Body Area Network"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 웨어러블 디바이스 (Wearable Device)와 [WBAN](/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) (Wireless Body Area Network)은 몸에 붙은 센서·액추에이터·[허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 하나의 초근거리 네트워크로 묶어, 인체 상태를 지속적으로 관찰하고 필요 시 즉시 반응하게 만드는 신체 중심 컴퓨팅 구조다.

@@ -3,8 +3,8 @@ title: "Mode Bit"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 12
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모드 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Mode [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))는 CPU (Central Processing Unit) 내부 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 특정 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로, 현재 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행 중인 주체가 사용자 애플리케이션인지 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)인지를 하드웨어 수준에서 판별하는 최소 단위의 상태 지표다.
 > 2. **가치**: 소프트웨어의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구분만으로는 불가능한 '특권 명령 실행 권한'을 물리적으로 제어함으로써, 시스템 자원에 대한 비정상적인 접근을 클럭 사이클 단위에서 즉각 차단하여 보안의 근간을 형성한다.

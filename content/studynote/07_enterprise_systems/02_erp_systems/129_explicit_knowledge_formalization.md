@@ -2,9 +2,9 @@
 title: "Explicit Knowledge"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 형식지 (Explicit Knowledge)는 문서, 규정, 설계서, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)처럼 언어·기호·모형으로 외부에 표현되어 저장·전달 가능한 지식이다.

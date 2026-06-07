@@ -3,8 +3,8 @@ title: "594. Aslr Address Space Layout Randomization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 594
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ASLR](/studynote/02_operating_system/06_memory_management/374_aslr/) (Address Space Layout Randomization)은 프로그램이 실행될 때마다 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)), 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/)([Shared Library](/studynote/02_operating_system/06_memory_management/333_shared_library/)), 그리고 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Executable)의 메모리 로드 주소를 무작위로 변경하는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 레벨의 보안 기술이다.

@@ -3,8 +3,8 @@ title: "Data Lineage"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 364
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 리니지](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) ([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기원, 이동 경로, 변환 이력 추적(규제 대응, [무결성](/studynote/09_security/01_intro_principles/003_integrity/))에 초점을 둔 분석 플랫폼 개념이다.

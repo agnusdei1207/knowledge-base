@@ -3,8 +3,8 @@ title: "416. Working Set Model"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 416
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [워킹 셋](/studynote/02_operating_system/04_synchronization/265_working_set/) 모델(Working-Set Model)은 지역성(Locality)의 법칙을 수학적으로 구체화하여, **프로세스가 최근 $\Delta$(델타, [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)) 시간 동안 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 고유한 집합([Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/))을 실시간으로 추적하는 메모리 관리 기법**이다.

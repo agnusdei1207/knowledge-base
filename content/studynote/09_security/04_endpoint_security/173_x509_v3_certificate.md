@@ -3,8 +3,8 @@ title: "173. X509 V3 Certificate"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: X.509 v3 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 Subject, Issuer, 공개키, 유효기간, 확장 필드를 하나의 표준 구조로 묶고, 그 전체를 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관이 전자서명해 신뢰 가능한 신원 계약서로 만든다.

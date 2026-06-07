@@ -3,9 +3,8 @@ title: "419. GPGPU (General-Purpose GPU)"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 419
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GPGPU (General-Purpose [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 대량 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조를 그래픽 렌더링 밖의 일반 계산에 활용하는 범용 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 방식이다.

@@ -3,8 +3,8 @@ title: "Set-Reset Flip-Flop"
 date: "2026-05-01"
 tags:
   - "studynote-computer-architecture"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SR [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) (Set-Reset [Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))은 클럭 에지에서만 S(Set)와 R(Reset) 입력을 받아 1비트 상태를 저장하는 동기식 기억 소자다.

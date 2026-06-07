@@ -3,8 +3,8 @@ title: "Bounded Waiting"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뮤텍스(Mutex)는 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))을 단 하나의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 접근할 수 있도록 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 제공하는 소프트웨어 자물쇠([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 객체로, [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/)의 CPU 낭비 문제를 해결하기 위해 대기자를 **수면(Sleep)** 상태로 전환시키는 블로킹([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다.

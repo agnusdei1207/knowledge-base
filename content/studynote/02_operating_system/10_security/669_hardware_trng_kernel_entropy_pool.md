@@ -3,8 +3,8 @@ title: "669. Hardware Trng Kernel Entropy Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 669
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터(CPU)는 본질적으로 결정론적(Deterministic) 기계이므로 진짜 난수(Random Number)를 만들 수 없다. 이를 극복하기 위해 물리적 자연 현상(열잡음, 방사성 붕괴)에서 예측 불가능한 무작위성을 뽑아내는 하드웨어가 바로 <strong>TRNG (True Random Number Generator)</strong>다.

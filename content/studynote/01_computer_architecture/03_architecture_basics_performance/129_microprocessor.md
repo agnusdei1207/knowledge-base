@@ -3,8 +3,8 @@ title: "Microprocessor"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로프로세서 (Microprocessor)는 중앙처리장치 (Central Processing Unit, CPU)의 핵심 기능을 하나의 실리콘 칩에 집적한 범용 연산 장치다.

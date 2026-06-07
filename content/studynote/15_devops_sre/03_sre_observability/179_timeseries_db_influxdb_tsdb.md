@@ -3,8 +3,8 @@ title: "Time-Series Database"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시계열 데이터베이스](/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/)([Time-Series Database](/studynote/11_design_supervision/06_exam_summary/340_process/), TSDB)는 `메트릭 이름 + 태그/레이블 + 타임스탬프 + 값` 형태의 append 중심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 쓰고 범위 조회하도록 설계된 전용 저장 엔진이다.

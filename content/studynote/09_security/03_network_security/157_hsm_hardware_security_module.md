@@ -3,8 +3,8 @@ title: "157. Hsm Hardware Security Module"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 157
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [HSM](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) (Hardware [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))은 중요한 암호키를 장비 내부의 보안 경계 안에 저장하고, 서명·복호·키 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 같은 연산도 그 경계 안에서 수행하게 만드는 하드웨어 기반 신뢰 루트다.

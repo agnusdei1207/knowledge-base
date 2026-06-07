@@ -3,8 +3,8 @@ title: "084. Aes Spn Structure"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 SPN (Substitution-Permutation Network) 구조를 반복해 평문을 암호문으로 바꾸는 블록 암호다.

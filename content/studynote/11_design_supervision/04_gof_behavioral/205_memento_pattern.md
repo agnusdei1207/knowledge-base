@@ -3,8 +3,8 @@ title: "Memento Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Memento](/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) ([메멘토](/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/)) 패턴은 객체의 캡슐화(Encapsulation)를 훼손하지 않으면서, 특정 시점의 내부 상태([스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/))를 외부에 저장하고 필요 시 복원([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/))할 수 있게 한다.

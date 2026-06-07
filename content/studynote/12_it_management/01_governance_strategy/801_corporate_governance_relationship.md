@@ -3,8 +3,8 @@ title: "801. Corporate Governance Relationship"
 date: "2026-05-05"
 tags:
   - "studynote-it-management"
+weight: 801
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [기업 거버넌스](/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)([Corporate Governance](/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/))가 회사의 비전과 이익 창출을 위한 '비즈니스 방향타'라면, IT 거버넌스([IT Governance](/studynote/12_it_management/01_governance_strategy/001_it_governance/))는 그 비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 물리적으로 달성하기 위해 IT 자원과 투자를 통제하는 <strong>'종속적 하위 엔진'</strong>이다.
 > 2. **가치**: IT 부서가 비즈니스 목표와 무관하게 자기들끼리 최신 기술([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 장난감을 도입하며 예산을 낭비하는 섀도우 IT([Shadow IT](/studynote/12_it_management/01_governance_strategy/049_shadow_it/)) 현상을 박살 내고, IT 투자가 반드시 기업의 매출과 이익(Value Delivery)으로 돌아오도록 강제한다.

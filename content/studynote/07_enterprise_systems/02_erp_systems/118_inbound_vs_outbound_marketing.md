@@ -3,8 +3,8 @@ title: "118. Inbound Vs Outbound Marketing"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아웃바운드 마케팅은 기업이 고객에게 <strong>먼저 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지를 보내는(Push)</strong> 전통 방식(TV 광고·콜드콜·배너)이고, 인바운드 마케팅은 **고객이 자발적으로 찾아오게(Pull)** 만드는 콘텐츠 중심 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(블로그·SEO·웨비나)이다.
 > 2. **가치**: 아웃바운드는 리드 당 비용(CPL)이 높고 광고 차단(Ad Blocker)에 취약하지만, 인바운드는 <strong>콘텐츠 자산이 누적</strong>되어 시간이 갈수록 CPL이 낮아지는 복리 효과가 있다.

@@ -3,8 +3,8 @@ title: "O_SYNC / fsync"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 538
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 537장 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Delayed Write](/studynote/02_operating_system/11_exam_summary/757_delayed_write_write_behind/))의 치명적 독소인 '정전 시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공중 분해(Crash [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss 멸망)' 를 원천 봉쇄하기 위해 탄생한 무기다. 유저 앱(DB 등)이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 멱살을 잡고 **"뻥치지 말고(캐시에만 쓰지 말고), 당장 디스크 철판 바닥에 진짜로 낙인 구워 찍고 나서 나한테 결과 응답해 결착!!"** 이라고 강제 명령하는 거시적 [하드웨어 동기화](/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) 록백 빔이다.

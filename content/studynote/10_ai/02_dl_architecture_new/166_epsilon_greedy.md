@@ -3,8 +3,8 @@ title: "Epsilon-Greedy"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엡실론-그리디 (Epsilon-Greedy)는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 에이전트가 현재 최고라고 믿는 행동을 주로 선택하되, 일정 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) $\epsilon$만큼은 일부러 다른 행동을 시도하게 만드는 가장 기본적인 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

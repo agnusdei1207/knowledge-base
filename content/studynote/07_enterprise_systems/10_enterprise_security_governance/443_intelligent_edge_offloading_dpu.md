@@ -2,9 +2,9 @@
 title: "Data Processing Unit / Smart Network Interface Card"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 443
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 지능형 엣지 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) SmartNIC는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 지능형 엣지 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) [DPU SmartNIC](/studynote/12_it_management/05_security_compliance/360_dpu_smartnic/), [DPU SmartNIC](/studynote/12_it_management/05_security_compliance/360_dpu_smartnic/) 망, [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Processing Unit의 경계를 분명히 만드는 데 의미가 있다.

@@ -1,10 +1,11 @@
 ---
 title: "Affinity Diagram"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마인드 맵 (Mind Map)은 하나의 중심 주제에서 연관 아이디어를 방사형으로 확장하는 발산 도구이고, 친화도 ([Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) Diagram)는 흩어진 의견을 유사성에 따라 묶어 의미 있는 그룹으로 수렴시키는 정리 도구다.

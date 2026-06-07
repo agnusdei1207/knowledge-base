@@ -3,8 +3,8 @@ title: "714. Ping Of Death Fragmentation Buffer Overflow"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 714
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Ping of Death 대형 패킷 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

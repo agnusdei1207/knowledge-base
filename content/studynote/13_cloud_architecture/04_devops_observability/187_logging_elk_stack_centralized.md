@@ -3,8 +3,8 @@ title: "Logs, Centralized Logging"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))는 시스템과 애플리케이션에서 발생한 이벤트의 시간 순서 텍스트 기록으로, 장애 원인 분석(RCA)에 필수적인 상세 문맥을 제공하는 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)의 두 번째 기둥이다.
 > 2. **가치**: ELK [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) + Logstash + [Kibana](/studynote/16_bigdata/08_visualization/169_kibana/))은 수백 개의 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 중앙 수집·검색·[시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하여 "바늘 하나를 수십억 줄 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 더미에서 찾는" 능력을 제공한다.

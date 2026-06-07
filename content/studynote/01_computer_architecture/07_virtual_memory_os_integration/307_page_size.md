@@ -3,8 +3,8 @@ title: "307. Page Size"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
+weight: 307
 ---
-
 # 307. [페이지 크기](/studynote/02_operating_system/06_memory_management/352_page_size/) ([Page Size](/studynote/02_operating_system/06_memory_management/352_page_size/))의 트레이드오프
 
 ## 핵심 인사이트 (3줄 요약)

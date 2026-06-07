@@ -3,8 +3,8 @@ title: "OpenTelemetry, CNCF"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)([OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))는 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트레이스(MELT의 M·L·T) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·수집·전송하는 벤더 중립 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 컴퓨팅 재단) [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준으로, "한 번 계측하면 어떤 백엔드로도 전송 가능"한 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 인프라 표준이다.
 > 2. **가치**: [벤더 종속](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([Vendor Lock-in](/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))을 방지하여 Datadog에서 [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)/Jaeger로 또는 그 반대로 언제든 백엔드를 교체할 수 있으며, 자동 계측으로 코드 수정 없이 대부분의 프레임워크에 트레이스·[메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 즉시 추가할 수 있다.

@@ -3,8 +3,8 @@ title: "Circular Economy Resource Recycling Digital"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 769
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자원 단위(셀, 모듈, 부품, 원소)에 GS1 GTIN·EPC·DID 기반 **고유 디지털 ID**를 부여하고, IoT 센서(RFID·NIR·XRF), **EPCIS 2.0 이벤트 체인**, **Hyperledger Fabric/IOTA Tangle**, 디지털 트윈, AI 기반 MFA(Material Flow Analysis)를 결합하여 자원 흐름을 **변조 불가능(Immutable)** 하게 추적·검증하는 통합 시스템.

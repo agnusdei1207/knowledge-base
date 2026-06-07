@@ -3,8 +3,8 @@ title: "210. Heuristics Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 휴리스틱(Heuristics) 스케줄링은 수학적 증명이나 절대적 규칙에 의존하는 대신, <strong>"과거에 이렇게 행동했으니 미래에도 이럴 것이다"라는 경험적 짐작(Rule of Thumb)</strong>을 바탕으로 프로세스의 성격(I/O 바운드 vs CPU 바운드)을 실시간으로 때려잡아 우선순위를 부여하는 기법이다.

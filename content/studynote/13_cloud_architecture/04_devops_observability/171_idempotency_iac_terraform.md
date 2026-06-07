@@ -3,8 +3,8 @@ title: "Idempotency in IaC"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멱등성 ([Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))은 [Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ([IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))를 몇 번 실행했는지가 아니라, 원하는 인프라 상태가 항상 같은 모습으로 수렴하는 성질이다.

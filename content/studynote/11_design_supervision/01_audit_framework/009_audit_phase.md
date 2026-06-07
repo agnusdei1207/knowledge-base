@@ -1,11 +1,11 @@
 ---
 title: "009. Audit Phase"
 date: "2026-04-05"
-description: "요구정의, 설계, 종료의 3단계로 구성된 정보시스템 감리 단계의 체계와 실무 적용"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 9
 ---
-
 # 09. 감리 단계
 
 #### 핵심 인사이트 (3줄 요약)

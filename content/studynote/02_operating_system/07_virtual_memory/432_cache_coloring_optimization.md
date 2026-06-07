@@ -3,8 +3,8 @@ title: "432. Cache Coloring Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 432
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [캐시 컬러링](/studynote/02_operating_system/06_memory_management/379_cache_coloring/)(Cache/[Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring) 최적화는 4KB 크기의 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 물리 프레임에 매핑할 때, <strong>하드웨어 L2/L3 캐시의 특정 '방(Set <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)'에만 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 비정상적으로 몰려 튕겨나가는 충돌(Conflict Miss)을 막기 위해, OS가 빈 프레임을 "색깔(캐시 <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>)" 별로 골고루 섞어 배급하는 심화 매핑 기법</strong>이다.

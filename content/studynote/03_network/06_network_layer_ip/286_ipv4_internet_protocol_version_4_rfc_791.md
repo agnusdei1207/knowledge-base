@@ -3,9 +3,8 @@ title: "286. IPv4 (Internet Protocol Version 4)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 286
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IPv4 (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Version 4)는 1981년 제정된 이래 전 세계 컴퓨터들을 하나의 거대한 네트워크로 묶어낸 <strong>인터넷의 사실상 유일무이한 공용어이자 3계층(네트워크 계층)의 절대적인 코어 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다.

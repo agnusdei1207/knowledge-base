@@ -2,9 +2,9 @@
 title: "n"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 처음부터 끝까지 순차적으로 비교하는 가장 단순한 탐색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 정렬 여부에 상관없이 동작한다.

@@ -3,8 +3,8 @@ title: "420. Memory Mapped Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 420
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 맵 I/O(MMIO)는 CPU가 그래픽 카드([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))나 랜카드([NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 같은 외부 하드웨어 장치와 대화할 때 귀찮은 전용 I/O [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쓰지 않고, <strong>하드웨어 기기의 제어 레지스터를 일반적인 램(RAM)의 <a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 공간 일부에 덮어씌워 맵핑(<a href="/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)하는 하드웨어-소프트웨어 융합 기법</strong>이다.

@@ -3,8 +3,8 @@ title: "359. Data Fabric"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 359
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) 플랫폼 ([가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 연계망)는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

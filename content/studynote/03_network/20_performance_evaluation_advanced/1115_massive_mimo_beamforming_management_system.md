@@ -3,8 +3,8 @@ title: "1115. Massive Mimo Beamforming Management System"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "645. Refactoring Code Smell"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 645
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 악취([Code Smell](/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/)) 제거은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

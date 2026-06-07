@@ -3,8 +3,8 @@ title: "Memory Pooling"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 442
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메모리 풀](/studynote/02_operating_system/06_memory_management/369_memory_pool/)링 (Memory [Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 서버나 가속기 카드마다 묶여 있던 메모리 자원을 분리해, 필요 시 여러 연산 노드가 공유 가능한 공용 [메모리 풀](/studynote/02_operating_system/06_memory_management/369_memory_pool/)로 재구성하는 아키텍처다.

@@ -3,8 +3,8 @@ title: "Exception Handling Info Leak Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 253
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 예외 처리(Exception Handling) 미흡으로 인한 정보 노출은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace), DB 오류 메시지, 서버 경로 등이 공격자에게 직접 노출되는 심각한 취약점이다.

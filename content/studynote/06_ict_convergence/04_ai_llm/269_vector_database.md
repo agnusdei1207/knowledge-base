@@ -3,8 +3,8 @@ title: "AI"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 269
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RLAIF ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 피드백 기반 강화학습): 인간 라벨러 대신 GPT-4 등 고성능 AI가 답변 품질 랭킹 채점을 대행 (헌법적 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) / [Constitutional AI](/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/) - Anthropic 제안)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

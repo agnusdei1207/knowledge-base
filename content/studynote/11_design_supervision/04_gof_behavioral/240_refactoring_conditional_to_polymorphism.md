@@ -3,8 +3,8 @@ title: "Replace Conditional with Polymorphism"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 타입에 따라 분기하는 if-else / [switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 조건문 블록을 [상태 패턴](/studynote/11_design_supervision/06_exam_summary/394_process/) ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 이나 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy Pattern](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 같은 다형성 (Polymorphism) 기반 클래스 계층으로 대체하여 [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open/Closed Principle: 개방/폐쇄 원칙) 를 실현한다.

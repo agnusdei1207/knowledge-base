@@ -2,9 +2,9 @@
 title: "MDM"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 268
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 기준 정보 관리는 엔터프라이즈 환경에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능한 자산으로 전환하기 위해 쓰이는 핵심 기준이며, 특히 기준 정보 관리, [MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/), Master [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Management의 경계를 분명히 만드는 데 의미가 있다.

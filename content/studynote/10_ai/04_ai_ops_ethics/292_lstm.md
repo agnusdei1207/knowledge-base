@@ -3,9 +3,8 @@ title: "292. LSTM (Long Short-Term Memory)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 292
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LSTM (Long Short-Term Memory, 장단기 기억 네트워크)은 RNN의 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제를 해결하기 위해 <strong>셀 상태 (Cell <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>, C_t)</strong>라는 별도의 정보 고속도로를 도입하고, 3가지 게이트로 정보를 선택적으로 기억·망각·출력하는 신경망이다.

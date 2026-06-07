@@ -3,8 +3,8 @@ title: "Intel CET"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 540
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/) 하드웨어 방어는 메모리 오염이 발생해도 리턴 주소와 간접 분기 목적지가 임의 값으로 바뀌지 못하도록 CPU (Central Processing Unit)가 실행 흐름을 직접 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기술이다.

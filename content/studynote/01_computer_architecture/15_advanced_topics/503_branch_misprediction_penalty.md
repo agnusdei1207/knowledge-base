@@ -3,8 +3,8 @@ title: "Branch Misprediction Penalty"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 503
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 (Branch Predictor)가 잘못 고른 경로 때문에 CPU가 틀린 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 한동안 투기 실행 (Speculative Execution)한 뒤, 그 결과를 모두 버리고 올바른 경로로 되돌아오는 데 잃는 사이클 수다.

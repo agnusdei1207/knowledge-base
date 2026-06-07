@@ -3,8 +3,8 @@ title: "Instruction Prefetch Buffer"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 571
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 프리패치 버퍼 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Prefetch Buffer)는 fetch 단계가 미리 가져온 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 또는 번들을 잠시 저장해, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 공급 속도와 decode 소비 속도를 분리하는 front-end 완충층이다.

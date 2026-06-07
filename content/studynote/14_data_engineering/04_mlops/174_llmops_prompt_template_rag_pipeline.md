@@ -3,8 +3,8 @@ title: "174. Llmops Prompt Template Rag Pipeline"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLMOps](/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Operations)의 핵심은 모델 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 운영하는 것이 아니라, <strong>프롬프트·외부 지식·<a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>·평가 체계</strong>를 각각 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하고 연결하는 것이다.

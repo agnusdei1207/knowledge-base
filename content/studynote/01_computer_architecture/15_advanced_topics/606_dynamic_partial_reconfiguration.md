@@ -3,8 +3,8 @@ title: "Dynamic Reconfiguration"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 606
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FPGA 동적 재구성은 동작 중인 칩 전체를 멈추지 않고 필요한 하드웨어 영역만 갈아끼우는 기술이며, 실무에서는 보통 정적 영역을 유지한 채 일부 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 교체하는 동적 부분 재구성 (Dynamic Partial Reconfiguration, DPR) 형태로 구현된다.

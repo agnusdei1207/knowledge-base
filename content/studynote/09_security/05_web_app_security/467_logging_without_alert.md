@@ -3,9 +3,8 @@ title: "467. Logging Without Alert (Logging Without Alert)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 467
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Logging](/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) Without Alert는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

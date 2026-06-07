@@ -3,8 +3,8 @@ title: "Abstract Factory Derivation"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [추상 팩토리](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) ([Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/))는 연관된 객체들을 제품군 (Product Family) 단위로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 책임을 묶어, 클라이언트가 구체 클래스에 의존하지 않게 만드는 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이다.

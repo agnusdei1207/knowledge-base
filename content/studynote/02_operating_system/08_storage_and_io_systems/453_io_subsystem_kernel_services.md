@@ -3,8 +3,8 @@ title: "I/O Subsystem Kernel Services"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 453
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: I/O 서브시스템은 키보드부터 하드디스크, 100Gbps 랜카드까지 속도와 성격이 천차만별인 <strong>수만 가지 야생의 하드웨어 장치들을, <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(OS)가 규격화하고 통제하기 위해 구축한 거대한 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 내부의 중간 관리(Middleware) 계층</strong>이다.

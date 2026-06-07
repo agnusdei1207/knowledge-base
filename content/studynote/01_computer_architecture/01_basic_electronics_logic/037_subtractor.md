@@ -3,8 +3,8 @@ title: "037. Subtractor"
 date: "2026-03-03"
 tags:
   - "studynote-computer-architecture"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. 감산기(Subtractor)는 두 이진수를 빼는 회로로, 반감산기(Half Subtractor)는 Borrow 입력 없이, 전감산기(Full Subtractor)는 이전 단계 Borrow를 포함해 3비트를 처리한다.
 > 2. 디지털 시스템에서는 감산기를 독립 회로로 구현하지 않고 2의 보수(Two's Complement) 방식을 통해 가산기로 뺄셈을 처리한다 — A - B = A + (-B) = A + (~B + 1).

@@ -1,12 +1,11 @@
 ---
 title: "94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G"
 date: "2026-03-31"
-description: "4G LTE와 5G 시스템의 핵심 다중 접속 기술인 OFDMA의 구조, 직교 부반송파 할당 원리 및 기존 기술과의 비교 분석"
 tags:
   - "network"
+  - "studynote-network"
+weight: 94
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 전체 주파수 대역을 서로 수학적으로 직교(Orthogonal)하는 수백~수천 개의 좁은 [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)([Subcarrier](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/))로 쪼갠 뒤, 시간과 주파수 단위의 2차원 블록으로 다수 사용자에게 동적 할당하는 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식이다.
 > 2. **가치**: [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/) 덕분에 [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) 간의 간섭(ICI)이 없고 [보호 대역](/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/)([Guard Band](/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))이 불필요하여 주파수 효율이 극대화되며, [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 시대의 고질적 한계였던 [셀 호흡](/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) 현상과 근거리-원거리 문제를 구조적으로 회피했다.

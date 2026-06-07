@@ -3,8 +3,8 @@ title: "Machine Check Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 717
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 MCA (Machine Check [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 CPU와 메모리 컨트롤러가 감지한 메모리 하드웨어 오류를 <strong>주소·심각도·<a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능성</strong>이 담긴 구조화된 사건으로 보고하는 [RAS](/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) ([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/), [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), Serviceability) 아키텍처다.

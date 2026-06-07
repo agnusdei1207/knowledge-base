@@ -3,8 +3,8 @@ title: "094. Ingress Kubernetes L7 Routing Gateway"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인그레스 (Ingress)는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 외부의 트래픽을 내부의 여러 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분배해주는 거대한 L7 (Application Layer) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙의 집합소다.

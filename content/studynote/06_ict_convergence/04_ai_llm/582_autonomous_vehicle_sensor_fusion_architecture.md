@@ -3,8 +3,8 @@ title: "Autonomous Vehicle Sensor Fusion Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 582
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자율주행 센서퓨전 아키텍처은(는) 카메라, 라이다, 레이더, GPS, IMU 데이터를 시간·공간적으로 정합해 주변 환경과 차량 상태를 인지하는 구조이다.

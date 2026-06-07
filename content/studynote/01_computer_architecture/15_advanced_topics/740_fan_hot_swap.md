@@ -3,8 +3,8 @@ title: "740. Fan Hot Swap"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 740
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서버 섀시 팬 핫스왑은 시스템 전원을 끄지 않고 fan module을 교체할 수 있게 만든 고가용성 정비 구조로, 냉각도 전원·디스크처럼 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가능한 부품으로 다룬다.

@@ -3,8 +3,8 @@ title: "Concurrent Execution Problems Overview"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 병행 수행 시 문제점 ([격리성](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 위배 시)은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

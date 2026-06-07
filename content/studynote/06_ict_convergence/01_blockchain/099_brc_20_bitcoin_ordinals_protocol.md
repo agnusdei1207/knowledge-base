@@ -1,10 +1,11 @@
 ---
 title: "Ordinals"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BRC-20은 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 기능이 없는 비트코인 네트워크에서, 오디널스 (Ordinals) 프로토콜을 활용해 1 사토시 (Satoshi)에 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 텍스트를 기록하는 방식으로 토큰을 발행하고 전송하는 실험적 표준이다.

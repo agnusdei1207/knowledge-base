@@ -3,9 +3,8 @@ title: "757. LTE-A (LTE-Advanced)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 757
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-A는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

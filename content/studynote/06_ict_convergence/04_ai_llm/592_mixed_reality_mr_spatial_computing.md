@@ -3,8 +3,8 @@ title: "Mixed Reality MR Spatial Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 592
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 혼합현실 MR 공간 컴퓨팅은(는) 현실 공간을 인식하고 가상 객체가 물리 환경과 상호작용하도록 만드는 공간 기반 인터페이스 기술이다.

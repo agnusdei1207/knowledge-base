@@ -3,8 +3,8 @@ title: "321. Programming Paradigms"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 321
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로그래밍 패러다임 - 절차적, 객체지향, 함수형, 논리형은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

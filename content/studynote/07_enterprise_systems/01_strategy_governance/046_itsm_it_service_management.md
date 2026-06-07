@@ -3,8 +3,8 @@ title: "046. Itsm It Service Management"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)([IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/))은 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 관점에서 설계·제공·개선하는 통합 접근법 — 기술 운영(Technology Operations)이 아닌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 창출에 초점을 맞추며, ITIL이 사실상 표준 프레임워크를 제공한다.
 > 2. ITSM의 핵심 KPI는 [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)·[MTBF](/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)·[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 준수율·FCR — 이 지표들이 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 정량화하며, 개선 목표와 투자 우선순위 결정의 기준이 된다.

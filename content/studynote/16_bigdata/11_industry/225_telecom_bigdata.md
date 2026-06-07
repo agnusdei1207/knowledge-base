@@ -3,8 +3,8 @@ title: "225. Telecom Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 통신사는 하루 10억 건 이상의 CDR ([Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Detail Records, 통화상세기록)을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 네트워크 장애 예측·고객 이탈 방지·위치 분석의 핵심 원료다.

@@ -1,10 +1,11 @@
 ---
 title: "024. Selection Sort"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 24
 ---
-
 # 16. 선택 정렬 ([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Sort)
 
 ## 핵심 인사이트 (3줄 요약)

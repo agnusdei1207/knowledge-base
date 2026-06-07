@@ -1,10 +1,11 @@
 ---
 title: "n^1.5"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 29
 ---
-
 # 18. 셸 정렬 ([Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/) Sort)
 
 ## 핵심 인사이트 (3줄 요약)

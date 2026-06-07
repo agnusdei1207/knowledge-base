@@ -3,9 +3,8 @@ title: "163. RUM (Real User Monitoring)"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 163
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RUM (Real User Monitoring, 실제 사용자 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링)은 실제 사용자의 브라우저나 모바일 앱에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 오류, 상호작용 지표를 수집해 사용자가 체감한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 직접 측정하는 관측성 기법이다.

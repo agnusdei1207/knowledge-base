@@ -3,8 +3,8 @@ title: "Multiply-Accumulate"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 428
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (Multiply-Accumulate) 연산은 `A × B + C`를 한 흐름으로 처리해, 행렬 곱과 내적에서 반복되는 핵심 계산을 하드웨어 친화적으로 압축한 연산 단위다.

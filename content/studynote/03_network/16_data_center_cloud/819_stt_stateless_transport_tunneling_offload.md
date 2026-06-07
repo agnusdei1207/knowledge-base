@@ -3,8 +3,8 @@ title: "819. Stt Stateless Transport Tunneling Offload"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 819
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: STT [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

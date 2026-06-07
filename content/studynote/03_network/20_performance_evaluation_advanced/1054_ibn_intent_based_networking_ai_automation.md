@@ -3,8 +3,8 @@ title: "1054. Ibn Intent Based Networking Ai Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1054
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IBN](/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

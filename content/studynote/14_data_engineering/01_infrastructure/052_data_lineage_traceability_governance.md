@@ -3,8 +3,8 @@ title: "Data Lineage"
 date: "2026-05-01"
 tags:
   - "studynote-data-engineering"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 리니지](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) ([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 왔고, 어떤 변환을 거쳐 어디로 갔는지 추적하는 족보 지도다.

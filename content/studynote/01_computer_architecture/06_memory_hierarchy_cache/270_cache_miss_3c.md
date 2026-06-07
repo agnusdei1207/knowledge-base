@@ -3,8 +3,8 @@ title: "3C: Compulsory, Capacity, Conflict"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 270
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 3C (Compulsory, Capacity, Conflict)는 캐시 미스 (Cache Miss)를 "처음이라서", "작아서", "겹쳐서"라는 세 가지 구조적 원인으로 분해하는 분석 틀이다.

@@ -3,8 +3,8 @@ title: "160. Non Clustered Index Secondary"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 넌클러스터드 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Non-[Clustered Index](/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/))는 테이블 본문을 다시 정렬하지 않고, <strong>별도의 B+트리 (B+Tree)에 검색 키와 행 위치 정보만 정리해 둔 보조 접근 경로</strong>다.

@@ -3,9 +3,8 @@ title: "180. MLflow"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 180
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MLflow는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 실험의 파라미터, [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/), 실행 환경, 모델 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 한곳에서 추적하고 관리하는 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) 도구다.

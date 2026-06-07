@@ -3,8 +3,8 @@ title: "Key-Value Cache"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 291
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: KV 캐시 ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value Cache): [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 텍스트 추론 단계에서 매 토큰 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 과거 텍스트의 [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value 어텐션 행렬 연산을 다시 하지 않고 메모리에 캐싱해두어 텍스트 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도 가속화를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

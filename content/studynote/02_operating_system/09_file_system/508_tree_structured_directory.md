@@ -3,8 +3,8 @@ title: "508. Tree Structured Directory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 508
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존 1~2단계 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 "내 폴더 안에는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 들어올 수 있다"는 답답한 제약을 박살 내고, <strong>"내 폴더(부모) 안에 또 다른 폴더(자식)를 무한정 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>할 수 있다"</strong> 는 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)적(Recursive) 확장을 이루어낸 현대 Windows/[Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Linux [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 절대적 근간 구조체(Tree 뼈대)다.

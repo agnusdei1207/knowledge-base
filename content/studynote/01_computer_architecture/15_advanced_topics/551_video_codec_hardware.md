@@ -3,8 +3,8 @@ title: "H.265/AV1"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 551
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고효율 비디오 코딩 (H.265/HEVC, High Efficiency Video Coding)과 AOMedia Video 1 (AV1)용 하드웨어 가속기는 예측, 변환, [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 부호화를 전용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 처리해 실시간 인코딩·디코딩을 가능하게 하는 미디어 전용 블록이다.

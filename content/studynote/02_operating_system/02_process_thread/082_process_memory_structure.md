@@ -3,8 +3,8 @@ title: "082. Process Memory Structure"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로세스 메모리 구조는 실행 코드인 Text, 초기화된 전역 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인 [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 비초기화 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인 [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/), 동적 할당 공간인 [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/), 그리고 함수 컨텍스트를 위한 [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 세그먼트로 구성된 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 주소 공간이다.

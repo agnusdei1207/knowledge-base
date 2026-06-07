@@ -3,8 +3,8 @@ title: "SBT Soulbound Token Identity Credential"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 543
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SBT([Soulbound Token](/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/), 소울바운드 토큰)는 비탈릭 부테린이 2022년 제안한 <strong>양도·전송 불가(Non-Transferable) NFT</strong>로, 개인의 성취·자격·소속을 온체인에 영구 기록하는 신원 증명 도구다.

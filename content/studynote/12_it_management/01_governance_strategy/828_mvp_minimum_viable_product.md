@@ -3,8 +3,8 @@ title: "Minimum Viable Product,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 828
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MVP의 핵심은 [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/studynote/12_it_management/01_governance_strategy/036_mvp/), [최소 존립 제품](/studynote/04_software_engineering/02_requirements_analysis/090_mvp_minimum_viable_product/))라는 점에 있다. 이를 현장 의사결정에 연결하는 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 구조로 이해하면 된다.

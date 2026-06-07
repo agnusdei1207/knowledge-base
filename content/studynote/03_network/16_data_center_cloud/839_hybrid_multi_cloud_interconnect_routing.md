@@ -3,8 +3,8 @@ title: "839. Hybrid Multi Cloud Interconnect Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 839
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이브리드 / [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

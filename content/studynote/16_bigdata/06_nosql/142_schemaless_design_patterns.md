@@ -3,8 +3,8 @@ title: "142. Schemaless Design Patterns"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)리스(Schemaless)는 "[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 없음"이 아니라 "[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 애플리케이션 코드에 있음"으로, [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링의 책임이 DB에서 애플리케이션으로 이동한 것이다.
 - **가치**: [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)(비정규화)과 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))의 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 조합으로 특정 접근 패턴에 최적화된 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 구성하면, RDBMS [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 비용 없이 단일 조회로 필요한 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져올 수 있다.

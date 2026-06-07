@@ -3,8 +3,8 @@ title: "909. Privacy Compliance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 909
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법 및 [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) 컴플라이언스 대응 SW 기능은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "470. Sstf Disk Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 470
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SSTF(Shortest [Seek Time](/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) First) [디스크 스케줄링](/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)은 큐에 쌓인 수많은 I/O 요청 중에서, <strong>"현재 디스크 헤드(바늘) 위치로부터 가장 가까운(이동 거리가 가장 짧은) 트랙의 요청부터 우선적으로 쓱싹 처리"</strong>하는 극단적 근거리 우대 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

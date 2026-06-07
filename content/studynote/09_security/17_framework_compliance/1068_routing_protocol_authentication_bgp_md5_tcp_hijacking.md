@@ -3,8 +3,8 @@ title: "Routing Protocol Authentication Bgp MD5 Tcp Hijacking"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1068
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/) [Bgp](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [MD5](/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) [Tcp](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Hijacking)는 보안 확장 개념에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

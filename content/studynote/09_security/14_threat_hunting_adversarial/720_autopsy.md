@@ -3,9 +3,8 @@ title: "720. Autopsy (Autopsy)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 720
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Autopsy는 [위협 헌팅](/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

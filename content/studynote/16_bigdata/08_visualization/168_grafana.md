@@ -3,8 +3,8 @@ title: "168. Grafana"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Grafana는 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))·추적(Traces)의 3대 관측성([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 기둥을 단일 UI에서 통합 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 플랫폼으로, LGTM [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Loki+Grafana+Tempo+Mimir)을 통해 완전한 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 관측성 환경을 구성할 수 있다.

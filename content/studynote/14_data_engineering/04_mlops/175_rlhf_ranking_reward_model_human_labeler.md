@@ -3,8 +3,8 @@ title: "175. Rlhf Ranking Reward Model Human Labeler"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback ([RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))는 인간 라벨러의 상대적 선호를 보상 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 바꿔, 언어모델이 "자연스러운 문장"을 넘어 "사람이 더 낫다고 느끼는 답"을 학습하게 만드는 정렬 기법이다.

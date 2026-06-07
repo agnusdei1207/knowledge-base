@@ -3,8 +3,8 @@ title: "Disaster Recovery + Chaos ering"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) (Disaster [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 훈련과 [카오스 엔지니어링](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 융합은 문서로만 존재하던 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 계획된 장애 실험으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해, 실제 위기에서 작동하는 운영 역량으로 바꾸는 방법이다.

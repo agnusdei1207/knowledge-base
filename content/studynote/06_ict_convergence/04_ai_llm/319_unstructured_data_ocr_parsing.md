@@ -3,8 +3,8 @@ title: "ETL"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 319
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 내 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) OCR 및 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 문서 파싱 파이프라인 ([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)): 1. **본질**: 기업의 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))에서, 표나 텍스트가 제멋대로 흩어진 PDF, 스캔 본 이미지 등 '[비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)'를 AI가 읽을 수 있는 정형화된 JSON이나 마크다…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

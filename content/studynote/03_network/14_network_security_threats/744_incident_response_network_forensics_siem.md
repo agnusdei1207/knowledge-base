@@ -3,8 +3,8 @@ title: "744. Incident Response Network Forensics Siem"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 744
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 침해 [사고 대응](/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

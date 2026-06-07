@@ -3,8 +3,8 @@ title: "Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 회복 ([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 장애 발생 전 일관된 상태로 DB 복원 ([원자성](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 보장 기법)에 초점을 맞춘 개념이다.

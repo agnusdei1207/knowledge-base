@@ -3,8 +3,8 @@ title: "157. Oom Killer"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OOM (Out Of Memory) Killer는 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 메모리 회수와 스왑 (Swap)까지 모두 실패했을 때, 시스템 전체 정지를 막기 위해 일부 프로세스를 강제로 종료하는 최후의 안전장치다.

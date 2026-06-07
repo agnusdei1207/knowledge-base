@@ -3,8 +3,8 @@ title: "On-Device AI SLM Edge Inference"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 472
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온디바이스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([On-Device AI](/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/))는 클라우드 없이 스마트폰·[PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)·[IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스에서 직접 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 실행하며, [SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/)([Small Language Model](/studynote/10_ai/04_ai_ops_ethics/313_slm/), 소형 언어 모델)과 모델 경량화 기술이 이를 가능하게 한다.

@@ -1,10 +1,11 @@
 ---
 title: "083. Relationship In Er Model"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: ER (Entity-Relationship) 모델의 관계(Relationship)는 개체 사이의 의미 있는 연결이며, 단순 선이 아니라 업무 규칙이다.

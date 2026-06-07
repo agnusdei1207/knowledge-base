@@ -3,8 +3,8 @@ title: "186. Dns Bgp"
 date: "2026-04-28"
 tags:
   - "studynote-devops-sre"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 캐시 중독과 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) 하이재킹 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링망은 이름 해석 경로와 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로가 동시에 오염될 수 있다는 전제 아래, <strong>응답 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>·경로 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>을 함께 감시하는 관측 체계다.

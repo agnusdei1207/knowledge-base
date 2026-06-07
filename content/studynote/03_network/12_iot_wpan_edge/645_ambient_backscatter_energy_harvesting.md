@@ -3,8 +3,8 @@ title: "Ambient Backscatter ,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 645
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소형 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

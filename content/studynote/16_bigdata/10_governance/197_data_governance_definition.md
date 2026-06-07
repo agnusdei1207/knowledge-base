@@ -3,8 +3,8 @@ title: "197. Data Governance Definition"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)([Data Governance](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산의 소유·관리·사용에 관한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 표준, 역할, 프로세스, 도구의 체계로, "누가 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 어떤 목적으로 사용하는가"를 결정하는 프레임워크다.

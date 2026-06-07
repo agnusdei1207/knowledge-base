@@ -3,8 +3,8 @@ title: "640. Aiot Ai And Iot Edge Cloud Latency"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 640
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AIoT 모델 및 클라우드 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

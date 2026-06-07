@@ -1,11 +1,11 @@
 ---
 title: "019. Public Blockchain"
 date: "2026-03-04"
-description: "중앙 통제 기관 없이 누구나 자유롭게 네트워크에 참여하고 트랜잭션을 검증할 수 있는 무허가형(Permissionless) 개방형 분산 원장 기술"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
+weight: 19
 ---
-
 # 19. 퍼블릭 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Public [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))
 
 #### 핵심 인사이트 (3줄 요약)

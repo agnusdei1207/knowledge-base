@@ -3,8 +3,8 @@ title: "AMAT"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 265
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 평균 메모리 접근 시간 (Average Memory Access Time, AMAT)은 빠른 적중 경로와 느린 미스 경로를 함께 평균내어, 캐시 계층이 실제 체감 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 얼마나 줄였는지 보여 주는 대표 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)식이다.

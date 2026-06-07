@@ -3,8 +3,8 @@ title: "Change Data Capture"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 341
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체를 다시 복사하지 않고, [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 기록된 변경분만 순서대로 읽어 다른 시스템으로 전달하는 실시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다.

@@ -3,8 +3,8 @@ title: "Audit Framework 3.0 Agile Transition"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 287
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [감리 프레임워크](/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) 3.0 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 [감리 프레임워크](/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) 3.0의 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 전환 설계에서 반복 점검(Iterative [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)), 백로그 증적(Backlog Evidence), 경량 거버넌스(Lightweight Governance)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -2,9 +2,9 @@
 title: "039. Topological Sort"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 39
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 위상 정렬 (Topological Sort)은 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))의 모든 간선 u->v에 대해 u가 v보다 앞에 오도록 정점을 순서화하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

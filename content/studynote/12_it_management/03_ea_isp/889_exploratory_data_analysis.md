@@ -2,9 +2,9 @@
 title: "889. Exploratory Data Analysis"
 date: "2026-04-05"
 tags:
-  - "studynote-bigdata"
+  - "studynote-it-management"
+weight: 889
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 1. **본질**: [탐색적 데이터 분석](/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/) ([EDA](/studynote/12_it_management/02_itsm_itil/064_eda/), Exploratory [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis)은 본격적인 가설 검정이나 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적용에 앞서, 통계 수치와 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 구조와 결측치, 패턴을 직관적으로 관찰하는 첫 단추다.

@@ -3,8 +3,8 @@ title: "654. Preempt Rt Linux Spinlock Mutex"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 654
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일반 리눅스(GPOS)는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 코드가 실행 중일 때(특히 Spinlock을 쥐고 있을 때) 다른 높은 우선순위의 작업이 이를 빼앗지 못하게 막아(Preemption Disable), 수십 밀리초(ms)의 치명적인 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유발한다.

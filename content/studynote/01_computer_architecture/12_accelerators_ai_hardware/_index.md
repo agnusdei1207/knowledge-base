@@ -2,9 +2,9 @@
 title: "Accelerators & AI Hardware"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 12
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AI 하드웨어 가속기는 딥러닝의 핵심 연산인 대규모 행렬 곱셈 (Matrix Multiplication)과 누적 (Accumulation)을 범용 CPU보다 수백 배 빠르게 처리하기 위해 최적화된 도메인 특화 아키텍처 (DSA)이다.

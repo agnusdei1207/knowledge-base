@@ -1,10 +1,11 @@
 ---
 title: "057. Shared Pool Oracle Sga"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공유 풀(Shared Pool)은 [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) SGA (System Global Area) 안에서 SQL 문장과 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 재사용하도록 돕는 메모리 영역이다.

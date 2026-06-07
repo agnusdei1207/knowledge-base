@@ -3,8 +3,8 @@ title: "701. Nvme Reservation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 701
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 서브시스템은 여러 컨트롤러와 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 하나의 저장 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 묶는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 경계다.

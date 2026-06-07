@@ -3,8 +3,8 @@ title: "RAID 6 Dual Parity"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 488
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 앞선 [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 [분산 패리티](/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/)(Distributed Parity) 시스템 아키텍처를 기반으로 확장하되, 잃어버린 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유추하는 패리티 방정식(수식값)을 P [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단일 구조가 아닌, <strong>P와 Q 두 가지 종류의 독립된 완전히 다른 수학적 이중 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 계산해 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장하는 Dual-Parity 스토리지 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 결합 체계다.</strong>

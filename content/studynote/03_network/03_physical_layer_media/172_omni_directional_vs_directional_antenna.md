@@ -1,10 +1,11 @@
 ---
 title: "Directional Antenna"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무지향성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Omni-Directional [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))는 넓은 방향으로 전파를 퍼뜨리고, 지향성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Directional [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))는 특정 방향에 전파를 집중해 방사 패턴 (Radiation Pattern)을 다르게 설계하는 방식이다.

@@ -3,8 +3,8 @@ title: "Digital Platform Government GovTech e-Gov"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 695
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 플랫폼 정부는 GovTech(Goverment Technology)와 전자정부(e-Government)가 결합된 패러다임으로, 클라우드 네이티브 MSA(Microservices Architecture) 기반의 정부공공데이터 공유플랫폼(공공데이터포털 data.go.kr), 디지털 트윈, 블록체인 기반 문서 신뢰성 확보, MyData 방식의 개인 정보주도 데이터 활용, 그리고 AI 기반 지능형 민원처리(智能政務)를 통해 "정부의 모든 서비스를 데이터·API·플랫폼 단위로 모듈화"하는 것이 핵심이다.

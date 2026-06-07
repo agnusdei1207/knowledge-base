@@ -3,8 +3,8 @@ title: "Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 259
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페이징 (Paging)은 프로세스가 사용하는 논리적 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 물리적 RAM 공간을 <strong>모두 동일한 크기(보통 4KB)의 고정된 블록(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> / Frame)으로 잘게 썰어서 1:1로 매핑</strong>시키는 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 절대적인 메모리 관리 기법이다.

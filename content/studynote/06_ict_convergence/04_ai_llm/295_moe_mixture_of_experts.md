@@ -3,8 +3,8 @@ title: "Mixture of Experts /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MoE 아키텍처 (Mixture of Experts / [전문가 혼합 모델](/studynote/06_ict_convergence/04_ai_llm/535_moe_mixture_of_experts/)): 거대 신경망 내에 특정 분야별 소규모 전문가(Expert) 네트워크 여러 개를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 배치. [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 게이트 네트워크가 입력 질문에 따라 가장 적합한 전문가 1~2개만 활성화하여 연산 (파라…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Data Privacy De-identification Consent"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 678
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비식별화는 가명처리(Pseudonymization, GDPR Art.4(5))·익명처리(Anonymization)·총계처리(Aggregation)를 통해 재식별 위험성(Re-identification Risk)을 통제하면서 데이터 가용성을 확보하는 기술이며, 동의 관리는 데이터 주체의 명시적·묵시적·철회 가능한 허가를 기반으로 처리 시점·목적·범위·기간을 통제하는 거버넌스 메커니즘(CMP/Consent Lifecycle Management)이다.

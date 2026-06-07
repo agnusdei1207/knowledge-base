@@ -3,8 +3,8 @@ title: "Advisory Lock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 568
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 567장의 '[파일 잠금](/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/)' 은 엄청난 맹점을 안고 있었다. 리눅스의 기본 자물쇠(Advisory [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 는 <strong>"자물쇠 걸려있는지 검사하는 착한 앱" 들에게만 효과가 있을 뿐, 악성 해커 앱이 검사를 쌩까고(Bypass) 냅다 I/O <code>write()</code> 를 갈겨버리면 그냥 문이 부서지며 뚫려버리는 솜사탕 방검복</strong> 이다.

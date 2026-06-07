@@ -3,8 +3,8 @@ title: "198. X86 Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: x86 아키텍처는 8086에서 시작해 IA-32 (Intel [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) 32-bit), x86-64 (AMD64, AMD 64-bit [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))로 확장된 <strong>가변 길이 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/">CISC</a> (Complex <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Set Computer) <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 집합 구조 (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a>, <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">Instruction Set Architecture</a>)</strong>다.

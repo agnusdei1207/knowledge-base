@@ -3,8 +3,8 @@ title: "Checkpoint / Checkpointing"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 검사점 (Checkpoint / [Checkpointing](/studynote/16_bigdata/03_spark/071_checkpointing/)) [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법은 주기적으로 메모리 버퍼를 디스크에 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Flush)하여 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([Redo](/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) 대상) 단축에 초점을 맞춘 개념이다.

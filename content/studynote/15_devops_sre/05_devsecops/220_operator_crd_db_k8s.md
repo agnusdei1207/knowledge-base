@@ -3,8 +3,8 @@ title: "220. Operator Crd Db K8S"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 운영 지식을 CRD와 컨트롤러 로직으로 캡슐화하는 확장 패턴.

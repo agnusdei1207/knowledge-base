@@ -3,8 +3,8 @@ title: "364. Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 364
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 세그멘테이션(Segmentation)은 프로그램을 기계가 편한 4KB의 고정 크기([페이징](/studynote/02_operating_system/04_synchronization/259_paging/))로 무식하게 자르지 않고, <strong>코드(<a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>), <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>), 힙(<a href="/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>), <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>(<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>), 함수 등 '인간이 이해할 수 있는 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 의미 단위(가변 크기)'로 예쁘게 잘라서 메모리에 비연속적으로 흩뿌리는 기법</strong>이다.

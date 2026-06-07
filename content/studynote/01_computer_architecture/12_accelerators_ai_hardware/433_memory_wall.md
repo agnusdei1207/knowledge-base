@@ -3,8 +3,8 @@ title: "Memory Wall"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 433
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 월 (Memory Wall)은 프로세서의 연산 속도보다 메모리 접근 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증가가 훨씬 느려서, 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 계산기가 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 속도에 묶이는 현상이다.

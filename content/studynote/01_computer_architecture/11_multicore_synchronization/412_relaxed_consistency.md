@@ -3,8 +3,8 @@ title: "Relaxed Consistency"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 412
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 완화된 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Relaxed [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 모든 메모리 접근을 프로그램 순서대로 보이게 강제하지 않고, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 일부 읽기·[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서 재배치를 허용하는 메모리 모델이다.

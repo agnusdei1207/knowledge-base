@@ -3,8 +3,8 @@ title: "Fault Injection Test"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 750
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 테스트 ([Fault Injection](/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/) Test)는 시스템이 정상일 때 일부러 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전, 링크 단절, 전원 강하, [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 같은 오류를 넣어 <strong>감지·격리·<a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 경로가 실제로 작동하는지 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하는 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 기법</strong>이다.

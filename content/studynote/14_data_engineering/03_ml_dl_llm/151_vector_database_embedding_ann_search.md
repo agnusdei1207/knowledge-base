@@ -3,8 +3,8 @@ title: "151. Vector Database Embedding Ann Search"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)(Vector DB)의 [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/)([Approximate Nearest Neighbor](/studynote/05_database/06_dw_olap_trends/351_hnsw/)) 검색은 수억 개의 고차원 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 텐서(숫자 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)) 점들 사이에서, <strong>100% 찐 정답(Exact)을 찾는 무식한 풀스캔 쇳덩이 연산을 버리고 -> 정확도를 1% 희생하는 대신 의미(Semantic)가 가장 근접한(Approximate) 문서 Top-3를 1,000배의 빛의 속도로 스캔 척살해 내는 검색 튜닝의 극한</strong>이다.
 > 2. **가치**: 글자 모양(키워드)이 달라도 "의미적 유사도([Cosine Similarity](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))"를 찰떡같이 잴 수 있게 해준다. 덕분에 LLM이 모르는 지식을 물었을 때, 사내 기밀문서를 0.1초 컷으로 의미 기반 매칭 핀셋 추출하여 프롬프트에 꽂아주는 <strong><a href="/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>(<a href="/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/">검색 증강 생성</a>) <a href="/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a> 방어 파이프라인의 핵심 심장 펌프</strong>로 우주 스케일 팽창했다.

@@ -3,8 +3,8 @@ title: "Spot Instance"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스팟 인스턴스 (Spot Instance): 클라우드 사업자의 남는 자원을 저렴하게 임대(갑자기 회수될 수 있음), [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/배치 처리와 결합하여 비용 최적화를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

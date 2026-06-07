@@ -2,9 +2,9 @@
 title: "Mutual Exclusivity"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 133
 ---
-
 ## 핵심 인사이트
 
 > 독립 (Independence) 과 상호 배타 (Mutual Exclusivity) 는 혼동하기 쉽지만 정반대 개념이다 — 상호 배타 사건은 하나가 일어나면 다른 하나의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 되므로 오히려 강하게 종속적이다.

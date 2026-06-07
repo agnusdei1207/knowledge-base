@@ -3,8 +3,8 @@ title: "DB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 370
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [접근 통제](/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) (DB [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))는 SQL [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/) 차단 및 IP/[포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)/접근시간 제어에 초점을 둔 보안 통제 개념이다.

@@ -3,8 +3,8 @@ title: "971. Lean Startup Mvp Pivot"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 971
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/) [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 사이클은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "109. Cac Customer Acquisition Cost"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CAC([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Acquisition](/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost)는 특정 기간 동안 투입한 <strong>총 마케팅·영업 비용을 해당 기간 신규 고객 수로 나눈 값</strong>으로, 고객 1명을 획득하는 데 드는 평균 비용이다.
 > 2. **가치**: [LTV](/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/)([고객 생애 가치](/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))와의 비율 `LTV > 3×CAC`가 <strong>벤처 투자·사업 존속 여부를 결정하는 절대 공식</strong>이며, 이 비율이 역전되면 매출이 늘수록 적자가 심화되는 구조적 함정에 빠진다.

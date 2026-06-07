@@ -3,8 +3,8 @@ title: "Minimax Loss"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 375
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) ([Generative Adversarial Network](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))의 [미니맥스](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) 목적 함수는 판별자(Discriminator) D가 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구별하려는 최대화 목표와, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자(Generator) G가 판별자를 속이려는 최소화 목표가 동시에 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 제로섬 게임([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Sum Game)이다.

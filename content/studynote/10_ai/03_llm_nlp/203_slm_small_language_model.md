@@ -3,8 +3,8 @@ title: "SLM, Small Language Model"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 슬림 언어 모델 ([SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/), [Small Language Model](/studynote/10_ai/04_ai_ops_ethics/313_slm/))은 수천억 개의 뇌세포(파라미터)를 가진 거대 공룡 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 덩치를 수십억 개(1B~8B) 수준으로 극단적으로 깎아내린 대신, 쓰레기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 버리고 '교과서 같은 초고품질 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'만 먹여 키운 <strong>작지만 무섭게 매운 천재 꼬마 <a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a></strong>다.

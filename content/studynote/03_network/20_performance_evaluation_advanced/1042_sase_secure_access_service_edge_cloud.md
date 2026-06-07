@@ -3,8 +3,8 @@ title: "1042. Sase Secure Access Service Edge Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1042
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SASE](/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

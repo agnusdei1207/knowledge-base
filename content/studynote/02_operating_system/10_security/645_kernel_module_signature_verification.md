@@ -3,8 +3,8 @@ title: "645. Kernel Module Signature Verification"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 645
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 서명([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Signature [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 새로운 장치 드라이버나 확장 기능([LKM](/studynote/02_operating_system/01_overview_architecture/067_lkm/): Loadable [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 메모리에 적재(`insmod`)할 때, <strong>해당 <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>이 신뢰할 수 있는 자(벤더나 관리자)에 의해 서명되었는지 암호학적으로 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 방어 체계다.

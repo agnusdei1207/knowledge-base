@@ -3,8 +3,8 @@ title: "146. Cocomo Types"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델 종류의 본질은 유기적 (Organic, 5만 라인 이하), 준분리형 (Semi-detached), 내장형 (Embedded, 30만 라인 이상 복잡)를 단계별 산출물과 품질 게이트로 관리하는 데 있다.
 > 2. **가치**: 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

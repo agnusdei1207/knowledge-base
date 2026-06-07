@@ -1,11 +1,11 @@
 ---
 title: "AWS Lambda"
 date: "2024-05-24"
-description: "인프라 프로비저닝 없이 코드 조각 단위로 실행되는 FaaS의 근본 원리, 아키텍처, 그리고 콜드 스타트 최적화 전략"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 6
 ---
-
 # 6. [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 및 [서버리스 아키텍처](/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)
 
 #### 핵심 인사이트 (3줄 요약)

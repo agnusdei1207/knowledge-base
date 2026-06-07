@@ -3,8 +3,8 @@ title: "Null Object Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Null Object (널 객체) 패턴은 `null` [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 대신 "아무 일도 하지 않는" 기본 객체(NoOp, No-Operation 객체)를 반환하여, 호출자가 `null` 체크를 하지 않아도 되게 만든다.

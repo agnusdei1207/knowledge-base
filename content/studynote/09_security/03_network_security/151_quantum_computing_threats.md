@@ -3,8 +3,8 @@ title: "151. Quantum Computing Threats"
 date: "2026-05-03"
 tags:
   - "studynote-security"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)([Quantum Computer](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))는 0과 1이 동시에 겹쳐있는 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)([Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))의 <strong>'중첩(<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">Superposition</a>)'</strong> 흑마법을 써서, 기존 펜티엄 컴퓨터가 1만 년 동안 하나씩 대입해 볼 거대한 우주 숫자의 소인수분해 자물쇠를 -> 단 한 턴(Turn)의 파동 간섭 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스캔만으로 0.1초 컷으로 관측해 무너뜨리는 4차원 파괴 연산 기계다.
 > 2. **가치/위협**: 피터 쇼어(Peter Shor)가 만든 <strong>쇼어 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이 이 양자 뇌에 올라타는 순간!! 현대 인터넷 뱅킹 신뢰의 100% 절대 척추인 <strong><a href="/studynote/09_security/03_network_security/110_rsa/">RSA</a>(소인수분해)</strong>와 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>(<a href="/studynote/09_security/03_network_security/120_elliptic_curve_equation/">타원곡선</a> 이산 대수)</strong>라는 2대 비대칭키 방패가 논리적으로 단 1초 만에 0%의 방어력으로 완전 사형 선고 붕괴(Break)하는 대재앙(Q-Day)이 확정된다 💥.

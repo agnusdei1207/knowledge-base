@@ -1,11 +1,11 @@
 ---
 title: "005. It Investment Metrics"
 date: "2026-03-04"
-description: "엔터프라이즈 IT 프로젝트의 타당성과 재무적 가치를 정량적으로 측정하는 4대 핵심 평가지표의 원리와 실무 적용"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 5
 ---
-
 # IT 투자 성과 평가 지표 ([ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), [NPV](/studynote/12_it_management/01_governance_strategy/013_npv/), [IRR](/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/), [PP](/studynote/12_it_management/01_governance_strategy/015_payback_period/))
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 막대한 비용이 소요되는 엔터프라이즈 IT 투자의 타당성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 한정된 예산 내에서 최적의 IT [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오를 구성하기 위해 재무적 가치를 계량화하는 핵심 지표들이다.

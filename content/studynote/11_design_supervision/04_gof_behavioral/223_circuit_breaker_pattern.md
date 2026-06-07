@@ -3,8 +3,8 @@ title: "Circuit Breaker Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) ([서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)) 패턴은 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(Microservice) 환경에서 하나의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 전체 시스템으로 전파되는 연쇄 장애(Cascading Failure)를 차단하기 위해, 전기 차단기처럼 장애 감지 시 호출을 즉시 차단하고 자가 치유(Self-Healing)를 시도하는 패턴이다.

@@ -1,11 +1,10 @@
 ---
-weight = 337
 title: "337. OOM 킬러 메모리 보호 리소스 제약 컨테이너 드롭 (OOM)"
 date: "2026-05-09"
-[extra]
-categories: "studynote-cloud-architecture"
+tags:
+  - "studynote-cloud-architecture"
+weight: 337
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OOM 킬러 메모리 보호 리소스 제약 컨테이너 드롭는 쿠버네티스(Kubernetes) 클러스터에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, 데이터 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 성능, 안정성, 협업 효율을 동시에 끌어올린다.

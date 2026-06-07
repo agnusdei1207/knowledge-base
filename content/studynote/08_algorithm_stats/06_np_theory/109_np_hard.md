@@ -3,8 +3,8 @@ title: "NP-Hard"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 109
 ---
-
 > **핵심 인사이트**
 > 1. NP-Hard(NP-어려움)는 모든 NP 문제보다 최소한 동등하게 어려운 문제 집합으로, NP-Complete는 반드시 NP에 속하지만 NP-Hard는 NP 밖(결정 문제가 아닌 최적화 문제 등)에도 존재할 수 있어 더 광범위한 개념이다.
 > 2. NP-Hard 문제는 "해 존재 여부 결정(Yes/No)"이 아닌 "최적값 찾기"인 최적화 문제가 많아 현실 세계 공학 문제([스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 경로 최적화, 자원 배분)의 상당수가 NP-Hard임을 의미한다.

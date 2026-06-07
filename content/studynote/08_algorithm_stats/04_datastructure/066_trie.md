@@ -2,9 +2,9 @@
 title: "B+Tree"
 date: "2026-03-05"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong>모든 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 리프 노드에만 저장</strong>하고, 리프 노드끼리 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 연결하여 **순차 검색(Full Scan)** [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한 B-트리의 변형 구조임.
 - 내부 노드(Internal Node)는 경로 안내를 위한 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 역할만 수행하여 더 많은 키를 저장할 수 있어 트리의 높이가 더욱 낮아짐.

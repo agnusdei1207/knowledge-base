@@ -3,8 +3,8 @@ title: "094. Batch Normalization Internal Covariate Shift"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/))는 딥러닝 층마다 널뛰는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포를 강제로 평균 0, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 1로 정돈하여 내부 공변량 이동 (Internal Covariate Shift)을 막는 밸브 역할이다.

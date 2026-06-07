@@ -3,8 +3,8 @@ title: "636. Multipath Io Kernel Module"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 636
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 경로 I/O ([Multipath](/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) I/O)는 서버와 스토리지 장비([SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)) 사이에 존재하는 여러 개의 물리적 연결 경로(Path)를 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 단일 가상 디바이스로 묶어, <strong>무중단 페일오버(<a href="/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/">Failover</a>)</strong>와 <strong>부하 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong>을 제공하는 고가용성 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 아키텍처다.

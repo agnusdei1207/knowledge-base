@@ -1,11 +1,11 @@
 ---
 title: "076. Synchronous TDM"
 date: "2026-03-30"
-description: "고정된 타임 슬롯을 할당하여 오버헤드 없이 실시간성을 보장하지만 대역폭 낭비가 발생하는 동기식 TDM의 아키텍처와 트레이드오프"
 tags:
   - "network"
+  - "studynote-network"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동기식 [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) TDM)는 모든 채널에 고정된 타임 슬롯(Time Slot)을 미리 배정하는 가장 단순한 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 방식이다.

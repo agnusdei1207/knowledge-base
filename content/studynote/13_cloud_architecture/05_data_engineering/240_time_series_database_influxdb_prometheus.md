@@ -3,8 +3,8 @@ title: "TSDB: InfluxDB, Prometheus"
 date: "2026-05-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [시계열 데이터베이스](/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/)(Time Series [Database](/studynote/05_database/04_transactions_concurrency/501_database/), TSDB)는 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 뼈대를 오직 <strong>'시간(Timestamp)'</strong>이라는 단일 축으로 고정시키고, 초당 수백만 건씩 쏟아지는 연속된 숫자([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쇳덩어리에 순차적으로 기록하는 데 미쳐있는 특수 목적 NoSQL이다.
 > 2. **가치**: 기존 관계형 DB(RDBMS)가 과거의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `UPDATE`하고 `DELETE`하는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)에 집착하여 서버가 뻗어버리는 반면, TSDB는 <strong>"과거의 시간은 바뀔 수 없다"</strong>는 철학 하에 오직 미친 듯한 속도로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끝에 가져다 붙이는(Append-only) 압도적인 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.

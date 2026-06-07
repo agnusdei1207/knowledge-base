@@ -3,8 +3,8 @@ title: "file object"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 518
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 통역기가 수많은 외계 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 번역할 수 있는 힘은, "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리" 라는 커다란 행위를 <strong>"우주 전체 정보(슈퍼블록)", "<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 본체 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(아이노드)", "<a href="/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 이름표(덴트리)", "프로세스가 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 여는 행위(<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 객체)" 라는 4개의 정밀한 객체(Object)</strong> 로 능지처참하여 각자 책임을 분업시킨 설계에 있다.

@@ -3,8 +3,8 @@ title: "645. Data Pipeline Acceleration"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 645
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 가속은 네트워크·메모리·스토리지 사이를 오가는 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 이동과 단순 변환을 **중앙처리장치 (Central Processing Unit, CPU)** 가 직접 만지지 않도록 분리하는 아키텍처다.

@@ -3,8 +3,8 @@ title: "Data Virtualization"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 가상화](/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) - [연방 쿼리](/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 협업 효율을 동시에 끌어올린다.

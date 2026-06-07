@@ -3,8 +3,8 @@ title: "Adversarial Examples and Differential Privacy Defense"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 538
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [적대적 예제](/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)([Adversarial Example](/studynote/09_security/19_ai_advanced_security/942_adversarial_example/))는 인간이 인지하지 못하는 미세한 입력 변조로 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 오분류시키며, [차분 프라이버시](/studynote/10_ai/05_data_science_ml/396_differential_privacy/)([Differential Privacy](/studynote/09_security/16_data_privacy/817_differential_privacy/), DP)는 ε-DP 정의로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)를 수학적으로 보장하는 별개이지만 상호보완적인 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안 기술이다.

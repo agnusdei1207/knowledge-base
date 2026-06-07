@@ -3,8 +3,8 @@ title: "LoRa"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) ([LoRa](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

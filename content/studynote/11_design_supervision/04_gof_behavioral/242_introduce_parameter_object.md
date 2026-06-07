@@ -3,8 +3,8 @@ title: "Introduce Parameter Object"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파라미터 객체화 (Introduce Parameter Object) 는 항상 함께 전달되는 매개변수 그룹을 하나의 객체로 묶어, 메서드 시그니처를 단순화하는 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 기법이다.

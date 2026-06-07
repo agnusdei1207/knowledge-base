@@ -3,8 +3,8 @@ title: "641. Data Lake Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 641
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))는 정형·반정형·비정형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원본에 가깝게 오래 보존하는 저장 계층이며, 핵심은 <strong>저비용 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장 + <a href="/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> + 컴퓨트 분리</strong>다.

@@ -3,8 +3,8 @@ title: "1089. Diffserv Dscp Classification Phb Qos"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1089
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DiffServ](/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

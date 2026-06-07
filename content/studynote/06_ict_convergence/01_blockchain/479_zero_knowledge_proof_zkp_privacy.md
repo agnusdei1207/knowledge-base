@@ -3,8 +3,8 @@ title: "ZKP Zero-Knowledge Proof Privacy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 479
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)([Zero-Knowledge Proof](/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/))는 비밀 정보를 공개하지 않고도 <strong>그 정보를 알고 있음을 수학적으로 증명</strong>하는 프로토콜로, 완전성·건전성·영지식성 세 가지 성질을 만족해야 한다.

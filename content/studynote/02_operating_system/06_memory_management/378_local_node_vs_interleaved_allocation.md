@@ -3,8 +3,8 @@ title: "Local Node Vs Interleaved Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 378
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 멀티코어 서버 환경에서 운영체제가 프로세스에게 물리 메모리(RAM)를 나누어 줄 때, <strong>무조건 내 CPU와 가장 가까운 램 한곳에 몰빵하는 '로컬 노드 할당(Local Node Allocation)'</strong>과 <strong>여러 노드의 램에 카드를 섞듯 번갈아 가며 뿌려주는 '인터리브 할당(Interleaved Allocation)'</strong>의 두 가지 상반된 철학적 선택지다.

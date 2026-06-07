@@ -2,9 +2,9 @@
 title: "Adelson-Velsky and Landis Tree"
 date: "2026-03-05"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 자가 균형 [이진 탐색 트리](/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)(Self-Balancing BST)의 일종으로, 모든 노드에서 왼쪽과 오른쪽 서브트리의 높이 차이(Balance Factor)를 1 이하로 유지한다.
 > 2. **균형 메커니즘**: 삽입/삭제 시 균형이 깨지면 4가지 회전(LL, [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), LR, RL Rotation)을 통해 즉각적으로 트리의 높이를 조정하여 O(log n)의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장한다.

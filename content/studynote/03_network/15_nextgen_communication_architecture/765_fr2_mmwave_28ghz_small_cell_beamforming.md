@@ -3,8 +3,8 @@ title: "mmWave 24Ghz~ ,"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 765
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FR2 주파수는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Augmented Reality AR Industrial Guide"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 590
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 증강현실 AR 산업 가이드은(는) 현실 화면 위에 작업 지시, 3D 모델, 센서 정보를 겹쳐 보여 현장 작업자의 인지와 의사결정을 보조하는 기술이다.

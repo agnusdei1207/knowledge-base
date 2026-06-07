@@ -3,8 +3,8 @@ title: "185. K Anonymity Masking Data Pipeline"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-익명성 (K-Anonymity)은 준식별자 (Quasi-Identifier) 조합이 최소 `k`개 레코드와 겹치도록 만들어, 이름을 지워도 남는 재식별 경로를 집단 안으로 숨기는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공개 모델이다.

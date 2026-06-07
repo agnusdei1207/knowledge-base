@@ -3,8 +3,8 @@ title: "Information Strategy Planning,"
 date: "2026-05-05"
 tags:
   - "studynote-it-management"
+weight: 802
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))는 기업의 비즈니스 목표(매출, 시장점유율)를 달성하기 위해, 수백억 원짜리 IT 시스템을 언제, 어떻게, 어떤 기술로 구축할 것인지 밑그림을 그리는 <strong>전사적 마스터플랜(최상위 아키텍처 청사진)</strong>이다.
 > 2. **가치**: 마케팅팀은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 재무팀은 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 영업팀은 CRM을 사달라고 떼쓸 때, 회사의 한정된 예산과 비즈니스 우선순위에 맞춰 중복 투자를 막고 '돈이 되는' IT 시스템부터 구축하도록 순서를 쇳덩어리처럼 강제하는 거버넌스의 시작점이다.

@@ -2,9 +2,9 @@
 title: "Time-Sensitive Networking"
 date: "2026-04-10"
 tags:
-  - "studynote-ict"
+  - "studynote-ict-convergence"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) (Time-Sensitive Networking)은 기존 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) ([Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에 정밀 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 트래픽 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 추가해, 중요한 프레임이 정해진 시간 안에 지나가도록 만드는 결정론적 통신 표준군이다.

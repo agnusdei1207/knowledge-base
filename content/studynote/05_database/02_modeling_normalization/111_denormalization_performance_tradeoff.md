@@ -3,8 +3,8 @@ title: "111. Denormalization Performance Tradeoff"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 역정규화(Denormalization)는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 분해한 테이블을 <strong>의도적으로 다시 합치거나 중복 컬럼을 추가</strong>하여, 조인([JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)) 횟수를 줄이고 <strong>읽기(<a href="/studynote/05_database/04_transactions_concurrency/520_select/">SELECT</a>) <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 극적으로 향상</strong>시키는 물리 설계 전략이다.
 > 2. **가치**: [3NF](/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)~[BCNF](/studynote/05_database/04_transactions_concurrency/529_bcnf/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 보장하지만, 수천만 건 테이블의 3~5중 조인은 DB CPU를 폭발시킨다. 역정규화는 **"정확성을 조금 양보하고 속도를 얻는"** 실무적 타협이다.

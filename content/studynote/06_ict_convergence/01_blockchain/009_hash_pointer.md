@@ -1,10 +1,11 @@
 ---
 title: "009. Hash Pointer"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 9
 ---
-
 # 09. 해시 포인터 (Hash Pointer)
 
 ## 핵심 인사이트 (3줄 요약)

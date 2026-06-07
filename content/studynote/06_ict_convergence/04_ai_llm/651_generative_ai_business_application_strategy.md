@@ -3,8 +3,8 @@ title: "Generative AI Business Application Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 651
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 생성형 AI 비즈니스 적용은 Foundation Model(LLM/LMM)을 기반으로 **RAG(Retrieval-Augmented Generation)**, **Fine-tuning(PEFT/LoRA)**, **Prompt Engineering**, **Agentic Orchestration(ReAct/Function Calling)**을 조합하여 도메인 특화 지식·업무 프로세스·멀티모달 데이터에 최적화된 워크플로우로 통합하는 엔터프라이즈 AI 엔지니어링 전략이다.

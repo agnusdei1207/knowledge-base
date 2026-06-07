@@ -1,11 +1,10 @@
 ---
-title: "334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego ConstraintTemplate Conftest Policy as Code)"
+title: "334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 334
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 보안·컴플라이언스 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사람이 읽는 문서가 아닌 코드로 정의하고 자동으로 강제하는 접근 방식이다. [OPA](/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) ([Open Policy Agent](/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/), 오픈 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 에이전트)는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 프로젝트로 Rego 언어로 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 작성하고 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 등 다양한 환경에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 평가한다.

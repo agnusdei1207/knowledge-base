@@ -3,8 +3,8 @@ title: "Policy Gradient"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 318
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사 ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Gradient)는 Q값을 통해 행동을 간접 유도하는 Q-러닝과 달리, <strong><a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>) π_θ(a|s)를 파라미터 θ로 직접 표현하고 기대 보상의 그래디언트로 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 파라미터를 직접 최적화</strong>하는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 방법론이다.

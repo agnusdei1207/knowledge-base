@@ -3,8 +3,8 @@ title: "112. Time Series Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 112
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [시계열 분석](/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/) (Time Series Analysis)은 시간 순서로 측정된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 추세 (Trend), 계절성 (Seasonality), 주기성 (Cyclicity), 잔차 (Residual) 네 가지 성분을 분리·모델링하여 미래 값을 예측하는 시간 의존적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기법이다.
 > 2. **가치**: 수요 예측, 주가 예측, 기온 예측, 서버 부하 예측 등 "과거 패턴이 미래에도 반복된다"는 가정이 성립하는 모든 영역에서 [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) ([AutoRegressive Integrated Moving Average](/studynote/14_data_engineering/05_exam_keywords/229_time_series_arima_stationarity_collaborative_filtering/))부터 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 모델까지 폭넓게 활용된다.

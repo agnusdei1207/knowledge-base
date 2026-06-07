@@ -3,8 +3,8 @@ title: "Feature Store"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피처 스토어](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)): 전처리된 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 셋을 팀 간 공유하고 서빙 레이어에 고속 공급하기 위한 중앙 저장소를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

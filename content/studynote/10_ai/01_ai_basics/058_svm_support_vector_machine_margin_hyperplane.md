@@ -3,8 +3,8 @@ title: "058. Svm Support Vector Machine Margin Hyperplane"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SVM은 두 클래스 사이를 나누는 초평면을 찾되, 마진을 최대화하는 선을 고르는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이다.

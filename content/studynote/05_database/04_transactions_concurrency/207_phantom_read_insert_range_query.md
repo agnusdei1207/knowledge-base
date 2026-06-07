@@ -3,8 +3,8 @@ title: "Phantom Read"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유령 읽기 (Phantom Read)은 이전 읽기에 없던 새로운 행(INSERT)이 반복 읽기 시 나타남에 초점을 맞춘 개념이다.

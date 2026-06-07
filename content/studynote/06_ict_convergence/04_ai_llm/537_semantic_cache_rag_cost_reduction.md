@@ -3,8 +3,8 @@ title: "Semantic Cache RAG Cost and Latency Reduction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 537
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시맨틱 캐시](/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)([Semantic Cache](/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/))는 질의를 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 벡터로 변환하여 의미적 유사도 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 이상의 이전 질의가 있으면 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 없이 저장된 답변을 반환해 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 파이프라인 비용과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 동시에 줄인다.

@@ -1,11 +1,11 @@
 ---
 title: "011. Ea Components"
 date: "2024-05-24"
-description: "전사적 아키텍처(EA)를 구성하는 핵심 도메인별 세부 아키텍처(BA, DA, AA, TA, SA)의 구조와 유기적 연계 메커니즘 심층 분석"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 11
 ---
-
 # [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 구성요소 ([BA](/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/), [DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [AA](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/), [TA](/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/), [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))
 
 #### 핵심 인사이트 (3줄 요약)

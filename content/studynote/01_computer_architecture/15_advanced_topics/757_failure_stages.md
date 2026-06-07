@@ -3,8 +3,8 @@ title: "757. Failure Stages"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 757
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고장기, 우발 고장기, 마모 고장기는 하드웨어의 고장률 λ(t)가 시간에 따라 감소·유지·증가하는 세 구간을 설명하는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 프레임이다.

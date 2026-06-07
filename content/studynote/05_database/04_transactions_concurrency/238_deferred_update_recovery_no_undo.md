@@ -3,8 +3,8 @@ title: "Deferred Update"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신 (Deferred Update)은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 완료 전까지 DB 기록 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) 불필요, Redo만 수행에 초점을 맞춘 개념이다.

@@ -2,9 +2,9 @@
 title: "279. Scd Type2 New Row Full History"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 279
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [SCD](/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2는 엔터프라이즈 환경에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능한 자산으로 전환하기 위해 쓰이는 핵심 기준이며, 특히 [SCD Type 2](/studynote/12_it_management/05_security_compliance/957_scd_type_2/), Row, 시작일의 경계를 분명히 만드는 데 의미가 있다.

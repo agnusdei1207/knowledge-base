@@ -3,8 +3,8 @@ title: "Memory Pooling"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메모리 풀링](/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) ([Memory Pooling](/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/)): CXL을 이용해 물리적으로 떨어진 서버 메모리를 거대한 단일 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 메모리로 묶어 가상머신에 동적 할당를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

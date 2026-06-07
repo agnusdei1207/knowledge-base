@@ -3,8 +3,8 @@ title: "089. Exploding Gradient Clipping"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기울기 폭발 (Exploding Gradient)은 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 과정에서 1보다 큰 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)나 오차 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 연쇄 법칙 (Chain Rule)에 의해 반복 곱해지면서 기울기 값이 기하급수적으로 커지는 현상이다.

@@ -3,8 +3,8 @@ title: "Network Access Control"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 226
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NAC](/studynote/03_network/13_network_security_basics/700_nac_network_access_control/) (Network [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 및 IEEE 802.[1X](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) (Network [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

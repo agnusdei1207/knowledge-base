@@ -3,8 +3,8 @@ title: "Chaos ering"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 운영 환경에 의도적 장애를 주입하여 시스템의 실제 복원력을 *선제적*으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 과학이다.

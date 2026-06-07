@@ -3,8 +3,8 @@ title: "022. Information Security Policy"
 date: "2026-04-02"
 tags:
   - "studynote-security"
+weight: 22
 ---
-
 # 정보보안 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Security Policy](/studynote/09_security/01_intro_principles/007_security_policy/))
 
 > ⚠️ 이 문서는 조직의 정보보안 거버넌스 체계에서 최상위 계층을 차지하며, 경영진의 보안 철학과 방향성을 선언하는 '정보보안 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Security Policy](/studynote/09_security/01_intro_principles/007_security_policy/))'의 구조, 필수 구성 요소 및 실무 제정 기준을 심도 있게 분석합니다.

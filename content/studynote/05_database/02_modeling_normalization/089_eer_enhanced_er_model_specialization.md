@@ -1,10 +1,11 @@
 ---
 title: "089. Eer Enhanced Er Model Specialization"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 확장 ER 모델 (Enhanced Entity-Relationship Model, EER)은 기존 ER 모델에 객체지향의 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance) 개념인 슈퍼클래스와 서브클래스를 결합하여, 복잡한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층 구조를 정밀하게 표현하는 진화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스케치 도구다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '공통점'과 '차이점'으로 분리하여 모델링함으로써, 불필요한 빈칸(NULL) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 발생을 막고 공통 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 중복 설계를 제거하여 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 공간 효율성과 재사용성을 극대화한다.

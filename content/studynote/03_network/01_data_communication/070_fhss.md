@@ -1,11 +1,11 @@
 ---
 title: "FHSS, Frequency Hopping Spread Spectrum"
 date: "2024-05-20"
-description: "FHSS의 본질과 원리, 아키텍처, DSSS와의 비교 및 실무 적용 가이드"
 tags:
   - "network"
+  - "studynote-network"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FHSS는 주파수를 빠르게 바꾸며 신호를 분산시켜 재밍과 간섭에 강하게 만드는 방식이다.

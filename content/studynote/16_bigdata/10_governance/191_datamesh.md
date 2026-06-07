@@ -3,8 +3,8 @@ title: "191. Datamesh"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 191
 ---
-
 # [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/)) - [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분권형 [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임
 
 > ⚠️ 이 문서는 centralized [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀 병목 현상을 극복하기 위해 Zhamak Dehghani( ThoughtWorks )가 2019년에 제안한 차세대 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임인 '[데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))'의 핵심 원리, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권 모델, 연합 컴퓨팅 거버넌스, 그리고 전통적 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와의 비교를 기술사 수준에서 심층 분석합니다.

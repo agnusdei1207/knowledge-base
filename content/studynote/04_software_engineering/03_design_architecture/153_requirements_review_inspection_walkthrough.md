@@ -3,8 +3,8 @@ title: "153. Requirements Review Inspection Walkthrough"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항 검토(Review)는 시스템을 톰캣(Tomcat) 서버에 올려 런타임 디버깅 쌩쇼를 치기 직전!! -> 걍 개발자 인간들의 날카로운 눈깔과 뇌지컬만으로, 한글 기획서(SRS) 텍스트 도면 종이 위에서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 빵꾸(모순, 누락)를 미리 찾아 도끼로 찢어 색출 사살해버리는 <strong>가장 무자비하고 압도적 극강 가성비의 정적 테스트(<a href="/studynote/04_software_engineering/11_testing_validation/822_static_testing/">Static Testing</a>) 엑스레이 방폭문</strong>이다.
 > 2. **가치**: 코딩 쇳덩이 다 굳혀놓고 오픈 데모 날 런칭해서 "어 이 결제 플로우 고객 니즈랑 1도 안 맞네 ㅋ 다 갈아엎어 빠꾸 쾅 💥!" -> 재작업(Rework) 야근 서버 셧다운 100억 소송 파산 멸망을 피하기 위해, 아직 연필로 지울 수 있는 백지 도면 설계 단계에서 1초 컷 100원짜리 지우개 튜닝 쉴드로 100억짜리 폭탄 뇌관을 조기(Early) 척살해 내는 [SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 최선봉 생명 연장 텐트다.

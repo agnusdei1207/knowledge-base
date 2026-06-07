@@ -3,8 +3,8 @@ title: "1071. Gslb Global Server Load Balancing Dns"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1071
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GSLB](/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

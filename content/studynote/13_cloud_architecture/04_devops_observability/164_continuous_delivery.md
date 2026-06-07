@@ -2,9 +2,9 @@
 title: "Continuous Delivery"
 date: "2026-03-04"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 코드 변경 사항이 빌드 및 테스트를 거쳐 운영 환경에 배포 가능한 상태(Ready to Deploy)로 자동화되는 프로세스임.
 - 최종 운영 환경으로의 배포 버튼은 사람이 직접 누르는 '수동 승인' 단계를 포함하여 안정성을 확보함.

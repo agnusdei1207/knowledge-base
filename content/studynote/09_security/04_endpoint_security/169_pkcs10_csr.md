@@ -3,8 +3,8 @@ title: "169. Pkcs10 Csr"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PKCS#10은 인증서 서명 요청 (CSR, Certificate Signing Request)을 표현하는 표준으로, 신청자의 신원 정보와 공개키를 묶어 인증기관에 제출하는 형식이다.

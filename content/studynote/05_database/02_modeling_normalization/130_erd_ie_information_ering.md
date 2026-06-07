@@ -5,7 +5,6 @@ tags:
   - "studynote-database"
 weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ERD 표기법 - IE, Barker, IDEF1X(Information 엔진ering, 까마귀발 표기법)은(는) 컴퓨터 과학의 핵심 개념으로, 시스템의 효율성·안전성·확장성을 높이기 위한 이론적 토대이자 실무 설계 원칙이다.

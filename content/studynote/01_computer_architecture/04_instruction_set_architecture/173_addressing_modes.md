@@ -3,8 +3,8 @@ title: "Addressing Modes"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 주소 지정 방식 (Addressing Modes)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 필드를 CPU (Central Processing Unit)가 값, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 혹은 유효 주소 (Effective Address, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) 계산식 중 무엇으로 해석할지 정하는 규칙이다.

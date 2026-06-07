@@ -3,8 +3,8 @@ title: "597. Privacy De Identification"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 597
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 비식별 조치 K-익명성 [l-다양성](/studynote/09_security/16_data_privacy/815_l_diversity/) [t-근접성](/studynote/09_security/16_data_privacy/816_t_closeness/) 프라이버시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 평가 기준는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

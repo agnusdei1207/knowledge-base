@@ -3,8 +3,8 @@ title: "MaaS, Mobility as a Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마스 (MaaS, Mobility [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 철도, 택시, 카셰어링, 공유 자전거 같은 이기종 교통수단을 하나의 여정 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 묶어, 검색·예약·결제·환승 안내를 통합 제공하는 개념이다.

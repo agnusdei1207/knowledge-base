@@ -3,8 +3,8 @@ title: "VLAN Hopping"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 319
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 호핑 ([VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) Hopping)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

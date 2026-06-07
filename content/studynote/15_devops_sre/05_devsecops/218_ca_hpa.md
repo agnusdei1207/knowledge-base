@@ -3,8 +3,8 @@ title: "218. Ca Hpa"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반으로 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수를 자동 조정하는 확장 제어 루프.

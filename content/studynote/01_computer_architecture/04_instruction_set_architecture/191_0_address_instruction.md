@@ -3,8 +3,8 @@ title: "Zero-Address Instruction"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 0-주소 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Zero-Address [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 주소 필드를 두지 않고, 연산 대상이 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))의 최상단이라는 사실을 <strong>암묵적으로 합의</strong>한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이다.

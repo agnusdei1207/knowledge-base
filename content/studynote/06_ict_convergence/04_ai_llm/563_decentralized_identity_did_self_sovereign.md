@@ -3,8 +3,8 @@ title: "Decentralized Identity DID Self-Sovereign"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 563
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탈중앙 신원 DID 자기주권 신원은(는) 중앙 서비스 계정 대신 DID 문서, 검증가능 자격증명(VC), 사용자 지갑을 통해 신원 속성을 선택적으로 제시하는 모델이다.

@@ -3,8 +3,8 @@ title: "362. Hashed Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 362
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해시 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(Hashed [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/))은 광활한 64비트 주소 공간에서 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)의 크기 폭발을 막기 위해, 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호를 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([Hash Function](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))에 통과시켜 <strong>일정한 크기의 <a href="/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a>(<a href="/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">Hash Table</a>)에 매핑(<a href="/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)하는 딕셔너리형 자료구조</strong>다.

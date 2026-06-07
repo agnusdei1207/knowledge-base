@@ -3,9 +3,8 @@ title: "797. DPO (Data Protection Officer)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 797
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DPO](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Officer)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

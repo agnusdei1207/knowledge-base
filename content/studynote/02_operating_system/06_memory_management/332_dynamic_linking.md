@@ -3,8 +3,8 @@ title: ".dll, .so"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 332
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 연결 (Dynamic Linking)은 프로그램이 컴파일될 때 외부 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 내 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(EXE) 안에 통째로 복사해 넣지 않고, <strong>실행되는 시점(Run-time)에 메모리에 이미 올라와 있는 공용 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>의 주소만 연결(Link)</strong>하는 기법이다.

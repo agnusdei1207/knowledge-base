@@ -3,8 +3,8 @@ title: "573. Ods Operational Data Store Near Real Time"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 573
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ODS](/studynote/05_database/05_distributed_nosql_newsql/291_ods/) 준실시간 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 레코드 마이그레이션 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 배치 레이어 차이점는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

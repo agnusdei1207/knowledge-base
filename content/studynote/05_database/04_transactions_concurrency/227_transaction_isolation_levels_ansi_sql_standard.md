@@ -3,8 +3,8 @@ title: "Isolation Level"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [고립화 수준](/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/) ([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Level)은 ANSI/ISO SQL 표준 4단계에 초점을 맞춘 개념이다.

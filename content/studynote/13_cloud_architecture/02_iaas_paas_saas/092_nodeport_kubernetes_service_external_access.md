@@ -3,8 +3,8 @@ title: "092. Nodeport Kubernetes Service External Access"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NodePort는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터의 모든 워커 노드(Worker Node)에 동일한 물리적 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(30000~32767)를 열어, 외부 트래픽을 내부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 유입시키는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정책이다.
 > 2. **가치**: 값비싼 클라우드 로드밸런서 없이도 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))나 테스트 환경에서 외부 통신을 즉시 구성할 수 있는 직관적인 연결 수단을 제공한다.

@@ -3,8 +3,8 @@ title: "Activation Derivative Sigmoid"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 344
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 함수의 도함수 σ'(x) = σ(x)(1-σ(x)) 는 최대값이 0.25 (x=0 에서) 이며, [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 매 레이어마다 0.25 이하를 곱해야 하므로 깊은 네트워크에서 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 이 기하급수적으로 발생한다.

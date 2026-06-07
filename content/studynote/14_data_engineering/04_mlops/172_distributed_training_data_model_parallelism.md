@@ -3,8 +3,8 @@ title: "Data Parallelism vs Model Parallelism"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallelism)는 모델을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누는 방식이며, 모델 병렬화 (Model Parallelism)는 모델 자체를 나누어 단일 [Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 메모리 한계를 넘는 방식이다.

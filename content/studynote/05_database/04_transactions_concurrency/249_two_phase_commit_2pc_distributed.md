@@ -3,8 +3,8 @@ title: "2PC, Two-Phase Commit"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 2단계 커밋 ([2PC](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/), [Two-Phase Commit](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))은 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 [원자성](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장 프로토콜에 초점을 맞춘 개념이다.

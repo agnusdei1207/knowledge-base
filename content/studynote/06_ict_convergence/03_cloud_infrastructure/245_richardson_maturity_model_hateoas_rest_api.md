@@ -3,8 +3,8 @@ title: "Richardson Maturity Model - Level 3 HATEOAS"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 245
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RESTful API](/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 성숙도 모델 ([Richardson Maturity Model](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/) - Level 3 HATEOAS): 245. [RESTful API](/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 성숙도 모델 ([Richardson Maturity Model](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

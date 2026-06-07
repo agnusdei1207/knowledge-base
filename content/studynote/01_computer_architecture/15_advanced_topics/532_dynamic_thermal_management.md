@@ -3,8 +3,8 @@ title: "DTM"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 532
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DTM (Dynamic Thermal [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 온도 센서, 전력 모델, 제어 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 냉각 장치를 하나의 폐루프로 묶어 현재 열 상태에 맞게 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 냉각을 실시간 조정하는 시스템 차원의 열 제어 기술이다.

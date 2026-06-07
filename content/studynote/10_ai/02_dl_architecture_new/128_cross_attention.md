@@ -3,8 +3,8 @@ title: "128. Cross Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Cross-Attention은 <strong>Query는 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>에서, <a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>·Value는 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>에서 오는 Attention</strong>이며, [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 출력을 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 <strong>소스->타겟 매핑(번역·요약)을 수행</strong>한다.
 > 2. **가치**: [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)만으로는 소스 문장을 이해하지만 타겟을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 못하고, [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)만으로는 소스를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지 못하므로, Cross-Attention이 <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>의 정보를 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>로 전달하는 유일한 경로</strong>이다.

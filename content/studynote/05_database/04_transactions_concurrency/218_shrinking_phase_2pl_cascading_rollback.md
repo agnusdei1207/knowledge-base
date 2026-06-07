@@ -3,8 +3,8 @@ title: "Shrinking Phase"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 축소 단계 (Shrinking Phase)은 락 반납만 가능, 획득 불가에 초점을 맞춘 개념이다.

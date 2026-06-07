@@ -3,8 +3,8 @@ title: "775. Prime Probe"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 775
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Prime+Probe는 공격자가 특정 캐시 세트를 자기 데이터로 먼저 채운 뒤, 피해자 실행 후 다시 읽어 보며 어떤 라인이 축출되었는지 시간으로 판별하는 캐시 부채널 기법이다.

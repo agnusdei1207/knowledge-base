@@ -2,9 +2,9 @@
 title: "092. Helm Kubernetes Package Manager Chart Template"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([헬름](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/))은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경을 위한 패키지 매니저로, 여러 개의 복잡한 YAML 매니페스트 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 '차트(Chart)'라는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 패키지 단위로 묶어 설치, 업그레이드, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 제어하는 도구다.
 > 2. **가치**: 배포 환경(Dev/Stg/Prod)이 바뀔 때마다 하드코딩된 YAML을 복사해 수정하는 수동 작업을 없애고, 템플릿(Template)에 값(`values.yaml`)만 동적으로 주입하여 막대한 생산성과 재사용성을 제공한다.

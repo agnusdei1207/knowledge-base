@@ -3,8 +3,8 @@ title: "369. Memory Pool"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 369
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 풀(Memory Pool)은 프로그램이 실행 중에 동적으로 메모리를 할당(`malloc`/`new`)하고 해제(`free`/`delete`)하는 짓을 멈추고, 아예 <strong>부팅(초기화) 시점에 똑같은 크기의 빈 방(객체) 수만 개를 거대한 수영장(Pool)처럼 미리 만들어 놓고 돌려쓰는 기법</strong>이다.

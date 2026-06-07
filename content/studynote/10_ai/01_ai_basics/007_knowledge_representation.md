@@ -1,11 +1,11 @@
 ---
 title: "007. Knowledge Representation"
 date: "2024-05-20"
-description: "인간의 지식을 컴퓨터가 이해하고 추론할 수 있도록 정형화하는 AI의 핵심 설계 기법"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 7
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암묵적인 인간의 지식을 컴퓨터가 연산하고 추론할 수 있도록 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적, 구조적, 절차적으로 모델링하는 기법이다.
 > 2. **가치**: 단순한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장을 넘어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 의미적 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Semantic [Relationship](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))를 부여함으로써, AI가 새로운 결론을 도출하는 지능의 근간을 형성한다.

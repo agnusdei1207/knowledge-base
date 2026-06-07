@@ -3,8 +3,8 @@ title: "ICT Convergence Master Architecture Final"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 796
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합은 **RAMI 4.0 / IIRA / oneM2M / W3C WoT** 등 4개 글로벌 레퍼런스 아키텍처를 **Edge–Fog–Cloud–Digital Twin** 4계층 + **AIoT·데이터 거버넌스·보안제로트러스트**로 수렴시킨 **"연결·지능·자율화" 3축 통합 모델**이며, 핵심은 **시맨틱 상호운용성(Semantic Interoperability)** 확보다.

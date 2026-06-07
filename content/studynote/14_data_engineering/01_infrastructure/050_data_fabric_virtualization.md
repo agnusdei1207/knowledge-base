@@ -1,7 +1,6 @@
 ---
 title: "Data Fabric Virtualization"
 date: "2025-01-01"
-description: "데이터 패브릭의 개념, 데이터 가상화와의 차이, AI 기반 메타데이터 관리, 실시간 데이터 통합 아키텍처를 다룬다."
 tags:
   - "AI-driven"
   - "data catalog"
@@ -10,9 +9,9 @@ tags:
   - "data virtualization"
   - "federated query"
   - "metadata"
-  - "studynote-dataeng"
+  - "studynote-data-engineering"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 물리적으로 이동하지 않고 단일 통합 레이어를 통해 접근할 수 있게 하는 아키텍처 패턴이다.
 > 2. 핵심은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/)로, [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·계보·품질을 자동으로 발견·추천한다.

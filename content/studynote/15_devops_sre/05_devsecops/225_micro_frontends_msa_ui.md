@@ -3,8 +3,8 @@ title: "225. Micro Frontends Msa Ui"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프론트엔드도 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 분리해 독립 배포와 팀 자율성을 확보하는 패턴.

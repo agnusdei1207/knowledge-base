@@ -1,11 +1,11 @@
 ---
 title: "063. Differential PCM (DPCM)"
 date: "2024-05-15"
-description: "인접한 표본 간의 높은 상관성을 활용하여 데이터 전송량을 절감하는 예측 부호화 기반의 차분 펄스 부호 변조 원리"
 tags:
   - "network"
+  - "studynote-network"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DPCM(Differential Pulse [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)은 현재 샘플을 그대로 보내지 않고, 이전 샘플과의 차이만 보내는 예측 부호화 방식이다.

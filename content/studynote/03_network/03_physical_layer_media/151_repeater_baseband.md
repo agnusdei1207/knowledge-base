@@ -3,8 +3,8 @@ title: "151. Repeater Baseband"
 date: "2026-05-03"
 tags:
   - "studynote-network"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 리피터(Repeater)는 구리선 랜선([UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))의 물리적 한계 거리(100m)를 넘어가면 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 찌그러지고 썩어버리는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠(Attenuation) 현상을 타파하기 위해, 죽어가는 파형을 <strong>아날로그적으로 뻥튀기하는 게 아니라 디지털의 완벽한 0과 1 텍스트로 재해독한 뒤 -> 100% 새삥 5V 펄스로 완전히 새로 그려서 쏴버리는(Regeneration) OSI 1계층(물리 계층)의 심폐소생 펌프 장비</strong>다.
 > 2. **가치**: 이 펌프 덕분에 100m라는 짧은 목줄의 한계를 깨고 공장과 빌딩 1km 너머 끝단 구석구석까지 무한 거리 확장 텔레포트 핏줄을 뚫어내는 위대한 물리적 인프라 대통합을 이룩했다.

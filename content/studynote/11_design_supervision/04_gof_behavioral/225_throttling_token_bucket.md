@@ -3,8 +3,8 @@ title: "Throttling / Token Bucket Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Token Bucket (토큰 버킷) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 초당 R개 토큰이 버킷에 채워지고 요청마다 토큰을 소비하는 방식으로 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 속도를 제어하는 [Rate Limiting](/studynote/09_security/05_web_app_security/520_rate_limiting/) (속도 제한) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다 — 버스트(Burst) 트래픽을 버킷 용량(B) 한도 내에서 허용한다.

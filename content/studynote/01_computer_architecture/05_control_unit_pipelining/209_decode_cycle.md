@@ -3,8 +3,8 @@ title: "Decode Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해독 사이클 (Decode Cycle)은 [명령어 레지스터](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))에 담긴 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 "무슨 연산을, 어떤 자원으로, 어떤 순서로 수행할지"라는 제어 정보로 번역하는 단계다.

@@ -3,8 +3,8 @@ title: "056. Data Virtualization Federated Query Trino"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 가상화](/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기지 않고, 여러 저장소를 논리적으로 하나처럼 보이게 만드는 방식이다.

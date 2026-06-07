@@ -3,8 +3,8 @@ title: "Partition Pruning"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝 ([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))은 [데이터베이스 관리 시스템](/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System, [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/)) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 조건절을 보고 <strong>읽을 필요가 없는 <a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>을 <a href="/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a>에서 미리 제외</strong>하는 최적화다.

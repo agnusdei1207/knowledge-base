@@ -3,8 +3,8 @@ title: "Mediator and Observer Combined"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [미디에이터 패턴](/studynote/11_design_supervision/04_gof_behavioral/201_mediator_pattern/)과 [옵저버 패턴](/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)은 상호 보완적이다. [옵저버](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)가 Subject-[Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 간 1:N 이벤트 통지를 다루고, 미디에이터가 다수 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 N:N 통신을 중재할 때, 두 패턴을 조합하면 이벤트 기반의 느슨하게 결합된 복잡한 시스템을 우아하게 설계할 수 있다.

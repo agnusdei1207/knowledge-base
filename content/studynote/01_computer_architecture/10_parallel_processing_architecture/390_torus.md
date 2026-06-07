@@ -3,8 +3,8 @@ title: "Torus"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 390
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 토러스 (Torus)는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Mesh](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지의 가장자리를 서로 이어, 모든 노드가 동일한 연결 차수와 유사한 통신 기회를 갖도록 만든 순환형 상호 연결망이다.

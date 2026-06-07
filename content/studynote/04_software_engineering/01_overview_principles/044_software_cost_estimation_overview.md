@@ -3,8 +3,8 @@ title: "044. Software Cost Estimation Overview"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. 소프트웨어 비용 산정은 프로젝트 시작 전 개발 공수(PM, Person-Month)·일정·원가를 예측하는 활동으로 — Boehm의 [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 연구에 따르면 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 산정 오차가 ±4배에 달하지만, 요구사항이 명확해질수록 ±25% 이내로 수렴한다.
 > 2. [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) — [Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/))와 COCOMO는 가장 널리 쓰이는 산정 기법으로 — FP는 사용자 관점의 기능 규모를 측정하는 반면, COCOMO는 LOC(Lines of [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 기반 통계 모델로 규모·복잡도·팀 능력 등 비용 유발 요소(Cost Driver)를 반영한다.

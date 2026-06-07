@@ -3,8 +3,8 @@ title: "Problem Management RCA"
 date: "2026-05-01"
 tags:
   - "studynote-enterprise-systems"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [문제 관리](/studynote/12_it_management/02_itsm_itil/861_problem_management/) ([Problem Management](/studynote/12_it_management/02_itsm_itil/861_problem_management/))는 반복 장애의 근본 원인을 찾아 재발을 막는 [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) ([IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/)) 활동이다.

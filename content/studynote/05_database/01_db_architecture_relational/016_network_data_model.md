@@ -1,11 +1,11 @@
 ---
 title: "N:M"
 date: "2024-05-18"
-description: "다대다(N:M) 관계의 복잡성을 포인터 그래프 구조로 해결하려 했던 CODASYL 표준 모델과 그 한계점"
 tags:
   - "database"
+  - "studynote-database"
+weight: 16
 ---
-
 # 16. 망형 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) (Network Model) - [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조
 
 #### 핵심 인사이트 (3줄 요약)

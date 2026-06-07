@@ -3,8 +3,8 @@ title: "060. Privacy By Design"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Privacy by Design(PbD)은 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 사후 조치가 아니라 설계의 기본값으로 내재화하는 철학이다.

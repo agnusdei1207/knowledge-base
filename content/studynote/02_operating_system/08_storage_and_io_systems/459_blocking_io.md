@@ -3,8 +3,8 @@ title: "459. Blocking Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 459
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블로킹 I/O([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O)는 애플리케이션([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 디스크나 네트워크 같은 외부 기기에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요구(read/write)했을 때, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 도착할 때까지 OS가 해당 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>의 실행을 강제로 기절(Sleep/Wait 상태)시켜 무한정 대기하게 만드는 가장 직관적이고 고전적인 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 모델</strong>이다.

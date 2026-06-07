@@ -3,8 +3,8 @@ title: "Uwsn Mac Routing Depth Based Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [수중 음파 통신망](/studynote/03_network/11_wireless_mobile_communication/1027_underwater_acoustic_network/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)/[MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Uwsn](/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) [Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Depth Based [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

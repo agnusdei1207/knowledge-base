@@ -3,8 +3,8 @@ title: "465. Lockstep Architecture"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 465
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락스텝 아키텍처는 동일한 연산 경로를 2개 이상 동시에 실행하고 결과를 즉시 비교해, CPU (Central Processing Unit) 내부의 조용한 연산 오류를 시스템 밖으로 내보내기 전에 잡아내는 구조다.

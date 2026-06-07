@@ -3,8 +3,8 @@ title: "556. Micro Frontends Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 556
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로 프론트엔드](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) ([Micro Frontends](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)) - 모놀리식 프론트엔드를 독립적 팀 단위 컴포넌트로 분할은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

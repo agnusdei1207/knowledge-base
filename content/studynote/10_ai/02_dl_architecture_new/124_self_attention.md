@@ -3,8 +3,8 @@ title: "124. Self Attention"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Self-Attention은 <strong>같은 시퀀스 내에서 각 위치가 다른 모든 위치를 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여 문맥을 파악하는 메커니즘이며, Transformer의 핵심 연산이다. Q·K·V가 모두 <strong>같은 시퀀스에서 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>된다.
 > 2. **가치**: "The animal didn't cross the street because **it** was too tired"에서 "it"이 "animal"을 가리킨다는 것을 파악하려면 문장 전체를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)해야 하며, Self-Attention이 이를 <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>로 정량화</strong>한다.

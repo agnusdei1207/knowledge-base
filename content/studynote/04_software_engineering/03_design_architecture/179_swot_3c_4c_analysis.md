@@ -1,10 +1,11 @@
 ---
 title: "179. Swot 3C 4C Analysis"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SWOT (Strength, Weakness, Opportunity, Threat) 분석은 조직의 내부 역량과 외부 환경을 교차해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 잡고, 3C (Company, [C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/), Competitor) / 4C (Company, [C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/), Competitor, Channel/Circumstance) 분석은 그 방향이 시장과 실행 현실에 맞는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.

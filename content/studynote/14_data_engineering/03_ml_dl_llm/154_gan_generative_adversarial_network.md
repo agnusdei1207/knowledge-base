@@ -3,8 +3,8 @@ title: "154. Gan Generative Adversarial Network"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GAN([생성적 적대 신경망](/studynote/10_ai/02_dl_architecture_new/159_gan/))은 진짜 같은 가짜 이미지를 창조해 내는 <strong><a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">위조지폐범([생성</a>자 Generator 봇)]</strong>과, 그 가짜를 현미경으로 뜯어 진짜/가짜 O/X를 쳐 감별해 내는 **[경찰 스나이퍼(판별자 Discriminator 봇)]** -> 이 2마리의 신경망 뇌를 맞붙여 미친 듯이 멱살 잡고 끝없는 무한 데스매치 싸움 핑퐁 훈련(Adversarial 적대)을 치게 조장하는 천재적 창조 흑마법이다.
 > 2. **가치**: 기존에 인간이 1억 개 사진에 "이건 고양이, 저건 개" 정답지 텍스트 라벨(Label)을 일일이 노가다로 엑셀 달아줘야만 학습하던 [지도 학습의 늪 뻗음 한계 💀]를 도끼로 찢어발기고 -> 걍 원본 사진 1억 장만 툭 던져줘도 지들끼리 속이고 맞추는 배틀 게임을 치며 수학적 <strong>[내시 균형 (Nash Equilibrium 특이점 ✨)]</strong>에 스스로 도달하여 인간 눈을 100% 기만하는 실사급 8K [딥페이크](/studynote/09_security/19_ai_advanced_security/960_deepfake/) 고화질 창작 예술을 오토 렌더링 뿜어내는 기적을 이룩했다.

@@ -3,8 +3,8 @@ title: "Logical Shift"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 120
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트(Logical Shift)는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 열을 좌우로 이동시킨 후, 밀려나서 생긴 **모든 빈자리를 부호에 상관없이 무조건 '0'으로 때려 박는** 순수한 물리적 이동 연산이다.
 > 2. **가치**: 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 특별 취급하지 않는 '[부호 없는 정수](/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/)([Unsigned Integer](/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/))'의 고속 곱셈과 나눗셈을 단 1클럭 사이클 만에 전담 처리한다.

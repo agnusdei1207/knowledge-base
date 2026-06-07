@@ -3,8 +3,8 @@ title: "Logging Monitoring Failure"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 465
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A09. 로깅/모니터링 실패 ([Logging](/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) Monitoring Failure)는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

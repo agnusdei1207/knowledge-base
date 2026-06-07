@@ -2,9 +2,9 @@
 title: "123. Reinforcement Learning"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 <strong>에이전트(Agent)가 환경(<a href="/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)과 상호작용하면서 보상(Reward)을 최대화하는 행동 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)을 학습</strong>하는 ML 패러다임이며, 별도의 정답 라벨 없이 <strong>시행착오(Trial and Error)</strong>를 통해 학습한다.
 > 2. **가치**: 바둑(AlphaGo)·로봇 제어·게임·[추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬([RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))에서 <strong>최적 행동 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>을 자동으로 발견</strong>할 수 있으며, 지도 학습처럼 정답 라벨이 필요 없다.

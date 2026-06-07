@@ -3,8 +3,8 @@ title: "099. Feature Map Activation Map Cnn Output"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 특성 맵(Feature Map)은 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))의 필터(Filter)가 원본 이미지와 [합성곱 연산](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)을 수행하여 추출한 핵심 패턴(경계선, 질감 등)의 집합체이다.

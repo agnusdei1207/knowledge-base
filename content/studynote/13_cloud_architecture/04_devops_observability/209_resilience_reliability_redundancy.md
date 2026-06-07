@@ -3,8 +3,8 @@ title: "Reliability, Resilience, Redundancy"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))은 시스템이 기대한 대로 동작하는 능력이고, 복원력(Resilience)은 장애 발생 후 빠르게 회복하는 능력이며, [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(Redundancy)는 이 두 가지를 물리적으로 지원하는 중복 구성이다.

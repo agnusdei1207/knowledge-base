@@ -1,10 +1,11 @@
 ---
 title: "Space Complexity"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 공간 복잡도(Space Complexity)는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 문제를 해결하는 데 필요한 총 메모리 양이며, 입력 크기 N이 증가할 때 필요한 메모리가 어떻게 증가하는지를 점근적으로 표현한 것이다.
 > 2. **가치**: 시간 복잡도만 최적화하면 메모리 사용량이 폭발적으로 증가하는 역효과가 있다. [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/), [임베디드 시스템](/studynote/02_operating_system/01_overview_architecture/010_embedded_system/), 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리에서는 시간과 공간의 트레이드오프(Trade-off)를 명확히 파악해야 한다.

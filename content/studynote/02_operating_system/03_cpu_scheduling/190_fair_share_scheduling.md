@@ -3,8 +3,8 @@ title: "Fair-share Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공평 몫 스케줄링 (Fair-share Scheduling)은 CPU 자원을 프로세스나 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 등 "개별 실행 단위"가 아니라, 그 프로세스들을 소유하고 있는 <strong>"사용자(User) 또는 그룹(Group)" 단위로 묶어 지분(Share)을 공평하게 배분</strong>하는 거시적 스케줄링 전략이다.

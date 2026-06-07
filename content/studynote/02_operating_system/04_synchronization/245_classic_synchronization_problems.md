@@ -3,8 +3,8 @@ title: "Classic Synchronization Problems"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 245
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고전적 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제는 실제 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템에서 반복적으로 등장하는 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)·[교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)·[기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 패턴을 추상화한 교과서적 벤치마크 세트다.

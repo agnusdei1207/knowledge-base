@@ -3,8 +3,8 @@ title: "Variable Partition"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 340
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가변 분할 방식(Variable [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 메모리를 미리 잘라두지 않고, 프로세스가 실행을 요청하는 바로 그 순간 <strong>프로세스의 덩치(요구 크기)에 딱 맞춰 메모리 공간을 잘라서 할당</strong>하는 유동적인 [연속 메모리 할당](/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 기법이다.

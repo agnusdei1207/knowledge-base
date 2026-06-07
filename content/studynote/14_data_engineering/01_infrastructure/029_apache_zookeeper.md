@@ -3,9 +3,8 @@ title: "29. Apache ZooKeeper"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
+weight: 29
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache ZooKeeper는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 조율(Coordination) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금(Distributed [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)), 리더 선출(Leader Election), [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리([Config](/studynote/15_devops_sre/01_culture_methodology/009_config/)), [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)([Service Discovery](/studynote/12_it_management/05_security_compliance/946_service_discovery/))를 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 제공하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템이다.
 > 2. **가치**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 "두 노드가 동시에 같은 결정을 내리는 것"([스플릿 브레인](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/), [Split Brain](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/))을 방지한다. ZAB([ZooKeeper](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Atomic Broadcast) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 과반수(쿼럼) 합의를 보장하여 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 제공한다.

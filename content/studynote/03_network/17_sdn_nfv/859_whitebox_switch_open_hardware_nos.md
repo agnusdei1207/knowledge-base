@@ -3,8 +3,8 @@ title: "859. Whitebox Switch Open Hardware Nos"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 859
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 화이트박스 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

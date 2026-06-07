@@ -3,8 +3,8 @@ title: "Data Literacy Organization Capability Education"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 691
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 리터러시 조직 역량 교육은 DAMA-DMBOK 2.0의 Data Literacy Wheel(읽기·작업·분석·논증·결정 5단계)과 Gartner의 5단계 성숙도 모델(단편적->의식적->적용->확산->데이터 중심 조직)을 결합해, 전 사원의 데이터 역량을 **역할 기반(Role-Based Competency Matrix: Executive·Analyst·Engineer·Citizen)**으로 표준화·내재화하는 조직학습 체계이다.

@@ -1,10 +1,11 @@
 ---
 title: "090. Slashing Pos Governance Defense"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 슬래싱 (Slashing)은 [지분 증명](/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/) (PoS) [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 검증자 (Validator)가 규칙을 위반하거나 악의적인 행동을 할 때, 그들이 담보로 맡긴 예치금(Stake)을 강제로 몰수하고 소각하는 경제적 처벌 메커니즘이다.

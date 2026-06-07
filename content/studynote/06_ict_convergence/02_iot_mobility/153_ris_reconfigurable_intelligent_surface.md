@@ -3,8 +3,8 @@ title: "153. Ris Reconfigurable Intelligent Surface"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 지능형 반사 표면(RIS)은 메타물질(Metamaterials)을 바둑판처럼 촘촘히 박아 만든 아주 얇은 투명 스티커 껍데기 패널로, <strong>벽에 부딪히면 튕겨서 썩어 죽어버리는 전파 빔의 반사/투과 방향(Phase 위상)을 -> 중앙 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 소프트웨어 알고리즘으로 동적 맘대로 비틀어 조종 굴절시켜 쏘는 <a href="/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 통신망의 스마트 마법 거울</strong>이다.
 > 2. **가치**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) [테라헤르츠](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)([THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)) 우주 초고주파는 직진성이 미친 듯이 강해서 종이 1장 장애물만 스쳐도 통신이 끊겨 뻗는 치명적 파국(음영 사각지대 💀)을 안고 있다. RIS는 전기를 퍼먹는 비싼 쇳덩이 기지국이나 릴레이 증폭기를 수만 개 세우는 자본주의 삽질을 찢어버리고 -> 걍 건물 외벽이나 창문에 [전력 소모](/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 0W(패시브) 필름 쪼가리를 도배 랩핑 부착하는 것만으로 <strong>전파 우회 고속도로 핏줄을 0.01초 만에 창조해 내는 극강의 가성비 인프라 통치술</strong>이다.

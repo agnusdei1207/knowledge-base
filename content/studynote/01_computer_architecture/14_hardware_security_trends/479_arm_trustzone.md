@@ -3,9 +3,8 @@ title: "479. ARM TrustZone"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 479
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARM TrustZone은 ARM 프로세서와 시스템 버스에 Secure/Non-secure 구분을 도입해, 하나의 [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에서 보안 세계와 일반 세계를 하드웨어 수준으로 분리하는 플랫폼 격리 기술이다.

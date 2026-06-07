@@ -3,8 +3,8 @@ title: "Reservation Station"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 예약역 (Reservation [Station](/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/), RS)은 해독된 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행 유닛 바로 앞에 붙잡아 두고, [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)가 모두 준비된 순간에만 내보내는 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>형 대기·선택 장치</strong>다.

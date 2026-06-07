@@ -3,8 +3,8 @@ title: "Dynamic Pinning and CT Log-Based Defense"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 핀닝 (Dynamic Pinning)은 브라우저가 과거의 인증서나 공개키를 기억해 다음 접속에서 비교하는 방식이고, [CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ([Certificate Transparency](/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 방어는 인증서 발급 사실 자체를 공개 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남겨 잘못된 발급을 감시하는 방식이다.

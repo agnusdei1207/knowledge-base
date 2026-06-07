@@ -3,8 +3,8 @@ title: "DevOps Cloud PE Integrated Keyword Summary"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 371
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/SRE와 클라우드 영역의 기술사 시험은 개별 기술 암기보다 "왜 이 기술을 선택했는가, 어떤 트레이드오프가 있는가"를 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 서술하는 능력을 측정하며, 각 개념이 어떤 문제를 해결하기 위해 등장했는지를 연결하는 것이 핵심이다.

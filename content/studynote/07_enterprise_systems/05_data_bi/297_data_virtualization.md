@@ -2,9 +2,9 @@
 title: "Data Virtualization"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 297
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 여러 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 물리적으로 통합하거나 이동시키지 않고, [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 통해 마치 하나의 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)인 것처럼 실시간으로 조회하고 활용하는 기술이다.
 > 2. **가치**: 복잡한 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(추출, 변환, 적재) 과정 없이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 즉시 접근할 수 있어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도를 확보하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 저장에 따른 인프라 비용을 절감한다.

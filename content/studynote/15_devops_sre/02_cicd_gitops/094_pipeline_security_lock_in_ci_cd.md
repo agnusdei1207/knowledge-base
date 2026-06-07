@@ -5,8 +5,8 @@ tags:
   - "cicd"
   - "devsecops"
   - "studynote-devops-sre"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 보안 락인 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))은 코드 커밋부터 배포까지 이어지는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자체를 노리는 [공급망 공격](/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)을 원천 차단하는 체계적인 보안 통제 장치다.

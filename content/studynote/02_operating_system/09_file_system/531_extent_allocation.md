@@ -3,8 +3,8 @@ title: "ext4, XFS -"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 531
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고전적인 [유닉스 i-node](/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/) (530장)는 10GB짜리 영화를 무식하게 4KB 크기의 블록으로 250만 번이나 산산조각 내어 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 장부에 주소를 적느라 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 공간이 터져나갔다. **익스텐트(Extent)** 는 이를 타파하기 위해, 디스크에 연속된 빈 공간이 있다면 "4KB짜리 블록 25만 개" 라고 적지 않고 **"여기서부터 시작해서 길이 1GB 연속된 한 덩어리야!(시작 주소 + 길이)"** 라고 퉁쳐서 단 1줄로 기록하는 묶음 할당 단위다.

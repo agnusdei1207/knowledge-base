@@ -3,9 +3,8 @@ title: "215. SDN (Software Defined Networking)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 215
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (Software Defined Networking): 제어 평면(Control Plane)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)을 분리, 중앙 집중식 네트워크 컨트롤러 배포를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

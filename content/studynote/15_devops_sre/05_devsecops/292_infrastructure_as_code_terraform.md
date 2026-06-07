@@ -3,8 +3,8 @@ title: "Infrastructure as Code Terraform Idempotency"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 292
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인프라 목표 상태를 코드로 선언해 리뷰, 테스트, 자동 적용까지 이어지게 하는 운영 방식.

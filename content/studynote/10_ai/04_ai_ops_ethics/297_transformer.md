@@ -3,8 +3,8 @@ title: "Transformer"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 297
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM의 순차 처리를 완전히 제거하고, <strong>셀프 어텐션 (<a href="/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong>으로 시퀀스 내 모든 위치 간의 의존성을 단 한 번의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 행렬 연산으로 포착하는 2017년 혁명적 신경망 아키텍처다.

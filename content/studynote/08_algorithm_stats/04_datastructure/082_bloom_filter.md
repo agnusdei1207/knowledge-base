@@ -3,8 +3,8 @@ title: "Bloom Filter"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)([Bloom Filter](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))는 원소가 집합에 속하는지를 확률적으로 판단하는 공간 효율적 자료구조다. False Positive(있다고 잘못 판단)는 가능하지만 False Negative(없다고 잘못 판단)는 절대 없다는 특성이 핵심이다.
 > 2. **가치**: 거대한 집합의 멤버십 테스트를 O(k) 시간·고정 메모리로 처리한다. 해시셋 대비 수십~수백 배 메모리 절약. 브라우저 악성 URL 필터, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화, [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [캐시 히트](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 판단에 광범위하게 쓰인다.

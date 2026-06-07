@@ -1,11 +1,11 @@
 ---
 title: "012. Mydata"
 date: "2024-05-23"
-description: "개인정보 자기결정권을 실현하는 마이데이터 아키텍처 및 금융/비금융 실무 연계 방안"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
+weight: 12
 ---
-
 # 마이데이터 ([MyData](/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))
 
 #### 핵심 인사이트 (3줄 요약)

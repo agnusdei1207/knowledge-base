@@ -3,8 +3,8 @@ title: "Interrupt-driven I/O"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 314
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 I/O ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven I/O)는 CPU (Central Processing Unit)가 장치를 계속 감시하지 않고, 장치가 준비 완료 시점에만 CPU를 깨우는 방식이다.

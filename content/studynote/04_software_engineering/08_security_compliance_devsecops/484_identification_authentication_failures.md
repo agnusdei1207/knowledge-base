@@ -3,8 +3,8 @@ title: "484. Identification Authentication Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 484
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Identification](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) and [Authentication Failures](/studynote/09_security/05_web_app_security/454_authentication_failures/) ([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [세션 관리](/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) 실패)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

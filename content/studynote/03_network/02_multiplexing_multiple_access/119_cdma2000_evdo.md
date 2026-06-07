@@ -3,9 +3,8 @@ title: "119. CDMA2000 1x / EV-DO (Evolution-Data Optimized)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 119
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CDMA2000 [1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO는 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 및 다중접속에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

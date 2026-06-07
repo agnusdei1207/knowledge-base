@@ -3,8 +3,8 @@ title: "HCI, Hyper-Converged Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하이퍼컨버지드 인프라](/studynote/01_computer_architecture/15_advanced_topics/630_hci/) ([HCI](/studynote/01_computer_architecture/15_advanced_topics/630_hci/), Hyper-Converged Infrastructure): 서버, 스토리지, 네트워킹 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 및 관리 도구를 단일 x86 어플라이언스 박스로 통합 패키징하여 제공 (IT 인프라 단순화)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

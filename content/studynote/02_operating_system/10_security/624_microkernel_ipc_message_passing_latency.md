@@ -3,8 +3,8 @@ title: "Microkernel IPC Message Passing Latency"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 624
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로커널](/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/studynote/02_operating_system/01_overview_architecture/024_microkernel/))은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 디바이스 드라이버 등 OS 핵심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 유저 공간(User Space)으로 분리하여 높은 안정성을 확보했으나, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신을 위한 <strong><a href="/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> (Inter-<a href="/studynote/12_it_management/05_security_compliance/943_process/">Process</a> Communication) <a href="/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이라는 치명적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 안고 있다.

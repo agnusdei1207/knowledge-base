@@ -3,8 +3,8 @@ title: "Out-of-Order Memory Access"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 506
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비순차 메모리 접근 (Out-of-Order Memory Access)은 프로그램에 적힌 순서와 다른 시점에 로드 (Load)와 스토어 (Store)를 실행하되, 최종적으로는 올바른 메모리 결과와 메모리 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 규칙을 지키도록 만드는 [마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 기술이다.

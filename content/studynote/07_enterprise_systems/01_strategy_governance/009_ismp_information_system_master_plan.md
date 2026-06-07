@@ -1,11 +1,11 @@
 ---
 title: "ISP"
 date: "2026-03-04"
-description: "특정 정보시스템 구축 사업을 위한 상세 요구사항 분석, 아키텍처 설계, RFP 작성을 아우르는 ISMP의 수립 방법론과 실무 적용 방안"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 9
 ---
-
 # 09. [정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/), [Information System Master Plan](/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))
 
 #### 핵심 인사이트 (3줄 요약)

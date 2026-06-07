@@ -3,8 +3,8 @@ title: "Cancellation Point"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 112
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 취소 점(Cancellation Point)은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소(Deferred Cancellation) 모드에서 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자신에게 설정된 취소 요청을 검사하고 반응하는 특정 지점이다. 이 지점에서 pthread_testcancel()가 호출되거나 블로킹 시스템 콜이 내부적으로 검사를 수행한다.

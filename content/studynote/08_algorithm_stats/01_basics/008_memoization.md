@@ -1,10 +1,11 @@
 ---
 title: "008. Memoization"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 8
 ---
-
 # 08. 메모이제이션 (Memoization)
 
 ## 핵심 인사이트 (3줄 요약)

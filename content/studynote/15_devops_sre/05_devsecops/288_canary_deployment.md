@@ -1,11 +1,10 @@
 ---
-weight = 288
 title: "288. 카나리 배포 (1% 오픈 에러 검증 확대)"
 date: "2026-05-08"
-[extra]
-categories: "studynote-devops-sre"
+tags:
+  - "studynote-devops-sre"
+weight: 288
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카나리 배포 (1% 오픈 에러 검증 확대)는 security 관점에서 목표 상태, 실행 절차, 검증 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

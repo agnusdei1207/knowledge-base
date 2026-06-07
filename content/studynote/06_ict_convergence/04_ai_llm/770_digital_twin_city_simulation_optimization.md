@@ -3,8 +3,8 @@ title: "Digital Twin City Simulation Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 770
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 도시의 물리적 자산(Buildings, Infrastructure, IoT Devices)을 BIM/CIM/GIS 기반의 3D 시맨틱 모델과 실시간 데이터 스트림으로 동기화하여, 다중 물리 시뮬레이션(CFD, 교통 미시시뮬레이션, 에너지 격자), 다중 에이전트 시스템(MAS), 그리고 메타휴리스틱/RL 최적화 솔버를 결합한 **Cyber-Physical Feedback Loop** 구조로 구현하는 기술.

@@ -3,8 +3,8 @@ title: "Warp"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 422
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블록 ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Block)과 워프 (Warp)는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 수많은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 "개별 작업자"가 아니라 "정해진 단위의 실행 묶음"으로 다루게 만드는 계층 구조다.

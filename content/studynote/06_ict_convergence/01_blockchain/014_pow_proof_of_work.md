@@ -1,11 +1,11 @@
 ---
 title: "014. Pow Proof Of Work"
 date: "2024-05-18"
-description: "해시 퍼즐 연산 경쟁, 비트코인의 핵심 합의 알고리즘"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
+weight: 14
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컴퓨팅 연산력(CPU/[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))을 소모하여 고난도의 해시 퍼즐을 가장 먼저 푸는 노드에게 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 권한을 부여하는 탈중앙 [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)입니다.
 > 2. **가치**: 스팸 공격과 [시빌 공격](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)([Sybil Attack](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/))을 물리적인 에너지 비용 지불로 방어하며, 신뢰할 수 없는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 최초로 100% 개방된 장부(비트코인)를 구현했습니다.

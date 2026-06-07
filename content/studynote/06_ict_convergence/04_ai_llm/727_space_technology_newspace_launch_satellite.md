@@ -3,8 +3,8 @@ title: "Space Technology NewSpace Launch Satellite"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 727
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뉴스페이스(우주 기술 뉴스페이스 발사체 위성)는 정부·대형기관 주도의 1회성 대형 발사체(Expendable Launch Vehicle)·중대형 GEO 정지위성 위주의 전통 우주산업 패러다임을, **민간 자본·반복사용(Reusability)·소형위성 군집(Constellation)·전기추진(EP)·위성버스 표준화·C2(Command & Control) 지상 클라우드화**로 전환하는 글로벌 흐름이다. SpaceX Falcon 9 1단 재사용, Rocket Lab Electron, Relativity Space Stargate 3D프린팅 엔진, Planet Labs Dove·SpaceX Starlink·Kuiper·OneWeb 등이 그 기술·사업적 상징이다.

@@ -3,8 +3,8 @@ title: "509. Authorization Models Rbac Abac"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 509
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인가 (Authorization) 모델 - [RBAC](/studynote/09_security/11_iam_access_control/569_rbac/)(역할 기반), [ABAC](/studynote/09_security/11_iam_access_control/572_abac/)([속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반, 조건부 규칙)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

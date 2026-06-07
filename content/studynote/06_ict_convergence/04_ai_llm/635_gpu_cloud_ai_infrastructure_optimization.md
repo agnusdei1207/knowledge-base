@@ -3,8 +3,8 @@ title: "GPU Cloud AI Infrastructure Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 635
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GPU 클라우드 AI 인프라 최적화는 제한된 GPU 자원을 학습, 튜닝, 추론 워크로드에 맞게 배치하여 처리량, 지연시간, 비용, 가용성을 동시에 맞추는 용량 공학이다.

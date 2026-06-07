@@ -3,8 +3,8 @@ title: "111. Container Runtime Sandboxing Gvisor Kata Containers"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기본 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([runc](/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))는 호스트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하므로 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 취약점을 통한 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 탈출(<a href="/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/">Container Escape</a>)</strong> 위험이 있다. [샌드박싱](/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 런타임은 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 접근을 차단하는 추가 격리 계층</strong>을 삽입하여 보안을 강화한다.
 > 2. **가치**: gVisor는 <strong>유저 스페이스 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(Sentry)</strong>로 시스콜을 중간 차단하고, Kata Containers는 <strong>경량 <a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 안에 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 격리</strong>하여, [멀티테넌트](/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서 <strong>워크로드 간 완벽 격리</strong>를 달성한다.

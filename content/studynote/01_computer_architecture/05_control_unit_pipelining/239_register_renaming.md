@@ -3,8 +3,8 @@ title: "Register Renaming"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍 ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Renaming)은 프로그램이 보는 적은 수의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 이름을, 하드웨어 내부의 더 많은 물리 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호로 동적으로 치환해 <strong>이름 충돌과 실제 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장 공간을 분리</strong>하는 기술이다.

@@ -3,8 +3,8 @@ title: "576. Factless Fact Table Event Tracking Coverage"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 576
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 팩트리스 [팩트 테이블](/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) (Factless [Fact Table](/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)) 이벤트 추적 차원 교차망 모델는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 모델이다.

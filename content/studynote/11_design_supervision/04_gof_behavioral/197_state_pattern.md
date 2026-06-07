@@ -3,8 +3,8 @@ title: "State Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [상태 패턴](/studynote/11_design_supervision/06_exam_summary/394_process/) ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))은 GoF 행위 패턴으로, 객체([Context](/studynote/02_operating_system/01_overview_architecture/033_context/))의 내부 상태에 따라 행동(동작)이 달라질 때, 각 상태를 독립적인 [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 클래스로 캡슐화하여 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 행동 변경을 상태 객체 자신에게 위임하는 패턴이다.

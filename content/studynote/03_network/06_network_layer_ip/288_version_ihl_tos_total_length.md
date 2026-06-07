@@ -3,8 +3,8 @@ title: "Total Length"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 288
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더의 가장 첫 번째 줄(4바이트)은 라우터가 패킷을 받아들였을 때 <strong>가장 먼저 뜯어보는 주민등록증과 같은 기본 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 정보 구역</strong>이다.

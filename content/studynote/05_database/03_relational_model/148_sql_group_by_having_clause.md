@@ -3,8 +3,8 @@ title: "148. Sql Group By Having Clause"
 date: "2026-05-03"
 tags:
   - "studynote-database"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: `GROUP BY`는 수백만 건의 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지정된 기준(예: 부서명)으로 묶어 요약된 집계 덩어리로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 연산이며, `HAVING`은 그 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 결과 통계값에 대해 조건을 걸어 걸러내는 2차 필터링 구문이다.
 > 2. **가치**: 개별 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1건을 심사하는 `WHERE` 절의 한계를 넘어, [비즈니스 인텔리전스](/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)(BI)가 요구하는 거시적 집단 통계(예: "평균 매출 10억 이상인 우수 지점")를 단 한 번의 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 추출할 수 있게 한다.

@@ -1,10 +1,11 @@
 ---
 title: "026. Insertion Sort"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 26
 ---
-
 # 17. [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))
 
 ## 핵심 인사이트 (3줄 요약)

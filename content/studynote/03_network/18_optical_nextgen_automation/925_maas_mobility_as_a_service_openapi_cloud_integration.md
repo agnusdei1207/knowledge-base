@@ -3,8 +3,8 @@ title: "925. Maas Mobility As A Service Openapi Cloud Integration"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 925
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈API와 MaaS는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

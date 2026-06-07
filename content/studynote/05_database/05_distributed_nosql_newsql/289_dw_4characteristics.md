@@ -3,8 +3,8 @@ title: "Minimum Bounding Rectangle"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 289
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: R 트리 (R-Tree) / [MBR](/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) (Minimum Bounding Rectangle)는 공간 검색 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

@@ -3,8 +3,8 @@ title: "Fault Tolerance"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 453
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고장 허용 시스템 ([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))은 부품이나 노드 일부가 고장 나도 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 멈추지 않도록, 오류를 내부에서 흡수·우회·은닉하는 설계 철학이다.

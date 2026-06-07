@@ -3,8 +3,8 @@ title: "151. Adapter Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [어댑터 패턴](/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/)([Adapter](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) Pattern)은 클라이언트가 쓰고자 하는 표준 인터페이스 규격(Target)과, 낡아서 규격이 안 맞는 남의 쇳덩이 코드(Adaptee) 사이의 불일치를 -> <strong>중간에서 감싸 안아 강제 변환시켜 100% 호환되게 엮어주는 구조(Structural) 패턴</strong>이다.
 > 2. **가치**: "야 타 부서 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 존나 좋은데 우리 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격이랑 1도 안 맞네? 소스 코드 다 뜯어고쳐 찢어 쾅💥!" 하던 유지보수 수정 재배포 멸망([OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반 파국)을 막고, <strong>원본 레거시 코드를 단 1바이트 찌끄레기도 건드리지 않은 채 무결점 100% 재사용(Reuse) 생존</strong>하게 만드는 극한의 껍데기 융합술이다.

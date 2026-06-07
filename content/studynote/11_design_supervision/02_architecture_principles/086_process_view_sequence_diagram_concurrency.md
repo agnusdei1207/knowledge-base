@@ -2,9 +2,9 @@
 title: "086. Process View Sequence Diagram Concurrency"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로세스 뷰([Process](/studynote/12_it_management/05_security_compliance/943_process/) [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 실행 중인 프로세스와 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 동시 동작을 설명하는 동적 설계 관점이다.

@@ -3,8 +3,8 @@ title: "Template Method Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/) ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 GoF 행위 패턴으로, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 골격(Skeleton)을 상위 클래스의 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)에 정의하고, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 특정 단계를 서브클래스가 오버라이드하여 구체 구현을 제공하는 패턴이다.

@@ -1,11 +1,11 @@
 ---
 title: "005. Artificial Super Intelligence"
 date: "2026-03-04"
-description: "인류 전체의 지성을 아득히 초월하여 스스로 진화하는 특이점 이후의 절대 지능"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 5
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 닉 보스트롬(Nick Bostrom)의 정의에 따라 과학적 창조, 일반 지혜, 사회적 기술 등 사실상 모든 지적 영역에서 인간 최고 천재들의 지능을 종합한 것보다 훨씬 더 뛰어난 초월적 인지 시스템이다.
 > 2. **가치**: 인류가 직면한 질병, 기후 변화, 우주 개척 등 물리적/과학적 난제를 단숨에 해결할 수 있는 무한한 잠재력을 지녔으나, 동시에 인류 멸종 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(Existential [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))를 내포한 양날의 검이다.

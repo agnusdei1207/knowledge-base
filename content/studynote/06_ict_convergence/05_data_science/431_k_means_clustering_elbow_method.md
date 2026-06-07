@@ -3,8 +3,8 @@ title: "K Means Clustering Elbow Method"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 431
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-Means 군집 엘보우 (K Means [Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/) Elbow Method): 1. **본질**: K-Means는 정답이 없는 수많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))를 가장 가까운 K개의 중심점(Centroid)을 기준으로 뭉쳐서([군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)), 비슷한 성향의 그룹으로 빠르게 쪼개…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

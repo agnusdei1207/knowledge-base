@@ -2,9 +2,9 @@
 title: "110. Bias Variance Tradeoff"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 편향-[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 트레이드오프는 모델의 <strong>총 오차(Total Error) = Bias^ + <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> + 노이즈</strong>로 분해되며, 복잡도를 올리면 편향v·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)^, 내리면 편향^·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)v이 되는 <strong>시소 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>다.
 > 2. **가치**: 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))은 모델이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진정한 패턴을 못 잡는 <strong>과소적합(<a href="/studynote/10_ai/03_llm_nlp/246_underfitting_bias/">Underfitting</a>)</strong>, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))은 노이즈까지 외워버리는 <strong>과적합(<a href="/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong>의 원인이며, 이 둘의 합이 최소가 되는 <strong>Sweet Spot</strong>을 찾는 것이 ML의 핵심 과제다.

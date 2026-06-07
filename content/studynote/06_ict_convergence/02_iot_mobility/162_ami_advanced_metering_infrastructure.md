@@ -3,8 +3,8 @@ title: "162. Ami Advanced Metering Infrastructure"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 162
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: AMI (Advanced Metering Infrastructure)는 스마트 미터, 통신망, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 시스템을 묶어 <strong>계량 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 양방향으로 수집·전달·제어하는 전력 정보 인프라</strong>다.

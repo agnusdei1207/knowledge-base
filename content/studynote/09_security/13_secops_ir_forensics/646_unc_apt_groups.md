@@ -3,8 +3,8 @@ title: "Unc Apt Groups"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 646
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: UNC/[APT](/studynote/09_security/15_malware_attack_vectors/748_apt/) 그룹 (Unc [Apt Groups](/studynote/09_security/15_malware_attack_vectors/749_apt_groups/))는 보안 운영·포렌식에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

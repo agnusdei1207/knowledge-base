@@ -3,8 +3,8 @@ title: "360. Asid"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 360
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ASID(주소 공간 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))는 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시의 각 줄(Entry)마다 <strong>어떤 프로세스의 소유인지 명찰(PID 번호 등)을 달아두는 하드웨어 꼬리표 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>다.

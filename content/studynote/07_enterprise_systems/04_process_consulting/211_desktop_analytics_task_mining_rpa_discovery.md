@@ -2,9 +2,9 @@
 title: "Task Mining"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데스크톱 애널리틱스 (Desktop Analytics)와 작업 마이닝 ([Task](/studynote/02_operating_system/02_process_thread/150_task/) Mining)은 개인용 컴퓨터 ([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Personal Computer)에서 일어나는 클릭·입력·화면 전환을 수집·분석해, 서버 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 보이지 않는 반복 업무를 발견하는 기술이다.

@@ -3,8 +3,8 @@ title: "161. Scope Creep Requirements Inflation Prevention"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 범위 크리프 ([Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/) Creep)는 [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 이후 요구사항이 공식 승인과 재계획 없이 조금씩 늘어나 프로젝트 범위를 흐리게 만드는 현상이다.

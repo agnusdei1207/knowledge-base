@@ -3,8 +3,8 @@ title: "Heuristic Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 831
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 오라클 ([Heuristic](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

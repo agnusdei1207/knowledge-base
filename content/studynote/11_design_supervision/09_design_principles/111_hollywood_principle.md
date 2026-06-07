@@ -3,8 +3,8 @@ title: "Hollywood Principle"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 할리우드 원칙 (Hollywood Principle)은 "먼저 연락하지 마라, 우리가 연락할 것이다 (Don't [call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) us, we'll [call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) you)"라는 표현으로, 상위 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 하위 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 호출 시점과 방법을 결정하는 제어 역전(IoC, Inversion of Control)의 철학적 근간이다.

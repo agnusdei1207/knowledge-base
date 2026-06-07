@@ -3,8 +3,8 @@ title: "Star Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 334
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스타 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) ([Star Schema](/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))는 사실 테이블 1개, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 안된 다수 [차원 테이블](/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) 방사형 배치 (빠른 조인, 중복 존재)에 초점을 둔 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)이다.

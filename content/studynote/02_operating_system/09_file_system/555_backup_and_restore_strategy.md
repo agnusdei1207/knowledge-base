@@ -3,8 +3,8 @@ title: "555. Backup And Restore Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 555
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크가 깨지거나 랜섬웨어가 걸렸을 때 기업 멸망을 막는 유일한 사슬은 다른 디스크로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파내어 격리 보관하는 백업이다. 매일 밤 10TB의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 무식하게 통째로 복사하는 **전체(Full) 백업 늪** 과, 어제 복사한 이후 '새로 수정된 추가 사항(Diff 찌꺼기)' 만 긁어가는 **증분(Incremental) 백업 렌더** 사이의 극한 줄다리기가 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 재난 복원([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))의 핵심 통치다.

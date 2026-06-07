@@ -1,11 +1,10 @@
 ---
 title: "Security Governance"
 date: "2026-03-26"
-description: "조직 전체의信息安全을 체계적으로管理하는 프레임워크"
 tags:
-  - "studynote-software-engineering"
+  - "studynote-security"
+weight: 6
 ---
-
 # 보안 거버넌스 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Governance)
 
 ## 핵심 인사이트 (3줄 요약)

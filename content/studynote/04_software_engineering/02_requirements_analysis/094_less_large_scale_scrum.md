@@ -1,10 +1,11 @@
 ---
 title: "094. Less Large Scale Scrum"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LeSS (Large-Scale [Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))는 2~8개의 복수 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 단일 제품 (Product)을 개발할 때, SAFe처럼 관료제적 계층을 덧붙이지 않고 원래 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))의 본질을 그대로 뻥튀기(Scaling)하여 적용하는 가장 미니멀한 [대규모 애자일](/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크다.
 > 2. **가치**: "규칙과 역할을 더 추가하지 마라(Do Less)"는 철학에 따라, 오직 1명의 진짜 [제품 책임자](/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (PO), 1개의 [제품 백로그](/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/), 1개의 공통 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)라는 '완벽한 단일화(1-1-1 구조)'를 강제하여 조직의 복잡성을 타파한다.

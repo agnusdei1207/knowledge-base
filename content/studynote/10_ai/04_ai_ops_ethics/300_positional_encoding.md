@@ -3,8 +3,8 @@ title: "Positional Encoding"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 300
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 포지셔널 인코딩 (Positional Encoding)은 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 없이 순서(위치)를 인식하지 못하는 Transformer에 각 토큰의 시퀀스 내 절대/상대적 위치 정보를 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 벡터에 더하는 방식으로 주입하는 기법이다.

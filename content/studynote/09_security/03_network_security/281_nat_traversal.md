@@ -3,9 +3,8 @@ title: "281. NAT-T (NAT Traversal)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 281
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NAT-T](/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) ([NAT Traversal](/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/))는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 키 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.

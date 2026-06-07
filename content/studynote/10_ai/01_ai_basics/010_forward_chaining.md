@@ -1,11 +1,11 @@
 ---
 title: "010. Forward Chaining"
 date: "2024-05-20"
-description: "주어진 데이터(Fact)에서 출발해 규칙(Rule)을 연쇄적으로 적용하여 결론을 도출하는 데이터 주도형 추론 방식"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 10
 ---
-
 # [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [전향 추론](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) ([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))
 
 #### 핵심 인사이트 (3줄 요약)

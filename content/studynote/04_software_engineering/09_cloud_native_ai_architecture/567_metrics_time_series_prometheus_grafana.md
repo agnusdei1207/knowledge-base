@@ -3,8 +3,8 @@ title: "Prometheus, Grafana"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 567
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Metrics) - 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 ([Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Micro-operation"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로 오퍼레이션 (Micro-operation)은 CPU (Central Processing Unit) 내부에서 한 번의 제어 단계 동안 수행되는 가장 작은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동·산술·[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 동작이다.

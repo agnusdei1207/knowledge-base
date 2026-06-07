@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "598. 정보보안 암호화 DB 모듈 (API/Plug-in/TDE) 혼합 구성 인프라망 구조 체계 검토"
 date: "2026-05-09"
-categories: "studynote-database"
+tags:
+  - "studynote-database"
+weight: 598
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보보안 암호화 DB 모듈 (API/Plug-in/TDE) 혼합 구성 인프라망 구조 체계 검토는 보안·프라이버시 관점에서 자주 쓰이는 구조이다.

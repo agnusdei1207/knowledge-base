@@ -3,8 +3,8 @@ title: "176. Onpremise Vs Cloud"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)(On-Premises) Hadoop은 저장소와 계산을 같은 클러스터에 묶어 [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/studynote/14_data_engineering/01_infrastructure/019_data_locality/))과 강한 통제권을 얻고, 클라우드 빅데이터는 객체 스토리지와 탄력적 계산 자원을 분리해 유연성과 확장성을 얻는다.

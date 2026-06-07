@@ -1,10 +1,11 @@
 ---
 title: "068. Eclipse Attack P2P Isolation"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이클립스 공격은 특정 노드의 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결을 공격자가 장악해 고립시키는 공격이다.

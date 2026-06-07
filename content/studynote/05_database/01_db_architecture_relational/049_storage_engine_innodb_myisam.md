@@ -3,8 +3,8 @@ title: "049. Storage Engine Innodb Myisam"
 date: "2026-04-05"
 tags:
   - "studynote-database"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. InnoDB와 MyISAM의 핵심 차이는 "[트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) + 외래키 지원 여부" — InnoDB는 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·외래키·행 단위 잠금을 지원하는 반면, MyISAM은 이 모두를 지원하지 않는 대신 단순한 구조로 읽기 전용 환경에서 빠른 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 > 2. InnoDB의 [클러스터드 인덱스](/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)([Clustered Index](/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/))가 핵심 설계 원리 — InnoDB는 PK를 기준으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 B+ 트리에 정렬 저장(클러스터드)하여 PK 기반 조회가 매우 빠르지만, MyISAM은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 분리해 더 유연하다.

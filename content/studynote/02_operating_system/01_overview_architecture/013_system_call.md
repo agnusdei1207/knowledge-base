@@ -3,8 +3,8 @@ title: "013. System Call"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 13
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템 호출 (System [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 사용자 모드 (User Mode)에서 실행 중인 애플리케이션이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 안전하게 요청하기 위해 제공되는 소프트웨어적 인터페이스이자 유일한 진입점이다.
 > 2. **가치**: 하드웨어 자원에 대한 직접적인 접근을 차단하고 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 제공함으로써, 시스템의 [보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), 안정성 및 프로그램의 이식성 (Portability)을 동시에 확보한다.

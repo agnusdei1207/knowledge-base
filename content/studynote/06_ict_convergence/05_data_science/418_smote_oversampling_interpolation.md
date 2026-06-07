@@ -3,8 +3,8 @@ title: "Smote Oversampling Interpolation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 418
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오버 샘플링 [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) 보간 벡터 난수 발생 수식 증강망 ([Smote Oversampling](/studynote/06_ict_convergence/05_data_science/357_smote_oversampling/) [Interpolation](/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)): 1. **본질**: [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)(Synthetic Minority Over-sampling Technique)는 신용카드 사기 탐지나 암 진단처럼 "정상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 100만 개인데 불량 데이…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

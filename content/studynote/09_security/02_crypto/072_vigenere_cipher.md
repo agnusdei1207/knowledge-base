@@ -3,8 +3,8 @@ title: "072. Vigenere Cipher"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈네르(Vigenère) 암호는 키워드를 반복해 여러 치환표를 번갈아 쓰는 다중 치환 암호다.

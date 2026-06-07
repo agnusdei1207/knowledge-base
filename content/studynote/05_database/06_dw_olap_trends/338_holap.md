@@ -3,9 +3,8 @@ title: "338. HOLAP (Hybrid OLAP)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 338
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HOLAP (Hybrid [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/))는 MOLAP의 속도 + ROLAP의 대용량 처리 결합에 초점을 둔 분석 플랫폼 개념이다.

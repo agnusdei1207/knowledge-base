@@ -3,8 +3,8 @@ title: "126. Bdd Behavior Driven Development Given When Then"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BDD는 <strong>비즈니스 요구사항을 Given(전제)·When(행동)·Then(결과) 형식의 시나리오로 작성</strong>하고, 이 시나리오가 곧 자동화 테스트가 되는 개발 방법론이다.
 > 2. **가치**: TDD가 개발자 관점의 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 중심이라면, BDD는 <strong>비즈니스 <a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>(PO·QA)도 읽고 검증할 수 있는 자연어 시나리오</strong>로 요구사항과 테스트의 일치를 보장한다.

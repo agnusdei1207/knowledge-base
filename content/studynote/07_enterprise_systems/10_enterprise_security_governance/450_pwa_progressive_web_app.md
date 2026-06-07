@@ -2,9 +2,9 @@
 title: "PWA, Progressive Web App"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 450
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [PWA](/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) 프로그레시브 오프라인 캐시는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [PWA](/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) 프로그레시브 오프라인 캐시, [PWA](/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), Progressive Web App의 경계를 분명히 만드는 데 의미가 있다.

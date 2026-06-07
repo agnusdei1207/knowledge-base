@@ -5,8 +5,8 @@ tags:
   - "cicd"
   - "devsecops"
   - "studynote-devops-sre"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 매니저 ([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) Manager)는 애플리케이션의 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보(DB 패스워드, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키, [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 등)를 소스코드와 분리하여 중앙 집중식으로 암호화 저장하고 배포하는 보안 인프라다.

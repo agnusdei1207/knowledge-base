@@ -3,8 +3,8 @@ title: "207. Pipe Filter Architecture Data Stream"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 아키텍처 (Pipe-Filter) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림 처리은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

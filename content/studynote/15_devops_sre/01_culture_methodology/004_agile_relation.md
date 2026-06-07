@@ -3,8 +3,9 @@ title: "004. Agile Relation"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 4
 ---
-
 # 애자일과의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 #### 핵심 인사이트 (3줄 요약)

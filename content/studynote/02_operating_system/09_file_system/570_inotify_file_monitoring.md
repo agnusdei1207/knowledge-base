@@ -3,8 +3,8 @@ title: "Inotify File Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 570
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 옛날 [바이러스](/studynote/02_operating_system/10_security/589_virus/) 백신이나 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 앱(Dropbox)은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 바뀌었나 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)아 너 바뀌었어? 지금은? 1초 뒤엔?" 하며 매초 디스크를 후드려 패는 무식한 무한 루프([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 늪)를 돌렸다. 이 극악의 CPU, I/O 배터리 낭비를 끝내기 위해 등장한 것이 바로 <strong>"<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 뱃속에 직접 CCTVs 를 달아놓고 이벤트가 터지면 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 앱을 흔들어 깨우는 (Event-driven) <code>inotify</code> 록백"</strong> 인프라다.

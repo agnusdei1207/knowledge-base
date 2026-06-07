@@ -3,8 +3,8 @@ title: "Precision"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 253
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))는 모델이 Positive라고 예측한 것들 중 실제로 Positive인 비율로, <strong><a href="/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>(False Positive, 거짓 양성)를 얼마나 <a href="/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>했는지</strong>를 측정한다.

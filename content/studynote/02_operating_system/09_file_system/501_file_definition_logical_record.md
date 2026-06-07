@@ -3,8 +3,8 @@ title: "501. File Definition Logical Record"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 501
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터 하드 디스크 입장에서는 그저 의미 없는 '0과 1' [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쪼가리와 섹터들의 파편일 뿐이다. 이 무의미한 금속판 조각들에 <strong>"시작과 끝이 있는 의미 있는 뭉텅이 캡슐(<a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 레코드의 연속)"</strong> 이라는 이름과 질서를 부여해 사람이 다룰 수 있게 OS가 창조한 가상의 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 단위가 바로 '파일(File)'이다.

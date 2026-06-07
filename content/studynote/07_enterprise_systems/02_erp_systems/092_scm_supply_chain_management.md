@@ -1,10 +1,11 @@
 ---
 title: "092. Scm Supply Chain Management"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 원자재 공급업체부터 제조, 물류, 최종 고객에 이르는 전체 공급 사슬을 하나의 유기체처럼 통합하여 물류, 정보, 자금을 최적화하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 가시성(Visibility)을 확보함으로써 재고 비용을 극단적으로 낮추고, 수요 변화에 즉각 대응하는 적시([JIT](/studynote/09_security/11_iam_access_control/568_jit_access/)) 생산 및 배송을 가능하게 한다.

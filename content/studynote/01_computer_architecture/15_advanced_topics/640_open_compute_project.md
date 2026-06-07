@@ -3,8 +3,8 @@ title: "OCP, Open Compute Project"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 640
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 컴퓨트 프로젝트 (Open Compute [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/), [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))는 하이퍼스케일 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 하드웨어 설계를 공개하고 표준화하는 커뮤니티로, 서버를 제품이 아니라 공유 가능한 설계 자산으로 다루게 만든다.

@@ -1,11 +1,11 @@
 ---
 title: "019. Dbms Language"
 date: "2026-03-04"
-description: "데이터베이스를 정의, 조작, 제어하기 위해 DBMS와 통신하는 다목적 인터페이스 언어 체계"
 tags:
   - "database"
+  - "studynote-database"
+weight: 19
 ---
-
 # 19. [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) 언어 ([DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) Languages)
 
 #### 핵심 인사이트 (3줄 요약)

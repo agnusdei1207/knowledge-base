@@ -3,8 +3,8 @@ title: "125. 12 Factor App Cloud Native Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 125
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 12 Factor App은 Heroku 공동창업자가 정리한 <strong><a href="/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a>/<a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 애플리케이션 설계의 12가지 <a href="/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/">Best Practice</a></strong>이며, 이식성·확장성·개발-운영 일관성을 보장한다.
 > 2. **가치**: 12 Factor를 따르지 않은 앱은 <strong>환경 의존성·<a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 하드코딩·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 직접 관리</strong> 등으로 클라우드 배포 시 문제가 발생하지만, 12 Factor를 따르면 <strong>어떤 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a>/K8s에서도 동일하게 동작</strong>한다.

@@ -2,9 +2,9 @@
 title: "106. P Class"
 date: "2025-05-14"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 106
 ---
-
 > **핵심 인사이트**
 > 1. P([Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Time) 클래스는 결정론적 튜링 머신([DTM](/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/))이 입력 크기 n의 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 내에 해결할 수 있는 판정 문제(Decision Problem)의 집합으로, 현실적으로 "컴퓨터로 효율적으로 해결 가능한" 문제의 범주다.
 > 2. P 클래스 판별 기준은 다항 시간 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 존재 여부이며, 정렬(O(n log n)), 최단 경로(O((V+E) log V)), [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)(O(V·E^)) 모두 P에 속한다 — 시간 복잡도가 n^k 형태이면 P에 속한다.

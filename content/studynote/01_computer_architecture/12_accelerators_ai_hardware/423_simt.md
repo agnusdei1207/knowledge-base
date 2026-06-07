@@ -3,9 +3,8 @@ title: "423. SIMT (Single Instruction Multiple Threads)"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 423
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SIMT (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple Threads)는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 수많은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 개별 CPU처럼 독립 제어하지 않고, 워프 (Warp) 단위로 같은 명령 흐름에 묶어 높은 처리량을 얻는 실행 모델이다.

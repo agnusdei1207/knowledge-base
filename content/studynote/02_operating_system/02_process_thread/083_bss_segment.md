@@ -3,8 +3,8 @@ title: "083. Bss Segment"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: BSS (Block Started by Symbol) 영역은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되지 않은 전역 변수와 정적 변수를 저장하는 메모리 구역으로, 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 크기 정보만 남긴다.
 - **가치**: 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대신 크기만 기록하므로 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 작아지고, 로더가 메모리 적재 시 0으로 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화해 일관된 시작 상태를 보장한다.

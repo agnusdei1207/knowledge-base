@@ -3,8 +3,8 @@ title: "APM Monitoring Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 259
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [APM](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 모니터링 감리는 애플리케이션 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리([Application Performance Management](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), [APM](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) 체계에서 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 추적([Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [Tracing](/studynote/04_software_engineering/uncategorized/657_observability/)), 임계값 알림(Alert Threshold), 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간(Mean Time To Repair, [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "Software-Defined Accelerator"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 603
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator, SDA)는 고정 기능 회로를 바꾸지 않고도, 소프트웨어가 연산 경로·[정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·[스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 방식을 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)해 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 맞는 가속기로 재구성하는 구조다.

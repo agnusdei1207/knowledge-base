@@ -3,8 +3,8 @@ title: "260. Continuous Testing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개발부터 배포까지 다양한 테스트를 끊김 없이 실행해 품질을 지속 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).

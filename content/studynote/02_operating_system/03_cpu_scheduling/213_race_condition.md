@@ -3,8 +3,8 @@ title: "Race Condition"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 경쟁 조건 (Race Condition)은 두 개 이상의 프로세스나 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하나의 공유 자원(메모리, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 동시에 접근하여 수정하려 할 때, <strong>실행(스케줄링)의 타이밍이나 순서에 따라 최종 결과값이 달라지는 치명적인 비결정적(Non-deterministic) 버그 현상</strong>이다.

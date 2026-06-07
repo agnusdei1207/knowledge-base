@@ -3,8 +3,8 @@ title: "Active Object Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Object ([액티브](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 오브젝트) 패턴은 메서드 호출(호출 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))과 메서드 실행(실행 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))을 분리하여, 비동기 호출자가 즉시 Future를 받고 실제 실행은 별도 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 처리되도록 한다.

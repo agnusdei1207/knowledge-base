@@ -2,9 +2,9 @@
 title: "137. Lstm Gru Long Short Term Memory"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 137
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)([Long Short-Term Memory](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))은 <strong>Forget·Input·Output 3개의 게이트로 셀 상태(Cell <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 제어</strong>하여 Vanilla RNN의 [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 <strong>2개 게이트(Reset·Update)로 단순화</strong>한 경량 변형이다.
 > 2. **가치**: RNN은 "어제 비가 왔다"는 기억하지만 "한 달 전 비가 왔다"는 잊지만, LSTM은 <strong>중요한 정보를 셀 상태에 장기 보존</strong>하여 먼 과거의 맥락도 활용한다.

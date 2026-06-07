@@ -3,8 +3,8 @@ title: "Columnar Storage Compression"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 311
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컬럼 지향 저장([Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC)은 동일 컬럼 값을 연속 저장해 [RLE](/studynote/08_algorithm_stats/05_string/099_rle/) (Run-Length Encoding)와 사전 인코딩이 극적인 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 효율(10배 이상)을 달성한다.

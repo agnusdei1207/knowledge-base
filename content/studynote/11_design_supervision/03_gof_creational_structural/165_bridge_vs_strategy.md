@@ -3,8 +3,8 @@ title: "Bridge vs Strategy Pattern"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [브리지 패턴](/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/) ([Bridge Pattern](/studynote/11_design_supervision/03_gof_creational_structural/153_bridge_pattern/))은 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 구현을 분리해 <strong>두 축이 독립적으로 확장</strong>되게 만들고, [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy Pattern](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 캡슐화해 <strong>행동을 교체 가능</strong>하게 만든다.

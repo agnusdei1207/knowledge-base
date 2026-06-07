@@ -3,8 +3,8 @@ title: "Cross Entropy LOSS Derivative"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 371
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 도함수 산출 구조 ([Cross Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) LOSS Derivative): 1. **본질**: 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Cross-Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) Loss)는 AI가 찍은 정답(예측 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포)과 실제 정답(실제 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포)이 얼마나 '다른가'를 수학적으로 채점하…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

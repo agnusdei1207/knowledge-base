@@ -3,8 +3,8 @@ title: "169. Kibana"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kibana는 Elasticsearch에 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 레이어로, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 탐색·대시보드·[APM](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) (Application [Performance Monitoring](/studynote/02_operating_system/10_security/609_performance_monitoring/))을 하나의 UI로 통합한다.
 > 2. **가치**: ELK ([Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)-Logstash-Kibana) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 가시성([observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 하며, 수십억 건 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 실시간으로 검색하고 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)를 경보로 전환한다.

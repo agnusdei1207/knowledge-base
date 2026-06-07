@@ -3,8 +3,8 @@ title: "080. Streaming Necessity"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 80
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 스트리밍 처리(Streaming Processing)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 즉시 처리하여 밀리초~초 단위의 의사결정을 가능하게 하는 패러다임으로, [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))의 수 시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 비즈니스 가치를 소멸시키는 영역(사기 탐지, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이상 감지, 주식 거래)에서 필수적이다.

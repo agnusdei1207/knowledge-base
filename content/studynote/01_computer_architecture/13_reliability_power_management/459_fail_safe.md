@@ -3,8 +3,8 @@ title: "Fail-Safe"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 459
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페일 세이프 (Fail-Safe)는 장애가 났을 때 "어떻게든 계속 돌리는 것"보다 "위험한 동작을 즉시 멈추고 안전한 상태로 수렴시키는 것"을 우선하는 설계 철학이다.

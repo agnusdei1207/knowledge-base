@@ -3,8 +3,8 @@ title: "642. Lamport Logical Clocks"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 642
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서는 [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)과 각 노드의 수정 진동자(Oscillator) 오차 때문에 <strong>물리적 시간(Physical Time)을 완벽하게 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>하는 것은 불가능</strong>하다. 레슬리 람포트(Leslie Lamport)는 이를 극복하기 위해 물리적 시간을 버리고 '사건의 선후 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'만을 따지는 <strong><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 시계(Logical Clocks)</strong>를 제안했다.

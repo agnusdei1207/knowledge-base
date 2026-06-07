@@ -3,8 +3,8 @@ title: "054. Configmap Secret"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ConfigMap은 비민감 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을, Secret은 민감한 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 분리해 관리하는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 객체다.

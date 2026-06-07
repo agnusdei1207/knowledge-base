@@ -3,8 +3,8 @@ title: "Packer"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동일한 빌드 정의로 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지와 AMI를 베이킹하는 이미지 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구.

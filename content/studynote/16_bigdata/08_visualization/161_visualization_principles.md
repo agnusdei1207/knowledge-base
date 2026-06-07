@@ -3,8 +3,8 @@ title: "161. Visualization Principles"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Edward Tufte의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잉크 비율([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio) 원칙은 "차트에 사용된 잉크의 최대한을 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표현하는 데 써야 한다"는 것으로, 장식적 요소(Chartjunk)를 제거하고 정보 밀도를 극대화하는 설계 철학이다.

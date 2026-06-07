@@ -3,8 +3,8 @@ title: "Decentralized Finance DeFi Protocol Design"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 760
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DeFi 프로토콜 설계는 이더리움 등 결정론적 상태머신 위에서 `Constant Function Market Maker(x·y=k)`, `Compound-style cToken 과잉담보 모델(Collateral Factor, LTV)`, `MakerDAO의 Vault CDP(Collateralized Debt Position)` 등 수학적 invariant와 오프체인 오라클(Chainlink Price Feed)을 결합하여 신뢰 최소화(trust-minimized)된 금융 primitives를 합성하는 것이다.

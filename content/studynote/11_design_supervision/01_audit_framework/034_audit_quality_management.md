@@ -2,9 +2,9 @@
 title: "Audit Quality Management"
 date: "2026-03-04"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 감리 품질 관리([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Quality [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 IT [감리 수행](/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)의 객관성·전문성·일관성을 보장하기 위한 품질 통제 체계로, 감리 계획·수행·보고 전 단계에 걸친 내부 품질 검토가 핵심이다.
 > 2. 한국 정보시스템 감리는 「전자정부법」과 「[정보시스템 감리기준](/studynote/11_design_supervision/01_audit_framework/005_audit_standards/)(행안부 고시)」에 따라 의무 감리 대상이 규정되며, 감리법인·감리원·발주기관의 역할과 책임이 명확히 분리된다.

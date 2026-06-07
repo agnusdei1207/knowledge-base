@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Sealed Secrets는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 비밀번호 같은 민감한 K8s Secret을 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 비대칭키로 암호화하여, Git 저장소에 안전하게 커밋할 수 있도록 돕는 보안 커스텀 리소스(CRD)다.

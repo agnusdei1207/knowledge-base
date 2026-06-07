@@ -3,8 +3,8 @@ title: "Principle of Least Privilege"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 577
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [최소 권한 원칙](/studynote/09_security/01_intro_principles/010_least_privilege/) (Principle of [Least Privilege](/studynote/09_security/01_intro_principles/010_least_privilege/))는 신원·접근 제어에서 복잡한 보안 문제를 요소와 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 나눠 설명하게 해 주는 구조화된 틀이다.

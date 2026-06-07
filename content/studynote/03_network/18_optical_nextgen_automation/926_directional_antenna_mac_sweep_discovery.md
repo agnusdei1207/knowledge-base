@@ -3,8 +3,8 @@ title: "926. Directional Antenna Mac Sweep Discovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 926
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지향성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

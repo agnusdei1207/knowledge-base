@@ -2,9 +2,9 @@
 title: "IT Project Portfolio Management"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IT PPM](/studynote/12_it_management/01_governance_strategy/822_it_ppm/) (Information Technology [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Portfolio [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 개별 프로젝트 성공보다, <strong>제한된 예산과 인력을 어떤 조합에 배치해야 기업 가치가 가장 커지는지</strong>를 다루는 거버넌스다.

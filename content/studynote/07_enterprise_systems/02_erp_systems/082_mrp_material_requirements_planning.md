@@ -2,10 +2,9 @@
 title: "82. MRP (Material Requirements Planning)"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 82
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MRP (Material Requirements Planning)는 완제품 계획을 기준으로 [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)), 재고, 리드타임을 역산해 "무엇을 언제 얼마나 확보할지" 계산하는 자재 소요 계획 체계다.

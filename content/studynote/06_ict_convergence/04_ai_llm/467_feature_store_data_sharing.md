@@ -3,8 +3,8 @@ title: "467. Feature Store Data Sharing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 467
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피처 스토어](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)([Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))는 여러 명의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 각자 파이썬으로 땀 흘려 가공해 낸 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(Feature, 특징 변수)들을 한 곳에 모아두고 언제든 꺼내 쓸 수 있게 만든 전사적 차원의 '[머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 반찬 가게(중앙 저장소)'다.

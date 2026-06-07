@@ -3,8 +3,8 @@ title: "324. Address Binding Stages"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 324
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개발자가 코드 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓴 환상 속의 별명 변수나 0번지 `논리 주소(Virtual)`를, 도대체 <strong>"언제쯤" 실제 램의 차가운 나노미터급 <code>물리 주소(Physical)</code> 닻으로 단단히 채워 넣을(Bind) 것인가</strong>를 결정하는 타이밍 역사 발전의 3단 기어 변속 과정이다.

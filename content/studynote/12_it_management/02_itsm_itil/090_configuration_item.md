@@ -1,11 +1,11 @@
 ---
 title: "090. Rnn Lstm"
 date: "2026-04-05"
-description: "RNN의 기본 구조와 한계, LSTM의 게이트 메커니즘, 시계열/NLP에서의 활용"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간적 흐름(Sequence)을 기억하기 위해 스스로에게 다시 연결되는 순환 구조를 가진 신경망이며, [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))은 그 기억이 시간이 지남에 따라 소실되는 문제를 해결한 발전형 모델이다.

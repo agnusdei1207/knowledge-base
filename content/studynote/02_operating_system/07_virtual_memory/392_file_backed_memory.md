@@ -3,8 +3,8 @@ title: "392. File Backed Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 392
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리([File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-backed Memory)는 물리 램(RAM)에 올라온 특정 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각이 <strong>하드디스크의 실제 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(예: <code>.exe</code>, <code>.so</code>, <code>.txt</code>) 내용과 1:1로 매핑(<a href="/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)되어, 확실한 원본(고향)을 두고 있는 축복받은 메모리 공간</strong>을 의미한다.

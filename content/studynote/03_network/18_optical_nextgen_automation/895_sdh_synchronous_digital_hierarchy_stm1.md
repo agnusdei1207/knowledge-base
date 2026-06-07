@@ -3,8 +3,8 @@ title: "895. Sdh Synchronous Digital Hierarchy Stm1"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 895
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SDH는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Microcode Security Patch"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 581
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로코드 보안 패치는 출하된 중앙처리장치 (Central Processing Unit, CPU)의 <strong>내부 제어 순서</strong>를 사후에 바꿔, 취약한 투기 실행·권한 검사·예외 처리 경로를 더 안전한 동작으로 재정의하는 필드 수정 수단이다.

@@ -3,8 +3,8 @@ title: "SVM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 362
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서포트 벡터 머신](/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/) 의 하드 마진 (Hard Margin) vs 소프트 마진 (Soft Margin / 슬랙 변수 허용) ([SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)): 1. **본질**: [서포트 벡터 머신](/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/)([SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 두 집단(클래스)을 나누는 무수히 많은 선들 중에서, 양쪽 집단과 가장 멀리 떨어져서 '최대 여백(Maximum Margin)'을 가지는 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

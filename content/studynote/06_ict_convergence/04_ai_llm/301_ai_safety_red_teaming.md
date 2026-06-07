@@ -3,8 +3,8 @@ title: "AI Safety"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 301
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 (Red Teaming) ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Safety): [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 배포 전 보안/윤리 결함을 의도적으로 찾아내기 위해 공격자 관점에서 취약점(탈옥 등)을 테스트하는 기법를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "043. Lambda Architecture Batch Speed Layer"
 date: "2026-04-05"
 tags:
   - "studynote-data-engineering"
+weight: 43
 ---
-
 > **핵심 인사이트**
 > 1. [람다 아키텍처](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)([Lambda Architecture](/studynote/16_bigdata/04_streaming/095_lambda_architecture/))는 Nathan Marz가 제안한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 아키텍처로 — 배치 레이어([정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 스피드 레이어(실시간성), 서빙 레이어(통합 조회)의 3계층으로 "정확하고 빠른" [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 달성하지만, 동일 로직을 두 번 구현해야 하는 "코드 중복" 문제가 근본 한계이다.
 > 2. [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)의 이진적 접근(배치 OR 스피드)과 달리, [카파 아키텍처](/studynote/16_bigdata/04_streaming/096_kappa_architecture/)([Kappa Architecture](/studynote/16_bigdata/04_streaming/096_kappa_architecture/))는 스트리밍 레이어만으로 모든 처리를 통합하여 코드 중복을 해소하지만 — 대규모 재처리(Reprocessing) 시 배치보다 자원이 많이 소요되는 트레이드오프가 있다.

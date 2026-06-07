@@ -3,8 +3,8 @@ title: "1x1 Convolution"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 286
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1×1 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(1x1 [Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/), Pointwise [Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))은 공간 정보(Spatial Information)를 그대로 유지하면서 채널(Channel) 수만 선택적으로 변환하는 연산으로, 채널 간 선형 결합(Linear Combination)을 학습한다.

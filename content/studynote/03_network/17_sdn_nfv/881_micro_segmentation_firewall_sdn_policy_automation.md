@@ -3,8 +3,8 @@ title: "881. Micro Segmentation Firewall Sdn Policy Automation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 881
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로세그멘테이션 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

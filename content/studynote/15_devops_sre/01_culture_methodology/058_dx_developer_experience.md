@@ -3,8 +3,8 @@ title: "058. Dx Developer Experience"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) (Developer Experience)는 개발자가 시스템과 만나는 모든 접점의 마찰을 줄이는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

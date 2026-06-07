@@ -3,8 +3,8 @@ title: "SpeedStep"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 728
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인텔 스피드스텝 (SpeedStep)은 CPU가 검증된 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)-주파수 operating point를 오가며 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 전력을 조절하는 Intel의 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) 계열 기술이다.

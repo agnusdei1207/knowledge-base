@@ -3,8 +3,8 @@ title: "199. Arm Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARM (Advanced [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine) 아키텍처는 단순한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독, 로드/스토어 (Load/Store) 중심 실행, 많은 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 바탕으로 전력 대비 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높인 대표적 [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))다.

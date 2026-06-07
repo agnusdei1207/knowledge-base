@@ -3,8 +3,8 @@ title: "1111. Dpdk Data Plane Development Kit Kernel Bypass"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

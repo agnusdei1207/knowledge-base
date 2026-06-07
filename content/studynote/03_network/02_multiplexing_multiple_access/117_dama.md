@@ -3,9 +3,8 @@ title: "117. DAMA (Demand Assignment Multiple Access)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 117
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DAMA (Demand Assignment [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 통신 위성 네트워크에서 고정된 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 미리 할당하지 않고, 가입자의 실제 트래픽 전송 요구(Demand)가 발생할 때마다 동적으로 채널을 할당하는 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식이다.

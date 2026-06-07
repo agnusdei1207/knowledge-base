@@ -3,8 +3,8 @@ title: "HTAP In-Memory Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 313
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) (Hybrid Transactional/Analytical Processing)은 OLTP와 OLAP을 단일 인메모리 엔진에서 처리해 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 분석한다.

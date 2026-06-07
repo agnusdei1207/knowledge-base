@@ -2,9 +2,9 @@
 title: "061. On Premise Legacy Infrastructure"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온프레미스(On-Premise)는 서버, 네트워크, 스토리지, 전원, 보안까지 기업이 직접 소유하고 운영하는 IT 인프라다.

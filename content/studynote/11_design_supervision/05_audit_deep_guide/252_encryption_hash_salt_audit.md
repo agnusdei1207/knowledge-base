@@ -3,8 +3,8 @@ title: "Encryption Hash Salt Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 252
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 중요 정보 보호는 목적에 따라 암호화(Encryption)와 해시(Hash)를 구분 적용해야 하며, 양방향·[단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)을 혼동하면 보안 설계가 근본적으로 무너진다.

@@ -3,8 +3,8 @@ title: "Self-Supervised Learning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 266
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자기 [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) (Self-Supervised [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)): 다음 단어 예측(Next Token Prediction), 빈칸 채우기([MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/)) 방식으로 사람이 라벨링하지 않아도 텍스트 구조 자체를 정답 삼아 자가 학습를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

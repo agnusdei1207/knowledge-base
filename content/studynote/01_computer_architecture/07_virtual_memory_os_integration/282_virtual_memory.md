@@ -3,8 +3,8 @@ title: "Virtual Memory"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 282
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))는 프로그램이 보는 주소와 실제 물리 메모리 주소를 분리해, 작은 물리 메모리도 더 크고 안전한 작업 공간처럼 쓰게 만드는 주소 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이다.

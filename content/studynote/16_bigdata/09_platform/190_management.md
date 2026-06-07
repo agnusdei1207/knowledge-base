@@ -3,8 +3,8 @@ title: "190. Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이브리드 분석 ([온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) + 클라우드 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)팅)은 빅데이터 하이브리드 분석 관점에서 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 운영을 연결해 반복 가능한 질서를 만드는 관리 방식를 다루는 주제다.

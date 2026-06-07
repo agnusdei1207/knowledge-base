@@ -3,8 +3,8 @@ title: "183. Mac Media Access Control"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 하위 부계층에서 <strong>누가 언제 전송할지 정하고, 프레임에 <a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>와 오류 검출 정보를 붙여 실제 <a href="/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 위로 내보내는 규칙</strong>이다.

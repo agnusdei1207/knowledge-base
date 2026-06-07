@@ -3,8 +3,8 @@ title: "Garbage Collection in SSD"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 328
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/) ([Garbage Collection](/studynote/02_operating_system/06_memory_management/380_garbage_collection/), GC)은 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 덮어쓰기 불가능한 낸드 플래시 ([NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/))에서 계속 쓸 수 있도록, 무효 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 정리해 <strong>다시 쓸 수 있는 빈 블록</strong>을 만드는 내부 유지보수 절차다.

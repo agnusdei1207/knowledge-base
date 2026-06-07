@@ -3,8 +3,8 @@ title: "842. Micro Trust Zone Distributed Firewall Zero Trust"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 842
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로 트러스트 존은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

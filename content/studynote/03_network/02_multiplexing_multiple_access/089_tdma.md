@@ -1,11 +1,11 @@
 ---
 title: "089. Time Division Multiple Access (TDMA)"
 date: "2026-03-30"
-description: "디지털 압축을 통해 하나의 주파수를 시간표로 쪼개어 다수의 사용자를 수용하는 TDMA의 원리와 타이밍 동기화"
 tags:
   - "network"
+  - "studynote-network"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시분할 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (TDMA, Time [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))은 넓은 주파수 대역 하나를 짧은 타임 슬롯 (Time Slot)으로 쪼개어 다수의 사용자에게 번갈아 발언권을 주는 디지털 2G [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 아키텍처다.

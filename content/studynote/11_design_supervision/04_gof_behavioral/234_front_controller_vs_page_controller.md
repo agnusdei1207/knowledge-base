@@ -3,8 +3,8 @@ title: "Front Controller vs Page Controller"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프론트 컨트롤러 (Front Controller) 는 모든 요청이 단일 진입점을 거치므로 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·로깅·[라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 등 공통 처리를 중앙화하고, [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컨트롤러 ([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller) 는 각 URL이 개별 핸들러로 직접 연결된다.

@@ -3,8 +3,8 @@ title: "704. Feature Flag Runtime Toggle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 704
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 피쳐 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 런타임 기능 토글은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

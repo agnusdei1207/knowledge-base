@@ -2,9 +2,9 @@
 title: "ISMS-P Certification Risk Assessment"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 251
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 위험 평가 절차 방법론은 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 위험 평가 절차 방법론, [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) Certification [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment, [ISMS](/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P의 경계를 분명히 만드는 데 의미가 있다.

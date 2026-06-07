@@ -3,8 +3,8 @@ title: "Distributed Memory"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 378
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 시스템 (Distributed Memory System)은 각 노드가 자신만의 메모리를 독립적으로 가지고, [데이터 공유](/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)를 하드웨어 주소 참조가 아니라 네트워크 메시지로 수행하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.

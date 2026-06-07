@@ -3,8 +3,8 @@ title: "Exponential Backoff and Retry Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Exponential Backoff and Retry (지수 백오프 재시도) 패턴은 일시적 네트워크 오류나 서버 과부하 시 재시도 간격을 지수적으로 증가시켜(1s -> 2s -> 4s -> 8s...), 서버가 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)될 시간을 주면서 불필요한 재시도 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 방지하는 패턴이다.

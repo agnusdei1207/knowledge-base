@@ -3,8 +3,8 @@ title: "121. Ecdlp"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ECDLP ([타원곡선](/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 이산 대수 문제)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

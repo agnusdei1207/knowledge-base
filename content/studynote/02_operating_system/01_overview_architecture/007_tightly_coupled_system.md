@@ -3,8 +3,8 @@ title: "Tightly Coupled System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 7
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 강결합 시스템 (Tightly Coupled System)은 여러 개의 프로세서가 단일 메인 메모리를 공유하며, 동일한 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 하에서 매우 낮은 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Low [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 고성능 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템이다.
 > 2. **가치**: 메모리 공유를 통한 직접 통신으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 오버헤드를 최소화하여 실시간성 및 고속 연산이 가능하지만, 자원 경합(Resource Contention)으로 인한 물리적 확장성의 한계가 명확하다.

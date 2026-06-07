@@ -3,8 +3,8 @@ title: "PaaS Lock in Prevention and Kubernetes Portability"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 268
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 락인 방지와 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 이식성은 플랫폼형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Platform [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)) 락인과 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), K8s) 이식성 설계에서 표준 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(Standard [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층([Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer), 배포 이식성([Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Portability)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

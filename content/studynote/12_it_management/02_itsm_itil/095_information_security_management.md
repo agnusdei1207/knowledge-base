@@ -3,8 +3,8 @@ title: "Information Security Management"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보 보안 관리 (Information [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 본질은 조직 자산의 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 가용성을 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 통제를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.
 > 2. **가치**: 자산, 위협, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

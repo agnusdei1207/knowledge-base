@@ -3,8 +3,8 @@ title: "454. Buffering"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 454
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 버퍼링(Buffering)은 초당 기가바이트를 쏘는 CPU와 초당 몇 킬로바이트를 뱉는 키보드/디스크처럼, <strong>장치 간의 압도적인 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 속도 차이(Speed Mismatch)와 전송 단위(크기) 차이를 극복하기 위해 물리 램(RAM)의 일정 구역을 임시 저수지로 사용하는 기법</strong>이다.

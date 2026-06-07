@@ -1,10 +1,11 @@
 ---
 title: "058. Hyperledger Fabric Private Blockchain"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이퍼레저 패브릭은 허가된 조직만 참여하는 기업용 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 프레임워크다.

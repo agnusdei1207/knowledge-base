@@ -3,8 +3,8 @@ title: "PMO Preventive Quality Plan"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 283
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 예방적 품질통제 계획은 프로젝트 관리 조직([Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/), [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))의 예방적 품질 통제 체계에서 품질 게이트(Quality Gate), 이슈 에스컬레이션(Issue Escalation), 거버넌스 주기(Governance Cadence)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

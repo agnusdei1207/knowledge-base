@@ -3,8 +3,8 @@ title: "Sigfox Lpwan Ultra Narrow Band IOT"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시그폭스](/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) ([SigFox](/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)) 협대역 통신 ([Sigfox](/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) [Lpwan](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) Ultra Narrow Band [IOT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

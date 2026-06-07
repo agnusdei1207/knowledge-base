@@ -3,8 +3,8 @@ title: "Johnson Counter"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 존슨 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Johnson [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))는 마지막 출력의 보수를 처음 입력으로 되돌리는 변형된 시프트 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)다.

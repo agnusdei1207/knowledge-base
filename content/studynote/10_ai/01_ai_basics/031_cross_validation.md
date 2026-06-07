@@ -3,8 +3,8 @@ title: "031. Cross Validation"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross Validation](/studynote/12_it_management/02_itsm_itil/083_cross_validation/))은 제한된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최대한 공정하게 추정하는 기법이다. k-Fold는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 k개로 나눠 순환하며 k번 평가한 평균으로 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 추정한다.
 > 2. **가치**: [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 단순 Hold-out보다 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 낮고 더 안정적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정을 제공한다. 특히 의료·금융·재난 예측처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적고 오판 비용이 큰 영역에서 필수다.

@@ -3,8 +3,8 @@ title: "TLS 1.3"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AEAD](/studynote/09_security/02_crypto/092_aead/) 암호화 강제 ([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3의 대학살)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 키 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.

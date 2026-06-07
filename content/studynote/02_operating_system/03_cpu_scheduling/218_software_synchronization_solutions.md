@@ -3,8 +3,8 @@ title: "Software Synchronization Solutions"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어적 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 해결책은 CPU의 특수한 하드웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(TAS, [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 등) 지원이나 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 커널의 개입 없이, 오직 <strong>프로그래머가 작성한 일반적인 전역 변수(<code>flag</code>, <code>turn</code>)의 읽기/<a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>만으로 <a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">Critical Section</a>)을 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>하려는 초창기 컴퓨터 과학의 순수 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 접근법이다.

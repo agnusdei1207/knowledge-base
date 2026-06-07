@@ -3,8 +3,8 @@ title: "SonarQube -"
 date: "2026-05-05"
 tags:
   - "studynote-devops-sre"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소나큐브(SonarQube)는 프로그램을 실행하지 않고 소스 코드(Text) 그 자체를 돋보기로 들여다보며, 인간의 눈으로는 찾기 힘든 보안 취약점, 버그, 스파게티 코드([Code Smell](/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))를 <strong>기계적으로 색출해 내는 <a href="/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a>(Static <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Analysis)의 절대적 표준 쇳덩어리 플랫폼</strong>이다.
 > 2. **가치**: 100명의 개발자가 각자의 스타일로 똥(나쁜 코드)을 싸지르는 것을 막고, 변수명 규칙부터 순환 복잡도(Cyclomatic Complexity)까지 회사의 <strong>'코드 품질(Quality) 거버넌스'를 하나의 대시보드에 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>하여 강제로 통일시키는 엄격한 품질 경찰관</strong> 역할을 한다.

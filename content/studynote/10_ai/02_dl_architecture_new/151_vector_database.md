@@ -3,8 +3,8 @@ title: "151. Vector Database"
 date: "2026-05-03"
 tags:
   - "studynote-ai"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)([Vector DB](/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/))는 텍스트나 이미지 같은 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 단순한 글자가 아닌, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 이해할 수 있는 고차원 실수 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)인 <strong>'<a href="/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>(<a href="/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>) 벡터 공간의 좌표 점'</strong>으로 변환하여 저장하는 4차원 기하학적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 창고다.
 > 2. **가치**: 기존 RDBMS가 '사과'라는 똑같은 글씨(키워드 100% 일치)만 찾아낼 때, 벡터 DB는 "빨갛고 맛있는 과일"이라고 대충 쳐도 의미(Semantic)가 가장 가까운 거리에 있는 '사과'를 귀신같이 찾아내는 <strong>유사도(Similarity) 검색의 쾌속 엔진</strong>이다.

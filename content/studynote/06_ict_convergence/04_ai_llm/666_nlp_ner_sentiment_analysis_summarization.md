@@ -3,8 +3,8 @@ title: "NLP NER Sentiment Analysis Summarization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 666
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NER(개체명 인식)·감성 분석·자동 요약은 비정형 텍스트에서 **구조화(Structured Information)**, **극성 판별(Polarity)**, **의미 압축(Semantic Compression)**을 수행하는 3대 핵심 NLP 태스크이며, 현대에는 Transformer Encoder/Decoder 구조(KoBERT, KLUE-BERT, BART, T5, GPT 계열) 위에서 End-to-End로 통합 구현된다.

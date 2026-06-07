@@ -3,8 +3,8 @@ title: "121. Smart Factory 4 Levels"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 4단계는 제조 현장의 [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 수준을 <strong>기초(ICT 미적용)->중간1(자동화)->중간2(연결·가시화)->고도화(지능화·자율 최적화)</strong>로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 성숙도 모델이다.
 > 2. **가치**: 기업이 현재 위치를 진단하고 <strong>다음 단계로 가기 위한 투자 우선순위</strong>를 결정하는 로드맵 역할을 하며, 정부의 [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 지원 사업에서도 이 단계를 기준으로 지원 수준을 결정한다.

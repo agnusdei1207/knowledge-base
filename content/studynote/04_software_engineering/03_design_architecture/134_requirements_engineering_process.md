@@ -3,8 +3,8 @@ title: "134. Requirements Engineering Process"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구 도출(Elicitation)->분석(Analysis)->명세([Specification](/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/), SRS)->[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))->관리([Management](/studynote/12_it_management/05_security_compliance/1013_management/)) 5단계를 반복 순환하며, 각 단계마다 고유한 기법과 산출물이 있다.
 > 2. **가치**: 도출 기법(인터뷰·워크숍·프로토타이핑)을 적절히 조합해야 <strong>숨겨진 요구사항(Hidden Requirements)</strong>을 발견할 수 있고, 명세의 품질이 전체 프로젝트 품질을 결정한다.

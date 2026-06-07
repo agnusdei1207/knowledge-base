@@ -3,8 +3,8 @@ title: "Schedule / History"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스케줄 (Schedule / History)은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 연산의 실행 순서에 초점을 맞춘 개념이다.

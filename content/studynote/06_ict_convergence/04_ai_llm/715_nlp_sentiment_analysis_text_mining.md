@@ -3,8 +3,8 @@ title: "NLP Sentiment Analysis Text Mining"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 715
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비정형 텍스트에서 형태소 분석(MeCab/KoNLPy), 임베딩(Word2Vec/BERT), 분류 모델(BiLSTM/Transformer) 파이프라인을 통해 문서·문장·속성 단위의 극성(Polarity: Positive/Negative/Neutral)과 감정 강도(Intensity)를 정량화하는 기법으로, Lexicon(사전 기반)·ML(SVM/Naive Bayes)·DL(BERT/KoELECTRA) 세 가지 패러다임이 계층적으로 결합되어 동작합니다.

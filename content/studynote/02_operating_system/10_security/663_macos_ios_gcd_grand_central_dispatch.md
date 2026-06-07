@@ -3,8 +3,8 @@ title: "663. Macos Ios Gcd Grand Central Dispatch"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 663
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Grand Central Dispatch (GCD, `libdispatch`)는 멀티코어 환경에서 개발자가 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 직접 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리하는 고통을 없애기 위해, Apple이 XNU [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 언어(C/Objective-C/Swift) 차원에 깊숙이 통합한 <strong>작업(<a href="/studynote/02_operating_system/02_process_thread/150_task/">Task</a>) 기반의 비동기 실행 프레임워크</strong>다.

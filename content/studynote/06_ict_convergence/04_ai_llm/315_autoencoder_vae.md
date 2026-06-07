@@ -3,8 +3,8 @@ title: "Autoencoder"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 315
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 구조 및 [변이형 오토인코더](/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/) (VAE) 잠재 벡터 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)망 ([Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)): 1. **본질**: [오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)([Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))는 입력된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아주 작은 크기의 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/)) 구간으로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)(인코딩)했다가, 다시 원래의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 똑같은 모양으로 복…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "821. Seven S Model"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 821
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 7S 모델의 핵심은 [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), Structure, Systems, Shared Values, Style, Staff, Skills라는 점에 있다. 이를 현장 의사결정에 연결하는 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 구조로 이해하면 된다.

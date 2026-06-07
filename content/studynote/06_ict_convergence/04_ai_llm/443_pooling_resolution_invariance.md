@@ -3,8 +3,8 @@ title: "Pooling Resolution Invariance"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 443
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 해상도 불변 차원 ([Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) Resolution Invariance): 1. **본질**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 CNN이 뽑아낸 엄청나게 거대한 특징 맵([Feature Map](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 해상도를 반 토막으로 팍팍 줄여버리면서, 그중 가장 눈에 띄는 뚜렷한 특징(M…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

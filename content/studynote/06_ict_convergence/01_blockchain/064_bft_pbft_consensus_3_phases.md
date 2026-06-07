@@ -1,10 +1,11 @@
 ---
 title: "064. Bft Pbft Consensus 3 Phases"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PBFT](/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)(Practical Byzantine [Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))는 Byzantine fault가 있어도 3단계 투표로 합의를 빠르게 확정하는 합의 알고리즘이다.

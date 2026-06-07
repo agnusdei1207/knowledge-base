@@ -3,8 +3,8 @@ title: "Cascading Rollback"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연쇄 복귀 (Cascading [Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))은 한 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 취소 시, 의존하던 다른 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)도 연쇄 취소에 초점을 맞춘 개념이다.

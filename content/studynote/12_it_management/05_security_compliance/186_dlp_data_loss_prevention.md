@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 186
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DLP (Data Loss Prevention)는 사용자·네트워크·저장소를 지나는 데이터를 내용 기반으로 식별해 반출을 탐지·차단·암호화하는 정보 유출 통제 체계다.

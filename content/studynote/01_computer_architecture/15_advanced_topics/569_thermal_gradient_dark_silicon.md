@@ -3,8 +3,8 @@ title: "Thermal Gradient"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 569
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티코어 칩 온도 불균형 (Thermal Gradient)은 패키지 평균 온도가 아니라 코어·캐시·인터커넥트 주변의 국소 온도 차이가 실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계와 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 좌우하는 현상이다.

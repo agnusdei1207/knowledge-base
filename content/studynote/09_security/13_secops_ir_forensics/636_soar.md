@@ -3,9 +3,8 @@ title: "636. SOAR (Security Orchestration, Automation, Response)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 636
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SOAR](/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation, Response)는 보안 운영·포렌식에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

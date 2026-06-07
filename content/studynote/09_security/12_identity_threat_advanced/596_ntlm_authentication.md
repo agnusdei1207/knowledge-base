@@ -3,9 +3,8 @@ title: "596. NTLM Authentication (NTLM Authentication)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 596
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NTLM](/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Authentication는 신원 위협에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

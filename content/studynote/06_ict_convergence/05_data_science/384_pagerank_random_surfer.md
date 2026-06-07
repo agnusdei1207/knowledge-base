@@ -3,8 +3,8 @@ title: "PageRank"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 384
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 랭크 행렬 이동 고유 벡터 무작위 서퍼 (Random Surfer) 모형 (PageRank): 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 랭크(PageRank)는 인터넷에 널린 수십억 개의 웹페이지 중 "어떤 웹페이지가 가장 중요한가?"를, [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 연결된 수많은 '링크(Link)'를 권력의 투표…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

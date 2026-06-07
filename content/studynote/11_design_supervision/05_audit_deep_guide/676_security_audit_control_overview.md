@@ -3,8 +3,8 @@ title: "Information System Security Audit Control Overview"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 676
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보시스템 보안 감리 통제 체계 총론는 관리적 통제, 기술적 통제, 운영적 통제를 한 체계로 묶어 판단하는 보안 감리 주제다.

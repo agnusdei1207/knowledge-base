@@ -3,8 +3,8 @@ title: "ICT Convergence PE Master Architecture Map"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 710
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합은 단일 기술이 아닌 **Network(5G/6G·SDN/NFV) — Computing(Cloud·Edge·Quantum) — Data(BigData·Data Lake) — Intelligence(AI/ML·GenAI·Agentic AI) — Trust(Cybersecurity·Blockchain·ZTA)**의 5대 축이 표준 참조 아키텍처(RAMI 4.0, IIRA, 등)와 거버넌스 프레임워크를 통해 결합되는 **계층적·횡단적 생태계 시스템**이다.

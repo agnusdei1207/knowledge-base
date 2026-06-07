@@ -3,8 +3,8 @@ title: "Imitation Learning / Behavior Cloning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 413
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모방 학습 ([Imitation Learning](/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/))은 전문가의 시연 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보고 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 배우는 학습 방식이고, 행동 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Behavior Cloning)는 그중 가장 직접적인 지도학습형 접근이다.

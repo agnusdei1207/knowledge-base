@@ -3,8 +3,8 @@ title: "Toil"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
+weight: 300
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 [에러 예산](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [토일](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 축소는 변경 관리와 운영 자동화에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 협업 효율을 동시에 끌어올린다.

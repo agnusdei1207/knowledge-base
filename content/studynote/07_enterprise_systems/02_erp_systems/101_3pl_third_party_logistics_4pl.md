@@ -1,10 +1,11 @@
 ---
 title: "101. 3Pl Third Party Logistics 4Pl"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 3PL (Third Party Logistics)은 기업이 창고 관리, 포장, 배송 등 물류 업무 전반을 외부 전문 물류 업체에 완전히 위탁(아웃소싱)하는 경영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 4PL은 여기에 IT 기반의 '[공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 컨설팅'을 더한 진화형 모델이다.
 2. **가치**: 제조 및 유통 기업은 막대한 물류 고정비(트럭, 창고)를 변동비로 전환하고 핵심 역량(R&D, 마케팅)에만 집중할 수 있으며, 물류 업체는 여러 화주의 수량을 통합해 '규모의 경제'를 실현한다.

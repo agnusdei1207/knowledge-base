@@ -1,11 +1,11 @@
 ---
 title: "Iterative and Incremental Model"
 date: "2026-03-04"
-description: "소프트웨어의 디테일을 반복적으로 고도화하고 기능을 점진적으로 추가하여 완성하는 현대 애자일의 근간"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 8
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 한 번에 완벽한 시스템을 구축하지 않고, 시스템을 여러 조각으로 나누어(점진적) 각 조각의 품질을 지속적으로 다듬어가는(반복적) 하이브리드 개발 방법론입니다.
 > 2. **가치**: 고객에게 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계부터 동작하는 일부 기능을 신속하게 인도하여 비즈니스 가치 창출 시점을 앞당기고, 잦은 피드백으로 요구사항 변경을 수용합니다.

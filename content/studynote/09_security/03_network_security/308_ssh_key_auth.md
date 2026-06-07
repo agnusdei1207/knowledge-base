@@ -3,8 +3,8 @@ title: "SSH Key-Based Authentication"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SSH](/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 공개키 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([SSH](/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) Key-Based [Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/))는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

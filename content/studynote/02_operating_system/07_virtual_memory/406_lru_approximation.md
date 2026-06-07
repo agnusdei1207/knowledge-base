@@ -3,8 +3,8 @@ title: "406. Lru Approximation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 406
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 순수 LRU가 요구하는 "모든 메모리 접근마다 타임스탬프를 기록하는 극악의 오버헤드"를 버리고, 하드웨어([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/))가 제공하는 단 1비트짜리 <strong><a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>만을 활용해 <strong>LRU와 '비슷하게(Approximation)' 동작하도록 설계된 현실적인 <a href="/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a> <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>들의 총칭</strong>이다.

@@ -3,8 +3,8 @@ title: "Data Observability Anomaly Quality Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 677
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 파이프라인의 **5대 관측 가능성 차원**(Freshness 신선도, Volume 볼륨, Schema 스키마, Lineage 리니지, Quality 품질)에 대해 **Rule-based -> Statistical(EWMA/STL/MAD) -> ML-based(Isolation Forest/AutoEncoder/Prophet)** 3계층 탐지 엔진을 적용하고, 탐지 결과의 **Precision/Recall/F1**과 **Data Downtime**(MTTD/MTTR)을 SLO로 운영·검증하는 메타-관측(Meta-Observability) 체계.

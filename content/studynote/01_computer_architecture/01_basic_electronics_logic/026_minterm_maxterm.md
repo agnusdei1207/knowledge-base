@@ -3,8 +3,8 @@ title: "026. Minterm Maxterm"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 최소항(Minterm)은 n개의 변수가 모두 AND로 연결된 곱항(Product Term)으로, 각 변수는 보수(Complement) 또는 비보수(Non-complement) 형태로 정확히 한 개의 입력 조합에서만 1이 된다. 최대항(Maxterm)은 n개의 변수가 모두 OR로 연결된 합항(Sum Term)으로, 정확히 한 입력 조합에서만 0이 된다.
 > 2. **가치**: 부울 함수는 최소항의 합(SOP, Sum of Products)인 정규합 형태(Canonical SOP)와 최대항의 곱(POS, Product of Sums)인 정규곱 형태(Canonical POS)로 유일하게 표현될 수 있다. 이 두 표준형은 [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)([Karnaugh Map](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)) 최적화와 게이트 회로 구현의 이론적 기반이다.

@@ -3,8 +3,8 @@ title: "Reverse ering"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 역공학([Reverse 엔진ering](/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))은 완성된 시스템(바이너리, 하드웨어, 제품)을 분석하여 설계·원리·소스코드를 역으로 추출하는 활동이다. 소프트웨어 역공학은 디컴파일(Decompile), 디스어셈블(Disassemble), [동적 분석](/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)으로 구현된다.
 > 2. **가치**: 레거시 시스템 유지보수, 악성코드 분석, [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 개발, 보안 취약점 발견에 필수적이다. 특히 보안 분야에서 바이너리 분석은 취약점 발견과 악성코드 방어의 핵심 기술이다.

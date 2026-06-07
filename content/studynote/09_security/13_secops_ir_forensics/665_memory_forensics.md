@@ -3,8 +3,8 @@ title: "Memory Forensics"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 665
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 포렌식 (Memory Forensics)는 보안 운영·포렌식에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

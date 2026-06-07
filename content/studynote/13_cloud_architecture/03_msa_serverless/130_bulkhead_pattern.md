@@ -3,8 +3,8 @@ title: "130. Bulkhead Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Bulkhead](/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)(격벽)는 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>·리소스를 격리된 풀(Pool)로 분리</strong>하여 하나의 장애가 다른 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전파되지 않도록 하는 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복원력 패턴이다.
 > 2. **가치**: 주문·결제·추천 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 <strong>같은 <a href="/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>을 공유</strong>하면 추천 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 시 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고갈->주문·결제도 장애(Cascading), Bulkhead로 분리하면 **추천만 영향**.

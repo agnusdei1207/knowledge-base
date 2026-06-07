@@ -3,9 +3,8 @@ title: "948. Clean-Label Poisoning (Clean-Label Poisoning)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 948
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Clean-Label Poisoning는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

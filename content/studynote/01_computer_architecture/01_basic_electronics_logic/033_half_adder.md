@@ -3,8 +3,8 @@ title: "Half Adder"
 date: "2026-03-03"
 tags:
   - "studynote-computer-architecture"
+weight: 33
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 반가산기(Half Adder)는 두 1비트 이진수를 더해 합(Sum)과 올림수(Carry)를 출력하는 최소 덧셈 회로로, XOR·AND 두 게이트만으로 구현된다.
 > 2. [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)([Full Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/))는 반가산기 2개+OR 게이트 1개로 구성되며, 이전 자리 올림(Cin)까지 처리해 다자리 덧셈의 기본 단위가 된다.

@@ -2,9 +2,9 @@
 title: "RAG: Retrieval-Augmented Generation"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 435
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 제어 벡터 DB은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 제어 벡터 DB, [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/): [Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/), RAG의 경계를 분명히 만드는 데 의미가 있다.

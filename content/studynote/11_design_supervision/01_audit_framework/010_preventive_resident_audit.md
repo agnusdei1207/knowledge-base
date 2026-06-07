@@ -1,11 +1,11 @@
 ---
 title: "010. Preventive Resident Audit"
 date: "2024-05-24"
-description: "사업 실패 리스크를 조기에 차단하는 예방 감리와 대형 사업에 밀착 대응하는 상주 감리의 운영 아키텍처 및 실무 통제"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 10
 ---
-
 # 예방 감리 (Preventive) / 상주 감리 (Resident)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 사후 적발 위주의 전통적 정기 감리(단계 감리)가 가지는 '시간적 사각지대'를 극복하기 위해, 감리인이 사업 현장에 상주하며 상시적으로 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 조언하는 선제적 품질 보증 체계이다.

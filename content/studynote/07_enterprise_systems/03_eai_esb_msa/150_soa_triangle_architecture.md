@@ -3,8 +3,8 @@ title: "Registry"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 3요소 아키텍처는 **[서비스 제공자 Provider]**, **[서비스 요청자 Requester]**, <strong><a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">서비스 [레지스트리</a> <a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>]</strong>라는 3개의 액터(Actor)가 각자의 책임을 100% 분할하여 거대한 통신 생태계를 이루는 [트라이](/studynote/08_algorithm_stats/04_datastructure/087_trie/)앵글(Triangle) 구조다.
 > 2. **가치**: 이 3요소가 엮어내는 **[Publish(등록) -> Find(검색) -> Bind(호출)]** [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 덕분에, 클라이언트(요청자)는 백엔드 서버(제공자)의 IP 주소나 내부 로직을 1바이트도 하드코딩할 필요가 없어져(Dynamic Discovery), 런타임에 서버가 10번 바뀌어도 소스 코드 수정(Re-compile)이 0%로 증발하는 궁극의 느슨한 결합(Loose [Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))을 쟁취했다.

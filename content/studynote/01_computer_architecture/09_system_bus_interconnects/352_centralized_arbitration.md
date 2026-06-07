@@ -3,8 +3,8 @@ title: "352. Centralized Arbitration"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 352
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 중앙 집중식 중재(Centralized Arbitration)는 여러 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터가 하나의 공유 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 동시에 요구할 때, 단일 중재기(Arbiter)가 사용권을 한곳에서 결정하는 구조다.

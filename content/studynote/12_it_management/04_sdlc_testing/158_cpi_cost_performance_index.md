@@ -3,8 +3,8 @@ title: "Cost Performance Index,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPI (Cost [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 비용 성과 지수)는 획득 가치([EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), Earned Value)를 실제 비용([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/), [Actual Cost](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))으로 나눈 값으로, 지출 1원당 얼마만큼의 계획 가치를 만들어 냈는지를 보여주는 비용 효율 지표다.

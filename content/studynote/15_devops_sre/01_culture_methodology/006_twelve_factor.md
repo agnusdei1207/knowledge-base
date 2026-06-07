@@ -3,8 +3,9 @@ title: "Heroku"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 6
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 12 팩터 앱( Twelve-Factor App)은 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 및 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 애플리케이션 개발을 위한 12가지 설계 원칙으로, Heroku의 엔지니어링 팀이 2011년에 체계화했다.
 > 2. **가치**: 이 원칙들을 따르면 애플리케이션의 배포 민첩성, 확장성, [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)이 극대화되어, 현대적 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인과완미하게 연동된다.

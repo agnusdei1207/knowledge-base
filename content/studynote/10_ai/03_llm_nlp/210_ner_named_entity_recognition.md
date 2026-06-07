@@ -3,8 +3,8 @@ title: "NER, Named Entity Recognition"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [개체명 인식](/studynote/16_bigdata/05_analysis/117_ner/) ([NER](/studynote/16_bigdata/05_analysis/117_ner/), Named Entity Recognition)은 쏟아지는 텍스트 문장 속에서 인명(Person), 지명(Location), 기관명(Organization), 날짜(Date) 등 <strong>고유한 의미를 가진 핵심 명사(Entity)들을 핀셋으로 집어내어 이름표(Label)를 찰칵찰칵 붙여주는 자연어 처리(NLP) 정보 추출의 뼈대 기술</strong>이다.

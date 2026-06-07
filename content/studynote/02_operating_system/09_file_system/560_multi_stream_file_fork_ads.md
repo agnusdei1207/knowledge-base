@@ -3,8 +3,8 @@ title: "560. Multi Stream File Fork Ads"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 560
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 원래 우리가 아는 `A.txt` [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 오직 "A.txt의 텍스트 본문([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))" 1개의 덩어리만 존재한다. 그러나 애플의 HFS([Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))와 마이크로소프트의 NTFS(Windows)는, 1개의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 <strong>"눈에 보이는 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스트림(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Fork) 1개 외에도 눈에 안 보이는 메타데이터나 리소스 은닉 스트림(Resource Fork / ADS)을 무한정 덕지덕지 수십 개나 달아놓을 수 있는 '다중 공간 차원(Multi-<a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">stream</a> 렌더)'"</strong> 구조를 만들어 버렸다.

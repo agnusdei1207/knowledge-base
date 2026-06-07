@@ -3,8 +3,8 @@ title: "Zram Swap Compression"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 424
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ZRAM([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술)은 물리 램(RAM)이 꽉 차서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 스왑(Swap) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 쫓아내야 할 때, <strong>디스크로 내보내지 않고 CPU의 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(LZ4/Zstd) 연산을 이용해 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 1/3 크기로 찌그러뜨려 램(RAM) 내부의 숨겨진 가상 <a href="/studynote/02_operating_system/07_virtual_memory/390_swap_space/">스왑 공간</a>(ZRAM)에 욱여넣는 극한의 인메모리(In-Memory) 생존 기술</strong>이다.

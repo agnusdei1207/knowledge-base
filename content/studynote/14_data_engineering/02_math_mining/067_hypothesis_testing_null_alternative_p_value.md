@@ -3,8 +3,8 @@ title: "H1"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가설 검정은 표본을 이용해 귀무 가설(H0)을 기각할지 판단하는 통계 절차다.

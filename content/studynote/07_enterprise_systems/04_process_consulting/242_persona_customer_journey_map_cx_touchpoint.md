@@ -2,9 +2,9 @@
 title: "Persona / C Journey Map"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 페르소나 및 고객 여정 지도 CX 터치포인트 도출은 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 페르소나 및 고객 여정 지도 CX 터치포인트 도출, Persona, [C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) Journey Map의 경계를 분명히 만드는 데 의미가 있다.

@@ -1,11 +1,11 @@
 ---
 title: "022. Bsc Balanced Scorecard"
 date: "2024-05-24"
-description: "조직의 비전과 전략을 재무, 고객, 내부 프로세스, 학습과 성장의 4가지 관점에서 측정하고 관리하는 전략적 성과 관리 도구"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 22
 ---
-
 # [균형 성과 기록표](/studynote/12_it_management/01_governance_strategy/019_bsc/) ([BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/), Balanced Scorecard)
 
 #### 핵심 인사이트 (3줄 요약)

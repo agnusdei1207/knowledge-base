@@ -3,9 +3,8 @@ title: "760. HASS (Highly Accelerated Stress Screen)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 760
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HASS (Highly Accelerated Stress Screen)는 HALT로 확인한 설계 마진 안에서 양산품에 높은 온도·진동·전원 스트레스를 짧게 가해 제조·조립 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 빠르게 걸러내는 생산 screening이다.

@@ -3,8 +3,8 @@ title: "027. Regularization Techniques"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 규제화([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하기 위해 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/))에 모델 복잡도를 페널티로 추가하는 기법으로, L1([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)), L2(Ridge), [Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/), [Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/), [Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 등이 있다.
 > 2. **가치**: 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 지나치게 맞춰지면 새 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Test Set)에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락한다. 규제화는 "모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈까지 외우는 것"을 막고 일반화(Generalization) 능력을 향상시킨다.

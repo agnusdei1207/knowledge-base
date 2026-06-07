@@ -3,8 +3,8 @@ title: "Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트랜잭션 (Transaction)은 논리적 작업의 기본 단위, 분할할 수 없는 일련의 연산에 초점을 맞춘 개념이다.

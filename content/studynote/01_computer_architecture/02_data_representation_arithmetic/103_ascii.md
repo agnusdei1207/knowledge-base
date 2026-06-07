@@ -3,8 +3,8 @@ title: "103. Ascii"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ASCII (American Standard [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) for Information Interchange)는 1960년대 서로 다른 제조사의 장비들이 문자(Alphabet)와 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(Control [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 동일하게 인식하도록 제정된 <strong>최초의 7비트 범용 문자 인코딩 표준 규약</strong>이다.
 > 2. **가치**: 대소문자의 차이를 오직 $32(0x20, \text{[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 5})$라는 규칙적인 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나로 제어하는 수학적 설계로, 컴파일러와 하드웨어의 문자 연산 속도를 극단적으로 끌어올렸다.

@@ -3,8 +3,8 @@ title: "192. 1 Address Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1-주소 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (One-Address [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 주소를 하나만 적고, 나머지 한 축은 [누산기](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ([Accumulator](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/), [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))로 암묵적으로 고정해 연산하는 형식이다.

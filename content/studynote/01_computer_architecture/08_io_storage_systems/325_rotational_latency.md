@@ -3,8 +3,8 @@ title: "Rotational Latency"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 325
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 회전 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Rotational [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 [하드 디스크 드라이브](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive, [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에서 헤드가 올바른 트랙에 도착한 뒤에도, 원하는 섹터가 헤드 아래로 회전해 들어올 때까지 기다리는 순수한 기계적 대기 시간이다.

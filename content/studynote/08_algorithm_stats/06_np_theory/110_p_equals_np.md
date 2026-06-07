@@ -3,8 +3,8 @@ title: "110. P Equals Np"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 110
 ---
-
 > **핵심 인사이트**
 > 1. P = NP 문제는 "검증이 쉬운 문제는 풀기도 쉬운가?"라는 질문으로, 밀레니엄 7대 난제 중 하나이자 100만 달러 상금의 클레이 수학 연구소 문제이며 — 만약 P = NP라면 암호화([RSA](/studynote/09_security/03_network_security/110_rsa/), [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))의 수학적 기반이 붕괴된다.
 > 2. 현재까지 P ≠ NP로 추측되지만 증명이 없으며, 수학자 Scott Aaronson은 "P = NP라면 수학 자체가 자동화된다 — AI가 모든 수학 증명을 실용적으로 찾아낼 수 있다"고 설명했다.

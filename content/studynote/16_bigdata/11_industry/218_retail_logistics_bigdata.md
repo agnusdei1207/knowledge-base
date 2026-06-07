@@ -3,8 +3,8 @@ title: "218. Retail Logistics Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 유통·물류 빅데이터의 경쟁 우위는 <strong>수요 예측 정확도</strong>에서 시작한다. 예측 오차 1%p 감소가 재고 비용 수십억 원 절감으로 연결된다.

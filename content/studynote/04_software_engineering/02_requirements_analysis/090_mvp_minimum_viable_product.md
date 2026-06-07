@@ -1,10 +1,11 @@
 ---
 title: "MVP, Minimum Viable Product"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/studynote/12_it_management/01_governance_strategy/036_mvp/), 최소 존립 제품)는 수많은 기능을 배제하고, 고객의 핵심 문제를 해결하는 단 하나의 가설만을 테스트할 수 있는 가장 조잡하지만 작동하는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 제품이다.

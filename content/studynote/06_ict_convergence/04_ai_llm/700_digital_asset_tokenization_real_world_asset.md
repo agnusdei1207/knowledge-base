@@ -3,8 +3,8 @@ title: "Digital Asset Tokenization Real World Asset"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 700
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실물 자산(RWA, Real World Asset)을 블록체인 위에서 ERC-1404/ST-20/STO 등 증권형 토큰 표준과 SPV(특수목적법인), Oracle(예: Chainlink PoR, Pyth), On-chain Compliance(KYC/AML) 레이어로 변환하여 원장의 무결성과 자동 분배(Smart Contract Escrow)를 통해 실물과 1:1(또는 N:1) 페깅하는 메커니즘.

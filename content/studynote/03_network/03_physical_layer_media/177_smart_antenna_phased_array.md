@@ -1,10 +1,11 @@
 ---
 title: "Phased Array"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 위상 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Phased [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))는 여러 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자의 위상과 진폭을 조절해 빔 방향을 전자적으로 합성하고, 스마트 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Smart [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))는 여기에 사용자 추적·간섭 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)까지 결합한 개념이다.

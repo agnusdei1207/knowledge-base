@@ -3,8 +3,8 @@ title: "Arithmetic Instructions"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 산술 연산 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Arithmetic Instructions)는 CPU (Central Processing Unit)가 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 값을 수학적으로 바꿔 프로그램 상태를 전진시키는 가장 기본적인 상태 변화 명령이다.

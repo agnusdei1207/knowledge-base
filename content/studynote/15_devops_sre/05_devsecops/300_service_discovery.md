@@ -1,11 +1,10 @@
 ---
-weight = 300
 title: "300. 서비스 디스커버리 동적 IP 라우팅 (Process)"
 date: "2026-05-08"
-[extra]
-categories: "studynote-devops-sre"
+tags:
+  - "studynote-devops-sre"
+weight: 300
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서비스 디스커버리 동적 IP 라우팅 (Process)은 security 관점에서 목표 상태, 실행 절차, 검증 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

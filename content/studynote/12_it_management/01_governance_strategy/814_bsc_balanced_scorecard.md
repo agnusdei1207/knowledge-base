@@ -3,8 +3,8 @@ title: "BSC, Balanced Scorecard"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 814
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [균형 성과 기록표](/studynote/12_it_management/01_governance_strategy/019_bsc/)의 핵심은 재무, 고객, 내부 프로세스, 학습과 성장 4가지 관점의 균형 평가 모델라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.

@@ -3,8 +3,8 @@ title: "Smart City Urban Data Platform"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 584
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트시티 도시 데이터 플랫폼은(는) 교통, 에너지, 환경, 안전, 행정 데이터를 통합 수집·분석해 도시 운영 의사결정을 지원하는 플랫폼이다.

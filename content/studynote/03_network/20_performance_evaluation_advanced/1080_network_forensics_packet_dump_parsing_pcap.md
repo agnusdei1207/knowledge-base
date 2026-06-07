@@ -3,8 +3,8 @@ title: "1080. Network Forensics Packet Dump Parsing Pcap"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1080
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [네트워크 포렌식](/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

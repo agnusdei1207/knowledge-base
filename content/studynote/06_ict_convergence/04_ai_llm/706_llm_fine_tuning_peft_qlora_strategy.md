@@ -3,8 +3,8 @@ title: "LLM Fine Tuning PEFT QLoRA Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 706
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: QLoRA는 4-bit NF4 양자화(NormalFloat) + Double Quantization + Paged Optimizers로 거대 LLM의 사전학습 가중치를 동결(Freeze)한 채, LoRA 어댑터(W_A∈R^(d×r), W_B∈R^(r×k))만 학습하여 65B 모델을 단일 48GB GPU에서 미세 조정 가능하게 만든 **메모리 효율 극대화형 PEFT(Parameter-Efficient Fine-Tuning)** 전략이다.

@@ -3,8 +3,8 @@ title: "607. Factory Method Vs Abstract Factory"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 607
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [팩토리 메서드](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) vs [추상 팩토리](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

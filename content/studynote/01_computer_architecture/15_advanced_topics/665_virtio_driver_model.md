@@ -3,8 +3,8 @@ title: "665. Virtio Driver Model"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 665
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Virtio (Virtual I/O) 드라이버 모델은 가상 머신 ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 안의 프론트엔드 드라이버와 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 쪽 백엔드가 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 큐로 대화하게 만든 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 표준이다.

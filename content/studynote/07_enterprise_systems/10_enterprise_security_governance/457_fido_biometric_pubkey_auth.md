@@ -2,9 +2,9 @@
 title: "FIDO, Fast Identity Online"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 457
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 FIDO 로컬 생체 서버 공개키 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 FIDO 로컬 생체 서버 공개키 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), FIDO, Fast Identity Online의 경계를 분명히 만드는 데 의미가 있다.

@@ -3,8 +3,8 @@ title: "463. Markov Decision Process Mdp"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 463
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마르코프 결정 과정(MDP, [Markov Decision Process](/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))은 로봇이 미로를 탈출하거나 자율주행차가 도로를 달릴 때, 현재의 "상태([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))"에서 어떤 "행동(Action)"을 해야 가장 큰 "보상(Reward)"을 받을 수 있는지를 수학적으로 계산해 내는 강화학습의 절대적인 뼈대(프레임워크)다.

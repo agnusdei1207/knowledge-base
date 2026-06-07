@@ -3,8 +3,8 @@ title: "171. Plotly Dash"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Plotly는 Python [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 인터랙티브 Figure로 바꾸는 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 엔진이고, Dash는 그 Figure와 입력 위젯을 엮어 웹 애플리케이션으로 만드는 반응형 프레임워크다.

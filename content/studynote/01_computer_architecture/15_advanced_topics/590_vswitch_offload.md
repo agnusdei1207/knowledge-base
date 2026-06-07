@@ -3,8 +3,8 @@ title: "vSwitch Offload"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 590
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드 ([vSwitch](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) Offload)는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 안 소프트웨어 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 수행하던 fast path match-action 포워딩을 [네트워크 인터페이스 카드](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 또는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))의 embedded switch로 옮기고, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 제어는 호스트에 남기는 구조다.

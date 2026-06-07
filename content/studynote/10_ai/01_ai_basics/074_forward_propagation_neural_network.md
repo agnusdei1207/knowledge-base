@@ -1,10 +1,11 @@
 ---
 title: "074. Forward Propagation Neural Network"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [순전파](/studynote/10_ai/03_llm_nlp/271_forward_propagation/)는 입력이 신경망의 각 층을 지나 출력으로 계산되는 과정이다.

@@ -3,8 +3,8 @@ title: "597. Slc Caching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 597
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SLC 캐싱은 솔리드스테이트 드라이브 ([Solid-State Drive](/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/), [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))의 트리플 레벨 셀 (Triple-Level Cell, TLC)·쿼드 레벨 셀 (Quad-Level Cell, QLC) 낸드 일부를 의사 SLC (pseudo-SLC, pSLC)처럼 운용해, 느린 본 저장 영역 앞에 빠른 임시 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 흡수층을 만드는 구조다.

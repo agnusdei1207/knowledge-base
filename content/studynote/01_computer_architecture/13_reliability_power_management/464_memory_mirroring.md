@@ -3,8 +3,8 @@ title: "Memory Mirroring"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 464
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) (Memory Mirroring)은 메모리 컨트롤러가 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 개의 독립 메모리 채널에 동시에 기록해, 한쪽 DIMM (Dual Inline Memory [Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 또는 채널이 고장 나도 다른 쪽 사본으로 계속 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하는 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 계층의 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 기법이다.

@@ -3,8 +3,8 @@ title: "399. Global Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 399
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전역 교체(Global Replacement)는 물리 램(RAM)에 빈 공간이 없어 누군가의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내야(Swap-out) 할 때, <strong>나(자신)의 메모리 영역뿐만 아니라 시스템에 떠 있는 다른 모든 프로세스의 메모리 영역까지 무자비하게 뺏어올 수 있는 거시적 <a href="/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/">페이지 교체 알고리즘</a></strong>이다.

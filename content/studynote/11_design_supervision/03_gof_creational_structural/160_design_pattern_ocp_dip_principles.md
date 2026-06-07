@@ -3,8 +3,8 @@ title: "OCP·DIP"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 디자인 패턴은 자주 발생하는 구조 문제를 해결하는 재사용 가능한 설계 해법이며, 특히 [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/), [개방-폐쇄 원칙](/studynote/11_design_supervision/06_exam_summary/356_process/))와 [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([Dependency Inversion Principle](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), [의존성 역전 원칙](/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/))를 코드 구조로 구현하는 도구다.

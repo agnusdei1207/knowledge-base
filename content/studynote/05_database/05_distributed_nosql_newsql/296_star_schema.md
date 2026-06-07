@@ -3,8 +3,8 @@ title: "296. Star Schema"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 296
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 스탬피드 (Cache Stampede) / Thundering Herd 문제는 대규모 동시 캐시 미스 발생 부하에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

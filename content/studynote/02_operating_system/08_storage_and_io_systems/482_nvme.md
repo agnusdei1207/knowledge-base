@@ -3,8 +3,8 @@ title: "482. Nvme"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 482
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NVMe (Non-Volatile Memory Express)는 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 위에 구축되어, 고속 [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) (NAND/Storage Class Memory)의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 잠재력을 봉인 해제하도록 설계된 혁신적인 초저지연·초고대역폭 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.

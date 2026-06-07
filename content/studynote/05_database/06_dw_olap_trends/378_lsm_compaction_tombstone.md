@@ -3,8 +3,8 @@ title: "Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 378
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 콤팩션 ([Compaction](/studynote/02_operating_system/06_memory_management/347_compaction/))는 LSM 트리 구조 병합 및 [툼스톤](/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/) 정리에 초점을 둔 확장형 저장소 개념이다.

@@ -3,8 +3,8 @@ title: "142. Externalized Configuration"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Externalized Configuration은 <strong>애플리케이션의 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>(DB URL·API키·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a>)을 코드 외부(환경변수·<a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a> Server·<a href="/studynote/09_security/11_iam_access_control/567_vault/">Vault</a>)로 분리</strong>하여, 코드 변경 없이 환경별(dev/staging/prod) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 관리하는 패턴이다.
 > 2. **가치**: [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)이 코드에 하드코딩되면 <strong>환경별 빌드가 필요</strong>하고 [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출 위험이 있지만, 외부화하면 <strong>하나의 이미지로 모든 환경</strong>에 배포하고 런타임에 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 주입한다.

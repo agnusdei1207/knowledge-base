@@ -2,9 +2,9 @@
 title: "022. Snapshot Backup Architecture"
 date: "2026-04-02"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 22
 ---
-
 # 스냅샷 ([Snapshot](/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)) - 클라우드 스토리지 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 복원 아키텍처
 
 > ⚠️ 이 문서는 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 및 스토리지 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 특정 시점의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태를 순식간에 포착하고 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는 핵심 기술인 '스냅샷([Snapshot](/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/))'의 원리([CoW](/studynote/02_operating_system/09_file_system/542_cow_file_system/), RoW), [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과의 차이점, 그리고 엔터프라이즈 [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처에서의 활용 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 심층 분석합니다.

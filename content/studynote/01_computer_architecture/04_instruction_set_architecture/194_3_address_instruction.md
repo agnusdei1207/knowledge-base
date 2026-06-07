@@ -3,8 +3,8 @@ title: "194. 3 Address Instruction"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 3-주소 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Three-Address [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 두 입력과 한 출력의 위치를 각각 분리해 적는 형식이라, 연산 후에도 원본 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)가 보존되는 비파괴적 실행 모델을 만든다.

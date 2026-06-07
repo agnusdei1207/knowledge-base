@@ -3,8 +3,8 @@ title: "Data Dictionary"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 509
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클러스터링 팩터](/studynote/05_database/03_relational_model/169_clustering_factor_index_physical_sort/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 효율 평가 지표은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

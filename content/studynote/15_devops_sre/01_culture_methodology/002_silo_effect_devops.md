@@ -3,8 +3,9 @@ title: "002. Silo Hyeonhyung"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 2
 ---
-
 # 사일로 현상 타파
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "Buffer Overflow"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1035
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/studynote/02_operating_system/10_security/591_buffer_overflow/))는 보안 확장 개념에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

@@ -3,8 +3,8 @@ title: "722. Core C States"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 722
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코어 C-State는 CPU (Central Processing Unit) 코어가 할 일이 없을 때 파이프라인, 클럭, 캐시, 전원 레일을 단계적으로 멈추거나 낮춰 유휴 전력을 줄이는 per-core [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태 체계다.

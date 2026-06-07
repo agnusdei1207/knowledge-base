@@ -3,8 +3,8 @@ title: "259. Raft Paxos"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 259
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 래프트 (Raft) / 팍소스 (Paxos) 알고리즘는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB 리더 선출 및 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 합의 (Consensus)에 초점을 둔 알고리즘이다.

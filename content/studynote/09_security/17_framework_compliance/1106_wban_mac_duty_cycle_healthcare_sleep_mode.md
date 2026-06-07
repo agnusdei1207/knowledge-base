@@ -3,8 +3,8 @@ title: "WBAN MAC"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [체내 통신](/studynote/03_network/12_iot_wpan_edge/1028_wban_wireless_body_area_network/) ([WBAN](/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 및 주파수 대역)는 보안 확장 개념에서 복잡한 보안 문제를 요소와 관계로 나눠 설명하게 해 주는 구조화된 틀이다.

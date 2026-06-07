@@ -3,8 +3,8 @@ title: "Multi-Factor Authentication, MFA"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1049
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다요소 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Multi-Factor Authentication](/studynote/09_security/11_iam_access_control/552_mfa/), [MFA](/studynote/09_security/11_iam_access_control/552_mfa/))는 보안 확장 개념에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

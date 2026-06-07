@@ -2,9 +2,9 @@
 title: "DevOps: Culture, Automation, Collaboration"
 date: "2025-05-14"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **개발과 운영의 통합**: 개발(Dev)과 운영(Ops) 팀 간의 소유권 공유와 협업을 통해 소프트웨어 배포 속도와 안정성을 동시에 달성함.
 2. <strong>신속한 <a href="/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>: [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))과 배포(CD)를 자동화하여 버그를 조기 발견하고 시장의 요구에 기민하게 대응함.

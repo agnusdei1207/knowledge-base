@@ -3,8 +3,8 @@ title: "785. Msa Eventual Consistency Data"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 785
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [결과적 일관성](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) 확보은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

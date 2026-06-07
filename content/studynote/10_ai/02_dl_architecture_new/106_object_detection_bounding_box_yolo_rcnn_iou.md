@@ -3,8 +3,8 @@ title: "106. Object Detection Bounding Box Yolo Rcnn Iou"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) ([Object Detection](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))는 이미지 내에 무엇이 있는지([Classification](/studynote/12_it_management/03_ea_isp/107_classification/))와 그것이 정확히 어디에 있는지 좌표(Localization)를 동시에 찾아내는 시각 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기술이다.

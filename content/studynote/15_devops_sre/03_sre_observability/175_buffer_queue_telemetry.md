@@ -3,8 +3,8 @@ title: "Buffer/Queue Telemetry"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Buffer/[Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Telemetry는 생산자와 소비자의 속도가 만나는 경계 지점에서 backlog, age, drain rate를 관측해, 장애가 사용자에게 드러나기 전에 포화 징후를 읽는 관측 기법이다.

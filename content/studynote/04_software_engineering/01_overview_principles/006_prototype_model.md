@@ -1,11 +1,11 @@
 ---
 title: "006. Prototype Model"
 date: "2026-03-04"
-description: "요구사항의 불확실성을 시제품으로 해소하는 고객 중심 개발 프로세스"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 6
 ---
-
 # 06. [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 모델 ([Prototype](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) Model)
 
 #### 핵심 인사이트 (3줄 요약)

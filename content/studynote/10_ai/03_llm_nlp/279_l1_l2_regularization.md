@@ -3,8 +3,8 @@ title: "Regularization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 279
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L1 규제([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/), Least Absolute Shrinkage and [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) [Operator](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))는 λΣ|w|, L2 규제(Ridge)는 λΣw^의 페널티를 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 추가해 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 커지는 것을 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하며, L1은 희소 해(Sparse Solution)를, L2는 전체 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 균형 있는 축소를 유도한다.

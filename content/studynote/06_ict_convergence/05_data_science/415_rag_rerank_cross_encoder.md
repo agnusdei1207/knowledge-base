@@ -3,8 +3,8 @@ title: "Re-rank"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 415
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 리랭크 크로스 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 결합 문서 적합도 재배열 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Re-rank): 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 시스템에서 리랭커(Re-ranker)는 1차 검색([Vector DB](/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/))으로 대충 찾아온 100개의 문서 후보군을, 질문과 문서의 문맥을 아주 깊…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

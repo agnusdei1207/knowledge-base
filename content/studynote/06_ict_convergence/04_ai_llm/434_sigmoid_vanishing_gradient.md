@@ -3,8 +3,8 @@ title: "Sigmoid Vanishing Gradient"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 434
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) [Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)): 1. **본질**: [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 함수는 어떤 숫자가 들어와도 무조건 0과 1 사이의 부드러운 S자 곡선([확률](/studynote/08_algorithm_stats/08_stats/130_probability/))으로 찌그러뜨리는 '[활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)(Activation Functi…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

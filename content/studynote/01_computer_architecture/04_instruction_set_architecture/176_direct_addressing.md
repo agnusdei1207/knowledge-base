@@ -3,8 +3,8 @@ title: "Direct"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 직접 주소 지정 (Direct Addressing)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 주소 필드 값 자체가 유효 주소 (Effective Address, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))가 되는 [주소 지정 방식](/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)이다.

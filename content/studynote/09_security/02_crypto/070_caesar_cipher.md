@@ -3,8 +3,8 @@ title: "070. Caesar Cipher"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카이사르 암호는 알파벳을 일정 칸수만큼 밀어 치환하는 가장 단순한 고전 암호다.

@@ -3,8 +3,8 @@ title: "Declarative vs Imperative Infrastructure"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선언형 ([Declarative](/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))은 원하는 최종 상태를 기술하고 시스템이 그 상태로 수렴하게 만드는 방식이며, 명령형 (Imperative)은 사람이 실행 순서와 예외 처리까지 직접 지휘하는 방식이다.

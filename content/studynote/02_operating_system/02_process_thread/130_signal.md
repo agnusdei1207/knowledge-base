@@ -3,8 +3,8 @@ title: "kill, SIGINT, SIGKILL"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 신호 (Signal)는 유닉스 (Unix) 계열 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 프로세스에 [비동기적](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 이벤트를 알리기 위한 소프트웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) (Software [Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 메커니즘이며, 하드웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 CPU에 외부 이벤트를 알리는 것과 유사하게, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스의 정상 실행 흐름을 중단시키고 미리 등록된 시그널 핸들러 (Signal Handler)로 제어를 전달한다.

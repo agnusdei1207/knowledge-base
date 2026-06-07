@@ -3,9 +3,8 @@ title: "18. CMOS (Complementary MOS)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 18
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMOS (Complementary Metal-Oxide-Semiconductor)는 입력 신호에 대해 정반대로 동작하는 P채널 MOSFET과 N채널 MOSFET을 직렬로 결합한 대칭형 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 스위칭 아키텍처다.
 > 2. **가치**: 입력이 0이든 1이든 두 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 중 하나는 반드시 꺼져 있게 강제하여, 전원(VDD)에서 접지(GND)로 직통하는 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 원천 차단하고 대기 [전력 소모](/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)를 0으로 수렴시켰다.

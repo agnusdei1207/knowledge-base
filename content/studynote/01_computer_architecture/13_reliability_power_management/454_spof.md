@@ -3,8 +3,8 @@ title: "SPOF, Single Point of Failure"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 454
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단일 장애점 (SPOF, Single Point of Failure)은 시스템 전체가 의존하는 경로·부품·제어점이 하나뿐이라서, 그 한 점의 고장이 전체 중단으로 곧바로 번지는 구조적 취약점이다.

@@ -1,10 +1,11 @@
 ---
 title: "CHECK"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 77
 ---
-
 # 사용자 정의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) (User-defined [Integrity](/studynote/09_security/01_intro_principles/003_integrity/)) - 업무 규칙에 따른 제약
 
 ## 핵심 인사이트 (3줄 요약)

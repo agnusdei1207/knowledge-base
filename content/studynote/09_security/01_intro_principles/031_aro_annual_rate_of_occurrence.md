@@ -3,8 +3,8 @@ title: "031. Aro Annual Rate Of Occurrence"
 date: "2026-04-29"
 tags:
   - "studynote-security"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ARO(Annual Rate of Occurrence, 연간 발생률)는 특정 위협이 1년 동안 발생할 것으로 예상되는 횟수다. [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = SLE × ARO 공식에서 핵심 변수로, 정확한 ARO 산정이 정량적 위험 분석의 신뢰성을 결정한다.
 > 2. **가치**: ARO은 과거 사고 통계·산업 벤치마크·전문가 판단으로 추정한다. ARO = 1이면 매년 한 번, ARO = 0.1이면 10년에 한 번 발생 예상이다. 소수점 ARO가 가능하며 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 개념이다.

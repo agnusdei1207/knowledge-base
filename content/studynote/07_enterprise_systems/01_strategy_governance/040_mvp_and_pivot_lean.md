@@ -3,8 +3,8 @@ title: "040. Mvp And Pivot Lean"
 date: "2026-03-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 40
 ---
-
 > **핵심 인사이트**
 > 1. [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/)([Minimum Viable Product](/studynote/12_it_management/01_governance_strategy/036_mvp/), 최소 기능 제품)는 Eric Ries의 [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/)([Lean Startup](/studynote/12_it_management/01_governance_strategy/827_lean_startup/)) 핵심 개념으로, 최소한의 기능으로 고객 가설을 빠르게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Validated [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))하는 제품 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이며, "완성된 제품"이 아닌 "학습 도구"임을 이해하는 것이 핵심이다.
 > 2. MVP의 목적은 Build-Measure-Learn(BML) [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 최대한 짧게 돌리는 것으로, 빠른 실패(Fail Fast)와 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/)) 또는 인내(Persevere) 결정이 MVP가 달성해야 하는 실질적 성과다.

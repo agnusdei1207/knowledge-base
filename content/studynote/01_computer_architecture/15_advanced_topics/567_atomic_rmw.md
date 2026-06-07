@@ -3,8 +3,8 @@ title: "Atomic Read-Modify-Write, RMW"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 567
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 원자적 읽기-수정-쓰기 (Atomic Read-Modify-Write, RMW)는 메모리 값을 읽고 바꾸고 다시 쓰는 과정을 끊을 수 없는 하나의 하드웨어 사건으로 만들어, 경쟁 상태에서 값 손실을 막는 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 최소 단위다.

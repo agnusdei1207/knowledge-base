@@ -3,8 +3,8 @@ title: "3D XPoint"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 494
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 옵테인 메모리 (Optane Memory)는 인텔이 3D XPoint를 기반으로 내놓은 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) (Storage Class Memory) 제품군으로, [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)과 NAND 플래시 ([NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/)) 사이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·[영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 간극을 줄이려는 상용 시도였다.

@@ -3,8 +3,8 @@ title: "Superposition"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자 중첩 (Superposition): 0과 1의 상태가 동시에 존재하는 양자적 특성 (연산 속도 지수적 증가)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "037. Nrz L Nrz I"
 date: "2026-03-03"
 tags:
   - "studynote-network"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. NRZ(Non-Return to [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기 중 0V로 복귀하지 않는 라인 코딩 방식으로, NRZ-L(Level)은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값 자체를 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨로, NRZ-I(Inverted)는 1 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)마다 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 반전시켜 표현한다.
 > 2. NRZ-L의 핵심 문제는 긴 연속 0 또는 1이 발생할 때 클락 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 불가능한 기저선 천이([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/) Wandering)와 DC 성분 발생이며, NRZ-I는 연속 1에서는 해결되지만 연속 0 문제는 여전히 존재한다.

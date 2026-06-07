@@ -3,8 +3,8 @@ title: "283. Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 283
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [12 팩터 앱](/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/) ([클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 설계 원칙)은 [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 관점에서 목표 상태, 실행 절차, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

@@ -3,8 +3,8 @@ title: "944. Orchestration Saga"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 944
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오케스트레이션 사가](/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/) ([Orchestration Saga](/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)) - 중앙 통제기가 [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

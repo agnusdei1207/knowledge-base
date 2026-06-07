@@ -3,9 +3,8 @@ title: "136. MIPS (Million Instructions Per Second)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 136
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)는 CPU (Central Processing Unit)가 1초 동안 처리한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 백만 단위로 표현한 처리율 지표다.

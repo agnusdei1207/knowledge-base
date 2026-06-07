@@ -3,8 +3,8 @@ title: "Low-Code / No-Code"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 258
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로우코드 / 노코드 플랫폼 개발론 (Low-Code / No-Code): 258. 로우코드 / 노코드 (Low-Code / No-Code) 플랫폼 개발론를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

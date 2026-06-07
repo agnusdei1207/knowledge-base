@@ -3,8 +3,8 @@ title: "Amdahl's Law"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 143
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 암달의 법칙 (Amdahl's Law)은 시스템의 한 부분만 빨라져도 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 그 부분이 원래 차지하던 실행 시간 비중에 의해 제한된다는 법칙이다.

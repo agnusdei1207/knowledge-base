@@ -2,9 +2,9 @@
 title: "Workflow Management System"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 워크플로우 관리 시스템은 업무 문서나 작업 요청을 다음 담당자와 시스템으로 자동 전달하는 실행 엔진이다.

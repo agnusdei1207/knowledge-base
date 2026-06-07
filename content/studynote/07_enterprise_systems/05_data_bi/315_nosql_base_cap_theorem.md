@@ -3,8 +3,8 @@ title: "NoSQL BASE CAP Theorem"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 315
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)), [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance(분단 내성) 셋 중 둘만 동시에 완전히 보장할 수 있다는 이론이다.

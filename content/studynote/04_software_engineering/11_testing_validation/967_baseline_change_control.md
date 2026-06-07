@@ -3,8 +3,8 @@ title: "967. Baseline Change Control"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 967
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "608. Async Fifo"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 608
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비동기 FIFO는 서로 다른 읽기·[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 클럭 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 사이에 dual-port 메모리와 포인터 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)기를 두어, [데이터 버스](/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) 자체는 각자 로컬 클럭으로 다루고 포인터만 안전하게 교환하는 탄성 버퍼 구조다.

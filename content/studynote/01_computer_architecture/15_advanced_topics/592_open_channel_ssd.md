@@ -3,8 +3,8 @@ title: "592. Open Channel Ssd"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 592
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 채널 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 구조는 저장장치 내부 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 숨겨서 처리하던 플래시 배치와 매핑을 밖으로 드러내고, 플래시 변환 계층 ([Flash Translation Layer](/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/), [FTL](/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))을 호스트 소프트웨어가 직접 구현하도록 바꾸는 host-managed flash 아키텍처다.

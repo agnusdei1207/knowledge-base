@@ -3,8 +3,8 @@ title: "133. Anti Corruption Layer"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 부패 방지 레이어 ([ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Anti-Corruption Layer)는 DDD의 전략적 통합 패턴으로, 외부 시스템·레거시 시스템·다른 [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 자신의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델을 '오염(corrupt)'시키지 못하도록 경계에 변환·번역 레이어를 두어 내부 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델의 순수성을 보호한다.

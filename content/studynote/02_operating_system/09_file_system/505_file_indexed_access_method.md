@@ -3,8 +3,8 @@ title: "Indexed Access"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 505
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞서 배운 직접 접근([Direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Access)이 '주소값으로 한방에 점프'하는 기술이라면, 색인 접근([Indexed](/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/) Access)은 그 1억 명의 주소록 번호를 모조리 외울 수 없는 인간과 OS를 위해 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 앞이나 별도 공간에 <strong>"이름표와 물리적 주소 번호표를 짝지어놓은 거대한 사전(<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>) 목차"</strong> 를 만들어 제공하는 2단계 S/W 탐색 체계다.

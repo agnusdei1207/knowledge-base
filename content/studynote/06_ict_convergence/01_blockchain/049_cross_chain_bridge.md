@@ -3,8 +3,8 @@ title: "049. Cross Chain Bridge"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. 크로스체인 브릿지(Cross-Chain [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))는 서로 다른 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 간 자산·데이터를 전송하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) — 이더리움의 [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 토큰을 솔라나·[BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/)·폴리곤으로 이동하거나, 비트코인을 DeFi에서 사용할 수 있게 해주는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 인터넷의 기반 인프라다.
 > 2. 락-앤-민트([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-and-Mint)와 번-앤-민트(Burn-and-Mint)가 크로스체인 브릿지의 두 핵심 메커니즘 — 원본 체인에서 자산을 잠그고([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 목표 체인에서 동등한 래핑 토큰(Wrapped Token)을 발행(Mint)하거나, 원본을 소각(Burn)하고 목표 체인에서 민트하는 방식이다.

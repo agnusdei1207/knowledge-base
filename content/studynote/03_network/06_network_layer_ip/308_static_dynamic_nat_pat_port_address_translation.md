@@ -1,11 +1,10 @@
 ---
-title: "308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation = NAPT, 1:N)"
+title: "308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation ="
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 308
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Static [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) / Dynamic [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)…는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

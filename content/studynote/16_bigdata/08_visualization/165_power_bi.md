@@ -3,8 +3,8 @@ title: "165. Power Bi"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Query(M 언어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환)·DAX([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis Expressions 계산)·[시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 3레이어로 구성되며, Microsoft 365·Azure·Fabric 생태계와의 깊은 통합을 통해 엔터프라이즈 BI의 표준 플랫폼으로 자리잡았다.

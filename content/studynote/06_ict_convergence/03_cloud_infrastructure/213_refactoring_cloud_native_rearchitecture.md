@@ -3,8 +3,8 @@ title: "Refactor"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리팩토링 (Refactor): [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))을 끌어내기 위해 [애플리케이션 아키텍처](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 등)를 전면 수정를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "K-NN"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 352
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-최근접 이웃 / 거리 척도 (K-NN): 유클리디안 (L2), 맨해튼 (L1), 민코프스키, 마할라노비스 거리를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

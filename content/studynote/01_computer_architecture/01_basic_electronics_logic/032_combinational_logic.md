@@ -3,8 +3,8 @@ title: "Combinational Logic Circuit"
 date: "2026-03-03"
 tags:
   - "studynote-computer-architecture"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로(Combinational Logic Circuit)는 현재 입력만으로 출력이 결정되며, 기억 소자 없이 [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 조합만으로 구성된다.
 > 2. [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) -> 부울 식 -> [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) -> 게이트 최소화의 설계 흐름이 회로 복잡도를 줄이는 핵심이다.

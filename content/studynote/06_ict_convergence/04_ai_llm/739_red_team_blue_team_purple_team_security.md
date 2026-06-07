@@ -3,8 +3,8 @@ title: "Red Team Blue Team Purple Team Security"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 739
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레드팀(공격 시뮬레이션), 블루팀(방어·탐지·대응), 퍼플팀(양 팀 간의 협업 촉진 및 지식 통합)을 통해 MITRE ATT&CK 매트릭스 기반의 실제 공격자 TTP(Tactics, Techniques, Procedures)를 모사하고, 탐지 커버리지·MTTD(Mean Time To Detect)·MTTR(Mean Time To Respond)을 정량적으로 측정·개선하는 적응형 보안 검증(Adaptive Security Validation) 체계입니다.

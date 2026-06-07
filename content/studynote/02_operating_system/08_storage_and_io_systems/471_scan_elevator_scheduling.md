@@ -3,8 +3,8 @@ title: "Scan Elevator Scheduling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 471
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SCAN 스케줄링은 하드디스크 바늘(Head)이 <strong>엘리베이터처럼 한쪽 방향으로 끝까지 쭉 밀고 가면서 가는 길에 있는 모든 요청을 싹쓸이한 뒤, 디스크 끝에 도달하면 방향을 틀어 반대쪽 끝까지 싹쓸이하는 가장 본능적이고 상식적인 디스크 큐잉 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

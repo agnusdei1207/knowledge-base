@@ -3,8 +3,8 @@ title: "287. Multi Model Db Arangodb"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 287
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성는 높은 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 다운샘플링 (Downsampling), 보존 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

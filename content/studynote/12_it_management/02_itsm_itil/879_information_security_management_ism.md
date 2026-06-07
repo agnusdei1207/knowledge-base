@@ -3,8 +3,8 @@ title: "879. Information Security Management Ism"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 879
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [정보 보안 관리](/studynote/12_it_management/02_itsm_itil/095_information_security_management/) ([Information Security Management](/studynote/12_it_management/02_itsm_itil/095_information_security_management/))는 단순히 IT 기술로 해커를 막는 수준을 넘어, 조직의 핵심 자산을 식별하고 위험을 평가하여 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([CIA Triad](/studynote/09_security/01_intro_principles/001_cia_triad/))을 전사적으로 통제하는 경영 활동이다.

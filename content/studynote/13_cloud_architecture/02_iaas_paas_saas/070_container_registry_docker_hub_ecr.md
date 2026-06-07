@@ -2,9 +2,9 @@
 title: "Docker Hub, AWS ECR"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 같은 산출물을 저장·배포하는 중앙 저장소다.

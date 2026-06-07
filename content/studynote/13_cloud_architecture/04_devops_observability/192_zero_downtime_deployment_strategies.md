@@ -3,8 +3,8 @@ title: "Zero Downtime Deployment Strategies"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Rolling · Blue-Green · Canary는 각각 "점진 교체 / 완전 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 후 순간 전환 / 소수 선택 노출"이라는 서로 다른 트레이드오프를 가진 [무중단 배포](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 패턴이다.

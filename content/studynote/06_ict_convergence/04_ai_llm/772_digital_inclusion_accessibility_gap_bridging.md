@@ -3,8 +3,8 @@ title: "Digital Inclusion Accessibility Gap Bridging"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 772
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 포용 접근성 격차 해소는 WCAG 2.1/2.2(Perceivable·Operable·Understandable·Robust) 4대 원칙과 KWCAG 2.1, ARIA(Accessible Rich Internet Applications) 1.2 명세를 기반으로 장애·연령·환경적 제약이 있는 사용자가 동등하게 정보에 접근·상호작용할 수 있도록 하는 Universal Design for Learning(UDL) 기반의 다층적 기술·정책·교육 통합 체계이다.

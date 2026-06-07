@@ -2,9 +2,9 @@
 title: "107. Classification"
 date: "2026-04-05"
 tags:
-  - "studynote-bigdata"
+  - "studynote-it-management"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Classification)는 과거의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴(입력 X)과 정답 레이블(출력 Y)의 관계를 학습하여, 새롭게 주어지는 미지의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 범주에 속하는지 예측하는 기계 학습(Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: 스팸 메일 필터링, 신용카드 사기 탐지, 고객 이탈 예측 등 비즈니스에서 발생하는 "예/아니오" 또는 "다중 선택"의 의사결정을 인간의 개입 없이 빠르고 정확하게 자동화할 수 있다.

@@ -1,10 +1,11 @@
 ---
 title: "061. Relation Schema Instance"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 릴레이션(Relation)은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS, Relational [Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)의 핵심 단위로, 수학적으로는 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple) 집합이다.

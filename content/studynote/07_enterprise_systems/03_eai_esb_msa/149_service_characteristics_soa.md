@@ -3,8 +3,8 @@ title: "Loose Coupling"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엔터프라이즈 아키텍처([SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)/[MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 말하는 '[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))'는 단순한 자바 클래스나 함수 덩어리가 아니다. 스스로 독립적인 비즈니스 의미(예: 결제 승인)를 가지며, 타 시스템과 네트워크 껍데기([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로만 소통하는 살아 숨 쉬는 독립적인 배포(Deploy) 생명체다.
 > 2. **가치**: A [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 B [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 속살(DB/변수)을 직접 찌르던 스파게티 강결합(Tightly Coupled) 파국을 도끼로 찢어버렸다. 자기 뱃속을 완벽히 블랙박스 캡슐화([Information Hiding](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/)) 치고 오직 외부 표준 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 1개 대문만 뚫어, 딴 놈이 불타 죽든 DB가 터지든 내 코드는 100% 무정단 평화 생존을 쟁취하는 <strong>느슨한 결합(Loose <a href="/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)</strong> 방어막 쉴드다.

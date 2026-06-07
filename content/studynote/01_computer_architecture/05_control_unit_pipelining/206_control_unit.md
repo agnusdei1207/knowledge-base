@@ -3,8 +3,8 @@ title: "Control Unit"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제어 유닛 (Control Unit, CU)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 비트를 실제 하드웨어 동작으로 번역해, CPU (Central Processing Unit) 내부 각 블록에 "언제 무엇을 할지"를 알려주는 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기다.

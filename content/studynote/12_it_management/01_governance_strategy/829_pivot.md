@@ -3,8 +3,8 @@ title: "Pivot"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 829
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 피벗의 핵심은 고객 반응을 바탕으로 사업 방향을 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 전환라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

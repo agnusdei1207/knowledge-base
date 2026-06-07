@@ -2,10 +2,9 @@
 title: "226. FinOps (Cloud Financial Management)"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 226
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) (Financial Operations)는 엔지니어링, 재무, 제품 조직이 같은 비용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보며 클라우드 지출을 운영하는 협업 모델이다.

@@ -3,8 +3,8 @@ title: "A STAR Admissible Heuristic"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 422
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A* 허용 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ([A STAR](/studynote/10_ai/03_llm_nlp/238_a_star_heuristic_search/) [Admissible Heuristic](/studynote/10_ai/01_ai_basics/018_admissible_heuristic/)): 1. **본질**: A*(에이스타) 알고리즘은 미로를 탈출할 때 "지금까지 걸어온 실제 거리(g)"와 "앞으로 출구까지 남은 예상 거리(h)"를 더한 총비용(f = g + h)이 가장 작…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

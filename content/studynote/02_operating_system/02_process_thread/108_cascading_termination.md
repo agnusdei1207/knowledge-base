@@ -3,8 +3,8 @@ title: "Cascading Termination"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 연쇄적 종료 (Cascading Termination)는 부모 프로세스가 종료될 때 운영체제가 해당 부모의 모든 자식 프로세스, 손자 프로세스까지 재귀적으로 종료시키는 메커니즘이다. 일반적으로 부모가 `exit()`를 호출하면 커널은 자식들의 PPID (Parent PID)를 init 프로세스(PID 1)로 변경하여 고아 (Orphan)로 만드는 것이 유닉스 (Unix)의 기본 동작이나, 특정 시스템(VMS 등)에서는 자식을 함께 강제 종료하는 연쇄 종료를 기본 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 채택한다.
 > 2. **가치**: 연쇄 종료는 부모-자식 간의 의존성이 강한 시스템에서, 부모가 소멸한 후 자식이 고아 상태로 방치되어 시스템 자원을 낭비하거나 의도치 않은 동작을 수행하는 것을 원천적으로 방지한다.

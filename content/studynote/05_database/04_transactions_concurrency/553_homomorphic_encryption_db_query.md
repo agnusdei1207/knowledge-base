@@ -3,8 +3,8 @@ title: "553. Homomorphic Encryption Db Query"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 553
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) DB 질의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 극복 가속화 연구망 설계는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

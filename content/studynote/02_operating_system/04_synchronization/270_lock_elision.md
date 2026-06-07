@@ -3,8 +3,8 @@ title: "270. Lock Elision"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 270
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락 엘리전([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) Elision)은 번역하면 '락 생략'이다. 프로그램 코드에는 `lock()`이라고 적혀 있지만, CPU([하드웨어 트랜잭셔널 메모리](/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/), [HTM](/studynote/01_computer_architecture/15_advanced_topics/513_htm/))가 이를 무시하고 락을 쥐지 않은 채 냅다 코드를 실행시킨 뒤, 충돌이 나지 않으면 그대로 반영하고 충돌이 나면 몰래 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 하드웨어 가속 기술이다.

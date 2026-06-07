@@ -3,8 +3,8 @@ title: "Autoencoder"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 335
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오토인코더 (Autoencoder) 는 입력을 저차원 병목층 ([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/)) 으로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 원본과 최대한 같게 복원하도록 학습하여, 레이블 없이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 핵심 표현 (Latent Representation) 을 습득한다.

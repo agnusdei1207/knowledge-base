@@ -1,10 +1,11 @@
 ---
 title: "065. Dnn Deep Neural Network"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DNN(Deep Neural Network)은 2개 이상의 은닉층을 가진 신경망으로, 더 깊은 비선형 표현을 학습한다.

@@ -3,8 +3,8 @@ title: "148. Apache Iceberg"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. Apache Iceberg는 Netflix가 고안한 [오픈 테이블 포맷](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)으로, <strong>히든 <a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>(Hidden <a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>을 통해 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 작성자가 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 컬럼을 알지 못해도 [파티션 프루닝](/studynote/05_database/03_relational_model/184_partition_pruning/)([Partition Pruning](/studynote/05_database/03_relational_model/184_partition_pruning/))이 자동 적용된다.
 2. <strong><a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 진화(<a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a> Evolution)</strong>와 <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 진화</strong>, <strong><a href="/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a> 격리</strong>, <strong>행 수준 삭제(Row-Level Delete)</strong>를 지원하여 멀티 페타바이트 분석 테이블을 안전하게 운영할 수 있다.

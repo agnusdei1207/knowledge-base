@@ -3,8 +3,8 @@ title: "Data Drift Concept Drift Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 750
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 드리프트는 입력 Feature의 분포 $P(X)$가 변화하는 현상이고, 개념 드리프트는 조건부 확률 $P(Y|X)$의 관계가 변화하는 현상으로서, MLOps 파이프라인에서 모델 성능 열화(Model Decay)의 근본 원인이 되며 통계적 거리(KL-divergence, Wasserstein, PSI) 및 적응형 윈도우(ADWIN, Page-Hinkley) 기반 탐지 알고리즘으로 식별한다.

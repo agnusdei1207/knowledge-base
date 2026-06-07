@@ -3,8 +3,8 @@ title: "111. Anomaly Detection"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/) [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정상 패턴에서 유의미하게 벗어난 관측치를 자동으로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기법으로, 레이블 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 적용 가능한 비지도·준지도 학습의 핵심 응용 분야다.
 > 2. **가치**: 금융 사기 (Financial Fraud), 네트워크 침입 (Network Intrusion), 설비 고장 예지 (Predictive Maintenance), 의료 이상 진단 등 "정상의 소수 이탈 패턴"이 막대한 비용을 유발하는 모든 영역에서 조기 경보 시스템의 역할을 한다.

@@ -3,8 +3,8 @@ title: "Google Titan Security Chip"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 792
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Google Titan은 서버와 단말의 부팅·[펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)·키 관리를 독립 하드웨어에서 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 Google 계열 하드웨어 [루트 오브 트러스트](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/)([Root of Trust](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/)) 계열 칩이다.

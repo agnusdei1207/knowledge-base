@@ -3,8 +3,8 @@ title: "144. Correlated Subquery Nested Loop"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 상관 서브쿼리는 <strong>내부 서브쿼리가 외부 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>의 행을 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여, 외부 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 <strong>각 행마다 서브쿼리가 반복 실행</strong>되는 구조이며, Nested Loop와 유사한 O(N×M) 특성을 가진다.
 > 2. **가치**: "각 직원이 자기 부서 평균보다 높은가?"처럼 <strong>행 단위 비교</strong>를 직관적으로 표현할 수 있지만, 대량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 급격히 나빠진다</strong>.

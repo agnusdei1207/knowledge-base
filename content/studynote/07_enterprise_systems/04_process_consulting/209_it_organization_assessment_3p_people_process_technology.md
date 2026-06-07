@@ -2,9 +2,9 @@
 title: "People, Process, Platform/Technology"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 조직 진단 3P는 사람 (People), 프로세스 ([Process](/studynote/12_it_management/05_security_compliance/943_process/)), 플랫폼·기술 (Platform/Technology)의 정렬 상태를 점검해, [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 실패 원인을 구조적으로 분해하는 프레임워크다.

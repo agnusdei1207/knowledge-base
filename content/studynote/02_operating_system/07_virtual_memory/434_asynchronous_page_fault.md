@@ -3,8 +3,8 @@ title: "434. Asynchronous Page Fault"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 434
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존의 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지면 해당 프로세스나 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 디스크에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼올 때까지(8ms) 꼼짝없이 얼어붙는(Blocked) 동기적 파멸을 극복하기 위해, <strong>OS가 폴트 처리를 백그라운드 워커에게 던져두고 해당 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>가 다른 유용한 연산을 계속 이어가게끔 강제하는 초고도화된 비동기(Asynchronous) 튜닝 기법</strong>이다.

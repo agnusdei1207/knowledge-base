@@ -3,8 +3,8 @@ title: "044. Relational Algebra Division"
 date: "2026-04-05"
 tags:
   - "studynote-database"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 나눗셈([Division](/studynote/05_database/07_exam_summary/411_division_operation/), ÷) 연산은 "모든 조건을 만족하는 대상"을 구하는 연산으로 — "모든 과목을 수강한 학생", "모든 상품을 구매한 고객" 등 <strong>전체 집합 포함 여부</strong>를 묻는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 사용된다.
 > 2. 나눗셈 R÷S의 결과는 — R에서 S의 모든 투플과 조합될 수 있는 R의 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값들로 구성되며, SQL에서는 직접 지원하지 않아 <strong>이중 NOT <a href="/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/">EXISTS</a></strong> 또는 COUNT 비교로 구현해야 한다.

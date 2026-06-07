@@ -1,10 +1,11 @@
 ---
 title: "Reflection"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전파 (Radio [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))가 장애물을 만났을 때, 표면이 크고 매끄러우면 반사 (Reflection)되고, 표면이 거칠거나 입자 크기가 파장과 비슷하면 산란 (Scattering)되어 에너지가 여러 방향으로 퍼진다.

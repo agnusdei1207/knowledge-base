@@ -3,8 +3,8 @@ title: "Software Supply Chain Security SBOM CycloneDX"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 375
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 공급망 보안(Software Supply Chain Security)은 코드 작성부터 빌드·배포·실행까지 모든 의존성과 아티팩트의 출처·무결성·취약점을 추적·검증하여, 공급망 공격(Supply Chain Attack)을 원천 차단하는 엔드-투-엔드 보안 체계다.

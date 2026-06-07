@@ -3,8 +3,8 @@ title: "Over-allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 395
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/)([Page Replacement](/studynote/02_operating_system/04_synchronization/260_page_replacement/))는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(디스크)를 믿고 <strong>물리 램(RAM) 용량보다 훨씬 더 많은 메모리를 프로세스들에게 나눠주는 허풍(초과 할당, Over-allocation)을 쳤을 때, 결국 물리 램 잔고가 바닥나 파산하는 것을 막기 위한 수습 메커니즘</strong>이다.

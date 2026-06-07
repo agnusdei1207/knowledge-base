@@ -3,8 +3,8 @@ title: "Robotics Motion Policy"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 200
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로보틱스 범용 모션 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련 (Robotics General Motion [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))은, 로봇의 관절 하나하나에 "A지점에서 B지점까지 각도 15도로 꺾어서 움직여"라고 사람이 미분 수식을 짜주던 노가다를 버리고, <strong><a href="/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a>(RL) 딥러닝 뇌가 수천만 번 넘어져 보며 "안 넘어지고 컵을 쥐는 최적의 근육 움직임(모션 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>)"을 스스로 깨우치게 하는 엔드투엔드(<a href="/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a>) 제어 혁명</strong>이다.

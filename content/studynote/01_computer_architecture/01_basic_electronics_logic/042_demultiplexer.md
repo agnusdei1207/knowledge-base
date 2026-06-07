@@ -3,8 +3,8 @@ title: "Demultiplexer, DEMUX"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
+weight: 42
 ---
-
 > **핵심 인사이트**
 > 1. 디멀티플렉서(DEMUX)는 하나의 입력 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)([Select](/studynote/05_database/04_transactions_concurrency/520_select/))에 따라 여러 출력 중 하나로 분배하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [멀티플렉서](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))의 역 연산이며 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배기([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Distributor)라고도 한다.
 > 2. 1:2^n DEMUX는 n개의 선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 2^n개의 출력 중 하나를 선택하며, [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))에 활성화(Enable) 입력을 추가한 것과 동일한 구조여서 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)로 DEMUX를 구현할 수 있다.

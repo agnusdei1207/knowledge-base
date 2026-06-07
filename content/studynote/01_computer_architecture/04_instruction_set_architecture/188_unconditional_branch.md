@@ -3,8 +3,8 @@ title: "Unconditional Branch"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무조건 분기 (Unconditional Branch)는 조건 판단 없이 [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 새 주소로 바꿔, 명령 실행 흐름을 즉시 다른 위치로 꺾는 제어 명령이다.

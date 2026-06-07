@@ -3,8 +3,8 @@ title: "146. Opentelemetry Otel Observability Standard"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OpenTelemetry는 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a>·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a>·Traces 3축 텔레메트리 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 수집·전파·내보내기를 통합 표준화</strong>한 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 프로젝트이며, OpenTracing+OpenCensus의 통합체이다.
 > 2. **가치**: 기존에는 [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))·ELK([Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))·Jaeger(Traces)가 <strong>각각 다른 SDK·포맷</strong>을 사용했지만, OTel은 <strong>하나의 SDK로 3축을 모두 계측</strong>하고 백엔드를 자유롭게 교체할 수 있다(Vendor-neutral).

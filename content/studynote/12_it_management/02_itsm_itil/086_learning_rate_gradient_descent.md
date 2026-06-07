@@ -1,11 +1,11 @@
 ---
 title: "086. Learning Rate Gradient Descent"
 date: "2026-04-05"
-description: "학습률과 경사하강법의 기본 원리, 다양한 확률적 경사하강법 변형, 학습률 스케줄링 기법"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Gradient Descent](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/) (경사하강법)은 손실 함수의 기울기 반대 방향으로 파라미터를 조금씩 이동해 최솟값을 찾는 최적화 방법이다.

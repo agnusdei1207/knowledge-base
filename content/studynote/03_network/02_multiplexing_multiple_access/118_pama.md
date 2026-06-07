@@ -3,9 +3,8 @@ title: "118. PAMA (Pre-Assigned Multiple Access)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 118
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PAMA는 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 및 다중접속에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Token Standard ERC-20 ERC-721 ERC-1155"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 568
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 토큰 표준 ERC-20 ERC-721 ERC-1155은(는) 스마트 계약이 지갑, 거래소, 마켓플레이스와 상호운용되도록 함수와 이벤트 인터페이스를 표준화한 규약이다.

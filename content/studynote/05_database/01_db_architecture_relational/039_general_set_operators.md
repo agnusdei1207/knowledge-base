@@ -3,8 +3,8 @@ title: "General Set Operators"
 date: "2026-03-04"
 tags:
   - "studynote-database"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 일반 집합 연산(합집합·교집합·차집합·[카티션 프로덕트](/studynote/05_database/07_exam_summary/412_cartesian_product/))은 수학의 집합 이론을 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 적용한 것으로, UNION/INTERSECT/EXCEPT/CROSS JOIN으로 SQL에 직접 구현된다.
 > 2. 합집합 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Union-Compatible) — 두 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)이 집합 연산에 참여하려면 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 개수가 같고 대응 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 호환되어야 한다 — 이 조건을 위반하면 의미 있는 합집합이 불가능하다.

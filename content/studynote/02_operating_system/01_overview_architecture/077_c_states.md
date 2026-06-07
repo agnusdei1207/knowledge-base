@@ -3,8 +3,8 @@ title: "C-States"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 77
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: C-states (CPU [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) States)는 CPU가 놀고 있을 때 전력을 줄이기 위한 유휴 상태다.
 > 2. **가치**: 깊은 C-state로 갈수록 전력과 발열은 줄지만, 깨어나는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 커진다.

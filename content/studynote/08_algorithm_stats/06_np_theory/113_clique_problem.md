@@ -3,8 +3,8 @@ title: "113. Clique Problem"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 113
 ---
-
 > **핵심 인사이트**
 > 1. 클리크(Clique)란 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 정점이 서로 연결된 완전 부분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Complete Subgraph)를 말하며 — k-Clique 문제(크기 k 이상의 클리크가 존재하는가?)는 SAT로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.
 > 2. 클리크 문제는 사회 네트워크 분석(SNS에서 완전 연결 그룹 탐지), 생물정보학(단백질 상호작용 네트워크 분석), [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)(밀집 연결 사용자 클러스터 발견)에서 핵심 도구이지만 — 정확한 최대 클리크 탐색은 지수 시간이 소요된다.

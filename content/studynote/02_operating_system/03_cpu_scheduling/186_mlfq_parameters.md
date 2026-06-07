@@ -3,8 +3,8 @@ title: "186. Mlfq Parameters"
 date: "2026-05-06"
 tags:
   - "studynote-operating-system"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다단계 피드백 큐](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))는 하나의 고정 알고리즘이 아니라, 큐 개수·타임 퀀텀 (Time [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))·승급/강등 규칙으로 성격이 결정되는 <strong>파라미터화된 스케줄링 프레임워크</strong>다.

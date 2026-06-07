@@ -3,8 +3,8 @@ title: "UPS"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 652
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무정전 전원 장치 (Uninterruptible [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply, UPS)는 상용 전원 이상이 발생해도 배터리와 전력 변환 회로를 통해 정보기술 장비에 끊김 없는 전기를 공급하는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 인프라다.

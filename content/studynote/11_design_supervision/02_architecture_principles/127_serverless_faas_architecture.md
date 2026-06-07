@@ -3,8 +3,8 @@ title: "Serverless / FaaS Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서버리스 아키텍처](/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/) ([Serverless Architecture](/studynote/04_software_engineering/11_testing_validation/950_serverless_architecture/)) / [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 서비스형 함수)는 인프라 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)·관리 없이 함수 코드만 배포하면, [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 이벤트([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청, 메시지, [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)) 발생 시 클라우드 플랫폼이 동적으로 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 스핀업하여 코드를 실행하고, 완료 후 자동 스케일-투-제로(Scale-to-Zero)하는 실행 모델이다.

@@ -1,11 +1,11 @@
 ---
 title: "092. Near-Far Problem & CDMA Power Control"
 date: "2026-03-31"
-description: "CDMA 시스템의 치명적 결함인 근거리-원거리 문제의 발생 원리와 이를 극복하기 위한 정밀한 전력 제어(Power Control) 메커니즘"
 tags:
   - "network"
+  - "studynote-network"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 근거리-원거리 문제 (Near-Far Problem)는 기지국 바로 밑에 있는 단말기의 강력한 전파가 멀리 있는 단말기의 미약한 전파를 완전히 덮어버려 시스템을 마비시키는 CDMA의 태생적 결함이다.
 > 2. **가치**: 이를 극복하기 위해 CDMA는 초당 수백~수천 번 단말기의 송신 출력을 미세 조정하여, 기지국에 수신되는 모든 단말기의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기를 '완벽하게 동일하게' 평탄화하는 고속 전력 제어 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control)를 도입했다.

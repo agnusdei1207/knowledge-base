@@ -3,8 +3,8 @@ title: "Cloud Infrastructure CSAP Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 267
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 인프라 [CSAP](/studynote/12_it_management/05_security_compliance/193_csap_cloud_security_assurance/) 감리는 클라우드 보안인증제([Cloud Security](/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Assurance Program, [CSAP](/studynote/12_it_management/05_security_compliance/193_csap_cloud_security_assurance/)) 기반 인프라 통제 체계에서 공유책임모델(Shared Responsibility Model), 보안 통제([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Controls), 증적 패키지(Evidence Package)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "049. Micro Segmentation"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. 마이크로 세그먼테이션([Micro-Segmentation](/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))은 네트워크를 개별 워크로드 또는 애플리케이션 단위로 격리하여 동서 트래픽(East-West: 서버 간)을 제어하는 [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처의 핵심 기술 — 전통적 경계 방어(Perimeter Defense)가 외부 위협에 집중했다면, 마이크로 세그먼테이션은 내부 침투 후 횡적 이동(Lateral Movement)을 차단한다.
 > 2. "[최소 권한 원칙](/studynote/09_security/01_intro_principles/010_least_privilege/)([Least Privilege](/studynote/09_security/01_intro_principles/010_least_privilege/))"을 네트워크 통신에 적용한 것이 마이크로 세그먼테이션의 본질 — 워크로드 A가 워크로드 B와 통신할 명시적 이유가 없다면 기본적으로 차단하며, 필요한 통신만 화이트리스트로 허용한다.

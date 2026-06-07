@@ -3,8 +3,8 @@ title: "OAuth 2.0 / OIDC"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 277
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 토큰 기반 권한 위임과 사용자 신원 연동을 위한 표준 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 집합.

@@ -3,8 +3,8 @@ title: "159. Baseline Requirements Configuration Management"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이스라인 ([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))은 요구사항, 설계, 코드, 테스트 산출물 중 특정 시점의 승인된 기준본을 공식적으로 동결한 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 상태다.

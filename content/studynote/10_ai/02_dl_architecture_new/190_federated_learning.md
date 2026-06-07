@@ -3,8 +3,8 @@ title: "Federated Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 고객의 민감한 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 카톡 대화)를 중앙 클라우드 서버로 훔쳐 오지 않고 고객의 스마트폰(Edge) 안에 그대로 둔 채, 스마트폰 내부에서 스스로 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)을 훈련시킨 뒤 <strong>오직 "학습된 뇌의 오차 수학값(Gradient/<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Update)" 껍데기만 중앙 서버로 전송해 합치는(Aggregation)</strong> 초거대 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 기법이다.

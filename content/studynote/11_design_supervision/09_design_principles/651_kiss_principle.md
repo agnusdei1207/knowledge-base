@@ -3,8 +3,8 @@ title: "Keep It Simple, Stupid"
 date: "2026-03-05"
 tags:
   - "studynote-design-supervision"
+weight: 651
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [KISS](/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/)(Keep It Simple, Stupid)는 시스템을 설계하고 코드를 작성할 때 불필요한 복잡성을 극도로 배제하고, 누구나 직관적으로 이해할 수 있는 가장 단순하고 명확한 해법을 선택해야 한다는 소프트웨어 공학의 대원칙이다.
 > 2. **가치**: 복잡한 과잉 설계(Over-engineering)는 그 자체로 유지보수의 재앙이자 버그의 은신처가 되지만, 단순한 설계는 시스템의 [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 높이고 디버깅 시간을 단축시키며 팀원 간의 인수인계 비용을 획기적으로 낮춘다.

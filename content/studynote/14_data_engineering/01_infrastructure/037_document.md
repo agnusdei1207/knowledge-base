@@ -3,8 +3,8 @@ title: "Document Store"
 date: "2026-03-03"
 tags:
   - "studynote-data-engineering"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. 문서 저장소(Document Store)는 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)·BSON·XML 형태의 반정형 문서를 고유 ID와 함께 저장하는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 데이터베이스로, 스키마를 사전에 정의하지 않아도 다양한 구조의 문서를 유연하게 저장할 수 있다.
 > 2. 문서 저장소의 핵심 장점은 관련 데이터를 하나의 문서로 내포([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))해 단일 읽기 연산으로 완전한 객체를 가져올 수 있다는 것 — [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB의 조인([JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)) 없이 O(1)에 가까운 조회가 가능하다.

@@ -3,8 +3,8 @@ title: "Client-Server"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

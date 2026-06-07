@@ -3,8 +3,8 @@ title: "Backpropagation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 345
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 는 연쇄 법칙 (Chain Rule) 을 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 에 적용해, [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 각 파라미터에 대한 편미분 ∂L/∂w 를 출력층에서 입력층 방향으로 효율적으로 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

@@ -2,9 +2,9 @@
 title: "Backpropagation & Chain Rule"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 <strong>출력층에서 입력층 방향으로 손실의 기울기(Gradient)를 전파</strong>하여 각 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 손실에 기여하는 정도를 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, 미적분의 연쇄 법칙(Chain Rule)이 핵심 수학이다.
 > 2. **가치**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 없이는 수백만 파라미터의 <strong>최적 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 찾는 것이 불가능</strong>하며, 1986년 Rumelhart의 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 논문이 신경망 학습의 실용적 돌파구였다.

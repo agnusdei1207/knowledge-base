@@ -3,8 +3,8 @@ title: "Register"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정 (Register Addressing)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 필드가 메모리 주소가 아니라 CPU (Central Processing Unit) 내부 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호를 가리키는 주소 지정 방식이다.

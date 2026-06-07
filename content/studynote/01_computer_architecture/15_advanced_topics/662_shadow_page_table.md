@@ -3,8 +3,8 @@ title: "Shadow Page Table"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 662
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그림자 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) ([Shadow Page Table](/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/))은 하드웨어가 2단계 주소 변환을 직접 지원하지 않을 때, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 게스트 주소 변환 결과를 미리 합성해 프로세서에 보여 주는 소프트웨어 기반 메모리 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기법이다.

@@ -2,9 +2,9 @@
 title: "090. Fluxcd Gitops Pull Based Kubernetes Deployment"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: FluxCD는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클러스터 내부에서 동작하며, Git 저장소의 매니페스트(YAML) 상태를 읽어와 클러스터에 강제로 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Pull-based](/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/) Sync)하는 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 기반 [지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)(CD) 에이전트다.
 > 2. **가치**: 모놀리식 구조인 ArgoCD와 달리, 독립된 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(Controller)들로 구성된 '[GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Toolkit' 아키텍처를 채택하여 리소스 소비가 극도로 적고 [멀티 테넌시](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)([Multi-tenancy](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에 유리하다.

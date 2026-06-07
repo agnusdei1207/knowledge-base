@@ -3,8 +3,8 @@ title: "Fully Associative"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 268
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 완전 연관 사상 (Fully Associative)은 메모리 블록이 캐시의 어느 라인 (Cache Line)에든 들어갈 수 있게 해, 배치 자유도를 최대로 끌어올린 캐시 매핑의 극단값이다.

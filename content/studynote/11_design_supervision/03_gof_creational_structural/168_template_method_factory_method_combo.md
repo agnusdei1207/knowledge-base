@@ -3,8 +3,8 @@ title: "Template Method + Factory Method"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) ([Template Method](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 고정된 순서를 상위 클래스가 통제하고, [팩토리 메서드](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) ([Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))는 그 흐름 안에서 필요한 구체 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 하위 클래스에 위임하는 결합 구조다.

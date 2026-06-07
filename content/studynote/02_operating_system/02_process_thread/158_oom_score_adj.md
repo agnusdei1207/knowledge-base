@@ -3,8 +3,8 @@ title: "158. Oom Score Adj"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `oom_score_adj`는 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 상황에서 희생 프로세스를 고를 때, 기본 위험도(`oom_score`)에 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)적 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 더하거나 빼는 조정 손잡이다.

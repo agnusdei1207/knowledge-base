@@ -3,8 +3,8 @@ title: "XAI, eXplainable AI"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 303
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 설명 가능한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/), [eXplainable AI](/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)): 딥러닝 블랙박스 도출 결과의 논리적 근거([피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 기여도, 활성화 히트맵)를 인간이 이해할 수 있도록 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 및 수치화를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

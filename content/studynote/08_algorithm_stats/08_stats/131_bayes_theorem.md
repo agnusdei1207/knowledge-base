@@ -2,9 +2,9 @@
 title: "131. Bayes Theorem"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 131
 ---
-
 ## 핵심 인사이트
 
 > 베이즈 정리 (Bayes' Theorem) 는 "새로운 증거가 들어올 때마다 내 믿음을 정확하게 업데이트하는 공식"이다.

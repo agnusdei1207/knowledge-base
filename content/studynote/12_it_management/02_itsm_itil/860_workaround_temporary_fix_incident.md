@@ -3,8 +3,8 @@ title: "860. Workaround Temporary Fix Incident"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 860
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 워크어라운드(Workaround)는 문제의 근본 원인을 아직 못 찾았을 때 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 먼저 살리는 임시 우회 조치다.

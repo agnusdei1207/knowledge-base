@@ -3,8 +3,8 @@ title: "Mobility Management"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 561
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이동성 관리는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

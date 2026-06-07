@@ -3,8 +3,8 @@ title: "Coordinator"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 250
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코디네이터 (Coordinator)와 참여자 (Participant)은 1단계(Prepare), 2단계(Commit/[Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))에 초점을 맞춘 개념이다.

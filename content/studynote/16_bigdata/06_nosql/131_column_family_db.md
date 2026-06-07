@@ -3,8 +3,8 @@ title: "131. Column Family Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 컬럼 패밀리(Wide-Column) DB는 행마다 다른 컬럼을 가질 수 있는 스파스(Sparse) 2차원 맵 구조로, 수십억 개의 컬럼과 행을 효율적으로 저장하는 대규모 시계열·이벤트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 최적화된 모델이다.
 - **가치**: 시간 기반(Time-series) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 피드처럼 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 압도적으로 많고 특정 컬럼 범위를 자주 스캔하는 워크로드에서 RDBMS 대비 수십 배 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 제공한다.

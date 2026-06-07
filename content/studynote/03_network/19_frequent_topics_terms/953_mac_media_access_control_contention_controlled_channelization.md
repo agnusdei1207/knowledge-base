@@ -3,8 +3,8 @@ title: "MAC"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 953
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

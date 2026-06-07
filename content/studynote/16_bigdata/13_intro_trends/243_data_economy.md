@@ -3,8 +3,8 @@ title: "243. Data Economy"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/)([Data Economy](/studynote/16_bigdata/01_intro/011_data_economy/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·수집·처리·판매가 경제 가치를 창출하는 생태계다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원유([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) is the [New](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Oil)처럼 원자재이자 제품이 되는 경제 시스템이다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산화([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Monetization)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 판매하거나, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 간접 수익을 창출하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exchange), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마켓플레이스가 [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/) 인프라다.

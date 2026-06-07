@@ -3,8 +3,8 @@ title: "131. Observability Three Pillars"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)(수치 시계열)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(텍스트 이벤트)·Traces([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 요청 추적)는 [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 <strong>3대 필러(Three Pillars)</strong>이며, 세 가지를 <strong><a href="/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a>(Correlation)</strong>해야 장애 근본 원인을 파악할 수 있다.
 > 2. **가치**: Metrics만으로는 "CPU 80%"를 알지만 원인을 모르고, Logs만으로는 에러는 보지만 어디서 발생했는지 모르며, Traces만으로는 느린 구간은 보지만 왜 느린지 모른다. <strong>세 가지를 연결</strong>해야 완전한 진단이 가능하다.

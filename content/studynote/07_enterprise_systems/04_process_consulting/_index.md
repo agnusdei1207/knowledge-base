@@ -2,9 +2,9 @@
 title: "Process & Consulting"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈니스 프로세스 및 컨설팅은 기업의 운영 방식을 가치 사슬 (Value Chain) 관점에서 분석하고, IT 기술을 도구 삼아 최적의 효율성과 경쟁력을 이끌어내는 전략적 자문 활동이다.

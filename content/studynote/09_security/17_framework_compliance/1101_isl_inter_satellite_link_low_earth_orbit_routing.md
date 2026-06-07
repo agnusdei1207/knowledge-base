@@ -3,8 +3,8 @@ title: "ISL"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [위성 통신](/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([ISL](/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/))는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

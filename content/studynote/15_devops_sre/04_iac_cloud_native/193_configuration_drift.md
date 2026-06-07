@@ -3,8 +3,8 @@ title: "Configuration Drift"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코드에 정의된 상태와 실제 인프라 상태가 시간이 지나며 어긋나는 현상.

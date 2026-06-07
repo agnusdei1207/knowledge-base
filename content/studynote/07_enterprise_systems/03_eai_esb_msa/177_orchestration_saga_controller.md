@@ -2,9 +2,9 @@
 title: "177. Orchestration Saga Controller"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오케스트레이션 사가](/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/) ([Orchestration Saga](/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/))는 오케스트레이터가 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 업무의 상태를 저장하고 다음 명령을 내려, 여러 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)의 [로컬 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)을 하나의 장기 비즈니스 흐름으로 묶는 중앙 제어형 [Saga](/studynote/12_it_management/05_security_compliance/305_saga/) 패턴이다.

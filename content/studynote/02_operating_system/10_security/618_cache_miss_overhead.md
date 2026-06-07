@@ -3,8 +3,8 @@ title: "Cache Miss Overhead"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 618
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 미스 (Cache Miss)는 CPU (Central Processing Unit)가 필요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 캐시 (Cache)에서 찾지 못해 주기억장치 ([DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), Dynamic Random Access Memory) 이하의 계층에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 현상으로, 한 번의 L3 미스만으로도 수백 클럭 사이클 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Cycle)의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생하여 전체 시스템 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 급락시키는 치명적 병목이다.

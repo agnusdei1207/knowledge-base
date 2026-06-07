@@ -1,11 +1,10 @@
 ---
 title: "Security Awareness"
 date: "2026-03-26"
-description: "조직 구성원의 보안 인식을 높이는 교육과 훈련 프로그램"
 tags:
-  - "studynote-software-engineering"
+  - "studynote-security"
+weight: 8
 ---
-
 # 보안 인식 교육 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Awareness)
 
 ## 핵심 인사이트 (3줄 요약)

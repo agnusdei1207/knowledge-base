@@ -3,8 +3,8 @@ title: "124. Api Gateway"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 <strong>MSA에서 모든 외부 요청의 단일 진입점(Single Entry Point)</strong>이며, 요청 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[Rate Limiting](/studynote/09_security/05_web_app_security/520_rate_limiting/)·로깅·응답 캐시를 수행하는 <strong>리버스 <a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> + 크로스커팅 관심사 처리기</strong>이다.
 > 2. **가치**: 클라이언트가 수십 개 마이크로서비스의 엔드포인트를 직접 알면 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> URL 변경·<a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 중복·CORS 관리</strong>가 불가능하지만, Gateway를 통해 <strong>단일 URL(<a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">api</a>.example.com)로 모든 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>에 접근</strong>할 수 있다.

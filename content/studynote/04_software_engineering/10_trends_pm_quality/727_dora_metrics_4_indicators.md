@@ -3,8 +3,8 @@ title: "727. Dora Metrics 4 Indicators"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 727
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

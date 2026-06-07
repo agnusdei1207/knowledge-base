@@ -3,8 +3,8 @@ title: "144. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RAG는 <strong>LLM이 답변 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 전에 외부 지식 저장소(벡터 DB)에서 관련 문서를 검색(Retrieve)하여 프롬프트에 포함</strong>시킨 후 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Generate)하는 기법이며, [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))을 줄이고 최신 정보를 반영한다.
 > 2. **가치**: LLM의 파라메트릭 지식은 <strong>학습 시점에 고정</strong>되지만, RAG는 <strong>외부 DB를 실시간 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여 학습 이후의 최신 정보·사내 문서·[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 반영한다.

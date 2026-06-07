@@ -3,8 +3,8 @@ title: "Write-Update"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 406
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 갱신 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Update)은 한 코어가 공유 캐시 라인을 쓰면 다른 코어의 복사본을 무효화하지 않고, <strong>새 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자체를 전파해 모두의 캐시를 최신값으로 맞추는 <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이다.

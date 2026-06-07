@@ -3,8 +3,8 @@ title: "RAID 1 Mirroring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 485
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 (One)은 동일한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 두 개(혹은 그 이상)의 물리적 디스크 쌍(Pair)에 동시에 쓰고(Write) 아예 똑같이 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) (Mirroring) 스토리지 아키텍처다.

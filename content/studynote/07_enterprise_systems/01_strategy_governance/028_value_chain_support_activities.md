@@ -3,8 +3,8 @@ title: "Value Chain Support Activities"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
+weight: 28
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마이클 포터의 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))에서 지원 활동([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Activities)은 본원적 활동(Primary Activities)을 가능하게 하는 인프라다. 기업 인프라, 인적 자원 관리(HRM), 기술 개발(R&D), 조달 관리(Procurement) 4가지로 구성된다.
 > 2. **가치**: 지원 활동은 직접 가치를 창출하지는 않지만 본원적 활동의 효율성·경쟁력을 결정한다. 탁월한 IT 인프라가 물류 관리를 최적화하고, 우수한 HRM이 R&D 혁신을 가능케 하는 식이다.

@@ -3,8 +3,8 @@ title: "Federated Learning Privacy Gradient Aggregation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 471
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)([Federated Learning](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳에 모으지 않고 각 클라이언트에서 로컬 학습 후 그래디언트(Gradient)만 서버로 전송·집계하여 글로벌 모델을 학습하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 패러다임이다.

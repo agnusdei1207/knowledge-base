@@ -3,8 +3,8 @@ title: "046. Predictive Analytics"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 46
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 예측 분석(Predictive Analytics)은 과거 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴·통계·[머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델을 활용하여 미래 사건의 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이나 결과값을 정량적으로 추정하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 방법론으로, 기술적(Descriptive)·진단적(Diagnostic) 분석에서 한 단계 발전한 것이다.
 > 2. **가치**: 예측 분석은 "무슨 일이 일어날 것인가?"에 답함으로써 반응적(Reactive) 의사결정에서 선제적(Proactive) 의사결정으로 전환하며, 수요 예측·장비 예지 보전·신용 위험 평가·이탈 예측 등 실질적인 비즈니스 가치를 창출한다.

@@ -3,9 +3,8 @@ title: "800. RISC-V PMP (Physical Memory Protection)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 800
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) PMP는 M-mode (Machine Mode)가 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/) 범위별 R/W/X 권한을 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)해 하위 모드의 메모리 접근을 하드웨어로 제한하는 메커니즘이다.

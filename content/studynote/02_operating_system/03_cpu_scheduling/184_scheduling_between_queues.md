@@ -3,8 +3,8 @@ title: "vs"
 date: "2026-05-06"
 tags:
   - "studynote-operating-system"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 큐 간 스케줄링은 다단계 큐 (Multilevel [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 환경에서 여러 [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) 가운데 **어느 큐 자체가 먼저 CPU를 받을지** 결정하는 상위 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

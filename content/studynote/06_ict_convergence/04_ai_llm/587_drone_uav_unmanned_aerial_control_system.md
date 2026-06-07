@@ -3,8 +3,8 @@ title: "Drone UAV Unmanned Aerial Control System"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 587
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 드론 UAV 무인항공 제어 시스템은(는) 비행체, 지상관제, 통신링크, 센서, 자율비행 알고리즘을 결합한 무인항공 시스템이다.

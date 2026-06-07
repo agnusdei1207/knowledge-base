@@ -3,8 +3,8 @@ title: "Binary Semaphore Vs Mutex"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 278
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뮤텍스([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))는 자물쇠를 걸어잠근 당사자([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))만이 자물쇠를 열 수 있는 <strong>'소유권(Ownership)이 있는 자물쇠'</strong>인 반면, [이진 세마포어](/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)는 A [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잠가둔 것을 엉뚱한 B [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 풀어버릴 수 있는 <strong>'소유권 없는 단순 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>등'</strong>이다.

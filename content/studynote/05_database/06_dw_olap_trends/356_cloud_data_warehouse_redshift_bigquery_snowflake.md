@@ -3,8 +3,8 @@ title: "356. Cloud Data Warehouse Redshift Bigquery Snowflake"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 356
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 솔루션는 Amazon Redshift, Google [BigQuery](/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/) 아키텍처 특성에 초점을 둔 분석 플랫폼 개념이다.

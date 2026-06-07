@@ -3,9 +3,8 @@ title: "659. AMD-V"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 659
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AMD-V (AMD [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))는 AMD 프로세서의 하드웨어 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기반이며, Secure [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 구조로 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 게스트를 분리한다.

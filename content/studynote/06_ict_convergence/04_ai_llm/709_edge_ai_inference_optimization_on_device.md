@@ -3,8 +3,8 @@ title: "Edge AI Inference Optimization On-Device"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 709
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 AI 추론 최적화 온디바이스(On-Device AI Inference Optimization)는 **PTQ(INT8/INT4/FP8)·QAT·가지치기(Structured/Unstructured)·지식 증류·연결 가지치기(Connection Pruning)·NNC(Neural Network Compression) 컴파일러 패스(TVM/MLIR/XLA)**를 결합하여, **NPU/DSP/GPU 이종 가속(예: Snapdragon 8 Gen 3 Hexagon NPU 45 TOPS, Apple A17 Pro 16-core Neural Engine 35 TOPS, Tensor G3 Edge TPU)** 위에서 ResNet-50 기준 224×224 기준 224->1.2ms 추론, 12MB 모델을 3MB로 4배 압축하는 것이 본질이다.

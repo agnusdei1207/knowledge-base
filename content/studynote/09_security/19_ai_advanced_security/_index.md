@@ -2,9 +2,9 @@
 title: "AI & Advanced Security"
 tags:
   - "security"
+  - "studynote-security"
 weight: 19
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인공지능 (AI), 클라우드 네이티브, 블록체인 등 급변하는 신기술 환경에서 발생하는 새로운 보안 위협을 정의하고, 이를 해결하기 위한 최첨단 기술적 대안 50개를 분석한다.

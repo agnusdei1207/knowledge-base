@@ -3,8 +3,8 @@ title: "Random Search"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 251
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이퍼파라미터(Hyperparameter)는 모델이 학습으로 결정하지 못하고 사람이 직접 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 하는 값이며, 그리드 서치(Grid Search)와 랜덤 서치(Random Search)는 이를 체계적으로 탐색하는 기법이다.

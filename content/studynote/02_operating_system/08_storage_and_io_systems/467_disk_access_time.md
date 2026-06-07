@@ -3,8 +3,8 @@ title: "Transfer Time"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 467
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드 디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 데 걸리는 총시간(Disk Access Time)은, 바늘을 목표 트랙으로 이동시키는 <strong>'<a href="/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Time)'</strong>, 원판이 돌아가서 목표 섹터가 바늘 밑에 올 때까지 기다리는 <strong>'<a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a>(<a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">Rotational Latency</a>)'</strong>, 그리고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 쫙 빨아들이는 <strong>'<a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a>(<a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>)'</strong>의 3단계 물리적 합으로 구성된다.

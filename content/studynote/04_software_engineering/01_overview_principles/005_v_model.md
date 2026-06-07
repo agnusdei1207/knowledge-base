@@ -1,11 +1,11 @@
 ---
 title: "005. V Model"
 date: "2024-05-20"
-description: "폭포수 모델의 검증 한계를 극복한 V-모델의 구조, 검증(Verification)과 확인(Validation)의 매핑 관계, 실무 테스트 전략 분석"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 5
 ---
-
 # V-모델 ([V-Model](/studynote/12_it_management/04_sdlc_testing/132_v_model_sdlc_verification_validation_testing/))
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [폭포수 모델](/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)에 테스트 개념을 강력하게 결합하여, 개발의 각 단계(좌측 하강)가 테스트의 각 단계(우측 상승)와 1:1로 대칭 및 매핑되는 생명주기 모델.

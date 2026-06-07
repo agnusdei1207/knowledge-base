@@ -3,8 +3,8 @@ title: "044. Refactor Re Architect Cloud Native Msa"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. Re-factor(재구성)와 Re-architect(재설계)는 클라우드 마이그레이션 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 가장 높은 가치를 창출하는 단계로 — Re-factor는 애플리케이션 코드를 [PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/서버리스에 최적화하고, Re-architect는 모놀리스를 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))로 근본적으로 재설계한다.
 > 2. [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환의 핵심 원칙은 [도메인 주도 설계](/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/studynote/12_it_management/05_security_compliance/310_architecture/))의 [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계로 삼는 것으로 — 각 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 독립적으로 배포·확장·장애 격리가 가능해야 하며, "두 피자 팀(Two-Pizza Team)"이 소유·운영할 수 있는 크기가 적절하다.

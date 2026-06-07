@@ -3,8 +3,8 @@ title: "Eventual Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 554
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/) (명령과 조회 책임 분리) - [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB와 읽기 DB 분리, [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제 해결 ([Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

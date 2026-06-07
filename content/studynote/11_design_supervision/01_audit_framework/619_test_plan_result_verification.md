@@ -3,8 +3,8 @@ title: "Objective Evidence Collection"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 619
 ---
-
 > **핵심 인사이트**
 > 1. 감리 과정에서 [객관적 증거](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)([Objective Evidence](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/))는 면담·관찰·문서 검토·직접 진단(테스트)의 4가지 기법으로 수집되며, 각 기법의 특성상 단일 기법보다 복수 기법 조합(증거 삼각화)이 감리 결론의 신뢰성을 높인다.
 > 2. [객관적 증거](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)는 "[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하고 재현 가능한 사실"이어야 하며, 감리원의 주관적 판단이나 추론이 아닌 문서·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·시스템 출력·직접 관찰 결과를 근거로 해야 한다는 것이 감리 표준(ISO 19011)의 핵심 원칙이다.

@@ -3,8 +3,8 @@ title: "Spectre Variants"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 378
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Spectre](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) v1/v2 변종 ([Spectre](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) Variants)는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

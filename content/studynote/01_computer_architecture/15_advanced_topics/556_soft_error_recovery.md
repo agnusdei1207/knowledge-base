@@ -3,8 +3,8 @@ title: "556. Soft Error Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 556
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소프트 에러](/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘은 물리적으로 망가진 하드웨어를 고치는 것이 아니라, 일시적 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전이나 순간 펄스가 시스템 상태로 번지기 전에 탐지·격리·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·에스컬레이션하는 계층형 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 구조다.

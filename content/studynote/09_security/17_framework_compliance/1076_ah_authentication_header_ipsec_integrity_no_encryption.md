@@ -3,9 +3,8 @@ title: "1076. AH (Authentication Header)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1076
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AH](/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) ([Authentication Header](/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/))는 보안 확장 개념에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

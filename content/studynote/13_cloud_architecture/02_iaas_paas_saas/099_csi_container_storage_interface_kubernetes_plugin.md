@@ -3,8 +3,8 @@ title: "099. Csi Container Storage Interface Kubernetes Plugin"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CSI](/studynote/12_it_management/02_itsm_itil/068_csi/) ([Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Storage Interface)는 K8s 본체 소스코드에 하드코딩되어 있던 스토리지 연동 로직을 외부로 분리한 독립적인 표준 인터페이스 규약이다.
 > 2. **가치**: 벤더 종속성을 끊어내어 스토리지 제조사는 독자적으로 드라이버를 배포할 수 있고, 사용자는 클러스터 재시작 없이 새로운 스토리지를 즉시 연결할 수 있다.

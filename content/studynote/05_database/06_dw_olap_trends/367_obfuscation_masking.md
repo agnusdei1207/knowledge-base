@@ -3,8 +3,8 @@ title: "Data Masking"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 367
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [난독화](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) ([Obfuscation](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)) 및 [데이터 마스킹](/studynote/09_security/16_data_privacy/819_data_masking/) ([Data Masking](/studynote/09_security/16_data_privacy/819_data_masking/))는 개발/운영계 테스트 DB 민감 [정보 은닉](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/)에 초점을 둔 보안 통제 개념이다.

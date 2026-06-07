@@ -3,8 +3,8 @@ title: "1045. Ebpf Extended Berkeley Packet Filter Hooking"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1045
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

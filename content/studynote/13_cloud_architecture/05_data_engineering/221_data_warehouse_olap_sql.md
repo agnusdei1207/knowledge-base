@@ -3,8 +3,8 @@ title: "Data Warehouse / DW"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))는 경영 의사결정을 위한 <strong>정제·통합 정형 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 중앙 저장소</strong>로, BI 리포트와 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 분석에 최적화된 고비용 고성능 플랫폼이다.
 > 2. **가치**: ETL을 통해 여러 운영 시스템의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단일 진실의 공급원(Single Source of Truth)으로 통합하여, <strong>일관된 기업 지표</strong>를 전사에 제공한다.

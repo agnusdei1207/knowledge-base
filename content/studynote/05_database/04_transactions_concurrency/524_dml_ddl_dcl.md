@@ -3,8 +3,8 @@ title: "DML DDL DCL"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 524
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EER](/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) 모델 서브타입 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 특수화은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

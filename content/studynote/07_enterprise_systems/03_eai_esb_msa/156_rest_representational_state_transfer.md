@@ -2,10 +2,9 @@
 title: "156. REST (Representational State Transfer)"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 156
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: REST ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))는 웹의 자원(Resource)을 URI (Uniform Resource [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드와 표현(Representation)으로 상태를 주고받는 [아키텍처 스타일](/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/)이다.

@@ -3,8 +3,8 @@ title: "Cache Friendly Virtual Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 427
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 친화적 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 프로세스에게 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))를 쪼개 줄 때, 하드웨어 <strong>CPU의 L1/L2 캐시 라인(64바이트) 및 <a href="/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a>(4KB)의 물리적 경계와 완벽하게 일치하도록 주소의 시작점을 강제로 정렬(Alignment)시켜 매핑</strong>하는 딥 아키텍처 튜닝이다.

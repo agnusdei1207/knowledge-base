@@ -2,9 +2,9 @@
 title: "Blockchain / DLT"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 402
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DLT](/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) [머클 트리](/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DLT](/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) [머클 트리](/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장, [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/), DLT의 경계를 분명히 만드는 데 의미가 있다.

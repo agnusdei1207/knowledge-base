@@ -2,9 +2,9 @@
 title: "Stream Processing"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하둡이나 스파크 배치가 '과거의 데이터'를 한 번에 처리한다면, 스트리밍 처리는 센서, 로그, 금융 거래 등 쉴 새 없이 쏟아지는 '현재의 데이터'를 파이프라인(Event Stream)에서 실시간으로 처리하는 기술이다.

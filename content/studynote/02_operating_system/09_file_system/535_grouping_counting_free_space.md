@@ -3,8 +3,8 @@ title: "535. Grouping Counting Free Space"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 535
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 두 장부 관리 체제는 끔찍한 극단 딜레마를 불렀다. [비트 벡터](/studynote/02_operating_system/09_file_system/533_bit_vector_bitmap/)(533장)는 "광속 패턴 빔" 을 주지만 RAM을 수십 GB 퍼먹는 거인 병목, [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(534장)는 메모리가 가볍지만 디스크를 노가다로 긁는 $O(N)$ 최악 모터 암살범. **그룹화(Grouping)** 와 **계수(Counting)** 는 여백 블록(Empty Block) 안에 수백 개의 포인터 뭉치를 무더기 쑤셔 넣거나 단 1줄의 [연속 블록 덩어리] 로 요약 묶음화하는 데카르트 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 통합 진화 [B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 매커니즘 구조다.

@@ -3,9 +3,8 @@ title: "801. RISC-V ePMP (Enhanced PMP)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 801
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ePMP는 기존 PMP를 확장해 M-mode 자체의 권한까지 더 엄격히 통제하고, W^X (Write XOR Execute) 같은 보안 원칙을 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 수준에서 강제하려는 [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) 보안 확장이다.

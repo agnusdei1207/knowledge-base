@@ -3,8 +3,8 @@ title: "154. Thread Stack Overflow Prevention"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 가드 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Guard [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))에게 할당된 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 메모리 낭떠러지 맨 끝단에 -> [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 고의로 매핑하지 않은(Unmapped) <strong>'투명 지뢰밭(빈 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 쇳덩이)'을 깔아두어, <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>이 선을 넘고 침범하는 0.001초 찰나에 하드웨어 예외(<code>SIGSEGV</code>)를 쾅 터뜨려 프로세스 전체를 강제 셧다운 척살시키는 0순위 자살 방폭문</strong>이다.
 > 2. **가치**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 꽉 찼는데 가드 쉴드가 없으면? [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 미쳐서 그 밑에 있는 남의 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))이나 옆 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 메모리 영역을 소리 소문 없이 시뻘겋게 덮어써 버린다(Memory Corruption 파국 💥). 가드 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 이 <strong>조용한 연쇄 타살 멸망을 요란한 에러(Fail-fast) 쾌속 알람으로 스위칭 시켜, 해커의 <a href="/studynote/02_operating_system/10_security/591_buffer_overflow/">버퍼 오버플로우</a> 공격을 원천 차단 무효화</strong>한다.

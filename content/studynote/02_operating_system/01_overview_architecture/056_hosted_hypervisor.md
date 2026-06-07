@@ -3,8 +3,8 @@ title: "Hosted Hypervisor"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 호스트드 하이퍼바이저는 호스트 OS 위에서 동작하는 Type 2 하이퍼바이저다.

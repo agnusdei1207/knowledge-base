@@ -3,8 +3,8 @@ title: "AutoGPT"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자율 에이전트 오토지피티 (AutoGPT)는 질문하면 1번 대답하고 끝나는 기존 챗GPT(수동적 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에 **'메모리(기억)', '웹 브라우저(손발)', '계획 수립(뇌)'이라는 사이보그 신체를 덧붙여**, 거대한 추상적 목표를 주면 스스로 세부 계획을 쪼개고 무한 루프를 돌며 과업을 완수할 때까지 멈추지 않는 <strong>행동하는 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/587_agentic_ai_autonomous_tools/">Agentic AI</a>)</strong>다.

@@ -3,8 +3,8 @@ title: "653. Arm Cortex A Series"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 653
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARM Cortex-A 시리즈는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)와 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 전제로, 사용자 공간과 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간을 분리해 복잡한 애플리케이션을 안정적으로 실행하는 애플리케이션 프로세서용 코어다.

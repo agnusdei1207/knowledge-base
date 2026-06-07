@@ -3,9 +3,8 @@ title: "385. SSL VPN / TLS VPN"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 385
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SSL VPN](/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

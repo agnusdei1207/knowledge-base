@@ -3,8 +3,8 @@ title: "ICT PE Pass Final Keywords Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 797
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합 기술사 합격 키워드는 **AI(ML/DL/LLM/Agent) × 빅데이터(Lake/Mesh) × 클라우드-Native(MSA·K8s) × IoT/Edge × 5G·SDN/NFV × 블록체인/Web3 × 사이버보안(ISMS-P·제로트러스트)** 7대 축을 **도메인(스마트팩토리·C-ITS·스마트시티·디지털헬스·메타버스)** 과 **거버넌스(개인정보보호법·AI기본법·ESG)** 로 직조한 통합 설계 역량이다.

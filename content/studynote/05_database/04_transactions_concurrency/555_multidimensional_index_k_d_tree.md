@@ -3,8 +3,8 @@ title: "555. Multidimensional Index K D Tree"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 555
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다차원 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) K-d 트리 공간/다변량 질의 처리망 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 분석는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 구조이다.

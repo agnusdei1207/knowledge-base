@@ -2,9 +2,9 @@
 title: "Data Fabric"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 296
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 다양한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천을 물리적으로 통합하지 않고, 지능적인 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/)와 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 통해 마치 하나의 통합된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망처럼 연결하는 아키텍처다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)) 비용을 최소화하면서도 사용자에게 통합된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뷰를 제공하며, AI가 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 분석해 최적의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 경로를 자동으로 추천한다.

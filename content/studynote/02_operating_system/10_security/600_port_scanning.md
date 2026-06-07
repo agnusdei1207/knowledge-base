@@ -3,8 +3,8 @@ title: "600. Port Scanning"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 600
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝 ([Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Scanning)은 네트워크 상의 타겟 시스템이 어떤 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(애플리케이션)를 실행 중인지, [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙은 어떻게 설정되어 있는지 파악하기 위해 각 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 탐침 패킷을 보내고 응답을 분석하는 정보 수집(Reconnaissance) 활동이다.

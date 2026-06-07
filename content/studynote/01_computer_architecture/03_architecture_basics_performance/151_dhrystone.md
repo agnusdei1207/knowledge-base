@@ -3,9 +3,8 @@ title: "151. Dhrystone"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 151
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Dhrystone은 실수 연산보다 <strong>정수(Integer) 연산, 문자열 처리, 포인터 조작, 분기 흐름</strong>에 초점을 맞춘 합성 벤치마크(Synthetic [Benchmark](/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/))다.

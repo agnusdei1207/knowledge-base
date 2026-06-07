@@ -3,8 +3,8 @@ title: "158. Multimodal Clip Vision Audio Encoding"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티모달(Multimodal) AI는 텍스트·이미지·오디오·비디오 등 여러 모달리티(Modality)를 동일한 잠재 공간(Latent Space)에 매핑해, 모달 간 의미적 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 학습한다.
 > 2. **가치**: [CLIP](/studynote/10_ai/05_data_science_ml/408_clip/) ([Contrastive Language-Image Pre-training](/studynote/10_ai/05_data_science_ml/408_clip/))은 4억 개 이미지-텍스트 쌍의 대조 학습(Contrastive [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))으로 텍스트 -> 이미지 제로샷 검색·[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 가능하게 한다.

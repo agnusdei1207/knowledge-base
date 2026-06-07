@@ -3,8 +3,8 @@ title: "Strangler Fig Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/))은 모놀리식 레거시 시스템을 한 번에 재작성하는 빅뱅 방식 대신, 전면에 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(게이트웨이)를 두고 새로운 기능부터 신규 마이크로서비스로 하나씩 가로채어 레거시를 점진적으로 고사시키는 레거시 전환 전략이다.

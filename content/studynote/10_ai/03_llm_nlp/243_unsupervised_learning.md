@@ -3,8 +3,8 @@ title: "243. Unsupervised Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))은 인간이 일일이 "이 사진은 고양이(정답)"라고 가르쳐주는 피곤한 라벨링(Labeling) 노가다를 완전히 던져버리고, <strong>정답지가 전혀 없는 쓰레기장 같은 날것의 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 무더기를 기계에 쏟아부어 "네가 알아서 끼리끼리 묶어보고(<a href="/studynote/16_bigdata/05_analysis/105_clustering_analysis/">군집화</a>), 숨겨진 법칙을 찾아봐!"라고 방목하는 야생의 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 통계 탐색법</strong>이다.

@@ -1,11 +1,10 @@
 ---
-weight = 282
 title: "282. 사일로 효과 (부서 장벽 이기주의)"
 date: "2026-05-08"
-[extra]
-categories: "studynote-devops-sre"
+tags:
+  - "studynote-devops-sre"
+weight: 282
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사일로 효과 (부서 장벽 이기주의)는 security 관점에서 목표 상태, 실행 절차, 검증 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

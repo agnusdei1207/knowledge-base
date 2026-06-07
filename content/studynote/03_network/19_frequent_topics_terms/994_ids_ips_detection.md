@@ -3,8 +3,8 @@ title: "994. Ids Ips Detection"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 994
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) / [IPS](/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 탐지 차단율은 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

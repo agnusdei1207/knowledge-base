@@ -3,8 +3,8 @@ title: "220. Sns Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - SNS 빅데이터의 핵심은 <strong>속도</strong>다. 트위터 파이어호스(Twitter Firehose)는 분당 수백만 건의 트윗을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 실시간 처리 없이는 트렌드 감지가 불가능하다.

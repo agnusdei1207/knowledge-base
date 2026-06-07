@@ -2,9 +2,9 @@
 title: "107. Np Class"
 date: "2025-05-14"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 107
 ---
-
 > **핵심 인사이트**
 > 1. NP(Non-deterministic [Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Time) 클래스는 비결정론적 튜링 머신(NDTM)이 다항 시간에 해결하거나, 동등하게 주어진 해답(Certificate)을 결정론적 튜링 머신이 다항 시간에 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 판정 문제의 집합이다.
 > 2. NP의 가장 직관적 정의는 "정답을 주면 빠르게 확인할 수 있는 문제" — 스도쿠 완성 여부 확인은 쉽지만 스도쿠를 처음 푸는 것은 어렵듯이, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 쉬워도 풀기는 어려울 수 있다.

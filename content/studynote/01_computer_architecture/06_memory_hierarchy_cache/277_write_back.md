@@ -3,8 +3,8 @@ title: "277. Write Back"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 277
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Write-Back (나중 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))은 CPU (Central Processing Unit)가 쓴 값을 먼저 캐시에만 반영하고, 나중에 캐시 라인이 교체될 때 하위 메모리로 내려보내는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

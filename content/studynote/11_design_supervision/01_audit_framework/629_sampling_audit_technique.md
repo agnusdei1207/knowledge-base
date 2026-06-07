@@ -3,8 +3,8 @@ title: "629. Sampling Audit Technique"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 629
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 샘플링 감리 기법은 전수 조사 대신 통계적으로 의미 있는 표본으로 전체 품질을 추정하는 방법이다.

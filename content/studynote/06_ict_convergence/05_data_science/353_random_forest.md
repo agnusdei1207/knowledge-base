@@ -3,8 +3,8 @@ title: "Random Forest"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 353
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 랜덤 포레스트 (Random Forest): 다수의 결정 트리를 [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))과 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 무작위 선택으로 결합하여 과적합 억제를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

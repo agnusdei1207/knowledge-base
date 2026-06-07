@@ -3,8 +3,8 @@ title: "Firebase"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BaaS (Backend [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Database](/studynote/05_database/04_transactions_concurrency/501_database/), DB), [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장, 푸시 알림 같은 공통 백엔드 기능을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형으로 제공해 모바일·웹 개발자가 서버를 직접 구축하지 않고도 애플리케이션을 출시하게 만드는 클라우드 모델이다.

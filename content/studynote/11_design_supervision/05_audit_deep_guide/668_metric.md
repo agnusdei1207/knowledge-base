@@ -3,8 +3,8 @@ title: "CVE Scanner Reporting Metrics"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 668
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CVE](/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)(Common Vulnerabilities and Exposures) 스캐너 주기 보고 및 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조치 지표는 심각도별 잔존 건수, 조치 기한 준수율, 재검증 완료율를 한 체계로 묶어 판단하는 설계·감리 주제다.

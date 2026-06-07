@@ -3,8 +3,8 @@ title: "153. Materialized View Mview Data Warehouse"
 date: "2026-05-03"
 tags:
   - "studynote-database"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 일반 뷰([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 하드디스크 공간을 1바이트도 차지하지 않는 단순한 `SELECT` 문장(가짜 껍데기)이라면 -> 구체화된 뷰(MVIEW)는 10억 건의 거대 조인 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 밤새 쌩으로 믹서기 돌려서 얻어낸 <strong>'요약된 결과 텍스트 엑기스'를 아예 진짜 물리적인 하드디스크 콘크리트로 쾅쾅 얼려 저장(Materialize)해 박제해두는 <a href="/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a>(<a href="/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>)의 0순위 쇳덩이 캐시 무기</strong>다.
 > 2. **가치**: 사장님이 대시보드에서 "10년 치 전 세계 부서별 남녀 매출 통계"를 클릭할 때, 매번 10억 건 원본 테이블을 조인 치다 서버 CPU가 타 죽는 10분의 랙(지옥)을 완벽히 찢어발기고!! -> 어젯밤에 굳혀둔 1,000줄짜리 MVIEW 껍데기만 블록 I/O 1방에 스윽 읽어 <strong>0.001초 컷으로 즉답 렌더링 던져버리는 압도적인 조회(<a href="/studynote/12_it_management/05_security_compliance/316_olap/">OLAP</a>) 스피드 폭발 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 혁명</strong>이다.

@@ -1,11 +1,11 @@
 ---
 title: "103. SLA (Service Level Agreement)"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 103
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)는 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자(벤더)와 고객 간에 맺어지는 <strong>가장 최상위의 비즈니스적, 법적 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질 보증 계약서</strong>이다.
 > 2. **가치**: 모호한 형용사를 배제하고 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 등 측정 가능한 수치(지표)를 명문화하여, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 시 책임 소재를 명확히 하고 재정적 패널티([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Credits) 기준을 제공한다.

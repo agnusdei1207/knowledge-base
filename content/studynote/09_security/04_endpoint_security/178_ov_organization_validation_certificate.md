@@ -3,8 +3,8 @@ title: "178. Ov Organization Validation Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OV (Organization [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)가 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통제권뿐 아니라 신청 조직의 법적 존재와 기본 조직 정보를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 발급하는 조직 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)형 X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서다.

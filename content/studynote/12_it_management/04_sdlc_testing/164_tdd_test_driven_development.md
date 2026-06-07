@@ -3,8 +3,8 @@ title: "Test Driven Development,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TDD ([Test Driven Development](/studynote/04_software_engineering/11_testing_validation/862_tdd_lifecycle/), [테스트 주도 개발](/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))는 실패하는 테스트를 먼저 쓰고, 그 테스트를 통과시키는 최소 코드와 리팩터링을 반복하는 개발 방식이다.

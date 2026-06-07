@@ -2,9 +2,9 @@
 title: "Parallel Processing Architecture"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 병렬 처리 아키텍처 (Parallel Processing Architecture)는 단일 프로세서의 성능 한계를 극복하기 위해 다수의 연산 장치를 동시에 가동하여 작업을 분담 처리하는 구조로, 플린의 분류 (Flynn's Taxonomy)를 기본 체계로 한다.

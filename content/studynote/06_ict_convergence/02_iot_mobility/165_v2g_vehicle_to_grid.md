@@ -3,8 +3,8 @@ title: "165. V2G Vehicle To Grid"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 165
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: V2G (Vehicle to Grid)는 전기차 ([EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), Electric Vehicle)의 배터리를 단순 이동 수단이 아니라, 전력망과 양방향으로 연결되는 분산형 에너지 저장 자원으로 활용하는 기술이다.

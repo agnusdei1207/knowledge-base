@@ -3,8 +3,8 @@ title: "Semiconductor"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 반도체 (Semiconductor)는 약 $1 \sim 3 \text{ [eV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)}$의 밴드 갭 (Band Gap)을 가져, 외부 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 시에만 도체로 변하는 조건부 가변 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 매질이다.
 > 2. **가치**: 순수 실리콘에 불순물을 주입하는 도핑 (Doping)을 통해 P형과 N형을 만들며, 이는 0과 1을 통제하는 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로의 물리적 토대가 된다.

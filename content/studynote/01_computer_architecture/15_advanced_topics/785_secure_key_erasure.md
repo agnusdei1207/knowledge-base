@@ -3,8 +3,8 @@ title: "Secure Key Erasure"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 785
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 키 소거는 메모리 해제와 달리, 사용이 끝난 비밀 값을 명시적으로 덮어써 복원 가능성을 줄이는 [제로화](/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)([Zeroization](/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)) 절차다.

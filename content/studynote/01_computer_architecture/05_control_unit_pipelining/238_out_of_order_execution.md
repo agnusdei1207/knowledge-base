@@ -3,8 +3,8 @@ title: "Out-of-Order Execution, OoO"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비순차 실행 (Out-of-Order Execution, OoO)은 프로그램에 적힌 순서를 잠시 느슨하게 풀어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 준비된 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)부터 먼저 실행함으로써 파이프라인의 빈 시간을 줄이는 동적 스케줄링 기법이다.

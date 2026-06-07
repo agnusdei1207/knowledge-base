@@ -3,8 +3,8 @@ title: "1051. Vxlan Overlay Vtep Tunneling Mac In Udp"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1051
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VXLAN](/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

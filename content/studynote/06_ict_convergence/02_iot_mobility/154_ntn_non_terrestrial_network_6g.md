@@ -3,8 +3,8 @@ title: "154. Ntn Non Terrestrial Network 6G"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비지상 네트워크(NTN, Non-Terrestrial Network)는 100년 동안 땅(지표면 2D)에만 시멘트 공구리 쳐 박아 세우던 철탑 기지국의 족쇄 한계를 도끼로 찢어발기고!! -> 하늘 20km 성층권에 떠 있는 <strong>무인기 드론(<a href="/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/">HAPS</a>)</strong>이나 500km 우주 밖 <strong>저궤도 인공위성(<a href="/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">LEO</a>)</strong> 쇳덩이 자체를 <strong>'날아다니는 3D 공중 클라우드 엣지 기지국 텐트'</strong>로 100% 환골탈태 융합 활용하는 차세대 무선 통신 아키텍처다.
 > 2. **가치**: 기존 지상 5G망이 절대 1mm도 커버 뚫지 못하는 망망대해 바다 한가운데, 사하라 사막, 깊은 히말라야 산속 오지, 그리고 공중 수백 m 위를 나는 에어택시([UAM](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 비행 기체)까지 -> 지구 우주 표면 100%에 통신 404 미아 끊김 없는 사각지대 제로(Seamless) 초광대역 레이저 통신망을 무정단 방폭문 쉴드로 제공하여 인류의 진정한 "초공간 초연결 특이점 시대"를 완성한다.

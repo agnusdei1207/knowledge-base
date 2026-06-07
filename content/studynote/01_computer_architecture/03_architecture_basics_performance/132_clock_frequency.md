@@ -3,8 +3,8 @@ title: "Clock Frequency"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 132
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클럭 주파수 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Frequency)는 디지털 시스템이 1초에 몇 번 상태 갱신 기회를 갖는지를 나타내는 시간 밀도이며, 보통 헤르츠 (Hertz, Hz)와 기가헤르츠 (Gigahertz, GHz)로 표현한다.

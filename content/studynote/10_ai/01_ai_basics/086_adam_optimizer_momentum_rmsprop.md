@@ -3,8 +3,8 @@ title: "086. Adam Optimizer Momentum Rmsprop"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) ([Adaptive Moment Estimation](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))은 Momentum과 RMSProp을 합쳐 방향과 스케일을 함께 추적하는 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)다.

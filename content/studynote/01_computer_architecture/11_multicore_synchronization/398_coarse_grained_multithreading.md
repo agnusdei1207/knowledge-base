@@ -3,8 +3,8 @@ title: "Coarse-grained"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 398
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Coarse-grained [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 빠질 때만 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 넘어가, 코어가 통째로 멈추는 시간을 줄이는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 구조다.

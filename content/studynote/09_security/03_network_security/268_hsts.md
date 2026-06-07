@@ -3,9 +3,8 @@ title: "268. HSTS (HTTP Strict Transport Security)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 268
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HSTS ([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Strict Transport [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

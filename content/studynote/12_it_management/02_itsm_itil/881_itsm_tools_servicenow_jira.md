@@ -3,8 +3,8 @@ title: "ServiceNow, Jira Service Management"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 881
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) ([IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/)) 도구 플랫폼은 [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 기반의 프로세스(사고, 변경, [구성 관리](/studynote/12_it_management/02_itsm_itil/873_configuration_management/))를 자동화하고, 모든 사내 IT 요청을 '티켓(Ticket)' 형태로 단일화하여 추적하는 워크플로우 시스템이다.

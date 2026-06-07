@@ -3,8 +3,8 @@ title: "Secure Coding"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)([Secure Coding](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))은 입력을 검증하고 출력과 오류를 안전하게 처리해 취약점을 원천 차단하는 코딩 원칙이다.

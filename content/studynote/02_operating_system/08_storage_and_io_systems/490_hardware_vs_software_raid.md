@@ -3,8 +3,8 @@ title: "Hardware Vs Software RAID"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 490
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 시스템을 통제하고 패리티 수학 공식(XOR 등)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 짐을 <strong>어떤 두뇌(물리 칩인가 vs <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>인가)가 짊어질 것인가</strong>를 결정하는 시스템 인프라 아키텍처의 패러다임 선택 기로다.

@@ -3,8 +3,8 @@ title: "Bagging"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 259
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배깅(Bagging, Bootstrap Aggregating)은 복원 추출(Bootstrap [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))로 다양한 훈련 서브셋을 만들고, 독립적으로 학습한 모델들을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 집계하여 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 줄이는 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.

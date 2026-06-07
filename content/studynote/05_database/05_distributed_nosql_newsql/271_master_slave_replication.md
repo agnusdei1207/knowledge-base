@@ -3,8 +3,8 @@ title: "Master-Slave / Primary-Replica"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 271
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-슬레이브 (Master-Slave / Primary-Replica) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)은 읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처에 초점을 맞춘 개념이다.

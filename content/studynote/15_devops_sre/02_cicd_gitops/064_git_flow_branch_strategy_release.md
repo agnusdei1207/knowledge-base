@@ -2,9 +2,9 @@
 title: "064. Git Flow Branch Strategy Release"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Git Flow는 develop, main, feature, release, hotfix의 다섯 브랜치를 기준으로 배포와 개발을 분리하는 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

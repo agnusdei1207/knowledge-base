@@ -3,8 +3,8 @@ title: "231. Ai Turing Test"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인공지능([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이란 기계가 인간의 뇌처럼 '생각(Reasoning)'하고 '행동(Acting)'할 수 있도록 만드는 모든 공학적 스펙트럼이다. 이 지능의 유무를 증명하기 위해 앨런 튜링이 고안한 <strong>'<a href="/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/">Turing Test</a>)'</strong>는 기계의 내부 수학 공식이 어찌 됐든, <strong>"인간 심사관과 블라인드 채팅을 했을 때 기계인지 인간인지 구별하지 못하게 속여 넘기면, 그것은 지능을 가진 것이다"</strong>라는 행동주의적 판단의 위대한 시초다.

@@ -2,9 +2,9 @@
 title: "IBN, Intent-Based Networking"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 479
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [IBN](/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 융합 통제는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [IBN](/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 융합 통제, [IBN](/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/), [Intent](/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/)-Based Networking의 경계를 분명히 만드는 데 의미가 있다.

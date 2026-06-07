@@ -3,8 +3,8 @@ title: "Project Sponsor and Steering Committee Assessment"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로젝트 스폰서 및 추진 위원회 의사 결정 평가는 기준, 증거, 조치의 연결을 관리하는 감리·통제 주제로서, [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 실행 결과 사이의 편차를 재현 가능한 형태로 드러내는 데 목적이 있다.

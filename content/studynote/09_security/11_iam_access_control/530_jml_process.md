@@ -3,8 +3,8 @@ title: "Jml Process"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 530
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Joiner/Mover/Leaver (JML) 프로세스 (Jml [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 신원·접근 제어에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

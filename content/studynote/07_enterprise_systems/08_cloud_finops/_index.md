@@ -2,9 +2,9 @@
 title: "Cloud & FinOps"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 8
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 핀옵스 (FinOps)는 클라우드의 가변적 비용 모델에 대응하여 재무, 기술, 비즈니스가 협업하여 클라우드 투자의 비즈니스 가치를 극대화하는 재무 관리 프레임워크이자 문화이다.

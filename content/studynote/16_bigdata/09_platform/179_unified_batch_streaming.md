@@ -3,8 +3,8 @@ title: "179. Unified Batch Streaming"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 통합 배치/스트리밍 플랫폼은 bounded [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 unbounded [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 엔진과 하나의 의미 체계로 처리해, [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture의 이중 코드 문제를 줄이려는 설계 방향이다.

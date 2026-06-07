@@ -3,8 +3,8 @@ title: "098. Kubernetes Storage Volume Pv Pvc"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 쿠버네티스의 스토리지는 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 휘발성 생명주기와 영구적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분리하는 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 아키텍처다.

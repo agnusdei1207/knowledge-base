@@ -3,8 +3,8 @@ title: "Proportionate Share Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고정 우선순위 스케줄링은 프로세스가 생성될 때 관리자나 설계자에 의해 한 번 부여된 **우선순위(Priority)가 시스템이 종료될 때까지 영구적으로 변하지 않는** 가장 정적이고 단순한 스케줄링 모델이다.

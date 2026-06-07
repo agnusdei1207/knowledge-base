@@ -3,8 +3,8 @@ title: "283. Mutual Exclusion"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 283
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 첫 번째 필수 조건으로서의 상호 배제 (Mutual Exclusion)는 "최소 하나 이상의 자원이 비공유 모드(Non-sharable)로 오직 한 번에 하나의 프로세스만 독점 점유할 수 있도록 제한"된 본질적 상태를 뜻한다.

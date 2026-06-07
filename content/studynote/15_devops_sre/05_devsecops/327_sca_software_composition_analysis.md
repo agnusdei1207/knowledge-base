@@ -3,8 +3,8 @@ title: "SCA Software Composition Analysis Open Source Compliance License Scan"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 327
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SCA](/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/))는 소프트웨어 프로젝트가 사용하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 알려진 취약점([CVE](/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))과 라이선스 문제를 자동으로 탐지한다. 현대 소프트웨어의 70~90%가 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성되어, [SCA](/studynote/09_security/05_web_app_security/453_sca/) 없는 보안은 절반짜리 보안이다.

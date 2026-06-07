@@ -3,8 +3,8 @@ title: "179. Self Signed Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Self-signed [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)의 서명 대신 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 주체가 자기 공개키에 스스로 서명한 X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서로, 암호화 채널은 만들 수 있지만 공개 인터넷 기본 신뢰는 얻지 못한다.

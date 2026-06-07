@@ -3,8 +3,8 @@ title: "MMF"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 132
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 광섬유의 코어 직경 차이(8~10µm vs 50~62.5µm)에 따라 허용되는 빛의 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 경로(모드) 수가 결정되며, 이는 전송 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 거리를 지배하는 핵심 물리적 파라미터다.

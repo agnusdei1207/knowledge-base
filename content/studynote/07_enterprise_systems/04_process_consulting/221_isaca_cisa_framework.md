@@ -2,9 +2,9 @@
 title: "221. Isaca Cisa Framework"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ISACA](/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) ([Information Systems Audit and Control Association](/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/))는 IT 거버넌스·[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·통제 분야의 표준과 생태계를 이끄는 기관이고, [CISA](/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) ([Certified Information Systems Auditor](/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/))는 그 관점을 실무 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 역량으로 체계화한 대표 프레임워크이자 자격이다.

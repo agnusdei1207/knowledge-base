@@ -2,9 +2,9 @@
 title: "DevOps & Observability"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 DevOps는 클라우드 네이티브의 탄력적인 인프라를 기반으로 소프트웨어 개발과 운영을 통합하여 가치 전달의 속도를 극대화하는 체계이며, 관측성 (Observability)은 분산된 클라우드 자원의 내부 상태를 투명하게 가시화하는 능력이다.

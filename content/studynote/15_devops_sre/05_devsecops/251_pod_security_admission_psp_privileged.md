@@ -3,8 +3,8 @@ title: "Pod Security Admission / PSP"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 251
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에서 privileged, hostPath 같은 위험 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 차단하는 통제.

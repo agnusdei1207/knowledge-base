@@ -3,8 +3,8 @@ title: "Docker Container Lightweight OS Isolation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 501
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 Guest OS 없이 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 Namespace와 [cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))만으로 프로세스를 격리하여 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대비 극적으로 가볍다.

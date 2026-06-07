@@ -3,8 +3,8 @@ title: "153. Crypto Agility"
 date: "2026-05-03"
 tags:
   - "studynote-security"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 크립토 애질리티(Crypto Agility, [암호 민첩성](/studynote/09_security/19_ai_advanced_security/988_crypto_agility/))는 낡은 암호 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: [MD5](/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), [RSA](/studynote/09_security/03_network_security/110_rsa/))을 소프트웨어 자바 소스코드 깊숙이 하드코딩(Hard-coding 용접)하는 자살 짓을 도끼로 찢어발기고 -> <strong><a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>) 래퍼(Wrapper) 껍데기와 플러그인(Plug-and-play) 구조 텐트로 코어 설계하여, 언제든 건전지 부품 갈아 끼우듯 최신 암호 규격(SHA-256, <a href="/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/">PQC</a>)으로 런타임 0.1초 컷 쾌속 스위칭 우회 생존 핑퐁을 칠 수 있는 가장 위대한 인프라 보안 유연성(Flexibility) 뼈대 헌법</strong>이다.
 > 2. **가치**: "우리 회사 DB 암호 뚫렸어 씨발!" 대재앙 멸망이 터졌을 때 -> 경직된 시스템은 1만 줄 소스 코드 다 뜯어고치고 DB 엎느라 1달 동안 셧다운 마비 뻗어 해커한테 100억 탈탈 털려 타죽지만(Downtime 파산 💀) -> 민첩성(Agility) 방폭문을 장착한 일류 기업은 걍 YAML 텍스트 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 `AES`를 `ChaCha20`으로 단 1글자만 딸깍! 수정 후 서버 1초 컷 재시작 쳐서 해킹 빔을 무결점 100% 튕겨내 방어 록온([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 치는 궁극의 운영 생존율(Opex 다이어트) 압살 격차를 만든다.

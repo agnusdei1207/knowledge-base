@@ -3,8 +3,8 @@ title: "090. Kafka Mirrormaker2"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2 (MM2, [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 미러메이커 2)는 [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) 2.4+부터 도입된 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect 기반의 클러스터 간 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 도구로, 양방향(Bidirectional) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 오프셋 변환(Offset Translation), 토픽 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 지원하여 [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), Disaster [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))와 지리적 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배포의 표준 솔루션이다.

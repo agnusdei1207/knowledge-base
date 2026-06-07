@@ -3,8 +3,8 @@ title: "Ssl TLS Handshake Session Key Exchange Https"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1078
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SSL/[TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크 ([Ssl TLS Handshake](/studynote/03_network/19_frequent_topics_terms/982_ssl_tls_handshake/) [Session Key](/studynote/09_security/03_network_security/140_session_key/) Exchange [Https](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))는 보안 확장 개념에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

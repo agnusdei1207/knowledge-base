@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **물리적 장애 그룹 인지**: 수많은 서버가 꽂혀 있는 '랙(Rack)' 단위의 장애([스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 고전압, 전원 차단 등)에 대비하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치하는 지능형 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
 - <strong>기본 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 규칙 (3-Replica)</strong>: 하나의 블록은 로컬 랙에 1개, 멀티 랙(다른 랙)에 2개를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하여 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 네트워크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형을 맞춥니다.

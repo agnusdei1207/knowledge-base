@@ -3,8 +3,8 @@ title: "Open Banking MyData API Ecosystem"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 763
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 뱅킹 마이데이터 API 생태계는 **PSD2·UK CMA·FAPI 1.0/2.0·OAuth 2.0 Authorization Code + PKCE + mTLS(또는 DPoP)** 기반의 표준화된 REST/OpenAPI 3.x 인터페이스로, 정보제공자(IP)·마이데이터사업자(MSP)·정보이용자(IU)·본인확인기관(CA) 간 **사용자 중심 데이터 이동권(Portability)**을 실현하는 금융 API 거버넌스 체계다.

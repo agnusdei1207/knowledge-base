@@ -3,8 +3,8 @@ title: "164. Ocsp Stapling"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OCSP](/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링 ([OCSP Stapling](/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/))은 서버가 인증기관 ([CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority)의 [OCSP](/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 응답을 미리 받아 두었다가 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 핸드셰이크 때 클라이언트에 함께 전달하는 방식이다.

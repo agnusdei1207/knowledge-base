@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 39
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 아파치 스쿱(Apache Sqoop)은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS)와 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/), [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/), [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/)) 간에 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 효율적으로 주고받는 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 전용' 도구임.
 - SQL-to-Hadoop의 약자로, 커넥터를 통해 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출(Import)하거나 적재(Export)하여 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 채우는 가교 역할을 수행함.

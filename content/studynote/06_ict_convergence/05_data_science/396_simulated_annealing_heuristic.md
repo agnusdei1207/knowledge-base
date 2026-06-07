@@ -3,8 +3,8 @@ title: "396. Simulated Annealing Heuristic"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 396
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시뮬레이티드 어닐링 볼츠만 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 지역 최적해 탈출 (모의 담금질): 1. **본질**: 시뮬레이티드 어닐링([SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))은 대장장이가 뜨거운 쇠를 천천히 식히면서 가장 단단한 칼을 깎아내듯, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 탐색 과정에서 초반에는 온도를 높여 미친 듯이 날뛰게 하고 후반에…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

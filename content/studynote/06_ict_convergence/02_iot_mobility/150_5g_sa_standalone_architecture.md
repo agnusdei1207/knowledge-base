@@ -3,8 +3,8 @@ title: "150. 5G Sa Standalone Architecture"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)(Standalone, 단독 모드) 아키텍처는 과거 LTE망에 빌붙어 셋방살이하던 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/)(Non-Standalone) 구조를 완전히 버리고, <strong>스마트폰 -> 기지국(RAN) -> 코어망(Core)에 이르는 전 구간을 100% <a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 전용 클라우드 소프트웨어(<a href="/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a>)로 독립 구축한 진정한 <a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 생태계</strong>다.
 > 2. **가치**: [NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 시절엔 전화가 올 때마다 폰이 5G와 [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 사이를 휙휙 널뛰기(Flapping) 하느라 폰 배터리가 타 죽고 핑이 끊겼다. [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 망으로 넘어오는 순간 낡은 [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 족쇄가 완벽히 끊어지며 단말 배터리 소모 20% 감소, 그리고 <strong>B2B 돈줄인 1ms 초저지연(<a href="/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">uRLLC</a>) 자율주행 방벽이 물리적으로 해금(Unlock)</strong>된다.

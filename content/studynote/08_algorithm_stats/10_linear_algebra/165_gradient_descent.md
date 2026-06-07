@@ -2,9 +2,9 @@
 title: "165. Gradient Descent"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기울기 하강법 (Gradient Descent) 은 함수의 *음의 기울기 방향으로 조금씩 이동*하며 최솟값을 찾는 반복 최적화 — f(x)가 감소하는 방향은 항상 -∇f(x)다.

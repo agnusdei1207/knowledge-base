@@ -2,9 +2,9 @@
 title: "187. Strangler Fig Pattern Msa Migration"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/))은 레거시 모놀리식을 한 번에 교체하지 않고, 진입 경계의 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 활용해 기능을 점진적으로 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 옮기는 현대화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

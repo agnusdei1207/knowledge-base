@@ -3,8 +3,8 @@ title: "MESI Protocol State Transition Diagram"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 512
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MESI (Modified, Exclusive, Shared, Invalid) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 상태 전이도는 캐시 라인이 읽기·[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·스누프 이벤트를 만날 때 어떤 권한 상태로 바뀌는지를 정의한 상태 기계다.

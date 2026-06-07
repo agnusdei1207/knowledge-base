@@ -3,8 +3,8 @@ title: "Data Lakehouse"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)(비정형)와 웨어하우스(정형)의 융합 구조 ([Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/), [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/))에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

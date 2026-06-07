@@ -3,8 +3,8 @@ title: "Bulk Insert / COPY"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 389
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대용량 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 배칭(Batching) 삽입 최적화 (Bulk Insert / COPY [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

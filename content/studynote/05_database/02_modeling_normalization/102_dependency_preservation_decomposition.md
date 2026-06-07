@@ -1,10 +1,11 @@
 ---
 title: "102. Dependency Preservation Decomposition"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존 (Dependency Preservation)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 분해할 때 원본 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 존재하던 [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (FD; Functional Dependency)이 분해된 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)들 중 적어도 하나에 온전히 남아 유지되어야 한다는 설계 원칙이다.

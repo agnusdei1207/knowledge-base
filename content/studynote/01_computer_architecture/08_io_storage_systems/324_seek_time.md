@@ -3,8 +3,8 @@ title: "Seek Time"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 324
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탐색 시간 ([Seek Time](/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))은 [하드 디스크 드라이브](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive, [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에서 헤드 (Head)가 현재 트랙 (Track)에서 목표 트랙으로 이동해 읽기 준비를 마칠 때까지의 <strong>기계적 위치 맞춤 시간</strong>이다.

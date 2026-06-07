@@ -3,8 +3,8 @@ title: "Reactor Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Reactor (리액터) 패턴은 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/studynote/02_operating_system/02_process_thread/142_event_loop/))가 I/O [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))을 통해 다수의 I/O 이벤트를 동시에 감시하고, 이벤트 발생 시 등록된 핸들러를 즉시 호출하는 비동기 I/O 아키텍처다.

@@ -3,8 +3,8 @@ title: "Cloud Migration 6R"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 클라우드 마이그레이션 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 AWS가 Gartner의 5Rs를 확장한 클라우드 이전 유형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계로, Retire(폐기)·Retain(유지)·Rehost([리호스트](/studynote/06_ict_convergence/03_cloud_infrastructure/212_rehost_lift_and_shift_migration_strategy/))·Replatform(리플랫폼)·Repurchase(재구매)·[Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)/Re-architect(재설계)의 6가지 경로를 제시한다.
 > 2. 대부분의 기업 클라우드 전환에서 포트폴리오 분석 시 Rehost([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift)가 60~70%를 차지하며 가장 빠른 이전이 가능하지만, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 이점 극대화는 Refactor에서만 온전히 실현된다.

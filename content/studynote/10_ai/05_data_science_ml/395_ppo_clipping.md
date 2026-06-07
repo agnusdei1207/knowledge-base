@@ -3,9 +3,8 @@ title: "395. PPO (Proximal Policy Optimization)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 395
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PPO (Proximal [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Optimization, 근위 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화)는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트의 크기를 클리핑 ([Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))으로 제한해 신뢰 영역 (Trust Region) 을 근사하며, TRPO (Trust Region [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Optimization)의 계산 복잡성을 극적으로 줄인 강화학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

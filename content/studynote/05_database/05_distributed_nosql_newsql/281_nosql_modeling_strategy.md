@@ -3,8 +3,8 @@ title: "Shard Key / Partition Key"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 샤드 키 (Shard [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) / [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 기준이 되는 키 설계 중요성에 초점을 맞춘 개념이다.

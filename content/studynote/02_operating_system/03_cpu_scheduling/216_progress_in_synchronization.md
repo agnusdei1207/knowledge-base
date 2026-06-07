@@ -3,8 +3,8 @@ title: "Progress"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 진행 (Progress)은 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 갖춰야 할 3대 필수 조건 중 두 번째로, <strong>"<a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>이 비어 있고 들어가길 원하는 프로세스들이 있다면, 그중 하나는 반드시 무한한 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 없이 진입해야 한다"</strong>는 활력(Liveness) 보장 원칙이다.

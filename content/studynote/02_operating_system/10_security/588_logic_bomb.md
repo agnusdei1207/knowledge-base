@@ -3,8 +3,8 @@ title: "588. Logic Bomb"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 588
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로직 폭탄은 개발자나 침입자가 특정 조건이 충족되었을 때(날짜, 시간, 특정 사용자 로그인, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 등) 악의적인 코드 실행을 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는 악성 소프트웨어다. 이기만(기만)적촉발([트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) 메커니즘으로, 정상 업무 중 몰래 침투하여 시스템에 [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)를 설치하거나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파괴하는 일종의 시한폭탄이다.

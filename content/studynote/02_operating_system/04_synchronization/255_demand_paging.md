@@ -3,8 +3,8 @@ title: "Demand Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 255
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 요구 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)은 프로그램이 실행될 때 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체를 메모리(RAM)에 한 번에 올리는 무식한 방식을 버리고, <strong>CPU가 실제로 "이 주소 내놔!"라고 요구(Demand)하는 순간에만 해당 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 작은 조각(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)을 디스크에서 램으로 퍼 나르는 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 적재(<a href="/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/">Lazy Loading</a>) 기법</strong>이다.

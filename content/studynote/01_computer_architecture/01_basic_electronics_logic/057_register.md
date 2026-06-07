@@ -3,8 +3,8 @@ title: "Register"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레지스터([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 묶어 CPU가 아주 빠르게 읽고 쓰는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 저장 공간이다.

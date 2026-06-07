@@ -3,8 +3,8 @@ title: "034. Shuffle And Sort Mechanism"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 34
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 맵(Map)의 출력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리듀서(Reducer)로 전달하기 위해 네트워크를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동시키고 정렬하는 핵심 매커니즘임.
 - [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 가장 큰 병목 지점([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))으로, 대규모 네트워크 I/O와 디스크 I/O가 동시에 발생함.

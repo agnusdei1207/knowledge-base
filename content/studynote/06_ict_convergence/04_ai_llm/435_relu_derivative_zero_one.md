@@ -3,8 +3,8 @@ title: "RELU Derivative ZERO ONE"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 435
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 도함수 0, 1 ([RELU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) Derivative [ZERO](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) ONE): 1. **본질**: [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/)([Rectified Linear Unit](/studynote/10_ai/03_llm_nlp/269_relu_activation/))는 "음수가 들어오면 무조건 0으로 버리고, 양수가 들어오면 들어온 숫자 그대로 통과시키는" 아주 단순하고 무식한 V자…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

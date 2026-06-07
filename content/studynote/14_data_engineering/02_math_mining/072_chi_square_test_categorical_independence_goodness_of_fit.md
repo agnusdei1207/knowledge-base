@@ -3,8 +3,8 @@ title: "072. Chi Square Test Categorical Independence Goodness Of Fit"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카이제곱 검정은 범주형 데이터가 기대 분포와 맞는지 또는 두 범주가 독립인지 검사한다.

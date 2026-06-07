@@ -3,8 +3,8 @@ title: "314. Starvation Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 314
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(자원 뺏기)할 때 `비용 공식(Min Cost)`이 철저하게 최적화될수록, 매번 데드락이 터질 때마다 <strong>재수 없이 똑같이 싼 비용의 타겟 1명</strong>만 계속 핀포인트로 희생되어 영원히 자원을 못 잡고 굶어 죽어가는 <strong>기아 역병(Starvation)</strong>을 원천 차단하는 브레이크 메커니즘이다.

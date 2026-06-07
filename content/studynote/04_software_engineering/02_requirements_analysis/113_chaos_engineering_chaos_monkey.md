@@ -3,8 +3,8 @@ title: "113. Chaos Engineering Chaos Monkey"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카오스 엔지니어링](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 프로덕션 환경에 <strong>의도적으로 장애(서버 종료·<a href="/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/">네트워크 지연</a>·디스크 고장)를 주입</strong>하여, 시스템의 복원력(Resilience)을 사전 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 기반 규율이다.
 > 2. **가치**: "장애는 반드시 온다"는 전제 하에, <strong>Game Day(장애 훈련)</strong>를 통해 모니터링·오토스케일링·[서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 등 방어 메커니즘이 **실제로 작동하는지** [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 금요일 오후 5시에 서버가 죽어도 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되는 시스템이 목표다.

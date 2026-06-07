@@ -3,8 +3,8 @@ title: "195. Federated Query Data Fabric Distributed Join"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Federated Query)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 이동하지 않고, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 단일 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 접근하는 패턴이다.
 > 2. **가치**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) + [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) + 자동 거버넌스를 통합하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 없는 논리적 단일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층을 실현한다.

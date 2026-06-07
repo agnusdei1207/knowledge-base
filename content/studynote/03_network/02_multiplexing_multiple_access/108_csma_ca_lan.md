@@ -3,8 +3,8 @@ title: "LAN"
 date: "2026-04-01"
 tags:
   - "studynote-network"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)(Carrier Sense [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance)는 '충돌 감지'가 물리적으로 불가능한 무선 환경의 태생적 한계를 극복하기 위해, 전송 전에 무작위 대기 시간을 가져 충돌을 선제적으로 '회피'하는 IEEE 802.11의 핵심 [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식이다.
 > 2. **가치**: IFS(Inter-Frame Space)라는 차등적 타이머를 통해 프레임의 우선순위를 부여하고, 백오프(Backoff) 윈도우를 전송 전에 가동함으로써 반이중(Half-Duplex) 무선 채널의 혼잡을 극적으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시켰다.

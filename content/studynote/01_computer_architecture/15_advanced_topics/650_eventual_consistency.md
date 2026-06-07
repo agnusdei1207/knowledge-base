@@ -3,8 +3,8 @@ title: "Eventual Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 650
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 결과적 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Eventual [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 새로운 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 멈추면 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본들이 결국 동일한 값으로 수렴한다는 약한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델이다.

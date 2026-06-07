@@ -3,8 +3,8 @@ title: "450. Dma Direct Memory Access"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 450
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 직접 메모리 접근([DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))은 디스크나 랜카드에서 램(RAM)으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 나를 때 가장 비싼 자원인 CPU가 1바이트씩 땀 흘려 옮기는 멍청한 노가다를 금지하고, <strong>'<a href="/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 컨트롤러'라는 전담 하청 칩셋을 보드에 달아 CPU 몰래(개입 없이) 메모리에 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다이렉트로 때려 박는 하드웨어 우회 기술</strong>이다.

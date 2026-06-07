@@ -3,8 +3,8 @@ title: "ICT PE Essay Keywords Final Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 795
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합 기술사 논술은 단순 암기가 아닌, **5G 코어 네트워크 -> 클라우드-엣지 -> 데이터/AI -> 보안/거버넌스**의 4-Layer 컨버지드 아키텍처를 기준으로, 각 키워드의 트레이드오프(예: 중앙집중 vs 분산, 일관성 vs 가용성, 저지연 vs 보안)와 표준·프로토콜·KPI를 결합해 답안 2,000~3,000자를 논리적으로 구성하는 역량 평가이다.

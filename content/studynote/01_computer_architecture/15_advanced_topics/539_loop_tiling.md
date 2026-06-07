@@ -3,8 +3,8 @@ title: "Loop Tiling"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 539
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 루프 타일링은 큰 반복 공간을 캐시와 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))가 감당할 수 있는 작은 블록으로 쪼개, 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짧은 시간 안에 반복 재사용하게 만드는 최적화다.

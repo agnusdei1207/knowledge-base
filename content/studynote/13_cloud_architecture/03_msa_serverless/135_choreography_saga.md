@@ -3,8 +3,8 @@ title: "135. Choreography Saga"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Choreography Saga는 <strong>중앙 오케스트레이터 없이 각 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 이벤트를 발행·구독하여 자율적으로 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>을 <a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a></strong>하는 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴이다.
 > 2. **가치**: 중앙 제어점([단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 없어 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 자율성·독립 배포·느슨한 결합</strong>이 유지되지만, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많아지면 이벤트 흐름 추적이 어려워진다(디버깅 복잡도^).

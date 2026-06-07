@@ -3,8 +3,8 @@ title: "Immediate Update"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 즉시 갱신 ([Immediate](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Update)은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중에도 DB 기록, [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시 Redo와 [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) 모두 필요에 초점을 맞춘 개념이다.

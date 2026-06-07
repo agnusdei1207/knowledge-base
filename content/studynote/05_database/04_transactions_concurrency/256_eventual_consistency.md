@@ -3,8 +3,8 @@ title: "Eventual Consistency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 256
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [결과적 일관성](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) ([Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))은 일정 시간이 지나면 결국 동기화됨 ([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템 특징, BASE 특성)에 초점을 맞춘 개념이다.

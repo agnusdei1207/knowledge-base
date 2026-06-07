@@ -3,8 +3,8 @@ title: "124. Data Governance Db Perspective"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)는 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>·<a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>·보안·품질을 보장하기 위한 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>·프로세스·조직·기술의 통합 관리 체계</strong>이며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기업 자산으로 관리하는 전사적 프레임워크다.
 > 2. **가치**: 거버넌스 없이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복·불일치·보안 사고·규제 위반이 발생하며, [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/) 등 <strong>규제 준수(<a href="/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)</strong>를 위해서도 필수적이다.

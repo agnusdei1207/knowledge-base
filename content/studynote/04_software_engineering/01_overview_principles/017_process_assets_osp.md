@@ -1,11 +1,11 @@
 ---
 title: "017. Process Assets Osp"
 date: "2026-03-04"
-description: "소프트웨어 프로세스 자산(OPA)의 구성과 조직 표준 프로세스(OSP)의 테일러링 원리를 심층 분석합니다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 17
 ---
-
 # 17. 프로세스 자산 ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Assets) 및 조직 표준 프로세스
 
 #### 핵심 인사이트 (3줄 요약)

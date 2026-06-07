@@ -3,8 +3,8 @@ title: "086. Replicaset Kubernetes Controller Self Healing"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ReplicaSet은 Kubernetes에서 원하는 수의 Pod를 유지하는 controller다.

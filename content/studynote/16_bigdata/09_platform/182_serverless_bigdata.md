@@ -3,8 +3,8 @@ title: "182. Serverless Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터 ([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 저장소는 지속적으로 유지하되 분석 계산 자원은 질의 시점에만 할당받아, 클러스터 상시 운영 없이 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 분석 모델이다.

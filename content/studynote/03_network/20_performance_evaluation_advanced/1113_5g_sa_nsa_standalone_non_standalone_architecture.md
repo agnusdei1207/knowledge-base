@@ -3,8 +3,8 @@ title: "1113. 5G Sa Nsa Standalone Non Standalone Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [5G SA](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

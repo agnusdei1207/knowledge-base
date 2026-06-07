@@ -3,8 +3,8 @@ title: "Worker Thread / Thread Pool Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Thread Pool](/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 패턴은 매 요청마다 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸하는 비용을 제거하기 위해, 미리 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 재사용 가능한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 집합(Pool)에 작업을 분배하는 객체 풀 특화 패턴이다.

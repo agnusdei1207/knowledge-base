@@ -3,8 +3,8 @@ title: "520. In Memory Structures"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 520
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크(On-Disk) 구조가 죽어있는 철판 쇳덩어리 장부라면, **메모리 내 구조(In-Memory Structures)** 는 이 철판 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램(RAM)으로 복사해 올려 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 프로세스의 현재 문맥(누가, 몇 번째 줄을, 읽기 모드로 열었나?)이라는 살아 숨 쉬는 속도와 생명 연산 상태를 불어넣는 "가상 캐시 장부" 다.

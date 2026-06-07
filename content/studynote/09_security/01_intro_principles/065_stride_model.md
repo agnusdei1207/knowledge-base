@@ -3,8 +3,8 @@ title: "065. Stride Model"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: STRIDE는 [Spoofing](/studynote/02_operating_system/10_security/598_spoofing/), Tampering, Repudiation, Information Disclosure, Denial of [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), Elevation of Privilege 여섯 가지 위협 범주를 제공하는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 프레임이다.

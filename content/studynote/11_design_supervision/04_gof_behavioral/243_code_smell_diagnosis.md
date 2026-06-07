@@ -3,8 +3,8 @@ title: "Code Smell Diagnosis"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [코드 스멜](/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/)) 은 설계 문제를 암시하는 코드 패턴으로, 버그는 아니지만 미래의 버그·유지보수 비용을 예고하는 경고 신호다.

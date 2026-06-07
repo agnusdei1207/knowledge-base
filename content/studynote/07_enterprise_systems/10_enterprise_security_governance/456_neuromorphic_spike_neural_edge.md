@@ -2,9 +2,9 @@
 title: "Neuromorphic Computing & SNN"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 456
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 뉴로모픽 연산 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 신경망 저전력 에지 컴퓨팅은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 뉴로모픽 연산 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 신경망 저전력 에지 컴퓨팅, [Neuromorphic Computing](/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/) & [SNN](/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/), SNN의 경계를 분명히 만드는 데 의미가 있다.

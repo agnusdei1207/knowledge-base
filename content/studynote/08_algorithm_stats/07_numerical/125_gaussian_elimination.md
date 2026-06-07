@@ -3,8 +3,8 @@ title: "125. Gaussian Elimination"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 125
 ---
-
 > **핵심 인사이트**
 > 1. 가우스 소거법(Gaussian Elimination)은 선형 연립 방정식 Ax=b를 O(n³) 시간에 풀거나 행렬을 행 사다리꼴로 변환하는 기본 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 정방행렬 n×n에서 n이 작으면 충분하지만 n이 크면 LU 분해·반복법과 비교해 효율을 따져야 한다.
 > 2. 부분 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)팅(Partial Pivoting)이 수치 안정성(Numerical [Stability](/studynote/08_algorithm_stats/02_sorting/021_stability/))의 핵심 — [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 원소가 0에 가까울 때 나눗셈 오류로 수치 오차가 폭발하므로, 각 단계에서 절댓값이 가장 큰 원소를 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)으로 선택하는 부분 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)팅이 실제 구현의 표준이다.

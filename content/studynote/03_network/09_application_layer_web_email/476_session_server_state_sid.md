@@ -3,8 +3,8 @@ title: "Session"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 476
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

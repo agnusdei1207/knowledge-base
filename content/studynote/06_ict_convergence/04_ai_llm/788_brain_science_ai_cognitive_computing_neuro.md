@@ -3,8 +3,8 @@ title: "Brain Science AI Cognitive Computing Neuro"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 788
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인간 뇌의 86B 뉴런·100T 시냅스 구조를 **뉴런 모델(LIF, Izhikevich)·시냅스 가소성(STDP, Hebbian)·인지 아키텍처(SOAR, ACT-R, LIDA)·뉴로모픽 하드웨어(Intel Loihi 2, IBM TrueNorth, SpiNNaker)** 4계층으로 모방하여, 폰노이만 병목을 제거한 **In-Memory Computing**과 **Event-Driven Spiking**으로 구현하는 통합 패러다임.

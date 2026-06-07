@@ -2,9 +2,9 @@
 title: "156. Source Coding"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 섀넌의 소스 부호화 정리는 *[엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X)가 무손실 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)의 절대 하한*임을 증명 — 어떤 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 평균 H(X) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/심볼 미만으로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)할 수 없다.

@@ -3,9 +3,8 @@ title: "200. IDP / Backstage (Internal Developer Platform)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 200
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IDP](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)(Internal Developer Platform)는 개발자가 인프라·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·[서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)를 티켓 없이 셀프서비스로 사용할 수 있는 내부 개발자 포털이다.

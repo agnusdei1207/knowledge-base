@@ -3,8 +3,8 @@ title: "PEFT LORA LOW RANK Adaptation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 457
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PEFT LoRA](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 저차원 파인튜닝 ([PEFT LORA](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) LOW RANK Adaptation): 1. **본질**: [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)([Parameter-Efficient Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/))는 1,000억 개가 넘는 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 뇌세포([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 전부 다 뜯어고치는 무식한 짓…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

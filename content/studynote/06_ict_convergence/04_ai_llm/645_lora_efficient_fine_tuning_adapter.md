@@ -3,8 +3,8 @@ title: "LoRA Efficient Fine Tuning Adapter"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 645
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LoRA(Low-Rank Adaptation)는 사전학습된 거대 언어 모델(LLM)의 가중치 동결(Frozen) 상태에서, 어텐션 모듈의 Query/Value Projection에 저랭크 분해 행렬 ΔW = B·A (단, rank r ≪ d)만 주입해 학습 파라미터를 수십만 분의 1로 축소하는 PEFT(Parameter-Efficient Fine-Tuning) 어댑터 기법이다.

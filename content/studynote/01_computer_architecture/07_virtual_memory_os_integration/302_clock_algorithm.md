@@ -3,8 +3,8 @@ title: "Clock Algorithm"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 302
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클럭 알고리즘](/studynote/02_operating_system/04_synchronization/264_clock_algorithm_nur/) ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))의 높은 구현 비용을 줄이기 위해, [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)별 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))와 원형 포인터를 이용해 "최근에 안 쓰인 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)"를 빠르게 찾는 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) 기법이다.

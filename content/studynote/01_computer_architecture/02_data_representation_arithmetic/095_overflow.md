@@ -3,8 +3,8 @@ title: "Overflow"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오버플로우 (Overflow)는 컴퓨터가 값을 저장하기 위해 할당한 고정된 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 메모리의 수용 한계치를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 초과하여, 올바르지 않은 값으로 덮어쓰여지는 수치 연산 오류 현상이다.

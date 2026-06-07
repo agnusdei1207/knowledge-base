@@ -3,8 +3,8 @@ title: "Banker's Algorithm,"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 301
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Banker's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 에츠허르 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) (Edsger W. [Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 설계한 [교착 상태 회피](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 요청 시 [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/) 유지 여부를 검사하여 [불안전 상태](/studynote/02_operating_system/05_deadlock/299_unsafe_state/)로 이어지는 할당을 거부한다.

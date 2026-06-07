@@ -3,8 +3,8 @@ title: "091. Precision Vs Recall Tradeoff"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델에서 결정 임계값(Threshold)을 조절하면 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))와 [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))은 서로 반비례하는 상충 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Trade-off)를 가진다.

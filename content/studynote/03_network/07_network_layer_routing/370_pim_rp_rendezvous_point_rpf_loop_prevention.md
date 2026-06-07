@@ -3,8 +3,8 @@ title: "370. Pim Rp Rendezvous Point Rpf Loop Prevention"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 370
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RP, RPF [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

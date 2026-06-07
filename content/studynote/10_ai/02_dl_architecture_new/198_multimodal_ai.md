@@ -3,8 +3,8 @@ title: "Multimodal AI"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Multimodal AI](/studynote/06_ict_convergence/04_ai_llm/286_multimodal_ai/))는 텍스트만 읽던 반쪽짜리 시각 장애인 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 한계를 박살 내고, 인간처럼 글(Text), 눈(Image/Video), 귀(Audio)라는 완전히 다른 형태(모달리티, Modality)의 이기종 감각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 하나의 거대한 뇌 신경망 안에서 동시에 씹어 먹고 융합하여 이해하는 초월적 아키텍처다.

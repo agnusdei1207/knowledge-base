@@ -3,8 +3,8 @@ title: "451. Cycle Stealing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 451
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사이클 스틸링(Cycle Stealing)은 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 컨트롤러가 메모리로 대량의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 나를 때, <strong>가장 중요한 '<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">System Bus</a>)'의 사용 권한을 CPU가 연산(Decoding 등)을 하느라 0.001초 동안 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>를 쓰지 않는 그 찰나의 빈틈(1클럭)을 훔쳐서 사용하는 교묘한 타이밍 기술</strong>이다.

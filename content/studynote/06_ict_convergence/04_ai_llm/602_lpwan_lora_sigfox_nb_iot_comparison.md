@@ -3,8 +3,8 @@ title: "LPWAN LoRa Sigfox NB-IoT Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 602
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LPWAN LoRa Sigfox NB-IoT 비교은(는) 저전력 장거리 IoT 통신을 위해 낮은 데이터율과 긴 배터리 수명을 목표로 하는 무선망 기술군이다.

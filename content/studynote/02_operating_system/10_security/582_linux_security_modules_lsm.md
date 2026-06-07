@@ -3,8 +3,8 @@ title: "582. Linux Security Modules Lsm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 582
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LSM(Linux [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules)은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 <strong>"보안 enforcement를 위한 훅(Hook)"</strong>을 제공하여, [SELinux](/studynote/02_operating_system/10_security/583_selinux/), [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/) 등 다양한 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 수정하지 않고 **플러그인 방식으로** 부착할 수 있게 하는 프레임워크이다.

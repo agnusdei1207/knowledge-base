@@ -2,9 +2,9 @@
 title: "Process Mining"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 정보시스템에 남은 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 이용해 실제 업무 흐름을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 재구성하는 분석 기법이다.

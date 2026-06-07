@@ -3,8 +3,8 @@ title: "065. Pearson Correlation Coefficient Multicollinearity"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피어슨 상관](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) 계수([Pearson Correlation](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) Coefficient)는 두 변수의 선형적 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 -1부터 1까지의 값으로 나타낸다.

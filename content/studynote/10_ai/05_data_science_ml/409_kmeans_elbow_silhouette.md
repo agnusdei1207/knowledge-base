@@ -3,8 +3,8 @@ title: "Kmeans Elbow Silhouette"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 409
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엘보우 기법 (Elbow Method)과 실루엣 스코어 ([Silhouette Score](/studynote/06_ict_convergence/05_data_science/350_kmeans_elbow_silhouette/))는 K-Means에서 군집 수 K를 정할 때, 각각 <strong>군집 내 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 감소 폭</strong>과 <strong>군집 <a href="/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>·분리도</strong>를 평가하는 대표적 모델 선택 기준이다.

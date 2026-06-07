@@ -3,9 +3,8 @@ title: "354. PCA (Principal Component Analysis)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 354
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([Principal Component Analysis](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 공분산 행렬(Covariance Matrix)을 [고유값 분해](/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/)([Eigenvalue Decomposition](/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/))하여 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 가장 큰 방향(주성분, Principal [Component](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))으로 투영함으로써 정보 손실을 최소화하며 차원을 축소하는 비지도 기법이다.

@@ -3,8 +3,8 @@ title: "Knowledge Graph Ontology Semantic Web"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 683
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시맨틱 웹(Semantic Web)은 **RDF(Subject-Predicate-Object) 트리플**을 최소 의미 단위로 채택하고, **RDFS/OWL**로 클래스·속성·제약(카디널리티, 역관계, 동치관계)을 형식적으로 정의하며, **SPARQL**로 그래프 패턴 매칭 질의와 **RDFS/OWL 추론(Reasoning)**을 통해 암묵적 사실을 도출하는 메타데이터 아키텍처이다. 지식 그래프(Knowledge Graph)는 이를 엔터티·관계·속성 그래프 자료구조로 실체화하여 **Google Knowledge Vault, Wikidata, DBpedia, Schema.org** 같은 대규모 개방형 지식 베이스를 가능케 한 산업적 구현물이다.

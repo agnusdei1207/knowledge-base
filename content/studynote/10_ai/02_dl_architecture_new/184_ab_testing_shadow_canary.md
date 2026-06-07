@@ -3,8 +3,8 @@ title: "A/B Testing, Shadow Deployment, Canary Rollout"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/), [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 롤아웃, A/B 테스팅은 새 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 모델을 한 번에 전면 교체하지 않고, 실트래픽 아래에서 기술적 안전성과 비즈니스 효과를 단계적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 런타임 서빙 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

@@ -3,8 +3,8 @@ title: "Out-of-Order Execution Window"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 502
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO) 윈도우는 코어가 리네이밍 이후 커밋 (Commit) 이전까지 동시에 붙잡고 보며, 실행 순서를 유연하게 바꿀 수 있는 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 가시 범위</strong>다.

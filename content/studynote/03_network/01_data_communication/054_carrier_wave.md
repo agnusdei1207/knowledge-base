@@ -3,8 +3,8 @@ title: "Carrier Wave"
 date: "2026-05-01"
 tags:
   - "studynote-network"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 반송파 (Carrier [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))는 정보를 실어 나르기 위한 고주파 정현파다.

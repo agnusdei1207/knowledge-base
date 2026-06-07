@@ -3,8 +3,8 @@ title: "182. Certificate Pinning Ssl Tls Security"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 핀닝 (Certificate Pinning)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 체인 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과한 뒤에도, 클라이언트가 미리 보관한 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 또는 공개키 지문과 다시 대조해 "정말 우리가 의도한 서버인가"를 한 번 더 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 종단 신뢰 강화 기법이다.

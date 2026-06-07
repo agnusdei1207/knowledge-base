@@ -3,8 +3,8 @@ title: "148. Requirements Specification Formal Informal"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항 명세(Specification)는 도출된 요구사항을 개발자와 테스터가 오해 없이 구현할 수 있도록 문서화하는 작업이며, 수학적/논리적 엄밀성에 따라 <strong>비정형 명세 (자연어 중심)</strong>와 <strong>정형 명세 (수학/기호 중심)</strong>로 나뉜다.
 > 2. **가치**: 비정형 명세는 작성이 쉽고 현업과의 의사소통이 수월해 상업용 프로젝트를 지배하지만 모호성의 위험이 있다. 반면, 정형 명세는 Z-Language 같은 수학적 기호를 써서 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 설계 단계에서 100% 증명해 내며 원자력/항공기 같은 생명 직결 시스템(Safety-Critical)에 사용된다.

@@ -1,10 +1,11 @@
 ---
 title: "058. Methodology Tailoring"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테일러링(Tailoring)은 조직의 표준 방법론을 프로젝트 상황에 맞게 조정하는 작업이다.

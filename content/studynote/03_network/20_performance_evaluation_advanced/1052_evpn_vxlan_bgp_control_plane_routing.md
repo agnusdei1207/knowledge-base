@@ -3,8 +3,8 @@ title: "1052. Evpn Vxlan Bgp Control Plane Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1052
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EVPN](/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)-[VXLAN](/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

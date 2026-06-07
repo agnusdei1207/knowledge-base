@@ -3,8 +3,8 @@ title: "Reparameterization Trick"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 374
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))는 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잠재 공간(Latent Space)의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 N(μ,σ^)로 인코딩하고, 그 분포에서 샘플링한 잠재 변수(Latent Variable) z를 디코딩하여 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델(Generative Model)을 학습한다.

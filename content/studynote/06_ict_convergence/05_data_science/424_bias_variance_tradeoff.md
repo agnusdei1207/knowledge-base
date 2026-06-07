@@ -3,8 +3,8 @@ title: "BIAS Variance Tradeoff"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 424
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 과대적합 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 과소적합 편향 ([BIAS Variance Tradeoff](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)): 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 에러(Error)는 모델이 너무 멍청해서 정답을 빗나가는 '편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))'과, 모델이 너무 예민해서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 바뀌어도 예측값이 미친 듯이 널뛰…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

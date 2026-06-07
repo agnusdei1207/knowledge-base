@@ -3,8 +3,8 @@ title: "182. Llc Logical Link Control"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Logical Link Control)는 IEEE (Institute of Electrical and Electronics 엔진ers) 802 구조에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 상위 부계층으로, 서로 다른 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 방식 위에 공통된 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인터페이스를 제공한다.

@@ -3,8 +3,8 @@ title: "025. Pest Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석의 핵심은 정치(Political), 경제(Economic), 사회(Social), 기술(Technological)라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.

@@ -3,8 +3,8 @@ title: "Root Complex"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 358
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 루트 컴플렉스 (Root Complex)는 CPU (Central Processing Unit)·메모리 계층과 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치 트리를 연결하는 호스트 측 최상위 진입점이다.

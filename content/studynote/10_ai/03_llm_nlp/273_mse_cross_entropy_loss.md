@@ -3,8 +3,8 @@ title: "273. Mse Cross Entropy Loss"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 273
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/))는 모델의 예측값(ŷ)과 실제값(y) 사이의 오차를 수치화하여 학습 방향을 결정한다 — <strong><a href="/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">MSE</a>(<a href="/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/">Mean Squared Error</a>)</strong>는 회귀에, <strong><a href="/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>(<a href="/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">Cross-Entropy</a>)</strong>는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 각각 이론적으로 최적이다.

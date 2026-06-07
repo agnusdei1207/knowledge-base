@@ -3,8 +3,8 @@ title: "MLOps Pipeline Components"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비, [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 관리, 모델 학습, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 배포, [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링을 하나의 폐루프(Closed Loop)로 묶어 모델을 지속적으로 운영하는 체계다.

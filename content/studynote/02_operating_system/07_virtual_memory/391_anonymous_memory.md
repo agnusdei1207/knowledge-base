@@ -3,8 +3,8 @@ title: "391. Anonymous Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 391
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 익명 메모리(Anonymous Memory)는 하드디스크에 대응되는 원본 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이 전혀 없이, 프로세스가 실행되는 동안 <strong>오직 램(RAM) 위에서 순수하게 동적으로 창조된 이름 없는 메모리 공간</strong>을 의미한다.

@@ -1,11 +1,11 @@
 ---
 title: "001. Software Engineering Definition"
 date: "2024-05-20"
-description: "소프트웨어 공학의 본질적 정의, 핵심 목표(신뢰성, 효율성, 유지보수성) 및 실무적 접근법 분석"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 1
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어의 개발, 운영, 유지보수에 공학적 원리를 적용하여 정량적, 체계적으로 관리하는 학문.
 > 2. **가치**: 예측 불가능한 소프트웨어 개발 과정의 비용과 일정을 통제하고, [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)/효율성/[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 등의 핵심 품질 목표를 달성.

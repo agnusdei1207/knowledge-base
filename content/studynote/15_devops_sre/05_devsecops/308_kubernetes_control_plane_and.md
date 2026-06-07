@@ -3,8 +3,8 @@ title: "Kubernetes Control Plane and Worker"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터·워커 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Control Plane and Worker)는 [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 관점에서 목표 상태, 실행 절차, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

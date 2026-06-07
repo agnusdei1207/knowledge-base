@@ -3,8 +3,8 @@ title: "Proximal Policy Optimization"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A3C (Asynchronous Advantage [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/))는 여러 워커가 비동기로 경험을 수집해 [액터-크리틱](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 학습을 확장한 방법이고, [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한 번에 너무 멀리 움직이지 않도록 제한해 학습을 안정화한 방법이다.

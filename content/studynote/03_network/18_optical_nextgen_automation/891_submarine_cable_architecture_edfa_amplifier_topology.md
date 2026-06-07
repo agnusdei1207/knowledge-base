@@ -3,8 +3,8 @@ title: "891. Submarine Cable Architecture Edfa Amplifier Topology"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 891
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해저 광케이블 아키텍처는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 38
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 아파치 피그(Apache Pig)는 복잡한 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 자바 코드를 직접 짜는 대신, 'Pig Latin'이라는 고수준 스크립트 언어로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 정의하는 플랫폼임.
 - 비개발자(분석가)도 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/)), 필터링, [그룹화](/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) 등의 복잡한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 작업을 직관적으로 수행할 수 있도록 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 제공함.

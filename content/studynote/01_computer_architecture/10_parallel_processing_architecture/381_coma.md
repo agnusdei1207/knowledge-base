@@ -3,9 +3,8 @@ title: "381. COMA (Cache-Only Memory Access)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 381
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: COMA (Cache-Only Memory Access)는 각 노드의 주기억장치를 고정 주소를 가진 메모리가 아니라, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 머물다 이동하는 거대한 캐시처럼 취급하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 구조다.

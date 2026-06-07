@@ -3,9 +3,8 @@ title: "1024. V2X (Vehicle-to-Everything)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1024
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)([Vehicle-to-Everything](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))는 달리는 자동차가 다른 차량(V2V), 도로 인프라(V2I), 보행자(V2P), 네트워크(V2N) 등 모든 것과 실시간으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 무선 통신 기술 체계다.

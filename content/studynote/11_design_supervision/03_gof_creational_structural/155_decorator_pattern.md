@@ -3,8 +3,8 @@ title: "Decorator Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데코레이터](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴 ([Decorator](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) Pattern)은 GoF 구조 패턴으로, 객체를 런타임에 동적으로 새로운 책임(기능)을 추가하는 패턴이다. [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance) 대신 구성(Composition)과 위임(Delegation)을 사용하여 기존 클래스를 변경하지 않고 기능을 확장한다.

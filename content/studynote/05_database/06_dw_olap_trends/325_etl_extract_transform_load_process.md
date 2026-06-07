@@ -3,8 +3,8 @@ title: "325. Etl Extract Transform Load Process"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 325
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) 프로세스는 소스 추출 -> 정제/변환 -> 타겟 적재에 초점을 둔 처리 프로세스이다.

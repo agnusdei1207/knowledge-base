@@ -3,8 +3,8 @@ title: "Mutual TLS"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 통신 양 끝단이 모두 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 상호 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식.

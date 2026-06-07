@@ -3,8 +3,8 @@ title: "Image Layer"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 레이어 및 [OCI](/studynote/13_cloud_architecture/05_data_engineering/333_process/) (Open [Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Initiative) 표준 규격 (Image Layer): 205. [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 레이어 (Image Layer) 및 [OCI](/studynote/13_cloud_architecture/05_data_engineering/333_process/) - [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 구조 오픈 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이니셔티브 유니온 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(UFS) [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 불변성 스토리지 최적화를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

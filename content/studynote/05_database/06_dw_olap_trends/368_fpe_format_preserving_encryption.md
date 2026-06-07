@@ -3,9 +3,8 @@ title: "368. FPE (Format Preserving Encryption)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 368
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FPE](/studynote/09_security/16_data_privacy/822_fpe/) ([Format Preserving Encryption](/studynote/09_security/16_data_privacy/822_fpe/))는 암호화 전후 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷(길이, 형식) 유지 (카드번호, 주민번호 등)에 초점을 둔 보안 통제 개념이다.

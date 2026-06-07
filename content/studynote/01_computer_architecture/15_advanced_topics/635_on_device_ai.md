@@ -3,8 +3,8 @@ title: "On-Device AI"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 635
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온디바이스 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(On-Device [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 입력 수집, 추론, 일부 개인화까지를 개인 기기 내부에서 수행하는 실행 아키텍처다.

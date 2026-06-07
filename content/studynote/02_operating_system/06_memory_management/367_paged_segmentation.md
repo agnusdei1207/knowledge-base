@@ -3,8 +3,8 @@ title: "367. Paged Segmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 367
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 기반 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)(Paged [Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/))은 프로그램을 의미 단위인 '세그먼트'로 우아하게 자른 뒤, 그 덩어리가 유발하는 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 막기 위해 <strong>세그먼트의 배를 갈라 다시 4KB '<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>' 단위로 무식하게 찢어 램에 흩뿌리는 궁극의 키메라(Hybrid) 아키텍처</strong>다.

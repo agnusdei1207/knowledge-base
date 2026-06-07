@@ -3,8 +3,8 @@ title: "046. Sharding Parallel Processing"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
+weight: 46
 ---
-
 > **핵심 인사이트**
 > 1. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))은 네트워크를 여러 샤드(Shard)로 분할해 각 샤드가 독립적으로 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하는 수평 확장 기법 — 비트코인/이더리움이 모든 노드가 모든 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조의 TPS 한계를 돌파하기 위해 도입한다.
 > 2. [블록체인 트릴레마](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)(Trilemma)와 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) — [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)·보안·확장성 세 가지를 동시에 완벽히 달성하기 어렵다는 Vitalik의 트릴레마에서, [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 확장성을 높이지만 단일 샤드 공격(1% 공격)·크로스샤드 통신 비용이라는 새 도전을 만든다.

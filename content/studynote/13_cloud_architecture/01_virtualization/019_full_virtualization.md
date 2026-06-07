@@ -1,11 +1,11 @@
 ---
 title: "Binary Translation ,"
 date: "2024-05-20"
-description: "하드웨어를 완벽히 에뮬레이션하여 수정되지 않은 게스트 OS를 그대로 구동하는 전가상화 아키텍처와 트랩 앤 에뮬레이션의 비밀"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 19
 ---
-
 # [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ([Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/))
 
 #### 핵심 인사이트 (3줄 요약)

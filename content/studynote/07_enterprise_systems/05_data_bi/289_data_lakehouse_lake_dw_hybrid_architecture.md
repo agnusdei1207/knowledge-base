@@ -2,9 +2,9 @@
 title: "289. Data Lakehouse Lake Dw Hybrid Architecture"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 289
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)는 엔터프라이즈 환경에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능한 자산으로 전환하기 위해 쓰이는 핵심 기준이며, 특히 [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), [Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), 비정형 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무한 저장의 경계를 분명히 만드는 데 의미가 있다.

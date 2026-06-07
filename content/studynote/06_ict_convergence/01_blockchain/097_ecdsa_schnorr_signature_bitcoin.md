@@ -1,10 +1,11 @@
 ---
 title: "Schnorr Signature -"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ECDSA는 [타원곡선](/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 암호를 이용해 거래를 증명하는 비트코인의 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 서명 방식이며, 슈노르 서명 (Schnorr Signature)은 여러 개의 서명을 수학적으로 하나로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 차세대 디지털 서명 알고리즘이다.

@@ -3,8 +3,8 @@ title: "Hot Standby"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 457
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 핫 스탠바이 (Hot Standby)는 예비 장비를 이미 가동한 상태로 두고, 운영 상태와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 거의 실시간으로 맞춰서 장애 순간 즉시 주 장비 역할을 넘겨받게 하는 고가용성 기법이다.

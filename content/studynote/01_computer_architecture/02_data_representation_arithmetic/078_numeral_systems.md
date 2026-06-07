@@ -3,8 +3,8 @@ title: "078. Numeral Systems"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 진법은 같은 수량을 다른 기호로 표현하는 체계다.

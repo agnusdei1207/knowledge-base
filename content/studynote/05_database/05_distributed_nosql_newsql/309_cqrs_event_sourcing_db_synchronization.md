@@ -3,8 +3,8 @@ title: "Event Sourcing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 309
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/) 아키텍처와 DB [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Event Sourcing](/studynote/12_it_management/05_security_compliance/307_event_sourcing/) 연동)는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 아키텍처이다.

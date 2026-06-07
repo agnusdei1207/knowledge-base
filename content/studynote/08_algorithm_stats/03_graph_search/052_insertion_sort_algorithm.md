@@ -3,8 +3,8 @@ title: "Insertion Sort"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 삽입 정렬 (Insertion Sort)은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 '이미 정렬된 앞부분'과 '아직 정렬되지 않은 뒷부분'으로 나누고, 뒷부분의 원소를 하나씩 꺼내어 앞부분의 올바른 위치에 끼워 넣는(Shift & Insert) 비교 기반 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

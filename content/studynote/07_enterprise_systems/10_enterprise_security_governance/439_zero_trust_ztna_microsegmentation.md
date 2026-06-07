@@ -2,9 +2,9 @@
 title: "Zero Trust / ZTNA"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 439
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [ZTNA](/studynote/12_it_management/05_security_compliance/980_ztna/) [마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [ZTNA](/studynote/12_it_management/05_security_compliance/980_ztna/) [마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/), [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/), ZTNA의 경계를 분명히 만드는 데 의미가 있다.

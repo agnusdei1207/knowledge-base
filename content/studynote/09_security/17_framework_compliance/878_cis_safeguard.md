@@ -3,9 +3,8 @@ title: "878. CIS Safeguard (CIS Safeguard)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 878
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CIS Safeguard는 보안 프레임워크·컴플라이언스에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

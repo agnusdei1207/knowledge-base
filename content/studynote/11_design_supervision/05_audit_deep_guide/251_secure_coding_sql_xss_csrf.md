@@ -3,8 +3,8 @@ title: "Secure Coding SQL/XSS/CSRF Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 251
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SW 개발보안([시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/), [Secure Coding](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))은 취약점을 설계·개발 단계에서 원천 차단하는 예방 중심 접근이다.

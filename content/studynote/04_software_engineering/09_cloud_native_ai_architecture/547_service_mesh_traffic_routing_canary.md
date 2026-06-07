@@ -3,8 +3,8 @@ title: "Service Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 547
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트래픽 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 제어 ([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh의 역할)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

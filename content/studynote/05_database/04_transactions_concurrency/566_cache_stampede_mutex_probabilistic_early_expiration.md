@@ -3,8 +3,8 @@ title: "566. Cache Stampede Mutex Probabilistic Early Expiration"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 566
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [캐시 스탬피드](/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) [뮤텍스 락](/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) 및 확률적 갱신(Probabilistic Early Expiration) 회피기법는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 기법이다.

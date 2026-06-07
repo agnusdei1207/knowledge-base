@@ -3,8 +3,8 @@ title: "Monolithic Kernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모놀리식 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Monolithic [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 프로세스 관리, 메모리 관리, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, [장치 드라이버](/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) 등 OS의 모든 핵심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 단일 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 공간 ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Address Space)에서 실행하는 일체형 아키텍처다.
 > 2. **가치**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출이 모드 전환 (Mode [Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 없이 직접 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) ([Direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Function [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))로 처리되어 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication) 오버헤드가 없고, Linux가 서버 시장을 지배한 결정적 이유인 극한의 I/O [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 달성한다.

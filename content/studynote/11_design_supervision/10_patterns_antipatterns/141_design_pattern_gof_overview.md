@@ -3,8 +3,8 @@ title: "Design Pattern Overview"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) (Design Pattern)은 객체지향 설계에서 반복되는 문제를 이름·구조·의도로 정리한 재사용 가능한 해법 템플릿이다.

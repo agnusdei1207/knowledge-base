@@ -1,7 +1,6 @@
 ---
 title: "M-ary Phase Shift Keying"
 date: "2025-01-01"
-description: "8PSK, 16PSK 등 M진 PSK의 성상도, 비트 당 심볼 수, 오류율 트레이드오프를 다룬다."
 tags:
   - "16PSK"
   - "8PSK"
@@ -11,9 +10,9 @@ tags:
   - "QAM"
   - "constellation"
   - "spectral efficiency"
-  - "studynote-nw"
+  - "studynote-network"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. M진 [PSK](/studynote/09_security/03_network_security/142_psk_pre_shared_key/)(M-ary [PSK](/studynote/09_security/03_network_security/142_psk_pre_shared_key/))는 M개의 위상(phase)으로 log₂M [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 하나의 심볼에 실어 전송하는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율적 변조 방식이다.
 > 2. M이 커질수록 주파수 효율은 높아지지만 [성상도](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)(constellation) 포인트 간격이 좁아져 잡음에 취약해진다.

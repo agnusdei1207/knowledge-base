@@ -3,8 +3,8 @@ title: "Currying and Lazy Evaluation"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Currying (커링)은 다인수 함수를 단인수 함수들의 체인으로 분해하는 기법이고, [Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))은 값이 실제로 필요할 때까지 계산을 미루는 평가 전략이다 — 둘 다 "필요할 때까지 미루는" 함수형 철학을 공유한다.

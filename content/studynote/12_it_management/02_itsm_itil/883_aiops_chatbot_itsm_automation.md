@@ -3,8 +3,8 @@ title: "883. Aiops Chatbot Itsm Automation"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 883
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존의 수동적 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 체계에 대화형 챗봇(Virtual Agent)과 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 운영(AIOps)을 결합하여, 단순 문의는 자동 처리하고 복잡한 장애는 예측·예방하는 지능형 [초자동화](/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)(Hyper-automation) 아키텍처이다.

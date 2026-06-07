@@ -3,8 +3,8 @@ title: "166. Execution Plan Optimizer Navigation Tree"
 date: "2026-04-03"
 tags:
   - "studynote-database"
+weight: 166
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 실행 계획 (Execution Plan)은 [데이터베이스 관리 시스템](/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/), [Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)의 [비용 기반 옵티마이저](/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost Based [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))가 SQL (Structured Query Language)을 어떤 물리 경로로 실행할지 트리 형태로 표현한 항로도다.

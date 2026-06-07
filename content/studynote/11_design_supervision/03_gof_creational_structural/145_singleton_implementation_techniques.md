@@ -3,8 +3,8 @@ title: "Singleton Implementation Techniques"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 145
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 싱글턴 구현 기법은 멀티스레드 환경에서 단 하나의 인스턴스를 안전하게 생성하고 공유하기 위한 다양한 구현 방법론으로, [Lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Initialization, Eager Initialization, [Double-Checked Locking](/studynote/02_operating_system/04_synchronization/272_double_checked_locking/)([DCL](/studynote/05_database/01_db_architecture_relational/022_dcl/)), Bill Pugh(Static Holder), Enum Singleton이 대표적이다.

@@ -2,9 +2,9 @@
 title: "102. Lcs String"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LCS](/studynote/08_algorithm_stats/03_graph_search/053_lcs/) ([Longest Common Subsequence](/studynote/08_algorithm_stats/03_graph_search/053_lcs/))는 두 문자열에서 순서를 유지하면서(연속일 필요 없음) 공통으로 존재하는 가장 긴 부분수열을 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Dynamic Programming](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))으로 O(mn)에 구하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

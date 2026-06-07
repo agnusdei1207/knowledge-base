@@ -3,8 +3,8 @@ title: "542. Cow File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 542
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LFS](/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)(541장)의 직진 사상을 극대화하여, <strong>"어떤 경우에도 원본 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 절대 제자리에서 지우거나 덮어쓰지 않는다(Never Overwrite 빔!!)!"</strong> 는 교리를 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 전체 트리에 적용한 아키텍처다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용을 고칠 때 무조건 '새로운 빈 공간'으로 복사본을 몰래 빼돌려 작성한 뒤, 작성이 완료되면 포인터 뼈대만 바꿔치기(Atomic Swap)하는 극한의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 록백 기전이다.

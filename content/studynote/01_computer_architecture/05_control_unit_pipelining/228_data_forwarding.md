@@ -3,8 +3,8 @@ title: "Data Forwarding / Bypassing"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Forwarding / Bypassing)은 앞 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과를 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 정식 기록하기 전에, 다음 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 실행 입력으로 직접 우회 전달하는 파이프라인 시간 단축 기법이다.

@@ -3,8 +3,8 @@ title: "Monitor"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모니터 (Monitor)는 개발자가 수동으로 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/)나 뮤텍스를 쥐락펴락하다가 데드락([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 내는 휴먼 에러를 막기 위해, <strong>공유 자원과 그 자원을 다루는 함수들을 하나의 거대한 캡슐(객체)로 묶고 프로그래밍 언어 차원에서 자동 락(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 걸어주는 고수준 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 구조</strong>다.

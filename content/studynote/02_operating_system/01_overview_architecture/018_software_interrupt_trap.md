@@ -3,8 +3,8 @@ title: "Exception"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 18
 ---
-
 # 소프트웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 및 예외 (Software [Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) & Exception)
 
 ## 핵심 인사이트 (3줄 요약)

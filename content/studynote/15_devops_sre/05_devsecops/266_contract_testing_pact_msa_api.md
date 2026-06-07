@@ -3,8 +3,8 @@ title: "Contract Testing / Pact"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 266
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 프로바이더/컨슈머 기준으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방식.

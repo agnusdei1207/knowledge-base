@@ -1,10 +1,11 @@
 ---
 title: "106. Blockchain Scm Traceability Cold Chain"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/)) 이력 추적은 원산지부터 소비자 식탁까지의 모든 물류/온도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위·변조가 불가능한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장에 영구적으로 기록하는 시스템이다.

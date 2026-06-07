@@ -3,8 +3,8 @@ title: "672. Integrity Origin Authentication Code"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 672
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

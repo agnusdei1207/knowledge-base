@@ -3,8 +3,8 @@ title: "499. Nvme Over Fabrics"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 499
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF 기술은 기계적인 한계를 가져 느렸던 재래식 SAS/[SATA](/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) 선 대신에 [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 전용 최강의 무적 고속 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 ([PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기반의 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 껍데기 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 아예 내 컴퓨터 본체 배때지를 벗어나 수백 미터 전 세계 <strong>광 <a href="/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 네트워크망(Fabrics/<a href="/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a>) 위로 뜯어 통째로 날려 연결해버린 끝판왕 블록 통신 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 혁명</strong>이다.

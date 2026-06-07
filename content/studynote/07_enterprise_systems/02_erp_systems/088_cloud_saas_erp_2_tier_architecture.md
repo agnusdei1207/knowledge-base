@@ -1,10 +1,11 @@
 ---
 title: "On-Premise ERP, SaaS ERP"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `2-Tier ERP` 구조는 통제와 표준화가 필요한 본사에는 무거운 구축형([On-Premise](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) ERP를, 민첩성과 현지화가 필요한 해외 지사나 계열사에는 가벼운 `SaaS (Software as a Service)` ERP를 배치하는 혼합형 아키텍처다.

@@ -3,8 +3,8 @@ title: "068. Significance Level Alpha P Value Hypothesis"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유의 수준 α는 H0를 기각하기 위한 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이고, p-value는 관측 결과가 [H0](/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/) 하에서 얼마나 드문지 나타낸다.

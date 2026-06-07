@@ -3,8 +3,8 @@ title: "AI Management System, AIMS"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 420
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ISO/IEC 42001은 조직이 AI를 설계, 개발, 제공, 운영할 때 필요한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 책임, 위험 통제, 성과 평가를 체계화한 <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 경영시스템 (<a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/studynote/12_it_management/05_security_compliance/1013_management/">Management</a> System, AIMS) 국제 표준</strong>이다.

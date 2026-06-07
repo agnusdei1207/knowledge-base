@@ -3,8 +3,8 @@ title: "060. Open Data Public Api Standards"
 date: "2026-04-10"
 tags:
   - "studynote-design-supervision"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공공데이터 개방은 사람이 읽는 문서가 아니라 기계가 바로 활용할 수 있는 표준 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 API를 제공하는 것이다.

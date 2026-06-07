@@ -3,8 +3,8 @@ title: "Byte Pair Encoding"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 384
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BPE ([Byte Pair Encoding](/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/), [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 쌍 인코딩)는 가장 빈도 높은 문자 쌍을 반복적으로 병합해 서브워드 (Subword) 어휘집을 구성하며, 어휘 크기와 OOV (Out-Of-Vocabulary) 사이의 균형을 최적화한다.

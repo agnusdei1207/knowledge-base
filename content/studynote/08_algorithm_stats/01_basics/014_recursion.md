@@ -1,10 +1,11 @@
 ---
 title: "014. Recursion"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 14
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 재귀(Recursion)는 함수가 자기 자신을 다시 호출하여 문제를 더 작은 단위의 동일한 문제(하위 문제)로 분할하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 기법으로, 기본 사례(Base Case)에 도달할 때까지 자신을 호출하는 구조이다.
 > 2. **가치**: 트리 순회, [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색, 하노이 탑, 문자열 역순 등 계층적/자기 유사적 문제를 직관적이고 간결한 코드로 표현할 수 있게 해준다.

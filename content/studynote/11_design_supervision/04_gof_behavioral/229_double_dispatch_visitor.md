@@ -3,8 +3,8 @@ title: "Double Dispatch / Visitor Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 229
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Double Dispatch (더블 디스패치)는 메서드 호출이 **두 객체의 런타임 타입** 모두를 기반으로 결정되는 메커니즘이며, [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 Java의 단일 디스패치(Single Dispatch) 한계를 `accept(visitor) -> visitor.visit(this)` 두 번의 가상 호출(Virtual [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))로 더블 디스패치를 구현하는 GoF 패턴이다.

@@ -3,8 +3,8 @@ title: "589. Virus"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 589
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터virus는 다른 정상 프로그램이나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 자기증식(자기관증) 가능한 코드를 붙여넣어매복(매복)하며, 숙주 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 실행될 때 함께Activated(활성화)되어-system을 감염시키고피해(피해)를 주는 자기복제 기능이 있는 악성 소프트웨어다.

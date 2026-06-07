@@ -3,8 +3,8 @@ title: "WPAN, WLAN, LPWAN"
 date: "2026-04-10"
 tags:
   - "studynote-ict-convergence"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))을 위한 무선 통신망은 기기의 용도에 따라 '얼마나 멀리 가는가(Coverage)'와 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 많이 싣는가([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Rate)'를 기준으로 [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), [WLAN](/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/), LPWAN의 3가지 체급으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 > 2. **가치**: 이 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계는 이어폰부터 산속의 환경 센서까지, 각 기기가 처한 '배터리 제약'과 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량 요구사항'에 가장 최적화된 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 매칭하여 통신 비용과 전력 소비를 극단적으로 절감하게 해 준다.

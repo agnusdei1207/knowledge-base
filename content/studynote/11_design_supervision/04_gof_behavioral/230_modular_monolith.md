@@ -3,8 +3,8 @@ title: "Modular Monolith"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 230
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Modular Monolith](/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/) ([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스)는 단일 배포 단위(Monolithic [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))를 유지하면서도 내부를 명확한 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Boundary)로 분리하여, [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/))의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 이점과 모놀리스의 운영 단순성을 동시에 달성하는 아키텍처다.

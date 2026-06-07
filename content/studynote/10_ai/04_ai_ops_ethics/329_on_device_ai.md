@@ -3,8 +3,8 @@ title: "On-Device AI"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 329
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온디바이스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([On-Device AI](/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/))는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론(Inference)을 원격 클라우드 서버가 아닌 스마트폰·웨어러블·[IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·자율주행 ECU 등 <strong>엣지 디바이스에 탑재된 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a> (<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">Neural Processing Unit</a>, 신경 처리 장치)</strong>에서 로컬로 수행하는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포 방식이다.

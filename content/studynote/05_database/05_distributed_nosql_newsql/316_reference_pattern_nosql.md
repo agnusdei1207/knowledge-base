@@ -3,8 +3,8 @@ title: "316. Reference Pattern Nosql"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 316
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 참조 (Reference) 패턴는 문서 크기 한계 시 외부 링크 저장에 초점을 둔 설계 패턴이다.

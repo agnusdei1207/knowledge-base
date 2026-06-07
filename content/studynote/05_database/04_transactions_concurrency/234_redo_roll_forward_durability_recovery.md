@@ -3,9 +3,8 @@ title: "234. Redo (Redo Roll Forward Durability Recovery)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 234
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Redo (재실행)은 장애 발생 후 커밋된 트랜잭션을 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 참조하여 재반영 ([영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 보장)에 초점을 맞춘 개념이다.

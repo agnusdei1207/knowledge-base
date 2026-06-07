@@ -1,11 +1,11 @@
 ---
 title: "Map: / -> Shuffle: -> Reduce:"
 date: "2025-01-01"
-description: "초대용량 데이터 세트를 다수의 노드에서 병렬로 매핑(Map)하고 집계(Reduce)하여 처리하는 디스크 기반 분산 연산 프레임워크"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 18
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 구글이 논문으로 발표하고 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)이 구현한 빅데이터 연산의 시초로, 복잡한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 로직을 Map(필터링/변환)과 Reduce(병합/집계)라는 단 두 개의 함수 추상화로 단순화한 프로그래밍 모델입니다.
 > 2. **가치**: 수천 대의 서버에서 동시다발적으로 코드가 실행되며 장애 발생 시 실패한 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)만 즉시 재실행하는 내결함성을 제공해, 페타바이트급 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정제와 인덱싱을 저렴하게 완수해 냅니다.

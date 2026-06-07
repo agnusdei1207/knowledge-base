@@ -3,8 +3,8 @@ title: "Data Quality Diagnosis"
 date: "2026-03-03"
 tags:
   - "studynote-design-supervision"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. [데이터 품질 진단](/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)은 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)·완전성·[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·유효성·최신성·유일성의 6대 품질 차원을 기준으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 결함을 체계적으로 측정하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정의 신뢰성을 보장하는 활동이다.
 > 2. "쓰레기 입력, 쓰레기 출력(GIGO: Garbage In, Garbage Out)" — 아무리 정교한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·분석 모델도 품질이 낮은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습하면 잘못된 결과를 낸다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 디지털 전환의 기반이다.

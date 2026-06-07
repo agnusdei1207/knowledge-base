@@ -3,8 +3,8 @@ title: "Digital Forensics Evidence Collection Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 737
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 포렌식의 핵심은 **무결성(Integrity)·연계성(Chain of Custody)·재현성(Repeatability)**의 3대 원칙 하에, ISO/IEC 27037(수집·보존)·27041(보증)·27042(분석)·27043(해석) 표준과 NIST SP 800-86 절차에 따라 **휘발성 증거(Volatility 순서: Registers -> Cache -> RAM -> Disk -> Remote)**를 식별·획득·복제·해시(SHA-256, 512)·분석하여 법정에서 **도입 가능성(Daubert/Frye 기준)**과 **증거능(Relevance, Hearsay Exception, Best Evidence Rule)**을 확보하는 전자증거과학(Electronic Evidence Science)이다.

@@ -2,9 +2,9 @@
 title: "Polyglot Persistence"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [폴리글랏 퍼시스턴스](/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/) ([Polyglot Persistence](/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/))는 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 하나의 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 맞추는 대신, 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자신의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특성과 접근 패턴에 맞는 저장소를 선택하는 아키텍처 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

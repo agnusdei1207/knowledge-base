@@ -2,9 +2,9 @@
 title: "068. Docker Image Immutable Package"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Image는 애플리케이션과 실행 환경을 불변 형태로 패키징한 템플릿이다.

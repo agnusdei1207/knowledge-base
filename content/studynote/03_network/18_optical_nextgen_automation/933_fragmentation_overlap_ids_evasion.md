@@ -3,8 +3,8 @@ title: "IDS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 933
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패킷 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋 중첩 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 모…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

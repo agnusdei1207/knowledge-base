@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **빅데이터의 시초**: [아파치 하둡](/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/)([Apache Hadoop](/studynote/14_data_engineering/01_infrastructure/012_apache_hadoop/))은 방대한 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 저가형 상용 서버(Commodity Hardware) 수백 대에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하고 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자바 프레임워크입니다.
 - **스토리지와 연산의 결합**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장을 담당하는 [분산 파일 시스템](/studynote/02_operating_system/09_file_system/553_distributed_file_system/)([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 엔진([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))으로 구성되어 단일 거대 머신의 한계를 극복했습니다.

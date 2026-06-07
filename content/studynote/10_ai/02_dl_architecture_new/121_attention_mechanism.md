@@ -3,8 +3,8 @@ title: "121. Attention Mechanism"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Attention은 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 출력을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때, [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 <strong>모든 Hidden State에 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(Attention <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)를 부여하여 동적으로 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하는 메커니즘으로, 고정 [컨텍스트 벡터](/studynote/10_ai/02_dl_architecture_new/120_context_vector/)의 정보 병목을 해소한다.
 > 2. **가치**: "I love you" -> "나는 너를 사랑해" 번역 시, "사랑해"를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 <strong>"love"에 높은 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a></strong>를 부여하여 해당 입력에 "주목(Attend)"한다. 이로써 긴 문장에서도 정보 손실 없이 정확한 번역이 가능해진다.

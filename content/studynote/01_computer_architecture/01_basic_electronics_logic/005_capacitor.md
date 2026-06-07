@@ -3,8 +3,8 @@ title: "Capacitor,"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
+weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 커패시터 (Capacitor)는 두 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 판 사이에 절연물질을 넣어 전하(Charge)를 일시적으로 저장하고 방출하는 정전기적 에너지 저장 소자다.
 > 2. **가치**: [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀에서 1비트의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 핵심 그릇이자, 전원 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)(PDN)에서 순간적인 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하를 막아주는 노이즈 필터 겸 비상 배터리로 활약한다.

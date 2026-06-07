@@ -3,8 +3,8 @@ title: "Multimodal"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 286
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Multimodal](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/)): 텍스트뿐만 아니라 이미지, 영상, 오디오 등 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 입력받고 상호 교차 이해/[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) (GPT-4o, Gemini)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

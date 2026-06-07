@@ -3,8 +3,8 @@ title: "Attention Mechanism"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 296
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 어텐션 메커니즘 (Attention Mechanism)은 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 출력 단어를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 <strong>모든 시점 은닉 상태</strong>를 동적으로 가중 평균하여 현재 출력에 가장 관련 있는 입력 부분에 "주의(Attention)"를 집중하는 기법이다.

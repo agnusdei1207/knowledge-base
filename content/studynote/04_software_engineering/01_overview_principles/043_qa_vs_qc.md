@@ -3,8 +3,8 @@ title: "vs"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"
+weight: 43
 ---
-
 > **핵심 인사이트**
 > 1. QA(Quality Assurance, 품질 보증)는 "올바른 프로세스를 따르고 있는가?"를 확인하는 예방적 활동이고, QC(Quality Control, 품질 통제)는 "산출물이 요구사항을 충족하는가?"를 검사하는 탐지적 활동 — 프로세스 중심 vs 제품 중심의 근본적 차이가 있다.
 > 2. 현대 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리는 단순 QC(테스팅 후 검사)를 넘어 QA(설계 단계부터 품질 내재화)로 진화했으며, DevOps의 [Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 원칙은 이를 더 앞당겨 개발자가 직접 단위 테스트를 작성하는 패러다임 전환을 이끌었다.

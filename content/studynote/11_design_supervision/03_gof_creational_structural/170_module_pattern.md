@@ -3,8 +3,8 @@ title: "Module Pattern"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴 ([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Pattern)은 클로저 (Closure)로 private 상태를 감춘 뒤, 공개할 메서드만 반환해 [정보 은닉](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) ([Information Hiding](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/))과 응집된 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 만드는 구조다.

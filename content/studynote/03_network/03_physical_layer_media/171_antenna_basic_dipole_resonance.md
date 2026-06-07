@@ -3,8 +3,8 @@ title: "171. Antenna Basic Dipole Resonance"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 안테나 (Antenna)는 전송선로의 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 자유공간 전자기파로 바꾸고, 반대로 공중의 전파를 다시 전기 신호로 바꾸는 변환기다.

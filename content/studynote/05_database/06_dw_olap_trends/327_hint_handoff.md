@@ -3,9 +3,8 @@ title: "327. OLTP (On-Line Transaction Processing)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 327
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OLTP (On-Line [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing)는 실시간 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 RDB, 빠른 응답 속도에 초점을 둔 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

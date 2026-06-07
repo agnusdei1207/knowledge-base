@@ -3,8 +3,8 @@ title: "531. Emulation Latency"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 531
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에뮬레이션 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 타깃 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))와 장치 동작을 호스트가 이해할 수 있는 연산으로 번역하고, 그 결과를 타깃 상태로 다시 맞추는 과정에서 생기는 의미 변환 비용이다.

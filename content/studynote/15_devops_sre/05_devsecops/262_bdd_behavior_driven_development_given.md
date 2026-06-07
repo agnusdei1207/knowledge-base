@@ -3,8 +3,8 @@ title: "Cucumber"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 262
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈니스 언어 기반 시나리오로 요구사항과 테스트를 연결하는 접근.

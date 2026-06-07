@@ -1,10 +1,11 @@
 ---
 title: "105. Digital Supply Chain Scm Control Tower"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)은 전통적인 선형적 사슬(Chain) 구조의 물류망에 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 클라우드를 이식하여 실시간으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 다방향 네트워크(Network)로 진화시킨 아키텍처다.

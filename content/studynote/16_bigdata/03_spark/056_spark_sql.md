@@ -3,8 +3,8 @@ title: "056. Spark Sql"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Spark SQL은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋([RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/), [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/), [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 테이블 등)에 대해 표준 SQL과 DataFrame/Dataset API를 동일한 실행 엔진으로 처리하는 스파크의 구조적 처리 계층으로, [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 정보를 알기 때문에 Catalyst [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 최적 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 자동으로 수립한다.

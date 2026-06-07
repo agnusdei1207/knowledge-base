@@ -3,8 +3,8 @@ title: "Edge Computing OS Linux"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 653
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) OS는 클라우드의 중앙집중식 처리를 탈피하여, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 말단(드론, 자율주행차, [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))에서 즉각적인 연산과 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하기 위해 <strong>초경량, 고속 부팅, 실시간성</strong>을 극대화한 특수 목적형 리눅스 환경이다.

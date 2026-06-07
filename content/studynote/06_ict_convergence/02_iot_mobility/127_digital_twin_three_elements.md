@@ -3,8 +3,8 @@ title: "127. Digital Twin Three Elements"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 3요소는 **①물리적 개체(Physical Entity)**, **②가상 모델(Virtual Model)**, <strong>③연결(Connection)</strong>이며, 이 삼각 구조가 [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 정의 그 자체이다.
 > 2. **가치**: 물리 개체만 있으면 단순 설비이고, 가상 모델만 있으면 단순 시뮬레이션이지만, <strong>실시간 양방향 연결</strong>이 있어야 비로소 [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)이 되어 <strong>예측·최적화·자율 제어</strong>가 가능하다.

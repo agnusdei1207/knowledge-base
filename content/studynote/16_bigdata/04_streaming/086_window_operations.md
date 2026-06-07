@@ -3,8 +3,8 @@ title: "086. Window Operations"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 윈도우 연산(Window Operations)은 무한한 스트림 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유한한 집합으로 나누어 집계·분석하는 스트리밍의 핵심 메커니즘으로, 시간 기반(Tumbling·Sliding·[Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))과 카운트 기반 윈도우가 있으며 이벤트 시간과 처리 시간 모두에 적용된다.

@@ -3,8 +3,8 @@ title: "070. T Test Independent Paired Mean Difference"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: t-검정은 두 집단의 평균 차이가 우연인지 아닌지 판단하는 통계 검정이다.

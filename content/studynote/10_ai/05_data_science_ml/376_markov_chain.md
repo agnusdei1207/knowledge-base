@@ -3,8 +3,8 @@ title: "Markov Chain"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 376
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/) ([Markov Chain](/studynote/08_algorithm_stats/08_stats/140_markov_chain/))은 "미래 상태는 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에만 의존하고 과거는 무관하다"는 [마르코프 성질](/studynote/08_algorithm_stats/08_stats/141_markov_property/) ([Markov Property](/studynote/08_algorithm_stats/08_stats/141_markov_property/))로 정의되는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 과정이다.

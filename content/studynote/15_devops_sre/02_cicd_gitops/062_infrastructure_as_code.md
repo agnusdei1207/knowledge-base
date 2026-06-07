@@ -3,8 +3,8 @@ title: "Infrastructure as Code, IaC"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)(Infrastructure [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 서버, 네트워크, 스토리지 같은 인프라를 수동 클릭이 아니라 코드로 선언하고 관리하는 방식이다.

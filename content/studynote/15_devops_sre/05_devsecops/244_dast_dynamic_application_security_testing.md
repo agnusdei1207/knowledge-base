@@ -3,8 +3,8 @@ title: "DAST, Dynamic Application Security Testing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 244
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실행 중인 애플리케이션에 공격 시나리오를 적용해 취약점을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방식.

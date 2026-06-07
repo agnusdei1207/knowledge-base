@@ -2,9 +2,9 @@
 title: "Externalized Configuration Server"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 외부화된 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버 ([Externalized Configuration](/studynote/04_software_engineering/11_testing_validation/544_externalized_configuration/) Server)는 코드와 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 분리해, 같은 애플리케이션 [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 환경별 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 비밀값으로 다르게 구동하게 만드는 중앙 관리 패턴이다.

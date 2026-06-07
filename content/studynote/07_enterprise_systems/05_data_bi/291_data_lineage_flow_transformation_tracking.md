@@ -3,8 +3,8 @@ title: "291. Data Lineage Flow Transformation Tracking"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 291
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 리니지](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수집되어 변환·집계·적재되는 전 과정의 흐름과 계보를 시각적으로 추적하는 기술로, '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 족보'다.

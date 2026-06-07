@@ -3,8 +3,8 @@ title: "Neuromorphic Chip"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [뉴로모픽 반도체](/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/) ([Neuromorphic Chip](/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/)): [폰 노이만 아키텍처](/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) 한계 극복, 인체 두뇌 신경망 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 시그널을 하드웨어 회로로 모방 (초저전력 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

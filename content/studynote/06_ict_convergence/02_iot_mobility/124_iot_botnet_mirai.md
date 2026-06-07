@@ -3,8 +3,8 @@ title: "124. Iot Botnet Mirai"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)은 <strong>보안이 취약한 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스(IP 카메라·공유기 등)를 악성코드로 감염시켜 <a href="/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a>을 구성</strong>하고, 이를 이용해 대규모 DDoS 공격을 수행하는 사이버 위협이다.
 > 2. **가치**: Mirai [봇넷](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)(2016)은 <strong>기본 비밀번호(admin/admin)를 사용하는 수십만 대 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스</strong>를 감염시켜 Dyn DNS에 1.2Tbps DDoS를 가해 트위터·넷플릭스 등 주요 서비스를 마비시켰다.

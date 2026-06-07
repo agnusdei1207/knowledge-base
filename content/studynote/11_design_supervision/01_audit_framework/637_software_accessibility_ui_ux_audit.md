@@ -2,9 +2,9 @@
 title: "637. Software Accessibility Ui Ux Audit"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 637
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 점검은 장애 유무와 관계없이 누구나 서비스를 이용할 수 있게 만드는 품질 검토다.

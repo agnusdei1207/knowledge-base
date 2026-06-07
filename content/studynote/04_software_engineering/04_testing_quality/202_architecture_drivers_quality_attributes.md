@@ -3,8 +3,8 @@ title: "202. Architecture Drivers Quality Attributes"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아키텍처 드라이버 ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Drivers) - 비즈니스 목표, 제약, 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

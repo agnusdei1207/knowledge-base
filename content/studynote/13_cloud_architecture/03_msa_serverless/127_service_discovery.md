@@ -3,8 +3,8 @@ title: "127. Service Discovery"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 <strong>MSA에서 동적으로 변하는 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 인스턴스의 위치(IP:<a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)를 자동으로 등록·탐색·갱신</strong>하는 메커니즘이며, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Registry](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))가 핵심 컴포넌트이다.
 > 2. **가치**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스는 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)·재배포 시 <strong>IP가 수시로 변경</strong>되므로 하드코딩이 불가능하며, [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery가 <strong>"주문 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 어디 있어?"에 실시간 답변</strong>한다.

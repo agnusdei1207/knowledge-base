@@ -3,8 +3,8 @@ title: "118. Mqtt Protocol"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MQTT는 <strong>Pub/Sub(발행/구독) 기반 경량 메시징 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로, [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 제한된 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>최소 2바이트 헤더</strong>로 전송할 수 있는 사실상 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 메시징 표준이다.
 > 2. **가치**: HTTP는 헤더만 수백 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)이지만, MQTT는 <strong>고정 헤더 2바이트 + 가변 헤더</strong>로 페이로드 대비 오버헤드가 극히 작아 저전력·저대역폭 디바이스에 최적이다.

@@ -2,9 +2,9 @@
 title: "Basic Electronics & Logic"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 논리 회로 (Digital Logic Circuits)는 전기의 흐름 (High/Low)을 0과 1의 이진수 논리로 변환하여, 인간의 복잡한 사고를 하드웨어 수준에서 물리적으로 연산 가능하게 만드는 컴퓨터의 기초 언어이다.

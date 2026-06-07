@@ -3,8 +3,8 @@ title: "553. Distributed File System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 553
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크의 용량은 물리적 한계점(예: 20TB)이 있고 결국 꽉 찬다. 이를 극복하기 위해 <strong>"서버 컴퓨터 수천 대를 랜선으로 엮어서, 유저 눈에는 마치 [용량이 무한대인 1개의 거대한 C드라이브 가상 블랙홀] 처럼 둔갑(Illusion 스왑 렌더)시켜버리는 클러스터링(<a href="/studynote/16_bigdata/05_analysis/105_clustering_analysis/">Clustering</a>) 스토리지 통합 세계관"</strong> 이 바로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템([DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/))이다.

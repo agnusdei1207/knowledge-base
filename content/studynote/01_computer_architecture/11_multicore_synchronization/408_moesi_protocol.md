@@ -3,8 +3,8 @@ title: "408. Moesi Protocol"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 408
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MOESI (Modified, Owned, Exclusive, Shared, Invalid) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 MESI (Modified, Exclusive, Shared, Invalid)에 `Owned` 상태를 추가해, 더티(Dirty) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 즉시 되돌리지 않고도 캐시 간 공유하게 만드는 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 규칙이다.

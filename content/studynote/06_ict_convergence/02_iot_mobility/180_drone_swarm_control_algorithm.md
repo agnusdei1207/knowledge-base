@@ -3,8 +3,8 @@ title: "180. Drone Swarm Control Algorithm"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 드론 스웜 (Drone Swarm)은 다수의 UAV (Unmanned Aerial Vehicle)가 서로의 위치·속도·임무 상태를 공유하며, 한 대씩 개별 조종하지 않아도 군집 전체가 하나의 시스템처럼 움직이게 만드는 다중 에이전트 제어 방식이다.

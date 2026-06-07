@@ -3,8 +3,8 @@ title: "Replacement Policy"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 271
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 교체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Replacement [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))은 캐시 세트가 가득 찼을 때 어떤 블록을 희생시켜 새 블록을 들일지 결정하는 규칙이며, 결국 "무엇을 기억하고 무엇을 잊을지"를 정하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

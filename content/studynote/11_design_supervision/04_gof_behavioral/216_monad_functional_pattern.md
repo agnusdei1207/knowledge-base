@@ -3,8 +3,8 @@ title: "Monad / Functional Programming Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Monad (모나드)는 값을 [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) ([컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/), 맥락) 안에 포장(wrap)하여 연산을 안전하게 체이닝([Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))하는 [함수형 프로그래밍](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)([Functional Programming](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)) 패턴이다 — "값의 안전한 변환 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인" 이다.

@@ -3,8 +3,8 @@ title: "142. Scalar Subquery"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스칼라 서브쿼리는 <strong><a href="/studynote/05_database/04_transactions_concurrency/520_select/">SELECT</a> 절에서 단일 행·단일 열(스칼라 값)을 반환</strong>하는 서브쿼리이며, 각 행마다 서브쿼리가 실행되어 결과를 하나의 컬럼으로 표시한다.
 > 2. **가치**: "각 직원의 부서 평균 급여"를 한 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 표현할 수 있어 <strong>직관적</strong>이지만, 행 수가 많으면 <strong>N번 실행되어 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 나빠지므로</strong> JOIN이나 Window Function으로 대체한다.

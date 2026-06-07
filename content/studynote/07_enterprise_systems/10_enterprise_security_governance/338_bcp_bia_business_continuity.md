@@ -2,9 +2,9 @@
 title: "BCP Business Continuity Plan BIA"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 338
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 BCP 업무 연속성 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [BIA](/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 분석은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 BCP 업무 연속성 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [BIA](/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 분석, [BCP Business Continuity Plan](/studynote/12_it_management/05_security_compliance/917_bcp_business_continuity_plan/) [BIA](/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/), BCP의 경계를 분명히 만드는 데 의미가 있다.

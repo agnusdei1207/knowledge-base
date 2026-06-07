@@ -3,8 +3,8 @@ title: "Chain of Responsibility Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [책임 연쇄 패턴](/studynote/11_design_supervision/06_exam_summary/395_process/) ([Chain of Responsibility](/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) Pattern)은 GoF [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)으로, 요청을 처리할 수 있는 객체들을 체인(연쇄)으로 연결하여, 요청 발신자와 수신자를 분리하고 요청이 적절한 핸들러(Handler)를 찾을 때까지 체인을 따라 전달되게 하는 패턴이다.

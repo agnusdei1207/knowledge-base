@@ -3,8 +3,8 @@ title: "Istio / Linkerd Service Mesh"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 160
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [이스티오](/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) ([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))와 링커디 (Linkerd)는 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신의 트래픽 관리·보안([mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))·관찰 가능성([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))을 애플리케이션 코드 변경 없이 인프라 레이어에서 처리하는 [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) ([Service Mesh](/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프레임워크다.
 > 2. **가치**: 개발자가 네트워크 장애·재시도·보안 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 관리를 직접 구현하지 않아도 [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 투명하게 처리하므로, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개발에만 집중할 수 있다.

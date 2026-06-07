@@ -3,8 +3,8 @@ title: "RegTech Regulatory Compliance Automation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 574
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RegTech 규제 준수 자동화은(는) 규제 요건을 데이터 수집, 룰 엔진, 모니터링, 보고 자동화로 연결해 금융·보안·개인정보 준수 업무를 시스템화하는 기술이다.

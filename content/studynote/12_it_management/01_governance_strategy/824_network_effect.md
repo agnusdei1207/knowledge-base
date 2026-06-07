@@ -3,8 +3,8 @@ title: "824. Network Effect"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 824
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) / 메트칼프의 법칙의 핵심은 사용자 수의 제곱에 비례하여 네트워크 가치가 증가라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

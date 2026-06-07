@@ -3,8 +3,8 @@ title: "LMAX Disruptor Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LMAX 디스럽터 (LMAX Disruptor)는 LMAX 외환 거래소가 개발한 고성능 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 라이브러리로, 전통적인 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 기반의 잠금([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 경쟁 없이 링 버퍼(Ring Buffer)와 [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))를 활용하여 초당 수백만 건의 이벤트를 처리하는 아키텍처다.

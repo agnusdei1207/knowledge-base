@@ -3,8 +3,8 @@ title: "465. Hdd Structure"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 465
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드 디스크 드라이브(HDD)는 0과 1의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자기장(Magnetism)으로 코팅된 <strong>둥근 원판(Platter)에 기록하고, 모터가 원판을 미친 듯이 회전시키면 기계 팔(Actuator Arm) 끝에 달린 바늘(Head)이 날아다니며 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 읽고 쓰는 100% 아날로그 물리 기계 장치</strong>다.

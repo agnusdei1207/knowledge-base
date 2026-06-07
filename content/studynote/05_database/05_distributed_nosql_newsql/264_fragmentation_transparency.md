@@ -3,8 +3,8 @@ title: "Fragmentation/Partition Transparency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 264
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분할 투명성 ([Fragmentation](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)/[Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Transparency)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 여부 은닉에 초점을 맞춘 개념이다.

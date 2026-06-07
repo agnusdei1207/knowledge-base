@@ -3,8 +3,8 @@ title: "Web Shell Upload Filter Defense Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 665
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 웹셸 업로드 필터 다중방어 감리는 웹셸 업로드 필터의 다중 방어([Defense in Depth](/studynote/09_security/01_intro_principles/012_defense_in_depth/)) 체계에서 확장자 검사(Extension Check), 마임 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([MIME](/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/) [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 내용 기반 탐지(Content Inspection)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

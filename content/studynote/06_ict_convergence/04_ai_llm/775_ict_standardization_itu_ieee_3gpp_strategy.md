@@ -3,8 +3,8 @@ title: "ICT Standardization ITU IEEE 3GPP Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 775
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ITU는 IMT(International Mobile Telecommunications) 비전 및 주파수 배분을 통해 거버넌스·정책 표준을 정립하고, IEEE는 802 계열 근거리·개인영역 액세스 규격(802.3 Ethernet/802.11 WLAN/802.15 WPAN)을, 3GPP는 RAN·SA·CT 3대 TSG 체계를 통해 Release 기반 이동통신 시스템 규격(2G->5G-Advanced->6G)을 주도하는, **상호보완적 3축 글로벌 ICT 표준화 거버넌스**이다.

@@ -3,8 +3,8 @@ title: "348. Buddy System"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 348
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 버디 시스템(Buddy System) 할당기는 메모리를 요청받았을 때, 전체 물리 메모리를 <strong>무조건 2의 승수(2^k) 크기로만 반씩 쪼개어(Split) 할당</strong>하고, 반환될 때는 쪼개졌던 <strong>자신의 쌍둥이 조각(Buddy)과 <a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>으로 병합(Coalescing)하는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 메모리 할당 기법</strong>이다.

@@ -3,8 +3,8 @@ title: "Data Fabric and Distributed Data Mesh"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 546
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 주도(Metadata-driven) 통합으로 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 단일 가상 계층으로 연결하는 기술 중심 접근이고, [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 오너십([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership)을 각 팀에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하는 조직 중심 패러다임이다.

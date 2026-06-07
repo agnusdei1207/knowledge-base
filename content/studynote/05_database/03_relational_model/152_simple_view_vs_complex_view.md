@@ -1,11 +1,10 @@
 ---
 title: "152. Simple View Vs Complex View"
 date: "2026-05-03"
-description: "데이터베이스의 가짜 유리창(View)을 깎을 때, 테이블 딱 1개만 써서 수정(Update)이 콱콱 뚫고 들어가는 투명한 창문(단순 뷰)과, 조인(Join)과 믹서기(SUM)를 떡칠해서 오직 구경만 가능한 무거운 색유리 창문(복합 뷰)을 가르는 차가운 잣대"
 tags:
   - "studynote-database"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: <strong>단순 뷰(Simple <a href="/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>는 오직 1개의 쌩 테이블에서 컬럼이나 로우(Row)만 핀셋으로 도려낸(가공 없는) 1:1 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 껍데기이며, <strong>복합 뷰(Complex <a href="/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>는 2개 이상의 테이블을 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/))하거나 `SUM`, `AVG` 같은 믹서기(집계)를 돌려 비빔밥처럼 뭉개놓은 [다대일](/studynote/02_operating_system/02_process_thread/098_many_to_one_model/)(N:1) 융합 껍데기다.
 > 2. **가치**: 이 둘을 가르는 가장 치명적이고 뼈 때리는 기준은 <strong>'<a href="/studynote/12_it_management/02_itsm_itil/867_dml/">DML</a>(Insert/Update/Delete) 관통성'</strong>이다. 단순 뷰는 엑셀로 숫자를 고치면 뒤에 숨은 진짜 테이블로 마법처럼 쑥 뚫고 들어가 값이 수정되지만, 복합 뷰는 뭉개진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리라 어디를 고쳐야 할지 역산(Inverse)을 못해 수정이 100% 불가능하다(오직 Read-only).

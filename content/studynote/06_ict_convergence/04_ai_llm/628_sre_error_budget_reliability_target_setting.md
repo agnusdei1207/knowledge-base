@@ -3,8 +3,8 @@ title: "SRE Error Budget Reliability Target Setting"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 628
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SRE 에러버짓 신뢰성 목표 설정은(는) SLO를 기준으로 허용 가능한 실패량을 정하고 개발 속도와 안정성의 균형을 관리하는 SRE 원칙이다.

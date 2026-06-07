@@ -3,8 +3,8 @@ title: "Prompt Injection / Jailbreak"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 302
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 ([Prompt Injection](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) / Jailbreak): LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

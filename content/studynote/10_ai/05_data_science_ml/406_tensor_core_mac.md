@@ -3,8 +3,8 @@ title: "Tensor Core"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 406
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [텐서 코어](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)([Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))는 엔비디아(NVIDIA) [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처에 탑재된 [하드웨어 가속기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)로, 딥러닝의 핵심 연산인 거대 행렬 곱셈 및 누산(FMA: Matrix [Multiply-Accumulate](/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/))을 한 번의 클럭에 처리하도록 설계된 전용 유닛이다.

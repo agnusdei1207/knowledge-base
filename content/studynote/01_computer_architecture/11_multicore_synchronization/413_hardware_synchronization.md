@@ -3,8 +3,8 @@ title: "Hardware Synchronization"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 413
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Hardware [Synchronization](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))는 여러 코어가 같은 메모리를 만질 때, 읽기-수정-[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 구간을 CPU (Central Processing Unit)가 원자적 (Atomic) 연산으로 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찢어짐을 막는 장치다.

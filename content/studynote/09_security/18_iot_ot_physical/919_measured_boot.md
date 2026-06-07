@@ -3,9 +3,8 @@ title: "919. Measured Boot (TPM utilization)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 919
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Measured Boot ([TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) utilization)는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)·물리 보안에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

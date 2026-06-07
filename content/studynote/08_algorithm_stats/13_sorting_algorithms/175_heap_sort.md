@@ -2,9 +2,9 @@
 title: "Heap Sort"
 date: "2026-05-06"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ([Heap Sort](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/))은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 최대 힙 (Max [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 으로 만든 뒤, 루트의 최댓값을 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 끝으로 보내고 남은 구간을 다시 힙으로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 과정을 반복하는 정렬이다.

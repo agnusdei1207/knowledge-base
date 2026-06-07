@@ -3,8 +3,8 @@ title: "479. Wear Leveling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 479
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마모 평준화(Wear Leveling)는 수백~수천 번 지우기(Erase)를 반복하면 셀이 타버려 죽어버리는 낸드 플래시([NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/))의 치명적 한계를 극복하기 위해, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 및 지우기 작업을 수십만 개의 블록 전체에 골고루 분산시켜 특정 구역만 조기 사망하는 것을 막는 <a href="/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a>(<a href="/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>)의 핵심 수명 관리 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

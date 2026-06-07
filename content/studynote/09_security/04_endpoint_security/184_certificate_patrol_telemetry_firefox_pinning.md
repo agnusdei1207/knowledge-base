@@ -3,8 +3,8 @@ title: "184. Certificate Patrol Telemetry Firefox Pinning"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Certificate Patrol은 Firefox 브라우저 확장 프로그램이 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 X.509 인증서 정보를 로컬에 기억하고 재방문 시 다시 비교하는 TOFU (Trust On First Use) 기반 동적 인증서 감시 기법이다.

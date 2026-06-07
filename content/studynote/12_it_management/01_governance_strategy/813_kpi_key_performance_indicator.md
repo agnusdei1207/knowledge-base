@@ -3,8 +3,8 @@ title: "KPI, Key Performance Indicator"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 813
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [핵심 성과 지표](/studynote/12_it_management/01_governance_strategy/018_kpi/)의 핵심은 [CSF](/studynote/12_it_management/01_governance_strategy/017_csf/) 달성 여부를 정량적으로 측정하는 지표라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

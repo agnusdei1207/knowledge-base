@@ -3,8 +3,8 @@ title: "Memory-Mapped Files, mmap"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 418
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 매핑 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))은 하드디스크에 있는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.txt`, `.db`)을 전통적인 `read/write` 함수로 읽어오는 대신, <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 내용을 통째로 프로세스의 <a href="/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>(<a href="/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">Virtual Address Space</a>) <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>에 다이렉트로 꽂아(<a href="/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>) 넣어, 포인터 조작만으로 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 램(RAM) 다루듯 씹어먹는 <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 흑마술</strong>이다.

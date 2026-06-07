@@ -3,8 +3,8 @@ title: "Idempotency"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 같은 명령을 여러 번 실행해도 최종 상태가 같게 유지되는 특성.

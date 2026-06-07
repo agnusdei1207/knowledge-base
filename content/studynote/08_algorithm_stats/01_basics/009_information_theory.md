@@ -1,11 +1,11 @@
 ---
 title: "Information Theory"
 date: "2024-05-20"
-description: "엔트로피와 데이터 압축, 통신 채널의 한계를 규명하는 섀넌의 정보이론"
 tags:
   - "algorithm_stats"
+  - "studynote-algorithm-stats"
+weight: 9
 ---
-
 # [정보이론](/studynote/08_algorithm_stats/09_info_theory/150_information_theory/) ([Information Theory](/studynote/08_algorithm_stats/09_info_theory/150_information_theory/))
 
 ## 핵심 인사이트 (3줄 요약)

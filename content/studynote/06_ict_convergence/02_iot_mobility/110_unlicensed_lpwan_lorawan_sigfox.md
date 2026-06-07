@@ -3,8 +3,8 @@ title: "110. Unlicensed Lpwan Lorawan Sigfox"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비면허 대역 LPWAN은 정부가 무료 개방한 <strong>ISM 밴드(900MHz 부근)</strong>에서 통신사 인프라 없이 <strong>자가 기지국으로 도시 규모 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 사설망을 구축</strong>하는 기술이며, LoRaWAN(CSS 변조)과 [Sigfox](/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)(UNB 변조)가 양대 산맥이다.
 > 2. **가치**: LoRaWAN은 <strong>Chirp <a href="/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">Spread Spectrum</a>(CSS)</strong>으로 넓게 펼쳐 노이즈를 뚫고, Sigfox는 <strong>Ultra Narrow Band(UNB)</strong>로 100Hz에 에너지를 몰빵하여 초장거리를 달성한다. 정반대 전략으로 같은 목표(원격 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 해결한다.

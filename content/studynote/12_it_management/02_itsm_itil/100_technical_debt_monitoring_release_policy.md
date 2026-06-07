@@ -3,8 +3,8 @@ title: "100. Technical Debt Monitoring Release Policy"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 기술 부채(Technical Debt)는 당장의 출시 일정을 맞추기 위해 타협한 비효율적 코드와 설계이며, 이를 정량적으로 모니터링하여 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 신규 릴리스(Release)를 차단하는 것이 연계 릴리스 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)의 핵심이다.
 - **가치**: 기술 부채로 인해 사소한 수정에도 막대한 시간과 비용(이자)이 발생하는 것을 막고, '신규 기능 개발 속도'와 '시스템 안정성' 사이에서 경영진과 개발진이 합의할 수 있는 객관적 기준선을 제공한다.

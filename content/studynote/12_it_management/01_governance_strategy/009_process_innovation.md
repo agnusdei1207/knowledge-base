@@ -3,10 +3,9 @@ title: "9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 �
 date: "2026-04-05"
 tags:
   - "studynote"
+  - "studynote-it-management"
 weight: 9
 ---
-
-
 # PI (프로세스 혁신: Process Innovation)
 
 #### 핵심 인사이트 (3줄 요약)

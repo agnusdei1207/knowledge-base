@@ -3,8 +3,8 @@ title: "Leaky Bucket Traffic Shaping"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 226
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Leaky Bucket (리키 버킷) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 입력 트래픽의 버스트(Burst) 여부와 무관하게 **일정한 속도(Constant Rate)** 로만 패킷을 출력하는 [Traffic Shaping](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) ([트래픽 쉐이핑](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다 — 물이 구멍 뚫린 양동이에서 일정 속도로 새어나오는 것처럼.

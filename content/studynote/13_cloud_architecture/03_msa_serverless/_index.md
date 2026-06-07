@@ -2,9 +2,9 @@
 title: "MSA & Serverless"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로서비스 아키텍처 (MSA)는 거대한 모놀리식 (Monolithic) 시스템을 작고 독립적인 서비스 단위로 분해하여 비즈니스 민첩성을 극대화하는 분산 아키텍처이며, 서버리스 (Serverless)는 인프라 관리 부담을 제거하여 이벤트 기반의 고가용성 연산을 실현하는 클라우드 네이티브의 정점이다.

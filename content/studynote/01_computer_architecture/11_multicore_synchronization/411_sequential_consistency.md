@@ -3,8 +3,8 @@ title: "Sequential Consistency"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 411
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순차적 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Sequential [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), SC)은 각 코어의 메모리 연산이 프로그램 순서를 지키면서도, 전체적으로는 하나의 전역 순서로 관찰된다고 가정하는 가장 직관적인 메모리 모델이다.

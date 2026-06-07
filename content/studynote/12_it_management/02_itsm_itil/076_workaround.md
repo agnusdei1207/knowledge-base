@@ -3,8 +3,8 @@ title: "Workaround"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [워크어라운드](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/) ([Workaround](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/))의 본질은 근본 원인은 모르더라도 일단 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 재개하기 위한 임시 우회 조치 (재부팅, 예비 서버 전환 등)를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치와 운영 절차로 연결하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 안정적으로 유지할 수 있다.

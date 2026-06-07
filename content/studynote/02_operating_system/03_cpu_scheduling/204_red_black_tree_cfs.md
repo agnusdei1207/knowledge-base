@@ -3,8 +3,8 @@ title: "204. Red Black Tree Cfs"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레드-블랙 트리](/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 자가 균형 [이진 탐색 트리](/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)(Self-balancing [Binary Search](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) Tree)의 일종으로, 리눅스 CFS가 수만 개의 대기 프로세스들을 `vruntime`([가상 실행 시간](/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/)) 순으로 정렬하고 관리하기 위해 채택한 <strong>핵심 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 자료구조</strong>다.

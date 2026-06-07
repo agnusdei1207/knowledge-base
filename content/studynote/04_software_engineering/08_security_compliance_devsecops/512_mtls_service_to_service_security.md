@@ -3,8 +3,8 @@ title: "TLS"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 512
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 보안 (Service-to-Service [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) - [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) (상호 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

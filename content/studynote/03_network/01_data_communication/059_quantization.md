@@ -3,8 +3,8 @@ title: "059. Quantization"
 date: "2026-03-30"
 tags:
   - "studynote-network"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))는 아날로그 진폭을 컴퓨터가 다룰 수 있는 유한한 정수 단계로 반올림하는 과정이다.

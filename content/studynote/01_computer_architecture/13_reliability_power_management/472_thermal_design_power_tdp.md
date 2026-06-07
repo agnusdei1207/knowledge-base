@@ -3,8 +3,8 @@ title: "TDP, Thermal Design Power"
 date: "2026-05-09"
 tags:
   - "studynote-computer-architecture"
+weight: 472
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TDP(Thermal Design Power)는 CPU/GPU/SoC가 정상 동작 시 발생하는 최대 열량(Watt)을 정의하는 **냉각 시스템 설계 기준치**이며, Intel 12세대부터는 PBP(Processor Base Power), MTP(Maximum Turbo Power)로 분리되어 PL1/PL2/PL3의 3단계 전력 제한 체계로 진화하고 있다.

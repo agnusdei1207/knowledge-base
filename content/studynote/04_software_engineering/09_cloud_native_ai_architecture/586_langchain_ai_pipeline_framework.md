@@ -3,8 +3,8 @@ title: "586. Langchain Ai Pipeline Framework"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 586
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 랭체인 (LangChain) 프레임워크 기반 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

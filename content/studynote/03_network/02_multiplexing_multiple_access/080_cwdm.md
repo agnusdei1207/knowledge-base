@@ -3,8 +3,8 @@ title: "CWDM, Coarse Wavelength Division Multiplexing"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 80
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CWDM(Coarse WDM)은 광케이블 하나에 여러 색깔의 레이저 빛(파장)을 섞어 쏠 때, 파장 사이의 <strong>간격을 듬성듬성(약 20nm) 넓게 벌려 간섭을 막아낸 저비용 <a href="/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> 아키텍처</strong>다.
 > 2. **가치**: 촘촘한 간격을 유지하기 위해 고가의 냉각기(Cooling System)와 정밀 필터가 필요한 DWDM과 달리, 온도에 민감하지 않은 값싼 레이저 발진기(Uncooled Laser)를 사용하여 기업 내 캠퍼스망이나 도시통신망(MAN) 구축 비용을 1/5 수준으로 폭락시켰다.

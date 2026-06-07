@@ -3,8 +3,8 @@ title: "Registry Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 672
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 분석 ([Registry](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) Analysis)는 보안 운영·포렌식에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

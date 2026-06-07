@@ -3,8 +3,8 @@ title: "The Graph Blockchain Indexing Protocol"
 date: "2026-04-21"
 tags:
   - "studynote-ict-convergence"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: The Graph는 이더리움 등 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 방대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서브그래프 (Subgraph) 형태로 색인(인덱싱)하여 [GraphQL](/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) API로 빠르게 조회할 수 있게 해주는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.

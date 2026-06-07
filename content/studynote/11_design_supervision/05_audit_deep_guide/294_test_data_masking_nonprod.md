@@ -3,8 +3,8 @@ title: "Non Production Test Data Masking Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 294
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비운영 환경 테스트데이터 마스킹 감리는 비운영 환경(Non Production)에서의 [테스트 데이터](/studynote/04_software_engineering/11_testing_validation/836_test_data_management/) 마스킹([Test Data Masking](/studynote/15_devops_sre/02_cicd_gitops/108_test_data_masking_pipeline/)) 체계에서 비식별화(Masking), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소(Subsetting), 접근 제한(Access Restriction)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "114. Database Design Phases"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DB 설계는 <strong>개념 설계(ERD, <a href="/studynote/05_database/04_transactions_concurrency/502_dbms/">DBMS</a> 독립) -> <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 설계(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>, <a href="/studynote/05_database/07_exam_summary/391_relation_schema_intension/">릴레이션 스키마</a>) -> 물리 설계(<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>·<a href="/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a>·<a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>)</strong>의 3단계로 진행되며, 각 단계는 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준이 다르고 산출물이 명확히 구분된다.
 > 2. **가치**: 개념 설계를 건너뛰고 바로 테이블을 만드는 것은 "설계도 없이 건물을 짓는 것"과 같으며, 요구 변경 시 전체 DB를 재구축해야 하는 재앙을 초래한다.

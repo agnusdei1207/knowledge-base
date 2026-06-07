@@ -2,9 +2,9 @@
 title: "200. Low Code No Code Enterprise Workflow Automation"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 200
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로우코드 / 노코드 (LC/NC, Low-[Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) / No-[Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 화면·폼·규칙·워크플로우를 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)로 조합해, 적은 코드 또는 무코드로 업무 앱을 빠르게 만드는 모델 기반 개발 방식이다.

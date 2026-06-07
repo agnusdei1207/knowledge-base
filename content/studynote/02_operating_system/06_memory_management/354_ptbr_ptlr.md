@@ -3,9 +3,8 @@ title: "354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 354
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PTBR([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Base Register](/studynote/02_operating_system/06_memory_management/329_base_register/))은 현재 실행 중인 프로세스의 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 장부가 물리 메모리의 어느 번지에 놓여 있는지 그 <strong>시작 기준 주소를 알려주는 전용 하드웨어 포인터</strong>이며, PTLR(Length [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))은 그 장부의 <strong>총 길이(크기)를 감시하는 보안 가드</strong>다.

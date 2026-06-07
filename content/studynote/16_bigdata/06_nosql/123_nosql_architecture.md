@@ -1,10 +1,11 @@
 ---
 title: "NoSQL Architecture"
+date: "2026-06-07"
 tags:
   - "bigdata"
-date: "2026-06-07"
+  - "studynote-bigdata"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. <strong><a href="/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a> 정리 기반의 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 아키텍처</strong>: [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)), 분할 내성([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance) 중 시스템 목적에 맞춰 두 가지를 선택하는 트레이드오프 설계.
 2. <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>리스(Schemaless)와 유연성</strong>: 고정된 테이블 구조를 탈피하여 비정형/[반정형 데이터](/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)의 빠른 수용 및 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개발을 지원함.

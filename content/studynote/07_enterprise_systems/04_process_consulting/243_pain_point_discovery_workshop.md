@@ -2,9 +2,9 @@
 title: "Pain Point Discovery Workshop"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 243
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 페인 포인트 발굴 워크숍은 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 페인 포인트 발굴 워크숍, Pain Point, Pain Point Discovery Workshop의 경계를 분명히 만드는 데 의미가 있다.

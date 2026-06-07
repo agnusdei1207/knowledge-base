@@ -3,8 +3,8 @@ title: "Bias"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 편향 지수 (Biased Exponent, Excess-K) 제도는 다루기 까다로운 음수 (Negative) 지수 데이터를 2의 보수 (2's Complement) 없이, 강제로 양수 (Positive) 영역으로 끌어올려 (Shift) 모든 지수 공간을 순수 양수 (Unsigned) 체계로 덮어쓰는 하드웨어 인코딩 매핑 기술이다.
 > 2. **가치**: 이 획기적인 발명 덕분에 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) ([Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))의 실수 크기 비교를 수행할 때 CPU 내부의 뺄셈 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 게이트나 극성 판별 회로 소자를 모조리 거칠 필요 없이, 가장 원시적이고 빠른 정수 대소 [비교기](/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) (Integer [Comparator](/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/))만으로 1클럭 만에 판별을 종결할 수 있게 되었다.

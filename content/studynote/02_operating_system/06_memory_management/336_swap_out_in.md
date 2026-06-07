@@ -3,8 +3,8 @@ title: "Swap in"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 336
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스왑 아웃(Swap Out)은 현재 당장 실행되지 않는 프로세스(또는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 주 메모리(RAM)에서 하드디스크(Backing Store)로 쫓아내는 작업이며, 스왑 인(Swap In)은 다시 실행될 차례가 되었을 때 디스크에서 메모리로 불러오는 왕복 이동 작업이다.

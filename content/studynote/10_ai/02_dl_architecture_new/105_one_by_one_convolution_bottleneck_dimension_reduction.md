@@ -3,8 +3,8 @@ title: "105. One By One Convolution Bottleneck Dimension Reduction"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 1. **본질**: 1x1 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)([Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))은 공간 정보(가로/세로)는 그대로 유지한 채, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 두께인 채널(Channel) 축소 및 확장에 특화된 연산이다.

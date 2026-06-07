@@ -3,8 +3,8 @@ title: "Long-context"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 장기 문맥 처리 (Long-context): 1M 토큰(책 수권 분량) 동시 입력 처리 모델 아키텍처 구조를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

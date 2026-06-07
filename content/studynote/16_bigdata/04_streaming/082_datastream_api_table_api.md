@@ -3,8 +3,8 @@ title: "082. Datastream Api Table Api"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Apache Flink는 두 가지 프로그래밍 계층을 제공한다. DataStream [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)스트림 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))는 이벤트 단위의 세밀한 [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)를 위한 저수준 API이고, Table [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) & SQL (테이블 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 테이블 개념을 스트림에 적용한 고수준 선언적 API로, 두 계층은 내부적으로 동일한 DataStream 실행 엔진으로 컴파일된다.

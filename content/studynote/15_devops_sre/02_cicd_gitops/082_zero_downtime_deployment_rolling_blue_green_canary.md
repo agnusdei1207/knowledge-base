@@ -3,8 +3,8 @@ title: "082. Zero Downtime Deployment Rolling Blue Green Canary"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사용자 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)과 요청 흐름을 끊지 않으면서 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 교체하는 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).

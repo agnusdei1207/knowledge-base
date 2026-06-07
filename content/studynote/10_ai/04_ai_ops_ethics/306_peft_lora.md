@@ -3,9 +3,8 @@ title: "306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 306
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PEFT (Parameter-Efficient [Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/), [파라미터 효율적 미세 조정](/studynote/06_ict_convergence/04_ai_llm/282_peft_parameter_efficient_fine_tuning/))는 대형 모델의 전체 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 동결(Freeze)하고 소수의 추가 파라미터만 학습하는 [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 기법으로, [LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) ([Low-Rank Adaptation](/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/), 저랭크 적응)는 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트 ΔW를 두 개의 저랭크 행렬 A·B의 곱으로 근사하는 가장 인기 있는 PEFT 방법이다.

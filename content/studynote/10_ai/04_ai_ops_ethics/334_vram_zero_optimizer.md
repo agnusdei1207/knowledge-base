@@ -3,8 +3,8 @@ title: "Zero Redundancy Optimizer"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 334
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VRAM (Video RAM) 부족은 대형 모델 학습의 핵심 병목이며, [ZeRO](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) ([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Redundancy [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 는 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태·그래디언트·파라미터를 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간에 분할해 중복 저장을 제거함으로써 단일 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한계를 돌파한다.

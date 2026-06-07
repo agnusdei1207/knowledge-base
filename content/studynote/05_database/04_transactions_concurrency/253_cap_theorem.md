@@ -3,8 +3,8 @@ title: "CAP Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 253
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 ([CAP Theorem](/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))은 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)), 분단 허용성([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance) 3가지를 동시 만족 불가 ([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB 이론)에 초점을 맞춘 개념이다.

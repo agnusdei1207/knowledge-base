@@ -2,9 +2,9 @@
 title: "084. Philippe Kruchten 4 1 View Architecture Model"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 4+1 [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model은 하나의 아키텍처를 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)·개발·프로세스·물리 관점과 시나리오로 나눠 같은 시스템을 다르게 보게 하는 설명 틀이다.

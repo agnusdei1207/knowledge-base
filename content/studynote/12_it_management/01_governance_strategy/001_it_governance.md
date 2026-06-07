@@ -1,11 +1,11 @@
 ---
 title: "001. It Governance"
 date: "2026-03-04"
-description: "기업의 전략과 IT를 연계하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회 및 경영진의 책임 구조"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 1
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IT 거버넌스 (IT Governance)는 IT가 비즈니스 목표를 달성할 수 있도록 이사회와 경영진이 통제하고 지휘하는 체계이자 프로세스이다.
 > 2. **가치**: 불투명한 IT 투자의 블랙박스 현상을 해소하고, [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계([Strategic Alignment](/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/))를 통해 비즈니스 가치 창출을 극대화하며 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 최소화한다.

@@ -3,8 +3,8 @@ title: "796. Hologram Volumetric Video Vtc Jitter Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 796
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 홀로그램 무선 전송 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

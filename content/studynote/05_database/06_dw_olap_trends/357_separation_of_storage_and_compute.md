@@ -3,8 +3,8 @@ title: "Separation of Storage and Compute"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 357
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토리지와 컴퓨팅 분리 아키텍처 (Separation of Storage and Compute)는 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 핵심, 독립적 탄력적 확장에 초점을 둔 아키텍처이다.

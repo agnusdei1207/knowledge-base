@@ -3,8 +3,8 @@ title: "Location Transparency"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 263
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 위치 투명성 (Location Transparency)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 물리적 위치 몰라도 접근에 초점을 맞춘 개념이다.

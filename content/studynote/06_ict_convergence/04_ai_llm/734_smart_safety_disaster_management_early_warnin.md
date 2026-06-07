@@ -3,8 +3,8 @@ title: "Smart Safety Disaster Management Early Warning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 734
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트 안전 재난관리 조기경보는 센서, 영상, 기상, 신고, 위치 데이터를 통합하여 위험 징후를 실시간 탐지하고 대응 기관에 자동 전파하는 데이터 기반 안전 플랫폼이다.

@@ -3,8 +3,8 @@ title: "Directory Cache"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 511
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시 ([Directory](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) Cache)는 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)에 필요한 sharer·owner [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 작은 고속 [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory)에 보관해, [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 조회 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 전용 캐시다.

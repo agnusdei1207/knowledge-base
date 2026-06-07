@@ -3,8 +3,8 @@ title: "GPipe"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 405
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GPipe는 거대 신경망 모델을 여러 개의 레이어 묶음으로 나누어 서로 다른 가속기([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에 배치하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미세 배치(Micro-batch) 단위로 쪼개어 동시에 처리하는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism) 기법이다.

@@ -3,8 +3,8 @@ title: "Edge Native"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 251
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 네이티브](/studynote/15_devops_sre/05_devsecops/231_edge_native/) 설계 패턴 (Edge Native): 1. **본질**: [엣지 네이티브](/studynote/15_devops_sre/05_devsecops/231_edge_native/)(Edge Native)는 무한한 CPU와 전기를 퍼먹는 '[클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/))' 사상을 쓰레기통에 처박고, **라즈베리파이나 드론처…를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

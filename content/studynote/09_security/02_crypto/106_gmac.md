@@ -3,8 +3,8 @@ title: "106. Gmac"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GMAC (Galois [Message Authentication Code](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 복잡한 해시나 암호화 과정을 덜어내고, 갈루아 체(Galois Field)라는 특수한 수학적 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곱셈을 이용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그(Tag)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

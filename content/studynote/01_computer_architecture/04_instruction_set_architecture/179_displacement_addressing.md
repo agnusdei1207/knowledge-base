@@ -3,8 +3,8 @@ title: "Displacement"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 변위 주소 지정 (Displacement Addressing)은 기준점이 되는 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값과 작은 변위값을 더해 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) (Effective Address)를 만드는 주소 계산 방식이다.

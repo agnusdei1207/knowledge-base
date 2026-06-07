@@ -3,8 +3,8 @@ title: "Instruction"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 명령어 (Instruction)는 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))가 정의한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴으로, CPU (Central Processing Unit)에게 한 번의 의미 있는 동작을 지시하는 최소 실행 단위다.

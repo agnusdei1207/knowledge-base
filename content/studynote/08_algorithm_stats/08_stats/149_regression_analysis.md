@@ -2,9 +2,9 @@
 title: "149. Regression Analysis"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 149
 ---
-
 ## 핵심 인사이트
 
 > 회귀 분석(Regression Analysis)의 본질은 변수 간 함수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 추정하는 것으로, OLS(Ordinary Least Squares, [최소 제곱법](/studynote/06_ict_convergence/05_data_science/327_ordinary_least_squares_ols/))는 잔차(Residual)의 제곱합을 최소화해 가장 잘 맞는 선(최적 적합선)을 찾는다.

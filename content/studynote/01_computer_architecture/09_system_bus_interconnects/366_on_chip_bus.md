@@ -3,8 +3,8 @@ title: "AMBA, AXI, AHB, APB"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 366
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온칩 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (On-Chip [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 시스템 온 칩 ([SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [System on Chip](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 내부의 중앙 처리 장치 (CPU, Central Processing Unit), 그래픽 처리 장치 ([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 메모리 컨트롤러, 주변장치 지식재산 블록 (IP, Intellectual Property block)을 하나의 규칙으로 연결하는 칩 내부 통신 골격이다.

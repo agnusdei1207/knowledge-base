@@ -3,9 +3,8 @@ title: "734. PL1, PL2 (Power Limit 1, 2)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 734
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PL1, PL2 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Limit 1, 2)는 CPU 전력을 하나의 숫자가 아니라 "지속 가능한 장기 한계"와 "짧게 허용하는 순간 한계"로 나누어 관리하는 전력 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

@@ -3,8 +3,8 @@ title: "PCA LDA SVD Dimensionality Reduction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 515
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([Principal Component Analysis](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 비지도 방식으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 최대화하는 직교 축을 찾고, LDA(Linear Discriminant Analysis, [선형 판별 분석](/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/))는 클래스 레이블을 활용해 클래스 간 분리를 최대화한다.

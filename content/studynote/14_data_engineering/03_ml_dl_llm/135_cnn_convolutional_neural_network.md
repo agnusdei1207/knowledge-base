@@ -2,9 +2,9 @@
 title: "135. Cnn Convolutional Neural Network"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CNN은 <strong><a href="/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>(<a href="/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">Convolution</a>) 연산으로 입력의 지역적 패턴(엣지·텍스처·형태)을 계층적으로 추출</strong>하는 신경망이며, 이미지·영상 처리의 핵심 아키텍처이다.
 > 2. **가치**: 전결합층([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))은 이미지를 1D로 펼쳐 공간 정보를 잃지만, CNN은 <strong>2D 구조를 유지하며 파라미터를 공유(<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유)</strong>하여 효율적으로 학습한다.

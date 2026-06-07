@@ -3,8 +3,8 @@ title: "025. Spark Rdd Resilient Distributed Dataset"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) (Resilient Distributed Dataset, 내결함성 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋)는 Apache Spark의 핵심 추상화로, 클러스터 전체에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 집합이다. Resilient는 "복원력 있는(내결함성)"을 의미하며, 리니지(Lineage) 정보를 통해 노드 장애 시 실패한 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재계산하여 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.
 > 2. **가치**: RDD는 MapReduce보다 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 빠른 인메모리(In-memory) 처리를 가능하게 하여 반복 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(ML 훈련 루프)과 대화형 분석(REPL)을 실용화했다. 트랜스포메이션(Transformation)의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 실행([Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))과 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) 기반 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화로 효율적인 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 실현한다.

@@ -3,8 +3,8 @@ title: "085. Adaptive Learning Rate Adagrad Rmsprop"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 적응형 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Adaptive Learning](/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) Rate)은 각 파라미터의 과거 그래디언트(Gradient)를 보고 보폭을 다르게 조절하는 최적화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

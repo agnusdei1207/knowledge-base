@@ -3,8 +3,8 @@ title: "125. C Commerce Collaborative Commerce"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 125
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: C-Commerce는 <strong><a href="/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 파트너(공급자·제조자·유통자)가 정보 시스템을 통해 실시간으로 정보·프로세스를 공유하고 협업</strong>하여 공동의 비즈니스 가치를 창출하는 전자상거래 모델이다.
 > 2. **가치**: B2B·B2C가 거래 중심이라면, C-Commerce는 **설계 협업·수요 예측 공유·재고 가시화** 등 거래 이전·이후의 프로세스까지 포함하여 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체를 최적화한다.

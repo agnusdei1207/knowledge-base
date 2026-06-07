@@ -1,18 +1,17 @@
 ---
 title: "Hard vs Soft Voting Ensemble"
 date: "2025-01-01"
-description: "하드 보팅(Hard Voting)과 소프트 보팅(Soft Voting)의 원리, 차이, 가중 보팅, scikit-learn 구현을 다룬다."
 tags:
   - "VotingClassifier"
   - "ensemble learning"
   - "hard voting"
   - "scikit-learn"
   - "soft voting"
-  - "studynote-ai"
   - "voting ensemble"
   - "weighted voting"
+  - "studynote-ai"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)(Hard [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))은 각 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 클래스 예측(다수결)을 집계하고, 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)(Soft [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))은 각 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)값을 평균해 더 정확한 결과를 낸다.
 > 2. 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 보정된 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(calibrated [probability](/studynote/08_algorithm_stats/08_stats/130_probability/))을 출력할 때 효과적이며, 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)보다 일반적으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높다.

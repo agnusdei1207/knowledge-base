@@ -3,8 +3,8 @@ title: "System V IPC"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 132
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: System V [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/studynote/12_it_management/05_security_compliance/943_process/) Communication)는 AT&T Bell Laboratories의 System V UNIX에서 표준화된 세 가지 상호 보완적 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘 -- [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/)), [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/)), 메시지 큐 (Message [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) -- 의 총칭이다. 이들 모두 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 객체로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되며, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 경로가 아닌 정수 키 ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 통해 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된다는 것이 특징이다.

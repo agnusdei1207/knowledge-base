@@ -3,8 +3,8 @@ title: "CFS, Completely Fair Scheduler"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리눅스의 CFS(Completely Fair Scheduler)는 전통적인 우선순위 큐와 타임 [슬라이스](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(Time [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 개념을 폐기하고, 오직 <strong>'<a href="/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/">가상 실행 시간</a>(vruntime, Virtual Runtime)'이라는 단일 지표를 <a href="/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a>)에 정렬</strong>하여 가장 적게 실행된 프로세스에게 무조건 CPU를 내어주는 혁명적인 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다.

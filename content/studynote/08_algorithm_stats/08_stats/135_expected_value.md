@@ -2,9 +2,9 @@
 title: "135. Expected Value"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 135
 ---
-
 ## 핵심 인사이트
 
 > 기댓값 (Expected Value) E[X] 은 "무한히 반복하면 평균적으로 얻을 값"이 아니라, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 가중된 가중 평균 (Probability-Weighted Average) 이다.

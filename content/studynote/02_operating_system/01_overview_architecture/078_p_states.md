@@ -3,8 +3,8 @@ title: "P-States"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: P-[state](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 CPU가 어떤 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수준으로 동작하는지를 나타내는 상태다.

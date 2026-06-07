@@ -3,8 +3,8 @@ title: "295. System Reliability Models"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시스템 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 모델링 - [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 모델, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 모델은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

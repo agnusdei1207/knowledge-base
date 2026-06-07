@@ -3,8 +3,8 @@ title: "Backdoor"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 368
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) ([Backdoor](/studynote/09_security/15_malware_attack_vectors/727_backdoor/))는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

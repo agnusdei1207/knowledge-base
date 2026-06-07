@@ -1,10 +1,11 @@
 ---
 title: "066. Data Governance Framework"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 보안, 프라이버시, 책임을 전사적으로 관리하는 체계다.

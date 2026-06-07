@@ -3,8 +3,8 @@ title: "Population Stability Index"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 417
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 드리프트 PSI 탐지 수리 (Population [Stability](/studynote/08_algorithm_stats/02_sorting/021_stability/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)): 1. **본질**: [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)([Data Drift](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델을 처음 만들 때 썼던 과거의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴(분포)과, 현재 실시간으로 들어오고 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴이 완전히 달라져서…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

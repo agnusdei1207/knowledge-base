@@ -3,8 +3,8 @@ title: "IoT Sensor Network Comprehensive"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 486
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(Internet of Things) [센서 네트워크](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 물리 세계의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 디바이스(Device), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 네트워크(Network), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리·저장하는 플랫폼(Platform) 3계층이 협력하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감지 시스템이다.

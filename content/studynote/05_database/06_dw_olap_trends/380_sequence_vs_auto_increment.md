@@ -3,8 +3,8 @@ title: "Auto Increment vs Sequence"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 380
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시퀀스 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 객체 특징 (Auto Increment vs Sequence)는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

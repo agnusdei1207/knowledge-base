@@ -2,9 +2,9 @@
 title: "Sorting Algorithms (Advanced)"
 tags:
   - "algorithm_stats"
+  - "studynote-algorithm-stats"
 weight: 13
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정렬 알고리즘은 무질서한 데이터 항목들을 특정 기준 (오름차순 또는 내림차순)에 따라 재배열하는 과정이며, 이진 탐색과 같은 고속 탐색의 필수적인 선행 단계이다.

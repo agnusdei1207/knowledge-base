@@ -3,8 +3,8 @@ title: "Polynomial Reduction"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 111
 ---
-
 > **핵심 인사이트**
 > 1. 다항 시간 환산([Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Reduction, A ≤_p B)은 "문제 A를 문제 B로 변환할 수 있고, B를 다항 시간에 풀 수 있으면 A도 다항 시간에 풀린다"는 원리로 — NP-완전 증명의 핵심 도구이며, Cook-Levin 정리에서 SAT이 NP-완전임을 보인 방법이다.
 > 2. A ≤_p B의 방향성이 핵심 — "A가 B로 환산된다" = "B가 A보다 적어도 같거나 더 어렵다" = B가 A의 상한(upper bound), 이 방향을 혼동하면 복잡도 이론 전체가 뒤집힌다.

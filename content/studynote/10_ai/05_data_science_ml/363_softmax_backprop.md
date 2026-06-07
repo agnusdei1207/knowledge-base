@@ -3,8 +3,8 @@ title: "Softmax Backpropagation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 363
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/)([Softmax](/studynote/10_ai/03_llm_nlp/270_softmax/)) 함수의 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 출력들이 서로 의존적(합이 1)이기 때문에 스칼라 미분 대신 야코비안(Jacobian) 행렬이 필요하며, i=j와 i≠j 두 케이스로 나눠 유도한다.

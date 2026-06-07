@@ -3,8 +3,8 @@ title: "Conditional Branch"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조건부 분기 (Conditional Branch)는 비교 결과가 특정 조건을 만족할 때만 [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 다른 주소로 바꾸는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다.

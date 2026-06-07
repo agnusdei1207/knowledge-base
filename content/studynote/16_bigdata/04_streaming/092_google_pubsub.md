@@ -3,8 +3,8 @@ title: "092. Google Pubsub"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Google Cloud Pub/Sub (구글 클라우드 펍섭)는 완전 관리형 비동기 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로, 명시적 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 없이 글로벌 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 지원하며 Pub/Sub 의 발행-구독(Publish-Subscribe) 패턴으로 느슨한 결합(Loose [Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 아키텍처를 구현한다.

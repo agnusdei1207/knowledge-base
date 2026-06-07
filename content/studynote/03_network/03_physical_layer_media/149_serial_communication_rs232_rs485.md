@@ -3,8 +3,8 @@ title: "149. Serial Communication Rs232 Rs485"
 date: "2026-05-03"
 tags:
   - "studynote-network"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시리얼([Serial](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/), 직렬) 통신은 컴퓨터나 산업용 장비 간에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 가닥의 선을 통해 1비트씩 기차처럼 순서대로 보내는 가장 고전적이고 안정적인 물리 계층(Physical Layer) 통신 규격이다.
 > 2. **가치**: 통신 거리와 외부 노이즈 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)력, 그리고 하나의 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))에 연결 가능한 장비의 수(네트워크 토폴로지)에 따라 <strong>RS-232(단거리 1:1) -> RS-422(장거리 1:N) -> RS-485(장거리 N:N 멀티드롭)</strong>로 산업 자동화 환경에 맞춰 진화했다.

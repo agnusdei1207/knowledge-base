@@ -3,8 +3,8 @@ title: "097. Regression Metrics Mse Rmse Mae"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) 지표(Regression [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))는 기계학습 모델이 예측한 연속형 결과값과 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 '오차(Error)'를 수학적으로 요약하여 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 정량화하는 기준이다.

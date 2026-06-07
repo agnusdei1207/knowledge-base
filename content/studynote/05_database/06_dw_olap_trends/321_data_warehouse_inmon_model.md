@@ -3,8 +3,8 @@ title: "Data Warehouse, DW"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 321
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/), [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))는 의사결정 지원을 위한 통합, 주젯 중심, 시계열, 비휘발성 저장소 ([Inmon](/studynote/12_it_management/05_security_compliance/953_inmon/) 모델)에 초점을 둔 분석 플랫폼 개념이다.

@@ -3,8 +3,8 @@ title: "Fuzzy Logic"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 퍼지 로직(Fuzzy Logic)은 컴퓨터의 딱딱한 이분법(0 아니면 1, 흑 아니면 백)을 박살 내고, 인간의 언어처럼 <strong>"약간 덥다", "꽤 춥다" 같은 애매모호한(Fuzzy) 상태를 0과 1 사이의 '소속도(Membership Degree)'라는 수학적 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>로 계산하게 만드는 회색 지대의 <a href="/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a></strong>이다.

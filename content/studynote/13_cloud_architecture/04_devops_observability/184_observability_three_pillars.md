@@ -3,8 +3,8 @@ title: "Observability Three Pillars"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) ([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))는 시스템의 외부 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)만으로 내부 상태를 추론하는 능력이며, 그 최소 공통 언어가 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), 트레이스 (Traces)의 3대 기둥이다.

@@ -3,8 +3,8 @@ title: "Latency"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간 (Latency)은 요청을 보낸 순간부터 <strong>첫 번째 유효 결과가 돌아오기 시작할 때까지의 시간</strong>이며, 시스템이 얼마나 "즉각 반응하는가"를 보여주는 척도다.

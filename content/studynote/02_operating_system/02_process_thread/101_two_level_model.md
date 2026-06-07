@@ -3,8 +3,8 @@ title: "101. Two Level Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 두 수준 (Two-level) 모델은 여러 사용자 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 소수의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 연결하는 '[다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(M:N)' 방식과 핵심 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 1:1로 고정하는 '[일대일](/studynote/02_operating_system/02_process_thread/099_one_to_one_model/)' 방식을 혼합한 하이브리드 스레딩 아키텍처다.
 > 2. **가치**: LWP(Lightweight [Process](/studynote/12_it_management/05_security_compliance/943_process/))를 중간 계층으로 두어 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용과 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 소모를 극소화하면서도, 실시간 응답이 필요한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 블로킹([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))에서 안전하게 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.

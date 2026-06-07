@@ -3,8 +3,8 @@ title: "Unit of Work Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유닛 오브 워크 패턴 (Unit of Work Pattern)은 하나의 비즈니스 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 생긴 객체의 추가·수정·삭제를 추적해 커밋 시점에 한꺼번에 반영하는 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 패턴이다.

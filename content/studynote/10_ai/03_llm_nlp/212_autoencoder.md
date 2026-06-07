@@ -3,8 +3,8 @@ title: "212. Autoencoder"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) ([Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))는 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 소리)를 모래시계처럼 좁아지는 '[인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))'를 통해 핵심 진액(잠재 공간 벡터 $Z$)으로 꾹꾹 짓눌러 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤, 다시 '[디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))'를 통해 원래의 사진과 똑같은 모습으로 부풀려 복원해 내는 <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">비지도 학습</a>(Unsupervised) 기반의 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 및 복원 딥러닝 뼈대 구조</strong>다.

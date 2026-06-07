@@ -2,9 +2,9 @@
 title: "194. Webhook Reverse Api Event Push"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [웹훅](/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) ([Webhook](/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/))은 이벤트 발생 시 공급자 시스템이 소비자 시스템의 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 엔드포인트를 직접 호출하는 사용자 정의 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 콜백(User-defined [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Callback) 방식이다.

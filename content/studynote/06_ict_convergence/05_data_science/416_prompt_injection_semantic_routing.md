@@ -3,8 +3,8 @@ title: "Intent"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 416
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 방어 시맨틱 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 의도 필터 게이트웨이 (Intent): 1. **본질**: [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/)([Prompt Injection](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/))은 해커가 교묘한 문장으로 LLM을 세뇌시켜, 회사가 걸어둔 "욕설 금지", "기밀 유지" 같은 시스템 규칙(System…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

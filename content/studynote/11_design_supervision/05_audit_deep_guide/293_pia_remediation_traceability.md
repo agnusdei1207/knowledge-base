@@ -3,8 +3,8 @@ title: "PIA Remediation Traceability Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PIA](/studynote/12_it_management/05_security_compliance/976_privacy_impact_assessment_pia_audit_linkage/) 조치 추적성 감리는 [개인정보 영향평가](/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)([Privacy Impact Assessment](/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/), [PIA](/studynote/12_it_management/05_security_compliance/976_privacy_impact_assessment_pia_audit_linkage/)) 지적사항 조치 추적 체계에서 지적사항 관리(Finding [Management](/studynote/12_it_management/05_security_compliance/1013_management/)), 통제 매핑(Control [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)), 주체 위험 저감([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Subject [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Reduction)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

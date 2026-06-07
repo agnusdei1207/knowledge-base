@@ -2,9 +2,9 @@
 title: "Merge Sort"
 date: "2026-05-06"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/) ([Merge Sort](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 계속 반으로 나눈 뒤, 정렬된 작은 조각들을 다시 병합해 전체 순서를 만드는 <strong><a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>)</strong> 정렬이다.

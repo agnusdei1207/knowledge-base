@@ -3,8 +3,8 @@ title: "456. Caching"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 456
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐싱(Caching)은 속도가 느린 저장장치(Disk 등)에 있는 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '복사본'을, <strong>속도가 압도적으로 빠른 앞단의 저장장치(RAM, <a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/">SRAM</a> 등)에 몰래 저장해 두고 재사용함으로써 기계적 한계를 우회하는 <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>와 하드웨어의 핵심 가속 기법</strong>이다.

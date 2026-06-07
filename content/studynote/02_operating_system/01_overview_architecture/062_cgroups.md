@@ -3,8 +3,8 @@ title: "062. Cgroups"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: cgroups([Control Groups](/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))는 프로세스 그룹별로 CPU, 메모리, I/O 같은 자원 사용량을 제한하고 측정하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능이다.

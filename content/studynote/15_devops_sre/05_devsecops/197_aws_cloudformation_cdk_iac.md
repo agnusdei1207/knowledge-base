@@ -3,8 +3,8 @@ title: "AWS CloudFormation / Infrastructure as Code / AWS Cloud Development Kit"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AWS 리소스를 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 단위로 선언하고 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 상태 관리로 반영하는 AWS 전용 [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 방식.

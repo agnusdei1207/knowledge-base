@@ -3,8 +3,8 @@ title: "STM"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 268
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: STM은 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 접근할 때 귀찮게 뮤텍스나 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/)([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))를 걸지 않고, 각 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 <strong>자신만의 로컬 메모리(임시 공간)에서 마음껏 작업을 한 뒤, 나중에 '커밋(Commit)'을 시도하여 충돌이 없으면 반영하고 충돌이 있으면 작업을 <a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 후 재시도</strong>하는 [낙관적 동시성 제어](/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/) 기법이다.

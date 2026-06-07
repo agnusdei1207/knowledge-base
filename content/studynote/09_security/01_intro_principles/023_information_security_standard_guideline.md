@@ -3,8 +3,8 @@ title: "Information Security Standard & Guideline"
 date: "2026-04-29"
 tags:
   - "studynote-security"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보보안 표준(Standard)은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))의 추상적 의지를 "[AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))-256 이상, [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 1.3 이상"처럼 <strong>전사에서 반드시 지켜야 하는 정량화된 강제 규격(Mandatory <a href="/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)</strong>으로 구체화하고, 지침(Guideline)은 환경에 따라 유연하게 적용하도록 돕는 <strong>권고형 가이드(Recommended Practice)</strong>이다.
 > 2. **가치**: 1,000명의 개발자가 "보안"을 제각각 해석하는 파편화를 막아, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) 파이프라인 안에서 표준 위반 코드가 자동 차단([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)-as-[Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))되는 <strong>자동화된 <a href="/studynote/09_security/01_intro_principles/006_security_governance/">보안 거버넌스</a> 생태계</strong>를 구축한다.

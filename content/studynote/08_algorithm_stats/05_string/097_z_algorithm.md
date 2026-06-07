@@ -2,9 +2,9 @@
 title: "097. Z Algorithm"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 문자열 S의 각 위치 i에서 시작하는 부분 문자열이 S의 접두사(Prefix)와 얼마나 일치하는지를 나타내는 Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Z-[Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))을 O(n)에 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

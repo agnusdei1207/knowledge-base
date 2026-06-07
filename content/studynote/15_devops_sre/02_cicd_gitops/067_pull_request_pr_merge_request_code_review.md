@@ -2,9 +2,9 @@
 title: "067. Pull Request Pr Merge Request Code Review"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Pull Request(PR)는 메인 브랜치로 합치기 전에 리뷰와 CI를 거치는 변경 검토 절차다.

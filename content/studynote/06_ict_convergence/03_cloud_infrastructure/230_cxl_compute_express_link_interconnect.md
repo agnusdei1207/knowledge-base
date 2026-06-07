@@ -3,9 +3,8 @@ title: "230. CXL (Compute Express Link)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 230
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)): [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기반 차세대 인터커넥트 기술, CPU-메모리-가속기 간 메모리 공유([풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))와 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 보장를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "252. Container Escape Vm Gvisor Kata"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 252
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 호스트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경계를 넘어가는 공격을 막기 위한 격리 강화 기법.

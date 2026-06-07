@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 15
 ---
-
 # 15. 지연 ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)/Delay) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관점
 
 ## 핵심 인사이트 (3줄 요약)

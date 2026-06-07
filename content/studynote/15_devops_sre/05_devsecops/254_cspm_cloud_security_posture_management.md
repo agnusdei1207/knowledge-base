@@ -3,8 +3,8 @@ title: "CSPM, Cloud Security Posture Management"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 254
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류와 컴플라이언스 위반을 지속 점검하는 보안 관리 체계.

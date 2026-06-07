@@ -3,8 +3,8 @@ title: "365. Segment Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 365
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 세그먼트 테이블([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Table)은 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 기법에서 CPU가 요구한 2차원 [논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(세그먼트 번호 $s$, 오프셋 $d$)를 실제 물리 메모리 주소로 변환해 주는 <strong><a href="/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> 내부의 핵심 하드웨어 맵핑 장부</strong>다.

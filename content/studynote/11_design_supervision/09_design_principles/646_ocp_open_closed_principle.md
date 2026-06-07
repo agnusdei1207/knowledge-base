@@ -3,8 +3,8 @@ title: "Open-Closed Principle, -"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 646
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/))는 소프트웨어 엔티티가 "확장(기능 추가)에는 열려 있어야 하고, 수정(기존 코드 변경)에는 닫혀 있어야 한다"는 객체지향 설계의 핵심 원리다.

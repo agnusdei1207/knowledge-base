@@ -3,9 +3,8 @@ title: "Toil SRE Automation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 318
 ---
-
-
 > **핵심 인사이트**
 > - [Toil](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) ([토일](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))은 수동적·반복적·자동화 가능하지만 아직 자동화되지 않은 운영 업무로, SRE가 줄여야 할 핵심 대상이다.
 > - Toil이 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 업무의 50%를 넘으면 조직이 엔지니어링 역량을 소모하고 있다는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다.

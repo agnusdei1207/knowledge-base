@@ -3,8 +3,8 @@ title: "856. Openflow Flow Table Match Action Stats"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 856
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OpenFlow](/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 플로우 테이블은 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

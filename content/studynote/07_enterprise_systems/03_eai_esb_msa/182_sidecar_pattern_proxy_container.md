@@ -2,9 +2,9 @@
 title: "182. Sidecar Pattern Proxy Container"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴 ([Sidecar](/studynote/04_software_engineering/11_testing_validation/938_sidecar_proxy_pattern/) Pattern)은 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 메인 애플리케이션 옆에 보조 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 함께 배치해, 로깅·보안·[프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)·[설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 같은 횡단 관심사를 코드 밖으로 분리하는 배포 패턴이다.

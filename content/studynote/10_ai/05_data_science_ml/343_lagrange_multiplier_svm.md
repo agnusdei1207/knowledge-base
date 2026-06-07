@@ -3,8 +3,8 @@ title: "Lagrange Multiplier"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 343
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [라그랑주 승수법](/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) ([Lagrange Multiplier](/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) Method) 은 제약 조건 하에서 목적 함수의 극값을 구하는 기법으로, 제약을 라그랑지안 (Lagrangian) 함수에 통합해 무제약 최적화로 변환한다.

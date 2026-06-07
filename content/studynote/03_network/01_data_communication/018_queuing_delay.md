@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 18
 ---
-
 # 18. 큐잉 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Queueing Delay) - 라우터 버퍼
 
 ## 핵심 인사이트 (3줄 요약)

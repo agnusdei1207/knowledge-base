@@ -3,8 +3,8 @@ title: "Spatial Locality"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 248
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공간적 지역성 (Spatial Locality)은 어떤 주소를 읽은 직후 그 <strong>주변 주소</strong>도 곧이어 읽힐 가능성이 높다는 메모리 접근의 통계적 성질이다.

@@ -2,9 +2,9 @@
 title: "138. Normal Distribution"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 138
 ---
-
 ## 핵심 인사이트
 
 > 정규 분포 (Normal Distribution) 는 자연·사회·측정 오차에서 가장 보편적으로 등장하는 분포로, 그 이유는 [CLT](/studynote/08_algorithm_stats/08_stats/139_clt/) (Central Limit Theorem) — 독립적인 많은 요인의 합은 정규로 수렴하기 때문이다.

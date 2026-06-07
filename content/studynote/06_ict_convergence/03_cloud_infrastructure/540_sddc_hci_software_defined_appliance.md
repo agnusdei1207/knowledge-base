@@ -3,8 +3,8 @@ title: "SDDC HCI Software-Defined Datacenter"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 540
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SDDC](/studynote/01_computer_architecture/15_advanced_topics/631_sddc/)([Software-Defined Data Center](/studynote/13_cloud_architecture/01_virtualization/023_sddc_software_defined_data_center/))는 컴퓨팅, 스토리지, 네트워킹 전체를 소프트웨어로 추상화하여 하드웨어 벤더 종속성을 제거하고 자동화된 운영을 실현한다.

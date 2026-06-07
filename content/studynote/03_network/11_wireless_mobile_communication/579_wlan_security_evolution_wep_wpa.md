@@ -3,8 +3,8 @@ title: "WEP -> WPA -> WPA2 -> WPA3"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 579
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무선 LAN 보안 진화는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

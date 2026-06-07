@@ -3,8 +3,8 @@ title: "ARM Neoverse"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 492
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 프로세서 (Cloud-Native Processor)는 단일 코어 최고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 [멀티테넌트](/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 밀도, 전력 대비 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 친화성에 맞춰 설계된 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)용 중앙처리장치 (CPU, Central Processing Unit) 아키텍처다.

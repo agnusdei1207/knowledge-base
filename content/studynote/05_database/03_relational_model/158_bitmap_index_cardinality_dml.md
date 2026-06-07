@@ -3,8 +3,8 @@ title: "158. Bitmap Index Cardinality Dml"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 158
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Bitmap [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 컬럼 값마다 행 존재 여부를 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 기록해, 저카디널리티 조건을 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산으로 합성하는 분석형 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다.

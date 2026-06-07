@@ -3,9 +3,8 @@ title: "806. EA (Enterprise Architecture)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 806
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EA의 핵심은 기업의 비즈니스, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 애플리케이션, 기술(인프라) 아키텍처를 체계적으로 통합한 청사진를 현장 의사결정에 연결하는 아키텍처 정렬 구조에 있다.

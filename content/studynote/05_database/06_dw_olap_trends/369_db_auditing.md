@@ -3,8 +3,8 @@ title: "369. Db Auditing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 369
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) (DB [Auditing](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 추적 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

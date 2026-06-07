@@ -3,8 +3,8 @@ title: "Boolean Expression & Circuit"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 28
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AND·OR·NOT은 디지털 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 3대 기본 연산이자 불 대수([Boolean Algebra](/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/))의 기본 연산자다. 이 세 연산의 조합으로 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 표현할 수 있으며, 이를 기능적 완전성(Functional Completeness)이라 한다.
 > 2. **가치**: AND·OR·NOT은 단순 게이트 이상의 의미가 있다. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) WHERE 절, 프로그래밍 조건문, [암호화 알고리즘](/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/), CPU 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 모두 이 세 연산의 조합으로 구현된다. 불 대수를 이해하면 디지털 시스템 전체를 이해할 수 있다.

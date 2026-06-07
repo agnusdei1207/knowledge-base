@@ -3,9 +3,8 @@ title: "321. IOP (I/O Processor / Channel)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 321
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IOP (Input/Output Processor) 또는 채널(Channel)은 입출력(Input/Output) 작업을 메인 CPU (Central Processing Unit) 대신 해석·지시·완료까지 담당하는 전용 처리기다.

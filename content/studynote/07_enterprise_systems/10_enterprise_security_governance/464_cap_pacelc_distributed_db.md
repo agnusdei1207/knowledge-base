@@ -2,9 +2,9 @@
 title: "CAP Theorem, PACELC, Eventual Consistency"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 464
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB [결과적 일관성](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB [결과적 일관성](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/), [CAP Theorem](/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/), PACELC의 경계를 분명히 만드는 데 의미가 있다.

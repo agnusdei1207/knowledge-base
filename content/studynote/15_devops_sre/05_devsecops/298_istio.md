@@ -3,8 +3,8 @@ title: "Istio"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) [Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 트래픽 보안 ([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))은 [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 관점에서 목표 상태, 실행 절차, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

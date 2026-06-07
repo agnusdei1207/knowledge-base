@@ -1,10 +1,11 @@
 ---
 title: "IaC, Infrastructure as Code"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인프라로서의 코드 ([IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))는 마우스 클릭과 터미널 수동 명령어로 서버를 세팅하던 방식을 버리고, 인프라의 상태와 구성을 텍스트 형태의 '소스 코드'로 선언하여 자동 구축하는 기술이다.

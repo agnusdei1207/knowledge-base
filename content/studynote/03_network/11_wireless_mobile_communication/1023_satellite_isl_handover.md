@@ -3,8 +3,8 @@ title: "Inter-Satellite Link"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1023
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [위성 통신](/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)와 ISL는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Federated Learning Privacy Preserving"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 655
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연합 학습(Federated Learning, FL)은 로컬 데이터가 클라이언트 디바이스를 떠나지 않은 채 모델 그래디언트(gradient)·로컬 파라미터만 공유하여 협업 학습을 수행하는 분산 학습 패러다임이며, 여기에 차등 프라이버시(Differential Privacy, DP), 보안 집계(Secure Aggregation, SecAgg), 동형 암호(Homomorphic Encryption, HE), 신뢰 실행 환경(Trusted Execution Environment, TEE)을 결합해 모델 자체로부터 원본 데이터를 역추론하려는 공격(모델 반전·멤버십 추론)을 수학적으로 차단하는 것이 프라이버시 보존 연합 학습의 본질이다.

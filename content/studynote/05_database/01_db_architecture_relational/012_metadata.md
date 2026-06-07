@@ -1,11 +1,11 @@
 ---
 title: "012. Metadata"
 date: "2024-05-18"
-description: "데이터베이스의 구조와 의미를 정의하는 핵심 요소, 메타데이터의 아키텍처와 데이터 거버넌스에서의 역할"
 tags:
   - "database"
+  - "studynote-database"
+weight: 12
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) about [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 구조, [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약조건 및 의미적 맥락을 정의하는 정보의 청사진이다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색 및 이해 시간을 단축하고(비용 절감), [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)와 규제 준수를 가능하게 하여 기업 자산으로서의 가치를 극대화한다.

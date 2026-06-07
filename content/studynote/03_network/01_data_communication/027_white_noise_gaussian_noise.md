@@ -3,8 +3,8 @@ title: "White Noise / Gaussian Noise"
 date: "2026-04-29"
 tags:
   - "studynote-network"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 백색 잡음(White Noise)은 모든 주파수 대역에서 균일한 전력 스펙트럼 밀도(PSD, [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Spectral Density)를 가지는 랜덤 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)이고, 가우스 잡음(Gaussian Noise, AWGN)은 진폭 분포가 [정규 분포](/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)(Gaussian Distribution)를 따르는 잡음이다. 실제 통신 채널 모델링에서는 두 특성을 합친 AWGN(Additive White Gaussian Noise)을 표준 잡음 모델로 사용한다.
 > 2. **가치**: AWGN 채널 모델은 이론적으로 [채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)([Shannon Capacity](/studynote/03_network/01_data_communication/021_샤논의_채널_용량/))을 계산하고 변조 방식·오류 정정 코드의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하는 기준이 된다. 섀넌 정리 `C = B·log₂(1 + SNR)`는 AWGN 채널 가정하에 도출된다.

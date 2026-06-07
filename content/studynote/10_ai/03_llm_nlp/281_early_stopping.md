@@ -3,8 +3,8 @@ title: "Early Stopping"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조기 종료(Early Stopping)는 훈련 손실([Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Loss)이 계속 감소하더라도 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) Loss)이 증가하기 시작하면 학습을 중단하여 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하는 가장 단순하면서도 효과적인 규제 기법이다.

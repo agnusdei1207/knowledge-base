@@ -3,8 +3,8 @@ title: "Relative Path"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 509
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수많은 폴더가 얽힌 트리(Tree) 구조 속에서 목적지([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 찾아갈 때, <strong>"무조건 우주의 시작점(Root <code>/</code>)부터 주소를 읊어 내려갈 것인가(절대 경로)"</strong>, 아니면 <strong>"지금 내가 서 있는 방(현재 <a href="/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> <code>.</code>)을 기준으로 옆방으로 꺾어 뛰어 갈 것인가(상대 경로)"</strong> 를 결정짓는 검색 위치 지정 문법의 두 축이다.

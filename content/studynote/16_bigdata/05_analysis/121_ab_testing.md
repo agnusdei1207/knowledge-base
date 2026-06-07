@@ -3,8 +3,8 @@ title: "121. Ab Testing"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: A/B 테스트 (A/B Testing)는 사용자를 무작위로 대조군 (Control, A)과 처리군 (Treatment, B)으로 배정하고, 통계적 유의성 ([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) < 0.05)과 충분한 표본 크기 (검정력 분석)를 통해 제품 변경의 효과를 인과적으로 측정하는 실험 방법론이다.
 > 2. **가치**: 구글·메타·넷플릭스는 매일 수천 건의 A/B 테스트를 동시 운영하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아닌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 결정을 내리게 한다. 직관·경험에 의존한 판단의 오류를 통제하고, 실패를 저비용으로 발견한다.

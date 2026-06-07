@@ -3,8 +3,8 @@ title: "Integrated Platform ering Master Map"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 400
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 차세대 통합 [플랫폼 엔지니어링](/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 클라우드, [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/), [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), FinOps를 따로 최적화하지 않고 하나의 제품형 플랫폼으로 묶어 조직의 전달 속도와 운영 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 함께 높이는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

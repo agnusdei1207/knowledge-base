@@ -1,10 +1,11 @@
 ---
 title: "Permutation and Combination"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 858
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순열은 순서를 고려한 경우의 수, 조합은 순서를 고려하지 않은 경우의 수다.

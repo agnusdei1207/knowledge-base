@@ -3,8 +3,8 @@ title: "434. Error Guessing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 434
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생할 만한 곳을 추정하여 테스트은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

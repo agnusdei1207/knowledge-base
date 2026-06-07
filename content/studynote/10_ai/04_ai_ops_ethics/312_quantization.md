@@ -3,8 +3,8 @@ title: "Quantization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))는 신경망 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 활성화값의 수치 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 FP32(32비트 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))에서 INT8(8비트 정수) 또는 INT4로 낮춰 모델 크기를 4배 축소하고 추론 속도를 높이는 모델 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기법이다.

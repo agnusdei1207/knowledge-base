@@ -3,8 +3,8 @@ title: "Process State"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로세스 상태([Process](/studynote/12_it_management/05_security_compliance/943_process/) [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 프로세스가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 종료까지 어떤 단계에 있는지 보여 준다.

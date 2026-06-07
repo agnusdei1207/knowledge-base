@@ -3,9 +3,8 @@ title: "341. SATA (Serial ATA)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 341
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SATA ([Serial](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) ATA)는 PATA (Parallel ATA)의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 배선 한계를 넘기 위해 등장한 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 기반 저장장치 인터페이스로, 저장장치를 1:1 링크로 단순하고 안정적으로 연결한다.

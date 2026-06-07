@@ -3,8 +3,8 @@ title: "TABU Search META Heuristic"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 405
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최적화 [휴리스틱 탐색](/studynote/10_ai/01_ai_basics/015_heuristic_search/) Tabu Search 금기 목록 로컬 미니마 탈출 (TABU Search META [Heuristic](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)): 1. **본질**: 타부 서치(Tabu Search)는 지역 최적해([Local Minima](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 갇히는 것을 막기 위해, 한 번 가봤거나 나쁜 결과를 냈던 길(경로)을 '금기 목록(Tabu…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

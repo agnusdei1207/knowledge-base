@@ -3,8 +3,8 @@ title: "LLC"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 744
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLC (Load-Line [Calibration](/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))는 [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 부하 증가 시 얼마나 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 떨어뜨릴지, 즉 로드 라인 (Load Line)의 기울기를 조정하는 기능으로, Vdroop과 Overshoot 사이의 균형을 바꾸는 전원 제어 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

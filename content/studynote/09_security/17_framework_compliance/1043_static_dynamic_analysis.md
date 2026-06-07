@@ -3,8 +3,8 @@ title: "SAST & DAST"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1043
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정적 분석과 [동적 분석](/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) ([SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) & [DAST](/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/))는 보안 확장 개념에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

@@ -3,8 +3,8 @@ title: ", Lazy Learning"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [K-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) ([K-Nearest Neighbors](/studynote/10_ai/03_llm_nlp/262_knn/))은 규칙을 학습하는 대신 원본 사례를 저장해 두고, 새 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오면 가장 가까운 이웃의 다수결로 답을 고르는 [lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) learning이다.

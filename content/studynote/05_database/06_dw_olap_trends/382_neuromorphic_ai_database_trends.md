@@ -3,8 +3,8 @@ title: "382. Neuromorphic Ai Database Trends"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 382
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뉴모픽(Neuromorphic) 인프라 연동형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 기술 동향는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 기법이다.

@@ -2,9 +2,9 @@
 title: "318. Sql Injection Defense"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 318
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SQL [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/) ([SQL Injection](/studynote/09_security/uncategorized/1036_sql_injection/))은 사용자 입력이 SQL [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 그대로 포함될 때, 악의적 입력으로 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 구조를 변조하여 DB를 무단 조회·변조·삭제하는 OWASP (Open Web Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/)) Top 10에 포함된 가장 치명적인 웹 취약점이다.

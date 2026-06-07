@@ -3,8 +3,8 @@ title: "578. Dac Discretionary Access Control"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 578
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DAC은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 <strong>소유자(Owner)</strong>가 자기 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 대한 접근 권한을 <strong>자유재량(Discretionary)</strong>에 따라 타인에게 부여하거나 회수할 수 있는 방식이다. Unix/Linux의 `chmod` 명령어가 대표적이다.

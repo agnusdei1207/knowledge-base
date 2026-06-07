@@ -1,10 +1,11 @@
 ---
 title: "071. Baas Blockchain As A Service"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BaaS는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 구축과 운영을 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 제공하는 모델이다.

@@ -3,8 +3,8 @@ title: "Druid, Pinot, ClickHouse, StarRocks"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 성장 (Druid, Pinot, ClickHouse, StarRocks)은 빅데이터 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.

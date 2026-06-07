@@ -3,8 +3,8 @@ title: "655. Cpu Cache Coherence Mesi Pingpong"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 655
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티코어 환경에서 각 코어는 자신만의 독립적인 L1/L2 캐시를 가진다. 여러 코어가 동일한 메모리 주소(예: [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) 변수)를 읽고 쓸 때 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엇갈리는 것을 막기 위해 하드웨어가 자동으로 상태를 맞추는 통신 규약이 <strong>MESI (<a href="/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>다.

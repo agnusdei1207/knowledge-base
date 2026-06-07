@@ -3,8 +3,8 @@ title: "172. Actor Critic"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 액터-크리틱 (Actor-Critic)은 행동을 직접 선택하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)망(Actor)과 그 선택의 가치를 평가하는 가치망(Critic)을 함께 학습시키는 강화학습 구조다.

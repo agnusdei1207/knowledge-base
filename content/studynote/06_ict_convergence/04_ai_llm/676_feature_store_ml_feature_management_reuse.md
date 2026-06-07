@@ -3,8 +3,8 @@ title: "Feature Store ML Feature Management Reuse"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 676
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 피처 스토어(Feature Store)는 ML 학습(Training)과 추론(Inference) 양쪽에서 동일한 피처 정의를 **Point-in-Time 일관성**과 **온라인/오프라인 이원화 저장(Online-Offline Parity)** 으로 재사용하기 위한 **중앙 집중형 ML 데이터 계층(ML Data Layer)** 으로, Feast, Tecton, Hopsworks, Databricks Feature Store, AWS SageMaker Feature Store, GCP Vertex AI Feature Store 같은 구현체가 특징 레지스트리(Feature Registry)·변환 엔진(Transformation Engine)·서빙 스토어(Serving Store)를 통합 제공한다.

@@ -3,8 +3,8 @@ title: "Event Bus / Publish-Subscribe Pattern"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [이벤트 버스](/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/)와 퍼블리시-서브스크라이브(Publish-Subscribe) 패턴은 발행자(Publisher)가 구독자(Subscriber)를 직접 알지 않고 이벤트 채널이나 브로커를 통해 알림을 전달하는 느슨한 결합의 구조다.

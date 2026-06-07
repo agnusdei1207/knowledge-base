@@ -3,9 +3,8 @@ title: "634. Graylog (Graylog)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 634
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Graylog는 보안 운영·포렌식에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

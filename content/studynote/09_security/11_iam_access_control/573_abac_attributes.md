@@ -3,8 +3,8 @@ title: "ABAC Attributes"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 573
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 종류 ([ABAC](/studynote/09_security/11_iam_access_control/572_abac/) [Attributes](/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))는 신원·접근 제어에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

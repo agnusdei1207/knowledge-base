@@ -3,8 +3,8 @@ title: "660. Kernel Crash Dump Kdump Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 660
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Kdump는 리눅스 시스템이 치명적인 오류([Kernel Panic](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/), [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/))로 뻗어버렸을 때, 당시 램(RAM)에 떠 있던 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 상태를 고스란히 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`vmcore`)로 추출하여 사후 원인 분석(Post-mortem Analysis)을 가능하게 해주는 장애 조사 메커니즘이다.

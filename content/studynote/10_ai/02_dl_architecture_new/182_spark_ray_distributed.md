@@ -3,8 +3,8 @@ title: "Apache Spark, Ray"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [아파치 스파크](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) ([Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/))와 레이 (Ray)는 한 대의 서버를 키우는 Scale-Up이 아니라, 여러 노드의 CPU (Central Processing Unit)·메모리·[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 묶어 하나의 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 처리 플랫폼처럼 쓰게 만드는 [Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 프레임워크다.

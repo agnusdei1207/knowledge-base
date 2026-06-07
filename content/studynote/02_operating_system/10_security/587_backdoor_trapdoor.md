@@ -3,8 +3,8 @@ title: "Trap Door / Backdoor"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 587
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)는 <strong>"정상 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 절차를 우회하는 숨겨진 접근 경로"</strong>이고, 트랩도어는 <strong>"개발자가 테스트 편의를 위해 의도적으로 삽입한 숨겨진 진입점"</strong>이다. 둘 다 정상적인 접근 통로를 사용하지 않고 시스템에 접근할 수 있게 한다.

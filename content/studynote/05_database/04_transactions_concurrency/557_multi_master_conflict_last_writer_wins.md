@@ -3,8 +3,8 @@ title: "557. Multi Master Conflict Last Writer Wins"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 557
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티 마스터 충돌 해결 라스트 라이트 윈(Last Writer Wins) 메커니즘는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.

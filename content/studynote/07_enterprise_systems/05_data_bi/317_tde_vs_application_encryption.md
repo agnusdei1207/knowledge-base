@@ -2,9 +2,9 @@
 title: "317. Tde Vs Application Encryption"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 317
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TDE](/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/) ([Transparent Data Encryption](/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/), 투명한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화)는 DB 엔진이 자동으로 디스크에 저장되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하는 방식이고, 애플리케이션 레벨 암호화 (Application-Level Encryption)는 애플리케이션이 DB에 저장하기 전 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 암호화하는 방식으로, 두 방식은 위협 모델과 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 범위가 다르다.

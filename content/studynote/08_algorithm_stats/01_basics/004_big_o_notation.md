@@ -1,11 +1,11 @@
 ---
 title: "4. O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 4
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: O(1)에서 O(n!)까지의 복잡도 등급은 입력 크기 N이 증가할 때 연산량이 어떤 속도로 증가하는지를 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 것으로, 복잡도가 낮을수록 더 큰규모적 문제도 효율적으로 해결할 수 있다.
 > 2. **가치**: 기술사 수준의 분석에서는 정확한 등급 판별과 각 등급에 해당하는 실제 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 예시를 빠르고 정확하게 연결할 수 있는 능력이 핵심이며, 이것은 시스템 아키텍트의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 역량의 기반이다.

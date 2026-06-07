@@ -3,8 +3,8 @@ title: "Ridge"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 373
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 릿지 회귀의 L2 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0에 가깝게 축소, 다중공선성 대처) (Ridge): 1. **본질**: 릿지(Ridge) 회귀는 수많은 변수들의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)($W$) '제곱'을 모두 더한 만큼 오차 함수에 페널티(L2 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 부과하여, 특정 변수가 혼자 튀지 못하게 둥글게…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

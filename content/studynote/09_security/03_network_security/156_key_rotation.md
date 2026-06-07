@@ -3,8 +3,8 @@ title: "Key Rotation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 키 순환 ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Rotation)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

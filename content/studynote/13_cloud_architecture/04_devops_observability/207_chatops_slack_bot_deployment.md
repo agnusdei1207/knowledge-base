@@ -3,8 +3,8 @@ title: "207. Chatops Slack Bot Deployment"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ChatOps는 Slack·MS Teams 같은 메신저 채널에서 봇 [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)로 서버 배포·장애 알람 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 스크립트 실행을 수행하여 협업과 운영을 단일 공간에서 처리하는 워크플로우 패턴이다.

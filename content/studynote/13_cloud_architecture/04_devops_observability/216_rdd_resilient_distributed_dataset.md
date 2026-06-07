@@ -3,9 +3,8 @@ title: "216. RDD (Resilient Distributed Dataset)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 216
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/)([Resilient Distributed Dataset](/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/))는 Spark의 핵심 추상화로, 클러스터 전체에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 '불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))' [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모음이며, 장애 시 계보(Lineage)를 역추적하여 잃어버린 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 자동으로 재계산하는 내결함성 메커니즘을 내장한다.

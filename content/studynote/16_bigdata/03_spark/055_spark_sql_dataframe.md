@@ -3,8 +3,8 @@ title: "055. Spark Sql Dataframe"
 date: "2026-04-14"
 tags:
   - "studynote-bigdata"
+weight: 55
 ---
-
 # [Spark SQL](/studynote/16_bigdata/03_spark/056_spark_sql/) & DataFrame - [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 처리 및 Catalyst 최적화
 
 > ⚠️ 이 문서는 RDD의 한계([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 부재, 최적화 어려움)를 극복하고 대규모 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)를 SQL과 DataFrame API로 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리하는 Spark SQL의 핵심 아키텍처, Catalyst [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/), 그리고 Tungsten 실행 엔진의 물리적 최적화 메커니즘을 기술사 수준에서 심층 분석합니다.

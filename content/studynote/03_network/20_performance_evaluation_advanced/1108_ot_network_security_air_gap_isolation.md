@@ -3,8 +3,8 @@ title: "1108. Ot Network Security Air Gap Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Instance Normalization vs Group Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 415
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인스턴스 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Instance [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), IN)와 그룹 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Group [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), GN)는 배치 전체가 아니라 <strong>샘플 내부 통계량</strong>으로 활성값을 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해, 작은 배치에서도 안정적인 학습을 가능하게 하는 기법이다.

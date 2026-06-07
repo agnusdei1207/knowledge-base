@@ -3,8 +3,8 @@ title: "391. Seven Principles Of Software Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 391
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 테스팅의 7가지 원리 ([결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견, 완벽한 테스트 불가능, 조기 테스트, [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 집중, [살충제 패러독스](/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/), 정황 의존, [오류 부재의 궤변](/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

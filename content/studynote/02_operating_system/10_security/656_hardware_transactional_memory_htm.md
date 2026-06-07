@@ -3,8 +3,8 @@ title: "Hardware Transactional Memory Htm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 656
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하드웨어 트랜잭셔널 메모리](/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/)([HTM](/studynote/01_computer_architecture/15_advanced_topics/513_htm/), 예: Intel TSX)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID) 개념을 CPU 캐시 하드웨어 레벨로 가져와, 멀티코어 환경에서 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 여러 변수를 원자적으로 수정하고 실패 시 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))해 주는 혁신적인 기술이다.

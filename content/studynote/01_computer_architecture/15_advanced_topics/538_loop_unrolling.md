@@ -3,8 +3,8 @@ title: "Loop Unrolling"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 538
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 루프 언롤링은 반복문 본문을 여러 번 펼쳐, 한 번의 분기와 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신으로 여러 iteration을 처리하게 만드는 코드 변환이다.

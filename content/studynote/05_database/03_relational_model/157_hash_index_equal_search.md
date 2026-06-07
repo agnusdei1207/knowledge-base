@@ -3,8 +3,8 @@ title: "157. Hash Index Equal Search"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 157
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 해시 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Hash [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 키 값을 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))로 버킷 주소로 바꿔, 원하는 행 위치에 거의 바로 접근하게 만드는 <strong>동등 비교 전용 <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>다.

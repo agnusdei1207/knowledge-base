@@ -3,8 +3,8 @@ title: "Service Discovery"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) 및 [분산 클라우드](/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 로드밸런싱 ([Service Discovery](/studynote/12_it_management/05_security_compliance/946_service_discovery/)): [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/studynote/12_it_management/05_security_compliance/946_service_discovery/)) 및 [분산 클라우드](/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 로드밸런싱를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

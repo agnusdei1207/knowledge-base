@@ -3,8 +3,8 @@ title: "Dropout Regularization"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 439
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) 임의 뉴런 차단 ([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) [Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)): 1. **본질**: [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))은 딥러닝 모델을 학습시킬 때, 은닉층(Hidden Layer)의 신경망 뉴런들을 무작위로 일정 비율(예: 50%) 꺼버려(차단) 남은 뉴런들만…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

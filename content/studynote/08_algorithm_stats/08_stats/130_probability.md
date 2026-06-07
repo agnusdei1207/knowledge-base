@@ -2,9 +2,9 @@
 title: "130. Probability"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 130
 ---
-
 ## 핵심 인사이트
 
 > 확률은 "불확실성을 수로 표현하는 언어"다. 고전/빈도/주관이라는 세 가지 관점은 같은 수식을 서로 다른 세계관으로 해석한다.

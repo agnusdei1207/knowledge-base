@@ -3,8 +3,8 @@ title: "Master-Slave Flip-Flop"
 date: "2026-05-01"
 tags:
   - "studynote-computer-architecture"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마스터-슬레이브 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 두 개의 래치를 직렬로 연결해 엣지 트리거처럼 동작하게 한 구조다.

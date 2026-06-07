@@ -1,10 +1,11 @@
 ---
 title: "006. Block Structure"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 6
 ---
-
 # 06. 블록의 구조
 
 ## 핵심 인사이트 (3줄 요약)

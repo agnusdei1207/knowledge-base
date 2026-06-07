@@ -1,10 +1,11 @@
 ---
 title: "Integrity Constraints"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 제약조건은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)과 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 강제하는 규칙이다.

@@ -3,8 +3,8 @@ title: "Diffusion Model"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 320
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디퓨전 모델](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/))은 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 점진적으로 가우시안 노이즈를 추가하는 <strong>순방향 과정(<a href="/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/studynote/12_it_management/05_security_compliance/943_process/">Process</a>)</strong>과, 노이즈 예측 신경망이 역방향으로 노이즈를 제거하며 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원하는 <strong>역방향 과정(Reverse <a href="/studynote/12_it_management/05_security_compliance/943_process/">Process</a>)</strong>으로 학습하는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.

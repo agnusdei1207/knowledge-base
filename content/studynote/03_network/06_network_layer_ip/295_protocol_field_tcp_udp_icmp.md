@@ -3,8 +3,8 @@ title: "295. Protocol Field Tcp Udp Icmp"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로토콜 필드는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

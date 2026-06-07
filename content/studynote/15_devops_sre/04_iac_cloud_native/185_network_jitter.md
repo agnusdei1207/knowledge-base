@@ -3,8 +3,8 @@ title: "185. Network Jitter"
 date: "2026-04-28"
 tags:
   - "studynote-devops-sre"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [네트워크 지터](/studynote/03_network/16_data_center_cloud/808_network_jitter_delay_variation_storage_sync/) (Network Jitter)는 패킷 왕복시간이 큰가보다 패킷 간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차가 얼마나 흔들리는가를 보는 지표이며, 패킷 손실과 함께 실사용 품질을 좌우한다.

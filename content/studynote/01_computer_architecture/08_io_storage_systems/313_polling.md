@@ -3,8 +3,8 @@ title: "Polling"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 313
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))은 CPU (Central Processing Unit)가 I/O (Input/Output) 장치의 상태 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 직접 반복 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해, "지금 전송해도 되는지"를 스스로 판단하는 제어 방식이다.

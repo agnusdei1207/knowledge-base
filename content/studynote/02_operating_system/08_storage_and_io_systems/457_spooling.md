@@ -3,8 +3,8 @@ title: "457. Spooling"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 457
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스풀링(Spooling)은 프린터처럼 '한 번에 한 프로세스만 써야 하는 독점 장치(Exclusive Device)'에 수십 개의 앱이 동시에 입출력을 요청할 때 생기는 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 대기를 막기 위해, <strong>디스크를 거대한 중간 버퍼(Spool)로 삼아 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 일단 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로 쏟아버리고 OS가 백그라운드에서 순서대로 처리하는 비동기 전송 기법</strong>이다.

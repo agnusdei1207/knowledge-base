@@ -3,8 +3,8 @@ title: "546. Tsn Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 546
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TSN ([Time-Sensitive Networking](/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) 하드웨어는 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card)에 정밀 시계 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 큐 게이트, 프레임 선점, 중복 전송 제어를 넣어 특정 트래픽의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 지터를 상한 안에 묶는 구조다.

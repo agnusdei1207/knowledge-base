@@ -3,8 +3,8 @@ title: "Intent Based Networking IBN Automation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 742
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 의도 기반 네트워킹(IBN)은 운영자가 원하는 비즈니스 의도를 정책으로 선언하면 시스템이 네트워크 설정, 검증, 모니터링, 보정을 자동 수행하는 폐루프 네트워크 운영 모델이다.

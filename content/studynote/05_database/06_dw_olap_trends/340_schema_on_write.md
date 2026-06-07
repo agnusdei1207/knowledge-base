@@ -3,8 +3,8 @@ title: "Schema-on-write"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 340
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스키마 온 라이트](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) ([Schema-on-write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))는 RDBMS의 입력 시점 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 초점을 둔 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)이다.

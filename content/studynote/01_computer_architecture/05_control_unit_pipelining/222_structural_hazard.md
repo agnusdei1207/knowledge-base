@@ -3,8 +3,8 @@ title: "Structural Hazard"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 구조적 해저드 (Structural Hazard)는 파이프라인의 여러 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 같은 시점에 같은 하드웨어 자원을 요구할 때, 자원 수가 부족해 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름이 멈추는 물리적 충돌이다.

@@ -3,8 +3,8 @@ title: "111. Micro Frontends Deployment"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [마이크로 프론트엔드](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)([Micro Frontends](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/))는 모놀리식 프론트엔드 앱을 <strong>비즈니스 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>별로 독립 개발·배포·운영 가능한 단위</strong>로 분해하여, 백엔드 MSA의 원칙을 프론트엔드에 적용한 아키텍처다.
 > 2. **가치**: 팀 A가 "검색" 마이크로 FE를, 팀 B가 "결제" 마이크로 FE를 <strong>서로 다른 릴리즈 주기·기술 <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>으로 독립 배포할 수 있어, 대규모 조직의 <strong>프론트엔드 배포 병목을 해소</strong>한다.

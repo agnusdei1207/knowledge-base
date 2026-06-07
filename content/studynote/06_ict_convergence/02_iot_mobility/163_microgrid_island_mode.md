@@ -3,8 +3,8 @@ title: "163. Microgrid Island Mode"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 163
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 마이크로그리드 (Microgrid)는 태양광, 연료전지, 디젤 발전기, 에너지 저장 시스템 ([ESS](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), [Energy Storage System](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)) 같은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 에너지 자원 (DER, Distributed Energy Resource)을 지역 단위로 묶어 자체 제어하는 소규모 전력망이다.

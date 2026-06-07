@@ -3,9 +3,8 @@ title: "404. QLoRA (Quantized LoRA)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 404
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: QLoRA (Quantized [LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))는 사전 학습된 거대 모델의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 4비트로 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))한 상태에서, 저차원 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))만을 학습시켜 메모리 사용량을 획기적으로 줄인 효율적 [미세 조정](/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) 기법이다.

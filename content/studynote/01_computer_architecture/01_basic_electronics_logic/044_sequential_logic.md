@@ -3,8 +3,8 @@ title: "044. Sequential Logic"
 date: "2026-04-05"
 tags:
   - "studynote-computer-architecture"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로(Sequential Logic Circuit)는 현재 입력과 <strong>이전 상태(메모리)</strong>에 따라 출력이 결정되는 회로로 — 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Combinational Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/))와 달리 피드백 루프와 기억 소자([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/), [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))를 포함하여 시간 의존성을 갖는다.
 > 2. 동기식 순서 회로([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Sequential Circuit)는 클록 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(CLK)에 맞춰 상태가 전환되므로 설계·분석이 명확하지만 — 클록 스큐([Clock Skew](/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))와 셋업/홀드 타임(Setup/Hold Time) 위반이 타이밍 오류의 주요 원인이다.

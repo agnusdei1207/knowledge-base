@@ -3,8 +3,8 @@ title: "PSA/PSP"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) PSA([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Admission)는 Pod를 Privileged·[Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/)·Restricted 세 보안 프로파일로 분류하여, 루트 실행·호스트 네트워크 접근 같은 위험 구성을 클러스터 레벨에서 강제로 차단하는 입장 통제 메커니즘이다.

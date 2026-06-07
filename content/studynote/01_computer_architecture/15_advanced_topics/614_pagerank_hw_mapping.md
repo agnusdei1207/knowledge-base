@@ -3,8 +3,8 @@ title: "614. Pagerank Hw Mapping"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 614
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페이지랭크 (PageRank) 하드웨어 맵핑은 반복적인 중요도 전파 계산을 희소 행렬-벡터 곱셈 파이프라인으로 바꾸어, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 흐름 자체를 하드웨어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 구현하는 것이다.

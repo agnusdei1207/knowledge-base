@@ -2,9 +2,9 @@
 title: "217. Logic Tree Framework"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로직 트리 (Logic Tree)는 하나의 핵심 질문을 [MECE](/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) (Mutually Exclusive, Collectively Exhaustive)하게 분해해, 복잡한 문제를 구조적으로 이해하고 설명하는 사고 프레임워크다.

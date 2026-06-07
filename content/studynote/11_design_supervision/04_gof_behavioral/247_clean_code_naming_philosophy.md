@@ -3,8 +3,8 @@ title: "Clean Code Self-Documenting Naming"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자가 설명 네이밍 (Self-Documenting Naming) 은 코드 자체가 문서가 되도록 변수·함수·클래스 이름을 의도(Why/What)를 드러내는 이름으로 짓는 [클린 코드](/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/) ([Clean Code](/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/)) 의 핵심 원칙이다.

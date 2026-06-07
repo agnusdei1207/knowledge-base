@@ -3,8 +3,8 @@ title: "651. Cia Triad Confidentiality Integrity Availability"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 651
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보보안 3대 요소 + [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "109. Multi Cluster Federation Karmada Cloud Bursting"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티 클러스터 연합([Federation](/studynote/09_security/11_iam_access_control/543_federation/))은 전 세계에 분산된 <strong>복수의 독립 K8s 클러스터를 단일 제어 평면(Control Plane)에서 통합 관리</strong>하여 단일 클러스터의 확장성 한계(5,000 노드)와 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하는 상위 아키텍처다.
 > 2. **가치**: 서울 클러스터 장애 시 0.1초 만에 도쿄 클러스터로 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 자동 복제하는 <strong>무결점 재해복구(<a href="/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a>)</strong>와, [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 포화 시 AWS로 트래픽을 넘기는 <strong>클라우드 버스팅(Cloud Bursting)</strong>을 실현한다.

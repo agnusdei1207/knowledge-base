@@ -2,9 +2,9 @@
 title: "274. Star Schema Fact Centric Radial Structure"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 274
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [스타 스키마](/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 엔터프라이즈 환경에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능한 자산으로 전환하기 위해 쓰이는 핵심 기준이며, 특히 [스타 스키마](/studynote/05_database/06_dw_olap_trends/334_star_schema/), [Star Schema](/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/), 조인 단순의 경계를 분명히 만드는 데 의미가 있다.

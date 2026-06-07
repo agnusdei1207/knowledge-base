@@ -3,8 +3,8 @@ title: "186. Ocsp Stapling Tls Handshake Optimization"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OCSP](/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) Stapling은 클라이언트가 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐기 여부를 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관 ([Certification Authority](/studynote/09_security/03_network_security/160_ca_certification_authority/), [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))에 직접 묻는 대신, 서버가 미리 받아 둔 서명된 상태 응답을 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 핸드셰이크에 함께 붙여 전달하는 최적화 기법이다.

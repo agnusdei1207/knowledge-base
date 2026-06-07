@@ -3,8 +3,8 @@ title: "214. Finance Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 금융 빅데이터는 <strong>신용·사기·<a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>·거래</strong> 4대 영역에서 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 의사결정을 자동화"하는 핵심 인프라다.

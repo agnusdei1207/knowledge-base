@@ -3,8 +3,8 @@ title: "Reinforcement Learning"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 161
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))은 정답 레이블 대신 보상 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 받으며, 에이전트 (Agent)가 환경 ([Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용해 누적 보상을 키우는 행동 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습하는 방법이다.

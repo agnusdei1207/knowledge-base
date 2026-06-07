@@ -3,8 +3,8 @@ title: "AMI Advanced Metering Smart Grid"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 586
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AMI 지능형 검침 스마트그리드은(는) 스마트미터와 양방향 통신망으로 전력 사용량, 수요반응, 과금, 장애 정보를 실시간 수집하는 전력 인프라이다.

@@ -3,8 +3,8 @@ title: "804. Drs Storage Mirroring"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 804
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [재해 복구 시스템](/studynote/12_it_management/05_security_compliance/175_drs_bcp_strategy/) (DRS, Disaster [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) System) 스토리지 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 주 센터의 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원격 센터에 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해, 건물 단위 재난에서도 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재개의 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 남기는 기술이다.

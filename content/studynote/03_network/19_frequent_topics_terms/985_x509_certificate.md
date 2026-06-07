@@ -3,8 +3,8 @@ title: "985. X509 Certificate"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 985
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

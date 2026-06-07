@@ -3,8 +3,8 @@ title: "RAID 4 Dedicated Parity"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 486
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 블록 단위로 여러 디스크에 쪼개어 쓰는 [스트라이핑](/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/)(Striping) 기법을 사용하면서, 오직 1대의 전담 디스크(Dedicated Parity Disk)에만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하기 위한 패리티(Parity) 비트를 몰아서 저장하는 스토리지 아키텍처다.

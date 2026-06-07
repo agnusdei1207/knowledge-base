@@ -3,8 +3,8 @@ title: "103. Helm Kubernetes Package Manager Chart Template"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [헬름](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/))은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 환경에서 수많은 YAML [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 하나의 패키지로 묶어 관리하는 공식 패키지 매니저다.

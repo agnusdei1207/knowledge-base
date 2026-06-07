@@ -3,8 +3,8 @@ title: "049. Service Catalog"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)([Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/))는 IT 조직이 제공하는 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 표준화·가시화하여 비즈니스 사용자가 셀프서비스로 요청할 수 있게 하는 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리의 핵심 인터페이스 — [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) v4에서 [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)는 "비즈니스가 알아야 할 것"만 담은 고객 대면 뷰이다.
 > 2. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) vs [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오의 구분이 핵심 — [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 관점의 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(기획 중·운영 중·폐기 중)를 포함하는 반면, [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 현재 운영 중이며 고객이 요청 가능한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 포함한다.

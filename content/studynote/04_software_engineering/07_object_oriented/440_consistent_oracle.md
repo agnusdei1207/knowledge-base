@@ -3,8 +3,8 @@ title: "440. Consistent Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 440
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 오라클 (Consistent [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) - 변경 전/후의 결과가 동일한지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/)에 유용)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

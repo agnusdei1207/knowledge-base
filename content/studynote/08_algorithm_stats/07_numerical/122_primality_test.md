@@ -3,8 +3,8 @@ title: "122. Primality Test"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 122
 ---
-
 > **핵심 인사이트**
 > 1. 소수 판별(Primality Test)의 기본 최적화는 √N까지만 나눗셈을 시도하는 것 — N이 합성수라면 N=a×b에서 min(a,b) ≤ √N이 항상 성립하므로, √N 이하의 약수가 없으면 소수다.
 > 2. 밀러-라빈 테스트(Miller-Rabin Test)는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 소수 판별의 표준 — O(k log^N)의 빠른 복잡도로 대용량 수(256~4096 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))의 소수 여부를 검사하며, k번 반복으로 2^(-2k)의 오류 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 달성한다.

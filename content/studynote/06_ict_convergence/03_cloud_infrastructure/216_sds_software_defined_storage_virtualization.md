@@ -3,9 +3,8 @@ title: "216. SDS (Software Defined Storage)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 216
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SDS](/studynote/01_computer_architecture/15_advanced_topics/632_sds/) ([Software Defined Storage](/studynote/01_computer_architecture/15_advanced_topics/632_sds/)): 범용 x86 서버에 소프트웨어를 탑재하여 스토리지 기능([프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/), [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) 구현 (Ceph 등)를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

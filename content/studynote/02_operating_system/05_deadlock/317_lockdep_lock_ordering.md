@@ -3,8 +3,8 @@ title: "Lockdep in Linux"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 317
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로그래머들이 "[자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 순서를 통일([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) [Ordering](/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))" 시키라는 데드락 예방 규칙을 사람의 머리로 100% 지키기란 불가능하므로, 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 부팅될 때 <strong>모든 락이 어떤 순서로 획득되는지를 추적하는 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>를 실시간(Dynamic)으로 그려내며 감시하는 내장 파수꾼 시스템 <code>Lockdep (Lock Dependency Validator)</code></strong>이다.

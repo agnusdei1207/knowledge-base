@@ -3,8 +3,8 @@ title: "Slow Start"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 970
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [슬로우 스타트](/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

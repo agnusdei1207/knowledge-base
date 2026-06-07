@@ -3,8 +3,8 @@ title: "GraphRAG"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 530
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GraphRAG는 전통적인 벡터 검색(Vector Search)의 한계인 '전체적 맥락 파악 미흡'을 해결하기 위해 [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))를 결합한 차세대 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기술이다.

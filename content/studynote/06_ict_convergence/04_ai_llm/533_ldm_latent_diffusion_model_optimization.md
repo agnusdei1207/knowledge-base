@@ -3,8 +3,8 @@ title: "LDM Latent Diffusion Model Generation Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 533
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LDM](/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/)([Latent Diffusion Model](/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/))은 픽셀 공간이 아닌 [VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 잠재 공간(Latent Space)에서 디퓨전(확산/역확산) 과정을 수행해 고해상도 이미지 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용을 획기적으로 낮춘다.

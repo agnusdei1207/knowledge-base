@@ -3,8 +3,8 @@ title: "MSA API Gateway Service Mesh"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 505
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/))에서 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 외부 접점을 단일화하고, [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Service Mesh](/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 내부 통신을 안전하고 관찰 가능하게 만드는 두 개의 독립적인 역할이다.

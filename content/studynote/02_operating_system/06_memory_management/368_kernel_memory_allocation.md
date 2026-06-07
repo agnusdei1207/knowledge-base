@@ -3,8 +3,8 @@ title: "kmalloc, vmalloc"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 368
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리눅스 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 일반 사용자 프로그램이 아닌, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 자신이 내부적으로 쓸 메모리를 할당받기 위해 <strong>kmalloc(물리적 연속 보장)</strong>과 <strong>vmalloc(<a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 연속만 보장)</strong>이라는 두 가지 투트랙 API를 제공한다.

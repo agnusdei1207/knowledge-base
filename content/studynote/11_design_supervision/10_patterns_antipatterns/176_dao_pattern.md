@@ -3,8 +3,8 @@ title: "Data Access Object Pattern"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 패턴 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Access Object Pattern)은 비즈니스 로직이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 방식의 세부사항을 모르도록, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 코드를 별도 객체와 인터페이스 뒤로 분리하는 계층화 패턴이다.

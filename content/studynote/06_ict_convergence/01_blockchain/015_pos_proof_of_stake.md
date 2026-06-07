@@ -1,11 +1,11 @@
 ---
 title: "015. Pos Proof Of Stake"
 date: "2024-05-18"
-description: "보유 지분(Coin)에 비례해 블록 생성 권한 부여 (이더리움 2.0)"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
+weight: 15
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 막대한 컴퓨팅 파워(전기)를 소모하는 무의미한 해시 경쟁을 폐기하고, 네트워크 내에 예치한 암호화폐 지분(Stake)의 크기와 기간에 비례하여 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 권한을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 위임받는 합의 알고리즘입니다.
 > 2. **가치**: PoW 대비 에너지 소비를 99% 이상 획기적으로 감축하여 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 최대 약점인 친환경(ESG) 딜레마를 해결하고, 슬래싱(Slashing) 페널티를 도입해 공격의 경제적 비용을 극대화했습니다.

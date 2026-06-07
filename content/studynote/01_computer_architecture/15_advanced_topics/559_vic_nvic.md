@@ -3,8 +3,8 @@ title: "VIC: Vectored Interrupt Controller, NVIC: Nested Vectored Interrupt Cont
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 559
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터형 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생했을 때 CPU가 원인을 다시 소프트웨어로 탐색하지 않도록, 우선순위가 가장 높은 요청을 고르고 곧바로 해당 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴 주소로 연결해 주는 하드웨어 디스패처다.

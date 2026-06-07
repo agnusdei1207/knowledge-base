@@ -3,9 +3,8 @@ title: "561. FIDO2 / WebAuthn (FIDO2 / WebAuthn)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 561
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FIDO2 / WebAuthn는 신원·접근 제어에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

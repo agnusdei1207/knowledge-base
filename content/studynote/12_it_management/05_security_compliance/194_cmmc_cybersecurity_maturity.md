@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 194
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMMC (Cybersecurity Maturity Model Certification)의 본질은 미국 국방부 사이버보안 성숙도 인증 모델 (방산 공급망 보안)를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.
 > 2. **가치**: 자산, 위협, 보호 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

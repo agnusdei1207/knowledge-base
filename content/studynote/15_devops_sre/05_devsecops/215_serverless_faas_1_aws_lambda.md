@@ -3,8 +3,8 @@ title: "215. Serverless Faas 1 Aws Lambda"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인프라 관리 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 높이고 이벤트 기반으로 함수 단위를 실행하는 컴퓨팅 모델.

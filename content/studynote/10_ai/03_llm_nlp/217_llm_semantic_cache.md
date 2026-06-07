@@ -3,8 +3,8 @@ title: "217. Llm Semantic Cache"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시맨틱 캐시](/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) ([Semantic Cache](/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)) 인프라는 수백만 명이 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에 던지는 질문을 실시간으로 가로채어, "어? 이 질문은 아까 다른 사람이 물어봤던 거랑 겉모습(글자)은 달라도 <strong>'의미(Semantic)'가 99% 똑같네? 그럼 비싼 <a href="/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>(<a href="/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4) 안 깨우고 아까 저장해 둔 답변을 그냥 1초 만에 던져줄게!"</strong>라고 막아주는 똑똑한 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 방패막이다.

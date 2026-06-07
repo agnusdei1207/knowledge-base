@@ -3,8 +3,8 @@ title: "Data Voucher Program"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 246
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 사업은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매·가공·결합 비용을 정부가 일부 지원해 중소기업·스타트업의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 높이는 한국 산업통상자원부·과기부 주관 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 사업이다.
 > 2. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 바우처·빅데이터 플랫폼·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)댐 사업과 연계된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계 진흥 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 기업(셀러)과 수요 기업(바이어)을 매칭하는 B2B [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 플랫폼을 지원한다.

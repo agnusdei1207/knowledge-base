@@ -3,8 +3,8 @@ title: "Metaverse Virtual World Economy Interaction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 593
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메타버스 가상세계 경제 상호작용은(는) 아바타, 3D 공간, 디지털 자산, 소셜 상호작용, 경제 시스템을 결합한 지속형 가상 환경이다.

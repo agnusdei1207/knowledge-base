@@ -1,12 +1,10 @@
 ---
-weight: 293
 title: "293. 구성 편류 방지 불변 인프라 (Architecture)"
-date: "2026-05-08"
-categories: "studynote-devops-sre"
 date: "2026-06-07"
+tags:
+  - "studynote-devops-sre"
+weight: 293
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 구성 편류 방지 불변 인프라 (Architecture)는 security 관점에서 목표 상태, 실행 절차, 검증 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

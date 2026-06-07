@@ -3,8 +3,8 @@ title: "Audio MEL Spectrogram"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 207
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오디오 딥러닝은 마이크로 들어온 구불구불한 1차원 소리 파동(음파)을 그대로 딥러닝에 쑤셔 넣지 않고, 주파수와 시간의 흐름을 2차원 열화상 사진처럼 번역해 내는 <strong>'멜 스펙트로그램 (Mel-Spectrogram)'</strong>으로 변환시킨 뒤 이미지 처리 천재인 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(이나 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))에게 넘겨주는 수학적 통역 아키텍처다.

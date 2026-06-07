@@ -3,8 +3,8 @@ title: "886. Isp Environmental Analysis Pest 5Forces"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 886
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 기법은 [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/), Information [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)이나 신규 사업 추진 시, 기업을 둘러싼 외부 환경의 거시적 흐름부터 산업 내 경쟁, 그리고 내부의 핵심 역량까지 입체적으로 진단하는 경영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크다.

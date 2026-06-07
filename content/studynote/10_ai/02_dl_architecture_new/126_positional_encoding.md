@@ -3,8 +3,8 @@ title: "126. Positional Encoding"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Positional Encoding은 <strong>Self-Attention이 순서를 모르는 한계를 보완</strong>하기 위해 각 토큰의 위치 정보를 <strong>sin/cos 함수 또는 학습 벡터</strong>로 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더하는 기법이다.
 > 2. **가치**: "I love you" vs "You love I"는 Self-Attention만으로는 동일하게 처리되지만, Positional Encoding이 <strong>1번 위치·2번 위치·3번 위치를 구분</strong>하여 어순의 의미를 보존한다.

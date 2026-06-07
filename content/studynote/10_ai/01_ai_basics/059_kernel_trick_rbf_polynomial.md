@@ -3,8 +3,8 @@ title: "RBF, Polynomial"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트릭([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Trick)은 비선형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원 특징 공간으로 직접 옮기지 않고도 내적 결과만 바꿔 분리 경계를 만드는 기법이다.

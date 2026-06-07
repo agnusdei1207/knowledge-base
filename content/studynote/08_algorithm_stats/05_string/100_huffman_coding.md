@@ -2,9 +2,9 @@
 title: "100. Huffman Coding"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 허프만 코딩 (Huffman Coding)은 빈도가 높은 기호에 짧은 코드, 낮은 기호에 긴 코드를 부여하는 그리디 기반 가변 길이 접두사 코드 (Prefix-free [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로, 섀넌 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)에 근접하는 최적 무손실 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 달성한다.

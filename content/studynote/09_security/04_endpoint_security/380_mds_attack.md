@@ -3,9 +3,8 @@ title: "380. MDS (Microarchitectural Data Sampling)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 380
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MDS](/studynote/01_computer_architecture/15_advanced_topics/764_mds/) (Microarchitectural [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

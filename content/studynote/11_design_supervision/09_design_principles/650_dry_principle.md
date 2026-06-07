@@ -3,8 +3,8 @@ title: "650. Dry Principle"
 date: "2026-03-05"
 tags:
   - "studynote-design-supervision"
+weight: 650
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DRY (Don't Repeat Yourself)는 특정 지식이나 비즈니스 규칙이 시스템 내에서 단일하고 모호하지 않으며 권위 있는 유일한 표현인 SSOT (Single Source of Truth)를 가져야 한다는 설계 원칙이다.
 > 2. **가치**: 중복된 지식을 제거함으로써, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 시 여러 곳을 동시에 수정해야 하는 산탄총 수술(Shotgun Surgery)을 방지하고 유지보수성을 극대화한다.

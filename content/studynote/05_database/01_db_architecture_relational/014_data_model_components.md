@@ -1,11 +1,11 @@
 ---
 title: "Constraint"
 date: "2024-05-18"
-description: "현실 세계를 데이터베이스로 추상화하기 위한 필수 3요소인 정적 구조, 동적 연산, 무결성 제약조건"
 tags:
   - "database"
+  - "studynote-database"
+weight: 14
 ---
-
 # 14. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Model) 구성 요소 - 구조, 연산, 제약조건
 
 #### 핵심 인사이트 (3줄 요약)

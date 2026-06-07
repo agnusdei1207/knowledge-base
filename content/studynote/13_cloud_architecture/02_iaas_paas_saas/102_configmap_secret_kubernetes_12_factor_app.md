@@ -3,8 +3,8 @@ title: "102. Configmap Secret Kubernetes 12 Factor App"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컨피그맵 (ConfigMap)과 [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) ([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 애플리케이션의 소스코드 및 이미지와 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 데이터를 물리적으로 분리하여 주입하는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리 객체다.
 > 2. **가치**: 12-Factor App의 "[설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 코드 분리" 원칙을 실현하여, 하나의 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 여러 환경(개발, 스테이징, 운영)에서 재빌드 없이 재사용할 수 있는 불변성 (Immutability)을 보장한다.

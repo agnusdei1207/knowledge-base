@@ -3,8 +3,8 @@ title: "580. Webassembly Wasm Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 580
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [웹어셈블리](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WebAssembly](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), [WASM](/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) 아키텍처 - 브라우저 내 고성능 네이티브 코드 실행은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

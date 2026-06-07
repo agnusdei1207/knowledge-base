@@ -3,9 +3,8 @@ title: "439. BBR (Bottleneck Bandwidth and Round-trip propagation time)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 439
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BBR는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

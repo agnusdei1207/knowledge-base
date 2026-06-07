@@ -1,10 +1,11 @@
 ---
 title: "005. Genesis Block"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 5
 ---
-
 # 05. 제네시스 블록 (Genesis Block)
 
 ## 핵심 인사이트 (3줄 요약)

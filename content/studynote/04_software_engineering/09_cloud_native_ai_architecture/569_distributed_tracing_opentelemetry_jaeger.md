@@ -3,8 +3,8 @@ title: "OpenTelemetry, Jaeger, Zipkin"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 569
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 추적 (Distributed [Tracing](/studynote/04_software_engineering/uncategorized/657_observability/)) - [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경로 추적 ([OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/), Jaeger, Zipkin)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

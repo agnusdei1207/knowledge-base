@@ -2,9 +2,9 @@
 title: "151. Entropy"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 섀넌 엔트로피 H(X)는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)변수 X의 *평균 불확실성* — 결과를 모를 때 평균적으로 몇 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 필요한지를 정량화한다.

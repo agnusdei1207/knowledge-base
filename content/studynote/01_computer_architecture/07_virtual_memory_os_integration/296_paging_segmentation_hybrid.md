@@ -3,8 +3,8 @@ title: "Paging-Segmentation Hybrid"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 296
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)과 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 혼용 ([Paging](/studynote/02_operating_system/04_synchronization/259_paging/)-[Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/) Hybrid)은 프로그램을 코드·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 같은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위로 먼저 나누고, 각 단위를 다시 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 쪼개어 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)의 직관성과 배치 효율을 함께 얻는 절충 구조다.

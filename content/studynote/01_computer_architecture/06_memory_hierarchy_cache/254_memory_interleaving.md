@@ -3,8 +3,8 @@ title: "Memory Interleaving"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 254
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 인터리빙 (Memory Interleaving)은 연속된 주소를 여러 메모리 뱅크 (Bank)나 채널 (Channel)에 교차 배치해, 한 곳이 준비 중일 때 다른 곳에서 다음 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내게 만드는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 전략이다.

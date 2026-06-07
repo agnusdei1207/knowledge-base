@@ -3,8 +3,8 @@ title: "Differential Privacy"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 396
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 차분 프라이버시 ([Differential Privacy](/studynote/09_security/16_data_privacy/817_differential_privacy/), DP)는 개인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나의 포함 여부가 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 출력에 미치는 영향을 수학적으로 제한하며, ε (엡실론)이 작을수록 더 강한 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 의미한다.

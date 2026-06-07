@@ -1,7 +1,6 @@
 ---
 title: "CISO & CDO Independence"
 date: "2025-01-01"
-description: "CISO와 CDO의 역할 정의, 조직 내 독립성 요건, CIO와의 관계, 거버넌스 구조를 다룬다."
 tags:
   - "C-suite"
   - "CDO"
@@ -11,9 +10,9 @@ tags:
   - "data governance"
   - "independence"
   - "information security"
-  - "studynote-it-mgmt"
+  - "studynote-it-management"
+weight: 841
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)(Chief Information [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Officer)는 정보보안 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 위험 관리 총괄 임원으로, CIO나 CTO의 하위 보고 라인에서 독립된 구조일 때 실효성이 높다.
 > 2. [CDO](/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/)([Chief Data Officer](/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스·품질 책임자로, [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 가속화에 따라 독립적 C-suite 직책으로 급부상했다.

@@ -3,8 +3,8 @@ title: "API Gateway"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))는 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 외부 클라이언트의 모든 요청이 통과하는 단일 진입점(single entry point)으로, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 로드밸런싱, 속도 제한, [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환 등 공통 관심사(cross-cutting concerns)를 중앙에서 처리한다.

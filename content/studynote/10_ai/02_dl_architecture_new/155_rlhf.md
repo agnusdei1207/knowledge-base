@@ -3,8 +3,8 @@ title: "155. Rlhf"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))는 언어 모델이 출력한 여러 개의 답변 중 인간이 직접 더 윤리적이고, 도움이 되며, 정확한 답변에 높은 점수(순위)를 매겨, 모델이 스스로 인간의 가치관(Preferences)에 맞게 행동을 교정하도록 훈련시키는 강화학습 기법이다.

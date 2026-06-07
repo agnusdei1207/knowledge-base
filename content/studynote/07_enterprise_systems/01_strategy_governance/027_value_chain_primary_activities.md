@@ -3,8 +3,8 @@ title: "Value Chain Primary Activities"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마이클 포터(Michael Porter)의 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석에서 본원적 활동(Primary Activities)은 제품·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 물리적 생산, 판매, 배송, 사후 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 직접 관여하는 5가지 활동(내부 물류·운영·외부 물류·마케팅·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))으로 구성된다.
 > 2. **가치**: 각 본원적 활동에서 비용 우위 또는 차별화를 달성하는 것이 경쟁 우위의 원천이다. 5가지 활동 중 어느 단계에서 경쟁자보다 더 잘하거나 더 싸게 할 수 있는가가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 핵심이다.

@@ -3,8 +3,8 @@ title: "Smart Government Digital Public Innovation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 771
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 종이·대면·부서별 칸막이 행정에서 클라우드·데이터·AI·블록체인 기반 **공공데이터 개방형 플랫폼(Open Data Platform) + 정부서비스버스(GSB, Government Service Bus) + AI 시민비서**로 전환하는 **정부 아키텍처(E-Government Reference Architecture) 패러다임 전환**

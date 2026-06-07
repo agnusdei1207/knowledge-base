@@ -1,10 +1,11 @@
 ---
 title: "100. Normalization Decomposition"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))는 하나의 거대한 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)([Relation](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))을 의미 있는 [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency)에 따라 여러 개의 작은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 [무손실 분해](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) ([Lossless-Join Decomposition](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/))하는 과정이다.

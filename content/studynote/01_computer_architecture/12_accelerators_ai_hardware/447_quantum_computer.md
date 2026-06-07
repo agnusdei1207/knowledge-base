@@ -3,8 +3,8 @@ title: "447. Quantum Computer"
 date: "2026-03-28"
 tags:
   - "studynote-computer-architecture"
+weight: 447
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자 컴퓨터 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Computer)는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 값을 더 빨리 뒤집는 장치가 아니라, [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))가 만드는 중첩 ([Superposition](/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))·얽힘 ([Entanglement](/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/))·간섭 (Interference)을 이용해 문제 공간을 다른 방식으로 탐색하는 계산 모델이다.

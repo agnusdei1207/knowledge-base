@@ -3,8 +3,8 @@ title: "Data Governance Policy Quality Management"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 671
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DAMA-DMBOK 및 ISO 38505 기반의 데이터 거버넌스 정책 품질 관리 체계는 데이터 자산에 대한 의사결정 권한(Ownership), 책임(Stewardship), 통제(Control)를 메타데이터 카탈로그·데이터 리니지·품질 측정 KPI의 3축으로 자동화·표준화하여 정책 준수율을 객관적 수치로 입증하는 엔터프라이즈 운영 프레임워크이다.

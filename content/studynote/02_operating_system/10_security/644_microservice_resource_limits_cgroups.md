@@ -3,8 +3,8 @@ title: "Pod / Container"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 644
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 같은 [컨테이너 오케스트레이션](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경에서 노드의 물리적 한계를 초과하여 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들을 배치(오버커밋)하기 위해, 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><a href="/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> (<a href="/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/">Control Groups</a>)</strong>를 조작하여 CPU와 메모리를 정밀하게 통제한다.

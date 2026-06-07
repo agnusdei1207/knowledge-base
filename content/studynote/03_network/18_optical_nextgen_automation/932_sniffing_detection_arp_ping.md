@@ -3,8 +3,8 @@ title: "ARP , , Promiscuous"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 932
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해커가 네트워크 패킷을 몰래 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(Sniffing)하려면, 랜카드([NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))를 자신에게 오지 않은 패킷까지 전부 빨아들이는 <strong>'난잡 모드(Promiscuous Mode)'</strong>로 강제 전환해야만 한다.

@@ -1,10 +1,11 @@
 ---
 title: "062. Relation Attribute Degree"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))은 릴레이션의 열(Column)이며, 개체의 특징을 나타내는 가장 작은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위다.

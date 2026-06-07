@@ -3,8 +3,8 @@ title: "Single Table Inheritance, STI"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 237
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: STI (Single Table Inheritance, 싱글 테이블 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 는 클래스 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층 전체를 단일 DB ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 테이블로 평탄화(Flatten) 하고, `DTYPE` 구분자 컬럼으로 각 행이 어떤 하위 클래스인지 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.

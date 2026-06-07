@@ -1,10 +1,11 @@
 ---
 title: "PoW , BFT"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Finality(합의 완결성)는 한 번 확정된 거래나 블록이 뒤집히지 않는다는 보장 정도를 뜻한다.

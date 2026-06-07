@@ -3,8 +3,8 @@ title: "150. Sql Set Operators Union Intersect Minus"
 date: "2026-05-03"
 tags:
   - "studynote-database"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 집합 연산자(Set [Operator](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))는 2개 이상의 독립적인 `SELECT` [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과물(Result Set)들을 위아래로 이어 붙여 <strong>합집합(UNION), 교집합(INTERSECT), 차집합(MINUS/EXCEPT)</strong>이라는 수학적 벤 다이어그램 형태의 1개의 거대한 테이블 덩어리로 뽑아내는 뼈대 연산자다.
 > 2. **가치**: 서로 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/))할 연결 고리(PK/FK)가 아예 없는 남남인 두 테이블(예: 작년 은퇴한 사원 테이블과 올해 신입 사원 테이블)의 명단을 한 화면에 세로로 쭉 이어서 통합 대시보드로 뽑아내야 할 때 유일무이한 구원 투수 역할을 한다.

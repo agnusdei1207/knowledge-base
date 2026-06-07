@@ -3,8 +3,8 @@ title: "Web Compatibility and ActiveX Removal Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 263
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 웹 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 ActiveX 제거 감리는 웹 표준(Web Standards)과 액티브엑스(ActiveX) 제거 전환 체계에서 브라우저 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Browser [Compatibility](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)), 표준 대체 아키텍처(Standards Based Replacement), 사용자 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)([Accessibility](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

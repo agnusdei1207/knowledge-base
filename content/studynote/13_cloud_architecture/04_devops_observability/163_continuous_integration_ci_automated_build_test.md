@@ -2,9 +2,9 @@
 title: "CI, Continuous Integration"
 date: "2025-05-14"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. <strong>코드 품질의 실시간 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발자가 코드를 공유 저장소(Git)에 머지할 때마다 자동 빌드와 테스트를 수행하여 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 즉시 발견함.
 2. <strong><a href="/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 및 충돌 방지</strong>: 작게 자주 코드를 통합하여, 대규모 코드 병합 시 발생하는 '머지 지옥(Merge Hell)' 리스크를 사전에 차단함.

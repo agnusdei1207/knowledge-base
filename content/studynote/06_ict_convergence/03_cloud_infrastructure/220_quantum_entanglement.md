@@ -3,8 +3,8 @@ title: "Entanglement"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자 얽힘 (Entanglement): 두 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)가 서로 멀리 떨어져 있어도 하나의 상태가 변하면 다른 하나도 즉시 결정되는 성질를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

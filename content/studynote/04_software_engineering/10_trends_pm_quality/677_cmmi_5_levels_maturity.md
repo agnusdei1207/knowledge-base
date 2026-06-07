@@ -3,8 +3,8 @@ title: "677. Cmmi 5 Levels Maturity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 677
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 성숙도 5단계 ([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)-관리-정의-정량-최적)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

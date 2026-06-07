@@ -3,8 +3,8 @@ title: "242. Switching Method Cut Through"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컷스루 (Cut-through) 스위칭은 들어오는 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 끝까지 다 받기도 전에, 프레임 맨 앞의 <strong>목적지 <a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소(앞 6바이트)만 딱 읽고 곧바로 포워딩을 시작하는 <a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 전송 방식</strong>이다.

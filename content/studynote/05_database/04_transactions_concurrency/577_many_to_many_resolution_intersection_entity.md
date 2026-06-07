@@ -3,8 +3,8 @@ title: "577. Many To Many Resolution Intersection Entity"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 577
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 해소 교차 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) (Intersection Entity / [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) Table) 분해는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링·정합성 관점에서 자주 쓰이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 개념이다.

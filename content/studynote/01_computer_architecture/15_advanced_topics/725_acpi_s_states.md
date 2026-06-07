@@ -3,9 +3,8 @@ title: "725. ACPI S-States (S0 ~ S5)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 725
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) S-States는 CPU 하나가 아니라 메모리, 저장장치, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 입출력 장치를 포함한 시스템 전체의 전원 수준을 정의하는 글로벌 상태 체계다.

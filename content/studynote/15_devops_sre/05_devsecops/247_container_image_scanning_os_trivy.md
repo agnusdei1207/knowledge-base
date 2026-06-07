@@ -3,8 +3,8 @@ title: "Container Image Scanning"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이미지 레이어와 OS 패키지, [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 스캔해 취약점을 찾는 보안 통제.

@@ -3,8 +3,8 @@ title: "115. Tsp Np"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 115
 ---
-
 > **핵심 인사이트**
 > 1. [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)(Traveling Salesman Problem)는 모든 도시를 [정확히 한 번](/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 방문하고 출발점으로 돌아오는 최단 경로를 찾는 문제로 — 결정 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(경로 길이 k 이하의 해밀톤 순환 존재하는가?)은 NP-완전이고, 최적화 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 NP-하드이다.
 > 2. TSP는 물류 배송 경로 최적화, [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 드릴링 순서, PCB 부품 배치 등 현실 문제의 "이상화"로 — 정확한 최적해는 지수 시간이 필요하지만, Christofides [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(1.5-근사)과 2-opt [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이 실용적 해를 빠르게 제공한다.

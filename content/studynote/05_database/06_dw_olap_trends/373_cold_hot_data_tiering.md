@@ -3,8 +3,8 @@ title: "373. Cold Hot Data Tiering"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 373
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [콜드 데이터](/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) ([Cold Data](/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)) vs [핫 데이터](/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) ([Hot Data](/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)) 계층화(Tiering) 스토리지 아키텍처는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 아키텍처이다.

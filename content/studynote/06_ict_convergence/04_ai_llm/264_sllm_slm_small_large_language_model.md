@@ -3,9 +3,8 @@ title: "264. sLLM / SLM (Small Large Language Model)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 264
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: sLLM / [SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/) (Small [Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)): 7B 이하의 경량화 [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/), 엣지 기기 오프라인 구동 및 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 파인튜닝용 (Llama-3-8B, Phi-3, Gemma 등)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

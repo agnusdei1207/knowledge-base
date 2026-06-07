@@ -3,8 +3,8 @@ title: "595. Canary Stack Smashing Protector"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 595
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카나리 (Canary) 또는 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 스매싱 가드 ([SSP](/studynote/09_security/12_identity_threat_advanced/604_ssp/), [Stack Smashing Protector](/studynote/01_computer_architecture/15_advanced_topics/541_stack_smashing_protector/))는 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 시 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 버퍼와 리턴 주소(RET) 사이에 임의의 랜덤 값(카나리)을 삽입하고, 함수 종료 시 이 값이 변조되었는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 [버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격을 탐지하는 컴파일러 기반 보안 기술이다.

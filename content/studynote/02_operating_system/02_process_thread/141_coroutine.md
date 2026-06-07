@@ -3,8 +3,8 @@ title: "Coroutine"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코루틴 (Coroutine)은 협력적 [멀티태스킹](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)(Cooperative [Multitasking](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/))을 구현하는 제어 구조로, 함수가 실행 도중에 자발적으로 중단(yield)하고 나중에 재개(resume)할 수 있는 진입점을 여러 개 가지는 특수한 서브루틴이다.

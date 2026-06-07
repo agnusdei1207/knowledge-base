@@ -3,8 +3,8 @@ title: "Ubiquitous Language"
 date: "2026-05-03"
 tags:
   - "studynote-cloud-architecture"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 보편적 언어([Ubiquitous Language](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))는 기획자([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가), 설계자, 개발자가 프로젝트의 모든 과정에서 100% 동일한 의미로 사용하는 단일화된 공통 언어 체계다.
 > 2. **가치**: 요구사항 회의, 기획 문서, 소스 코드의 변수명, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스키마에 이르는 전 영역에 똑같은 단어를 강제 적용함으로써, 직군 간 '번역의 오차'로 인해 발생하는 끔찍한 결함과 커뮤니케이션 낭비를 0%로 소각시킨다.

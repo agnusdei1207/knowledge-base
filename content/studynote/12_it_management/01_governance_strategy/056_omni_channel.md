@@ -3,8 +3,8 @@ title: "056. Omni Channel"
 date: "2024-03-24"
 tags:
   - "studynote-it-management"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [옴니채널](/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)은 채널을 많이 여는 전략이 아니라, 고객이 어디서 만나도 같은 브랜드 경험을 받게 만드는 전략이다.

@@ -3,9 +3,8 @@ title: "451. RTP (Real-time Transport Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 451
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RTP는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Blockchain Oracle Off-chain Data Integration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 565
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블록체인 오라클 오프체인 데이터 통합은(는) 스마트 계약이 직접 접근할 수 없는 외부 가격, 이벤트, API, 난수, 실물 상태를 검증 가능한 방식으로 온체인에 전달하는 미들웨어이다.

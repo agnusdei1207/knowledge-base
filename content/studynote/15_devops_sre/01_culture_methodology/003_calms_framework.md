@@ -3,8 +3,9 @@ title: "Culture , Automation , Lean IT, Measurement , Sharing"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 3
 ---
-
 # [CALMS](/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크
 
 #### 핵심 인사이트 (3줄 요약)

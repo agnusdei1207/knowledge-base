@@ -2,9 +2,9 @@
 title: "137. Probability Distributions"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 137
 ---
-
 ## 핵심 인사이트
 
 > [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포는 "불확실한 현상을 수학 모델로 포착하는 언어"다 — 현실의 패턴을 파라미터 몇 개로 요약하면 예측·최적화·통계 검정이 가능해진다.

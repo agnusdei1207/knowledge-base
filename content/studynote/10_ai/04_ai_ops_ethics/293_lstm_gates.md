@@ -3,8 +3,8 @@ title: "LSTM Gates"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))의 3가지 게이트는 각각 [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)(σ) 함수로 0~1 사이의 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여, 셀 상태(Cell [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에서 무엇을 **지울지(Forget)**, **추가할지(Input)**, **출력할지(Output)** 를 선택적으로 제어하는 정보 필터다.

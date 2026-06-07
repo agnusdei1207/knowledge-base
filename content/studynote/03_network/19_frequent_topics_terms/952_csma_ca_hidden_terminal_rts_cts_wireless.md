@@ -3,8 +3,8 @@ title: "CSMA/CA RTS/CTS"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 952
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 은닉 단말 문제는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "DB Parser Parse Tree"
 date: "2026-05-01"
 tags:
   - "studynote-database"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DB 파서 (Parser)는 SQL 문장을 문법에 맞는 파스 트리 (Parse Tree)로 변환하는 첫 단계다.

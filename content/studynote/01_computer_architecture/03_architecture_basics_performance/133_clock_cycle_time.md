@@ -3,8 +3,8 @@ title: "Clock Cycle Time"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클럭 주기 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Cycle Time)는 동기식 디지털 시스템에서 한 번의 클럭 에지(Edge)에서 다음 에지까지 허용되는 시간 간격이며, [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) ([Clock Frequency](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))의 역수 `T = 1 / f` 로 표현된다.

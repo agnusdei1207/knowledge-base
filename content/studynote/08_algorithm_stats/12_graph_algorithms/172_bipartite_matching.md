@@ -2,9 +2,9 @@
 title: "Bipartite Matching"
 date: "2026-05-06"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이분 매칭 (Bipartite Matching)은 두 개의 독립된 정점 집합 사이에서 서로 겹치지 않는 간선을 최대한 많이 선택하는 문제이며, "누구를 누구와 겹치지 않게 연결할 것인가"를 수학적으로 모델링한다.

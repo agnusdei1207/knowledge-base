@@ -3,8 +3,8 @@ title: "021. Zettabyte Era Data Explosion"
 date: "2026-04-02"
 tags:
   - "studynote-bigdata"
+weight: 21
 ---
-
 # [제타바이트 시대](/studynote/16_bigdata/01_intro/004_bigdata_necessity/) ([Zettabyte Era](/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/))
 
 > ⚠️ 이 문서는 현대 인류가 직면한 전례 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭발 현상을 일컫는 '[제타바이트 시대](/studynote/16_bigdata/01_intro/004_bigdata_necessity/)([Zettabyte Era](/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/))'의 개념적 규모, 이를 촉발한 IT 기술적 요인, 그리고 엔터프라이즈 [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)가 당면한 물리적/[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 한계와 극복 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 심층 분석합니다.

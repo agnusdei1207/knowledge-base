@@ -3,8 +3,8 @@ title: "649. Pacelc Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 649
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) ([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), Else, [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 정리는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장소가 장애 시에는 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 정상 시에는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간/[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 사이에서 무엇을 우선할지 함께 설명하는 확장 프레임이다.

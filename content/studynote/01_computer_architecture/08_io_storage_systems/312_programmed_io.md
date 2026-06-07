@@ -3,8 +3,8 @@ title: "Programmed I/O"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로그램 제어 I/O (Programmed I/O)는 CPU (Central Processing Unit)가 장치 상태 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 모두 직접 맡는 가장 기본적인 입출력 제어 방식이다.

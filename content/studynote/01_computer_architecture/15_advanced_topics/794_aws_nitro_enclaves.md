@@ -3,9 +3,8 @@ title: "794. AWS Nitro Enclaves (AWS Nitro Enclaves)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 794
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AWS Nitro Enclaves는 EC2 (Elastic Compute Cloud) 인스턴스 안에서 CPU와 메모리 일부를 분리해, 네트워크·스토리지·쉘 접근이 없는 격리 실행 공간을 만드는 서비스다.

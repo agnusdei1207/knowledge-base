@@ -3,8 +3,8 @@ title: "Iterator Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) ([이터레이터](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/), 반복자) 패턴은 컬렉션(Collection)의 내부 구현(배열인지, 링크드리스트인지, 트리인지)을 완전히 숨긴 채 원소들을 순차적으로 접근하는 통일된 인터페이스를 제공한다.

@@ -3,8 +3,8 @@ title: "Reverse ering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 780
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 물리적 분해 분석은 패키지를 열고 층을 벗겨 다이 이미지를 얻은 뒤, 배선·[트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)·[ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory) 구조를 다시 조합해 칩 내부 회로와 저장 정보를 복원하는 파괴적 Reverse 엔진ering이다.

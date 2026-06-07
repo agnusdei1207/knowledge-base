@@ -3,8 +3,8 @@ title: "148. Falcon Fn Dsa"
 date: "2026-05-03"
 tags:
   - "studynote-security"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: FALCON (표준명 FN-DSA)은 범용 1등 [전자서명](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)인 딜리슘([ML-DSA](/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/))과 동일한 '격자(Lattice)' 수학을 기반으로 하지만, 촘촘한 $NTRU$ 격자 구조에 <strong><a href="/studynote/08_algorithm_stats/07_numerical/126_fft/">고속 푸리에 변환</a>(<a href="/studynote/08_algorithm_stats/07_numerical/126_fft/">FFT</a>)</strong> 알고리즘을 섞어 서명의 덩치를 극단적으로 쥐어짜 낸 초경량 양자 내성 서명([PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 알고리즘이다.
 > 2. **가치**: 딜리슘의 거대한 서명 크기(약 2.4KB) 대비 <strong>절반 이하(약 660바이트)</strong>의 가벼운 크기를 달성하여, [스마트 카드](/studynote/09_security/12_identity_threat_advanced/607_smart_card/), [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서, [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 비좁은 통신 환경(MTU 제한) 등 뚱뚱한 서명이 들어갈 수 없는 소형 기기 생태계의 유일한 구원 투수다.

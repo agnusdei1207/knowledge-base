@@ -3,8 +3,8 @@ title: "056. Cicd Pipeline"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) / CD ([Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))는 코드 변경을 자동으로 빌드, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 배포까지 연결하는 배포 자동화 체계다.

@@ -1,10 +1,11 @@
 ---
 title: "001. Algorithm Definition"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 1
 ---
-
 # 01. 알고리즘 (Algorithm) 정의
 
 ## 핵심 인사이트 (3줄 요약)

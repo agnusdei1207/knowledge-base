@@ -3,8 +3,8 @@ title: "173. Fcfs Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FCFS (First-Come, First-Served) 스케줄링은 [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))에 먼저 도착한 프로세스를 먼저 실행하고, 스스로 종료하거나 I/O (Input/Output) 대기로 빠질 때까지 CPU (Central Processing Unit)를 빼앗지 않는 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 정책이다.

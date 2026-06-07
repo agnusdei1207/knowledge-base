@@ -3,8 +3,8 @@ title: "Information Gain"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 351
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지니 불순도](/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)([Gini Impurity](/studynote/14_data_engineering/02_math_mining/108_gini_impurity/))와 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 기반 정보 획득량(Information Gain)은 결정 트리([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))가 어느 특성(Feature)으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분할할 때 가장 순수한(Pure) 그룹이 만들어지는지를 측정하는 분할 기준이다.

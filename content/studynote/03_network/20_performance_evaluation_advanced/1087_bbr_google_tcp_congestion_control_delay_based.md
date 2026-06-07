@@ -3,8 +3,8 @@ title: "1087. Bbr Google Tcp Congestion Control Delay Based"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1087
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BBR](/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "557. Tmpfs Ramfs Memory Filesystem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 557
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크나 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)([블록 장치](/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/))에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 썼다 지웠다 반복하면 디스크 모터 수명이 줄고 무지막지한 I/O 병목 레이턴시 굴레에 빠진다. 이를 뚫어 버린 <strong><code>tmpfs / ramfs</code></strong> 는 <strong>"컴퓨터의 엄청나게 빠른 램(<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a> 메인 메모리) 저장 공간의 한쪽 구석을 뚝 떼어내서 '이곳을 C드라이브 폴더'처럼 환상 <a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a>(Illusion 둔갑 스왑) 시켜버리는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 특수 가상 렌더"</strong> 다.

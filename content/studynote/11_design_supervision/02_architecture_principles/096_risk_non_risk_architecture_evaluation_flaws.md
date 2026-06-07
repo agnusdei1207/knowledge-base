@@ -2,9 +2,9 @@
 title: "096. Risk Non Risk Architecture Evaluation Flaws"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리스크 (Risk)와 비리스크 (Non-risk)는 [ATAM](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) 등 아키텍처 평가에서, 설계 결정이 요구되는 [품질 속성 시나리오](/studynote/12_it_management/05_security_compliance/993_process/)를 달성하는 데 미치는 위협의 정도를 분류한 결과물이다.

@@ -3,8 +3,8 @@ title: "059. Chaincode Smart Contract"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 체인코드(Chaincode)는 Hyperledger Fabric에서 실행되는 비즈니스 규칙 코드로, [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 역할을 한다.

@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 551
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합 메가트렌드는 AI 네이티브(AI-Native), 탈중앙화(Web3/Blockchain), 양자(Quantum), 공간화(Spatial) 4대 축으로 수렴하며, 각 축은 독립적이 아니라 상호 교차하여 새로운 기술 조합을 만든다.

@@ -3,8 +3,8 @@ title: "776. Massive Mimo Multiple Antenna 5G"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 776
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

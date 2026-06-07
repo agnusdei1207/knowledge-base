@@ -3,8 +3,8 @@ title: "Batch Normalization MEAN Variance"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 441
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 평균 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) MEAN [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)): 1. **본질**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/))는 딥러닝의 은닉층(Layer)을 통과할 때마다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포가 제멋대로 비틀어지는 '내부 공변량 변화(Internal…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

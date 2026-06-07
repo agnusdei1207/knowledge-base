@@ -3,8 +3,8 @@ title: "838. Sla Service Level Agreement Metrics"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
+weight: 838
 ---
-
 > **핵심 인사이트**
 > 1. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자와 고객 간의 계약적 품질 약속 — 단순한 기술 지표가 아니라 비즈니스 기대를 수치로 구체화한 계약이며, 미달 시 페널티(크레딧, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 해지)가 발생한다.
 > 2. [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)·SLI의 계층 구조 — [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(측정 지표)->[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(내부 목표)->[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)(외부 계약) 순서로 엄격해지며, SLO는 SLA보다 여유 있게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)해 완충 지대를 확보하는 것이 실무 관행이다.

@@ -3,8 +3,8 @@ title: "Service Level Objective,"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SLO ([Service Level Objective](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))에 목표치와 평가 창을 얹어, "어느 수준까지 품질을 유지할 것인가"를 수치로 고정한 내부 운영 기준이다.

@@ -3,8 +3,8 @@ title: "Fail-Soft"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 460
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페일 소프트 (Fail-Soft)는 장애가 발생했을 때 시스템 전체를 멈추는 대신, 일부 기능·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 희생해 핵심 기능을 계속 살려 두는 설계 철학이다.

@@ -3,9 +3,8 @@ title: "337. ROLAP (Relational OLAP)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 337
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ROLAP (Relational [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/))는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB 기반 SQL 실시간 분석, 대용량 처리에 적합에 초점을 둔 분석 플랫폼 개념이다.

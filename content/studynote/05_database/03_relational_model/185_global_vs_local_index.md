@@ -3,8 +3,8 @@ title: "Local Index,"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전역 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 테이블 전체를 하나의 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 공간으로 다루고, 지역 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 각 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 1:1로 맞춘다. 핵심 차이는 "검색 구조의 크기"보다 <strong><a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 경계와 <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 경계가 일치하는가</strong>에 있다.

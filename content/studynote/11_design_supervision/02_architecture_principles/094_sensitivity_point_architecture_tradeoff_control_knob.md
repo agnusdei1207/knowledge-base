@@ -2,9 +2,9 @@
 title: "094. Sensitivity Point Architecture Tradeoff Control Knob"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 민감도점 (Sensitivity Point)은 특정 아키텍처 파라미터 하나를 미세하게 조작했을 때, 시스템의 특정 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 보안 등)이 극적으로 변하는 설계상의 핵심 타격 지점이다.

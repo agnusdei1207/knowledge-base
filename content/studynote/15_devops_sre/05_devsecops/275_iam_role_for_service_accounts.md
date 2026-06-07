@@ -3,8 +3,8 @@ title: "275. Iam Role For Service Accounts"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 275
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계정과 클라우드 [IAM](/studynote/09_security/11_iam_access_control/526_iam/) 역할을 연결하는 최소 권한 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식.

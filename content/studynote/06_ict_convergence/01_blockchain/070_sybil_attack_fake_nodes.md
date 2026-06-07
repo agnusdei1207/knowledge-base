@@ -1,10 +1,11 @@
 ---
 title: "070. Sybil Attack Fake Nodes"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시빌 공격은 한 공격자가 다수의 가짜 신분을 만들어 네트워크 의사결정을 왜곡하는 공격이다.

@@ -3,8 +3,8 @@ title: "138. Logs"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 <strong>시스템·애플리케이션이 발생시킨 이벤트의 시간순 텍스트 기록</strong>이며, [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 3대 축([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces) 중 가장 상세한 정보를 제공한다.
 > 2. **가치**: [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 "무엇이 이상한가", 트레이스는 "어디서 느린가"를 알려주지만, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 <strong>"왜 발생했는가"의 상세 맥락(에러 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지·<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 트레이스·요청 파라미터)</strong>을 제공한다.

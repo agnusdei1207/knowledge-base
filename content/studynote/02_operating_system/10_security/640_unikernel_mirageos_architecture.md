@@ -3,8 +3,8 @@ title: "MirageOS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 640
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유니커널(Unikernel)은 범용 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Linux 등)가 가진 수백만 줄의 코드를 버리고, 오직 <strong>단 하나의 애플리케이션 실행에 필요한 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 기능(네트워크, <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)만 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 형태로 묶어 단일 주소 공간(Single Address Space)의 부팅 가능한 이미지</strong>로 굽어내는 특수 목적형 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) OS다.

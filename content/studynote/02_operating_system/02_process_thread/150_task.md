@@ -3,8 +3,8 @@ title: "150. Task"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 태스크(Task)는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스와 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 차별 없이 뭉뚱그려 부르는 100% 통일된 실행 흐름의 최소 단위 명칭이며, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서는 모두 동일한 `task_struct`라는 쇳덩이 자료구조 하나로 1:1 매핑되어 관리된다.
 > 2. **가치**: 기존 유닉스가 프로세스용 뇌, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)용 뇌를 따로 만들어 복잡하게 굴리던 무거운 계급 사회를 폭파시켜 버렸다. 리눅스는 "방(메모리)을 혼자 쓰든 같이 쓰든 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 앞에서는 똑같은 노동자(Task)일 뿐이다"라며 극도의 평등주의 스케줄링(CFS) 쾌속 혁명을 달성했다.

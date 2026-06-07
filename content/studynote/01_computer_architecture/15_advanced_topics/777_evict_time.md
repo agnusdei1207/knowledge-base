@@ -3,8 +3,8 @@ title: "777. Evict Time"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 777
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Evict+Time은 공격자가 특정 캐시 세트를 먼저 축출(Evict)한 뒤 피해자의 **전체 실행 시간(Time)** 변화를 측정해, 비밀 연산이 그 세트에 의존했는지 추론하는 캐시 부채널 공격이다.

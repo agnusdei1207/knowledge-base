@@ -3,8 +3,8 @@ title: "Provisioned Concurrency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 951
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제 및 극복 방안 ([Provisioned Concurrency](/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/) 등)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

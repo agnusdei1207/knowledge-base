@@ -3,8 +3,8 @@ title: "026. Exokernel"
 date: "2026-04-29"
 tags:
   - "studynote-operating-system"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엑소커널(Exokernel)은 MIT가 1994년 제안한 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 아키텍처로, 전통 OS가 하드웨어 자원을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 제공하는 것과 달리, 하드웨어 자원(CPU, 메모리, 디스크)을 안전하게 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))하되 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 최소화하여 응용 프로그램이 직접 하드웨어를 제어하도록 한다.
 > 2. **가치**: 전통 OS의 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층(파일시스템, [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))이 특정 응용에 최적이 아닐 수 있다. 엑소커널은 응용이 자신의 목적에 맞는 LibOS ([Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) OS, [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) OS)를 구현하게 하여 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/), 웹 서버 등이 자신의 I/O 패턴에 최적화된 커스텀 스토리지·메모리 관리를 사용할 수 있게 한다.

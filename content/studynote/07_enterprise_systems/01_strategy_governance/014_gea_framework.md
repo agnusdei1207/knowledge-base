@@ -1,11 +1,11 @@
 ---
 title: "014. Gea Framework"
 date: "2024-05-24"
-description: "공공부문의 정보화 투자 효율성 제고와 상호운용성 보장을 위한 범정부 전사적 아키텍처 프레임워크(GEA)의 구조와 컴플라이언스 분석"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 14
 ---
-
 # 14. 범정부 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 ([GEA](/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/), Government [Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/))
 
 #### 핵심 인사이트 (3줄 요약)

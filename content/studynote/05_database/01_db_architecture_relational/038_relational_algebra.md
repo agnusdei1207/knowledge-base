@@ -3,8 +3,8 @@ title: "Relational Algebra"
 date: "2026-03-03"
 tags:
   - "studynote-database"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수(Relational Algebra)는 Edgar F. Codd가 정의한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 이론적 기반으로, 테이블([릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))에 적용하는 8개 연산자의 집합이며, SQL의 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)·FROM·WHERE·[JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)·GROUP BY가 모두 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수 연산의 직접 구현이다.
 > 2. 기본 연산(선택·사영·카티션 곱·합집합·차집합)만으로 모든 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 표현할 수 있으며, [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)·교차·나누기는 이들로부터 유도된다 — [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화기(Query [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수 표현식을 변환해 최적 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 탐색한다.

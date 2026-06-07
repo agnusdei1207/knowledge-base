@@ -3,8 +3,8 @@ title: "094. Roc Curve Auc Classification Performance"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ROC-AUC는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 양성과 음성을 얼마나 잘 구별(Discriminative [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))하는지 임계값 변화에 따른 궤적으로 보여주는 종합 평가 지표다.

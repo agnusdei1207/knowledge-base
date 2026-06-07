@@ -3,8 +3,8 @@ title: "Space-Based Tuple Mapping"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 657
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스페이스 기반 아키텍처의 투플 맵핑 구조는 비즈니스 객체를 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple) 형태로 분해해 공간(Space) 안에서 <strong>패턴 매칭·<a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>·<a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong>가 가능하도록 정규화하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 규칙이다.

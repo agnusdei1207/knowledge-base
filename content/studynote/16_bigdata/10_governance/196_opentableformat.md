@@ -3,8 +3,8 @@ title: "196. Opentableformat"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 196
 ---
-
 # [오픈 테이블 포맷](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/) (Open Table Format) - [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 핵심 기반 기술
 
 > ⚠️ 이 문서는 빅데이터 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)에서 중앙화된 스토리지 위에 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 시점 복원(Time Travel), [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 진화 등을 가능하게 하는 핵심 기술인 '[오픈 테이블 포맷](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)(Open Table Format)'의 등장 배경, [Apache Iceberg](/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/), [Apache Hudi](/studynote/16_bigdata/07_data_lake/149_apache_hudi/) 3대 포맷의 비교, 그리고 개방형 포맷이 주요 클라우드엄상의 지원 현황을 기술사 수준에서 심층 분석합니다.

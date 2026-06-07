@@ -3,8 +3,8 @@ title: "505. Password Storage Kdf Salt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 505
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비밀번호 저장 방식 - [KDF](/studynote/09_security/03_network_security/144_hkdf_tls_1_3/)([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Derivation Function) 활용 (PBKDF2, bcrypt, scrypt, Argon2) 및 [솔트](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)) 적용은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

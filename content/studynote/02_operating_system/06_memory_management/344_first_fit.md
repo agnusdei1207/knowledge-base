@@ -3,8 +3,8 @@ title: "344. First Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 344
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최초 적합(First-Fit)은 동적 메모리 할당 시 빈 공간 리스트(Free List)를 처음부터 순차적으로 탐색하다가, 요청한 메모리 크기보다 <strong>크거나 같은 첫 번째 빈 공간(Hole)을 발견하는 즉시 탐색을 멈추고 할당</strong>하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

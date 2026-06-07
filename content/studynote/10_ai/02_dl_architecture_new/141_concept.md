@@ -3,8 +3,8 @@ title: "141. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 <strong>수십~수천억 파라미터의 <a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> 기반 모델</strong>을 대규모 텍스트로 사전 학습하여, 다음 토큰 예측(CLM)·빈칸 채우기([MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/))를 통해 언어 이해·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 능력을 획득한 모델이다.
 > 2. **가치**: 특정 작업을 위한 별도 모델 학습 없이, <strong>프롬프트만으로(<a href="/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>/Few-shot)</strong> 번역·요약·코딩·추론 등 다양한 작업을 수행하며, [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙에 의해 <strong>모델 크기^ -> 능력 창발(Emergence)</strong>이 나타난다.

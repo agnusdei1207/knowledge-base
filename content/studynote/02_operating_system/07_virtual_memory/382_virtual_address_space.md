@@ -3,8 +3,8 @@ title: "Virtual Address Space"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 382
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상 주소 공간(Virtual Address Space)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개별 프로세스에게 부여하는 <strong>"네가 메모리의 0번지부터 끝까지 전부 혼자서 다 쓰고 있다"는 완벽하게 독립되고 선형적인 1차원 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 형태의 환상(Illusion)의 우주</strong>다.

@@ -3,8 +3,8 @@ title: "LDAP"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 547
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LDAP](/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) 기반 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/조회 ([LDAP](/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/))는 신원·접근 제어에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

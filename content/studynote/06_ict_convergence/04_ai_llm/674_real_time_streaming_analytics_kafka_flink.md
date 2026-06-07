@@ -3,8 +3,8 @@ title: "Real-time Streaming Analytics Kafka Flink"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 674
 ---
-
 # 674. 실시간 스트리밍 분석 - Kafka & Flink (Real-time Streaming Analytics)
 
 ---

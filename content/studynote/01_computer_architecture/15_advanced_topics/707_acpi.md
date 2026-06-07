@@ -3,9 +3,8 @@ title: "707. ACPI (Advanced Configuration and Power Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 707
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)는 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 하드웨어의 전력·열·장치 정보를 표준 테이블로 제공하고, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이를 해석해 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결정하도록 만든 인터페이스다.

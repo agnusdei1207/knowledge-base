@@ -3,9 +3,8 @@ title: "137. FLOPS (Floating-point Operations Per Second)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 137
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FLOPS (Floating-point Operations Per Second)는 시스템이 1초 동안 수행할 수 있는 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산량을 나타내며, 특히 과학기술 계산과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 드러내는 대표 지표다.

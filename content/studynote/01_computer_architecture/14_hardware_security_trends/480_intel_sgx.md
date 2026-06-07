@@ -3,9 +3,8 @@ title: "480. Intel SGX"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 480
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Intel [SGX](/studynote/09_security/04_endpoint_security/389_sgx/) ([Software Guard Extensions](/studynote/09_security/04_endpoint_security/389_sgx/))는 애플리케이션 내부에 Enclave를 만들어, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 완전히 신뢰하지 않아도 민감 코드와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하도록 설계된 프로세스 수준 격리 기술이다.

@@ -3,8 +3,8 @@ title: "164. Tableau"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Tableau는 VizQL (Visual Query Language, [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 질의 언어)이라는 독자 기술로 드래그앤드롭 동작을 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 자동 변환하여 SQL 없이 복잡한 분석을 가능하게 하는 업계 선도적 셀프서비스 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 플랫폼이다.

@@ -3,9 +3,8 @@ title: "295. Seq2Seq (Sequence to Sequence)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 295
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Seq2Seq](/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) (Sequence to Sequence, 시퀀스 대 시퀀스)는 가변 길이 입력 시퀀스를 하나의 고정 크기 <strong>문맥 벡터 (<a href="/studynote/10_ai/02_dl_architecture_new/120_context_vector/">Context Vector</a>)</strong>로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))와, 이 벡터를 받아 가변 길이 출력 시퀀스를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))로 구성된 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 아키텍처다.

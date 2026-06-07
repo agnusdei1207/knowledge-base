@@ -3,8 +3,8 @@ title: "Value Stream Mapping VSM Waste and Bottleneck Identification in Lean"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 360
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) ([Value Stream Mapping](/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/))은 린([Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 사상에서 비롯된 기법으로, 고객 가치가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 전체 흐름을 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)해 낭비(Muda)와 병목을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 개선 우선순위를 결정하는 프로세스 분석 도구다.

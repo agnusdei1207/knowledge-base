@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Lift(향상도)는 연관 규칙이 우연보다 얼마나 강한지를 보는 지표다.

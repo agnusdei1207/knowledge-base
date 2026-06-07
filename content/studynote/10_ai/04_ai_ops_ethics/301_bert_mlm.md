@@ -3,9 +3,8 @@ title: "301. BERT (Bidirectional Encoder Representations from Transformers)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 301
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BERT (Bidirectional [Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향(Bidirectional)으로 학습하여, 각 토큰의 표현을 좌우 양방향 문맥을 동시에 반영해 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 2018년 구글의 사전 학습 언어 모델이다.

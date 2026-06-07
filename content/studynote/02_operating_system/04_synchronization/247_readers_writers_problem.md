@@ -3,8 +3,8 @@ title: "247. Readers Writers Problem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 독자-저자 문제는 여러 독자 (Reader)가 동시에 읽을 수 있지만, 저자 (Writer)는 독점 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 요구하는 비대칭 접근 패턴에서, 기아 ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 없이 일관성을 보장하는 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제다.

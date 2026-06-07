@@ -3,8 +3,8 @@ title: "vs DW"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/) vs [Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/) ([레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) vs [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)) 진영 경쟁)은 빅데이터 플랫폼 경쟁 관점에서 핵심 키워드를 한 번에 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 회상 속도를 높이는 정리 방식를 다루는 주제다.

@@ -2,10 +2,9 @@
 title: "155. EAI vs ESB (EAI vs ESB Architecture)"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 155
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EAI](/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/))는 주로 중앙 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 중심의 통합 방식이고, [ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) ([Enterprise Service Bus](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 표준과 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기반 중재를 통해 이를 더 유연하게 확장한 통합 아키텍처다.

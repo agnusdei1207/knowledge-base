@@ -3,8 +3,8 @@ title: "178. Modern Data Stack"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MDS](/studynote/01_computer_architecture/15_advanced_topics/764_mds/) (Modern [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))는 [ELT](/studynote/14_data_engineering/01_infrastructure/034_elt/) (Extract-Load-Transform)를 중심으로, 관리형 수집 도구·클라우드 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)·dbt ([data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)·BI (Business Intelligence) 계층을 조합해 분석 시스템을 빠르게 구축하는 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 운영 방식이다.

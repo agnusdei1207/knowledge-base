@@ -3,8 +3,8 @@ title: "Event Time vs Processing Time"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 이벤트 시간(Event Time)은 이벤트가 실제로 발생한 시각([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내 타임스탬프)이고, 처리 시간(Processing Time)은 스트리밍 시스템이 해당 이벤트를 처리한 시각(시스템 시계)으로, [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)·장애·배치 재처리 등에 의해 둘 사이에 수 분~수 시간의 차이([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 생긴다.

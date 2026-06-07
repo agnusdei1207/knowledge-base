@@ -3,8 +3,8 @@ title: "045. Kmeans"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. K-Means는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 군집(Cluster)으로 나누는 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))의 대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 각 군집의 중심점(Centroid)을 반복 갱신해 군집 내 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 최소화하며, 라벨(정답)이 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 숨은 패턴을 발견한다.
 > 2. K-Means의 두 핵심 문제는 K 선택과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 민감성 — Elbow Method나 Silhouette Score로 최적 K를 찾고, K-Means++ [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화로 수렴 안정성을 개선한다.

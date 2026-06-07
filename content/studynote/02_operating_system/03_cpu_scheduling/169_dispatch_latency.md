@@ -3,8 +3,8 @@ title: "Dispatch Latency"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스패치 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Dispatch [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 현재 작업에서 다음 작업으로 CPU 제어권을 넘기는 동안 소비하는 순수 전환 시간이다.

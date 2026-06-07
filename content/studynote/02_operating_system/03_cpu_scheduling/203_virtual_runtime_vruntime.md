@@ -3,8 +3,8 @@ title: "vruntime, Virtual Runtime"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상 실행 시간 (vruntime)은 리눅스 CFS(Completely Fair Scheduler)가 프로세스의 공정성을 평가하기 위해, 프로세스가 <strong>실제로 CPU를 점유한 시간(물리적 시간)에 우선순위 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)를 곱하여 보정한 논리적인 시간 장부</strong>다.

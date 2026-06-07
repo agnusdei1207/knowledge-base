@@ -3,8 +3,8 @@ title: "Schedule Variance,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SV (Schedule [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/), 일정 차이)는 획득 가치 관리 ([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/), [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))에서 [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value)와 [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value)의 차이로 계산되며, 계획 대비 일정이 앞섰는지 늦었는지를 "가치" 기준으로 읽는 지표다.

@@ -3,8 +3,8 @@ title: "Hypercube"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 391
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이퍼큐브 (Hypercube)는 노드를 이진수 주소로 표현하고, 주소가 정확히 1비트만 다른 노드끼리 연결하는 고차원 정적 [상호 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)이다.

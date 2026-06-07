@@ -3,8 +3,8 @@ title: "525. Http Response Smuggling"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 525
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Response Smuggling (응답 분할 및 가로채기)는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

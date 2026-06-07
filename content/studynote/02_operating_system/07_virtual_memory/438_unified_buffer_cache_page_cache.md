@@ -3,8 +3,8 @@ title: "438. Unified Buffer Cache Page Cache"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 438
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 디스크 블록(하드웨어 섹터)을 담아두는 <strong>'<a href="/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>(<a href="/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">Buffer Cache</a>)'</strong>와 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 내용(소프트웨어 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 담아두는 <strong>'<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache)'</strong>로 쪼개져 램을 이중으로 낭비하던 악습을, <strong><a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시 하나로 완벽하게 대통합(Unified)시킨 아키텍처 혁명</strong>이다.

@@ -3,9 +3,8 @@ title: "357. DBSCAN (Density-Based Spatial Clustering)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 357
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DBSCAN](/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)(Density-Based Spatial [Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/) of Applications with Noise, 노이즈 포함 밀도 기반 공간 [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/))은 반경 ε 내에 최소 MinPts 이상의 점이 밀집한 영역을 군집으로 연결하는 밀도 기반 [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 군집 개수 K를 사전에 지정할 필요가 없다.

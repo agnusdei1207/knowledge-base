@@ -3,8 +3,8 @@ title: "235. Registry Immutable Tag"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 235
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실행 중 서버를 손대지 않고 새 이미지를 만들어 교체하는 운영 패턴.

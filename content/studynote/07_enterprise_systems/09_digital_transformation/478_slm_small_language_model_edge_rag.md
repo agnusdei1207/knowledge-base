@@ -2,9 +2,9 @@
 title: "SLM, Small Language Model"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 478
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/) 소형 언어 에지 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 온디바이스는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/) 소형 언어 에지 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 온디바이스, [SLM](/studynote/10_ai/04_ai_ops_ethics/313_slm/), Small Language Model의 경계를 분명히 만드는 데 의미가 있다.

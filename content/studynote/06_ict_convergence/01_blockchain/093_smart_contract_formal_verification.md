@@ -1,10 +1,11 @@
 ---
 title: "093. Smart Contract Formal Verification"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정형 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Formal [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 코드를 수학적 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델로 변환하여, 사전에 정의된 명제(규칙)가 절대 깨지지 않음을 알고리즘적으로 증명하는 극한의 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기법이다.

@@ -1,10 +1,11 @@
 ---
 title: "091. Composable Erp Pbc Api"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴포저블 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Composable [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 거대하게 뭉쳐있던 기존의 모놀리식 ERP를 거부하고, 잘게 쪼개진 비즈니스 기능(PBC)들을 API로 엮어 레고 블록처럼 자유롭게 조립·해체하는 4세대 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 아키텍처다.

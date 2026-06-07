@@ -3,8 +3,8 @@ title: "096. User Level Thread"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 사용자 수준 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (User-Level [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 개입 없이 사용자 영역(User Space)의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 의해 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 스케줄링, 소멸이 통제되는 경량화된 실행 흐름이다.
 > 2. **가치**: 값비싼 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환이 필요 없어 [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/)([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 오버헤드가 극도로 낮으며, 이식성이 뛰어나다.

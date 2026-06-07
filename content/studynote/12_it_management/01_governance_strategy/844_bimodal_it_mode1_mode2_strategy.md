@@ -3,8 +3,8 @@ title: "844. Bimodal It Mode1 Mode2 Strategy"
 date: "2025-05-14"
 tags:
   - "studynote-it-management"
+weight: 844
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 바이모달 IT([Bimodal IT](/studynote/12_it_management/01_governance_strategy/059_bimodal_it/))는 안정성 중심의 Mode 1과 민첩성 중심의 Mode 2를 동시에 운영하는 전략이다.

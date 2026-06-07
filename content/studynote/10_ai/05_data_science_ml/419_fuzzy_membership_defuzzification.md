@@ -3,8 +3,8 @@ title: "Fuzzy Membership, Inference, Defuzzification"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 419
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 퍼지 이론 ([Fuzzy Logic](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))은 참/거짓을 0 또는 1로 자르지 않고, 소속 함수 (Membership Function)로 <strong>부분적 참값</strong>을 표현해 애매한 현실을 모델링하는 방법이다.

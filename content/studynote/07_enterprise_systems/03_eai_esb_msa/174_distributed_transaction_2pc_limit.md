@@ -2,9 +2,9 @@
 title: "174. Distributed Transaction 2Pc Limit"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [2PC](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))는 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소에 걸친 변경을 하나의 원자적 커밋처럼 보이게 만들기 위해, 참여자 전원에게 <strong>준비(Prepare)와 최종 결정(Commit/<a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong> 을 강제하는 동기식 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 커밋 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.

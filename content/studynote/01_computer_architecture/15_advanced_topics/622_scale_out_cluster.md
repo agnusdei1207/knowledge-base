@@ -3,8 +3,8 @@ title: "622. Scale Out Cluster"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 622
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) ([Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 클러스터 망은 여러 대의 범용 서버를 네트워크로 묶어, <strong>노드를 추가하면서 성능과 용량을 늘리는 <a href="/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a>의 백플레인</strong>이다.

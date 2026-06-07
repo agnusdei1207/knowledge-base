@@ -3,8 +3,8 @@ title: "401. Transport Layer Role End To End Multiplexing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 401
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

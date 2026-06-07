@@ -3,8 +3,8 @@ title: "743. Cspm Cwpp Cloud Security Posture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 743
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

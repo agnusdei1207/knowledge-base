@@ -3,8 +3,8 @@ title: "877. Restconf Http Json Yang Api Network Config"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 877
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RESTCONF [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

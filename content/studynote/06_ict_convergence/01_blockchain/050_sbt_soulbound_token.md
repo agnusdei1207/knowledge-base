@@ -1,7 +1,6 @@
 ---
 title: "Soulbound Token"
 date: "2025-01-01"
-description: "SBT의 개념, 비양도성(non-transferable) 특성, 탈중앙화 신원·학력 증명 활용, 개인정보 이슈를 다룬다."
 tags:
   - "DID"
   - "DeSoc"
@@ -10,10 +9,10 @@ tags:
   - "Web3 identity"
   - "non-transferable"
   - "soulbound token"
-  - "studynote-ict"
   - "verifiable credential"
+  - "studynote-ict-convergence"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. SBT(Soulbound Token)는 특정 지갑(Soul)에 영구 귀속되어 양도·판매할 수 없는 비양도성 토큰으로, Web3 신원·자격 증명의 핵심 도구다.
 > 2. 학력증명, 직업 이력, 의료 기록 등 개인의 사회적 자본을 온체인 표현으로 관리해 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 사회(DeSoc, Decentralized Society)를 지향한다.

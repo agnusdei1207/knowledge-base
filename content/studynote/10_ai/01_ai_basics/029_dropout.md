@@ -3,8 +3,8 @@ title: "Dropout"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))은 학습 시 각 뉴런을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) p로 무작위로 비활성화하여 신경망 과적합을 방지하는 [정규화 기법](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이다. 매 미니배치마다 다른 서브 네트워크를 학습하여 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)) 효과를 낸다.
 > 2. **가치**: L1/L2 규제화와 달리 [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)은 <strong>암묵적 <a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong>을 통해 일반화한다. p=0.5 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 2^n개의 서로 다른 서브 네트워크를 학습하는 효과를 낸다. 추론 시에는 [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)을 끄고 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 (1-p) [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)하여 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 평균을 근사한다.

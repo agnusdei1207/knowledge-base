@@ -3,8 +3,8 @@ title: "025. Task Traceability Matrix"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 추적 매트릭스([Traceability](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) Matrix)는 요구사항(Requirements)부터 설계, 구현, 테스트까지 각 산출물 간의 연관 관계를 매핑한 표로, "이 요구사항이 어느 코드에 구현됐고 어느 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)됐는가?"를 추적하는 관리 도구다.
 > 2. **가치**: [요구사항 추적 매트릭스](/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/)([RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))는 모든 요구사항이 누락 없이 구현됐는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고(순방향 추적), 모든 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)가 특정 요구사항을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 불필요한 테스트를 제거한다(역방향 추적).

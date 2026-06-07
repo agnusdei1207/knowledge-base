@@ -3,8 +3,8 @@ title: "339. Routing Overview Best Path Selection"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 339
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라우팅 개요는 라우팅과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

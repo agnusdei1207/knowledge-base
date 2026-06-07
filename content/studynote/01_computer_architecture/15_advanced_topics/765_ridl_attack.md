@@ -3,8 +3,8 @@ title: "765. Ridl Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 765
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리들 (RIDL, Rogue In-Flight [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Load)은 [마이크로아키텍처 데이터 샘플링](/studynote/01_computer_architecture/15_advanced_topics/764_mds/) ([MDS](/studynote/01_computer_architecture/15_advanced_topics/764_mds/), [Microarchitectural Data Sampling](/studynote/09_security/04_endpoint_security/380_mds_attack/)) 계열 중, 로드 경로를 지나가는 바이트를 라인 필 버퍼 (LFB, Line Fill Buffer)와 로드 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Load [Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 같은 내부 버퍼에서 샘플링하는 공격이다.

@@ -3,8 +3,8 @@ title: "Benchmark"
 date: "2026-05-03"
 tags:
   - "studynote-computer-architecture"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 벤치마크 (Benchmark)는 컴퓨터 하드웨어나 소프트웨어의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 객관적이고 동일한 조건에서 비교 평가하기 위해, 의도적으로 설계된 표준화된 테스트용 프로그램이자 작업 부하(Workload)의 집합체다.
 > 2. **가치**: 제조사가 주장하는 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)나 코어 개수 같은 뻥튀기 스펙의 허상을 벗겨내고, 아키텍처의 파이프라인 효율과 메모리 병목을 실전 테스트하여 "실제 현실 업무에서 얼마나 빠른가"를 숫자로 증명한다.

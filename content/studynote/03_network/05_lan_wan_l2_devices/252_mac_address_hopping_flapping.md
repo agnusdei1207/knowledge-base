@@ -3,8 +3,8 @@ title: "MAC Flapping"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 252
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

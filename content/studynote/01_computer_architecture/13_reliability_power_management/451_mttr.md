@@ -3,8 +3,8 @@ title: "451. Mttr"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 451
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MTTR (Mean Time To Repair)은 장애가 발생한 뒤 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 정상 상태로 되돌리기까지 걸리는 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 뜻하며, [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)(Serviceability)을 수치로 보여주는 핵심 지표다.

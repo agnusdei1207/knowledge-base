@@ -3,8 +3,8 @@ title: "009. Real Time System"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 실시간 시스템 (Real-time System)은 논리적인 결과의 정확성뿐만 아니라, 결과가 도출되는 시점([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))이 시스템의 성공 여부를 결정하는 결정론적(Deterministic) 컴퓨팅 시스템이다.
 > 2. **가치**: 예측 가능성(Predictability)을 최우선으로 하여 생명 유지 장치, 비행 제어, 공정 제어 등 오차가 허용되지 않는 환경에서 하드웨어의 안전한 동작을 보장한다.

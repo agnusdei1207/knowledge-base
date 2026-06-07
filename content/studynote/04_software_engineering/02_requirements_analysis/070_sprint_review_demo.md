@@ -1,10 +1,11 @@
 ---
 title: "070. Sprint Review Demo"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 완성된 증분을 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 데모하고 피드백을 받는 이벤트다.

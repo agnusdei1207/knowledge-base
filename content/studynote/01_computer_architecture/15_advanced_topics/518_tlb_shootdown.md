@@ -3,8 +3,8 @@ title: "TLB Shootdown"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 518
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운 ([TLB Shootdown](/studynote/02_operating_system/07_virtual_memory/435_tlb_shootdown/))은 한 코어가 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑을 바꿨을 때, 같은 주소 공간을 실행 중인 다른 코어들의 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))에 남아 있는 낡은 번역 엔트리를 강제로 무효화하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 절차다.

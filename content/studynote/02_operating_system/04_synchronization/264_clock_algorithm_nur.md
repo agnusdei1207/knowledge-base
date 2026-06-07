@@ -3,8 +3,8 @@ title: "Clock Algorithm / NUR"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 264
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클럭 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (또는 [NUR](/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/): [Not Used Recently](/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/))은 가장 완벽한 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(최근 최소 사용)가 가진 $O(N)$의 거대한 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 탐색 및 갱신 오버헤드를 회피하기 위해, <strong>하드웨어의 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)와 원형 큐(Circular <a href="/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)를 결합하여 만든 LRU의 가벼운 근사치(Approximation) 모델</strong>이다.

@@ -3,8 +3,8 @@ title: "119. Kubernetes Declarative Api"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 119
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K8s 선언적 API는 <strong>"무엇을 원하는가(<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/">Desired State</a>)"를 YAML로 선언</strong>하면, K8s 컨트롤러가 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 Desired State에 **자동으로 수렴시키는(Reconciliation)** 운영 모델이다.
 > 2. **가치**: 명령형(Imperative)은 "Pod를 3개 만들어라"(How)이고, 선언적([Declarative](/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))은 "Pod가 3개인 상태를 유지하라"(What)이다. Pod가 죽으면 선언적 모델은 <strong>자동으로 3개를 복원</strong>하지만, 명령형은 수동 개입이 필요하다.

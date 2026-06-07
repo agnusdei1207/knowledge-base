@@ -3,9 +3,8 @@ title: "831. OKR (Objectives and Key Results)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 831
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OKR의 핵심은 인텔/구글 방식, 야심찬 목표(O)와 측정 가능한 핵심 결과(KR)로 구성된 성과 관리라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.

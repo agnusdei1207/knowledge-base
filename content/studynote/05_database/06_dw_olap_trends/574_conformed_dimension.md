@@ -3,8 +3,8 @@ title: "574. Conformed Dimension"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 574
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 마트](/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 콘포밍 차원 (Conformed Dimension) 킴볼 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 구조이다.

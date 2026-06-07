@@ -3,8 +3,8 @@ title: "Learning Rate in Gradient Descent"
 date: "2026-05-05"
 tags:
   - "studynote-ai"
+weight: 80
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 학습률([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate, $\[alpha](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)은 [경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))에서 딥러닝 모델이 기울기를 따라 에러의 밑바닥을 향해 내려갈 때, <strong>한 번에 얼마만큼의 보폭(Step Size)으로 걸어갈 것인가를 결정하는 절대적 통제 변수(Hyperparameter)</strong>다.
 > 2. **가치**: 아무리 화려한 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 모델을 설계해도, 학습률이 잘못 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)되면 AI는 영원히 정답(Global Minimum)을 찾지 못하고 허공을 떠돌거나 제자리걸음만 하다가 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 전기세만 낭비하고 죽어버리는 파국을 맞는다.

@@ -3,8 +3,8 @@ title: "Counter"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카운터(Counter)는 클럭([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))마다 미리 정한 이진 상태 순서를 따라 전이하는 순차 논리회로다.

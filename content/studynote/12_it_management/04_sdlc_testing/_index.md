@@ -2,9 +2,9 @@
 title: "SDLC & Testing"
 tags:
   - "it_management"
+  - "studynote-it-management"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SDLC 관리 및 소프트웨어 품질 경영은 소프트웨어 개발 전 과정에 걸쳐 공학적 프로세스를 정의하고, 정량적 메트릭을 통해 제품의 신뢰성과 사용자 만족도를 관리하는 경영 활동이다.

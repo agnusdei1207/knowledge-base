@@ -3,8 +3,8 @@ title: "Dynamic Power"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 467
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 전력 (Dynamic [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 디지털 회로가 상태를 바꿀 때 노드 커패시턴스를 충전·방전하며 소비하는 전력으로, 핵심식은 `P ≈ αCV^f`이다.

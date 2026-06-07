@@ -3,8 +3,8 @@ title: "IoT"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 619
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 면허 대역 [LPWAN](/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

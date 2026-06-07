@@ -3,8 +3,8 @@ title: "574. Swapping Mechanism"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 574
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/))은 물리 메모리의 여유가 부족할 때, 당장 덜 필요한 메모리 상태를 백킹 스토어 (Backing Store)로 내보내 프레임을 회수하고 필요 시 다시 불러오는 메모리 압력 완화 메커니즘이다.

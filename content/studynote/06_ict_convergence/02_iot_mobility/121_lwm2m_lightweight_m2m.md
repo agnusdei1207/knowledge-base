@@ -3,8 +3,8 @@ title: "121. Lwm2M Lightweight M2M"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LwM2M은 <strong>OMA(Open Mobile Alliance)</strong>가 정의한 <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a> 기반 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스 관리 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로, 디바이스의 <strong>등록·<a href="/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 업데이트(FOTA)·원격 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>·모니터링</strong>을 표준화한다.
 > 2. **가치**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스가 수만~수억 대로 확장되면 개별 관리가 불가능하므로, LwM2M 서버에서 <strong>원격으로 디바이스 <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a>·<a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 변경·<a href="/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 업데이트</strong>를 일괄 수행할 수 있다.

@@ -3,8 +3,8 @@ title: "151. Uddi Universal Description Discovery Integration"
 date: "2026-05-03"
 tags:
   - "studynote-enterprise-systems"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: UDDI(Universal Description, Discovery and Integration)는 [SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([Service Oriented Architecture](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)) 3요소 아키텍처의 정중앙 뇌를 담당하는 <strong>'웹 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/">SOAP</a>/XML) 전용 글로벌 <a href="/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> 검색 엔진이자 공용 전화번호부 엑셀 <a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a>(<a href="/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>)'</strong>다.
 > 2. **가치**: 클라이언트 소스 코드에 타겟 서버 IP를 쇳덩이처럼 하드코딩해 박아두던 강결합(Tightly Coupled) 파국을 도끼로 찢어발겼다. 개발자는 소스에 오직 `UDDI.find("결제 서비스")` 텍스트 1줄만 쳐두면, 0.001초 런타임 실행 찰나에 <strong>가장 최신 백엔드 서버 IP를 동적으로 따와 다이렉트 록온(Late Binding <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 바인딩)</strong>시켜 상대방 서버가 죽거나 이사 가도 내 앱은 1초의 랙 뻗음 없이 100% 무정단 회피 생존 기동(Fail-over)을 쳐버린다.

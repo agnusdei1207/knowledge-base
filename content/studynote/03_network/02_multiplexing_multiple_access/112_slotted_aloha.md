@@ -3,9 +3,8 @@ title: "112. Slotted ALOHA"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 112
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [순수 알로하](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)(Pure [ALOHA](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/))의 [비동기적](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 충돌 한계를 개선하기 위해, 전송 시간을 일정한 프레임 크기의 '슬롯(Slot)' 단위로 구획화([Synchronization](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))한 무작위 [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식이다.

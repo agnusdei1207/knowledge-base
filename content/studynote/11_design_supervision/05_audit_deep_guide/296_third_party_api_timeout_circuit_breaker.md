@@ -3,8 +3,8 @@ title: "Third Party API Timeout and Circuit Breaker Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 296
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서드파티](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)과 서킷브레이커 감리는 [서드파티](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/)(Third Party) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연계 구간의 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))과 서킷브레이커([Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성 설계에서 호출 한계시간([Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) Budget), 재시도 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)(Retry [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)), 대체 경로([Fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) Path)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "541. Cassandra"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 541
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 스노우플레이크(Snowflake) 구조적 특징는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)·확장형 저장소 관점에서 자주 쓰이는 구조이다.

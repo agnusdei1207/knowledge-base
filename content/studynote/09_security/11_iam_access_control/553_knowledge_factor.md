@@ -3,8 +3,8 @@ title: "Knowledge Factor"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 553
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지식 요인 (Knowledge Factor)는 신원·접근 제어에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

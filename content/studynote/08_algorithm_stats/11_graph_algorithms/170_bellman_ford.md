@@ -2,9 +2,9 @@
 title: "Bellman-Ford"
 date: "2026-05-06"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벨만-포드 (Bellman-Ford) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모든 간선을 반복적으로 완화 (Relaxation) 하여 음수 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 있어도 단일 시작점 최단 경로를 구하는 동적 계획법 ([Dynamic Programming](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)) 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

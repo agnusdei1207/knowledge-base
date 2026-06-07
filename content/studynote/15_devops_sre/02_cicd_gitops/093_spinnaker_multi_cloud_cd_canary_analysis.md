@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "cicd"
   - "studynote-devops-sre"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스핀네이커 (Spinnaker)는 넷플릭스 (Netflix)가 주도하여 만든 [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 환경 전용의 강력한 [지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) (CD, [Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 플랫폼이다.

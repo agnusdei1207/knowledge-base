@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 172
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ISO/IEC 27001은 조직이 정보보안 경영시스템 (ISMS, Information Security Management System)을 수립·운영·점검·개선하도록 요구하는 국제 표준이며, 개별 보안 제품보다 관리 체계 자체를 평가한다.

@@ -3,8 +3,8 @@ title: "Hierarchical Clustering"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 358
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 계층적 [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)(Hierarchical [Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트들을 단계적으로 병합(Agglomerative, 상향식) 또는 분할(Divisive, 하향식)하여 트리 형태의 덴드로그램(Dendrogram)을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 이를 특정 높이에서 자르면 원하는 군집 수를 얻는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

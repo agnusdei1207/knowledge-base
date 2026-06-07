@@ -3,8 +3,8 @@ title: "Confusion Matrix Precision Recall F1"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 427
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [혼동 행렬](/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) F1 조화 ([Confusion Matrix](/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) [Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) F1): 1. **본질**: [혼동 행렬](/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)([Confusion Matrix](/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 정답을 맞혔는지 틀렸는지를 단순히 O/X로 채점하지 않고, "진짜를 진짜라고 했나(TP)", "가짜를 진짜라고…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

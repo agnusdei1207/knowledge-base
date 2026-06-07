@@ -3,8 +3,8 @@ title: "387. Zkp Blockchain Data Query"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 387
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반의 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의 프레임워크 연구 모델는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 모델이다.

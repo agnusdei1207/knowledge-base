@@ -3,8 +3,8 @@ title: "674. Hmac Hash Based Mac Ipsec"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 674
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HMAC 통신 기반 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

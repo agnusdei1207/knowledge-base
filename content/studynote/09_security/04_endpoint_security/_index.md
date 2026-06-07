@@ -2,9 +2,9 @@
 title: "Endpoint Security"
 tags:
   - "security"
+  - "studynote-security"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엔드포인트 보안 (Endpoint Security)은 네트워크의 접점이 되는 개별 단말기 (PC, 스마트폰, 서버 등)를 보호하여 데이터 유출과 악성코드 감염을 원천 차단하는 최종 방어선 기술이다.

@@ -3,8 +3,8 @@ title: "Rehost / Lift and Shift"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리호스트 (Rehost / [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift): [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 앱을 변경 없이 그대로 VM으로 마이그레이션를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "163. Ocsp Online Certificate Status Protocol"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 163
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [OCSP](/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 클라이언트가 특정 공개키 인증서의 상태를 인증서 폐지 목록 전체가 아니라 <strong>해당 인증서 1건 단위로 실시간 질의</strong>하는 인증서 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로토콜이다.

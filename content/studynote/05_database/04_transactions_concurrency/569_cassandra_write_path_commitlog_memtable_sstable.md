@@ -3,8 +3,8 @@ title: "569. Cassandra Write Path Commitlog Memtable Sstable"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 569
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [카산드라](/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로(Commit Log -> [Memtable](/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) -> SSTable) 병목 배제 모델는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 모델이다.

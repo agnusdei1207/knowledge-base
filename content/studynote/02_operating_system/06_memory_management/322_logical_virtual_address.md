@@ -3,8 +3,8 @@ title: "322. Logical Virtual Address"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 322
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU가 프로그램을 굴리며 내부적으로 뱉어내는 주소이자, 컴파일된 프로그램(프로세스) 자신이 <strong>"나는 물리적 세상이 어찌 생겼든 간에 오직 0번지부터 시작하는 내 전용 독방에 살고 있다"</strong>고 착각하게 만드는 환상(Illusion)의 번지수다.

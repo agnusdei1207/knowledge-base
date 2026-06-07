@@ -3,8 +3,8 @@ title: "730. Oo Cohesion Types"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 730
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 객체지향 [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) (우연, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/), 시간, 절차, 통신, 순차, 기능)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

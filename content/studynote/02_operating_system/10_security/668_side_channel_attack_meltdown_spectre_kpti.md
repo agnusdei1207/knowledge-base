@@ -3,8 +3,8 @@ title: "KPTI, Retpoline"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 668
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Meltdown과 Spectre는 소프트웨어의 버그가 아니라, 현대 CPU가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하기 위해 도입한 <strong>비순차적 실행(Out-of-Order Execution)</strong>과 <strong><a href="/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/">분기 예측</a>(<a href="/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/">Branch Prediction</a>)</strong>이라는 하드웨어 '[마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/)'의 근본적 취약점을 찌르는 최악의 부채널 공격([Side-channel Attack](/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/))이다.

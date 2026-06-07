@@ -2,9 +2,9 @@
 title: "6G"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 419
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 6G NTN 위성 [THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 메타표면 RIS 차세대는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 6G NTN 위성 [THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 메타표면 RIS 차세대, 6G, NTN의 경계를 분명히 만드는 데 의미가 있다.

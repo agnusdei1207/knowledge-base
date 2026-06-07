@@ -3,9 +3,8 @@ title: "228. Read Uncommitted (Read uncommitted Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 228
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Read Uncommitted (레벨 0)은 커밋 안된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기 허용 ([Dirty Read](/studynote/05_database/04_transactions_concurrency/528_third_normal_form/) 발생)에 초점을 맞춘 개념이다.

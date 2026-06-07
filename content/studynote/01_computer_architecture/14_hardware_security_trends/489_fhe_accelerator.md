@@ -3,8 +3,8 @@ title: "FHE Accelerator"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 489
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) 가속기 ([FHE](/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) Accelerator)는 [완전 동형 암호](/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) ([FHE](/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/), Fully [Homomorphic Encryption](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/))의 거대한 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산과 [부트스트래핑](/studynote/14_data_engineering/02_math_mining/120_concept/)을 전용 하드웨어로 줄여, 복호화 없는 계산을 실용 구간으로 끌어오는 장치다.

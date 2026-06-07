@@ -3,8 +3,8 @@ title: "Privacy Clean Room"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Dark Data](/studynote/12_it_management/02_itsm_itil/062_darkdata/)([다크 데이터](/studynote/12_it_management/02_itsm_itil/062_darkdata/))는 쌓아 두기만 하고 쓰지 못하는 비정형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이며, 발견(Discovery)되지 않으면 비용만 늘어난다.

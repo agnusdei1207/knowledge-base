@@ -3,8 +3,8 @@ title: "113. Spatial Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 공간 분석 (Spatial Analysis)은 지리적 위치와 공간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 활용하여 "어디에서" "왜" 패턴이 발생하는지를 분석하는 GIS (Geographic Information System) 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 기법이다.
 > 2. **가치**: 단순 통계 분석이 놓치는 공간적 의존성 (Spatial Autocorrelation)을 Moran's I 같은 통계량으로 정량화하고, 버퍼 (Buffer)·오버레이 (Overlay)·보간 ([Interpolation](/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)) 연산으로 입지 선정·물류 최적화·도시 계획에 과학적 근거를 제공한다.

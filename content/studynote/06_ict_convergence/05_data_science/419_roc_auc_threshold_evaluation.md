@@ -3,8 +3,8 @@ title: "ROC AUC Threshold Evaluation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 419
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ROC AUC](/studynote/10_ai/03_llm_nlp/256_roc_auc/) 0.5 하한 임계 모델 무작위성 평가망 ([ROC AUC](/studynote/10_ai/03_llm_nlp/256_roc_auc/) Threshold Evaluation): 1. **본질**: ROC 곡선은 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 예측한 확률에 대해, "몇 퍼센트 이상을 정답(1)으로 칠 것인가?"라는 임계값(Threshold)을 0부터 100까지 요리조리 바…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

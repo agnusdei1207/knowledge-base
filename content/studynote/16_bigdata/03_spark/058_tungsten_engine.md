@@ -3,8 +3,8 @@ title: "058. Tungsten Engine"
 date: "2024-03-23"
 tags:
   - "studynote-bigdata"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - Tungsten은 Spark의 하드웨어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극한으로 끌어올리기 위한 실행 엔진 최적화 프로젝트로, 메모리 관리와 CPU 효율성에 집중한다.
 - JVM 객체 오버헤드를 피하기 위해 자체적인 Off-[heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리 관리와 바이너리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷을 사용한다.

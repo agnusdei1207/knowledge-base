@@ -3,8 +3,8 @@ title: "Hard Error"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 462
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트 에러 (Soft Error)는 저장된 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값이 일시적으로 뒤집히는 사건이고, 하드 에러 (Hard Error)는 소자 자체가 물리적으로 망가져 같은 고장이 반복되는 상태다.

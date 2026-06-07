@@ -3,8 +3,8 @@ title: "Quantum Supremacy"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자 우위 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Supremacy): 양자 컴퓨터가 슈퍼컴퓨터를 능가하여 특정 연산을 압도적 속도로 풀어낸 기점를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Differentially Private Stochastic Gradient Descent"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 416
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 역산 공격 ([Model Inversion](/studynote/09_security/19_ai_advanced_security/951_model_inversion/) Attack)은 모델 출력이나 학습 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)에서 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 민감 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 거꾸로 추정하는 공격이며, DP-SGD (Differentially Private [Stochastic Gradient Descent](/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 <strong>기울기 민감도 상한 + 노이즈 주입</strong>으로 이 누출 가능성을 수학적으로 제한한다.

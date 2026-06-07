@@ -3,8 +3,8 @@ title: "TensorRT, ONNX"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 318
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컴파일러 모델 최적화 및 타겟 하드웨어 런타임 변환 엔진 (TensorRT, ONNX): 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컴파일러는 개발자가 파이토치(PyTorch)나 텐서플로(TensorFlow)로 짠 무거운 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을, 엔비디아 GPU나 구글 [TPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) 등 특정 하드웨어 기계어에 …를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

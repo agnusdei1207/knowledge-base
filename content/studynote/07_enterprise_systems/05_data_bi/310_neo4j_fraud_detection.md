@@ -3,8 +3,8 @@ title: "Neo4j Fraud Detection"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 310
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(엣지)가 1등 시민인 구조로, SQL의 다중 JOIN이 필요한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색을 단일 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 순회로 처리해 수십~수백 배 빠른 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.

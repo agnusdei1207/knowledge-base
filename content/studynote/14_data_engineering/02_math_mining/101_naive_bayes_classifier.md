@@ -3,8 +3,8 @@ title: "Naive Bayes Classifier & Laplace Smoothing"
 date: "2025-05-22"
 tags:
   - "studynote-data-engineering"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/) ([Naive Bayes](/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/) Classifier)는 베이즈 정리(Bayes' Theorem)를 기반으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모든 특성이 서로 완벽하게 독립적이라는 '순진한(Naive)' 가정 하에 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 곱해 클래스를 예측하는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알고리즘이다.

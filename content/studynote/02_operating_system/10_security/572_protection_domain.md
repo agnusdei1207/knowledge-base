@@ -3,8 +3,8 @@ title: "572. Protection Domain"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 572
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 프로세스가 실행될 때 부여받는 <strong>"접근 가능한 객체와 수행 가능한 연산의 집합"</strong>이다. 크롬 브라우저는 다운로드 폴더에는 접근 가능하지만, 시스템 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`/etc/passwd`)에는 접근 불가하도록 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 격리된다.

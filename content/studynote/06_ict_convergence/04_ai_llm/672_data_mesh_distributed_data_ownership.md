@@ -3,8 +3,8 @@ title: "Data Mesh Distributed Data Ownership"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 672
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 메시의 분산 데이터 소유권은 데이터를 생성하는 **도메인 팀(예: 주문, 결제, 재고)**이 해당 데이터의 **Schema 정의, SLO(품질), 접근 정책, 수명 주기(Lifecycle), API 인터페이스(데이터 컨트랙트)**까지 모두 책임지는 **도메인 중심 분권형(Domain-Driven Decentralized)** 소유권 모델이며, 중앙 데이터 플랫폼팀의 **Self-Serve Platform** 위에서 **Federated Computational Governance**로 통제된다.

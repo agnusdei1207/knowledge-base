@@ -3,8 +3,8 @@ title: "SLA and MTTR Measurement Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 278
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SLA와 [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 측정 감리는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/))과 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간(Mean Time To Repair, [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 측정 체계에서 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표([Service Level Objective](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)), 장애 시계(Incident [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)), [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질(Restoration Quality)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

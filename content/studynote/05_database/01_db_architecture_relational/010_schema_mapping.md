@@ -1,11 +1,11 @@
 ---
 title: "010. Schema Mapping"
 date: "2024-05-20"
-description: "데이터 독립성을 보장하는 3단계 스키마 간의 사상(Mapping) 메커니즘"
 tags:
   - "database"
+  - "studynote-database"
+weight: 10
 ---
-
 # [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑 ([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/) Mapping)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ANSI/SPARC [3단계 스키마 아키텍처](/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/)에서 외부-개념, 개념-[내부 스키마](/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 계층을 서로 연결하여 상호 변환해 주는 '규칙(Rule)'이자 '인터페이스'입니다.

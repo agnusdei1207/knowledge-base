@@ -3,8 +3,8 @@ title: "435. Tlb Shootdown"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 435
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 슛다운(Shootdown)은 멀티 코어 시스템에서 특정 CPU 코어가 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑을 변경(수정, 해제 등)했을 때, <strong>다른 모든 CPU 코어들의 <a href="/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 캐시(머릿속)에 남아있는 옛날 쓰레기 주소(Stale Entry)들을 일제히 무효화(Flush/Invalidate)시키기 위해 강제로 쏘아 올리는 '<a href="/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/">하드웨어 인터럽트</a>(IPI) 폭격'</strong>이다.

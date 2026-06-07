@@ -1,11 +1,10 @@
 ---
-weight = 278
 title: "278. 개인정보 데이터 마스킹 자동 필터(DLP 파이프라인 전송망 감시)"
 date: "2026-05-08"
-[extra]
-categories: "studynote-devops-sre"
+tags:
+  - "studynote-devops-sre"
+weight: 278
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 민감 정보가 로그, 전송, 저장 경로에서 유출되지 않도록 탐지·마스킹·차단하는 체계.

@@ -3,8 +3,8 @@ title: "276. Lock Hierarchy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락 순서화([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) Hierarchy)는 시스템 내의 모든 락(공유 자원)에 1번, 2번, 3번과 같은 <strong>절대적인 계층(순위) 번호를 부여하고, 모든 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>가 무조건 번호가 낮은 락부터 차례대로 획득하도록 강제하는 규칙</strong>이다.

@@ -3,8 +3,8 @@ title: "Safe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/) ([Safe State](/studynote/02_operating_system/05_deadlock/298_safe_state/))는 시스템이 프로세스들에게 자원을 할당할 때, <strong><a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)를 회피하면서 모든 프로세스가 무사히 실행을 마치고 자원을 반납할 수 있는 '안전 순서열(<a href="/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)'이 최소 1개 이상 존재하는 상태</strong>를 뜻한다.

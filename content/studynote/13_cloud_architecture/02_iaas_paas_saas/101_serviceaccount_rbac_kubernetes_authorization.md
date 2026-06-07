@@ -3,8 +3,8 @@ title: "101. Serviceaccount Rbac Kubernetes Authorization"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 [RBAC](/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/studynote/09_security/11_iam_access_control/569_rbac/))와 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 어카운트 (ServiceAccount)는 클러스터 내외부의 주체(사용자 및 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))가 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버에 어떤 작업을 할 수 있는지 통제하는 권한 부여 메커니즘이다.

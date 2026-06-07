@@ -1,10 +1,11 @@
 ---
 title: "066. Product Backlog Grooming"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제품 백로그(Product Backlog)는 제품에 필요한 기능, [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정, [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/), 개선 항목을 우선순위로 정리한 단일 목록이다.

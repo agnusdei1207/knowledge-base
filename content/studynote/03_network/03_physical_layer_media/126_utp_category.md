@@ -3,8 +3,8 @@ title: "Cat 3, Cat 5, Cat 5e, Cat 6, Cat 6a, Cat 7, Cat 8"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) ([Unshielded Twisted Pair](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/)) 케이블은 두 가닥의 구리선을 꼬아 전자기 간섭을 상쇄하는 원리로 작동하며, 카테고리는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전송 속도를 결정하는 규격이다.

@@ -3,8 +3,8 @@ title: "NIST Cloud Computing Characteristics"
 date: "2026-04-16"
 tags:
   - "studynote-ict-convergence"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 미국 국립표준기술연구소 NIST (National Institute of Standards and Technology)의 클라우드 5대 특징은 "원격 서버를 빌려 쓰는 것"과 "진짜 클라우드"를 가르는 최소 조건이다.

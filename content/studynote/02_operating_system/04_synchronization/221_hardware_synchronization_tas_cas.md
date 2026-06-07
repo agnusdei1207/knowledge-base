@@ -3,8 +3,8 @@ title: "TAS, CAS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어적 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 소프트웨어([알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))만으로는 완벽히 막을 수 없는 타이밍 꼬임([문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 원천 차단하기 위해, CPU 칩셋 자체가 제공하는 <strong>"절대 쪼개지지 않는(Atomic) 1클럭짜리 메모리 읽기/<a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>"</strong>를 사용하는 기법이다.

@@ -1,11 +1,11 @@
 ---
 title: "150. Srs Quality Characteristics"
 date: "2026-05-03"
-description: "모호한 고객의 요구사항이 완벽한 소프트웨어 설계도로 인정받기 위해 반드시 통과해야 하는 정확성, 명확성, 완전성, 일관성, 검증 가능성, 추적 가능성의 6가지 철칙"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항 명세서(SRS)의 품질 특성은 IEEE 830 표준에서 정의한, 산문형(자연어) 요구사항 문장이 개발과 테스트의 기준이 되는 '엔지니어링 잣대'로 기능하기 위한 절대적 채점 기준(Criteria)이다.
 > 2. **가치**: "정확하고 명확하며 빠짐없이 완전해야 하고(내용적 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)), 앞뒤가 일관되어 모순이 없어야 하며(논리적 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)), QA가 테스트로 O/X 채점([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성)하고 소스코드까지 꼬리표가 이어져야(추적 가능성)" 프로젝트의 폭망을 막을 수 있다.

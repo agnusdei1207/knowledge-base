@@ -3,8 +3,8 @@ title: "072. Spark History Server"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Spark History Server는 완료된 Spark 애플리케이션의 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Event Log)를 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3에서 읽어 Web UI로 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 독립 데몬으로, 실행 중인 SparkUI가 종료된 후에도 작업 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)·스테이지·[태스크](/studynote/02_operating_system/02_process_thread/150_task/) 세부 정보를 사후 분석할 수 있게 한다.

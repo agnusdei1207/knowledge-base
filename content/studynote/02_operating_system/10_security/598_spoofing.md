@@ -3,8 +3,8 @@ title: "598. Spoofing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 598
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스푸핑 (Spoofing)은 해커가 자신의 신분을 속이기 위해 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소, IP 주소, [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 정보 등을 변조하여 시스템이나 네트워크를 속이는 '위장 침투' 기법이다.

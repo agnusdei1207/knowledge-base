@@ -3,8 +3,8 @@ title: "319. Icmp Message Types Query Error Reporting"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 319
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ICMP](/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 메시지 종류는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

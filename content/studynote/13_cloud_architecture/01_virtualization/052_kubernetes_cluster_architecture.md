@@ -3,8 +3,8 @@ title: "Kubernetes Cluster Architecture"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터는 제어 평면 (Control Plane)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)으로 나뉜 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 시스템이다.

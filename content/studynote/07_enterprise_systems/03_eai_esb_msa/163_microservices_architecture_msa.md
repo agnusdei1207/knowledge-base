@@ -3,8 +3,8 @@ title: "163. Microservices Architecture Msa"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 163
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))는 하나의 거대한 애플리케이션을 비즈니스 기능 중심의 작은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들로 분해하고, 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 독립 배포·독립 확장·독립 운영 가능한 단위로 만드는 [아키텍처 스타일](/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/)이다.

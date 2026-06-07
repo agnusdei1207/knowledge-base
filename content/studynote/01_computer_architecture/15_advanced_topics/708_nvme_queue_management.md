@@ -3,9 +3,8 @@ title: "708. SMBIOS (System Management BIOS)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 708
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SMBIOS (System [Management](/studynote/12_it_management/05_security_compliance/1013_management/) BIOS)는 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 시스템 모델, BIOS [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 시리얼 번호, 메모리 슬롯 정보 같은 인벤토리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준 구조체로 공개하는 규격이다.

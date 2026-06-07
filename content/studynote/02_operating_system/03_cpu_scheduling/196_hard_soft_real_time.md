@@ -3,8 +3,8 @@ title: "196. Hard Soft Real Time"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 두 개념은 모두 "데드라인([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) 준수"를 목표로 하지만, <strong>하드 실시간</strong>은 한 번의 지각이 '시스템 붕괴 및 인명 피해'로 직결되는 완벽한 타이밍 보장 모델이며, <strong>소프트 실시간</strong>은 지각이 발생해도 '[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질([QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 저하'에 그치는 유연한 우선순위 모델이다.

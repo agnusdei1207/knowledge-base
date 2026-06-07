@@ -2,9 +2,9 @@
 title: "018. Bucket Sort"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 18
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 버킷 정렬은 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 구간(버킷)으로 분산시킨 후 각 버킷을 개별 정렬하고 합치는 방식으로, 균등 분포 조건에서 O(n) 평균 시간을 달성한다.
 > 2. **가치**: [0, 1) 범위의 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수나 균일하게 분포된 실수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 선형 시간에 정렬할 수 있는 유일한 범용 방법이다.

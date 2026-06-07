@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "979. IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)"
 date: "2026-05-08"
-categories: "studynote-security"
+tags:
+  - "studynote-security"
+weight: 979
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)는 보안 확장 개념에서 참여 주체가 메시지와 상태 검증을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

@@ -3,8 +3,8 @@ title: "234. Uml Class Relationships Generalization Dependency"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클래스 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) - 일반화(상속), 실체화(인터페이스), 의존, 연관, 집합, 합성은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

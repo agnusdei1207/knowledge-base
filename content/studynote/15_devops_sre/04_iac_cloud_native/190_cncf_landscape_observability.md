@@ -3,8 +3,8 @@ title: "Observability"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 출력되는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)만으로 내부 상태를 추론하고 미지의 문제를 탐색하는 능력.

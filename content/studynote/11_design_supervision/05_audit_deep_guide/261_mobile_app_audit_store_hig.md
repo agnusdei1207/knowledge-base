@@ -3,8 +3,8 @@ title: "Mobile App Audit for HIG and Material Design"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 261
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모바일 앱 감리 HIG와 Material Design는 애플 휴먼 인터페이스 가이드(Apple Human Interface Guidelines, HIG)와 머티리얼 디자인(Material Design) 기준에서 디자인 시스템(Design System), 탐색 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Navigation [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), 스토어 심사 적합성(Store [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) [Compliance](/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "514. Secret Management Vault Kms"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 514
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp [Vault](/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager 활용은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

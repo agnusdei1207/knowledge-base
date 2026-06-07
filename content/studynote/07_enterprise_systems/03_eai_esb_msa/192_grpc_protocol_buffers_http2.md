@@ -2,9 +2,9 @@
 title: "192. Grpc Protocol Buffers Http2"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) (Google [Remote Procedure Call](/studynote/02_operating_system/02_process_thread/126_rpc/))은 `.proto` 계약서를 기준으로 클라이언트와 서버 코드를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, [Protocol Buffers](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/) 바이너리 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 위에서 주고받는 고성능 원격 호출 프레임워크다.

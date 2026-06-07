@@ -3,8 +3,8 @@ title: "061. Helm Charts"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Charts는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 매니페스트를 템플릿과 값 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 묶어 재사용 가능한 패키지로 만드는 방식이다.

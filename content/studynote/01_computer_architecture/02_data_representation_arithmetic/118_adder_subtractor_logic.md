@@ -3,8 +3,8 @@ title: "Adder-Subtractor Logic"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 가감산기 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 덧셈기([Full Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)) 회로 앞단에 <strong>XOR 게이트 하나를 융합</strong>하여, 외부 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(Sub)에 따라 덧셈과 뺄셈을 마음대로 스위칭하는 하드웨어 아키텍처다.
 > 2. **가치**: 뺄셈용 전용 회로([Subtractor](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/))를 만들지 않고 2의 보수(2's Complement) 수학의 원리(`A - B = A + (~B + 1)`)를 물리적 게이트로 완벽히 치환함으로써 칩의 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 면적을 획기적으로 줄였다.

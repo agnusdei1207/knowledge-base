@@ -3,8 +3,8 @@ title: "COCOMO II Effort Estimation Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 282
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 공수 산정 감리는 구조적 비용 산정 모델([Constructive Cost Model](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II, [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II) 기반 공수 추정 체계에서 규모 추정(Size Estimation), 스케일 팩터(Scale Factor), [보정 계수](/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)([Calibration](/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/) Factor)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

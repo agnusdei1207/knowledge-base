@@ -3,8 +3,8 @@ title: "Isolated I/O"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 311
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분리형 I/O (Isolated I/O)는 메모리 주소 공간과 입출력 장치 주소 공간을 분리해, 장치를 메모리가 아닌 별도 [포트 번호](/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)로 다루는 구조다.

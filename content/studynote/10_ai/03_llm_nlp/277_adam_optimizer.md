@@ -3,9 +3,8 @@ title: "277. Adam (Adaptive Moment Estimation)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 277
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Adam(Adaptive Moment Estimation)은 1차 [모멘텀](/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)(기울기 지수 이동 평균, [Momentum](/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))과 2차 [모멘텀](/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)(기울기 제곱 지수 이동 평균, RMSProp)을 결합하고 편향 보정([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) Correction)을 추가해 빠르고 안정적인 학습을 실현하는 적응형 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)다.

@@ -3,8 +3,8 @@ title: "Architecture Dependent MMU"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 372
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어인 <strong><a href="/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/">Memory Management Unit</a>)</strong>가 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)을 읽고 주소를 번역하는 방식은 인텔(x86), ARM, [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 등 CPU 아키텍처마다 그 규격([레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조, 트리 단계)이 <strong>완전히 제각각으로 설계(<a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Dependent)</strong>되어 있다.

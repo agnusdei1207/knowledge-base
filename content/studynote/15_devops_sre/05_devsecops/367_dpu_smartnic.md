@@ -3,8 +3,8 @@ title: "DPU SmartNIC Infrastructure Offloading P4 eBPF"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 367
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))와 SmartNIC (Smart Network Interface Card)는 네트워킹·스토리지·보안 처리를 호스트 CPU에서 전용 하드웨어로 오프로드해, [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버가 애플리케이션 컴퓨팅에만 집중하도록 하는 인프라 가속 장치다.

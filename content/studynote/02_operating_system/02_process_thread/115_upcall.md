@@ -3,8 +3,8 @@ title: "Upcall"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상향 호출 (Upcall)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [사용자 수준 스레드](/studynote/02_operating_system/02_process_thread/096_user_level_thread/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에게 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태 변화를 통지하기 위해, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 유저 모드로 제어권을 넘겨주고 유저 영역에 등록된 콜백 핸들러를 실행하는 비동기 통지 메커니즘이다.

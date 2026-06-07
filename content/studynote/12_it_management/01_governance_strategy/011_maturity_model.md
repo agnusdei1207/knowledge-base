@@ -1,11 +1,11 @@
 ---
 title: "011. Maturity Model"
 date: "2024-05-20"
-description: "조직의 역량 및 프로세스 성숙도를 진단하는 CMMI 및 SPICE 모델 분석"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 11
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 조직이 목적을 달성하기 위한 프로세스의 표준화, 측정, 통제, 최적화 수준을 정량적으로 평가하고 개선하는 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임워크.
 > 2. **가치**: 소프트웨어 개발 및 IT 운영 조직의 예측 가능성을 높이고, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄이며, 궁극적으로 ROI를 개선하여 지속 가능한 품질 보증 체계를 확립.

@@ -3,8 +3,8 @@ title: "047. Cocomo Model"
 date: "2026-04-05"
 tags:
   - "studynote-software-engineering"
+weight: 47
 ---
-
 > **핵심 인사이트**
 > 1. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)([Constructive Cost Model](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/))는 Barry Boehm이 1981년 제안한 소프트웨어 개발 비용 추정 모델 — 소스 코드 라인 수(KLOC)를 기반으로 개발 공수(Person-Month)와 일정(Duration)을 계산하며, 프로젝트 규모와 유형에 따라 Basic->Intermediate->Detailed 3단계로 구성된다.
 > 2. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II(1995)는 객체 지향과 재사용 기반 개발을 반영한 현대화 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) — KLOC 대신 [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/))와 객체 점수(Object Point)를 지원하고, 22개 비용 드라이버(Cost Driver)로 [보정 계수](/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)를 계산하는 더 정교한 모델이다.

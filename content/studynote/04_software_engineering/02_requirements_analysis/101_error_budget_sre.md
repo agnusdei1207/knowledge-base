@@ -1,10 +1,11 @@
 ---
 title: "101. Error Budget Sre"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 에러 예산 (Error Budget)은 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학) 철학의 핵심으로, 시스템이 일정 기간 동안 합법적으로 실패(다운타임)해도 허용되는 '수학적 여유 시간'을 의미한다.
 > 2. **가치**: "100% 무결점은 비용 낭비"라는 대전제 하에, 개발팀의 신기능 배포(속도/혁신)와 운영팀의 시스템 방어(안정성) 간의 고질적인 조직 갈등을 객관적 지표로 해소한다.

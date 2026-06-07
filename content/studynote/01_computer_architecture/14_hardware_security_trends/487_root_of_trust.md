@@ -3,8 +3,8 @@ title: "Root of Trust"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 487
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Root of Trust (RoT)는 시스템의 모든 보안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 출발하는 최소 불변 신뢰 앵커로, 더 아래 단계에 의존하지 않고 스스로 신뢰의 시작점을 제공한다.

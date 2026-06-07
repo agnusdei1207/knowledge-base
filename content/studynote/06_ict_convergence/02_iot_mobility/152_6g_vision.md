@@ -1,11 +1,10 @@
 ---
 title: "152. 6G Vision"
 date: "2026-05-03"
-description: "테라헤르츠(THz) 대역폭과 비지상 통신망(NTN)을 활용해 전 지구적 초공간 커버리지를 구현하는 AI 내재화 차세대 네트워크"
 tags:
   - "studynote-ict-convergence"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신망은 [밀리미터파](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)([5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))를 초월한 <strong><a href="/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">테라헤르츠</a>(<a href="/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">THz</a>)</strong> 주파수 대역의 초광속 빔을 사용하여 초당 테라비트(1 Tbps) 우주 폭발 전송률을 달성하고, 코어부터 엣지 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)까지 100% [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 신경망으로 제어되는 <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 내재화(<a href="/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/">AI-Native</a>)</strong> 아키텍처다.
 > 2. **가치**: 인구 밀집 도심에만 박아대던 지상 기지국 쇳덩이의 2D 평면 족쇄를 도끼로 찢어발겼다!! [저궤도 위성](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)([LEO](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)), 성층권 드론([HAPS](/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/)), 수중 음파를 하나로 포개어 엮는 <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/">비지상 네트워크</a>(NTN, Non-Terrestrial Network)</strong>를 통해 사막 한가운데서도 무결점 100% 연결되는 3D 초공간(Hyper-Spatial) 인프라 제국을 창조한다.

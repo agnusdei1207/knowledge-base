@@ -3,8 +3,8 @@ title: "149. Sphincs Slh Dsa"
 date: "2026-05-03"
 tags:
   - "studynote-security"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SPHINCS+(표준명 SLH-DSA)는 난해한 대수학이나 격자 암호 난제를 전혀 쓰지 않고, 오직 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 `SHA-256` 같은 <strong><a href="/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a>(<a href="/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>) 연산만을 수억 번의 다중 트리(<a href="/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">Merkle Tree</a>) 잔가지로 엮어 1회용 도장처럼 찍어내는 무상태(<a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>) 기반의 양자 내성 <a href="/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a>(<a href="/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/">PQC</a>)</strong>이다.
 > 2. **가치**: 전 세계 양자 암호 1, 2등(딜리슘, 팔콘)이 몽땅 의존하는 '격자 수학(Lattice)'이 훗날 천재 수학자에 의해 한 방에 뚫려 붕괴(단일 실패 점)될 대재앙의 날을 대비해 100% 완벽히 다른 원리로 만들어 둔, 가장 보수적이고 절.대. 뚫리지 않음이 증명된 <strong>인류 최후의 '플랜 B (<a href="/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 쉴드 방어막)'</strong>이다.

@@ -3,8 +3,8 @@ title: "DNS Sinkhole Botnet Cnc Blocking Kisa"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1070
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀 ([DNS Sinkhole](/studynote/03_network/18_optical_nextgen_automation/936_dns_sinkhole/) [Botnet Cnc](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) [Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) Kisa)는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

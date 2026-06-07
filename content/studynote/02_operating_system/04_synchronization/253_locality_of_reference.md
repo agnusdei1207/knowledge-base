@@ -3,8 +3,8 @@ title: "Locality of Reference"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 253
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성은 프로그램이 실행될 때 메모리의 모든 영역을 균등하게 접근하는 것이 아니라, <strong>"한 번 접근했던 곳이나 그 근처의 메모리 영역을 집중적으로 다시 접근하는 성질"</strong>을 뜻하는 컴퓨터 과학의 근본적인 통계적 법칙이다.

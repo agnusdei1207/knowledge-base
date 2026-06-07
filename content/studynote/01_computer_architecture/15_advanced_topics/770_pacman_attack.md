@@ -3,8 +3,8 @@ title: "ARM PAC"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 770
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PACMAN 공격은 Arm의 PAC ([Pointer Authentication](/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))을 암호학적으로 깨는 것이 아니라, 투기적 실행 (Speculative Execution) 중 PAC [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과를 부채널로 바꿔 "이 PAC 추측값이 맞는가"를 조용히 묻는 <strong>PAC <a href="/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">oracle</a> 공격</strong>이다.

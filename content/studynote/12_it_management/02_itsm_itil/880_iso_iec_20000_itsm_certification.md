@@ -3,8 +3,8 @@ title: "880. Iso Iec 20000 Itsm Certification"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 880
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ISO/IEC 20000은 기업이나 조직이 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 (ITSM; [IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/)) 체계를 국제적인 베스트 프랙티스([ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/))에 맞게 훌륭히 운영하고 있음을 공인하는 국제 표준 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이다.

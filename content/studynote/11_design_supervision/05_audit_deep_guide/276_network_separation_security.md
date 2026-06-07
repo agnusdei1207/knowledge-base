@@ -3,8 +3,8 @@ title: "Network Separation Security Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [망분리](/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 보안 감리는 업무망과 인터넷망 분리를 중심으로 한 [망분리](/studynote/12_it_management/05_security_compliance/182_network_separation_model/)([Network Separation](/studynote/12_it_management/05_security_compliance/182_network_separation_model/)) 보안 체계에서 보안 영역화([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Zoning), 자료 반출입([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Control), 예외 승인(Exception Approval)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

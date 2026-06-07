@@ -3,8 +3,8 @@ title: "LMAX Disruptor Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 658
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LMAX 디스럽터 (Disruptor)는 링버퍼(Ring Buffer)와 시퀀스(Sequence) 기반으로 동작하는 초저지연 락프리([Lock-Free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 이벤트 처리 패턴이다.

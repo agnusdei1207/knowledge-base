@@ -3,8 +3,8 @@ title: "821. Cloud Native Networking Scale Out Msa"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 821
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 네트워킹은 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

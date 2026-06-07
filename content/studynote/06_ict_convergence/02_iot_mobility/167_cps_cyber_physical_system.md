@@ -1,10 +1,10 @@
 ---
 title: "167. Cps Cyber Physical System"
-tags:
-  - "studynote-ict"
 date: "2026-06-07"
+tags:
+  - "studynote-ict-convergence"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPS (Cyber-Physical System)는 센서로 물리 세계를 읽고, 사이버 영역에서 계산한 뒤, 그 결과를 다시 액추에이터로 되돌려 현실을 제어하는 폐루프 (Closed Loop) 시스템이다.

@@ -3,8 +3,8 @@ title: "Secret Manager HashiCorp Vault Dynamic Secret TTL Hardcoding Prevention"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 329
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))은 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키, DB 비밀번호, [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서처럼 노출되면 즉각적인 보안 사고로 이어지는 민감 정보다. 하드코딩이나 환경변수 평문 저장은 Git 이력, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 등 수십 개 경로로 유출된다.

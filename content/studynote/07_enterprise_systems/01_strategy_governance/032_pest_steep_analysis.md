@@ -2,9 +2,9 @@
 title: "032. Pest Steep Analysis"
 date: "2026-03-03"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)(Political·Economic·Social·Technological) 분석은 기업 외부 거시 환경을 체계적으로 스캔해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 맥락을 제공하는 프레임워크다.
 > 2. STEEP은 PEST에 Environmental(환경) 요인을 추가해 ESG·탄소중립 이슈를 포함하며, PESTLE은 Legal(법적) 요인을 별도로 분리한다.

@@ -3,8 +3,8 @@ title: "024. Sdn Software Defined Networking"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) ([Software Defined Networking](/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/), [소프트웨어 정의 네트워킹](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/))은 네트워크 장비의 제어 평면(Control Plane)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 평면([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)을 분리하여, 중앙 집중형 컨트롤러([SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) Controller)가 전체 네트워크를 소프트웨어로 프로그래밍·관리하는 아키텍처다.
 > 2. **가치**: 전통 네트워크는 각 장비([스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·라우터)가 독립적으로 제어 로직을 실행하여 복잡한 변경이 장비별 개별 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 요구하지만, SDN은 컨트롤러에서 전체 네트워크를 코드로 제어하여 민첩성(Agility)·자동화·비용 절감을 달성한다.

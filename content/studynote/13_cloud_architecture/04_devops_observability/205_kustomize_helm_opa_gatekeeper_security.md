@@ -3,8 +3,8 @@ title: "205. Kustomize Helm Opa Gatekeeper Security"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 보안·운영 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사람이 읽는 문서가 아닌 코드로 표현하여 자동화 파이프라인에서 강제 검증하는 패턴이며, [OPA](/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Gatekeeper는 K8s Admission Controller로 이를 구현한다.

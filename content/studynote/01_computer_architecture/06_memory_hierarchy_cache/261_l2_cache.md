@@ -3,8 +3,8 @@ title: "Level 2 Cache"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 261
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L2 캐시 (Level 2 Cache)는 L1 캐시 ([Level 1 Cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))의 짧은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간만으로는 감당할 수 없는 작업 집합을 받아 주는, CPU (Central Processing Unit) 내부의 두 번째 완충 계층이다.

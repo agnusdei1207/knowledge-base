@@ -3,8 +3,8 @@ title: "380. Garbage Collection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 380
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가비지 컬렉션(GC)은 프로그래머가 수동으로 해제하지 않고 버려둔 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리의 '고아 객체(Garbage)'들을, <strong>런타임 엔진(JVM, V8 등)이 백그라운드에서 추적하여 자동으로 회수(Free)해 주는 자동화된 동적 메모리 관리 기법</strong>이다.

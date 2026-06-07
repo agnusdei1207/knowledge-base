@@ -2,9 +2,9 @@
 title: "072. Fenwick Tree"
 date: "2026-03-28"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 연산을 이용한 구간 합 최적화</strong>: 2진수의 마지막 1비트(`i & -i`)가 관리하는 구간의 길이를 결정하는 원리를 이용하여 구간 합 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 값 업데이트를 모두 $O(\log n)$에 처리함.
 - **메모리 효율성 극대화**: [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)가 약 $4n$의 공간을 필요로 하는 것과 달리, 원본 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)과 동일한 $n$의 공간만 사용하여 매우 경제적임.

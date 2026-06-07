@@ -1,11 +1,11 @@
 ---
 title: "015. Open Design"
 date: "2026-03-25"
-description: "시스템의 보안성이 알고리즘이나 설계의 비밀성에 의존하지 않고, 오직 키(Key)나 비밀번호와 같은 쉽게 변경 가능한 요소에만 의존해야 한다는 암호학 기반 보안 설계 원칙"
 tags:
   - "security"
+  - "studynote-security"
+weight: 15
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템의 동작 방식과 암호화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 적(해커)에게 완전히 알려져 있다고 가정하더라도, 시스템의 기밀성과 무결성이 유지되도록 설계해야 한다는 철학이다. (케르크호프스의 원리)
 > 2. **가치**: "숨김을 통한 보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) through Obscurity)"의 치명적 한계를 극복하고, 전 세계 전문가들의 공개적인 [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/))를 통해 수학적으로 검증된 견고한 보안 체계를 구축한다.

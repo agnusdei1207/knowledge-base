@@ -3,8 +3,8 @@ title: "285. No Preemption"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 285
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비선점 (No Preemption) 조건은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 4대 필요조건 중 하나로, 한 프로세스가 자원을 스스로 해제(Release)하기 전까지는 다른 프로세스나 운영체제가 그 자원을 강제로 빼앗을 수 없는(Non-preemptible) 특성을 말한다.

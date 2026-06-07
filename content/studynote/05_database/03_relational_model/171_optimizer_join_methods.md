@@ -3,8 +3,8 @@ title: "171. Optimizer Join Methods"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [비용 기반 옵티마이저](/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 같은 조인 SQL (Structured Query Language) 이라도 예상 결과 건수, [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유무, 정렬 상태, 메모리 여유에 따라 [Nested Loop](/studynote/05_database/07_exam_summary/431_nested_loop_join/) (NL) [Join](/studynote/05_database/04_transactions_concurrency/521_join/), [Hash Join](/studynote/05_database/03_relational_model/174_hash_join/), [Sort Merge Join](/studynote/05_database/03_relational_model/173_sort_merge_join/) 중 다른 물리 연산을 선택한다.

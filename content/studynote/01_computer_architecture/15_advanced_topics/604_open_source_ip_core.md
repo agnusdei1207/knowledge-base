@@ -3,8 +3,8 @@ title: "Open Source IP Core"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 604
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 소스 IP 코어 (Open Source IP Core)는 칩 안에서 재사용되는 하드웨어 설계 블록을 공개 라이선스로 배포해, 설계자가 코드를 읽고 수정하고 통합할 수 있게 한 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)용 재사용 자산이다.

@@ -3,8 +3,8 @@ title: "Hybrid Work Digital Workplace"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 785
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이브리드 업무 디지털 워크플레이스는 **SASE/ZTNA 기반 보안 경계 해체**, **VDI/DaaS를 통한 compute 가상화**, **UCaaS·CCaaS·DEX 플랫폼의 통합**으로 물리적/원격 근무자가 단일 정책 컨텍스트(Context) 하에서 동등한 생산성·보안·경험을 확보하는 **"위치 무관(Location-Agnostic) 엔터프라이즈 컴퓨팅 패러다임"**이다.

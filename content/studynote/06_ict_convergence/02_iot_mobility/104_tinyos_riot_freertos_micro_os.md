@@ -1,10 +1,11 @@
 ---
 title: "TinyOS, RIOT, FreeRTOS"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 초소형 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 극도로 제한된 자원(수 KB의 RAM, 저전력 CPU)을 가진 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 노드 등에서 동작하기 위해 덩치를 극한으로 줄인 특수 목적 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다.
 > 2. **가치**: 범용 OS가 요구하는 막대한 메모리 오버헤드를 제거하고, 이벤트 기반 또는 초경량 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링을 통해 실시간성(Real-Time)과 배터리 수명을 극대화한다.

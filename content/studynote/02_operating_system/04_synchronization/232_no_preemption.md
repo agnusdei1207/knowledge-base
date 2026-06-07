@@ -3,8 +3,8 @@ title: "No Preemption"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 발생시키는 4대 필요조건 중 하나로, <strong>프로세스가 쥐고 있는 자원(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 다른 프로세스나 <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 강제로 빼앗을 수 없고 오직 스스로 반납할 때까지 기다려야만 하는 규칙</strong>을 뜻한다.

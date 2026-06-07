@@ -3,8 +3,8 @@ title: "Observability Prometheus Grafana Stack"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 623
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 관측가능성 Prometheus Grafana 스택은(는) 메트릭, 로그, 트레이스, 이벤트를 수집·시각화해 시스템 내부 상태를 추론하는 운영 체계이다.

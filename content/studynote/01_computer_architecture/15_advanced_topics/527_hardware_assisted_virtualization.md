@@ -3,8 +3,8 @@ title: "527. Hardware Assisted Virtualization"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 527
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 감소 (하드웨어 보조)는 CPU (Central Processing Unit)와 칩셋이 게스트 전용 실행 모드, 주소 변환 가속, 장치 접근 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기능을 제공해 하이퍼바이저의 소프트웨어 개입을 줄이는 방식이다.

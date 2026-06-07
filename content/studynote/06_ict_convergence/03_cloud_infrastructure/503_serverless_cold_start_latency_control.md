@@ -3,8 +3,8 @@ title: "Serverless Cold Start Latency Control"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 503
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)/[FaaS](/studynote/12_it_management/05_security_compliance/342_faas/))의 [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))는 최초 호출 시 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 초기화 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(수백ms~수 초)으로, 대기 중인 인스턴스가 없을 때 발생하는 비용-성능 트레이드오프다.

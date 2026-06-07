@@ -3,8 +3,8 @@ title: "104. Mobile App Cicd Fastlane Pipeline"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패스트레인 (Fastlane)은 복잡한 모바일 앱(iOS/Android)의 빌드, [코드 서명](/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) ([Code Signing](/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)), 스토어 배포 과정을 코드로 정의하여 자동화하는 루비 (Ruby) 기반의 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 도구다.

@@ -1,10 +1,11 @@
 ---
 title: "Sieve of Eratosthenes"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 856
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에라토스테네스의 체는 작은 수의 배수를 지워 소수를 찾는 알고리즘이다.

@@ -3,8 +3,8 @@ title: "Shadow Paging"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그림자 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) (Shadow [Paging](/studynote/02_operating_system/04_synchronization/259_paging/)) 기법은 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 없이 구버전(그림자) 디렉토리와 현재 디렉토리 유지 교체 ([COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/) 유사)에 초점을 맞춘 개념이다.

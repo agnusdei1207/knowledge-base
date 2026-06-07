@@ -3,8 +3,8 @@ title: "Cyber Security Threat Intelligence CTI"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 698
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사이버 위협 인텔리전스(CTI)는 MITRE ATT&CK 프레임워크 기반의 TTP(Tactics, Techniques, Procedures), IoC(Indicators of Compromise: IP, 도메인, 파일 해시, YARA 룰), IoA(Indicators of Attack) 데이터를 STIX(Structured Threat Information eXpression) 2.1/TAXII(Trusted Automated eXchange of Intelligence Information) 2.1 표준으로 구조화하여, 위협 행위자(Threat Actor)의 의도·역량·기회(Intrusion Set) 간의 인과관계를 명세화한 증거 기반 의사결정 체계이다.

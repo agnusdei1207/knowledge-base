@@ -3,8 +3,8 @@ title: "Serverless Computing / FaaS"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) ([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))는 서버가 없는 것이 아니라 개발자가 서버를 관리할 필요 없이 비즈니스 함수만 배포하면 클라우드 벤더가 인프라·확장·과금을 자동 처리하는 모델이다.
 > 2. **가치**: [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 덕분에 호출당 밀리초 단위 과금으로 유휴 비용 제로에 수렴하고, 트래픽 폭증 시에도 자동 수평 확장으로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 끊기지 않는다.

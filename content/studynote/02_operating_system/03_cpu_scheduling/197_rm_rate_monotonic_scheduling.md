@@ -3,8 +3,8 @@ title: "197. Rm Rate Monotonic Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RM (Rate Monotonic) 스케줄링은 하드 실시간(Hard Real-time) 시스템에서 <strong>"주기(Period)가 가장 짧은(자주 실행되는) <a href="/studynote/02_operating_system/02_process_thread/150_task/">태스크</a>에 가장 높은 정적 우선순위(Static Priority)를 부여"</strong>하는 [선점형 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

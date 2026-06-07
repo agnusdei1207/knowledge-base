@@ -3,8 +3,8 @@ title: "Scrubbing Center"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 250
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스크러빙 센터 ([Scrubbing Center](/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/))는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

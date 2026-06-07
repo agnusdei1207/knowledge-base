@@ -3,8 +3,8 @@ title: "198. Data Governance Components"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))·표준(Standard)·역할(Role)·프로세스([Process](/studynote/12_it_management/05_security_compliance/943_process/))·도구(Tool)의 5대 기둥으로 구성되며, 이 다섯 요소가 균형을 이룰 때 실효성 있는 거버넌스가 완성된다.

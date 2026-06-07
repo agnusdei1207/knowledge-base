@@ -3,8 +3,8 @@ title: "Coupling"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 656
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 서로 다른 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 얼마나 강하게 서로에게 의존하는지를 나타내는 지표이며, 낮을수록 좋다.
 - [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 높으면 한 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 구조 변경이 다른 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 수정과 장애로 쉽게 전파된다.

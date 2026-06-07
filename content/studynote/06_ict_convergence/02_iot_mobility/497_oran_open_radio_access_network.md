@@ -3,8 +3,8 @@ title: "O-RAN Open Radio Access Network"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 497
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/)(Open Radio Access Network)은 기존 이동통신 기지국의 하드웨어와 소프트웨어를 분리(Disaggregation)하고 인터페이스를 개방(Open)하여, 특정 벤더에 종속되지 않는 다중 공급자 기지국 생태계를 구축하는 아키텍처다.

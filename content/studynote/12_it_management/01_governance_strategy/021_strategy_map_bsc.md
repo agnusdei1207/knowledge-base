@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 21
 ---
-
-
 # 전략 체계도 (Strategy Map) - BSC 기반 조직 전략 시각화 도구
 
 > ⚠️ 이 문서는 조직의 비전과 전략을 추상적인 구호에서 벗어나, 원인과 결과의 명확한 논리적 연결 고리(Cause-and-Effect Linkage)로 시각화하여 모든 구성원이 동일한 목표를 향해 정렬되도록 돕는 IT 경영 및 전략 관리 도구인 '전략 체계도'를 심층 분석합니다.

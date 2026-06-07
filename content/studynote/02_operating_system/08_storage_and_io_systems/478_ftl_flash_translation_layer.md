@@ -3,8 +3,8 @@ title: "478. Ftl Flash Translation Layer"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 478
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FTL(Flash Translation Layer)은 "덮어쓰기가 불가능([Erase-before-write](/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/))하고 블록 단위로만 지워지는" 낸드 플래시([NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/)) 메모리의 기형적이고 거친 물리적 쌩얼을 완벽하게 가려, <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(OS)에게 마치 "언제든 맘대로 덮어쓸 수 있는 일반 하드디스크(<a href="/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>)"인 것처럼 속여서(Emulation) 보여주는 초고지능형 <a href="/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 계층</strong>이다.

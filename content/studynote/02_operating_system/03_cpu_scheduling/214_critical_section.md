@@ -3,8 +3,8 @@ title: "Critical Section"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 임계 구역 (Critical Section)은 다중 프로세스/[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 환경에서 둘 이상의 실행 흐름이 <strong>'공유 자원(Shared Resource)'에 접근하여 그 값을 변경하려 하는 치명적인 소스 코드의 특정 블록(구간)</strong>을 뜻한다.

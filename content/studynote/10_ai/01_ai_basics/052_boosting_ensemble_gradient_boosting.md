@@ -3,8 +3,8 @@ title: "052. Boosting Ensemble Gradient Boosting"
 date: "2026-05-01"
 tags:
   - "studynote-ai"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 앞 모델의 오차를 다음 모델이 순차적으로 보완하는 [앙상블 학습](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/) 방식이다.

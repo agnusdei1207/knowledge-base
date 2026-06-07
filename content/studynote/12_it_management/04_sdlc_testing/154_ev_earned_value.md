@@ -3,8 +3,8 @@ title: "154. Ev Earned Value"
 date: "2026-05-03"
 tags:
   - "studynote-it-management"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EV(Earned Value 획득 가치 / BCWP)는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)(획득 가치 관리) 3차원 엑스레이 레이더망에서 -> 개발자가 통장 돈을 얼마나 불태워 썼든([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)), 계획표 엑셀에 뭘 적어 놨든([PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)) 알 바 좆까고 무시한 채!! -> **오직 오늘 아침 내 두 눈앞에 살아서 100% 런타임 완료(Pass) 승인 도장 찍혀 완성된 진짜 물리적 쇳덩이 코드(산출물)의 가치만을 냉혹한 예산 돈($ 달러) 환산 수치로 엑스레이 까발려 도출 척살해 내는 절대 1타 무결점 코어 성적표 팩트(Fact)**다.
 > 2. **가치**: "우리 애들 매일 밤 철야 야근 뺑뺑이 돌며 10억 다 썼으니 일 존나 많이 끝났음 ㅋ([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 맹신 파국 💥)" 라는 좆소 PM의 허접한 뇌피셜 기만술 뽕(Hope)을 도끼로 찢어발기고 -> **"야 돈 10억 태워 썼는데 내 눈앞에 돌아가는 앱(EV)은 1억어치 찌끄레기뿐이네? 넌 9억 적자 횡령 사기꾼 타죽음 뻗음 파산 상태다 대가리 박아 쾅 🚀!!"** 단숨에 팀의 진짜 가성비([CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/))와 스피드([SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 병신력을 발가벗겨 심판대 록온(Lock-on) 치는 궁극의 조기 경보 쉴드를 작동시킨다.

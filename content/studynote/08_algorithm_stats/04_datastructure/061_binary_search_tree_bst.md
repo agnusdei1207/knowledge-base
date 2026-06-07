@@ -2,9 +2,9 @@
 title: "Binary Search Tree, BST"
 date: "2026-03-05"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 모든 노드에 대해 '왼쪽 서브트리 < 루트 < 오른쪽 서브트리'의 크기 관계를 유지하여 탐색 효율을 극대화한 자료구조다.
 > 2. <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 특징</strong>: 평균적으로 O(log n)의 탐색/삽입/삭제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이나, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한쪽으로 치우쳐 편향 트리(Skewed Tree)가 될 경우 O(n)으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다.

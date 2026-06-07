@@ -3,8 +3,8 @@ title: "062. Spark Mllib"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. <strong>스파크 MLlib (Machine <a href="/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a>)</strong>는 대규모 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 동작하는 고성능 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 및 유틸리티를 제공하는 스파크의 핵심 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)이다.
 2. Spark SQL의 DataFrame API를 기반으로 하는 <strong>'ML <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인(ML Pipelines)'</strong> 아키텍처를 도입하여, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환부터 모델 학습/평가까지의 과정을 표준화한다.

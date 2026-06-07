@@ -1,10 +1,11 @@
 ---
 title: "085. Participation Constraint Total Partial"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 참여 제약조건(Participation Constraint)은 엔터티(ER, Entity-Relationship)가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 반드시 참여해야 하는지, 선택적으로 참여할 수 있는지를 나타내는 규칙이다.

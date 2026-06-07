@@ -3,8 +3,8 @@ title: "623. Test Plan Scenario Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 623
 ---
-
 > **핵심 인사이트**
 > 1. 테스트 계획서(Test Plan)는 무엇을, 어떻게, 언제, 누가 테스트할지를 정의한 테스트의 "헌법" — IEEE 829 표준이 테스트 계획서 구조를 정의하며, 잘 작성된 계획서는 QA팀과 개발팀 간 기대 불일치를 예방한다.
 > 2. [테스트 시나리오](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/)([Test Scenario](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/))는 사용자 관점의 실제 동작 흐름을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) — 단순 기능 테스트(버튼 클릭)를 넘어 [end-to-end](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 비즈니스 흐름(회원가입->로그인->결제->환불)을 시뮬레이션하며, 높은 커버리지와 실질적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지를 동시에 달성한다.

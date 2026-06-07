@@ -3,8 +3,8 @@ title: "057. Jenkins Buildkite"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Jenkins는 플러그인과 자가 호스팅에 강한 전통적 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 도구이고, Buildkite는 에이전트 기반의 클라우드 친화적 도구다.

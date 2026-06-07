@@ -3,8 +3,8 @@ title: "Logistic Regression / Sigmoid Binary Classification"
 date: "2026-05-01"
 tags:
   - "studynote-ai"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 선형 점수를 [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 함수로 바꿔 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 추정한다.

@@ -2,9 +2,9 @@
 title: "Modeling & Normalization"
 tags:
   - "database"
+  - "studynote-database"
 weight: 2
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 관계형 데이터 모델은 데이터를 테이블(관계) 형태의이유 구조로 표현하며, 수학적 집합론에 기반하여 데이터 조작과 무결성 규칙을 정형화한 것이 핵심 철학이다.

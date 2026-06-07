@@ -3,8 +3,8 @@ title: "Simplex"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 406
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [선형 프로그래밍](/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/) 심플렉스 다면체 버텍스 최적 (Simplex): 1. **본질**: [선형 프로그래밍](/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/)([Linear Programming](/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/), LP)은 자원이 한정된 상황에서 이익을 최대화하거나 비용을 최소화하는 문제를 부등식(직선)으로 표현하고, 이 직선들…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

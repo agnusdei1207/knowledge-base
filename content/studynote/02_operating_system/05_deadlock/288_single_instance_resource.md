@@ -3,8 +3,8 @@ title: "Single Instance Resource"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 288
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단일 인스턴스 자원 환경은 시스템에 존재하는 특정 유형의 자원(예: 유일한 프린터 1대, 특정 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개)의 개수가 정확히 1개뿐인 가장 제한적인 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 생태계를 의미한다.

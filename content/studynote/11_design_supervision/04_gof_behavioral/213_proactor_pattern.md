@@ -3,8 +3,8 @@ title: "Proactor Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Proactor (프로액터) 패턴은 I/O 완료(Completion) 이벤트를 기반으로 OS가 I/O를 대신 수행하고, 완료 후 Completion Handler (완료 핸들러)를 호출하는 비동기 I/O 아키텍처 패턴이다.

@@ -3,8 +3,8 @@ title: "3D Printing Additive Manufacturing Industry"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 723
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 적층 제조(Additive Manufacturing, AM)는 ISO/ASTM 52900 기준 7대 공정군(Vat Photopolymerization, Material Extrusion, Powder Bed Fusion, Material Jetting, Binder Jetting, Directed Energy Deposition, Sheet Lamination)으로 분류되며, **CAD -> Topology Optimization -> Slice(.cli/.gcode) -> PBF/DED 빌드 -> HIP/CNC 후가공 -> CT/CMM 인증**의 디지털-물리 통합 워크플로우가 핵심이다.

@@ -3,8 +3,8 @@ title: "Extended Page Table, EPT"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 661
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 확장 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) (Extended [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/), EPT)은 게스트 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)를 호스트 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)로 바꾸는 2차 주소 변환을 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 대신 하드웨어가 수행하게 만든 인텔 메모리 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 장치다.

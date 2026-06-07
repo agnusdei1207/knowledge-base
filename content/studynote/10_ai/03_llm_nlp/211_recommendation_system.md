@@ -3,8 +3,8 @@ title: "Recommendation System"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 추천 시스템 ([Recommendation System](/studynote/12_it_management/02_itsm_itil/877_recommendation_system/))은 무한대의 정보(영화, 상품, 쇼츠)가 쏟아지는 바다에서 사용자가 무엇을 볼지 고르느라 지쳐 떠나는 것(탐색 피로도)을 막기 위해, 유저의 과거 행동과 취향을 딥러닝으로 씹어 먹고 <strong>"네가 다음에 무조건 클릭할 수밖에 없는 바로 그 1개의 아이템"을 0.1초 만에 눈앞에 강제로 밀어 넣는 궁극의 돈벌이(매출) <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>이다.

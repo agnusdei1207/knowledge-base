@@ -2,9 +2,9 @@
 title: "Multicore & Synchronization"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 11
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티코어 동기화는 여러 CPU 코어가 공유 데이터에 동시에 접근할 때 발생하는 데이터 불일치를 방지하기 위해, 하드웨어 레벨에서 원자성 (Atomicity)과 순서 (Ordering)를 보장하는 매커니즘이다.

@@ -3,8 +3,8 @@ title: "Single-Layer Perceptron"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 265
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)(SLP, Single-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 맥컬럭-피츠(McCulloch-Pitts) 뉴런 모델을 공식화한 것으로, 입력의 가중합이 임계값을 넘으면 발화(Fire)하는 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기이며 **선형 분리 가능(Linearly Separable)** 문제만 풀 수 있다.

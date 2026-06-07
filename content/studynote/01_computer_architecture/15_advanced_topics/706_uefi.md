@@ -3,9 +3,8 @@ title: "706. UEFI (Unified Extensible Firmware Interface)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 706
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: UEFI (Unified Extensible [Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface)는 레거시 BIOS를 대체한 표준 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 실행 환경으로, 전원 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 직후부터 OS 로더 직전까지의 인터페이스와 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 규격화한다.

@@ -3,8 +3,8 @@ title: "SDV, Software Defined Vehicle"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 정의 차량 (SDV, Software Defined Vehicle): 테슬라 등 하드웨어 부품(ECU) 중심 통제에서 벗어나 스마트폰처럼 통합 OS 소프트웨어와 OTA 업데이트를 통해 차량 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 진화하는 구조를 이해하는 핵심 개념으로, 센서, 지도, 위치, 제어 신호를 실시간으로 결합해 안전하게 판단해야 하는 문제를 설명하는 데 쓰인다.

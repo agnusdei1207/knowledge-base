@@ -2,9 +2,9 @@
 title: "016. Counting Sort"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 16
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 계수 정렬은 요소 간 비교 없이 각 값의 등장 횟수를 세어 정렬하는 비교 기반 하한 O(n log n)을 돌파하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: 키 범위 k가 작은 정수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(성적, 나이, 코드값 등)에서 O(n+k) 선형 시간을 달성하며 안정 정렬(Stable Sort) 성질을 보장한다.

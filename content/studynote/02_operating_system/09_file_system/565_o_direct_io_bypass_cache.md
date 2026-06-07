@@ -3,8 +3,8 @@ title: "565. O Direct Io Bypass Cache"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 565
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일반 유저 프로그램(C언어)이 하드디스크에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰면 절대 디스크로 바로 안 가고 중간 기착지 정거장인 <strong>'OS <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 <a href="/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache 더티 메모리)'</strong> 에 갇혀 질척이게 된다. 그러나 오라클([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))이나 MySQL 같은 괴물 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 앱은 <strong>"야 리눅스 OS 네 따위가 무슨 캐시 관리를 해? 내가 내 똑똑한 램 뱃속(SGA/Buffer Pool)에서 직접 관리할 테니 넌 닥치고 디스크 하드에 직빵 통로(<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> I/O 렌더)나 뚫어라!"</strong> 며 중간 [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 메모리를 우회(Bypass 파단) 시켜 버린다.

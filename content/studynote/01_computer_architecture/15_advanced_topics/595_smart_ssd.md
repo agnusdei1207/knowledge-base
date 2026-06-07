@@ -3,8 +3,8 @@ title: "Smart Solid-State Drive"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 595
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (Smart [Solid-State Drive](/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/))는 낸드 플래시 ([NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/))와 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러 옆에 현장 프로그래머블 게이트 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Field Programmable Gate [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/), [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/))이나 임베디드 프로세서를 넣어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 호스트로 모두 올리기 전에 저장장치 내부에서 일부 연산을 수행하는 장치형 near-[data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) accelerator다.

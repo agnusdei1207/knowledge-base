@@ -3,8 +3,8 @@ title: "Journaling Modes"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 540
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 539장의 `일기장(Journal)` 시스템이 낳은 "모터를 2번씩 뺑뺑이 돌려 속도가 반토막 나는 이중 굽기(Double Write 랙) 부작용" 을 해결하기 위해 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 천재들이 제시한 3가지 속도 타협 스위처(Mode) 옵션이다.

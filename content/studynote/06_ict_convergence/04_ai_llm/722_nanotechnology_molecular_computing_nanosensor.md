@@ -3,8 +3,8 @@ title: "Nanotechnology Molecular Computing Nanosensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 722
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 나노 기술 기반 분자 컴퓨팅과 나노센서는 1~100nm 스케일에서 발현되는 양자 효과(Quantum Confinement), 표면 플라즈몬(LSPR), 그리고 DNA/단백질의 분자 인식 특성을 연산 및 신호 변환 자원으로 활용하는 기술로, DNA의 4염기(A/T/G/C) 조합으로 대용량 병렬 연산(2^n 정보 밀도)을, CNT·그래핀·반도체 나노와이어의 고표면적-부피비(SA/V > 1000 m²/g)로 단일 분자 수준 검출(LOD: fM~aM)을 구현한다.

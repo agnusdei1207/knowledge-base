@@ -3,9 +3,8 @@ title: "317. LPU (Language Processing Unit)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 317
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/438_lpu/) (Language Processing Unit): [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 디코더의 순차적 토큰 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 단축에 특화된 추론 전용 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) (Groq 등)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

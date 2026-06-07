@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 181
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 콜드 사이트 (Cold Site)는 재해 복구용 별도 장소에 전력·네트워크·냉각·랙 같은 기본 시설만 확보하고, 서버와 스토리지는 재해 발생 후 조달·설치하는 최저비용형 Disaster Recovery 방식이다.

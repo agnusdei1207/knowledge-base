@@ -3,8 +3,8 @@ title: "Segmentation"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/))은 메모리를 같은 크기 조각이 아니라 코드, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 <strong>의미가 다른 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 단위</strong>로 나누어 주소화하는 방식이다.

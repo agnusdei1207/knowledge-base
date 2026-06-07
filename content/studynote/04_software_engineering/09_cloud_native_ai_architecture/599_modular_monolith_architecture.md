@@ -3,8 +3,8 @@ title: "599. Modular Monolith Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 599
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 (Modular Monolith) 아키텍처 - [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 전 단계, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 강결합 방지 아키텍처은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -1,11 +1,11 @@
 ---
 title: "013. Need To Know"
 date: "2026-03-25"
-description: "사용자가 자신의 직무를 수행하는 데 반드시 필요한 정보에만 접근할 수 있도록 제한하여 데이터 기밀성을 보호하는 핵심 원칙"
 tags:
   - "security"
+  - "studynote-security"
+weight: 13
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)된(Cleared) 사용자라 할지라도, 그 정보가 현재 수행 중인 구체적인 업무([Task](/studynote/02_operating_system/02_process_thread/150_task/))에 '반드시 필요한가'를 따져 접근을 통제하는 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 중심의 보안 원칙이다.
 > 2. **가치**: 정보 유출 및 내부자 위협(Insider Threat) 발생 시 피해 범위를 극적으로 최소화하며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 격리(Compartmentalization)를 통해 부서 간 이해상충을 방지한다.

@@ -2,9 +2,9 @@
 title: "Hypervisor"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 425
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) Type 1/2 전반가상화 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 비교는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) Type 1/2 전반가상화 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 비교, [Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

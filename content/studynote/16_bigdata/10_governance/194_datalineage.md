@@ -3,8 +3,8 @@ title: "194. Datalineage"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 194
 ---
-
 # [데이터 리니지](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) ([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 추적 시스템
 
 > ⚠️ 이 문서는 빅데이터 환경에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 출처(Origin)에서 최종 소비(Consumer)까지의 변환 이력을 추적하는 핵심 [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 기술인 '[데이터 리니지](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))'의 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(시스템 수준, 컬럼 수준), 추적 기술(파싱 기반, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반, 규칙 기반), 주요 도구(Apache Atlas, DataHub), 그리고 영향 분석(Impact Analysis)과의 연계성을 기술사 수준에서 심층 분석합니다.

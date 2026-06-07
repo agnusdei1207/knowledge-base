@@ -3,9 +3,8 @@ title: "17. MOSFET"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 17
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MOSFET (금속-산화막-[반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [전계효과 트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/016_fet/))은 게이트를 얇은 [절연체](/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)(산화막)로 막아, 물리적인 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 소모 없이 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(전기장)만으로 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜고 끄는 완벽한 무접점 소자다.
 > 2. **가치**: 동작 특성이 정반대인 NMOS와 PMOS를 하나로 묶은 [CMOS](/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 아키텍처를 탄생시켰으며, 이를 통해 대기 전력 소모를 0으로 수렴시켜 수백억 개 집적 회로 시대의 승자가 되었다.

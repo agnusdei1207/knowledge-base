@@ -3,8 +3,8 @@ title: "173. Configuration Management Ansible Chef Puppet"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [구성 관리](/studynote/12_it_management/02_itsm_itil/873_configuration_management/) 도구 ([Configuration Management](/studynote/12_it_management/02_itsm_itil/873_configuration_management/) Tool)는 서버가 "어떤 상태여야 하는가"를 코드로 적고, 실제 상태를 그 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 수렴시키는 자동화 계층이다.

@@ -1,10 +1,11 @@
 ---
 title: "099. Vmi Vendor Managed Inventory"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VMI (Vendor Managed Inventory)는 소매점(유통업체)이 하던 재고 관리와 발주 업무를, 제품을 납품하는 공급자(Vendor, 제조사)가 직접 주도하여 수행하는 역발상적인 재고 관리 패러다임이다.

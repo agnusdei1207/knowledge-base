@@ -2,9 +2,9 @@
 title: "Separation of Compute and Storage"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(Storage)와 연산 엔진(Compute)을 물리적/[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 독립시켜 각각 필요한 만큼 유연하게 확장하는 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)다.
 > 2. **가치**: 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 연산 자원이 부족하면 CPU만 추가하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나면 스토리지 비용만 지불함으로써 자원 활용 효율과 비용을 최적화한다.

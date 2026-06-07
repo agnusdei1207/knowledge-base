@@ -3,9 +3,8 @@ title: "804. BPR (Business Process Reengineering)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 804
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BPR의 핵심은 마이클 해머, 획기적 성과 향상을 위한 비즈니스 프로세스 원점 재설계를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조에 있다.

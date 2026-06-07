@@ -3,8 +3,8 @@ title: "Audit Result Disclosure and Accountability Assurance"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 302
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 감리 결과 공시와 책임조치 이행보증은 감리 결과 공시와 책임 조치 이행 보증(Accountability Assurance) 체계에서 공시 범위(Disclosure [Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/)), 책임 추적(Accountability Tracking), 계약 이행 보증(Contractual Assurance)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

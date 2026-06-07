@@ -3,8 +3,8 @@ title: "DevSecOps, Shift-Left Security"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데브섹옵스](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) ([DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))는 보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))을 배포 직전 승인 절차가 아니라, 개발·빌드·배포 흐름 전체에 녹인 <strong><a href="/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/">지속적 피드백</a> 구조</strong>다.

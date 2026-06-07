@@ -1,10 +1,11 @@
 ---
 title: "072. Platform Business Two Sided Market"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플랫폼 비즈니스는 공급자와 수요자를 연결하는 생태계 운영 모델이다.

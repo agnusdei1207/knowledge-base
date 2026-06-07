@@ -2,9 +2,9 @@
 title: "Red-Black Tree, RBT"
 date: "2026-03-05"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 노드에 Red/Black 색상을 부여하고 5가지 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 강제하여 균형을 맞추는 자가 균형 [이진 탐색 트리](/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)다.
 > 2. **균형 메커니즘**: 루트에서 리프까지의 가장 긴 경로가 가장 짧은 경로의 2배를 넘지 않도록 조정하며, 삽입/삭제 시 AVL 트리보다 적은 회전(Rotation)으로 균형을 유지한다.

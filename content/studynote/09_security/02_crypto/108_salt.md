@@ -3,8 +3,8 @@ title: "Salt"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [솔트](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))는 비밀번호를 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 안전하게 저장할 때, 사용자마다 고유하게 발급된 무작위 문자열을 평문 비밀번호에 이어 붙인 뒤 해싱(Hashing)하는 기법이다.
 > 2. **가치**: 똑같은 비밀번호를 쓰는 사용자가 있어도 각각 뿌려진 [솔트](/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 값이 다르기 때문에 서로 완전히 다른 해시값이 저장되어, 해커의 레인보우 테이블([Rainbow Table](/studynote/09_security/02_crypto/107_rainbow_table/)) 사전 공격을 불가능하게 만든다.

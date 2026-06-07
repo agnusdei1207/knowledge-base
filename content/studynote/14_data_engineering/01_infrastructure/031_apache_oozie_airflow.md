@@ -3,8 +3,8 @@ title: "031. Apache Oozie Airflow"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Oozie는 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계 전용 XML 기반 워크플로 스케줄러이고, Apache Airflow는 Python [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 범용 오케스트레이터다. 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링에서는 Airflow가 사실상 표준(de facto)이 됐다.
 > 2. **가치**: Airflow의 핵심 강점은 ① Python 코드로 복잡한 의존성 표현, ② 풍부한 [Operator](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)(200+), ③ 강력한 모니터링 UI, ④ [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 통합(AWS/GCP/Azure)이다. 반면 Oozie는 레거시 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 환경에서 여전히 현역이다.

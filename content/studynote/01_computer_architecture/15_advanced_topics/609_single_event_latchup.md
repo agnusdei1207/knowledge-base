@@ -3,8 +3,8 @@ title: "SEL, Single Event Latchup"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 609
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단일 이벤트 래치업 (Single Event Latchup, SEL)은 고에너지 입자가 벌크 [CMOS](/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (Complementary Metal-Oxide-Semiconductor) 내부의 기생 PNPN 경로를 켜서, 전원과 접지 사이에 자기 유지형 과전류를 만드는 방사선 기인 고장이다.

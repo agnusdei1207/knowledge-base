@@ -3,8 +3,8 @@ title: "Instruction Tuning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 267
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인스트럭션 튜닝](/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/) ([Instruction Tuning](/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/)): 범용 LLM을 "인간의 명령(지시문)"과 "그에 따른 모범 답변" [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋(Prompt-Response)으로 추가 지도 미세조정(SFT)하여 대화형 챗봇 형태로 가다듬는 과정를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

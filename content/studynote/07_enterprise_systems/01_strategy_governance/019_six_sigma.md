@@ -1,11 +1,11 @@
 ---
 title: "DMAIC"
 date: "2026-03-04"
-description: "통계적 척도를 이용해 모든 프로세스의 품질 불량률을 3.4PPM 이하로 줄이기 위한 데이터 기반의 완벽 추구 품질 경영 기법"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 19
 ---
-
 # [식스 시그마](/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) ([Six Sigma](/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "Resource Pooling, CXL"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 638
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자원 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 컴퓨트 익스프레스 링크 ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 패브릭 위에 메모리와 가속기를 서버 섀시 밖으로 분리해, 필요할 때 조합하는 컴포저블 인프라의 핵심 기술이다.

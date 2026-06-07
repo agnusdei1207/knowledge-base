@@ -3,8 +3,8 @@ title: "DRY, Don't Repeat Yourself"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DRY (Don't Repeat Yourself, 반복 금지 원칙)는 "모든 지식은 시스템 안에서 단 하나의 명확하고 권위 있는 표현을 가져야 한다"는 원칙으로, 코드뿐 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·로직·문서까지 포함하는 광의의 중복 방지 철학이다.

@@ -1,11 +1,11 @@
 ---
 title: "Backoff Algorithm"
 date: "2026-04-01"
-description: "이더넷 CSMA/CD 환경에서 충돌을 감지하고 재전송 타이밍을 제어하는 핵심 메커니즘"
 tags:
   - "network"
+  - "studynote-network"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 잼 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) (Jam [Signal](/studynote/02_operating_system/02_process_thread/130_signal/))는 네트워크 충돌 발생 시 모든 노드에게 전송 중단을 알리는 긴급 브로드캐스트이고, 백오프 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Backoff [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 이후 재전송 대기 시간을 임의로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 2차 충돌을 막는 수학적 규칙이다.
 > 2. **가치**: 충돌이 반복될수록 대기 시간의 범위를 기하급수적으로 늘려주는 이진 지수 백오프 (BEB) 방식을 통해, 중앙 통제 장비 없이도 네트워크가 데드락에 빠지지 않고 자율적으로 혼잡을 회피할 수 있게 한다.

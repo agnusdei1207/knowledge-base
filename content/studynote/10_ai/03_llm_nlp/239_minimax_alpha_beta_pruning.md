@@ -3,8 +3,8 @@ title: "239. Minimax Alpha Beta Pruning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 미니맥스(Minimax) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 체스나 오목 같은 1:1 대결 게임에서, <strong>"나는 내 점수를 무조건 최대(Max)로 올리려 하고, 상대방은 내 점수를 무조건 최하(Min)로 깎아내리려 한다"</strong>는 완벽하게 이기적인 적대적(Adversarial) 심리를 수학적 트리로 엮어 필승의 한 수를 계산해 내는 고전 AI의 절대 규칙이다.

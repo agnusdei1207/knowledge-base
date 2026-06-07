@@ -3,8 +3,8 @@ title: "Memory Protection"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 803
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) (Memory [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/))는 프로세스가 허가된 주소 범위와 허가된 동작만 수행하게 강제하여, 잘못된 접근이 시스템 전체 장애로 번지지 않게 막는 하드웨어-[운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 협력 메커니즘이다.

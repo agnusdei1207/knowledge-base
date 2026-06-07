@@ -3,8 +3,8 @@ title: "Third-party API Fallback Jitter and Exponential Backoff Design"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 358
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서드파티](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 통신에서 지수 백오프 + 지터 (Jitter) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 재시도 폭풍(Thundering Herd)을 방지하면서 일시적 장애를 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 내결함성 통신 설계 패턴이다.

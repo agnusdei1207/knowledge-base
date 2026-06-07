@@ -2,9 +2,9 @@
 title: "160. Linear Equations"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 160
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선형 연립방정식 Ax = b는 *n차원 공간에서 n개의 초평면(hyperplane)이 교차하는 점*을 구하는 문제이며, 행렬 표현으로 모든 선형 시스템이 통일된다.

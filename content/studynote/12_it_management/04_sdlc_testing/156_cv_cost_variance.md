@@ -3,9 +3,8 @@ title: "156. CV (Cost Variance) = EV"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 156
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CV (Cost [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) = EV의 본질은 [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) (양수면 예산 절감, 음수면 예산 초과)를 단계별 산출물과 품질 게이트로 관리하는 데 있다.
 > 2. **가치**: 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

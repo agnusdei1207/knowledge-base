@@ -3,8 +3,8 @@ title: "027. Change Management"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(Change [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 소프트웨어 개발 및 운영 중 발생하는 모든 변경(요구사항 변경, [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정, 기능 추가)을 공식 프로세스로 통제하여 변경의 영향 범위를 분석하고 품질·일정·비용 영향을 관리하는 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))의 핵심 활동이다.
 > 2. **가치**: 체계적 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 없이 임의로 변경이 이루어지면 코드베이스가 일관성을 잃고, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되지 않은 변경이 운영 환경에 배포되어 장애를 유발한다. [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) v4에서 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 "변경 사후 장애 비율([Change Failure Rate](/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))"을 핵심 KPI로 정의한다.

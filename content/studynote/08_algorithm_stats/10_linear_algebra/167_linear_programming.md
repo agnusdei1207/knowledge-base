@@ -2,9 +2,9 @@
 title: "167. Linear Programming"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LP (Linear Programming, 선형 계획법) 는 *목적 함수와 제약 조건이 모두 선형*인 최적화 — 가능 영역이 볼록 다면체(Polytope)이고 최적해는 반드시 꼭짓점에 존재한다.

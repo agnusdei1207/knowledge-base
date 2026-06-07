@@ -3,8 +3,8 @@ title: "449. Interrupt Driven Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 449
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 I/O([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven I/O)는 CPU가 하드웨어 디바이스에 일을 시킨 뒤 무식하게 쳐다보며 기다리지([폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 않고, <strong>제 갈 길을 가다가(다른 앱 실행) 디바이스가 일을 끝내고 하드웨어 전기 핀(IRQ)을 찔러 알림을 주면 그때 돌아와서 뒷수습을 하는 비동기(Asynchronous) 통신 아키텍처</strong>다.

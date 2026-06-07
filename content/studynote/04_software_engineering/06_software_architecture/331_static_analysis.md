@@ -3,8 +3,8 @@ title: "331. Static Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 331
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정적 분석 (Static Analysis) - 실행하지 않고 소스코드의 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

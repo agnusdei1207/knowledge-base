@@ -2,9 +2,9 @@
 title: "System Bus & Interconnects"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시스템 버스 (System Bus)는 CPU, 메모리, I/O 장치 간에 데이터와 제어 신호를 교환하는 공통 통신 통로이며, 상호 연결망 (Interconnection Network)은 멀티코어 및 분산 시스템에서 구성 요소들을 연결하는 논리적/물리적 토폴로지이다.

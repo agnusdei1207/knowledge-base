@@ -3,8 +3,8 @@ title: "Growth Hacking"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 833
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그로스 해킹의 핵심은 제품 기능과 마케팅 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합해 사용자 유입과 성장을 극대화하는 기법라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

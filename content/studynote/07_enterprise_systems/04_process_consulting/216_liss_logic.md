@@ -2,9 +2,9 @@
 title: "216. Liss Logic"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LISS (Linearly Independent, Spatially Spanning)는 복잡한 업무나 시스템을 구성할 때 각 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 책임은 겹치지 않고, 전체 요구 공간은 빠짐없이 덮어야 한다는 구조화 원리다.

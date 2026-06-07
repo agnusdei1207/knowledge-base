@@ -1,10 +1,11 @@
 ---
 title: "095. Determinant Dependent"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 결정자 (Determinant, X)는 다른 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 값을 고유하게 확정 짓는 기준 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이며, 종속자 (Dependent, Y)는 그 결정자에 의해 값이 수동적으로 정해지는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다.
 > 2. **가치**: [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) ($X \rightarrow Y$)을 식별하여 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [이상 현상](/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 방지하고 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 수행하는 핵심 판단 기준이 된다.

@@ -3,8 +3,8 @@ title: "Critical Section Minimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 274
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 크기 최소화는 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 환경에서 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸려있는 코드 블록 내부에 대기 시간, I/O 작업, 복잡한 연산을 밖으로 빼내어 오직 공유 자원의 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 필요한 최소한의 연산만 남기는 설계 패러다임이다.

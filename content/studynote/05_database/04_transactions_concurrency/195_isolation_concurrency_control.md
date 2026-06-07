@@ -3,8 +3,8 @@ title: "Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 격리성 (Isolation)은 실행 중인 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 연산에 다른 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 간섭 불가 - 병행 제어([Concurrency Control](/studynote/05_database/04_transactions_concurrency/508_concurrency_control/)) 보장에 초점을 맞춘 개념이다.

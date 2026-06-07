@@ -3,8 +3,8 @@ title: "160. Ca Certification Authority"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certification Authority)는 공개키와 주체 신원을 결합한 X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급하고 서명하는 <strong>신뢰 중개 기관</strong>이다.

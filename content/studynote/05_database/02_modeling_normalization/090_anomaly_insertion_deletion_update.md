@@ -1,10 +1,11 @@
 ---
 title: "090. Anomaly Insertion Deletion Update"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이상 현상 ([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 테이블 설계([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))가 잘못되어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 불필요하게 중복 저장될 때 발생하는 삽입, 삭제, 갱신 시의 논리적 모순과 오류다.

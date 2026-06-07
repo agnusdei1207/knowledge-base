@@ -3,8 +3,8 @@ title: "149. Prototype Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 패턴([Prototype](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) Pattern)은 클래스에서 `new` 키워드로 인스턴스를 무겁게 처음부터 찍어내는 대신, 이미 완벽하게 세팅된 기존 원본 객체([Prototype](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))의 배를 갈라 <strong>세포를 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>(<a href="/studynote/02_operating_system/02_process_thread/149_clone_system_call/">Clone</a>)</strong>하여 새로운 객체를 1초 만에 쑥쑥 복사해 내는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational) 패턴이다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 10번 찌르거나 네트워크 랙(Lag)을 동반해야만 초기화되는 무겁고 비싼 객체를, 단 1번만 고생해서 만들어 둔 뒤 그 메모리 덩어리를 `clone()`으로 도장 찍듯 무한 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)함으로써 <strong>객체 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 오버헤드를 우주 끝까지 압살 다이어트</strong> 시킨다.

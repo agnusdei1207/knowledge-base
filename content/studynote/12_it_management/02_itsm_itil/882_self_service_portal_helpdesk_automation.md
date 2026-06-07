@@ -3,8 +3,8 @@ title: "882. Self Service Portal Helpdesk Automation"
 date: "2026-04-10"
 tags:
   - "studynote-it-management"
+weight: 882
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 셀프 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 포털 (Self-[Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Portal)은 사용자가 IT 부서의 개입 없이 스스로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청, 장애 신고, 정보 검색을 수행할 수 있도록 단일 진입점([SPOC](/studynote/12_it_management/02_itsm_itil/857_spoc/))을 제공하는 웹 기반 플랫폼이다.

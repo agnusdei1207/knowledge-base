@@ -3,8 +3,8 @@ title: "091. Clusterip Kubernetes Internal Service Dns"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ClusterIP는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 클러스터 내부에서만 접근 가능한 가상의 IP(VIP, Virtual IP)를 제공하여 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 간의 안정적인 통신을 보장하는 기본 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입이다.

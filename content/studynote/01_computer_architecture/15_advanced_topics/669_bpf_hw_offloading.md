@@ -3,8 +3,8 @@ title: "669. Bpf Hw Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 669
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BPF](/studynote/02_operating_system/01_overview_architecture/069_ebpf/) ([Berkeley Packet Filter](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) HW [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 현대 리눅스의 [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) (extended [Berkeley Packet Filter](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 하드웨어 (Hardware, HW) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 내려, 패킷을 SmartNIC (Smart Network Interface Card)나 [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))에서 먼저 판정하게 만드는 기술이다.

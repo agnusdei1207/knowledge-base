@@ -2,9 +2,9 @@
 title: "085. Canary Release Progressive Delivery Weight Routing"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)([Canary Release](/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/))는 새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 작은 트래픽부터 노출해 위험을 줄이는 점진적 배포 방식이다.

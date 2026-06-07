@@ -3,8 +3,8 @@ title: "Psychological Safety"
 date: "2026-03-03"
 tags:
   - "studynote-devops-sre"
+weight: 36
 ---
-
 > **핵심 인사이트**
 > 1. 심리적 안전(Psychological Safety)은 팀 내에서 의견 제시·질문·실수 인정 시 처벌이나 비난을 받지 않을 것이라는 구성원의 신뢰 상태로, Google [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Aristotle이 고성과 팀의 제1 요소로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했다.
 > 2. 심리적 안전이 없으면 개발자는 버그를 숨기고, 배포 실패를 보고하지 않으며, 개선 아이디어를 말하지 않는다 — DevOps의 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표(배포 빈도·[MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))는 심리적 안전이 높은 팀에서만 지속 개선된다.

@@ -3,8 +3,8 @@ title: "162. Crl Certificate Revocation List"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 162
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [CRL](/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) ([Certificate Revocation List](/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))은 인증서가 만료되기 전이라도 더 이상 신뢰하면 안 되는 인증서의 일련번호를 <strong>인증기관이 서명해 배포하는 폐지 목록</strong>이다.

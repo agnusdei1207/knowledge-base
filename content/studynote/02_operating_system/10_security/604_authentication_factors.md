@@ -3,8 +3,8 @@ title: "604. Authentication Factors"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 604
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (Authentication)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)나 시스템에 접근하려는 주체(사용자 또는 프로세스)가 자신이 주장하는 신분(Identity)이 진짜 맞는지 증명(Verify)하는 가장 기초적이고 필수적인 보안 절차다.

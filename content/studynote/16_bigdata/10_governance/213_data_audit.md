@@ -3,8 +3,8 @@ title: "Data Audit"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))는 조직의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Accuracy)·완전성(Completeness)·[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))·적시성(Timeliness)·규정 준수([Compliance](/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 기준을 충족하는지 체계적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 기록하는 [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)([Data Governance](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)) 활동이다.
 > 2. **가치**: 빅데이터 환경에서 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)이 복잡해질수록 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 저하와 무단 접근이 탐지되지 않은 채 누적되며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 이 위험을 선제적으로 탐지하고 [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/) 같은 규제 준수 증거를 제공한다.

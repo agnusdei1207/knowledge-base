@@ -3,8 +3,8 @@ title: "Behavior Driven Development,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BDD (Behavior Driven Development)는 소프트웨어의 기대 행위를 자연어 시나리오로 먼저 합의하고, 이를 실행 가능한 테스트로 연결하는 명세 중심 개발 방식이다.

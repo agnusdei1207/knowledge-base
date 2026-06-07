@@ -3,8 +3,8 @@ title: "115. Atlantis Terraform Ci"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Atlantis는 [Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)/OpenTofu의 <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a>(<a href="/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">Pull Request</a>) 기반 자동 Plan/Apply 워크플로</strong>를 제공하는 [OSS](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 도구로, PR을 열면 자동으로 `terraform plan` 결과를 코멘트로 달고, 승인 후 `atlantis apply`로 적용한다.
 > 2. **가치**: 개발자가 로컬에서 `terraform apply`를 실행하면 [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 충돌·[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 불가·리뷰 없는 변경이 발생하지만, Atlantis는 <strong>모든 인프라 변경을 <a href="/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> 리뷰 프로세스</strong>에 통합하여 IaC의 GitOps를 실현한다.

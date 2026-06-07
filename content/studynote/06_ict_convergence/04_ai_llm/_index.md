@@ -2,9 +2,9 @@
 title: "AI & LLM"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인공지능 (AI) 심화 기술은 단순 모델 학습을 넘어, 대규모 언어 모델 (LLM)의 효율적 튜닝 (PEFT), 지식 주입 (RAG), 자율적 실행 (AI Agent)을 아우르는 지능형 에코시스템으로 진화하고 있다.

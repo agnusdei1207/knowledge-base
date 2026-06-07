@@ -3,8 +3,8 @@ title: "Behavioral Patterns Overview"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GoF [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) ([Behavioral Patterns](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/))은 객체나 클래스 간의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 책임 분배를 다루는 11가지 [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)으로, 객체 간의 통신 방식과 복잡한 제어 흐름을 캡슐화하여 유연성과 재사용성을 높인다.

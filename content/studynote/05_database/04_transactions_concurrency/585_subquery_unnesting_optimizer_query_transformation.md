@@ -3,8 +3,8 @@ title: "585. Subquery Unnesting Optimizer Query Transformation"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 585
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서브쿼리 언네스팅 ([Subquery](/studynote/05_database/04_transactions_concurrency/523_subquery/) Unnesting) 메인 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 조인 변환 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 룰는 질의 처리·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관점에서 자주 쓰이는 질의 최적화 개념이다.

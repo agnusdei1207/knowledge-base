@@ -3,8 +3,8 @@ title: "Entropy"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 363
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)): 불확실성 정보량 척도 (결정 트리 정보 획득량 계산)를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

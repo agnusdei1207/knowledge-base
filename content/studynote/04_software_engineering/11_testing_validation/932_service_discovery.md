@@ -3,8 +3,8 @@ title: "Eureka, Consul"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 932
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/studynote/12_it_management/05_security_compliance/946_service_discovery/)) - 동적 IP/[Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Eureka, Consul)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

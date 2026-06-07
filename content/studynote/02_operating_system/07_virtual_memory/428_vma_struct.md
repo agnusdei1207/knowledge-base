@@ -3,8 +3,8 @@ title: "428. Vma Struct"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 428
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VMA(`vm_area_struct`) 구조체는 리눅스 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서, 프로세스의 광활한 <strong><a href="/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>(<a href="/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">Virtual Address Space</a>) 중 '실제로 의미 있게 사용되는 특정 구간(코드, 힙, <a href="/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a> 등)'의 시작과 끝, 그리고 권한 정보를 기록해 두는 <a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 형태의 샌드박스 지도(Map)</strong>다.

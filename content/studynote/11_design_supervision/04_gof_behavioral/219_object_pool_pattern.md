@@ -3,8 +3,8 @@ title: "Object Pool Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Object Pool (객체 풀) 패턴은 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 높은 객체(DB 연결, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 클라이언트 등)를 미리 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 풀(Pool)에 보관하고, 필요 시 대여(Acquire)하고 사용 후 반납(Release)하는 생명주기 관리 패턴이다.

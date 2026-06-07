@@ -3,8 +3,8 @@ title: "SiP"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 535
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시스템 온 패키지 (SiP, System in Package)는 여러 개의 다이와 수동 소자를 하나의 패키지 안에 고밀도로 집적해, 보드 수준 기능을 패키지 수준 시스템으로 압축하는 기술이다.

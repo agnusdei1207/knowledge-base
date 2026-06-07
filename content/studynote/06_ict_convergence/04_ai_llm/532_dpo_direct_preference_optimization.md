@@ -3,8 +3,8 @@ title: "DPO Direct Preference Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 532
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DPO](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)([Direct Preference Optimization](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/))는 [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback)에서 필요하던 별도 보상 모델과 [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습을 제거하고, 선호/비선호 응답 쌍으로 LLM을 직접 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 손실로 최적화한다.

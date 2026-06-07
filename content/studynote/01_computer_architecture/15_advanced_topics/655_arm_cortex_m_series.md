@@ -3,8 +3,8 @@ title: "655. Arm Cortex M Series"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 655
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARM Cortex-M 시리즈는 [마이크로컨트롤러](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU)용 코어 계열로, 전원이 들어오면 빠르게 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 실행하고 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 제어를 낮은 전력으로 처리하도록 설계되었다.

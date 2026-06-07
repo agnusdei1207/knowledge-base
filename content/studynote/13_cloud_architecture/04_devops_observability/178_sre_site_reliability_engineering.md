@@ -3,8 +3,8 @@ title: "Site Reliability ering,"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 운영을 인력 증원이 아니라 소프트웨어 문제로 다루어, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 측정·자동화·설계하는 엔지니어링 접근이다.

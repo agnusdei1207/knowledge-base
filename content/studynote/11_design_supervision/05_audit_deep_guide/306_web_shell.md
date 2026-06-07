@@ -3,8 +3,8 @@ title: "Web Shell Upload Filter Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 306
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 웹셸 차단 업로드 필터 감리는 웹셸(Web [Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/)) 업로드 차단을 위한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 보안 체계에서 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 실행 차단(Execution [Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)), 저장소 분리(Storage Segregation)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

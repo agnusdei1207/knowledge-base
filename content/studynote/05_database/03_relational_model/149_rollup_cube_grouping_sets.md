@@ -3,9 +3,8 @@ title: "149. ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 149
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ROLLUP](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), CUBE, [GROUPING](/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) SETS은 다차원 소계 및 총계 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([OLAP](/studynote/12_it_management/05_security_compliance/316_olap/))에 초점을 맞춘 개념이다.

@@ -3,8 +3,8 @@ title: "143. Strangler Fig Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 143
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Strangler Fig는 <strong>기존 모놀리스 시스템을 한 번에 교체하지 않고, 새 기능을 MSA로 만들어 점진적으로 모놀리스를 교살(Strangle)</strong>하여 최종적으로 대체하는 마이그레이션 패턴이다(Martin Fowler).
 > 2. **가치**: 빅뱅 교체(Big Bang Rewrite)는 <strong>고위험·장기간·실패 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 높음</strong>이지만, Strangler Fig는 <strong>점진적·저위험</strong>으로 운영 중인 시스템을 중단 없이 전환한다.

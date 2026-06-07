@@ -2,9 +2,9 @@
 title: "MaaS, Mobility as a Service"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 444
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 MaaS 모빌리티 융합 통합 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 MaaS 모빌리티 융합 통합 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), MaaS, Mobility [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a Service의 경계를 분명히 만드는 데 의미가 있다.

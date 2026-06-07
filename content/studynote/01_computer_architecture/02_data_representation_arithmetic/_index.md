@@ -2,9 +2,9 @@
 title: "Data Representation & Arithmetic"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 표현 (Data Representation)은 실세계의 숫자, 문자, 기호를 컴퓨터가 이해할 수 있는 유한한 비트 패턴으로 부호화하는 것이며, 연산 장치 (ALU)는 이를 물리적으로 처리하는 핵심 회로이다.

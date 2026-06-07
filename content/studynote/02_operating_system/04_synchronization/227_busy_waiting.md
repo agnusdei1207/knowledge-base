@@ -3,8 +3,8 @@ title: "Busy Waiting"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 바쁜 대기 (Busy Waiting)는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 진입을 위해 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 기다릴 때, CPU를 양보하지 않고 <strong><code>while</code> 루프를 무한히 돌며 락이 풀렸는지 계속 확인하는 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 대기 방식</strong>이다.

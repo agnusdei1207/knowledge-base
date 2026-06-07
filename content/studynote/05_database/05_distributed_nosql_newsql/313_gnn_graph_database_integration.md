@@ -3,8 +3,8 @@ title: "313. Gnn Graph Database Integration"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 313
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프 신경망](/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/) ([GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)) 연계를 위한 [그래프 데이터베이스](/studynote/14_data_engineering/01_infrastructure/039_graph_db/) 활용는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

@@ -3,8 +3,8 @@ title: "Jiffies"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Tick은 타이머가 발생시키는 주기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)이고, jiffies는 그 누적 카운트다.

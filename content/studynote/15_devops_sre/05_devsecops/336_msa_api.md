@@ -3,8 +3,8 @@ title: "Contract Testing MSA Consumer-Driven Contract Testing Pact CDCT"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 336
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Contract Testing ([계약 테스트](/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/))은 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 인터페이스 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 소비자가 주도해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방법론이다. 소비자(Consumer)가 기대하는 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 형식을 "계약(Contract)"으로 정의하고, 공급자([Provider](/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/))가 이 계약을 충족하는지 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.

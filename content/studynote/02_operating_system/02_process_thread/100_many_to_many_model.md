@@ -3,8 +3,8 @@ title: "100. Many To Many Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다대다 (Many-to-Many) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델은 응용 프로그램이 무한대로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있는 [사용자 수준 스레드](/studynote/02_operating_system/02_process_thread/096_user_level_thread/) (ULT, [User-Level Thread](/studynote/02_operating_system/02_process_thread/096_user_level_thread/))를 하드웨어 제한에 맞춘 소수의 [커널 수준 스레드](/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/) (KLT, [Kernel-Level Thread](/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/))에 유연하게 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))하는 하이브리드 아키텍처다.

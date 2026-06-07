@@ -3,8 +3,8 @@ title: "783. Anti Tamper Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 783
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 안티 탬퍼 (Anti-Tamper) [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)/쉴드는 민감 회로 위를 덮는 금속선·[정전용량](/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) 센서 네트워크를 지속적으로 감시해, 절단·합선·비정상 접근이 생기면 즉시 탬퍼 상태로 전환하는 능동 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)층이다.

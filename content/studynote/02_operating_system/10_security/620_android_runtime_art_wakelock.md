@@ -3,8 +3,8 @@ title: "Wakelock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 620
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Wakelock은 Android가 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Linux [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에 추가한 전력 관리(PM, [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/)) 확장 모듈로, 애플리케이션이나 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 서브시스템이 CPU, 디스플레이, 무선 통신 장치의 절전(Suspend) 상태 진입을 선점적으로 방지([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))하여, 사용자 경험을 해치지 않으면서도 유휴([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 시간에는 최대한 전력을 절약하는 세밀한 전력 통제 메커니즘이다.

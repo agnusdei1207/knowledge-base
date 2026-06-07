@@ -3,8 +3,8 @@ title: "Software Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)는 요구사항과 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 구조와 경계의 언어로 바꾸는 설계 기준이다.

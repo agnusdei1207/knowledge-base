@@ -2,9 +2,9 @@
 title: "I/O & Storage Systems"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 8
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 입출력 (I/O) 시스템은 속도가 느린 외부 장치와 초고속 CPU 사이의 속도 차이를 조율하며 데이터 전송을 자동화하는 인터페이스 체계이고, 저장장치 구조는 데이터의 영속성과 신뢰성을 보장하는 물리적 아키텍처이다.

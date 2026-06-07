@@ -3,8 +3,8 @@ title: "556. Undelete Data Carving"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 556
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일반 유저가 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 영구 삭제(`Shift+Delete` 또는 `rm -rf` 빔!)" 했다고 믿는 것은, OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크의 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1의 고기 덩어리)를 지우는 것이 절대 아니라 **"단순히 i-node의 할당 간판 포인터(Free List)만 '빈방 있음' 으로 뜯어버리는 은폐(Hide) 속임수 마스킹"** 에 불과하다.

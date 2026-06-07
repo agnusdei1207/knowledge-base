@@ -3,8 +3,8 @@ title: "597. Headless Cms Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 597
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 헤드리스 (Headless) CMS 아키텍처 - 프론트엔드와 백엔드 분리 유연성 제공은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

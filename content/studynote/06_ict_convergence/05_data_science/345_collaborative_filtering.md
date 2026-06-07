@@ -3,8 +3,8 @@ title: "Collaborative Filtering"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 345
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 협업 필터링 ([Collaborative Filtering](/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)): 사용자 기반 / 아이템 기반 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 핵심를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

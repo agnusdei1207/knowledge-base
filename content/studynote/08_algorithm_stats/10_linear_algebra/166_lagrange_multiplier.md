@@ -2,9 +2,9 @@
 title: "166. Lagrange Multiplier"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라그랑주 승수법 (Lagrange Multiplier) 은 *등호 제약 조건 g(x)=0 아래에서의 최적화를 무제약 최적화로 변환*하는 기법 — 최적점에서 ∇f와 ∇g가 평행하다는 기하적 사실을 이용한다.

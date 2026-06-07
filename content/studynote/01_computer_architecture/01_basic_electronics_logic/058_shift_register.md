@@ -3,8 +3,8 @@ title: "Shift Register"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시프트 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(Shift [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))을 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결해 클록마다 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 한 칸씩 이동시키는 순차 논리회로다.

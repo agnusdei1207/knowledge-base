@@ -1,11 +1,10 @@
 ---
 title: "075. Computational Infeasibility"
 date: "2026-03-26"
-description: "현대 암호算法的安全性的数学基础：计算上不可能"
 tags:
-  - "studynote-software-engineering"
+  - "studynote-security"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: computationally infeasible는 수학적으로 불가능이 아니라, 현실 시간·비용·자원으로는 풀 수 없다는 뜻이며 현대 암호학의 기본 가정이다.

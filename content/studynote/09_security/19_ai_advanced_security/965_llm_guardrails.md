@@ -3,8 +3,8 @@ title: "Guardrails"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 965
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 가드레일 (Guardrails)는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

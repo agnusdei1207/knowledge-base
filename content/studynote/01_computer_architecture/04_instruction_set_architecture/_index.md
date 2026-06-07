@@ -2,9 +2,9 @@
 title: "Instruction Set Architecture (ISA)"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 명령어 세트 아키텍처 (ISA)는 하드웨어와 소프트웨어 사이의 추상적 인터페이스이자 '계약'으로, 프로그래머가 보는 컴퓨터의 모습 (명령어, 레지스터, 데이터 타입 등)을 정의한다.

@@ -3,8 +3,8 @@ title: "661. Ebpf Xdp Express Data Path"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 661
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [XDP](/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) (eXpress [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Path)는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 네트워크 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 중 <strong>가장 얕은 위치(네트워크 카드 드라이버 직후)</strong>에서 [eBPF](/studynote/02_operating_system/10_security/615_ebpf/)(extended [BPF](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 프로그램을 실행시켜, 무거운 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조(`sk_buff`)가 만들어지기도 전에 패킷을 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 처리하는 인커널(In-[Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패스 기술이다.

@@ -3,8 +3,8 @@ title: "Multiple Instance Resource"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 289
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 인스턴스 자원 환경은 시스템에 존재하는 특정 유형의 자원이 2개 이상(예: 3대의 동일 프린터 묶음, 100 메가바이트의 동일한 메모리 블록풀)의 동질적 군집형 재화로 구성된 생태계다.

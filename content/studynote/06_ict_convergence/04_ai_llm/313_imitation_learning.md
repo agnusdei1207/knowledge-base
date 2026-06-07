@@ -3,8 +3,8 @@ title: "Imitation Learning / Behavior Cloning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 313
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자율주행 강화학습 모방 학습 ([Imitation Learning](/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/) / Behavior Cloning): 1. **본질**: 강화학습(RL)은 환경과 부딪히며 시행착오로 배우는 방법이지만, 실제 자율주행차로 시행착오(사고)를 내면 치명적이므로, 사람이 운전하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(정답)를 보고 그대로 따…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

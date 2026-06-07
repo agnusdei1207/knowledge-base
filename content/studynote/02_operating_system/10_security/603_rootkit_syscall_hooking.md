@@ -3,8 +3,8 @@ title: "603. Rootkit Syscall Hooking"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 603
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 루트킷 (Rootkit)은 시스템의 최고 관리자 권한(Root)을 탈취한 후, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부로 숨어들어 자신의 존재와 악성 행위를 시스템 관리자 및 보안 솔루션으로부터 완벽하게 은폐하는 최고도 수준의 악성코드 패키지다.

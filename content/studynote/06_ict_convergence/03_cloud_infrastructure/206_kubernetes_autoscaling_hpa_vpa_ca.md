@@ -3,8 +3,8 @@ title: "Kubernetes Autoscaling HPA VPA CA"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 오토스케일링 ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Autoscaling [HPA VPA](/studynote/13_cloud_architecture/01_virtualization/058_hpa_vpa/) [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)): [HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([Horizontal Pod Autoscaler](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) - [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 개수 증가), [VPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) (수직 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)), Cluster Autoscaler (워커 노드 자체 추가)를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

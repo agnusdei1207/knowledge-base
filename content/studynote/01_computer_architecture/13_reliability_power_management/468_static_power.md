@@ -3,8 +3,8 @@ title: "Static Power /"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 468
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정적 전력 (Static [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 회로가 스위칭하지 않아도 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 내부의 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 계속 흐르며 발생하는 전력으로, 본질은 "멈춰 있어도 드는 기본요금"이다.

@@ -3,8 +3,8 @@ title: "051. Vendor Lock In Cloud Computing"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 51
 ---
-
 # 51. 벤더 종속 ([Vendor Lock-in](/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))
 
 > ⚠️ 이 문서는 기업이 특정 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([CSP](/studynote/09_security/05_web_app_security/475_csp/), 예: AWS, Azure, GCP)의 독자적이고 편리한 기술(예: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 특화 DB)을 깊숙이 채택하여 쓰다가, <strong>나중에 요금이 인상되거나 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 불만이 생겨도 다른 클라우드 벤더로 이사(Migration) 가기 위해 지불해야 하는 전환 비용(Switching Cost)이 너무 막대해져 발이 묶여버리는 함정</strong>을 다룹니다.

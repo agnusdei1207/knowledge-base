@@ -3,8 +3,8 @@ title: "063. Single Layer Perceptron Xor Problem"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)([Single-Layer Perceptron](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/))은 하나의 선형 결정 경계로 입력을 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 가장 단순한 신경망이다.

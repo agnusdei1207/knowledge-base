@@ -3,8 +3,8 @@ title: "413. Degree Of Multiprogramming Cpu Utilization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 413
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 그래프는 램(RAM)에 동시에 올려놓은 프로그램의 개수([Degree of Multiprogramming](/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))가 늘어날 때, CPU가 얼마나 쉬지 않고 100% 팽팽하게 일하는가(Utilization)를 보여주는 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 스케줄링의 알파이자 오메가 곡선</strong>이다.

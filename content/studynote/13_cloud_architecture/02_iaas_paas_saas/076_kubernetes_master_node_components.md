@@ -2,9 +2,9 @@
 title: "076. Kubernetes Master Node Components"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)(K8s)의 Control Plane은 클러스터의 desired state를 유지하는 두뇌이며, 실제 Pod를 직접 돌리는 곳이 아니다.

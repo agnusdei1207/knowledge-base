@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "593. ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리"
 date: "2026-05-09"
-categories: "studynote-database"
+tags:
+  - "studynote-database"
+weight: 593
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리는 트랜잭션·회복 관점에서 자주 쓰이는 알고리즘이다.

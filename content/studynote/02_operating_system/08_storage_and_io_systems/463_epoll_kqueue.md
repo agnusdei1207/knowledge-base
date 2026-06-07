@@ -3,9 +3,8 @@ title: "463. epoll / kqueue (Epoll Kqueue)"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 463
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `epoll` (리눅스)과 `kqueue` ([Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/BSD)는 수만 명의 접속자([소켓](/studynote/02_operating_system/02_process_thread/125_socket/))가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보냈는지 확인하기 위해 1만 번을 순차적으로 찔러보는 구형 `select/poll`의 끔찍한 O(N) 뻘짓을 박살 내고, **[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 "지금 진짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도착한 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 5개 명단"만 족집게처럼 딱 찍어서 유저에게 넘겨주는 $O(1)$ 이벤트 통지(I/O [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 시스템**이다.

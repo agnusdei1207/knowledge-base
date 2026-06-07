@@ -3,8 +3,8 @@ title: "RNN BPTT Hidden State"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 446
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 시계열 [BPTT](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/) ([RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) [BPTT](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/) Hidden [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)): 1. **본질**: [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)([Recurrent Neural Network](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 문장이나 주식 차트처럼 '시간의 흐름(순서)'이 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하기 위해, 방금 자신이 내뱉은 출력값을 다음…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

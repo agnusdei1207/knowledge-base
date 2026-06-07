@@ -3,8 +3,8 @@ title: "316. Management"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 316
 ---
-
 > **핵심 인사이트**
 > - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 구글이 정의한 "소프트웨어 엔지니어링 방식으로 운영 문제를 해결하는 방법론"이다.
 > - [Toil](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) ([토일](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 자동화, [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) (에러 버짓) 관리, 50% 운영 업무 상한선이 SRE의 세 핵심 원칙이다.

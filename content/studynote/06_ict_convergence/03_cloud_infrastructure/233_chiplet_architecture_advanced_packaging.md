@@ -3,8 +3,8 @@ title: "Chiplet"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 아키텍처 ([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)): 거대한 단일 칩(Monolithic) 대신 여러 개의 작은 기능별 칩 조각([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/))을 따로 제조하여 하나의 패키지판(2.5D/3D 패키징)에 이어 붙여 수율 및 비용을 개선하는 최…를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "111. Rnn Recurrent Neural Network Sequential Data"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)([Recurrent Neural Network](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 은닉 상태(Hidden [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 <strong>이전 시간 단계에서 다음 시간 단계로 <a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적으로 전달</strong>하여, 시계열·텍스트·음성 같은 <strong>순서가 중요한 시퀀스(Sequence) <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 처리하는 신경망이다.
 > 2. **가치**: CNN이 공간(이미지)을 보는 눈이라면, RNN은 시간 축(과거->현재->미래)을 따라 <strong>문맥(<a href="/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)을 기억</strong>하는 기억력이며, 기계 번역·음성 인식·주가 예측의 기초가 되었다.

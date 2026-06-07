@@ -3,8 +3,8 @@ title: "307. Recovery From Deadlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 307
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) from [Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))는 탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))이 발견해 낸 막혀버린 원형 도로(사이클)를 해소하기 위해, **OS가 얽혀있는 프로세스의 목을 베거나 쥐고 있는 자원을 강제로 압수하여 피를 흘리고 사이클 고리를 파괴하는 최후의 숙청(사후 조치)** 과정이다.

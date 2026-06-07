@@ -3,8 +3,8 @@ title: "Multi-stream Write"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 702
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다중 스트림](/studynote/02_operating_system/09_file_system/560_multi_stream_file_fork_ads/) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Multi-stream](/studynote/02_operating_system/09_file_system/560_multi_stream_file_fork_ads/) Write)는 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 기록되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 종류"가 아니라 "예상 수명" 기준으로 구분해 배치하도록 호스트가 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 주는 기술이다.

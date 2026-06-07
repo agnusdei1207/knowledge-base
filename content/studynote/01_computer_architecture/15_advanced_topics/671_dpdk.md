@@ -3,9 +3,8 @@ title: "671. DPDK (Data Plane Development Kit)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 671
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DPDK ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)는 사용자 공간(User-space) 애플리케이션이 [네트워크 인터페이스 카드](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 큐를 직접 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하며 패킷을 처리하도록 만드는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프레임워크다.

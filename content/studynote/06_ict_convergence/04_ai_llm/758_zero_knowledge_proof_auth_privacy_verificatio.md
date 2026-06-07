@@ -3,8 +3,8 @@ title: "Zero Knowledge Proof Auth Privacy Verification"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 758
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 영지식 증명(Zero-Knowledge Proof, ZKP)은 증명자(Prover)가 검증자(Verifier)에게 "특정 명제(문(statement))가 참이다"라는 사실만 전달하고, 비밀 값(witness) 자체는 1비트도 누설하지 않는 양자간 대화형·비대화형 암호 프로토콜이며, **완전성(Completeness)·건전성(Soundness)·영지식성(Zero-Knowledge)** 세 가지 속성을 **시뮬레이터(Simulator) 존재성**으로 엄밀히 정의한다. 인증·프라이버시 검증 영역에서는 Schnorr식 Σ-Protocol, zk-SNARK(Groth16/PLONK), zk-STARK, Halo2, Bulletproof, BBS+ 서명 기반 선택적 공개(SD-JWT) 등이 핵심 원천기술로 작동한다.

@@ -1,11 +1,11 @@
 ---
 title: "Value"
 date: "2024-05-24"
-description: "빅데이터를 정의하는 5가지 핵심 차원(Volume, Velocity, Variety, Veracity, Value)과 아키텍처적 대응 전략"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 1
 ---
-
 # 01. 빅데이터 3V / 5V (Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3V / 5V)
 
 #### 핵심 인사이트 (3줄 요약)

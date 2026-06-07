@@ -3,8 +3,8 @@ title: "Explainable AI XAI Interpretability Transparency"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 752
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 설명 가능 AI(XAI)는 블랙박스 모델(심층 신경망, 앙상블, LLM 등)의 의사결정 과정을 인간이 이해 가능한 형태(규칙, 피처 기여도, 개념, 반사실)로 투명하게 변환하는 MLOps 핵심 영역으로, **모델 자체의 해석 가능성(Intrinsic Interpretability)**과 **사후 설명(Post-hoc Explanation)**으로 이원화되며 SHAP(게임 이론 기반 Shapley Value), LIME(국소 선형 근사), Grad-CAM(그래디언트 기반 시각화), Integrated Gradients(축적 경로 적분), LRP(층별 역전파), TCAV(개념 활성화 벡터) 등의 알고리즘이 표준 스택을 구성한다.

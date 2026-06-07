@@ -3,8 +3,8 @@ title: "Multipath I/O"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 686
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티패스 I/O ([Multipath](/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) Input/Output)는 하나의 저장장치에 도달하는 여러 물리 경로를 하나의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장치로 묶는 고가용성 기술이다.

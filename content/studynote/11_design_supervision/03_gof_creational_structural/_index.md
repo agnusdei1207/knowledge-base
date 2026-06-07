@@ -2,9 +2,9 @@
 title: "GoF – Creational & Structural"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GoF (Gang of Four) 디자인 패턴은 객체지향 설계에서 반복되는 문제들에 대한 검증된 해결책이며, 생성 패턴은 객체 생성의 유연성을, 구조 패턴은 클래스와 객체의 효율적인 결합을 다룬다.

@@ -3,8 +3,8 @@ title: "Multimodal AI Vision Language Model"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 649
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티모달 비전-언어 모델(VLM)은 **Vision Encoder(ViT/SigLIP/DINOv2) + Modality Projection(MLP/Q-Former/Cross-Attention) + LLM Backbone(LLaMA/Qwen/InternLM)**의 3단 구조로, 이미지를 시각 토큰(Visual Tokens)으로 변환하여 텍스트 토큰과 동일 컨텍스트에서 자기회귀 생성(autoregressive generation)을 수행하는 아키텍처이다.

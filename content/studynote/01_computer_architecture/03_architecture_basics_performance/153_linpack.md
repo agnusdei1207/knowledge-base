@@ -3,8 +3,8 @@ title: "153. Linpack"
 date: "2026-05-03"
 tags:
   - "studynote-computer-architecture"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 린팩(Linpack)은 미지수(N)가 수백만 개인 거대한 100% 꽉 찬 연립 방정식(Dense [Linear Equations](/studynote/08_algorithm_stats/10_linear_algebra/160_linear_equations/)) 행렬을 <strong>수만 대의 컴퓨터 노드를 네트워크로 엮어 동시에 씹어 돌리며 푸는, <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 수학 연산(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/">FLOPS</a>) 테스트의 끝판왕 벤치마크</strong>다.
 > 2. **가치**: 단순히 CPU 1개의 깡성능을 재는 장난감을 넘어, 노드 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 핑퐁 통신망(MPI) 속도와 메모리 병목까지 <strong>슈퍼컴퓨터 인프라 뼈대 전체를 1통으로 갈아버리는 전 세계 TOP500 슈퍼컴퓨터 서열 1위 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 절대 헌법</strong>이다.

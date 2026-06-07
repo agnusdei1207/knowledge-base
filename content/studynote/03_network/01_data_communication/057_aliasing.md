@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에일리어싱(Aliasing)은 [표본화](/studynote/03_network/01_data_communication/056_표본화_Sampling/)([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 주파수가 부족해 고주파 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 저주파처럼 보이게 되는 왜곡 현상이다.

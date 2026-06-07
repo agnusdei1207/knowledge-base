@@ -3,8 +3,8 @@ title: "Hold and Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 점유 대기 ([Hold and Wait](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/))는 프로세스가 <strong>최소한 하나 이상의 자원(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 '점유(Hold)'한 상태</strong>에서, 다른 프로세스가 쥐고 있는 추가적인 자원을 얻기 위해 자발적으로 <strong>'대기(Wait)'하는 행동 양식</strong>을 뜻한다.

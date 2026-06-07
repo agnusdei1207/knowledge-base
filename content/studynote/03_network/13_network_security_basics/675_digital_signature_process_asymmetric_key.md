@@ -3,8 +3,8 @@ title: "675. Digital Signature Process Asymmetric Key"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 675
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전자서명 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

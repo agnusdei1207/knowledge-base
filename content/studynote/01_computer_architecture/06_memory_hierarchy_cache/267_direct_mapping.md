@@ -3,8 +3,8 @@ title: "Direct Mapping"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 267
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 직접 사상 ([Direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 메모리 블록마다 들어갈 캐시 라인 (Cache Line)을 단 하나로 고정해, 검색 위치를 주소 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만으로 즉시 결정하는 가장 단순한 캐시 배치 방식이다.

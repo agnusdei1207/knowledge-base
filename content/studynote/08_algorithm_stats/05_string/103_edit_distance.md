@@ -2,9 +2,9 @@
 title: "103. Edit Distance"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 편집 거리 (Edit Distance, Levenshtein Distance)는 한 문자열을 다른 문자열로 변환하는 데 필요한 최소 삽입·삭제·대체 연산 수를 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP)으로 O(mn)에 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

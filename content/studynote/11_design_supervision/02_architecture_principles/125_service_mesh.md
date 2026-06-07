@@ -3,8 +3,8 @@ title: "Service Mesh"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 125
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) ([Service Mesh](/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))는 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 내부 통신(East-West 트래픽)의 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 로드밸런싱, [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) ([mutual TLS](/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/), 상호 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 장애 주입, 관찰성을 비즈니스 코드에서 분리하여 [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([sidecar proxy](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))로 인프라 계층에서 처리하는 아키텍처 패턴이다.

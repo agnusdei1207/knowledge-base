@@ -3,8 +3,8 @@ title: "Bare Metal Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 629
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베어메탈 클라우드 (Bare Metal Cloud)는 가상 머신이 아니라 물리 서버 한 대를 단일 임차인 (Single Tenant)에게 통째로 할당하되, 클라우드처럼 응용 프로그램 인터페이스 ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))와 자동화로 즉시 배포하는 인프라 모델이다.

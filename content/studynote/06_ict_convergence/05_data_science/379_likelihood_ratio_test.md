@@ -3,8 +3,8 @@ title: "Likelihood Ratio Test"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 379
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 우도비 검정 두 통계 모델 적합성 우위 (Likelihood Ratio Test): 1. **본질**: 우도비 검정(LRT)은 "복잡한 모델(변수가 많은 모델)"과 "단순한 모델(변수가 적은 모델)" 중 어떤 것이 현재 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 완벽하게 설명하는지를 '두 모델의 우도…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

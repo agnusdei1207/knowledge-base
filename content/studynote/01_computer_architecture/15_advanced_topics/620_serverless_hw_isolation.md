@@ -3,8 +3,8 @@ title: "620. Serverless Hw Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 620
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서버리스 컴퓨팅](/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/) ([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Computing)에서 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 분리 하드웨어 기술은 함수 실행 단위를 마이크로 가상 머신 (Micro [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), MicroVM)이나 유사 격리 경계로 감싸고, CPU [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·이중 주소 변환·장치 접근 제어를 하드웨어가 맡게 해 공유 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위험을 줄이는 방식이다.

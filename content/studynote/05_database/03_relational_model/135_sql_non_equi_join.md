@@ -3,8 +3,8 @@ title: "135. Sql Non Equi Join"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Non-Equi JOIN은 **등호(=) 대신 부등호(<, >, BETWEEN)로 조인 조건을 지정**하는 것이며, Self JOIN은 <strong>같은 테이블을 자기 자신과 조인</strong>하여 계층·순위·비교를 수행한다.
 > 2. **가치**: "급여 등급 테이블과 직원 급여를 범위 매칭"(Non-Equi), "직원과 그 상사를 같은 테이블에서 결합"(Self)은 <strong>Equi JOIN으로 불가능한 핵심 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>이다.

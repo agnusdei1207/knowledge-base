@@ -3,8 +3,8 @@ title: "183. Iaas Infrastructure As A Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IaaS (Infrastructure [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자 (Cloud [Service Provider](/studynote/09_security/11_iam_access_control/535_sp_service_provider/), [CSP](/studynote/09_security/05_web_app_security/475_csp/))가 보유한 물리 서버·스토리지·네트워크를 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)해, 사용자가 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS) 수준 통제권을 가진 인프라를 주문형으로 임대하는 모델이다.

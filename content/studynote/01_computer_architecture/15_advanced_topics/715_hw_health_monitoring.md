@@ -3,8 +3,8 @@ title: "715. Hw Health Monitoring"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 715
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 헬스 모니터링(Hardware Health Monitoring)은 온도·[전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·[전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)·전력·팬 속도 같은 물리량을 센서 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 디지털 값으로 기록하고, [BMC](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))가 이를 읽어 시스템 상태를 판단하는 메커니즘이다.

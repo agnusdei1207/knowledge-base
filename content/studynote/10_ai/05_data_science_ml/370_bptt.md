@@ -3,9 +3,8 @@ title: "370. BPTT (Backpropagation Through Time)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 370
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BPTT](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)([Backpropagation Through Time](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/), 시간 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 [순환 신경망](/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/)([RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [Recurrent Neural Network](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))에서 시퀀스를 시간 축으로 펼친(unroll) 후 일반 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)를 적용하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 동일한 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 W_h가 모든 시간 단계에서 공유되어 그래디언트가 T번 곱해진다.

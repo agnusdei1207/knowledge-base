@@ -3,8 +3,8 @@ title: "167. Sql Hint Optimizer Override"
 date: "2026-04-03"
 tags:
   - "studynote-database"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 힌트 (Hint)는 SQL (Structured Query Language) 안에 넣는 지시문으로, [비용 기반 옵티마이저](/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost Based [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))가 탐색할 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 공간을 강제로 좁히거나 특정 경로를 우선하게 만드는 수단이다.

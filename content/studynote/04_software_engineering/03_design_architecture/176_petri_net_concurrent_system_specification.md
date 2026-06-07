@@ -1,11 +1,11 @@
 ---
 title: "176. Petri Net Concurrent System Specification"
 date: "2026-04-03"
-description: "페트리 넷의 Place, Transition, Token을 이용해 병행 시스템의 자원 경쟁과 검증 포인트를 정리한다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페트리 넷 (Petri Net)은 장소 (Place)에 놓인 토큰 (Token)이 전이 (Transition)를 통해 이동하는 규칙으로 상태, 자원, 사건을 표현하는 병행 시스템용 정형 명세 모델이다.

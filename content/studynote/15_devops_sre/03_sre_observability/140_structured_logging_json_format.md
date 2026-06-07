@@ -3,8 +3,8 @@ title: "140. Structured Logging Json Format"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 구조화 로깅은 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 사람이 읽는 텍스트가 아닌 <a href="/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 등 기계가 파싱 가능한 구조로 출력</strong>하여, 검색·필터·집계·[상관 분석](/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)을 자동화하는 로깅 패턴이다.
 > 2. **가치**: 비구조화 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)("ERROR: payment failed for user 123")는 <strong>grep으로만 검색 가능</strong>하지만, 구조화 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)({"level":"ERROR","user_id":123})는 <strong>Loki·ELK에서 필드별 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>·집계</strong>가 가능하다.

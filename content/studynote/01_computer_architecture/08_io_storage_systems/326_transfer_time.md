@@ -3,8 +3,8 @@ title: "Transfer Time"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 326
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전송 시간 (Transfer Time)은 헤드가 이미 목표 위치를 찾은 뒤, 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 호스트 메모리 쪽으로 흘러가는 순수한 이동 시간이다.

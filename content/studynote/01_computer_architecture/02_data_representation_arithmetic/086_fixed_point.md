@@ -3,8 +3,8 @@ title: "Fixed Point"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Fixed Point(고정소수점)는 소수점 위치를 미리 정해 정수부와 소수부를 함께 담는 표현 방식이다.

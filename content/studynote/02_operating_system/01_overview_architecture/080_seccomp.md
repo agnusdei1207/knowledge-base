@@ -3,9 +3,8 @@ title: "080. seccomp (Secure Computing Mode)"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"
+weight: 80
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: seccomp(Secure Computing Mode)는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 프로세스가 호출할 수 있는 <strong>시스템 콜(<a href="/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)의 종류를 화이트리스트(Whitelist) 방식으로 엄격하게 제한</strong>하여 권한을 축소시키는 보안 [샌드박싱](/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 메커니즘이다.
 > 2. **가치**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), K8s) 환경에서 해커가 애플리케이션의 취약점을 뚫고 들어오더라도, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공격하거나 시스템을 파괴하는 위험한 시스템 콜(`execve`, `mount` 등) 자체를 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 차단하여 2차 폭발([Privilege Escalation](/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 완벽히 방어한다.

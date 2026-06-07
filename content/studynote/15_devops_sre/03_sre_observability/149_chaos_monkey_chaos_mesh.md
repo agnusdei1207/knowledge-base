@@ -3,8 +3,8 @@ title: "Chaos Mesh"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 카오스 몽키(Chaos Monkey)가 AWS 가상 서버([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 전원을 무작위로 뽑고 튀며 넷플릭스의 강인함을 입증한 1세대 폭탄 테러 봇이라면, 카오스 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Chaos [Mesh](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클라우드 환경에서 네트워크 랙, [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 척살 등을 핀셋으로 정교하게 찌르는 2세대 선언적(YAML) 카오스 실험 융합 플랫폼이다.
 > 2. **가치**: 두 툴 모두 "장애는 피할 수 없다"는 진리 아래, 멀쩡한 라이브 프로덕션 망에 통제된 독(에러 폭탄)을 강제 주입하여 숨겨진 아키텍처 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 백일하에 폭로하고, 시스템의 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)([Resiliency](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 근육을 무한 펌핑시키는 예방 접종 백신이다.

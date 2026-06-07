@@ -3,8 +3,8 @@ title: "030. Auto Scaling"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 오토 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Auto Scaling)은 부하 변화에 따라 서버 인스턴스 수([스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)/인) 또는 인스턴스 크기([스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)/다운)를 자동으로 조정하는 클라우드 핵심 기능이다.
 > 2. **가치**: [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)(수평 확장)은 여러 소형 인스턴스 추가로 선형 확장이 가능하고 장애 격리([단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거)에 유리하다. [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(수직 확장)은 단순하지만 하드웨어 한계가 있고 재시작이 필요한 경우가 있다.

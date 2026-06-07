@@ -3,8 +3,8 @@ title: "212. Soa Service Oriented Architecture Esb"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 아키텍처 ([SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), [Service Oriented Architecture](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)) - [ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) 기반은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

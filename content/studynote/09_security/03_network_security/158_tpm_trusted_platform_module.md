@@ -3,8 +3,8 @@ title: "158. Tpm Trusted Platform Module"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 158
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))은 단말 내부에 신뢰 루트 ([Root of Trust](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/))를 제공하는 보안 칩으로, 중요한 키를 안전하게 저장하고 부팅 상태를 측정한다.

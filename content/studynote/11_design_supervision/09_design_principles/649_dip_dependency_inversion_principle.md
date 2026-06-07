@@ -3,8 +3,8 @@ title: "Dependency Inversion Principle,"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 649
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고수준 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(비즈니스 로직)이 저수준 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(세부 기술)에 의존하지 않고, 양쪽 모두 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)에 의존하도록 제어 흐름을 뒤집는 설계 원칙이다.

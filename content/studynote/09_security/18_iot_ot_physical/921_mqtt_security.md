@@ -3,8 +3,8 @@ title: "MQTT Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 921
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MQTT](/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 보안 ([MQTT](/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)·물리 보안에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

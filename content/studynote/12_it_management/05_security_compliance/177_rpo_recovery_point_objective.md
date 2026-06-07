@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 177
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RPO (Recovery Point Objective)는 재해 발생 시점으로부터 얼마나 이전의 데이터까지 잃어도 되는지를 시간으로 표현한 최대 허용 데이터 손실 목표다.

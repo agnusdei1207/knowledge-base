@@ -3,8 +3,8 @@ title: "049. Oqpsk Pi 4 Qpsk"
 date: "2026-04-05"
 tags:
   - "studynote-network"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. OQPSK(Offset QPSK)는 Q 채널을 I 채널 대비 반 심볼(T/2)만큼 지연시켜 180+ 위상 전이를 제거 — QPSK에서 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)->00 천이 시 발생하는 180+ 급격한 위상 점프가 전력 증폭기를 비선형 영역으로 밀어넣는 문제를 해결한다.
 > 2. π/4-QPSK는 두 QPSK [성상도](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)를 45+ 교대 사용하여 최대 위상 전이를 135+로 제한 — OQPSK보다 스펙트럼 효율이 높고 비차동(Differential) 복조가 가능해 이동통신(IS-95 이전, DECT, PDC)에서 널리 사용되었다.

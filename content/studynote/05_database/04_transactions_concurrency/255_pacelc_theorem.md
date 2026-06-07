@@ -3,8 +3,8 @@ title: "PACELC Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 255
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리은 [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 확장판 (분할 P 시 A/C 대안, 정상 작동 E 시 L([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))/C([일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 상충 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))에 초점을 맞춘 개념이다.

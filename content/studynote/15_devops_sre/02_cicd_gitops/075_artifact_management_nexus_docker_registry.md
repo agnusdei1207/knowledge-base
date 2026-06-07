@@ -2,9 +2,9 @@
 title: "075. Artifact Management Nexus Docker Registry"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아티팩트 (Artifact)는 빌드가 끝난 결과물이고, Nexus Repository Manager와 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Registry는 그 결과물을 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·검사·배포 단계별로 안전하게 보관하는 창고다.

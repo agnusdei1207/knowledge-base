@@ -3,8 +3,8 @@ title: "Smart Grid Demand Response DR VPP"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 732
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DR(Demand Response)과 VPP(Virtual Power Plant)는 분산에너지자원(DER)을 **OpenADR 2.0b/2.0c, IEEE 2030.5, IEC 61850** 등 표준 프로토콜 기반의 양방향 통신으로 집계(Aggregation)하여, 발전소와 동등한 **예비력(Reserve), 주파수조정(Frequency Regulation), 용량(Capacity)** 자원으로 계통에 제공하는 ICT-전력 융합 시스템이다.

@@ -3,8 +3,8 @@ title: "Interrupt"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 315
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))는 `CPU (Central Processing Unit)`가 하던 명령 흐름을 잠시 멈추고, 외부 장치나 내부 예외가 요구하는 더 급한 사건을 먼저 처리하게 만드는 비동기 제어 메커니즘이다.

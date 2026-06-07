@@ -3,8 +3,8 @@ title: "Segmentation External Fragmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 366
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 기법은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 의미(함수, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등)를 보존하기 위해 조각의 크기를 무작위(가변 크기)로 잘라내기 때문에, 이 조각들을 물리 메모리에 적재하고 해제하는 과정에서 필연적으로 <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)가 완벽하게 부활</strong>하게 된다.

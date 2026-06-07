@@ -1,11 +1,11 @@
 ---
 title: "017. As Is To Be"
 date: "2026-03-04"
-description: "현재 비즈니스 상태(AS-IS)를 진단하고 이상적인 미래 목표 상태(TO-BE)를 설계하는 프로세스 및 시스템 전환의 핵심 기법"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 17
 ---
-
 # [AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석과 TO-BE 모델링
 
 #### 핵심 인사이트 (3줄 요약)

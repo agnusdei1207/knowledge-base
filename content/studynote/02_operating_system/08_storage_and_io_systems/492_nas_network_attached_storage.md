@@ -3,8 +3,8 @@ title: "NFS, SMB/CIFS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 492
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NAS(Network Attached Storage)는 서버 내부 기판에 디스크 하드를 꽂는 로컬 개념을 버리고, 아예 독립된 스토리지 전용 컴퓨터 박스에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 네트워크 카드(LAN)를 묶어 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 인터넷망 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) IP 망에 띄워 공유하는 <strong>'<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 단위' (<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>-level) 접근의 범용 외장 스토리지 전용 서버 네트워크 모델</strong>이다.

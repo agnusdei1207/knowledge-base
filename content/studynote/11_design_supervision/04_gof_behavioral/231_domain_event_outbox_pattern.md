@@ -3,8 +3,8 @@ title: "Domain Event Outbox Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계 안에서 이벤트를 DB ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 에 먼저 저장하고, 별도 프로세스가 비동기로 메시지 브로커에 발행하여 이중 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Dual Write) 문제를 해결한다.

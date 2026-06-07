@@ -3,8 +3,8 @@ title: "Multi-Cloud Strategy and Vendor Lock-in Avoidance"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 500
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)([Multi-Cloud](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/))는 단일 벤더 의존에서 벗어나기 위한 전략이지만, 복잡성과 비용 관리가 새로운 도전 과제가 된다.

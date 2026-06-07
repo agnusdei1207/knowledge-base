@@ -3,8 +3,8 @@ title: "Cross Chain Interoperability Bridge"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 557
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크로스체인 상호운용성 브리지은(는) 서로 다른 블록체인 간 자산, 메시지, 상태 증명을 전달해 체인 경계를 넘어 애플리케이션을 연결하는 기술이다.

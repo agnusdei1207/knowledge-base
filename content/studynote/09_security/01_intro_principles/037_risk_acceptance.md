@@ -3,8 +3,8 @@ title: "Risk Acceptance"
 date: "2026-03-03"
 tags:
   - "studynote-security"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. 위험 수용([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Acceptance)은 4가지 [위험 대응 전략](/studynote/09_security/01_intro_principles/033_risk_response_strategies/)(완화·회피·전가·수용) 중 하나로, 위험 처리 비용이 위험 발생 시 손실보다 크거나 비즈니스 필요에 의해 위험을 의도적으로 감내하는 결정이다.
 > 2. 위험 수용은 무기력한 방치가 아니라 임원급 의사결정자([CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/), CRO, CEO)의 명시적 승인을 받고 모니터링 계획을 수립하는 거버넌스 행위다 — 문서화와 주기적 재검토가 필수다.

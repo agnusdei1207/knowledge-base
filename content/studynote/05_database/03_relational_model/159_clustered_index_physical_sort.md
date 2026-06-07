@@ -3,8 +3,8 @@ title: "PK"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 159
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 클러스터드 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Clustered [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치만 가리키는 구조가 아니라, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 자체를 <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 키 순서로 정렬해 저장하는 테이블의 물리적 뼈대</strong>다.

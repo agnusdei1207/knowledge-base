@@ -3,8 +3,8 @@ title: "Multi Cloud Strategy Vendor Independent"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 612
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티클라우드 전략 벤더 독립성은(는) 둘 이상의 클라우드 사업자를 목적별로 조합해 종속성, 비용, 장애, 규제 리스크를 분산하는 전략이다.

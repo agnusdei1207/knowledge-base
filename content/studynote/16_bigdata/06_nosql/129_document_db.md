@@ -3,8 +3,8 @@ title: "129. Document Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 문서형 DB는 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)/BSON 형식의 자기 완결적 문서([Document](/studynote/14_data_engineering/01_infrastructure/037_document/))를 기본 단위로 저장하여, 복잡한 객체 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 단일 I/O 연산으로 조회할 수 있는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 모델이다.
 - **가치**: [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경에 마이그레이션이 필요 없어 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발 사이클에 최적화되며, [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))을 통해 관련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 문서에 모아 [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 비용을 제거한다.

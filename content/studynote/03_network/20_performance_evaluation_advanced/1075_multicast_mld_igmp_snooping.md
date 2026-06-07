@@ -3,8 +3,8 @@ title: "1075. Multicast Mld Igmp Snooping"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1075
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

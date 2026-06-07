@@ -3,8 +3,8 @@ title: "1105. Vcpe Nfv Virtual Customer Premises Equipment"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [vCPE](/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

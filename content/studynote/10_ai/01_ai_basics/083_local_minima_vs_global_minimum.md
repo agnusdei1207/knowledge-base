@@ -3,8 +3,8 @@ title: "Global Minimum"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/) ([손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/))을 최소화하는 최적화는 단순히 낮은 점 하나를 찾는 일이 아니라, 복잡한 지형에서 좋은 골짜기를 찾는 일이다.

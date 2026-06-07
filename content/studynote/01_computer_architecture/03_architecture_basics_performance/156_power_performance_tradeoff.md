@@ -3,8 +3,8 @@ title: "Power-Performance Trade-off"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 156
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전력-[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)-Performance Trade-off)는 더 높은 처리 속도를 얻기 위해 더 많은 에너지와 더 큰 발열을 감수해야 하는 구조적 교환 관계다.

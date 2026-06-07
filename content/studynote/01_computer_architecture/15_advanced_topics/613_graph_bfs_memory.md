@@ -3,8 +3,8 @@ title: "613. Graph Bfs Memory"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 613
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템은 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 불규칙한 포인터 체이싱을 프런티어 큐, 방문 비트맵, 다중 뱅크 스케줄링으로 재조직해 <strong>메모리 병목을 직접 다루는 구조</strong>다.

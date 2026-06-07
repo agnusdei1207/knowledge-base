@@ -3,8 +3,8 @@ title: "192. Datafabric"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 192
 ---
-
 # [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) - 지능형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 아키텍처
 
 > ⚠️ 이 문서는 Gartner가 2019년부터 지속 역점화하고 있는 차세대 [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임인 '[데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))'의 핵심 개념, [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결 메커니즘, 자동화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 설계, 그리고 [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)와의 차이점을 기술사 수준에서 심층 분석합니다.

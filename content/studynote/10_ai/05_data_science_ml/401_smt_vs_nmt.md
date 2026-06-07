@@ -3,9 +3,8 @@ title: "401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Transl
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 401
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SMT](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Statistical Machine Translation, 통계 기계 번역)는 언어 모델·번역 모델·구절 테이블을 별도 구축 후 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 선형 결합으로 번역하고, NMT (Neural Machine Translation, 신경망 기계 번역)는 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 구조로 엔드투엔드 학습한다.

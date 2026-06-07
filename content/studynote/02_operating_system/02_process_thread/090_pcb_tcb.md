@@ -3,8 +3,8 @@ title: "TCB"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PCB ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Control Block)는 운영체제가 각 프로세스의 상태, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값, 메모리 정보 등 모든 메타데이터를 추적하고 관리하기 위해 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 유지하는 핵심 자료구조다.

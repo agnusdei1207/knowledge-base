@@ -2,9 +2,9 @@
 title: "138. Attention Mechanism Dynamic Weight"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Attention은 <strong>입력 시퀀스의 모든 위치에 대해 현재 출력과의 관련도(유사도)를 계산하여 동적 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 부여</strong>하는 메커니즘이며, Transformer의 핵심 구성 요소([Self-Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/))이다.
 > 2. **가치**: RNN은 긴 문장에서 초반 정보를 잊지만(Vanishing), Attention은 <strong>거리에 무관하게 관련 위치에 직접 접근</strong>하여 [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 문제를 근본적으로 해결한다.

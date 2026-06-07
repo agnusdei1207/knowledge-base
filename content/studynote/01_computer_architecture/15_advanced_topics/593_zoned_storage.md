@@ -3,8 +3,8 @@ title: "Zoned Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 593
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 존 스토리지 (Zoned Storage)는 주소 공간을 여러 존(Zone)으로 나누고, 각 존 안에서는 현재 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터 (Write Pointer) 뒤로만 기록하게 만들어 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 순차 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 성향을 인터페이스 자체로 드러내는 스토리지 구조다.

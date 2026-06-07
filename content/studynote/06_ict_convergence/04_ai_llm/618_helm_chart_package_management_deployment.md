@@ -3,8 +3,8 @@ title: "Helm Chart Package Management Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 618
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Helm 차트 패키지 관리 배포은(는) Kubernetes 리소스를 템플릿과 값 파일로 패키징해 애플리케이션 배포를 표준화하는 도구이다.

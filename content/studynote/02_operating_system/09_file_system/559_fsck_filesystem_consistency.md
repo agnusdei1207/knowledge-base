@@ -3,8 +3,8 @@ title: "fsck / chkdsk"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 559
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓸 때는 (1)방명록([디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)) 작성 $\to$ (2)문패(i-node) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) $\to$ (3)방 짐 넣기([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Block) 라는 3박자 동기화가 필수다. 근데 짐통을 문 찰나에 "정전 크래시([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Failure 뇌사 랙!)" 가 터지면? 방에는 짐이 꽉 찼는데 문패는 비어있다는 모순(Inconsistency)이 발생해 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 생태계가 붕괴한다. <strong><code>fsck</code></strong> 는 이 어긋난 **"3박자 장부들의 톱니바퀴를 하드디스크 밑바닥부터 뒤져서 앞뒤 핀(링크 수, 할당 상태)을 강제 일치시켜 꿰매는 고강도 렌더링 검사기"** 다.

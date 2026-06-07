@@ -3,8 +3,8 @@ title: "DLT, Distributed Ledger Technology"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 474
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DLT](/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/)(Distributed Ledger Technology, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 기술)는 중앙 서버 없이 다수 노드가 <strong>동일한 원장 복사본을 공유·합의</strong>하는 기술의 총칭으로, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 DLT의 한 구현 형태다.

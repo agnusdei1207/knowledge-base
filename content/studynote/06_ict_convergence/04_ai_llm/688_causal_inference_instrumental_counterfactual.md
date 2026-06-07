@@ -3,8 +3,8 @@ title: "Causal Inference Instrumental Counterfactual"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 688
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Pearl의 인과 사다리(Ladder of Causation) 3계층 — 관측(Association, P(Y|X)), 개입(Intervention, P(Y|do(X))), 반사실(Counterfactual, P(Y_x|X',Y')) — 중 반사실 층에 도달하기 위해 **도구변수(IV)**를 통해 미관측 교란변수(Unobserved Confounder, U) 하에서 일치성(Consistency)을 갖춘 처치효과(ATE/LATE)를 도출하는 인과추론의 정점 프레임워크.

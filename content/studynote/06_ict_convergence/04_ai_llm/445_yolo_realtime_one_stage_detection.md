@@ -3,8 +3,8 @@ title: "YOLO Realtime ONE Stage Detection"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 445
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: YOLO 실시간 1-Stage (YOLO Realtime ONE Stage [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)): 1. **본질**: YOLO(You Only Look Once)는 사진 속의 물체가 '어디에 있는지(Bounding Box)'와 '무엇인지(Class)'를 찾기 위해 두 번 나눠서 스캔하…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

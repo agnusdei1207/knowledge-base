@@ -3,8 +3,8 @@ title: "179. Table Partitioning Concept"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파티셔닝 (Partitioning)은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 하나의 테이블을 유지하면서, 물리적으로는 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 ([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 기준으로 여러 저장 구간으로 나누어 읽기 범위와 관리 범위를 줄이는 기법이다.

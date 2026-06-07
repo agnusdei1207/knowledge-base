@@ -3,8 +3,8 @@ title: "448. Polling Programmed Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 448
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폴링([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 또는 Programmed I/O(PIO)는 CPU가 외부 하드웨어 디바이스에게 일을 시킨 뒤, 기계가 일을 끝마쳤는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 <strong>CPU가 직접 무한 루프(<code>while</code>)를 돌며 디바이스의 '<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a>(<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">Status Register</a>)'를 1초에 수백만 번씩 물어보고 쳐다보는(<a href="/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a>, <a href="/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/">Busy Wait</a>) 가장 원시적인 I/O <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 방식</strong>이다.

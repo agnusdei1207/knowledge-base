@@ -2,9 +2,9 @@
 title: "Data Analysis"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터 분석 (Big Data Analytics)은 수집·저장된 방대한 데이터로부터 통계적 방법론과 머신러닝 알고리즘을 적용하여 유의미한 패턴, 상관관계 및 비즈니스 인사이트를 도출하는 지적 정제 과정이다.

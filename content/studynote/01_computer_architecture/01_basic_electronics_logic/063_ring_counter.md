@@ -3,8 +3,8 @@ title: "Ring Counter"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 63
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 링 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Ring [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))는 시프트 레지스터의 마지막 출력이 처음 입력으로 되돌아가며 one-hot 상태가 순환하는 순차 논리회로다.

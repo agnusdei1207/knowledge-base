@@ -2,9 +2,9 @@
 title: "Introduction"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터 (Big Data)는 기존 데이터베이스 관리 도구의 능력을 넘어서는 대규모 데이터셋을 수집, 저장, 관리 및 분석하는 기술적 패러다임으로, 3V (Volume, Velocity, Variety) 속성을 특징으로 한다.

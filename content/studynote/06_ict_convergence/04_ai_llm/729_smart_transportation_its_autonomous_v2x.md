@@ -3,8 +3,8 @@ title: "Smart Transportation ITS Autonomous V2X"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 729
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: V2X(Vehicle-to-Everything)는 차량-차량(V2V), 차량-인프라(V2I), 차량-네트워크(V2N), 차량-보행자(V2P) 간 5.9GHz 대역 DSRC(IEEE 802.11p) 또는 3GPP C-V2X(Rel.14 LTE-V2X, Rel.16 NR-V2X) 통신으로 **시야(Non-Line-of-Sight) 제약과 센서 불확실성을 보완**하는 분산 협력 인지(Cooperative Perception) 인프라이며, SAE J2735 표준 메시지(BSM, SPaT, MAP, RTCM) 기반 신호정보 및 위험경고 교환이 핵심 메커니즘이다.

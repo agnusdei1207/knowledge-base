@@ -3,8 +3,8 @@ title: "IaC, Infrastructure as Code"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인프라스트럭처 애즈 코드](/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/) ([IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)): 수동 UI 클릭 대신 코드([JSON](/studynote/11_design_supervision/06_exam_summary/343_json/), YAML, HCL)로 인프라를 정의/[프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/) ([Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [Ansible](/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/))를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

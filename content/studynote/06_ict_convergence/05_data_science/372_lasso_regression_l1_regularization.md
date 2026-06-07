@@ -3,8 +3,8 @@ title: "Lasso"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 372
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라쏘 회귀의 L1 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 모델의 변수 선택 (특성 희소성/계수 0) 기능 ([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)): 1. **본질**: 라쏘([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) 회귀는 회귀 분석을 할 때, 수많은 변수(Feature)들의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)($W$) 절댓값을 모두 더한 만큼 오차 함수에 페널티(L1 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 부과하여 모…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

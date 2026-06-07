@@ -3,8 +3,8 @@ title: "161. Rest Level 3 Hateoas"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 161
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 3는 HATEOAS (Hypermedia [As](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) The 엔진 Of Application [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 통해, 클라이언트가 <strong>응답에 포함된 링크와 행위 정보로 다음 <a href="/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>를 발견</strong>하게 만드는 단계다.

@@ -3,8 +3,8 @@ title: "Hash Sharding"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 282
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해시 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) (Hash [Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))은 균등 분배 / 레인지 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) (Range [Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) - 범위 검색 유리 (핫스팟 문제 유의)에 초점을 맞춘 개념이다.

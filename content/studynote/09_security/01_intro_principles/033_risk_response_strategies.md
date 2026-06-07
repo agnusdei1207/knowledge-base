@@ -3,8 +3,8 @@ title: "Risk Response Strategies"
 date: "2026-03-03"
 tags:
   - "studynote-security"
+weight: 33
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 위험 대응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 회피(Avoid)·전가(Transfer)·완화(Mitigate)·수용(Accept) 4가지로, 위험의 크기·비용·조직 특성에 따라 최적 조합을 선택한다.
 > 2. [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/))은 대응 후에도 남는 위험으로, 최고 경영진([CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)·이사회)의 명시적 수용 승인이 필요한 핵심 거버넌스 포인트다.

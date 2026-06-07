@@ -3,9 +3,8 @@ title: "336. MOLAP (Multidimensional OLAP)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 336
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MOLAP (Multidimensional [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/))는 다차원 큐브(Cube) 사전 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 구조, [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 검색, 큐브 갱신 비용 큼에 초점을 둔 분석 플랫폼 개념이다.

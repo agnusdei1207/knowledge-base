@@ -3,8 +3,8 @@ title: "pdflush / flusher"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 431
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Dirty [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Writeback)는 램(RAM)의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)에 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 수정(Write)이 발생하여 하드디스크 원본과 불일치해진 <strong>'더티 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(Dirty <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)'들을, 백그라운드 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 데몬이 틈틈이 디스크에 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(저장)하여 깨끗하게(Clean) 세탁해 주는 운영체제의 핵심 I/O 스케줄링 메커니즘</strong>이다.

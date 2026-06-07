@@ -3,8 +3,8 @@ title: "190. Split Brain Zookeeper Fencing Quorum"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스플릿 브레인(Split Brain)은 네트워크 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(분할) 발생 시 클러스터가 두 개 이상의 독립 그룹으로 나뉘어 <strong>각자 리더라고 주장하며 이중 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Dual Write)를 일으키는</strong> [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 가장 위험한 장애 패턴이다.

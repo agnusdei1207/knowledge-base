@@ -3,8 +3,8 @@ title: "Database"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 501
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토리지 컴퓨팅 분리 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 특장점은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

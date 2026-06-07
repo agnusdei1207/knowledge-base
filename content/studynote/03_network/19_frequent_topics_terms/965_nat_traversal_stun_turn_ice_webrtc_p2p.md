@@ -3,8 +3,8 @@ title: "NAT Traversal"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 965
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

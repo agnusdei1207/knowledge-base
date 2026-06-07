@@ -3,8 +3,8 @@ title: "Mutation Testing Mutant Survived PITest Stryker Test Suite Quality"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 337
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [뮤테이션 테스트](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)([Mutation Testing](/studynote/04_software_engineering/11_testing_validation/848_mutation_testing/))는 소스 코드에 의도적인 버그(뮤턴트, Mutant)를 심어 테스트 스위트가 그 버그를 탐지하는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트 품질 평가 기법이다. [코드 커버리지](/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)가 100%여도 테스트가 실제로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면 뮤테이션 스코어가 낮다.

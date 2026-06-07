@@ -3,8 +3,8 @@ title: "136. Prometheus"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 136
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Prometheus는 <strong>Pull 방식으로 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>의 /<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">metrics</a> 엔드포인트에서 시계열 <a href="/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>을 수집·저장</strong>하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 프로젝트이며, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링의 사실상 표준이다.
 > 2. **가치**: Push 기반(StatsD)은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템에 종속되지만, Prometheus의 Pull은 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 <a href="/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>을 노출만 하면</strong> Prometheus가 주기적으로 가져가므로 느슨한 결합이다.

@@ -3,8 +3,8 @@ title: "Langsmith Observability"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LangSmith는 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반의 복잡한 애플리케이션(특히 [LangChain](/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) 기반) 내부에서 도대체 무슨 일이 벌어지고 있는지, <strong>프롬프트가 어떻게 변형되고 어떤 툴(Tool)을 썼으며 에러가 어디서 터졌는지 그 보이지 않는 블랙박스의 뇌파 흐름을 1초 단위로 까발려주는 엑스레이(<a href="/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>, 관측성) 솔루션</strong>이다.

@@ -3,8 +3,8 @@ title: "Deadlock Handling Methods"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 290
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 처리하는 방법론은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춤 장애에 대항하는 큰 기조로, 사전에 싹수부터 막는 **예방(Prevention) / 회피(Avoidance)**, 사후에 수리하는 <strong>탐지 및 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> &amp; <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong>, 그리고 비용 문제로 방치하는 <strong>무시(Ignorance, <a href="/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a>)</strong>의 3대 철학으로 나뉜다.

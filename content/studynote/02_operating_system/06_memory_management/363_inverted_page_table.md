@@ -3,8 +3,8 @@ title: "363. Inverted Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 363
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 역 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(Inverted [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/))은 "프로세스마다 가상 주소([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 기준의 거대한 장부를 하나씩 가진다"는 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)의 절대 원칙을 부수고, <strong>물리 메모리의 프레임(Frame) 개수와 똑같은 단 하나의 전역 장부</strong>만을 시스템 전체에 두는 상식을 파괴한 아키텍처다.

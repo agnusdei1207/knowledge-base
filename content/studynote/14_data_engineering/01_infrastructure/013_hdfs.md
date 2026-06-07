@@ -1,11 +1,11 @@
 ---
 title: "013. Hdfs"
 date: "2023-10-24"
-description: "거대 파일을 블록 단위로 쪼개어 수천 대의 노드에 분산 복제 저장하는 하둡 분산 파일 시스템의 코어 아키텍처"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 13
 ---
-
 # HDFS ([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [Distributed File System](/studynote/02_operating_system/09_file_system/553_distributed_file_system/))
 
 #### 핵심 인사이트 (3줄 요약)

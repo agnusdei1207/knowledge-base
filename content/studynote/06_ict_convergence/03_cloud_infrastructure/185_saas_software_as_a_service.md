@@ -3,8 +3,8 @@ title: "185. Saas Software As A Service"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Software [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/))는 사용자가 프로그램을 설치·운영하는 대신, 클라우드 제공자가 완성된 애플리케이션을 운영하고 사용자는 기능을 구독해 쓰는 모델이다.

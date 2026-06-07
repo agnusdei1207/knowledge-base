@@ -1,10 +1,11 @@
 ---
 title: "022. Bubble Sort"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 22
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 버블 정렬(Bubble Sort)은 인접한 두 원소를 비교하고 교환하는 작업을 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 끝까지 반복하여, 가장 큰(또는 작은) 값을 끝으로 밀어내는 O(N^) 제자리(In-place) 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 면에서는 극도로 비효율적이지만, 코드가 직관적이고 안정 정렬(Stable Sort)의 특성을 가져 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대와 [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) 개념을 이해하는 교육적 기준점이 된다.

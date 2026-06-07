@@ -3,8 +3,8 @@ title: "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 462
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 웹 상의 리소스(Resource, URI)에 대해 클라이언트가 어떤 행위(Action)를 수행하고자 하는지를 규정하는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합이다.

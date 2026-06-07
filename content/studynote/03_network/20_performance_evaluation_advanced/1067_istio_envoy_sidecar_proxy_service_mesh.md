@@ -3,8 +3,8 @@ title: "1067. Istio Envoy Sidecar Proxy Service Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1067
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [이스티오](/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

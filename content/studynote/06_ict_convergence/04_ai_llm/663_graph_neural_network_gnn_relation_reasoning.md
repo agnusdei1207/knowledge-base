@@ -3,8 +3,8 @@ title: "Graph Neural Network GNN Relation Reasoning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 663
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GNN 관계 추론은 노드/엣지의 특성 벡터($\mathbf{h}_v^{(l)}$, $\mathbf{h}_{(u,v)}^{(l)}$)에 대해 메시지 패싱 함수 $\mathbf{m}_{u\rightarrow v}^{(l)} = \text{MSG}^{(l)}(\mathbf{h}_u^{(l-1)}, \mathbf{h}_v^{(l-1)}, \mathbf{h}_{(u,v)}^{(l-1)})$과 집계 함수 $\mathbf{h}_v^{(l)} = \text{UPD}^{(l)}\left(\mathbf{h}_v^{(l-1)}, \text{AGG}^{(l)}\left(\{\mathbf{m}_{u\rightarrow v}^{(l)} : u \in \mathcal{N}(v)\}\right)\right)$을 반복 적용하여 그래프 구조와 관계 유형을 잠재 임베딩 공간에 공동 인코딩하는 기법이다.

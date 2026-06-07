@@ -3,8 +3,8 @@ title: "075. Loss Function Cost Function"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 손실 함수 ([Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/))는 개별 샘플의 오차를 수치화하고, 비용 함수 (Cost Function)는 그 손실을 모아 최적화 대상으로 만든다.

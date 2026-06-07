@@ -3,8 +3,8 @@ title: "Pipe-Filter Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 패턴 ([Pipe-Filter Pattern](/studynote/11_design_supervision/06_exam_summary/433_process/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 독립적인 처리 단계(필터, Filter)들의 연속적인 체인으로 구성하고, [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/studynote/02_operating_system/02_process_thread/123_pipe/))로 필터 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 아키텍처 패턴으로, 각 필터가 입력을 받아 변환·처리하여 출력을 내보내는 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 형성한다.

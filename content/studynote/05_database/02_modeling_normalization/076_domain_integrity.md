@@ -1,10 +1,11 @@
 ---
 title: "076. Domain Integrity"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/))은 각 컬럼이 허용된 값의 범위와 형식만 받도록 막는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 첫 번째 방어선이다.

@@ -3,8 +3,8 @@ title: "103. Hmac"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) (Hash-based [Message Authentication Code](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 암호학적 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 송수신자만이 아는 '비밀키([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'를 결합하여 해시값을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)함으로써, 메시지의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 송신자의 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 동시에 보장하는 기술이다.

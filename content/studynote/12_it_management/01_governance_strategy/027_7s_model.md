@@ -3,8 +3,8 @@ title: "027. 7S Model"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [맥킨지](/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 7S 모델(McKinsey 7S Framework)은 조직의 내부 역량을 7가지 요소([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크로, 조직 변화 관리·[디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)·IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 시 내부 정합성(Alignment)을 점검하는 데 활용된다.
 > 2. **가치**: 7S 모델의 핵심 통찰은 "7가지 요소가 서로 정렬(Aligned)될 때 조직이 효과적으로 작동한다"는 것이다. [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)만 바꾸고 구조·시스템·역량이 따라오지 않으면 [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 실패한다.

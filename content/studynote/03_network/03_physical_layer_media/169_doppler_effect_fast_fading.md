@@ -3,8 +3,8 @@ title: "169. Doppler Effect Fast Fading"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 도플러 효과 (Doppler Effect)는 송신기·수신기·반사체의 상대 속도 때문에 수신 주파수가 원래 값에서 이동하는 현상이며, 이동통신에서는 채널이 시간축에서 흔들리는 직접 원인이다.

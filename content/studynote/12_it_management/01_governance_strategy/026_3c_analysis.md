@@ -3,8 +3,8 @@ title: "026. 3C Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 3C 분석은 [맥킨지](/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 컨설턴트 오마에 겐이치(大前研一)가 제시한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 프레임워크로, [C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)(고객·시장), Competitor(경쟁자), Company(자사)의 세 관점을 삼각 분석하여 경쟁 우위를 갖출 수 있는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기회를 도출한다.
 > 2. **가치**: 3C 분석의 핵심 통찰은 "고객이 원하는 것(C1), 경쟁자가 제공하는 것([C2](/studynote/09_security/15_malware_attack_vectors/746_c2/)), 자사가 잘하는 것(C3)의 삼각 교점(Strategic Sweet Spot)"을 찾는 것이다. 이 교점이 지속 가능한 경쟁 우위의 원천이 된다.

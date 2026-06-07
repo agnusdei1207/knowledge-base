@@ -3,8 +3,8 @@ title: "Intel VT-x, AMD-V"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 59
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하드웨어 보조](/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 CPU가 가상 머신 전용 실행 모드와 제어 구조를 제공해 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 개입 비용을 줄이는 기술이다.

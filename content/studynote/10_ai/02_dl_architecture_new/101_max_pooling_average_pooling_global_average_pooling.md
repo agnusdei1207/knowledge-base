@@ -3,8 +3,8 @@ title: "101. Max Pooling Average Pooling Global Average Pooling"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 [합성곱 신경망](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/) ([CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))에서 [특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) ([Feature Map](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 공간적 크기를 줄여 연산량을 통제하는 다운샘플링 (Downsampling) 기법이다.

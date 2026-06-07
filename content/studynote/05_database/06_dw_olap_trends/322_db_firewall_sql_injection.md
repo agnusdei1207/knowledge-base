@@ -3,8 +3,8 @@ title: "322. Db Firewall Sql Injection"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 322
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 4대 특징는 주젯 지향성(Subject-oriented), 통합성(Integrated), 시계열성(Time-variant), 비휘발성(Non-volatile)에 초점을 둔 보안 통제 개념이다.

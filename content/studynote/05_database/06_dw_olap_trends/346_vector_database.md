@@ -3,8 +3,8 @@ title: "Vector Database"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 346
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) ([Vector Database](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/))는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), 딥러닝 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 벡터 고속 검색에 특화 ([Milvus](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/), Pinecone, Qdrant 등)에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

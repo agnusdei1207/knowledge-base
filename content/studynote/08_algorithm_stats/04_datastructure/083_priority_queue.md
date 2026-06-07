@@ -3,8 +3,8 @@ title: "Priority Queue"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 우선순위 큐(Priority [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 삽입된 순서가 아닌 우선순위(Priority) 기준으로 원소를 꺼내는 추상 자료형(ADT)이다. 최솟값 또는 최댓값이 항상 먼저 나온다.
 > 2. **가치**: 일반 큐([FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))로는 "긴급한 일부터 처리"하는 패턴을 구현할 수 없다. 최솟값/최댓값 추출 O(log n)을 보장하는 이진 힙(Binary [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))으로 구현하며, [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 최단 경로, OS 작업 스케줄링, 이벤트 시뮬레이션에 필수적이다.

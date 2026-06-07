@@ -2,9 +2,9 @@
 title: "065. Github Flow Branch Strategy"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GitHub Flow는 main과 짧은 feature 브랜치만으로 개발과 배포를 단순화하는 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

@@ -3,8 +3,8 @@ title: "Status Register / Flag Register"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상태 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Status [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [Flag](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 산술논리장치 ([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))의 연산 결과와 CPU (Central Processing Unit)의 제어 상태를 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위로 기록하는 즉시성 높은 판단 메모리다.

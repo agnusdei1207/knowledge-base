@@ -1,7 +1,6 @@
 ---
 title: "Configuration Management Database"
 date: "2025-01-01"
-description: "CMDB의 구성 항목(CI), ITSM/ITIL과의 관계, 자동 탐색(Auto-Discovery), ServiceNow 구현 패턴을 다룬다."
 tags:
   - "CI"
   - "CMDB"
@@ -11,9 +10,9 @@ tags:
   - "asset management"
   - "auto discovery"
   - "configuration management"
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [CMDB](/studynote/12_it_management/02_itsm_itil/875_cmdb/)([Configuration Management Database](/studynote/12_it_management/02_itsm_itil/875_cmdb/))는 IT 인프라의 모든 구성 항목([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))과 그 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 저장·관리하는 중앙 저장소다.
 > 2. [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) v4에서 CMDB는 [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) 프로세스(변경, 인시던트, [문제 관리](/studynote/12_it_management/02_itsm_itil/861_problem_management/))의 공통 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 작동하며 자동 탐색(Auto-Discovery)이 정확도의 핵심이다.

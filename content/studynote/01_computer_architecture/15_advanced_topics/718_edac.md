@@ -3,9 +3,8 @@ title: "718. EDAC (Error Detection and Correction)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 718
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EDAC ([Error Detection](/studynote/02_operating_system/01_overview_architecture/040_error_detection/) and Correction)은 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 메모리와 메모리 컨트롤러가 발견·교정한 하드웨어 오류를 운영체제가 읽을 수 있는 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 바꾸는 소프트웨어 관측 계층이다.

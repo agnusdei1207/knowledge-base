@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 12
 ---
-
 # 12. [동기식 전송](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) - 문자 동기방식 (SYN, [BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/)) vs [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 동기방식 ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/))
 
 ## 핵심 인사이트 (3줄 요약)

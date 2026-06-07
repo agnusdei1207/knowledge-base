@@ -3,8 +3,8 @@ title: "639. Rdma Kernel Bypass"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 639
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RDMA는 네트워크 통신 시 양쪽 서버의 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(<a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>)을 완전히 건너뛰고(<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass)</strong>, 송신 측 네트워크 카드(RNIC)가 수신 측 메모리에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 읽고 쓰는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 초저지연 통신 기술이다.

@@ -3,8 +3,8 @@ title: "Temporary Field Anti-pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 245
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 임시 필드 (Temporary Field) 는 클래스 내 특정 메서드 실행 시에만 값을 가지고 평소에는 `null` 또는 쓰레기 값을 갖는 필드로, 클래스의 응집도를 해치는 설계 문제다.

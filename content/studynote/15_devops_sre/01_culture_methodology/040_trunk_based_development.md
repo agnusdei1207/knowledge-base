@@ -3,8 +3,8 @@ title: "Trunk-Based Development"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 40
 ---
-
 > **핵심 인사이트**
 > 1. 트렁크 기반 개발(TBD, Trunk-Based Development)은 모든 개발자가 하나의 공유 브랜치(trunk/main)에 소규모 코드를 빈번하게 통합하는 방식으로, 장기 브랜치로 인한 병합 지옥(Merge Hell)과 통합 늦음(Integration Late) 문제를 근본적으로 해결한다.
 > 2. TBD는 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구에서 고성능 조직의 핵심 기술 실천으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)된 과학적 근거가 있는 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙이며, [피처 플래그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))와 결합하여 "완성되지 않은 코드도 안전하게 통합"하는 것이 핵심 패턴이다.

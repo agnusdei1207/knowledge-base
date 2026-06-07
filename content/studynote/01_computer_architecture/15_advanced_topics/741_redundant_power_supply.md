@@ -3,8 +3,8 @@ title: "Redundant Power Supply"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 741
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원 공급 장치 (Redundant [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply)는 서버의 전력 경로를 둘 이상으로 분리해, 전원 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나나 상위 급전 경로 하나가 고장 나도 시스템이 계속 동작하게 만드는 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 설계다.

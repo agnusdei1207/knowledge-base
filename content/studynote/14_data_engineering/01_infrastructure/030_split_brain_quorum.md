@@ -3,8 +3,8 @@ title: "030. Split Brain Quorum"
 date: "2026-04-29"
 tags:
   - "studynote-data-engineering"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스플릿 브레인](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)([Split Brain](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/))은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 네트워크 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 인해 각 노드 그룹이 자신이 마스터라고 믿고 독립 동작하는 현상이다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치·충돌이 발생한다.
 > 2. **가치**: 쿼럼(Quorum)은 [스플릿 브레인](/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방지의 핵심 메커니즘이다. 과반수(⌊N/2⌋ + 1) 노드의 동의가 있을 때만 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/마스터 선출이 가능하도록 하여, 네트워크 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 시 단 하나의 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 활성화된다.

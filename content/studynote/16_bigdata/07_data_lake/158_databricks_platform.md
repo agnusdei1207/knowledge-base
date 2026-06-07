@@ -3,8 +3,8 @@ title: "158. Databricks Platform"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. Databricks는 [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 창시자들이 설립한 회사로, [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/)·[Unity Catalog](/studynote/16_bigdata/07_data_lake/150_unity_catalog/)·[MLflow](/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Photon 엔진을 통합한 <strong><a href="/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 올인원 플랫폼</strong>을 제공하며 컴퓨팅 네이티브(Compute-Native) 아키텍처로 차별화된다.
 2. <strong><a href="/studynote/16_bigdata/03_spark/074_photon_engine/">Photon 엔진</a></strong>은 C++ 기반 벡터화 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진으로 기존 Spark 대비 SQL 워크로드에서 최대 8배 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하며, <strong><a href="/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/">Auto Scaling</a></strong> 클러스터가 워크로드에 따라 노드를 자동으로 조정한다.

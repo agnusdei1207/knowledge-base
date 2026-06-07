@@ -1,10 +1,11 @@
 ---
 title: "084. Cardinality Ratio 1 To N"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카디널리티 비율 (Cardinality Ratio)은 엔터티 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서 한쪽이 다른 쪽과 몇 개까지 연결될 수 있는지를 나타낸다.

@@ -3,8 +3,8 @@ title: "MQTT CoAP IoT Protocol Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 606
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MQTT는 IBM/OASIS 표준(ISO/IEC 20922)의 TCP 기반 Publish/Subscribe 메시지 브로커 프로토콜로, Broker(예: Mosquitto, EMQX, HiveMQ)를 중심으로 토픽 트리(topic tree)와 3단계 QoS(QoS 0/1/2)·LWT(Last Will and Testament)·Persistent Session으로 불안정한 링크에서도 메시지 전달을 보장하며, CoAP는 IETF RFC 7252 기반 UDP/RESTful 프로토콜로 Confirmable/Non-confirmable 메시지, Observe(리소스 구독, RFC 7641), Block-wise Transfer(RFC 7959), DTLS(RFC 6347) 4모드(NoSec/PreSharedKey/RawPublicKey/Certificate)를 통해 제약 노드(클래스 1, ~10KB RAM) 환경을 지원한다.

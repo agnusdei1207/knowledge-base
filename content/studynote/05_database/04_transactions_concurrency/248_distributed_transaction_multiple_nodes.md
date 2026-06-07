@@ -3,8 +3,8 @@ title: "Distributed Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 248
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Distributed [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))은 둘 이상의 노드/DB에 걸친 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에 초점을 맞춘 개념이다.

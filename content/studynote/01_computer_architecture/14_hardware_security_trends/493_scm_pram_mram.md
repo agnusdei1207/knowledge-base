@@ -3,8 +3,8 @@ title: "SCM: PRAM, MRAM, ReRAM"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 493
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 차세대 비휘발성 메모리인 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) (Storage Class Memory)은 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)의 빠른 접근성과 NAND 플래시 ([NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/))의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존성 사이 빈칸을 메우려는 중간 계층 메모리군이다.

@@ -3,8 +3,8 @@ title: "691. Packet Filter Application Proxy"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 691
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패킷 필터, 애플리케이션 상태 필터 및 프록…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

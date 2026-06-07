@@ -1,10 +1,11 @@
 ---
 title: "087. Lean Software Development 7 Principles"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: Lean (Lean Software Development)은 고객 가치에 직접 기여하지 않는 낭비를 줄여 흐름과 학습을 최대화하는 개발 방식이다.

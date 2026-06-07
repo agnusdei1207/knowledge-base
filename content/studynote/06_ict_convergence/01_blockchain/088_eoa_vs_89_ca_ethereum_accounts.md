@@ -1,10 +1,11 @@
 ---
 title: "088. Eoa Vs 89 Ca Ethereum Accounts"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이더리움의 계정 모델은 개인키(Private [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 통제되는 사람의 계정인 `EOA (Externally Owned Account)`와, 배포된 코드([Smart Contract](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))로 동작하는 프로그램 계정인 `CA (Contract Account)`로 이원화되어 있다.

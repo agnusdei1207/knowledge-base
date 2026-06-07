@@ -1,11 +1,11 @@
 ---
 title: "102. SLI (Service Level Indicator) / SLO (Service Level Objective)"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 102
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))에서 시스템의 신뢰성을 측정하는 근간으로, <strong>SLI (지표)</strong>는 사용자가 체감하는 현재의 객관적 수치이며, <strong><a href="/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (목표)</strong>는 그 지표가 도달해야 할 사내 합의 기준선이다.
 > 2. **가치**: 감이나 추측이 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 시스템 안정성을 평가하며, 안정성과 새로운 기능 출시 속도 사이의 트레이드오프를 조율하는 [에러 예산](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))을 창출한다.

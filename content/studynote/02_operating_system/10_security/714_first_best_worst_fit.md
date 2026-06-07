@@ -5,7 +5,6 @@ tags:
   - "studynote-operating-system"
 weight: 714
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 할당 First/Best/Worst Fit은(는) 컴퓨터 과학의 핵심 개념으로, 시스템의 효율성·신뢰성을 높이기 위한 이론적 토대이자 실무 설계 원칙이다.

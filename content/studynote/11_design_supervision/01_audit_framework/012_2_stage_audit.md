@@ -1,11 +1,11 @@
 ---
 title: "012. 2 Stage Audit"
 date: "2024-05-20"
-description: "요구정의 감리가 생략된 조건부 사업에서 설계 및 종료 단계를 집중 통제하는 2단계 감리 프레임워크와 실무 리스크 대응 방안"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 12
 ---
-
 # 12. 2단계 감리 (2-Stage [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))
 
 #### 핵심 인사이트 (3줄 요약)

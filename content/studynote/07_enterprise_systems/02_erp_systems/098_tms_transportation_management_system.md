@@ -1,10 +1,11 @@
 ---
 title: "098. Tms Transportation Management System"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TMS (Transportation [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)는 물류 창고에서 출고된 화물이 최종 목적지에 도달하기까지의 배차, 경로 최적화, 운송 추적, 운임 정산의 전 과정을 통제하는 물류 관제 플랫폼이다.

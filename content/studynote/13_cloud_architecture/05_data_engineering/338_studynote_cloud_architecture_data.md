@@ -3,8 +3,8 @@ title: "Cloud Architecture Concept"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
+weight: 338
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컬럼 지향 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 [파케이](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 읽기 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 분석망는 클라우드 시스템에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 협업 효율을 동시에 끌어올린다.

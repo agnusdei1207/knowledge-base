@@ -3,8 +3,8 @@ title: "325. Compile Time Binding"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 325
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소스 코드를 기계어로 번역하는 컴파일(Compile) 그 순간에, <strong>프로그램이 메모리의 몇 번지에 올라갈지 진짜 <a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(<a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">Physical Address</a>)를 아예 못 박아버리는 원시적인 하드코딩 기법</strong>이다.

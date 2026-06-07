@@ -3,8 +3,8 @@ title: "SHA-3 / Keccak"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 610
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SHA-3](/studynote/09_security/02_crypto/101_sha_3/) (Secure Hash [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 3) 하드웨어는 케칵 ([Keccak](/studynote/09_security/02_crypto/101_sha_3/))의 스펀지 구조를 1600비트 상태 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 24라운드 순열 회로로 구현해, 메시지를 흡수하고 짜내는 과정을 고정 지연으로 수행하는 전용 해시 엔진이다.

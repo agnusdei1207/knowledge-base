@@ -2,9 +2,9 @@
 title: "036. Dijkstra"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 36
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다익스트라 (Dijkstra) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 비음수 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 단일 출발점 (Single Source)으로부터 모든 정점까지의 최단 거리를 탐욕적 (Greedy) 방법으로 계산한다.

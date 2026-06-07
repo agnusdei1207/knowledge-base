@@ -3,8 +3,8 @@ title: "076. Outlier Detection Iqr Dbscan Isolation Forest"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이상치(Outlier) 탐지는 정상 패턴에서 유난히 멀리 떨어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾아내는 기술이다.

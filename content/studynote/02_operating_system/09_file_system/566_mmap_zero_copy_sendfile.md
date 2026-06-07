@@ -3,8 +3,8 @@ title: "566. Mmap Zero Copy Sendfile"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 566
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 원래 웹서버(Nginx/Apache)가 하드디스크의 `영화.mp4`를 클라이언트(네트워크)로 보낼 때는, **(1)디스크 $\to$ [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) $\to$ (2)웹서버 공간(User) $\to$ (3)다시 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) $\to$ (4)랜카드** 라는 멍청한 4번의 메모리 복사와 4번의 User-[Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 절단!)이라는 최악의 통행세 병목 늪을 겪는다.

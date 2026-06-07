@@ -3,8 +3,8 @@ title: "Blockchain DLT Smart Contract BFT PBFT Consensus"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 369
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DLT](/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) (Distributed Ledger Technology)는 중앙 관리자 없이 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)([BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/), PoW, PoS)으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 기술이며, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 DLT의 한 구현체로 블록이 체인으로 연결된 해시 기반 불변 원장이다.

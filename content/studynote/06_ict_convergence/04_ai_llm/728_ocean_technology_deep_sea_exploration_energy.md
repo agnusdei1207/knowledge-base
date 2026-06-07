@@ -3,8 +3,8 @@ title: "Ocean Technology Deep Sea Exploration Energy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 728
 ---
-
 # 728. 해양 기술 심해 탐사 해양 에너지 (Ocean Technology Deep Sea Exploration Energy)
 
 ## 핵심 인사이트 (3줄 요약)

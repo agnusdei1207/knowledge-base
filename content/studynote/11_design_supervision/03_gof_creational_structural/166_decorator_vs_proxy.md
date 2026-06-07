@@ -3,8 +3,8 @@ title: "Decorator vs Proxy"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데코레이터](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))와 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))는 모두 동일 인터페이스로 원본 객체를 감싸는 래퍼 구조를 쓰지만, [데코레이터](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 책임 추가가 목적이고 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [접근 통제](/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)가 목적이다.

@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "660. 번다운 차트 작업 진척도"
 date: "2026-05-08"
-categories: "studynote-software-engineering"
+tags:
+  - "studynote-software-engineering"
+weight: 660
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 번다운 차트 작업 진척도은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

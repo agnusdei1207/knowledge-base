@@ -3,8 +3,8 @@ title: "Durability"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 영속성 (Durability)은 성공 완료된 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 결과는 영구 반영 - [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 관리자가 보장에 초점을 맞춘 개념이다.

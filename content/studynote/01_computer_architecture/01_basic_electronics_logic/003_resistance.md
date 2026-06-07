@@ -3,8 +3,8 @@ title: "Resistance"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
+weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 저항 (Resistance)은 전하의 이동을 방해하여 전기에너지를 열로 소산시키는 물리적 마찰력이다.
 > 2. **가치**: [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 내부의 저항 제어는 스위칭을 가능하게 하지만, 칩 외부 배선의 기생 저항은 RC [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 일으켜 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)를 제한한다.

@@ -3,8 +3,8 @@ title: "Daisy Chain"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 354
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이지 체인 (Daisy Chain)은 하나의 승인선이 여러 장치를 차례로 통과하면서, 앞단 장치부터 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용권을 확인하게 만드는 <strong><a href="/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>형 우선순위 연결 구조</strong>다.

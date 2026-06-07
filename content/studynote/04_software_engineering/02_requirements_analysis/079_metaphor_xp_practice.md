@@ -3,8 +3,8 @@ title: "Metaphor - XP Practice"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [eXtreme Programming](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)([XP](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))의 핵심 실천법 중 하나인 메타포(Metaphor)는, 복잡하고 추상적인 소프트웨어 아키텍처를 개발자와 고객 모두가 즉시 이해할 수 있는 <strong>'현실 세계의 쉬운 비유(은유)'로 이름 짓는 의사소통 체계</strong>다.
 > 2. **가치**: "[B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 검색 엔진의 레코드 삽입" 같은 외계어를 버리고 "도서관 사서의 책꽂이 채우기"라는 메타포를 도입함으로써, 코딩을 모르는 비즈니스 담당자(고객)와 개발자가 한 가지 언어([Ubiquitous Language](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))로 시스템을 함께 스케치할 수 있게 만든다.

@@ -3,8 +3,8 @@ title: "Checkpointing in IMDB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 381
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메인 메모리 DB의 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 로깅 ([Checkpointing](/studynote/16_bigdata/03_spark/071_checkpointing/) in IMDB)는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

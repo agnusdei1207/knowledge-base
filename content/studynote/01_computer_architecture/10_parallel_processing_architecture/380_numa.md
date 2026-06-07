@@ -3,9 +3,8 @@ title: "380. NUMA (Non-Uniform Memory Access)"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 380
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/))는 모든 프로세서가 같은 메모리를 보되, 실제 접근 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간은 메모리의 물리적 위치에 따라 달라지는 다중 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 서버용 메모리 아키텍처다.

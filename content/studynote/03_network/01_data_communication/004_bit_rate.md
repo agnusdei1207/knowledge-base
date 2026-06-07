@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 4
 ---
-
 # 4. 배드보 (Baud Rate, 변조 속도) vs [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)레이트 ([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rate, 전송 속도)
 
 ## 핵심 인사이트 (3줄 요약)

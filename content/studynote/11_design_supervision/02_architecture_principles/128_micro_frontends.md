@@ -3,8 +3,8 @@ title: "Micro Frontends"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로 프론트엔드](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) ([Micro Frontends](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/))는 백엔드 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 사상을 프론트엔드 UI 계층에도 적용하여, 하나의 웹 애플리케이션을 비즈니스 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 독립적으로 개발·배포 가능한 UI 조각(fragment)들로 분리하고 런타임에 통합하는 아키텍처 패턴이다.

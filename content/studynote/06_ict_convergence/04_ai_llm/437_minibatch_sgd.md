@@ -3,8 +3,8 @@ title: "Minibatch SGD"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 437
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 미니배치 SGD [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 하강 (Minibatch SGD): 1. **본질**: [경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보고 오차를 줄이는 방향으로 걸어가는 것인데, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100만 개를 한 번에 다 보고 한 걸음 걷는 것(Batc…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

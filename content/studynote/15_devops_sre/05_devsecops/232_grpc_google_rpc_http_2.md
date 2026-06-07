@@ -3,8 +3,8 @@ title: "232. Grpc Google Rpc Http 2"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2와 [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Buffers를 사용하는 고성능 [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) 프레임워크.

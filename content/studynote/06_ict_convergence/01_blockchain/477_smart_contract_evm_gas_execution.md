@@ -3,8 +3,8 @@ title: "Smart Contract EVM and Gas Execution"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 477
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([Ethereum Virtual Machine](/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/), 이더리움 가상 머신)에서 실행되는 자율 프로그램으로, 코드가 곧 계약서이자 집행자다.

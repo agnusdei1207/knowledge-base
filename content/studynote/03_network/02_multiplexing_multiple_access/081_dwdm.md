@@ -3,8 +3,8 @@ title: "DWDM, Dense Wavelength Division Multiplexing"
 date: "2026-05-05"
 tags:
   - "studynote-network"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DWDM(Dense WDM)은 한 가닥의 머리카락 굵기 광섬유 안에 <strong>수십~수백 개의 다른 색깔(파장)의 레이저 빛을 0.8nm(나노미터) 이하의 극도로 촘촘한 간격으로 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>하여 동시에 쏘아 보내는 최고급 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 광통신 아키텍처다.
 > 2. **가치**: 전국에 광케이블을 새로 까는 천문학적인 토목 공사(땅 파기) 비용 없이, 양 끝의 단말 장비(Transponder)만 교체하여 기존 케이블 1가닥의 전송 용량을 100배(수 테라비트급)로 폭증시키는 대륙 간/국가망 백본(Backbone)의 절대적 황제다.

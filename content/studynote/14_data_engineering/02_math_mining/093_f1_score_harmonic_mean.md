@@ -3,8 +3,8 @@ title: "093. F1 Score Harmonic Mean"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: F1-Score는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델 평가에서 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))와 [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))의 조화 평균 (Harmonic Mean)을 구한 단일 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다.

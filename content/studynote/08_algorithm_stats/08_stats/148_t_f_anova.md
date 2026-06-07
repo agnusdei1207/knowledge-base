@@ -2,9 +2,9 @@
 title: "148. T F Anova"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 148
 ---
-
 ## 핵심 인사이트
 
 > [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)([t-Test](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))은 두 집단의 평균 비교에서 모표준편차 σ 미지(未知) 상황을 다루는 핵심 도구이며, F-검정(F-Test)은 두 집단의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 비교를, [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)(Analysis of [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/), [분산 분석](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))는 3개 이상 집단의 평균 비교를 하나의 검정으로 처리한다.

@@ -3,8 +3,8 @@ title: "Recommendation System Algorithms"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 45
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)([Recommendation System](/studynote/12_it_management/02_itsm_itil/877_recommendation_system/))은 사용자의 과거 행동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 아이템 특성을 분석하여 개인화된 콘텐츠·상품·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 자동으로 제시하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 체계로, [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)(CF, [Collaborative Filtering](/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/))·[콘텐츠 기반 필터링](/studynote/06_ict_convergence/05_data_science/346_content_based_filtering/)(CBF, [Content-Based Filtering](/studynote/06_ict_convergence/05_data_science/346_content_based_filtering/))·하이브리드 방식이 주요 3대 접근법이다.
 > 2. **가치**: Netflix의 80%, YouTube의 70%, Amazon의 35% 이상의 매출이 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에서 발생하며, 장기 꼬리(Long-Tail) 아이템의 노출 기회를 확대하고 사용자 이탈률을 낮추는 비즈니스 임팩트를 제공한다.

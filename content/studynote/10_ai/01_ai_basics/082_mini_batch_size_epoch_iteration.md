@@ -3,8 +3,8 @@ title: "Iteration"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 거대한 모의고사 문제집 1만 권(전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 학생([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))에게 풀릴 때, 몇 장 단위로 채점(Mini-batch)할 것이며, 채점을 몇 번 반복(Iteration)해야 모의고사를 끝낼 수 있고, 이 문제집 전체를 총 몇 회독(Epoch) 반복할 것인지 정하는 훈련 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 표다.

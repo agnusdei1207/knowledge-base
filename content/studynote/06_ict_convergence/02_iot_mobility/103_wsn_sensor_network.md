@@ -3,8 +3,8 @@ title: "WSN"
 date: "2024-03-21"
 tags:
   - "studynote-ict-convergence"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무선 센서 네트워크 (WSN, Wireless Sensor Network)는 수많은 초소형 센서 노드들이 무선 통신을 통해 자율적으로 멀티 홉 (Multi-hop) 경로를 구성하여 물리적 환경 정보를 수집하는 자가 구성 (Self-configuring) 인프라다.

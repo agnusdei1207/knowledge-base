@@ -3,8 +3,8 @@ title: "254. Rcu Read Copy Update"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 254
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RCU (Read-Copy-Update)는 독자(Reader)에게 락 없이 읽기를 허용하고, 저자(Writer)는 데이터의 복사본을 수정한 뒤 포인터 교체로 업데이트하여, 독자와 저자가 서로를 차단하지 않는 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 핵심 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다.

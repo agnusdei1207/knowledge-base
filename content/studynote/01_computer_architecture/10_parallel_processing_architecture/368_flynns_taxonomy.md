@@ -3,8 +3,8 @@ title: "Flynn's Taxonomy"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 368
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플린의 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)법 (Flynn's Taxonomy)은 컴퓨터를 빠르기 자체가 아니라, <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 흐름 (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> <a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)</strong> 과 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름 (<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)</strong> 을 몇 갈래로 처리하느냐로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조의 기준표다.

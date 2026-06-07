@@ -3,8 +3,8 @@ title: "T1/T2"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 525
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신은 이름 해석과 네트워크 관리에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

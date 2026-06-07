@@ -3,8 +3,8 @@ title: "Concept Drift"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 322
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ([Data Drift](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))는 모델 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 분포가 시간에 따라 변화하는 현상이고, [컨셉 드리프트](/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ([Concept Drift](/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/))는 입력-출력 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 자체(P(Y|X))가 변화하는 더 근본적인 현상으로, 두 드리프트 모두 배포된 ML 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 저하시키는 주요 원인이다.

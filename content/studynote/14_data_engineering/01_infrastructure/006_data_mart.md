@@ -1,11 +1,11 @@
 ---
 title: "Kimball"
 date: "2024-05-15"
-description: "특정 부서나 비즈니스 목적에 맞춰 최적화된 소규모 분석 데이터베이스인 데이터 마트의 구조, Star 스키마 원리 및 실무 구축 전략을 분석합니다."
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 6
 ---
-
 # [데이터 마트](/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) ([Data Mart](/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))
 
 #### 핵심 인사이트 (3줄 요약)

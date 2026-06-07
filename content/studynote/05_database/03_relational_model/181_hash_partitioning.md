@@ -3,8 +3,8 @@ title: "181. Hash Partitioning"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해시 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) (Hash [Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키의 의미나 순서를 따르지 않고, [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 결과로 행을 버킷에 배치해 저장 부하를 고르게 나누는 물리 설계다.

@@ -3,8 +3,8 @@ title: "216. Public Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 **교통·안전·도시·행정** [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 최적화하여 시민 삶의 질을 직접 향상시킨다.

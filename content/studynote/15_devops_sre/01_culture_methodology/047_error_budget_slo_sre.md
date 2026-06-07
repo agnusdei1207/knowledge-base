@@ -3,8 +3,8 @@ title: "047. Error Budget Slo Sre"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 47
 ---
-
 > **핵심 인사이트**
 > 1. [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(오류 예산)은 SLO에서 허용되는 오류의 총량 — "99.9% [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) = 0.1% 오류 허용 = 월 43.2분 다운타임"으로 표현되며, 오류 예산 소진 속도가 기능 개발 속도를 조절하는 SRE의 핵심 메커니즘이다.
 > 2. [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))이 없으면 이론에 불과 — SRE팀이 오류 예산이 소진될 때 "기능 개발을 멈추고 안정성에 집중한다"는 명시적 규칙이 존재해야 개발팀과의 협력이 실질적으로 작동한다.

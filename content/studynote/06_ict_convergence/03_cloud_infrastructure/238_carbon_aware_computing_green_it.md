@@ -3,8 +3,8 @@ title: "Carbon-Aware Computing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그린 IT / [탄소 인지 컴퓨팅](/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) 클라우드 전력 리전 스위칭 ([Carbon-Aware](/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing): 그린 IT 및 [탄소 인지 컴퓨팅](/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) ([Carbon-Aware](/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing) - 클라우드 워크로드 스위칭를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

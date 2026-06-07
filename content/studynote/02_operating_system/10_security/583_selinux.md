@@ -3,9 +3,8 @@ title: "583. SELinux"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 583
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SELinux는 1990년대 [NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/)(미국 국가안보국)와 함께 개발된 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)용 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([강제적 접근 제어](/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/)) 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로, 582장의 LSM(Linux [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules) 프레임워크 위에 구현된다. 모든 프로세스와 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 <strong>"보안 <a href="/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>(<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> <a href="/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> = user:role:type:level)"</strong> 라는 4단계 라벨을 부착하고, **Type Enforcement(유형 강제)** 방식으로 접근을 통제하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 보안 시스템이다.

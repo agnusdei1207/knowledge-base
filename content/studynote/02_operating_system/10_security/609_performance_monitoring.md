@@ -3,8 +3,8 @@ title: "609. Performance Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 609
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모니터링([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Monitoring)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 CPU, 메모리, 디스크 I/O, 네트워크 등 핵심 자원의 사용률(Utilization), [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)), [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 지속적으로 측정하고 분석하여, 병목 현상([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 최적화하는 체계적 방법론이다.

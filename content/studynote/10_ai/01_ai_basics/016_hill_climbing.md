@@ -1,11 +1,11 @@
 ---
 title: "016. Hill Climbing"
 date: "2024-05-24"
-description: "현재 상태에서 이웃 상태 중 가장 좋은 곳으로만 이동하는 국소 최적화 탐색 알고리즘의 원리와 지역 최적해 문제"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 16
 ---
-
 # 16. [언덕 오르기 탐색](/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/) ([Hill Climbing](/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/))
 
 #### 핵심 인사이트 (3줄 요약)

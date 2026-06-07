@@ -3,8 +3,8 @@ title: "Data Stewardship Role"
 date: "2026-05-01"
 tags:
   - "studynote-it-management"
+weight: 843
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 스튜어드](/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/) ([Data Steward](/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정의, 품질, 표준, 사용 규칙을 현장에서 관리하는 역할이다.

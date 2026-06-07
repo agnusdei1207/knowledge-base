@@ -3,8 +3,8 @@ title: "Firmware"
 date: "2026-03-03"
 tags:
   - "studynote-operating-system"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 펌웨어(Firmware)는 하드웨어에 내장된 소프트웨어로, [ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)/Flash에 저장되어 기기 전원 투입 시 가장 먼저 실행되는 저수준 제어 코드다.
 > 2. BIOS -> [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) -> Secure Boot로 발전하며, 부트 프로세스·하드웨어 초기화·드라이버 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 제공한다.

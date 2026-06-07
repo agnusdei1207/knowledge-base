@@ -3,8 +3,8 @@ title: "Roll-up"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 330
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) (Roll-up)는 요약 / 드릴다운 (Drill-down) - 구체화 (계층 구조 상하 이동)에 초점을 둔 분석 플랫폼 개념이다.

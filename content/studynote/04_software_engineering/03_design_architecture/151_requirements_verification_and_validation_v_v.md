@@ -3,8 +3,8 @@ title: "151. Requirements Verification And Validation V V"
 date: "2026-05-03"
 tags:
   - "studynote-software-engineering"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: V&V는 소프트웨어 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 사전에 척살하는 품질 통제(QA)의 절대 십자 헌법이다. <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong>은 "우리가 설계도(문서)에 맞게 코드를 똑바로 짰는가?"를 따지는 기계적 심사고, <strong><a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(<a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong>은 "그렇게 다 만든 제품이 진짜 고객이 돈 주고 원했던 비즈니스 목적과 일치하는가?"를 묻는 최종 승인 심사다.
 > 2. **가치**: "명세서대로 완벽히 코딩했는데, 오픈 날 사장님이 이거 내가 원한 거 아냐 다 뜯어고쳐!" 라며 밥상 엎어버리는 IT 업계 최악의 고질병([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 실패)을 원천 차단하고, 폭포수처럼 쏟아지는 재작업(Rework) 야근 멸망의 비용을 수백 배 아껴주는 궁극의 생존 방폭문이다.

@@ -1,10 +1,11 @@
 ---
 title: "095. Modular Blockchain Execution Da Consensus"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Modular [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 연산, 합의, 정산, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 등 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 모든 기능을 한 노드가 처리하던 모놀리식 (Monolithic) 구조를 깨고, 역할별로 계층(Layer)을 분리한 차세대 아키텍처다.
 > 2. **가치**: 특정 계층(예: 실행이나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장)만 전문적으로 처리하는 별도의 네트워크를 조립하여 사용함으로써, [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)나 보안을 희생하지 않고도 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)을 기하급수적으로 확장할 수 있다.

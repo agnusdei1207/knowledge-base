@@ -3,8 +3,8 @@ title: "594. Metaverse Realtime Sync Rendering Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 594
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메타버스 (Metaverse) 실시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 아키텍처 및 렌더링 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

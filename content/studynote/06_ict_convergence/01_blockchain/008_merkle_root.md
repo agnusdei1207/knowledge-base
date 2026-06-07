@@ -1,10 +1,11 @@
 ---
 title: "008. Merkle Root"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 8
 ---
-
 # 08. 머클 루트 (Merkle Root)
 
 ## 핵심 인사이트 (3줄 요약)

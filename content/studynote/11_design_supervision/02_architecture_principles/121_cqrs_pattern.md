@@ -3,8 +3,8 @@ title: "Command Query Responsibility Segregation"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation, [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 책임 분리)는 시스템의 상태를 변경하는 명령([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))과 상태를 조회하는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Query)를 서로 다른 모델과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소로 완전히 분리하여 각각의 요구사항에 최적화하는 아키텍처 패턴이다.

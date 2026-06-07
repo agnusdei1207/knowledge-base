@@ -3,8 +3,8 @@ title: "602. Sandboxing Kernel Wrapper"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 602
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 샌드박싱 (Sandboxing)은 신뢰할 수 없거나 검증되지 않은 프로그램이 호스트 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)와 독립된 격리된(Isolated) 환경에서 실행되도록 하여, 시스템 전체로 악성 행위나 장애가 전파되는 것을 원천 차단하는 보안 기술이다.

@@ -3,8 +3,8 @@ title: "Auditor Independence and Objectivity"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
+weight: 44
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [감리인의 독립성](/studynote/11_design_supervision/01_audit_framework/058_auditor_independence_objectivity/) 및 객관성은 기준, 증거, 조치의 연결을 관리하는 감리·통제 주제로서, [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 실행 결과 사이의 편차를 재현 가능한 형태로 드러내는 데 목적이 있다.

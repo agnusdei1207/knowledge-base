@@ -3,8 +3,8 @@ title: "559. Cosine Similarity Text Embedding Normalization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 559
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [코사인 유사도](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 텍스트 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 매칭 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 거리 계측 연산 방식는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 연산 방식이다.

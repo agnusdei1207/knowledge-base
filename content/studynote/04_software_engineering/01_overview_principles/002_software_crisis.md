@@ -1,11 +1,11 @@
 ---
 title: "002. Software Crisis"
 date: "2024-05-20"
-description: "소프트웨어 위기의 발생 원인, 주요 증상(비용 초과, 일정 지연, 품질 저하) 및 해결을 위한 공학적 접근 분석"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 2
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 하드웨어의 발전 속도와 시스템 규모의 팽창을, 소프트웨어 개발 기술과 관리 능력이 따라가지 못해 발생한 구조적 한계 상태.
 > 2. **가치**: 이 위기를 극복하려는 노력의 일환으로 '[소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)'이라는 학문이 탄생하였으며, 체계적 프로세스와 방법론의 필요성을 입증함.

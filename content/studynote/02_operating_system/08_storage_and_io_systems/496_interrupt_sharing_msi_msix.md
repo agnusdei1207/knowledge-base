@@ -3,8 +3,8 @@ title: "Message Signaled Interrupts"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 496
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고전적인 [하드웨어 인터럽트](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 방식(IRQ)은 메인보드의 물리적인 '구리 핀'에 의존했기 때문에 핀 개수가 모자라자 랜카드와 사운드카드가 같은 핀을 돌려쓰는 끔찍한 <strong><a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 공유(<a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Sharing) 병목 지옥</strong>이 발생했다. 이를 타파하기 위해 물리적인 핀을 부수고, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 자체를 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷처럼 메모리에 쏘아 올리는 <strong>소프트웨어 메시지 기반의 가상화된 <a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>/<a href="/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X)</strong> 규격으로 진화한 통신 체계다.

@@ -3,8 +3,8 @@ title: "465. Continuous Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 465
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지속적 테스팅 (Continuous Testing) - [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 전 과정에 테스트 자동화 통합은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

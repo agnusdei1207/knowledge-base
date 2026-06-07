@@ -3,8 +3,8 @@ title: "Blockchain Forensics Transaction Tracing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 573
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블록체인 포렌식 거래 추적은(는) 공개 원장의 주소, 트랜잭션, 클러스터, 태그, 자금 흐름을 분석해 범죄 수익 이동과 제재 대상 연계를 추적하는 분석 기술이다.

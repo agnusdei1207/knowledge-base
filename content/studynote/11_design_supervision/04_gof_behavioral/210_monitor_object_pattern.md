@@ -3,8 +3,8 @@ title: "Monitor Object Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Monitor](/studynote/02_operating_system/04_synchronization/229_monitor/) Object ([모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 객체) 패턴은 멀티스레드 환경에서 객체의 메서드를 <strong><a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>로 실행하도록 보장하며, Java의 `synchronized` 키워드가 바로 이 패턴의 언어 내장 구현이다.

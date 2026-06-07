@@ -3,8 +3,8 @@ title: "650. Ha Cluster Split Brain Stonith"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 650
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고가용성(HA, High [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 클러스터에서 노드 간의 네트워크가 단절되었을 때 양쪽 노드가 모두 자신이 마스터라고 착각하여 공유 스토리지를 훼손하는 치명적 장애를 <strong><a href="/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">스플릿 브레인</a>(Split-Brain, 뇌 분할)</strong>이라 한다.

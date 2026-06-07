@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 36
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MVP의 핵심은 MVP (Minimum Viable Product, 최소 존립 제품)라는 점에 있다. 이를 현장 의사결정에 연결하는 서비스 운영 구조로 이해하면 된다.

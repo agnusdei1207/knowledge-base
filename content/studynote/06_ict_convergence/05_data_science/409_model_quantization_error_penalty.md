@@ -3,8 +3,8 @@ title: "Model Quantization Error Penalty"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 409
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모델 양자화](/studynote/10_ai/04_ai_ops_ethics/312_quantization/) 오차 최소화 패널티 연산망 ([Model Quantization](/studynote/11_design_supervision/06_exam_summary/364_architecture/) Error Penalty): 1. **본질**: [모델 양자화](/studynote/10_ai/04_ai_ops_ethics/312_quantization/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))는 딥러닝 모델의 파라미터([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 표현하는 길고 무거운 소수점 숫자(32비트 실수)를, 가볍고 짧은 정수(8비트, 4비트)로 강…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

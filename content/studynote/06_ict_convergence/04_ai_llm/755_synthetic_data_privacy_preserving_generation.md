@@ -3,8 +3,8 @@ title: "Synthetic Data Privacy Preserving Generation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 755
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VAE/GAN/Diffusion 계열 생성 모델이 학습한 통계적 결합 분포 $P_\theta(X)$ 에 DP-SGD(Differentially Private Stochastic Gradient Descent), PATE(Private Aggregation of Teachers Ensemble) 등 차등 프라이버시 메커니즘을 결합하여, 원본 레코드 $x_i$ 와 합성 레코드 $\tilde{x}$ 간 1:1 매핑이 수학적으로 불가능(near-zero reconstruction probability)하면서도 다운스트림 ML task의 utility 손실을 ε 이내로 억제하는 데이터 합성 패러다임이다.

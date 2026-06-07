@@ -3,8 +3,8 @@ title: "Testcontainers"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 264
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/), [메시지 브로커](/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)처럼 경계면의 상호작용을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트.

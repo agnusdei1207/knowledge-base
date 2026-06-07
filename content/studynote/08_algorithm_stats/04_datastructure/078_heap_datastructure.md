@@ -3,8 +3,8 @@ title: "078. Heap Datastructure"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 힙(Heap)은 완전 [이진 트리](/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)(Complete [Binary Tree](/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)) 형태의 자료구조로, 최대 힙(Max-Heap)에서는 부모 노드가 항상 자식보다 크고, 최소 힙(Min-Heap)에서는 부모가 항상 자식보다 작다. 이 힙 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Heap Property)으로 인해 루트(Root)는 항상 최댓값(또는 최솟값)이 되어 O(1)에 최우선 원소를 반환한다.
 > 2. **가치**: 힙은 [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([Priority Queue](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))의 표준 구현체로, 삽입(Push)과 삭제([Pop](/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 모두 O(log n)을 보장한다. [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) 최단 경로, 프림(Prim) [MST](/studynote/08_algorithm_stats/03_graph_search/041_mst/), [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)([Heap Sort](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)), 운영체제의 프로세스 스케줄링이 모두 힙을 핵심 자료구조로 사용한다.

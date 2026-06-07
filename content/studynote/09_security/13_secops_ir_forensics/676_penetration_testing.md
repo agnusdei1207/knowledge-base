@@ -3,8 +3,8 @@ title: "Penetration Testing"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 676
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 침투 테스트 ([Penetration](/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) Testing)는 보안 운영·포렌식에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

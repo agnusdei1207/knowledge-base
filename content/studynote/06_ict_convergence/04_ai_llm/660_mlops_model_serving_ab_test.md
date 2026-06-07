@@ -3,8 +3,8 @@ title: "MLOps Model Serving AB Test"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 660
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MLOps 모델 서빙 A/B 테스트는 동일 트래픽을 다중 모델 버전(Control vs Treatment)에 라우팅하여 예측 성능(accuracy/AUC), 시스템 성능(p99 latency/throughput), 비즈니스 KPI(CTR/CVR) 등 다차원 메트릭을 통계적으로 유의미하게 비교 검증하는 **Production-grade Online Controlled Experiment(OCE)** 프레임워크이며, 모델 레지스트리(MLflow/SageMaker Registry), 추론 서버(Triton/TF Serving), 서비스 메시(Istio/Envoy), 피처 스토어(Feast/Tecton), 실험 추적(MLflow Tracking/W&B), 메트릭 수집(Prometheus/Evidently AI)이 통합된 End-to-End 파이프라인이다.

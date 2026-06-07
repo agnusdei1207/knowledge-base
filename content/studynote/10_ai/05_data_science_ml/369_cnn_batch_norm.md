@@ -3,8 +3,8 @@ title: "369. Cnn Batch Norm"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 369
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/), BN)는 미니배치의 각 특성을 평균 0, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 1로 표준화한 뒤 학습 가능한 스케일(γ)과 이동(β) 파라미터로 재조정하여, 각 층의 입력 분포를 안정화시키는 [정규화 기법](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이다.

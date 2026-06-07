@@ -3,8 +3,8 @@ title: "Telemetry Big Data Parsing"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 314
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) ([OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))은 Traces·[Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 세 기둥을 표준화된 단일 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SDK로 수집하여 [벤더 종속](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 없이 [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))을 구현하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 표준이다.

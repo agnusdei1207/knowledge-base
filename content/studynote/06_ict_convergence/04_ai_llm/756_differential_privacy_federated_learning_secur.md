@@ -3,8 +3,8 @@ title: "Differential Privacy Federated Learning Security"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 756
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 차등 프라이버시 연합 학습(DP-FL)은 **McMahan의 FedAvg 알고리즘** 위에서 **Dwork의 (ε, δ)-차등 프라이버시 정의**를 **클라이언트 수준(user-level)**으로 적용하여, **민감도 Δf 기반 가중치(w·∇L) L2-노름 클리핑(임계치 S)** 후 **가우시안/Gauss 메커니즘 노이즈 N(0, σ²S²I)**을 그래디언트 집계 단계에 주입하는 **DP-SGD-FedAvg(McMahan, Ramage, Talwar, Zhang 2018)** 구조이다. 노이즈 스케일 σ ≥ c·S·q·√(T·log(1/δ))/ε로 바운드되며, 이때 q는 샘플링 확률, T는 통신 라운드 수이다.

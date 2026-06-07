@@ -3,8 +3,8 @@ title: "Timestamp Ordering"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [타임스탬프 순서](/studynote/05_database/07_exam_summary/452_timestamp_ordering/) (Timestamp [Ordering](/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) 기법은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 진입 시간에 맞춰 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 (비관적 제어 아님, 락 없음)에 초점을 맞춘 개념이다.

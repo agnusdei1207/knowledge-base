@@ -2,9 +2,9 @@
 title: "097. Cbam Cost Benefit Analysis Method Architecture Roi"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CBAM](/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) (Cost Benefit Analysis Method)은 아키텍처 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 제공하는 기술적 효용(Benefit)과 이를 구현하는 데 드는 비용(Cost)을 바탕으로 경제적 가치([ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/))를 평가하는 프레임워크다.

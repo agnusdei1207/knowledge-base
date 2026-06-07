@@ -1,11 +1,11 @@
 ---
 title: "104. Csma"
 date: "2026-03-04"
-description: "네트워크 다중 접속의 근간이 되는 CSMA 프로토콜의 'Listen Before Talk' 철학과 한계, 그리고 이를 극복하기 위한 발전 과정을 심층 분석합니다."
 tags:
   - "network"
+  - "studynote-network"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CSMA (Carrier Sense [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/), [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 공유 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하기 전에 다른 노드가 송신 중인지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 'Listen Before Talk' 기반의 [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식이다.
 > 2. **가치**: 무작위로 전송을 시도하는 [ALOHA](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) 방식의 높은 충돌률을 획기적으로 낮추어, 다수의 노드가 공유하는 네트워크 채널의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 크게 향상시켰다.

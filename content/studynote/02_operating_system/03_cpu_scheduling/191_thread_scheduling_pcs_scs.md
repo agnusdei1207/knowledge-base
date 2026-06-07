@@ -3,8 +3,8 @@ title: "SCS"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링은 [다중 스레드](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서 '누가 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 CPU에 올릴 것인가'에 대한 결정권의 주체를 다루며, 유저 레벨 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 결정하는 <strong>PCS (Process-Contention <a href="/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a>)</strong>와 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 직접 결정하는 <strong>SCS (System-Contention <a href="/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a>)</strong>로 나뉜다.

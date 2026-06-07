@@ -3,8 +3,8 @@ title: "Symmetric Asymmetric Key Cryptography Rsa Aes"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1082
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Symmetric Asymmetric Key](/studynote/03_network/19_frequent_topics_terms/986_symmetric_asymmetric_key/) [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) [Rsa](/studynote/09_security/03_network_security/110_rsa/) [Aes](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 보안 확장 개념에서 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 키 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.

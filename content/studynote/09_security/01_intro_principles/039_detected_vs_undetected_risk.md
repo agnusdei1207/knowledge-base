@@ -3,8 +3,8 @@ title: "Detected vs Undetected Risk"
 date: "2026-03-04"
 tags:
   - "studynote-security"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. 탐지 위험(Detected [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 이미 식별된 위험으로 통제·모니터링이 가능하지만, 미탐지 위험(Undetected [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 존재하지만 아직 식별되지 않아 아무런 대응이 없는 위험 — 가장 위험한 것은 "우리가 모르는 것을 모른다(Unknown Unknown)"는 사각지대다.
 > 2. 보안의 핵심 도전은 미탐지 위험의 최소화 — 지속적 취약점 스캐닝, 위협 인텔리전스(CTI), [레드팀](/studynote/09_security/14_threat_hunting_adversarial/681_red_team/) 훈련, [SOC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)(보안 운영 센터)의 이상 행위 탐지가 미탐지 위험을 탐지 위험으로 전환하는 핵심 수단이다.

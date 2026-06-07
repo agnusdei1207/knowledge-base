@@ -3,8 +3,8 @@ title: "Delayed ACK"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 427
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Split Transaction"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 563
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분리 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 하나의 읽기·[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 요청 단계와 응답 단계로 나누고, 응답을 기다리는 동안 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 즉시 반납하게 만들어 공유 통로의 유휴 시간을 줄이는 비차단형 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 운용 방식이다.

@@ -3,8 +3,8 @@ title: "186. Data Compression"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률([Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/) Ratio)과 속도([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))의 트레이드오프이며, 빅데이터 환경에서 I/O 비용이 CPU 비용보다 클 때 높은 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률이 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 향상시킨다.

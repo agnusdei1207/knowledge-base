@@ -3,8 +3,8 @@ title: "058. Data Literacy"
 date: "2024-03-20"
 tags:
   - "studynote-it-management"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 리터러시는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고, 해석하고, 소통하고, 활용하는 조직적 역량이다.

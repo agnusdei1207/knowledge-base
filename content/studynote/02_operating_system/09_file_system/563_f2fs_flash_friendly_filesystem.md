@@ -3,8 +3,8 @@ title: "563. F2Fs Flash Friendly Filesystem"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 563
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ext4 나 NTFS 등 기존 인류의 유산은 모두 "빙빙 도는 쇳덩어리 모터([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 자성 디스크)" 를 위해 태어났다. 하드는 빈칸에 그냥 즉시 "덮어쓰기(Overwrite 통치)" 가 되지만, 낸드(NAND) 플래시 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하려면 무조건 전기로 그 블록을 <strong>"통째로 불태워 지우고(<a href="/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/">Erase-before-Write</a> 파단!) 100만 번 충격을 주면 수명이 죽어버리는 최악의 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 약점 늪"</strong> 을 품고 있다.

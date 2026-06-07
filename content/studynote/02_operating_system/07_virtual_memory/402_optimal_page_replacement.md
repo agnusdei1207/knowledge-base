@@ -3,8 +3,8 @@ title: "402. Optimal Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 402
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [최적 교체](/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([OPT](/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/), Optimal [Page Replacement](/studynote/02_operating_system/04_synchronization/260_page_replacement/))은 램이 꽉 차서 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내야 할 때, <strong>"앞으로 가장 오랫동안 사용되지 않을 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>"를 정확히 미래를 내다보고 쫓아내는 궁극의 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

@@ -3,8 +3,8 @@ title: "061. Namespace"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네임스페이스(Namespace)는 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 PID, Network, [Mount](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 같은 전역 자원을 프로세스별로 다르게 보이게 만드는 자원 격리 기술이다.

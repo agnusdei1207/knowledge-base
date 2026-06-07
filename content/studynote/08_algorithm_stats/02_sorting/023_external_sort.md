@@ -2,9 +2,9 @@
 title: "023. External Sort"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 외부 정렬은 주기억장치(RAM)에 올라오지 않는 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 I/O를 최소화하면서 정렬하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심은 비교 연산이 아닌 I/O 횟수다.
 > 2. **가치**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY, 빅데이터 파이프라인, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 인덱싱 등 수TB~PB 규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 근간이며 K-way 합병(Merge)이 핵심 기법이다.

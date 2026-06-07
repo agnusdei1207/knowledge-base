@@ -3,8 +3,8 @@ title: "263. Unit Test Mocking Stubbing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 263
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 작은 코드 단위를 격리해 빠르게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트 계층.

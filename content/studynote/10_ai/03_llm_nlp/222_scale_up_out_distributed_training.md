@@ -3,8 +3,8 @@ title: "222. Scale Up Out Distributed Training"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 훈련 인프라에서 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">스케일 업</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">Scale-up</a>)은 "제일 비싸고 뇌가 큰 H100 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 1대를 억소리 나게 업그레이드하는 것"</strong>이고, <strong><a href="/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">스케일 아웃</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a>)은 "싸구려 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 1,000대를 끈으로 묶어 하나의 거대한 슈퍼컴퓨터 군단처럼 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 부려 먹는 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리 아키텍처"</strong>다.

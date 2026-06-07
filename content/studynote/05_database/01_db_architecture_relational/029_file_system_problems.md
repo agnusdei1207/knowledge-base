@@ -3,8 +3,8 @@ title: "File System Problems"
 date: "2026-04-29"
 tags:
   - "studynote-database"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 이전 시대의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 부재, [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 불가, 보안 취약이라는 5대 문제를 구조적으로 가지고 있었다. DBMS는 이를 해결하기 위해 탄생했다.
 > 2. **가치**: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 문제를 이해하면 DBMS가 제공하는 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 레이어([데이터 독립성](/studynote/05_database/01_db_architecture_relational/004_data_independence/), [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 접근 제어)의 가치가 명확해진다. 현대 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)에서도 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 로컬 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장은 동일한 문제를 반복한다.

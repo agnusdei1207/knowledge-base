@@ -3,9 +3,8 @@ title: "161. AIOps (Artificial Intelligence for IT Operations)"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 161
 ---
-
-
 ## 핵심 인사이트
 
 > 1. **본질**: [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) ([Artificial Intelligence for IT Operations](/studynote/06_ict_convergence/03_cloud_infrastructure/252_aiops_artificial_intelligence_it_operations_auto_healing/))는 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이벤트, 트레이스 같은 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)과 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)으로 분석해 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), [상관 분석](/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/), 원인 추정, 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 고도화하는 운영 체계다.

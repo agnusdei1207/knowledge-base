@@ -3,8 +3,8 @@ title: "166. Looker"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Looker는 LookML (Look Markup Language)이라는 시맨틱 레이어를 통해 비즈니스 로직을 코드로 한 번 정의하면 전사 모든 분석에서 일관되게 재사용되는 <strong>거버넌스 중심 BI 플랫폼</strong>으로, [Tableau](/studynote/16_bigdata/08_visualization/164_tableau/)/[Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI의 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 후 분석"과 달리 소스 DB를 직접 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)한다.

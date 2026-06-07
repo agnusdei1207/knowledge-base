@@ -3,8 +3,8 @@ title: "Peterson's Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 진입을 두 개의 공유 변수인 깃발 (`flag`)과 차례 (`turn`)만을 사용하여 소프트웨어적으로만 제어하는 가장 우아한 2-프로세스 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

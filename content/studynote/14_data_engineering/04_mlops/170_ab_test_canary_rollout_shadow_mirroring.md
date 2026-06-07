@@ -3,8 +3,8 @@ title: "170. Ab Test Canary Rollout Shadow Mirroring"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A/B 테스트, [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 롤아웃 ([Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) Rollout), 섀도우 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) (Shadow Mirroring)은 새 모델이나 새 서빙 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 실제 운영 트래픽으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하되, 노출 방식만 다르게 설계한 점진 배포 패턴이다.

@@ -3,8 +3,8 @@ title: "Serverless Computing FaaS Event Driven"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 611
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FaaS(Function-as-a-Service)는 AWS Lambda, Azure Functions, Google Cloud Functions 같은 런타임에서 stateless한 함수 코드만 배포하고, EventBridge/S3/SQS/Kafka/HTTP 등 이벤트 소스 트리거에 의해 밀리초 단위로 컨테이너/마이크로VM이 자동 스케일링·실행되는 이벤트 드리븐 컴퓨팅 모델이며, CNCF Serverless Working Group 정의에 따르면 "BaaS + FaaS = Serverless"로 추상화된 클라우드 자원 위에서 개발자는 비즈니스 로직에만 집중한다.

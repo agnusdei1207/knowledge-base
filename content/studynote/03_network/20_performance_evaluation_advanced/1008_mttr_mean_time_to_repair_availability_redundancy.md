@@ -3,8 +3,8 @@ title: "1008. Mttr Mean Time To Repair Availability Redundancy"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1008
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

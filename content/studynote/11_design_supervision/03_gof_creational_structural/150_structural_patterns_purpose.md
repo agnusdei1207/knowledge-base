@@ -3,8 +3,8 @@ title: "150. Structural Patterns Purpose"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)([Structural Patterns](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/))은 따로 놀던 쇳덩이 클래스와 객체들을 레고 블록처럼 엮어 더 거대하고 유연한 뼈대 생태계를 구축하는 7가지([어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), [데코레이터](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/), [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/), [퍼사드](/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/), [플라이웨이트](/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)) 설계 마스터피스다.
 > 2. **가치**: 낡은 객체 지향의 "무지성 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance) 떡칠"이 낳은 컴파일 타임(Static) 강결합 파국 붕괴를 도끼로 찢어발기고, <strong>"<a href="/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>보단 합성(Composition)을 융합하라"</strong>는 절대 진리를 통해 런타임(Dynamic)에 찰칵찰칵 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 갈아 끼우는 무정단 생존 유연성을 100% 쟁취했다.

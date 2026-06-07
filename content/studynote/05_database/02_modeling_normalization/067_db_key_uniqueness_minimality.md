@@ -1,10 +1,11 @@
 ---
 title: "Minimality"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 키(Key)는 릴레이션에서 각 튜플을 유일하게 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 또는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합이다.

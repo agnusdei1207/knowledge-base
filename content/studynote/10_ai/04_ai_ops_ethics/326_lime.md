@@ -3,9 +3,8 @@ title: "326. LIME (Local Interpretable Model-agnostic Explanations)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 326
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LIME (Local Interpretable Model-agnostic Explanations)은 특정 예측 인스턴스 주변에 수백 개의 가짜 샘플을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 <strong>해석 가능한 선형 모델(대리 모델, Surrogate Model)</strong>을 국소적으로 근사 학습하고, 이 간단한 모델의 계수로 원본 블랙박스 모델의 해당 예측을 설명하는 모델 불가지론적 [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 기법이다.

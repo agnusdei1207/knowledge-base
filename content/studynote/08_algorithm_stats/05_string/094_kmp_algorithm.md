@@ -2,9 +2,9 @@
 title: "094. Kmp Algorithm"
 date: "2024-03-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. **불필요한 비교 제거**: 문자열 매칭 실패 시 이미 비교한 정보를 활용하여 패턴의 시작점을 효율적으로 건너뛰는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)임.
 2. **실패 함수 (LPS) 활용**: 접두사와 접미사가 일치하는 최대 길이를 미리 계산하여(Failure Function) $O(N+M)$의 [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 달성함.

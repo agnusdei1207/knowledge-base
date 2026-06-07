@@ -3,8 +3,8 @@ title: "576. Aslr Hardware Defense"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 576
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ASLR](/studynote/02_operating_system/06_memory_management/374_aslr/) 하드웨어 기반 우회 방어는 주소 배치 무작위화 자체보다, 그 무작위성이 정보 유출·사이드 채널·특권 노출로 깨지는 경로를 하드웨어와 저수준 시스템 기능으로 줄여 ASLR의 실효성을 지키는 설계다.

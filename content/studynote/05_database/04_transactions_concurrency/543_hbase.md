@@ -3,8 +3,8 @@ title: "543. Hbase"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 543
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DB [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 스니핑 방식 모니터링 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 통제는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

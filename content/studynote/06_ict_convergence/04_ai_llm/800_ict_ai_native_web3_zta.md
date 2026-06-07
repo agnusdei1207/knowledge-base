@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 800
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성은 신기술 융합과 적용 시나리오 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.

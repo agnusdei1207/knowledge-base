@@ -3,8 +3,8 @@ title: "386. Naive Bayes Laplace Smoothing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 386
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/) 모델 스무딩 기법 ([라플라스 스무딩](/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/) 빈도 0 방어): 1. **본질**: [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)([Naive Bayes](/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))는 베이즈 정리를 이용해 문장이 스팸인지 정상인지 분류하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 모델이며, 연산을 빠르게 하기 위해 "모든 단어는 서로 100% 독…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

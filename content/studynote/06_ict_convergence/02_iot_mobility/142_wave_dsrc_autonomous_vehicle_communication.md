@@ -3,8 +3,8 @@ title: "142. Wave Dsrc Autonomous Vehicle Communication"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(Wireless Access in Vehicular Environments)/[DSRC](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(Dedicated Short-Range Communications)는 <strong>5.9GHz 전용 주파수에서 차량 간 <a href="/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>(V2V·V2I)</strong>을 제공하는 IEEE 802.11p 기반 규격이다.
 > 2. **가치**: 셀룰러(4G/[5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))는 기지국 경유로 <strong>수십ms <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이 있지만, DSRC는 <strong><a href="/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>으로 수ms 이내 저지연</strong>을 제공하여 긴급 제동 경고 등 안전 메시지에 적합하다.

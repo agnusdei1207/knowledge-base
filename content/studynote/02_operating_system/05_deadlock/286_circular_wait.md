@@ -3,8 +3,8 @@ title: "286. Circular Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 286
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순환 대기 (Circular Wait)는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 4조건 중 대미를 장식하는 상태로, 프로세스와 자원들의 대기 관계가 수학 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 완전한 폐쇄 회로(Cycle) 고리 구조(P1->R2->P2->R3->P3->R1->P1)를 형성하여 누구도 진행하지 못하는 구조적 함정이다.

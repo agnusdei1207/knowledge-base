@@ -1,10 +1,11 @@
 ---
 title: "062. Scrum Framework Overview"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스크럼([Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))은 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 철학을 가장 널리 실천하는 반복적 팀 운영 프레임워크다.

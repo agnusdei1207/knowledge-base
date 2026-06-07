@@ -3,8 +3,8 @@ title: "157. Flyweight Pattern"
 date: "2025-05-22"
 tags:
   - "studynote-design-supervision"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [플라이웨이트](/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) ([Flyweight](/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)) 패턴은 반복 객체의 공통 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유 객체로 묶고, 변하는 값만 외부에서 주입해 메모리 사용을 줄이는 구조 패턴이다.

@@ -3,8 +3,8 @@ title: "Backpropagation Chain RULE"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 436
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 연쇄 법칙 체인 룰 ([Backpropagation Chain RULE](/studynote/14_data_engineering/03_ml_dl_llm/133_backpropagation_chain_rule/)): 1. **본질**: 오차 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 신경망이 정답을 틀렸을 때, "맨 마지막에 뱉어낸 오차(Loss)의 책임을, 입력층 방향으로 거꾸로 거슬러 올라가며 수많은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(W)들에게 공평하게 나…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

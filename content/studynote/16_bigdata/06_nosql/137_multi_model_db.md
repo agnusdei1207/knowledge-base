@@ -3,8 +3,8 @@ title: "137. Multi Model Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 137
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 다중 모델 DB는 문서·[그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)·키-값을 단일 스토리지 엔진에서 통합 지원하여 Polyglot Persistence의 운영 복잡성 없이 여러 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 한 플랫폼에서 처리한다.
 - **가치**: [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나로 문서 조회->[그래프 탐색](/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)->키-값 캐시를 오가는 크로스-모델 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 가능하여, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 DB 수를 줄이고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 높인다.

@@ -3,8 +3,8 @@ title: "Legacy System Modernization"
 date: "2026-03-04"
 tags:
   - "studynote-software-engineering"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 레거시 시스템 현대화(Legacy System Modernization)는 기존 시스템을 단순 교체가 아닌 비즈니스 연속성을 유지하면서 점진적으로 전환하는 복잡한 아키텍처 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. [Strangler Fig](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴은 레거시를 점진적으로 대체하는 가장 안전한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 신규 마이크로서비스가 레거시 기능을 하나씩 감싸며 결국 전체를 대체한다.

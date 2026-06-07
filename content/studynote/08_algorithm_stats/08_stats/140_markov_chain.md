@@ -2,9 +2,9 @@
 title: "140. Markov Chain"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 140
 ---
-
 ## 핵심 인사이트
 
 > 마르코프 체인(Markov Chain)의 핵심은 "미래는 오직 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에만 의존한다"는 [마르코프 성질](/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/studynote/08_algorithm_stats/08_stats/141_markov_property/))이며, 이 단순한 가정 위에서 강력한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 모델이 탄생한다.

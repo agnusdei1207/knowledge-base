@@ -1,11 +1,11 @@
 ---
 title: "006. Singularity"
 date: "2024-05-20"
-description: "인공지능이 스스로 진화하여 인류의 지능을 초월하는 지능 폭발의 시점과 시스템적 함의"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 6
 ---
-
 # 6. 기술적 특이점 (Singularity)
 
 #### 핵심 인사이트 (3줄 요약)

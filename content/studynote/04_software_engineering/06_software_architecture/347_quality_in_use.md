@@ -3,8 +3,8 @@ title: "347. Quality In Use"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 347
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사용 품질 (Quality [in Use](/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/)) - 유효성, 생산성, 만족도, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

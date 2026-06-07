@@ -3,8 +3,8 @@ title: "Byte"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 바이트는 보통 8비트로 구성되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장의 기본 단위다.

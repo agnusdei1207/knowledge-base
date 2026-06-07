@@ -3,8 +3,8 @@ title: "Deadlock Detection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 탐지](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) ([Deadlock Detection](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/))는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 데드락 예방이나 회피를 포기하고 <strong>"자원을 달라는 대로 다 주되, 주기적으로 시스템 상태를 감시하여 꼬여있는 데드락(Cycle)을 사후에 찾아내는 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 기법"</strong>이다.

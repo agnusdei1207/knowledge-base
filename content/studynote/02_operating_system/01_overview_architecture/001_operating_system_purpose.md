@@ -3,8 +3,8 @@ title: "001. Operating System Purpose"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 운영체제 (Operating System)는 사용자에게는 하드웨어 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) (Hardware [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))를 통한 편의성을 제공하고, 시스템 측면에서는 한정된 자원을 최적으로 배분하는 [중재자](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 역할을 수행한다.
 > 2. **가치**: 자원의 효율적 활용 (Efficiency)과 사용자 경험 (Convenience) 사이의 트레이드오프를 관리하며, 시스템의 안정성 ([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 극대화하는 것이 핵심 목표다.

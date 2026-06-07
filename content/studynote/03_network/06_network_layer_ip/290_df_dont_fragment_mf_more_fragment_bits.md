@@ -3,8 +3,8 @@ title: "290. Df Dont Fragment Mf More Fragment Bits"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 290
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

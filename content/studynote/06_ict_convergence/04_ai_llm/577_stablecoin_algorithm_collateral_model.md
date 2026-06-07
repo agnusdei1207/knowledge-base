@@ -3,8 +3,8 @@ title: "Stablecoin Algorithm Collateral Model"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 577
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스테이블코인 알고리즘 담보 모델은(는) 법정화폐, 암호자산, 알고리즘 조절, 초과담보를 통해 토큰 가격을 목표 가치에 고정하려는 디지털 화폐 설계이다.

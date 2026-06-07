@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 179
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 핫 사이트 (Hot Site)는 주 센터와 거의 같은 인프라와 최신 데이터를 원격지에 미리 준비해 두고, 재해 시 수시간 이내로 서비스를 넘겨받도록 설계한 DR (Disaster Recovery) 센터다.

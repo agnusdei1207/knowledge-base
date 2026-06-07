@@ -3,8 +3,8 @@ title: "Ambassador Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 188
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앰배서더 패턴 (Ambassador Pattern)은 [클라우드 네이티브 아키텍처](/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/) 패턴으로, 원격 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Remote [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에 대한 클라이언트 측 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))를 별도 프로세스([사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))로 배포하여, 재시도(Retry), [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)), 로깅, 모니터링, [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 종료 등의 횡단 관심사(Cross-Cutting Concern)를 애플리케이션 코드에서 분리하는 패턴이다.

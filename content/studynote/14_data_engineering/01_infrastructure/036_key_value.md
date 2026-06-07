@@ -3,8 +3,8 @@ title: "Key-Value Store"
 date: "2026-03-03"
 tags:
   - "studynote-data-engineering"
+weight: 36
 ---
-
 > **핵심 인사이트**
 > 1. 키-값 저장소([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value Store)는 고유한 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))에 임의의 값(Value)을 연결해 저장하는 가장 단순한 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 구조로, 해시 테이블의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)·영속화 버전이다.
 > 2. 단순한 구조 덕분에 O(1) 조회 성능을 달성할 수 있으며, 수평 확장([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))과 레플리케이션이 용이해 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장·캐시·실시간 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 등 초저지연이 요구되는 워크로드에 최적이다.

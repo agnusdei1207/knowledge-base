@@ -3,8 +3,8 @@ title: "Decision Tree"
 date: "2026-03-03"
 tags:
   - "studynote-ai"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [의사결정 트리](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 특성 기반 조건 분기를 통해 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·회귀를 수행하는 화이트박스 모델로, 결과 해석이 직관적이다.
 > 2. 정보 이득(IG)·[지니 불순도](/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소를 분기 기준으로 사용하며, [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))로 과적합을 방지한다.

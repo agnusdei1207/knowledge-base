@@ -3,8 +3,8 @@ title: "120. Pod Eviction Qos Class Kubernetes"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 120
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K8s [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 Pod의 리소스 요청(requests)·제한(limits) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 **Guaranteed·Burstable·BestEffort** 3등급으로 자동 분류되며, 노드 리소스 부족 시 <strong><a href="/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 등급이 낮은 Pod부터 Eviction(퇴거)</strong>된다.
 > 2. **가치**: 노드의 메모리가 부족하면 K8s가 Pod를 강제 종료(OOMKilled)하는데, [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class에 따라 <strong>중요 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>(Guaranteed)는 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>하고 <strong>비중요 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>(BestEffort)부터 제거</strong>하여 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성을 유지한다.

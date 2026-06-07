@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong>초대용량 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 스토리지</strong>: HDFS는 테라바이트/페타바이트 급의 거대한 단일 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 디스크 기본 128MB 블록 단위로 잘게 쪼개어 수백 대의 노드에 뿌려 저장하는 [분산 파일 시스템](/studynote/02_operating_system/09_file_system/553_distributed_file_system/)입니다.
 - <strong>저비용 하드웨어 <a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 극복</strong>: 값싼 상용 서버(Commodity Hardware) 사용을 전제로 설계되어 언제든 디스크나 노드가 고장 날 수 있다고 가정하며, 이를 '3벌 블록 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))'를 통해 무정지로 자동 방어합니다.

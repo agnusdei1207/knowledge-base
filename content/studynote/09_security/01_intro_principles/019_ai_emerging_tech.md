@@ -1,11 +1,11 @@
 ---
 title: "019. Ai Emerging Tech"
 date: "2025-02-24"
-description: "적대적 공격, 프롬프트 인젝션, 데이터 포이즈닝부터 양자 내성 암호(PQC)까지 신기술 위협과 방어 아키텍처"
 tags:
   - "security"
+  - "studynote-security"
+weight: 19
 ---
-
 # [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 및 신기술 보안 ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) & Emerging Tech [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 
 #### 핵심 인사이트 (3줄 요약)

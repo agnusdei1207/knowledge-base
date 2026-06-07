@@ -3,8 +3,8 @@ title: "V"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 어텐션의 Q (Query, 쿼리) / K ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), 키) / V (Value, 밸류) 구조는 "무엇을 묻는가(Q)"와 "무엇과 비교하는가(K)"의 유사도 점수로 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 구하고, 그 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 실제 정보(V)를 가중 합산하는 정보 검색 패러다임이다.

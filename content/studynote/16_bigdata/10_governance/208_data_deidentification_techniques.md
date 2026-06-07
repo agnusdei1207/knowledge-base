@@ -3,8 +3,8 @@ title: "208. Data Deidentification Techniques"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비식별화(De-[identification](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))는 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)를 활용 가능한 수준으로 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 기술적 기법들의 스펙트럼으로, 완전 삭제(Suppression)에서 노이즈 추가(Noise Addition)까지 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 강도와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유용성의 트레이드오프가 존재한다.

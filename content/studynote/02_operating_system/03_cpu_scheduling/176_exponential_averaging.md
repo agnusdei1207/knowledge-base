@@ -3,8 +3,8 @@ title: "176. Exponential Averaging"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지수 평균법 (Exponential Averaging)은 직전 실제 CPU 버스트 (CPU Burst)와 직전 예측값을 가중합해 다음 CPU 버스트 길이를 추정하는 예측 기법이다.

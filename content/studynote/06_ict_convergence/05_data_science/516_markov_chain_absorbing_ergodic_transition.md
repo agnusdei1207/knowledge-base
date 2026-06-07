@@ -3,8 +3,8 @@ title: "Markov Chain Absorbing Ergodic Transition"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 516
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마르코프 성질](/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/studynote/08_algorithm_stats/08_stats/141_markov_property/))은 "미래 상태는 오직 현재 상태에만 의존하고, 과거 이력은 무관하다"는 메모리 없음(Memoryless) 가정이다.

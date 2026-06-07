@@ -3,8 +3,8 @@ title: "System Architecture Security Audit"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
+weight: 605
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템 아키텍처 보안 감리는 정보시스템 감리의 보안 영역으로, 아키텍처 설계 단계에서 보안 원칙([Defense in Depth](/studynote/09_security/01_intro_principles/012_defense_in_depth/), [Least Privilege](/studynote/09_security/01_intro_principles/010_least_privilege/), [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 등)이 올바르게 구현됐는지를 독립적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 활동이다.
 > 2. **가치**: 보안 취약점은 운영 단계보다 설계 단계에서 발견할 때 수정 비용이 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 저렴하다. 아키텍처 감리는 "설계 시 보안([Security by Design](/studynote/09_security/01_intro_principles/058_security_by_design/))"을 강제하여 레거시 시스템의 보안 취약점 누적을 예방한다.

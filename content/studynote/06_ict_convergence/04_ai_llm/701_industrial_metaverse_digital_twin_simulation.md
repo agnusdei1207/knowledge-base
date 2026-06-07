@@ -3,8 +3,8 @@ title: "Industrial Metaverse Digital Twin Simulation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 701
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 산업 메타버스 디지털 트윈 시뮬레이션은 **OPC UA/MQTT 기반의 시계열 데이터**, **NVIDIA Omniverse·3DEXPERIENCE 같은 GPU 가속 3D 엔진**, **ISO 23247 표준 참조 아키텍처**를 결합하여 물리 자산의 거동을 실시간 동기화하고, AI 기반 예측 모델(Physics-Informed Neural Network, PINN)을 결합한 **Cyber-Physical Loop**를 통해 설계-운영-예측의 단일 연속체(Single Continuum)를 구현하는 기술이다.

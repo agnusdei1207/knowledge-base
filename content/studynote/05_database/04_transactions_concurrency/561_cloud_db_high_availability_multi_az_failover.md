@@ -3,8 +3,8 @@ title: "561. Cloud Db High Availability Multi Az Failover"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 561
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 DB 고가용성 멀티 AZ 자동 페일오버 ([Failover](/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)) 프로토콜는 운영·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 관점에서 자주 쓰이는 운영 관리 개념이다.

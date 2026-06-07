@@ -3,8 +3,8 @@ title: "Coupling"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))는 서로 다른 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(클래스·[컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 상호 의존하는 정도를 측정하는 척도로, 낮을수록 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 독립적이고 변경 파급이 제한되어 유지보수가 용이하다.

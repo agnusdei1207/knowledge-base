@@ -1,10 +1,11 @@
 ---
 title: "072. Foreign Key Fk"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 외래 키는 다른 테이블의 기본 키를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다.

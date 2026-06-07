@@ -3,8 +3,8 @@ title: "118. Image Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 대규모 이미지 분석은 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 아키텍처로 이미지 특성을 자동 추출하고, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Classification](/studynote/12_it_management/03_ea_isp/107_classification/))·[객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) ([Object Detection](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))·[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/)) [태스크](/studynote/02_operating_system/02_process_thread/150_task/)를 수행하며, 빅데이터 환경에서는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 추론 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필수다.
 > 2. **가치**: 의료 영상 진단 자동화, 리테일 상품 인식, [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 이상 행동 탐지, 제조 불량 검사 등 시각적 정보를 처리하는 모든 산업에서 인간 전문가의 처리 속도와 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 한계를 극복한다.

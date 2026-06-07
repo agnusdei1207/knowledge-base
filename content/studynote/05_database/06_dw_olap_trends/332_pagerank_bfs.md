@@ -3,8 +3,8 @@ title: "Pivot"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 332
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) ([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/))는 보고서 축 전환 (행렬 변환)에 초점을 둔 분석 플랫폼 개념이다.

@@ -1,11 +1,11 @@
 ---
 title: "084. Model Selection"
 date: "2026-04-05"
-description: "모델 선택의 개념, 다양한 모델 유형 비교, 평가 지표 기반 선택 방법, Bias-Variance 트레이드오프"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 선택은 ML (Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))에서 후보 모델과 하이퍼파라미터 중 미지의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 가장 잘 일반화할 구성을 고르는 과정이다.

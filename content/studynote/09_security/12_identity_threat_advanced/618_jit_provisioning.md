@@ -3,8 +3,8 @@ title: "Just-In-Time Provisioning"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 618
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/) ([Just-In-Time](/studynote/09_security/11_iam_access_control/568_jit_access/) [Provisioning](/studynote/09_security/11_iam_access_control/528_provisioning/))는 신원 위협에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

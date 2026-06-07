@@ -1,10 +1,11 @@
 ---
 title: "068. Step Function Activation"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 계단 함수는 임계값을 기준으로 0 또는 1을 반환하는 가장 단순한 비선형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)다.

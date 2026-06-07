@@ -3,9 +3,8 @@ title: "328. OLAP (On-Line Analytical Processing)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 328
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) (On-Line Analytical Processing)는 대용량 다차원 분석, 비정규화([스타 스키마](/studynote/05_database/06_dw_olap_trends/334_star_schema/)), 읽기 위주에 초점을 둔 확장형 저장소 개념이다.

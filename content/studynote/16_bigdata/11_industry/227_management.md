@@ -3,8 +3,8 @@ title: "227. Management"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보험 빅데이터 (보험료 산정, 사기 탐지, 언더라이팅 자동화)은 빅데이터 보험 응용 관점에서 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 운영을 연결해 반복 가능한 질서를 만드는 관리 방식를 다루는 주제다.

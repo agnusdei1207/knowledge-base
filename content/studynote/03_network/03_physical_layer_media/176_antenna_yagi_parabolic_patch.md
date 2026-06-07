@@ -1,10 +1,11 @@
 ---
 title: "176. Antenna Yagi Parabolic Patch"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 야기우다 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Yagi-Uda [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)), 파라볼라 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Parabolic [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)), 패치 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Patch [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))는 모두 전파를 한 방향으로 유리하게 배치하려는 지향성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)이지만, 그 원리는 각각 기생 소자 결합, 반사면 초점 집속, 마이크로스트립 공진으로 다르다.

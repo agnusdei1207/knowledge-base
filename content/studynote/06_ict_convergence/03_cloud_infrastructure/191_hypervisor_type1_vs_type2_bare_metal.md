@@ -3,8 +3,8 @@ title: "Hypervisor"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) Type 1 (베어메탈 - ESXi, Xen) vs Type 2 (호스트형 - VMware Workstation) ([Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)): [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ([Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 아키텍처: Type 1 (베어메탈) vs Type 2 (호스트형)를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

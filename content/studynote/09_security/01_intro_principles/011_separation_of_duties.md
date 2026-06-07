@@ -1,11 +1,11 @@
 ---
 title: "011. Separation Of Duties"
 date: "2026-03-25"
-description: "보안 사고를 예방하기 위해 단일 사용자나 프로세스에 과도한 권한이 집중되지 않도록 직무를 분할하고 상호 견제하게 만드는 핵심 통제 원칙"
 tags:
   - "security"
+  - "studynote-security"
+weight: 11
 ---
-
 # [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [직무 분리](/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 원칙 (Separation of Duties)
 
 #### 핵심 인사이트 (3줄 요약)

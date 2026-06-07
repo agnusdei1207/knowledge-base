@@ -3,8 +3,8 @@ title: "Active Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 399
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [액티브 러닝](/studynote/10_ai/03_llm_nlp/214_active_learning/) ([Active Learning](/studynote/10_ai/03_llm_nlp/214_active_learning/))은 레이블이 없는 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 "가장 정보가 풍부한" 샘플을 선택적으로 레이블링하여 최소한의 어노테이션으로 최대의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하는 학습 패러다임이다.

@@ -3,8 +3,8 @@ title: "215. Healthcare Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 의료 빅데이터는 **EMR·유전체·영상·웨어러블** 4가지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이어를 융합하여 "질병 발생 전 예측"을 현실로 만든다.

@@ -3,8 +3,8 @@ title: "TLB Miss"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 358
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU가 요구한 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호(p)가 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 하드웨어 캐시 안에 이미 존재하여 램(RAM) 접근 없이 즉시 물리 프레임을 알아내는 것을 <strong><a href="/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 적중(<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a>)</strong>이라 하고, 캐시에 없어 어쩔 수 없이 램의 장부를 뒤지러 가야 하는 상황을 <strong><a href="/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 미스(Miss)</strong>라고 한다.

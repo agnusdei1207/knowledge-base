@@ -1,10 +1,11 @@
 ---
 title: "083. Kube Proxy Iptables Ipvs Routing"
+date: "2026-06-07"
 tags:
   - "cloud_architecture"
-date: "2026-06-07"
+  - "studynote-cloud-architecture"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: Kube-proxy는 각 노드에 배포되어 [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) VIP (Virtual IP) 트래픽을 살아 있는 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) endpoint로 바꿔 주는 노드 로컬 네트워크 규칙 관리자다.
 - **가치**: [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) IP가 계속 바뀌어도 [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 주소는 고정되므로, 애플리케이션은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름만 알고 통신할 수 있다.

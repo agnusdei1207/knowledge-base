@@ -1,11 +1,11 @@
 ---
 title: "Xen"
 date: "2024-05-20"
-description: "운영체제 커널을 직접 수정하여 하이퍼바이저와 다이렉트로 통신(Hypercall)함으로써 에뮬레이션 오버헤드를 제거한 반가상화 아키텍처"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 20
 ---
-
 # [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) ([Para-virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/))
 
 #### 핵심 인사이트 (3줄 요약)

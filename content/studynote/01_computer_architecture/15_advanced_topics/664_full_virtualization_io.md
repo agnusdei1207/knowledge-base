@@ -3,8 +3,8 @@ title: "664. Full Virtualization Io"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 664
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ([Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)) I/O는 게스트 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 수정하지 않고도 실행할 수 있도록, 하이퍼바이저가 익숙한 하드웨어 장치를 소프트웨어로 흉내 내는 방식이다.

@@ -3,8 +3,8 @@ title: "031. Universal Gate"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NAND와 NOR은 범용 게이트(Universal Gate)다. 이 두 게이트 중 하나만으로 AND·OR·NOT 등 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 구현할 수 있다. 실제 집적 회로(IC) 제조에서 단일 게이트 유형으로 통일하면 생산 비용이 낮아진다.
 > 2. **가치**: NAND 게이트는 [CMOS](/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 공정에서 구현이 간단하고 속도가 빠르기 때문에 현대 디지털 회로의 표준 구성 블록이다. Intel CPU·[FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)·[ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 설계의 기본 빌딩 블록이 NAND다.

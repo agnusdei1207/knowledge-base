@@ -3,8 +3,8 @@ title: "106. Association Rules"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 연관 규칙 (Association Rules)은 대규모 거래 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 "A를 사면 B도 산다"처럼 항목 간의 공동 출현 패턴을 자동으로 발굴하는 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) 기법이다.
 > 2. **가치**: [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)), [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)), [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)) 세 지표를 조합하면 우연적 동시 구매와 진짜 의미 있는 구매 연관성을 구분할 수 있어, 진열 배치·교차 판매·프로모션 설계의 근거 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 된다.

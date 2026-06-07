@@ -3,8 +3,8 @@ title: "665. Windows Registry Configuration Manager"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 665
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Windows [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([Registry](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))는 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 디바이스 드라이버, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 그리고 사용자 애플리케이션의 모든 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 정보(Configuration)를 수만 개의 텍스트 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(INI) 대신 <strong>단일화된 계층형(Tree) <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>로 관리하는 중앙 집중형 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 저장소다.

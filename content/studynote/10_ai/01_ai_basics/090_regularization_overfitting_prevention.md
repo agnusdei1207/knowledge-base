@@ -3,8 +3,8 @@ title: "090. Regularization Overfitting Prevention"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))는 인공신경망이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈까지 암기하는 과적합 ([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 막기 위해, 모델의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 커지는 것에 수학적 벌점을 부과하는 제어 기법이다.

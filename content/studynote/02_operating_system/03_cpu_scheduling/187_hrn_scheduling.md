@@ -3,8 +3,8 @@ title: "187. Hrn Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HRN (Highest Response Ratio Next) 스케줄링은 가장 짧은 작업을 편애하여 무거운 작업이 영원히 굶어 죽는 SJF의 치명적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 보완하기 위해, **"대기 시간"과 "실행 시간"을 동시에 고려한 응답 비율(Response Ratio)** 공식으로 우선순위를 매기는 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

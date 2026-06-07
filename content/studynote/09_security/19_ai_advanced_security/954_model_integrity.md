@@ -3,8 +3,8 @@ title: "Model Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 954
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 공격 (Model [Integrity](/studynote/09_security/01_intro_principles/003_integrity/))는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

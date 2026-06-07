@@ -3,8 +3,8 @@ title: "186. Character Stuffing Dle Stx Etx"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 문자 삽입 (Character/[Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Stuffing)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Layer)에서 제어 문자를 프레임 경계로 쓰되, 본문 안에 같은 문자가 나타나면 이스케이프 처리를 넣어 경계를 보존하는 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향 [프레이밍](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기법이다.

@@ -3,8 +3,8 @@ title: "875. Netconf Network Configuration Protocol Xml Ssh"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 875
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NETCONF [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "API Throttling and BFF Backend For Frontend"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 531
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Throttling)은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 과부하와 남용을 막는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘이고, [BFF](/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/)([Backend for Frontend](/studynote/04_software_engineering/11_testing_validation/935_bff_backend_for_frontend/))는 각 클라이언트에 최적화된 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층을 분리하여 오버패칭(Overfetching)과 언더패칭(Underfetching)을 해결한다.

@@ -2,9 +2,9 @@
 title: "061. Dr Mock Drill Rto Rpo Audit"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) (Disaster [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 모의 훈련은 장애가 실제로 났을 때 대체 센터가 정말 살아나는지 확인하는 실전 검증이다.

@@ -3,8 +3,8 @@ title: "Arm X86 Memory Mapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 373
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PC와 서버 시장을 지배하는 복잡명령어 기반의 <strong>인텔 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/">x86 아키텍처</a></strong>와, 모바일과 임베디드 시장을 지배하는 축소명령어 기반의 <strong>ARM 아키텍처</strong>가 물리 메모리와 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 매핑([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/) 번역)하는 하드웨어적 설계 철학의 차이를 비교한다.

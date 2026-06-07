@@ -3,8 +3,8 @@ title: "Legacy Design Debt & Architecture Decision Record"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레거시 시스템 (Legacy System) 의 [설계 부채](/studynote/11_design_supervision/02_architecture_principles/140_design_debt/) ([Design Debt](/studynote/11_design_supervision/02_architecture_principles/140_design_debt/)) 는 과거의 빠른 의사결정이 현재와 미래의 유지보수 비용으로 돌아오는 복리 이자이며, [ADR](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) ([Architecture Decision Record](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/), 아키텍처 결정 기록) 은 그 의사결정을 가시화하고 맥락을 보존하는 문서 체계다.

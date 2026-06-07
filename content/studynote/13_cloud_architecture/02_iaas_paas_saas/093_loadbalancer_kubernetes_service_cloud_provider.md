@@ -3,8 +3,8 @@ title: "093. Loadbalancer Kubernetes Service Cloud Provider"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K8s ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 LoadBalancer [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 클러스터 내부의 네트워크를 [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 벤더의 L4 로드밸런서와 자동으로 연동해 주는 외부 진입점이다.

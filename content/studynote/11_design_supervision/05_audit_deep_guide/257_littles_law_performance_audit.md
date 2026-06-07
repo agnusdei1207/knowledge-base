@@ -3,8 +3,8 @@ title: "Little's Law Performance Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 257
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리틀의 법칙(Little's Law) `L = λW`는 시스템 내 평균 요청 수(L), 처리율(λ, TPS), 평균 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(W)의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 나타내며, 세 지표 중 하나를 알면 나머지를 계산할 수 있다.

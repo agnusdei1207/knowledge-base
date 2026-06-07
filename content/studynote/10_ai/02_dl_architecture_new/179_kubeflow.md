@@ -3,8 +3,8 @@ title: "Kubeflow"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠브플로우](/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) ([Kubeflow](/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/))는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 개발·학습·튜닝·배포를 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 위의 선언형 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 운영하게 만드는 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) 플랫폼이다.

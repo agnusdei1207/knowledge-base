@@ -3,8 +3,8 @@ title: "042. Relational Algebra Project"
 date: "2026-04-05"
 tags:
   - "studynote-database"
+weight: 42
 ---
-
 > **핵심 인사이트**
 > 1. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 프로젝트(Project) 연산(π)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서 지정한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(열)만 추출하여 수직적 부분집합을 만드는 단항 연산으로, SQL의 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) 절(컬럼 목록 지정)에 직접 대응된다.
 > 2. 프로젝트 연산은 결과에서 중복 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)을 자동으로 제거(집합 기반)하여, "[SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) DISTINCT"와 동등하며, 이는 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)가 집합 이론을 기반으로 중복을 허용하지 않기 때문이다.

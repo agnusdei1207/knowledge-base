@@ -3,8 +3,8 @@ title: "Hamming Distance"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 해밍 거리(Hamming Distance)는 길이가 같은 두 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 비교했을 때, <strong>서로 값이 다른 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>의 개수</strong>를 수학적으로 측정한 논리적 거리다.
 > 2. **가치**: 통신 중 에러가 몇 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 발생해도 안전한지 측정하는 기준표가 되며, 에러 검출 및 정정 코드([ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 설계 시 시스템의 방어 능력을 수치화하는 척도다.

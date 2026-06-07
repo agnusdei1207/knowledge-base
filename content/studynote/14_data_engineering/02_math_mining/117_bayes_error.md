@@ -2,9 +2,9 @@
 title: "117. Bayes Error"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 117
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 베이즈 에러(Bayes Error)는 <strong>어떤 분류기도 달성할 수 없는 최소 오류율</strong>이며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 **본질적 노이즈(겹치는 분포)** 때문에 발생하는 <strong>이론적 오류 하한</strong>이다.
 > 2. **가치**: 모델의 학습 에러가 베이즈 에러에 수렴하면 **더 이상 모델 복잡도를 높여도 의미 없고**, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질([피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추가·노이즈 제거)을 개선해야 한다. 이를 통해 <strong>모델 개선의 한계점</strong>을 객관적으로 판단한다.

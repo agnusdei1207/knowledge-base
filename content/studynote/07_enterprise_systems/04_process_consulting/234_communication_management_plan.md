@@ -2,9 +2,9 @@
 title: "234. Communication Management Plan"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 234
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 의사소통 관리 계획 수립 절차는 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 의사소통 관리 계획 수립 절차, 프로세스 통제, 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

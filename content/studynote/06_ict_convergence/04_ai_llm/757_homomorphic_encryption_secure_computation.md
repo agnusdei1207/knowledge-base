@@ -3,8 +3,8 @@ title: "Homomorphic Encryption Secure Computation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 757
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동형 암호(Homomorphic Encryption, HE)는 평문 연산을 복호화 없이 암호문(ciphertext) 상태에서 직접 수행하는 공개키 암호 패러다임으로, LWE(Learning With Errors)/RLWE(Ring-LWE) 격자 난제에 기반한 BGV, BFV, CKKS, TFHE 등 4세대 FHE(Fully HE) 스킴이 핵심이며, `KeyGen -> Enc(pk, m) -> Eval(pk, f, c) -> Dec(sk, c') = f(m)`의 순서로 데이터 기밀성과 연산 동시성을 보장한다.

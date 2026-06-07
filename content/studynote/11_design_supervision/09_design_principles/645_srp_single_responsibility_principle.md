@@ -3,8 +3,8 @@ title: "Single Responsibility Principle,"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 645
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/studynote/11_design_supervision/06_exam_summary/355_process/))는 클래스나 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 단 하나의 "변경 이유(책임)"만을 가져야 한다는 객체 지향 설계의 첫 번째 핵심 원칙이다.

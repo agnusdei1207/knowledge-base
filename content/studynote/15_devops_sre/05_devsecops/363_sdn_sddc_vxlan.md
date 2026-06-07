@@ -3,8 +3,8 @@ title: "SDN SDDC VXLAN Logical Network Overlay and Control Plane"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 363
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (Software-Defined Networking)은 네트워크의 제어 평면(Control Plane)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)을 분리해 소프트웨어로 네트워크 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙에서 프로그래밍하는 패러다임이며, [SDDC](/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) ([Software-Defined Data Center](/studynote/13_cloud_architecture/01_virtualization/023_sddc_software_defined_data_center/))는 이를 스토리지·컴퓨팅까지 확장한 개념이다.

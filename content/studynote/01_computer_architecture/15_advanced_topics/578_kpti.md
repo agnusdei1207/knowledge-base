@@ -3,8 +3,8 @@ title: "KPTI, Kernel Page Table Isolation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 578
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: KPTI ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/) [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))는 사용자 모드와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드가 서로 다른 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)을 사용하게 만들어, 사용자 실행 중에는 대부분의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 매핑이 아예 보이지 않도록 바꾸는 격리 기법이다.

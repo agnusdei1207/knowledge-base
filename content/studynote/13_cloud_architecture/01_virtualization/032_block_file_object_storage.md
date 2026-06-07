@@ -2,9 +2,9 @@
 title: "Block / File / Object Storage"
 date: "2026-03-03"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 블록·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[오브젝트 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)는 저장 단위·접근 방식·확장 방식이 근본적으로 다르며, 워크로드 특성에 맞는 선택이 성능과 비용을 결정한다.
 > 2. 블록은 고성능 DB/[VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(낮은 레이턴시), [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 공유 [NFS](/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/)/CIFS(협업), 오브젝트는 무한 확장 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(S3)에 최적화되어 있다.

@@ -2,9 +2,9 @@
 title: "056. Linked List"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연결 리스트 (Linked List)는 각 노드가 데이터와 다음 노드 포인터를 보유하여 메모리 비연속적으로 체인을 이루는 선형 자료구조로, 임의 위치 삽입·삭제가 O(1)이다.

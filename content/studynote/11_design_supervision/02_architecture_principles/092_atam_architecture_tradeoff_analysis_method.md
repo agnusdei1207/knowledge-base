@@ -2,9 +2,9 @@
 title: "Architecture Trade-off Analysis Method"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ATAM](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)은 소프트웨어 구현 이전에 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)들이 모여 [품질 속성 시나리오](/studynote/12_it_management/05_security_compliance/993_process/) ([Quality Attribute Scenario](/studynote/12_it_management/05_security_compliance/993_process/))를 기반으로 아키텍처 설계의 적합성을 뇌피셜이 아닌 체계적인 토론으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 평가 방법론이다.

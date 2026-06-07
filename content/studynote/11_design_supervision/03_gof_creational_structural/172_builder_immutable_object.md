@@ -3,8 +3,8 @@ title: "172. Builder Immutable Object"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 172
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [빌더 패턴](/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) ([Builder Pattern](/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/))은 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정에서만 허용할 상태 변경을 [Builder](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 안에 가두고, `build()` 시점에 완성된 불변 객체 ([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) Object)를 반환하는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이다.

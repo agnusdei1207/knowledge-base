@@ -3,8 +3,8 @@ title: "CSPM Cloud Security Posture Management CIS Benchmark Drift Detection Aut
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 331
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) ([Cloud Security](/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/studynote/12_it_management/05_security_compliance/1013_management/), [클라우드 보안 형상 관리](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/))은 클라우드 계정의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류(Misconfiguration)를 지속적으로 탐지하고 수정하는 보안 솔루션이다. 클라우드 침해 사고의 99%가 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류에서 기인한다는 Gartner 분석이 CSPM의 중요성을 뒷받침한다.

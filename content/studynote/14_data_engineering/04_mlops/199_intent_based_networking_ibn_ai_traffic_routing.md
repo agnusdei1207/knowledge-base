@@ -3,8 +3,8 @@ title: "199. Intent Based Networking Ibn Ai Traffic Routing"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [IBN](/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)([Intent](/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/)-Based Networking)은 비즈니스 의도([Intent](/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))를 자연어 또는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 입력하면 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML이 자동으로 네트워크 구성을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·운영하는 자율 네트워킹 패러다임이다.
 > 2. **가치**: 변환(Translation) -> 활성화(Activation) -> 보증(Assurance) 3단계 루프로 네트워크가 항상 의도된 상태를 유지하며, 이상 감지 시 자동 자가 치유(Self-Healing)한다.

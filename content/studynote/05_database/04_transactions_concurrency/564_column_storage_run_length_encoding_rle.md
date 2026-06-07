@@ -3,8 +3,8 @@ title: "564. Column Storage Run Length Encoding Rle"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 564
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컬럼 기반 스토리지 런 렝스 인코딩([RLE](/studynote/08_algorithm_stats/05_string/099_rle/)) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 효율화 탐색는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

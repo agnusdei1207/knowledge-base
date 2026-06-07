@@ -3,8 +3,8 @@ title: "Normalization"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정규화 (Normalization)는 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 소수점의 위치를 조작하여, 맨 앞의 유효 숫자가 무조건 `1`이 되도록 단일 포맷($1.xxx \times 2^E$)으로 표기법을 강제 통일시키는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬 기법이다.
 > 2. **가치**: 항상 `1.`로 시작한다는 절대 규칙을 통해, 뻔한 1을 메모리에 굳이 저장하지 않는 숨겨진 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Hidden [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 기법을 창조하여 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 추가 없이 가수의 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 1비트($2배$) 뻥튀기시켰다.

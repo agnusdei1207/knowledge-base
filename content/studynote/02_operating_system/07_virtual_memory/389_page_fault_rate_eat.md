@@ -3,8 +3,8 @@ title: "389. Page Fault Rate Eat"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 389
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율($p$)은 메모리 접근 시 필요한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램에 없어서 디스크로 달려가야([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 의미하며, 실질 접근 시간([Effective Access Time](/studynote/02_operating_system/06_memory_management/359_effective_access_time/), EAT)은 이 **[확률](/studynote/08_algorithm_stats/08_stats/130_probability/) $p$에 디스크라는 끔찍한 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(수백만 배 느림)을 가중 평균하여 뽑아낸 시스템의 진짜 체감 속도 공식**이다.

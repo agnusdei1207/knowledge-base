@@ -3,8 +3,8 @@ title: "Bias"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 310
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리, 편향성 , [저작권](/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) (Copyright) 이슈 ([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)): 크롤링 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공정 이용(Fair Use) 논란, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)물 지식재산권 인정 불가 등 규제 거버넌스 동향 (EU [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 등)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

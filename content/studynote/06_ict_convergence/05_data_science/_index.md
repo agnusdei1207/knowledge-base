@@ -2,9 +2,9 @@
 title: "Data Science"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 과학 (Data Science)은 통계적 추론 (Statistical Inference), 머신러닝 알고리즘, 도메인 지식을 결합하여 데이터 내의 숨겨진 패턴을 추출하고 미래를 예측하는 다학제적 융합 분야이다.

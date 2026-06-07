@@ -3,8 +3,8 @@ title: "596. Data Discovery Catalog"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 596
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 디스커버리 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 플랫폼 검색 큐레이션 거버넌스 워크플로우 지식 저장는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

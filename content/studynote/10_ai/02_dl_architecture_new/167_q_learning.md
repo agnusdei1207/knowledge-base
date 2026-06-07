@@ -3,8 +3,8 @@ title: "Q-Learning"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 큐-러닝 ([Q-Learning](/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))은 상태 ([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))와 행동 (Action) 조합마다 미래 누적 보상을 Q값으로 학습하는 모델 프리 (Model-Free) [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

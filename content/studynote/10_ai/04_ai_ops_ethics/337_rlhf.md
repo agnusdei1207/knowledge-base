@@ -3,9 +3,8 @@ title: "337. RLHF (Reinforcement Learning from Human Feedback)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 337
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 는 사전 학습된 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 이 "사람이 선호하는 응답"을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 유도하는 3단계 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로, SFT (Supervised [Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) -> 보상 모델 ([Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)) 학습 -> [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 강화학습 순으로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.

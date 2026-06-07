@@ -2,9 +2,9 @@
 title: "180. Event Sourcing Immutable Log"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 한 줄을 계속 덮어쓰는 대신, 상태를 바꾼 사건들을 시간 순서대로 불변 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (Append-Only Log) 에 쌓고 그 합으로 현재를 계산하는 저장 모델이다.

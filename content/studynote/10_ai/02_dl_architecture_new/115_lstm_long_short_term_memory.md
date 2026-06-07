@@ -3,8 +3,8 @@ title: "115. Lstm Long Short Term Memory"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LSTM은 바닐라 RNN의 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제를 해결하기 위해, **Cell [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)($C_t$, 장기 기억 고속도로)와 3개 게이트(Forget·Input·Output)**를 도입하여 정보의 선택적 보존·추가·출력을 제어하는 시퀀스 모델이다.
 > 2. **가치**: Forget Gate가 "과거 기억 중 버릴 것"을, Input Gate가 "새로 기억할 것"을, Output Gate가 "현재 출력에 사용할 기억"을 결정하며, Cell State를 통해 기울기가 <strong>수백 단계를 직통으로 전파</strong>되어 [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)을 학습한다.

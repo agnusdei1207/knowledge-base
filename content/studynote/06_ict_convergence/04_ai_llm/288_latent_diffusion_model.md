@@ -3,9 +3,8 @@ title: "288. LDM (Latent Diffusion Model)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 288
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LDM (Latent [Diffusion Model](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)): 픽셀 공간이 아닌 압축된 잠재(Latent) 공간에서 디퓨전 연산을 수행해 이미지 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도와 자원 효율 극대화를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "625. Hand Over Maintenance Manual Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 625
 ---
-
 > **핵심 인사이트**
 > 1. 인수인계(Hand-Over) 검증은 개발 완료 시스템이 운영 조직에 안전하게 이관되었는지를 확인하는 공식 절차 — 단순한 서류 이관이 아니라 운영팀이 실제로 시스템을 유지·운영할 수 있는 역량과 문서가 갖춰졌는지를 검증한다.
 > 2. 유지보수 매뉴얼(Maintenance Manual)의 핵심은 "개발자 없이도 운영 가능한가" — 시스템 아키텍처, 장애 대응 절차(Runbook), 배포 방법, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)/[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 모니터링 기준이 명시되어야 하며, 이것이 감리의 핵심 점검 항목이다.

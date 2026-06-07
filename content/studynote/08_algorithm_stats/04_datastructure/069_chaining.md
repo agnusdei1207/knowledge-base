@@ -2,9 +2,9 @@
 title: "069. Chaining"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 체인법 ([Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))은 [해시 충돌](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 시 동일 버킷의 원소들을 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(또는 트리)로 연결하여 여러 키를 같은 슬롯에 공존시키는 분리 연결(Separate [Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/)) 방식이다.

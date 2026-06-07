@@ -3,8 +3,8 @@ title: "TPU, NPU, LPU"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 엑셀러레이터는 [TPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) ([Tensor Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)), [NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), [LPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/438_lpu/) ([Language Processing Unit](/studynote/06_ict_convergence/04_ai_llm/317_lpu_language_processing_unit/))처럼 <strong>행렬 곱셈과 추론 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>에 맞춰 회로를 재배치한 [주문형 반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)([ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/), Application-Specific Integrated Circuit)다.

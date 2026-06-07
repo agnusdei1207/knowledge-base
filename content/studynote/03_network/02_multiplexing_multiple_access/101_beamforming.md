@@ -1,11 +1,11 @@
 ---
 title: "101. Beamforming"
 date: "2026-03-04"
-description: "무선 통신의 성능을 극대화하는 빔포밍 기술의 정의, 아키텍처, 그리고 아날로그/디지털 빔포밍의 실무적 특성과 차이점을 심층 분석합니다."
 tags:
   - "network"
+  - "studynote-network"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빔포밍 (Beamforming)은 다수의 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자에서 방사되는 전파의 위상과 진폭을 조절하여 파동의 간섭을 유도하고, 특정 방향으로만 신호를 날카롭게 집중시키는 공간 필터링 기술이다.
 > 2. **가치**: 사방으로 퍼지며 낭비되던 전파 에너지를 모아 타겟 단말의 신호대잡음비([SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/))를 극대화하며, 주변 기기로 향하는 간섭을 줄여 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 환경의 통신 거리와 용량을 획기적으로 높인다.

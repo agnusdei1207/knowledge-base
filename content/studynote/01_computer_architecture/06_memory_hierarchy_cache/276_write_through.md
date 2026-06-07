@@ -3,8 +3,8 @@ title: "276. Write Through"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Write-Through (동시 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))는 CPU (Central Processing Unit)가 캐시에 값을 쓸 때, 같은 값을 하위 메모리까지 즉시 반영해 캐시와 메모리의 차이를 최소화하는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

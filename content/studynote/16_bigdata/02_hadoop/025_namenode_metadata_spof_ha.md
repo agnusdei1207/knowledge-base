@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **HDFS의 중앙 사령탑**: [네임노드](/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 위치, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한, [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조 등 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 모든 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)([Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/))를 메모리(RAM) 위에서 통제하는 단일 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 서버입니다.
 - <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (<a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>) 한계 극복</strong>: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)에서는 [네임노드](/studynote/14_data_engineering/01_infrastructure/014_namenode/) 서버 한 대가 물리적으로 고장 나면 전체 수백 대 클러스터의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 미아가 되는 치명적 약점이 있었으나, [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.0 HA(고가용성) 아키텍처로 이를 완벽히 방어합니다.

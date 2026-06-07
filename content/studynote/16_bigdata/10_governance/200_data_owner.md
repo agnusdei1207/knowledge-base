@@ -3,8 +3,8 @@ title: "200. Data Owner"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 200
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유자([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner)는 특정 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적·법적 책임을 지는 시니어 비즈니스 임원으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정과 규제 준수에 대한 최종 책임을 진다.

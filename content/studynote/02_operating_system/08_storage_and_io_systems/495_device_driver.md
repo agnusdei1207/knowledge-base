@@ -3,8 +3,8 @@ title: "495. Device Driver"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 495
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 장치 드라이버(Device Driver)는 기계마다 제조사마다 명령 체계가 완전히 다른 수만 가지의 천차만별 하드웨어(키보드, 마우스, 그래픽카드, 디스크 모터)들을 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)가 통일된 공용 표준 언어(Read, Write 구조체)로 조작할 수 있도록 징검다리 통역을 해주는 <strong>하드웨어 제어 전담 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 내부의 통역사(소프트웨어 인터페이스 계층)</strong>다.

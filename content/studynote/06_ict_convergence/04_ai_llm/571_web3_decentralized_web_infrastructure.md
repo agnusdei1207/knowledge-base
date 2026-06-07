@@ -3,8 +3,8 @@ title: "Web3 Decentralized Web Infrastructure"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 571
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Web3 탈중앙 웹 인프라은(는) 지갑 기반 신원, 스마트 계약, 탈중앙 저장소, 토큰 경제를 결합해 플랫폼 사업자가 독점하던 계정·데이터·가치 이전 기능을 사용자 중심으로 재배치하는 웹 아키텍처이다.

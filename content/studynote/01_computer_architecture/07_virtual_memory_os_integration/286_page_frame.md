@@ -3,8 +3,8 @@ title: "Frame"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 286
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페이지 (Page)는 프로세스가 보는 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 조각이고, 프레임 (Frame)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 관리하는 물리 메모리 조각이며, 둘은 같은 크기여야만 빠른 주소 변환이 가능하다.

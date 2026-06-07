@@ -3,8 +3,9 @@ title: "005. Feedback Loop"
 date: "2026-04-05"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 5
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 피드백 루프란 운영 환경에서 발생하는 문제, 고객 반응, [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 개발 조직에 지속적으로 환류하여 다음 개발 사이클에 반영하는 순환 구조를 의미한다.
 > 2. **가치**: 짧은 피드백 루프는 문제 발견 시점을 조기화하여수정 비용을지수적으로 줄이며, 고객 니즈에 대한 반응 속도를 극대화하여 제품경쟁력을 향상시킨다.

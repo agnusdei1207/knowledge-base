@@ -3,8 +3,8 @@ title: "CLT, Central Limit Theorem"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 335
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [중심 극한 정리](/studynote/08_algorithm_stats/08_stats/139_clt/) ([CLT](/studynote/08_algorithm_stats/08_stats/139_clt/), Central Limit Theorem): 표본의 크기(n)가 커지면 모집단 분포 무관하게 표본 평균의 분포가 정규 분포에 수렴를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

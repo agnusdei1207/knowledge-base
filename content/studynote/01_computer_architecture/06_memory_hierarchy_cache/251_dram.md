@@ -3,9 +3,8 @@ title: "251. DRAM (Dynamic RAM)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 251
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DRAM (Dynamic Random Access Memory)은 [커패시터](/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) ([Capacitor](/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/))에 전하를 잠시 저장하는 방식으로 대용량을 싸게 구현하지만, 전하가 새기 때문에 리프레시 (Refresh)가 필수인 휘발성 메모리다.

@@ -1,11 +1,11 @@
 ---
 title: "083. Orthogonality"
 date: "2026-03-30"
-description: "겹쳐진 파동이나 코드가 서로에게 단 1%의 간섭도 주지 않고 완벽히 분리될 수 있도록 만드는 통신 공학의 핵심 수학적 성질"
 tags:
   - "network"
+  - "studynote-network"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 직교성 (Orthogonality)은 두 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)·코드·공간 벡터의 내적이 0이 되는 성질로, 서로 겹쳐도 수학적으로 분리되는 기초다.
 - **가치**: 가드밴드 ([Guard Band](/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/)) 낭비를 줄여 OFDM (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)), [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)), [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) ([Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))를 가능하게 한다.

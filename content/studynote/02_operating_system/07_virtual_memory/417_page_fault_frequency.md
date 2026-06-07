@@ -3,8 +3,8 @@ title: "417. Page Fault Frequency"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 417
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 부재 빈도](/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)([PFF](/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/)) 모델은 [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막기 위해 복잡하게 과거를 추적하는 [워킹 셋](/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델 대신, 단순히 <strong>"초당 <a href="/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)가 몇 번 터지는가?"의 빈도(Frequency)만을 측정하여 상한선과 하한선으로 램 할당을 조절하는 직관적 동적 할당 기법</strong>이다.

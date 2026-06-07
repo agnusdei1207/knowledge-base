@@ -2,9 +2,9 @@
 title: "SBOM, Software Bill of Materials"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 452
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/), Software Bill of Materials의 경계를 분명히 만드는 데 의미가 있다.

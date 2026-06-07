@@ -3,8 +3,8 @@ title: "Quantum Internet Quantum Network Sensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 787
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자 인터넷(Quantum Internet)은 얽힘(entanglement) 자원의 분배와 양자 텔레포테이션(teleportation)을 기반으로 한 **위상적(phase-coherent) 네트워크**이며, 양자 센서(Quantum Sensor)는 헤테로다인 간섭계·NV 센터·압축광(squeezed light) 등을 활용하여 **표준 양자 한계(SQL) 이하의 분해능**을 달성하는 측정 체계이다.

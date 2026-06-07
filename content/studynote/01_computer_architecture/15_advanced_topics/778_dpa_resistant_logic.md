@@ -3,8 +3,8 @@ title: "Differential Power Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 778
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DPA (Differential [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Analysis)는 동일한 비밀 키로 수행한 수많은 연산의 전력 파형을 통계적으로 분리해, 중간 연산값에 대한 키 가설이 맞을 때만 나타나는 미세한 전력 차이를 증폭시키는 부채널 공격이다.

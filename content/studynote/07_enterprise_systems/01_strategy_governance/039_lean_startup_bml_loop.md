@@ -3,8 +3,8 @@ title: "039. Lean Startup Bml Loop"
 date: "2026-03-04"
 tags:
   - "studynote-enterprise-systems"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. BML(Build-Measure-Learn) 루프에서 "측정(Measure)"의 핵심은 허영 지표(Vanity [Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))와 실행 가능 지표(Actionable [Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 구분하는 것 — "총 가입자 100만"은 성장하는 것처럼 보이지만, 재방문율·전환율·코호트 리텐션 없이는 아무것도 말해주지 않는다.
 > 2. PMF(Product-Market Fit)는 측정 가능한 임계점이다 — Sean Ellis의 기준: "이 제품이 없어지면 매우 실망할 것" 응답이 40% 이상이면 PMF 달성; NPS 50 이상, D30 리텐션 25% 이상도 실무 기준으로 사용된다.

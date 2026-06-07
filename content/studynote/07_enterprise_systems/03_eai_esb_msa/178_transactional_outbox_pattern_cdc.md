@@ -2,9 +2,9 @@
 title: "178. Transactional Outbox Pattern Cdc"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜잭셔널 아웃박스](/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/) ([Transactional Outbox](/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)) 패턴은 비즈니스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경과 이벤트 기록을 같은 [로컬 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/) 안에서 함께 커밋해, 이중 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) (Dual Write) 실패를 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실"이 아니라 "전달 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)" 문제로 바꾸는 설계다.

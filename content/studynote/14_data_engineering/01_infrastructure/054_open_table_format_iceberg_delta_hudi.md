@@ -3,8 +3,8 @@ title: "Open Table Format: Iceberg/Delta/Hudi"
 date: "2026-05-01"
 tags:
   - "studynote-data-engineering"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 테이블 포맷은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크에 ACID ([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))와 테이블 관리 기능을 더한 표준 계층이다.

@@ -2,9 +2,9 @@
 title: "065. Shadow Data Cloud Security"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 섀도우 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Shadow [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 조직이 통제하지 못하는 클라우드 내 산재 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로, [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/) 노출 위험이 크다.

@@ -3,8 +3,8 @@ title: "Pthreads Synchronization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 250
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Pthreads](/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) (POSIX Threads)는 유닉스/리눅스 시스템에서 멀티스레드를 위한 표준 C [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) API로, [mutex](/studynote/02_operating_system/04_synchronization/223_mutex/), [조건 변수](/studynote/02_operating_system/04_synchronization/228_condition_variable/), [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/), 배리어, 읽기-쓰기 락을 일관된 인터페이스로 제공한다.

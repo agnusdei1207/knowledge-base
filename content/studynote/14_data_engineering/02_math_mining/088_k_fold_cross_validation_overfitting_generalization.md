@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "math-mining"
   - "studynote-data-engineering"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) (K-Fold [Cross Validation](/studynote/12_it_management/02_itsm_itil/083_cross_validation/))은 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 부분 집합(Fold)으로 나누어, 학습과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 번갈아 수행하며 모델의 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 안정적으로 평가하는 기법이다.

@@ -3,8 +3,8 @@ title: "Program vs. Process"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로그램(Program)이 하드디스크에 저장된 차갑고 수동적인 0과 1의 <strong>정적(Static) <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(쇳덩어리 조각)</strong>이라면, 프로세스([Process](/studynote/12_it_management/05_security_compliance/943_process/))는 그 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메인 메모리(RAM)에 올라가 CPU의 심장 박동([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))을 받으며 펄떡이는 <strong>동적(Dynamic) 실행 주체</strong>다.
 > 2. **가치**: 이 분리를 통해 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 하나의 '카카오톡 프로그램'을 두 번 더블클릭하면, 디스크의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정하지 않고도 메모리 위에 완전히 독립된 밥그릇(메모리 공간, PID)을 가진 '두 개의 카카오톡 프로세스'를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 멀티태스킹을 지원할 수 있다.

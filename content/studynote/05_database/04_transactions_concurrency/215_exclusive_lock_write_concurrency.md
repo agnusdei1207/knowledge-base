@@ -3,8 +3,8 @@ title: "Exclusive Lock / Write Lock, X-Lock"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배타 락 (Exclusive [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) / Write [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/), X-[Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))은 읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모두 불가 독점에 초점을 맞춘 개념이다.

@@ -3,8 +3,8 @@ title: "Hadoop HDFS MapReduce vs Spark RDD In-Memory Processing"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 339
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Hadoop은 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ([Hadoop Distributed File System](/studynote/14_data_engineering/05_exam_keywords/203_hadoop_hdfs_block_replication_fault_tolerance/))와 MapReduce를 결합한 [빅데이터 분산 처리 프레임워크](/studynote/07_enterprise_systems/05_data_bi/298_distributed_processing_framework_mapreduce_spark/)다. 수십~수천 노드에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳에서 연산을 수행하는 [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/studynote/14_data_engineering/01_infrastructure/019_data_locality/)) 원칙으로 네트워크 부하를 최소화한다.

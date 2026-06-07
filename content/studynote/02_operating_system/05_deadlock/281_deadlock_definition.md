@@ -3,8 +3,8 @@ title: "281. Deadlock Definition"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교착 상태 (Deadlock)는 두 개 이상의 프로세스들이 각자 자원을 점유한 채로, 다른 프로세스가 보유한 자원을 기다리면서 영원히 실행을 재개하지 못하는 상태다.

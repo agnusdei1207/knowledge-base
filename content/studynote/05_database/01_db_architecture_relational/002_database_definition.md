@@ -1,11 +1,11 @@
 ---
 title: "002. Database Definition"
 date: "2024-05-20"
-description: "통합, 저장, 운영, 공용 데이터로서의 데이터베이스 본질 및 ISOS 개념 심층 분석"
 tags:
   - "database"
+  - "studynote-database"
+weight: 2
 ---
-
 # 02. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스([Database](/studynote/05_database/04_transactions_concurrency/501_database/))의 정의
 
 #### 핵심 인사이트 (3줄 요약)

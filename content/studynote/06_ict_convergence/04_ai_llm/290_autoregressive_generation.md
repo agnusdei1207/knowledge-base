@@ -3,8 +3,8 @@ title: "Autoregressive"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 290
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오토레그레시브 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 토큰 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메커니즘) ([Autoregressive](/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)): 290. 오토레그레시브 ([Autoregressive](/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

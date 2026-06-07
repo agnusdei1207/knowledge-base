@@ -3,8 +3,8 @@ title: "116. Kubernetes Container Image Security Scanning"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 보안 스캐닝은 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/[OCI](/studynote/13_cloud_architecture/05_data_engineering/333_process/) 이미지의 <strong>OS 패키지·언어 라이브러리에 포함된 알려진 취약점(<a href="/studynote/09_security/04_endpoint_security/409_cve_lifecycle/">CVE</a>)</strong>을 자동으로 탐지하고, [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)(Software [Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)을 확보하는 프로세스다.
 > 2. **가치**: 프로덕션 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 <strong>76%가 High/Critical <a href="/studynote/09_security/04_endpoint_security/409_cve_lifecycle/">CVE</a></strong>를 포함하고 있으며(Sysdig 2024 보고서), 빌드 시점(Shift Left)에서 스캔하여 취약 이미지의 배포를 차단해야 한다.

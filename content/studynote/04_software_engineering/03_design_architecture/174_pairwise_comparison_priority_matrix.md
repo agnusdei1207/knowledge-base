@@ -1,11 +1,11 @@
 ---
 title: "174. Pairwise Comparison Priority Matrix"
 date: "2026-04-03"
-description: "여러 요구사항을 1:1로 비교해 우선순위를 정하는 페어와이즈 기법의 원리와 실무 적용 기준을 정리한다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페어와이즈 (Pairwise) 우선순위 결정은 여러 요구사항을 한꺼번에 줄 세우지 않고, 두 항목씩 1:1로 비교해 더 중요한 쪽을 반복적으로 선택하는 방식이다.

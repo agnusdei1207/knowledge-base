@@ -3,8 +3,8 @@ title: "Causal Inference Counterfactual Intervention"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 713
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인과 추론 반사실 분석 개입 효과는 Judea Pearl의 Structural Causal Model(SCM)과 Donald Rubin의 Potential Outcomes Framework를 통합하여 관측 데이터에서 `P(Y|do(X))`를 식별하고, 실제로 발생하지 않은 반사실적 상황(`Y_x(u)`)을 정량화하여 처치(Treatment)의 인과 효과를 추정하는 통계적·인과적 추론 체계이다.

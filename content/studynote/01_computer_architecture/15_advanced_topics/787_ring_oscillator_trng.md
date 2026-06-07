@@ -3,8 +3,8 @@ title: "787. Ring Oscillator Trng"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 787
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 링 오실레이터 TRNG는 홀수 개 인버터 루프의 주기 흔들림, 즉 지터(Jitter)를 샘플링해 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)로 바꾸는 디지털 친화적 난수 구조다.

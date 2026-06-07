@@ -3,8 +3,8 @@ title: "Procurement Contract Types"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조달 계약 방식 (Procurement Contract Types)은 가격 계산 방법이 아니라, 범위·비용·성과 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 발주자와 공급자 사이에 어떻게 배분할지 정하는 관리 장치다.

@@ -3,8 +3,8 @@ title: "030. Value Stream Mapping"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: VSM([Value Stream Mapping](/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/), 가치 흐름 맵핑)은 린([Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 제조에서 소프트웨어 전달로 이식된 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구로, 아이디어부터 고객 전달까지 모든 단계의 작업 시간·대기 시간·낭비를 맵으로 그려서 분석한다.
 > 2. **가치**: 소프트웨어 전달에서 전체 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)의 85~95%는 실제 작업이 아닌 대기 시간([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time)이다. VSM은 이 대기 시간의 원인을 가시화하여 가장 큰 개선 레버를 찾아준다.

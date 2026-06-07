@@ -3,9 +3,8 @@ title: "604. WPAN (Wireless Personal Area Network)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 604
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: WPAN는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), WPAN, 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

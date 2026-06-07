@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)"
 date: "2026-05-09"
-categories: "studynote-ict-convergence"
+tags:
+  - "studynote-ict-convergence"
+weight: 523
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DataOps는 DevOps 원칙을 데이터 파이프라인에 이식해 데이터 품질·속도·신뢰성을 높이고, 피처 플래그(Feature Flag)는 코드 배포와 기능 릴리스를 분리하며, 로우코드/노코드(Low-Code/No-Code)는 IT 비전문가(시민 개발자)도 앱을 만들 수 있게 한다.

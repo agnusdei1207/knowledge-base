@@ -3,8 +3,8 @@ title: "597. Gps Triangulation Dgps Rtk"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 597
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)와 BLE는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

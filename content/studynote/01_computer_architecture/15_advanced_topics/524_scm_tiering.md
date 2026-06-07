@@ -3,8 +3,8 @@ title: "524. Scm Tiering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 524
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토리지 클래스 메모리 ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), Storage Class Memory) 계층화는 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)과 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 사이에 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위 접근 가능하고 비휘발성인 중간 계층을 두어, 메모리와 스토리지의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 단절을 완화하는 아키텍처다.

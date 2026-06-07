@@ -3,8 +3,8 @@ title: "Boosting Xgboost"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 430
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) XGBoost ([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) Xgboost): 1. **본질**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 앞의 모델이 틀린 오답(잔차, Residual)을 다음 모델이 집중적으로 고치도록 연쇄적으로 이어 붙여, 수백 개의 '멍청한 모델'을 모아 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

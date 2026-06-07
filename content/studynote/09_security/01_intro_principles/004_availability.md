@@ -1,11 +1,11 @@
 ---
 title: "004. Availability"
 date: "2023-10-24"
-description: "시스템의 무중단 운영과 적시적 자원 접근을 보장하기 위한 가용성의 아키텍처 원리, 다중화 설계 및 실무 방어 전략"
 tags:
   - "security"
+  - "studynote-security"
+weight: 4
 ---
-
 # [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))
 
 #### 핵심 인사이트 (3줄 요약)

@@ -2,9 +2,9 @@
 title: "DeFi: Decentralized Finance"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 406
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [플래시 론](/studynote/06_ict_convergence/01_blockchain/035_flash_loan/) 오라클은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [플래시 론](/studynote/06_ict_convergence/01_blockchain/035_flash_loan/) 오라클, [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/): Decentralized Finance, 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

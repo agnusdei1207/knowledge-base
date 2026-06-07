@@ -2,9 +2,9 @@
 title: "Advanced Topics"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 15
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터 구조 심화는 고전적 아키텍처의 한계를 돌파하기 위한 비정형 연산 기술과 신소재 기반의 하드웨어 혁신을 다루며, 인메모리 컴퓨팅 (PIM)과 양자 컴퓨팅이 그 핵심이다.

@@ -3,8 +3,8 @@ title: "Cloud Native Network Cni Kubernetes Pod Overlay"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1096
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클라우드 네이티브 네트워크](/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/) ([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Network [Cni](/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Overlay)는 보안 확장 개념에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

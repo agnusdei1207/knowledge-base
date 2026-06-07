@@ -3,8 +3,8 @@ title: "Cookie"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 475
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 쿠키(Cookie)는 웹 서버가 `Set-Cookie` 헤더를 통해 브라우저에 저장시키는 최대 4KB의 Key-Value [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로, 브라우저는 이후 해당 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 요청을 보낼 때마다 무조건 `Cookie` 헤더에 이를 담아 서버로 자동 전송한다.

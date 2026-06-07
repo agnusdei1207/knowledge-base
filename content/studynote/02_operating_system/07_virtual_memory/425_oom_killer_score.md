@@ -3,8 +3,8 @@ title: "425. Oom Killer Score"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 425
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/studynote/02_operating_system/02_process_thread/157_oom_killer/)) Killer는 리눅스 시스템에서 물리 메모리(RAM)와 스왑(Swap) 공간마저 100% 고갈되어 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 질식사([Kernel Panic](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))하기 직전, <strong>시스템 전체를 구하기 위해 가장 램을 많이 잡아먹는 프로세스 하나를 골라 총으로 쏴 죽이는(SIGKILL) 최후의 암살 데몬</strong>이다.

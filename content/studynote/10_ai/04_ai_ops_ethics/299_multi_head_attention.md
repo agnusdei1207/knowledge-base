@@ -3,8 +3,8 @@ title: "Multi-Head Attention"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티 헤드 어텐션 (Multi-Head Attention)은 동일 입력에 대해 H개의 독립적인 어텐션 헤드(Head)를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 수행하여 서로 다른 표현 부분공간(Representation Subspace)에서 다양한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 동시에 포착하는 Transformer의 핵심 구성 요소다.

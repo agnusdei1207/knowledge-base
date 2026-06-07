@@ -3,8 +3,8 @@ title: "Linux Auditd"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 606
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시스템 감사 (Auditing)는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 내부에서 발생하는 모든 주체(사용자, 프로세스)의 자원 접근 및 상태 변경 행위를 시간순으로 정밀하게 추적([Tracing](/studynote/04_software_engineering/uncategorized/657_observability/))하고 변조 불가능한 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 기록하는 보안 통제 프레임워크다.

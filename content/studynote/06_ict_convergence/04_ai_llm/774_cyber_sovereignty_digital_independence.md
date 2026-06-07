@@ -3,8 +3,8 @@ title: "Cyber Sovereignty Digital Independence"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 774
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사이버 주권(Cyber Sovereignty)은 자국 영토 내 데이터·네트워크·소프트웨어에 대한 관할권과 통제권을 확보하는 국가 전략이며, 디지털 자주권은 OS(운영체제), CPU(중앙처리장치), DBMS(데이터베이스관리시스템), 암호모듈, 클라우드, 네트워크 장비 등 핵심 ICT(정보통신기술) 스택에서 해외 기술 의존도를 탈피해 독자 개발·검증·운영 체계를 구축하는 기술 독립 정책이다.

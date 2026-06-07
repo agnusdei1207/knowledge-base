@@ -3,8 +3,8 @@ title: "Battery Technology Solid State Energy Storage"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 724
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전고체 전지(Solid-State Battery, SSB)는 가연성 액체 전해질을 Li⁺ 전도성 무기/고분자 고체 전해질(Sulfide, Oxide, Halide, Polymer)로 치환하여 리튬 덴드라이트(Li Dendrite) 성장을 억제하고 음극으로 리튬 금속(3860 mAh/g) 또는 Si 복합체 적용을 가능케 하는 차세대 이차전지 아키텍처이다.

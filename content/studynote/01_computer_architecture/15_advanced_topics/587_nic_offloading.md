@@ -3,8 +3,8 @@ title: "587. Nic Offloading"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 587
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 인터페이스 카드 (Network Interface Card, NIC) [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 호스트의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)와 중앙처리장치 (Central Processing Unit, CPU)가 패킷마다 하던 반복 작업을 NIC 하드웨어로 넘겨, 일반 연산 코어가 네트워크 잡무 대신 본래 애플리케이션 일을 하게 만드는 기술이다.

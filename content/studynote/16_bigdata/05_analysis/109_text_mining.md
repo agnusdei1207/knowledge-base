@@ -3,8 +3,8 @@ title: "109. Text Mining"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 텍스트 마이닝 (Text Mining)은 비정형 텍스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정형 특성 벡터로 변환한 뒤, 통계·ML·딥러닝 모델을 적용하여 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·군집·요약·[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추출 등의 지식을 발굴하는 종합 분석 기법이다.
 > 2. **가치**: [TF-IDF](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) ([Term Frequency-Inverse Document Frequency](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/))가 단어 중요도를 측정하고, Word2Vec이 의미적 유사성을 포착하며, [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) ([Bidirectional Encoder Representations from Transformers](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))가 문맥을 통합적으로 이해함으로써, 단계별로 정교해지는 언어 표현이 가능해진다.

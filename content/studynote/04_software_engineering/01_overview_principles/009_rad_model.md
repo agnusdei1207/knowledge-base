@@ -1,11 +1,11 @@
 ---
 title: "009. Rad Model"
 date: "2026-03-04"
-description: "자동화 도구와 컴포넌트 재사용을 통해 60~90일 이내에 초고속으로 시스템을 개발하는 방법론"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 9
 ---
-
 # 09. RAD 모델 (Rapid Application Development)
 
 #### 핵심 인사이트 (3줄 요약)

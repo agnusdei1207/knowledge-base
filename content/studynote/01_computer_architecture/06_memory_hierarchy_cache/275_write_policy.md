@@ -3,8 +3,8 @@ title: "Write Policy"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 275
 ---
-
 # 275. 캐시 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))
 
 ## 핵심 인사이트 (3줄 요약)

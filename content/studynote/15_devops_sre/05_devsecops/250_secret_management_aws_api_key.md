@@ -3,8 +3,8 @@ title: "Secret Management"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 250
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비밀 정보를 저장·배포·회전·폐기까지 수명주기 관점에서 통제하는 체계.

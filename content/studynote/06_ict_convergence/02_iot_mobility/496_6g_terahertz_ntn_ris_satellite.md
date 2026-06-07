@@ -3,8 +3,8 @@ title: "6G Terahertz NTN RIS Satellite Communication"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 496
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/)(6th Generation)는 ITU-R IMT-2030 표준으로, [테라헤르츠](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)([THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/), 100GHz~10THz) 대역을 활용해 Tbps급 속도와 10μs 이하 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 목표로 하며, AI가 네트워크 설계에 내재화([AI-Native](/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/))되는 차세대 이동통신이다.

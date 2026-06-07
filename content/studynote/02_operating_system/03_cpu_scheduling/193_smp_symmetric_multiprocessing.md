@@ -3,8 +3,8 @@ title: "Multiprocessor Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))는 시스템 내의 모든 CPU 코어가 <strong>완벽하게 동등한 권한(대칭적)</strong>을 가지고, 동일한 하나의 물리적 메인 메모리(RAM)와 운영체제를 공유하며 스스로 스케줄링을 수행하는 멀티프로세서 아키텍처다.

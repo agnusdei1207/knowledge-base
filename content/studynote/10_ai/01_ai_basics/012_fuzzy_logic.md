@@ -1,9 +1,10 @@
 ---
 title: "Zadeh"
 date: "2024-05-24"
-description: "0과 1의 이분법적 논리를 넘어, 소속도(Membership) 기반의 연속값으로 인간의 애매한 언어와 사고를 정량화하는 제어 기법"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 12
 ---
 # 12. 퍼지 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) ([Fuzzy Logic](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))
 #### 핵심 인사이트 (3줄 요약)

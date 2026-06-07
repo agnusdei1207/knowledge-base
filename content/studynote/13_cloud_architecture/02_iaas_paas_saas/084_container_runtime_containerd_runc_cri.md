@@ -3,8 +3,8 @@ title: "084. Container Runtime Containerd Runc Cri"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너 런타임](/studynote/02_operating_system/10_security/628_container_runtime_oci/)은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실제로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·시작·정지·삭제하는 실행 계층이고, 오케스트레이션과 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 사이의 중간 다리다.

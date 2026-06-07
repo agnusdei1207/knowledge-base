@@ -3,8 +3,8 @@ title: "PACF, Partial Autocorrelation Function"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 411
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PACF (Partial Autocorrelation Function)는 각 시차(lag)의 직접 영향만 남기고 중간 시차의 간접 효과를 제거한 자기상관이다.

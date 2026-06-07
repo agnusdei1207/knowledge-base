@@ -1,11 +1,11 @@
 ---
 title: "164. Use Case Scenario Flows"
 date: "2026-04-03"
-description: "액터와 시스템의 상호작용을 기본 흐름, 대안 흐름, 예외 흐름으로 구조화해 요구사항을 구현 가능한 시나리오로 바꾸는 명세 기법"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유스케이스 시나리오 (Use Case Scenario)는 액터 (Actor)가 목표를 이루기 위해 시스템과 주고받는 상호작용을 순서대로 적은 실행형 요구사항 명세다.

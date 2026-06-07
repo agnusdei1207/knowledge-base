@@ -1,11 +1,11 @@
 ---
 title: "078. Code Coverage"
 date: "2026-04-05"
-description: "소스코드의 몇 퍼센트가 테스트되었는지 측정하는 JaCoCo, Istanbul 등의 커버리지 분석 도구와 구문/분기/조건 커버리지의 차이, 품질 게이트 연동 방법"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코드 커버리지는 테스트가 실행한 코드의 범위를 측정하는 지표다.

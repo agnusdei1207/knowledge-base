@@ -3,9 +3,8 @@ title: "294. HTAP"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 294
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HTAP는 [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))와 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)(분석) 워크로드를 단일 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 플랫폼에서 분리/동시 처리하는 기술 (Row+Column 하이브리드 엔진)에 초점을 둔 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

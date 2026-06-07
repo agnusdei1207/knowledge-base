@@ -3,8 +3,8 @@ title: "415. Locality Model"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 415
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지역성 모델(Locality Model)은 인간이 작성한 컴퓨터 프로그램이 <strong>"한 번 접근한 메모리나 그 근처의 메모리를 가까운 미래에 또다시 집중적으로 접근할 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>이 극도로 높다"</strong>는 통계적, 경험적 자연법칙이다.

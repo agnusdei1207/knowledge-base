@@ -3,8 +3,8 @@ title: "ANN, Artificial Neural Network"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인공 신경망([ANN](/studynote/05_database/06_dw_olap_trends/350_ann/), Artificial Neural Network)은 여러 개의 인공 뉴런을 층으로 연결해 입력과 출력을 매핑하는 학습 모델이다.

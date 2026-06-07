@@ -3,8 +3,8 @@ title: "Cloud Financial Operations"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 348
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) ([Cloud Financial Operations](/studynote/06_ict_convergence/03_cloud_infrastructure/210_finops_cloud_financial_operations_cost_optimization/))는 클라우드 비용을 단순 절감 대상이 아니라, 속도·[신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)·가치와 함께 최적화하는 운영 체계다.

@@ -3,8 +3,8 @@ title: "Stream Prefetcher"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 573
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스트림 프리패처 ([Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Prefetcher)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 같은 방향으로 연속되거나 일정한 보폭을 보인다고 판단되면, CPU (Central Processing Unit)의 실제 요청보다 몇 캐시 라인 앞선 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 가져오는 하드웨어 예측 장치다.

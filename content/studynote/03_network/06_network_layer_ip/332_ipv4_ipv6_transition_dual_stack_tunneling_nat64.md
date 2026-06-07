@@ -3,8 +3,8 @@ title: "NAT64/DNS64"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 332
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),…는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

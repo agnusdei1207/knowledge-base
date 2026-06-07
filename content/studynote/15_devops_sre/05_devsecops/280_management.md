@@ -3,8 +3,8 @@ title: "280. Management"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 280
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 환경에서도 안전성을 유지하도록 설계된 차세대 공개키 암호 체계.

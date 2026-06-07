@@ -3,8 +3,8 @@ title: "369. Sisd"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 369
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SISD (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Single [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))는 한 시점에 하나의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름이 하나의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 순차적으로 처리하는, 가장 기본적인 프로그램 실행 모델이다.

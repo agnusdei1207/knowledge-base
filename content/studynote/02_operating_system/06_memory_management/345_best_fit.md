@@ -3,8 +3,8 @@ title: "345. Best Fit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 345
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최적 적합(Best-Fit)은 동적 메모리 할당 시 빈 공간 장부(Free List)를 처음부터 끝까지 <strong>전수 조사(Full Scan)</strong>하여, 요청한 크기를 담을 수 있으면서 남는 공간이 <strong>가장 작은(가장 딱 맞는) 틈새</strong>를 찾아 할당하는 깐깐한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

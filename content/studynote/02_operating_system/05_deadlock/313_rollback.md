@@ -3,8 +3,8 @@ title: "313. Rollback"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 313
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 복구를 위해 누군가의 자원을 뺏었(Preempt)다면, 자원을 뺏겨 불구자가 된 그 프로세스를 무참히 쏴 죽이는 게 아니라, 자신이 쥐었던 상태 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 <strong>과거 멀쩡했던 안전 시점(<a href="/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a> / Checkpoint)으로 필사적으로 비틀고 감아 되돌리는 시간의 타임머신 마법(회생 절차)</strong>이다.

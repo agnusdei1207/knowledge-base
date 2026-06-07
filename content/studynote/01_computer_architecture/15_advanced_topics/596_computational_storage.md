@@ -3,8 +3,8 @@ title: "Computational Storage"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 596
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컴퓨테이셔널 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) ([Computational Storage](/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/))는 저장장치나 저장 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 근처에 연산 자원을 배치해, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 호스트로 옮기기 전에 필터링·변환·검색·[압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 같은 작업을 수행하도록 만든 [data-centric](/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) architecture다.

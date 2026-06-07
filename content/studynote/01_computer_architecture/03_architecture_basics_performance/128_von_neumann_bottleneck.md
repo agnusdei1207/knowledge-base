@@ -3,8 +3,8 @@ title: "Von Neumann Bottleneck"
 date: "2026-04-25"
 tags:
   - "studynote-computer-architecture"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폰 노이만 병목현상 ([Von Neumann Bottleneck](/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/))은 CPU (Central Processing Unit)가 계산은 빨라도, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 메모리 통로로 주고받는 구조 때문에 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 메모리 접근 속도에 묶이는 현상이다.

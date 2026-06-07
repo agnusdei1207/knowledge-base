@@ -3,8 +3,8 @@ title: "1062. Dnssec Zone Signing Chain Of Trust"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1062
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DNSSEC](/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "PQC Accelerator"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 543
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 가속기는 [ML-KEM](/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/) ([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)-Lattice-based Key-Encapsulation Mechanism), [ML-DSA](/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/) ([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)-Lattice-based [Digital Signature](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 같은 양자 시대 대응 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)·해시·샘플링 연산을 전용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 처리하는 암호 하드웨어다.

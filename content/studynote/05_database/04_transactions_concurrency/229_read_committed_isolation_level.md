@@ -3,9 +3,8 @@ title: "229. Read Committed (Read committed Isolation Level)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 229
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Read Committed (레벨 1)은 커밋된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 읽음 ([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 기본, Non-[Repeatable Read](/studynote/05_database/04_transactions_concurrency/230_repeatable_read_isolation_level/) 발생)에 초점을 맞춘 개념이다.

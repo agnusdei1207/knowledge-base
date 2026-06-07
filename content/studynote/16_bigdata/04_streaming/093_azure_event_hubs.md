@@ -3,8 +3,8 @@ title: "093. Azure Event Hubs"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Azure Event Hubs (애저 이벤트 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 Microsoft Azure의 완전 관리형 이벤트 스트리밍 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로, [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 호환 엔드포인트를 제공하여 기존 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클라이언트 코드 변경 없이(Drop-in Replacement) 마이그레이션이 가능하다.

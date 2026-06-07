@@ -3,8 +3,8 @@ title: "795. Confidential Computing"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 795
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기밀 컴퓨팅은 저장 중 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 전송 중 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐 아니라, 실행 중 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [in Use](/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))까지 하드웨어 격리 영역에서 보호하는 보안 패러다임이다.

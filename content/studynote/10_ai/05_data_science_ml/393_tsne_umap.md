@@ -3,9 +3,8 @@ title: "393. t-SNE / UMAP (TSNE UMAP)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 393
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: t-SNE (t-distributed Stochastic Neighbor [Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))와 UMAP (Uniform Manifold Approximation and Projection)은 고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 매니폴드 (Manifold) 구조를 보존하면서 2~3차원으로 비선형 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)하는 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기법이다.

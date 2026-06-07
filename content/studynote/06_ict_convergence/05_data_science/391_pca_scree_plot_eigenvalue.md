@@ -3,8 +3,8 @@ title: "Scree Plot"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 391
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다변량 통계 주성분 고유값 크기 순 컷오프 (Scree Plot 기준): 1. **본질**: [주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [Principal Component Analysis](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))은 수백 개의 변수(차원)가 얽혀있는 복잡한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가장 넓게 퍼져있는(분산이 큰…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

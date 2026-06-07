@@ -3,8 +3,8 @@ title: "Light Node / SPV, Simplified Payment Verification"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라이트 노드 (Light Node / SPV, Simplified Payment [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)): 블록 헤더만 다운로드하여 트랜잭션을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 모바일/경량 환경용 노드를 이해하는 핵심 개념으로, 중앙 기관 없이 상태를 공유하고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 문제를 설명하는 데 쓰인다.

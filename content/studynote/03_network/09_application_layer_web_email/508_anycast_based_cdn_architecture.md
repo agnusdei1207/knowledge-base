@@ -3,8 +3,8 @@ title: "508. Anycast Based Cdn Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 508
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Anycast 기반 [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 설계는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

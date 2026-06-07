@@ -2,9 +2,9 @@
 title: "Jenkins, GitLab CI, GitHub Actions"
 date: "2026-03-04"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 생애주기(Build-Test-Deploy)를 자동화하는 핵심 소프트웨어 솔루션임.
 - [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)([Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)), 저장소 통합형(GitLab), [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)(GitHub Actions) 등 다양한 유형이 존재함.

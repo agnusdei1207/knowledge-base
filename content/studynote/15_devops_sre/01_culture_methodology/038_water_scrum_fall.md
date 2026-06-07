@@ -3,8 +3,8 @@ title: "038. Water Scrum Fall"
 date: "2026-03-03"
 tags:
   - "studynote-devops-sre"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. 워터스크럼폴(WaterScrumFall)은 기획과 배포는 전통적인 워터폴 방식으로, 개발만 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 형태로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 반(半)[애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로, [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 핵심 가치인 "고객 피드백을 통한 지속적 적응"이 불가능한 형태다.
 > 2. 조직이 워터스크럼폴에 빠지는 가장 흔한 원인은 구조적 장벽 — 기획팀(PRD 고정), 개발팀([스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)), 운영팀(분기 별 릴리즈)이 각자의 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)에서 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 프레임워크만 이식하고 전체 가치 흐름은 바꾸지 않기 때문이다.

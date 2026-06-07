@@ -3,8 +3,8 @@ title: "Blockchain Attacks: 51%, Eclipse, Sybil"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 485
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 3대 네트워크 공격인 51% 공격(해시 독점), [이클립스 공격](/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/)([Eclipse Attack](/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/), [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결 고립), [시빌 공격](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)([Sybil Attack](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/), 가짜 신원 대량 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 각각 <strong>합의 계층·네트워크 계층·신원 계층</strong>을 공략한다.

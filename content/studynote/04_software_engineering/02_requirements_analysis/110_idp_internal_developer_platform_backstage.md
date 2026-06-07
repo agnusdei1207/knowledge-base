@@ -3,8 +3,8 @@ title: "110. Idp Internal Developer Platform Backstage"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [IDP](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Internal Developer Platform](/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))는 [플랫폼 엔지니어링](/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 팀이 구축한 <strong>사내 전용 개발 환경 자판기</strong>로, 앱 개발자가 인프라·보안·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 지식 없이 <strong>셀프서비스 포털에서 클릭 한 번으로 Golden Path(표준 템플릿) 환경을 즉시 <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>받는 시스템이다.
 > 2. **가치**: 소프트웨어 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)(전사 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 족보)·셀프서비스 스캐폴딩(템플릿 자판기)·플러그인 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(50개 도구 통합)의 <strong>3대 <a href="/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>가 개발자 온보딩을 2주->1일로 단축하고 Shadow IT를 원천 차단한다.

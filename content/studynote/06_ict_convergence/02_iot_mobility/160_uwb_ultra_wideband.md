@@ -3,8 +3,8 @@ title: "160. Uwb Ultra Wideband"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: UWB ([Ultra-Wideband](/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/))는 500메가헤르츠 (MHz) 이상의 넓은 대역에 매우 짧은 임펄스 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 퍼뜨려, <strong><a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 세기보다 도착 시간 차이를 정밀하게 재는 근거리 고정밀 무선 기술</strong>이다.

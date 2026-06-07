@@ -3,8 +3,8 @@ title: "598. Microkernel Plugin Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 598
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Microkernel](/studynote/02_operating_system/01_overview_architecture/024_microkernel/) / 플러그인) 아키텍처 - 이클립스, VS [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 확장 구조은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Quantization"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))는 모델의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 활성화 값을 더 적은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로 표현해, 같은 모델을 더 작은 메모리와 더 빠른 정수 연산 위에서 돌리게 만드는 추론 최적화 기술이다.

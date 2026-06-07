@@ -3,8 +3,8 @@ title: "Valgrind"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 612
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 누수(Memory Leak)는 동적 할당된 메모리(malloc/[new](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))가 더 이상 참조되지 않음에도 해제(free/delete)되지 않아 프로세스의 RSS(Resident Set Size)가 지속적으로 증가하는 결함으로, 장기간 실행 서버에서 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out-Of-Memory](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) Kill을 유발하는 치명적 버그다.

@@ -3,8 +3,8 @@ title: "574. Global Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 574
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전역 테이블(Global Table)은 [접근 제어 행렬](/studynote/02_operating_system/10_security/573_access_matrix/)에서 <strong>권한이 존재하는 칸만</strong>을 `<도메인, 객체, 권한>` 3단 튜플로 저장하는 자료구조이다. 빈 칸(Null)을 저장하지 않아 **[공간 복잡도](/studynote/08_algorithm_stats/01_basics/003_space_complexity/)를 $O(실제 권한 수)$로 절감**한다.

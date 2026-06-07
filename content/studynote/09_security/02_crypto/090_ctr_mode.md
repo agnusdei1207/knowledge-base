@@ -3,8 +3,8 @@ title: "090. Ctr Mode"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CTR ([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드는 평문을 직접 암호화하는 대신, 변화하는 '[카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값'을 암호화하여 거대한 난수(Keystream)를 만들고 이를 평문과 XOR 연산하는 [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 운영 모드다.

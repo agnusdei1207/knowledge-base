@@ -3,8 +3,8 @@ title: "Singleton Drawbacks & Dependency Injection"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [싱글톤 패턴](/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) ([Singleton Pattern](/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/))은 인스턴스를 하나만 두고 전역 접근점을 제공하는 기법이지만, 그 편의성 때문에 전역 상태 (Global [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))와 숨겨진 결합 (Hidden [Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))을 만들기 쉽다.

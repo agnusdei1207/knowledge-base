@@ -3,8 +3,8 @@ title: "211. Strangler Fig Msa"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레거시 시스템 앞단에서 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 조정해 기능 단위로 점진 교체하는 전환 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).

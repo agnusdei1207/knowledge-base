@@ -3,9 +3,8 @@ title: "221. SDLC (Synchronous Data Link Control)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 221
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) ([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Control)는 IBM이 1970년대에 개발한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향형 동기식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 제어 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, 메인프레임 통신 구조인 [SNA](/studynote/12_it_management/03_ea_isp/107_classification/) (Systems Network [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))의 핵심 요소다.

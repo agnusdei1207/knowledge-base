@@ -3,8 +3,8 @@ title: "Smart Factory Industrial IoT IIoT Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 585
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트팩토리 산업 IoT IIoT 아키텍처은(는) 설비 센서, PLC, MES, ERP, 클라우드 분석을 연결해 생산 현장을 실시간 최적화하는 산업 인터넷 구조이다.

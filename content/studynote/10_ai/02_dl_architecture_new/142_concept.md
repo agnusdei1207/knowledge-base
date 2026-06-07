@@ -3,8 +3,8 @@ title: "142. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙(Scaling Laws)은 <strong>모델 크기(N)·<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>양(D)·컴퓨팅(C)이 멱법칙(<a href="/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Law)에 따라 Loss를 예측 가능하게 감소</strong>시킨다는 OpenAI/DeepMind의 실증적 발견이며, Emergence는 <strong>일정 규모 이상에서 예측 불가능한 새 능력</strong>이 갑자기 나타나는 현상이다.
 > 2. **가치**: [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙 덕분에 <strong>학습 전에 최적 모델 크기·<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>량을 계획</strong>할 수 있으며(Chinchilla Optimal), Emergence([CoT](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)·번역·코딩)는 대규모 투자의 정당성을 제공한다.

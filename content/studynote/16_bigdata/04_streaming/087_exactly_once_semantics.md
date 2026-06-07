@@ -3,8 +3,8 @@ title: "087. Exactly Once Semantics"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Exactly-Once Semantics](/studynote/12_it_management/02_itsm_itil/083_cross_validation/) ([정확히 한 번](/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 의미론)은 시스템 장애가 발생해도 각 이벤트가 <strong><a href="/studynote/12_it_management/02_itsm_itil/083_cross_validation/">정확히 한 번</a>만 처리되어 결과에 반영</strong>되는 것을 보장하며, 내부적으로는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)(Chandy-Lamport) + [2단계 커밋](/studynote/05_database/04_transactions_concurrency/249_two_phase_commit_2pc_distributed/)([2PC](/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/), 2-Phase Commit) + 멱등적(Idempotent) Sink의 조합으로 달성한다.

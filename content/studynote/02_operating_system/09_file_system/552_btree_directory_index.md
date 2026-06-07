@@ -3,8 +3,8 @@ title: "Btree Directory Index"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 552
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 구식 [FAT](/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 폴더 안에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름표를 그냥 무식하게 1열 횡대로 쭉 이어 붙여("선형 리스트 Linear List") 저장했다. 반면 현대 [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(ext4, XFS, NTFS)는 <strong>"<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 이름의 첫 글자(A~Z)를 기준으로 가지를 나누고 노드를 쪼개는 <a href="/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a>(혹은 HTree 해시 트리) 입체 자료구조를 폴더 속에 쑤셔 박아, 검색 경로를 기하급수적으로 단축시키는 렌더"</strong> 다.

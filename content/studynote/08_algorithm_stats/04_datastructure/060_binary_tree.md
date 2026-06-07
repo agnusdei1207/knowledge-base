@@ -3,9 +3,9 @@ title: "Binary Tree"
 date: "2024-03-24"
 tags:
   - "datastructure"
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. 각 노드가 최대 두 개의 자식 노드(Left, Right)를 가지는 비선형 계층적 자료구조이다.
 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬하거나 계층 구조([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 조직도 등)를 표현하는 데 최적화되어 있다.

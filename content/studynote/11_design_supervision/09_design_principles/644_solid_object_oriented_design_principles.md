@@ -3,8 +3,8 @@ title: "SOLID"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 644
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SOLID는 소프트웨어의 구조를 견고하게 유지하기 위해 로버트 C. 마틴 (Robert C. Martin)이 제안한 5가지 객체 지향 설계 ([OOP](/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/), Object-Oriented Programming) 원칙의 집합이다.

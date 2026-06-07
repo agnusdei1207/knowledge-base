@@ -1,11 +1,11 @@
 ---
 title: "087. Loss Function"
 date: "2026-04-05"
-description: "손실 함수의 정의와 역할, 분류/회귀별 주요 손실 함수, 커스텀 손실 함수 설계 원칙"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) (Loss Function)는 예측값과 정답 사이의 차이를 수치화해 학습 방향을 제공하는 목적 함수의 핵심 요소다.

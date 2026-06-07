@@ -1,11 +1,11 @@
 ---
 title: "Security Advanced & Emerging Threats"
 date: "2025-02-24"
-description: "물리적 메모리 공격(Cold Boot), TEE 아키텍처, 난수 생성기(CSPRNG) 및 완전 동형 암호 등 보안 최상위 심화 키워드"
 tags:
   - "security"
+  - "studynote-security"
+weight: 20
 ---
-
 # 보안 심화 및 최신 위협 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Advanced & Emerging Threats)
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,9 +3,8 @@ title: "270. DPO (Direct Preference Optimization)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 270
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DPO ([Direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Preference Optimization): 강화학습([PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))과 보상 모델 구축의 복잡한 2단계를 생략하고, 선호/비선호 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋으로 LLM을 직접 미세 조정하는 최신 최적화 기법를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

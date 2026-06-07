@@ -3,8 +3,8 @@ title: "Coreboot, LinuxBoot"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 705
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 전원 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 직후의 하드웨어 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 과정을 공개된 코드로 재구성해, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성과 제어권을 높이는 접근이며 Coreboot는 그 최소 부트스트랩을 담당한다.

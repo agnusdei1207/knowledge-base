@@ -2,9 +2,9 @@
 title: "028. Binary Search"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 28
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이분 탐색은 정렬된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 탐색 범위를 매 단계 절반으로 줄여 O(log n)에 목표값을 찾는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, "분할 후 정복"의 가장 단순한 형태다.
 > 2. **가치**: O(log n)이라는 압도적 효율(n=10억에서 30번 비교)은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 컴파일러 심볼 테이블, 이분 탐색 트리의 이론적 근거를 제공한다.

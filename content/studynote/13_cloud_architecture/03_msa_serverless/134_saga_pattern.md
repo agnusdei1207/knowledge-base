@@ -3,8 +3,8 @@ title: "134. Saga Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Saga는 <strong>여러 마이크로서비스에 걸친 비즈니스 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>을 로컬 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>의 시퀀스로 분해</strong>하고, 실패 시 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/">보상 트랜잭션</a>(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/">Compensating Transaction</a>)</strong>으로 롤백하는 패턴이다.
 > 2. **가치**: 2PC의 블로킹·[단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제 없이 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 자율성을 유지</strong>하면서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))을 달성한다.

@@ -3,8 +3,8 @@ title: "L2"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 795
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

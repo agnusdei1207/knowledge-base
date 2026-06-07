@@ -3,8 +3,8 @@ title: "647. Bft Verification"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 647
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비잔틴 장애 허용 (Byzantine [Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), BFT) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 일부 노드가 거짓말하거나 서로 다른 메시지를 보내더라도, <strong>제안·투표·합의 결과·<a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong>가 여전히 올바른지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차다.

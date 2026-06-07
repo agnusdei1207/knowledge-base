@@ -3,8 +3,8 @@ title: "Internal Rate of Return,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 809
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IRR의 핵심은 NPV를 0으로 만드는 할인율 (IRR > 자본비용 이면 타당)라는 점에 있다. 이를 현장 의사결정에 연결하는 측정·경제성 구조로 이해하면 된다.

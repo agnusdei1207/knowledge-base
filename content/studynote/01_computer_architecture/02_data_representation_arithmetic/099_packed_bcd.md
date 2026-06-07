@@ -3,8 +3,8 @@ title: "Packed BCD"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 팩드 [BCD](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Packed [Binary Coded Decimal](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 1바이트(8비트) 공간을 절반으로 나누어, 10진수 숫자 2개를 고밀도로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 저장하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 포맷이다.

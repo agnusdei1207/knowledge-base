@@ -2,9 +2,9 @@
 title: "DevSecOps"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DevSecOps는 보안 (Security)을 개발 (Dev) 및 운영 (Ops) 사이클의 초기 단계부터 통합하여, 자동화된 파이프라인 내에서 취약점을 상시 검증하고 제어하는 보안 내재화 체계이다.

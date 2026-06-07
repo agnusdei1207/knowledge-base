@@ -3,8 +3,8 @@ title: "237. Document Store Mongodb Elasticsearch"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 237
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 도큐먼트 저장소([Document Store](/studynote/14_data_engineering/01_infrastructure/037_document/))는 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)/BSON 형태의 <strong>계층적 중첩 구조</strong>를 단일 문서([Document](/studynote/14_data_engineering/01_infrastructure/037_document/))로 저장하며, 각 문서가 서로 다른 필드를 가질 수 있는 <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>리스(Schema-less)</strong> 유연성을 제공한다.
 > 2. **가치**: MongoDB는 복잡한 중첩 객체를 [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 없이 단일 문서로 저장해 <strong>읽기 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 극대화</strong>하고, Elasticsearch는 역인덱스([Inverted Index](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 기반의 <strong>전문 검색(Full-Text Search)</strong>에 특화되어 있다.

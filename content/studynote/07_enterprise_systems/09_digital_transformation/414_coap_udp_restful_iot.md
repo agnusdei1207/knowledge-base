@@ -2,9 +2,9 @@
 title: "CoAP"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 414
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [CoAP](/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) RESTful [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 경량 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [CoAP](/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) RESTful [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 경량 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [CoAP](/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/), UDP의 경계를 분명히 만드는 데 의미가 있다.

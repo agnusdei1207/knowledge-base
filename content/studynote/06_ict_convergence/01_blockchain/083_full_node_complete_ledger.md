@@ -1,10 +1,11 @@
 ---
 title: "083. Full Node Complete Ledger"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 풀 노드 (Full Node)는 제네시스 블록부터 현재 블록까지의 원장을 로컬에 보관하며, 거래와 블록을 스스로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 독립 노드다.
 - **가치**: [라이트 노드](/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/) (Light Node)나 SPV (Simplified Payment [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))보다 신뢰 의존이 작아, 검열 저항성과 네트워크 건전성을 지탱한다.

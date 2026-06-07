@@ -3,8 +3,8 @@ title: "Blockchain Audit"
 date: "2026-05-01"
 tags:
   - "studynote-design-supervision"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장과 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 추적성, 통제 적합성을 점검하는 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 활동이다.

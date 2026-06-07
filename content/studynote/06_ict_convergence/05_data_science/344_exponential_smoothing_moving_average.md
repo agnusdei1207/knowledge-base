@@ -3,8 +3,8 @@ title: "Exponential Smoothing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 344
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지수 평활법 / 이동 평균 (Exponential Smoothing): 1. **본질**: 지수 평활법(Exponential Smoothing)은 내일의 값을 예측할 때 "최근 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)일수록 가중치를 크게 주고, 오래된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)일수록 가중치를 지수 함수(Expo…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

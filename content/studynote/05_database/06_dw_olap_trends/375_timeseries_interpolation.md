@@ -3,8 +3,8 @@ title: "375. Timeseries Interpolation"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 375
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 DB 보간 ([Interpolation](/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 기능는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

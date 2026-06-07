@@ -3,8 +3,8 @@ title: "Git Branching Strategies"
 date: "2026-05-01"
 tags:
   - "studynote-devops-sre"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Git 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 여러 개발자가 한 저장소에서 안전하게 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업하기 위해 합의한 브랜치 운영 규칙이다.

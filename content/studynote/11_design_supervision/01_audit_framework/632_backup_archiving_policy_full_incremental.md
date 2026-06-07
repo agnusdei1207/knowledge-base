@@ -2,9 +2,9 @@
 title: "632. Backup Archiving Policy Full Incremental"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 632
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 복제본을 만드는 일이고, 아카이빙은 장기 보존용 데이터를 저비용 매체로 옮기는 일이다.

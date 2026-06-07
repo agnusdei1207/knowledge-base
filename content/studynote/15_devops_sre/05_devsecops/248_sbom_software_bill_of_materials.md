@@ -3,9 +3,8 @@ title: "248. SBOM (Software Bill of Materials)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 248
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 구성 요소 목록을 표준 형식으로 정리해 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 추적성을 높이는 산출물.

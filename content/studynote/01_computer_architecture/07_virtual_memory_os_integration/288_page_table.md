@@ -3,8 +3,8 @@ title: "Page Table"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 288
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/))은 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호를 물리 프레임 번호로 바꾸는 번역표이자, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 정책을 하드웨어에 전달하는 제어 표다.

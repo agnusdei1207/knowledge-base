@@ -3,8 +3,8 @@ title: "242. Data Democratization"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)([Data Democratization](/studynote/16_bigdata/01_intro/010_data_democratization/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문가만이 아닌 모든 조직 구성원이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 쉽게 접근하고 분석할 수 있는 환경을 만드는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 결정하는 문화"를 조직 전체로 확산한다.
 > 2. **가치**: 시민 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자(Citizen [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Scientist)와 셀프서비스 분석(Self-[Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Analytics)이 핵심 도구다. [Tableau](/studynote/16_bigdata/08_visualization/164_tableau/)·[Power BI](/studynote/16_bigdata/08_visualization/165_power_bi/)·Google [Looker](/studynote/16_bigdata/08_visualization/166_looker/) 같은 노코드/로우코드 도구로 IT 비전문가도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하고 의사결정에 활용할 수 있다.

@@ -3,8 +3,8 @@ title: "Convolution"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 284
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Convolution)은 필터(Filter/[Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 입력 위에 슬라이딩하며 특징(Feature)을 추출하는 연산으로, [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))의 핵심 빌딩 블록이다.

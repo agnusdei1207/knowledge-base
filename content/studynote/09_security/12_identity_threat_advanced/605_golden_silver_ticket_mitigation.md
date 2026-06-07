@@ -3,8 +3,8 @@ title: "Mitigation"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 605
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Golden/[Silver Ticket](/studynote/09_security/12_identity_threat_advanced/589_silver_ticket/) 방어 (Mitigation)는 신원 위협에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

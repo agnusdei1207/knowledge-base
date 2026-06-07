@@ -3,8 +3,8 @@ title: "120. Coap Constrained Application Protocol"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 120
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CoAP은 <strong><a href="/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 기반의 경량 RESTful <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로, HTTP와 유사한 GET/PUT/POST/DELETE를 지원하면서도 <strong>4바이트 고정 헤더</strong>로 제약 디바이스(센서·액추에이터)에 최적화되었다.
 > 2. **가치**: MQTT가 Pub/Sub(이벤트 전달)에 강하다면, CoAP은 <strong>Request/Response(리소스 조회·제어)</strong>에 강하며, [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)-CoAP [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 통해 웹 서비스와 직접 연동이 가능하다.

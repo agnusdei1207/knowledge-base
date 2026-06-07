@@ -3,8 +3,8 @@ title: "Open API"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 및 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 보안 스로틀링 (Open [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)): 오픈 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Open [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 및 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 보안 스로틀링 (Throttling)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

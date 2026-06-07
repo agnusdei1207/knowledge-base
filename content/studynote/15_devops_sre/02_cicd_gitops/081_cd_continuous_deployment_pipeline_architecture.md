@@ -3,8 +3,8 @@ title: "081. Cd Continuous Deployment Pipeline Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과한 변경을 사람 개입 최소화로 운영 환경까지 지속 반영하는 배포 방식.

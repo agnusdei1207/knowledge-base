@@ -3,8 +3,8 @@ title: "Data Transfer Instructions"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Instructions)는 값을 계산하지 않고, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·메모리·입출력 장치 사이에서 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있어야 할 위치를 바꾸는 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 계열</strong>이다.

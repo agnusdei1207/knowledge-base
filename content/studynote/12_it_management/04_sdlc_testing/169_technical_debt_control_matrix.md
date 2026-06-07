@@ -3,8 +3,8 @@ title: "Technical Debt Control Matrix"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스 ([Technical Debt](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) Control Matrix)는 발견된 [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 심각도, 변경 빈도, 사업 영향, 상환 시점을 기준으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 "무엇을 지금 갚고 무엇을 계획적으로 안고 갈지" 결정하는 관리 도구다.

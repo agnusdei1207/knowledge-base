@@ -2,9 +2,9 @@
 title: "Conformance Checking"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 적합성 검사는 표준 프로세스 모델과 실제 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 대조해, 규정대로 수행되었는지 자동으로 평가하는 기법이다.

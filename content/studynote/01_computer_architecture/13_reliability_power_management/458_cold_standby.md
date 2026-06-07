@@ -3,8 +3,8 @@ title: "Cold Standby"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 458
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 콜드 스탠바이 (Cold Standby)는 예비 시스템의 전원과 실행 상태를 평소에는 유지하지 않고, 장애가 발생한 뒤에야 부팅·복원·절체를 수행하는 저비용 [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 방식이다.

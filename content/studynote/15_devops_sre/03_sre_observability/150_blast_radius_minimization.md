@@ -3,8 +3,8 @@ title: "150. Blast Radius Minimization"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 블라스트 반경 최소화(Blast [Radius](/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) Minimization)는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학) 철학의 심장으로, 시스템 일부 서버가 폭파(장애)되거나 해킹 디도스를 쳐맞았을 때 <strong>그 피해의 불길이 타 부서 쇳덩이로 도미노처럼 번지지 않게 물리적/<a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 방폭문 쉴드를 찢어 내려찍는 극한의 격리(<a href="/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>) 설계 원칙</strong>이다.
 > 2. **가치**: "서버 장애는 100% 터진다(Fallibility)"는 절대 명제 아래, 1통짜리 거대 시스템이 뻗어 전 국민 올스탑 셧다운 사과문을 올리는 멸망 파국을 막아내고! 오직 '장바구니' 딱 1개 구역 1% 유저만 피를 흘린 채 <strong>나머지 99% 유저는 무결점 무정단 생존 쾌속 쇼핑을 이어나가게 시스템의 맷집(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">Resiliency</a>)을 우주 끝까지 펌핑</strong> 시킨다.

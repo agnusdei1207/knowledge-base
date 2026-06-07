@@ -3,8 +3,8 @@ title: "077. Apache Kafka"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 77
 ---
-
 # [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) - [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징에서 [데이터 허브](/studynote/16_bigdata/09_platform/180_data_hub/)로의 진화
 
 > ⚠️ 이 문서는 LinkedIn에서 2011년 내부 개발하여 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)로 공개한 Apache Kafka가 어떻게 기존의 포인트 투 포인트([Point-to-Point](/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐(RabbitMQ, ActiveMQ 등)와 달리, 게시-구독(Pub-Sub) 모델과 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 아키텍처(Append-only Log)를 결합하여 초당 수백만 건의 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 처리(High [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))와 수 일 이상의 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 보존(High [Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/))을 동시에 달성하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 스트리밍 플랫폼의 핵심 설계 원리를 기술사 수준에서 심층 분석합니다.

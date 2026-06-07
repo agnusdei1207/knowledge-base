@@ -1,9 +1,10 @@
 ---
 title: "State Space Search"
 date: "2024-05-24"
-description: "문제 해결 과정을 초기 상태에서 목표 상태로 도달하기 위한 그래프 탐색으로 모델링하는 AI 탐색의 근본 패러다임"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 13
 ---
 # 13. [상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) ([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Search)
 #### 핵심 인사이트 (3줄 요약)

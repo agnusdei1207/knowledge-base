@@ -3,8 +3,8 @@ title: "System Call Wrapper"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시스템 콜 래퍼([System Call](/studynote/02_operating_system/01_overview_architecture/013_system_call/) Wrapper)는 사용자 공간 함수 호출을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 시스템 콜로 변환해 주는 중간 계층이다.

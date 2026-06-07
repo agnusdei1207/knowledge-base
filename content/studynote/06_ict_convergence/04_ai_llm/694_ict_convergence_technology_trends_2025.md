@@ -3,8 +3,8 @@ title: "ICT Convergence Technology Trends 2025"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 694
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 2025년 ICT 융합은 **AI-Native** 패러다임으로 재편되어, 생성형 AI·에이전틱 AI(Agentic AI)·피지컬 AI(Physical AI)·디지털 트윈이 6G·에지 컴퓨팅·양자보안과 결합된 **자율형 지능 인프라(Autonomous Intelligent Infrastructure)**를 형성한다.

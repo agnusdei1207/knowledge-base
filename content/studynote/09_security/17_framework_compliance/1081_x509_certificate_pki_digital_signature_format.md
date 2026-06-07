@@ -3,8 +3,8 @@ title: "X509 Certificate PKI Digital Signature Format"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1081
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: X.509 인증서 ([X509 Certificate](/studynote/03_network/19_frequent_topics_terms/985_x509_certificate/) [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) [Digital Signature](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) Format)는 보안 확장 개념에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

@@ -3,8 +3,8 @@ title: "Vector Database Cosine Embedding"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 456
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터 DB 코사인 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Vector Database](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) Cosine [Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)): 1. **본질**: [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))은 컴퓨터가 이해하지 못하는 텍스트나 이미지를 수학적인 다차원 숫자 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)(Vector)로 구겨 넣는 기술이며, 벡터 DB([Vector DB](/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/))는…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

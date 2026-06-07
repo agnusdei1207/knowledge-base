@@ -3,8 +3,8 @@ title: "Asynchronous Bus Handshake Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 564
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비동기 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 핸드셰이크 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 공통 클럭 없이 Request (REQ)와 Acknowledge (ACK) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받으며 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 시점을 합의하는 상호 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)형 전송 방식이다.

@@ -3,8 +3,8 @@ title: "Branch Prediction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 231
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분기 예측 (Branch Prediction)은 분기 결과가 확정되기 전에 다음 실행 경로를 먼저 고르는 기술로, 파이프라인의 [제어 해저드](/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/))를 시간으로 숨기는 장치다.

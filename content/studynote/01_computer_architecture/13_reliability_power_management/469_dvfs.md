@@ -3,8 +3,8 @@ title: "469. Dvfs"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 469
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DVFS (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)는 프로세서가 항상 최악의 조건으로 달리지 않도록, 부하와 온도에 맞춰 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 클럭을 함께 조절하는 적응형 전력 제어 기법이다.

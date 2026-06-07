@@ -3,8 +3,8 @@ title: "Demand Paging"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 297
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 프로세스 전체를 미리 적재하지 않고, 실제 접근이 발생한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))만 그 순간 물리 메모리로 가져오는 <strong><a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 적재 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.

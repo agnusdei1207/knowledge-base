@@ -3,8 +3,8 @@ title: "Compliance as Code Regulatory Automation"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 386
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴플라이언스 코드화 규제 준수 자동화은(는) 개발, 배포, 운영 전 과정에 보안 통제를 내재화하는 DevSecOps 핵심 주제다.

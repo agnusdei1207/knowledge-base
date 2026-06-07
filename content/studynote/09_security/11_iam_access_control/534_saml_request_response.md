@@ -3,9 +3,8 @@ title: "534. SAML Request/Response (SAML Request/Response)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 534
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SAML Request/Response는 신원·접근 제어에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

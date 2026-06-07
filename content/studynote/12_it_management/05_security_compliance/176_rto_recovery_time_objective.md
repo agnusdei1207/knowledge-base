@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 176
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RTO (Recovery Time Objective)는 재해나 대규모 장애가 발생한 뒤, 서비스를 허용 가능한 수준으로 다시 제공하기까지 허용되는 최대 목표 시간이다.

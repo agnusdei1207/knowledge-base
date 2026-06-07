@@ -3,8 +3,8 @@ title: "Exascale Node Board"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 600
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엑사스케일 컴퓨팅 노드 보드는 초당 10의 18제곱 회 이상의 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 목표로 하는 고성능 컴퓨팅 ([High Performance Computing](/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/), [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)) 시스템을 구성하는 반복 단위로, 호스트 CPU, 다수의 가속기, 고대역폭 메모리 ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)), 고속 인터커넥트, 냉각·전력 회로를 한 노드 수준에서 함께 최적화한 설계다.

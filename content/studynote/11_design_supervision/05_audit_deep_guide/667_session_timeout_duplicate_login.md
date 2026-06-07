@@ -3,8 +3,8 @@ title: "User Session Control and Duplicate Login Prevention Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 667
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사용자 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제와 동시접속 방지 감리는 사용자 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제와 동시접속 방지(Duplicate Login Prevention) 보안 체계에서 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장소([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Store), 탈취 탐지([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Hijack [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)), 접속 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)(Login [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

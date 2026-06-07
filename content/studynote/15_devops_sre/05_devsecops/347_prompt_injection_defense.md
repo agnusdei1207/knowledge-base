@@ -3,8 +3,8 @@ title: "Prompt Injection Defense"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 347
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/)([Prompt Injection](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/))은 사용자가 모델의 원래 지시와 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 우회하도록 입력을 조작하는 공격이며, 탈옥(Jailbreak)은 금지된 행위를 하도록 안전 가드레일을 무력화하는 시도다.

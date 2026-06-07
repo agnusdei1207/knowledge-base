@@ -3,8 +3,8 @@ title: "Backup Policy Offsite Storage and Recovery Test Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 297
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)정책 소산보관 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)테스트 감리는 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Backup](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)), 소산 보관(Offsite Storage), [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 테스트([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Test) 운영 체계에서 보존 주기([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) Cycle), 오프사이트 미디어(Offsite [Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)), 복원 훈련(Restore Drill)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

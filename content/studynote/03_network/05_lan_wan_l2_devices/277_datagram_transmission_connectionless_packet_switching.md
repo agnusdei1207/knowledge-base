@@ -3,8 +3,8 @@ title: "277. Datagram Transmission Connectionless Packet Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 277
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

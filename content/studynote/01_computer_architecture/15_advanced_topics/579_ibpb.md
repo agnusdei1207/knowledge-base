@@ -3,8 +3,8 @@ title: "IBPB, Indirect Branch Predictor Barrier"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 579
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IBPB ([Indirect](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictor Barrier)는 보안 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 바뀔 때 이전 실행이 남긴 간접 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 상태를 비워, 다음 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 그 흔적을 발판으로 삼지 못하게 하는 특권 장벽 명령이다.

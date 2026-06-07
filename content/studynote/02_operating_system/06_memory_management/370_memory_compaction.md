@@ -3,8 +3,8 @@ title: "Memory Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 370
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리눅스 메모리 컴팩션(Memory [Compaction](/studynote/02_operating_system/06_memory_management/347_compaction/))은 장시간 가동된 서버의 물리 램(RAM)이 극심한 외부 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 조각났을 때, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 백그라운드에서 <strong>사용 중인 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>들을 메모리 앞쪽으로 이동(Migration)시키고 빈 공간을 뒤쪽으로 몰아 거대한 연속 프레임을 창출해 내는 물리적 셔플 연산</strong>이다.

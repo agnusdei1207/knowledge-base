@@ -3,8 +3,8 @@ title: "562. B Tree Disk Io Optimization Fanout"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 562
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 디스크 I/O 최적화 팬아웃 차수 및 노드 크기 블록 매핑는 질의 처리·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관점에서 자주 쓰이는 질의 최적화 개념이다.

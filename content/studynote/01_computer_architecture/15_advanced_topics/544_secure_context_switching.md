@@ -3,8 +3,8 @@ title: "Secure Context Switching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 544
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 안전한 [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) (Secure [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)은 프로세스, 가상 머신 ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), [TEE](/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ([Trusted Execution Environment](/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)) 간 전환을 단순 스케줄링이 아니라 신뢰 경계 이동으로 보고, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장·복원에 더해 남은 [마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 상태를 격리·초기화·재태깅하는 절차다.

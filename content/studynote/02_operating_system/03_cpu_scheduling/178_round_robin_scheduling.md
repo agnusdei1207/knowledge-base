@@ -3,8 +3,8 @@ title: "178. Round Robin Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라운드 로빈 (Round Robin, [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))은 Ready 큐의 프로세스에게 동일한 [시간 할당량](/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) (Time [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))을 순환 배분하고, 시간이 끝나면 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 강제 선점하는 대표적인 시분할 스케줄링이다.

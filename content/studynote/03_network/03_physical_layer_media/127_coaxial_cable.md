@@ -3,8 +3,8 @@ title: "Coaxial Cable"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동축 케이블(Coaxial Cable)은 중심 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)와 이를 둘러싼 튜브 형태의 외부 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)가 같은 축(Co-axial)을 공유하여 전자기장을 내부 [절연체](/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)에 가두는 고주파 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)이다.

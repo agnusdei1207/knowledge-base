@@ -2,9 +2,9 @@
 title: "SRE & Observability"
 tags:
   - "devops_sre"
+  - "studynote-devops-sre"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SRE (Site Reliability 엔진ering)는 소프트웨어 엔지니어링 방법론을 운영 문제에 적용하여 시스템 신뢰성을 관리하는 실천론이며, 관측성 (Observability)은 로그, 메트릭, 트레이스를 통해 복잡한 분산 시스템의 내부 상태를 외부에서 파악하는 능력이다.

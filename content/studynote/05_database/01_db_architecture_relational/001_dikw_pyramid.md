@@ -3,8 +3,8 @@ title: "001. Dikw Pyramid"
 date: "2026-03-19"
 tags:
   - "studynote-database"
+weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DIKW 피라미드는 가공되지 않은 사실인 <strong>데이터(Data)</strong>가 문맥을 얻어 <strong>정보(Information)</strong>가 되고, 패턴을 발견하여 <strong>지식(Knowledge)</strong>으로 내면화된 뒤, 가치 판단이 더해져 <strong>지혜(Wisdom)</strong>라는 최상위 통찰로 진화하는 데이터 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 모델이다.
 > 2. **가치**: 단순히 쌓여있는 로우 데이터([Raw](/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Data)를 비즈니스 의사결정에 즉시 활용 가능한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 자산으로 변환시키는 '데이터의 정제 및 숙성' 과정을 이론적으로 체계화한 지식 경영의 핵심 프레임워크다.

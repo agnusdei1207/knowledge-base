@@ -1,11 +1,11 @@
 ---
 title: "177. Requirements Management Tools Jira Doors"
 date: "2026-04-03"
-description: "Jira와 DOORS 계열 도구를 비교하며 요구사항 추적성, 베이스라인, 변경 통제를 설명한다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [요구사항 관리](/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) 도구는 요구사항을 적어 두는 메모장이 아니라, 요구사항 항목·[속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·[버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·승인·링크를 중앙에서 관리하는 [ALM](/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) ([Application Lifecycle Management](/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다.

@@ -3,8 +3,8 @@ title: "Capacity Planning/Load Testing"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 용량 계획 (Capacity Planning)은 미래 수요를 견딜 자원 규모를 미리 계산하는 일이고, [부하 테스트](/studynote/04_software_engineering/11_testing_validation/838_load_test/) ([Load Testing](/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/))는 그 계산이 실제 시스템에서 성립하는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험이다.

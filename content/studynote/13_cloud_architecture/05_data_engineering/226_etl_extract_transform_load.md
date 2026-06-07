@@ -3,9 +3,8 @@ title: "226. ETL (Extract, Transform, Load)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 226
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract, Transform, Load)은 소스 시스템에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출(E)하고, 전용 서버에서 변환·정제(T)한 후, 타겟 DW에 적재(L)하는 <strong>전통적 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합 방식</strong>이다.
 > 2. **가치**: 스테이징 서버에서 변환을 완료하므로 DW에는 <strong>정제된 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 저장</strong>되어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 높고, 소스 DB에 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 부하를 주지 않는다.

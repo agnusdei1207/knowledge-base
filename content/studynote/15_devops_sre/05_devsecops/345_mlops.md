@@ -3,8 +3,8 @@ title: "Machine Learning Operations"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 345
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 모델 학습 코드만 자동화하는 것이 아니라, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)·학습·배포·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링·재학습을 반복 가능한 운영 체계로 묶는 방법론이다.

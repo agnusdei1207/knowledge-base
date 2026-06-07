@@ -3,8 +3,8 @@ title: "Modified, Exclusive, Shared, Invalid"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 407
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MESI [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Modified, Exclusive, Shared, Invalid [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))은 멀티코어에서 같은 메모리 블록을 여러 캐시가 보더라도 "가장 최신 값이 누구에게 있는지"를 캐시 라인 상태로 합의하는 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 규칙이다.

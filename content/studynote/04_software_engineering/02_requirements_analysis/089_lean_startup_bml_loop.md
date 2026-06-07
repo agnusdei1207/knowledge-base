@@ -1,10 +1,11 @@
 ---
 title: "089. Lean Startup Bml Loop"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/) ([Lean Startup](/studynote/12_it_management/01_governance_strategy/827_lean_startup/))은 극도의 불확실성 속에서 완벽한 제품을 만들기보다, 고객의 진짜 니즈를 찾는 실험과 검증의 [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) (BML: Build-Measure-Learn)를 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 반복하는 실전 창업 방법론이다.

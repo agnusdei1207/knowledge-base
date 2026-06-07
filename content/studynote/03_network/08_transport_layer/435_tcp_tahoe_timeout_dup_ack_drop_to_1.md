@@ -3,8 +3,8 @@ title: "435. Tcp Tahoe Timeout Dup Ack Drop To 1"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 435
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

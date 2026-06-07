@@ -3,8 +3,8 @@ title: "Context Map / Anti-Corruption Layer Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) (Anti-Corruption Layer, 안티-커럽션 레이어)은 외부 시스템이나 다른 [Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 우리 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델을 오염(Corrupt)시키지 못하도록 차단하는 [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/), [도메인 주도 설계](/studynote/12_it_management/05_security_compliance/310_architecture/)) 번역 계층이다.

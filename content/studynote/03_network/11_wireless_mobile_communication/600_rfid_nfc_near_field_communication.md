@@ -3,8 +3,8 @@ title: "600. Rfid Nfc Near Field Communication"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 600
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RFID / NFC [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기본 구상은 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

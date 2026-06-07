@@ -3,8 +3,8 @@ title: "Migration Backup and Rollback Test Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 674
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 테스트는 사전 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 기준, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시나리오, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과를 한 체계로 묶어 판단하는 설계·감리 주제다.

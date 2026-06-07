@@ -3,8 +3,8 @@ title: "SmartNIC / DPU - Data Processing Unit"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅 하드웨어](/studynote/01_computer_architecture/14_hardware_security_trends/490_edge_computing_hw/) [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (SmartNIC / [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) - [Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/)): [엣지 컴퓨팅 하드웨어](/studynote/01_computer_architecture/14_hardware_security_trends/490_edge_computing_hw/) [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (SmartNIC / [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Value Function"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가치 함수 (Value Function)는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) 에이전트가 어떤 상태나 행동이 장기적으로 얼마나 유리한지 숫자로 표현한 미래 기대 보상 지도다.

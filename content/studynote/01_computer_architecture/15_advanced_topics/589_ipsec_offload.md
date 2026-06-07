@@ -3,8 +3,8 @@ title: "589. Ipsec Offload"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 589
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IPsec (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 오프로드 가속기는 보안 연관 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Association, [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 조회, [ESP](/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) ([Encapsulating Security Payload](/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)) 캡슐화, 암·복호화, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 반복 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 작업을 [네트워크 인터페이스 카드](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 또는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))로 옮기는 구조다.

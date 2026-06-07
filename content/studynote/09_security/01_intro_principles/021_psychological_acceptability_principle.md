@@ -3,8 +3,8 @@ title: "021. Psychological Acceptability Principle"
 date: "2026-04-02"
 tags:
   - "studynote-security"
+weight: 21
 ---
-
 # 심리적 [사용성](/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 원칙 (Psychological Acceptability)
 
 > ⚠️ 이 문서는 정보보안 설계의 핵심 원칙(Saltzer and Schroeder의 8대 보안 원칙) 중 하나로, 보안 통제가 사용자의 정상적인 업무 흐름을 방해하지 않고 직관적으로 수용되어야 한다는 '심리적 [사용성](/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 원칙(Psychological Acceptability)'을 심층 분석합니다.

@@ -3,8 +3,8 @@ title: "Co-occurrence Matrix"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 366
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동시 등장 행렬(Co-occurrence Matrix)은 코퍼스에서 두 단어가 윈도우(Window) 크기 k 이내에서 함께 등장한 빈도를 행렬 X_ij로 집계하는 고차원 희소 행렬(Sparse Matrix)이며, 단어 의미를 분포 가설(Distributional Hypothesis)로 인코딩한다.

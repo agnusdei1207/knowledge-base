@@ -3,8 +3,8 @@ title: "430. Static Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 430
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정적 테스팅 (Static Testing) - 코드를 실행하지 않고 리뷰나 도구를 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

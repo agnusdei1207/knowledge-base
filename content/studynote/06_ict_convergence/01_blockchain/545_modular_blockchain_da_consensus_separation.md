@@ -3,8 +3,8 @@ title: "Modular Blockchain and Data Availability Layer"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 545
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모듈러 블록체인](/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)([Modular Blockchain](/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/))은 실행(Execution)·합의(Consensus)·정산(Settlement)·[데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)([DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 계층을 분리하여 각 계층이 전문화로 트릴레마를 <strong>계층별 최적화</strong>로 우회하는 아키텍처다.

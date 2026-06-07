@@ -3,8 +3,8 @@ title: "414. Test And Set"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 414
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Test-and-Set은 공유 변수의 값을 읽고 곧바로 잠금 값으로 바꾸는 과정을 하나의 원자적(Atomic) 읽기-수정-[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 동작으로 묶어, [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 진입 경쟁에서 승자를 단 한 명만 남기는 하드웨어 명령이다.

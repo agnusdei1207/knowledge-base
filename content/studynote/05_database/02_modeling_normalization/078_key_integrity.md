@@ -1,10 +1,11 @@
 ---
 title: "Key Integrity"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 키 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 PK (Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 각 행을 유일하게 식별하고 FK (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 부모 행을 실제로 가리키게 하는 규칙이다.

@@ -3,8 +3,8 @@ title: "L1/L2 Regularization"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 28
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: L1([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/))과 L2(Ridge) 규제화는 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 크기에 비례하는 패널티를 추가하여 모델 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지한다. L1은 희소(Sparse) [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 유도해 Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) 효과를, L2는 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 균등하게 축소해 안정적 일반화를 제공한다.
 > 2. **가치**: 두 규제화의 핵심 차이는 기하학적으로 명확하다. L1의 다이아몬드 제약 경계는 모서리(좌표축)에서 만날 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 높아 일부 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 0으로 만든다(Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)). L2의 원형 제약은 모든 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 균등하게 작게 만든다([Weight Decay](/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)).

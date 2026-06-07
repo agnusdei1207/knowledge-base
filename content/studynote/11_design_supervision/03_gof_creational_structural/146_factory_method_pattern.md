@@ -3,8 +3,8 @@ title: "Factory Method Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 팩터리 메서드 패턴 ([Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) Pattern)은 GoF [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)으로, 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 서브클래스에 위임하여 클라이언트(Creator)가 구체적인 클래스를 지정하지 않고도 객체를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 패턴이다. "인스턴스를 만드는 것은 서브클래스가 결정한다"는 원칙이 핵심이다.

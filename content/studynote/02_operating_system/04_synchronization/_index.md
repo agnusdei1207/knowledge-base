@@ -2,9 +2,9 @@
 title: "Synchronization"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로세스 동기화 (Process Synchronization)는 다중 프로세스나 스레드가 공유 자원에 동시에 접근할 때, 실행 순서를 제어하여 데이터의 일관성 (Consistency)을 유지하고 경쟁 상태 (Race Condition)를 방지하는 메커니즘이다.

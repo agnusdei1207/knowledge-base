@@ -3,8 +3,8 @@ title: "Heatpipe"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 739
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 히트파이프는 밀폐된 관 내부에서 작동유 (Working Fluid)가 증발·응축하고 wick이 액체를 되돌리는 2상 (Two-Phase) passive heat transporter로, 열을 선형 경로로 매우 효율적으로 옮긴다.

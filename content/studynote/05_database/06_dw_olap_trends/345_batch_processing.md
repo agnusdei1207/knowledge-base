@@ -3,8 +3,8 @@ title: "345. Batch Processing"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 345
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) ([Batch Processing](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

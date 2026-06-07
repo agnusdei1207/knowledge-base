@@ -3,8 +3,8 @@ title: "Ebpf Memory Tracing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 440
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [eBPF](/studynote/02_operating_system/10_security/615_ebpf/)(Extended [Berkeley Packet Filter](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 기반 메모리 할당 트레이싱은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 소스코드를 한 줄도 수정하지 않고 모듈을 다시 빌드할 필요 없이, <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 램(RAM)을 나눠주고 뺏는 가장 깊숙하고 은밀한 함수(kmalloc, <a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">page fault</a> 등)에 런타임으로 탐지기(Probe)를 꽂아 넣어 실시간으로 감시하는 혁명적인 관측 기술(<a href="/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong>이다.

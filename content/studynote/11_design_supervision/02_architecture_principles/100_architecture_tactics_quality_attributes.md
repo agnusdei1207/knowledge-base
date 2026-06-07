@@ -3,8 +3,8 @@ title: "100. Architecture Tactics Quality Attributes"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 아키텍처 전술([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Tactics)은 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)과 같은 추상적인 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Quality Attributes](/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))을 실제 시스템에 구현하기 위해 아키텍트가 선택하는 구체적인 설계 결정들의 단위다.
 - **가치**: 모호한 비기능적 요구사항을 개발자가 코드로 구현할 수 있는 명확한 기법(예: Ping/Echo, [Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), Encryption)으로 치환하여, 아키텍처 평가와 감리의 기준을 제공한다.

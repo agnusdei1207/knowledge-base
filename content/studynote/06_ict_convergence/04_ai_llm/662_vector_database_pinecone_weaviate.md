@@ -3,8 +3,8 @@ title: "Vector Database Pinecone Weaviate"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 662
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 768~3072차원의 Dense Embedding 벡터 간 코사인/유클리드/내적 유사도를 HNSW, IVF-PQ, ScaNN 등 ANN(Approximate Nearest Neighbor) 알고리즘으로 ms 단위 검색하는 특화 DBMS. Pinecone은 Pod/Serverless 완전 관리형 SaaS, Weaviate는 GraphQL API와 모듈형 Vectorizer를 갖춘 오픈소스 하이브리드 검색 엔진이다.

@@ -3,8 +3,8 @@ title: "132. Polyglot Persistence"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 132
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Polyglot Persistence는 <strong>각 마이크로서비스가 자신의 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 특성에 가장 적합한 DB 기술을 독립적으로 선택</strong>하는 패턴이며, DB per Service의 자연스러운 확장이다.
 > 2. **가치**: 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 같은 RDBMS를 사용하면 <strong><a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 <a href="/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a> 지옥, 시계열에 비효율 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>가 발생하지만, Polyglot은 <strong>주문=RDB, 추천=<a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>DB, <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>=시계열DB</strong>로 최적화한다.

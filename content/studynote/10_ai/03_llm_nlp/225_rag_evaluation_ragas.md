@@ -3,8 +3,8 @@ title: "RAGAS"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RAGAS ([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) Assessment) 프레임워크는 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 챗봇이 유저의 질문에 대답했을 때, "이 자식이 또 지어낸 소리([환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))를 하는 건가, 아니면 진짜 사내 문서를 보고 똑똑하게 대답한 건가?"를 <strong>인간이 일일이 읽어보지 않고, 똑똑한 심판(<a href="/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>-<a href="/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a>-a-Judge)을 띄워 0점부터 100점까지 자동으로 수학적 수치(정량 평가)를 매겨주는 품질 보증(QA) <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>이다.

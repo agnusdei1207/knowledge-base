@@ -3,8 +3,8 @@ title: "PUF Aging Effects"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 626
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PUF](/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) ([Physical Unclonable Function](/studynote/01_computer_architecture/15_advanced_topics/788_sram_puf/))의 출력은 제조 편차에서 나오지만, 시간이 지나며 발생하는 NBTI (Negative [Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/) Instability), [HCI](/studynote/01_computer_architecture/15_advanced_topics/630_hci/) (Hot Carrier [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/)) 같은 열화가 그 편차의 균형 자체를 바꾼다.

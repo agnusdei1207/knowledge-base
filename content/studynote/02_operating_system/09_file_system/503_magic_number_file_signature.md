@@ -3,8 +3,8 @@ title: "503. Magic Number File Signature"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 503
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해커가 악성 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`virus.exe`)의 이름을 속여서 `cute_cat.jpg`로 확장자만 살짝 바꿔치기했을 때, 윈도우 OS는 멍청하게 그림판을 열려다 박살 나지만 리눅스/유닉스 OS는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 앞머리(Header)에 몰래 새겨진 2~4바이트의 절대 지문, <strong>'매직 넘버(Magic Number / <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Signature)'</strong> 를 몰래 읽고 "어? 이거 그림이 아니라 EXE 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이잖아!"라고 조작을 즉각 간파하는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 진짜 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 유전자 DNA다.

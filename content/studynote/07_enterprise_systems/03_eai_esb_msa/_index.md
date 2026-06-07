@@ -2,9 +2,9 @@
 title: "EAI, ESB & MSA"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엔터프라이즈 통합 (Enterprise Integration)은 기업 내 파편화된 이기종 시스템 간의 데이터와 비즈니스 프로세스를 유기적으로 연동하여, 시스템 간의 상호 운용성을 확보하는 기술적 기반이다.

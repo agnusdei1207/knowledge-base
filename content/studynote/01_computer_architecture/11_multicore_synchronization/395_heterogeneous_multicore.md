@@ -3,8 +3,8 @@ title: "Heterogeneous Multi-core"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 395
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이기종 멀티코어 ([Heterogeneous](/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Multi-core)는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지향 코어, 효율 지향 코어, 때로는 가속기까지 서로 다른 계산 자원을 한 칩에 공존시켜, 작업의 성격에 따라 가장 알맞은 실행 경로를 선택하게 만드는 구조다.

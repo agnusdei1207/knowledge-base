@@ -3,8 +3,8 @@ title: "AM/FM/PM"
 date: "2026-05-01"
 tags:
   - "studynote-network"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아날로그 연속파 변조는 연속적인 정보 신호를 [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)의 진폭, 주파수, 위상에 실어 보내는 방식이다.

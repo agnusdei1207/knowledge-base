@@ -3,8 +3,8 @@ title: "IAST, Interactive Application Security Testing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 245
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코드를 실행하지 않고 구문과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 분석해 취약점을 찾는 방식.

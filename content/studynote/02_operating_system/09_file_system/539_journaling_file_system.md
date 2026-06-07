@@ -3,8 +3,8 @@ title: "ext3, ext4, NTFS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 539
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장하는 도중 정전([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Crash)이 나면 디스크 전체가 쓰레기통(Inconsistency 파탄)이 되는 파멸을 막기 위해, DB의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 개념(WAL)을 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 전체에 이식 탑재한 <strong>"<a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 전용 불침번 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 장부(일기장 기록 빔!)"</strong> 아키텍처다.

@@ -3,8 +3,8 @@ title: "233. Expert System"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전문가 시스템 (Expert System)은 1970~80년대를 지배했던 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 할아버지 격 아키텍처로, 의사나 법률가 같은 스페셜리스트의 머릿속에 있는 규칙(Rule)들을 싹 다 텍스트로 뽑아내어 <strong><a href="/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/">지식 베이스</a>(DB)</strong>에 우겨넣고, <strong>추론 엔진(If-Then 코드)</strong>이 이 규칙들을 따라가며 정답을 찍어내는 지극히 깐깐한 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 기계다.

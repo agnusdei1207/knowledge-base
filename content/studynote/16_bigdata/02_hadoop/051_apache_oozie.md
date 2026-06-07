@@ -3,8 +3,8 @@ title: "051. Apache Oozie"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 51
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Oozie는 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [에코](/studynote/03_network/01_data_communication/031_에코_반향/)시스템 기반 워크플로(Workflow)와 코디네이터([Coordinator](/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/)) 잡을 관리하는 서버 기반 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다. [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)·[Hive](/studynote/05_database/04_transactions_concurrency/544_hive/)·Pig·Sqoop 등 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 잡을 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(방향성 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 구성하여 복잡한 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 자동화한다.
 > 2. **가치**: [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 기반 ETL에서 여러 잡이 의존 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 가질 때, Oozie는 순서·조건·[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 중앙에서 관리한다. 시간 기반([Coordinator](/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))·[데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) 기반 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)로 배치 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 자동 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링한다.

@@ -3,8 +3,8 @@ title: "Blameless Post-mortem"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Blameless Post-mortem은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애를 특정 개인의 실수로 귀결시키지 않고, 시스템·프로세스·조직 구조의 근본 원인을 찾아 재발 방지 액션으로 전환하는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 문화의 핵심 실천이다.

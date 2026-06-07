@@ -3,8 +3,8 @@ title: "370. Simd"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 370
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SIMD (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 하나의 명령을 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각에 동시에 적용해, 제어 오버헤드보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 우선 극대화하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조다.

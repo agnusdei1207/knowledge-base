@@ -3,8 +3,8 @@ title: "071. Checkpointing"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Spark 체크포인팅(Checkpointing)은 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/)/DataFrame의 리니지(Lineage, 변환 계보)를 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 같은 안정적인 저장소에 물리적으로 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 저장하여 리니지 체인을 단절하고, 장애 발생 시 처음부터 재연산하지 않고 체크포인트 지점에서 재시작할 수 있게 하는 메커니즘이다.

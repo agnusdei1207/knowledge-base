@@ -2,9 +2,9 @@
 title: "025. Sort Comparison"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모든 상황에서 최적인 단일 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없으며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모·분포·메모리·안정성 요구에 따라 최적 선택이 달라진다.
 > 2. **가치**: 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 종합 비교 이해는 면접·기술사 시험에서 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 판단력을 보여주는 핵심 소양이며 실무 시스템 설계의 직접적 기준이 된다.

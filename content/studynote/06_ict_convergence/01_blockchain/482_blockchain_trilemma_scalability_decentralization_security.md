@@ -3,8 +3,8 @@ title: "Blockchain Trilemma"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 482
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인 트릴레마](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)([Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Trilemma)는 확장성(Scalability)·[탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/studynote/06_ict_convergence/01_blockchain/010_decentralization/))·보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 세 가지를 <strong>동시에 완벽히 달성하는 단일 체인은 존재하지 않는다</strong>는 원칙이다.

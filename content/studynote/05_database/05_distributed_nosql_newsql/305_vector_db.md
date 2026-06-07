@@ -3,8 +3,8 @@ title: "Real Application Clusters"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 305
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오라클 RAC (Real Application Clusters)는 공유 디스크(Shared Disk) 기반 다중 인스턴스 클러스터링 RDB (수직적 한계 완화)에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

@@ -3,8 +3,8 @@ title: "RTM, Requirements Traceability Matrix"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))은 요구사항 ID를 기준으로 설계, 구현, 테스트, [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 승인 상태를 연결해 “무엇이 왜 만들어졌는가”를 한눈에 보여 주는 추적성 관리 표이다.

@@ -3,8 +3,8 @@ title: "IT Audit Essay Structure Summary"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 678
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 감리 논술 답안 구조 총정리는 서론 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 본론 도식화, 결론 채택 조건를 한 체계로 묶어 판단하는 설계·감리 주제다.

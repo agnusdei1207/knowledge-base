@@ -3,8 +3,8 @@ title: "099. Adr Architecture Decision Record"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ADR](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))은 소프트웨어 프로젝트의 생명주기 동안 발생한 중요한 기술적 의사결정의 맥락, 선택 내용, 그리고 파급 효과를 기록하는 마크다운(Markdown) 기반의 경량 문서다.

@@ -3,8 +3,8 @@ title: "306. Embedding Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 306
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 셰어드 낫띵 (Shared Nothing) 아키텍처는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 공유 (수평 확장, [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 기본 구조)에 초점을 둔 아키텍처이다.

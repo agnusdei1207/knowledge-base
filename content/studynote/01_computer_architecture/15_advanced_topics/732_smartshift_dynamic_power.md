@@ -3,8 +3,8 @@ title: "SmartShift"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 732
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트 시프트 (SmartShift)는 노트북이나 소형 시스템의 제한된 플랫폼 전력 예산을 중앙처리장치 (Central Processing Unit, CPU)와 그래픽처리장치 ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 사이에서 동적으로 재배분하는 AMD (Advanced Micro Devices)의 시스템 수준 전력 관리 기술이다.

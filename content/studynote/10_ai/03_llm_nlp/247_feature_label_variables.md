@@ -3,8 +3,8 @@ title: "247. Feature Label Variables"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 독립 변수(Independent Variable) 또는 피처(Feature)는 모델의 입력이고, 종속 변수(Dependent Variable) 또는 라벨(Label)/타깃(Target)은 예측해야 할 출력이다.

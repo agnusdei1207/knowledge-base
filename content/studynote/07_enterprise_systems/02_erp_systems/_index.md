@@ -2,9 +2,9 @@
 title: "ERP Systems"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ERP (Enterprise Resource Planning)는 기업의 핵심 자산인 인사, 재무, 생산, 물류 등을 하나의 데이터베이스로 통합 관리하여, 실시간 정보 공유와 최적화된 업무 프로세스를 제공하는 전사적 통합 정보시스템이다.

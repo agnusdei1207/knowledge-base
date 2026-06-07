@@ -2,9 +2,9 @@
 title: "641. Service Desk Incident Management Itsm Audit"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 641
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 데스크](/studynote/12_it_management/02_itsm_itil/072_service_desk/)([Service Desk](/studynote/12_it_management/02_itsm_itil/072_service_desk/))는 사용자의 모든 IT 문의와 장애를 모으는 단일 접점([SPOC](/studynote/12_it_management/02_itsm_itil/857_spoc/), Single Point of Contact)이다.

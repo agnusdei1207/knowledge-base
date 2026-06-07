@@ -2,9 +2,9 @@
 title: "COBIT 2019 Governance"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [COBIT 2019](/studynote/12_it_management/01_governance_strategy/005_cobit_2019/) ([Control Objectives for Information and Related Technologies](/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019)는 이사회가 원하는 비즈니스 가치와 현장의 IT 실행을 연결하는 엔터프라이즈 I&T (Information and Technology) 거버넌스 설계 프레임워크다.

@@ -3,8 +3,8 @@ title: "CI CD Pipeline Security and DevSecOps Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 291
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 보안과 [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 감리는 [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)·배포([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 파이프라인과 [데브섹옵스](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 통제 체계에서 비밀정보 스캔([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) Scanning), 산출물 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/)), [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 게이트([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Gate)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

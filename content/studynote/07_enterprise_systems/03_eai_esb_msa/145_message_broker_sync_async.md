@@ -3,8 +3,8 @@ title: "145. Message Broker Sync Async"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 145
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>생산자와 소비자 사이에서 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지를 중계(<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>·<a href="/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a>·변환)</strong>하여 비동기·느슨 결합 통신을 가능하게 하는 미들웨어이며, RabbitMQ·ActiveMQ·Kafka가 대표이다.
 > 2. **가치**: 동기([REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))는 <strong>수신자 장애 시 전체 실패</strong>하지만, [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>큐에 저장 후 비동기 처리</strong>하여 장애 격리·피크 완화·순서 보장을 제공한다.

@@ -3,8 +3,8 @@ title: "592. Shellcode Injection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 592
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 셸코드 (Shellcode)는 소프트웨어의 취약점(예: [버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/))을 익스플로잇 (Exploit)할 때 목표 시스템에서 공격자가 원하는 명령을 실행하도록 주입하는 아주 작은 크기의 기계어 (Machine [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 조각이다.

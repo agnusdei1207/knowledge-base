@@ -1,10 +1,11 @@
 ---
 title: "075. Referential Integrity Foreign Key Cascade"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) ([Referential](/studynote/05_database/07_exam_summary/406_referential_integrity_foreign_key/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/))은 자식 행의 [외래 키](/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 존재하지 않는 부모를 가리키지 못하게 막는 규칙이다.

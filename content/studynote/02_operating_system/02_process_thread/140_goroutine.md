@@ -3,8 +3,8 @@ title: "M:N"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고루틴 (Goroutine)은 프로세스와 스레드의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

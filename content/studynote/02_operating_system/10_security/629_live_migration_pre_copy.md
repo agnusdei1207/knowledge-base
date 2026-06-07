@@ -3,8 +3,8 @@ title: "629. Live Migration Pre Copy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 629
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라이브 마이그레이션은 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 실행 중인 상태 그대로, 네트워크 연결조차 끊기지 않게 하면서 물리 서버 A에서 물리 서버 B로 통째로 옮기는 클라우드 운영의 궁극기다.

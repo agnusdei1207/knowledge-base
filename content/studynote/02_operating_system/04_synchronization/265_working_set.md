@@ -3,8 +3,8 @@ title: "Working Set"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 265
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 워킹 셋 (Working Set)은 멀티프로그래밍 환경에서 특정 프로세스가 <strong>현재 시점부터 원활하게 실행되기 위해 메모리(RAM)에 반드시 상주해야만 하는 '가장 자주/최근에 쓰이는 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>들의 집합'</strong>을 의미한다.

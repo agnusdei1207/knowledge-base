@@ -3,8 +3,8 @@ title: "Quantum Communication Quantum Key Distribution"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 597
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자통신 양자키분배 QKD은(는) 양자 상태 측정 교란 원리를 이용해 도청 탐지가 가능한 암호키를 분배하는 보안 통신 기술이다.

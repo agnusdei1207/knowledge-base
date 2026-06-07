@@ -3,8 +3,8 @@ title: "Quantum Computing Qubit Quantum Supremacy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 598
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자컴퓨팅 큐비트 양자우월성은(는) 중첩과 얽힘을 이용하는 큐비트로 특정 문제를 고전 컴퓨터와 다른 방식으로 계산하는 컴퓨팅 패러다임이다.

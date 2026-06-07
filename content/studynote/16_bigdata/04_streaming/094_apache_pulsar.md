@@ -3,8 +3,8 @@ title: "094. Apache Pulsar"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Apache Pulsar (아파치 펄사)는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 담당하는 브로커(Broker)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장을 담당하는 북키퍼(BookKeeper)를 물리적으로 분리하는 계층화 아키텍처를 채택하여, 브로커와 스토리지를 독립적으로 확장하고 토픽을 중단 없이 다른 브로커로 이동할 수 있다.

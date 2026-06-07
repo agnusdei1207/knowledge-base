@@ -2,9 +2,9 @@
 title: "Reliability & Power Management"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 13
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고신뢰성 기술은 하드웨어 결함 발생 시에도 시스템의 정지 없이 서비스를 지속하는 능력 (RAS)이며, 전력 관리는 모바일 및 데이터 센터 환경에서 에너지 효율을 극대화하고 발열을 제어하는 최적화 기법이다.

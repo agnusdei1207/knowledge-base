@@ -3,8 +3,8 @@ title: "174. San Subject Alternative Name"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) (Subject Alternative Name)은 X.509 v3 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 대표할 수 있는 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 이름, IP (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 주소, 이메일, URI (Uniform Resource [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 확장 필드에 명시하는 메커니즘이다.

@@ -3,8 +3,8 @@ title: "gRPC / Protocol Buffers / HTTP2"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 158
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) (Google [Remote Procedure Call](/studynote/02_operating_system/02_process_thread/126_rpc/))는 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 위에서 [Protocol Buffers](/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/) (바이너리 직렬화)를 사용해 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 내부 동기 통신을 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/JSON보다 최대 5~10배 빠르게 처리하는 고성능 [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) 프레임워크다.
 > 2. **가치**: 강타입 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)(`.proto` [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), 다국어 클라이언트 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 양방향 스트리밍 지원으로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 계약을 명확히 하고 개발 생산성을 높인다.

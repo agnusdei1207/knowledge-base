@@ -2,9 +2,9 @@
 title: "MapReduce vs Spark"
 date: "2026-03-04"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 수많은 서버(노드)에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누어 저장하고 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하여, 단일 서버로는 불가능한 초거대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능하게 만드는 소프트웨어 환경이다.
 > 2. **가치**: [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))는 디스크 기반의 안정적인 대량 처리를, 스파크(Spark)는 인메모리(In-Memory) 기반의 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 반복 연산과 실시간 처리를 지원한다.

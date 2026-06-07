@@ -1,11 +1,11 @@
 ---
 title: "019. Minimax Algorithm"
 date: "2024-05-24"
-description: "적대적 게임 환경에서 자신은 최대 이익을, 상대는 최소 이익을 선택한다고 가정하여 최적의 수를 찾는 트리 탐색 기법"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 19
 ---
-
 # 19. [미니맥스](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Minimax](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
 #### 핵심 인사이트 (3줄 요약)

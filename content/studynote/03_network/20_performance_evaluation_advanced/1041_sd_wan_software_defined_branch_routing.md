@@ -3,8 +3,8 @@ title: "1041. Sd Wan Software Defined Branch Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1041
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SD-WAN](/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

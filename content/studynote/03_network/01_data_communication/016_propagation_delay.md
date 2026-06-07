@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 16
 ---
-
 # 16. 전파 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Propagation Delay) - 거리/속도
 
 ## 핵심 인사이트 (3줄 요약)

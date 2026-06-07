@@ -3,8 +3,8 @@ title: "Matrix Factorization"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 348
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [행렬 분해](/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) (Matrix Factorization): 거대 사용자-아이템 평점 행렬을 잠재 요인(Latent Factor) 행렬 두 개로 쪼개어 빈 공간(예측 평점) 추론를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

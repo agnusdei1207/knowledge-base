@@ -3,8 +3,8 @@ title: "Transaction State Transition"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)은 활동([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)) -> 부분 완료(Partially Committed) -> 완료(Committed) / 실패(Failed) -> 철회(Aborted)에 초점을 맞춘 개념이다.

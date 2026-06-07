@@ -3,8 +3,8 @@ title: "060. Chatops"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ChatOps는 Slack, Microsoft Teams 같은 채팅 채널 안에서 봇(Bot)을 통해 배포, [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링, 인시던트, 인프라 작업을 수행하는 운영 방식이다.

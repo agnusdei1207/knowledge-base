@@ -3,8 +3,8 @@ title: "Optimistic Concurrency Control"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 낙관적 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 (Optimistic [Concurrency Control](/studynote/05_database/04_transactions_concurrency/508_concurrency_control/))은 작업 먼저 수행 후 종료([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 시점에 충돌 검사에 초점을 맞춘 개념이다.

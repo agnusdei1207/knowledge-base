@@ -3,8 +3,8 @@ title: "060. Spark Streaming Dstream"
 date: "2024-03-24"
 tags:
   - "studynote-bigdata"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **마이크로 배치(Micro-batch):** 실시간 스트림 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아주 짧은 간격(예: 1초)의 작은 배치로 쪼개어 기존 스파크 배치 엔진으로 처리하는 방식.
 - <strong>DStream (Discretized <a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>):</strong> 연속적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 시간 단위의 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 시퀀스로 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여, 기존 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산을 스트리밍 환경에서 그대로 활용 가능.

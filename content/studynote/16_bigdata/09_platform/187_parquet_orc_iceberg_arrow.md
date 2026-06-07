@@ -3,8 +3,8 @@ title: "187. Parquet Orc Iceberg Arrow"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컬럼 기반 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷 ([Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC, Iceberg, Arrow) 조회 최적화은 빅데이터 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.

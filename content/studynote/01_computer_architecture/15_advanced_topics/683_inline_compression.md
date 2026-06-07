@@ -3,8 +3,8 @@ title: "Inline Compression"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 683
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인라인 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장 매체에 기록되기 직전에 즉시 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 용량과 물리 사용량을 다르게 만드는 투명한 저장 최적화 기술이다.

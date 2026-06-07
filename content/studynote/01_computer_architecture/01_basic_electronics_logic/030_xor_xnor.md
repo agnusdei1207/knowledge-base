@@ -3,8 +3,8 @@ title: "030. Xor Xnor"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: XOR(Exclusive OR)은 두 입력이 서로 다를 때만 1을 출력하는 게이트이며, XNOR은 XOR의 반전으로 두 입력이 같을 때 1을 출력한다. XOR은 "다름을 감지"하고, XNOR은 "같음을 감지"하는 연산이다.
 > 2. **가치**: XOR의 핵심 특성은 반전 가능성(A XOR 1 = Ā, A XOR 0 = A)과 자기 역연산(A XOR B XOR B = A)이다. 이 특성이 암호화·오류 검출·이진 덧셈 [반가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)의 기반이 된다.

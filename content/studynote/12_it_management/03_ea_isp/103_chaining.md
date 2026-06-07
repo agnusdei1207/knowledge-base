@@ -3,10 +3,9 @@ title: "103. SAT (Satisfiability) — 최초 NP-완전 증명 (Cook-Levin)"
 date: "2026-01-01"
 tags:
   - "studynote"
+  - "studynote-it-management"
 weight: 103
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 체인법 (Chaining)은 해시 테이블에서 서로 다른 키가 같은 공간을 할당받는 '충돌(Collision)'이 발생했을 때, 데이터들을 연결 리스트 (Linked List)로 줄줄이 엮어서 저장하는 가장 고전적이고 직관적인 해결책이다.

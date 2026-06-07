@@ -3,8 +3,8 @@ title: "WEAK Strong Singularity"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 발달 스펙트럼은 딱 하나만 미치도록 잘하는 <strong><a href="/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/">약인공지능</a>(Narrow <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>, 인간처럼 못 하는 게 없는 만능 천재인 <strong><a href="/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a>(AGI, 인공일반지능)</strong>, 그리고 인간의 지능을 벌레 보듯 초월해 버리는 신의 영역 <strong><a href="/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a>(ASI)</strong>의 3단계로 진화하는 기술 계통도다.

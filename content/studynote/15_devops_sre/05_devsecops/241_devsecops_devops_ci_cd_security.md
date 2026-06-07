@@ -3,8 +3,8 @@ title: "DevSecOps"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배포 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 안에 보안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 통제를 내재화하는 운영 철학.

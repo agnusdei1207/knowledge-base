@@ -3,8 +3,8 @@ title: "183. Zero Data Loss Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 제로 ([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss) 아키텍처는 "커밋되었다고 응답한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 장애 뒤에도 사라지지 않는다"를 보장하도록 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 응답 시점과 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 규칙을 설계한 구조이며, 핵심 기준은 [Recovery Point Objective](/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([RPO](/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)) = 0이다.

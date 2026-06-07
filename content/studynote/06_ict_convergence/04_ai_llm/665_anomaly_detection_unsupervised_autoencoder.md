@@ -3,8 +3,8 @@ title: "Anomaly Detection Unsupervised Autoencoder"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 665
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오토인코더(Autoencoder)는 입력 $x \in \mathbb{R}^n$를 인코더 $f_\theta: \mathcal{X} \rightarrow \mathcal{Z}$로 잠재 공간(Latent Space) $z \in \mathbb{R}^d (d \ll n)$에 투영한 뒤, 디코더 $g_\phi: \mathcal{Z} \rightarrow \mathcal{X}$로 재구성하는 대칭적 신경망이며, 이상 탐지에서는 **재구성 오차(Reconstruction Error)** $\mathcal{L}(x, \hat{x}) = \|x - g_\phi(f_\theta(x))\|^2$가 통계적 임계치를 초과하는 샘플을 이상치(Anomaly)로 판정한다.

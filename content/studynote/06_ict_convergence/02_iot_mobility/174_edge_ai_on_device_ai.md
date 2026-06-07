@@ -3,8 +3,8 @@ title: "174. Edge Ai On Device Ai"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Edge [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 추론을 원격 클라우드가 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생성되는 가까운 위치에서 수행하는 구조이며, 온디바이스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([On-Device AI](/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/))는 그중에서도 <strong>단말 내부에서 직접 실행하는 가장 극단적인 형태</strong>다.

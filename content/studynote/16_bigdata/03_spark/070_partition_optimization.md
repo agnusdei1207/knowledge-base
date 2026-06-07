@@ -3,8 +3,8 @@ title: "070. Partition Optimization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 스파크에서 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 단위이며, `repartition()`은 전체 셔플(Shuffle)을 수반하며 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 늘리거나 줄이고, `coalesce()`는 셔플 없이 기존 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 합쳐 수를 줄이는 것이 핵심 차이다.

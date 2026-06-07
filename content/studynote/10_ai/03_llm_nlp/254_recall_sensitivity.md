@@ -3,8 +3,8 @@ title: "254. Recall Sensitivity"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 254
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)(Recall)은 실제 Positive 중 모델이 올바르게 Positive로 예측한 비율 — FN(False Negative)을 최소화하는 지표.

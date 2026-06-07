@@ -3,8 +3,8 @@ title: "601. Ids Ips Syscall Tracing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 601
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 침입 탐지 시스템 (IDS, [Intrusion Detection System](/studynote/09_security/uncategorized/1090_ids_ips_intrusion_detection_prevention_false_positive/))과 방지 시스템 ([IPS](/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), Intrusion Prevention System)은 네트워크 패킷이나 호스트 OS 내부의 이벤트를 분석하여 비정상적인 악성 행위를 식별하고(IDS) 이를 능동적으로 차단하는([IPS](/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 보안 관제의 핵심 인프라다.

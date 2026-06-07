@@ -1,11 +1,11 @@
 ---
 title: "011. System Catalog"
 date: "2024-05-20"
-description: "메타데이터를 관리하는 데이터베이스의 핵심 저장소인 카탈로그와 데이터 사전 메커니즘"
 tags:
   - "database"
+  - "studynote-database"
+weight: 11
 ---
-
 # 시스템 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) (System [Catalog](/studynote/05_database/07_exam_summary/394_catalog_metadata/))와 [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 저장된 모든 객체(테이블, [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 뷰, 권한 등)에 대한 정의와 명세, 즉 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/), [Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/))'를 저장하는 시스템 전용 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)입니다.

@@ -3,8 +3,8 @@ title: "Microkernel / Plugin Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 136
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로커널](/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 아키텍처 ([Microkernel](/studynote/02_operating_system/01_overview_architecture/024_microkernel/) / Plugin [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 핵심 기능만 가진 최소 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Core System)과 이를 확장하는 독립적인 플러그인(Plugin) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 구성된 아키텍처 패턴으로, 플러그인을 추가·교체·제거해도 코어 시스템이 변경되지 않아 높은 확장성을 달성한다.

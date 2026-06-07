@@ -2,9 +2,9 @@
 title: "Software License Compliance"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 633
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 라이선스 컴플라이언스는 사용한 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)와 상용 소프트웨어의 라이선스 의무를 지키는 관리 체계다.

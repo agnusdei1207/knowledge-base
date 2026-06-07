@@ -3,8 +3,8 @@ title: "Microarchitecture"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로아키텍처 (Microarchitecture)는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))라는 외부 계약을 실제 회로, 파이프라인, 캐시, 실행 유닛으로 구현한 CPU (Central Processing Unit) 내부 설계다.

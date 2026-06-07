@@ -1,11 +1,11 @@
 ---
 title: "Spatial Multiplexing"
 date: "2026-03-04"
-description: "MIMO 시스템에서 서로 다른 독립적인 데이터 스트림을 다수의 공간 경로로 동시 전송하여, 주파수 추가 없이 통신 대역폭 한계를 돌파하는 핵심 기법"
 tags:
   - "network"
+  - "studynote-network"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공간 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Spatial [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))는 다중 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ([MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/), [Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 환경에서 '서로 다른' 독립적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림을 여러 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 통해 동시에 송신한 뒤, 수신기에서 역행렬 연산으로 이를 분리해내는 기법이다.

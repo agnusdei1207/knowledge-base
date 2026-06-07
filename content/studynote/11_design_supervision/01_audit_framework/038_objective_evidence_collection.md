@@ -3,8 +3,8 @@ title: "Objective Evidence Collection"
 date: "2026-03-03"
 tags:
   - "studynote-design-supervision"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. [객관적 증거](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)([Objective Evidence](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/))는 사실에 기반하고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 정보로, 감리/[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 발견 사항(Finding)이 법적 효력을 가지려면 주관적 판단이 아닌 구체적이고 반박하기 어려운 증거로 뒷받침되어야 한다.
 > 2. 증거 수집의 세 가지 핵심 방법 — 인터뷰(Interview), 문서 검토([Documentation](/studynote/04_software_engineering/06_software_architecture/378_software_documentation/) [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)), 현장 관찰(Observation) — 은 서로 [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)(Triangulation)될 때 증거의 신뢰성이 극대화된다.

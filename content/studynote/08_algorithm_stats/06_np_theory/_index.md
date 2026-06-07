@@ -2,9 +2,9 @@
 title: "NP Theory"
 tags:
   - "algorithm_stats"
+  - "studynote-algorithm-stats"
 weight: 6
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 계산 복잡도 이론은 문제를 해결하는 데 필요한 자원의 양에 따라 문제의 난이도를 분류하는 학문이며, P와 NP는 효율적인 시간 내에 해결 가능한지 여부를 가르는 핵심 기준이다.

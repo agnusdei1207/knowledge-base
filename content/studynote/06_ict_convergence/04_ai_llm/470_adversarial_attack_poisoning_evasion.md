@@ -3,8 +3,8 @@ title: "Adversarial Attack Poisoning Evasion"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 470
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 적대적 공격([Adversarial Attack](/studynote/10_ai/02_dl_architecture_new/197_adversarial_attack/))은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 취약점을 의도적으로 악용해 잘못된 예측을 유도하는 공격으로, 훈련 단계를 노리는 포이즈닝과 추론 단계를 노리는 이베이전으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.

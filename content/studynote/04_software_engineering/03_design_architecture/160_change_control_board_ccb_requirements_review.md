@@ -3,8 +3,8 @@ title: "160. Change Control Board Ccb Requirements Review"
 date: "2026-05-05"
 tags:
   - "studynote-software-engineering"
+weight: 160
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [형상 통제](/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) 위원회, 즉 CCB ([Configuration Control](/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board)는 [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 이후 들어온 요구사항 변경 요청을 비용·일정·품질·위험 관점에서 심사하는 공식 의사결정 장치다.

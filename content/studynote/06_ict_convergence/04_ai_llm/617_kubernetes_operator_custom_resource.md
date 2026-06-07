@@ -3,8 +3,8 @@ title: "Kubernetes Operator Custom Resource"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 617
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 쿠버네티스 오퍼레이터 패턴은 **CRD(Custom Resource Definition)로 도메인별 API를 확장**하고, **컨트롤러(Reconciliation Loop)가 선언적 상태(desired state)를 실제 클러스터 상태(actual state)에 수렴**시키며, 최종적으로 **인간의 운영 지식(Operational Knowledge)을 코드로 패키징(Operator SDK, controller-runtime)**하여 1차/2차/3차 운영업무를 자동화하는 쿠버네티스 네이티브 SRE 패턴이다.

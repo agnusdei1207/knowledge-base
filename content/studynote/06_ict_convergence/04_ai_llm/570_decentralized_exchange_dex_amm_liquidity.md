@@ -3,8 +3,8 @@ title: "Decentralized Exchange DEX AMM Liquidity"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 570
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탈중앙 거래소 DEX AMM 유동성은(는) 주문장 대신 유동성 풀과 가격 함수로 토큰 교환을 실행하는 온체인 거래 프로토콜이다.

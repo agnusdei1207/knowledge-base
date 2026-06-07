@@ -1,12 +1,11 @@
 ---
 title: "105. 1-Persistent, Non-Persistent, p-Persistent CSMA"
 date: "2026-03-04"
-description: "CSMA에서 채널이 사용 중일 때 노드가 대기하는 세 가지 전략적 접근 방식(지속 방식)의 동작 원리, 장단점 및 트레이드오프를 심층 분석합니다."
 tags:
   - "network"
+  - "studynote-network"
+weight: 105
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/) (Carrier Sense [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 환경에서 통신 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 이미 사용 중일 때, 데이터를 전송하려는 노드가 충돌을 최소화하고 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 기회를 획득하기 위해 대기 및 재시도하는 세 가지 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(지속 방식)이다.
 > 2. **가치**: 채널이 비면 즉시 전송하여 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 방식(1-Persistent)과, 무작위로 양보하여 충돌을 막는 방식(Non-Persistent) 간의 딜레마를 해결하기 위해, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) p를 도입하여 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)의 밸런스를 맞췄다.

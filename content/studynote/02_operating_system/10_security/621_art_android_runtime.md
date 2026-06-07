@@ -3,8 +3,8 @@ title: "621. Art Android Runtime"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 621
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ART (Android Runtime)는 안드로이드(Android) 앱의 바이트코드(DEX)를 기기에서 실행하는 런타임 환경으로, 과거 달빅(Dalvik) 가상 머신의 한계를 극복하기 위해 설계된 모바일 OS 핵심 아키텍처다.

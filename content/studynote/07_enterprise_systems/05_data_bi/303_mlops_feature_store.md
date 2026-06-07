@@ -3,8 +3,8 @@ title: "MLOps Feature Store"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 303
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Feature Store는 ML [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 중앙에서 관리해 학습과 서빙 시의 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 불일치([Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew)를 근원적으로 차단한다.

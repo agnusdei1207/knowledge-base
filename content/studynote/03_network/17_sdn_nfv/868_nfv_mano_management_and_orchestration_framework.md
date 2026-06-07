@@ -3,8 +3,8 @@ title: "868. Nfv Mano Management And Orchestration Framework"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 868
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NFV](/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) MANO 프레임워크는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

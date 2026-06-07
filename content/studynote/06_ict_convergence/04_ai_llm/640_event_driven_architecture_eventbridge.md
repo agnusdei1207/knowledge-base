@@ -3,8 +3,8 @@ title: "Event Driven Architecture EventBridge"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 640
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Amazon EventBridge는 AWS 네이티브 서비스·SaaS 파트너·커스텀 애플리케이션의 이벤트를 **Schema Registry 기반의 표준화된 EventEnvelope(JSON) + Content Filtering(EDA 필터 표현식) + PutEvents API**로 단일 이벤트 버스에 수집하여 **Routing Rule(Bus -> Target) -> 비동기 Fan-out(여러 Target) -> 24h 재처리 가능한 Archive** 흐름으로 전달하는 **완전관리형(Serverless) Pub/Sub 이벤트 라우터**이다.

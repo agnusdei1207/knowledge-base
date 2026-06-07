@@ -3,8 +3,8 @@ title: "Decentralized Identity: DID, VC, VP"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 483
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(Decentralized Identity, [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 신원)는 중앙 서버 없이 개인이 자신의 신원을 <strong>자기 주권(Self-Sovereign Identity, SSI)</strong>으로 관리하는 W3C 표준 기술이다.

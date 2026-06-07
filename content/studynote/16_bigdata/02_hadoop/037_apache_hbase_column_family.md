@@ -3,8 +3,8 @@ title: "037. Apache Hbase Column Family"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 37
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 구글의 빅테이블(Bigtable)을 [벤치마킹](/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/)하여 개발된, [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에서 동작하는 열 지향(Column-Oriented) [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)임.
 - 수십억 개의 행과 수백만 개의 열을 가진 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에 대해 밀리초(ms) 단위의 랜덤 읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random R/W) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장함.

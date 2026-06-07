@@ -3,8 +3,8 @@ title: "Gradient Boosting"
 date: "2026-03-04"
 tags:
   - "studynote-ai"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 그래디언트 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)(Gradient [Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 약한 학습기(결정 트리)를 순차적으로 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)해 이전 모델의 잔차(Residual Error)를 반복적으로 줄이는 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 표 형식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 최강의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 > 2. XGBoost·LightGBM·CatBoost는 그래디언트 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화·최적화한 구현체로, 특히 LightGBM의 Leaf-wise 트리 성장과 히스토그램 근사가 처리 속도를 수십 배 향상시켰다.

@@ -3,8 +3,8 @@ title: "115. Logical Design Normalization"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계는 개념 설계(ERD)를 <strong><a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 <a href="/studynote/05_database/07_exam_summary/391_relation_schema_intension/">릴레이션 스키마</a>(테이블·PK·FK)</strong>로 변환한 후, <strong>함수 <a href="/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(FD) 분석을 통해 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>(<a href="/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a>/<a href="/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a>)</strong>를 수행하여 [갱신 이상](/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 제거하는 단계다.
 > 2. **가치**: ERD의 엔터티·[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 체계적 규칙(1:N->FK, M:N->교차 테이블)에 따라 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 변환하고, FD 분석으로 부분·이행·[결정자](/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 이상 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 식별하여 분해한다.

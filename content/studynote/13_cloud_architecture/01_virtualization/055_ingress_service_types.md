@@ -3,8 +3,8 @@ title: "055. Ingress Service Types"
 date: "2026-05-01"
 tags:
   - "studynote-cloud-architecture"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Ingress는 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 요청을 클러스터 내부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 진입점이다.

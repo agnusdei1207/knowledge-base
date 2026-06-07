@@ -1,11 +1,11 @@
 ---
 title: "SCM, Software Configuration Management"
 date: "2026-03-04"
-description: "소프트웨어 생명주기 전반의 변경 사항을 식별하고 통제하는 형상 관리의 4단계와 베이스라인 전략을 다룹니다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 20
 ---
-
 # 20. 형상 관리 ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), Software [Configuration Management](/studynote/12_it_management/02_itsm_itil/873_configuration_management/))
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,9 +3,8 @@ title: "235. Undo (Undo Roll Backward Atomicity Recovery)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 235
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) (취소)은 장애 발생 후 커밋 안된 트랜잭션을 이전 상태로 원복 ([원자성](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장)에 초점을 맞춘 개념이다.

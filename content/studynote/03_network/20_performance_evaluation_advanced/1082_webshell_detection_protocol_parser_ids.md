@@ -3,8 +3,8 @@ title: "1082. Webshell Detection Protocol Parser Ids"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1082
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

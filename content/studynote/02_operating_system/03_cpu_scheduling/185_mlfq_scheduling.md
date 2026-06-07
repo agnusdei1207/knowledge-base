@@ -3,8 +3,8 @@ title: "185. Mlfq Scheduling"
 date: "2026-05-06"
 tags:
   - "studynote-operating-system"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다단계 피드백 큐](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 스케줄링 (Multilevel Feedback [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))은 프로세스의 과거 CPU 사용 행동을 보고 [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 <strong>승급·강등</strong>시키는 동적 스케줄링 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

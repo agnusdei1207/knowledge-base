@@ -3,8 +3,8 @@ title: "987. Hash Function"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 987
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

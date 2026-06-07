@@ -3,8 +3,8 @@ title: "139. Inmemory Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 인메모리 DB는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주 스토리지로 RAM에 저장하여 디스크 I/O 병목을 완전히 제거함으로써 마이크로초(μs) 단위의 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 초당 수백만 연산을 실현한다.
 - **가치**: 순수 캐시(Memcached)·캐시+[영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)([Redis](/studynote/05_database/04_transactions_concurrency/542_redis/))·풀스택 분석(SAP HANA)·[초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(VoltDB)로 특화되어, 서로 다른 인메모리 요구 사항에 맞는 솔루션 생태계가 성숙되어 있다.

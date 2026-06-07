@@ -3,8 +3,8 @@ title: "186. Stored Procedure Trigger"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스토어드 프로시저 (Stored Procedure)는 SQL (Structured Query Language)과 제어 로직을 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버 안에 저장해 호출 단위를 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화하는 방식이고, [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Trigger)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 이벤트에 반응해 자동 실행되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근접형 자동화 장치다.

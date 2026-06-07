@@ -3,8 +3,8 @@ title: "Windows Synchronization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 251
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Windows [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 유저 모드와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 두 계층으로 나뉘며, [Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) (유저 모드 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/)+뮤텍스 혼합), [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)/[Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/)/Event ([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 [디스패처](/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) 객체)로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 기능을 분리한다.

@@ -3,8 +3,8 @@ title: "Boolean Algebra"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 22
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부울 대수 (Boolean Algebra)는 참(1)과 거짓(0)이라는 두 가지 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)값과 AND, OR, NOT 연산자만을 사용하여 우주의 모든 명제를 수식화한 이진 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 수학 체계다.
 > 2. **가치**: 1930년대 클로드 섀논에 의해 부울 대수 수식이 전기 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)/[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개폐 물리적 동작과 완벽히 1:1로 매핑됨이 증명되면서 현대 디지털 컴퓨터의 창세기가 되었다.

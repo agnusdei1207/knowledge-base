@@ -3,9 +3,8 @@ title: "523. RoCE (RDMA over Converged Ethernet)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 523
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RoCE ([RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) over Converged [Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))는 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 전송 의미를 얹어, 범용 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 네트워크에서도 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회·[직접 메모리 접근](/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) 기반의 저지연 통신을 구현하는 기술이다.

@@ -1,10 +1,11 @@
 ---
 title: "082. Kubelet Node Agent"
+date: "2026-06-07"
 tags:
   - "cloud_architecture"
-date: "2026-06-07"
+  - "studynote-cloud-architecture"
+weight: 82
 ---
-
 # Kubelet (큐블렛) - [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 워커 노드의 마스터 에이전트
 
 ## 핵심 인사이트 (3줄 요약)

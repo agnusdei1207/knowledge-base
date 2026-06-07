@@ -3,8 +3,8 @@ title: "109. Sbom Extraction Pipeline"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)([Software Bill of Materials](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))은 소프트웨어를 구성하는 <strong>모든 <a href="/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>·<a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>·의존성 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 기계 판독 가능한 표준 포맷(SPDX, CycloneDX)으로 기록한 디지털 자재 명세서</strong>다.
 > 2. **가치**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 빌드 시점에 자동 추출하여, Log4j 같은 <strong><a href="/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a>(<a href="/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">Supply Chain Attack</a>) 발생 시 취약 <a href="/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> 포함 여부를 수초 내 전수 조사</strong>할 수 있다.

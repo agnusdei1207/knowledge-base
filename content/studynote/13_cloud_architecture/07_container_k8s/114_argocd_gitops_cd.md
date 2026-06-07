@@ -3,8 +3,8 @@ title: "114. Argocd Gitops Cd"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Argo CD는 <strong>Git 레포지토리를 단일 진실 원천(Single Source of Truth)</strong>으로 삼아, Git의 매니페스트와 K8s 클러스터 상태를 <strong>실시간 비교(Diff)하고 자동 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Sync)</strong>하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) CD 도구다.
 > 2. **가치**: 전통 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD([Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 "Push 기반(파이프라인이 클러스터에 적용)"이라면, Argo CD는 <strong>"Pull 기반(클러스터가 Git을 감시하여 스스로 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)"</strong>하므로, 클러스터 접근 권한을 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 시스템에 노출하지 않아 <strong>보안이 강화</strong>된다.

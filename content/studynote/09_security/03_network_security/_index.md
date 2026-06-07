@@ -2,9 +2,9 @@
 title: "Network Security"
 tags:
   - "security"
+  - "studynote-security"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 보안은 데이터 전송 통로인 네트워크 상에서 발생하는 도청, 변조, 서비스 거부 (DoS) 공격을 차단하고 신뢰할 수 있는 통신 환경을 구축하는 기술 및 장비의 총체이다.

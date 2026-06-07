@@ -2,9 +2,9 @@
 title: "DORA Metrics"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics는 소프트웨어 전달 체계를 사람별 생산성이 아니라 시스템의 속도와 안정성으로 측정하는 지표 묶음이다.

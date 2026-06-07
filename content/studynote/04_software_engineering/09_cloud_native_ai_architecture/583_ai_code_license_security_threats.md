@@ -3,8 +3,8 @@ title: "Hallucination"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 583
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 ([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/) 버그)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Half Precision, FP16"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 반정밀도 (Half [Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), FP16)는 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계와 [전력 소모](/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 문제를 해결하기 위해 [IEEE 754](/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) [단정밀도](/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/)(32비트)를 정확히 반으로 줄인 16비트 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷이다.

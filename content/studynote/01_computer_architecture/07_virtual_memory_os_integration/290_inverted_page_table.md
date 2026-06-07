@@ -3,8 +3,8 @@ title: "Inverted Page Table"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 290
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [역 페이지 테이블](/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) ([Inverted Page Table](/studynote/02_operating_system/06_memory_management/363_inverted_page_table/))은 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 장부를 두는 대신, 물리 프레임마다 한 줄만 두어 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 크기를 물리 메모리 크기에 맞춰 고정하는 방식이다.

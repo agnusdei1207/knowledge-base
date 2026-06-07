@@ -3,9 +3,8 @@ title: "225. VRF (Virtual Routing and Forwarding)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 225
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VRF](/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/) (Virtual [Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) and Forwarding)는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

@@ -3,8 +3,8 @@ title: "Service Mesh Security Istio Envoy mTLS"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 374
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서비스 메시 보안은 마이크로서비스 간 모든 통신을 **사이드카 프록시(Envoy)**를 통해 자동으로 mTLS 암호화하고, 서비스 ID 기반 인증·인가·관측을 애플리케이션 코드 변경 없이 인프라 계층에서 일괄 적용하는 보안 패턴이다.

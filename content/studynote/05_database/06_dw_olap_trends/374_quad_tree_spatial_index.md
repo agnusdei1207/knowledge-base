@@ -3,8 +3,8 @@ title: "374. Quad Tree Spatial Index"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 374
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공간 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Quad-tree [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

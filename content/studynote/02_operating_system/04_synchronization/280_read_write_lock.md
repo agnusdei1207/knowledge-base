@@ -3,8 +3,8 @@ title: "280. Read Write Lock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 280
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 읽기-[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락 (Read-Write [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/), RW [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))은 다수의 독자가 동시에 읽을 수 있으며 단 하나의 저자만 독점적으로 쓸 수 있는 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원시 객체로, 뮤텍스보다 읽기 집중 환경에서 높은 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 제공한다.

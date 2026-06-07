@@ -3,8 +3,8 @@ title: "Deadlock"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 246
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 처리 기법은 Wait-Die, Wound-Wait (타임스탬프 선점/[비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 기반 예방)에 초점을 맞춘 개념이다.

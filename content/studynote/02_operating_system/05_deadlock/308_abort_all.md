@@ -3,8 +3,8 @@ title: "Abort all"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하기 위해 선택할 수 있는 가장 무자비하고 압도적인 폭탄 선언으로, <strong>데드락 사이클에 꼬여있는(얽힌) 3명, 4명 혹은 수백 명의 프로세스 전원을 단칼에 한날한시에 전원 강제 사살(Kill/Abort)해 버리는 학살(Termination) 방식</strong>이다.

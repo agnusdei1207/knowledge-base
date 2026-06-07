@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "cicd-gitops"
   - "studynote-devops-sre"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 디바이스 OTA ([Over-The-Air](/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/))는 수천~수십만 대의 물리적 기기(차량, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 등)를 회수하지 않고 무선 네트워크를 통해 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)나 소프트웨어를 원격 배포하는 인프라 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.

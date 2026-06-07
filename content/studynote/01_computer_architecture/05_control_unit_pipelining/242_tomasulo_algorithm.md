@@ -3,8 +3,8 @@ title: "Tomasulo's Algorithm"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 토마술로 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Tomasulo's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [예약역](/studynote/01_computer_architecture/05_control_unit_pipelining/241_reservation_station/) ([Reservation Station](/studynote/01_computer_architecture/05_control_unit_pipelining/241_reservation_station/), RS)과 태그 기반 의존성 추적으로, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 발행 순서가 아니라 <strong>준비 완료 순서</strong>로 실행하게 만드는 동적 스케줄링 기법이다.

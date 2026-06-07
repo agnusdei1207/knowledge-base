@@ -3,8 +3,8 @@ title: "094. Bullwhip Effect Mitigation Pos Vmi"
 date: "2024-05-15"
 tags:
   - "studynote-enterprise-systems"
+weight: 94
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 채찍 효과 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 사슬에 엮인 각 주체가 독자적으로 수요를 예측하며 발생하는 '정보의 왜곡'을 실시간 [데이터 공유](/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)와 구조적 협업으로 끊어내는 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))의 핵심 목표다.

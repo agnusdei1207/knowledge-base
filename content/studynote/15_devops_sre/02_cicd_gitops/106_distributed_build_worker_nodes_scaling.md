@@ -3,8 +3,8 @@ title: "106. Distributed Build Worker Nodes Scaling"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드 (Distributed Build)는 소프트웨어 통합 및 테스트 작업을 단일 서버([Scale-up](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))에서 처리하지 않고, 다수의 워커 노드(Worker Nodes)로 쪼개어 수평적([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))으로 동시 처리하는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 아키텍처다.
 > 2. **가치**: 대규모 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 환경에서 수만 개의 테스트와 빌드 작업이 유발하는 병목([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))을 해소하여, 개발자에게 피드백을 주는 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 물리적 한계까지 단축시킨다.

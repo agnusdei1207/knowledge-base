@@ -3,9 +3,8 @@ title: "269. ReLU (Rectified Linear Unit)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 269
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ReLU(Rectified Linear Unit)는 f(x)=max(0,x)로 정의되며, 양수 구간에서 기울기=1을 유지해 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)를 해결하고, 연산이 단순해 [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 6배 빠른 학습을 가능하게 한다.

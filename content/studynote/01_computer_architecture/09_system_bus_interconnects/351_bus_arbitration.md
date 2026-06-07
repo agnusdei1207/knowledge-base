@@ -3,8 +3,8 @@ title: "Bus Arbitration"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 351
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 중재 ([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Arbitration)는 여러 [버스 마스터](/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/)가 하나의 공유 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 동시에 원할 때, <strong>누가 먼저 쓸지 정해 충돌을 제어 가능한 순서로 바꾸는 메커니즘</strong>이다.

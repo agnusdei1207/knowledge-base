@@ -3,8 +3,8 @@ title: "678. Ceph Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 678
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Ceph는 범용 서버와 디스크를 묶어, 중앙 컨트롤러 없이도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치·[복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하도록 설계한 [SDS](/studynote/01_computer_architecture/15_advanced_topics/632_sds/) (Software-Defined Storage) 아키텍처다.

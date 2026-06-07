@@ -3,8 +3,8 @@ title: "Pooling"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 285
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 풀링(Pooling)은 특징 맵([Feature Map](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 공간 해상도를 줄이는 다운샘플링(Downsampling) 연산으로, **학습 파라미터 없이** 이동·변형에 강건한 공간 불변성(Spatial Invariance)을 제공한다.

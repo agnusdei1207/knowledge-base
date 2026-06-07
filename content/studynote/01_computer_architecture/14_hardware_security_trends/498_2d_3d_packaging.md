@@ -3,8 +3,8 @@ title: "498. 2D 3D Packaging"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 498
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 2.5D 패키징은 여러 다이를 실리콘 인터포저나 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 위에 나란히 배치해 고밀도로 연결하는 방식이고, 3D 패키징은 다이를 수직으로 적층해 [TSV](/studynote/01_computer_architecture/14_hardware_security_trends/496_tsv/) (Through-Silicon Via)나 하이브리드 본딩 (Hybrid Bonding)으로 직접 잇는 방식이다.

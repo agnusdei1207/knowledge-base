@@ -2,9 +2,9 @@
 title: "Security & DevSecOps"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
 weight: 8
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 보안 (Software Security)은 개발 전 과정 (SDLC)에 보안 활동을 내재화하여 취약점을 원천 차단하는 것이며, DevSecOps는 보안을 개발 및 운영 사이클의 필수 구성 요소로 자동화하는 체계이다.

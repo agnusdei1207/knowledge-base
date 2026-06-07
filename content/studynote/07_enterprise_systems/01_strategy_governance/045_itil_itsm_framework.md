@@ -3,8 +3,8 @@ title: "045. Itil Itsm Framework"
 date: "2026-04-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/)([IT Infrastructure Library](/studynote/12_it_management/02_itsm_itil/846_itil/))은 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/))의 사실상 표준 프레임워크 — 영국 정부 CCTA가 1980년대 개발하고 현재 Axelos가 관리하며, IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 관점에서 제공·지원·개선하는 모범 사례([Best Practice](/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 집합이다.
 > 2. [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 4(2019)의 핵심은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 시스템(SVS)과 [4차원 모델](/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) — 기존 프로세스 중심에서 [Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)·Lean을 통합한 가치 공동 창출 관점으로 진화하며, 34개 관리 관행(Practice)으로 구성된다.

@@ -3,8 +3,8 @@ title: "Model Serving Inference Optimization AB Test"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 748
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Triton/vLLM/TGI 기반 추론 서빙 환경에서 양자화(INT8/INT4/FP8), Continuous Batching, PagedAttention(KV-Cache), Speculative Decoding, FlashAttention 등 추론 최적화 기법을 **Production 트래픽의 일정 비율(예: 5~50%)로 분기 라우팅**하여 A/B 테스트를 수행, **latency(p50/p95/p99, TTFT, TPOT)·throughput(tokens/sec)·GPU SM utilization·TCO($/1M tokens)** 와 **품질 지표(Exact Match, ROUGE, LLM-as-Judge, Human Preference)** 간의 trade-off를 통계적으로 검증하는 MLOps 실험 프레임워크.

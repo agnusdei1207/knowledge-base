@@ -3,8 +3,8 @@ title: "Flow Control"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 421
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

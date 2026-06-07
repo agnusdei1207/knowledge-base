@@ -3,8 +3,8 @@ title: "Page Fault Handling"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 과정 ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Handling)은 중앙처리장치 (Central Processing Unit, CPU)가 찾는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 물리 메모리에 없을 때, 하드웨어 예외를 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 받아 적재·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 <strong><a href="/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 실제 실행 절차</strong>다.

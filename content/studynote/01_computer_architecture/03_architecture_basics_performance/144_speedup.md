@@ -3,8 +3,8 @@ title: "Speedup"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 속도 [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) (Speedup)는 개선 전 실행 시간과 개선 후 실행 시간을 비교해, 특정 설계 변화가 실제로 몇 배의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득을 만들었는지 보여 주는 상대 지표다.

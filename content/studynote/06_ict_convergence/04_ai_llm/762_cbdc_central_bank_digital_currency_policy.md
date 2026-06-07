@@ -3,8 +3,8 @@ title: "CBDC Central Bank Digital Currency Policy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 762
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CBDC(중앙은행 디지털 화폐)는 중앙은행이 발행하는 **중앙은행 채무(central bank liability)**로서의 디지털 토큰으로, **직접 발행 모델(Direct)·간접 발행 모델(Indirect)·하이브리드 모델** 중 발행 구조와 **계좌 기반(Account-Based) vs 토큰 기반(Token-Based, UTXO)**, **집중형 원장 vs DLT**의 2×2 설계 매트릭스에서 정책 목표·금융안정·프라이버시 간의 트레이드오프를 결정하는 정책·기술 융합 시스템이다.

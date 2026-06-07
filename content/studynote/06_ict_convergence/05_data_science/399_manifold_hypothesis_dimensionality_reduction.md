@@ -3,8 +3,8 @@ title: "Manifold Hypothesis"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 399
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 딥러닝 비용 함수 다차원 표면 매니폴드 매핑 ([Manifold Hypothesis](/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/)): 1. **본질**: [매니폴드 가설](/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/)([Manifold Hypothesis](/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/))은 "아무리 복잡하고 차원이 높은(예: 100만 픽셀의 이미지) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도, 사실 그 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 진짜 의미를 가지는 핵…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

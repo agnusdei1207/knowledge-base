@@ -3,9 +3,8 @@ title: "464. io_uring (I/O Uring)"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 464
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `io_uring`은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.1에 혜성처럼 등장한 차세대 100% 비동기 I/O(Asynchronous I/O) 프레임워크로, <strong>유저 공간과 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간이 램(RAM)을 공유하여 두 개의 거대한 링 버퍼(Ring Buffer)를 놓고 포인터만 교환하며 데이터를 처리하는 극강의 제로 오버헤드 아키텍처</strong>다.

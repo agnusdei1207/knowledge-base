@@ -3,8 +3,8 @@ title: "HEC"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 273
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

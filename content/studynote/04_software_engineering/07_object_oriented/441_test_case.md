@@ -3,8 +3,8 @@ title: "441. Test Case"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 441
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테스트 케이스 (Test Case) 구조 - [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 전제조건, 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 기대 결과은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

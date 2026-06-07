@@ -3,9 +3,8 @@ title: "894. SCADA (Supervisory Control and Data Acquisition)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 894
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SCADA (Supervisory Control and [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Acquisition](/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/))는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)·물리 보안에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

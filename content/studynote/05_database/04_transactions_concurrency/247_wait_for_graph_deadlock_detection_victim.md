@@ -3,8 +3,8 @@ title: "Wait-for Graph"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 247
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 탐지](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) [대기 그래프](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([Wait-for Graph](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/))은 사이클 발생 시 희생자(주로 후발 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)에 초점을 맞춘 개념이다.

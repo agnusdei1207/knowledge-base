@@ -3,8 +3,8 @@ title: "383. Llm Autoregressive Math"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 383
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자기 회귀 (Auto-Regressive) 언어 모델은 시퀀스의 결합 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 연쇄 법칙 (Chain Rule)으로 분해하여, 이전 토큰들이 주어졌을 때 다음 토큰의 [조건부 확률](/studynote/08_algorithm_stats/08_stats/132_conditional_probability/)을 순차적으로 곱하는 방식으로 텍스트를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.

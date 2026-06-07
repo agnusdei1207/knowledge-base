@@ -3,8 +3,8 @@ title: "Attenuation & dB"
 date: "2026-04-29"
 tags:
   - "studynote-network"
+weight: 25
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 감쇠(Attenuation)는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)(케이블, 공기)를 통과하면서 에너지가 손실되어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 약해지는 현상이며, 데시벨(dB, Decibel)은 이 손실을 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Logarithm) 스케일로 표현하는 단위로 `dB = 10·log₁₀(P_out/P_in)` 공식을 따른다.
 > 2. **가치**: dB 단위는 수십 dBm의 송신 전력과 -100 dBm의 수신 감도를 같은 척도로 비교할 수 있게 하고, 여러 구간의 이득(Gain)과 손실(Loss)을 곱셈이 아닌 덧셈으로 계산할 수 있어 복잡한 링크 버짓(Link Budget) 계산을 단순화한다.

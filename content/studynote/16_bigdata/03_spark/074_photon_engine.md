@@ -3,8 +3,8 @@ title: "074. Photon Engine"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Photon 엔진은 Databricks가 개발한 C++ 기반 네이티브 벡터화 실행 엔진(Vectorized Execution 엔진)으로, Apache Spark의 JVM(Java [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 오버헤드를 제거하고 CPU [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 활용하여 SQL/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)프레임 연산을 최대 12배 가속화한다.
 > 2. **가치**: Photon은 Databricks Runtime에 투명하게 통합되어 기존 [Spark SQL](/studynote/16_bigdata/03_spark/056_spark_sql/) 코드 변경 없이 I/O 집약적 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load), 대용량 집계(Aggregation), 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/)) 연산의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 대폭 향상시키고 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 비용을 절감한다.

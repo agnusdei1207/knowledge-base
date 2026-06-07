@@ -3,8 +3,8 @@ title: "461. Asynchronous Io Aio"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 461
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비동기 I/O(AIO)는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에게 "이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10MB 읽어와!"라고 명령만 툭 던져두고 <strong>결과를 기다리지 않은 채 즉시 다음 코드를 실행하며, 나중에 OS가 램(RAM)에 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다 채우면 "다 퍼왔어!"라고 시그널이나 콜백(Callback)으로 알려주는 100% 논블로킹 아키텍처</strong>다.

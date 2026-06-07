@@ -3,8 +3,8 @@ title: "AMD SME/SEV, Intel SGX"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 437
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 기반 [메모리 암호화](/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/) 기술은 CPU 칩셋 내부에 하드웨어 암호화 엔진([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))을 박아넣어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>물리 램(RAM)에 저장할 때는 철저히 암호화된 쓰레기 값으로 보관하고, CPU 캐시로 읽어올 때만 빛의 속도로 복호화하여 투명하게 사용하는 궁극의 <a href="/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/">기밀 컴퓨팅</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/">Confidential Computing</a>) 기술</strong>이다.

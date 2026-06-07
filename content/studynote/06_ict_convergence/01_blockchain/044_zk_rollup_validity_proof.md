@@ -3,8 +3,8 @@ title: "044. Zk Rollup Validity Proof"
 date: "2026-04-05"
 tags:
   - "studynote-ict-convergence"
+weight: 44
 ---
-
 > **핵심 인사이트**
 > 1. ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Zero-Knowledge [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 수천 건의 트랜잭션을 오프체인에서 처리하고 수학적 유효성 증명(zk-SNARK/zk-STARK)만 메인체인에 제출하는 Layer 2 확장 기술로 — 낙관적 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 달리 도전 기간 없이 즉시 최종성([Finality](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))을 달성한다.
 > 2. ZK-Rollup의 핵심인 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) — [Zero-Knowledge Proof](/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))은 "비밀을 공개하지 않고 비밀을 알고 있음을 증명"하는 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 기법으로 — 증명자(Prover)는 계산 결과만 공개하고 메인체인(검증자)은 수학적으로 검증하므로, 프라이버시와 확장성을 동시에 달성한다.

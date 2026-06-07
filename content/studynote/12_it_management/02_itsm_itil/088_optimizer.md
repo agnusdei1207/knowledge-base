@@ -1,11 +1,11 @@
 ---
 title: "088. Optimizer"
 date: "2026-04-05"
-description: "옵티마이저의 개념, 다양한 최적화 알고리즘의 분류와 특성, Adaptive Learning Rate 방법론"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (Optimizer)는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델이 예측한 값과 정답 간의 오차(Loss)를 최소화하기 위해, 네트워크의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 어느 방향으로 얼만큼 수정할지 결정하는 내비게이션 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

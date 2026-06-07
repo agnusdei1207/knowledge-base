@@ -2,9 +2,9 @@
 title: "075. Agile Pmo Project Management Office"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Agile PMO](/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/) ([Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 일정·문서 통제보다 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 가시성, 의존성 관리, 예산 흐름 지원에 초점을 맞추는 지원형 거버넌스다.

@@ -3,8 +3,8 @@ title: "Value Proposition Canvas"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가치 제안 캔버스 (Value Proposition Canvas, [VPC](/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))는 고객이 해결하려는 일과 겪는 고통, 기대하는 이익을 제품의 기능·고통 완화·이익 창출 요소와 정밀하게 맞춰 보는 <strong>적합성 설계 도구</strong>다.

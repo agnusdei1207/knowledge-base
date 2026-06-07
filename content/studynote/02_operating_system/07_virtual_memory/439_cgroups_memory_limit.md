@@ -3,8 +3,8 @@ title: "439. Cgroups Memory Limit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 439
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/)) 메모리 서브시스템은 램이 부족할 때 무자비하게 남의 램을 뺏어 쓰는 리눅스의 <strong>'<a href="/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>(<a href="/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">Global Replacement</a>)' 야생성을 통제하기 위해, 특정 프로세스 무리(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>)에게 보이지 않는 강철 철창(Memory Limit)을 씌워 메모리 상한선을 강제하는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 레벨의 <a href="/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a> 기술</strong>이다.

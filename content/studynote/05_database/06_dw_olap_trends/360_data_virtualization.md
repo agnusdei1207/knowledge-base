@@ -3,8 +3,8 @@ title: "Data Virtualization"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 360
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Data Virtualization](/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/))는 물리적 이동/[복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 없이 다양한 소스 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 통합 조회 뷰에 초점을 둔 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

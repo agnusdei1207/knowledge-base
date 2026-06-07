@@ -3,8 +3,8 @@ title: "Crossbar Switch"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 388
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크로스바 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) (Crossbar [Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 입력과 출력을 격자 형태의 교차점으로 연결해, 서로 다른 목적지라면 동시에 1단계로 통신하게 만드는 대표적인 비차단 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구조다.

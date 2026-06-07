@@ -3,8 +3,8 @@ title: "158. Wifi 6E"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 158
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [와이파이 6](/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E (Wi-Fi 6E)는 [와이파이 6](/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)의 효율 기술을 유지한 채, 6GHz 신규 대역을 추가로 활용하게 만든 스펙트럼 확장형 무선랜 표준이다.

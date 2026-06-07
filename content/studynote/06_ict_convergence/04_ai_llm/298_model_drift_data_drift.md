@@ -3,8 +3,8 @@ title: "Model Drift / Data Drift"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 298
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모델 드리프트](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) ([Model Drift](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) / [Data Drift](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)): 배포 후 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 분포나 환경이 변하여 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 정확도가 시간이 지남에 따라 하락하는 현상 (재학습 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 원인)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

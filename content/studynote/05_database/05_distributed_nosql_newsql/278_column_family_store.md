@@ -3,8 +3,8 @@ title: "Column Family / Wide-Column Store"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 278
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컬럼 패밀리 저장소 (Column Family / [Wide-Column Store](/studynote/13_cloud_architecture/05_data_engineering/238_wide_column_cassandra_hbase_lsm/))은 대량 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기 특화, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 우수, [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/), Cassandra에 초점을 맞춘 개념이다.

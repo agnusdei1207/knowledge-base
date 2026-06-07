@@ -3,8 +3,8 @@ title: "Interactive Application Security Testing IAST"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 383
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IAST 인터랙티브 보안 테스트 런타임 분석은(는) 개발, 배포, 운영 전 과정에 보안 통제를 내재화하는 DevSecOps 핵심 주제다.

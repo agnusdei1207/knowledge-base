@@ -3,8 +3,8 @@ title: "Split Cache"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 279
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분리 캐시 (Split Cache)는 L1 (Level 1) 캐시를 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 전용 I-Cache ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Cache)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전용 D-Cache ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Cache)로 나누어, 같은 사이클에 서로 다른 종류의 접근을 동시에 처리하게 만든 구조다.

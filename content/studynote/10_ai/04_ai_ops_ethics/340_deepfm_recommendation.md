@@ -3,8 +3,8 @@ title: "Deepfm Recommendation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 340
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DeepFM 은 FM (Factorization Machine, 인수분해 머신) 의 2차 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 상호작용 (Feature Interaction) 과 DNN (Deep Neural Network) 의 고차 상호작용을 공유 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) (Shared [Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 으로 동시에 학습해 [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) (Click-Through Rate, 클릭률) 예측 정확도를 높인다.

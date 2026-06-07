@@ -3,8 +3,8 @@ title: "663. Paravirtualization Io"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 663
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) ([Paravirtualization](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)) I/O는 게스트 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 자신이 가상 환경에 있다는 사실을 알고, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 합의한 전용 인터페이스로 입출력 (Input/Output, I/O)을 처리하는 방식이다.

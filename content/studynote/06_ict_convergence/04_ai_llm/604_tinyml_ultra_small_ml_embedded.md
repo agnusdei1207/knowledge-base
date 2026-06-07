@@ -3,8 +3,8 @@ title: "TinyML Ultra Small ML Embedded"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 604
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TinyML 초소형 임베디드 머신러닝은(는) 마이크로컨트롤러급 초저전력 장치에서 머신러닝 추론을 수행하는 기술이다.

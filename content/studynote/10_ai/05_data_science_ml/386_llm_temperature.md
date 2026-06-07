@@ -3,8 +3,8 @@ title: "386. Llm Temperature"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 386
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온도 (Temperature) 파라미터 T는 언어 모델의 로짓 (Logit) 분포를 재조정해 출력의 무작위성을 제어하며, T->0은 결정론적(그리디), T->∞는 균등 분포(완전 무작위)에 수렴한다.

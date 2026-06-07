@@ -3,8 +3,8 @@ title: "mmap Shared Memory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 419
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞서 배운 `mmap` 기술이 단순히 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽는 것을 넘어, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 심장부에 있는 <strong>'<a href="/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache)' 영역을 사용자 프로세스들이 십자수처럼 엮어 함께 쓰도록(<a href="/studynote/02_operating_system/02_process_thread/118_shared_memory/">Shared Memory</a> <a href="/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a>) 승화</strong>시키는 실전 아키텍처의 활용법이다.

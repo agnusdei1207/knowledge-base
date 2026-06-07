@@ -3,8 +3,8 @@ title: "Hybrid Multi-Cloud"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 349
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이브리드 [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)([Hybrid Multi-Cloud](/studynote/07_enterprise_systems/09_digital_transformation/424_hybrid_multicloud_lock_in/))는 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 둘 이상의 클라우드 자원을 조합해, 규제·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·사업 협상력을 함께 확보하려는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

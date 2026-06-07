@@ -3,8 +3,8 @@ title: "776. Flush Reload"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 776
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Flush+Reload는 공격자와 피해자가 공유하는 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 특정 캐시 라인을 먼저 비우고(Flush), 피해자 실행 뒤 다시 읽어(Reload) [hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 시간을 측정해 사용 여부를 알아내는 고정밀 캐시 공격이다.

@@ -3,8 +3,8 @@ title: "DataOps CI/CD with dbt"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 356
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DataOps는 DevOps의 원칙(자동화, 협업, 빠른 피드백)을 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 적용해 분석 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 배포 속도를 높이는 방법론이다.

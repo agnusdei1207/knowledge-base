@@ -3,8 +3,8 @@ title: "497. Sr Iov Pcie Mapping"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 497
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMware, [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)) 위에서 돌아가는 수십 대의 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))들이 가짜소프트웨어 랜카드(Virtual [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) / Virtio) 구조의 극심한 스위칭 병목 타임을 뚫지 못하자, 아예 물리적으로 꽂힌 진짜 쇳덩어리 100G 랜카드나 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 칩 하나를 64개의 가짜 하드웨어 분신([VFs](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))으로 쪼개서 각 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 배때지에 <strong>'진짜 물리 기판인 척' 다이렉트로 던져 박아버리는 하드웨어 레벨의 <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 분할 매핑 규격</strong>이다.

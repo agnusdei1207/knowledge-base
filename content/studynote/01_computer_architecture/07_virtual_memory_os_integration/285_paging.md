@@ -3,8 +3,8 @@ title: "Paging"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 285
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/studynote/02_operating_system/04_synchronization/259_paging/))은 가상 주소 공간과 물리 메모리를 같은 크기의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))·프레임 (Frame)으로 나누어 매핑함으로써, 프로그램에는 연속 공간을 보이게 하고 하드웨어에는 비연속 배치를 허용하는 주소 관리 방식이다.

@@ -3,8 +3,8 @@ title: "139. Nsp Next Sentence Prediction"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NSP는 <strong>두 문장이 원래 연속된 문장인지(IsNext) 아닌지(NotNext)를 이진 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>하는 BERT의 두 번째 사전 학습 목표이며, 문장 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(함의·모순·중립)를 학습한다.
 > 2. **가치**: QA(질문-지문 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))·NLI(자연어 추론)·문장 유사도 등 <strong>문장 쌍(Sentence Pair) 작업의 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 향상</strong>시키기 위해 설계되었다.

@@ -3,8 +3,8 @@ title: "Promise/Future Async Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Promise / Future (프로미스/퓨처)는 "아직 완료되지 않은 비동기 연산의 미래 결과"를 나타내는 객체로, 콜백 지옥(Callback Hell)을 탈피하고 비동기 연산을 체이닝([Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))으로 표현하는 비동기 패턴이다.

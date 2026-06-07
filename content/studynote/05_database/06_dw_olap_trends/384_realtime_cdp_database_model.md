@@ -3,8 +3,8 @@ title: "384. Realtime Cdp Database Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 384
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실시간 커스터머 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 ([CDP](/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)) 구성을 위한 DB 연계 모델는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 모델이다.

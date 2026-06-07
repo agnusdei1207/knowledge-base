@@ -3,9 +3,8 @@ title: "63. Terraform vs Ansible"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 63
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Terraform은 선언형으로 인프라 자원을 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)하고, Ansible은 절차형으로 서버 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 [구성 관리](/studynote/12_it_management/02_itsm_itil/873_configuration_management/)를 자동화한다.

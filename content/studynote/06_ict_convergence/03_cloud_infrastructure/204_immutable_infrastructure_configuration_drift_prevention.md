@@ -3,8 +3,8 @@ title: "Immutable Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 불변 인프라 ([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) Infrastructure): 서버 구성을 배포 후 수정하지 않고, 변경이 필요하면 새 이미지로 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/VM을 갈아치우는 패러다임 ([구성 편류](/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) [Configuration Drift](/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) 방지)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

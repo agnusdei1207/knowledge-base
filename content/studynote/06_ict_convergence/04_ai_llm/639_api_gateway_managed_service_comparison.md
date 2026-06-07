@@ -3,8 +3,8 @@ title: "API Gateway Managed Service Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 639
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: API Gateway 매니지드 서비스는 클라이언트와 백엔드 마이크로서비스 사이의 L7 인그레스 프록시로서 **Data Plane(트래픽 처리)**와 **Control Plane(정책/메타데이터 관리)**을 분리하고, OAuth 2.0/OIDC/JWT 기반 인증, Token Bucket/Leaky Bucket 알고리즘을 통한 Rate Limiting, OpenAPI 3.0 기반 계약(Contract) 관리를 표준화한 매니지드 미들웨어 플랫폼이다.

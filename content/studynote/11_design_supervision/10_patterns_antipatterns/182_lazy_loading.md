@@ -3,8 +3,8 @@ title: "Lazy Loading"
 date: "2026-05-06"
 tags:
   - "studynote-design-supervision"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 로딩 ([Lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading)은 연관 객체나 무거운 자원을 즉시 가져오지 않고, 가상 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) (Virtual [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))나 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 장치를 통해 실제 접근 시점까지 비용을 미루는 패턴이다.

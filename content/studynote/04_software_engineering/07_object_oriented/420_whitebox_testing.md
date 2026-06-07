@@ -3,8 +3,8 @@ title: "420. Whitebox Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 420
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 화이트박스 테스트 (White-box Test / 구조 기반 테스트) - 소스코드의 내부 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 모두 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

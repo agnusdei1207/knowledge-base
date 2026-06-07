@@ -3,8 +3,8 @@ title: "030. Crosstalk"
 date: "2026-04-29"
 tags:
   - "studynote-network"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 누화(Crosstalk)는 인접한 전송 선로 간의 전자기 결합으로 한 선로의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 다른 선로에 유도되는 현상이다. 선로 간 용량(Capacitive) 또는 유도(Inductive) 결합이 원인이다.
 > 2. **가치**: 누화는 XT(Crosstalk) 또는 XTC로 표기하며, NEXT(Near-End Crosstalk, 근단 누화)와 FEXT(Far-End Crosstalk, 원단 누화)로 구분된다. 고속 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)·[UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블·PCB 설계에서 핵심 품질 지표다.

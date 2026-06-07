@@ -3,9 +3,8 @@ title: "195. RISC (Reduced Instruction Set Computer)"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 195
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RISC (Reduced [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 똑똑하게 많이 만들기"보다 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 단순하고 규칙적으로 만들어 빠르게 흘려보내기"에 초점을 둔 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 철학이다.

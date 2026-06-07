@@ -3,8 +3,8 @@ title: "Long Tail"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [롱테일 법칙](/studynote/12_it_management/05_security_compliance/252_long_tail_law/)의 핵심은 디지털 경제에서 하위 80% 다수가 상위 20% 핵심보다 더 큰 가치를 창출하는 현상 (파레토 법칙의 역)라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

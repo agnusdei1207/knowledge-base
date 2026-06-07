@@ -3,8 +3,8 @@ title: "Supply Chain Attack"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소스, 빌드, 서명, 배포 경로 전체를 신뢰 사슬 관점에서 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 보안 영역.

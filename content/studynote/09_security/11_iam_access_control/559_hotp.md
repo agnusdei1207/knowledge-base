@@ -3,9 +3,8 @@ title: "559. HOTP (HMAC-based OTP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 559
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HOTP (HMAC-based [OTP](/studynote/01_computer_architecture/15_advanced_topics/748_otp/))는 신원·접근 제어에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

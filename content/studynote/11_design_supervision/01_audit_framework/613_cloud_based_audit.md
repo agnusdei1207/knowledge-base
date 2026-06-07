@@ -3,8 +3,8 @@ title: "Cloud-Based Audit"
 date: "2026-03-03"
 tags:
   - "studynote-design-supervision"
+weight: 613
 ---
-
 > **핵심 인사이트**
 > 1. 클라우드 기반 감리는 전통적 현장 방문 대신 원격 접속·클라우드 산출물 검토·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 자동화 도구를 활용해 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)·[PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)·[IaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경의 정보시스템을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 현대화된 감리 방식이다.
 > 2. 클라우드 공유 책임 모델(Shared Responsibility Model)에 따라 감리 범위가 명확히 구분되어야 하며, [CSP](/studynote/09_security/05_web_app_security/475_csp/)(Cloud [Service Provider](/studynote/09_security/11_iam_access_control/535_sp_service_provider/))의 책임 영역(물리 인프라)은 CSP의 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 보고서([SOC 2](/studynote/09_security/17_framework_compliance/855_soc_2/), ISO 27001)로 대체된다.

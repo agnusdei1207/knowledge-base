@@ -3,8 +3,8 @@ title: "Page Replacement"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 300
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 교체 알고리즘](/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) ([Page Replacement Algorithm](/studynote/02_operating_system/07_virtual_memory/395_page_replacement_algorithm/))은 물리 메모리의 빈 프레임이 없을 때, 다음 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실이 가장 작도록 희생 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 고르는 가상 메모리의 의사결정 규칙이다.

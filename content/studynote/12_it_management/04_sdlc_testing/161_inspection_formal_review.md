@@ -3,8 +3,8 @@ title: "Inspection,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 161
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 인스펙션 (Inspection)은 사회자와 인스펙터가 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)를 바탕으로 산출물의 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 공식적으로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 정적 검토 기법이다.

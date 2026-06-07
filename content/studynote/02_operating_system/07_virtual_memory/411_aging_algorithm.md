@@ -3,8 +3,8 @@ title: "411. Aging Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 411
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에이징([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 나이 먹기)은 단 1비트의 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만으로 판단하는 [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 변별력 한계와, 과거에 얽매이는 [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 알박기 문제를 동시에 해결하기 위해 <strong>'시간의 흐름에 따라 과거의 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 기록을 절반씩 깎아내리는(Right Shift) 소프트웨어적 쇠퇴 연산'</strong>이다.

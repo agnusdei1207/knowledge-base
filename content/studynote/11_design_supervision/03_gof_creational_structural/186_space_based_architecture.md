@@ -3,8 +3,8 @@ title: "Space-Based Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 186
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스페이스 기반 아키텍처([SBA](/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/), Space-Based [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 요청 처리 경로에서 중앙 DB ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 병목을 제거하기 위해 처리 로직과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인메모리 공간으로 끌어올린 고확장성 패턴이다.

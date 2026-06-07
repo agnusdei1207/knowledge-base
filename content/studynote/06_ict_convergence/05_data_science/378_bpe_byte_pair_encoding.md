@@ -3,8 +3,8 @@ title: "Byte Pair Encoding"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 378
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 텍스트 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) BPE 서브워드 병합 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 빈도 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) ([Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Pair Encoding): 1. **본질**: BPE([Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Pair Encoding)는 인간의 언어(문장)를 인공지능이 이해할 수 있는 조각(Token)으로 자를 때, 글자 단위의 비효율성과 단어 단위의 무한대…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

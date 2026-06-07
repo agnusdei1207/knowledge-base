@@ -3,8 +3,8 @@ title: "Cooperative Intelligent Transport Systems,"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: C-ITS (Cooperative Intelligent Transport Systems)는 차량·도로 인프라·보행자가 차량 [사물 통신](/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/) ([V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/), [Vehicle-to-Everything](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)) 으로 상태와 의도를 주고받는 <strong>협력형 교통 인지 계층</strong>이다.

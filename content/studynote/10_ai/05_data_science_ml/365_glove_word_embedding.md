@@ -3,9 +3,8 @@ title: "365. GloVe (Global Vectors for Word Representation)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 365
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GloVe(Global Vectors for [Word](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) Representation)는 전체 코퍼스의 [동시 등장 행렬](/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/)([Co-occurrence Matrix](/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/)) X_ij를 분해하여 단어 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)을 학습하는 방법으로, 전역(Global) 통계를 활용해 Word2Vec의 로컬(Local) 문맥 창 한계를 극복한다.

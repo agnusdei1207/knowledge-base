@@ -3,8 +3,8 @@ title: "Software Obsolescence"
 date: "2026-03-03"
 tags:
   - "studynote-software-engineering"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 소프트웨어 노후화(Software Obsolescence)는 기술적 부채·[엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 축적·환경 변화로 시스템이 유지보수 불가 상태에 도달하는 현상이다.
 > 2. 레거시 마이그레이션 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)·리아키텍처링·교체·은퇴)의 선택은 비즈니스 가치 vs [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 비율로 결정한다.

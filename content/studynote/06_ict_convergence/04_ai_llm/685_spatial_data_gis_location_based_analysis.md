@@ -3,8 +3,8 @@ title: "Spatial Data GIS Location Based Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 685
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공간 데이터 GIS 위치 기반 분석은 WGS84/UTM-K/Bessel1841 등 좌표참조체계(CRS) 하의 벡터(점·선·면)·래스터(그리드 셀) 데이터를 PostGIS/Oracle Spatial의 R-Tree·GiST·SP-GiST 인덱스로 가속화하고, OGC 표준(WMS/WFS/WCS/WPS) 기반 5가지 핵심 분석(근접성·오버레이·네트워크·통계·지형학)을 수행하여 의사결정 인사이트를 추출하는 공간정보학적 컴퓨팅 패러다임이다.

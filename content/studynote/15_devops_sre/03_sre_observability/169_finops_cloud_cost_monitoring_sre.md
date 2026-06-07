@@ -3,8 +3,8 @@ title: "Cloud Cost Monitoring"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) (Financial Operations)는 클라우드 비용을 재무팀의 월말 보고서가 아니라 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 다뤄, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 비용 원인과 최적화 행동을 실시간에 가깝게 연결하는 클라우드 재무 운영 체계다.

@@ -3,8 +3,8 @@ title: "Data Engineering Architecture Summary"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 692
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 엔지니어링 아키텍처는 **다층 파이프라인(수집->저장->처리->서빙->거버넌스)** 으로, 원천 트랜잭션 데이터를 **Bronze/Silver/Gold 메달리온 패턴**과 **Iceberg/Delta Lake/Hudi 오픈 테이블 포맷**을 통해 트러스트된 데이터 프로덕트로 변환하는 End-to-End 시스템이다.

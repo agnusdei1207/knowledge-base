@@ -3,8 +3,8 @@ title: "Risk Response Strategies"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Risk Response](/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/) Strategies)은 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 위협과 기회에 대해 회피·전가·완화·수용 같은 실행 방식을 선택해, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 노출도 ([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Exposure)를 관리 가능한 수준으로 낮추는 의사결정 체계다.

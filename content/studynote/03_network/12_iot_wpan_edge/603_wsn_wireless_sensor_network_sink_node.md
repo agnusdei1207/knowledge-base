@@ -3,8 +3,8 @@ title: "603. Wsn Wireless Sensor Network Sink Node"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 603
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [센서 네트워크](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성은 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "633. Sdn Whitebox"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 633
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소프트웨어 정의 네트워킹](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/)(SDN, [Software Defined Networking](/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/)) [화이트박스 스위치](/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)는 범용 스위칭 실리콘과 네트워크 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS, Network [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))를 분리한 개방형 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.

@@ -3,8 +3,8 @@ title: "Hypervisor"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하이퍼바이저 (Hypervisor)는 여러 가상 머신 ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 직접 관리하는 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 제어 계층이다.

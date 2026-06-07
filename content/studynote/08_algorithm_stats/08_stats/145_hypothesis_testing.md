@@ -2,9 +2,9 @@
 title: "145. Hypothesis Testing"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 145
 ---
-
 ## 핵심 인사이트
 
 > 가설 검정(Hypothesis Testing)의 핵심은 "귀무 가설(Null Hypothesis, H₀)이 참이라는 전제 하에, 관측된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 극단적인지"를 p-값([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/))으로 정량화하는 과정이다.

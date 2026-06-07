@@ -3,8 +3,8 @@ title: "Type I Error,"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 336
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1종 오류 / 2종 오류 (Type II Error, 베타) (Type I Error, 알파): 1. **본질**: 1종 오류($\[alpha](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)는 "사실이 아닌데 맞다고 우기는 것(가짜 양성, False Positive)"이고, 2종 오류($\beta$)는 "사실인데 아니라고 우기는…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

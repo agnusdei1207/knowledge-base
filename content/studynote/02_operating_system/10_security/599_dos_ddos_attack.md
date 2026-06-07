@@ -3,8 +3,8 @@ title: "599. Dos Ddos Attack"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 599
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DoS (Denial of [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 및 DDoS (Distributed DoS) 공격은 시스템 권한을 탈취(Hacking)하는 것이 아니라, 타겟 서버의 네트워크 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), CPU, 메모리, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 자원 등을 고갈시켜 정상적인 사용자의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용을 원천적으로 불가능하게 만드는 <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>) 파괴 공격</strong>이다.

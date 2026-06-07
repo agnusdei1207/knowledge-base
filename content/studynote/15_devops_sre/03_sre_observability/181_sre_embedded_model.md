@@ -3,8 +3,8 @@ title: "Embedded Model"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 임베디드 모델은 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 엔지니어를 제품팀 안에 밀착 배치해, [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 원칙이 설계·배포·운영의 일상 업무 안으로 들어오게 만드는 조직 운영 방식이다.

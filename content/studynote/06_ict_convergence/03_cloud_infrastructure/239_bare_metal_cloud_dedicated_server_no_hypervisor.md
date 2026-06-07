@@ -3,8 +3,8 @@ title: "Bare Metal Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [베어메탈 클라우드](/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) ([Bare Metal Cloud](/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)): [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 없이 물리 서버 자체를 클라우드처럼 임대 (DB, 고성능 연산용)를 이해하는 핵심 개념으로, 물리 자원을 추상화해 여러 워크로드를 효율적으로 격리·운영해야 하는 문제를 설명하는 데 쓰인다.

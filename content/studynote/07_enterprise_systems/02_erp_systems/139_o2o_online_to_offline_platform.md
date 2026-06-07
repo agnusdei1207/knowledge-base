@@ -3,8 +3,8 @@ title: "139. O2O Online To Offline Platform"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: O2O는 <strong>온라인 플랫폼에서 고객을 유치하여 오프라인 매장·<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 연결</strong>하는 비즈니스 모델이며, 배달앱(배달의민족)·차량호출(카카오T)·숙박(에어비앤비)이 대표이다.
 > 2. **가치**: 오프라인 매장은 <strong>지역적 한계</strong>가 있지만, O2O 플랫폼은 <strong>온라인으로 무한한 고객 도달</strong>을 가능하게 하고, 결제·예약·리뷰를 디지털로 통합한다.

@@ -3,8 +3,8 @@ title: "500. Xss Defense Escaping Csp"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 500
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크로스 사이트 스크립팅 ([XSS](/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)) 방어 - 입/출력값 인코딩, [CSP](/studynote/09_security/05_web_app_security/475_csp/)([Content Security Policy](/studynote/09_security/05_web_app_security/475_csp/)) 헤더 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

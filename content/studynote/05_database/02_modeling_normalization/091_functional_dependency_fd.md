@@ -1,10 +1,11 @@
 ---
 title: "091. Functional Dependency Fd"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency, FD)은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 어떤 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(X)의 값이 다른 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Y)의 값을 유일하게 결정하는 제약 조건이다.

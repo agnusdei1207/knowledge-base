@@ -3,8 +3,8 @@ title: "347. Compaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 347
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 압축(Compaction)은 동적 메모리 할당 환경에서 이빨 빠진 듯 흩어져 있는 다수의 <strong>빈 공간(<a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>)들을 메모리의 한쪽 끝으로 밀어 모아, 하나의 거대한 연속된 빈 공간(Big Hole)으로 융합</strong>하는 수집 연산이다.

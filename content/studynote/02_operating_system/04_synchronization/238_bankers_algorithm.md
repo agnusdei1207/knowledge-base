@@ -3,8 +3,8 @@ title: "Banker's Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Banker's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 프로세스에게 자원([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 할당할 때마다 미리 <strong>자금 융통 시뮬레이션(행렬 계산)</strong>을 돌려, 시스템이 파산([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))하지 않는 '[안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/)([Safe State](/studynote/02_operating_system/05_deadlock/298_safe_state/))'를 유지할 수 있을 때만 대출(할당)을 승인하는 [교착 상태 회피](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) 기법이다.

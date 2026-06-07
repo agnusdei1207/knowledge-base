@@ -1,11 +1,11 @@
 ---
 title: "009. Hybrid Cloud"
 date: "2024-05-24"
-description: "퍼블릭 클라우드의 무한한 확장성과 프라이빗 클라우드의 철통 보안을 결합한 최적의 엔터프라이즈 인프라 아키텍처"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 9
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 내부 통제가 가능한 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([프라이빗 클라우드](/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/))와 무한한 확장성을 지닌 [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)이나 VPN으로 안전하게 연결하여 하나의 논리적 인프라처럼 혼용하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
 > 2. **가치**: 민감한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(고객 정보, 금융 원장)는 내부 보안망에 두면서도, 갑작스러운 트래픽 폭주 시에는 [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)의 컴퓨팅 파워를 빌려 쓰는 '최적의 균형점'을 제공.

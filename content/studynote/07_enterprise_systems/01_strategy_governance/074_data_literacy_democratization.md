@@ -2,9 +2,9 @@
 title: "074. Data Literacy Democratization"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 리터러시](/studynote/12_it_management/01_governance_strategy/058_data_literacy/) 민주화는 조직 구성원이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 해석하고 활용하도록 하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

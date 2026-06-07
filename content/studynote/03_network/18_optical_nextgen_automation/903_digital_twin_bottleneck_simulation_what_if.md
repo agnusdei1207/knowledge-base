@@ -3,8 +3,8 @@ title: "903. Digital Twin Bottleneck Simulation What If"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 903
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

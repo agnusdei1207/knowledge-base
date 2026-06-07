@@ -3,8 +3,8 @@ title: "Stationarity"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 343
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정상성 검정 (ADF Test) ([Stationarity](/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/)): 평균과 분산이 시간에 따라 일정한 시계열 속성를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

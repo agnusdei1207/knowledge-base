@@ -3,8 +3,8 @@ title: "Pilot Light, Warm Standby"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 아키텍처 (파일럿 라이트 Pilot Light, 웜 스탠바이 Warm Standby 비교): 클라우드 [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 아키텍처 ([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) - 파일럿 라이트와 웜 스탠바이를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

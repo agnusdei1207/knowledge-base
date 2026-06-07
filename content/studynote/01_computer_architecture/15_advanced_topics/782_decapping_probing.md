@@ -3,8 +3,8 @@ title: "Probing"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 782
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디캡핑 (Decapping)은 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 패키지와 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)층을 제거해 다이를 노출하는 과정이고, 프로빙 (Probing)은 노출된 패드·금속선·내부 노드에 미세 탐침을 접촉해 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 읽거나 주입하는 침습형 분석 기법이다.

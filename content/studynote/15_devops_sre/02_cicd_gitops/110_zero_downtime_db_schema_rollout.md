@@ -3,8 +3,8 @@ title: "110. Zero Downtime Db Schema Rollout"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Expand and Contract 패턴은 DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경([DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/))을 <strong>확장(Expand) -> 병행(Migrate) -> 수축(Contract)</strong>의 3단계로 분리하여, 신·구버전 앱이 동시에 운영 DB를 사용해도 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 중단 없이(<a href="/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Downtime)</strong> [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 진화시키는 기법이다.
 > 2. **가치**: 컬럼 삭제·이름 변경을 가장 마지막 단계로 미룸으로써, 배포 중 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하더라도 <strong>DB <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 그대로 남아 장애를 방지</strong>하며, 이는 블루/그린 배포의 DB 판 완성형이다.

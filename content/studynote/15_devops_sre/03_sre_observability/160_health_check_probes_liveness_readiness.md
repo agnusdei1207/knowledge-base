@@ -3,8 +3,8 @@ title: "Health Check/Probes"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 160
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 헬스 체크와 프로브는 애플리케이션이 단순히 실행 중인지가 아니라, 기동이 끝났는지·트래픽을 받을 준비가 됐는지·재시작이 필요한 고장 상태인지를 구분해 판단하는 운영 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다.

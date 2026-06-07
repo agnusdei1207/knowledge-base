@@ -3,8 +3,8 @@ title: "DevSecOps Shift-Left Security STRIDE Threat Modeling"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 325
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DevSecOps는 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 모든 단계에 보안을 내재화하는 문화·방법론이다. [Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) (좌편이)란 보안 활동을 개발 수명주기의 왼쪽(이른 단계)으로 이동시켜, 운영 단계에서 발견되는 비싼 취약점을 설계·코딩 단계에서 사전 차단한다.

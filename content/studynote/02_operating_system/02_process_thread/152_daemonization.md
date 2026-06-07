@@ -3,8 +3,8 @@ title: "152. Daemonization"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 데몬(Daemon)은 터미널 창([명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 창)이 닫혀도 죽지 않고 백그라운드에서 24시간 365일 무한 루프로 돌아가며 클라이언트의 요청을 기다리는 시스템의 뼈대 프로세스(예: Nginx, [SSH](/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/))다.
 > 2. **가치**: 나를 낳아준 [부모 프로세스](/studynote/02_operating_system/02_process_thread/105_parent_child_process/)(터미널 쉘)와 100% 핏줄을 끊어내고 완벽히 남남(독립)이 되는 <strong>고독한 고아(Orphan)</strong>가 되어야만, 유저가 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)아웃하며 터미널을 폭파시켜도 함께 동반 자살(SIGHUP 시그널 타살)하는 연쇄 파국을 회피 기동으로 막아낼 수 있다.

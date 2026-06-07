@@ -3,8 +3,8 @@ title: "109. Platform Engineering Cognitive Load"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 플랫폼 엔지니어링(Platform 엔진ering)은 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 실천 과정에서 폭증한 개발자 [인지 부하](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 해소하기 위해, 인프라·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·보안 도구를 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/">내부 개발자 플랫폼</a>(<a href="/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>)</strong>을 구축·운영하는 규율이다.
 > 2. **가치**: 앱 개발자가 [Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)·K8s·[IAM](/studynote/09_security/11_iam_access_control/526_iam/) 지식 없이도 <strong>셀프서비스 포털 클릭 한 번으로 보안 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>된 환경을 <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>하여 Time-to-Market을 단축하고 Shadow IT를 원천 차단한다.

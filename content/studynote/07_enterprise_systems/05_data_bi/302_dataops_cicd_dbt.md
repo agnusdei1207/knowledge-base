@@ -3,8 +3,8 @@ title: "DataOps CI/CD dbt"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 302
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DataOps는 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙을 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 적용해, 코드 변경이 자동으로 테스트되고 배포되는 문화·프로세스·기술 체계다.

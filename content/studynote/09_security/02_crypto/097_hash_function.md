@@ -3,8 +3,8 @@ title: "097. Hash Function"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기에 상관없이 임의의 길이의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력받아, 고정된 길이(예: 256비트)의 무작위 문자열인 '디지털 지문(Digest)'을 뱉어내는 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 수학 함수다.

@@ -3,8 +3,8 @@ title: "230. Digital Twin Simulation Calibration"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 230
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))은 가상 세계에 현실의 공장이나 도시를 똑같이 복사해 놓는 3D 심시티(게임)가 아니다. 가상 세계(Twin)의 시뮬레이션 결과가 현실 세계(Physical)의 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 0.1초 단위로 오차 없이 똑같이 움직이도록, 두 세계의 <strong>'물리 법칙 오차'를 깎고 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>하는 보정(Calibration) <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 루프</strong>가 이 기술의 진짜 뇌(Brain)다.

@@ -3,8 +3,8 @@ title: "918. Gossip Protocol Blockchain Epidemic Network"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 918
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

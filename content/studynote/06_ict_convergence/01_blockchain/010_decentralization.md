@@ -1,11 +1,11 @@
 ---
 title: "010. Decentralization"
 date: "2024-03-24"
-description: "단일 장애점(SPOF)을 제거하고 투명성을 확보하는 웹 3.0 및 블록체인의 핵심 철학과 구조"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
+weight: 10
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 탈중앙화 (Decentralization)는 특정 단일 주체나 중앙 서버에 권력과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 집중되는 것을 막고, [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크에 참여하는 다수의 노드에게 권한과 상태 관리를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 시스템 아키텍처이자 철학이다.
 > 2. **가치**: 중앙 관리자의 임의 조작, 검열, 그리고 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))으로 인한 시스템 전체의 셧다운 위험을 제거하여 [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/), 투명성을 보장한다.

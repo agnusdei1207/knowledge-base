@@ -1,11 +1,11 @@
 ---
 title: "011. Distributed Cloud"
 date: "2026-03-04"
-description: "물리적 분산과 논리적 중앙 통제를 결합한 분산 클라우드의 아키텍처와 실무 적용"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 11
 ---
-
 # [분산 클라우드](/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) ([Distributed Cloud](/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/))
 
 #### 핵심 인사이트 (3줄 요약)

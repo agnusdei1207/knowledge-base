@@ -3,8 +3,8 @@ title: "HTM - Intel TSX"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 269
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 [트랜잭셔널 메모리](/studynote/01_computer_architecture/15_advanced_topics/513_htm/) ([HTM](/studynote/01_computer_architecture/15_advanced_topics/513_htm/), Hardware Transactional Memory)는 멀티코어 환경에서 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 개념([원자성](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장)을 메모리 연산에 도입하여, 명시적인 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이도 하드웨어가 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어를 처리하는 기법이다.

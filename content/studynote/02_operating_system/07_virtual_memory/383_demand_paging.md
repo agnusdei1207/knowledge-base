@@ -3,8 +3,8 @@ title: "383. Demand Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 383
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 프로세스를 시작할 때 거대한 프로그램 전체를 램(RAM)에 미리 올려두는 짓을 금지하고, <strong>CPU가 코드를 실행하다가 정말로 "필요해서 달라고 요구(Demand)"하는 그 순간에만, 딱 그 4KB <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 조각 하나만 디스크에서 램으로 가져오는 극한의 게으른(<a href="/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a>) 적재 기법</strong>이다.

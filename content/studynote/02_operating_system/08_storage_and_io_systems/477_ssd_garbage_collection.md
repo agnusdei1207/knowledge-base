@@ -3,8 +3,8 @@ title: "477. Ssd Garbage Collection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 477
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SSD의 [가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)은 '덮어쓰기'가 안 되어 쓰레기(Invalid [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 가득 차버린 낸드 [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 블록에서, <strong>아직 살아있는 정상 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Valid <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)들만 쏙쏙 뽑아 새 블록으로 이사(Copy)시킨 뒤, 옛날 블록 전체에 고압 전기를 쏴서 텅 빈 깨끗한 상태(Erase)로 <a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화하는 내부 <a href="/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>의 대청소 작업</strong>이다.

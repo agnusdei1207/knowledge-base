@@ -3,8 +3,8 @@ title: "Schedule Performance Index,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 159
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: SPI (Schedule [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 일정 성과 지수)는 `EV / PV`로 계산하는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/), 획득 가치 관리)의 일정 효율 지표로, 계획된 진도 대비 실제 달성 진도를 비율로 표현한다.

@@ -1,10 +1,11 @@
 ---
 title: "CI, Continuous Integration"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), 지속적 통합)는 작은 변경을 자주 합치고 자동으로 빌드·테스트해 통합의 지옥(Integration Hell)을 막는 실천이다.

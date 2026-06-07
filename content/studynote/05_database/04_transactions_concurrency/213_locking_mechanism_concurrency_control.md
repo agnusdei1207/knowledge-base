@@ -3,8 +3,8 @@ title: "Locking"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락킹 (Locking) 기법은 상호 배제를 위한 잠금에 초점을 맞춘 개념이다.

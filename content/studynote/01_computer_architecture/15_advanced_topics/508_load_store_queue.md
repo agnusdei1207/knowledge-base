@@ -3,8 +3,8 @@ title: "Load-Store Queue, LSQ"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 508
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 로드-스토어 큐 (Load-Store [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)는 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 중인 메모리 명령의 나이, 주소, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 완료 상태를 추적해 로드와 스토어를 안전하게 재배치할 수 있게 만드는 전용 구조다.

@@ -2,9 +2,9 @@
 title: "Data & BI"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈니스 인텔리전스 (BI)는 기업의 원천 데이터로부터 유의미한 정보를 추출하고 가공하여, 경영진이 신속하고 정확한 의사결정을 내릴 수 있도록 돕는 기술과 프로세스의 집합이다.

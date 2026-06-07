@@ -3,8 +3,8 @@ title: "090. Accuracy Precision Recall F1 Score"
 date: "2026-03-04"
 tags:
   - "studynote-data-engineering"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 지표는 단순한 맞춤 비율(정확도)을 넘어, "양성이라고 예측한 것 중 진짜 양성([정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))"과 "진짜 양성 중 찾아낸 비율([재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/))"로 다각화하여 오판의 성격을 분석하는 척도다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형(Class Imbalance)이 심한 현실 세계에서, 소수 클래스를 얼마나 정확하고 놓침 없이 탐지해 내는지 객관적으로 평가할 수 있게 해준다.

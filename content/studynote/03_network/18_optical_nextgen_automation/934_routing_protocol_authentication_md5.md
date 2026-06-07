@@ -3,8 +3,8 @@ title: "BGP , RST"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 934
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해커가 중간에 몰래 가짜 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보(경로)를 보내서 트래픽을 가로채거나, 라우터 간의 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)에 가짜 '종료(RST)' 패킷을 쏴서 네트워크 연결을 무너뜨리는 공격을 막는 것이 <strong><a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> <a href="/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>이다.

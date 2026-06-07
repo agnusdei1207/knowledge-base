@@ -3,8 +3,8 @@ title: "DORA Metrics"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Google [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment팀이 6년간 3만 개 이상 조직을 연구하여 도출한 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과의 4가지 표준 측정 지표 — 배포 빈도(DF), 변경 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)(LTC), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 변경 실패율([CFR](/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))이다.

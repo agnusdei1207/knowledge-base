@@ -3,8 +3,8 @@ title: "TPM, Trusted Platform Module"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 607
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)([Trusted Platform Module](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))은 메인보드(Mainboard)에 물리적으로 탑재된 전용 보안 칩셋으로, 소프트웨어 공격뿐 아니라 물리적 침입([Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) Dump, [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Sniffing 등)에도 견디는 하드웨어 경계의 [루트 오브 트러스트](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/)(RoT, [Root of Trust](/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/))를 제공한다.

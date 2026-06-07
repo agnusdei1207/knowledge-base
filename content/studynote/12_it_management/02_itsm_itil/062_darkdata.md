@@ -3,8 +3,8 @@ title: "Dark Data"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
+weight: 62
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다크 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Dark [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 수집·저장되지만 분석, 의사결정, 자동화에 거의 쓰이지 않는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다.

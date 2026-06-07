@@ -3,8 +3,8 @@ title: "060. Quantization Noise & Step Size"
 date: "2024-05-15"
 tags:
   - "studynote-network"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 잡음은 연속 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 이산 레벨로 반올림하는 과정에서 생기는 오차다.

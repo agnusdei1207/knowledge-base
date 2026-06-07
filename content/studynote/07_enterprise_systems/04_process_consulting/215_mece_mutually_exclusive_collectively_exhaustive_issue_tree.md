@@ -2,9 +2,9 @@
 title: "215. Mece Mutually Exclusive Collectively Exhaustive Issue Tree"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MECE (Mutually Exclusive, Collectively Exhaustive)는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)나 문제 분해 시 각 항목이 서로 겹치지 않으면서 전체를 빠짐없이 덮도록 만드는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조 원칙이다.

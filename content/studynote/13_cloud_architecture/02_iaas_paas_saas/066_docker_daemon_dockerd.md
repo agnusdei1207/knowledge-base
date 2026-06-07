@@ -2,9 +2,9 @@
 title: "066. Docker Daemon Dockerd"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: dockerd는 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) API를 받아 이미지, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 네트워크, 볼륨을 관리하는 백그라운드 데몬이다.

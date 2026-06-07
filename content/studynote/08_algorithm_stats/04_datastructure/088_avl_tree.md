@@ -3,8 +3,8 @@ title: "088. Avl Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AVL 트리는 모든 노드에서 왼쪽·오른쪽 서브트리 높이 차이(Balance Factor)가 최대 1인 자가 균형(Self-balancing) BST([Binary Search](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) Tree)다. Adelson-Velsky & Landis(1962)가 발명했다.
 > 2. **가치**: BST의 최악 O(N) 검색을 방지한다. 삽입·삭제 후 불균형이 생기면 회전(Rotation)으로 즉시 균형을 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하여 항상 O(log N) 검색·삽입·삭제를 보장한다.

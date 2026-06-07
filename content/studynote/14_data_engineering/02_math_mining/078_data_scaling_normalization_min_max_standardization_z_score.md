@@ -3,8 +3,8 @@ title: "078. Data Scaling Normalization Min Max Standardization Z Score"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스케일링은 서로 다른 크기의 수치를 비교 가능하게 만드는 전처리다.

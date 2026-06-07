@@ -3,8 +3,8 @@ title: "627. Iommu Dma Isolation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 627
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU가 메모리에 접근할 때 MMU가 주소를 변환하듯, 주변기기([NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 등)가 메모리에 직접 접근([DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))할 때 주소를 변환하고 접근 권한을 통제하는 하드웨어 장치가 <strong>IOMMU (Input/Output <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/">Memory Management Unit</a>)</strong>이다.

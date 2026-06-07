@@ -1,11 +1,11 @@
 ---
 title: "Guard Band"
 date: "2024-05-20"
-description: "주파수 분할 다중화에서 인접 채널 간 간섭을 방지하는 여유 대역"
 tags:
   - "network"
+  - "studynote-network"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Guard Band는 인접 채널 간 간섭을 막기 위해 비워 두는 주파수 구간이다.

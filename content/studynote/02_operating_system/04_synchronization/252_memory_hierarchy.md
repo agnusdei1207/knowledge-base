@@ -3,8 +3,8 @@ title: "Memory Hierarchy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 252
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 계층 구조는 컴퓨터 시스템의 기억 장치들을 속도, 용량, 비용(단가)에 따라 피라미드 형태로 층층이 배치하여, <strong>"가장 자주 쓰는 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 빠르고 비싼 꼭대기에, 안 쓰는 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 느리고 싼 바닥에 두는"</strong> [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 아키텍처다.

@@ -3,8 +3,8 @@ title: "Action Result Verification"
 date: "2026-05-05"
 tags:
   - "studynote-design-supervision"
+weight: 20
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [조치 결과 확인](/studynote/11_design_supervision/01_audit_framework/602_follow_up_action_verification/)(Action Result [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 감리원이 지적한 결함에 대해 수행사가 제출한 조치 결과서가 '종이(문서)상의 눈속임'인지 '물리적(시스템) 해결'인지 <strong>실사(Physical Inspection)를 통해 참/거짓을 판별하는 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 아키텍처</strong>다.
 > 2. **가치**: 감리의 사이클(계획-수행-보고)을 종결짓는 최후의 관문으로, 미조치 시 발주처가 수행사에게 잔금을 지급하지 않거나 지체상금을 물릴 수 있는 가장 강력한 법적/재무적 근거 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Evidence)를 제공한다.

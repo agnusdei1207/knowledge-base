@@ -3,8 +3,8 @@ title: "147. Thread Safe"
 date: "2026-04-19"
 tags:
   - "studynote-operating-system"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-safe)이란 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 동시에 같은 함수나 자원을 호출해도 <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">경쟁 조건</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">Race Condition</a>) 없이 항상 올바른 결과를 보장</strong>하는 성질이다.
 > 2. **가치**: 멀티코어 CPU 환경에서 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행이 기본이 된 현재, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전하지 않은 코드는 재현 불가능한 버그와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상의 근원이 된다.

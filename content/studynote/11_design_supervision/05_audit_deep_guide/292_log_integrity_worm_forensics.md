@@ -3,8 +3,8 @@ title: "Log Integrity WORM Forensics Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 292
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 [WORM](/studynote/02_operating_system/10_security/590_worm/) 포렌식 감리는 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 변경 불가 저장장치(Write Once Read Many, [WORM](/studynote/02_operating_system/10_security/590_worm/)) 기반 포렌식(Forensics) 보존 체계에서 위변조 방지(Tamper [Resistance](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)), 보존 연쇄([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) Chain), 침해 조사(Incident Investigation)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

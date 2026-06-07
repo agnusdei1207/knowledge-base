@@ -3,8 +3,8 @@ title: "127. Kms Knowledge Management System"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 127
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: KMS는 <strong>조직 내 암묵지(Tacit Knowledge)를 <a href="/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">형식지</a>(<a href="/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">Explicit Knowledge</a>)로 변환·저장·공유·활용</strong>하는 시스템으로, 노나카의 SECI 모델(사회화->외부화->결합화->내면화)이 이론적 기반이다.
 > 2. **가치**: 핵심 인력 퇴사 시 <strong>지식 유실</strong>이 발생하고, 같은 문제를 반복 해결하는 <strong>지식 중복</strong>이 생기지만, KMS는 <strong>조직 지식을 자산화</strong>하여 재사용·학습·혁신을 가속한다.

@@ -3,8 +3,8 @@ title: "Reward Model"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 403
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))의 보상 모델(Reward Model, [RM](/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))은 사람의 선호도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Preference [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 학습하여, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 답변이 얼마나 인간의 의도에 부합하는지 점수화(Scalar Score)하는 함수다.

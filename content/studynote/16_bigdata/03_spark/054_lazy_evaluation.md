@@ -3,8 +3,8 @@ title: "054. Lazy Evaluation"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 54
 ---
-
 # [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)) - 계산을 미루는 지혜의 모든 것
 
 > ⚠️ 이 문서는 Apache Spark를 포함한 [함수형 프로그래밍](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/) 언어와 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 프레임워크에서 핵심적으로 사용되는 평가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)인 [Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))이 무엇이며, 왜"Eager Evaluation(즉시 평가)"보다 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리에서 뛰어난 효율성을 제공하는지, [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(방향성 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) 기반 실행 모델과 어떻게 결합되어 불필요한 연산을 자동으로 제거하고 네트워크 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 최소화하는지 기술사 수준에서 심층 분석합니다.

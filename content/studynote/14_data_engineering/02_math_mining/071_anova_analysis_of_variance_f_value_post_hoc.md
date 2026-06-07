@@ -3,8 +3,8 @@ title: "071. Anova Analysis Of Variance F Value Post Hoc"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ANOVA는 세 집단 이상에서 평균 차이가 있는지 판단하는 검정이다.

@@ -3,8 +3,8 @@ title: "Interrupt Vector"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 316
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인터럽트 벡터](/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) ([Interrupt Vector](/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/))는 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생했을 때 `CPU (Central Processing Unit)`가 어떤 `ISR (Interrupt Service Routine)`로 들어가야 하는지를 빠르게 찾게 해 주는 <strong>번호+주소 <a href="/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/">매핑 규칙</a></strong>이다.

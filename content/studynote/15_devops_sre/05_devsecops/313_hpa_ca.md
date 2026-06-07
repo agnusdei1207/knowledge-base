@@ -3,9 +3,8 @@ title: "HPA CA Autoscaling"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 313
 ---
-
-
 > **핵심 인사이트**
 > - [HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([Horizontal Pod Autoscaler](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))는 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수를 늘리고, [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Cluster Autoscaler)는 노드 수를 늘려 이중 레이어 오토스케일링을 구성한다.
 > - HPA는 CPU/메모리·[커스텀 메트릭](/studynote/15_devops_sre/04_iac_cloud_native/189_custom_metrics/)을 기준으로 ReplicaSet을 조정하고, CA는 Pending [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 감지해 클라우드 노드를 추가한다.

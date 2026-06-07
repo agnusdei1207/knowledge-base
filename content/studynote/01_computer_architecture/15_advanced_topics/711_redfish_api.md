@@ -3,8 +3,8 @@ title: "711. Redfish Api"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 711
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Redfish는 DMTF (Distributed [Management](/studynote/12_it_management/05_security_compliance/1013_management/) [Task](/studynote/02_operating_system/02_process_thread/150_task/) Force)가 정의한 서버 하드웨어 관리용 [HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) ([Hypertext Transfer Protocol](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Secure)·[JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation) 기반 표준 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로, [BMC](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))를 웹 친화적인 자원 모델로 노출한다.

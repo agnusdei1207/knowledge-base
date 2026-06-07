@@ -3,8 +3,8 @@ title: "Non-contiguous Memory Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 350
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비연속 메모리 할당(Non-contiguous Memory Allocation)은 하나의 프로세스(프로그램) 덩어리를 물리 메모리에 일렬로 쫙 붙여서 적재하지 않고, <strong>수많은 조각으로 갈기갈기 찢어서 물리 메모리의 빈 공간 아무 데나 흩뿌려 적재</strong>하는 현대적인 메모리 관리 패러다임이다.

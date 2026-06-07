@@ -3,8 +3,8 @@ title: "NFT Digital Asset Tokenization Ownership"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 761
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NFT 디지털 자산 토큰화 소유권은 ERC-721/ERC-1155/ERC-404 등 블록체인 토큰 표준과 IPFS·Arweave 같은 분산 스토리지를 결합하여, **스마트 컨트랙트(자기실행계약코드)** 상에서 `ownerOf` 매핑과 토큰 ID 기반의 **유일성·추적가능성·전송가능성**을 갖는 디지털 권리를 발행·유통·증명하는 메커니즘이다.

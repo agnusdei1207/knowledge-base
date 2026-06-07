@@ -3,9 +3,8 @@ title: "229. PEAP (Protected EAP)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 229
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PEAP (Protected [EAP](/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

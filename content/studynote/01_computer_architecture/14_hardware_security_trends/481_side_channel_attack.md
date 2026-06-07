@@ -3,8 +3,8 @@ title: "Side-channel Attack"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 481
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사이드 채널 공격 (Side-channel Attack)은 암호 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 깨는 대신, CPU (Central Processing Unit)나 암호 장치가 연산하면서 남기는 시간, 전력, 캐시, 전자기파 같은 부산물을 측정해 비밀을 역추적하는 공격이다.

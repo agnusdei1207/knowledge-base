@@ -3,8 +3,8 @@ title: "Soft Handoff"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 558
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존의 [하드 핸드오버](/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)가 "일단 끊고(Break) 새로 연결(Make)"하는 징검다리 방식이라면, 소프트 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 "새로운 손을 먼저 잡고(Make) 예전 손을 놓는(Break)" 양다리 방식이다.

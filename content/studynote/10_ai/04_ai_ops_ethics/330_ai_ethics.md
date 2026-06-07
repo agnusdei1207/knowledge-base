@@ -3,8 +3,8 @@ title: "AI Ethics"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 330
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리 ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Ethics)는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이 사회에 미치는 영향을 인간의 가치·권리·존엄성 관점에서 평가하고, 공정성(Fairness)·투명성(Transparency)·책임성(Accountability)·안전성(Safety)·프라이버시(Privacy) 등의 원칙을 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발·배포·운영 전 주기에 내재화하는 원칙과 실천의 체계다.

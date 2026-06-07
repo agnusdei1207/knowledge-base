@@ -3,8 +3,8 @@ title: "544. Hive"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 544
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SQL [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/) [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러/타임베이스 블라인드 주입 체계망는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념이다.

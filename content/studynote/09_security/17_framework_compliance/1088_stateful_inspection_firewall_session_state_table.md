@@ -3,8 +3,8 @@ title: "Stateful Inspection"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1088
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ([Stateful Inspection](/studynote/03_network/19_frequent_topics_terms/992_firewall_stateful_inspection/))는 보안 확장 개념에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

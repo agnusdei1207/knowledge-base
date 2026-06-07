@@ -3,8 +3,8 @@ title: "373. Oss Governance"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 373
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오픈 소스 소프트웨어 ([OSS](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버넌스 - 라이선스(GPL, MIT, Apache 등) 컴플라이언스은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "Multiple-Processor Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다중 처리기 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/193_smp_symmetric_multiprocessing/)은 CPU가 1개인 환경(단일 코어)을 넘어, 여러 개의 물리적 CPU 코어에 프로세스들을 어떻게 분배하고 할당할 것인가를 다루는 거시적 자원 관리 아키텍처다.

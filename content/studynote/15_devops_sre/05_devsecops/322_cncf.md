@@ -3,9 +3,8 @@ title: "OpenTelemetry CNCF"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 322
 ---
-
-
 > **핵심 인사이트**
 > - [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) ([OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))는 [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces 세 기둥을 단일 SDK로 계측하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) ([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) 표준이다.
 > - 벤더 중립적 설계로 Jaeger·[Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·Datadog 등 어떤 백엔드에도 연결할 수 있다.

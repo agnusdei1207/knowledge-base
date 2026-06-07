@@ -3,8 +3,8 @@ title: "170. Self Healing Filesystem Zfs Btrfs"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자가 치유 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)에 [체크섬](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 붙이고, 읽을 때 이를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, 중복 사본이 있으면 손상된 블록을 자동으로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 저장 계층이다.

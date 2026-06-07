@@ -3,8 +3,8 @@ title: "Shared Lock / Read Lock, S-Lock"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공유 락 (Shared [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) / Read [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/), S-[Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))은 읽기 허용, [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가에 초점을 맞춘 개념이다.

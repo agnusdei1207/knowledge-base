@@ -3,8 +3,8 @@ title: "Stacking Meta-Model Ensemble"
 date: "2026-05-01"
 tags:
   - "studynote-ai"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스태킹 (Stacking)은 여러 base learner (기초 모델)의 예측을 meta learner (메타 모델)가 다시 학습해 결합하는 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.

@@ -3,9 +3,8 @@ title: "137. BERT (Bidirectional Encoder Representations from Transformers)"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 137
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BERT는 <strong>Transformer의 Encoder만 사용</strong>하여 양방향(Bidirectional)으로 문맥을 이해하는 사전 학습 언어 모델이며, [MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/)([Masked Language Model](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/))과 [NSP](/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/)([Next Sentence Prediction](/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/))로 학습한다.
 > 2. **가치**: [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)(->방향)는 왼쪽 문맥만 보지만, BERT는 **양쪽 문맥을 동시에** [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 "bank"가 은행인지 강둑인지 정확히 판별하며, NLU(자연어 이해) 11개 벤치마크를 동시 갱신(2018)했다.

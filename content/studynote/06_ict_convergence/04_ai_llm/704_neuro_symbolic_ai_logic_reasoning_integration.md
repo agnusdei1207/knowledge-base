@@ -3,8 +3,8 @@ title: "Neuro Symbolic AI Logic Reasoning Integration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 704
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뉴로 심볼릭 AI(Neuro-Symbolic AI)는 심층 신경망의 **퍼셉션(perception)·패턴 학습**과 기호 AI의 **논리 추론(Logical Reasoning)·지식 표현(Knowledge Representation)**을 결합하여, Connectionist(연결주의)와 Symbolic(기호주의) 두 패러다임의 한계를 상호 보완하는 **하이브리드 추론 아키텍처**다.

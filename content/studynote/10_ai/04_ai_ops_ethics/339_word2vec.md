@@ -3,9 +3,8 @@ title: "339. Word2Vec (Word2vec)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 339
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Word2Vec 은 주변 단어([컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/))와 중심 단어 간의 예측 과제를 통해 단어를 밀집 실수 벡터 (Dense Vector) 로 표현하는 비지도 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 기법으로, CBOW (Continuous Bag of Words) 와 Skip-Gram 두 가지 학습 방식이 있다.

@@ -3,8 +3,8 @@ title: "Transformer"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 262
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조 ([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)): 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 <strong>셀프 어텐션 (<a href="/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

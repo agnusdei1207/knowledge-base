@@ -3,8 +3,8 @@ title: "Knative, DB"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 240
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위에서 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 실행 모델과 이벤트 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 제공하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 플랫폼.

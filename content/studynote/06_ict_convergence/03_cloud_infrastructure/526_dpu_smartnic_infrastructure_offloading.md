@@ -3,8 +3,8 @@ title: "DPU SmartNIC Infrastructure Offloading Acceleration"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 526
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))와 SmartNIC은 서버 CPU가 처리하던 네트워킹, 스토리지, 보안 작업을 전용 카드로 분리·[오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)하여 CPU 자원을 애플리케이션에 온전히 반환한다.

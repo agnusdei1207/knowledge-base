@@ -2,9 +2,9 @@
 title: "046. Euler Path"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 46
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오일러 경로 (Euler Path)는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 간선을 정확히 한 번씩 방문하는 경로이며, 오일러 회로 (Euler Circuit)는 시작 정점으로 돌아오는 오일러 경로다.

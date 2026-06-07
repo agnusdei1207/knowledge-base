@@ -3,8 +3,8 @@ title: "Rollup: Optimistic vs ZK Fraud/Validity Proof"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 480
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 수백 개 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 L2에서 처리 후 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·증명하여 L1에 제출하는 확장성 기술로, 옵티미스틱(낙관적 가정+사기 증명)과 ZK(즉시 타당성 증명) 두 패러다임이 대립한다.

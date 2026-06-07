@@ -3,8 +3,8 @@ title: "459. Quic Fec Forward Error Correction"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 459
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FEC 기능 선택적 포함은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

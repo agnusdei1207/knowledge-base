@@ -3,8 +3,8 @@ title: "194. Deepdream Gradcam"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 딥 드림(DeepDream)과 Grad-CAM은 시각적 딥러닝([CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) 블랙박스 모델의 뇌 구조를 눈으로 보여주는 [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 기법이다. 딥 드림이 신경망이 "무엇을 보고 싶어 하는지"를 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)적인 그림으로 강제 발현시킨다면, Grad-CAM은 신경망이 "사진의 어디를 보고 정답을 찍었는지"를 빨간색 열화상(Heatmap)으로 짚어준다.

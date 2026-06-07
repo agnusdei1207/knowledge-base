@@ -3,8 +3,8 @@ title: "115. Canary Deployment Gradual Rollout"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 신버전을 <strong>전체 트래픽의 1~5%에만 먼저 노출</strong>하고, [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(에러율·레이턴시)을 관찰하여 안전하면 점진적으로 확대([10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%->50%->100%)하는 <strong>위험 최소화 배포 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 > 2. **가치**: 블루/그린이 "한 번에 100% 전환"이라면, [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "1%->5%->25%->100%"로 <strong>단계적 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 후 전환하므로 장애 시 영향 범위가 극히 제한된다.

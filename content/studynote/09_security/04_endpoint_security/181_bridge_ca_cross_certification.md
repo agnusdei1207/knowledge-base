@@ -3,8 +3,8 @@ title: "181. Bridge Ca Cross Certification"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 브릿지 [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) ([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) Certificate Authority)는 서로 독립적으로 운영되는 공개 키 기반 구조인 [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/)) [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 사이를 교차 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 (Cross-Certificate)로 연결해 주는 신뢰 연동 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다.

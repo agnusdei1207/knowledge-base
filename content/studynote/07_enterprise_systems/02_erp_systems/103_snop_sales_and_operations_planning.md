@@ -1,10 +1,11 @@
 ---
 title: "103. Snop Sales And Operations Planning"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: S&OP (Sales and Operations Planning)는 많이 팔려는 영업(Sales) 부서와 재고를 줄이려는 생산(Operations) 부서 간의 목표 충돌을 조정하여, 회사 전체가 합의한 '단일 운영 계획(One Plan)'을 도출하는 경영진 주도의 정기 회의체 프로세스다.

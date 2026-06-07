@@ -3,9 +3,8 @@ title: "735. TjMax (Tunction Max Temperature)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 735
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TjMax는 CPU 내부에서 가장 뜨거운 접합부 (Junction)가 넘지 말아야 할 최고 허용 온도로, 실리콘 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위한 최종 안전선이다.

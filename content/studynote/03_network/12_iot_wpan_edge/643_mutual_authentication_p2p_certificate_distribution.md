@@ -3,8 +3,8 @@ title: "643. Mutual Authentication P2P Certificate Distribution"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 643
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기기 간 상호인증체계 관리 기법 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Cosine Annealing Scheduler"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 407
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코사인 어닐링([Cosine Annealing](/studynote/06_ict_convergence/04_ai_llm/309_cosine_annealing/))은 코사인 함수(Cosine Function)의 곡선을 따라 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)을 점진적으로 낮추었다가 다시 높이는 과정을 반복하는 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 기법이다.

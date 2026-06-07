@@ -3,8 +3,8 @@ title: "179. Bci Brain Computer Interface"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BCI (Brain-Computer Interface)는 뇌에서 측정한 신경 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 해석해 커서, 문자 입력, 로봇 팔 같은 외부 장치의 명령으로 바꾸는 직접 인터페이스이며, "모든 생각을 읽는 기술"이 아니라 <strong>정해진 과업 안에서 의도를 추정하는 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 처리 파이프라인</strong>이다.

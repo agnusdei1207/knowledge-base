@@ -3,8 +3,8 @@ title: "Unicode"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 유니코드 (Unicode)는 전 세계 모든 문자에 기종이나 플랫폼과 무관하게 단 하나의 고유한 논리적 숫자 번호([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Point)를 부여하는 범용 문자 셋(Character Set)이다.
 > 2. **가치**: 국가별 독립적인 인코딩으로 인해 발생하던 텍스트 깨짐 현상(Mojibake)을 종식시키고, 글로벌 소프트웨어 국제화(i18n)를 가능하게 만든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통일의 핵심 기반이다.

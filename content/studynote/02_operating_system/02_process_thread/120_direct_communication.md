@@ -3,8 +3,8 @@ title: "120. Direct Communication"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 120
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 직접 통신 ([Direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Communication)은 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 송수신하는 프로세스가 통신 상대방의 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 명시적으로 지정하여, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 통해 상대방에게 직접 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전달하는 통신 방식이다.

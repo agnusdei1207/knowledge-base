@@ -2,9 +2,9 @@
 title: "076. Artifact Repository Nexus Jfrog Ecr"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 리포지토리([Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) Repository)는 CI가 만든 `.jar`, `.war`, [Docker image](/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 같은 실행 결과물을 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 해시로 고정해 두는 중앙 보관소다.

@@ -3,8 +3,8 @@ title: "279. Obfuscation"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 279
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모바일·클라이언트 코드의 [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 난도를 높이는 빌드 단계 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법.

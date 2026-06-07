@@ -2,9 +2,9 @@
 title: "Trends, PM & Quality"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
 weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 공학의 최신 트렌드는 개발(Dev), 운영(Ops), 보안(Sec), 그리고 품질(QA)의 경계를 허물고 AI를 통해 이를 자동화하는 지능형 통합 관리 체계로 수렴하고 있다.

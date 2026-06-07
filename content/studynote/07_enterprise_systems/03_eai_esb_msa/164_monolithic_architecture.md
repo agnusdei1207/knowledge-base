@@ -1,10 +1,11 @@
 ---
 title: "164. Monolithic Architecture"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [모놀리식 아키텍처](/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) ([Monolithic Architecture](/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/))는 화면, 비즈니스 로직, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 계층이 하나의 [코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/)와 하나의 배포 단위로 묶인 구조다.

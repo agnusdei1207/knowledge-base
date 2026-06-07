@@ -3,8 +3,8 @@ title: "UEFI Bootkit"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 364
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [부트킷](/studynote/09_security/04_endpoint_security/362_bootkit/) ([UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [Bootkit](/studynote/09_security/04_endpoint_security/362_bootkit/))는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

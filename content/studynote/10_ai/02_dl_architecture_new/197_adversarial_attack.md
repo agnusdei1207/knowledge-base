@@ -3,8 +3,8 @@ title: "197. Adversarial Attack"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [적대적 예제](/studynote/09_security/19_ai_advanced_security/942_adversarial_example/) (Adversarial Attack) 공격은 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 딥러닝 모델의 눈(파라미터)을 완벽하게 속이기 위해, 사람 눈에는 전혀 보이지 않는 미세하고 정교한 수학적 픽셀 노이즈(독극물)를 원본 사진에 섞어 모델이 <strong>"판다 사진을 보고 99.9% 긴팔원숭이라고 오답을 뱉게 강제하는 치명적 뇌 해킹 기법"</strong>이다.

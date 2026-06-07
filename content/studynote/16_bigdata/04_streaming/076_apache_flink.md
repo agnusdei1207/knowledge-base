@@ -3,8 +3,8 @@ title: "076. Apache Flink"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 76
 ---
-
 # [Apache Flink](/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) - 상태 기반 스트리밍처리의 완성형
 
 > ⚠️ 이 문서는 [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) Streaming의 마이크로배치(micro-batch) 모델과 달리, 각 레코드(Record)를 개별적으로 프로세서(Processor)에게 전달하여 진정한 의미의 단일 레코드 처리(Record-at-a-Time) 및 상태 관리([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))를 구현하는 Apache Flink의 핵심 차별점인 Native Streaming, Checkpoint 기반의 정확한 한 번(Eactly-Once) 처리 시맨틱스, 그리고 이벤트 시간(Event Time)과 [워터마크](/studynote/16_bigdata/04_streaming/085_watermark/)([Watermark](/studynote/16_bigdata/04_streaming/085_watermark/))를 활용한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 메커니즘을 기술사 수준에서 심층 분석합니다.

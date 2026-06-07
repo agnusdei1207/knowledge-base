@@ -3,8 +3,8 @@ title: "Tensor Core GPU Architecture"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [텐서 코어](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))는 NVIDIA의 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) [SM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([Streaming Multiprocessor](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) 안에 들어 있는 행렬 곱-누산 전용 하드웨어로, 딥러닝의 핵심 연산인 MMA (Matrix [Multiply-Accumulate](/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/))를 워프 (Warp) 단위로 매우 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)으로 수행한다.

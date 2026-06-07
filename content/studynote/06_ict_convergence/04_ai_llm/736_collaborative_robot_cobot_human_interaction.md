@@ -3,8 +3,8 @@ title: "Collaborative Robot Cobot Human Interaction"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 736
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 협동로봇(Cobot)은 ISO/TS 15066의 4가지 협동운전 모드(SRMS·SSM·HG·PFL)와 충돌방지센서(토크·비전·스킨)를 통해 산업용로봇 대비 약 1/10 수준의 안전정지거리(STO < 1ms 응답)와 250mm/s 이하의 협업속도 제약을 만족하면서 인간과 동일 작업공간을 공유하는 로봇이다.

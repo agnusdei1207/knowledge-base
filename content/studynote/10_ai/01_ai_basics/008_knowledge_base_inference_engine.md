@@ -1,11 +1,11 @@
 ---
 title: "Inference"
 date: "2024-05-20"
-description: "전문가 시스템과 논리형 AI를 구동하는 양대 핵심 아키텍처의 구조와 동작 원리"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 8
 ---
-
 # 8. 지식 베이스 (Knowledge Base) 및 추론 엔진 (Inference 엔진)
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "Grover's Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그로버 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)'s [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)): 비정렬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색 복잡도를 O(N)에서 O(√N)으로 단축 ([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 대칭키 탐색 위협)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

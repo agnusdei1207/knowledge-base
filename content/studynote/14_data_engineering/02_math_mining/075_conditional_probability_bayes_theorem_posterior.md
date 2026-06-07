@@ -3,8 +3,8 @@ title: "Bayes"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조건부 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)은 "B를 알았을 때 A의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"이고, 베이즈 정리 (Bayes' theorem)는 그 조건을 뒤집어 관측 후의 믿음, 즉 posterior를 계산한다.

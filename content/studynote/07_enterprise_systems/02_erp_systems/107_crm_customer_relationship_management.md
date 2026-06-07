@@ -1,10 +1,11 @@
 ---
 title: "107. Crm Customer Relationship Management"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CRM ([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/) [Relationship](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 불특정 다수를 향한 1회성 마케팅을 탈피하고, 개별 고객의 행동과 거래 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 심층 분석하여 맞춤형 가치를 제공하는 전사적 고객 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이자 이를 구현하는 IT 시스템이다.

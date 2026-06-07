@@ -2,9 +2,9 @@
 title: "Hardware Security & Trends"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 14
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 보안 (Hardware Security)은 소프트웨어 공격으로부터 시스템을 보호하기 위해 CPU, 메모리, 칩셋 레벨에서 물리적 격리와 암호화 기능을 직접 제공하는 신뢰의 뿌리 (Root of Trust) 기술이다.

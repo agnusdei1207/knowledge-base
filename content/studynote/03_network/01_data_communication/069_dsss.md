@@ -1,11 +1,11 @@
 ---
 title: "069. Direct Sequence Spread Spectrum (DSSS)"
 date: "2024-05-24"
-description: "PN 시퀀스를 사용하여 데이터를 넓은 대역으로 직접 확산시키는 무선 통신 핵심 원리"
 tags:
   - "network"
+  - "studynote-network"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DSSS는 PN 시퀀스로 데이터를 직접 확산해 넓은 대역에 퍼뜨리는 방식이다.

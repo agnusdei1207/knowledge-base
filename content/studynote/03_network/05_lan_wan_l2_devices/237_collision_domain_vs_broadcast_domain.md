@@ -3,8 +3,8 @@ title: "Broadcast Domain"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 237
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 충돌 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) / 브로드캐스트 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

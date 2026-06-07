@@ -3,8 +3,8 @@ title: "033. Reduce Function Aggregation Logic"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 33
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 맵(Map) 단계에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 동일한 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 가진 모든 값들을 모아 하나의 결과로 집계하는 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)의 최종 처리 단계임.
 - 셔플(Shuffle) 단계 이후에 실행되며, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드에 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 네트워크를 통해 특정 리듀서로 집결함.

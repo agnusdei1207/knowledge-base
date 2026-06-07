@@ -3,8 +3,8 @@ title: "AlexNet, VGG, ResNet"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 주요 아키텍처 발전은 신경망의 층(Layer)을 더 깊게(Deep) 쌓으면서도 연산량과 최적화 문제를 해결하기 위한 구조적 혁신의 역사다.

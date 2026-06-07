@@ -3,8 +3,8 @@ title: "917. Bittorrent Choke Unchoke P2P Incentive Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 917
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비트토렌트 초크/언초크 리치 통신 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

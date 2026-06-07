@@ -1,11 +1,11 @@
 ---
 title: "091. Transformer Bert"
 date: "2026-04-05"
-description: "Transformer의 Self-Attention 메커니즘, BERT의 사전 학습 및 파인튜닝, 자연어 처리에서의 혁신"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Transformer는 기존 RNN의 순차 처리 한계를 극복하기 위해, 입력된 시퀀스 내의 모든 단어 위치 간 의존성을 동시에 계산하는 셀프 어텐션([Self-Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/)) 메커니즘만으로 구성된 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 인공신경망 아키텍처다.

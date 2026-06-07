@@ -5,8 +5,6 @@ tags:
   - "studynote-software-engineering"
 weight: 411
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

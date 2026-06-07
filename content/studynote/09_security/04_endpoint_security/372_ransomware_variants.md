@@ -3,8 +3,8 @@ title: "Ransomware Variants"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 372
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CryptoLocker](/studynote/09_security/15_malware_attack_vectors/731_cryptolocker/)/[WannaCry](/studynote/09_security/15_malware_attack_vectors/732_wannacry/)/[Ryuk](/studynote/09_security/15_malware_attack_vectors/734_ryuk/) [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 변종 ([Ransomware](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) Variants)는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

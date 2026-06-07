@@ -3,8 +3,8 @@ title: "152. Hub Dummy Switching Intelligent"
 date: "2026-05-03"
 tags:
   - "studynote-network"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 허브(Hub) 3형제는 사무실 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 여러 대를 하나로 묶어 거대한 로컬 네트워크(LAN)를 창조하는 문어발 젠더 장비지만, <strong>이 쇳덩이 대가리(뇌)에 주소(<a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)를 판독하는 해독 칩이 박혀 있느냐 없느냐에 따라 1계층 쓰레기와 2계층 절대 신으로 운명이 갈라진다.</strong>
 > 2. **가치**: 1계층 <strong><a href="/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">더미</a> 허브(<a href="/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">Dummy</a> Hub)</strong>는 주소를 못 읽어 패킷을 10개 구멍으로 무지성 100% 복사 살포 테러 쳐서 통신 충돌 랙([Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 붕괴를 낳았고, 이를 구원하기 위해 대가리에 해독 뇌를 박고 목적지 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개로만 다이렉트 1:1 비밀 터널을 뚫어주는 <strong>스위칭 허브(L2 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>가 모던 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 천하 통일을 이룩했다.

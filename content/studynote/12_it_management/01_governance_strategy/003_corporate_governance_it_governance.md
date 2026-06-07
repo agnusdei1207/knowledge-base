@@ -1,11 +1,11 @@
 ---
 title: "003. Corporate Governance It Governance"
 date: "2026-03-04"
-description: "전사적 가치 창출을 위한 기업 거버넌스의 핵심 하위 구조로서 IT 거버넌스가 수행하는 역할과 연계 메커니즘"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 3
 ---
-
 # 기업 거버넌스 (Corporate Governance)와 IT 거버넌스의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 #### 핵심 인사이트 (3줄 요약)

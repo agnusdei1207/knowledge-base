@@ -3,8 +3,8 @@ title: "THz"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 786
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

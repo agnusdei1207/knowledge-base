@@ -3,8 +3,8 @@ title: "Cloud Native"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 40
 ---
-
 > **핵심 인사이트**
 > 1. [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/))는 단순히 클라우드에서 실행되는 것이 아니라, 클라우드의 [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)·자동화·분산성을 최대한 활용하도록 **설계부터** 클라우드를 위해 만들어진 애플리케이션/아키텍처 방식이다.
 > 2. [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation)의 정의에 따르면, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)·[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)·동적 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·[지속적 전달](/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/)([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)의 4대 기둥이 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)의 핵심이며, 12-Factor App이 구현 원칙의 표준이다.

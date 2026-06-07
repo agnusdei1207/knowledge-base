@@ -2,9 +2,9 @@
 title: "Cloud Migration 6R Strategy"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 339
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 클라우드 마이그레이션 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 엔터프라이즈 환경에서 클라우드 비용과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 같은 표에서 관리하기 위해 쓰이는 핵심 기준이며, 특히 클라우드 마이그레이션 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), Rehost, Refactor의 경계를 분명히 만드는 데 의미가 있다.

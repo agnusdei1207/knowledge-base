@@ -3,8 +3,8 @@ title: "175. Sjf Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SJF (Shortest Job First) 스케줄링은 Ready Queue에 있는 프로세스들 중 다음 CPU (Central Processing Unit) burst가 가장 짧은 작업을 먼저 실행하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.

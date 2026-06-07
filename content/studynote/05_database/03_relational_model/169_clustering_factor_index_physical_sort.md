@@ -3,8 +3,8 @@ title: "169. Clustering Factor Index Physical Sort"
 date: "2026-04-03"
 tags:
   - "studynote-database"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클러스터링 팩터 ([Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/) Factor, CF)는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 가리키는 순서와 실제 테이블 행이 저장된 블록 순서가 얼마나 닮았는지를 나타내는 물리 접근 효율 지표다.

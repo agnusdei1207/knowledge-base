@@ -3,8 +3,8 @@ title: "142. Point To Point Integration Spaghetti"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통합은 <strong>시스템 간 1:1로 직접 연결(인터페이스)</strong>하는 가장 단순한 통합 방식이며, N개 시스템이면 <strong>최대 N(N-1)/2개 인터페이스</strong>가 필요하다.
 > 2. **가치**: 2~3개 시스템이면 P2P가 빠르고 간단하지만, 10개 이상이면 <strong>45개+ 인터페이스 -> 스파게티 아키텍처</strong>가 되어 변경·장애 전파·유지보수가 극도로 어려워진다.

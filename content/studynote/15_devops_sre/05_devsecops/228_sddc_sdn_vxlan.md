@@ -3,8 +3,8 @@ title: "228. Sddc Sdn Vxlan"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 228
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L2 네트워크를 L3 위에 캡슐화해 대규모 가상 네트워크를 만드는 기술.

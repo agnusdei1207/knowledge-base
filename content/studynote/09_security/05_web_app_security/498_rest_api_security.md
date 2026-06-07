@@ -3,8 +3,8 @@ title: "REST API Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 498
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [REST API](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 보안 ([REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) [API Security](/studynote/09_security/uncategorized/1045_api_security/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

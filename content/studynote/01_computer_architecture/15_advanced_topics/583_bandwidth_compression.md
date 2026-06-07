@@ -3,8 +3,8 @@ title: "Bandwidth Compression Encoding"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 583
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 캐시 라인이나 전송 패킷을 <strong>짧은 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>열로 다시 표현해 같은 링크로 더 많은 유효 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 보내는 저지연 무손실 부호화 기술</strong>이다.

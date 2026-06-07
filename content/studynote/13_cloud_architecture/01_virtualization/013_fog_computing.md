@@ -1,11 +1,11 @@
 ---
 title: "013. Fog Computing"
 date: "2026-03-04"
-description: "클라우드와 엣지 사이의 간극을 메우는 로컬 네트워크 기반 중간 분산 처리 아키텍처"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 13
 ---
-
 # [포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) ([Fog Computing](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/))
 
 #### 핵심 인사이트 (3줄 요약)

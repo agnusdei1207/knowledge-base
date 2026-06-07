@@ -3,8 +3,8 @@ title: "Imputation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 367
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 결측치 대치법 (Imputation): 평균, 중앙값 대치 및 다중 대치법(MICE)를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

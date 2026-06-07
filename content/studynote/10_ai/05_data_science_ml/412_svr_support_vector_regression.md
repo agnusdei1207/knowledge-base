@@ -3,8 +3,8 @@ title: "SVR, Support Vector Regression"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 412
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SVR ([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector Regression)은 예측 오차를 `ε`-튜브 안에서는 허용하고, 튜브 밖의 오차만 벌점으로 주는 회귀 모델이다.

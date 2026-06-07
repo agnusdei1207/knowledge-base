@@ -3,8 +3,8 @@ title: "MVCC, Multi-Version Concurrency Control"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 ([MVCC](/studynote/11_design_supervision/06_exam_summary/449_mvcc/), Multi-Version [Concurrency Control](/studynote/05_database/04_transactions_concurrency/508_concurrency_control/))은 읽기와 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락 충돌 배제, [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 활용 ([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), PostgreSQL 기본)에 초점을 맞춘 개념이다.

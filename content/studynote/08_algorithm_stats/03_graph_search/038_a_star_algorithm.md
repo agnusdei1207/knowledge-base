@@ -2,9 +2,9 @@
 title: "A-Star Algorithm"
 date: "2026-03-25"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 38
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 시작점부터의 실제 비용(g)과 목표까지의 예상 비용(h)을 합산한 f(n)을 기준으로 최단 경로를 탐색하는 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)임
 - [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 범용성과 탐욕 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 효율성을 결합하여 탐색 공간을 유도된 방향으로 최적화함

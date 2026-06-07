@@ -3,8 +3,8 @@ title: "299. Private Ip Ranges 10 172 192"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 299
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사설 IP 영역: [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…는 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

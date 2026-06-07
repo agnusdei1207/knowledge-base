@@ -3,8 +3,8 @@ title: "582. Dynamic Performance Views V Dollar Dmv Monitoring"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 582
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 뷰 (V$, DMV) [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) 모니터링 병목 락 트레이싱 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 확인망는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

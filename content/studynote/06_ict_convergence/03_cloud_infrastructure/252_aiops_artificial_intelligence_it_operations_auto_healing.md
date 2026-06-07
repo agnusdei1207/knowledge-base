@@ -3,9 +3,8 @@ title: "252. AIOps (Artificial Intelligence for IT Operations)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 252
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations): 클라우드 인프라/네트워크의 방대한 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 텔레메트리 데이터를 머신러닝으로 분석해 장애 전조를 예측하고 자동 치유(Auto-healing)하는 운영 자동화를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

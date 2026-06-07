@@ -3,8 +3,8 @@ title: "654. Arm Cortex R Series"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 654
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ARM Cortex-R 시리즈는 최악 실행 시간 (Worst-Case [Execution Time](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/), WCET)을 예측 가능하게 만들기 위해 설계된 실시간 프로세서 계열로, 평균 속도보다 "정해진 시간 안에 반드시 끝나는가"를 더 중시한다.

@@ -1,10 +1,11 @@
 ---
 title: "005. Divide And Conquer"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 5
 ---
-
 # 05. 분할 정복 (Divide and Conquer)
 
 ## 핵심 인사이트 (3줄 요약)

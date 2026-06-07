@@ -3,8 +3,8 @@ title: "S-States, S0~S5"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: S-States는 [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/)(Advanced Configuration and [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)가 정의한 시스템 전체 전원 상태로, 전력 소비와 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지연의 균형을 표현한다.

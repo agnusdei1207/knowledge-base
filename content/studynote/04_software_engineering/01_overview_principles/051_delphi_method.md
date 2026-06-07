@@ -3,8 +3,8 @@ title: "Delphi Method"
 date: "2026-04-30"
 tags:
   - "studynote-software-engineering"
+weight: 51
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [델파이](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 기법 ([Delphi Method](/studynote/12_it_management/05_security_compliance/285_delphi_method/))은 익명 전문가 집단이 여러 차례 의견을 제시하고 피드백을 받아 점차 합의된 예측값으로 수렴하는 구조화된 판단 기법이다.

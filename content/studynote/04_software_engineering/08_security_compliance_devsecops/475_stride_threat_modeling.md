@@ -3,8 +3,8 @@ title: "475. Stride Threat Modeling"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 475
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델 - [Spoofing](/studynote/02_operating_system/10_security/598_spoofing/), Tampering, Repudiation, Information Disclosure, Denial of [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), Elevation of Privilege은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

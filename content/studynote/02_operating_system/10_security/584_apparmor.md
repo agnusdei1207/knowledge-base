@@ -3,9 +3,8 @@ title: "584. AppArmor"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 584
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞 583장의 [SELinux](/studynote/02_operating_system/10_security/583_selinux/)(라벨 기반) 가 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 짜다 엔지니어를 정신병에 걸리게 만들었다. 이에 대항(Ubuntu 수세 진영) 하여 튀어나온 <strong>AppArmor(경로 기반 <a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 방패 빔!)</strong> 는, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이마에 더러운 라벨을 박지 않는다. 오직 시스템의 **[절대 경로](/studynote/02_operating_system/09_file_system/509_absolute_relative_path/) 문자열(`/etc/shadow`, `/var/www/*`) 자체를 족쇄 리스트 룰(Profile) 로 사용해 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 가두는 직관적 제어 엔진**이다.

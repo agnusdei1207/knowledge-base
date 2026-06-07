@@ -3,8 +3,8 @@ title: "1106. Microgrid Communication Standards Iec61850"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마이크로그리드](/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

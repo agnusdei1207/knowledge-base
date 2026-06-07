@@ -3,8 +3,8 @@ title: "242. Supervised Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 242
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))은 수만 개의 문제에 <strong>"이건 정답이야!"라고 인간이 친절하게 라벨(Label)을 꼼꼼히 붙여준 과외 선생님의 완벽한 족보(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>셋)</strong>를 컴퓨터에 쑤셔 넣고, 기계가 문제와 정답 사이의 비밀 공식을 수학적으로 외워버리게 만드는 가장 원초적이고 강력한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련법이다.

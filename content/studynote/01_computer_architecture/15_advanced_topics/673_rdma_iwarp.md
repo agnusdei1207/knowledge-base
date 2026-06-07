@@ -3,8 +3,8 @@ title: "673. Rdma Iwarp"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 673
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [iWARP](/studynote/03_network/16_data_center_cloud/814_iwarp_tcp_ip_based_rdma_compatibility/) (Internet Wide Area [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 요청을 [Transmission Control Protocol](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 위에서 실어 나르도록 만든, [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 가능한 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 전송 방식이다.

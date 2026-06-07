@@ -3,8 +3,8 @@ title: "396. Dirty Bit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 396
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 변경 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Modify [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/), 일명 Dirty [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))는 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)에 존재하는 1비트짜리 상태 플래그로, 해당 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크에서 램(RAM)으로 올라온 이후 <strong>CPU에 의해 값이 한 번이라도 수정(Write)되었는지를 추적하여 하드웨어가 1(Dirty)로 자동 마킹해 주는 장치</strong>다.

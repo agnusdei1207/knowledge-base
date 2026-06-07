@@ -3,8 +3,8 @@ title: "1065. Http3 Quic Congestion Control Recovery"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1065
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

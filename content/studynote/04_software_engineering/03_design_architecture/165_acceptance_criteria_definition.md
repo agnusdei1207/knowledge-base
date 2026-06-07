@@ -3,8 +3,8 @@ title: "165. Acceptance Criteria Definition"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인수 기준 (Acceptance Criteria)은 기능이나 [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ([User Story](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 "완료되었다"고 인정받기 위해 반드시 충족해야 하는 관찰 가능하고 측정 가능한 조건이다.

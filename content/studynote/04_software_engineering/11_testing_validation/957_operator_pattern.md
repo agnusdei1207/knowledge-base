@@ -3,8 +3,8 @@ title: "957. Operator Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 957
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오퍼레이터](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) ([Operator](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)) 패턴 - [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 사용자 정의 컨트롤러 확장을 통한 복잡한 앱 관리 자동화은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -3,8 +3,8 @@ title: "836. Business Process Outsourcing Bpo"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
+weight: 836
 ---
-
 > **핵심 인사이트**
 > 1. [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)([Business Process Outsourcing](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))는 기업의 비핵심 비즈니스 프로세스(인사, 회계, 고객 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 등)를 전문 외부 기업에 위탁하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 — 핵심 역량(Core Competency)에 집중하고 규모의 경제·전문성을 활용하여 비용 절감과 품질 향상을 동시에 달성한다.
 > 2. BPO는 위치에 따라 온쇼어(국내), 니어쇼어(인접국), 오프쇼어(원격국)로 구분되며 — 비용·품질·[리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)·제어 수준 간의 트레이드오프가 다르고, [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 보호법([GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/))이 오프쇼어 BPO의 규제 장벽이 되고 있다.

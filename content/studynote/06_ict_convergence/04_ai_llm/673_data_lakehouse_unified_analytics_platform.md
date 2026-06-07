@@ -3,8 +3,8 @@ title: "Data Lakehouse Unified Analytics Platform"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 673
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 레이크하우스(Data Lakehouse)는 오픈 테이블 포맷(Delta Lake, Apache Iceberg, Apache Hudi)을 통해 객체 스토리지(S3, ADLS, GCS) 위에 ACID 트랜잭션, 스키마 강제/진화, 타임 트래블, 통계 기반 데이터 스키핑을 제공하여, 기존 데이터 레이크의 유연성과 데이터 웨어하우스의 성능·거버넌스를 단일 계층에서 통합한 패러다임이다.

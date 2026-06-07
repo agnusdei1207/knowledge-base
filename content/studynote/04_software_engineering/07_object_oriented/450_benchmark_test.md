@@ -3,8 +3,8 @@ title: "450. Benchmark Test"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 450
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벤치마크 테스트 ([BMT](/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/), [Benchmark](/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/) Test) - 동일한 환경에서 여러 제품의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

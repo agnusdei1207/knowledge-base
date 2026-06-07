@@ -3,8 +3,8 @@ title: "041. Select Operator"
 date: "2026-03-19"
 tags:
   - "studynote-database"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 셀렉트 연산(σ, [Select](/studynote/05_database/04_transactions_concurrency/520_select/)/Restriction)은 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 단항 수평 필터링 연산으로, SQL WHERE 절의 수학적 기반이며 조건을 만족하는 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(행)만 결과 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 반환한다.
 > 2. 셀렉트는 가장 선택적(Selective)인 조건을 먼저 적용하면 중간 결과의 크기를 최소화할 수 있어, [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 핵심 최적화 규칙 중 하나인 "조건 밀어내기(Predicate Pushdown)"의 이론적 근거가 된다.

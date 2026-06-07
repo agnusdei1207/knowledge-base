@@ -3,8 +3,8 @@ title: "Loop Prefetcher"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 572
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 루프 프리패처 (Loop Prefetcher)는 반복문 안에서 같은 load 명령이 만드는 규칙적 주소 패턴을 학습해, 미래 반복에서 필요할 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 캐시 계층으로 끌어오는 하드웨어 예측기다.

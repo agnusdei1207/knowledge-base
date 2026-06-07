@@ -3,8 +3,8 @@ title: "Hexagonal Architecture / Ports and Adapters"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [헥사고날 아키텍처](/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) ([Hexagonal Architecture](/studynote/11_design_supervision/06_exam_summary/366_process/))는 알리스테어 콕번(Alistair Cockburn)이 제안한 설계 방식으로, 비즈니스 로직([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 중심에 두고 외부 시스템(DB, UI, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))를 통해 연결하여 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 외부 기술 변화로부터 완전히 격리한다.

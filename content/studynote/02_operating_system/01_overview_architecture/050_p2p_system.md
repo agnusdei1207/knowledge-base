@@ -1,7 +1,6 @@
 ---
 title: "Peer-to-Peer System"
 date: "2025-01-01"
-description: "P2P 시스템의 구조, 순수/혼합 P2P, DHT 기반 분산 해시 테이블, BitTorrent·IPFS 사례를 다룬다."
 tags:
   - "BitTorrent"
   - "DHT"
@@ -11,9 +10,9 @@ tags:
   - "P2P"
   - "distributed hash table"
   - "peer to peer"
-  - "studynote-os"
+  - "studynote-operating-system"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 시스템은 중앙 서버 없이 노드([peer](/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))들이 클라이언트와 서버 역할을 동시에 수행하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처다.
 > 2. DHT(Distributed [Hash Table](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))는 키-값 쌍을 노드들에게 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장해 O(log N) 검색을 보장하는 P2P의 핵심 자료구조다.

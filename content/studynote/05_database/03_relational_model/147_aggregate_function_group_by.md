@@ -3,8 +3,8 @@ title: "147. Aggregate Function Group By"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 집계 함수([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) Function)는 여러 행(Row)의 값을 하나의 결과값으로 요약하는 SQL(Structured Query Language) 함수로, `GROUP BY`와 결합하여 그룹별 통계를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 핵심 도구다.
 > 2. **가치**: 수백만 건의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에서 일 매출 합계, 평균 주문금액, 최대·최소 거래액을 단일 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 추출할 수 있어, 보고서·대시보드·BI(Business Intelligence) 분석의 기반이 된다.

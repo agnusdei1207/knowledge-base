@@ -3,8 +3,8 @@ title: "237. Hill Climbing Local Optima"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 237
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 언덕 오르기 탐색(Hill Climbing)은 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 눈을 가린 채 미로에서 가장 높은 산봉우리(최적의 정답)를 찾을 때, <strong>전체 지도를 다 뒤지는 짓(<a href="/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>/<a href="/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)을 포기하고 오직 "내 바로 한 발짝 앞(이웃 노드)을 더듬어서 지금 서 있는 곳보다 높으면 무조건 거기로 이동한다"</strong>는 지극히 단순 무식하고 맹목적인 지역 탐색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

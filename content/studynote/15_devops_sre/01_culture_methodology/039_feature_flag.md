@@ -3,8 +3,8 @@ title: "Feature Flag / Feature Toggle"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. [피처 플래그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))는 코드 배포와 기능 활성화를 분리하는 기술로, "항상 배포 가능한 상태(Always Deployable)"를 유지하면서 특정 사용자/비율에게만 새 기능을 점진적으로 노출할 수 있는 현대 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 핵심 요소다.
 > 2. [피처 플래그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)의 유형 — 릴리즈 토글(배포 제어), 실험 토글(A/B 테스트), 운영 토글(회로 차단기), 권한 토글(사용자 세그먼트) — 각각 생명주기와 관리 방식이 다르므로 용도를 구분하여 사용해야 한다.

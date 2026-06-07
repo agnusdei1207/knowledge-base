@@ -3,8 +3,8 @@ title: "gRPC and Protocol Buffers"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 353
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: gRPC는 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 위에서 동작하는 고성능 [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/)([Remote Procedure Call](/studynote/02_operating_system/02_process_thread/126_rpc/)) 프레임워크이며, [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Buffers는 그 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 계약과 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 형식을 담당한다.

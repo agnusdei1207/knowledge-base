@@ -3,8 +3,8 @@ title: "Carbon Capture CCS CCUS Net Zero Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 726
 ---
-
 # 726. 탄소 포집 CCS / CCUS / 넷제로 전략 (Carbon Capture CCS CCUS Net Zero Strategy)
 
 ## 핵심 인사이트 (3줄 요약)

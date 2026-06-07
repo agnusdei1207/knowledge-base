@@ -3,8 +3,8 @@ title: "Graph Analysis Social Network Centrality"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 684
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소셜 네트워크 중심성(Social Network Centrality)은 그래프 G=(V,E) 위에서 노드·엣지·부분그래프의 구조적 중요도를 정량화하는 메트릭 체계로, 차수 중심성(Degree), 매개 중심성(Betweenness), 근접 중심성(Closeness), 아이겐벡터·페이지랭크·허브/authority·Katz·근조화(Harmonic) 등으로 분류되며, 각각 국부 연결성·경로 중개성·도달 효율성·영향 전파력을 측정한다.

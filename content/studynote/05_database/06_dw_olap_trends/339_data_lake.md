@@ -3,8 +3,8 @@ title: "Data Lake"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 339
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 정형/반정형/비정형 모두 저장하는 [스키마 온 리드](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)([Schema-on-read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) 중앙 저장소에 초점을 둔 분석 플랫폼 개념이다.

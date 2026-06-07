@@ -3,8 +3,8 @@ title: "Botnet Cnc Zombie Pc Ddos Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1086
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [봇넷](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) ([Botnet](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)) C&C ([Botnet Cnc](/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) Zombie [Pc](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) Ddos Infrastructure)는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

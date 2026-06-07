@@ -2,9 +2,9 @@
 title: "Node.js"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빌드 도구는 소스 코드 컴파일, 의존성 관리, 패키징, 테스트를 자동화하는 도구다.

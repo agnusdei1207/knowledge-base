@@ -2,9 +2,9 @@
 title: "071. Segment Tree"
 date: "2026-03-28"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **구간 연산의 최적화**: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 특정 구간 합, 최솟값, 최댓값 등을 구하는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 값 업데이트를 모두 $O(\log n)$ 시간 복잡도에 해결하는 트리 기반 자료구조임.
 - <strong>완전 <a href="/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/">이진 트리</a> 구조</strong>: 리프 노드에는 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 개별 요소를 저장하고, 내부 노드에는 자식 노드들의 연산 결과(합, 최소 등)를 저장하여 구간 정보를 계층적으로 관리함.

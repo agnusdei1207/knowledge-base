@@ -3,8 +3,8 @@ title: "135. Optical Transmission Components"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 광통신 시스템은 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 빛으로 변환(E-O)하는 송신 광원([LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/), LD)과, 도달한 빛을 다시 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 복원(O-E)하는 수신 수광소자(PIN, APD)의 물리적 결합이다.

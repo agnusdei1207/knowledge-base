@@ -3,8 +3,8 @@ title: "149. Apache Hudi"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. Apache Hudi는 Uber가 MySQL -> [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 만든 [오픈 테이블 포맷](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)으로, <strong>Upsert(Update + Insert)와 Delete를 레이크에서 직접 수행</strong>할 수 있게 한다.
 2. <strong><a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> (<a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>, 읽기 최적화)</strong>와 <strong>MOR (Merge-on-Read, <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 최적화)</strong> 두 가지 테이블 유형을 제공하여 워크로드 특성에 맞는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프를 선택할 수 있다.

@@ -3,8 +3,8 @@ title: "Terraform"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Provider와 HCL을 이용해 [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 리소스를 plan/apply 흐름으로 관리하는 [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구.

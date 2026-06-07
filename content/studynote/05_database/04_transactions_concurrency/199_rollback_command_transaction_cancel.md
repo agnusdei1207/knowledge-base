@@ -3,8 +3,8 @@ title: "Rollback Command Transaction Cancel"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ROLLBACK](/studynote/02_operating_system/05_deadlock/313_rollback/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 취소, 이전 상태로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 초점을 맞춘 개념이다.

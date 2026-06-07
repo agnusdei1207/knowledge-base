@@ -3,8 +3,8 @@ title: "Current"
 date: "2026-04-15"
 tags:
   - "studynote-computer-architecture"
+weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 전류 (Current)는 단위 시간 동안 이동하는 전하의 양이며, 컴퓨터에서는 실제로 에너지를 전달하고 회로 상태를 바꾸는 물리적 흐름이다.
 > 2. **가치**: [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 상태의 기준이라면 전류는 그 상태를 회로 끝까지 밀어 전달하는 실행 수단이므로, 전류 제어는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 발열, 전력 무결성과 직결된다.

@@ -2,9 +2,9 @@
 title: "043. Max Flow"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 43
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최대 유량 (Max Flow) 문제는 소스 (Source)에서 싱크 (Sink)까지 흘릴 수 있는 최대 흐름량을 구하는 문제로, 잔여 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Residual [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))와 증가 경로 (Augmenting Path)를 이용해 해결한다.

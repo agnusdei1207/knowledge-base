@@ -3,8 +3,8 @@ title: "690. Sbom Software Supply Chain Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 690
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 자재 명세서 ([SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)) [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

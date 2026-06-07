@@ -3,8 +3,8 @@ title: "Forward Propagation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 271
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순전파([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Propagation)는 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 신경망의 입력층->은닉층->출력층 방향으로 흐르며 행렬 곱과 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 순차 적용해 예측값을 계산하는 과정이다.

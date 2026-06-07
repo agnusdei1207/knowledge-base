@@ -3,8 +3,8 @@ title: "130. Foundation Model"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Foundation Model은 <strong>대규모 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 사전 학습(Pre-<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">training</a>)된 범용 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델</strong>로, 다양한 하위 작업(NLP·Vision·코드)에 [Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 또는 Prompting으로 적응 가능하며, [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)·[BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)·Stable Diffusion이 대표이다.
 > 2. **가치**: 개별 작업마다 처음부터 모델을 학습하면 비용이 막대하지만, Foundation Model을 <strong>기반으로 <a href="/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/">미세 조정</a></strong>하면 소량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로도 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성할 수 있다([Transfer Learning](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)).

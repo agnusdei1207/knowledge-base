@@ -3,8 +3,8 @@ title: "Load Test Bottleneck Diagnosis"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 258
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [부하 테스트](/studynote/04_software_engineering/11_testing_validation/838_load_test/)([Load Test](/studynote/04_software_engineering/11_testing_validation/838_load_test/))의 목적은 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/)) 위치를 정확히 특정하는 것이며, 단순히 "느리다"는 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 아닌 **CPU·메모리·디스크 I/O·네트워크** 중 어디가 포화 상태인지를 진단해야 한다.

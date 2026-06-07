@@ -1,10 +1,11 @@
 ---
 title: "067. Sprint Timebox"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스프린트(Sprint)는 1~4주로 고정된 Timebox 안에서 실행되는 짧은 개발 주기다.

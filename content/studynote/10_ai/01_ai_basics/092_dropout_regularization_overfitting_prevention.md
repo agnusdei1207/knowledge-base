@@ -3,8 +3,8 @@ title: "092. Dropout Regularization Overfitting Prevention"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))은 딥러닝 모델의 훈련 과정에서 매번 무작위로 일부 뉴런을 비활성화하여, 신경망이 특정 뉴런에만 의존하는 과적합 ([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 현상을 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 기법이다.

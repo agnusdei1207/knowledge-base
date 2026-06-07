@@ -3,8 +3,8 @@ title: "Richardson Maturity Model"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 157
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [RESTful API](/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 성숙도 모델 (Richardson [Maturity Model](/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은 웹 애플리케이션 프로그래밍 인터페이스 ([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 얼마나 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))의 설계 철학을 따르고 있는지 단계별로 평가하는 틀이다.

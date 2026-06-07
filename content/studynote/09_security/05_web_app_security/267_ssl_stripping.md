@@ -3,8 +3,8 @@ title: "SSL Stripping"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 267
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SSL 스트리핑 (SSL Stripping)는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

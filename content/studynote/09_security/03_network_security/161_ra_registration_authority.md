@@ -3,8 +3,8 @@ title: "161. Ra Registration Authority"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 161
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: RA (Registration Authority)는 [공개키 기반 구조](/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) ([PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/))에서 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 신청자의 신원을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 요청을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·승인하는 등록 기관이다.

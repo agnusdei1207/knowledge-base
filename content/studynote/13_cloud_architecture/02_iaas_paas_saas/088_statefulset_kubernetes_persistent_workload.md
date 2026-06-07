@@ -3,8 +3,8 @@ title: "088. Statefulset Kubernetes Persistent Workload"
 date: "2026-04-10"
 tags:
   - "studynote-cloud-architecture"
+weight: 88
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스테이트풀셋 (StatefulSet)은 `K8s (Kubernetes)` 환경에서 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)와 스토리지 볼륨을 영구적으로 보장하는 워크로드 컨트롤러다.

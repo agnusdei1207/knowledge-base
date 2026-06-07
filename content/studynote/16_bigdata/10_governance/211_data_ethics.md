@@ -3,8 +3,8 @@ title: "211. Data Ethics"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 윤리([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Ethics)는 공정성(Fairness)·투명성(Transparency)·책임성(Accountability)·프라이버시(Privacy)·선익(Beneficence)의 5원칙으로 구성되며, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이 사회적 편견을 강화·증폭하지 않도록 방어하는 규범 체계다.

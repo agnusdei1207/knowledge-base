@@ -2,9 +2,9 @@
 title: "055. Array"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배열 (Array)은 동일 타입 원소를 연속된 메모리 블록에 저장하여, [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 하나로 임의의 위치를 O(1)에 접근하는 가장 단순하고 빠른 선형 자료구조다.

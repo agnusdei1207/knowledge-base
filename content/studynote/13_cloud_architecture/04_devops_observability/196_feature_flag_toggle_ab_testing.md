@@ -3,8 +3,8 @@ title: "Feature Flag / Toggle"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코드 재배포 없이 런타임에 특정 기능을 ON/OFF하거나 특정 사용자 그룹에게만 노출하는 소프트웨어 조건 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.

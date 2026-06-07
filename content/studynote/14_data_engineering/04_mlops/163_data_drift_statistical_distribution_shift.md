@@ -3,8 +3,8 @@ title: "163. Data Drift Statistical Distribution Shift"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Drift)는 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 운영(서빙) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 통계적 분포 차이로, 시간이 흐름에 따라 모델이 본 적 없는 패턴의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하게 되어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 현상이다.
 > 2. **가치**: PSI ([Population Stability Index](/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)), KS Test 등 정량적 지표로 드리프트를 조기에 감지하면, 실제 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 비즈니스 손실로 이어지기 전에 재학습을 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)할 수 있다.

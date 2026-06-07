@@ -3,8 +3,8 @@ title: "407. Second Chance Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 407
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 2차 기회 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Clock Algorithm](/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/))은 가장 무식하고 빠른 <strong><a href="/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>(원형 큐)의 뼈대 위에, 하드웨어가 제공하는 1비트짜리 '<a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)'를 얹어, 최근에 사용된 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>에게 한 번 더 살 수 있는 '2차 기회'를 부여</strong>하는 지능형 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

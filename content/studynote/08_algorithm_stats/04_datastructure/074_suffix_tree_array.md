@@ -2,9 +2,9 @@
 title: "074. Suffix Tree Array"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서픽스 트리 (Suffix Tree)와 서픽스 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Suffix [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은 문자열의 모든 접미사(Suffix)를 인덱싱하여 부분 문자열 탐색·최장 반복 부분 문자열 등을 선형 시간에 처리하는 고급 문자열 자료구조다.

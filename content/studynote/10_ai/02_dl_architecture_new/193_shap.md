@@ -3,8 +3,8 @@ title: "XAI"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) ([SHapley Additive exPlanations](/studynote/10_ai/04_ai_ops_ethics/327_shap/))는 노벨 경제학상을 받은 로이드 섀플리의 '게임 이론(Cooperative Game Theory)'을 딥러닝 해석에 때려 박아, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 예측 결과(예: 집값 10억)에 기여한 수십 개의 변수들(평수, 층수, 학군 등)의 <strong>공로 점수를 1원짜리 한 푼의 오차도 없이 완벽하고 공평하게 찢어 나누어 주는 절대적인 <a href="/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> 해설지 지표</strong>다.

@@ -3,8 +3,8 @@ title: "741. Mtls Mutual Tls Service Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 741
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 상호 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 보안은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

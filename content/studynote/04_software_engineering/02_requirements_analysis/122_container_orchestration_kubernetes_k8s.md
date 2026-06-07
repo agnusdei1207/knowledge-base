@@ -3,8 +3,8 @@ title: "122. Container Orchestration Kubernetes K8S"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 오케스트레이션은 <strong>수백~수천 개 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>의 배포·<a href="/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>·네트워킹·자동 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>를 자동화</strong>하는 시스템이며, [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)(K8s)가 사실상 유일한 산업 표준이다.
 > 2. **가치**: 단일 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 `docker run`으로 관리하지만, 프로덕션 환경에서 수백 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 <strong>헬스체크·오토스케일링·<a href="/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/">롤링 업데이트</a>·<a href="/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/">서비스 디스커버리</a></strong>를 수동 관리하는 것은 불가능하며, K8s가 이를 <strong>선언적으로 자동화</strong>한다.

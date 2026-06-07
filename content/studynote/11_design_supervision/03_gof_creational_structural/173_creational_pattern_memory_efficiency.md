@@ -3,8 +3,8 @@ title: "Prototype vs Flyweight"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Prototype은 이미 준비된 객체를 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용을 줄이는 패턴이고, Flyweight는 공유 가능한 상태를 묶어 대량 객체의 상주 메모리를 줄이는 패턴이다.

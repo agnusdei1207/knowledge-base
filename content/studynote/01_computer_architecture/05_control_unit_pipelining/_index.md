@@ -2,9 +2,9 @@
 title: "Control Unit & Pipelining"
 tags:
   - "computer_architecture"
+  - "studynote-computer-architecture"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제어 장치 (Control Unit)는 명령어의 실행 순서를 제어하고 하드웨어 각 모듈에 제어 신호를 인가하는 CPU의 두뇌이며, 파이프라이닝 (Pipelining)은 여러 명령어를 겹쳐서 실행하여 CPU의 처리량 (Throughput)을 극대화하는 병렬화 기술이다.

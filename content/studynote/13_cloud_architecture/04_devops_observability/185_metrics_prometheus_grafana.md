@@ -3,8 +3,8 @@ title: "Metrics - Prometheus, Grafana"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))은 시스템 상태를 숫자 기반 시계열로 압축해 "얼마나 자주, 얼마나 느리게, 얼마나 많이"를 빠르게 답하게 만드는 관측 신호다.

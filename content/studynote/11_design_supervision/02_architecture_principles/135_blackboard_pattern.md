@@ -3,8 +3,8 @@ title: "Blackboard Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블랙보드 패턴](/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/) ([Blackboard Pattern](/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/))은 여러 독립 전문가(Knowledge Source, KS) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 공간(Blackboard)에 부분 해결책을 작성하고 읽으면서, 제어 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(Control)가 어느 전문가를 다음에 실행할지 결정하여 점진적으로 복잡한 문제를 해결하는 아키텍처 패턴이다.

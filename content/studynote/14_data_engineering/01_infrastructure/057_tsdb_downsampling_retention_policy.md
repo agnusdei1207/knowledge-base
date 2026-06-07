@@ -3,8 +3,8 @@ title: "057. Tsdb Downsampling Retention Policy"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TSDB ([Time-Series Database](/studynote/11_design_supervision/06_exam_summary/340_process/))는 시간 순으로 쌓이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 쓰고 읽기 위해 최적화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다.

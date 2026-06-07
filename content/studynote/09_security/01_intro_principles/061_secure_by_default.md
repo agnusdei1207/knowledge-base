@@ -3,8 +3,8 @@ title: "061. Secure By Default"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 61
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Secure by Default는 시스템이 처음 켜지는 순간부터 가장 안전한 기본 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 동작하도록 설계하는 원칙이다.

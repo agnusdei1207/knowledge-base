@@ -3,8 +3,8 @@ title: "149. Clone System Call"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: `clone()` 시스템 콜은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 프로세스([Process](/studynote/12_it_management/05_security_compliance/943_process/))와 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 유일하고도 가장 근원적인 범용 인터페이스([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))이다.
 > 2. **가치**: 기존 유닉스의 무식한 자원 전체 복사(`fork`) 방식을 넘어, `CLONE_*` [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 조합을 통해 부모와 자식 간의 메모리, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터, 시그널 핸들러 공유 수준을 핀셋처럼 세밀하게 튜닝할 수 있는 극한의 유연성을 제공한다.

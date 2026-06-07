@@ -3,8 +3,8 @@ title: "Recovery Point Objective"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 379
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 재해 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처 - [RTO](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)), [RPO](/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

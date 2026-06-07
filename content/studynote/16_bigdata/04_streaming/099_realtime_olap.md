@@ -3,8 +3,8 @@ title: "099. Realtime Olap"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) (Real-time [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/), [Online Analytical Processing](/studynote/14_data_engineering/05_exam_keywords/211_olap_drill_down_roll_up_surrogate_key/))은 스트리밍으로 유입되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수초~수 밀리초의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 즉시 컬럼형(Columnar) 스토어에 적재하고 서브초(Sub-second) 내에 집계·분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 처리하는 분석 아키텍처로, Apache Druid·Apache Pinot·ClickHouse가 대표 구현체다.
 > 2. **가치**: 기존 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) Batch 적재 -> 야간 집계)은 T+1 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 분석 가능하지만, 실시간 OLAP는 방금 발생한 이벤트(T+수초)를 즉시 분석하여 실시간 사용자 행동 분석·광고 성과 실시간 대시보드·[이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 같은 즉각적인 비즈니스 인사이트를 제공한다.

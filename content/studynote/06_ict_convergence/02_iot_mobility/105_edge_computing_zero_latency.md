@@ -1,10 +1,11 @@
 ---
 title: "105. Edge Computing Zero Latency"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 디바이스 주변(가장자리)에 연산 능력을 전진 배치하여, 중앙 클라우드까지 가지 않고 현장에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 처리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 아키텍처다.

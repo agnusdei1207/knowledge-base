@@ -3,8 +3,8 @@ title: "180. Range Partitioning"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 레인지 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) (Range [Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 날짜·금액·순번처럼 순서가 있는 값을 경계선으로 잘라, 각 행을 구간별 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장하는 물리 설계다.

@@ -2,9 +2,9 @@
 title: "IaC"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Dockerfile은 이미지를 어떻게 만들지 선언하는 빌드 스크립트다.

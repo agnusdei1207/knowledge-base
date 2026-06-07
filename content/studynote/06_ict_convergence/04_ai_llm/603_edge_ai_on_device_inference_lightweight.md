@@ -3,8 +3,8 @@ title: "Edge AI On-Device Inference Lightweight"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 603
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 AI 온디바이스 경량 추론은(는) AI 모델을 클라우드가 아니라 단말·게이트웨이에서 직접 실행하도록 압축·최적화하는 기술이다.

@@ -3,8 +3,8 @@ title: "IHS, Integrated Heat Spreader"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 736
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 히트스프레더 (IHS, Integrated Heat Spreader)는 작은 die에서 발생한 열을 넓은 면적으로 퍼뜨리고, 동시에 깨지기 쉬운 실리콘을 쿨러 압력으로부터 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 금속 캡이다.

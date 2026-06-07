@@ -3,8 +3,8 @@ title: "MQTT CoAP IoT Lightweight Protocols"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 489
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MQTT](/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/)(Message Queuing Telemetry Transport)와 [CoAP](/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)([Constrained Application Protocol](/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/))은 제한된 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경을 위해 설계된 두 가지 경량 메시지 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, MQTT는 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반 Pub/Sub 패턴, CoAP는 [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반 RESTful 패턴을 사용한다.

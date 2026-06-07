@@ -3,8 +3,8 @@ title: "Security Operations Center"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 622
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SOC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 티어 ([Security Operations Center](/studynote/09_security/17_framework_compliance/855_soc_2/))는 보안 운영·포렌식에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

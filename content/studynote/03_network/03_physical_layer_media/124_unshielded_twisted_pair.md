@@ -3,9 +3,8 @@ title: "124. UTP (Unshielded Twisted Pair)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 124
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: UTP(비차폐 꼬임 쌍선)는 외부 금속 차폐막(Shield)을 과감히 생략하고, 오직 도선을 꼬는 기하학적 피치(Pitch) 제어와 차동 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 처리만으로 노이즈를 이겨내는 통신 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)다.

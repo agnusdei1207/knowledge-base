@@ -3,9 +3,8 @@ title: "200. RISC-V"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 200
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 5세대 [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 철학을 바탕으로 만든 개방형 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))로, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 규격 자체를 누구나 구현·확장할 수 있게 공개한 표준이다.

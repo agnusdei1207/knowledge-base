@@ -1,11 +1,11 @@
 ---
 title: "002. Confidentiality"
 date: "2023-10-24"
-description: "인가되지 않은 정보 접근 및 유출을 차단하기 위한 기밀성의 핵심 원리, 암호화, 접근 제어 및 실무 적용 방안"
 tags:
   - "security"
+  - "studynote-security"
+weight: 2
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기밀성은 '알 권리([Need-to-Know](/studynote/09_security/01_intro_principles/013_need_to_know/))'가 없는 주체로부터 정보 자산을 숨기고 유출을 차단하는 정보보안의 1차 방어선이다.
 > 2. **가치**: [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/), 기업 영업비밀, 국가 기밀 등 민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)함으로써 컴플라이언스 준수와 비즈니스 신뢰도를 확보한다.

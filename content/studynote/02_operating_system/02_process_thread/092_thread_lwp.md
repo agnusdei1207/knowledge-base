@@ -3,8 +3,8 @@ title: "LWP"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스레드 (Thread)는 프로세스라는 거대한 자원 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 독립적인 제어 흐름만 분리해 낸 최소 CPU 할당 단위이며, LWP (Lightweight [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 이를 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 인식하도록 매핑한 가상 CPU다.
 > 2. **가치**: 코드, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역을 공유하므로 통신([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)) 비용이 제로에 가깝고, [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시 메모리 주소 공간([Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/))을 교체할 필요가 없어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 비약적으로 향상된다.

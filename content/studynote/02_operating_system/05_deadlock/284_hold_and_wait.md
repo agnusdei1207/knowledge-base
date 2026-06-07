@@ -3,8 +3,8 @@ title: "284. Hold And Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 284
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 점유하며 대기 (Hold-and-Wait)는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 4조건 중 하나로, 프로세스가 최소한 하나의 자원을 이미 쥐고(Holding) 있으면서 다른 프로세스가 쥐고 있는 추가 자원을 얻기 위해 블로킹 상태로 기다리는(Waiting) 상황이다.

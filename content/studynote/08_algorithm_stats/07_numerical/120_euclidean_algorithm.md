@@ -3,8 +3,8 @@ title: "120. Euclidean Algorithm"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 120
 ---
-
 > **핵심 인사이트**
 > 1. 유클리드 호제법(Euclidean [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 "두 수의 [최대공약수](/studynote/09_security/03_network_security/116_gcd_rsa/)([GCD](/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/))는 큰 수를 작은 수로 나눈 나머지와 작은 수의 GCD와 같다"는 원리 — 기원전 300년경 유클리드가 제안한 가장 오래된 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중 하나로, [GCD](/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)(a, b) = [GCD](/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)(b, a mod b)로 표현된다.
 > 2. [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) O(log min(a, b)) — 피보나치 수열이 유클리드 호제법의 최악 케이스임이 수학적으로 증명되었으며, 심지어 10억 단위 수도 수십 번의 연산으로 GCD를 구할 수 있다.

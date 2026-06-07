@@ -3,8 +3,8 @@ title: "057. Subscription Economy Xaas"
 date: "2024-03-20"
 tags:
   - "studynote-it-management"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 구독 경제는 제품을 소유하는 대신 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 계속 이용하며 비용을 지불하는 소비 모델이다.

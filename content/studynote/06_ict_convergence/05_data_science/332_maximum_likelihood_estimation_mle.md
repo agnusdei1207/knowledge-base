@@ -3,8 +3,8 @@ title: "MLE, Maximum Likelihood Estimation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 332
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최대 우도 추정법 ([MLE](/studynote/08_algorithm_stats/08_stats/143_mle/), Maximum Likelihood Estimation): 1. **본질**: 최대 우도 추정법([MLE](/studynote/08_algorithm_stats/08_stats/143_mle/))은 이미 눈앞에 일어난 사건(관측된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))들을 보고, "이런 일들이 발생하려면, 애초에 이 동전([확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 모델)은 어떤 모양이었어야 가장 말이 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

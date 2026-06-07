@@ -3,8 +3,8 @@ title: "Decentralized Science DeSci Research Sharing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 580
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DeSci 탈중앙 과학 연구 공유은(는) 연구 데이터, 논문, 펀딩, 리뷰, 지식재산을 토큰·DAO·영구 저장소로 관리하는 개방형 연구 협업 모델이다.

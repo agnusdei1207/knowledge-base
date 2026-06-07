@@ -3,8 +3,8 @@ title: "259. Realtime Olap"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 259
 ---
-
 > **핵심 인사이트**
 > 1. 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)([Real-Time OLAP](/studynote/16_bigdata/04_streaming/099_realtime_olap/))은 초 단위 이하 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)으로 대용량 이벤트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하는 시스템 — [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 기반 배치 분석(시간 단위 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))의 한계를 극복하고, "지금 이 순간" 수십억 행을 집계·필터링하는 능력이 핵심이다.
 > 2. 컬럼형 저장소 + 벡터화 실행 + 사전 집계(Pre-aggregation)의 조합 — ClickHouse는 컬럼형 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 저장 + [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 벡터화로 초당 수억 행 처리, Druid/Pinot은 인제스트 시 사전 집계로 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 부하를 최소화하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 차이가 있다.

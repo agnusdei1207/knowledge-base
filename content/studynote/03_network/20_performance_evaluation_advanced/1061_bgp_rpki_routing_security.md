@@ -3,8 +3,8 @@ title: "1061. Bgp Rpki Routing Security"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1061
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

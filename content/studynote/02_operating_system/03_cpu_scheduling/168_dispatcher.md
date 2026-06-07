@@ -3,8 +3,8 @@ title: "168. Dispatcher"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스패처 (Dispatcher)는 [단기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/) ([Short-term Scheduler](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/))가 고른 프로세스나 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 실제 CPU 제어권을 넘기는 실행 메커니즘이며, [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))의 현장 집행자다.

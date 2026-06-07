@@ -3,8 +3,8 @@ title: "048. Row Oriented Store Oltp"
 date: "2026-04-05"
 tags:
   - "studynote-database"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. 행 지향 저장소(Row-Oriented Store)는 한 행의 모든 컬럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 저장 — 특정 행의 전체 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 한 번에 읽는 [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(Online [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 워크로드에 최적화되어 있으며, INSERT/UPDATE/DELETE 시 단일 I/O로 행 전체를 처리한다.
 > 2. OLTP와 OLAP는 완전히 다른 최적화 방향 — OLTP는 행 지향(단일 행 빠른 접근), OLAP는 컬럼 지향(대용량 컬럼 집계). 같은 물리적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 방향으로 저장하는 [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/)(Hybrid)가 현대 트렌드다.

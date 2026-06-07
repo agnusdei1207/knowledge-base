@@ -3,8 +3,8 @@ title: "295. Olap Operations"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 기술 적용는 Look-aside ([Lazy Loading](/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)) 패턴, [Write-through](/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 패턴에 초점을 둔 기법이다.

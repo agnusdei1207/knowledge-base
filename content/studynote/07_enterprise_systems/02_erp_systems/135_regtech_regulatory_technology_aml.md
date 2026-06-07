@@ -3,8 +3,8 @@ title: "135. Regtech Regulatory Technology Aml"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RegTech(Regulatory Technology)는 <strong>금융 규제 준수(<a href="/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)를 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>·빅데이터·자동화로 효율화</strong>하는 기술이며, AML(자금세탁방지)·KYC(고객확인)·규제 보고가 핵심 영역이다.
 > 2. **가치**: 수작업 규제 준수는 비용이 막대(글로벌 은행 연간 수십조)하고 오류 위험이 높지만, RegTech는 <strong>실시간 자동 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링·보고로 비용 70%+ 절감</strong>과 정확도 향상을 동시 달성한다.

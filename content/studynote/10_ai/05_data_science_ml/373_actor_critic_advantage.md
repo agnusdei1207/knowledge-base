@@ -3,8 +3,8 @@ title: "373. Actor Critic Advantage"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 373
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) (A2C, Advantage [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/))은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 함수([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Function) π_θ를 학습하는 행동자(Actor)와 [가치 함수](/studynote/10_ai/02_dl_architecture_new/163_value_function/)([Value Function](/studynote/10_ai/02_dl_architecture_new/163_value_function/)) V_φ를 학습하는 비평자(Critic)를 동시에 학습하여 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 그래디언트([Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/))의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 줄이는 강화학습 방법이다.

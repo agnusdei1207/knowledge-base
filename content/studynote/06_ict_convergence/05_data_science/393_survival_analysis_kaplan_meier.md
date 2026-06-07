@@ -3,8 +3,8 @@ title: "Kaplan-Meier"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 393
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 생존 분석 카플란-마이어 누적 추정 (Kaplan-Meier): 1. **본질**: 생존 분석(Survival Analysis)은 "이 환자가 수술 후 몇 년을 더 살까?" 또는 "이 고객이 언제 쇼핑몰을 탈퇴할까?"처럼 어떤 사건(Event)이 발생…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "628. Objective Evidence Collection"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 628
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 객관적 증거는 감리 판단이 직감이 아니라 문서, 관찰, 테스트 결과처럼 제3자가 다시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 근거에 기반함을 뜻한다.

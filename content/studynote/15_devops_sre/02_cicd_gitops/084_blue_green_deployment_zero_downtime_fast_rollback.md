@@ -2,9 +2,9 @@
 title: "084. Blue Green Deployment Zero Downtime Fast Rollback"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블루/그린 배포 (Blue/Green [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))는 동일한 두 환경을 두고 트래픽 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만 바꿔 무중단 전환을 만드는 방식이다.

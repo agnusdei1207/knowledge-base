@@ -3,8 +3,8 @@ title: "Computational Graph"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 380
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 텐서플로우/파이토치 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 실행(Lazy) vs 즉시 실행(Eager/Dynamic) 모드 차이 (Computational [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)): 1. **본질**: 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Computational [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))는 딥러닝의 수많은 수학 연산(덧셈, 곱셈, [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/))들을 노드와 간선으로 연결한 설계도이며, 프레임워크가 이 그래…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "781. Anti Debugging Code Obfuscation"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 781
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 안티 디버깅 코드 [난독화](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 리버스엔지니어링 차단은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

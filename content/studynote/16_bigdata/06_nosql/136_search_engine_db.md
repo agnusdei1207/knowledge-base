@@ -3,8 +3,8 @@ title: "136. Search Engine Db"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 136
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 검색 엔진 DB는 [역색인](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)([Inverted Index](/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 구조로 모든 단어가 어느 문서에 있는지를 미리 색인하여, 수억 개 문서에서도 키워드 검색을 밀리초 만에 처리하는 Lucene 기반 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 검색 엔진이다.
 - **가치**: 전문 검색(Full-Text Search), 집계 분석(Aggregation), 실시간 [로그 분석](/studynote/16_bigdata/05_analysis/119_log_analysis/)을 단일 플랫폼에서 처리하며 ELK([Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)/Logstash/[Kibana](/studynote/16_bigdata/08_visualization/169_kibana/)) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 표준 인프라가 되었다.

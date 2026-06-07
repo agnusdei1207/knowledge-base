@@ -3,9 +3,8 @@ title: "394. AutoML / Hyperopt (Automl Hyperopt TPE)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 394
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TPE (Tree-structured Parzen Estimator)는 하이퍼파라미터 최적화를 베이지안 방법으로 접근하여, 좋은 결과를 낸 하이퍼파라미터 분포(l(x))와 나쁜 결과 분포(g(x))를 분리 모델링해 l(x)/g(x) 비율을 최대화하는 다음 탐색 포인트를 선택한다.

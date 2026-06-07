@@ -3,8 +3,8 @@ title: "529. Inode Direct Blocks"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 529
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 철판에서 1개의 256바이트짜리 [유닉스 i-node](/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/) 껍데기 [포인터 배열](/studynote/05_database/07_exam_summary/423_non_clustered_index/) 장부를 열었을 때, <strong>가장 앞단에 위치하는 12~15개 남짓의 C언어 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 칸(<a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a> Slots)</strong> 이다. 이곳엔 다중 레벨 트리(간접 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 거치지 않고, 그 칸에 적힌 주소를 읽자마자 디스크 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 목적지로 **1방에 다이렉트 레이저 점프 빔 타격** 을 쏠 수 있는 물리 포인터가 적혀 있다.

@@ -3,8 +3,8 @@ title: "657. Vmx Root Mode"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 657
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VMX ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions) root 모드는 [Intel VT-x](/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) (Intel [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Technology for x86)에서 하이퍼바이저가 CPU (Central Processing Unit) 제어권을 유지하는 실행 문맥이다.

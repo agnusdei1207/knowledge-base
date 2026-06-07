@@ -2,9 +2,9 @@
 title: "078. Smart Work Mobile Office"
 date: "2026-04-07"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트워크는 유연한 업무 방식, 디지털 협업, 보안을 함께 묶는 운영 모델이다.

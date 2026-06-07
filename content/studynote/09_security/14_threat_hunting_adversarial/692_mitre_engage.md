@@ -3,8 +3,8 @@ title: "Mitre Engage"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 692
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MITRE Engage 프레임워크 (Mitre Engage)는 [위협 헌팅](/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

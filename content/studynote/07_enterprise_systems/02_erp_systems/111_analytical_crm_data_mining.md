@@ -3,8 +3,8 @@ title: "111. Analytical Crm Data Mining"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 111
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 분석 [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Analytical [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))은 운영 CRM이 수집한 대규모 고객 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong><a href="/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a>(<a href="/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>)에 적재하고 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/<a href="/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/">데이터 마이닝</a>으로 분석</strong>하여, "누가 이탈할 것인가?", "어떤 상품을 추천할 것인가?"라는 <strong>예측적 통찰(Predictive Insight)</strong>을 추출하는 두뇌 시스템이다.
 > 2. **가치**: 운영 CRM이 모은 100만 건 행동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 <strong>고객 세분화(<a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)·이탈 예측(Churn Prediction)·교차 판매(Cross-sell) 추천</strong>을 도출하여 마케팅 ROI를 극대화한다.

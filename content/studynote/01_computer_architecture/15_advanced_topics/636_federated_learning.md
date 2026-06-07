@@ -3,8 +3,8 @@ title: "636. Federated Learning"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 636
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)([Federated Learning](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 모으지 않고 각 기기나 기관에서 학습한 모델 업데이트만 모아 전역 모델을 개선하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 구조다.

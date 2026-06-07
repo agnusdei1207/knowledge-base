@@ -3,8 +3,8 @@ title: "169. Opc Ua Industrial Automation"
 date: "2026-04-16"
 tags:
   - "studynote-ict-convergence"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OPC UA](/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) (Open Platform Communications Unified [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 공장 장비와 상위 시스템이 벤더와 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 차이를 넘어 같은 방식으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰게 만드는 산업 자동화용 상호 운용 표준이다.

@@ -3,8 +3,8 @@ title: "Exclusive lock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 567
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크롬 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드를 받는 도중에, 다운받고 있는 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 휴지통에 버리고 지워버리면 무슨 일이 날까? [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 장부가 꼬이며 전체 램이 폭파될 것이다. 이 광기 어린 [Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) (경쟁 상태 충돌 늪) 을 막기 위해, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 내부에는 <strong>"어떤 앱이 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 여는 순간 (1) 혼자 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 독점 배타적 잠금(Exclusive <a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 을 치거나 (2) 읽는 애들끼리는 통과시켜 주는 공유 잠금(Shared <a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 방검복 데몬"</strong> 이 멱살 잡고 대기하고 있다 렌더.

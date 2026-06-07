@@ -3,8 +3,8 @@ title: "Document Store"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 277
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [문서 저장소](/studynote/14_data_engineering/01_infrastructure/037_document/) ([Document Store](/studynote/14_data_engineering/01_infrastructure/037_document/))은 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)/XML 형태, BSON 포맷, 유연성, [MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/), CouchDB에 초점을 맞춘 개념이다.

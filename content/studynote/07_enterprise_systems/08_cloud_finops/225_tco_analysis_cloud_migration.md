@@ -2,9 +2,9 @@
 title: "Total Cost of Ownership Analysis"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TCO](/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership)는 시스템을 도입하고 운영하며 폐기할 때까지 드는 모든 직접비와 간접비를 합쳐 보는 총소유비용 분석이다.

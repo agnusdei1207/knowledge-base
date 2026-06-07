@@ -3,8 +3,8 @@ title: "Dirty Read"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오손 읽기 ([Dirty Read](/studynote/05_database/04_transactions_concurrency/528_third_normal_form/))은 다른 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 아직 커밋하지 않은 미확정 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽음에 초점을 맞춘 개념이다.

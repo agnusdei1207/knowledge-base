@@ -3,8 +3,8 @@ title: "AutoML Auto Model Selection Hyperparameter"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 670
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AutoML은 CASH(Combined Algorithm Selection and Hyperparameter optimization) 문제를 해결하기 위해 **탐색 공간 설계(Search Space)**, **탐색 전략(Search Strategy: BO/TPE/Hyperband)**, **조기 종료(Early Stopping/Successive Halving)**의 3축으로 모델·하이퍼파라미터·파이프라인을 자동 탐색하는 Meta-learning 기반 MLOps 자동화 패러다임이다.

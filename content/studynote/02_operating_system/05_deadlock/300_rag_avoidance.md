@@ -3,8 +3,8 @@ title: "Rag Avoidance"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 300
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단일 인스턴스 환경(각 자원이 오직 1개뿐인 생태계)에서 교착 상태를 예방도 복구도 아닌 "안전 여부 판단 후 승인(회피)"으로 돌파하기 위해, [자원 할당 그래프](/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에 미리 짐작하는 <strong>'예약 간선(Claim Edge)'이라는 가상의 점선(미래 요청 화살표)</strong>을 덧대어 그린 위상 수학 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

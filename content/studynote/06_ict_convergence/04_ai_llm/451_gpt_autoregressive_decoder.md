@@ -3,8 +3,8 @@ title: "GPT Autoregressive Decoder"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 451
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 자가 회귀 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([GPT Autoregressive](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) [Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)): 1. **본질**: [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)([Generative Pre-trained Transformer](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))는 트랜스포머의 인코더를 버리고 오직 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))만 사용하여, 문장을 왼쪽에서 오른쪽으…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,9 +3,8 @@ title: "227. ELT (Extract, Load, Transform)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 227
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ELT](/studynote/14_data_engineering/01_infrastructure/034_elt/)(Extract, Load, Transform)는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 클라우드 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크에 고속 적재(L)한 후, [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 강력한 MPP 컴퓨팅으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환(T)하는 <strong><a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합 방식</strong>이다.
 > 2. **가치**: ETL의 변환 서버 병목을 제거하고, 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존하여 <strong>나중에 다른 관점으로 재분석</strong>할 수 있으며, 클라우드 DW의 수평 확장으로 빅데이터 규모에 탄력적 대응이 가능하다.

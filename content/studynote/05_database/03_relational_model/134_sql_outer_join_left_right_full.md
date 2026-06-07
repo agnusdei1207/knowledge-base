@@ -3,8 +3,8 @@ title: "134. Sql Outer Join Left Right Full"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 134
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OUTER JOIN은 <strong>매칭되지 않는 행도 NULL로 채워서 포함</strong>하는 JOIN이며, LEFT(왼쪽 전체)·RIGHT(오른쪽 전체)·FULL(양쪽 전체)로 구분된다.
 > 2. **가치**: "주문이 없는 고객 목록"·"담당자가 없는 프로젝트 목록" 등 <strong>비매칭 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 찾는 데 필수</strong>이며, LEFT JOIN이 가장 빈번하게 사용된다.

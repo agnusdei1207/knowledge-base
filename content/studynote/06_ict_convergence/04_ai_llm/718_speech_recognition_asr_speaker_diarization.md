@@ -3,8 +3,8 @@ title: "Speech Recognition ASR Speaker Diarization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 718
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 음성 AI의 3대 축인 **ASR(음성->텍스트, Whisper/Conformer 기반 End-to-End)**, **Speaker Diarization("누가 언제 말했는가", x-vector/NeMo MSDD/EEND)**, **TTS(텍스트->음성, FastSpeech 2/VITS/HiFi-GAN)**가 결합되어 다화자·다국어·실시간 음성 인터페이스를 완성하는 통합 음성 인지·생성 파이프라인이다.

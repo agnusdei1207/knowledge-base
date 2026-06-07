@@ -3,8 +3,8 @@ title: "CBDC Offline Payment"
 date: "2026-05-05"
 tags:
   - "studynote-ict-convergence"
+weight: 80
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CBDC](/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 결제 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 스마트폰이나 단말기가 인터넷(통신망)에 연결되지 않은 <strong>재난 상태(지진, 통신 마비)에서도, 두 기기 간의 근거리 통신(NFC, <a href="/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a>)과 보안 칩(SE)을 이용해 중앙은행 디지털 화폐(<a href="/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/">CBDC</a>)를 안전하게 주고받는 이중 지불 방지 아키텍처</strong>다.
 > 2. **가치**: 기존의 삼성페이나 신용카드는 통신망이 끊기면 서버에서 잔액 조회를 못 해 쇳덩어리 고철이 되지만, 이 기술은 실물 지폐처럼 기기 대 기기([P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))로 가치(토큰)를 직접 건네주어 국가의 결제 인프라 생존성을 보장하는 최후의 보루다.

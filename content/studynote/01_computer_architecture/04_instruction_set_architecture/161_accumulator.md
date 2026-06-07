@@ -3,8 +3,8 @@ title: "Accumulator"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 누산기 (Accumulator)는 산술논리장치인 [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))와 가장 가깝게 연결되어 중간 연산 결과를 반복해서 담는 핵심 작업 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)다.

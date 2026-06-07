@@ -3,8 +3,8 @@ title: "Flip-Flop"
 date: "2026-04-30"
 tags:
   - "studynote-computer-architecture"
+weight: 51
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플립플롭 (Flip-Flop)은 클럭 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 에지에서만 입력을 받아 1비트 상태를 저장하는 동기식 순차회로의 기본 저장 소자다.

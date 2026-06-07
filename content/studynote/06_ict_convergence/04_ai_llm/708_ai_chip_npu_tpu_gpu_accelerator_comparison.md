@@ -3,8 +3,8 @@ title: "AI Chip NPU TPU GPU Accelerator Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 708
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AI 가속기는 **SIMD/SIMT/Systolic Array**라는 세 가지 핵심 연산 패러다임으로 분류되며, GPU(SIMT/SIMD, 범용 병렬), NPU(텐서/벡터 엔진, 추론 특화), TPU(Systolic Array + HBM, 데이터센터 학습/추론)가 각각 다른 워크로드에 최적화된 **메모리 대역폭과 연산 밀도(TOPS/W)의 트레이드오프**로 설계된다.

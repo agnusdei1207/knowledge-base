@@ -3,8 +3,8 @@ title: "Deny No Preemption"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 295
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 예방](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) 관점에서의 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정 (Deny No-Preemption) 기법은 프로세스가 특정 자원 부족으로 할당을 요청하며 대기(Block) 상태로 들어가려 할 때, **현재 자신이 쥐고 있던 기존 자원들을 "운영체제가 강제로 박탈(Preempt)"해버리는(혹은 반환하도록 강제하는)** 극약 처방이다.

@@ -3,9 +3,8 @@ title: "387. Top-K / Top-P (Nucleus Sampling)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 387
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 샘플링은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 상위 K개 토큰에서, Top-P (Nucleus [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/), 핵 샘플링)는 누적 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 합이 P 이상인 최소 토큰 집합에서 다음 토큰을 샘플링하여 저확률 토큰을 제거한다.

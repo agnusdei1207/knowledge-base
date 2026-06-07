@@ -3,8 +3,8 @@ title: "Bare Metal Cloud No Hypervisor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 541
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [베어메탈 클라우드](/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)([Bare Metal Cloud](/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/))는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 없이 물리 서버를 클라우드 방식(온디맨드, 종량제)으로 임대하여 VM의 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 없는 최대 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.

@@ -1,10 +1,11 @@
 ---
 title: "057. Operator Pattern"
+date: "2026-06-07"
 tags:
   - "cloud_architecture"
-date: "2026-06-07"
+  - "studynote-cloud-architecture"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [오퍼레이터](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 패턴은 CRD (Custom Resource Definition)와 커스텀 컨트롤러를 결합해 복잡한 상태형 애플리케이션의 운영 지식을 코드로 옮기는 방식이다.

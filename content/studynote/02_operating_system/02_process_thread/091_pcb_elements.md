@@ -3,8 +3,8 @@ title: "091. Pcb Elements"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PCB ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Control Block)의 내부 요소들은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개별 프로세스를 식별하고 제어하기 위해 유지하는 방대한 C 언어 구조체의 필드들이다.

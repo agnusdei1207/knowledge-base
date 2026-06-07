@@ -3,8 +3,8 @@ title: "631. Ksm Kernel Samepage Merging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 631
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: KSM ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Samepage Merging)은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 백그라운드 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(ksmd)를 돌려 메모리의 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 주기적으로 스캔하고, 내용이 완전히 똑같은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 찾아내어 하나의 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 통합(Merging)하는 메모리 중복 제거(Deduplication) 기술이다.

@@ -3,8 +3,8 @@ title: "105. Cmac"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CMAC (Cipher-based [Message Authentication Code](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 대신, 기존에 탑재된 대칭키 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등)을 [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) 모드로 연쇄 동작시켜 메시지의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 확보하는 기술이다.

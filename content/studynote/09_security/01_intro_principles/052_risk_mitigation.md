@@ -3,8 +3,8 @@ title: "Risk Mitigation"
 date: "2026-05-01"
 tags:
   - "studynote-security"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 위험 완화 ([Risk Mitigation](/studynote/09_security/01_intro_principles/036_risk_mitigation/))는 위험의 발생 확률이나 영향도를 줄이기 위해 보안 통제와 운영 통제를 적용하는 대응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

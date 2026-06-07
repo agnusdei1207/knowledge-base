@@ -3,8 +3,8 @@ title: "122. Master Data Management Db Perspective"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MDM은 고객·상품·조직·자산 등 <strong>핵심 마스터 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 단일 골든 레코드(Golden Record)를 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·유지</strong>하여, 전사 시스템([ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·[DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 품질을 보장하는 관리 체계다.
 > 2. **가치**: 마스터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시스템마다 다르면(고객명이 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)="홍길동", [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)="길동 홍") <strong>보고서 불일치·중복 마케팅·재고 오류</strong>가 발생하며, MDM이 <strong>단일 진실 원천(Single Source of Truth)</strong>을 제공한다.

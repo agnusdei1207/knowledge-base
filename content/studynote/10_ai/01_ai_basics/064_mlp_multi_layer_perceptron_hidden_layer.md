@@ -3,8 +3,8 @@ title: "064. Mlp Multi Layer Perceptron Hidden Layer"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 64
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP, Multi-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 은닉층(Hidden Layer)과 비선형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 통해 복잡한 경계를 학습하는 신경망이다.

@@ -2,9 +2,9 @@
 title: "Deadlock"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 5
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교착 상태 (Deadlock)는 두 개 이상의 프로세스가 서로 상대방이 가진 자원을 기다리며 무한 대기에 빠져, 시스템의 진행이 영구적으로 중단되는 교착 현상이다.

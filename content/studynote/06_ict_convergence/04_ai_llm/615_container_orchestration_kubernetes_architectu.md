@@ -3,8 +3,8 @@ title: "Container Orchestration Kubernetes Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 615
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Kubernetes는 선언적(Declarative) Pod 스펙과 상태를 etcd 기반의 분산 KV-Store에 영속화하고, kube-apiserver를 단일 진실 공급원(SoT)으로 삼아 Control Plane이 Scheduler/Controller-Manager로 **Desired State -> Actual State의 Reconciliation Loop**를 수렴시키는 Self-Healing 컨테이너 오케스트레이터이다.

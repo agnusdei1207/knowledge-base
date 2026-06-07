@@ -3,8 +3,8 @@ title: "596. Return Oriented Programming"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 596
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ROP (Return-Oriented Programming)는 공격자가 악성 [셸코드](/studynote/02_operating_system/10_security/592_shellcode_injection/)([Shellcode](/studynote/02_operating_system/10_security/592_shellcode_injection/))를 메모리에 직접 주입하여 실행할 수 없도록 만든 [DEP](/studynote/09_security/04_endpoint_security/336_dep/)/[NX Bit](/studynote/09_security/04_endpoint_security/335_nx_bit/) 방어 체계를 우회하기 위해, 이미 실행 권한을 가진 채 메모리에 로드되어 있는 정상 코드 조각([가젯](/studynote/09_security/04_endpoint_security/345_gadget_rop/), Gadget)들을 짜깁기하여 원하는 악성 행위를 수행하게 만드는 최상위 수준의 익스플로잇 (Exploit) 기법이다.

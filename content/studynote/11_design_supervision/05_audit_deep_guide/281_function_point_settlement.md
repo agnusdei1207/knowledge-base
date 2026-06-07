@@ -3,8 +3,8 @@ title: "Function Point Settlement Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) 정산 감리는 [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 기반 대가 산정과 정산 체계에서 범위 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/) [Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/)), 계수 규칙(Counting Rules), 정산 공정성(Settlement Fairness)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

@@ -3,8 +3,8 @@ title: "Wideband Delphi"
 date: "2026-05-01"
 tags:
   - "studynote-software-engineering"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 와이드밴드 [델파이](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) (Wideband [Delphi](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/))는 익명 산정과 공개 토론을 결합한 반복형 추정 기법이다.

@@ -2,9 +2,9 @@
 title: "Metaverse & Digital Twin"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 415
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 센서 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 센서 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [Metaverse](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) & [Digital Twin](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

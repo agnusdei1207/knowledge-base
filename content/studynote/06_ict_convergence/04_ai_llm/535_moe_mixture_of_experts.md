@@ -3,8 +3,8 @@ title: "Mixture of Experts, MoE"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 535
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MoE는 전체 파라미터 중 일부만을 활성화하여 연산 효율성을 극대화하는 '조건부 계산(Conditional Computation)' 기반의 딥러닝 아키텍처이다.

@@ -3,8 +3,8 @@ title: "Shadow IT"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 49
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 섀도우 IT (Shadow IT)의 본질은 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)/소프트웨어 (통제 사각지대)를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.
 > 2. **가치**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.

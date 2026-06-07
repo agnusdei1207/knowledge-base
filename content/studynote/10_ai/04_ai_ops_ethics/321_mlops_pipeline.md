@@ -3,9 +3,8 @@ title: "321. MLOps (Machine Learning Operations)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 321
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML (Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 모델의 개발(Development)·배포([Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))·운영(Operations) 전 주기를 자동화·표준화하는 엔지니어링 철학으로, [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙을 ML 시스템에 적용하여 모델이 지속적으로 학습·배포·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링되는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축한다.

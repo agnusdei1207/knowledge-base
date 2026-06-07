@@ -3,8 +3,8 @@ title: "Radial Basis Function Kernel"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 368
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RBF [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Radial Basis Function [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 방사 기저 함수 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) K(x,x') = exp(-γ||x-x'||^)은 두 점 사이의 거리를 무한 차원 특성 공간에서의 내적으로 암묵적으로 변환하는 [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))의 대표 구현이다.

@@ -1,11 +1,11 @@
 ---
 title: "002. Structured Data"
 date: "2024-05-24"
-description: "관계형 데이터베이스 테이블처럼 엄격한 스키마 구조를 보유하는 데이터 유형의 정의, RDBMS 기반 저장 구조, OLTP와 OLAP 환경에서의 활용"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 2
 ---
-
 # 02. 정형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Structured [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
 
 #### 핵심 인사이트 (3줄 요약)

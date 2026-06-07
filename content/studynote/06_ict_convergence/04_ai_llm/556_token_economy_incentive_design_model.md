@@ -3,8 +3,8 @@ title: "Token Economy Incentive Design Model"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 556
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 토큰 이코노미 인센티브 설계 모델은(는) 네트워크 참여자의 기여, 소비, 보상, 거버넌스 권한을 토큰 발행·소각·분배 규칙으로 정렬하는 경제 설계이다.

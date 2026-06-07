@@ -3,8 +3,8 @@ title: "152. Hndl Harvest Now Decrypt Later"
 date: "2026-05-03"
 tags:
   - "studynote-security"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: HNDL(Harvest Now, Decrypt Later)은 국가 지원 해커([APT](/studynote/09_security/15_malware_attack_vectors/748_apt/))들이 현재 낡은 공개키 암호([RSA](/studynote/09_security/03_network_security/110_rsa/), [ECDH](/studynote/09_security/03_network_security/130_ecdh/))로 암호화되어 흐르는 전 세계 인터넷 트래픽 패킷들을 -> <strong>당장 해독 불가능한 쓰레기 쇳덩이 상태 그대로 무식하게 긁어모아 하드디스크 창고에 수확(Harvest) 저장해 두는 장기 시한폭탄 <a href="/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">스파이</a> 전술</strong>이다.
 > 2. **위협**: 10년 뒤 [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 상용화되는 운명의 Q-Day에, 해커는 창고에 쌓아둔 10년 전 패킷 쇳덩이에 쇼어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 🪓)을 돌려 -> 과거에 주고받았던 모든 국가/산업 1급 기밀 통신망의 마스터키(대칭키)를 소급하여 까발리고 평문으로 해독(Decrypt Later)해 내는 소름 끼치는 과거 약탈 공격이다.

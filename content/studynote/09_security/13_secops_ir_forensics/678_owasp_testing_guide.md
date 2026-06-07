@@ -3,9 +3,8 @@ title: "678. OWASP Testing Guide (OWASP Testing Guide)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 678
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OWASP Testing Guide는 보안 운영·포렌식에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

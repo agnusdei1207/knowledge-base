@@ -3,8 +3,8 @@ title: "API First Design / OpenAPI"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 구현보다 계약을 먼저 설계해 조직 간 통신 규칙을 맞추는 접근.

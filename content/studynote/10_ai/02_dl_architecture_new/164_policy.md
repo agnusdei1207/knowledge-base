@@ -3,8 +3,8 @@ title: "Policy, π"
 date: "2026-04-17"
 tags:
   - "studynote-ai"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정책 (Policy, π)은 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 에이전트가 상태 ([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 보고 어떤 행동 (Action)을 선택할지 정하는 의사결정 함수다.

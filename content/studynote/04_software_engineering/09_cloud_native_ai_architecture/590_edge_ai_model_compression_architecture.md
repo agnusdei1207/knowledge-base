@@ -3,8 +3,8 @@ title: "590. Edge Ai Model Compression Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 590
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엣지 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Edge AI](/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/)) / 온디바이스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([On-Device AI](/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/)) - 모델 경량화 ([양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/), [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) 아키텍처은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

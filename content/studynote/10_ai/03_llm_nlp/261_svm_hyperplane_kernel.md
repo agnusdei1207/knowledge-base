@@ -3,9 +3,8 @@ title: "261. SVM (Support Vector Machine)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 261
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 클래스를 구분하는 초평면(Hyperplane) 중 마진(Margin)이 최대인 것을 찾는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 경계면 근처의 극소수 포인트(서포트 벡터)만이 결정에 참여한다.

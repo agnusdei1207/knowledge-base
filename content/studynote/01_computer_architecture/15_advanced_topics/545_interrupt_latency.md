@@ -3,8 +3,8 @@ title: "545. Interrupt Latency"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 545
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 외부 이벤트가 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청으로 인식된 순간부터 CPU (Central Processing Unit)가 [ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/) ([Interrupt Service Routine](/studynote/01_computer_architecture/08_io_storage_systems/317_isr/))의 첫 유효 명령을 실행할 때까지 걸리는 종단 간 진입 시간이다.

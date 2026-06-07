@@ -3,8 +3,8 @@ title: "637. Tinyml Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 637
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 타이니 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) (Tiny Machine [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/), TinyML)은 [마이크로컨트롤러](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) 유닛 ([Microcontroller](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU) 같은 초저전력 칩에서 추론을 수행하기 위해, 모델과 하드웨어를 함께 줄여 맞추는 설계 방식이다.

@@ -2,9 +2,9 @@
 title: "O-RAN Fronthaul eCPRI Split Architecture"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 442
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) eCPRI 분할 구조 전송망은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) eCPRI 분할 구조 전송망, [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [Fronthaul](/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/) eCPRI Split [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/), RAN의 경계를 분명히 만드는 데 의미가 있다.

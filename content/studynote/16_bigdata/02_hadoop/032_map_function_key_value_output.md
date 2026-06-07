@@ -3,8 +3,8 @@ title: "032. Map Function Key Value Output"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 32
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개어 특정 규칙에 따라 ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value) 쌍의 형태로 변환하는 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)의 첫 번째 단계임.
 - [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/studynote/14_data_engineering/01_infrastructure/019_data_locality/)) 원리에 따라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 노드에서 직접 실행되어 네트워크 부하를 최소화함.

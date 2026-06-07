@@ -3,8 +3,8 @@ title: "Bug Bounty Responsible Disclosure Policy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 740
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 버그 바운티와 책임 있는 공개(Responsible Disclosure) 정책은 ISO/IEC 29147(취약점 공개)·30111(취약점 처리) 표준을 기반으로, 외부 보안 연구자와 조직 간 **CVD(Coordinated Vulnerability Disclosure)** 라이프사이클을 협업적으로 운영하여 위협을 사전에 무력화하는 구조화된 취약점 관리 프레임워크임.

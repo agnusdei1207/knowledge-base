@@ -1,10 +1,11 @@
 ---
 title: "107. Multi Valued Dependency Mvd 4Nf"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)성 ([MVD](/studynote/05_database/07_exam_summary/400_mvd_4nf/), Multi-Valued Dependency)은 하나의 [결정자](/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)에 대해 두 개 이상의 독립적인 다중값 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 존재할 때, 이들이 억지로 결합되어 불필요한 모든 조합([Cartesian Product](/studynote/05_database/07_exam_summary/412_cartesian_product/))을 생성하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속 현상이다.

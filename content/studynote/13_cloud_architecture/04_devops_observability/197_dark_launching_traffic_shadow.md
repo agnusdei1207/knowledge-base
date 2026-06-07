@@ -3,8 +3,8 @@ title: "Dark Launching"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사용자 UI에는 전혀 보이지 않지만, 백그라운드에서 신기능 코드에 실제 운영 요청을 흘려보내 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·부하 특성을 사전 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기법이다.

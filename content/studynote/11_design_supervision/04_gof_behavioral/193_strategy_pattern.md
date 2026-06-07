@@ -3,8 +3,8 @@ title: "Strategy Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 193
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy Pattern](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))은 GoF 행위 패턴으로, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)군([Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) Family)을 각각 독립적인 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 인터페이스의 구현으로 캡슐화하고, [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)([Context](/studynote/02_operating_system/01_overview_architecture/033_context/)) 객체가 런타임에 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 교체할 수 있게 하는 패턴이다.

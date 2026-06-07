@@ -2,9 +2,9 @@
 title: "Distributed Consensus"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 403
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 PoW PoS [BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 PoW PoS [BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), Distributed Consensus, BFT의 경계를 분명히 만드는 데 의미가 있다.

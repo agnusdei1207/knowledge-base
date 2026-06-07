@@ -3,8 +3,8 @@ title: "Bounded Context"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 149
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))란 [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))에서 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 유효한 논리적 경계로, 동일 단어도 경계 안에서 서로 다른 의미를 가질 수 있다.
 > 2. **가치**: 각 [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))에서 독립 배포 가능한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 후보로 직결되어, 팀 경계·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계·코드 경계를 일치시킨다.

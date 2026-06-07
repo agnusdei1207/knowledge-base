@@ -3,8 +3,8 @@ title: "Deny Mutual Exclusion"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태 예방](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) 관점에서의 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정 (Deny [Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) 기법은 데드락의 1원인인 "비공유적 독점 점유 모드(Non-sharable Exclusive [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))"를 해체하여, 다수의 운영 프로세스가 제한 없이 자원에 동시 접근(Sharable)할 수 있도록 허용하는 극단적 개방 모델이다.

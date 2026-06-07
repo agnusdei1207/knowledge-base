@@ -3,8 +3,8 @@ title: "Image Recognition CNN Object Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 717
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CNN은 합성곱(Convolution)·풀링(Pooling)·비선형 활성화(ReLU/GELU)·정규화(BN/LN)의 4대 연산을 통해 픽셀 공간의 국소 패턴을 점진적으로 추상화하는 **계층적 특징 학습(Hierarchical Feature Learning)** 메커니즘이며, 객체 탐지·분할은 이를 Backbone–Neck–Head 구조로 확장해 **Classification + Localization + (Mask/Distance)** 의 다중 태스크로 일반화한 것이다.

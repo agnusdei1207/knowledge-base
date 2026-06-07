@@ -3,8 +3,8 @@ title: "Gateway MSA Entry Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 239
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/)) 는 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 의 모든 외부 요청이 통과하는 단일 진입점으로, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·로드밸런싱·속도제한을 중앙화한다.

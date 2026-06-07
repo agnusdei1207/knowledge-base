@@ -2,9 +2,9 @@
 title: "Conway's Law"
 date: "2026-03-03"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 콘웨이의 법칙(Conway's Law)은 "조직이 설계하는 시스템은 해당 조직의 커뮤니케이션 구조를 그대로 반영한다"는 원칙으로, 1967년 Mel Conway가 제시했다.
 > 2. 역 콘웨이 기동(Inverse Conway Maneuver)은 원하는 아키텍처([마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))를 먼저 설계하고, 그에 맞게 팀 구조를 재편해 시스템이 아키텍처를 따르게 하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

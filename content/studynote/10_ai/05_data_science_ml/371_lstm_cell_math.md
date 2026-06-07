@@ -3,8 +3,8 @@ title: "LSTM CELL MATH"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 371
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))은 망각 게이트(Forget Gate), 입력 게이트(Input Gate), 출력 게이트(Output Gate)의 세 게이트 구조와 별도의 셀 상태(Cell [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 경로를 통해 [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Long-term Dependency](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/))을 학습한다.

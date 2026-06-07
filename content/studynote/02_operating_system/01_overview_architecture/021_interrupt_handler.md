@@ -3,8 +3,8 @@ title: "Interrupt Handler"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 21
 ---
-
 # [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러 ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Handler)
 
 ## 핵심 인사이트 (3줄 요약)

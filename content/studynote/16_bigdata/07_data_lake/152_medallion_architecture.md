@@ -3,8 +3,8 @@ title: "152. Medallion Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 152
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. [메달리온 아키텍처](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)([Medallion Architecture](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/))는 Databricks가 제시한 [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기반 <strong>Bronze->Silver->Gold 3계층 <a href="/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a> 설계 표준</strong>으로, 각 계층이 점진적으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 높인다.
 2. <strong>AutoLoader</strong>와 <strong>COPY INTO</strong>로 Bronze 계층에 증분 적재하고, MERGE INTO로 Silver의 [SCD](/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) ([Slowly Changing Dimension](/studynote/05_database/04_transactions_concurrency/575_scd_slowly_changing_dimension_type_history_management/)) 이력을 관리하며, dbt나 Spark SQL로 Gold 집계 테이블을 선언적으로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.

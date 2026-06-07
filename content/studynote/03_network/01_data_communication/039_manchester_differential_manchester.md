@@ -3,8 +3,8 @@ title: "039. Manchester & Differential Manchester"
 date: "2026-03-04"
 tags:
   - "studynote-network"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. 맨체스터 인코딩(Manchester Encoding)은 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기의 중간에 전이(Transition)를 강제하는 자기 클록킹(Self-Clocking) 방식으로, DC 성분이 없고 클록 복원이 쉬워 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(10BASE-T)에서 채택했다.
 > 2. 차분 맨체스터(Differential Manchester)는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 경계에서 전이 여부로 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 표현 — 전이 없음=1, 전이 있음=0 (또는 반대) — 절대 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨이 아닌 상대적 변화로 인코딩하여 극성 반전에 강하다.

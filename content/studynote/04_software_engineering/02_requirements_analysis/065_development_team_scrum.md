@@ -1,10 +1,11 @@
 ---
 title: "065. Development Team Scrum"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개발 팀(Development Team)은 제품을 실제로 만들고 테스트하는 다기능(Cross-functional) 자기 조직화(Self-organizing) 팀이다.

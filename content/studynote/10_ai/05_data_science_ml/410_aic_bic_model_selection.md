@@ -3,8 +3,8 @@ title: "Akaike Information Criterion / Bayesian Information Criterion"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 410
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AIC (Akaike Information Criterion)와 BIC (Bayesian Information Criterion)는 모델의 적합도와 복잡도 사이의 균형을 수치화하는 정보 기준이다.

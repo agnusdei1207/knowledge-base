@@ -3,8 +3,8 @@ title: "Hydrogen Economy Green Hydrogen Fuel Cell"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 725
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수소 경제는 재생에너지 기반 그린수소(PEM/SOEC/알칼라인 수전해) 생산-저장-운송-활용(연료전지/PEMFC·SOFC) 밸류체인을 통해 산업·발전·수송·난방 부문의 탄소중립을 구현하는 에너지 시스템 패러다임이며, 핵심은 "전기-H₂-전력/열"의 상호변환 시 라운드트립 효율 35~45% 달성과 LCOH(균등화수소비용) 2~3 USD/kg 진입이다.

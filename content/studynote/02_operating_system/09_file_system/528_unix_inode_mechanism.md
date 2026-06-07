@@ -3,8 +3,8 @@ title: "528. Unix Inode Mechanism"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 528
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 [색인 할당](/studynote/02_operating_system/09_file_system/526_indexed_allocation/)([Indexed](/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/) 526장) 방식에 기반하여 발전한 유닉스 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(UFS, 리눅스 ext4)의 척추다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름([디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 껍데기)만 따로 분리 결착시키고, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 소유자권한/크기/시간 등 <strong>'<a href="/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>(<a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>)' 와 디스크 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록 '주소 포인터(<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>)' 를 모두 고정 크기(ex: 256 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">byte</a>)의 1개 구조체 덩어리(i-node)에 몽땅 합쳐 때려 박아 넣은 시스템 계층 객체 블록</strong> 이다.

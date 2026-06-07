@@ -3,8 +3,8 @@ title: "109. Zombie Process"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 좀비 프로세스 (Zombie [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 자식 프로세스가 실행을 종료했으나, [부모 프로세스](/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 `wait()` 또는 `waitpid()` 시스템 콜을 호출하여 종료 상태(Exit Status)를 회수하지 않아 프로세스 테이블 ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Table)에 항목이 남아 있는 상태를 말한다.

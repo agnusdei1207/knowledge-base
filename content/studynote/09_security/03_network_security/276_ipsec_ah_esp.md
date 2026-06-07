@@ -3,8 +3,8 @@ title: "Ipsec Ah Esp"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 276
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [AH](/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/)/[ESP](/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Ipsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [Ah](/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) [Esp](/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

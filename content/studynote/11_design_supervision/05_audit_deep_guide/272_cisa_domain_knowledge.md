@@ -3,8 +3,8 @@ title: "CISA Domain Knowledge Application"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 272
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CISA](/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 응용은 공인정보시스템감사사(Certified Information Systems Auditor, [CISA](/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/)) 관점의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 적용 체계에서 통제 목표(Control Objective), 증적 해석(Evidence Interpretation), 업무 프로세스 맥락(Business [Process](/studynote/12_it_management/05_security_compliance/943_process/) [Context](/studynote/02_operating_system/01_overview_architecture/033_context/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

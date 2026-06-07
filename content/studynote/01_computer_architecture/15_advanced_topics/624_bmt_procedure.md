@@ -3,8 +3,8 @@ title: "624. Bmt Procedure"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 624
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [벤치마크 테스트](/studynote/04_software_engineering/11_testing_validation/842_benchmark_test/) (BMT, Bench Mark Test)는 장비 도입 전에 실제 업무와 유사한 부하를 걸어, 후보 시스템의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·운영성을 객관적으로 비교하는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차다.

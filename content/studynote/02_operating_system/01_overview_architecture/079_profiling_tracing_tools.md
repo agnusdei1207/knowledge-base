@@ -3,8 +3,8 @@ title: "Profiling & Tracing Tools"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"
+weight: 79
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [프로파일링](/studynote/02_operating_system/10_security/613_profiling_gprof/)([Profiling](/studynote/02_operating_system/10_security/613_profiling_gprof/))은 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 '통계적 요약(어느 함수가 CPU를 많이 먹는가)'을 보여주고, 트레이싱([Tracing](/studynote/04_software_engineering/uncategorized/657_observability/))은 시스템에서 발생한 '개별 이벤트의 정밀한 흐름(시간순 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))'을 추적하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 관측 도구다.
 > 2. **가치**: 코드에 직접 `print` 문을 박아넣지 않고도, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 발생하는 병목, [메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/), I/O [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 근본 원인(Root Cause)을 오버헤드 없이 라이브로 찾아내는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 엔지니어링의 메스다.

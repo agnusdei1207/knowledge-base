@@ -3,8 +3,8 @@ title: "199. Interrupt Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 스케줄링 ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Scheduling)은 하드웨어가 발생시키는 수많은 [비동기적](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(IRQ)들을 운영체제가 어떤 코어에, 어떤 우선순위로, 언제 분배하여 처리할 것인지 결정하는 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 최하단부의 자원 분배 메커니즘</strong>이다.

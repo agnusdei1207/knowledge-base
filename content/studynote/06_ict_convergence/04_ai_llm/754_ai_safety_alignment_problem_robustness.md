@@ -3,8 +3,8 @@ title: "AI Safety Alignment Problem Robustness"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 754
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AI 안전 정렬 강건성 검증(Alignment Robustness Verification)은 RLHF(Reinforcement Learning from Human Feedback)·CAI(Constitutional AI)·역해석가능성(Mechanistic Interpretability)·적대적 레드팀(Adversarial Red-Teaming)을 결합하여 분포 이동(Distribution Shift)·재킹(Jailbreak)·메사 최적화(Mesa-Optimization)·거짓 정렬(Deceptive Alignment) 상황에서 모델이 인간 의도로부터 이탈하지 않음을 통계적·인과적으로 입증하는 다층 검증 체계이다.

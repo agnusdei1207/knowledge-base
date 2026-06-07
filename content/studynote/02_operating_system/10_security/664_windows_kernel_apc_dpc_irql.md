@@ -3,8 +3,8 @@ title: "DPC"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 664
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Windows [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [하드웨어 인터럽트](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)([ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/))가 시스템을 오래 멈추는 것을 막기 위해, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리의 긴급한 부분만 ISR에서 끝내고, 덜 긴급한 나머지 작업은 나중에 처리하도록 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 <strong>DPC (Deferred Procedure <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)</strong>와 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 특정 비동기 작업인 <strong>APC (Asynchronous Procedure <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)</strong> 메커니즘을 사용한다. (리눅스의 Top/Bottom Half와 유사)

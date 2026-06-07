@@ -3,8 +3,8 @@ title: "595. Data Literacy"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 595
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 리터러시](/studynote/12_it_management/01_governance_strategy/058_data_literacy/) ([Data Literacy](/studynote/12_it_management/01_governance_strategy/058_data_literacy/)) 기업 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 역량 도구 지식 기반 문화 확산는 응용 아키텍처 관점에서 자주 쓰이는 응용 아키텍처 개념이다.

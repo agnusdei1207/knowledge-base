@@ -3,8 +3,8 @@ title: "System Daemon"
 date: "2026-03-03"
 tags:
   - "studynote-operating-system"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. 데몬(Daemon)은 백그라운드에서 지속적으로 실행되는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스로, 터미널(제어 터미널)에 연결되지 않고 부팅 시 시작해 시스템이 종료될 때까지 운영된다.
 > 2. 데몬 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 핵심은 fork-exec 패턴에서 부모를 종료하고, 새 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(setsid())을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 제어 터미널을 분리하며, 표준 입출력을 /dev/null로 리다이렉트하는 것이다.

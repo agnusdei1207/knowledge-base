@@ -1,10 +1,11 @@
 ---
 title: "096. Sce Supply Chain Execution Oms"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SCE ([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) Execution)는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 계획([SCP](/studynote/01_computer_architecture/15_advanced_topics/747_scp/))의 지시를 받아 창고, 물류, 배송 등 현장에서 실제 실물이 움직이도록 제어하는 물리적 실행 시스템이다.

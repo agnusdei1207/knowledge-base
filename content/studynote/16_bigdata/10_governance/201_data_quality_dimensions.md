@@ -3,8 +3,8 @@ title: "201. Data Quality Dimensions"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질([Data Quality](/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/))은 완전성(Completeness)·[정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Accuracy)·[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))·적시성(Timeliness)·유일성(Uniqueness)·유효성(Validity)의 6차원으로 측정되며, 각 차원은 서로 다른 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형을 포착한다.

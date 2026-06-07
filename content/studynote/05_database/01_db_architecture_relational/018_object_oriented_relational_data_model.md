@@ -1,11 +1,11 @@
 ---
 title: "ORDBMS"
 date: "2026-03-04"
-description: "RDBMS의 한계를 극복하고 복잡한 사용자 정의 데이터 타입과 상속을 지원하는 차세대 데이터 모델"
 tags:
   - "database"
+  - "studynote-database"
+weight: 18
 ---
-
 # 18. 객체지향 및 객체 [관계형 데이터 모델](/studynote/05_database/01_db_architecture_relational/017_relational_data_model/) (OODBMS / ORDBMS)
 
 #### 핵심 인사이트 (3줄 요약)

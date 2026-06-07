@@ -3,8 +3,8 @@ title: "Offloading"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 440
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오프로딩 (Offloading)은 범용 제어에 강한 CPU (Central Processing Unit)가 하던 반복·대량 연산을 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/)), [NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 같은 전용 가속기로 넘겨 시스템 전체 효율을 높이는 분업 전략이다.

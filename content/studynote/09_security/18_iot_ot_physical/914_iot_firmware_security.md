@@ -3,8 +3,8 @@ title: "IOT Firmware Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 914
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 보안 ([IOT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)·물리 보안에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

@@ -3,8 +3,8 @@ title: "202. Data Quality Tools"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Great Expectations(Python), AWS Deequ(Spark), Soda Core(YAML) 세 도구는 각각 다른 기술 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 최적화된 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질(DQ) 자동화 도구로, [DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 "품질 게이트"를 삽입한다.

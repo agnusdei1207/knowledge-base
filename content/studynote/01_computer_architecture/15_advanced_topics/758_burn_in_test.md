@@ -3,8 +3,8 @@ title: "758. Burn In Test"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 758
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 번인 (Burn-in) 테스트는 출하 전 제품에 높은 온도·[전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·부하를 일정 시간 가해 잠복한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량을 공장 안에서 먼저 드러내는 스크리닝 기법이다.

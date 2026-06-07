@@ -3,8 +3,8 @@ title: "Insulator"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 절연체 (Insulator)는 에너지 밴드 갭이 $5 \sim [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) \text{ [eV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)}$ 이상으로 매우 넓어, 외부 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)에도 전자가 이동하지 못해 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 완벽히 차단하는 물질이다.
 > 2. **가치**: 트랜지스터의 게이트 산화막을 형성해 스위칭을 통제하고, 칩 내부의 미세 배선들을 물리적으로 격리하여 합선과 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 간섭을 막는 방어막이다.

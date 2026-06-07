@@ -3,8 +3,9 @@ title: "Domain Analysis"
 date: "2026-04-03"
 tags:
   - "Software Engineering"
+  - "studynote-software-engineering"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석 ([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Analysis)은 소프트웨어가 다뤄야 할 현실 업무 세계의 개념, 규칙, 용어, 경계를 정리해 문제 영역의 공통 모델을 만드는 활동이다.

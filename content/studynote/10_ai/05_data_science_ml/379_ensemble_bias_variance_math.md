@@ -3,8 +3,8 @@ title: "379. Ensemble Bias Variance Math"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 379
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 예측 오차는 편향^ (Bias^) + [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) + 줄일 수 없는 노이즈 (Irreducible Noise) 세 항의 합으로 분해되며, 편향과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)은 트레이드오프 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.

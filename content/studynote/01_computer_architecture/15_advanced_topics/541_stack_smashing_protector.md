@@ -3,8 +3,8 @@ title: "Stack Smashing Protector"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 541
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SSP](/studynote/09_security/12_identity_threat_advanced/604_ssp/) ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Smashing Protector)는 함수 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임의 제어 정보 앞에 [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) ([Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 값을 배치하고 반환 직전에 무결성을 확인해, 연속적인 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 리턴 주소까지 도달하기 전에 탐지하는 컴파일러 기반 방어다.

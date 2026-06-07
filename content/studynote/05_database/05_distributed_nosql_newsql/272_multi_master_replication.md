@@ -3,8 +3,8 @@ title: "Multi-Master / Peer-to-Peer"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 272
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 (Multi-Master / [Peer-to-Peer](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)은 양방향 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능, 충돌 해결 매커니즘 필수에 초점을 맞춘 개념이다.

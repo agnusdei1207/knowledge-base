@@ -3,8 +3,8 @@ title: "Architecture Style"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아키텍처 스타일 ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Style)은 반복적으로 등장하는 소프트웨어 구조 문제에 대한 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 설계 어휘(vocabulary)로, 특정 방식으로 시스템을 구성하면 어떤 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(quality [attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))이 얻어지고 어떤 트레이드오프가 생기는지를 예측 가능하게 한다.

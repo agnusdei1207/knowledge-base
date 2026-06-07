@@ -3,8 +3,8 @@ title: "161. Short Term Scheduler"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"
+weight: 161
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (Short-term Scheduler)는 [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))에서 지금 당장 CPU (Central Processing Unit)를 줄 실행 주체를 고르는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 즉시성 판단 모듈이다.

@@ -3,8 +3,8 @@ title: "121. Sieve Of Eratosthenes"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 121
 ---
-
 > **핵심 인사이트**
 > 1. [에라토스테네스의 체](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/)([Sieve of Eratosthenes](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/))는 2~N까지 소수를 한 번에 구하는 O(N log log N) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — "소수의 배수를 모두 제거"하는 원리로, N이 클 때 개별 소수 판별을 N번 반복하는 O(N√N)보다 압도적으로 효율적이다.
 > 2. 배수 제거 시작점이 p^ — 소수 p의 배수를 제거할 때 2p, 3p, ...(p-1)p는 이미 앞선 소수에 의해 제거됐으므로, p^부터 시작하면 불필요한 연산을 줄일 수 있다.

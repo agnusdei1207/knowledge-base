@@ -3,8 +3,8 @@ title: "1104. O Ran Open Fronthaul Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

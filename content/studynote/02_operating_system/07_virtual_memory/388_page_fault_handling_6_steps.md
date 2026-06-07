@@ -3,8 +3,8 @@ title: "OS , , ,"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 388
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 처리 6단계는 CPU(하드웨어)가 램에 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요구하며 뻗었을 때, <strong>OS(소프트웨어) <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 깨어나 디스크에서 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 퍼와 램에 꽂아주고, 멈췄던 CPU를 다시 완벽하게 살려내는 숨 막히는 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 구출 작전</strong>이다.

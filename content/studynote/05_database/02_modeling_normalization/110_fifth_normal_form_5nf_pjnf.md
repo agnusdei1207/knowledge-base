@@ -3,8 +3,8 @@ title: "110. Fifth Normal Form 5Nf Pjnf"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 110
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 제5정규형(5NF, Project-[Join](/studynote/05_database/04_transactions_concurrency/521_join/) Normal Form)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 존재하는 모든 <strong>비자명 <a href="/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/">조인 종속성</a>(JD)이 후보 키에 의해 내재(Implied)</strong>되어야 하는 조건이며, JD에 의한 마지막 이상 현상까지 제거하는 <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 이론의 최종 종착점</strong>이다.
 > 2. **가치**: 4NF를 만족하는 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>3개 이상 분해가 필요한 순환 제약 구조</strong>가 남아있을 수 있으며, 5NF는 이를 투영·조인으로 완전 분해하여 [갱신 이상](/studynote/05_database/02_modeling_normalization/093_update_anomaly/)([Update Anomaly](/studynote/05_database/02_modeling_normalization/093_update_anomaly/))의 마지막 찌꺼기를 박멸한다.

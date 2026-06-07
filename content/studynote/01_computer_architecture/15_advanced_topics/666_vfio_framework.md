@@ -3,8 +3,8 @@ title: "666. Vfio Framework"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 666
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VFIO (Virtual Function I/O) 프레임워크는 사용자 공간 프로그램이 실제 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 장치를 다루되, [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input-Output [Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))로 메모리 접근 경계를 강제하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 인터페이스다.

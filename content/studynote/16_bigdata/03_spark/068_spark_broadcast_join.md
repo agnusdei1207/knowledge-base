@@ -3,9 +3,8 @@ title: "Spark Broadcast Join"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 68
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 - Broadcast Join은 조인 대상 중 작은 테이블을 모든 워커 노드의 메모리에 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여, 네트워크를 통한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재분배(Shuffle) 없이 로컬에서 즉시 조인을 수행하는 기법이다.
 - 대량의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 조인 시 발생하는 셔플 오버헤드를 원천적으로 차단하므로, 스파크에서 가장 강력한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 도구 중 하나로 꼽힌다.

@@ -3,8 +3,8 @@ title: "021. Continuous Deployment Cd"
 date: "2026-04-02"
 tags:
   - "studynote-devops-sre"
+weight: 21
 ---
-
 # [지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) (CD, [Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)/Delivery)
 
 > ⚠️ 이 문서는 현대 [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 및 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 코드 변경 사항이 프로덕션 환경까지 흐르는 속도와 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 극대화하는 핵심 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 사상인 '[지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)(CD)'의 아키텍처, [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Delivery vs [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)), 그리고 [무중단 배포](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 기법을 심층 분석합니다.

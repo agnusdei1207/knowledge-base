@@ -3,8 +3,8 @@ title: "175. Ambient Backscatter Communication"
 date: "2026-05-06"
 tags:
   - "studynote-ict-convergence"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앰비언트 백스캐터 통신 (Ambient Backscatter Communication)은 센서가 스스로 전파를 새로 만들지 않고, 공기 중에 이미 존재하는 RF (Radio Frequency) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 반사·흡수하는 방식을 바꿔 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 보내는 무전원 통신이다.

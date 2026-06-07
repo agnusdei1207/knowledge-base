@@ -3,8 +3,8 @@ title: "097. Kernel Level Thread"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Kernel-level [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/), KLT)는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 직접 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 스케줄링, 소멸을 관리하며 TCB ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)를 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 유지하는 실행 단위이다.
 > 2. **가치**: 특정 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 I/O 블로킹 상태에 빠져도 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이를 개별적으로 인지하므로, 프로세스 내 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 다른 CPU 코어에 할당해 중단 없는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산을 보장한다.

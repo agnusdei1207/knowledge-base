@@ -3,8 +3,8 @@ title: "Data Visualization Dashboard Storytelling"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 681
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 시각화 대시보드 스토리텔링은 `Semantic Layer`(MetricFlow/dbt Semantic Layer) 위에서 `Pre-attentive Attribute`(색상·크기·위치)와 `Narrative Arc`(서사 구조)를 결합해, `From-Data-to-Decision` 시간(`TTD`)을 80% 단축시키는 인지 엔지니어링 기법이다.

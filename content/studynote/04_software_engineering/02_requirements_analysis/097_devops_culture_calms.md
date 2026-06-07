@@ -3,8 +3,8 @@ title: "097. Devops Culture Calms"
 date: "2026-02-15"
 tags:
   - "studynote-software-engineering"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))는 특정 도구(Tool)나 직무 타이틀이 아니라, 개발(Dev)과 운영(Ops) 간의 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))를 허물고 하나의 목표를 향해 협업하게 만드는 조직의 문화이자 철학이다.
 > 2. **가치**: 지속적인 자동화와 [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 통해 소프트웨어 배포 주기를 수개월에서 수분 단위로 단축하면서도, 운영 서버의 안정성을 동시에 보장하는 모순을 해결한다.

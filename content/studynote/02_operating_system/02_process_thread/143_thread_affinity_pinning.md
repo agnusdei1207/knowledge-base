@@ -3,8 +3,8 @@ title: "Thread Affinity/Pinning"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 143
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)은 프로세스와 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

@@ -3,8 +3,8 @@ title: "6G Vision AI Native Autonomous Network"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 790
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 6G 비전 AI 네이티브 자율 네트워크는 3GPP TS 28.100(Intent-driven RAN), ETSI ZSM(Zero-touch Service Management), TM Forum IG1251(L4-L5 자율등급), O-RAN ALLIANCE 아키텍처를 기반으로 **AI/ML이 무선자원관리(RRM), 베어포밍, 스펙트럼 감지, 에너지 최적화 전 영역에 내재(AI-Native)된 폐루프(Closed-Loop) 자율 운영 체계**이며, 통신·감지·컴퓨팅 통합(JCAS, Integrated Sensing and Communications)과 디지털 트윈 기반 사전 검증 구조로 진화한 네트워크 패러다임이다.

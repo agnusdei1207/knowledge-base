@@ -3,8 +3,8 @@ title: "SCAN/C-SCAN"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 473
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LOOK과 C-LOOK은 멍청한 기계식 SCAN(엘리베이터) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아무 요청도 없는 디스크 양 끝 벽(0번, 199번)까지 무식하게 쿵쿵 찍고 오던 헛수고를 박살 내기 위해, <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 방향 앞쪽에 더 이상 처리할 요청이 없는지 미리 내다보고(LOOK) 바로 방향을 꺾어버리는 지능형 최적화 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

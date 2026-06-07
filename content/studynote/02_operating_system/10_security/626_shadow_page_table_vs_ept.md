@@ -3,8 +3,8 @@ title: "EPT/NPT"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 626
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 메모리를 관리하려면 '게스트 가상 주소(GVA)'를 물리 서버의 진짜 '호스트 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)([HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))'로 변환해야 하는 <strong>2단계 주소 변환</strong>이 필수적이다.

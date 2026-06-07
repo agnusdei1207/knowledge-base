@@ -3,8 +3,8 @@ title: "Edge-Fog Computing and Distributed AI"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 487
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지점 최근방에서 연산을 수행하고, [포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)([Fog Computing](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/))은 엣지와 클라우드 사이의 중간 계층에서 집계·전처리를 담당한다. 두 기술은 클라우드 집중화의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))·[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 병목을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)으로 해결한다.

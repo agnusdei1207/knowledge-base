@@ -3,9 +3,8 @@ title: "139. SPICE (ISO/IEC 15504)"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 139
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SPICE (ISO/IEC 15504)의 본질은 CMMI에 대응하는 ISO [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 소프트웨어 프로세스 심사 모델을 단계별 산출물과 품질 게이트로 관리하는 데 있다.
 > 2. **가치**: 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

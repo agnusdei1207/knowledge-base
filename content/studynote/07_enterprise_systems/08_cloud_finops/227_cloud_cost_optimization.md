@@ -2,9 +2,9 @@
 title: "Cloud Cost Optimization"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 비용 절감 기술은 단순 절약이 아니라, <strong>사용량을 줄이고 단가를 낮추도록 아키텍처를 재설계하는 작업</strong>이다.

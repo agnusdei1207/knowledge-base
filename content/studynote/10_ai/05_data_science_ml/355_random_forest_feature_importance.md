@@ -3,8 +3,8 @@ title: "Feature Importance"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 355
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/))의 변수 중요도(Feature Importance)는 각 특성(Feature)이 모든 트리에서 분할 시 불순도(Gini/[Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/))를 얼마나 감소시켰는지의 가중 평균으로, 예측에 가장 기여한 특성을 수치화한다.

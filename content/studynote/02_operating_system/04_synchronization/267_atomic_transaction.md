@@ -3,8 +3,8 @@ title: "267. Atomic Transaction"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 267
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 원자적 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 여러 개의 개별적인 연산([명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))들을 논리적으로 <strong>'쪼갤 수 없는 단일 작업(Atomic)'</strong>으로 묶어, "All or Nothing (전부 성공하거나 아예 실패하거나)" 원칙을 강제하는 시스템 메커니즘이다.

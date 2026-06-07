@@ -3,8 +3,8 @@ title: "7 Foundational Principles"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 882
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PbD](/studynote/09_security/01_intro_principles/060_privacy_by_design/) 7대 기본 원칙 (7 Foundational Principles)는 보안 프레임워크·컴플라이언스에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

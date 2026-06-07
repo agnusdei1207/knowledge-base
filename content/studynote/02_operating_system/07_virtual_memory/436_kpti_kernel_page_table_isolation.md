@@ -3,8 +3,8 @@ title: "436. Kpti Kernel Page Table Isolation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 436
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: KPTI는 인텔(Intel) CPU의 치명적인 하드웨어 보안 취약점인 '[멜트다운](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)([Meltdown](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))' 사태를 막기 위해, 전통적으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 하나의 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 안에 <strong>유저 영역과 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 영역을 같이 매핑해 두던 30년 된 관행을 박살 내고, 두 테이블을 물리적으로 완전히 찢어버린(<a href="/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>) 리눅스의 보안 패치</strong>다.

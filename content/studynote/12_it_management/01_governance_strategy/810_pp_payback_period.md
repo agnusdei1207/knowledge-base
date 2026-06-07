@@ -3,8 +3,8 @@ title: "Payback Period,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 810
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PP의 핵심은 [PP](/studynote/12_it_management/01_governance_strategy/015_payback_period/) ([Payback Period](/studynote/12_it_management/01_governance_strategy/015_payback_period/), 투자회수기간)라는 점에 있다. 이를 현장 의사결정에 연결하는 측정·경제성 구조로 이해하면 된다.

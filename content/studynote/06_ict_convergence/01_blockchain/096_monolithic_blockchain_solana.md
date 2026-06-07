@@ -1,10 +1,11 @@
 ---
 title: "096. Monolithic Blockchain Solana"
+date: "2026-06-07"
 tags:
   - "ict_convergence"
-date: "2026-06-07"
+  - "studynote-ict-convergence"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Monolithic [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)(저장), 합의, 실행 세 가지 핵심 기능을 단일 네트워크(Layer 1)가 모두 수행하는 일체형 구조다.

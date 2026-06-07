@@ -3,8 +3,8 @@ title: "Browser Canary"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 698
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 브라우저 [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) (Browser [Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/))는 [위협 헌팅](/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

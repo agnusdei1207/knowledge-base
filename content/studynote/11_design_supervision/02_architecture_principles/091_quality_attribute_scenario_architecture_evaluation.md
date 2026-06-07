@@ -2,9 +2,9 @@
 title: "Quality Attribute Scenario"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [품질 속성 시나리오](/studynote/12_it_management/05_security_compliance/993_process/)([Quality Attribute Scenario](/studynote/12_it_management/05_security_compliance/993_process/))는 "빠르다, 안전하다" 같은 모호한 비기능적 요구사항을 6가지 육하원칙 뼈대(자극원, 자극, 환경, 대상, 응답, 응답 척도)에 맞춰 구체적이고 측정 가능한 문장으로 해체하고 재조립하는 명세 기법이다.

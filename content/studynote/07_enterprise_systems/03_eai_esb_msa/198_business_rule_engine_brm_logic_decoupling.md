@@ -2,9 +2,9 @@
 title: "BRE, Business Rule"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비즈니스 룰 엔진 (BRE, Business Rule 엔진)은 자주 바뀌는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)성 의사결정을 애플리케이션 코드에서 분리해, 별도의 규칙 저장소와 추론 엔진에서 실행하는 구조다.

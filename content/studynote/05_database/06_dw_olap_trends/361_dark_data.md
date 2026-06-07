@@ -3,8 +3,8 @@ title: "361. Dark Data"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 361
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다크 데이터](/studynote/12_it_management/02_itsm_itil/062_darkdata/) ([Dark Data](/studynote/12_it_management/02_itsm_itil/062_darkdata/)) 관리 및 발견는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

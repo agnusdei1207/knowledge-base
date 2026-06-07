@@ -3,8 +3,8 @@ title: "265. E2E End To Ui Selenium"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 265
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사용자 흐름 전체를 실제와 유사한 환경에서 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 테스트.

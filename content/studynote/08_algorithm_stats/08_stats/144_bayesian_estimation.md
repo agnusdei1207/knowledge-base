@@ -2,9 +2,9 @@
 title: "144. Bayesian Estimation"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 144
 ---
-
 ## 핵심 인사이트
 
 > 베이즈 추정(Bayesian Estimation)의 핵심은 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보기 전 사전 지식(Prior)과, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본 후 증거(Likelihood)를 곱해 사후 믿음(Posterior)을 만드는" 지식 갱신 프레임워크다.

@@ -3,8 +3,8 @@ title: "Green Cloud Carbon Neutral PUE Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 631
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그린 클라우드 탄소중립 PUE 최적화은(는) 데이터센터와 클라우드 사용의 전력 효율, 탄소 배출, 워크로드 배치를 최적화하는 지속가능 IT 전략이다.

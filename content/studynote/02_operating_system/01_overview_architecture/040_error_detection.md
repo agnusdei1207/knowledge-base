@@ -3,8 +3,8 @@ title: "Error Detection"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 40
 ---
-
 > **핵심 인사이트**
 > 1. 오류 탐지(Error [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송·저장 과정에서 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 발견하는 기술로, [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([Parity Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))·[체크섬](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)([Checksum](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))·[CRC](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)([Cyclic Redundancy Check](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))는 중복 정보 추가량과 탐지 능력의 트레이드오프를 각각 다른 수준으로 구현한다.
 > 2. CRC는 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈 원리를 이용해 1~수 바이트의 작은 FCS(Frame Check Sequence)로 버스트 오류까지 탐지할 수 있어, [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)·[SATA](/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)·[USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 등 거의 모든 디지털 통신 규격의 표준으로 채택됐다.

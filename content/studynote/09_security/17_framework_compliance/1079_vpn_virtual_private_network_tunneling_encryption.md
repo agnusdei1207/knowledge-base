@@ -3,8 +3,8 @@ title: "1079. Vpn Virtual Private Network Tunneling Encryption"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1079
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) ([가상 사설망](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.

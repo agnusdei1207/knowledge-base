@@ -2,9 +2,9 @@
 title: "Blue/Green, Canary, Rolling Deployment"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 449
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 블루/그린 [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 롤링 다운타임 제로 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 블루/그린 [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 롤링 다운타임 제로 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), Blue, Green의 경계를 분명히 만드는 데 의미가 있다.

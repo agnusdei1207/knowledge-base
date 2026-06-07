@@ -3,8 +3,8 @@ title: "169. Hoq House Of Quality Matrix"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하우스 오브 퀄리티 (House of Quality, HoQ)는 고객 요구 (WHAT)와 기술 특성 (HOW)을 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 행렬로 연결해, 추상 요구를 측정 가능한 설계 목표로 번역하는 [품질 기능 전개](/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) (Quality Function [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), QFD)의 핵심 도구다.

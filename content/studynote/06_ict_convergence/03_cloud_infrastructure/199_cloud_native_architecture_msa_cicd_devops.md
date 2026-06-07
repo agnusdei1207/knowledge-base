@@ -3,8 +3,8 @@ title: "Cloud Native"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클라우드 네이티브 아키텍처](/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/) (Cloud Native): 클라우드 환경의 이점을 극대화하기 위한 앱 구축/운영 방식 ([마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 결합)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

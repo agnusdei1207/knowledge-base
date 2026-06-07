@@ -3,8 +3,8 @@ title: "461. Http Stateless Connection Oriented"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 461
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HTTP 상태 비저장, 연결형/비연결형 특징은 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

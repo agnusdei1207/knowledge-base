@@ -3,8 +3,8 @@ title: "073. Delta Lake On Spark"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Delta Lake는 [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 기반 저장소 위에 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(`_delta_log`)를 추가하여 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 강제([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/) Enforcement), 타임 트래블(Time Travel), MERGE/UPDATE/DELETE 연산을 Spark에서 사용할 수 있게 하는 오픈 소스 스토리지 레이어다.

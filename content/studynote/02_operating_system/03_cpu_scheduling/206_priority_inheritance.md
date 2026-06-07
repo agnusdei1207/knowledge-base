@@ -3,8 +3,8 @@ title: "206. Priority Inheritance"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 우선순위 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (Priority Inheritance)은 공유 자원의 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 쥐고 있는 저순위 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)(L)의 우선순위를, 그 락을 기다리는 고순위 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)(H)의 우선순위만큼 <strong>일시적으로 끌어올려주는(승급시켜 주는) <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 구제 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다.

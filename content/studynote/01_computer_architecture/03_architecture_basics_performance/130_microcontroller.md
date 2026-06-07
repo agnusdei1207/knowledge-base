@@ -3,8 +3,8 @@ title: "Microcontroller, MCU"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로컨트롤러 (Microcontroller, MCU)는 중앙처리장치, 메모리, 입출력 제어기를 한 칩에 묶어 <strong>센서 입력을 즉시 받아 물리 세계를 제어하는 단일 칩 컴퓨터</strong>다.

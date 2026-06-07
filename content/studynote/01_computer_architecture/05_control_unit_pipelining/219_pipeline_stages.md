@@ -3,8 +3,8 @@ title: "IF, ID, EX, MEM, WB"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파이프라인 단계는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행을 인출, 해독, 실행, 메모리 접근, 결과 기록으로 나누어 한 클럭에 한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 완료에 가깝게 만드는 분업 구조다.

@@ -3,8 +3,8 @@ title: "Zero-skipping"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 585
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 영(Zero) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건너뛰기 로직 (Zero-skipping)은 값이 0인 항목을 저장·이동·연산 경로에서 미리 식별해, 의미 없는 메모리 접근과 곱셈-누산 ([Multiply-Accumulate](/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/), [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 동작을 실제 하드웨어 수준에서 생략하는 기법이다.

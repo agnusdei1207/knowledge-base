@@ -2,9 +2,9 @@
 title: "212. Bia Business Impact Analysis Rto Rpo Dr"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 212
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BIA (Business Impact Analysis)는 장애를 기술 문제가 아니라 업무 손실의 크기로 해석해, 무엇을 먼저 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해야 하는지 정하는 우선순위 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.

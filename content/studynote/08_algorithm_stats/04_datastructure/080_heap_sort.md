@@ -3,8 +3,8 @@ title: "080. Heap Sort"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 80
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 힙 정렬([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) Sort)은 최대 힙(Max-[Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 이용하여 배열을 정렬하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, Heapify(힙 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) -> Extract-Max(루트 추출) 반복의 2단계로 O(n log n) [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)와 O(1) 추가 공간을 달성하는 제자리(In-place) 비교 정렬이다.
 > 2. **가치**: 힙 정렬의 핵심 가치는 최악·평균·최선 모두 O(n log n)을 보장하는 유일한 제자리 정렬이라는 점이다. [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 최악 O(n^), 병합 정렬은 O(n) 추가 공간이 필요하다. 따라서 메모리 제약 + 최악 케이스 보장이 요구되는 환경에 적합하다.

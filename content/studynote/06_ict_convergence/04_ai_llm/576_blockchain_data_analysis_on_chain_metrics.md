@@ -3,8 +3,8 @@ title: "Blockchain Data Analysis On-chain Metrics"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 576
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블록체인 데이터 분석 온체인 지표은(는) 블록 생성, 주소 활동, 수수료, TVL, 거래소 유입, 보유 기간 등 온체인 데이터를 지표화해 네트워크 상태와 사용자 행동을 분석하는 방법이다.

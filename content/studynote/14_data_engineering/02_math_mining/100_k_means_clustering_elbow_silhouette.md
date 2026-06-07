@@ -3,8 +3,8 @@ title: "K-Means Clustering & Optimal K"
 date: "2025-05-22"
 tags:
   - "studynote-data-engineering"
+weight: 100
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-Means [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 그룹으로 묶기 위해, 각 클러스터의 중심(Centroid)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 오차 제곱합([SSE](/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))을 최소화하도록 반복 갱신하는 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

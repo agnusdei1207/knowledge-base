@@ -3,8 +3,8 @@ title: "LACP, IEEE 802.3ad/802.1AX"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 263
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이더채널(EtherChannel) 또는 링크 어그리게이션(Link Aggregation)은 두 장비 사이에 연결된 <strong>여러 가닥의 물리적 랜선(Link)을 소프트웨어적으로 묶어 하나의 거대한 논리적 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>처럼 통짜로 사용하는 기술</strong>이다.

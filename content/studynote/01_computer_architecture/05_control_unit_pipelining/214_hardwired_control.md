@@ -3,8 +3,8 @@ title: "Hardwired Control"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드와이어드 제어 (Hardwired Control)는 [제어 유닛](/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)이 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽고 별도 [제어 메모리](/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/)를 조회하는 대신, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 게이트와 상태 회로가 즉시 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 만들어 내는 <strong>배선 중심 제어 방식</strong>이다.

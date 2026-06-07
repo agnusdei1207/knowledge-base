@@ -2,9 +2,9 @@
 title: "139. Transformer Architecture Self Attention"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 139
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transformer는 <strong>RNN의 순차 처리를 Self-Attention으로 대체</strong>하여 시퀀스 전체를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하는 아키텍처이며, "Attention Is All You Need"(2017, Google)에서 제안되었다.
 > 2. **가치**: RNN은 시퀀스를 순차 처리하여 <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 불가·<a href="/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/">장기 의존성</a> 약점</strong>이 있지만, Transformer는 <strong>O(1) 거리로 모든 위치에 접근</strong>하고 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 완벽하여 대규모 학습이 가능하다.

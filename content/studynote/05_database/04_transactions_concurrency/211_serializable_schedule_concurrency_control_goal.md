@@ -3,8 +3,8 @@ title: "Serializable Schedule"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 211
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 가능 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) ([Serializable](/studynote/05_database/04_transactions_concurrency/231_serializable_isolation_level/) Schedule)은 비직렬이지만 결과가 [직렬 스케줄](/studynote/05_database/04_transactions_concurrency/209_serial_schedule_sequential_execution/)과 동일한 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 보장에 초점을 맞춘 개념이다.

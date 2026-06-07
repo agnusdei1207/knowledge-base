@@ -2,9 +2,9 @@
 title: "175. Saga Pattern Eventual Consistency"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사가 패턴](/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/studynote/12_it_management/05_security_compliance/948_saga_pattern/))은 하나의 긴 비즈니스 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 여러 [로컬 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)으로 쪼개고, 각 단계가 성공할 때 다음 단계를 이어 가며 실패 시 [보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) ([Compensating Transaction](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))으로 되돌리는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방식이다.

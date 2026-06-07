@@ -3,8 +3,8 @@ title: "014. Api Posix"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 14
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: API (Application Programming Interface)는 소프트웨어 구성 요소 간의 상호작용을 정의하는 규약이며, POSIX (Portable [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) Interface) 표준은 유닉스 계열 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 간의 애플리케이션 이식성 (Portability)을 보장하기 위한 시스템 인터페이스 규격이다.
 > 2. **가치**: 하부 [시스템 호출](/studynote/02_operating_system/01_overview_architecture/013_system_call/) ([System Call](/studynote/02_operating_system/01_overview_architecture/013_system_call/))의 파편화된 구현을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 개발자에게 일관된 프로그래밍 모델을 제공함으로써, 소스 코드 수준의 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 유지하고 멀티 플랫폼 소프트웨어 개발 비용을 획기적으로 절감한다.

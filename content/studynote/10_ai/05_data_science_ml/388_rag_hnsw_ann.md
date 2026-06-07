@@ -3,8 +3,8 @@ title: "RAG HNSW ANN"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 388
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/), [검색 증강 생성](/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))는 LLM의 파라미터 지식을 외부 벡터 DB에서 검색한 관련 문서로 보완하며, [HNSW](/studynote/05_database/06_dw_olap_trends/351_hnsw/) ([Hierarchical Navigable Small World](/studynote/05_database/06_dw_olap_trends/352_rag/)) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 대규모 벡터 [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) ([Approximate Nearest Neighbor](/studynote/05_database/06_dw_olap_trends/351_hnsw/)) 검색의 사실상 표준이다.

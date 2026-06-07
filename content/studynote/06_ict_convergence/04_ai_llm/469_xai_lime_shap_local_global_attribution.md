@@ -3,8 +3,8 @@ title: "XAI LIME SHAP Local Global Attribution"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 469
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)([eXplainable AI](/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/), 설명 가능한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))는 블랙박스 모델의 예측 근거를 인간이 이해할 수 있는 언어로 번역하는 기술이다.

@@ -3,8 +3,8 @@ title: "997. Sdn Data Control Plane"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 997
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존 라우터 장비 내부에서 함께 동작하던 '길을 찾는 뇌(Control Plane)'와 '패킷을 나르는 손발([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)'을 물리적, 논리적으로 완벽히 분리하는 것이 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(Software-Defined Networking)의 핵심 구조다.

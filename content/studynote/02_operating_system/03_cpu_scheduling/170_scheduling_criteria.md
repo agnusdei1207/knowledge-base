@@ -3,8 +3,8 @@ title: "170. Scheduling Criteria"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스케줄링 기준 (Scheduling Criteria)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 CPU (Central Processing Unit) 시간을 잘 배분하고 있는지 평가하는 공통 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 집합이다.

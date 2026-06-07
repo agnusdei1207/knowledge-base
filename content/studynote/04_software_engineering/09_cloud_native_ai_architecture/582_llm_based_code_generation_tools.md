@@ -3,8 +3,8 @@ title: "GitHub Copilot, Cursor"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 582
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대규모 언어 모델) 기반 코드 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지원 도구 (GitHub Copilot, Cursor 등)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -2,9 +2,9 @@
 title: "B+-Tree"
 date: "2026-03-03"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 90
 ---
-
 > **핵심 인사이트 3줄**
 > 1. B+트리(B+-Tree)는 B-트리에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리프 노드에만 저장하고, 모든 리프를 연결 리스트로 이어 범위 검색(Range Scan) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 O(k)로 극적으로 개선한 구조다.
 > 2. 내부 노드는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 키만 보유해 더 많은 키를 담을 수 있어 트리 높이가 낮아지고, MySQL InnoDB·PostgreSQL 등 모든 주요 RDBMS [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 표준이다.

@@ -3,8 +3,8 @@ title: "Memory Barrier / Fence"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 416
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 배리어 (Memory Barrier, Fence)는 CPU (Central Processing Unit)와 컴파일러가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 바꾸려는 메모리 접근 순서를 특정 경계에서 다시 고정하는 명시적 순서 제어 장치다.

@@ -3,8 +3,8 @@ title: "Web 3.0 Decentralized Platform Economy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 544
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Web 3.0(Read-Write-Own)은 Web 2.0의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·수익 독점 구조를 깨고, <strong>사용자가 자신의 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 플랫폼 수익에 직접 참여</strong>하는 토큰 인센티브 기반 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 경제 패러다임이다.

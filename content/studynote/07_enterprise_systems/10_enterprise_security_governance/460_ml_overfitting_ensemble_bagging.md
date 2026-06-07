@@ -2,9 +2,9 @@
 title: "ML Overfitting, Ensemble, Bagging, Boosting"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 460
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 과적합 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델 비교는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 과적합 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델 비교, ML [Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/), Ensemble의 경계를 분명히 만드는 데 의미가 있다.

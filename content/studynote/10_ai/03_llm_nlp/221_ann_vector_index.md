@@ -3,8 +3,8 @@ title: "HNSW / PQ"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터 차원 색인 [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) ([Approximate Nearest Neighbor](/studynote/05_database/06_dw_olap_trends/351_hnsw/)) 기술은, 수천 차원의 우주([임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간)에 흩뿌려진 10억 개의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 별들 중에서 사용자의 질문과 가장 의미가 가까운(거리상 가까운) 별을 <strong>100% 완벽한 정답 대신 99% 비슷한 정답을 0.01초 만에 미친 속도로 찾아내는 '근사치 타협 검색' <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

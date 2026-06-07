@@ -3,8 +3,8 @@ title: "Perceptron Convergence Theorem"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 392
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 수렴 정리 ([Perceptron Convergence Theorem](/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형 분리 가능 (Linearly Separable)하면 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 유한 스텝 내에 반드시 수렴함을 수학적으로 보장한다.

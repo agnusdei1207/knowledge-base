@@ -3,8 +3,8 @@ title: "Mutual Exclusion, Mutex"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 215
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))는 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 문제를 해결하기 위한 첫 번째이자 절대적인 필수 조건으로, <strong>"오직 하나의 프로세스(또는 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>)만이 공유 자원에 접근할 수 있도록 독점권을 보장하는 것"</strong>이다.

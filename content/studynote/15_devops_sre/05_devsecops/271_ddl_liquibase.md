@@ -3,8 +3,8 @@ title: "Liquibase"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 271
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 마이그레이션([DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/)) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 자동화 스크립팅 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) (Liquibase [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 태그 연동망)는 [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 관점에서 목표 상태, 실행 절차, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

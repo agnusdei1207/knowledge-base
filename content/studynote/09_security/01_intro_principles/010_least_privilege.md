@@ -1,11 +1,11 @@
 ---
 title: "010. Least Privilege"
 date: "2026-03-25"
-description: "보안 위협 최소화 및 횡적 이동 차단을 위한 접근 제어의 근본 철학"
 tags:
   - "security"
+  - "studynote-security"
+weight: 10
 ---
-
 # 최소 권한 원칙 (Principle of Least Privilege, PoLP)
 
 ## 핵심 인사이트 (3줄 요약)

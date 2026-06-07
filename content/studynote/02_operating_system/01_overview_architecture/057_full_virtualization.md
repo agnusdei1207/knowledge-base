@@ -3,8 +3,8 @@ title: "Binary Translation"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전가상화(Full [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))가 물리 하드웨어를 완전히 흉내 내어, 게스트 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Guest [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))를 수정 없이 실행하게 만드는 방식이다.

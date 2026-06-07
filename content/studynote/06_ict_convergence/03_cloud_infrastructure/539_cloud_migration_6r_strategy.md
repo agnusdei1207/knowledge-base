@@ -3,8 +3,8 @@ title: "Cloud Migration 6R Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 539
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 마이그레이션 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 각 애플리케이션의 비즈니스 가치, [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/), 클라우드 친화성을 기준으로 최적의 이전 경로를 선택하는 의사결정 프레임워크다.

@@ -3,8 +3,8 @@ title: "Conway Law Organizational Structure Reflected in Software Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 361
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컨웨이의 법칙 (Conway's Law)은 "시스템을 설계하는 조직은 그 조직의 커뮤니케이션 구조를 모사한 설계를 필연적으로 만들어낸다"는 멜빈 컨웨이의 1968년 관찰로, [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)와 팀 구조가 서로를 반영한다는 사실이다.

@@ -3,8 +3,8 @@ title: "744. Edge Computing Local Optimization"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 744
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -2,9 +2,9 @@
 title: "319. Airflow Dag Pipeline"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 319
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Apache Airflow](/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) (에어플로우)는 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향성 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)을 코드로 정의하고 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)·의존성 관리·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링을 제공하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 워크플로우 오케스트레이터다.

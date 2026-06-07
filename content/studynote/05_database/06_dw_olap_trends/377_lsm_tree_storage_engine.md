@@ -3,9 +3,8 @@ title: "377. LSM-Tree (Log-Structured Merge-Tree)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 377
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LSM-Tree ([Log-Structured Merge-Tree](/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/))는 빅데이터/[NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)([Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/), RocksDB) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화 저장 엔진 ([MemTable](/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) -> SSTable 구조)에 초점을 둔 확장형 저장소 개념이다.

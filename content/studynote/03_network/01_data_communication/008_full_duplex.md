@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 8
 ---
-
 # 8. 단방향 ([Simplex](/studynote/06_ict_convergence/05_data_science/406_linear_programming_simplex/)) / 반이중 (Half-Duplex) / 전이중 (Full-Duplex)
 
 ## 핵심 인사이트 (3줄 요약)

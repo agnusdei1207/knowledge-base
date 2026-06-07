@@ -3,9 +3,8 @@ title: "162. APM (Application Performance Management)"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 162
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: APM (Application [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 애플리케이션 요청을 코드·[트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·의존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준까지 계측해, 느림과 오류의 원인을 빠르게 찾게 해 주는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리 체계다.

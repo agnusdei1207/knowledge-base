@@ -2,9 +2,9 @@
 title: "142. Em Algorithm"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 142
 ---
-
 ## 핵심 인사이트
 
 > EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Expectation-Maximization [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 "관측 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 [MLE](/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation)가 불가능할 때, 잠재변수(Latent Variable)에 대한 [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/)을 계산하고 파라미터를 갱신하는 과정을 반복해 수렴시키는" 우아한 반복 최적화 기법이다.

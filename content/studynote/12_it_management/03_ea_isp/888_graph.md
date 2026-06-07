@@ -1,10 +1,11 @@
 ---
 title: "888. Graph"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 888
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Graph)는 개체들을 나타내는 정점(Vertex)과 그들 간의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 나타내는 간선(Edge)의 집합으로 이루어진 가장 범용적인 비선형 자료구조다.
 > 2. **가치**: 현실 세계의 복잡한 [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)([Many-to-Many](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)) 네트워크 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(소셜 네트워크, 통신망, 내비게이션 경로 등)를 수학적으로 모델링하고 분석할 수 있는 강력한 틀을 제공한다.

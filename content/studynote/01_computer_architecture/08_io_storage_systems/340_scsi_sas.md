@@ -3,8 +3,8 @@ title: "Serial Attached SCSI"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 340
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SCSI (Small Computer System Interface)는 단순한 케이블 이름이 아니라, 호스트와 저장장치가 고급 명령·큐잉·오류복구를 주고받는 엔터프라이즈 입출력 체계다.

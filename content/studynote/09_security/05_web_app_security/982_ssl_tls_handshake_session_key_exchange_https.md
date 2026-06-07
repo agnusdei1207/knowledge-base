@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)"
 date: "2026-05-08"
-categories: "studynote-security"
+tags:
+  - "studynote-security"
+weight: 982
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)는 보안 확장 개념에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

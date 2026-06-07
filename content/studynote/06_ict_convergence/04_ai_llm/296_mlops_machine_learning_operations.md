@@ -3,9 +3,8 @@ title: "296. MLOps (Machine Learning Operations)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 296
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)): [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 학습, 평가, 배포, 모니터링을 [지속적 배포 파이프라인](/studynote/15_devops_sre/02_cicd_gitops/081_cd_continuous_deployment_pipeline_architecture/)([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD/[CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/))으로 묶는 운영 체계를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

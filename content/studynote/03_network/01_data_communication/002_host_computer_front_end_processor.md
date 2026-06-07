@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 2
 ---
-
 # 2. 정보처리장치 (Host Computer, FEP)
 
 ## 핵심 인사이트 (3줄 요약)

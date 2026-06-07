@@ -3,8 +3,8 @@ title: "133. Sql Inner Join Intersection"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 133
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: INNER JOIN은 <strong>두 테이블에서 조인 조건을 만족하는 행만 반환</strong>하는 교집합(∩) 연산이며, 가장 기본적이고 빈번한 [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 유형이다.
 > 2. **가치**: [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 분리된 테이블의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>의미 있는 하나의 결과로 결합</strong>하며, 매칭되지 않는 행은 자동 제외되므로 <strong>결과가 항상 완전한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>이다(NULL 없음).

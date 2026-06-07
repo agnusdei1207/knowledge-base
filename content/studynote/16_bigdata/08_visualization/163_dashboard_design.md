@@ -3,8 +3,8 @@ title: "163. Dashboard Design"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 효과적인 대시보드는 5초 규칙(가장 중요한 인사이트를 5초 안에 파악)을 충족하는 <strong><a href="/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a> (<a href="/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/">Key Performance Indicator</a>) 중심의 계층적 정보 구조</strong>로, F-패턴 시선 흐름과 시각적 계층(Primary [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/) -> 지원 지표 -> 상세 테이블)을 따라 설계된다.

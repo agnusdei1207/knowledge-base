@@ -3,8 +3,8 @@ title: "308. Bulkhead Pattern"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 308
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벌크헤드 (Bulkhead) 패턴 - [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) 격리로 장애 전파 차단은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

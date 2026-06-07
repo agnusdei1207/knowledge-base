@@ -3,8 +3,8 @@ title: "129. Spatial Computing Apple Vision Pro"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [공간 컴퓨팅](/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([Spatial Computing](/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))은 <strong>3차원 물리 공간을 컴퓨팅 인터페이스로 사용</strong>하는 패러다임으로, 눈·손·음성으로 공간 속 디지털 콘텐츠와 상호작용하며, Apple Vision Pro(2024)가 대표 디바이스이다.
 > 2. **가치**: 2D 화면([모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)·스마트폰)은 <strong>크기 제약·<a href="/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a> 한계</strong>가 있지만, [공간 컴퓨팅](/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>무한한 가상 디스플레이·3D 콘텐츠 배치</strong>로 작업 공간을 혁신한다.

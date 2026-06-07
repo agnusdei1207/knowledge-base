@@ -3,8 +3,8 @@ title: "Diffusion Model"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 287
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [디퓨전 모델](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)): 원본 이미지에 노이즈를 미세하게 반복 주입해 파괴([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))한 뒤, 그 노이즈를 단계적으로 제거(Denoising)하는 역과정을 신경망이 학습하여 텍스트로부터 고해상도 이미지를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

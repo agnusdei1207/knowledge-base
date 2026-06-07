@@ -3,8 +3,8 @@ title: "Knowledge Distillation"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 311
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))는 크고 복잡한 교사 모델(Teacher Model)의 지식을 작고 가벼운 학생 모델(Student Model)에게 전달하여, 학생이 교사에 근접한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 작은 크기로 달성하게 하는 모델 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기법이다.

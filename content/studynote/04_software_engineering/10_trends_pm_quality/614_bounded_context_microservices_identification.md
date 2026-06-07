@@ -3,8 +3,8 @@ title: "614. Bounded Context Microservices Identification"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 614
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기준은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

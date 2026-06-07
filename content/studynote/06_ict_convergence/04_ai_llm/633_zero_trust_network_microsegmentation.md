@@ -3,8 +3,8 @@ title: "Zero Trust Network Microsegmentation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 633
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제로 트러스트 마이크로세그멘테이션은 네트워크 위치나 VLAN 경계가 아니라 **사용자, 단말, 워크로드, 행위 맥락**을 기준으로 최소 권한 통신 정책을 강제하는 세분화 보안 아키텍처다.

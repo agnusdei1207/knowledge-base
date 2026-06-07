@@ -3,8 +3,8 @@ title: "144. Dfd Data Flow Diagram"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DFD는 <strong>프로세스(○)·<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름(->)·<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장소(-)·외부 엔티티(□)</strong> 4가지 기호로 시스템의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환과 흐름을 계층적으로 표현하는 [구조적 분석](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) 도구이다.
 > 2. **가치**: DFD는 <strong>"무엇(What)"에 집중</strong>하여 "어떻게(How)"를 배제하므로, 사용자·분석가·개발자가 시스템 범위와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에 대해 <strong>공통 이해</strong>를 형성할 수 있다.

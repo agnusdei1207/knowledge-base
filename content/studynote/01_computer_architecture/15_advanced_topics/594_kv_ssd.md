@@ -3,8 +3,8 @@ title: "Key-Value Solid-State Drive"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 594
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 키-밸류 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value [Solid-State Drive](/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/), KV-[SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 호스트가 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 블록 주소 (Logical Block Address, LBA) 대신 key를 넘기면, 장치가 그 key에 대응하는 value의 위치와 저장 배치를 직접 관리하는 스토리지 인터페이스다.

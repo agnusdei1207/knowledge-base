@@ -3,8 +3,8 @@ title: ", UDP/TCP"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 543
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: "저 멀리 미국 서버([NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/))에 있는 폴더를, 내 컴퓨터 마우스로 더블 클릭해서 열어볼 순 없을까?" 라는 원초적 욕망을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)로 직결시켜, <strong>원격 컴퓨터의 디스크를 내 로컬 하드디스크인 것처럼 환상(Illusion) <a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a></strong> 시키는 원격 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접속 프로토콜이다.

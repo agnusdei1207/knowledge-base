@@ -3,8 +3,8 @@ title: "Max, Allocation, Need, Available"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 데드락 회피 시뮬레이션을 돌리기 위해 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 내부에 실시간으로 유지하는 **4가지 핵심 행렬(Matrix) 및 벡터(Vector)** [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조다.

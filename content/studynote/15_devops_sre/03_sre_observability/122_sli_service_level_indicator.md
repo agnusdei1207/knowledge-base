@@ -3,8 +3,8 @@ title: "122. Sli Service Level Indicator"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 <strong>사용자 경험 관점에서 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질을 정량적으로 측정</strong>하는 지표이며, "좋은 이벤트 수 / 전체 이벤트 수"의 <strong>비율(0~100%)</strong>로 표현된다.
 > 2. **가치**: "[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잘 돌아가고 있다"를 주관이 아닌 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 판단</strong>할 수 있으며, [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표)->[Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 범위)->[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)(계약)의 계층적 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 체계의 출발점이다.

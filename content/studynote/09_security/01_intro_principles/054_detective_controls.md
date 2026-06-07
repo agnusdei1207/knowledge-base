@@ -3,8 +3,8 @@ title: "Detective Controls"
 date: "2026-05-01"
 tags:
   - "studynote-security"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탐지 통제 (Detective Controls)는 발생한 이상이나 공격을 빠르게 발견하는 보안 통제다.

@@ -2,9 +2,9 @@
 title: "DDD, Domain-Driven Design"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 463
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) [애그리게이트](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) [애그리게이트](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/), [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/), [Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/)-Driven Design의 경계를 분명히 만드는 데 의미가 있다.

@@ -2,9 +2,9 @@
 title: "Virtual Memory"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 7
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상 메모리 (Virtual Memory)는 실제 물리 메모리보다 훨씬 큰 주소 공간을 프로세스에게 제공하여, 메모리 크기의 물리적 제약을 극복하고 다중 프로그래밍의 효율성을 극대화하는 추상화 기술이다.

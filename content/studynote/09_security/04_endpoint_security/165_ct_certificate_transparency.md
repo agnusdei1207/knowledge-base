@@ -3,8 +3,8 @@ title: "165. Ct Certificate Transparency"
 date: "2026-05-05"
 tags:
   - "studynote-security"
+weight: 165
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 인증서 투명성 ([CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), Certificate Transparency)은 인증기관 ([CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority)이 발급한 인증서 정보를 추가 전용 공개 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 기록하게 해, 잘못 발급된 인증서를 누구나 발견할 수 있게 만드는 감시 체계다.

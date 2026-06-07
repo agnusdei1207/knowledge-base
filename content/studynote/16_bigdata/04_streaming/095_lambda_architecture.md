@@ -3,8 +3,8 @@ title: "095. Lambda Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) ([람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처)는 Nathan Marz(트위터, 2011)가 제안한 빅데이터 아키텍처 패턴으로, 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 완전하게 재처리하는 배치 레이어(Batch Layer), 최근 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 처리하는 스피드 레이어([Speed Layer](/studynote/12_it_management/02_itsm_itil/092_GPT_NLP/)), 두 레이어의 결과를 병합하는 서빙 레이어(Serving Layer)로 구성하여 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)과 저지연을 동시에 달성한다.

@@ -1,11 +1,11 @@
 ---
 title: "180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 180
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: xPON ([Passive Optical Network](/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/))은 통신국사 쪽의 OLT (Optical Line Terminal)와 가입자 측 ONU/ONT (Optical Network Unit / Optical Network Terminal) 사이를 수동 광분배기 (Passive Splitter)로 연결해, 한 가닥의 광섬유를 여러 가입자가 공유하는 점대다점 광접속 구조다.

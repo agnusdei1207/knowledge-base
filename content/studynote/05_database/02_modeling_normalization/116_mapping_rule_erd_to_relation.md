@@ -3,8 +3,8 @@ title: "116. Mapping Rule Erd To Relation"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 116
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 매핑 규칙은 개념 설계의 ERD(엔터티·[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))를 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 <strong><a href="/studynote/05_database/07_exam_summary/391_relation_schema_intension/">릴레이션 스키마</a>(테이블·PK·FK·컬럼)</strong>로 변환하는 <strong>체계적 규칙 집합</strong>이다.
 > 2. **가치**: 규칙 없이 직감으로 변환하면 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 누락·PK 오류·중복 테이블이 발생하므로, <strong>7대 매핑 규칙</strong>을 순서대로 적용하여 정확한 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 도출한다.

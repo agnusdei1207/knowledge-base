@@ -3,8 +3,8 @@ title: "500. Multipath Io"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 500
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이중 경로(Multipath I/O)는 서버 본체와 거대 스토리지([SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)/디스크)를 연결하는 광케이블 선(Path)을 하나만 달랑 두지 않고, HBA 랜카드, 케이블, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 몽땅 다 2개 4개씩 다중 병렬로 거미줄 치듯 꽂아서 연결하는 <strong>"물리적 <a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPoF</a>(<a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>) 원천 차단 무중단 하드웨어 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 아키텍처"</strong> 다.

@@ -3,8 +3,8 @@ title: "Layer 2 Scaling Solution"
 date: "2026-03-19"
 tags:
   - "studynote-ict-convergence"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 레이어 2(L2) 솔루션은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 트릴레마를 우회하는 핵심 전략으로, 메인체인(L1) 밖에서 트랜잭션을 처리하고 최종 결과만 L1에 기록하여 L1의 보안성을 상속하면서 확장성을 수십~수천 배 향상시킨다.
 > 2. Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(낙관적 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(영지식 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))이 L2의 양대 주류로, Optimistic은 구현이 간단하지만 7일 분쟁 기간이 있고, ZK-Rollup은 즉시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하지만 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 높아 복잡한 연산에는 한계가 있다.

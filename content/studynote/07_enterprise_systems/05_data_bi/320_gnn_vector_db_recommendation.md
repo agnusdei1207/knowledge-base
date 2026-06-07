@@ -2,9 +2,9 @@
 title: "320. Gnn Vector Db Recommendation"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 320
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([Graph Neural Network](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/), [그래프 신경망](/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/))은 사용자-아이템 상호작용 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 고차원 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴을 학습하여 [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)의 한계를 극복하고, 벡터 DB ([Vector Database](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/), Milvus 등)는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 벡터를 고속 [유사도 검색](/studynote/05_database/06_dw_olap_trends/348_similarity_search/) ([ANN](/studynote/05_database/06_dw_olap_trends/350_ann/), [Approximate Nearest Neighbor](/studynote/05_database/06_dw_olap_trends/351_hnsw/))으로 실시간 추천을 제공한다.

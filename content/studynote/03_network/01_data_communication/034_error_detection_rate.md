@@ -3,8 +3,8 @@ title: "034. Error Detection Rate"
 date: "2026-03-04"
 tags:
   - "studynote-network"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 오류 검출은 [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)(1비트 추가), [CRC](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)([Cyclic Redundancy Check](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/), 순환 잉여 검사), [해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)([Hamming Code](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)) 3가지 방식이 계층별로 활용되며, 검출 능력과 오버헤드가 상충한다.
 > 2. CRC는 GF(2) [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈으로 나머지를 FCS(Frame Check Sequence)로 추가해 연속 버스트 오류를 강력히 검출하며, [Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([CRC](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32)·[USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)·[HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 등 대부분의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 표준에 사용된다.

@@ -1,10 +1,11 @@
 ---
 title: "058. Database Instance Architecture"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 58
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 인스턴스([Database](/studynote/05_database/04_transactions_concurrency/501_database/) Instance)는 메모리 구조와 백그라운드 프로세스의 결합체다.

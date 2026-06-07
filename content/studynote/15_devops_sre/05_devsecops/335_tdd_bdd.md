@@ -3,8 +3,8 @@ title: "TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid Red Green Refactor
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 335
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/studynote/11_design_supervision/06_exam_summary/411_process/), [테스트 주도 개발](/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))는 Red-Green-[Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 코드를 설계하는 방법론이다. [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) ([Behavior-Driven Development](/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/), [행위 주도 개발](/studynote/11_design_supervision/06_exam_summary/412_process/))는 TDD를 확장해 비즈니스 언어(Given/When/Then)로 테스트를 기술하고 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)와 소통한다.

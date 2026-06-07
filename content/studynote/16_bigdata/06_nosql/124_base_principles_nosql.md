@@ -3,8 +3,8 @@ title: "Basically Available, Soft State, Eventual Consistency"
 date: "2024-05-22"
 tags:
   - "studynote-bigdata"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 우선(<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a> First):</strong> [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 엄격한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(ACID)을 희생하더라도, 대규모 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 중단 없는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공하는 NoSQL의 핵심 철학임.
 - <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">결과적 일관성</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>):</strong> 실시간으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일치하지 않을 수 있지만, 일정 시간이 지나면 모든 노드가 동일한 값을 갖게 됨을 보장함.

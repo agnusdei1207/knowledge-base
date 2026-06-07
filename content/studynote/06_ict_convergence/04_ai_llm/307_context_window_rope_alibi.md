@@ -3,8 +3,8 @@ title: "Context Window"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 307
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 윈도우 한계 크기 확장 기술 (RoPE, ALiBi 등 [포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) 개선) ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Window): 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 모델이 한 번에 기억하고 처리할 수 있는 최대 단어(토큰) 개수를 '[컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 윈도우'라고 하며, 이를 늘리기 위해 위치 정보(Posi…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

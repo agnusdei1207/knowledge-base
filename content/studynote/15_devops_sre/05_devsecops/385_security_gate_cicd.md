@@ -3,8 +3,8 @@ title: "Security Gate CI CD Pipeline Quality Gate"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 385
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 보안 게이트 CI CD 파이프라인 품질 관문은(는) 개발, 배포, 운영 전 과정에 보안 통제를 내재화하는 DevSecOps 핵심 주제다.

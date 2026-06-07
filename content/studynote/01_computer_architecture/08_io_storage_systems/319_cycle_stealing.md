@@ -3,8 +3,8 @@ title: "Cycle Stealing"
 date: "2026-03-26"
 tags:
   - "studynote-computer-architecture"
+weight: 319
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [사이클 스틸링](/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/) ([Cycle Stealing](/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/))은 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 제어기가 메모리 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 잠깐씩 가져가 1워드 안팎의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 공유 전략이다.

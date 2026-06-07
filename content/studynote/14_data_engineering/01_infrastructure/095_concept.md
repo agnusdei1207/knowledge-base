@@ -1,13 +1,13 @@
 ---
 title: "095. Concept"
-description: "Study note #95 for DataEng (데이터엔지니어링)"
+date: "2026-06-07"
 tags:
   - "14_data_engineering"
   - "education"
   - "study"
-date: "2026-06-07"
+  - "studynote-data-engineering"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 인프라는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집, 저장, 정제하여 분석가와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 즉시 활용할 수 있도록 파이프라인을 구축하는 기술적 토대다.

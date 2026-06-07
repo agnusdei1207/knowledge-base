@@ -3,9 +3,8 @@ title: "541. PKCE in OIDC (Proof Key for Code Exchange)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 541
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PKCE](/studynote/09_security/05_web_app_security/509_pkce_public_client/) in [OIDC](/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) (Proof [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) for [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Exchange)는 신원·접근 제어에서 참여 주체가 메시지와 상태 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 교환하며 신뢰를 세우는 절차형 메커니즘이다.

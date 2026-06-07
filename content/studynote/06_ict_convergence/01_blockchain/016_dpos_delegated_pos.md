@@ -1,11 +1,11 @@
 ---
 title: ", EOS"
 date: "2026-03-04"
-description: "네트워크 참여자의 투표로 선출된 소수의 대표자(BP)가 블록 생성과 합의를 대리하는 고속 블록체인 합의 알고리즘"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
+weight: 16
 ---
-
 # 16. 위임 [지분 증명](/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/) (DPoS, Delegated Proof of Stake)
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "K FOLD Cross Validation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 426
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-Fold [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) (K FOLD [Cross Validation](/studynote/12_it_management/02_itsm_itil/083_cross_validation/)): 1. **본질**: K-Fold [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훈련용(Train)과 시험용(Test)으로 단 한 번만 쪼개고 끝내는 멍청한 방식을 버리고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 조각(Fold)으로 나눈…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

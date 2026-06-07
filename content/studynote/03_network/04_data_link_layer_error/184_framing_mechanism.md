@@ -3,8 +3,8 @@ title: "184. Framing Mechanism"
 date: "2026-05-06"
 tags:
   - "studynote-network"
+weight: 184
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프레이밍 (Framing)은 물리 계층 (Physical Layer)에서 올라오는 연속 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 <strong>의미 있는 전송 단위인 프레임 (Frame)으로 경계 지어 자르는 메커니즘</strong>이다.

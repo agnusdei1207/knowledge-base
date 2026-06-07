@@ -3,8 +3,8 @@ title: "128. Tacit Vs Explicit Knowledge"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암묵지(Tacit)는 <strong>경험·노하우·직관처럼 언어로 표현하기 어려운 개인적 지식</strong>이고, [형식지](/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)(Explicit)는 <strong>문서·매뉴얼·DB처럼 체계적으로 기록·공유 가능한 지식</strong>이다.
 > 2. **가치**: 조직 지식의 80%가 암묵지로 추정되며, 이를 [형식지](/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)로 변환(외부화)하지 않으면 <strong>핵심 인력 퇴사 시 지식이 유실</strong>된다. SECI 모델이 지식 변환의 프레임워크이다.

@@ -3,9 +3,8 @@ title: "140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 140
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 10GBASE-T / 10GBASE-SR /…는 물리 계층과 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Acceptance Criteria vs Definition of Done"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)([Acceptance Criteria](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/))는 <strong>개별 스토리의 비즈니스 요구사항 충족 조건</strong>이고, DoD(Definition of Done)는 <strong>모든 스토리에 공통 적용되는 품질·프로세스 완료 기준</strong>이다.
 > 2. **가치**: AC만 있으면 "기능은 작동하지만 테스트·[코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/)·배포 준비가 안 된" 상태가 발생하고, DoD만 있으면 "프로세스는 통과했지만 비즈니스 요건을 충족하지 못한" 결과가 나온다. 둘 다 필요하다.

@@ -1,11 +1,11 @@
 ---
 title: "099. Massive MIMO"
 date: "2026-03-04"
-description: "수십에서 수백 개의 안테나 소자를 결합하여 3D 빔포밍을 구현하고 5G 망의 초연결 용량 한계를 극복하는 Massive MIMO 아키텍처와 원리"
 tags:
   - "network"
+  - "studynote-network"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Massive [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Massive [Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))는 기지국에 수십~수백 개의 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자를 격자 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 집적하여 공간 다중화의 해상도를 극대화한 물리 계층 아키텍처다.

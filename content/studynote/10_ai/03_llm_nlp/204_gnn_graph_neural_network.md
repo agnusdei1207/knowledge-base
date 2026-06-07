@@ -3,8 +3,8 @@ title: "GNN"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 204
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프 신경망](/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/) ([GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/), [Graph Neural Network](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/))은 이미지(격자 픽셀)나 텍스트(선형 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)) 같은 예쁜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니라, 사람과 사람의 인맥, 분자 구조, 도로망처럼 제멋대로 얽히고설킨 <strong>'점(Node)과 선(Edge)'의 비정형 거미줄 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>도(<a href="/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a>)를 통째로 씹어 먹고 딥러닝하는 특수 아키텍처</strong>다.

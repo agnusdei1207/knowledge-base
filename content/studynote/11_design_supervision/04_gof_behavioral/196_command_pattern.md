@@ -3,8 +3,8 @@ title: "Command Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 패턴 ([Command Pattern](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))은 GoF 행위 패턴으로, 요청(Request)을 독립적인 [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 객체([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Object)로 캡슐화하여, 요청을 큐에 저장하거나, 로깅하거나, 되돌리기([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/))·재실행([Redo](/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/))할 수 있게 하는 패턴이다.

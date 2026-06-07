@@ -3,8 +3,8 @@ title: "Walkthrough,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 162
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 워크스루 (Walkthrough)는 저자(Author)가 산출물을 직접 설명하고 참여자가 질문과 의견을 더하는 저자 주도형 비공식 검토 기법이다.

@@ -3,8 +3,8 @@ title: "Privacy 3 Principles"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 784
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 3대 원칙 (Privacy 3 Principles)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능성과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 범위를 조정하는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기준 또는 처리 기법이다.

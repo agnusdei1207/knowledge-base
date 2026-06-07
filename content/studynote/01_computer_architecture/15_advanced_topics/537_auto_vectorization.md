@@ -3,8 +3,8 @@ title: "Auto-vectorization"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 537
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오토 벡터라이제이션은 컴파일러가 독립적인 스칼라 연산을 찾아 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 벡터 명령으로 재구성하는 자동 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 기술이다.

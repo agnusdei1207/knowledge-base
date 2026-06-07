@@ -3,8 +3,8 @@ title: "Availability"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 452
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가용성 (Availability)은 시스템이 "고장 나지 않는가"만이 아니라, 장애가 생겨도 사용자가 필요한 순간에 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 계속 받을 수 있는지를 수치로 표현한 운영 지표다.

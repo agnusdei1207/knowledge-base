@@ -3,8 +3,8 @@ title: "679. Glusterfs"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 679
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GlusterFS는 여러 서버의 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)를 브릭 (Brick)으로 묶어, 하나의 큰 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 볼륨처럼 보이게 만드는 스케일아웃 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.

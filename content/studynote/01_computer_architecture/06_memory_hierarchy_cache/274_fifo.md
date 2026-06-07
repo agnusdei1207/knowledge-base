@@ -3,9 +3,8 @@ title: "274. FIFO (First-In, First-Out)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 274
 ---
-
-
 # 274. [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out)
 
 ## 핵심 인사이트 (3줄 요약)

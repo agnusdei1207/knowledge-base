@@ -2,9 +2,9 @@
 title: "236. Risk Register Contingency Reserve"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 위험 관리 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 및 예비비 vs 관리 예비비는 엔터프라이즈 환경에서 프로젝트와 변화 과정을 통제 가능한 구조로 묶기 위해 쓰이는 핵심 기준이며, 특히 위험 관리 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 및 예비비 vs 관리 예비비, [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), Contingency Reserve의 경계를 분명히 만드는 데 의미가 있다.

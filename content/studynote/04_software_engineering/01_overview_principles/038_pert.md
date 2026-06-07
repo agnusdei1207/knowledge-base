@@ -3,8 +3,8 @@ title: "Program Evaluation Review Technique"
 date: "2026-03-03"
 tags:
   - "studynote-software-engineering"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)(Program Evaluation and [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Technique)는 3점 추정(낙관·비관·최빈)을 베타 분포로 모델링해 불확실한 프로젝트의 기간 기대치와 표준편차를 계산하고, 완료 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 정량적으로 추정하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 일정 관리 기법이다.
 > 2. PERT의 핵심 수식: 기대치 μ = (o + 4m + p) / 6, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) σ^ = ((p-o)/6)^, 표준편차 σ = (p-o)/6 — 최빈치(m)에 4배 가중치를 부여해 현실적 추정치에 집중하면서도 불확실성([분산](/studynote/08_algorithm_stats/08_stats/136_variance/))을 표현한다.

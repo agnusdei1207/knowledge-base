@@ -3,8 +3,8 @@ title: "Fragmentation Offset"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 289
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 식별자, [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋은 네트워크 계층과 IP에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

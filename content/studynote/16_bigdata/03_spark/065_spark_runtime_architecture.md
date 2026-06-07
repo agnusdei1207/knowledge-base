@@ -3,8 +3,8 @@ title: "Executor / Driver / Cluster Manager"
 date: "2024-03-23"
 tags:
   - "studynote-bigdata"
+weight: 65
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 스파크 런타임 아키텍처는 작업을 총괄하는 드라이버(Driver), 실제 연산을 수행하는 실행기(Executor), 그리고 자원을 중계하는 클러스터 매니저(Cluster Manager)로 구성된다.
 - 드라이버는 사용자 코드를 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(유향 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 변환하여 테스크를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 실행기는 할당받은 테스크를 독립된 JVM 프로세스에서 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한다.

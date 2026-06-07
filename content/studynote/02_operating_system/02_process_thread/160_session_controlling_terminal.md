@@ -3,8 +3,8 @@ title: "Controlling Terminal"
 date: "2026-05-05"
 tags:
   - "studynote-operating-system"
+weight: 160
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 세션 (Session)은 여러 [프로세스 그룹](/studynote/02_operating_system/02_process_thread/159_process_group/)을 하나의 로그인·작업 제어 단위로 묶는 상위 경계이며, 제어 터미널 (Controlling Terminal)은 그 세션과 연결된 터미널 장치다.

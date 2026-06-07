@@ -1,10 +1,11 @@
 ---
 title: "104. Aps Advanced Planning Scheduling"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: APS (Advanced Planning and Scheduling)는 설비 능력, 인력, 자재 등 현실 공장의 유한한 제약 조건(Finite Capacity)을 모두 고려하여 생산 계획과 일정을 최적화하는 메모리 기반(In-Memory) 시뮬레이션 시스템이다.
 > 2. **가치**: 기존 MRP가 가진 '무한 능력' 가정의 한계를 극복하고, 수만 번의 What-If 시나리오를 고속으로 돌려 가장 수익성이 높고 납기 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없는 최적의 수학적 해답을 제공한다.

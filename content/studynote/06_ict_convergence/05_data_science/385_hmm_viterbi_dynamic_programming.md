@@ -3,8 +3,8 @@ title: "HMM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 385
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 은닉 [마르코프 모델](/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/) 비터비 (Viterbi) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 은닉 상태 최적 경로 탐색 동적 계획법 (HMM): 1. **본질**: 은닉 [마르코프 모델](/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)(HMM)은 눈에 보이지 않는 진짜 상태(은닉 상태)가 무엇인지, 겉으로 드러난 단서(관측치)들의 순서만 보고 거꾸로 확률을 역추적해 내는 시계열(T…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

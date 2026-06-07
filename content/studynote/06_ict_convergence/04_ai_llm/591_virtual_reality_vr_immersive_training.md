@@ -3,8 +3,8 @@ title: "Virtual Reality VR Immersive Training"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 591
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가상현실 VR 몰입형 훈련은(는) 완전한 가상 환경에서 사용자 행동과 감각 피드백을 시뮬레이션해 위험하거나 비용이 큰 훈련을 대체·보완하는 기술이다.

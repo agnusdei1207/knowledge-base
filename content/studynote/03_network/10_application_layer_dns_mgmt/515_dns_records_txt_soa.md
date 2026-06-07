@@ -3,8 +3,8 @@ title: "515. Dns Records Txt Soa"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 515
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드는 이름 해석과 네트워크 관리에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

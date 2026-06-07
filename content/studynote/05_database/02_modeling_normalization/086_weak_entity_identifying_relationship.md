@@ -1,10 +1,11 @@
 ---
 title: "086. Weak Entity Identifying Relationship"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Weak Entity(약한 개체)는 ER (Entity-[Relationship](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) 모델에서 독립 PK를 갖지 못하고 부모 개체에 종속되는 개체다.

@@ -3,8 +3,8 @@ title: "147. Abstract Factory Pattern"
 date: "2026-04-19"
 tags:
   - "studynote-design-supervision"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [추상 팩토리](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)([Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)) 패턴은 <strong>서로 연관되거나 의존적인 객체군(Product Family)을 구체적인 클래스를 지정하지 않고 하나의 팩토리 인터페이스를 통해 일괄 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하는 GoF(Gang of Four) [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이다.
 > 2. **가치**: UI [테마](/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 변환([Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) UI ↔ Windows UI), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 드라이버 교체(MySQL ↔ PostgreSQL), OS별 렌더링 엔진 교체 등 <strong>런타임에 제품군 전체를 <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 있게 교체</strong>할 수 있어, 코드 변경 없이 플랫폼·환경을 스위칭할 수 있다.

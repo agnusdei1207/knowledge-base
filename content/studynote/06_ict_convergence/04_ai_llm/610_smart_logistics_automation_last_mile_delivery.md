@@ -3,8 +3,8 @@ title: "Smart Logistics Automation Last Mile Delivery"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 610
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라스트마일 배송은 전체 물류비용의 **41~53%**를 점유하는 "마지막 1마일" 구간으로, OMS(허브)–WMS(창고)–TMS(운송)–DMS(배송) 4단 MSA(Microservices) 아키텍처에 **VRPTW/DARP** 기반의 동적 경로 최적화, **SLAM·LiDAR·Visual Odometry** 융합 자율주행, **AMR/UGV/드론/UAV/자율차**의 Multi-Modal Fleet, **5G MEC 기반 Edge AI Dispatcher**를 결합해 End-to-End 자동화하는 시스템이다.

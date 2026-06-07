@@ -3,8 +3,8 @@ title: "Vapor Chamber"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 738
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이퍼 체임버는 평평한 밀폐 용기 안에서 작동유 (Working Fluid)가 증발·응축을 반복하며 작은 hotspot의 열을 넓은 면적으로 퍼뜨리는 2상 (Two-Phase) heat spreader다.

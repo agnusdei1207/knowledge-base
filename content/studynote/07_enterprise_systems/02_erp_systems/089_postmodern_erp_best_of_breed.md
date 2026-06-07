@@ -1,10 +1,11 @@
 ---
 title: "089. Postmodern Erp Best Of Breed"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 포스트 모던 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Postmodern [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 모든 기능을 단일 벤더(SAP, [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 등)의 거대한 패키지 하나로 해결하려던 기존의 모놀리식(Monolithic) 접근을 버리고, 재무·생산 등 핵심 코어만 남긴 채 인사나 마케팅은 최고 수준의 외부 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)(클라우드) 앱들로 조립하는 '하이브리드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처' [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 특정 벤더에 종속([Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))되는 비극을 막고, 시장 트렌드가 바뀔 때마다 낡은 부서의 앱만 레고 블록처럼 빠르게 떼어내고 새 클라우드 앱으로 교체하여 극강의 비즈니스 민첩성(Agility)을 확보한다.

@@ -3,8 +3,8 @@ title: "DFS / BFS"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상태 공간 트리([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Tree)는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 퍼즐이나 미로를 풀 때, <strong>"내가 여기서 선택할 수 있는 모든 경우의 수(상태)를 점(Node)으로 찍고, 선택의 흐름을 선(Edge)으로 연결해 우주 끝까지 뻗어나가는 거대한 족보(Tree) <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>"</strong>를 그려 정답을 찾는 노가다 탐색법이다.

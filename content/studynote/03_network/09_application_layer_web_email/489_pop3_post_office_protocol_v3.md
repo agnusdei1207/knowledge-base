@@ -3,9 +3,8 @@ title: "489. POP3 (Post Office Protocol v3)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 489
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: POP3(Post Office [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) version 3)는 메일 수신 서버(MDA)에 잠시 보관된 이메일을 내 PC의 메일 클라이언트(Outlook 등)로 <strong>다운로드하여 가져오는 수신 전용(Pull) <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(<a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 110)</strong>이다.

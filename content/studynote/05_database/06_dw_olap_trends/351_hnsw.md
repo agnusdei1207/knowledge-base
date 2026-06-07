@@ -3,8 +3,8 @@ title: "351. Hnsw"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 351
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) (Approximate Nearest Neighbor) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 벡터 DB의 고속 근사치 검색 (정확도 일부 희생, 속도 극대화)에 초점을 둔 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

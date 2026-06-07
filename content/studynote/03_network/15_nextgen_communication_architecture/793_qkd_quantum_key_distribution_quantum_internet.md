@@ -3,8 +3,8 @@ title: "793. Qkd Quantum Key Distribution Quantum Internet"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 793
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자 인터넷 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

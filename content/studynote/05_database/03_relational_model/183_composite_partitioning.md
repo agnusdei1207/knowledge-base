@@ -3,8 +3,8 @@ title: "Range + Hash"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ([Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션을 조합해, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수명주기 관리 축</strong>과 <strong>부하 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 축</strong>을 서로 다른 기준으로 동시에 설계하는 2단 분할 방식이다.

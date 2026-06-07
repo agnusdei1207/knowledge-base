@@ -3,8 +3,8 @@ title: "024. Learning Paradigms"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML)의 3대 학습 패러다임은 [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/), 레이블 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/), 레이블 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/), 보상 기반 환경 상호작용)으로 구분되며, 각각 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 목적 함수를 갖는다.
 > 2. **가치**: 이 3가지 패러다임의 경계를 이해하는 것이 ML 문제 정의의 첫 단계다 — 레이블 수집 비용, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조, 목표([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)/군집/[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/))에 따라 어떤 패러다임을 선택하느냐가 모델 설계 전체를 결정한다.

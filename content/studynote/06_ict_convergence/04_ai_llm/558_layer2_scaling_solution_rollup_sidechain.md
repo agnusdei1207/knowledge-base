@@ -3,8 +3,8 @@ title: "Layer2 Scaling Solution Rollup Sidechain"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 558
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Layer2 확장 솔루션 롤업 사이드체인은(는) 메인체인의 보안 또는 결제성을 유지하면서 트랜잭션 실행을 별도 계층으로 이동해 처리량과 비용을 개선하는 확장 구조이다.

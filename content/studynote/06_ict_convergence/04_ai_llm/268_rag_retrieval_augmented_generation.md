@@ -3,8 +3,8 @@ title: "RLHF, Reinforcement Learning from Human Feedback"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 268
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인간 피드백 기반 강화학습 ([RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), [Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback): LLM이 내뱉은 여러 답변을 인간이 랭킹 매겨 보상 모델([Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/))을 훈련시키고, 이를 [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 강화학습 알고리즘으로 본 모델에 적용하여 유해성/편향성을 통제 (정렬, Ali…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

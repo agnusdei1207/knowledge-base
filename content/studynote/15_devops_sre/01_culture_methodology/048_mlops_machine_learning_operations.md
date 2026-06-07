@@ -3,8 +3,8 @@ title: "048. Mlops Machine Learning Operations"
 date: "2026-04-05"
 tags:
   - "studynote-devops-sre"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML 모델의 전체 생애주기(개발->학습->배포->[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링->재학습)를 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙으로 자동화하는 방법론 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트가 만든 모델이 "연구실"에 머무는 것을 막고, 안정적으로 프로덕션에 배포·운영되도록 한다.
 > 2. ML 모델은 소프트웨어와 달리 "[데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)([Data Drift](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))"라는 추가 운영 도전이 있다 — 코드가 변경되지 않아도 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 변화로 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되며, 이를 자동으로 탐지하고 재학습 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것이 MLOps의 핵심이다.

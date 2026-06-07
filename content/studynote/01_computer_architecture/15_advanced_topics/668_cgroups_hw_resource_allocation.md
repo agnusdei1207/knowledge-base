@@ -3,8 +3,8 @@ title: "668. Cgroups Hw Resource Allocation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 668
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) (Control Groups)는 하나의 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 프로세스 집단별로 중앙 처리 장치 (Central Processing Unit, CPU), 메모리, 입출력 (Input/Output, I/O) 같은 하드웨어 자원 사용량을 계층적으로 제한하고 계량하는 프레임워크다.

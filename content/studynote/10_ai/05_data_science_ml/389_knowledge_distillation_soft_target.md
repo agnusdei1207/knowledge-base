@@ -3,8 +3,8 @@ title: "Soft Target"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 389
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))에서 소프트 타겟 (Soft Target)은 교사 모델 (Teacher Model)이 출력하는 [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로, 클래스 간 유사도 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 담고 있어 원-핫 레이블(하드 타겟)보다 풍부한 학습 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 제공한다.

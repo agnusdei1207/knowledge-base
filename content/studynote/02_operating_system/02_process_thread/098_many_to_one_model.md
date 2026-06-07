@@ -3,8 +3,8 @@ title: "098. Many To One Model"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다대일 (Many-to-One) 모델은 다수의 [사용자 수준 스레드](/studynote/02_operating_system/02_process_thread/096_user_level_thread/) (ULT, [User-Level Thread](/studynote/02_operating_system/02_process_thread/096_user_level_thread/))를 단일 [커널 수준 스레드](/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/) (KLT, [Kernel-Level Thread](/studynote/02_operating_system/02_process_thread/097_kernel_level_thread/))에 매핑하여 스케줄링하는 논리적 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 구현 방식이다.

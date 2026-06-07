@@ -3,8 +3,8 @@ title: "Zero-shot"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 272
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제로샷 / 원샷 (One-shot) / 퓨샷 (Few-shot) 프롬프팅 (Zero-shot): 1. **본질**: In-context [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (ICL)은 모델의 가중치를 업데이트하지 않고, 프롬프트에 포함된 예시나 설명을 통해 새로운 작업을 즉석에서 학습하는 기법이다.를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

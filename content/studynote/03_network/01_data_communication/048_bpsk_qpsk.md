@@ -3,8 +3,8 @@ title: "048. Bpsk Qpsk"
 date: "2026-04-05"
 tags:
   - "studynote-network"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. [PSK](/studynote/09_security/03_network_security/142_psk_pre_shared_key/)(Phase Shift Keying)는 반송파의 위상(Phase)을 변화시켜 디지털 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 — BPSK는 2가지 위상(0+/180+)으로 1비트, QPSK는 4가지 위상(0+/90+/180+/270+)으로 2비트를 동시에 전송한다.
 > 2. QPSK는 BPSK와 동일한 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))으로 2배 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 — 위상 수를 4개로 늘려 심볼당 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수를 2배로 높이면서도 BER([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate) 성능은 BPSK와 동일하게 유지되는 효율적인 변조 방식이다.

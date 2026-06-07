@@ -1,10 +1,11 @@
 ---
 title: "099. Armstrongs Axioms Reflexivity"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 암스트롱의 공리 (Armstrong's Axioms)는 관계형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency)을 수학적으로 추론하기 위한 3가지 논리적 절대 원칙이다.

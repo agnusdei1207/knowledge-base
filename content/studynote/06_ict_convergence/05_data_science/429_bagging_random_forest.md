@@ -3,8 +3,8 @@ title: "Bagging Random Forest"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 429
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Bagging Random Forest](/studynote/14_data_engineering/03_ml_dl_llm/126_bagging_random_forest/)): 1. **본질**: [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/), Bootstrap Aggregating)은 하나의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 여러 개로 무작위 복원 추출(Bootstrap)하여 각각 독립적인 멍청한 모델들을 수…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

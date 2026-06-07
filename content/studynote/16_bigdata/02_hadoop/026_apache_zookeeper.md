@@ -3,8 +3,8 @@ title: "026. Apache Zookeeper"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 26
 ---
-
 # [Apache ZooKeeper](/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) - [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이션의 간호사
 
 > ⚠️ 이 문서는 Apache ZooKeeper가 어떻게 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 다수의 노드들이 상호배타적 자원(리더 선출, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금, [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리)을 충돌 없이 공유할 수 있게 하는"코디네이션 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Coordination [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))"를 제공하는지, 그리고 이러한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/)/[Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등에서 여하よう에 활용되어 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하고 시스템의 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 유지하는지를 기술사 수준에서 심층 분석합니다.

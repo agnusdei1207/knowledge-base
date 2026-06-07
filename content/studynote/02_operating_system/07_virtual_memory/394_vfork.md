@@ -3,9 +3,8 @@ title: "394. vfork()"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 394
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `vfork()`(Virtual Fork)는 부모 프로세스를 복제할 때 램은 물론이고 <strong><a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 장부마저 복사하지 않고 부모의 메모리 우주를 통째로 완전히 똑같이 공유(Share)해 버리는, 세상에서 가장 가볍고 극단적인 <a href="/studynote/02_operating_system/02_process_thread/104_process_creation/">프로세스 생성</a> 시스템 콜</strong>이다.

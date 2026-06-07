@@ -3,8 +3,8 @@ title: "Ambidextrous Organization"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 38
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양손잡이 조직](/studynote/12_it_management/01_governance_strategy/037_ambidextrous_organization/)의 핵심은 기존 코어 비즈니스의 심화(Exploitation)와 신규 혁신 비즈니스의 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)([Exploration](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))을 동시 수행라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

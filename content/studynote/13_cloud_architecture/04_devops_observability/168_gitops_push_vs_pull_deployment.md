@@ -3,8 +3,8 @@ title: "GitOps Push vs Pull Deployment"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GitOps에서 Push 방식은 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인이 클러스터에 직접 명령을 밀어 넣고, Pull 방식은 클러스터 내 에이전트가 Git을 감시하다가 스스로 당겨온다.
 > 2. **가치**: Pull 방식은 클러스터 외부에서 내부로 접근하는 자격 증명을 없애므로 보안 면에서 구조적으로 우월하다.

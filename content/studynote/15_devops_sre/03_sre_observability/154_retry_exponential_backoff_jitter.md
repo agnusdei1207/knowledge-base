@@ -3,8 +3,8 @@ title: "154. Retry Exponential Backoff Jitter"
 date: "2026-05-03"
 tags:
   - "studynote-devops-sre"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 환경에서 타겟 서버가 뻗어 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 에러를 뱉었을 때 -> 걍 대충 "1초 뒤에 무조건 다시 찔러봐 ㅋ" 무지성 폭격(Retry)을 치면 좀비 트래픽 디도스(DDoS)가 터져 서버가 영구 멸망하므로!! -> **재시도 간격을 $2초 -> 4초 -> 8초$ 로 기하급수적으로 숨통 틔워 늦추고(Exponential Backoff), 거기에 난수 타이머 0.3초 꼼수(Jitter)를 섞어 흩뿌려 쏘는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 트래픽 튜닝 텐트의 절대 헌법**이다.
 > 2. **가치**: 10만 명의 유저 봇(Bot)들이 뻗어있는 결제 서버를 향해 [정확히 1.00초 뒤에 다 같이 동시 일제 사격 핑퐁 폭격 💥] 을 날려 -> 서버가 부팅될 틈도 없이 다시 대가리 깨져 무한 타죽음 뻗음(Retry Storm 재시도 폭풍 💀) 에 갇히는 파멸적 도미노 악순환을 -> <strong>시간 축 위로 10만 개 트래픽을 나노 조각으로 갈기갈기 찢어발겨 흩뿌림(Decoupling 스텔스 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>)으로써 100% 무결점 오토 힐링 회생 쾌속 부활 시간을 벌어다 주는 구원 투수 무적 쉴드막</strong>이다.

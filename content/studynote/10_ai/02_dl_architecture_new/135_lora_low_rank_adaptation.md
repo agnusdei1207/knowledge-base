@@ -3,8 +3,8 @@ title: "135. Lora Low Rank Adaptation"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 135
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LoRA는 <strong>사전 학습된 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 행렬 W를 동결하고, 저랭크 행렬 A·B(rank r ≪ d)만 추가 학습</strong>하여 W' = W + BA로 적응하는 [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 기법이다. 학습 파라미터가 <strong>전체의 0.1~1%</strong>로 극적으로 줄어든다.
 > 2. **가치**: 70B LLM의 Full FT는 A100 8장+ 필요하지만, [QLoRA](/studynote/10_ai/05_data_science_ml/404_qlora/)(4bit+[LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))는 <strong>24GB <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 1장</strong>으로 가능하여 개인/소규모 팀의 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 커스텀을 실현했다.

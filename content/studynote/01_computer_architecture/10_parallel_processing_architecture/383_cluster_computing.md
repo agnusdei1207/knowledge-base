@@ -3,8 +3,8 @@ title: "Cluster Computing"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 383
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클러스터 컴퓨팅 (Cluster Computing)은 여러 대의 독립 노드를 저지연 근거리 통신망인 LAN (Local Area Network)으로 묶어, 하나의 큰 연산 자원 또는 하나의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 풀처럼 동작하게 만드는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리형 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조다.

@@ -3,8 +3,8 @@ title: "Audit Corrective Action Major Minor Classification"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 264
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 감리 시정조치 Major/Minor 분리는 감리 시정조치의 중대·경미 구분(Major/Minor [Classification](/studynote/12_it_management/03_ea_isp/107_classification/)) 체계에서 심각도 기준([Severity](/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/) Criteria), 시정 계획([Corrective](/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) Action Plan), 종결 증적(Closure Evidence)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

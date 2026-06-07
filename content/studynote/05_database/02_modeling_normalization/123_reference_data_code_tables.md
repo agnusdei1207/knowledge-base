@@ -3,8 +3,8 @@ title: "123. Reference Data Code Tables"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 <strong>성별(M/F)·상태(<a href="/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">ACTIVE</a>/INACTIVE)·지역코드</strong> 등 <strong>비즈니스 규칙에 의해 정해진 코드 값의 집합</strong>이며, 코드 테이블([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Table)로 관리한다.
 > 2. **가치**: 코드를 하드코딩하면 변경 시 소스코드 수정이 필요하지만, 코드 테이블로 분리하면 <strong>DB <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정만으로 코드 값을 추가·변경</strong>할 수 있고 전사 표준화가 가능하다.

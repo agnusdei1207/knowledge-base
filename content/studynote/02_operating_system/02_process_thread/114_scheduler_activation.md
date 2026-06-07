@@ -3,8 +3,8 @@ title: "LWP"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션 (Scheduler Activation)은 [사용자 수준 스레드](/studynote/02_operating_system/02_process_thread/096_user_level_thread/)가 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 매핑되는 [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) (M:N) 모델에서, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [사용자 수준 스레드](/studynote/02_operating_system/02_process_thread/096_user_level_thread/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에게 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 블로킹/언블로킹/선점 이벤트를 [상향 호출](/studynote/02_operating_system/02_process_thread/115_upcall/) ([Upcall](/studynote/02_operating_system/02_process_thread/115_upcall/))로 통보하는 메커니즘이다.

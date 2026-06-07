@@ -3,8 +3,8 @@ title: "Big-Endian"
 date: "2026-05-05"
 tags:
   - "studynote-computer-architecture"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅 엔디안(Big-Endian)은 여러 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 구성된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 32비트 정수)를 메모리에 저장할 때, <strong>가장 큰 가중치를 가진 최상위 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/">MSB</a>)를 가장 낮은 메모리 주소(앞쪽)에 먼저 저장</strong>하는 아키텍처 규격이다.
 > 2. **가치**: 사람이 숫자를 읽는 방향(왼쪽에서 오른쪽)과 완벽히 일치하여 헥스(Hex) 덤프 디버깅 시 직관적이며, 네트워크 장비가 패킷의 앞부분(목적지 주소)을 읽자마자 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 결정할 수 있는 고속 판단의 근거가 된다.

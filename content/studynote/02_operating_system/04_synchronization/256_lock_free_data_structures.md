@@ -3,8 +3,8 @@ title: "256. Lock Free Data Structures"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 256
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락-프리 ([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-Free) 자료구조는 뮤텍스 없이 [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare-And-Swap](/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) 같은 하드웨어 원자적 명령어만으로 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 제어하여, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 최소 하나는 항상 전진한다는 Live 보장을 제공한다.

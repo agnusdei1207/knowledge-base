@@ -3,8 +3,8 @@ title: "Audit Dispute Mediation"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 265
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 감리 이견 조율 및 중재는 감리 과정의 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 이견 조정과 중재(Mediation) 절차에서 사실 근거(Factual Evidence), [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 정렬([Stakeholder](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) Alignment), 에스컬레이션(Escalation)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

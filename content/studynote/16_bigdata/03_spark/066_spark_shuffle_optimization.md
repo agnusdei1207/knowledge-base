@@ -3,8 +3,8 @@ title: "Shuffle Optimization"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 셔플(Shuffle)은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재분배하는 과정으로, 네트워크 I/O와 디스크 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 유발하는 스파크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 최대 병목 구간이다.
 - 적절한 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림(Skew) 해결, 그리고 AQE(Adaptive Query Execution) 활용이 셔플 최적화의 3대 핵심 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

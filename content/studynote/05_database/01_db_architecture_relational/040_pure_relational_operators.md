@@ -3,8 +3,8 @@ title: "040. Pure Relational Operators"
 date: "2026-03-19"
 tags:
   - "studynote-database"
+weight: 40
 ---
-
 > **핵심 인사이트**
 > 1. 순수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 연산자(Pure Relational Operators)는 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)([Relational Algebra](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/))에서 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델 고유의 셀렉트(σ)·프로젝트(π)·조인(⋈)·[디비전](/studynote/05_database/07_exam_summary/411_division_operation/)(÷) 4가지 연산자로, SQL SELECT의 WHERE/FROM/[JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) 등 모든 절이 이 연산자들을 조합한 것이다.
 > 2. 조인(⋈)은 두 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)의 카테시안 곱([Cartesian Product](/studynote/05_database/07_exam_summary/412_cartesian_product/)) + 셀렉트의 합성으로 실질적으로 가장 비용이 큰 연산이며, [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 핵심 과제는 어떤 [조인 순서](/studynote/05_database/03_relational_model/176_join_order_optimization/)([Join Order](/studynote/05_database/03_relational_model/176_join_order_optimization/))와 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(NL/Hash/Merge)을 선택하느냐다.

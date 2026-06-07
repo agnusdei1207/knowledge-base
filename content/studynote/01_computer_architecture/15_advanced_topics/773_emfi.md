@@ -3,9 +3,8 @@ title: "773. EMFI (Electromagnetic Fault Injection)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 773
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EMFI (Electromagnetic [Fault Injection](/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/))는 칩에 직접 선을 대지 않고도 짧고 강한 전자기 펄스로 내부 배선과 플립플롭의 타이밍 여유를 깨뜨려 계산 오류를 만드는 비접촉 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 공격이다.

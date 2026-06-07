@@ -3,8 +3,8 @@ title: "I/O Hardware Interface"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 445
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU(소프트웨어 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))와 I/O 디바이스(프린터, 하드디스크 등 물리적 기계)가 대화하기 위해 기계의 제어판(Controller)에 뚫어놓은 <strong>3가지 필수 하드웨어 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>/우체통 세트(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>, 상태, 제어 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)</strong>다.

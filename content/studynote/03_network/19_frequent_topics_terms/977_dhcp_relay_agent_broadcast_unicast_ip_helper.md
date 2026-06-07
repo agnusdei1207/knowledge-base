@@ -3,8 +3,8 @@ title: "977. Dhcp Relay Agent Broadcast Unicast Ip Helper"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 977
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "304. Deadlock Detection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 탐지 ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 데드락을 예방하거나 회피하기 위한 사전문지기 역할을 전면 폐기하고, "일단 자원 요구하는 대로 시원하게 막 퍼주고(사고 허용)" <strong>주기적으로 백그라운드 탐지 데몬이 시스템 내 <a href="/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a>에 얽힌 사이클이 없는지 예나 지금이나 감시하는 사후 감찰 메커니즘</strong>이다.

@@ -3,9 +3,8 @@ title: "290. RNN (Recurrent Neural Network)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 290
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [순환 신경망](/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/))은 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시간 순서대로 하나씩 처리하면서 이전 시점의 정보를 <strong>은닉 상태 (Hidden <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>, h_t)</strong>라는 내부 메모리에 담아 다음 시점으로 전달하는 시계열 전용 신경망이다.

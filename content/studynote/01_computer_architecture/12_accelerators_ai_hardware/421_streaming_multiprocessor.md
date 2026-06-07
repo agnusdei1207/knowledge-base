@@ -3,8 +3,8 @@ title: "SM"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 421
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스트리밍 멀티프로세서 (Streaming [Multiprocessor](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/), SM)는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 안에서 워프 (Warp)를 실제로 실행하고, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)·연산기를 함께 제공하는 <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행의 기본 공장 단위</strong>다.

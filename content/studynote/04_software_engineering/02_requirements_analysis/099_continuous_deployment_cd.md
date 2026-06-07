@@ -1,10 +1,11 @@
 ---
 title: "CD, Continuous Deployment / Delivery"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CD ([Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) / Delivery)는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/))를 통과해 검증이 완료된 소프트웨어 빌드 결과물을 실제 운영 서버(Production)까지 안전하고 빠르게 릴리즈하는 자동화 파이프라인이다.

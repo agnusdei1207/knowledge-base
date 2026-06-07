@@ -3,8 +3,8 @@ title: "130. Monitoring Vs Observability"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 130
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MELT([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·Events·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces)는 [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 <strong>4가지 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>이며, [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)([OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))가 이를 <strong>벤더 중립적으로 통합 수집</strong>하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 표준이다.
 > 2. **가치**: 과거에는 [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)([메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))+ELK([로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))+Jaeger(트레이스)를 각각 계측했지만, OTel은 <strong>단일 SDK로 3가지를 동시 수집</strong>하여 통합 관측을 실현한다.

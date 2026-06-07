@@ -3,8 +3,8 @@ title: "Data Dictionary Catalog Manager"
 date: "2026-05-01"
 tags:
   - "studynote-database"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/) ([Data Dictionary](/studynote/05_database/04_transactions_concurrency/509_data_dictionary/))은 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)의 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소다.

@@ -3,8 +3,8 @@ title: "Multi-Cloud"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Multi-Cloud](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)): 특정 클라우드 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 방지 및 최적화 조합 활용 ([쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 필수)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

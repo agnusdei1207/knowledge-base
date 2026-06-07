@@ -3,8 +3,8 @@ title: "069. Skew Join"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 69
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Skew [Join](/studynote/05_database/04_transactions_concurrency/521_join/)([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 조인)은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 조인(Distributed [Join](/studynote/05_database/04_transactions_concurrency/521_join/))에서 특정 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 극단적으로 편중될 때 해당 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 단일 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 전체 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 완료를 가로막는 문제를 해결하기 위한 최적화 기법이다.

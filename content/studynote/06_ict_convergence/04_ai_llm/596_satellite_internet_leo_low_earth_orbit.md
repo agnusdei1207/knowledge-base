@@ -3,8 +3,8 @@ title: "Satellite Internet LEO Low Earth Orbit"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 596
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 저궤도 위성 인터넷 LEO은(는) 저궤도 위성 군집을 이용해 지상망이 닿기 어려운 지역에 광대역 인터넷을 제공하는 통신 인프라이다.

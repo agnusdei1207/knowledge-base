@@ -3,8 +3,8 @@ title: "File Storage Structure"
 date: "2026-03-03"
 tags:
   - "studynote-database"
+weight: 33
 ---
-
 > **핵심 인사이트 3줄**
 > 1. DBMS의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 구조는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 디스크에 배치하는 방식으로, 순차·힙·해시·클러스터 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조에 따라 I/O 패턴이 크게 달라진다.
 > 2. [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) / 블록(Block)이 DBMS의 최소 I/O 단위이며, 버퍼 풀(Buffer Pool)의 효율적 관리가 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심을 결정한다.

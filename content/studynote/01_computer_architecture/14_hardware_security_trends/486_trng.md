@@ -3,8 +3,8 @@ title: "TRNG"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 486
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TRNG](/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) (True Random Number Generator)는 열잡음, 지터, 메타안정성 같은 물리 현상에서 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 추출해 결정론적 컴퓨터에 실제 예측 불가능성을 주입하는 하드웨어 난수원이다.

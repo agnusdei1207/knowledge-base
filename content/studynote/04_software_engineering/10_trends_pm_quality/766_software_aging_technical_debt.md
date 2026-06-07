@@ -3,8 +3,8 @@ title: "766. Software Aging Technical Debt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 766
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소프트웨어 노후화](/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/) [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 연계은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

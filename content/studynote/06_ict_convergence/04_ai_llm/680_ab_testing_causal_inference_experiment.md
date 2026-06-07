@@ -3,8 +3,8 @@ title: "AB Testing Causal Inference Experiment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 680
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A/B 테스팅은 Rubin Causal Model(RCM)과 Potential Outcomes(Y(1), Y(0)) 프레임워크 위에서 "처치(Treatment)의 인과 효과 τ = E[Y(1)−Y(0)]"를 무작위 배정(Random Assignment)을 통해 편향(Bias) 없이 추정하는 통계적 실험 설계이며, SUTVA, Ignorability, Positivity 가정이 성립해야 인과 추론이 가능하다.

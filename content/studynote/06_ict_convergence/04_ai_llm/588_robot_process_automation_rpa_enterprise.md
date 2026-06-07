@@ -3,8 +3,8 @@ title: "Robot Process Automation RPA Enterprise"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 588
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RPA 엔터프라이즈 업무 자동화은(는) 사람이 반복 수행하는 화면 조작, 데이터 입력, 검증, 보고 작업을 소프트웨어 로봇으로 자동화하는 기술이다.

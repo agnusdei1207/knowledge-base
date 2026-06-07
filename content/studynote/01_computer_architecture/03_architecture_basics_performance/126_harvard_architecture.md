@@ -3,8 +3,8 @@ title: "Harvard Architecture"
 date: "2026-04-25"
 tags:
   - "studynote-computer-architecture"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하버드 아키텍처 (Harvard [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서로 다른 메모리와 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로 분리해, CPU가 두 흐름을 동시에 다루게 만든 구조다.

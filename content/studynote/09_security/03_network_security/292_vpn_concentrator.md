@@ -3,8 +3,8 @@ title: "VPN Concentrator"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 292
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 집선장치 ([VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) Concentrator)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

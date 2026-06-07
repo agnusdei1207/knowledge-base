@@ -3,8 +3,8 @@ title: "Wait Queue / Device Queue"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대기 큐 (Wait [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 프로세스가 I/O 요청이나 락 ([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 획득 등 특정 이벤트가 완료되기를 기다리며 CPU 실행이 블로킹 (Blocked) 상태로 멈춰 있을 때 머무는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 연결 리스트다.

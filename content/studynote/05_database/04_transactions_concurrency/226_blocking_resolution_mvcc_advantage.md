@@ -3,8 +3,8 @@ title: "Blocking"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 226
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 블로킹 ([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 현상 완화 (MVCC의 가장 큰 장점은 읽기가 쓰기를 막지 않고, 쓰기가 읽기를 막지 않음)에 초점을 맞춘 개념이다.

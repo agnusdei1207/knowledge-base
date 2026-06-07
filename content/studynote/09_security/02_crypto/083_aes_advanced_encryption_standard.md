@@ -3,8 +3,8 @@ title: "083. Aes Advanced Encryption Standard"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 128비트 블록을 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/12/14라운드로 섞는 대칭키 블록 암호이며, Rijndael 설계를 표준화한 것이다.
 - **가치**: NIST (National Institute of Standards and Technology) 표준과 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions) 덕분에 강한 보안성과 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 얻는다.

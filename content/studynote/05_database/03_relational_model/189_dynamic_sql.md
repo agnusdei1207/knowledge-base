@@ -3,8 +3,8 @@ title: "Dynamic SQL"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 SQL (Dynamic SQL)은 실행 시점에 문자열 형태로 조립되어 실행에 초점을 맞춘 개념이다.

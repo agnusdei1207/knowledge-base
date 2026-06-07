@@ -3,8 +3,8 @@ title: "Schema-on-Write"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 222
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스키마 온 라이트](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하기 **전에** 정형 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 강제 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 보장하는 전통적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인에서 사전 정제·변환을 완료하므로 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>즉시 분석 가능한 고품질 상태</strong>이며, [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 예측 가능하다.

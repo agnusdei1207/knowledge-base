@@ -3,8 +3,8 @@ title: "Vendor Lock-in"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 254
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 락인 회피 [기술 아키텍처](/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/) (Vendor [Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)): 254. 클라우드 락인 (Vendor [Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 회피 아키텍처를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Data Dictionary Cache"
 date: "2026-05-01"
 tags:
   - "studynote-database"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/) 캐시는 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회를 빠르게 하기 위해 메모리에 보관하는 캐시다.

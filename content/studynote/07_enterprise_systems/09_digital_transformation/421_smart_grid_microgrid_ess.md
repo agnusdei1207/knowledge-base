@@ -2,9 +2,9 @@
 title: "Smart Grid"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 421
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [마이크로그리드](/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) [ESS](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 에너지는 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [마이크로그리드](/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) [ESS](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 에너지, [Smart Grid](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/), ESS의 경계를 분명히 만드는 데 의미가 있다.

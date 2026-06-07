@@ -3,8 +3,8 @@ title: "Spearman Rank Correlation"
 date: "2026-04-10"
 tags:
   - "studynote-data-engineering"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스피어만 순위 상관 계수(Spearman Rank Correlation)는 값의 크기 대신 순위를 이용해 단조 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 측정한다.

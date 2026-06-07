@@ -3,8 +3,8 @@ title: "576. Feature Flag Ab Testing Rollout"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 576
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Feature [Flag](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 기반 A/B 테스트 및 점진적 롤아웃은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

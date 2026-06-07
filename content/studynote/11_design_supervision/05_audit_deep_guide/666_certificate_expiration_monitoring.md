@@ -3,8 +3,8 @@ title: "Server Certificate Lifecycle Monitoring Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 666
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서버 인증서 수명주기 모니터링 체계는 서버 인증서 수명주기(Lifecycle) 전반의 모니터링 체계에서 수명주기 대시보드(Lifecycle Dashboard), 책임자 지정(Ownership), 만료 [제로화](/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Expiry)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

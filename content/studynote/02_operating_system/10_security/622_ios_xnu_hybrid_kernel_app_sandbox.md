@@ -3,8 +3,8 @@ title: "Ios Xnu Hybrid Kernel App Sandbox"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 622
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: iOS(및 macOS)의 핵심인 XNU (X is Not Unix)는 [마이크로커널](/studynote/02_operating_system/01_overview_architecture/024_microkernel/)(Mach)의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)성 및 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [모놀리식 커널](/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)(BSD)의 높은 [시스템 호출](/studynote/02_operating_system/01_overview_architecture/013_system_call/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결합한 <strong><a href="/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/">하이브리드 커널</a> (<a href="/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/">Hybrid Kernel</a>)</strong> 아키텍처다.

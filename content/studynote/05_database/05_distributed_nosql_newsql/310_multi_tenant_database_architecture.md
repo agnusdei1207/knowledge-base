@@ -3,8 +3,8 @@ title: "310. Multi Tenant Database Architecture"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 310
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 멀티테넌트 ([Multi-tenant](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 구조는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 분리, 물리적 인스턴스 분리 격리에 초점을 둔 구조이다.

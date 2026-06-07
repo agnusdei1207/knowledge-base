@@ -3,8 +3,8 @@ title: "Elastic Net"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 374
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엘라스틱 넷 (Elastic Net): L1과 L2 패널티 혼합 통계를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

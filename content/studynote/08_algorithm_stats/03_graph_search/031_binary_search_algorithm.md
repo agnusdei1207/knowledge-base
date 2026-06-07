@@ -2,9 +2,9 @@
 title: "log n"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정렬된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 탐색 범위를 매 단계 절반으로 줄여 O(log n) 시간에 목표를 찾는 [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 기반 탐색이다.

@@ -3,8 +3,8 @@ title: "Quantization / QLoRA"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 284
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) / [QLoRA](/studynote/10_ai/05_data_science_ml/404_qlora/)): 모델 가중치의 정밀도를 FP32(32비트)에서 INT8, INT4 등 정수형으로 깎아내어 모델 용량과 추론 메모리를 대폭 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) (모바일 온디바이스 탑재 핵심)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

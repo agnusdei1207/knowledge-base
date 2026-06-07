@@ -3,8 +3,8 @@ title: "Session Recording"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 566
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 레코딩 ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Recording)는 신원·접근 제어에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

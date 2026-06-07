@@ -2,9 +2,9 @@
 title: "C-ITS, Cooperative Intelligent Transport System"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 445
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [C-ITS](/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/) 협력 지능형 교통 시스템은 엔터프라이즈 환경에서 보안·복원력·거버넌스를 설계 단계부터 내재화하기 위해 쓰이는 핵심 기준이며, 특히 [C-ITS](/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/) 협력 지능형 교통 시스템, [C-ITS](/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/), Cooperative Intelligent Transport System의 경계를 분명히 만드는 데 의미가 있다.

@@ -3,8 +3,8 @@ title: "462. Iocp Io Completion Port"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 462
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IOCP(I/O Completion [Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))는 마이크로소프트 Windows 운영체제에서 수만 개의 동시 접속 네트워크 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/)과 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O를 비동기(Asynchronous)로 처리하기 위해 고안된, <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 레벨의 큐(<a href="/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)와 워커 <a href="/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)이 완벽하게 융합된 궁극의 I/O 통지(Notification) 아키텍처</strong>다.

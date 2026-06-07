@@ -3,8 +3,8 @@ title: "076. Mse Mean Squared Error Regression"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MSE(Mean Squared Error, 평균 제곱 오차)는 예측값과 정답의 차이(residual)를 제곱한 뒤 평균한 회귀 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)다.

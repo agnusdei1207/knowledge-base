@@ -3,8 +3,8 @@ title: "278. Regularization Overview"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 278
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 규제([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))는 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 과도하게 맞춰지는 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하고, 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(테스트 셋)에서도 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 유지하는 일반화(Generalization) 능력을 키우기 위한 기법 모음이다.

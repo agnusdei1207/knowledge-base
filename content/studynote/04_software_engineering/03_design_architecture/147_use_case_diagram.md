@@ -3,8 +3,8 @@ title: "Use Case Diagram"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [유스케이스 다이어그램](/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)(Use Case Diagram)은 [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)([Unified Modeling Language](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 행위 다이어그램의 하나로, <strong>시스템이 어떤 기능(유스케이스)을 누구(액터)에게 제공하는지를 외부 관점에서 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>한다.
 > 2. **가치**: 기능 요구사항(Functional Requirement)을 개발자·고객 모두가 이해할 수 있는 공통 언어로 표현하여 <strong>요구사항 누락과 범위 논쟁(<a href="/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)을 조기에 방지</strong>한다.

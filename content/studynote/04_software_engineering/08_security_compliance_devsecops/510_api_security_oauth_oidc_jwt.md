@@ -3,8 +3,8 @@ title: "510. Api Security Oauth Oidc Jwt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 510
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안 관리 - OAuth 2.0 (Access Token [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), [OIDC](/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/)([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), [JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)([JSON Web Token](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 서명/만료 검증은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

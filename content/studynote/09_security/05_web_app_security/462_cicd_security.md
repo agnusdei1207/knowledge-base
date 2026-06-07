@@ -3,8 +3,8 @@ title: "Cicd Security"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 462
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 보안 ([Cicd](/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

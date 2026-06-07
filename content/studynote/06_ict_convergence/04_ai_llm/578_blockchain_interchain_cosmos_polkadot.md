@@ -3,8 +3,8 @@ title: "Blockchain Interchain Cosmos Polkadot"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 578
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인터체인 Cosmos Polkadot 블록체인은(는) 여러 독립 체인이 메시지 프로토콜과 공유 보안 또는 허브 구조를 통해 상호운용되는 멀티체인 아키텍처이다.

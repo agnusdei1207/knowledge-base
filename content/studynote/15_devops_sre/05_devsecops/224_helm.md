@@ -3,8 +3,8 @@ title: "224. Helm"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 리소스를 패키지와 템플릿으로 묶어 재사용하는 배포 도구.

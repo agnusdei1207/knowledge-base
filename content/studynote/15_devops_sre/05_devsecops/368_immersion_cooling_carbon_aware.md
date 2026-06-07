@@ -3,8 +3,8 @@ title: "Immersion Cooling Carbon-Aware Computing PUE GreenOps"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 368
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 침수 냉각([Immersion Cooling](/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/))은 IT 장비를 유전체 냉각액에 완전 침지해 전통 공랭 대비 [PUE](/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) ([Power Usage Effectiveness](/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/))를 1.03~1.1 수준으로 낮추는 고밀도 냉각 기술이며, [Carbon-Aware](/studynote/12_it_management/05_security_compliance/1000_esg_carbon_aware_pue/) Computing은 그리드의 탄소 강도를 실시간으로 인식해 워크로드를 시간적·지리적으로 이동시키는 소프트웨어 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

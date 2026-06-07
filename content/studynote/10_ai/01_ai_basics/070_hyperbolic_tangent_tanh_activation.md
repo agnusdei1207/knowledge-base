@@ -1,10 +1,11 @@
 ---
 title: "070. Hyperbolic Tangent Tanh Activation"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: tanh는 입력을 -1에서 1 사이로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 S자형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)다.

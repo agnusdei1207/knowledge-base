@@ -3,8 +3,8 @@ title: "584. 802 1X Pnac Eap Radius"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 584
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1X [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

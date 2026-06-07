@@ -3,8 +3,8 @@ title: "Impedance"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
+weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 임피던스 (Impedance)는 고주파 및 교류 환경에서 순수 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)뿐만 아니라 커패시터와 인덕터의 반응(리액턴스)이 합쳐져 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 흐름을 방해하는 복합 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 벡터다.
 > 2. **가치**: [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 디지털 인터페이스 ([PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/), DDR5 등)에서 전송 선로의 임피던스 정합(Matching)은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 반사(Reflection)를 막고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 절대적인 기준이다.

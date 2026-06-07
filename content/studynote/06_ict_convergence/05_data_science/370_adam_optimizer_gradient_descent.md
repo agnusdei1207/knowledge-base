@@ -3,8 +3,8 @@ title: "Learning Rate"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 370
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최적화 [경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 적응형 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) ([Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 수리 모형) ([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate): 1. **본질**: [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 인공지능이 오차(Loss)를 줄이기 위해 산을 내려갈 때([경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)), "어느 방향으로, 얼마나 큰 보폭([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)으…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

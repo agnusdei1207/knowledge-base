@@ -3,9 +3,8 @@ title: "125. STP (Shielded Twisted Pair) / FTP (Foil Twisted Pair)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 125
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: STP와 FTP는 꼬임 쌍선(Twisted Pair) 구조의 외곽이나 개별 페어에 얇은 금속 박막(Foil) 또는 편조망(Braid) 차폐층을 덧씌워 외부 전자기파(EMI) 유입과 내부 [누화](/studynote/03_network/01_data_communication/030_누화_크로스토크/)를 원천 차단하는 방어 특화 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)다.

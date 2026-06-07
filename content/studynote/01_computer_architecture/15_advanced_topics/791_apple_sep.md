@@ -3,8 +3,8 @@ title: "SEP"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 791
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 애플 SEP ([Secure Enclave](/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/) Processor)는 Apple [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에서 sepOS 기반으로 동작하는 전용 보안 프로세서로, [생체 인증](/studynote/09_security/uncategorized/1047_biometric_authentication/)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 키를 일반 OS에서 분리한다.

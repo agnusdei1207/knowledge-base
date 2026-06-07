@@ -2,9 +2,9 @@
 title: "118. Cross Entropy Kl Divergence"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross-Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))는 **모델의 예측 분포 Q가 실제 분포 P를 얼마나 잘 표현하는지** 측정하는 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)이며, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제의 <strong>사실상 표준 <a href="/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a></strong>다.
 > 2. **가치**: $H(P, Q) = H(P) + D_{KL}(P \| Q)$이므로, 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 최소화하는 것은 <strong>KL 발산(P와 Q 사이의 정보 차이)</strong>을 최소화하는 것과 동치이며, 이것이 "모델이 실제 분포를 학습한다"는 것의 수학적 의미다.

@@ -3,9 +3,8 @@ title: "PV PVC PersistentVolume"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 314
 ---
-
-
 > **핵심 인사이트**
 > - [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (PersistentVolume)는 클러스터 관리자가 준비한 스토리지 자원이고, [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) (PersistentVolumeClaim)는 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 요청하는 스토리지 주문서다.
 > - StorageClass (스토리지클래스)를 이용한 동적 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)으로 [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 자동으로 PV가 만들어진다.

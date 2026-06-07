@@ -3,8 +3,8 @@ title: "eBPF Kernel Observability Network Security"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 626
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: eBPF 커널 관측 네트워크 보안은(는) 커널 이벤트에 안전한 프로그램을 삽입해 네트워크, 보안, 성능 데이터를 저오버헤드로 관측·제어하는 기술이다.

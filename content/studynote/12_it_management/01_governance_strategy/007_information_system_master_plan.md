@@ -1,11 +1,11 @@
 ---
 title: "007. Information System Master Plan"
 date: "2026-04-05"
-description: "정보화 전략 계획에서 도출된 전략적 방향을 바탕으로 시스템 개발 우선순위와 일정을 구체화한 정보시스템 마스터플랜"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 7
 ---
-
 # [정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/): Information System Master Plan)
 
 #### 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "072. Timer Interrupt"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 일정 주기마다 CPU 실행을 끊고 OS가 제어를 되찾게 하는 장치다.

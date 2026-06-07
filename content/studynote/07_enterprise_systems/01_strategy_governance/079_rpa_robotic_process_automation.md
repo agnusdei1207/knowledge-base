@@ -3,9 +3,8 @@ title: "079. RPA (Robotic Process Automation)"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 79
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)([Robotic Process Automation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))는 기계 팔(Robot)이 아니라 컴퓨터에 깔리는 <strong>소프트웨어 봇(Bot)</strong>으로, 사람이 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면을 보고 마우스 클릭과 키보드 타이핑을 하는 <strong>반복적인 규칙 기반(Rule-based) 업무를 100% 똑같이 흉내 내는 자동화 아키텍처</strong>다.
 > 2. **가치**: 레거시 시스템(SAP, 엑셀, 사내 인트라넷)의 코드를 단 한 줄도 뜯어고치거나 비싼 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 개발을 할 필요 없이, 프론트엔드 UI(User Interface) 껍데기 위에서 작동하므로 개발 비용과 적용 시간이 압도적으로 저렴하고 빠르다.

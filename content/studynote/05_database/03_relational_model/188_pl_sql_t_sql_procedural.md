@@ -3,9 +3,8 @@ title: "188. PL/SQL , T-SQL (Oracle)"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 188
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PL/SQL (Oracle), T-SQL (SQL Server)은 절차적 SQL 언어에 초점을 맞춘 개념이다.

@@ -3,8 +3,8 @@ title: "162. Gold Plating Anti Pattern"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 162
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 골드 플래팅인 Gold Plating은 합의된 요구사항 범위 밖의 기능이나 장식을 팀 내부가 자의적으로 추가하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.

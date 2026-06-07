@@ -3,8 +3,8 @@ title: "233. Circular Wait"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/) ([Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/))는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 완성하는 4대 필요조건의 마지막 퍼즐로, 여러 프로세스가 자원을 요청하고 대기하는 관계가 <strong>꼬리를 무는 원형(Cycle) 사슬 구조</strong>를 이룰 때 발생하는 치명적 현상이다.

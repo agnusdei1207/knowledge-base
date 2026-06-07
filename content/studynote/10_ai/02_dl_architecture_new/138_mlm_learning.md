@@ -3,8 +3,8 @@ title: "138. Mlm Learning"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MLM은 <strong>입력 토큰의 15%를 [MASK]로 가리고 양방향 문맥으로 원래 토큰을 예측</strong>하는 BERT의 사전 학습 방식이며, 빈칸 채우기(Cloze Test)와 같은 원리이다.
 > 2. **가치**: GPT의 CLM(Causal LM, 왼->오)은 왼쪽 문맥만 보지만, MLM은 **양쪽 문맥을 동시에** [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 "bank"가 은행인지 강둑인지 더 정확히 판별한다.

@@ -3,8 +3,8 @@ title: "Mixed Precision Training"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 187
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 혼합 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련 ([Mixed Precision Training](/studynote/14_data_engineering/04_mlops/173_tensor_core_hbm_mixed_precision_training/))은 딥러닝 훈련 속도를 올리기 위해 메모리를 깎아 먹는 무거운 32비트 소수점(FP32) 대신, 가벼운 16비트 소수점(FP16)을 병행하여 섞어 쓰는(Mixed) 최첨단 딥러닝 메모리 해킹 기법이다.

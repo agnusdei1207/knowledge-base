@@ -3,8 +3,8 @@ title: "Observer Pattern"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [옵저버 패턴](/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) ([Observer Pattern](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))은 GoF 행위 패턴으로, 객체(Subject/Publisher)의 상태 변화가 발생할 때 이에 의존하는 다수의 객체([Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)/Subscriber)에게 자동으로 통지·갱신하는 일대다(1:N) 의존 관계를 정의하는 패턴이다.

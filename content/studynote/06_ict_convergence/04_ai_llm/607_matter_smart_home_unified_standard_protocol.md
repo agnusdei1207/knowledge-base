@@ -3,8 +3,8 @@ title: "Matter Smart Home Unified Standard Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 607
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Matter 스마트홈 통합 표준 프로토콜은(는) 스마트홈 기기 간 상호운용성을 높이기 위해 IP 기반 공통 애플리케이션 계층을 제공하는 표준이다.

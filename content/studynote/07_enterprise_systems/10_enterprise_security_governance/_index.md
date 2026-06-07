@@ -2,9 +2,9 @@
 title: "Enterprise Security & Governance"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
 weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 엔터프라이즈 보안 거버넌스는 이사회의 책임 하에 정보 보안을 비즈니스 전략과 정렬시키고, 전사적 리스크 관리 (ERM) 체계 내에서 데이터 자산의 가치를 보호하는 경영 통제 시스템이다.

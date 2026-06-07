@@ -1,11 +1,11 @@
 ---
 title: "006. Audit Framework 3Dimensional"
 date: "2026-04-05"
-description: "감리 영역, 감리 관점, 감리 단계의 3차원 구조로 구성된 정보시스템 감리 프레임워크의 체계와 적용"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 6
 ---
-
 # 06. 감리 프레임워크 3차원 구조
 
 #### 핵심 인사이트 (3줄 요약)

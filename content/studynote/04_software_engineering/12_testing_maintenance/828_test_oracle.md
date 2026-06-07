@@ -3,8 +3,8 @@ title: "828. Test Oracle"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 828
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 테스트 오라클 (Test [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) - 테스트 결과 참/거짓 판단 기준은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -1,10 +1,11 @@
 ---
 title: "093. Bullwhip Effect Supply Chain"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 채찍 효과 (Bullwhip Effect)는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))의 하류(소비자)에서 발생한 미세한 수요 변동이 상류(제조업체)로 전달될수록 정보의 왜곡과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 인해 거대하게 증폭되는 현상이다.

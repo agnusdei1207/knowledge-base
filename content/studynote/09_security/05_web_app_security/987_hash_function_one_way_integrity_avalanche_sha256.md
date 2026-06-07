@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "987. 해시 함수 (Hash Function)"
 date: "2026-05-08"
-categories: "studynote-security"
+tags:
+  - "studynote-security"
+weight: 987
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해시 함수 (Hash Function)는 보안 확장 개념에서 기밀성, 무결성, 인증, 키 보호 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.

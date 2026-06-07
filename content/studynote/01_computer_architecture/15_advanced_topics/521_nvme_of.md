@@ -3,8 +3,8 @@ title: "NVMe-oF"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 521
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 오버 패브릭 ([NVMe-oF](/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/), [Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) over Fabrics)은 로컬 PCIe에 묶여 있던 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 명령·큐 모델을 네트워크 패브릭 위로 확장해, 원격 플래시를 거의 로컬처럼 쓰게 만드는 스토리지 전송 구조다.

@@ -3,8 +3,8 @@ title: "763. Software Rejuvenation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 763
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 회춘(Software Rejuvenation)은 장시간 실행으로 누적되는 [메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/), 자원 고갈, [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/), 상태 오염 같은 소프트웨어 [노화](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)를 장애 전에 계획적으로 제거하는 예방적 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

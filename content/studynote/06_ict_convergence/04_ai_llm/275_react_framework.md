@@ -3,8 +3,8 @@ title: "Hallucination /"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 275
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 환각 ([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/) / [할루시네이션](/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)): LLM이 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 공백이나 패턴 오류로 인해 그럴싸한 허위 사실(거짓말)을 진실처럼 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 한계점를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

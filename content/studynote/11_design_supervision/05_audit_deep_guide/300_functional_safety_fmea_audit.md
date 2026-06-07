@@ -3,8 +3,8 @@ title: "Functional Safety FMEA Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 300
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기능안전과 [FMEA](/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) 감리는 기능안전(Functional Safety) 확보를 위한 고장형태영향분석(Failure Mode and Effects Analysis, [FMEA](/studynote/01_computer_architecture/15_advanced_topics/752_fmea/)) 체계에서 위험원 분석(Hazard Analysis), 심각도·발생도·검출도([Severity](/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/) Occurrence [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)), 안전 사례(Safety Case)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

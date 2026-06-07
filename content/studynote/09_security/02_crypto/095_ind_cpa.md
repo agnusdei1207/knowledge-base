@@ -3,8 +3,8 @@ title: "095. Ind Cpa"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IND-[CPA](/studynote/09_security/02_crypto/094_cpa/) (Indistinguishability under Chosen Plaintext Attack)는 해커가 맘대로 평문을 암호화해 볼 수 있는 권한([CPA](/studynote/09_security/02_crypto/094_cpa/))을 가진 상태에서도, 주어진 암호문이 두 개의 평문 중 어느 것에서 유래했는지 50%의 확률을 넘어서 '구별'해 낼 수 없는 안전한 상태를 말한다.
 > 2. **가치**: "우리 암호는 안전하다"는 추상적인 주장을 폐기하고, 해커와 방어자 간의 수학적 스무고개 게임을 통해 '의미론적 안전성 ([Semantic Security](/studynote/09_security/20_extra_exam_prep/1007_semantic_security/))'을 수학적으로 증명(Provable [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))하는 현대 암호학의 필수 합격 기준선이다.

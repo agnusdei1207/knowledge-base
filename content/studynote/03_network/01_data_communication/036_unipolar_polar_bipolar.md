@@ -3,8 +3,8 @@ title: "Unipolar / Polar / Bipolar"
 date: "2026-03-03"
 tags:
   - "studynote-network"
+weight: 36
 ---
-
 > **핵심 인사이트**
 > 1. 디지털 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 패턴은 단극성(Unipolar)·극성(Polar)·양극성(Bipolar) 세 범주로 분류되며, 각 방식은 DC 성분·[동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·잡음 내성·[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율성에서 다른 트레이드오프를 가진다.
 > 2. 양극성 방식(특히 [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/), B8ZS, HDB3)은 0 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 +/- [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 교대로 사용해 DC 성분을 제거하고 단순한 방식으로 오류 검출 기능까지 내포한다.

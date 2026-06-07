@@ -3,8 +3,8 @@ title: "696. Fibre Channel Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 696
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Fibre Channel (FC)은 [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) ([Storage Area Network](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))에서 블록 스토리지 명령을 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 예측 가능한 [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)로 전달하기 위해 설계된 전용 저장 네트워크 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.

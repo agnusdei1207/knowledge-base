@@ -3,8 +3,8 @@ title: "SAST DAST IAST Security Testing Pipeline"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 326
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) ([Static Application Security Testing](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))는 코드를 실행하지 않고 소스코드를 분석해 취약점을 찾고, [DAST](/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) ([Dynamic Application Security Testing](/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/))는 실행 중인 애플리케이션에 공격을 시뮬레이션한다. [IAST](/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) ([Interactive Application Security Testing](/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/))는 두 방식을 결합해 런타임에 내부에서 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링한다.

@@ -3,9 +3,8 @@ title: "360. Thunderbolt"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 360
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Thunderbolt는 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express), DisplayPort, 전원 공급을 하나의 고속 링크로 묶어 외부 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 내부 확장 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)처럼 쓰게 만든 인터커넥트다.

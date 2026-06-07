@@ -3,8 +3,8 @@ title: "Explainable AI XAI LIME SHAP Interpretation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 687
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: XAI(Explainable AI)는 블랙박스 모델 $f(x)$의 예측 결과 $y$에 대해 인간이 인지 가능한 $\text{Explanation}(x)$를 사후적으로(post-hoc) 산출하는 메커니즘으로, **LIME**은 국소 선형대수 근사(Local Surrogate) 기반, **SHAP**은 협력게임이론의 Shapley Value를 특성 기여도에 매핑하는 **가법적 설명 모형(Additive Feature Attribution Model)** 이다.

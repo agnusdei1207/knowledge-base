@@ -1,10 +1,11 @@
 ---
 title: "Skip List"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 851
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스킵 리스트([Skip List](/studynote/12_it_management/03_ea_isp/894_skip_list/))는 여러 층의 링크를 이용해 평균 O(log n) 검색을 제공하는 확률적 자료 구조다.

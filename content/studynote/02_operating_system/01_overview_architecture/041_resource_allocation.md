@@ -3,8 +3,8 @@ title: "Resource Allocation"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 자원 할당(Resource Allocation)은 OS의 핵심 기능으로, CPU·메모리·I/O 장치·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등 한정된 자원을 여러 프로세스에 공정하고 효율적으로 분배하는 문제이며, 잘못된 할당은 교착상태([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))·기아([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))·[스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))을 유발한다.
 > 2. 자원 할당의 핵심 트레이드오프는 공정성(Fairness)·처리율([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))·응답시간([Response Time](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))·이용률(Utilization) 간의 균형으로, 어떤 스케줄링 정책도 모든 기준을 동시에 최적화할 수 없다.

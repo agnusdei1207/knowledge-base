@@ -3,8 +3,8 @@ title: "330. Limit Register"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 330
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 한계 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 CPU가 접근하려는 [논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)가 프로세스에게 할당된 합법적인 메모리 크기(범위)를 초과하지 않는지 감시하는 <strong>하드웨어 경계 검사(Boundary Check) 장치</strong>이다.

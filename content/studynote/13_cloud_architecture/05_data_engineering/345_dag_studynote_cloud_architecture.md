@@ -3,8 +3,8 @@ title: "DAG"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
+weight: 345
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 에어플로우 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 파이프라인 배치 종속 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 협업 효율을 동시에 끌어올린다.

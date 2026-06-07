@@ -3,8 +3,8 @@ title: "182. Status Page Public Sla"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상태 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Status [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태와 인시던트 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 고객 언어로 번역해 공개하는 대외 관측성 채널이며, 공개 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))의 체감 인터페이스다.

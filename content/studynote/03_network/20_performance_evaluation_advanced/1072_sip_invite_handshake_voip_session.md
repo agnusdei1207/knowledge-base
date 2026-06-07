@@ -3,8 +3,8 @@ title: "1072. Sip Invite Handshake Voip Session"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1072
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SIP](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

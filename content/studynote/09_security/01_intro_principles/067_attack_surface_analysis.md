@@ -3,8 +3,8 @@ title: "067. Attack Surface Analysis"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공격 표면(Attack Surface)은 공격자가 시스템에 접근할 수 있는 모든 접점의 총합이다.

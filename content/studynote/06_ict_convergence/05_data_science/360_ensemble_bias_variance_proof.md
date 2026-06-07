@@ -3,8 +3,8 @@ title: "360. Ensemble Bias Variance Proof"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 360
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [앙상블 편향-분산](/studynote/10_ai/05_data_science_ml/379_ensemble_bias_variance_math/) 수식 증명 (배깅은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소, 부스팅은 편향 감소): 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 오차(Error)는 멍청해서 틀리는 '편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))'과, 너무 예민해서 널뛰는 '[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))'으로 이루어져 있는데, [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법(배깅과 부…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

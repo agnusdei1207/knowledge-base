@@ -3,8 +3,8 @@ title: "Conductor"
 date: "2026-04-17"
 tags:
   - "studynote-computer-architecture"
+weight: 8
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 도체 (Conductor)는 원자핵의 구속력이 느슨해 무수히 많은 <strong>자유 전자 (Free Electron)</strong>들이 원자 사이를 마음껏 떠돌며 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 수송하는 물질이다.
 > 2. **가치**: 마이크로아키텍처의 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 연산 결과를 전달하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인터커넥트 (Interconnect) 고속도로이자, 막대한 전력을 공급하는 <strong>PDN (<a href="/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Delivery Network)</strong>의 대동맥이다.

@@ -3,8 +3,8 @@ title: "542. Redis"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 542
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 마스킹](/studynote/09_security/16_data_privacy/819_data_masking/) 부분 비식별화 암호화 비교 체계는 보안·프라이버시 관점에서 자주 쓰이는 보안 통제 개념이다.

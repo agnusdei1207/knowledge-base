@@ -1,10 +1,11 @@
 ---
 title: "Isotropic Antenna"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 등방성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Isotropic [Antenna](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))는 모든 방향으로 동일한 세기의 전력을 방사한다고 가정한 이상적 점 방사체로, 현실에는 존재하지 않는 이론적 기준 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)다.

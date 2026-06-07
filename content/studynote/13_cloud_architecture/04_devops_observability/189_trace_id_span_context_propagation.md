@@ -3,9 +3,8 @@ title: "189. Trace ID / Span ID / Context Propagation"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 189
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Trace ID는 단일 사용자 요청 전체 여정의 고유 식별자이고, Span ID는 그 여정 중 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 처리한 개별 구간의 식별자이며, [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation은 이 식별자들을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간에 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더로 전달하는 메커니즘이다.
 > 2. **가치**: 이 세 개념이 결합되어야 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 수십 개의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 트레이스를 "하나의 요청 흐름"으로 재구성할 수 있으며, W3C Trace [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) 표준이 이를 모든 플랫폼·언어에서 일관되게 지원한다.

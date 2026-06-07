@@ -3,8 +3,8 @@ title: "Snooping Protocol"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 403
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스누핑 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Snooping [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))은 각 코어의 캐시 컨트롤러가 공유 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 모두 감시해, [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))을 분산적으로 유지하는 방식이다.

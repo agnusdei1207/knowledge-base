@@ -3,8 +3,8 @@ title: "197. Data Catalog Lineage Visualization Security"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산의 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙에서 관리하는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 도서관 목록 시스템"이며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 원천부터 소비까지 흐름을 추적한다.
 > 2. **가치**: [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/studynote/09_security/16_data_privacy/800_ccpa/) 규정 준수를 위한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주체 권리(삭제권, 이동권) 이행 시, 계보 추적으로 영향받는 모든 시스템을 자동으로 식별하고 대응할 수 있다.

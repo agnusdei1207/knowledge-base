@@ -3,8 +3,8 @@ title: "Fetch Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 인출 사이클 (Fetch Cycle)은 CPU (Central Processing Unit)가 [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 가리키는 다음 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 메모리 계층에서 읽어와, 해독 가능한 내부 상태로 넘기는 프론트엔드의 출발점이다.

@@ -3,8 +3,8 @@ title: "998. Openflow Protocol"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 998
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OpenFlow는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처에서 두뇌([SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)와 손발([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 연결해주는 표준화된 통신 규약(Southbound [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))이다.

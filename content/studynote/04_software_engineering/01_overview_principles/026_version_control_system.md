@@ -3,8 +3,8 @@ title: "026. Version Control System"
 date: "2026-04-29"
 tags:
   - "studynote-software-engineering"
+weight: 26
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: VCS (Version Control System, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템)는 소프트웨어의 소스 코드·문서·[설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일의 변경 이력을 추적하고, 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 되돌리거나 여러 사람의 변경을 병합하는 협업 도구로, [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))의 핵심 구현체다.
 > 2. **가치**: Git이 지배적인 현대 DVCS (Distributed VCS) 시대에서 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([GitFlow](/studynote/15_devops_sre/01_culture_methodology/053_gitflow/), [Trunk-Based Development](/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/))은 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인과 팀 협업 방식을 결정하는 핵심 아키텍처 결정이다. 단순한 코드 저장소를 넘어 "변경 제안->리뷰->병합->배포"의 전체 소프트웨어 개발 워크플로우를 조직한다.

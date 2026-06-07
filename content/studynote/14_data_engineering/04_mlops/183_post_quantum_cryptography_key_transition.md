@@ -3,8 +3,8 @@ title: "183. Post Quantum Cryptography Key Transition"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 양자 내성 암호 (Post-Quantum [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/), [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 키 전환은 [RSA](/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/studynote/09_security/03_network_security/110_rsa/))와 [Elliptic Curve Cryptography](/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/) ([ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))에 기대던 공개키 체계를, 양자 공격에도 버티는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 바꾸는 장기 인프라 개편이다.

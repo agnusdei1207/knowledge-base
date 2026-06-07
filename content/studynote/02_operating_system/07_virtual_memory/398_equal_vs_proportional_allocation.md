@@ -3,8 +3,8 @@ title: "Proportional Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 398
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 여러 프로세스에게 한정된 물리 램(RAM, 프레임)을 배분할 때, 앱의 크기나 특성을 무시하고 <strong>무조건 N분의 1로 쪼개 주는 방식이 균등 할당</strong>이며, 프로그램의 <strong><a href="/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 덩치(Size)에 비례해서 프레임을 많이 퍼주는 방식이 비례 할당</strong>이다.

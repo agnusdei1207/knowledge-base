@@ -2,9 +2,9 @@
 title: "Transactions & Concurrency"
 tags:
   - "database"
+  - "studynote-database"
 weight: 4
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트랜잭션 (Transaction)은 데이터베이스의 상태를 변화시키는 하나의 논리적 작업 단위이며, 동시성 제어와 회복은 어떠한 상황에서도 데이터의 ACID 속성을 보장하기 위한 DBMS의 핵심 서브시스템이다.

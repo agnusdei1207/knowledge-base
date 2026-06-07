@@ -1,10 +1,11 @@
 ---
 title: "097. Partial Functional Dependency"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 부분 함수적 종속 (Partial Functional Dependency)은 테이블의 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK)가 복합키일 때, 일반 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 복합키 전체가 아닌 일부 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에만 종속되어 값이 결정되는 기형적 현상이다.

@@ -3,8 +3,8 @@ title: "LDA: Linear Discriminant Analysis"
 date: "2026-04-13"
 tags:
   - "studynote-data-engineering"
+weight: 82
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 선형 판별 분석(LDA)은 PCA와 같은 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법이지만, 정답 라벨(Y)을 활용하여 "클래스(집단)를 가장 잘 구별할 수 있는 축"을 찾아내는 <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a>(<a href="/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">Supervised Learning</a>)</strong> 기반의 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 및 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/studynote/12_it_management/03_ea_isp/107_classification/)) 알고리즘이다.
 > 2. **수학적 목표**: LDA의 목적 함수는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 투영되었을 때, 서로 다른 클래스 간의 중심 거리(Between-class [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))는 <strong>최대화</strong>하고, 동일한 클래스 내의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 퍼짐(Within-class [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))은 <strong>최소화</strong>하는 최적의 직교 축을 찾는 것이다.

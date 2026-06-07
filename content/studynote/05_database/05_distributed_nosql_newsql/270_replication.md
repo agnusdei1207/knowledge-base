@@ -3,8 +3,8 @@ title: "Replication"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 270
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Replication](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))은 동기식 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) vs 비동기식 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Asynchronous)에 초점을 맞춘 개념이다.

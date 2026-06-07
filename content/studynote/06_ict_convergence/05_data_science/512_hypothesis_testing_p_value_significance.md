@@ -3,8 +3,8 @@ title: "Hypothesis Testing P-Value Significance Level"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 512
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)([Hypothesis Testing](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 근거로 "우연히 이런 결과가 나올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 얼마나 되는가"를 계산해 귀무가설(H₀)을 기각할지 판단하는 절차다.

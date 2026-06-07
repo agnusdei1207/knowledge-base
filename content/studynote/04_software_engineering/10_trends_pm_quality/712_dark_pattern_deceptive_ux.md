@@ -3,8 +3,8 @@ title: "712. Dark Pattern Deceptive Ux"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 712
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [다크 패턴](/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/) 기만적 UX 방지은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

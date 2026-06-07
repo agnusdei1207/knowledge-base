@@ -1,10 +1,11 @@
 ---
 title: "NULL"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 70
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기본 키는 [후보 키](/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/) 중에서 테이블을 대표하도록 선택된 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)다.

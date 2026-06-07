@@ -3,8 +3,8 @@ title: "586. Join Predicate Pushdown View Query Transformation"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 586
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 푸시 다운 조인 프레디케이트 ([Join](/studynote/05_database/04_transactions_concurrency/521_join/) Predicate Pushdown) 뷰 연산 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 변환는 질의 처리·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관점에서 자주 쓰이는 연산 방식이다.

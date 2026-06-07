@@ -2,9 +2,9 @@
 title: "093. Atam Phases Initialization Evaluation Analysis Reporting"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 93
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ATAM](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) 프로세스는 시스템 설계도를 평가할 때 주관적인 논쟁을 막기 위해, 카네기멜론 대학(SEI)이 정립한 4단계 페이즈(Phase) 기반의 체계적인 회의 및 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차다.

@@ -3,8 +3,8 @@ title: "Asynchronous Bus"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 349
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비동기식 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Asynchronous [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 공통 클럭 없이 요청과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받으며, 각 장치가 자기 속도에 맞춰 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 인터커넥트 방식이다.

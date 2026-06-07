@@ -3,8 +3,8 @@ title: "Microinstruction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 217
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로명령어 (Microinstruction)는 [제어 메모리](/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) ([Control Memory](/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/))에 저장된 한 줄의 내부 제어 문장으로, 한 마이크로사이클 동안 어떤 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 내보내고 다음에 어느 주소로 갈지를 함께 규정한다.

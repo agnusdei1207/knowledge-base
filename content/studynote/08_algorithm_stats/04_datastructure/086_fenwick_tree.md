@@ -3,8 +3,8 @@ title: "086. Fenwick Tree"
 date: "2026-04-29"
 tags:
   - "studynote-algorithm-stats"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 펜윅 트리([Fenwick Tree](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) 또는 BIT(Binary [Indexed](/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/) Tree)는 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 접두사 합(Prefix Sum)을 O(log N)에 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하고 O(log N)에 업데이트하는 자료 구조다. 단순 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(1) 업데이트/O(N) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 누적 합 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(N) 업데이트/O(1) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 사이의 최적 균형이다.
 > 2. **가치**: [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산(lowbit = n & (-n))으로 트리 구조를 1D [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에 압축하여 구현한다. [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)보다 코드가 간결하고 캐시 효율이 좋다. 구현 단순성과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모두 뛰어나다.

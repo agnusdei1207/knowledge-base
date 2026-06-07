@@ -3,8 +3,8 @@ title: "412. Thrashing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 412
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))은 시스템의 물리 메모리(RAM)가 턱없이 부족해져서, 프로세스들이 서로의 프레임을 뺏고 뺏기는 <strong><a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a>(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)의 악순환에 빠져, CPU가 실제 연산은 전혀 하지 못하고 디스크 I/O 심부름만 하다가 서버가 얼어붙는 최악의 뇌사 상태</strong>를 의미한다.

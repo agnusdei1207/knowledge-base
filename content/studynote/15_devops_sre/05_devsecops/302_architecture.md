@@ -1,12 +1,10 @@
 ---
-weight: 302
 title: "302. 사가 패턴 2PC 한계 보상 트랜잭션 롤백 (Architecture)"
-date: "2026-05-08"
-categories: "studynote-devops-sre"
 date: "2026-06-07"
+tags:
+  - "studynote-devops-sre"
+weight: 302
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 사가 패턴 2PC 한계 보상 트랜잭션 롤백 (Architecture)은 security 관점에서 목표 상태, 실행 절차, 검증 기준을 하나의 운영 흐름으로 묶는 핵심 개념이다..

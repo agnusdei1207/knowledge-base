@@ -3,8 +3,8 @@ title: "Apache Airflow"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 255
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) (Directed Acyclic [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 배치 플로우 관리 ([Apache Airflow](/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)): [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) ([Apache Airflow](/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)) [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) (Directed Acyclic [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 배치 플로우 관리를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

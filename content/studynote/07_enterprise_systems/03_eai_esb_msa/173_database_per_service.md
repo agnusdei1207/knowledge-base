@@ -2,9 +2,9 @@
 title: "Database per Service"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스 퍼 서비스](/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/) ([Database per Service](/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/))는 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 에서 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소의 소유권과 변경 책임을 독점하는 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경계 패턴</strong>이다.

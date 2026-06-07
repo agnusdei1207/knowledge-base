@@ -3,8 +3,8 @@ title: "107. Nightly Build Scheduled Cron Pipeline"
 date: "2026-03-04"
 tags:
   - "studynote-devops-sre"
+weight: 107
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 나이트 빌드(Nightly Build)는 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링(Cron)에 의해 정해진 시간(주로 야간)에 백지상태에서 제품 전체를 빌드하고 전수 테스트하는 배치(Batch)형 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.

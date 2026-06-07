@@ -2,9 +2,9 @@
 title: "078. Etcd Distributed Key Value Store"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: etcd는 작은 크기의 중요한 상태 정보를 저장하는 강한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) K/V (Key-Value) 저장소다.

@@ -3,8 +3,8 @@ title: "517. Virtual File System Vfs"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 517
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터엔 윈도우용 NTFS, USB용 FAT32, 리눅스용 ext4 등 언어가 완전히 다른 수십 개의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 난립한다. 이들을 각각 다루려면 프로그램이 수십 개의 다른 언어를 배워야 하지만, OS는 중간에 <strong>"보편적인 표준 언어로 통역해 주는 거대한 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 엔진 가상 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템(VFS)"</strong> 을 끼워 넣어 뼈대를 융합했다.

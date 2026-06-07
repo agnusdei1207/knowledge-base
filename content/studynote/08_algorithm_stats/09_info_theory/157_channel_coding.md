@@ -2,9 +2,9 @@
 title: "157. Channel Coding"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 157
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 섀넌 제2 정리는 *잡음 있는 채널에서도 오류 없는 통신이 가능*함을 증명 — 코드율 R < C이면 오류율을 임의로 작게 만드는 부호가 존재한다.

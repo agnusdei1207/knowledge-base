@@ -1,11 +1,11 @@
 ---
 title: "004. Egov Law Article 57"
 date: "2026-04-05"
-description: "행정기관 및 공공기관의 정보화 사업에 대한 감리의무성을 규정하는 전자정부법 제57조의 해석과 적용"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 4
 ---
-
 # 04. 전자정부법 제57조
 
 #### 핵심 인사이트 (3줄 요약)

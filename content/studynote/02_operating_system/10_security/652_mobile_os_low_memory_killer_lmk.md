@@ -3,8 +3,8 @@ title: "652. Mobile Os Low Memory Killer Lmk"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 652
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모바일 기기는 서버나 PC와 달리 스왑(Swap) 공간(디스크)이 없거나 극히 제한적이다. 따라서 메모리가 부족해지면 리눅스의 기본 [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 대신, 안드로이드 전용의 <strong><a href="/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/">Low Memory Killer</a> (LMK)</strong>가 발동하여 앱을 백그라운드에서 조용히 죽여 메모리를 확보한다.

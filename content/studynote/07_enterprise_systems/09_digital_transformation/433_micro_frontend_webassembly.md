@@ -2,9 +2,9 @@
 title: "Micro Frontend / WASM"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 433
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [마이크로 프론트엔드](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) [WebAssembly](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 가속은 엔터프라이즈 환경에서 신기술을 비즈니스 모델과 운영 체계에 연결하기 위해 쓰이는 핵심 기준이며, 특히 [마이크로 프론트엔드](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) [WebAssembly](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 가속, [Micro Frontend](/studynote/13_cloud_architecture/05_data_engineering/346_process/), WASM의 경계를 분명히 만드는 데 의미가 있다.

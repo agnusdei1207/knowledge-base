@@ -3,8 +3,8 @@ title: "FinOps Cloud Cost Optimization Tagging"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 630
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FinOps 클라우드 비용 최적화 태깅은(는) 클라우드 비용을 팀·서비스·환경별로 가시화하고 예산, 태그, 절감 옵션을 운영하는 재무 운영 체계이다.

@@ -2,9 +2,9 @@
 title: "189. Multi Tenant Database Architecture Saas"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 189
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형 소프트웨어 ([Software as a Service](/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/), [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)) 환경에서 여러 고객사 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 플랫폼 위에 수용하되, 테넌트별 격리와 운영 효율을 함께 달성하려는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

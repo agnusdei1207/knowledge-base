@@ -3,8 +3,8 @@ title: "Reinforcement Learning RLHF Human Feedback"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 656
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RLHF(Reinforcement Learning from Human Feedback)는 사전훈련된 언어 모델(LLM) 위에 **3단계 파이프라인(SFT -> Reward Model -> PPO/RL Optimization)**을 적용해 인간의 선호 신호(Preference Signal)를 정책 분포에 반영하는 정렬(Alignment) 기법으로, 보상 함수 $r_\theta(x, y)$를 별도 모델로 학습하고 **PPO(Proximal Policy Optimization)**에 **KL 제약($\beta \cdot \text{KL}(\pi_\theta \| \pi_{\text{ref}})$)**을 결합해 Reference Model과의 이탈을 통제한다.

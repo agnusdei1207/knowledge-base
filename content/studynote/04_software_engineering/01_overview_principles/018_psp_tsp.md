@@ -1,12 +1,11 @@
 ---
 title: "18. PSP (Personal Software Process) / TSP (Team Software Process)"
 date: "2026-03-04"
-description: "하향식 프로세스 개선의 한계를 극복하기 위한 개인(PSP)과 팀(TSP) 차원의 상향식 소프트웨어 프로세스 프레임워크를 심층 분석합니다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 18
 ---
-
-
 # 18. PSP (Personal Software [Process](/studynote/12_it_management/05_security_compliance/943_process/)) / [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) (Team Software [Process](/studynote/12_it_management/05_security_compliance/943_process/))
 
 #### 핵심 인사이트 (3줄 요약)

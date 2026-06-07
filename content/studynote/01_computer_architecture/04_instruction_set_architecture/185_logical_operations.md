@@ -3,8 +3,8 @@ title: "Logical Operation Instructions"
 date: "2026-05-06"
 tags:
   - "studynote-computer-architecture"
+weight: 185
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Logical [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) Instructions)는 CPU (Central Processing Unit)가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숫자의 크기보다 <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>로 해석해, 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 독립적으로 지우고, 세우고, 뒤집고, 검사하게 해 주는 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))의 기본 도구다.

@@ -3,8 +3,8 @@ title: "Secure Coding Tool False Negative and False Positive Reporting"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 675
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 도구의 미탐(False Negative)·오탐(False Positive) 비율 보고는 정탐 정확도, 미탐 위험도, 오탐 처리 비용를 한 체계로 묶어 판단하는 설계·감리 주제다.

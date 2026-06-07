@@ -3,8 +3,8 @@ title: "984. Pki Public Key Infrastructure"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 984
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/studynote/09_security/uncategorized/1080_pki_public_key_infrastructure_ca_ra_certificate/))는 디지털 세계에서 '신뢰'를 구조화하는 근간으로, [비대칭키 암호](/studynote/09_security/02_crypto/077_asymmetric_encryption/) 체계를 기반으로 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(Certificate)를 발급, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 관리하는 일련의 정책과 기술적 인프라이다.

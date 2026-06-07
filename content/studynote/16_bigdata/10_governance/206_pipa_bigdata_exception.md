@@ -3,8 +3,8 @@ title: "206. Pipa Bigdata Exception"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 206
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 2020년 8월 시행된 한국 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법([개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)·신용정보법·정보통신망법 개정)은 가명처리([Pseudonymization](/studynote/12_it_management/05_security_compliance/196_pseudonymization_de_identification/))된 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)를 정보 주체 동의 없이 통계·연구·공익 목적으로 활용할 수 있도록 허용한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/빅데이터 시대의 근본적 전환점이다.

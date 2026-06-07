@@ -3,8 +3,8 @@ title: "396. Big Little Architecture"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 396
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: big.LITTLE 아키텍처는 같은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합을 이해하는 고성능 코어와 고효율 코어를 한 칩에 배치해, 작업 성격에 따라 다른 엔진을 쓰게 만드는 [이기종 멀티코어](/studynote/01_computer_architecture/11_multicore_synchronization/395_heterogeneous_multicore/) 설계다.

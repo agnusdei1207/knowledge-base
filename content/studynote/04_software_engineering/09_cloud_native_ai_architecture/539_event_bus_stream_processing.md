@@ -3,8 +3,8 @@ title: "539. Event Bus Stream Processing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 539
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 및 스트림 프로세싱은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

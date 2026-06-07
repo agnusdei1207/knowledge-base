@@ -3,8 +3,8 @@ title: "Blockchain Node Architecture Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 269
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 아키텍처 감리는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 네트워크의 노드 아키텍처와 운영 통제에서 합의 노드(Consensus Node), 키 관리([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/)), 최종성([Finality](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

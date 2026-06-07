@@ -3,8 +3,8 @@ title: "DSPy Prompt Auto-Optimization Compilation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 529
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DSPy([Declarative](/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/) Self-improving Python)는 "무엇을 할지(What)"만 선언하면 컴파일러가 자동으로 최적 프롬프트와 퓨샷 예제(Few-shot Example)를 탐색하는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 프로그래밍 프레임워크다.

@@ -2,9 +2,9 @@
 title: "Cloud Tiering"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 티어링 (Cloud Tiering)은 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 접근 빈도와 보존 기간에 따라 서로 다른 저장 계층으로 자동 이동시키는 수명주기 기반 스토리지 최적화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

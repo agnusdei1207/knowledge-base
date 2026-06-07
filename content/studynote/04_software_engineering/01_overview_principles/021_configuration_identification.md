@@ -1,11 +1,11 @@
 ---
 title: "021. Configuration Identification"
 date: "2026-03-04"
-description: "형상 관리의 첫 단계, 시스템을 구성하는 형상 항목(CI)을 분할하고 유일한 식별 체계를 부여하는 메커니즘"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 21
 ---
-
 # 형상 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) (Configuration [Identification](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))
 
 #### 핵심 인사이트 (3줄 요약)

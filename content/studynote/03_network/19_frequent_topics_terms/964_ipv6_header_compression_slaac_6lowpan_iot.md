@@ -3,8 +3,8 @@ title: "964. Ipv6 Header Compression Slaac 6Lowpan Iot"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 964
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

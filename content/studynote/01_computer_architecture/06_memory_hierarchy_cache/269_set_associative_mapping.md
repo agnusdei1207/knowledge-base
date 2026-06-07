@@ -3,8 +3,8 @@ title: "Set Associative Mapping"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 269
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 집합 연관 사상 (Set Associative [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 캐시를 여러 세트 (Set)로 나누고, 각 세트 안에 여러 웨이 (Way)를 두어 **검색 범위는 좁게 유지하면서 배치 자유도는 넓힌** 절충형 캐시 사상 방식이다.

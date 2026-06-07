@@ -3,8 +3,8 @@ title: "Micro-Segmentation for Lateral Movement Defense"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 669
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 마이크로세그멘테이션([Micro-Segmentation](/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))과 수평 이동(Lateral Movement) 방어는 워크로드 경계, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 통신 허용, 우회 경로 차단를 한 체계로 묶어 판단하는 보안 감리 주제다.

@@ -3,8 +3,8 @@ title: "Tensor Sparsity Encoder"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 584
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 딥러닝 텐서 희소성 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 0이 많은 텐서를 <strong>값이 있는 항목과 위치 <a href="/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>만 남는 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 표현</strong>으로 바꿔, 가속기가 의미 있는 연산만 읽고 실행하게 만드는 하드웨어 전처리 계층이다.

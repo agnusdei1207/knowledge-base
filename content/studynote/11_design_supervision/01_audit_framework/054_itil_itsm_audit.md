@@ -3,8 +3,8 @@ title: "ITIL ITSM Audit"
 date: "2026-05-01"
 tags:
   - "studynote-design-supervision"
+weight: 54
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/)/[ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 프로세스가 정의된 절차와 증거에 따라 수행되는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)다.

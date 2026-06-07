@@ -3,8 +3,8 @@ title: "Collaborative Filtering Cold Start Recommendation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 519
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)([Collaborative Filtering](/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/))은 "비슷한 취향의 사용자들이 비슷한 아이템을 좋아할 것"이라는 가정으로 작동하며, [행렬 분해](/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)([Matrix Factorization](/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))로 희소 평점 행렬(Sparse Rating Matrix)의 잠재 요인을 학습한다.

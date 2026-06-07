@@ -3,8 +3,8 @@ title: "Firmware Over-The-Air Hardware Support"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 557
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) OTA ([Over-The-Air](/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)) 하드웨어 지원은 원격으로 새 이미지를 내려받는 기능이 아니라, 전원 차단·부분 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·변조 이미지 상황에서도 **부팅 가능 상태를 유지한 채** [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 교체하게 만드는 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)형 하드웨어 설계다.

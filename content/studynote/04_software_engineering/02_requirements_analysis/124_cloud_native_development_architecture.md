@@ -3,8 +3,8 @@ title: "124. Cloud Native Development Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 124
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)는 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>·<a href="/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>·<a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD·선언적 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>를 핵심으로 하여 클라우드 환경의 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">탄력성</a>·확장성·복원력을 최대한 활용</strong>하는 소프트웨어 개발·운영 패러다임이다.
 > 2. **가치**: [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift(기존 시스템을 그대로 클라우드로 이전)로는 클라우드의 이점을 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%도 활용하지 못하지만, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)로 설계하면 <strong>오토스케일링·셀프힐링·글로벌 배포</strong>가 자연스럽게 구현된다.

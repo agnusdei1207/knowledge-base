@@ -3,8 +3,8 @@ title: "Onion Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [어니언 아키텍처](/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/) ([Onion Architecture](/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/))는 제프리 팔레르모(Jeffrey Palermo)가 2008년 제안한 아키텍처로, 양파 껍질처럼 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델을 가장 안쪽에 두고 바깥 계층이 안쪽 계층에만 의존하게 하여 인프라 의존성을 완전히 외부로 추방하는 설계다.

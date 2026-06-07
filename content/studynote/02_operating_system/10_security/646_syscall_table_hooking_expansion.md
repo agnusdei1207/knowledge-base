@@ -3,8 +3,8 @@ title: "646. Syscall Table Hooking Expansion"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 646
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: `sys_call_table`은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 스페이스의 요청 번호(예: 1번은 write, 2번은 open)를 실제 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 함수 주소로 매핑해 주는 <strong>시스템 콜 라우팅의 핵심 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(<a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>)</strong>이다.

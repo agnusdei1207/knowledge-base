@@ -3,8 +3,8 @@ title: "GMM"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 390
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가우시안 혼합 모델](/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/) 연성 군집 ([확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분할 매핑 통계) ([GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)): 1. **본질**: [가우시안 혼합 모델](/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/)([GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/))은 K-Means처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 딱딱하게 무자비하게 쪼개는 대신, 여러 개의 가우시안(정규) 분포가 겹쳐 있다고 가정하고 "이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 A 분…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

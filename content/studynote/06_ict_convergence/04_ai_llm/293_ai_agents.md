@@ -3,8 +3,8 @@ title: "AI Agents"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 293
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 / 에이전틱 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([AI Agents](/studynote/14_data_engineering/03_ml_dl_llm/155_ai_agents_function_calling_agentic_loop/)): 챗봇 수준을 넘어, 목표가 주어지면 LLM이 스스로 필요한 도구(웹 브라우저, 파이썬, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 선택해 실행하고 중간 결과를 바탕으로 다음 행동을 자율 계획(Planning)하여 임무를…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

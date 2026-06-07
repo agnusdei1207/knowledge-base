@@ -3,8 +3,8 @@ title: "151. Multi Tier Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. 다중 계층 아키텍처는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 **Bronze(원시)·Silver(정제)·Gold(집계)** 3계층으로 나누어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 변환 이력을 단계별로 관리하는 설계 패턴이다.
 2. 각 계층은 소비자가 다르며, Bronze는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어, Silver는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자, Gold는 BI 분석가와 비즈니스 의사결정자를 위한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공한다.

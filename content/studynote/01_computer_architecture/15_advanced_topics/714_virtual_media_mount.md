@@ -3,8 +3,8 @@ title: "714. Virtual Media Mount"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 714
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 원격 미디어 [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/)(Remote or Virtual [Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Mount](/studynote/02_operating_system/09_file_system/516_mount_mechanism/))는 [BMC](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))가 ISO 이미지(ISO 9660 디스크 이미지)나 부팅 디스크를 호스트 서버에 <strong>가상 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a>/CD-ROM</strong>처럼 보이게 만드는 대역외 설치 기술이다.

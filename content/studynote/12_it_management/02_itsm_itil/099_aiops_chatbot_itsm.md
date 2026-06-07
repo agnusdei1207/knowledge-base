@@ -3,8 +3,8 @@ title: "099. Aiops Chatbot Itsm"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 99
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM의 본질은 티켓(요청) 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 유사 인시던트 자동 매핑, 장애 전조 예측 자동화를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.

@@ -3,9 +3,8 @@ title: "92. bfloat16 (Brain Floating Point)"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 92
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: bfloat16 (Brain [Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 16)은 지수부 8비트를 유지하여 [단정밀도](/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/)(FP32)와 동일한 표현 범위를 가지면서, 가수부를 7비트로 줄여 크기를 16비트로 압축한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 특화 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 포맷이다.
 > 2. **가치**: 기존 [반정밀도](/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/)(FP16)의 치명적 약점인 [언더플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ([Underflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 문제를 해결하여, 별도의 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 트릭 없이도 FP32 기반 신경망 모델을 절반의 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 빠르게 학습시킬 수 있다.

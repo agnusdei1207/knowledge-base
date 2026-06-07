@@ -2,9 +2,9 @@
 title: "083. Architecture Elements Stakeholder View Viewpoint"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 83
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: IEEE (Institute of Electrical and Electronics 엔진ers) 1471과 ISO (International Organization for Standardization) 42010은 아키텍처를 "무엇을 그렸는가"가 아니라 "누구의 어떤 질문에 답하는가"로 정의한다.

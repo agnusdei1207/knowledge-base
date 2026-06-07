@@ -3,8 +3,8 @@ title: "Hadoop HDFS Block Replication"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 420
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터 처리 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 블록 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 3벌 [랙 인지](/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연계망 처리 ([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) Block [Replication](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)): 1. **본질**: [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [분산 파일 시스템](/studynote/02_operating_system/09_file_system/553_distributed_file_system/)([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))은 100TB짜리 초거대 빅데이터를 하나의 비싼 슈퍼컴퓨터에 저장하는 대신, 128MB 단위의 레고 블록(Block)으로 잘게 쪼개어 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "097. Stride Convolutional Neural Network Downsampling"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 97
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스트라이드 (Stride)는 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))에서 필터 (Filter)가 입력 이미지를 순회하며 특성을 추출할 때, 한 번에 이동하는 픽셀(보폭)의 간격이다.

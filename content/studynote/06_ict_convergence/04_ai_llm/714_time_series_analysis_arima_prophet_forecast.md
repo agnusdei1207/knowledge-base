@@ -3,8 +3,8 @@ title: "Time Series Analysis ARIMA Prophet Forecast"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 714
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 분석은 시간에 따라 순차적으로 관측된 데이터의 자기상관성(Autocorrelation), 정상성(Stationarity), 계절성(Seasonality)을 수학적 확률 과정(Stochastic Process)으로 모델링하여 미래를 예측하는 통계·기계학습 기법으로, ARIMA(p,d,q)는 AR(자기회귀)·I(차분)·MA(이동평균)의 Box-Jenkins 선형 결합 구조를 따르고, Prophet은 이를 가법 분해 모델 $y(t) = g(t) + s(t) + h(t) + \epsilon_t$로 비선형 트렌드 + 푸리에 급수 기반 다중 계절성 + 휴일 효과로 일반화한 구조이다.

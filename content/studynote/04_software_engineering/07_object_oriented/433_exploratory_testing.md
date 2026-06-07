@@ -3,8 +3,8 @@ title: "433. Exploratory Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 433
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탐색적 테스팅 (Exploratory Testing) - 명세서 없이 테스터의 직관과 경험을 바탕으로 테스트 설계와 수행을 동시 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) (차터, 타임박스 활용)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

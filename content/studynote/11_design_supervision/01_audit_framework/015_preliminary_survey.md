@@ -1,11 +1,11 @@
 ---
 title: "015. Preliminary Survey"
 date: "2024-05-20"
-description: "피감리인 인터뷰와 문서 분석을 통해 프로젝트의 잠복 리스크를 식별하고 감리의 주안점을 도출하는 예비 조사의 핵심 아키텍처"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 15
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 예비 조사는 본격적인 실지 감리(On-site [Audit](/studynote/12_it_management/05_security_compliance/363_audit/))에 투입되기 1~2주 전, 프로젝트의 제안서, 요구사항, 설계 문서 등 사전 자료를 분석하고 핵심 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)를 면담하여 시스템의 '현 상태([As-Is](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))와 취약점'을 입체적으로 스캐닝하는 선행 정찰 활동이다.
 > 2. **가치**: 사업자나 발주처가 숨기고 싶어 하는 프로젝트의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사유, 기술적 부채, 스펙 변경 등의 내부 갈등([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 징후)을 조기에 포착하여, 한정된 감리 자원을 타격해야 할 핵심 병목 구간에 집중시킬 수 있는 '감리 주안점(Target)'을 제공한다.

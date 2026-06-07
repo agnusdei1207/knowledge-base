@@ -3,8 +3,8 @@ title: "999. Mec Mobile Edge Computing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 999
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MEC](/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)(Mobile [Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/), 또는 Multi-access [Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))는 무선 기지국(기지국, 라우터)과 가까운 네트워크 '끝자락(Edge)'에 클라우드 컴퓨팅과 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경을 전진 배치하는 아키텍처다.

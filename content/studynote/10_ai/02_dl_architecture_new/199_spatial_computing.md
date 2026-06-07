@@ -3,8 +3,8 @@ title: "199. Spatial Computing"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [공간 컴퓨팅](/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/) ([Spatial Computing](/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))은 평면(2D) [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 안에 갇혀 있던 컴퓨터의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)와 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)을 3차원의 현실 물리 공간(3D) 위로 끄집어내어 융합시키는 차세대 컴퓨팅 패러다임이다.

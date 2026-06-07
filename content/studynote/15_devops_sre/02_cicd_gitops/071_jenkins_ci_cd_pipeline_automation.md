@@ -2,9 +2,9 @@
 title: "071. Jenkins Ci Cd Pipeline Automation"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Jenkins는 플러그인 기반의 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 자동화 서버다.

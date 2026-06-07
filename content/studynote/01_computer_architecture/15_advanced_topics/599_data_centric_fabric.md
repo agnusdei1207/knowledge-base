@@ -3,8 +3,8 @@ title: "Data-Centric Fabric"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 599
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 중심](/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 중앙처리장치 (Central Processing Unit, CPU) 중심의 고정 서버 상자를 해체하고, 메모리·가속기·스토리지를 패브릭으로 묶어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 쪽에 연산 자원을 조립해 붙이는 아키텍처다.

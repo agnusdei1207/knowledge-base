@@ -3,8 +3,8 @@ title: "DSPY Prompt Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DSPy(Demonstrate-Search-Predict)는 "넌 최고의 AI야. 숨호흡을 하고 차근차근 생각해 봐"라고 인간이 주술처럼 프롬프트를 길게 적어내려가던 원시적인 노가다([Prompt 엔진ering](/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/))를 박살 내고, 프로그래머가 코드(Python)로 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 조립해 두면 <strong>"<a href="/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>이 자기 자신에게 가장 잘 먹히는 최적의 프롬프트를 스스로 깎아내고 컴파일(Compile)하는" 프롬프트 자동 최적화 프레임워크</strong>다.

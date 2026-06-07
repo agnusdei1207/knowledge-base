@@ -3,8 +3,8 @@ title: "Security Chaos ering"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 259
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정상 상태 가설을 세우고 실제 장애를 주입해 복원력을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 엔지니어링 방식.

@@ -3,8 +3,8 @@ title: "Superscalar"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 236
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 수퍼스칼라 (Superscalar)는 한 클럭에 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나만 끝내는 스칼라 한계를 넘기 위해, 여러 실행 경로를 동시에 열어 두고 독립 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 발행하는 [마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

@@ -2,9 +2,9 @@
 title: "181. Service Mesh Istio Linkerd"
 date: "2026-04-10"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) ([Service Mesh](/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))는 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 내부 통신의 재시도, 보안, 관측, 트래픽 제어를 애플리케이션 코드 밖의 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 계층으로 이동시키는 인프라 패턴이다.

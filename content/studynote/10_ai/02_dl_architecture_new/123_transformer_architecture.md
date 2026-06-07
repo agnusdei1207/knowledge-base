@@ -3,8 +3,8 @@ title: "123. Transformer Architecture"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transformer는 <strong>순환(<a href="/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">RNN</a>) 없이 Self-Attention만으로 시퀀스를 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong>하는 아키텍처이며, "Attention Is All You Need"(Vaswani, 2017)에서 제안되어 현대 AI의 <strong>사실상 유일한 기반 아키텍처</strong>가 되었다.
 > 2. **가치**: RNN은 시퀀스를 순차 처리하여 <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 불가·장거리 의존성 약화</strong>라는 근본 한계가 있었으나, Transformer는 <strong>모든 위치를 동시에 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>(<a href="/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong>하고 <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화가 가능</strong>하여 학습 속도와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 혁신적으로 개선했다.

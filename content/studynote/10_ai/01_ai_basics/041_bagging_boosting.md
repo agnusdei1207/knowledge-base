@@ -3,8 +3,8 @@ title: "Hyperparameter Tuning"
 date: "2026-04-05"
 tags:
   - "studynote-ai"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 하이퍼파라미터(Hyperparameter)는 모델 학습 전 인간이 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 메타 수준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값으로([학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)·트리 깊이·[드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)율 등), 모델 파라미터([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 학습되는 것과 달리 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체의 동작 방식을 결정한다.
 > 2. 하이퍼파라미터 튜닝의 체계적 방법은 [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)([Grid Search](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/))->랜덤 서치(Random Search)->베이지안 최적화(Bayesian Optimization)->[AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 순으로 발전했으며, 랜덤 서치는 [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)보다 같은 계산 비용에서 더 좋은 결과를 찾을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다는 수학적 근거가 있다.

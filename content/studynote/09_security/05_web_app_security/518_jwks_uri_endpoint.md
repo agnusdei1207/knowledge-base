@@ -3,8 +3,8 @@ title: "JSON Web Key Set"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 518
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: jwks_uri ([JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) Web [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Set 엔드포인트)는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능성과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 범위를 조정하는 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기준 또는 처리 기법이다.

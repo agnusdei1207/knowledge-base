@@ -3,8 +3,8 @@ title: "Deception Technology"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 939
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 포니팟 [허니넷](/studynote/09_security/14_threat_hunting_adversarial/695_honey_net/) 유인 분리망 분석 시스템 /…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

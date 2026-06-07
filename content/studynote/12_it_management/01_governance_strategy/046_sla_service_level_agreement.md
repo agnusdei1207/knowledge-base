@@ -3,8 +3,8 @@ title: "Service Level Agreement,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 46
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SLA의 핵심은 아웃소싱 제공자와 고객 간의 정량적 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지표 계약라는 점에 있다. 이를 현장 의사결정에 연결하는 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 구조로 이해하면 된다.

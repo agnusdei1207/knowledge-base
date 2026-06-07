@@ -3,8 +3,8 @@ title: "Likelihood & Posterior"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 349
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이즈 룰(Bayes Rule)은 P(θ|X) = P(X|θ)·P(θ)/P(X)로, 사전 지식(Prior)과 관측 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Likelihood)를 결합해 사후 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Posterior)을 갱신하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 추론의 핵심 엔진이다.

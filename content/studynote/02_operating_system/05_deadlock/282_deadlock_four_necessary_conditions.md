@@ -3,8 +3,8 @@ title: "Deadlock Four Necessary Conditions"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 282
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 발생 4가지 필요조건은 E. G. Coffman이 1971년에 정리한 이론으로 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), [점유 대기](/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)([Hold and Wait](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)), [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/)), [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/)([Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/))가 <strong>동시에 모두 충족</strong>되어야만 데드락이 발생한다는 법칙이다.

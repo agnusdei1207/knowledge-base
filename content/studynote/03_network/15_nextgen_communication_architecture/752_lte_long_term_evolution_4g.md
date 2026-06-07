@@ -3,8 +3,8 @@ title: "752. Lte Long Term Evolution 4G"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 752
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LTE All-IP [패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "Cosine Annealing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 309
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [코사인 어닐링](/studynote/10_ai/05_data_science_ml/407_cosine_annealing/) 및 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링 튜닝 (Cosine Annealing): 1. **본질**: [코사인 어닐링](/studynote/10_ai/05_data_science_ml/407_cosine_annealing/)(Cosine Annealing)은 딥러닝 모델이 정답(Global Minimum)을 찾아가는 과정에서, 보폭([학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)을 코사인…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

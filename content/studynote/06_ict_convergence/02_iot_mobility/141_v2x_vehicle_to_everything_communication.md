@@ -3,8 +3,8 @@ title: "141. V2X Vehicle To Everything Communication"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 141
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: V2X는 <strong>차량이 다른 차량(V2V)·인프라(V2I)·보행자(V2P)·네트워크(V2N)와 통신</strong>하여 교통 안전·효율을 향상시키는 기술이며, [DSRC](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(802.11p)와 [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)(셀룰러)가 대표 규격이다.
 > 2. **가치**: 자율주행 센서(카메라·[LiDAR](/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))는 <strong>시야 범위 내</strong>만 감지하지만, V2X는 **교차로 너머·커브 뒤** 등 비가시(Non-Line-of-Sight) 정보를 제공하여 안전성을 획기적으로 향상시킨다.

@@ -3,8 +3,8 @@ title: "Ethics EU ACT"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리 및 거버넌스(Governance)는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간을 차별하거나, 가짜 뉴스를 살포하거나, 일자리를 파괴하는 딥러닝의 야생성에 '법적, 도덕적 족쇄(가드레일)'를 채우는 전 지구적 안전망 구축 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.

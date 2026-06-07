@@ -3,8 +3,8 @@ title: "Q-Learning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 316
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Q-러닝 (Q-[Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 모델 없이(Model-Free) 환경과의 상호작용으로 행동 [가치 함수](/studynote/10_ai/02_dl_architecture_new/163_value_function/) Q(s,a) — "상태 s에서 행동 a를 선택할 때의 기대 누적 보상" — 를 추정하는 오프-폴리시([Off-Policy](/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/)) [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

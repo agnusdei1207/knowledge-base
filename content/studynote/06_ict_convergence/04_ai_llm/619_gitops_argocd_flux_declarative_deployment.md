@@ -3,8 +3,8 @@ title: "GitOps ArgoCD Flux Declarative Deployment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 619
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Git 저장소를 배포 대상의 **단일 진실 공급원(Single Source of Truth)**으로 삼고, 클러스터 내부의 **조정 컨트롤러(Reconciliation Controller)**가 선언적 매니페스트(Kustomize/Helm/Plain YAML)를 주기적으로 풀(Pull)하여 실제 상태(Actual State)를 원하는 상태(Desired State)로 수렴시키는 **풀 기반(Pull-based) 조정 루프** 운영 체계

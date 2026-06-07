@@ -1,11 +1,11 @@
 ---
 title: "OpenStack"
 date: "2024-05-24"
-description: "온프레미스의 강력한 보안 통제권과 클라우드의 민첩성을 결합한 기업 전용 독자적 인프라 아키텍처"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 8
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기업이 자체 소유한 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 환경 내에 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 적용하여, 오직 단일 기업(Single Tenant)만을 위해 구축·운영되는 클라우드 인프라.
 > 2. **가치**: [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)의 유연성([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/), 자동화)을 확보하면서도 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/), 엄격한 규제 준수, 폐쇄망의 강력한 보안 통제권을 완벽히 유지.

@@ -3,8 +3,8 @@ title: "Rtt vs Delay"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1002
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

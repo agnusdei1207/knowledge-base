@@ -1,11 +1,11 @@
 ---
 title: "Z, VDM"
 date: "2026-04-03"
-description: "비정형·반정형·정형 요구사항 명세 언어의 차이와 Z, VDM의 적용 기준을 정리한다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [요구사항 명세](/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 언어는 시스템이 "무엇을 만족해야 하는가"를 표현하는 약속이며, 자연어 중심의 비정형 명세부터 수학 기반 정형 명세까지 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 스펙트럼을 가진다.

@@ -3,8 +3,8 @@ title: "IaC Terraform Pulumi CDK"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 621
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IaC Terraform Pulumi CDK은(는) 인프라 자원을 선언형 또는 프로그래밍 방식 코드로 정의해 생성·변경·삭제를 자동화하는 운영 방식이다.

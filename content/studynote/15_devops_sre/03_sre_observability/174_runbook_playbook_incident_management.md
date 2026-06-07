@@ -3,8 +3,8 @@ title: "Runbook/Playbook"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 런북 (Runbook)은 특정 알람·장애 유형에 대한 <strong>실행 절차 문서</strong>이고, [플레이북](/studynote/09_security/13_secops_ir_forensics/637_playbook/) ([Playbook](/studynote/09_security/13_secops_ir_forensics/637_playbook/))은 여러 런북과 커뮤니케이션 규칙을 묶어 <strong><a href="/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/">인시던트 대응</a> 전체를 지휘하는 운영 시나리오</strong>다.

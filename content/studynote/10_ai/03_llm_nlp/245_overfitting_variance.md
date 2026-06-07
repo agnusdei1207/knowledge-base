@@ -3,8 +3,8 @@ title: "Overfitting"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 245
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 과대적합(Overfitting)은 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 잡음(Noise)까지 암기하여, 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 일반화(Generalization)되지 않는 현상이다.

@@ -3,8 +3,8 @@ title: "774. Cache Timing Attack"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 774
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 타이밍 공격 (Cache Timing Attack)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 읽지 않고도 캐시 [hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 때문에 생기는 미세한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 차이에서 비밀 값을 추론하는 대표적인 [부채널 공격](/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/) ([Side-channel Attack](/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/))이다.

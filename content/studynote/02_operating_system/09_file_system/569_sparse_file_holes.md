@@ -3,8 +3,8 @@ title: "569. Sparse File Holes"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 569
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 설치할 때 100GB짜리 미리 공간 할당 레이아웃(깡통) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 딱 만든 순간, "어? 1초 만에 만들어지네? 내 하드는 눈곱만큼도 안 달았는데 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기는 100GB 고스란히 찍히네?" 라는 마법을 다들 겪어 봤을 거다. 이건 안이 텅 비어있는(Null [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 덩어리 보이드) 공간에 대해 <strong>"OS <a href="/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 계층이 실제 하드블록(철판)을 하나도 할당하지 않고, 단지 i-node 장부에 '여기서 여기까지는 빙~ 비어있는 유령(Hole) 이다!!' 라고 메모만 찍어버리는 스파스 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Sparse 록백 뷰)"</strong> 아키텍처다.

@@ -3,8 +3,8 @@ title: "119. Pre Commit Hook Linting"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 119
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Pre-commit Hook은 `git commit` 실행 직전에 <strong>자동으로 린터·포매터·보안 스캔을 실행</strong>하여, 품질 기준을 충족하지 못한 코드의 커밋을 차단하는 <strong>Shift Left 품질 관리 메커니즘</strong>이다.
 > 2. **가치**: CI에서 린트를 실행하면 커밋->푸시->[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패->수정->재커밋의 <strong><a href="/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a>가 10분 이상</strong>이지만, Pre-commit Hook은 커밋 시점에 <strong>즉시(수 초) 피드백</strong>하여 불량 코드가 리포지토리에 들어가는 것을 원천 차단한다.

@@ -3,8 +3,8 @@ title: "Amazon QLDB"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 319
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 변조 방지 원장 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) (Amazon QLDB)는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 관점에서 자주 쓰이는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어 개념이다.

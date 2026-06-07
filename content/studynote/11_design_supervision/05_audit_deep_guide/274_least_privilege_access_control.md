@@ -3,8 +3,8 @@ title: "Least Privilege Access Control Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 274
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 최소 권한 접근통제 감리는 [최소 권한 원칙](/studynote/09_security/01_intro_principles/010_least_privilege/)([Least Privilege](/studynote/09_security/01_intro_principles/010_least_privilege/) Principle)을 반영한 접근통제 체계에서 역할 설계(Role Design), 직무분리(Segregation of Duties), 권한 검토([Access Review](/studynote/09_security/11_iam_access_control/580_access_review/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

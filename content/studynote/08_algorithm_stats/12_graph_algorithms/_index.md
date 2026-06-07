@@ -2,9 +2,9 @@
 title: "Graph Algorithms (Advanced)"
 tags:
   - "algorithm_stats"
+  - "studynote-algorithm-stats"
 weight: 12
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그래프 알고리즘은 객체 간의 관계를 노드 (Node)와 간선 (Edge)으로 추상화하여, 연결성, 최단 경로, 최소 신장 트리 등 복잡한 네트워크 구조의 문제를 해결하는 논리적 절차이다.

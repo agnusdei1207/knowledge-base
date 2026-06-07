@@ -3,8 +3,8 @@ title: "844. Vswitch Virtual Switch Hypervisor Bottleneck Sriov"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 844
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

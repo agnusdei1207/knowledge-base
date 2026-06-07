@@ -3,8 +3,8 @@ title: "Hyper-Threading"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 401
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하이퍼스레딩](/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/) ([Hyper-Threading](/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/))은 하나의 물리 코어가 두 개 이상의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 문맥을 동시에 유지하며, 놀고 있는 실행 자원을 더 자주 채우는 [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/), [SMT](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)) 구현이다.

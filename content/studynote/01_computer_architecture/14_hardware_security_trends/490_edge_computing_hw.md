@@ -3,8 +3,8 @@ title: "Edge Computing HW"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 490
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 하드웨어 ([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) Hardware)는 센서와 액추에이터 바로 옆에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1차 처리해, 클라우드 왕복 없이 현장에서 즉시 판단하게 만드는 소형·저전력 계산 장치다.

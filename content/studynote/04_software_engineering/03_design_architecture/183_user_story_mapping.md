@@ -3,8 +3,8 @@ title: "User Story Mapping"
 date: "2026-05-06"
 tags:
   - "studynote-software-engineering"
+weight: 183
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유저 스토리 맵 ([User Story](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 요구사항을 단순 우선순위 목록이 아니라 <strong>사용자 행동 흐름과 중요도의 2차원 지도</strong>로 재구성하는 기법이다.

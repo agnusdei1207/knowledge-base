@@ -3,8 +3,8 @@ title: "694. Optical Disc Jukebox"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 694
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 광 디스크 주크박스는 수백~수천 장의 광 디스크를 캐비닛에 보관하고, 필요할 때 로봇 장치가 디스크를 골라 드라이브에 넣어 주는 자동화 아카이브 시스템이다.

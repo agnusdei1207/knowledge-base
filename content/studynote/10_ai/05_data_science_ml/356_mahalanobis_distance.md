@@ -3,8 +3,8 @@ title: "Mahalanobis Distance"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 356
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마할라노비스 거리](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)([Mahalanobis Distance](/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/))는 공분산 행렬(Covariance Matrix)의 역행렬로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포의 상관관계와 스케일 차이를 보정한 뒤 계산하는 다차원 거리이며, [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 탐지와 다변량 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 기준 거리다.

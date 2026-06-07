@@ -3,9 +3,8 @@ title: "287. ResNet (Residual Network)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 287
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ResNet (Residual Network, He et al., 2015)은 잔차 블록(Residual Block)의 스킵 연결(Skip Connection)을 통해 <strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>) 없이 152층 이상의 초심층 네트워크</strong>를 학습 가능하게 한 혁신적 아키텍처다.

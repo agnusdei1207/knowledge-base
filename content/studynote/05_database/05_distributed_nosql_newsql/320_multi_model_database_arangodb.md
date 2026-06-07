@@ -3,8 +3,8 @@ title: "Multi-model Database"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 320
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 모델 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) (Multi-model [Database](/studynote/05_database/04_transactions_concurrency/501_database/))는 단일 엔진 내 [Document](/studynote/14_data_engineering/01_infrastructure/037_document/), [Graph](/studynote/12_it_management/03_ea_isp/888_graph/), KV, Relational 지원 (ArangoDB 등)에 초점을 둔 모델이다.

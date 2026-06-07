@@ -3,8 +3,8 @@ title: "IEEE 802.1Q"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 958
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹은 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

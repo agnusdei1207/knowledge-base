@@ -3,8 +3,8 @@ title: "057. K Means Clustering Unsupervised Learning"
 date: "2026-04-07"
 tags:
   - "studynote-ai"
+weight: 57
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: K-Means는 정답 라벨이 없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 중심점으로 나누고, 각 점을 가장 가까운 중심에 반복 할당하는 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

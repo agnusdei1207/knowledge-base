@@ -3,8 +3,8 @@ title: "Zero Knowledge Proof ZK-SNARKs ZK-STARKs"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 559
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 영지식 증명 ZK-SNARKs ZK-STARKs은(는) 명제를 참임으로 검증하면서 원본 입력값을 공개하지 않는 암호학적 증명 기법이다.

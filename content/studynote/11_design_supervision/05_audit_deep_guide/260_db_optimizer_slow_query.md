@@ -3,8 +3,8 @@ title: "DB Optimizer Slow Query Diagnosis"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DB [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 슬로우 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 진단은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))와 슬로우 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Slow Query) 진단 체계에서 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)), 통계 정보([Statistics](/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/)), [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 튜닝([Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Tuning)의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

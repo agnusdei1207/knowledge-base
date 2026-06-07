@@ -2,9 +2,9 @@
 title: "283. Data Visualization Dashboard Report"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 283
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드 및 리포트는 엔터프라이즈 환경에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석 가능한 자산으로 전환하기 위해 쓰이는 핵심 기준이며, 특히 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드 및 리포트, [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Visualization, 운영 지표의 경계를 분명히 만드는 데 의미가 있다.

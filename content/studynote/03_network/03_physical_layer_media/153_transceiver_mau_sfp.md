@@ -3,8 +3,8 @@ title: "153. Transceiver Mau Sfp"
 date: "2026-05-03"
 tags:
   - "studynote-network"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 트랜시버(Transceiver = Transmitter + Receiver)는 컴퓨터의 0과 1 디지털 텍스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 -> 밖으로 나가는 구리선의 아날로그 전기 파동([Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))이나 광케이블의 레이저 빛(Optical) 빔으로 <strong>100% 치환 융합 번역 핑퐁 쳐서 쏘고 받는 OSI 1계층(물리) 핵심 대문 젠더(MAU) 쇳덩이</strong>다.
 > 2. **가치**: 과거 랜카드 칩셋 뱃속에 용접 강결합(Built-in) 되어 "구리선 쓰다가 광케이블로 이사 가려면 수백만 원짜리 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 장비 통째로 갖다 버려야 하는 뻗음 파산 멸망([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 💥)"의 한계를 도끼로 찢어발겼다.

@@ -3,8 +3,8 @@ title: "Sharding and L1 Parallel Transaction Processing"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 481
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) L1 네트워크를 여러 샤드(Shard, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))로 분할하여 각 샤드가 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리함으로써 <strong>TPS를 선형 확장</strong>하는 기술이다.

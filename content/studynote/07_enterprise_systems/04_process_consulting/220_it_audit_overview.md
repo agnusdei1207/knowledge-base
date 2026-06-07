@@ -2,9 +2,9 @@
 title: "220. It Audit Overview"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 220
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정보 시스템 감리 ([IT Audit](/studynote/12_it_management/01_governance_strategy/054_it_audit/))는 독립된 제3자가 정보시스템의 기획·개발·운영 전 과정을 점검해 효과성 (Effectiveness), 효율성 (Efficiency), 안전성 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)/[Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 통제 활동이다.

@@ -3,8 +3,8 @@ title: "Control Memory"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 216
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제어 메모리 (Control Memory)는 [제어 유닛](/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)이 매 클럭마다 읽는 내부 전용 저장소로, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실제 하드웨어 동작 순서로 풀어 쓴 마이크로코드 (Microcode)를 보관한다.

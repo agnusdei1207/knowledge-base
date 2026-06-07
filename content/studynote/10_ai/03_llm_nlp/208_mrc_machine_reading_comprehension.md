@@ -3,8 +3,8 @@ title: "MRC, Machine Reading Comprehension"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 208
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기계 독해 (MRC, Machine Reading Comprehension)는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간처럼 수백 장짜리 교과서([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) 본문)를 쭉 훑어 읽은 뒤, 사용자가 질문(Question)을 던지면 <strong>본문 속에서 정확한 정답이 있는 텍스트 구역의 '시작점과 끝점(Start/End Span)'을 빨간펜으로 쫙 밑줄 그어 발췌(Extraction)</strong>해 내는 고도의 텍스트 추론 아키텍처다.

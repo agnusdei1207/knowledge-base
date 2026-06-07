@@ -1,10 +1,11 @@
 ---
 title: "007. Dynamic Programming"
+date: "2026-06-07"
 tags:
   - "algorithm_stats"
-date: "2026-06-07"
+  - "studynote-algorithm-stats"
+weight: 7
 ---
-
 # 07. 동적 프로그래밍 (Dynamic Programming)
 
 ## 핵심 인사이트 (3줄 요약)

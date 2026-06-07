@@ -3,8 +3,8 @@ title: "Digital Health Telemedicine PHR Health Data"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 608
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 헬스 원격의료 PHR 건강데이터은(는) 환자 생성 건강데이터, 전자의무기록, 원격상담, 모니터링을 연결해 의료 서비스를 디지털화하는 체계이다.

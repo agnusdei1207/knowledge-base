@@ -3,8 +3,8 @@ title: "162. Fbi Function Based Index"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 162
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 함수 기반 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (FBI, Function Based [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 원본 컬럼 값이 아니라 <strong>함수나 수식으로 계산된 결과 자체를 <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 키로 저장</strong>하는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다.

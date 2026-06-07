@@ -3,8 +3,8 @@ title: "182. List Partitioning"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리스트 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) (List [Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 지역, 채널, 등급처럼 <strong>의미가 분명한 이산 값</strong>을 미리 정한 목록으로 매핑해, 업무 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 자체를 물리 저장 경계로 바꾸는 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기법이다.

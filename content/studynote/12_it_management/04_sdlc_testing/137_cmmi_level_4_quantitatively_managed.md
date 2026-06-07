@@ -3,8 +3,8 @@ title: "Quantitatively Managed,"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 137
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 4 (Quantitatively Managed, 정량적 관리)의 본질은 성과를 통계적/정량적 수치로 측정 및 제어를 단계별 산출물과 품질 게이트로 관리하는 데 있다.
 > 2. **가치**: 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

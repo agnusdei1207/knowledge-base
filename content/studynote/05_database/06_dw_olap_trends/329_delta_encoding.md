@@ -3,8 +3,8 @@ title: "Operation"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 329
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 연산 (Operation)는 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), 드릴다운, [슬라이스](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/), 다이스, [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)에 초점을 둔 연산 방식이다.

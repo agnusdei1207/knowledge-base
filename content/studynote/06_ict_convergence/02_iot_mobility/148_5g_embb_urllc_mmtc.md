@@ -3,8 +3,8 @@ title: "IoT"
 date: "2026-05-03"
 tags:
   - "studynote-ict-convergence"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망은 단순히 다운로드 속도만 높인 4G의 연장선이 아니라, 전혀 다른 성격의 3대 핵심 특성인 <strong>초고속/대용량(<a href="/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>), 초저지연/고신뢰(<a href="/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">uRLLC</a>), 대규모 사물 초연결(<a href="/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a>)</strong>을 단일 물리망에서 동시에 충족시키는 융합 인프라다.
 > 2. **가치**: 이 3가지 특성 덕분에 과거에는 불가능했던 자율주행 자동차(0.1초 랙이 치명적인 분야), 4K VR/AR 실시간 스트리밍, 수백만 개의 도심 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 통제 등 B2B 및 B2G [스마트 시티](/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 서비스가 현실화되었다.

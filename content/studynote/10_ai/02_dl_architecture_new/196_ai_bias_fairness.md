@@ -3,8 +3,8 @@ title: "AI Bias & Fairness"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 196
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 편향성 ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) / Fairness)은 기계가 완벽히 객관적일 것이라는 인간의 환상을 산산조각 내는 치명적 버그다. 딥러닝 모델이 편협하고 차별적인 인간의 쓰레기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습하여, 특정 인종, 성별, 소수자를 지속적으로 억압하고 탈락시키는 <strong>'인간의 편견이 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>/증폭된 수학적 악습 고착화 현상'</strong>이다.

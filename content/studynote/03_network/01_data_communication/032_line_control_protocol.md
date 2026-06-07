@@ -3,8 +3,8 @@ title: "Line Control Protocol"
 date: "2026-03-03"
 tags:
   - "studynote-network"
+weight: 32
 ---
-
 > **핵심 인사이트 3줄**
 > 1. 회선 제어 규약(Line Control [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 회선 접근·[동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·[오류 제어](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)·[흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)를 담당하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 집합이다.
 > 2. 문자 지향([BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/))->[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향([HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/)·[SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 발전으로 전송 효율과 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 크게 향상되었다.

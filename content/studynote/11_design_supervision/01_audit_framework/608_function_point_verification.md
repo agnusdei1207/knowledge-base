@@ -3,8 +3,8 @@ title: "608. Function Point Verification"
 date: "2026-04-29"
 tags:
   - "studynote-design-supervision"
+weight: 608
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/), [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 소프트웨어 개발 규모 산정 결과의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 감리 관점에서 검토하는 활동이다. [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 오류는 예산·일정·품질 계획 전체에 연쇄 영향을 주므로 감리의 핵심 검토 항목이다.
 > 2. **가치**: IFPUG(International [Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/) Users Group) [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 방법론은 외부 입력(EI)·출력(EO)·조회(EQ)·내부 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(ILF)·외부 인터페이스 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(EIF) 5가지 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 측정한다. 각 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)의 복잡도(단순/보통/복잡)에 따라 FP를 산정한다.

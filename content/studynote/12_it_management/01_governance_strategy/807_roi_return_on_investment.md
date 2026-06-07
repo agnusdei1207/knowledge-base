@@ -3,9 +3,8 @@ title: "807. ROI (Return on Investment)"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 807
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ROI의 핵심은 IT 투자 타당성 분석 지표 가운데 ROI를 읽는 대표 방식를 현장 의사결정에 연결하는 측정·경제성 구조에 있다.

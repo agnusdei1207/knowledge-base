@@ -2,9 +2,9 @@
 title: "Use Case View / +1 View"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 89
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 유스케이스 뷰 (Use Case [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)를 설계하는 4+1 [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델에서 중앙에 위치하는 '+1' 뷰로, 시스템이 사용자(Actor)에게 제공하는 핵심 기능과 시나리오를 명세한 것이다.

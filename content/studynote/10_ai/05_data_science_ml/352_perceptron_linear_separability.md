@@ -3,8 +3,8 @@ title: "Perceptron"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 352
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)([Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 입력 벡터 x와 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 w의 내적(w·x + b)으로 결정 경계(Decision Boundary) w·x + b = 0을 학습하는 최초의 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기이며, 뉴런(Neuron) 수학 모델의 원형이다.

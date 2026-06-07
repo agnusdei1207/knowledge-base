@@ -3,8 +3,8 @@ title: "GRPC Service MESH Synchronous Communication"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 244
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 기반 [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 동기 통신망 ([GRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [Service MESH](/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) [Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Communication): [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 기반 [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) ([Service Mesh](/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) - 초광속 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 동기 통신망를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

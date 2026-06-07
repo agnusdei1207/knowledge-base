@@ -3,8 +3,8 @@ title: "Vector Processor"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 373
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터 프로세서 (Vector Processor)는 같은 연산을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원소마다 반복하는 문제를, 원소 단위가 아니라 <strong>벡터 단위 명령</strong>으로 처리해 제어 오버헤드를 줄이는 아키텍처다.

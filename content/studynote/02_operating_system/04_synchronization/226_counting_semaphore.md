@@ -3,8 +3,8 @@ title: "Counting Semaphore"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 226
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카운팅 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) (Counting [Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/))는 내부 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) (S)가 0부터 N까지의 값을 가질 수 있어, <strong>N개의 동시 접근을 허용하는 자원 풀 (Resource Pool)</strong>을 모델링하는 데 사용되는 범용 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체다. 바이너리 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))와 달리 N개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 임계 구역에 진입할 수 있다.

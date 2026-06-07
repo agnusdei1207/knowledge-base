@@ -2,9 +2,9 @@
 title: "064. Cgroups Control Groups Resource Limit"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 64
 ---
-
 # [cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) ([Control Groups](/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/)) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 리소스 제한 기술
 
 ## 핵심 인사이트 (3줄 요약)

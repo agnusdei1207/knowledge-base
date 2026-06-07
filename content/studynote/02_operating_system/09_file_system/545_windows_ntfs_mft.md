@@ -3,8 +3,8 @@ title: "545. Windows Ntfs Mft"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 545
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 리눅스의 ext4가 i-node라는 작고 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 사용한다면, 마이크로소프트의 NTFS는 <strong>"모든 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 <a href="/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>를 거대한 하나의 전역 <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 테이블(MFT: Master <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Table)로 모조리 흡수해 B-Tree로 엮어버린 초거대 스토리지 레코드 엔진(Record 엔진 렌더!)"</strong> 이다.

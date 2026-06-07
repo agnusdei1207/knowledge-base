@@ -3,8 +3,8 @@ title: "030. Validation Set"
 date: "2026-04-29"
 tags:
   - "studynote-ai"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) Set)는 훈련 세트로 학습 완료 후 [하이퍼파라미터 튜닝](/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 및 모델 선택에 사용하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로, 훈련·테스트 세트와 완전히 분리된 독립 세트다. 학습에는 쓰이지 않지만 모델 개선에 직접 영향을 준다는 점에서 "테스트 세트와 다르다".
 > 2. **가치**: 테스트 세트를 [하이퍼파라미터 튜닝](/studynote/10_ai/01_ai_basics/041_bagging_boosting/)에 사용하면 테스트 세트 정보가 모델 선택에 누출([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)되어 과적합이 발생한다. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트는 이 누출을 방지하면서 모델 개선 피드백을 제공한다.

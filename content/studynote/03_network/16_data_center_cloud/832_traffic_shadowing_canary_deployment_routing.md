@@ -3,8 +3,8 @@ title: "832. Traffic Shadowing Canary Deployment Routing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 832
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트래픽 섀도잉](/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

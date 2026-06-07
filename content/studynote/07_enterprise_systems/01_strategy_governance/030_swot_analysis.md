@@ -3,8 +3,8 @@ title: "030. Swot Analysis"
 date: "2026-04-29"
 tags:
   - "studynote-enterprise-systems"
+weight: 30
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SWOT 분석은 내부 요인(Strengths 강점, Weaknesses 약점)과 외부 요인(Opportunities 기회, Threats 위협)을 체계적으로 파악하여 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 도출하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획 프레임워크다.
 > 2. **가치**: SWOT의 진가는 단순 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 아닌 SO(강점-기회), [ST](/studynote/09_security/12_identity_threat_advanced/587_st/)(강점-위협), WO(약점-기회), WT(약점-위협) 4개 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 매트릭스(TOWS Matrix)를 통한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출이다.

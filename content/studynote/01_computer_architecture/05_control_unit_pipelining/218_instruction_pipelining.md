@@ -3,8 +3,8 @@ title: "Instruction Pipelining"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 파이프라이닝 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Pipelining)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행을 여러 단계로 분할하고 서로 다른 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 시간적으로 겹쳐 흘려보내, 한 번에 더 많은 일을 처리하게 만드는 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 구조다.

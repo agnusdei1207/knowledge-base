@@ -1,11 +1,10 @@
 ---
-weight = 333
 title: "333. OCI 이미지 표준 런타임 (OCI)"
 date: "2026-05-09"
-[extra]
-categories: "studynote-cloud-architecture"
+tags:
+  - "studynote-cloud-architecture"
+weight: 333
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OCI 이미지 표준 런타임는 클라우드 인프라에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, 데이터 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 성능, 안정성, 협업 효율을 동시에 끌어올린다.

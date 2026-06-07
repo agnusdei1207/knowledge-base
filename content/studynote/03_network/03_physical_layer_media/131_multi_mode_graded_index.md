@@ -3,8 +3,8 @@ title: "Multi-mode Graded-index"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코어의 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)을 중심에서 외곽으로 갈수록 점진적으로 낮아지게 설계하여, 다양한 경로(모드)로 입사된 빛의 도달 시간을 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 광섬유 기술이다.

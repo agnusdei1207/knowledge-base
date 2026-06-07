@@ -3,8 +3,8 @@ title: "Data Poisoning Adversarial Model Manipulation"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 548
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 보안 위협은 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염([데이터 포이즈닝](/studynote/09_security/19_ai_advanced_security/947_data_poisoning/)), 추론 시 입력 조작([적대적 예제](/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)), 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함 여부 추론([멤버십 추론 공격](/studynote/09_security/19_ai_advanced_security/952_membership_inference/)) 세 층위로 분류되며 각각 다른 방어 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.

@@ -3,8 +3,8 @@ title: "491. Fog Computing Hw"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 491
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) 하드웨어 ([Fog Computing](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) Hardware)는 엣지와 클라우드 사이에서 여러 현장 장치를 묶어 주는 지역형 마이크로 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로, 현장 집계·필터링·조정을 담당한다.

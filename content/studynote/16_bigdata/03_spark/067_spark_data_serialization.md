@@ -3,8 +3,8 @@ title: "Data Serialization"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화는 메모리 내 객체를 네트워크 전송이나 디스크 저장에 적합한 바이너리 포맷으로 변환하는 과정으로, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓는 핵심 요소다.
 - 스파크는 기본 Java Serialization의 느린 속도와 큰 용량 문제를 해결하기 위해 고성능 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)인 <strong>Kryo</strong>를 적극 권장한다.

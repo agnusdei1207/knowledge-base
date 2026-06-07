@@ -3,8 +3,8 @@ title: "Static Linking"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 334
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정적 연결 (Static Linking)은 컴파일의 마지막 단계(Link Time)에서, 프로그램이 사용하는 <strong>모든 외부 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 코드(예: printf, 수학 함수)를 실행 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(.exe) 내부에 물리적으로 몽땅 복사해 넣어 단일 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로 융합</strong>하는 고전적인 링킹 기법이다.

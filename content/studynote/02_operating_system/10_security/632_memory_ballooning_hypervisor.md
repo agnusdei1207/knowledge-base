@@ -3,8 +3,8 @@ title: "632. Memory Ballooning Hypervisor"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 632
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벌루닝(Memory Ballooning)은 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 물리 메모리가 부족할 때, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 게스트 OS 내부에 심어둔 '풍선(Balloon Driver)'을 부풀려서 게스트가 안 쓰는 메모리를 자발적으로 반납하게 만드는 **동적 메모리 회수(Reclamation)** 기법이다.

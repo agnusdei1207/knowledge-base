@@ -3,8 +3,8 @@ title: "031. Load Balancer"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 로드 밸런서(Load Balancer)는 들어오는 네트워크 트래픽을 여러 서버에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하여 단일 서버 과부하를 방지하고, 가용성과 확장성을 높이는 인프라 컴포넌트다.
 > 2. **가치**: L4 로드 밸런서([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))는 빠른 패킷 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)에, L7 로드 밸런서([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))는 경로·헤더·[쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 기반 지능적 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)에 강점이 있다. 현대 마이크로서비스는 L7 + [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 조합이 표준이다.

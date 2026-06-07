@@ -3,8 +3,8 @@ title: "915. Iot Firmware Ota Integrity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 915
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)망 및 OTA 안전 배포은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

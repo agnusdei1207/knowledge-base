@@ -3,8 +3,8 @@ title: "727. S0Ix Idle States"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 727
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: S0ix는 [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) 표에 S1~S5처럼 따로 적히는 글로벌 sleep state가 아니라, 시스템이 S0(Working) 안에 머문 채 [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))와 플랫폼이 깊은 idle에 들어가는 저전력 유휴 상태군이다.

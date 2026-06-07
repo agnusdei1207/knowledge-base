@@ -3,8 +3,8 @@ title: "570. Hadoop Ecosystem Hive Pig Mapreduce Abstraction"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 570
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하둡 에코시스템](/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/) [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/), Pig [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB 질의 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 추상화는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념이다.

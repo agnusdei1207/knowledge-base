@@ -3,8 +3,8 @@ title: "Serial Schedule"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) ([Serial](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Schedule)은 트랜잭션을 순차적으로 실행 ([동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 0)에 초점을 맞춘 개념이다.

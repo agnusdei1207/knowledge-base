@@ -3,8 +3,8 @@ title: "174. Bigdata Visualization Challenges"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 174
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 빅데이터 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 핵심 문제는 "수십억 건을 모두 그릴 수 있느냐"가 아니라, <strong>화면의 한정된 픽셀과 사람의 한정된 주의력 안에 어떤 정보만 남길 것인가</strong>다.

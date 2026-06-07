@@ -3,8 +3,8 @@ title: "Spot Instance Reserved Cost Strategy"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 637
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AWS EC2의 4가지 구매 모델(On-Demand, Reserved Instance, Savings Plan, Spot Instance)을 워크로드 특성에 따라 직교(orthogonal) 조합하여, ① 약정 기간(1~3년) 기반 할인, ② 유휴 Capacity 기반 변동 할인, ③ 사용량 기반 flexible 할인을 동시에 활용하는 다층적(Tiered) FinOps 비용 최적화 전략이다.

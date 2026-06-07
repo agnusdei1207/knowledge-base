@@ -3,8 +3,8 @@ title: "Service Desk and Incident Management Audit"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
+weight: 76
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 데스크](/studynote/12_it_management/02_itsm_itil/072_service_desk/) 및 [인시던트 관리](/studynote/12_it_management/02_itsm_itil/859_incident_management/) 체계 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 기준, 증거, 조치의 연결을 관리하는 감리·통제 주제로서, [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 실행 결과 사이의 편차를 재현 가능한 형태로 드러내는 데 목적이 있다.

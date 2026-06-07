@@ -2,9 +2,9 @@
 title: "126. Bagging Random Forest"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)(Bootstrap Aggregating)은 <strong>학습 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 부트스트랩(복원 추출)으로 여러 부분 집합을 만들고, 각 부분 집합으로 독립 모델을 학습 -> 다수결/평균으로 결합</strong>하는 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.
 > 2. **가치**: 단일 의사결정 트리는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 민감(높은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/))하지만, 100개 트리를 Bagging하면 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>이 극적으로 감소</strong>하여 과적합이 줄어든다.

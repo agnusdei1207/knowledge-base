@@ -3,8 +3,8 @@ title: "Wildcard Certificate"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 175
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 와일드카드 인증서는 X.509 인증서의 [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) ([Subject Alternative Name](/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/))에 `*.example.com` 같은 패턴을 넣어 동일한 기본 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 아래 1단계 서브도메인을 하나의 인증서로 대표하게 하는 방식이다.

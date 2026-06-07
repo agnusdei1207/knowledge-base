@@ -2,9 +2,9 @@
 title: "214. Delphi Method Expert Consensus Forecasting"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 214
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 델파이 (Delphi) 기법은 불확실한 미래 이슈에 대해 전문가 집단의 의견을 익명·반복 설문으로 수렴시키는 구조화된 합의 형성 방법이다.

@@ -1,11 +1,11 @@
 ---
 title: "012. Apache Hadoop"
 date: "2023-10-24"
-description: "대용량 비정형 데이터를 저비용으로 분산 저장하고 병렬 처리하는 자바 기반 오픈소스 프레임워크의 코어 아키텍처"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 12
 ---
-
 # 아파치 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) (Apache [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))
 
 #### 핵심 인사이트 (3줄 요약)

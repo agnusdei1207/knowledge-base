@@ -1,11 +1,11 @@
 ---
 title: "008. Conceptual Schema"
 date: "2024-05-20"
-description: "조직 전체 관점의 논리적 데이터베이스 구조와 전사 데이터 모델링 원리"
 tags:
   - "database"
+  - "studynote-database"
+weight: 8
 ---
-
 # 개념 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) (Conceptual [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/))
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 조직 전체의 관점에서 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장되어 있고, 이들 간의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 규칙이 무엇인지 정의하는 전사적 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조입니다.

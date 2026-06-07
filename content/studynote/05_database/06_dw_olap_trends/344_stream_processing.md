@@ -3,8 +3,8 @@ title: "Apache Kafka, Flink"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 344
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) ([Stream Processing](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)) DB 기술 ([Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/), Flink)는 실시간 이벤트 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)화에 초점을 둔 기법이다.

@@ -3,8 +3,8 @@ title: "LLM Context Window Extension Long Context"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 549
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 셀프 어텐션의 O(n^) 시간·공간 복잡도는 긴 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 입력 시 메모리와 연산이 제곱으로 폭발하므로, RoPE 외삽·Sliding Window Attention·SSM([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Model) 등 다양한 기법으로 이 한계를 극복하고 있다.

@@ -3,8 +3,8 @@ title: "Creator Economy Digital Content Platform"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 767
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크리에이터 경제 디지털 콘텐츠 플랫폼은 VOD/라이브 트랜스코딩 파이프라인(H.264/HEVC/AV1), 다중 CDN 엣지 캐싱, LLM 기반 추천 임베딩(Two-Tower/DLRM), WebRTC+LL-HLS 저지연 스트리밍, 그리고 Stripe Connect/KCP/네이버페이 기반 수익 분배 정산 엔진을 결합한 복합 MSA 시스템이다.

@@ -3,8 +3,8 @@ title: "Distributed Tracing Jaeger Zipkin OpenTelemetry"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 624
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 분산 추적 Jaeger Zipkin OpenTelemetry은(는) 마이크로서비스 요청 경로를 trace/span으로 기록해 서비스 간 지연과 오류 원인을 추적하는 기술이다.

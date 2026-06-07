@@ -3,8 +3,8 @@ title: "095. Cnn Convolutional Neural Network Image Recognition"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [합성곱 신경망](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/) ([CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), [Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 이미지의 2차원 공간적 구조를 파괴하지 않고 필터(Filter)를 이용해 지역적 특징(Local Feature)을 순차적으로 추출하는 인공신경망이다.

@@ -3,8 +3,8 @@ title: "Private Blockchain Hyperledger Fabric"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 566
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프라이빗 블록체인 Hyperledger Fabric은(는) 허가형 참여자, 채널, 체인코드, MSP를 기반으로 기업 간 거래 원장을 공유하는 컨소시엄 블록체인 플랫폼이다.

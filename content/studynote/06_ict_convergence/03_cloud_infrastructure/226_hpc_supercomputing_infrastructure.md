@@ -3,8 +3,8 @@ title: "High Performance Computing"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 226
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 슈퍼컴퓨팅 / [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 인프라 아키텍처 (High [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Computing): 226. 슈퍼컴퓨팅 / [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) (High [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Computing)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

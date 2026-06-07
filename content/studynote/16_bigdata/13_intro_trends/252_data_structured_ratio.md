@@ -3,8 +3,8 @@ title: "Structured vs Unstructured Data Ratio"
 date: "2026-03-04"
 tags:
   - "studynote-bigdata"
+weight: 252
 ---
-
 > **핵심 인사이트**
 > 1. 전 세계 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80% 이상이 비정형(Unstructured) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이며, 기업이 실제로 분석에 활용하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 20% 이하의 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에 불과하다 — 이 "80/20 역설"이 빅데이터 분석의 핵심 도전이자 기회다.
 > 2. [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(Structured) -> [반정형 데이터](/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)(Semi-structured) -> [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(Unstructured)의 스펙트럼에서, 기업 정보화의 성숙도는 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 얼마나 활용 가능한 형태로 전환하느냐로 측정된다.

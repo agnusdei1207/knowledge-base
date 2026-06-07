@@ -3,8 +3,8 @@ title: "Dekker's Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 219
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데커의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어의 도움(원자적 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 없이 오직 <strong>순수 소프트웨어(전역 변수 3개)만으로 두 개의 프로세스 간 <a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">Critical Section</a>) <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 문제를 해결한 인류 최초의 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

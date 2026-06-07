@@ -3,8 +3,9 @@ title: "056. Helm Chart"
 date: "2026-04-05"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 56
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Chart는 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 리소스를 패키지처럼 묶어 설치, 업그레이드, 롤백을 표준화하는 배포 단위다.

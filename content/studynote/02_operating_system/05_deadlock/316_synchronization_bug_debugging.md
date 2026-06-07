@@ -3,8 +3,8 @@ title: "Synchronization Bug Debugging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 316
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 환상형 대기([Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/))가 유발한 데드락을 상용 운영체제나 DBMS의 자율 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)/Abort)에만 맡기지 않고, <strong>어플리케이션 코드를 짠 개발자가 직접 소스 단에서 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 덤프(<a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump)나 프로파일러를 까보고 범인을 색출해 메스를 대는 외과 수술적 트러블슈팅</strong> 기법이다.

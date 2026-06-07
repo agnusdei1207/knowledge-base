@@ -3,8 +3,8 @@ title: "De Morgan's Law"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 드모르간의 법칙 (De Morgan's Law)은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)식 전체를 부정(NOT)할 때, AND([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)곱)와 OR([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)합) 연산자가 서로 뒤집히고 개별 변수에 각각 NOT이 분배된다는 [부울 대수](/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/) ([Boolean Algebra](/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/))의 이중성 (Duality) 정리다.
 > 2. **가치**: 두 법칙 — $\overline{A \cdot B} = \overline{A} + \overline{B}$, $\overline{A + B} = \overline{A} \cdot \overline{B}$ — 덕분에 AND·OR·NOT 어떤 회로도 NAND (Not AND) 또는 NOR (Not OR) 단일 게이트만으로 완전히 대체할 수 있어 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 마스크 종류를 하나로 통일하고 칩 단가를 극적으로 절감한다.

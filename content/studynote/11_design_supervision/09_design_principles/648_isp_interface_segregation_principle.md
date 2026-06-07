@@ -3,8 +3,8 @@ title: "Interface Segregation Principle,"
 date: "2026-03-04"
 tags:
   - "studynote-design-supervision"
+weight: 648
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 1. **본질**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/))는 객체지향 설계에서 클라이언트가 자신이 사용하지 않는 잉여 메서드에 의존하도록 강제되어서는 안 된다는 원칙이다.

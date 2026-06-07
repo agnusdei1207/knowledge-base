@@ -3,8 +3,8 @@ title: "102. Fully Connected Layer Dense Flatten Softmax"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 102
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 완전 연결 층 ([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) Layer, Fully Connected Layer)은 앞선 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Convolutional) 층이 추출한 다차원 특징들을 종합해 최종 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 수행하는 [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, Multi-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)) 계층이다.

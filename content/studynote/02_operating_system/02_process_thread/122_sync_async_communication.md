@@ -3,8 +3,8 @@ title: "Non-blocking"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동기식/비동기식 통신은 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)에서 송신(Send)과 수신(Receive) 연산이 호출 프로세스를 블로킹(Blocking)시킬 것인지, 논블로킹(Non-blocking)으로 즉시 반환할 것인지에 따라 구분되는 통신 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 모델이다.

@@ -3,8 +3,8 @@ title: "Victim Selection"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 310
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교착 상태를 해소하기 위한 `부분 순차 복구(One-by-One)` 메커니즘에서, 얽혀있는 프로세스 중 대체 <strong>어떤 불쌍한 놈을 '가장 타격이 적은 비용(Min Cost) 희생양(Victim)'으로 지목하여 살해(Abort) 혹은 <a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>(<a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)시킬지 판결을 내리는 수학적 저울질(채점표) 수식체계</strong>다.

@@ -3,8 +3,8 @@ title: "Consensus Algorithm PoS PoA BFT Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 560
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 합의 알고리즘 PoS PoA BFT 비교은(는) 분산 노드가 동일한 거래 순서와 상태에 동의하도록 블록 제안, 검증, 확정 규칙을 정의하는 알고리즘이다.

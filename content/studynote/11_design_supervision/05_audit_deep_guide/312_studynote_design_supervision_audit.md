@@ -3,8 +3,8 @@ title: "Network Firmware Backdoor Monitoring Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 312
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)([Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/)) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검, 이상 트래픽 모니터링를 한 체계로 묶어 판단하는 보안 감리 주제다.

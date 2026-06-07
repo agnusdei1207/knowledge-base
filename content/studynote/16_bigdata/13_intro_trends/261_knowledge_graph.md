@@ -3,8 +3,8 @@ title: "261. Knowledge Graph"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 261
 ---
-
 > **핵심 인사이트**
 > 1. [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))는 현실 세계의 개체(Entity)와 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)([Relation](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))를 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조로 표현하는 시맨틱 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) — "구글은 미국의 회사이다", "팀 쿡은 애플의 CEO이다"처럼 삼중항(Triple: Subject-Predicate-Object)으로 사실을 구조화한다.
 > 2. [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)가 LLM의 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))을 보완하는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 지식 기반으로 부상 — 벡터 DB가 의미적 유사성으로 검색한다면, [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 추론과 명시적 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색으로 더 정확하고 설명 가능한 결과를 제공한다.

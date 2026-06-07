@@ -1,10 +1,11 @@
 ---
 title: "CFD, Cumulative Flow Diagram"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Cumulative Flow Diagram (CFD)은 칸반에서 상태별 작업 누적을 시간축으로 보여 주는 시각화다.

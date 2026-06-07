@@ -1,10 +1,10 @@
 ---
 title: "166. Api Gateway Architecture"
+date: "2026-06-07"
 tags:
   - "studynote-enterprise-systems"
-date: "2026-06-07"
+weight: 166
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 게이트웨이 ([API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))는 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 앞단에서 모든 외부 요청을 받아 적절한 내부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 단일 진입점이다.

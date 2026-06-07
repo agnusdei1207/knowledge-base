@@ -3,8 +3,8 @@ title: "Service Level Agreement,"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))는 외부 고객에게 공개한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 약속을 측정 기준, 제외 조건, 보상 규칙까지 묶어 계약으로 고정한 문서다.

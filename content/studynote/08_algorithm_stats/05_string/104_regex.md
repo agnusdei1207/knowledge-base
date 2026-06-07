@@ -2,9 +2,9 @@
 title: "104. Regex"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 104
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정규 표현식 (Regex, Regular Expression)은 정규 문법 (Regular Grammar)으로 표현되는 패턴을 NFA (Non-deterministic Finite Automaton) -> DFA (Deterministic Finite Automaton) 변환 파이프라인으로 컴파일하여 O(n) 시간에 텍스트 매칭을 수행하는 패턴 매칭 언어다.

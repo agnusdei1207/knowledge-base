@@ -3,8 +3,8 @@ title: "V2X Vehicle Communication and C-V2X 5G"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 494
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)([Vehicle-to-Everything](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))는 차량이 주변 차량(V2V)·인프라(V2I)·보행자(V2P)·네트워크(V2N)와 통신하여 센서만으로는 불가능한 시야각 너머의 위험 정보를 공유하는 협력적 지능형 교통 기술이다.

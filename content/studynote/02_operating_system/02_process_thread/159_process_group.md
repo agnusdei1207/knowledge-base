@@ -3,8 +3,8 @@ title: "Process Group"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로세스 그룹 ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Group)은 여러 프로세스를 하나의 실행 단위처럼 묶어 같은 PGID ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Group ID)로 관리하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체다.

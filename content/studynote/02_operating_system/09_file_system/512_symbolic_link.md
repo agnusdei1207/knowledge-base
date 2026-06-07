@@ -3,8 +3,8 @@ title: "512. Symbolic Link"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 512
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하드 링크](/studynote/02_operating_system/09_file_system/511_hard_link/)가 원본과 "동일한 육체(물리 Inode)"를 갖는 쌍둥이 [클론](/studynote/02_operating_system/02_process_thread/149_clone_system_call/)이라면, 심볼릭 링크(Soft Link)는 원본의 진짜 육체는 신경도 쓰지 않은 채, 오직 <strong>"이 이름을 가진 놈을 찾아가려면 저기 주소 <code>/var/log/my.txt</code> 로 가라!" 라는 텍스트 약도(경로명 경로값)만 달랑 적어둔 빈껍데기 안내판 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> 이다.

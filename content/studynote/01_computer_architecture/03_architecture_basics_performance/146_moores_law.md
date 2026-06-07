@@ -3,8 +3,8 @@ title: "Moore's Law"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 146
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무어의 법칙 (Moore's Law)은 같은 비용과 면적 안에 집적할 수 있는 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 약 18~24개월마다 두 배 가까이 증가해 왔다는 <strong>경험 법칙</strong>이다.

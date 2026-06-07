@@ -3,8 +3,8 @@ title: "PC-Relative"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 상대 주소 지정 ([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)-Relative Addressing)은 목표 주소를 절대 번지가 아니라 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기준 변위([Displacement](/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/))로 표현해 `목표 = 현재 기준 + 거리` 형태로 계산하는 방식이다.

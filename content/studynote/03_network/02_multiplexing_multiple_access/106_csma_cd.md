@@ -1,11 +1,11 @@
 ---
 title: "106. CSMA/CD (Wired Ethernet Collision Detection)"
 date: "2026-04-01"
-description: "초기 유선 이더넷의 다중 접속 제어 프로토콜인 CSMA/CD의 동작 원리와 충돌 도메인의 한계"
 tags:
   - "network"
+  - "studynote-network"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD (Carrier Sense [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 여러 노드가 하나의 케이블(공유 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/))을 사용할 때, 전송 전에 회선이 비어있는지 감지(CS)하고 전송 중에 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 부딪히는지 감지(CD)하는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 유선 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식이다.
 > 2. **가치**: 중앙 통제 장치 없이 개별 노드들이 자율적이고 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)적으로 네트워크 접속 타이밍을 조율할 수 있게 하여, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구내 정보 통신망 (LAN, Local Area Network) 구축 비용을 극적으로 낮추고 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 폭발적인 대중화를 이끌어냈다.

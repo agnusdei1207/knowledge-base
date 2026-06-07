@@ -3,8 +3,8 @@ title: "360. Gmm Em Algorithm"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 360
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GMM([Gaussian Mixture Model](/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/), [가우시안 혼합 모델](/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 K개의 가우시안 분포([정규 분포](/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)) 혼합으로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됐다고 가정하는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이며, [EM 알고리즘](/studynote/08_algorithm_stats/08_stats/142_em_algorithm/)([Expectation-Maximization](/studynote/08_algorithm_stats/08_stats/142_em_algorithm/) [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 기대값-최대화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))으로 파라미터를 추정한다.

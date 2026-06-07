@@ -3,8 +3,8 @@ title: "Polling Access"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 114
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 네트워크 내에 하나의 강력한 주국(Primary/Master)을 두고, 이 중앙 관리자가 각 종국(Secondary/Slave)들에게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 권한이 있는지 순차적으로 묻는 중앙 집중형 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 방식이다.

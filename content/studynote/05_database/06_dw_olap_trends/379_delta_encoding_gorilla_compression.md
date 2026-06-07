@@ -3,8 +3,8 @@ title: "379. Delta Encoding Gorilla Compression"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 379
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 델타 인코딩 ([Delta Encoding](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) 및 시계열 [데이터 압축](/studynote/08_algorithm_stats/09_info_theory/159_compression/) (Gorilla алгоритм)는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

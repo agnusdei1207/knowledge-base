@@ -3,8 +3,8 @@ title: "Corrective Controls"
 date: "2026-05-01"
 tags:
   - "studynote-security"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 교정 통제 ([Corrective](/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) Controls)는 사고나 이상이 발생한 뒤 원상 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하거나 피해를 줄이는 보안 통제다.

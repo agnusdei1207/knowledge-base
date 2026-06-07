@@ -3,8 +3,8 @@ title: "RDBMS"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 165
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 비용 기반 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (CBO, Cost Based [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 SQL (Structured Query Language)을 실행할 때 테이블 통계와 비용 모델을 이용해 가장 저렴한 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ([Execution Plan](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 고르는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 판단 엔진이다.

@@ -3,8 +3,8 @@ title: "728. Csrf Cross Site Request Forgery Concept"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 728
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CSRF [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

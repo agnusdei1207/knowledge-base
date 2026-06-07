@@ -2,9 +2,9 @@
 title: "150. Information Theory"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 150
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Claude Shannon이 1948년 정립한 정보이론은 *불확실성을 정량화*하고, 통신·[압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화의 수학적 한계를 규정한다.

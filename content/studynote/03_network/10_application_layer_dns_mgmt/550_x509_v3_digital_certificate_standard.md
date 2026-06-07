@@ -3,8 +3,8 @@ title: "550. X509 V3 Digital Certificate Standard"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 550
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: X.509 v3 디지털 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 표준 규격은 이름 해석과 네트워크 관리에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

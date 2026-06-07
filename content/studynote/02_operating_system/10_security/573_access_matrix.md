@@ -3,8 +3,8 @@ title: "573. Access Matrix"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 573
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 접근 제어 행렬은 <strong>행(Row)에 주체(프로세스/<a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong>을, <strong>열(Column)에 객체(<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>/프린터)</strong>를 배치하고, 각 교차점에 <strong>권한 집합(읽기/<a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>/실행)</strong>을 표기하여 접근 권한을 수학적으로 표현하는 모델이다.

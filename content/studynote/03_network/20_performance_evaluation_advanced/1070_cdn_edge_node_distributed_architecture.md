@@ -3,8 +3,8 @@ title: "1070. Cdn Edge Node Distributed Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1070
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

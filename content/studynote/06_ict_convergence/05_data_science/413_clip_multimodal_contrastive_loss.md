@@ -3,8 +3,8 @@ title: "CLIP"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 413
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 모달 [클립](/studynote/06_ict_convergence/04_ai_llm/312_clip_contrastive_learning/) 텍스트/이미지 대조 손실 정렬 (Contrastive Loss) ([CLIP](/studynote/10_ai/05_data_science_ml/408_clip/)): 1. **본질**: [CLIP](/studynote/10_ai/05_data_science_ml/408_clip/)([Contrastive Language-Image Pre-training](/studynote/10_ai/05_data_science_ml/408_clip/))은 인터넷에 널려 있는 "사진"과 "그 밑에 달린 텍스트 설명"의 쌍(Pair) 4억 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

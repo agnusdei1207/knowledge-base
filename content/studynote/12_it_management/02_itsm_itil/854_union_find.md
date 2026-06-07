@@ -1,10 +1,11 @@
 ---
 title: "854. Union Find"
+date: "2026-06-07"
 tags:
   - "it_management"
-date: "2026-06-07"
+  - "studynote-it-management"
+weight: 854
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Union-Find는 집합의 합치기와 대표 찾기를 빠르게 수행하는 자료 구조다.

@@ -1,11 +1,11 @@
 ---
 title: "Word Interleaving"
 date: "2026-03-30"
-description: "TDM에서 프레임을 구성하는 두 가지 직렬화 방식(비트/워드)의 구조적 차이점과 컴퓨터 아키텍처와의 융합"
 tags:
   - "network"
+  - "studynote-network"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 교차와 [워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 교차는 TDM (Time [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))에서 여러 채널의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 단위로 섞을지 정하는 방식이다.

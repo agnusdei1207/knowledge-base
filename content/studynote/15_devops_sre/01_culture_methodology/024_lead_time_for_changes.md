@@ -3,8 +3,8 @@ title: "024. Lead Time For Changes"
 date: "2026-04-29"
 tags:
   - "studynote-devops-sre"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LTC ([Lead Time](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) for Changes, 변경 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))는 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 4대 지표 중 하나로, 코드가 커밋된 시점부터 프로덕션(Production)에 성공적으로 배포되기까지 걸리는 총 시간을 측정하는 소프트웨어 딜리버리 속도 지표다.
 > 2. **가치**: LTC는 개발 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))을 가시화하며, Elite 수준 팀은 LTC < 1시간을 달성하는 반면 Low 팀은 6개월 이상이다. LTC 단축은 고객 피드백 -> 코드 반영 -> 배포까지의 [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하여 시장 대응력을 높인다.

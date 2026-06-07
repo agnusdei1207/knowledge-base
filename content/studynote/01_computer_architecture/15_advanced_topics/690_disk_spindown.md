@@ -3,8 +3,8 @@ title: "Disk Spin-down"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 690
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 스핀다운은 [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive)가 한동안 요청을 받지 않을 때 플래터 회전을 멈추고 대기 전력을 최소화하는 물리적 절전 기법이다.

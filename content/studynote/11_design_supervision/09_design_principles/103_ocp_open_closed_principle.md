@@ -3,8 +3,8 @@ title: "Open-Closed Principle, OCP"
 date: "2026-05-08"
 tags:
   - "studynote-design-supervision"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [개방-폐쇄 원칙](/studynote/11_design_supervision/06_exam_summary/356_process/)은 요구사항과 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 구조와 경계의 언어로 바꾸는 설계 기준이다.

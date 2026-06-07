@@ -3,8 +3,8 @@ title: "Chubby, ZooKeeper"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 643
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단일 서버에서는 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 Mutex나 Semaphore로 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리하지만, 물리적으로 떨어진 수백 대의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 서버들이 하나의 자원(예: DB 테이블, 마스터 선출)을 두고 경쟁할 때는 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락 매니저 (<a href="/studynote/02_operating_system/01_overview_architecture/047_dlm/">DLM</a>: Distributed <a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Manager)</strong>라는 합의된 제3의 통제소가 필요하다.

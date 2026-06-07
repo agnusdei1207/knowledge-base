@@ -3,8 +3,8 @@ title: "Design Thinking"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 40
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디자인 씽킹의 핵심은 공감(Empathize) -> 정의 -> 아이디에이션 -> [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) -> 테스트의 창의적 문제 해결 프레임워크라는 점에 있다. 이를 현장 의사결정에 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·거버넌스 구조로 이해하면 된다.

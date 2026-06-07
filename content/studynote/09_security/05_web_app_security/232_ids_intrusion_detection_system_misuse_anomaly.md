@@ -3,8 +3,8 @@ title: "Intrusion Detection System,"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 232
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) ([Intrusion Detection System](/studynote/09_security/uncategorized/1090_ids_ips_intrusion_detection_prevention_false_positive/), [침입 탐지 시스템](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))는 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

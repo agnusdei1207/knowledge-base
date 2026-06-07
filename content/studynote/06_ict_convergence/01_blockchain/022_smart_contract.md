@@ -1,11 +1,11 @@
 ---
 title: "022. Smart Contract"
 date: "2024-05-18"
-description: "사전에 합의된 특정 조건이 충족되면 중앙의 중개자 없이 블록체인 상에서 자동으로 실행되는 자기 실행형 프로그램 코드"
 tags:
   - "ict_convergence"
+  - "studynote-ict-convergence"
+weight: 22
 ---
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 1994년 닉 자보(Nick Szabo)가 제안한 개념으로, 서면 계약의 논리를 디지털 코드로 변환하여 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이라는 불변의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 위에서 강제 집행하는 [튜링 완전성](/studynote/06_ict_convergence/01_blockchain/025_turing_completeness/) 상태 변환기이다.
 > 2. **가치**: 제3의 신뢰 기관(에스크로, 은행 등) 개입을 제거하여 거래 시간과 비용을 획기적으로 낮추고, 코드 자체가 곧 법([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) is Law)이 되는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 애플리케이션([DApp](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/))의 백엔드 엔진 역할을 한다.

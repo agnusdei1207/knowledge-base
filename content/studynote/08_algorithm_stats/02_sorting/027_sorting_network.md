@@ -2,9 +2,9 @@
 title: "027. Sorting Network"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 27
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정렬 네트워크는 고정된 비교-교환([Comparator](/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) 회로의 연결로 어떤 입력도 정렬하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립적(Oblivious) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, 비교 순서가 입력값에 무관하다.
 > 2. **가치**: [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어([FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))에서 O(log^n) 깊이로 동시 정렬이 가능하여 수십 나노초 레이턴시의 고성능 정렬 가속기를 구현할 수 있다.

@@ -3,8 +3,8 @@ title: "148. Rlhf Human Feedback Reinforcement"
 date: "2026-05-03"
 tags:
   - "studynote-data-engineering"
+weight: 148
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback)는 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 인간의 선호도와 가치관(도덕성, 안전성)을 학습하도록, 인간 평가자가 채점한 점수를 바탕으로 보상 모델([Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/))을 만들고 이를 강화학습([PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))으로 주입하는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬(Alignment) 기술이다.
 > 2. **가치**: 이 기술이 없으면 LLM은 폭탄 제조법을 묻는 질문에 친절하게 레시피를 술술 적어주는 끔찍한 사이코패스 기계가 된다. ChatGPT가 욕설을 거부하고 "유용하고, 무해하며, 정직한(HHH)" 답변을 하게 만든 가장 결정적인 일등 공신 코어 튜닝법이다.

@@ -3,9 +3,8 @@ title: "723. P-States (Performance States)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 723
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: P-State는 CPU (Central Processing Unit)가 C0 상태에서 실제 일을 수행하는 동안, 필요한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수준에 맞춰 주파수와 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 또는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표치를 조절하는 [active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태다.

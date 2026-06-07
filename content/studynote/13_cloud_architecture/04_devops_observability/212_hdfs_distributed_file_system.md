@@ -3,9 +3,8 @@ title: "212. HDFS (Hadoop Distributed File System)"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 212
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HDFS는 거대한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 기본 128MB 블록 단위로 쪼개어 수천 대의 [DataNode](/studynote/14_data_engineering/01_infrastructure/015_datanode/) 디스크에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하고, NameNode가 "어떤 블록이 어디에 있는지" [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙 관리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.

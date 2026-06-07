@@ -3,8 +3,8 @@ title: "Architectural Refactoring"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 138
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아키텍처 리팩터링 (Architectural [Refactoring](/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))은 소프트웨어의 외부 동작을 유지하면서 내부 아키텍처 구조를 개선하여 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 확장성, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안 등 품질 속성을 향상시키는 지속적인 기술적 활동이다.

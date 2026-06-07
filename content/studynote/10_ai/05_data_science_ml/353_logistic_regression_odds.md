@@ -3,8 +3,8 @@ title: "Logistic Regression"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 353
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)([Logistic Regression](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))는 선형 회귀의 출력을 오즈비(Odds Ratio)->로짓(Logit)->[시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 변환을 통해 [0,1] [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 매핑하여 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 수행하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.

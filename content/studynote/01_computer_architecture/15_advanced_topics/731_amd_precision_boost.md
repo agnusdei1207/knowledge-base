@@ -3,8 +3,8 @@ title: "Precision Boost"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 731
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AMD (Advanced Micro Devices) 프리시전 부스트 ([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost)는 Ryzen 프로세서가 온도, 전력, [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 활성 코어 수를 실시간으로 감시하며 가능한 범위에서 클럭을 세밀하게 조정하는 자동 부스트 알고리즘이다.

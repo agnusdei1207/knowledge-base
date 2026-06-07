@@ -3,8 +3,8 @@ title: "Data Fabric"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 344
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 여러 저장소와 도구를 하나로 합치는 것이 아니라, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 자동화를 이용해 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결·검색·활용 가능한 상태로 만드는 아키텍처다.

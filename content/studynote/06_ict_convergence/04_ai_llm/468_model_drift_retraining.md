@@ -3,8 +3,8 @@ title: "Retraining"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 468
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 드리프트(Model Drift)는 세상의 트렌드, 경제 상황, 사람들의 입맛 등 환경([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 변하면서, 어제까지 완벽하게 정답을 맞히던 천재 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 오늘부터 갑자기 바보가 되어버리는 '[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [노화](/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 현상'이다.

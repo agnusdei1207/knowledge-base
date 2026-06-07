@@ -3,8 +3,8 @@ title: "147. Ddd Domain Driven Design"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/)([Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/), [도메인 주도 설계](/studynote/12_it_management/05_security_compliance/310_architecture/))는 에릭 에반스(Eric Evans)가 2003년 제안한 소프트웨어 설계 방법론으로, <strong>비즈니스 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(<a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)의 핵심 개념과 규칙을 코드 모델에 직접 반영</strong>함으로써 복잡한 비즈니스 로직을 다루는 소프트웨어의 복잡도를 관리하는 접근법이다.
 > 2. **가치**: 개발자와 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가가 <strong><a href="/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/">유비쿼터스 언어</a>(<a href="/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/">Ubiquitous Language</a>)</strong> 를 공유하여 소통 오류를 줄이고, [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))로 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계를 명확히 설정하여 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 기준을 제공한다.

@@ -3,8 +3,8 @@ title: "Execute Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 210
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 실행 사이클 (Execute Cycle)은 해독된 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실제 하드웨어 동작으로 바꾸어, 산술 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장치 ([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 연산·유효 주소 계산·분기 판단 같은 <strong>실제 상태 변화의 출발점</strong>을 만드는 단계다.

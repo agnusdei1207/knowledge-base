@@ -3,8 +3,8 @@ title: "Pagefile Hiberfil Analysis"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 667
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 분석 (Pagefile Hiberfil Analysis)는 보안 운영·포렌식에서 설계·운영 판단의 기준점이 되는 보안 개념이다.

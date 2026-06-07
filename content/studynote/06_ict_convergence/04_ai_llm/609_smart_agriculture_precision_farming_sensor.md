@@ -3,8 +3,8 @@ title: "Smart Agriculture Precision Farming Sensor"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 609
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스마트농업 정밀농업 센서은(는) 토양, 기상, 작물, 관수, 병해충 데이터를 센서와 분석으로 관리해 농업 의사결정을 최적화하는 기술이다.

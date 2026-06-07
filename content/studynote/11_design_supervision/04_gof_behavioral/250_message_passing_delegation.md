@@ -3,8 +3,8 @@ title: "Message Passing & Delegation"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 250
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메시지 패싱 ([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/)) 은 객체지향 (Object-Oriented) 패러다임의 핵심 메커니즘으로, 객체는 서로에게 메시지를 보내 협력하고 수신 객체가 메시지 처리 방법을 스스로 결정한다.

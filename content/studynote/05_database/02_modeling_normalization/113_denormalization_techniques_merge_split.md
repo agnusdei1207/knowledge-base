@@ -3,8 +3,8 @@ title: "113. Denormalization Techniques Merge Split"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 113
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [역정규화](/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 기법은 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 스키마에서 **테이블 병합(Merge)·분할(Split)·중복 컬럼 추가(Redundancy)·파생 컬럼 추가(Derived)** 등의 구체적 물리 설계 패턴을 적용하여 읽기 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화하는 실무 방법론이다.
 > 2. **가치**: [역정규화](/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) "개념"을 안다고 실전에서 바로 적용할 수 없다. <strong>어떤 상황에서 어떤 기법을 선택하는가(병합 vs 분할 vs 중복)</strong>의 판단 기준이 기술사 시험과 실무 모두에서 핵심이다.

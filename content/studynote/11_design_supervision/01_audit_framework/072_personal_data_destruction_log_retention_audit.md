@@ -2,9 +2,9 @@
 title: "072. Personal Data Destruction Log Retention Audit"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 72
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 파기와 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존은 법적 요구를 동시에 만족시켜야 한다.

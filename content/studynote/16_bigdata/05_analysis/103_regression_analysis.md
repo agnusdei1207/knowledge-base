@@ -3,8 +3,8 @@ title: "Regression Analysis"
 date: "2024-03-20"
 tags:
   - "studynote-bigdata"
+weight: 103
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 모델링:</strong> 하나 이상의 독립변수($X$)와 종속변수($Y$) 사이의 상관관계를 함수로 공식화하여 미래의 수치 값을 예측함.
 - **최소제곱법 (OLS):** 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트와 회귀선 사이의 거리의 제곱합(Error)을 최소화하는 최적의 직선([Best Fit](/studynote/02_operating_system/06_memory_management/345_best_fit/) Line)을 도출함.

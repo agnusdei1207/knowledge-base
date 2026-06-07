@@ -3,8 +3,8 @@ title: "AI Agent Tool Use Autonomous Planning"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 648
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLM(대규모언어모델)을 추론 엔진으로 사용하되, **Reasoning(생각) ↔ Acting(도구호출) ↔ Observation(결과관찰)** 루프를 반복 수행하여 다단계 작업을 자율적으로 분해·계획·실행하는 **에이전트 오케스트레이션 패턴**(ReAct, Plan-and-Execute, ReWOO, Reflexion 등)이며, 핵심 메커니즘은 **Function Calling(Structured I/O)**과 **MCP(Model Context Protocol)** 기반의 표준화된 도구 인터페이스이다.

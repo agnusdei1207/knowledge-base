@@ -3,8 +3,8 @@ title: "Bellman Equation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 314
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 강화학습 [벨만 방정식](/studynote/10_ai/05_data_science_ml/372_bellman_equation/) 및 상태-행동 가치함수(Q-Value) ([Bellman Equation](/studynote/10_ai/05_data_science_ml/372_bellman_equation/)): 1. **본질**: [벨만 방정식](/studynote/10_ai/05_data_science_ml/372_bellman_equation/)([Bellman Equation](/studynote/10_ai/05_data_science_ml/372_bellman_equation/))은 강화학습에서 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(에이전트)가 지금 눈앞의 보상뿐만 아니라 '미래에 받을 보상의 총합'을 현재 시점에서 수학적으로 계산(…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

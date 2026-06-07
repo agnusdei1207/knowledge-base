@@ -3,8 +3,8 @@ title: "694. Snort Suricata Misuse Anomaly Detection"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 694
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스노트, [Suricata](/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

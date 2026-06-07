@@ -3,8 +3,8 @@ title: "140. Consistency Levels"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 140
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준은 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 최신이어야 하는가"와 "그 대가로 얼마나 느리고 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 낮아지는가"의 연속적 트레이드오프 스펙트럼이다.
 - **가치**: Azure Cosmos DB가 제시한 5가지 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준(Strong->Bounded Staleness->[Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)->Consistent Prefix->Eventual)은 워크로드별 최적 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)-[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형점을 명시적으로 선택하게 해준다.

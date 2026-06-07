@@ -3,8 +3,8 @@ title: "Slow Query Tracing"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Database](/studynote/05_database/04_transactions_concurrency/501_database/), DB)에서 슬로우 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 역추적은 단일 SQL의 평균 시간만 보는 일이 아니라, 요청 트레이스·샤드별 실행 스팬·[쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜을 연결해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 어디서 누적되는지 인과 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 복원하는 작업이다.

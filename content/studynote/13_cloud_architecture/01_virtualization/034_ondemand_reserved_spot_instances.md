@@ -2,9 +2,9 @@
 title: "On-Demand · Reserved · Spot Instances"
 date: "2026-03-04"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. AWS EC2 인스턴스 구매 옵션은 온디맨드(즉시·고비용)·예약(약정·할인)·스팟(잉여 자원·최저가·중단 가능) 3가지로, 워크로드 특성에 맞는 조합이 클라우드 비용 최적화의 핵심이다.
 > 2. [스팟 인스턴스](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)는 AWS 잉여 EC2 용량을 최대 90% 할인에 제공하나, AWS가 2분 전 통보 후 회수([인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))할 수 있어 내결함성([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))·무상태([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 워크로드에만 적합하다.

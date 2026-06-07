@@ -3,8 +3,8 @@ title: "035. Finops Over Provisioning"
 date: "2026-03-03"
 tags:
   - "studynote-cloud-architecture"
+weight: 35
 ---
-
 > **핵심 인사이트**
 > 1. [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) (Financial Operations)는 클라우드 비용을 엔지니어링·재무·비즈니스가 협업해 관리하는 운영 프레임워크로, 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)(Over-Provisioning)은 클라우드 낭비의 가장 큰 원인(업계 평균 35% 낭비)이다.
 > 2. 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)은 '필요한 것보다 많은 리소스(CPU·메모리·스토리지)를 할당하는 것'으로, 피크 트래픽을 대비해 항상 최대 사양을 유지하는 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 사고방식이 클라우드로 이전된 결과다.

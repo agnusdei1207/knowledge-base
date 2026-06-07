@@ -1,11 +1,11 @@
 ---
 title: "012. Edge Computing"
 date: "2026-03-04"
-description: "네트워크 병목 해소와 초저지연 실시간 반응을 위한 엣지 컴퓨팅의 구조와 데이터 분산 처리 전략"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 12
 ---
-
 # [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))
 
 #### 핵심 인사이트 (3줄 요약)

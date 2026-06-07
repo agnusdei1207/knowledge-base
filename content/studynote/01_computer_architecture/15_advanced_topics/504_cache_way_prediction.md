@@ -3,8 +3,8 @@ title: "Cache Way Prediction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 504
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 웨이 예측 (Cache Way Prediction)은 집합 연관 캐시 (Set-Associative Cache)에서 모든 웨이 (Way)를 동시에 깨우는 대신, 이번 접근이 적중할 가능성이 가장 높은 웨이를 먼저 추측해 <strong>선택적 접근</strong>을 수행하는 기법이다.

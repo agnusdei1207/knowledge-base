@@ -3,8 +3,8 @@ title: "DataOps"
 date: "2026-05-09"
 tags:
   - "studynote-cloud-architecture"
+weight: 250
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터 옵스](/studynote/05_database/07_exam_summary/498_dataops_automation_pipeline/) - [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 사상을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 파이프라인에 접목, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리/테스트/[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)·CD를 도입해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 배포 속도 보장는 변경 관리와 운영 자동화에서 안전한 배포를 지속 가능하게 만들기 위해 제어 규칙, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 운영 절차를 함께 설계하는 개념이다.
 > 2. **가치**: 규모가 커질수록 사람의 암묵지로는 유지할 수 없는 경계를 표준화해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 협업 효율을 동시에 끌어올린다.

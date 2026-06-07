@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 두 통신 장비 간에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때, 수신기가 송신기의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 타이밍(어디서부터가 1비트인지)을 맞추기 위해 <strong>독립된 클럭(<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a>) <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 공유하며 큰 블록 단위로 전송</strong>하면 동기식(Synchronous)이고, <strong>클럭선 없이 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 시작과 끝을 알리는 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(Start/Stop <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">bit</a>)를 문자 단위마다 붙여 전송</strong>하면 비동기식(Asynchronous)이다.
 > 2. **가치**: 비동기식 전송은 구현이 매우 저렴하고 간편하여 마우스나 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 등 저속 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신에 쓰였으며, 동기식 전송은 오버헤드가 극도로 적어 고속 대용량 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송, LAN/WAN의 근간 아키텍처로 쓰인다.

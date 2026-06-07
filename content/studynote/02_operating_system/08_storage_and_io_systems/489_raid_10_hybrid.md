@@ -3,8 +3,8 @@ title: "RAID 10 Hybrid"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 489
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10(1+0)과 01(0+1)은 단일 [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)([스트라이핑](/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 혹은 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))만으로는 도달할 수 없는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계와 안정성의 이율배반 트레이드오프를 타파하기 위해, 속도의 제왕인 <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/">RAID 0</a>(<a href="/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/">스트라이핑</a>)</strong> 과 불사조 생존력의 <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/">RAID 1</a>(<a href="/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>)</strong> 을 앞뒤 레고 블록 단위로 계층화시켜 겹겹이 합체(Nested/Hybrid [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/))시킨 엔터프라이즈 궁극의 스토리지 아키텍처다.

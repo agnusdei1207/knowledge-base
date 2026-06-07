@@ -4,8 +4,9 @@ date: "2026-03-30"
 tags:
   - "Network"
   - "studynote"
+  - "studynote-network"
+weight: 1
 ---
-
 # 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)통신 시스템 구성요소 (DTE, DCE, CCU)
 
 ## 핵심 인사이트 (3줄 요약)

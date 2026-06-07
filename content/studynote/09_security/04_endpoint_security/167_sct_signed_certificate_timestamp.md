@@ -3,8 +3,8 @@ title: "167. Sct Signed Certificate Timestamp"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SCT (Signed Certificate Timestamp)는 인증서 투명성 ([CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), [Certificate Transparency](/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 인증서 또는 사전 인증서 (Precertificate)를 접수했고, 최대 병합 지연시간 (MMD, Maximum Merge Delay) 안에 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 포함하겠다고 서명해 주는 약속 증명이다.

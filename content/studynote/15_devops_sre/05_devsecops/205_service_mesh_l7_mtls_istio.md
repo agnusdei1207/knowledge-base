@@ -3,8 +3,8 @@ title: "Service Mesh"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 205
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 제어를 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 계층으로 분리해 보안, [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 관측을 통합하는 패턴.

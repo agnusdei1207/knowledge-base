@@ -3,8 +3,8 @@ title: "022. Small Data Qualitative Analysis"
 date: "2026-04-02"
 tags:
   - "studynote-bigdata"
+weight: 22
 ---
-
 # 스몰 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Small [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) - 빅데이터의 사각지대를 메우는 통찰의 힘
 
 > ⚠️ 이 문서는 방대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨([Volume](/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))에 매몰된 빅데이터 만능주의의 한계를 지적하며, 사람의 감정, 직관, 심층적 맥락([Context](/studynote/02_operating_system/01_overview_architecture/033_context/))을 담고 있어 인간이 즉각적으로 인지하고 비즈니스 액션으로 전환할 수 있는 '스몰 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Small [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'의 개념과 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 가치를 심층 분석합니다.

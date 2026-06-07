@@ -3,8 +3,8 @@ title: "Scale Up vs Scale Out"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"
+weight: 29
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(Scale Up, 수직 확장)은 단일 서버의 CPU·RAM·스토리지를 강화하는 방식이고, [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)(Scale Out, 수평 확장)은 동일 서버를 여러 대 추가하여 부하를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방식이다.
 > 2. **가치**: [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 아키텍처의 핵심 패턴은 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이다. [Auto Scaling](/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) + 로드 밸런서 조합으로 트래픽에 따른 동적 수평 확장이 가능하며, [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하고 비용 효율을 달성한다. [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 DB처럼 수평 확장이 어려운 상태 저장(Stateful) 시스템에 적합하다.

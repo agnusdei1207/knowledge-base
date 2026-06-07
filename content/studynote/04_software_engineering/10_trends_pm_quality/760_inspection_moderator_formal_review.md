@@ -3,8 +3,8 @@ title: "760. Inspection Moderator Formal Review"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 760
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) [중재자](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(Moderator) 주도 공식 검토은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

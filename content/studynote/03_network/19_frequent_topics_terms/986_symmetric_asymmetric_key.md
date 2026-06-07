@@ -3,8 +3,8 @@ title: "986. Symmetric Asymmetric Key"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 986
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 대칭키 ([Symmetric Key](/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/))는 암호화와 복호화에 동일한 비밀키를 사용하여 고속 처리에 유리한 방식이며, 비대칭키 (Asymmetric [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 서로 다른 수학적 쌍(공개키/개인키)을 사용하여 키 분배와 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 문제를 구조적으로 해결한 방식이다.

@@ -3,8 +3,8 @@ title: "238. Wide Column Cassandra Hbase Lsm"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [와이드 컬럼 저장소](/studynote/14_data_engineering/01_infrastructure/038_wide_column/)(Wide-Column Store)는 행 키(Row [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 기반으로 컬럼 패밀리를 구성하며, <strong>페타바이트 규모의 시계열·이벤트 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 초당 수십만 건 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>에 최적화된 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB다.
 > 2. **가치**: [LSM-Tree](/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/)([Log-Structured Merge-Tree](/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/)) 기반 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 엔진으로 <strong>디스크 랜덤 I/O 없이 순차 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>만 수행하여 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 극대화하고, [컨시스턴트 해싱](/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/)으로 노드 장애에도 무중단 운영이 가능하다.

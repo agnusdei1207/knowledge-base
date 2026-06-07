@@ -3,8 +3,8 @@ title: "OOM Killer Kubernetes QoS cgroup Memory Limits"
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 357
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out-of-Memory](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) Killer는 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 물리 메모리 부족 시 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Score 기준으로 프로세스를 강제 종료하는 최후의 안전장치이며, [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스는 이 우선순위를 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수준에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)화한다.

@@ -3,8 +3,8 @@ title: "168. Caa Certification Authority Authorization"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CAA ([Certification Authority](/studynote/09_security/03_network_security/160_ca_certification_authority/) [Authorization](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))는 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자가 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))에 "어떤 인증기관 ([CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority)만 내 인증서를 발급할 수 있는가"를 선언하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 레코드다.

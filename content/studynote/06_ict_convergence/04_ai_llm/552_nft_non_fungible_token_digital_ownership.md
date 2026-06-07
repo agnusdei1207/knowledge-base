@@ -3,8 +3,8 @@ title: "NFT Non-Fungible Token Digital Ownership"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 552
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NFT 대체 불가능 토큰 디지털 소유권은(는) 토큰 ID별 고유성과 메타데이터 URI를 온체인 소유권 기록과 연결해 디지털 자산의 원본성, 이전 이력, 권리 범위를 검증하는 토큰화 모델이다.

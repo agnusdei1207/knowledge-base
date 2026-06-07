@@ -1,7 +1,6 @@
 ---
 title: "FP Simple vs Detailed"
 date: "2025-01-01"
-description: "기능점수(FP) 추정의 간이법과 상세법 차이, 조정 인자, COSMIC FP와의 비교를 다룬다."
 tags:
   - "COSMIC"
   - "FP"
@@ -10,11 +9,11 @@ tags:
   - "VAF"
   - "function point"
   - "software estimation"
-  - "studynote-se"
   - "간이법"
   - "상세법"
+  - "studynote-software-engineering"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/), [Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/))는 소프트웨어의 기능 크기를 사용자 관점에서 정량화하는 표준 규모 측정 기법으로, IFPUG가 국제 표준을 관리한다.
 > 2. 간이법(Approximate [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/))은 개발 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 빠른 견적에 쓰이고, 상세법(Detailed [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/))은 전체 요구사항 확정 후 정확한 산정에 쓰인다.

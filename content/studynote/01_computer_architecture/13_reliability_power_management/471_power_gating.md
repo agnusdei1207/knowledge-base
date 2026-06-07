@@ -3,8 +3,8 @@ title: "Power Gating"
 date: "2026-03-22"
 tags:
   - "studynote-computer-architecture"
+weight: 471
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전력 게이팅 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Gating)은 유휴 회로의 전원망 자체를 끊어 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) (Leakage [Current](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))까지 줄이는 기술로, "클럭을 멈추는 것"보다 한 단계 더 깊은 절전 전략이다.

@@ -3,9 +3,8 @@ title: "250. CQRS (Command Query Responsibility Segregation)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 250
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation): 명령(Insert/Update) 모델과 조회([Select](/studynote/05_database/04_transactions_concurrency/520_select/)) 모델을 물리적/논리적으로 분리 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 인프라 설계를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "Extract Method Refactoring"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 241
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메서드 분리 (Extract Method) 는 긴 메서드 내 코드 블록을 의미 있는 이름의 독립 메서드로 추출해 [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)·재사용성을 높이는 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 기초 기법이다.

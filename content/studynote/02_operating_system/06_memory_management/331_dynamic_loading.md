@@ -3,8 +3,8 @@ title: "331. Dynamic Loading"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 331
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 적재 (Dynamic Loading)는 프로그램의 모든 루틴(함수, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 메모리에 미리 다 올려두지 않고, <strong>실제 호출(<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)되는 시점</strong>에 비로소 메모리에 적재하는 메모리 최적화 기법이다.

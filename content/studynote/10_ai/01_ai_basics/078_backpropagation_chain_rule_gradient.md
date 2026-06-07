@@ -3,8 +3,8 @@ title: "078. Backpropagation Chain Rule Gradient"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 78
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BP ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 손실이 어떤 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 때문에 커졌는지 역방향으로 계산하는 학습 방식이다.

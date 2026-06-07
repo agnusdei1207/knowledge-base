@@ -3,8 +3,8 @@ title: "128. Redis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: Redis는 단순한 캐시를 넘어 String·List·Hash·Set·Sorted Set 등 풍부한 자료구조를 인메모리로 제공하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 서버로, 초당 수십만 연산의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 핵심 강점이다.
 - **가치**: RDB([Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) [Database](/studynote/05_database/04_transactions_concurrency/501_database/)) [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)과 AOF(Append-Only [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 결합으로 인메모리의 속도와 디스크의 내구성을 동시에 달성하며, [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster로 수평 확장까지 지원한다.

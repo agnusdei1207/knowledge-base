@@ -3,9 +3,8 @@ title: "69. FPGA (Field Programmable Gate Array)"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 69
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FPGA는 사용자가 현장에서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 재구성할 수 있는 프로그래머블 반도체다.

@@ -3,8 +3,8 @@ title: "Wrapper"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 586
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트로이 목마는 <strong>"정상 프로그램으로 위장"</strong>하여 사용자로 하여금 자발적으로 실행하게 만들고, 실행 후에는 백그라운드에서 악의적인 작업([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취, 시스템 장악 등)을 수행하는 악성 소프트웨어이다.

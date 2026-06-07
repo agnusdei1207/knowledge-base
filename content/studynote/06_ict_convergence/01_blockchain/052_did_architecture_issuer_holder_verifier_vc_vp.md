@@ -3,8 +3,8 @@ title: "DID, Decentralized Identity"
 date: "2026-05-01"
 tags:
   - "studynote-ict-convergence"
+weight: 52
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (Decentralized Identity)는 신원 정보를 중앙 서버가 아니라 사용자 지갑과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ([DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))로 관리하는 자기주권형 신원 모델이다.

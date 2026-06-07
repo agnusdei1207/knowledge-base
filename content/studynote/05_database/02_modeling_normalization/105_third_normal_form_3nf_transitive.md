@@ -1,10 +1,11 @@
 ---
 title: "105. Third Normal Form 3Nf Transitive"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 105
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제3정규형 (3NF, [Third Normal Form](/studynote/05_database/04_transactions_concurrency/528_third_normal_form/))은 테이블 내의 모든 일반 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 오직 기본키(PK)에만 직접 종속되도록 이행적 함수 종속을 제거하는 과정이다.

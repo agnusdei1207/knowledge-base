@@ -3,8 +3,8 @@ title: "278. Concurrency Patterns"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 278
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 패턴 ([Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/) Patterns) - [Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Object, [Monitor](/studynote/02_operating_system/04_synchronization/229_monitor/) Object, [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Pool은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

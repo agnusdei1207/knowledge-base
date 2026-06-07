@@ -3,8 +3,8 @@ title: "Network Interface Card"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 598
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VM 마이그레이션 NIC은 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([Live Migration](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/))에서 가장 무거운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면, 즉 메모리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 읽기·전송·[체크섬](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)·암호화·직접 쓰기를 네트워크 인터페이스 카드와 SmartNIC·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))로 넘겨, 중앙처리장치 (Central Processing Unit, CPU)가 제어만 맡도록 만드는 구조다.

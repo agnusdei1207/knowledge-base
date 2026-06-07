@@ -3,8 +3,8 @@ title: "Systolic Array"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 426
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시스톨릭 어레이 (Systolic [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))는 다수의 PE (Processing Element)를 격자로 배치해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리로 되돌아가지 않고 이웃 PE 사이를 박동처럼 흘러가며 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Multiply-Accumulate](/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/)) 연산을 누적하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)플로 하드웨어다.

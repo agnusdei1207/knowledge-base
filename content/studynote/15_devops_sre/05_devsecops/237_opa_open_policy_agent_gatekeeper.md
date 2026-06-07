@@ -3,9 +3,8 @@ title: "237. OPA (Open Policy Agent) / Gatekeeper"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 237
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 작성해 배포·실행·접근 제어 시점에 일관되게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 엔진.

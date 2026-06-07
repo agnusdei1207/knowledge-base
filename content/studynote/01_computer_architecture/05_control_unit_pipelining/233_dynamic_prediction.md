@@ -3,8 +3,8 @@ title: "Dynamic Prediction"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 233
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) (Dynamic [Branch Prediction](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))은 CPU (Central Processing Unit)가 분기 명령의 과거 실행 결과를 하드웨어 테이블에 학습해, 아직 확정되지 않은 다음 경로를 통계적으로 먼저 선택하는 기술이다.

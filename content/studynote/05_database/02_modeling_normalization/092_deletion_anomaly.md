@@ -1,10 +1,11 @@
 ---
 title: "092. Deletion Anomaly"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 삭제 이상 (Deletion [Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))은 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)되지 않은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)(테이블)에서 특정 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 삭제할 때, 의도하지 않은 다른 필수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 연쇄적으로 소멸하는 부작용이다.
 > 2. **가치**: 이 문제를 이해하고 해결([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))하면, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 유지하고 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 훼손을 방지할 수 있다.

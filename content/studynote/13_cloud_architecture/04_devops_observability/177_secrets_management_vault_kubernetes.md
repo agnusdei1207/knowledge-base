@@ -3,8 +3,8 @@ title: "177. Secrets Management Vault Kubernetes"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 관리 (Secrets [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 비밀번호를 숨기는 기술이 아니라, 워크로드의 정체성(Identity)을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 필요한 순간에만 자격 증명을 발급·전달·회수하는 운영 체계다.

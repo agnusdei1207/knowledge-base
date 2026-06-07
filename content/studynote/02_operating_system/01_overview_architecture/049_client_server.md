@@ -3,8 +3,8 @@ title: "049. Client Server"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
+weight: 49
 ---
-
 > **핵심 인사이트**
 > 1. 클라이언트-서버 모델([Client-Server](/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/) Model)은 요청자([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))와 제공자(Server)의 역할을 분리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 가장 기본 패러다임 — OS 관점에서 [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/)([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)), [소켓](/studynote/02_operating_system/02_process_thread/125_socket/), [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리까지 OS의 핵심 기능이 이 모델을 지탱한다.
 > 2. 서버의 연결 처리 방식(단일 프로세스·멀티프로세스·멀티스레드·[이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/))이 성능과 자원 효율의 핵심 트레이드오프 — Apache의 프로세스 기반 vs Nginx의 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) 차이가 C10K 문제 해결의 분기점이 되었다.

@@ -3,8 +3,8 @@ title: "045. Migration Repurchase Saas"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. 클라우드 이전(Migration) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 6R(또는 7R) 프레임워크 — Retire(폐기), Retain(유지), Rehost([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift), Replatform(이식), Repurchase([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 전환), [Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)(재설계), Relocate(이전)으로 각 워크로드에 최적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택한다.
 > 2. Repurchase([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 재구매)는 사내 구축 소프트웨어를 SaaS로 교체 — 이메일(Exchange->Office 365), [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Siebel->Salesforce), [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)([온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)->SAP S/4HANA Cloud) 전환이 대표적이며, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용보다 장기 총소유비용([TCO](/studynote/12_it_management/01_governance_strategy/016_tco/)) 분석이 핵심이다.

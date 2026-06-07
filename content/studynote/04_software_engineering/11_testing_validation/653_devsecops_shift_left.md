@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "653. 데브섹옵스 (DevSecOps) 시프트 레프트"
 date: "2026-05-08"
-categories: "studynote-software-engineering"
+tags:
+  - "studynote-software-engineering"
+weight: 653
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데브섹옵스 (DevSecOps) 시프트 레프트은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

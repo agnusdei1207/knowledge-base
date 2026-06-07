@@ -3,8 +3,8 @@ title: "Bankers Limitations"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 303
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 에츠허르 다익스트라가 창안한 '은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'은 이론적으로 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 100% 회피하는 수학적 걸작이었으나, 그 전제 조건 자체가 <strong>'동적이고 예측 불가능한 현대 컴퓨터 생태계'의 물리 법칙과 정면으로 대치되어 현실 사용이 아예 불가능(Impractical)하다는 치명적 모순(한계)</strong>을 내포하고 있다.

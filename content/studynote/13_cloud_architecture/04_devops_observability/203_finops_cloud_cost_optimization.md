@@ -3,8 +3,8 @@ title: "203. Finops Cloud Cost Optimization"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)(Financial Operations)는 클라우드 비용의 가시성(Inform) -> 최적화(Optimize) -> 지속 운영(Operate) 3단계 라이프사이클을 통해 기술·재무·비즈니스 팀이 협력하여 클라우드 지출을 최적화하는 프레임워크다.

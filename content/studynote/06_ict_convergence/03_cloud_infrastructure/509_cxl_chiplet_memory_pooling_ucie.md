@@ -3,8 +3,8 @@ title: "CXL Chiplet Memory Pooling UCIe"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 509
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/))은 CPU-[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)-메모리 간 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)을 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기반으로 공유하여 메모리 접근 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 혁신적으로 줄이고, [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) 아키텍처는 단일 다이 한계를 분리·조합으로 극복한다.

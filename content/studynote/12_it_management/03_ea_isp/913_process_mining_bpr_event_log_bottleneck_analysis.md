@@ -3,8 +3,8 @@ title: "913. Process Mining Bpr Event Log Bottleneck Analysis"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 913
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로세스 마이닝 ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Mining) 기반 BPR의 본질은 수동 인터뷰가 아닌 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반의 객관적 병목 진단 및 자동화된 프로세스 맵 도출을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

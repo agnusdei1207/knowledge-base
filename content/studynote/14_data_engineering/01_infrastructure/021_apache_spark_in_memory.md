@@ -3,8 +3,8 @@ title: "021. Apache Spark In Memory"
 date: "2026-04-02"
 tags:
   - "studynote-data-engineering"
+weight: 21
 ---
-
 # [아파치 스파크](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) ([Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)) - 인메모리 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진
 
 > ⚠️ 이 문서는 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) [맵리듀스](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))의 디스크 I/O 병목이라는 치명적 한계를 극복하고 현대 빅데이터 및 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 생태계의 절대적 표준(De facto standard)으로 군림하고 있는 '[아파치 스파크](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)([Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/))'의 코어 아키텍처와 인메모리(In-Memory) 최적화 메커니즘을 심층 분석합니다.

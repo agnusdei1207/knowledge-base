@@ -3,8 +3,8 @@ title: "PEFT, Parameter-Efficient Fine-Tuning"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 282
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파라미터 효율적 [미세 조정](/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) ([PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/), [Parameter-Efficient Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)): 수천억 파라미터 거대 모델 전체를 업데이트하기엔 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원이 부족하므로, 원래 가중치는 동결(Freeze)하고 극히 일부의 추가 파라미터 모듈만 훈련를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

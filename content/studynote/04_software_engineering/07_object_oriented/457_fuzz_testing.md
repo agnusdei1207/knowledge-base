@@ -3,8 +3,8 @@ title: "457. Fuzz Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 457
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 퍼즈 테스팅 (Fuzz Testing / Fuzzing) - 무작위 또는 기형적인 데이터를 입력하여 크래시(Crash)나 예외 상황 유발은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

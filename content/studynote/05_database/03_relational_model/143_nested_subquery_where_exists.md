@@ -3,8 +3,8 @@ title: "143. Nested Subquery Where Exists"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 143
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 중첩 서브쿼리는 <strong>서브쿼리 안에 또 다른 서브쿼리가 포함</strong>된 다단계 구조이며, WHERE EXISTS와 결합하면 <strong>존재 여부를 다단계로 필터링</strong>할 수 있다.
 > 2. **가치**: "주문이 있고, 그 주문에 반품이 있는 고객"처럼 <strong>다단계 조건</strong>을 직관적으로 표현할 수 있지만, 깊어질수록 [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나빠진다.

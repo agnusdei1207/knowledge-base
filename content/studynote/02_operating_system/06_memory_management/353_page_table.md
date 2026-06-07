@@ -3,8 +3,8 @@ title: "353. Page Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 353
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Table)은 뿔뿔이 흩어진 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 조각들이 실제 물리 메모리(프레임)의 어느 방 번호에 들어가 있는지 1:1로 매핑 정보를 기록해 둔 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 거대하고 치밀한 핵심 번역 장부</strong>다.

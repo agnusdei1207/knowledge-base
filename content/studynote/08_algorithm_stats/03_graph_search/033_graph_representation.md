@@ -2,9 +2,9 @@
 title: "033. Graph Representation"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 33
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/))는 정점 (Vertex)과 간선 (Edge)으로 이루어진 자료구조이며, 인접 행렬 ([Adjacency](/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)과 인접 리스트 ([Adjacency](/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) List) 두 가지 방식으로 컴퓨터에 표현한다.

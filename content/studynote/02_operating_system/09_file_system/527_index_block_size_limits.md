@@ -3,8 +3,8 @@ title: "Multilevel Index"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 527
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [색인 할당](/studynote/02_operating_system/09_file_system/526_indexed_allocation/)([Indexed](/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/) 526번)은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)마다 디스크 주소를 모아두는 4KB짜리 장부([인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록)를 하나씩 들고 있다. 하지만 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 10GB로 커지면, 이 4KB짜리 꼬꼬마 장부 1장으로는 수백만 줄의 포인터 주소를 전부 적어 낼 여백 종이가 모자라 터져버리는 <strong>한계 붕괴 (<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a>)</strong> 에러에 직면했다.

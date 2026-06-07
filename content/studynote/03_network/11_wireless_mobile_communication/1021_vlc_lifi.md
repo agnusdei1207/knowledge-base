@@ -3,8 +3,8 @@ title: "Li-Fi"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1021
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Li-Fi(Light Fidelity)는 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구의 깜빡임(가시광선 파장, VLC)을 1초에 수백만 번 제어하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 0과 1로 전송하는 [무선 광통신](/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 기술이다.

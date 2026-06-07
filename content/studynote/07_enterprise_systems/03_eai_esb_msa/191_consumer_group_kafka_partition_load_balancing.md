@@ -2,9 +2,9 @@
 title: "191. Consumer Group Kafka Partition Load Balancing"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컨슈머 그룹 (Consumer Group)은 [아파치 카프카](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) ([Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))에서 같은 `group.id`를 공유하는 여러 컨슈머가 토픽 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 나눠 읽도록 만드는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 단위다.

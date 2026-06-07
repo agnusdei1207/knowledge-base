@@ -3,8 +3,8 @@ title: "Optical Computing Photonics Data Center"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 600
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 광컴퓨팅 포토닉스 데이터센터은(는) 전자가 아니라 빛을 이용해 데이터 전송 또는 행렬 연산을 수행해 대역폭과 에너지 효율을 높이는 컴퓨팅 기술이다.

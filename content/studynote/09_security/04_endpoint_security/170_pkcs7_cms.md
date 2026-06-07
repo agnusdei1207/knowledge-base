@@ -3,8 +3,8 @@ title: "170. Pkcs7 Cms"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 170
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PKCS#7 (Public-[Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) Standards #7)과 그 표준화 후속 규격인 CMS (Cryptographic Message Syntax)는 원문, [전자서명](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/), 수신자 복호화 정보, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인을 한 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 담는 암호 메시지 포장 문법이다.

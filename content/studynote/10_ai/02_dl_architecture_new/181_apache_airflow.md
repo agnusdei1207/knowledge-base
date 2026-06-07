@@ -3,8 +3,8 @@ title: "Apache Airflow"
 date: "2026-05-06"
 tags:
   - "studynote-ai"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [아파치 에어플로우](/studynote/13_cloud_architecture/05_data_engineering/233_apache_airflow_dag_orchestration/) ([Apache Airflow](/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리, 배치 학습, 리포트 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)처럼 순서와 의존성이 있는 작업을 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 정의해 실행·재시도·관찰하게 만드는 워크플로 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼이다.

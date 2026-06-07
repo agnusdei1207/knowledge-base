@@ -3,8 +3,8 @@ title: "479. Cryptographic Failures"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 479
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Cryptographic Failures](/studynote/09_security/05_web_app_security/424_cryptographic_failures/) (암호화 실패 / 민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

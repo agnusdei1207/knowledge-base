@@ -3,8 +3,8 @@ title: "Isolated I/O / Port I/O"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 447
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU가 그래픽카드나 마우스 같은 외부 하드웨어 장치를 제어(Read/Write)할 때, 그 장치의 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소를 <strong>우리가 아는 일반 물리 램(RAM) 주소 공간의 일부분에 덮어씌워 퉁치는 것이 '메모리 맵 I/O(MMIO)'</strong>이고, <strong>램과 완전히 분리된 별도의 I/O 전용 주소 공간을 파놓고 특수 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>로만 찌르는 것이 '분리된 I/O(Isolated I/O / PMIO)'</strong>다.

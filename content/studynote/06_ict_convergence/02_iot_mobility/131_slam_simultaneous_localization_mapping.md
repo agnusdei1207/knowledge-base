@@ -3,8 +3,8 @@ title: "131. Slam Simultaneous Localization Mapping"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLAM(Simultaneous Localization and [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 <strong>센서(카메라·<a href="/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a>)로 주변 환경의 지도를 작성하면서 동시에 자신의 위치를 추정</strong>하는 알고리즘으로, 자율주행·XR·로봇의 핵심 기술이다.
 > 2. **가치**: GPS가 안 되는 실내·지하에서도 SLAM으로 <strong>카메라만으로 위치를 파악</strong>할 수 있으며, Vision Pro·Quest 등 XR 디바이스의 Inside-Out 트래킹이 SLAM 기반이다.

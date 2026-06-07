@@ -3,8 +3,8 @@ title: "PFF, Page Fault Frequency"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 266
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 빈도 ([PFF](/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 각 프로세스에서 발생하는 <strong><a href="/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)의 횟수(빈도)를 직접 감시</strong>하여, 폴트가 너무 잦으면 램(Frame)을 더 주고 폴트가 안 나면 램을 회수하는 동적 메모리 할당 정책이다.

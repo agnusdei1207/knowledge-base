@@ -3,8 +3,8 @@ title: "CPU Bound Process"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU 바운드 프로세스 (CPU Bound [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 입출력 (Input/Output, I/O) 대기보다 중앙 처리 장치 (Central Processing Unit, CPU) 연산 구간이 훨씬 길어, 실행 시간 대부분을 계산에 쓰는 작업이다.

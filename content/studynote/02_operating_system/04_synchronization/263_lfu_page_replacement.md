@@ -3,8 +3,8 @@ title: "263. Lfu Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 263
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LFU (Least Frequently Used)는 메모리가 꽉 차서 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 교체할 때, "최근에 언제 썼는가(시간)"가 아니라 <strong>"과거부터 지금까지 총 몇 번이나 쓰였는가(빈도수)"를 따져 가장 적게 사용된 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 쫓아내는 통계 기반 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.

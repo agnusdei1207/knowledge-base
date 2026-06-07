@@ -1,11 +1,11 @@
 ---
 title: "5G/6G"
 date: "2026-03-31"
-description: "5G 및 6G 통신의 핵심 후보 기술인 NOMA의 개념, 전력 도메인 중첩 원리, 그리고 SIC(순차적 간섭 제거) 수신 메커니즘 분석"
 tags:
   - "network"
+  - "studynote-network"
+weight: 95
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NOMA (Non-Orthogonal [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 여러 사용자의 데이터를 동일한 주파수와 시간 자원에 중첩하여 전송하되, 전력 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 차이를 두어 구분하는 비직교 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식이다.

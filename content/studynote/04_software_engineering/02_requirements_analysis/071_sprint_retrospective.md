@@ -1,10 +1,11 @@
 ---
 title: "071. Sprint Retrospective"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 회고는 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 끝난 뒤 팀이 일하는 방식을 되돌아보고 개선점을 찾는 시간이다.

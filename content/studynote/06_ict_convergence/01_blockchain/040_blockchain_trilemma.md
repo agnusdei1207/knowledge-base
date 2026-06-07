@@ -3,8 +3,8 @@ title: "Blockchain Trilemma"
 date: "2026-03-19"
 tags:
   - "studynote-ict-convergence"
+weight: 40
 ---
-
 > **핵심 인사이트**
 > 1. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 트릴레마([Blockchain Trilemma](/studynote/06_ict_convergence/01_blockchain/482_blockchain_trilemma_scalability_decentralization_security/))는 Vitalik Buterin이 명명한 개념으로, 분산화([Decentralization](/studynote/06_ict_convergence/01_blockchain/010_decentralization/))·[보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))·확장성(Scalability) 세 가지를 동시에 완벽히 달성할 수 없다는 근본적 제약이다.
 > 2. 비트코인·이더리움 1.0은 분산화+[보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 선택했고(TPS 7~15), Solana·BSC는 확장성+[보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 선택했으며(TPS 수천), Layer 2 솔루션([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 트릴레마를 "우회"하는 현재 최선의 해법이다.

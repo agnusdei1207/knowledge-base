@@ -3,8 +3,8 @@ title: "Grid Computing"
 date: "2026-04-30"
 tags:
   - "studynote-operating-system"
+weight: 51
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 그리드 컴퓨팅 (Grid Computing)은 서로 다른 조직이 보유한 이기종 자원을 네트워크로 묶어, 하나의 거대한 가상 연산 자원처럼 쓰게 하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 모델이다.

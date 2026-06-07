@@ -3,8 +3,8 @@ title: "151. Sql View Virtual Table"
 date: "2026-05-03"
 tags:
   - "studynote-database"
+weight: 151
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 뷰(View)는 하드디스크에 물리적인 진짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Row)를 1건도 저장하지 않으면서, 오직 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '조회 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)문([SELECT](/studynote/05_database/04_transactions_concurrency/520_select/))' 뼈대만을 메모리 사전에 텍스트로 저장해 두고 겉보기에는 진짜 테이블인 척 둔갑하는 <strong>가상 테이블(Virtual Table)</strong>이다.
 > 2. **가치**: 10개의 쇳덩이 테이블이 얽힌 복잡한 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/)) 스파게티를 1장의 깨끗한 창문(View)으로 캡슐화 포장하고, 보안팀에겐 민감한 `주민번호`와 `급여` 컬럼을 싹둑 잘라내 숨겨버리는 <strong>극강의 <a href="/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/">접근 통제</a>(<a href="/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a>) 방어막 쉴드</strong> 역할을 한다.

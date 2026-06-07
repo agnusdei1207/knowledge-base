@@ -3,8 +3,8 @@ title: "121. Data Architecture Framework Zachman"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 121
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Zachman](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework는 <strong>6가지 관점(Planner·Owner·Designer·<a href="/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">Builder</a>·Subcontractor·User) × 6가지 질문(What·How·Where·Who·When·Why)</strong>의 36셀 매트릭스로 엔터프라이즈 아키텍처를 <strong>체계적으로 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>·정리</strong>하는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다.
 > 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처를 설계할 때 "누구의 관점에서, 무엇을 정의하는가"를 명확히 하여, <strong>개념-><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>->물리 모델링의 각 산출물이 어디에 위치하는지</strong> 체계적으로 관리할 수 있다.

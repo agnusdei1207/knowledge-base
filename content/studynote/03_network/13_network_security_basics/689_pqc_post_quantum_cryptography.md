@@ -3,8 +3,8 @@ title: "Shor's Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 689
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [양자 내성 암호](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

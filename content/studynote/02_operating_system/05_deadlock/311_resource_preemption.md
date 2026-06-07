@@ -3,8 +3,8 @@ title: "311. Resource Preemption"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 311
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위해 누군가를 <strong>생명과 함께 날려버리는(<a href="/studynote/02_operating_system/02_process_thread/107_process_termination/">Process Termination</a>)</strong> 대신, 그 녀석의 목숨([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 프로세스 자체)은 살려둔 채로 그가 손에 쥐고 있던 <strong>자원(프린터, 락, 디스크 등)만 '폭력적으로 빼앗아(Preempt)' 다른 대기자에게 넘겨주어 사이클(Cycle)을 강제 해소</strong>하는 우회 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수단이다.

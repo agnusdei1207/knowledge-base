@@ -3,8 +3,8 @@ title: "096. Kappa Architecture"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) (카파 아키텍처)는 Jay Kreps (링크드인, 2014)가 제안한 빅데이터 아키텍처로, [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture의 배치 레이어를 제거하고 <strong>스트리밍 단일 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>만으로 배치와 실시간 처리를 통합하며, 재처리(Reprocessing)는 Kafka의 오프셋 0부터 재생(Replay)하여 달성한다.

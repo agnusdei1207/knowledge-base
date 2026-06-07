@@ -2,9 +2,9 @@
 title: "PSO"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Evolutionary [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 은 *자연의 진화 원리(선택, 교차, [돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/))를 모방한 메타휴리스틱* — 기울기 정보 없이 불연속·비볼록 탐색 공간을 탐색한다.

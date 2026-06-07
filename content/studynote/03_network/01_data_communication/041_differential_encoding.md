@@ -3,8 +3,8 @@ title: "Differential Encoding"
 date: "2026-03-30"
 tags:
   - "studynote-network"
+weight: 41
 ---
-
 > **핵심 인사이트**
 > 1. 차분 부호화(Differential Encoding)는 절대값이 아닌 연속 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 간의 변화(차이)로 데이터를 표현하는 라인 코딩 기법으로, 수신기가 절대 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 기준 없이도 전이(Transition) 유무만으로 데이터를 복원할 수 있어 극성 반전(Polarity Reversal)에 강인하다.
 > 2. 차분 맨체스터(Differential Manchester) 코딩은 클럭 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 차분 부호화를 결합한 방식으로, [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 시작의 전이 유무로 0/1을 구분하고 중간 전이로 클럭을 복원하여 [Token Ring](/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/) 네트워크의 표준 라인 코딩으로 채택됐다.

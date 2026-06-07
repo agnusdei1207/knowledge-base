@@ -3,8 +3,8 @@ title: "Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 260
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체는 시스템의 물리적 메모리(RAM)가 꽉 찼을 때, CPU가 새로 요구한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 적재하기 위해 <strong>현재 램에 올라와 있는 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 중 하나를 골라 디스크(Swap)로 내쫓는(Swap-out) <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 생존 매커니즘</strong>이다.

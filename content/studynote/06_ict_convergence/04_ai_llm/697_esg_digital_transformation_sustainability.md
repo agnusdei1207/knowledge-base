@@ -3,8 +3,8 @@ title: "ESG Digital Transformation Sustainability"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 697
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ESG 디지털 전환은 **GHG Protocol(Scope 1/2/3)** 기반의 탄소·사회·지배구조 데이터를 **IoT 센서, ERP, 공급망 SCM, 클라우드 SaaS**에서 실시간 수집하고, **AI/ML·블록체인·분산원장(DLT)**으로 검증·추적하여, **CSRD/TCFD/ISSB/ESRS** 같은 글로벌 공시 표준과 **KSSB, K-ETS, 넷제로(Net-Zero) 2050** 규제에 자동 대응하는 **데이터-분석-공시-검증** 4계층 아키텍처이다.

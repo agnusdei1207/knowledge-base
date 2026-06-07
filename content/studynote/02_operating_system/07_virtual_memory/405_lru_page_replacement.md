@@ -3,8 +3,8 @@ title: "405. Lru Page Replacement"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 405
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 램(RAM)에 빈방이 없을 때 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내기 위해, <strong>"과거에 가장 오랫동안(Least) <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>되지 않은(Recently Used) <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>는 미래에도 안 쓸 것이다"</strong>라는 강력한 통계적 가정을 바탕으로 희생양을 처형하는 교체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

@@ -3,8 +3,8 @@ title: "DIP, Dependency Inversion Principle"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 106
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([Dependency Inversion Principle](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), 의존성 역전 원칙)는 고수준 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(비즈니스 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/))과 저수준 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(세부 구현)이 모두 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)에 의존함으로써, 소스 코드 의존성의 화살표를 제어 흐름과 반대 방향으로 역전시키는 설계 원칙이다.

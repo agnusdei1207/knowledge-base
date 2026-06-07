@@ -1,10 +1,11 @@
 ---
 title: "643. Bpr Isp Integration"
+date: "2026-06-07"
 tags:
   - "design_supervision"
-date: "2026-06-07"
+  - "studynote-design-supervision"
+weight: 643
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/))과 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Information [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 프로세스, 시스템을 한 줄로 묶어야 사후 효과를 검증할 수 있다.

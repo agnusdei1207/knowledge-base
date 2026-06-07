@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "990. 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)"
 date: "2026-05-08"
-categories: "studynote-security"
+tags:
+  - "studynote-security"
+weight: 990
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)는 보안 확장 개념에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 보호 개념이다.

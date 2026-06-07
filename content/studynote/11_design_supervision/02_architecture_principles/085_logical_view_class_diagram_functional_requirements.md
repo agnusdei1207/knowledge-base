@@ -2,9 +2,9 @@
 title: "085. Logical View Class Diagram Functional Requirements"
 date: "2026-04-10"
 tags:
-  - "studynote-design"
+  - "studynote-design-supervision"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 기능적 요구사항은 "무엇을 해야 하는가"이고, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰(Logical [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 그 요구를 책임 중심 구조로 번역한 설계 관점이다.

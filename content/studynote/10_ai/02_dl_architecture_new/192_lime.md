@@ -3,8 +3,8 @@ title: "192. Lime"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 192
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) ([Local Interpretable Model-agnostic Explanations](/studynote/10_ai/04_ai_ops_ethics/326_lime/))은 거대하고 복잡한 블랙박스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델(예: 딥러닝) 전체를 해석하는 것을 포기하고, 오직 <strong>"방금 예측한 딱 1개의 정답 근처(Local)만 살짝 찔러보아 1회용 투명 대리 모델(선형 회귀)을 세우는 꼼수 해석 기법"</strong>이다.

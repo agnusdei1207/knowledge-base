@@ -3,8 +3,8 @@ title: "Entity Concept in E-R Model"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 81
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) E-R 모델에서 개체(Entity)란, 현실 세계에서 사람의 머리로 구별하고 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있는 <strong>'의미 있는 정보의 덩어리(명사)'이자 시스템에 영속적으로 저장(저장할 가치)해야 할 논리적 단위</strong>다.
 > 2. **가치**: "사과가 맛있다"라는 현상에서 '사과'라는 독립된 명사를 뽑아내어 정보 공학의 무대 위에 올림으로써, 복잡한 비즈니스 요구사항을 컴퓨터가 다룰 수 있는 테이블(Table)의 씨앗으로 변환시키는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링의 시작점이다.

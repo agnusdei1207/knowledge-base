@@ -3,8 +3,8 @@ title: "Evidence Based Decision Analytics Framework"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 712
 ---
-
 # 712. 증거 기반 의사결정 분석 프레임워크 (Evidence-Based Decision Analytics Framework)
 
 ## 핵심 인사이트 (3줄 요약)

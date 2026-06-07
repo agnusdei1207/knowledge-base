@@ -3,8 +3,8 @@ title: "165. Feature Store Training Serving Consistency"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 (Feature Store)는 ML [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 중앙에서 정의·저장·서빙하는 플랫폼으로, 훈련(Offline)과 서빙(Online) 간의 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 계산 불일치인 Training-Serving Skew 문제를 근본적으로 해결한다.
 > 2. **가치**: [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 재사용으로 중복 엔지니어링을 제거하고, Point-in-Time Correct 조인으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)를 방지하여 모델 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높이고 개발 속도를 가속한다.

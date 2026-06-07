@@ -3,8 +3,8 @@ title: "MLOps Machine Learning Lifecycle Management"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 746
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MLOps는 ML 모델의 **데이터 수집->피처 엔지니어링->학습->검증->배포->모니터링->재학습** 전 주기를 **코드-데이터-모델-메타데이터의 4축 버전관리**와 **CI/CD/CT(Continuous Training)** 파이프라인으로 자동화하는 DevOps 확장 엔지니어링 체계이다. 핵심은 Kubeflow/MLflow/TFX/SageMaker/Vertex AI 등 **선언적 파이프라인 오케스트레이터**, **Feature Store**, **Model Registry**, **Model Serving**의 4계층 통합이다.

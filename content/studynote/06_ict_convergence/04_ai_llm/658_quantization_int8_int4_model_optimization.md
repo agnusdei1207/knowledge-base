@@ -3,8 +3,8 @@ title: "Quantization INT8 INT4 Model Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 658
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLM/딥러닝 모델의 가중치(Weight)와 활성화값(Activation)을 FP32/FP16에서 **INT8(8비트 정수)** 또는 **INT4(4비트 정수)**로 매핑하여 메모리 점유와 연산 비용을 줄이는 **수치 정밀도 축소(Numeric Precision Reduction)** 기법으로, Affine 변환(`q = round(r/S) + Z`)과 Calibration을 통해 양자화 오차(Quantization Error)를 제어한다.

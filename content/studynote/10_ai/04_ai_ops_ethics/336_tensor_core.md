@@ -3,8 +3,8 @@ title: "Tensor Core"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 336
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [텐서 코어](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) 는 NVIDIA [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 에 내장된 전용 행렬 곱셈 가속기로, WMMA (Warp Matrix Multiply Accumulate) 연산을 FP16 입력 + FP32 누산 방식으로 단일 클록에 수행해 [CUDA](/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Core 대비 수십 배 [FLOPS](/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) 를 달성한다.

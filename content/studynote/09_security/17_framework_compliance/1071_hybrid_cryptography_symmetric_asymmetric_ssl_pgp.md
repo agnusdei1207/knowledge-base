@@ -3,8 +3,8 @@ title: "Hybrid Cryptography Symmetric Asymmetric Ssl Pgp"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1071
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하이브리드 암호 시스템](/studynote/03_network/18_optical_nextgen_automation/937_hybrid_encryption/) (Hybrid [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) Symmetric Asymmetric Ssl [Pgp](/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/))는 보안 확장 개념에서 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 키 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.

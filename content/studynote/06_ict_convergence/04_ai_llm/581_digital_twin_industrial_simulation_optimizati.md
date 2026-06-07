@@ -3,8 +3,8 @@ title: "Digital Twin Industrial Simulation Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 581
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디지털 트윈 산업 시뮬레이션 최적화은(는) 물리 설비와 동일한 상태 모델을 디지털 공간에 만들고 센서 데이터로 동기화해 예측·최적화·제어를 수행하는 기술이다.

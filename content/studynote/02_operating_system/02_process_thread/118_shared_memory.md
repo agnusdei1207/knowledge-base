@@ -3,8 +3,8 @@ title: "118. Shared Memory"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 118
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공유 메모리 (Shared Memory)는 두 개 이상의 프로세스가 동일한 물리 메모리 영역을 각자의 [가상 주소 공간](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)에 매핑하여, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 개입 없이 직접 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 가장 빠른 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/studynote/12_it_management/05_security_compliance/943_process/) Communication) 방식이다.

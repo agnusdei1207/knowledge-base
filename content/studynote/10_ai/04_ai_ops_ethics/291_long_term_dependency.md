@@ -3,8 +3,8 @@ title: "Long-term Dependency"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 291
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 장기 의존성 (Long-term Dependency) 문제는 RNN이 긴 시퀀스를 처리할 때, [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 과정에서 기울기(Gradient)가 시간을 거슬러 올라가며 반복 곱셈으로 인해 0에 수렴하거나 ([기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/), [Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 무한대로 폭발하는 ([기울기 폭발](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/), [Exploding Gradient](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)) 현상이다.

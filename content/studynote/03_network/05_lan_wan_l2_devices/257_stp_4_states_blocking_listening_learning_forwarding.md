@@ -3,8 +3,8 @@ title: "257. Stp 4 States Blocking Listening Learning Forwarding"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 257
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 랜선을 꽂았다고 해서 바로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(인터넷)가 통과하는 것이 아니라, [스패닝 트리 프로토콜](/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/)([STP](/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))이 혹시 모를 루프(Loop)를 감지하고 예방하기 위해 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 <strong>4단계의 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 절차(<a href="/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>)</strong>를 거쳐 서서히 열어준다.

@@ -3,8 +3,8 @@ title: "Function Calling / Tool Use"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 294
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 함수 호출 (Function Calling / Tool Use): LLM이 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 포맷으로 외부 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 매개변수를 출력하면, 서버가 해당 API를 실행하고 결과를 다시 LLM에 주입하는 에이전트 핵심 기술를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

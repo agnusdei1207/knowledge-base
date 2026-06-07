@@ -3,8 +3,8 @@ title: "023. Sddc Software Defined Data Center"
 date: "2026-04-29"
 tags:
   - "studynote-cloud-architecture"
+weight: 23
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SDDC](/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) (Software-Defined [Data Center](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/), [소프트웨어 정의 데이터센터](/studynote/03_network/17_sdn_nfv/858_sddc_software_defined_data_center_infrastructure/))는 컴퓨팅·스토리지·네트워킹·보안 등 모든 인프라 자원을 하드웨어 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 없이 소프트웨어로 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)·자동화하여 프로그래밍 가능한(Programmable) [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 실현하는 아키텍처 패러다임이다.
 > 2. **가치**: SDDC는 물리적 인프라 변경 없이 워크로드를 분 단위로 재배치하고, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 한 번으로 전체 환경을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·확장·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 인프라의 소프트웨어화를 통해 [하이브리드 클라우드](/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)와 멀티클라우드 운영 민첩성을 극대화한다.

@@ -3,8 +3,8 @@ title: "Non-preemptive Scheduling"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 167
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 스케줄링 (Non-preemptive Scheduling)은 실행 중인 프로세스가 입출력 (Input/Output, I/O) 대기나 종료로 스스로 CPU를 내놓을 때까지 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 강제로 빼앗지 않는 스케줄링 방식이다.

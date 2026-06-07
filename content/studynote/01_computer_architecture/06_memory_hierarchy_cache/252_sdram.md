@@ -3,9 +3,8 @@ title: "252. SDRAM (Synchronous DRAM)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 252
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SDRAM ([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random Access Memory)은 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)의 느린 물리 동작을 시스템 클럭에 맞춰 예측 가능하게 만든 메인 메모리 규격이다.

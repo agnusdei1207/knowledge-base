@@ -3,8 +3,8 @@ title: "Indirect"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 간접 주소 지정 (Indirect Addressing)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 주소 필드가 최종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치가 아니라, <strong>그 위치가 저장된 메모리 칸</strong>을 먼저 가리키는 방식으로 `EA (Effective Address) = M[A]`로 이해한다.

@@ -3,8 +3,8 @@ title: "RPC"
 date: "2026-05-05"
 tags:
   - "studynote-enterprise-systems"
+weight: 158
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 성숙도 모델의 Level 0은 웹 자원 모델을 쓰지 않고, 하나의 엔드포인트에 작업 지시를 담아 보내는 [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/studynote/02_operating_system/02_process_thread/126_rpc/)) over [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 형태다.

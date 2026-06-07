@@ -3,8 +3,8 @@ title: "224. Tourism Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 관광 빅데이터는 <strong>이동통신 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>·카드 결제·검색 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>를 결합하여 "사람의 발길"을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 측정하는 것이 핵심이다.

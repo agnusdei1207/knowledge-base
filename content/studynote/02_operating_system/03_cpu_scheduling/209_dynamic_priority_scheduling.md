@@ -3,8 +3,8 @@ title: "Dynamic Priority Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동적 [우선순위 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)은 프로세스가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때 부여받은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 우선순위(Base Priority)에 얽매이지 않고, 프로세스의 런타임 행동(CPU/IO 사용량, 대기 시간)을 감시하여 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 실시간으로 우선순위 값을 올리거나 내리는 유연한 스케줄링 모델</strong>이다.

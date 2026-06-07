@@ -3,8 +3,8 @@ title: "109. Lpwan Low Power Wide Area Network"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LPWAN([Low-Power Wide-Area Network](/studynote/03_network/12_iot_wpan_edge/615_lpwan_low_power_wide_area_network/))은 <strong>배터리 5~10년, 커버리지 15~30km, 속도 수백 bps~수십 kbps</strong>라는 극한 트레이드오프를 수용한 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 전용 무선 통신 기술이다.
 > 2. **가치**: Wi-Fi(100m 한계)와 [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(전력 과다)가 커버하지 못하는 원격·무전원 환경에 유일하게 적용 가능한 궁극의 다이어트 통신이다.

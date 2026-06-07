@@ -1,11 +1,11 @@
 ---
 title: "010. Multi Cloud"
 date: "2024-05-24"
-description: "단일 벤더 종속(Lock-in)의 치명적 리스크를 피하고 글로벌 가용성을 극대화하기 위한 이기종 클라우드 분산 아키텍처"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 10
 ---
-
 # [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) ([Multi-Cloud](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/))
 
 #### 핵심 인사이트 (3줄 요약)

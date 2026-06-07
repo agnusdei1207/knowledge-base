@@ -3,8 +3,8 @@ title: "Throughput"
 date: "2026-03-22"
 tags:
   - "studynote-operating-system"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU 이용률 (CPU Utilization)은 관측 시간 중 CPU (Central Processing Unit)가 idle이 아니었던 비율이고, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 단위 시간당 완료된 작업 수다.

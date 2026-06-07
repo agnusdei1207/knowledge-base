@@ -3,8 +3,8 @@ title: "198. Edf Scheduling"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 198
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [EDF](/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) ([Earliest Deadline First](/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/)) 스케줄링은 하드 실시간(Hard Real-time) 시스템에서 <strong>"현재 시점을 기준으로 마감 시간(<a href="/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a>)이 가장 임박한 <a href="/studynote/02_operating_system/02_process_thread/150_task/">태스크</a>에게 최우선순위를 부여"</strong>하는 동적(Dynamic) [선점형 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) 알고리즘이다.

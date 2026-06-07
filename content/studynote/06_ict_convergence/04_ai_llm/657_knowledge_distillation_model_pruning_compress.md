@@ -3,8 +3,8 @@ title: "Knowledge Distillation Model Pruning Compression"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 657
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 거대 Teacher 네트워크(예: ResNet-152, BERT-Large)의 사후확률 분포(soft label, temperature-scaled softmax)와 중간特征(feature map, attention map)을 Student 네트워크로 전이(KL-divergence + CE loss)하여, 가중치·필터·채널 단위의 구조적/비구조적 프루닝(magnitude/Taylor/Lottery Ticket)과 결합해 동일 정확도 대비 파라미터 수 10~100×, FLOPs 5~50×, 추론 지연(latency) 2~10×를 절감하는 경량화 통합 기법이다.

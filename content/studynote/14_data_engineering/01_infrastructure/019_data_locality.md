@@ -1,11 +1,11 @@
 ---
 title: "019. Data Locality"
 date: "2025-01-01"
-description: "네트워크 대역폭 병목을 극복하기 위해 연산 코드를 데이터가 위치한 노드로 이동시키는 분산 컴퓨팅의 핵심 최적화 원리"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 19
 ---
-
 # [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지역성 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Locality)
 
 #### 핵심 인사이트 (3줄 요약)

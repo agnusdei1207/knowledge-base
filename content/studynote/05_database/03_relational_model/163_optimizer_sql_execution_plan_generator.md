@@ -3,8 +3,8 @@ title: "163. Optimizer Sql Execution Plan Generator"
 date: "2026-05-05"
 tags:
   - "studynote-database"
+weight: 163
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 옵티마이저 ([Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 선언형 SQL을 실제 하드웨어가 실행할 수 있는 물리 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ([Execution Plan](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))으로 바꾸는 [데이터베이스 관리 시스템](/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/), [Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)의 의사결정 엔진이다.

@@ -3,8 +3,8 @@ title: "Peer Review,"
 date: "2026-04-21"
 tags:
   - "studynote-it-management"
+weight: 163
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 동료 검토 ([Peer](/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/) [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))는 개발자가 다른 개발자의 산출물을 읽고 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 설계 위험, 표준 위반을 조기에 발견하는 상호 품질 보증 활동이다.

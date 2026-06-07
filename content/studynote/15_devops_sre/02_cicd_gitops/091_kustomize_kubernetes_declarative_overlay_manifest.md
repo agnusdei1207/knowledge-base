@@ -2,9 +2,9 @@
 title: "091. Kustomize Kubernetes Declarative Overlay Manifest"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 91
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Kustomize는 템플릿 변수를 쓰지 않고, 원본 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) YAML [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 그대로 유지한 채 오버레이(Overlay) 방식으로 패치(Patch)를 적용하는 선언적 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리 도구다.

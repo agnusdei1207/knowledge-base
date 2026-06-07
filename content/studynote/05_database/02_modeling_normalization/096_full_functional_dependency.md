@@ -1,10 +1,11 @@
 ---
 title: "Full Functional Dependency"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 96
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 완전 함수적 종속 (Full Functional Dependency)은 복합 기본키(PK)를 가진 테이블에서 일반 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 복합키 '전체'에 온전히 의존하는 이상적인 상태다.

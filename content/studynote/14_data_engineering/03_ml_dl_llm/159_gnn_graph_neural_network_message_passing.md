@@ -3,8 +3,8 @@ title: "159. Gnn Graph Neural Network Message Passing"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GNN ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) Neural Network, [그래프 신경망](/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/))은 메시지 패싱([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/)) 메커니즘으로 이웃 노드의 정보를 반복적으로 집계해 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노드·엣지·[그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 수준 표현을 학습한다.
 > 2. **가치**: SNS [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망, 분자 구조, [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)처럼 "[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)"가 핵심인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)/RNN이 처리할 수 없는 비유클리드 구조를 처리한다.

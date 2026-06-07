@@ -2,9 +2,9 @@
 title: "195. Eai Edi Van B2B Integration"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 195
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EDI (Electronic [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Interchange)는 기업 간 주문서·송장·출하지시서 같은 거래 문서를 표준 전자 형식으로 교환하는 방식이고, VAN (Value Added Network)은 이를 중계·보안·추적하는 전용 네트워크 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.

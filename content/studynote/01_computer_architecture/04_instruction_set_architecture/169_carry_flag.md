@@ -3,8 +3,8 @@ title: "Carry Flag"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 169
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐리 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Carry [Flag](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), CF)는 산술논리장치 ([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))의 고정 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)폭 바깥으로 밀려난 자리올림·빌림 정보를 1비트로 기록하는 무부호 연산용 상태 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다.

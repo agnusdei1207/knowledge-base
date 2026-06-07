@@ -3,8 +3,8 @@ title: "337. Dependency Injection"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 337
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 의존성 주입 ([DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/), Dependency [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/)) - 객체 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

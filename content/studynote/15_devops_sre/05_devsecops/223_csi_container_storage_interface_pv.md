@@ -3,8 +3,8 @@ title: "223. Csi Container Storage Interface Pv"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 223
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 플랫폼과 스토리지 벤더를 분리하는 볼륨 통합 표준.

@@ -3,8 +3,8 @@ title: "ALT"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 762
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가속 수명 시험 (ALT, Accelerated Life Testing)은 온도, [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 습도, 열사이클 같은 스트레스를 높여 실제 사용 수명을 짧은 시험 시간에 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 관측하는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법이다.

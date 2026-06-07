@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 185
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 접근 제어 (Access Control)는 "누가, 무엇에, 어떤 행위를, 어떤 조건에서 할 수 있는가"를 결정하는 체계이며, MAC (Mandatory Access Control), DAC (Discretionary Access Control), RBAC (Role-Based Access Control), ABAC (Attribute-Based Access Control)은 그 결정을 내리는 기준이 서로 다르다.

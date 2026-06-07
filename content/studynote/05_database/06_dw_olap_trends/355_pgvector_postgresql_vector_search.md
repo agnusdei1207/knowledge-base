@@ -3,9 +3,8 @@ title: "355. PGVector"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 355
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PGVector는 PostgreSQL RDBMS의 벡터 검색 확장 플러그인 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 초점을 둔 분석 플랫폼 개념이다.

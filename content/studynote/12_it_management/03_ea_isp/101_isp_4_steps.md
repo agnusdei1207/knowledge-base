@@ -3,8 +3,8 @@ title: "101. Isp 4 Steps"
 date: "2026-05-09"
 tags:
   - "studynote-it-management"
+weight: 101
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) 수행 4단계의 본질은 [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) -> [AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (현황) 분석 -> TO-BE (목표) 모델 수립 -> 이행 계획([실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)) 수립을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
 > 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.

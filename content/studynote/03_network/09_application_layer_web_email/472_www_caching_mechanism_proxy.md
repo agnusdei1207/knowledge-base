@@ -3,8 +3,8 @@ title: "472. Www Caching Mechanism Proxy"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 472
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: WWW [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

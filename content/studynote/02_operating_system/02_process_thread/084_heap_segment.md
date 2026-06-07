@@ -3,8 +3,8 @@ title: "malloc/free"
 date: "2026-03-21"
 tags:
   - "studynote-operating-system"
+weight: 84
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 힙 ([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역은 동적 할당된 객체를 담는 프로세스 주소 공간의 일부다.

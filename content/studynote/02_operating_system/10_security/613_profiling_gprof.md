@@ -3,8 +3,8 @@ title: "613. Profiling Gprof"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 613
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로파일링(Profiling)은 프로그램 실행 중 함수별 CPU 시간·호출 횟수·호출 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))를 수집하여 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목(핫스팟, Hotspot)을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기법이며, Gprof(GNU Profiler)는 컴파일러 계측(-pg [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))과 OS 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Sigprof)를 결합하여 동작한다.

@@ -1,11 +1,11 @@
 ---
 title: "007. Audit Domain"
 date: "2026-04-05"
-description: "정보시스템 감리의 4대 영역인 사업 관리, 응용 시스템, 데이터베이스, 시스템 아키텍처/보안의 체계와 실무 적용"
 tags:
   - "design_supervision"
+  - "studynote-design-supervision"
+weight: 7
 ---
-
 # 07. 감리 영역
 
 #### 핵심 인사이트 (3줄 요약)

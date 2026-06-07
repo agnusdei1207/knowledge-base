@@ -2,9 +2,9 @@
 title: "136. Variance"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 136
 ---
-
 ## 핵심 인사이트
 
 > 분산 (Variance) 은 "평균에서 얼마나 흩어져 있는가"를 측정하는 제곱 평균이고, 표준편차 (Standard Deviation) 는 원래 단위로 복원한 산포 척도다.

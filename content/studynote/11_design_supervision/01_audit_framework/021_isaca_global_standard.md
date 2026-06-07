@@ -3,8 +3,8 @@ title: "021. Isaca Global Standard"
 date: "2026-04-02"
 tags:
   - "studynote-design-supervision"
+weight: 21
 ---
-
 # ISACA (Information Systems [Audit](/studynote/12_it_management/05_security_compliance/363_audit/) and Control Association) 글로벌 표준 체계
 
 > ⚠️ 이 문서는 [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/), 통제, 보안 및 IT 거버넌스 분야의 세계 최고 권위 기관인 ISACA의 역할, 핵심 프레임워크([COBIT](/studynote/12_it_management/01_governance_strategy/004_cobit/), Val IT 등) 그리고 이들이 현대 엔터프라이즈 IT 아키텍처 및 감리 실무에 미치는 영향을 심도 있게 분석합니다.

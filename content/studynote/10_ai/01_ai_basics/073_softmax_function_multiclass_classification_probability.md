@@ -1,10 +1,11 @@
 ---
 title: "073. Softmax Function Multiclass Classification Probability"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 73
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/)는 여러 점수를 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 바꾸는 출력층 함수다.

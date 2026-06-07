@@ -3,8 +3,8 @@ title: "221. Smart City Bigdata"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 221
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 - 스마트시티 빅데이터는 <strong>도시 전체를 하나의 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 플랫폼</strong>으로 통합하여 교통·안전·에너지를 실시간으로 최적화한다.

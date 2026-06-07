@@ -2,9 +2,9 @@
 title: "153. Kl Divergence"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: KL (Kullback-Leibler) 다이버전스 D_KL(P‖Q)는 분포 P를 Q로 *근사할 때 치르는 정보 비용* — 두 분포가 가까울수록 0에 수렴한다.

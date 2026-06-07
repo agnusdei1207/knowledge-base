@@ -3,8 +3,8 @@ title: "323. Physical Address"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 323
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU나 프로그래머가 만들어내는 환상의 세계([논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))를 깨부수고, <strong>마더보드에 꽂혀있는 푸른색 실리콘 램(<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a>) 칩스틱 상의 진짜 나노미터급 물리적 구멍 번지수</strong>를 상징하는 원초적 하드웨어 실체다.

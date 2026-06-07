@@ -3,8 +3,8 @@ title: "154. Composite Pattern"
 date: "2026-05-03"
 tags:
   - "studynote-design-supervision"
+weight: 154
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [컴포지트 패턴](/studynote/11_design_supervision/06_exam_summary/385_composite_pattern_summary/)([Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) Pattern)은 더 이상 쪼갤 수 없는 '단일 잎사귀 객체(Leaf)'와 -> 그 잎사귀들을 100개 뱃속에 포용해 묶어둔 뚱뚱한 '복합 폴더 객체([Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/))'를 -> <strong>아예 100% 동일한 부모 껍데기 인터페이스(<a href="/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a>)로 덮어씌워 퉁쳐버리는(Polymorphism 다형성) 트리(Tree) 구조 조립의 0순위 성배 패턴</strong>이다.
 > 2. **가치**: "야 이거 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이야? 폴더야? ㅋ" 클라이언트([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) 유저)가 `if-else` 분기문 떡칠로 타입(Type) 스캔 치다 뇌 터져 뻗는 강결합 파국을 도끼로 찢어발겼다 🪓!! 걍 닥치고 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이든 10만 개 품은 거대 폴더든 <strong>아무 생각 없이 <code>.delete()</code> 대문 버튼 1개만 무지성 클릭 찌르면 -> 뱃속까지 연쇄 폭파(Recursive <a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 핑퐁)를 타며 지 혼자 1초 컷 오토 짬처리 소각 삭제를 100% 완수해 내는 궁극의 단일화(Uniformity) 쉴드망</strong>을 쳐준다.

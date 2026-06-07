@@ -3,8 +3,8 @@ title: "526. Indexed Allocation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 526
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들을 파편화시켜 흩뿌리는 건 [연결 할당](/studynote/02_operating_system/09_file_system/524_linked_allocation/)(Linked)이나 FAT와 같다. 그러나 이 방식은 찌질하게 꼬리표를 조각 끝에 달거나 거대한 공용 [FAT](/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만들지 않고, <strong>"아예 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 1개마다 그 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>만의 전용 주소록(<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> Block 색인 블록) 1칸" 을 강제 할당하여 모든 흩어진 조각들의 모터 물리 좌표를 한곳에 싹 다 적어 놓는 방식</strong> 이다.

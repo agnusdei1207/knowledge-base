@@ -3,8 +3,8 @@ title: "Hyperautomation"
 date: "2026-04-05"
 tags:
   - "studynote-it-management"
+weight: 60
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: RPA (Robotic [Process](/studynote/12_it_management/05_security_compliance/943_process/) Automation)는 사람이 반복하던 규칙 기반 작업을 소프트웨어 봇(Bot)이 대신 수행하는 자동화 방식이다.

@@ -3,8 +3,8 @@ title: "Bare Metal Hypervisor"
 date: "2026-05-01"
 tags:
   - "studynote-operating-system"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베어메탈 하이퍼바이저는 호스트 OS 없이 물리 하드웨어 위에 직접 설치되는 Type 1 하이퍼바이저다.

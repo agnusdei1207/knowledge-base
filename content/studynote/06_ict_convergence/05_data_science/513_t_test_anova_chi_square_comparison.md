@@ -3,8 +3,8 @@ title: "t-Test ANOVA Chi-Square Test Comparison"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 513
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 비교 대상 집단 수(2개 vs 3개 이상)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형(연속형 vs 범주형)에 따라 [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/), [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/), [카이제곱 검정](/studynote/08_algorithm_stats/08_stats/147_chi_square_test/) 중 적절한 도구를 선택해야 한다.

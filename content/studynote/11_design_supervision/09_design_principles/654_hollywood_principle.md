@@ -3,8 +3,8 @@ title: "Hollywood Principle"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 654
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - 할리우드 원칙은 "먼저 호출하지 말고, 때가 되면 우리가 호출하겠다"는 제어 역전의 설계 문장이다.
 - 상위 프레임워크가 흐름을 소유하고 하위 모듈은 확장 지점만 제공하므로 스파게티 의존을 줄일 수 있다.

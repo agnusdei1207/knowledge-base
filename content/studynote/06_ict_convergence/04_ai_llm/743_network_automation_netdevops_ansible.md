@@ -3,8 +3,8 @@ title: "Network Automation NetDevOps Ansible"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 743
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NetDevOps는 네트워크 운영에 Git 기반 소스 관리, CI/CD 파이프라인, 코드형 인프라(IaC)를 적용한 문화적·기술적 프레임워크이며, Ansible은 이 프레임워크의 사실상 표준 실행 엔진으로서 Agentless(SSH/NETCONF/RESTCONF) 아키텍처, Push 기반 배포, 선언적 YAML 플레이북, Idempotency 보장이라는 4대 특성을 통해 멀티벤더 멀티 도메인(L2/L3/WAN/SDN/Cloud) 자동화를 단일 런타임으로 통합한다.

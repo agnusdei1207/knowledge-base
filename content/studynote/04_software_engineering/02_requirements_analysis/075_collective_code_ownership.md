@@ -1,10 +1,11 @@
 ---
 title: "Collective Code Ownership"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 75
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 공동 코드 소유 (Collective [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Ownership)는 특정 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 한 사람의 성역으로 두지 않고 팀 누구나 수정·리팩터링할 수 있게 하는 협업 원칙이다.

@@ -1,11 +1,11 @@
 ---
 title: "164. Rbo Rule Based Optimizer"
 date: "2026-04-03"
-description: "RBO는 통계를 보지 않고 사전에 정한 우선순위 규칙으로 실행 계획을 선택하는 구형 옵티마이저다."
 tags:
   - "database"
+  - "studynote-database"
+weight: 164
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 규칙 기반 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (RBO, Rule-Based [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 SQL (Structured Query Language) [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 고를 때 통계가 아니라 미리 정해 둔 규칙 서열을 따르는 방식이다.

@@ -1,10 +1,11 @@
 ---
 title: "098. Transitive Functional Dependency"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이행적 함수적 종속 (Transitive Functional Dependency)은 A가 B를 결정하고, B가 C를 결정하여 간접적으로 A가 C를 결정하게 되는 꼬리물기형 종속 관계다.

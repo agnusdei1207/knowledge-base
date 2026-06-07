@@ -3,8 +3,8 @@ title: "446. Port And Bus"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 446
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 포트(Port)는 CPU가 외부 기기(I/O 장치)와 0과 1의 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받기 위해 뚫어놓은 <strong>개별적인 물리적 연결 단자(구멍)</strong>이며, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 이 수많은 포트들과 CPU, 램(RAM)을 하나로 엮어주는 <strong>공용 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 고속도로(전선 다발)</strong>다.

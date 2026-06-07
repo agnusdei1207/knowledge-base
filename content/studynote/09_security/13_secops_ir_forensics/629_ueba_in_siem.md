@@ -3,9 +3,8 @@ title: "629. UEBA in SIEM (User Entity Behavior Analytics)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 629
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [UEBA](/studynote/09_security/12_identity_threat_advanced/613_ueba/) in [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) (User Entity Behavior Analytics)는 보안 운영·포렌식에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행, 탐지, 기록, 자동화 가운데 하나 이상을 맡는 운영형 보안 구성 요소다.

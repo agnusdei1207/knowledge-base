@@ -3,8 +3,8 @@ title: "Signature Timestamping Tsa"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 191
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서명 타임스탬프 (Signature Timestamping [Tsa](/studynote/09_security/04_endpoint_security/192_time_stamping_authority_rfc3161_non_repudiation/))는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

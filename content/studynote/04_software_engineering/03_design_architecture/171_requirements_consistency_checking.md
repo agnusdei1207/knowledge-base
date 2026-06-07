@@ -3,8 +3,8 @@ title: "Consistency Checking"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 171
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 요구사항 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사 ([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Checking)는 요구사항 명세서 안의 기능, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 상태, 용어, 수치 조건이 서로 동시에 성립 가능한지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 요구공학 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활동이다.

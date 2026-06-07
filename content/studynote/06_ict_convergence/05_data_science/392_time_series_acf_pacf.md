@@ -3,8 +3,8 @@ title: "ACF, PACF"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 392
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 자기 상관 함수 지표도 (ACF, PACF): 1. **본질**: 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서 "오늘의 주가는 어제의 주가와, 혹은 그저께의 주가와 얼마나 강하게 얽혀 있는가?"를 통계적으로 측정하여 그래프로 나타낸 것이 자기 상관 함수(…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "G+H"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 238
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A* (에이 스타) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 수만 갈래의 미로 속에서 목적지까지 가장 빠른 최단 경로를 찾을 때, <strong>"지금까지 내가 힘들게 걸어온 실제 비용(G)"과 "앞으로 목적지까지 남은 대충 짐작한 눈치 거리(H, <a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>)"를 더한 총점(F = G + H)</strong>을 기준으로 가장 점수가 낮은(유리한) 길만 골라서 파고드는 게임 길 찾기의 끝판왕이다.

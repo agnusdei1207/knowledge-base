@@ -3,8 +3,8 @@ title: "Connection Pool / DBCP"
 date: "2026-05-01"
 tags:
   - "studynote-database"
+weight: 55
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 커넥션 풀은 DB 연결을 재사용해 연결 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용을 줄이는 자원 관리 기법이다.

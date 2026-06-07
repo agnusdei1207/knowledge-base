@@ -3,8 +3,8 @@ title: "024. Truth Table"
 date: "2026-04-29"
 tags:
   - "studynote-computer-architecture"
+weight: 24
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 진리표(Truth Table)는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수의 모든 입력 조합에 대한 출력 값을 열거하여 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로·소프트웨어 조건을 완전하고 명확하게 정의하는 형식적 도구다. n개의 입력 변수에 대해 2ⁿ개 행이 필요하다.
 > 2. **가치**: 진리표는 AND·OR·NOT·XOR·NAND·NOR 등 모든 불 함수(Boolean Function)를 인간이 읽을 수 있는 형태로 표현하며, 이를 통해 [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)([Karnaugh Map](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)) 최적화와 하드웨어 게이트 구현의 출발점이 된다.

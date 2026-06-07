@@ -3,8 +3,8 @@ title: "Windows"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 129
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LPC (Local Procedure [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 Windows NT [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 동일 기기 내의 [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/)을 위해 설계한 고성능 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication) 메커니즘이며, 원격 프로시저 호출 ([RPC](/studynote/02_operating_system/02_process_thread/126_rpc/), [Remote Procedure Call](/studynote/02_operating_system/02_process_thread/126_rpc/))의 오버헤드 없이 함수 호출처럼 간단하게 메시지를 교환할 수 있도록 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 객체 기반으로 구현된다.

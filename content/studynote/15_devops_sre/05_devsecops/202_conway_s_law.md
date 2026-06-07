@@ -3,8 +3,8 @@ title: "Conway's Law"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 202
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조직의 커뮤니케이션 구조가 결국 시스템 구조로 반영된다는 원리.

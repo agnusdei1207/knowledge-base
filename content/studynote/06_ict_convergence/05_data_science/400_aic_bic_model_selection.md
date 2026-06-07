@@ -3,8 +3,8 @@ title: "AIC, BIC"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 400
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 비용 기반 모델 (AIC, BIC 정보 기준): 1. **본질**: AIC(아카이케 정보 기준)와 BIC(베이지안 정보 기준)는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델이 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 잘 맞추는가(우도)"와 "얼마나 복잡하게 생겼는가(파라 개수)"를 동시에…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "166. Moscow Prioritization Technique"
 date: "2026-04-03"
 tags:
   - "studynote-software-engineering"
+weight: 166
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MoSCoW 기법은 고정된 시간과 자원 안에서 요구사항을 Must Have, Should Have, Could Have, Won't Have로 나누어 릴리스 범위를 통제하는 우선순위 프레임워크다.

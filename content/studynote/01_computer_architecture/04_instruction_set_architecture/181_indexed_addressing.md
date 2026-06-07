@@ -3,8 +3,8 @@ title: "Indexed"
 date: "2026-03-19"
 tags:
   - "studynote-computer-architecture"
+weight: 181
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 주소 지정 (Indexed Addressing)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 기준 주소와 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))의 값을 합쳐 유효 주소 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) (Effective Address)를 만드는 방식으로, "같은 자료구조 안에서 몇 번째 원소인가"를 표현하는 데 특화되어 있다.

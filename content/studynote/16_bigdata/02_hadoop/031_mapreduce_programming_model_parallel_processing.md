@@ -4,8 +4,8 @@ date: "2026-03-04"
 tags:
   - "hadoop"
   - "studynote-bigdata"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 - <strong><a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a>의 표준</strong>: 방대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작은 단위로 나누어 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리(Map)하고, 그 결과를 하나로 합쳐(Reduce) 최종 통찰을 도출하는 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 핵심 연산 프레임워크입니다.
 - <strong><a href="/studynote/14_data_engineering/01_infrastructure/019_data_locality/">데이터 지역성</a> (<a href="/studynote/14_data_engineering/01_infrastructure/019_data_locality/">Data Locality</a>)</strong>: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 [연산 코드](/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)를 보내어(Function to [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동에 따른 네트워크 병목을 획기적으로 줄입니다.

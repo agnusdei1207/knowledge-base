@@ -2,9 +2,9 @@
 title: "067. Hash Table"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 67
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 해시 테이블 (Hash Table)은 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([Hash Function](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))로 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 변환하여 O(1) 평균 삽입·탐색·삭제를 달성하는 키-값 저장 자료구조다.

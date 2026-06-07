@@ -3,8 +3,8 @@ title: "GAN Generative Adversarial Network"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 460
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 판별자 적대 ([GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) [Generative Adversarial Network](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)): 1. **본질**: [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)([Generative Adversarial Network](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))은 위조지폐를 만드는 '[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자(Generator)'와 진짜/가짜를 구별하는 '판별자(Discriminat…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

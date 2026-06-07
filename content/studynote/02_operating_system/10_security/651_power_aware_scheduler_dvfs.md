@@ -3,8 +3,8 @@ title: "651. Power Aware Scheduler Dvfs"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 651
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 전력 인식([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)-aware) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 단순히 프로세스를 빨리 끝내는 것을 넘어, <strong>CPU의 <a href="/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>를 최소화</strong>하기 위해 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(어느 코어에 할당할지)와 [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/)([전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)/주파수를 얼마나 조절할지)를 하나로 융합한 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 에너지 관리 프레임워크다.

@@ -3,8 +3,8 @@ title: "Kafka Topic Partition Consumer Group"
 date: "2026-04-21"
 tags:
   - "studynote-enterprise-systems"
+weight: 301
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Kafka의 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 최소 단위이며, [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내 컨슈머 수와 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수의 비율이 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 직결된다.

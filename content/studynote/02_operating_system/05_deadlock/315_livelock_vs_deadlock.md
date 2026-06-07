@@ -3,8 +3,8 @@ title: "315. Livelock Vs Deadlock"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 315
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))가 서로 멱살을 잡고 아무것도 안 하며 멈춰버린 '얼음(Frozen)' 상태라면, 라이브락(Livelock)은 <strong>서로 양보하겠다고 계속 길을 비켜주느라 스텝이 꼬여서 둘 다 전진하지 못하고 춤만 추는 '헛발질(Active-Wait)'의 병적 상태</strong>다.

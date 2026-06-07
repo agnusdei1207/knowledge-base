@@ -2,9 +2,9 @@
 title: "Carbon-Aware Computing"
 date: "2026-05-09"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 469
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개념인 탄소 인지 컴퓨팅은 엔터프라이즈 환경에서 전사 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [지속 가능성](/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/) 판단을 실행 기준으로 정렬하기 위해 쓰이는 핵심 기준이며, 특히 탄소 인지 컴퓨팅, [Carbon-Aware Computing](/studynote/06_ict_convergence/03_cloud_infrastructure/238_carbon_aware_computing_green_it/), PUE의 경계를 분명히 만드는 데 의미가 있다.

@@ -3,8 +3,8 @@ title: "Refused Bequest & LSP Violation"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 246
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 거부 (Refused Bequest) 는 자식 클래스가 부모의 메서드나 속성을 사용하지 않거나 빈 구현으로 오버라이드함으로써 [리스코프 치환 원칙](/studynote/11_design_supervision/06_exam_summary/357_process/) ([LSP](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/): [Liskov Substitution Principle](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)) 을 위반하는 패턴이다.

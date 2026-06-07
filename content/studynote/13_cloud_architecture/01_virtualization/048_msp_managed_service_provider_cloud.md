@@ -3,8 +3,8 @@ title: "048. Msp Managed Service Provider Cloud"
 date: "2026-04-05"
 tags:
   - "studynote-cloud-architecture"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. MSP([Managed Service Provider](/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/))는 고객의 IT 인프라와 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 대신 관리하는 제3자 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자 — 클라우드 MSP는 AWS·Azure·GCP 환경을 24×7 모니터링, 운영, 최적화하며, 고객이 핵심 비즈니스에 집중하도록 IT 운영 부담을 대행한다.
 > 2. MSP의 가치는 전문성과 규모의 경제 — 소규모 기업이 AWS 전문가 5명을 채용하는 것보다 MSP를 활용하면 더 넓은 전문성을 낮은 비용으로 확보할 수 있으며, AWS/Azure 파트너 등급에 따른 혜택과 지원도 받을 수 있다.

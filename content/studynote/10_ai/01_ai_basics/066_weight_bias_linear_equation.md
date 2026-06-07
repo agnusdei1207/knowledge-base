@@ -1,10 +1,11 @@
 ---
 title: "y = Wx + b"
+date: "2026-06-07"
 tags:
   - "ai"
-date: "2026-06-07"
+  - "studynote-ai"
+weight: 66
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))와 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))은 신경망이 입력을 출력으로 변환할 때 사용하는 선형 방정식의 핵심 파라미터다.

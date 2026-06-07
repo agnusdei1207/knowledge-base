@@ -3,8 +3,8 @@ title: "Floating-Point Multiplier Pipeline"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 586
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈기 파이프라인은 부호, 지수, 가수 계산과 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)·반올림을 여러 짧은 단계로 나누어, 하나의 긴 임계 경로를 고클럭에 맞는 연속 처리 경로로 바꾸는 구조다.

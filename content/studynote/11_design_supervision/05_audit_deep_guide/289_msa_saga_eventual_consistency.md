@@ -3,8 +3,8 @@ title: "MSA Saga Eventual Consistency Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 289
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) Saga와 최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 감리는 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴과 최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)) 설계에서 [보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)(Compensation [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)), [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)), 메시지 순서 보장(Message [Ordering](/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))의 정합성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 설계감리 주제다.

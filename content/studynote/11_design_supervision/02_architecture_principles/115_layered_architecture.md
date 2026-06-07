@@ -3,8 +3,8 @@ title: "Layered Architecture"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 115
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [계층형 아키텍처](/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/) ([Layered Architecture](/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))는 시스템을 책임과 관심사(concern)에 따라 수직으로 분리된 계층으로 구성하여, 각 계층이 바로 아래 계층만 호출하고 상위 계층의 존재를 모르게 하는 설계 방식이다.

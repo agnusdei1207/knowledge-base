@@ -3,8 +3,8 @@ title: "255. Abstract Factory Pattern Object Families"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 255
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 추상 팩토리 (Abstract Factory) - 구체적인 클래스 지정 없이 연관 객체군 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

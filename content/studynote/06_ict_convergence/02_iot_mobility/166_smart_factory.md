@@ -2,9 +2,9 @@
 title: "Smart Factory"
 date: "2026-04-09"
 tags:
-  - "studynote-ict"
+  - "studynote-ict-convergence"
+weight: 166
 ---
-
 ## 핵심 인사이트
 
 > 1. **본질**: 스마트 팩토리 (Smart Factory)는 센서, 제어기, 생산관리 시스템, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/))을 연결해 공장의 상태를 실시간으로 보고 스스로 조정하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 제조 체계다.

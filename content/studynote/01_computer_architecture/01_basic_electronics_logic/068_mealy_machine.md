@@ -3,8 +3,8 @@ title: "Mealy Machine"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 68
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Mealy Machine은 현재 상태와 현재 입력을 함께 사용해 출력을 결정하는 상태 मशीन이다.

@@ -3,8 +3,8 @@ title: "197. Burst Error Detection Crc"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 197
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 버스트 에러 검출 능력 유지는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

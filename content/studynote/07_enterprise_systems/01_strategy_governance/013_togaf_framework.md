@@ -1,11 +1,11 @@
 ---
 title: "013. Togaf Framework"
 date: "2024-05-24"
-description: "The Open Group에서 개발한 기업 아키텍처(EA) 표준 프레임워크 TOGAF와 핵심 반복 프로세스인 ADM 심층 분석"
 tags:
   - "enterprise_systems"
+  - "studynote-enterprise-systems"
+weight: 13
 ---
-
 # 13. [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/) 프레임워크 및 [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/))
 
 #### 핵심 인사이트 (3줄 요약)

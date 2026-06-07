@@ -3,8 +3,8 @@ title: "193. Datacatalog"
 date: "2026-04-05"
 tags:
   - "studynote-bigdata"
+weight: 193
 ---
-
 # [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색 및 발견의 중앙 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
 
 > ⚠️ 이 문서는 빅데이터 환경에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견성([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Discoverability)을 혁신하는 핵심 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) 도구인 '[데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))'의 목적, 핵심 기능(검색, 계보, 워크플로우 연동), 주요 제품(AWS Glue [Catalog](/studynote/05_database/07_exam_summary/394_catalog_metadata/), DataHub, Alation 등), 그리고 [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)와의 연계성을 기술사 수준에서 심층 분석합니다.

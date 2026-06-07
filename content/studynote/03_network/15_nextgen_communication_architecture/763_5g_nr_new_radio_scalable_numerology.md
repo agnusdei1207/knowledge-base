@@ -3,8 +3,8 @@ title: "763. 5G Nr New Radio Scalable Numerology"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 763
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR 신무선 표준 대역은 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

@@ -3,8 +3,8 @@ title: "V2X Vehicle Communication C-V2X DSRC"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 583
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: V2X 차량 통신 C-V2X DSRC은(는) 차량이 차량, 인프라, 보행자, 네트워크와 저지연 메시지를 교환해 안전과 교통 효율을 높이는 통신 체계이다.

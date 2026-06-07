@@ -3,8 +3,8 @@ title: "Register File Ports"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 509
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Ports)는 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 실행 유닛 사이에서 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 읽고 결과를 쓰는 동시 접근 창구이며, 실제 발급 폭이 유지되는지를 좌우하는 핵심 자원이다.

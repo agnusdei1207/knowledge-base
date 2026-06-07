@@ -3,8 +3,8 @@ title: "Canary"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 333
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: A/B 테스팅·[섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)·[카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 ML 모델을 프로덕션 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 안전하게 전환하는 **점진적 배포(Progressive Delivery)** [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 실제 트래픽의 일부 또는 복사본에서 새 모델을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 전체 배포 실패 위험을 최소화한다.

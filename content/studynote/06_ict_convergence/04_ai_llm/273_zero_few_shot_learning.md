@@ -3,8 +3,8 @@ title: "CoT, Chain-of-Thought"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 273
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 생각의 사슬 ([CoT](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/), [Chain-of-Thought](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)): "단계별로 차근차근 생각해 보자"는 명령을 통해 중간 추론 과정(Reasoning Path)을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하게 유도하여 수학/[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 문제 정답률 극대화를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

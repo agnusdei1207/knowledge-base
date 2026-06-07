@@ -3,8 +3,8 @@ title: "123. Serverless Faas Aws Lambda"
 date: "2026-04-19"
 tags:
   - "studynote-software-engineering"
+weight: 123
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))는 <strong>서버 <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a>·관리 없이 코드만 배포하면 클라우드가 자동 실행·<a href="/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>·과금</strong>하는 컴퓨팅 모델이며, [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 <strong>함수 단위로 실행</strong>되는 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 대표 형태이다.
 > 2. **가치**: [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)·K8s는 서버 관리(패치·[스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/))가 필요하지만, [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 <strong>코드만 작성하면 실행 횟수·시간 기반으로 과금</strong>되어 유휴 비용이 0이다.

@@ -2,9 +2,9 @@
 title: "179. Cqrs Pattern Command Query"
 date: "2026-05-06"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/))는 상태를 바꾸는 명령 모델과 화면·검색을 위한 조회 모델을 분리해, 하나의 객체 모델에 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 규칙과 읽기 최적화를 동시에 짊어지게 하지 않는 설계 패턴이다.

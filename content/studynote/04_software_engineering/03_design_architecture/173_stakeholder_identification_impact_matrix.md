@@ -1,11 +1,11 @@
 ---
 title: "173. Stakeholder Identification Impact Matrix"
 date: "2026-04-03"
-description: "프로젝트에 영향을 주거나 영향을 받는 이해관계자를 식별하고, 영향력과 관심도를 기준으로 우선순위와 참여 전략을 설계하는 방법을 정리한다."
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이해관계자 (Stakeholder) [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 영향도 매트릭스는 프로젝트에 영향을 주거나 영향을 받는 사람·부서·외부 기관을 찾아, 영향력과 관심도 기준으로 우선순위를 나누는 관리 도구다.

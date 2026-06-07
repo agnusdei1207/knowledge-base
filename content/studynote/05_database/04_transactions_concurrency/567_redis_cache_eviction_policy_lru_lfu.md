@@ -3,8 +3,8 @@ title: "567. Redis Cache Eviction Policy Lru Lfu"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 567
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레디스](/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) 만료 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 키 삭제 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/), Random) 캐시 스토리지 운영는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)·확장형 저장소 관점에서 자주 쓰이는 확장형 저장소 개념이다.

@@ -3,8 +3,8 @@ title: "Adversarial Training"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 968
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 적대적 훈련 (Adversarial [Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·신기술 보안에서 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 키 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.

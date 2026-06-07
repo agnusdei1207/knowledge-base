@@ -3,8 +3,8 @@ title: "1093. Mpls Vpn L3Vpn Vrf Label Switching"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1093
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MPLS VPN](/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 스위치는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

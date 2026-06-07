@@ -3,8 +3,8 @@ title: "362. Halstead Complexity"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 362
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 할스테드 (Halstead) 복잡도 - 연산자([Operator](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))와 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)([Operand](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)) 수 기반 측정은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

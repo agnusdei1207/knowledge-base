@@ -3,9 +3,8 @@ title: "703. ZNS (Zoned Namespace) SSD"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 703
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ZNS (Zoned [Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/)) [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 저장 공간을 존으로 나누고, 각 존 안에서는 순차 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 허용해 플래시의 지우기 단위를 호스트가 의식하게 만든다.

@@ -3,8 +3,8 @@ title: "507. Session Management Security"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 507
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리 ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/)) 보완 - 만료 시간, 재사용 방지, [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID 추측 난해성은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

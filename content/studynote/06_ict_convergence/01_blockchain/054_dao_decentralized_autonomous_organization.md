@@ -3,9 +3,8 @@ title: "54. DAO (Decentralized Autonomous Organization)"
 date: "2026-05-01"
 tags:
   - "studynote-ict-convergence"
+weight: 54
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DAO (Decentralized Autonomous Organization)는 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)로 운영 규칙을 자동화한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)형 조직이다.

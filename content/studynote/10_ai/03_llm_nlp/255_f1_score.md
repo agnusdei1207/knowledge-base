@@ -3,8 +3,8 @@ title: "F1-Score"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 255
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: F1 스코어(F1-Score)는 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))와 [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))의 조화 평균(Harmonic Mean)으로, 두 지표가 균형을 이룰 때 가장 높아진다.

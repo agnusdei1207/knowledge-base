@@ -3,8 +3,8 @@ title: "Clock Glitching"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 772
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클럭 글리칭 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Glitching)은 정상 주기보다 빠른 edge를 삽입하거나 특정 주기를 비정상적으로 줄여, 아직 계산이 끝나지 않은 값을 플립플롭이 먼저 잡게 만드는 <strong>시간 축 기반 <a href="/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/">fault injection</a></strong>이다.

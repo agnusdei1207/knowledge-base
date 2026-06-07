@@ -2,9 +2,9 @@
 title: "086. Gitops Declarative Infrastructure Continuous Synchronization Argocd"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 86
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) (Git-based Operations)는 Git을 단일 진실 공급원으로 삼아 선언형 상태를 운영하는 방식이다.

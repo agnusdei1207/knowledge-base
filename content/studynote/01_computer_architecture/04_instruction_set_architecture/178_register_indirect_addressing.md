@@ -3,8 +3,8 @@ title: "Register Indirect"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 178
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [Indirect Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 최종 메모리 주소를 직접 담지 않고, <strong>그 주소를 가진 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>만 지정</strong>하여 `EA (Effective Address) = contents of register`로 유효 주소를 얻는 방식이다.

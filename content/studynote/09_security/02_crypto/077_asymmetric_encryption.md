@@ -1,11 +1,10 @@
 ---
 title: "077. Asymmetric Encryption"
 date: "2026-03-26"
-description: "공개키와 개인키 쌍을 사용하여 암호화와 복호화를 수행하는 공개키 암호 시스템"
 tags:
-  - "studynote-software-engineering"
+  - "studynote-security"
+weight: 77
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비대칭키 암호는 공개키로 암호화/[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 개인키로 복호화/서명하는 키 쌍 기반 구조다.
 > 2. **가치**: PKC (Public-[Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))는 키 배포 문제를 해결하고, 디지털 서명까지 함께 제공한다.

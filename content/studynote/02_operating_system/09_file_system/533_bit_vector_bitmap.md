@@ -3,8 +3,8 @@ title: "533. Bit Vector Bitmap"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 533
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 전체 블록의 빈 공간 상황(532장)을 추적하기 위해, <strong>디스크 블록 1개당 단 1비트(<a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>: 0 또는 1)</strong> 만을 강제 대응시켜 거대한 1열 이진수 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)(전광판 요약)을 만들어 내는 가장 직관적이고 1차원적인 메모리 마스킹 매핑 기법이다. (보통 빈방=1, 사용중=0 스왑).

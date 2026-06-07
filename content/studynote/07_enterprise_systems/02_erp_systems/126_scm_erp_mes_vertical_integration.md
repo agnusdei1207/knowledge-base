@@ -3,8 +3,8 @@ title: "126. Scm Erp Mes Vertical Integration"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 126
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 계획)->[ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(경영 자원 계획)->[MES](/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조 실행)의 <strong>수직 통합</strong>은 수요 예측->생산 계획->현장 실행->실적 피드백의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊김 없이 흐르는 체계이다.
 > 2. **가치**: 3개 시스템이 분리되면 SCM의 계획이 ERP에 반영되지 않고, ERP의 작업지시가 MES에 전달되지 않아 <strong>계획과 현장의 괴리·재고 과잉·납기 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이 발생한다.

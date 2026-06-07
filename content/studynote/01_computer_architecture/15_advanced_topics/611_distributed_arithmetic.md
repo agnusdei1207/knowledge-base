@@ -3,8 +3,8 @@ title: "611. Distributed Arithmetic"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 611
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 산술 (Distributed Arithmetic, [DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))은 고정 계수 내적을 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위로 재배열해, 곱셈기 대신 룩업 테이블 (Look-Up Table, LUT)과 시프트 [누산기](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)로 처리하는 연산 구조다.

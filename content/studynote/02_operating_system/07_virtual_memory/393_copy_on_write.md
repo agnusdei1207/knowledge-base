@@ -3,8 +3,8 @@ title: "393. Copy On Write"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 393
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 복사([COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/): [Copy-on-Write](/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 프로세스가 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(`fork()`)되거나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사할 때 1GB의 물리적 메모리를 무식하게 몽땅 복사하지 않고, <strong>일단 부모와 자식이 같은 물리 프레임을 '공유'하게 매핑만 해둔 뒤, 누군가 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수정(Write)하려고 시도하는 그 찰나의 순간에만 몰래 해당 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>만을 뜯어 복사(Copy)해 주는 초고도화된 OS 속임수(<a href="/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Optimization)</strong>다.

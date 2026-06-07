@@ -3,8 +3,8 @@ title: "Prompt ering COT"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 453
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프롬프트 [CoT](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 단계별 추론 ([Prompt 엔진ering](/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/) [COT](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)): 1. **본질**: [프롬프트 엔지니어링](/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)([Prompt 엔진ering](/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/))은 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 가진 방대한 지식의 바다에서, 내가 원하는 정확한 정답과 어투(Persona)를 낚…를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

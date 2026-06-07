@@ -3,8 +3,8 @@ title: "God Class / Blob"
 date: "2026-04-21"
 tags:
   - "studynote-design-supervision"
+weight: 162
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 갓 클래스/블랍 (God Class / Blob)은 하나의 클래스가 너무 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 책임을 끌어안아, [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 낮고 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 높아진 대표적 객체지향 [안티 패턴](/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) ([Anti-Pattern](/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))이다.

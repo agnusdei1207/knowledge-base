@@ -3,8 +3,8 @@ title: "KDE"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 394
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [커널 밀도 추정](/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/) 비모수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스무딩 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) (KDE): 1. **본질**: [커널 밀도 추정](/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/)(KDE, [Kernel Density Estimation](/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/))은 딱딱하고 뾰족한 막대그래프(히스토그램)로 표현된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 찍힌 점마다 둥근 산(가…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

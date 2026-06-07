@@ -3,8 +3,8 @@ title: "Zero-Knowledge Proof"
 date: "2026-03-03"
 tags:
   - "studynote-ict-convergence"
+weight: 37
 ---
-
 > **핵심 인사이트**
 > 1. [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/), Zero-Knowledge Proof)은 증명자(Prover)가 어떤 사실의 지식을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier)에게 증명할 때, 그 지식 자체의 내용을 전혀 공개하지 않고도 참임을 증명하는 암호학적 프로토콜이다.
 > 2. ZKP의 3가지 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(완전성·건전성·영지식성)을 모두 만족해야 하며, zk-SNARK·zk-STARK는 이를 실용적인 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 스케일링과 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)에 적용한 현대적 구현이다.

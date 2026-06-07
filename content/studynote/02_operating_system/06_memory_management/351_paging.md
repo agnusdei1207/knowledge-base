@@ -3,8 +3,8 @@ title: "351. Paging"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 351
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/studynote/02_operating_system/04_synchronization/259_paging/))은 프로세스를 연속된 하나의 거대한 공간에 담아야 한다는 고정관념을 파괴하고, 물리 메모리와 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 메모리를 <strong>모두 동일한 고정 크기(주로 4KB)의 블록으로 썰어서 아무렇게나 흩뿌려 맵핑</strong>하는 [비연속 메모리 할당](/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/)의 궁극적 해답이다.

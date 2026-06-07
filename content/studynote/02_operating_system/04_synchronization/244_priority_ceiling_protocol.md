@@ -3,8 +3,8 @@ title: "Priority Ceiling Protocol"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 244
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PCP (Priority Ceiling [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 각 자원(락)에 해당 자원을 사용할 수 있는 최고 우선순위 프로세스의 우선순위를 미리 부여(천장값)하여, 락 획득 시 보유 프로세스의 우선순위를 즉시 그 천장값으로 올리는 실시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다.

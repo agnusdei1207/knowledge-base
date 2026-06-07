@@ -2,9 +2,9 @@
 title: "Testing & Validation"
 tags:
   - "software_engineering"
+  - "studynote-software-engineering"
 weight: 11
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 소프트웨어 테스트 (Software Testing)는 잠재된 결함을 발견하여 품질 리스크를 제거하는 동적 검증 과정이며, 검증 (Verification)과 확인 (Validation)을 통해 요구사항의 정합성과 제품의 완성도를 보장한다.

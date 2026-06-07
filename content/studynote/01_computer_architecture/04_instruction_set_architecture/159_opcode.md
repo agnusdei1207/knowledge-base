@@ -3,8 +3,8 @@ title: "Opcode"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 159
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연산 코드 (Opcode, [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열에서 CPU (Central Processing Unit)가 “무슨 동작을 할지”를 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 핵심 필드다.

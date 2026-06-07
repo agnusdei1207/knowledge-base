@@ -3,8 +3,8 @@ title: "Floating Point"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: 부동소수점 (Floating Point)은 아주 큰 수와 아주 작은 수를 같은 형식으로 다루기 위해 가수와 지수를 분리한 근사 표현이다.

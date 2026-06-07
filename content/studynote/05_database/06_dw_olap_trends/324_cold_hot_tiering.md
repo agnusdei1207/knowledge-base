@@ -3,9 +3,8 @@ title: "324. ODS (Operational Data Store)"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 324
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ODS](/studynote/05_database/05_distributed_nosql_newsql/291_ods/) ([Operational Data Store](/studynote/13_cloud_architecture/05_data_engineering/264_ods_operational_data_store_realtime/))는 DW로 가기 전의 임시/운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 영역에 초점을 둔 분석 플랫폼 개념이다.

@@ -3,8 +3,8 @@ title: "048. Software Deliverables Verification"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 48
 ---
-
 > **핵심 인사이트**
 > 1. 소프트웨어 산출물 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 "만든 것이 올바른가([Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))"와 "올바른 것을 만들었는가([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))"의 두 관점 — Verification은 명세 준수, Validation은 고객 요구 충족으로, 두 활동 모두 각 개발 단계에서 수행되어야 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 비용을 최소화한다.
 > 2. [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 비용의 법칙 — 요구사항 단계 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 수정하는 비용을 1로 할 때, 운영 단계에서 발견하면 100~200배까지 증가하므로, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 산출물 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가장 비용 효율적이다.

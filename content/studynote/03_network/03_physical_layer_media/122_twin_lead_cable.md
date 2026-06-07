@@ -3,8 +3,8 @@ title: "Twin-lead cable"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 122
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 평행 2선식 케이블은 일정한 간격으로 나란히 배치된 두 가닥의 도선으로 구성된 가장 원시적인 형태의 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 유도 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)이다.

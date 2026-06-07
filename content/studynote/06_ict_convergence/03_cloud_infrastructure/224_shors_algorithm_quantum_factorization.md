@@ -3,8 +3,8 @@ title: "Shor's Algorithm"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 쇼어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Shor's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)): 양자 푸리에 변환 적용 시 대용량 소인수분해를 다항 시간에 처리 ([RSA](/studynote/09_security/03_network_security/110_rsa/) 공개키 암호 붕괴 위협)를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

@@ -3,8 +3,8 @@ title: "341. Internal Fragmentation"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 341
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 내부 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)(Internal [Fragmentation](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))는 메모리를 미리 고정된 크기의 블록([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 등)으로 나누어 할당할 때, <strong>할당된 블록 크기보다 실제 적재된 프로세스의 크기가 작아서 남게 되는 잉여 공간</strong>을 의미한다.

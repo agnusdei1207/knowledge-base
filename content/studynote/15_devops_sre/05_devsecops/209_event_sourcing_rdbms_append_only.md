@@ -3,8 +3,8 @@ title: "Event Sourcing"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 209
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 대신 상태 변화를 이벤트 스트림으로 저장하는 방식.

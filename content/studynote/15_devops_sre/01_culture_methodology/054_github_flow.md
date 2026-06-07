@@ -3,9 +3,8 @@ title: "54. GitHub Flow"
 date: "2026-05-01"
 tags:
   - "studynote-devops-sre"
+weight: 54
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GitHub Flow는 `main` 브랜치를 항상 배포 가능하게 유지하고, feature branch를 짧게 쓰는 단순한 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.

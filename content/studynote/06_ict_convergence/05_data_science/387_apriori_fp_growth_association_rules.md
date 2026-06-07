@@ -3,8 +3,8 @@ title: "387. Apriori Fp Growth Association Rules"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 387
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [연관 규칙 탐색](/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/) Apriori [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) FP-Growth [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 구조 ([지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/), [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/), [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)): 1. **본질**: [연관 규칙 탐색](/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/)([Association Rule](/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/) Mining)은 "기저귀를 사는 아빠들은 보통 맥주도 같이 산다"는 마트 영수증의 숨겨진 패턴([장바구니 분석](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/))을 [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)(…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

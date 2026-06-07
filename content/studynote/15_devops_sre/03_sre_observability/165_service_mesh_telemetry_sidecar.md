@@ -3,8 +3,8 @@ title: "Service Mesh Telemetry"
 date: "2026-04-21"
 tags:
   - "studynote-devops-sre"
+weight: 165
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 기반 텔레메트리는 [사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Sidecar Proxy](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))가 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 트래픽을 대신 관찰해 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스를 자동 수집하는 관측성 계층이다.

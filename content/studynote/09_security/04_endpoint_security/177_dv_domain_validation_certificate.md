@@ -3,8 +3,8 @@ title: "177. Dv Domain Validation Certificate"
 date: "2026-05-06"
 tags:
   - "studynote-security"
+weight: 177
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DV ([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)가 신청자가 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 실제로 통제하는지만 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 발급하는 가장 자동화된 X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서다.

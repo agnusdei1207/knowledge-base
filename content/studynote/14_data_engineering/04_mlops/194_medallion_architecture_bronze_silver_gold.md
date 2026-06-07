@@ -3,8 +3,8 @@ title: "194. Medallion Architecture Bronze Silver Gold"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 194
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 메달리온 아키텍처(Medallion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Bronze) -> 정제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Silver) -> 비즈니스 집계(Gold) 3계층으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 점진적으로 향상하는 [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 설계 패턴이다.
 > 2. **가치**: Delta Lake의 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), Time Travel, [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution 기능과 결합하여 신뢰할 수 있는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 구성하고, 계층별 접근 권한 분리로 보안과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 달성한다.

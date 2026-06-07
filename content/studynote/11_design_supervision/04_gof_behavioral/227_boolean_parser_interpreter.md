@@ -3,8 +3,8 @@ title: "Boolean Parser Interpreter"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 227
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Interpreter](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) (인터프리터) 패턴은 언어의 문법을 객체 계층(Object Hierarchy)으로 표현하고, 각 객체가 자신의 해석(Interpret)을 담당하여 표현식을 평가하는 패턴이다 — Boolean Parser는 이 패턴의 가장 실용적인 구현 예다.

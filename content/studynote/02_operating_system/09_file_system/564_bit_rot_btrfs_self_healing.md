@@ -3,8 +3,8 @@ title: "564. Bit Rot Btrfs Self Healing"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 564
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드디스크나 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 파편은 아무 조작 없이 가만히 내버려 둬도, 우주 방사선 맞고 자성이 약해지며([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rot [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부패) 저장된 글자 `A` 가 갑자기 `C` (01000001 $\to$ 01000011 단 1비트 뒤집힘!) 로 썩어 문드러진다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이고 백신이고 이 소리 없는 파단(Silent [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption)을 인지조차 못 하는 지옥을 박살 내기 위해, <strong>Btrfs 와 ZFS 는 "모든 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 블록마다 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a> 해시) 꼬리표를 달고, 읽을 때마다 0.001초 간격으로 실시간 지문 매칭 검사(Scrub 빔!)를 쏘는 편집증적 렌더"</strong> 다.

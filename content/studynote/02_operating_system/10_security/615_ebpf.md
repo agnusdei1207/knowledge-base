@@ -3,8 +3,8 @@ title: "615. Ebpf"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 615
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: eBPF 네트워크/보안/모니터링 이벤트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

@@ -2,9 +2,9 @@
 title: "Hadoop Ecosystem"
 tags:
   - "bigdata"
+  - "studynote-bigdata"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하둡 (Apache Hadoop)은 수천 대의 범용 서버 클러스터에서 대규모 데이터를 분산 저장하는 HDFS와 병렬 처리하는 MapReduce를 핵심으로 하는 오픈소스 프레임워크이다.

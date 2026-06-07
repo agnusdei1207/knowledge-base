@@ -2,9 +2,9 @@
 title: "Process Thread"
 tags:
   - "operating_system"
+  - "studynote-operating-system"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프로세스 (Process)는 실행 중인 프로그램의 인스턴스로서 독립된 자원을 할당받는 단위이며, 스레드 (Thread)는 프로세스 내에서 실행되는 흐름의 단위로 자원을 공유하며 병렬성을 실현한다.

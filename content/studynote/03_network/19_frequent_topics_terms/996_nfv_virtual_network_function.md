@@ -3,8 +3,8 @@ title: "996. Nfv Virtual Network Function"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 996
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VNF](/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) (Virtual Network Function)는 기존에 전용 하드웨어 어플라이언스(라우터, [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 로드밸런서 등)로 제공되던 네트워크 기능을 범용 x86 서버 위의 소프트웨어([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 또는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 형태로 분리해낸 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 네트워크 노드이다.

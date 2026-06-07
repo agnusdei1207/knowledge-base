@@ -3,8 +3,8 @@ title: "NP-Complete"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 108
 ---
-
 > **핵심 인사이트**
 > 1. NP-완전(NP-Complete)은 NP 문제 중에서도 "NP에서 가장 어려운" 문제로, 이를 다항시간에 풀 수 있으면 모든 NP 문제를 다항시간에 풀 수 있다는 특성을 가져 P=NP 문제 해결의 열쇠가 된다.
 > 2. Cook-Levin 정리(1971)는 [SAT](/studynote/12_it_management/03_ea_isp/887_chaining/)(Boolean 만족가능성) 문제가 최초의 NP-완전 문제임을 증명했으며, 이후 Karp가 21개의 NP-완전 문제를 다항시간 환산([Polynomial Reduction](/studynote/08_algorithm_stats/06_np_theory/111_polynomial_reduction/))으로 목록화하여 NP-완전 문제군 이론의 토대를 놓았다.

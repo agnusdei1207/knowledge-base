@@ -3,8 +3,8 @@ title: "Smart Contract Reentrancy Defense Audit"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 311
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)) 재진입(Reentrancy) 방지 감리는 상태 변경 순서, 재호출 차단 패턴, 테스트넷 재현 증적를 한 체계로 묶어 판단하는 보안 감리 주제다.

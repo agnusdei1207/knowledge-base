@@ -3,8 +3,8 @@ title: "Data Mining KDD Process Association Rules"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 520
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [KDD](/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/)(Knowledge Discovery in Databases) 프로세스는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유용한 지식을 발굴하는 단계적 절차이며, CRISP-DM(CRoss-Industry Standard [Process](/studynote/12_it_management/05_security_compliance/943_process/) for [Data Mining](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/))은 이를 비즈니스 맥락에서 실용화한 산업 표준 방법론이다.

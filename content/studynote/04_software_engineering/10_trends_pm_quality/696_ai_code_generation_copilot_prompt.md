@@ -3,8 +3,8 @@ title: "696. Ai Code Generation Copilot Prompt"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 696
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 코드 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코파일럿 프롬프트은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

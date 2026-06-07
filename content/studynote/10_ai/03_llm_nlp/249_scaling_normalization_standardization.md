@@ -3,8 +3,8 @@ title: "Scaling Normalization Standardization"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 249
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스케일링(Scaling)은 서로 다른 범위를 가진 수치형 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들을 동일한 척도로 맞추어, 모델이 특정 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)에 편향되지 않고 균등하게 학습하게 하는 전처리 기법이다.

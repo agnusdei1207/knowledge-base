@@ -2,9 +2,9 @@
 title: "132. Adam Optimizer"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 132
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)([Adaptive Moment Estimation](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))은 <strong><a href="/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a>(1차 모멘트, 이동 평균) + RMSProp(2차 모멘트, 기울기 제곱 이동 평균)</strong>을 결합한 적응형 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)이며, 파라미터별로 <strong><a href="/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>을 자동 조정</strong>한다.
 > 2. **가치**: SGD는 모든 파라미터에 같은 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 적용하여 **희소 기울기·비등방 공간에서 수렴이 느리지만**, Adam은 각 파라미터에 적합한 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 자동 계산하여 <strong>빠르고 안정적</strong>으로 수렴한다.

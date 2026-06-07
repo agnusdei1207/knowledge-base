@@ -3,8 +3,8 @@ title: "European Data Strategy & Data Spaces"
 date: "2026-03-03"
 tags:
   - "studynote-bigdata"
+weight: 248
 ---
-
 > **핵심 인사이트**
 > 1. 유럽 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(European [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 2020)은 개인 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)과 산업 [데이터 공유](/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)를 동시에 실현하는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces)" 생태계 구축을 핵심으로 하며, GAIA-X 클라우드 연합이 인프라를 제공한다.
 > 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간은 참여자 간 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)을 유지하면서 안전하게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처로, 중앙집중식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 없이 커넥터([IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) Connector) 기반 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 교환을 사용한다.

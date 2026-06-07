@@ -3,8 +3,8 @@ title: "Total Cost of Ownership,"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 811
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TCO의 핵심은 도입 비용(CAPEX) 외에 운영/유지보수 비용(OPEX) 전체 포함라는 점에 있다. 이를 현장 의사결정에 연결하는 측정·경제성 구조로 이해하면 된다.

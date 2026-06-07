@@ -3,8 +3,8 @@ title: "347. Embedding Model"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 347
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 모델는 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(텍스트, 이미지)를 고차원 숫자 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 변환에 초점을 둔 모델이다.

@@ -3,8 +3,8 @@ title: "268. Sigmoid Vanishing Gradient"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 268
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시그모이드(Sigmoid) 함수 σ(x)=1/(1+e⁻ˣ)는 출력을 (0,1) 범위로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 해석을 가능하게 하지만, 입력이 크거나 작을 때 기울기가 거의 0이 되는 <strong>포화 영역(Saturation Region)</strong>에 진입해 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)를 유발한다.

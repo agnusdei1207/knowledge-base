@@ -3,9 +3,8 @@ title: "226. NCP (Network Control Protocol)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 226
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NCP (Network Control [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 [PPP](/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/) ([Point-to-Point Protocol](/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)) 연결의 마지막 단계에서, IP나 IPX 등 상위 네트워크 계층 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 협상하고 동적으로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하기 위한 제어 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 집합이다.

@@ -3,8 +3,8 @@ title: "131. Mmap Ipc"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 131
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 메모리 맵 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Memory-Mapped File](/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/), [mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)) 기반 IPC은 프로세스와 스레드의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

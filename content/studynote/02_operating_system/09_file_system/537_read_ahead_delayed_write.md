@@ -3,8 +3,8 @@ title: "Delayed-write / Write-behind"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 537
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 536장의 '[페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시(RAM 옥상 임시 창고)' 뼈대 시스템 위에서 작동하는 2가지 마법의 **"무빙(Moving) 스킬"** 이다.

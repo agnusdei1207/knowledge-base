@@ -3,8 +3,8 @@ title: "Alignment"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 462
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) from Human Feedback)는 인터넷의 쓰레기 글까지 전부 다 외워서 욕설과 헛소리를 뱉어내는 통제 불능의 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Pre-trained [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))를, 인간의 가치관과 윤리에 맞게 대답하도록 몽둥이와 사탕(강화학습)을 써서 길들이는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 예절 교육이다.

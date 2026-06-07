@@ -3,8 +3,8 @@ title: "Burst Mode"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 320
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드 (Burst Mode)는 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터가 시작 주소와 전송 조건을 한 번 제시한 뒤, 연속한 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끊지 않고 묶음으로 전송하는 방식이다.

@@ -3,8 +3,8 @@ title: "Platform ering"
 date: "2026-04-21"
 tags:
   - "studynote-cloud-architecture"
+weight: 199
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개발자의 [인지 부하](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 줄이기 위해 전담 플랫폼 팀이 인프라·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·모니터링을 표준화된 셀프서비스(골든 패스)로 제공하는 DevOps의 진화형 조직 패턴이다.

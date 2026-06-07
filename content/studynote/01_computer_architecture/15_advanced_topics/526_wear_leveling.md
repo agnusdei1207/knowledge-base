@@ -3,8 +3,8 @@ title: "Wear Leveling"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 526
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [마모 평준화](/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) ([Wear Leveling](/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·소거 횟수가 제한된 비휘발성 메모리에서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 계속 다른 물리 블록으로 재매핑해, 가장 먼저 닳는 블록의 등장을 늦추는 수명 관리 기법이다.

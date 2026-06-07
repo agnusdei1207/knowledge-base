@@ -3,9 +3,8 @@ title: "817. VXLAN (Virtual eXtensible LAN)"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 817
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VXLAN는 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

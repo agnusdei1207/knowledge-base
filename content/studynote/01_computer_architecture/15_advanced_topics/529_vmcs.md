@@ -3,8 +3,8 @@ title: "VMCS"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 529
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: VMCS ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure)는 인텔 VT-x (Intel [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Technology for x86)에서 vCPU (virtual CPU)의 게스트 상태, 호스트 복귀 상태, 인터셉트 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 기록을 한곳에 모아 둔 하드웨어 제어 장부다.

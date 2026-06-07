@@ -1,11 +1,11 @@
 ---
 title: "MAC"
 date: "2026-03-30"
-description: "중앙 통제가 없는 공유 매체 환경에서 충돌을 극복하고 자원을 분배하는 MAC 계층의 매체 접근 제어 원리"
 tags:
   - "network"
+  - "studynote-network"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: 다중 접속 (Multiple Access)은 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (Medium [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 계층에서 여러 사용자가 하나의 공유 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 어떻게 나눠 쓰는지 정하는 기술이다.

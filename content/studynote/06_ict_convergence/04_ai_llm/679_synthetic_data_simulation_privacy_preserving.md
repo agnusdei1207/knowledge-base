@@ -3,8 +3,8 @@ title: "Synthetic Data Simulation Privacy Preserving"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 679
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 합성 데이터 시뮬레이션은 원본 데이터의 통계적 결합 분포(joint distribution)와 머신러닝 유틸리티를 보존하면서 개별 레코드의 존재 여부조차 노출하지 않는 **차분 프라이버시(Differential Privacy, DP) 기반 생성형 프레임워크**이며, CTGAN/TVAE/TabDDPM 등 생성 모델에 Laplace·Gaussian 메커니즘과 DP-SGD를 결합하여 ε(epsilon) 예산 하에서 노이즈를 주입한다.

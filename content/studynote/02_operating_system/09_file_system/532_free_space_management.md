@@ -3,8 +3,8 @@ title: "532. Free Space Management"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 532
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 철판에 새 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장하려면, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블록 할당자)는 1TB짜리 광활한 우주 철판 어딘가에 "비어 있는 공간(Free Block)" 이 어디인지 지도를 보고 찾아내야 한다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 삭제되어 생긴 <strong>파편화된 빈 공간 구멍들을 효과적으로 추적하고 관리하기 위한 장부 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(추적 렌더) 기술</strong> 이다.

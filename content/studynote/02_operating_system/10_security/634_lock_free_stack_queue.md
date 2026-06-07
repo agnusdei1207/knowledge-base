@@ -3,8 +3,8 @@ title: "Lock Free Stack Queue"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 634
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락 프리([Lock-Free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조는 멀티스레드 환경에서 자원을 보호하기 위해 전통적인 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/), [Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/))를 사용하지 않고, 하드웨어가 제공하는 <strong>원자적 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(Atomic <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a>, 예: <a href="/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a>)</strong>를 활용하여 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간의 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 달성하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

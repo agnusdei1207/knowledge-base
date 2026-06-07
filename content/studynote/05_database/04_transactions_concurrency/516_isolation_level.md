@@ -3,8 +3,8 @@ title: "Isolation Level"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 516
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.

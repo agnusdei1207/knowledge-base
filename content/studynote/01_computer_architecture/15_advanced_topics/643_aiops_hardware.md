@@ -3,8 +3,8 @@ title: "643. Aiops Hardware"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 643
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 운영 ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations, [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 기반 하드웨어 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 대규모 시계열 텔레메트리에서 정상 패턴을 학습하고, [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)만으로는 못 잡는 미세한 장비 이상을 점수화하는 기술이다.

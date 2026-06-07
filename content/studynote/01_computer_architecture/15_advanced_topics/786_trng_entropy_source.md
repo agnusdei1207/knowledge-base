@@ -3,8 +3,8 @@ title: "786. Trng Entropy Source"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 786
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TRNG는 알고리즘이 아니라 열잡음, 샷 노이즈, 지터처럼 예측 불가능한 물리 현상에서 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 채취해 난수를 만든다.

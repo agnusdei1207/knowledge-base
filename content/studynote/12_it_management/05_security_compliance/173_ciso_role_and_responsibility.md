@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 173
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CISO (Chief Information Security Officer)는 보안 솔루션 운영자가 아니라, 사이버 위험을 경영 언어로 번역해 전략·예산·통제 우선순위를 결정하게 만드는 책임 임원이다.

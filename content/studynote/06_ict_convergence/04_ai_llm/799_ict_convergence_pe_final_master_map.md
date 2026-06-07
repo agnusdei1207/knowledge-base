@@ -3,8 +3,8 @@ title: "ICT Convergence PE Final Master Map"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 799
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ICT 융합 기술사 마스터 맵은 **AI·빅데이터·IoT·클라우드·5G/6G·블록체인·보안·디지털트윈**을 CPS(Cyber-Physical System) 기반 **7계층 참조모델(NGIN·MEAN·서비스·데이터·네트워크·인프라·거버넌스)**로 통합하여, 단일 기술이 아닌 **도메인 간 상호운용성(Interoperability)**과 **데이터-지식-서비스**의 3단 변환 파이프라인을 통해 산업·공공·일상 영역의 가치를 창출하는 프레임워크입니다.

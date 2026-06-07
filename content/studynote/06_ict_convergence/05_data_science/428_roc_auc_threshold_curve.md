@@ -3,8 +3,8 @@ title: "ROC AUC Threshold Curve"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 428
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ROC AUC](/studynote/10_ai/03_llm_nlp/256_roc_auc/) [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 곡선 ([ROC AUC](/studynote/10_ai/03_llm_nlp/256_roc_auc/) Threshold Curve): 1. **본질**: ROC 곡선은 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 분류기가 뱉어내는 '[확률](/studynote/08_algorithm_stats/08_stats/130_probability/)'을 '정답'으로 가르는 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)(임계값, Threshold)을 0%부터 100%까지 바꿔가며, "진짜 환자를 얼마나 잘 …를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

@@ -4,7 +4,6 @@ tags:
   - "studynote-algorithm-stats"
 weight: 10
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 선형대수(Linear Algebra)는 벡터·행렬·선형 변환을 다루는 수학으로, <strong>머신러닝에서 데이터는 벡터, 모델은 행렬 연산, 학습은 행렬의 최적화</strong>로 표현된다.
 > 2. **가치**: 신경망의 순전파(Forward Pass)는 행렬 곱셈의 연쇄, 역전파(Backpropagation)는 야코비안(Jacobian) 행렬 계산, PCA는 고유값 분해(Eigen Decomposition)다 — ML의 모든 핵심 연산이 선형대수다.

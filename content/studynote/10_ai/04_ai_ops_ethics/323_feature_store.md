@@ -3,8 +3,8 @@ title: "Feature Store"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 323
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [피처 스토어](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))는 ML [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 특징(Feature)들을 조직 내 여러 팀과 모델이 재사용할 수 있도록 중앙에서 저장·서빙·관리하는 플랫폼으로, 학습 시점과 서빙 시점의 특징이 일치하도록 보장하는 핵심 인프라다.

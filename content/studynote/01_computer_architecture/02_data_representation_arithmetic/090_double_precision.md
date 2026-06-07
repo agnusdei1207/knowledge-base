@@ -3,8 +3,8 @@ title: "Double Precision, FP64"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 90
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 배정밀도 (Double [Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), FP64)는 [IEEE 754](/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 표준에 정의된 64비트(8바이트) [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷으로, 지수부와 가수부를 확장하여 연산 오차를 극도로 통제한다.

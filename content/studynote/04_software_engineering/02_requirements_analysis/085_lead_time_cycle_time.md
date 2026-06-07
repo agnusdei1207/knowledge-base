@@ -1,10 +1,11 @@
 ---
 title: "Cycle Time"
+date: "2026-06-07"
 tags:
   - "software_engineering"
-date: "2026-06-07"
+  - "studynote-software-engineering"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 리드 타임(Lead Time)은 요청이 들어온 순간부터 고객이 결과를 받기까지의 전체 시간이고, 사이클 타임(Cycle Time)은 실제 작업을 시작해 끝내는 데 걸린 시간이다.

@@ -3,8 +3,8 @@ title: "Schema-on-read"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 341
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [스키마 온 리드](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) ([Schema-on-read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))는 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)/NoSQL의 조회 시점 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 적용에 초점을 둔 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)이다.

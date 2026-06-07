@@ -3,8 +3,8 @@ title: "CNI"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 822
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

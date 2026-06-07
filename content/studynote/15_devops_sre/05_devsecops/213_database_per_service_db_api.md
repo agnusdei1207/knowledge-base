@@ -3,8 +3,8 @@ title: "Database per Service"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 213
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 전용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소를 두고 직접 조인을 금지하는 경계 원칙.

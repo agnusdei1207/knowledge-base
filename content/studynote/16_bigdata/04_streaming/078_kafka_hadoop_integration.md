@@ -1,11 +1,11 @@
 ---
 title: "03. Kafka Hadoop Integration"
+date: "2026-06-07"
 tags:
   - "bigdata"
-date: "2026-06-07"
+  - "studynote-bigdata"
+weight: 78
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 생태계에서 [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)([아파치 카프카](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))는 원래 독립적인 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐(Message [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 솔루션이었으나, 그 압도적인 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 디스크 저장 방식의 내구성([Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) 덕분에 기존 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 대장이었던 <strong><a href="/studynote/16_bigdata/02_hadoop/040_apache_flume/">Apache Flume</a>(플룸)을 완벽하게 대체하고 빅데이터 실시간 수입(Ingestion)의 절대 표준으로 등극한 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 이벤트 스트리밍 플랫폼</strong>이다.
 > 2. **가치**: 기존 Flume은 메모리 기반으로 빠르게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기다가 서버가 뻗으면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유실(Drop)되는 치명적 한계가 있었다. Kafka는 들어오는 모든 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일단 자기 하드디스크에 차곡차곡 무조건 기록(Append-only Log)해 둠으로써, 뒷단 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))이 고장 나 며칠 동안 뻗어 있더라도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 0%라는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)의 요새를 구축했다.

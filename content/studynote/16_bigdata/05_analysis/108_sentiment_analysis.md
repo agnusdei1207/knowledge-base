@@ -3,8 +3,8 @@ title: "108. Sentiment Analysis"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 108
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ([Sentiment Analysis](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/))은 텍스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 필자의 감정·태도·의견을 자동으로 추출·[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 NLP (Natural Language Processing) 기법으로, 제품 리뷰·SNS 포스트·뉴스 기사 등에서 긍정/부정/중립을 판별한다.
 > 2. **가치**: 수백만 건의 고객 피드백을 실시간으로 분석하여 제품 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 조기 감지, 브랜드 평판 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에 대한 여론 추적이 가능하며, 전통적 설문 조사 대비 훨씬 빠르고 저렴하다.

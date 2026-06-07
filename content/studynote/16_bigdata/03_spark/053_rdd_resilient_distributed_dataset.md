@@ -1,11 +1,10 @@
 ---
-weight = 53
 title: "02. RDD (Resilient Distributed Dataset) — 불변 분산 데이터셋"
 date: "2026-04-05"
-[extra]
-categories: "studynote-bigdata"
+tags:
+  - "studynote-bigdata"
+weight: 53
 ---
-
 # RDD (Resilient Distributed Dataset) - 불변 분산 데이터셋의 모든 것
 
 > ⚠️ 이 문서는 Apache Spark의 근간을 이루는 핵심 데이터 추상화(abstraction)인 RDD(Resilient Distributed Dataset)의 불변성(Immutable), 분산(Distributed), 결함 허용(Resilient) 3대 핵심 특성과, 이진 시스템(binary system)에서 어떻게 손실된 파티션을 Lineage(혈통) 그래프를 통해 자동 복구하는지, 그리고 Transformation과 Action의 lazy evaluation 메커니즘을 기술사 수준에서 심층 분석합니다.

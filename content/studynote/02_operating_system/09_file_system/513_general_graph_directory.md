@@ -3,8 +3,8 @@ title: "General Graph Directory"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 513
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 '비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)' 가 시스템 멸망(무한 루프)을 막기 위해 폴더 간의 링크(뫼비우스 고리) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 철저히 금지했다면, <strong>일반 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a>(General <a href="/studynote/12_it_management/03_ea_isp/888_graph/">Graph</a> <a href="/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a>)</strong> 는 "자유가 최고다! A폴더 안에 B폴더, B폴더 안에 다시 A폴더 링크를 무제한 꼬리 물기(순환 Cycle)로 걸게 해 줘라!" 라고 선언한 구조다.

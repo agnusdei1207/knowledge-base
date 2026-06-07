@@ -3,8 +3,8 @@ title: "Object Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 288
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 객체 탐지(Object [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 이미지 내 모든 객체의 <strong><a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>(<a href="/studynote/12_it_management/03_ea_isp/107_classification/">Classification</a>)와 위치(Localization)</strong>를 동시에 수행하며, 1단계 탐지기(YOLO, [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))와 2단계 탐지기(R-[CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), Faster R-[CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))의 정확도-속도 트레이드오프가 핵심이다.

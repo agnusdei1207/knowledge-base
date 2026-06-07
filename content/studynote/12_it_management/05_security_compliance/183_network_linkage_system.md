@@ -5,8 +5,6 @@ tags:
   - "studynote-it-management"
 weight: 183
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 망연계 시스템 (Network Linkage System)은 물리적·논리적으로 분리된 망 사이에 공식 전송 경로를 두고, 수집·검사·승인·기록을 거친 데이터만 건네는 보안 중개 아키텍처다.

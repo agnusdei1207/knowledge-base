@@ -3,8 +3,8 @@ title: "RTM"
 date: "2026-04-05"
 tags:
   - "studynote-design-supervision"
+weight: 43
 ---
-
 > **핵심 인사이트**
 > 1. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [요구사항 추적성](/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) 매트릭스)은 요구사항에서 설계, 구현, 테스트까지 각 산출물 간의 추적 관계를 매핑하는 문서로 — 단순한 표가 아니라 "변경 영향 분석"과 "요구사항 누락 탐지"를 위한 감리의 핵심 증거 도구이다.
 > 2. 양방향 추적성(Bidirectional [Traceability](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 중요한 이유는 "이 요구사항이 어디서 구현됐나"(순방향)와 "이 코드가 어느 요구사항을 만족하나"(역방향) 두 질문 모두 답할 수 있어야 — 시스템 변경 시 영향 범위를 정확히 파악하고 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/) 완전성을 검증할 수 있기 때문이다.

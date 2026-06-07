@@ -3,8 +3,8 @@ title: "050. Hadoop Security Kerberos Ranger Atlas"
 date: "2026-04-29"
 tags:
   - "studynote-bigdata"
+weight: 50
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 보안은 3개 레이어로 구성된다. [Kerberos](/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/)([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) — 누구인가?), Apache Ranger(권한 부여 — 무엇을 할 수 있는가?), Apache Atlas([데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) — 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가·어떻게 이동하는가?)가 완전한 엔터프라이즈 보안 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 형성한다.
 > 2. **가치**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Hadoop은 보안이 없는 "Simple [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Mode"만 지원했다. [Kerberos](/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) 통합으로 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), Ranger로 세밀한 컬럼·행 레벨 접근 제어, Atlas로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보(Lineage) 추적이 가능해지면서 금융·의료 규제 환경에서도 사용 가능한 플랫폼으로 발전했다.

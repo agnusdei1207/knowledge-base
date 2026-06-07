@@ -3,8 +3,8 @@ title: "Multi-phase VRM"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 743
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다상 전원부 (Multi-phase [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/))는 하나의 벅 컨버터가 아니라 여러 개의 전원 단을 위상차를 두고 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 동작시켜, 중앙처리장치 (Central Processing Unit, CPU)가 요구하는 대전류를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 공급하는 인터리브드 전원 구조다.

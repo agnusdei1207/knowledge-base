@@ -3,8 +3,8 @@ title: "Unsafe State"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 237
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [불안전 상태](/studynote/02_operating_system/05_deadlock/299_unsafe_state/) ([Unsafe State](/studynote/02_operating_system/05_deadlock/299_unsafe_state/))는 운영체제의 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 상태 중, 현재 남은 자원으로는 <strong>시스템 내의 어떤 프로세스도 요구하는 최대 자원량(Max Need)을 충족시켜 줄 수 없어 '안전 순서열(<a href="/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)'을 단 하나도 찾을 수 없는 논리적 파산 상태</strong>를 의미한다.

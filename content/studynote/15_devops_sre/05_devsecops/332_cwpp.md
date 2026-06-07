@@ -3,8 +3,8 @@ title: "CWPP Cloud Workload Protection Platform Falco eBPF seccomp Container Esc
 date: "2026-05-09"
 tags:
   - "studynote-devops-sre"
+weight: 332
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CWPP (Cloud Workload [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Platform, [클라우드 워크로드 보호 플랫폼](/studynote/15_devops_sre/05_devsecops/255_cwpp_cloud_workload_protection_platform/))은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수 등 런타임 워크로드에서 이상 행동을 실시간 탐지하고 차단하는 보안 솔루션이다. 이미지 취약점은 CWPP 이전에 [SCA](/studynote/09_security/05_web_app_security/453_sca/)/SAST로 처리하고, 런타임에서 발생하는 예상치 못한 행동은 CWPP가 담당한다.

@@ -3,8 +3,8 @@ title: "OS"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 327
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 두 바인딩들의 경직된 이사 불가(고정 주소) 병크를 박살 낸 최종 진화 형태로, <strong>프로그램이 진짜 구동되어 CPU가 전기를 쏘는 기계어 명령줄 1초의 매 순간마다, 하드웨어(<a href="/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)가 가로채서 물리 주소로 번역(Translation)해주는 기적의 다이나믹 방식</strong>이다.

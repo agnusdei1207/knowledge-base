@@ -3,8 +3,8 @@ title: "323. Track Sector Cylinder"
 date: "2026-03-27"
 tags:
   - "studynote-computer-architecture"
+weight: 323
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 트랙 (Track), 섹터 (Sector), 실린더 (Cylinder)는 [하드 디스크 드라이브](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive, [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 안에서 데이터의 물리 위치를 설명하는 기본 좌표계이며, 결국 “어디에 저장되었는가”가 “얼마나 빨리 읽을 수 있는가”를 함께 결정한다.

@@ -2,9 +2,9 @@
 title: "218. Porter Generic Strategies"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 218
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 포터의 본원적 경쟁 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Porter's Generic Strategies)은 기업이 경쟁 우위를 얻는 기본 경로를 원가 우위 (Cost Leadership), 차별화 (Differentiation), 집중화 (Focus)로 정리한 프레임워크다.

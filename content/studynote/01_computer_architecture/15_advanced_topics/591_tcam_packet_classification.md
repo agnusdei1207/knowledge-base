@@ -3,8 +3,8 @@ title: "591. Tcam Packet Classification"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 591
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TCAM 기반 패킷 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 0, 1, X의 ternary 패턴을 저장한 규칙들을 입력 헤더와 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교해, 어떤 규칙이 맞는지와 어느 규칙이 더 우선인지까지 한 번의 lookup 안에서 결정하는 하드웨어 방식이다.

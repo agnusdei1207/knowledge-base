@@ -3,8 +3,8 @@ title: "CSF, Critical Success Factor"
 date: "2026-05-08"
 tags:
   - "studynote-it-management"
+weight: 812
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 핵심 성공 요인의 핵심은 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 달성을 위해 가장 결정적인 필수 요인라는 점에 있다. 이를 현장 의사결정에 연결하는 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 구조로 이해하면 된다.

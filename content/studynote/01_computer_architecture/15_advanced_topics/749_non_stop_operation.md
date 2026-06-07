@@ -3,8 +3,8 @@ title: "749. Non Stop Operation"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 749
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무정전 운영 (Non-Stop [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) 아키텍처는 장애가 나도 "빨리 재시작"하는 구조가 아니라, **처리 중인 상태와 입출력 경로를 유지한 채 계산을 계속 이어 가는** 무중단 설계다.

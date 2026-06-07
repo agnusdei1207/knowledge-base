@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "592. ACID 트랜잭션 섀도우 페이징 롤백 속도 최적 디스크 I/O 절감 데이터베이스 구조"
 date: "2026-05-09"
-categories: "studynote-database"
+tags:
+  - "studynote-database"
+weight: 592
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ACID 트랜잭션 섀도우 페이징 롤백 속도 최적 디스크 I/O 절감 데이터베이스 구조는 트랜잭션·회복 관점에서 자주 쓰이는 구조이다.

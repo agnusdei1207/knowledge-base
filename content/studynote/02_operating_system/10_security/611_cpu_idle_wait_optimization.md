@@ -3,8 +3,8 @@ title: "611. Cpu Idle Wait Optimization"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 611
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU 유휴(Idle) 상태는 실행 가능한 프로세스가 없을 때 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU를 저전력 모드(C-State)로 전환하는 메커니즘으로, 단순한 "쉬는 상태"가 아니라 전력 소비와 응답 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형을 맞추는 <strong>적극적 전력 관리(<a href="/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> <a href="/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong> 과정이다.

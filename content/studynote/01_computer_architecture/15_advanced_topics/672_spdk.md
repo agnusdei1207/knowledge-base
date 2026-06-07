@@ -3,9 +3,8 @@ title: "672. SPDK (Storage Performance Development Kit)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 672
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SPDK (Storage [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Development Kit)는 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 장치를 사용자 공간(User-space)에서 직접 다루도록 설계된 스토리지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프레임워크로, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블록 계층을 거치지 않고 큐를 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)한다.

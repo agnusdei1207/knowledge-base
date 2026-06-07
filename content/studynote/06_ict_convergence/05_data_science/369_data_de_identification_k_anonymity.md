@@ -3,8 +3,8 @@ title: "DATA DE Identification K Anonymity"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 369
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비식별화 K-익명성, L-다양성, T-근접성 ([DATA DE Identification](/studynote/16_bigdata/01_intro/019_data_de_identification/) [K Anonymity](/studynote/09_security/16_data_privacy/814_k_anonymity/)): 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비식별화는 이름이나 주민번호를 지우더라도 '성별, 나이, 우편번호' 등의 조합만으로 특정 개인을 역추적(재식별)해 낼 수 있는 위험을 막기 위해, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뭉뚱…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

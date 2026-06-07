@@ -1,10 +1,11 @@
 ---
 title: "Primary Key"
+date: "2026-06-07"
 tags:
   - "database"
-date: "2026-06-07"
+  - "studynote-database"
+weight: 74
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개체 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)가 NULL이 아니고 각 행을 유일하게 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)해야 한다는 규칙이다.

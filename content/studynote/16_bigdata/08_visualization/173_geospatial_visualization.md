@@ -3,8 +3,8 @@ title: "173. Geospatial Visualization"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지리공간 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) (Geospatial Visualization)는 위치 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지도 위에 찍는 작업이 아니라, 공간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·밀도·이동 흐름을 사람의 눈이 읽을 수 있는 레이어로 번역하는 분석 기법이다.

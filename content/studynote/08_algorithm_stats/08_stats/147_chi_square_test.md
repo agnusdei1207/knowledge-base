@@ -2,9 +2,9 @@
 title: "147. Chi Square Test"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 147
 ---
-
 ## 핵심 인사이트
 
 > 카이제곱 검정(Chi-Square Test, χ^)은 범주형 변수(Categorical Variable)를 분석하는 핵심 도구로, "관측 빈도(Observed)와 기대 빈도(Expected)의 괴리"를 정량화해 귀무 가설을 검정한다.

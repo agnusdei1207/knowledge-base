@@ -3,8 +3,8 @@ title: "Base Register"
 date: "2026-04-19"
 tags:
   - "studynote-computer-architecture"
+weight: 180
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 베이스 [레지스터 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) (Base [Register Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))은 [베이스 레지스터](/studynote/02_operating_system/06_memory_management/329_base_register/) ([Base Register](/studynote/02_operating_system/06_memory_management/329_base_register/))에 저장된 시작 주소와 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 변위 ([Displacement](/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/))를 더해 유효 주소 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) (Effective Address)를 만드는 방식이다.

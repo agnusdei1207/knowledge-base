@@ -3,9 +3,8 @@ title: "56. TOGAF EA Framework"
 date: "2026-05-01"
 tags:
   - "studynote-software-engineering"
+weight: 56
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/) ([The Open Group](/studynote/12_it_management/03_ea_isp/113_togaf/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Framework)는 기업 아키텍처를 체계적으로 설계/운영하기 위한 프레임워크다.

@@ -3,8 +3,8 @@ title: "321. Memory Hierarchy"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 321
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 컴퓨터 공학 최대의 물리적 한계인 <strong>"빠른 저장 장치는 비싸고 좁으며, 넓은 저장 장치는 싸지만 느리다"</strong>는 모순을 극복하기 위해, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)부터 하드디스크까지 부품들을 피라미드식으로 쌓아 올린 궁극의 가성비 융합 아키텍처다.

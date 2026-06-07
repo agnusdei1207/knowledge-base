@@ -3,8 +3,8 @@ title: "098. Padding Convolutional Neural Network Same Valid"
 date: "2026-04-10"
 tags:
   - "studynote-ai"
+weight: 98
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패딩 (Padding)은 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))에서 [합성곱 연산](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) 시 입력 이미지 테두리에 0과 같은 가상의 픽셀을 덧대어 이미지의 공간 크기를 확장하는 기법이다.

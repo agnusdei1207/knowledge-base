@@ -3,8 +3,8 @@ title: "281. Calms"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 281
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Culture, Automation, [Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/), Measurement, Sharing 다섯 축으로 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도를 보는 프레임워크.

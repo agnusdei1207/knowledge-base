@@ -3,8 +3,8 @@ title: "144. Cpu Affinity"
 date: "2026-05-08"
 tags:
   - "studynote-operating-system"
+weight: 144
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CPU 친화성 (CPU [Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))은 프로세스와 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.

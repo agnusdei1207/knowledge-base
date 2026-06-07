@@ -3,8 +3,8 @@ title: "819. Pest Analysis Macro Environment"
 date: "2026-04-29"
 tags:
   - "studynote-it-management"
+weight: 819
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업 외부의 거시 환경을 P (Political, 정치), E (Economic, 경제), S (Social, 사회), T (Technological, 기술)의 4가지 관점으로 체계적으로 분석하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 경영 프레임워크로, IT 프로젝트·신사업 기획·[디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 외부 [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 도구다.
 > 2. **가치**: [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업이 통제할 수 없는 외부 거시 요인을 사전에 파악하여 기회(Opportunity)와 위협(Threat)을 식별한다. 이는 SWOT 분석의 O·T(기회·위협) 인풋 데이터를 제공하고, 포터의 5 Forces 분석의 외부 환경적 맥락을 설정한다.

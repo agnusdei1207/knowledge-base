@@ -3,8 +3,8 @@ title: "147. Concept"
 date: "2026-04-19"
 tags:
   - "studynote-ai"
+weight: 147
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ToT(Tree-of-Thought, 사고 트리)는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [대규모 언어 모델](/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/))이 문제를 해결할 때 단선(Chain)이 아닌 <strong>트리 구조로 여러 사고 경로를 분기·탐색·<a href="/studynote/08_algorithm_stats/01_basics/010_backtracking/">백트래킹</a>(<a href="/studynote/08_algorithm_stats/01_basics/010_backtracking/">Backtracking</a>)하며 최적 답을 찾는 추론 프레임워크</strong>다.
 > 2. **가치**: [CoT](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)([Chain-of-Thought](/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/), 생각의 연쇄)가 직선으로 한 번만 추론하는 것과 달리, ToT는 <strong>여러 가능성을 동시에 탐색하고 막힌 경로를 포기(<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)하며 더 나은 경로를 선택</strong>함으로써 복잡한 다단계 추론 과제에서 정확도를 획기적으로 높인다.

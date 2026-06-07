@@ -1,11 +1,11 @@
 ---
 title: "Databricks, Snowflake"
 date: "2024-05-15"
-description: "데이터 레이크의 확장성과 DW의 신뢰성을 결합한 레이크하우스의 등장 배경, Iceberg/Delta 기반의 오픈 테이블 포맷 원리 및 실무 도입 전략을 분석합니다."
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
+weight: 8
 ---
-
 # [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))
 
 #### 핵심 인사이트 (3줄 요약)

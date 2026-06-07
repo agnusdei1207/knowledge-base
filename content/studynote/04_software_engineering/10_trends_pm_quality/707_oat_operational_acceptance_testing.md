@@ -3,8 +3,8 @@ title: "707. Oat Operational Acceptance Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 707
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OAT (운영 [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

@@ -1,7 +1,6 @@
 ---
 title: "D Latch"
 date: "2025-01-01"
-description: "D 래치의 구조, 동작 원리, SR 래치와의 차이, 레벨 트리거 vs 엣지 트리거 비교를 다룬다."
 tags:
   - "D latch"
   - "SR latch"
@@ -9,9 +8,9 @@ tags:
   - "flip flop"
   - "level trigger"
   - "sequential logic"
-  - "studynote-ca"
+  - "studynote-computer-architecture"
+weight: 50
 ---
-
 > **핵심 인사이트 3줄**
 > 1. D 래치(D [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 SR 래치의 금지 상태(S=R=1)를 제거하기 위해 입력을 단일 D [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 단순화한 순차 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 소자다.
 > 2. Enable(EN) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 HIGH일 때만 D 값을 Q에 반영하는 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Level-Triggered) 방식으로 동작한다.

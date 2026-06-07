@@ -3,8 +3,8 @@ title: "Instruction Cycle"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 207
 ---
-
 # 207. [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Cycle)
 
 ## 핵심 인사이트 (3줄 요약)

@@ -3,8 +3,8 @@ title: "039. Layer1 Mainnet"
 date: "2026-03-04"
 tags:
   - "studynote-ict-convergence"
+weight: 39
 ---
-
 > **핵심 인사이트**
 > 1. 레이어1(Layer 1)은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 스택의 기반 계층으로, 자체 합의 메커니즘과 네이티브 토큰을 통해 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장의 보안·[탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)·[처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(Scalability) 세 가지를 모두 달성하려는 [블록체인 트릴레마](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)(Trilemma)의 최전선이다.
 > 2. 비트코인(PoW, 7TPS), 이더리움(PoS, ~30TPS), 솔라나(PoH+PoS, ~65,000TPS)는 각각 다른 트릴레마 트레이드오프 — 비트코인은 보안 최우선, 이더리움은 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)+보안, 솔라나는 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)+속도 — 를 선택한 결과다.

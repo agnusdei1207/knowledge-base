@@ -3,8 +3,8 @@ title: "116. Knapsack"
 date: "2026-04-05"
 tags:
   - "studynote-algorithm-stats"
+weight: 116
 ---
-
 > **핵심 인사이트**
 > 1. 배낭 문제(Knapsack Problem)는 NP-완전 문제의 대표적 최적화 문제 — 무게 제한이 있는 배낭에 가치 합계를 최대화하는 물건을 고르는 문제로, 0/1 배낭(물건 전체 또는 선택 안 함)과 분수 배낭(일부 가능)으로 나뉜다.
 > 2. 0/1 배낭 문제는 DP([동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))로 의사다항 시간(Pseudo-Polynomial) 해결 — O(nW) 시간·공간 복잡도이며, 이는 엄밀히 다항 시간이 아니지만 실용적으로 많은 경우에 효율적이다.

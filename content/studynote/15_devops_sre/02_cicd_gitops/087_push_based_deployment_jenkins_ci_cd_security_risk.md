@@ -2,9 +2,9 @@
 title: "087. Push Based Deployment Jenkins Ci Cd Security Risk"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 87
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: 푸시 기반 (Push-based) 배포는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 서버가 대상 서버로 직접 배포 명령과 자산을 밀어 넣는 방식이다.

@@ -3,8 +3,8 @@ title: "182. Blockchain Smart Contract Data Integrity"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 182
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 다자간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환에서 동일한 증빙 원장을 공유하게 만드는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 신뢰 계층이고, [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))는 그 위에서 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·정산·권한 이전 규칙을 자동 실행하는 코드다.

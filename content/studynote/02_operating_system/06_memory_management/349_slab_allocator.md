@@ -3,8 +3,8 @@ title: "349. Slab Allocator"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 349
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [슬랩](/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기([Slab](/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Allocator)는 자주 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸하는 <strong>작은 크기의 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 객체(예: PCB, <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>)들을 미리 할당된 크기별 맞춤 방(캐시)에 보관해두고 재사용(Object <a href="/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">Caching</a>)</strong>하는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당 아키텍처다.

@@ -1,10 +1,11 @@
 ---
 title: "071. Digital Transformation Dx"
+date: "2026-06-07"
 tags:
   - "enterprise_systems"
-date: "2026-06-07"
+  - "studynote-enterprise-systems"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DX는 디지털 기술을 이용해 비즈니스, 조직, 고객 경험을 근본적으로 재설계하는 변화다.

@@ -3,8 +3,8 @@ title: "506. Directory Structure Symbol Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 506
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디렉터리(폴더)는 사실 파란색 주머니가 아니라, 그 자체로 <strong>"<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 이름(String)을 물리적 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>표 주소(Inode Number)로 번역해 주는 거대한 표(Symbol Table 매핑) <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>"</strong> 를 담고 있는 또 다른 특수한 '[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'일 뿐이다.

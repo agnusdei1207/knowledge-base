@@ -3,8 +3,8 @@ title: "Cyber Threat Intelligence CTI TTP IOC"
 date: "2026-05-09"
 tags:
   - "studynote-ict-convergence"
+weight: 738
 ---
-
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
 

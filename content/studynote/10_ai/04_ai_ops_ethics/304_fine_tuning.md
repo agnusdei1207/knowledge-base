@@ -3,8 +3,8 @@ title: "Fine-Tuning"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 파인 튜닝 (Fine-Tuning, [미세 조정](/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/))은 대규모 사전 학습된 [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 전체 또는 일부 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 특정 다운스트림 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 소량 레이블 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 추가 학습하여 모델을 전문화시키는 [전이 학습](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)) 기법이다.

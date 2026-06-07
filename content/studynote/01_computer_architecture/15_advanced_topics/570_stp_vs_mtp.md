@@ -3,8 +3,8 @@ title: "MTP"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 570
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (Single-[Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), STP)은 한 개의 중요한 실행 흐름을 얼마나 빨리 끝내는가를, [다중 스레드](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (Multi-[Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), MTP)은 여러 실행 흐름을 합쳐 단위 시간에 얼마나 많이 처리하는가를 본다.

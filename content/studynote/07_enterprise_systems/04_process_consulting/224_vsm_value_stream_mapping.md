@@ -2,9 +2,9 @@
 title: "Value Stream Mapping"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 224
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) ([Value Stream Mapping](/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/))은 고객 요청이 실제 가치로 전환되기까지의 전체 흐름을 작업 시간과 대기 시간으로 나눠 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 기법이다.

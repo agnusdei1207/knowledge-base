@@ -3,8 +3,8 @@ title: "153. Reaping Zombies"
 date: "2026-05-03"
 tags:
   - "studynote-operating-system"
+weight: 153
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [좀비 프로세스](/studynote/02_operating_system/02_process_thread/109_zombie_process/)([Zombie Process](/studynote/02_operating_system/02_process_thread/109_zombie_process/))는 자식 프로세스가 자살(`exit`)하여 메모리와 영혼(자원)은 다 반납하고 진짜 뒈졌지만!! 부모 놈이 그 시체 종료 상태(Exit Status)를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(`wait`)해주지 않아 -> <strong>오직 이름표(PID 주민번호) 1개만을 영원히 붙잡고 껍데기만 남아 시스템을 떠도는 좀비 시체 쇳덩이 찌끄레기 상태(Z)</strong>다.
 > 2. **위협**: 좀비 자체는 램(RAM)이나 CPU를 1바이트도 퍼먹지 않지만, 저 <strong>이름표(PID) 슬롯 개수(최대 32768개)</strong>가 유한하다는 게 치명적 파국이다 💥. 좀비가 수만 마리 쌓여 PID 번호통이 다 털려 탕진 고갈되면 -> 1초 뒤 새 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))나 신규 프로세스를 1개도 못 띄우는 `EAGAIN` 뻗음 올스탑 셧다운 멸망 터짐이 확정 록온된다.

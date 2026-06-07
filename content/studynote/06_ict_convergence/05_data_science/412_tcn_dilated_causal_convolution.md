@@ -3,8 +3,8 @@ title: "Dilated Causal Conv"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 412
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시계열 예측 딥러닝 TCN 구조 팽창 인과 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 매핑 (Dilated Causal Conv): 1. **본질**: TCN([Temporal Convolutional Network](/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/))은 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(시간 흐름)를 예측할 때, 전통적으로 쓰이던 [순환 신경망](/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/)([RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))을 버리고,…를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

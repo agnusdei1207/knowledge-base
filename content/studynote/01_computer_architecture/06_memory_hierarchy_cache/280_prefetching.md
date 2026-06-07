@@ -3,8 +3,8 @@ title: "Prefetching"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 280
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 프리페칭 (Prefetching)은 CPU (Central Processing Unit)가 미래 접근을 추정해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **요청 전에** 캐시로 끌어오는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 기법이다.

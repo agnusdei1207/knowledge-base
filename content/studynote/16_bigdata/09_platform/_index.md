@@ -4,7 +4,6 @@ tags:
   - "studynote-bigdata"
 weight: 9
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터 플랫폼 아키텍처는 데이터 수집(Ingestion) -> 저장(Storage) -> 처리(Processing) -> 분석(Analysis) -> 서빙(Serving)의 전체 파이프라인을 통합하여 엔터프라이즈 수준의 확장성·안정성·거버넌스를 동시에 제공하는 시스템 설계 체계다.
 > 2. **가치**: 클라우드 네이티브 빅데이터 플랫폼은 온프레미스 Hadoop 클러스터 대비 유연한 확장, 종량제 비용 모델, 관리형 서비스(Managed Service) 활용으로 <strong>총소유비용(TCO, Total Cost of Ownership)을 50~70% 절감</strong>하면서 처리 성능을 향상시킨다.

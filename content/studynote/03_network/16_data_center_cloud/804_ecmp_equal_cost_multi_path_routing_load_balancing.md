@@ -3,8 +3,8 @@ title: "804. Ecmp Equal Cost Multi Path Routing Load Balancing"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 804
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ECMP 스파인-리프 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…는 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

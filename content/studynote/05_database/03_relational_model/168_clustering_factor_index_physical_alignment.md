@@ -1,11 +1,11 @@
 ---
 title: "168. Clustering Factor Index Physical Alignment"
 date: "2026-04-03"
-description: "클러스터링 팩터를 중심으로 인덱스 정렬 순서와 테이블의 물리적 저장 정렬이 성능에 미치는 영향을 설명한다."
 tags:
   - "database"
+  - "studynote-database"
+weight: 168
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클러스터링 팩터](/studynote/05_database/03_relational_model/169_clustering_factor_index_physical_sort/) ([Clustering Factor](/studynote/05_database/03_relational_model/169_clustering_factor_index_physical_sort/), CF)는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 가리키는 순서와 실제 테이블 행이 저장된 블록 순서가 얼마나 비슷한지를 보여 주는 물리 정렬 친화도 지표다.

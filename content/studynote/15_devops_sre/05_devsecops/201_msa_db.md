@@ -3,8 +3,8 @@ title: "MSA"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 분리해 독립 배포와 독립 확장을 가능하게 하는 아키텍처.

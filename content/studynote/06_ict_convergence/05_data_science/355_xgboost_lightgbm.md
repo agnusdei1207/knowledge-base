@@ -3,9 +3,8 @@ title: "355. XGBoost / LightGBM (Xgboost Lightgbm)"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 355
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: XGBoost / LightGBM (Xgboost Lightgbm): [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)/회귀 대회의 우승 단골 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(L1/L2) 도입 및 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 트리 생성으로 GBM 속도/과적합 개선를 이해하는 핵심 개념으로, 흩어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 해석 가능한 통찰로 바꿔야 하는 문제를 설명하는 데 쓰인다.

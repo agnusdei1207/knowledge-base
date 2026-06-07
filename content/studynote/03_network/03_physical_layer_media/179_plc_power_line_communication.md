@@ -1,10 +1,11 @@
 ---
 title: "PLC, Power Line Communication"
+date: "2026-06-07"
 tags:
   - "network"
-date: "2026-06-07"
+  - "studynote-network"
+weight: 179
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Line Communication)는 50/60Hz 전력을 보내는 기존 전력선 위에 더 높은 주파수의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 중첩해, 전력망 자체를 통신 매질로 재활용하는 기술이다.

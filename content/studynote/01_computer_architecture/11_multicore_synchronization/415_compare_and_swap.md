@@ -3,8 +3,8 @@ title: "415. Compare And Swap"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 415
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) (Compare-and-Swap) 연산은 공유 메모리의 값이 내가 기대한 값과 같을 때만 새 값으로 바꾸는 원자적(Atomic) 읽기-수정-[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 명령이다.

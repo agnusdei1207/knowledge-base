@@ -2,9 +2,9 @@
 title: "DevOps Topology"
 date: "2026-03-04"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 34
 ---
-
 > **핵심 인사이트 3줄**
 > 1. [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Topology)는 조직이 DevOps를 구현하는 다양한 팀 [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)을 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 프레임워크로, "Anti-Type A(Dev와 Ops 완전 분리)"부터 "Type 5(NoOps·[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))"까지 조직 성숙도별 모델을 제시한다.
 > 2. Team Topologies와 연계해 조직의 [인지 부하](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)·팀 간 의존성·플랫폼 성숙도를 종합 고려해 적절한 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지를 선택해야 하며, 하나의 정답 패턴은 존재하지 않는다.

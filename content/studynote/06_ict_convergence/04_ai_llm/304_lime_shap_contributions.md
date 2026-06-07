@@ -3,8 +3,8 @@ title: "304. Lime Shap Contributions"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 304
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) / [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) 지표 (부분적 / 게임이론 전역적 변수 기여 해석): [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) / [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) 지표 (부분적 / 게임이론 전역적 변수 기여 해석)를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

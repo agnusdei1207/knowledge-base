@@ -3,8 +3,8 @@ title: "Challenge-Response Pair, CRP"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 789
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CRP는 고정 비밀을 보내는 대신, 매번 다른 도전값(Challenge)에 대해 장치만이 만들 수 있는 응답(Response)을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 모델이다.

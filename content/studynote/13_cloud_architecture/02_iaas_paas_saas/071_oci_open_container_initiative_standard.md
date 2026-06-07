@@ -2,9 +2,9 @@
 title: "071. Oci Open Container Initiative Standard"
 date: "2026-04-07"
 tags:
-  - "studynote-cloud"
+  - "studynote-cloud-architecture"
+weight: 71
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OCI는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지와 런타임의 표준 규격을 정의한 개방형 프로젝트다.

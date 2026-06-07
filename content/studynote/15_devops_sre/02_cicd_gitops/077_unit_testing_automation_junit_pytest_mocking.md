@@ -2,9 +2,9 @@
 title: "JUnit, PyTest"
 date: "2026-04-10"
 tags:
-  - "studynote-devops"
+  - "studynote-devops-sre"
+weight: 77
 ---
-
 # [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 자동화 (JUnit, Pytest, Mocking)
 
 ## 핵심 인사이트 (3줄 요약)

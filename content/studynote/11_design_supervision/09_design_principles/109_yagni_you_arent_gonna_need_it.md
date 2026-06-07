@@ -3,8 +3,8 @@ title: "YAGNI, You Aren't Gonna Need It"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 109
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [YAGNI](/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It, 불필요한 기능 구현 금지 원칙)는 현재 실제로 필요한 기능만 구현하고, 미래에 필요할 것이라는 추측을 근거로 한 선행 설계·구현을 금지하는 익스트림 프로그래밍([XP](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/), [Extreme Programming](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))의 핵심 원칙이다.

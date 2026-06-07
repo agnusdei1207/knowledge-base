@@ -3,8 +3,8 @@ title: "525. Fat File Allocation Table"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 525
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 `연결 할당(Linked Allocation 524장)`은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들이 서로 꼬리표를 달고 흩어져 있어 가운데 조각을 찾으려면 디스크를 끔찍하게 긁어야(순차 탐색 지옥) 했다. <strong>MS-DOS와 윈도우 OS는 이 흩어진 '꼬리표 포인터들'만 전부 다 칼로 뜯어내서, 디스크 맨 앞의 거대한 통계 장부(FAT) 1장에 싹 다 모아 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>로 박아버렸다.</strong>

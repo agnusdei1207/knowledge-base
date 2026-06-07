@@ -1,11 +1,10 @@
 ---
-date: "2026-06-07"
 title: "659. 스프린트 백로그 / 프로덕트 백로그"
 date: "2026-05-08"
-categories: "studynote-software-engineering"
+tags:
+  - "studynote-software-engineering"
+weight: 659
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스프린트 백로그 / 프로덕트 백로그은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

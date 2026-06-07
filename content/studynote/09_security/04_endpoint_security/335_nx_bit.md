@@ -3,8 +3,8 @@ title: "No-Execute Bit"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 335
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: NX [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (No-Execute [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))는 인증서·[엔드포인트 보안](/studynote/09_security/04_endpoint_security/321_endpoint_security/)에서 위험, 통제, 증적, 책임 구조를 일정한 기준으로 정렬하는 관리 프레임워크다.

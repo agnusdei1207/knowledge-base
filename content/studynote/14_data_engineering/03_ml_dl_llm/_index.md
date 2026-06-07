@@ -2,9 +2,9 @@
 title: "ML, DL & LLM"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
 weight: 3
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 모델 및 서빙 공학은 학습된 인공지능 모델 (ML/DL/LLM)을 실제 서비스 환경에서 안정적이고 빠르게 구동하기 위해 추론 최적화, 경량화 및 고가용성 서빙 인프라를 구축하는 기술이다.

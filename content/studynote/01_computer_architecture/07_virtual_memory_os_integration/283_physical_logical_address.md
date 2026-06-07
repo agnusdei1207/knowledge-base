@@ -3,8 +3,8 @@ title: "Physical vs Logical Address"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 283
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) (Logical Address)는 프로세스가 바라보는 작업용 주소 공간이고, [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/) ([Physical Address](/studynote/02_operating_system/06_memory_management/323_physical_address/))는 실제 주기억장치인 RAM (Random Access Memory) 칩에 찍히는 하드웨어 주소다.

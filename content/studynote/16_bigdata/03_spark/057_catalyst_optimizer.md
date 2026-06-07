@@ -3,9 +3,8 @@ title: "Catalyst Optimizer"
 date: "2024-03-23"
 tags:
   - "studynote-bigdata"
+weight: 57
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 - Catalyst는 [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) SQL의 핵심 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 엔진으로, Scala의 [함수형 프로그래밍](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/) 특성을 활용해 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 자동으로 개선한다.
 - [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 물리적 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)으로 변환하는 과정에서 Rule-based 및 Cost-based 최적화를 수행하여 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다.

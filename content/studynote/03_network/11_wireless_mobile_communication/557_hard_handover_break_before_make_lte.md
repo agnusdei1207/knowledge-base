@@ -3,8 +3,8 @@ title: "Hard Handoff"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 557
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 무선·이동통신에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

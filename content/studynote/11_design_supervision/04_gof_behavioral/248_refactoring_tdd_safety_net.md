@@ -3,8 +3,8 @@ title: "Refactoring TDD Safety Net"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 248
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/studynote/11_design_supervision/06_exam_summary/411_process/), [테스트 주도 개발](/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)) 는 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 **안전망 (Safety Net)** 으로, "외부 동작 불변" 이라는 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 전제 조건을 테스트 스위트 (Test Suite) 가 자동으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.

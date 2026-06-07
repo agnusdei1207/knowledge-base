@@ -3,8 +3,8 @@ title: "GoF 23 Design Patterns Classification"
 date: "2026-05-10"
 tags:
   - "studynote-design-supervision"
+weight: 142
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GoF 23가지 패턴은 객체지향 설계의 반복 문제를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 5개, 구조 7개, 행위 11개로 나눈 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다.

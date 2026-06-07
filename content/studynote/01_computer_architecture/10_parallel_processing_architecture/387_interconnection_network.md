@@ -3,8 +3,8 @@ title: "Interconnection Network"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 387
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 상호 연결망 (Interconnection Network)은 여러 프로세서와 메모리, 입출력 장치 사이의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 길로, 몇 단계 만에, 얼마나 동시에 보낼지를 결정하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템의 교통 인프라다.

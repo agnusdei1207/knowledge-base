@@ -3,8 +3,8 @@ title: "112. Collaborative Crm Omnichannel"
 date: "2026-04-19"
 tags:
   - "studynote-enterprise-systems"
+weight: 112
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 협업 [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Collaborative [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))은 전화·이메일·카카오톡·챗봇·매장 방문 등 <strong>모든 고객 접점 채널을 단일 플랫폼으로 통합(<a href="/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/">옴니채널</a>)</strong>하여, 어떤 채널로 문의해도 <strong>동일한 상담 이력과 <a href="/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>가 이어지는</strong> 끊김 없는 고객 경험을 제공하는 시스템이다.
 > 2. **가치**: 운영 [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(실행)·분석 [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(통찰)이 아무리 좋아도, 고객이 <strong>전화->카톡->매장 3번 같은 말을 반복</strong>해야 한다면 CX(고객 경험)는 0점이다. 협업 CRM은 이 "채널 단절"을 제거하는 <strong>신경망 레이어</strong>다.

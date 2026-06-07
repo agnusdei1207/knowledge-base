@@ -3,8 +3,8 @@ title: "145. Sql Window Function Analytics"
 date: "2026-04-19"
 tags:
   - "studynote-database"
+weight: 145
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Window Frame은 <strong>ROWS(물리적 행 수)/RANGE(<a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 값 범위)로 현재 행 기준 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 범위를 정의</strong>하며, UNBOUNDED PRECEDING·[CURRENT](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW·N FOLLOWING 등으로 세밀하게 제어한다.
 > 2. **가치**: SUM(sal) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND [CURRENT](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW)처럼 <strong>이동 평균·누적합·연속 N일 집계</strong>를 SQL만으로 구현할 수 있어 별도 프로그래밍이 불필요하다.

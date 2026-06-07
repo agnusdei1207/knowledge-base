@@ -3,9 +3,8 @@ title: "289. SSE (Security Service Edge)"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 289
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SSE](/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Edge)는 네트워크·암호 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 복잡한 보안 문제를 요소와 관계로 나눠 설명하게 해 주는 구조화된 틀이다.

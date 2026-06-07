@@ -2,9 +2,9 @@
 title: "Math & Data Mining"
 tags:
   - "data_engineering"
+  - "studynote-data-engineering"
 weight: 2
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터 수학 및 마이닝 공학은 대규모 데이터에서 패턴을 추출하기 위한 수학적 이론 (선형대수, 통계)을 하드웨어 성능과 연산 효율성을 고려한 소프트웨어 아키텍처로 구현하는 학문이다.

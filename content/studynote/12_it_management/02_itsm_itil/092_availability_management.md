@@ -1,11 +1,11 @@
 ---
 title: "092. Gpt Nlp"
 date: "2026-04-05"
-description: "GPT 시리즈의 발전 과정, 생성형 AI의 원리, 프롬프트 엔지니어링, 자연어 처리의 미래"
 tags:
   - "it_management"
+  - "studynote-it-management"
+weight: 92
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ([Generative Pre-trained Transformer](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))는 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 아키텍처의 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))만을 사용하여, 방대한 텍스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로부터 "다음 단어 예측(Next Token Prediction)"이라는 자기회귀([Autoregressive](/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) 방식을 통해 언어의 문맥과 지식을 학습한 거대 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이다.

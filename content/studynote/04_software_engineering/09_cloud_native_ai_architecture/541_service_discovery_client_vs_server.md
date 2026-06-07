@@ -3,8 +3,8 @@ title: "541. Service Discovery Client Vs Server"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 541
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [클라이언트 사이드 디스커버리](/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) vs 서버 사이드 디스커버리은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

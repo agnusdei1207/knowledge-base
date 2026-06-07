@@ -3,8 +3,8 @@ title: "Backward"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 235
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/))이 지식 창고에서 정답을 찾아가는 탐색 뇌파는 두 가지 방향뿐이다. <strong>전향 추론(<a href="/studynote/10_ai/01_ai_basics/010_forward_chaining/">Forward Chaining</a>)</strong>은 내가 가진 '단서([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'들을 먼저 쥐고 시작해 이리저리 엮어서 "아하! 이 결론이네!"라고 나아가는 방식이고, <strong><a href="/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a>(<a href="/studynote/10_ai/01_ai_basics/011_backward_chaining/">Backward Chaining</a>)</strong>은 "이놈이 범인일 거야!"라고 '목표(가설)'를 먼저 찍어둔 뒤, "범인이 맞다면 이 증거가 있어야 하는데?"라며 거꾸로 거슬러 내려가며 단서를 캐묻는 방식이다.

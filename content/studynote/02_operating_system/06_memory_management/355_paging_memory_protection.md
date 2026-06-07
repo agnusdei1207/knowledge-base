@@ -3,8 +3,8 @@ title: "Valid-Invalid Bit"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 355
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 환경에서의 [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)는 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)의 각 줄(Entry)마다 붙어있는 <strong><a href="/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/">유효-무효 비트</a>(Valid-Invalid <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>와 <strong>권한 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(R/W/X)</strong>를 통해 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 극도로 세밀하게 하드웨어적인 접근 통제를 수행하는 방어 기제다.

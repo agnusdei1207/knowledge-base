@@ -3,8 +3,8 @@ title: "143. Span Service Operation Unit"
 date: "2026-04-19"
 tags:
   - "studynote-devops-sre"
+weight: 143
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Span은 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 트레이스의 기본 단위</strong>로, 하나의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내 <strong>특정 오퍼레이션(<a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 요청·DB <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>·<a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 처리)</strong>의 시작·종료·[메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 기록하며, 부모-자식 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 트리를 형성한다.
 > 2. **가치**: Span에 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>명·오퍼레이션명·상태코드·에러·태그·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 이벤트</strong>가 포함되어, 각 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구간의 **소요 시간·에러 여부를 정확히** 파악할 수 있다.

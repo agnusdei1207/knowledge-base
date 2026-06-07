@@ -3,8 +3,8 @@ title: "CNI"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 1000
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CNI](/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)([Container Network Interface](/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/))는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 같은 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서, 수시로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 사라지는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))들에게 네트워크 IP를 할당하고 연결해주는 표준화된 인터페이스다.

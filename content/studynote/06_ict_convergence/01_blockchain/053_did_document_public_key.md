@@ -3,8 +3,8 @@ title: "DID Document Public Key"
 date: "2026-05-01"
 tags:
   - "studynote-ict-convergence"
+weight: 53
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 문서 ([DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) [Document](/studynote/14_data_engineering/01_infrastructure/037_document/))는 [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (Decentralized [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))에 연결된 공개 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수단을 담는 자료다.

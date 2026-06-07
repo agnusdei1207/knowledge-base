@@ -3,8 +3,8 @@ title: "Knowledge Distillation"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 285
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)): [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋은 무거운 교사(Teacher) 모델의 산출물 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 가벼운 학생(Student) 모델이 모방 학습하도록 하여 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 유지하되 모델 사이즈를 경량화를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.

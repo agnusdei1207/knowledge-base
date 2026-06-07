@@ -3,8 +3,8 @@ title: "Tactile Internet 5ms"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 797
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 텔레햅틱 체계 기술 네트워크 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

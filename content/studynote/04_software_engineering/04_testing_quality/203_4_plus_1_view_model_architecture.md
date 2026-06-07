@@ -3,8 +3,8 @@ title: "203. 4 Plus 1 View Model Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 203
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 아키텍처 뷰 모델 (4+1 [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) - [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/), 구현, 프로세스, 배치 + 유스케이스 뷰은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

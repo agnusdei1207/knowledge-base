@@ -2,9 +2,9 @@
 title: "120. Concept"
 date: "2026-04-19"
 tags:
-  - "studynote-dataengineering"
+  - "studynote-data-engineering"
+weight: 120
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부트스트래핑은 원본 데이터에서 <strong>복원 추출(Resampling with Replacement)</strong>을 반복하여 <strong>통계량(평균·중앙값·모델 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>)의 분포를 비모수적으로 추정</strong>하는 기법이다.
 > 2. **가치**: 표본이 적어 정규분포 가정이 어렵거나, 복잡한 통계량(중앙값·비율)의 [신뢰 구간](/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)을 구하기 어려울 때, <strong>가정 없이(비모수) <a href="/studynote/08_algorithm_stats/08_stats/146_confidence_interval/">신뢰 구간</a>과 표준 오차를 추정</strong>할 수 있다.

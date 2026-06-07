@@ -2,9 +2,9 @@
 title: "Governance & Strategy"
 tags:
   - "it_management"
+  - "studynote-it-management"
 weight: 1
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 거버넌스 (IT Governance)는 이사회의 책임 하에 IT가 조직의 전략과 목표를 지원할 수 있도록 리더십, 조직 구조 및 프로세스를 구축하고 통제하는 경영 체계이다.

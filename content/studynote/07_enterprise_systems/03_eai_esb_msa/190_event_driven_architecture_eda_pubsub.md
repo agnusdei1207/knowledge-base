@@ -2,9 +2,9 @@
 title: "190. Event Driven Architecture Eda Pubsub"
 date: "2026-05-08"
 tags:
-  - "studynote-enterprise"
+  - "studynote-enterprise-systems"
+weight: 190
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [이벤트 기반 아키텍처](/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/) ([Event-Driven Architecture](/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/studynote/12_it_management/02_itsm_itil/064_eda/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 상대방을 직접 호출해 명령하는 대신, 자신에게 일어난 상태 변화를 이벤트로 발행하고 관심 있는 소비자가 이를 비동기로 처리하게 만드는 느슨한 결합 구조다.

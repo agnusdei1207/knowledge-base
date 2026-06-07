@@ -3,8 +3,8 @@ title: "176. Join Order Optimization"
 date: "2026-05-06"
 tags:
   - "studynote-database"
+weight: 176
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조인 순서 ([Join](/studynote/05_database/04_transactions_concurrency/521_join/) Order) 최적화는 같은 SQL (Structured Query Language) 의미를 유지한 채, 어떤 테이블을 먼저 묶어 중간 결과를 가장 작게 만들지 결정하는 문제다.

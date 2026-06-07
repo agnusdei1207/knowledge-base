@@ -3,9 +3,8 @@ title: "302. GPT (Generative Pre-trained Transformer)"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 302
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: GPT (Generative Pre-trained [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 구조를 사용하여 "다음 토큰 예측"이라는 단일 언어 모델링 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)로 대규모 텍스트를 사전 학습한 뒤, 텍스트를 자기회귀적([Autoregressive](/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/))으로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 모델 계보다.

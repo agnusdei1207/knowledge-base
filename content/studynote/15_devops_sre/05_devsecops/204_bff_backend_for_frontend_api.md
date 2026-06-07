@@ -3,9 +3,8 @@ title: "204. BFF (Backend For Frontend)"
 date: "2026-05-08"
 tags:
   - "studynote-devops-sre"
+weight: 204
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 웹, 모바일 등 채널별 요구에 맞춰 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 조합과 최적화를 담당하는 전용 백엔드.

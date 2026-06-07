@@ -2,9 +2,9 @@
 title: "042. Kruskal"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 42
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 크루스칼 (Kruskal) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모든 간선을 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 기준으로 정렬한 후 사이클을 형성하지 않는 최소 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 간선을 탐욕적으로 선택하여 MST를 구성한다.

@@ -3,8 +3,8 @@ title: "416. State Transition Testing"
 date: "2026-05-08"
 tags:
   - "studynote-software-engineering"
+weight: 416
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing) - 객체의 상태 변화 시나리오 검증은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

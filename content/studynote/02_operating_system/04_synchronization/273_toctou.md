@@ -3,8 +3,8 @@ title: "TOCTOU: Time of Check to Time of Use"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 273
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TOCTOU는 프로그램이 어떤 자원([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 변수, 권한 등)에 접근하기 전에 <strong>'유효한지 검사(Check)'</strong>를 하고 통과한 뒤, <strong>'실제 작업(Use)'</strong>을 수행하기 위해 손을 뻗는 그 0.001초의 틈새에, 다른 해커 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자원의 상태를 악의적으로 바꿔치기하는 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 취약점이다.

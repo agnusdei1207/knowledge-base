@@ -3,8 +3,8 @@ title: "038. Residual Risk"
 date: "2026-03-03"
 tags:
   - "studynote-security"
+weight: 38
 ---
-
 > **핵심 인사이트**
 > 1. 잔여 위험(Residual [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 보안 통제를 적용한 후에도 남아 있는 위험으로, 이론상 위험을 완전히 제거하는 것은 불가능하므로 "얼마나 수용 가능한 수준으로 줄였는가"가 보안 관리의 본질적 목표다.
 > 2. 잔여 [위험 수용](/studynote/09_security/01_intro_principles/037_risk_acceptance/)(Acceptance)은 위험을 무시하는 것이 아니라 통제 비용이 잠재적 피해보다 크거나 비즈니스상 불가피한 경우의 의식적 결정이며, 경영진 서명이 있는 공식 문서로 기록되어야 한다.

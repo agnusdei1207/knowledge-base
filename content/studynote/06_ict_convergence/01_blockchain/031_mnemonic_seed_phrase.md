@@ -3,8 +3,8 @@ title: "031. Mnemonic Seed Phrase"
 date: "2026-04-29"
 tags:
   - "studynote-ict-convergence"
+weight: 31
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BIP-39 니모닉 시드 구문은 HD(Hierarchical Deterministic) 지갑의 단일 시드에서 무한한 키 쌍을 결정론적으로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 표준이다. 니모닉 -> PBKDF2 -> 512비트 시드 -> BIP-32 트리 구조로 확장된다.
 > 2. **가치**: HD 지갑의 핵심은 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 단순성이다. 12~24단어 시드 구문 하나로 이더리움·비트코인·솔라나 등 멀티체인의 모든 계정을 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있다. BIP-44 파생 경로가 체인별 계층을 표준화한다.

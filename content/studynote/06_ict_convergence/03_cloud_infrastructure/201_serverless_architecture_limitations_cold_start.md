@@ -3,8 +3,8 @@ title: "Serverless"
 date: "2026-05-08"
 tags:
   - "studynote-ict-convergence"
+weight: 201
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [서버리스 아키텍처](/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/) 한계점 분석 ([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)): [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/): 함수 최초 호출 시 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 로딩 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 장기 실행 제약, 상태 비저장([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.

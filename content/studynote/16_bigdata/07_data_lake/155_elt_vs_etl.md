@@ -3,8 +3,8 @@ title: "155. Elt Vs Etl"
 date: "2026-04-21"
 tags:
   - "studynote-bigdata"
+weight: 155
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 1. [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load)은 변환 후 적재하는 전통 방식으로 스토리지 비용이 비쌌던 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 환경에 최적화되었으나, 클라우드 시대에는 <strong>먼저 적재하고 나중에 변환하는 <a href="/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a> (Extract, Load, Transform)</strong>가 표준으로 전환되었다.
 2. dbt ([data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)는 [ELT](/studynote/14_data_engineering/01_infrastructure/034_elt/) 패러다임의 핵심 도구로, [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)·[레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 내부에서 SQL로 선언적 변환을 수행하며 테스트·문서화·리니지를 자동 관리한다.

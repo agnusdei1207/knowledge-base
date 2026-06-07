@@ -3,8 +3,8 @@ title: "128. Circuit Breaker"
 date: "2026-04-19"
 tags:
   - "studynote-cloud-architecture"
+weight: 128
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Circuit Breaker는 <strong>원격 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 호출 실패가 임계치를 초과하면 자동으로 회로를 열어(Open) 호출을 차단</strong>하고, 일정 시간 후 반 열림(Half-Open)으로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 시도하는 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복원력(Resilience) 패턴이다.
 > 2. **가치**: [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) 없이 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) B가 장애이면 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 <strong>타임아웃까지 대기-><a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 고갈->A도 장애(Cascading Failure)</strong>가 발생하지만, Circuit Breaker가 <strong>즉시 <a href="/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>(<a href="/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>) 응답</strong>을 반환하여 장애 전파를 차단한다.

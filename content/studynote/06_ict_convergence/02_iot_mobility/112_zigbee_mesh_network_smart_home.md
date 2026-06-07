@@ -3,8 +3,8 @@ title: "112. Zigbee Mesh Network Smart Home"
 date: "2026-04-19"
 tags:
   - "studynote-ict-convergence"
+weight: 112
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Zigbee는 IEEE 802.15.4 기반의 <strong>저전력·저속·단거리(~100m) <a href="/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/">WPAN</a>(Wireless Personal Area Network)</strong> [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, <strong><a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>(<a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>) 토폴로지</strong>를 통해 수백 개 센서 노드가 자가 치유(Self-healing) 네트워크를 형성하는 스마트 홈·빌딩 자동화의 핵심 기술이다.
 > 2. **가치**: [BLE](/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)([Bluetooth Low Energy](/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))가 1:1 Point-to-Point에 강하다면, Zigbee는 <strong><a href="/studynote/02_operating_system/02_process_thread/100_many_to_many_model/">다대다</a>(<a href="/studynote/02_operating_system/02_process_thread/100_many_to_many_model/">Many-to-Many</a>) <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a> <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>에 강하여 조명 100개·센서 200개를 하나의 네트워크로 제어할 수 있다.

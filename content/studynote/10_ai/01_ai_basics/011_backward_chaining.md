@@ -1,9 +1,10 @@
 ---
 title: "011. Backward Chaining"
 date: "2024-05-24"
-description: "가설이나 목표에서 출발하여 조건 데이터를 역으로 검증해 나가는 전문가 시스템의 목표 주도 추론 방식"
 tags:
   - "ai"
+  - "studynote-ai"
+weight: 11
 ---
 # [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 후향 추론 (Backward [Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))
 #### 핵심 인사이트 (3줄 요약)

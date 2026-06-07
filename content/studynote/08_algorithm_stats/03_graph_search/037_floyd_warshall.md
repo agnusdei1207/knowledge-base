@@ -2,9 +2,9 @@
 title: "V³"
 date: "2026-04-21"
 tags:
-  - "studynote-algorithm"
+  - "studynote-algorithm-stats"
+weight: 37
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플로이드-워샬 (Floyd-Warshall) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Dynamic Programming](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))으로 모든 정점 쌍 간 최단 거리를 O(V³)에 계산하는 전체 쌍 최단 경로 (All-Pairs [Shortest Path](/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/), APSP) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.

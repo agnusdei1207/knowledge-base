@@ -3,8 +3,8 @@ title: "Hardware Accelerator"
 date: "2026-03-20"
 tags:
   - "studynote-computer-architecture"
+weight: 417
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 하드웨어 가속기 (Hardware Accelerator)는 CPU (Central Processing Unit)가 잘 못하는 반복적·[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)적 계산을 전용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 전용 메모리 구조로 처리해, 범용성 대신 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 전성비를 얻는 장치다.

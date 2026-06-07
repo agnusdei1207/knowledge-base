@@ -3,8 +3,8 @@ title: "Sdn Data Control Plane Separation Architecture"
 date: "2026-05-08"
 tags:
   - "studynote-security"
+weight: 1093
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/컨트롤 플레인 ([Sdn](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Control Plane Separation [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 보안 확장 개념에서 복잡한 보안 문제를 요소와 관계로 나눠 설명하게 해 주는 구조화된 틀이다.

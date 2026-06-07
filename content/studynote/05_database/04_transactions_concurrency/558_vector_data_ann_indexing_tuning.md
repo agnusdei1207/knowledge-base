@@ -3,8 +3,8 @@ title: "558. Vector Data Ann Indexing Tuning"
 date: "2026-05-09"
 tags:
   - "studynote-database"
+weight: 558
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 벡터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) 인덱싱 파라미터(M, efConstruction) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/리콜 튜닝는 분석·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 관점에서 자주 쓰이는 분석 플랫폼 개념이다.

@@ -3,8 +3,8 @@ title: "Device Reservation Exclusive Access"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 458
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 예약 및 단독 장치 접근 제어는 CD-ROM 굽기, 테이프 드라이브, 특수 의료/공업용 로봇팔처럼 <strong>절대로 '<a href="/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a>(<a href="/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">Spooling</a>)' 꼼수가 통하지 않고, 물리적으로 무조건 한 번에 딱 하나의 프로세스만 점유해야 하는 기계 장치(Exclusive Device)를 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 통제하는 잠금(<a href="/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/">Locking</a>) 시스템</strong>이다.

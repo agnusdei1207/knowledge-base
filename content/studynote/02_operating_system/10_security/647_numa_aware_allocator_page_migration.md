@@ -3,8 +3,8 @@ title: "NUMA Aware Allocator Page Migration"
 date: "2026-05-09"
 tags:
   - "studynote-operating-system"
+weight: 647
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 현대의 멀티 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/)/매니코어 서버는 CPU 코어와 메모리가 짝을 지어 묶인 <strong><a href="/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (<a href="/studynote/02_operating_system/06_memory_management/377_numa_allocation/">Non-Uniform Memory Access</a>)</strong> 아키텍처를 따른다. 내 코어에 달린 메모리(Local)를 읽는 것은 빠르지만, 남의 코어에 달린 메모리(Remote)를 읽으면 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(QPI/UPI) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 때문에 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 떨어진다.

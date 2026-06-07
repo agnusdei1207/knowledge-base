@@ -3,8 +3,8 @@ title: "Mixed Precision Training"
 date: "2026-04-21"
 tags:
   - "studynote-data-engineering"
+weight: 173
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Tensor Core는 [Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 안에서 행렬 곱-누산을 전담하는 연산 유닛이고, [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))은 그 유닛이 굶지 않도록 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공급하는 고대역폭 메모리 계층이다.

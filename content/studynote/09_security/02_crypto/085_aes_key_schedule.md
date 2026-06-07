@@ -3,8 +3,8 @@ title: "085. Aes Key Schedule"
 date: "2026-04-05"
 tags:
   - "studynote-security"
+weight: 85
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 키 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)은 하나의 마스터 키를 라운드 키들로 확장해, 각 라운드가 다른 서브키를 쓰게 만드는 절차다.

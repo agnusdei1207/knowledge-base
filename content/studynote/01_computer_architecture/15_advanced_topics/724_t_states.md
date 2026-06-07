@@ -3,9 +3,8 @@ title: "724. T-States (Throttling States)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 724
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: T-State는 CPU (Central Processing Unit)가 계속 C0에서 일하는 중에도, 클럭 duty cycle을 줄이거나 내부 클럭을 주기적으로 막아 유효 실행 시간을 강제로 깎는 throttling 상태다.

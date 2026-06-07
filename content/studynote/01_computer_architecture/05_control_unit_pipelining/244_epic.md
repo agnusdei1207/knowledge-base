@@ -3,9 +3,8 @@ title: "244. EPIC (Explicitly Parallel Instruction Computing)"
 date: "2026-04-20"
 tags:
   - "studynote-computer-architecture"
+weight: 244
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: EPIC (Explicitly Parallel [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Computing)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism, ILP)을 하드웨어가 실시간으로 추측하기보다, 컴파일러가 미리 드러내고 하드웨어는 그 정보를 충실히 소비하도록 만든 아키텍처 철학이다.

@@ -3,8 +3,8 @@ title: "Hamming Distance"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 948
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

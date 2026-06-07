@@ -3,8 +3,8 @@ title: "Synthetic Minority Over-sampling Technique"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 418
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 오버샘플링 ([Oversampling](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)), 언더샘플링 (Undersampling), [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) ([Synthetic Minority Over-sampling Technique](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/))는 클래스 불균형 (Class Imbalance) 문제를 완화하기 위해 <strong>학습 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분포 자체를 재조정</strong>하는 기법이다.

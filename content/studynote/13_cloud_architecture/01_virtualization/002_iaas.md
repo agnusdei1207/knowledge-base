@@ -1,11 +1,11 @@
 ---
 title: "AWS EC2, S3"
 date: "2024-05-24"
-description: "서버, 스토리지, 네트워크 등 클라우드 인프라 자원을 가상화하여 제공하는 IaaS의 핵심 원리와 실무 아키텍처 가이드"
 tags:
   - "cloud_architecture"
+  - "studynote-cloud-architecture"
+weight: 2
 ---
-
 # [IaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) (Infrastructure [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
 #### 핵심 인사이트 (3줄 요약)

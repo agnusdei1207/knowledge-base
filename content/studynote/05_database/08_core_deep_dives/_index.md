@@ -2,9 +2,9 @@
 title: "Core Deep Dives"
 tags:
   - "database"
+  - "studynote-database"
 weight: 8
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 데이터베이스 핵심 심화는 쿼리 옵티마이저의 내부 실행 엔진, 고가용성 복제 메커니즘, 그리고 대규모 병렬 처리 (MPP) 아키텍처 등 DBMS의 물리적·논리적 한계를 돌파하는 기술적 정수를 다룬다.

@@ -3,8 +3,8 @@ title: "863. Sdn Controller Split Brain Ha Cluster Raft"
 date: "2026-05-08"
 tags:
   - "studynote-network"
+weight: 863
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.

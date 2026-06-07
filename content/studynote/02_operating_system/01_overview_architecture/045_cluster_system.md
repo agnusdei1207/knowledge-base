@@ -3,8 +3,8 @@ title: "045. Cluster System"
 date: "2026-04-05"
 tags:
   - "studynote-operating-system"
+weight: 45
 ---
-
 > **핵심 인사이트**
 > 1. 클러스터 시스템(Cluster System)은 여러 독립 컴퓨터(노드)를 고속 네트워크로 연결해 하나의 단일 시스템처럼 동작시키는 아키텍처 — 단일 고성능 컴퓨터([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), [Scale-Up](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))의 비용과 한계를 극복하기 위해 상용 하드웨어([Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))를 활용한다.
 > 2. 클러스터의 두 핵심 목표는 고가용성(HA, High [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 고성능(HP, High [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) — HA 클러스터는 노드 장애 시 자동 페일오버([Failover](/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 무중단을 보장하고, HP 클러스터는 작업을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)해 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 극대화한다.

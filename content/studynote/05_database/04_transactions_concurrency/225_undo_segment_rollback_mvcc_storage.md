@@ -3,8 +3,8 @@ title: "Undo Segment Rollback MVCC Storage"
 date: "2026-05-08"
 tags:
   - "studynote-database"
+weight: 225
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) 세그먼트 ([롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 세그먼트)은 [MVCC](/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 구버전 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 영역에 초점을 맞춘 개념이다.

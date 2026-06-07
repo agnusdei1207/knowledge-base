@@ -3,8 +3,8 @@ title: "Mlops Drift Detection"
 date: "2026-05-09"
 tags:
   - "studynote-ai"
+weight: 400
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ML [모델 드리프트](/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) (Drift)는 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 변화 ([데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))나 입력-출력 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화 ([컨셉 드리프트](/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/))로 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 현상이며, K-S 검정과 PSI가 통계적 탐지의 표준 도구다.

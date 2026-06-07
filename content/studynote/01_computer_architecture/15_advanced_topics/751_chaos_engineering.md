@@ -3,8 +3,8 @@ title: "751. Chaos Engineering"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 751
 ---
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 카오스 엔지니어링 (Chaos 엔진ering)은 실제 운영 또는 운영과 매우 유사한 환경에서 노드 종료, 네트워크 단절, 디스크 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 같은 <strong>하드웨어성 장애를 의도적으로 모의</strong>해 시스템의 정상 상태가 얼마나 유지되는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 방법이다.

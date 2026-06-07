@@ -3,9 +3,8 @@ title: "759. HALT (Highly Accelerated Life Test)"
 date: "2026-05-08"
 tags:
   - "studynote-computer-architecture"
+weight: 759
 ---
-
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: HALT (Highly Accelerated Life Test)는 시제품에 정상 사양을 넘어서는 온도·진동·복합 스트레스를 단계적으로 가해, 작동 한계와 파괴 한계 그리고 가장 약한 설계 고리를 찾는 개발용 시험이다.
