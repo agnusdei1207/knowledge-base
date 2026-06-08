@@ -7,7 +7,7 @@ weight: 1060
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 양자 암호 키 분배는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 양자 암호 키 분배는 성능 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 양자 암호 키 분배를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,8 +15,8 @@ weight: 1060
 
 ## Ⅰ. 개요 및 필요성
 
-- 현재 인터넷을 지키는 1010번 [RSA](/studynote/09_security/03_network_security/110_rsa/) 같은 비대칭 키 암호는 <strong>"2,048자리 숫자를 소인수 분해하려면 슈퍼컴퓨터로 1만 년 걸린다"</strong>는 수학적 복잡도에 의존합니다.
-- <strong>쇼어 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Shor's <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 등장하면 1만 년 걸리던 소인수 분해를 단 몇 초 만에 다 풀어버려 기존 인터넷의 자물쇠가 모조리 휴지조각이 되는 재앙([Q-Day](/studynote/09_security/03_network_security/151_quantum_computing_threats/))이 예고되어 있습니다.
+- 현재 인터넷을 지키는 1010번 RSA 같은 비대칭 키 암호는 <strong>"2,048자리 숫자를 소인수 분해하려면 슈퍼컴퓨터로 1만 년 걸린다"</strong>는 수학적 복잡도에 의존합니다.
+- <strong>쇼어 알고리즘(Shor's Algorithm)</strong>: 양자 컴퓨터가 등장하면 1만 년 걸리던 소인수 분해를 단 몇 초 만에 다 풀어버려 기존 인터넷의 자물쇠가 모조리 휴지조각이 되는 재앙(Q-Day)이 예고되어 있습니다.
 
 ```text
 [디지털 트윈 및 관제 시스템 연동]
@@ -27,7 +27,7 @@ weight: 1060
     +---> [BGP RPKI 라우팅 보안 망]
 ```
 
-- **📢 섹션 요약 비유**: 양자 암호 키 분배는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 양자 암호 키 분배는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
@@ -51,28 +51,28 @@ weight: 1060
 
 ## Ⅲ. 비교 및 연결
 
-[도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(스니핑) 자체가 물리적으로 불가능한 자연계의 마법입니다.
+도청(스니핑) 자체가 물리적으로 불가능한 자연계의 마법입니다.
 
-### 1. [양자 중첩](/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) ([Superposition](/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))과 관측의 붕괴
+### 1. 양자 중첩 (Superposition)과 관측의 붕괴
 - 빛의 알갱이(광자)는 0과 1의 상태가 섞여서 빙글빙글 도는 '중첩' 상태로 광케이블을 날아갑니다.
 - 해커가 중간에 광케이블 피복을 벗기고 이 광자를 "훔쳐보는(관측, Measurement)" 순간! 양자 역학의 법칙에 의해 빙글빙글 돌던 중첩 상태가 즉시 툭! 하고 붕괴되어 깨져버립니다.
 
-### 2. [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 불가능성 정리 (No-Cloning Theorem)
+### 2. 복제 불가능성 정리 (No-Cloning Theorem)
 - 기존 해커는 중간에 공유기를 달아 패킷을 '복사(Copy)'해서 원본은 목적지로 보내고 복사본을 지가 읽었습니다.
-- **절대 룰**: 양자 역학에서는 <strong>알려지지 않은 양자의 상태를 완벽하게 똑같이 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>하는 것은 우주 물리 법칙상 100% 불가능</strong>합니다. 해커가 가짜 광자를 만들어서 목적지에 대신 보낼 수가 없습니다.
+- **절대 룰**: 양자 역학에서는 <strong>알려지지 않은 양자의 상태를 완벽하게 똑같이 복제하는 것은 우주 물리 법칙상 100% 불가능</strong>합니다. 해커가 가짜 광자를 만들어서 목적지에 대신 보낼 수가 없습니다.
 
-### 3. 즉각적인 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 탐지와 [키 폐기](/studynote/09_security/03_network_security/155_key_destruction_crypto_shredding/) (해커 아사)
+### 3. 즉각적인 도청 탐지와 키 폐기 (해커 아사)
 - 목적지(수신자 B)에 광자가 도착했는데 상태가 깨져있습니다. B는 즉시 압니다. **"아! 중간에 누군가 이 암호 키를 훔쳐봤다! (관측 붕괴)"**
-- B는 A에게 전화해서 "방금 보낸 암호 키 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)당했으니 즉시 폐기하고, 새로운 광자로 다시 쏴라!"라고 합니다.
+- B는 A에게 전화해서 "방금 보낸 암호 키 도청당했으니 즉시 폐기하고, 새로운 광자로 다시 쏴라!"라고 합니다.
 - **결론**: 해커는 정보를 훔쳐보려고 건드리기만 해도 정보가 깨져버려 쓸 수가 없고, 건드렸다는 사실이 양쪽 귀에 100% 뽀록나기 때문에 암호 키 탈취가 물리적으로 원천 차단됩니다. 안전하게 도착한 키만을 모아서 암호화 통신에 씁니다.
 
-양자 암호 키 분배를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동이 기반 조건을 만든다면, 양자 암호 키 분배는 그 위에서 핵심 메커니즘을 구현하고, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+양자 암호 키 분배를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 디지털 트윈 및 관제 시스템 연동이 기반 조건을 만든다면, 양자 암호 키 분배는 그 위에서 핵심 메커니즘을 구현하고, BGP RPKI 라우팅 보안 망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동의 기반 정리 | 양자 암호 키 분배의 핵심 동작 | [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망의 확장 적용 |
+| 초점 | 디지털 트윈 및 관제 시스템 연동의 기반 정리 | 양자 암호 키 분배의 핵심 동작 | BGP RPKI 라우팅 보안 망의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: 양자 암호 키 분배는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -81,22 +81,22 @@ weight: 1060
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **거리의 저주**: 빛의 알갱이 하나(단일 광자)를 광케이블로 쏘기 때문에 빛이 너무 미세해서, 100km쯤 날아가면 광케이블 안에서 소멸해 버립니다.
-- 일반 증폭기로 빛을 키우면 '[복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)'가 되어서 양자 법칙이 깨져 쓸 수 없습니다.
+- 일반 증폭기로 빛을 키우면 '복제'가 되어서 양자 법칙이 깨져 쓸 수 없습니다.
 - **해결책**: 100km마다 완벽하게 믿을 수 있는 <strong>신뢰 노드(Trusted Node)</strong>라는 장갑차 벙커를 세워두고, 여기서 암호를 풀었다가 다시 다른 광자로 바꿔 쏘는 징검다리 릴레이 공사(SKT 주도)를 국가망 단위로 깔고 있습니다. (궁극적으로는 우주에서 양자를 쏘는 '양자 위성통신'으로 넘어가는 중입니다.)
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 수학 기반 암호([RSA](/studynote/09_security/03_network_security/110_rsa/))는 <strong>'엄청나게 복잡한 퍼즐이 달린 철가방'</strong>에 비밀번호를 넣어 배달하는 것입니다. 튼튼해 보이지만, 해커가 퍼즐 푸는 기계([양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))를 발명하면 1초 만에 철가방이 털립니다. 반면 <strong><a href="/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/">QKD</a>(양자 암호 키 분배)</strong>는 비밀번호를 철가방 대신 <strong>'우주에서 가장 예민한 얇은 비눗방울(<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">양자 중첩</a> 광자)'</strong> 속에 둥둥 띄워 보내는 미친 배달법입니다. 비눗방울이 날아가는 도중, 중간에 해커가 이 비밀번호를 훔쳐보려고 손가락이나 돋보기를 대는(관측) 순간! 물리 법칙에 의해 비눗방울이 "톡!" 하고 터져버려(붕괴) 안의 정보가 날아갑니다. 목적지에 도착한 수신자는 비눗방울이 터져서 비눗물만 남은 것을 보고 "아! 중간에 도둑놈이 훔쳐봤네! 이 비밀번호는 버리자!"라고 즉시 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)을 100% 인지합니다. 오직 아무도 안 건드려서 안전하게 살아서 도착한 비눗방울 속 번호만 모아서 진짜 금고 비밀번호로 쓰는, 해킹(관측) 시도 자체가 자신의 범죄를 알람으로 울리게 만드는 자연계 물리 법칙의 극강 보안 방패입니다.
+- **📢 섹션 요약 비유**: 기존 수학 기반 암호(RSA)는 <strong>'엄청나게 복잡한 퍼즐이 달린 철가방'</strong>에 비밀번호를 넣어 배달하는 것입니다. 튼튼해 보이지만, 해커가 퍼즐 푸는 기계(양자 컴퓨터)를 발명하면 1초 만에 철가방이 털립니다. 반면 <strong>QKD(양자 암호 키 분배)</strong>는 비밀번호를 철가방 대신 <strong>'우주에서 가장 예민한 얇은 비눗방울(양자 중첩 광자)'</strong> 속에 둥둥 띄워 보내는 미친 배달법입니다. 비눗방울이 날아가는 도중, 중간에 해커가 이 비밀번호를 훔쳐보려고 손가락이나 돋보기를 대는(관측) 순간! 물리 법칙에 의해 비눗방울이 "톡!" 하고 터져버려(붕괴) 안의 정보가 날아갑니다. 목적지에 도착한 수신자는 비눗방울이 터져서 비눗물만 남은 것을 보고 "아! 중간에 도둑놈이 훔쳐봤네! 이 비밀번호는 버리자!"라고 즉시 도청을 100% 인지합니다. 오직 아무도 안 건드려서 안전하게 살아서 도착한 비눗방울 속 번호만 모아서 진짜 금고 비밀번호로 쓰는, 해킹(관측) 시도 자체가 자신의 범죄를 알람으로 울리게 만드는 자연계 물리 법칙의 극강 보안 방패입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-양자 암호 키 분배는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+양자 암호 키 분배는 성능 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 BGP RPKI 라우팅 보안 망, AI 기반 성능 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 AI 기반 성능 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 양자 암호 키 분배는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -106,10 +106,10 @@ weight: 1060
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 디지털 트윈 및 관제 시스템 연동 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 처리량 (Throughput) | 실제 전달 성능을 나타내는 대표 지표다. |
+| 지연 (Latency) | 사용자 체감 품질을 좌우한다. |
+| BGP RPKI 라우팅 보안 망 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,21 +123,10 @@ weight: 1060
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-양자 암호 키 분배는 [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/studynote/09_security/uncategorized/1069_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+양자 암호 키 분배는 디지털 트윈 및 관제 시스템 연동에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP RPKI 라우팅 보안 망와 AI 기반 성능 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 166 / 1120
-
-<- **이전**: [105. 1-Persistent, Non-Persistent, p-Persistent CSMA](/studynote/03_network/02_multiplexing_multiple_access/105_csma_persistence/)
-**다음**: [1061. BGP RPKI 라우팅 보안 망](/studynote/03_network/20_performance_evaluation_advanced/1061_bgp_rpki_routing_security/) ->
-
----

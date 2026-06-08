@@ -104,11 +104,3 @@ Clayton Christensen의 **파괴적 혁신(Disruptive Innovation)** 이론이 예
    |  (규제개혁총괄)    |                |  (신산업 정책)     |                |  (디지털 전환)     |
    |  - 혁신법 운영    |                |  - 핀테크·모빌리티  |                |  - AI·5G·메타버스 |
    +--------
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 780 / 800
-
-<- **이전**: [779. IP 지식 재산권 특허 전략 라이선스](/studynote/06_ict_convergence/uncategorized/779_ip_intellectual_property_patent_strategy/)
-**다음**: [781. 디지털 리터러시 데이터 리터러시 교육](/studynote/06_ict_convergence/uncategorized/781_digital_literacy_data_literacy_education/) ->
-
----

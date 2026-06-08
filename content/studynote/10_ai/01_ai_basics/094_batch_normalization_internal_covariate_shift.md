@@ -7,25 +7,25 @@ weight: 94
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/))는 딥러닝 층마다 널뛰는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포를 강제로 평균 0, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 1로 정돈하여 내부 공변량 이동 (Internal Covariate Shift)을 막는 밸브 역할이다.
-> 2. **가치**: 이 기법 덕분에 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)을 대폭 높일 수 있어 모델 학습 속도가 비약적으로 빨라졌고, [가중치 초기화](/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)나 [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))에 대한 의존도를 크게 낮추었다.
-> 3. **판단 포인트**: 단순히 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 데 그치지 않고, 스케일 (Scale, $\gamma$)과 시프트 (Shift, $\beta$) 파라미터를 통해 신경망이 스스로 최적의 분포를 찾아가도록 유연성을 제공해야 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 비선형성을 살릴 수 있다.
+> 1. **본질**: 배치 정규화 (Batch Normalization)는 딥러닝 층마다 널뛰는 데이터의 분포를 강제로 평균 0, 분산 1로 정돈하여 내부 공변량 이동 (Internal Covariate Shift)을 막는 밸브 역할이다.
+> 2. **가치**: 이 기법 덕분에 학습률 (Learning Rate)을 대폭 높일 수 있어 모델 학습 속도가 비약적으로 빨라졌고, 가중치 초기화나 드롭아웃 (Dropout)에 대한 의존도를 크게 낮추었다.
+> 3. **판단 포인트**: 단순히 데이터를 정규화하는 데 그치지 않고, 스케일 (Scale, $\gamma$)과 시프트 (Shift, $\beta$) 파라미터를 통해 신경망이 스스로 최적의 분포를 찾아가도록 유연성을 제공해야 활성화 함수의 비선형성을 살릴 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝 모델의 층 (Layer)이 깊어질수록 앞쪽 층의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 미세하게 변하더라도 그 변화가 누적되어 뒤쪽 층으로 전달되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 스케일이 크게 왜곡된다. 이를 내부 공변량 이동 (Internal Covariate Shift)이라고 한다. 앞 층이 뱉어내는 값의 범위가 매번 달라지면, 뒤 층의 뉴런들은 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포에 적응하느라 학습 속도가 매우 느려진다.
+딥러닝 모델의 층 (Layer)이 깊어질수록 앞쪽 층의 가중치가 미세하게 변하더라도 그 변화가 누적되어 뒤쪽 층으로 전달되는 데이터의 스케일이 크게 왜곡된다. 이를 내부 공변량 이동 (Internal Covariate Shift)이라고 한다. 앞 층이 뱉어내는 값의 범위가 매번 달라지면, 뒤 층의 뉴런들은 새로운 데이터 분포에 적응하느라 학습 속도가 매우 느려진다.
 
-이를 해결하기 위해 과거에는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 튀지 않게 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 극도로 낮추거나 [가중치 초기화](/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)에 엄청난 공을 들여야 했다. 그러나 2015년에 등장한 [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/))는 이러한 문제를 근본적으로 해결했다. 층과 층 사이에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미니배치 단위로 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 계층을 삽입하여, 뒤 층이 항상 일정하고 예측 가능한 분포의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받도록 강제함으로써 딥러닝 학습의 속도와 안정성을 혁명적으로 끌어올렸다.
+이를 해결하기 위해 과거에는 데이터가 튀지 않게 학습률을 극도로 낮추거나 가중치 초기화에 엄청난 공을 들여야 했다. 그러나 2015년에 등장한 배치 정규화 (Batch Normalization)는 이러한 문제를 근본적으로 해결했다. 층과 층 사이에 데이터를 미니배치 단위로 정규화하는 계층을 삽입하여, 뒤 층이 항상 일정하고 예측 가능한 분포의 데이터를 받도록 강제함으로써 딥러닝 학습의 속도와 안정성을 혁명적으로 끌어올렸다.
 
-- **📢 섹션 요약 비유**: 요리사가 다음 요리사에게 반죽을 넘길 때 어제는 탁구공, 오늘은 농구공 크기로 마음대로 던지면(내부 공변량 이동), 다음 요리사는 오븐 온도를 매번 다시 맞추느라 지친다. [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 반죽을 무조건 '테니스공 크기'로 깎아 넘겨주어 다음 요리사가 눈 감고도 빵을 구울 수 있게 만드는 자동 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)기다.
+- **📢 섹션 요약 비유**: 요리사가 다음 요리사에게 반죽을 넘길 때 어제는 탁구공, 오늘은 농구공 크기로 마음대로 던지면(내부 공변량 이동), 다음 요리사는 오븐 온도를 매번 다시 맞추느라 지친다. 배치 정규화는 반죽을 무조건 '테니스공 크기'로 깎아 넘겨주어 다음 요리사가 눈 감고도 빵을 구울 수 있게 만드는 자동 압축기다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 주로 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) ([Activation Function](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)) 이전에 적용되어 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미니배치 단위로 모아 평균과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 계산한다. 핵심은 무작정 0과 1로 고정하는 것이 아니라, 원래의 표현력을 잃지 않도록 복원 파라미터를 함께 학습한다는 점이다.
+배치 정규화는 주로 활성화 함수 (Activation Function) 이전에 적용되어 입력 데이터를 미니배치 단위로 모아 평균과 분산을 계산한다. 핵심은 무작정 0과 1로 고정하는 것이 아니라, 원래의 표현력을 잃지 않도록 복원 파라미터를 함께 학습한다는 점이다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,49 +43,49 @@ weight: 94
 +--------------------------------------------------------------+
 ```
 
-단순히 평균을 0, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 1로 맞추면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형 구간에만 머무르게 되어 딥러닝 고유의 비선형성(예: ReLU의 꺾임)이 죽어버린다. 따라서 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 값에 스케일 파라미터 $\gamma$ (감마)를 곱하고 시프트 파라미터 $\beta$ (베타)를 더해준다. 이 두 변수는 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 과정을 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 가장 알맞은 형태로 기계가 스스로 학습한다.
+단순히 평균을 0, 분산을 1로 맞추면 데이터가 선형 구간에만 머무르게 되어 딥러닝 고유의 비선형성(예: ReLU의 꺾임)이 죽어버린다. 따라서 정규화된 값에 스케일 파라미터 $\gamma$ (감마)를 곱하고 시프트 파라미터 $\beta$ (베타)를 더해준다. 이 두 변수는 역전파 (Backpropagation) 과정을 통해 데이터에 가장 알맞은 형태로 기계가 스스로 학습한다.
 
-- **📢 섹션 요약 비유**: 반죽을 무조건 동그랗게만 찍어내면 빵 맛이 단조로워진다. 그래서 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)기를 통과한 직후에 '마법의 롤러($\gamma$, $\beta$)'를 달아, AI가 스스로 맛을 보며 "이 빵은 살짝 타원형으로 눌러주는 게 더 맛있네!" 하고 형태를 유연하게 조절하도록 만든다.
+- **📢 섹션 요약 비유**: 반죽을 무조건 동그랗게만 찍어내면 빵 맛이 단조로워진다. 그래서 압축기를 통과한 직후에 '마법의 롤러($\gamma$, $\beta$)'를 달아, AI가 스스로 맛을 보며 "이 빵은 살짝 타원형으로 눌러주는 게 더 맛있네!" 하고 형태를 유연하게 조절하도록 만든다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 축과 범위에 따라 레이어 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Layer [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)), 인스턴스 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Instance [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)), 그룹 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Group [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))와 비교된다.
+배치 정규화는 정규화하는 축과 범위에 따라 레이어 정규화 (Layer Normalization), 인스턴스 정규화 (Instance Normalization), 그룹 정규화 (Group Normalization)와 비교된다.
 
-| [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방식 | 기준 단위 | 주요 특징 및 한계 | 적합한 모델/[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) |
+| 정규화 방식 | 기준 단위 | 주요 특징 및 한계 | 적합한 모델/도메인 |
 | :--- | :--- | :--- | :--- |
-| [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) (BN) | 미니배치 (Batch) 전체의 동일 채널 | 배치 크기([Batch Size](/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))가 작으면 통계량이 튀어 불안정함 | [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), 일반적인 이미지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
-| 레이어 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (LN) | 단일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Instance)의 전체 채널 | 배치 크기에 영향받지 않음 | [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), 자연어 처리 |
-| 인스턴스 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (IN) | 단일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단일 채널 | 각 샘플의 스타일을 보존하는 데 유리함 | [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), 이미지 스타일 변환 |
-| 그룹 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (GN) | 단일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 채널을 그룹 분할 | BN과 LN의 절충안으로 소규모 배치에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 | [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) (배치 크기를 키우기 힘들 때) |
+| 배치 정규화 (BN) | 미니배치 (Batch) 전체의 동일 채널 | 배치 크기(Batch Size)가 작으면 통계량이 튀어 불안정함 | CNN, 일반적인 이미지 분류 |
+| 레이어 정규화 (LN) | 단일 데이터(Instance)의 전체 채널 | 배치 크기에 영향받지 않음 | RNN, Transformer, 자연어 처리 |
+| 인스턴스 정규화 (IN) | 단일 데이터의 단일 채널 | 각 샘플의 스타일을 보존하는 데 유리함 | GAN, 이미지 스타일 변환 |
+| 그룹 정규화 (GN) | 단일 데이터의 채널을 그룹 분할 | BN과 LN의 절충안으로 소규모 배치에서 성능 유지 | 객체 탐지 (배치 크기를 키우기 힘들 때) |
 
-시계열이나 자연어 처리에서 문장 길이가 들쭉날쭉한 경우, 배치 단위로 평균을 내기가 매우 어렵다. 그래서 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델에서는 [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 대신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개별로 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 레이어 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 채택하여 문제를 회피한다.
+시계열이나 자연어 처리에서 문장 길이가 들쭉날쭉한 경우, 배치 단위로 평균을 내기가 매우 어렵다. 그래서 Transformer 모델에서는 배치 정규화 대신 데이터 개별로 정규화하는 레이어 정규화를 채택하여 문제를 회피한다.
 
-- **📢 섹션 요약 비유**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)가 '오늘 들어온 학생 전체'의 평균 키를 구해 각 학생의 상대적 키를 맞추는 것이라면, 레이어 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 '학생 한 명'의 국영수 성적 평균을 구해 그 학생 내부의 성적 편차만 정돈하는 방식이다.
+- **📢 섹션 요약 비유**: 배치 정규화가 '오늘 들어온 학생 전체'의 평균 키를 구해 각 학생의 상대적 키를 맞추는 것이라면, 레이어 정규화는 '학생 한 명'의 국영수 성적 평균을 구해 그 학생 내부의 성적 편차만 정돈하는 방식이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)를 적용할 때는 배치 크기([Batch Size](/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))와 훈련/추론 모드의 전환이 가장 중요한 의사결정 포인트다.
+실무에서 배치 정규화를 적용할 때는 배치 크기(Batch Size)와 훈련/추론 모드의 전환이 가장 중요한 의사결정 포인트다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **배치 크기 확보**: [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 한계로 배치 크기를 4 이하로 잡아야 한다면 [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 독이 된다. 모분포를 대표하지 못해 노이즈가 커지므로, 이때는 그룹 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Group [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))로 우회해야 한다.
-2. **훈련과 추론(Test) 모드 분리**: 훈련할 때는 미니배치의 평균/[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 쓰지만, 실제 운영(추론) 시에는 1건씩 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오므로 배치 평균을 낼 수 없다. 따라서 프레임워크(PyTorch 등)의 `model.eval()`을 반드시 호출하여 훈련 중 누적해둔 이동 평균 (Moving Average)을 사용하도록 전환해야 한다.
-3. **Dropout과의 조합 주의**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 자체가 미니배치 추출 과정의 노이즈로 인해 약간의 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 효과를 갖는다. 따라서 Dropout을 같이 세게 걸면 학습이 오히려 방해받을 수 있어 비율을 낮추거나 생략하는 것이 좋다.
+### 체크리스트 및 판단 기준
+1. **배치 크기 확보**: GPU 메모리 한계로 배치 크기를 4 이하로 잡아야 한다면 배치 정규화는 독이 된다. 모분포를 대표하지 못해 노이즈가 커지므로, 이때는 그룹 정규화 (Group Normalization)로 우회해야 한다.
+2. **훈련과 추론(Test) 모드 분리**: 훈련할 때는 미니배치의 평균/분산을 쓰지만, 실제 운영(추론) 시에는 1건씩 데이터가 들어오므로 배치 평균을 낼 수 없다. 따라서 프레임워크(PyTorch 등)의 `model.eval()`을 반드시 호출하여 훈련 중 누적해둔 이동 평균 (Moving Average)을 사용하도록 전환해야 한다.
+3. **Dropout과의 조합 주의**: 배치 정규화 자체가 미니배치 추출 과정의 노이즈로 인해 약간의 정규화(Regularization) 효과를 갖는다. 따라서 Dropout을 같이 세게 걸면 학습이 오히려 방해받을 수 있어 비율을 낮추거나 생략하는 것이 좋다.
 
-- **📢 섹션 요약 비유**: 모의고사(훈련) 때는 반 전체 평균을 기준으로 내 성적을 보정할 수 있지만, 수능(추론) 때는 나 혼자 시험을 보므로 반 평균을 구할 수 없다. 따라서 미리 구해둔 전국 모의고사 평균 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(이동 평균)를 활용해야만 내 진짜 위치 파악할 수 있다.
+- **📢 섹션 요약 비유**: 모의고사(훈련) 때는 반 전체 평균을 기준으로 내 성적을 보정할 수 있지만, 수능(추론) 때는 나 혼자 시험을 보므로 반 평균을 구할 수 없다. 따라서 미리 구해둔 전국 모의고사 평균 데이터(이동 평균)를 활용해야만 내 진짜 위치 파악할 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 딥러닝의 고질적인 병목이었던 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 민감도와 학습 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제를 물리적으로 타파한 기념비적인 기법이다. 더 높은 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 허용하여 수렴 속도를 압도적으로 단축시켰고, 모델이 깊어져도 그래디언트 소실(Gradient Vanishing)을 완화하는 부수적 효과까지 제공했다.
+배치 정규화는 딥러닝의 고질적인 병목이었던 초기화 민감도와 학습 지연 문제를 물리적으로 타파한 기념비적인 기법이다. 더 높은 학습률을 허용하여 수렴 속도를 압도적으로 단축시켰고, 모델이 깊어져도 그래디언트 소실(Gradient Vanishing)을 완화하는 부수적 효과까지 제공했다.
 
-하지만 시퀀스 길이가 변하는 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 구조나 배치 크기가 극도로 작은 환경에서는 한계가 명확하여, 이후 LN, IN, GN 같은 파생 기법들이 등장하는 계기가 되었다. 결론적으로 [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 딥러닝을 얕은 신경망에서 수백 층의 [심층 신경망](/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)으로 끌어올린 가장 중요한 아키텍처적 도약(Breakthrough)으로 기억되어야 한다.
+하지만 시퀀스 길이가 변하는 RNN 구조나 배치 크기가 극도로 작은 환경에서는 한계가 명확하여, 이후 LN, IN, GN 같은 파생 기법들이 등장하는 계기가 되었다. 결론적으로 배치 정규화는 딥러닝을 얕은 신경망에서 수백 층의 심층 신경망으로 끌어올린 가장 중요한 아키텍처적 도약(Breakthrough)으로 기억되어야 한다.
 
-- **📢 섹션 요약 비유**: [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 불안정하게 폭주하던 증기기관차에 '자동 압력 조절 밸브'를 달아준 것과 같다. 이제 엔지니어는 솥이 터질까 봐 땔감을 찔끔찔끔 넣는 대신, 안심하고 석탄을 쏟아부어 엄청난 속도로 열차(딥러닝)를 달리게 할 수 있다.
+- **📢 섹션 요약 비유**: 배치 정규화는 불안정하게 폭주하던 증기기관차에 '자동 압력 조절 밸브'를 달아준 것과 같다. 이제 엔지니어는 솥이 터질까 봐 땔감을 찔끔찔끔 넣는 대신, 안심하고 석탄을 쏟아부어 엄청난 속도로 열차(딥러닝)를 달리게 할 수 있다.
 
 ---
 
@@ -93,10 +93,10 @@ weight: 94
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 내부 공변량 이동 (Internal Covariate Shift) | [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)가 해결하고자 하는 근본적인 문제 현상 |
-| 스케일 및 시프트 ($\gamma$, $\beta$) | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 인해 잃어버린 비선형 표현력을 복원하는 학습 파라미터 |
-| 레이어 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Layer [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) | 배치 크기에 의존하는 단점을 극복하기 위해 자연어 모델([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))에서 사용하는 대체재 |
-| 지수 이동 평균 (Exponential Moving Average) | 추론(Inference) 시 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 평균과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 대신 사용하는 누적 통계값 |
+| 내부 공변량 이동 (Internal Covariate Shift) | 배치 정규화가 해결하고자 하는 근본적인 문제 현상 |
+| 스케일 및 시프트 ($\gamma$, $\beta$) | 정규화로 인해 잃어버린 비선형 표현력을 복원하는 학습 파라미터 |
+| 레이어 정규화 (Layer Normalization) | 배치 크기에 의존하는 단점을 극복하기 위해 자연어 모델(Transformer)에서 사용하는 대체재 |
+| 지수 이동 평균 (Exponential Moving Average) | 추론(Inference) 시 입력 데이터의 평균과 분산 대신 사용하는 누적 통계값 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -119,16 +119,5 @@ weight: 94
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 딥러닝 층은 그림을 릴레이로 그리는 친구들인데, 앞 친구가 그림을 갑자기 너무 크게 넘겨주면 다음 친구가 당황해요.
-2. [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)는 중간에 서서 그림을 항상 '스케치북 크기'로 딱 맞게 줄여주거나 늘려주는 선생님이에요.
+2. 배치 정규화는 중간에 서서 그림을 항상 '스케치북 크기'로 딱 맞게 줄여주거나 늘려주는 선생님이에요.
 3. 선생님 덕분에 친구들은 그림 크기 걱정 없이 아주 빠른 속도로 멋진 그림을 완성할 수 있게 되었어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 94 / 420
-
-<- **이전**: [93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍](/studynote/10_ai/01_ai_basics/093_early_stopping_overfitting_validation_loss/)
-**다음**: [95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처](/studynote/10_ai/01_ai_basics/095_cnn_convolutional_neural_network_image_recognition/) ->
-
----

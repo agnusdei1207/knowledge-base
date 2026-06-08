@@ -6,23 +6,23 @@ tags:
 weight: 32
 ---
 > **핵심 인사이트 3줄**
-> 1. DApp([Decentralized Application](/studynote/04_software_engineering/09_cloud_native_ai_architecture/592_blockchain_dapp_architecture_ipfs/))은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 백엔드로 사용해 중앙 서버 없이 동작하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 애플리케이션이다.
-> 2. [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)·검열 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)·투명성이 강점이지만, 느린 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 속도·높은 가스비·UX 복잡성이 대중화의 장벽이다.
-> 3. [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)·NFT 마켓·[DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스·게임파이(GameFi) 등 Web3 생태계의 핵심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 레이어로 진화하고 있다.
+> 1. DApp(Decentralized Application)은 블록체인 스마트 컨트랙트를 백엔드로 사용해 중앙 서버 없이 동작하는 분산 애플리케이션이다.
+> 2. 탈중앙화·검열 저항·투명성이 강점이지만, 느린 트랜잭션 속도·높은 가스비·UX 복잡성이 대중화의 장벽이다.
+> 3. DeFi·NFT 마켓·DAO 거버넌스·게임파이(GameFi) 등 Web3 생태계의 핵심 서비스 레이어로 진화하고 있다.
 
 ---
 
 ## Ⅰ. DApp의 정의와 특성
 
-DApp([Decentralized Application](/studynote/04_software_engineering/09_cloud_native_ai_architecture/592_blockchain_dapp_architecture_ipfs/))은 <strong>백엔드 로직을 <a href="/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> <a href="/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a>로 구현한 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 애플리케이션</strong>이다.
+DApp(Decentralized Application)은 <strong>백엔드 로직을 블록체인 스마트 컨트랙트로 구현한 분산 애플리케이션</strong>이다.
 
 | 특성              | 중앙화 앱           | DApp                       |
 |-----------------|-------------------|---------------------------|
-| 백엔드            | 중앙 서버           | [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))  |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장       | 중앙 DB            | [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)·[IPFS](/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)              |
-| 운영자 통제       | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 가능    | 자율 실행, 중단 불가         |
-| 투명성           | 블랙박스            | 코드 공개·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능          |
-| [사용자 인증](/studynote/02_operating_system/10_security/604_authentication_factors/)       | ID/PW              | 지갑(개인키) 기반            |
+| 백엔드            | 중앙 서버           | 스마트 컨트랙트 (블록체인)  |
+| 데이터 저장       | 중앙 DB            | 블록체인·IPFS              |
+| 운영자 통제       | 서비스 중단 가능    | 자율 실행, 중단 불가         |
+| 투명성           | 블랙박스            | 코드 공개·검증 가능          |
+| 사용자 인증       | ID/PW              | 지갑(개인키) 기반            |
 
 ### DApp 아키텍처
 
@@ -41,13 +41,13 @@ MetaMask (지갑 연결)
 EVM (Ethereum Virtual Machine)
 ```
 
-📢 **섹션 요약 비유**: DApp은 자판기다 — 주인 없이 동전([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))을 넣으면 규칙(컨트랙트)에 따라 자동으로 결과가 나온다.
+📢 **섹션 요약 비유**: DApp은 자판기다 — 주인 없이 동전(트랜잭션)을 넣으면 규칙(컨트랙트)에 따라 자동으로 결과가 나온다.
 
 ---
 
-## Ⅱ. [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)와 상호작용
+## Ⅱ. 스마트 컨트랙트와 상호작용
 
-### [Solidity](/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/) [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 예시
+### Solidity 스마트 컨트랙트 예시
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -66,7 +66,7 @@ contract SimpleStorage {
 }
 ```
 
-### [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 흐름
+### 트랜잭션 흐름
 
 ```
 사용자 서명 -> MetaMask -> 이더리움 노드 -> 컨트랙트 실행
@@ -74,7 +74,7 @@ contract SimpleStorage {
   개인키 사용                            상태 변경 + 가스비 소모
 ```
 
-📢 **섹션 요약 비유**: [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 자동 계약서다 — 조건이 충족되면 변호사 없이 자동으로 실행되고, 한번 배포되면 변경할 수 없다.
+📢 **섹션 요약 비유**: 스마트 컨트랙트는 자동 계약서다 — 조건이 충족되면 변호사 없이 자동으로 실행되고, 한번 배포되면 변경할 수 없다.
 
 ---
 
@@ -82,14 +82,14 @@ contract SimpleStorage {
 
 | 카테고리    | 예시                    | 핵심 기능                     |
 |------------|------------------------|------------------------------|
-| [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)       | Uniswap, Aave, Compound | 탈중앙 거래소·대출·이자       |
+| DeFi       | Uniswap, Aave, Compound | 탈중앙 거래소·대출·이자       |
 | NFT 마켓   | OpenSea, Blur           | 디지털 자산 소유권 거래        |
 | GameFi     | Axie Infinity, StepN    | P2E (Play-to-Earn)            |
-| [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)        | MakerDAO, Uniswap [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)   | 토큰 기반 거버넌스             |
-| 소셜       | Lens [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), Farcaster | 탈중앙 SNS                   |
-| 스토리지   | Filecoin, Arweave       | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장                 |
+| DAO        | MakerDAO, Uniswap DAO   | 토큰 기반 거버넌스             |
+| 소셜       | Lens Protocol, Farcaster | 탈중앙 SNS                   |
+| 스토리지   | Filecoin, Arweave       | 분산 파일 저장                 |
 
-📢 **섹션 요약 비유**: DApp 카테고리는 현실 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 탈중앙 버전이다 — DeFi는 은행, NFT는 경매장, DAO는 주주총회, GameFi는 게임 회사가 없는 게임이다.
+📢 **섹션 요약 비유**: DApp 카테고리는 현실 서비스의 탈중앙 버전이다 — DeFi는 은행, NFT는 경매장, DAO는 주주총회, GameFi는 게임 회사가 없는 게임이다.
 
 ---
 
@@ -111,9 +111,9 @@ contract SimpleStorage {
 +----------------------------------------------+
 ```
 
-**L2 확장 솔루션**: [Polygon](/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)·Arbitrum·Optimism으로 가스비 절감 + 속도 개선
+**L2 확장 솔루션**: Polygon·Arbitrum·Optimism으로 가스비 절감 + 속도 개선
 
-📢 **섹션 요약 비유**: DApp 스택은 현대 웹사이트 구조와 같지만, 서버 대신 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 있고 DB 대신 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지가 있다.
+📢 **섹션 요약 비유**: DApp 스택은 현대 웹사이트 구조와 같지만, 서버 대신 블록체인이 있고 DB 대신 분산 스토리지가 있다.
 
 ---
 
@@ -123,11 +123,11 @@ contract SimpleStorage {
 
 | 한계           | 원인                       | 해결 방향               |
 |--------------|---------------------------|------------------------|
-| 느린 속도     | 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간 (12초/이더리움) | L2·[샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)               |
+| 느린 속도     | 블록 생성 시간 (12초/이더리움) | L2·샤딩               |
 | 높은 가스비   | 네트워크 혼잡도              | EIP-1559, L2           |
-| UX 복잡성    | 지갑·개인키 관리              | [AA](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)([계정 추상화](/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/))         |
-| 확장성        | 트릴레마 (속도/탈중앙/보안)   | [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)·[샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)              |
-| [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 버그 | 배포 후 수정 불가        | 업그레이더블 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)     |
+| UX 복잡성    | 지갑·개인키 관리              | AA(계정 추상화)         |
+| 확장성        | 트릴레마 (속도/탈중앙/보안)   | 롤업·샤딩              |
+| 스마트 컨트랙트 버그 | 배포 후 수정 불가        | 업그레이더블 프록시     |
 
 ### Web3 발전 방향
 
@@ -192,17 +192,6 @@ DApp (Decentralized Application)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. DApp은 주인 없는 자판기다 — 규칙([스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))에 따라 자동으로 작동하고, 아무도 임의로 규칙을 바꿀 수 없다.
+1. DApp은 주인 없는 자판기다 — 규칙(스마트 컨트랙트)에 따라 자동으로 작동하고, 아무도 임의로 규칙을 바꿀 수 없다.
 2. 지갑(MetaMask)은 비밀번호 대신 열쇠다 — 열쇠를 가진 사람만 자기 돈을 쓸 수 있고, 열쇠를 잃으면 돈도 잃는다.
 3. DeFi는 은행 없는 은행이다 — 직원도 본사도 없지만 이자를 주고받고 대출도 된다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 32 / 552
-
-<- **이전**: [31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생](/studynote/06_ict_convergence/01_blockchain/031_mnemonic_seed_phrase/)
-**다음**: [DeFi (Decentralized Finance, 탈중앙화 금융)](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) ->
-
----

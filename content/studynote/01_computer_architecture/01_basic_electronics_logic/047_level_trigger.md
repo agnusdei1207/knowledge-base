@@ -6,13 +6,13 @@ tags:
 weight: 47
 ---
 > **핵심 인사이트**
-> 1. 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Level Trigger)는 클록 신호의 레벨(High 또는 Low) 자체가 유지되는 동안 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통과시키는 방식 — 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)([Edge Trigger](/studynote/01_computer_architecture/01_basic_electronics_logic/046_edge_trigger/))가 상승/하강 순간만 감지하는 것과 달리, 레벨이 유지되는 전체 시간 동안 입력이 출력에 영향을 미친다.
-> 2. 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)의 핵심 문제는 투명성(Transparency)과 글리치(Glitch) — 레벨 High 동안 입력 변화가 즉시 출력에 반영되어(투명), 노이즈나 설계 오류로 의도치 않은 상태 변화(글리치)가 발생할 수 있다.
-> 3. 실무에서 D-래치(D-Latch)가 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)의 대표 구현 — 반면 D-플립플롭(D-Flip Flop)은 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)로 구현되어 더 예측 가능하며, 현대 동기식 디지털 설계에서는 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 더 선호된다.
+> 1. 레벨 트리거(Level Trigger)는 클록 신호의 레벨(High 또는 Low) 자체가 유지되는 동안 데이터를 통과시키는 방식 — 엣지 트리거(Edge Trigger)가 상승/하강 순간만 감지하는 것과 달리, 레벨이 유지되는 전체 시간 동안 입력이 출력에 영향을 미친다.
+> 2. 레벨 트리거의 핵심 문제는 투명성(Transparency)과 글리치(Glitch) — 레벨 High 동안 입력 변화가 즉시 출력에 반영되어(투명), 노이즈나 설계 오류로 의도치 않은 상태 변화(글리치)가 발생할 수 있다.
+> 3. 실무에서 D-래치(D-Latch)가 레벨 트리거의 대표 구현 — 반면 D-플립플롭(D-Flip Flop)은 엣지 트리거로 구현되어 더 예측 가능하며, 현대 동기식 디지털 설계에서는 엣지 트리거가 더 선호된다.
 
 ---
 
-## Ⅰ. 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 개요
+## Ⅰ. 레벨 트리거 개요
 
 ```
 레벨 트리거 vs 엣지 트리거:
@@ -45,7 +45,7 @@ weight: 47
   플립플롭: 동기식 순차 회로 (CPU 레지스터 등)
 ```
 
-> 📢 **섹션 요약 비유**: 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 열려 있는 문 — 문이 열려 있는(High) 동안 누구든 들어올 수 있어요. 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 문이 열리는 순간만 통과 가능!
+> 📢 **섹션 요약 비유**: 레벨 트리거는 열려 있는 문 — 문이 열려 있는(High) 동안 누구든 들어올 수 있어요. 엣지 트리거는 문이 열리는 순간만 통과 가능!
 
 ---
 
@@ -174,11 +174,11 @@ D-래치로의 발전:
   단점: 타이밍 분석 복잡
 ```
 
-> 📢 **섹션 요약 비유**: 셋업/홀드 시간은 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 탑승 규칙 — 출발(Enable 상승) 전에(셋업) 자리 잡고, 출발 후에도(홀드) 자리에 있어야. 어기면 혼돈(메타스테이블)!
+> 📢 **섹션 요약 비유**: 셋업/홀드 시간은 버스 탑승 규칙 — 출발(Enable 상승) 전에(셋업) 자리 잡고, 출발 후에도(홀드) 자리에 있어야. 어기면 혼돈(메타스테이블)!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캡처
+## Ⅴ. 실무 시나리오 — ASIC 데이터 캡처
 
 ```
 ASIC 설계에서 레벨 트리거 활용:
@@ -222,7 +222,7 @@ ASIC 설계에서 레벨 트리거 활용:
   혼용 시: 정확한 타이밍 분석 필수
 ```
 
-> 📢 **섹션 요약 비유**: [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) CDC에서 래치 — 두 다른 속도의 도로(클록 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 사이에 잠깐 열리는 게이트(레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 래치). 안전하게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달하는 교차로!
+> 📢 **섹션 요약 비유**: ASIC CDC에서 래치 — 두 다른 속도의 도로(클록 도메인) 사이에 잠깐 열리는 게이트(레벨 트리거 래치). 안전하게 데이터 전달하는 교차로!
 
 ---
 
@@ -280,17 +280,6 @@ DFT (래치 스캔 체인)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 열린 문 — 문이 열려 있는(High) 동안 누구든 들어올 수 있어요. 문이 닫히면(Low) 안으로 잠겨요!
+1. 레벨 트리거는 열린 문 — 문이 열려 있는(High) 동안 누구든 들어올 수 있어요. 문이 닫히면(Low) 안으로 잠겨요!
 2. D-래치의 글리치 — 문이 열려 있으면 바람(노이즈)도 들어와요. 마스터-슬레이브(이중 문)로 바람을 막아요!
-3. 엣지 vs 레벨 — 엣지는 "딸깍!" 소리(전환 순간)만 반응, 레벨은 불이 켜진 동안 계속 반응. 현대 설계는 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 선호해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 47 / 803
-
-<- **이전**: [046. 에지 트리거 — Edge Trigger](/studynote/01_computer_architecture/01_basic_electronics_logic/046_edge_trigger/)
-**다음**: [048. 래치 — Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/) ->
-
----
+3. 엣지 vs 레벨 — 엣지는 "딸깍!" 소리(전환 순간)만 반응, 레벨은 불이 켜진 동안 계속 반응. 현대 설계는 엣지 트리거를 선호해요!

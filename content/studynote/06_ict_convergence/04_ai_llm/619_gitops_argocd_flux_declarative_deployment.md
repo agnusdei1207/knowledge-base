@@ -144,11 +144,3 @@ GitOps는 Weaveworks가 2017년 처음 명명(CNCF TAG App Delivery 정식 채�
    |            |                                                      |
    |            |              +-----------------------+              |
    |            +-------------►| Helm Controller       |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 619 / 800
-
-<- **이전**: [618. Helm 차트 패키지 관리 배포 자동화](/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/)
-**다음**: [620. 카나리 배포 Flagger 프로그레시브 딜리버리](/studynote/06_ict_convergence/uncategorized/620_canary_deploy_flagger_progressive_delivery/) ->
-
----

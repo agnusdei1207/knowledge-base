@@ -126,11 +126,3 @@ DP-FL의 **엔드-투-엔드 파이프라인**은 크게 **(1) 로컬 학습 -> 
 | **클라이언트 (Edge Device)** | 로컬 모델 학습, 기울기 계산, 클리핑·노이즈 주입 | PyTorch/TensorFlow on-device, DP-SGD-FedAvg 변형, **Abadi-style moments accountant**(Abadi et al. CCS 2016) |
 | **중앙 서버 (Aggregator)** | 암호학적 집계, 글로벌 모델 분배 | **Bonawitz Secure Aggregation (CCS 2017)**, TLS 1.3, 옵션적 Trusted Execution Environment(Intel SGX/TDX) |
 | **프라이버시 예산 관리자 (Privacy Accountant)** | ε, δ 누적 추적, 라운드당 ε_per-round 산출 | **Moments Accountant (T=1000, δ=10⁻⁵ -> ε≈2.0)**, **RDP (Rényi DP, Mironov 2017)**, **PRV Accountant (Gopi-Lee-Wutschitz 2021,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 756 / 800
-
-<- **이전**: [755. 합성 데이터 프라이버시 보존 생성](/studynote/06_ict_convergence/uncategorized/755_synthetic_data_privacy_preserving_generation/)
-**다음**: [757. 동형 암호 안전 연산 데이터 보호](/studynote/06_ict_convergence/uncategorized/757_homomorphic_encryption_secure_computation/) ->
-
----

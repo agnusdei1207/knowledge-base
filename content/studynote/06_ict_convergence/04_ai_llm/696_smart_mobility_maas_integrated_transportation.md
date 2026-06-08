@@ -90,11 +90,3 @@ weight: 696
 |  ◆ Layer 2. 데이터 레이어 (Data / Interoperability Layer)            |
 |  +----------+----------+----------+----------+----------+            |
 |  | GTFS/    | GBFS/    | SIRI/
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 696 / 800
-
-<- **이전**: [695. 디지털 플랫폼 정부 GovTech 전자정부](/studynote/06_ict_convergence/uncategorized/695_digital_platform_government_govtech_e_gov/)
-**다음**: [697. ESG 디지털 전환 지속가능 경영](/studynote/06_ict_convergence/uncategorized/697_esg_digital_transformation_sustainability/) ->
-
----

@@ -7,7 +7,7 @@ weight: 116
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PRMA는 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 및 다중접속에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: PRMA는 다중화 및 다중접속에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: PRMA를 이해하면 처리량과 충돌 가능성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,7 +15,7 @@ weight: 116
 
 ## Ⅰ. 개요 및 필요성
 
-PRMA (Packet Reservation [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 근거리 무선 통신 및 이동 통신 환경에서 음성(Voice)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 패킷을 효율적으로 전송하기 위해 고안된 [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 전통적인 TDMA는 트래픽이 없어도 슬롯을 고정 할당하여 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 심했고, 알로하([ALOHA](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)) 방식은 트래픽 부하가 높을 때 충돌로 인해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증하는 치명적인 한계가 있었다. 이를 해결하기 위해 음성처럼 주기적이고 연속적인 트래픽에 대해서는 첫 패킷 전송 시에만 경쟁을 통해 슬롯을 확보하고, 이후에는 해당 슬롯을 예약하여 사용하는 방식이 등장하였다. 이 패러다임은 VAD(Voice Activity [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 기술과 결합하여, 사용자가 말을 하지 않는 묵음(Silence) 구간에는 슬롯 예약을 해제하고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽이 이를 사용하도록 함으로써 자원 활용도를 극대화하는 비즈니스적 요구를 완벽히 충족시킨다.
+PRMA (Packet Reservation Multiple Access)는 근거리 무선 통신 및 이동 통신 환경에서 음성(Voice)과 데이터(Data) 패킷을 효율적으로 전송하기 위해 고안된 매체 접근 제어(MAC) 프로토콜이다. 전통적인 TDMA는 트래픽이 없어도 슬롯을 고정 할당하여 대역폭 낭비가 심했고, 알로하(ALOHA) 방식은 트래픽 부하가 높을 때 충돌로 인해 지연이 급증하는 치명적인 한계가 있었다. 이를 해결하기 위해 음성처럼 주기적이고 연속적인 트래픽에 대해서는 첫 패킷 전송 시에만 경쟁을 통해 슬롯을 확보하고, 이후에는 해당 슬롯을 예약하여 사용하는 방식이 등장하였다. 이 패러다임은 VAD(Voice Activity Detection) 기술과 결합하여, 사용자가 말을 하지 않는 묵음(Silence) 구간에는 슬롯 예약을 해제하고 데이터 트래픽이 이를 사용하도록 함으로써 자원 활용도를 극대화하는 비즈니스적 요구를 완벽히 충족시킨다.
 
 다음은 기존 고정 할당 방식과 PRMA 방식의 타임 슬롯 활용 차이를 보여주는 비교 시각화이다.
 
@@ -31,23 +31,23 @@ Frame 2: [User A (예약됨)] [User D (음성 경쟁)] [User C (데이터)]
 => 트래픽 특성에 따른 동적 슬롯 점유 및 낭비 최소화
 ```
 
-이 도식의 핵심은 PRMA가 프레임 내의 슬롯을 고정하지 않고 트래픽의 상태(음성 발화, 묵음, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트)에 따라 유연하게 전환한다는 점이다. 이런 배치는 제한된 무선 주파수 자원 하에서 수용 가능한 사용자 수를 [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) 대비 1.5배 이상 늘릴 수 있기 때문이며, 따라서 스펙트럼 효율성 향상에 결정적인 영향을 준다. 실무에서는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 좁지만 다수의 가입자가 혼재하는 사설 통신망이나 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 패킷 기반 무선망에서 매우 유리하다.
+이 도식의 핵심은 PRMA가 프레임 내의 슬롯을 고정하지 않고 트래픽의 상태(음성 발화, 묵음, 데이터 버스트)에 따라 유연하게 전환한다는 점이다. 이런 배치는 제한된 무선 주파수 자원 하에서 수용 가능한 사용자 수를 TDMA 대비 1.5배 이상 늘릴 수 있기 때문이며, 따라서 스펙트럼 효율성 향상에 결정적인 영향을 준다. 실무에서는 대역폭은 좁지만 다수의 가입자가 혼재하는 사설 통신망이나 초기 패킷 기반 무선망에서 매우 유리하다.
 
-- **📢 섹션 요약 비유**: 마치 식당에서 처음 방문할 때는 줄을 서서(경쟁) 자리를 잡지만, 자리를 잡고 식사(음성 통화)를 하는 동안에는 그 자리를 보장(예약)받고, 식사가 끝나면 즉시 자리를 비워 다른 손님([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 쓸 수 있게 하는 예약 시스템과 같습니다.
+- **📢 섹션 요약 비유**: 마치 식당에서 처음 방문할 때는 줄을 서서(경쟁) 자리를 잡지만, 자리를 잡고 식사(음성 통화)를 하는 동안에는 그 자리를 보장(예약)받고, 식사가 끝나면 즉시 자리를 비워 다른 손님(데이터)이 쓸 수 있게 하는 예약 시스템과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PRMA [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 기지국(Base [Station](/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))과 단말기(Mobile [Station](/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/)) 간의 상호작용으로 동작하며, 프레임 단위의 타임 슬롯을 관리한다.
+PRMA 프로토콜은 기지국(Base Station)과 단말기(Mobile Station) 간의 상호작용으로 동작하며, 프레임 단위의 타임 슬롯을 관리한다.
 
 | 구성 요소 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **기지국 (BS)** | 프레임 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 슬롯 상태 브로드캐스트 | 각 슬롯이 사용 중(Reserved)인지 비어 있는지(Available) 알림 | 식당 지배인 (빈자리 안내) |
-| **단말기 (MS)** | 상태 감지 및 패킷 전송 시도 | 버퍼에 패킷이 생기면 빈 슬롯에 경쟁 전송([Slotted ALOHA](/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/)) 시도 | 식당 대기 손님 |
-| **타임 슬롯 (Time Slot)** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송되는 물리적 시간 단위 | 프레임 내 주기적으로 반복되며 예약 또는 경쟁 상태를 가짐 | 식당 테이블 |
-| **프레임 (Frame)** | 다수의 타임 슬롯 묶음 | 음성 패킷 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 주기와 동일하게 설정됨 (예: 20ms) | 영업 사이클 |
-| <strong>VAD (Voice Activity <a href="/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong> | 음성 활성화 감지 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 사용자의 발화 구간과 묵음 구간을 식별하여 패킷 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 제어 | 손님의 식사/대기 상태 |
+| **기지국 (BS)** | 프레임 동기화 및 슬롯 상태 브로드캐스트 | 각 슬롯이 사용 중(Reserved)인지 비어 있는지(Available) 알림 | 식당 지배인 (빈자리 안내) |
+| **단말기 (MS)** | 상태 감지 및 패킷 전송 시도 | 버퍼에 패킷이 생기면 빈 슬롯에 경쟁 전송(Slotted ALOHA) 시도 | 식당 대기 손님 |
+| **타임 슬롯 (Time Slot)** | 데이터가 전송되는 물리적 시간 단위 | 프레임 내 주기적으로 반복되며 예약 또는 경쟁 상태를 가짐 | 식당 테이블 |
+| **프레임 (Frame)** | 다수의 타임 슬롯 묶음 | 음성 패킷 생성 주기와 동일하게 설정됨 (예: 20ms) | 영업 사이클 |
+| <strong>VAD (Voice Activity Detection)</strong> | 음성 활성화 감지 모듈 | 사용자의 발화 구간과 묵음 구간을 식별하여 패킷 생성 제어 | 손님의 식사/대기 상태 |
 
 PRMA의 동작은 크게 '경쟁(Contention)', '예약(Reservation)', '해제(Release)'의 상태 전이로 이루어진다.
 
@@ -69,15 +69,15 @@ PRMA의 동작은 크게 '경쟁(Contention)', '예약(Reservation)', '해제(Re
 +-----------------------------------------------------------------------+
 ```
 
-이 상태 전이도의 핵심은 단말기가 음성 트래픽을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)했을 때 CONTENTION 상태를 거쳐 성공적으로 기지국의 응답(ACK)을 받으면 RESERVATION 상태로 진입하여 이후 프레임의 동일한 슬롯을 무경쟁으로 독점한다는 점이다. 이런 배치는 음성 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 겪는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변동성(Jitter)을 최소화하기 때문이며, 따라서 통화 품질 보장에 결정적인 영향을 준다. 실무에서는 경쟁 구간에서의 허용 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Permission [Probability](/studynote/08_algorithm_stats/08_stats/130_probability/), p)을 어떻게 설정하느냐에 따라 시스템의 안정성이 크게 달라진다.
+이 상태 전이도의 핵심은 단말기가 음성 트래픽을 생성했을 때 CONTENTION 상태를 거쳐 성공적으로 기지국의 응답(ACK)을 받으면 RESERVATION 상태로 진입하여 이후 프레임의 동일한 슬롯을 무경쟁으로 독점한다는 점이다. 이런 배치는 음성 데이터가 겪는 지연 변동성(Jitter)을 최소화하기 때문이며, 따라서 통화 품질 보장에 결정적인 영향을 준다. 실무에서는 경쟁 구간에서의 허용 확률(Permission Probability, p)을 어떻게 설정하느냐에 따라 시스템의 안정성이 크게 달라진다.
 
 **핵심 메커니즘 동작 단계**:
 1. **슬롯 상태 방송**: 기지국은 매 슬롯의 끝에 다음 슬롯이 '예약됨'인지 '사용 가능'인지 다운링크를 통해 방송한다.
-2. **경쟁 (Contention)**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 단말기들은 '사용 가능' 슬롯에서 일정 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(p)로 전송을 시도한다. ([Slotted ALOHA](/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/))
+2. **경쟁 (Contention)**: 데이터를 보낼 단말기들은 '사용 가능' 슬롯에서 일정 확률(p)로 전송을 시도한다. (Slotted ALOHA)
 3. **예약 (Reservation)**: 충돌 없이 전송에 성공하면 기지국은 해당 단말기에게 슬롯을 할당(예약)한다. 음성 단말은 다음 프레임부터 해당 슬롯을 경쟁 없이 사용한다.
-4. **해제 (Release)**: 음성 발화가 끝나 패킷이 더 이상 오지 않으면, 기지국은 해당 슬롯을 다시 '사용 가능' 상태로 변경한다. ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단말은 예약을 하지 못하고 매 패킷마다 경쟁한다.)
+4. **해제 (Release)**: 음성 발화가 끝나 패킷이 더 이상 오지 않으면, 기지국은 해당 슬롯을 다시 '사용 가능' 상태로 변경한다. (데이터 단말은 예약을 하지 못하고 매 패킷마다 경쟁한다.)
 
-- **📢 섹션 요약 비유**: 음성 단말기는 정기권을 끊는 VIP 회원이 되어 빈자리가 날 때 한 번만 뚫고 들어가면 계속 그 자리를 쓰고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단말기는 1회용 티켓을 끊는 일반 회원이 되어 매번 빈자리를 찾아 헤매는 주차장 관리 시스템과 같습니다.
+- **📢 섹션 요약 비유**: 음성 단말기는 정기권을 끊는 VIP 회원이 되어 빈자리가 날 때 한 번만 뚫고 들어가면 계속 그 자리를 쓰고, 데이터 단말기는 1회용 티켓을 끊는 일반 회원이 되어 매번 빈자리를 찾아 헤매는 주차장 관리 시스템과 같습니다.
 
 ---
 
@@ -85,11 +85,11 @@ PRMA의 동작은 크게 '경쟁(Contention)', '예약(Reservation)', '해제(Re
 
 PRMA는 전통적인 방식들과 명확한 트레이드오프를 가진다.
 
-| 항목 | [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/studynote/05_database/07_exam_summary/411_division_operation/)) | [Slotted ALOHA](/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) | PRMA (Packet Reservation) |
+| 항목 | TDMA (Time Division) | Slotted ALOHA | PRMA (Packet Reservation) |
 |:---|:---|:---|:---|
 | **채널 할당 방식** | 고정적 (Static) | 전면 무작위 (Random) | 동적 하이브리드 (Dynamic) |
-| <strong>음성 <a href="/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 지원</strong> | 완벽 보장 | 보장 불가 (충돌 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 보장 (예약 성공 이후) |
-| **묵음 구간 활용** | 불가능 ([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비) | 자동 활용됨 | 가능 (다른 단말이 사용) |
+| <strong>음성 QoS 지원</strong> | 완벽 보장 | 보장 불가 (충돌 지연) | 보장 (예약 성공 이후) |
+| **묵음 구간 활용** | 불가능 (대역폭 낭비) | 자동 활용됨 | 가능 (다른 단말이 사용) |
 | **시스템 복잡도** | 낮음 | 매우 낮음 | 높음 (BS 스케줄링 필요) |
 
 ```text
@@ -110,9 +110,9 @@ PRMA는 전통적인 방식들과 명확한 트레이드오프를 가진다.
 +------------------------------------------------------------+
 ```
 
-이 매트릭스의 핵심은 트래픽 부하가 낮을 때는 무작위 접근 방식이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 측면에서 유리하지만, 부하가 증가함에 따라 충돌로 인해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증한다는 점이다. PRMA는 알로하의 유연성과 TDMA의 안정성을 타협한 중간 지점에 위치한다. 따라서 트래픽이 임계치를 넘어가면 예약 자체를 실패하는 단말이 속출하여 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증할 수 있다. 실무에서는 가입자 수와 트래픽 패턴을 분석하여 적절한 [확률 변수](/studynote/08_algorithm_stats/08_stats/134_random_variable/)(p)를 튜닝하지 않으면 전체 시스템이 마비되는 혼잡 붕괴(Congestion Collapse)를 겪을 수 있다.
+이 매트릭스의 핵심은 트래픽 부하가 낮을 때는 무작위 접근 방식이 지연 측면에서 유리하지만, 부하가 증가함에 따라 충돌로 인해 지연이 급증한다는 점이다. PRMA는 알로하의 유연성과 TDMA의 안정성을 타협한 중간 지점에 위치한다. 따라서 트래픽이 임계치를 넘어가면 예약 자체를 실패하는 단말이 속출하여 지연이 급증할 수 있다. 실무에서는 가입자 수와 트래픽 패턴을 분석하여 적절한 확률 변수(p)를 튜닝하지 않으면 전체 시스템이 마비되는 혼잡 붕괴(Congestion Collapse)를 겪을 수 있다.
 
-- **📢 섹션 요약 비유**: 지정석 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/))는 텅 비어도 출발해 비효율적이고, 완전 자유석 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(알로하)는 붐빌 때 싸움이 나지만, PRMA [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 빈자리에 먼저 앉은 사람에게 구간 동안 자리를 보장해주는 스마트한 좌석제 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 같습니다.
+- **📢 섹션 요약 비유**: 지정석 버스(TDMA)는 텅 비어도 출발해 비효율적이고, 완전 자유석 버스(알로하)는 붐빌 때 싸움이 나지만, PRMA 버스는 빈자리에 먼저 앉은 사람에게 구간 동안 자리를 보장해주는 스마트한 좌석제 버스와 같습니다.
 
 ---
 
@@ -120,7 +120,7 @@ PRMA는 전통적인 방식들과 명확한 트레이드오프를 가진다.
 
 실제 무선 패킷 통신망을 설계할 때 PRMA 방식을 적용하기 위해서는 정밀한 파라미터 튜닝과 예외 상황 관리가 필수적이다.
 
-<strong>실무 시나리오 <a href="/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a></strong>
+<strong>실무 시나리오 의사결정 트리</strong>
 ```text
 [트래픽 분석]
    |
@@ -137,12 +137,12 @@ PRMA는 전통적인 방식들과 명확한 트레이드오프를 가진다.
    |            +- 아니오 => [안전] PRMA 기본 설정 적용
 ```
 
-이 [의사결정 트리](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 PRMA가 만능이 아니라 특정 트래픽 혼합 환경과 부하 조건 하에서만 빛을 발한다는 점이다. 부하가 80%를 넘어서면 경쟁 구간에서 음성 단말이 예약을 획득하지 못해 패킷 폐기율(Drop Rate)이 급증한다. 실무에서는 이 지점의 실패율과 대기 시간을 반드시 별도로 모니터링해야 하며, [Call Admission Control](/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/)(CAC)을 통해 신규 음성 통화 진입을 원천 차단하는 방어 기제를 두어야 안정성을 확보할 수 있다.
+이 의사결정 트리의 핵심은 PRMA가 만능이 아니라 특정 트래픽 혼합 환경과 부하 조건 하에서만 빛을 발한다는 점이다. 부하가 80%를 넘어서면 경쟁 구간에서 음성 단말이 예약을 획득하지 못해 패킷 폐기율(Drop Rate)이 급증한다. 실무에서는 이 지점의 실패율과 대기 시간을 반드시 별도로 모니터링해야 하며, Call Admission Control(CAC)을 통해 신규 음성 통화 진입을 원천 차단하는 방어 기제를 두어야 안정성을 확보할 수 있다.
 
-<strong>도입 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
-- [ ] VAD (Voice Activity [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 센시티비티가 적절하게 설정되어 핑퐁 현상이 없는가?
-- [ ] 단말기 송신 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 파라미터(p)가 트래픽 부하에 따라 동적으로 조절되는 알고리즘이 적용되었는가?
-- [ ] [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 대비 음성 패킷의 우선순위를 보장할 수 있는 메커니즘이 존재하는가?
+<strong>도입 체크리스트</strong>:
+- [ ] VAD (Voice Activity Detection) 센시티비티가 적절하게 설정되어 핑퐁 현상이 없는가?
+- [ ] 단말기 송신 확률 파라미터(p)가 트래픽 부하에 따라 동적으로 조절되는 알고리즘이 적용되었는가?
+- [ ] 데이터 패킷 대비 음성 패킷의 우선순위를 보장할 수 있는 메커니즘이 존재하는가?
 
 - **📢 섹션 요약 비유**: 톨게이트에서 평소에는 하이패스와 일반 차로를 유연하게 섞어 쓰다가, 명절(트래픽 폭주)이 되면 하이패스 진입 자체를 통제하여 고속도로 전체가 마비되는 것을 막는 교통 통제 시스템과 같습니다.
 
@@ -150,15 +150,15 @@ PRMA는 전통적인 방식들과 명확한 트레이드오프를 가진다.
 
 ## Ⅴ. 기대효과 및 결론
 
-PRMA의 개념은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 무선 패킷 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신에서 스펙트럼 효율을 극대화하는 중요한 이정표가 되었다.
+PRMA의 개념은 초기 무선 패킷 데이터 통신에서 스펙트럼 효율을 극대화하는 중요한 이정표가 되었다.
 
 | 구분 | 기대 효과 및 기술적 가치 |
 |:---|:---|
-| **효율성 (Efficiency)** | 묵음 구간의 슬롯 재활용으로 [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) 대비 시스템 수용 용량(Capacity) 1.5배~2배 증대 |
-| <strong><a href="/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 보장</strong> | 경쟁 후 즉각적인 슬롯 예약을 통해 음성 통신의 최대 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 엄격히 제한 가능 |
-| **발전 방향** | [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 등 현대 셀룰러 망의 동적 자원 스케줄링(Dynamic Scheduling) 기법으로 진화 |
+| **효율성 (Efficiency)** | 묵음 구간의 슬롯 재활용으로 TDMA 대비 시스템 수용 용량(Capacity) 1.5배~2배 증대 |
+| <strong>QoS 보장</strong> | 경쟁 후 즉각적인 슬롯 예약을 통해 음성 통신의 최대 지연 시간 엄격히 제한 가능 |
+| **발전 방향** | LTE, 5G 등 현대 셀룰러 망의 동적 자원 스케줄링(Dynamic Scheduling) 기법으로 진화 |
 
-PRMA 자체는 과거의 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 형태지만, '필요할 때 경쟁하고, 확보하면 독점하는' 하이브리드 철학은 최신 5G의 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 스케줄링 알고리즘이나 [위성 통신](/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)([DAMA](/studynote/03_network/02_multiplexing_multiple_access/117_dama/) 등)에 깊이 녹아들어 있다. 향후 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 트래픽 예측 모델과 결합하여, 슬롯 경쟁을 최소화하고 트래픽 발생 직전에 선제적으로 예약을 잡아주는 인텐트 기반(Intent-based) [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 진화할 것이다.
+PRMA 자체는 과거의 프로토콜 형태지만, '필요할 때 경쟁하고, 확보하면 독점하는' 하이브리드 철학은 최신 5G의 MAC 스케줄링 알고리즘이나 위성 통신(DAMA 등)에 깊이 녹아들어 있다. 향후 AI 기반의 트래픽 예측 모델과 결합하여, 슬롯 경쟁을 최소화하고 트래픽 발생 직전에 선제적으로 예약을 잡아주는 인텐트 기반(Intent-based) MAC 프로토콜로 진화할 것이다.
 
 - **📢 섹션 요약 비유**: 예약과 경쟁의 절묘한 타협점인 PRMA는, 무질서한 교차로에 신호등과 회전교차로의 장점만을 뽑아 만든 현대적 스마트 교차로의 원조 모델이라 할 수 있습니다.
 
@@ -168,11 +168,11 @@ PRMA 자체는 과거의 [프로토콜](/studynote/03_network/06_network_layer_i
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) | PRMA가 타임 슬롯 프레임 구조를 차용한 기반 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식 |
-| [Slotted ALOHA](/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) | PRMA에서 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 슬롯 예약을 위한 경쟁 단계에서 사용하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| VAD (Voice Activity [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) | PRMA에서 묵음 구간을 감지하여 슬롯 예약을 해제하게 만드는 핵심 기술 요소 |
-| [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) | 음성 트래픽의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 최소화하기 위해 예약 메커니즘을 두는 근본 목적 |
-| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 물리적 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 여러 단말이 공유하기 위한 계층적 제어 규칙 |
+| TDMA (Time Division Multiple Access) | PRMA가 타임 슬롯 프레임 구조를 차용한 기반 다중 접속 방식 |
+| Slotted ALOHA | PRMA에서 초기 슬롯 예약을 위한 경쟁 단계에서 사용하는 프로토콜 |
+| VAD (Voice Activity Detection) | PRMA에서 묵음 구간을 감지하여 슬롯 예약을 해제하게 만드는 핵심 기술 요소 |
+| QoS (Quality of Service) | 음성 트래픽의 지연을 최소화하기 위해 예약 메커니즘을 두는 근본 목적 |
+| MAC (Media Access Control) | 물리적 매체를 여러 단말이 공유하기 위한 계층적 제어 규칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -193,14 +193,3 @@ PRMA는 토큰 패싱에서 출발해 현재 메커니즘을 정교화하고, �
 1. 학교에서 인기 있는 그네(채널)를 탈 때, 줄 서서 빈 그네를 차지하는 과정을 '경쟁'이라고 해요.
 2. 한 번 그네에 앉으면 친구가 다 탈 때까지는 다른 사람이 뺏지 못하게 약속하는 것을 '예약'이라고 해요.
 3. 그네를 다 타고 내리면 바로 다른 친구가 탈 수 있어서, 버려지는 시간 없이 아주 똑똑하게 놀이터를 쓰는 방법이랍니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 237 / 1120
-
-<- **이전**: [115. 토큰 패싱 (Token Passing)](/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)
-**다음**: [117. DAMA (Demand Assignment Multiple Access)](/studynote/03_network/02_multiplexing_multiple_access/117_dama/) ->
-
----

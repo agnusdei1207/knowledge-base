@@ -15,8 +15,8 @@ weight: 947
 
 ## Ⅰ. 개요 및 필요성
 
-- **현상**: 산이나 고층 빌딩이 많은 도심에서 기지국이 전파 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(심볼)를 쏘면, 직진 파동 외에도 건물에 튕기고 반사된 수백 개의 지각생 파동(메아리)들이 시간차를 두고 늦게 단말기에 수신됩니다.
-- **ISI (Inter-Symbol Interference, 심볼 간 간섭)**: 이 지각한 1번 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 꼬리(메아리)가, 뒤따라 출발한 정상적인 2번 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 머리 부분과 겹쳐서 충돌하는 재앙입니다. 이 간섭으로 인해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뭉개져 에러가 폭발합니다.
+- **현상**: 산이나 고층 빌딩이 많은 도심에서 기지국이 전파 신호(심볼)를 쏘면, 직진 파동 외에도 건물에 튕기고 반사된 수백 개의 지각생 파동(메아리)들이 시간차를 두고 늦게 단말기에 수신됩니다.
+- **ISI (Inter-Symbol Interference, 심볼 간 간섭)**: 이 지각한 1번 신호의 꼬리(메아리)가, 뒤따라 출발한 정상적인 2번 신호의 머리 부분과 겹쳐서 충돌하는 재앙입니다. 이 간섭으로 인해 데이터가 뭉개져 에러가 폭발합니다.
 
 ```text
 [FDM 가드 밴드]
@@ -27,15 +27,15 @@ weight: 947
     +---> [해밍 거리]
 ```
 
-- **📢 섹션 요약 비유**: OFDM 사이클릭 프리픽스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: OFDM 사이클릭 프리픽스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 이 메아리를 피하는 가장 무식하고 확실한 방법입니다.
-- 1번 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(심볼)를 쏘고 나서, 2번 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 쏘기 전에 <strong>의도적으로 아무 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>도 안 보내는 '텅 빈 시간(<a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구간, GI)'을 강제로 만들어 기다려줍니다.</strong>
-- 앞 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 꼬리(메아리)가 이 텅 빈 허공([보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간) 속에서 혼자 울리다 사그라지게 만들어서 2번 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 100% 안전하게 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)합니다.
+- 1번 신호(심볼)를 쏘고 나서, 2번 신호를 쏘기 전에 <strong>의도적으로 아무 데이터도 안 보내는 '텅 빈 시간(보호 구간, GI)'을 강제로 만들어 기다려줍니다.</strong>
+- 앞 신호의 꼬리(메아리)가 이 텅 빈 허공(보호 구간) 속에서 혼자 울리다 사그라지게 만들어서 2번 신호를 100% 안전하게 보호합니다.
 
 ```text
 [FDM 가드 밴드]
@@ -52,23 +52,23 @@ weight: 947
 
 ## Ⅲ. 비교 및 연결
 
-그런데 '아무 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)도 안 쏘는 빈 시간(GI)'을 그냥 침묵 상태(0볼트)로 두자 치명적인 문제가 터졌습니다.
-- <strong><a href="/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/">직교성</a> 붕괴</strong>: 945번에서 배운 OFDM(직교주파수)은 수천 가닥의 주파수가 완벽한 리듬(사인/코사인 파동)으로 얽혀있습니다. 그런데 중간에 파동을 '뚝' 끊고 0으로 침묵하면 리듬([직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))이 박살 나서 채널들이 엉키고 수신기([FFT](/studynote/08_algorithm_stats/07_numerical/126_fft/) 연산기)가 뇌정지에 빠집니다.
+그런데 '아무 신호도 안 쏘는 빈 시간(GI)'을 그냥 침묵 상태(0볼트)로 두자 치명적인 문제가 터졌습니다.
+- <strong>직교성 붕괴</strong>: 945번에서 배운 OFDM(직교주파수)은 수천 가닥의 주파수가 완벽한 리듬(사인/코사인 파동)으로 얽혀있습니다. 그런데 중간에 파동을 '뚝' 끊고 0으로 침묵하면 리듬(직교성)이 박살 나서 채널들이 엉키고 수신기(FFT 연산기)가 뇌정지에 빠집니다.
 
 ### CP의 작동 원리 (꼬리 잘라 머리에 붙이기) 🌟
-침묵을 하지 않으면서도 앞 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 방어하는 천재적 수학적 꼼수입니다.
-1. **복사 및 붙여넣기**: 송신기가 1번 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 파동의 <strong>'가장 맨 마지막 꼬리 부분'을 복사(Copy)해서, 1번 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>의 '맨 앞 대가리(Prefix)' 자리에 한 번 더 연장해서 붙여버립니다(순환, Cyclic).</strong>
-2. 결과적으로 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 길이가 강제로 늘어납니다. 이 늘어난 짝퉁 머리통 부분이 아까 말한 '[보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간(GI)' 공간을 물리적인 파동으로 가득 채워버립니다.
-3. **수신자의 처리**: 폰(수신기)에 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 도착하면 메아리(지각생)들이 쳐들어와서, 아까 머리에 붙여둔 <strong>가짜 복사본(<a href="/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>) 부분을 쾅 때리며 간섭(에러)을 일으킵니다.</strong>
-4. 수신기는 쿨하게 <strong>"에러 난 머리통(<a href="/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>) 부분은 어차피 가짜 복사본(미끼)이니까 싹둑 잘라서 쓰레기통에 버려!"</strong> 하고 버립니다. 그리고 그 뒤에 온전히 살아남은 진짜 오리지널 몸통 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)만 딱 꺼내서 에러율 0%로 완벽하게 해석해 냅니다.
+침묵을 하지 않으면서도 앞 신호를 방어하는 천재적 수학적 꼼수입니다.
+1. **복사 및 붙여넣기**: 송신기가 1번 신호 파동의 <strong>'가장 맨 마지막 꼬리 부분'을 복사(Copy)해서, 1번 신호의 '맨 앞 대가리(Prefix)' 자리에 한 번 더 연장해서 붙여버립니다(순환, Cyclic).</strong>
+2. 결과적으로 신호의 길이가 강제로 늘어납니다. 이 늘어난 짝퉁 머리통 부분이 아까 말한 '보호 구간(GI)' 공간을 물리적인 파동으로 가득 채워버립니다.
+3. **수신자의 처리**: 폰(수신기)에 신호가 도착하면 메아리(지각생)들이 쳐들어와서, 아까 머리에 붙여둔 <strong>가짜 복사본(CP) 부분을 쾅 때리며 간섭(에러)을 일으킵니다.</strong>
+4. 수신기는 쿨하게 <strong>"에러 난 머리통(CP) 부분은 어차피 가짜 복사본(미끼)이니까 싹둑 잘라서 쓰레기통에 버려!"</strong> 하고 버립니다. 그리고 그 뒤에 온전히 살아남은 진짜 오리지널 몸통 신호만 딱 꺼내서 에러율 0%로 완벽하게 해석해 냅니다.
 
-OFDM 사이클릭 프리픽스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FDM 가드 밴드가 기반 조건을 만든다면, OFDM 사이클릭 프리픽스는 그 위에서 핵심 메커니즘을 구현하고, [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+OFDM 사이클릭 프리픽스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FDM 가드 밴드가 기반 조건을 만든다면, OFDM 사이클릭 프리픽스는 그 위에서 핵심 메커니즘을 구현하고, 해밍 거리는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | FDM 가드 밴드의 기반 정리 | OFDM 사이클릭 프리픽스의 핵심 동작 | [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)의 확장 적용 |
+| 초점 | FDM 가드 밴드의 기반 정리 | OFDM 사이클릭 프리픽스의 핵심 동작 | 해밍 거리의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: OFDM 사이클릭 프리픽스는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -76,21 +76,21 @@ OFDM 사이클릭 프리픽스를 볼 때는 앞뒤 개념과의 경계를 함�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 <strong>OFDM + <a href="/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a></strong> 조합 덕분에 인류는 메아리가 미친 듯이 치는 뉴욕 맨해튼 한복판에서도 시속 100km로 달리며 1Gbps 속도로 넷플릭스를 안 끊기고 볼 수 있게 되었습니다. [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 길이를 길게 잡을수록 더 먼 거리의 산악 지형(메아리 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 긺)을 커버할 수 있지만, 쓸데없는 짝퉁 파동을 많이 보내니 진짜 전송 속도([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))는 떨어지는 트레이드오프가 존재합니다.
+- 이 <strong>OFDM + CP</strong> 조합 덕분에 인류는 메아리가 미친 듯이 치는 뉴욕 맨해튼 한복판에서도 시속 100km로 달리며 1Gbps 속도로 넷플릭스를 안 끊기고 볼 수 있게 되었습니다. CP 길이를 길게 잡을수록 더 먼 거리의 산악 지형(메아리 지연 시간 긺)을 커버할 수 있지만, 쓸데없는 짝퉁 파동을 많이 보내니 진짜 전송 속도(대역폭)는 떨어지는 트레이드오프가 존재합니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 도심 속 무선 통신(다중경로 반사)은 동굴 안에서 '기차(심볼)'를 연속해서 보내는 짓입니다. 1번 기차가 지나갈 때 생긴 흙먼지(메아리)가 미처 가라앉기 전에 2번 기차가 들어오면, 2번 기관사 시야가 가려 박살이 납니다(심볼 간 간섭 ISI). 이를 막으려면 1번 기차를 보내고 먼지가 가라앉을 때까지 '빈 틈([보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간)'을 줘야 합니다. 그런데 기차 레일 시스템(OFDM [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))은 빈 공간이 생기면 톱니바퀴가 멈추어 박살 납니다. <strong>사이클릭 프리픽스(<a href="/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>)</strong>는 천재적인 해결책입니다. 2번 기차의 맨 앞에 텅 빈 '가짜 화물칸(꼬리 복사본)'을 하나 달아주는 것입니다. 2번 기차가 들어올 때 1번 기차의 흙먼지(메아리 간섭)가 가짜 화물칸 창문에 덕지덕지 들러붙습니다. 도착역(수신기)에 기차가 서면, 먼지를 뒤집어쓴 맨 앞쪽 가짜 화물칸([CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))만 가차 없이 분리해서 버리고, 뒤에 먼지 하나 안 묻은 깨끗한 오리지널 승객칸(진짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 안전하게 꺼내어 에러율 0%의 완벽한 무선 통신을 완성하는 궁극의 흙먼지 방어막(미끼 칸) 전술입니다.
+- **📢 섹션 요약 비유**: 도심 속 무선 통신(다중경로 반사)은 동굴 안에서 '기차(심볼)'를 연속해서 보내는 짓입니다. 1번 기차가 지나갈 때 생긴 흙먼지(메아리)가 미처 가라앉기 전에 2번 기차가 들어오면, 2번 기관사 시야가 가려 박살이 납니다(심볼 간 간섭 ISI). 이를 막으려면 1번 기차를 보내고 먼지가 가라앉을 때까지 '빈 틈(보호 구간)'을 줘야 합니다. 그런데 기차 레일 시스템(OFDM 직교성)은 빈 공간이 생기면 톱니바퀴가 멈추어 박살 납니다. <strong>사이클릭 프리픽스(CP)</strong>는 천재적인 해결책입니다. 2번 기차의 맨 앞에 텅 빈 '가짜 화물칸(꼬리 복사본)'을 하나 달아주는 것입니다. 2번 기차가 들어올 때 1번 기차의 흙먼지(메아리 간섭)가 가짜 화물칸 창문에 덕지덕지 들러붙습니다. 도착역(수신기)에 기차가 서면, 먼지를 뒤집어쓴 맨 앞쪽 가짜 화물칸(CP)만 가차 없이 분리해서 버리고, 뒤에 먼지 하나 안 묻은 깨끗한 오리지널 승객칸(진짜 데이터)만 안전하게 꺼내어 에러율 0%의 완벽한 무선 통신을 완성하는 궁극의 흙먼지 방어막(미끼 칸) 전술입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-OFDM 사이클릭 프리픽스는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/), [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+OFDM 사이클릭 프리픽스는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 해밍 거리, 컨텍스트 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 컨텍스트 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: OFDM 사이클릭 프리픽스는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -103,7 +103,7 @@ OFDM 사이클릭 프리픽스는 빈출 주제와 용어를 이해할 때 핵�
 | FDM 가드 밴드 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 해밍 거리 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -117,21 +117,10 @@ OFDM 사이클릭 프리픽스는 빈출 주제와 용어를 이해할 때 핵�
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-OFDM 사이클릭 프리픽스는 FDM 가드 밴드에서 출발해 현재 메커니즘을 정교화하고, 이후 [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+OFDM 사이클릭 프리픽스는 FDM 가드 밴드에서 출발해 현재 메커니즘을 정교화하고, 이후 해밍 거리와 컨텍스트 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 1068 / 1120
-
-<- **이전**: [946. FDM 가드 밴드 (Guard Band)](/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/)
-**다음**: [948. 해밍 거리 (Hamming Distance)](/studynote/03_network/19_frequent_topics_terms/948_hamming_distance_error_detection_correction_code/) ->
-
----

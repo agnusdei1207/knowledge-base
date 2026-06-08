@@ -119,11 +119,3 @@ CPS 융합 보안 아키텍처의 출발점은 **Purdue Reference Model(ANSI/ISA
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **물리 계층 (L0) & 기본제어 (L1)** | 실제 공정 측정 및 직접 제어. 기능안전(IEC
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 786 / 800
-
-<- **이전**: [785. 하이브리드 업무 디지털 워크플레이스](/studynote/06_ict_convergence/uncategorized/785_hybrid_work_digital_workplace/)
-**다음**: [787. 양자 인터넷 양자 네트워크 양자 센서](/studynote/06_ict_convergence/uncategorized/787_quantum_internet_quantum_network_sensor/) ->
-
----

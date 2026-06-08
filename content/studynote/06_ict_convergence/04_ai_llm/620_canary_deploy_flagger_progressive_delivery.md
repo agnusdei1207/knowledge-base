@@ -172,11 +172,3 @@ metrics:
 
 - **Service Mesh (Istio, Linkerd, Consul, App Mesh)**: Flagger가 트래픽 가중치를 라우팅하는 핵심 계층. Istio 선택 시 `VirtualService` + `DestinationRule`을 자동 관리.
 - **Prometheus**: 메트릭 소스. Istio/Link
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 620 / 800
-
-<- **이전**: [619. GitOps ArgoCD Flux 선언적 배포](/studynote/06_ict_convergence/uncategorized/619_gitops_argocd_flux_declarative_deployment/)
-**다음**: [621. 인프라 코드화 테라폼 풀루미 CDK](/studynote/06_ict_convergence/uncategorized/621_iac_terraform_pulumi_cdk/) ->
-
----

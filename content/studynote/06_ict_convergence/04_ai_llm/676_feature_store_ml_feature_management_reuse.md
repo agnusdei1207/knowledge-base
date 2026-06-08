@@ -159,11 +159,3 @@ weight: 676
 | **Point-in-Time Join (시점 일치 조인)** | 학습 데이터의 **누수(Leakage) 방지** | 라벨(예: 2024-03-15 이탈 여부) 시점 이전의 가장 최근 피처 값을 매칭. SQL의 `ASOF JOIN`(DuckDB, Spark 3.4+) 또는 Feast `get_historical_features()` API가 제공. **데이터 누수(Data Leakage)** 로 인한 모델 AUC 10~30% 허위 향상을 차단. |
 | **Feature Serving API** | 학습/추론 양쪽에서 동일 피처 검색 | Feast `get_online_features()`, Tecton `get_features()`, Databricks `score_batch/score_real_time` 엔드포인트. Python/Java/Go SDK, gRPC, REST 지원. **엔티티(예: user_id, session_id)** 기반 일괄 조회(Batch Get) 가능. |
 | **Materialization (머터리얼라이제이션)** | 오프라인 -> 온라인 동기화 작업 | 주기(예: 5분) 또는 트리거(예: Kafka offset) 기반. 증분(Incremental) 또는 전체(Full Refresh). 보통 Airflow/Dagster/Tecton Scheduler가 오
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 676 / 800
-
-<- **이전**: [675. 데이터 오케스트레이션 Airflow Dagster](/studynote/06_ict_convergence/uncategorized/675_data_orchestration_airflow_dagster/)
-**다음**: [677. 데이터 관측 가능성 이상 탐지 품질](/studynote/06_ict_convergence/uncategorized/677_data_observability_anomaly_quality_detection/) ->
-
----

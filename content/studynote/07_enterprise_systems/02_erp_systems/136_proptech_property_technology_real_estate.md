@@ -6,8 +6,8 @@ tags:
 weight: 136
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: PropTech(Property Technology)는 <strong>부동산 산업에 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>·빅데이터·<a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>·<a href="/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>을 적용</strong>하여 거래·관리·투자·건설을 혁신하는 기술 분야이다.
-> 2. **가치**: 전통 부동산은 정보 비대칭·불투명 거래·비효율 관리가 문제이며, PropTech는 <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 시세 예측·VR 모델하우스·스마트 빌딩·토큰 증권(STO) 투자</strong>로 혁신한다.
+> 1. **본질**: PropTech(Property Technology)는 <strong>부동산 산업에 AI·빅데이터·IoT·블록체인을 적용</strong>하여 거래·관리·투자·건설을 혁신하는 기술 분야이다.
+> 2. **가치**: 전통 부동산은 정보 비대칭·불투명 거래·비효율 관리가 문제이며, PropTech는 <strong>AI 시세 예측·VR 모델하우스·스마트 빌딩·토큰 증권(STO) 투자</strong>로 혁신한다.
 > 3. **판단 포인트**: Construction Tech(건설)·Smart Building(관리)·Real Estate Marketplace(거래)·RE STO(투자)가 PropTech의 4대 영역이다.
 
 ---
@@ -28,7 +28,7 @@ PropTech 4대 영역:
 
 ## Ⅱ~Ⅴ. 결론
 
-PropTech는 <strong>부동산 산업의 <a href="/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a></strong>이며, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시세 예측·스마트 빌딩·STO가 핵심 트렌드이다.
+PropTech는 <strong>부동산 산업의 디지털 전환</strong>이며, AI 시세 예측·스마트 빌딩·STO가 핵심 트렌드이다.
 
 ---
 
@@ -38,9 +38,9 @@ PropTech는 <strong>부동산 산업의 <a href="/studynote/12_it_management/01_
 |:---|:---|
 | **PropTech** | 부동산 기술 |
 | **BIM** | 건축 정보 모델링 |
-| **스마트 빌딩** | [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 빌딩 관리 |
+| **스마트 빌딩** | IoT 빌딩 관리 |
 | **STO** | 부동산 토큰 증권 |
-| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a></strong> | 건물 디지털 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
+| <strong>디지털 트윈</strong> | 건물 디지털 복제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -54,14 +54,3 @@ PropTech는 <strong>부동산 산업의 <a href="/studynote/12_it_management/01_
 1. PropTech는 <strong>부동산에 IT 기술</strong>을 더한 거예요.
 2. VR로 <strong>집에서 모델하우스</strong>를 구경하고, AI가 <strong>집값을 예측</strong>해줘요.
 3. 큰 건물도 <strong>작은 조각(토큰)</strong>으로 나눠서 투자할 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 136 / 482
-
-<- **이전**: [135. RegTech (규제 기술) - AML·KYC·준법 자동화](/studynote/07_enterprise_systems/02_erp_systems/135_regtech_regulatory_technology_aml/)
-**다음**: [137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP](/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) ->
-
----

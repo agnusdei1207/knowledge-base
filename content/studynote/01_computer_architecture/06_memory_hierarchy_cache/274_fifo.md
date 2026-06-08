@@ -5,23 +5,23 @@ tags:
   - "studynote-computer-architecture"
 weight: 274
 ---
-# 274. [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out)
+# 274. FIFO (First-In, First-Out)
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out)는 캐시에 들어온 순서만 기억하고 가장 먼저 들어온 블록을 먼저 내보내는, 가장 단순한 교체 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
-> 2. **가치**: [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 이력을 계속 추적하지 않아도 되므로 하드웨어 회로와 전력 소모를 작게 유지할 수 있어, 단순 버퍼와 저비용 시스템에서 여전히 유효하다.
-> 3. **판단 포인트**: FIFO는 [시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))을 반영하지 못해 자주 쓰는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 오래 머물렀다는 이유로 제거할 수 있으며, 이 약점은 벨라디의 모순 (Bélády's [Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))으로까지 이어진다.
+> 1. **본질**: FIFO (First-In, First-Out)는 캐시에 들어온 순서만 기억하고 가장 먼저 들어온 블록을 먼저 내보내는, 가장 단순한 교체 정책이다.
+> 2. **가치**: 참조 이력을 계속 추적하지 않아도 되므로 하드웨어 회로와 전력 소모를 작게 유지할 수 있어, 단순 버퍼와 저비용 시스템에서 여전히 유효하다.
+> 3. **판단 포인트**: FIFO는 시간적 지역성 (Temporal Locality)을 반영하지 못해 자주 쓰는 데이터도 오래 머물렀다는 이유로 제거할 수 있으며, 이 약점은 벨라디의 모순 (Bélády's Anomaly)으로까지 이어진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-FIFO는 캐시나 버퍼가 가득 찼을 때 <strong>가장 먼저 적재된 항목을 교체 대상</strong>으로 정하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 판단 기준이 "얼마나 자주 썼는가"도 아니고 "방금 썼는가"도 아니라 오직 <strong>들어온 순서</strong>뿐이라는 점이 핵심이다. 이 단순함 덕분에 복잡한 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 없이도 교체 결정을 내릴 수 있다.
+FIFO는 캐시나 버퍼가 가득 찼을 때 <strong>가장 먼저 적재된 항목을 교체 대상</strong>으로 정하는 정책이다. 판단 기준이 "얼마나 자주 썼는가"도 아니고 "방금 썼는가"도 아니라 오직 <strong>들어온 순서</strong>뿐이라는 점이 핵심이다. 이 단순함 덕분에 복잡한 메타데이터 없이도 교체 결정을 내릴 수 있다.
 
-이 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요한 이유는 모든 저장 구조가 고성능 교체 로직을 감당할 필요는 없기 때문이다. CPU (Central Processing Unit) 최상위 캐시처럼 극단적 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 중요한 곳은 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 계열이 더 유리하지만, 네트워크 큐나 센서 링 버퍼처럼 <strong>순서 보장과 구현 단순성</strong>이 더 중요한 구조도 많다. 이런 환경에서는 정교한 예측보다 "확실하고 빠른 처리"가 우선이다.
+이 정책이 필요한 이유는 모든 저장 구조가 고성능 교체 로직을 감당할 필요는 없기 때문이다. CPU (Central Processing Unit) 최상위 캐시처럼 극단적 적중률이 중요한 곳은 LRU (Least Recently Used) 계열이 더 유리하지만, 네트워크 큐나 센서 링 버퍼처럼 <strong>순서 보장과 구현 단순성</strong>이 더 중요한 구조도 많다. 이런 환경에서는 정교한 예측보다 "확실하고 빠른 처리"가 우선이다.
 
-즉 FIFO는 최고의 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 노리는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이라기보다, <strong>최소한의 제어 비용으로 저장 공간을 순환시키는 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 이해해야 한다. 오래된 것이 곧 덜 중요하다는 보장은 없지만, 적어도 누가 나갈지는 즉시 결정할 수 있다.
+즉 FIFO는 최고의 적중률을 노리는 정책이라기보다, <strong>최소한의 제어 비용으로 저장 공간을 순환시키는 정책</strong>으로 이해해야 한다. 오래된 것이 곧 덜 중요하다는 보장은 없지만, 적어도 누가 나갈지는 즉시 결정할 수 있다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,11 +43,11 @@ FIFO는 캐시나 버퍼가 가득 찼을 때 <strong>가장 먼저 적재된 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FIFO의 핵심 구현은 보통 큐 ([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 또는 원형 버퍼 (Circular Buffer)다. 새 블록이 들어오면 뒤쪽에 기록하고, 교체가 필요하면 앞쪽 포인터가 가리키는 블록을 내보낸다. [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)가 일어나더라도 그 블록의 위치를 다시 정렬하지 않으므로, 읽기 히트([hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)) 시 추가 업데이트가 거의 없다.
+FIFO의 핵심 구현은 보통 큐 (Queue) 또는 원형 버퍼 (Circular Buffer)다. 새 블록이 들어오면 뒤쪽에 기록하고, 교체가 필요하면 앞쪽 포인터가 가리키는 블록을 내보낸다. 참조가 일어나더라도 그 블록의 위치를 다시 정렬하지 않으므로, 읽기 히트(hit) 시 추가 업데이트가 거의 없다.
 
-이 구조는 회로 입장에서 매우 가볍다. LRU처럼 매 접근마다 순위를 재계산하거나, [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))처럼 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 증가시킬 필요가 없다. 결과적으로 [비교기](/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/), [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 상태 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 줄어들어 설계가 단순해지고, 접근 지연과 전력 부담도 낮아진다.
+이 구조는 회로 입장에서 매우 가볍다. LRU처럼 매 접근마다 순위를 재계산하거나, LFU (Least Frequently Used)처럼 참조 횟수 카운터를 증가시킬 필요가 없다. 결과적으로 비교기, 카운터, 상태 비트 수가 줄어들어 설계가 단순해지고, 접근 지연과 전력 부담도 낮아진다.
 
-다만 단순함의 대가도 분명하다. FIFO는 어떤 블록이 방금 다시 쓰였는지를 반영하지 못한다. 따라서 오래전에 들어왔지만 지금도 반복 사용 중인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가, 막 들어왔지만 다시는 쓰이지 않을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다 먼저 쫓겨나는 비합리적 상황이 발생할 수 있다.
+다만 단순함의 대가도 분명하다. FIFO는 어떤 블록이 방금 다시 쓰였는지를 반영하지 못한다. 따라서 오래전에 들어왔지만 지금도 반복 사용 중인 데이터가, 막 들어왔지만 다시는 쓰이지 않을 데이터보다 먼저 쫓겨나는 비합리적 상황이 발생할 수 있다.
 
 다음 그림은 FIFO가 왜 빠르지만 둔감한지를 보여준다.
 
@@ -73,10 +73,10 @@ FIFO의 핵심 구현은 보통 큐 ([Queue](/studynote/08_algorithm_stats/04_da
 
 | 항목 | FIFO의 처리 방식 | 의미 |
 | :--- | :--- | :--- |
-| 삽입 기준 | 새 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 뒤에 배치 | 시간 순서 유지 |
+| 삽입 기준 | 새 데이터는 뒤에 배치 | 시간 순서 유지 |
 | 교체 기준 | 가장 먼저 들어온 블록 제거 | 구현 단순 |
 | 히트 시 동작 | 위치 변경 없음 | 제어 오버헤드 낮음 |
-| 약점 | 최근 재사용 여부 미반영 | [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 손해 가능 |
+| 약점 | 최근 재사용 여부 미반영 | 적중률 손해 가능 |
 
 - **📢 섹션 요약 비유**: FIFO는 회전문 달린 창고 같다. 물건이 들어온 차례대로 반대편에서 빠져나가니 관리자는 편하지만, 방금 다시 쓸 공구가 먼저 나가 버릴 수도 있다.
 
@@ -84,17 +84,17 @@ FIFO의 핵심 구현은 보통 큐 ([Queue](/studynote/08_algorithm_stats/04_da
 
 ## Ⅲ. 비교 및 연결
 
-FIFO를 제대로 이해하려면 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), LFU와의 경계를 함께 봐야 한다. FIFO는 **순서**, LRU는 **최근성**, LFU는 <strong>빈도</strong>를 본다. 즉 FIFO는 기억해야 할 정보가 가장 적은 대신, 프로그램의 지역성(Locality)을 가장 덜 반영한다.
+FIFO를 제대로 이해하려면 LRU, LFU와의 경계를 함께 봐야 한다. FIFO는 **순서**, LRU는 **최근성**, LFU는 <strong>빈도</strong>를 본다. 즉 FIFO는 기억해야 할 정보가 가장 적은 대신, 프로그램의 지역성(Locality)을 가장 덜 반영한다.
 
-| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 판단 기준 | 장점 | 약점 | 대표 연결 개념 |
+| 정책 | 판단 기준 | 장점 | 약점 | 대표 연결 개념 |
 | :--- | :--- | :--- | :--- | :--- |
-| [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) | 먼저 들어온 순서 | 구현 가장 단순 | 자주 쓰는 블록도 제거 가능 | 큐, 링 버퍼 |
-| [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) | 가장 오래 안 쓴 시점 | [시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) 반영 우수 | 구현 복잡도 증가 | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), Pseudo-[LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) |
-| [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) | 가장 적게 사용한 빈도 | 장기 인기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 관리 부담 큼 | 캐시 오염 방지 |
+| FIFO | 먼저 들어온 순서 | 구현 가장 단순 | 자주 쓰는 블록도 제거 가능 | 큐, 링 버퍼 |
+| LRU | 가장 오래 안 쓴 시점 | 시간적 지역성 반영 우수 | 구현 복잡도 증가 | 스택 알고리즘, Pseudo-LRU |
+| LFU | 가장 적게 사용한 빈도 | 장기 인기 데이터 보호 | 카운터 관리 부담 큼 | 캐시 오염 방지 |
 
-특히 FIFO는 <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> 이 아니기 때문에 캐시 크기를 키워도 항상 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아진다고 보장할 수 없다. 같은 접근열에서 캐시를 3칸에서 4칸으로 늘렸는데도 미스가 증가하는 현상이 바로 벨라디의 모순이다. 이 점이 FIFO를 메인 CPU 캐시의 기본 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵게 만든다.
+특히 FIFO는 <strong>스택 알고리즘(Stack Algorithm)</strong> 이 아니기 때문에 캐시 크기를 키워도 항상 성능이 좋아진다고 보장할 수 없다. 같은 접근열에서 캐시를 3칸에서 4칸으로 늘렸는데도 미스가 증가하는 현상이 바로 벨라디의 모순이다. 이 점이 FIFO를 메인 CPU 캐시의 기본 정책으로 쓰기 어렵게 만든다.
 
-[운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS, [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체에서 쓰이는 Second Chance 또는 [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 FIFO의 약점을 보완한 대표 사례다. 기본 순서는 FIFO처럼 유지하되, 최근 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))가 있으면 즉시 버리지 않고 한 번 더 기회를 준다. 즉 실무는 FIFO의 단순함을 버리지 않으면서도, 지역성을 조금이라도 반영하려는 방향으로 발전해 왔다.
+운영체제(OS, Operating System)의 페이지 교체에서 쓰이는 Second Chance 또는 Clock 알고리즘은 FIFO의 약점을 보완한 대표 사례다. 기본 순서는 FIFO처럼 유지하되, 최근 참조 비트(reference bit)가 있으면 즉시 버리지 않고 한 번 더 기회를 준다. 즉 실무는 FIFO의 단순함을 버리지 않으면서도, 지역성을 조금이라도 반영하려는 방향으로 발전해 왔다.
 
 - **📢 섹션 요약 비유**: FIFO가 줄 선 순서만 보는 놀이공원이라면, LRU와 LFU는 "방금 탔는지"와 "얼마나 자주 타는지"까지 살피는 운영 방식이다. 기준이 늘수록 똑똑해지지만 관리도 복잡해진다.
 
@@ -102,21 +102,21 @@ FIFO를 제대로 이해하려면 [LRU](/studynote/02_operating_system/04_synchr
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 FIFO를 채택할지 여부는 "[적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 최적화"보다 <strong>제어 비용과 순서 보장</strong>이 더 중요한지로 판단해야 한다. 예를 들어 초당 대량 이벤트를 받는 네트워크 입력 버퍼나 오디오 스트리밍 버퍼는, 복잡한 교체 판단보다 빠른 순환과 예측 가능한 동작이 중요하다. 이런 곳에서 FIFO는 좋은 선택이다.
+실무에서 FIFO를 채택할지 여부는 "적중률 최적화"보다 <strong>제어 비용과 순서 보장</strong>이 더 중요한지로 판단해야 한다. 예를 들어 초당 대량 이벤트를 받는 네트워크 입력 버퍼나 오디오 스트리밍 버퍼는, 복잡한 교체 판단보다 빠른 순환과 예측 가능한 동작이 중요하다. 이런 곳에서 FIFO는 좋은 선택이다.
 
-반면 CPU 캐시, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀(Buffer Pool), 자주 재사용되는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 캐시처럼 <strong>지역성이 강한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 다루는 계층에서는 순수 FIFO를 조심해야 한다. 오래 머물렀다는 이유만으로 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내보내면 미스 패널티가 누적되고, 하위 메모리 접근 지연이 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 망친다. 특히 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 접근이 수십 ns 이상 걸리는 상황에서는 작은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 차이가 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이로 이어진다.
+반면 CPU 캐시, 데이터베이스 버퍼 풀(Buffer Pool), 자주 재사용되는 인덱스 캐시처럼 <strong>지역성이 강한 데이터</strong>를 다루는 계층에서는 순수 FIFO를 조심해야 한다. 오래 머물렀다는 이유만으로 핵심 데이터를 내보내면 미스 패널티가 누적되고, 하위 메모리 접근 지연이 전체 성능을 망친다. 특히 DRAM (Dynamic Random Access Memory) 접근이 수십 ns 이상 걸리는 상황에서는 작은 정책 차이가 체감 성능 차이로 이어진다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 
-1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 순서대로 소비되는가, 아니면 반복 재사용되는가?
-2. [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 이력을 추적할 하드웨어/소프트웨어 비용을 감당할 수 있는가?
+1. 데이터가 순서대로 소비되는가, 아니면 반복 재사용되는가?
+2. 참조 이력을 추적할 하드웨어/소프트웨어 비용을 감당할 수 있는가?
 3. 미스 패널티보다 제어 오버헤드 절감 효과가 더 큰가?
-4. 벨라디의 모순이 문제 될 정도로 워킹셋([Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/)) 변동이 큰가?
+4. 벨라디의 모순이 문제 될 정도로 워킹셋(Working Set) 변동이 큰가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- "구현이 쉬우니 캐시에도 일단 [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)"라는 접근
-- 반복 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 환경에서 최근성 정보 없이 운영하는 설계
+- "구현이 쉬우니 캐시에도 일단 FIFO"라는 접근
+- 반복 참조 데이터가 많은 환경에서 최근성 정보 없이 운영하는 설계
 - FIFO의 단순함만 보고, 미스 비용이 큰 하위 계층 영향을 무시하는 판단
 
 - **📢 섹션 요약 비유**: FIFO는 택배 상하차장에서 강하지만 도서관 서가 관리에는 약하다. 상자는 들어온 순서대로 빼도 되지만, 책은 사람들이 자주 찾는 것을 남겨둬야 하기 때문이다.
@@ -125,13 +125,13 @@ FIFO를 제대로 이해하려면 [LRU](/studynote/02_operating_system/04_synchr
 
 ## Ⅴ. 기대효과 및 결론
 
-FIFO의 가장 큰 효과는 설계 명확성이다. 교체 규칙이 단순하므로 검증이 쉽고, 자원 사용량도 예측 가능하다. 작은 임베디드 시스템이나 스트리밍형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로에서는 이 예측 가능성이 곧 안정성으로 이어진다.
+FIFO의 가장 큰 효과는 설계 명확성이다. 교체 규칙이 단순하므로 검증이 쉽고, 자원 사용량도 예측 가능하다. 작은 임베디드 시스템이나 스트리밍형 데이터 경로에서는 이 예측 가능성이 곧 안정성으로 이어진다.
 
-하지만 FIFO를 "낡았으니 버린다"는 단일 관점으로만 이해하면 위험하다. 컴퓨터 구조에서 오래된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 곧 불필요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 뜻은 아니기 때문이다. 캐시 계층이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올리는 이유는 지역성을 잘 붙잡는 데 있는데, FIFO는 이 점에서 본질적으로 불리하다.
+하지만 FIFO를 "낡았으니 버린다"는 단일 관점으로만 이해하면 위험하다. 컴퓨터 구조에서 오래된 데이터가 곧 불필요한 데이터라는 뜻은 아니기 때문이다. 캐시 계층이 성능을 올리는 이유는 지역성을 잘 붙잡는 데 있는데, FIFO는 이 점에서 본질적으로 불리하다.
 
-따라서 FIFO는 <strong>모든 캐시에 좋은 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이 아니라, <strong>순서 중심 구조에 특히 잘 맞는 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 기억해야 한다. 현대 시스템은 필요에 따라 FIFO를 그대로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 하고, Second Chance처럼 약간 보완해 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 하며, 더 높은 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 필요하면 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 계열로 넘어간다. 핵심은 단순함과 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 사이의 균형을 어디에 둘 것인지 판단하는 것이다.
+따라서 FIFO는 <strong>모든 캐시에 좋은 정책</strong>이 아니라, <strong>순서 중심 구조에 특히 잘 맞는 정책</strong>으로 기억해야 한다. 현대 시스템은 필요에 따라 FIFO를 그대로 쓰기도 하고, Second Chance처럼 약간 보완해 쓰기도 하며, 더 높은 적중률이 필요하면 LRU 계열로 넘어간다. 핵심은 단순함과 적중률 사이의 균형을 어디에 둘 것인지 판단하는 것이다.
 
-- **📢 섹션 요약 비유**: FIFO는 가장 단순한 교통 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)와 같다. 규칙은 명확하고 운영은 쉽지만, 모든 교차로에 똑같이 적용하면 혼잡한 도심에서는 더 똑똑한 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 체계가 필요해진다.
+- **📢 섹션 요약 비유**: FIFO는 가장 단순한 교통 신호와 같다. 규칙은 명확하고 운영은 쉽지만, 모든 교차로에 똑같이 적용하면 혼잡한 도심에서는 더 똑똑한 신호 체계가 필요해진다.
 
 ---
 
@@ -139,11 +139,11 @@ FIFO의 가장 큰 효과는 설계 명확성이다. 교체 규칙이 단순하�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [캐시 교체 알고리즘](/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/) ([Replacement Policy](/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/)) | FIFO는 가장 기본적인 교체 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 축에 해당한다. |
-| [시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)) | FIFO가 충분히 반영하지 못하는 핵심 성질이다. |
-| [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) | FIFO의 단순함과 대비되는 최근성 기반 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. |
-| 벨라디의 모순 (Bélády's [Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/)) | FIFO가 대표적으로 드러내는 구조적 한계다. |
-| Second Chance / [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) | FIFO에 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 더해 실무적으로 개선한 형태다. |
+| 캐시 교체 알고리즘 (Replacement Policy) | FIFO는 가장 기본적인 교체 정책 축에 해당한다. |
+| 시간적 지역성 (Temporal Locality) | FIFO가 충분히 반영하지 못하는 핵심 성질이다. |
+| LRU (Least Recently Used) | FIFO의 단순함과 대비되는 최근성 기반 정책이다. |
+| 벨라디의 모순 (Bélády's Anomaly) | FIFO가 대표적으로 드러내는 구조적 한계다. |
+| Second Chance / Clock | FIFO에 참조 비트를 더해 실무적으로 개선한 형태다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,14 +172,3 @@ LRU (Least Recently Used) · Pseudo-LRU
 1. FIFO는 줄을 먼저 선 친구가 먼저 앞으로 나가는 규칙이에요.
 2. 그래서 누가 제일 인기 많은 친구인지는 몰라도, 순서를 정하기는 아주 쉬워요.
 3. 하지만 자주 같이 놀던 친구도 먼저 왔다는 이유로 먼저 나가야 해서, 가끔은 똑똑하지 못한 선택을 할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 274 / 803
-
-<- **이전**: [273. LFU (Least Frequently Used)](/studynote/01_computer_architecture/06_memory_hierarchy_cache/273_lfu/)
-**다음**: [275. 캐시 쓰기 정책 (Write Policy)](/studynote/01_computer_architecture/06_memory_hierarchy_cache/275_write_policy/) ->
-
----

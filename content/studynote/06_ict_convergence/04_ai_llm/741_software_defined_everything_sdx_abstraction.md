@@ -129,11 +129,3 @@ SDx는 단일 기술이 아니라 **유사 철학**을 공유하는 기술 군(�
 - **엣지 컴퓨팅 / MEC**: SDx의 분산 컨트롤러는 **중앙 코어 컨트롤러 + 엣지 로컬 컨트롤러**로 계층화되어, 엣지 자원을 자기조직화(Self-Organizing) 한다.
 
 - **📢 섹션 요약 비유**: SDx는 **"만
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 741 / 800
-
-<- **이전**: [740. 버그 바운티 책임 있는 공개 정책](/studynote/06_ict_convergence/uncategorized/740_bug_bounty_responsible_disclosure_policy/)
-**다음**: [742. 인텐트 기반 네트워킹 IBN 자동화](/studynote/06_ict_convergence/uncategorized/742_intent_based_networking_ibn_automation/) ->
-
----

@@ -7,18 +7,18 @@ weight: 494
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)([Vehicle-to-Everything](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))는 차량이 주변 차량(V2V)·인프라(V2I)·보행자(V2P)·네트워크(V2N)와 통신하여 센서만으로는 불가능한 시야각 너머의 위험 정보를 공유하는 협력적 지능형 교통 기술이다.
-> 2. **가치**: 기존 자율주행 센서([LiDAR](/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)·카메라)의 시야 한계(약 200m, 건물·차량 차단)를 극복하고, 교차로 충돌 경고·긴급 차량 우선신호 등 비가시권(Non-Line of Sight) 위험을 수백 ms 전에 사전 감지한다.
-> 3. **판단 포인트**: [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(IEEE 802.11p, [DSRC](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) vs [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)([Cellular V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/))의 기술 선택과, C-V2X에서 모드 3(네트워크) vs 모드 4([직접 통신](/studynote/02_operating_system/02_process_thread/120_direct_communication/))의 설계 선택이 기술사 시험의 핵심 비교 논제다.
+> 1. **본질**: V2X(Vehicle-to-Everything)는 차량이 주변 차량(V2V)·인프라(V2I)·보행자(V2P)·네트워크(V2N)와 통신하여 센서만으로는 불가능한 시야각 너머의 위험 정보를 공유하는 협력적 지능형 교통 기술이다.
+> 2. **가치**: 기존 자율주행 센서(LiDAR·카메라)의 시야 한계(약 200m, 건물·차량 차단)를 극복하고, 교차로 충돌 경고·긴급 차량 우선신호 등 비가시권(Non-Line of Sight) 위험을 수백 ms 전에 사전 감지한다.
+> 3. **판단 포인트**: WAVE(IEEE 802.11p, DSRC) vs C-V2X(Cellular V2X)의 기술 선택과, C-V2X에서 모드 3(네트워크) vs 모드 4(직접 통신)의 설계 선택이 기술사 시험의 핵심 비교 논제다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-<strong><a href="/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a> 통신 종류</strong>
+<strong>V2X 통신 종류</strong>
 
-- **V2V(Vehicle-to-Vehicle)**: 차량 간 [직접 통신](/studynote/02_operating_system/02_process_thread/120_direct_communication/). 충돌 경보(FCW), 긴급 제동 경고(EEBL).
-- **V2I(Vehicle-to-Infrastructure)**: 차량-[신호](/studynote/02_operating_system/02_process_thread/130_signal/)등·노변 기지국([RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/)) 통신. [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 위반 경고, 최적 속도 안내(SPaT).
+- **V2V(Vehicle-to-Vehicle)**: 차량 간 직접 통신. 충돌 경보(FCW), 긴급 제동 경고(EEBL).
+- **V2I(Vehicle-to-Infrastructure)**: 차량-신호등·노변 기지국(RSU) 통신. 신호 위반 경고, 최적 속도 안내(SPaT).
 - **V2P(Vehicle-to-Pedestrian)**: 차량-보행자(스마트폰) 통신. 보행자 충돌 경보.
 - **V2N(Vehicle-to-Network)**: 차량-클라우드 통신. HD Map 갱신, 교통 정보 수신.
 
@@ -51,37 +51,37 @@ weight: 494
 +----------------------------------------------------------+
 ```
 
-### [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)([DSRC](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) vs [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 비교표
+### WAVE(DSRC) vs C-V2X 비교표
 
-| 항목 | [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) (IEEE 802.11p) | [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) ([3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/)) |
+| 항목 | WAVE (IEEE 802.11p) | C-V2X (3GPP) |
 |:---:|:---:|:---:|
-| 표준 기관 | IEEE | [3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) |
+| 표준 기관 | IEEE | 3GPP |
 | 통신 범위 | ~1km | ~수km (모드 4), 무제한 (모드 3) |
-| [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | ~10ms | 모드 4: ~10ms / 모드 3: ~20ms |
-| 인프라 의존 | [RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 필요 (모드 3) | 모드 4는 인프라 불필요 |
+| 지연 시간 | ~10ms | 모드 4: ~10ms / 모드 3: ~20ms |
+| 인프라 의존 | RSU 필요 (모드 3) | 모드 4는 인프라 불필요 |
 | 이동통신 연동 | 어려움 | 네이티브 통합 |
-| 보안 | IEEE 1609.2 | [3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 보안 프레임워크 |
-| 진화 경로 | 802.11bd(차세대) | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR-[V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) |
+| 보안 | IEEE 1609.2 | 3GPP 보안 프레임워크 |
+| 진화 경로 | 802.11bd(차세대) | 5G NR-V2X |
 
-- **📢 섹션 요약 비유**: WAVE는 토키워키(무전기)다. 가까이 있는 차량끼리 직접 대화하지만, 멀리서는 안 된다. [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 모드 4도 무전기지만, 더 강력한 전파로 멀리까지 닿는다. [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 모드 3은 기지국을 통한 휴대폰 통화다.
+- **📢 섹션 요약 비유**: WAVE는 토키워키(무전기)다. 가까이 있는 차량끼리 직접 대화하지만, 멀리서는 안 된다. C-V2X 모드 4도 무전기지만, 더 강력한 전파로 멀리까지 닿는다. C-V2X 모드 3은 기지국을 통한 휴대폰 통화다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-<strong><a href="/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a> 모드 3 vs 모드 4 선택 기준</strong>
+<strong>C-V2X 모드 3 vs 모드 4 선택 기준</strong>
 
-| 조건 | 모드 3 (네트워크) | 모드 4 ([직접 통신](/studynote/02_operating_system/02_process_thread/120_direct_communication/)) |
+| 조건 | 모드 3 (네트워크) | 모드 4 (직접 통신) |
 |:---|:---:|:---:|
 | 인프라 미구축 지역 | 불가 | 가능 |
 | 광역 교통 정보 | 최적 | 제한 |
-| 최저 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 필요 | 제한적 | 유리 |
-| 음영 지역 통신 | 불가 | 가능 ([P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) |
-| [5G SA](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) 구축 완료 후 | uRLLC와 시너지 | 보완적 활용 |
+| 최저 지연 필요 | 제한적 | 유리 |
+| 음영 지역 통신 | 불가 | 가능 (P2P) |
+| 5G SA 구축 완료 후 | uRLLC와 시너지 | 보완적 활용 |
 
-<strong>군집 주행(<a href="/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/">Platooning</a>) 요구사항</strong>
+<strong>군집 주행(Platooning) 요구사항</strong>
 
-트럭 군집 주행에서는 선두 차량의 가속·제동 명령이 후속 차량에 10ms 이내에 전달되어야 한다. [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 모드 4 + [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [uRLLC](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) 슬라이스의 결합으로 이 요구사항을 충족한다.
+트럭 군집 주행에서는 선두 차량의 가속·제동 명령이 후속 차량에 10ms 이내에 전달되어야 한다. C-V2X 모드 4 + 5G uRLLC 슬라이스의 결합으로 이 요구사항을 충족한다.
 
 - **📢 섹션 요약 비유**: 군집 주행 V2X는 군대 행진 구령이다. 선두 분대장(선두 차량)이 "앞으로 갓!" 을 외치면, 0.01초 안에 전 대원(후속 차량)이 동시에 움직여야 한다. 이 명령 전달에 C-V2X가 필요하다.
 
@@ -89,30 +89,30 @@ weight: 494
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/">C-ITS</a>(Cooperative Intelligent Transport System) <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>
+<strong>C-ITS(Cooperative Intelligent Transport System) 서비스</strong>
 
-| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 기술 | 내용 |
+| 서비스 | 기술 | 내용 |
 |:---|:---:|:---|
-| SPaT ([Signal](/studynote/02_operating_system/02_process_thread/130_signal/) Phase and Timing) | V2I | 교차로 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 타이밍 정보 제공 |
-| FCW ([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Warning) | V2V | 전방 차량 급제동 경보 |
+| SPaT (Signal Phase and Timing) | V2I | 교차로 신호 타이밍 정보 제공 |
+| FCW (Forward Collision Warning) | V2V | 전방 차량 급제동 경보 |
 | EEBL (Emergency Electronic Brake Light) | V2V | 다중 차량 연쇄 긴급 제동 |
 | IVS (In-Vehicle Signage) | V2I | 속도 제한·도로 표지 차내 전달 |
 
 **기술사 판단 포인트**
 
-1. [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 보안: 메시지 위변조 방지 위한 [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 기반 [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(Pseudonym Certificate) 사용.
-2. Pseudonym Certificate: [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 보호를 위해 주기적으로 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 교체 (차량 추적 방지).
-3. 한국 [C-ITS](/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/): 국토교통부 주도, 고속도로 중심으로 [C-ITS](/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/) 인프라 구축 중.
+1. V2X 보안: 메시지 위변조 방지 위한 PKI 기반 V2X 인증서(Pseudonym Certificate) 사용.
+2. Pseudonym Certificate: 개인정보 보호를 위해 주기적으로 인증서를 교체 (차량 추적 방지).
+3. 한국 C-ITS: 국토교통부 주도, 고속도로 중심으로 C-ITS 인프라 구축 중.
 
-- **📢 섹션 요약 비유**: [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 보안의 Pseudonym Certificate는 마스크를 주기적으로 바꾸는 것이다. 차량이 누구인지 위조되지 않도록 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하되, 동일 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 계속 쓰면 이동 경로가 추적되므로 주기적으로 가명(Pseudonym) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서로 교체한다.
+- **📢 섹션 요약 비유**: V2X 보안의 Pseudonym Certificate는 마스크를 주기적으로 바꾸는 것이다. 차량이 누구인지 위조되지 않도록 인증하되, 동일 인증서를 계속 쓰면 이동 경로가 추적되므로 주기적으로 가명(Pseudonym) 인증서로 교체한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-V2X는 자율주행 레벨 4 이상 실현을 위한 필수 보완 인프라다. 차량 단독 센서의 한계를 협력 통신으로 극복하고, [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR-V2X는 군집 주행·원격 제어 등 미래 이동성의 핵심 기반이 된다. 기술사 시험에서는 [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 4종류, [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) vs [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/), 모드 3 vs 모드 4, 보안(Pseudonym)을 체계적으로 답안에 포함해야 한다.
+V2X는 자율주행 레벨 4 이상 실현을 위한 필수 보완 인프라다. 차량 단독 센서의 한계를 협력 통신으로 극복하고, 5G NR-V2X는 군집 주행·원격 제어 등 미래 이동성의 핵심 기반이 된다. 기술사 시험에서는 V2X 4종류, WAVE vs C-V2X, 모드 3 vs 모드 4, 보안(Pseudonym)을 체계적으로 답안에 포함해야 한다.
 
-- **📢 섹션 요약 비유**: V2X는 도로의 무선 신경망이다. 모든 차량·[신호](/studynote/02_operating_system/02_process_thread/130_signal/)등·보행자가 연결되어 교통 상황을 실시간으로 공유하면, 도로가 살아있는 지능형 시스템이 된다.
+- **📢 섹션 요약 비유**: V2X는 도로의 무선 신경망이다. 모든 차량·신호등·보행자가 연결되어 교통 상황을 실시간으로 공유하면, 도로가 살아있는 지능형 시스템이 된다.
 
 ---
 
@@ -120,11 +120,11 @@ V2X는 자율주행 레벨 4 이상 실현을 위한 필수 보완 인프라다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [DSRC](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(Dedicated Short-Range Communication) | IEEE 802.11p, 5.9GHz · 단거리 전용 차량 통신 |
-| PC5 인터페이스 | [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 모드 4, [직접 통신](/studynote/02_operating_system/02_process_thread/120_direct_communication/) · 기지국 없는 차량 간 통신 |
-| SPaT | V2I, [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등 정보 · [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 위상·타이밍 제공 |
-| Pseudonym Certificate | [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), 프라이버시 · 차량 추적 방지 가명 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
-| 군집 주행([Platooning](/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)) | V2V, [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [uRLLC](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) · 선두 차량 추종 군집 운행 |
+| DSRC(Dedicated Short-Range Communication) | IEEE 802.11p, 5.9GHz · 단거리 전용 차량 통신 |
+| PC5 인터페이스 | C-V2X 모드 4, 직접 통신 · 기지국 없는 차량 간 통신 |
+| SPaT | V2I, 신호등 정보 · 신호 위상·타이밍 제공 |
+| Pseudonym Certificate | PKI, 프라이버시 · 차량 추적 방지 가명 인증 |
+| 군집 주행(Platooning) | V2V, 5G uRLLC · 선두 차량 추종 군집 운행 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,16 +135,5 @@ V2X는 자율주행 레벨 4 이상 실현을 위한 필수 보완 인프라다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. V2X는 차들이 서로 대화하는 것이에요. "나 급브레이크 밟는다!" 고 미리 알려주면 사고를 막을 수 있어요.
-2. [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 모드 4는 직접 대화(무전기), 모드 3은 기지국을 통한 전화예요.
-3. [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 보안 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 마스크 바꾸기예요. 내 차가 누구인지 증명하되, 너무 오래 쓰면 위치가 추적되니까 주기적으로 바꿔요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 494 / 552
-
-<- **이전**: [493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)](/studynote/06_ict_convergence/02_iot_mobility/493_autonomous_driving_lidar_sensor_fusion/)
-**다음**: [495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)](/studynote/06_ict_convergence/02_iot_mobility/495_5g_embb_urllc_mmtc_network_slicing/) ->
-
----
+2. C-V2X 모드 4는 직접 대화(무전기), 모드 3은 기지국을 통한 전화예요.
+3. V2X 보안 인증서는 마스크 바꾸기예요. 내 차가 누구인지 증명하되, 너무 오래 쓰면 위치가 추적되니까 주기적으로 바꿔요.

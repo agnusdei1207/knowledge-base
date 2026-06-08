@@ -124,11 +124,3 @@ $$\min Z = \sum_{k \in K}\sum_{(i,j)\in A} c_{ij} x_{ijk} + \sum_{i \in N} p_i(T
 
 - **응용 계층**: MQTT 5.0(센서·원격), gRPC(DMS↔Solver), RESTful OMS
 - **보안**: TLS 1.3 + mTLS(디바이스 인증) + OAuth 2
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 610 / 800
-
-<- **이전**: [609. 스마트 농업 정밀 농업 센서 네트워크](/studynote/06_ict_convergence/uncategorized/609_smart_agriculture_precision_farming_sensor/)
-**다음**: [611. 서버리스 컴퓨팅 FaaS 이벤트 드리븐](/studynote/06_ict_convergence/uncategorized/611_serverless_computing_faas_event_driven/) ->
-
----

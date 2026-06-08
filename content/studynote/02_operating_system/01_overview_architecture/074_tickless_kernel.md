@@ -7,7 +7,7 @@ weight: 74
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 불필요한 주기적 타이머 틱을 줄여 전력과 오버헤드를 낮추는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계다.
+> 1. **본질**: 틱리스 커널은 불필요한 주기적 타이머 틱을 줄여 전력과 오버헤드를 낮추는 커널 설계다.
 > 2. **가치**: 모바일/임베디드에서 배터리 효율을 높인다.
 > 3. **판단**: 항상 틱이 없어지는 것은 아니고 필요할 때만 발생한다.
 
@@ -15,9 +15,9 @@ weight: 74
 
 ## Ⅰ. 개요 및 필요성
 
-주기적으로 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키면 에너지가 낭비될 수 있다.
+주기적으로 인터럽트를 발생시키면 에너지가 낭비될 수 있다.
 
-틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 문제를 줄인다.
+틱리스 커널은 이 문제를 줄인다.
 
 - **📢 섹션 요약 비유**: 시계 초침이 꼭 매번 움직이지 않아도 되는 상황이다.
 
@@ -34,10 +34,10 @@ Tickless Kernel
 | 개념 | 의미 |
 | :-- | :-- |
 | NoHz | 틱 최소화 |
-| [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Optimization | 유휴 최적화 |
-| [Timer](/studynote/02_operating_system/01_overview_architecture/071_os_timer/) Event | 필요 시 이벤트 |
+| Idle Optimization | 유휴 최적화 |
+| Timer Event | 필요 시 이벤트 |
 
-틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 주기적 틱을 줄여 CPU와 전력 소모를 낮춘다.
+틱리스 커널은 주기적 틱을 줄여 CPU와 전력 소모를 낮춘다.
 
 - **📢 섹션 요약 비유**: 종을 매번 치지 않고 필요할 때만 치는 것이다.
 
@@ -45,9 +45,9 @@ Tickless Kernel
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | Periodic [Tick](/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) | [Tickless](/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/) |
+| 구분 | Periodic Tick | Tickless |
 | :-- | :-- | :-- |
-| [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | 자주 | 적게 |
+| 인터럽트 | 자주 | 적게 |
 | 전력 | 더 큼 | 더 적음 |
 | 반응 | 고정 | 이벤트 중심 |
 
@@ -56,7 +56,7 @@ Tickless Kernel
 | Mobile | 모바일 |
 | Embedded | 임베디드 |
 
-틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 배터리 수명과 효율이 중요한 환경에 유리하다.
+틱리스 커널은 배터리 수명과 효율이 중요한 환경에 유리하다.
 
 - **📢 섹션 요약 비유**: 계속 울리는 알람 대신 필요한 때만 울리는 알람이다.
 
@@ -64,7 +64,7 @@ Tickless Kernel
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 주기적 틱 비용을 이해하는가?
 2. 유휴 최적화를 설명할 수 있는가?
@@ -72,14 +72,14 @@ Tickless Kernel
 4. 모바일/임베디드에 적합한가?
 5. 무조건 더 빠르다고 오해하지 않는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 틱을 무조건 없애는 설계
 - 전력과 성능을 같이 보지 않는 설계
-- [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이벤트를 이해하지 못하는 설계
+- 커널 이벤트를 이해하지 못하는 설계
 - 데스크톱과 동일하게 보는 설계
 
-기술사 관점에서는 틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 "주기적 타이머 오버헤드 감소 설계"로 설명해야 한다.
+기술사 관점에서는 틱리스 커널을 "주기적 타이머 오버헤드 감소 설계"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 꼭 필요할 때만 종이 울리게 한다.
 
@@ -87,9 +87,9 @@ Tickless Kernel
 
 ## Ⅴ. 기대효과 및 결론
 
-틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 에너지 효율을 높인다.
+틱리스 커널은 에너지 효율을 높인다.
 
-결론적으로 틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 불필요한 주기 틱을 줄인 설계다.
+결론적으로 틱리스 커널은 불필요한 주기 틱을 줄인 설계다.
 
 - **📢 섹션 요약 비유**: 조용히 있어야 할 때는 조용한 시계다.
 
@@ -123,15 +123,4 @@ NoHz
 
 꼭 울릴 필요 없어요.
 필요할 때만 울려요.
-틱리스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그런 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 74 / 800
-
-<- **이전**: [73. 틱 (Tick) / 지피스 (Jiffies)](/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)
-**다음**: [75. ACPI (Advanced Configuration and Power Interface)](/studynote/02_operating_system/01_overview_architecture/075_acpi/) ->
-
----
+틱리스 커널은 그런 커널이에요.

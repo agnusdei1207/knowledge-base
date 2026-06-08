@@ -8,9 +8,9 @@ weight: 66
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))와 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))은 신경망이 입력을 출력으로 변환할 때 사용하는 선형 방정식의 핵심 파라미터다.
+> 1. **본질**: 가중치(Weight)와 편향(Bias)은 신경망이 입력을 출력으로 변환할 때 사용하는 선형 방정식의 핵심 파라미터다.
 > 2. **가치**: Weight는 입력의 중요도를 조정하고, Bias는 결정 경계를 이동시킨다.
-> 3. **판단**: 이 둘을 이해해야 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/), MLP, DNN의 동작과 학습의 의미를 설명할 수 있다.
+> 3. **판단**: 이 둘을 이해해야 퍼셉트론, MLP, DNN의 동작과 학습의 의미를 설명할 수 있다.
 
 ---
 
@@ -32,8 +32,8 @@ x --(W)--> sum --(+ b)--> activation --> output
 
 | 파라미터 | 역할 |
 | :-- | :-- |
-| [Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) (W) | 입력의 영향력 조절 |
-| [Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) (b) | 기준점 이동 |
+| Weight (W) | 입력의 영향력 조절 |
+| Bias (b) | 기준점 이동 |
 
 Weight는 입력값을 얼마나 크게 볼지 결정하고, Bias는 결과가 0이 되는 위치를 좌우로 옮긴다. 이 둘이 함께 있어야 선형 모델이 유연해진다.
 
@@ -43,15 +43,15 @@ Weight는 입력값을 얼마나 크게 볼지 결정하고, Bias는 결과가 0
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | [Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) |
+| 구분 | Weight | Bias |
 | :-- | :-- | :-- |
 | 역할 | 기울기/중요도 | 절편/오프셋 |
-| 학습 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 맞춰 조정 | 경계 위치 보정 |
+| 학습 | 데이터에 맞춰 조정 | 경계 위치 보정 |
 | 영향 | 특징별 가중 | 전체 이동 |
 
 | 모델 | 표현 |
 | :-- | :-- |
-| [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) | 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| Perceptron | 선형 분류 |
 | MLP | 비선형 표현의 기본 구성 |
 | DNN | 많은 층에서 반복 사용 |
 
@@ -63,17 +63,17 @@ Weight와 Bias는 신경망에서 가장 기본적이면서도 중요한 학습 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. Weight와 Bias의 역할을 구분하는가?
 2. y = Wx + b를 해석할 수 있는가?
 3. Bias가 결정 경계를 어떻게 옮기는지 아는가?
-4. 선형 결합과 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이해하는가?
+4. 선형 결합과 활성화 함수의 관계를 이해하는가?
 5. 학습이 파라미터 업데이트라는 점을 설명할 수 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 편향을 같은 의미로 쓰는 설계
+- 가중치와 편향을 같은 의미로 쓰는 설계
 - Bias를 생략해도 된다고 생각하는 설계
 - 선형 방정식을 신경망과 분리해서 설명하는 설계
 - 파라미터 업데이트를 블랙박스로 두는 설계
@@ -86,7 +86,7 @@ Weight와 Bias는 신경망에서 가장 기본적이면서도 중요한 학습 
 
 ## Ⅴ. 기대효과 및 결론
 
-[가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 편향은 모든 신경망의 기본이다. 이 둘을 이해하면 모델이 왜 그렇게 예측하는지 설명하기 쉬워진다.
+가중치와 편향은 모든 신경망의 기본이다. 이 둘을 이해하면 모델이 왜 그렇게 예측하는지 설명하기 쉬워진다.
 
 결론적으로 Weight와 Bias는 신경망 학습의 가장 작은 단위다.
 
@@ -126,15 +126,4 @@ DNN
 
 무게를 어떻게 주느냐에 따라 결과가 달라져요.
 시작 위치를 옮기면 전체가 같이 옮겨져요.
-[가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 편향은 그런 조절 장치예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 66 / 420
-
-<- **이전**: [65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론](/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)
-**다음**: [67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수](/studynote/10_ai/01_ai_basics/067_activation_function_neural_network_non_linearity/) ->
-
----
+가중치와 편향은 그런 조절 장치예요.

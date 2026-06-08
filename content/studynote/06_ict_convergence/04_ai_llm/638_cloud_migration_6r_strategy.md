@@ -163,11 +163,3 @@ weight: 638
 
 | 평가 항목 | 가중치(예시) | Rehost 유리 조건 | Replatform 유리 조건 | Refactor 유리 조건 | Retain 유리 조건 |
 | :--- | :--- | :--- | :
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 638 / 800
-
-<- **이전**: [637. 스팟 인스턴스 리저브드 비용 전략](/studynote/06_ict_convergence/uncategorized/637_spot_instance_reserved_cost_strategy/)
-**다음**: [639. API 게이트웨이 매니지드 서비스 비교](/studynote/06_ict_convergence/uncategorized/639_api_gateway_managed_service_comparison/) ->
-
----

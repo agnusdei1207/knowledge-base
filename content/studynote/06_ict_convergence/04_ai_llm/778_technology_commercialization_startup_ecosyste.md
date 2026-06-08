@@ -48,11 +48,3 @@ weight: 778
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 스타트업 생태계는 **4-Layer Stack**으로 구성된다. **Layer 1(기술 공급)**: 대학·출연연(ETRI, KIST, KAIST 등)의 지식재산(IP)·공동연구·스핀오프, **Layer 2(창업/연결)**: 액셀러레이터·인큐베이터·엔젤·정부 R&D, **Layer 3(투자/성장)**: VC·CVC·PE·전략적투자자, **Layer 4(회수/생태계 재생)**: IPO(KOSDAQ·NASDAQ)·M
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 778 / 800
-
-<- **이전**: [777. 개방형 혁신 오픈 이노베이션 협업](/studynote/06_ict_convergence/uncategorized/777_open_innovation_open_source_collaboration/)
-**다음**: [779. IP 지식 재산권 특허 전략 라이선스](/studynote/06_ict_convergence/uncategorized/779_ip_intellectual_property_patent_strategy/) ->
-
----

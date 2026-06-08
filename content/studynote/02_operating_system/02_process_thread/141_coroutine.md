@@ -7,9 +7,9 @@ weight: 141
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 코루틴 (Coroutine)은 협력적 [멀티태스킹](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)(Cooperative [Multitasking](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/))을 구현하는 제어 구조로, 함수가 실행 도중에 자발적으로 중단(yield)하고 나중에 재개(resume)할 수 있는 진입점을 여러 개 가지는 특수한 서브루틴이다.
-> 2. **가치**: OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)보다 가벼운 [문맥 교환 비용](/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/)(수백 ns vs 수 μs)으로 수만~수십만 개의 동시 작업을 효율적으로 관리할 수 있어, 고동시성 서버와 게임 엔진에서 핵심 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 기법으로 사용된다.
-> 3. **융합**: Python async/await, JavaScript Promise, Kotlin Coroutines, C++20 Coroutines 등 현대 언어의 비동기 프로그래밍 모델이 코루틴을 기반으로 구현되며, [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)와 결합하여 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 고동시성을 달성한다.
+> 1. **본질**: 코루틴 (Coroutine)은 협력적 멀티태스킹(Cooperative Multitasking)을 구현하는 제어 구조로, 함수가 실행 도중에 자발적으로 중단(yield)하고 나중에 재개(resume)할 수 있는 진입점을 여러 개 가지는 특수한 서브루틴이다.
+> 2. **가치**: OS 스레드보다 가벼운 문맥 교환 비용(수백 ns vs 수 μs)으로 수만~수십만 개의 동시 작업을 효율적으로 관리할 수 있어, 고동시성 서버와 게임 엔진에서 핵심 동시성 기법으로 사용된다.
+> 3. **융합**: Python async/await, JavaScript Promise, Kotlin Coroutines, C++20 Coroutines 등 현대 언어의 비동기 프로그래밍 모델이 코루틴을 기반으로 구현되며, 이벤트 루프와 결합하여 단일 스레드에서 고동시성을 달성한다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 141
 
 - **개념**: 일반적인 서브루틴(함수)은 단일 진입점(entry point)에서 시작하여 return 시점에서 종료되는 일방향 실행이다. 반면 코루틴은 진입점이 여러 개이며, 실행 중에 yield를 통해 제어를 호출자(caller)에게 반환하고, 나중에 resume으로 중단 지점부터 재개할 수 있다.
 
-- **필요성**: OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 관리하므로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·전환 비용이 크다([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)당 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 1~8MB, [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 1~10μs). I/O 바운드 작업이 많은 환경에서 수만 개 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 메모리와 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드가 병목이 된다. 코루틴은 사용자 공간에서 문맥 전환을 수행하므로, 이러한 오버헤드 없이 수십만 개의 동시 작업을 관리할 수 있다.
+- **필요성**: OS 스레드는 커널이 문맥 교환을 관리하므로 생성·전환 비용이 크다(스레드당 스택 1~8MB, 문맥 교환 1~10μs). I/O 바운드 작업이 많은 환경에서 수만 개 스레드를 생성하면 메모리와 문맥 교환 오버헤드가 병목이 된다. 코루틴은 사용자 공간에서 문맥 전환을 수행하므로, 이러한 오버헤드 없이 수십만 개의 동시 작업을 관리할 수 있다.
 
 ```text
 +---------------------------------------------------------------+
@@ -46,7 +46,7 @@ weight: 141
 +---------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 서브루틴은 호출자가 제어권을 넘기면 함수가 끝날 때까지 제어권을 돌려받지 못한다. 반면 코루틴은 yield 시점에서 제어권을 호출자에게 반환하고, resume 호출로 중단 시점부터 다시 실행을 이어간다. 이것이 코루틴이 "협력적(cooperative)"인 이유다 — 코루틴 스스로가 언제 양보할지 결정하기 때문이다. preemptive(선점형) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 달리, 코루틴은 절대 자신의 의지에 반해 선점되지 않으므로 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 발생하지 않지만, 한 코루틴이 양보하지 않으면 전체 시스템이 멈추는 리스크가 있다.
+**[다이어그램 해설]** 서브루틴은 호출자가 제어권을 넘기면 함수가 끝날 때까지 제어권을 돌려받지 못한다. 반면 코루틴은 yield 시점에서 제어권을 호출자에게 반환하고, resume 호출로 중단 시점부터 다시 실행을 이어간다. 이것이 코루틴이 "협력적(cooperative)"인 이유다 — 코루틴 스스로가 언제 양보할지 결정하기 때문이다. preemptive(선점형) 스레드와 달리, 코루틴은 절대 자신의 의지에 반해 선점되지 않으므로 동기화 문제가 발생하지 않지만, 한 코루틴이 양보하지 않으면 전체 시스템이 멈추는 리스크가 있다.
 
 - **📢 섹션 요약 비유**: 코루틴은 "번갈아 가며 말하는 대화"와 같습니다. 한 사람이 말을 마칠 때까지 기다렸다가, 이어서 말하는 것이 아니라, 중간에 "잠깐요" 하고 상대방에게 말을 넘기는 방식입니다.
 
@@ -60,8 +60,8 @@ weight: 141
 |:---|:---|:---|
 | **비대칭 (Asymmetric)** | yield는 호출자에게만 반환, resume는 호출자만 가능 | Python generator (yield/send) |
 | **대칭 (Symmetric)** | 임의 코루틴으로 전환 가능 | Lua (coroutine.resume/transfer) |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>리스 (Stackless)</strong> | 컴파일러가 상태 머신([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)으로 변환 | Python async/await, JS async |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>풀 (Stackful)</strong> | 독립 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 가지며, [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 경로 전체가 보존 | Lua coroutine, Go [goroutine](/studynote/02_operating_system/02_process_thread/140_goroutine/) |
+| <strong>스택리스 (Stackless)</strong> | 컴파일러가 상태 머신(State Machine)으로 변환 | Python async/await, JS async |
+| <strong>스택풀 (Stackful)</strong> | 독립 스택을 가지며, 함수 호출 경로 전체가 보존 | Lua coroutine, Go goroutine |
 
 ### async/await 구현 원리
 
@@ -91,7 +91,7 @@ weight: 141
 +--------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** async/await는 컴파일러가 코루틴을 상태 머신([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)으로 변환하는 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)리스 코루틴 구현이다. await 시점에서 현재 함수의 모든 로컬 변수를 힙에 저장하고 제어권을 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)에게 반환한다. Future가 완료되면 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)가 저장된 변수를 복원하고 중단 지점에서 실행을 재개한다. 이 방식의 장점은 각 코루틴에 독립 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 필요 없으므로 메모리 오버헤드가 극히 작다는 것이다. 단점은 await는 코루틴 함수 내부에서만 사용할 수 있고, 일반 함수 내부에서는 await를 호출할 수 없다.
+**[다이어그램 해설]** async/await는 컴파일러가 코루틴을 상태 머신(State Machine)으로 변환하는 스택리스 코루틴 구현이다. await 시점에서 현재 함수의 모든 로컬 변수를 힙에 저장하고 제어권을 이벤트 루프에게 반환한다. Future가 완료되면 이벤트 루프가 저장된 변수를 복원하고 중단 지점에서 실행을 재개한다. 이 방식의 장점은 각 코루틴에 독립 스택이 필요 없으므로 메모리 오버헤드가 극히 작다는 것이다. 단점은 await는 코루틴 함수 내부에서만 사용할 수 있고, 일반 함수 내부에서는 await를 호출할 수 없다.
 
 - **📢 섹션 요약 비유**: async/await은 "토스 턴치하는 운동선수"와 같습니다. 공을 던지고( yield), 코트 밖에서 다른 일을 하다가, 공이 돌아오면(resume) 다시 받아서 이어서 처리합니다.
 
@@ -99,31 +99,31 @@ weight: 141
 
 ## Ⅲ. 비교 및 연결
 
-### 비교: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) vs 코루틴 vs [고루틴](/studynote/02_operating_system/02_process_thread/140_goroutine/)
+### 비교: 스레드 vs 코루틴 vs 고루틴
 
-| 비교 항목 | OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) | 코루틴 | [고루틴](/studynote/02_operating_system/02_process_thread/140_goroutine/) ([Goroutine](/studynote/02_operating_system/02_process_thread/140_goroutine/)) |
+| 비교 항목 | OS 스레드 | 코루틴 | 고루틴 (Goroutine) |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a></strong> | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 (1~10μs) | 사용자 공간 (~100ns) | 런타임 (~100ns) |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 크기</strong> | 1~8MB | 0 (stackless) ~수KB (stackful) | 2~8KB (동적 성장) |
-| <strong><a href="/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 수</strong> | 수천 개 | 수십만 개 | 수백만 개 |
+| <strong>문맥 교환</strong> | 커널 개입 (1~10μs) | 사용자 공간 (~100ns) | 런타임 (~100ns) |
+| <strong>스택 크기</strong> | 1~8MB | 0 (stackless) ~수KB (stackful) | 2~8KB (동적 성장) |
+| <strong>동시성 수</strong> | 수천 개 | 수십만 개 | 수백만 개 |
 | **선점형** | 가능 | 불가 (협력적) | 런타임이 preemptive 지원 |
-| <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성</strong> | 다중 코어에서 진정 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) | 단일 코어만 | 다중 코어 (M:N 스케줄링) |
+| <strong>병렬성</strong> | 다중 코어에서 진정 병렬 | 단일 코어만 | 다중 코어 (M:N 스케줄링) |
 
 ### 과목 융합 관점
-- <strong><a href="/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a> (OS)</strong>: 코루틴은 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)와 결합하여 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고동시성을 달성한다. Node.js, Python asyncio, Ruby EventMachine이 이 모델을 사용한다.
-- **네트워크**: 비동기 I/O 연산과 코루틴의 조합으로 네트워크 지연을 숨길 수 있다. 수만 개의 동시 연결을 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 처리하는 C10K 문제의 해결책이다.
+- <strong>이벤트 루프 (OS)</strong>: 코루틴은 이벤트 루프와 결합하여 단일 스레드 고동시성을 달성한다. Node.js, Python asyncio, Ruby EventMachine이 이 모델을 사용한다.
+- **네트워크**: 비동기 I/O 연산과 코루틴의 조합으로 네트워크 지연을 숨길 수 있다. 수만 개의 동시 연결을 단일 스레드로 처리하는 C10K 문제의 해결책이다.
 
-- **📢 섹션 요약 비유**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 "각자의 부엌에서 요리하는 요리사", 코루틴은 "한 명의 요리사가 빵 굽는 동안 수프 끓이기를 번갈아 하는" 방식입니다. 한 명이 요리 사고를 내면 전체가 멈추는 것이 단점이죠.
+- **📢 섹션 요약 비유**: 스레드는 "각자의 부엌에서 요리하는 요리사", 코루틴은 "한 명의 요리사가 빵 굽는 동안 수프 끓이기를 번갈아 하는" 방식입니다. 한 명이 요리 사고를 내면 전체가 멈추는 것이 단점이죠.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **블로킹 연산을 코루틴 내부에서 수행**: time.sleep()이나 동기 I/O를 코루틴 내에서 호출하면 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) 전체가 블로킹된다. 반드시 비동기 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(asyncio.sleep(), aio)을 사용해야 한다.
+### 안티패턴
+- **블로킹 연산을 코루틴 내부에서 수행**: time.sleep()이나 동기 I/O를 코루틴 내에서 호출하면 이벤트 루프 전체가 블로킹된다. 반드시 비동기 버전(asyncio.sleep(), aio)을 사용해야 한다.
 - **코루틴 체인에서 예외 미처리**: 한 코루틴의 예외가 상위 코루틴으로 전파되지 않으면 조용히 실패(silent failure)한다. try/except로 반드시 예외를 처리해야 한다.
 
-- **📢 섹션 요약 비유**: 코루틴에서 블로킹 연산은 "토스 턴치 도중에 핸드폰을 보는 것"과 같습니다. 전체 게임이 멈춰버립니다. 반드시 비동기 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 사용해야 합니다.
+- **📢 섹션 요약 비유**: 코루틴에서 블로킹 연산은 "토스 턴치 도중에 핸드폰을 보는 것"과 같습니다. 전체 게임이 멈춰버립니다. 반드시 비동기 버전을 사용해야 합니다.
 
 ---
 
@@ -134,7 +134,7 @@ weight: 141
 - **Python**: PEP 492 (async/await), asyncio
 - **JavaScript**: ES2017 async/await
 
-- **📢 섹션 요약 비유**: 코루틴은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 무거움과 콜백 지옥(callback hell) 사이의 "제3의 길"입니다. 커피 한 잔 마시는 사이에 만 개의 작업을 돌릴 수 있는 가벼운 마법입니다.
+- **📢 섹션 요약 비유**: 코루틴은 스레드의 무거움과 콜백 지옥(callback hell) 사이의 "제3의 길"입니다. 커피 한 잔 마시는 사이에 만 개의 작업을 돌릴 수 있는 가벼운 마법입니다.
 
 ---
 
@@ -142,10 +142,10 @@ weight: 141
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [액터 모델](/studynote/02_operating_system/02_process_thread/139_actor_model/) ([Actor Model](/studynote/02_operating_system/02_process_thread/139_actor_model/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [고루틴](/studynote/02_operating_system/02_process_thread/140_goroutine/) ([Goroutine](/studynote/02_operating_system/02_process_thread/140_goroutine/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/studynote/02_operating_system/02_process_thread/142_event_loop/)) 기반 비동기 처리 (Node.js) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 액터 모델 (Actor Model) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 고루틴 (Goroutine) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,14 +166,3 @@ weight: 141
 1. 코루틴은 "책갈피 꽂아두기"예요. 동화책을 읽다가 장난감 놀이터에 가서 놀다가, 다시 와서 책갈피 꽂아둔 다음 장부터 이어서 읽을 수 있어요.
 2. 컴퓨터에서는 여러 일을 동시에 처리하면서, 하나가 기다려야 할 때 다른 일을 먼저 하고 나중에 이어서 하는 똑똑한 방법이에요.
 3. 요리사 한 명이 오븐에 빵을 넣고 기다리는 동안, 그 사이에 수프를 끓이고 샐러드를 만들 수 있는 것과 같아요 — 한 명이 여러 가지 요리를 동시에 만드는 거죠!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 141 / 800
-
-<- **이전**: [140. 고루틴 (Goroutine) - Go 언어의 경량 스레드 (M:N 모델)](/studynote/02_operating_system/02_process_thread/140_goroutine/)
-**다음**: [142. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)](/studynote/02_operating_system/02_process_thread/142_event_loop/) ->
-
----

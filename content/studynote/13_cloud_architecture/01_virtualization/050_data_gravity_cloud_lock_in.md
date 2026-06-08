@@ -13,13 +13,13 @@ tags:
 weight: 50
 ---
 > **핵심 인사이트 3줄**
-> 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질수록 애플리케이션과 서비스가 그 주변에 집결하는 물리학 중력 유사 현상으로, 클라우드 이동을 어렵게 만드는 핵심 요인이다.
-> 2. 클라우드 Lock-In은 기술적(전용 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)적(이동 비용), 운영적(기술 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 종속) 세 층위에서 발생하며, 이중 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Egress](/studynote/16_bigdata/09_platform/189_egress/) 비용이 실질적 이동 장벽이다.
-> 3. 멀티클라우드 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)) 활용이 Lock-In을 줄이는 현실적 접근이다.
+> 1. 데이터 중력(Data Gravity)은 데이터가 커질수록 애플리케이션과 서비스가 그 주변에 집결하는 물리학 중력 유사 현상으로, 클라우드 이동을 어렵게 만드는 핵심 요인이다.
+> 2. 클라우드 Lock-In은 기술적(전용 API), 데이터적(이동 비용), 운영적(기술 스택 종속) 세 층위에서 발생하며, 이중 데이터 Egress 비용이 실질적 이동 장벽이다.
+> 3. 멀티클라우드 전략과 오픈소스 표준(Kubernetes, Terraform, OpenTelemetry) 활용이 Lock-In을 줄이는 현실적 접근이다.
 
 ---
 
-## Ⅰ. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력 개념
+## Ⅰ. 데이터 중력 개념
 
 ### 1.1 정의
 
@@ -32,23 +32,23 @@ weight: 50
 서비스·애플리케이션이 데이터 있는 클라우드에 묶임
 ```
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity) = 물리학의 중력처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클수록 주변 자원을 강하게 끌어당김.
+데이터 중력(Data Gravity) = 물리학의 중력처럼 데이터가 클수록 주변 자원을 강하게 끌어당김.
 
-### 1.2 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력의 영향
+### 1.2 데이터 중력의 영향
 
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모   | 영향                                     |
+| 데이터 규모   | 영향                                     |
 |------------|------------------------------------------|
 | GB 수준     | 이동 부담 낮음, 멀티클라우드 유연         |
-| TB 수준     | [Egress](/studynote/16_bigdata/09_platform/189_egress/) 비용 발생, 이동 계획 필요          |
+| TB 수준     | Egress 비용 발생, 이동 계획 필요          |
 | PB 수준     | 사실상 이동 불가, 해당 클라우드 종속      |
 
-📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력은 블랙홀처럼 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많을수록 모든 서비스가 그 주변에 모여 떠나기 어렵다.
+📢 **섹션 요약 비유**: 데이터 중력은 블랙홀처럼 — 데이터가 많을수록 모든 서비스가 그 주변에 모여 떠나기 어렵다.
 
 ---
 
-## Ⅱ. 클라우드 [Lock-In](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/) 유형
+## Ⅱ. 클라우드 Lock-In 유형
 
-### 2.1 세 가지 [Lock-In](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/) 층위
+### 2.1 세 가지 Lock-In 층위
 
 ```
 기술적 Lock-In: 전용 API, 서비스
@@ -61,7 +61,7 @@ weight: 50
   예: AWS-only 인증 엔지니어, 전용 도구 의존
 ```
 
-### 2.2 [Egress](/studynote/16_bigdata/09_platform/189_egress/) 비용 현실
+### 2.2 Egress 비용 현실
 
 | 클라우드    | 같은 리전 내  | 인터넷 아웃바운드 |
 |-----------|------------|----------------|
@@ -71,13 +71,13 @@ weight: 50
 
 PB 규모에서는 수십억 원 이상의 이전 비용 발생.
 
-📢 **섹션 요약 비유**: 클라우드 Lock-In은 창고를 대여했는데 짐이 너무 많아 이사비([Egress](/studynote/16_bigdata/09_platform/189_egress/))가 더 비싼 상황 — 사실상 못 나가게 된다.
+📢 **섹션 요약 비유**: 클라우드 Lock-In은 창고를 대여했는데 짐이 너무 많아 이사비(Egress)가 더 비싼 상황 — 사실상 못 나가게 된다.
 
 ---
 
-## Ⅲ. 탈출 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅲ. 탈출 전략
 
-### 3.1 멀티클라우드 ([Multi-Cloud](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/))
+### 3.1 멀티클라우드 (Multi-Cloud)
 
 ```
 AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
@@ -87,22 +87,22 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
        워크로드 이식성 확보
 ```
 
-### 3.2 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준 활용
+### 3.2 오픈소스 표준 활용
 
-| 영역       | [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준                   | 대체 효과                  |
+| 영역       | 오픈소스 표준                   | 대체 효과                  |
 |----------|---------------------------------|--------------------------|
-| [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)  | [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) ([CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/))               | 클라우드별 EKS/AKS/GKE [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
-| [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)       | [Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), Pulumi               | AWS/Azure/GCP 공통 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/) |
-| 관찰가능성 | [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)                   | 벤더 모니터링 종속 탈피     |
-| 스토리지  | MinIO (S3 호환), Ceph            | [오브젝트 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) 이식성    |
+| 컨테이너  | Kubernetes (CNCF)               | 클라우드별 EKS/AKS/GKE 추상화 |
+| IaC       | Terraform, Pulumi               | AWS/Azure/GCP 공통 프로비저닝 |
+| 관찰가능성 | OpenTelemetry                   | 벤더 모니터링 종속 탈피     |
+| 스토리지  | MinIO (S3 호환), Ceph            | 오브젝트 스토리지 이식성    |
 
-📢 **섹션 요약 비유**: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준은 국제 표준 콘센트 — 어느 나라(클라우드)에서도 꽂아 쓸 수 있는 공통 규격.
+📢 **섹션 요약 비유**: 오픈소스 표준은 국제 표준 콘센트 — 어느 나라(클라우드)에서도 꽂아 쓸 수 있는 공통 규격.
 
 ---
 
-## Ⅳ. 하이브리드·엣지 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅳ. 하이브리드·엣지 전략
 
-### 4.1 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력 대응 아키텍처
+### 4.1 데이터 중력 대응 아키텍처
 
 ```
 온프레미스 데이터 레이크 (대규모 원시 데이터 유지)
@@ -112,22 +112,22 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 엣지 (실시간 처리, 지연 최소화)
 ```
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 최대한 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 위치에 두고 컴퓨팅을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 이동([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력 활용).
+데이터는 최대한 생성 위치에 두고 컴퓨팅을 데이터로 이동(데이터 중력 활용).
 
-### 4.2 [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))
+### 4.2 데이터 패브릭 (Data Fabric)
 
-여러 클라우드·온프레미스의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가상화하여 단일 뷰 제공 -> 물리적 이동 없이 활용.
+여러 클라우드·온프레미스의 데이터를 가상화하여 단일 뷰 제공 -> 물리적 이동 없이 활용.
 
-📢 **섹션 요약 비유**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 여러 창고(클라우드)의 재고를 가상으로 연결 — 실제 이사 없이 어느 창고 물건이든 주문 가능.
+📢 **섹션 요약 비유**: 데이터 패브릭은 여러 창고(클라우드)의 재고를 가상으로 연결 — 실제 이사 없이 어느 창고 물건이든 주문 가능.
 
 ---
 
 ## Ⅴ. 규제와 주권 클라우드
 
-### 5.1 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) ([Data Sovereignty](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))
+### 5.1 데이터 주권 (Data Sovereignty)
 
-- EU [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/): EU 시민 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 역외 이전 제한
-- 한국 금융권: 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 국내 서버 보관 의무
+- EU GDPR: EU 시민 데이터의 역외 이전 제한
+- 한국 금융권: 핵심 데이터의 국내 서버 보관 의무
 
 ### 5.2 주권 클라우드 (Sovereign Cloud)
 
@@ -183,23 +183,12 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 주권 클라우드 / 하이브리드 메시 (현재~)
 ```
 
-**핵심 키워드**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력, [Egress](/studynote/16_bigdata/09_platform/189_egress/) 비용, 멀티클라우드, [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/), 주권 클라우드, [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준
+**핵심 키워드**: 데이터 중력, Egress 비용, 멀티클라우드, 데이터 패브릭, 주권 클라우드, 오픈소스 표준
 
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력은 짐이 많아 이사를 못 가는 것 — 창고(클라우드)에 짐([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 너무 많으면 이사비가 엄청나게 들어.
+1. 데이터 중력은 짐이 많아 이사를 못 가는 것 — 창고(클라우드)에 짐(데이터)이 너무 많으면 이사비가 엄청나게 들어.
 2. 멀티클라우드는 여러 창고에 나눠 저장 — 한 창고가 문제 생겨도 다른 곳에서 꺼낼 수 있어.
-3. [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준은 어느 창고에서도 쓸 수 있는 공통 규격 박스 — 창고 종류에 관계없이 똑같이 움직여.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 49 / 371
-
-<- **이전**: [049. 클라우드 섀도 IT — Cloud Shadow IT](/studynote/12_it_management/01_governance_strategy/840_shadow_it_risk_management/)
-**다음**: [51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) ->
-
----
+3. 오픈소스 표준은 어느 창고에서도 쓸 수 있는 공통 규격 박스 — 창고 종류에 관계없이 똑같이 움직여.

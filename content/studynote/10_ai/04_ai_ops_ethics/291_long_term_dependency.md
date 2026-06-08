@@ -7,17 +7,17 @@ weight: 291
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 장기 의존성 (Long-term Dependency) 문제는 RNN이 긴 시퀀스를 처리할 때, [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 과정에서 기울기(Gradient)가 시간을 거슬러 올라가며 반복 곱셈으로 인해 0에 수렴하거나 ([기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/), [Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 무한대로 폭발하는 ([기울기 폭발](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/), [Exploding Gradient](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)) 현상이다.
-> 2. **가치**: 이 문제를 인식하고 해결책([LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/), [GRU](/studynote/10_ai/04_ai_ops_ethics/294_gru/), [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))을 선택하는 것이 시계열/NLP 모델 설계의 핵심 판단이며, [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 모델이 학습을 멈추는 조용한 죽음이다.
-> 3. **판단 포인트**: [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 소실(vanish)이므로 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 갱신되지 않아 학습이 중단되고, [기울기 폭발](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)은 폭발(explode)이므로 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 터무니없이 커져 손실함수가 [NaN](/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/)([Not a Number](/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/))으로 발산한다.
+> 1. **본질**: 장기 의존성 (Long-term Dependency) 문제는 RNN이 긴 시퀀스를 처리할 때, 역전파 (Backpropagation) 과정에서 기울기(Gradient)가 시간을 거슬러 올라가며 반복 곱셈으로 인해 0에 수렴하거나 (기울기 소실, Vanishing Gradient) 무한대로 폭발하는 (기울기 폭발, Exploding Gradient) 현상이다.
+> 2. **가치**: 이 문제를 인식하고 해결책(LSTM, GRU, Transformer)을 선택하는 것이 시계열/NLP 모델 설계의 핵심 판단이며, 기울기 소실은 모델이 학습을 멈추는 조용한 죽음이다.
+> 3. **판단 포인트**: 기울기 소실은 소실(vanish)이므로 가중치가 갱신되지 않아 학습이 중단되고, 기울기 폭발은 폭발(explode)이므로 가중치가 터무니없이 커져 손실함수가 NaN(Not a Number)으로 발산한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-"고양이가 길을 건너다가 차에 치여서 병원에 실려 갔다. 수의사가 진단한 결과, **그것은** 골절이었다."에서 '그것'이 '고양이'를 지칭한다는 것을 이해하려면, 수십 단어 앞을 기억해야 한다. 이처럼 정보를 오래 유지해야 하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 <strong>장기 의존성 (Long-term Dependency)</strong>이라 한다.
+"고양이가 길을 건너다가 차에 치여서 병원에 실려 갔다. 수의사가 진단한 결과, **그것은** 골절이었다."에서 '그것'이 '고양이'를 지칭한다는 것을 이해하려면, 수십 단어 앞을 기억해야 한다. 이처럼 정보를 오래 유지해야 하는 관계를 <strong>장기 의존성 (Long-term Dependency)</strong>이라 한다.
 
-기본 RNN은 시퀀스를 처리하며 과거 은닉 상태 h_t를 체인처럼 연결하지만, [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 각 시점마다 같은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 미분이 곱해진다. tanh의 미분값은 최대 1이므로, 100 시점 이전 기울기는 최대 1^100 = 극소값이 된다. 이것이 <strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>이다.
+기본 RNN은 시퀀스를 처리하며 과거 은닉 상태 h_t를 체인처럼 연결하지만, 역전파 시 각 시점마다 같은 가중치 행렬의 미분이 곱해진다. tanh의 미분값은 최대 1이므로, 100 시점 이전 기울기는 최대 1^100 = 극소값이 된다. 이것이 <strong>기울기 소실(Vanishing Gradient)</strong>이다.
 
 ```text
 +----------------------------------------------+
@@ -28,7 +28,7 @@ weight: 291
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 100명이 줄지어 서서 귓속말 게임을 한다. 1번이 "오늘 고양이가 다쳤다"고 속삭이면, 100번에게 도착할 때쯤 "오늘 어쩌고 저쩌고..."로 변해 핵심 내용이 사라진다. 이게 바로 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이다. 귓속말이 전달될수록 작아지고 끝에는 들리지 않는다.
+- **📢 섹션 요약 비유**: 100명이 줄지어 서서 귓속말 게임을 한다. 1번이 "오늘 고양이가 다쳤다"고 속삭이면, 100번에게 도착할 때쯤 "오늘 어쩌고 저쩌고..."로 변해 핵심 내용이 사라진다. 이게 바로 기울기 소실이다. 귓속말이 전달될수록 작아지고 끝에는 들리지 않는다.
 
 ---
 
@@ -59,48 +59,48 @@ weight: 291
 
 | 문제 | 원인 | 증상 | 해결책 |
 |:---|:---|:---|:---|
-| [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) (Vanishing) | 미분값 반복 곱셈 < 1 | 앞쪽 레이어 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트 안 됨, 학습 정체 | [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/studynote/10_ai/04_ai_ops_ethics/294_gru/) 게이트, [ResNet Skip Connection](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) |
-| [기울기 폭발](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) (Exploding) | 미분값 반복 곱셈 > 1 | Loss가 [NaN](/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/), [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 무한대 | 그래디언트 클리핑 (Gradient [Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)) |
+| 기울기 소실 (Vanishing) | 미분값 반복 곱셈 < 1 | 앞쪽 레이어 가중치 업데이트 안 됨, 학습 정체 | LSTM/GRU 게이트, ResNet Skip Connection |
+| 기울기 폭발 (Exploding) | 미분값 반복 곱셈 > 1 | Loss가 NaN, 가중치가 무한대 | 그래디언트 클리핑 (Gradient Clipping) |
 
-- **📢 섹션 요약 비유**: [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 확성기 배터리가 방전되는 것이고, [기울기 폭발](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)은 확성기 볼륨을 최대로 키웠더니 스피커가 폭발하는 것이다. 둘 다 정상적인 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 전달을 방해하지만, 소실은 조용히 죽고 폭발은 요란하게 죽는다.
+- **📢 섹션 요약 비유**: 기울기 소실은 확성기 배터리가 방전되는 것이고, 기울기 폭발은 확성기 볼륨을 최대로 키웠더니 스피커가 폭발하는 것이다. 둘 다 정상적인 신호 전달을 방해하지만, 소실은 조용히 죽고 폭발은 요란하게 죽는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-- <strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> (<a href="/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>: CNN의 깊은 층에서도 발생하며, ResNet의 Skip Connection이 해결책이다. RNN에서는 LSTM의 셀 상태(Cell [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 덧셈(+) 경로를 만들어 기울기가 소실 없이 직통으로 흐르게 한다.
-- <strong><a href="/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">기울기 폭발</a> (<a href="/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">Exploding Gradient</a>)</strong>: Gradient Clipping으로 기울기의 L2-norm이 임계값(보통 1.0)을 초과하면 스케일을 강제로 줄이는 방법으로 해결한다.
-- **Transformer의 근본 해결**: Self-Attention이 모든 위치를 직접 연결하여 거리 1홉(Hop)으로 정보를 전달하므로, 체인 곱셈이 없어 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이 근본적으로 발생하지 않는다.
+- <strong>기울기 소실 (Vanishing Gradient)</strong>: CNN의 깊은 층에서도 발생하며, ResNet의 Skip Connection이 해결책이다. RNN에서는 LSTM의 셀 상태(Cell State)가 덧셈(+) 경로를 만들어 기울기가 소실 없이 직통으로 흐르게 한다.
+- <strong>기울기 폭발 (Exploding Gradient)</strong>: Gradient Clipping으로 기울기의 L2-norm이 임계값(보통 1.0)을 초과하면 스케일을 강제로 줄이는 방법으로 해결한다.
+- **Transformer의 근본 해결**: Self-Attention이 모든 위치를 직접 연결하여 거리 1홉(Hop)으로 정보를 전달하므로, 체인 곱셈이 없어 기울기 소실이 근본적으로 발생하지 않는다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
-| 장기 의존성 (Long-term Dependency) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
+| 장기 의존성 (Long-term Dependency) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
 
-- **📢 섹션 요약 비유**: LSTM은 긴 전화 체인 대신 "중요한 내용은 VIP 라인(셀 상태)으로 직통 연결"한다. Transformer는 아예 1번과 100번이 직접 화상통화([Self-Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/))하여 귓속말 체인을 없애버린다.
+- **📢 섹션 요약 비유**: LSTM은 긴 전화 체인 대신 "중요한 내용은 VIP 라인(셀 상태)으로 직통 연결"한다. Transformer는 아예 1번과 100번이 직접 화상통화(Self-Attention)하여 귓속말 체인을 없애버린다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 탐지 방법</strong>: 훈련 중 각 레이어의 기울기 norm을 로깅하여 앞쪽 레이어 기울기가 뒤쪽보다 수십 배 작으면 소실이 발생하고 있다는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다. TensorBoard의 Gradient Histogram을 통해 시각적으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능하다.
+<strong>기울기 소실 탐지 방법</strong>: 훈련 중 각 레이어의 기울기 norm을 로깅하여 앞쪽 레이어 기울기가 뒤쪽보다 수십 배 작으면 소실이 발생하고 있다는 신호다. TensorBoard의 Gradient Histogram을 통해 시각적으로 확인 가능하다.
 
-<strong>실전 대응 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
-1. [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) -> [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/studynote/10_ai/04_ai_ops_ethics/294_gru/) 교체 (게이트 기반 메모리 도입)
-2. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화([Weight Initialization](/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)) 개선: Xavier, He [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
-3. [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) 또는 레이어 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Layer [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 적용
-4. Gradient [Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/): `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`
+<strong>실전 대응 전략</strong>:
+1. RNN -> LSTM/GRU 교체 (게이트 기반 메모리 도입)
+2. 초기화(Weight Initialization) 개선: Xavier, He 초기화
+3. 배치 정규화(Batch Normalization) 또는 레이어 정규화(Layer Normalization) 적용
+4. Gradient Clipping: `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`
 
-- **📢 섹션 요약 비유**: [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 탐지는 건물 배수관에서 물 흐름을 측정하는 것이다. 위층(뒤 레이어)에서 물이 잘 흐르는데 지하(앞 레이어)에서 뚝 끊기면 중간 어딘가에 막힌 곳(소실 지점)이 있다는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다. 배관공(개발자)은 막힌 곳에 우회로(Skip Connection, [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트)를 설치해 물이 다시 흐르게 한다.
+- **📢 섹션 요약 비유**: 기울기 소실 탐지는 건물 배수관에서 물 흐름을 측정하는 것이다. 위층(뒤 레이어)에서 물이 잘 흐르는데 지하(앞 레이어)에서 뚝 끊기면 중간 어딘가에 막힌 곳(소실 지점)이 있다는 신호다. 배관공(개발자)은 막힌 곳에 우회로(Skip Connection, LSTM 게이트)를 설치해 물이 다시 흐르게 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[장기 의존성 문제](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)는 딥러닝 역사에서 가장 중요한 병목 현상 중 하나였다. 이 문제의 발견과 해결 여정이 [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)(1997) -> [GRU](/studynote/10_ai/04_ai_ops_ethics/294_gru/)(2014) -> [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(2017)로 이어지는 NLP 혁명의 로드맵을 그렸다. 오늘날 [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 등 초거대 언어 모델이 수천 개 토큰에 걸친 맥락을 완벽히 이해하는 것은 [장기 의존성 문제](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)를 Transformer의 Self-Attention으로 근본 해소한 결과다.
+장기 의존성 문제는 딥러닝 역사에서 가장 중요한 병목 현상 중 하나였다. 이 문제의 발견과 해결 여정이 LSTM(1997) -> GRU(2014) -> Transformer(2017)로 이어지는 NLP 혁명의 로드맵을 그렸다. 오늘날 GPT, BERT 등 초거대 언어 모델이 수천 개 토큰에 걸친 맥락을 완벽히 이해하는 것은 장기 의존성 문제를 Transformer의 Self-Attention으로 근본 해소한 결과다.
 
-- **📢 섹션 요약 비유**: [장기 의존성 문제](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 "알츠하이머 병"이었다. 새로운 것을 배우면 오래된 기억이 지워지는 망각의 저주. LSTM은 복용하면 기억력이 좋아지는 특효약이었고, Transformer는 아예 뇌 구조 자체를 재설계해 "과거와 현재를 동시에 선명하게 기억하는 슈퍼 브레인"을 만든 혁명이었다.
+- **📢 섹션 요약 비유**: 장기 의존성 문제는 AI 세계의 "알츠하이머 병"이었다. 새로운 것을 배우면 오래된 기억이 지워지는 망각의 저주. LSTM은 복용하면 기억력이 좋아지는 특효약이었고, Transformer는 아예 뇌 구조 자체를 재설계해 "과거와 현재를 동시에 선명하게 기억하는 슈퍼 브레인"을 만든 혁명이었다.
 
 ---
 
@@ -108,11 +108,11 @@ weight: 291
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) | [BPTT](/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/), [tanh](/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) 미분 / [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 장기 의존성 실패의 수학적 원인 |
-| [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | 셀 상태, 게이트 / 소실 문제를 덧셈 경로로 우회 해결 |
-| Gradient [Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/) | max_norm, 폭발 방지 / [기울기 폭발](/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)의 실용적 처방전 |
-| [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) | Skip Connection, 깊은 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) / CNN의 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)을 우회로로 해결 |
-| [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) | [Self-Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/), 직접 연결 / 체인 구조 자체를 제거해 근본 해소 |
+| 기울기 소실 (Vanishing Gradient) | BPTT, tanh 미분 / RNN 장기 의존성 실패의 수학적 원인 |
+| LSTM | 셀 상태, 게이트 / 소실 문제를 덧셈 경로로 우회 해결 |
+| Gradient Clipping | max_norm, 폭발 방지 / 기울기 폭발의 실용적 처방전 |
+| ResNet | Skip Connection, 깊은 CNN / CNN의 기울기 소실을 우회로로 해결 |
+| Transformer | Self-Attention, 직접 연결 / 체인 구조 자체를 제거해 근본 해소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,17 +122,6 @@ weight: 291
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 100명이 줄 서서 <strong>귓속말을 전달</strong>하면 맨 마지막에는 처음 말이 완전히 바뀌어버리는데, 이게 바로 <strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>이에요!
-2. 반대로 소리가 점점 커져서 <strong>마지막에 확성기가 폭발</strong>해버리면 그건 <strong><a href="/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">기울기 폭발</a>(<a href="/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">Exploding Gradient</a>)</strong>이고요.
+1. 100명이 줄 서서 <strong>귓속말을 전달</strong>하면 맨 마지막에는 처음 말이 완전히 바뀌어버리는데, 이게 바로 <strong>기울기 소실(Vanishing Gradient)</strong>이에요!
+2. 반대로 소리가 점점 커져서 <strong>마지막에 확성기가 폭발</strong>해버리면 그건 <strong>기울기 폭발(Exploding Gradient)</strong>이고요.
 3. LSTM은 귓속말 대신 <strong>직통 전화(셀 상태)</strong>를 개설해서, 1번 친구 말이 100번에게 <strong>정확히 전달</strong>될 수 있도록 만든 특별한 신경망이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 291 / 420
-
-<- **이전**: [290. RNN (Recurrent Neural Network)](/studynote/10_ai/04_ai_ops_ethics/290_rnn_recurrent/)
-**다음**: [292. LSTM (Long Short-Term Memory)](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ->
-
----

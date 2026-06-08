@@ -8,7 +8,7 @@ weight: 84
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 칸반 (Kanban)은 작업 흐름을 보이게 하고, WIP ([Work In Progress](/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) 제한으로 동시에 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 일을 줄이는 흐름 관리 방식이다.
+> 1. **본질**: 칸반 (Kanban)은 작업 흐름을 보이게 하고, WIP (Work In Progress) 제한으로 동시에 진행하는 일을 줄이는 흐름 관리 방식이다.
 > 2. **가치**: 완료를 늦추는 가장 큰 원인은 시작을 너무 많이 하는 것이다. WIP 제한은 병목을 숨기지 않고 드러나게 만든다.
 > 3. **판단 포인트**: WIP 숫자는 기분이 아니라 데이터로 정해야 한다. 팀 용량, 사이클 타임, 막히는 구간을 보고 조정해야 한다.
 
@@ -18,7 +18,7 @@ weight: 84
 
 칸반 (Kanban)은 작업을 카드로 시각화하고, 다음 단계로 끌어오는 pull 방식으로 흐름을 관리하는 기법이다. 요구사항 분석 단계에서 칸반을 쓰면 '아직 안 끝난 일'이 어디에서 쌓이는지 바로 볼 수 있다. 특히 요구 수집, 정제, 검토, 승인처럼 대기 구간이 많은 팀에서 효과가 크다.
 
-WIP ([Work In Progress](/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) 제한은 한 단계에 동시에 두는 작업 수를 제한하는 규칙이다. 제한이 없으면 사람은 시작하기 쉬운 일을 계속 벌리지만, 완료는 늦어지고 전환 비용만 늘어난다.
+WIP (Work In Progress) 제한은 한 단계에 동시에 두는 작업 수를 제한하는 규칙이다. 제한이 없으면 사람은 시작하기 쉬운 일을 계속 벌리지만, 완료는 늦어지고 전환 비용만 늘어난다.
 
 ```text
 Backlog -> Ready -> Doing [WIP 3] -> Review [WIP 2] -> Done
@@ -31,14 +31,14 @@ Backlog -> Ready -> Doing [WIP 3] -> Review [WIP 2] -> Done
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-칸반의 핵심은 '보이는 흐름'과 '제한된 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 작업'이다. 보드의 열은 상태를, 열 위의 숫자는 허용량을 뜻한다. 이 숫자가 차면 새 작업을 더 넣는 대신 현재 작업의 정체를 해결해야 한다. 결국 WIP 제한은 속도를 늦추는 장치가 아니라, 완료율을 높이기 위한 제어 장치다.
+칸반의 핵심은 '보이는 흐름'과 '제한된 진행 중 작업'이다. 보드의 열은 상태를, 열 위의 숫자는 허용량을 뜻한다. 이 숫자가 차면 새 작업을 더 넣는 대신 현재 작업의 정체를 해결해야 한다. 결국 WIP 제한은 속도를 늦추는 장치가 아니라, 완료율을 높이기 위한 제어 장치다.
 
 | 보드 요소 | 의미 | 판단 포인트 |
 | :--- | :--- | :--- |
 | Backlog | 아직 착수 전인 항목 | 우선순위가 명확한가 |
 | Ready | 바로 시작 가능한 항목 | 정의가 충분한가 |
 | Doing | 실행 중 작업 | WIP 제한이 있는가 |
-| [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) / Blocked | 검토 / 대기 상태 | 병목이 어디인지 드러나는가 |
+| Review / Blocked | 검토 / 대기 상태 | 병목이 어디인지 드러나는가 |
 | Done | 완료 | 완료의 정의가 일관적인가 |
 
 ```text
@@ -56,16 +56,16 @@ WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타
 
 ## Ⅲ. 비교 및 연결
 
-칸반은 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))과 자주 비교되지만, 둘의 목적은 다르다. [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 시간 박스와 역할을 통해 반복 학습을 강조하고, 칸반은 흐름과 제한을 통해 지속적인 개선을 강조한다. 요구사항 분석 단계에서는 정해진 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)보다, 들어오는 요청이 계속 바뀌는 환경에서 칸반이 더 자연스럽다.
+칸반은 스크럼 (Scrum)과 자주 비교되지만, 둘의 목적은 다르다. 스크럼은 시간 박스와 역할을 통해 반복 학습을 강조하고, 칸반은 흐름과 제한을 통해 지속적인 개선을 강조한다. 요구사항 분석 단계에서는 정해진 스프린트보다, 들어오는 요청이 계속 바뀌는 환경에서 칸반이 더 자연스럽다.
 
-| 비교 축 | 칸반 | [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) |
+| 비교 축 | 칸반 | 스크럼 |
 | :--- | :--- | :--- |
-| 운영 리듬 | 지속 흐름 | [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 중심 |
-| 제어 방식 | WIP 제한 | [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그와 약속 |
-| 변경 수용 | 상대적으로 유연 | [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 중 변경에 제약 |
-| 핵심 지표 | Cycle Time / [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 번다운 / 목표 달성률 |
+| 운영 리듬 | 지속 흐름 | 스프린트 중심 |
+| 제어 방식 | WIP 제한 | 스프린트 백로그와 약속 |
+| 변경 수용 | 상대적으로 유연 | 스프린트 중 변경에 제약 |
+| 핵심 지표 | Cycle Time / Throughput | 번다운 / 목표 달성률 |
 
-또 하나의 연결은 pull 시스템이다. 들어오는 대로 시작하는 push 방식은 처리량을 착각하게 만들지만, 칸반은 완료 가능한 만큼만 당겨오게 해 병목을 숨기지 않는다. 필요하면 CFD (Cumulative Flow Diagram)로 누적 흐름을 보며 열별 체류 시간을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
+또 하나의 연결은 pull 시스템이다. 들어오는 대로 시작하는 push 방식은 처리량을 착각하게 만들지만, 칸반은 완료 가능한 만큼만 당겨오게 해 병목을 숨기지 않는다. 필요하면 CFD (Cumulative Flow Diagram)로 누적 흐름을 보며 열별 체류 시간을 확인할 수 있다.
 
 - **📢 섹션 요약 비유**: 줄 서는 손님이 많아도 한 번에 몇 명만 받는 식당이, 실제로는 더 빨리 돌아가는 경우가 있다.
 
@@ -73,16 +73,16 @@ WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 WIP 제한은 팀원 수와 똑같이 맞추는 것이 아니라, 병목과 작업 종류에 따라 조정해야 한다. 분석 대기, 고객 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 대기, 개발 대기처럼 막히는 구간이 있다면 그 구간의 WIP를 더 낮춰야 한다. 너무 높게 잡으면 보드는 예쁘지만 아무도 끝내지 못한다.
+실무에서 WIP 제한은 팀원 수와 똑같이 맞추는 것이 아니라, 병목과 작업 종류에 따라 조정해야 한다. 분석 대기, 고객 확인 대기, 개발 대기처럼 막히는 구간이 있다면 그 구간의 WIP를 더 낮춰야 한다. 너무 높게 잡으면 보드는 예쁘지만 아무도 끝내지 못한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 열마다 WIP 숫자가 실제로 지켜지는가?
 2. 막힌 작업을 별도 표시하고 우선 해결하는가?
 3. 사이클 타임과 throughput를 꾸준히 보고 있는가?
 4. 보드 열이 상태가 아니라 책임 분담처럼 바뀌지 않았는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - WIP 제한을 '엄격한 벌점'처럼 운영하는 경우
 - 열이 너무 많아 보드만 복잡해지는 경우
@@ -107,11 +107,11 @@ WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | Kanban | 작업 흐름을 보이게 하는 방법 |
-| WIP ([Work In Progress](/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) | 동시에 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 작업의 상한 |
+| WIP (Work In Progress) | 동시에 진행하는 작업의 상한 |
 | Pull system | 완료 가능한 만큼만 끌어오는 방식 |
 | Cycle Time | 작업이 끝나는 데 걸리는 시간 |
-| [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 단위 시간당 완료 수 |
-| CFD (Cumulative Flow Diagram) | 흐름과 정체를 보는 누적 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
+| Throughput | 단위 시간당 완료 수 |
+| CFD (Cumulative Flow Diagram) | 흐름과 정체를 보는 누적 그래프 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,14 +135,3 @@ WIP 제한으로 pull
 1. 책상 위에 공책을 너무 많이 펼치면 정리가 어려워요.
 2. 딱 몇 개만 놓고 끝내면 더 빨리 치울 수 있어요.
 3. 칸반은 '많이 시작하지 말고, 끝낼 수 있게 하자'고 말해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 84 / 973
-
-<- **이전**: [83. 플래닝 포커 (Planning Poker) - 다수 전문가 합의 기반 산정](/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/)
-**다음**: [85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ->
-
----

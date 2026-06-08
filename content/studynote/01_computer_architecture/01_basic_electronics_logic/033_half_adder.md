@@ -7,16 +7,16 @@ weight: 33
 ---
 > **핵심 인사이트 3줄**
 > 1. 반가산기(Half Adder)는 두 1비트 이진수를 더해 합(Sum)과 올림수(Carry)를 출력하는 최소 덧셈 회로로, XOR·AND 두 게이트만으로 구현된다.
-> 2. [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)([Full Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/))는 반가산기 2개+OR 게이트 1개로 구성되며, 이전 자리 올림(Cin)까지 처리해 다자리 덧셈의 기본 단위가 된다.
-> 3. [리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)([Ripple Carry Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/))는 [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결하지만 올림 전파 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 속도 한계가 있어, 선행 올림 가산기(CLA)로 개선한다.
+> 2. 전가산기(Full Adder)는 반가산기 2개+OR 게이트 1개로 구성되며, 이전 자리 올림(Cin)까지 처리해 다자리 덧셈의 기본 단위가 된다.
+> 3. 리플 캐리 가산기(Ripple Carry Adder)는 전가산기를 직렬 연결하지만 올림 전파 지연으로 속도 한계가 있어, 선행 올림 가산기(CLA)로 개선한다.
 
 ---
 
-## Ⅰ. 반가산기의 정의와 [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
+## Ⅰ. 반가산기의 정의와 진리표
 
-반가산기(Half Adder, HA)는 <strong>두 입력 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(A, B)의 덧셈 결과인 합(Sum)과 올림수(Carry)를 출력</strong>하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로다.
+반가산기(Half Adder, HA)는 <strong>두 입력 비트(A, B)의 덧셈 결과인 합(Sum)과 올림수(Carry)를 출력</strong>하는 조합 논리 회로다.
 
-### [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
+### 진리표
 
 | A | B | Sum (S) | Carry (C) |
 |---|---|---------|-----------|
@@ -41,15 +41,15 @@ B --+
     +--[AND]-- Carry
 ```
 
-📢 **섹션 요약 비유**: 반가산기는 한 자리 덧셈 기계다 — 1+1=[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(이진수)처럼 합과 올림을 따로 출력하지만, 앞 자리에서 올라온 올림은 처리 못한다.
+📢 **섹션 요약 비유**: 반가산기는 한 자리 덧셈 기계다 — 1+1=10(이진수)처럼 합과 올림을 따로 출력하지만, 앞 자리에서 올라온 올림은 처리 못한다.
 
 ---
 
-## Ⅱ. [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) ([Full Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/), FA)
+## Ⅱ. 전가산기 (Full Adder, FA)
 
-[전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)([Full Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/))는 <strong>두 입력 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(A, B)와 이전 자리 올림(Cin)을 모두 더해 합(S)과 올림(Cout)을 출력</strong>한다.
+전가산기(Full Adder)는 <strong>두 입력 비트(A, B)와 이전 자리 올림(Cin)을 모두 더해 합(S)과 올림(Cout)을 출력</strong>한다.
 
-### [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
+### 진리표
 
 | A | B | Cin | S | Cout |
 |---|---|-----|---|------|
@@ -69,7 +69,7 @@ S    = A ⊕ B ⊕ Cin
 Cout = (A · B) + (Cin · (A ⊕ B))
 ```
 
-### [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) = 반가산기 2개 + OR
+### 전가산기 = 반가산기 2개 + OR
 
 ```
        HA1              HA2
@@ -80,13 +80,13 @@ B --[AND]     ^
               HA2의 Carry
 ```
 
-📢 **섹션 요약 비유**: [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)는 3자리 덧셈 계산기다 — 두 수(A, B)에 앞 자리 올림(Cin)까지 더해 합과 다음 자리 올림(Cout)을 출력한다.
+📢 **섹션 요약 비유**: 전가산기는 3자리 덧셈 계산기다 — 두 수(A, B)에 앞 자리 올림(Cin)까지 더해 합과 다음 자리 올림(Cout)을 출력한다.
 
 ---
 
-## Ⅲ. [리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/) ([Ripple Carry Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/), RCA)
+## Ⅲ. 리플 캐리 가산기 (Ripple Carry Adder, RCA)
 
-4비트 RCA는 [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) 4개를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결해 4비트 이진수 덧셈을 수행한다.
+4비트 RCA는 전가산기 4개를 직렬 연결해 4비트 이진수 덧셈을 수행한다.
 
 ```
 A3 B3  A2 B2  A1 B1  A0 B0
@@ -98,7 +98,7 @@ A3 B3  A2 B2  A1 B1  A0 B0
 Cout(올림)
 ```
 
-### RCA [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 문제
+### RCA 지연 시간 문제
 
 ```
 n비트 RCA 전파 지연 = n × (FA 지연 시간)
@@ -106,7 +106,7 @@ n비트 RCA 전파 지연 = n × (FA 지연 시간)
 ```
 
 **해결**: 선행 올림 가산기(CLA, Carry Look-Ahead Adder)
-- 올림 신호를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 미리 계산해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화
+- 올림 신호를 병렬로 미리 계산해 지연 최소화
 - O(1)에 올림 전파 (대신 회로 복잡도 증가)
 
 📢 **섹션 요약 비유**: RCA는 계단식 양동이 릴레이다 — 아래 양동이(Cout)가 채워야 위 양동이가 시작된다. CLA는 모든 양동이에 동시에 물을 붓는다.
@@ -124,7 +124,7 @@ C_2 = G_1 + P_1 · G_0 + P_1 · P_0 · C_0
 C_3 = G_2 + P_2·G_1 + P_2·P_1·G_0 + P_2·P_1·P_0·C_0
 ```
 
-<strong>모든 올림을 C_0과 G_i, P_i만으로 직접 계산 -> <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능</strong>
+<strong>모든 올림을 C_0과 G_i, P_i만으로 직접 계산 -> 병렬 처리 가능</strong>
 
 📢 **섹션 요약 비유**: CLA는 시험 답안을 채점하기 전에 미리 배점을 계산해두는 것이다 — 각 문제 점수를 기다리지 않고, 전체 점수를 동시에 계산한다.
 
@@ -144,7 +144,7 @@ C_3 = G_2 + P_2·G_1 + P_2·P_1·G_0 + P_2·P_1·P_0·C_0
 +------------------------------------------+
 ```
 
-| 가산기 유형   | [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)  | 게이트 수  | 용도            |
+| 가산기 유형   | 지연 시간  | 게이트 수  | 용도            |
 |------------|----------|----------|----------------|
 | RCA         | O(n)     | 적음      | 저전력 임베디드  |
 | CLA         | O(log n) | 많음      | 고성능 CPU      |
@@ -203,16 +203,5 @@ ALU 덧셈 -> 뺄셈(2의보수) -> 곱셈 -> FPU
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 반가산기는 두 자리 덧셈 기계다 — 1+1=10처럼 합과 올림 두 가지를 동시에 출력한다.
-2. [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)는 반가산기에 앞 자리 올림통을 추가한 것이다 — 세 개의 숫자를 한꺼번에 더할 수 있다.
+2. 전가산기는 반가산기에 앞 자리 올림통을 추가한 것이다 — 세 개의 숫자를 한꺼번에 더할 수 있다.
 3. CLA는 여러 덧셈을 동시에 계산하는 마법이다 — 앞 자리 계산이 끝날 때까지 기다리지 않고, 모든 자리를 한꺼번에 계산한다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 33 / 803
-
-<- **이전**: [조합 논리 회로 (Combinational Logic Circuit)](/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/)
-**다음**: [전가산기 (Full Adder) 와 리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) ->
-
----

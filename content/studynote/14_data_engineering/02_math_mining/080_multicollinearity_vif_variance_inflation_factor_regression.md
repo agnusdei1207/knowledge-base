@@ -6,20 +6,20 @@ tags:
 weight: 80
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 다중 공선성(Multicollinearity)은 다중 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) 시 독립변수(X)들끼리 서로 너무 강한 선형 상관관계를 가져, 종속변수(Y)에 미치는 각 변수의 순수한 영향력(회귀 계수)을 파악할 수 없게 만드는 치명적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질병이다.
-> 2. **탐지 (VIF)**: 이 질병의 심각도를 진단하는 지표가 VIF([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 팽창 지수)이며, 통상적으로 VIF 값이 10을 초과하면 해당 변수들 간에 강한 다중 공선성이 있다고 판단하여 조치를 취해야 한다.
-> 3. **해결책**: 문제가 되는 변수를 모델에서 제거(Drop)하거나, [주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))으로 상관성 없는 새로운 차원으로 축소하거나, 능선 회귀(Ridge)나 라쏘([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) 같은 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 기법을 적용하여 회귀 계수의 왜곡을 강제로 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)해야 한다.
+> 1. **본질**: 다중 공선성(Multicollinearity)은 다중 회귀 분석 시 독립변수(X)들끼리 서로 너무 강한 선형 상관관계를 가져, 종속변수(Y)에 미치는 각 변수의 순수한 영향력(회귀 계수)을 파악할 수 없게 만드는 치명적인 데이터 질병이다.
+> 2. **탐지 (VIF)**: 이 질병의 심각도를 진단하는 지표가 VIF(Variance Inflation Factor, 분산 팽창 지수)이며, 통상적으로 VIF 값이 10을 초과하면 해당 변수들 간에 강한 다중 공선성이 있다고 판단하여 조치를 취해야 한다.
+> 3. **해결책**: 문제가 되는 변수를 모델에서 제거(Drop)하거나, 주성분 분석(PCA)으로 상관성 없는 새로운 차원으로 축소하거나, 능선 회귀(Ridge)나 라쏘(Lasso) 같은 정규화(Regularization) 기법을 적용하여 회귀 계수의 왜곡을 강제로 억제해야 한다.
 
 ---
 
-### Ⅰ. 개요 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-[회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))은 독립변수(X)가 종속변수(Y)에 미치는 영향을 추정하는 통계 기법입니다. 이 모델이 정상적으로 작동하려면 "독립변수들은 서로 독립적이어야 한다"는 기본 가정이 충족되어야 합니다. 그러나 실제 현실의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 특히 빅데이터 환경에서는 변수들끼리 얽혀 있는 경우가 많습니다. 예를 들어, 집값을 예측할 때 '방의 개수'와 '집의 평수'는 서로 매우 강한 양의 상관관계를 가집니다. 이렇게 X 변수들 간의 상관성이 너무 높아 회귀 모델의 계수 추정이 불안정해지고 해석이 불가능해지는 현상을 <strong>다중 공선성(Multicollinearity)</strong>이라고 합니다. 다중 공선성이 발생하면 모델의 R-squared(설명력)는 높게 나오지만, 정작 각 변수의 P-value는 유의미하지 않게 나오는 모순적인 결과가 도출되어 분석가를 혼란에 빠뜨립니다.
+### Ⅰ. 개요 (Context & Background)
+회귀 분석(Regression Analysis)은 독립변수(X)가 종속변수(Y)에 미치는 영향을 추정하는 통계 기법입니다. 이 모델이 정상적으로 작동하려면 "독립변수들은 서로 독립적이어야 한다"는 기본 가정이 충족되어야 합니다. 그러나 실제 현실의 데이터, 특히 빅데이터 환경에서는 변수들끼리 얽혀 있는 경우가 많습니다. 예를 들어, 집값을 예측할 때 '방의 개수'와 '집의 평수'는 서로 매우 강한 양의 상관관계를 가집니다. 이렇게 X 변수들 간의 상관성이 너무 높아 회귀 모델의 계수 추정이 불안정해지고 해석이 불가능해지는 현상을 <strong>다중 공선성(Multicollinearity)</strong>이라고 합니다. 다중 공선성이 발생하면 모델의 R-squared(설명력)는 높게 나오지만, 정작 각 변수의 P-value는 유의미하지 않게 나오는 모순적인 결과가 도출되어 분석가를 혼란에 빠뜨립니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-다중 공선성은 수학적으로 회귀 계수의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 비정상적으로 팽창시킵니다. 이를 진단하는 VIF의 계산 원리는 특정 독립변수 $X_i$를 종속변수로 두고 나머지 독립변수들로 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)을 수행하여 얻은 $R^2_i$를 이용하는 것입니다.
+다중 공선성은 수학적으로 회귀 계수의 분산(Variance)을 비정상적으로 팽창시킵니다. 이를 진단하는 VIF의 계산 원리는 특정 독립변수 $X_i$를 종속변수로 두고 나머지 독립변수들로 회귀 분석을 수행하여 얻은 $R^2_i$를 이용하는 것입니다.
 
 $$ VIF_i = \frac{1}{1 - R^2_i} $$
 
@@ -50,34 +50,34 @@ $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될�
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-| 비교 항목 | 변수 제거 (Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/): Ridge/[Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) ([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)) |
+| 비교 항목 | 변수 제거 (Feature Selection) | 정규화 (Regularization: Ridge/Lasso) | 차원 축소 (PCA) |
 | :--- | :--- | :--- | :--- |
-| **핵심 원리** | VIF가 높은 변수 중 분석가가 판단하여 하나를 직접 삭제 | 회귀 계수 크기에 페널티를 부여하여 계수 폭발을 수학적으로 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) | 상관성 높은 변수들을 선형 결합하여 직교하는 새로운 축(주성분) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| **장점** | 모델 해석력이 완벽하게 유지됨 (단순하고 직관적) | 변수를 버리지 않고도 공선성 통제 가능, 예측 [성능 우수](/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/) | 정보 손실을 최소화하면서 완벽히 독립적인 변수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능 |
-| **단점** | 삭제된 변수의 잠재적 정보가 완전히 손실됨 | 하이퍼파라미터($\[lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)$) 튜닝 필요, Lasso는 0으로 만듦 | 새로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 '주성분'이 현실에서 무엇을 의미하는지 해석 불가 |
-| **적용 시기** | 의미가 완벽히 중복되는 변수가 명확할 때 (예: 생년월일, 나이) | 예측 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 최우선이고 변수가 많을 때 | 변수 개수가 너무 많고 군집화된 특성이 강할 때 |
+| **핵심 원리** | VIF가 높은 변수 중 분석가가 판단하여 하나를 직접 삭제 | 회귀 계수 크기에 페널티를 부여하여 계수 폭발을 수학적으로 억제 | 상관성 높은 변수들을 선형 결합하여 직교하는 새로운 축(주성분) 생성 |
+| **장점** | 모델 해석력이 완벽하게 유지됨 (단순하고 직관적) | 변수를 버리지 않고도 공선성 통제 가능, 예측 성능 우수 | 정보 손실을 최소화하면서 완벽히 독립적인 변수 생성 가능 |
+| **단점** | 삭제된 변수의 잠재적 정보가 완전히 손실됨 | 하이퍼파라미터($\lambda$) 튜닝 필요, Lasso는 0으로 만듦 | 새로 생성된 '주성분'이 현실에서 무엇을 의미하는지 해석 불가 |
+| **적용 시기** | 의미가 완벽히 중복되는 변수가 명확할 때 (예: 생년월일, 나이) | 예측 성능이 최우선이고 변수가 많을 때 | 변수 개수가 너무 많고 군집화된 특성이 강할 때 |
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
 
-실무에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어와 분석가는 수백 개의 컬럼(Feature)을 다루게 됩니다. 이 때 VIF를 통한 다중 공선성 검증은 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 파이프라인의 필수 전처리 단계([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Preprocessing)입니다.
-1. <strong>상관 계수 행렬(Correlation Matrix)</strong>을 먼저 확인하여 [피어슨 상관 계수](/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/)가 0.8~0.9 이상인 변수 쌍을 일차적으로 필터링합니다.
+실무에서 데이터 엔지니어와 분석가는 수백 개의 컬럼(Feature)을 다루게 됩니다. 이 때 VIF를 통한 다중 공선성 검증은 머신러닝 파이프라인의 필수 전처리 단계(Data Preprocessing)입니다.
+1. <strong>상관 계수 행렬(Correlation Matrix)</strong>을 먼저 확인하여 피어슨 상관 계수가 0.8~0.9 이상인 변수 쌍을 일차적으로 필터링합니다.
 2. 이후 <strong>VIF 검정</strong>을 통해 VIF가 10을 넘는 변수들을 식별합니다. (엄격한 기준에서는 5를 기준으로 삼기도 합니다.)
-3. 기술사적 관점에서는 단순히 VIF가 높다고 기계적으로 변수를 삭제해서는 안 됩니다. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Knowledge)을 바탕으로 해당 변수가 비즈니스적으로 핵심적인 원인 변수인지 확인해야 합니다. 만약 핵심 변수라면 삭제 대신 <strong>Ridge 회귀(L2 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>)</strong>를 적용하여 모델의 안정성과 예측력을 동시에 확보하는 전략적 결정이 필요합니다.
+3. 기술사적 관점에서는 단순히 VIF가 높다고 기계적으로 변수를 삭제해서는 안 됩니다. 도메인 지식(Domain Knowledge)을 바탕으로 해당 변수가 비즈니스적으로 핵심적인 원인 변수인지 확인해야 합니다. 만약 핵심 변수라면 삭제 대신 <strong>Ridge 회귀(L2 정규화)</strong>를 적용하여 모델의 안정성과 예측력을 동시에 확보하는 전략적 결정이 필요합니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-다중 공선성을 완벽히 통제하면 회귀 모델은 노이즈(Noise)에 흔들리지 않는 로버스트(Robust)한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘하게 됩니다. 이는 각 변수의 설명력을 명확하게 만들어 현업 부서에 "어떤 요인이 타겟 지표를 얼마나 상승시켰는가"에 대한 정확한 인과관계(Causality) 리포팅을 가능하게 합니다. AI와 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)이 고도화될수록 Tree 기반 모델이나 딥러닝이 공선성에 강하다는 이유로 이러한 검증을 간과하는 경향이 있으나, [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)(설명 가능한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 관점에서 본다면 선형 모델의 다중 공선성 진단은 여전히 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 평가하는 가장 강력하고 투명한 표준(Standard)으로 기능할 것입니다.
+다중 공선성을 완벽히 통제하면 회귀 모델은 노이즈(Noise)에 흔들리지 않는 로버스트(Robust)한 성능을 발휘하게 됩니다. 이는 각 변수의 설명력을 명확하게 만들어 현업 부서에 "어떤 요인이 타겟 지표를 얼마나 상승시켰는가"에 대한 정확한 인과관계(Causality) 리포팅을 가능하게 합니다. AI와 머신러닝이 고도화될수록 Tree 기반 모델이나 딥러닝이 공선성에 강하다는 이유로 이러한 검증을 간과하는 경향이 있으나, XAI(설명 가능한 AI)의 관점에서 본다면 선형 모델의 다중 공선성 진단은 여전히 데이터 품질을 평가하는 가장 강력하고 투명한 표준(Standard)으로 기능할 것입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **상위 개념**: [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)(Regression), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리(Preprocessing)
-* **핵심 요소**: [피어슨 상관 계수](/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/)([Pearson Correlation](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/)), VIF([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor)
-* **해결 기법**: 변수 선택(Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)), 능선/라쏘 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Ridge/[Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) [Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)), [주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))
+### 📌 관련 개념 맵 (Knowledge Graph)
+* **상위 개념**: 회귀 분석(Regression), 데이터 전처리(Preprocessing)
+* **핵심 요소**: 피어슨 상관 계수(Pearson Correlation), VIF(Variance Inflation Factor)
+* **해결 기법**: 변수 선택(Feature Selection), 능선/라쏘 정규화(Ridge/Lasso Regularization), 주성분 분석(PCA)
 
 ---
 
@@ -109,14 +109,3 @@ $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될�
     v
 XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅
 ```
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 80 / 258
-
-<- **이전**: [79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)
-**다음**: [81. 차원 축소 (Dimensionality Reduction) 및 PCA](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) ->
-
----

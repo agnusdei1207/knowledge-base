@@ -110,12 +110,3 @@ Helm 차트 패키지 관리 배포은(는) 클라우드 네이티브 환경의 
 | IaC/GitOps | 인프라와 배포 상태를 코드로 관리 |
 | Observability | 장애 원인과 사용자 영향을 추적 |
 | FinOps | 클라우드 비용 책임과 최적화를 운영화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 616 / 800
-
-<- **이전**: [615. 서비스 메시 Istio Envoy 데이터 플레인](/studynote/06_ict_convergence/uncategorized/616_service_mesh_istio_envoy_data_plane/)
-**다음**: [617. IaC Terraform Pulumi CDK](/studynote/06_ict_convergence/uncategorized/621_iac_terraform_pulumi_cdk/) ->
-
----

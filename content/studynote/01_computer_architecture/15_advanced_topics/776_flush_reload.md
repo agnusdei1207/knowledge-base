@@ -7,17 +7,17 @@ weight: 776
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Flush+Reload는 공격자와 피해자가 공유하는 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 특정 캐시 라인을 먼저 비우고(Flush), 피해자 실행 뒤 다시 읽어(Reload) [hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 시간을 측정해 사용 여부를 알아내는 고정밀 캐시 공격이다.
-> 2. **가치**: Prime+Probe보다 훨씬 작은 단위인 캐시 라인 수준까지 관측할 수 있어, 취약한 암호 구현이나 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 패턴을 매우 낮은 노이즈로 추적할 수 있다.
-> 3. **판단 포인트**: 이 기법은 공유 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 `clflush` 같은 무효화 수단에 크게 의존하므로, 방어는 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)·상수 시간 구현·하드웨어 가속 사용을 함께 조정하는 방향으로 가야 한다.
+> 1. **본질**: Flush+Reload는 공격자와 피해자가 공유하는 물리 페이지의 특정 캐시 라인을 먼저 비우고(Flush), 피해자 실행 뒤 다시 읽어(Reload) hit/miss 시간을 측정해 사용 여부를 알아내는 고정밀 캐시 공격이다.
+> 2. **가치**: Prime+Probe보다 훨씬 작은 단위인 캐시 라인 수준까지 관측할 수 있어, 취약한 암호 구현이나 함수 호출 패턴을 매우 낮은 노이즈로 추적할 수 있다.
+> 3. **판단 포인트**: 이 기법은 공유 페이지와 `clflush` 같은 무효화 수단에 크게 의존하므로, 방어는 공유 메모리 정책·상수 시간 구현·하드웨어 가속 사용을 함께 조정하는 방향으로 가야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속한다. 공격자와 피해자가 같은 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드나 dedup된 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공유할 때, 공격자는 특정 주소의 캐시 라인을 강제로 비운 뒤 피해자가 그 라인을 다시 가져왔는지를 읽기 시간으로 판별한다.
+Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속한다. 공격자와 피해자가 같은 라이브러리 코드나 dedup된 페이지를 공유할 때, 공격자는 특정 주소의 캐시 라인을 강제로 비운 뒤 피해자가 그 라인을 다시 가져왔는지를 읽기 시간으로 판별한다.
 
-이 기법이 강력한 이유는 관측 단위가 세트가 아니라 <strong>라인</strong>이라는 점이다. 즉 “어느 구역을 썼는가” 수준이 아니라, “거의 어느 함수나 테이블 조각을 썼는가” 수준까지 좁혀 볼 수 있다. 그래서 취약한 [RSA](/studynote/09_security/03_network_security/110_rsa/) 구현의 분기, [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 테이블 조회, [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/) [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 흐름을 세밀하게 추적하는 데 자주 쓰인다.
+이 기법이 강력한 이유는 관측 단위가 세트가 아니라 <strong>라인</strong>이라는 점이다. 즉 “어느 구역을 썼는가” 수준이 아니라, “거의 어느 함수나 테이블 조각을 썼는가” 수준까지 좁혀 볼 수 있다. 그래서 취약한 RSA 구현의 분기, AES 테이블 조회, 공유 라이브러리 함수 호출 흐름을 세밀하게 추적하는 데 자주 쓰인다.
 
 ```text
 +--------------------------------------------------------------+
@@ -38,7 +38,7 @@ Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-공격자는 보통 피해자가 사용하는 [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `mmap`으로 자신의 주소 공간에도 매핑한다. 운영체제는 같은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용을 하나의 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 공유하므로, 두 프로세스는 서로 다른 가상 주소를 쓰더라도 결국 같은 캐시 라인을 두고 간섭하게 된다. 여기서 x86의 `clflush` 명령은 해당 라인을 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)(coherence) 범위에서 비우는 핵심 수단이 된다.
+공격자는 보통 피해자가 사용하는 공유 라이브러리 파일을 `mmap`으로 자신의 주소 공간에도 매핑한다. 운영체제는 같은 파일 내용을 하나의 물리 페이지로 공유하므로, 두 프로세스는 서로 다른 가상 주소를 쓰더라도 결국 같은 캐시 라인을 두고 간섭하게 된다. 여기서 x86의 `clflush` 명령은 해당 라인을 캐시 일관성(coherence) 범위에서 비우는 핵심 수단이 된다.
 
 | 단계 | 수행 내용 | 관측 포인트 |
 | :--- | :-------- | :---------- |
@@ -61,7 +61,7 @@ Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속�
 +--------------------------------------------------------------+
 ```
 
-예를 들어 Square-and-Multiply 방식의 취약한 [RSA](/studynote/09_security/03_network_security/110_rsa/) 지수 연산에서 특정 multiply 코드 경로가 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값 1일 때만 실행된다면, 그 코드가 담긴 캐시 라인을 Flush+Reload로 추적해 비밀 지수 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 통계적으로 복원할 수 있다. 핵심은 “같은 줄을 공유하기 때문에, 남의 발자국이 내 측정 시간에 직접 남는다”는 점이다.
+예를 들어 Square-and-Multiply 방식의 취약한 RSA 지수 연산에서 특정 multiply 코드 경로가 비트 값 1일 때만 실행된다면, 그 코드가 담긴 캐시 라인을 Flush+Reload로 추적해 비밀 지수 비트 패턴을 통계적으로 복원할 수 있다. 핵심은 “같은 줄을 공유하기 때문에, 남의 발자국이 내 측정 시간에 직접 남는다”는 점이다.
 
 - **📢 섹션 요약 비유**: Flush+Reload는 문 앞 먼지를 일부러 쓸어 놓고, 나중에 다시 발자국이 찍혔는지 보는 것과 같다. 흔적이 아주 선명해서 누가 지나갔는지 더 정확히 알 수 있다.
 
@@ -73,12 +73,12 @@ Flush+Reload는 정밀도가 높지만 전제 조건도 뚜렷하다. 따라서 
 
 | 항목 | Flush+Reload | Prime+Probe | Flush+Flush |
 | :--- | :----------- | :---------- | :---------- |
-| 공유 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 필요 | 필요 | 없음 | 필요 |
+| 공유 페이지 필요 | 필요 | 없음 | 필요 |
 | 관측 단위 | 캐시 라인 | 캐시 세트 | Flush 시간 자체 |
 | 노이즈 수준 | 낮음 | 높음 | 낮음~중간 |
 | 대표 강점 | 매우 정밀 | 범용성 큼 | reload 없이도 측정 가능 |
 
-또한 Flush+Reload는 메모리 deduplication과 깊게 연결된다. KSM ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Same-page Merging)처럼 같은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 하나로 합치는 최적화가 켜져 있으면, 원래 공유하지 않던 테넌트끼리도 같은 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 보게 되어 공격면이 커질 수 있다. 반대로 이 최적화를 끄면 메모리 효율은 떨어지지만 관측 창도 함께 닫힌다.
+또한 Flush+Reload는 메모리 deduplication과 깊게 연결된다. KSM (Kernel Same-page Merging)처럼 같은 페이지를 하나로 합치는 최적화가 켜져 있으면, 원래 공유하지 않던 테넌트끼리도 같은 물리 페이지를 보게 되어 공격면이 커질 수 있다. 반대로 이 최적화를 끄면 메모리 효율은 떨어지지만 관측 창도 함께 닫힌다.
 
 - **📢 섹션 요약 비유**: Prime+Probe가 공동 창고의 어느 칸이 흔들렸는지 보는 방식이라면, Flush+Reload는 같은 책 한 권을 누가 다시 꺼냈는지 확인하는 방식이다. 더 정확하지만 같은 책을 함께 봐야만 가능하다.
 
@@ -86,26 +86,26 @@ Flush+Reload는 정밀도가 높지만 전제 조건도 뚜렷하다. 따라서 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-Flush+Reload 대응의 출발점은 “무엇을 공유하고 있는가”를 묻는 것이다. 보안이 중요한 워크로드에서는 [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/), 메모리 dedup, 동일 물리 코어 배치를 모두 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기능으로만 볼 수 없다. 공유가 줄어들수록 공격 정밀도도 같이 떨어진다.
+Flush+Reload 대응의 출발점은 “무엇을 공유하고 있는가”를 묻는 것이다. 보안이 중요한 워크로드에서는 공유 라이브러리, 메모리 dedup, 동일 물리 코어 배치를 모두 성능 기능으로만 볼 수 없다. 공유가 줄어들수록 공격 정밀도도 같이 떨어진다.
 
-### 방어 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 방어 전략
 
-1. <strong>공유 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 축소</strong>: KSM과 dedup 비활성화, 민감 코드·데이터의 프로세스 전용 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)화
-2. **구현 개선**: constant-time crypto, secret-dependent branch 제거, [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI 같은 전용 명령 사용
-3. **관측 통제**: `clflush` 사용 모니터링, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 기반 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), 정밀 타이머 제한
+1. <strong>공유 페이지 축소</strong>: KSM과 dedup 비활성화, 민감 코드·데이터의 프로세스 전용 페이지화
+2. **구현 개선**: constant-time crypto, secret-dependent branch 제거, AES-NI 같은 전용 명령 사용
+3. **관측 통제**: `clflush` 사용 모니터링, 성능 카운터 기반 이상 탐지, 정밀 타이머 제한
 4. **실행 배치**: 민감 워크로드를 비신뢰 코드와 같은 코어·LLC에 두지 않기
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 비용 절감을 위해 테넌트 간 dedup을 켜 둔 클라우드 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
-- [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/)의 취약한 table-based crypto 구현을 그대로 사용하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
+- 비용 절감을 위해 테넌트 간 dedup을 켜 둔 클라우드 설정
+- 공유 라이브러리의 취약한 table-based crypto 구현을 그대로 사용하는 서비스
 - line-level 공격을 세트 수준 완화책만으로 충분하다고 보는 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 - 보안 알고리즘이 shared page와 secret-dependent access를 동시에 만들고 있지 않은가?
 - `clflush` 또는 유사 무효화 패턴을 관제할 수 있는가?
-- dedup, [library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) sharing, [container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) density [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 보안 등급과 맞는가?
+- dedup, library sharing, container density 정책이 보안 등급과 맞는가?
 - 하드웨어 암호 가속 사용 여부가 실제 배포 구성에서 강제되는가?
 
 - **📢 섹션 요약 비유**: Flush+Reload 방어는 공용 사물함을 없애고 각자 개인 서랍을 쓰게 하는 것과 같다. 같이 쓰는 공간이 줄어들수록 남이 남긴 흔적도 읽기 어려워진다.
@@ -114,9 +114,9 @@ Flush+Reload 대응의 출발점은 “무엇을 공유하고 있는가”를 �
 
 ## Ⅴ. 기대효과 및 결론
 
-Flush+Reload를 이해하고 방어하는 과정은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 전제를 다시 보게 만든다. 같은 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 공유하고, 같은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 합치고, 같은 캐시를 쓰는 일이 메모리 효율에는 좋지만, 보안 측면에서는 정밀한 관측 채널이 될 수 있기 때문이다.
+Flush+Reload를 이해하고 방어하는 과정은 성능 최적화의 전제를 다시 보게 만든다. 같은 라이브러리를 공유하고, 같은 페이지를 합치고, 같은 캐시를 쓰는 일이 메모리 효율에는 좋지만, 보안 측면에서는 정밀한 관측 채널이 될 수 있기 때문이다.
 
-물론 공유를 모두 끊는 것은 비싸다. 메모리 사용량이 늘고, 배치 효율이 떨어지며, 운영 복잡도도 올라간다. 그래서 현실적인 방향은 보안 등급에 따라 공유 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 계층화하고, 민감 연산에는 constant-time 구현과 하드웨어 가속을 우선 적용하는 것이다. Flush+Reload가 남기는 교훈은 명확하다. <strong>같이 쓰는 자원은 같이 새는 자원</strong>이 될 수 있다.
+물론 공유를 모두 끊는 것은 비싸다. 메모리 사용량이 늘고, 배치 효율이 떨어지며, 운영 복잡도도 올라간다. 그래서 현실적인 방향은 보안 등급에 따라 공유 정책을 계층화하고, 민감 연산에는 constant-time 구현과 하드웨어 가속을 우선 적용하는 것이다. Flush+Reload가 남기는 교훈은 명확하다. <strong>같이 쓰는 자원은 같이 새는 자원</strong>이 될 수 있다.
 
 - **📢 섹션 요약 비유**: 좋은 시스템은 공용 거실을 넓게 만드는 것만 잘하는 집이 아니라, 비밀 이야기를 할 방은 따로 마련해 두는 집과 같다.
 
@@ -127,11 +127,11 @@ Flush+Reload를 이해하고 방어하는 과정은 [성능](/studynote/04_softw
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
 | `clflush` | 타깃 라인을 강제로 비워 측정 시작점을 만드는 명령 |
-| [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/)) | 공격자와 피해자가 같은 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 보는 전제 |
-| KSM ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Same-page Merging) | dedup으로 공격면을 넓힐 수 있는 OS 최적화 |
-| [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) | 코어 간 흔적이 만나는 공유 지점 |
+| 공유 메모리 (Shared Memory) | 공격자와 피해자가 같은 물리 페이지를 보는 전제 |
+| KSM (Kernel Same-page Merging) | dedup으로 공격면을 넓힐 수 있는 OS 최적화 |
+| LLC (Last-Level Cache) | 코어 간 흔적이 만나는 공유 지점 |
 | Constant-time | secret-dependent line access를 줄이는 핵심 방어 |
-| [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI | 소프트웨어 테이블 접근을 줄이는 대표 하드웨어 가속 |
+| AES-NI | 소프트웨어 테이블 접근을 줄이는 대표 하드웨어 가속 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,21 +154,10 @@ Line-level Timing Trace
 Constant-time · Dedup Off · Workload Isolation
 ```
 
-이 흐름은 “공유된 한 줄의 흔적이 어떻게 정밀한 정보 누출로 이어지고, 다시 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)적 방어로 닫히는가”를 보여준다.
+이 흐름은 “공유된 한 줄의 흔적이 어떻게 정밀한 정보 누출로 이어지고, 다시 정책적 방어로 닫히는가”를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 내가 공용 책상에서 빨간 연필을 치워 놓고, 잠시 뒤 다시 빨간 연필이 나와 있으면 누군가 그 색을 썼다는 뜻이에요.
 2. Flush+Reload는 이런 식으로 아주 작은 흔적 하나만 보고도 남이 무엇을 했는지 알아내는 방법이에요.
 3. 그래서 중요한 컴퓨터는 같이 쓰는 연필통을 줄이고, 각자 자기 연필을 쓰게 만들어야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 777 / 803
-
-<- **이전**: [775. Prime+Probe 기법](/studynote/01_computer_architecture/15_advanced_topics/775_prime_probe/)
-**다음**: [777. Evict+Time 기법](/studynote/01_computer_architecture/15_advanced_topics/777_evict_time/) ->
-
----

@@ -133,11 +133,3 @@ MLOps 플랫폼은 통상 7계층 아키텍처로 구성된다. 각 계층은 **
 | **배포 산출물** | 모델 아티팩트(.pt/.pkl) + 서빙 컨테이너 + 피처 정의 | 컨테이너 이미지 + IaC | 대시보드/알람 룰 | 데이터셋 + 품질 리포트 |
 | **테스트 유형** | Unit + Integration + **Model A/B + Fairness + Robustness** | Unit + Integration + E2E + Load | Anomaly Detection Test | Data Quality + Schema + Lineage |
 | **도구 스택** |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 746 / 800
-
-<- **이전**: [745. 데이터옵스 파이프라인 자동화 품질](/studynote/06_ict_convergence/uncategorized/745_dataops_pipeline_automation_quality/)
-**다음**: [747. LLMOps 대규모 언어 모델 운영 관리](/studynote/06_ict_convergence/uncategorized/747_llmops_large_language_model_operations/) ->
-
----

@@ -110,12 +110,3 @@ Core flow: Collect -> Cluster -> Tag -> Trace -> Report
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 573 / 800
-
-<- **이전**: [572. 메타 트랜잭션 가스리스 사용자 경험](/studynote/06_ict_convergence/uncategorized/572_meta_transaction_gasless_user_experience/)
-**다음**: [574. RegTech 규제 준수 자동화](/studynote/06_ict_convergence/uncategorized/574_regtech_regulatory_compliance_automation/) ->
-
----

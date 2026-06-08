@@ -7,21 +7,21 @@ weight: 579
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MAC은 시스템 관리자가 모든 <strong>주체(프로세스)</strong>와 <strong>객체(<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)</strong>에 <strong>보안 등급 라벨(<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Label)</strong>을 부여하고, 이 라벨 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 기반으로 접근을 <strong>강제(Mandatory)</strong>로 통제하는 방식이다.
-> 2. **가치**: 사용자가 `chmod 777`로 권한을 열어버려도, [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에 의해 <strong>최고 비밀 등급 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>에는 접근이 차단</strong>되어,만일(만약) 침해가 발생해도 손실 범위가 제한된다.
-> 3. **한계**: [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)이 복잡하여 <strong>관리 오버헤드</strong>가 크고, [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류 시 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 발생할 수 있다.
+> 1. **본질**: MAC은 시스템 관리자가 모든 <strong>주체(프로세스)</strong>와 <strong>객체(파일)</strong>에 <strong>보안 등급 라벨(Security Label)</strong>을 부여하고, 이 라벨 간 관계를 기반으로 접근을 <strong>강제(Mandatory)</strong>로 통제하는 방식이다.
+> 2. **가치**: 사용자가 `chmod 777`로 권한을 열어버려도, MAC 정책에 의해 <strong>최고 비밀 등급 파일에는 접근이 차단</strong>되어,만일(만약) 침해가 발생해도 손실 범위가 제한된다.
+> 3. **한계**: 정책 설정이 복잡하여 <strong>관리 오버헤드</strong>가 크고, 설정 오류 시 서비스 장애가 발생할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 DAC의 한계: [Trojan Horse](/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/)
+### 1.1 DAC의 한계: Trojan Horse
 
-DAC([임의적 접근 제어](/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/))에서는 사용자가 악성 프로그램을 실행하면, 그 프로그램이 사용자의 권한을 상속받는다. 따라서 사용자가 Root 권한으로 실행 중이었다면, 악성 프로그램도 Root 권한을 획득하게 된다.
+DAC(임의적 접근 제어)에서는 사용자가 악성 프로그램을 실행하면, 그 프로그램이 사용자의 권한을 상속받는다. 따라서 사용자가 Root 권한으로 실행 중이었다면, 악성 프로그램도 Root 권한을 획득하게 된다.
 
 ### 1.2 MAC의 해결책
 
-MAC에서는 **소유자나 사용자의 의사와 무관하게** 시스템 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 접근을 차단한다:
+MAC에서는 **소유자나 사용자의 의사와 무관하게** 시스템 정책이 접근을 차단한다:
 
 ```
 [ DAC 정책 ]
@@ -37,7 +37,7 @@ MAC에서는 **소유자나 사용자의 의사와 무관하게** 시스템 [정
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 보안 등급 라벨 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Label)
+### 2.1 보안 등급 라벨 (Security Label)
 
 MAC에서는 모든 주체와 객체에 <strong>보안 등급 라벨</strong>을 부여한다:
 
@@ -64,7 +64,7 @@ system_u:object_r:shadow_t:s0
       UNCLASSIFIED
 ```
 
-### 2.3 [Bell-LaPadula](/studynote/02_operating_system/10_security/580_bell_lapadula_model/) 모델과의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+### 2.3 Bell-LaPadula 모델과의 관계
 
 MAC의 구체적인 접근 규칙을 정의하는 대표적인 모델:
 
@@ -79,7 +79,7 @@ MAC의 구체적인 접근 규칙을 정의하는 대표적인 모델:
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [SELinux](/studynote/02_operating_system/10_security/583_selinux/) 개요
+### 3.1 SELinux 개요
 
 SELinux는 Linux 커널에 구현된 <strong>MAC의 대표적 구현</strong>이다:
 
@@ -93,12 +93,12 @@ $ ps auxZ | grep httpd
 system_u:system_r:httpd_t:s0 httpd
 ```
 
-### 3.2 [SELinux](/studynote/02_operating_system/10_security/583_selinux/) 동작 모드
+### 3.2 SELinux 동작 모드
 
 | 모드 | 설명 |
 |:---|:---|
-| **Enforcing** | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 시 접근 차단 |
-| **Permissive** | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 시 로그만 기록 |
+| **Enforcing** | 정책 위반 시 접근 차단 |
+| **Permissive** | 정책 위반 시 로그만 기록 |
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -106,9 +106,9 @@ system_u:system_r:httpd_t:s0 httpd
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **강제적 통제**: 사용자의 의사와 무관하게 보안 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 적용되어, [Trojan Horse](/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) 등 내부 위협으로부터 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)
-- **세밀한 통제**: 프로세스와 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위의 접근 제어가 가능
-- **관리 복잡성**: [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 관리에 전문 지식과 노력이 필요
+- **강제적 통제**: 사용자의 의사와 무관하게 보안 정책이 적용되어, Trojan Horse 등 내부 위협으로부터 보호
+- **세밀한 통제**: 프로세스와 파일 단위의 접근 제어가 가능
+- **관리 복잡성**: 정책 설정과 관리에 전문 지식과 노력이 필요
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -116,7 +116,7 @@ system_u:system_r:httpd_t:s0 httpd
 
 ## Ⅴ. 기대효과 및 결론
 
-강제적 접근 제어 ([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), Mandatory [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/))은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [벨-라파둘라 모델](/studynote/02_operating_system/10_security/580_bell_lapadula_model/) ([Bell-LaPadula](/studynote/02_operating_system/10_security/580_bell_lapadula_model/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+강제적 접근 제어 (MAC, Mandatory Access Control)은 운영체제 보호와 보안 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 벨-라파둘라 모델 (Bell-LaPadula)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -126,10 +126,10 @@ system_u:system_r:httpd_t:s0 httpd
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 롤 기반 접근 제어 ([RBAC](/studynote/09_security/11_iam_access_control/569_rbac/), [Role-Based Access Control](/studynote/09_security/11_iam_access_control/569_rbac/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [임의적 접근 제어](/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/) (DAC, Discretionary [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [벨-라파둘라 모델](/studynote/02_operating_system/10_security/580_bell_lapadula_model/) ([Bell-LaPadula](/studynote/02_operating_system/10_security/580_bell_lapadula_model/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [비바 모델](/studynote/02_operating_system/10_security/581_biba_model/) ([Biba Model](/studynote/02_operating_system/10_security/581_biba_model/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 롤 기반 접근 제어 (RBAC, Role-Based Access Control) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 임의적 접근 제어 (DAC, Discretionary Access Control) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 벨-라파둘라 모델 (Bell-LaPadula) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 비바 모델 (Biba Model) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,19 +147,8 @@ system_u:system_r:httpd_t:s0 httpd
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong><a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a></strong>은 병원의 <strong>"접종 증명 시스템"</strong>과 같다. 어떤 환자가선Drop(권한)이 있다고 주장해도, 시스템에 등록된 등급과 맞지 않으면 진찰을 받을 수 없다.
+1. <strong>MAC</strong>은 병원의 <strong>"접종 증명 시스템"</strong>과 같다. 어떤 환자가선Drop(권한)이 있다고 주장해도, 시스템에 등록된 등급과 맞지 않으면 진찰을 받을 수 없다.
 
 2. <strong>보안 라벨</strong>은 놀이공원의 <strong>"입장 등급표"</strong>와 같다. Silver 등급은 Silver 놀이기구만, Gold 등급은 Gold 놀이기구만 탈 수 있다. 등급표가 없으면 아무 놀이기구도 탈 수 없다.
 
-3. <strong>관리 복잡성</strong>은 입장 등급표를 <strong>"새로 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>하거나 변경하려면 병원 전체의 규정을 수정해야"</strong> 하는 것과 같다. 한 명의 등급을 바꾸어도 전체 시스템에 영향을 미칠 수 있다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 579 / 800
-
-<- **이전**: [578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임](/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/)
-**다음**: [580. 벨-라파둘라 모델 (Bell-LaPadula) - 기밀성 위주 보안 정책 (No Read Up, No Write Down)](/studynote/02_operating_system/10_security/580_bell_lapadula_model/) ->
-
----
+3. <strong>관리 복잡성</strong>은 입장 등급표를 <strong>"새로 설정하거나 변경하려면 병원 전체의 규정을 수정해야"</strong> 하는 것과 같다. 한 명의 등급을 바꾸어도 전체 시스템에 영향을 미칠 수 있다.

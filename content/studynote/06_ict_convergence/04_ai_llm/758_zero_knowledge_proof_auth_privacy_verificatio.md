@@ -147,11 +147,3 @@ Setup(λ, C):  -> (pk, vk) where
 
 Prove(pk, x, w):
     Compute h(X) =
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 758 / 800
-
-<- **이전**: [757. 동형 암호 안전 연산 데이터 보호](/studynote/06_ict_convergence/uncategorized/757_homomorphic_encryption_secure_computation/)
-**다음**: [759. 디지털 신원 검증 eKYC 원격 인증](/studynote/06_ict_convergence/uncategorized/759_digital_identity_verification_ekyc_remote/) ->
-
----

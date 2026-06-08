@@ -139,11 +139,3 @@ IT 거버넌스·EA(Enterprise Architecture)·중장기 R&D 계획 수립에서 
 - **3-Tier Risk Weighting** (Phaal et al. 2004):
   $R_{total} = 0.5 \cdot R_{tech} + 0.3 \cdot R_{market} + 0.2 \cdot R_{regulatory}$
 - **S-curve 도약 판정**: 현재 S-curve의 한계(Limit) 도달 시 다음 S-curve로의 이행을 "Discontinuity(불연속)"이라 정의, Christensen(1997)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 776 / 800
-
-<- **이전**: [775. ICT 표준화 ITU IEEE 3GPP 전략](/studynote/06_ict_convergence/uncategorized/775_ict_standardization_itu_ieee_3gpp_strategy/)
-**다음**: [777. 개방형 혁신 오픈 이노베이션 협업](/studynote/06_ict_convergence/uncategorized/777_open_innovation_open_source_collaboration/) ->
-
----

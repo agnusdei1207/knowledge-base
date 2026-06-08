@@ -7,21 +7,21 @@ weight: 402
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 이해하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 포트 번호는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 포트 번호를 이해하면 신뢰성과 지연 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 전송 계층(Transport Layer) 헤더에 포함되어, 호스트 내부에서 실행 중인 특정 애플리케이션 프로세스나 네트워크 서비스를 식별하는 16비트(2 [Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 논리적 할당자. (표현 범위: 0 ~ 65535).
-- **필요성**: 카카오톡으로 사진을 받으면서 동시에 유튜브로 영상을 보고 있다. 구글 서버도 내 IP(`211.x.x.x`)로 패킷을 쏘고, 카카오 서버도 내 IP(`211.x.x.x`)로 패킷을 쏜다. 랜선을 타고 내 컴퓨터로 두 패킷이 동시에 쏟아져 들어왔다. 만약 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호가 없다면? 내 윈도우 OS는 "이게 카톡에 뿌려줄 사진인지, 크롬에 뿌려줄 영상인지" 구별하지 못해 카톡 채팅창에 깨진 영상 코드를 텍스트로 뱉어내는 끔찍한 오작동을 일으킬 것이다. **"같은 IP로 들어오더라도 도착해야 할 프로그램 목적지를 확실히 갈라줄 세부 이정표가 절실하다!"**
+- **개념**: 전송 계층(Transport Layer) 헤더에 포함되어, 호스트 내부에서 실행 중인 특정 애플리케이션 프로세스나 네트워크 서비스를 식별하는 16비트(2 Byte) 논리적 할당자. (표현 범위: 0 ~ 65535).
+- **필요성**: 카카오톡으로 사진을 받으면서 동시에 유튜브로 영상을 보고 있다. 구글 서버도 내 IP(`211.x.x.x`)로 패킷을 쏘고, 카카오 서버도 내 IP(`211.x.x.x`)로 패킷을 쏜다. 랜선을 타고 내 컴퓨터로 두 패킷이 동시에 쏟아져 들어왔다. 만약 포트 번호가 없다면? 내 윈도우 OS는 "이게 카톡에 뿌려줄 사진인지, 크롬에 뿌려줄 영상인지" 구별하지 못해 카톡 채팅창에 깨진 영상 코드를 텍스트로 뱉어내는 끔찍한 오작동을 일으킬 것이다. **"같은 IP로 들어오더라도 도착해야 할 프로그램 목적지를 확실히 갈라줄 세부 이정표가 절실하다!"**
 
-- **💡 비유**: [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 대형 병원의 <strong>"진료과 번호"</strong>와 같습니다.
+- **💡 비유**: 포트 번호는 대형 병원의 <strong>"진료과 번호"</strong>와 같습니다.
   - **IP 주소**: "서울대학교 병원"이라는 건물 자체의 주소입니다.
-  - <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호</strong>: 병원 1층 로비에 들어섰을 때, 내과(80번), 외과(443번), 치과(21번) 중 어디로 가야 할지 알려주는 문에 붙은 <strong>진료실 호수</strong>입니다.
-  - 구급차(패킷)가 병원(IP)에 무사히 도착했더라도, 환자를 내과(올바른 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 보내지 않고 치과(틀린 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 밀어 넣으면 환자([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 치료를 받지 못하고 버려집니다.
+  - <strong>포트 번호</strong>: 병원 1층 로비에 들어섰을 때, 내과(80번), 외과(443번), 치과(21번) 중 어디로 가야 할지 알려주는 문에 붙은 <strong>진료실 호수</strong>입니다.
+  - 구급차(패킷)가 병원(IP)에 무사히 도착했더라도, 환자를 내과(올바른 포트)로 보내지 않고 치과(틀린 포트)로 밀어 넣으면 환자(데이터)는 치료를 받지 못하고 버려집니다.
 
 ```text
 [전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
@@ -32,22 +32,22 @@ weight: 402
     +---> [Well-Known 포트, Registere…]
 ```
 
-- **📢 섹션 요약 비유**: <strong> <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호는 하나의 라디오 기기(IP) 안에서 방송국을 구별하는 </strong>"FM 주파수 채널"**입니다. 내 컴퓨터는 80번 주파수로는 웹서버 방송을 내보내고, 21번 주파수로는 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 방송을 내보내어, 시청자(클라이언트)가 다이얼만 돌리면 원하는 서비스를 골라 들을 수 있게 해줍니다.
+- **📢 섹션 요약 비유**: <strong> 포트 번호는 하나의 라디오 기기(IP) 안에서 방송국을 구별하는 </strong>"FM 주파수 채널"**입니다. 내 컴퓨터는 80번 주파수로는 웹서버 방송을 내보내고, 21번 주파수로는 FTP 파일 방송을 내보내어, 시청자(클라이언트)가 다이얼만 돌리면 원하는 서비스를 골라 들을 수 있게 해줍니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호의 탄생과 16비트의 한계
-[포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 TCP와 [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더의 맨 앞에 `출발지 포트(16비트)`와 `목적지 포트(16비트)`로 각각 박혀 있다.
+### 1. 포트 번호의 탄생과 16비트의 한계
+포트 번호는 TCP와 UDP 헤더의 맨 앞에 `출발지 포트(16비트)`와 `목적지 포트(16비트)`로 각각 박혀 있다.
 - 16비트이므로 $2^{16} = 65536$개. 즉, <strong>0번부터 65535번</strong>까지만 존재할 수 있다.
-- 내 컴퓨터 하나가 인터넷 창, 카톡, 엑셀 등을 미친 듯이 띄워서 외부와 통신 세션을 무한히 맺고 싶어도, 이론상 동시에 뚫을 수 있는 최대 터널의 개수는 65,535개([포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개수)로 제한된다는 물리적 한계를 내포한다.
+- 내 컴퓨터 하나가 인터넷 창, 카톡, 엑셀 등을 미친 듯이 띄워서 외부와 통신 세션을 무한히 맺고 싶어도, 이론상 동시에 뚫을 수 있는 최대 터널의 개수는 65,535개(포트 개수)로 제한된다는 물리적 한계를 내포한다.
 
-### 2. 출발지 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Source [Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와 목적지 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Destination [Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
+### 2. 출발지 포트 (Source Port)와 목적지 포트 (Destination Port)
 패킷이 날아갈 때 반드시 이 두 개의 번호가 짝을 지어 움직인다.
 - 내가 네이버에 접속할 때:
-  - <strong>목적지 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: `80` (네이버 웹서버가 80번 간판을 달고 기다리니까).
-  - <strong>출발지 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: `54321` (내 윈도우 OS가 지금 놀고 있는 5만 번대 번호를 쓱 뽑아서 크롬 브라우저 탭에 임시로 붙여준 번호표).
+  - <strong>목적지 포트</strong>: `80` (네이버 웹서버가 80번 간판을 달고 기다리니까).
+  - <strong>출발지 포트</strong>: `54321` (내 윈도우 OS가 지금 놀고 있는 5만 번대 번호를 쓱 뽑아서 크롬 브라우저 탭에 임시로 붙여준 번호표).
 - 네이버가 나에게 웹페이지 사진을 돌려줄 때:
   - 목적지와 출발지가 서로 뒤집힌다(Swap).
   - 출발지는 `80`, 목적지는 내 PC의 `54321`이 되어 패킷이 날아오고, 내 윈도우는 "아! 54321번? 이거 아까 크롬 첫 번째 탭이 요청한 거네!"라며 정확히 그 탭에 사진을 띄워준다.
@@ -71,54 +71,54 @@ weight: 402
  +-------------------------------------------------------------+
 ```
 
-### 3. [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))의 알파와 오메가
-회사 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 담당자가 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰([ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 짤 때 가장 많이 다루는 것이 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호다.
-- 해커는 내 컴퓨터의 열려 있는 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(리스닝 중인 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 귀신같이 스캔해서 그 구멍으로 파고든다.
-- [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰: "외부에서 우리 회사 웹서버 IP로 들어올 때, 목적지 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 <strong>80번(웹)이거나 443번(보안웹)인 패킷만 통과</strong>시키고, 나머지 21번([FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))이나 3389번(원격 접속) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 까고 들어오는 놈들은 묻지도 따지지도 말고 전부 차단(Drop)해라!"
-- 즉, [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 <strong>네트워크 출입 통제소의 가장 기본적이고 치명적인 1차 검문 기준</strong>이다.
+### 3. 방화벽(Firewall)의 알파와 오메가
+회사 네트워크 보안 담당자가 방화벽 룰(ACL)을 짤 때 가장 많이 다루는 것이 포트 번호다.
+- 해커는 내 컴퓨터의 열려 있는 포트(리스닝 중인 포트)를 귀신같이 스캔해서 그 구멍으로 파고든다.
+- 방화벽 룰: "외부에서 우리 회사 웹서버 IP로 들어올 때, 목적지 포트가 <strong>80번(웹)이거나 443번(보안웹)인 패킷만 통과</strong>시키고, 나머지 21번(FTP)이나 3389번(원격 접속) 포트를 까고 들어오는 놈들은 묻지도 따지지도 말고 전부 차단(Drop)해라!"
+- 즉, 포트 번호는 <strong>네트워크 출입 통제소의 가장 기본적이고 치명적인 1차 검문 기준</strong>이다.
 
-- **📢 섹션 요약 비유**: <strong> <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호는 아파트의 </strong>"각 세대 도어락(현관문)"**입니다. 아파트 입구(IP 주소)를 통과한 택배 기사는 엘리베이터를 타고 올라와서 정확히 80호, 443호 문 앞에 짐을 놔둬야 합니다. 만약 주인이 집을 비우고 문을 꽉 잠가놓았는데([포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 닫힘), 강제로 문고리를 흔들면 경비원([방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 출동합니다.
+- **📢 섹션 요약 비유**: <strong> 포트 번호는 아파트의 </strong>"각 세대 도어락(현관문)"**입니다. 아파트 입구(IP 주소)를 통과한 택배 기사는 엘리베이터를 타고 올라와서 정확히 80호, 443호 문 앞에 짐을 놔둬야 합니다. 만약 주인이 집을 비우고 문을 꽉 잠가놓았는데(포트 닫힘), 강제로 문고리를 흔들면 경비원(방화벽) 출동합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 전송 계층의 역할: 종단 간 오류/흐름/혼잡…가 기반 조건을 만든다면, [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 그 위에서 핵심 메커니즘을 구현하고, Well-Known [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+포트 번호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 전송 계층의 역할: 종단 간 오류/흐름/혼잡…가 기반 조건을 만든다면, 포트 번호는 그 위에서 핵심 메커니즘을 구현하고, Well-Known 포트, Registere…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 신뢰성과 지연에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 전송 계층의 역할: 종단 간 오류/흐름/혼잡…의 기반 정리 | [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호의 핵심 동작 | Well-Known [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | 전송 계층의 역할: 종단 간 오류/흐름/혼잡…의 기반 정리 | 포트 번호의 핵심 동작 | Well-Known 포트, Registere…의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | 신뢰성 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 포트 번호는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 전송 계층의 역할: 종단 간 오류/흐름/혼잡… 수준의 기본 대책으로 충분한지, 아니면 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Well-Known [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 포트 번호를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 전송 계층의 역할: 종단 간 오류/흐름/혼잡… 수준의 기본 대책으로 충분한지, 아니면 포트 번호가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Well-Known 포트, Registere…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
-1. 현재 문제의 핵심이 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 부족인지, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 악화인지 먼저 분리한다.
-2. [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 Well-Known [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 신뢰성 부족인지, 지연 악화인지 먼저 분리한다.
+2. 포트 번호가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+3. 도입 후에는 인접 기술인 Well-Known 포트, Registere…와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 포트 번호의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: 포트 번호를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 Well-Known [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+포트 번호는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 신뢰성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 Well-Known 포트, Registere…, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 포트 번호는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -127,9 +127,9 @@ weight: 402
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 전송 계층의 역할: 종단 간 오류/흐름/혼잡… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
-| [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| Well-Known [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 세그먼트 (Segment) | 전송 계층이 다루는 기본 단위다. |
+| 흐름 제어 (Flow Control) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| Well-Known 포트, Registere… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,21 +143,10 @@ weight: 402
     +---> [확장 B: 적응형 저지연 전송]
 ```
 
-[포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…에서 출발해 현재 메커니즘을 정교화하고, 이후 Well-Known [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+포트 번호는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…에서 출발해 현재 메커니즘을 정교화하고, 이후 Well-Known 포트, Registere…와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 523 / 1120
-
-<- **이전**: [401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)
-**다음**: [403. Well-Known 포트 (0~1023), Registered 포트 (1024~49151), Dynamic 포트 (49152~65535)](/studynote/03_network/08_transport_layer/403_port_categories_well_known_registered_dynamic/) ->
-
----

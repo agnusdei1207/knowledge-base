@@ -140,11 +140,3 @@ TensorRT의 추론 최적화 파이프라인은 크게 **5단계**로 구분되�
 config = builder.create_builder_config()
 config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 8 << 30)  # 8GB
 config.set_flag(trt.BuilderFlag.FP
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 659 / 800
-
-<- **이전**: [658. 양자화 INT8 INT4 모델 최적화](/studynote/06_ict_convergence/uncategorized/658_quantization_int8_int4_model_optimization/)
-**다음**: [660. MLOps 모델 서빙 A/B 테스트](/studynote/06_ict_convergence/uncategorized/660_mlops_model_serving_ab_test/) ->
-
----

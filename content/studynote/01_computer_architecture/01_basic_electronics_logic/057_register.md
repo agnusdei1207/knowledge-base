@@ -7,9 +7,9 @@ weight: 57
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 레지스터([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 묶어 CPU가 아주 빠르게 읽고 쓰는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 저장 공간이다.
+> 1. **본질**: 레지스터(Register)는 D 플립플롭(Flip-Flop)을 병렬로 묶어 CPU가 아주 빠르게 읽고 쓰는 초고속 저장 공간이다.
 > 2. **가치**: 메모리 계층 구조에서 가장 가까운 위치에 있어, 연산 직전에 필요한 값을 즉시 공급해 CPU 성능을 좌우한다.
-> 3. **판단 포인트**: [범용 레지스터](/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/)([GPR](/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/))와 [특수 목적 레지스터](/studynote/01_computer_architecture/04_instruction_set_architecture/163_spr/)(Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer 등)를 구분해 이해해야 한다.
+> 3. **판단 포인트**: 범용 레지스터(GPR)와 특수 목적 레지스터(Program Counter, Instruction Register, Stack Pointer 등)를 구분해 이해해야 한다.
 
 ---
 
@@ -23,9 +23,9 @@ weight: 57
 
 ---
 
-## Ⅱ. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 저장 구조와 동작 원리
+## Ⅱ. 병렬 저장 구조와 동작 원리
 
-레지스터는 여러 개의 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)을 한 번에 묶어 같은 클록([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))에 맞춰 동작한다.
+레지스터는 여러 개의 D 플립플롭을 한 번에 묶어 같은 클록(Clock)에 맞춰 동작한다.
 
 ```text
 입력 비트 -► D FF -► D FF -► D FF -► D FF
@@ -33,7 +33,7 @@ weight: 57
              클록 신호가 동시에 들어와 저장
 ```
 
-클록이 들어오면 입력 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 동시에 저장되고, 읽을 때는 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))를 통해 한 번에 출력된다. 이 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조 덕분에 여러 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 한 번에 다룰 수 있다.
+클록이 들어오면 입력 비트들이 동시에 저장되고, 읽을 때는 버스(Bus)를 통해 한 번에 출력된다. 이 병렬 구조 덕분에 여러 비트를 한 번에 다룰 수 있다.
 
 - **📢 섹션 요약 비유**: 레지스터는 여러 칸짜리 우편함이 한 박자에 동시에 닫히고 열리는 구조다.
 
@@ -43,23 +43,23 @@ weight: 57
 
 레지스터는 쓰임새에 따라 나뉜다.
 
-- <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/">범용 레지스터</a> (General Purpose <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>, <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/">GPR</a>)</strong>: 연산 중간값을 저장한다.
-- <strong>Program <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong>: 다음에 실행할 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소를 가리킨다.
-- <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a> (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/">IR</a>)</strong>: 현재 실행 중인 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 담는다.
-- <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> Pointer (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a>)</strong>: 스택의 꼭대기를 가리킨다.
-- <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">Status Register</a> / Program <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">Status Register</a> (PSR)</strong>: 연산 결과의 상태 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 담는다.
+- <strong>범용 레지스터 (General Purpose Register, GPR)</strong>: 연산 중간값을 저장한다.
+- <strong>Program Counter (PC)</strong>: 다음에 실행할 명령어 주소를 가리킨다.
+- <strong>Instruction Register (IR)</strong>: 현재 실행 중인 명령어를 담는다.
+- <strong>Stack Pointer (SP)</strong>: 스택의 꼭대기를 가리킨다.
+- <strong>Status Register / Program Status Register (PSR)</strong>: 연산 결과의 상태 비트를 담는다.
 
-이 구분을 알면 CPU가 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 어떻게 해석하고 실행하는지 훨씬 명확해진다.
+이 구분을 알면 CPU가 명령어를 어떻게 해석하고 실행하는지 훨씬 명확해진다.
 
 - **📢 섹션 요약 비유**: 같은 서랍장이라도 어떤 칸은 메모용, 어떤 칸은 주소용, 어떤 칸은 현재 작업용으로 나뉜다.
 
 ---
 
-## Ⅳ. CPU [데이터패스](/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)에서의 역할
+## Ⅳ. CPU 데이터패스에서의 역할
 
-레지스터는 [Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))와 거의 붙어 있다. 따라서 연산에 필요한 피연산자를 지체 없이 공급한다.
+레지스터는 Arithmetic Logic Unit (ALU)와 거의 붙어 있다. 따라서 연산에 필요한 피연산자를 지체 없이 공급한다.
 
-레지스터 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 구조가 커질수록 한 번에 더 많은 값을 저장하고 꺼낼 수 있지만, 설계가 복잡해지고 전력과 면적 부담도 함께 커진다.
+레지스터 파일(Register File) 구조가 커질수록 한 번에 더 많은 값을 저장하고 꺼낼 수 있지만, 설계가 복잡해지고 전력과 면적 부담도 함께 커진다.
 
 - **📢 섹션 요약 비유**: 레지스터는 부엌 조리대 바로 옆에 있는 양념통처럼, 손이 닿는 거리에서 연산을 빠르게 돕는다.
 
@@ -95,10 +95,10 @@ CPU 데이터패스 / ALU
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 단일 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) -> 기본 저장 소자
-2. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 결합 -> 다비트 레지스터
-3. [GPR](/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) / [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) / [IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) / [SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 분화 -> CPU 제어 정교화
-4. 레지스터 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> 대규모 [데이터패스](/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) 지원
+1. 단일 비트 플립플롭 -> 기본 저장 소자
+2. 병렬 결합 -> 다비트 레지스터
+3. GPR / PC / IR / SP 분화 -> CPU 제어 정교화
+4. 레지스터 파일 -> 대규모 데이터패스 지원
 5. 고성능 CPU 설계 -> 더 많은 레지스터와 더 빠른 접근 최적화
 
 ---
@@ -108,14 +108,3 @@ CPU 데이터패스 / ALU
 레지스터는 요리사가 바로 앞에 두는 작은 접시예요.
 바로 써야 할 재료를 거기 올려두면 빨리 요리할 수 있어요.
 멀리 있는 창고까지 가지 않아도 되니까 아주 빠른 거예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 57 / 803
-
-<- **이전**: [56. 마스터-슬레이브 플립플롭 (Master-Slave Flip-Flop)](/studynote/01_computer_architecture/01_basic_electronics_logic/056_master_slave_flip_flop/)
-**다음**: [58. 시프트 레지스터 (Shift Register)](/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/) ->
-
----

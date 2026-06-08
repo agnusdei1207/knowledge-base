@@ -6,9 +6,9 @@ tags:
 weight: 36
 ---
 > **핵심 인사이트**
-> 1. 키-값 저장소([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value Store)는 고유한 키([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))에 임의의 값(Value)을 연결해 저장하는 가장 단순한 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 구조로, 해시 테이블의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)·영속화 버전이다.
-> 2. 단순한 구조 덕분에 O(1) 조회 성능을 달성할 수 있으며, 수평 확장([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))과 레플리케이션이 용이해 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장·캐시·실시간 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 등 초저지연이 요구되는 워크로드에 최적이다.
-> 3. [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/)(메모리 기반 + 영속화)와 [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/)([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) + [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))가 각각 캐시 계층과 글로벌 확장 서비스에서 사실상 표준이며, 선택은 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·확장성 요건에 따라 결정한다.
+> 1. 키-값 저장소(Key-Value Store)는 고유한 키(Key)에 임의의 값(Value)을 연결해 저장하는 가장 단순한 NoSQL 구조로, 해시 테이블의 분산·영속화 버전이다.
+> 2. 단순한 구조 덕분에 O(1) 조회 성능을 달성할 수 있으며, 수평 확장(Sharding)과 레플리케이션이 용이해 세션 저장·캐시·실시간 카운터 등 초저지연이 요구되는 워크로드에 최적이다.
+> 3. Redis(메모리 기반 + 영속화)와 DynamoDB(분산 + 서버리스)가 각각 캐시 계층과 글로벌 확장 서비스에서 사실상 표준이며, 선택은 일관성·지연·확장성 요건에 따라 결정한다.
 
 ---
 
@@ -37,7 +37,7 @@ value: {"user_id":1234, "username":"홍길동", "role":"admin", "exp":1735689600
 
 ---
 
-## II. [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) — 인메모리 키-값 저장소
+## II. Redis — 인메모리 키-값 저장소
 
 ```
 Redis (Remote Dictionary Server) 특성:
@@ -58,10 +58,10 @@ Redis (Remote Dictionary Server) 특성:
   AOF: 모든 쓰기 로그 (데이터 안전 우선)
 ```
 
-| 사용 패턴       | [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) 자료구조  | 명령           |
+| 사용 패턴       | Redis 자료구조  | 명령           |
 |--------------|--------------|---------------|
-| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장      | String + [TTL](/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)  | SET + EXPIRE  |
-| 실시간 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)  | String        | INCR          |
+| 세션 저장      | String + TTL  | SET + EXPIRE  |
+| 실시간 카운터  | String        | INCR          |
 | 중복 제거      | Set           | SADD          |
 | 리더보드       | Sorted Set    | ZADD + ZRANGE |
 | 메시지 큐      | List          | LPUSH + BRPOP |
@@ -70,7 +70,7 @@ Redis (Remote Dictionary Server) 특성:
 
 ---
 
-## III. [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/) — [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 키-값
+## III. DynamoDB — 서버리스 분산 키-값
 
 ```
 DynamoDB 특성:
@@ -88,19 +88,19 @@ DynamoDB 특성:
   -> 단일 사용자의 모든 주문을 효율적으로 쿼리
 ```
 
-| 비교       | [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/)           | [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/)          |
+| 비교       | Redis           | DynamoDB          |
 |-----------|-----------------|-------------------|
-| 저장 위치  | 메모리 (주) + 디스크| 디스크 ([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))    |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)       | < 1 ms          | 1-9 ms            |
-| 확장       | 클러스터 수동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)| 완전 자동          |
+| 저장 위치  | 메모리 (주) + 디스크| 디스크 (SSD)    |
+| 지연       | < 1 ms          | 1-9 ms            |
+| 확장       | 클러스터 수동 설정| 완전 자동          |
 | 비용 모델  | 인스턴스         | 요청/스토리지 종량제|
-| [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)     | 최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)      | 강한/최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 선택|
+| 일관성     | 최종 일관성      | 강한/최종 일관성 선택|
 
 > 📢 **섹션 요약 비유**: Redis는 빠른 현금 서랍(메모리), DynamoDB는 자동 확장 디지털 금고(클라우드) — 속도와 확장성의 트레이드오프.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 캐시 패턴
+## IV. 캐시 패턴
 
 ```
 1. Cache-Aside (Lazy Loading):
@@ -197,14 +197,3 @@ AI 임베딩 벡터 저장소로 활용
 1. 키-값 저장소는 열쇠(키)만 있으면 해당 사물함(값)을 즉시 열 수 있는 자물쇠 보관함이에요.
 2. Redis는 메모리에 저장해서 엄청 빠르고, DynamoDB는 클라우드에서 자동으로 커지는 금고예요.
 3. 쇼핑몰에서 상품 정보를 매번 데이터베이스에서 읽지 않고 Redis에 잠깐 저장해두면 훨씬 빠르답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 36 / 258
-
-<- **이전**: [035. NoSQL 데이터베이스](/studynote/14_data_engineering/01_infrastructure/035_nosql/)
-**다음**: [037. 문서 저장소 (Document Store)](/studynote/14_data_engineering/01_infrastructure/037_document/) ->
-
----

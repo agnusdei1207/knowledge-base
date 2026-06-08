@@ -6,17 +6,17 @@ tags:
 weight: 148
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 재진입 가능 코드 (Reentrant [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 실행 중인 함수가 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 등에 의해 중단되고 다시 호출되더라도, 정적/전역 상태를 오염시키지 않아 이전 실행과 새로운 실행 모두 안전하게 완료되는 코드이다.
-> 2. **가치**: 시그널 핸들러 ([Signal](/studynote/02_operating_system/02_process_thread/130_signal/) Handler)나 [인터럽트 서비스 루틴](/studynote/02_operating_system/01_overview_architecture/020_isr/) ([ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/))처럼 비동기적으로 흐름을 가로채는 환경에서, 시스템이 예측 불가능한 충돌이나 데드락 없이 안정적으로 동작하게 만든다.
-> 3. **판단 포인트**: 모든 순수 함수 (Pure Function)는 재진입이 가능하지만, 호출자가 제공한 버퍼를 수정하는 함수는 순수 함수가 아님에도 재진입이 가능하다. 전역 변수나 정적 변수(`static`), `malloc` 같은 전역 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 접근을 철저히 배제하는 것이 설계의 핵심이다.
+> 1. **본질**: 재진입 가능 코드 (Reentrant Code)는 실행 중인 함수가 인터럽트 등에 의해 중단되고 다시 호출되더라도, 정적/전역 상태를 오염시키지 않아 이전 실행과 새로운 실행 모두 안전하게 완료되는 코드이다.
+> 2. **가치**: 시그널 핸들러 (Signal Handler)나 인터럽트 서비스 루틴 (ISR)처럼 비동기적으로 흐름을 가로채는 환경에서, 시스템이 예측 불가능한 충돌이나 데드락 없이 안정적으로 동작하게 만든다.
+> 3. **판단 포인트**: 모든 순수 함수 (Pure Function)는 재진입이 가능하지만, 호출자가 제공한 버퍼를 수정하는 함수는 순수 함수가 아님에도 재진입이 가능하다. 전역 변수나 정적 변수(`static`), `malloc` 같은 전역 힙(Heap) 접근을 철저히 배제하는 것이 설계의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-재진입 가능 코드 (Reentrant [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))란 어떤 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)나 프로세스가 특정 코드를 실행하는 도중에, 하드웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 OS 시그널이 발생하여 해당 코드를 중단하고 <strong>같은 코드를 또다시 진입(호출)하더라도 내부 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 엉키지 않고 정상 동작</strong>하는 코드를 말한다.
+재진입 가능 코드 (Reentrant Code)란 어떤 스레드나 프로세스가 특정 코드를 실행하는 도중에, 하드웨어 인터럽트나 OS 시그널이 발생하여 해당 코드를 중단하고 <strong>같은 코드를 또다시 진입(호출)하더라도 내부 데이터가 엉키지 않고 정상 동작</strong>하는 코드를 말한다.
 
-[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단일 실행 흐름에서는 함수가 끝날 때까지 방해받을 일이 적었지만, 멀티태스킹과 비동기 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 환경에서는 함수 실행 중 언제든 흐름이 끊길 수 있다. 만약 함수가 내부에 공용 계산기(정적 변수)를 두고 있다면, 첫 번째 실행자가 계산하던 중간에 두 번째 실행자가 난입하여 값을 엎어버릴 것이다. 첫 번째 실행자가 돌아왔을 때 계산기는 이미 망가져 있다. 이를 막기 위해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생명주기를 철저히 개별 호출([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 단위로 격리하는 재진입성(Reentrancy)이 시스템 안정성의 필수 요건이 되었다.
+초기 단일 실행 흐름에서는 함수가 끝날 때까지 방해받을 일이 적었지만, 멀티태스킹과 비동기 인터럽트 환경에서는 함수 실행 중 언제든 흐름이 끊길 수 있다. 만약 함수가 내부에 공용 계산기(정적 변수)를 두고 있다면, 첫 번째 실행자가 계산하던 중간에 두 번째 실행자가 난입하여 값을 엎어버릴 것이다. 첫 번째 실행자가 돌아왔을 때 계산기는 이미 망가져 있다. 이를 막기 위해 데이터의 생명주기를 철저히 개별 호출(Stack) 단위로 격리하는 재진입성(Reentrancy)이 시스템 안정성의 필수 요건이 되었다.
 
 - **📢 섹션 요약 비유**: 재진입 가능 코드는 '개인용 요리 도구 세트'와 같습니다. 여러 요리사가 같은 주방(함수)에 들어와도, 공용 냄비(전역 변수)를 쓰지 않고 각자 가져온 냄비(지역 변수)로 요리하기 때문에 중간에 누가 난입해도 요리가 망치지 않습니다.
 
@@ -24,7 +24,7 @@ weight: 148
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-재진입성을 보장하려면 코드 내부의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 관리되는지가 가장 중요하다.
+재진입성을 보장하려면 코드 내부의 데이터가 어떻게 관리되는지가 가장 중요하다.
 
 ```text
 +-------------------------------------------------------------+
@@ -48,54 +48,54 @@ weight: 148
 ```
 
 재진입 가능 코드가 되기 위한 절대 조건은 다음과 같다.
-1. <strong>정적/전역 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정 금지</strong>: `static` 변수나 전역 변수를 읽고 쓰지 않아야 한다.
+1. <strong>정적/전역 데이터 수정 금지</strong>: `static` 변수나 전역 변수를 읽고 쓰지 않아야 한다.
 2. **자체적인 상태 보존 금지**: 이전 호출의 상태를 다음 호출이 기억하게 만들면 안 된다.
 3. **호출자 제공 메모리 사용**: 결과를 저장할 메모리 공간(버퍼)은 호출자가 매개변수로 직접 전달해야 한다.
-4. <strong>안전하지 않은 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 금지</strong>: 내부적으로 전역 힙 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 쓰는 `malloc/free`나 정적 버퍼를 쓰는 `printf`, `strtok` 등을 호출하지 않아야 한다.
+4. <strong>안전하지 않은 라이브러리 금지</strong>: 내부적으로 전역 힙 락(Lock)을 쓰는 `malloc/free`나 정적 버퍼를 쓰는 `printf`, `strtok` 등을 호출하지 않아야 한다.
 
-- **📢 섹션 요약 비유**: 비재진입 함수가 '게시판에 분필로 글 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'라면, 재진입 함수는 '각자의 공책에 연필로 글 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'입니다. 게시판은 남이 지우면 끝이지만, 공책은 아무리 많은 사람이 동시에 써도 서로 간섭하지 않습니다.
+- **📢 섹션 요약 비유**: 비재진입 함수가 '게시판에 분필로 글 쓰기'라면, 재진입 함수는 '각자의 공책에 연필로 글 쓰기'입니다. 게시판은 남이 지우면 끝이지만, 공책은 아무리 많은 사람이 동시에 써도 서로 간섭하지 않습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-재진입 가능성(Reentrancy)은 [스레드 안전](/studynote/02_operating_system/02_process_thread/147_thread_safe/)성(Thread-Safety)과 종종 혼동되지만, 바라보는 관점이 다르다. 순수 함수와의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 명확히 구분해야 한다.
+재진입 가능성(Reentrancy)은 스레드 안전성(Thread-Safety)과 종종 혼동되지만, 바라보는 관점이 다르다. 순수 함수와의 관계도 명확히 구분해야 한다.
 
-| 구분 | 재진입 가능 (Reentrant) | [스레드 안전](/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-Safe](/studynote/02_operating_system/02_process_thread/147_thread_safe/)) | 순수 함수 (Pure Function) |
+| 구분 | 재진입 가능 (Reentrant) | 스레드 안전 (Thread-Safe) | 순수 함수 (Pure Function) |
 | :--- | :--- | :--- | :--- |
-| **핵심 제어 대상** | <strong><a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>/시그널 (동일 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 내 중단 및 재호출)</strong> | <strong>멀티 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (동시 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 접근)</strong> | **수학적 결정성 (부작용 없음)** |
-| <strong>락(<a href="/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>) 사용</strong> | **사용하면 위험함** (데드락 발생 가능) | 락을 사용하여 공유 자원 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | 자원 공유 자체를 안 함 |
+| **핵심 제어 대상** | <strong>인터럽트/시그널 (동일 스레드 내 중단 및 재호출)</strong> | <strong>멀티 스레드 (동시 병렬 접근)</strong> | **수학적 결정성 (부작용 없음)** |
+| <strong>락(Mutex) 사용</strong> | **사용하면 위험함** (데드락 발생 가능) | 락을 사용하여 공유 자원 보호 | 자원 공유 자체를 안 함 |
 | **전역 상태 변경** | 불가 | 락을 통해 안전하게 가능 | 절대 불가 |
-| <strong><a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | 순수 함수는 100% 재진입 가능함 | 재진입 코드가 [스레드 안전](/studynote/02_operating_system/02_process_thread/147_thread_safe/)을 보장하진 않음 | 가장 엄격한 형태의 재진입 코드 |
+| <strong>관계</strong> | 순수 함수는 100% 재진입 가능함 | 재진입 코드가 스레드 안전을 보장하진 않음 | 가장 엄격한 형태의 재진입 코드 |
 
-재진입 함수는 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 쓰면 안 된다. 시그널 핸들러가 락을 잡은 상태에서 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 걸려 동일 함수로 재진입하면, 본인이 잡고 있는 락을 기다리며 영원히 멈추는 데드락([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지기 때문이다. 반면 [스레드 안전](/studynote/02_operating_system/02_process_thread/147_thread_safe/) 함수는 락을 통해 엉킴을 막는다.
+재진입 함수는 락(Lock)을 쓰면 안 된다. 시그널 핸들러가 락을 잡은 상태에서 인터럽트가 걸려 동일 함수로 재진입하면, 본인이 잡고 있는 락을 기다리며 영원히 멈추는 데드락(Deadlock)에 빠지기 때문이다. 반면 스레드 안전 함수는 락을 통해 엉킴을 막는다.
 
-- **📢 섹션 요약 비유**: [스레드 안전](/studynote/02_operating_system/02_process_thread/147_thread_safe/)은 '화장실 문을 잠그고 혼자 쓰는 것([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))'이고, 재진입성은 '애초에 개인용 요강([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 들고 다녀서 문 잠글 필요가 없는 것'입니다. 순수 함수는 '요강조차 필요 없는 물만 마시는 상태'입니다.
+- **📢 섹션 요약 비유**: 스레드 안전은 '화장실 문을 잠그고 혼자 쓰는 것(Lock)'이고, 재진입성은 '애초에 개인용 요강(Stack)을 들고 다녀서 문 잠글 필요가 없는 것'입니다. 순수 함수는 '요강조차 필요 없는 물만 마시는 상태'입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발이나 임베디드 [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)(RTOS)에서 재진입성은 시스템 패닉을 막는 생명줄이다.
+운영체제 커널 개발이나 임베디드 실시간 시스템(RTOS)에서 재진입성은 시스템 패닉을 막는 생명줄이다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (Async-[Signal](/studynote/02_operating_system/02_process_thread/130_signal/)-Safe)
+### 실무 체크리스트 (Async-Signal-Safe)
 1. **시그널 핸들러 설계**: 리눅스에서 `SIGINT`, `SIGTERM` 등의 시그널을 처리하는 핸들러 함수 내부에서는 절대로 `printf()`를 쓰면 안 된다. `printf`는 내부적으로 전역 버퍼에 대한 락을 사용하므로 비재진입 함수다. 대신 재진입이 보장되는 POSIX 시스템 콜인 `write()`를 직접 호출해야 한다.
-2. <strong>표준 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 교체</strong>: C 언어의 `strtok`, `rand`, `ctime` 같은 고전 함수들은 내부에 정적 변수를 쓴다. 멀티스레딩이나 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 환경에서는 호출자가 버퍼를 제공하는 `strtok_r`, `rand_r`, `ctime_r` (여기서 `_r`이 Reentrant의 약자)로 반드시 교체해야 한다.
+2. <strong>표준 라이브러리 교체</strong>: C 언어의 `strtok`, `rand`, `ctime` 같은 고전 함수들은 내부에 정적 변수를 쓴다. 멀티스레딩이나 인터럽트 환경에서는 호출자가 버퍼를 제공하는 `strtok_r`, `rand_r`, `ctime_r` (여기서 `_r`이 Reentrant의 약자)로 반드시 교체해야 한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (<a href="/studynote/02_operating_system/01_overview_architecture/020_isr/">인터럽트 서비스 루틴</a>) 내의 동적 할당</strong>: [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리기 안에서 `malloc()`을 호출하는 행위. 전역 힙 메모리를 관리하는 락과 충돌하여 전체 시스템을 교착 상태로 몰아넣는 치명적 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+### 안티패턴
+- <strong>ISR (인터럽트 서비스 루틴) 내의 동적 할당</strong>: 인터럽트 처리기 안에서 `malloc()`을 호출하는 행위. 전역 힙 메모리를 관리하는 락과 충돌하여 전체 시스템을 교착 상태로 몰아넣는 치명적 안티패턴이다.
 
-- **📢 섹션 요약 비유**: 시그널 핸들러에서 비재진입 함수를 쓰는 것은, 응급실 의사([인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))가 긴급 수술을 하다가 병원 공용 전화기(전역 락)로 피자를 시키는 것과 같습니다. 다른 전화가 걸려 오면 선이 엉켜 병원 마비가 옵니다. 응급실에서는 무조건 개인 무전기(재진입 함수)만 써야 합니다.
+- **📢 섹션 요약 비유**: 시그널 핸들러에서 비재진입 함수를 쓰는 것은, 응급실 의사(인터럽트)가 긴급 수술을 하다가 병원 공용 전화기(전역 락)로 피자를 시키는 것과 같습니다. 다른 전화가 걸려 오면 선이 엉켜 병원 마비가 옵니다. 응급실에서는 무조건 개인 무전기(재진입 함수)만 써야 합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-재진입 가능 코드(Reentrant [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 시스템의 불확실성을 통제하는 가장 강력한 설계 기법이다. 상태를 함수 내부에 숨기지 않고 철저히 외부(매개변수와 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))로 위임함으로써, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 시그널이 빗발치는 극한의 비동기 환경에서도 코드의 실행 흐름을 무결점 상태로 유지할 수 있다.
+재진입 가능 코드(Reentrant Code)는 시스템의 불확실성을 통제하는 가장 강력한 설계 기법이다. 상태를 함수 내부에 숨기지 않고 철저히 외부(매개변수와 스택)로 위임함으로써, 인터럽트와 시그널이 빗발치는 극한의 비동기 환경에서도 코드의 실행 흐름을 무결점 상태로 유지할 수 있다.
 
-현대의 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍과 [함수형 프로그래밍](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)([Functional Programming](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)) 철학이 강조하는 '부작용(Side-Effect) 없는 상태 없는([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 설계'의 원류가 바로 이 재진입성이다. [스레드 안전](/studynote/02_operating_system/02_process_thread/147_thread_safe/)을 위해 무거운 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 남발하기 전에, 애초에 락이 필요 없도록 변수의 스코프를 제한하는 재진입 가능 설계를 채택하는 것이 고성능/고신뢰성 아키텍처의 진정한 승리 공식이다.
+현대의 동시성 프로그래밍과 함수형 프로그래밍(Functional Programming) 철학이 강조하는 '부작용(Side-Effect) 없는 상태 없는(Stateless) 설계'의 원류가 바로 이 재진입성이다. 스레드 안전을 위해 무거운 락(Lock)을 남발하기 전에, 애초에 락이 필요 없도록 변수의 스코프를 제한하는 재진입 가능 설계를 채택하는 것이 고성능/고신뢰성 아키텍처의 진정한 승리 공식이다.
 
-- **📢 섹션 요약 비유**: 재진입성은 '모래성 쌓기' 대신 '레고 블록 조립하기'를 선택하는 것입니다. 모래성은 파도([인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))가 치면 형태가 무너지지만, 독립된 레고 블록으로 만든 코드는 언제 파도가 덮쳐도 하던 곳부터 다시 튼튼하게 조립할 수 있습니다.
+- **📢 섹션 요약 비유**: 재진입성은 '모래성 쌓기' 대신 '레고 블록 조립하기'를 선택하는 것입니다. 모래성은 파도(인터럽트)가 치면 형태가 무너지지만, 독립된 레고 블록으로 만든 코드는 언제 파도가 덮쳐도 하던 곳부터 다시 튼튼하게 조립할 수 있습니다.
 
 ---
 
@@ -104,9 +104,9 @@ weight: 148
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **순수 함수 (Pure Function)** | 동일 입력에 동일 출력을 반환하며 외부 상태를 절대 건드리지 않는 함수. 재진입성의 가장 완벽한 교집합. |
-| <strong><a href="/studynote/02_operating_system/02_process_thread/147_thread_safe/">스레드 안전</a> (<a href="/studynote/02_operating_system/02_process_thread/147_thread_safe/">Thread-Safe</a>)</strong> | 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 접근해도 안전함을 의미. 락([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))을 사용할 수 있다는 점에서 재진입성과 다르다. |
-| <strong><a href="/studynote/02_operating_system/01_overview_architecture/020_isr/">인터럽트 서비스 루틴</a> (<a href="/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>)</strong> | 하드웨어 신호를 즉각 처리하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직. [ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/) 내의 함수는 100% 재진입 가능해야 시스템 패닉을 막는다. |
-| <strong>데드락 (<a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong> | 비재진입 함수(락 포함)를 시그널 핸들러에서 잘못 호출했을 때, 자기가 자기 락을 기다리며 멈추는 파멸적 상태. |
+| <strong>스레드 안전 (Thread-Safe)</strong> | 여러 스레드가 동시에 접근해도 안전함을 의미. 락(Mutex)을 사용할 수 있다는 점에서 재진입성과 다르다. |
+| <strong>인터럽트 서비스 루틴 (ISR)</strong> | 하드웨어 신호를 즉각 처리하는 커널 로직. ISR 내의 함수는 100% 재진입 가능해야 시스템 패닉을 막는다. |
+| <strong>데드락 (Deadlock)</strong> | 비재진입 함수(락 포함)를 시그널 핸들러에서 잘못 호출했을 때, 자기가 자기 락을 기다리며 멈추는 파멸적 상태. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,14 +131,3 @@ weight: 148
 1. 재진입 가능 코드는 '내 전용 스케치북'에 그림을 그리는 것과 같아요.
 2. 내가 그림을 그리다 갑자기 심부름을 다녀와도, 다른 친구가 내 스케치북을 훔쳐 쓰지 않으니 언제든 이어서 그릴 수 있어요.
 3. 반면 칠판(전역 변수)에 그림을 그리면, 심부름을 간 사이에 다른 친구가 칠판을 지우고 자기 그림을 그려버려서 원래 그림이 다 망가져 버린답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 148 / 800
-
-<- **이전**: [147. 스레드 안전 (Thread-safe) 함수 및 라이브러리](/studynote/02_operating_system/02_process_thread/147_thread_safe/)
-**다음**: [149. 클론 (clone) 시스템 콜 - 리눅스 프로세스와 스레드 생성의 통합 API](/studynote/02_operating_system/02_process_thread/149_clone_system_call/) ->
-
----

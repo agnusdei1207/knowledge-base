@@ -152,11 +152,3 @@ Deployment Controller는 이를 확장해 **Rolling Update 전략**(maxSurge, ma
 | 스케일 한계 | **5,000 노드 / 150,000 Pod / 300,000 컨테이너**(v1.30 기준) | 1,000 노드 / 50,000 컨테이너 권장 | 50,000+ 노드(Mesos 자체), Marathon 수천 | 10,000+ 잡(Job), 경량 |
 | 스케줄링 | Filter->Score 2단계, 확장 플러그인 30+ | Spread/Constrain/Random/Resource Binpack | Role + Attribute + Offer(리소스 거버넌스 강점) | Binpack/Spread, Consul 연동 Service Discovery |
 | 생태계 | **CRD·Operator·CNI·CSI·CNI·Ingress·ServiceMesh·GitOps** 모두 CNCF | Docker Stack, Traefik, Portainer | Chronos/Marathon LB, Spark·HDFS 통합 강점 | Consul·Vault·Terraform과 **HashiCorp
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 615 / 800
-
-<- **이전**: [614. 클라우드 네이티브 12팩터 설계 원칙](/studynote/06_ict_convergence/uncategorized/614_cloud_native_12_factor_design_principles/)
-**다음**: [616. 서비스 메시 Istio Envoy 데이터 플레인](/studynote/06_ict_convergence/uncategorized/616_service_mesh_istio_envoy_data_plane/) ->
-
----

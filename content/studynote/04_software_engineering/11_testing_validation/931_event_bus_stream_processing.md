@@ -7,15 +7,15 @@ weight: 931
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 이벤트 버스 및 스트림 프로세싱은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 여러 시스템이 동일 이벤트를 구독하도록 돕는다. 스트림 프로세싱은 들어오는 이벤트를 지속적으로 계산한다.
+이벤트 버스는 여러 시스템이 동일 이벤트를 구독하도록 돕는다. 스트림 프로세싱은 들어오는 이벤트를 지속적으로 계산한다.
 
 실시간 추천, 모니터링, 탐지에 유용하다.
 
@@ -23,7 +23,7 @@ weight: 931
 
 ---
 
-다음은 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 이벤트 버스 및 스트림 프로세싱의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -38,7 +38,7 @@ weight: 931
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 이벤트 버스 및 스트림 프로세싱가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -48,7 +48,7 @@ weight: 931
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 pub/sub 구조와 가깝고, 스트림은 연속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리한다.
+이벤트 버스는 pub/sub 구조와 가깝고, 스트림은 연속 데이터를 처리한다.
 
 ```text
 Producer -> Event Bus -> Subscribers
@@ -58,8 +58,8 @@ Producer -> Event Bus -> Subscribers
 
 | 요소 | 의미 |
 |:---|:---|
-| Event [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) | 이벤트 중계 |
-| [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) | 연속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| Event Bus | 이벤트 중계 |
+| Stream | 연속 데이터 |
 | Processor | 실시간 계산 |
 
 - **📢 섹션 요약 비유**: 여러 개의 알림판에 같은 소식을 붙이는 것이다.
@@ -74,15 +74,15 @@ Producer -> Event Bus -> Subscribers
 
 ## Ⅲ. 비교 및 연결
 
-이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 전달 중심, 스트림은 계산 중심이다.
+이벤트 버스는 전달 중심, 스트림은 계산 중심이다.
 
-| 구분 | Event [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) | [Stream Processing](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) |
+| 구분 | Event Bus | Stream Processing |
 |:---|:---|:---|
 | 초점 | 전달 | 처리 |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 낮음 | 낮음 |
+| 지연 | 낮음 | 낮음 |
 | 활용 | 이벤트 공유 | 실시간 분석 |
 
-[EDA](/studynote/12_it_management/02_itsm_itil/064_eda/), [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), 모니터링 파이프라인과 연결된다.
+EDA, Kafka, 모니터링 파이프라인과 연결된다.
 
 - **📢 섹션 요약 비유**: 방송은 알리는 일이고, 계산은 그 방송을 보고 판단하는 일이다.
 
@@ -96,11 +96,11 @@ Producer -> Event Bus -> Subscribers
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 이벤트 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 관리, 상태 보존, 윈도우 처리, 재처리 전략이 중요하다.
+실무에서는 이벤트 스키마 관리, 상태 보존, 윈도우 처리, 재처리 전략이 중요하다.
 
 점검 포인트는 다음과 같다.
 1. 이벤트 계약이 깨지지 않는가?
-2. [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 감당하는가?
+2. 지연을 감당하는가?
 3. 재처리 시 중복이 안전한가?
 
 - **📢 섹션 요약 비유**: 물이 흐르는 동안도 숫자를 세야 한다.
@@ -115,7 +115,7 @@ Producer -> Event Bus -> Subscribers
 
 ## Ⅴ. 기대효과 및 결론
 
-이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 스트림 처리는 실시간 반응성을 높인다.
+이벤트 버스와 스트림 처리는 실시간 반응성을 높인다.
 
 결론적으로 이 항목은 "이벤트 흐름의 전파와 처리"다.
 
@@ -131,10 +131,10 @@ Producer -> Event Bus -> Subscribers
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 이벤트 버스 및 스트림 프로세싱의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 이벤트 버스 및 스트림 프로세싱은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 이벤트 버스 및 스트림 프로세싱 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 이벤트 버스 및 스트림 프로세싱에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,21 +154,10 @@ Producer -> Event Bus -> Subscribers
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 이벤트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 및 스트림 프로세싱은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 이벤트 버스 및 스트림 프로세싱은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 669 / 973
-
-<- **이전**: [538. 이벤트 기반 아키텍처 (EDA) - 이벤트 생산자, 브로커, 소비자](/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/)
-**다음**: [539. 이벤트 버스 (Event Bus) 및 스트림 프로세싱](/studynote/04_software_engineering/11_testing_validation/931_event_bus_stream_processing/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

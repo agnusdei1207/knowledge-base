@@ -7,8 +7,8 @@ weight: 192
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모듈 (Module) - 독립적 기능을 수행하는 단위은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 모듈 (Module) - 독립적 기능을 수행하는 단위은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -41,10 +41,10 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-수만 줄의 스파게티 코드를 모듈 단위로 쪼개는([Divide and Conquer](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 이유는 명확합니다.
+수만 줄의 스파게티 코드를 모듈 단위로 쪼개는(Divide and Conquer) 이유는 명확합니다.
 
 1. **재사용성 (Reusability)**: 잘 만들어진 '결제 모듈'은 A쇼핑몰뿐만 아니라 B게임회사 프로젝트에도 그대로 복사해서 쓸 수 있습니다.
-2. <strong><a href="/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a> (<a href="/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">Maintainability</a>)</strong>: 버그가 났을 때 전체 코드를 다 뒤질 필요 없이, 문제가 발생한 해당 모듈만 열어서 고치면 됩니다.
+2. <strong>유지보수성 (Maintainability)</strong>: 버그가 났을 때 전체 코드를 다 뒤질 필요 없이, 문제가 발생한 해당 모듈만 열어서 고치면 됩니다.
 3. **독립적 개발 (Parallel Development)**: A팀은 '로그인 모듈'을, B팀은 '검색 모듈'을 동시에 병렬로 개발할 수 있어 개발 기간이 획기적으로 단축됩니다.
 
 - **📢 섹션 요약 비유**: 모듈 (Module)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -82,11 +82,11 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 '설계를 잘했다'라고 평가하는 유일한 기준은 딱 2단어입니다.
-- <strong><a href="/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a> (<a href="/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)는 높게 (High)</strong>: 하나의 모듈 안에는 똘똘 뭉친 연관된 기능들만 있어야 합니다.
-- <strong><a href="/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> (<a href="/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)는 낮게 (Low)</strong>: 모듈과 모듈 사이의 연결 고리는 느슨해야(쉽게 뗐다 붙였다 할 수 있어야) 합니다.
+소프트웨어 공학에서 '설계를 잘했다'라고 평가하는 유일한 기준은 딱 2단어입니다.
+- <strong>응집도 (Cohesion)는 높게 (High)</strong>: 하나의 모듈 안에는 똘똘 뭉친 연관된 기능들만 있어야 합니다.
+- <strong>결합도 (Coupling)는 낮게 (Low)</strong>: 모듈과 모듈 사이의 연결 고리는 느슨해야(쉽게 뗐다 붙였다 할 수 있어야) 합니다.
 
-> 📢 **섹션 요약 비유**: 스마트폰을 조립할 때, '카메라 부품(모듈)'은 사진 찍는 기능 하나만 완벽하게 수행하면 됩니다(높은 [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)). 만약 카메라 부품이 고장 났을 때 메인보드까지 뜯어내야 한다면 최악의 설계이고, 나사만 풀어서 새 카메라로 똑딱 갈아 끼울 수 있어야(낮은 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 최고의 모듈 설계입니다.
+> 📢 **섹션 요약 비유**: 스마트폰을 조립할 때, '카메라 부품(모듈)'은 사진 찍는 기능 하나만 완벽하게 수행하면 됩니다(높은 응집도). 만약 카메라 부품이 고장 났을 때 메인보드까지 뜯어내야 한다면 최악의 설계이고, 나사만 풀어서 새 카메라로 똑딱 갈아 끼울 수 있어야(낮은 결합도) 최고의 모듈 설계입니다.
 
 - **📢 섹션 요약 비유**: 모듈 (Module)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -94,21 +94,21 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 
 ## Ⅴ. 기대효과 및 결론
 
-모듈 (Module)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+모듈 (Module)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 모듈 (Module)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 모듈 (Module)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 모듈 (Module)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -116,10 +116,10 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 모듈 (Module)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 모듈 (Module)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 모듈 (Module)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 모듈 (Module)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 모듈 (Module) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 모듈 (Module)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 모듈 (Module)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,21 +139,10 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 모듈 (Module)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 192 / 973
-
-<- **이전**: [191. 소프트웨어 설계 원칙 - 추상화, 캡슐화, 모듈화, 정보 은닉](/studynote/04_software_engineering/04_testing_quality/191_software_design_principles/)
-**다음**: [193. 응집도 (Cohesion) - 모듈 내부 요소들의 연관 정도 (높을수록 좋음)](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

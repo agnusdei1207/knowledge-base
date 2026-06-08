@@ -110,12 +110,3 @@ Core flow: Train -> Compress -> Deploy -> Infer -> Update
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 603 / 800
-
-<- **이전**: [602. LPWAN LoRa Sigfox NB-IoT 비교](/studynote/06_ict_convergence/uncategorized/602_lpwan_lora_sigfox_nb_iot_comparison/)
-**다음**: [604. TinyML 초소형 임베디드 머신러닝](/studynote/06_ict_convergence/uncategorized/604_tinyml_ultra_small_ml_embedded/) ->
-
----

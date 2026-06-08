@@ -119,11 +119,3 @@ CoT 기반 추론 시스템은 단순 프롬프트 기법을 넘어 **검증·�
 | **⑥ Output Formatter** | 구조화된 응답으로 후속 시스템 연동 | JSON mode(OpenAI), function calling, Pydantic schema 검증, streaming(SSE) with reasoning token 분리 출력 |
 
 핵심 알고리즘적 세부사항을 짚자면, **Self-Consistency**(Wang et al., 2022)는 동일 prompt에 대해 temperature ≥ 0.7로 N개(보통 40개)의 추론 경로를 sampling한 뒤 **marginalize out the reasoning**하여 최종 답의 **majority vote**를 취한다. GSM8K 기준 PaLM 540B가 single-path CoT 대비 +17.9% p, 다수결만으로 +12.2% p 추가 향상을 보였다. **Tree of Thoughts(ToT)**(Yao et al., 2023)는 BFS/DFS로 **thought space를 명시적 트리 탐색**하며, Game of 24에서 GPT-4 + To
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 647 / 800
-
-<- **이전**: [646. RAG 검색 증강 생성 벡터 검색](/studynote/06_ict_convergence/uncategorized/646_rag_retrieval_augmented_generation_vector_sea/)
-**다음**: [648. AI 에이전트 도구 사용 자율 계획](/studynote/06_ict_convergence/uncategorized/648_ai_agent_tool_use_autonomous_planning/) ->
-
----

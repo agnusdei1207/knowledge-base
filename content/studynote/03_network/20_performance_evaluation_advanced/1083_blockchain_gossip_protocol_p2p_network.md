@@ -7,8 +7,8 @@ weight: 1083
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 블록체인 가십 프로토콜 P2P 연결은 성능 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 블록체인 가십 프로토콜 P2P 연결을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
@@ -16,7 +16,7 @@ weight: 1083
 ## Ⅰ. 개요 및 필요성
 
 - **과거**: 카카오톡 서버 1대에 1만 명이 붙어있습니다. 철수가 메시지를 쏘면 서버 1대가 1만 명에게 브로드캐스트로 뿌립니다.
-- <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템(<a href="/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>)의 재앙</strong>: 100만 대의 노드가 서로 평등하게 얽힌 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 망에서는 나를 이끌어 줄 중앙 서버가 아예 존재하지 않습니다. 브로드캐스트를 날리자니 트래픽이 폭발해서 네트워크가 죽어버립니다.
+- <strong>분산 시스템(블록체인)의 재앙</strong>: 100만 대의 노드가 서로 평등하게 얽힌 P2P(Peer-to-Peer) 망에서는 나를 이끌어 줄 중앙 서버가 아예 존재하지 않습니다. 브로드캐스트를 날리자니 트래픽이 폭발해서 네트워크가 죽어버립니다.
 
 ```text
 [웹쉘 탐지 프로토콜 파서]
@@ -27,14 +27,14 @@ weight: 1083
     +---> [다크 웹 Tor 통신 프로토콜 암호화층]
 ```
 
-- **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 블록체인 가십 프로토콜 P2P 연결은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 일명 <strong>에피데믹 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Epidemic, 전염병 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>이라고도 불립니다.
-- **개념**: 중앙 통제 없이, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 <strong>주기적으로 무작위(Random) 이웃 노드를 몇 개 골라 자기가 가진 최신 정보(상태, 블록 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 귓속말로 속닥거리며 교환함으로써, 바이러스가 퍼지듯 순식간에 네트워크 전체의 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 똑같이 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>)시키는 <a href="/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 통신 기법</strong>입니다.
+- 일명 <strong>에피데믹 알고리즘(Epidemic, 전염병 알고리즘)</strong>이라고도 불립니다.
+- **개념**: 중앙 통제 없이, 분산된 노드들이 <strong>주기적으로 무작위(Random) 이웃 노드를 몇 개 골라 자기가 가진 최신 정보(상태, 블록 데이터)를 귓속말로 속닥거리며 교환함으로써, 바이러스가 퍼지듯 순식간에 네트워크 전체의 데이터를 똑같이 동기화(Eventual Consistency)시키는 P2P 통신 기법</strong>입니다.
 
 ```text
 [웹쉘 탐지 프로토콜 파서]
@@ -45,58 +45,58 @@ weight: 1083
     +---> [다크 웹 Tor 통신 프로토콜 암호화층]
 ```
 
-- **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 블록체인 가십 프로토콜 P2P 연결의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 ### 1. 기하급수적 전파 (Exponential Spread)
-- 철수 노드가 새로운 비트코인 거래 내역([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))을 만들었습니다.
+- 철수 노드가 새로운 비트코인 거래 내역(트랜잭션)을 만들었습니다.
 - 철수는 100만 대에 다 쏘지 않고, 딱 <strong>랜덤한 이웃 3대</strong>에게만 "야, 철수가 돈 보냈대"라고 가십(소문)을 던집니다.
 - 1초 뒤 그 3대가 각각 다른 3대에게 소문을 내면 9대가 알고, 다음 초엔 27대, 81대, 243대로 퍼집니다. $\log$ 스케일의 지수 함수적 폭발이 일어나 **수십 번의 턴(Hop)만 거치면 100만 대의 노드 전체가 100% 동일한 소문을 알게 됩니다.**
 
 ### 2. 안티-엔트로피 (Anti-Entropy)와 자가 치유 🌟
 - **문제**: A 노드는 어제 꺼져있어서 예전 소문을 못 들었습니다.
-- **해결 (장부 맞추기)**: 가십 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 단순히 새 소문만 던지는 게 아닙니다. 두 노드가 만날 때마다 "너 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 몇이야? 난 100번인데. 헐 넌 90번이네? 내가 91~100번까지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사해 줄게!" 라며 끊임없이 서로의 장부(해시값)를 비교하고 빈 구멍을 꾹꾹 채워 넣습니다([동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)).
-- 네트워크가 일시적으로 끊기거나 노드가 죽었다 살아나도, 옆 사람이 떠드는 수다만 좀 듣다 보면 <strong>결국에는 무조건 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 100% 똑같아지는 '최종적 <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>)'</strong>의 기적을 이뤄냅니다.
+- **해결 (장부 맞추기)**: 가십 프로토콜은 단순히 새 소문만 던지는 게 아닙니다. 두 노드가 만날 때마다 "너 버전 몇이야? 난 100번인데. 헐 넌 90번이네? 내가 91~100번까지 데이터 복사해 줄게!" 라며 끊임없이 서로의 장부(해시값)를 비교하고 빈 구멍을 꾹꾹 채워 넣습니다(동기화).
+- 네트워크가 일시적으로 끊기거나 노드가 죽었다 살아나도, 옆 사람이 떠드는 수다만 좀 듣다 보면 <strong>결국에는 무조건 데이터가 100% 똑같아지는 '최종적 일관성(Eventual Consistency)'</strong>의 기적을 이뤄냅니다.
 
-### 3. 무적의 생존력 ([단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제로)
-- 중앙 서버가 없으니 해커가 서버를 때려 부술 타겟([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 없습니다.
+### 3. 무적의 생존력 (단일 장애점 SPOF 제로)
+- 중앙 서버가 없으니 해커가 서버를 때려 부술 타겟(SPOF)이 없습니다.
 - 중국 정부가 1만 대의 노드를 강제로 셧다운(차단) 시켜도, 남은 노드들끼리 계속 옆 사람과 수다를 떨며 거미줄 망을 유지하기 때문에 시스템은 1초도 멈추지 않고 굴러갑니다.
 
-[블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서가 기반 조건을 만든다면, [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 그 위에서 핵심 메커니즘을 구현하고, 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+블록체인 가십 프로토콜 P2P 연결을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 웹쉘 탐지 프로토콜 파서가 기반 조건을 만든다면, 블록체인 가십 프로토콜 P2P 연결은 그 위에서 핵심 메커니즘을 구현하고, 다크 웹 Tor 통신 프로토콜 암호화층은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서의 기반 정리 | [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결의 핵심 동작 | 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층의 확장 적용 |
+| 초점 | 웹쉘 탐지 프로토콜 파서의 기반 정리 | 블록체인 가십 프로토콜 P2P 연결의 핵심 동작 | 다크 웹 Tor 통신 프로토콜 암호화층의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 블록체인 가십 프로토콜 P2P 연결은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 비트코인, 이더리움 같은 <strong><a href="/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> <a href="/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 네트워크</strong>에서 블록과 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 전파할 때 씁니다.
-- [카산드라](/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/)([Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)), [레디스](/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) 클러스터([Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster), 아마존 [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 같은 1만 대 규모의 <strong><a href="/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>들이 서로 살아있는지(Health Check) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맞출 때 이 가십 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 뼈대로 돌립니다.
+- 비트코인, 이더리움 같은 <strong>블록체인 P2P 네트워크</strong>에서 블록과 트랜잭션을 전파할 때 씁니다.
+- 카산드라(Cassandra), 레디스 클러스터(Redis Cluster), 아마존 DynamoDB 같은 1만 대 규모의 <strong>NoSQL 분산 데이터베이스</strong>들이 서로 살아있는지(Health Check) 확인하고 데이터를 맞출 때 이 가십 프로토콜을 뼈대로 돌립니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 중앙 서버 방식은 <strong>'교장 선생님이 운동장 조회대에서 1,000명의 학생에게 마이크로 공지사항을 방송하는 것'</strong>입니다. 교장 선생님 마이크가 고장 나면 아무도 소식을 못 듣는 중앙 마비([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))가 터집니다. 반면 <strong>가십 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(Gossip)</strong>은 교장 선생님을 없애고 **'쉬는 시간 동네방네 떠도는 소문(전염병)'** 방식을 쓴 것입니다. 철수가 화장실에서 만난 친구 3명에게 "야, 오늘 급식 돈가스래!"라고 귓속말을 던집니다. 그 3명은 반으로 돌아가 각자 자기 짝꿍 3명에게 똑같은 소문을 냅니다. 중앙 마이크가 없어도, 고작 5분 만에 전교생 1,000명이 오늘 메뉴가 돈가스라는 걸 다 알게 됩니다. 중간에 조퇴한 학생이 있어도 내일 등교하면 짝꿍이 "어제 돈가스 나왔음" 하고 밀린 소문을 다 채워줍니다(안티-엔트로피 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 한 명의 입을 막아도 수백 명의 입을 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무한 증식하며 결국 전체의 뇌가 100% 똑같아지는 절대 죽지 않는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 통신망의 흑마법입니다.
+- **📢 섹션 요약 비유**: 기존 중앙 서버 방식은 <strong>'교장 선생님이 운동장 조회대에서 1,000명의 학생에게 마이크로 공지사항을 방송하는 것'</strong>입니다. 교장 선생님 마이크가 고장 나면 아무도 소식을 못 듣는 중앙 마비(SPOF)가 터집니다. 반면 <strong>가십 프로토콜(Gossip)</strong>은 교장 선생님을 없애고 **'쉬는 시간 동네방네 떠도는 소문(전염병)'** 방식을 쓴 것입니다. 철수가 화장실에서 만난 친구 3명에게 "야, 오늘 급식 돈가스래!"라고 귓속말을 던집니다. 그 3명은 반으로 돌아가 각자 자기 짝꿍 3명에게 똑같은 소문을 냅니다. 중앙 마이크가 없어도, 고작 5분 만에 전교생 1,000명이 오늘 메뉴가 돈가스라는 걸 다 알게 됩니다. 중간에 조퇴한 학생이 있어도 내일 등교하면 짝꿍이 "어제 돈가스 나왔음" 하고 밀린 소문을 다 채워줍니다(안티-엔트로피 동기화). 한 명의 입을 막아도 수백 명의 입을 통해 데이터가 무한 증식하며 결국 전체의 뇌가 100% 똑같아지는 절대 죽지 않는 분산 통신망의 흑마법입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+블록체인 가십 프로토콜 P2P 연결은 성능 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 다크 웹 Tor 통신 프로토콜 암호화층, AI 기반 성능 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 AI 기반 성능 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 블록체인 가십 프로토콜 P2P 연결은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -104,10 +104,10 @@ weight: 1083
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 웹쉘 탐지 프로토콜 파서 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 처리량 (Throughput) | 실제 전달 성능을 나타내는 대표 지표다. |
+| 지연 (Latency) | 사용자 체감 품질을 좌우한다. |
+| 다크 웹 Tor 통신 프로토콜 암호화층 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -121,21 +121,10 @@ weight: 1083
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-[블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결는 [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서에서 출발해 현재 메커니즘을 정교화하고, 이후 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+블록체인 가십 프로토콜 P2P 연결는 웹쉘 탐지 프로토콜 파서에서 출발해 현재 메커니즘을 정교화하고, 이후 다크 웹 Tor 통신 프로토콜 암호화층와 AI 기반 성능 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 191 / 1120
-
-<- **이전**: [1082. 웹쉘 탐지 프로토콜 파서](/studynote/03_network/20_performance_evaluation_advanced/1082_webshell_detection_protocol_parser_ids/)
-**다음**: [1084. 다크 웹 Tor 통신 프로토콜 암호화층](/studynote/03_network/20_performance_evaluation_advanced/1084_dark_web_tor_onion_routing_encryption/) ->
-
----

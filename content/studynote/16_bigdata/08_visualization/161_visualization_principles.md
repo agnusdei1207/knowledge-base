@@ -7,31 +7,31 @@ weight: 161
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: Edward Tufte의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잉크 비율([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio) 원칙은 "차트에 사용된 잉크의 최대한을 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표현하는 데 써야 한다"는 것으로, 장식적 요소(Chartjunk)를 제거하고 정보 밀도를 극대화하는 설계 철학이다.
-- **가치**: 게슈탈트(Gestalt) 원칙과 전주의적 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Pre-attentive [Attributes](/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))을 활용하면 독자가 의식적 노력 없이 즉각적으로 패턴을 인식하게 할 수 있어, [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 커뮤니케이션 효율을 극대화한다.
-- **판단 포인트**: "어떤 차트를 쓸까"보다 "어떤 이야기를 전달할까(What Story Am I Telling?)"에서 시작해야 하며, 색맹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(WCAG 4.5:1 명도 대비, Viridis 팔레트)까지 고려한 포용적 설계가 전문 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 기준이다.
+- **본질**: Edward Tufte의 데이터 잉크 비율(Data-Ink Ratio) 원칙은 "차트에 사용된 잉크의 최대한을 실제 데이터를 표현하는 데 써야 한다"는 것으로, 장식적 요소(Chartjunk)를 제거하고 정보 밀도를 극대화하는 설계 철학이다.
+- **가치**: 게슈탈트(Gestalt) 원칙과 전주의적 속성(Pre-attentive Attributes)을 활용하면 독자가 의식적 노력 없이 즉각적으로 패턴을 인식하게 할 수 있어, 시각화의 커뮤니케이션 효율을 극대화한다.
+- **판단 포인트**: "어떤 차트를 쓸까"보다 "어떤 이야기를 전달할까(What Story Am I Telling?)"에서 시작해야 하며, 색맹 접근성(WCAG 4.5:1 명도 대비, Viridis 팔레트)까지 고려한 포용적 설계가 전문 시각화의 기준이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 왜 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙이 필요한가
+### 왜 시각화 원칙이 필요한가
 
-[데이터 시각화](/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 단순히 "예쁜 차트 만들기"가 아니다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전달하는 <strong>사실과 이야기를 독자가 정확하고 빠르게 이해</strong>할 수 있도록 시각적으로 인코딩하는 커뮤니케이션 행위다.
+데이터 시각화는 단순히 "예쁜 차트 만들기"가 아니다. 데이터가 전달하는 <strong>사실과 이야기를 독자가 정확하고 빠르게 이해</strong>할 수 있도록 시각적으로 인코딩하는 커뮤니케이션 행위다.
 
-잘못된 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 폐해:
-- **절단된 Y축**: 0에서 시작하지 않는 막대 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) -> 변화 폭 과장
-- **3D 차트**: 원근법으로 인한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡 -> 비율 오해
+잘못된 시각화의 폐해:
+- **절단된 Y축**: 0에서 시작하지 않는 막대 그래프 -> 변화 폭 과장
+- **3D 차트**: 원근법으로 인한 데이터 왜곡 -> 비율 오해
 - **과도한 색상**: 12가지 색상의 파이 차트 -> 색상 구분 불가
-- **차트 정크(Chartjunk)**: 의미 없는 격자선, 그림자, 배경 이미지 -> 시선 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)
+- **차트 정크(Chartjunk)**: 의미 없는 격자선, 그림자, 배경 이미지 -> 시선 분산
 
-**📢 섹션 요약 비유**: [데이터 시각화](/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 <strong>건축 설계도</strong>와 같다. 아름다운 외관(미적 요소)도 중요하지만, 구조([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 정확하게 전달하는 것이 본질이다. 장식이 구조 정보를 가리면 건물을 지을 수 없다.
+**📢 섹션 요약 비유**: 데이터 시각화는 <strong>건축 설계도</strong>와 같다. 아름다운 외관(미적 요소)도 중요하지만, 구조(데이터)를 정확하게 전달하는 것이 본질이다. 장식이 구조 정보를 가리면 건물을 지을 수 없다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Tufte의 5대 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙
+### Tufte의 5대 시각화 원칙
 
 ```
 +-------------------------------------------------------------+
@@ -56,44 +56,44 @@ weight: 161
 +--------------+----------------------------------------------+
 ```
 
-### 전주의적 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Pre-attentive [Attributes](/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))
+### 전주의적 속성 (Pre-attentive Attributes)
 
-시각 시스템이 의식적 처리 없이 <strong>즉각적으로(< 200ms) 감지</strong>하는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들:
+시각 시스템이 의식적 처리 없이 <strong>즉각적으로(< 200ms) 감지</strong>하는 속성들:
 
-| [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 활용 예 | 인식 속도 |
+| 속성 | 활용 예 | 인식 속도 |
 |:---|:---|:---|
-| **색상(Hue)** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범주 구분 | 즉각 |
+| **색상(Hue)** | 데이터 범주 구분 | 즉각 |
 | **밝기(Luminance)** | 값의 강도 표현 | 즉각 |
 | **크기(Size)** | 양의 크기 비례 | 즉각 |
-| **위치(Position)** | 가장 강력한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) — 좌표값 | 즉각 |
+| **위치(Position)** | 가장 강력한 속성 — 좌표값 | 즉각 |
 | **방향(Orientation)** | 기울기·방향성 | 즉각 |
 | **형태(Shape)** | 범주 구분 (원, 삼각형) | 즉각 |
 
-### 게슈탈트(Gestalt) 원칙과 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+### 게슈탈트(Gestalt) 원칙과 시각화
 
-| 원칙 | [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 적용 |
+| 원칙 | 시각화 적용 |
 |:---|:---|
-| **근접성(Proximity)** | 관련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 가까이 배치 |
+| **근접성(Proximity)** | 관련 데이터 포인트를 가까이 배치 |
 | **유사성(Similarity)** | 같은 범주는 같은 색상/형태 사용 |
-| **연속성(Continuity)** | 꺾은선 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 연속적 흐름 |
+| **연속성(Continuity)** | 꺾은선 그래프의 연속적 흐름 |
 | **폐쇄성(Enclosure)** | 박스로 그룹 표시 |
 | **연결성(Connection)** | 선으로 관련 요소 연결 |
 
-**📢 섹션 요약 비유**: 전주의적 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 <strong>도로 표지판 색상 규칙</strong>과 같다. 빨간색(정지), 파란색(정보), 노란색(경고)을 보는 순간 뇌가 자동으로 의미를 해석하듯, 잘 설계된 차트는 설명 없이도 즉각 이해된다.
+**📢 섹션 요약 비유**: 전주의적 속성은 <strong>도로 표지판 색상 규칙</strong>과 같다. 빨간색(정지), 파란색(정보), 노란색(경고)을 보는 순간 뇌가 자동으로 의미를 해석하듯, 잘 설계된 차트는 설명 없이도 즉각 이해된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 색맹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 설계
+### 색맹 접근성 설계
 
 전 세계 남성의 약 8%, 여성의 약 0.5%가 색각 이상을 가지고 있다. 색맹 친화적 팔레트:
 
 | 팔레트 | 특징 | 용도 |
 |:---|:---|:---|
-| **Viridis** | 색맹 안전, 인쇄도 구분 가능, 선형 밝기 | 연속형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| **Viridis** | 색맹 안전, 인쇄도 구분 가능, 선형 밝기 | 연속형 데이터 |
 | **ColorBrewer** | 범주형·순서형·발산형 3종, 색맹 옵션 | 지도, 통계 차트 |
-| **IBM Color Palette** | WCAG [AA](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 준수, 8가지 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 팔레트 | 엔터프라이즈 BI |
+| **IBM Color Palette** | WCAG AA 준수, 8가지 접근성 팔레트 | 엔터프라이즈 BI |
 
 색상+패턴 이중 인코딩(Dual Encoding): 색상만으로 구분하지 않고, 선의 대시 패턴이나 마커 형태도 동시에 사용 -> 색맹 사용자도 구분 가능.
 
@@ -115,7 +115,7 @@ weight: 161
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio 최적화 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### Data-Ink Ratio 최적화 체크리스트
 
 ```
 제거 대상 (Chartjunk):
@@ -133,11 +133,11 @@ weight: 161
   ✓ 직접 레이블 (범례 대신 선 끝 레이블)
 ```
 
-### 거짓 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 회피
+### 거짓 시각화 회피
 
-- **절단된 Y축(Truncated Y-axis)**: 막대 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 반드시 0에서 시작 (꺾은선 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 예외 가능)
+- **절단된 Y축(Truncated Y-axis)**: 막대 그래프는 반드시 0에서 시작 (꺾은선 그래프는 예외 가능)
 - **면적 왜곡**: 버블 차트는 반지름이 아닌 <strong>면적</strong>이 값에 비례해야 함 (반지름 비례 시 2배 값 -> 면적 4배)
-- <strong>선택적 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 표시</strong>: 불리한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숨기거나 기간을 조작하는 행위
+- <strong>선택적 데이터 표시</strong>: 불리한 데이터를 숨기거나 기간을 조작하는 행위
 
 **📢 섹션 요약 비유**: 절단된 Y축으로 만든 차트는 <strong>키를 발꿈치 들고 재는 것</strong>과 같다. 실제보다 키가 커 보이지만, 사실은 왜곡된 측정이다.
 
@@ -145,34 +145,34 @@ weight: 161
 
 ## Ⅴ. 기대효과 및 결론
 
-### [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙 적용 효과
+### 시각화 원칙 적용 효과
 
 | 영역 | 효과 |
 |:---|:---|
 | **의사결정 속도** | 핵심 인사이트 파악 시간 단축 |
-| **이해도** | 명확한 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)로 오해 감소 |
-| <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 왜곡 없는 정확한 표현으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신뢰 향상 |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a></strong> | 색맹 포함 모든 사용자가 동등하게 정보 접근 |
+| **이해도** | 명확한 메시지 전달로 오해 감소 |
+| <strong>신뢰성</strong> | 왜곡 없는 정확한 표현으로 데이터 신뢰 향상 |
+| <strong>접근성</strong> | 색맹 포함 모든 사용자가 동등하게 정보 접근 |
 
 ### 결론
 
-[데이터 시각화](/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/) 원칙은 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 커뮤니케이션의 문법</strong>이다. 언어에 문법이 있듯, [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)에도 독자가 올바르게 이해할 수 있도록 따라야 할 규칙이 있다. Tufte의 [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio, 게슈탈트 원칙, 전주의적 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 색맹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 좋은 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 기초이며, 이를 내재화한 설계자는 어떤 도구를 쓰더라도 효과적인 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 만들 수 있다.
+데이터 시각화 원칙은 <strong>데이터 커뮤니케이션의 문법</strong>이다. 언어에 문법이 있듯, 시각화에도 독자가 올바르게 이해할 수 있도록 따라야 할 규칙이 있다. Tufte의 Data-Ink Ratio, 게슈탈트 원칙, 전주의적 속성, 색맹 접근성은 좋은 시각화의 기초이며, 이를 내재화한 설계자는 어떤 도구를 쓰더라도 효과적인 시각화를 만들 수 있다.
 
-**📢 섹션 요약 비유**: [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙을 따른 차트는 <strong>잘 쓰인 기사</strong>와 같다. 군더더기 없는 문장([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio), [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조(게슈탈트), 독자를 고려한 언어([접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))로 쓰인 기사는 어떤 독자도 쉽게 이해한다.
+**📢 섹션 요약 비유**: 시각화 원칙을 따른 차트는 <strong>잘 쓰인 기사</strong>와 같다. 군더더기 없는 문장(Data-Ink Ratio), 논리적 구조(게슈탈트), 독자를 고려한 언어(접근성)로 쓰인 기사는 어떤 독자도 쉽게 이해한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | 관계 | 설명 |
 |:---|:---|:---|
-| [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio | 핵심 원칙 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잉크 최대화, Chartjunk 제거 |
+| Data-Ink Ratio | 핵심 원칙 | 데이터 잉크 최대화, Chartjunk 제거 |
 | Chartjunk | 제거 대상 | 3D 효과, 그림자, 불필요 격자선 등 |
-| 전주의적 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 설계 도구 | 즉각적 시각 인식을 유발하는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
-| 게슈탈트 원칙 | 설계 기반 | 시각적 [그룹화](/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)·연속성 인식 원리 |
-| WCAG | [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 기준 | 웹 콘텐츠 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침 — 4.5:1 명도 대비 |
-| Viridis | [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 팔레트 | 색맹 안전, 인쇄 구분 가능 연속형 팔레트 |
-| 절단된 Y축 | 거짓 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 0에서 시작하지 않는 막대 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 왜곡 |
+| 전주의적 속성 | 설계 도구 | 즉각적 시각 인식을 유발하는 속성 |
+| 게슈탈트 원칙 | 설계 기반 | 시각적 그룹화·연속성 인식 원리 |
+| WCAG | 접근성 기준 | 웹 콘텐츠 접근성 지침 — 4.5:1 명도 대비 |
+| Viridis | 접근성 팔레트 | 색맹 안전, 인쇄 구분 가능 연속형 팔레트 |
+| 절단된 Y축 | 거짓 시각화 | 0에서 시작하지 않는 막대 그래프 왜곡 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -193,17 +193,6 @@ weight: 161
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- [데이터 시각화](/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/) 원칙은 <strong>지도 그리는 규칙</strong>이에요: 지도가 예쁘게 꾸며져도 실제 거리나 방향이 잘못되면 길을 잃듯, 차트도 예쁘지만 잘못된 것보다 덜 예쁘더라도 정확한 것이 훨씬 가치 있어요.
-- "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잉크 비율"은 "차트의 모든 선과 색은 정보를 전달해야 한다"는 원칙이에요 — 의미 없는 장식은 오히려 중요한 정보를 방해해요.
-- 색맹인 친구도 차트를 이해할 수 있도록 색깔만이 아닌 모양이나 패턴도 함께 쓰는 것이 착한 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 161 / 262
-
-<- **이전**: [160. Microsoft Fabric — One Lake 통합 분석 플랫폼](/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/)
-**다음**: [162. 차트 유형 선택 (Chart Type Selection) — 비교/추세/비율/분포별 적합 차트](/studynote/16_bigdata/08_visualization/162_chart_type_selection/) ->
-
----
+- 데이터 시각화 원칙은 <strong>지도 그리는 규칙</strong>이에요: 지도가 예쁘게 꾸며져도 실제 거리나 방향이 잘못되면 길을 잃듯, 차트도 예쁘지만 잘못된 것보다 덜 예쁘더라도 정확한 것이 훨씬 가치 있어요.
+- "데이터 잉크 비율"은 "차트의 모든 선과 색은 정보를 전달해야 한다"는 원칙이에요 — 의미 없는 장식은 오히려 중요한 정보를 방해해요.
+- 색맹인 친구도 차트를 이해할 수 있도록 색깔만이 아닌 모양이나 패턴도 함께 쓰는 것이 착한 시각화예요.

@@ -146,11 +146,3 @@ weight: 740
 | **탐지 범위** | 의뢰된 스코프 한정 (Black/Grey Box) | TIBER-EU·CBEST 등 시나리오 기반 | In-Scope 자산에 대한 무제한 시간·시도 |
 | **지속성** | 단발성 (2~6주) | 캠페인 단위 (1~3개월) | **연중무휴 24/7** 상시 운영 |
 | **평균 비용** |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 740 / 800
-
-<- **이전**: [739. 레드팀 블루팀 퍼플팀 보안 훈련](/studynote/06_ict_convergence/uncategorized/739_red_team_blue_team_purple_team_security/)
-**다음**: [741. 소프트웨어 정의 모든것 SDx 추상화](/studynote/06_ict_convergence/uncategorized/741_software_defined_everything_sdx_abstraction/) ->
-
----

@@ -6,13 +6,13 @@ tags:
 weight: 48
 ---
 > **핵심 인사이트**
-> 1. [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)([Storage Area Network](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))은 서버와 스토리지 장치를 전용 고속 네트워크로 연결하는 아키텍처 — 일반 IP 네트워크와 분리된 [Fibre Channel](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 또는 [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 전용 망으로 블록 수준 스토리지를 제공하며, 서버가 스토리지를 로컬 디스크처럼 인식한다.
-> 2. SAN의 핵심 가치는 스토리지 통합과 유연한 할당 — 여러 서버가 스토리지 풀을 공유하여 스토리지 활용률을 높이고, 서버 다운 없이 스토리지를 동적으로 재할당할 수 있어 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영 효율을 극대화한다.
-> 3. [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)(네트워크 연결 스토리지)와의 결정적 차이 — SAN은 블록 I/O(OS가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 관리), NAS는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O(스토리지가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 제공). [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 DB·VM은 [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/), [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유는 NAS가 적합하다.
+> 1. SAN(Storage Area Network)은 서버와 스토리지 장치를 전용 고속 네트워크로 연결하는 아키텍처 — 일반 IP 네트워크와 분리된 Fibre Channel 또는 iSCSI 전용 망으로 블록 수준 스토리지를 제공하며, 서버가 스토리지를 로컬 디스크처럼 인식한다.
+> 2. SAN의 핵심 가치는 스토리지 통합과 유연한 할당 — 여러 서버가 스토리지 풀을 공유하여 스토리지 활용률을 높이고, 서버 다운 없이 스토리지를 동적으로 재할당할 수 있어 데이터센터 운영 효율을 극대화한다.
+> 3. NAS(네트워크 연결 스토리지)와의 결정적 차이 — SAN은 블록 I/O(OS가 파일시스템 관리), NAS는 파일 I/O(스토리지가 파일시스템 제공). 성능 중심 DB·VM은 SAN, 파일 공유는 NAS가 적합하다.
 
 ---
 
-## Ⅰ. [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 아키텍처
+## Ⅰ. SAN 아키텍처
 
 ```
 SAN 구성요소:
@@ -50,11 +50,11 @@ Zoning (존 설정):
   보안 + 트래픽 격리
 ```
 
-> 📢 **섹션 요약 비유**: SAN은 스토리지 전용 고속도로 — 일반 도로(IP 네트워크)와 분리된 전용 고속도로([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)). 서버들이 창고(스토리지)를 자기 방 서랍처럼 블록 단위로 사용!
+> 📢 **섹션 요약 비유**: SAN은 스토리지 전용 고속도로 — 일반 도로(IP 네트워크)와 분리된 전용 고속도로(FC). 서버들이 창고(스토리지)를 자기 방 서랍처럼 블록 단위로 사용!
 
 ---
 
-## Ⅱ. [Fibre Channel](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) vs [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/)
+## Ⅱ. Fibre Channel vs iSCSI
 
 ```
 Fibre Channel (FC):
@@ -109,11 +109,11 @@ NVMe-oF (NVMe over Fabrics):
   프로토콜: FC-NVMe, NVMe/TCP, NVMe/RoCE
 ```
 
-> 📢 **섹션 요약 비유**: [FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) vs [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) = 전용 철로 vs 일반 도로 — FC는 KTX 전용 선로([초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 고비용). iSCSI는 일반 도로에 화물트럭(적당한 속도, 저비용). 용도에 맞게!
+> 📢 **섹션 요약 비유**: FC vs iSCSI = 전용 철로 vs 일반 도로 — FC는 KTX 전용 선로(초고속, 고비용). iSCSI는 일반 도로에 화물트럭(적당한 속도, 저비용). 용도에 맞게!
 
 ---
 
-## Ⅲ. [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) vs [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) vs [DAS](/studynote/01_computer_architecture/08_io_storage_systems/339_das/)
+## Ⅲ. SAN vs NAS vs DAS
 
 ```
 3가지 스토리지 아키텍처 비교:
@@ -167,11 +167,11 @@ SAN (Storage Area Network):
   -> 전통적 SAN을 대체하는 추세
 ```
 
-> 📢 **섹션 요약 비유**: [DAS](/studynote/01_computer_architecture/08_io_storage_systems/339_das/)/[NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)/[SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) = 개인 서랍/공용 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)함/전용 창고 — [DAS](/studynote/01_computer_architecture/08_io_storage_systems/339_das/)(내 서랍: 빠르지만 혼자), [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)(공용 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)함: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유), [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)(전용 창고: 블록 단위, 고성능 공유)!
+> 📢 **섹션 요약 비유**: DAS/NAS/SAN = 개인 서랍/공용 파일함/전용 창고 — DAS(내 서랍: 빠르지만 혼자), NAS(공용 파일함: 파일 공유), SAN(전용 창고: 블록 단위, 고성능 공유)!
 
 ---
 
-## Ⅳ. [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 스토리지 통합
+## Ⅳ. SAN 스토리지 통합
 
 ```
 스토리지 통합 (Storage Consolidation):
@@ -215,11 +215,11 @@ HA 구성:
   Linux: DM-Multipath, Windows: MPIO
 ```
 
-> 📢 **섹션 요약 비유**: [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 통합 = 창고 공유 — 회사 부서별 창고([DAS](/studynote/01_computer_architecture/08_io_storage_systems/339_das/)) 대신 큰 공용 창고([SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)). 활용률 30%->70%. 필요할 때 공간 재배분, 서버 꺼지지 않고도 이전!
+> 📢 **섹션 요약 비유**: SAN 통합 = 창고 공유 — 회사 부서별 창고(DAS) 대신 큰 공용 창고(SAN). 활용률 30%->70%. 필요할 때 공간 재배분, 서버 꺼지지 않고도 이전!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 구축
+## Ⅴ. 실무 시나리오 — 데이터센터 SAN 구축
 
 ```
 중견 금융사 SAN 통합 프로젝트:
@@ -265,7 +265,7 @@ Oracle RAC 구성:
   HCI(Nutanix)도 고려했지만 Oracle RAC = SAN 필수
 ```
 
-> 📢 **섹션 요약 비유**: 금융사 [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 구축 = 은행 금고 전용 엘리베이터 — 일반 복도(IP)와 분리된 전용 엘리베이터([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))로 금고([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB) 연결. 속도 5배, 응답 8ms, 무중단 확장!
+> 📢 **섹션 요약 비유**: 금융사 SAN 구축 = 은행 금고 전용 엘리베이터 — 일반 복도(IP)와 분리된 전용 엘리베이터(FC SAN)로 금고(Oracle DB) 연결. 속도 5배, 응답 8ms, 무중단 확장!
 
 ---
 
@@ -328,17 +328,6 @@ S3 API 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) = 스토리지 전용 고속도로 — 일반 도로(인터넷)와 분리된 전용 도로로 창고(스토리지) 연결. 서버가 창고를 자기 서랍처럼 쓸 수 있어요!
-2. [FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) vs [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) = KTX [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) vs 일반도로 — [FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)([초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/), 비쌈) vs [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/)(일반 도로, 저렴). 은행 DB는 KTX, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버는 일반도로!
-3. [LUN](/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) 마스킹 = 창고 열쇠 — 여러 서버가 공유 창고를 써도 각자 자기 칸([LUN](/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/))만 열 수 있어요. 남의 데이터에 못 접근!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 48 / 800
-
-<- **이전**: [047. DLM — 분산 잠금 관리자](/studynote/02_operating_system/01_overview_architecture/047_dlm/)
-**다음**: [049. 클라이언트-서버 — Client-Server Architecture](/studynote/02_operating_system/01_overview_architecture/049_client_server/) ->
-
----
+1. SAN = 스토리지 전용 고속도로 — 일반 도로(인터넷)와 분리된 전용 도로로 창고(스토리지) 연결. 서버가 창고를 자기 서랍처럼 쓸 수 있어요!
+2. FC vs iSCSI = KTX 전용선 vs 일반도로 — FC(초고속 전용선, 비쌈) vs iSCSI(일반 도로, 저렴). 은행 DB는 KTX, 파일 서버는 일반도로!
+3. LUN 마스킹 = 창고 열쇠 — 여러 서버가 공유 창고를 써도 각자 자기 칸(LUN)만 열 수 있어요. 남의 데이터에 못 접근!

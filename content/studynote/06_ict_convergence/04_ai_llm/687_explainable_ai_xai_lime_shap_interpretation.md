@@ -149,11 +149,3 @@ $T$=트리 수, $L$=리프 수, $D$=깊이. XGBoost/LightGBM/CatBoost 등 트리
 | :--- | :--- | :--- |
 | **Interpretable Representation $x'$** | 원본->해석가능 공간 변환 | Tabular: 0/1 존재벡터 / Text: TF-IDF 단어 존재 / Image: super-pixel mask (Quickshift, Felzenszwalb) |
 | **Perturbation / Sampling Engine** | 국소 영역 샘플 생성 | LIME: 0/1 마스킹 노이즈
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 687 / 800
-
-<- **이전**: [686. 자연어 생성 보고서 자동화 인사이트](/studynote/06_ict_convergence/uncategorized/686_nlg_report_automation_insight_generation/)
-**다음**: [688. 인과 추론 도구 변수 반사실 분석](/studynote/06_ict_convergence/uncategorized/688_causal_inference_instrumental_counterfactual/) ->
-
----

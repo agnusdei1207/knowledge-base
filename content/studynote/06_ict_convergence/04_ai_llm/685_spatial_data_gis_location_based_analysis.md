@@ -152,11 +152,3 @@ weight: 685
 | :--- | :--- | :--- |
 | **공간 인덱스 엔진** | 수십억 건의 지오메트리 객체 검색 가속화 | PostGIS GiST(Generalized Search Tree) 기반 R-Tree: MBR(Minimum Bounding Rectangle)로 공간을 계층적 분할, MBR로 1차 필터링 후 Exact 검사로 2단계 필터링, 근접 질의 시 ST_DWithin 인덱스 활용. R*-Tree는 노드 분할 시 면적·둘레·오버랩 최소화 휴리스틱 적용. |
 |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 685 / 800
-
-<- **이전**: [684. 그래프 분석 소셜 네트워크 중심성](/studynote/06_ict_convergence/uncategorized/684_graph_analysis_social_network_centrality/)
-**다음**: [686. 자연어 생성 보고서 자동화 인사이트](/studynote/06_ict_convergence/uncategorized/686_nlg_report_automation_insight_generation/) ->
-
----

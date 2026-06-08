@@ -15,11 +15,11 @@ weight: 324
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 국제 인터넷 표준화 기구([IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))가 IPv4의 고갈 문제를 근본적으로 해결하기 위해 1998년에 제정한 128비트 길이의 차세대 인터넷 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격 (RFC 2460, 현재 8200).
-- **필요성**: IPv4는 43억 개의 주소밖에 없었다. 공유기([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 써서 하나의 공인 IP에 100대의 스마트폰이 숨어 사는 꼼수로 수십 년을 버텼다. 하지만 NAT를 쓰면 밖에서 안으로 직접 치고 들어가는 통신([P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/), 서버 호스팅, VoIP)이 방화벽에 막혀 너무나도 끔찍하게 복잡해진다(STUN, TURN 등 낭비 발생). "아 꼼수 그만 쓰고, 전 세계 모든 먼지 한 알에까지 진짜 IP를 줘서 어디서든 1:1로 뚫리게 만들자!"라는 원초적인 갈증이 IPv6를 탄생시켰다.
+- **개념**: 국제 인터넷 표준화 기구(IETF)가 IPv4의 고갈 문제를 근본적으로 해결하기 위해 1998년에 제정한 128비트 길이의 차세대 인터넷 프로토콜 규격 (RFC 2460, 현재 8200).
+- **필요성**: IPv4는 43억 개의 주소밖에 없었다. 공유기(NAT)를 써서 하나의 공인 IP에 100대의 스마트폰이 숨어 사는 꼼수로 수십 년을 버텼다. 하지만 NAT를 쓰면 밖에서 안으로 직접 치고 들어가는 통신(P2P, 서버 호스팅, VoIP)이 방화벽에 막혀 너무나도 끔찍하게 복잡해진다(STUN, TURN 등 낭비 발생). "아 꼼수 그만 쓰고, 전 세계 모든 먼지 한 알에까지 진짜 IP를 줘서 어디서든 1:1로 뚫리게 만들자!"라는 원초적인 갈증이 IPv6를 탄생시켰다.
 
 - **💡 비유**:
-  - <strong><a href="/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a></strong>: 번호판 자릿수가 4자리밖에 없어서 온 동네가 "강남 1234", "강동 1234"처럼 <strong>'지역+번호(<a href="/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)' 꼼수</strong>를 써서 억지로 차를 굴리는 구형 번호판 체계.
+  - <strong>IPv4</strong>: 번호판 자릿수가 4자리밖에 없어서 온 동네가 "강남 1234", "강동 1234"처럼 <strong>'지역+번호(NAT)' 꼼수</strong>를 써서 억지로 차를 굴리는 구형 번호판 체계.
   - **IPv6**: 번호판 자릿수를 아예 30자리로 늘려버려서, **우주 전체에 똑같은 번호판이 단 1개도 존재하지 않게 만든 궁극의 바코드 시스템**.
 
 ```text
@@ -31,7 +31,7 @@ weight: 324
     +---> [IPv6 단순화된 헤더]
 ```
 
-- **📢 섹션 요약 비유**: <strong> IPv6는 인구가 폭발해 4자리 우편번호(<a href="/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a>)가 바닥나자, 정부가 </strong>"어차피 바꾸는 김에 우편번호를 30자리로 늘려서, 건물 단위가 아니라 건물 안에 있는 책상 서랍마다 각자 고유한 우편번호를 부여하자!"**라고 선언한 우주 스케일의 대공사입니다.
+- **📢 섹션 요약 비유**: <strong> IPv6는 인구가 폭발해 4자리 우편번호(IPv4)가 바닥나자, 정부가 </strong>"어차피 바꾸는 김에 우편번호를 30자리로 늘려서, 건물 단위가 아니라 건물 안에 있는 책상 서랍마다 각자 고유한 우편번호를 부여하자!"**라고 선언한 우주 스케일의 대공사입니다.
 
 ---
 
@@ -48,14 +48,14 @@ weight: 324
 ### 2. 주소의 3대 타입 (브로드캐스트의 멸망)
 IPv6는 IPv4의 쓰레기 같은 점들을 치워버렸다. 가장 중요한 것은 <strong>동네를 시끄럽게 하던 확성기 방송(Broadcast)을 완전히 삭제해 버렸다는 점</strong>이다.
 - **유니캐스트 (Unicast, 1:1)**: 정확히 한 놈에게만 보낸다. (Global Unicast `2000::/3`, Link-Local `fe80::/10`)
-- <strong><a href="/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> (Multicast, 1:N)</strong>: 듣고 싶은(구독한) 놈들에게만 뿌린다. 브로드캐스트의 역할을 이 녀석이 전부 대체했다. (`ff00::/8`)
+- <strong>멀티캐스트 (Multicast, 1:N)</strong>: 듣고 싶은(구독한) 놈들에게만 뿌린다. 브로드캐스트의 역할을 이 녀석이 전부 대체했다. (`ff00::/8`)
 - **애니캐스트 (Anycast, 1:가장 가까운 1)**: 여러 서버가 같은 IP를 쓴다. 내가 쏘면 그중 <strong>지리적으로 나랑 제일 가까운(가장 Cost가 짧은) 서버 딱 한 대</strong>가 받아서 응답해 주는 클라우드 시대 최고의 통신법.
 
-### 3. 무상태 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) ([SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))의 마법
-[IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 환경에서 IP를 자동으로 받으려면 무조건 [DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버(공유기)가 있어야 했다.
-IPv6는 <strong><a href="/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a> (<a href="/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">Stateless Address Autoconfiguration</a>)</strong> 기능을 내장하고 있다.
-- PC에 랜선을 꽂으면 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 스스로 자기 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 반으로 쪼개서 `FF:FE`를 중간에 쑤셔 넣는 마법([EUI-64](/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)을 부려 <strong>혼자서 완벽하게 고유한 IPv6 주소를 자동 창조</strong>해 낸다.
-- 그런 다음 라우터에게 "이 동네 앞자리 번호(Prefix)가 뭐죠?"라고 물어보고(RS/[RA](/studynote/09_security/03_network_security/161_ra_registration_authority/)), 라우터가 "응, 여기 앞자리는 `2001:db8::` 이야"라고 대답하면 그걸 합쳐서 0.1초 만에 풀 공인 IP 세팅을 스스로 마친다. 공유기([DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))가 할 일이 아예 사라진다.
+### 3. 무상태 자동 설정 (SLAAC)의 마법
+IPv4 환경에서 IP를 자동으로 받으려면 무조건 DHCP 서버(공유기)가 있어야 했다.
+IPv6는 <strong>SLAAC (Stateless Address Autoconfiguration)</strong> 기능을 내장하고 있다.
+- PC에 랜선을 꽂으면 PC 스스로 자기 MAC 주소를 반으로 쪼개서 `FF:FE`를 중간에 쑤셔 넣는 마법(EUI-64 방식)을 부려 <strong>혼자서 완벽하게 고유한 IPv6 주소를 자동 창조</strong>해 낸다.
+- 그런 다음 라우터에게 "이 동네 앞자리 번호(Prefix)가 뭐죠?"라고 물어보고(RS/RA), 라우터가 "응, 여기 앞자리는 `2001:db8::` 이야"라고 대답하면 그걸 합쳐서 0.1초 만에 풀 공인 IP 세팅을 스스로 마친다. 공유기(DHCP)가 할 일이 아예 사라진다.
 
 ```text
  +-------------------------------------------------------------+
@@ -76,7 +76,7 @@ IPv6는 <strong><a href="/studynote/03_network/06_network_layer_ip/331_slaac_sta
  +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: ** IPv6는 128비트라는 **"무한한 잉크"<strong>를 바탕으로, 시끄러운 동네 방송(브로드캐스트)을 끄고, 공유기라는 귀찮은 중개업자(<a href="/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a>, <a href="/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)를 모조리 해고한 뒤, </strong>기계들이 전원만 켜면 알아서 자기 신분증([SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))을 뚝딱 만들어 전 세계와 직통 전화([P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))를 거는 진정한 플러그 앤 플레이(Plug & Play)의 완성작**입니다.
+- **📢 섹션 요약 비유**: ** IPv6는 128비트라는 **"무한한 잉크"<strong>를 바탕으로, 시끄러운 동네 방송(브로드캐스트)을 끄고, 공유기라는 귀찮은 중개업자(DHCP, NAT)를 모조리 해고한 뒤, </strong>기계들이 전원만 켜면 알아서 자기 신분증(SLAAC)을 뚝딱 만들어 전 세계와 직통 전화(P2P)를 거는 진정한 플러그 앤 플레이(Plug & Play)의 완성작**입니다.
 
 ---
 
@@ -88,7 +88,7 @@ IPv6를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 |:---|:---|:---|:---|
 | 초점 | Redirect 메시지의 기반 정리 | IPv6의 핵심 동작 | IPv6 단순화된 헤더의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: IPv6는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -98,16 +98,16 @@ IPv6를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 실무에서는 IPv6를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 Redirect 메시지 수준의 기본 대책으로 충분한지, 아니면 IPv6가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 IPv6 단순화된 헤더와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. IPv6가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. IPv6가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
 3. 도입 후에는 인접 기술인 IPv6 단순화된 헤더와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - IPv6의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- Redirect 메시지와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- Redirect 메시지와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: IPv6를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -126,7 +126,7 @@ IPv6는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 | 개념 | 연결 포인트 |
 |:---|:---|
 | Redirect 메시지 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
+| IP 주소 (Internet Protocol Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
 | IPv6 단순화된 헤더 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
@@ -149,14 +149,3 @@ IPv6는 Redirect 메시지에서 출발해 현재 메커니즘을 정교화하�
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 445 / 1120
-
-<- **이전**: [323. Redirect 메시지](/studynote/03_network/06_network_layer_ip/323_redirect_message_better_route_notification/)
-**다음**: [325. IPv6 단순화된 헤더](/studynote/03_network/06_network_layer_ip/325_ipv6_simplified_header_40bytes_no_checksum_no_fragmentation/) ->
-
----

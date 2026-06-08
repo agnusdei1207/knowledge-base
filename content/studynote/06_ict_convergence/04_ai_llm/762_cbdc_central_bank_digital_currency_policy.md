@@ -141,11 +141,3 @@ CBDC 시스템은 **발행·유통·결제·환매(상환)** 4계층 책임 모�
 - HSM 펌웨어 업데이트로 무중단 전환 필요 (Thales/PKI/Fortanix)
 
 - **📢 섹션 요약 비유**: "CBDC 시스템은 **공항 4단 구조**와 같다. 1층은 **관제탑**(중앙은행 코어, BFT
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 762 / 800
-
-<- **이전**: [761. NFT 디지털 자산 토큰화 소유권](/studynote/06_ict_convergence/uncategorized/761_nft_digital_asset_tokenization_ownership/)
-**다음**: [763. 오픈 뱅킹 마이데이터 API 생태계](/studynote/06_ict_convergence/uncategorized/763_open_banking_mydata_api_ecosystem/) ->
-
----

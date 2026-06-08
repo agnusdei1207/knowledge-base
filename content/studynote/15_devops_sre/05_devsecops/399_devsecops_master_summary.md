@@ -121,14 +121,3 @@ DevSecOps 기술사 핵심 통합 요약 마스터 맵을(를) 체계적으로 �
 1. DevSecOps 기술사 핵심 통합 요약 마스터 맵은(는) 물건을 만들 때 마지막에만 검사하지 않고 만드는 동안 계속 안전을 확인하는 방법이에요.
 2. 문제가 작을 때 바로 찾으면 고치기 쉽고 사고도 줄어들어요.
 3. 좋은 DevSecOps는 빠르게 만들면서도 안전 규칙을 계속 지키게 해줘요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 399 / 400
-
-<- **이전**: [398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)](/studynote/15_devops_sre/05_devsecops/398_devsecops_maturity_model/)
-**다음**: [400. 400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform 엔진ering Master Map)](/studynote/15_devops_sre/05_devsecops/400_devops/) ->
-
----

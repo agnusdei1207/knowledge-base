@@ -6,20 +6,20 @@ tags:
   - "studynote-algorithm-stats"
 weight: 24
 ---
-# 16. 선택 정렬 ([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Sort)
+# 16. 선택 정렬 (Selection Sort)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 선택 정렬([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Sort)은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 선형 탐색하여 아직 정렬되지 않은 부분에서 가장 작은 원소를 찾아 정렬 완료 영역의 끝에 배치하는 작업을 반복하는 O(N^) 제자리(In-place) 정렬 알고리즘이다.
+> 1. **본질**: 선택 정렬(Selection Sort)은 배열을 선형 탐색하여 아직 정렬되지 않은 부분에서 가장 작은 원소를 찾아 정렬 완료 영역의 끝에 배치하는 작업을 반복하는 O(N^) 제자리(In-place) 정렬 알고리즘이다.
 > 2. **가치**: 교환(Swap) 횟수가 최소한이라는 장점이 있지만, 불안정 정렬(Unstable Sort)이므로 동일 값의 상대적 순서가 중요한 경우 사용이 제한된다.
-> 3. **융합**: 선택 정렬의 "최솟값 탐색"이라는 핵심 아이디어는 [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)([Heap Sort](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/))의 구조적 기초가 되어 O(N^)에서 O(N log N)으로 성능을 향상시키는 기반이 된다.
+> 3. **융합**: 선택 정렬의 "최솟값 탐색"이라는 핵심 아이디어는 힙 정렬(Heap Sort)의 구조적 기초가 되어 O(N^)에서 O(N log N)으로 성능을 향상시키는 기반이 된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-선택 정렬([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Sort)은 컴퓨터 과학에서 가장 직관적이고 단순한 형태의 비교 기반 정렬 알고리즘이다. [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 순회하며 가장 작은 원소를 찾아 제자리에 위치시키는 과정을 반복한다. 현대의 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시스템에서는 O(N^)의 시간 복잡도를 가지는 이 알고리즘이 거의 사용되지 않지만, 알고리즘의 발전 역사를 이해하는 데 필수적인 기준점을 제공한다.
+선택 정렬(Selection Sort)은 컴퓨터 과학에서 가장 직관적이고 단순한 형태의 비교 기반 정렬 알고리즘이다. 배열을 순회하며 가장 작은 원소를 찾아 제자리에 위치시키는 과정을 반복한다. 현대의 대규모 데이터 처리 시스템에서는 O(N^)의 시간 복잡도를 가지는 이 알고리즘이 거의 사용되지 않지만, 알고리즘의 발전 역사를 이해하는 데 필수적인 기준점을 제공한다.
 
-이 알고리즘이 여전히 학술적, 실무적 필요성을 가지는 이유는 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 교환(Swap) 횟수의 최소화</strong>라는 고유한 특성 때문이다. 플래시 메모리와 같이 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 횟수에 물리적인 수명이 존재하거나, 한 번의 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 연산이 읽기 연산에 비해 압도적으로 많은 전력과 시간을 소모하는 임베디드 하드웨어 환경에서는 선택 정렬이 다른 O(N^) 알고리즘보다 유리한 선택지가 될 수 있다.
+이 알고리즘이 여전히 학술적, 실무적 필요성을 가지는 이유는 <strong>데이터 교환(Swap) 횟수의 최소화</strong>라는 고유한 특성 때문이다. 플래시 메모리와 같이 쓰기 횟수에 물리적인 수명이 존재하거나, 한 번의 쓰기 연산이 읽기 연산에 비해 압도적으로 많은 전력과 시간을 소모하는 임베디드 하드웨어 환경에서는 선택 정렬이 다른 O(N^) 알고리즘보다 유리한 선택지가 될 수 있다.
 
 > 이 도식은 선택 정렬의 작동을 보여준다.
 
@@ -63,7 +63,7 @@ weight: 24
 
 선택 정렬의 핵심 특성은 <strong>불안정성(Unstable Sort)</strong>이다. 동일 값 가진 원소가 두 개 이상 있을 때, 타문 사이의 상대적 순서가 정렬 후 변경될 수 있다. 이것은 멀리 떨어진 원소끼리 직접 교환(Swap)하기 때문이다.
 
-**불안정성의 예시**: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) `[{A:5, idx:0}, {A:5, idx:1}, {A:3}]`에서 값이 5인 두 요소의 원래 순서는 A가 B보다 앞이었다. 선택 정렬에서 5와 3을 교환할 때 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 0과 2가 교환되면, 결과에서 A와 B의 순서가 뒤집힐 수 있다.
+**불안정성의 예시**: 배열 `[{A:5, idx:0}, {A:5, idx:1}, {A:3}]`에서 값이 5인 두 요소의 원래 순서는 A가 B보다 앞이었다. 선택 정렬에서 5와 3을 교환할 때 인덱스 0과 2가 교환되면, 결과에서 A와 B의 순서가 뒤집힐 수 있다.
 
 ```text
 [불안정성 (Unstability) 설명]
@@ -102,7 +102,7 @@ weight: 24
 
 선택 정렬의 실무 적용은 제한적이다. **대용량 레코드 정렬**: 레코드 크기가 매우 커서 교환 비용이 비교 비용보다 훨씬 큰 경우, 선택 정렬의 최소 교환 특성이 유용할 수 있다. 그러나 이러한 상황은 매우 드물다.
 
-<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 주의사항</strong>: 일반적인 상황에서 선택 정렬은 다른 O(N^) 알고리즘보다 성능이 낮다. 안정성이 중요한 경우에는 절대 사용하지 않는다.
+<strong>안티패턴 및 주의사항</strong>: 일반적인 상황에서 선택 정렬은 다른 O(N^) 알고리즘보다 성능이 낮다. 안정성이 중요한 경우에는 절대 사용하지 않는다.
 
 ```text
 [선택 정렬 의사코드]
@@ -133,9 +133,9 @@ weight: 24
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-선택 정렬의 품질 관리에서 가장 중요한 것은 <strong>불안정성으로 인한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 순서 변화</strong>이다. 동일 값을 가진 요소들의 순서가 지켜져야 하는 경우에는 선택 정렬을 사용하면 안 된다.
+선택 정렬의 품질 관리에서 가장 중요한 것은 <strong>불안정성으로 인한 데이터 순서 변화</strong>이다. 동일 값을 가진 요소들의 순서가 지켜져야 하는 경우에는 선택 정렬을 사용하면 안 된다.
 
-<strong>품질 관리 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 동일 값을 가진 요소들의 순서가 중요한 경우에는 안정 정렬(합병, 삽입, [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/))을 사용해야 한다. 교환 횟수보다 비교 횟수가 성능을 좌우하는 일반적인 상황에서는 [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 선택 정렬보다 우수하다.
+<strong>품질 관리 체크리스트</strong>: 동일 값을 가진 요소들의 순서가 중요한 경우에는 안정 정렬(합병, 삽입, Timsort)을 사용해야 한다. 교환 횟수보다 비교 횟수가 성능을 좌우하는 일반적인 상황에서는 삽입 정렬이 선택 정렬보다 우수하다.
 
 📢 **섹션 요약 비유**: 선택 정렬의품질 관리는 twin 학생의 순서를 중요시하는 줄서기에서, "형제를불재호에서 그냥 빨리 세워"라는 명령을 내리는 것과 같습니다.
 
@@ -143,15 +143,15 @@ weight: 24
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-선택 정렬의 최신 동향은 거의 없으나, 그 "최소 교환" 특성은 다른 알고리즘의 설계에 영감을 주고 있다. <strong><a href="/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/">힙 정렬</a></strong>은 선택 정렬의 "최솟값 반복 탐색" 아이디어를 힙 자료구조를 통해 O(N log N)으로 최적화했다.
+선택 정렬의 최신 동향은 거의 없으나, 그 "최소 교환" 특성은 다른 알고리즘의 설계에 영감을 주고 있다. <strong>힙 정렬</strong>은 선택 정렬의 "최솟값 반복 탐색" 아이디어를 힙 자료구조를 통해 O(N log N)으로 최적화했다.
 
-선택 정렬은 교육적 가치를 제외하고는 실질적인 활용도가 낮은 알고리즘이다. 그러나 그 의의는 "최소 교환 정렬"이라는 개념을 확립하여 [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 이론적 기초가 되었다는 점에 있다.
+선택 정렬은 교육적 가치를 제외하고는 실질적인 활용도가 낮은 알고리즘이다. 그러나 그 의의는 "최소 교환 정렬"이라는 개념을 확립하여 힙 정렬의 이론적 기초가 되었다는 점에 있다.
 
 📢 **섹션 요약 비유**: 선택 정렬은 오래된 자전거와 같습니다. 지금은 누구도 그 자전거로경새하지 않지만, 현대 자전거의기본구조원리를 설명하기 위해서는 반드시 한 번쯤 살펴봐야 합니다.
 
 ---
 
-## 핵심 인사이트 [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
+## 핵심 인사이트 ASCII 다이어그램 (Concept Map)
 
 ```text
 [선택 정렬 (Selection Sort) 핵심 개념 맵]
@@ -179,10 +179,10 @@ weight: 24
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">버블 정렬</a> (<a href="/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">Bubble Sort</a>)</strong> | 인접 교환 방식의 O(N^) 안정 정렬, 선택 정렬의 비교 대상 |
-| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/">삽입 정렬</a> (<a href="/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/">Insertion Sort</a>)</strong> | 거의 정렬된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 O(N)에 수렴하는 O(N^) 안정 정렬 |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/">힙 정렬</a> (<a href="/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/">Heap Sort</a>)</strong> | 선택 정렬의 "최솟값 반복 탐색" 아이디어를 힙으로 O(N log N)에 구현한 발전형 |
-| **안정 정렬 (Stable Sort)** | 동일 키 사이의 원래 순서를 보존하는 정렬 특성, 선택 정렬이 결여하는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
+| <strong>버블 정렬 (Bubble Sort)</strong> | 인접 교환 방식의 O(N^) 안정 정렬, 선택 정렬의 비교 대상 |
+| <strong>삽입 정렬 (Insertion Sort)</strong> | 거의 정렬된 데이터에서 O(N)에 수렴하는 O(N^) 안정 정렬 |
+| <strong>힙 정렬 (Heap Sort)</strong> | 선택 정렬의 "최솟값 반복 탐색" 아이디어를 힙으로 O(N log N)에 구현한 발전형 |
+| **안정 정렬 (Stable Sort)** | 동일 키 사이의 원래 순서를 보존하는 정렬 특성, 선택 정렬이 결여하는 속성 |
 | **제자리 정렬 (In-place Sort)** | 추가 메모리 O(1)만 사용하는 정렬, 선택 정렬의 장점 중 하나 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -202,28 +202,17 @@ weight: 24
     v
 [퀵 정렬 / 병합 정렬 — 분할 정복 O(N log N), 실용 최고 성능]
 ```
-이 흐름은 단순하지만 교환 횟수가 최소인 선택 정렬의 "최솟값 반복 탐색" 핵심 아이디어가 힙 자료구조를 통해 O(N log N) [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 계승되는 O(N^) 정렬 군의 발전과 그 이론적 의의를 보여준다.
+이 흐름은 단순하지만 교환 횟수가 최소인 선택 정렬의 "최솟값 반복 탐색" 핵심 아이디어가 힙 자료구조를 통해 O(N log N) 힙 정렬로 계승되는 O(N^) 정렬 군의 발전과 그 이론적 의의를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 선택 정렬은 학생들이 줄을 설 때, 전체 줄에서 키가 가장 작은 친구를 찾아 맨 앞에 세우는 작업을 반복하는 거예요.
 2. 매번 줄 전체를 눈으로 훑어봐야 하니 사람이 많아질수록 엄청 오래 걸리지만, 자리를 바꾸는 횟수는 딱 N-1번밖에 안 돼서 자리 이동이 힘든 상황에서는 유리해요.
-3. 이 "가장 작은 것 반복 선택" 아이디어가 나중에 훨씬 빠른 [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 할아버지 개념이 된답니다!
+3. 이 "가장 작은 것 반복 선택" 아이디어가 나중에 훨씬 빠른 힙 정렬의 할아버지 개념이 된답니다!
 
 ## 참고
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 24 / 175
-
-<- **이전**: [15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)
-**다음**: [16. 정렬 알고리즘 비교 — 시간/공간/안정성/적합 환경](/studynote/08_algorithm_stats/02_sorting/025_sort_comparison/) ->
-
----
+- 최소 800자/파일
+- 파일명: 01_, 02_... 형식

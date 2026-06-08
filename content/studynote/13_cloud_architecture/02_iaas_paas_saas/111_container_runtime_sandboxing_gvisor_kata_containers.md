@@ -6,15 +6,15 @@ tags:
 weight: 111
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 기본 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([runc](/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))는 호스트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하므로 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 취약점을 통한 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 탈출(<a href="/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/">Container Escape</a>)</strong> 위험이 있다. [샌드박싱](/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 런타임은 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 접근을 차단하는 추가 격리 계층</strong>을 삽입하여 보안을 강화한다.
-> 2. **가치**: gVisor는 <strong>유저 스페이스 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(Sentry)</strong>로 시스콜을 중간 차단하고, Kata Containers는 <strong>경량 <a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 안에 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 격리</strong>하여, [멀티테넌트](/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서 <strong>워크로드 간 완벽 격리</strong>를 달성한다.
-> 3. **판단 포인트**: gVisor는 <strong>시스콜 <a href="/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 제한+<a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 오버헤드 5~15%</strong>, Kata는 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 부팅 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>+메모리 오버헤드</strong>라는 트레이드오프가 있으며, <strong>신뢰할 수 없는 코드(<a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> Runner, <a href="/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a>)</strong> 실행 시 도입을 검토한다.
+> 1. **본질**: 기본 컨테이너(runc)는 호스트 커널을 공유하므로 <strong>커널 취약점을 통한 컨테이너 탈출(Container Escape)</strong> 위험이 있다. 샌드박싱 런타임은 <strong>커널 접근을 차단하는 추가 격리 계층</strong>을 삽입하여 보안을 강화한다.
+> 2. **가치**: gVisor는 <strong>유저 스페이스 커널(Sentry)</strong>로 시스콜을 중간 차단하고, Kata Containers는 <strong>경량 VM 안에 컨테이너를 격리</strong>하여, 멀티테넌트 환경에서 <strong>워크로드 간 완벽 격리</strong>를 달성한다.
+> 3. **판단 포인트**: gVisor는 <strong>시스콜 호환성 제한+성능 오버헤드 5~15%</strong>, Kata는 <strong>VM 부팅 지연+메모리 오버헤드</strong>라는 트레이드오프가 있으며, <strong>신뢰할 수 없는 코드(CI Runner, FaaS)</strong> 실행 시 도입을 검토한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기본 [컨테이너 런타임](/studynote/02_operating_system/10_security/628_container_runtime_oci/)([runc](/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))은 [Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/)·cgroups로 프로세스를 격리하지만, <strong>호스트 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>을 직접 공유</strong>한다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [제로데이](/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점이 발생하면 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안의 악성 코드가 호스트 전체를 장악할 수 있다([Container Escape](/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/)).
+기본 컨테이너 런타임(runc)은 Namespace·cgroups로 프로세스를 격리하지만, <strong>호스트 커널을 직접 공유</strong>한다. 커널에 제로데이 취약점이 발생하면 컨테이너 안의 악성 코드가 호스트 전체를 장악할 수 있다(Container Escape).
 
 ```text
 +-------------------------------------------------------+
@@ -40,25 +40,25 @@ weight: 111
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| 런타임 | 격리 방식 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공유 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 | [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) |
+| 런타임 | 격리 방식 | 커널 공유 | 성능 오버헤드 | 호환성 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/">runc</a></strong> | [Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/)+[cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) | 공유 | 거의 없음 | 100% |
-| **gVisor** | 유저 스페이스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Sentry) | **차단** | 5~15% | 제한 (200+ syscall) |
-| **Kata** | 경량 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) (Firecracker) | <strong>게스트 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a></strong> | 부팅 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)+메모리 | 높음 |
+| <strong>runc</strong> | Namespace+cgroups | 공유 | 거의 없음 | 100% |
+| **gVisor** | 유저 스페이스 커널 (Sentry) | **차단** | 5~15% | 제한 (200+ syscall) |
+| **Kata** | 경량 VM (Firecracker) | <strong>게스트 커널</strong> | 부팅 지연+메모리 | 높음 |
 
 ### gVisor 동작 원리
-앱이 `open()` 시스콜을 호출하면, 호스트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 직접 가지 않고 <strong>Sentry(유저 스페이스 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong>가 가로채어 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 제한적으로 호스트에 전달한다. 악성 시스콜은 Sentry에서 차단된다.
+앱이 `open()` 시스콜을 호출하면, 호스트 커널에 직접 가지 않고 <strong>Sentry(유저 스페이스 커널)</strong>가 가로채어 검증 후 제한적으로 호스트에 전달한다. 악성 시스콜은 Sentry에서 차단된다.
 
-- **📢 섹션 요약 비유**: gVisor는 회사 메일 시스템이다. 직원([컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))이 외부에 메일(시스콜)을 보내면, 보안팀(Sentry)이 검열한 후 통과시킨다.
+- **📢 섹션 요약 비유**: gVisor는 회사 메일 시스템이다. 직원(컨테이너)이 외부에 메일(시스콜)을 보내면, 보안팀(Sentry)이 검열한 후 통과시킨다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 기본 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | gVisor | Kata |
+| 비교 | 기본 컨테이너 | VM | gVisor | Kata |
 |:---|:---|:---|:---|:---|
 | **격리** | 약함 | 강함 | **중간~강함** | **강함 (VM급)** |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 최고 | 낮음 | 중간 | 중간 |
+| <strong>성능</strong> | 최고 | 낮음 | 중간 | 중간 |
 | **부팅** | ms | 수 초 | ms | **< 100ms (Firecracker)** |
 | **밀도** | 최고 | 낮음 | 높음 | 중간 |
 
@@ -67,24 +67,24 @@ weight: 111
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 시나리오
-1. <strong><a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD Runner</strong>: 사용자 제출 코드를 빌드 -> gVisor 격리로 악성 코드 차단.
-2. <strong><a href="/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> (<a href="/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a>)</strong>: [멀티테넌트](/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 함수 실행 -> Firecracker (Kata 기반) 격리.
-3. **일반 워크로드**: 신뢰 가능한 내부 앱 -> [runc](/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) 유지 ([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우선).
+1. <strong>CI/CD Runner</strong>: 사용자 제출 코드를 빌드 -> gVisor 격리로 악성 코드 차단.
+2. <strong>FaaS (Lambda)</strong>: 멀티테넌트 함수 실행 -> Firecracker (Kata 기반) 격리.
+3. **일반 워크로드**: 신뢰 가능한 내부 앱 -> runc 유지 (성능 우선).
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **모든 파드를 gVisor로 실행**: 시스콜 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제로 일부 앱 오작동 -> [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높은 내부 앱에는 불필요.
+### 안티패턴
+- **모든 파드를 gVisor로 실행**: 시스콜 호환성 문제로 일부 앱 오작동 -> 신뢰도 높은 내부 앱에는 불필요.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 지표 | [runc](/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) (기본) | gVisor / Kata | 개선 |
+| 지표 | runc (기본) | gVisor / Kata | 개선 |
 |:---|:---|:---|:---|
-| [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 탈출 위험 | 높음 | **차단/격리** | 보안 강화 |
-| [멀티테넌트](/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 격리 | 약함 | **강함** | 규정 준수 |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 최고 | 5~15% 오버헤드 | 트레이드오프 |
+| 컨테이너 탈출 위험 | 높음 | **차단/격리** | 보안 강화 |
+| 멀티테넌트 격리 | 약함 | **강함** | 규정 준수 |
+| 성능 | 최고 | 5~15% 오버헤드 | 트레이드오프 |
 
-[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [샌드박싱](/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)은 [Confidential Computing](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)([기밀 컴퓨팅](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/))과 결합하여 하드웨어 [TEE](/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)) 내에서 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행하는 방향으로 진화하고 있다.
+컨테이너 샌드박싱은 Confidential Computing(기밀 컴퓨팅)과 결합하여 하드웨어 TEE(Trusted Execution Environment) 내에서 컨테이너를 실행하는 방향으로 진화하고 있다.
 
 ---
 
@@ -92,11 +92,11 @@ weight: 111
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/">runc</a></strong> | [OCI](/studynote/13_cloud_architecture/05_data_engineering/333_process/) 표준 기본 [컨테이너 런타임](/studynote/02_operating_system/10_security/628_container_runtime_oci/) |
-| **gVisor (runsc)** | Google의 유저 스페이스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 샌드박스 |
-| **Kata Containers** | 경량 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 기반 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리 |
+| <strong>runc</strong> | OCI 표준 기본 컨테이너 런타임 |
+| **gVisor (runsc)** | Google의 유저 스페이스 커널 샌드박스 |
+| **Kata Containers** | 경량 VM 기반 컨테이너 격리 |
 | **Firecracker** | AWS Lambda가 사용하는 마이크로VM |
-| <strong><a href="/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/">Container Escape</a></strong> | [샌드박싱](/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)이 방지하려는 공격 벡터 |
+| <strong>Container Escape</strong> | 샌드박싱이 방지하려는 공격 벡터 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -117,17 +117,6 @@ weight: 111
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 보통 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([runc](/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))는 교실 <strong>칸막이</strong>로 나뉜 거예요. 칸막이를 넘으면 옆 자리를 볼 수 있죠.
+1. 보통 컨테이너(runc)는 교실 <strong>칸막이</strong>로 나뉜 거예요. 칸막이를 넘으면 옆 자리를 볼 수 있죠.
 2. gVisor는 <strong>유리벽</strong>이에요. 보이지만 넘어갈 수 없어요.
 3. Kata는 아예 <strong>다른 건물</strong>로 분리해서, 절대 옆 교실에 갈 수 없게 만든답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 110 / 371
-
-<- **이전**: [110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략](/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/)
-**다음**: [112. 서버리스 K8s (Serverless Kubernetes) - AWS Fargate·Azure ACI·Virtual Kubelet](/studynote/13_cloud_architecture/07_container_k8s/112_serverless_kubernetes_fargate/) ->
-
----

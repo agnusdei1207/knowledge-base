@@ -167,11 +167,3 @@ $$L_{total} = \alpha L_{NER} + \beta L_{Sentiment} + \gamma L_{Sum} + \lambda \|
 | **출력 형태** | 원문 문장 그대로 발췌 | 새로운 문장 생성 |
 | **Faithfulness** | 높음 (환각 없음) | 낮음 (환각 위험) |
 | **유창성** | 원문
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 666 / 800
-
-<- **이전**: [665. 이상 탐지 비지도 학습 오토인코더](/studynote/06_ict_convergence/uncategorized/665_anomaly_detection_unsupervised_autoencoder/)
-**다음**: [667. 컴퓨터 비전 객체 탐지 세그멘테이션](/studynote/06_ict_convergence/uncategorized/667_computer_vision_object_detection_segmentation/) ->
-
----

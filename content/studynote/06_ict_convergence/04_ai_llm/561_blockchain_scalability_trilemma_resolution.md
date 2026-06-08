@@ -110,12 +110,3 @@ Core flow: Shard -> Rollup -> DA -> Light Client -> Settlement
 | 오라클 | 외부 세계와 온체인 상태를 연결하는 신뢰 경계 |
 | 거버넌스 | 업그레이드, 파라미터, 분쟁 해결을 담당하는 운영 체계 |
 | 보안 감사 | 배포 전 취약점과 운영 리스크를 줄이는 필수 절차 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 561 / 800
-
-<- **이전**: [560. 합의 알고리즘 PoS PoA BFT 비교](/studynote/06_ict_convergence/uncategorized/560_consensus_algorithm_pos_poa_bft_comparison/)
-**다음**: [562. 스마트 계약 보안 감사 취약점](/studynote/06_ict_convergence/uncategorized/562_smart_contract_security_audit_vulnerability/) ->
-
----

@@ -7,17 +7,17 @@ weight: 242
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 객체지향 설계 원칙 (SOLID)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 객체지향 설계 원칙 (SOLID)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 객체지향의 3대 특징(캡슐화, [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 다형성)은 그저 도구일 뿐입니다.
-- 이 도구를 칼처럼 휘둘러 강도질(스파게티 코드)을 할지, 메스처럼 휘둘러 수술([클린 아키텍처](/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))을 할지 결정하는 것은 결국 개발자의 <strong>'설계 철학(Principle)'</strong>입니다.
-- 코드가 썩지 않게([유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)), 기능 추가가 쉽도록(확장성), 그리고 남이 봐도 이해하기 쉽게([가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)) 만들기 위해 전 세계 천재들이 5가지 룰을 집대성했습니다.
+- 객체지향의 3대 특징(캡슐화, 상속, 다형성)은 그저 도구일 뿐입니다.
+- 이 도구를 칼처럼 휘둘러 강도질(스파게티 코드)을 할지, 메스처럼 휘둘러 수술(클린 아키텍처)을 할지 결정하는 것은 결국 개발자의 <strong>'설계 철학(Principle)'</strong>입니다.
+- 코드가 썩지 않게(유지보수성), 기능 추가가 쉽도록(확장성), 그리고 남이 봐도 이해하기 쉽게(가독성) 만들기 위해 전 세계 천재들이 5가지 룰을 집대성했습니다.
 
 - **📢 섹션 요약 비유**: 객체지향 설계 원칙 (SOLID)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -64,10 +64,10 @@ weight: 242
 
 ## Ⅲ. 비교 및 연결
 
-- 다음다음 장(251번)부터 끝도 없이 배울 위대한 <strong>'GoF의 23가지 <a href="/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a>'</strong>들은 우연히 뚝딱 나온 게 아닙니다.
-- <strong>"어떻게 하면 저 더럽게 어려운 SOLID 5원칙을 지키면서 자바 코드를 짤 수 있을까?"</strong>를 수십 년간 고민하던 천재들이 만들어낸 '실전 코딩 모범 답안지'가 바로 [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)입니다. 즉, SOLID는 무공의 근본 '내공'이고, [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 그 내공을 쓰는 '초식(기술)'입니다.
+- 다음다음 장(251번)부터 끝도 없이 배울 위대한 <strong>'GoF의 23가지 디자인 패턴'</strong>들은 우연히 뚝딱 나온 게 아닙니다.
+- <strong>"어떻게 하면 저 더럽게 어려운 SOLID 5원칙을 지키면서 자바 코드를 짤 수 있을까?"</strong>를 수십 년간 고민하던 천재들이 만들어낸 '실전 코딩 모범 답안지'가 바로 디자인 패턴입니다. 즉, SOLID는 무공의 근본 '내공'이고, 디자인 패턴은 그 내공을 쓰는 '초식(기술)'입니다.
 
-> 📢 **섹션 요약 비유**: <strong>SOLID 설계 원칙</strong>은 무너지지 않는 성벽을 쌓기 위한 전설적인 석공들의 <strong>'절대 5계명(건축법)'</strong>입니다. 옛날 바보들은 그냥 진흙에 볏짚(절차지향 코드)을 섞어 무식하게 벽을 쌓았습니다. 폭우가 오면 몽땅 녹아내려 집이 무너졌습니다(유지보수 실패). 깨달음을 얻은 마스터 석공(로버트 마틴)이 돌벽돌(객체지향 클래스)을 가져와 5계명을 반포합니다. <strong>"1. S(단일 책임): 한 벽돌은 하나의 역할만 지탱하게 깎아라! 2. O(개방-폐쇄): 성벽을 넓힐(확장 Open) 때, 이미 쌓아둔 멀쩡한 벽돌을 빼서 뜯어고치지(수정 Closed 금지) 말고 그냥 새 벽돌을 이어 붙이게 설계해라! 3. L(리스코프 치환): 낡은 벽돌(부모)을 빼고 새 벽돌(자식)을 갈아 끼워도 성벽이 무너지지 않게 똑같은 강도의 규격을 지켜라! 4. I(인터페이스 분리): 쓸데없이 무겁고 거대한 만능 돌덩이를 찍어내어 인부들을 고생시키지 말고, 용도에 맞게 작게 쪼개라! 5. D(의존 역전): 벽돌을 진흙(구체적 하위 <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)으로 붙이지 말고, 언제든 뺐다 낄 수 있는 표준화된 철제 레일 규격(<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 인터페이스)에 맞춰서 끼워 넣어라!"</strong> 이 5가지 헌법을 지켜서 쌓은 성벽(소프트웨어 시스템)은 대포를 맞든 성벽을 10배로 늘리든 평생 무너지지 않는(유연성과 확장성) 영원불멸의 [클린 아키텍처](/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)로 우뚝 서게 됩니다.
+> 📢 **섹션 요약 비유**: <strong>SOLID 설계 원칙</strong>은 무너지지 않는 성벽을 쌓기 위한 전설적인 석공들의 <strong>'절대 5계명(건축법)'</strong>입니다. 옛날 바보들은 그냥 진흙에 볏짚(절차지향 코드)을 섞어 무식하게 벽을 쌓았습니다. 폭우가 오면 몽땅 녹아내려 집이 무너졌습니다(유지보수 실패). 깨달음을 얻은 마스터 석공(로버트 마틴)이 돌벽돌(객체지향 클래스)을 가져와 5계명을 반포합니다. <strong>"1. S(단일 책임): 한 벽돌은 하나의 역할만 지탱하게 깎아라! 2. O(개방-폐쇄): 성벽을 넓힐(확장 Open) 때, 이미 쌓아둔 멀쩡한 벽돌을 빼서 뜯어고치지(수정 Closed 금지) 말고 그냥 새 벽돌을 이어 붙이게 설계해라! 3. L(리스코프 치환): 낡은 벽돌(부모)을 빼고 새 벽돌(자식)을 갈아 끼워도 성벽이 무너지지 않게 똑같은 강도의 규격을 지켜라! 4. I(인터페이스 분리): 쓸데없이 무겁고 거대한 만능 돌덩이를 찍어내어 인부들을 고생시키지 말고, 용도에 맞게 작게 쪼개라! 5. D(의존 역전): 벽돌을 진흙(구체적 하위 모듈)으로 붙이지 말고, 언제든 뺐다 낄 수 있는 표준화된 철제 레일 규격(추상화 인터페이스)에 맞춰서 끼워 넣어라!"</strong> 이 5가지 헌법을 지켜서 쌓은 성벽(소프트웨어 시스템)은 대포를 맞든 성벽을 10배로 늘리든 평생 무너지지 않는(유연성과 확장성) 영원불멸의 클린 아키텍처로 우뚝 서게 됩니다.
 
 - **📢 섹션 요약 비유**: 객체지향 설계 원칙 (SOLID)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -89,21 +89,21 @@ weight: 242
 
 ## Ⅴ. 기대효과 및 결론
 
-객체지향 설계 원칙 (SOLID)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+객체지향 설계 원칙 (SOLID)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 객체지향 설계 원칙 (SOLID)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 객체지향 설계 원칙 (SOLID)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 객체지향 설계 원칙 (SOLID)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -115,10 +115,10 @@ weight: 242
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 객체지향 설계 원칙 (SOLID)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 객체지향 설계 원칙 (SOLID)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 객체지향 설계 원칙 (SOLID)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 객체지향 설계 원칙 (SOLID)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 객체지향 설계 원칙 (SOLID) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 객체지향 설계 원칙 (SOLID)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 객체지향 설계 원칙 (SOLID)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,21 +138,10 @@ weight: 242
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 객체지향 설계 원칙 (SOLID)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 242 / 973
-
-<- **이전**: [241. 패키지 다이어그램 / 복합 구조 다이어그램](/studynote/04_software_engineering/04_testing_quality/241_package_composite_structure_diagram_uml/)
-**다음**: [243. SRP (Single Responsibility Principle) - 단일 책임 원칙](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

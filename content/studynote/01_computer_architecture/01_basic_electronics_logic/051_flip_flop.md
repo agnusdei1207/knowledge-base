@@ -7,17 +7,17 @@ weight: 51
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 플립플롭 (Flip-Flop)은 클럭 ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 에지에서만 입력을 받아 1비트 상태를 저장하는 동기식 순차회로의 기본 저장 소자다.
-> 2. **가치**: 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 흔들리는 출력을 "언제 확정해 저장할지"를 통일해 주기 때문에, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))·[카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) ([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))·파이프라인 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 같은 모든 디지털 시스템의 시간 경계를 만든다.
-> 3. **판단 포인트**: 플립플롭 자체보다 중요한 것은 셋업 시간 (Setup Time), 홀드 시간 (Hold Time), 메타안정성 (Metastability), 클럭 스큐 ([Clock Skew](/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))를 감당할 수 있느냐다.
+> 1. **본질**: 플립플롭 (Flip-Flop)은 클럭 (Clock) 에지에서만 입력을 받아 1비트 상태를 저장하는 동기식 순차회로의 기본 저장 소자다.
+> 2. **가치**: 조합 논리의 흔들리는 출력을 "언제 확정해 저장할지"를 통일해 주기 때문에, 레지스터 (Register)·카운터 (Counter)·파이프라인 (Pipeline) 같은 모든 디지털 시스템의 시간 경계를 만든다.
+> 3. **판단 포인트**: 플립플롭 자체보다 중요한 것은 셋업 시간 (Setup Time), 홀드 시간 (Hold Time), 메타안정성 (Metastability), 클럭 스큐 (Clock Skew)를 감당할 수 있느냐다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-플립플롭은 디지털 시스템이 "이 값을 지금 저장해도 된다"라고 선언하는 순간을 담당하는 저장 소자다. 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)회로는 입력이 바뀌면 [전파 지연](/studynote/03_network/01_data_communication/016_전파_지연/) ([Propagation Delay](/studynote/03_network/01_data_communication/016_전파_지연/)) 동안 출력이 흔들리므로, 아무 때나 읽으면 잘못된 값을 저장할 수 있다. 플립플롭은 클럭 에지에서만 값을 받아들이게 하여 이 흔들림을 한 주기 안에 가두고, 다음 단계는 안정된 값만 보게 만든다.
+플립플롭은 디지털 시스템이 "이 값을 지금 저장해도 된다"라고 선언하는 순간을 담당하는 저장 소자다. 조합 논리회로는 입력이 바뀌면 전파 지연 (Propagation Delay) 동안 출력이 흔들리므로, 아무 때나 읽으면 잘못된 값을 저장할 수 있다. 플립플롭은 클럭 에지에서만 값을 받아들이게 하여 이 흔들림을 한 주기 안에 가두고, 다음 단계는 안정된 값만 보게 만든다.
 
-이 특성이 없으면 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 상태가 건너뛰고, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 중간 값을 읽고, 파이프라인은 단계 경계를 유지하지 못한다. 결국 플립플롭은 "기억 장치"인 동시에 "시간 질서 장치"다.
+이 특성이 없으면 카운터는 상태가 건너뛰고, 레지스터는 중간 값을 읽고, 파이프라인은 단계 경계를 유지하지 못한다. 결국 플립플롭은 "기억 장치"인 동시에 "시간 질서 장치"다.
 
 - **📢 섹션 요약 비유**: 플립플롭은 수업 시간에 종이 울릴 때만 답안지를 걷는 감독관과 같다. 종이 울리기 전의 낙서와 수정은 무시하고, 종이 울린 그 순간의 답만 공식 기록으로 남긴다.
 
@@ -25,7 +25,7 @@ weight: 51
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실무에서 가장 많이 쓰는 것은 D 플립플롭 ([D Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/))이다. 내부적으로는 마스터-슬레이브 (Master-Slave) 구조나 펄스 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Pulse-Triggered) 구조를 사용해, 입력 D가 클럭 에지에서만 출력 Q로 반영되도록 만든다.
+실무에서 가장 많이 쓰는 것은 D 플립플롭 (D Flip-Flop)이다. 내부적으로는 마스터-슬레이브 (Master-Slave) 구조나 펄스 트리거 (Pulse-Triggered) 구조를 사용해, 입력 D가 클럭 에지에서만 출력 Q로 반영되도록 만든다.
 
 ```text
 +--------------------------------------------------------------+
@@ -44,10 +44,10 @@ weight: 51
 
 | 항목 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 셋업 시간 (Setup Time) | 에지 전에 입력이 미리 안정돼 있어야 하는 최소 시간 | 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 주기 안에 넣어야 한다 |
+| 셋업 시간 (Setup Time) | 에지 전에 입력이 미리 안정돼 있어야 하는 최소 시간 | 조합 논리 지연을 주기 안에 넣어야 한다 |
 | 홀드 시간 (Hold Time) | 에지 후에도 입력이 유지돼야 하는 최소 시간 | 너무 빠른 경로는 버퍼 삽입으로 완화한다 |
-| [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)-to-Q | 에지 이후 출력이 바뀌기까지 걸리는 시간 | 다음 단계 타이밍 계산의 시작점이다 |
-| 비동기 Set/Reset | 클럭과 무관하게 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태를 강제 | 리셋 해제 타이밍을 잘못 잡으면 오동작한다 |
+| Clock-to-Q | 에지 이후 출력이 바뀌기까지 걸리는 시간 | 다음 단계 타이밍 계산의 시작점이다 |
+| 비동기 Set/Reset | 클럭과 무관하게 초기 상태를 강제 | 리셋 해제 타이밍을 잘못 잡으면 오동작한다 |
 
 타이밍 성립의 핵심 식은 `Tclk >= Tlogic + Tsetup + Tskew + Margin`이다. 이 조건을 못 맞추면 플립플롭은 값 0과 1 사이에서 잠시 떠 있는 메타안정 상태에 빠질 수 있다. 그래서 플립플롭은 단순한 저장 소자가 아니라, 회로 주파수를 결정하는 마지막 안전장치다.
 
@@ -57,39 +57,39 @@ weight: 51
 
 ## Ⅲ. 비교 및 연결
 
-플립플롭을 이해하려면 래치 ([Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/)), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))와의 경계를 같이 봐야 한다. 래치는 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Level-Triggered)라 문이 열린 동안 입력이 계속 통과하고, 플립플롭은 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Edge-Triggered)라 순간만 잡는다. [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 플립플롭 여러 개를 묶어 다비트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 구조다.
+플립플롭을 이해하려면 래치 (Latch), 레지스터 (Register)와의 경계를 같이 봐야 한다. 래치는 레벨 트리거 (Level-Triggered)라 문이 열린 동안 입력이 계속 통과하고, 플립플롭은 에지 트리거 (Edge-Triggered)라 순간만 잡는다. 레지스터는 플립플롭 여러 개를 묶어 다비트 데이터를 저장하는 구조다.
 
-| 항목 | 래치 ([Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/)) | 플립플롭 (Flip-Flop) | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) |
+| 항목 | 래치 (Latch) | 플립플롭 (Flip-Flop) | 레지스터 (Register) |
 | :--- | :--- | :--- | :--- |
-| [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 방식 | 레벨 기반 | 에지 기반 | 에지 기반 플립플롭 묶음 |
-| 장점 | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 짧고 면적이 작다 | 타이밍 분석이 쉽다 | 다비트 상태 저장에 적합 |
+| 트리거 방식 | 레벨 기반 | 에지 기반 | 에지 기반 플립플롭 묶음 |
+| 장점 | 지연이 짧고 면적이 작다 | 타이밍 분석이 쉽다 | 다비트 상태 저장에 적합 |
 | 주의점 | 레이스 조건에 취약 | 면적·전력 증가 | 클럭 부하가 커진다 |
-| 대표 용도 | 특수 고속 회로 | 일반 동기식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계 | [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/), [범용 레지스터](/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) |
+| 대표 용도 | 특수 고속 회로 | 일반 동기식 데이터 경계 | PC, IR, 범용 레지스터 |
 
-이 차이는 [마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 전체와 연결된다. [파이프라인 단계](/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/) 사이에는 플립플롭이 경계를 만들고, 상태기계 (FSM, Finite [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)는 플립플롭 배열에 현재 상태를 보관하며, [클럭 도메인 교차](/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) ([CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [Clock Domain Crossing](/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/))에서는 2단 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 플립플롭이 메타안정성 전파를 낮춘다.
+이 차이는 마이크로아키텍처 전체와 연결된다. 파이프라인 단계 사이에는 플립플롭이 경계를 만들고, 상태기계 (FSM, Finite State Machine)는 플립플롭 배열에 현재 상태를 보관하며, 클럭 도메인 교차 (CDC, Clock Domain Crossing)에서는 2단 동기화 플립플롭이 메타안정성 전파를 낮춘다.
 
-- **📢 섹션 요약 비유**: 래치는 자동문, 플립플롭은 회전문, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 사물함 줄과 같다. 자동문은 열려 있는 동안 계속 통과시키지만, 회전문은 한 번에 한 흐름만 끊어서 보낸다.
+- **📢 섹션 요약 비유**: 래치는 자동문, 플립플롭은 회전문, 레지스터는 사물함 줄과 같다. 자동문은 열려 있는 동안 계속 통과시키지만, 회전문은 한 번에 한 흐름만 끊어서 보낸다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 플립플롭은 기능보다 타이밍 검증이 먼저다. 2GHz 설계라면 주기가 0.5ns이므로, 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·스큐·셋업 시간의 합이 이를 넘는 순간 주파수 목표가 깨진다. 그래서 고속 설계는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 더하는 것보다 [파이프라인 단계](/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)를 다시 자르는 판단이 더 중요할 때가 많다.
+실무에서 플립플롭은 기능보다 타이밍 검증이 먼저다. 2GHz 설계라면 주기가 0.5ns이므로, 조합 논리 지연·스큐·셋업 시간의 합이 이를 넘는 순간 주파수 목표가 깨진다. 그래서 고속 설계는 논리를 더하는 것보다 파이프라인 단계를 다시 자르는 판단이 더 중요할 때가 많다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
-1. 가장 긴 경로가 셋업 시간까지 포함해 한 [클럭 주기](/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 안에 들어오는가?
+1. 가장 긴 경로가 셋업 시간까지 포함해 한 클럭 주기 안에 들어오는가?
 2. 가장 짧은 경로가 홀드 시간 위반을 만들지 않는가?
-3. 비동기 입력은 2단 이상 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 플립플롭으로 받아들이는가?
-4. Reset 해제 시점이 각 클럭 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 안전한가?
+3. 비동기 입력은 2단 이상 동기화 플립플롭으로 받아들이는가?
+4. Reset 해제 시점이 각 클럭 도메인에서 안전한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 외부 인터럽트나 센서 신호를 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 플립플롭 하나에 바로 넣는 설계
+- 외부 인터럽트나 센서 신호를 동기화 없이 플립플롭 하나에 바로 넣는 설계
 - 클럭을 무리하게 올리면서 스큐와 마진을 무시하는 설계
 - 전체 전력 절감을 위해 래치를 섞었다가 STA (Static Timing Analysis) 복잡도만 키우는 설계
 
-플립플롭 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 상황에 따라 달라진다. 테스트 용이성이 중요하면 스캔 플립플롭 (Scan Flip-Flop), 저전력 대기 모드가 중요하면 유지형 플립플롭 ([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) Flip-Flop), [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 경계면이면 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 전용 플립플롭을 선택한다.
+플립플롭 선택도 상황에 따라 달라진다. 테스트 용이성이 중요하면 스캔 플립플롭 (Scan Flip-Flop), 저전력 대기 모드가 중요하면 유지형 플립플롭 (Retention Flip-Flop), CDC 경계면이면 동기화 전용 플립플롭을 선택한다.
 
 - **📢 섹션 요약 비유**: 플립플롭 설계는 기차 환승 시간표 짜기와 같다. 연결 시간이 조금만 어긋나도 다음 열차를 놓치고, 역 전체 운행이 밀린다.
 
@@ -97,7 +97,7 @@ weight: 51
 
 ## Ⅴ. 기대효과 및 결론
 
-플립플롭 덕분에 디지털 시스템은 연속적으로 흔들리는 아날로그 현실을 이산적인 시간 조각으로 잘라 다룰 수 있다. 이 구조가 있어야 파이프라이닝, 슈퍼스칼라, 캐시 제어, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 같은 복잡한 시스템이 예측 가능한 상태 전이로 구현된다.
+플립플롭 덕분에 디지털 시스템은 연속적으로 흔들리는 아날로그 현실을 이산적인 시간 조각으로 잘라 다룰 수 있다. 이 구조가 있어야 파이프라이닝, 슈퍼스칼라, 캐시 제어, 버스 프로토콜 같은 복잡한 시스템이 예측 가능한 상태 전이로 구현된다.
 
 대신 대가도 명확하다. 플립플롭은 면적과 소비전력을 늘리고, 클럭 트리 부하를 키우며, 고주파 설계에서 가장 엄격한 타이밍 제약을 만든다. 따라서 플립플롭은 "비트를 저장하는 소자"보다 "시스템의 시간 경계를 보증하는 장치"로 기억하는 편이 더 정확하다.
 
@@ -109,11 +109,11 @@ weight: 51
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 래치 ([Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/)) | 플립플롭의 비교 기준이 되는 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 저장 소자 |
-| [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 플립플롭 여러 개를 묶어 다비트 상태를 저장 |
+| 래치 (Latch) | 플립플롭의 비교 기준이 되는 레벨 트리거 저장 소자 |
+| 레지스터 (Register) | 플립플롭 여러 개를 묶어 다비트 상태를 저장 |
 | 셋업/홀드 시간 (Setup/Hold Time) | 플립플롭 타이밍 성립의 핵심 제약 |
 | 메타안정성 (Metastability) | 타이밍 위반 시 출력이 불안정해지는 현상 |
-| 파이프라인 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/)) | 플립플롭으로 단계 경계를 나눠 고속화하는 구조 |
+| 파이프라인 (Pipeline) | 플립플롭으로 단계 경계를 나눠 고속화하는 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,14 +140,3 @@ CDC 동기화 · 스캔/유지형 플립플롭
 1. 플립플롭은 종이 울릴 때만 상자를 닫는 장난감 상자예요.
 2. 종이 울린 순간에 넣은 물건만 상자 안에 남고, 그 전후에 흔들어도 안 바뀌어요.
 3. 그래서 컴퓨터는 여러 상자를 줄 세워 놓고 차례대로 정보를 안전하게 넘길 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 51 / 803
-
-<- **이전**: [D 래치 (D Latch)](/studynote/01_computer_architecture/01_basic_electronics_logic/050_d_latch/)
-**다음**: [52. SR 플립플롭 (Set-Reset Flip-Flop)](/studynote/01_computer_architecture/01_basic_electronics_logic/052_sr_flip_flop/) ->
-
----

@@ -8,17 +8,17 @@ weight: 85
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> **본질**: 참여 제약조건(Participation Constraint)은 엔터티(ER, Entity-Relationship)가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 반드시 참여해야 하는지, 선택적으로 참여할 수 있는지를 나타내는 규칙이다.
+> **본질**: 참여 제약조건(Participation Constraint)은 엔터티(ER, Entity-Relationship)가 관계에 반드시 참여해야 하는지, 선택적으로 참여할 수 있는지를 나타내는 규칙이다.
 > **가치**: 전체 참여(Total Participation)와 부분 참여(Partial Participation)를 구분해야 ER 모델이 비즈니스 규칙을 정확히 반영한다.
-> **판단 포인트**: [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 필수인지 선택인지 흐리면 NULL과 고아 레코드(Orphan Record)가 늘어나고, 제약조건이 느슨한 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 된다.
+> **판단 포인트**: 관계가 필수인지 선택인지 흐리면 NULL과 고아 레코드(Orphan Record)가 늘어나고, 제약조건이 느슨한 스키마가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-참여 제약조건은 "엔터티 인스턴스가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 반드시 들어가야 하는가"를 표현한다. 카디널리티(Cardinality)가 몇 개와 연결되는지를 말한다면, 참여 제약조건은 아예 빠질 수 있는지 없는지를 말한다.
+참여 제약조건은 "엔터티 인스턴스가 관계에 반드시 들어가야 하는가"를 표현한다. 카디널리티(Cardinality)가 몇 개와 연결되는지를 말한다면, 참여 제약조건은 아예 빠질 수 있는지 없는지를 말한다.
 
-이 규칙이 필요한 이유는 비즈니스 규칙을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델에 남기기 위해서다. 예를 들어 주문은 반드시 고객과 연결돼야 하지만, 고객은 반드시 주문을 가져야 하는 것은 아닐 수 있다. 이런 차이를 기록하지 않으면 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델과 실제 운영 규칙이 금방 어긋난다.
+이 규칙이 필요한 이유는 비즈니스 규칙을 데이터 모델에 남기기 위해서다. 예를 들어 주문은 반드시 고객과 연결돼야 하지만, 고객은 반드시 주문을 가져야 하는 것은 아닐 수 있다. 이런 차이를 기록하지 않으면 논리 모델과 실제 운영 규칙이 금방 어긋난다.
 
 - 📢 섹션 요약 비유: 필수 출석 명단
 
@@ -26,7 +26,7 @@ weight: 85
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전체 참여는 엔터티의 모든 인스턴스가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 최소 한 번은 등장해야 한다는 뜻이고, 부분 참여는 일부 인스턴스가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 없이 존재할 수 있다는 뜻이다. ER 다이어그램에서는 보통 전체 참여를 이중선, 부분 참여를 단일선으로 표현한다.
+전체 참여는 엔터티의 모든 인스턴스가 관계에 최소 한 번은 등장해야 한다는 뜻이고, 부분 참여는 일부 인스턴스가 관계 없이 존재할 수 있다는 뜻이다. ER 다이어그램에서는 보통 전체 참여를 이중선, 부분 참여를 단일선으로 표현한다.
 
 ```text
 [Customer] -- places --> [Order]
@@ -34,12 +34,12 @@ weight: 85
  전체 참여              부분 참여
 ```
 
-| 구분 | 의미 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 예시 | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 반영 |
+| 구분 | 의미 | 관계 예시 | 스키마 반영 |
 | --- | --- | --- | --- |
-| Total Participation | 반드시 참여 | 주문-고객, 사원-부서 | FK (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) + NOT NULL |
+| Total Participation | 반드시 참여 | 주문-고객, 사원-부서 | FK (Foreign Key) + NOT NULL |
 | Partial Participation | 선택 참여 | 고객-쿠폰, 사원-주차권 | FK 허용 또는 별도 테이블 |
 
-결국 참여 제약조건은 "[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 선택성"을 표현하는 문법이고, 그 문법이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 지키는 첫 방어선이 된다.
+결국 참여 제약조건은 "관계의 선택성"을 표현하는 문법이고, 그 문법이 데이터 정합성을 지키는 첫 방어선이 된다.
 
 - 📢 섹션 요약 비유: 이중선과 단일선
 
@@ -47,14 +47,14 @@ weight: 85
 
 ## Ⅲ. 비교 및 연결
 
-참여 제약조건은 카디널리티와 자주 함께 나오지만 동일하지 않다. 카디널리티는 1:1, 1:N, M:N 같은 개수 비율이고, 참여 제약조건은 각 엔터티가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 빠질 수 있는지를 본다. 또 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델에서는 이를 FK의 NULL 허용 여부, ON DELETE 규칙과 연결해 구현한다.
+참여 제약조건은 카디널리티와 자주 함께 나오지만 동일하지 않다. 카디널리티는 1:1, 1:N, M:N 같은 개수 비율이고, 참여 제약조건은 각 엔터티가 관계에 빠질 수 있는지를 본다. 또 관계형 모델에서는 이를 FK의 NULL 허용 여부, ON DELETE 규칙과 연결해 구현한다.
 
 | 비교 대상 | 차이점 |
 | --- | --- |
 | Cardinality | 연결 개수 비율 |
-| Participation | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 참여의 필수/선택 여부 |
+| Participation | 관계 참여의 필수/선택 여부 |
 | NOT NULL | 필수 참여의 물리적 표현 |
-| FK 제약 | [참조 무결성](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) 유지 |
+| FK 제약 | 참조 무결성 유지 |
 
 따라서 전체 참여는 "반드시 연결"을, 부분 참여는 "연결될 수도 있음"을 표현하며, 둘은 함께 봐야 의미가 완성된다.
 
@@ -64,15 +64,15 @@ weight: 85
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 먼저 문장으로 적고, 그 문장을 ER 모델의 참여 제약조건으로 옮긴다. 이후 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)로 내려갈 때 필수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 NOT NULL과 FK로 강제하고, 선택 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 NULL 또는 별도 연관 테이블로 분리한다. 삭제 정책도 함께 정해야 고아 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생기지 않는다.
+실무에서는 도메인 규칙을 먼저 문장으로 적고, 그 문장을 ER 모델의 참여 제약조건으로 옮긴다. 이후 관계형 스키마로 내려갈 때 필수 관계는 NOT NULL과 FK로 강제하고, 선택 관계는 NULL 또는 별도 연관 테이블로 분리한다. 삭제 정책도 함께 정해야 고아 데이터가 생기지 않는다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 1. 반드시 연결돼야 하는 엔터티를 NULL로 두고 있지 않은가?
-2. 선택 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 억지로 필수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 만들지 않았는가?
+2. 선택 관계를 억지로 필수 관계로 만들지 않았는가?
 3. 삭제 시 자식 레코드 처리 정책이 정의되어 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 비즈니스상 필수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 NULL 허용 컬럼으로 두는 것
+### 안티패턴
+- 비즈니스상 필수 관계를 NULL 허용 컬럼으로 두는 것
 - 참여 제약조건을 카디널리티와 같은 것으로 설명하는 것
 - 과거 이력을 고려하지 않고 무조건 CASCADE 삭제를 거는 것
 
@@ -82,9 +82,9 @@ weight: 85
 
 ## Ⅴ. 기대효과 및 결론
 
-참여 제약조건을 정확히 잡으면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)이 높아지고, 앱 코드에서 매번 방어하지 않아도 되는 제약이 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)에 남는다. 반대로 애매하게 두면 화면에서는 통과되지만 저장 단계에서 예외가 터지고, 그 예외를 다시 코드로 막는 악순환이 생긴다.
+참여 제약조건을 정확히 잡으면 데이터 무결성이 높아지고, 앱 코드에서 매번 방어하지 않아도 되는 제약이 스키마에 남는다. 반대로 애매하게 두면 화면에서는 통과되지만 저장 단계에서 예외가 터지고, 그 예외를 다시 코드로 막는 악순환이 생긴다.
 
-결론적으로 총 참여와 부분 참여는 ER 모델에서 "반드시 연결되는가"를 묻는 핵심 질문이다. 기술사 답변에서는 카디널리티와 구분해 설명하고, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 제약으로 어떻게 내려가는지까지 말하면 완성도가 높다.
+결론적으로 총 참여와 부분 참여는 ER 모델에서 "반드시 연결되는가"를 묻는 핵심 질문이다. 기술사 답변에서는 카디널리티와 구분해 설명하고, 관계형 제약으로 어떻게 내려가는지까지 말하면 완성도가 높다.
 
 - 📢 섹션 요약 비유: 무도회 명단
 
@@ -95,7 +95,7 @@ weight: 85
 | ER (Entity-Relationship) 모델 | 개념 설계의 출발점 |
 | Participation Constraint | 필수/선택 참여 규칙 |
 | Cardinality | 연결 개수 비율 |
-| FK (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 물리 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)의 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 표현 |
+| FK (Foreign Key) | 물리 스키마의 참조 표현 |
 | NOT NULL | 전체 참여를 강제하는 컬럼 제약 |
 | Orphan Record | 참여 규칙이 무너졌을 때 생기는 문제 |
 
@@ -118,14 +118,3 @@ FK / NOT NULL / 삭제 정책 반영
 1. 전체 참여는 반 학생이 꼭 출석해야 하는 반장이 있는 것과 같아요.
 2. 부분 참여는 반장이 없어도 만들어질 수 있는 동아리와 같아요.
 3. 규칙을 먼저 정해야 나중에 명단이 엉키지 않아요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 85 / 600
-
-<- **이전**: [84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N](/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/)
-**다음**: [86. 약한 개체 (Weak Entity) - 이중 사각형, 부모 개체에 종속 (식별 관계)](/studynote/05_database/02_modeling_normalization/086_weak_entity_identifying_relationship/) ->
-
----

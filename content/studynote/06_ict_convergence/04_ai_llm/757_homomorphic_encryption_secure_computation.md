@@ -154,11 +154,3 @@ FHE의 수학적 토대는 **격자(Lattice) 기반 LWE 문제**다. 차원 n의
 ---
 
 ## Ⅲ.
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 757 / 800
-
-<- **이전**: [756. 차등 프라이버시 연합 학습 보안](/studynote/06_ict_convergence/uncategorized/756_differential_privacy_federated_learning_secur/)
-**다음**: [758. 영지식 증명 인증 프라이버시 검증](/studynote/06_ict_convergence/uncategorized/758_zero_knowledge_proof_auth_privacy_verificatio/) ->
-
----

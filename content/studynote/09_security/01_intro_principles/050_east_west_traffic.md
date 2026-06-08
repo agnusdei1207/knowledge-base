@@ -13,9 +13,9 @@ tags:
 weight: 50
 ---
 > **핵심 인사이트 3줄**
-> 1. 이스트-웨스트(East-West) 트래픽은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부 서버 간 통신으로, 전통적 경계 보안이 이를 신뢰하여 내부 침투 후 측면 이동(Lateral Movement)이 쉬웠다.
-> 2. 이스트-웨스트 트래픽은 현대 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서 전체 트래픽의 70~80%를 차지하며, 기존 노스-사우스 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로는 제어 불가하다.
-> 3. [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust와 마이크로 세그먼테이션이 이스트-웨스트 보안의 핵심으로, 모든 내부 통신을 명시적으로 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·인가하고 최소 권한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용한다.
+> 1. 이스트-웨스트(East-West) 트래픽은 데이터센터 내부 서버 간 통신으로, 전통적 경계 보안이 이를 신뢰하여 내부 침투 후 측면 이동(Lateral Movement)이 쉬웠다.
+> 2. 이스트-웨스트 트래픽은 현대 데이터센터에서 전체 트래픽의 70~80%를 차지하며, 기존 노스-사우스 방화벽으로는 제어 불가하다.
+> 3. Zero Trust와 마이크로 세그먼테이션이 이스트-웨스트 보안의 핵심으로, 모든 내부 통신을 명시적으로 인증·인가하고 최소 권한 정책을 적용한다.
 
 ---
 
@@ -36,10 +36,10 @@ weight: 50
 
 | 트래픽 유형      | 비율     | 예시                          |
 |----------------|---------|-------------------------------|
-| 노스-사우스     | 20~30%  | 사용자 웹 요청, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출       |
-| 이스트-웨스트   | 70~80%  | [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신, DB [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)   |
+| 노스-사우스     | 20~30%  | 사용자 웹 요청, API 호출       |
+| 이스트-웨스트   | 70~80%  | MSA 서비스 간 통신, DB 쿼리   |
 
-[마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 확산으로 이스트-웨스트 비율이 급증.
+마이크로서비스 아키텍처(MSA) 확산으로 이스트-웨스트 비율이 급증.
 
 📢 **섹션 요약 비유**: 건물 출입구(노스-사우스)만 지키고 복도(이스트-웨스트)는 무방비 — 침입자가 한번 들어오면 모든 방을 자유롭게 다닌다.
 
@@ -58,7 +58,7 @@ weight: 50
 
 ### 2.2 전통적 경계 보안의 한계
 
-- [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 기반 격리: 같은 [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 내 통신 허용 -> 세분화 부족
+- VLAN 기반 격리: 같은 VLAN 내 통신 허용 -> 세분화 부족
 - 내부 신뢰 가정: "내부 = 안전" 가정 -> 신뢰 경계 붕괴
 - 평탄한(flat) 네트워크: 감염 노드에서 전체 네트워크 접근 가능
 
@@ -81,18 +81,18 @@ weight: 50
 
 | 기술              | 설명                                    |
 |------------------|----------------------------------------|
-| VMware NSX       | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 수준 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)           |
-| [Cisco](/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ACI        | [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 기반 마이크로 세그먼테이션          |
-| [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) ([Cilium](/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/))    | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준 네트워크 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))    |
-| [Calico](/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/)           | K8s [CNI](/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 기반 네트워크 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)             |
+| VMware NSX       | 하이퍼바이저 수준 분산 방화벽           |
+| Cisco ACI        | SDN 기반 마이크로 세그먼테이션          |
+| eBPF (Cilium)    | 커널 수준 네트워크 정책 (Kubernetes)    |
+| Calico           | K8s CNI 기반 네트워크 정책             |
 
 📢 **섹션 요약 비유**: 마이크로 세그먼테이션은 모든 방에 개별 자물쇠를 달고 허가받은 사람만 들어가도록 하는 것.
 
 ---
 
-## Ⅳ. [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) + 이스트-웨스트 보안
+## Ⅳ. Zero Trust + 이스트-웨스트 보안
 
-### 4.1 [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙 적용
+### 4.1 Zero Trust 원칙 적용
 
 ```
 1. 명시적 검증: 모든 요청 -> 신원(ID) + 장치 상태 + 위치 검증
@@ -100,9 +100,9 @@ weight: 50
 3. 침해 가정: 내부 트래픽도 항상 암호화(mTLS)
 ```
 
-### 4.2 [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) ([Mutual TLS](/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/))
+### 4.2 mTLS (Mutual TLS)
 
-[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 양방향 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):
+서비스 간 양방향 인증서 검증:
 
 ```
 서비스 A --[인증서 제시]---> 서비스 B
@@ -110,9 +110,9 @@ weight: 50
          --[암호화 통신]--->
 ```
 
-[서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), Linkerd)가 mTLS를 자동 관리.
+서비스 메시(Istio, Linkerd)가 mTLS를 자동 관리.
 
-📢 **섹션 요약 비유**: mTLS는 두 사람이 서로 신분증을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 악수하는 것 — 한쪽만 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 TLS보다 강력하다.
+📢 **섹션 요약 비유**: mTLS는 두 사람이 서로 신분증을 확인하고 악수하는 것 — 한쪽만 확인하는 TLS보다 강력하다.
 
 ---
 
@@ -129,16 +129,16 @@ weight: 50
          (Network Detection & Response)
 ```
 
-### 5.2 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 지표
+### 5.2 이상 탐지 지표
 
 | 지표              | 의심 패턴                          |
 |-----------------|-------------------------------------|
-| [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔        | 짧은 시간 다수 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 접근            |
-| 비정상 시간대    | 새벽 3시 DB 대량 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)              |
-| [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 이상      | 내부 서버 간 수 GB 전송            |
-| 측면 이동 패턴  | A->B->C 순차 접근 ([Pass-the-Hash](/studynote/09_security/12_identity_threat_advanced/592_pth/))   |
+| 포트 스캔        | 짧은 시간 다수 포트 접근            |
+| 비정상 시간대    | 새벽 3시 DB 대량 쿼리              |
+| 대역폭 이상      | 내부 서버 간 수 GB 전송            |
+| 측면 이동 패턴  | A->B->C 순차 접근 (Pass-the-Hash)   |
 
-📢 **섹션 요약 비유**: 복도 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/)(NDR)로 사람이 이상하게 여러 방을 돌아다니는지 감시 — 비정상 패턴을 자동으로 잡아낸다.
+📢 **섹션 요약 비유**: 복도 CCTV(NDR)로 사람이 이상하게 여러 방을 돌아다니는지 감시 — 비정상 패턴을 자동으로 잡아낸다.
 
 ---
 
@@ -182,7 +182,7 @@ Zero Trust + 서비스 메시 (Istio + mTLS, 2017~)
 Cloud-Native Zero Trust (2020s~)
 ```
 
-**핵심 키워드**: 이스트-웨스트, 측면 이동, 마이크로 세그먼테이션, [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/), [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), NDR, [eBPF](/studynote/02_operating_system/10_security/615_ebpf/)
+**핵심 키워드**: 이스트-웨스트, 측면 이동, 마이크로 세그먼테이션, Zero Trust, mTLS, NDR, eBPF
 
 ---
 
@@ -190,15 +190,4 @@ Cloud-Native Zero Trust (2020s~)
 
 1. 이스트-웨스트는 건물 복도 — 현관(노스-사우스)만 지키고 복도는 무방비면 침입자가 자유롭게 돌아다녀.
 2. 마이크로 세그먼테이션은 모든 방에 잠금장치 — 허락받은 방만 열어서 침입자가 한 방에 갇히게 해.
-3. [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust는 복도에서 만나는 모든 사람에게 신분증 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — "내 직원이니까 괜찮다"는 믿음 없이 항상 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 50 / 1108
-
-<- **이전**: [049. 마이크로 세그먼테이션 — Micro-Segmentation](/studynote/09_security/01_intro_principles/049_micro_segmentation/)
-**다음**: [051. 위험 전가 (Risk Transfer)](/studynote/09_security/01_intro_principles/051_risk_transfer/) ->
-
----
+3. Zero Trust는 복도에서 만나는 모든 사람에게 신분증 확인 — "내 직원이니까 괜찮다"는 믿음 없이 항상 확인.

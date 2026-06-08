@@ -6,9 +6,9 @@ tags:
 weight: 28
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: BCG 매트릭스(Boston Consulting Group Matrix)는 시장 성장률(Market Growth Rate)과 상대적 시장 점유율(Relative Market Share)로 사업 단위(SBU)를 Star, Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/), Question Mark, Dog 4개 사분면으로 분류하는 포트폴리오 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도구다.
-> 2. **가치**: 자원 배분 우선순위 결정에 명확한 논리를 제공한다. Cash Cow의 현금을 Star 육성과 Question Mark 선별 투자에 사용하고, Dog는 철수를 검토한다. 1970년대 개발됐지만 포트폴리오 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 논의의 기본 언어로 현재도 활용된다.
-> 3. **판단 포인트**: BCG 매트릭스의 한계는 이분법적 분류의 단순성이다. [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에는 빠른 성장률 변화(Disruption), 시장 경계 붕괴, [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 등으로 전통 BCG 분류가 빠르게 무력화된다. Ansoff Matrix, GE-McKinsey 9-cell Matrix와 보완 사용이 권장된다.
+> 1. **본질**: BCG 매트릭스(Boston Consulting Group Matrix)는 시장 성장률(Market Growth Rate)과 상대적 시장 점유율(Relative Market Share)로 사업 단위(SBU)를 Star, Cash Cow, Question Mark, Dog 4개 사분면으로 분류하는 포트폴리오 전략 도구다.
+> 2. **가치**: 자원 배분 우선순위 결정에 명확한 논리를 제공한다. Cash Cow의 현금을 Star 육성과 Question Mark 선별 투자에 사용하고, Dog는 철수를 검토한다. 1970년대 개발됐지만 포트폴리오 전략 논의의 기본 언어로 현재도 활용된다.
+> 3. **판단 포인트**: BCG 매트릭스의 한계는 이분법적 분류의 단순성이다. 디지털 전환 시대에는 빠른 성장률 변화(Disruption), 시장 경계 붕괴, 네트워크 효과 등으로 전통 BCG 분류가 빠르게 무력화된다. Ansoff Matrix, GE-McKinsey 9-cell Matrix와 보완 사용이 권장된다.
 
 ---
 
@@ -32,22 +32,22 @@ weight: 28
 +----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: BCG 매트릭스는 사업 포트폴리오의 가족 구성원 분류다. 스타(Star)는 재능 있고 노력하는 자녀, 캐시 카우(Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 안정적으로 수입 올리는 부모, 물음표(Question Mark)는 가능성 있지만 불확실한 미래, 개(Dog)는 투자 대비 성과 없는 사업이다.
+- **📢 섹션 요약 비유**: BCG 매트릭스는 사업 포트폴리오의 가족 구성원 분류다. 스타(Star)는 재능 있고 노력하는 자녀, 캐시 카우(Cash Cow)는 안정적으로 수입 올리는 부모, 물음표(Question Mark)는 가능성 있지만 불확실한 미래, 개(Dog)는 투자 대비 성과 없는 사업이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 4대 분면 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 4대 분면 전략
 
-| 분면 | 특성 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | IT 예시 |
+| 분면 | 특성 | 전략 | IT 예시 |
 |:---|:---|:---|:---|
-| **Star** | 고성장·고점유 | 투자 유지·확대 | 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| <strong>Cash <a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">Cow</a></strong> | 저성장·고점유 | 현금 추출·유지 | 레거시 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) |
-| **Question Mark** | 고성장·저점유 | 선별 투자·철수 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 신사업 |
+| **Star** | 고성장·고점유 | 투자 유지·확대 | 클라우드 서비스 |
+| <strong>Cash Cow</strong> | 저성장·고점유 | 현금 추출·유지 | 레거시 ERP |
+| **Question Mark** | 고성장·저점유 | 선별 투자·철수 | AI 신사업 |
 | **Dog** | 저성장·저점유 | 철수·매각 | 구형 하드웨어 |
 
-### BCG [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 흐름
+### BCG 전략 흐름
 
 ```text
 현금 흐름:
@@ -58,7 +58,7 @@ weight: 28
   Dog      -> 철수 (현금 회수)
 ```
 
-- **📢 섹션 요약 비유**: BCG 현금 흐름은 가정 경제 관리다. 부모(Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/))가 버는 돈으로 유망 자녀(Star) 교육에 투자하고, 가능성 있는 막내(Question Mark)는 선별 투자하며, 성과 없는 사업(Dog)은 용돈을 끊는다.
+- **📢 섹션 요약 비유**: BCG 현금 흐름은 가정 경제 관리다. 부모(Cash Cow)가 버는 돈으로 유망 자녀(Star) 교육에 투자하고, 가능성 있는 막내(Question Mark)는 선별 투자하며, 성과 없는 사업(Dog)은 용돈을 끊는다.
 
 ---
 
@@ -68,7 +68,7 @@ weight: 28
 |:---|:---|:---|:---|
 | 축 | 성장률·점유율 | 산업 매력도·경쟁력 | 시장·제품 |
 | 복잡성 | 단순 (2×2) | 복잡 (3×3) | 단순 (2×2) |
-| 활용 | 포트폴리오 | 사업 우선순위 | 성장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 활용 | 포트폴리오 | 사업 우선순위 | 성장 전략 |
 
 - **📢 섹션 요약 비유**: BCG vs GE-McKinsey는 간단한 체온계 vs 정밀 MRI다. 체온계로 빠르게 이상 여부를 확인하고, MRI로 자세히 분석한다. BCG는 빠른 포트폴리오 진단용이다.
 
@@ -86,9 +86,9 @@ Big Tech A사 포트폴리오:
   🐕 Dog:          일부 하드웨어 라인 — 저성장·저점유, 철수 검토
 ```
 
-### [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대 BCG 한계
+### 디지털 전환 시대 BCG 한계
 - 빠른 Disruption으로 Star가 순식간에 Dog로 전락 (예: 피처폰->스마트폰).
-- 플랫폼 비즈니스는 [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)로 Dog 시절에도 생존·역전 가능.
+- 플랫폼 비즈니스는 네트워크 효과로 Dog 시절에도 생존·역전 가능.
 - 성장률·점유율 측정의 시장 경계 정의가 불명확해짐.
 
 - **📢 섹션 요약 비유**: BCG 한계는 사진으로 미래를 예측하려는 것과 같다. 지금 상태를 찍은 사진이지만 디지털 시대에는 불과 1-2년 후에 상황이 완전히 바뀔 수 있어서 정기적 재검토가 필수다.
@@ -100,12 +100,12 @@ Big Tech A사 포트폴리오:
 | 기대효과 | 내용 |
 |:---|:---|
 | **포트폴리오 최적화** | 자원 배분 우선순위 명확화 |
-| <strong><a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 소통</strong> | 경영진간 공통 언어 제공 |
+| <strong>전략 소통</strong> | 경영진간 공통 언어 제공 |
 | **투자 선택** | 성장·수익 균형 포트폴리오 구성 |
 
-BCG 매트릭스는 50년이 지났지만 여전히 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 토론의 기본 언어로 사용된다. [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에는 동적 재평가 주기 단축, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시장 성장률 예측과 결합, 에코시스템 관점의 보완이 필요하다.
+BCG 매트릭스는 50년이 지났지만 여전히 전략 토론의 기본 언어로 사용된다. 디지털 전환 시대에는 동적 재평가 주기 단축, AI 시장 성장률 예측과 결합, 에코시스템 관점의 보완이 필요하다.
 
-- **📢 섹션 요약 비유**: BCG 매트릭스는 오래됐지만 강력한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 나침반이다. 스마트폰 없던 시대에 만들어졌지만, "어디에 투자하고 어디를 정리할까"라는 질문에는 지금도 훌륭한 출발점을 제공한다.
+- **📢 섹션 요약 비유**: BCG 매트릭스는 오래됐지만 강력한 전략 나침반이다. 스마트폰 없던 시대에 만들어졌지만, "어디에 투자하고 어디를 정리할까"라는 질문에는 지금도 훌륭한 출발점을 제공한다.
 
 ---
 
@@ -115,9 +115,9 @@ BCG 매트릭스는 50년이 지났지만 여전히 [전략](/studynote/04_softw
 |:---|:---|
 | **SBU** | BCG 분석의 기본 단위 |
 | **5 Forces** | 시장 구조 분석 (BCG 보완) |
-| **Ansoff Matrix** | 성장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 분석 |
+| **Ansoff Matrix** | 성장 전략 방향 분석 |
 | **GE-McKinsey** | 9-cell 포트폴리오 분석 |
-| <strong>현금 흐름 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | BCG 기반 자원 배분 |
+| <strong>현금 흐름 전략</strong> | BCG 기반 자원 배분 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,16 +140,5 @@ BCG 매트릭스는 50년이 지났지만 여전히 [전략](/studynote/04_softw
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. BCG 매트릭스는 회사의 사업들을 별, 젖소, 강아지, 물음표로 분류해요!
-2. 젖소(Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/))가 버는 돈으로 별(Star)을 키우고, 강아지(Dog)는 정리해요!
+2. 젖소(Cash Cow)가 버는 돈으로 별(Star)을 키우고, 강아지(Dog)는 정리해요!
 3. 스마트폰처럼 빠르게 변하는 세상에서는 이 분류가 빨리 바뀌니 자주 업데이트해야 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 49 / 587
-
-<- **이전**: [27. 7S 모델 (맥킨지)](/studynote/12_it_management/01_governance_strategy/821_seven_s_model/)
-**다음**: [29. IT 포트폴리오 관리 (IT Portfolio Management)](/studynote/12_it_management/01_governance_strategy/029_it_portfolio_management/) ->
-
----

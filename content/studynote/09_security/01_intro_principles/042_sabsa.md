@@ -6,9 +6,9 @@ tags:
 weight: 42
 ---
 > **핵심 인사이트**
-> 1. SABSA(Sherwood Applied Business [Security Architecture](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/))는 [자크만 프레임워크](/studynote/09_security/01_intro_principles/041_zachman_framework/)([Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/))를 보안에 특화 적용한 [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 방법론으로, 비즈니스 요구사항에서 시작하여 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)·물리·기술 계층까지 "위에서 아래로([Top-down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))" 보안을 설계하는 완전한 생명주기 프레임워크다.
-> 2. SABSA의 6대 계층(Contextual->Conceptual->Logical->Physical->[Component](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)->Operational)과 6대 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 열(What/How/Where/Who/When/Why)의 36셀 매트릭스는 비즈니스 컨텍스트부터 운영 절차까지 [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)의 완전성을 보장한다.
-> 3. SABSA의 가장 강력한 특징은 "비즈니스 목표 -> [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) -> [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) -> 보안 통제"로 이어지는 추적 가능성([Traceability](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))으로, 각 보안 투자가 어떤 비즈니스 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 해소하는지 경영진에게 설명할 수 있다.
+> 1. SABSA(Sherwood Applied Business Security Architecture)는 자크만 프레임워크(Zachman Framework)를 보안에 특화 적용한 보안 아키텍처 방법론으로, 비즈니스 요구사항에서 시작하여 논리·물리·기술 계층까지 "위에서 아래로(Top-down)" 보안을 설계하는 완전한 생명주기 프레임워크다.
+> 2. SABSA의 6대 계층(Contextual->Conceptual->Logical->Physical->Component->Operational)과 6대 속성 열(What/How/Where/Who/When/Why)의 36셀 매트릭스는 비즈니스 컨텍스트부터 운영 절차까지 보안 아키텍처의 완전성을 보장한다.
+> 3. SABSA의 가장 강력한 특징은 "비즈니스 목표 -> 보안 정책 -> 보안 아키텍처 -> 보안 통제"로 이어지는 추적 가능성(Traceability)으로, 각 보안 투자가 어떤 비즈니스 리스크를 해소하는지 경영진에게 설명할 수 있다.
 
 ---
 
@@ -81,11 +81,11 @@ Row 6: Operational (운영):
   대상: 보안 운영팀 (SOC)
 ```
 
-> 📢 **섹션 요약 비유**: SABSA 6층은 건물 층별 역할 — CEO(최고층), [CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)(임원층), 아키텍트(설계층), 엔지니어(시공층), 관리자(설비층), 운영팀(현장).
+> 📢 **섹션 요약 비유**: SABSA 6층은 건물 층별 역할 — CEO(최고층), CISO(임원층), 아키텍트(설계층), 엔지니어(시공층), 관리자(설비층), 운영팀(현장).
 
 ---
 
-## Ⅲ. SABSA [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (6질문)
+## Ⅲ. SABSA 속성 (6질문)
 
 ```
 SABSA 6대 속성 열:
@@ -155,7 +155,7 @@ SABSA Business Attributes Profile:
   표준 약 40개 비즈니스 속성 카탈로그
 ```
 
-> 📢 **섹션 요약 비유**: SABSA 추적 가능성은 회사 보안 투자 영수증 — "이 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 고객 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 유출 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(비즈니스)를 막기 위한 것"을 증명하는 근거.
+> 📢 **섹션 요약 비유**: SABSA 추적 가능성은 회사 보안 투자 영수증 — "이 방화벽은 고객 개인정보 유출 리스크(비즈니스)를 막기 위한 것"을 증명하는 근거.
 
 ---
 
@@ -255,16 +255,5 @@ LLM 보안 위협 비즈니스 영향 분석
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. SABSA는 회사 보안을 경영자(비즈니스)부터 기술자(시스템)까지 층층이 연결된 설계 도면으로 만드는 방법이에요!
-2. "왜 이 보안이 필요한가?"를 항상 비즈니스 이유로 설명할 수 있도록 — [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하나도 "어떤 비즈니스 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 막는가"를 추적할 수 있어요.
-3. [자크만 프레임워크](/studynote/09_security/01_intro_principles/041_zachman_framework/)를 보안에 특화한 것 — "6층 아키텍처 × 6가지 질문"의 36칸 체크리스트로 보안 구멍을 찾아요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 42 / 1108
-
-<- **이전**: [041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처](/studynote/09_security/01_intro_principles/041_zachman_framework/)
-**다음**: [043. OSA — 오픈 보안 아키텍처 (Open Security Architecture)](/studynote/09_security/01_intro_principles/043_osa/) ->
-
----
+2. "왜 이 보안이 필요한가?"를 항상 비즈니스 이유로 설명할 수 있도록 — 방화벽 하나도 "어떤 비즈니스 리스크를 막는가"를 추적할 수 있어요.
+3. 자크만 프레임워크를 보안에 특화한 것 — "6층 아키텍처 × 6가지 질문"의 36칸 체크리스트로 보안 구멍을 찾아요!

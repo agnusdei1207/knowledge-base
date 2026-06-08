@@ -124,11 +124,3 @@ weight: 708
 | **프로그래밍 모델** | SIMT (CUDA thread) | Operator-level (TFLite delegate) | XLA 컴파일 (graph-level) | SISD/MIMD |
 | **지연 시간** | 수십 μs~수 ms | 1~10 ms (실시간) | 수 ms~수백 ms (배치) | 수십 ns~수 μs |
 | **확장 단위** | 노드(8 GPU)->랙(72/256) | 디바이스 단위 (보드) | Pod (수천 칩)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 708 / 800
-
-<- **이전**: [707. 모델 서빙 인프라 vLLM TGI 최적화](/studynote/06_ict_convergence/uncategorized/707_model_serving_infrastructure_vllm_tgi/)
-**다음**: [709. 엣지 AI 추론 최적화 온디바이스](/studynote/06_ict_convergence/uncategorized/709_edge_ai_inference_optimization_on_device/) ->
-
----

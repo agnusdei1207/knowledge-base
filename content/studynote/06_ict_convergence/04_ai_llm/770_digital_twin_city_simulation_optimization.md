@@ -153,11 +153,3 @@ $$SA = 1 - \frac{1}{N}\sum_{i=1}^{N} \frac{|x_i^{physical}(t) - x_i^{virtual}(t 
 | 구분 | Digital Twin City | Smart City Platform | Cyber-Physical System (CPS) | 전통 도시 시뮬레이션 |
 |:---|:---|:---|:---|:---|
 | **정합성(Synchronization)** | 양방향 실시간 동기 (Latency < 1s) | 단방향 데이터 수집 | 양방향이지만 단일 시스템 한정 | 동기 없음 (Static)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 770 / 800
-
-<- **이전**: [769. 순환 경제 자원 재활용 디지털 추적](/studynote/06_ict_convergence/uncategorized/769_circular_economy_resource_recycling_digital/)
-**다음**: [771. 스마트 정부 디지털 공공 서비스 혁신](/studynote/06_ict_convergence/uncategorized/771_smart_government_digital_public_innovation/) ->
-
----

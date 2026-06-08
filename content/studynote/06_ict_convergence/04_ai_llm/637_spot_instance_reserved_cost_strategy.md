@@ -180,11 +180,3 @@ c5.xlarge = 4 vCPU
 
 | 구분 | On-Demand | Reserved(Standard) | Reserved(Convertible) | Spot | Savings Plans(Compute) |
 | :--- | :--- | :--- | :--- | :--- | :---
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 637 / 800
-
-<- **이전**: [636. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/studynote/06_ict_convergence/uncategorized/636_edge_cloud_mec_cdn_distributed_computing/)
-**다음**: [638. 클라우드 마이그레이션 6R 전략](/studynote/06_ict_convergence/uncategorized/638_cloud_migration_6r_strategy/) ->
-
----

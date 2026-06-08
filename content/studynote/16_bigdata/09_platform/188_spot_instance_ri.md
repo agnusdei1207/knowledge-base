@@ -7,7 +7,7 @@ weight: 188
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 빅데이터 비용 최적화 ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)은 빅데이터 비용 관점에서 현상을 숫자로 바꿔 비교 가능한 의사결정을 만드는 지표 체계를 다루는 주제다.
+> 1. **본질**: 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)은 빅데이터 비용 관점에서 현상을 숫자로 바꿔 비교 가능한 의사결정을 만드는 지표 체계를 다루는 주제다.
 > 2. **가치**: 감이 아니라 수치로 개선 전후를 설명할 수 있다.
 > 3. **판단 포인트**: 측정 기준이 일관되고, 해석이 실행 조치로 이어지는지 본다.
 
@@ -15,7 +15,7 @@ weight: 188
 
 ## Ⅰ. 개요 및 필요성
 
-빅데이터 비용 최적화 ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)은 빅데이터 환경에서 비용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
+빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)은 빅데이터 환경에서 비용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. 데이터 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 기준선이다.
 
 ```text
 +--------------+   +--------------+   +--------------+
@@ -29,12 +29,12 @@ weight: 188
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심은 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 처리 구조, 그리고 결과 활용을 연결하는 것이다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷이나 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 응용은 각각 다르지만, 결국은 저장 비용, 조회 속도, 확장성, 운영 난이도 사이의 균형 문제로 수렴한다.
+핵심은 입력 데이터와 처리 구조, 그리고 결과 활용을 연결하는 것이다. 파일 포맷이나 도메인 응용은 각각 다르지만, 결국은 저장 비용, 조회 속도, 확장성, 운영 난이도 사이의 균형 문제로 수렴한다.
 
 | 요소 | 역할 | 포인트 |
 |:---|:---|:---|
-| 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 기준/입력 | 범위가 모호하면 뒤 단계도 흔들린다 |
-| 산식/기준 | 처리/[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
+| 입력 데이터 | 기준/입력 | 범위가 모호하면 뒤 단계도 흔들린다 |
+| 산식/기준 | 처리/검증 | 절차와 자동화가 연결되어야 한다 |
 | 해석/조치 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
@@ -51,14 +51,14 @@ Spot Instance와 컴퓨팅-스토리지 분리은 이 흐름을 보강하는 대
 
 ## Ⅲ. 비교 및 연결
 
-빅데이터 비용 최적화 ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)은 단독으로 보기보다 대안과 비교할 때 경계가 선명해진다. 특히 Reserved Instance와의 비교는 구조를 이해하는 데 도움이 된다.
+빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)은 단독으로 보기보다 대안과 비교할 때 경계가 선명해진다. 특히 Reserved Instance와의 비교는 구조를 이해하는 데 도움이 된다.
 
 | 항목 | 단계 1 | 단계 2 |
 |:---|:---|:---|
 | 정성 판단 | 정량 지표 | 의사결정 |
 | 측정값 | 기준값 | 개선 여부 |
 
-TCO와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 그리고 운영 체계를 함께 보는 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
+TCO와도 연결해 보면, 기술 선택은 결국 비용과 성능, 그리고 운영 체계를 함께 보는 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 온도계와 혈압계는 같은 모양처럼 보여도 용도에 따라 완전히 다르다. 비교해야 차이가 보인다.
 
@@ -68,18 +68,18 @@ TCO와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/studynot
 
 실무에서는 "도입 여부"보다 "어떤 조건에서 채택할 것인가"로 판단해야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 정의가 모호한 지표를 쓰지 않는가?
 2. 수집 주기와 책임자가 정해졌는가?
 3. 숫자가 행동 지침으로 이어지는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 숫자만 있고 개선 액션이 없는 경우
-- 조직마다 정의가 다른 [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/)
+- 조직마다 정의가 다른 KPI
 
-빅데이터 비용 최적화 ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 비용, 보안, [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 중 무엇이 우선인지가 다르면 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 달라진다.
+빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. 성능, 비용, 보안, 유지보수성 중 무엇이 우선인지가 다르면 선택도 달라진다.
 
 - **📢 섹션 요약 비유**: 대시보드은 고장 나기 전에 멈추는 장치다.
 
@@ -87,7 +87,7 @@ TCO와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/studynot
 
 ## Ⅴ. 기대효과 및 결론
 
-빅데이터 비용 최적화 ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)의 기대효과는 명확하다. 기준이 통일되고, 증거가 남고, 조치가 닫히면 의사결정 속도와 품질 모두 좋아진다. 다만 이 효과는 문서, 도구, 운영이 같은 방향을 볼 때만 유지된다.
+빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)의 기대효과는 명확하다. 기준이 통일되고, 증거가 남고, 조치가 닫히면 의사결정 속도와 품질 모두 좋아진다. 다만 이 효과는 문서, 도구, 운영이 같은 방향을 볼 때만 유지된다.
 
 - **📢 섹션 요약 비유**: 체온계처럼, 마지막엔 핵심만 남겨야 다음에 다시 꺼내 쓸 수 있다.
 
@@ -97,10 +97,10 @@ TCO와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/studynot
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) | 비용과 연결되는 핵심 축 |
+| Spot Instance | 비용과 연결되는 핵심 축 |
 | 컴퓨팅-스토리지 분리 | 비용과 연결되는 핵심 축 |
 | Reserved Instance | 비용과 연결되는 핵심 축 |
-| [TCO](/studynote/12_it_management/01_governance_strategy/016_tco/) | 비용과 연결되는 핵심 축 |
+| TCO | 비용과 연결되는 핵심 축 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -121,22 +121,11 @@ TCO와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/studynot
 [FinOps — 비용 가시성·최적화 문화, 자동화 비용 조정으로 클라우드 경제성]
 ```
 
-이 흐름은 온디맨드의 편의성에서 RI·Spot으로 비용 최적화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 다각화되고, 중단 내성 아키텍처와 [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 문화로 발전하는 클라우드 비용 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심 계보를 보여준다.
+이 흐름은 온디맨드의 편의성에서 RI·Spot으로 비용 최적화 전략이 다각화되고, 중단 내성 아키텍처와 FinOps 문화로 발전하는 클라우드 비용 관리 전략의 핵심 계보를 보여준다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 빅데이터 비용 최적화 ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/), 컴퓨팅-스토리지 분리, RI)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
-2. 중간에 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
+1. 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
+2. 중간에 확인표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 188 / 262
-
-<- **이전**: [187. 컬럼 기반 파일 포맷 (Parquet, ORC, Iceberg, Arrow) 조회 최적화](/studynote/16_bigdata/09_platform/187_parquet_orc_iceberg_arrow/)
-**다음**: [189. 데이터 이동 비용 (Egress 비용, 리전 내 데이터 로컬화)](/studynote/16_bigdata/09_platform/189_egress/) ->
-
----

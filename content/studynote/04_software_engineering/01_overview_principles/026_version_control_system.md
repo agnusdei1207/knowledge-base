@@ -6,9 +6,9 @@ tags:
 weight: 26
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: VCS (Version Control System, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템)는 소프트웨어의 소스 코드·문서·[설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일의 변경 이력을 추적하고, 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 되돌리거나 여러 사람의 변경을 병합하는 협업 도구로, [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))의 핵심 구현체다.
-> 2. **가치**: Git이 지배적인 현대 DVCS (Distributed VCS) 시대에서 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([GitFlow](/studynote/15_devops_sre/01_culture_methodology/053_gitflow/), [Trunk-Based Development](/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/))은 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인과 팀 협업 방식을 결정하는 핵심 아키텍처 결정이다. 단순한 코드 저장소를 넘어 "변경 제안->리뷰->병합->배포"의 전체 소프트웨어 개발 워크플로우를 조직한다.
-> 3. **판단 포인트**: CVCS (Centralized VCS, 중앙집중형)와 DVCS (Distributed VCS, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)형)의 가장 큰 차이는 "오프라인 작업 가능성"과 "[단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 여부"다. Git의 로컬 전체 이력 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 서버 장애 시에도 개발을 계속하고 빠른 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 가능하게 한다.
+> 1. **본질**: VCS (Version Control System, 버전 관리 시스템)는 소프트웨어의 소스 코드·문서·설정 파일의 변경 이력을 추적하고, 이전 버전으로 되돌리거나 여러 사람의 변경을 병합하는 협업 도구로, SCM (Software Configuration Management)의 핵심 구현체다.
+> 2. **가치**: Git이 지배적인 현대 DVCS (Distributed VCS) 시대에서 브랜치 전략(GitFlow, Trunk-Based Development)은 CI/CD 파이프라인과 팀 협업 방식을 결정하는 핵심 아키텍처 결정이다. 단순한 코드 저장소를 넘어 "변경 제안->리뷰->병합->배포"의 전체 소프트웨어 개발 워크플로우를 조직한다.
+> 3. **판단 포인트**: CVCS (Centralized VCS, 중앙집중형)와 DVCS (Distributed VCS, 분산형)의 가장 큰 차이는 "오프라인 작업 가능성"과 "단일 장애점(SPOF) 여부"다. Git의 로컬 전체 이력 복제는 서버 장애 시에도 개발을 계속하고 빠른 복구를 가능하게 한다.
 
 ---
 
@@ -29,7 +29,7 @@ weight: 26
 +----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: VCS의 진화는 은행 시스템의 진화다. 개인 장부(LVCS) -> 은행 중앙 서버(CVCS) -> 각자 완전한 사본을 가진 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장(DVCS/[블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 유사). [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장은 서버가 죽어도 거래가 계속된다.
+- **📢 섹션 요약 비유**: VCS의 진화는 은행 시스템의 진화다. 개인 장부(LVCS) -> 은행 중앙 서버(CVCS) -> 각자 완전한 사본을 가진 분산 원장(DVCS/블록체인 유사). 분산 원장은 서버가 죽어도 거래가 계속된다.
 
 ---
 
@@ -45,7 +45,7 @@ weight: 26
                                              [원격 저장소 (GitHub)]
 ```
 
-### 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
+### 브랜치 전략 비교
 
 ```text
 GitFlow:
@@ -67,18 +67,18 @@ main --- commit --- commit --- commit --- (Feature Flag)
 
 | 항목 | SVN (CVCS) | Git (DVCS) |
 |:---|:---|:---|
-| **저장소** | 중앙 서버 단일 | 각 로컬에 전체 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
+| **저장소** | 중앙 서버 단일 | 각 로컬에 전체 복제 |
 | **오프라인** | 불가 | 가능 (commit, branch, log) |
 | **브랜치 비용** | 비쌈 (디렉토리 복사) | 매우 저렴 (포인터 이동) |
-| <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a></strong> | 있음 | 없음 ([분산](/studynote/08_algorithm_stats/08_stats/136_variance/)) |
+| <strong>SPOF</strong> | 있음 | 없음 (분산) |
 
-- **📢 섹션 요약 비유**: SVN은 중앙 도서관(서버)에 원본만 있는 대출 시스템이고, Git은 모든 회원이 전체 도서 목록 사본을 가진 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 도서관이다. 중앙이 불이 나도 회원들의 사본으로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능하다.
+- **📢 섹션 요약 비유**: SVN은 중앙 도서관(서버)에 원본만 있는 대출 시스템이고, Git은 모든 회원이 전체 도서 목록 사본을 가진 분산 도서관이다. 중앙이 불이 나도 회원들의 사본으로 복구 가능하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Git 핵심 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 워크플로우
+### Git 핵심 명령어 워크플로우
 
 ```bash
 # 기능 개발 브랜치 생성
@@ -96,10 +96,10 @@ git checkout main && git pull
 git branch -d feature/user-auth
 ```
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- main 브랜치에 직접 커밋하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("직접 커밋"). 기능 브랜치 없이 main에 직접 커밋하면 [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/)·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 검사 없이 프로덕션 코드에 버그가 들어간다. Branch [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Rules로 직접 커밋을 차단해야 한다.
+### 안티패턴
+- main 브랜치에 직접 커밋하는 안티패턴("직접 커밋"). 기능 브랜치 없이 main에 직접 커밋하면 코드 리뷰·CI 검사 없이 프로덕션 코드에 버그가 들어간다. Branch Protection Rules로 직접 커밋을 차단해야 한다.
 
-- **📢 섹션 요약 비유**: main 직접 커밋은 도로 공사를 신호등 없이 막는 것이다. 교통 통제(브랜치·[PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 없이 직접 공사하면 교통 혼란(버그)이 생긴다.
+- **📢 섹션 요약 비유**: main 직접 커밋은 도로 공사를 신호등 없이 막는 것이다. 교통 통제(브랜치·PR) 없이 직접 공사하면 교통 혼란(버그)이 생긴다.
 
 ---
 
@@ -108,12 +108,12 @@ git branch -d feature/user-auth
 | 기대효과 | 내용 |
 |:---|:---|
 | **이력 추적** | 모든 변경의 책임자·시간·이유 기록 |
-| **협업** | 동시 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발 + 충돌 병합 관리 |
-| <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 버그 발생 시 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 즉시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| **협업** | 동시 병렬 개발 + 충돌 병합 관리 |
+| <strong>롤백</strong> | 버그 발생 시 이전 버전으로 즉시 복구 |
 
-GitOps는 VCS(Git)를 인프라 선언적 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)의 단일 진실 원천(Single Source of Truth)으로 활용하여, Git 커밋만으로 클라우드 인프라 배포까지 자동화하는 현대 DevOps의 핵심 패턴이다.
+GitOps는 VCS(Git)를 인프라 선언적 설정의 단일 진실 원천(Single Source of Truth)으로 활용하여, Git 커밋만으로 클라우드 인프라 배포까지 자동화하는 현대 DevOps의 핵심 패턴이다.
 
-- **📢 섹션 요약 비유**: GitOps는 Git이 모든 것의 설계도 보관소가 된 것이다. 설계도(코드+[설정](/studynote/15_devops_sre/01_culture_methodology/009_config/))를 변경하면 자동으로 집(인프라)이 그에 맞게 바뀐다.
+- **📢 섹션 요약 비유**: GitOps는 Git이 모든 것의 설계도 보관소가 된 것이다. 설계도(코드+설정)를 변경하면 자동으로 집(인프라)이 그에 맞게 바뀐다.
 
 ---
 
@@ -121,11 +121,11 @@ GitOps는 VCS(Git)를 인프라 선언적 [설정](/studynote/15_devops_sre/01_c
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a></strong> | VCS는 SCM의 핵심 구현 도구 |
-| <strong><a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD</strong> | VCS 커밋이 자동 빌드·배포 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
-| <strong><a href="/studynote/15_devops_sre/01_culture_methodology/053_gitflow/">GitFlow</a></strong> | VCS 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 대표 패턴 |
-| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | VCS를 인프라 관리의 SSOT로 활용 |
-| <strong><a href="/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> (<a href="/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a>)</strong> | VCS 플랫폼에서 제공하는 협업 워크플로우 |
+| <strong>SCM</strong> | VCS는 SCM의 핵심 구현 도구 |
+| <strong>CI/CD</strong> | VCS 커밋이 자동 빌드·배포 트리거 |
+| <strong>GitFlow</strong> | VCS 브랜치 전략의 대표 패턴 |
+| <strong>GitOps</strong> | VCS를 인프라 관리의 SSOT로 활용 |
+| <strong>코드 리뷰 (PR)</strong> | VCS 플랫폼에서 제공하는 협업 워크플로우 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,17 +147,6 @@ GitOps는 VCS(Git)를 인프라 선언적 [설정](/studynote/15_devops_sre/01_c
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. VCS는 글 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 앱의 "실행 취소" 버튼 무제한 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이에요! 언제든지 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 돌아갈 수 있어요.
+1. VCS는 글 쓰기 앱의 "실행 취소" 버튼 무제한 버전이에요! 언제든지 이전 버전으로 돌아갈 수 있어요.
 2. Git은 모든 팀원이 전체 이력 사본을 가져서, 서버가 없어도 오프라인으로 작업하고 나중에 합칠 수 있어요.
-3. 요즘은 Git 커밋 하나로 코드 테스트부터 서버 배포까지 자동으로 되는 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 세상이 됐답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 26 / 973
-
-<- **이전**: [25. 기준선 (Baseline) — 형상 관리의 공식 참조점](/studynote/04_software_engineering/01_overview_principles/025_baseline/)
-**다음**: [27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제](/studynote/04_software_engineering/01_overview_principles/027_change_management/) ->
-
----
+3. 요즘은 Git 커밋 하나로 코드 테스트부터 서버 배포까지 자동으로 되는 GitOps 세상이 됐답니다!

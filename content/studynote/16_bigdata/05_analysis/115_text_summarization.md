@@ -6,19 +6,19 @@ tags:
 weight: 115
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 텍스트 요약 (Text Summarization)은 긴 문서를 짧고 핵심적인 텍스트로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 NLP 기법으로, 원문 문장을 그대로 추출하는 추출적 (Extractive) 방법과 새로운 문장을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 추상적 (Abstractive) 방법으로 구분된다.
-> 2. **가치**: 법률 문서·의학 논문·뉴스 기사·회의록 등 매일 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 대규모 텍스트를 자동으로 요약함으로써 정보 과부하를 해소하고, 의사결정자가 핵심 정보에 빠르게 접근하도록 지원한다.
-> 3. **판단 포인트**: 추출적 방법은 빠르고 사실 오류가 없지만 자연스럽지 않고, T5·[GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 기반 추상적 방법은 유창하지만 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 위험이 있다. 평가 지표 ROUGE ([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)-Oriented Understudy for Gisting Evaluation)로 요약 품질을 객관적으로 측정한다.
+> 1. **본질**: 텍스트 요약 (Text Summarization)은 긴 문서를 짧고 핵심적인 텍스트로 압축하는 NLP 기법으로, 원문 문장을 그대로 추출하는 추출적 (Extractive) 방법과 새로운 문장을 생성하는 추상적 (Abstractive) 방법으로 구분된다.
+> 2. **가치**: 법률 문서·의학 논문·뉴스 기사·회의록 등 매일 생성되는 대규모 텍스트를 자동으로 요약함으로써 정보 과부하를 해소하고, 의사결정자가 핵심 정보에 빠르게 접근하도록 지원한다.
+> 3. **판단 포인트**: 추출적 방법은 빠르고 사실 오류가 없지만 자연스럽지 않고, T5·GPT 기반 추상적 방법은 유창하지만 환각 (Hallucination) 위험이 있다. 평가 지표 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)로 요약 품질을 객관적으로 측정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-하루에 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 뉴스 기사만 수백만 건, 논문은 수만 편이다. 전문가가 이 모든 것을 직접 읽는 것은 불가능하다. 텍스트 요약은 이 정보 홍수에서 핵심만을 건져내는 자동화 기술이다.
+하루에 생성되는 뉴스 기사만 수백만 건, 논문은 수만 편이다. 전문가가 이 모든 것을 직접 읽는 것은 불가능하다. 텍스트 요약은 이 정보 홍수에서 핵심만을 건져내는 자동화 기술이다.
 
-법률 분야에서는 수천 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 계약서를 요약하여 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 빠르게 파악하고, 금융 분야에서는 기업 공시·실적 보고서를 실시간으로 요약하여 투자 판단을 지원한다. 회의 전사 (Transcription) 자동 요약은 업무 생산성의 새로운 척도가 됐다.
+법률 분야에서는 수천 페이지의 계약서를 요약하여 리스크를 빠르게 파악하고, 금융 분야에서는 기업 공시·실적 보고서를 실시간으로 요약하여 투자 판단을 지원한다. 회의 전사 (Transcription) 자동 요약은 업무 생산성의 새로운 척도가 됐다.
 
-- **📢 섹션 요약 비유**: 텍스트 요약은 수백 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 책을 읽고 뒤표지 소개글을 써주는 편집자다. 추출적 요약은 책에서 중요한 문장을 골라 붙이는 것이고, 추상적 요약은 책을 이해하고 새로운 언어로 다시 쓰는 것이다.
+- **📢 섹션 요약 비유**: 텍스트 요약은 수백 페이지의 책을 읽고 뒤표지 소개글을 써주는 편집자다. 추출적 요약은 책에서 중요한 문장을 골라 붙이는 것이고, 추상적 요약은 책을 이해하고 새로운 언어로 다시 쓰는 것이다.
 
 ---
 
@@ -53,15 +53,15 @@ weight: 115
 
 | 지표 | 수식 | 의미 |
 |:---|:---|:---|
-| **ROUGE-N** | N-gram [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) | [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 요약의 N-gram이 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 요약에 얼마나 포함됐는가 |
-| **ROUGE-L** | 최장 공통 부분 수열 ([LCS](/studynote/08_algorithm_stats/03_graph_search/053_lcs/), [Longest Common Subsequence](/studynote/08_algorithm_stats/03_graph_search/053_lcs/)) | 문장 구조적 유사성 측정 |
+| **ROUGE-N** | N-gram 재현율 | 참조 요약의 N-gram이 생성 요약에 얼마나 포함됐는가 |
+| **ROUGE-L** | 최장 공통 부분 수열 (LCS, Longest Common Subsequence) | 문장 구조적 유사성 측정 |
 | **ROUGE-SU** | Skip-gram + Unigram | 어순에 유연한 유사성 측정 |
 
-### TextRank [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### TextRank 알고리즘
 
-PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지로 구성한 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 중요한 문장(높은 PageRank) 추출.
+PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지로 구성한 그래프에서 중요한 문장(높은 PageRank) 추출.
 
-- **📢 섹션 요약 비유**: TextRank는 선생님이 중요한 내용에 밑줄을 긋는 것처럼 원문에서 핵심 문장을 고른다. [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 기반 추상적 요약은 선생님이 그 내용을 자기 말로 다시 설명하는 것이다.
+- **📢 섹션 요약 비유**: TextRank는 선생님이 중요한 내용에 밑줄을 긋는 것처럼 원문에서 핵심 문장을 고른다. GPT 기반 추상적 요약은 선생님이 그 내용을 자기 말로 다시 설명하는 것이다.
 
 ---
 
@@ -69,14 +69,14 @@ PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지�
 
 | 항목 | 추출적 요약 | 추상적 요약 |
 |:---|:---|:---|
-| **사실 정확도** | 원문 그대로 -> 높음 | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정에서 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 위험 |
+| **사실 정확도** | 원문 그대로 -> 높음 | 생성 과정에서 환각 위험 |
 | **자연스러움** | 문장 간 연결 어색할 수 있음 | 자연스럽고 유창 |
-| <strong><a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>률</strong> | 제한적 (원문 문장 길이 유지) | 높은 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 가능 |
-| <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 적응</strong> | 쉬움 ([알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적) | 파인튜닝 필요 |
-| **연산 비용** | 낮음 | 높음 ([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 필요) |
-| **대표 도구** | NLTK, Sumy, BERTSum | T5, BART, [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini |
+| <strong>압축률</strong> | 제한적 (원문 문장 길이 유지) | 높은 압축 가능 |
+| <strong>도메인 적응</strong> | 쉬움 (알고리즘적) | 파인튜닝 필요 |
+| **연산 비용** | 낮음 | 높음 (LLM 필요) |
+| **대표 도구** | NLTK, Sumy, BERTSum | T5, BART, GPT-4, Gemini |
 
-법률·의료·금융처럼 사실 정확도가 최우선인 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 추출적 방법이 안전하고, 일반 뉴스 요약이나 회의록처럼 자연스러운 읽기 흐름이 중요한 경우 추상적 방법이 적합하다.
+법률·의료·금융처럼 사실 정확도가 최우선인 도메인에서는 추출적 방법이 안전하고, 일반 뉴스 요약이나 회의록처럼 자연스러운 읽기 흐름이 중요한 경우 추상적 방법이 적합하다.
 
 - **📢 섹션 요약 비유**: 법원 문서 요약은 단 한 단어도 틀리면 안 되니 추출적 방법이 안전하다. 친구에게 영화 내용을 설명할 때는 자연스럽게 재구성하는 추상적 방법이 더 좋다.
 
@@ -86,25 +86,25 @@ PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지�
 
 ### 적용 시나리오
 
-1. <strong>뉴스 집계 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 수천 개 기사를 3줄 요약 -> 독자 스캔 시간 80% 절감
-2. **법률 계약서 리뷰**: 조항별 추출적 요약 -> [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 조항 빠른 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
-3. **회의 전사 요약**: [STT](/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) (Speech-to-Text) + 추상적 요약 -> 액션 아이템 자동 추출
-4. **고객 리뷰 요약**: 수만 건 상품 리뷰를 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별 요약 -> 제품 개선 인사이트
+1. <strong>뉴스 집계 서비스</strong>: 수천 개 기사를 3줄 요약 -> 독자 스캔 시간 80% 절감
+2. **법률 계약서 리뷰**: 조항별 추출적 요약 -> 리스크 조항 빠른 식별
+3. **회의 전사 요약**: STT (Speech-to-Text) + 추상적 요약 -> 액션 아이템 자동 추출
+4. **고객 리뷰 요약**: 수만 건 상품 리뷰를 속성별 요약 -> 제품 개선 인사이트
 
 ### 빅데이터 처리 고려사항
 
-- <strong><a href="/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a></strong>: 수백만 건의 문서를 Spark로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, 각 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별로 요약 모델 적용
+- <strong>배치 처리</strong>: 수백만 건의 문서를 Spark로 분산 처리, 각 파티션별로 요약 모델 적용
 - **모델 경량화**: 엣지 디바이스 배포 시 DistilBART, TinyBERT 같은 경량화 모델
 - **다국어**: mBART (multilingual BART), mT5 로 한국어 포함 다국어 요약
 
-### 기술사 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 체크리스트
 
 1. 요약 길이 제약 (예: 3문장, 100자 이내)이 비즈니스 요구사항과 일치하는가?
-2. [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 방지를 위한 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 있는가? (사실 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 소스 인용 추적)
+2. 환각 (Hallucination) 방지를 위한 검증 파이프라인이 있는가? (사실 검증, 소스 인용 추적)
 3. ROUGE 점수가 높아도 인간 평가와 다를 수 있음 -> 최소 100건 인간 평가 필수
 4. 다국어 문서라면 언어별 모델 또는 다국어 모델 선택 기준을 명확히 했는가?
 
-- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 요약은 빠르지만 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 문제다. 의사가 처방전을 쓸 때 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 요약만 믿으면 안 되듯, 사실 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없는 추상적 요약은 위험하다. 빠름과 정확함 사이의 균형이 핵심 설계 원칙이다.
+- **📢 섹션 요약 비유**: AI 요약은 빠르지만 환각이 문제다. 의사가 처방전을 쓸 때 AI 요약만 믿으면 안 되듯, 사실 검증 없는 추상적 요약은 위험하다. 빠름과 정확함 사이의 균형이 핵심 설계 원칙이다.
 
 ---
 
@@ -115,25 +115,25 @@ PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지�
 | 정보 접근 시간 단축 | 긴 문서 독해 시간 70~90% 절감 |
 | 업무 생산성 향상 | 회의록·보고서 자동 요약으로 행정 부담 경감 |
 | 검색 인텍스 품질 향상 | 요약 텍스트로 문서 검색 정확도 향상 |
-| 다국어 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) | 외국어 문서를 모국어로 요약·번역 통합 |
-| 규정 준수 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 규정 문서 자동 요약으로 컴플라이언스 체크 자동화 |
+| 다국어 접근성 | 외국어 문서를 모국어로 요약·번역 통합 |
+| 규정 준수 모니터링 | 규정 문서 자동 요약으로 컴플라이언스 체크 자동화 |
 
-텍스트 요약은 단순한 편의 기능이 아닌, 정보 격차를 해소하고 의사결정 속도를 높이는 핵심 인프라가 됐다. [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini, Claude 같은 대형 언어 모델 ([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 등장으로 추상적 요약 품질이 비약적으로 향상됐지만, [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)과 비용 문제를 해결하는 엔지니어링이 여전히 핵심 과제다.
+텍스트 요약은 단순한 편의 기능이 아닌, 정보 격차를 해소하고 의사결정 속도를 높이는 핵심 인프라가 됐다. GPT-4, Gemini, Claude 같은 대형 언어 모델 (LLM, Large Language Model)의 등장으로 추상적 요약 품질이 비약적으로 향상됐지만, 환각과 비용 문제를 해결하는 엔지니어링이 여전히 핵심 과제다.
 
-- **📢 섹션 요약 비유**: 좋은 텍스트 요약은 좋은 편집장처럼 원문의 의도를 살리면서도 독자가 이해하기 쉽게 다듬어야 한다. 단어만 줄이는 것이 아니라 의미를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 것이 핵심이다.
+- **📢 섹션 요약 비유**: 좋은 텍스트 요약은 좋은 편집장처럼 원문의 의도를 살리면서도 독자가 이해하기 쉽게 다듬어야 한다. 단어만 줄이는 것이 아니라 의미를 압축하는 것이 핵심이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 관계 |
 |:---|:---|
-| ROUGE ([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)-Oriented Understudy for Gisting Evaluation) | 자동 텍스트 요약 평가의 표준 지표 |
-| TextRank | 추출적 요약의 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| T5 (Text-to-Text Transfer [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) | 추상적 요약의 핵심 사전학습 모델 |
-| BART (Bidirectional [AutoRegressive](/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/) [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) | 추상적 요약 최적화 모델 |
-| [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이 사실이 아닌 내용을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 문제 |
-| [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) | 최신 고품질 추상적 요약의 기반 |
+| ROUGE (Recall-Oriented Understudy for Gisting Evaluation) | 자동 텍스트 요약 평가의 표준 지표 |
+| TextRank | 추출적 요약의 그래프 기반 알고리즘 |
+| T5 (Text-to-Text Transfer Transformer) | 추상적 요약의 핵심 사전학습 모델 |
+| BART (Bidirectional AutoRegressive Transformer) | 추상적 요약 최적화 모델 |
+| 환각 (Hallucination) | 생성 모델이 사실이 아닌 내용을 생성하는 문제 |
+| LLM (Large Language Model) | 최신 고품질 추상적 요약의 기반 |
 | 다국어 요약 (mBART, mT5) | 다국어 문서 처리 |
 
 
@@ -154,20 +154,9 @@ PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지�
     v
 [LLM 제로샷·프롬프트 요약 (GPT-4 / Claude) — 별도 학습 없이 지시문만으로 요약, RAG 통합]
 ```
-이 흐름은 단어 빈도 통계 기반의 단순 추출에서 의미 이해 기반의 추상적 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 진화하고, [대규모 언어 모델](/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)이 프롬프트 하나로 모든 요약 작업을 통합하는 텍스트 요약 기술의 발전 계보를 보여준다.
+이 흐름은 단어 빈도 통계 기반의 단순 추출에서 의미 이해 기반의 추상적 생성으로 진화하고, 대규모 언어 모델이 프롬프트 하나로 모든 요약 작업을 통합하는 텍스트 요약 기술의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 텍스트 요약은 두꺼운 책을 읽고 짧은 줄거리를 써주는 것처럼, 컴퓨터가 긴 글을 핵심만 뽑아 짧게 만들어줘요.
 - 추출적 요약은 책에서 중요한 문장을 골라서 붙이는 것이고, 추상적 요약은 AI가 이해하고 새로 써주는 거예요.
 - 뉴스 앱에서 긴 기사를 3줄로 보여주거나, AI가 회의 내용을 요약해주는 것이 바로 이 기술이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 115 / 262
-
-<- **이전**: [111. 그래프 분석 (Graph Analytics) — PageRank/커뮤니티 탐지/최단 경로](/studynote/16_bigdata/05_analysis/114_graph_analytics/)
-**다음**: [113. 토픽 모델링 (Topic Modeling) — LDA/BERTopic/NMF 잠재 주제 발견](/studynote/16_bigdata/05_analysis/116_topic_modeling/) ->
-
----

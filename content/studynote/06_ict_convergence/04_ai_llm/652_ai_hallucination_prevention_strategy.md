@@ -175,11 +175,3 @@ Hallucination Prevention은 유사 개념들과 명확히 구분되어야 합니
 | **인용·출처 추적성** | ✅ 문서 단위 | ❌ 불가 | ❌ 불가 | ⚠️ 부분 (token-level) | ❌ 불가 |
 | **추가 Latency** | 200~800ms (retrieval) | 0ms (추론만) | 50~300ms (longer ctx) | 10~50ms (logit bias) | 200~500ms (critique loop) |
 | **비용 (USD / 1K query)** | $0.05~0.20 (emb+
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 652 / 800
-
-<- **이전**: [651. 생성형 AI 비즈니스 적용 전략](/studynote/06_ict_convergence/uncategorized/651_generative_ai_business_application_strategy/)
-**다음**: [653. AI 윤리 편향 공정성 설명 가능성](/studynote/06_ict_convergence/uncategorized/653_ai_ethics_bias_fairness_explainability/) ->
-
----

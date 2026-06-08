@@ -7,19 +7,19 @@ weight: 332
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CWPP (Cloud Workload [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Platform, [클라우드 워크로드 보호 플랫폼](/studynote/15_devops_sre/05_devsecops/255_cwpp_cloud_workload_protection_platform/))은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수 등 런타임 워크로드에서 이상 행동을 실시간 탐지하고 차단하는 보안 솔루션이다. 이미지 취약점은 CWPP 이전에 [SCA](/studynote/09_security/05_web_app_security/453_sca/)/SAST로 처리하고, 런타임에서 발생하는 예상치 못한 행동은 CWPP가 담당한다.
-> 2. <strong>Falco와 <a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong>: Falco는 리눅스 시스템 콜([System Call](/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 실시간 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링해 이상 행동(비정상 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근, 네트워크 연결, [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 탐지한다. [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) ([Extended Berkeley Packet Filter](/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/))를 사용하면 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 없이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 가시성을 확보하고, seccomp으로 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 허용된 시스템 콜만 사용하도록 제한한다.
-> 3. **판단 포인트**: [Container Escape](/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/)([컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 탈출)는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 호스트 OS로 접근하는 심각한 보안 사고다. CWPP는 이런 탈출 시도를 시스템 콜 패턴으로 탐지한다. 2018년 Tesla [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경의 크립토마이닝 사례가 CWPP 필요성을 보여준다.
+> 1. **본질**: CWPP (Cloud Workload Protection Platform, 클라우드 워크로드 보호 플랫폼)은 컨테이너, VM, 서버리스 함수 등 런타임 워크로드에서 이상 행동을 실시간 탐지하고 차단하는 보안 솔루션이다. 이미지 취약점은 CWPP 이전에 SCA/SAST로 처리하고, 런타임에서 발생하는 예상치 못한 행동은 CWPP가 담당한다.
+> 2. <strong>Falco와 eBPF</strong>: Falco는 리눅스 시스템 콜(System Call)을 실시간 모니터링해 이상 행동(비정상 파일 접근, 네트워크 연결, 권한 상승)을 탐지한다. eBPF (Extended Berkeley Packet Filter)를 사용하면 커널 모듈 없이 커널 레벨 가시성을 확보하고, seccomp으로 컨테이너가 허용된 시스템 콜만 사용하도록 제한한다.
+> 3. **판단 포인트**: Container Escape(컨테이너 탈출)는 컨테이너에서 호스트 OS로 접근하는 심각한 보안 사고다. CWPP는 이런 탈출 시도를 시스템 콜 패턴으로 탐지한다. 2018년 Tesla Kubernetes 환경의 크립토마이닝 사례가 CWPP 필요성을 보여준다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지가 안전하게 빌드되더라도, 런타임에서 공격자가 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 침해할 수 있다. 환경변수로 주입된 [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)이 노출되거나, 취약한 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 메모리 익스플로잇으로 임의 코드가 실행될 수 있다.
+컨테이너 이미지가 안전하게 빌드되더라도, 런타임에서 공격자가 컨테이너를 침해할 수 있다. 환경변수로 주입된 시크릿이 노출되거나, 취약한 라이브러리의 메모리 익스플로잇으로 임의 코드가 실행될 수 있다.
 
-2018년 Tesla 사례: [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 대시보드가 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 없이 노출 -> 공격자가 크립토마이닝 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 배포 -> AWS에서 수만 달러의 컴퓨팅 비용 발생. CWPP가 있었다면 비정상적인 CPU 사용과 외부 통신이 즉시 탐지되었을 것이다.
+2018년 Tesla 사례: Kubernetes 대시보드가 인증 없이 노출 -> 공격자가 크립토마이닝 컨테이너를 배포 -> AWS에서 수만 달러의 컴퓨팅 비용 발생. CWPP가 있었다면 비정상적인 CPU 사용과 외부 통신이 즉시 탐지되었을 것이다.
 
-> 📢 **섹션 요약 비유**: CWPP는 건물 내 개인 보안 요원이다. 누군가가 허가 없이 금고실(민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 접근하거나 비상구로 탈출을 시도하면 즉시 제지한다.
+> 📢 **섹션 요약 비유**: CWPP는 건물 내 개인 보안 요원이다. 누군가가 허가 없이 금고실(민감 데이터)에 접근하거나 비상구로 탈출을 시도하면 즉시 제지한다.
 
 ---
 
@@ -66,34 +66,34 @@ Falco 룰 예시 (YAML):
 
 | 기술 | 역할 | 방식 |
 |:---|:---|:---|
-| [seccomp](/studynote/02_operating_system/01_overview_architecture/080_seccomp/) | 시스템 콜 제한 | 허용 목록 기반 필터링 |
-| [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/) | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/네트워크 접근 제어 | [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (강제 접근 제어) |
-| Falco | 런타임 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 시스템 콜 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
-| [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가시성 확보 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 훅 |
+| seccomp | 시스템 콜 제한 | 허용 목록 기반 필터링 |
+| AppArmor | 파일/네트워크 접근 제어 | MAC (강제 접근 제어) |
+| Falco | 런타임 이상 탐지 | 시스템 콜 모니터링 |
+| eBPF | 커널 가시성 확보 | 커널 레벨 훅 |
 
-[Container Escape](/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/) 탐지 예시:
-- [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 /proc/1/ns 접근 -> 호스트 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 탈출 시도
-- [docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/).sock [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 후 [docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) run 실행 -> [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 호스트 제어
+Container Escape 탐지 예시:
+- 컨테이너에서 /proc/1/ns 접근 -> 호스트 네임스페이스 탈출 시도
+- docker.sock 마운트 후 docker run 실행 -> 컨테이너로 호스트 제어
 
-> 📢 **섹션 요약 비유**: seccomp은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에게 이 동작들만 할 수 있다는 면허증이다. 면허에 없는 동작은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉시 거부한다.
+> 📢 **섹션 요약 비유**: seccomp은 컨테이너에게 이 동작들만 할 수 있다는 면허증이다. 면허에 없는 동작은 커널이 즉시 거부한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### CWPP 구현 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### CWPP 구현 체크리스트
 
-1. Falco가 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) DaemonSet으로 모든 노드에 배포되어 있는가?
-2. [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지가 루트(root)로 실행되지 않는가 (non-root 사용자)?
-3. [seccomp](/studynote/02_operating_system/01_overview_architecture/080_seccomp/) 프로파일로 불필요한 시스템 콜이 제한되어 있는가?
-4. [Container Escape](/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/) 탐지 룰이 활성화되고 SIEM에 연동되어 있는가?
+1. Falco가 Kubernetes DaemonSet으로 모든 노드에 배포되어 있는가?
+2. 컨테이너 이미지가 루트(root)로 실행되지 않는가 (non-root 사용자)?
+3. seccomp 프로파일로 불필요한 시스템 콜이 제한되어 있는가?
+4. Container Escape 탐지 룰이 활성화되고 SIEM에 연동되어 있는가?
 
 ### 위협 유형별 탐지
 
 - **크립토마이닝**: 비정상적 외부 IP 연결, CPU 과부하
-- **역방향 쉘**: 비정상적 네트워크 바인딩, 쉘 [프로세스 생성](/studynote/02_operating_system/02_process_thread/104_process_creation/)
-- <strong><a href="/studynote/09_security/04_endpoint_security/356_privilege_escalation/">권한 상승</a></strong>: [setuid](/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 실행, ptrace 호출
-- <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유출</strong>: 비정상적 대용량 외부 전송
+- **역방향 쉘**: 비정상적 네트워크 바인딩, 쉘 프로세스 생성
+- <strong>권한 상승</strong>: setuid 실행, ptrace 호출
+- <strong>데이터 유출</strong>: 비정상적 대용량 외부 전송
 
 > 📢 **섹션 요약 비유**: CWPP는 은행 내부의 이상 행동 탐지 시스템이다. 직원이 갑자기 금고에 접근하거나 대량의 현금을 이동시키면 즉시 보안팀에 알린다.
 
@@ -113,11 +113,11 @@ CWPP의 핵심은 <strong>"알려지지 않은 위협(Unknown Threat)도 시스�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| CWPP (Cloud Workload [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Platform) | 런타임 워크로드 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| CWPP (Cloud Workload Protection Platform) | 런타임 워크로드 보호 |
 | Falco | 시스템 콜 기반 런타임 탐지 |
-| [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) ([Extended Berkeley Packet Filter](/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/)) | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 가시성 |
-| [seccomp](/studynote/02_operating_system/01_overview_architecture/080_seccomp/) | 시스템 콜 허용 목록 필터링 |
-| [Container Escape](/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/) | [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 호스트 OS 탈출 |
+| eBPF (Extended Berkeley Packet Filter) | 커널 레벨 가시성 |
+| seccomp | 시스템 콜 허용 목록 필터링 |
+| Container Escape | 컨테이너에서 호스트 OS 탈출 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,17 +132,6 @@ AV/에이전트 중심        Falco 오픈소스 등장             Cilium + Fal
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. CWPP는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 일어나는 모든 행동을 지켜보는 CCTV예요. 이상한 행동을 하면 바로 경보가 울려요.
-2. seccomp은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에게 이것만 할 수 있어라는 면허증이에요. 면허에 없는 것은 아예 시도조차 할 수 없어요.
+1. CWPP는 컨테이너 안에서 일어나는 모든 행동을 지켜보는 CCTV예요. 이상한 행동을 하면 바로 경보가 울려요.
+2. seccomp은 컨테이너에게 이것만 할 수 있어라는 면허증이에요. 면허에 없는 것은 아예 시도조차 할 수 없어요.
 3. eBPF는 건물 바닥에 내장된 센서예요. 위층에서 무슨 일이 일어나도 바닥 진동으로 즉시 감지할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 332 / 373
-
-<- **이전**: [331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark](/studynote/15_devops_sre/05_devsecops/331_cspm/)
-**다음**: [333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform](/studynote/15_devops_sre/05_devsecops/333_cnapp/) ->
-
----

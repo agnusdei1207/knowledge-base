@@ -6,9 +6,9 @@ tags:
 weight: 114
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)(Gaussian Mixture Model)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>K개의 가우시안(정규) 분포의 가중 합</strong>으로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었다고 가정하고, 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트가 어느 가우시안에 속하는지 <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적으로 추정(소프트 클러스터링)</strong>하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.
-> 2. **가치**: K-Means가 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>하나의 클러스터에 확정(하드 할당)</strong>하는 반면, GMM은 "이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 A 클러스터에 70%, B에 30%"처럼 <strong>소속 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>을 제공</strong>하여 경계 모호성을 표현할 수 있다.
-> 3. **판단 포인트**: GMM의 파라미터(평균·공분산·혼합 계수)는 <strong>EM(<a href="/studynote/08_algorithm_stats/08_stats/142_em_algorithm/">Expectation-Maximization</a>) <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>으로 추정하며, 클러스터 수 K는 BIC(Bayesian Information Criterion)로 선택한다.
+> 1. **본질**: GMM(Gaussian Mixture Model)은 데이터가 <strong>K개의 가우시안(정규) 분포의 가중 합</strong>으로 생성되었다고 가정하고, 각 데이터 포인트가 어느 가우시안에 속하는지 <strong>확률적으로 추정(소프트 클러스터링)</strong>하는 확률 생성 모델이다.
+> 2. **가치**: K-Means가 각 데이터를 <strong>하나의 클러스터에 확정(하드 할당)</strong>하는 반면, GMM은 "이 데이터는 A 클러스터에 70%, B에 30%"처럼 <strong>소속 확률을 제공</strong>하여 경계 모호성을 표현할 수 있다.
+> 3. **판단 포인트**: GMM의 파라미터(평균·공분산·혼합 계수)는 <strong>EM(Expectation-Maximization) 알고리즘</strong>으로 추정하며, 클러스터 수 K는 BIC(Bayesian Information Criterion)로 선택한다.
 
 ---
 
@@ -26,21 +26,21 @@ weight: 114
 +-------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: K-Means는 학생을 "반드시 A반 또는 B반"에 배정하는 것이고, GMM은 "A반에 70% 속하고 B반에도 30% 속한다"고 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 표현하는 것이다.
+- **📢 섹션 요약 비유**: K-Means는 학생을 "반드시 A반 또는 B반"에 배정하는 것이고, GMM은 "A반에 70% 속하고 B반에도 30% 속한다"고 확률적으로 표현하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 2단계
+### EM 알고리즘 2단계
 
 | 단계 | 작업 | 비유 |
 |:---|:---|:---|
-| **E-step (Expectation)** | 현재 파라미터로 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소속 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Responsibility) 계산 | 학생이 각 반에 속할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 계산 |
-| **M-step (Maximization)** | 소속 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 가중 평균·공분산·혼합 계수 재추정 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 기반으로 반 중심·크기 재조정 |
+| **E-step (Expectation)** | 현재 파라미터로 각 데이터의 소속 확률(Responsibility) 계산 | 학생이 각 반에 속할 확률 계산 |
+| **M-step (Maximization)** | 소속 확률로 가중 평균·공분산·혼합 계수 재추정 | 확률 기반으로 반 중심·크기 재조정 |
 | **반복** | E->M 반복 -> 수렴 | 최적의 반 배정 완성 |
 
-### [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) 파라미터
+### GMM 파라미터
 
 | 파라미터 | 의미 |
 |:---|:---|
@@ -54,28 +54,28 @@ weight: 114
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | K-Means | [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) |
+| 비교 | K-Means | GMM |
 |:---|:---|:---|
-| **할당** | 하드 (0 or 1) | <strong>소프트 (<a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>)</strong> |
+| **할당** | 하드 (0 or 1) | <strong>소프트 (확률)</strong> |
 | **클러스터 형태** | 원형 | **타원형 (공분산)** |
-| <strong><a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | 거리 기반 | <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 기반 (EM)</strong> |
+| <strong>알고리즘</strong> | 거리 기반 | <strong>확률 기반 (EM)</strong> |
 | **속도** | 빠름 | 느림 |
-| <strong><a href="/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong> | 민감 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 흡수 |
+| <strong>이상치</strong> | 민감 | 확률로 흡수 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 활용 시나리오
-1. **고객 세분화**: 경계 모호한 고객 그룹 (VIP와 일반 사이) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/).
-2. <strong><a href="/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 정상 분포를 GMM으로 모델링 -> 낮은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) = [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/).
-3. **음성 인식**: 음소별 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 모델링 (HMM-[GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)).
+1. **고객 세분화**: 경계 모호한 고객 그룹 (VIP와 일반 사이) 확률적 분류.
+2. <strong>이상 탐지</strong>: 정상 분포를 GMM으로 모델링 -> 낮은 확률 데이터 = 이상치.
+3. **음성 인식**: 음소별 확률 분포 모델링 (HMM-GMM).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-GMM은 K-Means의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 일반화이며, 클러스터 경계가 모호하거나 타원형 분포를 갖는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 우수한 성능을 보인다. Variational Inference·Bayesian GMM으로 확장되어 자동 클러스터 수 결정도 가능하다.
+GMM은 K-Means의 확률적 일반화이며, 클러스터 경계가 모호하거나 타원형 분포를 갖는 데이터에서 우수한 성능을 보인다. Variational Inference·Bayesian GMM으로 확장되어 자동 클러스터 수 결정도 가능하다.
 
 ---
 
@@ -84,10 +84,10 @@ GMM은 K-Means의 [확률](/studynote/08_algorithm_stats/08_stats/130_probabilit
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **K-Means** | GMM의 하드 클러스터링 특수 케이스 |
-| <strong>EM <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) 파라미터 추정 방법 |
+| <strong>EM 알고리즘</strong> | GMM 파라미터 추정 방법 |
 | **BIC / AIC** | 최적 클러스터 수 K 선택 기준 |
-| **HMM** | GMM을 방출 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 사용하는 시퀀스 모델 |
-| <strong>Bayesian <a href="/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/">GMM</a></strong> | 클러스터 수 자동 결정 |
+| **HMM** | GMM을 방출 확률로 사용하는 시퀀스 모델 |
+| <strong>Bayesian GMM</strong> | 클러스터 수 자동 결정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -109,16 +109,5 @@ GMM은 K-Means의 [확률](/studynote/08_algorithm_stats/08_stats/130_probabilit
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. K-Means는 학생을 <strong>"반드시 A반!"</strong>이라고 정하는 거예요.
-2. GMM은 <strong>"A반에 70%, B반에 30%"</strong>처럼 어느 반에 더 가까운지 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 말해줘요.
-3. 세상에는 딱 나눌 수 없는 것이 많으니까, GMM처럼 <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>로 표현</strong>하는 게 더 정확하답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 114 / 258
-
-<- **이전**: [113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거](/studynote/14_data_engineering/02_math_mining/113_manifold_hypothesis_dimensionality_reduction/)
-**다음**: [115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터](/studynote/14_data_engineering/02_math_mining/115_dbscan_clustering/) ->
-
----
+2. GMM은 <strong>"A반에 70%, B반에 30%"</strong>처럼 어느 반에 더 가까운지 확률로 말해줘요.
+3. 세상에는 딱 나눌 수 없는 것이 많으니까, GMM처럼 <strong>확률로 표현</strong>하는 게 더 정확하답니다!

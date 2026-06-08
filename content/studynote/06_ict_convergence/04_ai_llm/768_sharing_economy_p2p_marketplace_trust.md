@@ -162,11 +162,3 @@ Hodge Decomposition(그래프 라플라시안의 3분해: gradient + curl + harm
 ### 2. 기존 시스템과의 통합
 
 P2P 신뢰 시스템은 독립 컴포
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 768 / 800
-
-<- **이전**: [767. 크리에이터 경제 디지털 콘텐츠 플랫폼](/studynote/06_ict_convergence/uncategorized/767_creator_economy_digital_content_platform/)
-**다음**: [769. 순환 경제 자원 재활용 디지털 추적](/studynote/06_ict_convergence/uncategorized/769_circular_economy_resource_recycling_digital/) ->
-
----

@@ -154,11 +154,3 @@ Paul Rothemund(2006, Nature) **DNA Origami**: 7,249 nt **M13mp18** scaffold + 20
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **나노 트랜스듀서 (CNT)** | 신호 변환 (전기적) | **단일벽 CNT(SWCNT)** 직경 0.5~2nm, **mobility 10^5 cm²/V·s**(Si 대비 100배), 반도체형/금속형 분리에 **Density Gradient Ultracentrifugation** (99% purity). SWCNT-FET에서 analyte 결합 시 Schottky Barrier 변조로 **Vth 이동 50~300mV**, 전류 변화율(
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 722 / 800
-
-<- **이전**: [721. 바이오인포매틱스 유전체 분석 정밀의료](/studynote/06_ict_convergence/uncategorized/721_bioinformatics_genomics_precision_medicine/)
-**다음**: [723. 3D 프린팅 적층 제조 산업 응용](/studynote/06_ict_convergence/uncategorized/723_3d_printing_additive_manufacturing_industry/) ->
-
----

@@ -143,11 +143,3 @@ ICT 융합 논술의 5-Step 표준 서술 프레임워크는 아래와 같다. �
 | 트레이드오프 | 정확도 vs 지연 | 환각v vs 비용^ | 자동화 ^ vs 오탐 |
 
 - **📢 섹션 요약 비유**: 위 4개 비교표는 **“병원 진료 과”**와 같다. 응급(URLLC)·일반진료(eMBB)·예방접종(mMTC)이 같은 병원이지만 “환자 상태(요구사항)”에 따라 치료법
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 795 / 800
-
-<- **이전**: [794. ICT 융합 기술 디지털 전환 융합 마스터](/studynote/06_ict_convergence/uncategorized/794_ict_digital_transformation_convergence_master/)
-**다음**: [796. ICT 융합 기술 종합 마스터 아키텍처 정리](/studynote/06_ict_convergence/uncategorized/796_ict_convergence_master_architecture_final/) ->
-
----

@@ -7,18 +7,18 @@ weight: 215
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))는 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 문제를 해결하기 위한 첫 번째이자 절대적인 필수 조건으로, <strong>"오직 하나의 프로세스(또는 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>)만이 공유 자원에 접근할 수 있도록 독점권을 보장하는 것"</strong>이다.
-> 2. **가치**: [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))으로 인해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/studynote/09_security/01_intro_principles/003_integrity/))이 파괴되는 것을 원천적으로 차단하며, 현대 프로그래밍에서 쓰이는 '락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))'이라는 개념의 이론적 뿌리가 된다.
-> 3. **융합**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 자체는 완벽한 방패지만, 이를 무분별하게 남용하면 프로세스들이 서로의 자물쇠가 풀리기만 기다리다 영원히 멈추는 <strong>데드락(<a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>이라는 치명적인 부작용을 반드시 낳게 되므로, 정교한 락 해제 설계가 융합되어야 한다.
+> 1. **본질**: 상호 배제 (Mutual Exclusion)는 임계 구역(Critical Section) 문제를 해결하기 위한 첫 번째이자 절대적인 필수 조건으로, <strong>"오직 하나의 프로세스(또는 스레드)만이 공유 자원에 접근할 수 있도록 독점권을 보장하는 것"</strong>이다.
+> 2. **가치**: 경쟁 조건(Race Condition)으로 인해 데이터의 무결성(Integrity)이 파괴되는 것을 원천적으로 차단하며, 현대 프로그래밍에서 쓰이는 '락(Lock)'이라는 개념의 이론적 뿌리가 된다.
+> 3. **융합**: 상호 배제 자체는 완벽한 방패지만, 이를 무분별하게 남용하면 프로세스들이 서로의 자물쇠가 풀리기만 기다리다 영원히 멈추는 <strong>데드락(Deadlock)</strong>이라는 치명적인 부작용을 반드시 낳게 되므로, 정교한 락 해제 설계가 융합되어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 상호(Mutual) 배제(Exclusion). 단어 그대로 "네가 들어가면 나는 배제되고, 내가 들어가면 너는 배제된다"는 철저한 독점 규칙이다. 여러 프로세스가 하나의 공유 자원(변수, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 프린터 등)을 동시에 건드리지 못하도록, 한 번에 하나씩만 실행을 허용하는 동기화의 1원칙이다.
-- **필요성**: [멀티태스킹](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 환경에서 OS 스케줄러는 언제든 프로세스의 멱살을 잡고 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 시킬 수 있다. 프로세스 A가 은행 잔고를 읽어서 더하고 쓰려는 찰나(3단계 과정)에 멈춰지고, 프로세스 B가 들어와 같은 잔고를 건드리면 A의 더하기 연산이 날아가 버린다. 이 찰나의 틈새(비결정성)를 막으려면 "A가 볼일을 다 보고 나올 때까지 B는 절대 못 들어온다"는 쇠사슬이 필요했다.
+- **개념**: 상호(Mutual) 배제(Exclusion). 단어 그대로 "네가 들어가면 나는 배제되고, 내가 들어가면 너는 배제된다"는 철저한 독점 규칙이다. 여러 프로세스가 하나의 공유 자원(변수, 파일, 프린터 등)을 동시에 건드리지 못하도록, 한 번에 하나씩만 실행을 허용하는 동기화의 1원칙이다.
+- **필요성**: 멀티태스킹 환경에서 OS 스케줄러는 언제든 프로세스의 멱살을 잡고 문맥 교환(Context Switch)을 시킬 수 있다. 프로세스 A가 은행 잔고를 읽어서 더하고 쓰려는 찰나(3단계 과정)에 멈춰지고, 프로세스 B가 들어와 같은 잔고를 건드리면 A의 더하기 연산이 날아가 버린다. 이 찰나의 틈새(비결정성)를 막으려면 "A가 볼일을 다 보고 나올 때까지 B는 절대 못 들어온다"는 쇠사슬이 필요했다.
 
-- **등장 배경**: 에츠허르 데이크스트라(Edsger W. [Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 1965년에 발표한 논문에서 이 문제를 최초로 수학적으로 정의하고 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/)([Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/))라는 개념으로 구현해 냈다. 이 철학은 이후 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 커널의 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/))부터 응용 프로그램의 [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)(Mutual Exclusion의 약자) 객체로까지 끝없이 진화해 왔다.
+- **등장 배경**: 에츠허르 데이크스트라(Edsger W. Dijkstra)가 1965년에 발표한 논문에서 이 문제를 최초로 수학적으로 정의하고 세마포어(Semaphore)라는 개념으로 구현해 냈다. 이 철학은 이후 운영체제 커널의 스핀락(Spinlock)부터 응용 프로그램의 Mutex(Mutual Exclusion의 약자) 객체로까지 끝없이 진화해 왔다.
 
 ```text
   [상호 배제(Mutual Exclusion)의 동작 시각화]
@@ -35,34 +35,34 @@ weight: 215
 
   >> A가 볼일을 다 보고 '락 해제'를 외치기 전까지 B와 C는 1만 년이라도 대기해야 한다.
 ```
-**[다이어그램 해설]** [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 평등이나 효율성을 따지는 것이 아니다. 오로지 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 안전성' 하나만을 위해 나머지 시스템의 효율성([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)을 철저하게 포기(직렬화)하는 극단적 처방이다. 따라서 이 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)(빨간 네모 상자)의 길이를 최대한 짧게 만드는 것이 프로그래머의 가장 큰 덕목이다.
+**[다이어그램 해설]** 상호 배제는 평등이나 효율성을 따지는 것이 아니다. 오로지 '데이터의 안전성' 하나만을 위해 나머지 시스템의 효율성(병렬 처리)을 철저하게 포기(직렬화)하는 극단적 처방이다. 따라서 이 임계 구역(빨간 네모 상자)의 길이를 최대한 짧게 만드는 것이 프로그래머의 가장 큰 덕목이다.
 
-- **📢 섹션 요약 비유**: 아무리 차가 밀려도 기찻길 건널목에 차단기([상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))가 내려오면 모든 자동차는 서야 합니다. 기차(현재 실행 중인 프로세스)가 완전히 다 지나갈 때까지 기다리는 것이 답답해 보여도, 차단기를 무시하는 순간 대형 참사([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴)가 일어나기 때문입니다.
+- **📢 섹션 요약 비유**: 아무리 차가 밀려도 기찻길 건널목에 차단기(상호 배제)가 내려오면 모든 자동차는 서야 합니다. 기차(현재 실행 중인 프로세스)가 완전히 다 지나갈 때까지 기다리는 것이 답답해 보여도, 차단기를 무시하는 순간 대형 참사(데이터 파괴)가 일어나기 때문입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 구현하는 3가지 접근법
+### 상호 배제를 구현하는 3가지 접근법
 
-[상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 달성하려면 누군가는 문지기 역할을 해야 한다. 그 문지기가 누구냐에 따라 방법이 나뉜다.
+상호 배제를 달성하려면 누군가는 문지기 역할을 해야 한다. 그 문지기가 누구냐에 따라 방법이 나뉜다.
 
 #### 1. 소프트웨어적 해결 (소프트웨어가 문지기)
-- **방식**: 프로그래머가 코드(변수)만으로 논리적인 자물쇠를 만든다. (예: 데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
-- **한계**: `while (flag == true)` 같은 코드를 돌면서 자물쇠를 확인하는 찰나에 또 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 일어나면 자물쇠 자체가 뚫린다. 현대의 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)(Out-of-Order Execution) CPU 환경에서는 완벽한 방어가 불가능하다.
+- **방식**: 프로그래머가 코드(변수)만으로 논리적인 자물쇠를 만든다. (예: 데커 알고리즘, 피터슨 알고리즘)
+- **한계**: `while (flag == true)` 같은 코드를 돌면서 자물쇠를 확인하는 찰나에 또 문맥 교환이 일어나면 자물쇠 자체가 뚫린다. 현대의 비순차 실행(Out-of-Order Execution) CPU 환경에서는 완벽한 방어가 불가능하다.
 
 #### 2. 하드웨어적 해결 (CPU가 문지기)
-- **방식**: CPU 칩셋이 아예 중간에 끊기지 않는 1클럭짜리 <strong>원자적 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(Atomic <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a>)</strong>를 제공한다. (예: `TestAndSet`, `Compare-And-Swap`)
-- **한계**: 빠르고 완벽하게 자물쇠를 걸어주지만, 자물쇠가 열릴 때까지 CPU가 아무것도 안 하고 뺑뺑이([Busy Waiting](/studynote/02_operating_system/04_synchronization/227_busy_waiting/))를 도는 '[스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/))' 형태가 강제되므로 긴 작업에 쓰면 CPU 전력과 사이클이 증발한다.
+- **방식**: CPU 칩셋이 아예 중간에 끊기지 않는 1클럭짜리 <strong>원자적 명령어(Atomic Instruction)</strong>를 제공한다. (예: `TestAndSet`, `Compare-And-Swap`)
+- **한계**: 빠르고 완벽하게 자물쇠를 걸어주지만, 자물쇠가 열릴 때까지 CPU가 아무것도 안 하고 뺑뺑이(Busy Waiting)를 도는 '스핀락(Spinlock)' 형태가 강제되므로 긴 작업에 쓰면 CPU 전력과 사이클이 증발한다.
 
-#### 3. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)적 해결 (커널이 문지기)
-- **방식**: [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 하드웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 포장하여 <strong>뮤텍스(<a href="/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)</strong>나 <strong><a href="/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a>(<a href="/studynote/02_operating_system/04_synchronization/224_semaphore/">Semaphore</a>)</strong>라는 시스템 콜([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 제공한다.
-- **장점**: 문이 잠겨있으면 프로세스를 뺑뺑이 돌리지 않고 [대기 큐](/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Wait Queue](/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 재워버린(Sleep) 다음, 문이 열릴 때 커널이 깨워주므로 CPU 낭비가 없다. (현대 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 표준)
+#### 3. 운영체제적 해결 (커널이 문지기)
+- **방식**: 운영체제가 하드웨어 명령어를 포장하여 <strong>뮤텍스(Mutex)</strong>나 <strong>세마포어(Semaphore)</strong>라는 시스템 콜(API)을 제공한다.
+- **장점**: 문이 잠겨있으면 프로세스를 뺑뺑이 돌리지 않고 대기 큐(Wait Queue)에 재워버린(Sleep) 다음, 문이 열릴 때 커널이 깨워주므로 CPU 낭비가 없다. (현대 동시성 프로그래밍의 표준)
 
-### 데이크스트라의 [Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 조건
-어떤 자물쇠 메커니즘이든, 진짜 '[상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)'로 인정받으려면 다음을 만족해야 한다.
+### 데이크스트라의 Mutual Exclusion 조건
+어떤 자물쇠 메커니즘이든, 진짜 '상호 배제'로 인정받으려면 다음을 만족해야 한다.
 - **가정의 배제**: CPU의 속도나 코어 개수에 대한 어떠한 가정도 해서는 안 된다. (내 CPU가 엄청 빠르니까 안 부딪히겠지? --> 기각)
-- <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> 외의 간섭 금지</strong>: [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 밖에 있는 놈이 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가려는 놈을 막아서는 안 된다.
+- <strong>임계 구역 외의 간섭 금지</strong>: 임계 구역 밖에 있는 놈이 임계 구역에 들어가려는 놈을 막아서는 안 된다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -91,41 +91,41 @@ weight: 215
   |  lock = false;                                                      |
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 근본은 "내가 문을 열고 들어가는 그 찰나의 순간에, 다른 놈이 같이 손잡이를 잡지 못하게 하는 것"이다. `TestAndSet` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 실리콘 레벨에서 메모리 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 자체를 1클럭 동안 강제로 잠가버림으로써, 두 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 `lock` 변수에 접근하는 것을 하드웨어적으로 원천 차단해 낸다.
+**[다이어그램 해설]** 상호 배제의 근본은 "내가 문을 열고 들어가는 그 찰나의 순간에, 다른 놈이 같이 손잡이를 잡지 못하게 하는 것"이다. `TestAndSet` 명령어는 실리콘 레벨에서 메모리 버스(Bus) 자체를 1클럭 동안 강제로 잠가버림으로써, 두 스레드가 동시에 `lock` 변수에 접근하는 것을 하드웨어적으로 원천 차단해 낸다.
 
-- **📢 섹션 요약 비유**: 방 문을 잠글 때, 문고리를 돌리는 동작과 열쇠를 채우는 동작 사이에 1초의 틈이 있으면 도둑이 찰나에 들어옵니다(소프트웨어 방식의 실패). 하지만 "지문 인식과 동시에 문이 쾅 닫히고 잠기는" 0초짜리 스마트 도어록(하드웨어 원자적 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 쓰면 절대 뚫리지 않는 완벽한 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)가 완성됩니다.
+- **📢 섹션 요약 비유**: 방 문을 잠글 때, 문고리를 돌리는 동작과 열쇠를 채우는 동작 사이에 1초의 틈이 있으면 도둑이 찰나에 들어옵니다(소프트웨어 방식의 실패). 하지만 "지문 인식과 동시에 문이 쾅 닫히고 잠기는" 0초짜리 스마트 도어록(하드웨어 원자적 명령어)을 쓰면 절대 뚫리지 않는 완벽한 상호 배제가 완성됩니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)가 유발하는 3대 흑마법(재앙)
+### 상호 배제가 유발하는 3대 흑마법(재앙)
 
-[상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 안전을 얻는 대신 시스템의 활력(Liveness)을 갉아먹는 치명적 부작용을 동반한다.
+상호 배제는 안전을 얻는 대신 시스템의 활력(Liveness)을 갉아먹는 치명적 부작용을 동반한다.
 
 | 부작용 종류 | 발생 원리 | 시스템에 미치는 영향 |
 |:---|:---|:---|
-| <strong><a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> (<a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong> | 내가 락 A를 쥐고 B를 기다리는데, 상대방은 락 B를 쥐고 A를 기다릴 때 발생 | 두 프로세스가 0%의 진척도로 영원히 멈춰버림. **(가장 끔찍한 파국)** |
-| <strong><a href="/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a> (<a href="/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong>| 내가 락을 달라고 줄을 섰는데, 다른 놈들이 계속 새치기해서 락을 뺏어갈 때 발생 | 굶는 놈은 평생 CPU를 못 얻음. (에이징으로 구제 필요) |
-| <strong>병목 현상 (<a href="/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>| 너무 넓은 구역에 락을 걸어서, 1만 개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 한 명씩 순서대로 1차선 통과를 할 때 발생 | CPU 100코어를 샀는데 1코어 속도밖에 안 나오는 막대한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 낭비 |
+| <strong>교착 상태 (Deadlock)</strong> | 내가 락 A를 쥐고 B를 기다리는데, 상대방은 락 B를 쥐고 A를 기다릴 때 발생 | 두 프로세스가 0%의 진척도로 영원히 멈춰버림. **(가장 끔찍한 파국)** |
+| <strong>기아 상태 (Starvation)</strong>| 내가 락을 달라고 줄을 섰는데, 다른 놈들이 계속 새치기해서 락을 뺏어갈 때 발생 | 굶는 놈은 평생 CPU를 못 얻음. (에이징으로 구제 필요) |
+| <strong>병목 현상 (Bottleneck)</strong>| 너무 넓은 구역에 락을 걸어서, 1만 개의 스레드가 한 명씩 순서대로 1차선 통과를 할 때 발생 | CPU 100코어를 샀는데 1코어 속도밖에 안 나오는 막대한 성능 낭비 |
 
-### 뮤텍스([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)) 객체 vs [이진 세마포어](/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)([Binary Semaphore](/studynote/02_operating_system/04_synchronization/225_binary_semaphore/))
-두 객체 모두 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 위해 만들어졌지만 소유권(Ownership)에서 갈린다.
-- **뮤텍스**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 정수다. "내가 락을 걸었으면, 락을 푸는 놈도 반드시 나여야 한다." 소유권이 명확하여 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)([Priority Inversion](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)) 버그를 막아줄 수 있다.
-- <strong><a href="/studynote/02_operating_system/04_synchronization/225_binary_semaphore/">이진 세마포어</a></strong>: 자원 개수가 1개(0 or 1)인 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/)다. A가 잠그고 B가 열어줄 수 있다. [신호](/studynote/02_operating_system/02_process_thread/130_signal/)([Signal](/studynote/02_operating_system/02_process_thread/130_signal/)) 전달에는 좋지만, 엄격한 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)용으로는 락이 어디서 풀렸는지 추적하기 힘들어 스파게티 코드를 유발한다.
+### 뮤텍스(Mutex) 객체 vs 이진 세마포어(Binary Semaphore)
+두 객체 모두 상호 배제를 위해 만들어졌지만 소유권(Ownership)에서 갈린다.
+- **뮤텍스**: 상호 배제의 정수다. "내가 락을 걸었으면, 락을 푸는 놈도 반드시 나여야 한다." 소유권이 명확하여 운영체제가 우선순위 역전(Priority Inversion) 버그를 막아줄 수 있다.
+- <strong>이진 세마포어</strong>: 자원 개수가 1개(0 or 1)인 세마포어다. A가 잠그고 B가 열어줄 수 있다. 신호(Signal) 전달에는 좋지만, 엄격한 상호 배제용으로는 락이 어디서 풀렸는지 추적하기 힘들어 스파게티 코드를 유발한다.
 
-- **📢 섹션 요약 비유**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 철통 보안을 자랑하는 금고입니다. 금고를 쓰면 돈([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 완벽히 지키지만, 열쇠를 금고 안에 넣고 닫아버리면(데드락) 평생 돈을 꺼낼 수 없고, 금고 여는 시간이 너무 오래 걸리면 뒤에 줄 선 고객들이 홧병이 납니다(병목).
+- **📢 섹션 요약 비유**: 상호 배제는 철통 보안을 자랑하는 금고입니다. 금고를 쓰면 돈(데이터)은 완벽히 지키지만, 열쇠를 금고 안에 넣고 닫아버리면(데드락) 평생 돈을 꺼낼 수 없고, 금고 여는 시간이 너무 오래 걸리면 뒤에 줄 선 고객들이 홧병이 납니다(병목).
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>싱글 코어/유니프로세서 환경에서의 <a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> 꼼수 (<a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Disable)</strong>: 아주 싼 [마이크로컨트롤러](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)(MCU) 1코어 환경에서 락 구조체를 쓰기엔 메모리가 아깝다.
-   - **실무 조치**: 개발자는 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어갈 때 `disable_interrupts();` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳐서 그냥 CPU의 귀를 막아버린다. 인터럽트가 안 터지니 스케줄러가 개입하지 않고([문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 안 일어남), 나 혼자 코드를 편안하게 실행한 뒤 `enable_interrupts();` 로 귀를 다시 열어준다. 이것이 싱글 코어에서 락 없이 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 달성하는 가장 무식하고 빠른 비기다. (단, 멀티코어에서는 다른 코어까지 막을 수 없으므로 절대 쓰면 안 된다.)
-2. <strong>Java / C# <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> (<a href="/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>) 락의 무지성 남용 방지</strong>: 주니어 백엔드 개발자가 클래스의 모든 변수를 보호하겠다고 클래스 내의 모든 메서드에 `synchronized`를 발라놓았다.
-   - **장애 발생**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 접속하면, 메서드 하나가 실행되는 동안 다른 99개의 메서드는 몽땅 Block 상태로 뻗어버려 서버 TPS가 처참하게 박살 난다.
-   - **아키텍트 교정**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 영역([임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))은 **수술 부위처럼 가장 작게 도려내야 한다**. 메서드 전체가 아닌, 공유 변수를 읽고 쓰는 딱 2줄의 블록(Block)에만 락을 걸거나, 자바의 `ConcurrentHashMap`이나 `AtomicInteger` 같은 [락-프리](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 객체로 리팩토링하여 OS 수준의 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)) 개입을 아예 없애버려야 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 수백 배 향상된다.
+1. <strong>싱글 코어/유니프로세서 환경에서의 상호 배제 꼼수 (Interrupt Disable)</strong>: 아주 싼 마이크로컨트롤러(MCU) 1코어 환경에서 락 구조체를 쓰기엔 메모리가 아깝다.
+   - **실무 조치**: 개발자는 임계 구역에 들어갈 때 `disable_interrupts();` 명령어를 쳐서 그냥 CPU의 귀를 막아버린다. 인터럽트가 안 터지니 스케줄러가 개입하지 않고(문맥 교환 안 일어남), 나 혼자 코드를 편안하게 실행한 뒤 `enable_interrupts();` 로 귀를 다시 열어준다. 이것이 싱글 코어에서 락 없이 상호 배제를 달성하는 가장 무식하고 빠른 비기다. (단, 멀티코어에서는 다른 코어까지 막을 수 없으므로 절대 쓰면 안 된다.)
+2. <strong>Java / C# 모니터 (Monitor) 락의 무지성 남용 방지</strong>: 주니어 백엔드 개발자가 클래스의 모든 변수를 보호하겠다고 클래스 내의 모든 메서드에 `synchronized`를 발라놓았다.
+   - **장애 발생**: 스레드 100개가 접속하면, 메서드 하나가 실행되는 동안 다른 99개의 메서드는 몽땅 Block 상태로 뻗어버려 서버 TPS가 처참하게 박살 난다.
+   - **아키텍트 교정**: 상호 배제 영역(임계 구역)은 **수술 부위처럼 가장 작게 도려내야 한다**. 메서드 전체가 아닌, 공유 변수를 읽고 쓰는 딱 2줄의 블록(Block)에만 락을 걸거나, 자바의 `ConcurrentHashMap`이나 `AtomicInteger` 같은 락-프리(Lock-free) 객체로 리팩토링하여 OS 수준의 상호 배제(Mutex) 개입을 아예 없애버려야 성능이 수백 배 향상된다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -148,22 +148,22 @@ weight: 215
   |                 주고 나중에 한 방에 합치거나, CAS 연산으로 덮어씀.  |
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하고 안전을 사는 행위다. 락을 크고 굵게 잡으면(1번) 개발자는 편하지만 서버가 죽고, 작게 쪼개면(2번) 개발자가 데드락의 공포에 미쳐버린다. 최고 수준의 엔지니어링은 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 우아하게 포기하면서도 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 아키텍처(3번)를 짜는 것이다.
+**[다이어그램 해설]** 상호 배제는 성능을 포기하고 안전을 사는 행위다. 락을 크고 굵게 잡으면(1번) 개발자는 편하지만 서버가 죽고, 작게 쪼개면(2번) 개발자가 데드락의 공포에 미쳐버린다. 최고 수준의 엔지니어링은 상호 배제를 우아하게 포기하면서도 무결성을 지키는 아키텍처(3번)를 짜는 것이다.
 
-- **📢 섹션 요약 비유**: 도둑([경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막으려고 백화점(서버) 정문 하나에만 뚱뚱한 경비원(굵은 락)을 세워두면, 도둑은 막아도 손님들 입장 줄이 10km가 되어 백화점이 망합니다. 매장마다 작은 경비원(미세 락)을 두거나, 아예 훔칠 물건이 없는 쇼룸(락 프리)으로 만드는 것이 비즈니스를 살리는 길입니다.
+- **📢 섹션 요약 비유**: 도둑(경쟁 조건)을 막으려고 백화점(서버) 정문 하나에만 뚱뚱한 경비원(굵은 락)을 세워두면, 도둑은 막아도 손님들 입장 줄이 10km가 되어 백화점이 망합니다. 매장마다 작은 경비원(미세 락)을 두거나, 아예 훔칠 물건이 없는 쇼룸(락 프리)으로 만드는 것이 비즈니스를 살리는 길입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 원칙을 시스템의 가장 깊은 곳(공유 자원)에 정확히 설계하면, 수천 개의 [비동기적](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 트래픽과 멀티코어의 무작위 스케줄링 속에서도 잃어버리는 업데이트([Lost Update](/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)) 없이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 100% [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 완벽하게 증명하고 보장할 수 있다.
+상호 배제 원칙을 시스템의 가장 깊은 곳(공유 자원)에 정확히 설계하면, 수천 개의 비동기적 트래픽과 멀티코어의 무작위 스케줄링 속에서도 잃어버리는 업데이트(Lost Update) 없이 데이터의 100% 무결성을 완벽하게 증명하고 보장할 수 있다.
 
 ### 결론 및 미래 전망
-[상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제의 알파이자 오메가이며, 데드락과 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)라는 영원한 숙제를 인류에게 던져주었다. 소프트웨어로 막아보려던 시도(피터슨)는 실패했고, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))와 하드웨어(TAS)가 결합하여 지난 반세기를 버텨왔다.
-미래의 패러다임은 이 '자물쇠로 묶어둔다'는 개념에서 벗어나고 있다. 내가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하려 할 때 남이 이미 썼다면 에러를 뱉고 롤백시켜버리는 <strong>소프트웨어/<a href="/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/">하드웨어 트랜잭셔널 메모리</a> (<a href="/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">STM</a>/<a href="/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a>)</strong>의 [낙관적 동시성 제어](/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)([Optimistic Concurrency Control](/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/))나, 아예 불변 객체([Immutable Object](/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))만 통신으로 주고받아 공유 자원의 개념 자체를 파괴하는 메시지 패싱(Actor 모델 등)으로 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 패러다임이 거대한 궤도 수정을 하고 있다.
+상호 배제(Mutual Exclusion)는 운영체제 동시성 문제의 알파이자 오메가이며, 데드락과 기아 상태라는 영원한 숙제를 인류에게 던져주었다. 소프트웨어로 막아보려던 시도(피터슨)는 실패했고, 운영체제(Mutex)와 하드웨어(TAS)가 결합하여 지난 반세기를 버텨왔다.
+미래의 패러다임은 이 '자물쇠로 묶어둔다'는 개념에서 벗어나고 있다. 내가 데이터를 수정하려 할 때 남이 이미 썼다면 에러를 뱉고 롤백시켜버리는 <strong>소프트웨어/하드웨어 트랜잭셔널 메모리 (STM/HTM)</strong>의 낙관적 동시성 제어(Optimistic Concurrency Control)나, 아예 불변 객체(Immutable Object)만 통신으로 주고받아 공유 자원의 개념 자체를 파괴하는 메시지 패싱(Actor 모델 등)으로 상호 배제의 패러다임이 거대한 궤도 수정을 하고 있다.
 
-- **📢 섹션 요약 비유**: 옛날엔 사고가 나지 않게 길 한가운데 철창([상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 락)을 치고 차를 통제했다면, 이제는 차들이 부딪히면 마법처럼 1초 전으로 시간을 돌려서 다시 주행하게 만들거나([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 메모리), 아예 차들이 공중으로 날아다니게 길을 나눠버려서(메시지 패싱) 철창 자체가 필요 없는 미래 도시로 진화하고 있습니다.
+- **📢 섹션 요약 비유**: 옛날엔 사고가 나지 않게 길 한가운데 철창(상호 배제 락)을 치고 차를 통제했다면, 이제는 차들이 부딪히면 마법처럼 1초 전으로 시간을 돌려서 다시 주행하게 만들거나(트랜잭션 메모리), 아예 차들이 공중으로 날아다니게 길을 나눠버려서(메시지 패싱) 철창 자체가 필요 없는 미래 도시로 진화하고 있습니다.
 
 ---
 
@@ -192,17 +192,6 @@ weight: 215
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
-2. 먼저 동적 우선순위 승급 (Priority Boost)을 이해하면 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))을 잘 알면 나중에 에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)도 훨씬 쉽게 배울 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 215 / 800
-
-<- **이전**: [214. 임계 구역 (Critical Section)](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)
-**다음**: [216. 진행 (Progress)](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) ->
-
----
+1. 상호 배제 (Mutual Exclusion, Mutex)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
+2. 먼저 동적 우선순위 승급 (Priority Boost)을 이해하면 상호 배제 (Mutual Exclusion, Mutex)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 상호 배제 (Mutual Exclusion, Mutex)을 잘 알면 나중에 에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)도 훨씬 쉽게 배울 수 있어요.

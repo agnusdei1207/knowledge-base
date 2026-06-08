@@ -8,15 +8,15 @@ weight: 68
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이클립스 공격은 특정 노드의 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결을 공격자가 장악해 고립시키는 공격이다.
-> 2. **가치**: 네트워크 분할 상태를 만들어 허위 정보, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 잘못된 합의를 유도할 수 있다.
+> 1. **본질**: 이클립스 공격은 특정 노드의 P2P 연결을 공격자가 장악해 고립시키는 공격이다.
+> 2. **가치**: 네트워크 분할 상태를 만들어 허위 정보, 지연, 잘못된 합의를 유도할 수 있다.
 > 3. **판단**: 51% 공격이 전체 장악이라면, 이클립스 공격은 특정 노드 포위라는 점이 다르다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크는 노드가 주변과 잘 연결되어 있어야 정상적으로 동작한다. 이 연결이 끊기면 노드는 잘못된 세계를 믿게 된다.
+블록체인 네트워크는 노드가 주변과 잘 연결되어 있어야 정상적으로 동작한다. 이 연결이 끊기면 노드는 잘못된 세계를 믿게 된다.
 
 이클립스 공격은 이런 연결망을 조작하는 은밀한 공격이다.
 
@@ -38,9 +38,9 @@ Fake View / Delay
 | :-- | :-- |
 | Target Node | 고립 대상 |
 | Malicious Peers | 공격자 노드 |
-| [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) | 정보 차단 |
+| Isolation | 정보 차단 |
 
-이클립스 공격은 노드의 시야를 제한해 잘못된 체인, 잘못된 거래, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 업데이트를 유도한다.
+이클립스 공격은 노드의 시야를 제한해 잘못된 체인, 잘못된 거래, 지연된 업데이트를 유도한다.
 
 - **📢 섹션 요약 비유**: 창문을 가려 바깥 세상을 못 보게 만드는 것이다.
 
@@ -55,7 +55,7 @@ Fake View / Delay
 
 | 결과 | 설명 |
 | :-- | :-- |
-| False [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 허위 정보 수신 |
+| False View | 허위 정보 수신 |
 | Reorg Vulnerability | 잘못된 체인 추종 |
 
 이클립스 공격은 51% 공격의 전조가 되기도 한다. 노드가 고립되면 방어 판단이 왜곡된다.
@@ -66,17 +66,17 @@ Fake View / Delay
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 노드 피어 다양성이 있는가?
 2. 연결 재선택 정책이 있는가?
-3. 피어 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/화이트리스트가 있는가?
+3. 피어 검증/화이트리스트가 있는가?
 4. 네트워크 고립 탐지가 있는가?
 5. 합의 신뢰와 별개로 네트워크 위협을 보는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 연결 수만 늘리고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 없는 설계
+- 연결 수만 늘리고 검증은 없는 설계
 - 특정 피어에 지나치게 의존하는 설계
 - 고립 탐지 없이 운영하는 설계
 - 51% 공격과 구분하지 않는 설계
@@ -89,7 +89,7 @@ Fake View / Delay
 
 ## Ⅴ. 기대효과 및 결론
 
-이클립스 공격을 이해하면 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)뿐 아니라 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크의 연결 보안도 함께 볼 수 있다.
+이클립스 공격을 이해하면 블록체인뿐 아니라 P2P 네트워크의 연결 보안도 함께 볼 수 있다.
 
 결론적으로 이클립스 공격은 특정 노드 주변 연결을 장악하는 고립 공격이다.
 
@@ -130,14 +130,3 @@ Mitigation
 친구들을 가짜 친구로 바꾸면 안 돼요.
 그러면 한 사람이 바깥세상을 못 봐요.
 이클립스 공격은 그런 고립이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 68 / 552
-
-<- **이전**: [67. 51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격](/studynote/06_ict_convergence/01_blockchain/067_51_percent_attack_double_spending/)
-**다음**: [69. 크립토재킹 (Cryptojacking) - 타인의 PC나 서버 리소스를 해킹하여 몰래 암호화폐를 채굴하는 공격](/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/) ->
-
----

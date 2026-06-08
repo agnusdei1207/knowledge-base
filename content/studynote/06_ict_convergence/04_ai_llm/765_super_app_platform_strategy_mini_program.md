@@ -167,11 +167,3 @@ weight: 765
 | **스타일 시트 (WXSS/ACSS)** | 스타일링 | CSS의 부분집합 + `rpx`(responsive pixel, 750rpx=screen width) 단위. `@import`, `:host` 미지원, Shadow DOM 미지원으로 **전역 오염 위험** |
 | **로직 레이어 (JS)** | 비즈니스 로직 | ES6+ 지원(V8 12.x), 단 **DOM API 직접 접근 불가**(document, window 제거), **CommonJS 모듈 시스템** 사용. `wx.*`, `my.*`, `Kakao.*` 네임스페이스 API |
 | **라우터 (app.json)** | 페이지/탭 구성 | 선언적 라우팅, 최대 10개 탭(위챗), 5단계 depth 제한, 페이지당 2MB 메모리 권장. 동적 라
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 765 / 800
-
-<- **이전**: [764. 임베디드 금융 BaaS 금융 서비스 내장](/studynote/06_ict_convergence/uncategorized/764_embedded_finance_baas_banking_as_service/)
-**다음**: [766. 구독 경제 SaaS 리커링 수익 모델](/studynote/06_ict_convergence/uncategorized/766_subscription_economy_saas_recurring_revenue/) ->
-
----

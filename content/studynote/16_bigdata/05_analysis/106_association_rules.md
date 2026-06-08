@@ -6,19 +6,19 @@ tags:
 weight: 106
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 연관 규칙 (Association Rules)은 대규모 거래 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 "A를 사면 B도 산다"처럼 항목 간의 공동 출현 패턴을 자동으로 발굴하는 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) 기법이다.
-> 2. **가치**: [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)), [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)), [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)) 세 지표를 조합하면 우연적 동시 구매와 진짜 의미 있는 구매 연관성을 구분할 수 있어, 진열 배치·교차 판매·프로모션 설계의 근거 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 된다.
-> 3. **판단 포인트**: Apriori는 구현이 단순하지만 후보 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 크고, [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth (Frequent Pattern Growth)는 메모리 내 트리 구조로 스캔 횟수를 획기적으로 줄여 수백만 SKU (Stock-Keeping Unit) 규모에서도 실용적이다.
+> 1. **본질**: 연관 규칙 (Association Rules)은 대규모 거래 데이터에서 "A를 사면 B도 산다"처럼 항목 간의 공동 출현 패턴을 자동으로 발굴하는 비지도 학습 기법이다.
+> 2. **가치**: 지지도 (Support), 신뢰도 (Confidence), 향상도 (Lift) 세 지표를 조합하면 우연적 동시 구매와 진짜 의미 있는 구매 연관성을 구분할 수 있어, 진열 배치·교차 판매·프로모션 설계의 근거 데이터가 된다.
+> 3. **판단 포인트**: Apriori는 구현이 단순하지만 후보 생성 비용이 크고, FP-Growth (Frequent Pattern Growth)는 메모리 내 트리 구조로 스캔 횟수를 획기적으로 줄여 수백만 SKU (Stock-Keeping Unit) 규모에서도 실용적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-마트에서 기저귀를 사는 고객이 맥주도 함께 산다는 사례는 연관 규칙 분석의 상징적 발견이다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 스스로 숨겨진 구매 패턴을 드러낸다는 이 아이디어는 리테일을 넘어 의료 공동 진단, 금융 이상 거래, 웹 [클릭스트림 분석](/studynote/16_bigdata/05_analysis/120_clickstream_analysis/)으로 확장됐다.
+마트에서 기저귀를 사는 고객이 맥주도 함께 산다는 사례는 연관 규칙 분석의 상징적 발견이다. 데이터가 스스로 숨겨진 구매 패턴을 드러낸다는 이 아이디어는 리테일을 넘어 의료 공동 진단, 금융 이상 거래, 웹 클릭스트림 분석으로 확장됐다.
 
-수천만 건의 거래 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 사람이 직접 훑어 패턴을 찾는 것은 불가능하다. 연관 규칙 마이닝은 [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) 임계값으로 탐색 공간을 선제적으로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하고, 통계 지표로 의미 있는 규칙만 필터링함으로써 이 탐색을 자동화한다.
+수천만 건의 거래 로그를 사람이 직접 훑어 패턴을 찾는 것은 불가능하다. 연관 규칙 마이닝은 지지도 임계값으로 탐색 공간을 선제적으로 압축하고, 통계 지표로 의미 있는 규칙만 필터링함으로써 이 탐색을 자동화한다.
 
-- **📢 섹션 요약 비유**: 연관 규칙은 거대한 슈퍼마켓 영수증 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)에서 "어떤 물건들이 항상 함께 담겨 있는가"를 찾아주는 자동 탐정이다.
+- **📢 섹션 요약 비유**: 연관 규칙은 거대한 슈퍼마켓 영수증 더미에서 "어떤 물건들이 항상 함께 담겨 있는가"를 찾아주는 자동 탐정이다.
 
 ---
 
@@ -28,9 +28,9 @@ weight: 106
 
 | 지표 | 수식 | 의미 |
 |:---|:---|:---|
-| <strong><a href="/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">지지도</a> (<a href="/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong> | P(A ∩ B) | 전체 거래 중 A와 B가 함께 등장하는 비율 |
-| <strong><a href="/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> (<a href="/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a>)</strong> | P(B\|A) = P(A ∩ B)/P(A) | A가 있을 때 B가 같이 있을 [조건부 확률](/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) |
-| <strong><a href="/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">향상도</a> (<a href="/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">Lift</a>)</strong> | [Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) / P(B) | 우연보다 얼마나 더 자주 함께 나타나는가 (>1 이면 양의 연관) |
+| <strong>지지도 (Support)</strong> | P(A ∩ B) | 전체 거래 중 A와 B가 함께 등장하는 비율 |
+| <strong>신뢰도 (Confidence)</strong> | P(B\|A) = P(A ∩ B)/P(A) | A가 있을 때 B가 같이 있을 조건부 확률 |
+| <strong>향상도 (Lift)</strong> | Confidence / P(B) | 우연보다 얼마나 더 자주 함께 나타나는가 (>1 이면 양의 연관) |
 
 ```text
 +------------------------------------------------------------------+
@@ -55,25 +55,25 @@ weight: 106
 +------------------------------------------------------------------+
 ```
 
-### Apriori vs [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth
+### Apriori vs FP-Growth
 
-| 항목 | Apriori | [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth (Frequent Pattern Growth) |
+| 항목 | Apriori | FP-Growth (Frequent Pattern Growth) |
 |:---|:---|:---|
-| **핵심 아이디어** | 후보 항목 집합 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 스캔 반복 | DB를 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Tree로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 후보 없이 마이닝 |
+| **핵심 아이디어** | 후보 항목 집합 생성 후 스캔 반복 | DB를 FP-Tree로 압축, 후보 없이 마이닝 |
 | **DB 스캔 횟수** | 아이템 수 k번 반복 | 2회 (트리 구성 + 마이닝) |
 | **메모리 사용** | 낮음 | 높음 (트리 전체 메모리 적재) |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 아이템 종류 많을수록 급격히 느려짐 | 대용량에서 압도적 우위 |
+| <strong>성능</strong> | 아이템 종류 많을수록 급격히 느려짐 | 대용량에서 압도적 우위 |
 | **구현 복잡도** | 단순 | 복잡 |
 
-- **📢 섹션 요약 비유**: Apriori는 도서관에서 한 권씩 모든 책 조합을 찾는 방식이고, [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth는 목차(트리)를 먼저 만들어놓고 거기서만 검색하는 방식이다.
+- **📢 섹션 요약 비유**: Apriori는 도서관에서 한 권씩 모든 책 조합을 찾는 방식이고, FP-Growth는 목차(트리)를 먼저 만들어놓고 거기서만 검색하는 방식이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-연관 규칙은 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)의 패턴 발굴 관점에서 [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)와 유사하지만, 목적이 다르다. [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 그룹으로 나누는 것"이고, 연관 규칙은 "항목 간의 if-then 의존 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 찾는 것"이다.
+연관 규칙은 비지도 학습의 패턴 발굴 관점에서 군집화와 유사하지만, 목적이 다르다. 군집화는 "데이터 포인트를 그룹으로 나누는 것"이고, 연관 규칙은 "항목 간의 if-then 의존 관계를 찾는 것"이다.
 
-| 항목 | 연관 규칙 | [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) ([Collaborative Filtering](/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)) |
+| 항목 | 연관 규칙 | 협업 필터링 (Collaborative Filtering) |
 |:---|:---|:---|
 | **입력** | 거래 단위 항목 집합 | 사용자-아이템 평점 행렬 |
 | **출력** | {A} -> {B} 규칙 | 사용자별 추천 항목 |
@@ -81,9 +81,9 @@ weight: 106
 | **설명 가능성** | 높음 (규칙 명시적) | 낮음 (잠재 요인 기반) |
 | **적용 사례** | 진열 배치, 번들 프로모션 | 넷플릭스·유튜브 추천 |
 
-Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 대표적 구현체다. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별로 로컬 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Tree를 만든 뒤 결과를 병합하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 사용된다.
+Spark MLlib의 FPGrowth, Python mlxtend 라이브러리가 대표적 구현체다. 분산 환경에서는 파티션별로 로컬 FP-Tree를 만든 뒤 결과를 병합하는 전략이 사용된다.
 
-- **📢 섹션 요약 비유**: 연관 규칙은 "모든 손님이 공통으로 선택하는 조합"을 찾고, [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 "당신과 비슷한 손님이 좋아한 것"을 찾는다. 둘은 같은 상점에서 다른 질문에 답한다.
+- **📢 섹션 요약 비유**: 연관 규칙은 "모든 손님이 공통으로 선택하는 조합"을 찾고, 협업 필터링은 "당신과 비슷한 손님이 좋아한 것"을 찾는다. 둘은 같은 상점에서 다른 질문에 답한다.
 
 ---
 
@@ -91,18 +91,18 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/studynote/04_software
 
 ### 적용 시나리오
 
-1. **리테일 진열 최적화**: [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) > 2.0인 {A, B} 쌍을 인접 진열하여 교차 구매율 향상
+1. **리테일 진열 최적화**: Lift > 2.0인 {A, B} 쌍을 인접 진열하여 교차 구매율 향상
 2. **의료 공동 진단**: 전자 의무 기록 (EMR, Electronic Medical Record)에서 함께 나타나는 질환 조합 탐지 -> 조기 스크리닝 가이드
-3. **금융 이상 패턴**: 특정 거래 항목 조합이 사기 거래에 빈발하는지 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링
+3. **금융 이상 패턴**: 특정 거래 항목 조합이 사기 거래에 빈발하는지 모니터링
 
-### 기술사 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 체크리스트
 
-1. min_support와 min_confidence 임계값은 비즈니스 의미를 기반으로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)했는가? (너무 낮으면 규칙이 수천 개, 너무 높으면 의미 있는 규칙 누락)
-2. [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) = 1 에 가까운 규칙은 우연적 동시 출현이므로 제거했는가?
-3. 계절성 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 기간을 나눠 규칙을 비교했는가? (여름 vs 겨울 장바구니 패턴이 다름)
-4. 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 Apriori 대신 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth 또는 Spark FPGrowth를 선택했는가?
+1. min_support와 min_confidence 임계값은 비즈니스 의미를 기반으로 설정했는가? (너무 낮으면 규칙이 수천 개, 너무 높으면 의미 있는 규칙 누락)
+2. Lift = 1 에 가까운 규칙은 우연적 동시 출현이므로 제거했는가?
+3. 계절성 데이터라면 기간을 나눠 규칙을 비교했는가? (여름 vs 겨울 장바구니 패턴이 다름)
+4. 대용량 데이터라면 Apriori 대신 FP-Growth 또는 Spark FPGrowth를 선택했는가?
 
-- **📢 섹션 요약 비유**: Lift는 우연을 보정하는 나침반이다. [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)가 1.0이면 "우연히 함께 있는 것"이고, 3.0이면 "분명한 이유가 있어서 함께 있는 것"이다.
+- **📢 섹션 요약 비유**: Lift는 우연을 보정하는 나침반이다. 향상도가 1.0이면 "우연히 함께 있는 것"이고, 3.0이면 "분명한 이유가 있어서 함께 있는 것"이다.
 
 ---
 
@@ -111,28 +111,28 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/studynote/04_software
 | 효과 | 내용 |
 |:---|:---|
 | 교차 판매율 향상 | 연관 상품 추천으로 평균 장바구니 금액 증가 |
-| 진열 최적화 | 높은 [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) 쌍을 인접 배치, 동선 설계 개선 |
-| 프로모션 번들링 | [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) 높은 조합으로 묶음 할인 설계 |
+| 진열 최적화 | 높은 Lift 쌍을 인접 배치, 동선 설계 개선 |
+| 프로모션 번들링 | 지지도 높은 조합으로 묶음 할인 설계 |
 | 이상 패턴 감지 | 금융/의료에서 비정상적 조합 조기 탐지 |
 | 자동화 인사이트 | 수백만 SKU에서 사람이 발견 못 할 패턴 자동 발굴 |
 
-연관 규칙 마이닝은 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 스스로 말하게 하는" 탐색적 분석의 정수다. [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)로 공간을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하고, [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)로 우연을 걸러내는 두 단계의 필터링이 이 기법의 실용성을 보증한다. 빅데이터 시대에는 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth 기반 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리가 표준이 되고 있으며, 단순 리테일을 넘어 헬스케어·사이버보안·금융 사기 탐지로 영역이 확장되고 있다.
+연관 규칙 마이닝은 "데이터가 스스로 말하게 하는" 탐색적 분석의 정수다. 지지도로 공간을 압축하고, 향상도로 우연을 걸러내는 두 단계의 필터링이 이 기법의 실용성을 보증한다. 빅데이터 시대에는 FP-Growth 기반 분산 처리가 표준이 되고 있으며, 단순 리테일을 넘어 헬스케어·사이버보안·금융 사기 탐지로 영역이 확장되고 있다.
 
-- **📢 섹션 요약 비유**: 연관 규칙은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속에 숨어있는 "자주 다니는 이웃 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)"를 지도로 그려주는 기술이다. 지도가 있어야 길을 설계할 수 있다.
+- **📢 섹션 요약 비유**: 연관 규칙은 데이터 속에 숨어있는 "자주 다니는 이웃 관계"를 지도로 그려주는 기술이다. 지도가 있어야 길을 설계할 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 관계 |
 |:---|:---|
-| 빈발 항목 집합 (Frequent Itemset) | 연관 규칙 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 전 단계 |
+| 빈발 항목 집합 (Frequent Itemset) | 연관 규칙 생성의 전 단계 |
 | Apriori 원리 (Apriori Principle) | 빈발하지 않은 항목의 상위 집합도 빈발하지 않음 |
-| [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Tree | [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth의 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조, DB [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 저장 |
-| [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)/[신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)/[향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) | 규칙 평가 3대 지표 |
-| [Spark MLlib](/studynote/16_bigdata/03_spark/062_spark_mllib/) FPGrowth | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경 대용량 구현체 |
-| [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) ([Collaborative Filtering](/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)) | 개인화 추천으로 확장 시 연계 |
-| [장바구니 분석](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/) ([Market Basket Analysis](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/)) | 연관 규칙의 대표 응용 |
+| FP-Tree | FP-Growth의 핵심 데이터 구조, DB 압축 저장 |
+| 지지도/신뢰도/향상도 | 규칙 평가 3대 지표 |
+| Spark MLlib FPGrowth | 분산 환경 대용량 구현체 |
+| 협업 필터링 (Collaborative Filtering) | 개인화 추천으로 확장 시 연계 |
+| 장바구니 분석 (Market Basket Analysis) | 연관 규칙의 대표 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,20 +152,9 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/studynote/04_software
 [협업 필터링]
 ```
 
-[데이터 마이닝](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)의 빈발 패턴 탐색이 연관 규칙과 Apriori를 거쳐 더 효율적인 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth 및 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)으로 발전하는 흐름이다.
+데이터 마이닝의 빈발 패턴 탐색이 연관 규칙과 Apriori를 거쳐 더 효율적인 FP-Growth 및 추천 시스템으로 발전하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 연관 규칙은 "친구들이 항상 같이 다니는 패턴"을 수학으로 찾아내는 것이에요.
-- Apriori는 모든 친구 조합을 하나씩 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth는 친구 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도를 먼저 그려서 더 빠르게 찾아요.
-- "치약을 사면 칫솔도 산다"처럼, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사람 대신 유용한 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 알려주는 거예요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 106 / 262
-
-<- **이전**: [군집화 (Clustering) 분석](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)
-**다음**: [104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/) ->
-
----
+- Apriori는 모든 친구 조합을 하나씩 확인하고, FP-Growth는 친구 관계도를 먼저 그려서 더 빠르게 찾아요.
+- "치약을 사면 칫솔도 산다"처럼, 데이터가 사람 대신 유용한 힌트를 알려주는 거예요!

@@ -7,28 +7,28 @@ weight: 97
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 문자열 S의 각 위치 i에서 시작하는 부분 문자열이 S의 접두사(Prefix)와 얼마나 일치하는지를 나타내는 Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Z-[Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))을 O(n)에 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 하나로 패턴 매칭을 O(n+m)에 수행하며, [KMP](/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) ([Knuth-Morris-Pratt](/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/)) 실패 함수와 개념적으로 동등하지만 구현이 더 직관적이라는 장점이 있다.
-> 3. **판단 포인트**: 단일 패턴 매칭에서 KMP와 동일한 성능을 제공하며, 주기(Period) 탐색·최소 반복 단위 찾기 문제에서 Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)이 KMP보다 직접적으로 활용된다.
+> 1. **본질**: Z 알고리즘은 문자열 S의 각 위치 i에서 시작하는 부분 문자열이 S의 접두사(Prefix)와 얼마나 일치하는지를 나타내는 Z 배열 (Z-Array)을 O(n)에 계산하는 알고리즘이다.
+> 2. **가치**: Z 배열 하나로 패턴 매칭을 O(n+m)에 수행하며, KMP (Knuth-Morris-Pratt) 실패 함수와 개념적으로 동등하지만 구현이 더 직관적이라는 장점이 있다.
+> 3. **판단 포인트**: 단일 패턴 매칭에서 KMP와 동일한 성능을 제공하며, 주기(Period) 탐색·최소 반복 단위 찾기 문제에서 Z 배열이 KMP보다 직접적으로 활용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-문자열 S = "aabxaa"에서 각 위치가 접두사 "[aa](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)"와 얼마나 공통되는지를 O(n^) 브루트포스로 계산하면 긴 문자열에서 느리다. Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이미 계산된 Z-box를 재활용하여 O(n)에 Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 구성한다. 이를 이용하면 텍스트에서 패턴 탐색, 주기 탐색, 문자열 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 선형 시간에 수행할 수 있다.
+문자열 S = "aabxaa"에서 각 위치가 접두사 "aa"와 얼마나 공통되는지를 O(n^) 브루트포스로 계산하면 긴 문자열에서 느리다. Z 알고리즘은 이미 계산된 Z-box를 재활용하여 O(n)에 Z 배열을 구성한다. 이를 이용하면 텍스트에서 패턴 탐색, 주기 탐색, 문자열 압축을 선형 시간에 수행할 수 있다.
 
-### Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 정의
+### Z 배열 정의
 
-Z[i] = S[i..n-1]과 S[0..n-1]의 최장 공통 접두사 ([LCP](/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)) 길이
+Z[i] = S[i..n-1]과 S[0..n-1]의 최장 공통 접두사 (LCP) 길이
 Z[0] = |S| (관례적으로 문자열 전체 길이로 정의)
 
-📢 **섹션 요약 비유**: Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 문자열의 각 지점에서 "여기서 시작하는 부분이 문자열 맨 앞과 몇 글자 똑같은가?"를 기록한 이력표다.
+📢 **섹션 요약 비유**: Z 배열은 문자열의 각 지점에서 "여기서 시작하는 부분이 문자열 맨 앞과 몇 글자 똑같은가?"를 기록한 이력표다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 계산 예시
+### Z 배열 계산 예시
 
 ```
 S = "aabxaabxca"
@@ -49,7 +49,7 @@ Z[9] = 1
 Z = [10, 1, 0, 0, 4, 1, 0, 0, 0, 1]
 ```
 
-### Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/): Z-box 활용
+### Z 알고리즘: Z-box 활용
 
 ```
 Z-box: 현재까지 계산된 가장 오른쪽 [l, r] 구간 (S[l..r]이 접두사와 일치)
@@ -64,7 +64,7 @@ i를 왼쪽에서 오른쪽으로 처리:
 총 문자 비교 횟수: O(n) (각 문자는 Z-box 오른쪽 확장 시 최대 1회)
 ```
 
-### Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 이용한 패턴 매칭
+### Z 배열을 이용한 패턴 매칭
 
 ```
 패턴 P, 텍스트 T에서 P의 모든 등장 위치 찾기:
@@ -78,20 +78,20 @@ i를 왼쪽에서 오른쪽으로 처리:
   |P|=2인 Z[3]=2, Z[7]=2 -> T의 인덱스 0과 4에 "aa" 등장
 ```
 
-📢 **섹션 요약 비유**: Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 이용한 패턴 매칭은 패턴을 텍스트 앞에 붙여서 "나와 똑같이 시작하는 부분"을 한 번에 찾는 것—구분자($)가 접두사 길이를 자동으로 제한한다.
+📢 **섹션 요약 비유**: Z 배열을 이용한 패턴 매칭은 패턴을 텍스트 앞에 붙여서 "나와 똑같이 시작하는 부분"을 한 번에 찾는 것—구분자($)가 접두사 길이를 자동으로 제한한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs [KMP](/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### Z 알고리즘 vs KMP 알고리즘
 
-| 항목 | Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [KMP](/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 항목 | Z 알고리즘 | KMP 알고리즘 |
 |:---|:---|:---|
-| 전처리 | Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (O(n)) | 실패 함수 π (O(m)) |
+| 전처리 | Z 배열 (O(n)) | 실패 함수 π (O(m)) |
 | 패턴 매칭 | O(n+m) | O(n+m) |
 | 구현 직관성 | 높음 | 낮음 |
-| 주기 탐색 | Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 직접 활용 | π [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 활용 |
+| 주기 탐색 | Z 배열 직접 활용 | π 배열 활용 |
 | 최소 반복 단위 | Z[k] + k == n | n - π[n-1] |
 
 ### 주기 탐색 (Period Finding)
@@ -107,7 +107,7 @@ Z 배열로:
   Z[2]=4 >= 6-2=4 ✓ -> 최소 주기 p=2 ("ab")
 ```
 
-📢 **섹션 요약 비유**: Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 주기를 찾는 것은 타일 패턴에서 가장 작은 반복 단위를 발견하는 것—타일 하나만 보면 전체 패턴을 재현할 수 있는지 확인한다.
+📢 **섹션 요약 비유**: Z 알고리즘으로 주기를 찾는 것은 타일 패턴에서 가장 작은 반복 단위를 발견하는 것—타일 하나만 보면 전체 패턴을 재현할 수 있는지 확인한다.
 
 ---
 
@@ -117,7 +117,7 @@ Z 배열로:
 
 - **패턴 매칭**: 단일 패턴을 텍스트에서 O(n+m) 탐색
 - **주기 탐색**: DNA 서열의 반복 모티프(Repeat Motif) 탐지
-- <strong>문자열 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>: 최소 반복 단위 기반 표현 (`"abcabc"` -> `"(abc)×2"`)
+- <strong>문자열 압축</strong>: 최소 반복 단위 기반 표현 (`"abcabc"` -> `"(abc)×2"`)
 - **문자열 동치 판별**: S가 T의 회전(Rotation)인지: `Z("T$TT")[m+1] == m`
 - **공통 접두사 최대화**: 여러 문자열 공통 접두사 길이 계산
 
@@ -131,28 +131,28 @@ Z 배열로:
 접두사 쿼리 다수                      ->  트라이 (Trie)
 ```
 
-📢 **섹션 요약 비유**: Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 KMP는 같은 목적의 두 가지 여행 경로—Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 "출발지에서 얼마나 같은가"를 직접 기록하고, [KMP](/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) 실패 함수는 "실패했을 때 어디로 돌아가야 하는가"를 기록한다.
+📢 **섹션 요약 비유**: Z 알고리즘과 KMP는 같은 목적의 두 가지 여행 경로—Z 배열은 "출발지에서 얼마나 같은가"를 직접 기록하고, KMP 실패 함수는 "실패했을 때 어디로 돌아가야 하는가"를 기록한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 Z-box 재활용으로 O(n) 시간 복잡도를 달성하여 KMP와 동등한 패턴 매칭 성능을 제공한다. 구현이 직관적이고 주기 탐색·문자열 분석에 직접 활용 가능하다는 장점이 있다. 다중 패턴 동시 매칭이 필요하면 [아호-코라식](/studynote/08_algorithm_stats/05_string/098_aho_corasick/), 임의 부분 문자열 탐색이면 서픽스 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 확장한다.
+Z 알고리즘은 Z-box 재활용으로 O(n) 시간 복잡도를 달성하여 KMP와 동등한 패턴 매칭 성능을 제공한다. 구현이 직관적이고 주기 탐색·문자열 분석에 직접 활용 가능하다는 장점이 있다. 다중 패턴 동시 매칭이 필요하면 아호-코라식, 임의 부분 문자열 탐색이면 서픽스 배열로 확장한다.
 
-**결론**: 단일 패턴 매칭과 문자열 주기 분석에서 Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 O(n+m)의 최적 복잡도를 제공하며, KMP보다 구현이 단순하여 실전에서 선호되는 경우가 많다.
+**결론**: 단일 패턴 매칭과 문자열 주기 분석에서 Z 알고리즘은 O(n+m)의 최적 복잡도를 제공하며, KMP보다 구현이 단순하여 실전에서 선호되는 경우가 많다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 관계 |
 |:---|:---|
-| [KMP](/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 동등 성능의 패턴 매칭 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| [아호-코라식](/studynote/08_algorithm_stats/05_string/098_aho_corasick/) ([Aho-Corasick](/studynote/08_algorithm_stats/05_string/098_aho_corasick/)) | 다중 패턴으로 확장한 방식 |
-| 서픽스 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Suffix [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/)) | 임의 부분 문자열 탐색 |
-| Z-box | Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 O(n) 핵심 최적화 |
-| 주기 탐색 (Period Finding) | Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 주요 응용 |
-| [트라이](/studynote/08_algorithm_stats/04_datastructure/087_trie/) ([Trie](/studynote/08_algorithm_stats/04_datastructure/066_trie/)) | 접두사 기반 탐색 자료구조 |
+| KMP 알고리즘 | 동등 성능의 패턴 매칭 알고리즘 |
+| 아호-코라식 (Aho-Corasick) | 다중 패턴으로 확장한 방식 |
+| 서픽스 배열 (Suffix Array) | 임의 부분 문자열 탐색 |
+| Z-box | Z 알고리즘의 O(n) 핵심 최적화 |
+| 주기 탐색 (Period Finding) | Z 배열의 주요 응용 |
+| 트라이 (Trie) | 접두사 기반 탐색 자료구조 |
 
 ---
 
@@ -184,17 +184,6 @@ Z [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definitio
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Z [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 문자열의 각 위치에서 "여기서 시작하는 단어가 맨 앞과 몇 글자 같아?"를 기록한 표야.
+1. Z 배열은 문자열의 각 위치에서 "여기서 시작하는 단어가 맨 앞과 몇 글자 같아?"를 기록한 표야.
 2. "aabxaa"에서 Z[4]=4는 4번 위치 "aabx..."가 맨 앞 "aabx..."와 4글자 일치한다는 뜻이야.
 3. 이 표 하나만 있으면 패턴이 어디 등장하는지, 가장 짧은 반복 단위가 뭔지 한 번에 알 수 있어!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 97 / 175
-
-<- **이전**: [라빈-카프 (Rabin-Karp) 알고리즘](/studynote/08_algorithm_stats/05_string/096_rabin_karp_algorithm/)
-**다음**: [5. 아호-코라식 (Aho-Corasick) — 다중 패턴 동시 매칭](/studynote/08_algorithm_stats/05_string/098_aho_corasick/) ->
-
----

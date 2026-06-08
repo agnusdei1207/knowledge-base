@@ -6,13 +6,13 @@ tags:
 weight: 47
 ---
 > **핵심 인사이트**
-> 1. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))는 기술 지표가 아닌 비즈니스 계약 — [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자와 고객 간 상호 의무와 기대를 법적으로 구속하는 문서이며, "무엇을 보장하고 위반 시 어떻게 보상하는가"가 핵심이다.
-> 2. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 협상에서 흔히 놓치는 세 가지 — ① 측정 방법(누가 어떻게 측정?), ② 예외 사항(scheduled maintenance, force majeure), ③ 에스컬레이션 절차. 이 세 가지가 분쟁의 씨앗이 된다.
-> 3. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 위반보다 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 초과(Over-delivery)도 위험 — [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 99.9%를 지속적으로 99.99%로 제공하면 고객이 실제 SLA를 99.99%로 기대하게 되어, 단 한 번의 99.95% 시 불만이 발생한다. 의도적 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 관리가 필요하다.
+> 1. SLA(Service Level Agreement)는 기술 지표가 아닌 비즈니스 계약 — 서비스 제공자와 고객 간 상호 의무와 기대를 법적으로 구속하는 문서이며, "무엇을 보장하고 위반 시 어떻게 보상하는가"가 핵심이다.
+> 2. SLA 협상에서 흔히 놓치는 세 가지 — ① 측정 방법(누가 어떻게 측정?), ② 예외 사항(scheduled maintenance, force majeure), ③ 에스컬레이션 절차. 이 세 가지가 분쟁의 씨앗이 된다.
+> 3. SLA 위반보다 SLA 초과(Over-delivery)도 위험 — SLA 99.9%를 지속적으로 99.99%로 제공하면 고객이 실제 SLA를 99.99%로 기대하게 되어, 단 한 번의 99.95% 시 불만이 발생한다. 의도적 SLA 관리가 필요하다.
 
 ---
 
-## Ⅰ. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 계약 구조
+## Ⅰ. SLA 계약 구조
 
 ```
 SLA 문서 구조:
@@ -59,11 +59,11 @@ SLA 문서 구조:
   P3 (보통): 다음 영업일 내
 ```
 
-> 📢 **섹션 요약 비유**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 문서는 집 임대 계약서 — 집 상태([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위), 하자 보수 기간([응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)), 집주인 책임 범위(제외 사항), 위반 시 임대료 공제(페널티). 모든 조건을 미리 명시!
+> 📢 **섹션 요약 비유**: SLA 문서는 집 임대 계약서 — 집 상태(서비스 범위), 하자 보수 기간(응답 시간), 집주인 책임 범위(제외 사항), 위반 시 임대료 공제(페널티). 모든 조건을 미리 명시!
 
 ---
 
-## Ⅱ. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 협상 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅱ. SLA 협상 전략
 
 ```
 SLA 협상 핵심 포인트:
@@ -114,11 +114,11 @@ SLA 협상 핵심 포인트:
   연속 N회 SLA 위반 시 계약 해지 권리
 ```
 
-> 📢 **섹션 요약 비유**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 협상은 임대 계약 협상 — 집주인(공급업체)은 여유 있게 약속(실제 99.97% -> [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 99.9%), 세입자(고객)는 독립 검사(제3자 측정)와 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 조항(종료권) 요구!
+> 📢 **섹션 요약 비유**: SLA 협상은 임대 계약 협상 — 집주인(공급업체)은 여유 있게 약속(실제 99.97% -> SLA 99.9%), 세입자(고객)는 독립 검사(제3자 측정)와 보호 조항(종료권) 요구!
 
 ---
 
-## Ⅲ. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 거버넌스
+## Ⅲ. SLA 거버넌스
 
 ```
 SLA 거버넌스 체계:
@@ -171,11 +171,11 @@ SLA 리포트 구성:
   L4: 경영진 회의 (반복 위반 시)
 ```
 
-> 📢 **섹션 요약 비유**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 거버넌스는 성적표+학부모 회의 — 매달 성적표(월간 리포트), 분기마다 학부모 상담(QBR), 연도말 진학 계획(연간 리뷰). 성적 나쁘면 보충수업(개선 계획)!
+> 📢 **섹션 요약 비유**: SLA 거버넌스는 성적표+학부모 회의 — 매달 성적표(월간 리포트), 분기마다 학부모 상담(QBR), 연도말 진학 계획(연간 리뷰). 성적 나쁘면 보충수업(개선 계획)!
 
 ---
 
-## Ⅳ. [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 관리
+## Ⅳ. 멀티 클라우드 SLA 관리
 
 ```
 멀티 클라우드 SLA 복잡성:
@@ -224,11 +224,11 @@ SLA 관리 도구:
   Statuspage.io: 상태 페이지 (고객 공개)
 ```
 
-> 📢 **섹션 요약 비유**: [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) SLA는 체인 약점 — 99.9%짜리 링크 3개 연결 = 99.7%. 체인은 가장 약한 고리! 의존성 최소화와 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)로 체인 강화!
+> 📢 **섹션 요약 비유**: 멀티 클라우드 SLA는 체인 약점 — 99.9%짜리 링크 3개 연결 = 99.7%. 체인은 가장 약한 고리! 의존성 최소화와 이중화로 체인 강화!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 핀테크 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 재협상
+## Ⅴ. 실무 시나리오 — 핀테크 SLA 재협상
 
 ```
 핀테크 스타트업 클라우드 SLA 재협상:
@@ -279,7 +279,7 @@ AWS와 협상 결과:
   결제 성공률: 99.82% -> 99.97%
 ```
 
-> 📢 **섹션 요약 비유**: 핀테크 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 재협상은 보험 업그레이드 — 기본 보험(99.9%)에서 업그레이드(99.95%). 독립 측정(제3자) + 자동 보상 추가. 장애 없어지자 고객 불만도 0!
+> 📢 **섹션 요약 비유**: 핀테크 SLA 재협상은 보험 업그레이드 — 기본 보험(99.9%)에서 업그레이드(99.95%). 독립 측정(제3자) + 자동 보상 추가. 장애 없어지자 고객 불만도 0!
 
 ---
 
@@ -336,16 +336,5 @@ AI 기반 SLA 예측 관리
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. SLA는 약속 증서 — "이만큼 잘 해드릴게요!" 서면 계약. 못 지키면 돈(크레딧) 드려요. 집 계약서처럼 모든 조건을 명시!
-2. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 협상은 균형 찾기 — 공급업체는 달성 가능한 약속, 고객은 강한 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 요구. 양쪽이 Win-Win하는 균형점 찾기!
-3. [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 함정 — 99.9%짜리 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 3개 연결하면 전체 99.7%로 떨어져요. 체인은 가장 약한 고리가 결정!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 47 / 482
-
-<- **이전**: [046. IT 서비스 관리 — ITSM 심화](/studynote/07_enterprise_systems/01_strategy_governance/046_itsm_it_service_management/)
-**다음**: [048. SLM·OLA·UC — 서비스 수준 관리 체계](/studynote/07_enterprise_systems/01_strategy_governance/048_slm_ola_uc/) ->
-
----
+2. SLA 협상은 균형 찾기 — 공급업체는 달성 가능한 약속, 고객은 강한 보호 요구. 양쪽이 Win-Win하는 균형점 찾기!
+3. 멀티 클라우드 SLA 함정 — 99.9%짜리 서비스 3개 연결하면 전체 99.7%로 떨어져요. 체인은 가장 약한 고리가 결정!

@@ -7,32 +7,32 @@ weight: 96
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) (Synthetic Minority Over-sampling Technique)는 소수 클래스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 복사하지 않고, 기존 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 사이의 선형 보간([Interpolation](/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/))을 통해 새로운 가상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '합성'하는 증강 기법이다.
-> 2. **가치**: 단순 오버샘플링이 일으키는 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하면서, 소수 클래스의 결정 경계(Decision Boundary)를 부드럽게 확장하여 모델의 [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))을 극대화한다.
-> 3. **판단 포인트**: 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트에 SMOTE를 미리 적용하면 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)가 발생하므로, 반드시 Train/Test 세트를 분리한 뒤 Train 세트에만 적용해야 한다.
+> 1. **본질**: SMOTE (Synthetic Minority Over-sampling Technique)는 소수 클래스 데이터를 단순 복사하지 않고, 기존 데이터 포인트 사이의 선형 보간(Interpolation)을 통해 새로운 가상 데이터를 '합성'하는 증강 기법이다.
+> 2. **가치**: 단순 오버샘플링이 일으키는 과적합(Overfitting)을 방지하면서, 소수 클래스의 결정 경계(Decision Boundary)를 부드럽게 확장하여 모델의 재현율(Recall)을 극대화한다.
+> 3. **판단 포인트**: 전체 데이터 세트에 SMOTE를 미리 적용하면 검증 단계에서 데이터 누수(Data Leakage)가 발생하므로, 반드시 Train/Test 세트를 분리한 뒤 Train 세트에만 적용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-머신러닝에서 금융 사기 탐지([FDS](/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/)), 희귀 질병 진단 등은 전형적인 불균형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Imbalanced Data](/studynote/06_ict_convergence/05_data_science/356_imbalanced_data_sampling/)) 문제다. 정상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 99%, 이상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1%인 상황에서 모델을 그대로 학습시키면, 모델은 모든 경우를 "정상이다"라고 찍어도 99%의 정확도(Accuracy)를 얻는 '정확도의 함정'에 빠져 정작 중요한 이상 징후를 하나도 찾지 못하게 된다.
+머신러닝에서 금융 사기 탐지(FDS), 희귀 질병 진단 등은 전형적인 불균형 데이터(Imbalanced Data) 문제다. 정상 데이터가 99%, 이상 데이터가 1%인 상황에서 모델을 그대로 학습시키면, 모델은 모든 경우를 "정상이다"라고 찍어도 99%의 정확도(Accuracy)를 얻는 '정확도의 함정'에 빠져 정작 중요한 이상 징후를 하나도 찾지 못하게 된다.
 
-이를 해결하기 위해 소수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해 양을 늘리는 단순 오버샘플링(Random Over-sampling)이 등장했으나, 이는 똑같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 반복 학습시켜 특정 점에만 모델이 맞추어지는 과적합을 유발했다. SMOTE는 이 문제를 극복하기 위해 기존 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하는 대신, [K-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) ([K-Nearest Neighbors](/studynote/10_ai/03_llm_nlp/262_knn/)) 알고리즘을 이용해 소수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들 사이의 빈 공간에 미세하게 다른 '새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 창조해 내는 수학적 보완책으로 등장했다.
+이를 해결하기 위해 소수 데이터를 복사해 양을 늘리는 단순 오버샘플링(Random Over-sampling)이 등장했으나, 이는 똑같은 데이터만 반복 학습시켜 특정 점에만 모델이 맞추어지는 과적합을 유발했다. SMOTE는 이 문제를 극복하기 위해 기존 데이터를 복사하는 대신, K-NN (K-Nearest Neighbors) 알고리즘을 이용해 소수 데이터들 사이의 빈 공간에 미세하게 다른 '새로운 데이터'를 창조해 내는 수학적 보완책으로 등장했다.
 
-- **📢 섹션 요약 비유**: 시험공부를 할 때, 똑같은 기출문제 1개를 100번 복사해서 외우는 것(단순 오버샘플링)이 아니라, 기출문제의 숫자만 조금씩 바꾼 변형 문제 100개를 새로 만들어서 푸는 것([SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/))과 같다.
+- **📢 섹션 요약 비유**: 시험공부를 할 때, 똑같은 기출문제 1개를 100번 복사해서 외우는 것(단순 오버샘플링)이 아니라, 기출문제의 숫자만 조금씩 바꾼 변형 문제 100개를 새로 만들어서 푸는 것(SMOTE)과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 밀도를 높이기 위해 기하학적 합성 방식을 사용한다. 핵심 원리는 소수 클래스의 특정 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 그 주변 이웃 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결하는 선분 위에 무작위로 새로운 점을 찍는 것이다.
+SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 데이터 밀도를 높이기 위해 기하학적 합성 방식을 사용한다. 핵심 원리는 소수 클래스의 특정 데이터와 그 주변 이웃 데이터를 연결하는 선분 위에 무작위로 새로운 점을 찍는 것이다.
 
 | 단계 | 처리 과정 | 원리 및 특징 |
 | :--- | :--- | :--- |
-| **기준 탐색** | 소수 클래스에서 샘플 $X_i$ 선택 | 기준이 되는 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 확보 |
-| **이웃 확보** | $X_i$의 K-최근방 이웃([K-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/)) 찾기 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성상 가까운 거리에 있는 같은 클래스 탐색 |
-| <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 부여</strong> | 무작위로 하나의 이웃 $X_j$ 선택 후 차이 계산 | 벡터 차이 $\Delta = X_j - X_i$ 도출 |
-| <strong>합성 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 0과 1 사이 난수 $\[lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)$를 곱해 더하기 | $X_{[new](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)} = X_i + \[lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \times (X_j - X_i)$ 선형 보간 |
+| **기준 탐색** | 소수 클래스에서 샘플 $X_i$ 선택 | 기준이 되는 원본 데이터 포인트 확보 |
+| **이웃 확보** | $X_i$의 K-최근방 이웃(K-NN) 찾기 | 데이터 특성상 가까운 거리에 있는 같은 클래스 탐색 |
+| <strong>가중치 부여</strong> | 무작위로 하나의 이웃 $X_j$ 선택 후 차이 계산 | 벡터 차이 $\Delta = X_j - X_i$ 도출 |
+| <strong>합성 생성</strong> | 0과 1 사이 난수 $\lambda$를 곱해 더하기 | $X_{new} = X_i + \lambda \times (X_j - X_i)$ 선형 보간 |
 
 ```text
 +--------------------------------------------------------------+
@@ -51,23 +51,23 @@ SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터
 +--------------------------------------------------------------+
 ```
 
-이 과정은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기존 공간 밖으로 튀어나가지 않으면서도, 소수 클래스가 차지하는 결정 영역([Volume](/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))을 넓혀주는 효과를 낸다. 모델은 특정 점이 아니라 넓은 덩어리로서 소수 클래스의 특징을 학습하게 된다.
+이 과정은 데이터가 기존 공간 밖으로 튀어나가지 않으면서도, 소수 클래스가 차지하는 결정 영역(Volume)을 넓혀주는 효과를 낸다. 모델은 특정 점이 아니라 넓은 덩어리로서 소수 클래스의 특징을 학습하게 된다.
 
-- **📢 섹션 요약 비유**: 쌍둥이를 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 것이 아니라, 엄마(A)와 아빠(B)의 얼굴 특징을 섞어서 둘을 묘하게 닮은 새로운 아이(★)를 합성해 내는 사진 편집 기술과 같다.
+- **📢 섹션 요약 비유**: 쌍둥이를 복제하는 것이 아니라, 엄마(A)와 아빠(B)의 얼굴 특징을 섞어서 둘을 묘하게 닮은 새로운 아이(★)를 합성해 내는 사진 편집 기술과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-불균형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 기법들은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제, 단순 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 수학적 합성으로 나뉜다. 각각은 뚜렷한 트레이드오프를 가진다.
+불균형 데이터를 다루는 기법들은 데이터 삭제, 단순 복제, 수학적 합성으로 나뉜다. 각각은 뚜렷한 트레이드오프를 가진다.
 
-| 비교 항목 | Random Under-sampling | Random Over-sampling | [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) |
+| 비교 항목 | Random Under-sampling | Random Over-sampling | SMOTE |
 | :--- | :--- | :--- | :--- |
-| **핵심 동작** | 다수 클래스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무작위 삭제 | 소수 클래스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 복사 | 소수 클래스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 선형 보간 합성 |
-| **주요 장점** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 줄어 학습 속도 향상 | 정보 유실 방지 | 일반화 [성능 우수](/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/), 과적합 위험 낮음 |
-| **치명적 단점** | **정보 유실** (중요한 패턴이 지워짐) | **과적합** (같은 값만 맹목적 암기) | <strong>노이즈 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> (경계선 침범 가능성) |
+| **핵심 동작** | 다수 클래스 데이터를 무작위 삭제 | 소수 클래스 데이터를 그대로 복사 | 소수 클래스 데이터를 선형 보간 합성 |
+| **주요 장점** | 데이터가 줄어 학습 속도 향상 | 정보 유실 방지 | 일반화 성능 우수, 과적합 위험 낮음 |
+| **치명적 단점** | **정보 유실** (중요한 패턴이 지워짐) | **과적합** (같은 값만 맹목적 암기) | <strong>노이즈 생성</strong> (경계선 침범 가능성) |
 
-SMOTE는 다수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 경우 오히려 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다.
+SMOTE는 다수 데이터 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 데이터를 만들 경우 오히려 분류 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다.
 
 - **📢 섹션 요약 비유**: 언더샘플링이 시끄러운 사람들을 내쫓아 조용히 만드는 것이고, 오버샘플링이 목소리 작은 사람에게 확성기를 주는 것이라면, SMOTE는 목소리 작은 사람들과 성향이 비슷한 지지자를 새로 모셔 오는 것이다.
 
@@ -75,16 +75,16 @@ SMOTE는 다수 [데이터](/studynote/05_database/01_db_architecture_relational
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) 적용 시 실무에서 가장 많이 실패하는 지점과 이를 해결하기 위한 기술적 판단 기준은 다음과 같다.
+SMOTE 적용 시 실무에서 가장 많이 실패하는 지점과 이를 해결하기 위한 기술적 판단 기준은 다음과 같다.
 
-1. <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수 (<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage) 차단</strong>:
-   - ([안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트에 먼저 SMOTE를 돌린 뒤, Train과 Test를 8:2로 나눈다. 이렇게 되면 Train에 쓰인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 거의 똑같은 보간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 Test에 섞여 들어가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100%에 가깝게 과대 포장된다.
-   - (정상패턴) 반드시 먼저 Train/Test를 분리하고, <strong>Train <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에만 SMOTE를 적용</strong>하여 학습시킨 뒤 오염되지 않은 원본 Test [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 평가해야 한다.
-2. <strong><a href="/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/">SMOTE</a>-Tomek 결합 (하이브리드 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>)</strong>:
+1. <strong>데이터 누수 (Data Leakage) 차단</strong>:
+   - (안티패턴) 전체 데이터 세트에 먼저 SMOTE를 돌린 뒤, Train과 Test를 8:2로 나눈다. 이렇게 되면 Train에 쓰인 데이터와 거의 똑같은 보간 데이터가 Test에 섞여 들어가 성능이 100%에 가깝게 과대 포장된다.
+   - (정상패턴) 반드시 먼저 Train/Test를 분리하고, <strong>Train 데이터에만 SMOTE를 적용</strong>하여 학습시킨 뒤 오염되지 않은 원본 Test 데이터로 평가해야 한다.
+2. <strong>SMOTE-Tomek 결합 (하이브리드 전략)</strong>:
    - SMOTE가 다수 클래스 진영 깊숙한 곳에 노이즈를 만들 수 있다.
-   - 따라서 SMOTE로 우선 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불린 다음, 다른 클래스끼리 너무 가까이 붙어있는 쌍(Tomek Links)을 찾아내 지워버리는 언더샘플링 기법을 혼합 적용하면 경계선이 아주 깨끗해진다.
+   - 따라서 SMOTE로 우선 데이터를 불린 다음, 다른 클래스끼리 너무 가까이 붙어있는 쌍(Tomek Links)을 찾아내 지워버리는 언더샘플링 기법을 혼합 적용하면 경계선이 아주 깨끗해진다.
 3. **변형 모델의 채택**:
-   - 경계 구분이 어려운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 경계선 주변 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 증강하는 <strong>Borderline-<a href="/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/">SMOTE</a></strong>를 적용하여 모델의 판별 능력을 집중적으로 높인다.
+   - 경계 구분이 어려운 데이터라면 경계선 주변 데이터만 증강하는 <strong>Borderline-SMOTE</strong>를 적용하여 모델의 판별 능력을 집중적으로 높인다.
 
 - **📢 섹션 요약 비유**: 수능 모의고사(Train)는 변형 문제를 만들어 연습하더라도, 실제 수능 시험장(Test)에서는 절대 변형 문제를 유출해 풀게 해서는 안 되는 것과 같은 이치다.
 
@@ -92,11 +92,11 @@ SMOTE는 다수 [데이터](/studynote/05_database/01_db_architecture_relational
 
 ## Ⅴ. 기대효과 및 결론
 
-SMOTE를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 단순한 정확도(Accuracy)를 넘어, F1-Score와 [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))이라는 비즈니스의 진짜 목적(사기 탐지, 불량 색출)을 달성할 수 있다. 소수 클래스가 가지는 정보의 희소성 한계를 수학적 보간으로 돌파하여 모델의 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높여준다.
+SMOTE를 통해 데이터 엔지니어는 단순한 정확도(Accuracy)를 넘어, F1-Score와 재현율(Recall)이라는 비즈니스의 진짜 목적(사기 탐지, 불량 색출)을 달성할 수 있다. 소수 클래스가 가지는 정보의 희소성 한계를 수학적 보간으로 돌파하여 모델의 일반화 성능을 높여준다.
 
-다만 SMOTE는 [K-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) 기반의 거리 계산을 사용하므로 고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 범주형(Categorical) 특성이 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 효과가 떨어질 수 있다. 이런 한계를 극복하기 위해 최근에는 [SMOTE](/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)-NC(범주형 혼합)나 딥러닝 기반의 [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)(Generative Adversarial Networks)을 활용한 증강 방식으로 기술이 계속 진화하고 있다.
+다만 SMOTE는 K-NN 기반의 거리 계산을 사용하므로 고차원 데이터나 범주형(Categorical) 특성이 많은 데이터에서는 효과가 떨어질 수 있다. 이런 한계를 극복하기 위해 최근에는 SMOTE-NC(범주형 혼합)나 딥러닝 기반의 GAN(Generative Adversarial Networks)을 활용한 증강 방식으로 기술이 계속 진화하고 있다.
 
-- **📢 섹션 요약 비유**: SMOTE는 사막에서 드물게 발견되는 오아시스 주변에 가상의 작은 물줄기들을 추가로 그려주어, 탐험가([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)가 물이 있는 지역의 특성을 훨씬 쉽게 학습하도록 돕는 정밀한 지도 제작법이다.
+- **📢 섹션 요약 비유**: SMOTE는 사막에서 드물게 발견되는 오아시스 주변에 가상의 작은 물줄기들을 추가로 그려주어, 탐험가(AI 모델)가 물이 있는 지역의 특성을 훨씬 쉽게 학습하도록 돕는 정밀한 지도 제작법이다.
 
 ---
 
@@ -104,10 +104,10 @@ SMOTE를 통해 [데이터](/studynote/05_database/01_db_architecture_relational
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/studynote/06_ict_convergence/05_data_science/356_imbalanced_data_sampling/">Imbalanced Data</a></strong> | 모델이 다수 클래스에 편향되는 '정확도의 함정'을 만드는 원인 환경 |
-| <strong><a href="/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/">K-NN</a> (<a href="/studynote/10_ai/03_llm_nlp/262_knn/">K-Nearest Neighbors</a>)</strong> | 주변 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 탐색하여 합성의 기준점을 마련하는 SMOTE의 핵심 엔진 |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage (<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수)</strong> | 전처리 순서를 잘못하여 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정보가 학습에 유입되는 치명적 실수 |
-| <strong>Precision-<a href="/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a> Curve</strong> | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 불균형할 때 모델의 진짜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하기 위해 사용하는 지표 곡선 |
+| <strong>Imbalanced Data</strong> | 모델이 다수 클래스에 편향되는 '정확도의 함정'을 만드는 원인 환경 |
+| <strong>K-NN (K-Nearest Neighbors)</strong> | 주변 데이터를 탐색하여 합성의 기준점을 마련하는 SMOTE의 핵심 엔진 |
+| <strong>Data Leakage (데이터 누수)</strong> | 전처리 순서를 잘못하여 검증 데이터의 정보가 학습에 유입되는 치명적 실수 |
+| <strong>Precision-Recall Curve</strong> | 데이터가 불균형할 때 모델의 진짜 성능을 평가하기 위해 사용하는 지표 곡선 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,21 +127,10 @@ Borderline-SMOTE / ADASYN (경계선 및 밀도 기반 개선)
 SMOTE-Tomek (오버샘플링과 언더샘플링의 하이브리드 결합)
 ```
 
-이 흐름도는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 방식이 단순한 양적 확장에서 "품질 개선 -> 경계선 정밀 타격 -> 노이즈 제거 융합"으로 정교해지는 과정을 보여준다.
+이 흐름도는 데이터 증강 방식이 단순한 양적 확장에서 "품질 개선 -> 경계선 정밀 타격 -> 노이즈 제거 융합"으로 정교해지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 호랑이 사진은 100장인데, 사자 사진이 1장밖에 없으면 컴퓨터가 사자를 못 알아봐요.
 2. 사자 사진을 그냥 똑같이 100번 복사하면, 컴퓨터는 오직 그 한 마리 사자의 자세만 외워버려요.
 3. SMOTE는 사자 사진의 얼굴이나 갈기 모양을 조금씩 바꾼 진짜 같은 가짜 사자 사진을 그려줘서 컴퓨터가 훌륭하게 배우도록 도와준답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 96 / 258
-
-<- **이전**: [#95 DataEng (데이터엔지니어링)개념](/studynote/14_data_engineering/01_infrastructure/095_concept/)
-**다음**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/) ->
-
----

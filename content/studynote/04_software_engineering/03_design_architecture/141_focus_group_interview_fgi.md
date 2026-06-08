@@ -6,9 +6,9 @@ tags:
 weight: 141
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: FGI(Focus Group Interview)는 <strong>6~10명의 대상 사용자를 모아 모더레이터가 <a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>하는 구조화된 그룹 토론</strong>으로, 사용자의 인식·태도·니즈를 심층적으로 파악하는 정성적 도출 기법이다.
+> 1. **본질**: FGI(Focus Group Interview)는 <strong>6~10명의 대상 사용자를 모아 모더레이터가 진행하는 구조화된 그룹 토론</strong>으로, 사용자의 인식·태도·니즈를 심층적으로 파악하는 정성적 도출 기법이다.
 > 2. **가치**: 1:1 인터뷰는 개인 의견만 듣지만, FGI는 <strong>참가자 간 상호작용(동의·반박·영감)</strong>에서 개인 인터뷰로는 나오지 않는 <strong>집단적 인사이트</strong>를 발견한다.
-> 3. **판단 포인트**: 모더레이터의 중립성·[진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 스킬이 성패를 좌우하며, 2~3회 반복 실시하여 포화(Saturation)에 도달해야 한다.
+> 3. **판단 포인트**: 모더레이터의 중립성·진행 스킬이 성패를 좌우하며, 2~3회 반복 실시하여 포화(Saturation)에 도달해야 한다.
 
 ---
 
@@ -21,7 +21,7 @@ FGI 진행: 모더레이터 + 6~10명 참가자
   -> 2~3회 반복하여 포화점 확인
 ```
 
-- **📢 섹션 요약 비유**: FGI는 <strong>토크쇼</strong>이다. MC(모더레이터)가 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고, 패널(참가자)이 서로 의견을 나누며 깊은 이야기가 나온다.
+- **📢 섹션 요약 비유**: FGI는 <strong>토크쇼</strong>이다. MC(모더레이터)가 진행하고, 패널(참가자)이 서로 의견을 나누며 깊은 이야기가 나온다.
 
 ---
 
@@ -36,10 +36,10 @@ FGI는 <strong>사용자 인식·태도 파악의 핵심 정성 기법</strong>�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **FGI** | 그룹 심층 인터뷰 |
-| **모더레이터** | [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 촉진자 |
+| **모더레이터** | 진행 촉진자 |
 | **포화** | 새 인사이트 없으면 종료 |
 | **인터뷰** | 1:1 (개별 대안) |
-| **코딩 분석** | 질적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 |
+| **코딩 분석** | 질적 데이터 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -50,17 +50,6 @@ FGI는 <strong>사용자 인식·태도 파악의 핵심 정성 기법</strong>�
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. FGI는 <strong>토크쇼</strong>예요. MC가 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고 <strong>여러 사람이 의견</strong>을 나눠요.
+1. FGI는 <strong>토크쇼</strong>예요. MC가 진행하고 <strong>여러 사람이 의견</strong>을 나눠요.
 2. 혼자 말할 때와 달리 **서로 이야기하면** 새로운 아이디어가 나와요.
 3. "아, 나도 그래!" 하면서 <strong>숨겨진 생각</strong>이 드러나요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 141 / 973
-
-<- **이전**: [140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출](/studynote/04_software_engineering/03_design_architecture/140_shadowing_observation_technique/)
-**다음**: [142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정](/studynote/04_software_engineering/03_design_architecture/142_requirements_analysis_conflict_resolution/) ->
-
----

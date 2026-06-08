@@ -101,12 +101,3 @@ GPU 클라우드 최적화의 성패는 자원 구매가 아니라 워크로드 
 | LLMOps | 토큰 기반 추론 최적화 |
 | Kubernetes | GPU 자원 스케줄링과 격리 |
 | Observability | 성능, 비용, 장애 지표 통합 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 635 / 800
-
-<- **이전**: [634. 클라우드 데이터 레이크 아키텍처 설계](/studynote/06_ict_convergence/uncategorized/634_cloud_data_lake_architecture_design/)
-**다음**: [636. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/studynote/06_ict_convergence/uncategorized/636_edge_cloud_mec_cdn_distributed_computing/) ->
-
----

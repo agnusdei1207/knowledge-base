@@ -7,8 +7,8 @@ weight: 32
 ---
 > **핵심 인사이트 3줄**
 > 1. 콘웨이의 법칙(Conway's Law)은 "조직이 설계하는 시스템은 해당 조직의 커뮤니케이션 구조를 그대로 반영한다"는 원칙으로, 1967년 Mel Conway가 제시했다.
-> 2. 역 콘웨이 기동(Inverse Conway Maneuver)은 원하는 아키텍처([마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))를 먼저 설계하고, 그에 맞게 팀 구조를 재편해 시스템이 아키텍처를 따르게 하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 3. Team Topologies 프레임워크는 콘웨이의 법칙을 의도적으로 활용해 [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned·Platform·Enabling·Complicated-subsystem 4가지 팀 유형으로 조직을 최적화한다.
+> 2. 역 콘웨이 기동(Inverse Conway Maneuver)은 원하는 아키텍처(마이크로서비스)를 먼저 설계하고, 그에 맞게 팀 구조를 재편해 시스템이 아키텍처를 따르게 하는 전략이다.
+> 3. Team Topologies 프레임워크는 콘웨이의 법칙을 의도적으로 활용해 Stream-aligned·Platform·Enabling·Complicated-subsystem 4가지 팀 유형으로 조직을 최적화한다.
 
 ---
 
@@ -29,8 +29,8 @@ weight: 32
 ### 왜 발생하는가?
 
 - 팀 간 커뮤니케이션 비용이 높아 경계를 시스템 경계로 만든다
-- 팀 내부는 강하게 결합(high [cohesion](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)), 팀 간은 느슨하게 결합(loose [coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))
-- 조직의 권력 구조가 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계에 반영된다
+- 팀 내부는 강하게 결합(high cohesion), 팀 간은 느슨하게 결합(loose coupling)
+- 조직의 권력 구조가 API 설계에 반영된다
 
 📢 **섹션 요약 비유**: 콘웨이의 법칙은 "회사 조직도가 곧 소프트웨어 구조도"라는 법칙이다 — 부서가 나뉘어 있으면 코드도 똑같이 나뉜다.
 
@@ -38,7 +38,7 @@ weight: 32
 
 ## Ⅱ. 콘웨이의 법칙 실제 사례
 
-### 사례 1 — 모놀리식 -> [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 실패
+### 사례 1 — 모놀리식 -> 마이크로서비스 실패
 
 ```
 기존 조직: 단일 개발팀 (모놀리식 아키텍처)
@@ -57,7 +57,7 @@ weight: 32
 자체 소유 서비스 -> 독립 배포 -> 마이크로서비스 아키텍처
 ```
 
-- 팀이 작아야 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)도 작고 독립적이 된다
+- 팀이 작아야 서비스도 작고 독립적이 된다
 
 📢 **섹션 요약 비유**: 콘웨이의 법칙 사례는 집 설계와 같다 — 가족이 3명인데 방 10개짜리 집을 지으면 빈 방만 생기고, 10명 대가족에게 방 2개짜리 집은 혼돈이 된다.
 
@@ -65,7 +65,7 @@ weight: 32
 
 ## Ⅲ. 역 콘웨이 기동 (Inverse Conway Maneuver)
 
-역 콘웨이 기동(Inverse Conway Maneuver)은 <strong>원하는 시스템 아키텍처를 먼저 정의하고, 그 아키텍처를 자연스럽게 만들어낼 수 있는 팀 구조로 조직을 재편</strong>하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+역 콘웨이 기동(Inverse Conway Maneuver)은 <strong>원하는 시스템 아키텍처를 먼저 정의하고, 그 아키텍처를 자연스럽게 만들어낼 수 있는 팀 구조로 조직을 재편</strong>하는 전략이다.
 
 ```
 원하는 아키텍처 결정 (마이크로서비스)
@@ -89,10 +89,10 @@ Matthew Skelton·Manuel Pais가 제시한 <strong>Team Topologies 프레임워�
 
 | 팀 유형                     | 역할                              | 예시                    |
 |---------------------------|----------------------------------|------------------------|
-| [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned Team        | 고객 가치 흐름 직접 제공           | 주문·결제·배송 팀        |
-| Platform Team              | 내부 플랫폼 제공, [인지 부하](/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 감소   | 인프라·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·관측성 팀  |
-| Enabling Team              | 역량 전파·[CoP](/studynote/09_security/04_endpoint_security/347_cop/)(실천 공동체) 지원   | [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)·보안 전문가 팀   |
-| Complicated-Subsystem Team | 특수 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문성 집중            | ML·암호화·결제 게이트웨이|
+| Stream-aligned Team        | 고객 가치 흐름 직접 제공           | 주문·결제·배송 팀        |
+| Platform Team              | 내부 플랫폼 제공, 인지 부하 감소   | 인프라·CI/CD·관측성 팀  |
+| Enabling Team              | 역량 전파·CoP(실천 공동체) 지원   | DevOps·보안 전문가 팀   |
+| Complicated-Subsystem Team | 특수 도메인 전문성 집중            | ML·암호화·결제 게이트웨이|
 
 ### 팀 상호작용 모드
 
@@ -102,13 +102,13 @@ X-as-a-Service: 플랫폼 소비 (상시)
 Facilitating: 지식 전수 (한시적)
 ```
 
-📢 **섹션 요약 비유**: Team Topologies는 축구 팀 포메이션이다 — 공격수([Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-aligned), 미드필더(Platform), 코치(Enabling), 골키퍼(Complicated-subsystem)가 각자의 역할을 명확히 해야 팀이 잘 돌아간다.
+📢 **섹션 요약 비유**: Team Topologies는 축구 팀 포메이션이다 — 공격수(Stream-aligned), 미드필더(Platform), 코치(Enabling), 골키퍼(Complicated-subsystem)가 각자의 역할을 명확히 해야 팀이 잘 돌아간다.
 
 ---
 
-## Ⅴ. 콘웨이 법칙과 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 문화
+## Ⅴ. 콘웨이 법칙과 DevOps 문화
 
-### 조직 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 문제
+### 조직 사일로(Silo) 문제
 
 ```
 개발팀 [Dev] ------- 벽 ------- 운영팀 [Ops]
@@ -129,7 +129,7 @@ After (역 콘웨이 기동):
   -> You Build It, You Run It (아마존 원칙)
 ```
 
-📢 **섹션 요약 비유**: DevOps는 요리사가 직접 홀 서빙도 하는 구조다 — 요리(개발)와 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(운영)를 한 팀이 담당하면 음식이 맛없으면 본인도 직접 고객 불만을 듣게 된다.
+📢 **섹션 요약 비유**: DevOps는 요리사가 직접 홀 서빙도 하는 구조다 — 요리(개발)와 서비스(운영)를 한 팀이 담당하면 음식이 맛없으면 본인도 직접 고객 불만을 듣게 된다.
 
 ---
 
@@ -183,17 +183,6 @@ Team Topologies -> Platform Engineering -> 인지 부하 최소화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 콘웨이의 법칙은 "동네 친구끼리 팀을 만들면 동네별로 팀이 나뉜다"는 법칙이다 — 어울리는 사람들이 같은 팀(코드 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 된다.
+1. 콘웨이의 법칙은 "동네 친구끼리 팀을 만들면 동네별로 팀이 나뉜다"는 법칙이다 — 어울리는 사람들이 같은 팀(코드 모듈)이 된다.
 2. 역 콘웨이 기동은 포지션을 먼저 정하고 선수를 뽑는 것이다 — 공격수 전술을 먼저 짜고, 그 포지션에 맞는 선수를 선발한다.
-3. Team Topologies는 회사 조직도를 소프트웨어 설계도처럼 그리는 것이다 — 팀 경계가 곧 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 되도록 의도적으로 구성한다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 32 / 373
-
-<- **이전**: [31. 리드 타임과 사이클 타임 — DevOps 흐름 핵심 지표](/studynote/15_devops_sre/01_culture_methodology/031_lead_time_cycle_time/)
-**다음**: [콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)](/studynote/15_devops_sre/01_culture_methodology/033_conway_s_law/) ->
-
----
+3. Team Topologies는 회사 조직도를 소프트웨어 설계도처럼 그리는 것이다 — 팀 경계가 곧 서비스 경계가 되도록 의도적으로 구성한다.

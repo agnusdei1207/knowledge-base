@@ -7,9 +7,9 @@ weight: 285
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비선점 (No Preemption) 조건은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 4대 필요조건 중 하나로, 한 프로세스가 자원을 스스로 해제(Release)하기 전까지는 다른 프로세스나 운영체제가 그 자원을 강제로 빼앗을 수 없는(Non-preemptible) 특성을 말한다.
-> 2. **가치**: 비선점은 공유 자원의 변경(Update) 연산 도중 강제로 자원이 박탈될 경우 발생하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 오염(Inconsistency)과 시스템 상태 손상을 방지하기 위해 필수적인 하드웨어 및 소프트웨어의 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)막 역할을 한다.
-> 3. **융합**: 운영체제의 CPU 제어권([Preemptive Scheduling](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/))이나 메모리([Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/))는 강제 선점이 가능해 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)에서 비교적 자유로우나, I/O 디바이스(프린터, 테이프)나 DB 커밋 중인 락(Record [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))은 비선점 제약으로 인해 데드락 부정의 사각지대에 놓인다.
+> 1. **본질**: 비선점 (No Preemption) 조건은 교착 상태(Deadlock)의 4대 필요조건 중 하나로, 한 프로세스가 자원을 스스로 해제(Release)하기 전까지는 다른 프로세스나 운영체제가 그 자원을 강제로 빼앗을 수 없는(Non-preemptible) 특성을 말한다.
+> 2. **가치**: 비선점은 공유 자원의 변경(Update) 연산 도중 강제로 자원이 박탈될 경우 발생하는 데이터의 오염(Inconsistency)과 시스템 상태 손상을 방지하기 위해 필수적인 하드웨어 및 소프트웨어의 보호막 역할을 한다.
+> 3. **융합**: 운영체제의 CPU 제어권(Preemptive Scheduling)이나 메모리(Swapping)는 강제 선점이 가능해 교착 상태에서 비교적 자유로우나, I/O 디바이스(프린터, 테이프)나 DB 커밋 중인 락(Record Lock)은 비선점 제약으로 인해 데드락 부정의 사각지대에 놓인다.
 
 ---
 
@@ -19,7 +19,7 @@ weight: 285
 
 하지만, <strong>비선점(No Preemption)</strong>이 존재하기 때문에 데드락이 치명적 파괴력을 지닌다. 프로세스가 "내가 자발적으로 자원을 내려놓을(Release) 때까지" 건드릴 수 없으므로, 프로세스가 무한루프나 교착의 꼬리물기에 빠지는 순간 누구도 그 자원을 빼앗지 못하고 영구 마비가 찾아온다.
 
-**💡 비유**: 운전 중인 자동차 핸들. 주행 중에 강제로 핸들을 뺏으면 차가 전복된다. 그래서 운전자가 차를 세우고 안전하게 내리기 전까지는 그 자리(운전대 자원)를 강제 선점할 수 없도록 강제된 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치.
+**💡 비유**: 운전 중인 자동차 핸들. 주행 중에 강제로 핸들을 뺏으면 차가 전복된다. 그래서 운전자가 차를 세우고 안전하게 내리기 전까지는 그 자리(운전대 자원)를 강제 선점할 수 없도록 강제된 보호 장치.
 
 ```text
 +---------------------------------------------------------------+
@@ -47,7 +47,7 @@ weight: 285
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [비선점 부정](/studynote/02_operating_system/05_deadlock/295_deny_no_preemption/) (Prevention)의 논리와 한계
+### 비선점 부정 (Prevention)의 논리와 한계
 
 데드락을 막으려고 세 번째 조건인 비선점을 파괴(강제 박탈 도입)한다면 어떤 로직일까?
 
@@ -71,7 +71,7 @@ weight: 285
 +---------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: 강제 뺏기([비선점 부정](/studynote/02_operating_system/05_deadlock/295_deny_no_preemption/))는 요리 중인 냄비 압수하기 — 경찰이 와서 빈불을 뺏어가면 다음에 요리를 다시 시작해야 하는데, 이전에 넣은 소금 간(상태)이 다 깨져버려서 처음부터 다시 끓이는 게 더 골치 아파집니다.
+**📢 섹션 요약 비유**: 강제 뺏기(비선점 부정)는 요리 중인 냄비 압수하기 — 경찰이 와서 빈불을 뺏어가면 다음에 요리를 다시 시작해야 하는데, 이전에 넣은 소금 간(상태)이 다 깨져버려서 처음부터 다시 끓이는 게 더 골치 아파집니다.
 
 ---
 
@@ -79,10 +79,10 @@ weight: 285
 
 | 자원 종류 | 상태 되감기 비용 | 선점(Preemption) 여부 | 데드락 위협도 |
 |:---|:---|:---|:---|
-| 프로세서 (CPU) | PCB 문맥 저장 (초저비용) | 예 (타임 [슬라이스](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)) | 제로에 수렴 |
-| [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 코어 스트림 | 일부 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 버퍼 오버헤드 | VRAM 블록 단위 | 극히 적음 |
-| [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/레코드 | [Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/) Log 추적의 고비용 | 락 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 외 불가 | 매우 큼 ([격리성](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 필수) |
-| 뮤텍스 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 락 | C++ 소멸자 및 락 오너 구조 파괴 불가 | 원칙적 완전 불가 | 데드락 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 주요 포커스 |
+| 프로세서 (CPU) | PCB 문맥 저장 (초저비용) | 예 (타임 슬라이스) | 제로에 수렴 |
+| GPU 코어 스트림 | 일부 명령어 버퍼 오버헤드 | VRAM 블록 단위 | 극히 적음 |
+| DBMS 파일/레코드 | Rollback Log 추적의 고비용 | 락 타임아웃 외 불가 | 매우 큼 (격리성 필수) |
+| 뮤텍스 동기화 락 | C++ 소멸자 및 락 오너 구조 파괴 불가 | 원칙적 완전 불가 | 데드락 알고리즘 주요 포커스 |
 
 **📢 섹션 요약 비유**: 잃을 게 없는 CPU 자원과 달리, 엄청나게 복잡한 과정 중간인 DB 레코드 업데이트나 프린팅 엔진은 함부로 빼앗았다가는 그 동안 해온 작업 전체를 망가뜨리므로 비선점 제약이 가장 강력하게 강제됩니다.
 
@@ -91,13 +91,13 @@ weight: 285
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)을 통한 반(Semi)-선점 시뮬레이션</strong>: 개발자가 `Lock.tryLock(5초)` 메서드를 써서, 5초 안에 락을 못 얻으면 자기 함수 내부 로직(나머지 점유 자원)을 싹 초기화하고 Exception을 던진다. 남이 강제로 내 걸 뺏지는 않지만(비선점 보장), 스스로 락을 포기(자발적 Release)하게 유도하여 데드락 순환고리를 깬다. 자율적 백오프(Backoff) 패턴.
-2. <strong><a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> Victim 강제 선정 (RDBMS)</strong>: RDBMS [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 매니저는 데드락 트리 탐지 시 가장 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 비용(이전 변경 레코드 수)이 적은 후보를 단숨에 쳐내어 `Deadlock found when trying to get lock` 에러를 주입, 희생양(Victim)을 만든다. [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) 단의 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 능력이 있기에 과감히 비선점 조건을 찢어버릴 수단.
+1. <strong>타임아웃(Timeout)을 통한 반(Semi)-선점 시뮬레이션</strong>: 개발자가 `Lock.tryLock(5초)` 메서드를 써서, 5초 안에 락을 못 얻으면 자기 함수 내부 로직(나머지 점유 자원)을 싹 초기화하고 Exception을 던진다. 남이 강제로 내 걸 뺏지는 않지만(비선점 보장), 스스로 락을 포기(자발적 Release)하게 유도하여 데드락 순환고리를 깬다. 자율적 백오프(Backoff) 패턴.
+2. <strong>트랜잭션 Victim 강제 선정 (RDBMS)</strong>: RDBMS 트랜잭션 매니저는 데드락 트리 탐지 시 가장 롤백 비용(이전 변경 레코드 수)이 적은 후보를 단숨에 쳐내어 `Deadlock found when trying to get lock` 에러를 주입, 희생양(Victim)을 만든다. DBMS 단의 롤백 능력이 있기에 과감히 비선점 조건을 찢어버릴 수단.
 
-<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- <strong>사용자 입력 <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(<a href="/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> I/O)을 내포한 뮤텍스 구간</strong>: 유저가 키보드 입력을 줄 때까지 블로킹된 함수 호출은 다른 스레드가 뮤텍스 자원을 쓸어가지 못하게 비선점 락과 중대하게 스매싱되어 영원한 동면을 유발한다. "절대, 유저 응답을 락 안에서 대기하지 말라."
+<strong>안티패턴</strong>:
+- <strong>사용자 입력 모듈(Blocking I/O)을 내포한 뮤텍스 구간</strong>: 유저가 키보드 입력을 줄 때까지 블로킹된 함수 호출은 다른 스레드가 뮤텍스 자원을 쓸어가지 못하게 비선점 락과 중대하게 스매싱되어 영원한 동면을 유발한다. "절대, 유저 응답을 락 안에서 대기하지 말라."
 
-**📢 섹션 요약 비유**: 혼자 5분이나 요리할 때 자발적 포기([타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))는 스스로 요리 세트 포기하고 뒷주방 가는 착한 규칙 — 아무도 내 냄비를 강제로 안 밀치니 기분 안 상하고 고착 상태만 없애줍니다.
+**📢 섹션 요약 비유**: 혼자 5분이나 요리할 때 자발적 포기(타임아웃)는 스스로 요리 세트 포기하고 뒷주방 가는 착한 규칙 — 아무도 내 냄비를 강제로 안 밀치니 기분 안 상하고 고착 상태만 없애줍니다.
 
 ---
 
@@ -105,11 +105,11 @@ weight: 285
 
 | 접근 방식 | "강제 자원 박탈" 수단 보유 (선점) | "자원 탈취 불가" (비선점 존중) |
 |:---|:---|:---|
-| 자원 [무결성 보장](/studynote/05_database/07_exam_summary/442_consistency_integrity/) | 파괴 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 높음 (어플리케이션이 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 부담) | 시스템 레벨 완벽한 방어 |
+| 자원 무결성 보장 | 파괴 확률 높음 (어플리케이션이 롤백 부담) | 시스템 레벨 완벽한 방어 |
 | 데드락 회피 | 최고 솔루션 (OS가 언제든 끊음) | 데드락 가능성을 다른 조건으로 방어해야 함 |
-| 구현 난이도 | [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리 오버헤드 폭발 ([DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) 급만 가능) | 단순 명쾌 (수동 코딩에 접목 유리) |
+| 구현 난이도 | 롤백 로그 처리 오버헤드 폭발 (DBMS 급만 가능) | 단순 명쾌 (수동 코딩에 접목 유리) |
 
-비선점 조건은 데드락을 완성하는 4인방 중, 시스템의 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)"을 구원하기 위해 OS계가 눈물을 머금고 끌어안은 딜레마다. 강제로 빼앗아 치워버릴 수 없는 이 한계 때문에, 현대의 개발 공학은 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이나 락 순서([Lock Ordering](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))와 같은 우회 기법으로 교착 악몽에서 탈출해야만 한다.
+비선점 조건은 데드락을 완성하는 4인방 중, 시스템의 "데이터 무결성과 일관성"을 구원하기 위해 OS계가 눈물을 머금고 끌어안은 딜레마다. 강제로 빼앗아 치워버릴 수 없는 이 한계 때문에, 현대의 개발 공학은 타임아웃 롤백이나 락 순서(Lock Ordering)와 같은 우회 기법으로 교착 악몽에서 탈출해야만 한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -119,10 +119,10 @@ weight: 285
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [점유하며 대기](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) ([Hold-and-Wait](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/) ([Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [자원 할당 그래프](/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([Resource-Allocation Graph](/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 상호 배제 (Mutual Exclusion) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 점유하며 대기 (Hold-and-Wait) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 순환 대기 (Circular Wait) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 자원 할당 그래프 (Resource-Allocation Graph) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,14 +143,3 @@ weight: 285
 1. 비선점은 "내 장난감을 내가 스스로 내려놓기 전엔 아무도 강제로 뺏어갈 수 없다!"는 강력한 룰이에요.
 2. 내가 쌓던 레고 성(작업 중간 상태)을 힘으로 확 뺏으면 엉망이 되니까 꼭 필요한 룰이지만,
 3. 저 친구도, 나도 서로 안 놓으려고 "내가 쥐고 있는 한 넌 못 가져" 하면서 버티다 보면 아무도 게임을 할 수 없는 영구 멈춤(데드락)이 찾아옵니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 285 / 800
-
-<- **이전**: [284. 점유하며 대기 (Hold-and-Wait) - 자원을 보유한 상태로 다른 자원 대기](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)
-**다음**: [286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성](/studynote/02_operating_system/05_deadlock/286_circular_wait/) ->
-
----

@@ -15,11 +15,11 @@ weight: 57
 
 ## Ⅰ. 개요 및 필요성
 
-현실의 시스템은 규정집처럼 깔끔하지 않다. 오래된 장비, 특수 목적 시스템, [벤더 종속](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 소프트웨어는 기본 통제를 그대로 넣기 어렵다.
+현실의 시스템은 규정집처럼 깔끔하지 않다. 오래된 장비, 특수 목적 시스템, 벤더 종속 소프트웨어는 기본 통제를 그대로 넣기 어렵다.
 
 이때 완전히 포기하는 대신, 다른 통제를 조합해 같은 수준의 안전을 확보하는 것이 보완 통제다.
 
-- **📢 섹션 요약 비유**: 원래 자물쇠를 못 달면, 문 앞 경비와 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/), 출입 기록으로 같은 효과를 내는 방식이다.
+- **📢 섹션 요약 비유**: 원래 자물쇠를 못 달면, 문 앞 경비와 CCTV, 출입 기록으로 같은 효과를 내는 방식이다.
 
 ---
 
@@ -43,20 +43,20 @@ weight: 57
 보완 통제는 보통 여러 통제를 묶어서 만든다.
 
 - 네트워크 분리와 접근 제한
-- 강화된 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 로그와 모니터링
+- 강화된 감사 로그와 모니터링
 - 물리적 잠금과 출입 통제
-- 추가 승인과 이중 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차
+- 추가 승인과 이중 확인 절차
 - 주기적 수동 점검과 예외 관리
 
 단일 기술보다 운영 절차와 함께 있어야 효과가 난다.
 
-- **📢 섹션 요약 비유**: 한 개의 자물쇠 대신, 여러 명이 순서대로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 문지기 시스템이다.
+- **📢 섹션 요약 비유**: 한 개의 자물쇠 대신, 여러 명이 순서대로 확인하는 문지기 시스템이다.
 
 ---
 
 ## Ⅳ. 실무 적용과 증빙
 
-[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관은 "왜 원래 통제를 못 했는가"와 "왜 이 대체 수단이 충분한가"를 묻는다. 따라서 문서화가 필수다.
+감사관은 "왜 원래 통제를 못 했는가"와 "왜 이 대체 수단이 충분한가"를 묻는다. 따라서 문서화가 필수다.
 
 실무 증빙에는 다음이 포함된다.
 
@@ -79,7 +79,7 @@ weight: 57
 특히 다음을 조심해야 한다.
 
 - 대체 통제가 너무 복잡해져 운영 부담이 커지는 경우
-- [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증빙이 약해서 인정받지 못하는 경우
+- 감사 증빙이 약해서 인정받지 못하는 경우
 - 시간이 지나며 보완 통제가 사실상 새로운 기본 통제가 되는 경우
 
 그래서 보완 통제는 "예외"로 쓰되, 예외가 끝나면 원래 통제로 돌아갈 계획까지 가져가야 한다.
@@ -107,7 +107,7 @@ weight: 57
 1. 기본 통제 -> 이상적인 보안 기준
 2. 적용 불가 상황 -> 레거시와 특수 장비 등장
 3. 보완 통제 -> 대체 수단 조합
-4. [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증빙 -> 예외의 정당성 확보
+4. 감사 증빙 -> 예외의 정당성 확보
 5. 재검토와 종료 -> 예외를 줄이고 표준화로 복귀
 
 ---
@@ -117,14 +117,3 @@ weight: 57
 보완 통제는 정문 자물쇠가 고장 났을 때 쓰는 임시 안전장치예요.
 경비원, 기록장, 문지기를 같이 쓰면 비슷하게 안전해져요.
 하지만 나중에는 진짜 자물쇠로 바꾸는 게 더 좋아요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 57 / 1108
-
-<- **이전**: [56. 억제 통제 (Deterrent Controls) - 위협 행동 억제](/studynote/09_security/01_intro_principles/056_deterrent_controls/)
-**다음**: [58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려](/studynote/09_security/01_intro_principles/058_security_by_design/) ->
-
----

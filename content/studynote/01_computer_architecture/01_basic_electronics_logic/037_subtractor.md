@@ -8,7 +8,7 @@ weight: 37
 > **핵심 인사이트**
 > 1. 감산기(Subtractor)는 두 이진수를 빼는 회로로, 반감산기(Half Subtractor)는 Borrow 입력 없이, 전감산기(Full Subtractor)는 이전 단계 Borrow를 포함해 3비트를 처리한다.
 > 2. 디지털 시스템에서는 감산기를 독립 회로로 구현하지 않고 2의 보수(Two's Complement) 방식을 통해 가산기로 뺄셈을 처리한다 — A - B = A + (-B) = A + (~B + 1).
-> 3. [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 하나의 가산기 + Carry-In 제어 + 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제어로 덧셈과 뺄셈을 모두 구현하는데, 이것이 하드웨어 설계의 핵심 최적화다.
+> 3. ALU(Arithmetic Logic Unit)는 하나의 가산기 + Carry-In 제어 + 부호 비트 제어로 덧셈과 뺄셈을 모두 구현하는데, 이것이 하드웨어 설계의 핵심 최적화다.
 
 ---
 
@@ -54,7 +54,7 @@ weight: 37
 |---------|------------------|----------------------|
 | 입력     | 2개 (A, B)        | 3개 (A, B, Borrow_in)|
 | 출력     | 차(D), Borrow_out | 차(D), Borrow_out     |
-| 용도     | 단독 사용 드뭄     | 다비트 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 뺄셈        |
+| 용도     | 단독 사용 드뭄     | 다비트 병렬 뺄셈        |
 
 > 📢 **섹션 요약 비유**: 전감산기는 "빌린 것"까지 계산에 포함하는 뺄셈 — 이전 자리에서 빌려온 것을 고려해야 한다.
 
@@ -85,7 +85,7 @@ weight: 37
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). ALU에서의 감산기 통합
+## IV. ALU에서의 감산기 통합
 
 ```
 가산기/감산기 공용 회로:
@@ -108,7 +108,7 @@ SUB=1: A + ~B + 1 = A - B (뺄셈, Carry-In=1)
 
 ---
 
-## V. 실무 시나리오 — [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) SUB [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
+## V. 실무 시나리오 — RISC-V SUB 명령어
 
 ```
 RISC-V SUB rd, rs1, rs2:
@@ -180,14 +180,3 @@ GPU 병렬 감산 (수천 개 ALU 동시)
 1. 감산기는 두 숫자를 빼는 기계예요 — 반감산기는 두 개, 전감산기는 세 개 입력을 처리해요.
 2. 컴퓨터는 실제로 뺄셈 회로를 따로 만들지 않고, 덧셈 회로 하나로 2의 보수를 이용해 뺄셈을 해요.
 3. "5-3"을 하려면 3을 뒤집어서(-3으로 만들어서) 5에 더하는 것 — 컴퓨터도 같은 방법을 쓴답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 37 / 803
-
-<- **이전**: [036. 올림수 예측 가산기 (Carry Lookahead Adder)](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/)
-**다음**: [038. 병렬 가감산기 (Parallel Adder-Subtractor)](/studynote/01_computer_architecture/01_basic_electronics_logic/038_parallel_adder_subtractor/) ->
-
----

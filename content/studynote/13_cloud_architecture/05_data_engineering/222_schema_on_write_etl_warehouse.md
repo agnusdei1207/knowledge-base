@@ -6,17 +6,17 @@ tags:
 weight: 222
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [스키마 온 라이트](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하기 **전에** 정형 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 강제 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 보장하는 전통적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 2. **가치**: [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인에서 사전 정제·변환을 완료하므로 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>즉시 분석 가능한 고품질 상태</strong>이며, [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 예측 가능하다.
-> 3. **판단 포인트**: 유연성과 민첩성이 떨어지므로 <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경 비용이 크다</strong>. [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 시대에는 Schema-on-Read와 병행하는 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 하이브리드 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현대적 접근이다.
+> 1. **본질**: 스키마 온 라이트(Schema-on-Write)는 데이터를 저장하기 **전에** 정형 스키마를 강제 검증하여 데이터 품질을 보장하는 전통적 데이터 관리 전략이다.
+> 2. **가치**: ETL 파이프라인에서 사전 정제·변환을 완료하므로 저장된 데이터는 <strong>즉시 분석 가능한 고품질 상태</strong>이며, OLAP 쿼리 성능이 예측 가능하다.
+> 3. **판단 포인트**: 유연성과 민첩성이 떨어지므로 <strong>스키마 변경 비용이 크다</strong>. 데이터 레이크 시대에는 Schema-on-Read와 병행하는 레이크하우스 하이브리드 전략이 현대적 접근이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Schema-on-Write는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장소에 기록되기 <strong>이전 단계</strong>에서 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)(컬럼명, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, NOT NULL, FK 등)를 강제 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방식이다. 전통적 관계형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS)와 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 이 철학을 따른다.
+Schema-on-Write는 데이터가 저장소에 기록되기 <strong>이전 단계</strong>에서 스키마(컬럼명, 데이터 타입, NOT NULL, FK 등)를 강제 검증하는 방식이다. 전통적 관계형 데이터베이스(RDBMS)와 데이터 웨어하우스가 이 철학을 따른다.
 
-이 방식이 필요한 이유는 명확하다. 분석·BI 시스템에서는 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질이 의사결정 품질과 직결</strong>되기 때문이다. 잘못된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, NULL 값, 중복 레코드가 섞인 채로 집계된 KPI는 비즈니스 판단 오류로 이어진다.
+이 방식이 필요한 이유는 명확하다. 분석·BI 시스템에서는 <strong>데이터 품질이 의사결정 품질과 직결</strong>되기 때문이다. 잘못된 데이터 타입, NULL 값, 중복 레코드가 섞인 채로 집계된 KPI는 비즈니스 판단 오류로 이어진다.
 
 ```
 [Schema-on-Write 데이터 흐름]
@@ -30,15 +30,15 @@ Schema-on-Write는 [데이터](/studynote/05_database/01_db_architecture_relatio
                    저장 전 모든 규칙 통과 강제
 ```
 
-[ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 과정에서 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 위반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **거부(Reject)** 처리되거나 오류 로그로 격리된다. 이를 통해 DW에는 항상 "믿을 수 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 존재하게 된다.
+ETL 과정에서 스키마 위반 데이터는 **거부(Reject)** 처리되거나 오류 로그로 격리된다. 이를 통해 DW에는 항상 "믿을 수 있는 데이터"만 존재하게 된다.
 
-📢 **섹션 요약 비유**: Schema-on-Write는 공항 입국 심사와 같다. 비행기에서 내릴 때(저장 전) 여권·비자([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/))를 검사하여 통과한 사람만 입국(저장)할 수 있다. 입국한 사람은 모두 신원이 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)된 상태다.
+📢 **섹션 요약 비유**: Schema-on-Write는 공항 입국 심사와 같다. 비행기에서 내릴 때(저장 전) 여권·비자(스키마)를 검사하여 통과한 사람만 입국(저장)할 수 있다. 입국한 사람은 모두 신원이 확인된 상태다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 상세 흐름
+### ETL 파이프라인 상세 흐름
 
 ```
 소스 시스템                 ETL 서버                      DW 테이블
@@ -55,38 +55,38 @@ Schema-on-Write는 [데이터](/studynote/05_database/01_db_architecture_relatio
                           +------------------+
 ```
 
-### [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유형
+### 스키마 검증 유형
 
-| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유형 | 내용 | 예시 |
+| 검증 유형 | 내용 | 예시 |
 |:---|:---|:---|
-| <strong>타입 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 컬럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 일치 | 날짜 컬럼에 문자열 입력 거부 |
-| **NULL 제약** | NOT NULL 컬럼 값 존재 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 고객 ID NULL 거부 |
-| <strong>범위 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 허용 값 범위 내 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 나이 컬럼 0~150 범위 |
-| <strong><a href="/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/">참조 무결성</a></strong> | FK [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 대상 존재 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 없는 상품 코드 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 거부 |
-| <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 코드</strong> | 허용된 코드값만 입력 | 성별: M/F 이외 거부 |
-| **비즈니스 룰** | 복합 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 반품일 > 구매일 거부 |
+| <strong>타입 검증</strong> | 컬럼 데이터 타입 일치 | 날짜 컬럼에 문자열 입력 거부 |
+| **NULL 제약** | NOT NULL 컬럼 값 존재 확인 | 고객 ID NULL 거부 |
+| <strong>범위 검증</strong> | 허용 값 범위 내 확인 | 나이 컬럼 0~150 범위 |
+| <strong>참조 무결성</strong> | FK 참조 대상 존재 확인 | 없는 상품 코드 참조 거부 |
+| <strong>도메인 코드</strong> | 허용된 코드값만 입력 | 성별: M/F 이외 거부 |
+| **비즈니스 룰** | 복합 검증 | 반품일 > 구매일 거부 |
 
-📢 **섹션 요약 비유**: ETL의 Transform 단계는 공장 품질 관리 라인과 같다. 불량품([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 위반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 라인에서 걸러내고, 합격품만 창고([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 입고한다.
+📢 **섹션 요약 비유**: ETL의 Transform 단계는 공장 품질 관리 라인과 같다. 불량품(스키마 위반 데이터)은 라인에서 걸러내고, 합격품만 창고(DW)에 입고한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [Schema-on-Write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) vs [Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) 완전 비교
+### Schema-on-Write vs Schema-on-Read 완전 비교
 
-| 비교 항목 | [Schema-on-Write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) | [Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) |
+| 비교 항목 | Schema-on-Write | Schema-on-Read |
 |:---|:---|:---|
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 적용 시점</strong> | 저장 전 (강제 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 조회 시 (동적 적용) |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | 매우 높음 (Reject 메커니즘) | 낮음~중간 (원시 그대로) |
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 우수 ([인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 통계 활용) | 보통 (Full Scan 빈번) |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경 비용</strong> | 높음 ([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 수정) | 낮음 (읽기 코드만 변경) |
-| <strong>신규 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 속도</strong> | 느림 ([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 설계 선행 필요) | 빠름 (즉시 저장) |
+| <strong>스키마 적용 시점</strong> | 저장 전 (강제 검증) | 조회 시 (동적 적용) |
+| <strong>데이터 품질</strong> | 매우 높음 (Reject 메커니즘) | 낮음~중간 (원시 그대로) |
+| <strong>쿼리 성능</strong> | 우수 (인덱스, 통계 활용) | 보통 (Full Scan 빈번) |
+| <strong>스키마 변경 비용</strong> | 높음 (ETL 파이프라인 수정) | 낮음 (읽기 코드만 변경) |
+| <strong>신규 데이터 수집 속도</strong> | 느림 (ETL 설계 선행 필요) | 빠름 (즉시 저장) |
 | **탐색적 분석 지원** | 제한적 | 우수 |
-| <strong><a href="/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a> 처리</strong> | 불가 | 가능 |
+| <strong>비정형 데이터 처리</strong> | 불가 | 가능 |
 | **저장 비용** | 고비용 | 저비용 |
-| **주요 플랫폼** | [Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), Redshift | S3 [Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/), Azure DL |
+| **주요 플랫폼** | Snowflake, BigQuery, Redshift | S3 Data Lake, Azure DL |
 
-### 하이브리드 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)
+### 하이브리드 전략: 레이크하우스
 
 ```
 [현대적 전략: 레이크하우스]
@@ -97,15 +97,15 @@ S3 Bronze Zone  --->  Silver Zone --->  Gold Zone
 스키마 추론            스키마 진화         스키마 확정
 ```
 
-📢 **섹션 요약 비유**: Schema-on-Write와 Schema-on-Read는 "선불" vs "후불" 방식이다. 선불(Write)은 입장할 때 검사해 믿을 수 있지만 절차가 번거롭고, 후불(Read)은 자유롭게 들어오지만 나중에 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 든다. [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 두 방식을 구역별로 나눠 쓴다.
+📢 **섹션 요약 비유**: Schema-on-Write와 Schema-on-Read는 "선불" vs "후불" 방식이다. 선불(Write)은 입장할 때 검사해 믿을 수 있지만 절차가 번거롭고, 후불(Read)은 자유롭게 들어오지만 나중에 검증 비용이 든다. 레이크하우스는 두 방식을 구역별로 나눠 쓴다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 비용 관리
+### 스키마 변경 비용 관리
 
-Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경</strong>이다. 비즈니스 요건이 바뀌어 새 컬럼을 추가하거나 타입을 변경해야 할 때, 하위 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 전체를 수정해야 한다.
+Schema-on-Write의 가장 큰 실무 도전은 <strong>스키마 변경</strong>이다. 비즈니스 요건이 바뀌어 새 컬럼을 추가하거나 타입을 변경해야 할 때, 하위 ETL 파이프라인 전체를 수정해야 한다.
 
 ```
 스키마 변경 영향 범위
@@ -125,16 +125,16 @@ Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/studynote/05_da
 
 ### 실무 권장 패턴
 
-| 상황 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 상황 | 전략 |
 |:---|:---|
-| 고정된 BI [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/), 정기 리포트 | [Schema-on-Write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) ([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 적합 |
-| 탐색적 분석, ML [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | [Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) (레이크) 적합 |
-| 두 요건 모두 | [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) ([Medallion Architecture](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)) |
-| [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 잦음 | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) + Avro/Protobuf 활용 |
+| 고정된 BI KPI, 정기 리포트 | Schema-on-Write (DW) 적합 |
+| 탐색적 분석, ML 피처 | Schema-on-Read (레이크) 적합 |
+| 두 요건 모두 | 레이크하우스 (Medallion Architecture) |
+| 스키마 변경 잦음 | 스키마 레지스트리 + Avro/Protobuf 활용 |
 
-**기술사 핵심 판단**: 시험에서는 Schema-on-Write를 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 보장"의 긍정적 측면과 "[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 경직성·변경 비용"의 트레이드오프를 함께 서술하고, 현대적 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로의 진화 맥락을 연결한다.
+**기술사 핵심 판단**: 시험에서는 Schema-on-Write를 "데이터 품질 보장"의 긍정적 측면과 "스키마 경직성·변경 비용"의 트레이드오프를 함께 서술하고, 현대적 레이크하우스 전략으로의 진화 맥락을 연결한다.
 
-📢 **섹션 요약 비유**: Schema-on-Write의 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경은 건물 설계를 바꾸는 것과 같다. 처음 지을 때 튼튼하게 설계했지만(품질 우수), 나중에 방 하나 추가하려면 전체 구조를 다시 검토해야 한다(변경 비용 고비용).
+📢 **섹션 요약 비유**: Schema-on-Write의 스키마 변경은 건물 설계를 바꾸는 것과 같다. 처음 지을 때 튼튼하게 설계했지만(품질 우수), 나중에 방 하나 추가하려면 전체 구조를 다시 검토해야 한다(변경 비용 고비용).
 
 ---
 
@@ -144,37 +144,37 @@ Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/studynote/05_da
 
 | 효과 | 내용 |
 |:---|:---|
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통과, 즉시 분석 신뢰 가능 |
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 최적화</strong> | 사전 정의된 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·통계·파티션으로 예측 가능한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
-| **규정 준수** | [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/), 금융 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 요건 자동 충족 |
-| **BI 단순화** | 분석가가 [데이터 정제](/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 없이 바로 집계 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 작성 가능 |
+| <strong>데이터 신뢰성</strong> | 저장된 데이터는 모두 검증 통과, 즉시 분석 신뢰 가능 |
+| <strong>쿼리 최적화</strong> | 사전 정의된 인덱스·통계·파티션으로 예측 가능한 성능 |
+| **규정 준수** | GDPR, 금융 데이터 정합성 요건 자동 충족 |
+| **BI 단순화** | 분석가가 데이터 정제 없이 바로 집계 쿼리 작성 가능 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민첩성 부족</strong> | 새 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 추가 시 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 설계 선행 필요 |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 드리프트</strong> | 소스 시스템 변경 시 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 장애 발생 |
-| <strong><a href="/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a> 불가</strong> | [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 중첩, 비정형 텍스트 저장 불리 |
-| <strong><a href="/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 병목</strong> | 변환 서버 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 전체 수집 속도 제한 (ELT로 해소) |
+| <strong>데이터 민첩성 부족</strong> | 새 데이터 소스 추가 시 ETL 설계 선행 필요 |
+| <strong>스키마 드리프트</strong> | 소스 시스템 변경 시 ETL 파이프라인 장애 발생 |
+| <strong>비정형 데이터 불가</strong> | JSON 중첩, 비정형 텍스트 저장 불리 |
+| <strong>ETL 병목</strong> | 변환 서버 성능이 전체 수집 속도 제한 (ELT로 해소) |
 
-📢 **섹션 요약 비유**: Schema-on-Write는 엄격한 학교 제복 규정과 같다. 등교(저장) 전 복장([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)) 검사를 통과해야 입장 가능하므로 교내([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))는 늘 단정하지만, 복장 규정 변경([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경) 시 전교생에게 공지하고 새 교복을 맞춰야 하는 비용이 든다.
+📢 **섹션 요약 비유**: Schema-on-Write는 엄격한 학교 제복 규정과 같다. 등교(저장) 전 복장(스키마) 검사를 통과해야 입장 가능하므로 교내(DW)는 늘 단정하지만, 복장 규정 변경(스키마 변경) 시 전교생에게 공지하고 새 교복을 맞춰야 하는 비용이 든다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) | 대립 개념, [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 핵심 철학 |
-| [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | [Schema-on-Write](/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) 구현의 핵심 메커니즘 |
-| [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | Schema-on-Write의 주요 적용 플랫폼 |
-| [ELT](/studynote/14_data_engineering/01_infrastructure/034_elt/) | ETL의 현대적 대안, 변환 단계를 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부로 이동 |
-| [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) | Schema-on-Write와 Schema-on-Read를 Zone별 결합 |
-| [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리로 드리프트 방지 |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 ([Data Quality](/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/)) | Schema-on-Write가 보장하는 핵심 가치 |
+| Schema-on-Read | 대립 개념, 데이터 레이크의 핵심 철학 |
+| ETL | Schema-on-Write 구현의 핵심 메커니즘 |
+| 데이터 웨어하우스 | Schema-on-Write의 주요 적용 플랫폼 |
+| ELT | ETL의 현대적 대안, 변환 단계를 DW 내부로 이동 |
+| 레이크하우스 | Schema-on-Write와 Schema-on-Read를 Zone별 결합 |
+| 스키마 레지스트리 | 스키마 버전 관리로 드리프트 방지 |
+| 데이터 품질 (Data Quality) | Schema-on-Write가 보장하는 핵심 가치 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Schema-on-Write는 학교 급식실에서 음식을 담을 때, 반찬 종류와 양을 미리 정해서 담는 것처럼, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하기 전에 정해진 형식에 맞게 정리한다.
+1. Schema-on-Write는 학교 급식실에서 음식을 담을 때, 반찬 종류와 양을 미리 정해서 담는 것처럼, 데이터를 저장하기 전에 정해진 형식에 맞게 정리한다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -186,16 +186,5 @@ Schema-on-Write: ETL -> 스키마 검증 -> DW 적재
     v
 Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)
 ```
-2. 마치 도서관에서 책을 받을 때 제목·저자·ISBN이 모두 맞아야 등록해주는 것처럼, 정해진 규칙을 통과한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 저장될 수 있다.
-3. 이렇게 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 누구나 믿고 사용할 수 있지만, 새로운 종류의 책([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 들어오려면 도서관 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/))를 바꿔야 하는 번거로움이 있다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 221 / 371
-
-<- **이전**: [221. 데이터 웨어하우스 (Data Warehouse / DW)](/studynote/13_cloud_architecture/05_data_engineering/221_data_warehouse_olap_sql/)
-**다음**: [223. 데이터 마트 (Data Mart)](/studynote/13_cloud_architecture/05_data_engineering/223_data_mart_department_analytics/) ->
-
----
+2. 마치 도서관에서 책을 받을 때 제목·저자·ISBN이 모두 맞아야 등록해주는 것처럼, 정해진 규칙을 통과한 데이터만 저장될 수 있다.
+3. 이렇게 저장된 데이터는 누구나 믿고 사용할 수 있지만, 새로운 종류의 책(데이터)이 들어오려면 도서관 분류 체계(스키마)를 바꿔야 하는 번거로움이 있다.

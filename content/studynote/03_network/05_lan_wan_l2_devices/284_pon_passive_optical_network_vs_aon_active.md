@@ -16,11 +16,11 @@ weight: 284
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 통신국사(CO)의 OLT 장비에서 출발한 1가닥의 광케이블 신호를 32가구, 64가구의 집(ONU/ONT)으로 분기(Split) 시켜주는 기술 방식의 차이다.
-- **필요성**: 전화국에서 아파트 100가구에 광케이블을 깔아준다고 치자. 전화국에서부터 광케이블 100가닥을 일일이 땅을 파서 아파트까지 끌고 오면(Home-Run 방식) 공사비가 수백억 원이 든다. 그래서 굵은 선 1가닥만 아파트 지하 주차장까지 가져온 뒤, 아파트 내부에서 100가닥으로 쪼개주는 장치가 필요했다. 이 장치를 <strong>전기를 먹는 비싼 기계(<a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)로 할 거냐(AON), 쇳덩어리 거울(스플리터)로 할 거냐(PON)</strong>의 싸움이었다.
+- **필요성**: 전화국에서 아파트 100가구에 광케이블을 깔아준다고 치자. 전화국에서부터 광케이블 100가닥을 일일이 땅을 파서 아파트까지 끌고 오면(Home-Run 방식) 공사비가 수백억 원이 든다. 그래서 굵은 선 1가닥만 아파트 지하 주차장까지 가져온 뒤, 아파트 내부에서 100가닥으로 쪼개주는 장치가 필요했다. 이 장치를 <strong>전기를 먹는 비싼 기계(스위치)로 할 거냐(AON), 쇳덩어리 거울(스플리터)로 할 거냐(PON)</strong>의 싸움이었다.
 
 - **💡 비유**:
-  - <strong>AON(<a href="/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a>)</strong>: 아파트 지하에 <strong>"똑똑한 경비 아저씨(<a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)"</strong>를 고용해 월급(전기세)을 주고, 택배([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 각 세대별로 정확히 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 배달시키는 방식입니다.
-  - **PON(패시브)**: 아파트 지하에 커다란 **"유리 프리즘(광 분배기)"** 하나만 딱 세워둡니다. 통신사가 레이저를 쏘면 프리즘이 빛을 64갈래로 쪼개어 모든 세대 방바닥에 뿌립니다. 전기세 0원, 고장 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 0%입니다.
+  - <strong>AON(액티브)</strong>: 아파트 지하에 <strong>"똑똑한 경비 아저씨(스위치)"</strong>를 고용해 월급(전기세)을 주고, 택배(데이터)를 각 세대별로 정확히 분류해 배달시키는 방식입니다.
+  - **PON(패시브)**: 아파트 지하에 커다란 **"유리 프리즘(광 분배기)"** 하나만 딱 세워둡니다. 통신사가 레이저를 쏘면 프리즘이 빛을 64갈래로 쪼개어 모든 세대 방바닥에 뿌립니다. 전기세 0원, 고장 확률 0%입니다.
 
 ```text
 [DQDB]
@@ -41,11 +41,11 @@ weight: 284
 
 ### 1. 다운스트림 (전화국 ---> 우리 집) : 브로드캐스트 방식
 - OLT가 빛을 쏘면 중간의 쇳덩어리 거울(스플리터)이 빛을 난반사시켜 64가구에 똑같이 뿌려버린다(Broadcast).
-- 101호 거실에 있는 ONU 모뎀은, 쏟아져 들어온 64가구의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 "아! 이 빛 신호는 내 IP 주소([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))에 맞는 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)구나!" 하는 것만 쏙 빼먹고 나머지는 버린다. 암호화([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))가 되어 있어 옆집 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔쳐볼 수는 없다.
+- 101호 거실에 있는 ONU 모뎀은, 쏟아져 들어온 64가구의 데이터 중 "아! 이 빛 신호는 내 IP 주소(MAC)에 맞는 내 데이터구나!" 하는 것만 쏙 빼먹고 나머지는 버린다. 암호화(AES)가 되어 있어 옆집 데이터를 훔쳐볼 수는 없다.
 
-### 2. 업스트림 (우리 집 ---> 전화국) : [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/) ([TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/))
+### 2. 업스트림 (우리 집 ---> 전화국) : 시분할 다중화 (TDMA)
 문제가 생긴다. 64가구가 각자 자기가 원할 때 위로 레이저(빛)를 쏴버리면, 프리즘에서 빛이 부딪혀(충돌) 엉망진창이 된다(광 짬뽕).
-- 이를 막기 위해 OLT(전화국)가 집집마다 0.001초 단위로 <strong>말할 수 있는 시간표(Timeslot)</strong>를 할당해 준다 ([TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) 방식).
+- 이를 막기 위해 OLT(전화국)가 집집마다 0.001초 단위로 <strong>말할 수 있는 시간표(Timeslot)</strong>를 할당해 준다 (TDMA 방식).
 - "101호, 넌 지금부터 1밀리초 동안 쏴! 102호, 넌 대기해! 102호, 이제 너 쏴!"
 - 이 시간표가 어마어마하게 빠르게 돌아가므로 사용자는 자신이 혼자 선을 다 쓰고 있는 것처럼 느낀다.
 
@@ -73,8 +73,8 @@ weight: 284
 ```
 
 ### 3. PON의 진화 (E-PON vs G-PON)
-- <strong>E-PON (<a href="/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> PON)</strong>: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷을 우리가 친숙한 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 프레임 그대로 실어 보내는 방식. 구현이 싸고 쉬워서 한국 통신사들이 100M/1G 광랜을 깔 때 도배하다시피 사용했다.
-- **G-PON (Gigabit PON)**: 과거 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀의 철학을 섞어서, [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)뿐만 아니라 TDM(음성) 등 온갖 짬뽕 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 GEM이라는 자체 포장지로 예쁘게 규격화해서 보내는 통신사 표준 규격. 효율이 E-PON보다 좋아서 현대 기가 인터넷망의 글로벌 대세가 되었다. (현재는 10기가 인터넷을 위한 XG-PON 시대로 진화 중).
+- <strong>E-PON (Ethernet PON)</strong>: 데이터 포맷을 우리가 친숙한 이더넷(Ethernet) 프레임 그대로 실어 보내는 방식. 구현이 싸고 쉬워서 한국 통신사들이 100M/1G 광랜을 깔 때 도배하다시피 사용했다.
+- **G-PON (Gigabit PON)**: 과거 ATM 셀의 철학을 섞어서, 이더넷뿐만 아니라 TDM(음성) 등 온갖 짬뽕 데이터를 GEM이라는 자체 포장지로 예쁘게 규격화해서 보내는 통신사 표준 규격. 효율이 E-PON보다 좋아서 현대 기가 인터넷망의 글로벌 대세가 되었다. (현재는 10기가 인터넷을 위한 XG-PON 시대로 진화 중).
 
 - **📢 섹션 요약 비유**: ** PON 아키텍처는 햇빛(전화국)이 하나의 작은 창문(광케이블 1가닥)으로 들어오면, 방 한가운데 걸어둔 **"미러볼(스플리터)"**이 그 빛을 반사해 방 안의 수십 명(가입자)에게 찬란하게 흩뿌려주는 마법 같은 무동력 광학 시스템입니다.
 
@@ -88,7 +88,7 @@ PON / AON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐�
 |:---|:---|:---|:---|
 | 초점 | DQDB의 기반 정리 | PON / AON의 핵심 동작 | 네트워크 계층의 핵심 3기능의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: PON / AON는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -96,18 +96,18 @@ PON / AON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 PON / AON를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [DQDB](/studynote/03_network/05_lan_wan_l2_devices/283_dqdb_distributed_queue_dual_bus_ieee_802_6/) 수준의 기본 대책으로 충분한지, 아니면 PON / AON가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 네트워크 계층의 핵심 3기능와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 PON / AON를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 DQDB 수준의 기본 대책으로 충분한지, 아니면 PON / AON가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 네트워크 계층의 핵심 3기능와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. PON / AON가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. PON / AON가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
 3. 도입 후에는 인접 기술인 네트워크 계층의 핵심 3기능와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - PON / AON의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- DQDB와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- DQDB와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: PON / AON를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -125,9 +125,9 @@ PON / AON는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [DQDB](/studynote/03_network/05_lan_wan_l2_devices/283_dqdb_distributed_queue_dual_bus_ieee_802_6/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
+| DQDB | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| MAC 주소 (Media Access Control Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| 스위치 (Switch) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
 | 네트워크 계층의 핵심 3기능 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -147,16 +147,5 @@ PON / AON는 DQDB에서 출발해 현재 메커니즘을 정교화하고, 이후
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 분류 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 405 / 1120
-
-<- **이전**: [283. DQDB (Distributed Queue Dual Bus)](/studynote/03_network/05_lan_wan_l2_devices/283_dqdb_distributed_queue_dual_bus_ieee_802_6/)
-**다음**: [285. 네트워크 계층의 핵심 3기능](/studynote/03_network/06_network_layer_ip/285_network_layer_routing_forwarding_congestion_control/) ->
-
----

@@ -7,26 +7,26 @@ weight: 581
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비바 모델은 [벨-라파둘라 모델](/studynote/02_operating_system/10_security/580_bell_lapadula_model/)과 대칭되는 접근 제어 모델로, <strong>"정보의 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(변조/조작 방지)"</strong>을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 것이 목적이다. 두 가지 기본 규칙인 <strong>No Read Down (NRD)</strong>과 <strong>No Write Up (NWU)</strong>을 제시한다.
-> 2. **가치**: 이 규칙들에 의해 시스템의 중요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 낮은 등급의 신뢰할 수 없는 프로세스에 의해 <strong>변조/조작되는 것이 차단</strong>되어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 신뢰성이 보장된다.
+> 1. **본질**: 비바 모델은 벨-라파둘라 모델과 대칭되는 접근 제어 모델로, <strong>"정보의 무결성(변조/조작 방지)"</strong>을 보호하는 것이 목적이다. 두 가지 기본 규칙인 <strong>No Read Down (NRD)</strong>과 <strong>No Write Up (NWU)</strong>을 제시한다.
+> 2. **가치**: 이 규칙들에 의해 시스템의 중요한 데이터가 낮은 등급의 신뢰할 수 없는 프로세스에 의해 <strong>변조/조작되는 것이 차단</strong>되어, 데이터의 신뢰성이 보장된다.
 > 3. **한계**: 상위 등급 사용자가 하위 등급의 정보를 읽지 못하므로, 정보 흐름이 제한되어 <strong>상하 간 협력/소통이 어려워지는 문제</strong>가 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [벨-라파둘라 모델](/studynote/02_operating_system/10_security/580_bell_lapadula_model/)과의관계
+### 1.1 벨-라파둘라 모델과의관계
 
 | 모델 | 목적 | 핵심 규칙 |
 |:---|:---|:---|
-| **벨-라파둘라** | [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/studynote/09_security/01_intro_principles/002_confidentiality/)) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | No Read Up, No Write Down |
-| **비바** | [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/studynote/09_security/01_intro_principles/003_integrity/)) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | No Read Down, No Write Up |
+| **벨-라파둘라** | 기밀성(Confidentiality) 보호 | No Read Up, No Write Down |
+| **비바** | 무결성(Integrity) 보호 | No Read Down, No Write Up |
 
 두 모델은 **" mirror image (거울 상)"** 관계에 있다.
 
-### 1.2 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)이란?
+### 1.2 무결성이란?
 
-<strong><a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>이란 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>"권한(권한) 없이 변조/조작되지 않은 상태"</strong>를 의미한다:
+<strong>무결성(Integrity)</strong>이란 데이터가 <strong>"권한(권한) 없이 변조/조작되지 않은 상태"</strong>를 의미한다:
 
 ```text
 [ 예시: 은행 잔고 데이터 ]
@@ -40,9 +40,9 @@ weight: 581
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 Simple [Integrity](/studynote/09_security/01_intro_principles/003_integrity/) [Axiom](/studynote/09_security/14_threat_hunting_adversarial/702_axiom/) (No Read Down, NRD)
+### 2.1 Simple Integrity Axiom (No Read Down, NRD)
 
-<strong>"자신의 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 등급보다 낮은 등급의 객체는 읽을 수 없다"</strong>
+<strong>"자신의 무결성 등급보다 낮은 등급의 객체는 읽을 수 없다"</strong>
 
 | 프로세스 등급 | 읽기 가능 | 읽기 불가 |
 |:---|:---|:---|
@@ -52,17 +52,17 @@ weight: 581
 
 **목적**: 낮은 등급의"불완정(불완전)" 또는 "악의(악의적)" 정보를 높은 등급이 읽고 영향을 받는 것을 방지.
 
-### 2.2 Integral [Axiom](/studynote/09_security/14_threat_hunting_adversarial/702_axiom/) (No Write Up, NWU)
+### 2.2 Integral Axiom (No Write Up, NWU)
 
-<strong>"자신의 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 등급보다 높은 등급의 객체에는 쓸 수 없다"</strong>
+<strong>"자신의 무결성 등급보다 높은 등급의 객체에는 쓸 수 없다"</strong>
 
-| 프로세스 등급 | [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능 | [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 |
+| 프로세스 등급 | 쓰기 가능 | 쓰기 불가 |
 |:---|:---|:---|
 | **높은 등급** | 모든 등급 | - |
 | **중간 등급** | 중간/낮은 등급 | 높은 등급 |
 | **낮은 등급** | 낮은 등급만 | 중간/높은 등급 |
 
-**목적**: 낮은 등급의 신뢰할 수 없는 프로세스가 높은 등급의 중요 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **변조하는 것을 원천 차단**.
+**목적**: 낮은 등급의 신뢰할 수 없는 프로세스가 높은 등급의 중요 데이터를 **변조하는 것을 원천 차단**.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -72,15 +72,15 @@ weight: 581
 
 ### 3.1 비교
 
-| [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 등급 (벨-라파둘라) | [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 등급 (비바) |
+| 속성 | 기밀성 등급 (벨-라파둘라) | 무결성 등급 (비바) |
 |:---|:---|:---|
 | **높은 등급의 의미** | 가장 민감한 정보 | 가장 신뢰할 수 있는 출처 |
 | **정보 흐름** | 위로만 흐름 | 아래로만 흐름 |
-| <strong><a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 대상</strong> | 정보 유출 방지 | 정보 변조 방지 |
+| <strong>보호 대상</strong> | 정보 유출 방지 | 정보 변조 방지 |
 
 ### 3.2 함께 사용
 
-현실에서는 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 <strong>두 모델을 조합</strong>한다:
+현실에서는 기밀성과 무결성을 동시에 보호하기 위해 <strong>두 모델을 조합</strong>한다:
 
 ```text
 [ 병행 사용 ]
@@ -109,11 +109,11 @@ weight: 581
 
 ### 4.2 Clark-Wilson 모델
 
-실무적 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 보장을 위해 <strong>Clark-Wilson 모델</strong>이 제안되었다:
+실무적 무결성 보장을 위해 <strong>Clark-Wilson 모델</strong>이 제안되었다:
 
 | 메커니즘 | 설명 |
 |:---|:---|
-| <strong>Well-formed <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a></strong> | 올바른 형식으로만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 가능 |
+| <strong>Well-formed Transaction</strong> | 올바른 형식으로만 데이터 변경 가능 |
 | **Separation of Duty (SoD)** | 권한 분리를 통해 부당한 변경 방지 |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -122,7 +122,7 @@ weight: 581
 
 ## Ⅴ. 기대효과 및 결론
 
-- <strong><a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조/조작을 원천 차단
+- <strong>무결성 보호</strong>: 데이터 변조/조작을 원천 차단
 - **한계점**: 동일 등급 내의 공범 가능성, 정보 흐름 제한
 - **실무적 확장**: Clark-Wilson 모델과의 조합으로 실무 적용
 
@@ -134,10 +134,10 @@ weight: 581
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [강제적 접근 제어](/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/) ([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), Mandatory [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [벨-라파둘라 모델](/studynote/02_operating_system/10_security/580_bell_lapadula_model/) ([Bell-LaPadula](/studynote/02_operating_system/10_security/580_bell_lapadula_model/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [리눅스 보안 모듈](/studynote/02_operating_system/10_security/582_linux_security_modules_lsm/) (LSM, Linux [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [SELinux](/studynote/02_operating_system/10_security/583_selinux/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 강제적 접근 제어 (MAC, Mandatory Access Control) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 벨-라파둘라 모델 (Bell-LaPadula) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 리눅스 보안 모듈 (LSM, Linux Security Modules) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| SELinux | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,21 +155,10 @@ weight: 581
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong>비바 모델</strong>은 놀이공원의 <strong>"위생 등급 제도"</strong>와 같다. 위생 등급이 높은 식당(높은 [무결성](/studynote/09_security/01_intro_principles/003_integrity/))은 위생 등급이 낮은 식당(낮은 [무결성](/studynote/09_security/01_intro_principles/003_integrity/))의 재료를 사용할 수 없고, 반대로 위생 등급이 낮은 식당은 높은 등급의 재료를 사용할 수 없다.
+1. <strong>비바 모델</strong>은 놀이공원의 <strong>"위생 등급 제도"</strong>와 같다. 위생 등급이 높은 식당(높은 무결성)은 위생 등급이 낮은 식당(낮은 무결성)의 재료를 사용할 수 없고, 반대로 위생 등급이 낮은 식당은 높은 등급의 재료를 사용할 수 없다.
 
 2. <strong>NRD (No Read Down)</strong>는 <strong>"청결 식당은 불결 식당의 음식을 읽지(검수(검수)) 않는다"</strong>는 규칙과 같다. 청결 식당이 불결 식단의 재료를 사용하면 자기 위생 등급이 떨어질 수 있다.
 
 3. <strong>NWU (No Write Up)</strong>는 <strong>"불결 식당은 청결 식단에 재료를 쓸 수 없다"</strong>는 규칙과 같다. 불결 식당이 청결 식단의 재료에 손을 대면, 청결 식단 전체의 위생 등급이 오염될 수 있다.
 
 4. <strong>한계</strong>는 같은 위생 등급 식당끼리는 재료를 자유롭게 주고받을 수 있어서, 둘이 공모(공모)하면 위생 등급 전체를 깨뜨릴 수 있다는 점이다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 581 / 800
-
-<- **이전**: [580. 벨-라파둘라 모델 (Bell-LaPadula) - 기밀성 위주 보안 정책 (No Read Up, No Write Down)](/studynote/02_operating_system/10_security/580_bell_lapadula_model/)
-**다음**: [582. 리눅스 보안 모듈 (LSM, Linux Security Modules) - 플러그인 훅 구조](/studynote/02_operating_system/10_security/582_linux_security_modules_lsm/) ->
-
----

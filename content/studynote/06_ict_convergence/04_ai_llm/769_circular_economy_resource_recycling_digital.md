@@ -101,11 +101,3 @@ weight: 769
 | **디지털 트윈** | 가상 공간에서 자원 모델링 | **Azure Digital Twins**(DTDL v3), **Siemens MindSphere**, **NVIDIA Omniverse**(공정 시뮬레이션) — 자원 단위별 3D + LCA + MFA 결합 |
 | **EPCIS 2.0 캡처** | 이벤트 체인 표준화 | GS1 EPCIS 2.0(JSON-LD) — **ObjectEvent, AggregationEvent, TransactionEvent, TransformationEvent** 4종 이벤트 타입으로 ISO 19944 IoT와 호환 |
 | **MFA 엔진** | 물질 흐름 정량 분석 |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 769 / 800
-
-<- **이전**: [768. 공유 경제 P2P 마켓플레이스 신뢰](/studynote/06_ict_convergence/uncategorized/768_sharing_economy_p2p_marketplace_trust/)
-**다음**: [770. 디지털 트윈 도시 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/770_digital_twin_city_simulation_optimization/) ->
-
----

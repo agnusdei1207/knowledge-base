@@ -75,11 +75,3 @@ weight: 738
                                              | (JSON over TAXII 2.1)
                                              v
    +--------------------------------
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 738 / 800
-
-<- **이전**: [737. 디지털 포렌식 증거 수집 분석 법정](/studynote/06_ict_convergence/uncategorized/737_digital_forensics_evidence_collection_analysi/)
-**다음**: [739. 레드팀 블루팀 퍼플팀 보안 훈련](/studynote/06_ict_convergence/uncategorized/739_red_team_blue_team_purple_team_security/) ->
-
----

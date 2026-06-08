@@ -6,13 +6,13 @@ tags:
 weight: 250
 ---
 > **핵심 인사이트**
-> 1. [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data Sovereignty](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 국가/개인의 법률과 거버넌스 체계에 따라 통제되어야 한다는 원칙으로, 클라우드 글로벌화로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 국경을 넘나드는 시대에 국가 안보·경제적 이해·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)의 핵심 쟁점으로 부상했다.
-> 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 현지화([Data Localization](/studynote/09_security/16_data_privacy/810_data_localization/))는 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 실현 수단이지만 무역 장벽이 될 수 있으며 — 러시아·중국의 강제 현지화부터 GDPR의 국외 이전 제한까지 그 강도와 방식이 국가별로 크게 다르다.
-> 3. 기업의 대응 핵심은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레지던시([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Residency) 아키텍처 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어느 클라우드 리전에 저장되는지 설계 단계부터 통제하고, 계약·기술·거버넌스 세 차원에서 규제를 준수해야 한다.
+> 1. 데이터 주권(Data Sovereignty)은 데이터가 생성된 국가/개인의 법률과 거버넌스 체계에 따라 통제되어야 한다는 원칙으로, 클라우드 글로벌화로 데이터가 국경을 넘나드는 시대에 국가 안보·경제적 이해·개인정보 보호의 핵심 쟁점으로 부상했다.
+> 2. 데이터 현지화(Data Localization)는 데이터 주권 실현 수단이지만 무역 장벽이 될 수 있으며 — 러시아·중국의 강제 현지화부터 GDPR의 국외 이전 제한까지 그 강도와 방식이 국가별로 크게 다르다.
+> 3. 기업의 대응 핵심은 데이터 레지던시(Data Residency) 아키텍처 — 데이터가 어느 클라우드 리전에 저장되는지 설계 단계부터 통제하고, 계약·기술·거버넌스 세 차원에서 규제를 준수해야 한다.
 
 ---
 
-## I. [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)의 개념
+## I. 데이터 주권의 개념
 
 ```
 데이터 주권 (Data Sovereignty):
@@ -35,7 +35,7 @@ weight: 250
   -> 한국 법률로 보호 어려움
 ```
 
-> 📢 **섹션 요약 비유**: 내 집 문서를 외국 은행 금고에 보관하면, 그 나라 법원이 열람 명령을 내릴 수 있음 — [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)은 디지털 국경선.
+> 📢 **섹션 요약 비유**: 내 집 문서를 외국 은행 금고에 보관하면, 그 나라 법원이 열람 명령을 내릴 수 있음 — 데이터 주권은 디지털 국경선.
 
 ---
 
@@ -71,11 +71,11 @@ GDPR (유럽, 2018):
 | 러시아 | 매우 강함  | 자국 서버 강제 (차단 위협) |
 | 한국  | 중간      | 동의 기반 이전 허용       |
 
-> 📢 **섹션 요약 비유**: GDPR은 유럽 시민 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유럽 내 창고에만 — 미국 CLOUD Act는 미국 회사가 어디 있든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제출 가능 -> 두 법 충돌.
+> 📢 **섹션 요약 비유**: GDPR은 유럽 시민 데이터를 유럽 내 창고에만 — 미국 CLOUD Act는 미국 회사가 어디 있든 데이터 제출 가능 -> 두 법 충돌.
 
 ---
 
-## III. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 현지화 vs 자유 이전
+## III. 데이터 현지화 vs 자유 이전
 
 ```
 데이터 현지화 (Data Localization):
@@ -105,7 +105,7 @@ GDPR (유럽, 2018):
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 기업의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레지던시 설계
+## IV. 기업의 데이터 레지던시 설계
 
 ```
 데이터 레지던시 (Data Residency):
@@ -134,11 +134,11 @@ GDPR 준수 아키텍처:
   미국/아시아 전송 금지 (설정)
 ```
 
-> 📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레지던시는 집의 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 나라 서버에 보낼지 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것 — 한국 법 적용을 받으려면 한국 서버 선택.
+> 📢 **섹션 요약 비유**: 데이터 레지던시는 집의 CCTV 데이터를 어떤 나라 서버에 보낼지 설정하는 것 — 한국 법 적용을 받으려면 한국 서버 선택.
 
 ---
 
-## V. 실무 시나리오 — 금융사 EU [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
+## V. 실무 시나리오 — 금융사 EU 서비스
 
 ```
 상황:
@@ -225,17 +225,6 @@ AI 국가 경쟁 + 데이터 규제 확산
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)은 내 일기를 어느 나라 창고에 보관하느냐에 따라 누가 볼 수 있는지가 달라지는 것처럼, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 나라의 법이 적용되는 원칙이에요.
-2. EU는 유럽 시민의 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)를 유럽 밖으로 보내려면 엄격한 조건을 지켜야 한다는 [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) 법을 만들어 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)을 지키고 있어요.
-3. 글로벌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 하는 기업은 나라마다 별도 서버를 만들어야 할 수도 있어서 비용이 늘지만, 각 나라 고객의 신뢰를 얻어 사업을 키울 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 250 / 262
-
-<- **이전**: [037. 국가 데이터 정책 — 데이터기본법 · 데이터 산업 진흥법](/studynote/16_bigdata/13_intro_trends/249_national_data_policy/)
-**다음**: [039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)](/studynote/16_bigdata/13_intro_trends/251_data_anonymization/) ->
-
----
+1. 데이터 주권은 내 일기를 어느 나라 창고에 보관하느냐에 따라 누가 볼 수 있는지가 달라지는 것처럼, 데이터가 저장된 나라의 법이 적용되는 원칙이에요.
+2. EU는 유럽 시민의 개인정보를 유럽 밖으로 보내려면 엄격한 조건을 지켜야 한다는 GDPR 법을 만들어 데이터 주권을 지키고 있어요.
+3. 글로벌 서비스를 하는 기업은 나라마다 별도 서버를 만들어야 할 수도 있어서 비용이 늘지만, 각 나라 고객의 신뢰를 얻어 사업을 키울 수 있어요!

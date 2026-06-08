@@ -6,9 +6,9 @@ tags:
 weight: 146
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: mTLS는 <strong>클라이언트와 서버가 양쪽 모두 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(상호 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>하는 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 확장이며, [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))에서 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 통신의 암호화·<a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>·<a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>을 보장하는 핵심 메커니즘이다.
-> 2. **가치**: 일반 TLS는 <strong>서버만 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>(클라이언트는 아무나)하지만, mTLS는 <strong>양쪽 모두 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>하여 [Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크에서 "네트워크 내부라도 신뢰하지 않는" 원칙을 실현한다.
-> 3. **판단 포인트**: [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/))가 <strong>자동 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 발급·회전·<a href="/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a> 적용</strong>을 사이드카에서 처리하므로, 애플리케이션 코드 변경 없이 적용된다.
+> 1. **본질**: mTLS는 <strong>클라이언트와 서버가 양쪽 모두 인증서를 검증(상호 인증)</strong>하는 TLS 확장이며, 서비스 메시(Istio)에서 <strong>서비스 간 통신의 암호화·인증·무결성</strong>을 보장하는 핵심 메커니즘이다.
+> 2. **가치**: 일반 TLS는 <strong>서버만 인증</strong>(클라이언트는 아무나)하지만, mTLS는 <strong>양쪽 모두 인증</strong>하여 Zero Trust 네트워크에서 "네트워크 내부라도 신뢰하지 않는" 원칙을 실현한다.
+> 3. **판단 포인트**: 서비스 메시(Istio)가 <strong>자동 인증서 발급·회전·mTLS 적용</strong>을 사이드카에서 처리하므로, 애플리케이션 코드 변경 없이 적용된다.
 
 ---
 
@@ -21,13 +21,13 @@ mTLS:  클라이언트 ↔ 서버 양쪽 인증서 교환·검증
   Istio: 자동 인증서 발급 -> Envoy 사이드카에서 mTLS
 ```
 
-- **📢 섹션 요약 비유**: TLS는 <strong>신분증 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(서버만)</strong>, mTLS는 <strong>양쪽 모두 신분증 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>이다.
+- **📢 섹션 요약 비유**: TLS는 <strong>신분증 확인(서버만)</strong>, mTLS는 <strong>양쪽 모두 신분증 확인</strong>이다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-mTLS는 <strong><a href="/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>·<a href="/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">서비스 메시</a>의 보안 핵심</strong>이며, Istio가 자동화를 제공한다.
+mTLS는 <strong>Zero Trust·서비스 메시의 보안 핵심</strong>이며, Istio가 자동화를 제공한다.
 
 ---
 
@@ -35,11 +35,11 @@ mTLS는 <strong><a href="/studynote/02_operating_system/10_security/667_zero_tru
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a></strong> | 상호 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
-| <strong><a href="/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a></strong> | 내부도 불신 |
-| <strong><a href="/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/">Istio</a></strong> | 자동 [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 회전</strong> | 자동 갱신 |
-| **SPIFFE** | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ID 표준 |
+| <strong>mTLS</strong> | 상호 인증 |
+| <strong>Zero Trust</strong> | 내부도 불신 |
+| <strong>Istio</strong> | 자동 mTLS |
+| <strong>인증서 회전</strong> | 자동 갱신 |
+| **SPIFFE** | 서비스 ID 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -54,14 +54,3 @@ mTLS는 <strong><a href="/studynote/02_operating_system/10_security/667_zero_tru
 1. TLS는 <strong>가게(서버)만 신분증</strong>을 보여주는 거예요.
 2. mTLS는 <strong>손님(클라이언트)도 신분증</strong>을 보여야 들어갈 수 있어요.
 3. 이렇게 하면 <strong>가짜 손님</strong>이 못 들어와서 안전해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 145 / 371
-
-<- **이전**: [145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반](/studynote/13_cloud_architecture/03_msa_serverless/145_sidecar_proxy_pattern/)
-**다음**: [147. DDD (Domain-Driven Design) - 도메인 주도 설계](/studynote/13_cloud_architecture/03_msa_serverless/147_ddd_domain_driven_design/) ->
-
----

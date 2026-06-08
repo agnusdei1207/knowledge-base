@@ -7,17 +7,17 @@ weight: 1021
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Li-Fi(Light Fidelity)는 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구의 깜빡임(가시광선 파장, VLC)을 1초에 수백만 번 제어하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 0과 1로 전송하는 [무선 광통신](/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 기술이다.
-> 2. **가치**: 기존 Wi-Fi가 사용하는 전파(RF) 대역의 주파수 고갈 한계를 극복하고, 전파 간섭이 없는 병원이나 비행기 내에서도 조명만 켜져 있으면 Gbps급 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 초고보안 통신망을 깔 수 있다.
+> 1. **본질**: Li-Fi(Light Fidelity)는 LED 전구의 깜빡임(가시광선 파장, VLC)을 1초에 수백만 번 제어하여 데이터를 0과 1로 전송하는 무선 광통신 기술이다.
+> 2. **가치**: 기존 Wi-Fi가 사용하는 전파(RF) 대역의 주파수 고갈 한계를 극복하고, 전파 간섭이 없는 병원이나 비행기 내에서도 조명만 켜져 있으면 Gbps급 초고속, 초고보안 통신망을 깔 수 있다.
 > 3. **판단 포인트**: 전자기파 간섭이 없는 강력한 장점이 있으나, 빛이 가려지면(장애물) 통신이 끊어지는 직진성(LOS) 문제 때문에 메인 통신망을 대체하기보다는 실내 국지적인 보안망이나 백본을 보완하는 보조망으로 제한적인 실무 적용이 요구된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스마트폰과 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기가 폭증하면서 우리가 일상적으로 쓰는 Wi-Fi 전파(2.4GHz, 5GHz 대역)는 이미 포화 상태에 이르러 속도가 저하되고 전파 간섭이 극심해졌다(Spectrum Crunch). 주파수 경매에 천문학적인 비용이 드는 상황에서, 아직 아무도 쓰지 않고 허가도 필요 없는 광활한 주파수 대역인 '가시광선(Visible Light)' 영역에 눈을 돌린 것이 Li-Fi(라이파이)다.
+스마트폰과 IoT 기기가 폭증하면서 우리가 일상적으로 쓰는 Wi-Fi 전파(2.4GHz, 5GHz 대역)는 이미 포화 상태에 이르러 속도가 저하되고 전파 간섭이 극심해졌다(Spectrum Crunch). 주파수 경매에 천문학적인 비용이 드는 상황에서, 아직 아무도 쓰지 않고 허가도 필요 없는 광활한 주파수 대역인 '가시광선(Visible Light)' 영역에 눈을 돌린 것이 Li-Fi(라이파이)다.
 
-해럴드 하스(Harald Haas) 교수가 창안한 이 개념은 실내에 설치된 수많은 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구를 통신 기지국처럼 활용(VLC: Visible Light Communication)하여, 빛을 통해 무선 랜(LAN)을 구축하려는 혁신적인 시도다.
+해럴드 하스(Harald Haas) 교수가 창안한 이 개념은 실내에 설치된 수많은 LED 전구를 통신 기지국처럼 활용(VLC: Visible Light Communication)하여, 빛을 통해 무선 랜(LAN)을 구축하려는 혁신적인 시도다.
 
 ```text
 [자유 공간 광통신]
@@ -34,7 +34,7 @@ weight: 1021
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Li-Fi 시스템은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빛의 강도(Intensity)로 변환하는 송신부([LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구)와 이를 받아 다시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 복원하는 수신부(포토 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))로 구성된다.
+Li-Fi 시스템은 데이터를 빛의 강도(Intensity)로 변환하는 송신부(LED 전구)와 이를 받아 다시 데이터로 복원하는 수신부(포토 다이오드)로 구성된다.
 
 ```text
 +--------------------------------------------------------+
@@ -52,8 +52,8 @@ Li-Fi 시스템은 [데이터](/studynote/05_database/01_db_architecture_relatio
 +--------------------------------------------------------+
 ```
 
-1. <strong>송신 (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/">LED</a>)</strong>: 사람의 눈에는 보이지 않을 만큼 매우 빠른 속도(수백 MHz)로 LED의 밝기를 켰다 껐다(OOK: On-Off Keying) 하거나, 미세하게 조절(OFDM 변조)하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인코딩한다.
-2. <strong>수신 (포토 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a>)</strong>: 단말에 장착된 수광 소자가 미세한 빛의 변화를 감지하여 원래의 이진수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 해독한다. 상향 링크(단말 -> 천장)는 주로 눈에 안 띄는 적외선([IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))을 사용하여 사용자의 시야를 방해하지 않게 한다.
+1. <strong>송신 (LED)</strong>: 사람의 눈에는 보이지 않을 만큼 매우 빠른 속도(수백 MHz)로 LED의 밝기를 켰다 껐다(OOK: On-Off Keying) 하거나, 미세하게 조절(OFDM 변조)하여 데이터를 인코딩한다.
+2. <strong>수신 (포토 다이오드)</strong>: 단말에 장착된 수광 소자가 미세한 빛의 변화를 감지하여 원래의 이진수 데이터로 해독한다. 상향 링크(단말 -> 천장)는 주로 눈에 안 띄는 적외선(IR)을 사용하여 사용자의 시야를 방해하지 않게 한다.
 
 - **📢 섹션 요약 비유**: 멀리 떨어진 두 사람이 손전등을 매우 빠르게 깜빡거리면서 모스 부호(0과 1)로 대화하는 방식을, 1초에 수백만 번 깜빡이도록 속도를 높인 기술이다.
 
@@ -65,9 +65,9 @@ Li-Fi 시스템은 [데이터](/studynote/05_database/01_db_architecture_relatio
 
 | 비교 항목 | Wi-Fi (전파 방식) | Li-Fi (가시광선 방식) |
 |:---:|:---|:---|
-| <strong><a href="/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 및 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | 무선 주파수 (RF) / 협소함 | 가시광선 (VLC) / RF 대역의 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배 넓음 |
+| <strong>매체 및 대역폭</strong> | 무선 주파수 (RF) / 협소함 | 가시광선 (VLC) / RF 대역의 10,000배 넓음 |
 | **통신 속도** | 최대 Gbps 수준 | 최대 수십 Gbps 이상 잠재력 |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> (물리적)</strong> | 벽을 통과하여 외부에서 해킹 위험 | <strong>빛이 벽을 못 뚫으므로 방 밖으로 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유출 불가능</strong> |
+| <strong>보안성 (물리적)</strong> | 벽을 통과하여 외부에서 해킹 위험 | <strong>빛이 벽을 못 뚫으므로 방 밖으로 데이터 유출 불가능</strong> |
 | **인체 유해성 / 간섭**| 전자파 발생, 병원/항공기 간섭 위험 | 빛이므로 인체 무해, 전자기파(EMI) 간섭 0% |
 | **치명적 단점 (한계)**| 주파수 포화 및 혼선 (혼잡) | **빛이 가려지면(손으로 가림 등) 통신 두절 (LOS 의존)** |
 
@@ -80,15 +80,15 @@ Li-Fi는 RF 전파를 쓰지 않으므로, 정밀 의료기기가 있는 병원�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 적용 시나리오:**
-1. <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 및 자율주행</strong>: 공장 내 전파 간섭이 심한 곳에서 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명만으로 로봇을 제어하거나, 도로의 가로등/차량 헤드라이트를 이용해 앞뒤 차 간의 실시간 교통 정보(V2V)를 교환할 수 있다.
+1. <strong>스마트 팩토리 및 자율주행</strong>: 공장 내 전파 간섭이 심한 곳에서 LED 조명만으로 로봇을 제어하거나, 도로의 가로등/차량 헤드라이트를 이용해 앞뒤 차 간의 실시간 교통 정보(V2V)를 교환할 수 있다.
 2. **군사 및 특수 보안 구역**: 기밀 시설에서는 해커가 건물 밖에서 Wi-Fi 신호를 가로채는 것을 막기 위해, 빛이 새나가지 않는 방 안에 Li-Fi를 구축하여 물리적으로 완벽한 망 분리를 달성한다.
 
 **기술사 판단 포인트 (Trade-off):**
 Li-Fi를 실무에 전면 도입할 때는 **'직진성으로 인한 그림자 음영지역(Shadowing)'** 극복이 핵심이다.
-1. 사용자가 스마트폰을 주머니에 넣거나, 사람이 빛을 가리면 즉각 통신이 끊어지므로(LOS, Line of Sight 요구), 여러 전구가 협동하여 빈틈을 메우는 조명 간 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)([Handover](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) 튜닝이 필수적이다.
-2. 따라서 Li-Fi 단독망 구축보다는 기존 Wi-Fi망과 Li-Fi를 하이브리드로 결합하여 서로의 단점을 상호 보완([Fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))하는 아키텍처 설계가 현실적이다.
+1. 사용자가 스마트폰을 주머니에 넣거나, 사람이 빛을 가리면 즉각 통신이 끊어지므로(LOS, Line of Sight 요구), 여러 전구가 협동하여 빈틈을 메우는 조명 간 핸드오버(Handover) 튜닝이 필수적이다.
+2. 따라서 Li-Fi 단독망 구축보다는 기존 Wi-Fi망과 Li-Fi를 하이브리드로 결합하여 서로의 단점을 상호 보완(Fallback)하는 아키텍처 설계가 현실적이다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -100,9 +100,9 @@ Li-Fi를 실무에 전면 도입할 때는 **'직진성으로 인한 그림자 �
 
 ## Ⅴ. 기대효과 및 결론
 
-Li-Fi는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 고갈에 시달리는 전파 통신의 짐을 극적으로 덜어줄 수 있는 잠재력을 지녔다. 모든 실내 조명 인프라(가로등, 실내등, 디스플레이)를 통신 기지국으로 재활용할 수 있어 에너지 효율성(그린 IT) 측면에서도 탁월한 장점을 갖는다.
+Li-Fi는 대역폭 고갈에 시달리는 전파 통신의 짐을 극적으로 덜어줄 수 있는 잠재력을 지녔다. 모든 실내 조명 인프라(가로등, 실내등, 디스플레이)를 통신 기지국으로 재활용할 수 있어 에너지 효율성(그린 IT) 측면에서도 탁월한 장점을 갖는다.
 
-물론 빛의 도달 거리가 짧고 상향 링크 처리가 어렵다는 치명적인 물리적 한계가 있어 대중적인 메인 통신망이 되기는 요원하다. 결론적으로 Li-Fi는 전자기파가 닿을 수 없는 바닷속(수중 [가시광 통신](/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/))이나 보안이 생명인 특수 환경 등 기존 RF의 사각지대를 메워주는 '니치(Niche) 혁신 기술'로서 미래 6G의 초광대역 융합 네트워크 생태계의 한 축을 담당할 것이다.
+물론 빛의 도달 거리가 짧고 상향 링크 처리가 어렵다는 치명적인 물리적 한계가 있어 대중적인 메인 통신망이 되기는 요원하다. 결론적으로 Li-Fi는 전자기파가 닿을 수 없는 바닷속(수중 가시광 통신)이나 보안이 생명인 특수 환경 등 기존 RF의 사각지대를 메워주는 '니치(Niche) 혁신 기술'로서 미래 6G의 초광대역 융합 네트워크 생태계의 한 축을 담당할 것이다.
 
 - **📢 섹션 요약 비유**: Li-Fi는 주연 배우(Wi-Fi)를 쫓아내는 것이 아니라, 주연이 힘을 쓰지 못하는 깊은 바닷속이나 비밀 벙커에서 완벽하게 빈자리를 메워주는 최고의 특수 조연이다.
 
@@ -112,10 +112,10 @@ Li-Fi는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [자유 공간 광통신](/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 셀 (Cell) | 무선 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
-| [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
-| [저궤도 위성망](/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/) 스타링크 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 자유 공간 광통신 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 셀 (Cell) | 무선 서비스 범위를 나누는 기본 단위다. |
+| 핸드오버 (Handover) | 이동 중에도 연결을 유지하게 만든다. |
+| 저궤도 위성망 스타링크 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,21 +129,10 @@ Li-Fi는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_
     +---> [확장 B: 지능형 무선 자원 제어]
 ```
 
-[가시광 통신](/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이는 [자유 공간 광통신](/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [저궤도 위성망](/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/) 스타링크와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+가시광 통신 라이파이는 자유 공간 광통신에서 출발해 현재 메커니즘을 정교화하고, 이후 저궤도 위성망 스타링크와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 거실의 밝은 전등이 아주아주 빠르게 깜빡이면서 투명한 인터넷 선 역할을 하는 기술이에요.
 2. 불이 켜진 방 안에만 있으면 스마트폰 와이파이가 전등 빛을 타고 엄청나게 빠르게 연결된답니다.
 3. 하지만 이불을 뒤집어쓰거나 그림자가 생겨서 빛을 가리면 인터넷이 뚝 끊어져 버리니까 조심해야 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 123 / 1120
-
-<- **이전**: [1020. 자유 공간 광통신 (FSO)](/studynote/03_network/20_performance_evaluation_advanced/1020_fso_free_space_optics_laser_communication/)
-**다음**: [1022. 저궤도 위성망 (LEO)과 스타링크](/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/) ->
-
----

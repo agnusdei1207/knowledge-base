@@ -6,9 +6,9 @@ tags:
 weight: 113
 ---
 > **핵심 인사이트**
-> 1. 클리크(Clique)란 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 정점이 서로 연결된 완전 부분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Complete Subgraph)를 말하며 — k-Clique 문제(크기 k 이상의 클리크가 존재하는가?)는 SAT로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.
-> 2. 클리크 문제는 사회 네트워크 분석(SNS에서 완전 연결 그룹 탐지), 생물정보학(단백질 상호작용 네트워크 분석), [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)(밀집 연결 사용자 클러스터 발견)에서 핵심 도구이지만 — 정확한 최대 클리크 탐색은 지수 시간이 소요된다.
-> 3. 클리크(모든 쌍 연결)와 독립 집합(어떤 쌍도 연결 안 됨)은 여그래프(Complement [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))를 통해 동치로 환원되며 — 두 문제 모두 NP-완전이므로, 실용적으로는 근사 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 Bron-Kerbosch [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([백트래킹](/studynote/08_algorithm_stats/01_basics/010_backtracking/) 기반)이 사용된다.
+> 1. 클리크(Clique)란 그래프에서 모든 정점이 서로 연결된 완전 부분 그래프(Complete Subgraph)를 말하며 — k-Clique 문제(크기 k 이상의 클리크가 존재하는가?)는 SAT로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.
+> 2. 클리크 문제는 사회 네트워크 분석(SNS에서 완전 연결 그룹 탐지), 생물정보학(단백질 상호작용 네트워크 분석), 추천 시스템(밀집 연결 사용자 클러스터 발견)에서 핵심 도구이지만 — 정확한 최대 클리크 탐색은 지수 시간이 소요된다.
+> 3. 클리크(모든 쌍 연결)와 독립 집합(어떤 쌍도 연결 안 됨)은 여그래프(Complement Graph)를 통해 동치로 환원되며 — 두 문제 모두 NP-완전이므로, 실용적으로는 근사 알고리즘과 Bron-Kerbosch 알고리즘(백트래킹 기반)이 사용된다.
 
 ---
 
@@ -113,7 +113,7 @@ k-클리크 ∈ NP 증명:
 
 ---
 
-## Ⅲ. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅲ. 알고리즘
 
 ```
 클리크 알고리즘:
@@ -155,7 +155,7 @@ SNS 클리크 탐색 현실:
   Dense Subgraph Discovery: 완화된 클리크 개념
 ```
 
-> 📢 **섹션 요약 비유**: 클리크 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 퍼즐 최적화 — 모든 조합을 다 시도하는 건 너무 느리니, Bron-Kerbosch는 "이 방향은 어차피 안 될 것 같아" 하며 빠르게 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/).
+> 📢 **섹션 요약 비유**: 클리크 알고리즘은 퍼즐 최적화 — 모든 조합을 다 시도하는 건 너무 느리니, Bron-Kerbosch는 "이 방향은 어차피 안 될 것 같아" 하며 빠르게 가지치기.
 
 ---
 
@@ -318,14 +318,3 @@ GNN 기반 클리크 탐색
 1. 클리크는 "모두가 서로 아는 친구 그룹" — 5명이 클리크이려면 5명 중 어떤 두 명을 골라도 반드시 서로 알아야 해요!
 2. 클리크 문제는 NP-완전 — 이 그룹을 찾는 가장 빠른 방법이 알려지지 않아서, 빠른 방법을 찾으면 P=NP를 증명한 것!
 3. 실용에서는 SNS 그룹 탐지, 단백질 네트워크 분석에 활용 — 완벽한 클리크 대신 "거의 클리크"를 찾는 근사 방법을 써요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 113 / 175
-
-<- **이전**: [007. SAT — 불리언 만족 가능성 문제](/studynote/08_algorithm_stats/06_np_theory/112_sat/)
-**다음**: [009. 버텍스 커버 — Vertex Cover](/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/) ->
-
----

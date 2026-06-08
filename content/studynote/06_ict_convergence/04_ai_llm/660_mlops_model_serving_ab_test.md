@@ -178,11 +178,3 @@ where θ = Cov(Y, X) / Var(X), X = pre-experiment metric (예: 최근 14일 사�
 ```
 
 **(3) SRM (Sample Ratio M
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 660 / 800
-
-<- **이전**: [659. AI 추론 최적화 TensorRT ONNX](/studynote/06_ict_convergence/uncategorized/659_ai_inference_optimization_tensorrt_onnx/)
-**다음**: [661. LLMOps 대규모 언어 모델 운영](/studynote/06_ict_convergence/uncategorized/661_llmops_large_language_model_operations/) ->
-
----

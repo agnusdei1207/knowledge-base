@@ -9,7 +9,7 @@ weight: 759
 
 > 1. **본질**: HALT (Highly Accelerated Life Test)는 시제품에 정상 사양을 넘어서는 온도·진동·복합 스트레스를 단계적으로 가해, 작동 한계와 파괴 한계 그리고 가장 약한 설계 고리를 찾는 개발용 시험이다.
 > 2. **가치**: 제품이 어디서 멈추고 무엇이 먼저 깨지는지를 빠르게 드러내어, 양산 전에 취약한 커넥터·납땜·방열 구조·전원 여유를 설계 차원에서 수정하게 만든다.
-> 3. **판단 포인트**: HALT는 이름에 Life가 들어가지만 수명 보증 시험이 아니라 설계 학습 시험이며, [MTBF](/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 계산이나 출하 판정 용도로 쓰면 안 된다.
+> 3. **판단 포인트**: HALT는 이름에 Life가 들어가지만 수명 보증 시험이 아니라 설계 학습 시험이며, MTBF 계산이나 출하 판정 용도로 쓰면 안 된다.
 
 ---
 
@@ -51,7 +51,7 @@ HALT에서 자주 쓰는 자극과 그 목적은 다음과 같다.
 | 다축 랜덤 진동 | 기계적 체결과 연결 강성 | 커넥터 헐거움, 나사 풀림, 보드 공진 |
 | 복합 스트레스 | 여러 요인이 겹칠 때의 약한 고리 | 방열·전원·기구 설계의 상호작용 문제 |
 
-HALT의 핵심은 고장을 발견하는 순간 시험을 끝내는 것이 아니라, 그 고장을 해부해 설계로 되돌리는 데 있다. 예를 들어 특정 진동 레벨에서 메모리 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 접점이 불안정해졌다면, [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 구조·체결 방식·보드 지지 구조를 바꾸는 식으로 환류해야 한다. 즉 HALT는 "버티는가"보다 "왜 여기서 무너졌는가"가 더 중요하다.
+HALT의 핵심은 고장을 발견하는 순간 시험을 끝내는 것이 아니라, 그 고장을 해부해 설계로 되돌리는 데 있다. 예를 들어 특정 진동 레벨에서 메모리 모듈 접점이 불안정해졌다면, 소켓 구조·체결 방식·보드 지지 구조를 바꾸는 식으로 환류해야 한다. 즉 HALT는 "버티는가"보다 "왜 여기서 무너졌는가"가 더 중요하다.
 
 - **📢 섹션 요약 비유**: HALT는 운동선수의 체력을 재는 것이 아니라, 코치가 일부러 더 힘든 훈련을 시켜 어디 근육이 먼저 약한지 찾아내는 과정과 같다. 약한 부위를 찾으면 훈련 계획 자체를 바꿀 수 있다.
 
@@ -59,18 +59,18 @@ HALT의 핵심은 고장을 발견하는 순간 시험을 끝내는 것이 아�
 
 ## Ⅲ. 비교 및 연결
 
-HALT는 다른 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 시험과 목적이 뚜렷하게 다르다. [가속 수명 시험](/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) (Accelerated Life Test, [ALT](/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/))은 시간 압축을 통해 장기 수명을 추정하려는 것이고, HASS는 양산품의 제조 결함을 빠르게 골라내는 생산 스크린이다. 반면 HALT는 설계의 약한 고리를 찾는 데 초점이 있으므로, 소수 시제품과 공격적인 스트레스가 어울린다.
+HALT는 다른 신뢰성 시험과 목적이 뚜렷하게 다르다. 가속 수명 시험 (Accelerated Life Test, ALT)은 시간 압축을 통해 장기 수명을 추정하려는 것이고, HASS는 양산품의 제조 결함을 빠르게 골라내는 생산 스크린이다. 반면 HALT는 설계의 약한 고리를 찾는 데 초점이 있으므로, 소수 시제품과 공격적인 스트레스가 어울린다.
 
 | 기법 | 대상 | 질문 | 결과 |
 | :--- | :--- | :--- | :--- |
 | HALT | 시제품, 설계 검증품 | 어디서 멈추고 무엇이 먼저 약한가 | 약한 고리, 작동 한계, 파괴 한계 |
-| [ALT](/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) | 시험 샘플 | 장기 수명을 어떻게 추정할까 | 수명 모델, 가속 계수 |
+| ALT | 시험 샘플 | 장기 수명을 어떻게 추정할까 | 수명 모델, 가속 계수 |
 | 자격 시험 (Qualification) | 양산 전 제품군 | 규격 조건을 만족하는가 | 규격 적합 여부 |
-| [HASS](/studynote/01_computer_architecture/15_advanced_topics/760_hass/) | 양산품 | 제조·조립 결함을 빠르게 걸러낼 수 있는가 | 출하 전 스크리닝 |
+| HASS | 양산품 | 제조·조립 결함을 빠르게 걸러낼 수 있는가 | 출하 전 스크리닝 |
 
-또한 HALT는 고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, [FMEA](/studynote/01_computer_architecture/15_advanced_topics/752_fmea/))와 잘 연결된다. FMEA가 잠재적 고장 모드를 문서로 정리한다면, HALT는 그중 실제로 어떤 약점이 먼저 현실화되는지 실험으로 확인한다. 이후 발견된 실패 모드는 고장 분석, 부품 변경, 기구 보강, 방열 재설계로 이어져야 한다.
+또한 HALT는 고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, FMEA)와 잘 연결된다. FMEA가 잠재적 고장 모드를 문서로 정리한다면, HALT는 그중 실제로 어떤 약점이 먼저 현실화되는지 실험으로 확인한다. 이후 발견된 실패 모드는 고장 분석, 부품 변경, 기구 보강, 방열 재설계로 이어져야 한다.
 
-따라서 HALT는 단독 종착점이 아니라 설계 개선 루프의 앞단이다. HALT에서 약점을 찾고, 설계를 바꾸고, 다시 확인한 뒤, 그 결과를 [HASS](/studynote/01_computer_architecture/15_advanced_topics/760_hass/) 같은 양산 스크린에 연결하는 흐름이 이상적이다.
+따라서 HALT는 단독 종착점이 아니라 설계 개선 루프의 앞단이다. HALT에서 약점을 찾고, 설계를 바꾸고, 다시 확인한 뒤, 그 결과를 HASS 같은 양산 스크린에 연결하는 흐름이 이상적이다.
 
 - **📢 섹션 요약 비유**: HALT가 집 짓기 전에 모형을 흔들고 눌러 보며 약한 기둥을 찾는 과정이라면, HASS는 완성된 집을 팔기 전에 문과 창문이 잘 조립됐는지 빠르게 검사하는 과정이다.
 
@@ -78,19 +78,19 @@ HALT는 다른 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quali
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 HALT를 잘 쓰려면 시제품 수를 많이 늘리기보다 계측과 고장 해석을 촘촘히 하는 편이 중요하다. 온도, [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 진동, 로그를 함께 기록해야 어느 조건에서 어떤 증상이 나타났는지 정확히 연결할 수 있다. 또한 스트레스를 한 번에 크게 올리기보다 단계적으로 올려 약한 고리와 경계 조건을 분리해 보는 것이 좋다.
+실무에서 HALT를 잘 쓰려면 시제품 수를 많이 늘리기보다 계측과 고장 해석을 촘촘히 하는 편이 중요하다. 온도, 전압, 전류, 진동, 로그를 함께 기록해야 어느 조건에서 어떤 증상이 나타났는지 정확히 연결할 수 있다. 또한 스트레스를 한 번에 크게 올리기보다 단계적으로 올려 약한 고리와 경계 조건을 분리해 보는 것이 좋다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 설계 단계 시제품에 대해 HALT를 계획했는가, 아니면 양산 직전에 뒤늦게 시도하는가?
 2. 작동 한계와 파괴 한계를 구분해 기록하는가?
 3. 실패가 나오면 즉시 고장 분석과 설계 변경으로 환류하는가?
 4. 온도, 진동, 전원 조건을 각각 보지 않고 복합 스트레스도 확인하는가?
-5. HALT 결과를 이후 [HASS](/studynote/01_computer_architecture/15_advanced_topics/760_hass/) 프로파일과 자격 시험 계획에 연결하는가?
+5. HALT 결과를 이후 HASS 프로파일과 자격 시험 계획에 연결하는가?
 
-### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 안티패턴
 
-- <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/">MTBF</a> 산출용으로 HALT 사용</strong>: HALT는 통계적 수명 예측 시험이 아니다.
+- <strong>MTBF 산출용으로 HALT 사용</strong>: HALT는 통계적 수명 예측 시험이 아니다.
 - **한 번 부숴 보고 끝내기**: 설계 수정과 재시험이 빠지면 학습 효과가 없다.
 - **양산품 판정 시험으로 오용**: HALT는 좋은 제품을 선별하는 절차가 아니라 약한 설계를 찾는 절차다.
 
@@ -106,7 +106,7 @@ HALT의 가장 큰 효과는 설계 약점을 필드 장애보다 훨씬 앞에�
 
 하지만 HALT만으로 제품의 장기 수명이나 규격 적합성을 모두 증명할 수는 없다. 수명 보증은 ALT와 통계 시험이 필요하고, 규격 적합성은 별도의 qualification이 필요하다. HALT는 어디까지나 설계 마진을 키우는 학습 도구라는 점을 잊으면 안 된다.
 
-앞으로는 센서 계측, [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), 자동 실패 분류가 결합되어 HALT의 분석 속도가 더 빨라질 것이다. 그래도 본질은 동일하다. HALT는 제품을 일부러 힘들게 해서 망가뜨리는 시험이 아니라, <strong>왜 망가지는지를 가장 빨리 배우는 설계 실험</strong>이다.
+앞으로는 센서 계측, 디지털 트윈, 자동 실패 분류가 결합되어 HALT의 분석 속도가 더 빨라질 것이다. 그래도 본질은 동일하다. HALT는 제품을 일부러 힘들게 해서 망가뜨리는 시험이 아니라, <strong>왜 망가지는지를 가장 빨리 배우는 설계 실험</strong>이다.
 
 - **📢 섹션 요약 비유**: 좋은 코치는 선수를 망신 주려고 힘든 훈련을 시키지 않는다. 큰 경기 전에 약한 부분을 빨리 찾아 보강하려고 일부러 더 어려운 훈련을 시키는 것이다.
 
@@ -117,11 +117,11 @@ HALT의 가장 큰 효과는 설계 약점을 필드 장애보다 훨씬 앞에�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 작동 한계 (Operational Limit) | HALT가 찾는 첫 번째 경계로, 기능이 멈추는 지점이다. |
-| 파괴 한계 (Destruct Limit) | 영구 손상이 시작되는 지점으로, [HASS](/studynote/01_computer_architecture/15_advanced_topics/760_hass/) 프로파일 상한을 정할 때 참고된다. |
+| 파괴 한계 (Destruct Limit) | 영구 손상이 시작되는 지점으로, HASS 프로파일 상한을 정할 때 참고된다. |
 | 약한 고리 (Weak Link) | HALT의 핵심 발견 대상이며 설계 보강의 직접 입력값이다. |
 | 고장 분석 (Failure Analysis) | HALT 결과를 실제 설계 수정으로 연결하는 필수 단계다. |
-| [FMEA](/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) | 어떤 실패 모드를 중점적으로 볼지 정하는 선행 분석이다. |
-| [HASS](/studynote/01_computer_architecture/15_advanced_topics/760_hass/) | HALT에서 찾은 마진을 바탕으로 양산품 screening에 적용되는 후속 기법이다. |
+| FMEA | 어떤 실패 모드를 중점적으로 볼지 정하는 선행 분석이다. |
+| HASS | HALT에서 찾은 마진을 바탕으로 양산품 screening에 적용되는 후속 기법이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,14 +147,3 @@ HALT (Highly Accelerated Life Test)
 1. HALT는 새 장난감이 얼마나 튼튼한지 보려고 평소보다 더 세게 흔들어 보고 더 덥고 춥게 만들어 보는 시험이에요.
 2. 그러면 어디가 제일 약한지 빨리 알 수 있어서, 공장에서 그 부분을 더 튼튼하게 고칠 수 있어요.
 3. 그래서 나중에 우리 손에 올 장난감이 더 잘 망가지지 않게 되는 거예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 760 / 803
-
-<- **이전**: [758. 번인 (Burn-in) 테스트](/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)
-**다음**: [760. HASS (Highly Accelerated Stress Screen)](/studynote/01_computer_architecture/15_advanced_topics/760_hass/) ->
-
----

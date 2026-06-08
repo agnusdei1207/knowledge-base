@@ -7,16 +7,16 @@ weight: 3
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 저항 (Resistance)은 전하의 이동을 방해하여 전기에너지를 열로 소산시키는 물리적 마찰력이다.
-> 2. **가치**: [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 내부의 저항 제어는 스위칭을 가능하게 하지만, 칩 외부 배선의 기생 저항은 RC [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 일으켜 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)를 제한한다.
-> 3. **판단 포인트**: 초미세 공정에서는 게이트 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 배선 저항에 의한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 전체 성능을 결정하므로, 신소재(Cu, Co) 채택과 후면 전력 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) (BSPDN) 같은 구조적 해결책이 필수적이다.
+> 2. **가치**: 트랜지스터 내부의 저항 제어는 스위칭을 가능하게 하지만, 칩 외부 배선의 기생 저항은 RC 지연을 일으켜 클럭 주파수를 제한한다.
+> 3. **판단 포인트**: 초미세 공정에서는 게이트 지연보다 배선 저항에 의한 지연이 전체 성능을 결정하므로, 신소재(Cu, Co) 채택과 후면 전력 공급망 (BSPDN) 같은 구조적 해결책이 필수적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-저항 (Resistance)은 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 내부에서 전하 운반자가 이동할 때 원자 격자와 충돌하며 겪는 방해의 크기를 옴($\Omega$) 단위로 나타낸 것이다. 옴의 법칙 ($V=[IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/)$)에 따라 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 관계를 결정하며, 전력을 열로 변환 ($P=I^2R$)한다.
+저항 (Resistance)은 도체 내부에서 전하 운반자가 이동할 때 원자 격자와 충돌하며 겪는 방해의 크기를 옴($\Omega$) 단위로 나타낸 것이다. 옴의 법칙 ($V=IR$)에 따라 전압과 전류의 관계를 결정하며, 전력을 열로 변환 ($P=I^2R$)한다.
 
-디지털 시스템에서 저항은 양면성을 가진다. 입력 핀의 상태를 안정시키는 풀업/풀다운 저항이나 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 반사를 막는 종단 저항 (**ODT, On-Die Termination**)처럼 의도적으로 배치되어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 데 꼭 필요하다. 하지만 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 미세화가 진행되면서 금속 배선의 단면적이 줄어들어 발생하는 기생 배선 저항은 회로의 동작 속도를 떨어뜨리고 발열을 일으키는 가장 큰 병목이 되었다.
+디지털 시스템에서 저항은 양면성을 가진다. 입력 핀의 상태를 안정시키는 풀업/풀다운 저항이나 신호 반사를 막는 종단 저항 (**ODT, On-Die Termination**)처럼 의도적으로 배치되어 신호 무결성을 지키는 데 꼭 필요하다. 하지만 반도체 미세화가 진행되면서 금속 배선의 단면적이 줄어들어 발생하는 기생 배선 저항은 회로의 동작 속도를 떨어뜨리고 발열을 일으키는 가장 큰 병목이 되었다.
 
 - **📢 섹션 요약 비유**: 저항은 도로 위의 과속 방지턱과 같다. 톨게이트 앞의 방지턱은 사고를 막아주지만, 고속도로 한가운데 끝없이 깔린 방지턱은 전체 물류 속도를 떨어뜨리고 타이어만 닳게 만든다.
 
@@ -24,9 +24,9 @@ weight: 3
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-컴퓨터 구조에서 저항은 의도된 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 제어와 극복해야 할 기생 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 두 가지 형태로 나타난다. [MOSFET](/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)는 게이트 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 통해 소스와 드레인 사이의 채널 저항을 무한대(OFF)에서 수십 옴(ON)으로 급격히 변화시키는 거대한 가변 저항기다. 이 저항의 극단적인 스위칭이 곧 1과 0의 디지털 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 만든다.
+컴퓨터 구조에서 저항은 의도된 논리 제어와 극복해야 할 기생 지연이라는 두 가지 형태로 나타난다. MOSFET 트랜지스터는 게이트 전압을 통해 소스와 드레인 사이의 채널 저항을 무한대(OFF)에서 수십 옴(ON)으로 급격히 변화시키는 거대한 가변 저항기다. 이 저항의 극단적인 스위칭이 곧 1과 0의 디지털 논리를 만든다.
 
-반면 금속 배선이 가지는 고유 저항($R$)은 주변 배선과의 [정전용량](/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 결합하여 <strong>RC (Resistor-Capacitor) <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>을 발생시킨다.
+반면 금속 배선이 가지는 고유 저항($R$)은 주변 배선과의 정전용량($C$)과 결합하여 <strong>RC (Resistor-Capacitor) 지연</strong>을 발생시킨다.
 
 ```text
 +--------------------------------------------------------------+
@@ -41,53 +41,53 @@ weight: 3
 +--------------------------------------------------------------+
 ```
 
-[신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 배선을 통과할 때 저항이 크면 기생 커패시터를 충전하는 데 시간이 오래 걸려, 사각형의 디지털 펄스가 완만한 곡선으로 눕게 된다. 이 상승 시간 (Rise Time) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 클럭 주기보다 길어지면 수신단에서 1을 0으로 오인하는 타이밍 오류가 발생한다.
+신호가 배선을 통과할 때 저항이 크면 기생 커패시터를 충전하는 데 시간이 오래 걸려, 사각형의 디지털 펄스가 완만한 곡선으로 눕게 된다. 이 상승 시간 (Rise Time) 지연이 클럭 주기보다 길어지면 수신단에서 1을 0으로 오인하는 타이밍 오류가 발생한다.
 
-- **📢 섹션 요약 비유**: [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)의 채널 저항 제어는 수도꼭지 밸브를 열고 닫는 것과 같고, 기생 배선 저항은 녹슬고 좁아진 수도관과 같아 물이 목적지까지 차오르는 시간을 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시킨다.
+- **📢 섹션 요약 비유**: 트랜지스터의 채널 저항 제어는 수도꼭지 밸브를 열고 닫는 것과 같고, 기생 배선 저항은 녹슬고 좁아진 수도관과 같아 물이 목적지까지 차오르는 시간을 지연시킨다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-저항은 회로 내 연결 위상에 따라 시스템 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 통제하는 방식이 완전히 달라진다.
+저항은 회로 내 연결 위상에 따라 시스템 전압과 전류를 통제하는 방식이 완전히 달라진다.
 
-| 항목 | [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) (Series) 연결 | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (Parallel) 연결 |
+| 항목 | 직렬 (Series) 연결 | 병렬 (Parallel) 연결 |
 |:---|:---|:---|
 | **물리적 효과** | 전체 저항 증가 ($R_1 + R_2$) | 전체 저항 감소 ($1/R_1 + 1/R_2$의 역수) |
-| **제어 대상** | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 분배 ([전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 동일) | [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 동일) |
-| **장애 영향** | [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 발생 | 우회 경로 제공으로 안정성 확보 |
-| **아키텍처 적용**| 기준 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 생성을 위한 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 분배기 | 코어에 대량 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 공급하는 PDN 전력망 |
+| **제어 대상** | 전압 분배 (전류는 동일) | 전류 분산 (전압은 동일) |
+| **장애 영향** | 단일 장애점 (SPOF) 발생 | 우회 경로 제공으로 안정성 확보 |
+| **아키텍처 적용**| 기준 전압 생성을 위한 전압 분배기 | 코어에 대량 전류를 공급하는 PDN 전력망 |
 
-[마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 관점에서는 배선 저항($R$)이 인덕턴스($L$) 및 커패시턴스($C$)와 결합하여 고주파 환경에서 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)($Z$)라는 더 복잡한 교류 저항 체계로 진화한다. 또한 전력 관리 측면에서는 저항성 발열이 칩의 TDP (Thermal Design [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))를 제한하므로, 운영체제의 [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) 정책과 직접적으로 연결된다.
+마이크로아키텍처 관점에서는 배선 저항($R$)이 인덕턴스($L$) 및 커패시턴스($C$)와 결합하여 고주파 환경에서 임피던스($Z$)라는 더 복잡한 교류 저항 체계로 진화한다. 또한 전력 관리 측면에서는 저항성 발열이 칩의 TDP (Thermal Design Power)를 제한하므로, 운영체제의 DVFS (Dynamic Voltage and Frequency Scaling) 정책과 직접적으로 연결된다.
 
-- **📢 섹션 요약 비유**: [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결은 강물에 계단식 보를 설치해 물의 낙차([전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 쪼개는 것이고, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연결은 강물을 여러 갈래로 나누어 전체 물 빠짐([전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)량)을 시원하게 만드는 것이다.
+- **📢 섹션 요약 비유**: 직렬 연결은 강물에 계단식 보를 설치해 물의 낙차(전압)를 쪼개는 것이고, 병렬 연결은 강물을 여러 갈래로 나누어 전체 물 빠짐(전류량)을 시원하게 만드는 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 배선 저항의 증가는 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 ([IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop)와 일렉트로마이그레이션 (Electromigration)이라는 두 가지 치명적인 문제를 일으킨다.
+실무에서 배선 저항의 증가는 전압 강하 (IR Drop)와 일렉트로마이그레이션 (Electromigration)이라는 두 가지 치명적인 문제를 일으킨다.
 
-전원 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) (PDN)의 저항이 크면 CPU가 순간적으로 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 끌어당길 때 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 목표치 이하로 떨어져 시스템이 셧다운된다. 또한 좁은 구리 배선에 고밀도 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 계속 흐르면, 전자가 금속 원자를 밀어내어 배선이 끊어지는 물리적 파괴가 발생한다. 이를 막기 위해 설계자는 최상위 글로벌 메탈 레이어에는 두꺼운 구리나 코발트를 배정하고, 수직 연결 비아(Via)는 다중 어레이로 뚫어 저항 병목을 강제로 넓혀야 한다.
+전원 공급망 (PDN)의 저항이 크면 CPU가 순간적으로 전류를 끌어당길 때 전압이 목표치 이하로 떨어져 시스템이 셧다운된다. 또한 좁은 구리 배선에 고밀도 전류가 계속 흐르면, 전자가 금속 원자를 밀어내어 배선이 끊어지는 물리적 파괴가 발생한다. 이를 막기 위해 설계자는 최상위 글로벌 메탈 레이어에는 두꺼운 구리나 코발트를 배정하고, 수직 연결 비아(Via)는 다중 어레이로 뚫어 저항 병목을 강제로 넓혀야 한다.
 
-### 판단 포인트 ([체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. <strong>PDN <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 강하</strong>: 최대 부하(Max TDP) 시 전원 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 저항에 의한 [IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 허용 마진(보통 5% 이내) 안에 들어오는가?
-2. <strong><a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: 고속 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 선로 끝단에 종단 저항 (ODT)이 정확히 매칭되어 반사파를 흡수하고 있는가?
-3. **타이밍 클로저**: 가장 긴 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로의 RC [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 목표 클럭 주기를 초과하지 않도록 리피터(버퍼)가 적절히 삽입되었는가?
+### 판단 포인트 (체크리스트)
+1. <strong>PDN 전압 강하</strong>: 최대 부하(Max TDP) 시 전원 공급망의 저항에 의한 IR Drop이 허용 마진(보통 5% 이내) 안에 들어오는가?
+2. <strong>신호 무결성</strong>: 고속 버스 선로 끝단에 종단 저항 (ODT)이 정확히 매칭되어 반사파를 흡수하고 있는가?
+3. **타이밍 클로저**: 가장 긴 데이터 경로의 RC 지연이 목표 클럭 주기를 초과하지 않도록 리피터(버퍼)가 적절히 삽입되었는가?
 
-- **📢 섹션 요약 비유**: 설계 단계에서 저항을 무시하는 것은 고층 빌딩 꼭대기에 물을 보내면서 수압 펌프와 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 굵기를 계산하지 않는 것과 같다. 결국 물이 나오지 않거나 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)가 터진다.
+- **📢 섹션 요약 비유**: 설계 단계에서 저항을 무시하는 것은 고층 빌딩 꼭대기에 물을 보내면서 수압 펌프와 파이프 굵기를 계산하지 않는 것과 같다. 결국 물이 나오지 않거나 파이프가 터진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-저항을 정밀하게 제어하고 기생 저항을 억제하면, 칩은 더 높은 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 도달과 [전력 소모](/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 감소라는 두 마리 토끼를 잡을 수 있다.
+저항을 정밀하게 제어하고 기생 저항을 억제하면, 칩은 더 높은 클럭 주파수 도달과 전력 소모 감소라는 두 마리 토끼를 잡을 수 있다.
 
-하지만 미세 공정이 3nm 이하로 내려가면서 전자가 구리 배선의 경계면과 충돌하는 [산란](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 효과로 인해 비저항이 폭증하는 한계에 다다랐다. 이를 극복하기 위해 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 후면에 전력 전용 배선을 따로 두는 <strong>BSPDN (Backside <a href="/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Delivery Network)</strong>이나, 아예 저항이 없는 빛으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 실리콘 포토닉스 같은 혁신적 아키텍처가 도입되고 있다.
+하지만 미세 공정이 3nm 이하로 내려가면서 전자가 구리 배선의 경계면과 충돌하는 산란 효과로 인해 비저항이 폭증하는 한계에 다다랐다. 이를 극복하기 위해 트랜지스터 후면에 전력 전용 배선을 따로 두는 <strong>BSPDN (Backside Power Delivery Network)</strong>이나, 아예 저항이 없는 빛으로 데이터를 전송하는 실리콘 포토닉스 같은 혁신적 아키텍처가 도입되고 있다.
 
-결론적으로 저항은 제거할 수 없는 물리적 제약이며, 차세대 컴퓨터 구조는 이 마찰을 어떻게 우회하고 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시킬 것인가에 대한 설계 싸움이다.
+결론적으로 저항은 제거할 수 없는 물리적 제약이며, 차세대 컴퓨터 구조는 이 마찰을 어떻게 우회하고 분산시킬 것인가에 대한 설계 싸움이다.
 
-- **📢 섹션 요약 비유**: 마찰력을 완전히 없앨 수는 없지만, 바퀴를 발명하고 아스팔트를 깔아 저항을 이겨낸 것처럼, [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)도 신소재와 입체 구조를 통해 전기적 마찰을 극복하고 있다.
+- **📢 섹션 요약 비유**: 마찰력을 완전히 없앨 수는 없지만, 바퀴를 발명하고 아스팔트를 깔아 저항을 이겨낸 것처럼, 반도체도 신소재와 입체 구조를 통해 전기적 마찰을 극복하고 있다.
 
 ---
 
@@ -95,9 +95,9 @@ weight: 3
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>RC <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (RC Delay)</strong> | 배선 저항과 기생 커패시터가 만나 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 상승/하강을 늦추는 현상 |
-| <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">Impedance</a>)</strong> | 교류/고주파 환경에서 저항이 [인덕터](/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/), 커패시터와 결합한 복합 저항 |
-| <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/">IR</a> Drop (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 강하)</strong> | 칩 내부 전원 배선의 저항 때문에 코어 도달 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 떨어지는 현상 |
+| <strong>RC 지연 (RC Delay)</strong> | 배선 저항과 기생 커패시터가 만나 신호 상승/하강을 늦추는 현상 |
+| <strong>임피던스 (Impedance)</strong> | 교류/고주파 환경에서 저항이 인덕터, 커패시터와 결합한 복합 저항 |
+| <strong>IR Drop (전압 강하)</strong> | 칩 내부 전원 배선의 저항 때문에 코어 도달 전압이 떨어지는 현상 |
 | **BSPDN** | 전원 배선의 저항 병목을 해결하기 위해 웨이퍼 뒷면으로 전력을 공급하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -125,14 +125,3 @@ weight: 3
 1. 저항은 씽씽 달리는 전기 자동차(전자) 앞을 가로막는 울퉁불퉁한 흙길이에요.
 2. 길이 험하면 차가 느려지고 엔진이 뜨거워지는 것처럼, 저항이 크면 컴퓨터가 느려지고 열이 펄펄 나요.
 3. 그래서 과학자들은 전기가 다니는 길을 매끄러운 고속도로로 넓히고 포장해서 컴퓨터가 빛처럼 빠르게 계산하도록 만들어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 3 / 803
-
-<- **이전**: [2. 전류 (Current)](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)
-**다음**: [4. 임피던스 (Impedance)](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) ->
-
----

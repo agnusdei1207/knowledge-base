@@ -110,12 +110,3 @@ Core flow: Collect -> Consent -> Analyze -> Consult -> Record
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 608 / 800
-
-<- **이전**: [607. Matter 스마트홈 통합 표준 프로토콜](/studynote/06_ict_convergence/uncategorized/607_matter_smart_home_unified_standard_protocol/)
-**다음**: [609. 스마트농업 정밀농업 센서](/studynote/06_ict_convergence/uncategorized/609_smart_agriculture_precision_farming_sensor/) ->
-
----

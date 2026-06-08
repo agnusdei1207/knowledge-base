@@ -155,11 +155,3 @@ DNA 나노기술은 Nadrian Seeman(1980년대)의 DNA Tile 구조에서 시작�
 |        DNAzyme 발현                                            |
 |                                                                |
 |  [4] CRISPR-Cas12a 분자 디텍터
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 789 / 800
-
-<- **이전**: [788. 뇌 과학 AI 인지 컴퓨팅 신경 모방](/studynote/06_ict_convergence/uncategorized/788_brain_science_ai_cognitive_computing_neuro/)
-**다음**: [790. 6G 비전 AI 네이티브 자율 네트워크](/studynote/06_ict_convergence/uncategorized/790_6g_vision_ai_native_autonomous_network/) ->
-
----

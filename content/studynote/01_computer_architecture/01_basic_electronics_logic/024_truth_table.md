@@ -6,20 +6,20 @@ tags:
 weight: 24
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 진리표(Truth Table)는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수의 모든 입력 조합에 대한 출력 값을 열거하여 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로·소프트웨어 조건을 완전하고 명확하게 정의하는 형식적 도구다. n개의 입력 변수에 대해 2ⁿ개 행이 필요하다.
-> 2. **가치**: 진리표는 AND·OR·NOT·XOR·NAND·NOR 등 모든 불 함수(Boolean Function)를 인간이 읽을 수 있는 형태로 표현하며, 이를 통해 [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)([Karnaugh Map](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)) 최적화와 하드웨어 게이트 구현의 출발점이 된다.
-> 3. **판단 포인트**: [조합 논리 회로](/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/) 설계 시 진리표에서 출력이 1인 최소항(Minterm)을 SOP(Sum of Products)로, 출력이 0인 최대항(Maxterm)을 POS(Product of Sums)로 추출하여 [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 수를 최소화하는 최적화가 핵심이다.
+> 1. **본질**: 진리표(Truth Table)는 논리 함수의 모든 입력 조합에 대한 출력 값을 열거하여 논리 회로·소프트웨어 조건을 완전하고 명확하게 정의하는 형식적 도구다. n개의 입력 변수에 대해 2ⁿ개 행이 필요하다.
+> 2. **가치**: 진리표는 AND·OR·NOT·XOR·NAND·NOR 등 모든 불 함수(Boolean Function)를 인간이 읽을 수 있는 형태로 표현하며, 이를 통해 카르노 맵(Karnaugh Map) 최적화와 하드웨어 게이트 구현의 출발점이 된다.
+> 3. **판단 포인트**: 조합 논리 회로 설계 시 진리표에서 출력이 1인 최소항(Minterm)을 SOP(Sum of Products)로, 출력이 0인 최대항(Maxterm)을 POS(Product of Sums)로 추출하여 논리 게이트 수를 최소화하는 최적화가 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-진리표(Truth Table)는 조지 불(George Boole)의 불 대수([Boolean Algebra](/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/))를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 도구로, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수 f(A, B, C, ...)의 모든 가능한 입력 조합과 그에 대응하는 출력 값을 체계적으로 나열한 표다.
+진리표(Truth Table)는 조지 불(George Boole)의 불 대수(Boolean Algebra)를 시각화한 도구로, 논리 함수 f(A, B, C, ...)의 모든 가능한 입력 조합과 그에 대응하는 출력 값을 체계적으로 나열한 표다.
 
 디지털 회로 설계에서 진리표는 다음 역할을 한다.
-- 사양 명세: 회로가 수행해야 할 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 오해 없이 정의
-- [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준: 시뮬레이션 결과와 대조하여 올바른 동작 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-- 최적화 입력: [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)·Quine-McCluskey 알고리즘의 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
+- 사양 명세: 회로가 수행해야 할 논리를 오해 없이 정의
+- 검증 기준: 시뮬레이션 결과와 대조하여 올바른 동작 확인
+- 최적화 입력: 카르노 맵·Quine-McCluskey 알고리즘의 입력 데이터
 
 ```text
 +---------------------------------------------------+
@@ -57,17 +57,17 @@ A B C | F          <- F=1인 행: 011, 101, 110, 111
 1 1 1 | 1  <- m7
 ```
 
-### [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)([Karnaugh Map](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/))과의 연계
+### 카르노 맵(Karnaugh Map)과의 연계
 
 | 단계 | 작업 | 도구 |
 |:---|:---|:---|
 | 1 | 진리표 작성 (2ⁿ행) | 펜·스프레드시트 |
 | 2 | 최소항 나열 | 진리표 읽기 |
-| 3 | [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)에 1 배치 | [그레이 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) 순서 |
-| 4 | 인접 1 묶기 (2ⁿ 크기) | [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화 |
+| 3 | 카르노 맵에 1 배치 | 그레이 코드 순서 |
+| 4 | 인접 1 묶기 (2ⁿ 크기) | 카르노 맵 최적화 |
 | 5 | 간소화된 SOP/POS 도출 | 최소 게이트 수 |
 
-- **📢 섹션 요약 비유**: [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)은 진리표의 "정리정돈 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)"이다. 산만하게 흩어진 1들을 이웃끼리 묶어 하나의 항으로 합쳐 [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)를 절약한다.
+- **📢 섹션 요약 비유**: 카르노 맵은 진리표의 "정리정돈 버전"이다. 산만하게 흩어진 1들을 이웃끼리 묶어 하나의 항으로 합쳐 논리 게이트를 절약한다.
 
 ---
 
@@ -76,13 +76,13 @@ A B C | F          <- F=1인 행: 011, 101, 110, 111
 | 표현 방식 | 형태 | 장점 | 단점 |
 |:---|:---|:---|:---|
 | **진리표** | 모든 조합 열거 | 완전하고 직관적 | 변수 많으면 지수적 크기 |
-| **SOP** | Σm(최소항) | [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화 용이 | 미최적화 시 게이트 과다 |
+| **SOP** | Σm(최소항) | 카르노 맵 최적화 용이 | 미최적화 시 게이트 과다 |
 | **POS** | ΠM(최대항) | 0 출력 기반 | 덜 직관적 |
-| <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/">카르노 맵</a></strong> | 시각적 묶음 | 최적 SOP/POS [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 4~6변수 이상 복잡 |
+| <strong>카르노 맵</strong> | 시각적 묶음 | 최적 SOP/POS 시각화 | 4~6변수 이상 복잡 |
 
-XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([Parity Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)) 생성과 암호화(XOR 암호) 회로의 핵심 게이트다.
+XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, 패리티 비트(Parity Bit) 생성과 암호화(XOR 암호) 회로의 핵심 게이트다.
 
-- **📢 섹션 요약 비유**: 진리표·SOP·[카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)은 같은 진실의 세 가지 표현이다. 진리표가 "사전", SOP가 "문장", [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)이 "마인드맵"이라면 각 상황에 맞는 도구를 고르면 된다.
+- **📢 섹션 요약 비유**: 진리표·SOP·카르노 맵은 같은 진실의 세 가지 표현이다. 진리표가 "사전", SOP가 "문장", 카르노 맵이 "마인드맵"이라면 각 상황에 맞는 도구를 고르면 된다.
 
 ---
 
@@ -93,13 +93,13 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 
 1. 진리표 8행 작성 -> 상승 조건 F=1 행 추출.
 2. SOP: F = A'B'C + A'BC + AB'C.
-3. [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화 -> F = A'C + B'C = C(A'+B') = C·(AB)'.
+3. 카르노 맵 최적화 -> F = A'C + B'C = C(A'+B') = C·(AB)'.
 4. 2개의 NAND 게이트로 구현 -> 게이트 수 50% 절감.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 진리표를 작성하지 않고 직관으로 회로를 설계하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). n=4 이상이면 16가지 조합을 머릿속으로 추적하기 어렵고, 반드시 예외 케이스가 누락된다. 진리표 없는 설계는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 근거도 없다.
+### 안티패턴
+- 진리표를 작성하지 않고 직관으로 회로를 설계하는 안티패턴. n=4 이상이면 16가지 조합을 머릿속으로 추적하기 어렵고, 반드시 예외 케이스가 누락된다. 진리표 없는 설계는 검증 근거도 없다.
 
-- **📢 섹션 요약 비유**: 진리표 없이 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 설계하는 건 악보 없이 교향곡을 지휘하는 것이다. 머릿속에서는 완벽해도 연주자(게이트)들이 엇나갈 수밖에 없다.
+- **📢 섹션 요약 비유**: 진리표 없이 논리 회로를 설계하는 건 악보 없이 교향곡을 지휘하는 것이다. 머릿속에서는 완벽해도 연주자(게이트)들이 엇나갈 수밖에 없다.
 
 ---
 
@@ -107,13 +107,13 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 
 | 기대효과 | 내용 |
 |:---|:---|
-| <strong>설계 <a href="/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong> | 모든 입력 조건의 출력 사전 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **최적화 기반** | [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)·불 대수 간소화의 입력 |
-| <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 증적</strong> | 시뮬레이션·하드웨어 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 기준표 |
+| <strong>설계 정확성</strong> | 모든 입력 조건의 출력 사전 검증 |
+| **최적화 기반** | 카르노 맵·불 대수 간소화의 입력 |
+| <strong>검증 증적</strong> | 시뮬레이션·하드웨어 검증의 기준표 |
 
-진리표는 소프트웨어 공학에서도 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 케이스를 [결정 테이블](/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)([Decision Table](/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))로 구성할 때 핵심 도구로 쓰이며, 하드웨어와 소프트웨어 모두를 관통하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 명세의 공통 언어다.
+진리표는 소프트웨어 공학에서도 단위 테스트(Unit Test) 케이스를 결정 테이블(Decision Table)로 구성할 때 핵심 도구로 쓰이며, 하드웨어와 소프트웨어 모두를 관통하는 논리 명세의 공통 언어다.
 
-- **📢 섹션 요약 비유**: 진리표는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 DNA다. 회로든 소프트웨어든 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 행동의 유전 정보를 담고 있어, 어떤 상황에서도 정확히 예측 가능하다.
+- **📢 섹션 요약 비유**: 진리표는 논리의 DNA다. 회로든 소프트웨어든 모든 논리 행동의 유전 정보를 담고 있어, 어떤 상황에서도 정확히 예측 가능하다.
 
 ---
 
@@ -122,10 +122,10 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **불 대수** | 진리표의 수학적 기반 |
-| <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/">카르노 맵</a></strong> | 진리표의 시각적 최적화 도구 |
-| **SOP/POS** | 진리표에서 추출하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 표현식 |
+| <strong>카르노 맵</strong> | 진리표의 시각적 최적화 도구 |
+| **SOP/POS** | 진리표에서 추출하는 논리 표현식 |
 | **NAND/NOR** | 범용(Universal) 게이트; 진리표로 모든 함수 구현 가능 |
-| <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/">결정 테이블</a></strong> | SW 테스트에서 진리표를 응용한 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/) 설계 |
+| <strong>결정 테이블</strong> | SW 테스트에서 진리표를 응용한 테스트 케이스 설계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,21 +144,10 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
     v
 [HDL (VHDL/Verilog) — 진리표를 하드웨어 기술 언어로 합성]
 ```
-불 대수에서 진리표, [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화, 게이트 구현, [HDL](/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) 합성으로 이어지는 디지털 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 흐름이다.
+불 대수에서 진리표, 카르노 맵 최적화, 게이트 구현, HDL 합성으로 이어지는 디지털 논리 설계의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 진리표는 마법의 <strong>레시피 표</strong>예요 — 재료(0과 1)를 어떻게 섞으면 어떤 결과(0 또는 1)가 나오는지 모두 적어놓은 표!
 2. AND는 "둘 다 1이어야 1", OR는 "하나라도 1이면 1", XOR는 "딱 하나만 1이어야 1"이에요.
 3. 컴퓨터의 모든 계산이 이 간단한 표에서 시작되니까, 진리표를 이해하면 컴퓨터의 심장이 어떻게 뛰는지 알 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 24 / 803
-
-<- **이전**: [23. 드모르간의 법칙 (De Morgan's Law)](/studynote/01_computer_architecture/01_basic_electronics_logic/023_demorgans_law/)
-**다음**: [25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) ->
-
----

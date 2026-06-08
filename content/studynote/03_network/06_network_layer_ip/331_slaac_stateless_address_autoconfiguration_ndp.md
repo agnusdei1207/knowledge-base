@@ -15,12 +15,12 @@ weight: 331
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 호스트가 스스로 [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 후, 라우터로부터 네트워크 접두사(Prefix)를 받아 글로벌 유니캐스트 주소를 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
-- **필요성**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대가 오면 집에 있는 냉장고, 전구, 청소기 100대에 IP를 줘야 한다. [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절처럼 공유기가 "너는 1번 해, 너는 2번 해"라며 하나하나 장부에 적어주다간([DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)) 공유기 CPU가 터져버린다. "어차피 IPv6는 주소가 무한대인데 굳이 장부에 적으면서 쩨쩨하게 빌려줘야 해? 그냥 기계가 전원 켜지면 자기 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 이용해서 스스로 IP 만들고, 라우터는 대충 동네 번호만 쿨하게 던져주자!"라는 철학에서 탄생했다.
+- **개념**: IPv6 호스트가 스스로 링크 로컬 주소를 생성한 후, 라우터로부터 네트워크 접두사(Prefix)를 받아 글로벌 유니캐스트 주소를 자동 생성하는 프로토콜.
+- **필요성**: IoT 시대가 오면 집에 있는 냉장고, 전구, 청소기 100대에 IP를 줘야 한다. IPv4 시절처럼 공유기가 "너는 1번 해, 너는 2번 해"라며 하나하나 장부에 적어주다간(DHCP) 공유기 CPU가 터져버린다. "어차피 IPv6는 주소가 무한대인데 굳이 장부에 적으면서 쩨쩨하게 빌려줘야 해? 그냥 기계가 전원 켜지면 자기 MAC 주소 이용해서 스스로 IP 만들고, 라우터는 대충 동네 번호만 쿨하게 던져주자!"라는 철학에서 탄생했다.
 
 - **💡 비유**:
-  - <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> (Stateful)</strong>: 동사무소 직원이 줄 서 있는 시민들에게 <strong>"당신은 101동 101호 쓰세요, 당신은 102호 쓰세요"</strong>라며 일일이 배정하고 장부에 기록하는 방식.
-  - <strong>SLAAC (<a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong>: 시민이 아파트에 입주하자마자 자기 지문([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 이용해 <strong>스스로 '가9z8'이라는 랜덤 호수</strong>를 문패에 파놓고, 경비실에 "아저씨, 여기 아파트 이름(Prefix)이 뭐예요?"라고 물어서 <strong>"자이 아파트"</strong>란 답을 들은 뒤, 최종적으로 자기 집 주소를 <strong>"자이 아파트 가9z8호"</strong>로 완성하는 방식. 경비 아저씨는 장부에 아무것도 안 적습니다.
+  - <strong>DHCP (Stateful)</strong>: 동사무소 직원이 줄 서 있는 시민들에게 <strong>"당신은 101동 101호 쓰세요, 당신은 102호 쓰세요"</strong>라며 일일이 배정하고 장부에 기록하는 방식.
+  - <strong>SLAAC (Stateless)</strong>: 시민이 아파트에 입주하자마자 자기 지문(MAC 주소)을 이용해 <strong>스스로 '가9z8'이라는 랜덤 호수</strong>를 문패에 파놓고, 경비실에 "아저씨, 여기 아파트 이름(Prefix)이 뭐예요?"라고 물어서 <strong>"자이 아파트"</strong>란 답을 들은 뒤, 최종적으로 자기 집 주소를 <strong>"자이 아파트 가9z8호"</strong>로 완성하는 방식. 경비 아저씨는 장부에 아무것도 안 적습니다.
 
 ```text
 [EUI-64]
@@ -31,22 +31,22 @@ weight: 331
     +---> [IPv4-IPv6 전환 기술: 듀얼 스택,…]
 ```
 
-- **📢 섹션 요약 비유**: ** SLAAC은 공산국가의 철저한 **"배급제([DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))"** 시스템에서 벗어나, 각자가 자기가 쓸 주소를 알아서 만들어 쓰는 완벽한 **"자유 시장 경제(자급자족)"** 시스템으로의 진화입니다.
+- **📢 섹션 요약 비유**: ** SLAAC은 공산국가의 철저한 **"배급제(DHCP)"** 시스템에서 벗어나, 각자가 자기가 쓸 주소를 알아서 만들어 쓰는 완벽한 **"자유 시장 경제(자급자족)"** 시스템으로의 진화입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 1단계: [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 DAD
-- PC에 랜선을 꽂으면 PC는 즉시 자기 랜카드의 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 반으로 가르고 `FF:FE`를 집어넣는 '[EUI-64](/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/)' 공식을 써서 <strong><a href="/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/">링크 로컬 주소</a>(<code>FE80::xxxx</code>)</strong>를 스스로 만들어 랜카드에 박는다.
-- <strong>DAD (Duplicate Address <a href="/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>: 혹시라도 이 주소를 동네 누군가 우연히 쓰고 있을까 봐, "이거 쓰는 사람 있어?"라고 허공에 물어본다(NS 패킷). 아무 대답이 없으면 사용 확정! (이제 동네 라우터와 대화할 입이 생겼다).
+### 1. 1단계: 링크 로컬 주소 생성 및 DAD
+- PC에 랜선을 꽂으면 PC는 즉시 자기 랜카드의 MAC 주소를 반으로 가르고 `FF:FE`를 집어넣는 'EUI-64' 공식을 써서 <strong>링크 로컬 주소(<code>FE80::xxxx</code>)</strong>를 스스로 만들어 랜카드에 박는다.
+- <strong>DAD (Duplicate Address Detection)</strong>: 혹시라도 이 주소를 동네 누군가 우연히 쓰고 있을까 봐, "이거 쓰는 사람 있어?"라고 허공에 물어본다(NS 패킷). 아무 대답이 없으면 사용 확정! (이제 동네 라우터와 대화할 입이 생겼다).
 
 ### 2. 2단계: RS (Router Solicitation) 발송
 - 이제 바깥(인터넷)으로 나갈 진짜 공인 IP가 필요하다.
-- PC는 아까 만든 `FE80` 주소를 출발지로 삼아, 목적지를 `FF02::2`(동네에 있는 모든 라우터만 들어라! 라는 [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소)로 세팅한 **RS(라우터 요청)** 메시지를 던진다. "라우터님, 저 인터넷 하고 싶은데 우리 동네 앞자리(Prefix) 좀 알려주세요!"
+- PC는 아까 만든 `FE80` 주소를 출발지로 삼아, 목적지를 `FF02::2`(동네에 있는 모든 라우터만 들어라! 라는 멀티캐스트 주소)로 세팅한 **RS(라우터 요청)** 메시지를 던진다. "라우터님, 저 인터넷 하고 싶은데 우리 동네 앞자리(Prefix) 좀 알려주세요!"
 
-### 3. 3단계: [RA](/studynote/09_security/03_network_security/161_ra_registration_authority/) (Router Advertisement) 수신
-- 라우터가 RS를 들으면, <strong><a href="/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a>(라우터 광고)</strong> 메시지를 동네방네(또는 요청한 PC에게) 뿌린다.
+### 3. 3단계: RA (Router Advertisement) 수신
+- 라우터가 RS를 들으면, <strong>RA(라우터 광고)</strong> 메시지를 동네방네(또는 요청한 PC에게) 뿌린다.
 - "어, 우리 동네 글로벌 앞자리(Prefix)는 `2001:db8:acad:1::/64` 란다! 그리고 내(게이트웨이) 주소는 이거야!"
 
 ### 4. 4단계: 주소 조립 완성과 인터넷 개통
@@ -74,23 +74,23 @@ weight: 331
  +-------------------------------------------------------------+
 ```
 
-### 5. SLAAC의 한계 ([DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 문제)
-SLAAC은 IP 주소와 기본 게이트웨이는 완벽하게 잡아주지만, 치명적인 단점이 하나 있었다. 바로 <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 서버 주소를 안 알려준다는 것</strong>이다. (라우터가 뿌리는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [RA](/studynote/09_security/03_network_security/161_ra_registration_authority/) 규격에 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 칸이 없었다).
-그래서 SLAAC으로 IP를 혼자 뚝딱 만들어놓고도 네이버(`www.naver.com`)에 접속하려니 DNS를 몰라 접속이 안 되는 황당한 사태가 벌어졌다. 결국 나중에 RDNSS라는 확장 규격을 붙이거나, IP는 SLAAC으로 알아서 만들되 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 정보만 [DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버에서 살짝 받아오는 <strong><a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> DHCPv6</strong>라는 혼종 방식으로 해결했다.
+### 5. SLAAC의 한계 (DNS 문제)
+SLAAC은 IP 주소와 기본 게이트웨이는 완벽하게 잡아주지만, 치명적인 단점이 하나 있었다. 바로 <strong>DNS 서버 주소를 안 알려준다는 것</strong>이다. (라우터가 뿌리는 초기 RA 규격에 DNS 칸이 없었다).
+그래서 SLAAC으로 IP를 혼자 뚝딱 만들어놓고도 네이버(`www.naver.com`)에 접속하려니 DNS를 몰라 접속이 안 되는 황당한 사태가 벌어졌다. 결국 나중에 RDNSS라는 확장 규격을 붙이거나, IP는 SLAAC으로 알아서 만들되 DNS 정보만 DHCP 서버에서 살짝 받아오는 <strong>Stateless DHCPv6</strong>라는 혼종 방식으로 해결했다.
 
-- **📢 섹션 요약 비유**: <strong> SLAAC은 셀프 조립 가구(IKEA)입니다. 라우터가 프레임(앞자리 Prefix)만 택배로 툭 던져주면, 사용자(<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)가 자기 집에 있는 드라이버(<a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)로 부품을 이어 붙여 </strong>알아서 의자(IP 주소)를 완성해 내는 극강의 무인 자동화 시스템**입니다.
+- **📢 섹션 요약 비유**: <strong> SLAAC은 셀프 조립 가구(IKEA)입니다. 라우터가 프레임(앞자리 Prefix)만 택배로 툭 던져주면, 사용자(PC)가 자기 집에 있는 드라이버(MAC 주소)로 부품을 이어 붙여 </strong>알아서 의자(IP 주소)를 완성해 내는 극강의 무인 자동화 시스템**입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-SLAAC 무상태 주소 자동 설정을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. EUI-64가 기반 조건을 만든다면, SLAAC 무상태 주소 자동 설정은 그 위에서 핵심 메커니즘을 구현하고, [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+SLAAC 무상태 주소 자동 설정을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. EUI-64가 기반 조건을 만든다면, SLAAC 무상태 주소 자동 설정은 그 위에서 핵심 메커니즘을 구현하고, IPv4-IPv6 전환 기술: 듀얼 스택,…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | EUI-64의 기반 정리 | SLAAC 무상태 주소 자동 설정의 핵심 동작 | [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),…의 확장 적용 |
+| 초점 | EUI-64의 기반 정리 | SLAAC 무상태 주소 자동 설정의 핵심 동작 | IPv4-IPv6 전환 기술: 듀얼 스택,…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: SLAAC 무상태 주소 자동 설정은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -98,18 +98,18 @@ SLAAC 무상태 주소 자동 설정을 볼 때는 앞뒤 개념과의 경계를
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 SLAAC 무상태 주소 자동 설정을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [EUI-64](/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 수준의 기본 대책으로 충분한지, 아니면 SLAAC 무상태 주소 자동 설정이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 SLAAC 무상태 주소 자동 설정을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 EUI-64 수준의 기본 대책으로 충분한지, 아니면 SLAAC 무상태 주소 자동 설정이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 IPv4-IPv6 전환 기술: 듀얼 스택,…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. SLAAC 무상태 주소 자동 설정가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),…와의 연계 방식을 함께 검증한다.
+2. SLAAC 무상태 주소 자동 설정가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+3. 도입 후에는 인접 기술인 IPv4-IPv6 전환 기술: 듀얼 스택,…와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - SLAAC 무상태 주소 자동 설정의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- EUI-64와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- EUI-64와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: SLAAC 무상태 주소 자동 설정을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -117,7 +117,7 @@ SLAAC 무상태 주소 자동 설정을 볼 때는 앞뒤 개념과의 경계를
 
 ## Ⅴ. 기대효과 및 결론
 
-SLAAC 무상태 주소 자동 설정은 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),…, 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+SLAAC 무상태 주소 자동 설정은 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 IPv4-IPv6 전환 기술: 듀얼 스택,…, 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: SLAAC 무상태 주소 자동 설정은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -127,10 +127,10 @@ SLAAC 무상태 주소 자동 설정은 네트워크 계층과 IP를 이해할 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [EUI-64](/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
+| EUI-64 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| IP 주소 (Internet Protocol Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
-| [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| IPv4-IPv6 전환 기술: 듀얼 스택,… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,21 +144,10 @@ SLAAC 무상태 주소 자동 설정은 네트워크 계층과 IP를 이해할 �
     +---> [확장 B: 대규모 주소 자동화]
 ```
 
-SLAAC 무상태 주소 자동 설정는 EUI-64에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/),…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+SLAAC 무상태 주소 자동 설정는 EUI-64에서 출발해 현재 메커니즘을 정교화하고, 이후 IPv4-IPv6 전환 기술: 듀얼 스택,…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 452 / 1120
-
-<- **이전**: [330. EUI-64 (MAC 기반 IPv6 호스트 주소 자동생성)](/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/)
-**다음**: [332. IPv4-IPv6 전환 기술: 듀얼 스택 (Dual Stack), 터널링 (ISATAP, 6to4), 주소 변환 (NAT64/DNS64)](/studynote/03_network/06_network_layer_ip/332_ipv4_ipv6_transition_dual_stack_tunneling_nat64/) ->
-
----

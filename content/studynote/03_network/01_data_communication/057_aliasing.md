@@ -9,15 +9,15 @@ weight: 57
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 에일리어싱(Aliasing)은 [표본화](/studynote/03_network/01_data_communication/056_표본화_Sampling/)([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 주파수가 부족해 고주파 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 저주파처럼 보이게 되는 왜곡 현상이다.
-> 2. **가치**: 디지털 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서 원본 복원이 망가지는 대표적인 실패 원인이므로, 샘플링 조건을 제대로 지키는 것이 중요하다.
-> 3. **판단 포인트**: 나이퀴스트 조건(Nyquist condition), 안티-에일리어싱 필터(Anti-aliasing filter), 오버샘플링([Oversampling](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/))을 함께 봐야 한다.
+> 1. **본질**: 에일리어싱(Aliasing)은 표본화(Sampling) 주파수가 부족해 고주파 신호가 저주파처럼 보이게 되는 왜곡 현상이다.
+> 2. **가치**: 디지털 신호 처리에서 원본 복원이 망가지는 대표적인 실패 원인이므로, 샘플링 조건을 제대로 지키는 것이 중요하다.
+> 3. **판단 포인트**: 나이퀴스트 조건(Nyquist condition), 안티-에일리어싱 필터(Anti-aliasing filter), 오버샘플링(Oversampling)을 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 발생 원리
 
-아날로그 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)는 연속적이지만, 디지털 시스템은 뚝뚝 끊어서 읽는다. 이때 샘플링 주파수가 부족하면 원래 파형이 아닌 다른 파형으로 보이는 문제가 생긴다.
+아날로그 신호는 연속적이지만, 디지털 시스템은 뚝뚝 끊어서 읽는다. 이때 샘플링 주파수가 부족하면 원래 파형이 아닌 다른 파형으로 보이는 문제가 생긴다.
 
 에일리어싱은 단순한 잡음이 아니라 "잘못된 복원"이다. 그래서 영상과 음성에서 모두 눈에 띄는 왜곡을 만든다.
 
@@ -33,7 +33,7 @@ weight: 57
 f_s >= 2 f_max
 ```
 
-이 조건을 만족하지 못하면 주파수 폴딩(Folding)이 일어난다. 나이퀴스트 주파수(f_s / 2)를 넘는 성분이 거울처럼 접혀 들어와 다른 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)와 섞인다.
+이 조건을 만족하지 못하면 주파수 폴딩(Folding)이 일어난다. 나이퀴스트 주파수(f_s / 2)를 넘는 성분이 거울처럼 접혀 들어와 다른 신호와 섞인다.
 
 - **📢 섹션 요약 비유**: 접히는 종이를 잘못 접으면 위아래 그림이 뒤섞이는 것과 같다.
 
@@ -47,7 +47,7 @@ f_s >= 2 f_max
 - 화면에는 없는 물결무늬(Moire)가 생길 수 있다.
 - 음성에서는 금속성 잡음이나 찢어지는 소리가 생긴다.
 
-이 현상은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 자체가 망가진 것이 아니라, 샘플링 과정이 정보를 잘못 읽었기 때문에 생긴다.
+이 현상은 신호 자체가 망가진 것이 아니라, 샘플링 과정이 정보를 잘못 읽었기 때문에 생긴다.
 
 - **📢 섹션 요약 비유**: 지도는 맞는데, 눈금자 간격이 너무 넓어 길을 잘못 읽는 상황이다.
 
@@ -67,7 +67,7 @@ ADC (Analog-to-Digital Converter)
 디지털 샘플
 ```
 
-오버샘플링([Oversampling](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/))을 쓰면 복원 여유가 커지지만, 그만큼 계산량과 저장 비용도 늘어난다.
+오버샘플링(Oversampling)을 쓰면 복원 여유가 커지지만, 그만큼 계산량과 저장 비용도 늘어난다.
 
 - **📢 섹션 요약 비유**: 먼지를 걸러내는 체를 먼저 쓰면, 나중에 정리하기가 훨씬 쉬워진다.
 
@@ -75,7 +75,7 @@ ADC (Analog-to-Digital Converter)
 
 ## Ⅴ. 실무 적용과 설계 기준
 
-에일리어싱은 음성, 영상, 센서, 의료 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 같은 모든 [표본화](/studynote/03_network/01_data_communication/056_표본화_Sampling/) 시스템에서 중요하다.
+에일리어싱은 음성, 영상, 센서, 의료 신호 같은 모든 표본화 시스템에서 중요하다.
 
 설계할 때는 다음을 먼저 본다.
 
@@ -106,11 +106,11 @@ ADC (Analog-to-Digital Converter)
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 샘플링([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) -> 연속 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 이산화
+1. 샘플링(Sampling) -> 연속 신호를 이산화
 2. 나이퀴스트 조건 -> 최소 샘플링 기준 확립
 3. 안티-에일리어싱 필터 -> 사전 필터링 표준화
-4. 오버샘플링([Oversampling](/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)) -> 복원 여유 확대
-5. 고해상도 영상/오디오/센서 -> 정교한 [표본화](/studynote/03_network/01_data_communication/056_표본화_Sampling/) 설계 필요
+4. 오버샘플링(Oversampling) -> 복원 여유 확대
+5. 고해상도 영상/오디오/센서 -> 정교한 표본화 설계 필요
 
 ---
 
@@ -119,14 +119,3 @@ ADC (Analog-to-Digital Converter)
 에일리어싱은 사진을 너무 띄엄띄엄 찍어서 생기는 착시예요.
 진짜 바퀴는 앞으로 가는데, 사진은 뒤로 도는 것처럼 보일 수 있어요.
 그래서 사진 찍기 전에 안 좋은 소리를 먼저 걸러내야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 57 / 1120
-
-<- **이전**: [56. 표본화 (Sampling)](/studynote/03_network/01_data_communication/056_표본화_Sampling/)
-**다음**: [58. 폴딩 주파수 (Folding Frequency)](/studynote/03_network/01_data_communication/058_폴딩_주파수_Folding_Frequency/) ->
-
----

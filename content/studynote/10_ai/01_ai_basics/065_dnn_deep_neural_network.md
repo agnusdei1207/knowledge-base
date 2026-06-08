@@ -9,14 +9,14 @@ weight: 65
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DNN(Deep Neural Network)은 2개 이상의 은닉층을 가진 신경망으로, 더 깊은 비선형 표현을 학습한다.
-> 2. **가치**: 이미지, 음성, 자연어처럼 복잡한 패턴을 단계적으로 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 높은 표현력을 얻는다.
-> 3. **판단**: 깊게 쌓는 것만으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 오르지 않으므로, 학습 안정성과 과적합 제어가 함께 필요하다.
+> 2. **가치**: 이미지, 음성, 자연어처럼 복잡한 패턴을 단계적으로 추상화해 높은 표현력을 얻는다.
+> 3. **판단**: 깊게 쌓는 것만으로 성능이 오르지 않으므로, 학습 안정성과 과적합 제어가 함께 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP)보다 더 복잡한 패턴을 다루려면 은닉층을 여러 개 쌓아야 한다. 이때 DNN이 등장한다.
+다층 퍼셉트론(MLP)보다 더 복잡한 패턴을 다루려면 은닉층을 여러 개 쌓아야 한다. 이때 DNN이 등장한다.
 
 깊은 층은 입력에서 고수준 특징으로 가는 중간 표현을 단계적으로 만들어 준다.
 
@@ -42,10 +42,10 @@ Output
 | :-- | :-- |
 | Hidden Layers | 단계적 표현 학습 |
 | Activation | 비선형성 부여 |
-| [Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/) | 역방향으로 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 학습 |
-| [Loss Function](/studynote/12_it_management/02_itsm_itil/087_loss_function/) | 예측 오차 측정 |
+| Backpropagation | 역방향으로 가중치 학습 |
+| Loss Function | 예측 오차 측정 |
 
-DNN은 층이 깊어질수록 더 복잡한 특징을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)할 수 있지만, 학습이 어려워진다. 그래서 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) 같은 기법이 중요하다.
+DNN은 층이 깊어질수록 더 복잡한 특징을 추상화할 수 있지만, 학습이 어려워진다. 그래서 초기화, 정규화, 드롭아웃 같은 기법이 중요하다.
 
 - **📢 섹션 요약 비유**: 한 번에 큰 퍼즐을 맞추는 게 아니라, 작은 조각을 층층이 맞춰 가는 느낌이다.
 
@@ -55,15 +55,15 @@ DNN은 층이 깊어질수록 더 복잡한 특징을 [추상화](/studynote/04_
 
 | 모델 | 은닉층 | 표현력 | 학습 난이도 |
 | :-- | :-- | :-- | :-- |
-| [Single-Layer Perceptron](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) | 없음 | 낮음 | 낮음 |
+| Single-Layer Perceptron | 없음 | 낮음 | 낮음 |
 | MLP | 1개 이상 | 중간 | 중간 |
 | DNN | 2개 이상 | 높음 | 높음 |
 
 | 기법 | 역할 |
 | :-- | :-- |
-| [Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) | 과적합 완화 |
-| [Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) | 학습 안정화 |
-| [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 계열 | [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 완화 |
+| Dropout | 과적합 완화 |
+| Batch Normalization | 학습 안정화 |
+| ReLU 계열 | 기울기 소실 완화 |
 
 DNN은 단순히 "더 깊은 MLP"가 아니라, 계층적 표현 학습을 통해 복잡한 문제를 푸는 구조다.
 
@@ -73,19 +73,19 @@ DNN은 단순히 "더 깊은 MLP"가 아니라, 계층적 표현 학습을 통�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 깊이가 정말 필요한 문제인가?
 2. 과적합을 막는 장치가 있는가?
-3. [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 선택이 적절한가?
+3. 활성화 함수 선택이 적절한가?
 4. 학습 안정화 기법을 적용했는가?
-5. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분한가?
+5. 데이터가 충분한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 깊이만 늘리고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 늘리지 않는 설계
+- 깊이만 늘리고 데이터는 늘리지 않는 설계
 - 과적합 제어 없이 큰 모델만 쓰는 설계
-- [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)와 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 무시하는 설계
+- 활성화 함수와 초기화를 무시하는 설계
 - DNN을 만능으로 생각하는 설계
 
 기술사 관점에서는 DNN을 "깊어서 좋은 모델"이 아니라 "계층적 표현을 배우는 모델"로 설명해야 한다.
@@ -96,7 +96,7 @@ DNN은 단순히 "더 깊은 MLP"가 아니라, 계층적 표현 학습을 통�
 
 ## Ⅴ. 기대효과 및 결론
 
-DNN은 복잡한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계층적으로 표현해 현대 AI의 핵심이 되었다. 하지만 깊이와 안정성의 균형이 중요하다.
+DNN은 복잡한 데이터를 계층적으로 표현해 현대 AI의 핵심이 되었다. 하지만 깊이와 안정성의 균형이 중요하다.
 
 결론적으로 DNN은 다층 신경망을 더 깊게 확장한 표현 학습 구조다.
 
@@ -137,14 +137,3 @@ Deep Learning
 한 겹만 있는 그림보다 여러 겹이 더 자세해요.
 DNN은 그런 식으로 여러 층을 쌓아요.
 그래서 더 복잡한 문제를 풀 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 65 / 420
-
-<- **이전**: [64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결](/studynote/10_ai/01_ai_basics/064_mlp_multi_layer_perceptron_hidden_layer/)
-**다음**: [66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)](/studynote/10_ai/01_ai_basics/066_weight_bias_linear_equation/) ->
-
----

@@ -154,11 +154,3 @@ $$\min_{x \in \mathcal{X}} f(x), \quad f(x) = \mathbb{E}_{(x_i, y_i)\sim \mathca
 | **NNI (Microsoft)** | 범용 | Any | NAS + HPO + compression, GUI/CLI 제공 | 야생 생태계 분산 |
 | **Vertex AI / SageMaker Autopilot / Azure ML** | Managed | 클라우드 통합 | AutoML + MLOps 통합, 거버넌스 | 비용·벤더 종속 |
 | **Google Vizier** | 범용 | Cloud | Multi-objective
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 670 / 800
-
-<- **이전**: [669. 추천 시스템 협업 필터링 딥러닝](/studynote/06_ict_convergence/uncategorized/669_recommendation_system_collaborative_deep_lear/)
-**다음**: [671. 데이터 거버넌스 정책 품질 관리 체계](/studynote/06_ict_convergence/uncategorized/671_data_governance_policy_quality_management/) ->
-
----

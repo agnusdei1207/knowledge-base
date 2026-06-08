@@ -9,7 +9,7 @@ weight: 157
 
 > 1. **본질**: 섀넌 제2 정리는 *잡음 있는 채널에서도 오류 없는 통신이 가능*함을 증명 — 코드율 R < C이면 오류율을 임의로 작게 만드는 부호가 존재한다.
 > 2. **가치**: 이 정리가 등장하기 전까지 "잡음 채널 = 오류 필수"로 여겼으나, 섀넌은 충분한 부호 길이와 올바른 구조로 오류를 사실상 0으로 줄일 수 있음을 보였다.
-> 3. **판단 포인트**: [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)(1993), [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) (Low-Density Parity-Check) 코드(1960/재발견), [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)(2009) — 이 세 부호가 섀넌 한계에 근접한 현대 채널 부호의 3대 이정표다.
+> 3. **판단 포인트**: 터보 코드(1993), LDPC (Low-Density Parity-Check) 코드(1960/재발견), 폴라 코드(2009) — 이 세 부호가 섀넌 한계에 근접한 현대 채널 부호의 3대 이정표다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 157
 
 **채널 부호화 정리 (Channel Coding Theorem, 섀넌 제2 정리)**:
 
-"[채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C를 가진 잡음 채널에서 코드율 R < C인 코드를 사용하면, 블록 길이 n을 충분히 크게 했을 때 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율 (BER, [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate) 을 임의로 작게 만들 수 있다. 반면 R > C이면 BER은 0에 수렴할 수 없다."
+"채널 용량 C를 가진 잡음 채널에서 코드율 R < C인 코드를 사용하면, 블록 길이 n을 충분히 크게 했을 때 비트 오류율 (BER, Bit Error Rate) 을 임의로 작게 만들 수 있다. 반면 R > C이면 BER은 0에 수렴할 수 없다."
 
 ```
 R < C  ->  BER -> 0   (가능, 부호 길이 충분할 때)
@@ -26,7 +26,7 @@ R > C  ->  BER ↛ 0   (불가능)
 
 이 정리의 의의: **오류 없는 통신이 가능함을 증명** (구체적 코드 구성법은 별도 문제).
 
-### 코드율 ([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Rate)
+### 코드율 (Code Rate)
 
 ```
 R = k/n   [bits/channel use]
@@ -35,10 +35,10 @@ k: 정보 비트 수
 n: 코드워드 비트 수 (k + 잉여 비트)
 ```
 
-- k=4, n=7 -> R = 4/7 ([해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))
+- k=4, n=7 -> R = 4/7 (해밍 코드)
 - k=1/2, n=1 -> R = 1/2 (반복 코드)
 
-📢 **섹션 요약 비유**: 채널 부호화 정리는 "잡음 속 완벽한 편지"가 가능함을 증명한 것이다 — 편지를 여러 번 쓰고(잉여 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)), 수신자가 패턴을 분석하면(디코딩) 잡음 속에서도 원본 메시지를 완벽히 복원할 수 있다.
+📢 **섹션 요약 비유**: 채널 부호화 정리는 "잡음 속 완벽한 편지"가 가능함을 증명한 것이다 — 편지를 여러 번 쓰고(잉여 비트), 수신자가 패턴을 분석하면(디코딩) 잡음 속에서도 원본 메시지를 완벽히 복원할 수 있다.
 
 ---
 
@@ -83,25 +83,25 @@ BER (로그)
        0   2   4   6   8   10 [dB]  Eb/N0
 ```
 
-섀넌 한계에 가까울수록 낮은 Eb/N0 (낮은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 에너지)에서도 낮은 BER 달성.
+섀넌 한계에 가까울수록 낮은 Eb/N0 (낮은 신호 에너지)에서도 낮은 BER 달성.
 
 ### 현대 채널 부호 비교
 
 | 코드 | 특징 | 디코딩 | 채택 |
 |:---|:---|:---|:---|
-| [해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) | 최소 거리 3, 선형 블록 | 시드롬 계산 | 메모리 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) |
+| 해밍 코드 | 최소 거리 3, 선형 블록 | 시드롬 계산 | 메모리 ECC |
 | Reed-Solomon | 버스트 오류 강함 | 대수적 디코딩 | CD/DVD, QR코드 |
-| [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연접 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) + 반복 디코딩 | BCJR [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 3G/4G, 위성 |
-| [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 [패리티 검사](/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/) 행렬 | 신뢰 전파 (BP) | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Wi-Fi |
-| [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | 채널 분극 현상 활용 | SCL [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 제어 채널 |
+| 터보 코드 | 병렬 연접 합성곱 + 반복 디코딩 | BCJR 알고리즘 | 3G/4G, 위성 |
+| LDPC | 희소 패리티 검사 행렬 | 신뢰 전파 (BP) | 5G 데이터, Wi-Fi |
+| 폴라 코드 | 채널 분극 현상 활용 | SCL 디코더 | 5G 제어 채널 |
 
-📢 **섹션 요약 비유**: [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)의 반복 디코딩은 "두 선생님이 서로 채점 결과를 공유하며 정답 찾기"다 — 두 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 서로의 소프트 정보를 교환하며 점점 확신 있는 결론으로 수렴한다.
+📢 **섹션 요약 비유**: 터보 코드의 반복 디코딩은 "두 선생님이 서로 채점 결과를 공유하며 정답 찾기"다 — 두 디코더가 서로의 소프트 정보를 교환하며 점점 확신 있는 결론으로 수렴한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) 구조
+### 터보 코드 구조
 
 ```
 정보 비트 u
@@ -119,7 +119,7 @@ BER (로그)
 
 RSC: Recursive Systematic Convolutional 코드
 
-### [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 코드의 태너 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Tanner [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))
+### LDPC 코드의 태너 그래프 (Tanner Graph)
 
 ```
 변수 노드 (Variable Nodes): v₁ v₂ v₃ v₄ v₅
@@ -132,20 +132,20 @@ RSC: Recursive Systematic Convolutional 코드
 
 LDPC의 "저밀도 (Low-Density)" = 연결이 희소 = 신뢰 전파 수렴 빠름
 
-### [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)의 채널 분극
+### 폴라 코드의 채널 분극
 
 n->∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널로 분극화.
-신뢰 채널에만 정보 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 전송, 잡음 채널에 알려진 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 전송.
+신뢰 채널에만 정보 비트 전송, 잡음 채널에 알려진 비트 전송.
 
 이것이 **이론적으로** 섀넌 한계를 달성하는 첫 번째 명시적 구성법.
 
-📢 **섹션 요약 비유**: [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)의 채널 분극은 "[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 작업"과 같다 — 모든 채널을 "믿을 수 있는 채널"과 "믿을 수 없는 채널"로 완벽히 나누어, 믿을 수 있는 것만 사용한다.
+📢 **섹션 요약 비유**: 폴라 코드의 채널 분극은 "분류 작업"과 같다 — 모든 채널을 "믿을 수 있는 채널"과 "믿을 수 없는 채널"로 완벽히 나누어, 믿을 수 있는 것만 사용한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [5G NR](/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 채널 부호 선정
+### 5G NR 채널 부호 선정
 
 ```
 5G NR 채널        채택 코드        이유
@@ -158,12 +158,12 @@ n->∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널로
 
 | 적용 | 코드 | 비고 |
 |:---|:---|:---|
-| [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) | [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 고밀도 기록 오류 정정 |
-| [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) | [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | MLC/TLC 오류 처리 |
+| HDD | LDPC | 고밀도 기록 오류 정정 |
+| SSD/NAND Flash | LDPC | MLC/TLC 오류 처리 |
 | CD/DVD | Reed-Solomon | 버스트 오류(스크래치) 강함 |
-| 심우주 통신 | [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) | 매우 낮은 [SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/) 극복 |
+| 심우주 통신 | 터보 코드 | 매우 낮은 SNR 극복 |
 
-📢 **섹션 요약 비유**: LDPC가 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널에 선택된 것은 "[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 좋고 속도도 빠른 고속도로 설계"다 — [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)보다 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 쉬워 Gbps급 처리에 유리하다.
+📢 **섹션 요약 비유**: LDPC가 5G 데이터 채널에 선택된 것은 "성능도 좋고 속도도 빠른 고속도로 설계"다 — 터보 코드보다 병렬 처리가 쉬워 Gbps급 처리에 유리하다.
 
 ---
 
@@ -171,21 +171,21 @@ n->∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널로
 
 채널 부호화 정리는 <strong>디지털 통신의 가능성 한계</strong>를 수학적으로 확정했다. 1948년 섀넌이 증명한 것은 존재성뿐이었지만, 이후 70년간의 코딩 이론 연구가 실제 달성 가능한 코드를 찾아냈다.
 
-현재 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [Wi-Fi 6](/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/), 위성 통신은 섀넌 한계의 0.1~0.5 dB 이내에서 동작한다 — 이론과 실제 사이 격차가 거의 사라진 놀라운 성취다.
+현재 5G, Wi-Fi 6, 위성 통신은 섀넌 한계의 0.1~0.5 dB 이내에서 동작한다 — 이론과 실제 사이 격차가 거의 사라진 놀라운 성취다.
 
-📢 **섹션 요약 비유**: 섀넌이 "이 높이까지 점프 가능하다"고 증명했고, 70년 후 [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)가 "실제로 그 높이를 점프했다" — 이것이 정보이론과 코딩 이론의 완성이다.
+📢 **섹션 요약 비유**: 섀넌이 "이 높이까지 점프 가능하다"고 증명했고, 70년 후 폴라 코드가 "실제로 그 높이를 점프했다" — 이것이 정보이론과 코딩 이론의 완성이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 비고 |
+| 개념 | 관계 | 비고 |
 |:---|:---|:---|
 | 채널 부호화 정리 | R < C -> BER -> 0 | 섀넌 제2 정리 |
-| [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) | 반복 디코딩, 3G/4G | 1993년 충격 |
-| [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 패리티 체크 | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Wi-Fi |
-| [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | 채널 분극, 섀넌 한계 달성 | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 제어 채널 |
-| BER vs Eb/N0 | 코드 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 기준 | dB 스케일 |
+| 터보 코드 | 반복 디코딩, 3G/4G | 1993년 충격 |
+| LDPC | 희소 패리티 체크 | 5G 데이터, Wi-Fi |
+| 폴라 코드 | 채널 분극, 섀넌 한계 달성 | 5G 제어 채널 |
+| BER vs Eb/N0 | 코드 성능 비교 기준 | dB 스케일 |
 
 ---
 
@@ -207,21 +207,10 @@ n->∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널로
 [폴라 코드 (Polar Code) — 섀넌 한계 최초 달성]
 ```
 
-채널 부호화 기술이 섀넌 이론의 증명에서 시작하여 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 표준을 달성하는 [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)까지 진화한 흐름이다.
+채널 부호화 기술이 섀넌 이론의 증명에서 시작하여 5G 표준을 달성하는 폴라 코드까지 진화한 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **채널 부호화 정리는 "잡음 있어도 완벽 전달 가능 증명"**: 편지를 여러 번 복사해서 보내는 방법이 있다면, 잡음 속에서도 완벽하게 받을 수 있다.
-2. <strong><a href="/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/">터보 코드</a>는 "두 선생님 교차 채점"</strong>: 두 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 서로 결과를 교환하며 점점 정확한 답으로 수렴한다.
-3. <strong><a href="/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/">폴라 코드</a>는 "확실한 채널만 사용하기"</strong>: 믿을 수 있는 통로만 골라서 정보를 보내는 영리한 방법.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 157 / 175
-
-<- **이전**: [7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계](/studynote/08_algorithm_stats/09_info_theory/156_source_coding/)
-**다음**: [9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라](/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/) ->
-
----
+2. <strong>터보 코드는 "두 선생님 교차 채점"</strong>: 두 디코더가 서로 결과를 교환하며 점점 정확한 답으로 수렴한다.
+3. <strong>폴라 코드는 "확실한 채널만 사용하기"</strong>: 믿을 수 있는 통로만 골라서 정보를 보내는 영리한 방법.

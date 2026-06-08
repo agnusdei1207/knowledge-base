@@ -6,26 +6,26 @@ tags:
 weight: 151
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))는 서버가 물리적으로 없다는 뜻이 아니라, 개발자가 서버의 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/), OS 패치, 오토스케일링 같은 인프라 노가다를 클라우드 벤더(AWS/GCP/Azure)에게 100% 짬처리(Off-loading)하고 오직 <strong>비즈니스 로직(함수 코드 Function)에만 집중하는 <a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a>의 최종 진화 모델</strong>이다.
-> 2. **가치**: 24시간 내내 켜져서 돈을 퍼먹던 좀비 서버([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))를 죽이고, 유저가 클릭(Event)하는 <strong>그 0.01초 찰나에만 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>가 허공에서 팟! 켜져서 연산하고 즉시 자살 소각</strong>되므로, 1밀리초(ms) 단위의 완벽한 Pay-[as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-you-go(쓴 만큼만 내는) 자본주의 극강 다이어트를 달성했다.
-> 3. **판단 포인트**: 트래픽이 0에서 10만으로 1초 만에 튀는 이벤트성 워크로드에는 우주 최강이지만, 램(RAM)에 상태를 저장할 수 없는 <strong>무상태(<a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong> 제약과 처음 켤 때 랙이 걸리는 <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a>(<a href="/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a>)</strong> 딜레마 때문에 상시 응답이 필요한 코어 메인 서버에는 절대 쓰면 안 되는 양날의 검이다.
+> 1. **본질**: 서버리스(Serverless)는 서버가 물리적으로 없다는 뜻이 아니라, 개발자가 서버의 프로비저닝, OS 패치, 오토스케일링 같은 인프라 노가다를 클라우드 벤더(AWS/GCP/Azure)에게 100% 짬처리(Off-loading)하고 오직 <strong>비즈니스 로직(함수 코드 Function)에만 집중하는 클라우드 네이티브의 최종 진화 모델</strong>이다.
+> 2. **가치**: 24시간 내내 켜져서 돈을 퍼먹던 좀비 서버(VM)를 죽이고, 유저가 클릭(Event)하는 <strong>그 0.01초 찰나에만 컨테이너가 허공에서 팟! 켜져서 연산하고 즉시 자살 소각</strong>되므로, 1밀리초(ms) 단위의 완벽한 Pay-as-you-go(쓴 만큼만 내는) 자본주의 극강 다이어트를 달성했다.
+> 3. **판단 포인트**: 트래픽이 0에서 10만으로 1초 만에 튀는 이벤트성 워크로드에는 우주 최강이지만, 램(RAM)에 상태를 저장할 수 없는 <strong>무상태(Stateless)</strong> 제약과 처음 켤 때 랙이 걸리는 <strong>콜드 스타트(Cold Start)</strong> 딜레마 때문에 상시 응답이 필요한 코어 메인 서버에는 절대 쓰면 안 되는 양날의 검이다.
 
 ---
 
-## Ⅰ. 개요 및 왜 '[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)' [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 왜 '서버리스' 인가? (Context & Necessity)
 
-과거 IT 인프라의 역사는 서버(쇳덩이)와의 피 터지는 전쟁이었다. IDC에 물리 서버를 박던 시절([On-premise](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))을 지나, 클라우드가 [IaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 가상머신)를 던져줬지만 여전히 윈도우/리눅스 OS 보안 패치와 디스크 용량 관리는 개발자의 몫(노가다)이었다. [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(CaaS/[PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))가 편하게 해줬지만, 클러스터 자체를 띄워놓고 유지하는 고정 유지비는 여전히 피눈물 나게 비쌌다.
+과거 IT 인프라의 역사는 서버(쇳덩이)와의 피 터지는 전쟁이었다. IDC에 물리 서버를 박던 시절(On-premise)을 지나, 클라우드가 IaaS(VM 가상머신)를 던져줬지만 여전히 윈도우/리눅스 OS 보안 패치와 디스크 용량 관리는 개발자의 몫(노가다)이었다. 쿠버네티스(CaaS/PaaS)가 편하게 해줬지만, 클러스터 자체를 띄워놓고 유지하는 고정 유지비는 여전히 피눈물 나게 비쌌다.
 
 아키텍트 대장들은 분노했다. "야 이 미친 클라우드 벤더들아!! 내 코드가 하루에 딱 10번 호출되는데, 왜 그 10번을 위해 톰캣(Tomcat) 서버를 24시간 365일 내내 띄워놓고 한 달 10만 원씩 기본료를 뜯어 가냐 도둑놈들아 쾅!! **하늘이 두 쪽 나도 내가 [함수 코드(Function)]만 딸랑 던져놓을 테니까, 유저가 버튼 누를 때만 니들 맘대로 서버 잠깐 켰다가 끄고 [내가 코드 돌린 0.1초 분량의 전기세]만 딱 청구해 쾅 🚀!!!**"
-이 궁극의 인프라 은닉(Hiding)과 완전 종량제([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Cost) 철학이 바로 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 생태계의 위대한 탄생이다.
+이 궁극의 인프라 은닉(Hiding)과 완전 종량제(Zero Idle Cost) 철학이 바로 서버리스(Serverless) 생태계의 위대한 탄생이다.
 
-- **📢 섹션 요약 비유**: [IaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)(가상 머신)는 <strong>'렌터카'</strong>입니다. 차를 안 타고 주차장(유휴 시간)에 세워만 놔도 하루 5만 원 렌트비를 풀로 다 뜯깁니다(24시간 고정비 💥). [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([FaaS](/studynote/12_it_management/05_security_compliance/342_faas/))는 <strong>'우버/카카오택시'</strong>입니다! 내가 평소엔 차(서버)를 아예 안 갖고 있다가, 이동하고 싶을 때(이벤트 터질 때)만 딱 타서 달린 미터기 거리(밀리초 연산 시간)만큼만 100원 결제하고 내리면 끝입니다(유휴 비용 0원 ✨).
+- **📢 섹션 요약 비유**: IaaS(가상 머신)는 <strong>'렌터카'</strong>입니다. 차를 안 타고 주차장(유휴 시간)에 세워만 놔도 하루 5만 원 렌트비를 풀로 다 뜯깁니다(24시간 고정비 💥). 서버리스(FaaS)는 <strong>'우버/카카오택시'</strong>입니다! 내가 평소엔 차(서버)를 아예 안 갖고 있다가, 이동하고 싶을 때(이벤트 터질 때)만 딱 타서 달린 미터기 거리(밀리초 연산 시간)만큼만 100원 결제하고 내리면 끝입니다(유휴 비용 0원 ✨).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 생태계의 심장, [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 무정단 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 핑퐁 아키텍처다.
+서버리스 생태계의 심장, FaaS(Function as a Service)의 무정단 트리거 핑퐁 아키텍처다.
 
 ```text
 +-------------------------------------------------------------+
@@ -53,80 +53,80 @@ weight: 151
 +-------------------------------------------------------------+
 ```
 
-<strong><a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">무상태([Stateless</a>) 헌법의 족쇄 ⛓️]</strong>:
-[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 봇은 허공에서 찰나에 띄워졌다 죽는 1회용 깡통이다. 따라서 봇의 뱃속 램(RAM)에다가 `int userCount = 0;` 따위의 전역 변수(상태 [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 저장해 봤자, 1초 뒤 봇이 죽으면서 램이 날아가 버리므로 100% 포맷 멸망 파국이 터진다.
-아키텍트 극딜: "야 이 코더야!! <strong><a href="/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> 짤 땐 함수 뱃속에 기억(<a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>) 1바이트도 남기지 마 강제 리셋 쳐!!</strong> 기억해야 할 장바구니 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 무.조.건. 바깥쪽 안전한 영구 창고 <strong><a href="/studynote/05_database/04_transactions_concurrency/545_dynamodb/">AWS [DynamoDB</a> 나 ElastiCache(<a href="/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a>)]</strong> 에 던져 박아 록온([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 시켜놔야 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 봇 1만 대가 동시에 쾌속 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 증식 펌핑([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 치면서 100% 무결점 처리 방어망이 달성된다 쾅🚀!!!"
+<strong>무상태([Stateless) 헌법의 족쇄 ⛓️]</strong>:
+서버리스 봇은 허공에서 찰나에 띄워졌다 죽는 1회용 깡통이다. 따라서 봇의 뱃속 램(RAM)에다가 `int userCount = 0;` 따위의 전역 변수(상태 State)를 저장해 봤자, 1초 뒤 봇이 죽으면서 램이 날아가 버리므로 100% 포맷 멸망 파국이 터진다.
+아키텍트 극딜: "야 이 코더야!! <strong>서버리스 짤 땐 함수 뱃속에 기억(State) 1바이트도 남기지 마 강제 리셋 쳐!!</strong> 기억해야 할 장바구니 데이터나 세션은 무.조.건. 바깥쪽 안전한 영구 창고 <strong>AWS [DynamoDB 나 ElastiCache(Redis)]</strong> 에 던져 박아 록온(Lock) 시켜놔야 서버리스 봇 1만 대가 동시에 쾌속 스케일 아웃 증식 펌핑(Scale-out) 치면서 100% 무결점 처리 방어망이 달성된다 쾅🚀!!!"
 
-- **📢 섹션 요약 비유**: [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) 함수 봇은 <strong>'1회용 청소 알바생'</strong>과 같습니다. 방이 더러워지면(이벤트 발생) 용역 업체(AWS)에서 알바생이 문 열고 들어와 딱 5분 동안 청소(코드 연산)만 싹 끝내고 바로 집으로 퇴근해 버립니다(자살 소멸). 알바생 주머니(RAM)에 물건([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 맡겨두면 퇴근할 때 들고 튀니까([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증발 💥), 중요한 물건은 무조건 금고(외부 DB)에 따로 넣어둬야만 하는 1회성 무상태([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 용역 시스템입니다.
+- **📢 섹션 요약 비유**: FaaS 함수 봇은 <strong>'1회용 청소 알바생'</strong>과 같습니다. 방이 더러워지면(이벤트 발생) 용역 업체(AWS)에서 알바생이 문 열고 들어와 딱 5분 동안 청소(코드 연산)만 싹 끝내고 바로 집으로 퇴근해 버립니다(자살 소멸). 알바생 주머니(RAM)에 물건(데이터)을 맡겨두면 퇴근할 때 들고 튀니까(데이터 증발 💥), 중요한 물건은 무조건 금고(외부 DB)에 따로 넣어둬야만 하는 1회성 무상태(Stateless) 용역 시스템입니다.
 
 ---
 
 ## Ⅲ. 융합 비교 및 다각도 분석
 
-"클라우드 띄울 때 [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)(K8s [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 쓸까, [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)([서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 쓸까?" 퍼블릭 3대장 FaaS와의 피 터지는 트레이드오프 잣대다.
+"클라우드 띄울 때 도커(K8s 컨테이너) 쓸까, 람다(서버리스) 쓸까?" 퍼블릭 3대장 FaaS와의 피 터지는 트레이드오프 잣대다.
 
-| 비교 잣대 | CaaS ([도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) / K8s 클러스터 🐳) | [FaaS](/studynote/12_it_management/05_security_compliance/342_faas/) ([서버리스 컴퓨팅](/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/) / AWS [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) ⚡) |
+| 비교 잣대 | CaaS (도커 컨테이너 / K8s 클러스터 🐳) | FaaS (서버리스 컴퓨팅 / AWS 람다 ⚡) |
 |:---|:---|:---|
-| **관리의 주체** | 내가 K8s 띄우고, 오토스케일링 룰 짜고, 램/CPU 셋업 다 쳐야 함 ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 야근 지옥 💀). | 난 코드 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 딱 1개 던지고 끝. AWS가 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 100만 대 증식 짬처리 다 알아서 해줌 🚀. |
-| **자본 (Cost) 결제** | 24시간 돌아가니까 새벽에 손님 0명이어도 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 대여료(기본료) 풀로 다 뜯김. | 새벽에 호출 0번이면 요금 **진짜 0원(무료)**. 불렸을 때 딱 일한 0.1초 밀리초 단위 계산(과금 혁명 💰). |
-| <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 응답 (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>| 24시간 살아있으니 찌르면 **0.001초 컷 쾌속 즉답(Warm)**. | 죽어있다가 불렀을 때 잠에서 깨며 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 띄우는 준비 시간 <strong>(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> <a href="/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a> 랙 1~3초 💥)</strong> 뻗음. |
-| **수행 한계 타임** | 무한대. 3일 내내 딥러닝 크롤링 돌려도 쌉가능. | <strong>최대 15분 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 락킹 (AWS 기준)</strong>. 15분 지나면 하던 일 멱살 잡고 강제 킬(Kill) 사살당함 💀. |
+| **관리의 주체** | 내가 K8s 띄우고, 오토스케일링 룰 짜고, 램/CPU 셋업 다 쳐야 함 (DevOps 야근 지옥 💀). | 난 코드 압축 파일 딱 1개 던지고 끝. AWS가 스케일링 100만 대 증식 짬처리 다 알아서 해줌 🚀. |
+| **자본 (Cost) 결제** | 24시간 돌아가니까 새벽에 손님 0명이어도 컨테이너 대여료(기본료) 풀로 다 뜯김. | 새벽에 호출 0번이면 요금 **진짜 0원(무료)**. 불렸을 때 딱 일한 0.1초 밀리초 단위 계산(과금 혁명 💰). |
+| <strong>초기 응답 (Latency)</strong>| 24시간 살아있으니 찌르면 **0.001초 컷 쾌속 즉답(Warm)**. | 죽어있다가 불렀을 때 잠에서 깨며 컨테이너 띄우는 준비 시간 <strong>(콜드 스타트 Cold Start 랙 1~3초 💥)</strong> 뻗음. |
+| **수행 한계 타임** | 무한대. 3일 내내 딥러닝 크롤링 돌려도 쌉가능. | <strong>최대 15분 타임아웃 락킹 (AWS 기준)</strong>. 15분 지나면 하던 일 멱살 잡고 강제 킬(Kill) 사살당함 💀. |
 
-<strong><a href="/studynote/12_it_management/05_security_compliance/342_faas/">퍼블릭 3대장 [FaaS</a> 십자 비교]</strong>
-- <strong>AWS <a href="/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a></strong>: 가장 오래된 대장. [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 생태계(S3, SQS 등) 우주 최강. 공용 라이브러리를 묶어두는 Layer 기능 지원.
-- **Google Cloud Functions**: GCP [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)(Pub/Sub, [BigQuery](/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)) 연동에 개꿀. Gen2 버전은 최대 60분까지 실행 락킹 해제.
-- **Azure Functions**: 마이크로소프트 특유의 .NET, AAD 연동 최강. 특히 일반 함수를 묶어 상태([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 추적 유지하게 해주는 **Durable Functions** 워크플로우를 지원해 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 맹점(무상태)을 우회 돌파함.
+<strong>퍼블릭 3대장 [FaaS 십자 비교]</strong>
+- <strong>AWS Lambda</strong>: 가장 오래된 대장. 트리거 생태계(S3, SQS 등) 우주 최강. 공용 라이브러리를 묶어두는 Layer 기능 지원.
+- **Google Cloud Functions**: GCP 데이터 파이프라인(Pub/Sub, BigQuery) 연동에 개꿀. Gen2 버전은 최대 60분까지 실행 락킹 해제.
+- **Azure Functions**: 마이크로소프트 특유의 .NET, AAD 연동 최강. 특히 일반 함수를 묶어 상태(State)를 추적 유지하게 해주는 **Durable Functions** 워크플로우를 지원해 서버리스의 맹점(무상태)을 우회 돌파함.
 
-- **📢 섹션 요약 비유**: [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 <strong>'겨울철 보일러 처음 켤 때'</strong>와 똑같습니다. 보일러(서버)를 외출 모드(유휴 상태)로 끄고 돈(요금)을 아꼈지만, 집에 와서 다시 켜면 방바닥 따뜻해질 때까지 10분 동안 오들오들 떨어야 하는 랙 타임([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 💥)이 발생합니다. 이게 빡치면 돈을 좀 더 내서라도 보일러를 10도([Provisioned Concurrency](/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/) 따뜻한 상태)로 항시 유지해 두는 게 아키텍트의 자본 튜닝술입니다.
+- **📢 섹션 요약 비유**: 콜드 스타트는 <strong>'겨울철 보일러 처음 켤 때'</strong>와 똑같습니다. 보일러(서버)를 외출 모드(유휴 상태)로 끄고 돈(요금)을 아꼈지만, 집에 와서 다시 켜면 방바닥 따뜻해질 때까지 10분 동안 오들오들 떨어야 하는 랙 타임(Cold Start 지연 💥)이 발생합니다. 이게 빡치면 돈을 좀 더 내서라도 보일러를 10도(Provisioned Concurrency 따뜻한 상태)로 항시 유지해 두는 게 아키텍트의 자본 튜닝술입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 만능이 아니다. [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)([Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))로 떡칠한 시스템은 디버깅과 아키텍처 [벤더 종속](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))의 거미줄 생지옥을 낳는다.
+서버리스는 만능이 아니다. 람다(Lambda)로 떡칠한 시스템은 디버깅과 아키텍처 벤더 종속(Lock-in)의 거미줄 생지옥을 낳는다.
 
 ### 실무 판단 시나리오
-1. <strong>이벤트 드리븐 (Event-Driven) 비동기 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>의 환상적 융합 ✨</strong>:
+1. <strong>이벤트 드리븐 (Event-Driven) 비동기 오프로딩의 환상적 융합 ✨</strong>:
    유저가 쇼핑몰에 10MB짜리 원본 프로필 사진을 S3(스토리지)에 업로드했다.
-   - **기존 EC2 서버의 뻗음 💀**: 메인 결제 서버가 10MB 사진 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 변환(Resizing) 연산 치느라 CPU 타 죽어서 다른 사람 결제까지 연쇄 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 마비 폭파 터짐.
-   - <strong><a href="/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> <a href="/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">람다</a> 비동기 짬처리 🚀</strong>: "야 메인 서버는 사진 저장만 하고 걍 200 OK 응답 쳐버려!! S3에 사진 톡 떨어지는 순간 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger) 이벤트가 팟! 터져서 -> 허공에 숨어있던 <strong>[람다 이미지 리사이징 봇]</strong>이 0.1초 만에 강림!! 지 혼자 CPU 100% 멱살 잡고 갈아서 사진 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 치고 새 S3 폴더에 저장한 뒤 연기처럼 자살해 사라짐 쾅!!" 메인 서버의 무거운 짐(CPU)을 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 허공 봇에게 100% [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Off-loading) 시켜버리는 가장 아름다운 클라우드 비동기 분리(Decoupling) 마스터피스다.
-2. <strong>벤더 락인 (<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/">Vendor Lock-in</a>) 종속의 노예화 파국 💥</strong>:
-   "와 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 개편함 ㅋ 우리 회사 백엔드 싹 다 AWS Lambda랑 [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway로 다 엎어서 짰음 ㅋ"
-   - **판단 (아키텍트 팩폭 🪓)**: "야 이 좆소 타자기 놈아!! [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 떡칠은 AWS 생태계([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격)에 네 소스 코드의 목줄을 100% 묶어버리는 자살 족쇄야!! 내일 네이버 클라우드나 GCP로 인프라 이사 가자고 하면? [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 코드는 타 클라우드랑 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 1도 안 맞아서 소스 코드 전부 다 처음부터 새로 파서 다시 짜야 돼 멸망 쾅 💀!!
-   하늘이 두 쪽 나도 메인 비즈니스 코어 로직은 클라우드 벤더 안 타는 범용 <strong><a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커([Docker</a>) <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> K8s]</strong> 깡통에 담아서 언제든 딴 집으로 도망갈 수 있게(Portability) 유연성 방폭문을 쳐야 하고!! [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))는 걍 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 알림 발송이나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 같은 '변두리 찌끄레기 짬처리 로직'에만 제한적으로 핀셋 융합 투입 시키는 게 진정한 인프라 하이브리드 통제술이다 🚀! (정 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 쓰고 싶으면 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) **Knative** 써서 K8s 위에서 벤더 독립적 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 돌려 쾅!)"
+   - **기존 EC2 서버의 뻗음 💀**: 메인 결제 서버가 10MB 사진 압축 변환(Resizing) 연산 치느라 CPU 타 죽어서 다른 사람 결제까지 연쇄 타임아웃 마비 폭파 터짐.
+   - <strong>서버리스 람다 비동기 짬처리 🚀</strong>: "야 메인 서버는 사진 저장만 하고 걍 200 OK 응답 쳐버려!! S3에 사진 톡 떨어지는 순간 트리거(Trigger) 이벤트가 팟! 터져서 -> 허공에 숨어있던 <strong>[람다 이미지 리사이징 봇]</strong>이 0.1초 만에 강림!! 지 혼자 CPU 100% 멱살 잡고 갈아서 사진 압축 치고 새 S3 폴더에 저장한 뒤 연기처럼 자살해 사라짐 쾅!!" 메인 서버의 무거운 짐(CPU)을 서버리스 허공 봇에게 100% 오프로딩(Off-loading) 시켜버리는 가장 아름다운 클라우드 비동기 분리(Decoupling) 마스터피스다.
+2. <strong>벤더 락인 (Vendor Lock-in) 종속의 노예화 파국 💥</strong>:
+   "와 서버리스 개편함 ㅋ 우리 회사 백엔드 싹 다 AWS Lambda랑 DynamoDB, API Gateway로 다 엎어서 짰음 ㅋ"
+   - **판단 (아키텍트 팩폭 🪓)**: "야 이 좆소 타자기 놈아!! 람다 떡칠은 AWS 생태계(API 규격)에 네 소스 코드의 목줄을 100% 묶어버리는 자살 족쇄야!! 내일 네이버 클라우드나 GCP로 인프라 이사 가자고 하면? 람다 코드는 타 클라우드랑 호환성 1도 안 맞아서 소스 코드 전부 다 처음부터 새로 파서 다시 짜야 돼 멸망 쾅 💀!!
+   하늘이 두 쪽 나도 메인 비즈니스 코어 로직은 클라우드 벤더 안 타는 범용 <strong>도커([Docker) 컨테이너 K8s]</strong> 깡통에 담아서 언제든 딴 집으로 도망갈 수 있게(Portability) 유연성 방폭문을 쳐야 하고!! 서버리스(람다)는 걍 로그 알림 발송이나 파일 압축 같은 '변두리 찌끄레기 짬처리 로직'에만 제한적으로 핀셋 융합 투입 시키는 게 진정한 인프라 하이브리드 통제술이다 🚀! (정 서버리스 쓰고 싶으면 오픈소스 **Knative** 써서 K8s 위에서 벤더 독립적 서버리스 돌려 쾅!)"
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> 무한 루프 요금 핵폭탄 (The Recursive Billing Death <a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> 💀)</strong>:
-  초보 코더가 AWS S3에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 올라오면 -> [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 함수가 돌게 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 짰다. 근데 이 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 봇이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하고 -> 자기가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽어왔던 '그 원본 S3 버킷'에 또 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 툭 뱉어 저장했다.
-  **대재앙 멸망 💥**: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 또 들어왔네? -> 또 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 봇 발동 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 팟! -> 또 같은 S3에 툭! -> 무한 루프 핑퐁 메아리 폭발 쾅!!!
-  새벽에 단 1번의 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 호출이 무한 자가 증식 체인 리액션(Recursive Loop)을 일으켜 -> 밤새 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 봇 1억 개가 소환되어 돌았고, 다음 달 아침 사장님 책상에 AWS 요금 청구서 1억 원짜리 영수증이 날아와 회사 파산 부도 감옥 엔딩 터지는 전설의 교과서적 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 자살 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. (이걸 막으려면 인풋 버킷과 아웃풋 버킷을 무.조.건. 물리적으로 다르게 찢어 분리 세팅 락킹 쳐야 한다 쾅!!).
+### 안티패턴
+- <strong>서버리스 무한 루프 요금 핵폭탄 (The Recursive Billing Death Trap 💀)</strong>:
+  초보 코더가 AWS S3에 파일 올라오면 -> 람다 함수가 돌게 트리거 짰다. 근데 이 람다 봇이 파일 압축하고 -> 자기가 파일 읽어왔던 '그 원본 S3 버킷'에 또 압축 파일을 툭 뱉어 저장했다.
+  **대재앙 멸망 💥**: 파일이 또 들어왔네? -> 또 람다 봇 발동 트리거 팟! -> 또 같은 S3에 툭! -> 무한 루프 핑퐁 메아리 폭발 쾅!!!
+  새벽에 단 1번의 람다 호출이 무한 자가 증식 체인 리액션(Recursive Loop)을 일으켜 -> 밤새 람다 봇 1억 개가 소환되어 돌았고, 다음 달 아침 사장님 책상에 AWS 요금 청구서 1억 원짜리 영수증이 날아와 회사 파산 부도 감옥 엔딩 터지는 전설의 교과서적 서버리스 자살 안티패턴이다. (이걸 막으려면 인풋 버킷과 아웃풋 버킷을 무.조.건. 물리적으로 다르게 찢어 분리 세팅 락킹 쳐야 한다 쾅!!).
 
-- **📢 섹션 요약 비유**: 이 무한 루프 요금 폭탄은 <strong>'거울 두 개 마주 보기'</strong>와 100% 똑같습니다. 양쪽 거울(S3와 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))이 서로를 튕겨내면서 반사된 빛(이벤트)이 무한대로 증식하며 뻗어나갑니다. 그냥 컴퓨터 CPU만 타 죽는 게 아니라, [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 그 반사 횟수 1번당 1원씩 내 통장(요금)에서 리얼 타임으로 돈을 촥촥 빼가는 무자비한 흡혈귀 시스템이므로 핑퐁 쉴드 락을 잘못 짜면 하루아침에 한강 구경 갑니다 💀.
+- **📢 섹션 요약 비유**: 이 무한 루프 요금 폭탄은 <strong>'거울 두 개 마주 보기'</strong>와 100% 똑같습니다. 양쪽 거울(S3와 람다)이 서로를 튕겨내면서 반사된 빛(이벤트)이 무한대로 증식하며 뻗어나갑니다. 그냥 컴퓨터 CPU만 타 죽는 게 아니라, 람다는 그 반사 횟수 1번당 1원씩 내 통장(요금)에서 리얼 타임으로 돈을 촥촥 빼가는 무자비한 흡혈귀 시스템이므로 핑퐁 쉴드 락을 잘못 짜면 하루아침에 한강 구경 갑니다 💀.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[서버리스 컴퓨팅](/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/)([Serverless](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))은 "서버(Infra)를 소유한다"는 인류의 낡은 집착을 도끼로 찍어 부수고, "오직 코드(Logic)의 실행 찰나만 렌탈한다"는 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 경제학의 종착역을 선언한 위대한 패러다임 시프트다.
+서버리스 컴퓨팅(Serverless)은 "서버(Infra)를 소유한다"는 인류의 낡은 집착을 도끼로 찍어 부수고, "오직 코드(Logic)의 실행 찰나만 렌탈한다"는 클라우드 네이티브 경제학의 종착역을 선언한 위대한 패러다임 시프트다.
 
-개발자는 더 이상 트래픽이 10명 올지 10만 명 올지 쫄면서 서버 스펙(EC2 사양)을 고르고 오토스케일링 룰을 짜는 데 밤을 새울 필요가 증발했다. 걍 코드(Function) 덩어리를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해서 클라우드 허공에 던져 놓기만 하면 -> 클라우드 공급자 뇌가 0.01초 컷으로 유저 수에 비례해 봇을 1개에서 1만 개로 팟팟팟! 미친 듯이 펌핑 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 시키고 깔끔하게 자살(Scale-to-[Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) 소멸시켜 유휴 인건비(OPEX)와 유지비(CAPEX)를 0원으로 멱살 잡아 압살 척살 시켜 버린다.
+개발자는 더 이상 트래픽이 10명 올지 10만 명 올지 쫄면서 서버 스펙(EC2 사양)을 고르고 오토스케일링 룰을 짜는 데 밤을 새울 필요가 증발했다. 걍 코드(Function) 덩어리를 압축해서 클라우드 허공에 던져 놓기만 하면 -> 클라우드 공급자 뇌가 0.01초 컷으로 유저 수에 비례해 봇을 1개에서 1만 개로 팟팟팟! 미친 듯이 펌핑 스케일 아웃(Scale-out) 시키고 깔끔하게 자살(Scale-to-Zero) 소멸시켜 유휴 인건비(OPEX)와 유지비(CAPEX)를 0원으로 멱살 잡아 압살 척살 시켜 버린다.
 
-비록 15분 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)의 족쇄, [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)의 랙 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 고통, 그리고 코드가 여기저기 흩어져 파편화되어 디버깅 추적이 불가능해지는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 헬게이트(Observability의 붕괴)를 동반하지만!!
-"기계의 관리([Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) 인프라 노가다)를 버리고 -> 비즈니스 코어 로직(Dev) 개발에 100% 영혼을 갈아 넣는다(NoOps 융합)"는 이 치명적이고도 달콤한 마약 같은 생산성의 유혹은, 향후 [BaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/)(Backend [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 파이어베이스 생태계와 융합하며 IT 스타트업과 B2B 이벤트 백엔드 전장을 씹어 먹는 가장 파괴적이고 잔인한 돈 복사기 뼈대로 영원히 군림할 것이다 🚀.
+비록 15분 타임아웃의 족쇄, 콜드 스타트의 랙 지연 고통, 그리고 코드가 여기저기 흩어져 파편화되어 디버깅 추적이 불가능해지는 분산 시스템의 헬게이트(Observability의 붕괴)를 동반하지만!!
+"기계의 관리(Operation 인프라 노가다)를 버리고 -> 비즈니스 코어 로직(Dev) 개발에 100% 영혼을 갈아 넣는다(NoOps 융합)"는 이 치명적이고도 달콤한 마약 같은 생산성의 유혹은, 향후 BaaS(Backend as a Service) 파이어베이스 생태계와 융합하며 IT 스타트업과 B2B 이벤트 백엔드 전장을 씹어 먹는 가장 파괴적이고 잔인한 돈 복사기 뼈대로 영원히 군림할 것이다 🚀.
 
-- **📢 섹션 요약 비유**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 생태계는 <strong>'초밥집의 초천재 회전 레일'</strong>입니다. 손님이 0명이면 요리사(서버) 1명도 출근 안 하고 주방 불 다 끄고 전기세 0원으로 아낍니다(Scale to [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)). 갑자기 단체 손님 100명이 들이닥치면? 문 열고 0.1초 만에 허공에서 알바생 100명이 팟! 떨어져 내려와 각자 초밥 1개씩 쥐어 밥상에 턱 던져놓고 1초 만에 다시 허공으로 퇴근해 증발합니다 🚀! 사장님은 딱 초밥 100개 쥔 시간만큼만 알바비(밀리초 과금)를 주면 되니, 절대 망할 수가 없는 극강의 생존 자본주의 요새가 완성되는 마법입니다.
+- **📢 섹션 요약 비유**: 서버리스 생태계는 <strong>'초밥집의 초천재 회전 레일'</strong>입니다. 손님이 0명이면 요리사(서버) 1명도 출근 안 하고 주방 불 다 끄고 전기세 0원으로 아낍니다(Scale to Zero). 갑자기 단체 손님 100명이 들이닥치면? 문 열고 0.1초 만에 허공에서 알바생 100명이 팟! 떨어져 내려와 각자 초밥 1개씩 쥐어 밥상에 턱 던져놓고 1초 만에 다시 허공으로 퇴근해 증발합니다 🚀! 사장님은 딱 초밥 100개 쥔 시간만큼만 알바비(밀리초 과금)를 주면 되니, 절대 망할 수가 없는 극강의 생존 자본주의 요새가 완성되는 마법입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+### 📌 관련 개념 맵 (Knowledge Graph)
 
-| 개념 명칭 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
+| 개념 명칭 | 관계 및 시너지 설명 |
 | :--- | :--- |
-| <strong><a href="/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> (Function <a href="/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> a <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong> | [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)를 굴러가게 하는 찐 핵심 엔진 모델 (AWS [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), GCP Cloud Functions). 앱 전체를 띄우는 게 아니라 `uploadImage()` 같은 '함수 조각' 1개만 허공에 띄워 터트리는 나노 찢기 튜닝. |
-| <strong><a href="/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a> (<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> 랙 💥)</strong> | 오랫동안 안 써서 죽여놓은 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 봇을 다시 찌를 때, K8s [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 새로 파고 자바(Java) 부팅하느라 유저 화면에 3초 랙 걸려 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗게 만드는 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 최대의 적폐 딜레마. |
-| <strong><a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> (무상태 기억상실 봇)</strong> | [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 봇은 일 끝나면 1초 만에 뒈져 사라지는 1회용 깡통이라 뱃속 RAM에 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 외워두면 다 날아감 💀. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 밖의 S3나 [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 쇳덩이 금고에 저장해 둬야 하는 0순위 락킹 룰. |
-| **Event-Driven (이벤트 기반 핑퐁)** | [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 24시간 도는 무한 루프(while) 메인 서버가 아님. "사진 업로드 됨!", "DB에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꽂힘!" 같은 '사건(Event)'이 터져서 옆구리 방아쇠(Trigger)를 찔러 줘야만 찰나에 팍 깨어나서 1방 도는 수동적 반응 봇. |
-| <strong>Knative (멀티클라우드 <a href="/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> 🚀)</strong> | "[람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 쓰면 아마존 노예([Vendor Lock-in](/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 되잖아 좆망 💥" 구글이 빡쳐서 만든 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/). [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체를 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)처럼(0원으로 죽었다 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 펌핑되게) 띄워버려 타 클라우드 이사(Portability) 자유도를 100% 쟁취한 대관식 무기. |
+| <strong>FaaS (Function as a Service)</strong> | 서버리스를 굴러가게 하는 찐 핵심 엔진 모델 (AWS Lambda, GCP Cloud Functions). 앱 전체를 띄우는 게 아니라 `uploadImage()` 같은 '함수 조각' 1개만 허공에 띄워 터트리는 나노 찢기 튜닝. |
+| <strong>Cold Start (콜드 스타트 랙 💥)</strong> | 오랫동안 안 써서 죽여놓은 람다 봇을 다시 찌를 때, K8s 컨테이너 새로 파고 자바(Java) 부팅하느라 유저 화면에 3초 랙 걸려 타임아웃 뻗게 만드는 서버리스 최대의 적폐 딜레마. |
+| <strong>Stateless (무상태 기억상실 봇)</strong> | 람다 봇은 일 끝나면 1초 만에 뒈져 사라지는 1회용 깡통이라 뱃속 RAM에 세션(State) 외워두면 다 날아감 💀. 데이터는 무조건 밖의 S3나 DynamoDB 쇳덩이 금고에 저장해 둬야 하는 0순위 락킹 룰. |
+| **Event-Driven (이벤트 기반 핑퐁)** | 람다는 24시간 도는 무한 루프(while) 메인 서버가 아님. "사진 업로드 됨!", "DB에 데이터 꽂힘!" 같은 '사건(Event)'이 터져서 옆구리 방아쇠(Trigger)를 찔러 줘야만 찰나에 팍 깨어나서 1방 도는 수동적 반응 봇. |
+| <strong>Knative (멀티클라우드 서버리스 🚀)</strong> | "람다 쓰면 아마존 노예(Vendor Lock-in) 되잖아 좆망 💥" 구글이 빡쳐서 만든 오픈소스. 도커 컨테이너 자체를 람다처럼(0원으로 죽었다 스케일링 펌핑되게) 띄워버려 타 클라우드 이사(Portability) 자유도를 100% 쟁취한 대관식 무기. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,16 +149,5 @@ Cold Start 극복 및 Knative K8s 융합 / 자바 부팅 랙 쳐 죽이려고 Sn
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날엔 물을 마시려면 우리 집에 비싼 <strong>'정수기 기계(서버)'</strong>를 사서 24시간 내내 전기를 꽂아둬야 했어요. 물을 안 마실 때도 전기세가 계속 나가서 돈이 엄청 아까웠죠.
-2. <strong><a href="/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a>(<a href="/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a>)</strong>는 기계를 싹 다 버리고 <strong>'수도꼭지'</strong>만 달아둔 거예요! 내가 목마를 때(이벤트) 수도꼭지를 틀면 물이 콸콸 나오고, 다 마시고 잠그면 돈이 1원도 안 나가는 완벽한 요술이에요!
+2. <strong>서버리스(Serverless)</strong>는 기계를 싹 다 버리고 <strong>'수도꼭지'</strong>만 달아둔 거예요! 내가 목마를 때(이벤트) 수도꼭지를 틀면 물이 콸콸 나오고, 다 마시고 잠그면 돈이 1원도 안 나가는 완벽한 요술이에요!
 3. 물먹는 사람이 갑자기 100명 몰려오면? 클라우드 아저씨가 1초 만에 수도꼭지 100개를 허공에서 뿅! 하고 복사해서 만들어 주니까 줄 설 필요도 없고, 딱 쓴 물(밀리초 연산 시간) 양만큼만 동전 내면 끝나는 엄청난 요금 다이어트랍니다 🚀!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 150 / 371
-
-<- **이전**: [150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)](/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/)
-**다음**: [152. 콜드 스타트 지연 (Cold Start Latency) - 서버리스 영면과 부활의 페널티](/studynote/13_cloud_architecture/03_msa_serverless/152_cold_start_latency_serverless/) ->
-
----

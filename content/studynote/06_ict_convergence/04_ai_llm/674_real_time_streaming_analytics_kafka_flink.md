@@ -108,11 +108,3 @@ Kafka는 단순한 메시지 큐가 아니라 **분산 커밋 로그(Distributed
 |   |  |.timeidx | |.timeidx | |.timeidx | |.timeidx |     |     |
 |   |  +---------+ +---------+ +---------+ +---------+     |     |
 |   |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 674 / 800
-
-<- **이전**: [673. 데이터 레이크하우스 통합 분석 플랫폼](/studynote/06_ict_convergence/uncategorized/673_data_lakehouse_unified_analytics_platform/)
-**다음**: [675. 데이터 오케스트레이션 Airflow Dagster](/studynote/06_ict_convergence/uncategorized/675_data_orchestration_airflow_dagster/) ->
-
----

@@ -98,11 +98,3 @@ weight: 711
 **핵심 메커니즘 - 데이터 파이프라인의 5가지 결정적 속성**
 
 1. **Idempotency(멱등성
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 711 / 800
-
-<- **이전**: [710. 710. ICT 융합 기술사 종합 아키텍처 마스터 맵 (ICT Convergence PE Master Architecture Map)](/studynote/06_ict_convergence/uncategorized/710_ict_convergence_pe_master_architecture_map/)
-**다음**: [712. 증거 기반 의사결정 분석 프레임워크](/studynote/06_ict_convergence/uncategorized/712_evidence_based_decision_analytics_framework/) ->
-
----

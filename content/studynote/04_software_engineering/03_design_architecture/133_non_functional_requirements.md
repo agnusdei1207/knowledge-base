@@ -6,9 +6,9 @@ tags:
 weight: 133
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: NFR(Non-Functional Requirements)은 <strong>시스템이 "어떻게" 동작해야 하는가의 품질 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong>으로, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·확장성·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 등을 정의하며 ISO 25010이 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 표준이다.
-> 2. **가치**: NFR이 <strong>아키텍처를 결정</strong>한다. "초당 10만 요청"이면 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처, "99.999% [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)"이면 Active-Active 이중화가 필요하며, NFR 없이는 아키텍처 결정이 불가능하다.
-> 3. **판단 포인트**: NFR은 <strong>측정 가능한 수치</strong>로 명세해야 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하다. "빨라야 한다"(✗) -> "P99 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 200ms 이내"(✓).
+> 1. **본질**: NFR(Non-Functional Requirements)은 <strong>시스템이 "어떻게" 동작해야 하는가의 품질 속성</strong>으로, 성능·보안·가용성·확장성·유지보수성 등을 정의하며 ISO 25010이 분류 표준이다.
+> 2. **가치**: NFR이 <strong>아키텍처를 결정</strong>한다. "초당 10만 요청"이면 분산 아키텍처, "99.999% 가용성"이면 Active-Active 이중화가 필요하며, NFR 없이는 아키텍처 결정이 불가능하다.
+> 3. **판단 포인트**: NFR은 <strong>측정 가능한 수치</strong>로 명세해야 검증 가능하다. "빨라야 한다"(✗) -> "P99 응답 시간 200ms 이내"(✓).
 
 ---
 
@@ -28,16 +28,16 @@ ISO 25010 품질 모델 (8대 특성):
 
 | NFR | 수치화 예 | 아키텍처 영향 |
 |:---|:---|:---|
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | P99 < 200ms | 캐시, [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) |
-| <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong> | 99.99% | Active-Active |
+| <strong>성능</strong> | P99 < 200ms | 캐시, CDN |
+| <strong>가용성</strong> | 99.99% | Active-Active |
 | **확장성** | 10x 트래픽 | 오토스케일링 |
-| **보안** | [OWASP Top 10](/studynote/09_security/05_web_app_security/416_owasp_top_10/) | [WAF](/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), 암호화 |
+| **보안** | OWASP Top 10 | WAF, 암호화 |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-NFR은 <strong>아키텍처의 핵심 동인(<a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Driver)</strong>이며, 수치로 명세하지 않으면 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 불가능하다.
+NFR은 <strong>아키텍처의 핵심 동인(Architecture Driver)</strong>이며, 수치로 명세하지 않으면 검증이 불가능하다.
 
 ---
 
@@ -45,11 +45,11 @@ NFR은 <strong>아키텍처의 핵심 동인(<a href="/studynote/12_it_managemen
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **NFR** | 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (How well) |
+| **NFR** | 품질 속성 (How well) |
 | **ISO 25010** | 8대 품질 특성 |
-| <strong><a href="/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a></strong> | NFR 트레이드오프 분석 |
-| **QAW** | 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 워크숍 |
-| <strong><a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Driver</strong> | NFR이 아키텍처를 결정 |
+| <strong>ATAM</strong> | NFR 트레이드오프 분석 |
+| **QAW** | 품질 속성 워크숍 |
+| <strong>Architecture Driver</strong> | NFR이 아키텍처를 결정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -63,14 +63,3 @@ NFR은 <strong>아키텍처의 핵심 동인(<a href="/studynote/12_it_managemen
 1. NFR은 자동차의 <strong>안전등급·연비·최고속도</strong>예요.
 2. "달린다"(기능)만으로는 **좋은 차인지** 알 수 없어요.
 3. "200km/h, 연비 15km/L"처럼 **숫자로 정확히** 적어야 비교할 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 133 / 973
-
-<- **이전**: [132. 요구사항 유형 (기능·비기능·제약사항) - FR·NFR·Constraints 분류](/studynote/04_software_engineering/03_design_architecture/132_types_of_requirements/)
-**다음**: [134. 요구사항 공학 프로세스 - 도출->분석->명세->검증->관리 상세](/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/) ->
-
----

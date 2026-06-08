@@ -6,22 +6,22 @@ tags:
 weight: 34
 ---
 > **핵심 인사이트 3줄**
-> 1. 감리 품질 관리([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Quality [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 IT [감리 수행](/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)의 객관성·전문성·일관성을 보장하기 위한 품질 통제 체계로, 감리 계획·수행·보고 전 단계에 걸친 내부 품질 검토가 핵심이다.
-> 2. 한국 정보시스템 감리는 「전자정부법」과 「[정보시스템 감리기준](/studynote/11_design_supervision/01_audit_framework/005_audit_standards/)(행안부 고시)」에 따라 의무 감리 대상이 규정되며, 감리법인·감리원·발주기관의 역할과 책임이 명확히 분리된다.
+> 1. 감리 품질 관리(Audit Quality Management)는 IT 감리 수행의 객관성·전문성·일관성을 보장하기 위한 품질 통제 체계로, 감리 계획·수행·보고 전 단계에 걸친 내부 품질 검토가 핵심이다.
+> 2. 한국 정보시스템 감리는 「전자정부법」과 「정보시스템 감리기준(행안부 고시)」에 따라 의무 감리 대상이 규정되며, 감리법인·감리원·발주기관의 역할과 책임이 명확히 분리된다.
 > 3. 감리 품질의 3대 위협은 독립성 훼손(이해충돌)·역량 미달(전문성 부족)·자료 은폐(증거 왜곡)로, 이를 방지하기 위한 감리원 자격 관리·감리 문서 표준화·이의신청 절차가 제도화되어 있다.
 
 ---
 
 ## Ⅰ. 감리 품질의 구성 요소
 
-감리 품질([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Quality)은 <strong>감리 결과의 신뢰성과 유용성을 결정하는 요소들의 총체</strong>다.
+감리 품질(Audit Quality)은 <strong>감리 결과의 신뢰성과 유용성을 결정하는 요소들의 총체</strong>다.
 
-### [ISACA](/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) ITAF 감리 품질 3대 기준
+### ISACA ITAF 감리 품질 3대 기준
 
 | 기준         | 내용                               |
 |-----------|----------------------------------|
 | 독립성      | 피감기관과 이해관계 없음, 객관적 판단 |
-| 전문 역량   | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식·감리 방법론 숙련         |
+| 전문 역량   | 도메인 지식·감리 방법론 숙련         |
 | 정당한 주의 | 충분한 증거 수집·합리적 검토 과정    |
 
 📢 **섹션 요약 비유**: 감리 품질 3대 기준은 심판 자격이다 — 한 팀과 친하지 않고(독립성), 규칙을 잘 알고(전문성), 열심히 경기를 지켜봐야(정당한 주의) 좋은 심판이다.
@@ -30,7 +30,7 @@ weight: 34
 
 ## Ⅱ. 한국 IT 감리 품질 관리 체계
 
-### [감리 수행](/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) 절차
+### 감리 수행 절차
 
 ```
 감리 계획 -> 착수 검토 -> 감리 수행 -> 감리 보고 -> 후속 조치
@@ -39,17 +39,17 @@ weight: 34
 (발주기관 승인)  (문서 검토)   (인터뷰·테스트)  (권고사항)  (이행 확인)
 ```
 
-### [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/) 필수 항목
+### 감리 보고서 필수 항목
 
 | 항목             | 내용                        |
 |---------------|---------------------------|
 | 감리 개요       | 대상 범위·기간·감리원 현황    |
-| [감리 영역](/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)·기준  | [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/), [SPICE](/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/), [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기준 적용  |
+| 감리 영역·기준  | PMBOK, SPICE, EA 기준 적용  |
 | 감리 결과       | 조치 필요 사항·우수 사항     |
 | 권고 등급       | 시정·주의·권고·우수 4단계    |
-| 첨부 자료       | 감리 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)·증거 자료     |
+| 첨부 자료       | 감리 체크리스트·증거 자료     |
 
-📢 **섹션 요약 비유**: [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)는 의사 진단서다 — 어떤 검사를 어떻게 했고(감리 과정), 어디가 문제인지(결과), 어떻게 치료해야 하는지(권고사항)를 상세히 적는다.
+📢 **섹션 요약 비유**: 감리 보고서는 의사 진단서다 — 어떤 검사를 어떻게 했고(감리 과정), 어디가 문제인지(결과), 어떻게 치료해야 하는지(권고사항)를 상세히 적는다.
 
 ---
 
@@ -60,8 +60,8 @@ weight: 34
 | 구분           | 요건                               |
 |-------------|----------------------------------|
 | 감리원 자격증  | 한국IT감리협회 교육·시험 합격       |
-| 전문 분야     | SW개발·DB·NW·보안·[EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 등 분야별 자격 |
-| 지속 교육     | 연간 보수교육 이수 ([CPE](/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/))            |
+| 전문 분야     | SW개발·DB·NW·보안·EA 등 분야별 자격 |
+| 지속 교육     | 연간 보수교육 이수 (CPE)            |
 | 이해충돌 회피 | 최근 2년 내 동일 기관 관련 업무 금지 |
 
 📢 **섹션 요약 비유**: 감리원 자격은 의사 면허와 같다 — 자격증(면허), 전문 분야(내과·외과), 지속 교육(연수) 모두 필요하고, 친척 환자(이해충돌)는 진료하면 안 된다.
@@ -72,10 +72,10 @@ weight: 34
 
 | 위협 요소          | 사례                         | 대응 방법              |
 |-----------------|-----------------------------|-----------------------|
-| 독립성 위협       | 피감기관 납품업체 [감리 수행](/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)  | 이해충돌 자진 신고·회피 |
+| 독립성 위협       | 피감기관 납품업체 감리 수행  | 이해충돌 자진 신고·회피 |
 | 역량 미달         | 클라우드 전환 감리에 전문성 없음| 분야별 전문 감리원 투입|
 | 범위 제한         | 핵심 시스템 접근 거부         | 감리 방해 시 발주기관 보고|
-| 증거 은폐         | 문서 후삭제·수정             | 타임스탬프·[버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 증거|
+| 증거 은폐         | 문서 후삭제·수정             | 타임스탬프·버전 관리 증거|
 | 시간 압박         | 짧은 감리 일정으로 부실 수행  | 최소 감리 일수 기준 준수 |
 
 📢 **섹션 요약 비유**: 감리 품질 위협은 시험 부정행위다 — 감독관(감리원)이 수험생(피감기관)과 친하거나(독립성), 시험 내용을 모르거나(역량), 답안지를 못 보게 하면(증거 은폐) 공정한 시험이 안 된다.
@@ -86,13 +86,13 @@ weight: 34
 
 | 지표                  | 측정 방법                   |
 |--------------------|--------------------------|
-| 감리 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)           | 권고사항 중 실제 문제 발생 비율|
+| 감리 적중률           | 권고사항 중 실제 문제 발생 비율|
 | 이의신청 처리율       | 이의신청 중 수용된 비율      |
 | 감리 결과 이행률      | 권고사항 시정 완료 비율      |
 | 감리원 평가 점수      | 발주기관 만족도 조사          |
 | 재감리 발생율         | 동일 문제 재발 비율           |
 
-📢 **섹션 요약 비유**: 감리 KQI는 식당 별점이다 — 음식 맛([적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 친절도(만족도), 위생(이행률) 등 다양한 기준으로 식당(감리 품질)을 평가한다.
+📢 **섹션 요약 비유**: 감리 KQI는 식당 별점이다 — 음식 맛(적중률), 서비스 친절도(만족도), 위생(이행률) 등 다양한 기준으로 식당(감리 품질)을 평가한다.
 
 ---
 
@@ -146,15 +146,4 @@ weight: 34
 
 1. IT 감리는 건물 안전 검사다 — 건물(IT 시스템)이 설계대로 안전하게 지어졌는지 전문 검사관(감리원)이 확인한다.
 2. 감리원의 독립성은 심판의 중립성이다 — 어느 팀을 응원하지 않는 공정한 심판처럼, 감리원은 피감기관과 관계가 없어야 한다.
-3. [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)는 성적표다 — 잘한 것(우수), 개선이 필요한 것(권고·주의), 반드시 고쳐야 하는 것(시정)을 점수로 알려준다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 44 / 530
-
-<- **이전**: [웹 접근성 진단 (Web Accessibility Diagnosis)](/studynote/11_design_supervision/01_audit_framework/610_web_accessibility_diagnosis/)
-**다음**: [34. SW 개발보안 진단 (Secure Coding Diagnosis)](/studynote/11_design_supervision/01_audit_framework/611_sw_secure_coding_diagnosis/) ->
-
----
+3. 감리 보고서는 성적표다 — 잘한 것(우수), 개선이 필요한 것(권고·주의), 반드시 고쳐야 하는 것(시정)을 점수로 알려준다.

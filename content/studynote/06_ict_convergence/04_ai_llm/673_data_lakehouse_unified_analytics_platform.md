@@ -133,11 +133,3 @@ weight: 673
 
 **핵심 동작 원리 ②: 스키마 진화 & 강제 (Schema Evolution & Enforcement)**
 Delta Lake는 쓰기 시점에 스키마를 강제 검증(Schema Validation)하여 컬럼 누락/타입 불일치 시 `AnalysisException` 발생. 이후 `ALTER TABLE ... ADD
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 673 / 800
-
-<- **이전**: [672. 데이터 메시 분산 데이터 소유권](/studynote/06_ict_convergence/uncategorized/672_data_mesh_distributed_data_ownership/)
-**다음**: [674. 실시간 스트리밍 분석 Kafka Flink](/studynote/06_ict_convergence/uncategorized/674_real_time_streaming_analytics_kafka_flink/) ->
-
----

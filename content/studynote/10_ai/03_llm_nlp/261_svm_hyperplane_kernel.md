@@ -7,31 +7,31 @@ weight: 261
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 클래스를 구분하는 초평면(Hyperplane) 중 마진(Margin)이 최대인 것을 찾는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 경계면 근처의 극소수 포인트(서포트 벡터)만이 결정에 참여한다.
-> 2. **가치**: [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))을 통해 입력 공간을 고차원으로 암묵적으로 변환하여 비선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 선형 연산만으로 수행할 수 있다.
-> 3. **판단 포인트**: 슬랙 변수([Slack Variable](/studynote/10_ai/05_data_science_ml/367_svm_slack_variable/))와 C 파라미터로 소프트 마진(Soft Margin)을 조정하여 마진 크기와 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 오류 허용 사이의 트레이드오프를 제어한다.
+> 1. **본질**: SVM(Support Vector Machine)은 클래스를 구분하는 초평면(Hyperplane) 중 마진(Margin)이 최대인 것을 찾는 분류기로, 경계면 근처의 극소수 포인트(서포트 벡터)만이 결정에 참여한다.
+> 2. **가치**: 커널 트릭(Kernel Trick)을 통해 입력 공간을 고차원으로 암묵적으로 변환하여 비선형 분류를 선형 연산만으로 수행할 수 있다.
+> 3. **판단 포인트**: 슬랙 변수(Slack Variable)와 C 파라미터로 소프트 마진(Soft Margin)을 조정하여 마진 크기와 분류 오류 허용 사이의 트레이드오프를 제어한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SVM은 Vapnik과 Cortes(1995)가 제안한 [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, <strong>통계 학습 이론(Statistical <a href="/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Theory)</strong>에 기반한 가장 수학적으로 엄밀한 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 중 하나다.
+SVM은 Vapnik과 Cortes(1995)가 제안한 지도 학습 알고리즘으로, <strong>통계 학습 이론(Statistical Learning Theory)</strong>에 기반한 가장 수학적으로 엄밀한 분류기 중 하나다.
 
 **핵심 동기**: 두 클래스를 분리하는 초평면이 무수히 많을 때, 어느 것을 선택해야 하는가?
--> <strong>마진(Margin)이 가장 큰 초평면</strong>을 선택하면 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 높다.
+-> <strong>마진(Margin)이 가장 큰 초평면</strong>을 선택하면 일반화 성능이 가장 높다.
 
 SVM이 빛나는 상황:
-- 고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (특성 수 >> 샘플 수)
-- 명확한 마진 구분이 가능한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
-- 텍스트 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 이미지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) (딥러닝 이전)
-- 소규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 신뢰할 수 있는 경계 필요 시
+- 고차원 데이터 (특성 수 >> 샘플 수)
+- 명확한 마진 구분이 가능한 데이터
+- 텍스트 분류, 이미지 분류 (딥러닝 이전)
+- 소규모 데이터셋에서 신뢰할 수 있는 경계 필요 시
 
-| 비교 항목 | [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | [Logistic Regression](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) | 결정 트리 |
+| 비교 항목 | SVM | Logistic Regression | 결정 트리 |
 |:---|:---|:---|:---|
-| 결정 경계 | 최대 마진 초평면 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 선형 경계 | 축에 평행한 분할 |
-| 비선형 처리 | [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) | 특성 공학 필요 | 자연적으로 비선형 |
+| 결정 경계 | 최대 마진 초평면 | 확률 기반 선형 경계 | 축에 평행한 분할 |
+| 비선형 처리 | 커널 트릭 | 특성 공학 필요 | 자연적으로 비선형 |
 | 고차원 | 강함 | 중간 | 약함 |
-| [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 | 기본 없음 (Platt Scaling 별도) | 자연적 | 가능 |
+| 확률 출력 | 기본 없음 (Platt Scaling 별도) | 자연적 | 가능 |
 
 ```text
 +----------------------------------------------+
@@ -89,9 +89,9 @@ SVM이 빛나는 상황:
   +----------------------------------------+
 ```
 
-### [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))
+### 커널 트릭 (Kernel Trick)
 
-비선형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원으로 변환하지 않고, <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 함수(<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Function)</strong>를 통해 내적을 직접 계산한다.
+비선형 데이터를 고차원으로 변환하지 않고, <strong>커널 함수(Kernel Function)</strong>를 통해 내적을 직접 계산한다.
 
 ```
   원본 공간 (비선형 분리)      고차원 공간 (선형 분리)
@@ -104,16 +104,16 @@ SVM이 빛나는 상황:
   K(x_i, x_j) = φ(x_i)·φ(x_j)  <- 고차원 변환 없이 계산!
 ```
 
-### 주요 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수
+### 주요 커널 함수
 
-| [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 수식 | 적합 상황 |
+| 커널 | 수식 | 적합 상황 |
 |:---|:---|:---|
 | 선형 (Linear) | K(x,x') = x·x' | 선형 분리 가능, 고차원 텍스트 |
-| [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) ([Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) | K(x,x') = (γx·x'+r)^d | 중간 복잡도 비선형 패턴 |
+| 다항식 (Polynomial) | K(x,x') = (γx·x'+r)^d | 중간 복잡도 비선형 패턴 |
 | RBF/가우시안 (Radial Basis Function) | K(x,x') = exp(-γ‖x-x'‖^) | 가장 범용적, 기본값 |
-| [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | K(x,x') = [tanh](/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(γx·x'+r) | 신경망 유사 경계 |
+| 시그모이드 (Sigmoid) | K(x,x') = tanh(γx·x'+r) | 신경망 유사 경계 |
 
-- **📢 섹션 요약 비유**: [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 종이 위에 뒤섞인 콩과 쌀을 분리할 때, 종이를 3D로 구기면(고차원 변환) 층이 나뉘는 원리다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "구기는 과정을 수식으로 계산"하는 마법이다.
+- **📢 섹션 요약 비유**: 커널 트릭은 종이 위에 뒤섞인 콩과 쌀을 분리할 때, 종이를 3D로 구기면(고차원 변환) 층이 나뉘는 원리다. 커널은 "구기는 과정을 수식으로 계산"하는 마법이다.
 
 ---
 
@@ -140,13 +140,13 @@ SVM이 빛나는 상황:
   +----------------------------------------+
 ```
 
-| 지표 | [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 장점 | [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 단점 |
+| 지표 | SVM 장점 | SVM 단점 |
 |:---|:---|:---|
-| 고차원 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 강함 ([커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)) | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택이 어려움 |
-| 소규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 강함 | 대규모에서 느림 O(n^~n³) |
+| 고차원 성능 | 강함 (커널 트릭) | 커널 선택이 어려움 |
+| 소규모 데이터 | 강함 | 대규모에서 느림 O(n^~n³) |
 | 노이즈 내성 | 중간 | 노이즈가 많으면 서포트 벡터 불안정 |
-| [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 | 기본 없음 | Platt Scaling 별도 필요 |
-| 해석 가능성 | 낮음 ([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간) | 비선형 경계 해석 어려움 |
+| 확률 출력 | 기본 없음 | Platt Scaling 별도 필요 |
+| 해석 가능성 | 낮음 (커널 공간) | 비선형 경계 해석 어려움 |
 
 - **📢 섹션 요약 비유**: C 파라미터는 판사의 엄격함이다. 너무 엄격하면(C 큼) 억울한 오분류가 없지만 경직되고(과적합), 너무 관대하면(C 작음) 유연하지만 놓치는 게 많다(과소적합).
 
@@ -154,12 +154,12 @@ SVM이 빛나는 상황:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 적용 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### SVM 적용 전략
 
 1. **전처리 필수**: SVM은 특성 스케일에 민감 -> `StandardScaler` 적용
-2. <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 선택</strong>: 기본적으로 RBF 사용, 선형 분리 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 Linear 고려
+2. <strong>커널 선택</strong>: 기본적으로 RBF 사용, 선형 분리 가능성 확인 후 Linear 고려
 3. **하이퍼파라미터 탐색**: Grid Search로 C, γ 조합 탐색
-4. <strong>대규모 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `LinearSVC` (SGD 기반) 사용 -> O(n) 스케일
+4. <strong>대규모 데이터</strong>: `LinearSVC` (SGD 기반) 사용 -> O(n) 스케일
 
 ### SVM의 현재 위치
 
@@ -179,11 +179,11 @@ SVM이 빛나는 상황:
 
 ### 기술사 답안 포인트
 
-- **"서포트 벡터가 중요한 이유"**: 결정 경계를 결정하는 것은 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아닌 경계면 샘플들뿐 -> 메모리 효율적
-- <strong>"<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 선택 기준"</strong>: 특성 수가 샘플 수보다 많으면 Linear, 비선형 패턴이 있으면 RBF
+- **"서포트 벡터가 중요한 이유"**: 결정 경계를 결정하는 것은 전체 데이터 아닌 경계면 샘플들뿐 -> 메모리 효율적
+- <strong>"커널 선택 기준"</strong>: 특성 수가 샘플 수보다 많으면 Linear, 비선형 패턴이 있으면 RBF
 - **"SVM과 딥러닝 비교"**: 딥러닝은 특성 자동 추출, SVM은 이론적 보장이 강점
 
-- **📢 섹션 요약 비유**: SVM은 "두 나라 국경에 완충지대(마진)를 최대한 넓게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)"하는 협상가다. 중립 지대가 넓을수록 양쪽 분쟁(오분류)이 적어지지만, 새로운 영토 특성(비선형)에는 조약([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 필요하다.
+- **📢 섹션 요약 비유**: SVM은 "두 나라 국경에 완충지대(마진)를 최대한 넓게 설정"하는 협상가다. 중립 지대가 넓을수록 양쪽 분쟁(오분류)이 적어지지만, 새로운 영토 특성(비선형)에는 조약(커널)이 필요하다.
 
 ---
 
@@ -193,8 +193,8 @@ SVM을 올바르게 적용하면:
 
 1. **이론적 일반화 보장**: 마진 최대화는 VC 차원(Vapnik-Chervonenkis Dimension) 이론에 의해 과적합을 제어
 2. **고차원 강건성**: 특성이 수천 개여도 서포트 벡터만 메모리에 유지하므로 효율적
-3. **비선형 처리**: [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)으로 원본 공간에서 계산 불가능한 비선형 경계를 선형으로 해결
-4. **해석 가능 결정 경계**: 서포트 벡터를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 경계를 정의하는 핵심 샘플 파악
+3. **비선형 처리**: 커널 트릭으로 원본 공간에서 계산 불가능한 비선형 경계를 선형으로 해결
+4. **해석 가능 결정 경계**: 서포트 벡터를 확인하여 경계를 정의하는 핵심 샘플 파악
 
 - **📢 섹션 요약 비유**: SVM은 오래된 고전 무술처럼, 딥러닝이라는 현대 전투기에 밀렸지만 특정 상황(소규모, 고차원, 이론적 근거 필요)에서는 여전히 가장 우아하고 신뢰할 수 있는 선택이다.
 
@@ -204,12 +204,12 @@ SVM을 올바르게 적용하면:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) | 초평면, 마진 최대화 / 최대 마진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 |
-| 서포트 벡터 ([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector) | 마진 경계, 결정 샘플 / 경계를 결정하는 핵심 포인트 |
+| SVM (Support Vector Machine) | 초평면, 마진 최대화 / 최대 마진 분류기 |
+| 서포트 벡터 (Support Vector) | 마진 경계, 결정 샘플 / 경계를 결정하는 핵심 포인트 |
 | 마진 (Margin) | 2/‖w‖, 일반화 / 두 클래스 간 안전 거리 |
-| 슬랙 변수 ([Slack Variable](/studynote/10_ai/05_data_science_ml/367_svm_slack_variable/)) | ξ, 소프트 마진, C / 오분류 허용 메커니즘 |
-| [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)) | RBF, [Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/), 내적 / 비선형 -> 선형 변환 |
-| RBF [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Radial Basis Function) | γ, 가우시안 / 가장 범용적인 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) |
+| 슬랙 변수 (Slack Variable) | ξ, 소프트 마진, C / 오분류 허용 메커니즘 |
+| 커널 트릭 (Kernel Trick) | RBF, Polynomial, 내적 / 비선형 -> 선형 변환 |
+| RBF 커널 (Radial Basis Function) | γ, 가우시안 / 가장 범용적인 커널 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -221,15 +221,4 @@ SVM을 올바르게 적용하면:
 
 1. 두 팀이 운동장에서 나뉠 때, 중간에 선 하나를 긋는데 "양쪽에서 가장 멀리 있는 선"을 긋는 게 SVM이야.
 2. 그 선 근처에 있는 애들(서포트 벡터)만이 선 위치를 결정하고, 멀리 있는 애들은 상관없어!
-3. [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 "운동장 바닥이 구불구불해도 공중에서 보면 깔끔히 나뉘도록 만드는 마법"이야.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 261 / 420
-
-<- **이전**: [260. 부스팅 (Boosting)](/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/)
-**다음**: [262. K-NN (K-Nearest Neighbors)](/studynote/10_ai/03_llm_nlp/262_knn/) ->
-
----
+3. 커널 트릭은 "운동장 바닥이 구불구불해도 공중에서 보면 깔끔히 나뉘도록 만드는 마법"이야.

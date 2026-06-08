@@ -102,12 +102,3 @@ Sensor/CCTV/Weather/Report
 | AIOps | 이상 징후 탐지와 알림 운영 |
 | GIS | 공간 기반 위험 시각화 |
 | Privacy by Design | 영상/위치 데이터 보호 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 734 / 800
-
-<- **이전**: [733. 스마트 물관리 IoT 누수 탐지 수질](/studynote/06_ict_convergence/uncategorized/733_smart_water_management_iot_leak_detection/)
-**다음**: [735. 드론 군집 비행 무인 물류 배송](/studynote/06_ict_convergence/uncategorized/735_drone_swarm_flight_unmanned_logistics/) ->
-
----

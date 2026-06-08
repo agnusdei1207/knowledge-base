@@ -7,26 +7,26 @@ weight: 520
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [KDD](/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/)(Knowledge Discovery in Databases) 프로세스는 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유용한 지식을 발굴하는 단계적 절차이며, CRISP-DM(CRoss-Industry Standard [Process](/studynote/12_it_management/05_security_compliance/943_process/) for [Data Mining](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/))은 이를 비즈니스 맥락에서 실용화한 산업 표준 방법론이다.
-> 2. **가치**: [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/)([Association Rules](/studynote/16_bigdata/05_analysis/106_association_rules/))은 [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))·[신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))·[향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))의 세 지표로 규칙 품질을 평가하며, Apriori보다 메모리 효율적인 FP-Growth가 대규모 [장바구니 분석](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/)의 실무 표준이다.
-> 3. **판단 포인트**: [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) > 1이면 양의 연관, [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) = 1이면 독립, [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) < 1이면 음의 연관 — [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높지만 [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ≈ 1인 규칙은 아이템의 인기도에 불과하므로 반드시 [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)를 함께 확인해야 한다.
+> 1. **본질**: KDD(Knowledge Discovery in Databases) 프로세스는 원시 데이터에서 유용한 지식을 발굴하는 단계적 절차이며, CRISP-DM(CRoss-Industry Standard Process for Data Mining)은 이를 비즈니스 맥락에서 실용화한 산업 표준 방법론이다.
+> 2. **가치**: 연관 규칙(Association Rules)은 지지도(Support)·신뢰도(Confidence)·향상도(Lift)의 세 지표로 규칙 품질을 평가하며, Apriori보다 메모리 효율적인 FP-Growth가 대규모 장바구니 분석의 실무 표준이다.
+> 3. **판단 포인트**: Lift > 1이면 양의 연관, Lift = 1이면 독립, Lift < 1이면 음의 연관 — 신뢰도 높지만 Lift ≈ 1인 규칙은 아이템의 인기도에 불과하므로 반드시 향상도를 함께 확인해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터 마이닝](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)([Data Mining](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/))은 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 통계·기계학습·패턴 인식 기술을 통해 의미 있는 패턴, 규칙, 지식을 발굴하는 분석 과정이다.
+데이터 마이닝(Data Mining)은 대용량 데이터에서 통계·기계학습·패턴 인식 기술을 통해 의미 있는 패턴, 규칙, 지식을 발굴하는 분석 과정이다.
 
-### [KDD](/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) vs CRISP-DM 비교
+### KDD vs CRISP-DM 비교
 
-| 단계 | [KDD](/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) | CRISP-DM |
+| 단계 | KDD | CRISP-DM |
 |:---|:---|:---|
-| 1 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선택 ([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) | 비즈니스 이해 |
-| 2 | 전처리 (Preprocessing) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이해 |
-| 3 | 변환 (Transformation) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 |
+| 1 | 데이터 선택 (Selection) | 비즈니스 이해 |
+| 2 | 전처리 (Preprocessing) | 데이터 이해 |
+| 3 | 변환 (Transformation) | 데이터 준비 |
 | 4 | 마이닝 (Mining) | 모델링 |
 | 5 | 해석/평가 (Evaluation) | 평가 |
-| 6 | — | 배포 ([Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) |
+| 6 | — | 배포 (Deployment) |
 
 **차이점**: KDD는 학술 중심 선형 프로세스, CRISP-DM은 순환적(Iterative) 비즈니스 프로세스 — 평가 단계에서 비즈니스 이해로 되돌아가는 반복 구조.
 
@@ -36,7 +36,7 @@ weight: 520
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/) 세 지표
+### 연관 규칙 세 지표
 
 ```
 트랜잭션 예시: {우유, 빵, 기저귀, 맥주}
@@ -58,70 +58,70 @@ weight: 520
 
 | 기준 | Apriori | FP-Growth |
 |:---|:---|:---|
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 후보 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) + 빈도 검색 (너비 우선) | FP-Tree [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 구조 직접 탐색 |
-| [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스캔 | 매 단계 전체 스캔 | 2회 (트리 구축 + 탐색) |
+| 알고리즘 | 후보 생성 + 빈도 검색 (너비 우선) | FP-Tree 압축 구조 직접 탐색 |
+| 데이터베이스 스캔 | 매 단계 전체 스캔 | 2회 (트리 구축 + 탐색) |
 | 메모리 효율 | 낮음 (후보 폭발 문제) | 높음 |
 | 속도 | 느림 (대규모) | 빠름 |
 | 구현 단순성 | 단순 | 복잡 |
 
-**Apriori의 반단조성(Anti-Monotonicity) 원리**: [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ≥ 최솟값인 집합의 부분 집합도 반드시 [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ≥ 최솟값 -> 최솟값 미만 집합의 확장을 조기 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)).
+**Apriori의 반단조성(Anti-Monotonicity) 원리**: 지지도 ≥ 최솟값인 집합의 부분 집합도 반드시 지지도 ≥ 최솟값 -> 최솟값 미만 집합의 확장을 조기 가지치기(Pruning).
 
-- **📢 섹션 요약 비유**: Apriori는 모든 가능한 아이템 조합을 하나씩 살펴보는 것이고, FP-Growth는 먼저 "자주 같이 사는 것들"을 트리로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해서 나중에 한 번에 빠르게 탐색하는 지름길이야.
+- **📢 섹션 요약 비유**: Apriori는 모든 가능한 아이템 조합을 하나씩 살펴보는 것이고, FP-Growth는 먼저 "자주 같이 사는 것들"을 트리로 압축해서 나중에 한 번에 빠르게 탐색하는 지름길이야.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [데이터 마이닝](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 기법 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+### 데이터 마이닝 기법 분류
 
 | 목적 | 기법 | 활용 |
 |:---|:---|:---|
-| [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Classification](/studynote/12_it_management/03_ea_isp/107_classification/)) | 의사 결정 트리, [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/) | 고객 이탈 예측 |
-| [군집화](/studynote/16_bigdata/05_analysis/105_clustering_analysis/) ([Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) | K-Means, [DBSCAN](/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/), 계층적 | 고객 세분화 |
-| 연관 (Association) | Apriori, FP-Growth | [장바구니 분석](/studynote/16_bigdata/05_analysis/107_market_basket_analysis/) |
-| [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/)) | [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest, OCSVM | 사기 탐지 |
+| 분류 (Classification) | 의사 결정 트리, SVM, 랜덤 포레스트 | 고객 이탈 예측 |
+| 군집화 (Clustering) | K-Means, DBSCAN, 계층적 | 고객 세분화 |
+| 연관 (Association) | Apriori, FP-Growth | 장바구니 분석 |
+| 이상 탐지 (Anomaly) | Isolation Forest, OCSVM | 사기 탐지 |
 | 순차 패턴 (Sequential) | PrefixSpan, GSP | 클릭 시퀀스 분석 |
 
 ### 연속 규칙 vs 시퀀스 패턴
 
-- <strong><a href="/studynote/16_bigdata/05_analysis/106_association_rules/">연관 규칙</a></strong>: 순서 무관 — "기저귀와 맥주는 함께 산다."
+- <strong>연관 규칙</strong>: 순서 무관 — "기저귀와 맥주는 함께 산다."
 - **순차 패턴(Sequential Pattern)**: 순서 고려 — "상품 A 구매 후 7일 내 상품 B 구매."
 - **활용**: 전자상거래 구매 여정(Journey) 분석, 의료 치료 순서 최적화.
 
-- **📢 섹션 요약 비유**: [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/)은 "같은 장바구니에 담기는 물건들의 규칙"이고, 순차 패턴은 "어떤 물건을 산 다음에 무엇을 사는가"의 시간 흐름까지 본 거야. 마트 진열대 배치와 이메일 마케팅 타이밍에 각각 쓰여.
+- **📢 섹션 요약 비유**: 연관 규칙은 "같은 장바구니에 담기는 물건들의 규칙"이고, 순차 패턴은 "어떤 물건을 산 다음에 무엇을 사는가"의 시간 흐름까지 본 거야. 마트 진열대 배치와 이메일 마케팅 타이밍에 각각 쓰여.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong>시나리오 - 슈퍼마켓 <a href="/studynote/16_bigdata/05_analysis/107_market_basket_analysis/">장바구니 분석</a></strong>:
-- 100만 건 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 5,000개 아이템.
-- 최소 [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) 0.01 (1%), 최소 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 0.3 (30%).
+<strong>시나리오 - 슈퍼마켓 장바구니 분석</strong>:
+- 100만 건 트랜잭션, 5,000개 아이템.
+- 최소 지지도 0.01 (1%), 최소 신뢰도 0.3 (30%).
 - FP-Growth 적용 -> 스캔 2회, Apriori 대비 8배 빠른 처리.
-- 규칙 발굴: {기저귀, 분유} -> {아기 물티슈}, [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)=0.023, [Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)=0.67, [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.4.
-- [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=3.4 -> 기저귀+분유 구매자가 아기 물티슈를 구매할 확률이 일반 고객 대비 3.4배 -> 매장 진열 위치 변경 -> 해당 카테고리 매출 22% 증가.
+- 규칙 발굴: {기저귀, 분유} -> {아기 물티슈}, Support=0.023, Confidence=0.67, Lift=3.4.
+- Lift=3.4 -> 기저귀+분유 구매자가 아기 물티슈를 구매할 확률이 일반 고객 대비 3.4배 -> 매장 진열 위치 변경 -> 해당 카테고리 매출 22% 증가.
 
 **지표 함정 경고**:
-- {우유} -> {빵}: [Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)=0.75, [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)=1.02 -> 빵의 전체 구매율이 73%로 높기 때문에 의미 없는 규칙.
+- {우유} -> {빵}: Confidence=0.75, Lift=1.02 -> 빵의 전체 구매율이 73%로 높기 때문에 의미 없는 규칙.
 - Lift가 1에 가까우면 규칙을 사용하지 않는 것이 낫다.
 
 **기술사 판단 포인트**:
-- 최솟값 임계 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/): 너무 낮으면 규칙 폭발, 너무 높으면 유용한 규칙 누락 -> [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가 협업 필수.
-- 대규모 처리: Spark MLlib의 FP-Growth [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리로 수억 건 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 가능.
+- 최솟값 임계 설정: 너무 낮으면 규칙 폭발, 너무 높으면 유용한 규칙 누락 -> 도메인 전문가 협업 필수.
+- 대규모 처리: Spark MLlib의 FP-Growth 분산 처리로 수억 건 트랜잭션 처리 가능.
 
-- **📢 섹션 요약 비유**: [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))는 규칙의 진짜 가치를 알려주는 지표야. 빵이 워낙 많이 팔리니까 "우유를 사면 빵도 산다"는 규칙은 사실 별로 유용하지 않아. Lift가 1보다 훨씬 커야 진짜 유용한 규칙이야.
+- **📢 섹션 요약 비유**: 향상도(Lift)는 규칙의 진짜 가치를 알려주는 지표야. 빵이 워낙 많이 팔리니까 "우유를 사면 빵도 산다"는 규칙은 사실 별로 유용하지 않아. Lift가 1보다 훨씬 커야 진짜 유용한 규칙이야.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[KDD](/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/)/CRISP-DM 프로세스와 [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/) 마이닝의 체계적 적용은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 숨겨진 패턴을 발굴해 마케팅·재고 관리·개인화 서비스의 효율을 높인다.
+KDD/CRISP-DM 프로세스와 연관 규칙 마이닝의 체계적 적용은 데이터에 숨겨진 패턴을 발굴해 마케팅·재고 관리·개인화 서비스의 효율을 높인다.
 
 - **매출 최적화**: 교차 판매(Cross-Selling) 기회 발굴 -> 객단가 증가.
 - **재고 배치 개선**: 자주 함께 구매되는 아이템의 물리적 근접 배치 -> 구매 편의성 향상.
 - **마케팅 자동화**: 구매 시퀀스 기반 맞춤형 프로모션 타이밍 최적화.
 
-- **📢 섹션 요약 비유**: [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/) 마이닝은 쇼핑몰의 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 대신 영수증 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 "손님들이 어떤 물건을 함께 사는지"의 숨겨진 법칙을 찾아내서 매장 운영에 활용하는 탐정 작업이야.
+- **📢 섹션 요약 비유**: 연관 규칙 마이닝은 쇼핑몰의 CCTV 영상 대신 영수증 데이터로 "손님들이 어떤 물건을 함께 사는지"의 숨겨진 법칙을 찾아내서 매장 운영에 활용하는 탐정 작업이야.
 
 ---
 
@@ -129,10 +129,10 @@ weight: 520
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [KDD](/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) | CRISP-DM, [데이터 마이닝](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 절차 · 분석 방법론 |
-| Apriori | 반단조성, [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) · 소규모 규칙 탐색 |
+| KDD | CRISP-DM, 데이터 마이닝 절차 · 분석 방법론 |
+| Apriori | 반단조성, 지지도 가지치기 · 소규모 규칙 탐색 |
 | FP-Growth | FP-Tree, 메모리 효율 · 대규모 장바구니 |
-| [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)/[Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)/[Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) | 규칙 평가 지표 · 유용 규칙 선별 |
+| Support/Confidence/Lift | 규칙 평가 지표 · 유용 규칙 선별 |
 | 순차 패턴 | PrefixSpan, 구매 여정 · 시간 순서 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -143,17 +143,6 @@ weight: 520
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [연관 규칙](/studynote/16_bigdata/05_analysis/106_association_rules/)은 편의점에서 "라면을 사는 사람은 달걀도 같이 사는 경우가 많다"는 패턴을 찾는 거야.
-2. [지지도](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)는 얼마나 자주 같이 사는지, [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 라면 산 사람 중 달걀도 산 비율, [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)는 "그냥 달걀 사는 것보다 얼마나 더 자주 같이 사는지"야.
-3. [향상도](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)가 1보다 커야 진짜 유용한 규칙이야 — 그냥 인기 많은 물건은 어디서나 잘 팔리니까!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 520 / 552
-
-<- **이전**: [519. 협업 필터링, 콜드 스타트, 추천 시스템 (Collaborative Filtering Cold Start Recommendation)](/studynote/06_ict_convergence/05_data_science/519_collaborative_filtering_cold_start_recommendation/)
-**다음**: [521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)](/studynote/06_ict_convergence/uncategorized/521_homomorphic_encryption_post_quantum_crypto/) ->
-
----
+1. 연관 규칙은 편의점에서 "라면을 사는 사람은 달걀도 같이 사는 경우가 많다"는 패턴을 찾는 거야.
+2. 지지도는 얼마나 자주 같이 사는지, 신뢰도는 라면 산 사람 중 달걀도 산 비율, 향상도는 "그냥 달걀 사는 것보다 얼마나 더 자주 같이 사는지"야.
+3. 향상도가 1보다 커야 진짜 유용한 규칙이야 — 그냥 인기 많은 물건은 어디서나 잘 팔리니까!

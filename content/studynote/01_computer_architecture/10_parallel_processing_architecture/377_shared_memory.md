@@ -7,19 +7,19 @@ weight: 377
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템 ([Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/))은 여러 프로세서가 하나의 전역 주소 공간을 함께 바라보며, `load/store`만으로 협력할 수 있게 만드는 강결합 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.
-> 2. **가치**: [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)보다 프로그래밍 모델이 단순하고 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 짧아, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)·[데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)·멀티스레드 서버처럼 긴밀한 협력이 필요한 작업에 특히 강하다.
-> 3. **판단 포인트**: 코어 수가 늘수록 병목은 계산보다 공유에서 발생하므로, 성능의 핵심은 "메모리를 함께 쓰느냐"보다 "[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 경합을 어떻게 통제하느냐"에 있다.
+> 1. **본질**: 공유 메모리 시스템 (Shared Memory)은 여러 프로세서가 하나의 전역 주소 공간을 함께 바라보며, `load/store`만으로 협력할 수 있게 만드는 강결합 병렬 처리 구조다.
+> 2. **가치**: 메시지 전달보다 프로그래밍 모델이 단순하고 지연시간이 짧아, 운영체제 커널·데이터베이스·멀티스레드 서버처럼 긴밀한 협력이 필요한 작업에 특히 강하다.
+> 3. **판단 포인트**: 코어 수가 늘수록 병목은 계산보다 공유에서 발생하므로, 성능의 핵심은 "메모리를 함께 쓰느냐"보다 "일관성과 경합을 어떻게 통제하느냐"에 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템 ([Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/))은 두 개 이상의 프로세서가 하나의 메인 메모리 (RAM, Random Access Memory)를 공동으로 사용하도록 구성한 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨터 구조다. 핵심은 각 프로세서가 같은 주소를 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 해석한다는 점이다. 즉 코어 0이 `0x1000`에 쓴 값을 코어 1도 같은 `0x1000`에서 읽을 수 있으므로, 별도의 네트워크 메시지 없이도 협력이 가능하다.
+공유 메모리 시스템 (Shared Memory)은 두 개 이상의 프로세서가 하나의 메인 메모리 (RAM, Random Access Memory)를 공동으로 사용하도록 구성한 병렬 컴퓨터 구조다. 핵심은 각 프로세서가 같은 주소를 같은 데이터로 해석한다는 점이다. 즉 코어 0이 `0x1000`에 쓴 값을 코어 1도 같은 `0x1000`에서 읽을 수 있으므로, 별도의 네트워크 메시지 없이도 협력이 가능하다.
 
-이 구조가 필요해진 이유는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그램의 실제 비용이 계산 그 자체보다 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 교환</strong>에서 더 크게 발생하기 때문이다. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리처럼 매번 메시지를 포장하고 전송하고 복사하면 프로그래밍은 복잡해지고, 짧은 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 이나 빈번한 상태 공유에는 오히려 통신비가 더 비싸진다. 반대로 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 들이 하나의 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/), 큐, [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 함께 다루는 상황에서 매우 자연스럽다.
+이 구조가 필요해진 이유는 병렬 프로그램의 실제 비용이 계산 그 자체보다 <strong>데이터 교환</strong>에서 더 크게 발생하기 때문이다. 분산 메모리처럼 매번 메시지를 포장하고 전송하고 복사하면 프로그래밍은 복잡해지고, 짧은 임계 구역 (Critical Section) 이나 빈번한 상태 공유에는 오히려 통신비가 더 비싸진다. 반대로 공유 메모리는 스레드 (Thread) 들이 하나의 배열, 큐, 페이지 테이블을 함께 다루는 상황에서 매우 자연스럽다.
 
-아래 그림은 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 왜 "통신을 메모리 접근으로 바꾸는 구조"인지 보여준다.
+아래 그림은 공유 메모리가 왜 "통신을 메모리 접근으로 바꾸는 구조"인지 보여준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -32,25 +32,25 @@ weight: 377
 +----------------------------------------------------------------------+
 ```
 
-이 단순함 덕분에 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing), [멀티코어 프로세서](/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/), [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조의 기본 토대가 되었다. 다만 편리하다는 말은 곧 "여러 주체가 같은 자원을 동시에 건드린다"는 뜻이기도 하므로, 처음부터 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제가 함께 따라온다.
+이 단순함 덕분에 공유 메모리는 대칭형 다중 처리 (SMP, Symmetric Multiprocessing), 멀티코어 프로세서, 병렬 데이터 구조의 기본 토대가 되었다. 다만 편리하다는 말은 곧 "여러 주체가 같은 자원을 동시에 건드린다"는 뜻이기도 하므로, 처음부터 동기화와 일관성 문제가 함께 따라온다.
 
-- **📢 섹션 요약 비유**: [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 여러 사람이 서로 문자를 보내는 대신, 교실 앞 칠판 하나를 같이 보는 방식이다. 소통은 빨라지지만, 동시에 분필을 들고 달려들면 칠판이 엉망이 된다.
+- **📢 섹션 요약 비유**: 공유 메모리는 여러 사람이 서로 문자를 보내는 대신, 교실 앞 칠판 하나를 같이 보는 방식이다. 소통은 빨라지지만, 동시에 분필을 들고 달려들면 칠판이 엉망이 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템의 내부는 단순히 "메모리 하나를 같이 쓴다"로 끝나지 않는다. 실제로는 프로세서, 캐시, 인터커넥트, 메모리 컨트롤러, [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 연산이 함께 맞물려야 한다. 특히 현대 시스템에서는 CPU (Central Processing Unit) 가 매 접근마다 메인 메모리로 가지 않도록 개인 캐시를 먼저 사용하므로, 공유 자체보다 <strong>캐시를 둔 공유</strong>가 핵심 설계 과제가 된다.
+공유 메모리 시스템의 내부는 단순히 "메모리 하나를 같이 쓴다"로 끝나지 않는다. 실제로는 프로세서, 캐시, 인터커넥트, 메모리 컨트롤러, 동기화 연산이 함께 맞물려야 한다. 특히 현대 시스템에서는 CPU (Central Processing Unit) 가 매 접근마다 메인 메모리로 가지 않도록 개인 캐시를 먼저 사용하므로, 공유 자체보다 <strong>캐시를 둔 공유</strong>가 핵심 설계 과제가 된다.
 
 | 구성 요소 | 역할 | 설계 핵심 |
 | :-- | :-- | :-- |
-| 전역 주소 공간 (Global Address Space) | 모든 코어가 같은 주소 체계를 공유 | 주소 해석의 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
-| [캐시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) ([Cache Memory](/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)) | 메모리 접근 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄임 | 복사본 불일치 방지 |
-| 인터커넥트 (Interconnect) | 코어와 메모리를 연결 | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 확장성 |
-| 원자적 연산 (Atomic [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) | 공유 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신을 안전하게 수행 | 락, 비교 후 교환 |
-| [메모리 일관성 모델](/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) ([Memory Consistency Model](/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/)) | 어떤 순서로 값이 보이는지 규정 | 가시성, 재정렬 제어 |
+| 전역 주소 공간 (Global Address Space) | 모든 코어가 같은 주소 체계를 공유 | 주소 해석의 일관성 |
+| 캐시 메모리 (Cache Memory) | 메모리 접근 지연을 줄임 | 복사본 불일치 방지 |
+| 인터커넥트 (Interconnect) | 코어와 메모리를 연결 | 대역폭, 지연시간, 확장성 |
+| 원자적 연산 (Atomic Operation) | 공유 데이터 갱신을 안전하게 수행 | 락, 비교 후 교환 |
+| 메모리 일관성 모델 (Memory Consistency Model) | 어떤 순서로 값이 보이는지 규정 | 가시성, 재정렬 제어 |
 
-다음 그림은 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)에서 성능과 정확성이 동시에 걸려 있는 지점을 보여준다.
+다음 그림은 공유 메모리에서 성능과 정확성이 동시에 걸려 있는 지점을 보여준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -67,29 +67,29 @@ weight: 377
 +----------------------------------------------------------------------+
 ```
 
-이 그림의 포인트는 코어가 메모리를 직접만 보는 것이 아니라, 대부분은 자기 캐시의 복사본을 먼저 본다는 점이다. 그래서 코어 0이 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하면 코어 1의 오래된 복사본을 어떻게 무효화할지 정해져 있어야 한다. 이를 위해 MESI (Modified, Exclusive, Shared, Invalid) 같은 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜이 쓰이며, [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 사실상 <strong>메모리 공유 + 캐시 조정 메커니즘</strong>의 결합체라고 보는 편이 정확하다.
+이 그림의 포인트는 코어가 메모리를 직접만 보는 것이 아니라, 대부분은 자기 캐시의 복사본을 먼저 본다는 점이다. 그래서 코어 0이 어떤 데이터를 수정하면 코어 1의 오래된 복사본을 어떻게 무효화할지 정해져 있어야 한다. 이를 위해 MESI (Modified, Exclusive, Shared, Invalid) 같은 캐시 일관성 프로토콜이 쓰이며, 공유 메모리는 사실상 <strong>메모리 공유 + 캐시 조정 메커니즘</strong>의 결합체라고 보는 편이 정확하다.
 
-또 하나의 핵심은 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)다. 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 같은 카운터를 동시에 증가시키면 읽기-수정-[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서가 겹치며 값이 사라질 수 있다. 이를 막기 위해 락 ([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)), [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/)), 비교 후 교환 ([CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/), [Compare-And-Swap](/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)), [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 같은 장치가 사용된다. 즉 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 빠른 협력은 언제나 "자유 접근"이 아니라 "통제된 접근" 위에서만 성립한다.
+또 하나의 핵심은 동기화다. 여러 스레드가 같은 카운터를 동시에 증가시키면 읽기-수정-쓰기 순서가 겹치며 값이 사라질 수 있다. 이를 막기 위해 락 (Lock), 세마포어 (Semaphore), 비교 후 교환 (CAS, Compare-And-Swap), 메모리 배리어 (Memory Barrier) 같은 장치가 사용된다. 즉 공유 메모리의 빠른 협력은 언제나 "자유 접근"이 아니라 "통제된 접근" 위에서만 성립한다.
 
-- **📢 섹션 요약 비유**: [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 창고 하나를 같이 쓰는 물류센터와 같다. 물건을 빨리 꺼내려면 각자 손에 메모장(캐시)을 들고 다녀야 하지만, 누가 재고를 바꿨는지 서로 즉시 알려주지 않으면 재고표가 금세 틀어진다.
+- **📢 섹션 요약 비유**: 공유 메모리는 창고 하나를 같이 쓰는 물류센터와 같다. 물건을 빨리 꺼내려면 각자 손에 메모장(캐시)을 들고 다녀야 하지만, 누가 재고를 바꿨는지 서로 즉시 알려주지 않으면 재고표가 금세 틀어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 제대로 이해하려면 [분산 메모리 시스템](/studynote/01_computer_architecture/10_parallel_processing_architecture/378_distributed_memory/) ([Distributed Memory](/studynote/01_computer_architecture/10_parallel_processing_architecture/378_distributed_memory/)) 과 대비해서 봐야 한다. 두 구조의 차이는 단순히 "메모리를 함께 쓰느냐 아니냐"가 아니라, <strong>협력의 비용을 하드웨어가 대신 감당하느냐, 소프트웨어가 직접 감당하느냐</strong>의 차이다.
+공유 메모리를 제대로 이해하려면 분산 메모리 시스템 (Distributed Memory) 과 대비해서 봐야 한다. 두 구조의 차이는 단순히 "메모리를 함께 쓰느냐 아니냐"가 아니라, <strong>협력의 비용을 하드웨어가 대신 감당하느냐, 소프트웨어가 직접 감당하느냐</strong>의 차이다.
 
-| 비교 항목 | [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템 | [분산 메모리 시스템](/studynote/01_computer_architecture/10_parallel_processing_architecture/378_distributed_memory/) |
+| 비교 항목 | 공유 메모리 시스템 | 분산 메모리 시스템 |
 | :-- | :-- | :-- |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 방식 | 같은 주소를 읽고 씀 | [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) ([Message Passing](/studynote/02_operating_system/02_process_thread/119_message_passing/)) |
-| 프로그래밍 모델 | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중심, 주소 공유 | 프로세스/노드 중심, 주소 분리 |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성 | 매우 낮음, 세밀한 협력에 유리 | 통신 비용 큼, 대규모 확장에 유리 |
-| 주요 문제 | 경합, [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [거짓 공유](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) | [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치, [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
-| 대표 구조 | [SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), [UMA](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/), [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) | 클러스터, 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 (MPP, Massively Parallel Processing), [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 인터페이스 (MPI, [Message Passing Interface](/studynote/06_ict_convergence/03_cloud_infrastructure/227_mpi_message_passing_interface_distributed_computing/)) 기반 시스템 |
+| 데이터 교환 방식 | 같은 주소를 읽고 씀 | 메시지 전달 (Message Passing) |
+| 프로그래밍 모델 | 스레드 중심, 주소 공유 | 프로세스/노드 중심, 주소 분리 |
+| 지연 특성 | 매우 낮음, 세밀한 협력에 유리 | 통신 비용 큼, 대규모 확장에 유리 |
+| 주요 문제 | 경합, 캐시 일관성, 거짓 공유 | 네트워크 지연, 데이터 배치, 복제 |
+| 대표 구조 | SMP, UMA, NUMA | 클러스터, 대규모 병렬 처리 (MPP, Massively Parallel Processing), 메시지 전달 인터페이스 (MPI, Message Passing Interface) 기반 시스템 |
 
-또한 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 내부에서도 구조가 나뉜다. 균일 메모리 접근 ([UMA](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/), [Uniform Memory Access](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/))은 어느 메모리 위치든 접근 시간이 거의 같고, 비균일 메모리 접근 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/))은 자기 노드 메모리는 빠르지만 원격 노드 메모리는 더 느리다. 따라서 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 "항상 단일하고 평평한 속도"를 보장하는 개념이 아니라, <strong>논리적으로는 공유되지만 물리적으로는 점점 계층화되는 구조</strong>로 진화해 왔다.
+또한 공유 메모리 내부에서도 구조가 나뉜다. 균일 메모리 접근 (UMA, Uniform Memory Access)은 어느 메모리 위치든 접근 시간이 거의 같고, 비균일 메모리 접근 (NUMA, Non-Uniform Memory Access)은 자기 노드 메모리는 빠르지만 원격 노드 메모리는 더 느리다. 따라서 공유 메모리는 "항상 단일하고 평평한 속도"를 보장하는 개념이 아니라, <strong>논리적으로는 공유되지만 물리적으로는 점점 계층화되는 구조</strong>로 진화해 왔다.
 
-이 연결은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍에서도 중요하다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 스케줄러를 통해 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 어느 코어에 배치할지 정하고, 프로그래밍 언어 런타임은 뮤텍스 ([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)), [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) ([Monitor](/studynote/02_operating_system/04_synchronization/229_monitor/)), 원자 변수 같은 추상화를 제공한다. 결국 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 하드웨어 개념이면서 동시에 소프트웨어 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델의 출발점이다.
+이 연결은 운영체제와 병렬 프로그래밍에서도 중요하다. 운영체제는 스케줄러를 통해 스레드를 어느 코어에 배치할지 정하고, 프로그래밍 언어 런타임은 뮤텍스 (Mutex), 모니터 (Monitor), 원자 변수 같은 추상화를 제공한다. 결국 공유 메모리는 하드웨어 개념이면서 동시에 소프트웨어 동시성 모델의 출발점이다.
 
 ```text
 공유 메모리
@@ -104,33 +104,33 @@ weight: 377
          +- UMA -> NUMA -> 분산 메모리 보완
 ```
 
-- **📢 섹션 요약 비유**: [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 한 사무실에서 같은 화이트보드를 같이 쓰는 방식이고, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리는 각자 다른 사무실에서 메일로 자료를 주고받는 방식이다. 전자는 협업이 빠르고, 후자는 인원이 커져도 덜 막힌다.
+- **📢 섹션 요약 비유**: 공유 메모리는 한 사무실에서 같은 화이트보드를 같이 쓰는 방식이고, 분산 메모리는 각자 다른 사무실에서 메일로 자료를 주고받는 방식이다. 전자는 협업이 빠르고, 후자는 인원이 커져도 덜 막힌다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 "빠르다"는 이유만으로 선택하면 안 된다. 공유 빈도가 높고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합도가 큰 작업에는 적합하지만, 코어 수 증가에 따라 락 경합과 캐시 무효화가 급증하면 오히려 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 사라진다. 따라서 설계자는 계산량보다 <strong>공유 패턴</strong>을 먼저 봐야 한다.
+실무에서 공유 메모리는 "빠르다"는 이유만으로 선택하면 안 된다. 공유 빈도가 높고 데이터 결합도가 큰 작업에는 적합하지만, 코어 수 증가에 따라 락 경합과 캐시 무효화가 급증하면 오히려 병렬성이 사라진다. 따라서 설계자는 계산량보다 <strong>공유 패턴</strong>을 먼저 봐야 한다.
 
 ### 실무 판단 기준
 
 1. **자주 공유하는 상태가 있는가**
-   [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블, 작업 큐, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조처럼 짧은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 상태를 즉시 반영해야 하면 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 유리하다.
+   세션 테이블, 작업 큐, 커널 자료구조처럼 짧은 지연으로 상태를 즉시 반영해야 하면 공유 메모리가 유리하다.
 2. **락 경합이 성능을 잠식하는가**
-   전역 락 하나에 수십 개 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 몰리면 코어를 늘려도 처리량이 거의 오르지 않는다.
+   전역 락 하나에 수십 개 스레드가 몰리면 코어를 늘려도 처리량이 거의 오르지 않는다.
 3. **캐시 친화적으로 배치했는가**
-   [거짓 공유](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) 가 발생하면 논리적으로 다른 변수도 같은 캐시 라인 때문에 서로 방해한다.
-4. <strong><a href="/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 지역성을 고려했는가</strong>
-   큰 서버에서는 메모리가 공유되어도 "가까운 메모리"와 "먼 메모리"의 차이가 커서, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 핀닝과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 중요하다.
+   거짓 공유 (False Sharing) 가 발생하면 논리적으로 다른 변수도 같은 캐시 라인 때문에 서로 방해한다.
+4. <strong>NUMA 지역성을 고려했는가</strong>
+   큰 서버에서는 메모리가 공유되어도 "가까운 메모리"와 "먼 메모리"의 차이가 커서, 스레드 핀닝과 데이터 배치가 중요하다.
 
-### 대표 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 대표 안티패턴
 
-- 모든 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하나의 전역 큐만 두드리는 구조
+- 모든 스레드가 하나의 전역 큐만 두드리는 구조
 - 읽기 비중이 높은데도 무거운 배타 락만 사용하는 구조
 - 원자성과 가시성 차이를 구분하지 않고 `volatile` 성격의 문제를 락으로만 해결하려는 구조
-- [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 서버에서 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 메모리를 무작위로 떠돌게 하는 구조
+- NUMA 서버에서 스레드와 메모리를 무작위로 떠돌게 하는 구조
 
-아래 진단 흐름은 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 병목을 어디서 봐야 하는지 요약한다.
+아래 진단 흐름은 공유 메모리 병목을 어디서 봐야 하는지 요약한다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -146,21 +146,21 @@ weight: 377
 +----------------------------------------------------------------------+
 ```
 
-기술사 관점에서의 핵심 판단은 명확하다. <strong><a href="/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>는 협력을 빠르게 만들지만, 협력의 규칙을 설계하지 않으면 가장 먼저 무너지는 구조</strong>다. 따라서 채택 질문은 "공유 가능한가"가 아니라 "공유를 통제할 수 있는가"여야 한다.
+기술사 관점에서의 핵심 판단은 명확하다. <strong>공유 메모리는 협력을 빠르게 만들지만, 협력의 규칙을 설계하지 않으면 가장 먼저 무너지는 구조</strong>다. 따라서 채택 질문은 "공유 가능한가"가 아니라 "공유를 통제할 수 있는가"여야 한다.
 
-- **📢 섹션 요약 비유**: [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 넓은 주방 하나를 여러 요리사가 함께 쓰는 것과 같다. 재료가 한곳에 있어 편하지만, 칼 한 자루와 도마 하나만 두면 요리사가 많을수록 오히려 더 느려진다.
+- **📢 섹션 요약 비유**: 공유 메모리는 넓은 주방 하나를 여러 요리사가 함께 쓰는 것과 같다. 재료가 한곳에 있어 편하지만, 칼 한 자루와 도마 하나만 두면 요리사가 많을수록 오히려 더 느려진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템의 가장 큰 효과는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍의 진입 장벽을 낮춘다는 점이다. 같은 주소 공간을 기준으로 생각할 수 있으므로, 개발자는 메시지 포맷보다 자료구조와 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규칙에 집중할 수 있다. 이 특성 덕분에 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀, 실시간 분석 엔진, 멀티스레드 애플리케이션이 높은 응답성을 확보할 수 있다.
+공유 메모리 시스템의 가장 큰 효과는 병렬 프로그래밍의 진입 장벽을 낮춘다는 점이다. 같은 주소 공간을 기준으로 생각할 수 있으므로, 개발자는 메시지 포맷보다 자료구조와 동기화 규칙에 집중할 수 있다. 이 특성 덕분에 운영체제 커널, 데이터베이스 버퍼 풀, 실시간 분석 엔진, 멀티스레드 애플리케이션이 높은 응답성을 확보할 수 있다.
 
-하지만 효과는 전제조건이 있을 때만 나온다. [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 트래픽을 감당할 인터커넥트가 필요하고, 공유 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 읽기 중심인지 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 중심인지에 따라 배치가 달라져야 하며, 코어 수가 커질수록 순수 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)만으로는 확장성이 급격히 떨어진다. 그래서 현대 시스템은 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 완전히 버리기보다, [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 최적화·[샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)·메시지 패싱·[CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장처럼 하이브리드 방향으로 진화하고 있다.
+하지만 효과는 전제조건이 있을 때만 나온다. 캐시 일관성 트래픽을 감당할 인터커넥트가 필요하고, 공유 데이터는 읽기 중심인지 쓰기 중심인지에 따라 배치가 달라져야 하며, 코어 수가 커질수록 순수 공유 메모리만으로는 확장성이 급격히 떨어진다. 그래서 현대 시스템은 공유 메모리를 완전히 버리기보다, NUMA 최적화·샤딩·메시지 패싱·CXL (Compute Express Link) 기반 메모리 확장처럼 하이브리드 방향으로 진화하고 있다.
 
 결국 이 개념은 "메모리를 같이 쓴다"보다 "한 시스템 안에서 협력 비용을 가장 낮게 만드는 방법"으로 기억해야 한다. 작은 규모에서는 최고의 생산성을 주지만, 큰 규모로 갈수록 공유의 범위를 줄이고 지역성을 살리는 설계가 함께 따라와야 한다.
 
-- **📢 섹션 요약 비유**: [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 팀원 모두가 같은 작업대를 쓸 수 있게 해 주는 강력한 도구다. 다만 팀이 커질수록 작업대를 무한히 키우기보다, 공용 공간은 최소화하고 각자 맡은 구역을 똑똑하게 나누는 편이 오래 버틴다.
+- **📢 섹션 요약 비유**: 공유 메모리는 팀원 모두가 같은 작업대를 쓸 수 있게 해 주는 강력한 도구다. 다만 팀이 커질수록 작업대를 무한히 키우기보다, 공용 공간은 최소화하고 각자 맡은 구역을 똑똑하게 나누는 편이 오래 버틴다.
 
 ---
 
@@ -168,13 +168,13 @@ weight: 377
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [다중 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) ([Multiprocessor](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)) | 여러 프로세서가 협력하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템의 상위 개념 |
-| [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing) | [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 기반으로 모든 프로세서가 대등하게 동작하는 대표 구조 |
-| 균일 메모리 접근 ([UMA](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/), [Uniform Memory Access](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/)) | 모든 메모리 접근 시간이 거의 같은 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 형태 |
-| 비균일 메모리 접근 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) | 논리적으로 공유되지만 물리적 위치에 따라 접근 시간이 다른 구조 |
-| [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) | 여러 캐시 복사본의 값이 어긋나지 않도록 보장하는 메커니즘 |
-| 경합 조건 ([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) | [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 공유 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 갱신할 때 발생하는 오류 |
-| [거짓 공유](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) | 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정해도 같은 캐시 라인 때문에 서로 간섭하는 현상 |
+| 다중 프로세서 (Multiprocessor) | 여러 프로세서가 협력하는 병렬 시스템의 상위 개념 |
+| 대칭형 다중 처리 (SMP, Symmetric Multiprocessing) | 공유 메모리를 기반으로 모든 프로세서가 대등하게 동작하는 대표 구조 |
+| 균일 메모리 접근 (UMA, Uniform Memory Access) | 모든 메모리 접근 시간이 거의 같은 공유 메모리 형태 |
+| 비균일 메모리 접근 (NUMA, Non-Uniform Memory Access) | 논리적으로 공유되지만 물리적 위치에 따라 접근 시간이 다른 구조 |
+| 캐시 일관성 (Cache Coherence) | 여러 캐시 복사본의 값이 어긋나지 않도록 보장하는 메커니즘 |
+| 경합 조건 (Race Condition) | 동기화 없이 공유 데이터를 동시에 갱신할 때 발생하는 오류 |
+| 거짓 공유 (False Sharing) | 다른 데이터를 수정해도 같은 캐시 라인 때문에 서로 간섭하는 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -199,21 +199,10 @@ NUMA / False Sharing / Lock Contention
 하이브리드 확장 (Sharding, Message Passing, CXL)
 ```
 
-이 흐름은 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 "단순한 공동 사용"에서 시작해, 코어 확장과 함께 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·지역성·하이브리드 구조의 문제로 발전해 가는 과정을 보여준다.
+이 흐름은 공유 메모리가 "단순한 공동 사용"에서 시작해, 코어 확장과 함께 일관성·지역성·하이브리드 구조의 문제로 발전해 가는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 여러 친구가 같은 큰 공책을 함께 보는 것과 같아요.
+1. 공유 메모리는 여러 친구가 같은 큰 공책을 함께 보는 것과 같아요.
 2. 그래서 쪽지를 주고받지 않아도 아주 빨리 같이 숙제를 할 수 있어요.
 3. 하지만 동시에 같은 줄에 쓰면 엉키니까, 순서를 정하는 규칙이 꼭 필요해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 378 / 803
-
-<- **이전**: [376. 다중 컴퓨터 (Multicomputer)](/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/)
-**다음**: [378. 분산 메모리 시스템 (Distributed Memory)](/studynote/01_computer_architecture/10_parallel_processing_architecture/378_distributed_memory/) ->
-
----

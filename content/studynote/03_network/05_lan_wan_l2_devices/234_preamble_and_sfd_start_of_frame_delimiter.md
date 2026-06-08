@@ -15,10 +15,10 @@ weight: 234
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 케이블로 전송되는 모든 프레임의 맨 앞에는 8바이트(64비트) 크기의 워밍업 신호가 붙는다. 앞 7바이트를 프리앰블(Preamble), 마지막 1바이트를 SFD(Start of Frame Delimiter)라고 부른다.
-- **필요성**: 컴퓨터의 내부 클럭(시계) 속도는 완벽하게 동일하지 않다. 송신자가 초당 1억 개의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(100Mbps)를 쏠 때, 수신자가 정확히 어느 순간에 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어들여야 할지 박자가 어긋나면 0을 1로 잘못 읽는 치명적 오류가 발생한다. 프리앰블은 수신자에게 메트로놈처럼 박자를 맞춰주는 "하나, 둘, 셋, 넷!" 하는 카운트다운 신호다.
+- **개념**: 이더넷 케이블로 전송되는 모든 프레임의 맨 앞에는 8바이트(64비트) 크기의 워밍업 신호가 붙는다. 앞 7바이트를 프리앰블(Preamble), 마지막 1바이트를 SFD(Start of Frame Delimiter)라고 부른다.
+- **필요성**: 컴퓨터의 내부 클럭(시계) 속도는 완벽하게 동일하지 않다. 송신자가 초당 1억 개의 비트(100Mbps)를 쏠 때, 수신자가 정확히 어느 순간에 비트를 읽어들여야 할지 박자가 어긋나면 0을 1로 잘못 읽는 치명적 오류가 발생한다. 프리앰블은 수신자에게 메트로놈처럼 박자를 맞춰주는 "하나, 둘, 셋, 넷!" 하는 카운트다운 신호다.
 
-- **💡 비유**: 오케스트라 지휘자가 연주([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)를 시작하기 전에 지휘봉을 허공에 휘저으며 **"원, 투, 쓰리, 포! (10101010... 프리앰블)"** 하고 박자를 맞춰주다가, 마지막 순간에 지휘봉을 강하게 내리찍으며 <strong>"큐! (10101011 SFD)"</strong>라고 사인을 주는 것과 완벽히 동일합니다.
+- **💡 비유**: 오케스트라 지휘자가 연주(데이터 전송)를 시작하기 전에 지휘봉을 허공에 휘저으며 **"원, 투, 쓰리, 포! (10101010... 프리앰블)"** 하고 박자를 맞춰주다가, 마지막 순간에 지휘봉을 강하게 내리찍으며 <strong>"큐! (10101011 SFD)"</strong>라고 사인을 주는 것과 완벽히 동일합니다.
 
 ```text
 [이더넷 프레임 포맷]
@@ -29,17 +29,17 @@ weight: 234
     +---> [Type 필드 / Length 필드]
 ```
 
-- **📢 섹션 요약 비유**: ** 프리앰블은 100m 달리기 시합에서 심판이 **"제자리에~(Preamble) 차렷~(Preamble)"** 하고 예열을 시키다가, 마지막에 **"탕!(SFD)"** 하고 총을 쏴서 출발선([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 알리는 신호탄입니다.
+- **📢 섹션 요약 비유**: ** 프리앰블은 100m 달리기 시합에서 심판이 **"제자리에~(Preamble) 차렷~(Preamble)"** 하고 예열을 시키다가, 마지막에 **"탕!(SFD)"** 하고 총을 쏴서 출발선(MAC 주소)을 알리는 신호탄입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴과 맨체스터 인코딩
-[이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜카드([NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 내부의 PHY(물리 계층) 칩은 프레임을 내보내기 전에 하드웨어적으로 이 패턴을 삽입한다.
+### 1. 비트 패턴과 맨체스터 인코딩
+이더넷 랜카드(NIC) 내부의 PHY(물리 계층) 칩은 프레임을 내보내기 전에 하드웨어적으로 이 패턴을 삽입한다.
 
 - **Preamble (7 Bytes)**: `10101010` x 7번 반복 (총 56비트). 1과 0이 계속 교차하면서 전압의 변화(Transition)를 만들어내어, 수신 측의 PLL(Phase-Locked Loop) 회로가 송신 측의 클럭 속도에 정확히 동기화되도록 예열한다.
-- <strong>SFD (1 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a>)</strong>: `10101011` 패턴. 프리앰블과 똑같이 1010...으로 가다가 마지막 두 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `11`로 연속해서 나타난다. 수신기는 이 `11`이 나타나는 순간 "예열 끝! 다음 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)부터가 진짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(목적지 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 시작이구나!"라고 판단하여 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 컨트롤러([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 칩)로 올려보내기 시작한다.
+- <strong>SFD (1 Byte)</strong>: `10101011` 패턴. 프리앰블과 똑같이 1010...으로 가다가 마지막 두 비트가 `11`로 연속해서 나타난다. 수신기는 이 `11`이 나타나는 순간 "예열 끝! 다음 비트부터가 진짜 데이터(목적지 MAC 주소) 시작이구나!"라고 판단하여 비트를 MAC 컨트롤러(MAC 칩)로 올려보내기 시작한다.
 
 ```text
  +-------------------------------------------------------------+
@@ -64,21 +64,21 @@ weight: 234
 ```
 
 ### 2. 패킷 캡처 도구(Wireshark)에서 보이지 않는 이유
-PC에서 와이어샤크(Wireshark)로 패킷을 캡처하면 Preamble, SFD, 그리고 꼬리의 FCS(에러 검출 필드)는 보이지 않는다. 그 이유는 랜카드의 1계층(PHY) 칩이 Preamble을 이용해 동기화를 맞춘 뒤, [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층([운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기는 부분)으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달할 때는 이 8바이트를 <strong>하드웨어적으로 잘라내어 버리기(Strip) 때문</strong>이다. OS와 와이어샤크는 이미 예쁘게 잘려진 목적지 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소부터만 볼 수 있다.
+PC에서 와이어샤크(Wireshark)로 패킷을 캡처하면 Preamble, SFD, 그리고 꼬리의 FCS(에러 검출 필드)는 보이지 않는다. 그 이유는 랜카드의 1계층(PHY) 칩이 Preamble을 이용해 동기화를 맞춘 뒤, MAC 계층(운영체제로 데이터를 넘기는 부분)으로 데이터를 전달할 때는 이 8바이트를 <strong>하드웨어적으로 잘라내어 버리기(Strip) 때문</strong>이다. OS와 와이어샤크는 이미 예쁘게 잘려진 목적지 MAC 주소부터만 볼 수 있다.
 
-- **📢 섹션 요약 비유**: ** 편지(프레임)를 담은 봉투가 목적지에 도착하면, 우체국 기계가 **"가위로 봉투의 양끝(Preamble과 FCS)을 잘라내고"** 알맹이 편지만 사용자([운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))에게 건네주는 것과 같습니다. 사용자는 잘려 나간 종이 부스러기를 볼 수 없습니다.
+- **📢 섹션 요약 비유**: ** 편지(프레임)를 담은 봉투가 목적지에 도착하면, 우체국 기계가 **"가위로 봉투의 양끝(Preamble과 FCS)을 잘라내고"** 알맹이 편지만 사용자(운영체제)에게 건네주는 것과 같습니다. 사용자는 잘려 나간 종이 부스러기를 볼 수 없습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-Preamble & SFD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [이더넷 프레임 포맷](/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)이 기반 조건을 만든다면, Preamble & SFD는 그 위에서 핵심 메커니즘을 구현하고, Type 필드 / Length 필드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+Preamble & SFD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 이더넷 프레임 포맷이 기반 조건을 만든다면, Preamble & SFD는 그 위에서 핵심 메커니즘을 구현하고, Type 필드 / Length 필드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [이더넷 프레임 포맷](/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)의 기반 정리 | Preamble & SFD의 핵심 동작 | Type 필드 / Length 필드의 확장 적용 |
+| 초점 | 이더넷 프레임 포맷의 기반 정리 | Preamble & SFD의 핵심 동작 | Type 필드 / Length 필드의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: Preamble & SFD는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -86,18 +86,18 @@ Preamble & SFD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 Preamble & SFD를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [이더넷 프레임 포맷](/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/) 수준의 기본 대책으로 충분한지, 아니면 Preamble & SFD가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Type 필드 / Length 필드와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 Preamble & SFD를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 이더넷 프레임 포맷 수준의 기본 대책으로 충분한지, 아니면 Preamble & SFD가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Type 필드 / Length 필드와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. Preamble & SFD가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. Preamble & SFD가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
 3. 도입 후에는 인접 기술인 Type 필드 / Length 필드와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - Preamble & SFD의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [이더넷 프레임 포맷](/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 이더넷 프레임 포맷와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: Preamble & SFD를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -115,9 +115,9 @@ Preamble & SFD는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [이더넷 프레임 포맷](/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
+| 이더넷 프레임 포맷 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| MAC 주소 (Media Access Control Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| 스위치 (Switch) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
 | Type 필드 / Length 필드 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -132,21 +132,10 @@ Preamble & SFD는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡�
     +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-Preamble & SFD는 [이더넷 프레임 포맷](/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Type 필드 / Length 필드와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+Preamble & SFD는 이더넷 프레임 포맷에서 출발해 현재 메커니즘을 정교화하고, 이후 Type 필드 / Length 필드와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 분류 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 355 / 1120
-
-<- **이전**: [233. 이더넷 프레임 포맷 (Ethernet II vs IEEE 802.3)](/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)
-**다음**: [235. Type 필드 (Ethertype) / Length 필드 (IPv4 = 0x0800, ARP = 0x0806)](/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/) ->
-
----

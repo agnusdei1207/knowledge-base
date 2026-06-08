@@ -120,11 +120,3 @@ Chesbrough-Willman(2003)의 프레임을 실무에서 운용 가능하게 만든
 |  |  • Open Source     |                                                |
 |  |    Publication     |                                                |
 |  +--------------------
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 777 / 800
-
-<- **이전**: [776. 기술 예측 하이프 사이클 기술 로드맵](/studynote/06_ict_convergence/uncategorized/776_technology_forecasting_hype_cycle_roadmap/)
-**다음**: [778. 기술 사업화 스타트업 생태계 VC](/studynote/06_ict_convergence/uncategorized/778_technology_commercialization_startup_ecosyste/) ->
-
----

@@ -163,11 +163,3 @@ weight: 614
 | Ⅷ | **Concurrency** | 프로세스 모델을 통한 수평 확장 | **다중 프로세스 타입**(web, worker, scheduler)을 **다중 컨테이너/Deployment**로 모델링. 확장은 **ReplicaSet + HPA(Horizontal Pod Autoscaler)** — CPU/메모리/custom metric(KEDA) 기반. **반대개념: 스레드 기반 수직확장은 한계**. |
 | Ⅸ | **Disposability** | 빠른 기동·우아한 종료 | **Cold start ≤수 초**(JVM->GraalVM Native Image로 수십 ms, Node.js는 기본 빠름). **SIGTERM 수신 시 in-flight request drain -> DB connection close -> exit 0**. K8s `terminationGracePeriodSeconds`, `preStop hook`으로 무중단 배포 보장. |
 | Ⅹ | **Dev/Prod Parity** | 환경 간 일치성 극대화 | **시간 차이**(코드-배포 간격 단축: CI/CD), **인적 차이**(Dev 작성자=Prod 운영자, "벽 없는 DevOps"), **도구 차이**(동일 컨테이너 이미지, 동일 마이그레이션 도구: Flyway, Liquibase). **Docker Compose, Skaffold, Tilt**로 로
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 614 / 800
-
-<- **이전**: [613. 하이브리드 클라우드 온프레미스 연동](/studynote/06_ict_convergence/uncategorized/613_hybrid_cloud_on_premise_integration/)
-**다음**: [615. 컨테이너 오케스트레이션 쿠버네티스 아키텍처](/studynote/06_ict_convergence/uncategorized/615_container_orchestration_kubernetes_architectu/) ->
-
----

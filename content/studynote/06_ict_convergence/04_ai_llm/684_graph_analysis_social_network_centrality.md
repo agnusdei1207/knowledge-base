@@ -173,11 +173,3 @@ weight: 684
 | **메트릭 알고리즘 (Metric Algorithms)** | 차수·매개·근접·아이겐벡터·PageRank 등의 정량화 | Brandes' BFS for Betweenness (O(VE)), Power Iteration for Eigenvector (O(k·E)), Jacobi-Davidson (대형 sparse), Riondato–Kornaropoulos VC-dim sampling (ε-approximation) |
 | **확산 시뮬레이터 (Diffusion Simulator)** | 영향력 전파의 시간·확률 모델링 | Independent Cascade (IC), Linear Threshold (LT), SIR/SEIR (감염병), Continuous-Time Markov, Agent-Based Monte Carlo (10⁴~10⁶ trial) |
 | **시
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 684 / 800
-
-<- **이전**: [683. 지식 그래프 온톨로지 시맨틱 웹](/studynote/06_ict_convergence/uncategorized/683_knowledge_graph_ontology_semantic_web/)
-**다음**: [685. 공간 데이터 GIS 위치 기반 분석](/studynote/06_ict_convergence/uncategorized/685_spatial_data_gis_location_based_analysis/) ->
-
----

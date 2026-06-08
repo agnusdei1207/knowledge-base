@@ -6,9 +6,9 @@ tags:
 weight: 29
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 부트로더(Bootloader)는 컴퓨터 전원이 켜질 때 가장 먼저 실행되는 소프트웨어로, 하드웨어 초기화 후 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 메모리에 적재(Load)하고 제어를 넘기는 역할을 한다. BIOS->[MBR](/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)->부트로더->[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 순서가 전통 부팅 체인이다.
-> 2. **가치**: 부트로더는 하드웨어와 OS 사이의 브릿지다. 적절한 부트로더가 없으면 OS는 실행 불가능하다. GRUB, U-Boot, [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 등이 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)·임베디드·서버에서 각각 표준으로 사용된다.
-> 3. **판단 포인트**: BIOS vs [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) — 전통 BIOS는 [MBR](/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)(512B) 제약(2TB 이하 디스크, 4개 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))이 있고 16비트 실행 모드로 시작한다. UEFI는 [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)(9.4ZB), [Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/), 64비트 네이티브, 빠른 부팅을 제공한다. 현대 시스템은 UEFI가 표준이다.
+> 1. **본질**: 부트로더(Bootloader)는 컴퓨터 전원이 켜질 때 가장 먼저 실행되는 소프트웨어로, 하드웨어 초기화 후 OS 커널을 메모리에 적재(Load)하고 제어를 넘기는 역할을 한다. BIOS->MBR->부트로더->커널 순서가 전통 부팅 체인이다.
+> 2. **가치**: 부트로더는 하드웨어와 OS 사이의 브릿지다. 적절한 부트로더가 없으면 OS는 실행 불가능하다. GRUB, U-Boot, UEFI 등이 PC·임베디드·서버에서 각각 표준으로 사용된다.
+> 3. **판단 포인트**: BIOS vs UEFI — 전통 BIOS는 MBR(512B) 제약(2TB 이하 디스크, 4개 파티션)이 있고 16비트 실행 모드로 시작한다. UEFI는 GPT(9.4ZB), Secure Boot, 64비트 네이티브, 빠른 부팅을 제공한다. 현대 시스템은 UEFI가 표준이다.
 
 ---
 
@@ -38,20 +38,20 @@ weight: 29
 +----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 부트로더는 자동차 시동 과정의 스타터 모터다. 키를 돌리면(전원 ON) 스타터(BIOS/[UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))가 엔진(OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 시동시키고, 엔진이 켜지면 스타터는 더 이상 필요 없다.
+- **📢 섹션 요약 비유**: 부트로더는 자동차 시동 과정의 스타터 모터다. 키를 돌리면(전원 ON) 스타터(BIOS/UEFI)가 엔진(OS 커널)을 시동시키고, 엔진이 켜지면 스타터는 더 이상 필요 없다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### BIOS vs [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 비교
+### BIOS vs UEFI 비교
 
-| 항목 | BIOS | [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) |
+| 항목 | BIOS | UEFI |
 |:---|:---|:---|
-| [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) | [MBR](/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) (2TB, 4개) | [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) (9.4ZB, 128개) |
+| 파티션 | MBR (2TB, 4개) | GPT (9.4ZB, 128개) |
 | 시작 모드 | 16비트 Real Mode | 32/64비트 네이티브 |
-| [Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/) | ❌ | ✅ |
-| 부팅 속도 | 느림 | 빠름 ([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 초기화) |
+| Secure Boot | ❌ | ✅ |
+| 부팅 속도 | 느림 | 빠름 (병렬 초기화) |
 | 인터페이스 | 텍스트 | GUI |
 
 ### GRUB (Grand Unified Bootloader)
@@ -68,25 +68,25 @@ GRUB2 구성:
   - 커널 파라미터 전달 (quiet splash)
 ```
 
-- **📢 섹션 요약 비유**: GRUB는 운전 전 차 옵션 선택 화면이다. 여러 OS(한국어/영어 내비게이션)나 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 중 하나를 선택해서 출발(부팅)할 수 있다.
+- **📢 섹션 요약 비유**: GRUB는 운전 전 차 옵션 선택 화면이다. 여러 OS(한국어/영어 내비게이션)나 커널 버전 중 하나를 선택해서 출발(부팅)할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | GRUB | U-Boot | [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) |
+| 비교 | GRUB | U-Boot | UEFI |
 |:---|:---|:---|:---|
-| 대상 | Linux [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) | 임베디드 | 현대 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)/서버 |
-| 특징 | 멀티 OS | 경량·범용 | 표준 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) |
-| [Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/) | 지원 | 제한적 | 완벽 지원 |
+| 대상 | Linux PC | 임베디드 | 현대 PC/서버 |
+| 특징 | 멀티 OS | 경량·범용 | 표준 펌웨어 |
+| Secure Boot | 지원 | 제한적 | 완벽 지원 |
 
-- **�� 섹션 요약 비유**: 부트로더 종류는 차량 출발 방식이다. GRUB는 대형 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(Linux [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)), U-Boot는 오토바이(임베디드), UEFI는 현대 스마트카(최신 표준 시스템) — 용도에 따라 다른 부트로더를 사용한다.
+- **�� 섹션 요약 비유**: 부트로더 종류는 차량 출발 방식이다. GRUB는 대형 버스(Linux PC), U-Boot는 오토바이(임베디드), UEFI는 현대 스마트카(최신 표준 시스템) — 용도에 따라 다른 부트로더를 사용한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/)
+### Secure Boot
 
 ```text
 UEFI Secure Boot 동작:
@@ -113,7 +113,7 @@ VM 부팅:
   U-Boot -> DTB(디바이스 트리) 적재 -> Kernel -> BusyBox
 ```
 
-- **📢 섹션 요약 비유**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에는 부트로더가 없다! 호텔 방([컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))은 호텔 건물(호스트 OS)의 엘리베이터([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 공유해서 자기 방 전용 엘리베이터가 필요 없다.
+- **📢 섹션 요약 비유**: 컨테이너에는 부트로더가 없다! 호텔 방(컨테이너)은 호텔 건물(호스트 OS)의 엘리베이터(커널)를 공유해서 자기 방 전용 엘리베이터가 필요 없다.
 
 ---
 
@@ -121,13 +121,13 @@ VM 부팅:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **빠른 부팅** | [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 초기화, 빠른 POST |
-| **보안** | Secure Boot로 [부트킷](/studynote/09_security/04_endpoint_security/362_bootkit/) 방지 |
-| **유연성** | 멀티 OS 지원, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 |
+| **빠른 부팅** | UEFI 병렬 초기화, 빠른 POST |
+| **보안** | Secure Boot로 부트킷 방지 |
+| **유연성** | 멀티 OS 지원, 커널 파라미터 |
 
-[UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) + [Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/) + [TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)([Trusted Platform Module](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))의 결합이 현대 부팅 보안의 표준이다. [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)·[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경에서는 부트 과정 자체가 가상화되어 기존 부트로더 개념이 점차 추상화되고 있다.
+UEFI + Secure Boot + TPM(Trusted Platform Module)의 결합이 현대 부팅 보안의 표준이다. 컨테이너·서버리스 환경에서는 부트 과정 자체가 가상화되어 기존 부트로더 개념이 점차 추상화되고 있다.
 
-- **📢 섹션 요약 비유**: 현대 클라우드 부팅은 앱 실행과 같다. 스마트폰 앱([컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(호스트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 이미 켜진 상태에서 즉시 실행된다 — 부팅(시동 과정) 없이 바로 실행되는 것이다.
+- **📢 섹션 요약 비유**: 현대 클라우드 부팅은 앱 실행과 같다. 스마트폰 앱(컨테이너)은 운영체제(호스트 커널)가 이미 켜진 상태에서 즉시 실행된다 — 부팅(시동 과정) 없이 바로 실행되는 것이다.
 
 ---
 
@@ -135,10 +135,10 @@ VM 부팅:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>BIOS/<a href="/studynote/01_computer_architecture/15_advanced_topics/706_uefi/">UEFI</a></strong> | 부트로더 이전 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 단계 |
+| <strong>BIOS/UEFI</strong> | 부트로더 이전 펌웨어 단계 |
 | **GRUB** | Linux 표준 부트로더 |
-| <strong><a href="/studynote/02_operating_system/10_security/608_secure_boot/">Secure Boot</a></strong> | 부트로더 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| <strong><a href="/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/">MBR</a>/<a href="/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a></strong> | 디스크 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조 |
+| <strong>Secure Boot</strong> | 부트로더 무결성 검증 |
+| <strong>MBR/GPT</strong> | 디스크 파티션 구조 |
 | **initrd** | 부팅 시 임시 루트 파일시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -163,15 +163,4 @@ VM 부팅:
 
 1. 부트로더는 자동차 스타터 모터예요! 키를 돌리면 엔진(OS)을 시동시키고, 엔진이 켜지면 물러나요.
 2. 현대 UEFI는 옛날 BIOS보다 빠르고 안전해요 — 서명된 프로그램만 실행해서 바이러스가 시작부터 막혀요!
-3. [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에는 부트로더가 없어요! 이미 켜진 호텔(호스트 OS)에서 방([컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))만 빌리는 거라 시동이 필요 없거든요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 29 / 800
-
-<- **이전**: [28. 부트스트랩 프로그램 (Bootstrap Program) — 시스템 부팅의 첫 번째 코드](/studynote/02_operating_system/01_overview_architecture/028_bootstrap_program/)
-**다음**: [30. UEFI vs BIOS — 현대 펌웨어 부팅 표준](/studynote/02_operating_system/01_overview_architecture/030_uefi_vs_bios/) ->
-
----
+3. 컨테이너에는 부트로더가 없어요! 이미 켜진 호텔(호스트 OS)에서 방(컨테이너)만 빌리는 거라 시동이 필요 없거든요!

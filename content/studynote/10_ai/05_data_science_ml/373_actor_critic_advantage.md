@@ -7,29 +7,29 @@ weight: 373
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) (A2C, Advantage [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/))은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 함수([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Function) π_θ를 학습하는 행동자(Actor)와 [가치 함수](/studynote/10_ai/02_dl_architecture_new/163_value_function/)([Value Function](/studynote/10_ai/02_dl_architecture_new/163_value_function/)) V_φ를 학습하는 비평자(Critic)를 동시에 학습하여 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 그래디언트([Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/))의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 줄이는 강화학습 방법이다.
-> 2. **가치**: 이점 함수(Advantage Function) A(s,a) = Q(s,a) - V(s)는 특정 행동이 평균적인 행동보다 얼마나 더 좋은지를 나타내며, 비평자의 V(s) [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 통해 그래디언트 업데이트의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 극적으로 감소시킨다.
-> 3. **판단 포인트**: [A3C](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/) ([Asynchronous Advantage Actor-Critic](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/))는 A2C의 비동기 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이고, [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 크기를 클리핑([Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))으로 제한하여 안정성을 극대화한 현재 표준 방법이다.
+> 1. **본질**: Actor-Critic (A2C, Advantage Actor-Critic)은 정책 함수(Policy Function) π_θ를 학습하는 행동자(Actor)와 가치 함수(Value Function) V_φ를 학습하는 비평자(Critic)를 동시에 학습하여 정책 그래디언트(Policy Gradient)의 분산(Variance)을 줄이는 강화학습 방법이다.
+> 2. **가치**: 이점 함수(Advantage Function) A(s,a) = Q(s,a) - V(s)는 특정 행동이 평균적인 행동보다 얼마나 더 좋은지를 나타내며, 비평자의 V(s) 기준선(Baseline)을 통해 그래디언트 업데이트의 분산을 극적으로 감소시킨다.
+> 3. **판단 포인트**: A3C (Asynchronous Advantage Actor-Critic)는 A2C의 비동기 병렬 버전이고, PPO (Proximal Policy Optimization)는 정책 업데이트 크기를 클리핑(Clipping)으로 제한하여 안정성을 극대화한 현재 표준 방법이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-순수 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 그래디언트(REINFORCE [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 에피소드 전체의 누적 보상 G_t를 사용하여 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 업데이트한다:
+순수 정책 그래디언트(REINFORCE 알고리즘)는 에피소드 전체의 누적 보상 G_t를 사용하여 정책을 업데이트한다:
 
 ```
 ∇_θ J(θ) = E[G_t · ∇_θ log π_θ(a_t|s_t)]
 ```
 
-이 방법은 <strong>고분산(High <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> 문제를 가진다. 같은 (s,a) 쌍이라도 에피소드 전개에 따라 G_t가 크게 달라지므로, 그래디언트가 불안정하고 수렴이 느리다.
+이 방법은 <strong>고분산(High Variance)</strong> 문제를 가진다. 같은 (s,a) 쌍이라도 에피소드 전개에 따라 G_t가 크게 달라지므로, 그래디언트가 불안정하고 수렴이 느리다.
 
 해결책은 두 가지 방향이다:
-1. <strong><a href="/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a>(<a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)</strong> 차감: G_t 대신 G_t - b(s_t) 사용 ([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소, [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/) 불변)
-2. **비평자(Critic)** 활용: b(s_t)를 학습된 [가치 함수](/studynote/10_ai/02_dl_architecture_new/163_value_function/) V(s_t)로 추정
+1. <strong>베이스라인(Baseline)</strong> 차감: G_t 대신 G_t - b(s_t) 사용 (분산 감소, 기댓값 불변)
+2. **비평자(Critic)** 활용: b(s_t)를 학습된 가치 함수 V(s_t)로 추정
 
-Actor-Critic은 이 두 아이디어를 결합하여, 행동자(Actor)가 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 개선하고 비평자(Critic)가 행동자의 업데이트 품질을 실시간으로 평가하는 이중 구조를 만든다.
+Actor-Critic은 이 두 아이디어를 결합하여, 행동자(Actor)가 정책을 개선하고 비평자(Critic)가 행동자의 업데이트 품질을 실시간으로 평가하는 이중 구조를 만든다.
 
-- **📢 섹션 요약 비유**: 순수 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 그래디언트는 공연 후 관객 평점 평균만 보는 배우이고, Actor-Critic은 리허설마다 전문 비평가(Critic)의 즉각 피드백을 받으며 성장하는 배우다. 비평가가 있으면 공연 전부터 실력이 빠르게 좋아진다.
+- **📢 섹션 요약 비유**: 순수 정책 그래디언트는 공연 후 관객 평점 평균만 보는 배우이고, Actor-Critic은 리허설마다 전문 비평가(Critic)의 즉각 피드백을 받으며 성장하는 배우다. 비평가가 있으면 공연 전부터 실력이 빠르게 좋아진다.
 
 ---
 
@@ -43,8 +43,8 @@ A(s, a) = Q(s, a) - V(s)
 
 - Q(s,a): 상태 s에서 행동 a를 했을 때의 Q-가치 (행동 가치)
 - V(s): 상태 s에서의 평균 가치 (상태 가치)
-- A(s,a) > 0: 이 행동이 평균보다 좋음 -> [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 증가
-- A(s,a) < 0: 이 행동이 평균보다 나쁨 -> [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 감소
+- A(s,a) > 0: 이 행동이 평균보다 좋음 -> 정책에서 확률 증가
+- A(s,a) < 0: 이 행동이 평균보다 나쁨 -> 정책에서 확률 감소
 
 TD (Temporal Difference) 오류로 이점 함수 근사:
 
@@ -52,7 +52,7 @@ TD (Temporal Difference) 오류로 이점 함수 근사:
 A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 ```
 
-### A2C [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구조
+### A2C 알고리즘 구조
 
 ```
 +-------------------------------------------------------------+
@@ -77,7 +77,7 @@ A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 
 ### 업데이트 수식
 
-<strong>Actor (<a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 네트워크) 업데이트</strong>:
+<strong>Actor (정책 네트워크) 업데이트</strong>:
 ```
 θ <- θ + α_actor · A(s_t, a_t) · ∇_θ log π_θ(a_t|s_t)
 ```
@@ -89,7 +89,7 @@ A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 
 | 구성 요소 | 네트워크 | 목적 함수 | 학습 방향 |
 |:---|:---|:---|:---|
-| 행동자 (Actor) | π_θ(a\|s) | -A·log π (최대화) | 이점 높은 행동 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)^ |
+| 행동자 (Actor) | π_θ(a\|s) | -A·log π (최대화) | 이점 높은 행동 확률^ |
 | 비평자 (Critic) | V_φ(s) | TD 오류^ (최소화) | 정확한 가치 추정 |
 
 - **📢 섹션 요약 비유**: Actor는 "어떤 길을 선택할지" 결정하는 운전자이고, Critic은 "이 길이 평균보다 얼마나 좋은지"를 실시간으로 평가하는 내비게이션이다. 운전자는 내비게이션 점수(이점 함수)를 보고 좋은 길 선택을 강화한다.
@@ -98,15 +98,15 @@ A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 
 ## Ⅲ. 비교 및 연결
 
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 안정성 | 샘플 효율 |
+| 알고리즘 | 정책 업데이트 | 병렬성 | 안정성 | 샘플 효율 |
 |:---|:---|:---|:---|:---|
 | REINFORCE | 에피소드 종료 후 | 단일 환경 | 낮음 | 낮음 |
 | A2C | TD 오류 (동기) | 단일 환경 | 중간 | 중간 |
-| [A3C](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/) | TD 오류 (비동기) | 다중 워커 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) | 중간 | 높음 |
-| [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) | 클리핑 비율 | 단일/다중 | 높음 | 높음 |
-| SAC | 최대 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 단일 | 매우 높음 | 매우 높음 |
+| A3C | TD 오류 (비동기) | 다중 워커 병렬 | 중간 | 높음 |
+| PPO | 클리핑 비율 | 단일/다중 | 높음 | 높음 |
+| SAC | 최대 엔트로피 | 단일 | 매우 높음 | 매우 높음 |
 
-<strong><a href="/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a> (<a href="/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">Proximal Policy Optimization</a>)</strong> 핵심:
+<strong>PPO (Proximal Policy Optimization)</strong> 핵심:
 
 ```
 L^PPO(θ) = E[min(r_t(θ)·A_t, clip(r_t(θ), 1-ε, 1+ε)·A_t)]
@@ -114,7 +114,7 @@ L^PPO(θ) = E[min(r_t(θ)·A_t, clip(r_t(θ), 1-ε, 1+ε)·A_t)]
 r_t(θ) = π_θ(a_t|s_t) / π_θ_old(a_t|s_t)  (확률비)
 ```
 
-[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 비율 r_t를 [1-ε, 1+ε] 범위로 클리핑하여 너무 큰 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화를 방지한다.
+정책 업데이트 비율 r_t를 [1-ε, 1+ε] 범위로 클리핑하여 너무 큰 정책 변화를 방지한다.
 
 - **📢 섹션 요약 비유**: A3C는 여러 배우가 동시에 다른 무대에서 공연하며 각자 경험한 것을 공유 비평가에게 보내는 시스템이고, PPO는 "다음 공연은 이전 공연과 너무 다르게 하지 말 것(클리핑)"이라는 안전 규칙을 추가한 시스템이다.
 
@@ -123,32 +123,32 @@ r_t(θ) = π_θ(a_t|s_t) / π_θ_old(a_t|s_t)  (확률비)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **OpenAI Gym 환경 적용 예시**:
-- 연속 행동 공간(Continuous Action Space): Mujoco 로봇 제어 -> [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)/SAC 적합
-- 이산 행동 공간(Discrete Action Space): Atari 게임 -> A2C/[A3C](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/)/[DQN](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 적합
+- 연속 행동 공간(Continuous Action Space): Mujoco 로봇 제어 -> PPO/SAC 적합
+- 이산 행동 공간(Discrete Action Space): Atari 게임 -> A2C/A3C/DQN 적합
 
-<strong><a href="/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> 보너스(<a href="/studynote/08_algorithm_stats/09_info_theory/151_entropy/">Entropy</a> Bonus)</strong>: Actor 손실에 H(π)를 더해 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 촉진:
+<strong>엔트로피 보너스(Entropy Bonus)</strong>: Actor 손실에 H(π)를 더해 탐험 촉진:
 ```
 L = L^Actor - α_critic·L^Critic + β·H(π_θ)
 ```
 
 **기술사 답안 포인트**:
-1. 이점 함수 A(s,a) = Q(s,a) - V(s)의 정의와 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 효과를 설명한다.
-2. Actor와 Critic의 각 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)와 업데이트 방향을 명확히 구분한다.
+1. 이점 함수 A(s,a) = Q(s,a) - V(s)의 정의와 분산 감소 효과를 설명한다.
+2. Actor와 Critic의 각 손실 함수와 업데이트 방향을 명확히 구분한다.
 3. TD 오류를 이점 함수의 근사치로 사용하는 이유(Q(s,a) 직접 추정 불필요)를 설명한다.
-4. A3C의 비동기 학습이 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 다양성과 계산 효율에 기여하는 원리를 설명한다.
+4. A3C의 비동기 학습이 탐험 다양성과 계산 효율에 기여하는 원리를 설명한다.
 5. PPO의 클리핑 메커니즘이 안정적 학습을 보장하는 방법을 언급한다.
 
-- **📢 섹션 요약 비유**: 기술사 시험에서 A2C를 설명할 때 이점 함수의 "+/-" 방향성이 핵심이다. A > 0이면 이 행동을 더 자주 하고, A < 0이면 덜 하도록 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 갱신한다는 직관이 명확하게 전달되어야 한다.
+- **📢 섹션 요약 비유**: 기술사 시험에서 A2C를 설명할 때 이점 함수의 "+/-" 방향성이 핵심이다. A > 0이면 이 행동을 더 자주 하고, A < 0이면 덜 하도록 정책을 갱신한다는 직관이 명확하게 전달되어야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Actor-Critic은 가치 기반(Value-based) 방법([Q-러닝](/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))과 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)-based) 방법(REINFORCE)의 장점을 결합한 하이브리드 아키텍처로, 현대 강화학습의 주류 패러다임이다.
+Actor-Critic은 가치 기반(Value-based) 방법(Q-러닝)과 정책 기반(Policy-based) 방법(REINFORCE)의 장점을 결합한 하이브리드 아키텍처로, 현대 강화학습의 주류 패러다임이다.
 
-PPO는 OpenAI의 ChatGPT 학습에 사용된 [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))의 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 인간 피드백을 보상 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 사용하는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 파인튜닝에 직접 적용된다. Actor-Critic의 이해는 현대 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전성([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Safety) 연구의 출발점이기도 하다.
+PPO는 OpenAI의 ChatGPT 학습에 사용된 RLHF (Reinforcement Learning from Human Feedback)의 핵심 알고리즘으로, 인간 피드백을 보상 신호로 사용하는 LLM (Large Language Model) 파인튜닝에 직접 적용된다. Actor-Critic의 이해는 현대 AI 안전성(AI Safety) 연구의 출발점이기도 하다.
 
-- **📢 섹션 요약 비유**: Actor-Critic은 농구에서 선수(Actor)와 코치(Critic)의 팀워크다. 선수는 코치의 "평균보다 좋은 플레이냐?(Advantage)"를 보고 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 조정하고, 코치도 선수의 플레이를 보며 평가 기준을 계속 개선한다.
+- **📢 섹션 요약 비유**: Actor-Critic은 농구에서 선수(Actor)와 코치(Critic)의 팀워크다. 선수는 코치의 "평균보다 좋은 플레이냐?(Advantage)"를 보고 전략을 조정하고, 코치도 선수의 플레이를 보며 평가 기준을 계속 개선한다.
 
 ---
 
@@ -156,12 +156,12 @@ PPO는 OpenAI의 ChatGPT 학습에 사용된 [RLHF](/studynote/14_data_engineeri
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Actor (행동자) | π_θ, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 네트워크 / 행동 선택 및 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 |
-| Critic (비평자) | V_φ, 가치 네트워크 / 상태 가치 추정 및 [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) |
-| 이점 함수 (Advantage Function) | Q(s,a)-V(s), TD 오류 / [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 핵심 메커니즘 |
-| [A3C](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/) | 비동기, 다중 워커 / A2C의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
-| [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 클리핑, [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) / 현재 표준 [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) |
-| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 그래디언트 ([Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)) | REINFORCE, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) / Actor-Critic의 이론 기반 |
+| Actor (행동자) | π_θ, 정책 네트워크 / 행동 선택 및 정책 업데이트 |
+| Critic (비평자) | V_φ, 가치 네트워크 / 상태 가치 추정 및 베이스라인 |
+| 이점 함수 (Advantage Function) | Q(s,a)-V(s), TD 오류 / 분산 감소 핵심 메커니즘 |
+| A3C | 비동기, 다중 워커 / A2C의 병렬화 버전 |
+| PPO (Proximal Policy Optimization) | 클리핑, RLHF / 현재 표준 Actor-Critic |
+| 정책 그래디언트 (Policy Gradient) | REINFORCE, 분산 / Actor-Critic의 이론 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,16 +172,5 @@ PPO는 OpenAI의 ChatGPT 학습에 사용된 [RLHF](/studynote/14_data_engineeri
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. Actor는 게임에서 어떤 버튼을 누를지 결정하는 선수이고, Critic은 "지금 네 행동이 평균보다 좋았니 나빴니?"를 점수로 알려주는 코치야.
-2. 이점 함수는 코치가 "이 행동은 평균보다 +3점 더 좋아"라고 알려주는 것으로, 선수는 +3점짜리 행동을 더 자주 하도록 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수정해.
-3. PPO는 선수가 연습할 때 한 번에 너무 많이 바꾸면 오히려 실력이 떨어지니, "이번엔 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 바꿔"라는 안전 규칙을 지키게 하는 방법이야.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 373 / 420
-
-<- **이전**: [372. 벨만 방정식 (Bellman Equation)](/studynote/10_ai/05_data_science_ml/372_bellman_equation/)
-**다음**: [374. VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)](/studynote/10_ai/05_data_science_ml/374_vae_reparameterization/) ->
-
----
+2. 이점 함수는 코치가 "이 행동은 평균보다 +3점 더 좋아"라고 알려주는 것으로, 선수는 +3점짜리 행동을 더 자주 하도록 전략을 수정해.
+3. PPO는 선수가 연습할 때 한 번에 너무 많이 바꾸면 오히려 실력이 떨어지니, "이번엔 10%만 바꿔"라는 안전 규칙을 지키게 하는 방법이야.

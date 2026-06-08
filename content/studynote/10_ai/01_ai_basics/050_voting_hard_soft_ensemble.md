@@ -13,15 +13,15 @@ tags:
 weight: 50
 ---
 > **핵심 인사이트 3줄**
-> 1. 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)(Hard [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))은 각 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 클래스 예측(다수결)을 집계하고, 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)(Soft [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))은 각 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)값을 평균해 더 정확한 결과를 낸다.
-> 2. 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 보정된 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(calibrated [probability](/studynote/08_algorithm_stats/08_stats/130_probability/))을 출력할 때 효과적이며, 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)보다 일반적으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높다.
-> 3. 가중 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)(Weighted [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기에 더 높은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여해 단순 다수결의 한계를 극복한다.
+> 1. 하드 보팅(Hard Voting)은 각 분류기의 클래스 예측(다수결)을 집계하고, 소프트 보팅(Soft Voting)은 각 분류기의 확률값을 평균해 더 정확한 결과를 낸다.
+> 2. 소프트 보팅은 분류기가 보정된 확률(calibrated probability)을 출력할 때 효과적이며, 하드 보팅보다 일반적으로 성능이 높다.
+> 3. 가중 보팅(Weighted Voting)은 성능이 높은 분류기에 더 높은 가중치를 부여해 단순 다수결의 한계를 극복한다.
 
 ---
 
-## Ⅰ. [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)과 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 개요
+## Ⅰ. 앙상블과 보팅 개요
 
-### 1.1 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 구조
+### 1.1 보팅 앙상블 구조
 
 ```
 입력 X
@@ -32,20 +32,20 @@ weight: 50
                                     보팅 집계 -> 최종 예측
 ```
 
-### 1.2 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)의 전제 조건
+### 1.2 보팅의 전제 조건
 
-- [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기들이 <strong>상호 독립적</strong>이고 오류 패턴이 다를 때 효과적
+- 분류기들이 <strong>상호 독립적</strong>이고 오류 패턴이 다를 때 효과적
 - 개별 정확도 ≥ 50% 이어야 다수결이 의미 있음
 
 📢 **섹션 요약 비유**: 세 명의 의사에게 진단 받아 2명 이상이 같은 병명을 말하면 그걸 따르는 것 — 독립적인 의견이 핵심.
 
 ---
 
-## Ⅱ. 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) (Hard [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))
+## Ⅱ. 하드 보팅 (Hard Voting)
 
 ### 2.1 원리
 
-각 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 클래스 레이블을 예측 -> 가장 많이 나온 클래스 선택 (다수결).
+각 분류기가 클래스 레이블을 예측 -> 가장 많이 나온 클래스 선택 (다수결).
 
 ```
 예시 (3 클래스: A, B, C):
@@ -58,18 +58,18 @@ weight: 50
 
 ### 2.2 한계
 
-- [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 정보 무시: 0.51 A vs 0.99 A를 동등하게 1표 처리
-- [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 낮은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기와 높은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 동일하게 취급
+- 확률 정보 무시: 0.51 A vs 0.99 A를 동등하게 1표 처리
+- 신뢰도 낮은 분류기와 높은 분류기를 동일하게 취급
 
-📢 **섹션 요약 비유**: 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 "찍기" 투표 — 자신 없어도 확신에 차 있어도 한 표씩 동등하다.
+📢 **섹션 요약 비유**: 하드 보팅은 "찍기" 투표 — 자신 없어도 확신에 차 있어도 한 표씩 동등하다.
 
 ---
 
-## Ⅲ. 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) (Soft [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))
+## Ⅲ. 소프트 보팅 (Soft Voting)
 
 ### 3.1 원리
 
-각 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 클래스별 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 평균 -> 가장 높은 평균 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 클래스 선택.
+각 분류기의 클래스별 확률을 평균 -> 가장 높은 평균 확률 클래스 선택.
 
 ```
 예시:
@@ -81,9 +81,9 @@ weight: 50
 결과: A
 ```
 
-### 3.2 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)이 유리한 경우
+### 3.2 소프트 보팅이 유리한 경우
 
-- [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기들이 보정된 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 출력할 때 ([calibration](/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/) 필요)
+- 분류기들이 보정된 확률을 출력할 때 (calibration 필요)
 - 클래스 불균형 상황
 
 ```python
@@ -93,13 +93,13 @@ from sklearn.calibration import CalibratedClassifierCV
 clf = VotingClassifier(estimators=[...], voting='soft')
 ```
 
-📢 **섹션 요약 비유**: 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 "확신도 투표" — "아마 A인 것 같다(60%)"와 "확실히 A다(99%)"를 다르게 반영.
+📢 **섹션 요약 비유**: 소프트 보팅은 "확신도 투표" — "아마 A인 것 같다(60%)"와 "확실히 A다(99%)"를 다르게 반영.
 
 ---
 
-## Ⅳ. 가중 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) (Weighted [Voting](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))
+## Ⅳ. 가중 보팅 (Weighted Voting)
 
-### 4.1 가중 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
+### 4.1 가중 하드 보팅
 
 ```
 가중치: clf1=2, clf2=1, clf3=1
@@ -107,7 +107,7 @@ clf1->A: 2표, clf2->A: 1표, clf3->B: 1표
 결과: A (3표 vs 1표)
 ```
 
-### 4.2 가중 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
+### 4.2 가중 소프트 보팅
 
 ```
 P_final(k) = Σ(w_i × P_i(k)) / Σw_i
@@ -133,27 +133,27 @@ vc = VotingClassifier(
 vc.fit(X_train, y_train)
 ```
 
-📢 **섹션 요약 비유**: 가중 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 전문가 위원회 — 경험 많은 전문가(높은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 의견이 더 반영된다.
+📢 **섹션 요약 비유**: 가중 보팅은 전문가 위원회 — 경험 많은 전문가(높은 가중치) 의견이 더 반영된다.
 
 ---
 
-## Ⅴ. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교와 활용 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅴ. 성능 비교와 활용 전략
 
-### 5.1 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 방식 비교
+### 5.1 보팅 방식 비교
 
 | 방식          | 장점               | 단점                      | 적합한 상황            |
 |-------------|------------------|--------------------------|-----------------------|
-| 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)     | 단순, 빠름          | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 무시                 | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 불신뢰 시  |
-| 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)   | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 활용, 정확     | [calibration](/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/) 필요          | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 혼합  |
-| 가중 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)     | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 반영      | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 튜닝 필요           | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 불균형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 조합 |
+| 하드 보팅     | 단순, 빠름          | 확률 무시                 | 분류기 확률 불신뢰 시  |
+| 소프트 보팅   | 확률 활용, 정확     | calibration 필요          | 확률 출력 분류기 혼합  |
+| 가중 보팅     | 성능 차이 반영      | 가중치 튜닝 필요           | 성능 불균형 분류기 조합 |
 
 ### 5.2 실무 팁
 
-- SVM은 기본적으로 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 미지원 -> `probability=True` [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 또는 `CalibratedClassifierCV` 래핑
-- 트리 기반 모델([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/), RandomForest)은 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)에 유리
-- 이질적([heterogeneous](/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/)) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 조합이 동질 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기보다 효과적
+- SVM은 기본적으로 확률 미지원 -> `probability=True` 설정 또는 `CalibratedClassifierCV` 래핑
+- 트리 기반 모델(Decision Tree, RandomForest)은 소프트 보팅에 유리
+- 이질적(heterogeneous) 분류기 조합이 동질 분류기보다 효과적
 
-📢 **섹션 요약 비유**: 다양한 배경의 전문가(이질 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기)가 같은 분야 전문가보다 종종 더 나은 집단 결정을 내린다.
+📢 **섹션 요약 비유**: 다양한 배경의 전문가(이질 분류기)가 같은 분야 전문가보다 종종 더 나은 집단 결정을 내린다.
 
 ---
 
@@ -190,23 +190,12 @@ vc.fit(X_train, y_train)
 신경망 + 전통 ML 혼합 앙상블 (현재)
 ```
 
-**핵심 키워드**: 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/), 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/), 가중 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/), VotingClassifier, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 보정, 이질 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
+**핵심 키워드**: 하드 보팅, 소프트 보팅, 가중 보팅, VotingClassifier, 확률 보정, 이질 앙상블
 
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 하드 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 손들기 투표 — 많이 손든 쪽이 이기고, 자신감은 안 따져.
-2. 소프트 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 점수 투표 — 각자 "A가 70점, B가 30점" 이라고 점수를 내면 평균이 가장 높은 쪽이 이겨.
-3. 가중 [보팅](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 선생님 의견에 더 많은 점수를 주는 것 — 똑똑한 친구 말을 조금 더 듣는 거야.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 50 / 420
-
-<- **이전**: [049. 앙상블 학습 — Ensemble Learning](/studynote/10_ai/01_ai_basics/049_ensemble_learning_bagging_boosting/)
-**다음**: [051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)](/studynote/10_ai/01_ai_basics/051_bagging_bootstrap_aggregating_random_forest/) ->
-
----
+1. 하드 보팅은 손들기 투표 — 많이 손든 쪽이 이기고, 자신감은 안 따져.
+2. 소프트 보팅은 점수 투표 — 각자 "A가 70점, B가 30점" 이라고 점수를 내면 평균이 가장 높은 쪽이 이겨.
+3. 가중 보팅은 선생님 의견에 더 많은 점수를 주는 것 — 똑똑한 친구 말을 조금 더 듣는 거야.

@@ -18,7 +18,7 @@ weight: 164
 
 ESS (Energy Storage System)는 전력을 저장했다가 다시 공급하는 설비로, 전력망과 수요 사이의 시간 불일치를 완화하는 데 목적이 있다. 전기는 생산과 소비가 거의 동시에 맞아야 하지만, 실제 현장에서는 심야 저부하 시간과 주간 피크 시간, 흐린 날과 맑은 날, 풍속이 강한 순간과 약한 순간이 계속 엇갈린다. ESS는 이 시간 차를 흡수해 전력을 "언제 쓸지"까지 설계 가능하게 만든다.
 
-ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증가가 있다. 태양광은 정오에 생산이 몰리고, 공장·[데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)·급속충전소는 특정 시간에 전력 사용량이 급증한다. 이런 환경에서 저장 장치가 없으면 남는 전기는 버리고, 부족한 시간에는 비싼 전력을 급히 사 오거나 설비를 과투자해야 한다.
+ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증가가 있다. 태양광은 정오에 생산이 몰리고, 공장·데이터센터·급속충전소는 특정 시간에 전력 사용량이 급증한다. 이런 환경에서 저장 장치가 없으면 남는 전기는 버리고, 부족한 시간에는 비싼 전력을 급히 사 오거나 설비를 과투자해야 한다.
 
 이 그림은 ESS가 남는 전력을 흡수해 피크 시간에 다시 공급하는 "시간 이동" 장치임을 보여준다.
 
@@ -42,17 +42,17 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-배터리형 ESS는 보통 셀 (Cell) -> [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) -> 랙 (Rack) -> [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위로 확장되며, 그 위에 전력변환장치 ([PCS](/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/), [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Conversion System), 배터리 관리 시스템 (BMS, Battery [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System), 에너지 관리 시스템 (EMS, Energy [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)이 결합된다. BMS는 셀 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도·전류를 감시하고, PCS는 교류/직류를 변환하며, EMS는 언제 충전·방전할지 상위 전략을 결정한다. 이 세 층이 맞물려야 ESS가 단순 저장소가 아니라 운영 가능한 전력 자산이 된다.
+배터리형 ESS는 보통 셀 (Cell) -> 모듈 (Module) -> 랙 (Rack) -> 컨테이너 단위로 확장되며, 그 위에 전력변환장치 (PCS, Power Conversion System), 배터리 관리 시스템 (BMS, Battery Management System), 에너지 관리 시스템 (EMS, Energy Management System)이 결합된다. BMS는 셀 전압·온도·전류를 감시하고, PCS는 교류/직류를 변환하며, EMS는 언제 충전·방전할지 상위 전략을 결정한다. 이 세 층이 맞물려야 ESS가 단순 저장소가 아니라 운영 가능한 전력 자산이 된다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-------- | :--- | :---------- |
-| 배터리 셀/[모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 에너지 저장 | 에너지 밀도, 수명, 화학계 |
-| BMS | 상태 감시·[보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | 셀 밸런싱, 과충전·과열 차단 |
-| [PCS](/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/) | 전력 변환 | 효율, 응답 속도, 계통 연계 |
-| EMS | 충방전 스케줄링 | 요금, 부하 예측, 운영 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
-| 냉각·소화 설비 | 안전 확보 | 열폭주 (Thermal Runaway) [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| 배터리 셀/모듈 | 에너지 저장 | 에너지 밀도, 수명, 화학계 |
+| BMS | 상태 감시·보호 | 셀 밸런싱, 과충전·과열 차단 |
+| PCS | 전력 변환 | 효율, 응답 속도, 계통 연계 |
+| EMS | 충방전 스케줄링 | 요금, 부하 예측, 운영 정책 |
+| 냉각·소화 설비 | 안전 확보 | 열폭주 (Thermal Runaway) 억제 |
 
-아래 구조는 ESS가 단순 배터리 상자가 아니라 "저장-변환-제어-[보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)"가 함께 움직이는 시스템임을 보여준다.
+아래 구조는 ESS가 단순 배터리 상자가 아니라 "저장-변환-제어-보호"가 함께 움직이는 시스템임을 보여준다.
 
 ```text
 +------------------------------------------------------------------+
@@ -78,17 +78,17 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 
 ## Ⅲ. 비교 및 연결
 
-ESS를 제대로 보려면 [UPS](/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) (Uninterruptible [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply), 디젤 발전기, 양수 발전과 비교해야 한다. 이름만 보면 모두 "전력을 나중에 쓰는 장치"처럼 보이지만, 목적과 응답 특성이 다르다. ESS는 특히 빠른 응답과 반복 충방전에 강하고, 전력 품질 개선과 경제성 최적화에 동시에 쓰인다는 점이 특징이다.
+ESS를 제대로 보려면 UPS (Uninterruptible Power Supply), 디젤 발전기, 양수 발전과 비교해야 한다. 이름만 보면 모두 "전력을 나중에 쓰는 장치"처럼 보이지만, 목적과 응답 특성이 다르다. ESS는 특히 빠른 응답과 반복 충방전에 강하고, 전력 품질 개선과 경제성 최적화에 동시에 쓰인다는 점이 특징이다.
 
-| 항목 | 배터리 ESS | [UPS](/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) | 디젤 발전기 |
+| 항목 | 배터리 ESS | UPS | 디젤 발전기 |
 | :--- | :--------- | :-- | :---------- |
-| 주목적 | 피크 절감, 계통 보조, 재생에너지 연계 | 순간 정전 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | 장시간 비상 전원 |
+| 주목적 | 피크 절감, 계통 보조, 재생에너지 연계 | 순간 정전 보호 | 장시간 비상 전원 |
 | 응답 속도 | 매우 빠름 (ms~s) | 매우 빠름 | 상대적으로 느림 |
 | 운전 시간 | 수분~수시간 | 짧음 | 연료만 있으면 길게 가능 |
 | 반복 운용 | 잦은 충방전 가능 | 제한적 | 연료·정비 부담 큼 |
-| 환경 특성 | 저소음, 무배출 운전 가능 | 소규모 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 중심 | 배출가스·소음 존재 |
+| 환경 특성 | 저소음, 무배출 운전 가능 | 소규모 보호 중심 | 배출가스·소음 존재 |
 
-또한 ESS는 [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things), 전기차 충전, 가상발전소 (VPP, Virtual [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Plant)와도 연결된다. 센서 기반 예측 제어가 붙으면 부하 예측 정확도가 올라가고, 여러 ESS를 묶으면 하나의 발전 자원처럼 통합 운용할 수 있다. 그래서 ESS는 단일 장치라기보다, 스마트 그리드의 조정 가능한 버퍼로 이해하는 편이 맞다.
+또한 ESS는 사물인터넷 (IoT, Internet of Things), 전기차 충전, 가상발전소 (VPP, Virtual Power Plant)와도 연결된다. 센서 기반 예측 제어가 붙으면 부하 예측 정확도가 올라가고, 여러 ESS를 묶으면 하나의 발전 자원처럼 통합 운용할 수 있다. 그래서 ESS는 단일 장치라기보다, 스마트 그리드의 조정 가능한 버퍼로 이해하는 편이 맞다.
 
 - **📢 섹션 요약 비유**: ESS는 단순 비상 손전등이 아니라, 집 전체 전기를 조절하는 보조 저수지와 같다. 언제 물을 모으고 언제 흘려보낼지 계획적으로 움직인다는 점이 핵심이다.
 
@@ -96,20 +96,20 @@ ESS를 제대로 보려면 [UPS](/studynote/01_computer_architecture/15_advanced
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ESS는 "배터리를 놓을까"보다 "어떤 문제를 해결하려고 놓는가"를 먼저 정해야 한다. 공장은 최대수요전력 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)를 위한 피크 절감, 태양광 발전소는 출력 평탄화, 계통 사업자는 주파수 조정, 급속충전소는 수전 용량 보완이 대표적인 도입 목적이다. 같은 ESS라도 15분 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)용과 4시간 에너지 이동용은 경제성 계산과 안전 설계가 완전히 달라진다.
+실무에서 ESS는 "배터리를 놓을까"보다 "어떤 문제를 해결하려고 놓는가"를 먼저 정해야 한다. 공장은 최대수요전력 억제를 위한 피크 절감, 태양광 발전소는 출력 평탄화, 계통 사업자는 주파수 조정, 급속충전소는 수전 용량 보완이 대표적인 도입 목적이다. 같은 ESS라도 15분 백업용과 4시간 에너지 이동용은 경제성 계산과 안전 설계가 완전히 달라진다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
-1. 목표가 피크 절감인지, [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 전원인지, 주파수 조정인지 먼저 분명한가?
+1. 목표가 피크 절감인지, 백업 전원인지, 주파수 조정인지 먼저 분명한가?
 2. 저장 시간과 출력 비율이 용도에 맞는가? 예: 1MW/15분과 1MW/4시간은 다른 사업 모델이다.
 3. 열관리, 소화 설비, 배터리 화학계 선택이 설치 환경에 맞는가?
-4. 상태충전율 ([SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of Charge)과 상태건전성 (SoH, [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of Health) 모니터링 체계가 있는가?
+4. 상태충전율 (SoC, State of Charge)과 상태건전성 (SoH, State of Health) 모니터링 체계가 있는가?
 
 ### 판단 포인트
 
 - **채택이 유리한 경우**: 전력요금 시간대 차가 크고, 피크 부하 또는 재생에너지 변동이 큰 현장.
 - **신중해야 하는 경우**: 저장 시간이 길지만 활용률이 낮아 투자 회수가 불확실한 현장.
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 수익 모델 없이 "친환경 이미지"만 보고 설치하거나, 냉각·소방 설계를 배터리 용량 뒤로 미루는 결정.
+- <strong>안티패턴</strong>: 수익 모델 없이 "친환경 이미지"만 보고 설치하거나, 냉각·소방 설계를 배터리 용량 뒤로 미루는 결정.
 
 기술사 답안에서는 경제성과 안전성을 함께 적는 것이 중요하다. ESS는 전력요금 절감과 계통 안정화를 가져오지만, 화재 위험과 수명 열화라는 비용도 동시에 관리해야 한다. 즉 도입 판단은 CAPEX (Capital Expenditure)와 운영 리스크를 함께 보는 문제다.
 
@@ -133,11 +133,11 @@ ESS를 제대로 보려면 [UPS](/studynote/01_computer_architecture/15_advanced
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| BMS (Battery [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System) | 셀 상태 감시와 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 담당하는 안전 핵심 |
-| [PCS](/studynote/02_operating_system/03_cpu_scheduling/191_thread_scheduling_pcs_scs/) ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Conversion System) | 교류/직류 변환과 계통 연계를 담당 |
-| EMS (Energy [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System) | 충방전 전략과 경제성 최적화를 담당 |
+| BMS (Battery Management System) | 셀 상태 감시와 보호를 담당하는 안전 핵심 |
+| PCS (Power Conversion System) | 교류/직류 변환과 계통 연계를 담당 |
+| EMS (Energy Management System) | 충방전 전략과 경제성 최적화를 담당 |
 | FR (Frequency Regulation) | 빠른 출력 조정으로 계통 주파수 안정화 |
-| VPP (Virtual [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Plant) | 여러 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 자원을 묶어 하나의 발전 자원처럼 운용 |
+| VPP (Virtual Power Plant) | 여러 분산 자원을 묶어 하나의 발전 자원처럼 운용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,14 +164,3 @@ VPP (Virtual Power Plant) · 스마트 그리드
 1. ESS는 남는 전기를 커다란 통에 담아 두었다가 필요할 때 꺼내 쓰는 전기 저금통이에요.
 2. 그래서 전기가 갑자기 많이 필요할 때도 당황하지 않고 꺼내 줄 수 있어요.
 3. 하지만 안전하게 잘 보관하고, 언제 꺼낼지 똑똑하게 정해야 진짜 도움이 된답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 164 / 552
-
-<- **이전**: [163. 마이크로그리드 (Microgrid) - 기존 광역 전력망과 독립적으로 분산 전원(태양광 등)과 ESS를 갖춘 소규모 지역 자급자족](/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)
-**다음**: [165. V2G (Vehicle to Grid) - 전기차 배터리의 남는 전력을 전력망으로 역송전하여 전력 피크 부하를 줄이는 기술](/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/) ->
-
----

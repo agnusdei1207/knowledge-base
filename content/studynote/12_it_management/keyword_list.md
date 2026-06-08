@@ -5,685 +5,685 @@ tags:
   - "studynote-it-management"
 weight: 50
 ---
-# IT 경영 및 [서비스](/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 관리([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 키워드 목록 (심화 확장판)
+# IT 경영 및 서비스 관리(ITSM) 키워드 목록 (심화 확장판)
 
-정보관리기술사, 컴퓨터응용시스템기술사 합격을 위한 IT 거버넌스, IT 투자 평가, [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/)/[ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/), 정보화 [전략](/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/), [리스크](/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000/) 및 컴플라이언스 관리 전 영역 핵심/심화 키워드 800선입니다.
+정보관리기술사, 컴퓨터응용시스템기술사 합격을 위한 IT 거버넌스, IT 투자 평가, ITIL/ITSM, 정보화 전략, 리스크 및 컴플라이언스 관리 전 영역 핵심/심화 키워드 800선입니다.
 
 ---
 
-## 1. IT 거버넌스 및 IT 경영 [전략](/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/) (80개)
-1. [IT 거버넌스 (IT Governance) - 기업의 전략과 IT를 연계하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회/경영진의 책임 구조](/studynote/12_it_management/01_governance_strategy/001_it_governance/)
-2. [IT 거버넌스 5대 도메인 - 전략적 연계(Strategic Alignment), 가치 전달(Value Delivery), 위험 관리(Risk Management), 자원 관리(Resource Management), 성과 측정(Performance Measurement)](/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/)
-3. [기업 거버넌스](/studynote/12_it_management/01_governance_strategy/801_corporate_governance_relationship/) ([Corporate Governance](/studynote/12_it_management/01_governance_strategy/801_corporate_governance_relationship/)) 와의 [관계](/studynote/12_it_management/01_governance_strategy/801_corporate_governance_relationship/)
-4. [COBIT](/studynote/12_it_management/01_governance_strategy/004_cobit/) (Control Objectives for Information and Related Technologies) - [ISACA](/studynote/12_it_management/01_governance_strategy/004_cobit/) 제정 IT 거버넌스 통제 프레임워크
-5. [COBIT 2019](/studynote/12_it_management/01_governance_strategy/005_cobit_2019/) 프레임워크 - 40개 거버넌스 및 관리 목표 [도메인](/studynote/12_it_management/01_governance_strategy/005_cobit_2019/) (EDM, APO, BAI, DSS, MEA)
-6. [정보화 전략 계획](/studynote/12_it_management/01_governance_strategy/006_information_strategy_plan/) ([ISP](/studynote/12_it_management/01_governance_strategy/006_information_strategy_plan/), Information [Strategy](/studynote/12_it_management/01_governance_strategy/006_information_strategy_plan/) Planning) - 전사 비즈니스 목표 달성을 위한 중장기 정보화 마스터플랜
-7. [정보시스템 마스터플랜](/studynote/12_it_management/01_governance_strategy/803_ismp_information_system_master_plan/) ([ISMP](/studynote/12_it_management/01_governance_strategy/803_ismp_information_system_master_plan/)) - 특정 정보화 사업 구축을 위한 상세 실행/예산 계획
-8. [BPR](/studynote/12_it_management/01_governance_strategy/008_bpr/) ([Business Process Reengineering](/studynote/12_it_management/01_governance_strategy/008_bpr/)) - 마이클 해머, 획기적 성과 향상을 위한 비즈니스 프로세스 원점 재설계
-9. [PI](/studynote/12_it_management/01_governance_strategy/805_process_innovation/) ([Process Innovation](/studynote/12_it_management/01_governance_strategy/805_process_innovation/)) - 점진적이고 지속적인 프로세스 혁신
-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) - 기업의 비즈니스, [데이터](/studynote/12_it_management/01_governance_strategy/001_it_governance/), 애플리케이션, 기술(인프라) 아키텍처를 체계적으로 통합한 청사진
-[11](/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/). 자가 진단 및 성숙도 모델 ([Maturity Model](/studynote/12_it_management/01_governance_strategy/011_maturity_model/)) - [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/), [SPICE](/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 연계 조직 진단
-12. [IT 투자 타당성 분석 지표 - ROI (Return on Investment, 투자수익률)](/studynote/12_it_management/01_governance_strategy/012_roi/)
-13. [NPV](/studynote/12_it_management/01_governance_strategy/013_npv/) (Net Present Value, 순현재가치) - 미래의 현금 흐름을 현재 가치로 할인하여 합산 ([NPV](/studynote/12_it_management/01_governance_strategy/013_npv/) > 0 이면 투자 타당성 있음)
-14. [IRR](/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/) (Internal Rate of Return, 내부수익률) - NPV를 0으로 만드는 할인율 ([IRR](/studynote/12_it_management/01_governance_strategy/809_irr_internal_rate_of_return/) > 자본비용 이면 타당)
-15. [PP](/studynote/12_it_management/01_governance_strategy/015_payback_period/) ([Payback Period](/studynote/12_it_management/01_governance_strategy/015_payback_period/), 투자회수기간)
-16. [TCO](/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership, 총소유비용) - 도입 비용(CAPEX) 외에 운영/유지보수 비용(OPEX) 전체 포함
-17. [핵심 성공 요인](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/) ([CSF](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/), [Critical Success Factor](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/)) - [전략](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/) 목표 달성을 위해 가장 결정적인 필수 요인
-18. [핵심 성과 지표](/studynote/12_it_management/01_governance_strategy/018_kpi/) ([KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/), [Key Performance Indicator](/studynote/12_it_management/01_governance_strategy/018_kpi/)) - [CSF](/studynote/12_it_management/01_governance_strategy/018_kpi/) 달성 여부를 정량적으로 측정하는 지표
-19. [균형 성과 기록표](/studynote/12_it_management/01_governance_strategy/019_bsc/) ([BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/), Balanced Scorecard) - 재무, 고객, 내부 프로세스, 학습과 성장 4가지 관점의 균형 평가 모델
-20. [IT BSC](/studynote/12_it_management/01_governance_strategy/020_it_bsc/) - 기업 BSC를 IT 부서에 맞게 변형 (기업 공헌, 사용자 지향, 운영 탁월성, 미래 지향)
-21. [전략 체계도](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) ([Strategy Map](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/)) - [BSC](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) 각 관점의 [KPI](/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/) 인과관계를 도식화
-22. [가치 사슬](/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/) ([Value Chain](/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/)) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 [분류](/studynote/12_it_management/01_governance_strategy/816_value_chain_analysis_model/) 분석
-23. [5 Forces 모델 - 기존 경쟁자, 신규 진입자 위협, 대체재 위협, 공급자 교섭력, 구매자 교섭력](/studynote/12_it_management/01_governance_strategy/023_five_forces_model/)
-24. [SWOT 분석 - 강점(S), 약점(W), 기회(O), 위협(T) 및 교차 전략 (SO, ST, WO, WT)](/studynote/12_it_management/01_governance_strategy/024_swot_analysis_tows_matrix/)
-25. [PEST](/studynote/12_it_management/01_governance_strategy/819_pest_analysis_macro_environment/) 분석 ([거시 환경 분석](/studynote/12_it_management/01_governance_strategy/819_pest_analysis_macro_environment/)) - 정치(Political), 경제(Economic), 사회(Social), 기술(Technological)
-26. [3C 분석 - 고객(C고객), 자사(Company), 경쟁사(Competitor)](/studynote/12_it_management/01_governance_strategy/026_3c_analysis/)
-27. [7S 모델 (맥킨지) - Strategy, Structure, Systems, Shared Values, Style, Staff, Skills](/studynote/12_it_management/01_governance_strategy/027_7s_model/)
-28. [포트폴리오 매트릭스 (BCG Matrix) - 시장 점유율과 성장률 기준 사업 분류 (Star, Cash Cow, Question Mark, Dog)](/studynote/12_it_management/01_governance_strategy/028_bcg_matrix/)
-29. [IT 포트폴리오 관리 (IT PPM) - IT 투자를 인프라, 트랜잭션, 정보, 전략 자산으로 분류하여 예산 최적화](/studynote/12_it_management/01_governance_strategy/029_it_ppm/)
-30. [파괴적 혁신](/studynote/12_it_management/01_governance_strategy/030_disruptive_innovation/) ([Disruptive Innovation](/studynote/12_it_management/01_governance_strategy/030_disruptive_innovation/)) - 로우엔드 시장에서 출발해 주류 시장을 파괴하는 크리스텐슨 교수의 혁신 이론
-31. [롱테일 법칙](/studynote/12_it_management/01_governance_strategy/823_network_effect/) ([Long Tail](/studynote/12_it_management/01_governance_strategy/823_network_effect/)) - 디지털 경제에서 하위 80% 다수가 상위 20% 핵심보다 더 큰 가치를 창출하는 현상 (파레토 법칙의 역)
-32. [네트워크 효과](/studynote/12_it_management/01_governance_strategy/824_network_effect/) ([Network Effect](/studynote/12_it_management/01_governance_strategy/824_network_effect/)) / [메트칼프](/studynote/12_it_management/01_governance_strategy/824_network_effect/)의 법칙 - 사용자 수의 제곱에 비례하여 네트워크 가치가 증가
-33. [플랫폼 비즈니스 모델](/studynote/12_it_management/01_governance_strategy/033_agile_management/) ([Platform Business Model](/studynote/12_it_management/01_governance_strategy/033_agile_management/)) - 양면 시장(Two-sided Market) 교차 [네트워크 효과](/studynote/12_it_management/01_governance_strategy/033_agile_management/)
-34. [애자일 경영](/studynote/12_it_management/01_governance_strategy/034_agile_management/) ([Agile Management](/studynote/12_it_management/01_governance_strategy/034_agile_management/)) - 불확실성이 높은 환경에서 빠르게 MVP를 출시하고 학습을 반복하는 조직론
-35. [린 스타트업](/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ([Lean Startup](/studynote/12_it_management/01_governance_strategy/035_lean_startup/)) - 에릭 리스, '만들고-측정하고-학습하는' (Build-Measure-Learn) [피드백 루프](/studynote/12_it_management/01_governance_strategy/035_lean_startup/) 적용
-36. [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp_minimum_viable_product/) ([Minimum Viable Product](/studynote/12_it_management/01_governance_strategy/036_mvp_minimum_viable_product/), [최소 존립 제품](/studynote/12_it_management/01_governance_strategy/036_mvp_minimum_viable_product/))
-37. [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) ([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/)) - 고객 반응을 바탕으로 사업 방향을 [전략](/studynote/12_it_management/01_governance_strategy/829_pivot/)적으로 전환
-38. [양손잡이 조직](/studynote/12_it_management/01_governance_strategy/830_pivot_lean_startup/) ([Ambidextrous Organization](/studynote/12_it_management/01_governance_strategy/830_pivot_lean_startup/)) - 기존 코어 비즈니스의 심화(Exploitation)와 신규 혁신 비즈니스의 [탐험](/studynote/12_it_management/01_governance_strategy/830_pivot_lean_startup/)([Exploration](/studynote/12_it_management/01_governance_strategy/830_pivot_lean_startup/))을 동시 수행
-39. [OKR](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) (Objectives and [Key](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) Results) - 인텔/구글 방식, 야심찬 목표(O)와 측정 가능한 핵심 결과(KR)로 구성된 성과 관리
-40. [디자인 씽킹](/studynote/12_it_management/01_governance_strategy/040_design_thinking/) ([Design Thinking](/studynote/12_it_management/01_governance_strategy/040_design_thinking/)) - 공감(Empathize) -> 정의 -> 아이디에이션 -> [프로토타입](/studynote/12_it_management/01_governance_strategy/040_design_thinking/) -> 테스트의 창의적 문제 해결 프레임워크
-41. [그로스 해킹](/studynote/12_it_management/01_governance_strategy/833_growth_hacking/) ([Growth Hacking](/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)) - 제품 기능과 마케팅 [데이터](/studynote/12_it_management/01_governance_strategy/833_growth_hacking/)를 결합해 사용자 유입과 성장을 극대화하는 기법
-42. [AARRR 퍼널 - 획득(Acquisition), 활성화(Activation), 유지(Retention), 추천(Referral), 수익(Revenue)](/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)
-43. [IT 아웃소싱 (ITO, IT Outsourcing) 전략 - 핵심 역량 집중, 비용 절감, 전문성 활용 목적](/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/)
-44. [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) ([Business Process Outsourcing](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)) - IT뿐 아니라 인사, 총무 등 비즈니스 프로세스 자체를 아웃소싱
-45. [클라우드 매니지드 서비스](/studynote/12_it_management/01_governance_strategy/837_msp_managed_service_provider/) (MSP, [Managed Service Provider](/studynote/12_it_management/01_governance_strategy/837_msp_managed_service_provider/)) - [퍼블릭 클라우드](/studynote/12_it_management/01_governance_strategy/837_msp_managed_service_provider/) 설계, 이전, 운영 대행 전문 기업
-46. [SLA](/studynote/12_it_management/01_governance_strategy/838_sla_service_level_agreement_metrics/) ([Service Level Agreement](/studynote/12_it_management/01_governance_strategy/838_sla_service_level_agreement_metrics/), [서비스](/studynote/12_it_management/01_governance_strategy/838_sla_service_level_agreement_metrics/) 수준 협약서) - 아웃소싱 제공자와 고객 간의 정량적 [서비스](/studynote/12_it_management/01_governance_strategy/838_sla_service_level_agreement_metrics/) 지표 계약
-47. [IT 컴플라이언스 (IT Compliance) - 기업에 요구되는 법적/규제적 요건(개인정보보호법, GDPR, SOX) 준수 통제 체계](/studynote/12_it_management/01_governance_strategy/047_it_compliance/)
-48. [컴플라이언스 애즈 코드](/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/) ([Compliance as Code](/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)) - 수동 [감사](/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)가 아닌 인프라 코드에 규제 검사 룰셋 자동 융합
-49. [섀도우 IT (Shadow IT) - 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 SaaS/소프트웨어 (통제 사각지대)](/studynote/12_it_management/01_governance_strategy/049_shadow_it/)
-50. [정보보호최고책임자](/studynote/12_it_management/01_governance_strategy/050_ciso_cdo_independence/) ([CISO](/studynote/12_it_management/01_governance_strategy/050_ciso_cdo_independence/)) 및 최고데이터책임자 ([CDO](/studynote/12_it_management/01_governance_strategy/050_ciso_cdo_independence/)) 직무 독립성
-51. [마스터 데이터 관리](/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/) ([MDM](/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/), Master [Data](/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/) [Management](/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/)) - 전사 기준 정보(고객, 상품 등)의 단일 정합성(SSOT) 유지 체계
-52. [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) ([Data Governance](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)) - [데이터](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)의 품질, 보안, 생명주기를 전사적으로 규정하고 관리하는 체계 ([정책](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/), 조직, 표준)
-53. [데이터 스튜어드십](/studynote/12_it_management/01_governance_strategy/843_data_stewardship_role/) ([Data Stewardship](/studynote/12_it_management/01_governance_strategy/843_data_stewardship_role/)) - 현업 부서의 [데이터](/studynote/12_it_management/01_governance_strategy/843_data_stewardship_role/) 품질 실무 책임
-54. [정보 시스템 감리](/studynote/12_it_management/01_governance_strategy/054_it_audit/) ([IT Audit](/studynote/12_it_management/01_governance_strategy/054_it_audit/)) - 효과성, 효율성, 안전성을 제3자적 관점에서 진단 평가
-55. [디지털 트랜스포메이션](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) ([DX](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)/DT, [Digital Transformation](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)) - 클라우드, [AI](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/), 빅데이터를 결합해 비즈니스 모델을 완전히 디지털 기반으로 전환
-56. [옴니채널](/studynote/12_it_management/01_governance_strategy/056_omni_channel/) ([Omni-Channel](/studynote/12_it_management/01_governance_strategy/056_omni_channel/)) 마케팅 [전략](/studynote/12_it_management/01_governance_strategy/056_omni_channel/) - 온라인과 오프라인의 모든 고객 접점을 매끄럽게 통합
-57. [구독 경제](/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/) ([Subscription Economy](/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)) / XaaS (Everything [as](/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/) a [Service](/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/))
-58. [데이터 리터러시](/studynote/12_it_management/01_governance_strategy/058_data_literacy/) ([Data Literacy](/studynote/12_it_management/01_governance_strategy/058_data_literacy/)) - 전 임직원의 [데이터](/studynote/12_it_management/01_governance_strategy/058_data_literacy/) 해석 및 비즈니스 활용 역량
-59. [바이모달 IT (Bimodal IT, 가트너) - 모드 1(안정성/전통적 IT)과 모드 2(민첩성/혁신 IT)의 투트랙 운영 전략](/studynote/12_it_management/01_governance_strategy/059_bimodal_it/)
-60. [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) / [초자동화](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Hyperautomation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 업무 효율화
+## 1. IT 거버넌스 및 IT 경영 전략 (80개)
+1. IT 거버넌스 (IT Governance) - 기업의 전략과 IT를 연계하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회/경영진의 책임 구조
+2. IT 거버넌스 5대 도메인 - 전략적 연계(Strategic Alignment), 가치 전달(Value Delivery), 위험 관리(Risk Management), 자원 관리(Resource Management), 성과 측정(Performance Measurement)
+3. 기업 거버넌스 (Corporate Governance) 와의 관계
+4. COBIT (Control Objectives for Information and Related Technologies) - ISACA 제정 IT 거버넌스 통제 프레임워크
+5. COBIT 2019 프레임워크 - 40개 거버넌스 및 관리 목표 도메인 (EDM, APO, BAI, DSS, MEA)
+6. 정보화 전략 계획 (ISP, Information Strategy Planning) - 전사 비즈니스 목표 달성을 위한 중장기 정보화 마스터플랜
+7. 정보시스템 마스터플랜 (ISMP) - 특정 정보화 사업 구축을 위한 상세 실행/예산 계획
+8. BPR (Business Process Reengineering) - 마이클 해머, 획기적 성과 향상을 위한 비즈니스 프로세스 원점 재설계
+9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신
+10. EA (Enterprise Architecture) - 기업의 비즈니스, 데이터, 애플리케이션, 기술(인프라) 아키텍처를 체계적으로 통합한 청사진
+11. 자가 진단 및 성숙도 모델 (Maturity Model) - CMMI, SPICE 연계 조직 진단
+12. IT 투자 타당성 분석 지표 - ROI (Return on Investment, 투자수익률)
+13. NPV (Net Present Value, 순현재가치) - 미래의 현금 흐름을 현재 가치로 할인하여 합산 (NPV > 0 이면 투자 타당성 있음)
+14. IRR (Internal Rate of Return, 내부수익률) - NPV를 0으로 만드는 할인율 (IRR > 자본비용 이면 타당)
+15. PP (Payback Period, 투자회수기간)
+16. TCO (Total Cost of Ownership, 총소유비용) - 도입 비용(CAPEX) 외에 운영/유지보수 비용(OPEX) 전체 포함
+17. 핵심 성공 요인 (CSF, Critical Success Factor) - 전략 목표 달성을 위해 가장 결정적인 필수 요인
+18. 핵심 성과 지표 (KPI, Key Performance Indicator) - CSF 달성 여부를 정량적으로 측정하는 지표
+19. 균형 성과 기록표 (BSC, Balanced Scorecard) - 재무, 고객, 내부 프로세스, 학습과 성장 4가지 관점의 균형 평가 모델
+20. IT BSC - 기업 BSC를 IT 부서에 맞게 변형 (기업 공헌, 사용자 지향, 운영 탁월성, 미래 지향)
+21. 전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화
+22. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석
+23. 5 Forces 모델 - 기존 경쟁자, 신규 진입자 위협, 대체재 위협, 공급자 교섭력, 구매자 교섭력
+24. SWOT 분석 - 강점(S), 약점(W), 기회(O), 위협(T) 및 교차 전략 (SO, ST, WO, WT)
+25. PEST 분석 (거시 환경 분석) - 정치(Political), 경제(Economic), 사회(Social), 기술(Technological)
+26. 3C 분석 - 고객(C고객), 자사(Company), 경쟁사(Competitor)
+27. 7S 모델 (맥킨지) - Strategy, Structure, Systems, Shared Values, Style, Staff, Skills
+28. 포트폴리오 매트릭스 (BCG Matrix) - 시장 점유율과 성장률 기준 사업 분류 (Star, Cash Cow, Question Mark, Dog)
+29. IT 포트폴리오 관리 (IT PPM) - IT 투자를 인프라, 트랜잭션, 정보, 전략 자산으로 분류하여 예산 최적화
+30. 파괴적 혁신 (Disruptive Innovation) - 로우엔드 시장에서 출발해 주류 시장을 파괴하는 크리스텐슨 교수의 혁신 이론
+31. 롱테일 법칙 (Long Tail) - 디지털 경제에서 하위 80% 다수가 상위 20% 핵심보다 더 큰 가치를 창출하는 현상 (파레토 법칙의 역)
+32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙 - 사용자 수의 제곱에 비례하여 네트워크 가치가 증가
+33. 플랫폼 비즈니스 모델 (Platform Business Model) - 양면 시장(Two-sided Market) 교차 네트워크 효과
+34. 애자일 경영 (Agile Management) - 불확실성이 높은 환경에서 빠르게 MVP를 출시하고 학습을 반복하는 조직론
+35. 린 스타트업 (Lean Startup) - 에릭 리스, '만들고-측정하고-학습하는' (Build-Measure-Learn) 피드백 루프 적용
+36. MVP (Minimum Viable Product, 최소 존립 제품)
+37. 피벗 (Pivot) - 고객 반응을 바탕으로 사업 방향을 전략적으로 전환
+38. 양손잡이 조직 (Ambidextrous Organization) - 기존 코어 비즈니스의 심화(Exploitation)와 신규 혁신 비즈니스의 탐험(Exploration)을 동시 수행
+39. OKR (Objectives and Key Results) - 인텔/구글 방식, 야심찬 목표(O)와 측정 가능한 핵심 결과(KR)로 구성된 성과 관리
+40. 디자인 씽킹 (Design Thinking) - 공감(Empathize) -> 정의 -> 아이디에이션 -> 프로토타입 -> 테스트의 창의적 문제 해결 프레임워크
+41. 그로스 해킹 (Growth Hacking) - 제품 기능과 마케팅 데이터를 결합해 사용자 유입과 성장을 극대화하는 기법
+42. AARRR 퍼널 - 획득(Acquisition), 활성화(Activation), 유지(Retention), 추천(Referral), 수익(Revenue)
+43. IT 아웃소싱 (ITO, IT Outsourcing) 전략 - 핵심 역량 집중, 비용 절감, 전문성 활용 목적
+44. BPO (Business Process Outsourcing) - IT뿐 아니라 인사, 총무 등 비즈니스 프로세스 자체를 아웃소싱
+45. 클라우드 매니지드 서비스 (MSP, Managed Service Provider) - 퍼블릭 클라우드 설계, 이전, 운영 대행 전문 기업
+46. SLA (Service Level Agreement, 서비스 수준 협약서) - 아웃소싱 제공자와 고객 간의 정량적 서비스 지표 계약
+47. IT 컴플라이언스 (IT Compliance) - 기업에 요구되는 법적/규제적 요건(개인정보보호법, GDPR, SOX) 준수 통제 체계
+48. 컴플라이언스 애즈 코드 (Compliance as Code) - 수동 감사가 아닌 인프라 코드에 규제 검사 룰셋 자동 융합
+49. 섀도우 IT (Shadow IT) - 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 SaaS/소프트웨어 (통제 사각지대)
+50. 정보보호최고책임자 (CISO) 및 최고데이터책임자 (CDO) 직무 독립성
+51. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 기준 정보(고객, 상품 등)의 단일 정합성(SSOT) 유지 체계
+52. 데이터 거버넌스 (Data Governance) - 데이터의 품질, 보안, 생명주기를 전사적으로 규정하고 관리하는 체계 (정책, 조직, 표준)
+53. 데이터 스튜어드십 (Data Stewardship) - 현업 부서의 데이터 품질 실무 책임
+54. 정보 시스템 감리 (IT Audit) - 효과성, 효율성, 안전성을 제3자적 관점에서 진단 평가
+55. 디지털 트랜스포메이션 (DX/DT, Digital Transformation) - 클라우드, AI, 빅데이터를 결합해 비즈니스 모델을 완전히 디지털 기반으로 전환
+56. 옴니채널 (Omni-Channel) 마케팅 전략 - 온라인과 오프라인의 모든 고객 접점을 매끄럽게 통합
+57. 구독 경제 (Subscription Economy) / XaaS (Everything as a Service)
+58. 데이터 리터러시 (Data Literacy) - 전 임직원의 데이터 해석 및 비즈니스 활용 역량
+59. 바이모달 IT (Bimodal IT, 가트너) - 모드 1(안정성/전통적 IT)과 모드 2(민첩성/혁신 IT)의 투트랙 운영 전략
+60. RPA (Robotic Process Automation) / 초자동화 (Hyperautomation) 업무 효율화
 
-## 2. IT [서비스](/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 관리 ([ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/)) 및 [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) 프레임워크 (70개)
-61. [ITSM](/studynote/12_it_management/02_itsm_itil/845_itsm/) ([IT Service Management](/studynote/12_it_management/02_itsm_itil/845_itsm/)) - IT 시스템 중심에서 '[서비스](/studynote/12_it_management/02_itsm_itil/845_itsm/)'와 '고객' 중심으로 IT 운영 관리 패러다임 전환
-62. [ITIL](/studynote/12_it_management/02_itsm_itil/062_darkdata/) ([IT Infrastructure Library](/studynote/12_it_management/02_itsm_itil/062_darkdata/)) - [ITSM](/studynote/12_it_management/02_itsm_itil/062_darkdata/) 구축을 위한 영국(OGC) 제정 글로벌 베스트 프랙티스 [라이브러리](/studynote/12_it_management/02_itsm_itil/062_darkdata/)
-63. [ITIL](/studynote/12_it_management/02_itsm_itil/847_itil_v3_service_lifecycle/) V3 의 [서비스](/studynote/12_it_management/02_itsm_itil/847_itil_v3_service_lifecycle/) 수명주기 ([Service Lifecycle](/studynote/12_it_management/02_itsm_itil/847_itil_v3_service_lifecycle/)) 5단계
-64. [서비스 전략](/studynote/12_it_management/02_itsm_itil/848_service_strategy/) ([Service Strategy](/studynote/12_it_management/02_itsm_itil/848_service_strategy/)) - 포트폴리오 관리, 수요 관리, 재무 관리
-65. [서비스 설계](/studynote/12_it_management/02_itsm_itil/849_service_design/) ([Service Design](/studynote/12_it_management/02_itsm_itil/849_service_design/)) - [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/849_service_design/) 관리, [SLA](/studynote/12_it_management/02_itsm_itil/849_service_design/) 관리, [가용성](/studynote/12_it_management/02_itsm_itil/849_service_design/)/연속성 관리
-66. [서비스 전환](/studynote/12_it_management/02_itsm_itil/850_service_transition/) ([Service Transition](/studynote/12_it_management/02_itsm_itil/850_service_transition/)) - [변경 관리](/studynote/12_it_management/02_itsm_itil/850_service_transition/), 릴리스 및 배포 관리, 지식 관리
-67. [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) ([Service Operation](/studynote/12_it_management/02_itsm_itil/067_service_operation/)) - [이벤트 관리](/studynote/12_it_management/02_itsm_itil/067_service_operation/), [인시던트 관리](/studynote/12_it_management/02_itsm_itil/067_service_operation/), [문제 관리](/studynote/12_it_management/02_itsm_itil/067_service_operation/), 접근 관리
-68. [지속적 서비스 개선](/studynote/12_it_management/02_itsm_itil/852_stack_queue/) ([CSI](/studynote/12_it_management/02_itsm_itil/852_stack_queue/), Continual [Service](/studynote/12_it_management/02_itsm_itil/852_stack_queue/) Improvement) - 7단계 개선 프로세스, [PDCA](/studynote/12_it_management/02_itsm_itil/852_stack_queue/) 사이클
-69. [ITIL](/studynote/12_it_management/02_itsm_itil/069_itil4_core_change/) 4 의 핵심 개념 변화 - 생명주기 모델에서 [서비스](/studynote/12_it_management/02_itsm_itil/069_itil4_core_change/) 가치 시스템 (SVS, [Service](/studynote/12_it_management/02_itsm_itil/069_itil4_core_change/) Value System)으로 진화 ([애자일](/studynote/12_it_management/02_itsm_itil/069_itil4_core_change/), [DevOps](/studynote/12_it_management/02_itsm_itil/069_itil4_core_change/) 통합)
-70. [ITIL](/studynote/12_it_management/02_itsm_itil/854_union_find/) 4 [서비스](/studynote/12_it_management/02_itsm_itil/854_union_find/) [가치 사슬](/studynote/12_it_management/02_itsm_itil/854_union_find/) ([Service Value Chain](/studynote/12_it_management/02_itsm_itil/854_union_find/)) - 계획(Plan), 개선(Improve), 참여(Engage), 설계 및 전환(Design & Transition), 획득/구축(Obtain/Build), 제공 및 지원(Deliver & [Support](/studynote/12_it_management/02_itsm_itil/854_union_find/))
-71. [4차원 모델](/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) ([Four Dimensions](/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) of [Service](/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) [Management](/studynote/12_it_management/02_itsm_itil/071_four_dimensions/)) - 조직과 사람, 정보와 기술, 파트너와 공급자, 가치 흐름과 프로세스
-72. [서비스 데스크](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/) ([Service Desk](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/)) - 사용자와 IT 조직 간의 단일 접점 ([SPOC](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/), Single Point of Contact)
-73. [SPOC](/studynote/12_it_management/02_itsm_itil/073_spoc/) (Single Point of Contact) - 사용자 불만/요청 창구 일원화로 혼선 방지 및 지식 축적
-74. [이벤트 관리](/studynote/12_it_management/02_itsm_itil/074_event_management/) ([Event Management](/studynote/12_it_management/02_itsm_itil/074_event_management/)) - 인프라 [모니터](/studynote/12_it_management/02_itsm_itil/074_event_management/)링 경고/알람 1차 수집 (Warning, Exception)
-75. [인시던트 관리](/studynote/12_it_management/02_itsm_itil/859_incident_management/) ([Incident Management](/studynote/12_it_management/02_itsm_itil/859_incident_management/)) - 예기치 않은 [서비스](/studynote/12_it_management/02_itsm_itil/859_incident_management/) 중단 발생 시 '최대한 빨리 정상 [서비스](/studynote/12_it_management/02_itsm_itil/859_incident_management/)를 [복구](/studynote/12_it_management/02_itsm_itil/859_incident_management/)'하는 것이 목표
-76. [워크어라운드](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/) ([Workaround](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/)) - 근본 원인은 모르더라도 일단 [서비스](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/)를 재개하기 위한 임시 우회 조치 (재부팅, 예비 서버 전환 등)
-77. [문제 관리](/studynote/12_it_management/02_itsm_itil/861_problem_management/) ([Problem Management](/studynote/12_it_management/02_itsm_itil/861_problem_management/)) - 다수의 인시던트를 유발하는 '근본 원인(Root Cause)'을 찾아내어 '알려진 오류(Known Error)'로 등록하고 영구적 해결책 제시
-78. [KEDB](/studynote/12_it_management/02_itsm_itil/078_kedb/) ([Known Error Database](/studynote/12_it_management/02_itsm_itil/078_kedb/)) - 알려진 오류와 [워크어라운드](/studynote/12_it_management/02_itsm_itil/078_kedb/), 해결책을 모아둔 [지식 베이스](/studynote/12_it_management/02_itsm_itil/078_kedb/)
-79. [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) ([Change Management](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) / [Change Enablement](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)) - 시스템 수정/업데이트로 인한 [서비스](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) [리스크](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 통제, 모든 변경은 승인을 거침
-80. [변경 통제 위원회](/studynote/12_it_management/02_itsm_itil/080_cab/) ([CAB](/studynote/12_it_management/02_itsm_itil/080_cab/), Change Advisory Board) - 중대한 변경 사항의 영향도를 심사하고 승인하는 의결 기구
-81. [긴급 변경 위원회](/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) ([ECAB](/studynote/12_it_management/02_itsm_itil/865_feature_engineering/)) - 보안 패치 등 촌각을 다투는 변경을 심의
-82. [릴리스 및 배포 관리 (Release and Deployment Management) - 변경된 소프트웨어/하드웨어를 실제 운영 환경에 이관하는 통제 절차](/studynote/12_it_management/02_itsm_itil/082_pipeline/)
-83. [DML](/studynote/12_it_management/02_itsm_itil/867_dml/) ([Definitive Media Library](/studynote/12_it_management/02_itsm_itil/867_dml/)) - [검증](/studynote/12_it_management/02_itsm_itil/867_dml/)되고 인가된 소프트웨어 원본/라이선스 보관소
-84. [서비스 수준 관리](/studynote/12_it_management/02_itsm_itil/868_service_level_management/) ([SLM](/studynote/12_it_management/02_itsm_itil/868_service_level_management/), [Service Level Management](/studynote/12_it_management/02_itsm_itil/868_service_level_management/)) - 비즈니스 부서와 IT 간의 [서비스](/studynote/12_it_management/02_itsm_itil/868_service_level_management/) 품질 합의서([SLA](/studynote/12_it_management/02_itsm_itil/868_service_level_management/)) 체결 및 정기 성과 측정 ([모니터](/studynote/12_it_management/02_itsm_itil/868_service_level_management/)링, 보고)
-85. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/)) - 대고객 공식 [서비스](/studynote/12_it_management/02_itsm_itil/869_sla/) 품질 계약 ([가용성](/studynote/12_it_management/02_itsm_itil/869_sla/) 99.9%, 응답시간 2초 이내 등)
-86. [OLA](/studynote/12_it_management/02_itsm_itil/870_ola/) ([Operational Level Agreement](/studynote/12_it_management/02_itsm_itil/870_ola/)) - IT 내부 부서(네트워크팀-서버팀) 간의 운영 지원 협약
-87. [UC](/studynote/12_it_management/02_itsm_itil/087_loss_function/) ([Underpinning Contract](/studynote/12_it_management/02_itsm_itil/087_loss_function/)) - 외부 외주 공급업체(통신사, 벤더)와의 기초 지원 계약
-88. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/088_optimizer/) ([Service Catalog](/studynote/12_it_management/02_itsm_itil/088_optimizer/)) - 현업 사용자가 선택할 수 있는 IT [서비스](/studynote/12_it_management/02_itsm_itil/088_optimizer/) 목록 및 단가 명세서
-89. [구성 관리](/studynote/12_it_management/02_itsm_itil/873_configuration_management/) ([Configuration Management](/studynote/12_it_management/02_itsm_itil/873_configuration_management/)) - IT 자산의 구성 항목([CI](/studynote/12_it_management/02_itsm_itil/873_configuration_management/))과 그들 간의 [논리](/studynote/12_it_management/02_itsm_itil/873_configuration_management/)적/물리적 상호 종속 [관계](/studynote/12_it_management/02_itsm_itil/873_configuration_management/)를 관리
-90. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) - 서버, [스위치](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), SW 라이선스, 매뉴얼 등 관리 대상 구성 항목
-91. [CMDB](/studynote/12_it_management/02_itsm_itil/875_cmdb/) ([Configuration Management Database](/studynote/12_it_management/02_itsm_itil/875_cmdb/)) - 모든 CI의 정보와 종속 [관계](/studynote/12_it_management/02_itsm_itil/875_cmdb/)가 저장된 [데이터베이스](/studynote/12_it_management/02_itsm_itil/875_cmdb/) (인시던트 영향도 분석 시 핵심 [데이터](/studynote/12_it_management/02_itsm_itil/875_cmdb/))
-92. [가용성 관리](/studynote/12_it_management/02_itsm_itil/876_availability_management/) ([Availability Management](/studynote/12_it_management/02_itsm_itil/876_availability_management/)) - [서비스](/studynote/12_it_management/02_itsm_itil/876_availability_management/) 중단 시간을 최소화하고 약속된 [가용성](/studynote/12_it_management/02_itsm_itil/876_availability_management/) %를 보장하기 위한 아키텍처([이중화](/studynote/12_it_management/02_itsm_itil/876_availability_management/) 등) 점검
-93. [IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management) - 대형 재난/재해 발생 시 핵심 IT 서비스를 복구(DR)하기 위한 예방 및 BCP 연계 관리](/studynote/12_it_management/02_itsm_itil/093_itscm/)
-94. [용량 관리](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/) ([Capacity Management](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) - 현재 및 미래의 비즈니스 수요를 예측하여 적절한 컴퓨팅/네트워크 자원(증설)을 적시에 확보 (클라우드 오토스케일링 연계)
-95. [정보 보안 관리](/studynote/12_it_management/02_itsm_itil/095_information_security_management/) ([Information Security Management](/studynote/12_it_management/02_itsm_itil/095_information_security_management/)) - 조직 자산의 [기밀성](/studynote/12_it_management/02_itsm_itil/095_information_security_management/), [무결성](/studynote/12_it_management/02_itsm_itil/095_information_security_management/), [가용성](/studynote/12_it_management/02_itsm_itil/095_information_security_management/)을 [정책](/studynote/12_it_management/02_itsm_itil/095_information_security_management/)적으로 통제
-96. [ISO/IEC 20000 - IT 서비스 관리 체계(ITSM)에 대한 국제 인증 표준 (ITIL을 기반으로 심사)](/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000/)
-97. [ITSM](/studynote/12_it_management/02_itsm_itil/097_itsm_tool_platform/) 도구 플랫폼 (ServiceNow, Jira [Service](/studynote/12_it_management/02_itsm_itil/097_itsm_tool_platform/) [Management](/studynote/12_it_management/02_itsm_itil/097_itsm_tool_platform/) 등)
-98. [셀프 서비스 포털](/studynote/12_it_management/02_itsm_itil/882_self_service_portal_helpdesk_automation/) ([Self-Service Portal](/studynote/12_it_management/02_itsm_itil/882_self_service_portal_helpdesk_automation/)) - 사용자가 헬프데스크 전화 없이 스스로 비밀번호 [초기](/studynote/12_it_management/02_itsm_itil/882_self_service_portal_helpdesk_automation/)화, 소프트웨어 설치 요청 등을 할 수 있는 포털 (IT 지원 비용 절감)
-99. [챗봇 및 AI옵스(AIOps) 결합 ITSM - 티켓(요청) 자동 분류, 유사 인시던트 자동 매핑, 장애 전조 예측 자동화](/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm/)
-100. [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ([Technical Debt](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)) [모니터](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)링 연계 릴리스 [정책](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)
+## 2. IT 서비스 관리 (ITSM) 및 ITIL 프레임워크 (70개)
+61. ITSM (IT Service Management) - IT 시스템 중심에서 '서비스'와 '고객' 중심으로 IT 운영 관리 패러다임 전환
+62. ITIL (IT Infrastructure Library) - ITSM 구축을 위한 영국(OGC) 제정 글로벌 베스트 프랙티스 라이브러리
+63. ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계
+64. 서비스 전략 (Service Strategy) - 포트폴리오 관리, 수요 관리, 재무 관리
+65. 서비스 설계 (Service Design) - 서비스 카탈로그 관리, SLA 관리, 가용성/연속성 관리
+66. 서비스 전환 (Service Transition) - 변경 관리, 릴리스 및 배포 관리, 지식 관리
+67. 서비스 운영 (Service Operation) - 이벤트 관리, 인시던트 관리, 문제 관리, 접근 관리
+68. 지속적 서비스 개선 (CSI, Continual Service Improvement) - 7단계 개선 프로세스, PDCA 사이클
+69. ITIL 4 의 핵심 개념 변화 - 생명주기 모델에서 서비스 가치 시스템 (SVS, Service Value System)으로 진화 (애자일, DevOps 통합)
+70. ITIL 4 서비스 가치 사슬 (Service Value Chain) - 계획(Plan), 개선(Improve), 참여(Engage), 설계 및 전환(Design & Transition), 획득/구축(Obtain/Build), 제공 및 지원(Deliver & Support)
+71. 4차원 모델 (Four Dimensions of Service Management) - 조직과 사람, 정보와 기술, 파트너와 공급자, 가치 흐름과 프로세스
+72. 서비스 데스크 (Service Desk) - 사용자와 IT 조직 간의 단일 접점 (SPOC, Single Point of Contact)
+73. SPOC (Single Point of Contact) - 사용자 불만/요청 창구 일원화로 혼선 방지 및 지식 축적
+74. 이벤트 관리 (Event Management) - 인프라 모니터링 경고/알람 1차 수집 (Warning, Exception)
+75. 인시던트 관리 (Incident Management) - 예기치 않은 서비스 중단 발생 시 '최대한 빨리 정상 서비스를 복구'하는 것이 목표
+76. 워크어라운드 (Workaround) - 근본 원인은 모르더라도 일단 서비스를 재개하기 위한 임시 우회 조치 (재부팅, 예비 서버 전환 등)
+77. 문제 관리 (Problem Management) - 다수의 인시던트를 유발하는 '근본 원인(Root Cause)'을 찾아내어 '알려진 오류(Known Error)'로 등록하고 영구적 해결책 제시
+78. KEDB (Known Error Database) - 알려진 오류와 워크어라운드, 해결책을 모아둔 지식 베이스
+79. 변경 관리 (Change Management / Change Enablement) - 시스템 수정/업데이트로 인한 서비스 리스크 통제, 모든 변경은 승인을 거침
+80. 변경 통제 위원회 (CAB, Change Advisory Board) - 중대한 변경 사항의 영향도를 심사하고 승인하는 의결 기구
+81. 긴급 변경 위원회 (ECAB) - 보안 패치 등 촌각을 다투는 변경을 심의
+82. 릴리스 및 배포 관리 (Release and Deployment Management) - 변경된 소프트웨어/하드웨어를 실제 운영 환경에 이관하는 통제 절차
+83. DML (Definitive Media Library) - 검증되고 인가된 소프트웨어 원본/라이선스 보관소
+84. 서비스 수준 관리 (SLM, Service Level Management) - 비즈니스 부서와 IT 간의 서비스 품질 합의서(SLA) 체결 및 정기 성과 측정 (모니터링, 보고)
+85. SLA (Service Level Agreement) - 대고객 공식 서비스 품질 계약 (가용성 99.9%, 응답시간 2초 이내 등)
+86. OLA (Operational Level Agreement) - IT 내부 부서(네트워크팀-서버팀) 간의 운영 지원 협약
+87. UC (Underpinning Contract) - 외부 외주 공급업체(통신사, 벤더)와의 기초 지원 계약
+88. 서비스 카탈로그 (Service Catalog) - 현업 사용자가 선택할 수 있는 IT 서비스 목록 및 단가 명세서
+89. 구성 관리 (Configuration Management) - IT 자산의 구성 항목(CI)과 그들 간의 논리적/물리적 상호 종속 관계를 관리
+90. CI (Configuration Item) - 서버, 스위치, SW 라이선스, 매뉴얼 등 관리 대상 구성 항목
+91. CMDB (Configuration Management Database) - 모든 CI의 정보와 종속 관계가 저장된 데이터베이스 (인시던트 영향도 분석 시 핵심 데이터)
+92. 가용성 관리 (Availability Management) - 서비스 중단 시간을 최소화하고 약속된 가용성 %를 보장하기 위한 아키텍처(이중화 등) 점검
+93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management) - 대형 재난/재해 발생 시 핵심 IT 서비스를 복구(DR)하기 위한 예방 및 BCP 연계 관리
+94. 용량 관리 (Capacity Management) - 현재 및 미래의 비즈니스 수요를 예측하여 적절한 컴퓨팅/네트워크 자원(증설)을 적시에 확보 (클라우드 오토스케일링 연계)
+95. 정보 보안 관리 (Information Security Management) - 조직 자산의 기밀성, 무결성, 가용성을 정책적으로 통제
+96. ISO/IEC 20000 - IT 서비스 관리 체계(ITSM)에 대한 국제 인증 표준 (ITIL을 기반으로 심사)
+97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management 등)
+98. 셀프 서비스 포털 (Self-Service Portal) - 사용자가 헬프데스크 전화 없이 스스로 비밀번호 초기화, 소프트웨어 설치 요청 등을 할 수 있는 포털 (IT 지원 비용 절감)
+99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 티켓(요청) 자동 분류, 유사 인시던트 자동 매핑, 장애 전조 예측 자동화
+100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책
 
-## 3. 정보화 [전략](/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/) 및 아키텍처 ([EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)/[ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) (60개)
-101. [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) 수행 4단계 - [환경 분석](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) -> [AS-IS](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (현황) 분석 -> TO-BE (목표) 모델 수립 -> 이행 계획([실행 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) 수립
-102. [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) ([Environmental Analysis](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)) - 거시 환경([PEST](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)), 산업 환경(5 Forces), 내부 역량([Value Chain](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)) 분석
-103. [비즈니스 아키텍처](/studynote/12_it_management/03_ea_isp/887_chaining/) ([BA](/studynote/12_it_management/03_ea_isp/887_chaining/)) 현황 분석 - 조직의 프로세스 맵 구조 분해
-104. [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/888_graph/) ([DA](/studynote/12_it_management/03_ea_isp/888_graph/)) 현황 분석 - 전사 ERD, [데이터](/studynote/12_it_management/03_ea_isp/888_graph/) 흐름, 표준화 진단
-105. [애플리케이션 아키텍처](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ([AA](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)) 현황 분석 - 시스템 연계도, [모듈](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 구성도
-106. [기술 아키텍처](/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/) ([TA](/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/)) 현황 분석 - 서버, 네트워크, 보안 인프라 토폴로지 ([AS-IS](/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/))
-107. [차이 분석](/studynote/12_it_management/03_ea_isp/107_classification/) ([Gap Analysis](/studynote/12_it_management/03_ea_isp/107_classification/)) - [AS](/studynote/12_it_management/03_ea_isp/107_classification/)-IS와 TO-BE 간의 갭을 도출하여 정보화 과제([Task](/studynote/12_it_management/03_ea_isp/107_classification/)) [식별](/studynote/12_it_management/03_ea_isp/107_classification/)
-108. [이행 계획 수립](/studynote/12_it_management/03_ea_isp/892_suffix_tree_array/) - [식별](/studynote/12_it_management/03_ea_isp/892_suffix_tree_array/)된 과제의 우선순위 산정, 일정/예산 편성 ([ROI](/studynote/12_it_management/03_ea_isp/892_suffix_tree_array/) 분석)
-109. [정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)) - ISP보다 구체적. 특정 프로젝트의 요구사항 명세서(RFP) 작성, S/W 규모 산정([FP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)), 제안요청서 도출에 특화된 활동
-110. [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), 전사적 아키텍처) - 기업의 IT 자산을 비즈니스 목표에 맞게 최적화/정렬하기 위한 종합 청사진
-111. [EA](/studynote/12_it_management/03_ea_isp/111_ea_framework/) 프레임워크 ([EA Framework](/studynote/12_it_management/03_ea_isp/111_ea_framework/)) - [EA](/studynote/12_it_management/03_ea_isp/111_ea_framework/) 구축을 위한 방법론, 산출물 정의, 메타모델 구조 체계
-112. [잭맨 프레임워크](/studynote/12_it_management/03_ea_isp/112_zachman_framework/) ([Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/)) - EA의 시초, 6하 원칙(행)과 5개 관점(열)을 조합한 36개 매트릭스로 기업 구성요소 [식별](/studynote/12_it_management/03_ea_isp/112_zachman_framework/) ([분류](/studynote/12_it_management/03_ea_isp/112_zachman_framework/) 체계에 초점)
-113. [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/) ([The Open Group](/studynote/12_it_management/03_ea_isp/113_togaf/)) - 가장 대중적인 글로벌 [EA](/studynote/12_it_management/03_ea_isp/113_togaf/) 프레임워크 ([ADM](/studynote/12_it_management/03_ea_isp/113_togaf/) 프로세스 기반)
-114. [TOGAF ADM](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/) ([Architecture Development Method](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/)) - 예비 단계 -> [비즈니스 아키텍처](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/) -> 정보 시스템 아키텍처 -> [기술 아키텍처](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/) -> 기회 및 솔루션 -> 마이그레이션 계획 -> 구현 거버넌스 -> 아키텍처 [변경 관리](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/) (순환 루프)
-115. [범정부 EA 프레임워크 (GEA) - 공공부문 정보자산 관리 표준 체계 (방향성, 아키텍처 모델, 참조 모델 3계층)](/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/)
-116. [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/) ([Reference Model](/studynote/12_it_management/03_ea_isp/116_reference_model/)) - 아키텍처 구성 시 가이드가 되는 범용적 표준 모델
-117. [BRM](/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) (Business [Reference Model](/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/), 업무 [참조 모델](/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/)) - 기관의 업무 기능을 중복 없이 [분류](/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/)
-118. [SRM](/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/) ([Service](/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/) [Reference Model](/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/), [서비스](/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/) [참조 모델](/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/)) - 애플리케이션 [컴포넌트](/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/) 기능 표준화
-119. [DRM](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) ([Data](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) [Reference Model](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/), [데이터](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) [참조 모델](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/)) - 범정부 [데이터](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) 교환 표준 및 [분류](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) 체계
-120. [TRM](/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) (Technical [Reference Model](/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/), 기술 [참조 모델](/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/)) - 기술 인프라 요소 및 표준 규격 명세
-121. [PRM](/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/) ([Performance](/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/) [Reference Model](/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/), 성과 [참조 모델](/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/)) - IT 투자 성과 평가 지표 모델
-122. [EA](/studynote/12_it_management/03_ea_isp/906_ea_governance_arb_architecture_review_board/) 거버넌스 ([EA Governance](/studynote/12_it_management/03_ea_isp/906_ea_governance_arb_architecture_review_board/)) - 수립된 EA가 현업 정보화 사업에 제대로 준수([Compliance](/studynote/12_it_management/03_ea_isp/906_ea_governance_arb_architecture_review_board/))되는지 심의/통제하는 조직 및 절차
-123. [아키텍처 검토 위원회](/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/) (ARB, [Architecture](/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/) [Review](/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/) Board) - 정보화 사업 기획/설계 시 [EA](/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/) 원칙 준수 여부 심의 결정 기구
-124. [EA](/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/) 관리 시스템 ([EAMS](/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/)) - [EA](/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/) 산출물, 메타모델, 모델링 정보를 통합 저장/조회하는 아키텍처 포털 시스템
-125. [현행화](/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) ([As-Is Update](/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/)) - 시스템 변경 시 [EA](/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 정보를 최신 상태로 갱신하는 유지보수 활동 ([현행화](/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 미흡 시 [EA](/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/) 사장 위험)
-126. [정보 기술 투자 평가 (IT ROI) - 사전 평가, 진행 평가, 사후 평가 체계](/studynote/12_it_management/03_ea_isp/126_it_roi_evaluation/)
-127. [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)) - "프로세스를 뜯어고쳐라", 근본적 재설계
-128. [BPR](/studynote/12_it_management/03_ea_isp/128_bpr_4_principles/) 4대 핵심 원칙 - 근본적인(Fundamental), 획기적인(Radical), 프로세스([Process](/studynote/12_it_management/03_ea_isp/128_bpr_4_principles/)), 재설계(Redesign)
-129. [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)) 기반 [BPR](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) - 수동 인터뷰가 아닌 [ERP](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) 이벤트 [로그](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) 기반의 객관적 병목 진단 및 자동화된 프로세스 맵 도출
-130. [디지털 비즈니스 혁신](/studynote/12_it_management/03_ea_isp/130_digital_business_transformation_architecture_transition/) ([Digital Business Transformation](/studynote/12_it_management/03_ea_isp/130_digital_business_transformation_architecture_transition/)) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/[MSA](/studynote/12_it_management/03_ea_isp/130_digital_business_transformation_architecture_transition/) 전환 거버넌스)
+## 3. 정보화 전략 및 아키텍처 (EA/ISP) (60개)
+101. 정보화 전략 계획 (ISP) 수행 4단계 - 환경 분석 -> AS-IS (현황) 분석 -> TO-BE (목표) 모델 수립 -> 이행 계획(실행 계획) 수립
+102. 환경 분석 (Environmental Analysis) - 거시 환경(PEST), 산업 환경(5 Forces), 내부 역량(Value Chain) 분석
+103. 비즈니스 아키텍처 (BA) 현황 분석 - 조직의 프로세스 맵 구조 분해
+104. 데이터 아키텍처 (DA) 현황 분석 - 전사 ERD, 데이터 흐름, 표준화 진단
+105. 애플리케이션 아키텍처 (AA) 현황 분석 - 시스템 연계도, 모듈 구성도
+106. 기술 아키텍처 (TA) 현황 분석 - 서버, 네트워크, 보안 인프라 토폴로지 (AS-IS)
+107. 차이 분석 (Gap Analysis) - AS-IS와 TO-BE 간의 갭을 도출하여 정보화 과제(Task) 식별
+108. 이행 계획 수립 - 식별된 과제의 우선순위 산정, 일정/예산 편성 (ROI 분석)
+109. 정보시스템 마스터플랜 (ISMP) - ISP보다 구체적. 특정 프로젝트의 요구사항 명세서(RFP) 작성, S/W 규모 산정(FP), 제안요청서 도출에 특화된 활동
+110. EA (Enterprise Architecture, 전사적 아키텍처) - 기업의 IT 자산을 비즈니스 목표에 맞게 최적화/정렬하기 위한 종합 청사진
+111. EA 프레임워크 (EA Framework) - EA 구축을 위한 방법론, 산출물 정의, 메타모델 구조 체계
+112. 잭맨 프레임워크 (Zachman Framework) - EA의 시초, 6하 원칙(행)과 5개 관점(열)을 조합한 36개 매트릭스로 기업 구성요소 식별 (분류 체계에 초점)
+113. TOGAF (The Open Group) - 가장 대중적인 글로벌 EA 프레임워크 (ADM 프로세스 기반)
+114. TOGAF ADM (Architecture Development Method) - 예비 단계 -> 비즈니스 아키텍처 -> 정보 시스템 아키텍처 -> 기술 아키텍처 -> 기회 및 솔루션 -> 마이그레이션 계획 -> 구현 거버넌스 -> 아키텍처 변경 관리 (순환 루프)
+115. 범정부 EA 프레임워크 (GEA) - 공공부문 정보자산 관리 표준 체계 (방향성, 아키텍처 모델, 참조 모델 3계층)
+116. 참조 모델 (Reference Model) - 아키텍처 구성 시 가이드가 되는 범용적 표준 모델
+117. BRM (Business Reference Model, 업무 참조 모델) - 기관의 업무 기능을 중복 없이 분류
+118. SRM (Service Reference Model, 서비스 참조 모델) - 애플리케이션 컴포넌트 기능 표준화
+119. DRM (Data Reference Model, 데이터 참조 모델) - 범정부 데이터 교환 표준 및 분류 체계
+120. TRM (Technical Reference Model, 기술 참조 모델) - 기술 인프라 요소 및 표준 규격 명세
+121. PRM (Performance Reference Model, 성과 참조 모델) - IT 투자 성과 평가 지표 모델
+122. EA 거버넌스 (EA Governance) - 수립된 EA가 현업 정보화 사업에 제대로 준수(Compliance)되는지 심의/통제하는 조직 및 절차
+123. 아키텍처 검토 위원회 (ARB, Architecture Review Board) - 정보화 사업 기획/설계 시 EA 원칙 준수 여부 심의 결정 기구
+124. EA 관리 시스템 (EAMS) - EA 산출물, 메타모델, 모델링 정보를 통합 저장/조회하는 아키텍처 포털 시스템
+125. 현행화 (As-Is Update) - 시스템 변경 시 EA 정보를 최신 상태로 갱신하는 유지보수 활동 (현행화 미흡 시 EA 사장 위험)
+126. 정보 기술 투자 평가 (IT ROI) - 사전 평가, 진행 평가, 사후 평가 체계
+127. BPR (Business Process Reengineering) - "프로세스를 뜯어고쳐라", 근본적 재설계
+128. BPR 4대 핵심 원칙 - 근본적인(Fundamental), 획기적인(Radical), 프로세스(Process), 재설계(Redesign)
+129. 프로세스 마이닝 (Process Mining) 기반 BPR - 수동 인터뷰가 아닌 ERP 이벤트 로그 기반의 객관적 병목 진단 및 자동화된 프로세스 맵 도출
+130. 디지털 비즈니스 혁신 (Digital Business Transformation) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/MSA 전환 거버넌스)
 
 ## 4. 정보시스템 개발, 테스트 및 비용 산정 (60개)
-131. [시스템 개발 생명주기](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 프로세스 관리
-132. [V 모델 (V-Model) - 폭포수 모델의 확장, 개발 각 단계에 대응하는 테스트 레벨(단위, 통합, 시스템, 인수) 명시 (Verification & Validation)](/studynote/12_it_management/04_sdlc_testing/132_v_model_sdlc_verification_validation_testing/)
-133. [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (Capability [Maturity Model](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) Integration) 5단계 모델 - 소프트웨어 개발 조직의 프로세스 성숙도 평가 국제 표준
-134. [CMMI](/studynote/12_it_management/04_sdlc_testing/134_cmmi_level_1_initial/) 레벨 1 (Initial, [초기](/studynote/12_it_management/04_sdlc_testing/134_cmmi_level_1_initial/)) - 표준 프로세스 부재, 영웅적 개인에 의존
-135. [CMMI](/studynote/12_it_management/04_sdlc_testing/135_cmmi_level_2_managed/) 레벨 2 (Managed, 관리됨) - 프로젝트 단위 규칙 수립, 경험 반복
-136. [CMMI](/studynote/12_it_management/04_sdlc_testing/136_cmmi_level_3_defined/) 레벨 3 (Defined, 정의됨) - 조직 전체의 표준 프로세스 확립 ([Tailoring](/studynote/12_it_management/04_sdlc_testing/136_cmmi_level_3_defined/) 수행)
-137. [CMMI](/studynote/12_it_management/04_sdlc_testing/137_cmmi_level_4_quantitatively_managed/) 레벨 4 (Quantitatively Managed, 정량적 관리) - 성과를 통계적/정량적 수치로 측정 및 제어
-138. [CMMI](/studynote/12_it_management/04_sdlc_testing/138_cmmi_level_5_optimizing/) 레벨 5 (Optimizing, 최적화) - 정량적 피드백을 기반으로 지속적 프로세스 혁신
-139. [SPICE](/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) (ISO/IEC 15504) - CMMI에 대응하는 ISO [인증](/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 소프트웨어 프로세스 심사 모델
-140. [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/) ([FP](/studynote/12_it_management/04_sdlc_testing/140_function_point/), [Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 규모 산정 - 사용자 관점의 [논리](/studynote/12_it_management/04_sdlc_testing/140_function_point/)적 [트랜잭션](/studynote/12_it_management/04_sdlc_testing/140_function_point/)/[데이터](/studynote/12_it_management/04_sdlc_testing/140_function_point/) 양을 기반으로 소프트웨어 규모 산정 국제 모델
-141. [데이터 기능](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/) ([Data Functions](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/)) - ILF (내부 [논리](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/) [파일](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/), DB 저장 [데이터](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/)), EIF (외부 연계 [파일](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/), 타 시스템 [참조](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/) [데이터](/studynote/12_it_management/04_sdlc_testing/141_fp_data_functions/))
-142. [트랜잭션 기능](/studynote/12_it_management/04_sdlc_testing/142_fp_transaction_functions/) ([Transaction Functions](/studynote/12_it_management/04_sdlc_testing/142_fp_transaction_functions/)) - EI (외부 입력, Insert/Update), EO (외부 출력, 수식/계산 동반 조회), EQ (외부 조회, 단순 [Select](/studynote/12_it_management/04_sdlc_testing/142_fp_transaction_functions/))
-143. [간이 기능점수법](/studynote/12_it_management/04_sdlc_testing/143_fp_estimation_methods/) (평균 복잡도 [가중치](/studynote/12_it_management/04_sdlc_testing/143_fp_estimation_methods/) 일괄 적용) vs 상세 기능점수법 (DET, RET 갯수에 따른 고/중/저 복잡도 정밀 적용)
-144. [보정 계수](/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/) - 규모 산정 후 [성능](/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/), 다중 사이트, [분산](/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/) 처리 등 기술적 난이도를 반영해 규모 보정 (VAF, Value Adjustment Factor)
-145. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) ([Constructive Cost Model](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)) - 소스코드 라인 수 (LOC, Lines of [Code](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/))를 예측하여 인월(Man-Month)을 산출하는 [알고리즘](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)
-146. [COCOMO](/studynote/12_it_management/04_sdlc_testing/146_cocomo_types/) 모델 종류 - 유기적 (Organic, 5만 라인 이하), 준분리형 (Semi-detached), 내장형 (Embedded, 30만 라인 이상 복잡)
-147. [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) [Management](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) Body of Knowledge) - PMI에서 제정한 프로젝트 관리 10대 지식 영역
-148. [10대 영역 - 통합, 범위, 일정, 원가, 품질, 자원, 의사소통, 리스크, 조달, 이해관계자 관리](/studynote/12_it_management/04_sdlc_testing/148_pmbok_10_knowledge_areas_overview/)
-149. [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) - 프로젝트 인도물을 중심으로 하위 작업 패키지(Work Package)로 쪼갠 계층적 구조도 (100% Rule 준수)
-150. [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/), 주공정법) - 프로젝트 네트워크 다이어그램에서 여유 시간(Slack)이 0인 가장 긴 경로 (프로젝트 최단 완료 시간 결정)
-151. [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) (Program Evaluation and [Review](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) Technique) - 작업 소요 시간을 확률적(낙관치, 기대치, 비관치)으로 산정하여 통계적 일정 예측
-152. [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/), 획득 가치 관리) - 프로젝트의 진척도와 예산 소진 상태를 금액(가치) 단위로 환산해 통합 통제하는 기법
-153. [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value) - 계획된 예산 (어느 시점까지 하기로 한 작업의 예산)
-154. [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value) - 획득 가치 (실제 완료된 작업의 예산 할당 가치)
-155. [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) ([Actual Cost](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) - 실제 투입된 비용
-156. [CV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) ([Cost Variance](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)) = [EV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) - [AC](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) (양수면 예산 절감, 음수면 예산 초과)
-157. [SV](/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/) (Schedule [Variance](/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/)) = [EV](/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/) - [PV](/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/) (양수면 일정 단축, 음수면 일정 [지연](/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/))
-158. [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) (Cost [Performance](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) [Index](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)) = [EV](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) / [AC](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) (1 초과 시 우수)
-159. [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (Schedule [Performance](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) [Index](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) = [EV](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) / [PV](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (1 초과 시 우수)
-160. [품질 관리 (Quality Assurance vs Quality Control) - QA는 프로세스 준수 감시(예방), QC는 산출물 테스트 결함 식별(발견)](/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/)
-161. [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) - 공식적이고 체계적인 산출물 리뷰 기법 ([중재자](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) [Moderator](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 주도, [체크리스트](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 활용)
-162. [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) (Walkthrough) - 저자가 코드를 설명하고 동료들이 자유롭게 피드백을 주는 비공식 기술 검토 회의
-163. [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/))
-164. [TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test Driven Development](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) - 테스트 코드를 먼저 작성(Red)하고 구현(Green), [리팩토링](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Refactor](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))하는 짧은 주기 반복
-165. [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) (Behavior Driven Development) - 사용자 행위(Given, When, Then) 중심의 비즈니스 언어로 [테스트 케이스](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 명세
-166. [CI](/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/)/CD ([Continuous Integration](/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/) / [Continuous Deployment](/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/)) 빌드/테스트 파이프라인
-167. [소프트웨어 형상 관리](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Configuration Management](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) [베이스라인](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([Baseline](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 변경 통제
-168. [프로젝트 리스크 4대 대응 전략 (부정적) - 회피(Avoidance), 전가(Transfer/보험), 완화(Mitigation), 수용(Acceptance)](/studynote/12_it_management/04_sdlc_testing/168_risk_response_strategies/)
-169. [기술 부채](/studynote/12_it_management/04_sdlc_testing/169_technical_debt_control_matrix/) ([Technical Debt](/studynote/12_it_management/04_sdlc_testing/169_technical_debt_control_matrix/)) 통제 매트릭스
-170. [조달 계약 방식](/studynote/12_it_management/04_sdlc_testing/170_procurement_contract_types/) - 고정가 계약 ([FP](/studynote/12_it_management/04_sdlc_testing/170_procurement_contract_types/), Firm Fixed Price) vs 실비 정산 계약 (CR, Cost Reimbursable)
+131. 시스템 개발 생명주기 (SDLC) 프로세스 관리
+132. V 모델 (V-Model) - 폭포수 모델의 확장, 개발 각 단계에 대응하는 테스트 레벨(단위, 통합, 시스템, 인수) 명시 (Verification & Validation)
+133. CMMI (Capability Maturity Model Integration) 5단계 모델 - 소프트웨어 개발 조직의 프로세스 성숙도 평가 국제 표준
+134. CMMI 레벨 1 (Initial, 초기) - 표준 프로세스 부재, 영웅적 개인에 의존
+135. CMMI 레벨 2 (Managed, 관리됨) - 프로젝트 단위 규칙 수립, 경험 반복
+136. CMMI 레벨 3 (Defined, 정의됨) - 조직 전체의 표준 프로세스 확립 (Tailoring 수행)
+137. CMMI 레벨 4 (Quantitatively Managed, 정량적 관리) - 성과를 통계적/정량적 수치로 측정 및 제어
+138. CMMI 레벨 5 (Optimizing, 최적화) - 정량적 피드백을 기반으로 지속적 프로세스 혁신
+139. SPICE (ISO/IEC 15504) - CMMI에 대응하는 ISO 인증 소프트웨어 프로세스 심사 모델
+140. 기능 점수 (FP, Function Point) 규모 산정 - 사용자 관점의 논리적 트랜잭션/데이터 양을 기반으로 소프트웨어 규모 산정 국제 모델
+141. 데이터 기능 (Data Functions) - ILF (내부 논리 파일, DB 저장 데이터), EIF (외부 연계 파일, 타 시스템 참조 데이터)
+142. 트랜잭션 기능 (Transaction Functions) - EI (외부 입력, Insert/Update), EO (외부 출력, 수식/계산 동반 조회), EQ (외부 조회, 단순 Select)
+143. 간이 기능점수법 (평균 복잡도 가중치 일괄 적용) vs 상세 기능점수법 (DET, RET 갯수에 따른 고/중/저 복잡도 정밀 적용)
+144. 보정 계수 - 규모 산정 후 성능, 다중 사이트, 분산 처리 등 기술적 난이도를 반영해 규모 보정 (VAF, Value Adjustment Factor)
+145. COCOMO (Constructive Cost Model) - 소스코드 라인 수 (LOC, Lines of Code)를 예측하여 인월(Man-Month)을 산출하는 알고리즘
+146. COCOMO 모델 종류 - 유기적 (Organic, 5만 라인 이하), 준분리형 (Semi-detached), 내장형 (Embedded, 30만 라인 이상 복잡)
+147. PMBOK (Project Management Body of Knowledge) - PMI에서 제정한 프로젝트 관리 10대 지식 영역
+148. 10대 영역 - 통합, 범위, 일정, 원가, 품질, 자원, 의사소통, 리스크, 조달, 이해관계자 관리
+149. WBS (Work Breakdown Structure) - 프로젝트 인도물을 중심으로 하위 작업 패키지(Work Package)로 쪼갠 계층적 구조도 (100% Rule 준수)
+150. CPM (Critical Path Method, 주공정법) - 프로젝트 네트워크 다이어그램에서 여유 시간(Slack)이 0인 가장 긴 경로 (프로젝트 최단 완료 시간 결정)
+151. PERT (Program Evaluation and Review Technique) - 작업 소요 시간을 확률적(낙관치, 기대치, 비관치)으로 산정하여 통계적 일정 예측
+152. EVM (Earned Value Management, 획득 가치 관리) - 프로젝트의 진척도와 예산 소진 상태를 금액(가치) 단위로 환산해 통합 통제하는 기법
+153. PV (Planned Value) - 계획된 예산 (어느 시점까지 하기로 한 작업의 예산)
+154. EV (Earned Value) - 획득 가치 (실제 완료된 작업의 예산 할당 가치)
+155. AC (Actual Cost) - 실제 투입된 비용
+156. CV (Cost Variance) = EV - AC (양수면 예산 절감, 음수면 예산 초과)
+157. SV (Schedule Variance) = EV - PV (양수면 일정 단축, 음수면 일정 지연)
+158. CPI (Cost Performance Index) = EV / AC (1 초과 시 우수)
+159. SPI (Schedule Performance Index) = EV / PV (1 초과 시 우수)
+160. 품질 관리 (Quality Assurance vs Quality Control) - QA는 프로세스 준수 감시(예방), QC는 산출물 테스트 결함 식별(발견)
+161. 인스펙션 (Inspection) - 공식적이고 체계적인 산출물 리뷰 기법 (중재자 Moderator 주도, 체크리스트 활용)
+162. 워크스루 (Walkthrough) - 저자가 코드를 설명하고 동료들이 자유롭게 피드백을 주는 비공식 기술 검토 회의
+163. 동료 검토 (Peer Review)
+164. TDD (Test Driven Development) - 테스트 코드를 먼저 작성(Red)하고 구현(Green), 리팩토링(Refactor)하는 짧은 주기 반복
+165. BDD (Behavior Driven Development) - 사용자 행위(Given, When, Then) 중심의 비즈니스 언어로 테스트 케이스 명세
+166. CI/CD (Continuous Integration / Continuous Deployment) 빌드/테스트 파이프라인
+167. 소프트웨어 형상 관리 (SCM, Configuration Management) 베이스라인(Baseline) 변경 통제
+168. 프로젝트 리스크 4대 대응 전략 (부정적) - 회피(Avoidance), 전가(Transfer/보험), 완화(Mitigation), 수용(Acceptance)
+169. 기술 부채 (Technical Debt) 통제 매트릭스
+170. 조달 계약 방식 - 고정가 계약 (FP, Firm Fixed Price) vs 실비 정산 계약 (CR, Cost Reimbursable)
 
 ## 5. 엔터프라이즈 시스템 보안, 감리 및 컴플라이언스 (60개)
-171. [정보보호 관리체계 (ISMS-P) - 기업의 정보보호 및 개인정보보호 관리 프로세스 인증 (관리체계 수립, 보호대책, 개인정보 처리 단계 102개 항목)](/studynote/12_it_management/05_security_compliance/171_isms_p/)
-172. [ISO/IEC 27001 - 글로벌 정보보안 경영시스템 국제 표준 인증](/studynote/12_it_management/05_security_compliance/172_iso_iec_27001_standard/)
-173. [정보보호최고책임자](/exam/12_it_management/173_ciso_role_and_responsibility/) ([CISO](/exam/12_it_management/173_ciso_role_and_responsibility/)) 지정 의무 및 역할
-174. [개인정보 영향평가](/exam/12_it_management/174_privacy_impact_assessment/) ([PIA](/exam/12_it_management/174_privacy_impact_assessment/), [Privacy Impact Assessment](/exam/12_it_management/174_privacy_impact_assessment/)) - [개인정보](/exam/12_it_management/174_privacy_impact_assessment/) 처리 시스템 구축/변경 시 프라이버시 침해 위험을 사전 분석하고 개선 방안 수립 (일정 규모 이상 공공 의무)
-175. [재해 복구 시스템](/exam/12_it_management/175_drs_bcp_strategy/) ([DRS](/exam/12_it_management/175_drs_bcp_strategy/)) 및 업무 연속성 계획 (BCP) 아키텍처 모의 훈련
-176. [RTO](/exam/12_it_management/176_rto_recovery_time_objective/) ([Recovery Time Objective](/exam/12_it_management/176_rto_recovery_time_objective/)) - 재난 시 [서비스](/exam/12_it_management/176_rto_recovery_time_objective/)가 멈춰있을 수 있는 최대 허용 시간
-177. [RPO](/exam/12_it_management/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/exam/12_it_management/177_rpo_recovery_point_objective/)) - 재난 시 유실을 감내할 수 있는 최대 [데이터](/exam/12_it_management/177_rpo_recovery_point_objective/) 손실 시점 ([백업](/exam/12_it_management/177_rpo_recovery_point_objective/) 주기 결정)
-178. [미러 사이트](/exam/12_it_management/178_mirror_site/) ([Mirror Site](/exam/12_it_management/178_mirror_site/)) - 액티브-액티브 [RTO](/exam/12_it_management/178_mirror_site/)=0 [동기화](/exam/12_it_management/178_mirror_site/) [복구](/exam/12_it_management/178_mirror_site/) 센터
-179. [핫 사이트](/exam/12_it_management/179_hot_site_dr/) ([Hot Site](/exam/12_it_management/179_hot_site_dr/)) - 인프라 및 최신 [데이터](/exam/12_it_management/179_hot_site_dr/) 완비, 수 시간 내 [복구](/exam/12_it_management/179_hot_site_dr/) ([RTO](/exam/12_it_management/179_hot_site_dr/) 4시간 이내)
-180. [웜 사이트](/exam/12_it_management/180_warm_site_dr/) ([Warm Site](/exam/12_it_management/180_warm_site_dr/)) - 인프라 보유, [데이터](/exam/12_it_management/180_warm_site_dr/) [백업](/exam/12_it_management/180_warm_site_dr/) 테이프 등으로 수일 내 [복구](/exam/12_it_management/180_warm_site_dr/)
-181. [콜드 사이트](/exam/12_it_management/181_cold_site_dr/) ([Cold Site](/exam/12_it_management/181_cold_site_dr/)) - 공간과 전력만 보유, HW부터 세팅 필요 (수 주 소요)
-182. [망분리](/exam/12_it_management/182_network_separation_model/) ([Network Separation](/exam/12_it_management/182_network_separation_model/)) 모델 - 업무망과 인터넷망 분리 (물리적 [망분리](/exam/12_it_management/182_network_separation_model/) vs [논리](/exam/12_it_management/182_network_separation_model/)적 [망분리](/exam/12_it_management/182_network_separation_model/) [VDI](/exam/12_it_management/182_network_separation_model/)/SBC)
-183. [망연계 시스템](/exam/12_it_management/183_network_linkage_system/) - [망분리](/exam/12_it_management/183_network_linkage_system/) 환경에서 결재/승인 절차를 거쳐 안전하게 [데이터](/exam/12_it_management/183_network_linkage_system/)를 스트림 송수신하는 구간 통제 솔루션
-184. [제로 트러스트](/exam/12_it_management/184_zero_trust_architecture/) ([Zero Trust](/exam/12_it_management/184_zero_trust_architecture/)) 아키텍처 - '절대 신뢰하지 말고 항상 [검증](/exam/12_it_management/184_zero_trust_architecture/)하라', 내외부를 구분하는 경계 보안(Perimeter) 모델을 폐기하고, 모든 [세션](/exam/12_it_management/184_zero_trust_architecture/) 요청 시 다중 [인증](/exam/12_it_management/184_zero_trust_architecture/)([MFA](/exam/12_it_management/184_zero_trust_architecture/)) 및 최소 권한([Least Privilege](/exam/12_it_management/184_zero_trust_architecture/)) 동적 평가 부여
-185. [접근 제어 메커니즘](/exam/12_it_management/185_access_control_mac_dac_rbac_abac/) ([MAC](/exam/12_it_management/185_access_control_mac_dac_rbac_abac/), DAC, [RBAC](/exam/12_it_management/185_access_control_mac_dac_rbac_abac/), [ABAC](/exam/12_it_management/185_access_control_mac_dac_rbac_abac/))
-186. [데이터 유출 방지](/exam/12_it_management/186_dlp_data_loss_prevention/) ([DLP](/exam/12_it_management/186_dlp_data_loss_prevention/), [Data Loss Prevention](/exam/12_it_management/186_dlp_data_loss_prevention/)) 시스템
-187. [정보시스템 감리](/exam/12_it_management/187_information_system_audit/) ([Information System Audit](/exam/12_it_management/187_information_system_audit/)) - 효과성, 효율성, 안전성 점검
-188. [감리 프레임워크](/exam/12_it_management/188_audit_framework_3_perspectives/) 3대 관점 - 절차(Procedure), 산출물(Deliverables), 성과([Performance](/exam/12_it_management/188_audit_framework_3_perspectives/)) 관점
-189. [예방 감리](/exam/12_it_management/189_preventive_resident_audit/) / 상주 감리 체제 적용
-190. [시큐어 코딩](/exam/12_it_management/190_secure_coding_guideline/) ([Secure Coding](/exam/12_it_management/190_secure_coding_guideline/)) 가이드라인 준수 감리 - 행정안전부 47개 소프트웨어 보안 약점 필수 점검 (SQL [인젝션](/exam/12_it_management/190_secure_coding_guideline/), [XSS](/exam/12_it_management/190_secure_coding_guideline/), [무결성](/exam/12_it_management/190_secure_coding_guideline/) [검증](/exam/12_it_management/190_secure_coding_guideline/) 미비 등)
-191. [오픈소스](/exam/12_it_management/191_oss_license_compliance/) ([OSS](/exam/12_it_management/191_oss_license_compliance/)) 라이선스 컴플라이언스 점검 (GPL 전염성 위배 등 상용 릴리스 위험 방지)
-192. [소프트웨어 개발 보안](/exam/12_it_management/192_sast_dast_security_analysis/) 자동화 분석 도구 ([SAST](/exam/12_it_management/192_sast_dast_security_analysis/), [DAST](/exam/12_it_management/192_sast_dast_security_analysis/)) 도입 및 오탐/미탐 비율 관리
-193. [퍼블릭 클라우드](/exam/12_it_management/193_csap_cloud_security_assurance/) 보안 [인증](/exam/12_it_management/193_csap_cloud_security_assurance/) ([CSAP](/exam/12_it_management/193_csap_cloud_security_assurance/)) - 공공기관의 민간 클라우드 활용을 위한 보안 등급제 (상, 중, 하 등급 [논리](/exam/12_it_management/193_csap_cloud_security_assurance/)적/물리적 분리 규정)
-194. [CMMC](/exam/12_it_management/194_cmmc_cybersecurity_maturity/) (Cybersecurity [Maturity Model](/exam/12_it_management/194_cmmc_cybersecurity_maturity/) Certification) - 미국 국방부 사이버보안 성숙도 [인증](/exam/12_it_management/194_cmmc_cybersecurity_maturity/) 모델 (방산 [공급망 보안](/exam/12_it_management/194_cmmc_cybersecurity_maturity/))
-195. [정보보호 공시 제도](/exam/12_it_management/195_information_security_disclosure/) - 기업의 정보보호 투자액, 전담 인력, [인증](/exam/12_it_management/195_information_security_disclosure/) 획득 현황을 주주/소비자에게 투명하게 공시하는 제도
-196. [개인정보 가명 처리](/exam/12_it_management/196_pseudonymization_de_identification/) ([Pseudonymization](/exam/12_it_management/196_pseudonymization_de_identification/)) 및 비식별화 (De-identification) - [데이터](/exam/12_it_management/196_pseudonymization_de_identification/) 결합 및 분석(빅데이터)을 위한 안전 조치
-197. [K-익명성, L-다양성, T-근접성 프라이버시 보호 모델](/studynote/12_it_management/05_security_compliance/197_k_anonymity_l_diversity_t_closeness/)
-198. [랜섬웨어 방어 아키텍처](/exam/12_it_management/198_ransomware_defense_architecture/) - [데이터](/exam/12_it_management/198_ransomware_defense_architecture/) [백업](/exam/12_it_management/198_ransomware_defense_architecture/) 네트워크 물리적 에어갭 (Air-gap), [WORM](/exam/12_it_management/198_ransomware_defense_architecture/)(Write Once Read Many) 스토리지 도입
-199. [사이버 킬체인](/exam/12_it_management/199_cyber_kill_chain_mitre_attack/) ([Cyber Kill Chain](/exam/12_it_management/199_cyber_kill_chain_mitre_attack/)) 방어 및 마이터 어택 ([MITRE ATT&CK](/exam/12_it_management/199_cyber_kill_chain_mitre_attack/)) 프레임워크 기반 관제
-200. [정보보호 및 IT 감사 국제 자격증 체계 (CISA, CISSP)](/studynote/12_it_management/05_security_compliance/200_cisa_cissp_certifications/)
+171. 정보보호 관리체계 (ISMS-P) - 기업의 정보보호 및 개인정보보호 관리 프로세스 인증 (관리체계 수립, 보호대책, 개인정보 처리 단계 102개 항목)
+172. ISO/IEC 27001 - 글로벌 정보보안 경영시스템 국제 표준 인증
+173. 정보보호최고책임자 (CISO) 지정 의무 및 역할
+174. 개인정보 영향평가 (PIA, Privacy Impact Assessment) - 개인정보 처리 시스템 구축/변경 시 프라이버시 침해 위험을 사전 분석하고 개선 방안 수립 (일정 규모 이상 공공 의무)
+175. 재해 복구 시스템 (DRS) 및 업무 연속성 계획 (BCP) 아키텍처 모의 훈련
+176. RTO (Recovery Time Objective) - 재난 시 서비스가 멈춰있을 수 있는 최대 허용 시간
+177. RPO (Recovery Point Objective) - 재난 시 유실을 감내할 수 있는 최대 데이터 손실 시점 (백업 주기 결정)
+178. 미러 사이트 (Mirror Site) - 액티브-액티브 RTO=0 동기화 복구 센터
+179. 핫 사이트 (Hot Site) - 인프라 및 최신 데이터 완비, 수 시간 내 복구 (RTO 4시간 이내)
+180. 웜 사이트 (Warm Site) - 인프라 보유, 데이터 백업 테이프 등으로 수일 내 복구
+181. 콜드 사이트 (Cold Site) - 공간과 전력만 보유, HW부터 세팅 필요 (수 주 소요)
+182. 망분리 (Network Separation) 모델 - 업무망과 인터넷망 분리 (물리적 망분리 vs 논리적 망분리 VDI/SBC)
+183. 망연계 시스템 - 망분리 환경에서 결재/승인 절차를 거쳐 안전하게 데이터를 스트림 송수신하는 구간 통제 솔루션
+184. 제로 트러스트 (Zero Trust) 아키텍처 - '절대 신뢰하지 말고 항상 검증하라', 내외부를 구분하는 경계 보안(Perimeter) 모델을 폐기하고, 모든 세션 요청 시 다중 인증(MFA) 및 최소 권한(Least Privilege) 동적 평가 부여
+185. 접근 제어 메커니즘 (MAC, DAC, RBAC, ABAC)
+186. 데이터 유출 방지 (DLP, Data Loss Prevention) 시스템
+187. 정보시스템 감리 (Information System Audit) - 효과성, 효율성, 안전성 점검
+188. 감리 프레임워크 3대 관점 - 절차(Procedure), 산출물(Deliverables), 성과(Performance) 관점
+189. 예방 감리 / 상주 감리 체제 적용
+190. 시큐어 코딩 (Secure Coding) 가이드라인 준수 감리 - 행정안전부 47개 소프트웨어 보안 약점 필수 점검 (SQL 인젝션, XSS, 무결성 검증 미비 등)
+191. 오픈소스 (OSS) 라이선스 컴플라이언스 점검 (GPL 전염성 위배 등 상용 릴리스 위험 방지)
+192. 소프트웨어 개발 보안 자동화 분석 도구 (SAST, DAST) 도입 및 오탐/미탐 비율 관리
+193. 퍼블릭 클라우드 보안 인증 (CSAP) - 공공기관의 민간 클라우드 활용을 위한 보안 등급제 (상, 중, 하 등급 논리적/물리적 분리 규정)
+194. CMMC (Cybersecurity Maturity Model Certification) - 미국 국방부 사이버보안 성숙도 인증 모델 (방산 공급망 보안)
+195. 정보보호 공시 제도 - 기업의 정보보호 투자액, 전담 인력, 인증 획득 현황을 주주/소비자에게 투명하게 공시하는 제도
+196. 개인정보 가명 처리 (Pseudonymization) 및 비식별화 (De-identification) - 데이터 결합 및 분석(빅데이터)을 위한 안전 조치
+197. K-익명성, L-다양성, T-근접성 프라이버시 보호 모델
+198. 랜섬웨어 방어 아키텍처 - 데이터 백업 네트워크 물리적 에어갭 (Air-gap), WORM(Write Once Read Many) 스토리지 도입
+199. 사이버 킬체인 (Cyber Kill Chain) 방어 및 마이터 어택 (MITRE ATT&CK) 프레임워크 기반 관제
+200. 정보보호 및 IT 감사 국제 자격증 체계 (CISA, CISSP)
 
-## 6. 클라우드, [AI](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/), [데이터](/studynote/12_it_management/01_governance_strategy/001_it_governance/) 및 최신 비즈니스 융합 기술 (70개)
-201. [클라우드 서비스 모델](/exam/12_it_management/201_cloud_service_models_iaas_paas_saas/) ([IaaS](/exam/12_it_management/201_cloud_service_models_iaas_paas_saas/), [PaaS](/exam/12_it_management/201_cloud_service_models_iaas_paas_saas/), [SaaS](/exam/12_it_management/201_cloud_service_models_iaas_paas_saas/), [BaaS](/exam/12_it_management/201_cloud_service_models_iaas_paas_saas/), [FaaS](/exam/12_it_management/201_cloud_service_models_iaas_paas_saas/)) 엔터프라이즈 도입 [전략](/exam/12_it_management/201_cloud_service_models_iaas_paas_saas/)
-202. [멀티 클라우드](/exam/12_it_management/202_multi_cloud_hybrid_cloud_governance/) ([Multi-Cloud](/exam/12_it_management/202_multi_cloud_hybrid_cloud_governance/)) 및 [하이브리드 클라우드](/exam/12_it_management/202_multi_cloud_hybrid_cloud_governance/) ([Hybrid Cloud](/exam/12_it_management/202_multi_cloud_hybrid_cloud_governance/)) [데이터 거버넌스](/exam/12_it_management/202_multi_cloud_hybrid_cloud_governance/)
-203. [클라우드 마이그레이션 6R 기법 - Rehost(그대로 이전), Replatform(OS/DB 변경 이전), Refactor(MSA/PaaS로 구조 전면 수정), Repurchase(SaaS 구매 대체)](/studynote/12_it_management/05_security_compliance/203_cloud_migration_6r/)
-204. [클라우드 네이티브 아키텍처](/exam/12_it_management/204_cloud_native_architecture/) ([Cloud Native Architecture](/exam/12_it_management/204_cloud_native_architecture/)) 구성 요소 - [마이크로서비스](/exam/12_it_management/204_cloud_native_architecture/), [컨테이너](/exam/12_it_management/204_cloud_native_architecture/)([Docker](/exam/12_it_management/204_cloud_native_architecture/)/K8s), [CI](/exam/12_it_management/204_cloud_native_architecture/)/CD, [DevOps](/exam/12_it_management/204_cloud_native_architecture/) 체계
-205. [컨테이너 오케스트레이션](/exam/12_it_management/205_kubernetes_container_orchestration/) ([Kubernetes](/exam/12_it_management/205_kubernetes_container_orchestration/)) 노드/[포드](/exam/12_it_management/205_kubernetes_container_orchestration/)([Pod](/exam/12_it_management/205_kubernetes_container_orchestration/)) 고가용성 설계
-206. [서버리스](/exam/12_it_management/206_serverless_cold_start/) ([Serverless](/exam/12_it_management/206_serverless_cold_start/)) [함수 호출](/exam/12_it_management/206_serverless_cold_start/) 및 [콜드 스타트](/exam/12_it_management/206_serverless_cold_start/) 극복 방안
-207. [인프라스트럭처 애즈 코드](/exam/12_it_management/207_iac_terraform_immutable_infrastructure/) ([IaC](/exam/12_it_management/207_iac_terraform_immutable_infrastructure/), [Terraform](/exam/12_it_management/207_iac_terraform_immutable_infrastructure/)) - [형상 관리](/exam/12_it_management/207_iac_terraform_immutable_infrastructure/) 연동 [불변 인프라](/exam/12_it_management/207_iac_terraform_immutable_infrastructure/)([Immutable Infrastructure](/exam/12_it_management/207_iac_terraform_immutable_infrastructure/)) 구축
-208. [데이터 레이크](/exam/12_it_management/208_data_lake_schema_on_read/) ([Data Lake](/exam/12_it_management/208_data_lake_schema_on_read/)) - [스키마](/exam/12_it_management/208_data_lake_schema_on_read/)리스([Schema-on-read](/exam/12_it_management/208_data_lake_schema_on_read/)) 원시 [데이터](/exam/12_it_management/208_data_lake_schema_on_read/) 중앙 저장소
-209. [데이터 웨어하우스](/exam/12_it_management/209_data_warehouse_schema_on_write/) ([DW](/exam/12_it_management/209_data_warehouse_schema_on_write/)) - [스키마](/exam/12_it_management/209_data_warehouse_schema_on_write/) 정제([Schema-on-write](/exam/12_it_management/209_data_warehouse_schema_on_write/)) 전사 통합 [관계](/exam/12_it_management/209_data_warehouse_schema_on_write/)형 저장소
-210. [데이터 레이크하우스](/exam/12_it_management/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/exam/12_it_management/210_data_lakehouse_delta_lake/)) - [데이터 레이크](/exam/12_it_management/210_data_lakehouse_delta_lake/)의 유연성/확장성과 DW의 ACID [트랜잭션](/exam/12_it_management/210_data_lakehouse_delta_lake/) [성능](/exam/12_it_management/210_data_lakehouse_delta_lake/)을 융합한 차세대 플랫폼 ([Databricks](/exam/12_it_management/210_data_lakehouse_delta_lake/) 델타 레이크 등)
-211. [데이터 메시](/exam/12_it_management/211_data_mesh_domain_ownership/) ([Data Mesh](/exam/12_it_management/211_data_mesh_domain_ownership/)) - [데이터](/exam/12_it_management/211_data_mesh_domain_ownership/) 관리를 중앙 팀 사일로에서 벗어나, [도메인](/exam/12_it_management/211_data_mesh_domain_ownership/) 주도의 [분산](/exam/12_it_management/211_data_mesh_domain_ownership/) 오너십 체계로 전환하여 '[데이터](/exam/12_it_management/211_data_mesh_domain_ownership/)를 프로덕트'로 제공하는 조직적/기술적 패러다임 전환
-212. [데이터 패브릭](/exam/12_it_management/212_data_fabric_virtualization/) ([Data Fabric](/exam/12_it_management/212_data_fabric_virtualization/)) - 흩어진 [데이터](/exam/12_it_management/212_data_fabric_virtualization/)를 이관([ETL](/exam/12_it_management/212_data_fabric_virtualization/))하지 않고 [메타데이터](/exam/12_it_management/212_data_fabric_virtualization/)와 [AI](/exam/12_it_management/212_data_fabric_virtualization/) 기반의 [가상화](/exam/12_it_management/212_data_fabric_virtualization/) 계층으로 매핑/연결하여 실시간 조회하는 통합 층
-213. [데이터 카탈로그](/exam/12_it_management/213_data_catalog_metadata/) ([Data Catalog](/exam/12_it_management/213_data_catalog_metadata/)) 시스템 - [데이터](/exam/12_it_management/213_data_catalog_metadata/) 자산 위치 탐색 및 [메타데이터](/exam/12_it_management/213_data_catalog_metadata/) 태깅, [데이터 거버넌스](/exam/12_it_management/213_data_catalog_metadata/)의 핵심
-214. [데이터 리니지](/exam/12_it_management/214_data_lineage_tracking/) ([Data Lineage](/exam/12_it_management/214_data_lineage_tracking/)) - [데이터](/exam/12_it_management/214_data_lineage_tracking/)의 발생지부터 변환, 적재까지 흐름과 변형 과정을 시각적으로 추적 (규제 대응 [무결성](/exam/12_it_management/214_data_lineage_tracking/) 증명)
-215. [ETL](/exam/12_it_management/215_etl_vs_elt_pipeline/) ([추출-변환-적재](/exam/12_it_management/215_etl_vs_elt_pipeline/)) vs [ELT](/exam/12_it_management/215_etl_vs_elt_pipeline/) (추출-적재-변환 / 클라우드 [DW](/exam/12_it_management/215_etl_vs_elt_pipeline/) [성능](/exam/12_it_management/215_etl_vs_elt_pipeline/) 활용) 파이프라인
-216. [빅데이터 분산 처리 인프라 - 하둡 에코시스템 (HDFS, MapReduce 병목) -> 아파치 스파크 (Apache Spark 인메모리 고속 병렬 컴퓨팅)](/studynote/12_it_management/05_security_compliance/216_bigdata_hadoop_spark/)
-217. [이벤트 스트리밍 브로커](/exam/12_it_management/217_kafka_event_streaming/) - [아파치 카프카](/exam/12_it_management/217_kafka_event_streaming/) ([Apache Kafka](/exam/12_it_management/217_kafka_event_streaming/)) Pub/Sub [분산](/exam/12_it_management/217_kafka_event_streaming/) 큐 토폴로지
-218. [변경 데이터 캡처](/exam/12_it_management/218_cdc_change_data_capture/) ([CDC](/exam/12_it_management/218_cdc_change_data_capture/), [Change Data Capture](/exam/12_it_management/218_cdc_change_data_capture/)) [데이터베이스](/exam/12_it_management/218_cdc_change_data_capture/) 실시간 마이그레이션 연동망
-219. [AI옵스 (AIOps, AI for IT Operations) - 머신러닝을 이용해 IT 인프라/로그 모니터링 경고 피로(Alert Fatigue)를 줄이고, 장애 근본 원인을 자동 탐지/치유하는 지능형 운영 체계](/studynote/12_it_management/05_security_compliance/219_aiops_ai_it_operations/)
-220. [MLOps](/exam/12_it_management/220_mlops_machine_learning_operations/) ([Machine Learning Operations](/exam/12_it_management/220_mlops_machine_learning_operations/)) - [AI](/exam/12_it_management/220_mlops_machine_learning_operations/) 모델 학습, 테스트, 배포, 추론, [모니터](/exam/12_it_management/220_mlops_machine_learning_operations/)링을 [지속적 배포 파이프라인](/exam/12_it_management/220_mlops_machine_learning_operations/)([CI](/exam/12_it_management/220_mlops_machine_learning_operations/)/CD/[CT](/exam/12_it_management/220_mlops_machine_learning_operations/))으로 통합 통제하는 랩/운영 융합론
-221. [LLMOps](/exam/12_it_management/221_llmops_large_language_model_ops/) - 초거대 언어모델([LLM](/exam/12_it_management/221_llmops_large_language_model_ops/))의 파인튜닝, 프롬프트 템플릿 관리, [RAG](/exam/12_it_management/221_llmops_large_language_model_ops/)([검색 증강 생성](/exam/12_it_management/221_llmops_large_language_model_ops/)) 파이프라인 관리 및 [환각](/exam/12_it_management/221_llmops_large_language_model_ops/) [모니터](/exam/12_it_management/221_llmops_large_language_model_ops/)링 기능이 추가된 차세대 [MLOps](/exam/12_it_management/221_llmops_large_language_model_ops/)
-222. [검색 증강 생성](/exam/12_it_management/222_rag_retrieval_augmented_generation/) ([RAG](/exam/12_it_management/222_rag_retrieval_augmented_generation/), [Retrieval-Augmented Generation](/exam/12_it_management/222_rag_retrieval_augmented_generation/)) - 내부 프라이빗 DB 문서를 [벡터 데이터베이스](/exam/12_it_management/222_rag_retrieval_augmented_generation/)에 [임베딩](/exam/12_it_management/222_rag_retrieval_augmented_generation/) 저장 후, 질문 시 [코사인 유사도](/exam/12_it_management/222_rag_retrieval_augmented_generation/) 검색을 거쳐 찾은 정답 문단을 [LLM](/exam/12_it_management/222_rag_retrieval_augmented_generation/) 프롬프트에 주입하여 사내 전문 답변을 [환각](/exam/12_it_management/222_rag_retrieval_augmented_generation/) 없이 [생성](/exam/12_it_management/222_rag_retrieval_augmented_generation/)하는 기업형 [AI](/exam/12_it_management/222_rag_retrieval_augmented_generation/) 아키텍처
-223. [벡터 데이터베이스](/exam/12_it_management/223_vector_database_embedding/) ([Vector Database](/exam/12_it_management/223_vector_database_embedding/)) - [임베딩](/exam/12_it_management/223_vector_database_embedding/)된 다차원 숫자 배열을 고속 쿼리하는 인프라
-224. [팩트 기반 프롬프트 엔지니어링 (Prompt 엔진ering) 가이드라인 제정](/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/)
-225. [파운데이션 모델](/exam/12_it_management/225_foundation_model_peft_lora/) ([Foundation Model](/exam/12_it_management/225_foundation_model_peft_lora/)) [전이 학습](/exam/12_it_management/225_foundation_model_peft_lora/) 및 파라미터 효율적 [미세 조정](/exam/12_it_management/225_foundation_model_peft_lora/) ([PEFT](/exam/12_it_management/225_foundation_model_peft_lora/) / [LoRA](/exam/12_it_management/225_foundation_model_peft_lora/) 기법) 도입 경제성 검토
-226. [AI](/exam/12_it_management/226_ai_ethics_governance_eu_ai_act/) 거버넌스 및 윤리 ([AI Ethics](/exam/12_it_management/226_ai_ethics_governance_eu_ai_act/) & Governance) 가이드라인 제정 - [데이터](/exam/12_it_management/226_ai_ethics_governance_eu_ai_act/) 편향성 제거, 공정성 확보, [저작권](/exam/12_it_management/226_ai_ethics_governance_eu_ai_act/) 이슈 (EU [AI](/exam/12_it_management/226_ai_ethics_governance_eu_ai_act/) Act 컴플라이언스 대응)
-227. [설명 가능한 AI (XAI) 도입 - 딥러닝 블랙박스 결과 도출 근거 제시 지표 (LIME, SHAP)](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)
-228. [블록체인](/exam/12_it_management/228_blockchain_smart_contract_traceability/) [스마트 컨트랙트](/exam/12_it_management/228_blockchain_smart_contract_traceability/) 기반 [공급망](/exam/12_it_management/228_blockchain_smart_contract_traceability/) 증빙([Traceability](/exam/12_it_management/228_blockchain_smart_contract_traceability/)) 플랫폼 연동
-229. [영지식 증명](/exam/12_it_management/229_zkp_data_clean_room/) ([ZKP](/exam/12_it_management/229_zkp_data_clean_room/)) 활용 프라이버시 클린 룸 ([Data Clean Room](/exam/12_it_management/229_zkp_data_clean_room/)) 기업 간 [데이터](/exam/12_it_management/229_zkp_data_clean_room/) 연합
-230. [웹 3.0 (Web 3.0) 분산 경제 플랫폼 및 토큰 이코노믹스 비즈니스 접목](/studynote/12_it_management/05_security_compliance/230_web3_token_economics/)
-231. [DID](/exam/12_it_management/231_did_decentralized_identity/) ([탈중앙화 신원 증명](/exam/12_it_management/231_did_decentralized_identity/)) W3C 표준 [인증](/exam/12_it_management/231_did_decentralized_identity/) 체계 및 [마이데이터](/exam/12_it_management/231_did_decentralized_identity/) [인증](/exam/12_it_management/231_did_decentralized_identity/) 대체
-232. [공간 컴퓨팅](/exam/12_it_management/232_spatial_computing_digital_twin/) ([Spatial Computing](/exam/12_it_management/232_spatial_computing_digital_twin/)) 기반 [디지털 트윈](/exam/12_it_management/232_spatial_computing_digital_twin/)([Digital Twin](/exam/12_it_management/232_spatial_computing_digital_twin/)) 시뮬레이션
-233. [스마트 시티](/exam/12_it_management/233_smart_city_platform_architecture/) 통합 플랫폼 아키텍처 - [데이터 허브](/exam/12_it_management/233_smart_city_platform_architecture/) 센터 및 교통(MaaS/[C-ITS](/exam/12_it_management/233_smart_city_platform_architecture/)) 융합망
-234. [지속 가능한 IT / ESG 경영 탄소 인지 (Carbon-aware) 컴퓨팅 클라우드 스케줄링](/studynote/12_it_management/05_security_compliance/234_esg_carbon_aware_computing/)
-235. [엣지 컴퓨팅](/exam/12_it_management/235_edge_computing_smart_factory/) ([Edge Computing](/exam/12_it_management/235_edge_computing_smart_factory/)) [분산](/exam/12_it_management/235_edge_computing_smart_factory/) [지연](/exam/12_it_management/235_edge_computing_smart_factory/)([Latency](/exam/12_it_management/235_edge_computing_smart_factory/)) 단축 모델 (스마트팩토리 [CPS](/exam/12_it_management/235_edge_computing_smart_factory/))
-236. [양자 컴퓨팅](/exam/12_it_management/236_quantum_computing_pqc/) ([Quantum Computing](/exam/12_it_management/236_quantum_computing_pqc/)) 보안 위협 방어용 [PQC](/exam/12_it_management/236_quantum_computing_pqc/) ([양자 내성 암호](/exam/12_it_management/236_quantum_computing_pqc/)) 로드맵 적용
-237. [디지털 휴먼](/exam/12_it_management/237_digital_human_metaverse_cs/) ([Digital Human](/exam/12_it_management/237_digital_human_metaverse_cs/)) 및 [메타버스](/exam/12_it_management/237_digital_human_metaverse_cs/) CS([C고객](/exam/12_it_management/237_digital_human_metaverse_cs/) [Service](/exam/12_it_management/237_digital_human_metaverse_cs/)) 채널 통합 구조
-238. [로우코드/노코드 (LC/NC) 시민 개발자 (Citizen Developer) 플랫폼 도입과 섀도우 IT 거버넌스 타협망](/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/)
-239. [마이크로 프론트엔드](/exam/12_it_management/239_micro_frontends_architecture/) ([Micro Frontends](/exam/12_it_management/239_micro_frontends_architecture/)) - 백엔드 [MSA](/exam/12_it_management/239_micro_frontends_architecture/) 사상을 프론트엔드 UI 화면에도 분할 적용하여 독립 조직별 배포 보장 구조
-240. [초자동화](/exam/12_it_management/240_hyperautomation_hybrid_workforce/) ([Hyperautomation](/exam/12_it_management/240_hyperautomation_hybrid_workforce/)) [프로세스 마이닝](/exam/12_it_management/240_hyperautomation_hybrid_workforce/) + [RPA](/exam/12_it_management/240_hyperautomation_hybrid_workforce/) + [AI](/exam/12_it_management/240_hyperautomation_hybrid_workforce/) + 챗봇 결합 하이브리드 워크포스 통합 플랫폼
+## 6. 클라우드, AI, 데이터 및 최신 비즈니스 융합 기술 (70개)
+201. 클라우드 서비스 모델 (IaaS, PaaS, SaaS, BaaS, FaaS) 엔터프라이즈 도입 전략
+202. 멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스
+203. 클라우드 마이그레이션 6R 기법 - Rehost(그대로 이전), Replatform(OS/DB 변경 이전), Refactor(MSA/PaaS로 구조 전면 수정), Repurchase(SaaS 구매 대체)
+204. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소 - 마이크로서비스, 컨테이너(Docker/K8s), CI/CD, DevOps 체계
+205. 컨테이너 오케스트레이션 (Kubernetes) 노드/포드(Pod) 고가용성 설계
+206. 서버리스 (Serverless) 함수 호출 및 콜드 스타트 극복 방안
+207. 인프라스트럭처 애즈 코드 (IaC, Terraform) - 형상 관리 연동 불변 인프라(Immutable Infrastructure) 구축
+208. 데이터 레이크 (Data Lake) - 스키마리스(Schema-on-read) 원시 데이터 중앙 저장소
+209. 데이터 웨어하우스 (DW) - 스키마 정제(Schema-on-write) 전사 통합 관계형 저장소
+210. 데이터 레이크하우스 (Data Lakehouse) - 데이터 레이크의 유연성/확장성과 DW의 ACID 트랜잭션 성능을 융합한 차세대 플랫폼 (Databricks 델타 레이크 등)
+211. 데이터 메시 (Data Mesh) - 데이터 관리를 중앙 팀 사일로에서 벗어나, 도메인 주도의 분산 오너십 체계로 전환하여 '데이터를 프로덕트'로 제공하는 조직적/기술적 패러다임 전환
+212. 데이터 패브릭 (Data Fabric) - 흩어진 데이터를 이관(ETL)하지 않고 메타데이터와 AI 기반의 가상화 계층으로 매핑/연결하여 실시간 조회하는 통합 층
+213. 데이터 카탈로그 (Data Catalog) 시스템 - 데이터 자산 위치 탐색 및 메타데이터 태깅, 데이터 거버넌스의 핵심
+214. 데이터 리니지 (Data Lineage) - 데이터의 발생지부터 변환, 적재까지 흐름과 변형 과정을 시각적으로 추적 (규제 대응 무결성 증명)
+215. ETL (추출-변환-적재) vs ELT (추출-적재-변환 / 클라우드 DW 성능 활용) 파이프라인
+216. 빅데이터 분산 처리 인프라 - 하둡 에코시스템 (HDFS, MapReduce 병목) -> 아파치 스파크 (Apache Spark 인메모리 고속 병렬 컴퓨팅)
+217. 이벤트 스트리밍 브로커 - 아파치 카프카 (Apache Kafka) Pub/Sub 분산 큐 토폴로지
+218. 변경 데이터 캡처 (CDC, Change Data Capture) 데이터베이스 실시간 마이그레이션 연동망
+219. AI옵스 (AIOps, AI for IT Operations) - 머신러닝을 이용해 IT 인프라/로그 모니터링 경고 피로(Alert Fatigue)를 줄이고, 장애 근본 원인을 자동 탐지/치유하는 지능형 운영 체계
+220. MLOps (Machine Learning Operations) - AI 모델 학습, 테스트, 배포, 추론, 모니터링을 지속적 배포 파이프라인(CI/CD/CT)으로 통합 통제하는 랩/운영 융합론
+221. LLMOps - 초거대 언어모델(LLM)의 파인튜닝, 프롬프트 템플릿 관리, RAG(검색 증강 생성) 파이프라인 관리 및 환각 모니터링 기능이 추가된 차세대 MLOps
+222. 검색 증강 생성 (RAG, Retrieval-Augmented Generation) - 내부 프라이빗 DB 문서를 벡터 데이터베이스에 임베딩 저장 후, 질문 시 코사인 유사도 검색을 거쳐 찾은 정답 문단을 LLM 프롬프트에 주입하여 사내 전문 답변을 환각 없이 생성하는 기업형 AI 아키텍처
+223. 벡터 데이터베이스 (Vector Database) - 임베딩된 다차원 숫자 배열을 고속 쿼리하는 인프라
+224. 팩트 기반 프롬프트 엔지니어링 (Prompt 엔진ering) 가이드라인 제정
+225. 파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입 경제성 검토
+226. AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정 - 데이터 편향성 제거, 공정성 확보, 저작권 이슈 (EU AI Act 컴플라이언스 대응)
+227. 설명 가능한 AI (XAI) 도입 - 딥러닝 블랙박스 결과 도출 근거 제시 지표 (LIME, SHAP)
+228. 블록체인 스마트 컨트랙트 기반 공급망 증빙(Traceability) 플랫폼 연동
+229. 영지식 증명 (ZKP) 활용 프라이버시 클린 룸 (Data Clean Room) 기업 간 데이터 연합
+230. 웹 3.0 (Web 3.0) 분산 경제 플랫폼 및 토큰 이코노믹스 비즈니스 접목
+231. DID (탈중앙화 신원 증명) W3C 표준 인증 체계 및 마이데이터 인증 대체
+232. 공간 컴퓨팅 (Spatial Computing) 기반 디지털 트윈(Digital Twin) 시뮬레이션
+233. 스마트 시티 통합 플랫폼 아키텍처 - 데이터 허브 센터 및 교통(MaaS/C-ITS) 융합망
+234. 지속 가능한 IT / ESG 경영 탄소 인지 (Carbon-aware) 컴퓨팅 클라우드 스케줄링
+235. 엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)
+236. 양자 컴퓨팅 (Quantum Computing) 보안 위협 방어용 PQC (양자 내성 암호) 로드맵 적용
+237. 디지털 휴먼 (Digital Human) 및 메타버스 CS(C고객 Service) 채널 통합 구조
+238. 로우코드/노코드 (LC/NC) 시민 개발자 (Citizen Developer) 플랫폼 도입과 섀도우 IT 거버넌스 타협망
+239. 마이크로 프론트엔드 (Micro Frontends) - 백엔드 MSA 사상을 프론트엔드 UI 화면에도 분할 적용하여 독립 조직별 배포 보장 구조
+240. 초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼
 
 ## 7. 핵심 빈출 암기 및 기술사 융합 논술 토픽 150선 (종합 정리)
-241. [정보화 전략 계획](/exam/12_it_management/241_isp_asis_tobe_methodology/) ([ISP](/exam/12_it_management/241_isp_asis_tobe_methodology/)) [AS-IS](/exam/12_it_management/241_isp_asis_tobe_methodology/) / TO-BE
-242. [전사 아키텍처](/exam/12_it_management/242_ea_architecture_planning/) ([EA](/exam/12_it_management/242_ea_architecture_planning/))
-243. [잭맨 프레임워크](/exam/12_it_management/243_zachman_framework_matrix/) ([Zachman](/exam/12_it_management/243_zachman_framework_matrix/)) 매트릭스
-244. [TOGAF ADM](/exam/12_it_management/244_togaf_adm_framework/) 프레임워크
-245. [BPR](/exam/12_it_management/245_bpr_vs_pi_comparison/) / [PI](/exam/12_it_management/245_bpr_vs_pi_comparison/) 프로세스 혁신 차이점
-246. [KPI](/exam/12_it_management/246_kpi_csf_relationship/) / [CSF](/exam/12_it_management/246_kpi_csf_relationship/) 상관관계
-247. [BSC](/exam/12_it_management/247_bsc_four_perspectives_review/) [균형 성과 기록표](/exam/12_it_management/247_bsc_four_perspectives_review/) 4관점
-248. [OKR](/exam/12_it_management/248_okr_ambitious_objectives_review/) 도전적 목표와 핵심 결과
-249. [가치 사슬](/exam/12_it_management/249_value_chain_competitive_analysis/) ([Value Chain](/exam/12_it_management/249_value_chain_competitive_analysis/)) 경쟁력 분석
-250. [5 Forces 마이클 포터](/studynote/12_it_management/05_security_compliance/250_five_forces_model_review/)
-251. [SWOT 교차 분석 기법](/studynote/12_it_management/05_security_compliance/251_swot_cross_analysis/)
-252. [롱테일 법칙](/exam/12_it_management/252_long_tail_law/)
-253. [네트워크 효과](/exam/12_it_management/253_network_effect_metcalfe/) ([메트칼프](/exam/12_it_management/253_network_effect_metcalfe/))
-254. [린 스타트업](/exam/12_it_management/254_lean_startup_mvp_pivot/) [MVP](/exam/12_it_management/254_lean_startup_mvp_pivot/) [피벗](/exam/12_it_management/254_lean_startup_mvp_pivot/)
-255. [그로스 해킹](/exam/12_it_management/255_growth_hacking_aarrr_review/) AARRR
-256. [IT 거버넌스 5대 영역](/studynote/12_it_management/05_security_compliance/256_it_governance_5_domains_review/)
-257. [COBIT 2019](/exam/12_it_management/257_cobit_2019_control_model/) 통제 모델
-258. [ITSM](/exam/12_it_management/258_itsm_overview_review/) IT [서비스](/exam/12_it_management/258_itsm_overview_review/) 관리
-259. [ITIL](/exam/12_it_management/259_itil_v3_vs_v4_svs/) v3 생명주기 vs v4 SVS 가치사슬
-260. [SLA](/exam/12_it_management/260_sla_ola_uc_comparison/) / [OLA](/exam/12_it_management/260_sla_ola_uc_comparison/) / [UC](/exam/12_it_management/260_sla_ola_uc_comparison/)
-261. [서비스 데스크](/exam/12_it_management/261_service_desk_spoc_review/) [SPOC](/exam/12_it_management/261_service_desk_spoc_review/)
-262. [CMDB](/exam/12_it_management/262_cmdb_ci_asset_management/) 자산 구성 항목 ([CI](/exam/12_it_management/262_cmdb_ci_asset_management/))
-263. [인시던트 관리](/exam/12_it_management/263_incident_management_recovery_first/) [복구](/exam/12_it_management/263_incident_management_recovery_first/) 우선
-264. [문제 관리](/exam/12_it_management/264_problem_management_kedb/) 근본 원인 [KEDB](/exam/12_it_management/264_problem_management_kedb/)
-265. [변경 관리](/exam/12_it_management/916_change_management_cab_approval/) [CAB](/exam/12_it_management/916_change_management_cab_approval/) 위원회 승인
-266. [BCP 업무 연속성 계획](/studynote/12_it_management/05_security_compliance/266_bcp_business_continuity_plan/)
-267. [BIA](/exam/12_it_management/267_bia_business_impact_analysis/) 업무 영향 분석
-268. [RTO](/exam/12_it_management/268_rto_rpo_objectives/) [복구](/exam/12_it_management/268_rto_rpo_objectives/) 시간 [RPO](/exam/12_it_management/268_rto_rpo_objectives/) [복구](/exam/12_it_management/268_rto_rpo_objectives/) 시점
-269. [DR](/exam/12_it_management/919_dr_site_types_comparison/) 센터 (미러, 핫, 웜, 콜드)
-270. [ROI](/exam/12_it_management/270_investment_analysis_roi_npv/), [NPV](/exam/12_it_management/270_investment_analysis_roi_npv/), [IRR](/exam/12_it_management/270_investment_analysis_roi_npv/), [PP](/exam/12_it_management/270_investment_analysis_roi_npv/) 타당성 분석 지표
-271. [TCO](/exam/12_it_management/271_tco_review/) [총 소유 비용](/exam/12_it_management/271_tco_review/)
-272. [섀도우 IT 리스크](/studynote/12_it_management/05_security_compliance/272_shadow_it_risk_review/)
-273. [데이터 스튜어드십](/exam/12_it_management/273_data_stewardship/)
-274. [CDO](/exam/12_it_management/923_cdo_role/) [데이터](/exam/12_it_management/923_cdo_role/) 총괄 임원
-275. [MDM](/exam/12_it_management/924_mdm_review/) [마스터 데이터 관리](/exam/12_it_management/924_mdm_review/)
-276. [ERP](/exam/12_it_management/276_erp_enterprise_resource/) 전사적 자원 관리
-277. [SCM](/exam/12_it_management/926_scm_bullwhip_effect/) [공급망](/exam/12_it_management/926_scm_bullwhip_effect/) 관리 채찍 효과
-278. [CRM](/exam/12_it_management/927_crm_ltv/) 고객 [관계](/exam/12_it_management/927_crm_ltv/) 관리 [LTV](/exam/12_it_management/927_crm_ltv/)
-279. [CDP](/exam/12_it_management/928_cdp_first_party/) 고객 [데이터](/exam/12_it_management/928_cdp_first_party/) 플랫폼 ([1st Party](/exam/12_it_management/928_cdp_first_party/))
-280. [MES](/exam/12_it_management/930_mes_manufacturing_execution_system/) 공장 제조 실행 시스템
-281. [PLM](/exam/12_it_management/281_plm_pdm_bom/) / [PDM](/exam/12_it_management/281_plm_pdm_bom/) 제품 수명 주기 [BOM](/exam/12_it_management/281_plm_pdm_bom/)
-282. [KMS](/exam/12_it_management/282_kms_seci/) 지식 관리 암묵지 [형식지](/exam/12_it_management/282_kms_seci/) SECI 모델
-283. [RPA](/exam/12_it_management/932_rpa_hyperautomation/) [초자동화](/exam/12_it_management/932_rpa_hyperautomation/) 봇
-284. [프로세스 마이닝](/exam/12_it_management/284_process_mining/) 이벤트 [로그](/exam/12_it_management/284_process_mining/) 병목 진단
-285. [델파이 기법](/exam/12_it_management/285_delphi_method/) 블라인드 합의
-286. [MECE](/exam/12_it_management/286_mece_logic_tree/) [논리](/exam/12_it_management/286_mece_logic_tree/) 트리 중복 누락 배제
-287. [PMO](/exam/12_it_management/934_pmo_role/) 프로젝트 관리 오피스 역할
-288. [WBS](/exam/12_it_management/288_wbs_100_percent_rule/) 100% Rule 작업 패키지
-289. [CPM](/exam/12_it_management/289_cpm_critical_path/) 주공정법 임계 경로
-290. [PERT](/exam/12_it_management/290_pert_three_point/) 3점 추정
-291. [EVM](/exam/12_it_management/937_evm_review/) 획득 가치 ([PV](/exam/12_it_management/937_evm_review/), [EV](/exam/12_it_management/937_evm_review/), [AC](/exam/12_it_management/937_evm_review/), [SPI](/exam/12_it_management/937_evm_review/), [CPI](/exam/12_it_management/937_evm_review/))
-292. [CMMI](/exam/12_it_management/938_cmmi_maturity_levels/) 성숙도 5단계 ([초기](/exam/12_it_management/938_cmmi_maturity_levels/), 관리, 정의, 정량, 최적화)
-293. [기능 점수](/exam/12_it_management/293_fp_function_point/) ([FP](/exam/12_it_management/293_fp_function_point/)) 내부논리파일 외부연계 외부입력 출력
-294. [COCOMO](/exam/12_it_management/294_cocomo_cost_estimation/) 비용 산정 (유기적, 준분리, 내장형)
-295. [인스펙션 중재자](/exam/12_it_management/295_inspection_vs_walkthrough/) 리뷰 [워크스루](/exam/12_it_management/295_inspection_vs_walkthrough/) 비공식 차이
-296. [EAI](/exam/12_it_management/296_eai_hub_spoke_p2p/) [허브](/exam/12_it_management/296_eai_hub_spoke_p2p/) 앤 스포크 포인트 투 포인트
-297. [SOA](/exam/12_it_management/297_soa_wsdl_uddi_soap/) [WSDL](/exam/12_it_management/297_soa_wsdl_uddi_soap/) [UDDI](/exam/12_it_management/297_soa_wsdl_uddi_soap/) [SOAP](/exam/12_it_management/297_soa_wsdl_uddi_soap/) [서비스](/exam/12_it_management/297_soa_wsdl_uddi_soap/) 지향
-298. [ESB](/exam/12_it_management/942_process/) 엔터프라이즈 [서비스](/exam/12_it_management/942_process/) [버스](/exam/12_it_management/942_process/) [라우팅](/exam/12_it_management/942_process/)
-299. [RESTful API](/exam/12_it_management/299_restful_api_hateoas/) [무상태성](/exam/12_it_management/299_restful_api_hateoas/) HATEOAS
-300. [마이크로서비스](/exam/12_it_management/943_process/) [MSA](/exam/12_it_management/943_process/) 독립 배포
-301. [API](/exam/12_it_management/944_api_gateway_bff/) 게이트웨이 / [BFF](/exam/12_it_management/944_api_gateway_bff/) 패턴
-302. [서비스 메시](/exam/12_it_management/945_service_mesh_istio/) ([Istio](/exam/12_it_management/945_service_mesh_istio/)) [사이드카](/exam/12_it_management/945_service_mesh_istio/) [프록시](/exam/12_it_management/945_service_mesh_istio/)
-303. [서비스 디스커버리](/exam/12_it_management/303_process/) 동적 IP [라우팅](/exam/12_it_management/303_process/)
-304. [서킷 브레이커](/exam/12_it_management/947_process/) 장애 연쇄 차단 [폴백](/exam/12_it_management/947_process/)
-305. [사가 패턴](/exam/12_it_management/305_saga/) ([Saga](/exam/12_it_management/305_saga/)) [보상 트랜잭션](/exam/12_it_management/305_saga/)
-306. [CQRS](/exam/12_it_management/306_cqrs/) 명령 조회 모델 물리 분리
-307. [이벤트 소싱](/exam/12_it_management/307_event_sourcing/) 불변 [로그](/exam/12_it_management/307_event_sourcing/) 스트림 복원
-308. [스트랭글러 피그 패턴](/exam/12_it_management/950_strangler_fig_pattern/) 레거시 분할
-309. [멀티 테넌트](/exam/12_it_management/951_saas/) [SaaS](/exam/12_it_management/951_saas/) [스키마](/exam/12_it_management/951_saas/) 격리
-310. [도메인 주도 설계](/exam/12_it_management/310_architecture/) ([DDD](/exam/12_it_management/310_architecture/)) [바운디드 컨텍스트](/exam/12_it_management/310_architecture/) [애그리게이트](/exam/12_it_management/310_architecture/)
-311. [데이터 웨어하우스](/exam/12_it_management/311_data_warehouse_inmon/) [Inmon](/exam/12_it_management/311_data_warehouse_inmon/) 주젯 통합 비휘발
-312. [데이터 마트](/exam/12_it_management/954_kimball/) [Kimball](/exam/12_it_management/954_kimball/) 다차원 [스타 스키마](/exam/12_it_management/954_kimball/)
-313. [스노우플레이크 스키마](/exam/12_it_management/955_snowflake_schema/) [정규화](/exam/12_it_management/955_snowflake_schema/) 트리 형태
-314. [서로게이트 키](/exam/12_it_management/956_surrogate_key/) 인조 [식별자](/exam/12_it_management/956_surrogate_key/) [생성](/exam/12_it_management/956_surrogate_key/)
-315. [SCD](/exam/12_it_management/315_scd_type2/) [데이터](/exam/12_it_management/315_scd_type2/) 이력 유지 방식 (Type 2 로우 추가)
-316. [OLAP](/exam/12_it_management/958_olap_operations/) 드릴다운 [롤업](/exam/12_it_management/958_olap_operations/) 다이스 분석
-317. [ETL](/exam/12_it_management/317_etl_vs_elt/) 적재 전 변환 vs [ELT](/exam/12_it_management/317_etl_vs_elt/) 적재 후 클라우드 변환
-318. [데이터 레이크](/exam/12_it_management/959_data_lake/) [스키마 온 리드](/exam/12_it_management/959_data_lake/) 구조
-319. [데이터 레이크하우스](/exam/12_it_management/319_architecture/) 스토리지 컴퓨팅 분리
-320. [데이터 메시](/exam/12_it_management/320_data_mesh/) [도메인](/exam/12_it_management/320_data_mesh/) 주도 [데이터](/exam/12_it_management/320_data_mesh/) 오너십 [분산](/exam/12_it_management/320_data_mesh/)
-321. [데이터 패브릭](/exam/12_it_management/321_data_fabric/) 지능형 [가상화](/exam/12_it_management/321_data_fabric/) 통합 연결
-322. [데이터 카탈로그](/exam/12_it_management/963_process/) 검색 태깅 인프라
-323. [데이터 리니지](/exam/12_it_management/323_audit/) 흐름 추적 [무결성](/exam/12_it_management/323_audit/)
-324. [데이터옵스](/exam/12_it_management/324_ci_cd/) [CI](/exam/12_it_management/324_ci_cd/)/CD 파이프라인 자동화
-325. [스파크 RDD 인메모리 병렬 처리](/studynote/12_it_management/05_security_compliance/325_spark_rdd/)
-326. [카프카](/exam/12_it_management/967_process/) [분산](/exam/12_it_management/967_process/) [메시](/exam/12_it_management/967_process/)지 큐 스트리밍 토픽
-327. [CDC](/exam/12_it_management/327_cdc_change_data_capture/) [변경 데이터 캡처](/exam/12_it_management/327_cdc_change_data_capture/) DB [동기화](/exam/12_it_management/327_cdc_change_data_capture/)
-328. [정보시스템 감리](/exam/12_it_management/969_information_system_audit_3objectives/) 3대 목적 절차 산출물 성과
-329. [감리 프레임워크 3단계](/exam/12_it_management/329_audit/) (요구, 설계, 종료)
-330. [시정 조치 확인 추가 감리 결과서](/studynote/12_it_management/05_security_compliance/330_corrective_action_confirmation_additional_audit/)
-331. [과업 대비표 요건 충족 대조망](/studynote/12_it_management/05_security_compliance/331_task_comparison_table_requirements_traceability/)
-332. [베이스라인](/exam/12_it_management/332_audit/) [형상 통제](/exam/12_it_management/332_audit/) [검증](/exam/12_it_management/332_audit/)
-333. [시큐어 코딩](/exam/12_it_management/974_secure_coding_47_vulnerabilities_inspection/) 47개 취약점 진단 점검
-334. [웹 접근성 KWCAG 장애 차별 금지](/studynote/12_it_management/05_security_compliance/334_web_accessibility_kwcag_disability_discrimination/)
-335. [개인정보 영향 평가](/exam/12_it_management/976_privacy_impact_assessment_pia_audit_linkage/) ([PIA](/exam/12_it_management/976_privacy_impact_assessment_pia_audit_linkage/)) 감리 연계
-336. [망연계 물리적 논리적 분리 통제 구조 점검](/studynote/12_it_management/05_security_compliance/336_network_separation_physical_logical/)
-337. [OAT](/exam/12_it_management/978_oat_uat_acceptance_testing/) / UAT [인수 테스트](/exam/12_it_management/978_oat_uat_acceptance_testing/) 승인 [확인](/exam/12_it_management/978_oat_uat_acceptance_testing/)
-338. [ISMS-P](/exam/12_it_management/338_isms_p/) [인증](/exam/12_it_management/338_isms_p/) 위험 통제 보안 심사망 연계
-339. [제로 트러스트](/exam/12_it_management/339_zero_trust_ztna_micro_segmentation/) [ZTNA](/exam/12_it_management/339_zero_trust_ztna_micro_segmentation/) [마이크로 세그멘테이션](/exam/12_it_management/339_zero_trust_ztna_micro_segmentation/) 감리
-340. [클라우드 6R 마이그레이션 이관 무결성 통제망](/studynote/12_it_management/05_security_compliance/340_cloud_6r_migration_integrity/)
-341. [컨테이너](/exam/12_it_management/341_audit/) [쿠버네티스](/exam/12_it_management/341_audit/) [오케스트레이션](/exam/12_it_management/341_audit/) 오토스케일링 진단
-342. [서버리스](/exam/12_it_management/983_serverless_faas_limitations_audit/) [FaaS](/exam/12_it_management/983_serverless_faas_limitations_audit/) 아키텍처 한계 분석망
-343. [IaC](/exam/12_it_management/343_iac_terraform_declarative_control/) [테라폼](/exam/12_it_management/343_iac_terraform_declarative_control/) 코드 인프라 선언 통제망
-344. [FinOps](/exam/12_it_management/344_finops/) [스팟 인스턴스](/exam/12_it_management/344_finops/) 비용 절감 [모니터](/exam/12_it_management/344_finops/) 감리
-345. [LLM](/exam/12_it_management/345_llm_foundation_model_hallucination/) [파운데이션 모델](/exam/12_it_management/345_llm_foundation_model_hallucination/) [환각](/exam/12_it_management/345_llm_foundation_model_hallucination/) ([Hallucination](/exam/12_it_management/345_llm_foundation_model_hallucination/)) 방어 [검증](/exam/12_it_management/345_llm_foundation_model_hallucination/)
-346. [RAG](/exam/12_it_management/346_rag_db/) 프라이빗 지식 벡터 DB [임베딩](/exam/12_it_management/346_rag_db/) [무결성](/exam/12_it_management/346_rag_db/) 구조
-347. [프롬프트 인젝션](/exam/12_it_management/988_prompt_injection_security_filter/) 보안 필터망 설계
-348. [MLOps](/exam/12_it_management/989_mlops_drift_detection_pipeline/) 드리프트 탐지 파이프라인 [모니터](/exam/12_it_management/989_mlops_drift_detection_pipeline/)링 [감사](/exam/12_it_management/989_mlops_drift_detection_pipeline/)
-349. [XAI](/exam/12_it_management/349_xai_ai_lime_shap/) 설명 가능한 [AI](/exam/12_it_management/349_xai_ai_lime_shap/) 판단 로직 ([LIME](/exam/12_it_management/349_xai_ai_lime_shap/)/[SHAP](/exam/12_it_management/349_xai_ai_lime_shap/)) 근거 증빙
-350. [연합 학습](/exam/12_it_management/350_federated_learning_edge_privacy/) 엣지 [분산](/exam/12_it_management/350_federated_learning_edge_privacy/) [데이터](/exam/12_it_management/350_federated_learning_edge_privacy/) 프라이버시 검열망
-351. [양자 컴퓨팅](/exam/12_it_management/992_quantum_computing_pqc_transition/) 쇼어 [알고리즘](/exam/12_it_management/992_quantum_computing_pqc_transition/) [양자 내성 암호](/exam/12_it_management/992_quantum_computing_pqc_transition/) ([PQC](/exam/12_it_management/992_quantum_computing_pqc_transition/)) 전환 통제
-352. [동형 암호](/exam/12_it_management/993_process/) 클라우드 암호화 연산 보장성
-353. [블록체인](/exam/12_it_management/353_audit/) [스마트 컨트랙트](/exam/12_it_management/353_audit/) 정형 [검증](/exam/12_it_management/353_audit/) 재진입 취약 차단
-354. [DID](/exam/12_it_management/354_did_decentralized_identity_zkp/) 탈중앙 신원 증명 [영지식 증명](/exam/12_it_management/354_did_decentralized_identity_zkp/) ([ZKP](/exam/12_it_management/354_did_decentralized_identity_zkp/)) [인증](/exam/12_it_management/354_did_decentralized_identity_zkp/)망
-355. [메타버스](/exam/12_it_management/996_metaverse_virtual_asset_governance/) 가상 자산 통제망
-356. [디지털 트윈](/exam/12_it_management/997_digital_twin_synchronization_latency/) [동기화](/exam/12_it_management/997_digital_twin_synchronization_latency/) 시뮬레이션 [지연](/exam/12_it_management/997_digital_twin_synchronization_latency/) 오차 [감사](/exam/12_it_management/997_digital_twin_synchronization_latency/)
-357. [O-RAN](/exam/12_it_management/357_o_ran/) [프론트홀](/exam/12_it_management/357_o_ran/) 개방 사양 무결 망 진단
-358. [스마트 팩토리](/exam/12_it_management/999_smart_factory_tsn_deterministic_timing/) 산업 [이더넷](/exam/12_it_management/999_smart_factory_tsn_deterministic_timing/) [TSN](/exam/12_it_management/999_smart_factory_tsn_deterministic_timing/) 결정론적 시간 보장 진단
-359. [ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가](/studynote/12_it_management/05_security_compliance/359_esg_carbon_aware_datacenter_pue/)
-360. [클라우드 인프라 DPU/SmartNIC 오프로딩 가속망 효율 분석](/studynote/12_it_management/05_security_compliance/360_dpu_smartnic_offloading_acceleration/)
-361. [다차원 분석 큐브 몰랩 롤랩 (MOLAP ROLAP) 구조 진단](/studynote/12_it_management/05_security_compliance/361_multidimensional_analysis_molap_rolap/)
-362. [서드파티 락인](/exam/12_it_management/362_lock_in_portability/) ([Lock-in](/exam/12_it_management/362_lock_in_portability/)) [멀티 클라우드](/exam/12_it_management/362_lock_in_portability/) 전환 [컨테이너](/exam/12_it_management/362_lock_in_portability/) 이식성(Portability) 확보 [전략](/exam/12_it_management/362_lock_in_portability/)
-363. [마이크로 프론트엔드 배포](/exam/12_it_management/363_audit/) 독립성 [컴포넌트](/exam/12_it_management/363_audit/) 결합망 진단
-364. [아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직](/studynote/12_it_management/05_security_compliance/364_atam_cbam_architecture_evaluation/)
-365. [객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증](/studynote/12_it_management/05_security_compliance/365_solid_principles_code_smell/)
-366. [디자인 패턴](/exam/12_it_management/366_audit/) [퍼사드](/exam/12_it_management/366_audit/), [전략](/exam/12_it_management/366_audit/), [옵저버 패턴](/exam/12_it_management/366_audit/) 강결합 해소 구조 [감사](/exam/12_it_management/366_audit/)
-367. [테스트 더블](/exam/12_it_management/1008_test_double_isolation/) ([Mock](/exam/12_it_management/1008_test_double_isolation/), [Stub](/exam/12_it_management/1008_test_double_isolation/)) [단위 테스트](/exam/12_it_management/1008_test_double_isolation/) 격리 커버리지 100% 검수
-368. [보안 감사](/exam/12_it_management/1009_security_audit_logging/) 로깅 6하 원칙 [WORM](/exam/12_it_management/1009_security_audit_logging/) 보존 기간 법적 준수 진단
-369. [오픈소스](/exam/12_it_management/1010_oss_license_gpl_compliance/) 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단
-370. [DORA](/exam/12_it_management/1011_dora_metrics_devops_audit/) 메트릭스 기반 [DevOps](/exam/12_it_management/1011_dora_metrics_devops_audit/) 조직 성과 민첩성 리포팅 감리
-371. [플랫폼 비즈니스](/exam/12_it_management/371_architecture/) 양면 시장 수수료 모델 아키텍처 IT 거버넌스
-372. [시민 개발자](/exam/12_it_management/1013_management/) 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안
-373. [(엔터프라이즈 거버넌스/BPR 부터 최신 클라우드/AI/Data 아키텍처 기술사 논술 필수 암기 키워드망 800+ 연결 완료)](/studynote/12_it_management/05_security_compliance/373_bpr_ai_data_800/)
+241. 정보화 전략 계획 (ISP) AS-IS / TO-BE
+242. 전사 아키텍처 (EA)
+243. 잭맨 프레임워크 (Zachman) 매트릭스
+244. TOGAF ADM 프레임워크
+245. BPR / PI 프로세스 혁신 차이점
+246. KPI / CSF 상관관계
+247. BSC 균형 성과 기록표 4관점
+248. OKR 도전적 목표와 핵심 결과
+249. 가치 사슬 (Value Chain) 경쟁력 분석
+250. 5 Forces 마이클 포터
+251. SWOT 교차 분석 기법
+252. 롱테일 법칙
+253. 네트워크 효과 (메트칼프)
+254. 린 스타트업 MVP 피벗
+255. 그로스 해킹 AARRR
+256. IT 거버넌스 5대 영역
+257. COBIT 2019 통제 모델
+258. ITSM IT 서비스 관리
+259. ITIL v3 생명주기 vs v4 SVS 가치사슬
+260. SLA / OLA / UC
+261. 서비스 데스크 SPOC
+262. CMDB 자산 구성 항목 (CI)
+263. 인시던트 관리 복구 우선
+264. 문제 관리 근본 원인 KEDB
+265. 변경 관리 CAB 위원회 승인
+266. BCP 업무 연속성 계획
+267. BIA 업무 영향 분석
+268. RTO 복구 시간 RPO 복구 시점
+269. DR 센터 (미러, 핫, 웜, 콜드)
+270. ROI, NPV, IRR, PP 타당성 분석 지표
+271. TCO 총 소유 비용
+272. 섀도우 IT 리스크
+273. 데이터 스튜어드십
+274. CDO 데이터 총괄 임원
+275. MDM 마스터 데이터 관리
+276. ERP 전사적 자원 관리
+277. SCM 공급망 관리 채찍 효과
+278. CRM 고객 관계 관리 LTV
+279. CDP 고객 데이터 플랫폼 (1st Party)
+280. MES 공장 제조 실행 시스템
+281. PLM / PDM 제품 수명 주기 BOM
+282. KMS 지식 관리 암묵지 형식지 SECI 모델
+283. RPA 초자동화 봇
+284. 프로세스 마이닝 이벤트 로그 병목 진단
+285. 델파이 기법 블라인드 합의
+286. MECE 논리 트리 중복 누락 배제
+287. PMO 프로젝트 관리 오피스 역할
+288. WBS 100% Rule 작업 패키지
+289. CPM 주공정법 임계 경로
+290. PERT 3점 추정
+291. EVM 획득 가치 (PV, EV, AC, SPI, CPI)
+292. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)
+293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력
+294. COCOMO 비용 산정 (유기적, 준분리, 내장형)
+295. 인스펙션 중재자 리뷰 워크스루 비공식 차이
+296. EAI 허브 앤 스포크 포인트 투 포인트
+297. SOA WSDL UDDI SOAP 서비스 지향
+298. ESB 엔터프라이즈 서비스 버스 라우팅
+299. RESTful API 무상태성 HATEOAS
+300. 마이크로서비스 MSA 독립 배포
+301. API 게이트웨이 / BFF 패턴
+302. 서비스 메시 (Istio) 사이드카 프록시
+303. 서비스 디스커버리 동적 IP 라우팅
+304. 서킷 브레이커 장애 연쇄 차단 폴백
+305. 사가 패턴 (Saga) 보상 트랜잭션
+306. CQRS 명령 조회 모델 물리 분리
+307. 이벤트 소싱 불변 로그 스트림 복원
+308. 스트랭글러 피그 패턴 레거시 분할
+309. 멀티 테넌트 SaaS 스키마 격리
+310. 도메인 주도 설계 (DDD) 바운디드 컨텍스트 애그리게이트
+311. 데이터 웨어하우스 Inmon 주젯 통합 비휘발
+312. 데이터 마트 Kimball 다차원 스타 스키마
+313. 스노우플레이크 스키마 정규화 트리 형태
+314. 서로게이트 키 인조 식별자 생성
+315. SCD 데이터 이력 유지 방식 (Type 2 로우 추가)
+316. OLAP 드릴다운 롤업 다이스 분석
+317. ETL 적재 전 변환 vs ELT 적재 후 클라우드 변환
+318. 데이터 레이크 스키마 온 리드 구조
+319. 데이터 레이크하우스 스토리지 컴퓨팅 분리
+320. 데이터 메시 도메인 주도 데이터 오너십 분산
+321. 데이터 패브릭 지능형 가상화 통합 연결
+322. 데이터 카탈로그 검색 태깅 인프라
+323. 데이터 리니지 흐름 추적 무결성
+324. 데이터옵스 CI/CD 파이프라인 자동화
+325. 스파크 RDD 인메모리 병렬 처리
+326. 카프카 분산 메시지 큐 스트리밍 토픽
+327. CDC 변경 데이터 캡처 DB 동기화
+328. 정보시스템 감리 3대 목적 절차 산출물 성과
+329. 감리 프레임워크 3단계 (요구, 설계, 종료)
+330. 시정 조치 확인 추가 감리 결과서
+331. 과업 대비표 요건 충족 대조망
+332. 베이스라인 형상 통제 검증
+333. 시큐어 코딩 47개 취약점 진단 점검
+334. 웹 접근성 KWCAG 장애 차별 금지
+335. 개인정보 영향 평가 (PIA) 감리 연계
+336. 망연계 물리적 논리적 분리 통제 구조 점검
+337. OAT / UAT 인수 테스트 승인 확인
+338. ISMS-P 인증 위험 통제 보안 심사망 연계
+339. 제로 트러스트 ZTNA 마이크로 세그멘테이션 감리
+340. 클라우드 6R 마이그레이션 이관 무결성 통제망
+341. 컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단
+342. 서버리스 FaaS 아키텍처 한계 분석망
+343. IaC 테라폼 코드 인프라 선언 통제망
+344. FinOps 스팟 인스턴스 비용 절감 모니터 감리
+345. LLM 파운데이션 모델 환각 (Hallucination) 방어 검증
+346. RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조
+347. 프롬프트 인젝션 보안 필터망 설계
+348. MLOps 드리프트 탐지 파이프라인 모니터링 감사
+349. XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙
+350. 연합 학습 엣지 분산 데이터 프라이버시 검열망
+351. 양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호 (PQC) 전환 통제
+352. 동형 암호 클라우드 암호화 연산 보장성
+353. 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단
+354. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망
+355. 메타버스 가상 자산 통제망
+356. 디지털 트윈 동기화 시뮬레이션 지연 오차 감사
+357. O-RAN 프론트홀 개방 사양 무결 망 진단
+358. 스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단
+359. ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가
+360. 클라우드 인프라 DPU/SmartNIC 오프로딩 가속망 효율 분석
+361. 다차원 분석 큐브 몰랩 롤랩 (MOLAP ROLAP) 구조 진단
+362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략
+363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단
+364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직
+365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증
+366. 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사
+367. 테스트 더블 (Mock, Stub) 단위 테스트 격리 커버리지 100% 검수
+368. 보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단
+369. 오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단
+370. DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리
+371. 플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스
+372. 시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안
+373. (엔터프라이즈 거버넌스/BPR 부터 최신 클라우드/AI/Data 아키텍처 기술사 논술 필수 암기 키워드망 800+ 연결 완료)
 ... (반복 정리 영역 800번까지)
-800. [IT/SW 전략 비즈니스 통합 모델 최종 키워드 모음 완료.](/studynote/12_it_management/05_security_compliance/800_it_sw/)
+800. IT/SW 전략 비즈니스 통합 모델 최종 키워드 모음 완료.
 
 
 ## 추가 학습 키워드 (Additional Study Keywords)
 
-- [Corporate Governance It Governance](/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/)
-- [Information System Master Plan](/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/)
-- [PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신](/studynote/12_it_management/01_governance_strategy/009_process_innovation/)
-- [Ea](/studynote/12_it_management/01_governance_strategy/010_ea/)
-- [IRR >](/studynote/12_it_management/01_governance_strategy/014_irr/)
-- [Csf](/studynote/12_it_management/01_governance_strategy/017_csf/)
-- [전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화](/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)
-- [가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석](/studynote/12_it_management/01_governance_strategy/022_value_chain_analysis_model/)
-- [Pest Analysis](/studynote/12_it_management/01_governance_strategy/025_pest_analysis/)
-- [Long Tail](/studynote/12_it_management/01_governance_strategy/031_long_tail/)
-- [Known Error Database,](/studynote/12_it_management/01_governance_strategy/032_kedb/)
-- [피벗 (Pivot)](/studynote/12_it_management/01_governance_strategy/037_pivot/)
-- [Ambidextrous Organization](/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
-- [OKR (Objectives and Key Results)](/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)
-- [Growth Hacking](/studynote/12_it_management/01_governance_strategy/041_aarrr_funnel/)
-- [Msp Cloud Managed Service Provider](/studynote/12_it_management/01_governance_strategy/045_msp_cloud_managed_service_provider/)
-- [Service Level Agreement,](/studynote/12_it_management/01_governance_strategy/046_sla_service_level_agreement/)
-- [Data Governance](/studynote/12_it_management/01_governance_strategy/052_data_governance/)
-- [Data Stewardship](/studynote/12_it_management/01_governance_strategy/053_data_stewardship/)
-- [ITSM (IT Service Management)](/studynote/12_it_management/02_itsm_itil/061_itsm/)
-- [ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계](/studynote/12_it_management/02_itsm_itil/063_itil_v3_service_lifecycle/)
-- [서비스 전략 (Service Strategy)](/studynote/12_it_management/02_itsm_itil/064_service_strategy/)
-- [서비스 설계 (Service Design)](/studynote/12_it_management/02_itsm_itil/065_service_design/)
-- [서비스 전환 (Service Transition)](/studynote/12_it_management/02_itsm_itil/066_service_transition/)
-- [CSI, Continual Service Improvement](/studynote/12_it_management/02_itsm_itil/068_csi/)
-- [Service Value Chain](/studynote/12_it_management/02_itsm_itil/070_service_value_chain/)
-- [Service Desk](/studynote/12_it_management/02_itsm_itil/072_service_desk/)
-- [인시던트 관리 (Incident Management)](/studynote/12_it_management/02_itsm_itil/075_incident_management/)
-- [Workaround](/studynote/12_it_management/02_itsm_itil/076_workaround/)
-- [문제 관리 (Problem Management)](/studynote/12_it_management/02_itsm_itil/077_problem_management/)
-- [Cross Validation](/studynote/12_it_management/02_itsm_itil/083_cross_validation/)
-- [Model Selection](/studynote/12_it_management/02_itsm_itil/084_model_selection/)
-- [SLA (Service Level Agreement)](/studynote/12_it_management/02_itsm_itil/085_sla/)
-- [Learning Rate Gradient Descent](/studynote/12_it_management/02_itsm_itil/086_learning_rate_gradient_descent/)
-- [Cnn Convolutional](/studynote/12_it_management/02_itsm_itil/089_configuration_management/)
-- [Transformer Bert](/studynote/12_it_management/02_itsm_itil/091_cmdb/)
-- [Gpt Nlp](/studynote/12_it_management/02_itsm_itil/092_availability_management/)
-- [Capacity Management](/studynote/12_it_management/02_itsm_itil/094_capacity_management/)
-- [Self-Service Portal](/studynote/12_it_management/02_itsm_itil/098_self_service_portal/)
-- [Isp 4 Steps](/studynote/12_it_management/03_ea_isp/101_isp_4_steps/)
-- [SAT (Satisfiability) — 최초 NP-완전 증명 (Cook-Levin)](/studynote/12_it_management/03_ea_isp/103_chaining/)
-- [Da As Is Analysis](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)
-- [감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화](/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)
-- [Fenwick Tree](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)
-- [서픽스 트리와 서픽스 배열 (Suffix Tree & Array)](/studynote/12_it_management/03_ea_isp/108_suffix_tree_array/)
-- [ISMP](/studynote/12_it_management/03_ea_isp/109_hashmap_treemap/)
-- [TOGAF ADM (Architecture Development Method)](/studynote/12_it_management/03_ea_isp/114_togaf_adm/)
-- [Data Reference Model,](/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model/)
-- [Performance Reference Model,](/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model/)
-- [EA Governance](/studynote/12_it_management/03_ea_isp/122_ea_governance/)
-- [As-Is Update](/studynote/12_it_management/03_ea_isp/125_as_is_update/)
-- [BPR (Business Process Reengineering)](/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering/)
-- [Process Mining Based Bpr](/studynote/12_it_management/03_ea_isp/129_process_mining_based_bpr/)
-- [정보보호최고책임자 (CISO) 지정 의무 및 역할](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)
-- [개인정보 영향평가 (Privacy Impact Assessment, PIA)](/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)
-- [재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity Plan, BCP) 전략](/studynote/12_it_management/05_security_compliance/175_drs_bcp_strategy/)
-- [RTO (Recovery Time Objective)](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)
-- [RPO (Recovery Point Objective)](/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)
-- [미러 사이트 (Mirror Site)](/studynote/12_it_management/05_security_compliance/178_mirror_site/)
-- [핫 사이트 (Hot Site)](/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)
-- [웜 사이트 (Warm Site)](/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)
-- [콜드 사이트 (Cold Site)](/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)
-- [망분리 (Network Separation) 모델](/studynote/12_it_management/05_security_compliance/182_network_separation_model/)
-- [망연계 시스템 (Network Linkage System)](/studynote/12_it_management/05_security_compliance/183_network_linkage_system/)
-- [제로 트러스트 아키텍처 (Zero Trust Architecture)](/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/)
-- [접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)](/studynote/12_it_management/05_security_compliance/185_access_control_mac_dac_rbac_abac/)
-- [데이터 유출 방지 (DLP, Data Loss Prevention) 시스템](/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/)
-- [정보시스템 감리 (Information System Audit)](/studynote/12_it_management/05_security_compliance/187_information_system_audit/)
-- [감리 프레임워크 3대 관점](/studynote/12_it_management/05_security_compliance/188_audit_framework_3_perspectives/)
-- [예방 감리 / 상주 감리 체제 적용](/studynote/12_it_management/05_security_compliance/189_preventive_resident_audit/)
-- [오픈소스 (OSS) 라이선스 컴플라이언스 점검 (GPL 전염성 위배 등 상용 릴리스 위험 방지)](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)
-- [소프트웨어 개발 보안 자동화 분석 도구 (SAST, DAST) 도입 및 오탐/미탐 비율 관리](/studynote/12_it_management/05_security_compliance/192_sast_dast_security_analysis/)
-- [퍼블릭 클라우드 보안 인증 (CSAP)](/studynote/12_it_management/05_security_compliance/193_csap_cloud_security_assurance/)
-- [CMMC (Cybersecurity Maturity Model Certification)](/studynote/12_it_management/05_security_compliance/194_cmmc_cybersecurity_maturity/)
-- [정보보호 공시 제도](/studynote/12_it_management/05_security_compliance/195_information_security_disclosure/)
-- [개인정보 가명 처리 (Pseudonymization) 및 비식별화 (De-identification)](/studynote/12_it_management/05_security_compliance/196_pseudonymization_de_identification/)
-- [랜섬웨어 방어 아키텍처](/studynote/12_it_management/05_security_compliance/198_ransomware_defense_architecture/)
-- [사이버 킬체인 (Cyber Kill Chain) 방어 및 마이터 어택 (MITRE ATT&CK) 프레임워크 기반 관제](/studynote/12_it_management/05_security_compliance/199_cyber_kill_chain_mitre_attack/)
-- [클라우드 서비스 모델 (IaaS, PaaS, SaaS, BaaS, FaaS) 엔터프라이즈 도입 전략](/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/)
-- [멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)
-- [클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소](/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/)
-- [컨테이너 오케스트레이션 (Kubernetes) 노드/포드(Pod) 고가용성 설계](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)
-- [서버리스 (Serverless) 함수 호출 및 콜드 스타트 극복 방안](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)
-- [인프라스트럭처 애즈 코드 (IaC, Terraform)](/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/)
-- [데이터 레이크 (Data Lake)](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)
-- [데이터 웨어하우스 (DW)](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)
-- [데이터 레이크하우스 (Data Lakehouse)](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)
-- [데이터 메시 (Data Mesh)](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)
-- [데이터 패브릭 (Data Fabric)](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)
-- [데이터 카탈로그 (Data Catalog) 시스템](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)
-- [데이터 리니지 (Data Lineage)](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)
-- [ETL (추출-변환-적재) vs ELT (추출-적재-변환 / 클라우드 DW 성능 활용) 파이프라인](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)
-- [이벤트 스트리밍 브로커](/studynote/12_it_management/05_security_compliance/217_kafka_event_streaming/)
-- [변경 데이터 캡처 (CDC, Change Data Capture) 데이터베이스 실시간 마이그레이션 연동망](/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/)
-- [MLOps (Machine Learning Operations)](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)
-- [LLMOps](/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/)
-- [검색 증강 생성 (RAG, Retrieval-Augmented Generation)](/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)
-- [벡터 데이터베이스 (Vector Database)](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)
-- [파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입 경제성 검토](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)
-- [AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정](/studynote/12_it_management/05_security_compliance/226_ai_ethics_governance_eu_ai_act/)
-- [블록체인 스마트 컨트랙트 기반 공급망 증빙(Traceability) 플랫폼 연동](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)
-- [영지식 증명 (ZKP) 활용 프라이버시 클린 룸 (Data Clean Room) 기업 간 데이터 연합](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)
-- [DID (탈중앙화 신원 증명) W3C 표준 인증 체계 및 마이데이터 인증 대체](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)
-- [공간 컴퓨팅 (Spatial Computing) 기반 디지털 트윈(Digital Twin) 시뮬레이션](/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)
-- [스마트 시티 통합 플랫폼 아키텍처](/studynote/12_it_management/05_security_compliance/233_smart_city_platform_architecture/)
-- [엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)
-- [양자 컴퓨팅 (Quantum Computing) 보안 위협 방어용 PQC (양자 내성 암호) 로드맵 적용](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)
-- [디지털 휴먼 (Digital Human) 및 메타버스 CS(Customer Service) 채널 통합 구조](/studynote/12_it_management/05_security_compliance/237_digital_human_metaverse_cs/)
-- [마이크로 프론트엔드 (Micro Frontends)](/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)
-- [초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼](/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)
-- [정보화 전략 계획 (ISP) AS-IS / TO-BE](/studynote/12_it_management/05_security_compliance/241_isp_asis_tobe_methodology/)
-- [전사 아키텍처 (EA)](/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/)
-- [잭맨 프레임워크 (Zachman) 매트릭스](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/)
-- [TOGAF ADM 프레임워크](/studynote/12_it_management/05_security_compliance/244_togaf_adm_framework/)
-- [BPR / PI 프로세스 혁신 차이점](/studynote/12_it_management/05_security_compliance/245_bpr_vs_pi_comparison/)
-- [KPI / CSF 상관관계](/studynote/12_it_management/05_security_compliance/246_kpi_csf_relationship/)
-- [BSC 균형 성과 기록표 4관점](/studynote/12_it_management/05_security_compliance/247_bsc_four_perspectives_review/)
-- [OKR 도전적 목표와 핵심 결과](/studynote/12_it_management/05_security_compliance/248_okr_ambitious_objectives_review/)
-- [가치 사슬 (Value Chain) 경쟁력 분석](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)
-- [롱테일 법칙](/studynote/12_it_management/05_security_compliance/252_long_tail_law/)
-- [네트워크 효과 (메트칼프)](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)
-- [린 스타트업 MVP 피벗](/studynote/12_it_management/05_security_compliance/254_lean_startup_mvp_pivot/)
-- [그로스 해킹 AARRR](/studynote/12_it_management/05_security_compliance/255_growth_hacking_aarrr_review/)
-- [COBIT 2019 통제 모델](/studynote/12_it_management/05_security_compliance/257_cobit_2019_control_model/)
-- [ITSM IT 서비스 관리](/studynote/12_it_management/05_security_compliance/258_itsm_overview_review/)
-- [ITIL v3 생명주기 vs v4 SVS 가치사슬](/studynote/12_it_management/05_security_compliance/259_itil_v3_vs_v4_svs/)
-- [SLA / OLA / UC](/studynote/12_it_management/05_security_compliance/260_sla_ola_uc_comparison/)
-- [서비스 데스크 SPOC](/studynote/12_it_management/05_security_compliance/261_service_desk_spoc_review/)
-- [CMDB 자산 구성 항목 (CI)](/studynote/12_it_management/05_security_compliance/262_cmdb_ci_asset_management/)
-- [인시던트 관리 복구 우선](/studynote/12_it_management/05_security_compliance/263_incident_management_recovery_first/)
-- [문제 관리 근본 원인 KEDB](/studynote/12_it_management/05_security_compliance/264_problem_management_root_cause_kedb/)
-- [변경 관리 CAB 위원회 승인](/studynote/12_it_management/05_security_compliance/265_change_management_cab_approval/)
-- [BIA 업무 영향 분석](/studynote/12_it_management/05_security_compliance/267_bia_business_impact_analysis/)
-- [DR 센터 (미러, 핫, 웜, 콜드)](/studynote/12_it_management/05_security_compliance/269_dr_site_types_comparison/)
-- [ROI, NPV, IRR, PP 타당성 분석 지표](/studynote/12_it_management/05_security_compliance/270_roi_npv_irr_pp_review/)
-- [TCO 총 소유 비용](/studynote/12_it_management/05_security_compliance/271_tco_review/)
-- [데이터 스튜어드십](/studynote/12_it_management/05_security_compliance/273_data_stewardship_review/)
-- [CDO 데이터 총괄 임원](/studynote/12_it_management/05_security_compliance/274_cdo_chief_data_officer/)
-- [MDM 마스터 데이터 관리](/studynote/12_it_management/05_security_compliance/275_mdm_review/)
-- [SCM 공급망 관리 채찍 효과](/studynote/12_it_management/05_security_compliance/277_scm_bullwhip_effect/)
-- [CRM 고객 관계 관리 LTV](/studynote/12_it_management/05_security_compliance/278_crm_customer_lifetime_value/)
-- [CDP 고객 데이터 플랫폼 (1st Party)](/studynote/12_it_management/05_security_compliance/279_cdp_first_party_data/)
-- [MES 공장 제조 실행 시스템](/studynote/12_it_management/05_security_compliance/280_mes_manufacturing_execution_system/)
-- [PLM / PDM 제품 수명 주기 BOM](/studynote/12_it_management/05_security_compliance/281_plm_pdm_bom/)
-- [KMS 지식 관리 암묵지 형식지 SECI 모델](/studynote/12_it_management/05_security_compliance/282_kms_seci_model/)
-- [RPA 초자동화 봇](/studynote/12_it_management/05_security_compliance/283_rpa_bot/)
-- [프로세스 마이닝 이벤트 로그 병목 진단](/studynote/12_it_management/05_security_compliance/284_process_mining_bottleneck/)
-- [델파이 기법 블라인드 합의](/studynote/12_it_management/05_security_compliance/285_delphi_method/)
-- [MECE 논리 트리 중복 누락 배제](/studynote/12_it_management/05_security_compliance/286_mece_logic_tree/)
-- [PMO 프로젝트 관리 오피스 역할](/studynote/12_it_management/05_security_compliance/287_pmo_role/)
-- [WBS 100% Rule 작업 패키지](/studynote/12_it_management/05_security_compliance/288_wbs_100_rule/)
-- [CPM 주공정법 임계 경로](/studynote/12_it_management/05_security_compliance/289_cpm_critical_path/)
-- [PERT 3점 추정](/studynote/12_it_management/05_security_compliance/290_pert_three_point/)
-- [EVM 획득 가치 (PV, EV, AC, SPI, CPI)](/studynote/12_it_management/05_security_compliance/291_evm_earned_value_management/)
-- [CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)](/studynote/12_it_management/05_security_compliance/292_cmmi_maturity_levels/)
-- [기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력](/studynote/12_it_management/05_security_compliance/293_function_point_analysis/)
-- [COCOMO 비용 산정 (유기적, 준분리, 내장형)](/studynote/12_it_management/05_security_compliance/294_cocomo_review/)
-- [인스펙션 중재자 리뷰 워크스루 비공식 차이](/studynote/12_it_management/05_security_compliance/295_inspection_vs_walkthrough/)
-- [EAI 허브 앤 스포크 포인트 투 포인트](/studynote/12_it_management/05_security_compliance/296_eai_hub_spoke_p2p/)
-- [SOA WSDL UDDI SOAP 서비스 지향](/studynote/12_it_management/05_security_compliance/297_soa_wsdl_uddi_soap/)
-- [ESB 엔터프라이즈 서비스 버스 라우팅](/studynote/12_it_management/05_security_compliance/298_esb_enterprise_service_bus/)
-- [RESTful API 무상태성 HATEOAS](/studynote/12_it_management/05_security_compliance/299_restful_api_hateoas/)
-- [마이크로서비스 MSA 독립 배포](/studynote/12_it_management/05_security_compliance/300_microservices_msa/)
-- [API 게이트웨이 / BFF 패턴](/studynote/12_it_management/05_security_compliance/301_api_gateway_bff/)
-- [서비스 메시 (Istio) 사이드카 프록시](/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)
-- [서비스 디스커버리 동적 IP 라우팅](/studynote/12_it_management/05_security_compliance/303_service_discovery/)
-- [서킷 브레이커 장애 연쇄 차단 폴백](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)
-- [사가 패턴 (Saga) 보상 트랜잭션](/studynote/12_it_management/05_security_compliance/305_saga_pattern/)
-- [CQRS 명령 조회 모델 물리 분리](/studynote/12_it_management/05_security_compliance/306_cqrs/)
-- [이벤트 소싱 불변 로그 스트림 복원](/studynote/12_it_management/05_security_compliance/307_event_sourcing/)
-- [멀티 테넌트 SaaS 스키마 격리](/studynote/12_it_management/05_security_compliance/309_multi_tenant_saas/)
-- [도메인 주도 설계 (DDD) 바운디드 컨텍스트 애그리게이트](/studynote/12_it_management/05_security_compliance/310_ddd/)
-- [데이터 웨어하우스 Inmon 주젯 통합 비휘발](/studynote/12_it_management/05_security_compliance/311_data_warehouse_inmon/)
-- [데이터 마트 Kimball 다차원 스타 스키마](/studynote/12_it_management/05_security_compliance/312_data_mart_kimball/)
-- [스노우플레이크 스키마 정규화 트리 형태](/studynote/12_it_management/05_security_compliance/313_snowflake_schema/)
-- [서로게이트 키 인조 식별자 생성](/studynote/12_it_management/05_security_compliance/314_surrogate_key/)
-- [SCD 데이터 이력 유지 방식 (Type 2 로우 추가)](/studynote/12_it_management/05_security_compliance/315_scd_type2/)
-- [OLAP 드릴다운 롤업 다이스 분석](/studynote/12_it_management/05_security_compliance/316_olap_operations/)
-- [ETL 적재 전 변환 vs ELT 적재 후 클라우드 변환](/studynote/12_it_management/05_security_compliance/317_etl_vs_elt/)
-- [데이터 레이크 스키마 온 리드 구조](/studynote/12_it_management/05_security_compliance/318_data_lake/)
-- [데이터 레이크하우스 스토리지 컴퓨팅 분리](/studynote/12_it_management/05_security_compliance/319_data_lakehouse/)
-- [데이터 메시 도메인 주도 데이터 오너십 분산](/studynote/12_it_management/05_security_compliance/320_data_mesh/)
-- [데이터 패브릭 지능형 가상화 통합 연결](/studynote/12_it_management/05_security_compliance/321_data_fabric/)
-- [데이터 카탈로그 검색 태깅 인프라](/studynote/12_it_management/05_security_compliance/322_data_catalog/)
-- [데이터 리니지 흐름 추적 무결성](/studynote/12_it_management/05_security_compliance/323_data_lineage/)
-- [데이터옵스 CI/CD 파이프라인 자동화](/studynote/12_it_management/05_security_compliance/324_dataops/)
-- [카프카 분산 메시지 큐 스트리밍 토픽](/studynote/12_it_management/05_security_compliance/326_kafka_streaming/)
-- [CDC 변경 데이터 캡처 DB 동기화](/studynote/12_it_management/05_security_compliance/327_cdc_change_data_capture/)
-- [정보시스템 감리 3대 목적 절차 산출물 성과](/studynote/12_it_management/05_security_compliance/328_information_system_audit_3objectives/)
-- [감리 프레임워크 3단계 (요구, 설계, 종료)](/studynote/12_it_management/05_security_compliance/329_audit_framework_3phases_requirements_design_closing/)
-- [베이스라인 형상 통제 검증](/studynote/12_it_management/05_security_compliance/332_baseline_configuration_control_verification/)
-- [시큐어 코딩 47개 취약점 진단 점검](/studynote/12_it_management/05_security_compliance/333_secure_coding_47_vulnerabilities_inspection/)
-- [개인정보 영향 평가 (PIA) 감리 연계](/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/)
-- [OAT / UAT 인수 테스트 승인 확인](/studynote/12_it_management/05_security_compliance/337_oat_uat_acceptance_testing/)
-- [ISMS-P 인증 위험 통제 보안 심사망 연계](/studynote/12_it_management/05_security_compliance/338_isms_p_certification_audit/)
-- [제로 트러스트 ZTNA 마이크로 세그멘테이션 감리](/studynote/12_it_management/05_security_compliance/339_zero_trust_ztna_micro_segmentation/)
-- [컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단](/studynote/12_it_management/05_security_compliance/341_kubernetes_orchestration_autoscaling/)
-- [서버리스 FaaS 아키텍처 한계 분석망](/studynote/12_it_management/05_security_compliance/342_serverless_faas_limitations_audit/)
-- [IaC 테라폼 코드 인프라 선언 통제망](/studynote/12_it_management/05_security_compliance/343_iac_terraform_declarative_control/)
-- [FinOps 스팟 인스턴스 비용 절감 모니터 감리](/studynote/12_it_management/05_security_compliance/344_finops_spot_instance_cost_optimization/)
-- [LLM 파운데이션 모델 환각 (Hallucination) 방어 검증](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)
-- [RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조](/studynote/12_it_management/05_security_compliance/346_rag_private_knowledge_vector_db/)
-- [프롬프트 인젝션 보안 필터망 설계](/studynote/12_it_management/05_security_compliance/347_prompt_injection_security_filter/)
-- [MLOps 드리프트 탐지 파이프라인 모니터링 감사](/studynote/12_it_management/05_security_compliance/348_mlops_drift_detection_pipeline/)
-- [XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙](/studynote/12_it_management/05_security_compliance/349_xai_explainable_ai_lime_shap/)
-- [연합 학습 엣지 분산 데이터 프라이버시 검열망](/studynote/12_it_management/05_security_compliance/350_federated_learning_edge_privacy/)
-- [양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호 (PQC) 전환 통제](/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)
-- [동형 암호 클라우드 암호화 연산 보장성](/studynote/12_it_management/05_security_compliance/352_homomorphic_encryption_cloud_computing/)
-- [블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단](/studynote/12_it_management/05_security_compliance/353_blockchain_smart_contract_reentrancy/)
-- [DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)
-- [메타버스 가상 자산 통제망](/studynote/12_it_management/05_security_compliance/355_metaverse_virtual_asset_governance/)
-- [디지털 트윈 동기화 시뮬레이션 지연 오차 감사](/studynote/12_it_management/05_security_compliance/356_digital_twin_synchronization_latency/)
-- [O-RAN 프론트홀 개방 사양 무결 망 진단](/studynote/12_it_management/05_security_compliance/357_o_ran_fronthaul_open_interface/)
-- [스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단](/studynote/12_it_management/05_security_compliance/358_smart_factory_tsn_deterministic_timing/)
-- [서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략](/studynote/12_it_management/05_security_compliance/362_multi_cloud_portability_strategy/)
-- [마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단](/studynote/12_it_management/05_security_compliance/363_micro_frontend_deployment_independence/)
-- [디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사](/studynote/12_it_management/05_security_compliance/366_design_pattern_audit/)
-- [테스트 더블 (Mock, Stub) 단위 테스트 격리 커버리지 100% 검수](/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)
-- [보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단](/studynote/12_it_management/05_security_compliance/368_security_audit_logging/)
-- [오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단](/studynote/12_it_management/05_security_compliance/369_oss_license_gpl_compliance/)
-- [DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리](/studynote/12_it_management/05_security_compliance/370_dora_metrics_devops_audit/)
-- [플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스](/studynote/12_it_management/05_security_compliance/371_platform_business_two_sided_governance/)
-- [시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안](/studynote/12_it_management/05_security_compliance/372_citizen_developer/)
-- [Information Strategy Planning,](/studynote/12_it_management/01_governance_strategy/802_isp_information_strategy_planning/)
-- [BPR (Business Process Reengineering)](/studynote/12_it_management/01_governance_strategy/804_bpr_business_process_reengineering/)
-- [ROI (Return on Investment)](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/)
-- [Net Present Value,](/studynote/12_it_management/01_governance_strategy/808_npv_net_present_value/)
-- [Payback Period,](/studynote/12_it_management/01_governance_strategy/810_pp_payback_period/)
-- [Total Cost of Ownership,](/studynote/12_it_management/01_governance_strategy/811_tco_total_cost_of_ownership/)
-- [KPI, Key Performance Indicator](/studynote/12_it_management/01_governance_strategy/813_kpi_key_performance_indicator/)
-- [BSC, Balanced Scorecard](/studynote/12_it_management/01_governance_strategy/814_bsc_balanced_scorecard/)
-- [Five Forces Model](/studynote/12_it_management/01_governance_strategy/817_five_forces_model/)
-- [S](/studynote/12_it_management/01_governance_strategy/818_swot_tows/)
-- [C](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)
-- [Seven S Model](/studynote/12_it_management/01_governance_strategy/821_seven_s_model/)
-- [IT PPM](/studynote/12_it_management/01_governance_strategy/822_it_ppm/)
-- [Platform Business Model](/studynote/12_it_management/01_governance_strategy/825_platform_business_model/)
-- [Platform Business Model](/studynote/12_it_management/01_governance_strategy/826_platform_business_model/)
-- [Lean Startup](/studynote/12_it_management/01_governance_strategy/827_lean_startup/)
-- [Minimum Viable Product,](/studynote/12_it_management/01_governance_strategy/828_mvp_minimum_viable_product/)
-- [Okr Objectives Key Results](/studynote/12_it_management/01_governance_strategy/832_okr_objectives_key_results/)
-- [Growth Hacking](/studynote/12_it_management/01_governance_strategy/834_growth_hacking/)
-- [It Outsourcing Strategy](/studynote/12_it_management/01_governance_strategy/835_it_outsourcing_strategy/)
-- [Business Process Outsourcing Bpo](/studynote/12_it_management/01_governance_strategy/836_business_process_outsourcing_bpo/)
-- [It Compliance Gdpr Sox Control Framework](/studynote/12_it_management/01_governance_strategy/839_it_compliance_gdpr_sox_control_framework/)
-- [Shadow It Risk Management](/studynote/12_it_management/01_governance_strategy/840_shadow_it_risk_management/)
-- [CISO & CDO Independence](/studynote/12_it_management/01_governance_strategy/841_ciso_cdo_independence_role/)
-- [Bimodal It Mode1 Mode2 Strategy](/studynote/12_it_management/01_governance_strategy/844_bimodal_it_mode1_mode2_strategy/)
-- [Skip List](/studynote/12_it_management/02_itsm_itil/851_skip_list/)
-- [Itil4 Core Change](/studynote/12_it_management/02_itsm_itil/853_itil4_core_change/)
-- [LCA, Lowest Common Ancestor](/studynote/12_it_management/02_itsm_itil/855_lca/)
-- [SPOC (Single Point of Contact)](/studynote/12_it_management/02_itsm_itil/857_spoc/)
-- [Permutation and Combination](/studynote/12_it_management/02_itsm_itil/858_permutation_combination/)
-- [KEDB (Known Error Database)](/studynote/12_it_management/02_itsm_itil/862_kedb/)
-- [Change Management / Change Enablement](/studynote/12_it_management/02_itsm_itil/863_dimensionality_reduction/)
-- [CAB, Change Advisory Board](/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/)
-- [Release and Deployment Management](/studynote/12_it_management/02_itsm_itil/866_release_deployment_management/)
-- [UC (Underpinning Contract)](/studynote/12_it_management/02_itsm_itil/871_underpinning_contract/)
-- [Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)
-- [Recommendation System](/studynote/12_it_management/02_itsm_itil/877_recommendation_system/)
-- [Information Security Management Ism](/studynote/12_it_management/02_itsm_itil/879_information_security_management_ism/)
-- [ServiceNow, Jira Service Management](/studynote/12_it_management/02_itsm_itil/881_itsm_tools_servicenow_jira/)
-- [Aiops Chatbot Itsm Automation](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)
-- [Technical Debt Release Policy](/studynote/12_it_management/02_itsm_itil/884_technical_debt_release_policy/)
-- [Isp Environmental Analysis Pest 5Forces](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)
-- [Gap Analysis](/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/)
-- [Enterprise Architecture,](/studynote/12_it_management/03_ea_isp/894_skip_list/)
-- [EA Framework](/studynote/12_it_management/03_ea_isp/895_ea_framework_zachman_togaf_metamodel/)
-- [Zachman Framework](/studynote/12_it_management/03_ea_isp/896_zachman_framework_ea_matrix_ontology/)
-- [TOGAF (The Open Group)](/studynote/12_it_management/03_ea_isp/897_togaf_the_open_group_architecture_framework/)
-- [GEA](/studynote/12_it_management/03_ea_isp/899_gea_government_enterprise_architecture/)
-- [Reference Model](/studynote/12_it_management/03_ea_isp/900_reference_model_brm_drm_srm_trm/)
-- [Business Reference Model,](/studynote/12_it_management/03_ea_isp/901_brm_business_reference_model_function/)
-- [Service Reference Model,](/studynote/12_it_management/03_ea_isp/902_srm_service_reference_model_component/)
-- [Technical Reference Model,](/studynote/12_it_management/03_ea_isp/904_trm_technical_reference_model_infrastructure_standards/)
-- [ARB, Architecture Review Board](/studynote/12_it_management/03_ea_isp/907_architecture_review_board_arb_ea_governance/)
-- [EAMS](/studynote/12_it_management/03_ea_isp/908_eams_enterprise_architecture_management_system/)
-- [IT ROI](/studynote/12_it_management/03_ea_isp/910_it_roi_pre_progress_post_evaluation_evm/)
-- [Bpr 4 Principles Fundamental Radical Process Dramatic](/studynote/12_it_management/03_ea_isp/912_bpr_4_principles_fundamental_radical_process_dramatic/)
-- [-> /MSA](/studynote/12_it_management/03_ea_isp/914_digital_business_transformation_monolithic_to_msa_strangler_fig/)
+- Corporate Governance It Governance
+- Information System Master Plan
+- PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신
+- Ea
+- IRR >
+- Csf
+- 전략 체계도 (Strategy Map) - BSC 각 관점의 KPI 인과관계를 도식화
+- 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석
+- Pest Analysis
+- Long Tail
+- Known Error Database,
+- 피벗 (Pivot)
+- Ambidextrous Organization
+- OKR (Objectives and Key Results)
+- Growth Hacking
+- Msp Cloud Managed Service Provider
+- Service Level Agreement,
+- Data Governance
+- Data Stewardship
+- ITSM (IT Service Management)
+- ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계
+- 서비스 전략 (Service Strategy)
+- 서비스 설계 (Service Design)
+- 서비스 전환 (Service Transition)
+- CSI, Continual Service Improvement
+- Service Value Chain
+- Service Desk
+- 인시던트 관리 (Incident Management)
+- Workaround
+- 문제 관리 (Problem Management)
+- Cross Validation
+- Model Selection
+- SLA (Service Level Agreement)
+- Learning Rate Gradient Descent
+- Cnn Convolutional
+- Transformer Bert
+- Gpt Nlp
+- Capacity Management
+- Self-Service Portal
+- Isp 4 Steps
+- SAT (Satisfiability) — 최초 NP-완전 증명 (Cook-Levin)
+- Da As Is Analysis
+- 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화
+- Fenwick Tree
+- 서픽스 트리와 서픽스 배열 (Suffix Tree & Array)
+- ISMP
+- TOGAF ADM (Architecture Development Method)
+- Data Reference Model,
+- Performance Reference Model,
+- EA Governance
+- As-Is Update
+- BPR (Business Process Reengineering)
+- Process Mining Based Bpr
+- 정보보호최고책임자 (CISO) 지정 의무 및 역할
+- 개인정보 영향평가 (Privacy Impact Assessment, PIA)
+- 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity Plan, BCP) 전략
+- RTO (Recovery Time Objective)
+- RPO (Recovery Point Objective)
+- 미러 사이트 (Mirror Site)
+- 핫 사이트 (Hot Site)
+- 웜 사이트 (Warm Site)
+- 콜드 사이트 (Cold Site)
+- 망분리 (Network Separation) 모델
+- 망연계 시스템 (Network Linkage System)
+- 제로 트러스트 아키텍처 (Zero Trust Architecture)
+- 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)
+- 데이터 유출 방지 (DLP, Data Loss Prevention) 시스템
+- 정보시스템 감리 (Information System Audit)
+- 감리 프레임워크 3대 관점
+- 예방 감리 / 상주 감리 체제 적용
+- 오픈소스 (OSS) 라이선스 컴플라이언스 점검 (GPL 전염성 위배 등 상용 릴리스 위험 방지)
+- 소프트웨어 개발 보안 자동화 분석 도구 (SAST, DAST) 도입 및 오탐/미탐 비율 관리
+- 퍼블릭 클라우드 보안 인증 (CSAP)
+- CMMC (Cybersecurity Maturity Model Certification)
+- 정보보호 공시 제도
+- 개인정보 가명 처리 (Pseudonymization) 및 비식별화 (De-identification)
+- 랜섬웨어 방어 아키텍처
+- 사이버 킬체인 (Cyber Kill Chain) 방어 및 마이터 어택 (MITRE ATT&CK) 프레임워크 기반 관제
+- 클라우드 서비스 모델 (IaaS, PaaS, SaaS, BaaS, FaaS) 엔터프라이즈 도입 전략
+- 멀티 클라우드 (Multi-Cloud) 및 하이브리드 클라우드 (Hybrid Cloud) 데이터 거버넌스
+- 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소
+- 컨테이너 오케스트레이션 (Kubernetes) 노드/포드(Pod) 고가용성 설계
+- 서버리스 (Serverless) 함수 호출 및 콜드 스타트 극복 방안
+- 인프라스트럭처 애즈 코드 (IaC, Terraform)
+- 데이터 레이크 (Data Lake)
+- 데이터 웨어하우스 (DW)
+- 데이터 레이크하우스 (Data Lakehouse)
+- 데이터 메시 (Data Mesh)
+- 데이터 패브릭 (Data Fabric)
+- 데이터 카탈로그 (Data Catalog) 시스템
+- 데이터 리니지 (Data Lineage)
+- ETL (추출-변환-적재) vs ELT (추출-적재-변환 / 클라우드 DW 성능 활용) 파이프라인
+- 이벤트 스트리밍 브로커
+- 변경 데이터 캡처 (CDC, Change Data Capture) 데이터베이스 실시간 마이그레이션 연동망
+- MLOps (Machine Learning Operations)
+- LLMOps
+- 검색 증강 생성 (RAG, Retrieval-Augmented Generation)
+- 벡터 데이터베이스 (Vector Database)
+- 파운데이션 모델 (Foundation Model) 전이 학습 및 파라미터 효율적 미세 조정 (PEFT / LoRA 기법) 도입 경제성 검토
+- AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정
+- 블록체인 스마트 컨트랙트 기반 공급망 증빙(Traceability) 플랫폼 연동
+- 영지식 증명 (ZKP) 활용 프라이버시 클린 룸 (Data Clean Room) 기업 간 데이터 연합
+- DID (탈중앙화 신원 증명) W3C 표준 인증 체계 및 마이데이터 인증 대체
+- 공간 컴퓨팅 (Spatial Computing) 기반 디지털 트윈(Digital Twin) 시뮬레이션
+- 스마트 시티 통합 플랫폼 아키텍처
+- 엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)
+- 양자 컴퓨팅 (Quantum Computing) 보안 위협 방어용 PQC (양자 내성 암호) 로드맵 적용
+- 디지털 휴먼 (Digital Human) 및 메타버스 CS(Customer Service) 채널 통합 구조
+- 마이크로 프론트엔드 (Micro Frontends)
+- 초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼
+- 정보화 전략 계획 (ISP) AS-IS / TO-BE
+- 전사 아키텍처 (EA)
+- 잭맨 프레임워크 (Zachman) 매트릭스
+- TOGAF ADM 프레임워크
+- BPR / PI 프로세스 혁신 차이점
+- KPI / CSF 상관관계
+- BSC 균형 성과 기록표 4관점
+- OKR 도전적 목표와 핵심 결과
+- 가치 사슬 (Value Chain) 경쟁력 분석
+- 롱테일 법칙
+- 네트워크 효과 (메트칼프)
+- 린 스타트업 MVP 피벗
+- 그로스 해킹 AARRR
+- COBIT 2019 통제 모델
+- ITSM IT 서비스 관리
+- ITIL v3 생명주기 vs v4 SVS 가치사슬
+- SLA / OLA / UC
+- 서비스 데스크 SPOC
+- CMDB 자산 구성 항목 (CI)
+- 인시던트 관리 복구 우선
+- 문제 관리 근본 원인 KEDB
+- 변경 관리 CAB 위원회 승인
+- BIA 업무 영향 분석
+- DR 센터 (미러, 핫, 웜, 콜드)
+- ROI, NPV, IRR, PP 타당성 분석 지표
+- TCO 총 소유 비용
+- 데이터 스튜어드십
+- CDO 데이터 총괄 임원
+- MDM 마스터 데이터 관리
+- SCM 공급망 관리 채찍 효과
+- CRM 고객 관계 관리 LTV
+- CDP 고객 데이터 플랫폼 (1st Party)
+- MES 공장 제조 실행 시스템
+- PLM / PDM 제품 수명 주기 BOM
+- KMS 지식 관리 암묵지 형식지 SECI 모델
+- RPA 초자동화 봇
+- 프로세스 마이닝 이벤트 로그 병목 진단
+- 델파이 기법 블라인드 합의
+- MECE 논리 트리 중복 누락 배제
+- PMO 프로젝트 관리 오피스 역할
+- WBS 100% Rule 작업 패키지
+- CPM 주공정법 임계 경로
+- PERT 3점 추정
+- EVM 획득 가치 (PV, EV, AC, SPI, CPI)
+- CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)
+- 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력
+- COCOMO 비용 산정 (유기적, 준분리, 내장형)
+- 인스펙션 중재자 리뷰 워크스루 비공식 차이
+- EAI 허브 앤 스포크 포인트 투 포인트
+- SOA WSDL UDDI SOAP 서비스 지향
+- ESB 엔터프라이즈 서비스 버스 라우팅
+- RESTful API 무상태성 HATEOAS
+- 마이크로서비스 MSA 독립 배포
+- API 게이트웨이 / BFF 패턴
+- 서비스 메시 (Istio) 사이드카 프록시
+- 서비스 디스커버리 동적 IP 라우팅
+- 서킷 브레이커 장애 연쇄 차단 폴백
+- 사가 패턴 (Saga) 보상 트랜잭션
+- CQRS 명령 조회 모델 물리 분리
+- 이벤트 소싱 불변 로그 스트림 복원
+- 멀티 테넌트 SaaS 스키마 격리
+- 도메인 주도 설계 (DDD) 바운디드 컨텍스트 애그리게이트
+- 데이터 웨어하우스 Inmon 주젯 통합 비휘발
+- 데이터 마트 Kimball 다차원 스타 스키마
+- 스노우플레이크 스키마 정규화 트리 형태
+- 서로게이트 키 인조 식별자 생성
+- SCD 데이터 이력 유지 방식 (Type 2 로우 추가)
+- OLAP 드릴다운 롤업 다이스 분석
+- ETL 적재 전 변환 vs ELT 적재 후 클라우드 변환
+- 데이터 레이크 스키마 온 리드 구조
+- 데이터 레이크하우스 스토리지 컴퓨팅 분리
+- 데이터 메시 도메인 주도 데이터 오너십 분산
+- 데이터 패브릭 지능형 가상화 통합 연결
+- 데이터 카탈로그 검색 태깅 인프라
+- 데이터 리니지 흐름 추적 무결성
+- 데이터옵스 CI/CD 파이프라인 자동화
+- 카프카 분산 메시지 큐 스트리밍 토픽
+- CDC 변경 데이터 캡처 DB 동기화
+- 정보시스템 감리 3대 목적 절차 산출물 성과
+- 감리 프레임워크 3단계 (요구, 설계, 종료)
+- 베이스라인 형상 통제 검증
+- 시큐어 코딩 47개 취약점 진단 점검
+- 개인정보 영향 평가 (PIA) 감리 연계
+- OAT / UAT 인수 테스트 승인 확인
+- ISMS-P 인증 위험 통제 보안 심사망 연계
+- 제로 트러스트 ZTNA 마이크로 세그멘테이션 감리
+- 컨테이너 쿠버네티스 오케스트레이션 오토스케일링 진단
+- 서버리스 FaaS 아키텍처 한계 분석망
+- IaC 테라폼 코드 인프라 선언 통제망
+- FinOps 스팟 인스턴스 비용 절감 모니터 감리
+- LLM 파운데이션 모델 환각 (Hallucination) 방어 검증
+- RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조
+- 프롬프트 인젝션 보안 필터망 설계
+- MLOps 드리프트 탐지 파이프라인 모니터링 감사
+- XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙
+- 연합 학습 엣지 분산 데이터 프라이버시 검열망
+- 양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호 (PQC) 전환 통제
+- 동형 암호 클라우드 암호화 연산 보장성
+- 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단
+- DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망
+- 메타버스 가상 자산 통제망
+- 디지털 트윈 동기화 시뮬레이션 지연 오차 감사
+- O-RAN 프론트홀 개방 사양 무결 망 진단
+- 스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단
+- 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략
+- 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단
+- 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사
+- 테스트 더블 (Mock, Stub) 단위 테스트 격리 커버리지 100% 검수
+- 보안 감사 로깅 6하 원칙 WORM 보존 기간 법적 준수 진단
+- 오픈소스 라이선스 고지 의무 및 GPL 전염성 릴리스 차단 진단
+- DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리
+- 플랫폼 비즈니스 양면 시장 수수료 모델 아키텍처 IT 거버넌스
+- 시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안
+- Information Strategy Planning,
+- BPR (Business Process Reengineering)
+- ROI (Return on Investment)
+- Net Present Value,
+- Payback Period,
+- Total Cost of Ownership,
+- KPI, Key Performance Indicator
+- BSC, Balanced Scorecard
+- Five Forces Model
+- S
+- C
+- Seven S Model
+- IT PPM
+- Platform Business Model
+- Platform Business Model
+- Lean Startup
+- Minimum Viable Product,
+- Okr Objectives Key Results
+- Growth Hacking
+- It Outsourcing Strategy
+- Business Process Outsourcing Bpo
+- It Compliance Gdpr Sox Control Framework
+- Shadow It Risk Management
+- CISO & CDO Independence
+- Bimodal It Mode1 Mode2 Strategy
+- Skip List
+- Itil4 Core Change
+- LCA, Lowest Common Ancestor
+- SPOC (Single Point of Contact)
+- Permutation and Combination
+- KEDB (Known Error Database)
+- Change Management / Change Enablement
+- CAB, Change Advisory Board
+- Release and Deployment Management
+- UC (Underpinning Contract)
+- Service Catalog
+- Recommendation System
+- Information Security Management Ism
+- ServiceNow, Jira Service Management
+- Aiops Chatbot Itsm Automation
+- Technical Debt Release Policy
+- Isp Environmental Analysis Pest 5Forces
+- Gap Analysis
+- Enterprise Architecture,
+- EA Framework
+- Zachman Framework
+- TOGAF (The Open Group)
+- GEA
+- Reference Model
+- Business Reference Model,
+- Service Reference Model,
+- Technical Reference Model,
+- ARB, Architecture Review Board
+- EAMS
+- IT ROI
+- Bpr 4 Principles Fundamental Radical Process Dramatic
+- -> /MSA
 
 ---
 **총합 요약 : 총 800개 주요 키워드 수록**
-(IT 거버넌스, [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/), [ERP](/studynote/12_it_management/02_itsm_itil/081_ecab/)/[CRM](/studynote/12_it_management/03_ea_isp/107_classification/), ITSM부터 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 클라우드 [전략](/studynote/12_it_management/05_security_compliance/268_rto_rpo_objectives/), [RAG](/studynote/12_it_management/05_security_compliance/276_erp_enterprise_resource_planning/), [데이터 메시](/exam/12_it_management/211_data_mesh_domain_ownership/) 등 차세대 IT 경영/[서비스](/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 관리 전 영역의 키워드를 총망라하였습니다.)
+(IT 거버넌스, BPR, ERP/CRM, ITSM부터 마이크로서비스, 클라우드 전략, RAG, 데이터 메시 등 차세대 IT 경영/서비스 관리 전 영역의 키워드를 총망라하였습니다.)

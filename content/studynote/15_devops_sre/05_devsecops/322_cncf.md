@@ -6,15 +6,15 @@ tags:
 weight: 322
 ---
 > **핵심 인사이트**
-> - [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) ([OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))는 [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces 세 기둥을 단일 SDK로 계측하는 [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) ([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) 표준이다.
-> - 벤더 중립적 설계로 Jaeger·[Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·Datadog 등 어떤 백엔드에도 연결할 수 있다.
-> - [OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector가 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중앙에서 수신·처리·내보내기를 담당해 언어별 SDK 변경 없이 백엔드를 교체할 수 있다.
+> - OpenTelemetry (OTel)는 Metrics·Logs·Traces 세 기둥을 단일 SDK로 계측하는 CNCF (Cloud Native Computing Foundation) 표준이다.
+> - 벤더 중립적 설계로 Jaeger·Prometheus·Datadog 등 어떤 백엔드에도 연결할 수 있다.
+> - OTel Collector가 파이프라인 중앙에서 수신·처리·내보내기를 담당해 언어별 SDK 변경 없이 백엔드를 교체할 수 있다.
 
 ---
 
-## Ⅰ. [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 등장 배경
+## Ⅰ. OpenTelemetry 등장 배경
 
-이전에는 [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 도구마다 별도 SDK를 사용해야 했다. OpenTelemetry는 OpenCensus(Google)와 OpenTracing([CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/))의 합병 프로젝트로, 단일 표준 SDK로 [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces 모두 계측한다.
+이전에는 Observability 도구마다 별도 SDK를 사용해야 했다. OpenTelemetry는 OpenCensus(Google)와 OpenTracing(CNCF)의 합병 프로젝트로, 단일 표준 SDK로 Metrics·Logs·Traces 모두 계측한다.
 
 ```
 +--------------------------------------------------+
@@ -29,28 +29,28 @@ weight: 322
 ```
 
 > 📢 **Ⅰ 섹션 요약 비유**
-> OTel은 [USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)-C 표준 — 기기(SDK)는 하나의 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 연결하고, [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(Exporter)를 교체하면 다른 충전기(백엔드)에 꽂힌다.
+> OTel은 USB-C 표준 — 기기(SDK)는 하나의 포트에 연결하고, 어댑터(Exporter)를 교체하면 다른 충전기(백엔드)에 꽂힌다.
 
 ---
 
-## Ⅱ. [OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) SDK 주요 구성
+## Ⅱ. OTel SDK 주요 구성
 
 | 구성 요소         | 역할                                        |
 |------------------|---------------------------------------------|
-| Tracer [Provider](/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)   | Trace [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 팩토리                           |
-| Meter [Provider](/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)    | [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) 수집 팩토리                         |
-| Logger [Provider](/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)   | 구조화 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 출력 팩토리                      |
-| Propagator        | Trace [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 전파                |
-| Exporter          | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 백엔드로 전송 (OTLP, Jaeger, Zipkin) |
+| Tracer Provider   | Trace 생성 팩토리                           |
+| Meter Provider    | Metrics 수집 팩토리                         |
+| Logger Provider   | 구조화 로그 출력 팩토리                      |
+| Propagator        | Trace Context 서비스 간 전파                |
+| Exporter          | 데이터 백엔드로 전송 (OTLP, Jaeger, Zipkin) |
 
-OTLP ([OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 [gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)·[HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반 표준 전송 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
+OTLP (OpenTelemetry Protocol)는 gRPC·HTTP 기반 표준 전송 프로토콜이다.
 
 > 📢 **Ⅱ 섹션 요약 비유**
-> Tracer Provider는 GPS [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/), Meter Provider는 속도계, OTLP는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버로 보내는 통신망이다.
+> Tracer Provider는 GPS 모듈, Meter Provider는 속도계, OTLP는 데이터를 서버로 보내는 통신망이다.
 
 ---
 
-## Ⅲ. [OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+## Ⅲ. OTel Collector 파이프라인
 
 ```
 Receiver -> Processor -> Exporter
@@ -63,10 +63,10 @@ OTLP Receiver
   +-- Loki Exporter (Logs)
 ```
 
-Agent 모드([사이드카](/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)/[데몬셋](/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/))와 Gateway 모드(클러스터 중앙 집결)를 조합해 사용한다.
+Agent 모드(사이드카/데몬셋)와 Gateway 모드(클러스터 중앙 집결)를 조합해 사용한다.
 
 > 📢 **Ⅲ 섹션 요약 비유**
-> Collector는 우편 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) — 여러 곳에서 온 소포를 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·처리해 목적지별로 배달한다.
+> Collector는 우편 허브 — 여러 곳에서 온 소포를 분류·처리해 목적지별로 배달한다.
 
 ---
 
@@ -82,10 +82,10 @@ java -javaagent:opentelemetry-javaagent.jar -jar myapp.jar
 opentelemetry-instrument python myapp.py
 ```
 
-Auto-instrumentation은 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 클라이언트·DB 드라이버·[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 등 인기 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 자동 계측한다.
+Auto-instrumentation은 HTTP 클라이언트·DB 드라이버·메시지 큐 등 인기 라이브러리를 자동 계측한다.
 
 > 📢 **Ⅳ 섹션 요약 비유**
-> Auto-instrumentation은 자동차 OBD [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂기만 하면 모든 주행 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 것이다.
+> Auto-instrumentation은 자동차 OBD 포트에 꽂기만 하면 모든 주행 데이터를 수집하는 것이다.
 
 ---
 
@@ -95,12 +95,12 @@ Auto-instrumentation은 [HTTP](/studynote/03_network/09_application_layer_web_em
 
 | 구성 요소           | 역할                                         |
 |---------------------|----------------------------------------------|
-| [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)       | [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 표준 SDK + [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)             |
-| [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)                | [Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트 관리 재단      |
-| OTLP                | [OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 표준 전송 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)/[HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))          |
-| [OTel](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector      | 수신·처리·내보내기 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인                |
+| OpenTelemetry       | Observability 표준 SDK + 프로토콜             |
+| CNCF                | Cloud Native 오픈소스 프로젝트 관리 재단      |
+| OTLP                | OTel 표준 전송 프로토콜 (gRPC/HTTP)          |
+| OTel Collector      | 수신·처리·내보내기 파이프라인                |
 | Auto-instrumentation| 코드 수정 없는 자동 계측                     |
-| Propagator          | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 Trace [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) 전파                 |
+| Propagator          | 서비스 간 Trace Context 전파                 |
 
 ### 관련 키워드 및 발전 흐름도
 
@@ -115,14 +115,3 @@ OpenTelemetry
 
 > 🧒 **어린이 비유**
 > OTel은 모든 가전제품의 리모컨을 하나로 통합하는 만능 리모컨이에요. 어떤 TV(백엔드)에도 같은 버튼(SDK)으로 조종할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 322 / 373
-
-<- **이전**: [Distributed Tracing Trace ID](/studynote/15_devops_sre/05_devsecops/321_trace_id/)
-**다음**: [Prometheus Grafana Monitoring](/studynote/15_devops_sre/05_devsecops/323_process/) ->
-
----

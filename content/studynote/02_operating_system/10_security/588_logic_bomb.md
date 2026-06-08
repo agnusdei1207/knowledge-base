@@ -7,9 +7,9 @@ weight: 588
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 로직 폭탄은 개발자나 침입자가 특정 조건이 충족되었을 때(날짜, 시간, 특정 사용자 로그인, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 등) 악의적인 코드 실행을 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는 악성 소프트웨어다. 이기만(기만)적촉발([트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) 메커니즘으로, 정상 업무 중 몰래 침투하여 시스템에 [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)를 설치하거나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파괴하는 일종의 시한폭탄이다.
-> 2. **가치**: 이 기술은 내부자 위협(Insider Threat)과 [공급망 공격](/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)([Supply Chain Attack](/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/))의 대표적인 수단으로, 외부 방화벽이나 IDS를 우회하여 조직 내부에서밀か에(비밀스럽게) 작동하며, 사전에 설정된 조건이 충족되면 피해자에게 경고 없이즉시(즉시) 피해를 준다.
-> 3. **한계**: 시간bomb형(Time Bomb)은 지정된 시간이 경과하면 무조건 폭발하므로 탐지 가능성이 높고, современные(현대적인) [EDR](/studynote/09_security/04_endpoint_security/325_edr/)(Endpoint [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response) 및 FIM([File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/) Monitoring) 시스템이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 변경을 실시간 모니터링하므로 사전에 탐지될 가능성이 높다.
+> 1. **본질**: 로직 폭탄은 개발자나 침입자가 특정 조건이 충족되었을 때(날짜, 시간, 특정 사용자 로그인, 파일 삭제 등) 악의적인 코드 실행을 트리거하는 악성 소프트웨어다. 이기만(기만)적촉발(트리거) 메커니즘으로, 정상 업무 중 몰래 침투하여 시스템에 백도어를 설치하거나 데이터를 파괴하는 일종의 시한폭탄이다.
+> 2. **가치**: 이 기술은 내부자 위협(Insider Threat)과 공급망 공격(Supply Chain Attack)의 대표적인 수단으로, 외부 방화벽이나 IDS를 우회하여 조직 내부에서밀か에(비밀스럽게) 작동하며, 사전에 설정된 조건이 충족되면 피해자에게 경고 없이즉시(즉시) 피해를 준다.
+> 3. **한계**: 시간bomb형(Time Bomb)은 지정된 시간이 경과하면 무조건 폭발하므로 탐지 가능성이 높고, современные(현대적인) EDR(Endpoint Detection and Response) 및 FIM(File Integrity Monitoring) 시스템이 파일 시스템 변경을 실시간 모니터링하므로 사전에 탐지될 가능성이 높다.
 
 ---
 
@@ -50,16 +50,16 @@ weight: 588
 ### 시간bomb (Time Bomb)
 | 유형 | 설명 | 예시 |
 |---|---|---|
-| **날짜 기반** | 특정 날짜에 동작 | "2025년 12월 31일에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제" |
-| **시간 기반** | 특정 시각에 동작 | "매일 자정마다 [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 활성화" |
-| **카운트 기반** | N번째 실행 시 동작 | "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열기 30번째마다 악성 코드 실행" |
-| **이벤트 기반** | 특정 이벤트 발생 시 | "직원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 시 같이 실행" |
+| **날짜 기반** | 특정 날짜에 동작 | "2025년 12월 31일에 파일 삭제" |
+| **시간 기반** | 특정 시각에 동작 | "매일 자정마다 백도어 활성화" |
+| **카운트 기반** | N번째 실행 시 동작 | "파일 열기 30번째마다 악성 코드 실행" |
+| **이벤트 기반** | 특정 이벤트 발생 시 | "직원 데이터 삭제 시 같이 실행" |
 
 ### 로직bomb (Logic Bomb)
-| [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 조건 | 설명 |
+| 트리거 조건 | 설명 |
 |---|---|
 | **사용자 로그인** | 특정 사용자가 로그인할 때 동작 |
-| <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 존재/삭제</strong> | 특정 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 삭제되거나 존재할 때 |
+| <strong>파일 존재/삭제</strong> | 특정 파일이 삭제되거나 존재할 때 |
 | **보상/급여 미지급** | 급여명세서 미도착 시 |
 | **직위 변경/해고** | 인사 시스템 변경 시 |
 
@@ -75,9 +75,9 @@ weight: 588
 **공격 과정**:
 1. A는 퇴사 1개월 전，진(틈)을 타 업무 시스템의 로직bomb을사조(심화)했다.
 2. 시스템에서 급여 처리Iterations(반복)회에 따라 25번째Processing(처리)에서 악성payload를 심화식입(이식)했다.
-3. 1개월 후 회사는 A를 계속 고용하지 않기로 결정했고, 퇴사 후 31번째 급여 처리 시 시스템 내 모든 고객 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를Encrypt(암호화)하여 인도(유도)했다.
+3. 1개월 후 회사는 A를 계속 고용하지 않기로 결정했고, 퇴사 후 31번째 급여 처리 시 시스템 내 모든 고객 데이터를Encrypt(암호화)하여 인도(유도)했다.
 
-<strong>결과 및 <a href="/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/">교훈</a></strong>:
+<strong>결과 및 교훈</strong>:
 - 회사 경영진은 "시스템 오류"로 오인하고, Ransom(몸값)을 요구하는 메세지를 받을 때까지 정체를 몰랐다.
 - 사고 해결 기간: 45~90일, 직접피해(직접피해) 수백억 원
 
@@ -87,17 +87,17 @@ weight: 588
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 방어(방어) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
-1. <strong><a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 리뷰 및 <a href="/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a></strong>: 배포 전 모든 코드에 대한 심층적인 [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)을 수행하여 숨겨진 패턴을 탐지
-2. <strong>행위 기반 모니터링 (<a href="/studynote/09_security/04_endpoint_security/325_edr/">EDR</a>)</strong>: 프로세스 및 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 변경을 실시간으로 모니터링하고, 이상 행위를Flag([플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))할 수 있는 [EDR](/studynote/09_security/04_endpoint_security/325_edr/) 솔루션 배포
-3. <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 모니터링 (FIM)</strong>: Tripwire 등을 활용하여 주요 시스템 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 SHA-256 해시를 정기적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
+### 방어(방어) 전략
+1. <strong>Code 리뷰 및 정적 분석</strong>: 배포 전 모든 코드에 대한 심층적인 정적 분석을 수행하여 숨겨진 패턴을 탐지
+2. <strong>행위 기반 모니터링 (EDR)</strong>: 프로세스 및 파일 시스템 변경을 실시간으로 모니터링하고, 이상 행위를Flag(플래그)할 수 있는 EDR 솔루션 배포
+3. <strong>파일 무결성 모니터링 (FIM)</strong>: Tripwire 등을 활용하여 주요 시스템 파일의 SHA-256 해시를 정기적으로 검증
 
 ### 탐지 기술
 | 기술 | 설명 | 효과 |
 |---|---|---|
-| **행위 분석 (Behavioral Analysis)** | 비정상적인 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근/수정 패턴 탐지 | 높음 |
-| <strong><a href="/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a> (<a href="/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">Sandboxing</a>)</strong> | 의심스러운 코드를 격리된 환경에서 실행 | 중간 |
-| <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 해시 비교</strong> | 시스템 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)정기(정기) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 높음 |
+| **행위 분석 (Behavioral Analysis)** | 비정상적인 파일 접근/수정 패턴 탐지 | 높음 |
+| <strong>샌드박싱 (Sandboxing)</strong> | 의심스러운 코드를 격리된 환경에서 실행 | 중간 |
+| <strong>파일 해시 비교</strong> | 시스템 파일 무결성정기(정기) 검증 | 높음 |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -105,11 +105,11 @@ weight: 588
 
 ## Ⅴ. 기대효과 및 결론
 
-로직bomb과 시간bomb은 외부 해킹보다 내부자 위협에 더유효성(효과적)이며, 단순한 방화벽이나 [AV](/studynote/09_security/04_endpoint_security/323_antivirus/)(안티바이러스) 솔루션으로는 탐지하기 어렵다. 따라서 다음과 같은 다층 방어 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다:
+로직bomb과 시간bomb은 외부 해킹보다 내부자 위협에 더유효성(효과적)이며, 단순한 방화벽이나 AV(안티바이러스) 솔루션으로는 탐지하기 어렵다. 따라서 다음과 같은 다층 방어 전략이 필요하다:
 
-- **사전 예방**: 안전한 코딩 관행, [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구 활용
-- **실시간 탐지**: [EDR](/studynote/09_security/04_endpoint_security/325_edr/), FIM, 행위 모니터링
-- **사후 대응**: 정기적인 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및Incident Response([사고 대응](/studynote/09_security/01_intro_principles/009_incident_response/)) 계획 수립
+- **사전 예방**: 안전한 코딩 관행, 정적 분석 도구 활용
+- **실시간 탐지**: EDR, FIM, 행위 모니터링
+- **사후 대응**: 정기적인 백업 및Incident Response(사고 대응) 계획 수립
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -119,10 +119,10 @@ weight: 588
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [트로이 목마](/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) ([Trojan Horse](/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/)) / 래퍼 (Wrapper) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [트랩 도어](/studynote/02_operating_system/10_security/587_backdoor_trapdoor/) ([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Door / [Backdoor](/studynote/09_security/15_malware_attack_vectors/727_backdoor/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [바이러스](/studynote/02_operating_system/10_security/589_virus/) ([Virus](/studynote/02_operating_system/10_security/589_virus/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 웜 ([Worm](/studynote/02_operating_system/10_security/590_worm/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 트랩 도어 (Trap Door / Backdoor) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 바이러스 (Virus) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 웜 (Worm) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,15 +142,4 @@ weight: 588
 
 1. 로직bomb은 컴퓨터 안에 숨어 있는 나쁜 친구와 같은 것이다. 엄마가 용돈을 안 주면 냉장고를 열지 못하게 심어둔 시한장치를 생각하면 돼.
 2. 특정 조건이 채워질 때까지는 아무렇지 않은 척하다가, 조건이 충족되면 갑자기 터져서 컴퓨터를 고장 내거나 비밀을 가져가는 것이 특징이야.
-3. 그래서 우리느 컴퓨터에 이상한 프로그램을 깔거나, 누가 건네준 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열 때 조심해야 해.virus처럼 보이지 않다가도 나중에 문제을 일으킬 수 있거든.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 588 / 800
-
-<- **이전**: [587. 트랩 도어 (Trap Door / Backdoor)](/studynote/02_operating_system/10_security/587_backdoor_trapdoor/)
-**다음**: [589. 바이러스 (Virus) - 호스트 프로그램 기생](/studynote/02_operating_system/10_security/589_virus/) ->
-
----
+3. 그래서 우리느 컴퓨터에 이상한 프로그램을 깔거나, 누가 건네준 파일을 열 때 조심해야 해.virus처럼 보이지 않다가도 나중에 문제을 일으킬 수 있거든.

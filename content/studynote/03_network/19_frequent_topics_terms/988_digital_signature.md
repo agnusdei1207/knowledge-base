@@ -15,16 +15,16 @@ weight: 988
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 종이 문서에 찍는 인감도장이나 친필 서명처럼, 전자 서명은 전자 문서에 첨부되어 "이 문서는 특정인(개인키 소유자)에 의해 작성되었으며, 이후 단 1비트도 수정되지 않았다"는 사실을 암호학적으로 증명하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각이다.
+- **개념**: 종이 문서에 찍는 인감도장이나 친필 서명처럼, 전자 서명은 전자 문서에 첨부되어 "이 문서는 특정인(개인키 소유자)에 의해 작성되었으며, 이후 단 1비트도 수정되지 않았다"는 사실을 암호학적으로 증명하는 데이터 조각이다.
 
-- **필요성**: 디지털 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 누구나 100% 동일하게 복사하고 수정할 수 있다. 만약 내가 은행에 "A에게 100만 원을 송금하라"는 메시지를 보냈을 때, 해커가 중간에 "1,000만 원"으로 숫자를 고치면 은행은 이를 어떻게 알아챌 수 있을까? 혹은 내가 송금해 놓고 나중에 "나는 그런 적 없다, 은행 시스템 오류다"라고 우기면 은행은 어떻게 법적으로 방어할 수 있을까? 단순한 암호화([기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 보장)만으로는 이 '조작'과 '발뺌'을 막을 수 없다. 메시지의 작성자를 수학적으로 못 박아두는 강력한 부인 방지 장치가 바로 전자 서명이다.
+- **필요성**: 디지털 데이터는 누구나 100% 동일하게 복사하고 수정할 수 있다. 만약 내가 은행에 "A에게 100만 원을 송금하라"는 메시지를 보냈을 때, 해커가 중간에 "1,000만 원"으로 숫자를 고치면 은행은 이를 어떻게 알아챌 수 있을까? 혹은 내가 송금해 놓고 나중에 "나는 그런 적 없다, 은행 시스템 오류다"라고 우기면 은행은 어떻게 법적으로 방어할 수 있을까? 단순한 암호화(기밀성 보장)만으로는 이 '조작'과 '발뺌'을 막을 수 없다. 메시지의 작성자를 수학적으로 못 박아두는 강력한 부인 방지 장치가 바로 전자 서명이다.
 
-- **💡 비유**: 전자 서명은 "나의 지문(개인키)으로만 만들 수 있는 특수 홀로그램 스티커"와 같다. 이 스티커는 문서 위에 붙여지는데, 문서를 한 글자라도 찢거나 고치려 하면 스티커가 산산조각(해시 불일치) 난다. 수신자는 누구나 가지고 있는 내 지문 조회기(공개키)에 스티커를 대보기만 하면, "아, 이건 진짜 홍길동이 붙인 게 맞고([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 문서도 뜯어진 적이 없구나([무결성](/studynote/09_security/01_intro_principles/003_integrity/))" 하고 확신할 수 있다.
+- **💡 비유**: 전자 서명은 "나의 지문(개인키)으로만 만들 수 있는 특수 홀로그램 스티커"와 같다. 이 스티커는 문서 위에 붙여지는데, 문서를 한 글자라도 찢거나 고치려 하면 스티커가 산산조각(해시 불일치) 난다. 수신자는 누구나 가지고 있는 내 지문 조회기(공개키)에 스티커를 대보기만 하면, "아, 이건 진짜 홍길동이 붙인 게 맞고(인증), 문서도 뜯어진 적이 없구나(무결성)" 하고 확신할 수 있다.
 
 - **등장 배경 및 발전 과정**:
   1. **물리적 서명의 한계**: 종이 서명은 위조가 상대적으로 쉽고, 디지털 네트워크 환경에서는 전송 자체가 불가능했다.
-  2. **비대칭키 암호의 역발상 (1970년대 후반)**: [RSA](/studynote/09_security/03_network_security/110_rsa/) 등의 비대칭키가 발명된 후, 학자들은 "공개키로 암호화하고 개인키로 푸는 게 원래 용도지만, 거꾸로 **개인키로 암호화하고 공개키로 풀게 하면** 어떻게 될까?"라는 천재적인 역발상을 떠올렸다. 오직 개인키 소유자만이 암호화할 수 있으므로, 이것이 곧 신원 증명(서명)이 됨을 깨달은 것이다.
-  3. <strong><a href="/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a>와의 결합 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 문제 해결)</strong>: 초창기에는 100페이지짜리 계약서 전체를 RSA로 암호화하려니 컴퓨터가 멈춰버렸다. 이를 해결하기 위해 문서 전체를 32바이트(해시)로 압축한 뒤 이 짧은 요약본에만 서명하는 방식이 고안되어 오늘날의 표준 아키텍처가 완성되었다.
+  2. **비대칭키 암호의 역발상 (1970년대 후반)**: RSA 등의 비대칭키가 발명된 후, 학자들은 "공개키로 암호화하고 개인키로 푸는 게 원래 용도지만, 거꾸로 **개인키로 암호화하고 공개키로 풀게 하면** 어떻게 될까?"라는 천재적인 역발상을 떠올렸다. 오직 개인키 소유자만이 암호화할 수 있으므로, 이것이 곧 신원 증명(서명)이 됨을 깨달은 것이다.
+  3. <strong>해시 함수와의 결합 (성능 문제 해결)</strong>: 초창기에는 100페이지짜리 계약서 전체를 RSA로 암호화하려니 컴퓨터가 멈춰버렸다. 이를 해결하기 위해 문서 전체를 32바이트(해시)로 압축한 뒤 이 짧은 요약본에만 서명하는 방식이 고안되어 오늘날의 표준 아키텍처가 완성되었다.
 
   기존 종이 서명과 전자 서명의 구조적 차이와 부인 방지 원리를 시각화하면 다음과 같다.
 
@@ -49,7 +49,7 @@ weight: 988
   +-------------------------------------------------------------+
 ```
 
-  **[다이어그램 해설]** 이 단순한 도해는 전자 서명이 종이 서명보다 본질적으로 우월한 이유를 보여준다. 종이 서명은 스캐너로 오려내어 다른 문서에 붙여넣을 수 있다. 그러나 전자 서명은 서명을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 공식 입력값에 '문서 전체의 해시값'이 포함되어 있다. 따라서 해커가 원본 문서에서 서명값(A8F2...)을 복사해 "1000만 원 송금"이라는 조작된 문서에 갖다 붙이더라도, 수신자가 그 서명을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 보면 "이 서명은 100만 원짜리 문서용으로 만들어진 서명입니다"라는 오류가 뜨며 위조가 즉시 감지된다.
+  **[다이어그램 해설]** 이 단순한 도해는 전자 서명이 종이 서명보다 본질적으로 우월한 이유를 보여준다. 종이 서명은 스캐너로 오려내어 다른 문서에 붙여넣을 수 있다. 그러나 전자 서명은 서명을 생성하는 공식 입력값에 '문서 전체의 해시값'이 포함되어 있다. 따라서 해커가 원본 문서에서 서명값(A8F2...)을 복사해 "1000만 원 송금"이라는 조작된 문서에 갖다 붙이더라도, 수신자가 그 서명을 검증해 보면 "이 서명은 100만 원짜리 문서용으로 만들어진 서명입니다"라는 오류가 뜨며 위조가 즉시 감지된다.
 
 - **📢 섹션 요약 비유**: 종이 도장은 다른 종이에 옮겨 찍을 수 있지만, 전자 서명은 계약서의 모든 글자를 쇳물에 녹여 만든 '단 한 번만 쓸 수 있는 맞춤형 자물쇠'와 같아서, 문서를 고치려면 자물쇠를 부숴야만 합니다.
 
@@ -59,18 +59,18 @@ weight: 988
 
 ### 구성 요소 (전자 서명 파이프라인)
 
-전자 서명 아키텍처는 크게 서명 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Generation)과 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 두 가지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 묶음으로 구성된다.
+전자 서명 아키텍처는 크게 서명 생성(Generation)과 서명 검증(Verification) 두 가지 알고리즘 묶음으로 구성된다.
 
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구성 요소 | 역할 | 동작 원리 및 수식 ([RSA](/studynote/09_security/03_network_security/110_rsa/) 예시) | 비유 |
+| 알고리즘 구성 요소 | 역할 | 동작 원리 및 수식 (RSA 예시) | 비유 |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (Hash)</strong> | 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고정된 길이로 요약 ([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/보안 극대화) | $h = Hash(Message)$ | 문서를 압축한 요약본 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| <strong>서명 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (Sign)</strong> | 송신자의 개인키로 해시값을 암호화 | $Sig = h^d \pmod N$ ($d$는 개인키) | 요약본에 나의 비밀 도장 찍기 |
-| <strong>서명 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Verify)</strong> | 수신자가 송신자의 공개키로 서명값을 복호화하여 해시값 복원 | $h' = Sig^e \pmod N$ ($e$는 공개키) | 도장 모양을 공인된 돋보기로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| **일치 비교 (Compare)** | 복원된 해시($h'$)와 수신된 메시지를 직접 해시한 값($h$) 비교 | $If (h == h') \rightarrow Valid!$ | 원본이 변조되지 않았는지 최종 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| <strong>해시 함수 (Hash)</strong> | 원본 데이터를 고정된 길이로 요약 (성능/보안 극대화) | $h = Hash(Message)$ | 문서를 압축한 요약본 생성 |
+| <strong>서명 생성 (Sign)</strong> | 송신자의 개인키로 해시값을 암호화 | $Sig = h^d \pmod N$ ($d$는 개인키) | 요약본에 나의 비밀 도장 찍기 |
+| <strong>서명 검증 (Verify)</strong> | 수신자가 송신자의 공개키로 서명값을 복호화하여 해시값 복원 | $h' = Sig^e \pmod N$ ($e$는 공개키) | 도장 모양을 공인된 돋보기로 확인 |
+| **일치 비교 (Compare)** | 복원된 해시($h'$)와 수신된 메시지를 직접 해시한 값($h$) 비교 | $If (h == h') \rightarrow Valid!$ | 원본이 변조되지 않았는지 최종 확인 |
 
-### 전자 서명의 동작 원리: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 파이프라인
+### 전자 서명의 동작 원리: 생성과 검증 파이프라인
 
-전자 서명의 전체 생명 주기는 송신자(Alice)의 서명 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 수신자(Bob)의 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 이루어진다. 이 과정에서 메시지 원본은 암호화되지 않고 평문으로 날아갈 수 있다는 점에 주목해야 한다([기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 보장이 아닌 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 목적).
+전자 서명의 전체 생명 주기는 송신자(Alice)의 서명 생성과 수신자(Bob)의 서명 검증으로 이루어진다. 이 과정에서 메시지 원본은 암호화되지 않고 평문으로 날아갈 수 있다는 점에 주목해야 한다(기밀성 보장이 아닌 인증 목적).
 
 ```text
   +------------------------------------------------------------------+
@@ -113,11 +113,11 @@ weight: 988
   +------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 상단의 서명 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 보면, 원본 메시지(M)는 암호화되지 않고 바로 전송된다. 대신, 메시지를 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 통과시켜 얻은 짧은 해시값(h)을 송신자(Alice)의 '개인키'로 암호화하여 서명값(Sig)을 만든다. M과 Sig가 함께 수신자(Bob)에게 도착하면, 수신자는 두 갈래의 작업을 동시에 수행한다. 하나는 받은 메시지(M)를 직접 해시해 보는 것(h1 획득)이고, 다른 하나는 받은 서명(Sig)을 Alice의 '공개키'로 복호화해 보는 것(h2 획득)이다. 만약 해커가 중간에 메시지를 변조했다면 h1이 달라질 것이고, 해커가 서명을 위조하려 했다면 Alice의 개인키가 없으므로 올바른 Sig를 만들지 못해 복호화된 h2가 엉터리가 될 것이다. 따라서 $h1 == h2$가 일치한다는 것은 두 가지를 수학적으로 완벽히 증명한다. 첫째, 문서는 1비트도 안 바뀌었다([무결성](/studynote/09_security/01_intro_principles/003_integrity/)). 둘째, 이 서명은 Alice의 개인키로만 만들어질 수 있다([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 부인 방지).
+**[다이어그램 해설]** 상단의 서명 생성 과정을 보면, 원본 메시지(M)는 암호화되지 않고 바로 전송된다. 대신, 메시지를 해시 함수에 통과시켜 얻은 짧은 해시값(h)을 송신자(Alice)의 '개인키'로 암호화하여 서명값(Sig)을 만든다. M과 Sig가 함께 수신자(Bob)에게 도착하면, 수신자는 두 갈래의 작업을 동시에 수행한다. 하나는 받은 메시지(M)를 직접 해시해 보는 것(h1 획득)이고, 다른 하나는 받은 서명(Sig)을 Alice의 '공개키'로 복호화해 보는 것(h2 획득)이다. 만약 해커가 중간에 메시지를 변조했다면 h1이 달라질 것이고, 해커가 서명을 위조하려 했다면 Alice의 개인키가 없으므로 올바른 Sig를 만들지 못해 복호화된 h2가 엉터리가 될 것이다. 따라서 $h1 == h2$가 일치한다는 것은 두 가지를 수학적으로 완벽히 증명한다. 첫째, 문서는 1비트도 안 바뀌었다(무결성). 둘째, 이 서명은 Alice의 개인키로만 만들어질 수 있다(인증 및 부인 방지).
 
-### 서명 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 (RSA에서 ECDSA로)
+### 서명 알고리즘의 진화 (RSA에서 ECDSA로)
 
-과거 수십 년간 전자 서명의 표준은 [RSA](/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이었다. 그러나 RSA는 안전성을 유지하기 위해 키 길이가 너무 길어져야 하는(최소 2048비트) 단점이 있다. 모바일 환경과 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 등장으로 타원 곡선 암호([ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 기반의 <strong><a href="/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/">ECDSA</a> (Elliptic Curve <a href="/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a> <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>가 현대의 표준으로 자리 잡았다.
+과거 수십 년간 전자 서명의 표준은 RSA 알고리즘이었다. 그러나 RSA는 안전성을 유지하기 위해 키 길이가 너무 길어져야 하는(최소 2048비트) 단점이 있다. 모바일 환경과 블록체인의 등장으로 타원 곡선 암호(ECC) 기반의 <strong>ECDSA (Elliptic Curve Digital Signature Algorithm)</strong>가 현대의 표준으로 자리 잡았다.
 
 ```text
   +-----------------------------------------------------------+
@@ -144,30 +144,30 @@ weight: 988
   +-----------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 비교는 왜 최신 IT 인프라(AWS, [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인 등)가 RSA를 버리고 ECDSA로 갈아타고 있는지를 명확히 보여준다. RSA는 키 길이가 2048비트에 달해 패킷 용량을 차지하고 암호화 시 CPU를 많이 소모한다. 반면 ECDSA는 불과 256비트의 키만으로도 [RSA](/studynote/09_security/03_network_security/110_rsa/)-3072비트 급의 강력한 보안을 제공한다. 서명 결과물 사이즈도 64바이트로 획기적으로 작다. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 매 트랜잭션마다 서명을 블록에 저장해야 하는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인이 만약 RSA를 썼다면 원장 용량이 감당 불가능했을 것이며, 스마트폰의 배터리 소모도 극심했을 것이다.
+**[다이어그램 해설]** 이 비교는 왜 최신 IT 인프라(AWS, Kubernetes, 비트코인 등)가 RSA를 버리고 ECDSA로 갈아타고 있는지를 명확히 보여준다. RSA는 키 길이가 2048비트에 달해 패킷 용량을 차지하고 암호화 시 CPU를 많이 소모한다. 반면 ECDSA는 불과 256비트의 키만으로도 RSA-3072비트 급의 강력한 보안을 제공한다. 서명 결과물 사이즈도 64바이트로 획기적으로 작다. 블록체인에서 매 트랜잭션마다 서명을 블록에 저장해야 하는 비트코인이 만약 RSA를 썼다면 원장 용량이 감당 불가능했을 것이며, 스마트폰의 배터리 소모도 극심했을 것이다.
 
-- **📢 섹션 요약 비유**: [RSA](/studynote/09_security/03_network_security/110_rsa/) 서명이 무겁고 거대한 강철 인장으로 도장을 찍는 방식이라 안전하긴 하지만 들고 다니기 무겁다면, [ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 서명은 똑같이 위조가 불가능하면서도 깃털처럼 가벼운 티타늄 레이저 펜으로 서명하는 최첨단 방식과 같습니다.
+- **📢 섹션 요약 비유**: RSA 서명이 무겁고 거대한 강철 인장으로 도장을 찍는 방식이라 안전하긴 하지만 들고 다니기 무겁다면, ECDSA 서명은 똑같이 위조가 불가능하면서도 깃털처럼 가벼운 티타늄 레이저 펜으로 서명하는 최첨단 방식과 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 제공하는 기술에는 전자 서명 외에도 HMAC이 있다. 이 둘의 차이는 '키 공유 방식'과 '부인 방지 제공 여부'에 있다.
+무결성과 인증을 제공하는 기술에는 전자 서명 외에도 HMAC이 있다. 이 둘의 차이는 '키 공유 방식'과 '부인 방지 제공 여부'에 있다.
 
-| 특성 비교 | 전자 서명 ([Digital Signature](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)) | [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) ([Hash-based MAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)) | 판단 포인트 |
+| 특성 비교 | 전자 서명 (Digital Signature) | HMAC (Hash-based MAC) | 판단 포인트 |
 |:---|:---|:---|:---|
-| **기반 암호 체계** | 비대칭키 ([RSA](/studynote/09_security/03_network_security/110_rsa/), [ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/)) | 대칭키 (미리 공유된 비밀키) | **키 배포 인프라 보유 여부** |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 제공 범위</strong> | 제3자를 포함한 <strong>누구나 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능</strong> (Public) | 키를 공유한 <strong>당사자끼리만 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능</strong> (Private) | **다자간 개방형 네트워크 통신 여부** |
-| **부인 방지 기능** | **제공함** (개인키 소유자만 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능하므로) | **제공 불가** (양쪽 다 동일한 키를 가지므로 누가 서명했는지 특정 불가) | **법적 분쟁/거래 책임 소재의 중요성** |
-| **연산 속도** | 매우 느림 (수십 밀리초 소요) | 매우 빠름 (마이크로초 소요) | <strong><a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 호출 빈도 및 시스템 부하</strong> |
+| **기반 암호 체계** | 비대칭키 (RSA, ECDSA) | 대칭키 (미리 공유된 비밀키) | **키 배포 인프라 보유 여부** |
+| <strong>인증 제공 범위</strong> | 제3자를 포함한 <strong>누구나 검증 가능</strong> (Public) | 키를 공유한 <strong>당사자끼리만 검증 가능</strong> (Private) | **다자간 개방형 네트워크 통신 여부** |
+| **부인 방지 기능** | **제공함** (개인키 소유자만 생성 가능하므로) | **제공 불가** (양쪽 다 동일한 키를 가지므로 누가 서명했는지 특정 불가) | **법적 분쟁/거래 책임 소재의 중요성** |
+| **연산 속도** | 매우 느림 (수십 밀리초 소요) | 매우 빠름 (마이크로초 소요) | <strong>API 호출 빈도 및 시스템 부하</strong> |
 
-이 매트릭스의 핵심은 <strong>부인 방지(Non-repudiation)</strong>에 있다. 서버 대 서버의 내부 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신(예: [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 호출)에서는 둘 다 신뢰할 수 있는 당사자이므로 속도가 빠르고 부인 방지가 굳이 필요 없는 [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)([JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 서명 등)을 쓰는 것이 아키텍처적으로 올바르다. 하지만 인터넷 뱅킹에서 고객이 서버로 돈을 송금하라는 명령을 내릴 때는, 나중에 고객이 "나 송금한 적 없다"고 우길 때 법원에 증거로 제출해야 하므로 반드시 비대칭키 기반의 전자 서명(공인인증서 등)을 사용해야 한다.
+이 매트릭스의 핵심은 <strong>부인 방지(Non-repudiation)</strong>에 있다. 서버 대 서버의 내부 API 통신(예: 마이크로서비스 간 호출)에서는 둘 다 신뢰할 수 있는 당사자이므로 속도가 빠르고 부인 방지가 굳이 필요 없는 HMAC(JWT 서명 등)을 쓰는 것이 아키텍처적으로 올바르다. 하지만 인터넷 뱅킹에서 고객이 서버로 돈을 송금하라는 명령을 내릴 때는, 나중에 고객이 "나 송금한 적 없다"고 우길 때 법원에 증거로 제출해야 하므로 반드시 비대칭키 기반의 전자 서명(공인인증서 등)을 사용해야 한다.
 
 ### 과목 융합 관점
 
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 및 <a href="/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a></strong>: 코드 사이닝([Code Signing](/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)). 애플이나 마이크로소프트는 앱 스토어에 올라오는 모든 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.exe`, `.apk`)에 개발자의 전자 서명을 강제한다. OS는 프로그램을 실행하기 전 서명을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여, 변조된 악성코드이면 "게시자를 알 수 없거나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 손상되었습니다"라며 실행을 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 차단한다.
-- <strong>네트워크 (<a href="/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a>/SSL)</strong>: 웹 브라우저가 [HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 서버에 접속할 때 서버는 자신의 X.509 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 보낸다. 브라우저는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 안에 들어있는 [CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관)의 전자 서명을 OS에 내장된 Root CA의 공개키로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 [피싱](/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트가 아님을 확신한다.
-- <strong><a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> (<a href="/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a> Log)</strong>: 고도의 보안이 요구되는 금융 DB 시스템에서는 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Log) 테이블에 새로운 레코드가 추가될 때마다 이전 레코드의 해시와 현재 레코드를 묶어 전자 서명 체인을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)함으로써, [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) 권한을 가진 내부자라도 과거의 접속 기록을 몰래 삭제하거나 수정할 수 없도록 만든다.
+- <strong>운영체제 및 소프트웨어 공학</strong>: 코드 사이닝(Code Signing). 애플이나 마이크로소프트는 앱 스토어에 올라오는 모든 실행 파일(`.exe`, `.apk`)에 개발자의 전자 서명을 강제한다. OS는 프로그램을 실행하기 전 서명을 검증하여, 변조된 악성코드이면 "게시자를 알 수 없거나 파일이 손상되었습니다"라며 실행을 OS 커널 단에서 차단한다.
+- <strong>네트워크 (TLS/SSL)</strong>: 웹 브라우저가 HTTPS 서버에 접속할 때 서버는 자신의 X.509 인증서를 보낸다. 브라우저는 인증서 안에 들어있는 CA(인증기관)의 전자 서명을 OS에 내장된 Root CA의 공개키로 검증하여 피싱 사이트가 아님을 확신한다.
+- <strong>데이터베이스 (Audit Log)</strong>: 고도의 보안이 요구되는 금융 DB 시스템에서는 감사 로그(Audit Log) 테이블에 새로운 레코드가 추가될 때마다 이전 레코드의 해시와 현재 레코드를 묶어 전자 서명 체인을 생성함으로써, DBA 권한을 가진 내부자라도 과거의 접속 기록을 몰래 삭제하거나 수정할 수 없도록 만든다.
 
 - **📢 섹션 요약 비유**: HMAC은 가족끼리만 아는 비밀 암호로 집안에서 소통하는 것이라면, 전자 서명은 내용증명 우편처럼 국가 공인 도장을 찍어 나중에 법원에서도 "네가 보낸 게 맞다"라고 빼도 박도 못하게 증명할 수 있는 공식 문서와 같습니다.
 
@@ -175,9 +175,9 @@ weight: 988
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. <strong>시나리오 — 소프트웨어 배포 파이프라인(<a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD)의 <a href="/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a> 방어</strong>: 회사의 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인이 해킹되어, 정상적으로 빌드된 패키지([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지)에 백도어가 주입된 채로 운영 환경에 배포되는 [공급망 공격](/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)([Supply Chain Attack](/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/))이 발생했다. 아키텍트는 이를 막기 위해 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지가 빌드되는 즉시 빌드 서버의 프라이빗 키로 이미지의 SHA-256 해시에 전자 서명(Notary/Cosign 도입)을 수행하도록 파이프라인을 개선한다. 운영 환경의 [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 클러스터는 이미지가 실행되기 전 반드시 이 전자 서명이 회사의 공개키로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)될 때만 파드를 구동하도록 Admission Controller 정책을 설정한다.
+1. <strong>시나리오 — 소프트웨어 배포 파이프라인(CI/CD)의 공급망 공격 방어</strong>: 회사의 CI/CD 파이프라인이 해킹되어, 정상적으로 빌드된 패키지(Docker 이미지)에 백도어가 주입된 채로 운영 환경에 배포되는 공급망 공격(Supply Chain Attack)이 발생했다. 아키텍트는 이를 막기 위해 컨테이너 이미지가 빌드되는 즉시 빌드 서버의 프라이빗 키로 이미지의 SHA-256 해시에 전자 서명(Notary/Cosign 도입)을 수행하도록 파이프라인을 개선한다. 운영 환경의 Kubernetes 클러스터는 이미지가 실행되기 전 반드시 이 전자 서명이 회사의 공개키로 검증될 때만 파드를 구동하도록 Admission Controller 정책을 설정한다.
 
-2. <strong>시나리오 — 난수 발생기(RNG) 고장으로 인한 <a href="/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/">ECDSA</a> 개인키 유출</strong>: 한 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 스타트업이 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 기기마다 [ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 전자 서명을 도입했다. 그런데 해커가 몇 개의 서명된 패킷만 가로채고도 서버의 개인키를 역산해 내는 대형 사고가 터졌다. 원인은 [ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 서명 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 공식($s = k^{-1}(h + d \cdot r) \pmod n$)에 필수적으로 들어가는 임시 난수 $k$([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))를, 난수 발생기가 고장 나 계속 똑같은 값으로 재사용했기 때문이다. 아키텍트는 서명 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현 시 하드웨어 기반 난수 발생기([TRNG](/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/))를 강제하거나, [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용 공격에 면역인 결정론적(Deterministic) 서명 방식(EdDSA, RFC 6979)으로 암호화 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 전면 교체해야 한다.
+2. <strong>시나리오 — 난수 발생기(RNG) 고장으로 인한 ECDSA 개인키 유출</strong>: 한 IoT 스타트업이 펌웨어 업데이트 검증을 위해 기기마다 ECDSA 전자 서명을 도입했다. 그런데 해커가 몇 개의 서명된 패킷만 가로채고도 서버의 개인키를 역산해 내는 대형 사고가 터졌다. 원인은 ECDSA 서명 생성 공식($s = k^{-1}(h + d \cdot r) \pmod n$)에 필수적으로 들어가는 임시 난수 $k$(Nonce)를, 난수 발생기가 고장 나 계속 똑같은 값으로 재사용했기 때문이다. 아키텍트는 서명 알고리즘 구현 시 하드웨어 기반 난수 발생기(TRNG)를 강제하거나, Nonce 재사용 공격에 면역인 결정론적(Deterministic) 서명 방식(EdDSA, RFC 6979)으로 암호화 라이브러리를 전면 교체해야 한다.
 
 안전한 전자 서명 시스템을 구축할 때 암호학적 실패 지점은 생각보다 수학적 세부 구현에 있다.
 
@@ -211,38 +211,38 @@ weight: 988
   +--------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 초급 엔지니어는 "[RSA](/studynote/09_security/03_network_security/110_rsa/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 썼으니 안전하다"고 오판하기 쉽다. 하지만 암호학의 역사는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체보다 주변부 구현의 실수를 집요하게 파고든 역사다. 소니 PS3 해킹 사건처럼 서명에 들어가는 난수가 난수답지 못하면 수백억 원이 들여 구축한 보안 체계 전체가 방정식 한 줄에 무너진다. 또한, 서명을 수행하는 '개인키'가 서버의 일반 메모리(RAM)나 하드디스크에 평문으로 존재하면 메모리 덤프 공격 등에 쉽게 유출된다. 따라서 기업의 핵심 자산에 서명할 때는 반드시 개인키를 밖으로 빼낼 수 없는 물리적 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([HSM](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [Hardware Security Module](/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)) 내부에서 서명 연산이 이루어지도록 아키텍처를 강제해야 한다.
+**[다이어그램 해설]** 초급 엔지니어는 "RSA 라이브러리를 썼으니 안전하다"고 오판하기 쉽다. 하지만 암호학의 역사는 알고리즘 자체보다 주변부 구현의 실수를 집요하게 파고든 역사다. 소니 PS3 해킹 사건처럼 서명에 들어가는 난수가 난수답지 못하면 수백억 원이 들여 구축한 보안 체계 전체가 방정식 한 줄에 무너진다. 또한, 서명을 수행하는 '개인키'가 서버의 일반 메모리(RAM)나 하드디스크에 평문으로 존재하면 메모리 덤프 공격 등에 쉽게 유출된다. 따라서 기업의 핵심 자산에 서명할 때는 반드시 개인키를 밖으로 빼낼 수 없는 물리적 보안 모듈(HSM, Hardware Security Module) 내부에서 서명 연산이 이루어지도록 아키텍처를 강제해야 한다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **기술적**: 서명 파이프라인에서 MD5나 SHA-1 같은 취약한 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 완전히 배제되고 SHA-256 이상이 사용되고 있는가? [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack)을 방어하기 위해 단순 서명 체계 대신 PSS(Probabilistic Signature Scheme, 예: [RSA-PSS](/studynote/09_security/03_network_security/113_rsa_pss/)) 표준을 도입했는가?
-- **운영·보안적**: 소스 코드나 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지에 서명할 때 사용하는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 만료되었을 때 과거의 빌드본까지 무효화되는 것을 막기 위해, 타임스탬프 서버([TSA](/studynote/09_security/04_endpoint_security/192_time_stamping_authority_rfc3161_non_repudiation/))의 증명을 서명에 함께 포함시켰는가?
+### 도입 체크리스트
+- **기술적**: 서명 파이프라인에서 MD5나 SHA-1 같은 취약한 해시 함수가 완전히 배제되고 SHA-256 이상이 사용되고 있는가? 패딩 오라클 공격(Padding Oracle Attack)을 방어하기 위해 단순 서명 체계 대신 PSS(Probabilistic Signature Scheme, 예: RSA-PSS) 표준을 도입했는가?
+- **운영·보안적**: 소스 코드나 컨테이너 이미지에 서명할 때 사용하는 인증서가 만료되었을 때 과거의 빌드본까지 무효화되는 것을 막기 위해, 타임스탬프 서버(TSA)의 증명을 서명에 함께 포함시켰는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **개인키 유출 시 폐지 절차(Revocation) 부재**: 서명용 개인키가 깃허브(GitHub) 등에 실수로 올라가 유출되었음에도, 수신자(클라이언트) 쪽에서 이 키로 만들어진 서명을 더 이상 신뢰하지 않도록 막는 [CRL](/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)(폐지 목록)이나 [OCSP](/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 인프라가 연동되어 있지 않아 해커가 계속 정상인 행세를 하는 치명적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/).
-- <strong>서명 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 결과 무시</strong>: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 사용 시, 통신을 서둘러 붙이느라 `verify_signature=False` 형태의 플래그를 달아두고 운영 환경에 배포하는 행위. 전자 서명 아키텍처의 존재 이유 자체를 스스로 부정하는 가장 잦은 사고 원인이다.
+### 안티패턴
+- **개인키 유출 시 폐지 절차(Revocation) 부재**: 서명용 개인키가 깃허브(GitHub) 등에 실수로 올라가 유출되었음에도, 수신자(클라이언트) 쪽에서 이 키로 만들어진 서명을 더 이상 신뢰하지 않도록 막는 CRL(폐지 목록)이나 OCSP 인프라가 연동되어 있지 않아 해커가 계속 정상인 행세를 하는 치명적 결함.
+- <strong>서명 검증 결과 무시</strong>: 오픈소스 라이브러리 사용 시, 통신을 서둘러 붙이느라 `verify_signature=False` 형태의 플래그를 달아두고 운영 환경에 배포하는 행위. 전자 서명 아키텍처의 존재 이유 자체를 스스로 부정하는 가장 잦은 사고 원인이다.
 
-- **📢 섹션 요약 비유**: 최첨단 홍채 인식 금고(전자 서명)를 사놓고, 홍채 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 USB에 담아 책상 위에 올려두거나(개인키 관리 부실), 금고 문이 덜컹거려도 그냥 테이프를 붙여 쓰는([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직 무시) 실수는, 아무리 훌륭한 암호학적 도구를 써도 시스템을 순식간에 붕괴시킵니다.
+- **📢 섹션 요약 비유**: 최첨단 홍채 인식 금고(전자 서명)를 사놓고, 홍채 데이터를 USB에 담아 책상 위에 올려두거나(개인키 관리 부실), 금고 문이 덜컹거려도 그냥 테이프를 붙여 쓰는(검증 로직 무시) 실수는, 아무리 훌륭한 암호학적 도구를 써도 시스템을 순식간에 붕괴시킵니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 단순 암호화 / 해시 적용 | 전자 서명 / [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 결합 적용 | 개선 효과 |
+| 구분 | 단순 암호화 / 해시 적용 | 전자 서명 / PKI 결합 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (책임)** | 고객 [클레임](/studynote/09_security/11_iam_access_control/539_claims/) 시 증명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보 불가 | 부인 방지를 통한 법적 증거 강원 확보 | 금융 사고 및 거래 부인 시 **법적 소송 비용 90% 감소** |
-| **정량 (보안)** | [공급망 공격](/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)/변조 패킷 탐지 불가 | 빌드 파이프라인 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시 변조율 0% | 악성코드 주입 및 [피싱](/studynote/09_security/15_malware_attack_vectors/752_phishing/) 방어로 <strong>침해 <a href="/studynote/09_security/01_intro_principles/009_incident_response/">사고 대응</a> 비용 절감</strong> |
-| **운영** | 문서별 대면 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 및 수기 서명 | 전자 계약, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 비대면 신뢰 구축으로 인한 **업무 처리 리드타임 획기적 단축** |
+| **정량 (책임)** | 고객 클레임 시 증명 데이터 확보 불가 | 부인 방지를 통한 법적 증거 강원 확보 | 금융 사고 및 거래 부인 시 **법적 소송 비용 90% 감소** |
+| **정량 (보안)** | 공급망 공격/변조 패킷 탐지 불가 | 빌드 파이프라인 검증 시 변조율 0% | 악성코드 주입 및 피싱 방어로 <strong>침해 사고 대응 비용 절감</strong> |
+| **운영** | 문서별 대면 확인 및 수기 서명 | 전자 계약, 블록체인 스마트 컨트랙트 | 비대면 신뢰 구축으로 인한 **업무 처리 리드타임 획기적 단축** |
 
 ### 미래 전망
-- <strong>양자 내성 서명(<a href="/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/">PQC</a> <a href="/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)의 강제화</strong>: 양자 컴퓨터의 쇼어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 비대칭키 기반의 RSA와 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 서명을 완전히 무력화한다. 즉, 과거에 서명된 전자 계약서가 미래에는 누군가에 의해 완벽하게 위조될 수 있음을 의미한다. 이를 막기 위해 NIST(미국표준기술연구소)는 Dilithium([ML-DSA](/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/)), Falcon, [SPHINCS](/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+ 와 같은 격자 기반(Lattice-based) 및 해시 기반의 차세대 양자 내성 전자 서명 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 표준화를 마쳤으며, 향후 5년 내에 모든 글로벌 금융망과 인터넷 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 이 표준으로 강제 마이그레이션될 것이다.
-- <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 신원 증명(<a href="/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a>, Decentralized Identity)</strong>: 한 국가나 특정 기업([CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))이 개인키와 서명을 통제하는 중앙 집중식 PKI의 부작용([단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), 프라이버시 침해)을 극복하기 위해, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 지갑에 내 개인키를 보관하고 필요할 때만 내 정보에 전자 서명을 하여 제출하는 [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 아키텍처가 웹3(Web3) 시대의 신원 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 표준으로 확산되고 있다.
+- <strong>양자 내성 서명(PQC Digital Signature)의 강제화</strong>: 양자 컴퓨터의 쇼어 알고리즘은 비대칭키 기반의 RSA와 ECC 서명을 완전히 무력화한다. 즉, 과거에 서명된 전자 계약서가 미래에는 누군가에 의해 완벽하게 위조될 수 있음을 의미한다. 이를 막기 위해 NIST(미국표준기술연구소)는 Dilithium(ML-DSA), Falcon, SPHINCS+ 와 같은 격자 기반(Lattice-based) 및 해시 기반의 차세대 양자 내성 전자 서명 알고리즘 표준화를 마쳤으며, 향후 5년 내에 모든 글로벌 금융망과 인터넷 인증서가 이 표준으로 강제 마이그레이션될 것이다.
+- <strong>분산 신원 증명(DID, Decentralized Identity)</strong>: 한 국가나 특정 기업(CA)이 개인키와 서명을 통제하는 중앙 집중식 PKI의 부작용(단일 장애점, 프라이버시 침해)을 극복하기 위해, 블록체인 지갑에 내 개인키를 보관하고 필요할 때만 내 정보에 전자 서명을 하여 제출하는 DID 아키텍처가 웹3(Web3) 시대의 신원 인증 표준으로 확산되고 있다.
 
 ### 참고 표준
-- <strong>FIPS 186-4 (DSS, <a href="/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a> Standard)</strong>: 미국 연방 정부가 승인한 전자 서명 표준 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규격 ([RSA](/studynote/09_security/03_network_security/110_rsa/), DSA, [ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/)).
-- **RFC 8017**: PKCS #1 v2.2 - [RSA](/studynote/09_security/03_network_security/110_rsa/) 암호화 및 서명 체계 명세 (최신 [RSA-PSS](/studynote/09_security/03_network_security/113_rsa_pss/) [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 기법 포함).
+- <strong>FIPS 186-4 (DSS, Digital Signature Standard)</strong>: 미국 연방 정부가 승인한 전자 서명 표준 알고리즘 규격 (RSA, DSA, ECDSA).
+- **RFC 8017**: PKCS #1 v2.2 - RSA 암호화 및 서명 체계 명세 (최신 RSA-PSS 패딩 기법 포함).
 - **전자서명법 (국내)**: 전자 서명의 법적 효력을 오프라인 종이 서명과 동일하게 인정하는 법적 근거.
 
-전자 서명은 비대칭키 암호화([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))와 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([무결성](/studynote/09_security/01_intro_principles/003_integrity/))라는 20세기 암호학의 가장 위대한 두 발명품이 결합된 예술적인 아키텍처다. 서로 한 번도 만난 적 없는 지구 반대편의 두 사람이, 종이 한 장 주고받지 않고도 수억 원의 계약을 맺고 소프트웨어를 믿고 다운로드할 수 있는 이유는, 이 수학적 봉인이 "거짓말을 할 수 없다"는 사실을 기계가 완벽하게 증명해 주기 때문이다. 양자 컴퓨터가 등장하여 자물쇠의 형태가 격자(Lattice) 구조로 바뀐다 할지라도, 개인의 고유한 열쇠로 디지털 세계에 책임을 새겨 넣는 전자 서명의 패러다임은 IT 문명을 지탱하는 가장 견고한 주춧돌로 남을 것이다.
+전자 서명은 비대칭키 암호화(인증)와 해시 함수(무결성)라는 20세기 암호학의 가장 위대한 두 발명품이 결합된 예술적인 아키텍처다. 서로 한 번도 만난 적 없는 지구 반대편의 두 사람이, 종이 한 장 주고받지 않고도 수억 원의 계약을 맺고 소프트웨어를 믿고 다운로드할 수 있는 이유는, 이 수학적 봉인이 "거짓말을 할 수 없다"는 사실을 기계가 완벽하게 증명해 주기 때문이다. 양자 컴퓨터가 등장하여 자물쇠의 형태가 격자(Lattice) 구조로 바뀐다 할지라도, 개인의 고유한 열쇠로 디지털 세계에 책임을 새겨 넣는 전자 서명의 패러다임은 IT 문명을 지탱하는 가장 견고한 주춧돌로 남을 것이다.
 
 ```text
   +----------------------------------------------------------------+
@@ -259,9 +259,9 @@ weight: 988
   +----------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 전자 서명의 진화는 끊임없는 '무게 줄이기'와 '방어력 높이기'의 싸움이었다. 과거 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시절의 RSA는 연산량이 너무 커서 서버의 동시 처리 능력을 갉아먹었다. 스마트폰과 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대가 열리자, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 타개하기 위해 수학적 우아함을 극대화한 타원 곡선([ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/))이 등장하여 적은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로도 동일한 보안을 달성해 냈다. 이제 곧 다가올 3단계 패러다임은 양자 컴퓨터라는 거대한 폭격기에 맞서기 위한 진화다. 기존 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 뚫리는 것을 막기 위해, 다소 크기가 커지고 연산이 복잡해지더라도 수학적 복잡도를 격자(Lattice) 차원으로 끌어올린 차세대 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 브라우저와 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 속속 탑재되며 세대교체를 준비하고 있다.
+**[다이어그램 해설]** 전자 서명의 진화는 끊임없는 '무게 줄이기'와 '방어력 높이기'의 싸움이었다. 과거 PC 시절의 RSA는 연산량이 너무 커서 서버의 동시 처리 능력을 갉아먹었다. 스마트폰과 IoT 시대가 열리자, 성능 병목을 타개하기 위해 수학적 우아함을 극대화한 타원 곡선(ECDSA)이 등장하여 적은 비트 수로도 동일한 보안을 달성해 냈다. 이제 곧 다가올 3단계 패러다임은 양자 컴퓨터라는 거대한 폭격기에 맞서기 위한 진화다. 기존 알고리즘이 뚫리는 것을 막기 위해, 다소 크기가 커지고 연산이 복잡해지더라도 수학적 복잡도를 격자(Lattice) 차원으로 끌어올린 차세대 알고리즘이 브라우저와 OS 커널에 속속 탑재되며 세대교체를 준비하고 있다.
 
-- **📢 섹션 요약 비유**: 과거의 전자 서명이 두꺼운 장부책에 무거운 도장을 쾅쾅 찍는 방식([RSA](/studynote/09_security/03_network_security/110_rsa/))이었다면, 현재는 초박형 스마트펜으로 빠르고 가볍게 사인하는 방식([ECDSA](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/))이며, 미래에는 양자 컴퓨터라는 투시 안경으로도 베껴 쓸 수 없는 특수 4차원 홀로그램 서명([PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/))으로 진화하고 있습니다.
+- **📢 섹션 요약 비유**: 과거의 전자 서명이 두꺼운 장부책에 무거운 도장을 쾅쾅 찍는 방식(RSA)이었다면, 현재는 초박형 스마트펜으로 빠르고 가볍게 사인하는 방식(ECDSA)이며, 미래에는 양자 컴퓨터라는 투시 안경으로도 베껴 쓸 수 없는 특수 4차원 홀로그램 서명(PQC)으로 진화하고 있습니다.
 
 ---
 
@@ -269,10 +269,10 @@ weight: 988
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 해시 함수 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [서비스 거부 공격](/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 서비스 거부 공격 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -286,21 +286,10 @@ weight: 988
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-전자 서명는 [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 거부 공격](/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/)와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+전자 서명는 해시 함수에서 출발해 현재 메커니즘을 정교화하고, 이후 서비스 거부 공격와 컨텍스트 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 인터넷에서 편지를 보낼 때 <strong>'전자 서명'</strong>을 딱 붙이면, 나만 알고 있는 '마법의 투명 도장'을 편지 전체에 찍어서 보내는 것과 같아요.
 2. 이 마법 도장은 정말 신기해서, 누군가 편지 내용 중 글자 하나라도 몰래 지우개로 지우면 도장이 펑! 하고 깨져버려서 금방 들통나요.
 3. 그리고 편지를 받은 친구는 인터넷에 공개된 내 '돋보기(공개키)'로 도장을 들여다보는데, 그 도장이 내 것이 맞으면 "아, 이건 진짜 친구가 쓴 게 맞고 중간에 아무도 안 고쳤구나!" 하고 100% 믿을 수 있답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 1109 / 1120
-
-<- **이전**: [987. 해시 함수](/studynote/03_network/19_frequent_topics_terms/987_hash_function/)
-**다음**: [989. 서비스 거부 공격 (DoS)](/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) ->
-
----

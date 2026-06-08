@@ -117,11 +117,3 @@ VPP-DR 시스템은 일반적으로 **3계층(Tier)** 아키텍처로 구성된�
 | **정산 단가** | 약 5~15만원/MWh (한전 DR) | 약 10~30만원/MWh (스프링) + 용량가 | 자체 수익모델 또는 PPA |
 | **계통 연계** | 항상 계통연계(Grid-Connected) | 기본 계통연계, 일부 islanding | 계통연계/독립 양면 |
 | **예측 필수성** | 부하예측(중요) | DER 다중
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 732 / 800
-
-<- **이전**: [731. 스마트 헬스 원격 모니터링 바이오센서](/studynote/06_ict_convergence/uncategorized/731_smart_health_remote_monitoring_biosensor/)
-**다음**: [733. 스마트 물관리 IoT 누수 탐지 수질](/studynote/06_ict_convergence/uncategorized/733_smart_water_management_iot_leak_detection/) ->
-
----

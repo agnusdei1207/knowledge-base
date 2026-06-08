@@ -7,36 +7,36 @@ weight: 633
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: '[Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)'는 '쌍으로, 둘씩 짝지어'라는 뜻이다. 소프트웨어에 입력 변수 A, B, C가 있을 때, A-B-C 세 가지가 동시에 어떻게 조합되는지 100% 다 보지 않고, A-B의 짝꿍, B-C의 짝꿍, C-A의 짝꿍만 각각 최소한 한 번씩 나오게 섞어주면 충분하다는 실용주의적 테스팅 철학이다. (All-Pairs Testing이라고도 부른다.)
+- **개념**: 'Pairwise'는 '쌍으로, 둘씩 짝지어'라는 뜻이다. 소프트웨어에 입력 변수 A, B, C가 있을 때, A-B-C 세 가지가 동시에 어떻게 조합되는지 100% 다 보지 않고, A-B의 짝꿍, B-C의 짝꿍, C-A의 짝꿍만 각각 최소한 한 번씩 나오게 섞어주면 충분하다는 실용주의적 테스팅 철학이다. (All-Pairs Testing이라고도 부른다.)
 
-- **필요성**: 웹 브라우저 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트를 해야 한다고 치자.
-  - OS 3종 (Windows, [Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), Linux)
+- **필요성**: 웹 브라우저 호환성 테스트를 해야 한다고 치자.
+  - OS 3종 (Windows, Mac, Linux)
   - 브라우저 4종 (Chrome, Edge, Safari, Firefox)
   - 해상도 3종 (FHD, 2K, 4K)
-  - 이걸 다 곱하면 $3 \times 4 \times 3 = 36$번의 테스트를 해야 한다. 만약 변수가 10개, 20개가 넘어가면 테스트 케이스는 수백만 개로 폭발한다. 시간이 생명인 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경에서 36번을 다 돌릴 수는 없다. 그렇다고 직관에 의존해 5개만 대충 뽑아서 테스트하면 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 버그가 운영(Production)에서 터진다. <strong>"놓치는 쌍(Pair)이 없으면서도 가장 적게 테스트하는 수학적 공식"</strong>이 절실하게 필요했다.
+  - 이걸 다 곱하면 $3 \times 4 \times 3 = 36$번의 테스트를 해야 한다. 만약 변수가 10개, 20개가 넘어가면 테스트 케이스는 수백만 개로 폭발한다. 시간이 생명인 애자일(Agile) 환경에서 36번을 다 돌릴 수는 없다. 그렇다고 직관에 의존해 5개만 대충 뽑아서 테스트하면 호환성 버그가 운영(Production)에서 터진다. <strong>"놓치는 쌍(Pair)이 없으면서도 가장 적게 테스트하는 수학적 공식"</strong>이 절실하게 필요했다.
 
 - **💡 비유**: 반 친구 10명끼리 서로 모두 친해지게(상호작용) 하려면 어떻게 해야 할까요?
   - **전체 조합 (비효율)**: 10명이 다 같이 모여서 피자를 1번씩 먹게 하는 수백 번의 파티를 엽니다. (돈과 시간이 너무 듭니다).
-  - <strong><a href="/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">페어와이즈</a> (효율)</strong>: "어차피 두 명씩 대화(Pair)만 한 번씩 섞어주면 다 친해져!"라는 원리에 따라, 4명씩 앉는 테이블 자리를 똑똑하게 수학적으로 이리저리 바꿔주면 단 3~4번의 피자 파티만으로 10명이 서로 '최소 1번씩은 1:1로 짝꿍'이 되도록 완벽하게 섞을 수 있습니다.
+  - <strong>페어와이즈 (효율)</strong>: "어차피 두 명씩 대화(Pair)만 한 번씩 섞어주면 다 친해져!"라는 원리에 따라, 4명씩 앉는 테이블 자리를 똑똑하게 수학적으로 이리저리 바꿔주면 단 3~4번의 피자 파티만으로 10명이 서로 '최소 1번씩은 1:1로 짝꿍'이 되도록 완벽하게 섞을 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong>직교 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(OATS)의 도입</strong>: 원래 제조업(품질 관리)에서 다구치 겐이치(Genichi Taguchi) 박사가 공장 실험 횟수를 줄이기 위해 고안한 '직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)(Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))' 수학이 근간이다.
-  2. <strong><a href="/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 수용</strong>: 1990년대 후반, 리차드 쿤(Richard Kuhn) 등의 연구진이 "S/W 버그의 70~80%는 1개나 2개의 변수 꼬임에서 발생하고, 3~4개 이상이 꼬여서 터지는 버그는 극히 드물다"는 통계를 발표하며 S/W 테스팅에 정식 도입되었다.
-  3. **자동화 도구 생태계**: 현재는 마이크로소프트의 PICT 도구 등 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 생성기가 발전하여, 개발자가 변수 목록만 던져주면 최적화된 엑셀 시트(Test Suite)를 1초 만에 뽑아준다.
+  1. <strong>직교 배열(OATS)의 도입</strong>: 원래 제조업(품질 관리)에서 다구치 겐이치(Genichi Taguchi) 박사가 공장 실험 횟수를 줄이기 위해 고안한 '직교 배열(Orthogonal Array)' 수학이 근간이다.
+  2. <strong>소프트웨어 공학의 수용</strong>: 1990년대 후반, 리차드 쿤(Richard Kuhn) 등의 연구진이 "S/W 버그의 70~80%는 1개나 2개의 변수 꼬임에서 발생하고, 3~4개 이상이 꼬여서 터지는 버그는 극히 드물다"는 통계를 발표하며 S/W 테스팅에 정식 도입되었다.
+  3. **자동화 도구 생태계**: 현재는 마이크로소프트의 PICT 도구 등 알고리즘 기반 생성기가 발전하여, 개발자가 변수 목록만 던져주면 최적화된 엑셀 시트(Test Suite)를 1초 만에 뽑아준다.
 
-- **📢 섹션 요약 비유**: 수백 가지의 옷(바지, 티셔츠, 모자)을 사서 어떻게 코디해야 가장 예쁠지 알아볼 때, 모든 옷을 다 섞어 입어보려면 1년이 걸리지만, 적어도 "이 바지와 이 모자의 조합"을 한 번씩은 다 입어보도록 옷을 영리하게 섞어주는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 스타일리스트와 같습니다.
+- **📢 섹션 요약 비유**: 수백 가지의 옷(바지, 티셔츠, 모자)을 사서 어떻게 코디해야 가장 예쁠지 알아볼 때, 모든 옷을 다 섞어 입어보려면 1년이 걸리지만, 적어도 "이 바지와 이 모자의 조합"을 한 번씩은 다 입어보도록 옷을 영리하게 섞어주는 인공지능 스타일리스트와 같습니다.
 
 ---
 
-다음은 [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 페어와이즈 (Pairwise) 직교 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -51,7 +51,7 @@ weight: 633
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 페어와이즈 (Pairwise) 직교 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -61,18 +61,18 @@ weight: 633
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -82,18 +82,18 @@ weight: 633
 
 ## Ⅲ. 비교 및 연결
 
-[페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/)) | 유사 대안 |
+| 비교 항목 | 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 소프트웨어 공학 개념과의 연결을 보면, 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -103,9 +103,9 @@ weight: 633
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -113,21 +113,21 @@ weight: 633
 
 ## Ⅴ. 기대효과 및 결론
 
-[페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-[페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -139,10 +139,10 @@ weight: 633
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -162,21 +162,10 @@ weight: 633
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [페어와이즈](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 799 / 973
-
-<- **이전**: [632. 상태 전이 (State Transition) 다이어그램](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)
-**다음**: [634. 구문, 분기, 조건 커버리지 포함 관계](/studynote/04_software_engineering/10_trends_pm_quality/634_statement_branch_condition_coverage_inclusion/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

@@ -110,12 +110,3 @@ Core flow: Sense -> Filter -> Analyze -> Alert -> Share
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 589 / 800
-
-<- **이전**: [588. RPA 엔터프라이즈 업무 자동화](/studynote/06_ict_convergence/uncategorized/588_robot_process_automation_rpa_enterprise/)
-**다음**: [590. 증강현실 AR 산업 가이드](/studynote/06_ict_convergence/uncategorized/590_augmented_reality_ar_industrial_guide/) ->
-
----

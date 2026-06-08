@@ -110,12 +110,3 @@ FinOps 클라우드 비용 최적화 태깅은(는) 클라우드 네이티브 �
 | IaC/GitOps | 인프라와 배포 상태를 코드로 관리 |
 | Observability | 장애 원인과 사용자 영향을 추적 |
 | FinOps | 클라우드 비용 책임과 최적화를 운영화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 624 / 800
-
-<- **이전**: [623. SRE 에러버짓 신뢰성 목표 설정](/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/)
-**다음**: [625. 그린 클라우드 탄소중립 PUE 최적화](/studynote/06_ict_convergence/uncategorized/631_green_cloud_carbon_neutral_pue_optimization/) ->
-
----

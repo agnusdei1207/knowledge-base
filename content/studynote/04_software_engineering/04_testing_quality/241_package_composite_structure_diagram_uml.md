@@ -7,8 +7,8 @@ weight: 241
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 패키지 다이어그램 / 복합 구조 다이어그램은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 패키지 다이어그램 / 복합 구조 다이어그램은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -44,7 +44,7 @@ weight: 241
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[클래스 다이어그램](/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)(233번)의 치명적 한계를 보완하기 위해 늦게([UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 2.0) 추가된 **정적(구조)** 다이어그램입니다.
+클래스 다이어그램(233번)의 치명적 한계를 보완하기 위해 늦게(UML 2.0) 추가된 **정적(구조)** 다이어그램입니다.
 
 - **📢 섹션 요약 비유**: 패키지 다이어그램 / 복합 구조 다이어그램은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -65,7 +65,7 @@ weight: 241
 - **패키지 다이어그램**: 헬기를 타고 우주로 올라가서, 회사의 1만 개 코드를 <strong>10개의 폴더(거시적)</strong>로 압축해서 봅니다. (나무 대신 거대한 숲을 보기 위함)
 - **복합 구조 다이어그램**: 현미경을 들이밀고, 1개의 뚱뚱한 클래스의 <strong>뱃속 창자(미시적)</strong>를 갈라서 부품들이 얽힌 꼴을 파헤칩니다. (나무의 세포 속을 보기 위함)
 
-> 📢 **섹션 요약 비유**: 소프트웨어의 코드가 쌓이면 감당 안 되는 서류 더미가 됩니다. <strong>패키지 다이어그램</strong>은 어지러운 책상을 치우는 <strong>'마법의 3단 서류함 정리술'</strong>입니다. 책상 위에 흩어진 수백 장의 자바 소스 코드(클래스) 종이들을, 펀치로 뚫어 종류별로 '빨간색 바인더(회원 패키지)', '파란색 바인더(결제 패키지)'에 철컥철컥 묶어버립니다. 그리고 바인더들끼리 "이 빨간 바인더 작업할 땐 파란 바인더도 꼭 필요해"라고 포스트잇(의존성 선)을 붙여놓으면, 사장님이 수백 장의 종이를 다 읽을 필요 없이 책상 위 바인더 3권만 쓱 보고도 "아, 우리 회사는 3개의 큰 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 덩어리로 돌아가는구나!" 하고 전체 아키텍처(구조)를 1초 만에 파악하는 조감도입니다. 반대로 <strong>복합 구조 다이어그램</strong>은 바인더 밖이 아니라 <strong>'정교한 손목시계(거대 클래스)의 뒷뚜껑을 따고 현미경을 들이대는 짓'</strong>입니다. 겉보기엔 '시계(클래스)'라는 상자 1개지만, 뚜껑을 열어보니 그 안에 태엽(Part 1), 톱니바퀴(Part 2)가 서로 맞물려(커넥터) 돌아가고 있고, 시계 바깥쪽 용두([Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 통해 외부의 손가락과 맞닿아 있음을 뱃속까지 샅샅이 파헤쳐 런타임 내부 구조를 낱낱이 그려내는 내시경 도면입니다.
+> 📢 **섹션 요약 비유**: 소프트웨어의 코드가 쌓이면 감당 안 되는 서류 더미가 됩니다. <strong>패키지 다이어그램</strong>은 어지러운 책상을 치우는 <strong>'마법의 3단 서류함 정리술'</strong>입니다. 책상 위에 흩어진 수백 장의 자바 소스 코드(클래스) 종이들을, 펀치로 뚫어 종류별로 '빨간색 바인더(회원 패키지)', '파란색 바인더(결제 패키지)'에 철컥철컥 묶어버립니다. 그리고 바인더들끼리 "이 빨간 바인더 작업할 땐 파란 바인더도 꼭 필요해"라고 포스트잇(의존성 선)을 붙여놓으면, 사장님이 수백 장의 종이를 다 읽을 필요 없이 책상 위 바인더 3권만 쓱 보고도 "아, 우리 회사는 3개의 큰 모듈 덩어리로 돌아가는구나!" 하고 전체 아키텍처(구조)를 1초 만에 파악하는 조감도입니다. 반대로 <strong>복합 구조 다이어그램</strong>은 바인더 밖이 아니라 <strong>'정교한 손목시계(거대 클래스)의 뒷뚜껑을 따고 현미경을 들이대는 짓'</strong>입니다. 겉보기엔 '시계(클래스)'라는 상자 1개지만, 뚜껑을 열어보니 그 안에 태엽(Part 1), 톱니바퀴(Part 2)가 서로 맞물려(커넥터) 돌아가고 있고, 시계 바깥쪽 용두(Port)를 통해 외부의 손가락과 맞닿아 있음을 뱃속까지 샅샅이 파헤쳐 런타임 내부 구조를 낱낱이 그려내는 내시경 도면입니다.
 
 - **📢 섹션 요약 비유**: 패키지 다이어그램 / 복합 구조 다이어그램은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -87,21 +87,21 @@ weight: 241
 
 ## Ⅴ. 기대효과 및 결론
 
-패키지 다이어그램 / 복합 구조 다이어그램을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+패키지 다이어그램 / 복합 구조 다이어그램을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 패키지 다이어그램 / 복합 구조 다이어그램은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 패키지 다이어그램 / 복합 구조 다이어그램의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 패키지 다이어그램 / 복합 구조 다이어그램의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -113,10 +113,10 @@ weight: 241
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 패키지 다이어그램 / 복합 구조 다이어그램의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 패키지 다이어그램 / 복합 구조 다이어그램은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 패키지 다이어그램 / 복합 구조 다이어그램의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 패키지 다이어그램 / 복합 구조 다이어그램은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 패키지 다이어그램 / 복합 구조 다이어그램 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 패키지 다이어그램 / 복합 구조 다이어그램에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 패키지 다이어그램 / 복합 구조 다이어그램에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,21 +136,10 @@ weight: 241
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 패키지 다이어그램 / 복합 구조 다이어그램은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 241 / 973
-
-<- **이전**: [240. 통신 다이어그램 (Communication Diagram / Collaboration Diagram)](/studynote/04_software_engineering/04_testing_quality/240_communication_collaboration_diagram_uml/)
-**다음**: [242. 객체지향 설계 원칙 (SOLID)](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

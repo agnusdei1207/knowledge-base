@@ -6,15 +6,15 @@ tags:
 weight: 32
 ---
 > **핵심 인사이트 3줄**
-> 1. ALE(Annual Loss Expectancy)는 [정량적 위험 분석](/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)에서 특정 위협이 1년간 발생시킬 예상 손실액으로, ALE = SLE × ARO 공식으로 계산된다.
+> 1. ALE(Annual Loss Expectancy)는 정량적 위험 분석에서 특정 위협이 1년간 발생시킬 예상 손실액으로, ALE = SLE × ARO 공식으로 계산된다.
 > 2. ALE 기반 보안 투자 결정 원칙: 보안 대책 비용 < ALE 감소량일 때만 투자가 경제적으로 정당화된다.
-> 3. ALE의 한계는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보 어려움과 주관적 ARO 추정에 있으며, [정성적 위험 분석](/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/)(순위/매트릭스)과 병행 사용이 실무 권장 방식이다.
+> 3. ALE의 한계는 데이터 확보 어려움과 주관적 ARO 추정에 있으며, 정성적 위험 분석(순위/매트릭스)과 병행 사용이 실무 권장 방식이다.
 
 ---
 
 ## Ⅰ. ALE의 정의와 계산식
 
-ALE(Annual Loss Expectancy, 연간 예상 손실)는 <strong><a href="/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/">정량적 위험 분석</a>(<a href="/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/">Quantitative Risk Analysis</a>)의 핵심 지표</strong>다.
+ALE(Annual Loss Expectancy, 연간 예상 손실)는 <strong>정량적 위험 분석(Quantitative Risk Analysis)의 핵심 지표</strong>다.
 
 ### 계산 공식
 
@@ -32,13 +32,13 @@ ARO (Annual Rate of Occurrence, 연간 발생률)
 
 | 변수  | 값              | 설명                          |
 |------|-----------------|-------------------------------|
-| [AV](/studynote/09_security/04_endpoint_security/323_antivirus/)   | 1,000,000,000원 | 서버 자산 가치                |
+| AV   | 1,000,000,000원 | 서버 자산 가치                |
 | EF   | 0.30            | 노출 계수 30% (피해 비율)     |
-| SLE  | 300,000,000원   | [AV](/studynote/09_security/04_endpoint_security/323_antivirus/) × EF                       |
+| SLE  | 300,000,000원   | AV × EF                       |
 | ARO  | 0.25            | 4년에 1회 발생 예상            |
 | ALE  | 75,000,000원    | SLE × ARO                     |
 
-📢 **섹션 요약 비유**: ALE는 자동차 보험료 계산과 같다 — 차값([AV](/studynote/09_security/04_endpoint_security/323_antivirus/)) × 사고 시 피해율(EF) × 연간 사고 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(ARO) = 보험사가 연간 준비해야 할 금액(ALE).
+📢 **섹션 요약 비유**: ALE는 자동차 보험료 계산과 같다 — 차값(AV) × 사고 시 피해율(EF) × 연간 사고 확률(ARO) = 보험사가 연간 준비해야 할 금액(ALE).
 
 ---
 
@@ -50,14 +50,14 @@ SLE는 <strong>위협 1회 발생 시 자산에 예상되는 손실 금액</stro
 
 | EF 범위   | 의미                        | 예시 시나리오           |
 |----------|----------------------------|------------------------|
-| 1.0 (100%) | 자산 완전 손실             | [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 화재         |
-| 0.5 (50%)  | 절반 손실·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능         | [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 부분 감염      |
-| 0.1 ([10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%)  | 경미한 손상·대부분 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)    | 단일 서버 장애          |
+| 1.0 (100%) | 자산 완전 손실             | 데이터센터 화재         |
+| 0.5 (50%)  | 절반 손실·복구 가능         | 랜섬웨어 부분 감염      |
+| 0.1 (10%)  | 경미한 손상·대부분 복구    | 단일 서버 장애          |
 
 ### EF 결정 요소
 
-- [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 능력 (RPTO·[RPO](/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))
-- 사고 격리 속도 (MTTD + [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))
+- 백업·복구 능력 (RPTO·RPO)
+- 사고 격리 속도 (MTTD + MTTR)
 - 자산의 대체 가능성
 
 📢 **섹션 요약 비유**: EF는 홍수 시 집 침수 비율이다 — 1층까지만 잠기면(EF=0.3) 전체 집값의 30%만 피해를 입고, 완전히 잠기면(EF=1.0) 전손이다.
@@ -72,18 +72,18 @@ SLE는 <strong>위협 1회 발생 시 자산에 예상되는 손실 금액</stro
 |--------------|--------|--------------------|
 | 허리케인      | 0.1    | 10년에 1회          |
 | 직원 오조작   | 1.0    | 연 1회              |
-| [피싱](/studynote/09_security/15_malware_attack_vectors/752_phishing/) 공격     | 3.0    | 연 3회              |
+| 피싱 공격     | 3.0    | 연 3회              |
 | 시스템 오류   | 12.0   | 월 1회              |
 | DDoS 공격     | 52.0   | 주 1회              |
 
 ### ARO 산정 방법
 
-1. <strong>역사적 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: 과거 사고 이력 분석
-2. **업계 통계**: CERT·NIST 보안 통계 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)
-3. **전문가 판단**: [CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)·[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 전문가 [델파이 기법](/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)
+1. <strong>역사적 데이터</strong>: 과거 사고 이력 분석
+2. **업계 통계**: CERT·NIST 보안 통계 참조
+3. **전문가 판단**: CISO·감사 전문가 델파이 기법
 4. **위협 인텔리전스**: 산업별 침해 동향 보고서
 
-📢 **섹션 요약 비유**: ARO는 교통 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 위반 통계다 — 특정 교차로에서 연간 몇 번 사고가 나는지를 알아야 교통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)(보안 대책) 예산이 결정된다.
+📢 **섹션 요약 비유**: ARO는 교통 신호 위반 통계다 — 특정 교차로에서 연간 몇 번 사고가 나는지를 알아야 교통 정책(보안 대책) 예산이 결정된다.
 
 ---
 
@@ -105,27 +105,27 @@ SLE는 <strong>위협 1회 발생 시 자산에 예상되는 손실 금액</stro
 | 항목               | 금액          |
 |------------------|---------------|
 | ALE_before       | 75,000,000원  |
-| [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 도입 비용   | 20,000,000원  |
+| 방화벽 도입 비용   | 20,000,000원  |
 | 위협 감소율       | 80%           |
 | ALE_after        | 15,000,000원  |
 | 순이익            | 40,000,000원 ✅ |
 
-📢 **섹션 요약 비유**: 보안 투자 결정은 소화기 구매와 같다 — 화재 예상 손실(ALE)이 소화기 가격보다 크면 사는 게 이익이고, 작으면 보험([사이버 보험](/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/))이 낫다.
+📢 **섹션 요약 비유**: 보안 투자 결정은 소화기 구매와 같다 — 화재 예상 손실(ALE)이 소화기 가격보다 크면 사는 게 이익이고, 작으면 보험(사이버 보험)이 낫다.
 
 ---
 
-## Ⅴ. [정성적 위험 분석](/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/)과 병행 적용
+## Ⅴ. 정성적 위험 분석과 병행 적용
 
-### 정량적 vs [정성적 위험 분석](/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) 비교
+### 정량적 vs 정성적 위험 분석 비교
 
 | 항목          | 정량적 (ALE 기반)       | 정성적 (매트릭스 기반)    |
 |-------------|------------------------|------------------------|
 | 결과         | 금액 ($)                | 등급 (상/중/하)           |
-| 장점         | 비용-효익 계산 명확     | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없어도 적용 가능   |
-| 단점         | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보 어려움       | 주관적, 비교 어려움       |
-| 적용         | 금융·국방·대형 인프라   | 중소기업·[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 평가        |
+| 장점         | 비용-효익 계산 명확     | 데이터 없어도 적용 가능   |
+| 단점         | 데이터 확보 어려움       | 주관적, 비교 어려움       |
+| 적용         | 금융·국방·대형 인프라   | 중소기업·초기 평가        |
 
-### FAIR (Factor Analysis of Information [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 모델
+### FAIR (Factor Analysis of Information Risk) 모델
 
 ALE의 한계를 보완한 현대적 정량 위험 분석 프레임워크:
 - TEF (Threat Event Frequency)
@@ -184,14 +184,3 @@ ALE -> 보안 대책 비용 비교 -> ROI 결정
 1. ALE는 연간 용돈 도둑맞을 금액이다 — 한 번 도둑맞을 금액(SLE) × 1년에 몇 번 도둑이 올지(ARO) = 연간 예상 피해(ALE).
 2. EF는 물건이 얼마나 망가질지 비율이다 — 자전거가 50% 부서지면 EF=0.5, 완전히 망가지면 EF=1.0.
 3. 보안 대책 투자 결정은 자물쇠 구매와 같다 — 자물쇠 값(20만 원)보다 도둑맞을 피해(100만 원)가 크면 사는 게 당연히 이익이다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 32 / 1108
-
-<- **이전**: [31. ARO와 위험 정량화 — 연간 발생률의 의미](/studynote/09_security/01_intro_principles/031_aro_annual_rate_of_occurrence/)
-**다음**: [위험 대응 전략 (Risk Response Strategies)](/studynote/09_security/01_intro_principles/033_risk_response_strategies/) ->
-
----

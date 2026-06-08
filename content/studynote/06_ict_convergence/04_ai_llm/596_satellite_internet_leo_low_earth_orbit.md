@@ -110,12 +110,3 @@ Core flow: Orbit -> Link -> Handover -> Route -> Service
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 596 / 800
-
-<- **이전**: [595. 6G 비전 테라헤르츠 지능형 네트워크](/studynote/06_ict_convergence/uncategorized/595_6g_vision_terahertz_intelligent_network/)
-**다음**: [597. 양자통신 양자키분배 QKD](/studynote/06_ict_convergence/uncategorized/597_quantum_communication_quantum_key_distributio/) ->
-
----

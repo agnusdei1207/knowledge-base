@@ -6,13 +6,13 @@ tags:
 weight: 44
 ---
 > **핵심 인사이트**
-> 1. ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Zero-Knowledge [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 수천 건의 트랜잭션을 오프체인에서 처리하고 수학적 유효성 증명(zk-SNARK/zk-STARK)만 메인체인에 제출하는 Layer 2 확장 기술로 — 낙관적 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 달리 도전 기간 없이 즉시 최종성([Finality](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))을 달성한다.
-> 2. ZK-Rollup의 핵심인 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) — [Zero-Knowledge Proof](/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))은 "비밀을 공개하지 않고 비밀을 알고 있음을 증명"하는 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 기법으로 — 증명자(Prover)는 계산 결과만 공개하고 메인체인(검증자)은 수학적으로 검증하므로, 프라이버시와 확장성을 동시에 달성한다.
+> 1. ZK-Rollup(Zero-Knowledge Rollup)은 수천 건의 트랜잭션을 오프체인에서 처리하고 수학적 유효성 증명(zk-SNARK/zk-STARK)만 메인체인에 제출하는 Layer 2 확장 기술로 — 낙관적 롤업(Optimistic Rollup)과 달리 도전 기간 없이 즉시 최종성(Finality)을 달성한다.
+> 2. ZK-Rollup의 핵심인 영지식 증명(ZKP — Zero-Knowledge Proof)은 "비밀을 공개하지 않고 비밀을 알고 있음을 증명"하는 암호학 기법으로 — 증명자(Prover)는 계산 결과만 공개하고 메인체인(검증자)은 수학적으로 검증하므로, 프라이버시와 확장성을 동시에 달성한다.
 > 3. zk-SNARK(Succinct Non-interactive ARgument of Knowledge)는 증명 크기가 작고 검증이 빠르지만 신뢰된 셋업(Trusted Setup)이 필요한 반면 — zk-STARK(Scalable Transparent ARgument of Knowledge)는 신뢰된 셋업이 없어 투명하고 양자 내성이 있지만 증명 크기가 크다는 트레이드오프가 있다.
 
 ---
 
-## Ⅰ. ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 개념
+## Ⅰ. ZK-Rollup 개념
 
 ```
 ZK-Rollup (Zero-Knowledge Rollup):
@@ -48,11 +48,11 @@ ZK-Rollup vs Optimistic Rollup:
   -> ZK가 이론적으로 더 우수 (복잡성이 단점)
 ```
 
-> 📢 **섹션 요약 비유**: ZK-Rollup은 회계 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요약 — 1만 건 거래 장부를 보내는 대신, 수학적 증명서 하나로 "모든 거래가 정확하다"를 증명. 장부 없이 도장(ZK 증명)만으로 신뢰.
+> 📢 **섹션 요약 비유**: ZK-Rollup은 회계 감사 요약 — 1만 건 거래 장부를 보내는 대신, 수학적 증명서 하나로 "모든 거래가 정확하다"를 증명. 장부 없이 도장(ZK 증명)만으로 신뢰.
 
 ---
 
-## Ⅱ. [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))
+## Ⅱ. 영지식 증명 (ZKP)
 
 ```
 영지식 증명 (ZKP — Zero-Knowledge Proof):
@@ -148,7 +148,7 @@ zk-STARK (Scalable Transparent ARgument of Knowledge):
 
 ---
 
-## Ⅳ. ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 생태계
+## Ⅳ. ZK-Rollup 생태계
 
 ```
 ZK-Rollup 프로젝트 현황:
@@ -192,11 +192,11 @@ ZK 증명 생성 비용:
   ZK 투표: 무기명 투표 정확성 증명
 ```
 
-> 📢 **섹션 요약 비유**: ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 생태계는 고속도로 요금소 — 이더리움 메인넷이 막힌 도로라면, ZK-Rollup은 옆에 새로 낸 고속 우회로. 요금은 증명 비용([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 속도는 훨씬 빠름.
+> 📢 **섹션 요약 비유**: ZK-Rollup 생태계는 고속도로 요금소 — 이더리움 메인넷이 막힌 도로라면, ZK-Rollup은 옆에 새로 낸 고속 우회로. 요금은 증명 비용(GPU), 속도는 훨씬 빠름.
 
 ---
 
-## Ⅴ. 실무 시나리오 — ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) DEX
+## Ⅴ. 실무 시나리오 — ZK-Rollup DEX
 
 ```
 ZK-Rollup 기반 탈중앙화 거래소 (DEX):
@@ -238,7 +238,7 @@ ZK-Rollup의 미래:
   -> 2025~2027년 주류 L2 기술로 자리잡을 전망
 ```
 
-> 📢 **섹션 요약 비유**: dYdX ZK-DEX는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 거래 창구 — 수천 건 주문을 모아서 수학 증명 도장 하나로 이더리움에 제출. 개별 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 없이 도장 하나로 모두 인정받아요!
+> 📢 **섹션 요약 비유**: dYdX ZK-DEX는 초고속 거래 창구 — 수천 건 주문을 모아서 수학 증명 도장 하나로 이더리움에 제출. 개별 확인 없이 도장 하나로 모두 인정받아요!
 
 ---
 
@@ -294,16 +294,5 @@ ZK 증명 하드웨어 가속기 등장
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. ZK-Rollup은 수학 도장 — 수천 건 거래를 모아서 "다 맞아요!"라는 수학 증명 도장 하나만 이더리움에 찍어요. 훨씬 저렴하고 빨라요!
-2. [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)은 비밀 없는 증명 — "나 이 문제 풀었어" 라고 풀이 없이 증명하는 것. 비밀은 지키면서 신뢰는 얻을 수 있어요!
+2. 영지식 증명은 비밀 없는 증명 — "나 이 문제 풀었어" 라고 풀이 없이 증명하는 것. 비밀은 지키면서 신뢰는 얻을 수 있어요!
 3. SNARK는 작고 STARK는 투명 — SNARK는 납작한 증명서(작지만 사전 준비 필요), STARK는 큰 공개 증명서(크지만 누구나 믿을 수 있음).
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 44 / 552
-
-<- **이전**: [043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)](/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/)
-**다음**: [045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)](/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/) ->
-
----

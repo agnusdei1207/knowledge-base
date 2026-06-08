@@ -103,11 +103,3 @@ weight: 771
 | **보안·신원 인프라** | 인증·접근제어·암호화 | **공동인증서(구 공인인증서) + 간편인증(SMS/PASS/지문/FIDO)**, **행정안전부 클라우드 보안인증(CSAP)**, 망분리(인터넷망/내부망/업무망), 데이터 암호화(HTTPS/TLS1.3, AES-256), 양자내성암호(PQC) 도입 검토 |
 
 핵심 동작 메커니즘은 **"공통서비스의 표준화 -> GSB 라우팅 -> 부처 시스템 호출 -> 데이터 통합·분석 -> 시민에게 맞춤 제공"**이다. 예를 들어 시민이 정부24에서 "출생신고"를 하면, ① 인증(간편인증) -> ② 정부24 ↔ 가족관계시스템(행안부) ↔ 주민등록시스템(행안부) ↔ 의료보험(건보공단) ↔ 아동수당(복지부) API 자동 호출 -> ③ 문서 자동 발급 -> ④ 후속 행정(아동수당 자동 신청 알림)까지 **원스톱(One-Stop)** 처리된다. 여기서 GSB는 **ESB(Enterprise Service Bus) + API Gateway + iPaaS(Integration PaaS)** 의 결합 형태로 작동하며, 표준화된 API 명세(OpenAPI 3.0), 트래픽 관리(Rate Limiting, Circuit Breaker - Hystrix/Resilience4j), 로깅(ELK Stack), APM(Application Performance Monitoring - Scouter/Elastic APM) 필수 요건
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 771 / 800
-
-<- **이전**: [770. 디지털 트윈 도시 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/770_digital_twin_city_simulation_optimization/)
-**다음**: [772. 디지털 포용 접근성 정보 격차 해소](/studynote/06_ict_convergence/uncategorized/772_digital_inclusion_accessibility_gap_bridging/) ->
-
----

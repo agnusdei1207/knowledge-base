@@ -143,11 +143,3 @@ Output: ε_T ≤ ε_target -> release G_θ
 | **유틸리티 평가기** | 다운스트림 ML 성능·분포 충실도 측정 | Train-on-Synthetic Test-on-Real(TSTR): XGBoost/LightGBM 학습 -> 원본 test F1/AUC 비교, marginal fidelity: column-wise TVD(Total Variation Distance) ≤ 0.1, pair-wise correlation: PCC(±5%), KS-stat(연속), χ²(범주) |
 | **프라이버시 공격 평가기** | MIA/AIA/Singling-out 저항성 측정 | Membership Inference: shadow model 16~64개 학습 -> attack model AUC ≤ 0.55(Gaussian null 0.5), Attribute Inference: 합성 데이터에서 원본·합성 구분 정확도, Singling-out: 특정 합성 레코드와 매핑되는 원본 존재 확률 ≤ 1/N |
 | **유틸리티-프라이버시 트레이드오프 컨트롤러** | ε 자동 튜닝 | ε sweep: {0.1, 0.5, 1.0, 3.0, 8.0} 별 utility gap 그래프, Pareto frontier 추
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 755 / 800
-
-<- **이전**: [754. AI 안전 정렬 문제 강건성 검증](/studynote/06_ict_convergence/uncategorized/754_ai_safety_alignment_problem_robustness/)
-**다음**: [756. 차등 프라이버시 연합 학습 보안](/studynote/06_ict_convergence/uncategorized/756_differential_privacy_federated_learning_secur/) ->
-
----

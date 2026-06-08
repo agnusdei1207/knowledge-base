@@ -17,7 +17,7 @@ weight: 74
 
 암호학에서 가장 강한 이론적 보안이 필요할 때 등장하는 방식이다.
 
-하지만 현실적으로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다.
+하지만 현실적으로 쓰기 어렵다.
 
 - **📢 섹션 요약 비유**: 한 번 쓰고 버리는 완벽한 비밀 쪽지다.
 
@@ -33,7 +33,7 @@ Ciphertext
 
 | 조건 | 의미 |
 | :-- | :-- |
-| Random [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | 완전 난수 |
+| Random Key | 완전 난수 |
 | Same Length | 같은 길이 |
 | One-time Use | 1회 사용 |
 
@@ -48,12 +48,12 @@ Ciphertext
 | 방식 | 보안 | 실무성 |
 | :-- | :-- | :-- |
 | One-Time Pad | 매우 높음 | 낮음 |
-| Modern [Cryptography](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) | 높음 | 높음 |
+| Modern Cryptography | 높음 | 높음 |
 
 | 핵심 | 의미 |
 | :-- | :-- |
 | Perfect Secrecy | 완전 비밀성 |
-| [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution | 키 분배 |
+| Key Distribution | 키 분배 |
 
 OTP는 이론적으로는 최강이지만 키 분배 문제가 크다.
 
@@ -63,7 +63,7 @@ OTP는 이론적으로는 최강이지만 키 분배 문제가 크다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 난수가 정말 완전한가?
 2. 키 길이가 평문과 같은가?
@@ -71,7 +71,7 @@ OTP는 이론적으로는 최강이지만 키 분배 문제가 크다.
 4. 키 분배가 가능한가?
 5. 이론과 실무를 구분하는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 키 재사용
 - 난수 품질이 낮은 경우
@@ -123,14 +123,3 @@ Key Management
 한 번만 쓰는 비밀 열쇠예요.
 완벽하지만 준비가 어려워요.
 일회용 패드는 그런 암호예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 74 / 1108
-
-<- **이전**: [073. Enigma — 독일 제2차 세계대전 기계식 암호](/studynote/09_security/02_crypto/073_enigma/)
-**다음**: [75. 현대 암호학 기본 가정 — computationally infeasible](/studynote/09_security/02_crypto/075_computational_infeasibility/) ->
-
----

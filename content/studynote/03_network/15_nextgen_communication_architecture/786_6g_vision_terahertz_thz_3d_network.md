@@ -7,20 +7,20 @@ weight: 786
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…를 이해하면 유연성과 확장성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 6G 비전 네트워크 커버리지 입체망 스펙트럼…는 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 6G 비전 네트워크 커버리지 입체망 스펙트럼…를 이해하면 유연성과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)(IMT-2020)의 뒤를 이어, 2030년경 상용화를 목표로 ITU-R과 3GPP가 논의 중인 6세대 이동통신 기술(IMT-2030 비전)입니다.
-- <strong>핵심 목표 지표 (<a href="/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a>)</strong>:
-  - **최고 전송 속도**: 1 Tbps (1,000 Gbps, [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대비 50배) - 영화 100편을 1초 만에 다운.
+- **개념**: 5G(IMT-2020)의 뒤를 이어, 2030년경 상용화를 목표로 ITU-R과 3GPP가 논의 중인 6세대 이동통신 기술(IMT-2030 비전)입니다.
+- <strong>핵심 목표 지표 (KPI)</strong>:
+  - **최고 전송 속도**: 1 Tbps (1,000 Gbps, 5G 대비 50배) - 영화 100편을 1초 만에 다운.
   - **체감 전송 속도**: 1 Gbps 보장.
-  - **무지연 (초저지연 극대화)**: 무선 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 0.1ms 달성 ([5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 1ms의 1/[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 수준, 인간 신경보다 빠름).
-  - <strong>적용 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 완전한 몰입형 홀로그램, [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 촉각(햅틱) 인터넷.
+  - **무지연 (초저지연 극대화)**: 무선 지연 0.1ms 달성 (5G 1ms의 1/10 수준, 인간 신경보다 빠름).
+  - <strong>적용 서비스</strong>: 완전한 몰입형 홀로그램, 디지털 트윈 복제, 촉각(햅틱) 인터넷.
 
 ```text
 [미드홀/백홀 전송계층망 코어 장거리 파장 라…]
@@ -31,17 +31,17 @@ weight: 786
     +---> [지능형 반사 표면]
 ```
 
-- **📢 섹션 요약 비유**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 6G 비전 네트워크 커버리지 입체망 스펙트럼…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-속도를 1 Tbps로 올리려면 도로를 넓히는 수밖에 없습니다. 하지만 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)(28GHz) 대역도 좁아서, 6G는 우주 주파수의 끝판왕을 소환합니다.
+속도를 1 Tbps로 올리려면 도로를 넓히는 수밖에 없습니다. 하지만 5G 밀리미터파(28GHz) 대역도 좁아서, 6G는 우주 주파수의 끝판왕을 소환합니다.
 
-- <strong><a href="/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">THz</a> (<a href="/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">테라헤르츠</a>) 주파수 대역</strong>: 100 GHz ~ [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) [THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) ([10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 GHz) 사이의 미개척 스펙트럼.
+- <strong>THz (테라헤르츠) 주파수 대역</strong>: 100 GHz ~ 10 THz (10,000 GHz) 사이의 미개척 스펙트럼.
 - **물리적 성질의 한계 (죽음의 직진성)**: 주파수가 너무 높아 파장이 머리카락보다 얇습니다. **이 전파는 사실상 전파가 아니라 '레이저(빛)'에 가깝습니다.** 종이 한 장, 빗방울 한 방울, 심지어 공기 중의 산소(O2) 분자에 부딪히기만 해도 에너지를 다 뺏기고 공중에서 즉사해 버리는 극악의 경로 손실(Path Loss)을 가집니다.
-- **돌파구 이슈**: 이 죽음의 직진성을 살리기 위해, 렌즈로 빛을 모으듯 전파를 모아주는 <strong>메타 물질(RIS, 다음 787번)</strong>이나 초정밀 [빔포밍](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 기술이 [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 실현의 0순위 선결 과제로 꼽히고 있습니다.
+- **돌파구 이슈**: 이 죽음의 직진성을 살리기 위해, 렌즈로 빛을 모으듯 전파를 모아주는 <strong>메타 물질(RIS, 다음 787번)</strong>이나 초정밀 빔포밍 기술이 6G 실현의 0순위 선결 과제로 꼽히고 있습니다.
 
 ```text
 [미드홀/백홀 전송계층망 코어 장거리 파장 라…]
@@ -52,7 +52,7 @@ weight: 786
     +---> [지능형 반사 표면]
 ```
 
-- **📢 섹션 요약 비유**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 6G 비전 네트워크 커버리지 입체망 스펙트럼…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -62,42 +62,42 @@ weight: 786
 
 - **기존의 커버리지**: 아파트 옥상 기지국이 지상 100m 아래만 비춰줍니다. 사막이나 바다 한가운데는 안 터집니다.
 - **6G의 3차원 커버리지 구조 (위성 연계망)**:
-  - 고도 10km 성층권에는 태양광 무인기([HAPS](/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/))가 둥둥 떠다니며 전파를 뿌립니다.
-  - 고도 500km 우주에는 일론 머스크의 스타링크 같은 <strong><a href="/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">저궤도 위성</a>(<a href="/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">LEO</a>)</strong> 수천 개가 촘촘히 날아다니며 [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 망을 쏩니다.
+  - 고도 10km 성층권에는 태양광 무인기(HAPS)가 둥둥 떠다니며 전파를 뿌립니다.
+  - 고도 500km 우주에는 일론 머스크의 스타링크 같은 <strong>저궤도 위성(LEO)</strong> 수천 개가 촘촘히 날아다니며 6G 망을 쏩니다.
   - 지상의 폰이 기지국 신호를 잃어버리는 순간, 허공의 인공위성과 즉각 다이렉트로 통신을 연결하여 사막 한가운데서도 기가바이트 넷플릭스가 터지게 만듭니다(초공간 융합, 788번 문서 상세).
 
-[6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [미드홀](/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…가 기반 조건을 만든다면, [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 그 위에서 핵심 메커니즘을 구현하고, [지능형 반사 표면](/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+6G 비전 네트워크 커버리지 입체망 스펙트럼…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 미드홀/백홀 전송계층망 코어 장거리 파장 라…가 기반 조건을 만든다면, 6G 비전 네트워크 커버리지 입체망 스펙트럼…는 그 위에서 핵심 메커니즘을 구현하고, 지능형 반사 표면은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [미드홀](/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…의 기반 정리 | [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…의 핵심 동작 | [지능형 반사 표면](/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)의 확장 적용 |
+| 초점 | 미드홀/백홀 전송계층망 코어 장거리 파장 라…의 기반 정리 | 6G 비전 네트워크 커버리지 입체망 스펙트럼…의 핵심 동작 | 지능형 반사 표면의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 6G 비전 네트워크 커버리지 입체망 스펙트럼…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **기술적 한계**: [THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 칩셋을 스마트폰에 넣으면 발열로 폰이 녹아버립니다. 새로운 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 신소재(InP 등) 발명이 필수적입니다.
-- **글로벌 표준 전쟁**: 현재 [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 주파수 영토를 선점하기 위해 미국, 중국, 유럽, 한국이 각자 자기 기술을 [3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준안으로 밀어 넣으려 피 튀기는 외교전과 우주 궤도 선점 경쟁을 벌이고 있습니다.
+- **기술적 한계**: THz 칩셋을 스마트폰에 넣으면 발열로 폰이 녹아버립니다. 새로운 반도체 신소재(InP 등) 발명이 필수적입니다.
+- **글로벌 표준 전쟁**: 현재 6G 주파수 영토를 선점하기 위해 미국, 중국, 유럽, 한국이 각자 자기 기술을 3GPP 표준안으로 밀어 넣으려 피 튀기는 외교전과 우주 궤도 선점 경쟁을 벌이고 있습니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 4G와 5G가 평면적인 땅바닥(2D)에 거미줄(도로)을 촘촘하게 치는 작업이었다면, 6G는 지구를 통째로 덮는 3차원 투명 에너지 방어막(입체망)을 씌우는 작업입니다. 땅바닥에는 1초에 영화 100편을 쏟아붓는 괴물 같은 빛의 폭포수([테라헤르츠](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/), [THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/))를 설치하고, 산간 오지나 바다에는 우주에 띄운 수천 개의 거울([저궤도 위성](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/))을 이용해 우주 밖에서 에너지를 쏘아냅니다. 6G가 완성되면 지구상 어느 깊은 산속 텐트에 있든, 구름 위를 나는 비행기에 있든, 눈앞에 8K 홀로그램 귀신을 끊김 없이 소환해 낼 수 있는 SF 영화의 진짜 현실이 열립니다.
+- **📢 섹션 요약 비유**: 4G와 5G가 평면적인 땅바닥(2D)에 거미줄(도로)을 촘촘하게 치는 작업이었다면, 6G는 지구를 통째로 덮는 3차원 투명 에너지 방어막(입체망)을 씌우는 작업입니다. 땅바닥에는 1초에 영화 100편을 쏟아붓는 괴물 같은 빛의 폭포수(테라헤르츠, THz)를 설치하고, 산간 오지나 바다에는 우주에 띄운 수천 개의 거울(저궤도 위성)을 이용해 우주 밖에서 에너지를 쏘아냅니다. 6G가 완성되면 지구상 어느 깊은 산속 텐트에 있든, 구름 위를 나는 비행기에 있든, 눈앞에 8K 홀로그램 귀신을 끊김 없이 소환해 낼 수 있는 SF 영화의 진짜 현실이 열립니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [지능형 반사 표면](/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+6G 비전 네트워크 커버리지 입체망 스펙트럼…는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 지능형 반사 표면, AI 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 AI 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 6G 비전 네트워크 커버리지 입체망 스펙트럼…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -105,10 +105,10 @@ weight: 786
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [미드홀](/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
-| [네트워크 슬라이싱](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
-| [지능형 반사 표면](/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 미드홀/백홀 전송계층망 코어 장거리 파장 라… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 서비스 기반 구조 (Service-Based Architecture) | 기능을 느슨하게 결합해 유연성을 높인다. |
+| 네트워크 슬라이싱 (Network Slicing) | 서비스별 요구사항을 논리적으로 분리한다. |
+| 지능형 반사 표면 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,21 +122,10 @@ weight: 786
     +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
-[6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 [미드홀](/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…에서 출발해 현재 메커니즘을 정교화하고, 이후 [지능형 반사 표면](/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+6G 비전 네트워크 커버리지 입체망 스펙트럼…는 미드홀/백홀 전송계층망 코어 장거리 파장 라…에서 출발해 현재 메커니즘을 정교화하고, 이후 지능형 반사 표면와 AI 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 907 / 1120
-
-<- **이전**: [785. 미드홀/백홀 전송계층망 코어 장거리 파장 라우터 스위치 연합망 구성체계 요약 진화)](/studynote/03_network/15_nextgen_communication_architecture/785_backhaul_midhaul_xhaul_transport_network/)
-**다음**: [787. 지능형 반사 표면 (RIS 기능 구조 메타 파트너 물질 적용 주파수 흡수/조절 우회 반사/투과 경로 조작 커버리지 음영 극복](/studynote/03_network/15_nextgen_communication_architecture/787_ris_reconfigurable_intelligent_surface_6g/) ->
-
----

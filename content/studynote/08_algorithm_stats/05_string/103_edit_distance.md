@@ -7,8 +7,8 @@ weight: 103
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 편집 거리 (Edit Distance, Levenshtein Distance)는 한 문자열을 다른 문자열로 변환하는 데 필요한 최소 삽입·삭제·대체 연산 수를 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP)으로 O(mn)에 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 두 문자열이 "얼마나 다른가"를 정량화하므로, 맞춤법 교정·DNA [돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 분석·퍼지 검색(Fuzzy Search)·자동 완성에서 유사도 기반 판단의 표준 척도가 된다.
+> 1. **본질**: 편집 거리 (Edit Distance, Levenshtein Distance)는 한 문자열을 다른 문자열로 변환하는 데 필요한 최소 삽입·삭제·대체 연산 수를 동적 프로그래밍 (DP)으로 O(mn)에 계산하는 알고리즘이다.
+> 2. **가치**: 두 문자열이 "얼마나 다른가"를 정량화하므로, 맞춤법 교정·DNA 돌연변이 분석·퍼지 검색(Fuzzy Search)·자동 완성에서 유사도 기반 판단의 표준 척도가 된다.
 > 3. **판단 포인트**: 삽입·삭제·대체만 허용하면 Levenshtein, 전치(Transposition)도 허용하면 Damerau-Levenshtein Distance를 사용하며, 임계값 d 이하의 유사 문자열만 검색하면 BK-tree 또는 SymSpell로 최적화한다.
 
 ---
@@ -24,7 +24,7 @@ weight: 103
 | 삽입 (Insert) | 문자 추가 | "cat" -> "cart" |
 | 삭제 (Delete) | 문자 제거 | "cart" -> "cat" |
 | 대체 (Substitute) | 문자 교체 | "cat" -> "bat" |
-| 전치 (Transpose) | 인접 문자 교환 (DL only) | "ab" -> "[ba](/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)" |
+| 전치 (Transpose) | 인접 문자 교환 (DL only) | "ab" -> "ba" |
 
 📢 **섹션 요약 비유**: 편집 거리는 두 단어를 같은 단어로 만들기 위해 레고 블록을 추가·제거·교체하는 최소 횟수다.
 
@@ -105,9 +105,9 @@ curr_row = [0, ...]
 
 ## Ⅲ. 비교 및 연결
 
-### 편집 거리 vs [LCS](/studynote/08_algorithm_stats/03_graph_search/053_lcs/) vs 자카드 유사도
+### 편집 거리 vs LCS vs 자카드 유사도
 
-| 항목 | 편집 거리 | [LCS](/studynote/08_algorithm_stats/03_graph_search/053_lcs/) | 자카드 유사도 |
+| 항목 | 편집 거리 | LCS | 자카드 유사도 |
 |:---|:---|:---|:---|
 | 측정 | 변환 비용 (낮을수록 유사) | 공통 길이 (높을수록 유사) | 집합 교집합/합집합 |
 | 연산 | O(mn) | O(mn) | O(n+m) |
@@ -135,8 +135,8 @@ BK-tree:
 
 ### 주요 활용 사례
 
-- **맞춤법 교정 (Spell Checker)**: MS [Word](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), Google 검색의 "혹시 이 단어를 찾으셨나요?" — DL Distance 기반
-- **DNA/단백질 서열 분석**: [돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)(Mutation) 수 = 편집 거리 (Smith-Waterma 변형)
+- **맞춤법 교정 (Spell Checker)**: MS Word, Google 검색의 "혹시 이 단어를 찾으셨나요?" — DL Distance 기반
+- **DNA/단백질 서열 분석**: 돌연변이(Mutation) 수 = 편집 거리 (Smith-Waterma 변형)
 - **자동 완성 (Autocomplete)**: 오타 허용 검색, 편집 거리 ≤ 2인 단어 추천
 - **레코드 링크 (Record Linkage)**: 데이터베이스에서 동일인물/기업명 중복 탐지
 - **표절 탐지**: 일부 문자 변경 후 복사한 텍스트 탐지
@@ -166,14 +166,14 @@ DNA 전역 정렬                       ->  Needleman-Wunsch
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 관계 |
 |:---|:---|
-| [LCS](/studynote/08_algorithm_stats/03_graph_search/053_lcs/) ([Longest Common Subsequence](/studynote/08_algorithm_stats/03_graph_search/053_lcs/)) | 관련 DP, 편집 거리 = m+n-2×[LCS](/studynote/08_algorithm_stats/03_graph_search/053_lcs/) |
+| LCS (Longest Common Subsequence) | 관련 DP, 편집 거리 = m+n-2×LCS |
 | Damerau-Levenshtein | 전치 연산 추가 확장 |
 | BK-tree | 편집 거리 기반 퍼지 검색 트리 |
-| SymSpell | O(1) 퍼지 검색 사전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| SymSpell | O(1) 퍼지 검색 사전 알고리즘 |
 | Smith-Waterman | DNA 국소 정렬 편집 거리 변형 |
-| [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP) | 편집 거리의 핵심 풀이 패러다임 |
+| 동적 프로그래밍 (DP) | 편집 거리의 핵심 풀이 패러다임 |
 
 ---
 
@@ -204,14 +204,3 @@ DNA 전역 정렬                       ->  Needleman-Wunsch
 1. 편집 거리는 단어 퍼즐 게임이야—"kitten"을 "sitting"으로 바꿀 때 몇 번 글자를 바꾸거나 추가·삭제해야 하는지 세는 거야.
 2. 표 형태로 천천히 채워나가면 가장 적게 바꾸는 방법을 자동으로 찾을 수 있어—이게 바로 DP야.
 3. 맞춤법 교정 프로그램이 "혹시 이 단어?" 라고 제안하는 건, 편집 거리가 1~2인 단어들을 찾아서 보여주는 것이야!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 103 / 175
-
-<- **이전**: [9. 최장 공통 부분수열 (LCS, Longest Common Subsequence) — 문자열 비교](/studynote/08_algorithm_stats/05_string/102_lcs_string/)
-**다음**: [11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭](/studynote/08_algorithm_stats/05_string/104_regex/) ->
-
----

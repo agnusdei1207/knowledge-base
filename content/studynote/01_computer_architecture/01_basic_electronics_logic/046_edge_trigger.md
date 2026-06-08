@@ -6,13 +6,13 @@ tags:
 weight: 46
 ---
 > **핵심 인사이트**
-> 1. 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Edge Trigger)는 클럭 신호의 엣지(Rising 또는 Falling) 순간에만 데이터를 샘플링하는 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 동작 방식 — 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)([Level Trigger](/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/))보다 타이밍 제어가 정밀하며 현대 디지털 회로에서 표준이다.
-> 2. 상승 에지(Rising Edge) [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 0->1 전환 순간에 입력 D를 포착해 출력 Q에 저장 — 클럭 사이클당 단 한 번 데이터가 업데이트되므로 레이스 컨디션([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 제거된다.
-> 3. 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 셋업/홀드 타임 제약은 메타스태빌리티(Metastability)를 방지하는 핵심 — 데이터가 에지 직전/직후 일정 시간 동안 안정되어야 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 확정적으로 동작한다.
+> 1. 에지 트리거(Edge Trigger)는 클럭 신호의 엣지(Rising 또는 Falling) 순간에만 데이터를 샘플링하는 플립플롭 동작 방식 — 레벨 트리거(Level Trigger)보다 타이밍 제어가 정밀하며 현대 디지털 회로에서 표준이다.
+> 2. 상승 에지(Rising Edge) 트리거는 0->1 전환 순간에 입력 D를 포착해 출력 Q에 저장 — 클럭 사이클당 단 한 번 데이터가 업데이트되므로 레이스 컨디션(Race Condition)이 제거된다.
+> 3. 에지 트리거 플립플롭의 셋업/홀드 타임 제약은 메타스태빌리티(Metastability)를 방지하는 핵심 — 데이터가 에지 직전/직후 일정 시간 동안 안정되어야 플립플롭이 확정적으로 동작한다.
 
 ---
 
-## Ⅰ. 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) vs 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
+## Ⅰ. 레벨 트리거 vs 에지 트리거
 
 ```
 래치 (Level Trigger):
@@ -46,11 +46,11 @@ weight: 46
   FPGA, ASIC: D 플립플롭이 기본 빌딩 블록
 ```
 
-> 📢 **섹션 요약 비유**: 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 열린 문(CLK HIGH면 누구나 입장), 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 회전문(클릭 순간에만 한 명 통과). 회전문이 더 안전!
+> 📢 **섹션 요약 비유**: 레벨 트리거는 열린 문(CLK HIGH면 누구나 입장), 에지 트리거는 회전문(클릭 순간에만 한 명 통과). 회전문이 더 안전!
 
 ---
 
-## Ⅱ. D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 내부 구조
+## Ⅱ. D 플립플롭 내부 구조
 
 ```
 Rising Edge D Flip-Flop:
@@ -142,7 +142,7 @@ CDC (Clock Domain Crossing)에서 흔함:
 
 ---
 
-## Ⅳ. FPGA와 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
+## Ⅳ. FPGA와 에지 트리거
 
 ```
 FPGA 내부 에지 트리거:
@@ -185,11 +185,11 @@ STA (Static Timing Analysis):
   WNS < 0: 타이밍 위반 -> 수정 필요
 ```
 
-> 📢 **섹션 요약 비유**: [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 레고 블록 — D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)(레고 블록)을 LUT과 조합해 원하는 순차 회로 구성. Verilog는 레고 조립 설명서!
+> 📢 **섹션 요약 비유**: FPGA 에지 트리거는 레고 블록 — D 플립플롭(레고 블록)을 LUT과 조합해 원하는 순차 회로 구성. Verilog는 레고 조립 설명서!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 타이밍 클로저
+## Ⅴ. 실무 시나리오 — ASIC 타이밍 클로저
 
 ```
 고속 ASIC 에지 트리거 타이밍 설계:
@@ -238,7 +238,7 @@ Critical Path 분석:
   모든 코너에서 WNS > 0 -> 테이프아웃
 ```
 
-> 📢 **섹션 요약 비유**: [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 타이밍 클로저는 100m 허들 — 0.5ns([클럭 주기](/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/))라는 시간 안에 모든 신호가 FF에서 다음 FF까지 전달. 허들([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 하나라도 높으면 탈락(타이밍 위반)!
+> 📢 **섹션 요약 비유**: ASIC 타이밍 클로저는 100m 허들 — 0.5ns(클럭 주기)라는 시간 안에 모든 신호가 FF에서 다음 FF까지 전달. 허들(지연) 하나라도 높으면 탈락(타이밍 위반)!
 
 ---
 
@@ -295,17 +295,6 @@ Pulse Latch (하이브리드)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 정확한 순간 포착 — 클럭이 0->1 바뀌는 그 순간(에지)에만 데이터를 기억해요. 항상 열려있는 문(래치)보다 훨씬 안전!
-2. 메타스태빌리티는 동전이 서는 것 — 너무 바쁠 때 데이터가 들어오면(셋업 위반) [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 0도 1도 아닌 중간에 멈출 수 있어요!
-3. FPGA는 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 레고 — Verilog로 "posedge clk"라고 쓰면 에지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) FF 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/). LUT+FF 조합이 디지털 회로의 기본!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 46 / 803
-
-<- **이전**: [045. 클럭 — Clock Signal](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)
-**다음**: [047. 레벨 트리거 — Level Trigger](/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/) ->
-
----
+1. 에지 트리거는 정확한 순간 포착 — 클럭이 0->1 바뀌는 그 순간(에지)에만 데이터를 기억해요. 항상 열려있는 문(래치)보다 훨씬 안전!
+2. 메타스태빌리티는 동전이 서는 것 — 너무 바쁠 때 데이터가 들어오면(셋업 위반) 플립플롭이 0도 1도 아닌 중간에 멈출 수 있어요!
+3. FPGA는 D 플립플롭 레고 — Verilog로 "posedge clk"라고 쓰면 에지 트리거 FF 자동 생성. LUT+FF 조합이 디지털 회로의 기본!

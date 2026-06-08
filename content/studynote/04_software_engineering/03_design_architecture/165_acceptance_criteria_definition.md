@@ -7,19 +7,19 @@ weight: 165
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 인수 기준 (Acceptance Criteria)은 기능이나 [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ([User Story](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 "완료되었다"고 인정받기 위해 반드시 충족해야 하는 관찰 가능하고 측정 가능한 조건이다.
-> 2. **가치**: 인수 기준이 있어야 기획 의도, 개발 구현, 품질 보증 (Quality Assurance, QA) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 같은 합격선으로 묶여, "다 만들었는데 기대와 다르다"는 분쟁을 줄일 수 있다.
-> 3. **판단 포인트**: 좋은 인수 기준은 요구사항 요약이 아니라 테스트 가능한 경계 조건이며, 완료의 정의 (Definition of Done, DoD)나 상세 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)와 혼동하지 않는 것이 핵심이다.
+> 1. **본질**: 인수 기준 (Acceptance Criteria)은 기능이나 사용자 스토리 (User Story)가 "완료되었다"고 인정받기 위해 반드시 충족해야 하는 관찰 가능하고 측정 가능한 조건이다.
+> 2. **가치**: 인수 기준이 있어야 기획 의도, 개발 구현, 품질 보증 (Quality Assurance, QA) 검증이 같은 합격선으로 묶여, "다 만들었는데 기대와 다르다"는 분쟁을 줄일 수 있다.
+> 3. **판단 포인트**: 좋은 인수 기준은 요구사항 요약이 아니라 테스트 가능한 경계 조건이며, 완료의 정의 (Definition of Done, DoD)나 상세 테스트 케이스와 혼동하지 않는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-인수 기준 (Acceptance Criteria, [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))은 특정 기능이 사용자와 비즈니스 요구를 만족했다고 판단하기 위한 합격 조건의 집합이다. [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)가 "왜 이 기능이 필요한가"를 말한다면, 인수 기준은 "어떤 상태가 되면 이 기능을 수용할 것인가"를 말한다. 따라서 인수 기준은 요구사항과 테스트 사이를 연결하는 계약 문장에 가깝다.
+인수 기준 (Acceptance Criteria, AC)은 특정 기능이 사용자와 비즈니스 요구를 만족했다고 판단하기 위한 합격 조건의 집합이다. 사용자 스토리가 "왜 이 기능이 필요한가"를 말한다면, 인수 기준은 "어떤 상태가 되면 이 기능을 수용할 것인가"를 말한다. 따라서 인수 기준은 요구사항과 테스트 사이를 연결하는 계약 문장에 가깝다.
 
-이 문서가 필요한 이유는 자연어 요구사항이 본질적으로 모호하기 때문이다. 예를 들어 "로그인이 잘 되어야 한다"는 문장은 성공 여부, 실패 횟수 제한, 오류 메시지, 잠금 시간, [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 조건을 전혀 담지 못한다. 인수 기준이 없으면 개발자는 구현 중심으로, QA는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심으로, 기획자는 기대 중심으로 해석해 서로 다른 완료선을 갖게 된다.
+이 문서가 필요한 이유는 자연어 요구사항이 본질적으로 모호하기 때문이다. 예를 들어 "로그인이 잘 되어야 한다"는 문장은 성공 여부, 실패 횟수 제한, 오류 메시지, 잠금 시간, 접근성 조건을 전혀 담지 못한다. 인수 기준이 없으면 개발자는 구현 중심으로, QA는 검증 중심으로, 기획자는 기대 중심으로 해석해 서로 다른 완료선을 갖게 된다.
 
-이 그림은 [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)가 어떻게 인수 기준으로 구체화되는지 보여준다.
+이 그림은 사용자 스토리가 어떻게 인수 기준으로 구체화되는지 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -52,7 +52,7 @@ weight: 165
 | 경계 조건 | 실패/예외가 포함됐는가? | "5회 실패 시 잠금" | "로그인 가능"만 명시 |
 | 비즈니스 정렬 | 왜 필요한지 연결되는가? | "휴면 계정은 차단" | 구현 디테일만 나열 |
 
-[행위 주도 개발](/studynote/11_design_supervision/06_exam_summary/412_process/) ([Behavior-Driven Development](/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/), [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/))에서는 이를 `Given-When-Then` 구조로 많이 표현한다. `Given`은 시작 상태, `When`은 사용자 행동, `Then`은 기대 결과다. 이 형식은 기획 문장을 테스트 가능한 시나리오로 바꾸기 쉬워, 요구사항과 자동화 테스트 사이의 번역 비용을 줄여 준다.
+행위 주도 개발 (Behavior-Driven Development, BDD)에서는 이를 `Given-When-Then` 구조로 많이 표현한다. `Given`은 시작 상태, `When`은 사용자 행동, `Then`은 기대 결과다. 이 형식은 기획 문장을 테스트 가능한 시나리오로 바꾸기 쉬워, 요구사항과 자동화 테스트 사이의 번역 비용을 줄여 준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -64,7 +64,7 @@ weight: 165
 +--------------------------------------------------------------+
 ```
 
-즉 인수 기준의 핵심 원리는 "설명 가능한 요구"를 "판정 가능한 조건"으로 바꾸는 데 있다. 잘 작성된 인수 기준은 개발자에게 구현 경계를 주고, QA에게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트를 주며, [제품 책임자](/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (Product Owner, PO)에게 승인 근거를 준다.
+즉 인수 기준의 핵심 원리는 "설명 가능한 요구"를 "판정 가능한 조건"으로 바꾸는 데 있다. 잘 작성된 인수 기준은 개발자에게 구현 경계를 주고, QA에게 검증 포인트를 주며, 제품 책임자 (Product Owner, PO)에게 승인 근거를 준다.
 
 - **📢 섹션 요약 비유**: 인수 기준은 시험 문제의 채점 기준표와 같다. 문제 설명만 있으면 채점자가 제각각 점수를 줄 수 있지만, 기준표가 있으면 누가 채점해도 같은 결과가 나온다.
 
@@ -72,36 +72,36 @@ weight: 165
 
 ## Ⅲ. 비교 및 연결
 
-인수 기준은 요구사항, DoD, [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)와 닮았지만 역할이 다르다. 요구사항은 기능의 목적과 범위를 설명하고, 인수 기준은 그 기능을 수용할 조건을 정하며, [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)는 이를 실제 입력값과 절차로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. DoD는 특정 기능이 아니라 팀 전체의 공통 완료 기준이라는 점에서 더 상위 개념이다.
+인수 기준은 요구사항, DoD, 테스트 케이스와 닮았지만 역할이 다르다. 요구사항은 기능의 목적과 범위를 설명하고, 인수 기준은 그 기능을 수용할 조건을 정하며, 테스트 케이스는 이를 실제 입력값과 절차로 검증한다. DoD는 특정 기능이 아니라 팀 전체의 공통 완료 기준이라는 점에서 더 상위 개념이다.
 
-| 구분 | 요구사항 | 인수 기준 | [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/) | DoD |
+| 구분 | 요구사항 | 인수 기준 | 테스트 케이스 | DoD |
 | :-- | :-- | :-- | :-- | :-- |
-| 질문 | 무엇이 필요한가? | 언제 합격인가? | 어떻게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할까? | 팀 차원에서 무엇이 끝인가? |
-| 범위 | 기능/업무 관점 | 개별 기능의 수용 조건 | 실행 절차와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 모든 작업 공통 품질 기준 |
-| 예시 | "비밀번호 재설정 제공" | "메일은 3분 내 발송" | 입력/기대값/사전조건 정의 | [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/), 보안 점검 완료 |
+| 질문 | 무엇이 필요한가? | 언제 합격인가? | 어떻게 검증할까? | 팀 차원에서 무엇이 끝인가? |
+| 범위 | 기능/업무 관점 | 개별 기능의 수용 조건 | 실행 절차와 데이터 | 모든 작업 공통 품질 기준 |
+| 예시 | "비밀번호 재설정 제공" | "메일은 3분 내 발송" | 입력/기대값/사전조건 정의 | 코드 리뷰, 보안 점검 완료 |
 
-이 차이를 명확히 해야 문서가 겹치지 않는다. 인수 기준에 DB 컬럼 설계나 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 응답 스키마까지 모두 넣으면 설계서와 경계가 흐려지고, 반대로 "로그인이 잘 된다" 수준에 머물면 요구사항과 구분되지 않는다. 따라서 인수 기준은 사용자가 체감하거나 시스템이 입증할 수 있는 결과 중심으로 적어야 한다.
+이 차이를 명확히 해야 문서가 겹치지 않는다. 인수 기준에 DB 컬럼 설계나 API (Application Programming Interface) 응답 스키마까지 모두 넣으면 설계서와 경계가 흐려지고, 반대로 "로그인이 잘 된다" 수준에 머물면 요구사항과 구분되지 않는다. 따라서 인수 기준은 사용자가 체감하거나 시스템이 입증할 수 있는 결과 중심으로 적어야 한다.
 
-또한 인수 기준은 [유스케이스 시나리오](/studynote/04_software_engineering/03_design_architecture/164_use_case_scenario_flows/), [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 시나리오, 회귀 테스트와 자연스럽게 연결된다. 시나리오 문서에서 기본/예외 흐름을 정리한 뒤, 각 갈림길을 인수 기준으로 고정하면 이후 자동화 테스트 자산으로 재사용하기 좋다.
+또한 인수 기준은 유스케이스 시나리오, BDD 시나리오, 회귀 테스트와 자연스럽게 연결된다. 시나리오 문서에서 기본/예외 흐름을 정리한 뒤, 각 갈림길을 인수 기준으로 고정하면 이후 자동화 테스트 자산으로 재사용하기 좋다.
 
-- **📢 섹션 요약 비유**: 요구사항이 집을 왜 지을지 정한 설계 의도라면, 인수 기준은 준공 검사 항목이고, [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)는 실제 줄자를 들고 치수를 재는 절차다. 셋은 이어지지만 같은 문서는 아니다.
+- **📢 섹션 요약 비유**: 요구사항이 집을 왜 지을지 정한 설계 의도라면, 인수 기준은 준공 검사 항목이고, 테스트 케이스는 실제 줄자를 들고 치수를 재는 절차다. 셋은 이어지지만 같은 문서는 아니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 인수 기준은 기능 누락을 가장 빨리 드러내는 장치다. 예를 들어 전자상거래 로그인 기능을 만든다고 할 때, "로그인 성공"만 적어 두면 실패 횟수 제한, 잠금 해제 시간, 에러 메시지, 비활성 계정 처리, [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 문구가 빠질 수 있다. 반면 인수 기준에 이런 경계 조건을 넣어 두면 프론트엔드, 백엔드, QA가 같은 범위를 기준으로 작업할 수 있다.
+실무에서 인수 기준은 기능 누락을 가장 빨리 드러내는 장치다. 예를 들어 전자상거래 로그인 기능을 만든다고 할 때, "로그인 성공"만 적어 두면 실패 횟수 제한, 잠금 해제 시간, 에러 메시지, 비활성 계정 처리, 접근성 문구가 빠질 수 있다. 반면 인수 기준에 이런 경계 조건을 넣어 두면 프론트엔드, 백엔드, QA가 같은 범위를 기준으로 작업할 수 있다.
 
-좋은 판단은 세 단계로 이뤄진다. 첫째, 사용자 가치가 드러나는 성공 조건을 쓴다. 둘째, 장애와 오용 상황을 포함한 실패 조건을 쓴다. 셋째, 숫자와 상태 변화로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 만든다. 예를 들어 "결제 버튼을 누르면 주문이 접수된다"보다 "재고가 있을 때 2초 이내 주문 번호가 발급되고, 재고가 없으면 결제는 취소되며 재고 부족 메시지가 표시된다"가 훨씬 좋은 인수 기준이다.
+좋은 판단은 세 단계로 이뤄진다. 첫째, 사용자 가치가 드러나는 성공 조건을 쓴다. 둘째, 장애와 오용 상황을 포함한 실패 조건을 쓴다. 셋째, 숫자와 상태 변화로 검증 가능하게 만든다. 예를 들어 "결제 버튼을 누르면 주문이 접수된다"보다 "재고가 있을 때 2초 이내 주문 번호가 발급되고, 재고가 없으면 결제는 취소되며 재고 부족 메시지가 표시된다"가 훨씬 좋은 인수 기준이다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 
 1. 모든 인수 기준이 합격/불합격으로 판정 가능한가?
 2. 정상 흐름뿐 아니라 경계값, 실패, 권한, 예외 상황이 포함됐는가?
 3. 구현 세부가 아니라 사용자 관찰 결과와 시스템 보장 상태로 적혔는가?
 4. QA와 PO가 추가 설명 없이도 승인 여부를 판단할 수 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - "빠르게", "적절히", "문제 없이"처럼 측정 불가능한 표현 사용
 - 팀 공통 DoD 항목과 개별 기능 인수 기준을 한 문서에 뒤섞는 작성 방식
@@ -112,9 +112,9 @@ weight: 165
 
 ## Ⅴ. 기대효과 및 결론
 
-인수 기준이 명확하면 요구사항 해석 비용이 줄고, 구현 범위와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 범위가 같은 선 위에 놓인다. 그 결과 기능 완료 판정이 빨라지고, 릴리스 직전 "이건 원래 기대한 기능이 아니었다"는 재작업 비용도 크게 줄어든다. 특히 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발에서는 짧은 반복 주기 안에 요구-구현-[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 연결하는 핵심 장치가 된다.
+인수 기준이 명확하면 요구사항 해석 비용이 줄고, 구현 범위와 검증 범위가 같은 선 위에 놓인다. 그 결과 기능 완료 판정이 빨라지고, 릴리스 직전 "이건 원래 기대한 기능이 아니었다"는 재작업 비용도 크게 줄어든다. 특히 애자일 개발에서는 짧은 반복 주기 안에 요구-구현-검증을 연결하는 핵심 장치가 된다.
 
-다만 인수 기준을 너무 세세한 구현 지시서로 만들면 유지보수성이 떨어진다. 화면 문구 하나, 내부 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조 하나까지 모두 못 박으면 오히려 변화에 약해진다. 따라서 인수 기준은 사용자 가치와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 결과에 집중하되, 상세 구현은 설계서와 코드에 맡기는 균형이 필요하다.
+다만 인수 기준을 너무 세세한 구현 지시서로 만들면 유지보수성이 떨어진다. 화면 문구 하나, 내부 모듈 구조 하나까지 모두 못 박으면 오히려 변화에 약해진다. 따라서 인수 기준은 사용자 가치와 검증 가능한 결과에 집중하되, 상세 구현은 설계서와 코드에 맡기는 균형이 필요하다.
 
 - **📢 섹션 요약 비유**: 좋은 인수 기준은 여행 가이드북이 아니라 입장권 검사 규칙과 같다. 꼭 확인해야 할 조건만 정확히 적혀 있어야 빠르게 통과시키고, 문제가 있으면 바로 걸러낼 수 있다.
 
@@ -124,10 +124,10 @@ weight: 165
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) ([User Story](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)) | 인수 기준이 구체화하는 상위 요구 표현 |
+| 사용자 스토리 (User Story) | 인수 기준이 구체화하는 상위 요구 표현 |
 | 완료의 정의 (Definition of Done, DoD) | 팀 공통 품질 기준으로, 인수 기준과 범위가 다름 |
-| [행위 주도 개발](/studynote/11_design_supervision/06_exam_summary/412_process/) ([BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)) | 인수 기준을 `Given-When-Then`으로 실행형 시나리오화 |
-| [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/) ([Test Case](/studynote/04_software_engineering/11_testing_validation/833_test_case/)) | 인수 기준을 실제 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차로 전환 |
+| 행위 주도 개발 (BDD) | 인수 기준을 `Given-When-Then`으로 실행형 시나리오화 |
+| 테스트 케이스 (Test Case) | 인수 기준을 실제 검증 절차로 전환 |
 | 품질 보증 (QA) | 인수 기준을 기반으로 승인 또는 반려 판단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -143,21 +143,10 @@ weight: 165
     +--> PO 승인 / 릴리스 판단
 ```
 
-이 흐름도는 비즈니스 요구가 인수 기준을 거쳐, 실행 가능한 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 승인 절차로 이어지는 과정을 보여준다.
+이 흐름도는 비즈니스 요구가 인수 기준을 거쳐, 실행 가능한 검증과 승인 절차로 이어지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 인수 기준은 "숙제를 다 했다"고 말할 때 선생님이 보는 체크표예요.
 2. 제목만 썼는지, 답을 맞게 썼는지, 이름을 적었는지처럼 꼭 확인할 것들이 적혀 있어요.
 3. 그래서 누구나 같은 체크표를 보면 숙제가 정말 끝났는지 공평하게 알 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 165 / 973
-
-<- **이전**: [164. 유스케이스 시나리오 (Use Case Scenario) - 기본 흐름, 대안 흐름, 예외 흐름](/studynote/04_software_engineering/03_design_architecture/164_use_case_scenario_flows/)
-**다음**: [166. MoSCoW 기법 - Must, Should, Could, Won't 우선순위 결정](/studynote/04_software_engineering/03_design_architecture/166_moscow_prioritization_technique/) ->
-
----

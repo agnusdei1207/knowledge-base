@@ -204,11 +204,3 @@ Dequantization: r ≈ S × (q - Z)
 | **Dynamic Range** | 6.5×10⁴ (지수) | 제한적(256 level) | 매우 제한(16 level) | FP16과 유사 (지수) |
 | **Tensor Core 지원** | Volta+ (FP16) | Turing+ (INT8) | Hopper (INT4 TC 일부) | Hopper H100 (E4M3) |
 | **정확도 손실 (per
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 658 / 800
-
-<- **이전**: [657. 지식 증류 모델 경량화 프루닝](/studynote/06_ict_convergence/uncategorized/657_knowledge_distillation_model_pruning_compress/)
-**다음**: [659. AI 추론 최적화 TensorRT ONNX](/studynote/06_ict_convergence/uncategorized/659_ai_inference_optimization_tensorrt_onnx/) ->
-
----

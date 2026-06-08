@@ -127,11 +127,3 @@ ICT 융합의 표준 참조 아키텍처는 **RAMI 4.0(Reference Architecture Mo
 | 구분 | **5G eMBB/URLLC** | **Wi-Fi 6/6E** | **Wi-Fi 7 (802.11be)** | **Private LTE** |
 | :--- | :--- | :--- | :--- | :--- |
 | 최대 속도 | 10 Gbps | 9.6
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 793 / 800
-
-<- **이전**: [792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2](/studynote/06_ict_convergence/uncategorized/792_ict_convergence_pe_architecture_master_map_2/)
-**다음**: [794. ICT 융합 기술 디지털 전환 융합 마스터](/studynote/06_ict_convergence/uncategorized/794_ict_digital_transformation_convergence_master/) ->
-
----

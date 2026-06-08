@@ -9,7 +9,7 @@ weight: 65
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 개발 팀(Development Team)은 제품을 실제로 만들고 테스트하는 다기능(Cross-functional) 자기 조직화(Self-organizing) 팀이다.
-> 2. **가치**: 팀이 외부 지시에만 의존하지 않고 스스로 일과를 나눠 가지면 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 속도와 품질이 안정된다.
+> 2. **가치**: 팀이 외부 지시에만 의존하지 않고 스스로 일과를 나눠 가지면 스프린트 속도와 품질이 안정된다.
 > 3. **판단**: 개발 팀은 역할 고정조직이 아니라 결과 책임 조직이며, PO나 SM과 책임 경계를 지켜야 한다.
 
 ---
@@ -18,7 +18,7 @@ weight: 65
 
 스크럼에서 개발 팀은 기능을 구현하는 사람들만의 모임이 아니다. 계획, 구현, 테스트, 통합을 스스로 해내는 작은 완결 조직이다.
 
-팀이 자기 조직화되지 않으면 병목이 생기고, [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표도 외부 지시로 흔들린다.
+팀이 자기 조직화되지 않으면 병목이 생기고, 스프린트 목표도 외부 지시로 흔들린다.
 
 - **📢 섹션 요약 비유**: 여러 악기가 함께 연주하려면 지휘자가 모든 음표를 직접 치지 않아도 된다.
 
@@ -40,7 +40,7 @@ Increment
 | :-- | :-- |
 | Cross-functional | 구현, 테스트, 통합 역량 보유 |
 | Self-organizing | 작업 배분을 스스로 결정 |
-| Increment 책임 | 잠재적으로 출시 가능한 결과물 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| Increment 책임 | 잠재적으로 출시 가능한 결과물 생성 |
 
 개발 팀은 각자 일을 나누되, 최종적으로는 하나의 제품 증분을 함께 책임진다. 그래서 개인 기술보다 협업 구조가 더 중요하다.
 
@@ -54,7 +54,7 @@ Increment
 | :-- | :-- | :-- |
 | Development Team | 구현과 품질 | 단순 코더 집합 |
 | Product Owner | 가치와 우선순위 | 기술 지시자 |
-| [Scrum Master](/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) | 프로세스 지원 | 팀 관리자 |
+| Scrum Master | 프로세스 지원 | 팀 관리자 |
 
 | 팀 형태 | 특징 |
 | :-- | :-- |
@@ -70,15 +70,15 @@ Increment
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 팀이 구현/테스트/통합 역량을 갖췄는가?
 2. 스스로 작업 분배를 할 수 있는가?
-3. [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표를 함께 책임지는가?
+3. 스프린트 목표를 함께 책임지는가?
 4. 외부 지시와 내부 결정 경계가 분명한가?
 5. 결과물 품질을 팀 전체가 책임지는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 개발 팀을 단순 코딩 인원으로 보는 설계
 - 역할이 너무 세분화되어 협업이 느린 설계
@@ -134,14 +134,3 @@ Sprint Goal
 팀은 코딩만 하는 모임이 아니에요.
 같이 계획하고, 같이 만들고, 같이 확인해요.
 개발 팀은 그런 식으로 함께 일하는 팀이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 65 / 973
-
-<- **이전**: [64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거](/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)
-**다음**: [66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록](/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) ->
-
----

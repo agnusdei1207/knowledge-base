@@ -144,11 +144,3 @@ MSA(Microservices Architecture) 전환이 가속화되면서 단일 시스템이
 | 연계 대상 | 연결 패턴 | 기술적 디테일 |
 | :--- | :--- | :--- |
 | **Service Mesh (Istio/Linkerd)** | Gateway -> Mesh Ingress(East-West
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 639 / 800
-
-<- **이전**: [638. 클라우드 마이그레이션 6R 전략](/studynote/06_ict_convergence/uncategorized/638_cloud_migration_6r_strategy/)
-**다음**: [640. 이벤트 드리븐 아키텍처 EventBridge](/studynote/06_ict_convergence/uncategorized/640_event_driven_architecture_eventbridge/) ->
-
----

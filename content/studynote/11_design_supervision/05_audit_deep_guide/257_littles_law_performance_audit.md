@@ -7,16 +7,16 @@ weight: 257
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리틀의 법칙(Little's Law) `L = λW`는 시스템 내 평균 요청 수(L), 처리율(λ, TPS), 평균 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(W)의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 나타내며, 세 지표 중 하나를 알면 나머지를 계산할 수 있다.
-> 2. **가치**: [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/studynote/02_operating_system/02_process_thread/103_thread_pool/))과 커넥션 풀(Connection Pool) 크기를 수학적으로 산정할 수 있어 "감(感) 기반" [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 "근거 기반" [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 전환한다.
-> 3. **판단 포인트**: 감리 현장에서 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 근거 문서가 없거나, 리틀의 법칙과 크게 괴리된 값이 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)된 경우 재검토를 요구한다.
+> 1. **본질**: 리틀의 법칙(Little's Law) `L = λW`는 시스템 내 평균 요청 수(L), 처리율(λ, TPS), 평균 응답 시간(W)의 관계를 나타내며, 세 지표 중 하나를 알면 나머지를 계산할 수 있다.
+> 2. **가치**: 스레드 풀(Thread Pool)과 커넥션 풀(Connection Pool) 크기를 수학적으로 산정할 수 있어 "감(感) 기반" 설정에서 "근거 기반" 설정으로 전환한다.
+> 3. **판단 포인트**: 감리 현장에서 스레드 풀 크기 설정 근거 문서가 없거나, 리틀의 법칙과 크게 괴리된 값이 설정된 경우 재검토를 요구한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-리틀의 법칙(Little's Law)은 1961년 존 리틀(John D.C. Little)이 증명한 큐잉 이론(Queuing Theory)의 기본 정리다. 원래는 대기열 분석에서 유도되었지만, IT [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 공학에서 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/)·DB 커넥션 풀·메시지 큐 크기 산정에 광범위하게 활용된다.
+리틀의 법칙(Little's Law)은 1961년 존 리틀(John D.C. Little)이 증명한 큐잉 이론(Queuing Theory)의 기본 정리다. 원래는 대기열 분석에서 유도되었지만, IT 성능 공학에서 스레드 풀·DB 커넥션 풀·메시지 큐 크기 산정에 광범위하게 활용된다.
 
-공공정보화 감리에서 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/)과 커넥션 풀 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값은 핵심 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 파라미터다. 잘못된 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)은 서버 자원 낭비(과다 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)) 또는 요청 거부·[타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(과소 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/))을 유발한다.
+공공정보화 감리에서 스레드 풀과 커넥션 풀 설정값은 핵심 성능 파라미터다. 잘못된 설정은 서버 자원 낭비(과다 설정) 또는 요청 거부·타임아웃(과소 설정)을 유발한다.
 
 ```
 L = λ × W
@@ -28,9 +28,9 @@ W (Wait)   : 평균 응답 시간 (초, second)
 
 | 변수 | 실무 매핑 | 예시 값 |
 |:---|:---|:---|
-| L | 필요 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기 (활성 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수) | 50개 |
-| λ | TPS (초당 처리 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수) | 100 tps |
-| W | 평균 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | 0.5초 |
+| L | 필요 스레드 풀 크기 (활성 스레드 수) | 50개 |
+| λ | TPS (초당 처리 트랜잭션 수) | 100 tps |
+| W | 평균 응답 시간 | 0.5초 |
 
 ```text
 +--------------+    +--------------+    +--------------+
@@ -116,7 +116,7 @@ W (Wait)   : 평균 응답 시간 (초, second)
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 - **📢 섹션 요약 비유**: 커넥션 풀은 "공유 자동차(카쉐어링)"와 같다. 차가 너무 적으면 대기자가 생기고, 너무 많으면 주차 공간(메모리)이 낭비된다. 리틀의 법칙은 적정 차량 수를 수학적으로 알려준다.
 
@@ -125,30 +125,30 @@ W (Wait)   : 평균 응답 시간 (초, second)
 ## Ⅲ. 비교 및 연결
 | 방법 | 정확도 | 실무 적용성 | 권장 상황 |
 |:---|:---|:---|:---|
-| 리틀의 법칙 (Little's Law) | 높음 | 높음 | 목표 TPS·[응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 명확 시 |
-| [부하 테스트](/studynote/04_software_engineering/11_testing_validation/838_load_test/) 기반 경험치 | 중간 | 높음 | 실제 부하 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 존재 시 |
+| 리틀의 법칙 (Little's Law) | 높음 | 높음 | 목표 TPS·응답 시간 명확 시 |
+| 부하 테스트 기반 경험치 | 중간 | 높음 | 실제 부하 데이터 존재 시 |
 | HikariCP 공식 | 중간 | 중간 | CPU 바운드 DB 서버 |
-| 임의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) (200, 100 등) | 낮음 | 낮음 | 근거 없는 관행 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) ❌ |
+| 임의 설정 (200, 100 등) | 낮음 | 낮음 | 근거 없는 관행 설정 ❌ |
 
 | 적용 분야 | L (큐 내 항목 수) | λ (처리율) | W (처리 시간) |
 |:---|:---|:---|:---|
-| WAS [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) | 활성 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 | TPS | 평균 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) |
-| DB 커넥션 풀 | 활성 커넥션 수 | DB [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) TPS | 평균 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시간 |
+| WAS 스레드 풀 | 활성 스레드 수 | TPS | 평균 응답 시간 |
+| DB 커넥션 풀 | 활성 커넥션 수 | DB 쿼리 TPS | 평균 쿼리 시간 |
 | 메시지 큐 | 큐 적재 메시지 수 | 소비 TPS | 평균 처리 시간 |
-| 네트워크 버퍼 | 버퍼 내 패킷 수 | 패킷/초 | [전송 지연](/studynote/03_network/01_data_communication/017_전송_지연/) 시간 |
+| 네트워크 버퍼 | 버퍼 내 패킷 수 | 패킷/초 | 전송 지연 시간 |
 
-- **📢 섹션 요약 비유**: 리틀의 법칙은 "슈퍼마켓 계산대 수 결정"에서 "공장 생산라인 설계"까지 어디서나 통하는 범용 공식이다. 단지 IT에서는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 커넥션에 적용할 뿐이다.
+- **📢 섹션 요약 비유**: 리틀의 법칙은 "슈퍼마켓 계산대 수 결정"에서 "공장 생산라인 설계"까지 어디서나 통하는 범용 공식이다. 단지 IT에서는 스레드와 커넥션에 적용할 뿐이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-| 단계 | [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 항목 | 기대 결과 |
+| 단계 | 확인 항목 | 기대 결과 |
 |:---|:---|:---|
-| **1단계** | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 TPS 및 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 요건 정의서에 명시 |
-| **2단계** | 현재 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | `server.xml` 또는 `application.yml` |
+| **1단계** | 성능 목표 TPS 및 응답 시간 확인 | 요건 정의서에 명시 |
+| **2단계** | 현재 스레드 풀 설정값 확인 | `server.xml` 또는 `application.yml` |
 | **3단계** | 리틀의 법칙으로 이론적 적정값 계산 | L = λ × W |
-| **4단계** | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값 vs 이론값 비교 | 20% 이내 오차 허용 |
-| **5단계** | [부하 테스트](/studynote/04_software_engineering/11_testing_validation/838_load_test/) 결과와 일치 여부 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [APM](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 활성 수 모니터링 |
+| **4단계** | 설정값 vs 이론값 비교 | 20% 이내 오차 허용 |
+| **5단계** | 부하 테스트 결과와 일치 여부 확인 | APM 스레드 활성 수 모니터링 |
 
 ```
 # Tomcat server.xml
@@ -172,51 +172,40 @@ spring:
       connection-timeout: 30000
 ```
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 1. 위험 시나리오와 점검 범위가 문서로 합의되었는가?
-2. 지표·증적·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 재현 가능하게 수집되는가?
+2. 지표·증적·로그가 재현 가능하게 수집되는가?
 3. 예외 상황과 오탐·미탐 처리 절차가 있는가?
 4. 재시험 또는 후속 조치 기준이 수치로 정의되었는가?
 
-- **📢 섹션 요약 비유**: `maxThreads=200`으로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)된 이유를 개발팀이 "기본값이라서요"라고 답한다면 감리 지적 대상이다. [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 값에는 반드시 산정 근거가 있어야 한다.
+- **📢 섹션 요약 비유**: `maxThreads=200`으로 설정된 이유를 개발팀이 "기본값이라서요"라고 답한다면 감리 지적 대상이다. 설정 값에는 반드시 산정 근거가 있어야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-리틀의 법칙을 기반으로 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/)과 커넥션 풀을 산정하면 자원 낭비 없이 목표 TPS를 달성하는 최적 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)이 가능하다. 실무에서 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) 과소 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 인한 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 과다 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 인한 GC([Garbage Collection](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) 압박은 모두 리틀의 법칙 산정 미적용에서 비롯된다. 감리인은 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값의 산정 근거 문서를 반드시 요구하고, 이론값과의 비교 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행해야 한다.
+리틀의 법칙을 기반으로 스레드 풀과 커넥션 풀을 산정하면 자원 낭비 없이 목표 TPS를 달성하는 최적 설정이 가능하다. 실무에서 스레드 풀 과소 설정으로 인한 타임아웃, 과다 설정으로 인한 GC(Garbage Collection) 압박은 모두 리틀의 법칙 산정 미적용에서 비롯된다. 감리인은 설정값의 산정 근거 문서를 반드시 요구하고, 이론값과의 비교 검증을 수행해야 한다.
 
-확장 방향은 ① [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ② Continuous [Audit](/studynote/12_it_management/05_security_compliance/363_audit/), ③ [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 기반 이상 탐지와 결합하는 것이다.
+확장 방향은 ① Policy as Code, ② Continuous Audit, ③ 인공지능(AI, Artificial Intelligence) 기반 이상 탐지와 결합하는 것이다.
 
 - **📢 섹션 요약 비유**: 리틀의 법칙은 "교통 신호등 초록불 시간을 도로 차량 수와 통과 시간으로 최적화하는 공식"이다. 초록불이 너무 짧으면 정체, 너무 길면 다른 방향이 막힌다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | 큐잉 이론 (Queuing Theory) | 리틀의 법칙의 수학적 기반 |
-| 상위 개념 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 공학 ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 엔진ering) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계·분석 학문 |
-| 하위 개념 | [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/studynote/02_operating_system/02_process_thread/103_thread_pool/)) | L = λW 적용 대상 |
+| 상위 개념 | 성능 공학 (Performance 엔진ering) | 성능 설계·분석 학문 |
+| 하위 개념 | 스레드 풀 (Thread Pool) | L = λW 적용 대상 |
 | 하위 개념 | 커넥션 풀 (Connection Pool) | DB 접속 자원 관리 |
 | 연관 개념 | TPS (Transactions Per Second) | λ 값의 실무 측정 |
-| 연관 개념 | P95 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | W 값의 실무 측정 기준 |
-| 연관 개념 | [APM](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) ([Application Performance Management](/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) | L, λ, W 실시간 측정 도구 |
+| 연관 개념 | P95 응답 시간 | W 값의 실무 측정 기준 |
+| 연관 개념 | APM (Application Performance Management) | L, λ, W 실시간 측정 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) theory -> 리틀의 법칙 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단 -> capacity planning
+queue theory -> 리틀의 법칙 성능 진단 -> capacity planning
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 리틀의 법칙은 "놀이공원에서 항상 몇 명이 줄 서 있는지는 1시간에 몇 명 태우는지와 1번 타는 데 걸리는 시간을 곱하면 나온다"는 거야.
-2. [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기는 "롤러코스터 직원이 몇 명 필요한가"와 같아서, 너무 적으면 손님이 기다리다 포기하고, 너무 많으면 직원만 놀아.
-3. 이 공식을 모르고 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 건 "감으로 직원을 뽑는 것"이고, 리틀의 법칙을 쓰면 "정확한 계산으로 딱 맞는 직원 수를 구하는 것"이야.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 318 / 530
-
-<- **이전**: [256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)](/studynote/11_design_supervision/05_audit_deep_guide/256_performance_metrics_tps_rsp/)
-**다음**: [258. 부하 테스트 병목 진단 (Load Test Bottleneck Diagnosis)](/studynote/11_design_supervision/05_audit_deep_guide/258_load_test_bottleneck_diagnosis/) ->
-
----
+2. 스레드 풀 크기는 "롤러코스터 직원이 몇 명 필요한가"와 같아서, 너무 적으면 손님이 기다리다 포기하고, 너무 많으면 직원만 놀아.
+3. 이 공식을 모르고 설정하는 건 "감으로 직원을 뽑는 것"이고, 리틀의 법칙을 쓰면 "정확한 계산으로 딱 맞는 직원 수를 구하는 것"이야.

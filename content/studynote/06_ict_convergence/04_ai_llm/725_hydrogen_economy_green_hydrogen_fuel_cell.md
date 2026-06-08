@@ -164,12 +164,3 @@ weight: 725
                                  |
                           +------+------+
                           | 60~80℃(PEM)|
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 725 / 800
-
-<- **이전**: [724. 배터리 기술 고체 전지 에너지 저장](/studynote/06_ict_convergence/uncategorized/724_battery_technology_solid_state_energy_storage/)
-**다음**: [726. 탄소 포집 CCS CCUS 넷제로 전략](/studynote/06_ict_convergence/uncategorized/726_carbon_capture_ccs_ccus_net_zero_strategy/) ->
-
----

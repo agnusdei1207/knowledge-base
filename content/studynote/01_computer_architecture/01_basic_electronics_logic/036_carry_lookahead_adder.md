@@ -6,9 +6,9 @@ tags:
 weight: 36
 ---
 > **핵심 인사이트**
-> 1. CLA (Carry Lookahead Adder)는 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 Generate(G)·Propagate(P) 신호를 이용해 캐리를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 미리 계산함으로써 RCA의 O(n) [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 O(log n)으로 줄인 고속 가산기다.
-> 2. G = A AND B (이 자리에서 캐리 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), P = A XOR B (입력 캐리를 다음으로 전달)를 조합해 모든 자리의 캐리를 동시에 계산할 수 있다.
-> 3. 계층적 CLA(Hierarchical CLA)는 4-bit 블록을 다시 CLA로 묶어 32·64-bit 가산을 O(log n) 유지하면서 게이트 수를 관리하며, Kogge-Stone·Brent-Kung은 이를 더 최적화한 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 접두사 구조다.
+> 1. CLA (Carry Lookahead Adder)는 각 비트의 Generate(G)·Propagate(P) 신호를 이용해 캐리를 병렬로 미리 계산함으로써 RCA의 O(n) 직렬 지연을 O(log n)으로 줄인 고속 가산기다.
+> 2. G = A AND B (이 자리에서 캐리 생성), P = A XOR B (입력 캐리를 다음으로 전달)를 조합해 모든 자리의 캐리를 동시에 계산할 수 있다.
+> 3. 계층적 CLA(Hierarchical CLA)는 4-bit 블록을 다시 CLA로 묶어 32·64-bit 가산을 O(log n) 유지하면서 게이트 수를 관리하며, Kogge-Stone·Brent-Kung은 이를 더 최적화한 병렬 접두사 구조다.
 
 ---
 
@@ -48,9 +48,9 @@ weight: 36
 
 | 구조 요소    | 역할                   |
 |------------|----------------------|
-| G/P [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기  | 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) G, P 계산      |
-| CLA 로직    | 모든 캐리 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산    |
-| Sum [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기  | Si = [Pi](/studynote/12_it_management/01_governance_strategy/805_process_innovation/) XOR [Ci](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)        |
+| G/P 생성기  | 각 비트 G, P 계산      |
+| CLA 로직    | 모든 캐리 병렬 계산    |
+| Sum 생성기  | Si = Pi XOR Ci        |
 
 > 📢 **섹션 요약 비유**: 모든 심판이 동시에 준비 완료 신호를 계산 — 선수들은 신호가 오자마자 일제히 출발.
 
@@ -69,7 +69,7 @@ weight: 36
         -> 전체 O(log n) 유지
 ```
 
-| 방식              | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)       | 게이트 수  |
+| 방식              | 지연       | 게이트 수  |
 |-----------------|-----------|-----------|
 | RCA (32-bit)    | O(n)=32t  | 최소       |
 | CLA (flat)      | O(log n)  | 많음       |
@@ -81,7 +81,7 @@ weight: 36
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). Kogge-Stone 아키텍처
+## IV. Kogge-Stone 아키텍처
 
 ```
 Kogge-Stone: 완전 병렬 접두사 구조
@@ -101,13 +101,13 @@ Kogge-Stone: 완전 병렬 접두사 구조
 
 ---
 
-## V. 실무 — Intel/AMD CPU [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)
+## V. 실무 — Intel/AMD CPU ALU
 
 | 제품                | 가산기 방식           | 목적                |
 |--------------------|---------------------|---------------------|
-| Intel Core 정수 [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) | Kogge-Stone 변형     | 1-cycle 64-bit 덧셈 |
-| AMD Zen [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)         | Ling Adder (변형 CLA)| 빠른 비교 연산       |
-| [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 구현           | 캐리 체인 LUT        | 면적·속도 균형       |
+| Intel Core 정수 ALU | Kogge-Stone 변형     | 1-cycle 64-bit 덧셈 |
+| AMD Zen ALU         | Ling Adder (변형 CLA)| 빠른 비교 연산       |
+| FPGA 구현           | 캐리 체인 LUT        | 면적·속도 균형       |
 
 > 📢 **섹션 요약 비유**: 현대 CPU의 덧셈은 모두 CLA 계열 — 3GHz 클럭에서 1사이클에 덧셈을 끝내려면 캐리 예측이 필수.
 
@@ -163,14 +163,3 @@ GHz 주파수에서 1-cycle 64-bit 가산
 1. CLA는 덧셈의 받아올림을 미리 예측해서 기다리지 않고 동시에 계산해요.
 2. 10자리 덧셈도 5단계만에 끝낼 수 있는 비법이에요.
 3. 현대 컴퓨터 CPU가 엄청 빠른 덧셈을 할 수 있는 건 이 방법 덕분이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 36 / 803
-
-<- **이전**: [035. 리플 캐리 가산기 (Ripple Carry Adder)](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)
-**다음**: [037. 감산기 (Subtractor) — 반감산기·전감산기](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/) ->
-
----

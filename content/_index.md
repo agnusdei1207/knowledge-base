@@ -12,24 +12,24 @@ weight: 1
 
 ## 📚 스터디노트 — 과목 바로가기
 
-- [전체 과목 인덱스](/studynote/)
+- 전체 과목 인덱스
 
 ### 주요 과목 목록
-1. [01 컴퓨터 구조](/studynote/01_computer_architecture/)
-2. [02 운영 체제](/studynote/02_operating_system/)
-3. [03 네트워크](/studynote/03_network/)
-4. [04 소프트웨어 공학](/studynote/04_software_engineering/)
-5. [05 데이터베이스](/studynote/05_database/)
-6. [06 ICT 융합 기술](/studynote/06_ict_convergence/)
-7. [07 엔터프라이즈 시스템](/studynote/07_enterprise_systems/)
-8. [08 알고리즘 및 통계](/studynote/08_algorithm_stats/)
-9. [09 보안 (Security)](/studynote/09_security/)
-10. [10 인공지능 (AI)](/studynote/10_ai/)
-11. [11 IT 설계 및 감리](/studynote/11_design_supervision/)
-12. [12 IT 경영](/studynote/12_it_management/)
-13. [13 클라우드 아키텍처](/studynote/13_cloud_architecture/)
-14. [14 데이터 엔지니어링](/studynote/14_data_engineering/)
-15. [15 DevOps & SRE](/studynote/15_devops_sre/)
-16. [16 빅데이터 실무](/studynote/16_bigdata/)
+1. 01 컴퓨터 구조
+2. 02 운영 체제
+3. 03 네트워크
+4. 04 소프트웨어 공학
+5. 05 데이터베이스
+6. 06 ICT 융합 기술
+7. 07 엔터프라이즈 시스템
+8. 08 알고리즘 및 통계
+9. 09 보안 (Security)
+10. 10 인공지능 (AI)
+11. 11 IT 설계 및 감리
+12. 12 IT 경영
+13. 13 클라우드 아키텍처
+14. 14 데이터 엔지니어링
+15. 15 DevOps & SRE
+16. 16 빅데이터 실무
 
 ---

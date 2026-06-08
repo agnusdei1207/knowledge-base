@@ -94,12 +94,3 @@ IBN은 네트워크 자동화의 최종 형태라기보다, 의도 선언과 상
 | Source of Truth | 자동화의 기준 데이터 |
 | Streaming Telemetry | 실시간 상태 수집 |
 | Digital Twin | 변경 전 영향 검증 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 742 / 800
-
-<- **이전**: [741. 소프트웨어 정의 모든것 SDx 추상화](/studynote/06_ict_convergence/uncategorized/741_software_defined_everything_sdx_abstraction/)
-**다음**: [743. 네트워크 자동화 NetDevOps Ansible](/studynote/06_ict_convergence/uncategorized/743_network_automation_netdevops_ansible/) ->
-
----

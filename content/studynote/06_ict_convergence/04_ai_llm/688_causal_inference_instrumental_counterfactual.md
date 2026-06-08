@@ -175,11 +175,3 @@ LATE = E[Y(1) − Y(0) | Complier] = (E[Y|Z=1] − E[Y|Z=0]) / (E[X|Z=1] − E[X
 | **내생성 대응** | 본질적으로 해결 | 미관측 교란 제거 | 관측 교란 통제 | 시간불변 교란 통제 | cutoff 부근 교란 통제 |
 | **데이터 요건** | 가장 까다로움 (실험) | 자연실험/정책 필요 | 관측 confounder 다수 필요 | 패널 데이터 (2기간+) | cutoff 변수 필요 |
 | **표본 크기** | 크게 필요 | 보통 | 크게 필요 | 보통
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 688 / 800
-
-<- **이전**: [687. 설명 가능 AI XAI LIME SHAP 해석](/studynote/06_ict_convergence/uncategorized/687_explainable_ai_xai_lime_shap_interpretation/)
-**다음**: [689. 데이터 윤리 편향 감사 공정성 지표](/studynote/06_ict_convergence/uncategorized/689_data_ethics_bias_audit_fairness_metrics/) ->
-
----

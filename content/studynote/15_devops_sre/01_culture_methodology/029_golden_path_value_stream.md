@@ -6,9 +6,9 @@ tags:
 weight: 29
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 골든 패스(Golden Path)는 플랫폼 팀이 개발자에게 권장하는 표준 개발·배포 경로이고, 가치 흐름(Value [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))은 아이디어에서 고객 전달까지 모든 단계의 흐름을 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 린([Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 개념이다. 둘 다 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 흐름의 최적화를 목표로 한다.
-> 2. **가치**: [가치 흐름 맵핑](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)([Value Stream Mapping](/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/), [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/))은 전체 소프트웨어 전달 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 낭비(Waste)를 찾아 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 단축한다. 일반적으로 전체 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)의 85~95%는 대기 시간([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time)이며, VSM은 이를 가시화한다.
-> 3. **판단 포인트**: 골든 패스와 VSM의 결합이 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 개선의 핵심 경로다. 골든 패스로 개발자가 표준 경로를 따라가게 하고, VSM으로 병목을 찾아 제거하면 배포 빈도^·[리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)v·변경 실패율v을 동시 달성할 수 있다.
+> 1. **본질**: 골든 패스(Golden Path)는 플랫폼 팀이 개발자에게 권장하는 표준 개발·배포 경로이고, 가치 흐름(Value Stream)은 아이디어에서 고객 전달까지 모든 단계의 흐름을 시각화하는 린(Lean) 개념이다. 둘 다 DevOps 흐름의 최적화를 목표로 한다.
+> 2. **가치**: 가치 흐름 맵핑(Value Stream Mapping, VSM)은 전체 소프트웨어 전달 파이프라인에서 낭비(Waste)를 찾아 리드 타임을 단축한다. 일반적으로 전체 리드 타임의 85~95%는 대기 시간(Queue Time)이며, VSM은 이를 가시화한다.
+> 3. **판단 포인트**: 골든 패스와 VSM의 결합이 DORA 메트릭 개선의 핵심 경로다. 골든 패스로 개발자가 표준 경로를 따라가게 하고, VSM으로 병목을 찾아 제거하면 배포 빈도^·리드 타임v·변경 실패율v을 동시 달성할 수 있다.
 
 ---
 
@@ -31,20 +31,20 @@ weight: 29
 +----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [가치 흐름 맵핑](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)은 피자 배달 시간 분석이다. 반죽(개발)·굽기(테스트)·포장(빌드)·배달(배포) 각 단계 시간을 측정해보면, 실제 피자 만들기는 20분인데 총 1시간이 걸리는 이유가 대기 시간 때문임을 발견한다.
+- **📢 섹션 요약 비유**: 가치 흐름 맵핑은 피자 배달 시간 분석이다. 반죽(개발)·굽기(테스트)·포장(빌드)·배달(배포) 각 단계 시간을 측정해보면, 실제 피자 만들기는 20분인데 총 1시간이 걸리는 이유가 대기 시간 때문임을 발견한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 린 낭비 7가지 (소프트웨어 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))
+### 린 낭비 7가지 (소프트웨어 버전)
 
 | 린 낭비 | 소프트웨어 예시 |
 |:---|:---|
 | **과생산** | 아무도 안 쓰는 기능 개발 |
-| **재고** | 검토 대기 중인 코드 [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) |
+| **재고** | 검토 대기 중인 코드 PR |
 | **이동** | 팀 간 핸드오프, 승인 대기 |
-| **불량** | 버그·[기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/), 재작업 |
+| **불량** | 버그·기술 부채, 재작업 |
 | **과처리** | 불필요한 문서화, 복잡한 프로세스 |
 | **대기** | 배포 승인 대기, 환경 구성 대기 |
 | **미활용 재능** | 개발자가 인프라 수동 작업 |
@@ -64,25 +64,25 @@ weight: 29
 골든 패스 = 비표준 경로 대비 100배 생산성
 ```
 
-- **📢 섹션 요약 비유**: 골든 패스는 고속도로다. 비표준 경로(국도)는 목적지에 도달하지만 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등·공사 구간으로 느리고 예측 불가하다. 고속도로(골든 패스)는 표준화된 빠른 경로로 모두가 예측 가능하게 이동한다.
+- **📢 섹션 요약 비유**: 골든 패스는 고속도로다. 비표준 경로(국도)는 목적지에 도달하지만 신호등·공사 구간으로 느리고 예측 불가하다. 고속도로(골든 패스)는 표준화된 빠른 경로로 모두가 예측 가능하게 이동한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 가치 흐름 | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) |
+| 비교 | 가치 흐름 | CI/CD | DORA |
 |:---|:---|:---|:---|
-| 초점 | 전체 흐름 분석 | 자동화 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 성과 측정 |
-| 기원 | 린 제조업 | [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 구글 연구 |
+| 초점 | 전체 흐름 분석 | 자동화 파이프라인 | 성과 측정 |
+| 기원 | 린 제조업 | 애자일·DevOps | 구글 연구 |
 | 목표 | 낭비 제거 | 빠른 자동 전달 | 고성과 달성 |
 
-- **📢 섹션 요약 비유**: [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD·DORA는 공장 개선 3단계다. VSM으로 공정 병목을 찾고(분석), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD로 공정을 자동화하며(개선), [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 개선 효과를 측정한다([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)).
+- **📢 섹션 요약 비유**: VSM·CI/CD·DORA는 공장 개선 3단계다. VSM으로 공정 병목을 찾고(분석), CI/CD로 공정을 자동화하며(개선), DORA 메트릭으로 개선 효과를 측정한다(검증).
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 실시 방법
+### VSM 실시 방법
 
 ```text
 1단계: 현재 상태 맵핑
@@ -113,7 +113,7 @@ weight: 29
 해결: 자동화 테스트 통과 시 자동 배포 (GitOps)
 ```
 
-- **📢 섹션 요약 비유**: [VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 병목 해결은 교통 체증 분석이다. GPS [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 어디서 막히는지 파악하고([VSM](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)), [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등 최적화·도로 확장(자동화)으로 교통 흐름을 개선한다.
+- **📢 섹션 요약 비유**: VSM 병목 해결은 교통 체증 분석이다. GPS 데이터로 어디서 막히는지 파악하고(VSM), 신호등 최적화·도로 확장(자동화)으로 교통 흐름을 개선한다.
 
 ---
 
@@ -121,13 +121,13 @@ weight: 29
 
 | 기대효과 | 내용 |
 |:---|:---|
-| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a> 단축</strong> | 대기 시간 제거로 전달 속도 향상 |
-| <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 개선</strong> | 배포 빈도^, [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)v |
-| <strong><a href="/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a></strong> | 골든 패스로 마찰 없는 개발 환경 |
+| <strong>리드 타임 단축</strong> | 대기 시간 제거로 전달 속도 향상 |
+| <strong>DORA 개선</strong> | 배포 빈도^, 리드 타임v |
+| <strong>개발자 경험</strong> | 골든 패스로 마찰 없는 개발 환경 |
 
-[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), JIRA 이슈 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 배포 기록을 AI가 자동 분석하여 실시간 가치 흐름 현황과 병목 예측을 제공하는 엔진ering Intelligence 플랫폼이 발전하고 있다.
+AI 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions 로그, JIRA 이슈 데이터, 배포 기록을 AI가 자동 분석하여 실시간 가치 흐름 현황과 병목 예측을 제공하는 엔진ering Intelligence 플랫폼이 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가치 흐름 분석은 스마트 공장 AI다. 공장의 모든 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 수집하여 어느 공정이 느린지, 어디서 오류가 많은지를 AI가 자동으로 분석하고 개선 방향을 제시한다.
+- **📢 섹션 요약 비유**: AI 가치 흐름 분석은 스마트 공장 AI다. 공장의 모든 센서 데이터를 실시간 수집하여 어느 공정이 느린지, 어디서 오류가 많은지를 AI가 자동으로 분석하고 개선 방향을 제시한다.
 
 ---
 
@@ -135,11 +135,11 @@ weight: 29
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | 가치 흐름 개선 측정 지표 |
-| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/">플랫폼 엔지니어링</a></strong> | 골든 패스 제공 주체 |
+| <strong>DORA 메트릭</strong> | 가치 흐름 개선 측정 지표 |
+| <strong>플랫폼 엔지니어링</strong> | 골든 패스 제공 주체 |
 | **린 소프트웨어** | 가치 흐름 이론 기원 |
-| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 승인 병목 자동화 패턴 |
-| **엔진ering Intelligence** | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 흐름 분석 |
+| <strong>GitOps</strong> | 승인 병목 자동화 패턴 |
+| **엔진ering Intelligence** | AI 기반 흐름 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -161,17 +161,6 @@ weight: 29
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [가치 흐름 맵핑](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)은 피자 배달 과정 분석이에요! 피자 만들기(20분)보다 대기(40분)가 더 길다는 것을 발견해서 개선해요.
+1. 가치 흐름 맵핑은 피자 배달 과정 분석이에요! 피자 만들기(20분)보다 대기(40분)가 더 길다는 것을 발견해서 개선해요.
 2. 골든 패스는 고속도로예요! 표준 경로로 모두가 빠르고 예측 가능하게 개발·배포할 수 있어요.
 3. AI가 모든 개발 활동을 분석해서 "여기서 시간이 많이 낭비되고 있어요"라고 실시간으로 알려주는 시대가 됐어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 29 / 373
-
-<- **이전**: [28. 플랫폼 엔지니어링과 IDP (Platform 엔진ering & Internal Developer Platform)](/studynote/15_devops_sre/01_culture_methodology/028_platform_engineering_idp/)
-**다음**: [30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화](/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) ->
-
----

@@ -7,15 +7,15 @@ weight: 516
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.
-> 2. **가치**: [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 읽기 일관성은 읽기와 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 줄이면서도 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 의미를 유지하려는 절충안이다.
-> 3. **판단 포인트**: 판단 포인트는 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 어디에 적용해야 효과가 크고, 어떤 비용이나 제약이 따라오는지 함께 보는 데 있다.
+> 1. **본질**: GNN 그래프 모델 연계 추천 시스템 설계망 적용은 데이터베이스 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다.
+> 2. **가치**: 버전 기반 읽기 일관성은 읽기와 쓰기 충돌을 줄이면서도 트랜잭션 의미를 유지하려는 절충안이다.
+> 3. **판단 포인트**: 판단 포인트는 GNN 그래프 모델 연계 추천 시스템 설계망 적용을 어디에 적용해야 효과가 크고, 어떤 비용이나 제약이 따라오는지 함께 보는 데 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 읽기 일관성은 읽기와 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 줄이면서도 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 의미를 유지하려는 절충안이다. [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 비용과 가시성 규칙을 잘못 잡으면 장기 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 스토리지 팽창이 생긴다.
+GNN 그래프 모델 연계 추천 시스템 설계망 적용은 데이터베이스 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 버전 기반 읽기 일관성은 읽기와 쓰기 충돌을 줄이면서도 트랜잭션 의미를 유지하려는 절충안이다. 버전 관리 비용과 가시성 규칙을 잘못 잡으면 장기 트랜잭션과 스토리지 팽창이 생긴다.
 
 ```text
 +--------------------------------------------------------------+
@@ -25,21 +25,21 @@ weight: 516
 +--------------------------------------------------------------+
 ```
 
-이 그림은 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 독립 기능이 아니라 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
+이 그림은 GNN 그래프 모델 연계 추천 시스템 설계망 적용을 독립 기능이 아니라 전체 데이터 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
-- **📢 섹션 요약 비유**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 같은 책의 개정판을 여러 권 보관하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: GNN 그래프 모델 연계 추천 시스템 설계망 적용은 같은 책의 개정판을 여러 권 보관하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 결국 "언제 보고, 어디에서 적용하고, 무엇을 보장할 것인가"를 정하는 메커니즘이다. 특히 `시계열 DB 보존 정책 데이터 라이프사이클`과 `PACELC 분산 DB 장애 평시 트레이드 오프 이론` 사이에서 현재 주제가 맡는 책임을 분리해 보면 구조가 더 또렷해진다.
+GNN 그래프 모델 연계 추천 시스템 설계망 적용은 결국 "언제 보고, 어디에서 적용하고, 무엇을 보장할 것인가"를 정하는 메커니즘이다. 특히 `시계열 DB 보존 정책 데이터 라이프사이클`과 `PACELC 분산 DB 장애 평시 트레이드 오프 이론` 사이에서 현재 주제가 맡는 책임을 분리해 보면 구조가 더 또렷해진다.
 
 | 관점 | 설명 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 핵심 대상 | [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 `GNN 그래프 모델 연계 추천 시스템 설계망 적용`의 역할과 적용 범위를 규정한다. | 이름보다 입력·출력 경계를 먼저 정의해야 한다. |
-| 작동 원리 | 핵심은 현재 개념을 어떤 시점에 평가하고 어떤 범위에 적용하느냐에 있다. | 언제 평가하고 언제 확정하는지가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성을 가른다. |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
+| 핵심 대상 | GNN 그래프 모델 연계 추천 시스템 설계망 적용은 `GNN 그래프 모델 연계 추천 시스템 설계망 적용`의 역할과 적용 범위를 규정한다. | 이름보다 입력·출력 경계를 먼저 정의해야 한다. |
+| 작동 원리 | 핵심은 현재 개념을 어떤 시점에 평가하고 어떤 범위에 적용하느냐에 있다. | 언제 평가하고 언제 확정하는지가 성능과 정합성을 가른다. |
+| 성능 영향 | GNN 그래프 모델 연계 추천 시스템 설계망 적용은 처리량, 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `시계열 DB 보존 정책 데이터 라이프사이클`·`PACELC 분산 DB 장애 평시 트레이드 오프 이론`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
@@ -50,51 +50,51 @@ weight: 516
 +--------------------------------------------------------------+
 ```
 
-핵심은 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
+핵심은 GNN 그래프 모델 연계 추천 시스템 설계망 적용을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·복구 가능성을 먼저 정리해야 한다.
 
-- **📢 섹션 요약 비유**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 사진을 찍어 그 시점 화면만 보는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: GNN 그래프 모델 연계 추천 시스템 설계망 적용은 사진을 찍어 그 시점 화면만 보는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 종종 `시계열 DB 보존 정책 데이터 라이프사이클` 또는 `PACELC 분산 DB 장애 평시 트레이드 오프 이론`과 같은 묶음으로 설명되지만, 세 개념의 관심사는 다르다. 시계열 DB 보존 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클이 준비 단계나 전제에 가깝다면, [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 실제 통제 지점을 잡고, [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB 장애 평시 트레이드 오프 이론은 그 결과를 더 강하게 만들거나 다른 방향으로 확장한다. 이 차이를 구분해야 시험 답안에서도 경계와 선택 이유를 설득할 수 있다.
+GNN 그래프 모델 연계 추천 시스템 설계망 적용은 종종 `시계열 DB 보존 정책 데이터 라이프사이클` 또는 `PACELC 분산 DB 장애 평시 트레이드 오프 이론`과 같은 묶음으로 설명되지만, 세 개념의 관심사는 다르다. 시계열 DB 보존 정책 데이터 라이프사이클이 준비 단계나 전제에 가깝다면, GNN 그래프 모델 연계 추천 시스템 설계망 적용은 실제 통제 지점을 잡고, PACELC 분산 DB 장애 평시 트레이드 오프 이론은 그 결과를 더 강하게 만들거나 다른 방향으로 확장한다. 이 차이를 구분해야 시험 답안에서도 경계와 선택 이유를 설득할 수 있다.
 
-| 비교 축 | [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용 | 시계열 DB 보존 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클 | [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB 장애 평시 트레이드 오프 이론 |
+| 비교 축 | GNN 그래프 모델 연계 추천 시스템 설계망 적용 | 시계열 DB 보존 정책 데이터 라이프사이클 | PACELC 분산 DB 장애 평시 트레이드 오프 이론 |
 | :--- | :--- | :--- | :--- |
 | 초점 | 현재 주제가 직접 통제하는 병목과 제약에 집중한다. | 바로 앞 단계나 전제를 다룬다. | 후속 확장 또는 보완 역할이 강하다. |
 | 적용 시점 | 현재 개념이 요구되는 순간에 핵심 제어점으로 작동한다. | 준비·선행 판단에서 먼저 등장한다. | 세부 최적화나 확장에서 더 자주 등장한다. |
 | 주된 위험 | 과신하면 비용 대비 효과가 줄어든다. | 부족하면 현재 개념도 안정적으로 성립하지 않는다. | 무작정 적용하면 복잡도와 운영 부담이 커질 수 있다. |
 
-또한 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 단순 정의 암기로 끝나는 개념이 아니라, 실제로는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·정합성·운영성 중 무엇을 우선할지 결정하는 기준점으로 연결된다.
+또한 GNN 그래프 모델 연계 추천 시스템 설계망 적용은 단순 정의 암기로 끝나는 개념이 아니라, 실제로는 성능·정합성·운영성 중 무엇을 우선할지 결정하는 기준점으로 연결된다.
 
-- **📢 섹션 요약 비유**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별 설계도를 나눠 보는 공사장에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: GNN 그래프 모델 연계 추천 시스템 설계망 적용은 버전별 설계도를 나눠 보는 공사장에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 문법이나 이론 용어로만 이해하면 부족하다. 조회 비중이 높지만 갱신도 꾸준한 서비스에서는 이 개념이 곧 응답시간, 충돌 빈도, 운영 복잡도 차이로 드러난다. 따라서 채택 여부를 결정할 때는 현재 개념이 병목을 줄이는지, 아니면 단지 구조만 복잡하게 만드는지부터 확인해야 한다.
+실무에서는 GNN 그래프 모델 연계 추천 시스템 설계망 적용을 문법이나 이론 용어로만 이해하면 부족하다. 조회 비중이 높지만 갱신도 꾸준한 서비스에서는 이 개념이 곧 응답시간, 충돌 빈도, 운영 복잡도 차이로 드러난다. 따라서 채택 여부를 결정할 때는 현재 개념이 병목을 줄이는지, 아니면 단지 구조만 복잡하게 만드는지부터 확인해야 한다.
 
-### 기술사 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 판단 체크리스트
 
-1. 현재 워크로드에서 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용이 해결하는 병목이 실제로 존재하는가?
+1. 현재 워크로드에서 GNN 그래프 모델 연계 추천 시스템 설계망 적용이 해결하는 병목이 실제로 존재하는가?
 2. `시계열 DB 보존 정책 데이터 라이프사이클`나 `PACELC 분산 DB 장애 평시 트레이드 오프 이론`으로 더 단순하게 풀 수 없는가?
-3. 장애·튜닝·모니터링 시 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 관찰할 지표와 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 전략이 준비되어 있는가?
+3. 장애·튜닝·모니터링 시 GNN 그래프 모델 연계 추천 시스템 설계망 적용을 관찰할 지표와 롤백 전략이 준비되어 있는가?
 
-결론적으로 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 "무조건 채택"의 대상이 아니라, 보장 가치와 운영 비용을 함께 따져 선택해야 하는 설계 포인트다.
+결론적으로 GNN 그래프 모델 연계 추천 시스템 설계망 적용은 "무조건 채택"의 대상이 아니라, 보장 가치와 운영 비용을 함께 따져 선택해야 하는 설계 포인트다.
 
-- **📢 섹션 요약 비유**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 영수증 사본을 보관하는 계산대에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: GNN 그래프 모델 연계 추천 시스템 설계망 적용은 영수증 사본을 보관하는 계산대에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 올바르게 적용하면 구조를 단순화하고, 정합성을 높이거나 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 안정화하며, 장애 대응 속도까지 개선할 수 있다. 반대로 적용 위치를 잘못 잡으면 중복 설계와 불필요한 복잡도만 늘어난다. 그래서 이 주제는 정의 하나보다도 "어디에 두어야 하는가"라는 배치 감각으로 기억하는 것이 중요하다.
+GNN 그래프 모델 연계 추천 시스템 설계망 적용을 올바르게 적용하면 구조를 단순화하고, 정합성을 높이거나 성능을 안정화하며, 장애 대응 속도까지 개선할 수 있다. 반대로 적용 위치를 잘못 잡으면 중복 설계와 불필요한 복잡도만 늘어난다. 그래서 이 주제는 정의 하나보다도 "어디에 두어야 하는가"라는 배치 감각으로 기억하는 것이 중요하다.
 
-특히 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 독립 개념처럼 보이지만 실제로는 `시계열 DB 보존 정책 데이터 라이프사이클`과 `PACELC 분산 DB 장애 평시 트레이드 오프 이론` 사이의 연결점으로 이해해야 오래 남는다. 시험에서는 정의·비교·판단 기준을 함께 말하고, 실무에서는 지표와 운영 시나리오까지 연결할 수 있어야 완성도 있는 답안이 된다.
+특히 GNN 그래프 모델 연계 추천 시스템 설계망 적용은 독립 개념처럼 보이지만 실제로는 `시계열 DB 보존 정책 데이터 라이프사이클`과 `PACELC 분산 DB 장애 평시 트레이드 오프 이론` 사이의 연결점으로 이해해야 오래 남는다. 시험에서는 정의·비교·판단 기준을 함께 말하고, 실무에서는 지표와 운영 시나리오까지 연결할 수 있어야 완성도 있는 답안이 된다.
 
-- **📢 섹션 요약 비유**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 낡은 기록을 정리하는 보관창고에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: GNN 그래프 모델 연계 추천 시스템 설계망 적용은 낡은 기록을 정리하는 보관창고에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
@@ -102,10 +102,10 @@ weight: 516
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [팩트 테이블](/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
-| 시계열 DB 보존 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
-| [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) ([Snapshot](/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)) | 어떤 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 현재 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에 보이는지를 결정한다. |
-| [고립화 수준](/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/) ([Isolation Level](/studynote/05_database/04_transactions_concurrency/227_transaction_isolation_levels_ansi_sql_standard/)) | [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 가시성과 이상 현상을 조절한다. |
+| 팩트 테이블 차원 모델 비즈니스 수치 저장 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
+| 시계열 DB 보존 정책 (Retention) 데이터 라이프사이클 | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
+| 스냅샷 (Snapshot) | 어떤 버전이 현재 트랜잭션에 보이는지를 결정한다. |
+| 고립화 수준 (Isolation Level) | 버전 가시성과 이상 현상을 조절한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -119,21 +119,10 @@ weight: 516
     +---> [동적 SQL 조립 런타임 질의 파서]
 ```
 
-시계열 DB 보존 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클에서 출발한 논점이 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용에서 핵심 판단으로 모이고, 이후 [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) DB 장애 평시 트레이드 오프 이론·동적 SQL 조립 런타임 질의 파서 같은 확장 주제로 이어지는 흐름을 보여 준다.
+시계열 DB 보존 정책 데이터 라이프사이클에서 출발한 논점이 GNN 그래프 모델 연계 추천 시스템 설계망 적용에서 핵심 판단으로 모이고, 이후 PACELC 분산 DB 장애 평시 트레이드 오프 이론·동적 SQL 조립 런타임 질의 파서 같은 확장 주제로 이어지는 흐름을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 컴퓨터가 일을 헷갈리지 않게 하려고 만든 약속이에요.
-2. 이 약속을 잘 지키면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많아도 더 안전하고 빠르게 움직일 수 있어요.
+1. GNN 그래프 모델 연계 추천 시스템 설계망 적용은 컴퓨터가 일을 헷갈리지 않게 하려고 만든 약속이에요.
+2. 이 약속을 잘 지키면 데이터가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 516 / 600
-
-<- **이전**: [515. 시계열 DB 보존 정책 데이터 라이프사이클 (Retention)](/studynote/05_database/04_transactions_concurrency/515_mvcc/)
-**다음**: [517. 데이터베이스 보안 다크 데이터 노출 방지 통제](/studynote/05_database/07_exam_summary/517_dark_data_security_control/) ->
-
----

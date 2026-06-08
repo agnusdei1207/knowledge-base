@@ -6,13 +6,13 @@ tags:
 weight: 42
 ---
 > **핵심 인사이트**
-> 1. OS 회계(Accounting)는 프로세스별 CPU 시간·메모리 사용량·I/O 횟수 등 자원 소비를 측정·기록하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능으로, 과금(Billing)·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석·보안 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 기반 데이터를 제공한다.
-> 2. 시스템 로깅([Logging](/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/))은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메시지·시스템 이벤트·오류를 시간 순서로 기록하여 장애 원인 분석(Post-mortem Analysis)·보안 침해 탐지·규제 컴플라이언스([GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/), ISO 27001)에 활용하는 핵심 운영 인프라다.
-> 3. 현대 시스템에서 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 단순 텍스트 파일에서 구조화된 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)->ELK [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·Logstash·[Kibana](/studynote/16_bigdata/08_visualization/169_kibana/))·OpenTelemetry로 진화했으며, "관찰가능성([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 3기둥"([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·Traces·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))의 하나로 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 실천이 됐다.
+> 1. OS 회계(Accounting)는 프로세스별 CPU 시간·메모리 사용량·I/O 횟수 등 자원 소비를 측정·기록하는 커널 기능으로, 과금(Billing)·성능 분석·보안 감사의 기반 데이터를 제공한다.
+> 2. 시스템 로깅(Logging)은 커널 메시지·시스템 이벤트·오류를 시간 순서로 기록하여 장애 원인 분석(Post-mortem Analysis)·보안 침해 탐지·규제 컴플라이언스(GDPR, ISO 27001)에 활용하는 핵심 운영 인프라다.
+> 3. 현대 시스템에서 로그는 단순 텍스트 파일에서 구조화된 JSON 로그->ELK Stack(Elasticsearch·Logstash·Kibana)·OpenTelemetry로 진화했으며, "관찰가능성(Observability) 3기둥"(Metrics·Traces·Logs)의 하나로 SRE 핵심 실천이 됐다.
 
 ---
 
-## Ⅰ. OS 회계 ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Accounting)
+## Ⅰ. OS 회계 (Process Accounting)
 
 ```
 프로세스 회계 (Process Accounting):
@@ -80,11 +80,11 @@ Facility (시설):
   auth(4), syslog(5), ... local0-7(16-23)
 ```
 
-> 📢 **섹션 요약 비유**: [syslog](/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/) 우선순위는 병원 응급도 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(트리아지) — Emergency(즉시 처치), Error(긴급), Warning(주의관찰), Info(일반 정보).
+> 📢 **섹션 요약 비유**: syslog 우선순위는 병원 응급도 분류(트리아지) — Emergency(즉시 처치), Error(긴급), Warning(주의관찰), Info(일반 정보).
 
 ---
 
-## Ⅲ. 구조화 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 현대 로깅
+## Ⅲ. 구조화 로그와 현대 로깅
 
 ```
 전통 vs 구조화 로그:
@@ -123,11 +123,11 @@ OpenTelemetry:
   벤더 중립 표준 (CNCF 프로젝트)
 ```
 
-> 📢 **섹션 요약 비유**: 구조화 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) -> ELK는 도서관 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템 — 산더미 책([로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 저자·제목·장르(필드)로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 1초에 원하는 책 검색.
+> 📢 **섹션 요약 비유**: 구조화 로그 -> ELK는 도서관 카탈로그 시스템 — 산더미 책(로그)을 저자·제목·장르(필드)로 분류해 1초에 원하는 책 검색.
 
 ---
 
-## Ⅳ. [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보안과 규제
+## Ⅳ. 로그 보안과 규제
 
 ```
 보안 감사 로그 (Audit Log):
@@ -162,11 +162,11 @@ Linux 감사 시스템 (auditd):
   원격 로그 서버 전송 (로컬 삭제 방지)
 ```
 
-> 📢 **섹션 요약 비유**: [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) — 무슨 일이 있었는지 증거로 남기고, 삭제·조작이 어렵고, 규정된 기간 동안 보관해야 한다.
+> 📢 **섹션 요약 비유**: 감사 로그는 CCTV — 무슨 일이 있었는지 증거로 남기고, 삭제·조작이 어렵고, 규정된 기간 동안 보관해야 한다.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [로그 분석](/studynote/16_bigdata/05_analysis/119_log_analysis/)
+## Ⅴ. 실무 시나리오 — SRE 로그 분석
 
 ```
 금융 서비스 장애 원인 분석 사례:
@@ -204,7 +204,7 @@ Linux 감사 시스템 (auditd):
   재발 방지: 디스크 S.M.A.R.T 모니터링 추가
 ```
 
-> 📢 **섹션 요약 비유**: [로그 분석](/studynote/16_bigdata/05_analysis/119_log_analysis/)은 의료 부검 — 애플리케이션(증상)->DB(기관)->OS(조직)->하드웨어(세포) 순서로 원인을 파고들어 근본 원인 발견.
+> 📢 **섹션 요약 비유**: 로그 분석은 의료 부검 — 애플리케이션(증상)->DB(기관)->OS(조직)->하드웨어(세포) 순서로 원인을 파고들어 근본 원인 발견.
 
 ---
 
@@ -260,16 +260,5 @@ AIOps: 이상 탐지 자동화
 ## �� 어린이를 위한 3줄 비유 설명
 
 1. OS 회계는 직원(프로세스)이 회사(컴퓨터) 자원(CPU, 메모리)을 얼마나 썼는지 자동으로 기록하는 시스템이에요!
-2. 로깅은 컴퓨터가 하루 종일 일기를 쓰는 것 — "[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/):30 에러 발생, 원인: DB 연결 실패"처럼 무슨 일이 있었는지 타임스탬프와 함께 기록해요.
-3. 장애가 생기면 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 역추적해서 원인을 찾아요 — 마치 블랙박스 영상으로 교통사고 원인을 찾는 것처럼요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 42 / 800
-
-<- **이전**: [041. 자원 할당 (Resource Allocation)](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)
-**다음**: [043. 보호와 보안 (Protection & Security)](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) ->
-
----
+2. 로깅은 컴퓨터가 하루 종일 일기를 쓰는 것 — "10:30 에러 발생, 원인: DB 연결 실패"처럼 무슨 일이 있었는지 타임스탬프와 함께 기록해요.
+3. 장애가 생기면 로그를 역추적해서 원인을 찾아요 — 마치 블랙박스 영상으로 교통사고 원인을 찾는 것처럼요!

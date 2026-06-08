@@ -164,11 +164,3 @@ NFT 토큰화 시스템의 아키텍처는 크게 **5계층(5-Layer Stack)**으�
 4. **Proxy 패턴(UUPS/Transparent)**: 로직 업그레이드는 가능하지만, 저장 데이터는 그대로. **EIP-1967** 슬롯 사용.
 
 - **📢 섹션 요약 비유
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 761 / 800
-
-<- **이전**: [760. 탈중앙화 금융 DeFi 프로토콜 설계](/studynote/06_ict_convergence/uncategorized/760_decentralized_finance_defi_protocol_design/)
-**다음**: [762. CBDC 중앙은행 디지털 화폐 설계](/studynote/06_ict_convergence/uncategorized/762_cbdc_central_bank_digital_currency_policy/) ->
-
----

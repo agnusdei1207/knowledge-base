@@ -9,17 +9,17 @@ weight: 8
 # 08. 메모이제이션 (Memoization)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 메모이제이션(Memoization)은 이전에 계산한 결과값을 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)이나 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 등의 자료구조에 저장하여, 동일한 입력에 대해 중복 계산을 방지하는 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)의 [Top-Down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 구현 기법이다.
-> 2. **가치**: 단순 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)의 O(2^N) 복잡도를 O(N) 또는 O(N^)로 절감하여, 피보나치, 행렬 연쇄 곱셈, [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최단 경로 등 중복 계산이 문제의 핵심병경인알고리즘을 실용적 수준으로 만든다.
-> 3. **융합**: 메모이제이션은 [함수형 프로그래밍](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)(순수 함수의 결과가 입력에만 의존), 웹 브라우저의 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)전략, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 조회 최적화, [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 컨텐츠 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 등 모든 computing 영역에서 중복 연산을 회피하는 기본 원리로 적용된다.
+> 1. **본질**: 메모이제이션(Memoization)은 이전에 계산한 결과값을 해시 테이블이나 배열 등의 자료구조에 저장하여, 동일한 입력에 대해 중복 계산을 방지하는 동적 프로그래밍의 Top-Down 구현 기법이다.
+> 2. **가치**: 단순 재귀의 O(2^N) 복잡도를 O(N) 또는 O(N^)로 절감하여, 피보나치, 행렬 연쇄 곱셈, 그래프 최단 경로 등 중복 계산이 문제의 핵심병경인알고리즘을 실용적 수준으로 만든다.
+> 3. **융합**: 메모이제이션은 함수형 프로그래밍(순수 함수의 결과가 입력에만 의존), 웹 브라우저의 캐싱전략, 데이터베이스 조회 최적화, CDN 컨텐츠 캐싱 등 모든 computing 영역에서 중복 연산을 회피하는 기본 원리로 적용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-메모이제이션(Memoization)이라는 용어는 라틴어 "memorandum(기억해야 할 것)"에서 유래했으며, 컴퓨터 과학에서는 "한 번 계산한 결과는 다시 계산하지 말고 기억해 두자"라는 원리를 말한다. 이 개념은 1960년대에 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)과 함께 체계화되었지만, 그 원리는 문명의 시작과 함께 존재했다. 스프레드시트에서 수식의 결과를 셀에 저장해 두고, 동일 수식이 다시 호출되면 저장된 결과를 돌려주는 것은 메모이제이션의 가장 일상적인 응용 사례이다.
+메모이제이션(Memoization)이라는 용어는 라틴어 "memorandum(기억해야 할 것)"에서 유래했으며, 컴퓨터 과학에서는 "한 번 계산한 결과는 다시 계산하지 말고 기억해 두자"라는 원리를 말한다. 이 개념은 1960년대에 동적 프로그래밍과 함께 체계화되었지만, 그 원리는 문명의 시작과 함께 존재했다. 스프레드시트에서 수식의 결과를 셀에 저장해 두고, 동일 수식이 다시 호출되면 저장된 결과를 돌려주는 것은 메모이제이션의 가장 일상적인 응용 사례이다.
 
-프로그래밍에서 메모이제이션이 필수적인 이유는 <strong>중복 부분 문제(Overlapping Subproblems)</strong>가 존재하기 때문이다. 피보나치 수열의 단순 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)로 예를 들면, `fib(5)`를 계산할 때 `fib(3)`이 두 번(`fib(4)` 경로와 직접 경로), `fib(2)`가 세 번 호출되는 것을 볼 수 있다. N이 커질수록 이러한 중복은폭작적으로 증가하여, N=50에서 단순 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)는 약 2.8×[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^10회의 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을필요로 한다. 메모이제이션을 적용하면 이 호출 횟수가 정확히 N회가 된다.
+프로그래밍에서 메모이제이션이 필수적인 이유는 <strong>중복 부분 문제(Overlapping Subproblems)</strong>가 존재하기 때문이다. 피보나치 수열의 단순 재귀로 예를 들면, `fib(5)`를 계산할 때 `fib(3)`이 두 번(`fib(4)` 경로와 직접 경로), `fib(2)`가 세 번 호출되는 것을 볼 수 있다. N이 커질수록 이러한 중복은폭작적으로 증가하여, N=50에서 단순 재귀는 약 2.8×10^10회의 함수 호출을필요로 한다. 메모이제이션을 적용하면 이 호출 횟수가 정확히 N회가 된다.
 
 > 이 도식은 메모이제이션이 호출 횟수를 어떻게 줄이는지를 비교한다.
 
@@ -66,10 +66,10 @@ weight: 8
 +------------------------------------------------------+
 ```
 
-- **관찰**: 메모이제이션을 적용하면 [fib](/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)(50)에서 약 280억 회의 호출이 51회로 줄어든다.
-- **원인**: 각 [fib](/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)(i)는 처음으로 계산될 때 한 번만 계산되고, 이후에는 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)에서 O(1)에 조회되기 때문이다.
+- **관찰**: 메모이제이션을 적용하면 fib(50)에서 약 280억 회의 호출이 51회로 줄어든다.
+- **원인**: 각 fib(i)는 처음으로 계산될 때 한 번만 계산되고, 이후에는 해시 테이블에서 O(1)에 조회되기 때문이다.
 - **결과**: 이 차이는 N이 커질수록 지수적으로 벌어져, 메모이제이션의 유무가 algorithm의 실용성과비실용성을 나눈다.
-- **판단**: [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 동일한 파라미터로 중복 호출될 가능성이 있다면, 항상 메모이제이션을 적용해야 한다.
+- **판단**: 재귀 알고리즘에서 동일한 파라미터로 중복 호출될 가능성이 있다면, 항상 메모이제이션을 적용해야 한다.
 
 📢 **섹션 요약 비유**: 메모이제이션은 전화번호부를 쓰는 것과 같습니다. 친구의 전화번호를 한 번 찾으면(계산) 메모장에 기록하고(저장), 다음에 다시 물으면 기록을 찾는 것(조회)은 순식간에 되지만, 기록하지 않으면 그때마다 전화번호부를 넘기며랑비시간합니다.
 
@@ -77,9 +77,9 @@ weight: 8
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-메모이제이션의 핵심 원리는 <strong>순수 함수(Pure Function)</strong>에서 그 효과가 극대화된다는 것이다. 순수 함수는 동일한 입력에 대해 항상 동일한 출력을 내놓고, 부수 효과(Side Effect)가 없는 함수이다. 따라서 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 결과를 입력 키로 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)에 저장하면, 동일한 입력에 대해 언제든 저장된 결과를 꺼내 쓸 수 있다.
+메모이제이션의 핵심 원리는 <strong>순수 함수(Pure Function)</strong>에서 그 효과가 극대화된다는 것이다. 순수 함수는 동일한 입력에 대해 항상 동일한 출력을 내놓고, 부수 효과(Side Effect)가 없는 함수이다. 따라서 함수 호출 결과를 입력 키로 해시 테이블에 저장하면, 동일한 입력에 대해 언제든 저장된 결과를 꺼내 쓸 수 있다.
 
-메모이제이션 구현의 핵심 요소는 **캐시(저장소)**, **조회라집**, <strong>저장라집</strong>의 세 가지이다. 캐시는 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)(딕셔너리), [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/), 또는 사용자 정의 저장소일 수 있다. 조회라집은 키(입력 파라미터 조합)가 캐시에 존재하는지를 확인하고, 존재하면 저장된 값을 반환하며, 존재하지 않으면 실제 계산을 수행한다. 저장라집은 계산 결과를 캐시에 키-값 쌍으로 저장하는 것이다.
+메모이제이션 구현의 핵심 요소는 **캐시(저장소)**, **조회라집**, <strong>저장라집</strong>의 세 가지이다. 캐시는 해시 테이블(딕셔너리), 배열, 또는 사용자 정의 저장소일 수 있다. 조회라집은 키(입력 파라미터 조합)가 캐시에 존재하는지를 확인하고, 존재하면 저장된 값을 반환하며, 존재하지 않으면 실제 계산을 수행한다. 저장라집은 계산 결과를 캐시에 키-값 쌍으로 저장하는 것이다.
 
 ```text
 [메모이제이션 구현 구조]
@@ -118,19 +118,19 @@ weight: 8
 ```
 
 - **관찰**: 메모이제이션의 시간 복잡도는 "고유 파라미터 수 × 각 계산 비용"으로 결정된다.
-- **원인**: 각 고유 입력에 대해 계산은 단 한 번만 수행되고, 이후에는 [캐시 히트](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)(Cache [Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))로 O(1) 조회이기 때문이다.
-- **결과**: [캐시 히트](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율(Cache [Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)이 높을수록 메모이제이션의 효과가 극대화된다.
+- **원인**: 각 고유 입력에 대해 계산은 단 한 번만 수행되고, 이후에는 캐시 히트(Cache Hit)로 O(1) 조회이기 때문이다.
+- **결과**: 캐시 히트율(Cache Hit Rate)이 높을수록 메모이제이션의 효과가 극대화된다.
 - **판단**: 메모이제이션을 적용하려면 함수의 참조적 투명성(입력 결정 -> 출력 결정)을 반드시 보장해야 하며, 이것이 보장되지 않으면 메모이제이션은 잘못된 결과를 초래할 수 있다.
 
-📢 **섹션 요약 비유**: 메모이제이션은 교실서점명부를 비치하는 것과 같습니다. 출석을 셀 때마다 학생 이름을 다 부르는 대신([재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출),점명부에 출석을 표시해 두면(저장), 다음 차시에는부를견고 출석자를 학정할 수 있습니다.
+📢 **섹션 요약 비유**: 메모이제이션은 교실서점명부를 비치하는 것과 같습니다. 출석을 셀 때마다 학생 이름을 다 부르는 대신(재귀 호출),점명부에 출석을 표시해 두면(저장), 다음 차시에는부를견고 출석자를 학정할 수 있습니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-메모이제이션의 실무 적용은 단순히 피보나치에만국한되지 않는다. **피보나치 수열**: O(2^N) -> O(N) 시간, O(N) 공간으로 변환. <strong><a href="/studynote/08_algorithm_stats/05_string/103_edit_distance/">편집 거리</a>(<a href="/studynote/08_algorithm_stats/05_string/103_edit_distance/">Edit Distance</a>)</strong>: 두 문자열 변환에 필요한 최소 편집 횟수를 구하는 DP 문제로, [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) + 메모이제이션으로 구현. <strong><a href="/studynote/08_algorithm_stats/05_string/102_lcs_string/">최장 공통 부분수열</a>(<a href="/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a>)</strong>: 이차원 DP 테이블 대신 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) + 메모이제이션으로 구현 가능. <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/">그래프 탐색</a></strong>: A* [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 g(n)과 h(n) 값을 메모이제이션하여 동일 상태의 중복 평가를 방지한다.
+메모이제이션의 실무 적용은 단순히 피보나치에만국한되지 않는다. **피보나치 수열**: O(2^N) -> O(N) 시간, O(N) 공간으로 변환. <strong>편집 거리(Edit Distance)</strong>: 두 문자열 변환에 필요한 최소 편집 횟수를 구하는 DP 문제로, 재귀 + 메모이제이션으로 구현. <strong>최장 공통 부분수열(LCS)</strong>: 이차원 DP 테이블 대신 재귀 + 메모이제이션으로 구현 가능. <strong>그래프 탐색</strong>: A* 알고리즘에서 g(n)과 h(n) 값을 메모이제이션하여 동일 상태의 중복 평가를 방지한다.
 
-<strong>메모이제이션 구현 시 고려사항</strong>은 다음과 같다. **키 설계**: [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 키가 되는 입력 파라미터를 어떻게 구성할 것인지 결정해야 한다. 다중 파라미터인 경우 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple)이나 해시치 조합을 사용한다. **공간 관리**: 캐시 크기가 무한히 증가하는 것을 방지하기 위해 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 등의 evict 전략을 적용할 수 있다. **순수 함수 보장**: 함수에 부수 효과가 있으면 메모이제이션이 잘못된 결과를 초래할 수 있으므로 주의해야 한다.
+<strong>메모이제이션 구현 시 고려사항</strong>은 다음과 같다. **키 설계**: 해시 테이블의 키가 되는 입력 파라미터를 어떻게 구성할 것인지 결정해야 한다. 다중 파라미터인 경우 튜플(Tuple)이나 해시치 조합을 사용한다. **공간 관리**: 캐시 크기가 무한히 증가하는 것을 방지하기 위해 LRU(Least Recently Used) 등의 evict 전략을 적용할 수 있다. **순수 함수 보장**: 함수에 부수 효과가 있으면 메모이제이션이 잘못된 결과를 초래할 수 있으므로 주의해야 한다.
 
 ```text
 [실무 메모이제이션: 경로 탐색 문제]
@@ -171,9 +171,9 @@ weight: 8
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-메모이제이션의 품질 관리에서 가장 중요한 것은 <strong><a href="/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a></strong>과 <strong>메모리 관리</strong>이다. 캐시에 저장된 값과 실제 계산 결과가 다른 상황(예: 부수 효과로 인한 입력-출력 불일치)이 발생하면, 메모이제이션은 치명적인 버그의 원인이 된다.
+메모이제이션의 품질 관리에서 가장 중요한 것은 <strong>캐시 일관성</strong>과 <strong>메모리 관리</strong>이다. 캐시에 저장된 값과 실제 계산 결과가 다른 상황(예: 부수 효과로 인한 입력-출력 불일치)이 발생하면, 메모이제이션은 치명적인 버그의 원인이 된다.
 
-<strong>품질 관리 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 메모이제이션 적용 함수가 순수 함수(입력에 의해서만 출력 결정)인지 반드시 확인해야 한다. 캐시 초기화 시점과 만료 시점을 명확히 설정해야 한다. 대량 입력 시 캐시 크기가 메모리를 초과하지 않는지 예측해야 한다. [캐시 히트](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율과 miss 패턴을 모니터링하여 캐시 전략을 조정해야 한다.
+<strong>품질 관리 체크리스트</strong>는 다음과 같다. 메모이제이션 적용 함수가 순수 함수(입력에 의해서만 출력 결정)인지 반드시 확인해야 한다. 캐시 초기화 시점과 만료 시점을 명확히 설정해야 한다. 대량 입력 시 캐시 크기가 메모리를 초과하지 않는지 예측해야 한다. 캐시 히트율과 miss 패턴을 모니터링하여 캐시 전략을 조정해야 한다.
 
 📢 **섹션 요약 비유**: 메모이제이션의 품질 관리는 약초 채집 시 도감을 쓰는 것과 같습니다. 산에서 약초를 찾을 때마다 도감을 참조하고(캐시 조회), 새로운 약초를 발견하면 도감에 기록하는데(저장), 도감과 실제 산의 약초가 다르면(캐시 불일치) 치명적 문제가 발생합니다.
 
@@ -181,15 +181,15 @@ weight: 8
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-메모이제이션의 최신 동향은 <strong>자동 메모이제이션(Automatic Memoization)</strong>과 <strong>메모이제이션 기반 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>이다. 자동 메모이제이션은 컴파일러나 런타임이 프로그래머의 명시적 지시 없이도 순수 함수의 결과를 자동으로 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하는 기술이다. Haskell과 같은 순수 함수형 언어의 [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)) 체계에서는 표현식이 필요한 시점까지 계산이 미루어지고, 한번 계산된 표현식은 자동으로 재사용된다. 또한 <strong>메모이제이션 네트워크(Memoization Networks)</strong>는 자연어 처리에서 이전에 본은 similar 입력에 대한 신경망 응답을 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 추론 속도를 높이는 기술로연구되고 있다.
+메모이제이션의 최신 동향은 <strong>자동 메모이제이션(Automatic Memoization)</strong>과 <strong>메모이제이션 기반 AI</strong>이다. 자동 메모이제이션은 컴파일러나 런타임이 프로그래머의 명시적 지시 없이도 순수 함수의 결과를 자동으로 캐싱하는 기술이다. Haskell과 같은 순수 함수형 언어의 지연 평가(Lazy Evaluation) 체계에서는 표현식이 필요한 시점까지 계산이 미루어지고, 한번 계산된 표현식은 자동으로 재사용된다. 또한 <strong>메모이제이션 네트워크(Memoization Networks)</strong>는 자연어 처리에서 이전에 본은 similar 입력에 대한 신경망 응답을 캐싱하여 추론 속도를 높이는 기술로연구되고 있다.
 
-메모이제이션은 단순하지만 강력한 최적화 기법으로, 프로그래밍의 거의 모든 영역에서 응용된다. 특히 [함수형 프로그래밍](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)에서 memoization은 근본적인 설계 원칙으로 자리잡고 있다. 기술사 시험에서는 "어떤 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 메모이제이션을 적용하면 어떤 효과가 있는가?"와 "적용 가능한 경우와 불가능한 경우"를 구분하는 능력을 검증한다.
+메모이제이션은 단순하지만 강력한 최적화 기법으로, 프로그래밍의 거의 모든 영역에서 응용된다. 특히 함수형 프로그래밍에서 memoization은 근본적인 설계 원칙으로 자리잡고 있다. 기술사 시험에서는 "어떤 알고리즘에 메모이제이션을 적용하면 어떤 효과가 있는가?"와 "적용 가능한 경우와 불가능한 경우"를 구분하는 능력을 검증한다.
 
 📢 **섹션 요약 비유**: 메모이제이션은 항아리에 절인 배추를 생각하면 됩니다. 배추를 매번 새로 절이는 대신(재계산), 이미 절여둔 것을 꺼내어uthentic하게 재사용하면 시간과 노력을 크게 절감할 수 있습니다.
 
 ---
 
-## 핵심 인사이트 [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
+## 핵심 인사이트 ASCII 다이어그램 (Concept Map)
 
 ```text
 [메모이제이션 (Memoization) 핵심 개념 맵]
@@ -243,13 +243,13 @@ weight: 8
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 관계 |
 |:---|:---|
-| <strong><a href="/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/">동적 프로그래밍</a> (DP, <a href="/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/">Dynamic Programming</a>)</strong> | 최적 부분 구조와 중복 하위 문제를 모두 갖는 문제를 효율적으로 해결하는 상위 패러다임 |
-| **타뷸레이션 (Tabulation)** | DP의 상향식([Bottom-Up](/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) 접근으로, 반복문으로 모든 하위 문제를 먼저 계산하는 방식 |
-| <strong><a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> (<a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">Recursion</a>)</strong> | 메모이제이션 없이 사용하면 지수 시간 복잡도로 폭증하는 [Top-Down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 계산의 기반 |
-| <strong><a href="/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 캐시 (<a href="/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> Cache)</strong> | 메모이제이션의 캐시 교체 전략으로, Python의 @functools.lru_cache가 이를 구현 |
-| <strong>피보나치 / 최장 공통 부분 수열 (<a href="/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a>)</strong> | 메모이제이션의 고전적 예제로 지수 -> 다항 시간으로의 극적인 개선을 시각적으로 보여줌 |
+| <strong>동적 프로그래밍 (DP, Dynamic Programming)</strong> | 최적 부분 구조와 중복 하위 문제를 모두 갖는 문제를 효율적으로 해결하는 상위 패러다임 |
+| **타뷸레이션 (Tabulation)** | DP의 상향식(Bottom-Up) 접근으로, 반복문으로 모든 하위 문제를 먼저 계산하는 방식 |
+| <strong>재귀 (Recursion)</strong> | 메모이제이션 없이 사용하면 지수 시간 복잡도로 폭증하는 Top-Down 계산의 기반 |
+| <strong>LRU 캐시 (LRU Cache)</strong> | 메모이제이션의 캐시 교체 전략으로, Python의 @functools.lru_cache가 이를 구현 |
+| <strong>피보나치 / 최장 공통 부분 수열 (LCS)</strong> | 메모이제이션의 고전적 예제로 지수 -> 다항 시간으로의 극적인 개선을 시각적으로 보여줌 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -269,7 +269,7 @@ weight: 8
 [동적 프로그래밍 (Dynamic Programming) — 최적 부분 구조]
 ```
 
-[알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화 기법이 단순 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)에서 캐시 기반 메모이제이션과 완전 DP로 발전한 흐름이다.
+알고리즘 최적화 기법이 단순 재귀에서 캐시 기반 메모이제이션과 완전 DP로 발전한 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -281,16 +281,5 @@ weight: 8
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 8 / 175
-
-<- **이전**: [7. 동적 프로그래밍 (Dynamic Programming) — 최적 부분구조 + 중복 부분 문제](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)
-**다음**: [9. 정보이론 (Information Theory)](/studynote/08_algorithm_stats/01_basics/009_information_theory/) ->
-
----
+- 최소 800자/파일
+- 파일명: 01_, 02_... 형식

@@ -7,35 +7,35 @@ weight: 168
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) (Time-Sensitive Networking)은 기존 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) ([Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에 정밀 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 트래픽 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 추가해, 중요한 프레임이 정해진 시간 안에 지나가도록 만드는 결정론적 통신 표준군이다.
-> 2. **가치**: 공장 제어, 차량 네트워크, 로봇 협업처럼 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차와 패킷 손실이 곧 품질 저하나 안전 사고로 이어지는 환경에서, 제어 트래픽과 일반 트래픽을 하나의 표준 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에 공존시킬 수 있다.
-> 3. **판단 포인트**: TSN은 단순 고속 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아니라 시계 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 큐 게이트 제어, 우선순위 설계, 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 끝단부터 맞아야 효과가 나므로, 장비 지원 여부와 운영 복잡도를 함께 판단해야 한다.
+> 1. **본질**: TSN (Time-Sensitive Networking)은 기존 이더넷 (Ethernet)에 정밀 시간 동기화와 트래픽 스케줄링을 추가해, 중요한 프레임이 정해진 시간 안에 지나가도록 만드는 결정론적 통신 표준군이다.
+> 2. **가치**: 공장 제어, 차량 네트워크, 로봇 협업처럼 지연 편차와 패킷 손실이 곧 품질 저하나 안전 사고로 이어지는 환경에서, 제어 트래픽과 일반 트래픽을 하나의 표준 이더넷 위에 공존시킬 수 있다.
+> 3. **판단 포인트**: TSN은 단순 고속 스위치가 아니라 시계 동기화, 큐 게이트 제어, 우선순위 설계, 장애 복구까지 끝단부터 맞아야 효과가 나므로, 장비 지원 여부와 운영 복잡도를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-산업용 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)과 TSN은 공장 자동화나 차량 제어처럼 "언제 도착하는가"가 핵심인 통신 환경에서 등장했다. 일반 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 최선 노력형 (Best Effort) 전송을 기본으로 하므로 평균 속도는 빨라도 혼잡 시 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 지터 (Jitter)가 흔들릴 수 있다. 반면 산업 제어에서는 1ms 이내 응답, 수십 마이크로초 수준의 오차 제한처럼 시간 자체가 품질 조건이 된다.
+산업용 이더넷과 TSN은 공장 자동화나 차량 제어처럼 "언제 도착하는가"가 핵심인 통신 환경에서 등장했다. 일반 이더넷은 최선 노력형 (Best Effort) 전송을 기본으로 하므로 평균 속도는 빨라도 혼잡 시 지연시간과 지터 (Jitter)가 흔들릴 수 있다. 반면 산업 제어에서는 1ms 이내 응답, 수십 마이크로초 수준의 오차 제한처럼 시간 자체가 품질 조건이 된다.
 
-과거에는 이 문제를 해결하기 위해 필드버스 (Fieldbus)나 제조사별 산업용 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 별도로 발전했다. 그러나 전용망이 늘어날수록 설비 연결은 쉬워도 IT (Information Technology) 네트워크와 [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) ([Operational Technology](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)) 네트워크가 분리되고, 장비 간 상호운용성이 떨어졌다. TSN은 이러한 단절을 줄이기 위해 표준 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에서 실시간성을 확보하려는 접근이다.
+과거에는 이 문제를 해결하기 위해 필드버스 (Fieldbus)나 제조사별 산업용 이더넷이 별도로 발전했다. 그러나 전용망이 늘어날수록 설비 연결은 쉬워도 IT (Information Technology) 네트워크와 OT (Operational Technology) 네트워크가 분리되고, 장비 간 상호운용성이 떨어졌다. TSN은 이러한 단절을 줄이기 위해 표준 이더넷 위에서 실시간성을 확보하려는 접근이다.
 
-핵심은 "빠른 네트워크"가 아니라 "예측 가능한 네트워크"다. 영상, 진단, 운영 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 같은 일반 트래픽도 함께 실을 수 있지만, 제어 프레임이 지나갈 시간과 경로를 미리 보장해 충돌을 피하게 만든다. 그래서 TSN은 [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)와 차량용 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에서 네트워크 통합의 핵심 기반으로 자주 언급된다.
+핵심은 "빠른 네트워크"가 아니라 "예측 가능한 네트워크"다. 영상, 진단, 운영 로그 같은 일반 트래픽도 함께 실을 수 있지만, 제어 프레임이 지나갈 시간과 경로를 미리 보장해 충돌을 피하게 만든다. 그래서 TSN은 스마트 팩토리와 차량용 이더넷에서 네트워크 통합의 핵심 기반으로 자주 언급된다.
 
-- **📢 섹션 요약 비유**: 일반 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 먼저 온 차부터 보내는 교차로라면, TSN은 구급차가 지나갈 시간을 미리 비워 두는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 체계와 같다.
+- **📢 섹션 요약 비유**: 일반 이더넷이 먼저 온 차부터 보내는 교차로라면, TSN은 구급차가 지나갈 시간을 미리 비워 두는 신호 체계와 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TSN은 하나의 프로토콜이 아니라 전기전자공학회 (IEEE, Institute of Electrical and Electronics 엔진ers) 802.1 계열 표준들의 묶음이다. 대표적으로 IEEE 802.1AS는 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), IEEE 802.1Qbv는 시간 인지 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), IEEE 802.1Qbu는 프레임 선점, IEEE 802.1CB는 프레임 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 및 중복 제거를 다룬다. 이 요소들이 합쳐져야 중요한 트래픽이 정해진 시간창 안에서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 통과할 수 있다.
+TSN은 하나의 프로토콜이 아니라 전기전자공학회 (IEEE, Institute of Electrical and Electronics 엔진ers) 802.1 계열 표준들의 묶음이다. 대표적으로 IEEE 802.1AS는 시간 동기화, IEEE 802.1Qbv는 시간 인지 스케줄러, IEEE 802.1Qbu는 프레임 선점, IEEE 802.1CB는 프레임 복제 및 중복 제거를 다룬다. 이 요소들이 합쳐져야 중요한 트래픽이 정해진 시간창 안에서 지연 없이 통과할 수 있다.
 
 | 요소 | 역할 | 핵심 효과 | 주의점 |
 | :--- | :--- | :--- | :--- |
-| IEEE 802.1AS | 네트워크 전체 시계 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 나노초~마이크로초 단위 기준 시간 공유 | 그랜드마스터 장애와 오차 누적 관리 필요 |
-| IEEE 802.1Qbv | 시간 인지 셰이퍼 (Time-Aware Shaper) | 큐 게이트를 시간표대로 열고 닫음 | 오프라인 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 설계 복잡 |
-| IEEE 802.1Qbu | 프레임 선점 (Frame Preemption) | 긴 일반 프레임이 급한 프레임을 막지 않게 함 | 장비 지원 여부 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필요 |
-| IEEE 802.1CB | 프레임 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)/제거 | 경로 장애 시에도 무중단 전달 강화 | 대역폭과 구성 복잡도 증가 |
-| 중앙 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) (예: 802.1Qcc) | [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)/경로 관리 | 엔드 투 엔드 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보 | 운영 자동화 도구 필요 |
+| IEEE 802.1AS | 네트워크 전체 시계 동기화 | 나노초~마이크로초 단위 기준 시간 공유 | 그랜드마스터 장애와 오차 누적 관리 필요 |
+| IEEE 802.1Qbv | 시간 인지 셰이퍼 (Time-Aware Shaper) | 큐 게이트를 시간표대로 열고 닫음 | 오프라인 스케줄 설계 복잡 |
+| IEEE 802.1Qbu | 프레임 선점 (Frame Preemption) | 긴 일반 프레임이 급한 프레임을 막지 않게 함 | 장비 지원 여부 확인 필요 |
+| IEEE 802.1CB | 프레임 복제/제거 | 경로 장애 시에도 무중단 전달 강화 | 대역폭과 구성 복잡도 증가 |
+| 중앙 설정 (예: 802.1Qcc) | 스케줄/경로 관리 | 엔드 투 엔드 정책 일관성 확보 | 운영 자동화 도구 필요 |
 
 아래 그림은 TSN이 시간 슬롯을 어떻게 쓰는지 보여 준다.
 
@@ -50,9 +50,9 @@ TSN은 하나의 프로토콜이 아니라 전기전자공학회 (IEEE, Institut
 +----------------------------------------------------------------------+
 ```
 
-이 구조의 핵심은 모든 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 종단 장치가 같은 시간을 보고 있어야 한다는 점이다. 그래야 어떤 큐를 언제 열지, 어떤 프레임을 선점할지, 어떤 경로로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할지 계산이 맞아 떨어진다. 즉 TSN은 단일 장비의 성능보다 <strong>전체 네트워크가 같은 시계를 보며 같은 시간표로 움직이는가</strong>가 더 중요하다.
+이 구조의 핵심은 모든 스위치와 종단 장치가 같은 시간을 보고 있어야 한다는 점이다. 그래야 어떤 큐를 언제 열지, 어떤 프레임을 선점할지, 어떤 경로로 복제할지 계산이 맞아 떨어진다. 즉 TSN은 단일 장비의 성능보다 <strong>전체 네트워크가 같은 시계를 보며 같은 시간표로 움직이는가</strong>가 더 중요하다.
 
-또한 TSN은 일반 트래픽을 배제하지 않는다. 제어 트래픽에 시간 보장을 부여하면서도, 남는 구간에는 인간-기계 인터페이스 (HMI, Human-Machine Interface), 영상, 진단 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 함께 흘려 보낼 수 있다. 이 덕분에 제어망과 정보망을 완전히 분리하지 않고도 통합 네트워크를 설계할 수 있다.
+또한 TSN은 일반 트래픽을 배제하지 않는다. 제어 트래픽에 시간 보장을 부여하면서도, 남는 구간에는 인간-기계 인터페이스 (HMI, Human-Machine Interface), 영상, 진단 데이터를 함께 흘려 보낼 수 있다. 이 덕분에 제어망과 정보망을 완전히 분리하지 않고도 통합 네트워크를 설계할 수 있다.
 
 - **📢 섹션 요약 비유**: TSN은 기차역에서 모든 역 시계를 맞춘 뒤, KTX와 화물열차가 어느 선로를 언제 쓸지 시간표로 확정해 놓는 운영 방식과 같다.
 
@@ -60,58 +60,58 @@ TSN은 하나의 프로토콜이 아니라 전기전자공학회 (IEEE, Institut
 
 ## Ⅲ. 비교 및 연결
 
-TSN은 일반 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 전통 필드버스, 독자 산업용 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)과 비교할 때 성격이 선명해진다. 일반 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 범용성과 비용 면에서 강하지만 시간 보장이 약하고, 필드버스는 실시간성은 좋지만 대역폭과 개방성이 제한적이다. TSN은 표준 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 생태계를 유지하면서 실시간성을 끌어올리는 절충안에 가깝다.
+TSN은 일반 이더넷, 전통 필드버스, 독자 산업용 이더넷과 비교할 때 성격이 선명해진다. 일반 이더넷은 범용성과 비용 면에서 강하지만 시간 보장이 약하고, 필드버스는 실시간성은 좋지만 대역폭과 개방성이 제한적이다. TSN은 표준 이더넷 생태계를 유지하면서 실시간성을 끌어올리는 절충안에 가깝다.
 
-| 항목 | 일반 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) | 필드버스 / 독자 산업용 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) | [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) |
+| 항목 | 일반 이더넷 | 필드버스 / 독자 산업용 이더넷 | TSN |
 | :--- | :--- | :--- | :--- |
 | 시간 보장 | 약함 | 강함 | 강함 |
-| 표준 개방성 | 높음 | [벤더 종속](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 가능 | 높음 |
-| IT/[OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 통합 | 쉬우나 실시간 한계 | 분리 운영 잦음 | 통합 지향 |
+| 표준 개방성 | 높음 | 벤더 종속 가능 | 높음 |
+| IT/OT 통합 | 쉬우나 실시간 한계 | 분리 운영 잦음 | 통합 지향 |
 | 설계 복잡도 | 낮음 | 중간 | 높음 |
-| 대표 용도 | 사무망, 일반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 장치 제어 전용망 | 제어+정보 통합망 |
+| 대표 용도 | 사무망, 일반 데이터 | 장치 제어 전용망 | 제어+정보 통합망 |
 
-이 차이가 중요한 이유는 TSN이 모든 현장의 정답은 아니기 때문이다. 수 밀리초 단위 감시만 필요한 공정이라면 일반 산업용 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 우선순위 제어만으로 충분할 수 있다. 반대로 250µs 주기의 모션 제어, 협동 로봇 충돌 방지, 차량 제동 메시지처럼 시간 오차 자체가 위험이 되는 환경은 [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 수준의 결정성이 필요하다.
+이 차이가 중요한 이유는 TSN이 모든 현장의 정답은 아니기 때문이다. 수 밀리초 단위 감시만 필요한 공정이라면 일반 산업용 스위치와 우선순위 제어만으로 충분할 수 있다. 반대로 250µs 주기의 모션 제어, 협동 로봇 충돌 방지, 차량 제동 메시지처럼 시간 오차 자체가 위험이 되는 환경은 TSN 수준의 결정성이 필요하다.
 
-TSN은 오픈 플랫폼 커뮤니케이션 유니파이드 아키텍처 ([OPC UA](/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/), Open Platform Communications Unified [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)), [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 초신뢰 저지연 통신 ([URLLC](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/), Ultra-Reliable Low [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Communications), 사이버물리시스템 ([CPS](/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), Cyber-Physical System)과도 깊게 연결된다. 즉 TSN은 단순 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기술이 아니라, 실시간 제어 애플리케이션이 안정적으로 움직이도록 받쳐 주는 네트워크 기반이다.
+TSN은 오픈 플랫폼 커뮤니케이션 유니파이드 아키텍처 (OPC UA, Open Platform Communications Unified Architecture), 5G 초신뢰 저지연 통신 (URLLC, Ultra-Reliable Low Latency Communications), 사이버물리시스템 (CPS, Cyber-Physical System)과도 깊게 연결된다. 즉 TSN은 단순 스위치 기술이 아니라, 실시간 제어 애플리케이션이 안정적으로 움직이도록 받쳐 주는 네트워크 기반이다.
 
-- **📢 섹션 요약 비유**: 일반 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 모두가 자유롭게 다니는 광장이라면, TSN은 공연 순서와 동선까지 사전에 맞춘 무대 운영에 가깝다.
+- **📢 섹션 요약 비유**: 일반 이더넷이 모두가 자유롭게 다니는 광장이라면, TSN은 공연 순서와 동선까지 사전에 맞춘 무대 운영에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-대표적인 적용 시나리오는 [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 통합망이다. 한 라인에서 서보 모터 제어는 250µs 주기로 움직이고, 안전 알람은 즉시 전달돼야 하며, 동시에 카메라 영상과 생산 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 같은 네트워크로 흐를 수 있다. 이때 TSN을 쓰면 제어와 안전 트래픽은 예약 구간으로 보장하고, 영상과 진단 트래픽은 남는 구간에서 처리해 별도 전용망 수를 줄일 수 있다.
+대표적인 적용 시나리오는 스마트 팩토리 통합망이다. 한 라인에서 서보 모터 제어는 250µs 주기로 움직이고, 안전 알람은 즉시 전달돼야 하며, 동시에 카메라 영상과 생산 로그도 같은 네트워크로 흐를 수 있다. 이때 TSN을 쓰면 제어와 안전 트래픽은 예약 구간으로 보장하고, 영상과 진단 트래픽은 남는 구간에서 처리해 별도 전용망 수를 줄일 수 있다.
 
-### 기술사 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 판단 체크리스트
 
-1. 제어 루프의 허용 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 지터 목표가 명확한가?
-2. [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [네트워크 인터페이스 카드](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) ([NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), Network Interface Card), 종단 장치가 필요한 [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 표준을 실제로 지원하는가?
-3. 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기준원 장애 시 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 그랜드마스터와 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전략이 있는가?
-4. 예약 대역폭과 일반 트래픽이 충돌하지 않도록 엔드 투 엔드 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 검증했는가?
-5. 운영팀이 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 재계산, [트래픽 클래스](/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) 관리, 장애 분석을 감당할 수 있는가?
+1. 제어 루프의 허용 지연시간과 지터 목표가 명확한가?
+2. 스위치, 네트워크 인터페이스 카드 (NIC, Network Interface Card), 종단 장치가 필요한 TSN 표준을 실제로 지원하는가?
+3. 시간 동기화 기준원 장애 시 백업 그랜드마스터와 복구 전략이 있는가?
+4. 예약 대역폭과 일반 트래픽이 충돌하지 않도록 엔드 투 엔드 스케줄을 검증했는가?
+5. 운영팀이 스케줄 재계산, 트래픽 클래스 관리, 장애 분석을 감당할 수 있는가?
 
 ### 채택 / 회피 기준
 
-- **채택**: 모션 제어, 차량 제어, 협동 로봇, [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 계전처럼 결정성이 필수인 환경
+- **채택**: 모션 제어, 차량 제어, 협동 로봇, 스마트 그리드 보호 계전처럼 결정성이 필수인 환경
 - **회피 또는 축소 적용**: 평균 처리량만 중요하고 시간 보장 요구가 낮은 일반 사무망, 또는 장비가 TSN을 지원하지 않는 혼합 환경
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만 도입하고 끝단 장치의 시계 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 큐 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 방치하는 경우
+- TSN 스위치만 도입하고 끝단 장치의 시계 동기화와 큐 정책은 방치하는 경우
 - 모든 트래픽을 중요 등급으로 분류해 예약 구간을 남발하는 경우
-- 제어망 통합만 강조하고 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·[이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)·보안 설계를 빼먹는 경우
+- 제어망 통합만 강조하고 장애 복구·이중화·보안 설계를 빼먹는 경우
 
-- **📢 섹션 요약 비유**: [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 도입은 고속도로 차선만 그어 놓는 일이 아니라, [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 체계·배차 시간표·비상 우회로까지 함께 설계하는 교통 운영과 같다.
+- **📢 섹션 요약 비유**: TSN 도입은 고속도로 차선만 그어 놓는 일이 아니라, 신호 체계·배차 시간표·비상 우회로까지 함께 설계하는 교통 운영과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-TSN을 올바르게 적용하면 제어 트래픽의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차를 줄이면서도 일반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 공존하는 통합 네트워크를 만들 수 있다. 이는 케이블과 장비 이중 투자를 줄이고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과 제어가 분리된 구조를 하나의 표준 기반으로 묶는 데 큰 장점이 있다. 특히 [스마트 팩토리](/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/), 차량용 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 실시간 로봇 협업에서 IT/[OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 융합의 기반 인프라가 된다.
+TSN을 올바르게 적용하면 제어 트래픽의 지연 편차를 줄이면서도 일반 데이터와 공존하는 통합 네트워크를 만들 수 있다. 이는 케이블과 장비 이중 투자를 줄이고, 데이터 수집과 제어가 분리된 구조를 하나의 표준 기반으로 묶는 데 큰 장점이 있다. 특히 스마트 팩토리, 차량용 이더넷, 실시간 로봇 협업에서 IT/OT 융합의 기반 인프라가 된다.
 
-하지만 TSN의 대가도 분명하다. 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 실패, 잘못된 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 계산, 장비 간 표준 지원 차이는 즉시 결정성 붕괴로 이어질 수 있다. 따라서 TSN은 "[이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 좀 더 빠르게 쓰는 기술"이 아니라, <strong>시간을 자원처럼 예약하고 관리하는 운영 체계</strong>로 기억해야 한다.
+하지만 TSN의 대가도 분명하다. 시간 동기화 실패, 잘못된 스케줄 계산, 장비 간 표준 지원 차이는 즉시 결정성 붕괴로 이어질 수 있다. 따라서 TSN은 "이더넷을 좀 더 빠르게 쓰는 기술"이 아니라, <strong>시간을 자원처럼 예약하고 관리하는 운영 체계</strong>로 기억해야 한다.
 
-앞으로는 TSN과 [OPC UA](/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/), 엣지 제어, [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 연동이 더 늘어나며 공장과 차량 네트워크의 통합 수준이 높아질 가능성이 크다. 그럼에도 본질은 바뀌지 않는다. TSN의 핵심은 높은 대역폭이 아니라, 중요한 프레임이 언제나 제시간에 도착하도록 전체 네트워크를 설계하는 데 있다.
+앞으로는 TSN과 OPC UA, 엣지 제어, 5G 연동이 더 늘어나며 공장과 차량 네트워크의 통합 수준이 높아질 가능성이 크다. 그럼에도 본질은 바뀌지 않는다. TSN의 핵심은 높은 대역폭이 아니라, 중요한 프레임이 언제나 제시간에 도착하도록 전체 네트워크를 설계하는 데 있다.
 
 - **📢 섹션 요약 비유**: 좋은 TSN은 길이 넓은 도시가 아니라, 급한 차량이 언제나 제시간에 통과하도록 시간표가 잘 짜인 도시다.
 
@@ -121,12 +121,12 @@ TSN을 올바르게 적용하면 제어 트래픽의 [지연](/studynote/03_netw
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (IEEE 802.1AS) | TSN의 모든 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)과 게이트 제어를 성립시키는 공통 시계 |
-| 시간 인지 셰이퍼 (IEEE 802.1Qbv) | [트래픽 클래스](/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/)별 통과 시간을 예약 |
+| 시간 동기화 (IEEE 802.1AS) | TSN의 모든 스케줄과 게이트 제어를 성립시키는 공통 시계 |
+| 시간 인지 셰이퍼 (IEEE 802.1Qbv) | 트래픽 클래스별 통과 시간을 예약 |
 | 프레임 선점 (IEEE 802.1Qbu) | 긴 일반 프레임이 긴급 프레임을 막지 않도록 함 |
-| 프레임 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)/제거 (IEEE 802.1CB) | 경로 장애 시에도 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 유지 |
-| [OPC UA](/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) | [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 위에서 산업 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델과 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층을 제공 |
-| [CPS](/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/) (Cyber-Physical System) | TSN이 실시간 제어 네트워크 기반으로 기여하는 상위 시스템 |
+| 프레임 복제/제거 (IEEE 802.1CB) | 경로 장애 시에도 신뢰성 유지 |
+| OPC UA | TSN 위에서 산업 데이터 모델과 서비스 계층을 제공 |
+| CPS (Cyber-Physical System) | TSN이 실시간 제어 네트워크 기반으로 기여하는 상위 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,21 +148,10 @@ TSN (Time-Sensitive Networking)
 IT/OT 통합 제어망 · 스마트 팩토리 · 차량용 이더넷
 ```
 
-이 흐름은 산업 네트워크가 전용 실시간 망에서 표준 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 기반의 결정론적 통합망으로 발전하는 과정을 보여 준다.
+이 흐름은 산업 네트워크가 전용 실시간 망에서 표준 이더넷 기반의 결정론적 통합망으로 발전하는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. TSN은 중요한 자동차가 지나갈 시간을 미리 비워 두는 똑똑한 도로예요.
 2. 그래서 구급차 같은 급한 차는 막히지 않고 제시간에 도착할 수 있어요.
 3. 다른 차들도 남는 시간에 다닐 수 있어서 길을 따로 여러 개 만들지 않아도 돼요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 168 / 552
-
-<- **이전**: [167. CPS (Cyber-Physical System / 가상물리시스템) - 컴퓨팅 연산 체계(Cyber)가 물리(Physical)](/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)
-**다음**: [169. OPC UA - 스마트 팩토리 산업 자동화 표준 프로토콜](/studynote/06_ict_convergence/02_iot_mobility/169_opc_ua_industrial_automation/) ->
-
----

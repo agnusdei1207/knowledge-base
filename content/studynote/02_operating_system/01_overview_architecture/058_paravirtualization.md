@@ -7,8 +7,8 @@ weight: 58
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 반가상화(Paravirtualization)는 게스트 OS가 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 직접 협력하도록 수정된 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 방식이다.
-> 2. **가치**: 이진 변환(Binary Translation) 비용을 줄여 전가상화보다 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다.
+> 1. **본질**: 반가상화(Paravirtualization)는 게스트 OS가 하이퍼바이저와 직접 협력하도록 수정된 가상화 방식이다.
+> 2. **가치**: 이진 변환(Binary Translation) 비용을 줄여 전가상화보다 높은 성능을 낼 수 있다.
 > 3. **판단 포인트**: 하이퍼콜(Hypercall), I/O 최적화, Virtio 같은 하이브리드 구조를 함께 이해해야 한다.
 
 ---
@@ -17,7 +17,7 @@ weight: 58
 
 전가상화는 호환성이 좋지만, 하드웨어를 완전히 흉내 내느라 비용이 크다. 반가상화는 이 부담을 줄이기 위해 게스트 OS를 일부 수정한다.
 
-게스트 OS가 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 "모른 척"하지 않고, 직접 요청하는 방식이기 때문에 더 효율적이다.
+게스트 OS가 하이퍼바이저를 "모른 척"하지 않고, 직접 요청하는 방식이기 때문에 더 효율적이다.
 
 - **📢 섹션 요약 비유**: 통역사를 거치지 않고 호텔 프런트에 직접 말하는 방식이다.
 
@@ -25,7 +25,7 @@ weight: 58
 
 ## Ⅱ. 핵심 구조
 
-반가상화의 핵심은 하이퍼콜이다. 특권 명령을 그대로 던지는 대신, 수정된 커널이 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) API를 호출한다.
+반가상화의 핵심은 하이퍼콜이다. 특권 명령을 그대로 던지는 대신, 수정된 커널이 하이퍼바이저 API를 호출한다.
 
 ```text
 Guest OS
@@ -41,11 +41,11 @@ Hardware
 
 ---
 
-## Ⅲ. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점
+## Ⅲ. 성능 이점
 
-반가상화는 특히 I/O와 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리에서 강하다. 하드웨어를 완전히 흉내 내지 않아도 되므로 오버헤드가 낮다.
+반가상화는 특히 I/O와 인터럽트 처리에서 강하다. 하드웨어를 완전히 흉내 내지 않아도 되므로 오버헤드가 낮다.
 
-이 때문에 네트워크와 디스크 접근이 많은 워크로드에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 크게 난다.
+이 때문에 네트워크와 디스크 접근이 많은 워크로드에서 성능 차이가 크게 난다.
 
 - **📢 섹션 요약 비유**: 목적지를 알면서 가장 짧은 길로 바로 가는 택시와 같다.
 
@@ -53,13 +53,13 @@ Hardware
 
 ## Ⅳ. 현대적 융합
 
-오늘날에는 순수 반가상화만 쓰기보다 [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)와 결합한 형태가 많다.
+오늘날에는 순수 반가상화만 쓰기보다 하드웨어 보조 가상화와 결합한 형태가 많다.
 
-- Xen의 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 반가상화
-- [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) (Kernel-based [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 환경의 Virtio 드라이버
+- Xen의 초기 반가상화
+- KVM (Kernel-based Virtual Machine) 환경의 Virtio 드라이버
 - I/O 경로 최적화
 
-이 조합은 호환성과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 사이의 균형을 맞춘다.
+이 조합은 호환성과 성능 사이의 균형을 맞춘다.
 
 - **📢 섹션 요약 비유**: 오래된 규칙과 새 엔진을 같이 쓰는 하이브리드 자동차다.
 
@@ -67,14 +67,14 @@ Hardware
 
 ## Ⅴ. 비교와 활용 기준
 
-반가상화는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요하고 게스트 OS 수정이 가능한 환경에 적합하다. 반대로 완전한 호환성이 더 중요하면 전가상화가 낫다.
+반가상화는 성능이 중요하고 게스트 OS 수정이 가능한 환경에 적합하다. 반대로 완전한 호환성이 더 중요하면 전가상화가 낫다.
 
 선택 기준은 다음과 같다.
 
 - 게스트 OS 수정 가능 여부
 - I/O 부하 크기
-- [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 지원 수준
-- 클라우드 인프라 요구 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)
+- 하이퍼바이저 지원 수준
+- 클라우드 인프라 요구 성능
 
 - **📢 섹션 요약 비유**: 빠른 스포츠카와 편한 승용차 중 무엇이 필요한지에 따라 차가 달라진다.
 
@@ -100,7 +100,7 @@ Hypercall
 2. 반가상화와 Hypercall -> 직접 협력 구조
 3. Xen의 대중화 -> 기술 표준 형성
 4. Virtio와 결합 -> 현대 클라우드 최적화
-5. [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) -> 호환성과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형
+5. 하드웨어 보조 가상화 -> 호환성과 성능의 균형
 
 ---
 
@@ -109,14 +109,3 @@ Hypercall
 반가상화는 집 주인에게 직접 부탁하는 손님 같아요.
 중간에서 통역만 하는 대신, 필요한 걸 바로 말해요.
 그래서 더 빨리 일을 처리할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 58 / 800
-
-<- **이전**: [57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)
-**다음**: [59. 하드웨어 보조 가상화 (Intel VT-x, AMD-V)](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) ->
-
----

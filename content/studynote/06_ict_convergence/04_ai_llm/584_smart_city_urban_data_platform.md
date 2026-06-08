@@ -110,12 +110,3 @@ Core flow: Collect -> Integrate -> Analyze -> Service -> Govern
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 584 / 800
-
-<- **이전**: [583. V2X 차량 통신 C-V2X DSRC](/studynote/06_ict_convergence/uncategorized/583_v2x_vehicle_communication_c_v2x_dsrc/)
-**다음**: [585. 스마트팩토리 산업 IoT IIoT 아키텍처](/studynote/06_ict_convergence/uncategorized/585_smart_factory_industrial_iot_iiot_architectur/) ->
-
----

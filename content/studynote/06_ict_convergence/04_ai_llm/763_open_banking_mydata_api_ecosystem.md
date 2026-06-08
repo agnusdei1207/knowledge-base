@@ -124,11 +124,3 @@ weight: 763
 6. **Step 6 (Resource 호출)**: IU가 `Authorization: DPoP <proof_jwt>` (또는 Bearer+JWT) 로 `/accounts`, `/accounts/{id}/transactions?from=20240101&to=20241231` 호출 -> IP Resource Server가 JWKS로 서명 검증·scope 검증 후 **표준 API v3.x** 응답.
 7. **Step 7 (데이터 활용·저장)**: MSP가 가공·저장 (가명처리 후 DB 암호화 저장) -> IU 서비스로 시각화·추천·신용평가 모델 학습에 활용.
 8. **Step 8 (동의 철회·만료)**: 사용자 철회 시 **Consent Revoke API** 호출, MSP는 30일 내 파기, **전송요구 이력**
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 763 / 800
-
-<- **이전**: [762. CBDC 중앙은행 디지털 화폐 설계](/studynote/06_ict_convergence/uncategorized/762_cbdc_central_bank_digital_currency_policy/)
-**다음**: [764. 임베디드 금융 BaaS 금융 서비스 내장](/studynote/06_ict_convergence/uncategorized/764_embedded_finance_baas_banking_as_service/) ->
-
----

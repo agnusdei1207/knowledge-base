@@ -6,17 +6,17 @@ tags:
 weight: 195
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Federated Query)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 이동하지 않고, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 단일 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 접근하는 패턴이다.
-> 2. **가치**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) + [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) + 자동 거버넌스를 통합하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 없는 논리적 단일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층을 실현한다.
-> 3. **판단 포인트**: [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([데이터 이동 비용](/studynote/16_bigdata/09_platform/189_egress/))과 거버넌스 복잡도의 트레이드오프를 이해하고, [Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/) vs [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake의 차이를 조직 구조에 맞게 선택해야 한다.
+> 1. **본질**: 연방 쿼리(Federated Query)는 데이터를 물리적으로 이동하지 않고, 분산된 이기종 데이터 소스에 단일 쿼리로 접근하는 패턴이다.
+> 2. **가치**: 데이터 패브릭(Data Fabric)은 연방 쿼리 + 메타데이터 관리 + 자동 거버넌스를 통합하여 데이터 사일로(Silo) 없는 논리적 단일 데이터 계층을 실현한다.
+> 3. **판단 포인트**: 쿼리 성능(데이터 이동 비용)과 거버넌스 복잡도의 트레이드오프를 이해하고, Data Fabric vs Data Mesh vs Data Lake의 차이를 조직 구조에 맞게 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 문제
+### 1.1 데이터 사일로 문제
 
-현대 기업은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수십 개의 이기종 시스템에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)되어 있다.
+현대 기업은 데이터가 수십 개의 이기종 시스템에 분산되어 있다.
 
 ```
 [데이터 사일로 현황]
@@ -33,29 +33,29 @@ Oracle DB    PostgreSQL    MongoDB    Salesforce CRM
   +- 실시간 최신 데이터 접근 불가
 ```
 
-### 1.2 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) (Federated Query) 정의
+### 1.2 연방 쿼리 (Federated Query) 정의
 
-연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중앙으로 이동시키지 않고</strong> 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 직접 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하고 결과를 통합하는 기법이다.
+연방 쿼리는 <strong>데이터를 중앙으로 이동시키지 않고</strong> 각 데이터 소스에 직접 쿼리를 실행하고 결과를 통합하는 기법이다.
 
-| 항목 | [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 방식 | 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 방식 |
+| 항목 | ETL 방식 | 연방 쿼리 방식 |
 |:---|:---|:---|
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 | 중앙 저장소로 복사 | 원본 위치에서 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 | 배치 주기 의존 | 실시간 최신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 데이터 이동 | 중앙 저장소로 복사 | 원본 위치에서 쿼리 |
+| 데이터 신선도 | 배치 주기 의존 | 실시간 최신 데이터 |
 | 인프라 비용 | 중앙 저장소 비용 | 소스별 컴퓨팅 비용 |
-| [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 로컬 조회 (빠름) | 네트워크 전송 (느릴 수 있음) |
-| 거버넌스 | 중앙 관리 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 필요 |
+| 쿼리 성능 | 로컬 조회 (빠름) | 네트워크 전송 (느릴 수 있음) |
+| 거버넌스 | 중앙 관리 | 분산 정책 필요 |
 
-### 1.3 [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) 정의
+### 1.3 데이터 패브릭 (Data Fabric) 정의
 
-[데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 이기종 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 <strong>논리적으로 통합</strong>하는 아키텍처 레이어로, 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) + [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) + 자동 거버넌스 + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 카탈로그를 포함한다.
+데이터 패브릭은 이기종 데이터 소스를 <strong>논리적으로 통합</strong>하는 아키텍처 레이어로, 연방 쿼리 + 메타데이터 관리 + 자동 거버넌스 + 데이터 카탈로그를 포함한다.
 
-📢 **섹션 요약 비유**: 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 여러 도서관의 책([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 한 곳으로 모으지 않고, 각 도서관에 사서([쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진)를 보내 원하는 정보를 가져오는 것이다. 도서관([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)은 그대로이고, 정보만 모아온다.
+📢 **섹션 요약 비유**: 연방 쿼리는 여러 도서관의 책(데이터)을 한 곳으로 모으지 않고, 각 도서관에 사서(쿼리 엔진)를 보내 원하는 정보를 가져오는 것이다. 도서관(데이터 소스)은 그대로이고, 정보만 모아온다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 아키텍처
+### 2.1 연방 쿼리 실행 아키텍처
 
 ```
 사용자 쿼리
@@ -88,7 +88,7 @@ PostgreSQL     MongoDB        Salesforce API
                최종 결과 반환
 ```
 
-### 2.2 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화: 프레디케이트 푸시다운 (Predicate Pushdown)
+### 2.2 쿼리 최적화: 프레디케이트 푸시다운 (Predicate Pushdown)
 
 ```
 최적화 전 (비효율):
@@ -111,18 +111,18 @@ PostgreSQL     MongoDB        Salesforce API
 +----------------+-----------------------------+
 ```
 
-### 2.3 주요 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 비교
+### 2.3 주요 연방 쿼리 엔진 비교
 
 | 엔진 | 개발사 | 지원 소스 | 특징 |
 |:---|:---|:---|:---|
-| Trino (구 PrestoSQL) | Trino 재단 | 50+ 커넥터 | 대용량 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 |
-| Presto | Meta | 30+ 커넥터 | 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| AWS Athena Federated Query | AWS | [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 커넥터 | [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) |
-| [BigQuery](/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) Omni | Google | GCS/AWS/Azure | 멀티클라우드 |
-| [Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/) [Unity Catalog](/studynote/16_bigdata/07_data_lake/150_unity_catalog/) | [Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/) | Delta, JDBC | 통합 거버넌스 |
-| Apache Drill | Apache | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 없는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
+| Trino (구 PrestoSQL) | Trino 재단 | 50+ 커넥터 | 대용량 분산 처리 |
+| Presto | Meta | 30+ 커넥터 | 낮은 지연 |
+| AWS Athena Federated Query | AWS | Lambda 커넥터 | 서버리스 |
+| BigQuery Omni | Google | GCS/AWS/Azure | 멀티클라우드 |
+| Databricks Unity Catalog | Databricks | Delta, JDBC | 통합 거버넌스 |
+| Apache Drill | Apache | 파일/NoSQL | 스키마 없는 쿼리 |
 
-### 2.4 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) 아키텍처
+### 2.4 메타데이터 관리 아키텍처
 
 ```
 +------------------------------------------------------+
@@ -145,24 +145,24 @@ PostgreSQL     MongoDB        Salesforce API
 +------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진은 "여행사 코디네이터"와 같다. 고객(사용자)이 "파리와 도쿄를 모두 보고 싶다"고 하면, 코디네이터([쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진)가 각 나라의 여행사([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)에 최적의 패키지를 요청하고 결과를 조합한다.
+📢 **섹션 요약 비유**: 연방 쿼리 엔진은 "여행사 코디네이터"와 같다. 고객(사용자)이 "파리와 도쿄를 모두 보고 싶다"고 하면, 코디네이터(쿼리 엔진)가 각 나라의 여행사(데이터 소스)에 최적의 패키지를 요청하고 결과를 조합한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/) vs [Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 비교
+### 3.1 Data Fabric vs Data Mesh vs Data Lake 비교
 
-| 항목 | [Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) | [Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) | [Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/) |
+| 항목 | Data Lake | Data Fabric | Data Mesh |
 |:---|:---|:---|:---|
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유 | 중앙 팀 | 중앙 기술, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 소스 | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀 |
-| 접근 방식 | 물리적 통합 | 논리적 통합 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 자율 |
+| 데이터 소유 | 중앙 팀 | 중앙 기술, 분산 소스 | 도메인 팀 |
+| 접근 방식 | 물리적 통합 | 논리적 통합 | 분산 자율 |
 | 거버넌스 | 중앙 집권 | 자동화된 거버넌스 | 연방 거버넌스 |
-| 기술 의존성 | 높음 (단일 플랫폼) | 높음 (통합 레이어) | 낮음 ([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율) |
-| 확장성 | 플랫폼 확장 | 커넥터 추가 | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 추가 |
-| 적합 조직 | 소규모, 중앙집권 | 중규모, 하이브리드 | 대규모, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리 |
+| 기술 의존성 | 높음 (단일 플랫폼) | 높음 (통합 레이어) | 낮음 (도메인 자율) |
+| 확장성 | 플랫폼 확장 | 커넥터 추가 | 도메인 추가 |
+| 적합 조직 | 소규모, 중앙집권 | 중규모, 하이브리드 | 대규모, 도메인 분리 |
 
-### 3.2 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 3.2 연방 쿼리 성능 최적화 전략
 
 ```
 성능 병목 요소 및 해결책
@@ -185,7 +185,7 @@ PostgreSQL     MongoDB        Salesforce API
    +- 반복 쿼리 결과 캐시 (Alluxio, Redis)
 ```
 
-### 3.3 Trino 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시
+### 3.3 Trino 연방 쿼리 설정 예시
 
 ```sql
 -- Trino 카탈로그 설정
@@ -212,23 +212,23 @@ ORDER BY o.amount DESC
 LIMIT 100;
 ```
 
-📢 **섹션 요약 비유**: [Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh는 대형 마트 vs 전통 시장의 차이다. 대형 마트([Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))는 한 곳에서 모든 것을 구매하는 편리함을 주고, 전통 시장([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))은 각 가게가 독립적으로 전문 상품을 판매하지만 전체를 조율하는 시장 관리소가 있다.
+📢 **섹션 요약 비유**: Data Fabric vs Data Mesh는 대형 마트 vs 전통 시장의 차이다. 대형 마트(Data Fabric)는 한 곳에서 모든 것을 구매하는 편리함을 주고, 전통 시장(Data Mesh)은 각 가게가 독립적으로 전문 상품을 판매하지만 전체를 조율하는 시장 관리소가 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 도입 적합성 판단
+### 4.1 연방 쿼리 도입 적합성 판단
 
 | 상황 | 권장 방식 | 이유 |
 |:---|:---|:---|
-| 실시간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조합 필요 | 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 이동 없이 최신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| 복잡한 집계/대용량 분석 | [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) + [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 필요 |
-| [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 강화 | [Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 통합 관리 |
-| [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 자율성 중요 | [Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/) | 조직 구조 반영 |
-| 빠른 프로토타이핑 | 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 없이 즉시 탐색 |
+| 실시간 데이터 조합 필요 | 연방 쿼리 | 이동 없이 최신 데이터 |
+| 복잡한 집계/대용량 분석 | ETL + DW | 성능 최적화 필요 |
+| 데이터 거버넌스 강화 | Data Fabric | 메타데이터 통합 관리 |
+| 도메인별 자율성 중요 | Data Mesh | 조직 구조 반영 |
+| 빠른 프로토타이핑 | 연방 쿼리 | ETL 없이 즉시 탐색 |
 
-### 4.2 AWS 환경 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 아키텍처
+### 4.2 AWS 환경 연방 쿼리 아키텍처
 
 ```
 AWS Athena Federated Query 아키텍처
@@ -257,37 +257,37 @@ AWS Athena Federated Query 아키텍처
 
 | 보안 요소 | 구현 방법 |
 |:---|:---|
-| [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) | OAuth2, [IAM](/studynote/09_security/11_iam_access_control/526_iam/) Role, [RBAC](/studynote/09_security/11_iam_access_control/569_rbac/) |
-| 컬럼 레벨 보안 | 뷰([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 기반 마스킹, Apache Ranger |
-| [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | Trino [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) -> S3/CloudWatch |
-| [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) | [VPC](/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 격리, [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 |
-| [데이터 분류](/studynote/09_security/16_data_privacy/808_data_classification/) | 민감도 태그 기반 접근 제어 |
+| 인증/인가 | OAuth2, IAM Role, RBAC |
+| 컬럼 레벨 보안 | 뷰(View) 기반 마스킹, Apache Ranger |
+| 감사 로그 | Trino 쿼리 로그 -> S3/CloudWatch |
+| 네트워크 보안 | VPC 격리, TLS 암호화 |
+| 데이터 분류 | 민감도 태그 기반 접근 제어 |
 
 ### 4.4 기술사 논술 핵심 포인트
 
 | 논점 | 핵심 내용 |
 |:---|:---|
-| 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) vs [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 vs [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 |
-| CBO 최적화 | 통계 정보 없으면 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락 |
-| [Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 구축 | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 카탈로그가 핵심 인프라 |
-| [Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/) 전환 | 조직 문화([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임감) 없으면 실패 |
+| 연방 쿼리 vs ETL | 데이터 신선도 vs 쿼리 성능 트레이드오프 |
+| CBO 최적화 | 통계 정보 없으면 연방 쿼리 성능 급락 |
+| Data Fabric 구축 | 메타데이터 카탈로그가 핵심 인프라 |
+| Data Mesh 전환 | 조직 문화(도메인 책임감) 없으면 실패 |
 
-📢 **섹션 요약 비유**: 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진의 CBO(비용 기반 최적화기)는 네비게이션과 같다. 도로 상황([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통계)을 알아야 최적 경로([실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))를 찾을 수 있고, 정보가 없으면 엉뚱한 우회로를 선택해 시간이 오래 걸린다.
+📢 **섹션 요약 비유**: 연방 쿼리 엔진의 CBO(비용 기반 최적화기)는 네비게이션과 같다. 도로 상황(데이터 통계)을 알아야 최적 경로(실행 계획)를 찾을 수 있고, 정보가 없으면 엉뚱한 우회로를 선택해 시간이 오래 걸린다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 도입 기대효과
+### 5.1 데이터 패브릭 도입 기대효과
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 제거 | [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 60% 감소 |
-| 시간 단축 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 80% 감소 |
-| 거버넌스 자동화 | 수동 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) 90% 감소 |
-| 규정 준수 | [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/studynote/09_security/16_data_privacy/800_ccpa/) 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·마스킹 |
+| 데이터 사일로 제거 | ETL 파이프라인 60% 감소 |
+| 시간 단축 | 데이터 탐색 시간 80% 감소 |
+| 거버넌스 자동화 | 수동 메타데이터 관리 90% 감소 |
+| 규정 준수 | GDPR/CCPA 자동 분류·마스킹 |
 
-### 5.2 진화 방향: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)
+### 5.2 진화 방향: AI 기반 데이터 패브릭
 
 ```
 AI 강화 데이터 패브릭 (미래)
@@ -305,29 +305,29 @@ AI 강화 데이터 패브릭 (미래)
 
 ### 5.3 결론 요약
 
-연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산을 논리적으로 통합하는 현대 [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)의 핵심이다. 기술사 관점에서는 <strong><a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화 기법(Pushdown, CBO), <a href="/studynote/16_bigdata/10_governance/203_metadata_management/">메타데이터 관리</a>의 중요성</strong>, 그리고 <strong><a href="/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">Data Fabric</a> vs <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Mesh의 조직 적합성</strong> 차이를 명확히 이해해야 한다.
+연방 쿼리와 데이터 패브릭은 분산된 데이터 자산을 논리적으로 통합하는 현대 데이터 아키텍처의 핵심이다. 기술사 관점에서는 <strong>쿼리 성능 최적화 기법(Pushdown, CBO), 메타데이터 관리의 중요성</strong>, 그리고 <strong>Data Fabric vs Data Mesh의 조직 적합성</strong> 차이를 명확히 이해해야 한다.
 
-📢 **섹션 요약 비유**: [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 여러 도시([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)를 연결하는 고속도로 네트워크다. 각 도시(소스)는 독립적으로 운영되지만, 고속도로(패브릭)를 통해 어느 도시 정보든 빠르게 접근하고, 교통 관제 시스템([메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/))이 최적 경로를 안내한다.
+📢 **섹션 요약 비유**: 데이터 패브릭은 여러 도시(데이터 소스)를 연결하는 고속도로 네트워크다. 각 도시(소스)는 독립적으로 운영되지만, 고속도로(패브릭)를 통해 어느 도시 정보든 빠르게 접근하고, 교통 관제 시스템(메타데이터)이 최적 경로를 안내한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
-| [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 | Federated Query (연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)) | 이기종 소스 단일 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 조회 |
-| 아키텍처 | [Data Fabric](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) | 이기종 소스 논리적 통합 레이어 |
-| 비교 | [Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/) ([데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)) | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) |
-| 엔진 | Trino (트리노) | [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 |
-| 엔진 | AWS Athena Federated Query | [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
+| 쿼리 패턴 | Federated Query (연방 쿼리) | 이기종 소스 단일 쿼리 조회 |
+| 아키텍처 | Data Fabric (데이터 패브릭) | 이기종 소스 논리적 통합 레이어 |
+| 비교 | Data Mesh (데이터 메시) | 도메인 자율 분산 데이터 아키텍처 |
+| 엔진 | Trino (트리노) | 오픈소스 분산 쿼리 엔진 |
+| 엔진 | AWS Athena Federated Query | 서버리스 연방 쿼리 |
 | 최적화 | Predicate Pushdown | 필터 조건을 소스로 전달 |
-| 최적화 | CBO (Cost-Based [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/)) | 통계 기반 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 |
-| [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) | [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore | [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 기반 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소 |
-| 거버넌스 | Apache Atlas | [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/)·계보 관리 |
+| 최적화 | CBO (Cost-Based Optimizer) | 통계 기반 실행 계획 최적화 |
+| 메타데이터 | Hive Metastore | 하둡 기반 메타데이터 저장소 |
+| 거버넌스 | Apache Atlas | 데이터 거버넌스·계보 관리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 연방 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 여러 도서관에서 책을 빌려오는 심부름꾼이에요. 책을 한 곳으로 옮기지 않고, 각 도서관에서 원하는 부분만 복사해와서 합쳐줘요.
+1. 연방 쿼리는 여러 도서관에서 책을 빌려오는 심부름꾼이에요. 책을 한 곳으로 옮기지 않고, 각 도서관에서 원하는 부분만 복사해와서 합쳐줘요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -348,16 +348,5 @@ AI 강화 데이터 패브릭 (미래)
     v
 데이터 메시 (Data Mesh): 도메인 소유권 분산
 ```
-2. [데이터 패브릭](/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 여러 나라를 연결하는 번역기 겸 지도예요. 어느 나라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 같은 언어(SQL)로 대화할 수 있게 해줘요.
-3. CBO(비용 기반 최적화기)는 네비게이션이에요. 가장 빠른 길([실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 찾아주는데, 교통 정보(통계)가 없으면 엉뚱한 길을 안내할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 195 / 258
-
-<- **이전**: [194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)
-**다음**: [196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) ->
-
----
+2. 데이터 패브릭은 여러 나라를 연결하는 번역기 겸 지도예요. 어느 나라 데이터든 같은 언어(SQL)로 대화할 수 있게 해줘요.
+3. CBO(비용 기반 최적화기)는 네비게이션이에요. 가장 빠른 길(실행 계획)을 찾아주는데, 교통 정보(통계)가 없으면 엉뚱한 길을 안내할 수 있어요.

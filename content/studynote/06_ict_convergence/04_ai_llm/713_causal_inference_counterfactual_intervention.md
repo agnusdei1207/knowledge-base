@@ -169,11 +169,3 @@ $$\widehat{ATE}_{AIPW} = \frac{1}{n} \sum_{i=1}^{n} \left[ \hat{\mu}_1(X_i) - \h
 ### 기술사형 판단 체크리스트
 
 1. **DAG 명시화 및 d-separation 검증**: 도메인 전문가(SME)와 함께 모든 관측 변수의 인과 관계를 명시
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 713 / 800
-
-<- **이전**: [712. 증거 기반 의사결정 분석 프레임워크](/studynote/06_ict_convergence/uncategorized/712_evidence_based_decision_analytics_framework/)
-**다음**: [714. 시계열 분석 ARIMA Prophet 예측](/studynote/06_ict_convergence/uncategorized/714_time_series_analysis_arima_prophet_forecast/) ->
-
----

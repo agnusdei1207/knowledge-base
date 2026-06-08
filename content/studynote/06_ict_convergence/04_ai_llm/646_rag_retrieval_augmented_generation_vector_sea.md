@@ -164,11 +164,3 @@ $$\text{cos}(\mathbf{q}, \mathbf{c}) = \frac{\mathbf{q} \cdot \mathbf{c}}{\|\mat
 - **Haystack (deepset)**: Production-grade RAG 파이프라인
 
 **📢 섹션 요약 비유**: Sparse 검색은 "찾고 싶은 단어가 정확히 적힌 색인"이고, Dense 검색은 "**주제가 비슷한 책장**을 찾아주는 것"이다. Hybrid 검색은 "색인을 먼저 뒤지고, 책장 추천까지 받는" 가장 똑똑한 도서관
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 646 / 800
-
-<- **이전**: [645. LoRA 효율적 파인 튜닝 어댑터](/studynote/06_ict_convergence/uncategorized/645_lora_efficient_fine_tuning_adapter/)
-**다음**: [647. 프롬프트 엔지니어링 체인 오브 쏘트](/studynote/06_ict_convergence/uncategorized/647_prompt_engineering_chain_of_thought/) ->
-
----

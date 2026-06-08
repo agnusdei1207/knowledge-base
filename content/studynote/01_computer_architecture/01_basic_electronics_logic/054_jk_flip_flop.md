@@ -7,19 +7,19 @@ weight: 54
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) (J-K [Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))은 S/R [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 금지 상태를 해결한 순차회로다.
-> 2. **가치**: J=1, K=1일 때 toggle (토글) 동작이 가능해 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 제어회로에 유용하다.
-> 3. **판단 포인트**: 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 구조에서는 race-around (레이스 어라운드) 문제가 생길 수 있어 edge-triggered 설계가 중요하다.
+> 1. **본질**: J-K 플립플롭 (J-K Flip-Flop)은 S/R 플립플롭의 금지 상태를 해결한 순차회로다.
+> 2. **가치**: J=1, K=1일 때 toggle (토글) 동작이 가능해 카운터와 제어회로에 유용하다.
+> 3. **판단 포인트**: 레벨 트리거 구조에서는 race-around (레이스 어라운드) 문제가 생길 수 있어 edge-triggered 설계가 중요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 S/R [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 약점을 보완하기 위해 만들어졌다. 입력 조합이 더 유연해지고, 금지 상태 없이 set, reset, hold, toggle을 모두 표현할 수 있다.
+J-K 플립플롭은 S/R 플립플롭의 약점을 보완하기 위해 만들어졌다. 입력 조합이 더 유연해지고, 금지 상태 없이 set, reset, hold, toggle을 모두 표현할 수 있다.
 
-특히 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 주파수 분주기, 상태기계에서 자주 등장한다.
+특히 비트 카운터, 주파수 분주기, 상태기계에서 자주 등장한다.
 
-- **📢 섹션 요약 비유**: J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 두 개의 스위치로 켜기, 끄기, 유지, 반전까지 할 수 있는 만능 스위치다.
+- **📢 섹션 요약 비유**: J-K 플립플롭은 두 개의 스위치로 켜기, 끄기, 유지, 반전까지 할 수 있는 만능 스위치다.
 
 ---
 
@@ -43,13 +43,13 @@ K -+        ^
 
 핵심은 J-K가 S/R의 금지 상태를 없애면서도, 필요할 때 상태를 뒤집을 수 있게 했다는 점이다.
 
-- **📢 섹션 요약 비유**: J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 엘리베이터의 올라가기/내려가기/정지/반전 버튼을 한 몸에 넣은 장치다.
+- **📢 섹션 요약 비유**: J-K 플립플롭은 엘리베이터의 올라가기/내려가기/정지/반전 버튼을 한 몸에 넣은 장치다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)보다 기능이 많고, S/R [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)보다 안전하다. 다만 구조가 복잡하고 race-around 문제가 있을 수 있다.
+J-K 플립플롭은 D 플립플롭보다 기능이 많고, S/R 플립플롭보다 안전하다. 다만 구조가 복잡하고 race-around 문제가 있을 수 있다.
 
 | 항목 | S/R | D | J-K |
 | :--- | :--- | :--- | :--- |
@@ -57,7 +57,7 @@ J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logi
 | 토글 | 불가 | 불가 | 가능 |
 | 복잡도 | 낮음 | 낮음 | 중간 |
 
-J-K의 toggle 특성은 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 설계에 매우 유용하다. 다만 level-triggered 방식에서는 클록이 길게 유지될 때 상태가 여러 번 뒤집히는 현상을 주의해야 한다.
+J-K의 toggle 특성은 카운터 설계에 매우 유용하다. 다만 level-triggered 방식에서는 클록이 길게 유지될 때 상태가 여러 번 뒤집히는 현상을 주의해야 한다.
 
 - **📢 섹션 요약 비유**: J-K는 D보다 다재다능하지만, 운전이 조금 더 까다로운 자동차다.
 
@@ -65,34 +65,34 @@ J-K의 toggle 특성은 [카운터](/studynote/01_computer_architecture/01_basic
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 master-slave 구조나 edge-triggered 구현으로 race-around를 피한다. 또한 preset/clear, 타이밍 조건, [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 연결 방식을 함께 봐야 한다.
+실무에서는 master-slave 구조나 edge-triggered 구현으로 race-around를 피한다. 또한 preset/clear, 타이밍 조건, 카운터 연결 방식을 함께 봐야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. toggle 동작이 필요한 회로인가?
 2. level-triggered race-around를 피했는가?
 3. setup/hold 조건을 만족하는가?
 4. 비동기 preset/clear가 안전한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - J=K=1을 장시간 허용하는 구조
-- D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)으로 충분한데 굳이 J-K를 쓰는 경우
+- D 플립플롭으로 충분한데 굳이 J-K를 쓰는 경우
 - 클록 폭을 고려하지 않는 경우
 
-기술사 관점에서는 J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 상태 반전 기능을 제공하지만, 설계 복잡성이 증가한다는 점을 설명해야 한다.
+기술사 관점에서는 J-K 플립플롭이 상태 반전 기능을 제공하지만, 설계 복잡성이 증가한다는 점을 설명해야 한다.
 
-- **📢 섹션 요약 비유**: J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 반전까지 되는 만능 리모컨이지만, 버튼이 많아 헷갈릴 수 있다.
+- **📢 섹션 요약 비유**: J-K 플립플롭은 반전까지 되는 만능 리모컨이지만, 버튼이 많아 헷갈릴 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 제어회로에서 중요한 역할을 한다. S/R보다 안전하고, toggle 기능으로 동작 범위가 넓다.
+J-K 플립플롭은 카운터와 제어회로에서 중요한 역할을 한다. S/R보다 안전하고, toggle 기능으로 동작 범위가 넓다.
 
 정리하면, J-K는 "금지 상태 없는 S/R"이자 "반전 가능한 순차소자"다.
 
-- **📢 섹션 요약 비유**: J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 하나의 스위치로 불을 켰다 껐다 하는 현관 전등이다.
+- **📢 섹션 요약 비유**: J-K 플립플롭은 하나의 스위치로 불을 켰다 껐다 하는 현관 전등이다.
 
 ---
 
@@ -104,7 +104,7 @@ J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logi
 | D | 단순 저장 |
 | toggle | 반전 동작 |
 | race-around | 설계 주의점 |
-| [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | 대표 응용 |
+| Counter | 대표 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,17 +125,6 @@ Edge-triggered J-K
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. J-K [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 두 버튼으로 켜고 끄고 뒤집을 수 있는 장난감이에요.
+1. J-K 플립플롭은 두 버튼으로 켜고 끄고 뒤집을 수 있는 장난감이에요.
 2. 버튼을 오래 누르면 헷갈릴 수 있어서, 딱 한 번만 눌러야 해요.
 3. 그래서 규칙에 맞게 쓰면 숫자를 세는 데 아주 좋아요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 54 / 803
-
-<- **이전**: [53. D 플립플롭 (D Flip-Flop)](/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/)
-**다음**: [55. T 플립플롭 (T Flip-Flop)](/studynote/01_computer_architecture/01_basic_electronics_logic/055_t_flip_flop/) ->
-
----

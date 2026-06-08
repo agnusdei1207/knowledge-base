@@ -136,11 +136,3 @@ ICT 융합은 단일 기술이 아니므로, **유사·대안·선행 기술과�
 | **데이터 거버넌스** | 중앙 통제 쉬움 | 복잡(다수 주체 조율) | 도메인 자율 + 중앙 정책 |
 | **적합 시나리오** | 단일 공정, 규제 엄격(방산·원전) | 스마트시티, 다부문 협업 | 공급망·생태계(Automotive, 헬스케어) |
 | **표준 예시** | OPC UA Companion Spec | oneM2M, NGSI-LD, W3C WoT | GA
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 799 / 800
-
-<- **이전**: [798. ICT 융합 기술 미래 비전 2030 전망](/studynote/06_ict_convergence/uncategorized/798_ict_convergence_future_vision_2030_outlook/)
-**다음**: [800. 800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성](/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/) ->
-
----

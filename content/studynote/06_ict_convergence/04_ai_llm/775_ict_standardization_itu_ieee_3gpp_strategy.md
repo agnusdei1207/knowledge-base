@@ -134,11 +134,3 @@ ICT 표준화 3대 기구의 **계층적·기능적 분업 구조**는 다음과
 | **ITU-D (개발국)** | 개발도상국 역량 강화, ICT 지표(e-Health, e-Education) | Connect 2030 Agenda, ICT 개발 지수(IDI) 산정, WTSA(세계전기통신표준화총회) 정책 조정 |
 | **IEEE-SA** | 산업 주도 단일/이종 액세스 기술 표준화 | 802.11be(2024): MLO + 320MHz + 4096-QAM -> 46Gbps, 802.11ay(60GHz, 100Gbps), 802.11bb(빛 기반 LiFi), 1901(PLC), 802.22(WRAN TV White Space), 1547(DER/스마트그리드), 7000-series 의료 AI/IoT |
 | **3GPP TSG-RAN** | RAN(Radio Access Network) 무선 인터페이스 규격 | RAN1: 물리계층(NR numerology μ=0..5
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 775 / 800
-
-<- **이전**: [774. 사이버 주권 디지털 자주권 기술 독립](/studynote/06_ict_convergence/uncategorized/774_cyber_sovereignty_digital_independence/)
-**다음**: [776. 기술 예측 하이프 사이클 기술 로드맵](/studynote/06_ict_convergence/uncategorized/776_technology_forecasting_hype_cycle_roadmap/) ->
-
----

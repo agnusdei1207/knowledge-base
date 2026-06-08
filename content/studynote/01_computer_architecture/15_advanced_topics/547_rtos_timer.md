@@ -7,17 +7,17 @@ weight: 547
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 타이머는 독립된 하드웨어 클럭을 세어 일정 시점에 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 비교 일치, 캡처, 워치독 리셋 같은 이벤트를 발생시키는 시간 기준 장치다.
-> 2. **가치**: RTOS (Real-Time [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 스케줄링, 제어 주기 유지, 정밀 계측, 장애 감시가 모두 이 타이머의 결정론성 위에서 성립한다.
-> 3. **판단 포인트**: 좋은 타이머는 단순히 해상도가 높은 것이 아니라, 분해능·[카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 폭·지터·저전력 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)·[인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 오버헤드를 함께 균형 잡아야 한다.
+> 1. **본질**: 실시간 시스템 타이머는 독립된 하드웨어 클럭을 세어 일정 시점에 인터럽트, 비교 일치, 캡처, 워치독 리셋 같은 이벤트를 발생시키는 시간 기준 장치다.
+> 2. **가치**: RTOS (Real-Time Operating System) 스케줄링, 제어 주기 유지, 정밀 계측, 장애 감시가 모두 이 타이머의 결정론성 위에서 성립한다.
+> 3. **판단 포인트**: 좋은 타이머는 단순히 해상도가 높은 것이 아니라, 분해능·카운터 폭·지터·저전력 도메인·인터럽트 오버헤드를 함께 균형 잡아야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 타이머는 시스템이 "얼마나 시간이 지났는지"를 세는 장치가 아니라, <strong>언제 다음 일을 시작해야 하는지 알려 주는 <a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a></strong>이다. 제어 주기 100μs, 작업 스케줄링 1ms, 워치독 감시 100ms처럼 각기 다른 deadline이 공존하는 환경에서는 시간이 흔들리는 순간 전체 시스템의 질서가 무너진다.
+실시간 시스템 타이머는 시스템이 "얼마나 시간이 지났는지"를 세는 장치가 아니라, <strong>언제 다음 일을 시작해야 하는지 알려 주는 기준선</strong>이다. 제어 주기 100μs, 작업 스케줄링 1ms, 워치독 감시 100ms처럼 각기 다른 deadline이 공존하는 환경에서는 시간이 흔들리는 순간 전체 시스템의 질서가 무너진다.
 
-범용 소프트웨어 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 함수가 [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)에 부족한 이유도 여기에 있다. `sleep(1ms)` 같은 호출은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄링, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 금지, 캐시 미스에 영향을 받기 때문에 실제 깨어나는 시점이 달라질 수 있다. 반면 하드웨어 타이머는 분주된 클럭을 직접 세므로, 같은 조건이면 같은 시점에 비교 일치와 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 낸다. 즉 [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)에서 deadline은 CPU (Central Processing Unit) 성능이 아니라 **정확한 시간 기준** 위에서만 의미를 가진다.
+범용 소프트웨어 지연 함수가 실시간 시스템에 부족한 이유도 여기에 있다. `sleep(1ms)` 같은 호출은 운영체제 스케줄링, 인터럽트 금지, 캐시 미스에 영향을 받기 때문에 실제 깨어나는 시점이 달라질 수 있다. 반면 하드웨어 타이머는 분주된 클럭을 직접 세므로, 같은 조건이면 같은 시점에 비교 일치와 인터럽트를 낸다. 즉 실시간 시스템에서 deadline은 CPU (Central Processing Unit) 성능이 아니라 **정확한 시간 기준** 위에서만 의미를 가진다.
 
 이 그림은 제어 루프에서 타이머가 맡는 역할을 요약한다.
 
@@ -29,7 +29,7 @@ weight: 547
 +----------------------------------------------------------------------------+
 ```
 
-따라서 실시간 타이머의 필요성은 "시간 측정" 그 자체보다, <strong>시스템 전체를 같은 박자에 맞춰 움직이게 만드는 것</strong>에 있다. [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 모터 제어, 센서 샘플링, 슬립 복귀 모두 이 박자를 공유한다.
+따라서 실시간 타이머의 필요성은 "시간 측정" 그 자체보다, <strong>시스템 전체를 같은 박자에 맞춰 움직이게 만드는 것</strong>에 있다. 스케줄러, 모터 제어, 센서 샘플링, 슬립 복귀 모두 이 박자를 공유한다.
 
 - **📢 섹션 요약 비유**: 실시간 타이머는 공연장에서 모든 연주자가 따라가는 지휘자의 박자봉과 같다. 박자가 조금만 흔들려도 연주는 금세 엉킨다.
 
@@ -37,9 +37,9 @@ weight: 547
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실시간 타이머의 기본 구조는 클럭 소스 -> 분주기 -> [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) -> 비교/캡처 -> [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 또는 출력 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 이어진다. 이 경로가 하드웨어로 닫혀 있기 때문에 소프트웨어보다 지터가 작고 예측 가능하다.
+실시간 타이머의 기본 구조는 클럭 소스 -> 분주기 -> 카운터 -> 비교/캡처 -> 인터럽트 또는 출력 생성으로 이어진다. 이 경로가 하드웨어로 닫혀 있기 때문에 소프트웨어보다 지터가 작고 예측 가능하다.
 
-타이머 이벤트는 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청 (IRQ), [인터럽트 서비스 루틴](/studynote/02_operating_system/01_overview_architecture/020_isr/) ([ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/)), [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), PWM (Pulse Width Modulation), 워치독 리셋으로 이어질 수 있다.
+타이머 이벤트는 인터럽트 요청 (IRQ), 인터럽트 서비스 루틴 (ISR), DMA (Direct Memory Access), PWM (Pulse Width Modulation), 워치독 리셋으로 이어질 수 있다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -51,20 +51,20 @@ weight: 547
 
 핵심 설계식은 비교적 단순하다.
 
-> <strong>분해능(Resolution) = 1 / <a href="/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a></strong>
-> **최대 측정 구간 = 2^N × Resolution**  (`N`은 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)
+> <strong>분해능(Resolution) = 1 / Timer Clock</strong>
+> **최대 측정 구간 = 2^N × Resolution**  (`N`은 카운터 비트 수)
 
-예를 들어 48MHz 타이머를 32비트 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)로 쓰면 분해능은 약 20.8ns이고, overflow까지 약 89.5초를 잴 수 있다. 하지만 같은 48MHz에 16비트 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)면 최대 구간이 약 1.36ms에 불과하다. 그래서 실시간 타이머 설계는 해상도만 높이면 끝나는 문제가 아니라, <strong>얼마나 오래 세야 하는지</strong>와 함께 봐야 한다.
+예를 들어 48MHz 타이머를 32비트 카운터로 쓰면 분해능은 약 20.8ns이고, overflow까지 약 89.5초를 잴 수 있다. 하지만 같은 48MHz에 16비트 카운터면 최대 구간이 약 1.36ms에 불과하다. 그래서 실시간 타이머 설계는 해상도만 높이면 끝나는 문제가 아니라, <strong>얼마나 오래 세야 하는지</strong>와 함께 봐야 한다.
 
 | 타이머 형태 | 핵심 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 시스템 틱 타이머 | 주기적 [스케줄링 기준](/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/) | [tick](/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) 주기와 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 오버헤드의 균형 |
-| 일회성 예약([one-shot](/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/)) 타이머 | 다음 [deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 한 번만 예약 | [tickless](/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/) 운영, 낮은 오버헤드 |
-| capture/compare 타이머 | 입력 시간 측정, 정확한 출력 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 센서 타임스탬프, PWM [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| RTC (Real-Time [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) | 저전력 장기 시간 유지 | 느린 클럭, 긴 지속성 |
-| WDT ([Watchdog Timer](/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/)) | 소프트웨어 정지 감시 | [timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/), window 조건 |
+| 시스템 틱 타이머 | 주기적 스케줄링 기준 | tick 주기와 인터럽트 오버헤드의 균형 |
+| 일회성 예약(one-shot) 타이머 | 다음 deadline 한 번만 예약 | tickless 운영, 낮은 오버헤드 |
+| capture/compare 타이머 | 입력 시간 측정, 정확한 출력 생성 | 센서 타임스탬프, PWM 생성 |
+| RTC (Real-Time Clock) | 저전력 장기 시간 유지 | 느린 클럭, 긴 지속성 |
+| WDT (Watchdog Timer) | 소프트웨어 정지 감시 | timeout, window 조건 |
 
-실시간 타이머를 논할 때 SysTick, local [timer](/studynote/02_operating_system/01_overview_architecture/071_os_timer/), high-resolution [timer](/studynote/02_operating_system/01_overview_architecture/071_os_timer/), watchdog은 같은 듯 다른 역할을 가진다. SysTick이나 periodic timer는 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 박자를 만들고, compare timer는 특정 시점을 예약하며, watchdog은 "정상 흐름이 깨졌는가"를 감시한다. 결국 타이머는 하나의 칩 주변장치가 아니라 <strong>시간을 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·예약·감시하는 하드웨어 집합</strong>이다.
+실시간 타이머를 논할 때 SysTick, local timer, high-resolution timer, watchdog은 같은 듯 다른 역할을 가진다. SysTick이나 periodic timer는 스케줄러 박자를 만들고, compare timer는 특정 시점을 예약하며, watchdog은 "정상 흐름이 깨졌는가"를 감시한다. 결국 타이머는 하나의 칩 주변장치가 아니라 <strong>시간을 생성·예약·감시하는 하드웨어 집합</strong>이다.
 
 - **📢 섹션 요약 비유**: 타이머 구조는 시계추, 초침, 알람, 스톱워치가 한 몸에 들어 있는 시계와 같다. 같은 시계라도 어떤 기능을 쓰느냐에 따라 쓰임새가 완전히 달라진다.
 
@@ -72,19 +72,19 @@ weight: 547
 
 ## Ⅲ. 비교 및 연결
 
-실시간 타이머를 이해할 때는 소프트웨어 타이머, 주기 타이머, [one-shot](/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) 타이머, RTC를 서로 구분해야 한다.
+실시간 타이머를 이해할 때는 소프트웨어 타이머, 주기 타이머, one-shot 타이머, RTC를 서로 구분해야 한다.
 
-| 항목 | 소프트웨어 타이머 | 주기 하드웨어 타이머 | [one-shot](/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) / 고해상도 타이머 | RTC |
+| 항목 | 소프트웨어 타이머 | 주기 하드웨어 타이머 | one-shot / 고해상도 타이머 | RTC |
 | :--- | :--- | :--- | :--- | :--- |
-| 시간 기준 | [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | 온칩 클럭 | 온칩 클럭 | 저속 독립 클럭 |
+| 시간 기준 | 운영체제 (Operating System, OS) 스케줄러 | 온칩 클럭 | 온칩 클럭 | 저속 독립 클럭 |
 | 지터 | 큼 | 작음 | 매우 작음 | 상대적으로 큼 |
-| 장점 | 구현 단순 | 안정적 주기 | 불필요한 [tick](/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) 감소 | 저전력 장시간 유지 |
-| 약점 | [deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 보장 약함 | 빈번한 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가능 | 관리 복잡도 증가 | 해상도 낮음 |
-| 적합한 용도 | 일반 앱 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) | RTOS 틱, 주기 제어 | sparse [deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/), 정밀 예약 | 수면 복귀, 시각 유지 |
+| 장점 | 구현 단순 | 안정적 주기 | 불필요한 tick 감소 | 저전력 장시간 유지 |
+| 약점 | deadline 보장 약함 | 빈번한 인터럽트 가능 | 관리 복잡도 증가 | 해상도 낮음 |
+| 적합한 용도 | 일반 앱 타임아웃 | RTOS 틱, 주기 제어 | sparse deadline, 정밀 예약 | 수면 복귀, 시각 유지 |
 
-소프트웨어 타이머는 결국 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 깨어나 처리해야 하므로 실시간성의 기반이 되기 어렵다. 주기 타이머는 이해하기 쉽고 안정적이지만, 이벤트가 드문 시스템에서도 계속 틱을 발생시켜 전력과 CPU 시간을 소모한다. 그래서 현대 RTOS와 범용 OS는 [tickless](/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/) mode와 [one-shot](/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) high-resolution timer를 함께 활용해, 필요한 순간에만 정확히 깨우는 방향으로 발전하고 있다.
+소프트웨어 타이머는 결국 스케줄러가 깨어나 처리해야 하므로 실시간성의 기반이 되기 어렵다. 주기 타이머는 이해하기 쉽고 안정적이지만, 이벤트가 드문 시스템에서도 계속 틱을 발생시켜 전력과 CPU 시간을 소모한다. 그래서 현대 RTOS와 범용 OS는 tickless mode와 one-shot high-resolution timer를 함께 활용해, 필요한 순간에만 정확히 깨우는 방향으로 발전하고 있다.
 
-이 개념은 545번 [인터럽트 지연 시간](/studynote/01_computer_architecture/15_advanced_topics/545_interrupt_latency/) 최소화와도 직접 연결된다. 타이머 이벤트가 정확히 발생해도 [ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/) 진입이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 실제 제어 시점은 흔들린다. 반대로 546번 [TSN](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 하드웨어에서는 네트워크 시간표와 CPU 로컬 타이머가 맞아야 [end-to-end](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) deadline이 성립한다. 즉 타이머는 독립 장치이면서도 <strong><a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>, <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>, 네트워크 시간 동기와 이어진 시간 인프라</strong>다.
+이 개념은 545번 인터럽트 지연 시간 최소화와도 직접 연결된다. 타이머 이벤트가 정확히 발생해도 ISR 진입이 지연되면 실제 제어 시점은 흔들린다. 반대로 546번 TSN 하드웨어에서는 네트워크 시간표와 CPU 로컬 타이머가 맞아야 end-to-end deadline이 성립한다. 즉 타이머는 독립 장치이면서도 <strong>인터럽트, 스케줄러, 네트워크 시간 동기와 이어진 시간 인프라</strong>다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 타이머는 사람이 휴대폰 알람을 듣고 일어나는 것이고, 하드웨어 타이머는 공장 전등과 기계를 동시에 켜는 자동 제어반과 같다. 누가 더 일정한지 차이가 명확하다.
 
@@ -92,31 +92,31 @@ weight: 547
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 타이머 설계는 "몇 ns까지 잴 수 있는가"보다 <strong>얼마나 적은 비용으로 필요한 deadline을 보장할 수 있는가</strong>가 중요하다. 해상도를 지나치게 높이면 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도가 늘고, 너무 느린 클럭을 쓰면 제어 오차가 커진다.
+실무에서 타이머 설계는 "몇 ns까지 잴 수 있는가"보다 <strong>얼마나 적은 비용으로 필요한 deadline을 보장할 수 있는가</strong>가 중요하다. 해상도를 지나치게 높이면 인터럽트 빈도가 늘고, 너무 느린 클럭을 쓰면 제어 오차가 커진다.
 
-### 적용 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 판단 체크리스트
 
-1. 필요한 제어 주기와 측정 분해능이 타이머 클럭과 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 폭 안에서 충족되는가?
-2. periodic tick이 정말 필요한가, 아니면 [one-shot](/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/)/tickless가 더 적합한가?
-3. 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ISR이 캐시 미스와 긴 임계구역 때문에 지터를 키우지 않는가?
+1. 필요한 제어 주기와 측정 분해능이 타이머 클럭과 카운터 폭 안에서 충족되는가?
+2. periodic tick이 정말 필요한가, 아니면 one-shot/tickless가 더 적합한가?
+3. 타이머 인터럽트 ISR이 캐시 미스와 긴 임계구역 때문에 지터를 키우지 않는가?
 4. 저전력 모드에서 유지해야 할 시간축과 꺼도 되는 시간축이 분리되어 있는가?
-5. watchdog timeout과 window가 WCET (Worst-Case [Execution Time](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))와 맞게 설정되어 있는가?
+5. watchdog timeout과 window가 WCET (Worst-Case Execution Time)와 맞게 설정되어 있는가?
 
-### 대표 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 대표 안티패턴
 
-- 10μs 단위처럼 지나치게 빠른 시스템 틱을 걸어 CPU를 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리기로 만들어 버리는 구성
+- 10μs 단위처럼 지나치게 빠른 시스템 틱을 걸어 CPU를 인터럽트 처리기로 만들어 버리는 구성
 - busy-wait 루프로 시간을 맞추며 다른 긴급 작업을 막는 코드
-- wall [clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 성격의 RTC를 고정밀 제어 타이머로 오용하는 설계
+- wall clock 성격의 RTC를 고정밀 제어 타이머로 오용하는 설계
 - 멀티코어에서 코어별 로컬 타이머 오차를 무시하고 글로벌 순서를 가정하는 운영
 
 ### 실무 판단 포인트
 
 - **주기 제어가 단순한 MCU**: periodic timer가 구현과 검증이 쉽다.
-- **deadline이 드문 고성능 시스템**: [one-shot](/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) high-resolution timer가 오버헤드를 줄인다.
+- **deadline이 드문 고성능 시스템**: one-shot high-resolution timer가 오버헤드를 줄인다.
 - **안전 시스템**: window watchdog을 사용해 늦은 응답뿐 아니라 너무 이른 응답도 검출하는 편이 낫다.
 - **저전력 장치**: 메인 타이머와 RTC를 분리해 활성 상태와 슬립 상태의 시간축을 따로 관리해야 한다.
 
-기술사 답안에서는 타이머를 단순 주변장치로 쓰기보다, <strong>분해능·<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 폭·지터·전력·감시 기능</strong>을 함께 설계하는 시간 제어 체계로 설명해야 깊이가 생긴다.
+기술사 답안에서는 타이머를 단순 주변장치로 쓰기보다, <strong>분해능·카운터 폭·지터·전력·감시 기능</strong>을 함께 설계하는 시간 제어 체계로 설명해야 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 타이머 설계는 주방 타이머를 고르는 일이 아니다. 초 단위 요리, 시간 단위 발효, 화재 경보기까지 한 주방 안에서 각기 다른 시계를 배치하는 일에 가깝다.
 
@@ -124,11 +124,11 @@ weight: 547
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 타이머는 시스템을 빠르게 만들기보다 **정확하고 반복 가능하게** 만든다. [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 deadline을 예측 가능하게 관리하고, 제어 루프는 일정한 주기를 유지하며, watchdog은 고장 난 소프트웨어를 다시 일으킨다. 이 덕분에 로봇, 차량, 산업 설비, 의료기기처럼 시간 오차가 곧 품질과 안전으로 이어지는 환경에서 신뢰성이 높아진다.
+좋은 실시간 시스템 타이머는 시스템을 빠르게 만들기보다 **정확하고 반복 가능하게** 만든다. 스케줄러는 deadline을 예측 가능하게 관리하고, 제어 루프는 일정한 주기를 유지하며, watchdog은 고장 난 소프트웨어를 다시 일으킨다. 이 덕분에 로봇, 차량, 산업 설비, 의료기기처럼 시간 오차가 곧 품질과 안전으로 이어지는 환경에서 신뢰성이 높아진다.
 
-한계도 있다. 클럭 소스 자체는 온도와 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화의 영향을 받고, 저전력 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전환 시 시간축이 분리될 수 있으며, [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 virtual timer가 추가 오버헤드를 만든다. 앞으로는 PTP ([Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Time [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 기반 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 타이머 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [heterogeneous](/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))의 공통 timebase, 하드웨어 timestamp counter와 [tickless](/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/) scheduling의 결합처럼 <strong>시간축을 더 넓은 시스템 범위에서 정렬하는 방향</strong>이 중요해질 것이다.
+한계도 있다. 클럭 소스 자체는 온도와 전압 변화의 영향을 받고, 저전력 도메인 전환 시 시간축이 분리될 수 있으며, 가상화 환경에서는 virtual timer가 추가 오버헤드를 만든다. 앞으로는 PTP (Precision Time Protocol) 기반 분산 타이머 동기화, heterogeneous SoC (System on Chip)의 공통 timebase, 하드웨어 timestamp counter와 tickless scheduling의 결합처럼 <strong>시간축을 더 넓은 시스템 범위에서 정렬하는 방향</strong>이 중요해질 것이다.
 
-결론적으로 [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 타이머는 "시간을 세는 장치"가 아니라 <strong>deadline을 현실로 만들어 주는 하드웨어 계약</strong>으로 기억하는 것이 맞다. 이 관점을 잡으면 왜 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), watchdog, 저전력 복귀가 모두 타이머 위에 서 있는지도 자연스럽게 보인다.
+결론적으로 실시간 시스템 타이머는 "시간을 세는 장치"가 아니라 <strong>deadline을 현실로 만들어 주는 하드웨어 계약</strong>으로 기억하는 것이 맞다. 이 관점을 잡으면 왜 스케줄러, 인터럽트, watchdog, 저전력 복귀가 모두 타이머 위에 서 있는지도 자연스럽게 보인다.
 
 - **📢 섹션 요약 비유**: 좋은 타이머는 밴드의 드러머와 같다. 눈에 가장 띄지는 않지만, 드러머가 흔들리면 나머지 연주도 전부 무너진다.
 
@@ -139,11 +139,11 @@ weight: 547
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | SysTick | 주기적 스케줄링의 대표적 하드웨어 타이머다. |
-| [One-shot](/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) [Timer](/studynote/02_operating_system/01_overview_architecture/071_os_timer/) | 다음 deadline만 정확히 예약해 [tick](/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) 오버헤드를 줄인다. |
-| Capture/Compare | 입력 이벤트의 시각을 재거나 정밀 출력을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 핵심 기능이다. |
-| WDT ([Watchdog Timer](/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/)) | 시간 초과를 이용해 시스템 정지를 감시한다. |
-| RTC (Real-Time [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) | 저전력 상태에서도 긴 시간축을 유지한다. |
-| WCET (Worst-Case [Execution Time](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)) | 타이머 주기와 watchdog [timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 설계의 기준이 된다. |
+| One-shot Timer | 다음 deadline만 정확히 예약해 tick 오버헤드를 줄인다. |
+| Capture/Compare | 입력 이벤트의 시각을 재거나 정밀 출력을 생성하는 핵심 기능이다. |
+| WDT (Watchdog Timer) | 시간 초과를 이용해 시스템 정지를 감시한다. |
+| RTC (Real-Time Clock) | 저전력 상태에서도 긴 시간축을 유지한다. |
+| WCET (Worst-Case Execution Time) | 타이머 주기와 watchdog timeout 설계의 기준이 된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -163,21 +163,10 @@ High-resolution one-shot timer · tickless scheduling
 분산 시간 동기 · 가상화 timer · 공통 SoC timebase
 ```
 
-이 흐름은 타이머가 단순 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서 출발해, 이제는 시스템 전체의 시간 질서를 조율하는 기반 인프라로 확장되고 있음을 보여 준다.
+이 흐름은 타이머가 단순 카운터에서 출발해, 이제는 시스템 전체의 시간 질서를 조율하는 기반 인프라로 확장되고 있음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 실시간 타이머는 컴퓨터 안에서 "지금 할 시간!"을 정확히 알려 주는 시계예요.
 2. 이 시계가 정확해야 로봇도 같은 박자로 움직이고, 컴퓨터가 멈췄을 때도 빨리 알아챌 수 있어요.
 3. 그래서 좋은 타이머는 단순한 시계가 아니라 컴퓨터의 약속 시간을 지켜 주는 선생님 같답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 547 / 803
-
-<- **이전**: [546. 결정론적 이더넷 (TSN) 하드웨어](/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/)
-**다음**: [548. 자율주행용 고성능 컴퓨터 (HPC)](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ->
-
----

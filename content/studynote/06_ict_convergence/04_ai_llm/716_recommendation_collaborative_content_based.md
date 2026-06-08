@@ -194,11 +194,3 @@ L = Σ_{(u,i)∈Ω} (r_ui - μ - b_u - b_i - p_uᵀq_i)²
 | **입력 데이터** | 사용자-아이템 인터랙션 행렬 (R) | 아이템 메타데이터, 사용자 프로파일 |
 | **핵심 가정** | "비슷한 사용자는 비슷한 취향" | "과거 선호 아이템과 유사한 속성" |
 | **대표 알고리즘** | User/Item KNN, MF(SVD/ALS), NeuMF, LightGCN | TF-IDF + Rocchio, Embedding(KNN), Deep
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 716 / 800
-
-<- **이전**: [715. 자연어 처리 감성 분석 텍스트 마이닝](/studynote/06_ict_convergence/uncategorized/715_nlp_sentiment_analysis_text_mining/)
-**다음**: [717. 이미지 인식 CNN 객체 탐지 분할](/studynote/06_ict_convergence/uncategorized/717_image_recognition_cnn_object_detection/) ->
-
----

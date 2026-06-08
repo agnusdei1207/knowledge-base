@@ -159,11 +159,3 @@ repeat
     A := readActualStateFromKubeAPI(D)
     Δ := diff(D, A)
     if Δ = ∅ then return  // 수렴
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 617 / 800
-
-<- **이전**: [616. 서비스 메시 Istio Envoy 데이터 플레인](/studynote/06_ict_convergence/uncategorized/616_service_mesh_istio_envoy_data_plane/)
-**다음**: [618. Helm 차트 패키지 관리 배포 자동화](/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/) ->
-
----

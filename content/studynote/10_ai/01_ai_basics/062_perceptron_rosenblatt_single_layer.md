@@ -7,15 +7,15 @@ weight: 62
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)([Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 입력의 가중합이 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 1, 아니면 0을 내는 단층 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
-> 2. **가치**: [인공 신경망](/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)의 출발점으로서 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 학습과 뉴런 모방의 기초를 만든다.
-> 3. **한계**: XOR (Exclusive OR)처럼 선형 분리 불가능한 문제는 [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)만으로 풀 수 없다.
+> 1. **본질**: 퍼셉트론(Perceptron)은 입력의 가중합이 임계치를 넘으면 1, 아니면 0을 내는 단층 선형 분류기다.
+> 2. **가치**: 인공 신경망의 출발점으로서 가중치 학습과 뉴런 모방의 기초를 만든다.
+> 3. **한계**: XOR (Exclusive OR)처럼 선형 분리 불가능한 문제는 단층 퍼셉트론만으로 풀 수 없다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1950년대 컴퓨터는 규칙을 사람이 직접 넣어야만 했다. [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "학습하는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)"를 만들겠다는 발상에서 출발했다.
+1950년대 컴퓨터는 규칙을 사람이 직접 넣어야만 했다. 퍼셉트론은 "학습하는 스위치"를 만들겠다는 발상에서 출발했다.
 
 뉴런의 동작을 수학으로 단순화해, 입력이 여러 개여도 하나의 출력으로 결론을 내리는 구조를 보여 준다.
 
@@ -40,13 +40,13 @@ w1, w2, w3
 | 요소 | 의미 |
 | :-- | :-- |
 | Input | 입력값 |
-| [Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 중요도 |
-| [Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) | 기준 이동 |
+| Weight | 중요도 |
+| Bias | 기준 이동 |
 | Activation | 0/1 결정 |
 
-[퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 기본 식은 `y = f(Σ(wi × xi) + b)`로 요약된다. 단순하지만, 학습을 통해 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 조정할 수 있다는 점이 중요했다.
+퍼셉트론의 기본 식은 `y = f(Σ(wi × xi) + b)`로 요약된다. 단순하지만, 학습을 통해 가중치를 조정할 수 있다는 점이 중요했다.
 
-- **📢 섹션 요약 비유**: 점수를 매겨 합계가 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 넘으면 합격시키는 심사관이다.
+- **📢 섹션 요약 비유**: 점수를 매겨 합계가 기준선을 넘으면 합격시키는 심사관이다.
 
 ---
 
@@ -54,12 +54,12 @@ w1, w2, w3
 
 | 모델 | 특징 | 한계 / 강점 |
 | :-- | :-- | :-- |
-| [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) | 단층 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | XOR 불가 |
-| MLP (Multi-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)) | 은닉층 포함 | 비선형 문제 처리 |
-| [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) | 신경망 일반 | 구조에 따라 다양 |
-| Deep [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) | 깊은 층 구조 | 표현력 매우 강함 |
+| Perceptron | 단층 선형 분류 | XOR 불가 |
+| MLP (Multi-Layer Perceptron) | 은닉층 포함 | 비선형 문제 처리 |
+| ANN | 신경망 일반 | 구조에 따라 다양 |
+| Deep Learning | 깊은 층 구조 | 표현력 매우 강함 |
 
-[퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 작지만, 다층 구조와 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/))로 이어지며 현대 딥러닝의 토대가 되었다. 즉, 실패한 모델이 아니라 더 큰 모델의 출발점이다.
+퍼셉트론은 작지만, 다층 구조와 역전파(Backpropagation)로 이어지며 현대 딥러닝의 토대가 되었다. 즉, 실패한 모델이 아니라 더 큰 모델의 출발점이다.
 
 - **📢 섹션 요약 비유**: 한 칸짜리 계산기가 나중에 거대한 계산 시스템의 첫 벽돌이 된 셈이다.
 
@@ -67,21 +67,21 @@ w1, w2, w3
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
-1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형 분리 가능한가?
-2. [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)과 수렴 조건을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
+1. 데이터가 선형 분리 가능한가?
+2. 학습률(Learning Rate)과 수렴 조건을 확인했는가?
 3. 단층 모델의 한계를 이해했는가?
 4. 더 복잡한 문제면 다층 구조를 고려했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- XOR 같은 비선형 문제에 [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)을 집어넣는 설계
-- [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 의미를 이해하지 못한 채 남용하는 설계
-- 학습이 안 되는데 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제를 보지 않는 설계
-- 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기와 신경망을 혼동하는 설계
+- XOR 같은 비선형 문제에 단층 퍼셉트론을 집어넣는 설계
+- 가중치와 임계치 의미를 이해하지 못한 채 남용하는 설계
+- 학습이 안 되는데 데이터 문제를 보지 않는 설계
+- 선형 분류기와 신경망을 혼동하는 설계
 
-기술사 관점에서는 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)을 "현대 딥러닝의 벽돌"로 이해해야 한다. 단층의 한계가 곧 다층 구조의 필요성을 보여 준다.
+기술사 관점에서는 퍼셉트론을 "현대 딥러닝의 벽돌"로 이해해야 한다. 단층의 한계가 곧 다층 구조의 필요성을 보여 준다.
 
 - **📢 섹션 요약 비유**: 한 줄로만 설명하는 기계는 간단하지만, 꼬인 문제는 여러 층이 필요하다.
 
@@ -89,11 +89,11 @@ w1, w2, w3
 
 ## Ⅴ. 기대효과 및 결론
 
-[퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 단순한 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 이름을 넘어, 신경망 학습의 역사적 출발점이다. 비선형 문제의 한계를 드러내며 다층 신경망의 필요성을 증명했다.
+퍼셉트론은 단순한 분류기의 이름을 넘어, 신경망 학습의 역사적 출발점이다. 비선형 문제의 한계를 드러내며 다층 신경망의 필요성을 증명했다.
 
-결국 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "입력-[가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)-[임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)"라는 신경망의 가장 기본 구조를 보여 준다.
+결국 퍼셉트론은 "입력-가중치-임계치"라는 신경망의 가장 기본 구조를 보여 준다.
 
-- **📢 섹션 요약 비유**: 작은 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나가 거대한 전자 두뇌의 시작이었다.
+- **📢 섹션 요약 비유**: 작은 스위치 하나가 거대한 전자 두뇌의 시작이었다.
 
 ---
 
@@ -132,14 +132,3 @@ MLP / Backpropagation
 친구들 말을 점수로 바꾸어 더해요.
 점수가 기준보다 높으면 "맞아!"라고 해요.
 이 간단한 방식이 신경망의 시작이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 62 / 420
-
-<- **이전**: [61. 인공 신경망 (ANN, Artificial Neural Network)](/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)
-**다음**: [63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제](/studynote/10_ai/01_ai_basics/063_single_layer_perceptron_xor_problem/) ->
-
----

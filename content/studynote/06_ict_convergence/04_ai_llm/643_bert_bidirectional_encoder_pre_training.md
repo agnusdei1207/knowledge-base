@@ -125,11 +125,3 @@ BERT는 **사전학습 패러다임의 3대 축**(encoder-only / decoder-only / 
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **아키텍처** | BiLSTM (forward + backward LM concat) | Transformer Decoder (12 layers, masked self-attn) | **Transformer Encoder (12 layers, full self-attn)** | Transformer Encoder (BERT와 동일, large 24L) | Transformer Decoder (96 layers, 175B params) |
 | **방향성** | Shallow bidirectional (좌/우 concat
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 643 / 800
-
-<- **이전**: [642. GPT 대규모 언어 모델 사전 학습](/studynote/06_ict_convergence/uncategorized/642_gpt_large_language_model_pre_training/)
-**다음**: [644. 파인 튜닝 전이 학습 도메인 적응](/studynote/06_ict_convergence/uncategorized/644_fine_tuning_transfer_learning_domain_adaptati/) ->
-
----

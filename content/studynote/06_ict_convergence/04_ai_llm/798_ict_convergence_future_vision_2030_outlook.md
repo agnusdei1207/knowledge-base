@@ -137,12 +137,3 @@ ICT 융합 2030은 단일 신기술이 아닌 다수 진보 기술의 **공진�
 
 | 구분 | **클라우드 컴퓨팅 (전통)** | **엣지-클라우드 연속체 (2030)** |
 |:---|:---|:---|
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 798 / 800
-
-<- **이전**: [797. ICT 융합 기술사 합격 최종 키워드 정리](/studynote/06_ict_convergence/uncategorized/797_ict_pe_pass_final_keywords_summary/)
-**다음**: [799. ICT 융합 기술사 최종 종합 마스터 맵](/studynote/06_ict_convergence/uncategorized/799_ict_convergence_pe_final_master_map/) ->
-
----

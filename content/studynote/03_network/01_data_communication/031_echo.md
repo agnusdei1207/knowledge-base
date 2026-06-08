@@ -6,9 +6,9 @@ tags:
 weight: 31
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 에코(Echo, 반향)는 송신한 신호가 수신단에서 반사되어 송신단으로 되돌아오는 현상이다. 전화 통화에서 자기 목소리가 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어 들릴 때의 그 현상이다. 음향 에코(Acoustic Echo)와 전기 에코(Electrical Echo) 두 종류가 있다.
+> 1. **본질**: 에코(Echo, 반향)는 송신한 신호가 수신단에서 반사되어 송신단으로 되돌아오는 현상이다. 전화 통화에서 자기 목소리가 지연되어 들릴 때의 그 현상이다. 음향 에코(Acoustic Echo)와 전기 에코(Electrical Echo) 두 종류가 있다.
 > 2. **가치**: AEC(Acoustic Echo Cancellation, 음향 에코 제거)는 화상회의·스마트스피커·핸즈프리 통화의 필수 기술이다. 스피커에서 나오는 소리가 마이크에 다시 들어가는 것을 적응 필터(Adaptive Filter)로 실시간 제거한다.
-> 3. **판단 포인트**: 에코는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 핵심이다. 에코 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 50ms 미만이면 인지하기 어렵고, 100ms 이상이면 명확히 들린다. ITU-T G.131은 에코 리턴 손실(ERL, Echo Return Loss) 기준을 정의한다.
+> 3. **판단 포인트**: 에코는 지연(Delay)이 핵심이다. 에코 지연이 50ms 미만이면 인지하기 어렵고, 100ms 이상이면 명확히 들린다. ITU-T G.131은 에코 리턴 손실(ERL, Echo Return Loss) 기준을 정의한다.
 
 ---
 
@@ -58,14 +58,14 @@ AEC 적응 필터:
 -> 필터 계수를 실시간 업데이트해서 에코를 추적·제거
 ```
 
-### 에코 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 측정 지표
+### 에코 지연 측정 지표
 
 | 지표 | 설명 |
 |:---|:---|
 | **ERL** | Echo Return Loss: 에코 감쇠량 (dB) |
 | **ERLE** | Echo Return Loss Enhancement: AEC 적용 후 개선량 |
 | **T60** | 실내 잔향 시간 (에코 지속 시간) |
-| **Round-trip Delay** | 왕복 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) |
+| **Round-trip Delay** | 왕복 지연 시간 |
 
 - **📢 섹션 요약 비유**: AEC 적응 필터는 에코 예측 소거기다. 스피커에서 나갈 소리를 미리 알고, 마이크에 그 소리가 들어오면 빼버리는 것이다. 음식 배달 예측처럼, "이 소리가 곧 마이크에 들어올 것"을 예측해서 선제 제거한다.
 
@@ -75,7 +75,7 @@ AEC 적응 필터:
 
 | 비교 | 음향 에코 | 전기 에코 | 시안토 잡음 |
 |:---|:---|:---|:---|
-| 원인 | 스피커->마이크 [누화](/studynote/03_network/01_data_communication/030_누화_크로스토크/) | [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치 | 혼선·열 잡음 |
+| 원인 | 스피커->마이크 누화 | 임피던스 불일치 | 혼선·열 잡음 |
 | 발생 | 화상회의·스피커폰 | PSTN 교환기 | 전송 선로 |
 | 해결 | AEC 소프트웨어 | 하이브리드 밸런싱 | 물리 차폐·증폭 |
 
@@ -85,7 +85,7 @@ AEC 적응 필터:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [WebRTC](/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) AEC 구현
+### WebRTC AEC 구현
 
 ```text
 WebRTC 오디오 처리 파이프라인:
@@ -105,7 +105,7 @@ WebRTC 오디오 처리 파이프라인:
 스마트폰·화상회의·스마트스피커 공통 사용
 ```
 
-### [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 에코 제거 (Deep AEC)
+### AI 기반 에코 제거 (Deep AEC)
 
 ```text
 전통 AEC:
@@ -119,7 +119,7 @@ AI AEC (Deep Learning):
   - MS Teams·Zoom·Google Meet 적용
 ```
 
-- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) AEC는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 청소기 집사다. 전통 AEC(일반 청소기)가 닿는 범위만 청소하는 반면, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) AEC(로봇 청소기)는 방 구조를 학습하여 숨어있는 에코까지 찾아서 제거한다.
+- **📢 섹션 요약 비유**: AI AEC는 AI 청소기 집사다. 전통 AEC(일반 청소기)가 닿는 범위만 청소하는 반면, AI AEC(로봇 청소기)는 방 구조를 학습하여 숨어있는 에코까지 찾아서 제거한다.
 
 ---
 
@@ -131,7 +131,7 @@ AI AEC (Deep Learning):
 | **화상회의** | AEC로 스피커폰 에코 없는 회의 |
 | **스마트스피커** | Alexa·Siri 에코 없는 명령 인식 |
 
-공간 음향(Spatial Audio)과 [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신 환경에서는 다채널 AEC가 도전 과제다. 다수 스피커·마이크 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 환경에서 공간적 에코를 3D로 제거하는 기술이 [메타버스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)·홀로그래픽 통신의 핵심 요소로 연구되고 있다.
+공간 음향(Spatial Audio)과 6G 통신 환경에서는 다채널 AEC가 도전 과제다. 다수 스피커·마이크 배열 환경에서 공간적 에코를 3D로 제거하는 기술이 메타버스·홀로그래픽 통신의 핵심 요소로 연구되고 있다.
 
 - **📢 섹션 요약 비유**: 공간 음향 AEC는 3D 에코 지우개다. 평면(2D) 에코 제거를 넘어, 3D 공간에서 어디서 반사된 에코인지 방향·거리까지 고려하여 제거하는 차원이 다른 기술이다.
 
@@ -142,9 +142,9 @@ AI AEC (Deep Learning):
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **AEC** | 음향 에코 제거 핵심 기술 |
-| **LMS/NLMS** | AEC 적응 필터 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| <strong><a href="/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a> <a href="/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/">APM</a></strong> | 웹 실시간 통신 오디오 처리 |
-| **Deep AEC** | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 비선형 에코 제거 |
+| **LMS/NLMS** | AEC 적응 필터 알고리즘 |
+| <strong>WebRTC APM</strong> | 웹 실시간 통신 오디오 처리 |
+| **Deep AEC** | AI 기반 비선형 에코 제거 |
 | **T60** | 실내 잔향 시간 측정 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -170,14 +170,3 @@ AI AEC (Deep Learning):
 1. 에코는 동굴에서 소리치면 메아리가 들리는 것이에요 — 통화에서도 내 목소리가 반사되어 돌아와요!
 2. AEC(에코 제거)는 예측 소거기예요 — 스피커에서 나간 소리가 마이크에 다시 들어오면 뺍니다!
 3. AI가 에코 패턴을 학습해서 복잡한 반향도 완벽하게 제거하는 시대가 됐어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 31 / 1120
-
-<- **이전**: [30. 누화(Crosstalk)와 누화 잡음 — 신호 간 간섭](/studynote/03_network/01_data_communication/030_누화_크로스토크/)
-**다음**: [회선 제어 규약 (Line Control Protocol)](/studynote/03_network/01_data_communication/032_회선_제어_규약/) ->
-
----

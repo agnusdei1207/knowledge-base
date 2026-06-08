@@ -6,9 +6,9 @@ tags:
 weight: 44
 ---
 > **핵심 인사이트**
-> 1. 소프트웨어 비용 산정은 프로젝트 시작 전 개발 공수(PM, Person-Month)·일정·원가를 예측하는 활동으로 — Boehm의 [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 연구에 따르면 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 산정 오차가 ±4배에 달하지만, 요구사항이 명확해질수록 ±25% 이내로 수렴한다.
-> 2. [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) — [Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/))와 COCOMO는 가장 널리 쓰이는 산정 기법으로 — FP는 사용자 관점의 기능 규모를 측정하는 반면, COCOMO는 LOC(Lines of [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 기반 통계 모델로 규모·복잡도·팀 능력 등 비용 유발 요소(Cost Driver)를 반영한다.
-> 3. 소프트웨어 산정의 근본 어려움은 "눈에 보이지 않는 제품을 미래에 만드는 비용을 현재 추정"하는 것으로 — 이 때문에 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 스토리 포인트를 통한 상대적 추정과 속도(Velocity) 기반 적응형 계획으로 전통적 산정 한계를 보완한다.
+> 1. 소프트웨어 비용 산정은 프로젝트 시작 전 개발 공수(PM, Person-Month)·일정·원가를 예측하는 활동으로 — Boehm의 COCOMO 연구에 따르면 초기 산정 오차가 ±4배에 달하지만, 요구사항이 명확해질수록 ±25% 이내로 수렴한다.
+> 2. 기능 점수(FP — Function Point)와 COCOMO는 가장 널리 쓰이는 산정 기법으로 — FP는 사용자 관점의 기능 규모를 측정하는 반면, COCOMO는 LOC(Lines of Code) 기반 통계 모델로 규모·복잡도·팀 능력 등 비용 유발 요소(Cost Driver)를 반영한다.
+> 3. 소프트웨어 산정의 근본 어려움은 "눈에 보이지 않는 제품을 미래에 만드는 비용을 현재 추정"하는 것으로 — 이 때문에 애자일은 스토리 포인트를 통한 상대적 추정과 속도(Velocity) 기반 적응형 계획으로 전통적 산정 한계를 보완한다.
 
 ---
 
@@ -54,7 +54,7 @@ weight: 44
 
 ---
 
-## Ⅱ. [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/) ([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/))
+## Ⅱ. 기능 점수 (FP)
 
 ```
 기능 점수 (FP — Function Point):
@@ -100,11 +100,11 @@ FP 측정 요소:
   공수 = AFP / 팀 생산성 (FP/월)
 ```
 
-> 📢 **섹션 요약 비유**: [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)는 집 평수 재기 — 방 수, 창문 수, 문 수를 세서 "평수"를 계산하는 것처럼, 입력·출력·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·조회를 세어서 소프트웨어 크기를 수치화.
+> 📢 **섹션 요약 비유**: 기능 점수는 집 평수 재기 — 방 수, 창문 수, 문 수를 세서 "평수"를 계산하는 것처럼, 입력·출력·파일·조회를 세어서 소프트웨어 크기를 수치화.
 
 ---
 
-## Ⅲ. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델
+## Ⅲ. COCOMO 모델
 
 ```
 COCOMO (Constructive Cost Model):
@@ -151,7 +151,7 @@ COCOMO II (개선 모델):
 
 ---
 
-## Ⅳ. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 산정
+## Ⅳ. 애자일 산정
 
 ```
 애자일 산정 (Agile Estimation):
@@ -199,11 +199,11 @@ PERT 산정 (전통적):
   σ = (P - O) / 6 = (25-10)/6 = 2.5일
 ```
 
-> 📢 **섹션 요약 비유**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 산정은 상대 크기로 비교 — 특대/대/중/소로 음식 주문하듯, 스토리 포인트는 "이 기능이 저 기능의 두 배 어려워"처럼 상대적으로 크기를 측정해요.
+> 📢 **섹션 요약 비유**: 애자일 산정은 상대 크기로 비교 — 특대/대/중/소로 음식 주문하듯, 스토리 포인트는 "이 기능이 저 기능의 두 배 어려워"처럼 상대적으로 크기를 측정해요.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템 산정
+## Ⅴ. 실무 시나리오 — ERP 시스템 산정
 
 ```
 ERP 시스템 비용 산정 사례:
@@ -245,7 +245,7 @@ COCOMO II 검증:
 최종 견적: 10억 (리스크 버퍼 포함)
 ```
 
-> 📢 **섹션 요약 비유**: [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 비용 산정은 건축 견적 비교 — 평면도로 평수([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 계산하고, 자재 명세서로 공수([COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)) 계산해서 두 방법을 비교 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/). 둘이 비슷하면 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높아요!
+> 📢 **섹션 요약 비유**: ERP 비용 산정은 건축 견적 비교 — 평면도로 평수(FP) 계산하고, 자재 명세서로 공수(COCOMO) 계산해서 두 방법을 비교 검증. 둘이 비슷하면 신뢰도 높아요!
 
 ---
 
@@ -305,17 +305,6 @@ Boehm: 통계적 매개변수 모델
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 비용 산정은 집 짓기 전 견적 — 방 수, 창문 수를 세어서([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 인부가 얼마나 필요한지(공수) 미리 계산해요!
+1. 비용 산정은 집 짓기 전 견적 — 방 수, 창문 수를 세어서(FP) 인부가 얼마나 필요한지(공수) 미리 계산해요!
 2. COCOMO는 벽돌 수 공식 — 벽돌 수(LOC)가 2배가 되면 인부 수도 딱 2배가 아니라 조금 더 많이 필요. 팀이 커지면 소통 비용도 늘어나니까요!
-3. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 상대적 크기로 — "이 기능이 저 기능의 두 배 어렵다"고 비교하면서 점점 정확한 계획을 만들어가요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 44 / 973
-
-<- **이전**: [043. QA vs QC (품질 보증 vs 품질 통제)](/studynote/04_software_engineering/01_overview_principles/043_qa_vs_qc/)
-**다음**: [045. 하향식 비용 산정 — Top-Down Estimation](/studynote/04_software_engineering/01_overview_principles/045_top_down_estimation/) ->
-
----
+3. 애자일은 상대적 크기로 — "이 기능이 저 기능의 두 배 어렵다"고 비교하면서 점점 정확한 계획을 만들어가요!

@@ -7,8 +7,8 @@ weight: 830
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) - 특정 입력값 샘플링은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 샘플링 오라클 (Sampling Oracle) - 특정 입력값 샘플링은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -18,18 +18,18 @@ weight: 830
 나이를 입력하면 성인(18세 이상)인지 미성년자인지 판별해 주는 시스템을 만들었다.
 나이 입력칸에는 1부터 100까지 숫자를 넣을 수 있다.
 
-* <strong><a href="/studynote/04_software_engineering/11_testing_validation/437_true_oracle/">참 오라클</a>의 미련한 짓</strong>: "1살은 미성년자, 2살도 미성년자... 18살은 성인... 100살은 성인." 이렇게 100개의 정답지를 다 만든다. 너무 피곤하다.
+* <strong>참 오라클의 미련한 짓</strong>: "1살은 미성년자, 2살도 미성년자... 18살은 성인... 100살은 성인." 이렇게 100개의 정답지를 다 만든다. 너무 피곤하다.
 * **샘플링 오라클의 지혜**: "어차피 1살부터 17살까지는 코드가 똑같이 미성년자로 처리하잖아? 그럼 <strong>대표로 딱 한 명(10살)</strong>만 뽑자. 그리고 오류가 잘 나는 경계선인 <strong>17, 18, 19살</strong>을 뽑자. 그리고 성인 대표로 <strong>50살</strong>을 뽑자."
 
-결국, 100개의 테스트 대신 <strong>10, 17, 18, 19, 50] 딱 5개의 샘플</strong>만 꼽아내어 정답지(오라클)를 만든다. 이 5개의 똘똘한 샘플만 정상 통과하면, 나머지 95개의 나이도 당연히 버그 없이 잘 돌아갈 것이라고 '수학적으로 확신'할 수 있다. 이것이 바로 <strong>샘플링 오라클(<a href="/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a> <a href="/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong>이다.
+결국, 100개의 테스트 대신 <strong>10, 17, 18, 19, 50] 딱 5개의 샘플</strong>만 꼽아내어 정답지(오라클)를 만든다. 이 5개의 똘똘한 샘플만 정상 통과하면, 나머지 95개의 나이도 당연히 버그 없이 잘 돌아갈 것이라고 '수학적으로 확신'할 수 있다. 이것이 바로 <strong>샘플링 오라클(Sampling Oracle)</strong>이다.
 
-> 📢 **섹션 요약 비유**: 국물 맛을 볼 때 냄비에 있는 국물을 100% 다 마셔봐야([참 오라클](/studynote/04_software_engineering/11_testing_validation/437_true_oracle/)) 맛을 아는 것이 아닙니다. 숟가락으로 딱 한 입(샘플링)만 떠먹어 보더라도, 냄비 전체의 간이 잘 맞았는지 99% 정확하게 알아낼 수 있는 것과 같은 효율성의 원리입니다.
+> 📢 **섹션 요약 비유**: 국물 맛을 볼 때 냄비에 있는 국물을 100% 다 마셔봐야(참 오라클) 맛을 아는 것이 아닙니다. 숟가락으로 딱 한 입(샘플링)만 떠먹어 보더라도, 냄비 전체의 간이 잘 맞았는지 99% 정확하게 알아낼 수 있는 것과 같은 효율성의 원리입니다.
 
 ---
 
-- **📢 섹션 요약 비유**: 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 샘플링 오라클 (Sampling Oracle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
-다음은 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) Or의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 샘플링 오라클 (Sampling Or의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -44,7 +44,7 @@ weight: 830
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) Or가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 샘플링 오라클 (Sampling Or가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -55,12 +55,12 @@ weight: 830
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 샘플링 오라클이 성공하려면 <strong>'어떤 샘플을 뽑을 것인가'</strong>가 전부다. 아무 숫자나 랜덤하게 5개를 뽑았다가는 진짜 버그가 있는 구간을 쏙 피해 갈 수 있다.
-그래서 샘플링 오라클은 반드시 <strong><a href="/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/">블랙박스 테스트</a> 설계 기법(412번 문서)</strong>과 영혼의 단짝처럼 붙어 다닌다.
+그래서 샘플링 오라클은 반드시 <strong>블랙박스 테스트 설계 기법(412번 문서)</strong>과 영혼의 단짝처럼 붙어 다닌다.
 
-1. <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">동등 분할</a> (<a href="/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">Equivalence Partitioning</a>)</strong>
+1. <strong>동등 분할 (Equivalence Partitioning)</strong>
    - 똑같은 결과를 낼 집단(클래스)을 나누고 중앙값을 찌른다.
-   - 예: 점수가 0~100점일 때, 무효값(-[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 유효값(50), 무효값(150) 3개의 샘플 오라클을 만든다.
-2. <strong>경곗값 분석 (<a href="/studynote/04_software_engineering/11_testing_validation/806_boundary_value_analysis/">Boundary Value Analysis</a>)</strong>
+   - 예: 점수가 0~100점일 때, 무효값(-10), 유효값(50), 무효값(150) 3개의 샘플 오라클을 만든다.
+2. <strong>경곗값 분석 (Boundary Value Analysis)</strong>
    - 버그가 서식하는 국경선(경계)을 찌른다.
    - 예: 100점 만점이라면 99, 100, 101이라는 3개의 샘플 오라클을 깐깐하게 만든다.
 
@@ -88,11 +88,11 @@ weight: 830
 
 ---
 
-- **📢 섹션 요약 비유**: 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 샘플링 오라클 (Sampling Oracle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | 샘플링 오라클 (Sampling Oracle)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -104,7 +104,7 @@ weight: 830
 
 ## Ⅲ. 비교 및 연결
 
-우리가 실무에서 작성하는 수많은 자동화된 <strong><a href="/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a>(<a href="/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">Unit Test</a>)</strong> 코드는 사실 100% 샘플링 오라클이다.
+우리가 실무에서 작성하는 수많은 자동화된 <strong>단위 테스트(Unit Test)</strong> 코드는 사실 100% 샘플링 오라클이다.
 
 ```java
 // [ 전형적인 샘플링 오라클 기반의 단위 테스트 코드 ]
@@ -116,11 +116,11 @@ void 나이_성인_판별_테스트() {
     assertTrue(isAdult(50));  // 오라클 3 (50은 참이어야 함)
 }
 ```
-프레임워크(JUnit) 안의 `assertTrue/False`가 바로 테스터가 심어놓은 '정답([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))'이다. 17, 18, 50 세 개의 샘플만 통과하면 이 `isAdult()` 함수 전체를 통과(Pass) 시켜버린다. (가성비 극대화)
+프레임워크(JUnit) 안의 `assertTrue/False`가 바로 테스터가 심어놓은 '정답(Oracle)'이다. 17, 18, 50 세 개의 샘플만 통과하면 이 `isAdult()` 함수 전체를 통과(Pass) 시켜버린다. (가성비 극대화)
 
 ---
 
-- **📢 섹션 요약 비유**: 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 샘플링 오라클 (Sampling Oracle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -131,11 +131,11 @@ void 나이_성인_판별_테스트() {
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 "버그는 모든 곳에 존재하지 않는다. 버그가 숨어있는 급소만을 저격하라."
-샘플링 오라클([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은 유한한 시간과 예산을 가진 소프트웨어 프로젝트가 선택할 수 있는 가장 합리적이고 지능적인 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전략이다. 100% [참 오라클](/studynote/04_software_engineering/11_testing_validation/437_true_oracle/)을 만들겠다는 강박은 프로젝트를 파산으로 이끌지만, 똘똘한 샘플 10개만 뽑아내겠다는 전략은 오늘 오후 배포를 가능하게 만든다. 어떤 샘플을 뽑아야 시스템의 치명적인 결함을 덮을 수 있는지 결정하는 그 수학적 직관력이야말로, 주니어 테스터와 시니어 QA 아키텍트를 가르는 결정적 차이다.
+샘플링 오라클(Sampling Oracle)은 유한한 시간과 예산을 가진 소프트웨어 프로젝트가 선택할 수 있는 가장 합리적이고 지능적인 검증 전략이다. 100% 참 오라클을 만들겠다는 강박은 프로젝트를 파산으로 이끌지만, 똘똘한 샘플 10개만 뽑아내겠다는 전략은 오늘 오후 배포를 가능하게 만든다. 어떤 샘플을 뽑아야 시스템의 치명적인 결함을 덮을 수 있는지 결정하는 그 수학적 직관력이야말로, 주니어 테스터와 시니어 QA 아키텍트를 가르는 결정적 차이다.
 
 ---
 
-- **📢 섹션 요약 비유**: 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 샘플링 오라클 (Sampling Oracle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -145,21 +145,21 @@ void 나이_성인_판별_테스트() {
 
 ## Ⅴ. 기대효과 및 결론
 
-샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+샘플링 오라클 (Sampling Oracle)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+샘플링 오라클 (Sampling Oracle)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 샘플링 오라클 (Sampling Oracle)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -171,10 +171,10 @@ void 나이_성인_판별_테스트() {
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 샘플링 오라클 (Sampling Oracle)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 샘플링 오라클 (Sampling Oracle)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 샘플링 오라클 (Sampling Oracle) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 샘플링 오라클 (Sampling Oracle)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -194,21 +194,10 @@ void 나이_성인_판별_테스트() {
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 샘플링 오라클 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 샘플링 오라클 (Sampling Oracle)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 468 / 973
-
-<- **이전**: [438. 샘플링 오라클 (Sampling Oracle)](/studynote/04_software_engineering/11_testing_validation/438_sampling_oracle/)
-**다음**: [439. 휴리스틱 오라클 (Heuristic Oracle)](/studynote/04_software_engineering/11_testing_validation/831_heuristic_oracle/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

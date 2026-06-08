@@ -7,9 +7,9 @@ weight: 309
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태 복구](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) 과정에서 한 번에 모두를 죽여 억울한 희생자를 낳았던 야만적 `Abort All`의 부작용을 타파하기 위해, 비용이 가장 싼(만만한) 한 놈(Victim)부터 <strong>하나씩(One-by-One) 목을 치고, 다시 탐지(<a href="/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>) 스캔을 돌려 데드락 원형이 끊겼는지 점진적으로 간을 보며 소탕하는 정밀 타격 방식</strong>이다.
-> 2. **가치**: 99% 렌더링을 마친 특A급 프로세스(VIP) 등 아까운 작업 매몰비용을 최대한 온전히 살려낼 수 있어서, <strong>'최소 희생, 최대 회생'의 공리주의적 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 철학</strong>을 완벽하게 달성해 낸다.
-> 3. **융합**: 하지만 "하나 자를 때마다 '저기요 사이클 끊겼나요?' 라며 무거운 탐지($O(N^2)$) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 매번 또 뺑뺑이 돌려야 한다는 끔찍한 오버헤드 덫"을 지니고 있어, Victim의 비용을 재는 영리한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Cost Function) 융합이 필수 숙제로 따라붙는다.
+> 1. **본질**: 교착 상태 복구 과정에서 한 번에 모두를 죽여 억울한 희생자를 낳았던 야만적 `Abort All`의 부작용을 타파하기 위해, 비용이 가장 싼(만만한) 한 놈(Victim)부터 <strong>하나씩(One-by-One) 목을 치고, 다시 탐지(Detection) 스캔을 돌려 데드락 원형이 끊겼는지 점진적으로 간을 보며 소탕하는 정밀 타격 방식</strong>이다.
+> 2. **가치**: 99% 렌더링을 마친 특A급 프로세스(VIP) 등 아까운 작업 매몰비용을 최대한 온전히 살려낼 수 있어서, <strong>'최소 희생, 최대 회생'의 공리주의적 복구 철학</strong>을 완벽하게 달성해 낸다.
+> 3. **융합**: 하지만 "하나 자를 때마다 '저기요 사이클 끊겼나요?' 라며 무거운 탐지($O(N^2)$) 알고리즘을 매번 또 뺑뺑이 돌려야 한다는 끔찍한 오버헤드 덫"을 지니고 있어, Victim의 비용을 재는 영리한 알고리즘(Cost Function) 융합이 필수 숙제로 따라붙는다.
 
 ---
 
@@ -20,10 +20,10 @@ weight: 309
 여기에 빡친 OS 설계자들은 스나이퍼(저격수) 총을 들었다.
 `P1->P2->P3->P4` 4명이 원(Cycle)을 그리고 있다.
 **"가장 덜 중요하고, 남은 일 많은 막내 P2 한 명만 우선 쏴서(Abort) 치워보자!"**
-그리곤 P2가 들고 있던 자원만 바닥에 쏟아지자, 그걸 주워먹은 P3가 탈출하고 연결고리가 파파팍 끊기는지 스캔 장비를 돌려 확인한다. 만약 사이클이 사라졌다면? 나머지 3명(P1, P3, [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/))은 자기 일을 고스란히 저장해 두고 피 흘림 없이 살아남는(회생) 위대한 구원이 발생한다!
+그리곤 P2가 들고 있던 자원만 바닥에 쏟아지자, 그걸 주워먹은 P3가 탈출하고 연결고리가 파파팍 끊기는지 스캔 장비를 돌려 확인한다. 만약 사이클이 사라졌다면? 나머지 3명(P1, P3, P4)은 자기 일을 고스란히 저장해 두고 피 흘림 없이 살아남는(회생) 위대한 구원이 발생한다!
 이게 바로 외과수술 메스 같은 <strong>순차 종료 (Abort One-by-One)</strong>다.
 
-**💡 비유**: 4개 차선 꼬리물기로 교차로가 마비(데드락). 불도저가 와서 4대를 한꺼번에 찌그러트려 폐차장으로 미는 것([Abort All](/studynote/02_operating_system/05_deadlock/308_abort_all/))이 아니라, 교통경찰이 딱 가장 싸구려 티코 1대(피해 최소화)만 후진 방향으로 밀어서 빼본다. 어라? 티코(Victim 1명)가 빠진 공간으로 벤츠도 지나가고 버스도 지나가서 도로가 통쾌하게 뚫린다!
+**💡 비유**: 4개 차선 꼬리물기로 교차로가 마비(데드락). 불도저가 와서 4대를 한꺼번에 찌그러트려 폐차장으로 미는 것(Abort All)이 아니라, 교통경찰이 딱 가장 싸구려 티코 1대(피해 최소화)만 후진 방향으로 밀어서 빼본다. 어라? 티코(Victim 1명)가 빠진 공간으로 벤츠도 지나가고 버스도 지나가서 도로가 통쾌하게 뚫린다!
 
 ```text
 +----------------------------------------------------------------+
@@ -59,20 +59,20 @@ weight: 309
    - P2: 백그라운드 크롤링, 자원 100개 쥐고 있음 (너 죽이면 자원 100개 공짜!)
    - P3: 방금 0.1초 켜진 깡통 (죽여봤자 자원도 안 줌)
    - -> 결과: P2가 희생자(Victim)로 낙점! 타격!
-2. <strong>탐지(<a href="/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>) <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 끔찍한 연쇄 채찍질</strong>:
+2. <strong>탐지(Detection) 알고리즘의 끔찍한 연쇄 채찍질</strong>:
    - P2를 잘랐다. 데드락이 100% 풀린다 장담 못 한다 (숨겨진 쌍 사이클 존재 가능).
    - 따라서 $O(V+E)$ 또는 $O(m \times n^2)$짜리 **무거운 데드락 탐지 스캔을 또!** 돌려야 한다. 이놈 자르고 또 돌리고 저놈 자르고 또 돌리는 탓에 <strong>"최소 피해를 구하려다 CPU가 연산하다 타죽어버리는 오버헤드의 역린"</strong>을 만지게 된다.
 
-**📢 섹션 요약 비유**: 이 바닥의 절대 법칙 — "폭탄([Abort All](/studynote/02_operating_system/05_deadlock/308_abort_all/))은 싸고 파괴적이며, 핀셋(One-by-One)은 비싸고 섬세하다." 한 명씩 정성스레 죽이려면 수천 번 시뮬레이션 계산기를 두들겨야 합니다.
+**📢 섹션 요약 비유**: 이 바닥의 절대 법칙 — "폭탄(Abort All)은 싸고 파괴적이며, 핀셋(One-by-One)은 비싸고 섬세하다." 한 명씩 정성스레 죽이려면 수천 번 시뮬레이션 계산기를 두들겨야 합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 판단 철학 | 프로세스 전체 강제 종료 ([Abort All](/studynote/02_operating_system/05_deadlock/308_abort_all/)) | 프로세스 순차 강제 종료 (One-by-One) |
+| 판단 철학 | 프로세스 전체 강제 종료 (Abort All) | 프로세스 순차 강제 종료 (One-by-One) |
 |:---|:---|:---|
-| 자원 및 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실률(Waste) | 극강의 손실 (피바다) | <strong>진짜 필요한 최소 1~2놈만 죽이고 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 완벽</strong> |
-| [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용 (Overhead) | 단칼 (시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없음, O(1)) | <strong>루프마다 '탐지 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>' 재귀호출의 지옥</strong> |
+| 자원 및 데이터 손실률(Waste) | 극강의 손실 (피바다) | <strong>진짜 필요한 최소 1~2놈만 죽이고 보호 완벽</strong> |
+| 복구 비용 (Overhead) | 단칼 (시간 지연 없음, O(1)) | <strong>루프마다 '탐지 알고리즘' 재귀호출의 지옥</strong> |
 | 구현의 복잡성 | 루프 1줄: `for p in Deadlocked: kill(p)` | 누구 죽일지(Criteria) 식 만들고 무한 검증해야 함 |
 
 **📢 섹션 요약 비유**: 전체 종료는 왕의 폭정 "관련자들 다 목 베어라!", 순차 종료는 현대 재판 "무죄인 사람부터 증명해서 빼주고 정범 1명만 감옥에 넣는다! (대신 재판 기간이 3년 걸림)"입니다.
@@ -82,9 +82,9 @@ weight: 309
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong>RDBMS (오라클/MySQL)의 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 희생(Victim) 타게팅</strong>: 실무에서 디비 관리자는 `One-by-One` 사상을 100% 도입해 운용 중이다. 락 매니저는 데드락에 묶인 여러 개의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중 <strong>"<a href="/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> 로그를 가장 조금 쓴(수정 사항이 제일 적어 <a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 비용이 가장 싼) <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 1놈"</strong>을 타겟으로 잡아 칼로 에러를 뱉게([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)) 찌른다. 이 한 놈이 죽으며 풀어놓은 Row-Lock 조각들을 주워 먹고 나머지 대형 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Insert 수만 줄 짜리)은 무사히 살아남아 Commit 된다. 위대한 순차 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 승리다.
+1. <strong>RDBMS (오라클/MySQL)의 트랜잭션 희생(Victim) 타게팅</strong>: 실무에서 디비 관리자는 `One-by-One` 사상을 100% 도입해 운용 중이다. 락 매니저는 데드락에 묶인 여러 개의 트랜잭션 중 <strong>"Undo 로그를 가장 조금 쓴(수정 사항이 제일 적어 롤백 비용이 가장 싼) 트랜잭션 1놈"</strong>을 타겟으로 잡아 칼로 에러를 뱉게(Rollback) 찌른다. 이 한 놈이 죽으며 풀어놓은 Row-Lock 조각들을 주워 먹고 나머지 대형 트랜잭션(Insert 수만 줄 짜리)은 무사히 살아남아 Commit 된다. 위대한 순차 복구의 승리다.
 
-<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+<strong>안티패턴</strong>:
 - **잘못된 비용 함수 설계로 인한 연쇄 폭파(Cascade Abort)**: OS가 멍청하게 "쥐고 있는 자원이 많은 놈!"을 우선으로 터트린답시고 P1(자원 1만 개 다운 중)을 터트렸다. 탐지를 돌렸더니 "어라 데드락 안 끊겼네? 그럼 쥐고 있는 자원이 두 번째로 많은 P2도 터트려!" 결국 한 놈씩 소중하게 자르다 10번째 자르고 나서야 사이클이 풀렸다. 이거면 굳이 $O(N^2)$ 탐지 루프를 10번 돌려가며 10명 다 짜른 꼴이라 처음에 한방에 다 짜른 `Abort All`보다 시간만 더 버렸다. (최악의 헛발질).
 
 **📢 섹션 요약 비유**: 누구를 살려야 젤 개이득인지 머리 굴려서 하나 짤랐더니 결국 해결이 안 돼, 하나 자르고 또 하나 자르고 하다 보니 원래 얽힌 애들 다 잘라버렸다면? 차라리 수류탄 까고 치우는 게 시간이라도 아꼈다는 탄식이 나오는 스킬입니다.
@@ -93,12 +93,12 @@ weight: 309
 
 ## Ⅴ. 기대효과 및 결론
 
-| 기준 | [Abort All](/studynote/02_operating_system/05_deadlock/308_abort_all/) (전체 죽임) | One-by-One (순차 죽임) |
+| 기준 | Abort All (전체 죽임) | One-by-One (순차 죽임) |
 |:---|:---|:---|
-| 시스템 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | 파국적인 리셋 (무식) | 메스가 들어가는 정밀 치료 (세련) |
-| CPU 탐색 오버헤드 | 거의 0 | 최소 비용 후보 서칭 + 탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 재사용 = 폭발 |
+| 시스템 회복 탄력성 | 파국적인 리셋 (무식) | 메스가 들어가는 정밀 치료 (세련) |
+| CPU 탐색 오버헤드 | 거의 0 | 최소 비용 후보 서칭 + 탐지 알고리즘 재사용 = 폭발 |
 
-`순차 종료 방식 (Abort One-by-One)`은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 해결 공학의 화룡점정을 찍은 사상이다. 희생(Abort)이라는 폭력성을 동반해야 하지만, "과거의 시간과 매몰된 정성(매몰 비용)"을 존중하여 옥과 석을 가려 1~2개의 돌멩이만 던져버리는 <strong>공리주의적 우상</strong>을 증명했다. 특히 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 서버 트러블슈팅 엔진에서 이 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직이 심장으로 뛰고 있어, 수억 원 단위의 온라인 결제 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)들이 데드락 패닉 속에서도 한두 명의 희생으로 무사히 살아남고 있다.
+`순차 종료 방식 (Abort One-by-One)`은 교착 상태 해결 공학의 화룡점정을 찍은 사상이다. 희생(Abort)이라는 폭력성을 동반해야 하지만, "과거의 시간과 매몰된 정성(매몰 비용)"을 존중하여 옥과 석을 가려 1~2개의 돌멩이만 던져버리는 <strong>공리주의적 우상</strong>을 증명했다. 특히 현대 데이터베이스와 분산 서버 트러블슈팅 엔진에서 이 알고리즘의 복구 로직이 심장으로 뛰고 있어, 수억 원 단위의 온라인 결제 트랜잭션들이 데드락 패닉 속에서도 한두 명의 희생으로 무사히 살아남고 있다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -108,10 +108,10 @@ weight: 309
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [교착 상태 복구](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ([Recovery from Deadlock](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [프로세스 종료](/studynote/02_operating_system/02_process_thread/107_process_termination/) 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [종료 대상 선택](/studynote/02_operating_system/05_deadlock/310_victim_selection/) ([희생자 선택](/studynote/02_operating_system/05_deadlock/310_victim_selection/)) 기준 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [자원 선점](/studynote/02_operating_system/05_deadlock/311_resource_preemption/) ([Resource Preemption](/studynote/02_operating_system/05_deadlock/311_resource_preemption/)) 방식 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 교착 상태 복구 (Recovery from Deadlock) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 프로세스 종료 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 종료 대상 선택 (희생자 선택) 기준 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 자원 선점 (Resource Preemption) 방식 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,17 +129,6 @@ weight: 309
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. "전체 종료([Abort All](/studynote/02_operating_system/05_deadlock/308_abort_all/))"가 장난감 싸움하는 애들 4명 다 놀이터에서 쫓겨나는 무시무시한 전체 벌칙이잖아요?
+1. "전체 종료(Abort All)"가 장난감 싸움하는 애들 4명 다 놀이터에서 쫓겨나는 무시무시한 전체 벌칙이잖아요?
 2. "순차 종료(One-by-One)"는 자상한 탐정 선생님이 와서, "누가 젤 늦게 참여했고 누가 젤 장난감 덜 가지고 놀았니? 철수 너구나! 너부터 좀 빠져!" 하며 억울한 희생을 제일 적게 만드는 거예요.
 3. 철수가 빠져서 풀리면 나머지 3명은 만세! 부르며 피눈물 없이 살릴 수 있으니까요. 단, 선생님 머리가 계산하느라 엄청 아파지긴 한답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 309 / 800
-
-<- **이전**: [308. 프로세스 종료 방식 - 교착 상태 프로세스 전체 강제 종료 (Abort all)](/studynote/02_operating_system/05_deadlock/308_abort_all/)
-**다음**: [310. 종료 대상 선택 (희생자 선택) 기준 (Victim Selection)](/studynote/02_operating_system/05_deadlock/310_victim_selection/) ->
-
----

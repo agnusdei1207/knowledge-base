@@ -7,15 +7,15 @@ weight: 387
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 샘플링은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 상위 K개 토큰에서, Top-P (Nucleus [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/), 핵 샘플링)는 누적 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 합이 P 이상인 최소 토큰 집합에서 다음 토큰을 샘플링하여 저확률 토큰을 제거한다.
-> 2. **가치**: Top-K는 고정 개수로 단순하지만 분포 형태 무시의 단점이 있고, Top-P는 분포 뾰족함에 적응적으로 대응해 더 자연스러운 텍스트를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
-> 3. **판단 포인트**: Top-P=0.9와 [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=0.8의 조합이 일반 목적 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 현업 표준이며, 두 기법을 순차 적용해 사용하는 것이 일반적이다.
+> 1. **본질**: Top-K 샘플링은 확률 상위 K개 토큰에서, Top-P (Nucleus Sampling, 핵 샘플링)는 누적 확률 합이 P 이상인 최소 토큰 집합에서 다음 토큰을 샘플링하여 저확률 토큰을 제거한다.
+> 2. **가치**: Top-K는 고정 개수로 단순하지만 분포 형태 무시의 단점이 있고, Top-P는 분포 뾰족함에 적응적으로 대응해 더 자연스러운 텍스트를 생성한다.
+> 3. **판단 포인트**: Top-P=0.9와 Temperature=0.8의 조합이 일반 목적 생성의 현업 표준이며, 두 기법을 순차 적용해 사용하는 것이 일반적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-그리디 디코딩(Greedy)은 항상 최고 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 토큰만 선택해 반복적이고 지루한 텍스트를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 완전 무작위 샘플링은 문법·의미 오류가 많다. 두 극단 사이의 균형을 위해 Top-K와 Top-P가 도입됐다.
+그리디 디코딩(Greedy)은 항상 최고 확률 토큰만 선택해 반복적이고 지루한 텍스트를 생성한다. 완전 무작위 샘플링은 문법·의미 오류가 많다. 두 극단 사이의 균형을 위해 Top-K와 Top-P가 도입됐다.
 
 두 방법 모두 "저확률 쓰레기 토큰"을 제거하고 의미 있는 후보 토큰 집합에서 샘플링한다는 공통 목적을 가진다.
 
@@ -28,13 +28,13 @@ weight: 387
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: Top-K는 "항상 상위 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명 중 무작위 선택", Top-P는 "합격점 이상인 사람들 중에서 무작위 선택"이다. 인원이 고정이냐 기준이 고정이냐의 차이다.
+- **📢 섹션 요약 비유**: Top-K는 "항상 상위 10명 중 무작위 선택", Top-P는 "합격점 이상인 사람들 중에서 무작위 선택"이다. 인원이 고정이냐 기준이 고정이냐의 차이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 샘플링
+### Top-K 샘플링
 
 ```
 1. 소프트맥스 확률 계산: P = [p₁, p₂, ..., p|V|]
@@ -43,9 +43,9 @@ weight: 387
 4. P'에서 샘플링
 ```
 
-**문제점**: [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포가 평평할 때(불확실할 때) K가 충분히 크지 않으면 좋은 후보 배제, 뾰족할 때는 너무 많은 후보 포함.
+**문제점**: 확률 분포가 평평할 때(불확실할 때) K가 충분히 크지 않으면 좋은 후보 배제, 뾰족할 때는 너무 많은 후보 포함.
 
-### Top-P (Nucleus [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))
+### Top-P (Nucleus Sampling)
 
 ```
 1. 확률 내림차순 정렬
@@ -76,9 +76,9 @@ P=0.9 예시:
 | 방법 | 후보 크기 | 분포 적응 | 하이퍼파라미터 | 권장 값 |
 |:---|:---|:---|:---|:---|
 | 그리디 | 1 | ✗ | 없음 | 코드/사실 |
-| [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) | 고정 K | ✗ | K | K=40~50 |
+| Top-K | 고정 K | ✗ | K | K=40~50 |
 | Top-P | 가변 | ✓ | p | p=0.9~0.95 |
-| [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) + Top-P | 교집합 | ✓ | K, p | K=50, p=0.9 |
+| Top-K + Top-P | 교집합 | ✓ | K, p | K=50, p=0.9 |
 
 - **📢 섹션 요약 비유**: Top-P는 "시험 합격선(P=90점)"으로 합격자를 가르는 방식이다. 시험이 쉬우면 합격자가 많고, 어려우면 합격자가 적다. 기준이 고정되어 있지만 결과 인원은 유동적이다.
 
@@ -86,16 +86,16 @@ P=0.9 예시:
 
 ## Ⅲ. 비교 및 연결
 
-Top-P는 2019년 Holtzman et al.의 "The Curious Case of Neural Text Degeneration" 논문에서 제안됐다. 이 논문은 그리디/Beam Search가 반복 루프에 빠지고, 완전 무작위 샘플링은 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 텍스트를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 **텍스트 퇴화 (Text Degeneration)** 문제를 분석했다.
+Top-P는 2019년 Holtzman et al.의 "The Curious Case of Neural Text Degeneration" 논문에서 제안됐다. 이 논문은 그리디/Beam Search가 반복 루프에 빠지고, 완전 무작위 샘플링은 일관성 없는 텍스트를 생성하는 **텍스트 퇴화 (Text Degeneration)** 문제를 분석했다.
 
-<strong>η-샘플링 (Epsilon <a href="/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a>)</strong>: [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) ε 이하 토큰 제거 (Top-P의 절대값 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))
-<strong>Typical <a href="/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: 정보 이론적 전형성(Typicality)으로 후보 선택
+<strong>η-샘플링 (Epsilon Sampling)</strong>: 확률 ε 이하 토큰 제거 (Top-P의 절대값 버전)
+<strong>Typical Sampling</strong>: 정보 이론적 전형성(Typicality)으로 후보 선택
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
-| [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) / Top-P (Nucleus [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
+| Top-K / Top-P (Nucleus Sampling) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
 
 - **📢 섹션 요약 비유**: 텍스트 퇴화는 "한 번 잘못된 생각에 빠지면 계속 그 생각을 반복하는" AI의 강박 증상이다. Top-P는 이를 다양한 옵션을 유지함으로써 방지한다.
 
@@ -103,20 +103,20 @@ Top-P는 2019년 Holtzman et al.의 "The Curious Case of Neural Text Degeneratio
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong>ChatGPT/<a href="/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4</strong>: Top-P=1.0, [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=1.0 기본값 (사용자 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능)
-**창의적 글쓰기**: [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=0.9, Top-P=0.95
-<strong>코드 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=0.2, Top-P=0.95 또는 Greedy
-**다양성 강화**: [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/) + Top-P 둘 다 높게 + Presence Penalty 추가
+<strong>ChatGPT/GPT-4</strong>: Top-P=1.0, Temperature=1.0 기본값 (사용자 설정 가능)
+**창의적 글쓰기**: Temperature=0.9, Top-P=0.95
+<strong>코드 생성</strong>: Temperature=0.2, Top-P=0.95 또는 Greedy
+**다양성 강화**: Temperature + Top-P 둘 다 높게 + Presence Penalty 추가
 
-주의: Temperature와 Top-P를 동시에 매우 높이면 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 출력 발생.
+주의: Temperature와 Top-P를 동시에 매우 높이면 일관성 없는 출력 발생.
 
-- **📢 섹션 요약 비유**: 디코딩 파라미터 조합은 요리 레시피다. 재료(Top-P), 불 세기([Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)), 조리 시간(반복 제한)을 상황에 맞게 조절해야 맛있는 요리(좋은 텍스트)가 나온다.
+- **📢 섹션 요약 비유**: 디코딩 파라미터 조합은 요리 레시피다. 재료(Top-P), 불 세기(Temperature), 조리 시간(반복 제한)을 상황에 맞게 조절해야 맛있는 요리(좋은 텍스트)가 나온다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Top-K와 Top-P는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 디코딩의 핵심 제어 파라미터로, 창의성과 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 균형을 잡는 실용적 도구다. Top-P의 적응적 후보 선택은 분포의 형태에 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 일정 수준의 텍스트 품질을 보장한다. 현대 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기본 파라미터 이해는 [프롬프트 엔지니어링](/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)의 필수 기초다.
+Top-K와 Top-P는 LLM 디코딩의 핵심 제어 파라미터로, 창의성과 일관성의 균형을 잡는 실용적 도구다. Top-P의 적응적 후보 선택은 분포의 형태에 관계없이 일정 수준의 텍스트 품질을 보장한다. 현대 LLM 서비스의 기본 파라미터 이해는 프롬프트 엔지니어링의 필수 기초다.
 
 - **📢 섹션 요약 비유**: Top-K와 Top-P는 AI의 "언어 다양성 조절 밸브"다. 잠그면 깨끗하고 단조로운 물, 열면 풍부하지만 예측 불가능한 물이 나온다.
 
@@ -126,12 +126,12 @@ Top-K와 Top-P는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_la
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) 샘플링 | 상위 K 후보 / 고정 후보 수 필터 |
-| Top-P (Nucleus) | 누적 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) P / 적응적 후보 필터 |
+| Top-K 샘플링 | 상위 K 후보 / 고정 후보 수 필터 |
+| Top-P (Nucleus) | 누적 확률 P / 적응적 후보 필터 |
 | 그리디 디코딩 | argmax, T->0 / 결정론적 디코딩 |
 | 텍스트 퇴화 | 반복, 불일관성 / Top-P 필요 이유 |
 | 온도 (T) | 분포 뾰족함 / Top-P와 병행 |
-| Beam Search | k 빔, 시퀀스 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) / 대안 디코딩 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| Beam Search | k 빔, 시퀀스 확률 / 대안 디코딩 전략 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,17 +141,6 @@ Top-K와 Top-P는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_la
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Top-K는 "경주에서 상위 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명만 뽑아서 그 중 무작위로 승자를 결정"하는 방식이야.
+1. Top-K는 "경주에서 상위 10명만 뽑아서 그 중 무작위로 승자를 결정"하는 방식이야.
 2. Top-P는 "점수 합이 90점이 되는 최소한의 선수들만 모아서 그 중에서 뽑는" 방식이야. 잘하는 날엔 선수가 적고, 다들 비슷한 날엔 선수가 많아.
-3. 두 방법을 합치면 "상위 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명 AND 점수 합 90점" 조건을 모두 만족하는 선수에서 뽑아서 더 좋은 결과가 나와.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 387 / 420
-
-<- **이전**: [386. LLM 온도 (Temperature) 파라미터](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)
-**다음**: [388. RAG 파이프라인 (RAG HNSW ANN)](/studynote/10_ai/05_data_science_ml/388_rag_hnsw_ann/) ->
-
----
+3. 두 방법을 합치면 "상위 10명 AND 점수 합 90점" 조건을 모두 만족하는 선수에서 뽑아서 더 좋은 결과가 나와.

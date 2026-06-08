@@ -70,16 +70,16 @@ weight: 60
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-브레인스토밍은 아이디어 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 단계에서 쓰고, 평가 단계는 따로 둬야 한다.
+브레인스토밍은 아이디어 생성 단계에서 쓰고, 평가 단계는 따로 둬야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 진행자가 비판을 막고 있는가?
 2. 아이디어를 충분히 많이 수집했는가?
 3. 아이디어를 결합/개선하는 단계가 따로 있는가?
 4. 회의가 지시 전달로 변질되지 않았는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 첫 아이디어부터 평가하는 회의
 - 상사 한 명이 답을 정해 버리는 회의
@@ -132,14 +132,3 @@ NGT / 브레인라이팅
 브레인스토밍은 머릿속 생각을 많이 꺼내 보는 놀이예요.
 처음엔 틀려 보여도 괜찮고, 나중에 같이 고치면 돼요.
 그래서 좋은 생각을 더 많이 찾을 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 60 / 973
-
-<- **이전**: [59. PMO (Project Management Office) - 전사 프로젝트 관리 조직](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)
-**다음**: [61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙](/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/) ->
-
----

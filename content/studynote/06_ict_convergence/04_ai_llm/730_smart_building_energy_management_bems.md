@@ -131,11 +131,3 @@ weight: 730
 ```
       Np                       Np
 J = Σ  (x(k+i) − x_ref)ᵀ Q (x(k+i)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 730 / 800
-
-<- **이전**: [729. 스마트 교통 ITS 자율주행 V2X 신호](/studynote/06_ict_convergence/uncategorized/729_smart_transportation_its_autonomous_v2x/)
-**다음**: [731. 스마트 헬스 원격 모니터링 바이오센서](/studynote/06_ict_convergence/uncategorized/731_smart_health_remote_monitoring_biosensor/) ->
-
----

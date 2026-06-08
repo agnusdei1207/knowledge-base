@@ -181,12 +181,3 @@ QLoRA 메모리 사용량 분해 (65B 모델 기준, batch=1, seq=512):
 
 ### LoRA 변형 알고리즘 발전
 
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 706 / 800
-
-<- **이전**: [705. 자율 에이전트 멀티에이전트 시스템](/studynote/06_ict_convergence/uncategorized/705_autonomous_agent_multi_agent_system/)
-**다음**: [707. 모델 서빙 인프라 vLLM TGI 최적화](/studynote/06_ict_convergence/uncategorized/707_model_serving_infrastructure_vllm_tgi/) ->
-
----

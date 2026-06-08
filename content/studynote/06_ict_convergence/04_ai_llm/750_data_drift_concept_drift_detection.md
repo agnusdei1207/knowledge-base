@@ -171,11 +171,3 @@ $$
 | 구분 | 통계적 검정 (Statistical Test) | 거리 기반 (Distance-based) | 모델 기반 (Model-based) | 시계열 검출 (Sequential) |
 | :--- | :--- | :--- | :--- | :--- |
 | **핵심 기법** | KS-test, Chi-square, t-test | PSI,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 750 / 800
-
-<- **이전**: [749. 피처 엔지니어링 자동 특성 생성](/studynote/06_ict_convergence/uncategorized/749_feature_engineering_auto_feature_generation/)
-**다음**: [751. 모델 모니터링 성능 저하 알림 재학습](/studynote/06_ict_convergence/uncategorized/751_model_monitoring_performance_degradation/) ->
-
----

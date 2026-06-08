@@ -110,12 +110,3 @@ Core flow: Sense -> Connect -> Compute -> Optimize -> Adapt
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 595 / 800
-
-<- **이전**: [594. 5G 네트워크 슬라이싱 초저지연](/studynote/06_ict_convergence/uncategorized/594_5g_network_slicing_ultra_low_latency/)
-**다음**: [596. 저궤도 위성 인터넷 LEO](/studynote/06_ict_convergence/uncategorized/596_satellite_internet_leo_low_earth_orbit/) ->
-
----

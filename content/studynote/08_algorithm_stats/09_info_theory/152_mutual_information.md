@@ -9,7 +9,7 @@ weight: 152
 
 > 1. **본질**: 상호 정보량 I(X;Y)는 X와 Y가 *공유하는 정보*의 양 — Y를 알면 X의 불확실성이 얼마나 줄어드는지를 측정한다.
 > 2. **가치**: I(X;Y) = 0이면 완전 독립, 클수록 강한 상관 — 비선형 의존성까지 포착하며 피어슨 상관계수로 잡을 수 없는 관계도 발견한다.
-> 3. **판단 포인트**: [채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C = max I(X;Y), ML 특성 선택, 클러스터링 평가([NMI](/studynote/01_computer_architecture/15_advanced_topics/558_nmi/)) — 실무 세 곳에서 동시에 쓰이므로 수식과 해석을 함께 암기하라.
+> 3. **판단 포인트**: 채널 용량 C = max I(X;Y), ML 특성 선택, 클러스터링 평가(NMI) — 실무 세 곳에서 동시에 쓰이므로 수식과 해석을 함께 암기하라.
 
 ---
 
@@ -26,7 +26,7 @@ I(X;Y) = H(X) - H(X|Y)
 
 네 가지 동치 표현은 각각 다른 직관을 제공한다:
 - **H(X) - H(X|Y)**: Y를 알고 나서 줄어든 X의 불확실성
-- **H(X) + H(Y) - H(X,Y)**: 두 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)의 합에서 결합 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 뺀 "중복분"
+- **H(X) + H(Y) - H(X,Y)**: 두 엔트로피의 합에서 결합 엔트로피를 뺀 "중복분"
 - **D_KL(...)**: 결합 분포가 독립 분포에서 얼마나 벗어났는지
 
 ### 핵심 성질
@@ -44,7 +44,7 @@ I(X;Y) = H(X) - H(X|Y)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 벤 다이어그램
+### 엔트로피 벤 다이어그램
 
 ```
      +----------------------------------+
@@ -62,11 +62,11 @@ I(X;Y) = H(X) - H(X|Y)
 
 - **I(X;Y)**: X와 Y 원의 교집합 (공유 정보)
 - **H(X|Y)**: X 원에서 교집합을 뺀 부분 (Y를 알고도 남은 X의 불확실성)
-- **H(X,Y)**: 두 원의 합집합 (전체 결합 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/))
+- **H(X,Y)**: 두 원의 합집합 (전체 결합 엔트로피)
 
-### [채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)과의 연결
+### 채널 용량과의 연결
 
-<strong><a href="/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">채널 용량</a> (<a href="/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">Channel Capacity</a>)</strong> C는 입력 분포 P(X)를 최적화하여 얻는 최대 상호 정보량:
+<strong>채널 용량 (Channel Capacity)</strong> C는 입력 분포 P(X)를 최적화하여 얻는 최대 상호 정보량:
 
 ```
 C = max_{P(X)} I(X;Y)   [bits/channel use]
@@ -82,15 +82,15 @@ I(X;Y|Z) = H(X|Z) - H(X|Y,Z)
 
 Z가 주어졌을 때 Y가 X에 대해 추가로 제공하는 정보량.
 
-📢 **섹션 요약 비유**: [채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)은 "파이프의 최대 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)"이다 — 어떤 입력 분포를 써야 파이프를 가장 효율적으로 사용하는지를 상호 정보량 최대화로 계산한다.
+📢 **섹션 요약 비유**: 채널 용량은 "파이프의 최대 처리량"이다 — 어떤 입력 분포를 써야 파이프를 가장 효율적으로 사용하는지를 상호 정보량 최대화로 계산한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [NMI](/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) (Normalized Mutual Information) — 클러스터링 평가
+### NMI (Normalized Mutual Information) — 클러스터링 평가
 
-MI는 클러스터 수가 많아지면 인위적으로 커지므로, <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 상호 정보량 (<a href="/studynote/01_computer_architecture/15_advanced_topics/558_nmi/">NMI</a>, Normalized Mutual Information)</strong> 을 사용:
+MI는 클러스터 수가 많아지면 인위적으로 커지므로, <strong>정규화 상호 정보량 (NMI, Normalized Mutual Information)</strong> 을 사용:
 
 ```
 NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
@@ -111,10 +111,10 @@ NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
 
 예: X ~ Uniform(-1,1), Y = X^ -> r ≈ 0이지만 I(X;Y) > 0
 
-### 특성 선택 (Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 에서의 활용
+### 특성 선택 (Feature Selection) 에서의 활용
 
 - **MRMR (Minimum Redundancy Maximum Relevance)**: 타깃과의 MI 최대화 + 특성 간 MI 최소화
-- **Relief** 계열, <strong>HSIC (Hilbert-Schmidt <a href="/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> Criterion)</strong> 의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) MI 확장
+- **Relief** 계열, <strong>HSIC (Hilbert-Schmidt Independence Criterion)</strong> 의 커널 MI 확장
 
 📢 **섹션 요약 비유**: 상호 정보량은 "비선형 형사"다 — 선형 상관계수가 놓치는 복잡한 연관관계도 잡아낸다, 마치 단순한 목격자 진술 외에 행동 패턴까지 분석하는 것처럼.
 
@@ -122,7 +122,7 @@ NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 특성 선택 파이프라인
+### 머신러닝 특성 선택 파이프라인
 
 ```
 원시 특성
@@ -158,7 +158,7 @@ maximize I(I₁ ; I₂) over transformation parameters
 
 MRI-CT 다중 모달 영상 정합에 널리 사용.
 
-📢 **섹션 요약 비유**: [NMI](/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) 클러스터 평가는 "지도 대조"와 같다 — 예측한 클러스터 지도와 실제 정답 지도가 얼마나 일치하는지를 0~1 사이로 표현한다.
+📢 **섹션 요약 비유**: NMI 클러스터 평가는 "지도 대조"와 같다 — 예측한 클러스터 지도와 실제 정답 지도가 얼마나 일치하는지를 0~1 사이로 표현한다.
 
 ---
 
@@ -167,11 +167,11 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 상호 정보량은 <strong>분포 간 의존성의 가장 범용적인 척도</strong>다. 선형 회귀의 피어슨 상관계수가 한계에 부딪힐 때, MI는 비선형·비단조 의존성을 모두 포착한다.
 
 실무적으로 중요한 세 축:
-1. <strong><a href="/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">채널 용량</a></strong>: I(X;Y)를 최대화하면 최적 통신 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출
-2. **특성 선택**: 높은 MI 특성 -> 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) vs 복잡도 균형
+1. <strong>채널 용량</strong>: I(X;Y)를 최대화하면 최적 통신 전략 도출
+2. **특성 선택**: 높은 MI 특성 -> 모델 성능 vs 복잡도 균형
 3. **클러스터링 평가**: NMI로 레이블 없는 평가 가능
 
-양자 정보이론에서는 <strong>양자 상호 정보량 (<a href="/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> Mutual Information)</strong> 이 고전 MI의 대응물로, [양자 얽힘](/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/) 측정에 활용된다.
+양자 정보이론에서는 <strong>양자 상호 정보량 (Quantum Mutual Information)</strong> 이 고전 MI의 대응물로, 양자 얽힘 측정에 활용된다.
 
 📢 **섹션 요약 비유**: 상호 정보량은 "공통 어휘의 크기"와 같다 — 두 사람이 많은 어휘를 공유할수록 의사소통이 쉽듯, I(X;Y)가 클수록 X와 Y 사이에 공유되는 정보가 많다.
 
@@ -181,9 +181,9 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 
 | 개념 | 수식 | 연결 |
 |:---|:---|:---|
-| 상호 정보량 I(X;Y) | H(X) - H(X\|Y) | [채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/), 특성 선택 |
-| [NMI](/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) | 2I/(H(X)+H(Y)) | 클러스터링 평가 |
-| [채널 용량](/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C | max_{P(X)} I(X;Y) | 섀넌 채널 한계 |
+| 상호 정보량 I(X;Y) | H(X) - H(X\|Y) | 채널 용량, 특성 선택 |
+| NMI | 2I/(H(X)+H(Y)) | 클러스터링 평가 |
+| 채널 용량 C | max_{P(X)} I(X;Y) | 섀넌 채널 한계 |
 | KL 다이버전스 | D_KL(P(X,Y)\|\|P(X)P(Y)) | I(X;Y)의 KL 표현 |
 | MRMR | max I(f;Y) - mean I(f;fⱼ) | 최적 특성 집합 선택 |
 
@@ -217,14 +217,3 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 1. **상호 정보량은 "비밀 공유 개수"**: 친구가 많은 비밀을 나눌수록(MI 높음) 더 많은 것을 함께 알고 있다.
 2. **NMI는 "퍼즐 맞춤 점수"**: 내가 만든 퍼즐 조각 배열과 원본이 얼마나 같은지를 0~1로 나타낸다.
 3. **MI가 0이면 "완전한 남"**: 서로 아무 정보도 공유하지 않는, 완전히 독립적인 사이다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 152 / 175
-
-<- **이전**: [2. 엔트로피 (Shannon Entropy) — H(X) = -Σ p·log₂p](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)
-**다음**: [4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이](/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) ->
-
----

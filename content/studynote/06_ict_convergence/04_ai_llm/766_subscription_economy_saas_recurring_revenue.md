@@ -158,12 +158,3 @@ weight: 766
   |                            |                                       |
   |                            v                                       |
   |   Billing Platform:  Stripe Billing | Zuora | Chargebee | Recurly  |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 766 / 800
-
-<- **이전**: [765. 슈퍼앱 플랫폼 전략 미니 프로그램](/studynote/06_ict_convergence/uncategorized/765_super_app_platform_strategy_mini_program/)
-**다음**: [767. 크리에이터 경제 디지털 콘텐츠 플랫폼](/studynote/06_ict_convergence/uncategorized/767_creator_economy_digital_content_platform/) ->
-
----

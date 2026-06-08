@@ -7,32 +7,32 @@ weight: 646
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: `sys_call_table`은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 스페이스의 요청 번호(예: 1번은 write, 2번은 open)를 실제 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 함수 주소로 매핑해 주는 <strong>시스템 콜 라우팅의 핵심 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(<a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>)</strong>이다.
-> 2. **후킹(Hooking)**: 이 테이블의 주소를 찾아내어 특정 번호(예: `sys_read`)에 연결된 원래 함수 주소를 <strong>내가 만든 커스텀 함수(보안 훅) 주소로 바꿔치기</strong>하면, OS에서 일어나는 모든 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 작업을 중간에서 가로채어 감시하거나 차단할 수 있다.
-> 3. **가치/한계**: 과거 안티바이러스(백신)와 [루트킷](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([Rootkit](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))이 애용하던 이 원시적이고 위험한 해킹 기법은 현재 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)(CR0 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 조작 차단)와 <strong>LSM(Linux <a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Modules), <a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong>와 같은 합법적인 차세대 훅(Hook) 인프라의 발전으로 인해 보안상 엄격히 금지되고 있다.
+> 1. **본질**: `sys_call_table`은 리눅스 커널에서 유저 스페이스의 요청 번호(예: 1번은 write, 2번은 open)를 실제 커널 내부의 함수 주소로 매핑해 주는 <strong>시스템 콜 라우팅의 핵심 배열(Array)</strong>이다.
+> 2. **후킹(Hooking)**: 이 테이블의 주소를 찾아내어 특정 번호(예: `sys_read`)에 연결된 원래 함수 주소를 <strong>내가 만든 커스텀 함수(보안 훅) 주소로 바꿔치기</strong>하면, OS에서 일어나는 모든 파일 읽기 작업을 중간에서 가로채어 감시하거나 차단할 수 있다.
+> 3. **가치/한계**: 과거 안티바이러스(백신)와 루트킷(Rootkit)이 애용하던 이 원시적이고 위험한 해킹 기법은 현재 리눅스 커널의 메모리 쓰기 보호(CR0 레지스터 조작 차단)와 <strong>LSM(Linux Security Modules), eBPF</strong>와 같은 합법적인 차세대 훅(Hook) 인프라의 발전으로 인해 보안상 엄격히 금지되고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**:
-  - <strong>시스템 콜(<a href="/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong>: 유저 모드의 애플리케이션(Ring 3)이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Ring 0)의 자원([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 네트워크 등)을 사용하기 위해 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 진입하는 유일한 합법적 통로.
-  - **sys_call_table**: 시스템 콜 번호를 인덱스로 삼아, 해당 기능을 처리하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 함수 포인터(메모리 주소)들을 1차원으로 저장해 둔 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 자료구조.
+  - <strong>시스템 콜(System Call)</strong>: 유저 모드의 애플리케이션(Ring 3)이 커널(Ring 0)의 자원(파일, 네트워크 등)을 사용하기 위해 커널에 진입하는 유일한 합법적 통로.
+  - **sys_call_table**: 시스템 콜 번호를 인덱스로 삼아, 해당 기능을 처리하는 커널 내 함수 포인터(메모리 주소)들을 1차원으로 저장해 둔 배열 자료구조.
 
 - **필요성 (OS의 눈과 귀를 조작하려는 욕망)**:
-  - 보안 엔지니어는 "특정 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`/etc/passwd`)을 읽는 프로세스를 모조리 기록하고 싶다"는 요구사항을 갖는다.
-  - 하지만 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드를 직접 수정하고 재컴파일(Rebuild)하는 것은 상용 서버에서 불가능하다.
-  - **해결책 (LKM을 이용한 런타임 조작)**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(`.ko`)을 동적으로 올려서, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 떠 있는 `sys_call_table`을 찾아낸 뒤, `sys_read` 시스템 콜이 가리키는 화살표를 내가 만든 `my_fake_read` 함수로 틀어버리는 **후킹(Hooking)** 기법이 고안되었다.
+  - 보안 엔지니어는 "특정 파일(`/etc/passwd`)을 읽는 프로세스를 모조리 기록하고 싶다"는 요구사항을 갖는다.
+  - 하지만 커널 소스 코드를 직접 수정하고 재컴파일(Rebuild)하는 것은 상용 서버에서 불가능하다.
+  - **해결책 (LKM을 이용한 런타임 조작)**: 커널 모듈(`.ko`)을 동적으로 올려서, 커널 메모리에 떠 있는 `sys_call_table`을 찾아낸 뒤, `sys_read` 시스템 콜이 가리키는 화살표를 내가 만든 `my_fake_read` 함수로 틀어버리는 **후킹(Hooking)** 기법이 고안되었다.
 
   - **시스템 콜 테이블**: 구청의 '민원 접수처 번호판'. 1번 창구는 혼인신고(`sys_open`), 2번 창구는 사망신고(`sys_kill`). 사용자는 1번 표를 뽑고 1번 창구 공무원에게 간다.
-  - **시스템 콜 테이블 후킹**: 내가 밤에 몰래 구청에 잠입해서 1번 창구의 팻말을 내 자리(가짜 창구)로 옮겨놓는다. 다음 날 사람들이 혼인신고를 하러 1번 창구에 오면, 내가 서류([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 다 읽어본(감시) 뒤에 몰래 원래 1번 공무원에게 넘겨준다. 시민도 공무원도 중간에 내가 꼈다는 사실을 전혀 모른다.
+  - **시스템 콜 테이블 후킹**: 내가 밤에 몰래 구청에 잠입해서 1번 창구의 팻말을 내 자리(가짜 창구)로 옮겨놓는다. 다음 날 사람들이 혼인신고를 하러 1번 창구에 오면, 내가 서류(데이터)를 다 읽어본(감시) 뒤에 몰래 원래 1번 공무원에게 넘겨준다. 시민도 공무원도 중간에 내가 꼈다는 사실을 전혀 모른다.
 
 - **발전 과정**:
-  1. **고전적 후킹**: `/dev/kmem`이나 심벌 익스포트(`EXPORT_SYMBOL`)를 통해 테이블 주소를 쉽게 찾아 덮어썼다. [루트킷](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)의 전성시대.
-  2. <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 방어막 형성</strong>: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `sys_call_table` 주소를 숨기고(KASLR), 해당 메모리 영역을 읽기 전용(Read-only)으로 만들어 덮어쓰기를 원천 차단함.
-  3. **합법적 훅 프레임워크 등장**: 테이블을 무식하게 조작하는 대신, LSM, Kprobes, [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) 등 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 공식적으로 제공하는 '안전한 감시소'를 사용하는 방식으로 진화함.
+  1. **고전적 후킹**: `/dev/kmem`이나 심벌 익스포트(`EXPORT_SYMBOL`)를 통해 테이블 주소를 쉽게 찾아 덮어썼다. 루트킷의 전성시대.
+  2. <strong>커널 방어막 형성</strong>: 커널이 `sys_call_table` 주소를 숨기고(KASLR), 해당 메모리 영역을 읽기 전용(Read-only)으로 만들어 덮어쓰기를 원천 차단함.
+  3. **합법적 훅 프레임워크 등장**: 테이블을 무식하게 조작하는 대신, LSM, Kprobes, eBPF 등 커널이 공식적으로 제공하는 '안전한 감시소'를 사용하는 방식으로 진화함.
 
-- **📢 섹션 요약 비유**: 왕([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 올라가는 상소문(시스템 콜)의 배달 경로를 중간에서 몰래 비틀어 내용을 검열하는 내시의 권력 암투와 같은 원리입니다.
+- **📢 섹션 요약 비유**: 왕(커널)에게 올라가는 상소문(시스템 콜)의 배달 경로를 중간에서 몰래 비틀어 내용을 검열하는 내시의 권력 암투와 같은 원리입니다.
 
 ---
 
@@ -40,7 +40,7 @@ weight: 646
 
 ### 시스템 콜 테이블 (sys_call_table)의 메모리 구조
 
-x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터들이 8바이트씩 일렬로 나열된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)이다.
+x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터들이 8바이트씩 일렬로 나열된 배열이다.
 
 ```text
   [메모리 주소]         [함수 포인터 (sys_call_table)]
@@ -53,7 +53,7 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 ### 시스템 콜 후킹 (Hooking) 3단계 원리
 
-[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 이용해 `sys_open`을 `my_sys_open`으로 후킹하는 과정이다.
+커널 모듈을 이용해 `sys_open`을 `my_sys_open`으로 후킹하는 과정이다.
 
 ```text
   +-------------------------------------------------------------------+
@@ -84,20 +84,20 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 테이블 후킹의 본질은 포인터 치환이다. 앱이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열기 위해 `open()`을 부르면, CPU는 무조건 테이블의 2번 칸(`sys_call_table[2]`)에 적힌 주소로 점프한다. 거기를 내 함수 주소로 바꿔놓으면 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 오픈 행위가 내 함수를 거쳐 가게 된다. 내 함수 안에서 "누가 /etc/passwd를 열려 하네? 에러(-EPERM)를 던져서 막아야지!"라고 차단하면 훌륭한 백신(HIPS)이 되고, "어라, 해커인 내가 숨겨둔 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 보려 하네? [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없는 척해야지!"라고 속이면 최악의 [루트킷](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([Rootkit](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))이 된다.
+**[다이어그램 해설]** 테이블 후킹의 본질은 포인터 치환이다. 앱이 파일을 열기 위해 `open()`을 부르면, CPU는 무조건 테이블의 2번 칸(`sys_call_table[2]`)에 적힌 주소로 점프한다. 거기를 내 함수 주소로 바꿔놓으면 커널의 모든 파일 오픈 행위가 내 함수를 거쳐 가게 된다. 내 함수 안에서 "누가 /etc/passwd를 열려 하네? 에러(-EPERM)를 던져서 막아야지!"라고 차단하면 훌륭한 백신(HIPS)이 되고, "어라, 해커인 내가 숨겨둔 파일을 보려 하네? 파일이 없는 척해야지!"라고 속이면 최악의 루트킷(Rootkit)이 된다.
 
 ---
 
-### [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장 (추가): 나만의 시스템 콜 만들기
+### 커널 확장 (추가): 나만의 시스템 콜 만들기
 
 후킹이 아니라 아예 새로운 번호(예: 333번)에 새로운 기능을 만들고 싶을 때의 과정이다.
 
-1. `syscalls.h`에 함수 [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)(`asmlinkage long sys_my_custom_call(...)`)을 정의한다.
-2. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스의 `syscall_64.tbl` [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 `333 common my_custom_call sys_my_custom_call` 매핑을 추가한다.
-3. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체를 다시 컴파일(Rebuild)하고 재부팅한다.
-4. 이제 유저 스페이스에서 `syscall(333)`을 부르면 내가 만든 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수가 실행된다.
+1. `syscalls.h`에 함수 프로토타입(`asmlinkage long sys_my_custom_call(...)`)을 정의한다.
+2. 커널 소스의 `syscall_64.tbl` 파일에 `333 common my_custom_call sys_my_custom_call` 매핑을 추가한다.
+3. 커널 전체를 다시 컴파일(Rebuild)하고 재부팅한다.
+4. 이제 유저 스페이스에서 `syscall(333)`을 부르면 내가 만든 커널 함수가 실행된다.
 
-- **📢 섹션 요약 비유**: 빈 창구(333번)를 하나 새로 파서 새로운 구청 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장)를 만들 수도 있고, 기존 1번 창구 직원을 의자에 묶어두고 내가 그 자리에 앉아(후킹) 서류를 가로챌 수도 있습니다.
+- **📢 섹션 요약 비유**: 빈 창구(333번)를 하나 새로 파서 새로운 구청 서비스(커널 확장)를 만들 수도 있고, 기존 1번 창구 직원을 의자에 묶어두고 내가 그 자리에 앉아(후킹) 서류를 가로챌 수도 있습니다.
 
 ---
 
@@ -105,21 +105,21 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 ### 시스템 콜 감시/제어 기술 계보
 
-`sys_call_table` 변조가 너무 위험해지자, 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이를 대체할 합법적 프레임워크들을 만들었다.
+`sys_call_table` 변조가 너무 위험해지자, 리눅스 커널은 이를 대체할 합법적 프레임워크들을 만들었다.
 
 | 기술 명칭 | 동작 위치 (Layer) | 원리 및 특징 | 한계 / 단점 |
 |:---|:---|:---|:---|
-| **sys_call_table 후킹** | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심층부 포인터 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 직접 덮어쓰기 (원시적) | [커널 패닉](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 위험 극상, 현재 방어 기제로 병목 |
-| <strong>LSM (Linux <a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Modules)</strong> | 시스템 콜 실행 직전 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 공식적으로 뚫어준 보안 훅(Hook) 포인트 ([SELinux](/studynote/02_operating_system/10_security/583_selinux/), [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/)) | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 트리 내부에 코드가 있어야 함 |
-| **Kprobes / Ftrace** | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 진입점 ([명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) | 함수 첫머리의 어셈블리를 INT3(브레이크)로 바꿔치기 (동적 디버깅) | 로깅/추적용이며, 악의적 차단(Deny)용으로는 부적합 |
-| <strong><a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong> | 시스템 콜 / Kprobes 위치 | 안전성이 증명된 바이트코드를 샌드박스에서 실행하여 후킹 | 최신 기술로 러닝 커브 높음. 현재 업계 표준. |
+| **sys_call_table 후킹** | 커널 심층부 포인터 | 커널 메모리 직접 덮어쓰기 (원시적) | 커널 패닉 위험 극상, 현재 방어 기제로 병목 |
+| <strong>LSM (Linux Security Modules)</strong> | 시스템 콜 실행 직전 | 커널이 공식적으로 뚫어준 보안 훅(Hook) 포인트 (SELinux, AppArmor) | 커널 소스 트리 내부에 코드가 있어야 함 |
+| **Kprobes / Ftrace** | 커널 함수 진입점 (명령어) | 함수 첫머리의 어셈블리를 INT3(브레이크)로 바꿔치기 (동적 디버깅) | 로깅/추적용이며, 악의적 차단(Deny)용으로는 부적합 |
+| <strong>eBPF</strong> | 시스템 콜 / Kprobes 위치 | 안전성이 증명된 바이트코드를 샌드박스에서 실행하여 후킹 | 최신 기술로 러닝 커브 높음. 현재 업계 표준. |
 
 ### 과목 융합 관점
 
-- <strong>보안 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: [루트킷](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([Rootkit](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)) 동작의 알파와 오메가다. 해커는 테이블 후킹을 통해 `sys_getdents`([디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 목록 읽기)를 조작하여 자신의 [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `ls` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 결과에서 투명하게 지워버리고, `sys_kill`을 조작하여 관리자가 자신의 악성 프로세스를 죽이지 못하게 막는다.
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)([Paging](/studynote/02_operating_system/04_synchronization/259_paging/) / [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/)). CPU는 CR0 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 WP(Write Protect) 비트를 통해 Ring 0 권한이라 할지라도 Read-Only [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 수정하면 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 낸다. `sys_call_table` 후킹은 이 OS의 링(Ring) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계를 무력화하는 전형적인 익스플로잇 기법이다.
+- <strong>보안 (Security)</strong>: 루트킷(Rootkit) 동작의 알파와 오메가다. 해커는 테이블 후킹을 통해 `sys_getdents`(디렉터리 목록 읽기)를 조작하여 자신의 백도어 파일을 `ls` 명령어 결과에서 투명하게 지워버리고, `sys_kill`을 조작하여 관리자가 자신의 악성 프로세스를 죽이지 못하게 막는다.
+- <strong>운영체제 (OS)</strong>: 메모리 보호(Paging / MMU). CPU는 CR0 레지스터의 WP(Write Protect) 비트를 통해 Ring 0 권한이라 할지라도 Read-Only 페이지를 수정하면 페이지 폴트를 낸다. `sys_call_table` 후킹은 이 OS의 링(Ring) 보호 체계를 무력화하는 전형적인 익스플로잇 기법이다.
 
-- **📢 섹션 요약 비유**: `sys_call_table` 후킹이 도로를 무단으로 파헤쳐 사설 톨게이트를 세우는 불법 행위라면, LSM과 eBPF는 국가([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 공식적으로 허가한 부지에 세운 합법적인 첨단 과적 단속 카메라입니다.
+- **📢 섹션 요약 비유**: `sys_call_table` 후킹이 도로를 무단으로 파헤쳐 사설 톨게이트를 세우는 불법 행위라면, LSM과 eBPF는 국가(커널)가 공식적으로 허가한 부지에 세운 합법적인 첨단 과적 단속 카메라입니다.
 
 ---
 
@@ -127,12 +127,12 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — 구형 상용 안티바이러스(백신) 도입 시 <a href="/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a> 문제</strong>: B회사는 리눅스 서버 보안을 위해 10년 전에 만들어진 레거시 상용 백신 에이전트를 설치했다. 설치 직후 [커널 패닉](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)이 발생하며 서버가 뻗었다.
-   - **원인 분석**: 해당 백신은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력을 실시간 감시하기 위해 `sys_call_table`의 `sys_open`, `sys_read`를 직접 후킹하는 방식을 썼다. 하지만 최신 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 KASLR([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 무작위화)과 메모리 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)(STRICT_KERNEL_RWX)가 켜져 있어, 백신이 테이블 주소를 잘못 찾았거나 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한이 막혀 [Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault를 일으킨 것이다.
-   - **대응 (기술사적 가이드)**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 직접 훼손하는(Dirty) 솔루션은 현대 클라우드에서 절대 도입 불가 판정을 내려야 한다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 이벤트를 모니터링하려면 합법적인 <strong>Fanotify / Inotify <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>를 쓰거나, <strong><a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반의 보안 에이전트(예: Falco, <a href="/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a> Tetragon)</strong>로 솔루션을 교체해야 한다.
+1. <strong>시나리오 — 구형 상용 안티바이러스(백신) 도입 시 커널 패닉 문제</strong>: B회사는 리눅스 서버 보안을 위해 10년 전에 만들어진 레거시 상용 백신 에이전트를 설치했다. 설치 직후 커널 패닉이 발생하며 서버가 뻗었다.
+   - **원인 분석**: 해당 백신은 파일 입출력을 실시간 감시하기 위해 `sys_call_table`의 `sys_open`, `sys_read`를 직접 후킹하는 방식을 썼다. 하지만 최신 리눅스 커널은 KASLR(커널 주소 무작위화)과 메모리 쓰기 보호(STRICT_KERNEL_RWX)가 켜져 있어, 백신이 테이블 주소를 잘못 찾았거나 쓰기 권한이 막혀 Segmentation Fault를 일으킨 것이다.
+   - **대응 (기술사적 가이드)**: 커널 메모리를 직접 훼손하는(Dirty) 솔루션은 현대 클라우드에서 절대 도입 불가 판정을 내려야 한다. 파일 시스템 이벤트를 모니터링하려면 합법적인 <strong>Fanotify / Inotify API</strong>를 쓰거나, <strong>eBPF 기반의 보안 에이전트(예: Falco, Cilium Tetragon)</strong>로 솔루션을 교체해야 한다.
 
-2. **시나리오 — 사내 보안 감사용 시스템 콜 로깅 아키텍처 설계**: 누가 어떤 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지우는지(`sys_unlink`) 모든 행위를 남기려 한다.
-   - <strong>아키텍처 적용 (LSM / <a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>)</strong>: 테이블 후킹 대신 최신 <strong>LSM (Linux <a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>)</strong> 프레임워크인 [BPF](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)-LSM을 사용한다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 C로 짜서 올리는 대신, [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) 코드로 "file_unlink 훅 포인트에서 사용자 UID와 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름을 출력해라"라고 작성하여 [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일한다. 이 코드는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 샌드박스에서 완벽히 안전하게 돌아가며, [커널 패닉](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)의 위험 0%로 모든 삭제 행위를 감시할 수 있다.
+2. **시나리오 — 사내 보안 감사용 시스템 콜 로깅 아키텍처 설계**: 누가 어떤 파일을 지우는지(`sys_unlink`) 모든 행위를 남기려 한다.
+   - <strong>아키텍처 적용 (LSM / eBPF)</strong>: 테이블 후킹 대신 최신 <strong>LSM (Linux Security Module)</strong> 프레임워크인 BPF-LSM을 사용한다. 커널 모듈을 C로 짜서 올리는 대신, eBPF 코드로 "file_unlink 훅 포인트에서 사용자 UID와 파일 이름을 출력해라"라고 작성하여 JIT 컴파일한다. 이 코드는 커널 샌드박스에서 완벽히 안전하게 돌아가며, 커널 패닉의 위험 0%로 모든 삭제 행위를 감시할 수 있다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -159,13 +159,13 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** `sys_call_table` 후킹은 학부생들의 해킹 과제용이거나 악의적 공격자([루트킷](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))들의 전유물이다. 실무 인프라 엔지니어링에서는 이를 '어떻게 구현할까'가 아니라 <strong>'시스템이 이런 공격을 당했는지 어떻게 탐지할까'</strong>에 집중해야 한다. [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구(예: `chkrootkit`)는 주기적으로 현재 메모리의 `sys_call_table` 포인터들이 정상적인 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Text 영역(`_stext` ~ `_etext`) 범위 내에 있는지를 검사하여, 범위를 벗어난 주소(해커 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 주소)가 발견되면 후킹 당했음을 알람으로 띄운다.
+**[다이어그램 해설]** `sys_call_table` 후킹은 학부생들의 해킹 과제용이거나 악의적 공격자(루트킷)들의 전유물이다. 실무 인프라 엔지니어링에서는 이를 '어떻게 구현할까'가 아니라 <strong>'시스템이 이런 공격을 당했는지 어떻게 탐지할까'</strong>에 집중해야 한다. 무결성 검증 도구(예: `chkrootkit`)는 주기적으로 현재 메모리의 `sys_call_table` 포인터들이 정상적인 커널 Text 영역(`_stext` ~ `_etext`) 범위 내에 있는지를 검사하여, 범위를 벗어난 주소(해커 모듈 주소)가 발견되면 후킹 당했음을 알람으로 띄운다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- <strong>KASLR (<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Address Space Layout Randomization)</strong>: 부팅 시마다 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 `sys_call_table`의 메모리 주소가 난수화되도록 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터(kaslr)가 켜져 있어 공격자의 정적 메모리 후킹을 원천 차단하고 있는가?
-- **STRICT_KERNEL_RWX**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 '[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)'와 '실행(Execute)' 권한이 동시에 주어지지 않도록 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 컴파일 옵션이 켜져 있는가? (CR0 우회를 무력화하는 2차 방어선)
+### 도입 체크리스트
+- <strong>KASLR (Kernel Address Space Layout Randomization)</strong>: 부팅 시마다 커널과 `sys_call_table`의 메모리 주소가 난수화되도록 커널 파라미터(kaslr)가 켜져 있어 공격자의 정적 메모리 후킹을 원천 차단하고 있는가?
+- **STRICT_KERNEL_RWX**: 커널 메모리 페이지에 '쓰기(Write)'와 '실행(Execute)' 권한이 동시에 주어지지 않도록 보호하는 커널 컴파일 옵션이 켜져 있는가? (CR0 우회를 무력화하는 2차 방어선)
 
-- **📢 섹션 요약 비유**: 해커가 내 차([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 브레이크 선(함수 포인터)을 자르고 자기 선으로 연결(후킹)하지 못하도록, 보닛을 용접해 버리고(RWX [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)) 부품의 위치를 매일 밤 바꾸는 것(KASLR)이 현대 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 방어술입니다.
+- **📢 섹션 요약 비유**: 해커가 내 차(커널)의 브레이크 선(함수 포인터)을 자르고 자기 선으로 연결(후킹)하지 못하도록, 보닛을 용접해 버리고(RWX 보호) 부품의 위치를 매일 밤 바꾸는 것(KASLR)이 현대 커널의 방어술입니다.
 
 ---
 
@@ -173,20 +173,20 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 ### 정량/정성 기대효과
 
-| 구분 | 레거시 테이블 후킹 방식 | 차세대 LSM / [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) 훅 방식 | 개선 효과 |
+| 구분 | 레거시 테이블 후킹 방식 | 차세대 LSM / eBPF 훅 방식 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 (안정성)** | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 파편화로 패닉 잦음 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변동에 무관한 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | 보안 솔루션 도입에 따른 시스템 장애 0% |
-| <strong>정성 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a>)</strong> | 루트 권한 시 방어 불가능 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 락다운으로 런타임 훅 차단 | [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 아키텍처 완성 |
-| **정량 (탐지력)** | OS 종속적 하드코딩 개발 (수 개월) | [BPF](/studynote/02_operating_system/01_overview_architecture/069_ebpf/) 코드로 즉각적 탐지 배포 (시간) | [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경의 위협 탐지 리드타임 극감 |
+| **정성 (안정성)** | 커널 버전 파편화로 패닉 잦음 | 커널 API 변동에 무관한 호환성 | 보안 솔루션 도입에 따른 시스템 장애 0% |
+| <strong>정성 (보안성)</strong> | 루트 권한 시 방어 불가능 | 커널 락다운으로 런타임 훅 차단 | 제로 트러스트(Zero Trust) 아키텍처 완성 |
+| **정량 (탐지력)** | OS 종속적 하드코딩 개발 (수 개월) | BPF 코드로 즉각적 탐지 배포 (시간) | 클라우드 네이티브 환경의 위협 탐지 리드타임 극감 |
 
 ### 미래 전망
-- <strong><a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>(LSM-<a href="/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a>)의 완전한 대체</strong>: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 소스 코드를 건드리지 않고도 `sys_call_table` 조작 이상의 강력한 보안 제어(예: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 차단, 특정 IP 통신 차단)를 가능하게 하는 [BPF](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)-LSM이 완전히 성숙했다. 미래의 리눅스는 [서드파티](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([LKM](/studynote/02_operating_system/01_overview_architecture/067_lkm/))의 로드 자체를 금지하고, 오직 [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) 형태의 샌드박스 프로그램만 허용하는 마이크로커널과 유사한 철학으로 이동할 것이다.
-- <strong>하드웨어 제어 흐름 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/studynote/01_computer_architecture/15_advanced_topics/540_intel_cet/">Intel CET</a>, ARM BTI)</strong>: 소프트웨어 후킹이 갈수록 교묘해짐에 따라, CPU 하드웨어 자체가 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)([Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))과 반환(Return)의 궤적을 섀도우 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Shadow [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))에 기록하고, 정상 궤도(시스템 콜 테이블)를 이탈하는 점프(JMP) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행되면 CPU가 즉각 하드웨어 예외를 발생시켜 공격을 차단하는 기술이 일반화되고 있다.
+- <strong>eBPF(LSM-BPF)의 완전한 대체</strong>: 커널의 소스 코드를 건드리지 않고도 `sys_call_table` 조작 이상의 강력한 보안 제어(예: 파일 삭제 차단, 특정 IP 통신 차단)를 가능하게 하는 BPF-LSM이 완전히 성숙했다. 미래의 리눅스는 서드파티 커널 모듈(LKM)의 로드 자체를 금지하고, 오직 eBPF 형태의 샌드박스 프로그램만 허용하는 마이크로커널과 유사한 철학으로 이동할 것이다.
+- <strong>하드웨어 제어 흐름 무결성 (Intel CET, ARM BTI)</strong>: 소프트웨어 후킹이 갈수록 교묘해짐에 따라, CPU 하드웨어 자체가 함수 호출(Call)과 반환(Return)의 궤적을 섀도우 스택(Shadow Stack)에 기록하고, 정상 궤도(시스템 콜 테이블)를 이탈하는 점프(JMP) 명령어가 실행되면 CPU가 즉각 하드웨어 예외를 발생시켜 공격을 차단하는 기술이 일반화되고 있다.
 
 ### 결론
-리눅스 `sys_call_table` 확장의 역사는 OS의 투명성을 통제하려는 해커(또는 백신)와 이를 막으려는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자 간의 창과 방패의 전쟁사다. 과거의 거칠고 파괴적인 메모리 직접 조작(Hooking) 기법은 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 정교한 [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법(KASLR, CR0 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)) 앞에 무력화되었다. 하지만 그 통제 욕구는 사라지지 않고 eBPF와 LSM이라는 우아하고 합법적인 아키텍처로 계승되었다. 시스템 콜의 관문을 지배하는 자가 시스템 전체를 지배한다는 명제는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 존재하는 한 영원불멸의 진리다.
+리눅스 `sys_call_table` 확장의 역사는 OS의 투명성을 통제하려는 해커(또는 백신)와 이를 막으려는 커널 개발자 간의 창과 방패의 전쟁사다. 과거의 거칠고 파괴적인 메모리 직접 조작(Hooking) 기법은 현대 운영체제의 정교한 메모리 보호 기법(KASLR, CR0 보호) 앞에 무력화되었다. 하지만 그 통제 욕구는 사라지지 않고 eBPF와 LSM이라는 우아하고 합법적인 아키텍처로 계승되었다. 시스템 콜의 관문을 지배하는 자가 시스템 전체를 지배한다는 명제는 운영체제가 존재하는 한 영원불멸의 진리다.
 
-- **📢 섹션 요약 비유**: 왕([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 조종하기 위해 몰래 약을 먹이고 세뇌(테이블 후킹)하던 암흑의 시대를 지나, 이제는 헌법([eBPF](/studynote/02_operating_system/10_security/615_ebpf/)/LSM)이라는 공식적인 틀 안에서만 합법적으로 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 조언하고 집행하는 문명사회로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 생태계가 진화했습니다.
+- **📢 섹션 요약 비유**: 왕(커널)을 조종하기 위해 몰래 약을 먹이고 세뇌(테이블 후킹)하던 암흑의 시대를 지나, 이제는 헌법(eBPF/LSM)이라는 공식적인 틀 안에서만 합법적으로 정책을 조언하고 집행하는 문명사회로 커널 생태계가 진화했습니다.
 
 ---
 
@@ -194,10 +194,10 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원 제약 ([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) / [Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 자원 오버커밋 킬링 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동적 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 서명 ([Module Signature Verification](/studynote/02_operating_system/10_security/645_kernel_module_signature_verification/)) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 통제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 인지형 메모리 할당기 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 프레임워크 설계 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 프로세스 체크포인트/리스토어 ([CRIU](/studynote/02_operating_system/10_security/648_process_checkpoint_restore_criu/)) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 마이그레이션 도구 구조 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -215,17 +215,6 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴퓨터([운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))에는 '명령 접수처(시스템 콜 테이블)'가 있어요. 사용자가 "1번! [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열어줘!" 하면 1번 창구로, "2번! 지워줘!" 하면 2번 창구로 보내주는 곳이죠.
-2. 나쁜 해커([루트킷](/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))나 참견쟁이 백신은 몰래 구청에 잠입해서, 1번 창구 팻말을 자기 자리로 가져와요(후킹). 그래서 모든 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열기 명령이 자기 손을 거치게 만들죠.
-3. 하지만 요즘 컴퓨터는 창구 번호판을 강철 유리로 덮어버리고([메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)), 매일 밤 창구 위치를 섞어버려서(KASLR) 아무도 몰래 팻말을 바꿀 수 없게 철벽 방어를 하고 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 646 / 800
-
-<- **이전**: [645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제](/studynote/02_operating_system/10_security/645_kernel_module_signature_verification/)
-**다음**: [647. NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 (NUMA Aware Allocator Page Migration)](/studynote/02_operating_system/10_security/647_numa_aware_allocator_page_migration/) ->
-
----
+1. 컴퓨터(운영체제)에는 '명령 접수처(시스템 콜 테이블)'가 있어요. 사용자가 "1번! 파일 열어줘!" 하면 1번 창구로, "2번! 지워줘!" 하면 2번 창구로 보내주는 곳이죠.
+2. 나쁜 해커(루트킷)나 참견쟁이 백신은 몰래 구청에 잠입해서, 1번 창구 팻말을 자기 자리로 가져와요(후킹). 그래서 모든 파일 열기 명령이 자기 손을 거치게 만들죠.
+3. 하지만 요즘 컴퓨터는 창구 번호판을 강철 유리로 덮어버리고(메모리 보호), 매일 밤 창구 위치를 섞어버려서(KASLR) 아무도 몰래 팻말을 바꿀 수 없게 철벽 방어를 하고 있답니다!

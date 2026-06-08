@@ -6,13 +6,13 @@ tags:
 weight: 838
 ---
 > **핵심 인사이트**
-> 1. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자와 고객 간의 계약적 품질 약속 — 단순한 기술 지표가 아니라 비즈니스 기대를 수치로 구체화한 계약이며, 미달 시 페널티(크레딧, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 해지)가 발생한다.
-> 2. [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)·SLI의 계층 구조 — [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(측정 지표)->[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(내부 목표)->[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)(외부 계약) 순서로 엄격해지며, SLO는 SLA보다 여유 있게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)해 완충 지대를 확보하는 것이 실무 관행이다.
-> 3. [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 퍼센트의 실질적 의미 이해 — "99.9% [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)"이 연간 8.7시간 다운타임을 의미하는 반면, "99.99%"는 52분으로 10배 차이. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 협상 시 이 실질적 다운타임 허용량을 사업 임팩트와 연결해야 한다.
+> 1. SLA(Service Level Agreement)는 서비스 제공자와 고객 간의 계약적 품질 약속 — 단순한 기술 지표가 아니라 비즈니스 기대를 수치로 구체화한 계약이며, 미달 시 페널티(크레딧, 서비스 해지)가 발생한다.
+> 2. SLO·SLA·SLI의 계층 구조 — SLI(측정 지표)->SLO(내부 목표)->SLA(외부 계약) 순서로 엄격해지며, SLO는 SLA보다 여유 있게 설정해 완충 지대를 확보하는 것이 실무 관행이다.
+> 3. 가용성 퍼센트의 실질적 의미 이해 — "99.9% 가용성"이 연간 8.7시간 다운타임을 의미하는 반면, "99.99%"는 52분으로 10배 차이. SLA 협상 시 이 실질적 다운타임 허용량을 사업 임팩트와 연결해야 한다.
 
 ---
 
-## Ⅰ. [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 계층
+## Ⅰ. SLI·SLO·SLA 계층
 
 ```
 SLI -> SLO -> SLA 계층:
@@ -54,11 +54,11 @@ SLA (Service Level Agreement):
   -> 고객 계약 위반 없이 문제 해결 가능
 ```
 
-> 📢 **섹션 요약 비유**: [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)->SLA는 시험 기준 — [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(실제 점수), [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(스스로 목표 90점), [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)(부모님과 약속 80점). 목표는 높게, 계약은 여유롭게!
+> 📢 **섹션 요약 비유**: SLI->SLO->SLA는 시험 기준 — SLI(실제 점수), SLO(스스로 목표 90점), SLA(부모님과 약속 80점). 목표는 높게, 계약은 여유롭게!
 
 ---
 
-## Ⅱ. [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 수치 해석
+## Ⅱ. 가용성 수치 해석
 
 ```
 가용성 퍼센트 vs 다운타임:
@@ -100,11 +100,11 @@ SLA 구성 요소:
   사전 공지 후 다운타임 = SLA 적용 제외
 ```
 
-> 📢 **섹션 요약 비유**: [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 퍼센트는 수업 출석률 — 99.9%(3 Nines) = 일년에 8.7시간 결석. 99.99%(4 Nines) = 52분만 결석. 0.09% 차이가 16× 다운타임 차이!
+> 📢 **섹션 요약 비유**: 가용성 퍼센트는 수업 출석률 — 99.9%(3 Nines) = 일년에 8.7시간 결석. 99.99%(4 Nines) = 52분만 결석. 0.09% 차이가 16× 다운타임 차이!
 
 ---
 
-## Ⅲ. 주요 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 측정 지표
+## Ⅲ. 주요 SLA 측정 지표
 
 ```
 핵심 SLA 지표들:
@@ -150,11 +150,11 @@ MTBF (Mean Time Between Failures):
   S3: 99.999999999% 내구성 SLA
 ```
 
-> 📢 **섹션 요약 비유**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 지표는 배달 앱 평가 — [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(앱 켜지는 비율), P99 응답(99% 주문이 이 시간 내), 오류율(잘못 배달 비율), [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(문제 해결 시간). 종합 점수로 계약!
+> 📢 **섹션 요약 비유**: SLA 지표는 배달 앱 평가 — 가용성(앱 켜지는 비율), P99 응답(99% 주문이 이 시간 내), 오류율(잘못 배달 비율), MTTR(문제 해결 시간). 종합 점수로 계약!
 
 ---
 
-## Ⅳ. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 위반 관리
+## Ⅳ. SLA 위반 관리
 
 ```
 SLA 위반과 대응:
@@ -199,11 +199,11 @@ SLA 위반 절차:
   -> SLA 협상 시 이 조항 주의!
 ```
 
-> 📢 **섹션 요약 비유**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 위반은 배달 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 — "1시간 내 배달 보장([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/))" 못 지키면 쿠폰(크레딧). 계속 못 지키면 재계약 해지. 오류 예산은 남은 쿠폰 수!
+> 📢 **섹션 요약 비유**: SLA 위반은 배달 지연 보상 — "1시간 내 배달 보장(SLA)" 못 지키면 쿠폰(크레딧). 계속 못 지키면 재계약 해지. 오류 예산은 남은 쿠폰 수!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 플랫폼 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 협상
+## Ⅴ. 실무 시나리오 — SaaS 플랫폼 SLA 협상
 
 ```
 B2B SaaS 플랫폼 SLA 협상:
@@ -252,7 +252,7 @@ SLA 협상 전략:
   분기별 서비스 리뷰 미팅
 ```
 
-> 📢 **섹션 요약 비유**: [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 협상은 보험 계약 — 고객은 넓은 보장(99.99%) 요구, 보험사([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자)는 보험료(비용)에 맞게 조율. 핵심 기능 고보장 + 주변 기능 표준 = 최적 협상!
+> 📢 **섹션 요약 비유**: SLA 협상은 보험 계약 — 고객은 넓은 보장(99.99%) 요구, 보험사(서비스 제공자)는 보험료(비용)에 맞게 조율. 핵심 기능 고보장 + 주변 기능 표준 = 최적 협상!
 
 ---
 
@@ -312,17 +312,6 @@ AI 이상 탐지 + 자동 SLA 보고
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. SLA는 배달 약속 — "2시간 내 배달 보장([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/))". 못 지키면 쿠폰(크레딧) 제공. SLO는 스스로 "1.5시간 내"로 높게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)!
-2. [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 퍼센트는 출석률 — 99.9%(3 Nines) = 1년에 8.7시간 결석. 99.99%(4 Nines) = 52분만 결석. 차이는 작아 보여도 16배 다른 다운타임!
-3. Error Budget은 결석 허용 한도 — "한 달 43분까지 결석 허용(99.9% [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/))". 이미 30분 결석했으면 남은 2주 동안 조심조심!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 84 / 587
-
-<- **이전**: [46. SLA (Service Level Agreement, 서비스 수준 협약서)](/studynote/12_it_management/01_governance_strategy/046_sla_service_level_agreement/)
-**다음**: [47. IT 컴플라이언스 (IT Compliance)](/studynote/12_it_management/01_governance_strategy/047_it_compliance/) ->
-
----
+1. SLA는 배달 약속 — "2시간 내 배달 보장(SLA)". 못 지키면 쿠폰(크레딧) 제공. SLO는 스스로 "1.5시간 내"로 높게 설정!
+2. 가용성 퍼센트는 출석률 — 99.9%(3 Nines) = 1년에 8.7시간 결석. 99.99%(4 Nines) = 52분만 결석. 차이는 작아 보여도 16배 다른 다운타임!
+3. Error Budget은 결석 허용 한도 — "한 달 43분까지 결석 허용(99.9% SLA)". 이미 30분 결석했으면 남은 2주 동안 조심조심!

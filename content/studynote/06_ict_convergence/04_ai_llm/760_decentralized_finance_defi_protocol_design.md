@@ -175,11 +175,3 @@ DeFi 프로토콜은 일반적으로 **5계층 레이어 아키텍처**로 설�
 ## Ⅲ. 비교 및 연결
 
 |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 760 / 800
-
-<- **이전**: [759. 디지털 신원 검증 eKYC 원격 인증](/studynote/06_ict_convergence/uncategorized/759_digital_identity_verification_ekyc_remote/)
-**다음**: [761. NFT 디지털 자산 토큰화 소유권](/studynote/06_ict_convergence/uncategorized/761_nft_digital_asset_tokenization_ownership/) ->
-
----

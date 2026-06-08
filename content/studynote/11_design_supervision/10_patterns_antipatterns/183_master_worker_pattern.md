@@ -7,19 +7,19 @@ weight: 183
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 마스터-워커 패턴 (Master-Worker Pattern)은 중앙 조정자(Master)가 큰 작업을 여러 단위로 분할하고, 실행자(Worker)에게 배분한 뒤 결과를 집계하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.
-> 2. **가치**: 작업 분배, 상태 추적, 재시도, 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 중앙에서 관리하므로 워커는 단순 실행에 집중할 수 있고, 시스템은 Scale-Out으로 처리량을 높이기 쉬워진다.
-> 3. **판단 포인트**: 이 패턴은 작업이 서로 비교적 독립적이고 재실행 가능할 때 강력하지만, 마스터 병목·[단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)·과도한 상호 의존 작업에는 오히려 불리하므로 적용 경계를 분명히 해야 한다.
+> 1. **본질**: 마스터-워커 패턴 (Master-Worker Pattern)은 중앙 조정자(Master)가 큰 작업을 여러 단위로 분할하고, 실행자(Worker)에게 배분한 뒤 결과를 집계하는 병렬 처리 구조다.
+> 2. **가치**: 작업 분배, 상태 추적, 재시도, 부하 분산을 중앙에서 관리하므로 워커는 단순 실행에 집중할 수 있고, 시스템은 Scale-Out으로 처리량을 높이기 쉬워진다.
+> 3. **판단 포인트**: 이 패턴은 작업이 서로 비교적 독립적이고 재실행 가능할 때 강력하지만, 마스터 병목·단일 장애점·과도한 상호 의존 작업에는 오히려 불리하므로 적용 경계를 분명히 해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-마스터-워커 패턴은 "한 개의 큰 일을 여러 손으로 나눠 처리하되, 누가 무엇을 하는지는 한 곳에서 관리하자"는 구조적 해법이다. 대량 이미지 변환, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계, 크롤링, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드, [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)처럼 동일하거나 유사한 작업을 반복 실행해야 할 때 특히 유용하다. 단일 프로세스나 단일 서버가 모든 작업을 순서대로 처리하면 시간이 길어지고, 개별 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 제멋대로 작업을 고르면 중복 수행과 누락이 생기기 쉽다.
+마스터-워커 패턴은 "한 개의 큰 일을 여러 손으로 나눠 처리하되, 누가 무엇을 하는지는 한 곳에서 관리하자"는 구조적 해법이다. 대량 이미지 변환, 로그 집계, 크롤링, 분산 빌드, 배치 처리처럼 동일하거나 유사한 작업을 반복 실행해야 할 때 특히 유용하다. 단일 프로세스나 단일 서버가 모든 작업을 순서대로 처리하면 시간이 길어지고, 개별 스레드가 제멋대로 작업을 고르면 중복 수행과 누락이 생기기 쉽다.
 
-이 패턴이 필요한 이유는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 어려움이 "동시에 실행한다"보다 "동시에 실행되는 일을 통제한다"에 있기 때문이다. 작업을 어떻게 쪼갤지, 어떤 워커가 놀고 있는지, 실패한 작업을 누가 다시 맡을지, 전체 진척률을 어디서 볼지 같은 문제는 중앙 조정자가 있을 때 훨씬 단순해진다. 즉 마스터-워커는 단순 멀티스레딩이 아니라 <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행의 운영 모델</strong>이다.
+이 패턴이 필요한 이유는 병렬 처리의 어려움이 "동시에 실행한다"보다 "동시에 실행되는 일을 통제한다"에 있기 때문이다. 작업을 어떻게 쪼갤지, 어떤 워커가 놀고 있는지, 실패한 작업을 누가 다시 맡을지, 전체 진척률을 어디서 볼지 같은 문제는 중앙 조정자가 있을 때 훨씬 단순해진다. 즉 마스터-워커는 단순 멀티스레딩이 아니라 <strong>병렬 실행의 운영 모델</strong>이다.
 
-또한 이 구조는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템뿐 아니라 단일 서버 내 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀에도 적용된다. 따라서 설계감리 관점에서는 특정 플랫폼 이름보다, 작업 분할 가능성·상태 관리 방식·재시도 책임이 어디에 있는지를 보는 것이 더 중요하다.
+또한 이 구조는 분산 시스템뿐 아니라 단일 서버 내 스레드 풀에도 적용된다. 따라서 설계감리 관점에서는 특정 플랫폼 이름보다, 작업 분할 가능성·상태 관리 방식·재시도 책임이 어디에 있는지를 보는 것이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 마스터-워커는 반장이 청소 구역을 나눠 주고 끝난 구역을 확인하는 방식과 같아서, 모두가 함께 일하지만 누가 어디를 맡는지는 한 곳에서 정리된다.
 
@@ -27,15 +27,15 @@ weight: 183
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전형적인 구조는 [Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/), Master, [Task](/studynote/02_operating_system/02_process_thread/150_task/) [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/), Worker Pool, Result Collector, Heartbeat Monitor로 나뉜다. 클라이언트가 큰 작업을 제출하면 마스터는 이를 처리 가능한 단위로 나눈다. 워커는 큐에서 작업을 가져오거나 마스터로부터 할당받아 실행하고, 결과나 실패 상태를 다시 보고한다. 마스터는 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 추적하면서 타임아웃된 작업을 재할당하고, 최종 결과를 합친다.
+전형적인 구조는 Client, Master, Task Queue, Worker Pool, Result Collector, Heartbeat Monitor로 나뉜다. 클라이언트가 큰 작업을 제출하면 마스터는 이를 처리 가능한 단위로 나눈다. 워커는 큐에서 작업을 가져오거나 마스터로부터 할당받아 실행하고, 결과나 실패 상태를 다시 보고한다. 마스터는 진행 상황을 추적하면서 타임아웃된 작업을 재할당하고, 최종 결과를 합친다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| Master | 작업 분할, 스케줄링, 상태 관리 | 병목과 [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure) 완화 필요 |
-| [Task](/studynote/02_operating_system/02_process_thread/150_task/) [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 작업 전달과 대기열 관리 | 순서, 우선순위, 재시도 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의 |
-| Worker | 실제 작업 실행 | 가능하면 [stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) + idempotent 설계 |
+| Master | 작업 분할, 스케줄링, 상태 관리 | 병목과 SPOF (Single Point of Failure) 완화 필요 |
+| Task Queue | 작업 전달과 대기열 관리 | 순서, 우선순위, 재시도 정책 정의 |
+| Worker | 실제 작업 실행 | 가능하면 stateless + idempotent 설계 |
 | Result Store / Collector | 결과 저장과 집계 | 부분 실패와 중복 결과 처리 필요 |
-| Heartbeat / [Monitor](/studynote/02_operating_system/04_synchronization/229_monitor/) | 워커 생존과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감시 | [timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 기준과 재할당 시점이 핵심 |
+| Heartbeat / Monitor | 워커 생존과 지연 감시 | timeout 기준과 재할당 시점이 핵심 |
 
 아래 그림은 마스터-워커의 실행 루프를 요약한다.
 
@@ -73,18 +73,18 @@ weight: 183
 
 ## Ⅲ. 비교 및 연결
 
-마스터-워커를 제대로 이해하려면 비슷해 보이는 다른 패턴과 경계를 구분해야 한다. 특히 [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/), Leader-Follower, Publish/Subscribe는 모두 여러 실행 주체를 쓰지만, 협업 방식이 다르다.
+마스터-워커를 제대로 이해하려면 비슷해 보이는 다른 패턴과 경계를 구분해야 한다. 특히 Pipeline, Leader-Follower, Publish/Subscribe는 모두 여러 실행 주체를 쓰지만, 협업 방식이 다르다.
 
 | 패턴 | 중심 구조 | 강한 지점 | 약한 지점 |
 | :--- | :--- | :--- | :--- |
-| Master-Worker | 중앙 조정 + [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업자 | 분할, 재시도, 집계, 관측성 | 마스터 병목, [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) |
-| [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) | 단계별 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)/[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 흐름 | 단계 분리, 스트리밍 처리 | 단계 간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 전파 |
+| Master-Worker | 중앙 조정 + 병렬 작업자 | 분할, 재시도, 집계, 관측성 | 마스터 병목, SPOF |
+| Pipeline | 단계별 직렬/병렬 흐름 | 단계 분리, 스트리밍 처리 | 단계 간 지연 전파 |
 | Leader-Follower | 리더가 이벤트 수용, 팔로워가 승격 가능 | 이벤트 처리, 고가용성 | 대량 작업 분할에는 덜 직관적 |
 | Publish/Subscribe | 브로커 기반 비결합 이벤트 전달 | 느슨한 결합, 비동기 통신 | 중앙 집계·전체 진척 관리가 약함 |
 
-마스터-워커는 MapReduce의 상위 아이디어로도 볼 수 있다. MapReduce는 Master가 입력을 샤드로 나누고 Worker가 Map/Reduce를 수행하는 대표 구현이며, Spark의 Driver-Executor, Kubernetes의 Control Plane-Node, Celery의 Broker-Worker도 넓게 보면 같은 계열의 운영 패턴을 가진다. 즉 기술 이름이 달라도 "중앙 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) + 다수 실행자"라는 구조는 반복된다.
+마스터-워커는 MapReduce의 상위 아이디어로도 볼 수 있다. MapReduce는 Master가 입력을 샤드로 나누고 Worker가 Map/Reduce를 수행하는 대표 구현이며, Spark의 Driver-Executor, Kubernetes의 Control Plane-Node, Celery의 Broker-Worker도 넓게 보면 같은 계열의 운영 패턴을 가진다. 즉 기술 이름이 달라도 "중앙 스케줄러 + 다수 실행자"라는 구조는 반복된다.
 
-반대로 워커끼리 지속적으로 상태를 주고받아야 하거나, 이벤트가 어디로 갈지 구독자가 자율적으로 결정해야 하는 시스템이라면 마스터-워커보다 [Actor Model](/studynote/02_operating_system/02_process_thread/139_actor_model/), Pub/Sub, [Saga](/studynote/12_it_management/05_security_compliance/305_saga/), Pipeline이 더 적합할 수 있다. 설계 감리에서는 "[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행이 가능한가"뿐 아니라 "중앙 조정이 이득인가"를 함께 물어야 한다.
+반대로 워커끼리 지속적으로 상태를 주고받아야 하거나, 이벤트가 어디로 갈지 구독자가 자율적으로 결정해야 하는 시스템이라면 마스터-워커보다 Actor Model, Pub/Sub, Saga, Pipeline이 더 적합할 수 있다. 설계 감리에서는 "병렬 실행이 가능한가"뿐 아니라 "중앙 조정이 이득인가"를 함께 물어야 한다.
 
 - **📢 섹션 요약 비유**: 마스터-워커가 감독이 일을 나눠 주는 건설 현장이라면, Pipeline은 조립 라인이고, Pub/Sub는 방송국에서 알림을 뿌리면 각 부서가 알아서 듣고 움직이는 구조다.
 
@@ -92,31 +92,31 @@ weight: 183
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 마스터-워커가 잘 맞는 조건은 명확하다. 작업이 서로 독립적이거나 의존성이 약하고, 입력 단위가 명확하며, 실패 시 다시 실행해도 부작용이 크지 않을 때다. 이미지 썸네일 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 집계, 웹 크롤링, 대규모 테스트 실행처럼 같은 연산을 많은 입력에 반복하는 작업이 대표적이다.
+실무에서 마스터-워커가 잘 맞는 조건은 명확하다. 작업이 서로 독립적이거나 의존성이 약하고, 입력 단위가 명확하며, 실패 시 다시 실행해도 부작용이 크지 않을 때다. 이미지 썸네일 생성, 로그 파티션 집계, 웹 크롤링, 대규모 테스트 실행처럼 같은 연산을 많은 입력에 반복하는 작업이 대표적이다.
 
 | 실무 상황 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
-| 대량 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), 렌더링, 크롤링 | 적극 적용 | 작업 단위 분할과 재시도가 쉬움 |
-| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계 | 적극 적용 | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기반 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화와 결과 집계가 자연스러움 |
-| 실시간 대화형 워크플로우 | 신중 적용 | 단계 의존성과 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구가 큼 |
-| 공유 상태가 많은 시뮬레이션 | 대안 검토 | 워커 간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 커질 수 있음 |
+| 대량 배치 처리, 렌더링, 크롤링 | 적극 적용 | 작업 단위 분할과 재시도가 쉬움 |
+| 분산 ETL (Extract, Transform, Load), 로그 집계 | 적극 적용 | 파티션 기반 병렬화와 결과 집계가 자연스러움 |
+| 실시간 대화형 워크플로우 | 신중 적용 | 단계 의존성과 낮은 지연 요구가 큼 |
+| 공유 상태가 많은 시뮬레이션 | 대안 검토 | 워커 간 동기화 비용이 커질 수 있음 |
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 작업 단위는 충분히 작지만 스케줄링 오버헤드를 넘지 않을 만큼 적절한가?
 2. 워커 작업은 멱등적이며, 중복 실행 시 결과 왜곡을 막을 수 있는가?
-3. 마스터 장애 시 상태 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 또는 Active-Standby 전환이 가능한가?
-4. 긴 작업을 감지하는 straggler 모니터링과 재분배 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
-5. 입력 데이터와 워커 위치를 고려한 [data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) locality가 확보되는가?
+3. 마스터 장애 시 상태 복구 또는 Active-Standby 전환이 가능한가?
+4. 긴 작업을 감지하는 straggler 모니터링과 재분배 정책이 있는가?
+5. 입력 데이터와 워커 위치를 고려한 data locality가 확보되는가?
 
-### 자주 발생하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 발생하는 안티패턴
 
 - 마스터가 모든 중간 결과를 메모리에만 들고 있어 병목이 되는 구조
 - 작업 단위를 비즈니스 트랜잭션보다 크게 잡아 재시도 시 부작용이 커지는 설계
-- 워커들이 동일한 공유 자원을 락으로 심하게 경쟁해 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 사라지는 경우
+- 워커들이 동일한 공유 자원을 락으로 심하게 경쟁해 병렬성이 사라지는 경우
 - 타임아웃과 heartbeat 없이 "언젠가 끝나겠지"라고 기다리는 운영
 
-기술사 답안에서는 <strong>"마스터-워커는 독립 작업을 분할·배분·재시도·집계하는 운영 패턴이며, 성공 조건은 작업 독립성·<a href="/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a>·마스터 고가용성 확보에 있다"</strong>고 정리하면 좋다.
+기술사 답안에서는 <strong>"마스터-워커는 독립 작업을 분할·배분·재시도·집계하는 운영 패턴이며, 성공 조건은 작업 독립성·멱등성·마스터 고가용성 확보에 있다"</strong>고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: 마스터-워커를 잘 쓰는 팀은 공사 감독이 도면과 진척표를 가진 팀이고, 못 쓰는 팀은 인부들이 서로 눈치만 보며 같은 자재를 두 번 옮기는 팀과 같다.
 
@@ -124,9 +124,9 @@ weight: 183
 
 ## Ⅴ. 기대효과 및 결론
 
-마스터-워커 패턴의 가장 큰 효과는 확장성과 운영 가시성을 동시에 얻는다는 점이다. 워커 수를 늘리면 처리량을 높이기 쉽고, 마스터를 통해 전체 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률·실패 위치·재시도 현황을 한눈에 볼 수 있다. 장애가 일부 워커에 국한될 때 전체 작업이 계속 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될 수 있다는 것도 큰 장점이다.
+마스터-워커 패턴의 가장 큰 효과는 확장성과 운영 가시성을 동시에 얻는다는 점이다. 워커 수를 늘리면 처리량을 높이기 쉽고, 마스터를 통해 전체 진행률·실패 위치·재시도 현황을 한눈에 볼 수 있다. 장애가 일부 워커에 국한될 때 전체 작업이 계속 진행될 수 있다는 것도 큰 장점이다.
 
-하지만 이 장점은 중앙 조정 비용과 맞바꾼 것이다. 마스터가 병목이 되거나, 워커 간 상호 의존이 커지거나, 결과 집계 비용이 지나치게 크면 구조의 이점이 급격히 줄어든다. 따라서 마스터-워커는 "[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 정답"이 아니라, <strong>독립 작업을 중앙에서 잘 다루기 위한 특화 패턴</strong>으로 기억해야 한다.
+하지만 이 장점은 중앙 조정 비용과 맞바꾼 것이다. 마스터가 병목이 되거나, 워커 간 상호 의존이 커지거나, 결과 집계 비용이 지나치게 크면 구조의 이점이 급격히 줄어든다. 따라서 마스터-워커는 "병렬 처리의 정답"이 아니라, <strong>독립 작업을 중앙에서 잘 다루기 위한 특화 패턴</strong>으로 기억해야 한다.
 
 결론적으로 이 패턴의 핵심 문장은 단순하다. "한 개의 두뇌가 계획하고, 많은 손이 실행한다." 설계감리에서는 이 두뇌가 과부하되지 않는지, 그리고 많은 손이 서로 발목 잡지 않는지를 함께 확인해야 한다.
 
@@ -138,11 +138,11 @@ weight: 183
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Work [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 마스터가 워커에게 작업을 넘기는 대표 전달 메커니즘이다. |
-| Heartbeat | 워커 생존 여부와 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 감지해 재할당을 가능하게 한다. |
-| [Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) | 재시도 시 부작용 없이 같은 작업을 다시 실행할 수 있게 한다. |
-| Straggler | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서 전체 완료를 늦추는 느린 작업 단위다. |
-| [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) | 마스터-워커 구조를 대표적으로 구현한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 모델이다. |
+| Work Queue | 마스터가 워커에게 작업을 넘기는 대표 전달 메커니즘이다. |
+| Heartbeat | 워커 생존 여부와 지연을 감지해 재할당을 가능하게 한다. |
+| Idempotency | 재시도 시 부작용 없이 같은 작업을 다시 실행할 수 있게 한다. |
+| Straggler | 병렬 처리에서 전체 완료를 늦추는 느린 작업 단위다. |
+| MapReduce | 마스터-워커 구조를 대표적으로 구현한 분산 처리 모델이다. |
 | Driver-Executor | Spark에서 나타나는 현대적 마스터-워커 변형이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -167,21 +167,10 @@ Result aggregation
 Scale-Out + High Availability master 설계
 ```
 
-이 흐름은 마스터-워커가 단순 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행이 아니라, 분할·배분·감시·재시도를 포함한 운영형 패턴임을 보여 준다.
+이 흐름은 마스터-워커가 단순 병렬 실행이 아니라, 분할·배분·감시·재시도를 포함한 운영형 패턴임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 마스터-워커는 반장이 큰 숙제를 여러 친구에게 나눠 주는 방식이에요.
 2. 친구 한 명이 늦거나 쉬어도 반장이 다른 친구에게 다시 맡길 수 있어요.
 3. 대신 반장이 너무 많은 일을 혼자 정리하려고 하면 오히려 더 느려질 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 239 / 530
-
-<- **이전**: [182. 지연 로딩 (Lazy Loading)](/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)
-**다음**: [184. 이벤트 버스와 퍼블리시-서브스크라이브 패턴 (Event Bus / Publish-Subscribe Pattern)](/studynote/11_design_supervision/10_patterns_antipatterns/184_event_bus_pubsub/) ->
-
----

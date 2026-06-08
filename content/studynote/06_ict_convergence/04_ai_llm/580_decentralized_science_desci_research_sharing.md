@@ -110,12 +110,3 @@ DeSci 탈중앙 과학 연구 공유은(는) 현장의 상태를 데이터로 �
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 580 / 800
-
-<- **이전**: [579. ZK Rollup 영지식 롤업 프로토콜](/studynote/06_ict_convergence/uncategorized/579_zero_knowledge_rollup_zk_rollup_protocol/)
-**다음**: [581. 디지털 트윈 산업 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/581_digital_twin_industrial_simulation_optimizati/) ->
-
----

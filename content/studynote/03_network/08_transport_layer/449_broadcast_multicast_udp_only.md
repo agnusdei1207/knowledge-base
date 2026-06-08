@@ -7,20 +7,20 @@ weight: 449
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…를 이해하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 브로드캐스트 / 멀티캐스트 전송은 UDP만…는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 브로드캐스트 / 멀티캐스트 전송은 UDP만…를 이해하면 신뢰성과 지연 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 송신자가 다수의 수신자(1:All 또는 1:N)에게 데이터를 동시에 전송하는 통신 기법으로, 상태 추적 및 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보장이 불필요/불가능한 특성 때문에 전송 계층 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 중 오직 비연결 지향형인 UDP만을 기반으로 동작한다.
-- **필요성**: 올림픽 축구 결승전을 인터넷 생중계한다 치자. 시청자가 10만 명이다. TCP를 쓰면 서버 1대가 10만 명과 각각 따로따로 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 터널을 10만 개 파야 한다(1:1 유니캐스트). 그리고 10만 명에게 각기 다른 속도로 똑같은 영상을 10만 번 복사해서 쏜다. 서버는 터진다. <strong>"야! 내가 스피커로 한 번만 딱 방송(<a href="/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)할 테니까 듣고 싶은 놈들만 라디오 켜서 들어라! 중간에 잡음 껴서 한 단어 못 들었다고 나한테 다시 말해달라고 태클 걸지 말고!!"</strong> 이 위대한 아이디어가 인터넷 생방송(IPTV)과 게임 로비 방송의 근간이 되었다.
+- **개념**: 송신자가 다수의 수신자(1:All 또는 1:N)에게 데이터를 동시에 전송하는 통신 기법으로, 상태 추적 및 신뢰성 보장이 불필요/불가능한 특성 때문에 전송 계층 프로토콜 중 오직 비연결 지향형인 UDP만을 기반으로 동작한다.
+- **필요성**: 올림픽 축구 결승전을 인터넷 생중계한다 치자. 시청자가 10만 명이다. TCP를 쓰면 서버 1대가 10만 명과 각각 따로따로 TCP 세션 터널을 10만 개 파야 한다(1:1 유니캐스트). 그리고 10만 명에게 각기 다른 속도로 똑같은 영상을 10만 번 복사해서 쏜다. 서버는 터진다. <strong>"야! 내가 스피커로 한 번만 딱 방송(멀티캐스트)할 테니까 듣고 싶은 놈들만 라디오 켜서 들어라! 중간에 잡음 껴서 한 단어 못 들었다고 나한테 다시 말해달라고 태클 걸지 말고!!"</strong> 이 위대한 아이디어가 인터넷 생방송(IPTV)과 게임 로비 방송의 근간이 되었다.
 
-- **💡 비유**: TCP가 <strong>"1:1 과외"</strong>라면, [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 <strong>"대형 마이크 연설"</strong>입니다.
-  - <strong>1:1 과외 (<a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)</strong>: 선생님이 학생과 눈을 맞추며 "이해했니?(ACK)" 묻고, 학생이 "아니요" 하면 다시 설명해 줍니다. 100명을 이렇게 가르치면 선생님은 죽습니다.
-  - <strong>대형 마이크 연설 (<a href="/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)</strong>: 선생님이 운동장 단상에 서서 확성기로 떠듭니다. 학생이 1명이든 10만 명이든 선생님의 목 아픔(서버 부하)은 똑같습니다. 학생이 딴짓하다 한 단어를 놓쳐도 선생님은 절대 뒤로 돌아가서 다시 설명(재전송)해주지 않고 그냥 쭉 진도 나갑니다.
+- **💡 비유**: TCP가 <strong>"1:1 과외"</strong>라면, UDP 멀티캐스트는 <strong>"대형 마이크 연설"</strong>입니다.
+  - <strong>1:1 과외 (TCP)</strong>: 선생님이 학생과 눈을 맞추며 "이해했니?(ACK)" 묻고, 학생이 "아니요" 하면 다시 설명해 줍니다. 100명을 이렇게 가르치면 선생님은 죽습니다.
+  - <strong>대형 마이크 연설 (UDP 멀티캐스트)</strong>: 선생님이 운동장 단상에 서서 확성기로 떠듭니다. 학생이 1명이든 10만 명이든 선생님의 목 아픔(서버 부하)은 똑같습니다. 학생이 딴짓하다 한 단어를 놓쳐도 선생님은 절대 뒤로 돌아가서 다시 설명(재전송)해주지 않고 그냥 쭉 진도 나갑니다.
 
 ```text
 [UDP 헤더 구조]
@@ -31,20 +31,20 @@ weight: 449
     +---> [실시간 전송, 오버헤드 최소화 목적]
 ```
 
-- **📢 섹션 요약 비유**: <strong> 브로드캐스트와 <a href="/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 통신은 비행기에서 삐라(전단지)를 살포하는 </strong>"공중 투하 작전"**입니다. 비행기 조종사([UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))는 그냥 하늘에서 수만 장을 툭 던질 뿐, 길바닥의 시민 1번이 전단지를 주웠는지, 바람에 날아갔는지(유실) 일일이 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장을 받으러 다니지 않습니다.
+- **📢 섹션 요약 비유**: <strong> 브로드캐스트와 멀티캐스트 통신은 비행기에서 삐라(전단지)를 살포하는 </strong>"공중 투하 작전"**입니다. 비행기 조종사(UDP)는 그냥 하늘에서 수만 장을 툭 던질 뿐, 길바닥의 시민 1번이 전단지를 주웠는지, 바람에 날아갔는지(유실) 일일이 확인 도장을 받으러 다니지 않습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. ACK 폭풍 (ACK Implosion)의 공포
-만약 TCP로 [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)를 구현했다고 가정해 보자. (실제론 불가능하다).
-1. 서버가 [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) IP(`239.1.1.1`)로 영상 패킷 1개를 훅 던진다.
+만약 TCP로 멀티캐스트를 구현했다고 가정해 보자. (실제론 불가능하다).
+1. 서버가 멀티캐스트 IP(`239.1.1.1`)로 영상 패킷 1개를 훅 던진다.
 2. 전국에 있는 100만 대의 PC가 영상을 동시에 받는다.
 3. TCP의 룰: "잘 받았으면 무조건 서버한테 영수증(ACK) 쏴라!"
 4. **100만 대의 PC가 0.1초 만에 일제히 서버를 향해 "나 1번 패킷 잘 받았어!!" 라며 100만 개의 ACK 패킷을 융단폭격한다.**
 5. 서버는 자기가 보낸 트래픽이 아니라, 오히려 <strong>전국에서 되돌아오는 영수증 폭풍(ACK Implosion)에 두드려 맞고 디도스(DDoS) 급 트래픽 부하로 그 자리에서 즉사</strong>한다.
-이것이 TCP가 [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)를 절대, 네버, 꿈도 꾸지 못하는 근본적인 수학적 한계다.
+이것이 TCP가 멀티캐스트를 절대, 네버, 꿈도 꾸지 못하는 근본적인 수학적 한계다.
 
 ```text
 [UDP 헤더 구조]
@@ -55,30 +55,30 @@ weight: 449
     +---> [실시간 전송, 오버헤드 최소화 목적]
 ```
 
-- **📢 섹션 요약 비유**: 브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 브로드캐스트 / 멀티캐스트 전송은 UDP만…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조가 기반 조건을 만든다면, 브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…는 그 위에서 핵심 메커니즘을 구현하고, 실시간 전송, 오버헤드 최소화 목적은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+브로드캐스트 / 멀티캐스트 전송은 UDP만…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. UDP 헤더 구조가 기반 조건을 만든다면, 브로드캐스트 / 멀티캐스트 전송은 UDP만…는 그 위에서 핵심 메커니즘을 구현하고, 실시간 전송, 오버헤드 최소화 목적은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 신뢰성과 지연에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조의 기반 정리 | 브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…의 핵심 동작 | 실시간 전송, 오버헤드 최소화 목적의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | UDP 헤더 구조의 기반 정리 | 브로드캐스트 / 멀티캐스트 전송은 UDP만…의 핵심 동작 | 실시간 전송, 오버헤드 최소화 목적의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | 신뢰성 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: 브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 브로드캐스트 / 멀티캐스트 전송은 UDP만…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-그래서 1:N 통신을 하는 서비스는 무조건 [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 껍데기를 씌워 날아간다.
-- **IPTV / 실시간 방송**: 넷플릭스 같은 건 혼자 따로 보니까 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(유니캐스트)지만, 올레TV 같은 통신사 실시간 야구 중계는 100% [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)다. 중간에 화면이 깍두기 모양으로 깨져도 그냥 찰나의 순간 지나가 버리고 만다.
-- <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> (IP 자동 할당)</strong>: 내 폰이 "야 동네 공유기들 중에 남는 IP 있는 놈!" 하고 브로드캐스트([UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 67/68)로 소리쳐서 받아온다.
-- <strong><a href="/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a> <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>: "동네 사람들! 내 지도 여기 있어!" 하고 30초마다 브로드캐스트나 [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 냅다 던지는 바보 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 역시 가벼운 [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(520번) 껍데기를 타고 움직인다.
+그래서 1:N 통신을 하는 서비스는 무조건 UDP 껍데기를 씌워 날아간다.
+- **IPTV / 실시간 방송**: 넷플릭스 같은 건 혼자 따로 보니까 TCP(유니캐스트)지만, 올레TV 같은 통신사 실시간 야구 중계는 100% UDP 멀티캐스트다. 중간에 화면이 깍두기 모양으로 깨져도 그냥 찰나의 순간 지나가 버리고 만다.
+- <strong>DHCP (IP 자동 할당)</strong>: 내 폰이 "야 동네 공유기들 중에 남는 IP 있는 놈!" 하고 브로드캐스트(UDP 67/68)로 소리쳐서 받아온다.
+- <strong>RIP 라우팅 프로토콜</strong>: "동네 사람들! 내 지도 여기 있어!" 하고 30초마다 브로드캐스트나 멀티캐스트로 냅다 던지는 바보 프로토콜 역시 가벼운 UDP(520번) 껍데기를 타고 움직인다.
 
 ```text
  +-------------------------------------------------------------+
@@ -101,21 +101,21 @@ weight: 449
  +-------------------------------------------------------------+
 ```
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: <strong> <a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>가 불가능한 이유는, 10만 명에게 무료 콘서트를 열어주고 입장객 10만 명 모두에게 </strong>"공연 어땠는지 일일이 자필 소감문(ACK)을 써서 내 책상에 올려둬라"**고 시키는 짓이기 때문입니다. 다음 날 사장님 책상은 10만 장의 소감문 폭탄에 파묻혀 업무 마비가 옵니다.
+- **📢 섹션 요약 비유**: <strong> TCP 멀티캐스트가 불가능한 이유는, 10만 명에게 무료 콘서트를 열어주고 입장객 10만 명 모두에게 </strong>"공연 어땠는지 일일이 자필 소감문(ACK)을 써서 내 책상에 올려둬라"**고 시키는 짓이기 때문입니다. 다음 날 사장님 책상은 10만 장의 소감문 폭탄에 파묻혀 업무 마비가 옵니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 실시간 전송, 오버헤드 최소화 목적, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+브로드캐스트 / 멀티캐스트 전송은 UDP만…는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 신뢰성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 실시간 전송, 오버헤드 최소화 목적, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 브로드캐스트 / 멀티캐스트 전송은 UDP만…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -123,9 +123,9 @@ weight: 449
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
-| [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| UDP 헤더 구조 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 (Segment) | 전송 계층이 다루는 기본 단위다. |
+| 흐름 제어 (Flow Control) | 수신자 처리 속도를 넘지 않게 조절한다. |
 | 실시간 전송, 오버헤드 최소화 목적 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -140,21 +140,10 @@ weight: 449
     +---> [확장 B: 적응형 저지연 전송]
 ```
 
-브로드캐스트 / [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…는 [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 실시간 전송, 오버헤드 최소화 목적와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+브로드캐스트 / 멀티캐스트 전송은 UDP만…는 UDP 헤더 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 실시간 전송, 오버헤드 최소화 목적와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 570 / 1120
-
-<- **이전**: [448. UDP 헤더 구조](/studynote/03_network/08_transport_layer/448_udp_header_structure_8bytes/)
-**다음**: [450. 실시간 전송, 오버헤드 최소화 목적 (VoIP, DNS, 스트리밍)](/studynote/03_network/08_transport_layer/450_real_time_transmission_voip_dns_streaming/) ->
-
----

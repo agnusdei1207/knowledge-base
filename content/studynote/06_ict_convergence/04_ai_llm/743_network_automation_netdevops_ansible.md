@@ -137,11 +137,3 @@ Ansible의 가장 중요한 설계 철학. 동일 Playbook을 100회 실행해�
 | `httpapi` + vendor SDK (eAPI/ConfD) | JSON | △ | 빠름 | 하 | Arista EOS, Nokia SR OS |
 
 - **📢 섹션 요약 비유**: Ansible의 구조는 **심부름 센터 콜센터**와 같다. 손님(엔지니어)이 주문서(Playbook)를 작성해 전화하면, 콜센터 직원(Control Node)이 배
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 743 / 800
-
-<- **이전**: [742. 인텐트 기반 네트워킹 IBN 자동화](/studynote/06_ict_convergence/uncategorized/742_intent_based_networking_ibn_automation/)
-**다음**: [744. AIOps IT 운영 지능화 이상 탐지](/studynote/06_ict_convergence/uncategorized/744_aiops_it_operations_intelligence_anomaly/) ->
-
----

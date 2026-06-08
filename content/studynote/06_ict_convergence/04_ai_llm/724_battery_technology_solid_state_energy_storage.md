@@ -138,11 +138,3 @@ Q_capacity = 1 / (Σ m_i / C_i)  (Cathode, Anode, SSE, CC 질량 가중)
 | **대표 주체/기업** | CATL, LG, SDI, Panasonic | Toyota(2027 양산), Samsung SDI, Solid Power, QuantumScape, ProLogium | CATL(Qilin), Ganfeng, QingTao | Phinergy(ITRI 협력), Faradion(Na) |
 
 전고체 전지는 단순 대체재가 아니라 **기존 산업의 접점**
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 724 / 800
-
-<- **이전**: [723. 3D 프린팅 적층 제조 산업 응용](/studynote/06_ict_convergence/uncategorized/723_3d_printing_additive_manufacturing_industry/)
-**다음**: [725. 수소 경제 그린 수소 연료 전지](/studynote/06_ict_convergence/uncategorized/725_hydrogen_economy_green_hydrogen_fuel_cell/) ->
-
----

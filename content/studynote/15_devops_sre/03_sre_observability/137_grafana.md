@@ -6,9 +6,9 @@ tags:
 weight: 137
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Grafana는 <strong><a href="/studynote/15_devops_sre/03_sre_observability/136_prometheus/">Prometheus</a>·Loki·Tempo·<a href="/studynote/05_database/05_distributed_nosql_newsql/302_cdc/">Elasticsearch</a> 등 다양한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스를 통합하여 대시보드로 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) 플랫폼이며, LGTM [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Loki+[Grafana](/studynote/16_bigdata/08_visualization/168_grafana/)+Tempo+Mimir)의 중심이다.
-> 2. **가치**: [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스를 <strong>하나의 대시보드에서 <a href="/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a></strong>할 수 있어, 장애 시 "[메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 이상->[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)->트레이스 추적"의 워크플로를 단일 도구에서 수행한다.
-> 3. **판단 포인트**: Grafana는 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 레이어이지 저장소가 아니며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스([Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·Loki·Tempo)와의 조합이 핵심이다. [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) Cloud는 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 관리형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)이다.
+> 1. **본질**: Grafana는 <strong>Prometheus·Loki·Tempo·Elasticsearch 등 다양한 데이터 소스를 통합하여 대시보드로 시각화</strong>하는 오픈소스 관측 가능성 플랫폼이며, LGTM Stack(Loki+Grafana+Tempo+Mimir)의 중심이다.
+> 2. **가치**: 메트릭·로그·트레이스를 <strong>하나의 대시보드에서 상관 분석</strong>할 수 있어, 장애 시 "메트릭 이상->로그 확인->트레이스 추적"의 워크플로를 단일 도구에서 수행한다.
+> 3. **판단 포인트**: Grafana는 시각화 레이어이지 저장소가 아니며, 데이터 소스(Prometheus·Loki·Tempo)와의 조합이 핵심이다. Grafana Cloud는 SaaS 관리형 서비스이다.
 
 ---
 
@@ -21,13 +21,13 @@ Grafana = 다중 데이터 소스 -> 통합 대시보드
   -> 알림 -> PagerDuty/Slack
 ```
 
-- **📢 섹션 요약 비유**: Grafana는 <strong>병원 종합 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>이다. 심전도·혈압·체온을 **한 화면에서** 동시에 본다.
+- **📢 섹션 요약 비유**: Grafana는 <strong>병원 종합 모니터</strong>이다. 심전도·혈압·체온을 **한 화면에서** 동시에 본다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Grafana는 <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/">관측 가능성</a>의 "눈(<a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>)"</strong>이며, LGTM Stack으로 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 관측 표준을 구축할 수 있다.
+Grafana는 <strong>관측 가능성의 "눈(시각화)"</strong>이며, LGTM Stack으로 오픈소스 관측 표준을 구축할 수 있다.
 
 ---
 
@@ -35,11 +35,11 @@ Grafana는 <strong><a href="/studynote/04_software_engineering/02_requirements_a
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a></strong> | 통합 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
-| <strong>LGTM <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a></strong> | Loki+[Grafana](/studynote/16_bigdata/08_visualization/168_grafana/)+Tempo+Mimir |
+| <strong>Grafana</strong> | 통합 시각화 |
+| <strong>LGTM Stack</strong> | Loki+Grafana+Tempo+Mimir |
 | **Dashboard** | 대시보드 |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Source</strong> | [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)·Loki·Tempo |
-| <strong><a href="/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a> Cloud</strong> | 관리형 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) |
+| <strong>Data Source</strong> | Prometheus·Loki·Tempo |
+| <strong>Grafana Cloud</strong> | 관리형 SaaS |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -50,17 +50,6 @@ Grafana는 <strong><a href="/studynote/04_software_engineering/02_requirements_a
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Grafana는 <strong>병원 종합 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>예요. 심전도·혈압·체온을 **한 화면에서** 봐요.
-2. 여러 기계([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)의 정보를 <strong>예쁜 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>로 보여줘요.
+1. Grafana는 <strong>병원 종합 모니터</strong>예요. 심전도·혈압·체온을 **한 화면에서** 봐요.
+2. 여러 기계(데이터 소스)의 정보를 <strong>예쁜 그래프</strong>로 보여줘요.
 3. 이상이 생기면 <strong>알림</strong>을 보내서 바로 알 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 137 / 373
-
-<- **이전**: [136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)
-**다음**: [138. 로그 (Logs) - 구조화 로깅과 중앙 집중 관리](/studynote/15_devops_sre/03_sre_observability/138_logs/) ->
-
----

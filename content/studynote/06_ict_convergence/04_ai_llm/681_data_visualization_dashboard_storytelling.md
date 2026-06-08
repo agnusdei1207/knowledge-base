@@ -180,11 +180,3 @@ Grid Line, 3D Effect, Heavy Border, Background Pattern 제거. `Sparkline` 사�
 ```text
 +----------+    +----------+    +--------------+
 | CRM/ERP
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 681 / 800
-
-<- **이전**: [680. A/B 테스팅 인과 추론 실험 설계](/studynote/06_ict_convergence/uncategorized/680_ab_testing_causal_inference_experiment/)
-**다음**: [682. 비정형 데이터 텍스트 마이닝 전처리](/studynote/06_ict_convergence/uncategorized/682_unstructured_data_text_mining_preprocessing/) ->
-
----

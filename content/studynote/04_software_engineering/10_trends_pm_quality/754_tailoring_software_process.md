@@ -7,8 +7,8 @@ weight: 754
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 테일러링 프로젝트 맞춤형 프로세스 재단은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 테일러링 프로젝트 맞춤형 프로세스 재단은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,11 +17,11 @@ weight: 754
 
 큰 IT 기업이나 SI(시스템 통합) 업체들은 자기들만의 <strong>'표준 개발 방법론(Standard Methodology)'</strong>을 가지고 있다. (예: 삼성SDS의 이노베이터, LG CNS의 마에스트로 등). 이 표준 방법론에는 프로젝트 시작부터 끝까지 써야 할 수백 개의 문서 템플릿과 프로세스가 정의되어 있다.
 
-그런데 이 완벽해 보이는 표준 방법론을 모든 프로젝트에 똑같이 적용하면 재앙이 일어난다. 개발 기간이 한 달밖에 안 되는 가벼운 모바일 앱 프로젝트에, 수천 페이지짜리 '[데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계서'와 '구조도' 작성을 강요하면 개발자들은 코드를 짜기도 전에 문서 작업(Red Tape)을 하다가 쓰러진다.
+그런데 이 완벽해 보이는 표준 방법론을 모든 프로젝트에 똑같이 적용하면 재앙이 일어난다. 개발 기간이 한 달밖에 안 되는 가벼운 모바일 앱 프로젝트에, 수천 페이지짜리 '데이터베이스 설계서'와 '구조도' 작성을 강요하면 개발자들은 코드를 짜기도 전에 문서 작업(Red Tape)을 하다가 쓰러진다.
 
-그래서 양복점의 재단사(Tailor)가 손님의 몸 치수를 재고 소매와 기장을 잘라내듯, <strong>프로젝트의 몸집에 맞게 표준 방법론의 옷을 수선해 주는 작업</strong>이 필요해졌다. 이것이 바로 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 <strong>테일러링(<a href="/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a>)</strong>이다.
+그래서 양복점의 재단사(Tailor)가 손님의 몸 치수를 재고 소매와 기장을 잘라내듯, <strong>프로젝트의 몸집에 맞게 표준 방법론의 옷을 수선해 주는 작업</strong>이 필요해졌다. 이것이 바로 소프트웨어 공학의 <strong>테일러링(Tailoring)</strong>이다.
 
-- **📢 섹션 요약 비유**: 회사 매뉴얼에 "외출할 때는 우산, [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 선크림을 모두 챙겨라(표준 방법론)"라고 적혀 있다고 해서, 여름에 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 입고 나가는 사람은 없다. 날씨와 목적지(프로젝트 특성)에 맞춰 우산만 챙기고 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)은 빼는 지혜로운 선택이 테일러링이다.
+- **📢 섹션 요약 비유**: 회사 매뉴얼에 "외출할 때는 우산, 패딩, 선크림을 모두 챙겨라(표준 방법론)"라고 적혀 있다고 해서, 여름에 패딩을 입고 나가는 사람은 없다. 날씨와 목적지(프로젝트 특성)에 맞춰 우산만 챙기고 패딩은 빼는 지혜로운 선택이 테일러링이다.
 
 ---
 
@@ -72,11 +72,11 @@ weight: 754
 
 | 개념 | 의미 | 대상 | 예시 |
 |:---|:---|:---|:---|
-| **방법론 (Methodology)**| 소프트웨어를 만드는 거대한 뼈대 | 개발 전체 방식 | 폭포수(Waterfall), [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) |
-| <strong>테일러링 (<a href="/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a>)</strong> | 표준 방법론을 **프로젝트 환경에 맞게 잘라냄** | **개발 프로세스 및 문서** | 요구사항 명세서를 10장 $\rightarrow$ 2장으로 축소 |
+| **방법론 (Methodology)**| 소프트웨어를 만드는 거대한 뼈대 | 개발 전체 방식 | 폭포수(Waterfall), 애자일(Agile) |
+| <strong>테일러링 (Tailoring)</strong> | 표준 방법론을 **프로젝트 환경에 맞게 잘라냄** | **개발 프로세스 및 문서** | 요구사항 명세서를 10장 $\rightarrow$ 2장으로 축소 |
 | **커스터마이징 (Customization)** | 만들어진 소프트웨어를 **고객 입맛에 맞게 고침** | **소프트웨어(제품) 기능**| 솔루션 UI 색상을 파란색으로 변경 |
 
-즉, 커스터마이징은 '결과물(Product)'을 바꾸는 것이고, 테일러링은 결과물을 만드는 '과정([Process](/studynote/12_it_management/05_security_compliance/943_process/))'을 바꾸는 것이다.
+즉, 커스터마이징은 '결과물(Product)'을 바꾸는 것이고, 테일러링은 결과물을 만드는 '과정(Process)'을 바꾸는 것이다.
 
 - **📢 섹션 요약 비유**: 빵 공장에서 빵을 굽는 기계를 우리 공장 크기에 맞게 개조하는 것은 '테일러링'이고, 그렇게 구워진 빵에 딸기잼을 바를지 초코잼을 바를지 손님 취향에 맞추는 것은 '커스터마이징'이다.
 
@@ -90,7 +90,7 @@ weight: 754
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 많이 터지는 문제는, PM(프로젝트 매니저)이 귀찮다고 필수적인 보안/아키텍처 문서까지 다 테일러링으로 빼버리는 <strong>'과도한 생략(Over-<a href="/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">tailoring</a>)'</strong>이다.
+실무에서 가장 많이 터지는 문제는, PM(프로젝트 매니저)이 귀찮다고 필수적인 보안/아키텍처 문서까지 다 테일러링으로 빼버리는 <strong>'과도한 생략(Over-tailoring)'</strong>이다.
 
 - **📢 섹션 요약 비유**: 테일러링 프로젝트 맞춤형 프로세스 재단은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -120,10 +120,10 @@ weight: 754
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 테일러링 프로젝트 맞춤형 프로세스 재단의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 테일러링 프로젝트 맞춤형 프로세스 재단은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 테일러링 프로젝트 맞춤형 프로세스 재단의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 테일러링 프로젝트 맞춤형 프로세스 재단은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 테일러링 프로젝트 맞춤형 프로세스 재단 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 테일러링 프로젝트 맞춤형 프로세스 재단에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 테일러링 프로젝트 맞춤형 프로세스 재단에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,21 +143,10 @@ weight: 754
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 테일러링 프로젝트 맞춤형 프로세스 재단은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 927 / 973
-
-<- **이전**: [753. 나선형 위험 분석 4단계 루프](/studynote/04_software_engineering/10_trends_pm_quality/753_spiral_model_risk_analysis/)
-**다음**: [755. PMO 전사 품질 통제 및 감사 조직](/studynote/04_software_engineering/10_trends_pm_quality/755_pmo_project_management_office/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

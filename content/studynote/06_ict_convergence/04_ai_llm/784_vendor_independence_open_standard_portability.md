@@ -121,11 +121,3 @@ weight: 784
 3. **이식성 검증(Portability Test)**: 워크로드를 A 벤더에서 B 벤더로 옮겼을 때 동일 SLA(처리량, 지연, 가용성)를 보장하는지 주기적 측정. CNCF의 **kbench**나 자체 카오스 엔지니어링(Chaos Mesh)으로 검증.
 
 - **📢 섹션 요약 비유**: 표준 추상화 계층은 “어떤 회사 열쇠(자물쇠)에도 맞는 국제 규격 마스터키”와 같고, 인증 마크는 “**KS 마크**처럼 규격을 지켰다는 공인”,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 784 / 800
-
-<- **이전**: [783. 기술 부채 관리 현대화 전략 우선순위](/studynote/06_ict_convergence/uncategorized/783_tech_debt_management_modernization_priority/)
-**다음**: [785. 하이브리드 업무 디지털 워크플레이스](/studynote/06_ict_convergence/uncategorized/785_hybrid_work_digital_workplace/) ->
-
----

@@ -120,11 +120,3 @@ weight: 695
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **공통기반 플랫폼(Common Platform)** | 부처·지자체 서비스가 공통으로 사용하는 인증·결제·문서·데이터·AI·모듈을 제공 | GOV SSO(SAML 2.0/OAuth 2.0/OIDC), 전자결재·문서 유통(KS X 6101), 전자지급결제, 전자고지·납부, 공통 컴포넌트(국
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 695 / 800
-
-<- **이전**: [694. ICT 융합 기술 최신 동향 2025](/studynote/06_ict_convergence/uncategorized/694_ict_convergence_technology_trends_2025/)
-**다음**: [696. 스마트 모빌리티 MaaS 통합 교통](/studynote/06_ict_convergence/uncategorized/696_smart_mobility_maas_integrated_transportation/) ->
-
----

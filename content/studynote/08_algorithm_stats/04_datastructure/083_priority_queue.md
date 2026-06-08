@@ -6,9 +6,9 @@ tags:
 weight: 83
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 우선순위 큐(Priority [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 삽입된 순서가 아닌 우선순위(Priority) 기준으로 원소를 꺼내는 추상 자료형(ADT)이다. 최솟값 또는 최댓값이 항상 먼저 나온다.
-> 2. **가치**: 일반 큐([FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))로는 "긴급한 일부터 처리"하는 패턴을 구현할 수 없다. 최솟값/최댓값 추출 O(log n)을 보장하는 이진 힙(Binary [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))으로 구현하며, [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 최단 경로, OS 작업 스케줄링, 이벤트 시뮬레이션에 필수적이다.
-> 3. **판단 포인트**: 이진 힙 vs. 피보나치 힙(Fibonacci [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) — [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 이진 힙은 O((V+E)log V), 피보나치 힙은 O(V log V + E)다. 이론적으로 피보나치 힙이 우수하지만 구현 복잡도로 인해 실무에선 이진 힙이 표준이다.
+> 1. **본질**: 우선순위 큐(Priority Queue)는 삽입된 순서가 아닌 우선순위(Priority) 기준으로 원소를 꺼내는 추상 자료형(ADT)이다. 최솟값 또는 최댓값이 항상 먼저 나온다.
+> 2. **가치**: 일반 큐(FIFO)로는 "긴급한 일부터 처리"하는 패턴을 구현할 수 없다. 최솟값/최댓값 추출 O(log n)을 보장하는 이진 힙(Binary Heap)으로 구현하며, 다익스트라 최단 경로, OS 작업 스케줄링, 이벤트 시뮬레이션에 필수적이다.
+> 3. **판단 포인트**: 이진 힙 vs. 피보나치 힙(Fibonacci Heap) — 다익스트라 알고리즘에서 이진 힙은 O((V+E)log V), 피보나치 힙은 O(V log V + E)다. 이론적으로 피보나치 힙이 우수하지만 구현 복잡도로 인해 실무에선 이진 힙이 표준이다.
 
 ---
 
@@ -29,7 +29,7 @@ weight: 83
 +------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 우선순위 큐는 응급실 접수 시스템이다. 일반 줄([FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))과 달리, 가장 위급한 환자(최솟값)가 먼저 진료를 받고, 새 환자가 오면 위급도에 따라 적절한 자리에 배치된다.
+- **📢 섹션 요약 비유**: 우선순위 큐는 응급실 접수 시스템이다. 일반 줄(FIFO)과 달리, 가장 위급한 환자(최솟값)가 먼저 진료를 받고, 새 환자가 오면 위급도에 따라 적절한 자리에 배치된다.
 
 ---
 
@@ -41,10 +41,10 @@ weight: 83
 |:---|:---|:---|:---|
 | **삽입** | O(log n) | O(1) 분할 상환 | |
 | **최솟값 추출** | O(log n) | O(log n) | |
-| **키 감소** | O(log n) | O(1) 분할 상환 | [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 최적화 |
+| **키 감소** | O(log n) | O(1) 분할 상환 | 다익스트라 최적화 |
 | **삭제** | O(log n) | O(log n) | |
 
-### [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 힙 구현
+### 배열 기반 힙 구현
 
 ```text
 배열 인덱스: 1-based
@@ -56,13 +56,13 @@ weight: 83
 추출: 루트 제거 -> 끝 원소를 루트로 -> sift-down
 ```
 
-- **📢 섹션 요약 비유**: 이진 힙 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 표현은 완전 이진 트리를 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에 눕혀놓은 것이다. 부모·자식 관계를 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산으로 표현해서 포인터 없이도 트리 구조를 구현할 수 있다.
+- **📢 섹션 요약 비유**: 이진 힙 배열 표현은 완전 이진 트리를 배열에 눕혀놓은 것이다. 부모·자식 관계를 인덱스 계산으로 표현해서 포인터 없이도 트리 구조를 구현할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 일반 큐 | 우선순위 큐 | 정렬된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) |
+| 비교 | 일반 큐 | 우선순위 큐 | 정렬된 배열 |
 |:---|:---|:---|:---|
 | 삽입 | O(1) | O(log n) | O(n) |
 | 최솟값 추출 | O(n) | O(log n) | O(1) |
@@ -74,7 +74,7 @@ weight: 83
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 응용
+### 핵심 알고리즘 응용
 
 ```text
 다익스트라 최단 경로    -> Min Priority Queue (최소 거리 노드 추출)
@@ -94,7 +94,7 @@ heapq.heappush(pq, (1, 'task_a'))
 print(heapq.heappop(pq))  # (1, 'task_a') — 최솟값 우선
 ```
 
-- **📢 섹션 요약 비유**: [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) + 우선순위 큐는 GPS 내비게이션이다. 아직 방문하지 않은 도로 중 현재까지 가장 가까운 교차점(최솟값)을 선택해서 최단 경로를 찾는다.
+- **📢 섹션 요약 비유**: 다익스트라 + 우선순위 큐는 GPS 내비게이션이다. 아직 방문하지 않은 도로 중 현재까지 가장 가까운 교차점(최솟값)을 선택해서 최단 경로를 찾는다.
 
 ---
 
@@ -103,10 +103,10 @@ print(heapq.heappop(pq))  # (1, 'task_a') — 최솟값 우선
 | 기대효과 | 내용 |
 |:---|:---|
 | **효율적 최솟값 접근** | O(log n) 삽입·추출 |
-| <strong><a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 최적화</strong> | [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/), 허프만 등 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기반 |
+| <strong>알고리즘 최적화</strong> | 다익스트라, 허프만 등 핵심 알고리즘의 기반 |
 | **스케줄링** | OS·네트워크 우선순위 작업 처리 |
 
-우선순위 큐는 컴퓨터 과학의 핵심 자료구조 중 하나다. Python heapq, Java PriorityQueue, C++ std::priority_queue로 표준 라이브러리에 내장되어 있으며, [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 시스템 스케줄링에서 빠질 수 없는 도구다.
+우선순위 큐는 컴퓨터 과학의 핵심 자료구조 중 하나다. Python heapq, Java PriorityQueue, C++ std::priority_queue로 표준 라이브러리에 내장되어 있으며, 그래프 알고리즘과 시스템 스케줄링에서 빠질 수 없는 도구다.
 
 - **📢 섹션 요약 비유**: 우선순위 큐는 병원 응급실 트리아지(Triage) 시스템이다. 환자가 오는 순서(일반 큐)가 아닌, 상태의 위급함(우선순위)에 따라 진료 순서를 결정해서 최적의 자원 배분을 실현한다.
 
@@ -117,10 +117,10 @@ print(heapq.heappop(pq))  # (1, 'task_a') — 최솟값 우선
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **이진 힙** | 우선순위 큐의 표준 구현 |
-| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a></strong> | 우선순위 큐 기반 최단 경로 |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/">힙 정렬</a></strong> | 힙을 이용한 O(n log n) 정렬 |
+| <strong>다익스트라</strong> | 우선순위 큐 기반 최단 경로 |
+| <strong>힙 정렬</strong> | 힙을 이용한 O(n log n) 정렬 |
 | **피보나치 힙** | 키 감소 O(1) 지원 고급 힙 |
-| **A* [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) + 우선순위 큐 |
+| **A* 알고리즘** | 휴리스틱 + 우선순위 큐 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,15 +144,4 @@ print(heapq.heappop(pq))  # (1, 'task_a') — 최솟값 우선
 
 1. 우선순위 큐는 응급실 대기 시스템이에요! 먼저 온 순서가 아니라 가장 아픈 환자가 먼저 진료를 받아요.
 2. 이진 힙이라는 구조로 구현해서, 가장 급한 것을 꺼내거나 새로운 것을 넣을 때 모두 O(log n)이면 돼요!
-3. 내비게이션 최단 경로 탐색, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 프로세스 스케줄링 등 어디서나 사용된답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 83 / 175
-
-<- **이전**: [28. 블룸 필터 (Bloom Filter)](/studynote/08_algorithm_stats/04_datastructure/082_bloom_filter/)
-**다음**: [29. 덱 (Deque — Double-Ended Queue)](/studynote/08_algorithm_stats/04_datastructure/084_deque/) ->
-
----
+3. 내비게이션 최단 경로 탐색, 파일 압축, 운영체제 프로세스 스케줄링 등 어디서나 사용된답니다!

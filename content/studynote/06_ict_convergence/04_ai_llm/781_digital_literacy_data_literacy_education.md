@@ -107,11 +107,3 @@ weight: 781
 | **3. 전달 체계(Delivery)** | 학습 콘텐츠의 효율적 배포 | **LMS**(Moodle, Canvas, SAP SuccessFactors Learning): SCORM/xAPI 표준, 학습 이력 관리. **LXP**(Degreed, EdCast, 360Learning): AI 추천, 스킬 그래프(Skill Graph). **MOOC**(Coursera, edX, K-Digital Training): Massive Open. **CoP**(Community of Practice): Wenger 이론 기반, 정회원·활성·외연 3단계 |
 | **4. 평가·인증 체계** | 학습 효과 측정 및 역량 증명 | **Kirkpatrick 4-Level**: L1 Reaction(설문), L2 Learning(시험·퀴즈), L3 Behavior(현장 적용도 관찰), L4 Results(매출·생산성 KPI). **Phillips ROI 5-Level**: L5 ROI(%) = (프로그램 순이익/프로그램 비용) × 100. **마이크로 크레덴셜**: 5~15시간 단위 인증, IEEE 830/ICDE 표준 기반 |
 | **5. 데이터 윤리·거버넌스 모
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 781 / 800
-
-<- **이전**: [780. 규제 샌드박스 혁신 규제 완화 전략](/studynote/06_ict_convergence/uncategorized/780_regulatory_sandbox_innovation_regulation/)
-**다음**: [782. IT 인재 양성 리스킬링 디지털 전환](/studynote/06_ict_convergence/uncategorized/782_it_talent_development_reskilling_digital/) ->
-
----

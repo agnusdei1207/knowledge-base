@@ -142,11 +142,3 @@ weight: 728
 
 **Tier-2 플랫폼 별 운용 한계**:
 - AUV: 정밀 매핑, 광역 탐사,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 728 / 800
-
-<- **이전**: [727. 우주 기술 뉴스페이스 발사체 위성](/studynote/06_ict_convergence/uncategorized/727_space_technology_newspace_launch_satellite/)
-**다음**: [729. 스마트 교통 ITS 자율주행 V2X 신호](/studynote/06_ict_convergence/uncategorized/729_smart_transportation_its_autonomous_v2x/) ->
-
----

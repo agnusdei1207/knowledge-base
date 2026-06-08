@@ -7,8 +7,8 @@ weight: 1003
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 처리량 수식화는 성능 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 처리량 수식화를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
@@ -17,13 +17,13 @@ weight: 1003
 
 면접과 시험에서 헷갈리기 가장 쉬운 2대 지표입니다.
 
-- <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>:
-  - 랜선이나 광케이블이 물리적으로 낼 수 있는 <strong>'이론적인 최대 속도(<a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>의 크기)'</strong>입니다.
+- <strong>대역폭 (Bandwidth)</strong>:
+  - 랜선이나 광케이블이 물리적으로 낼 수 있는 <strong>'이론적인 최대 속도(파이프의 크기)'</strong>입니다.
   - 자동차로 치면 속도계에 적힌 '최대 시속 300km'입니다. (고정된 스펙)
-- <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>:
-  - 에러, 패킷 손실, 병목 현상 등을 다 거치고 난 뒤, 수신자 컴퓨터에 <strong>'실제로 살아서 도착한 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 양'</strong>을 1초 단위로 측정한 현실 수치입니다. (보통 bps, [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) per Second를 씁니다.)
+- <strong>처리량 (Throughput)</strong>:
+  - 에러, 패킷 손실, 병목 현상 등을 다 거치고 난 뒤, 수신자 컴퓨터에 <strong>'실제로 살아서 도착한 데이터의 양'</strong>을 1초 단위로 측정한 현실 수치입니다. (보통 bps, Bit per Second를 씁니다.)
   - 자동차로 치면 퇴근길 강남대로에서 찍힌 '실제 평균 시속 15km'입니다. (변동하는 현실)
-  - **법칙**: $[Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) \le [Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)$ ([처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 죽었다 깨어나도 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 넘을 수 없습니다.)
+  - **법칙**: $Throughput \le Bandwidth$ (처리량은 죽었다 깨어나도 대역폭을 넘을 수 없습니다.)
 
 ```text
 [네트워크 지연]
@@ -34,18 +34,18 @@ weight: 1003
     +---> [Erlang]
 ```
 
-- **📢 섹션 요약 비유**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 처리량 수식화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에서 한 단계 더 까다롭게 따지는 극한의 체감 지표입니다.
+처리량(Throughput)에서 한 단계 더 까다롭게 따지는 극한의 체감 지표입니다.
 
-- **문제의식**: 내가 친구에게 1,000바이트의 패킷을 보냈고 이게 살아서 도착했습니다([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 1,000바이트). 그런데 패킷을 까보니 앞에 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더, IP 헤더, [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 껍데기(오버헤드)가 무려 100바이트를 쳐먹고, 진짜 내가 보낸 사진([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 900바이트뿐입니다.
+- **문제의식**: 내가 친구에게 1,000바이트의 패킷을 보냈고 이게 살아서 도착했습니다(Throughput 1,000바이트). 그런데 패킷을 까보니 앞에 TCP 헤더, IP 헤더, 이더넷 MAC 껍데기(오버헤드)가 무려 100바이트를 쳐먹고, 진짜 내가 보낸 사진(데이터)은 900바이트뿐입니다.
 - **굿풋 (Goodput)**:
-  - 통신망을 통과한 총 패킷 양([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에서, 쓸데없는 포장지 껍데기(헤더, 오버헤드)와 에러 나서 버려진 재전송 패킷을 싹 다 빼버리고, <strong>"오직 앱(Application) 계층에서 쓸 수 있는 100% 순수한 알맹이(페이로드) <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 1초에 몇 개 도착했는가?"</strong>를 잰 궁극의 순살 수치입니다.
-  - 사용자가 체감하는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 속도는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)도, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)도 아닌 이 <strong>굿풋(Goodput)</strong>과 100% 일치합니다.
+  - 통신망을 통과한 총 패킷 양(Throughput)에서, 쓸데없는 포장지 껍데기(헤더, 오버헤드)와 에러 나서 버려진 재전송 패킷을 싹 다 빼버리고, <strong>"오직 앱(Application) 계층에서 쓸 수 있는 100% 순수한 알맹이(페이로드) 데이터만 1초에 몇 개 도착했는가?"</strong>를 잰 궁극의 순살 수치입니다.
+  - 사용자가 체감하는 파일 다운로드 속도는 대역폭도, 처리량도 아닌 이 <strong>굿풋(Goodput)</strong>과 100% 일치합니다.
 
 ```text
 [네트워크 지연]
@@ -56,25 +56,25 @@ weight: 1003
     +---> [Erlang]
 ```
 
-- **📢 섹션 요약 비유**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 처리량 수식화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-1. <strong><a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 오버헤드</strong>: 방금 말한 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 등 껍데기 포장지 무게입니다.
-2. <strong>에러와 재전송 (<a href="/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a>)</strong>: 949번에서 배운 대로 패킷 1개가 깨지면 Go-Back-N으로 10개를 다시 쏘느라 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 낭비합니다.
-3. <strong>네트워크 병목 (<a href="/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: 내 랜카드는 1Gbps지만, 중간에 낀 공유기가 100Mbps 구형이면 전체 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 무조건 가장 좁은 구멍인 100Mbps로 하향 평준화(목 졸림)됩니다.
+1. <strong>프로토콜 오버헤드</strong>: 방금 말한 TCP/IP 헤더 등 껍데기 포장지 무게입니다.
+2. <strong>에러와 재전송 (ARQ)</strong>: 949번에서 배운 대로 패킷 1개가 깨지면 Go-Back-N으로 10개를 다시 쏘느라 파이프(대역폭)를 낭비합니다.
+3. <strong>네트워크 병목 (Bottleneck)</strong>: 내 랜카드는 1Gbps지만, 중간에 낀 공유기가 100Mbps 구형이면 전체 처리량은 무조건 가장 좁은 구멍인 100Mbps로 하향 평준화(목 졸림)됩니다.
 
-[처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)이 기반 조건을 만든다면, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 그 위에서 핵심 메커니즘을 구현하고, Erlang는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+처리량 수식화를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 네트워크 지연이 기반 조건을 만든다면, 처리량 수식화는 그 위에서 핵심 메커니즘을 구현하고, Erlang는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)의 기반 정리 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화의 핵심 동작 | Erlang의 확장 적용 |
+| 초점 | 네트워크 지연의 기반 정리 | 처리량 수식화의 핵심 동작 | Erlang의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 처리량 수식화는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
@@ -82,23 +82,23 @@ weight: 1003
 
 - 껍데기(오버헤드) 비율을 줄이려면 어떻게 할까요?
 - 1,500바이트짜리 상자(기본 MTU) 6개를 보내면 헤더(껍데기)도 6번 붙여야 합니다.
-- "야! 상자를 9,000바이트짜리 초대형 냉장고 박스(Jumbo Frame)로 하나 튼튼하게 만들어! 그럼 헤더를 딱 1번만 붙이면 되니까 순살(Goodput) 비율이 미친 듯이 올라가잖아!" 서버 전산실([SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))에서 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 한계치까지 쥐어 짜낼 때 쓰는 스킬입니다.
+- "야! 상자를 9,000바이트짜리 초대형 냉장고 박스(Jumbo Frame)로 하나 튼튼하게 만들어! 그럼 헤더를 딱 1번만 붙이면 되니까 순살(Goodput) 비율이 미친 듯이 올라가잖아!" 서버 전산실(SAN)에서 스위치 처리량을 한계치까지 쥐어 짜낼 때 쓰는 스킬입니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 인터넷 통신은 과수원에서 서울로 사과를 트럭에 실어 나르는 작업입니다. <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>은 '10톤짜리 초대형 화물 트럭' 그 자체입니다(물리적 스펙). 근데 트럭에 10톤을 꽉 못 채웁니다. 중간에 비포장도로(노이즈)를 달릴 때 사과가 깨질까 봐 두꺼운 스티로폼과 나무 궤짝(헤더 오버헤드)을 잔뜩 넣어야 하기 때문입니다. 서울에 트럭이 도착했을 때 트럭째 무게를 달아보는 것이 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>입니다(대충 8톤 나옴). 하지만 사장님이 진짜 돈을 벌려면 나무 궤짝과 썩은 사과(재전송 패킷)를 다 걷어내고 쓰레기통에 버려야 합니다. 궤짝을 다 버리고 남은 <strong>'오직 팔 수 있는 깨끗한 순살 사과의 무게(6톤)'</strong>만을 재는 것이 바로 <strong>굿풋(Goodput)</strong>입니다. 사용자가 느끼는 진짜 인터넷 속도는 트럭 크기([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 아니라 내 입에 들어오는 순살 사과의 양(굿풋)입니다.
+- **📢 섹션 요약 비유**: 인터넷 통신은 과수원에서 서울로 사과를 트럭에 실어 나르는 작업입니다. <strong>대역폭(Bandwidth)</strong>은 '10톤짜리 초대형 화물 트럭' 그 자체입니다(물리적 스펙). 근데 트럭에 10톤을 꽉 못 채웁니다. 중간에 비포장도로(노이즈)를 달릴 때 사과가 깨질까 봐 두꺼운 스티로폼과 나무 궤짝(헤더 오버헤드)을 잔뜩 넣어야 하기 때문입니다. 서울에 트럭이 도착했을 때 트럭째 무게를 달아보는 것이 <strong>처리량(Throughput)</strong>입니다(대충 8톤 나옴). 하지만 사장님이 진짜 돈을 벌려면 나무 궤짝과 썩은 사과(재전송 패킷)를 다 걷어내고 쓰레기통에 버려야 합니다. 궤짝을 다 버리고 남은 <strong>'오직 팔 수 있는 깨끗한 순살 사과의 무게(6톤)'</strong>만을 재는 것이 바로 <strong>굿풋(Goodput)</strong>입니다. 사용자가 느끼는 진짜 인터넷 속도는 트럭 크기(대역폭)가 아니라 내 입에 들어오는 순살 사과의 양(굿풋)입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [Erlang](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+처리량 수식화는 성능 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 Erlang, AI 기반 성능 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 AI 기반 성능 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 처리량 수식화는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -106,10 +106,10 @@ weight: 1003
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| [Erlang](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 네트워크 지연 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 처리량 (Throughput) | 실제 전달 성능을 나타내는 대표 지표다. |
+| 지연 (Latency) | 사용자 체감 품질을 좌우한다. |
+| Erlang | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,21 +123,10 @@ weight: 1003
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-[처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Erlang와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+처리량 수식화는 네트워크 지연에서 출발해 현재 메커니즘을 정교화하고, 이후 Erlang와 AI 기반 성능 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 103 / 1120
-
-<- **이전**: [1002. 네트워크 지연 (Rtt vs 단방향 Delay)](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)
-**다음**: [1004. Erlang (얼랑, 통신 트래픽 부하 단위량)](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) ->
-
----

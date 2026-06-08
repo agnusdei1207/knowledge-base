@@ -130,11 +130,3 @@ weight: 774
 |      |          +-------v--------+                                 |
 |      |          | 알고리즘 KAT   | (ARIA·LEA·SEED·SHA-256·ECDSA)  |
 |      |          | 통계 STS 100K+ | (난수발생기 NIST SP 800-22)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 774 / 800
-
-<- **이전**: [773. 기술 윤리 디지털 권리 책임 있는 혁신](/studynote/06_ict_convergence/uncategorized/773_tech_ethics_digital_rights_responsible_innova/)
-**다음**: [775. ICT 표준화 ITU IEEE 3GPP 전략](/studynote/06_ict_convergence/uncategorized/775_ict_standardization_itu_ieee_3gpp_strategy/) ->
-
----

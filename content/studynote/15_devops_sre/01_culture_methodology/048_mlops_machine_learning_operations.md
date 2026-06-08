@@ -6,13 +6,13 @@ tags:
 weight: 48
 ---
 > **핵심 인사이트**
-> 1. [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML 모델의 전체 생애주기(개발->학습->배포->[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링->재학습)를 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙으로 자동화하는 방법론 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트가 만든 모델이 "연구실"에 머무는 것을 막고, 안정적으로 프로덕션에 배포·운영되도록 한다.
-> 2. ML 모델은 소프트웨어와 달리 "[데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)([Data Drift](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))"라는 추가 운영 도전이 있다 — 코드가 변경되지 않아도 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 변화로 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되며, 이를 자동으로 탐지하고 재학습 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것이 MLOps의 핵심이다.
-> 3. Feature Store가 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도의 핵심 지표 — 특성(Feature) 재사용·공유·[버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 가능하게 하는 [Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 없이는 학습-서빙 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제와 특성 계산 중복이 필연적으로 발생한다.
+> 1. MLOps(Machine Learning Operations)는 ML 모델의 전체 생애주기(개발->학습->배포->모니터링->재학습)를 DevOps 원칙으로 자동화하는 방법론 — 데이터 사이언티스트가 만든 모델이 "연구실"에 머무는 것을 막고, 안정적으로 프로덕션에 배포·운영되도록 한다.
+> 2. ML 모델은 소프트웨어와 달리 "데이터 드리프트(Data Drift)"라는 추가 운영 도전이 있다 — 코드가 변경되지 않아도 입력 데이터 분포 변화로 모델 성능이 저하되며, 이를 자동으로 탐지하고 재학습 트리거를 설정하는 것이 MLOps의 핵심이다.
+> 3. Feature Store가 MLOps 성숙도의 핵심 지표 — 특성(Feature) 재사용·공유·버전 관리를 가능하게 하는 Feature Store 없이는 학습-서빙 일관성 문제와 특성 계산 중복이 필연적으로 발생한다.
 
 ---
 
-## Ⅰ. [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 개요
+## Ⅰ. MLOps 개요
 
 ```
 MLOps (Machine Learning Operations):
@@ -57,11 +57,11 @@ Level 2: CI/CD 파이프라인 자동화
   Feature Store
 ```
 
-> 📢 **섹션 요약 비유**: [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — 연구원이 레시피(모델) 개발, 공장([MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/))이 원자재 수급([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))->생산(학습)->품질검사(평가)->출하(배포)->불량 탐지(드리프트) 자동화!
+> 📢 **섹션 요약 비유**: MLOps = ML 공장 자동화 — 연구원이 레시피(모델) 개발, 공장(MLOps)이 원자재 수급(데이터)->생산(학습)->품질검사(평가)->출하(배포)->불량 탐지(드리프트) 자동화!
 
 ---
 
-## Ⅱ. [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)
+## Ⅱ. 데이터 드리프트
 
 ```
 데이터 드리프트 (Data Drift):
@@ -108,11 +108,11 @@ Level 2: CI/CD 파이프라인 자동화
   레이블 없는 경우: 예측 분포 모니터링
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) = 지도 업데이트 누락 — 2019년 지도(학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 운전(예측). 2023년 도로 변경(드리프트) 후 길 안내 오류. 지도(모델) 업데이트 필요!
+> 📢 **섹션 요약 비유**: 데이터 드리프트 = 지도 업데이트 누락 — 2019년 지도(학습 데이터)로 운전(예측). 2023년 도로 변경(드리프트) 후 길 안내 오류. 지도(모델) 업데이트 필요!
 
 ---
 
-## Ⅲ. [Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)
+## Ⅲ. Feature Store
 
 ```
 Feature Store (특성 저장소):
@@ -160,11 +160,11 @@ Feature Store 구성:
   Vertex AI Feature Store (GCP)
 ```
 
-> 📢 **섹션 요약 비유**: [Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) = 표준 식재료 창고 — 여러 팀이 같은 재료(특성)를 각자 계산하면 낭비+불일치. 창고([Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))에서 표준 재료 꺼내쓰면 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)+효율!
+> 📢 **섹션 요약 비유**: Feature Store = 표준 식재료 창고 — 여러 팀이 같은 재료(특성)를 각자 계산하면 낭비+불일치. 창고(Feature Store)에서 표준 재료 꺼내쓰면 일관성+효율!
 
 ---
 
-## Ⅳ. 모델 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅳ. 모델 배포 전략
 
 ```
 ML 모델 배포 전략:
@@ -210,11 +210,11 @@ ML 모델 배포 전략:
   롤백: 이전 버전으로 즉시 전환
 ```
 
-> 📢 **섹션 요약 비유**: 모델 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) = 신메뉴 출시 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — Shadow(그림자 주방: 손님 모르게 테스트), [Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)(1개 테이블만 신메뉴), A/B(반반 비교). 문제 없으면 전체 출시!
+> 📢 **섹션 요약 비유**: 모델 배포 전략 = 신메뉴 출시 전략 — Shadow(그림자 주방: 손님 모르게 테스트), Canary(1개 테이블만 신메뉴), A/B(반반 비교). 문제 없으면 전체 출시!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 전자상거래 추천 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/)
+## Ⅴ. 실무 시나리오 — 전자상거래 추천 MLOps
 
 ```
 전자상거래 상품 추천 MLOps 구축:
@@ -260,7 +260,7 @@ TO-BE MLOps 구축:
   특성 계산 비용: 팀별 중복 제거 -> 35% 감소
 ```
 
-> 📢 **섹션 요약 비유**: 추천 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(원자재)->학습(생산)->배포(출하)->드리프트 탐지(불량 감지)->재학습(품질 개선) 자동화. [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) 28% 향상, 배포 월1->일1회!
+> 📢 **섹션 요약 비유**: 추천 MLOps = ML 공장 자동화 — 데이터(원자재)->학습(생산)->배포(출하)->드리프트 탐지(불량 감지)->재학습(품질 개선) 자동화. CTR 28% 향상, 배포 월1->일1회!
 
 ---
 
@@ -319,17 +319,6 @@ Feast, Tecton
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) = ML 공장 자동화 — 연구원([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트)이 레시피 개발, 공장([MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/))이 재료->생산->출하->불량 탐지 자동화!
-2. [데이터 드리프트](/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) = 낡은 지도 — 2019년 지도로 2023년 운전하면 길 안내 오류. 드리프트 감지 = 지도 갱신 필요 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)!
-3. [Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) = 표준 재료 창고 — 여러 팀이 같은 재료를 따로 만들면 낭비+불일치. 창고([Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))에서 표준 재료 공유!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 48 / 373
-
-<- **이전**: [047. Error Budget — 오류 예산과 SLO](/studynote/15_devops_sre/01_culture_methodology/047_error_budget_slo_sre/)
-**다음**: [049. DataOps — 데이터 운영](/studynote/15_devops_sre/01_culture_methodology/049_dataops_data_operations/) ->
-
----
+1. MLOps = ML 공장 자동화 — 연구원(데이터 사이언티스트)이 레시피 개발, 공장(MLOps)이 재료->생산->출하->불량 탐지 자동화!
+2. 데이터 드리프트 = 낡은 지도 — 2019년 지도로 2023년 운전하면 길 안내 오류. 드리프트 감지 = 지도 갱신 필요 신호!
+3. Feature Store = 표준 재료 창고 — 여러 팀이 같은 재료를 따로 만들면 낭비+불일치. 창고(Feature Store)에서 표준 재료 공유!

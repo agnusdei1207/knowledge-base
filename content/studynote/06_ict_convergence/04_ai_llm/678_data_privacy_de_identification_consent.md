@@ -132,11 +132,3 @@ weight: 678
 3. **t-근접성(t-Closeness, Li 2007)**: 동질집합 내 민감속성 분포가 전체 데이터셋 분포와 **Earth Mover's Distance ≤ t** 유지. 강한 프라이버시 보장이나 정보손실 큼.
 
 4. **차분 프라이버시(Differential Privacy, Dwork 2006)**: 인접 데이터셋(D, D')에 대해 알고리즘 M의 출력 분포가 `Pr[M(D) ∈ S] ≤ e^ε · Pr[M(D') ∈ S] + δ` 만족. **ε(epsilon) = 프라이버시 예산(Budget)**, δ = 실패확률. ε 작을수록 강한 프라이버
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 678 / 800
-
-<- **이전**: [677. 데이터 관측 가능성 이상 탐지 품질](/studynote/06_ict_convergence/uncategorized/677_data_observability_anomaly_quality_detection/)
-**다음**: [679. 합성 데이터 시뮬레이션 프라이버시 보존](/studynote/06_ict_convergence/uncategorized/679_synthetic_data_simulation_privacy_preserving/) ->
-
----

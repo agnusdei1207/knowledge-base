@@ -141,11 +141,3 @@ LLMOps 아키텍처는 **Foundation Model Layer -> Adaptation Layer -> Retrieval
  |   |   • K8s + Karpenter / Volcano (배치 스케줄러)                |      |
  |   |   • TGI/vLLM w/ PagedAttention, Speculative, FlashAttn-2     |      |
  |   |   • Quant: INT8/INT4(GPTQ, AWQ, BNB-NF4
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 747 / 800
-
-<- **이전**: [746. MLOps 머신러닝 생명주기 관리](/studynote/06_ict_convergence/uncategorized/746_mlops_machine_learning_lifecycle_management/)
-**다음**: [748. 모델 서빙 추론 최적화 A/B 테스트](/studynote/06_ict_convergence/uncategorized/748_model_serving_inference_optimization_ab_test/) ->
-
----

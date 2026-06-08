@@ -7,8 +7,8 @@ weight: 860
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 운영 환경 테스트 (Testing in Production / TiP)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 운영 환경 테스트 (Testing in Production / TiP)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -38,7 +38,7 @@ TiP는 운영 중인 시스템을 직접 보며 테스트하는 방식이다. �
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 운영 환경 테스트 (Testing i가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 운영 환경 테스트 (Testing i가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -48,13 +48,13 @@ TiP는 운영 중인 시스템을 직접 보며 테스트하는 방식이다. �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TiP는 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 실사용 트래픽, 관찰성, 안전한 릴리스를 활용한다.
+TiP는 운영 데이터, 실사용 트래픽, 관찰성, 안전한 릴리스를 활용한다.
 
 | 요소 | 의미 |
 |:---|:---|
 | 관찰성 | 상태 파악 |
 | 제한 노출 | 위험 축소 |
-| [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | 빠른 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| 롤백 | 빠른 복구 |
 
 ```text
 실운영 -> 제한적 노출 -> 관찰 -> 즉시 대응
@@ -78,11 +78,11 @@ TiP는 시프트 라이트의 한 형태로 볼 수 있다. 운영 중 테스트
 
 | 구분 | 시프트 라이트 | TiP |
 |:---|:---|:---|
-| 범위 | 넓은 운영 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 실제 운영 내 테스트 |
+| 범위 | 넓은 운영 검증 | 실제 운영 내 테스트 |
 | 위험 | 중간 | 높음 |
-| 장치 | [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), 모니터링 | 강한 안전장치 필요 |
+| 장치 | 카나리, 모니터링 | 강한 안전장치 필요 |
 
-TiP는 고도화된 관찰성과 자동 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 같이 있어야 한다.
+TiP는 고도화된 관찰성과 자동 롤백이 같이 있어야 한다.
 
 - **📢 섹션 요약 비유**: 어두운 방에서 손전등 없이 걷는 것은 위험하다.
 
@@ -96,7 +96,7 @@ TiP는 고도화된 관찰성과 자동 [롤백](/studynote/15_devops_sre/02_cic
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 기능 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), 실트래픽 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/), A/B 실험과 결합한다. 민감한 서비스는 더욱 조심해야 한다.
+실무에서는 기능 플래그, 카나리, 실트래픽 미러링, A/B 실험과 결합한다. 민감한 서비스는 더욱 조심해야 한다.
 
 체크 포인트는 다음과 같다.
 1. 테스트 범위를 아주 작게 시작한다.
@@ -131,10 +131,10 @@ TiP는 실제 환경의 진짜 문제를 보여 준다. 하지만 잘못 쓰면 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 운영 환경 테스트 (Testing in Production / TiP)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 운영 환경 테스트 (Testing in Production / TiP)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 운영 환경 테스트 (Testing in Production / TiP) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 운영 환경 테스트 (Testing in Production / TiP)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 운영 환경 테스트 (Testing in Production / TiP)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 운영 환경 테스트 (Testing in Production / TiP)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 운영 환경 테스트 (Testing in Production / TiP) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 운영 환경 테스트 (Testing in Production / TiP)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,21 +154,10 @@ TiP는 실제 환경의 진짜 문제를 보여 준다. 하지만 잘못 쓰면 
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 운영 환경 테스트 (Testing in Production / TiP)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 527 / 973
-
-<- **이전**: [467. 시프트 라이트 테스팅 (Shift-Right Testing) - 운영 환경(오른쪽)에서의 테스트 (카나리, 카오스 엔지니어링)](/studynote/04_software_engineering/11_testing_validation/859_shift_right_testing/)
-**다음**: [468. 운영 환경 테스트 (Testing in Production / TiP)](/studynote/04_software_engineering/11_testing_validation/860_testing_in_production/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

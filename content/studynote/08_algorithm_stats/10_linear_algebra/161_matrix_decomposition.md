@@ -7,9 +7,9 @@ weight: 161
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 행렬 분해는 *복잡한 행렬을 구조가 명확한 작은 행렬들의 곱으로 분해*하는 것 — LU(삼각), QR(직교×상삼각), [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) ([Singular Value Decomposition](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/), [특이값 분해](/studynote/10_ai/05_data_science_ml/342_svd/)) 각각이 다른 특성을 활용한다.
-> 2. **가치**: [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) A = UΣVᵀ는 모든 실수 행렬에 적용 가능하며, [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)·[추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)·이미지 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·최소제곱 풀이·의사역행렬을 하나의 프레임워크로 통합한다.
-> 3. **판단 포인트**: 분해 선택 기준 — 최소제곱(QR), 반복 풀이(LU), 최저 랭크 근사·[차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)·추천([SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)). 수치 안정성은 [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) > QR > LU 순서다.
+> 1. **본질**: 행렬 분해는 *복잡한 행렬을 구조가 명확한 작은 행렬들의 곱으로 분해*하는 것 — LU(삼각), QR(직교×상삼각), SVD (Singular Value Decomposition, 특이값 분해) 각각이 다른 특성을 활용한다.
+> 2. **가치**: SVD A = UΣVᵀ는 모든 실수 행렬에 적용 가능하며, PCA·추천 시스템·이미지 압축·최소제곱 풀이·의사역행렬을 하나의 프레임워크로 통합한다.
+> 3. **판단 포인트**: 분해 선택 기준 — 최소제곱(QR), 반복 풀이(LU), 최저 랭크 근사·차원 축소·추천(SVD). 수치 안정성은 SVD > QR > LU 순서다.
 
 ---
 
@@ -21,9 +21,9 @@ weight: 161
 |:---|:---|:---|:---|
 | LU 분해 | A = LU | 정방 행렬, det≠0 | 반복 선형 풀이 |
 | QR 분해 | A = QR | 임의 직사각 행렬 | 최소제곱, 고유값 |
-| [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) | A = UΣVᵀ | 임의 행렬 | [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), 추천, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) |
-| [고유값 분해](/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/) | A = PΛP⁻¹ | 정방 대각화 가능 | 고유값 문제 |
-| 콜레스키 | A = LLᵀ | 대칭 양정치 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/), 최적화 |
+| SVD | A = UΣVᵀ | 임의 행렬 | PCA, 추천, 압축 |
+| 고유값 분해 | A = PΛP⁻¹ | 정방 대각화 가능 | 고유값 문제 |
+| 콜레스키 | A = LLᵀ | 대칭 양정치 | 확률, 최적화 |
 
 📢 **섹션 요약 비유**: 행렬 분해는 "복잡한 레고를 기본 블록으로 분해"하는 것이다 — 복잡한 변환(행렬)을 단순한 회전·스케일·반사로 쪼개면 이해와 계산이 쉬워진다.
 
@@ -31,7 +31,7 @@ weight: 161
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) ([Singular Value Decomposition](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)) 구조
+### SVD (Singular Value Decomposition) 구조
 
 ```
       A          =     U      ·    Σ      ·   Vᵀ
@@ -64,7 +64,7 @@ A ≈ σ₁u₁v₁ᵀ + σ₂u₂v₂ᵀ + ... + σₖuₖvₖᵀ
    (가장 중요한 k개 성분만 사용)
 ```
 
-### 이미지 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 예시
+### 이미지 압축 예시
 
 ```
 원본 이미지 행렬 A (512×512):
@@ -101,7 +101,7 @@ QR 분해는 가우스 소거보다 수치적으로 안정적.
 
 ## Ⅲ. 비교 및 연결
 
-### SVD와 [고유값 분해](/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/)의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+### SVD와 고유값 분해의 관계
 
 대칭 행렬 A = Aᵀ의 경우:
 - 고유분해 A = QΛQᵀ (Q: 직교, Λ: 대각)
@@ -129,11 +129,11 @@ A⁺ = VΣ⁺Uᵀ
 
 | 응용 | 분해 | 핵심 역할 |
 |:---|:---|:---|
-| [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) / 고유분해 | 공분산 행렬 분해 |
-| [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) | [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) (행렬 인수분해) | 사용자-아이템 잠재 요인 |
-| 자연어처리 LSA | [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) | 단어-문서 행렬 저랭크 근사 |
-| 이미지 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) | [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) | 저랭크 근사 |
-| 최소제곱 회귀 | QR / [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) | 수치 안정 풀이 |
+| PCA | SVD / 고유분해 | 공분산 행렬 분해 |
+| 추천 시스템 | SVD (행렬 인수분해) | 사용자-아이템 잠재 요인 |
+| 자연어처리 LSA | SVD | 단어-문서 행렬 저랭크 근사 |
+| 이미지 압축 | SVD | 저랭크 근사 |
+| 최소제곱 회귀 | QR / SVD | 수치 안정 풀이 |
 | 선형 방정식 반복 | LU | 빠른 재풀이 |
 
 📢 **섹션 요약 비유**: 의사역행렬은 "불완전한 정보의 최선 답"이다 — 완벽한 역행렬이 없어도 SVD로 구한 A⁺가 "최대한 정확한" 해를 제공한다.
@@ -142,7 +142,7 @@ A⁺ = VΣ⁺Uᵀ
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) — [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 기반 추천 (Netflix Prize)
+### 협업 필터링 — SVD 기반 추천 (Netflix Prize)
 
 사용자-영화 평점 행렬 R (m×n, 대부분 비어있음):
 
@@ -155,11 +155,11 @@ V (n×k): 아이템 잠재 요인 행렬
 예측: R̂(u, i) = uᵤᵀ vᵢ
 ```
 
-행렬 분해(MF, [Matrix Factorization](/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/)) 기반 추천이 Netflix Prize(2009)에서 우승.
+행렬 분해(MF, Matrix Factorization) 기반 추천이 Netflix Prize(2009)에서 우승.
 
-### [주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/) ([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)) 연결
+### 주성분 분석 (PCA) 연결
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 행렬 X (n×p, 중심화 완료):
+데이터 행렬 X (n×p, 중심화 완료):
 
 ```
 X = UΣVᵀ
@@ -172,10 +172,10 @@ X = UΣVᵀ
 ### 기술사 판단 포인트
 
 1. **"정방 행렬에 가장 일반적인 분해는?"** -> LU (det≠0), 고유분해 (대각화 가능)
-2. **"수치 안정성이 가장 좋은 분해는?"** -> [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)
+2. **"수치 안정성이 가장 좋은 분해는?"** -> SVD
 3. **"최소제곱 문제의 표준 풀이는?"** -> QR 분해 (Normal Equation AᵀAx=Aᵀb보다 안정)
 
-📢 **섹션 요약 비유**: [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 기반 추천은 "음악 취향 DNA"와 같다 — 각 사용자를 몇 개의 잠재 취향 벡터(U)로, 각 곡을 잠재 장르 벡터(V)로 표현해 유사도를 계산한다.
+📢 **섹션 요약 비유**: SVD 기반 추천은 "음악 취향 DNA"와 같다 — 각 사용자를 몇 개의 잠재 취향 벡터(U)로, 각 곡을 잠재 장르 벡터(V)로 표현해 유사도를 계산한다.
 
 ---
 
@@ -184,13 +184,13 @@ X = UΣVᵀ
 행렬 분해는 **선형대수의 정수** — 복잡한 연산을 단순 구조로 분해해 수치 안정성, 계산 효율, 수학적 통찰을 동시에 제공한다.
 
 SVD는 특히:
-- [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본질적 구조(잠재 요인)를 드러내고
+- 데이터의 본질적 구조(잠재 요인)를 드러내고
 - 노이즈와 신호를 특이값 크기로 분리하며
 - 의사역행렬을 통해 역행렬 불가능한 시스템에도 최선의 해를 제공한다
 
 NumPy: `np.linalg.svd()`, PyTorch: `torch.linalg.svd()` — 현대 ML 프레임워크에서 기본 내장.
 
-📢 **섹션 요약 비유**: SVD는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 X선 촬영"이다 — 원본 행렬(겉모습)을 분해해 그 안에 숨겨진 중요한 구조(뼈대, σ₁≥σ₂≥...)를 드러낸다.
+📢 **섹션 요약 비유**: SVD는 "데이터의 X선 촬영"이다 — 원본 행렬(겉모습)을 분해해 그 안에 숨겨진 중요한 구조(뼈대, σ₁≥σ₂≥...)를 드러낸다.
 
 ---
 
@@ -199,10 +199,10 @@ NumPy: `np.linalg.svd()`, PyTorch: `torch.linalg.svd()` — 현대 ML 프레임�
 | 분해 | 수식 | 핵심 응용 |
 |:---|:---|:---|
 | LU | A = LU | 선형 방정식 반복 풀이 |
-| QR | A = QR | 최소제곱, 고유값 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) | A = UΣVᵀ | [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), 추천, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 의사역행렬 |
+| QR | A = QR | 최소제곱, 고유값 알고리즘 |
+| SVD | A = UΣVᵀ | PCA, 추천, 압축, 의사역행렬 |
 | 고유분해 | A = PΛP⁻¹ | 대각화, PageRank |
-| 콜레스키 | A = LLᵀ | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 모델, 최적화 |
+| 콜레스키 | A = LLᵀ | 확률 모델, 최적화 |
 
 ---
 
@@ -229,16 +229,5 @@ NumPy: `np.linalg.svd()`, PyTorch: `torch.linalg.svd()` — 현대 ML 프레임�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **LU는 "계단 청소"**: 복잡한 청소를 위층(U)과 아래층(L)으로 나눠 차례로 한다.
-2. **SVD는 "사진 핵심 요소 분리"**: 배경(큰 σ)과 세부(작은 σ)를 분리해, 중요한 것만 남겨 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
+2. **SVD는 "사진 핵심 요소 분리"**: 배경(큰 σ)과 세부(작은 σ)를 분리해, 중요한 것만 남겨 압축한다.
 3. **저랭크 근사는 "대략의 초상화"**: 몇 가지 핵심 특징만으로 사람 얼굴을 알아볼 수 있을 만큼 표현하는 것.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 161 / 175
-
-<- **이전**: [1. 선형 연립방정식 — 행렬 표현, 가우스 소거](/studynote/08_algorithm_stats/10_linear_algebra/160_linear_equations/)
-**다음**: [3. 고유값/고유벡터 (Eigenvalue/Eigenvector) — Av = λv](/studynote/08_algorithm_stats/10_linear_algebra/162_eigenvalue_eigenvector/) ->
-
----

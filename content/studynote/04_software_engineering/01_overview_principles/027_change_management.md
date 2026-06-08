@@ -6,9 +6,9 @@ tags:
 weight: 27
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(Change [Management](/studynote/12_it_management/05_security_compliance/1013_management/))는 소프트웨어 개발 및 운영 중 발생하는 모든 변경(요구사항 변경, [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정, 기능 추가)을 공식 프로세스로 통제하여 변경의 영향 범위를 분석하고 품질·일정·비용 영향을 관리하는 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))의 핵심 활동이다.
-> 2. **가치**: 체계적 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 없이 임의로 변경이 이루어지면 코드베이스가 일관성을 잃고, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되지 않은 변경이 운영 환경에 배포되어 장애를 유발한다. [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) v4에서 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 "변경 사후 장애 비율([Change Failure Rate](/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))"을 핵심 KPI로 정의한다.
-> 3. **판단 포인트**: [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)의 핵심 결정 포인트는 "긴급 변경(Emergency Change)과 일반 변경(Standard/Normal Change)의 승인 경로 분리"다. 긴급 변경은 사후 승인·검토를 허용하되, 사후 반드시 PIR(Post-Implementation [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))을 수행해야 한다.
+> 1. **본질**: 변경 관리(Change Management)는 소프트웨어 개발 및 운영 중 발생하는 모든 변경(요구사항 변경, 결함 수정, 기능 추가)을 공식 프로세스로 통제하여 변경의 영향 범위를 분석하고 품질·일정·비용 영향을 관리하는 SCM(Software Configuration Management)의 핵심 활동이다.
+> 2. **가치**: 체계적 변경 관리 없이 임의로 변경이 이루어지면 코드베이스가 일관성을 잃고, 검증되지 않은 변경이 운영 환경에 배포되어 장애를 유발한다. ITIL v4에서 변경 관리는 "변경 사후 장애 비율(Change Failure Rate)"을 핵심 KPI로 정의한다.
+> 3. **판단 포인트**: 변경 관리의 핵심 결정 포인트는 "긴급 변경(Emergency Change)과 일반 변경(Standard/Normal Change)의 승인 경로 분리"다. 긴급 변경은 사후 승인·검토를 허용하되, 사후 반드시 PIR(Post-Implementation Review)을 수행해야 한다.
 
 ---
 
@@ -30,19 +30,19 @@ weight: 27
 +------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 리모델링 허가 프로세스다. 임의로 벽을 허물면 건물이 무너질 수 있으니(장애), 설계 검토->허가->시공->검수 단계를 반드시 거친다.
+- **📢 섹션 요약 비유**: 변경 관리는 건물 리모델링 허가 프로세스다. 임의로 벽을 허물면 건물이 무너질 수 있으니(장애), 설계 검토->허가->시공->검수 단계를 반드시 거친다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 변경 유형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+### 변경 유형 분류
 
 | 유형 | 정의 | 승인 경로 |
 |:---|:---|:---|
 | **표준 변경** | 사전 승인된 반복 변경 | 사전 등록 후 자동 승인 |
-| **일반 변경** | 계획된 신규 변경 | [CAB](/studynote/12_it_management/02_itsm_itil/080_cab/) 사전 검토·승인 |
-| **긴급 변경** | 즉각 대응 필요 | [ECAB](/studynote/12_it_management/02_itsm_itil/865_feature_engineering/) 긴급 승인 + 사후 PIR |
+| **일반 변경** | 계획된 신규 변경 | CAB 사전 검토·승인 |
+| **긴급 변경** | 즉각 대응 필요 | ECAB 긴급 승인 + 사후 PIR |
 
 ### 영향 분석 (Impact Assessment) 항목
 
@@ -54,34 +54,34 @@ weight: 27
 □ 리소스: 인력·시간·비용 추정
 ```
 
-- **📢 섹션 요약 비유**: 영향 분석은 도미노 넘어뜨리기 전 시뮬레이션이다. 이 도미노(변경)가 넘어지면 어느 도미노([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))까지 영향이 가는지 미리 확인하고, 막을 방법을 준비한다.
+- **📢 섹션 요약 비유**: 영향 분석은 도미노 넘어뜨리기 전 시뮬레이션이다. 이 도미노(변경)가 넘어지면 어느 도미노(서비스)까지 영향이 가는지 미리 확인하고, 막을 방법을 준비한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) | [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) |
+| 비교 | ITSM 변경 관리 | DevOps 변경 관리 |
 |:---|:---|:---|
-| 승인 방식 | 위원회([CAB](/studynote/12_it_management/02_itsm_itil/080_cab/)) | 자동화 파이프라인 |
+| 승인 방식 | 위원회(CAB) | 자동화 파이프라인 |
 | 속도 | 주 단위 | 시간·분 단위 |
-| 위험 관리 | 수동 검토 | 자동 테스트·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| 변경 기록 | [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 시스템 | Git 히스토리 |
+| 위험 관리 | 수동 검토 | 자동 테스트·검증 |
+| 변경 기록 | 변경 관리 시스템 | Git 히스토리 |
 
-- **📢 섹션 요약 비유**: [ITSM](/studynote/12_it_management/02_itsm_itil/880_iso_iec_20000_itsm_certification/) [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 정부 기관 허가 프로세스(느리지만 철저)이고, [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 스타트업의 빠른 시험 출시(빠르지만 자동 안전장치 필수)이다.
+- **📢 섹션 요약 비유**: ITSM 변경 관리는 정부 기관 허가 프로세스(느리지만 철저)이고, DevOps 변경 관리는 스타트업의 빠른 시험 출시(빠르지만 자동 안전장치 필수)이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### DevOps에서 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 자동화
-- [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/): Git 커밋이 변경 요청 -> [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰가 [CAB](/studynote/12_it_management/02_itsm_itil/080_cab/) 역할 -> [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인이 자동 배포.
-- [Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/): 코드 배포와 기능 활성화 분리 -> 긴급 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지원.
+### DevOps에서 변경 관리 자동화
+- GitOps: Git 커밋이 변경 요청 -> PR 리뷰가 CAB 역할 -> CI/CD 파이프라인이 자동 배포.
+- Feature Flag: 코드 배포와 기능 활성화 분리 -> 긴급 롤백 지원.
 
-### [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [Change Failure Rate](/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/) 관리
+### DORA Change Failure Rate 관리
 - Elite 조직: 배포 후 장애 비율 < 5%.
-- 변경 실패 시 [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축 + PIR -> 재발 방지 루프.
+- 변경 실패 시 MTTR 단축 + PIR -> 재발 방지 루프.
 
-- **📢 섹션 요약 비유**: GitOps는 디지털 법원 기록 시스템이다. 모든 변경이 Git에 기록되고(증거 보존), PR은 판사 검토([CAB](/studynote/12_it_management/02_itsm_itil/080_cab/)), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통과는 법원 허가(승인)다.
+- **📢 섹션 요약 비유**: GitOps는 디지털 법원 기록 시스템이다. 모든 변경이 Git에 기록되고(증거 보존), PR은 판사 검토(CAB), CI/CD 통과는 법원 허가(승인)다.
 
 ---
 
@@ -89,13 +89,13 @@ weight: 27
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **품질 보증** | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 변경만 운영 환경 배포 |
+| **품질 보증** | 검증된 변경만 운영 환경 배포 |
 | **추적 가능성** | 모든 변경의 이력·승인 기록 유지 |
 | **위험 감소** | 사전 영향 분석으로 장애 예방 |
 
-[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 변경 위험 예측(Change [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Prediction)은 과거 변경 이력과 코드 변경 패턴을 학습하여 특정 변경의 장애 발생 확률을 자동으로 추정하는 방향으로 발전하고 있다.
+AI 기반 변경 위험 예측(Change Risk Prediction)은 과거 변경 이력과 코드 변경 패턴을 학습하여 특정 변경의 장애 발생 확률을 자동으로 추정하는 방향으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 변경 위험 예측은 자동 기상 예보다. 과거 날씨 패턴(변경 이력)을 학습해 "이 코드 변경은 70% 확률로 장애가 날 수 있습니다"고 자동으로 경보를 울린다.
+- **📢 섹션 요약 비유**: AI 변경 위험 예측은 자동 기상 예보다. 과거 날씨 패턴(변경 이력)을 학습해 "이 코드 변경은 70% 확률로 장애가 날 수 있습니다"고 자동으로 경보를 울린다.
 
 ---
 
@@ -103,11 +103,11 @@ weight: 27
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a></strong> | [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)를 포함하는 [소프트웨어 형상 관리](/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/) |
-| <strong><a href="/studynote/12_it_management/02_itsm_itil/080_cab/">CAB</a></strong> | 변경 승인을 결정하는 위원회 |
+| <strong>SCM</strong> | 변경 관리를 포함하는 소프트웨어 형상 관리 |
+| <strong>CAB</strong> | 변경 승인을 결정하는 위원회 |
 | **RFC** | 공식 변경 요청 문서 |
 | **PIR** | 변경 후 효과 검토 활동 |
-| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | DevOps의 코드 기반 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 자동화 |
+| <strong>GitOps</strong> | DevOps의 코드 기반 변경 관리 자동화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,17 +129,6 @@ weight: 27
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 공사 허가 과정이에요! 마음대로 벽을 허물면 건물이 무너지니까(장애 발생), 반드시 설계->검토->허가->시공->검수 단계를 거쳐요.
+1. 변경 관리는 건물 공사 허가 과정이에요! 마음대로 벽을 허물면 건물이 무너지니까(장애 발생), 반드시 설계->검토->허가->시공->검수 단계를 거쳐요.
 2. DevOps에서는 Git에 모든 변경이 기록되고, 자동 테스트가 허가 역할을 해줘요!
 3. AI는 과거 변경 기록을 학습해서 "이 변경은 장애가 날 것 같아요"라고 미리 경고해주기도 한답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 27 / 973
-
-<- **이전**: [26. VCS (Version Control System) — 형상 이력 관리 시스템](/studynote/04_software_engineering/01_overview_principles/026_version_control_system/)
-**다음**: [28. 소프트웨어 리엔지니어링 (Software Reengineering)](/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/) ->
-
----

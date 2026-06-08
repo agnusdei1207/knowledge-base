@@ -6,17 +6,17 @@ tags:
 weight: 108
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 제4정규형(4NF)은 BCNF까지 완벽하게 통과한 테이블에서, 서로 아무런 논리적 연관이 없는 두 개 이상의 독립적인 다중값(M:N 리스트)을 하나의 테이블에 우겨 넣었을 때 발생하는 [다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)([MVD](/studynote/05_database/07_exam_summary/400_mvd_4nf/), Multi-Valued Dependency)을 제거하는 고급 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계다.
-> 2. **가치**: 관계없는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들이 서로 카테시안 곱(경우의 수 폭발)으로 결합되어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무한히 중복 뻥튀기되는 현상을 차단하고, 수정/삭제 시 발생하는 [갱신 이상](/studynote/05_database/02_modeling_normalization/093_update_anomaly/)([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 원천적으로 방지한다.
-> 3. **판단 포인트**: 테이블의 모든 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 묶어서 하나의 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(All [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 쓰고 있는데 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 규칙적인 패턴으로 기하급수적으로 반복된다면, 이는 [다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)에 의한 4NF 위반 상태이므로 즉시 [무손실 분해](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)를 통해 테이블을 격리해야 한다.
+> 1. **본질**: 제4정규형(4NF)은 BCNF까지 완벽하게 통과한 테이블에서, 서로 아무런 논리적 연관이 없는 두 개 이상의 독립적인 다중값(M:N 리스트)을 하나의 테이블에 우겨 넣었을 때 발생하는 다치 종속(MVD, Multi-Valued Dependency)을 제거하는 고급 정규화 단계다.
+> 2. **가치**: 관계없는 속성들이 서로 카테시안 곱(경우의 수 폭발)으로 결합되어 데이터가 무한히 중복 뻥튀기되는 현상을 차단하고, 수정/삭제 시 발생하는 갱신 이상(Anomaly)을 원천적으로 방지한다.
+> 3. **판단 포인트**: 테이블의 모든 속성을 묶어서 하나의 기본 키(All Key)로 쓰고 있는데 데이터가 규칙적인 패턴으로 기하급수적으로 반복된다면, 이는 다치 종속에 의한 4NF 위반 상태이므로 즉시 무손실 분해를 통해 테이블을 격리해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-제4정규형(4NF)은 [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)(FD)에 기반한 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([1NF](/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) ~ [BCNF](/studynote/05_database/04_transactions_concurrency/529_bcnf/))로는 잡아낼 수 없는 특수한 중복을 해결하기 위해 등장했다. 테이블 내의 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간에 1:1이나 1:N의 함수적 관계가 없더라도, 하나의 주체에 대해 서로 무관한 두 개 이상의 1:N [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(다중값)이 한 테이블에 공존하면 문제가 발생한다.
+제4정규형(4NF)은 함수적 종속성(FD)에 기반한 정규화(1NF ~ BCNF)로는 잡아낼 수 없는 특수한 중복을 해결하기 위해 등장했다. 테이블 내의 속성 간에 1:1이나 1:N의 함수적 관계가 없더라도, 하나의 주체에 대해 서로 무관한 두 개 이상의 1:N 속성(다중값)이 한 테이블에 공존하면 문제가 발생한다.
 
-예를 들어, 한 명의 사원이 여러 '보유 기술(Java, C++)'을 가지고 있고 동시에 여러 '구사 언어(영어, 일어)'를 가지고 있다고 가정하자. '보유 기술'과 '구사 언어'는 사원에게만 종속될 뿐, 서로는 아무런 연관이 없다. 하지만 이를 하나의 테이블 `(사원, 기술, 언어)`에 넣으면, 사원 A의 모든 기술과 모든 언어의 경우의 수를 다 곱해서 레코드로 만들어야만 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 유지할 수 있다. 이렇게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폭발적으로 중복되는 현상을 '[다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)([MVD](/studynote/05_database/07_exam_summary/400_mvd_4nf/))'이라 부르며, 이를 방치하면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 업데이트할 때 수십 줄을 동시에 고쳐야 하는 [갱신 이상](/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 발생하므로 4NF를 통한 테이블 분리가 반드시 필요하다.
+예를 들어, 한 명의 사원이 여러 '보유 기술(Java, C++)'을 가지고 있고 동시에 여러 '구사 언어(영어, 일어)'를 가지고 있다고 가정하자. '보유 기술'과 '구사 언어'는 사원에게만 종속될 뿐, 서로는 아무런 연관이 없다. 하지만 이를 하나의 테이블 `(사원, 기술, 언어)`에 넣으면, 사원 A의 모든 기술과 모든 언어의 경우의 수를 다 곱해서 레코드로 만들어야만 무결성을 유지할 수 있다. 이렇게 데이터가 폭발적으로 중복되는 현상을 '다치 종속(MVD)'이라 부르며, 이를 방치하면 데이터를 업데이트할 때 수십 줄을 동시에 고쳐야 하는 갱신 이상이 발생하므로 4NF를 통한 테이블 분리가 반드시 필요하다.
 
 - **📢 섹션 요약 비유**: 제4정규형은 주방에서 피자 도우 위에 '토핑 종류'와 '소스 종류'를 미리 모든 경우의 수(페퍼로니+핫소스, 페퍼로니+갈릭, 치즈+핫소스...)로 다 만들어 냉장고에 억지로 구겨 넣는 바보 같은 짓을 막고, "토핑 통"과 "소스 통"을 별도로 분리하는 정리정돈 규칙입니다.
 
@@ -24,12 +24,12 @@ weight: 108
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-4NF [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 핵심은 [다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)([MVD](/studynote/05_database/07_exam_summary/400_mvd_4nf/), $X \twoheadrightarrow Y$)의 [결정자](/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) $X$가 테이블의 모든 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 결정하는 '[슈퍼 키](/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/)'가 되도록 테이블을 [무손실 분해](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)(Lossless Decomposition)하는 것이다.
+4NF 정규화의 핵심은 다치 종속(MVD, $X \twoheadrightarrow Y$)의 결정자 $X$가 테이블의 모든 속성을 결정하는 '슈퍼 키'가 되도록 테이블을 무손실 분해(Lossless Decomposition)하는 것이다.
 
-| 조건 구분 | 공식적 정의 및 원리 | 분해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 조건 구분 | 공식적 정의 및 원리 | 분해 전략 |
 | :--- | :--- | :--- |
-| **선행 조건** | [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) $R$은 반드시 [BCNF](/studynote/05_database/04_transactions_concurrency/529_bcnf/)(보이스-코드 정규형)를 만족해야 한다. ([함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 제로 상태) | [BCNF](/studynote/05_database/04_transactions_concurrency/529_bcnf/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 선행 |
-| **4NF 제약 조건** | [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 자명하지 않은 [다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/) $X \twoheadrightarrow Y$가 존재할 경우, $X$는 반드시 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)의 [슈퍼 키](/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/)여야 한다. | 조건을 위반하면 분해 |
+| **선행 조건** | 릴레이션 $R$은 반드시 BCNF(보이스-코드 정규형)를 만족해야 한다. (함수적 종속성 결함 제로 상태) | BCNF 검증 선행 |
+| **4NF 제약 조건** | 릴레이션에 자명하지 않은 다치 종속 $X \twoheadrightarrow Y$가 존재할 경우, $X$는 반드시 릴레이션의 슈퍼 키여야 한다. | 조건을 위반하면 분해 |
 | **분해 메커니즘** | $R(X, Y, Z)$에서 $X \twoheadrightarrow Y$이고 $X \twoheadrightarrow Z$일 때, $R_1(X, Y)$와 $R_2(X, Z)$로 분해한다. | 1:N, 1:M의 격리 |
 
 ```text
@@ -55,54 +55,54 @@ weight: 108
 +--------------------------------------------------------------+
 ```
 
-이 다이어그램은 서로 무관한 '기술'과 '언어'를 하나의 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 묶었을 때 일어나는 카테시안 곱([Cartesian Product](/studynote/05_database/07_exam_summary/412_cartesian_product/)) 현상을 보여준다. 4NF는 이를 독립된 테이블 $R_1$과 $R_2$로 찢음으로써, 중복을 제거하고 나중에 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/))할 때 원래의 정보를 손실 없이 100% 복원([무손실 분해](/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/))할 수 있게 한다.
+이 다이어그램은 서로 무관한 '기술'과 '언어'를 하나의 릴레이션에 묶었을 때 일어나는 카테시안 곱(Cartesian Product) 현상을 보여준다. 4NF는 이를 독립된 테이블 $R_1$과 $R_2$로 찢음으로써, 중복을 제거하고 나중에 조인(Join)할 때 원래의 정보를 손실 없이 100% 복원(무손실 분해)할 수 있게 한다.
 
-- **📢 섹션 요약 비유**: 4NF 수술은, 한 명의 아이가 '좋아하는 장난감 목록'과 '좋아하는 간식 목록'을 가지고 있을 때, 이 두 목록을 억지로 곱해서 하나의 일기장에 다 적게 만들지 않고, "장난감 수첩"과 "간식 수첩" 두 권으로 깔끔하게 나누어 주는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 마법입니다.
+- **📢 섹션 요약 비유**: 4NF 수술은, 한 명의 아이가 '좋아하는 장난감 목록'과 '좋아하는 간식 목록'을 가지고 있을 때, 이 두 목록을 억지로 곱해서 하나의 일기장에 다 적게 만들지 않고, "장난감 수첩"과 "간식 수첩" 두 권으로 깔끔하게 나누어 주는 무결성 마법입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 과정에서 BCNF와 4NF는 타겟으로 삼는 '[종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)의 종류'가 완전히 다르다.
+데이터베이스 정규화 과정에서 BCNF와 4NF는 타겟으로 삼는 '종속성의 종류'가 완전히 다르다.
 
-| 비교 항목 | [BCNF](/studynote/05_database/04_transactions_concurrency/529_bcnf/) (보이스-코드 정규형) | 4NF (제4정규형) |
+| 비교 항목 | BCNF (보이스-코드 정규형) | 4NF (제4정규형) |
 | :--- | :--- | :--- |
-| **방어 대상** | [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency, FD) | [다치 종속성](/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/) (Multi-Valued Dependency, [MVD](/studynote/05_database/07_exam_summary/400_mvd_4nf/)) |
+| **방어 대상** | 함수적 종속성 (Functional Dependency, FD) | 다치 종속성 (Multi-Valued Dependency, MVD) |
 | **종속의 형태** | $X \rightarrow Y$ ($X$값 1개당 $Y$값 1개만 매칭) | $X \twoheadrightarrow Y$ ($X$값 1개당 무관한 $Y$값의 집합이 매칭) |
-| **테이블 특징** | 일반적인 실무 테이블 구조에서 흔히 발생 | 전체 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 묶어 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(All [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 쓰는 형태에서 발생 |
-| **제거 목적** | 일반 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 종속 관계로 인한 [이상 현상](/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) 방지 | 독립적인 두 개의 1:N 관계가 꼬여서 일어나는 카테시안 곱 폭발 차단 |
+| **테이블 특징** | 일반적인 실무 테이블 구조에서 흔히 발생 | 전체 속성을 묶어 기본 키(All Key)로 쓰는 형태에서 발생 |
+| **제거 목적** | 일반 속성 간의 종속 관계로 인한 이상 현상 방지 | 독립적인 두 개의 1:N 관계가 꼬여서 일어나는 카테시안 곱 폭발 차단 |
 
-BCNF가 1:1, 1:N의 [일대일](/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 대응 함수 관계를 청소하는 '일반 청소'라면, 4NF는 전혀 논리적 인과관계가 없는 두 리스트가 한 공간에 섞여서 생기는 곱연산을 뜯어내는 '특수 분리 수술'에 해당한다. 실무의 대다수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 [BCNF](/studynote/05_database/04_transactions_concurrency/529_bcnf/) 선에서 99% 해결되며, 4NF는 아주 특수한 집합적 중복에서만 발동한다.
+BCNF가 1:1, 1:N의 일대일 대응 함수 관계를 청소하는 '일반 청소'라면, 4NF는 전혀 논리적 인과관계가 없는 두 리스트가 한 공간에 섞여서 생기는 곱연산을 뜯어내는 '특수 분리 수술'에 해당한다. 실무의 대다수 데이터 무결성은 BCNF 선에서 99% 해결되며, 4NF는 아주 특수한 집합적 중복에서만 발동한다.
 
-- **📢 섹션 요약 비유**: BCNF가 '사장님이 팀장에게, 팀장이 사원에게 지시하는 불필요한 직통 연결망(함수적 종속)'을 끊어내는 조직도 개편이라면, 4NF는 '사내 야구 동호회 명부'와 '사내 등산 동호회 명부'를 억지로 하나의 표에 합쳐놔서 발생하는 혼란([다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/))을 물리적으로 찢어발기는 명부 분리 작업입니다.
+- **📢 섹션 요약 비유**: BCNF가 '사장님이 팀장에게, 팀장이 사원에게 지시하는 불필요한 직통 연결망(함수적 종속)'을 끊어내는 조직도 개편이라면, 4NF는 '사내 야구 동호회 명부'와 '사내 등산 동호회 명부'를 억지로 하나의 표에 합쳐놔서 발생하는 혼란(다치 종속)을 물리적으로 찢어발기는 명부 분리 작업입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현업 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 4NF까지 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 강박적으로 수행하는 것은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상의 이유로 드물지만, 논리적 설계 단계에서는 [다치 종속](/studynote/05_database/07_exam_summary/400_mvd_4nf/)의 위험성을 반드시 체크해야 한다.
+현업 데이터베이스 설계에서 4NF까지 정규화를 강박적으로 수행하는 것은 성능 상의 이유로 드물지만, 논리적 설계 단계에서는 다치 종속의 위험성을 반드시 체크해야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
-1. <strong>올(All) <a href="/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/">기본 키</a> <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 테이블의 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 3~4개뿐인데, 이 모든 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 전체를 결합해야만 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK)가 성립하는가?
-2. **독립된 다중값 공존 여부**: 그 PK의 구성 요소들이 사실상 서로 전혀 관계없는 독립적인 리스트(예: 사용자-취미, 사용자-학위)[인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?
-3. <strong>업데이트 팩터 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: 특정 회원의 취미 하나를 추가할 때, 학위 개수만큼의 row를 삽입해야 하는 구조적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 감지되는가?
+1. <strong>올(All) 기본 키 검증</strong>: 테이블의 속성이 3~4개뿐인데, 이 모든 속성 전체를 결합해야만 기본 키(PK)가 성립하는가?
+2. **독립된 다중값 공존 여부**: 그 PK의 구성 요소들이 사실상 서로 전혀 관계없는 독립적인 리스트(예: 사용자-취미, 사용자-학위)인가?
+3. <strong>업데이트 팩터 무결성</strong>: 특정 회원의 취미 하나를 추가할 때, 학위 개수만큼의 row를 삽입해야 하는 구조적 결함이 감지되는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- <strong>1정규형(<a href="/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/">1NF</a>) 위반 회피를 위한 무지성 테이블 결합</strong>: RDBMS는 한 컬럼에 리스트([배열](/studynote/08_algorithm_stats/04_datastructure/055_array/))를 넣을 수 없다는 [1NF](/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) 원칙을 지키기 위해, 취미와 학위를 모두 콤마(,) 없이 각 row로 펼치다가 결국 모든 경우의 수를 곱해서 박아버리는 최악의 설계 테이블. 이 경우 INSERT 시 엄청난 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부하를 유발하며, DELETE 시 연관된 정보 전체가 소실될 위험이 있다.
+- <strong>1정규형(1NF) 위반 회피를 위한 무지성 테이블 결합</strong>: RDBMS는 한 컬럼에 리스트(배열)를 넣을 수 없다는 1NF 원칙을 지키기 위해, 취미와 학위를 모두 콤마(,) 없이 각 row로 펼치다가 결국 모든 경우의 수를 곱해서 박아버리는 최악의 설계 테이블. 이 경우 INSERT 시 엄청난 성능 부하를 유발하며, DELETE 시 연관된 정보 전체가 소실될 위험이 있다.
 
-- **📢 섹션 요약 비유**: 실무에서 4NF 위반 테이블은 언제 터질지 모르는 시한폭탄과 같습니다. 메뉴판에 '콜라-감자튀김', '콜라-치즈스틱', '사이다-감자튀김', '사이다-치즈스틱'을 일일이 다 적어 놓으면, 나중에 감자튀김 가격을 100원 올릴 때 메뉴판 수십 장에 빨간 줄을 긋다가 하나를 빼먹고 손님에게 욕을 먹는 끔찍한 결말([이상 현상](/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/))을 맞이합니다.
+- **📢 섹션 요약 비유**: 실무에서 4NF 위반 테이블은 언제 터질지 모르는 시한폭탄과 같습니다. 메뉴판에 '콜라-감자튀김', '콜라-치즈스틱', '사이다-감자튀김', '사이다-치즈스틱'을 일일이 다 적어 놓으면, 나중에 감자튀김 가격을 100원 올릴 때 메뉴판 수십 장에 빨간 줄을 긋다가 하나를 빼먹고 손님에게 욕을 먹는 끔찍한 결말(이상 현상)을 맞이합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-제4정규형(4NF)은 [다치 종속성](/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/)이라는 논리적 유령을 색출해 내어 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 극한으로 끌어올리는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 프로세스다. 이 과정을 거친 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 오염된 카테시안 결합이 완전히 해소되어, 어떠한 다중값의 추가나 삭제에도 단 하나의 행만 조작하면 되는 완벽한 갱신 안정성을 얻게 된다.
+제4정규형(4NF)은 다치 종속성이라는 논리적 유령을 색출해 내어 릴레이션의 무결성을 극한으로 끌어올리는 정규화 프로세스다. 이 과정을 거친 데이터베이스는 속성 간의 오염된 카테시안 결합이 완전히 해소되어, 어떠한 다중값의 추가나 삭제에도 단 하나의 행만 조작하면 되는 완벽한 갱신 안정성을 얻게 된다.
 
-결론적으로 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 여정에서 1~[3NF](/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/), BCNF가 "테이블이 한 가지 주제만 가지게 하는 뼈대 구축"이라면, 4NF와 이어지는 5NF는 "주제 내부에서 발생하는 복잡한 집합론적 기생 관계까지 소독하는 극강의 순수화 작업"이다. 현대 비즈니스 애플리케이션의 ERD 설계에서 독립적인 N:M 관계가 발생할 때, 중간 매핑 테이블을 각각 독립적으로 생성하는 관례는 바로 이 4NF 원칙의 철학이 실무에 스며든 증거다.
+결론적으로 정규화의 여정에서 1~3NF, BCNF가 "테이블이 한 가지 주제만 가지게 하는 뼈대 구축"이라면, 4NF와 이어지는 5NF는 "주제 내부에서 발생하는 복잡한 집합론적 기생 관계까지 소독하는 극강의 순수화 작업"이다. 현대 비즈니스 애플리케이션의 ERD 설계에서 독립적인 N:M 관계가 발생할 때, 중간 매핑 테이블을 각각 독립적으로 생성하는 관례는 바로 이 4NF 원칙의 철학이 실무에 스며든 증거다.
 
-- **📢 섹션 요약 비유**: 4NF는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)라는 오케스트라에서 바이올린 파트와 트럼펫 파트가 서로 다른 악보를 공유하며 엉키는 것을 막기 위해, 각각에게 온전하고 독립적인 악보([릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))를 쥐여주어 영원히 아름다운 화음을 유지하게 만드는 마에스트로의 지휘입니다.
+- **📢 섹션 요약 비유**: 4NF는 데이터베이스라는 오케스트라에서 바이올린 파트와 트럼펫 파트가 서로 다른 악보를 공유하며 엉키는 것을 막기 위해, 각각에게 온전하고 독립적인 악보(릴레이션)를 쥐여주어 영원히 아름다운 화음을 유지하게 만드는 마에스트로의 지휘입니다.
 
 ---
 
@@ -110,10 +110,10 @@ BCNF가 1:1, 1:N의 [일대일](/studynote/02_operating_system/02_process_thread
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/">다치 종속성</a> (<a href="/studynote/05_database/07_exam_summary/400_mvd_4nf/">MVD</a>)</strong> | 하나의 X값이 여러 Y값에 매핑되고, 이것이 Z값과 무관하게 발생할 때 일어나는 4NF의 직접적인 방어 대상 원인. |
-| <strong><a href="/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a> (보이스-코드 정규형)</strong> | 4NF로 진입하기 전 반드시 거쳐야 하는 선행 관문으로, [함수적 종속성](/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)(FD)에 의한 이상을 모두 제거한 상태. |
-| <strong><a href="/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a> (Lossless Decomposition)</strong> | 4NF 위반 테이블을 2개로 찢더라도, [자연 조인](/studynote/05_database/07_exam_summary/413_natural_join/)([Natural Join](/studynote/05_database/07_exam_summary/413_natural_join/)) 시 가짜 정보(Spurious Tuple) 없이 원래 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 복원되는 성질. |
-| <strong><a href="/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/">제5정규형</a> (5NF / PJNF)</strong> | 4NF를 통과한 테이블 중에서도 조인 종속([Join](/studynote/05_database/04_transactions_concurrency/521_join/) Dependency)에 의해 발생하는 이상을 처리하는 궁극의 정규형. |
+| <strong>다치 종속성 (MVD)</strong> | 하나의 X값이 여러 Y값에 매핑되고, 이것이 Z값과 무관하게 발생할 때 일어나는 4NF의 직접적인 방어 대상 원인. |
+| <strong>BCNF (보이스-코드 정규형)</strong> | 4NF로 진입하기 전 반드시 거쳐야 하는 선행 관문으로, 함수적 종속성(FD)에 의한 이상을 모두 제거한 상태. |
+| <strong>무손실 분해 (Lossless Decomposition)</strong> | 4NF 위반 테이블을 2개로 찢더라도, 자연 조인(Natural Join) 시 가짜 정보(Spurious Tuple) 없이 원래 데이터가 100% 복원되는 성질. |
+| <strong>제5정규형 (5NF / PJNF)</strong> | 4NF를 통과한 테이블 중에서도 조인 종속(Join Dependency)에 의해 발생하는 이상을 처리하는 궁극의 정규형. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,14 +138,3 @@ BCNF가 1:1, 1:N의 [일대일](/studynote/02_operating_system/02_process_thread
 1. 제4정규형(4NF)은 장난감 상자 안에 레고 블록과 미니카를 마구잡이로 섞어두지 않고, 방을 나누어 보관하는 똑똑한 정리법이에요.
 2. 레고와 미니카를 섞어 놓으면 빨간 레고-파란 미니카, 노란 레고-파란 미니카 처럼 조합이 너무 많아져서 나중에 찾기가 엄청나게 힘들어지거든요.
 3. 그래서 상자 2개를 가져와서 "레고는 레고 상자에만", "미니카는 미니카 상자에만" 따로따로 담아두면, 언제든지 필요한 장난감을 한 번에 쉽게 꺼낼 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 108 / 600
-
-<- **이전**: [107. 다치 종속성 (MVD, Multi-Valued Dependency) - X->>Y](/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/)
-**다음**: [109. 조인 종속성 (Join Dependency, JD) - 제5정규형(5NF)의 수학적 토대](/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/) ->
-
----

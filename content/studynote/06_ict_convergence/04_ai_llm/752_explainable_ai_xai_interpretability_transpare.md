@@ -150,11 +150,3 @@ XAI 시스템은 **①대상 모델(Black/White-box)**, **②설명 생성 모�
   |  | - Necessity        |  | - Stability Index  |  | - Cognitive Load|   |
   |  | - Monotonicity     |  | - Adversarial      |  | - Time-to-Task  |   |
   |  | - Infidelity       |  |   Perturbation
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 752 / 800
-
-<- **이전**: [751. 모델 모니터링 성능 저하 알림 재학습](/studynote/06_ict_convergence/uncategorized/751_model_monitoring_performance_degradation/)
-**다음**: [753. 책임 있는 AI 공정성 편향 감사](/studynote/06_ict_convergence/uncategorized/753_responsible_ai_fairness_bias_audit/) ->
-
----

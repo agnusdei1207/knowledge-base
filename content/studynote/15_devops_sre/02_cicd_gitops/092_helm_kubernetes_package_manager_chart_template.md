@@ -6,31 +6,31 @@ tags:
 weight: 92
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([헬름](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/))은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경을 위한 패키지 매니저로, 여러 개의 복잡한 YAML 매니페스트 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 '차트(Chart)'라는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 패키지 단위로 묶어 설치, 업그레이드, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 제어하는 도구다.
+> 1. **본질**: Helm(헬름)은 쿠버네티스 환경을 위한 패키지 매니저로, 여러 개의 복잡한 YAML 매니페스트 파일들을 '차트(Chart)'라는 논리적 패키지 단위로 묶어 설치, 업그레이드, 롤백을 제어하는 도구다.
 > 2. **가치**: 배포 환경(Dev/Stg/Prod)이 바뀔 때마다 하드코딩된 YAML을 복사해 수정하는 수동 작업을 없애고, 템플릿(Template)에 값(`values.yaml`)만 동적으로 주입하여 막대한 생산성과 재사용성을 제공한다.
-> 3. **판단 포인트**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 리소스가 다수 포함된 애플리케이션이나 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 배포할 때는 개별 YAML 관리를 지양하고, Helm을 도입하여 릴리스 상태 관리와 공용 패키지 생태계의 이점을 취해야 한다.
+> 3. **판단 포인트**: 쿠버네티스 리소스가 다수 포함된 애플리케이션이나 오픈소스를 배포할 때는 개별 YAML 관리를 지양하고, Helm을 도입하여 릴리스 상태 관리와 공용 패키지 생태계의 이점을 취해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에 애플리케이션 하나를 띄우기 위해서는 [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), [Ingress](/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 등 수많은 YAML [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 필요하다. 기존 방식대로라면 이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 모두 직접 작성하고 `kubectl apply` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 하나씩 적용해야 했다. 이 방식은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 많아질수록 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 추적이 불가능해지고, 환경별로 [포트 번호](/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 등을 수정하기 위해 수많은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 뒤져야 하는 'YAML 지옥(YAML Hell)'을 유발한다.
+쿠버네티스에 애플리케이션 하나를 띄우기 위해서는 Deployment, Service, Secret, Ingress 등 수많은 YAML 파일이 필요하다. 기존 방식대로라면 이 파일들을 모두 직접 작성하고 `kubectl apply` 명령어로 하나씩 적용해야 했다. 이 방식은 파일이 많아질수록 버전 추적이 불가능해지고, 환경별로 포트 번호 등을 수정하기 위해 수많은 파일을 뒤져야 하는 'YAML 지옥(YAML Hell)'을 유발한다.
 
-Helm은 리눅스의 `apt`나 Node.js의 `npm`처럼 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)용 패키지 관리자로서 이 문제를 해결한다. 잘 엮인 배포 명세서 묶음을 '차트(Chart)'라는 형태로 규격화하여, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄(`helm install`)로 거대한 시스템을 한 번에 배포할 수 있게 해준다. 개발자는 반복적인 매니페스트 작성에 낭비하는 시간 없이, 비즈니스 로직에만 집중할 수 있게 된다.
+Helm은 리눅스의 `apt`나 Node.js의 `npm`처럼 쿠버네티스용 패키지 관리자로서 이 문제를 해결한다. 잘 엮인 배포 명세서 묶음을 '차트(Chart)'라는 형태로 규격화하여, 명령어 한 줄(`helm install`)로 거대한 시스템을 한 번에 배포할 수 있게 해준다. 개발자는 반복적인 매니페스트 작성에 낭비하는 시간 없이, 비즈니스 로직에만 집중할 수 있게 된다.
 
-- **📢 섹션 요약 비유**: 과거의 K8s 배포가 수천 개의 나사와 나무판자(YAML [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 들고 직접 도면을 그리며 이케아 가구를 조립하는 일이었다면, Helm은 전화 한 통([명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄)이면 조립 기사가 완제품을 들고 와 1분 만에 설치해 주고 가는 프리미엄 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 같다.
+- **📢 섹션 요약 비유**: 과거의 K8s 배포가 수천 개의 나사와 나무판자(YAML 파일)를 들고 직접 도면을 그리며 이케아 가구를 조립하는 일이었다면, Helm은 전화 한 통(명령어 한 줄)이면 조립 기사가 완제품을 들고 와 1분 만에 설치해 주고 가는 프리미엄 서비스와 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Helm의 아키텍처는 정적 뼈대(Template)와 동적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Values)를 분리하여 결합하는 Go 템플릿(Go Template) 렌더링 엔진에 기반한다.
+Helm의 아키텍처는 정적 뼈대(Template)와 동적 데이터(Values)를 분리하여 결합하는 Go 템플릿(Go Template) 렌더링 엔진에 기반한다.
 
 | 구성 요소 | 역할 | 상세 설명 |
 | :--- | :--- | :--- |
-| **Chart (차트)** | 패키지 묶음 | K8s 리소스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 필요한 템플릿, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)(`Chart.yaml`)를 포함한 디렉토리 |
-| **Templates** | 리소스 뼈대 | `{{ .Values.image.tag }}`처럼 변수가 뚫려있는 YAML 템플릿 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들 |
-| **Values.yaml** | 값 주입 | 템플릿의 빈칸(변수)에 들어갈 실제 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값들을 정의한 사용자 구성 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
+| **Chart (차트)** | 패키지 묶음 | K8s 리소스 생성에 필요한 템플릿, 메타데이터(`Chart.yaml`)를 포함한 디렉토리 |
+| **Templates** | 리소스 뼈대 | `{{ .Values.image.tag }}`처럼 변수가 뚫려있는 YAML 템플릿 파일들 |
+| **Values.yaml** | 값 주입 | 템플릿의 빈칸(변수)에 들어갈 실제 설정값들을 정의한 사용자 구성 파일 |
 | **Release (릴리스)** | 배포 인스턴스 | 차트와 값이 결합되어 K8s 클러스터 내에 실제 구동 중인 패키지의 상태 |
 
 ```text
@@ -49,7 +49,7 @@ Helm의 아키텍처는 정적 뼈대(Template)와 동적 [데이터](/studynote
 +--------------------------------------------------------------+
 ```
 
-Helm은 배포를 수행할 때마다 해당 릴리스(Release)의 상태와 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 K8s [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))에 저장한다. 이를 통해 `helm upgrade`로 안전하게 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리거나, 실패 시 `helm rollback`으로 이전 릴리스 상태의 전체 YAML 묶음을 즉시 원복([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/))할 수 있다.
+Helm은 배포를 수행할 때마다 해당 릴리스(Release)의 상태와 버전을 K8s 시크릿(Secret)에 저장한다. 이를 통해 `helm upgrade`로 안전하게 버전을 올리거나, 실패 시 `helm rollback`으로 이전 릴리스 상태의 전체 YAML 묶음을 즉시 원복(Undo)할 수 있다.
 
 - **📢 섹션 요약 비유**: 템플릿은 "이름: [ ___ ], 나이: [ ___ ]"라고 구멍이 뚫려있는 '만능 이력서 양식'이고, Values는 그 구멍에 채워 넣을 '내 정보 쪽지'다. Helm이라는 복사기에 두 개를 겹쳐 넣으면 완벽하게 작성된 이력서 수십 장이 한 번에 인쇄되어 나온다.
 
@@ -57,16 +57,16 @@ Helm은 배포를 수행할 때마다 해당 릴리스(Release)의 상태와 [�
 
 ## Ⅲ. 비교 및 연결
 
-Helm은 종종 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 네이티브 [구성 관리 도구](/studynote/13_cloud_architecture/04_devops_observability/173_configuration_management_ansible_chef_puppet/)인 [Kustomize](/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/)([커스터마이즈](/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/))와 비교된다. 두 도구 모두 환경별 YAML 관리를 목적으로 하지만 접근 방식이 완전히 다르다.
+Helm은 종종 쿠버네티스 네이티브 구성 관리 도구인 Kustomize(커스터마이즈)와 비교된다. 두 도구 모두 환경별 YAML 관리를 목적으로 하지만 접근 방식이 완전히 다르다.
 
-| 비교 기준 | [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) (템플릿 엔진) | [Kustomize](/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) (패치 방식) |
+| 비교 기준 | Helm (템플릿 엔진) | Kustomize (패치 방식) |
 | :--- | :--- | :--- |
 | **작동 원리** | 뼈대(Template)에 값(Values)을 주입해 렌더링 | 원본 YAML에 오버레이(Overlay)를 덧씌워 수정 |
 | **구문 복잡도** | Go 템플릿 문법 학습 필요 (`if`, `range` 등) | 순수 YAML 문법 사용 (진입장벽 낮음) |
-| **생태계** | [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) Hub를 통한 압도적인 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 공유 | 로컬/사내 프로젝트 위주의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리 |
-| **패키지 관리** | 릴리스([버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)) 기록 관리, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지원 | 단순 렌더링 툴 (릴리스 상태 관리 없음) |
+| **생태계** | Artifact Hub를 통한 압도적인 오픈소스 공유 | 로컬/사내 프로젝트 위주의 설정 관리 |
+| **패키지 관리** | 릴리스(버전) 기록 관리, 롤백 지원 | 단순 렌더링 툴 (릴리스 상태 관리 없음) |
 
-Helm은 "남이 만든 훌륭한 패키지를 가져다 쓸 때"와 "조건문(If/Else)으로 복잡한 구성 분기가 필요할 때" 압도적인 우위를 가지며, Kustomize는 "우리 회사 내부의 단순한 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) YAML을 환경별로 약간씩만 수정하고 싶을 때" 유리하다.
+Helm은 "남이 만든 훌륭한 패키지를 가져다 쓸 때"와 "조건문(If/Else)으로 복잡한 구성 분기가 필요할 때" 압도적인 우위를 가지며, Kustomize는 "우리 회사 내부의 단순한 마이크로서비스 YAML을 환경별로 약간씩만 수정하고 싶을 때" 유리하다.
 
 - **📢 섹션 요약 비유**: Helm은 '레고 블록 조립 설명서와 맞춤형 블록 세트'를 통째로 파는 장난감 가게라면, Kustomize는 내가 이미 조립해 놓은 레고 성의 지붕 색깔만 파란색에서 빨간색으로 살짝 덧칠하는 붓과 같다.
 
@@ -74,27 +74,27 @@ Helm은 "남이 만든 훌륭한 패키지를 가져다 쓸 때"와 "조건문(I
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 인프라 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리인 [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))를 달성하고, 배포 자동화인 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) [깃옵스](/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인(ArgoCD, Flux 등)을 구축할 때 Helm이 필수 표준 기술로 자리 잡았다.
+실무에서는 인프라 설정 관리인 IaC (Infrastructure as Code)를 달성하고, 배포 자동화인 CI/CD (Continuous Integration / Continuous Deployment) 깃옵스 파이프라인(ArgoCD, Flux 등)을 구축할 때 Helm이 필수 표준 기술로 자리 잡았다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (의사결정 기준)
-1. <strong><a href="/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 솔루션을 K8s에 배포하는가?</strong> [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등을 설치할 때는 묻지도 따지지도 않고 [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) Hub에서 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 공식 [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Chart를 가져와 `values.yaml`만 수정해서 배포해야 한다. 맨바닥에서 YAML을 작성하는 것은 바퀴를 재발명하는 위험한 행위다.
-2. **배포 시 조건 분기가 필요한가?** "운영 환경(Prod)일 때만 [Ingress](/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 리소스를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 개발 환경(Dev)일 때는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 마라" 같은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 처리가 필요하다면 템플릿 내부에 `{{- if eq .Values.env "prod" }}`를 사용할 수 있는 Helm을 채택해야 한다.
+### 체크리스트 (의사결정 기준)
+1. <strong>오픈소스 솔루션을 K8s에 배포하는가?</strong> Prometheus, Kafka 등을 설치할 때는 묻지도 따지지도 않고 Artifact Hub에서 검증된 공식 Helm Chart를 가져와 `values.yaml`만 수정해서 배포해야 한다. 맨바닥에서 YAML을 작성하는 것은 바퀴를 재발명하는 위험한 행위다.
+2. **배포 시 조건 분기가 필요한가?** "운영 환경(Prod)일 때만 Ingress 리소스를 생성하고, 개발 환경(Dev)일 때는 생성하지 마라" 같은 논리 처리가 필요하다면 템플릿 내부에 `{{- if eq .Values.env "prod" }}`를 사용할 수 있는 Helm을 채택해야 한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 - `values.yaml` 하나에 너무 많은 기본값을 하드코딩하여 1,000줄이 넘어가게 만들어, 사용자가 어떤 변수를 고쳐야 할지 알 수 없게 만드는 '비대화된 차트' 설계.
-- [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 비밀번호([Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)) 값을 암호화하지 않고 `values.yaml` 평문으로 적어 Git에 푸시하는 보안 사고 ([Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Secrets 플러그인 등으로 방어해야 함).
+- 데이터베이스 비밀번호(Secret) 값을 암호화하지 않고 `values.yaml` 평문으로 적어 Git에 푸시하는 보안 사고 (Helm Secrets 플러그인 등으로 방어해야 함).
 
-- **📢 섹션 요약 비유**: 실무에서 직접 YAML을 한 땀 한 땀 짜는 것은 모내기를 손으로 하는 것이다. Helm이라는 기계를 도입하면, [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값(`values.yaml` 모종)만 넣어주면 수백 평의 논(클러스터)에 자동으로 모가 심어진다.
+- **📢 섹션 요약 비유**: 실무에서 직접 YAML을 한 땀 한 땀 짜는 것은 모내기를 손으로 하는 것이다. Helm이라는 기계를 도입하면, 설정값(`values.yaml` 모종)만 넣어주면 수백 평의 논(클러스터)에 자동으로 모가 심어진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Helm을 도입하면 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영의 복잡성이 텍스트 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Values) 관리 영역으로 대폭 축소된다. 이는 인프라의 [버저닝](/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/)([Versioning](/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/))과 히스토리 추적을 가능하게 하며, 장애 발생 시 즉각적인 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 통해 시스템의 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))를 방어하는 강력한 무기가 된다.
+Helm을 도입하면 쿠버네티스 운영의 복잡성이 텍스트 파일(Values) 관리 영역으로 대폭 축소된다. 이는 인프라의 버저닝(Versioning)과 히스토리 추적을 가능하게 하며, 장애 발생 시 즉각적인 롤백을 통해 시스템의 SLA (Service Level Agreement)를 방어하는 강력한 무기가 된다.
 
-결론적으로 Helm은 단순한 렌더링 툴을 넘어 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 생태계의 '앱스토어'이자 '공용 언어'로 진화했다. 기술사는 CD ([Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계 시 Helm을 중심으로 배포 단위를 규격화하여, 개발 조직 전체의 인프라 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 높이고 관리 비용을 최소화하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립해야 한다.
+결론적으로 Helm은 단순한 렌더링 툴을 넘어 쿠버네티스 생태계의 '앱스토어'이자 '공용 언어'로 진화했다. 기술사는 CD (Continuous Deployment) 파이프라인 설계 시 Helm을 중심으로 배포 단위를 규격화하여, 개발 조직 전체의 인프라 접근성을 높이고 관리 비용을 최소화하는 전략을 수립해야 한다.
 
-- **📢 섹션 요약 비유**: Helm은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라는 거대한 교향악단의 지휘자 악보와 같다. 수백 명의 연주자(리소스)에게 일일이 어떻게 연주할지 설명할 필요 없이, 지휘자([Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/))가 `values.yaml`이라는 악보 한 장만 펼치면 전체 오케스트라가 웅장하고 일사불란하게 움직인다.
+- **📢 섹션 요약 비유**: Helm은 쿠버네티스라는 거대한 교향악단의 지휘자 악보와 같다. 수백 명의 연주자(리소스)에게 일일이 어떻게 연주할지 설명할 필요 없이, 지휘자(Helm)가 `values.yaml`이라는 악보 한 장만 펼치면 전체 오케스트라가 웅장하고 일사불란하게 움직인다.
 
 ---
 
@@ -102,10 +102,10 @@ Helm을 도입하면 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_in
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **Go Template** | Helm이 차트 내부의 YAML [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 변수와 제어문(if, for)을 주입하기 위해 사용하는 렌더링 엔진 |
-| <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a> <a href="/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a></strong> | 전 세계 개발자들이 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트를 등록하고 검색할 수 있는 글로벌 패키지 저장소 |
-| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> (ArgoCD)</strong> | [Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트와 `values.yaml`을 Git 저장소에 올리면 클러스터 상태를 자동으로 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해 주는 릴리스 배포 패턴 |
-| <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/">Kustomize</a></strong> | Helm과 대비되는 K8s 내장 도구로, 템플릿 변수가 아닌 원본 YAML 패치(Overlay) 방식을 사용 |
+| **Go Template** | Helm이 차트 내부의 YAML 파일에 변수와 제어문(if, for)을 주입하기 위해 사용하는 렌더링 엔진 |
+| <strong>Artifact Hub</strong> | 전 세계 개발자들이 검증된 Helm 차트를 등록하고 검색할 수 있는 글로벌 패키지 저장소 |
+| <strong>GitOps (ArgoCD)</strong> | Helm 차트와 `values.yaml`을 Git 저장소에 올리면 클러스터 상태를 자동으로 동기화해 주는 릴리스 배포 패턴 |
+| <strong>Kustomize</strong> | Helm과 대비되는 K8s 내장 도구로, 템플릿 변수가 아닌 원본 YAML 패치(Overlay) 방식을 사용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,17 +127,6 @@ GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에 멋진 프로그램을 깔려면 엄청나게 많은 종이(YAML)에 규칙을 빼곡히 적어야 해요.
-2. [헬름](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([Helm](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/))은 이 규칙들을 미리 다 적어놓은 '요리책(차트)'과 같아요.
-3. 우리는 요리책에 "매운맛 3단계(Values)"라고 딱 한 줄만 포스트잇에 써서 붙여주면, [헬름](/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)이 알아서 완벽한 요리를 만들어 클러스터 식탁에 올려준답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 92 / 373
-
-<- **이전**: [91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리](/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/)
-**다음**: [93. 스핀네이커 (Spinnaker)](/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/) ->
-
----
+1. 쿠버네티스에 멋진 프로그램을 깔려면 엄청나게 많은 종이(YAML)에 규칙을 빼곡히 적어야 해요.
+2. 헬름(Helm)은 이 규칙들을 미리 다 적어놓은 '요리책(차트)'과 같아요.
+3. 우리는 요리책에 "매운맛 3단계(Values)"라고 딱 한 줄만 포스트잇에 써서 붙여주면, 헬름이 알아서 완벽한 요리를 만들어 클러스터 식탁에 올려준답니다!

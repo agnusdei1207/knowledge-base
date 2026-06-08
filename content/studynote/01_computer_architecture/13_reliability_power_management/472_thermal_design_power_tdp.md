@@ -138,12 +138,3 @@ TDP는 동일 칩셋 내에서도 라인업별, 세대별로 의미가 달라지
 - **Regulation**: EU Lot 9 (2019) 서버 효율, ENERGY STAR 4.0, ErP Lot 9, California Title 24
 
 - **📢 섹션 요약 비유**: TDP는 집의 '공급 면적'으로, PBP는 항상 거주하는 공간, MTP는 친구가 놀러와 쑥쑥 쓰는 거실, cTDP는 이사 후 리모델링으로 면적을 더 키우는 옵
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 472 / 803
-
-<- **이전**: [471. 전원 게이팅 (Power Gating)](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)
-**다음**: [473. 열 쓰로틀링 (Thermal Throttling)](/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) ->
-
----

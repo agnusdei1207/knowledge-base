@@ -8,31 +8,31 @@ weight: 105
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 디바이스 주변(가장자리)에 연산 능력을 전진 배치하여, 중앙 클라우드까지 가지 않고 현장에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 처리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 아키텍처다.
-> 2. **가치**: 클라우드와의 왕복 통신 시간을 없애 초저지연 (Ultra-low [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 달성하고, 무의미한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 엣지에서 걸러내어 네트워크 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용과 중앙 서버의 부하를 획기적으로 줄인다.
-> 3. **판단 포인트**: 자율주행, 스마트 팩토리처럼 0.01초의 판단이 생명과 직결되는 실시간 시스템에서는 엣지 처리를 채택하고, 방대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 장기적 분석이나 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 훈련은 클라우드에 맡기는 하이브리드 전략이 필수다.
+> 1. **본질**: 엣지 컴퓨팅 (Edge Computing)은 데이터가 발생하는 디바이스 주변(가장자리)에 연산 능력을 전진 배치하여, 중앙 클라우드까지 가지 않고 현장에서 데이터를 즉시 처리하는 분산 컴퓨팅 아키텍처다.
+> 2. **가치**: 클라우드와의 왕복 통신 시간을 없애 초저지연 (Ultra-low Latency)을 달성하고, 무의미한 데이터를 엣지에서 걸러내어 네트워크 대역폭 비용과 중앙 서버의 부하를 획기적으로 줄인다.
+> 3. **판단 포인트**: 자율주행, 스마트 팩토리처럼 0.01초의 판단이 생명과 직결되는 실시간 시스템에서는 엣지 처리를 채택하고, 방대한 데이터의 장기적 분석이나 AI 모델 훈련은 클라우드에 맡기는 하이브리드 전략이 필수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시스템은 센서가 수집한 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙의 클라우드로 올려보내고, 클라우드가 분석한 결과를 다시 기기로 내려보내는 중앙 집중형 아키텍처를 사용했다. 하지만 디바이스 수가 수백억 개로 폭증하고 고화질 비디오 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나면서 이 방식은 한계에 부딪혔다.
+과거의 IoT 시스템은 센서가 수집한 모든 데이터를 중앙의 클라우드로 올려보내고, 클라우드가 분석한 결과를 다시 기기로 내려보내는 중앙 집중형 아키텍처를 사용했다. 하지만 디바이스 수가 수백억 개로 폭증하고 고화질 비디오 데이터가 늘어나면서 이 방식은 한계에 부딪혔다.
 
-모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼 거리에 있는 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 보내면 물리적인 통신 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생한다. 자율주행차가 눈앞의 장애물을 인식하기 위해 클라우드와 통신하는 0.5초 동안 사고가 나버릴 수 있으며, 엄청난 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량은 통신망의 병목과 막대한 클라우드 트래픽 요금을 유발한다. 이 문제를 해결하기 위해, "뇌를 눈과 귀 바로 옆으로 옮기는" [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)이 등장하게 되었다.
+모든 데이터를 먼 거리에 있는 데이터센터로 보내면 물리적인 통신 지연 (Latency)이 발생한다. 자율주행차가 눈앞의 장애물을 인식하기 위해 클라우드와 통신하는 0.5초 동안 사고가 나버릴 수 있으며, 엄청난 데이터 전송량은 통신망의 병목과 막대한 클라우드 트래픽 요금을 유발한다. 이 문제를 해결하기 위해, "뇌를 눈과 귀 바로 옆으로 옮기는" 엣지 컴퓨팅이 등장하게 되었다.
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 몸의 '반사 신경'을 만드는 것이다. 뜨거운 냄비에 손이 닿았을 때 그 통증 신호가 뇌(클라우드)까지 가서 "손을 떼라"는 명령이 내려오면 이미 화상을 입으므로, 척수(엣지)에서 0.1초 만에 즉각 판단해 손을 떼게 만드는 원리다.
+- **📢 섹션 요약 비유**: 엣지 컴퓨팅은 몸의 '반사 신경'을 만드는 것이다. 뜨거운 냄비에 손이 닿았을 때 그 통증 신호가 뇌(클라우드)까지 가서 "손을 떼라"는 명령이 내려오면 이미 화상을 입으므로, 척수(엣지)에서 0.1초 만에 즉각 판단해 손을 떼게 만드는 원리다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 구조는 크게 엔드 디바이스, 엣지 노드(서버/게이트웨이), 그리고 중앙 클라우드의 3계층으로 나뉜다.
+엣지 컴퓨팅 구조는 크게 엔드 디바이스, 엣지 노드(서버/게이트웨이), 그리고 중앙 클라우드의 3계층으로 나뉜다.
 
 | 계층 | 구성 요소 | 주요 역할 | 처리 특징 |
 | :--- | :--- | :--- | :--- |
-| **엔드 디바이스** | 센서, 로봇, 차량, 카메라 | 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 단순 액션 수행 | 실시간 수집 |
-| **엣지 노드** | 공유기, 엣지 서버, [MEC](/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | 실시간 분석, 즉각 제어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필터링 | 초저지연, 보안 1차 처리 |
-| **중앙 클라우드** | 대규모 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) (AWS 등) | 글로벌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합, 빅데이터 분석, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습 | 고성능, 장기 보관 |
+| **엔드 디바이스** | 센서, 로봇, 차량, 카메라 | 원시 데이터 생성 및 단순 액션 수행 | 실시간 수집 |
+| **엣지 노드** | 공유기, 엣지 서버, MEC 엣지 컴퓨팅 | 실시간 분석, 즉각 제어, 데이터 필터링 | 초저지연, 보안 1차 처리 |
+| **중앙 클라우드** | 대규모 데이터센터 (AWS 등) | 글로벌 데이터 통합, 빅데이터 분석, AI 모델 학습 | 고성능, 장기 보관 |
 
 ```text
 +--------------------------------------------------------------+
@@ -50,49 +50,49 @@ weight: 105
 +--------------------------------------------------------------+
 ```
 
-엣지 노드는 현장에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1차로 가공하여, 정상적인 상황의 무의미한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 버리고 비정상 상태나 중요한 요약 정보만 클라우드로 보낸다. 이를 통해 네트워크 트래픽을 90% 이상 줄일 수 있으며, 클라우드 연결이 끊긴 오프라인 상태에서도 기기가 생존할 수 있는 자율성을 부여한다.
+엣지 노드는 현장에서 데이터를 1차로 가공하여, 정상적인 상황의 무의미한 데이터는 버리고 비정상 상태나 중요한 요약 정보만 클라우드로 보낸다. 이를 통해 네트워크 트래픽을 90% 이상 줄일 수 있으며, 클라우드 연결이 끊긴 오프라인 상태에서도 기기가 생존할 수 있는 자율성을 부여한다.
 
-- **📢 섹션 요약 비유**: 엣지는 현장의 '베테랑 공장장'이다. 신입사원(센서)이 가져오는 사소한 불량은 공장장이 현장에서 즉각 폐기하고, 진짜 심각한 기계 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 통계(요약 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 추려서 서울 본사의 회장님(클라우드)께 보고하여 회장님의 업무 부담을 줄여준다.
+- **📢 섹션 요약 비유**: 엣지는 현장의 '베테랑 공장장'이다. 신입사원(센서)이 가져오는 사소한 불량은 공장장이 현장에서 즉각 폐기하고, 진짜 심각한 기계 결함 통계(요약 데이터)만 추려서 서울 본사의 회장님(클라우드)께 보고하여 회장님의 업무 부담을 줄여준다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)과 경쟁하는 개념이 아니라 상호 보완하는 짝꿍이다. 이 둘 사이의 스펙트럼에는 [포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)([Fog Computing](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)) 같은 중간 개념도 존재한다.
+엣지 컴퓨팅은 클라우드 컴퓨팅과 경쟁하는 개념이 아니라 상호 보완하는 짝꿍이다. 이 둘 사이의 스펙트럼에는 포그 컴퓨팅(Fog Computing) 같은 중간 개념도 존재한다.
 
-| 항목 | [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) | [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) ([Cloud Computing](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)) |
+| 항목 | 엣지 컴퓨팅 (Edge Computing) | 클라우드 컴퓨팅 (Cloud Computing) |
 | :--- | :--- | :--- |
-| **연산 위치** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생지 근처 (로컬 네트워크) | 원격의 중앙 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) |
+| **연산 위치** | 데이터 발생지 근처 (로컬 네트워크) | 원격의 중앙 데이터센터 |
 | **초점** | 실시간성 (초저지연), 트래픽 감소 | 무한한 확장성, 대규모 연산/저장 |
-| <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 적용</strong> | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 추론 (Inference) | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습 ([Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) |
-| **네트워크 의존도** | 낮음 (단절 시에도 자체 동작 가능) | 높음 (단절 시 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마비) |
+| <strong>AI 적용</strong> | AI 모델 추론 (Inference) | AI 모델 학습 (Training) |
+| **네트워크 의존도** | 낮음 (단절 시에도 자체 동작 가능) | 높음 (단절 시 서비스 마비) |
 
-최근에는 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크의 기지국 자체에 엣지 서버를 심어버리는 <strong><a href="/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> (Multi-access <a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong> 기술이 융합되어, 통신망을 타기 전에 최전방에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 낚아채 처리하는 방식이 표준으로 자리 잡고 있다.
+최근에는 5G 네트워크의 기지국 자체에 엣지 서버를 심어버리는 <strong>MEC (Multi-access Edge Computing)</strong> 기술이 융합되어, 통신망을 타기 전에 최전방에서 데이터를 낚아채 처리하는 방식이 표준으로 자리 잡고 있다.
 
-- **📢 섹션 요약 비유**: 클라우드가 수천 명의 학자가 모인 거대한 '중앙 국립 도서관'이라면, [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 골목마다 있는 '동네 편의점'이다. 깊이 있는 연구(학습)는 도서관에서 하지만, 지금 당장 목마를 때 마실 물(실시간 처리)은 동네 편의점에서 구하는 것이 압도적으로 빠르다.
+- **📢 섹션 요약 비유**: 클라우드가 수천 명의 학자가 모인 거대한 '중앙 국립 도서관'이라면, 엣지 컴퓨팅은 골목마다 있는 '동네 편의점'이다. 깊이 있는 연구(학습)는 도서관에서 하지만, 지금 당장 목마를 때 마실 물(실시간 처리)은 동네 편의점에서 구하는 것이 압도적으로 빠르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-시스템 아키텍트는 요구사항에 따라 엣지와 클라우드의 역할을 정확히 쪼개는 ([Offloading](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 설계 결정을 내려야 단일 병목을 방지할 수 있다.
+시스템 아키텍트는 요구사항에 따라 엣지와 클라우드의 역할을 정확히 쪼개는 (Offloading) 설계 결정을 내려야 단일 병목을 방지할 수 있다.
 
-1. **엣지 채택 기준**: 응답 시간이 10ms 이하로 요구되는 공장 자동화 로봇 제어, 프라이버시 문제로 영상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부로 유출되면 안 되는 스마트 병원 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 감시 시스템에서는 엣지 도입이 강제된다.
-2. **기술적 챌린지 및 주의점**: 수백만 대의 엣지 기기에 흩어진 소프트웨어 버전을 어떻게 일관되게 업데이트하고 보안 패치를 배포할 것인가(Edge [Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))가 실무의 핵심 병목이다. 또한 엣지 기기는 물리적으로 탈취당하기 쉬우므로 디바이스 자체의 하드웨어 보안([TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 등)이 필수적이다.
+1. **엣지 채택 기준**: 응답 시간이 10ms 이하로 요구되는 공장 자동화 로봇 제어, 프라이버시 문제로 영상 데이터가 외부로 유출되면 안 되는 스마트 병원 CCTV 감시 시스템에서는 엣지 도입이 강제된다.
+2. **기술적 챌린지 및 주의점**: 수백만 대의 엣지 기기에 흩어진 소프트웨어 버전을 어떻게 일관되게 업데이트하고 보안 패치를 배포할 것인가(Edge Orchestration)가 실무의 핵심 병목이다. 또한 엣지 기기는 물리적으로 탈취당하기 쉬우므로 디바이스 자체의 하드웨어 보안(TPM 등)이 필수적이다.
 
-따라서 기술사는 단일 엣지 솔루션 도입에 그치지 않고, "어떻게 중앙에서 엣지 노드들을 원격으로 통합 관리([MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/))할 것인가"를 아키텍처에 반드시 포함해야 한다.
+따라서 기술사는 단일 엣지 솔루션 도입에 그치지 않고, "어떻게 중앙에서 엣지 노드들을 원격으로 통합 관리(MDM)할 것인가"를 아키텍처에 반드시 포함해야 한다.
 
-- **📢 섹션 요약 비유**: 엣지를 전국에 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 프랜차이즈 가맹점을 내는 것으로 생각해야 한다. 매장(엣지)마다 요리사를 두면 음식([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 빨리 나오지만, 본사에서 레시피(소프트웨어 업데이트)를 바꿀 때 만 개의 매장에 일제히 적용하는 촘촘한 관리망이 없으면 맛이 중구난방이 되어 망한다.
+- **📢 섹션 요약 비유**: 엣지를 전국에 10,000개의 프랜차이즈 가맹점을 내는 것으로 생각해야 한다. 매장(엣지)마다 요리사를 두면 음식(데이터)은 빨리 나오지만, 본사에서 레시피(소프트웨어 업데이트)를 바꿀 때 만 개의 매장에 일제히 적용하는 촘촘한 관리망이 없으면 맛이 중구난방이 되어 망한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 초저지연을 실현하여 완전 자율주행, 원격 로봇 수술, AR/VR 같은 미래 기술의 빗장을 푸는 열쇠다. 동시에 통신 인프라 비용을 절감하고, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 통해 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하여 시스템 전체의 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 탄력성을 높여준다.
+엣지 컴퓨팅은 초저지연을 실현하여 완전 자율주행, 원격 로봇 수술, AR/VR 같은 미래 기술의 빗장을 푸는 열쇠다. 동시에 통신 인프라 비용을 절감하고, 분산 처리를 통해 단일 장애점(SPOF)을 제거하여 시스템 전체의 회복 탄력성을 높여준다.
 
-미래에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전용 칩([NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))이 손톱만 한 크기로 엣지 기기 안에 들어가, 엣지 스스로 가벼운 학습까지 수행하는 온디바이스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([On-Device AI](/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/)) 형태로 진화할 것이다. 결국 [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 중앙 집권화되었던 IT 권력이 다시 똑똑해진 현장으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)되는 거대한 패러다임의 전환이다.
+미래에는 AI 전용 칩(NPU)이 손톱만 한 크기로 엣지 기기 안에 들어가, 엣지 스스로 가벼운 학습까지 수행하는 온디바이스 AI (On-Device AI) 형태로 진화할 것이다. 결국 엣지 컴퓨팅은 중앙 집권화되었던 IT 권력이 다시 똑똑해진 현장으로 분산되는 거대한 패러다임의 전환이다.
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 모든 일을 서울로 보내던 중앙집권제에서, 각 지방이 스스로 예산을 짜고 문제를 해결하는 '완벽한 지방자치제'로의 발전이다. 현장은 빨라지고, 중앙은 더 큰 비전에만 집중할 수 있게 된다.
+- **📢 섹션 요약 비유**: 엣지 컴퓨팅은 모든 일을 서울로 보내던 중앙집권제에서, 각 지방이 스스로 예산을 짜고 문제를 해결하는 '완벽한 지방자치제'로의 발전이다. 현장은 빨라지고, 중앙은 더 큰 비전에만 집중할 수 있게 된다.
 
 ---
 
@@ -100,10 +100,10 @@ weight: 105
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> (Multi-access <a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong> | 통신사 기지국이나 교환국에 엣지 서버를 구축하여 5G의 초저지연을 극대화하는 기술 |
-| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">포그 컴퓨팅</a> (<a href="/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">Fog Computing</a>)</strong> | 엣지와 클라우드 사이에 위치하여 동네 단위의 중간 처리를 담당하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 ([Cisco](/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 제창) |
-| <strong>온디바이스 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (<a href="/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/">On-Device AI</a>)</strong> | 스마트폰이나 센서 기기 자체가 스스로 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하는 최전단의 [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) |
-| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> (<a href="/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a>)</strong> | 엣지에서 수집된 현장 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 클라우드에 현실과 똑같은 가상 모델을 동기화하는 기술 |
+| <strong>MEC (Multi-access Edge Computing)</strong> | 통신사 기지국이나 교환국에 엣지 서버를 구축하여 5G의 초저지연을 극대화하는 기술 |
+| <strong>포그 컴퓨팅 (Fog Computing)</strong> | 엣지와 클라우드 사이에 위치하여 동네 단위의 중간 처리를 담당하는 분산 아키텍처 (Cisco 제창) |
+| <strong>온디바이스 AI (On-Device AI)</strong> | 스마트폰이나 센서 기기 자체가 스스로 AI 추론을 수행하는 최전단의 엣지 컴퓨팅 |
+| <strong>디지털 트윈 (Digital Twin)</strong> | 엣지에서 수집된 현장 데이터를 바탕으로 클라우드에 현실과 똑같은 가상 모델을 동기화하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,16 +126,5 @@ MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 숙제를 하다가 모르는 게 생겼을 때, 미국에 있는 선생님(클라우드)에게 편지를 보내서 답을 받으려면 한 달이 걸려요.
-2. [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 내 방에 똑똑한 '미니 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇(엣지)'을 두는 거랑 똑같아요.
+2. 엣지 컴퓨팅은 내 방에 똑똑한 '미니 인공지능 로봇(엣지)'을 두는 거랑 똑같아요.
 3. 이제는 모르는 게 생기면 방에 있는 미니 로봇에게 바로 물어봐서 1초 만에 숙제를 끝낼 수 있고, 로봇이 진짜 모르는 어려운 것만 미국 선생님에게 물어본답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 105 / 552
-
-<- **이전**: [104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)](/studynote/06_ict_convergence/02_iot_mobility/104_tinyos_riot_freertos_micro_os/)
-**다음**: [106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) ->
-
----

@@ -6,13 +6,13 @@ tags:
 weight: 35
 ---
 > **핵심 인사이트**
-> 1. Core Dump는 프로세스가 비정상 종료(SIGSEGV, SIGABRT 등) 시 해당 시점의 메모리, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 상태를 디스크에 저장한 스냅샷으로 사후 디버깅(Post-mortem Debugging)의 핵심 도구다.
-> 2. 덤프 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 프로세스의 [가상 주소 공간](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)(코드·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·힙·[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)), CPU [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태, 열린 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터가 포함된다.
-> 3. 프로덕션 환경에서는 보안상 코어 덤프를 비활성화하거나 제한하고, 대신 크래시 리포팅 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Sentry, Crashpad)를 활용한다.
+> 1. Core Dump는 프로세스가 비정상 종료(SIGSEGV, SIGABRT 등) 시 해당 시점의 메모리, 레지스터, 스택 상태를 디스크에 저장한 스냅샷으로 사후 디버깅(Post-mortem Debugging)의 핵심 도구다.
+> 2. 덤프 파일에는 프로세스의 가상 주소 공간(코드·데이터·힙·스택), CPU 레지스터 상태, 열린 파일 디스크립터가 포함된다.
+> 3. 프로덕션 환경에서는 보안상 코어 덤프를 비활성화하거나 제한하고, 대신 크래시 리포팅 서비스(Sentry, Crashpad)를 활용한다.
 
 ---
 
-## I. 코어 덤프 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 조건
+## I. 코어 덤프 생성 조건
 
 ```
 프로세스 실행 중
@@ -37,7 +37,7 @@ weight: 35
 
 ---
 
-## II. 코어 덤프 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조
+## II. 코어 덤프 파일 구조
 
 ```
 ELF Core File (ET_CORE)
@@ -71,7 +71,7 @@ gdb ./myprogram core.12345
 
 | 명령            | 설명                     |
 |----------------|--------------------------|
-| bt (backtrace) | [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 출력       |
+| bt (backtrace) | 함수 호출 스택 출력       |
 | info locals    | 현재 프레임 지역 변수     |
 | print var      | 변수 값 출력              |
 
@@ -79,7 +79,7 @@ gdb ./myprogram core.12345
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 프로덕션 환경 처리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## IV. 프로덕션 환경 처리 전략
 
 ```
 프로덕션 서버
@@ -103,12 +103,12 @@ gdb ./myprogram core.12345
 
 | 단계 | 행동                                     |
 |------|------------------------------------------|
-| 1    | 로그에서 [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 시그널 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)          |
-| 2    | systemctl status로 종료 코드 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)        |
+| 1    | 로그에서 OOM Killer 시그널 확인          |
+| 2    | systemctl status로 종료 코드 확인        |
 | 3    | coredumpctl list (systemd 환경)          |
 | 4    | coredumpctl gdb로 백트레이스 추출        |
-| 5    | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)·[레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 크래시 지점 특정         |
-| 6    | ASAN으로 재현 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)                       |
+| 5    | 스택·레지스터로 크래시 지점 특정         |
+| 6    | ASAN으로 재현 검증                       |
 
 > 📢 **섹션 요약 비유**: 장애 보고서 없이 서버를 고치는 건 블랙박스 없이 비행기 사고를 조사하는 것.
 
@@ -163,14 +163,3 @@ bt / info regs 로 크래시 지점 분석
 1. 코어 덤프는 프로그램이 갑자기 멈출 때 그 순간의 상태를 사진 찍어 저장하는 거예요.
 2. 나중에 그 사진을 보면서 왜 멈췄을까 조사할 수 있어요.
 3. 비행기 블랙박스처럼, 사고가 난 후 원인을 찾는 데 꼭 필요한 도구예요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 35 / 800
-
-<- **이전**: [컨텍스트 스위칭 (Context Switch) 심화](/studynote/02_operating_system/01_overview_architecture/034_context_switch/)
-**다음**: [036. 커널 패닉 (Kernel Panic)](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) ->
-
----

@@ -155,11 +155,3 @@ Priority Score (PS) = (Business Impact × 0.35)
 
 5. **Strangler Fig Cutover 안전성**:
    - Parallel
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 783 / 800
-
-<- **이전**: [782. IT 인재 양성 리스킬링 디지털 전환](/studynote/06_ict_convergence/uncategorized/782_it_talent_development_reskilling_digital/)
-**다음**: [784. 벤더 독립 오픈 표준 이식성 전략](/studynote/06_ict_convergence/uncategorized/784_vendor_independence_open_standard_portability/) ->
-
----

@@ -169,11 +169,3 @@ LLM 에이전트의 핵심은 **인지 루프(Cognitive Loop)** 다. 2022년 Yao
 |      |  (1) CFP: "PDF 1000건 번역 필요"                             |
 |      +------------------► +----------+                              |
 |      |                    |Worker A  | Bid: 5s/doc, capacity
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 705 / 800
-
-<- **이전**: [704. 뉴로 심볼릭 AI 논리 추론 융합](/studynote/06_ict_convergence/uncategorized/704_neuro_symbolic_ai_logic_reasoning_integration/)
-**다음**: [706. LLM 미세 조정 PEFT QLoRA 전략](/studynote/06_ict_convergence/uncategorized/706_llm_fine_tuning_peft_qlora_strategy/) ->
-
----

@@ -61,11 +61,3 @@ weight: 759
 +-----------------+   · Adverse Media (News API, NLP)                  |
         |           · Device Intelligence (IP 지오, 디바이스 핑거프린트)  |
         |           · Behavior Biometrics (타이
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 759 / 800
-
-<- **이전**: [758. 영지식 증명 인증 프라이버시 검증](/studynote/06_ict_convergence/uncategorized/758_zero_knowledge_proof_auth_privacy_verificatio/)
-**다음**: [760. 탈중앙화 금융 DeFi 프로토콜 설계](/studynote/06_ict_convergence/uncategorized/760_decentralized_finance_defi_protocol_design/) ->
-
----

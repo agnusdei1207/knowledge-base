@@ -16,7 +16,7 @@ weight: 83
 
 ## Ⅰ. 개요 및 필요성
 
-Planning Poker는 사용자 스토리를 상대적으로 산정하기 위한 협업 기법이다. 개인이 먼저 의견을 말하면 첫 발언자의 숫자가 전체를 끌고 가기 쉬운데, 동시 공개 방식은 그런 편향을 줄인다. [와이드밴드 델파이](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/) ([Wideband Delphi](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/)) 계열의 합의 철학을 실무적으로 단순화한 형태라고 볼 수 있다.
+Planning Poker는 사용자 스토리를 상대적으로 산정하기 위한 협업 기법이다. 개인이 먼저 의견을 말하면 첫 발언자의 숫자가 전체를 끌고 가기 쉬운데, 동시 공개 방식은 그런 편향을 줄인다. 와이드밴드 델파이 (Wideband Delphi) 계열의 합의 철학을 실무적으로 단순화한 형태라고 볼 수 있다.
 
 절대 시간 추정보다 상대 추정이 유리한 이유는 사람의 감각이 "몇 시간"보다 "이 기능이 기준 스토리보다 큰가 작은가"를 더 잘 비교하기 때문이다. 그래서 Planning Poker는 정답을 맞히는 게임이 아니라, 스토리의 난이도와 불확실성을 팀 전체가 같은 그림으로 보게 만드는 과정이다.
 
@@ -80,7 +80,7 @@ Planning Poker의 핵심은 비밀 투표와 동시 공개다. 참여자는 스�
 
 피보나치 수열 (Fibonacci Sequence) 형태를 쓰는 이유는 작은 일은 촘촘히, 큰 일은 거칠게 구분하도록 유도하기 위해서다. 숫자 간격이 커질수록 큰 작업의 오차를 지나치게 세밀하게 나누지 않게 되어, 오히려 팀 토론이 빨라진다.
 
-Story Point는 기간이 아니라 상대적 크기다. 기준 스토리 하나를 잡고 그보다 2배인지, 3배인지, 5배인지 비교하는 식으로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 시간 추정의 함정인 가짜 정밀성을 피할 수 있다.
+Story Point는 기간이 아니라 상대적 크기다. 기준 스토리 하나를 잡고 그보다 2배인지, 3배인지, 5배인지 비교하는 식으로 쓰기 때문에, 시간 추정의 함정인 가짜 정밀성을 피할 수 있다.
 
 - **📢 섹션 요약 비유**: 과일을 고를 때 1g까지 재기보다 사과가 배보다 큰지 작은지 먼저 보는 편이 빠르다. Planning Poker는 바로 그 비교 감각을 쓰는 방법이다.
 
@@ -91,11 +91,11 @@ Planning Poker는 Wideband Delphi의 협의 원리를 간단한 카드 도구로
 | 방식 | 장점 | 한계 |
 | :--- | :--- | :--- |
 | Planning Poker | 동시 공개로 앵커링 감소 | 큰 팀에서는 시간이 오래 걸림 |
-| [Wideband Delphi](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/) | 체계적이고 정교함 | 절차가 무거움 |
+| Wideband Delphi | 체계적이고 정교함 | 절차가 무거움 |
 | 관리자 단독 산정 | 빠름 | 편향이 크고 합의가 약함 |
 | 시간 기반 산정 | 직관적 | 복잡도와 불확실성을 놓치기 쉬움 |
 
-Planning Poker는 버닝 다운 차트 ([Burndown Chart](/studynote/04_software_engineering/uncategorized/660_burndown_chart/))와 연결될 때 의미가 더 커진다. Story Point가 반복적으로 비슷하게 쌓이면 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 예측이 가능해지고, 팀 속도(Velocity)를 이용해 릴리스 계획도 세울 수 있다. 즉, 산정은 계획을 위한 입력값이다.
+Planning Poker는 버닝 다운 차트 (Burndown Chart)와 연결될 때 의미가 더 커진다. Story Point가 반복적으로 비슷하게 쌓이면 스프린트 예측이 가능해지고, 팀 속도(Velocity)를 이용해 릴리스 계획도 세울 수 있다. 즉, 산정은 계획을 위한 입력값이다.
 
 상대적 산정은 기준 스토리 없이는 작동하지 않는다. 그래서 좋은 팀일수록 먼저 "작은 로그인, 검색, 수정" 같은 대표 스토리를 기준점으로 정해 두고, 새 항목을 그에 비해 얼마나 큰지 비교한다.
 
@@ -103,7 +103,7 @@ Planning Poker는 버닝 다운 차트 ([Burndown Chart](/studynote/04_software_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-Planning Poker를 잘 쓰려면 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 규칙이 분명해야 한다. 먼저 스토리 설명을 충분히 하고, 카드 공개 전에는 토론을 막아야 한다. 공개 후에는 최고값과 최저값을 낸 사람이 근거를 말하고, 그 뒤에만 재투표를 한다. 이렇게 해야 먼저 말한 사람이 전체를 끌고 가는 현상을 막을 수 있다.
+Planning Poker를 잘 쓰려면 진행 규칙이 분명해야 한다. 먼저 스토리 설명을 충분히 하고, 카드 공개 전에는 토론을 막아야 한다. 공개 후에는 최고값과 최저값을 낸 사람이 근거를 말하고, 그 뒤에만 재투표를 한다. 이렇게 해야 먼저 말한 사람이 전체를 끌고 가는 현상을 막을 수 있다.
 
 ### 적용 기준
 
@@ -113,7 +113,7 @@ Planning Poker를 잘 쓰려면 [진행](/studynote/02_operating_system/03_cpu_s
 4. 너무 큰 스토리는 먼저 쪼갠 뒤 산정한다.
 5. Story Point를 시간으로 즉시 환산하지 않는다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 고참 개발자가 먼저 숫자를 말하게 두기
 - 공개 전 토론으로 앵커를 만든 뒤 투표하기
@@ -127,7 +127,7 @@ Planning Poker를 잘 쓰려면 [진행](/studynote/02_operating_system/03_cpu_s
 
 ## Ⅴ. 기대효과 및 결론
 
-Planning Poker의 기대효과는 팀 내 이해 차이 축소, 산정 편향 감소, [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획의 예측 가능성 향상이다. 단순히 점수를 정하는 것이 아니라, 스토리의 범위와 위험을 함께 드러내기 때문에 백로그 정제에도 도움이 된다.
+Planning Poker의 기대효과는 팀 내 이해 차이 축소, 산정 편향 감소, 스프린트 계획의 예측 가능성 향상이다. 단순히 점수를 정하는 것이 아니라, 스토리의 범위와 위험을 함께 드러내기 때문에 백로그 정제에도 도움이 된다.
 
 결론적으로 Planning Poker는 "얼마나 걸리냐"를 맞히는 게임이 아니라 "무엇이 더 큰 일인가"를 합의하는 도구다. 이 관점으로 쓰면 속도, 품질, 계획이 한 줄로 연결된다.
 
@@ -135,11 +135,11 @@ Planning Poker의 기대효과는 팀 내 이해 차이 축소, 산정 편향 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Story Point](/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) | 상대적 산정 단위 |
+| Story Point | 상대적 산정 단위 |
 | Anchoring Effect | 편향을 유발하는 첫 숫자 문제 |
-| [Wideband Delphi](/studynote/04_software_engineering/01_overview_principles/052_wideband_delphi/) | 이론적 기반 |
+| Wideband Delphi | 이론적 기반 |
 | Fibonacci Sequence | 카드 간격 설계 |
-| [Burndown Chart](/studynote/04_software_engineering/uncategorized/660_burndown_chart/) | [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 추적 |
+| Burndown Chart | 스프린트 진행 추적 |
 | Velocity | 팀의 반복적 처리 능력 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -167,14 +167,3 @@ Velocity / Burndown Chart
 1. 친구들이 동시에 숫자 카드를 보여 주면 서로 따라 쓰지 않아요.
 2. 그래서 각자 생각이 얼마나 다른지 바로 알 수 있어요.
 3. Planning Poker는 같이 약속을 정하는 똑똑한 카드 놀이예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 83 / 973
-
-<- **이전**: [82. 스토리 포인트 (Story Point) - 상대적 규모 산정](/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)
-**다음**: [84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ->
-
----

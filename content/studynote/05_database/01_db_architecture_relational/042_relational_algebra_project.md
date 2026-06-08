@@ -6,9 +6,9 @@ tags:
 weight: 42
 ---
 > **핵심 인사이트**
-> 1. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 프로젝트(Project) 연산(π)은 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서 지정한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(열)만 추출하여 수직적 부분집합을 만드는 단항 연산으로, SQL의 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) 절(컬럼 목록 지정)에 직접 대응된다.
-> 2. 프로젝트 연산은 결과에서 중복 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)을 자동으로 제거(집합 기반)하여, "[SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) DISTINCT"와 동등하며, 이는 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)가 집합 이론을 기반으로 중복을 허용하지 않기 때문이다.
-> 3. 실렉트(σ, 행 선택)와 프로젝트(π, 열 선택)는 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 가장 기본적인 두 연산으로, 이 두 연산의 조합으로 임의의 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)의 특정 행과 열을 추출하는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 표현할 수 있다.
+> 1. 관계 대수의 프로젝트(Project) 연산(π)은 릴레이션에서 지정한 속성(열)만 추출하여 수직적 부분집합을 만드는 단항 연산으로, SQL의 SELECT 절(컬럼 목록 지정)에 직접 대응된다.
+> 2. 프로젝트 연산은 결과에서 중복 튜플을 자동으로 제거(집합 기반)하여, "SELECT DISTINCT"와 동등하며, 이는 관계 대수가 집합 이론을 기반으로 중복을 허용하지 않기 때문이다.
+> 3. 실렉트(σ, 행 선택)와 프로젝트(π, 열 선택)는 관계 대수의 가장 기본적인 두 연산으로, 이 두 연산의 조합으로 임의의 릴레이션의 특정 행과 열을 추출하는 쿼리를 표현할 수 있다.
 
 ---
 
@@ -87,7 +87,7 @@ SQL 대응:
   WHERE Dept = '개발'
 ```
 
-> 📢 **섹션 요약 비유**: 실렉트는 행(가로줄) 필터, 프로젝트는 열(세로줄) 필터 — SQL WHERE(행)와 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼 목록(열)이 각각 대응.
+> 📢 **섹션 요약 비유**: 실렉트는 행(가로줄) 필터, 프로젝트는 열(세로줄) 필터 — SQL WHERE(행)와 SELECT 컬럼 목록(열)이 각각 대응.
 
 ---
 
@@ -120,7 +120,7 @@ SQL과의 차이:
 
 ---
 
-## Ⅳ. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) 연산 조합
+## Ⅳ. 관계 대수 연산 조합
 
 ```
 관계 대수 6대 기본 연산:
@@ -152,11 +152,11 @@ SQL 대응:
   물리 계획 = 관계 대수 식의 실행 전략
 ```
 
-> 📢 **섹션 요약 비유**: [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)는 요리 레시피 언어 — 재료([릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))를 자르고(σ), 특정 부분만 담고(π), 섞는(⋈) 조리 과정을 수식으로 표현.
+> 📢 **섹션 요약 비유**: 관계 대수는 요리 레시피 언어 — 재료(릴레이션)를 자르고(σ), 특정 부분만 담고(π), 섞는(⋈) 조리 과정을 수식으로 표현.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화
+## Ⅴ. 실무 시나리오 — 쿼리 최적화
 
 ```
 프로젝트+실렉트 최적화 실무:
@@ -189,7 +189,7 @@ RDBMS 옵티마이저 동작:
   비용 기반 최적화 (통계 기반 최소 비용)
 ```
 
-> 📢 **섹션 요약 비유**: [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화는 쇼핑 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 필요한 물건 목록(π)과 조건(σ)을 정하고 찾아야지, 마트 전체(×) 돌고 나서 버리면 비효율.
+> 📢 **섹션 요약 비유**: 쿼리 최적화는 쇼핑 전략 — 필요한 물건 목록(π)과 조건(σ)을 정하고 찾아야지, 마트 전체(×) 돌고 나서 버리면 비효율.
 
 ---
 
@@ -242,15 +242,4 @@ Spark Catalyst, Flink, ClickHouse
 
 1. 프로젝트 연산은 학교 성적표에서 "이름과 수학 점수만" 뽑는 것 — 원하는 열(컬럼)만 선택해서 새 표를 만들어요!
 2. 완전히 똑같은 행이 여러 개 나오면 하나만 남겨요 (중복 제거) — 부서 목록을 뽑으면 "개발부"가 10명이어도 한 번만 나와요.
-3. 실렉트(σ)는 조건에 맞는 행 선택, 프로젝트(π)는 원하는 열 선택 — SQL의 WHERE와 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼목록이 각각에 해당해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 42 / 600
-
-<- **이전**: [041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합](/studynote/05_database/01_db_architecture_relational/041_select_operator/)
-**다음**: [043. 관계 대수 — 조인 (Relational Algebra Join)](/studynote/05_database/01_db_architecture_relational/043_relational_algebra_join/) ->
-
----
+3. 실렉트(σ)는 조건에 맞는 행 선택, 프로젝트(π)는 원하는 열 선택 — SQL의 WHERE와 SELECT 컬럼목록이 각각에 해당해요!

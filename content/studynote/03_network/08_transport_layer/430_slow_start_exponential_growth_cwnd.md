@@ -8,15 +8,15 @@ weight: 430
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 슬로우 스타트는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 슬로우 스타트를 이해하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
+> 2. **가치**: 슬로우 스타트를 이해하면 신뢰성과 지연 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어의 첫 번째 단계로, CWND([Congestion Window](/studynote/03_network/19_frequent_topics_terms/969_congestion_window_cwnd_tcp_network_overload/))를 1 MSS로 시작하여 수신된 ACK마다 1 MSS씩 증가시켜 RTT당 윈도우 크기가 $2^N$으로 기하급수적(Exponential) 성장하는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 탐색 메커니즘.
-- **필요성**: 1980년대 컴퓨터는 연결을 맺자마자 지가 쏠 수 있는 1,000개의 패킷을 허공에 무자비하게 던졌다(Full Throttle). 10개밖에 못 받는 낡은 라우터는 990개를 버리며 피를 토했다. "야! 네비도 안 켜고 냅다 시속 200km로 밟지 마! 처음 가는 길은 무조건 시속 10km(1개)로 출발해. 대신 길이 뚫린 게 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되면 20, 40, 80으로 미친 듯이 속도를 올려도 좋아!" 이것이 밴 제이콥슨(Van Jacobson)이 인터넷 붕괴를 구원하기 위해 발명한 슬로우 스타트다.
+- **개념**: TCP 혼잡 제어의 첫 번째 단계로, CWND(Congestion Window)를 1 MSS로 시작하여 수신된 ACK마다 1 MSS씩 증가시켜 RTT당 윈도우 크기가 $2^N$으로 기하급수적(Exponential) 성장하는 대역폭 탐색 메커니즘.
+- **필요성**: 1980년대 컴퓨터는 연결을 맺자마자 지가 쏠 수 있는 1,000개의 패킷을 허공에 무자비하게 던졌다(Full Throttle). 10개밖에 못 받는 낡은 라우터는 990개를 버리며 피를 토했다. "야! 네비도 안 켜고 냅다 시속 200km로 밟지 마! 처음 가는 길은 무조건 시속 10km(1개)로 출발해. 대신 길이 뚫린 게 확인되면 20, 40, 80으로 미친 듯이 속도를 올려도 좋아!" 이것이 밴 제이콥슨(Van Jacobson)이 인터넷 붕괴를 구원하기 위해 발명한 슬로우 스타트다.
 
 - **💡 비유**: 슬로우 스타트는 낯선 빙판길을 달리는 <strong>"테스트 브레이킹과 풀악셀"</strong>과 같습니다.
   - 처음 차를 탔을 때 빙판길인지 몰라서 조심스레 엑셀을 아주 살짝 1번 밟아봅니다. (Slow Start 시작: CWND=1)
@@ -42,13 +42,13 @@ weight: 430
 ### 1. $2^N$ 지수적 증가(Exponential Growth)의 수학
 ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 이게 왜 기하급수적으로 늘어날까?
 
-- <strong>1라운드 (<a href="/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 1)</strong>: `CWND=1`. 패킷을 딱 1개 쏜다.
+- <strong>1라운드 (RTT 1)</strong>: `CWND=1`. 패킷을 딱 1개 쏜다.
   - (잠시 후) 영수증(ACK) 1개가 왔다.
   - 내 `CWND = 1 + 1 = 2`가 된다.
-- <strong>2라운드 (<a href="/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 2)</strong>: 내 창문 크기가 2가 됐으니 패킷 2개를 쏜다.
+- <strong>2라운드 (RTT 2)</strong>: 내 창문 크기가 2가 됐으니 패킷 2개를 쏜다.
   - (잠시 후) 영수증이 2장 연달아 온다.
   - 내 `CWND = 2(원래) + 1 + 1 = 4`가 된다.
-- <strong>3라운드 (<a href="/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 3)</strong>: 창문이 4가 됐으니 패킷 4개를 쏜다.
+- <strong>3라운드 (RTT 3)</strong>: 창문이 4가 됐으니 패킷 4개를 쏜다.
   - 영수증 4장이 온다.
   - 내 `CWND = 4(원래) + 4 = 8`이 된다.
 - **결과**: `1 -> 2 -> 4 -> 8 -> 16 -> 32 -> 64`. 단 6번의 핑퐁 만에 한 번에 64개의 상자를 들이붓는 미친 화력이 완성된다.
@@ -58,7 +58,7 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 
 - `1 -> 2 -> 4 -> 8 -> 16`으로 막 신나게 뻥튀기하며 달리다가, 내 `CWND` 숫자가 `ssthresh` (예: 16) 숫자에 딱 부딪혔다!
 - **기어 변속**: "헉, 커트라인 넘었다! 이제부터는 배수(x2)로 올리면 너무 위험해! 기어 변속!"
-- 슬로우 스타트 엔진이 꺼지고, 그다음부터는 영수증이 100개가 와도 `CWND`를 1라운드([RTT](/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))에 딱 1개씩만 찔끔찔끔 올리는 **[혼잡 회피](/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)(Congestion Avoidance: 17 -> 18 -> 19)** 모드로 돌입한다. (안정적인 정속 주행).
+- 슬로우 스타트 엔진이 꺼지고, 그다음부터는 영수증이 100개가 와도 `CWND`를 1라운드(RTT)에 딱 1개씩만 찔끔찔끔 올리는 **혼잡 회피(Congestion Avoidance: 17 -> 18 -> 19)** 모드로 돌입한다. (안정적인 정속 주행).
 
 ```text
  +-------------------------------------------------------------+
@@ -80,25 +80,25 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 ```
 
 ### 3. 통신 장애(Drop) 시 슬로우 스타트의 부활
-순조롭게 달리다가 라우터가 꽉 차서 패킷이 짤려 나갔다([Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 발생).
+순조롭게 달리다가 라우터가 꽉 차서 패킷이 짤려 나갔다(Timeout 발생).
 내 PC의 판단: "아 씨, 길 막혀서 죽었네! 싹 다 엎어!"
 1. 다음번 목표인 안전 커트라인(`ssthresh`)을 현재 창문 크기의 <strong>절반(1/2)</strong>으로 훅 깎아내린다. (너 아까 20 쏘다 죽었지? 다음엔 10까지만 뛰어라).
 2. 내 `CWND`를 무자비하게 <strong><code>1</code></strong>로 곤두박질치게 리셋해버린다.
 3. 그리고 다시 눈물겨운 <strong>슬로우 스타트(1->2->4...)</strong>를 바닥부터 다시 시작하여 조심스레 복구를 노린다.
 
-- **📢 섹션 요약 비유**: ** 슬로우 스타트는 팽팽한 고무풍선에 **"에어펌프로 공기 넣기"**입니다. 처음엔 펌프질 한 번에 풍선이 두 배, 네 배로 훅훅 커지지만(Slow Start), 풍선이 터지기 직전 크기(ssthresh)에 다다르면 바늘로 숨을 불어 넣듯 아주 조금씩([혼잡 회피](/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)) 크기를 키워 풍선이 터지는 대형 사고를 막습니다.
+- **📢 섹션 요약 비유**: ** 슬로우 스타트는 팽팽한 고무풍선에 **"에어펌프로 공기 넣기"**입니다. 처음엔 펌프질 한 번에 풍선이 두 배, 네 배로 훅훅 커지지만(Slow Start), 풍선이 터지기 직전 크기(ssthresh)에 다다르면 바늘로 숨을 불어 넣듯 아주 조금씩(혼잡 회피) 크기를 키워 풍선이 터지는 대형 사고를 막습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-슬로우 스타트를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [혼잡 윈도우](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)가 기반 조건을 만든다면, 슬로우 스타트는 그 위에서 핵심 메커니즘을 구현하고, [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+슬로우 스타트를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 혼잡 윈도우가 기반 조건을 만든다면, 슬로우 스타트는 그 위에서 핵심 메커니즘을 구현하고, 임계치는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 신뢰성과 지연에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [혼잡 윈도우](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)의 기반 정리 | 슬로우 스타트의 핵심 동작 | [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | 혼잡 윈도우의 기반 정리 | 슬로우 스타트의 핵심 동작 | 임계치의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | 신뢰성 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: 슬로우 스타트는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -106,18 +106,18 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 슬로우 스타트를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [혼잡 윈도우](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 수준의 기본 대책으로 충분한지, 아니면 슬로우 스타트가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 슬로우 스타트를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 혼잡 윈도우 수준의 기본 대책으로 충분한지, 아니면 슬로우 스타트가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 임계치와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
-1. 현재 문제의 핵심이 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 부족인지, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 악화인지 먼저 분리한다.
-2. 슬로우 스타트가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 신뢰성 부족인지, 지연 악화인지 먼저 분리한다.
+2. 슬로우 스타트가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+3. 도입 후에는 인접 기술인 임계치와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 슬로우 스타트의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [혼잡 윈도우](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 혼잡 윈도우와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 슬로우 스타트를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -125,7 +125,7 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 
 ## Ⅴ. 기대효과 및 결론
 
-슬로우 스타트는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/), 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+슬로우 스타트는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 신뢰성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 임계치, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 슬로우 스타트는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -135,10 +135,10 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [혼잡 윈도우](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
-| [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 혼잡 윈도우 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 (Segment) | 전송 계층이 다루는 기본 단위다. |
+| 흐름 제어 (Flow Control) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| 임계치 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,21 +152,10 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
     +---> [확장 B: 적응형 저지연 전송]
 ```
 
-슬로우 스타트는 [혼잡 윈도우](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+슬로우 스타트는 혼잡 윈도우에서 출발해 현재 메커니즘을 정교화하고, 이후 임계치와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 551 / 1120
-
-<- **이전**: [429. 혼잡 윈도우 (CWND, Congestion Window)](/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)
-**다음**: [431. 임계치 (ssthresh, Slow Start Threshold)](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) ->
-
----

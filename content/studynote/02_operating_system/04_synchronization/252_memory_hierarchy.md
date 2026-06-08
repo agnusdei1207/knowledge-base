@@ -7,18 +7,18 @@ weight: 252
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 계층 구조는 컴퓨터 시스템의 기억 장치들을 속도, 용량, 비용(단가)에 따라 피라미드 형태로 층층이 배치하여, <strong>"가장 자주 쓰는 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 빠르고 비싼 꼭대기에, 안 쓰는 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 느리고 싼 바닥에 두는"</strong> [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 아키텍처다.
-> 2. **가치**: CPU의 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 연산 능력을 느려 터진 하드디스크가 갉아먹는 <strong>'폰 노이만 병목(<a href="/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/">Von Neumann Bottleneck</a>)'을 완화</strong>시키고, 한정된 비용으로 무한에 가까운 메모리([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))를 가진 것처럼 사용자를 속이는 기적의 경제학을 실현한다.
-> 3. **융합**: 이 계층 구조가 마법처럼 동작할 수 있는 근본 원리는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근의 <strong>'<a href="/studynote/02_operating_system/04_synchronization/253_locality_of_reference/">참조의 지역성</a> (<a href="/studynote/02_operating_system/04_synchronization/253_locality_of_reference/">Locality of Reference</a>)'</strong> 덕분이며, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)는 이 계층 간의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), [Paging](/studynote/02_operating_system/04_synchronization/259_paging/))을 뒤편에서 투명하게 조율하는 지휘자 역할을 한다.
+> 1. **본질**: 메모리 계층 구조는 컴퓨터 시스템의 기억 장치들을 속도, 용량, 비용(단가)에 따라 피라미드 형태로 층층이 배치하여, <strong>"가장 자주 쓰는 데이터는 빠르고 비싼 꼭대기에, 안 쓰는 데이터는 느리고 싼 바닥에 두는"</strong> 데이터 관리 아키텍처다.
+> 2. **가치**: CPU의 초고속 연산 능력을 느려 터진 하드디스크가 갉아먹는 <strong>'폰 노이만 병목(Von Neumann Bottleneck)'을 완화</strong>시키고, 한정된 비용으로 무한에 가까운 메모리(가상 메모리)를 가진 것처럼 사용자를 속이는 기적의 경제학을 실현한다.
+> 3. **융합**: 이 계층 구조가 마법처럼 동작할 수 있는 근본 원리는 데이터 접근의 <strong>'참조의 지역성 (Locality of Reference)'</strong> 덕분이며, 운영체제(OS)는 이 계층 간의 데이터 이동(Caching, Paging)을 뒤편에서 투명하게 조율하는 지휘자 역할을 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))부터 L1/L2/L3 캐시, 메인 메모리(RAM), 그리고 디스크([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))와 클라우드 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스토리지까지, 속도가 빠를수록 용량이 작고 속도가 느릴수록 용량이 큰 물리적/논리적 피라미드 구조를 말한다.
-- **필요성**: 만약 컴퓨터의 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빛의 속도로 동작하는 [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)([캐시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/))으로만 만든다면, 1TB짜리 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 한 대의 가격이 수억 원에 달할 것이다. 반대로 싼 맛에 하드디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))만으로 메모리를 구성하면 마우스를 한 번 클릭할 때마다 10분을 기다려야 한다. "빠르고 큰 메모리"라는 불가능한 모순을 해결하기 위해, 싼 부품을 많이 깔고 비싼 부품을 얇게 바르는 타협(Trade-off)이 필요했다.
+- **개념**: 레지스터(Register)부터 L1/L2/L3 캐시, 메인 메모리(RAM), 그리고 디스크(SSD/HDD)와 클라우드 백업 스토리지까지, 속도가 빠를수록 용량이 작고 속도가 느릴수록 용량이 큰 물리적/논리적 피라미드 구조를 말한다.
+- **필요성**: 만약 컴퓨터의 모든 데이터를 빛의 속도로 동작하는 SRAM(캐시 메모리)으로만 만든다면, 1TB짜리 PC 한 대의 가격이 수억 원에 달할 것이다. 반대로 싼 맛에 하드디스크(HDD)만으로 메모리를 구성하면 마우스를 한 번 클릭할 때마다 10분을 기다려야 한다. "빠르고 큰 메모리"라는 불가능한 모순을 해결하기 위해, 싼 부품을 많이 깔고 비싼 부품을 얇게 바르는 타협(Trade-off)이 필요했다.
 
-- **등장 배경**: CPU의 속도 발전은 무어의 법칙을 따라 기하급수적으로 빨라졌으나, 메모리 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))의 속도 향상은 물리적 한계로 더디게 발전했다. (이 둘의 속도 차이를 '[Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)'이라 한다). 이 거대한 속도 격차를 메우기 위해 CPU와 RAM 사이에 징검다리(캐시)를 놓는 계층 구조가 1980년대부터 컴퓨터 구조의 절대 진리로 자리 잡았다.
+- **등장 배경**: CPU의 속도 발전은 무어의 법칙을 따라 기하급수적으로 빨라졌으나, 메모리 반도체(DRAM)의 속도 향상은 물리적 한계로 더디게 발전했다. (이 둘의 속도 차이를 'Memory Wall'이라 한다). 이 거대한 속도 격차를 메우기 위해 CPU와 RAM 사이에 징검다리(캐시)를 놓는 계층 구조가 1980년대부터 컴퓨터 구조의 절대 진리로 자리 잡았다.
 
 ```text
   [메모리 계층 구조의 피라미드와 속도/비용 스펙트럼]
@@ -36,74 +36,74 @@ weight: 252
 +-----------------------------+
                v (Capacity 💾) 극대화  /  (Speed ⚡, Cost 💰) 최소화
 ```
-**[다이어그램 해설]** 위로 갈수록 1바이트당 가격이 살인적으로 비싸지기 때문에 용량을 키울 수가 없다. 아래로 갈수록 속도는 수백만 배 느려지지만 미친 듯이 싸고 전원이 꺼져도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 보존되는(Non-volatile) 혜택을 얻는다. 아키텍트의 목표는 이 피라미드의 꼭대기(캐시)에 "지금 당장 쓸 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 기가 막히게 올려놓는 것이다.
+**[다이어그램 해설]** 위로 갈수록 1바이트당 가격이 살인적으로 비싸지기 때문에 용량을 키울 수가 없다. 아래로 갈수록 속도는 수백만 배 느려지지만 미친 듯이 싸고 전원이 꺼져도 데이터가 보존되는(Non-volatile) 혜택을 얻는다. 아키텍트의 목표는 이 피라미드의 꼭대기(캐시)에 "지금 당장 쓸 데이터"만 기가 막히게 올려놓는 것이다.
 
-- **📢 섹션 요약 비유**: 도서관에서 공부할 때, 책상 위에 펴놓은 책(캐시)은 1초 만에 읽을 수 있지만 몇 권 못 놓습니다. 도서관 서가(RAM)에 있는 책은 많지만 걸어가서 가져오는 데 1분이 걸립니다. 국립중앙도서관(하드디스크)에 있는 책은 무한대지만 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타고 가서 가져오는 데 1시간이 걸리는 이치입니다.
+- **📢 섹션 요약 비유**: 도서관에서 공부할 때, 책상 위에 펴놓은 책(캐시)은 1초 만에 읽을 수 있지만 몇 권 못 놓습니다. 도서관 서가(RAM)에 있는 책은 많지만 걸어가서 가져오는 데 1분이 걸립니다. 국립중앙도서관(하드디스크)에 있는 책은 무한대지만 버스 타고 가서 가져오는 데 1시간이 걸리는 이치입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 계층 구조가 성립하는 기적의 물리 법칙: [참조의 지역성](/studynote/02_operating_system/04_synchronization/253_locality_of_reference/) (Locality)
+### 계층 구조가 성립하는 기적의 물리 법칙: 참조의 지역성 (Locality)
 
-하단부의 느린 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 상단부의 좁은 캐시로 올려서 돌려쓰는 게 과연 효과가 있을까?
-정답은 "소름 돋게 효과가 있다"이다. 이유는 인간이 짠 프로그램 코드의 90%가 <strong><a href="/studynote/02_operating_system/04_synchronization/253_locality_of_reference/">참조의 지역성</a>(<a href="/studynote/02_operating_system/04_synchronization/253_locality_of_reference/">Locality of Reference</a>)</strong>이라는 절대 법칙을 따르기 때문이다.
+하단부의 느린 데이터를 상단부의 좁은 캐시로 올려서 돌려쓰는 게 과연 효과가 있을까?
+정답은 "소름 돋게 효과가 있다"이다. 이유는 인간이 짠 프로그램 코드의 90%가 <strong>참조의 지역성(Locality of Reference)</strong>이라는 절대 법칙을 따르기 때문이다.
 
-1. <strong><a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a> (<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">Temporal Locality</a>)</strong>: "방금 썼던 변수는, 1초 뒤에 또 쓸 확률이 99%다."
-   - 예: `for` 문 안에서 계속 쓰이는 `int i` 나 `sum` 같은 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 변수.
-2. <strong><a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a> (<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">Spatial Locality</a>)</strong>: "방금 A를 썼다면, A 바로 옆에 있는 B를 쓸 확률이 99%다."
-   - 예: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) `Array[0]`을 읽었으면, 그다음 명령은 십중팔구 `Array[1]`을 읽는 코드다.
+1. <strong>시간적 지역성 (Temporal Locality)</strong>: "방금 썼던 변수는, 1초 뒤에 또 쓸 확률이 99%다."
+   - 예: `for` 문 안에서 계속 쓰이는 `int i` 나 `sum` 같은 카운터 변수.
+2. <strong>공간적 지역성 (Spatial Locality)</strong>: "방금 A를 썼다면, A 바로 옆에 있는 B를 쓸 확률이 99%다."
+   - 예: 배열 `Array[0]`을 읽었으면, 그다음 명령은 십중팔구 `Array[1]`을 읽는 코드다.
 
-OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 올릴 때, 쩨쩨하게 딱 1바이트만 퍼오지 않는다. 아예 그 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주변의 <strong>64바이트 덩어리(Cache Line)</strong>를 통째로 뜯어서 L1 캐시에 올려버린다. 그러면 [공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)에 의해 그다음 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)들은 메모리(RAM)까지 갈 필요 없이 캐시에서 0.1ns 만에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주워 먹는(Cache [Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)) 기적이 발생한다.
+OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 데이터를 퍼 올릴 때, 쩨쩨하게 딱 1바이트만 퍼오지 않는다. 아예 그 데이터 주변의 <strong>64바이트 덩어리(Cache Line)</strong>를 통째로 뜯어서 L1 캐시에 올려버린다. 그러면 공간적 지역성에 의해 그다음 명령어들은 메모리(RAM)까지 갈 필요 없이 캐시에서 0.1ns 만에 데이터를 주워 먹는(Cache Hit) 기적이 발생한다.
 
-### 계층 간의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 단위 (Granularity)
+### 계층 간의 데이터 이동 단위 (Granularity)
 
 각 계층은 자기 바로 밑에 있는 계층하고만 소통한다. (CPU가 디스크를 직접 읽을 수 없다. 무조건 RAM을 거쳐야 한다). 이때 계층 간에 한 번에 퍼 나르는 흙더미의 크기가 다르다.
 
 | 계층 간 이동 구간 | 이동 단위 (블록 크기) | 관리 주체 (누가 짐을 나르는가?) |
 |:---|:---|:---|
-| <strong>CPU <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a> ↔ <a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/">L1 Cache</a></strong> | <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">Word</a></strong> (4~8 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) | CPU [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 파이프라인 (컴파일러가 제어) |
-| <strong>L1/<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/">L2 Cache</a> ↔ Main Memory</strong>| **Cache Line** (보통 64 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) | CPU 하드웨어 메모리 컨트롤러 (투명함) |
-| **Main Memory ↔ Disk** | <strong><a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a></strong> 또는 **Block** (보통 4KB) | <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> (OS <a href="/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a> System)</strong> |
+| <strong>CPU Register ↔ L1 Cache</strong> | <strong>Word</strong> (4~8 바이트) | CPU 명령어 파이프라인 (컴파일러가 제어) |
+| <strong>L1/L2 Cache ↔ Main Memory</strong>| **Cache Line** (보통 64 바이트) | CPU 하드웨어 메모리 컨트롤러 (투명함) |
+| **Main Memory ↔ Disk** | <strong>Page</strong> 또는 **Block** (보통 4KB) | <strong>운영체제 커널 (OS Paging System)</strong> |
 
-- **📢 섹션 요약 비유**: 디스크에서 램으로 올릴 때는 덤프트럭([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 4KB)으로 흙을 퍼 옵니다. 램에서 캐시로 올릴 때는 손수레(Cache Line 64B)로 퍼 옵니다. 마지막으로 캐시에서 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 넣을 때는 숟가락([Word](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 8B)으로 떠먹여 줍니다. 위로 올라갈수록 그릇은 작아지고 움직임은 정교해집니다.
+- **📢 섹션 요약 비유**: 디스크에서 램으로 올릴 때는 덤프트럭(Page 4KB)으로 흙을 퍼 옵니다. 램에서 캐시로 올릴 때는 손수레(Cache Line 64B)로 퍼 옵니다. 마지막으로 캐시에서 레지스터로 넣을 때는 숟가락(Word 8B)으로 떠먹여 줍니다. 위로 올라갈수록 그릇은 작아지고 움직임은 정교해집니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 적중([Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))과 실패(Miss)가 가르는 생과 사의 속도 차이
+### 적중(Hit)과 실패(Miss)가 가르는 생과 사의 속도 차이
 
-스케줄러가 아무리 뛰어나도, 메모 계층에서 <strong>Miss(실패)</strong>가 터지면 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 나락으로 떨어진다.
+스케줄러가 아무리 뛰어나도, 메모 계층에서 <strong>Miss(실패)</strong>가 터지면 시스템 성능은 나락으로 떨어진다.
 
-| 상황 | 뜻 | 처리 시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Penalty) |
+| 상황 | 뜻 | 처리 시간 지연(Latency Penalty) |
 |:---|:---|:---|
-| <strong>Cache <a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a></strong> | CPU가 찾던 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 L1/L2 캐시에 딱 있음 | 1~3 ns (속도 저하 체감 안 됨. 평화로움) |
-| **Cache Miss** | 캐시에 없어서 RAM(메인 메모리)까지 다녀옴 | 약 **100 ns** (캐시 대비 100배 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), CPU 스톨 발생) |
-| <strong><a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> (Miss)</strong> | RAM에도 없어서 하드디스크([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))까지 다녀옴 | 약 **1,000,000 ns** (RAM 대비 1만 배, 캐시 대비 100만 배 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 🚨 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 최대 재앙</strong> |
+| <strong>Cache Hit</strong> | CPU가 찾던 데이터가 L1/L2 캐시에 딱 있음 | 1~3 ns (속도 저하 체감 안 됨. 평화로움) |
+| **Cache Miss** | 캐시에 없어서 RAM(메인 메모리)까지 다녀옴 | 약 **100 ns** (캐시 대비 100배 지연, CPU 스톨 발생) |
+| <strong>Page Fault (Miss)</strong> | RAM에도 없어서 하드디스크(SSD)까지 다녀옴 | 약 **1,000,000 ns** (RAM 대비 1만 배, 캐시 대비 100만 배 지연) 🚨 <strong>운영체제 최대 재앙</strong> |
 
-**[아키텍처의 핵심]**: [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 터지면 CPU는 디스크가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져올 때까지 100만 클럭을 멍때려야 한다. 이 끔찍한 낭비를 막기 위해, OS 스케줄러는 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 터진 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 CPU를 즉시 뺏고([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)), [대기 큐](/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Wait Queue](/studynote/02_operating_system/02_process_thread/089_wait_queue/))로 잠재워버린 뒤 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 CPU를 넘겨버린다. 메모리 아키텍처와 스케줄링 아키텍처가 교차하는 가장 극적인 순간이다.
+**[아키텍처의 핵심]**: Page Fault가 터지면 CPU는 디스크가 데이터를 가져올 때까지 100만 클럭을 멍때려야 한다. 이 끔찍한 낭비를 막기 위해, OS 스케줄러는 Page Fault가 터진 스레드의 CPU를 즉시 뺏고(Context Switch), 대기 큐(Wait Queue)로 잠재워버린 뒤 다른 스레드에게 CPU를 넘겨버린다. 메모리 아키텍처와 스케줄링 아키텍처가 교차하는 가장 극적인 순간이다.
 
-### [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) vs 캐시 (Cache)
-- <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a></strong>: 프로그래머(어셈블리어나 컴파일러)가 **명시적으로 이름(AX, BX)을 부르며** 값을 넣고 뺀다. 코딩으로 완벽히 통제할 수 있는 구역이다.
+### 레지스터 (Register) vs 캐시 (Cache)
+- <strong>레지스터</strong>: 프로그래머(어셈블리어나 컴파일러)가 **명시적으로 이름(AX, BX)을 부르며** 값을 넣고 뺀다. 코딩으로 완벽히 통제할 수 있는 구역이다.
 - **캐시**: 프로그래머에게는 <strong>보이지 않는 투명한(Transparent) 공간</strong>이다. C언어로 변수 A를 호출하면, CPU 하드웨어가 몰래 "어? A가 캐시에 있네?" 하고 스틸해서 갖다 바치는 방식이다. (물론 최신 언어들은 캐시 라인을 고려해 메모리 정렬을 맞추는 최적화 꼼수를 쓴다.)
 
-- **📢 섹션 요약 비유**: 서랍(캐시)에서 연필을 꺼내는 데 1초가 걸린다면, 서랍에 연필이 없어서 마트(하드디스크)에 다녀오는 데는 100만 초(약 11일)가 걸립니다. CPU가 연필을 찾다가 11일 동안 놀게 놔둘 순 없으니, 그사이에 다른 친구([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))에게 지우개질(다른 연산)을 시키는 것이 OS의 임무입니다.
+- **📢 섹션 요약 비유**: 서랍(캐시)에서 연필을 꺼내는 데 1초가 걸린다면, 서랍에 연필이 없어서 마트(하드디스크)에 다녀오는 데는 100만 초(약 11일)가 걸립니다. CPU가 연필을 찾다가 11일 동안 놀게 놔둘 순 없으니, 그사이에 다른 친구(스레드)에게 지우개질(다른 연산)을 시키는 것이 OS의 임무입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>이중 for 문의 순서와 캐시 미스 폭발 (2D <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a> Traversal)</strong>: 신입 개발자가 C/C++에서 $1000 \times 1000$짜리 2차원 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 처리한다.
-   - <strong>Bad <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong>: `for(col) { for(row) { a[row][col] = 1; } }` (세로로 읽기)
-   - <strong>Good <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong>: `for(row) { for(col) { a[row][col] = 1; } }` (가로로 읽기)
-   - **아키텍트 분석**: C언어 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 메모리에 <strong>'가로(행)' 방향으로 연속해서 저장</strong>된다. CPU가 `a[0][0]`을 읽으면 하드웨어는 [공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)([Spatial Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))을 맹신하고 `a[0][0]`부터 `a[0][15]`까지 64바이트 캐시 라인을 통째로 L1 캐시에 올린다.
-     - 가로로 읽으면(Good): `a[0][1]`을 부를 때 캐시에 이미 있으므로 0.1ns 컷 (Cache [Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 100%).
+1. <strong>이중 for 문의 순서와 캐시 미스 폭발 (2D Array Traversal)</strong>: 신입 개발자가 C/C++에서 $1000 \times 1000$짜리 2차원 배열을 처리한다.
+   - <strong>Bad Code</strong>: `for(col) { for(row) { a[row][col] = 1; } }` (세로로 읽기)
+   - <strong>Good Code</strong>: `for(row) { for(col) { a[row][col] = 1; } }` (가로로 읽기)
+   - **아키텍트 분석**: C언어 배열은 메모리에 <strong>'가로(행)' 방향으로 연속해서 저장</strong>된다. CPU가 `a[0][0]`을 읽으면 하드웨어는 공간적 지역성(Spatial Locality)을 맹신하고 `a[0][0]`부터 `a[0][15]`까지 64바이트 캐시 라인을 통째로 L1 캐시에 올린다.
+     - 가로로 읽으면(Good): `a[0][1]`을 부를 때 캐시에 이미 있으므로 0.1ns 컷 (Cache Hit 100%).
      - 세로로 읽으면(Bad): `a[1][0]`을 부르는데, 아까 캐시에 올린 놈과 주소가 달라서 100ns 걸려 램에서 또 퍼와야 한다 (Cache Miss 100%). 두 코드의 속도 차이는 100배가 난다. 메모리 계층 구조를 모르는 개발자는 100배 느린 코드를 짠다.
-2. <strong><a href="/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> / Memcached 의 존재 이유 (<a href="/studynote/16_bigdata/06_nosql/139_inmemory_db/">In-Memory DB</a>)</strong>: 실무 백엔드 시스템은 메모리 계층 구조를 서버 인프라 단위로 확장([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))한 것이다.
-   - DB(Disk)에서 쿼리를 때려 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 건 너무 느리다([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 급 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
-   - **아키텍트 조치**: 자주 찾는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(게시판 1페이지, [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보)는 지역성(Locality)이 뚜렷하므로, DB(디스크 계층) 앞단에 [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/)(메인 메모리 계층) 서버를 따로 박아둔다. 즉, Redis는 백엔드 인프라 아키텍처 관점에서 거대한 '[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) L3 캐시' 역할을 수행하는 것이다.
+2. <strong>Redis / Memcached 의 존재 이유 (In-Memory DB)</strong>: 실무 백엔드 시스템은 메모리 계층 구조를 서버 인프라 단위로 확장(Scale-out)한 것이다.
+   - DB(Disk)에서 쿼리를 때려 데이터를 가져오는 건 너무 느리다(Page Fault 급 지연).
+   - **아키텍트 조치**: 자주 찾는 데이터(게시판 1페이지, 세션 정보)는 지역성(Locality)이 뚜렷하므로, DB(디스크 계층) 앞단에 Redis(메인 메모리 계층) 서버를 따로 박아둔다. 즉, Redis는 백엔드 인프라 아키텍처 관점에서 거대한 '분산 L3 캐시' 역할을 수행하는 것이다.
 
 ```text
   +--------------------------------------------------------------------+
@@ -124,7 +124,7 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
   |        배치(Data-Oriented Design)로 바꿔 캐시 프리패치 극대화.     |
   +--------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 백엔드 아키텍처의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선은 결국 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피라미드의 위쪽으로 밀어 올려서, 아래쪽(Disk, RAM)으로 내려가는 횟수를 줄이는 싸움"이다. 가장 느린 계층부터 하나씩 병목을 부수고 올라가는 것이 탑티어 엔지니어의 최적화 정석이다.
+**[다이어그램 해설]** 백엔드 아키텍처의 성능 개선은 결국 "데이터를 피라미드의 위쪽으로 밀어 올려서, 아래쪽(Disk, RAM)으로 내려가는 횟수를 줄이는 싸움"이다. 가장 느린 계층부터 하나씩 병목을 부수고 올라가는 것이 탑티어 엔지니어의 최적화 정석이다.
 
 - **📢 섹션 요약 비유**: 창고(디스크)에서 매번 물건을 가져와 파는 식당은 망합니다. 잘 팔리는 메뉴의 재료는 주방 앞 냉장고(RAM)에 채워두고, 방금 주문받은 파썰기는 바로 도마(캐시) 위에 세팅해 두어야 1초 만에 음식이 나가는 대박집이 됩니다.
 
@@ -133,11 +133,11 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-메모리 계층 구조의 원리를 완벽히 이해하고 코드를 작성하면(Data-Oriented Design), 비싼 CPU를 하드웨어적으로 업그레이드하지 않고도 캐시 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)(Cache [Hit Ratio](/studynote/02_operating_system/06_memory_management/359_effective_access_time/))을 90%에서 99%로 끌어올림으로써, 게임 프레임 방어나 고주파 트레이딩(HFT) 환경에서 <strong>10배 이상의 극단적인 소프트웨어 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상</strong>을 이뤄낼 수 있다.
+메모리 계층 구조의 원리를 완벽히 이해하고 코드를 작성하면(Data-Oriented Design), 비싼 CPU를 하드웨어적으로 업그레이드하지 않고도 캐시 적중률(Cache Hit Ratio)을 90%에서 99%로 끌어올림으로써, 게임 프레임 방어나 고주파 트레이딩(HFT) 환경에서 <strong>10배 이상의 극단적인 소프트웨어 성능 향상</strong>을 이뤄낼 수 있다.
 
 ### 결론 및 미래 전망
 메모리 계층 구조는 지난 반세기 동안 폰 노이만 아키텍처가 살아남을 수 있게 해 준 생명 유지 장치다.
-미래의 하드웨어 트렌드는 이 층(Layer)들을 아예 허물어버리는 방향으로 가고 있다. 인텔의 옵테인(Optane DCPMM)처럼 메인 메모리(RAM)와 디스크([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))의 경계를 허문 <strong>비휘발성 메모리(NVRAM)</strong>의 등장, 그리고 애플 M 시리즈 칩셋처럼 CPU와 메모리를 아예 1개의 칩 안에 때려 박아 물리적 거리를 0으로 만들어버리는 <strong>통합 메모리 아키텍처(<a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/">UMA</a>)</strong> 기술이 발전하면서, 고전적인 피라미드 계층은 붕괴하고 하나의 거대하고 평평한 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 메모리 호수(Lake)로 진화해 나가고 있다.
+미래의 하드웨어 트렌드는 이 층(Layer)들을 아예 허물어버리는 방향으로 가고 있다. 인텔의 옵테인(Optane DCPMM)처럼 메인 메모리(RAM)와 디스크(SSD)의 경계를 허문 <strong>비휘발성 메모리(NVRAM)</strong>의 등장, 그리고 애플 M 시리즈 칩셋처럼 CPU와 메모리를 아예 1개의 칩 안에 때려 박아 물리적 거리를 0으로 만들어버리는 <strong>통합 메모리 아키텍처(UMA)</strong> 기술이 발전하면서, 고전적인 피라미드 계층은 붕괴하고 하나의 거대하고 평평한 초고속 메모리 호수(Lake)로 진화해 나가고 있다.
 
 - **📢 섹션 요약 비유**: 옛날엔 서울(디스크), 대전(RAM), 대구(L3), 부산(CPU)으로 짐을 나르느라 물류망(계층 구조)이 복잡했습니다. 하지만 이제는 아예 KTX 기차를 빛의 속도로 뚫어버리거나(통합 메모리), 회사 자체를 다 서울로 이사시켜 버려서(NVRAM) 지역 간의 이동 시간 자체를 무의미하게 만드는 텔레포트의 시대로 넘어가고 있습니다.
 
@@ -147,10 +147,10 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Pthreads](/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [윈도우 동기화](/studynote/02_operating_system/04_synchronization/251_windows_synchronization/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 리눅스 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [RCU](/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ([Read-Copy-Update](/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| Pthreads 동기화 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 윈도우 동기화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 리눅스 동기화 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| RCU (Read-Copy-Update) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -168,17 +168,6 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 공부할 때 자주 쓰는 <strong>지우개와 연필(<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)</strong>은 내 손에 꽉 쥐고 있고, 조금 덜 쓰는 <strong>필통(캐시)</strong>은 책상 위에 올려둬요.
+1. 공부할 때 자주 쓰는 <strong>지우개와 연필(레지스터)</strong>은 내 손에 꽉 쥐고 있고, 조금 덜 쓰는 <strong>필통(캐시)</strong>은 책상 위에 올려둬요.
 2. 가끔 보는 <strong>교과서(RAM)</strong>는 책가방에 넣어두고, 1년에 한 번 보는 <strong>작년 문제집(하드디스크)</strong>은 저기 창고에 넣어두죠.
 3. 이렇게 자주 쓰는 건 가깝고 비싼 곳에, 안 쓰는 건 멀고 싼 곳에 층층이 정리해 두는 완벽한 정리 정돈법을 <strong>메모리 계층 구조</strong>라고 한답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 252 / 800
-
-<- **이전**: [251. 윈도우 동기화 (Windows Synchronization)](/studynote/02_operating_system/04_synchronization/251_windows_synchronization/)
-**다음**: [253. 참조의 지역성 (Locality of Reference)](/studynote/02_operating_system/04_synchronization/253_locality_of_reference/) ->
-
----

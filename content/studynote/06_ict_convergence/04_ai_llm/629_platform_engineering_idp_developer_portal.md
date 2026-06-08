@@ -159,11 +159,3 @@ IDP는 통상 **3-Layer Paved Road** 아키텍처로 구성된다. 최하단의 
 ### 기술사형 판단 체크리스트
 
 1. **Platform Team
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 629 / 800
-
-<- **이전**: [628. SRE 에러 버짓 신뢰성 목표 설정](/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/)
-**다음**: [630. FinOps 클라우드 비용 최적화 태깅](/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/) ->
-
----

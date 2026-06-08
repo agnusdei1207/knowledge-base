@@ -110,12 +110,3 @@ Matter 스마트홈 통합 표준 프로토콜은(는) 디지털 기술을 실�
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 607 / 800
-
-<- **이전**: [606. MQTT CoAP IoT 프로토콜 비교](/studynote/06_ict_convergence/uncategorized/606_mqtt_coap_iot_protocol_comparison/)
-**다음**: [608. 디지털 헬스 원격의료 PHR 건강데이터](/studynote/06_ict_convergence/uncategorized/608_digital_health_telemedicine_phr_health_data/) ->
-
----

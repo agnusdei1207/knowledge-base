@@ -149,11 +149,3 @@ $$\mathcal{L}_{\text{sparse}} = \mathcal{L}_{\text{rec}} + \beta \sum_{j=1}^{d} 
 | 구분 | **Autoencoder (AE)** | **Variational AE (VAE)** | **Isolation Forest** | **One-Class SVM** | **GAN-based (AnoGAN)** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **학습 방식** | 비지도 (정상만) | 비지도 (정상만) | 비
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 665 / 800
-
-<- **이전**: [664. 시계열 예측 자기회귀 트랜스포머](/studynote/06_ict_convergence/uncategorized/664_time_series_forecasting_autoregressive_transf/)
-**다음**: [666. 자연어 처리 NER 감성 분석 요약](/studynote/06_ict_convergence/uncategorized/666_nlp_ner_sentiment_analysis_summarization/) ->
-
----

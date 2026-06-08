@@ -7,8 +7,8 @@ weight: 767
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 객체지향 추상화 자료/제어/과정 분리은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,15 +17,15 @@ weight: 767
 
 현대 소프트웨어는 수천만 줄의 코드로 이루어진다. 한 명의 개발자가 이 모든 코드가 어떻게 작동하는지 100% 이해하는 것은 뇌 구조상 불가능하다.
 
-만약 우리가 'TV 리모컨'을 쓸 때마다 내부의 적외선 센서가 어떻게 신호를 변조하는지 알아야 한다면 아무도 TV를 볼 수 없을 것이다. 리모컨은 그저 '전원 버튼', '채널 버튼'이라는 <strong>직관적인 인터페이스(<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>)</strong>만 밖으로 노출하고, 복잡한 전자기학적 원리는 플라스틱 케이스 안에 완벽하게 **숨긴다(캡슐화)**.
+만약 우리가 'TV 리모컨'을 쓸 때마다 내부의 적외선 센서가 어떻게 신호를 변조하는지 알아야 한다면 아무도 TV를 볼 수 없을 것이다. 리모컨은 그저 '전원 버튼', '채널 버튼'이라는 <strong>직관적인 인터페이스(추상화)</strong>만 밖으로 노출하고, 복잡한 전자기학적 원리는 플라스틱 케이스 안에 완벽하게 **숨긴다(캡슐화)**.
 
-소프트웨어 설계도 마찬가지다. 복잡한 코드를 그대로 펼쳐놓지 않고, 사람이 이해하기 쉬운 개념으로 묶어서 이름표를 붙여주는 작업. 이것이 바로 객체지향([OOP](/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))의 첫 단추인 <strong><a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)</strong>다.
+소프트웨어 설계도 마찬가지다. 복잡한 코드를 그대로 펼쳐놓지 않고, 사람이 이해하기 쉬운 개념으로 묶어서 이름표를 붙여주는 작업. 이것이 바로 객체지향(OOP)의 첫 단추인 <strong>추상화(Abstraction)</strong>다.
 
-- **📢 섹션 요약 비유**: 서울에서 부산까지 걸어가는 모든 골목길을 외울 필요는 없다. "경부고속도로를 탄다"라는 하나의 굵은 선([추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 지도)만 알면 우리는 쉽게 부산에 도착할 수 있다. [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 세상을 바라보는 해상도(Resolution)를 낮춰서 큰 그림을 보게 해주는 마법이다.
+- **📢 섹션 요약 비유**: 서울에서 부산까지 걸어가는 모든 골목길을 외울 필요는 없다. "경부고속도로를 탄다"라는 하나의 굵은 선(추상화된 지도)만 알면 우리는 쉽게 부산에 도착할 수 있다. 추상화는 세상을 바라보는 해상도(Resolution)를 낮춰서 큰 그림을 보게 해주는 마법이다.
 
 ---
 
-다음은 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 객체지향 추상화 자료/제어/과정 분리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -40,7 +40,7 @@ weight: 767
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 객체지향 추상화 자료/제어/과정 분리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -50,13 +50,13 @@ weight: 767
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 그 대상이 무엇이냐에 따라 크게 3가지 계층으로 나뉜다.
+소프트웨어 공학에서 추상화는 그 대상이 무엇이냐에 따라 크게 3가지 계층으로 나뉜다.
 
-- **📢 섹션 요약 비유**: 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 객체지향 추상화 자료/제어/과정 분리은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | 객체지향 추상화 자료/제어/과정 분리의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -68,17 +68,17 @@ weight: 767
 
 ## Ⅲ. 비교 및 연결
 
-[추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 종종 '캡슐화(Encapsulation)'나 '[정보 은닉](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/)([Information Hiding](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/))'과 혼동된다.
+추상화는 종종 '캡슐화(Encapsulation)'나 '정보 은닉(Information Hiding)'과 혼동된다.
 
 | 개념 | 초점 (Focus) | 핵심 질문 |
 |:---|:---|:---|
-| <strong><a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> (<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)</strong> | **설계 (Design)** | "이 사물을 밖에서 볼 때 <strong>무엇(What)</strong>으로 정의할 것인가?" |
-| **캡슐화 (Encapsulation)**| **구조 (Structure)**| "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(변수)와 행위(함수)를 <strong>하나의 캡슐(클래스)</strong>에 어떻게 묶을 것인가?" |
-| <strong><a href="/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/">정보 은닉</a> (Info Hiding)</strong>| <strong>보안 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | "캡슐 안의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 **어디까지 숨길 것인가(private)?**" |
+| <strong>추상화 (Abstraction)</strong> | **설계 (Design)** | "이 사물을 밖에서 볼 때 <strong>무엇(What)</strong>으로 정의할 것인가?" |
+| **캡슐화 (Encapsulation)**| **구조 (Structure)**| "데이터(변수)와 행위(함수)를 <strong>하나의 캡슐(클래스)</strong>에 어떻게 묶을 것인가?" |
+| <strong>정보 은닉 (Info Hiding)</strong>| <strong>보안 (Security)</strong> | "캡슐 안의 데이터 중 **어디까지 숨길 것인가(private)?**" |
 
-즉, [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로 "자동차"라는 개념을 뽑아내고, 캡슐화로 "엔진과 시동 함수"를 하나로 묶은 뒤, [정보 은닉](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/)으로 "엔진의 내부 변수는 외부에서 조작 못 하게 `private`으로 잠그는 것"이 객체지향 설계의 완벽한 콤보다.
+즉, 추상화로 "자동차"라는 개념을 뽑아내고, 캡슐화로 "엔진과 시동 함수"를 하나로 묶은 뒤, 정보 은닉으로 "엔진의 내부 변수는 외부에서 조작 못 하게 `private`으로 잠그는 것"이 객체지향 설계의 완벽한 콤보다.
 
-- **📢 섹션 요약 비유**: [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 복잡한 스마트폰을 '네모난 통신기기'로 단순화해서 그리는(설계) 것이고, 캡슐화는 부품들을 하나의 플라스틱 케이스 안에 모아 담는 것이며, [정보 은닉](/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/)은 나사구멍을 막아서 사용자가 폰을 못 뜯어보게 막는 것이다.
+- **📢 섹션 요약 비유**: 추상화는 복잡한 스마트폰을 '네모난 통신기기'로 단순화해서 그리는(설계) 것이고, 캡슐화는 부품들을 하나의 플라스틱 케이스 안에 모아 담는 것이며, 정보 은닉은 나사구멍을 막아서 사용자가 폰을 못 뜯어보게 막는 것이다.
 
 ---
 
@@ -90,9 +90,9 @@ weight: 767
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 '인터페이스(Interface)'와 '추상 클래스(Abstract Class)'를 통해 구현된다.
+실무에서 추상화는 '인터페이스(Interface)'와 '추상 클래스(Abstract Class)'를 통해 구현된다.
 
-- **📢 섹션 요약 비유**: 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 객체지향 추상화 자료/제어/과정 분리은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -102,11 +102,11 @@ weight: 767
 
 ## Ⅴ. 기대효과 및 결론
 
-[추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 원칙을 완벽하게 적용한 코드는 <strong>'다형성(Polymorphism)'</strong>이라는 객체지향의 마법을 부릴 수 있게 된다. 코어 로직은 `Payment`라는 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 인터페이스만 바라보기 때문에, 밑단에 `KakaoPay`를 끼우든 `NaverPay`를 끼우든 코드는 한 줄도 변하지 않고 우아하게 동작한다.
+추상화 원칙을 완벽하게 적용한 코드는 <strong>'다형성(Polymorphism)'</strong>이라는 객체지향의 마법을 부릴 수 있게 된다. 코어 로직은 `Payment`라는 추상화된 인터페이스만 바라보기 때문에, 밑단에 `KakaoPay`를 끼우든 `NaverPay`를 끼우든 코드는 한 줄도 변하지 않고 우아하게 동작한다.
 
-결론적으로 기술 리더가 수행하는 아키텍처 설계는 본질적으로 <strong>'<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>의 경계(Boundary)'를 어디에 그을 것인가를 결정하는 예술</strong>이다. "어디까지를 핵심으로 보고, 어디부터를 세부 구현(Detail)으로 쳐내어 숨길 것인가?" 이 철학적 결단이 시스템의 수명과 유지보수 비용을 0에서 100까지 결정짓는다.
+결론적으로 기술 리더가 수행하는 아키텍처 설계는 본질적으로 <strong>'추상화의 경계(Boundary)'를 어디에 그을 것인가를 결정하는 예술</strong>이다. "어디까지를 핵심으로 보고, 어디부터를 세부 구현(Detail)으로 쳐내어 숨길 것인가?" 이 철학적 결단이 시스템의 수명과 유지보수 비용을 0에서 100까지 결정짓는다.
 
-- **📢 섹션 요약 비유**: 피카소의 그림이 위대한 이유는 소의 털이나 핏줄을 다 그려서가 아니다. 단 세 번의 붓터치([추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))만으로 소의 역동성과 본질을 완벽하게 표현했기 때문이다. 위대한 코드 역시 복잡한 논리를 가장 간결한 인터페이스 하나로 뽑아내는 것이다.
+- **📢 섹션 요약 비유**: 피카소의 그림이 위대한 이유는 소의 털이나 핏줄을 다 그려서가 아니다. 단 세 번의 붓터치(추상화)만으로 소의 역동성과 본질을 완벽하게 표현했기 때문이다. 위대한 코드 역시 복잡한 논리를 가장 간결한 인터페이스 하나로 뽑아내는 것이다.
 
 ---
 
@@ -120,10 +120,10 @@ weight: 767
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 객체지향 추상화 자료/제어/과정 분리의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 객체지향 추상화 자료/제어/과정 분리은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 객체지향 추상화 자료/제어/과정 분리 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 객체지향 추상화 자료/제어/과정 분리에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,21 +143,10 @@ weight: 767
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 객체지향 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 객체지향 추상화 자료/제어/과정 분리은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 940 / 973
-
-<- **이전**: [766. 소프트웨어 노후화 기술 부채 연계](/studynote/04_software_engineering/10_trends_pm_quality/766_software_aging_technical_debt/)
-**다음**: [768. 럼바우 객체 모델링 (객체/동적/기능 모델)](/studynote/04_software_engineering/10_trends_pm_quality/768_rumbaugh_omt_object_dynamic_functional/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

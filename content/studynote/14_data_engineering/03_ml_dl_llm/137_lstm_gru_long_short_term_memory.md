@@ -6,9 +6,9 @@ tags:
 weight: 137
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)([Long Short-Term Memory](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))은 <strong>Forget·Input·Output 3개의 게이트로 셀 상태(Cell <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 제어</strong>하여 Vanilla RNN의 [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 <strong>2개 게이트(Reset·Update)로 단순화</strong>한 경량 변형이다.
+> 1. **본질**: LSTM(Long Short-Term Memory)은 <strong>Forget·Input·Output 3개의 게이트로 셀 상태(Cell State)를 제어</strong>하여 Vanilla RNN의 장기 의존성(Vanishing Gradient) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 <strong>2개 게이트(Reset·Update)로 단순화</strong>한 경량 변형이다.
 > 2. **가치**: RNN은 "어제 비가 왔다"는 기억하지만 "한 달 전 비가 왔다"는 잊지만, LSTM은 <strong>중요한 정보를 셀 상태에 장기 보존</strong>하여 먼 과거의 맥락도 활용한다.
-> 3. **판단 포인트**: 성능은 [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)≈GRU이나 GRU가 파라미터가 적어(학습 빠름) 소규모 데이터에 유리하며, 현재는 <strong>Transformer가 대부분 대체</strong>했으나 시계열·온디바이스에서 여전히 사용된다.
+> 3. **판단 포인트**: 성능은 LSTM≈GRU이나 GRU가 파라미터가 적어(학습 빠름) 소규모 데이터에 유리하며, 현재는 <strong>Transformer가 대부분 대체</strong>했으나 시계열·온디바이스에서 여전히 사용된다.
 
 ---
 
@@ -30,7 +30,7 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 ## Ⅱ~Ⅴ. 결론
 
-[LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/GRU는 <strong>시퀀스 모델링의 중요한 이정표</strong>이며, [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 이전의 NLP·음성·시계열 핵심 아키텍처였다.
+LSTM/GRU는 <strong>시퀀스 모델링의 중요한 이정표</strong>이며, Transformer 이전의 NLP·음성·시계열 핵심 아키텍처였다.
 
 ---
 
@@ -38,11 +38,11 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> | 3 Gate + Cell [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a></strong> | 2 Gate (경량) |
-| <strong>Cell <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | 장기 기억 고속도로 |
-| <strong><a href="/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a></strong> | [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 문제 -> [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 해결 |
-| <strong><a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a></strong> | [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 대체 ([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
+| <strong>LSTM</strong> | 3 Gate + Cell State |
+| <strong>GRU</strong> | 2 Gate (경량) |
+| <strong>Cell State</strong> | 장기 기억 고속도로 |
+| <strong>Vanishing Gradient</strong> | RNN 문제 -> LSTM 해결 |
+| <strong>Transformer</strong> | LSTM 대체 (병렬) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -57,14 +57,3 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 1. LSTM은 <strong>포스트잇 붙은 일기장</strong>이에요. 중요한 페이지를 **잊지 않아요**.
 2. RNN은 옛날 일기를 잊지만, LSTM은 <strong>포스트잇(Gate) 덕분에 기억</strong>해요.
 3. GRU는 **포스트잇을 2개만 쓰는** 간단한 버전이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 137 / 258
-
-<- **이전**: [136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리](/studynote/14_data_engineering/03_ml_dl_llm/136_rnn_recurrent_neural_network/)
-**다음**: [138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중](/studynote/14_data_engineering/03_ml_dl_llm/138_attention_mechanism_dynamic_weight/) ->
-
----

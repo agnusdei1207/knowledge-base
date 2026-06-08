@@ -156,11 +156,3 @@ Output: {score, reason}
 | 구분 | MLOps | LLMOps | AIOps | PromptOps |
 | :--- | :--- | :--- | :--- | :--- |
 | 대상 모델 |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 661 / 800
-
-<- **이전**: [660. MLOps 모델 서빙 A/B 테스트](/studynote/06_ict_convergence/uncategorized/660_mlops_model_serving_ab_test/)
-**다음**: [662. 벡터 데이터베이스 Pinecone Weaviate](/studynote/06_ict_convergence/uncategorized/662_vector_database_pinecone_weaviate/) ->
-
----

@@ -115,11 +115,3 @@ PETs 연합 분석은 크게 **3계층(데이터 평면/연산 평면/조정 평
 | **영지식 증명(Zero-Knowledge Proof, ZKP)** | **사실 증명·정보 비공개** | **zk-SNARK**(Groth16, PLONK, trusted setup 필요), **zk-STARK**(post-quantum, transparent setup, 해시 기반), **Bulletproofs**(range proof, 설정 불요), **Halo2**(recursive), **Plonky2/3**(zkEVM), **Merkle Patricia Trie + zk**. 사용처: 모델 무결성, 라운드 정확성, 클라이언트 자격 증명 |
 | **신뢰 실행 환경(TEE, Enclave)** | **하드웨어 격리 보호** | **Intel SGX 2.0**(EPC 최대 1TB, FLC, Flexible Launch Control), **AMD SEV-SNP**(메모리 암호화, CC), **ARM CCA**(Realm Management Monitor), **NVIDIA H100 Confidential Computing**(GPU + TEE), **Intel TDX**, **Apple Secure Enclave**. 원격 인증(Remote Attestation) + 메모리 암호화 + 측채널 완화(_constant-time 코드, fence.t_). **Asylo, Open Enclave SDK, Confidential Containers (CoCo)** |
 | **연합 학습/분석(Federated Learning/Analytics)** | **분산 모델 학습/통계** | **FL 알고리즘**: FedAvg(McMahan et al., 2017), FedProx(Li et al., 2020, proximal term μ), FedNova(wang et al., 2020, 사합 가중), FedOpt(서버 Adam/Yogi), FedBN(배치 정규화 보존), SCAFFOLD(제어 변수로 분산 완화). **분석
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 699 / 800
-
-<- **이전**: [698. 사이버 보안 위협 인텔리전스 CTI](/studynote/06_ict_convergence/uncategorized/698_cyber_security_threat_intelligence_cti/)
-**다음**: [700. 디지털 자산 토큰화 실물 연동](/studynote/06_ict_convergence/uncategorized/700_digital_asset_tokenization_real_world_asset/) ->
-
----

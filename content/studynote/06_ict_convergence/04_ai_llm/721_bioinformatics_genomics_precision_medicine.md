@@ -185,11 +185,3 @@ NGS는 (a) 라이브러리 준비(Fragmentation -> End-repair -> Adapter ligatio
                         v
   +--------------------------------------------------------+
   |  TMB / MSI / HRD
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 721 / 800
-
-<- **이전**: [720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI](/studynote/06_ict_convergence/uncategorized/720_cyborg_technology_brain_computer_interface_bc/)
-**다음**: [722. 나노 기술 분자 컴퓨팅 나노센서](/studynote/06_ict_convergence/uncategorized/722_nanotechnology_molecular_computing_nanosensor/) ->
-
----

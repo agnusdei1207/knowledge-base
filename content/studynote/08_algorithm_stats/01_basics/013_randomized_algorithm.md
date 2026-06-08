@@ -6,22 +6,22 @@ tags:
   - "studynote-algorithm-stats"
 weight: 13
 ---
-# 13. 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Randomized [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
+# 13. 랜덤화 알고리즘 (Randomized Algorithm)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Randomized [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 동작에 무작위성(Randomness)을 도입하여, 결정론적(Deterministic) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 더 단순하거나 더 빠른 해를 평균적으로 보장하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 동일한 입력에 대해 실행할 때마다 다른 동작을 할 수 있지만, 평균적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/))이 결정론적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 우수하거나 동일한 문제를 더 단순하게 해결할 수 있다.
-> 3. **융합**: 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)([RSA](/studynote/09_security/03_network_security/110_rsa/) 키 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)(체이닝의 랜덤 해시), [근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)(Monte Carlo), 정수론(소수 판별, Miller-Rabin) 등 광범위한 영역에서 필수적으로 활용된다.
+> 1. **본질**: 랜덤화 알고리즘(Randomized Algorithm)은 알고리즘의 동작에 무작위성(Randomness)을 도입하여, 결정론적(Deterministic) 알고리즘보다 더 단순하거나 더 빠른 해를 평균적으로 보장하는 알고리즘이다.
+> 2. **가치**: 동일한 입력에 대해 실행할 때마다 다른 동작을 할 수 있지만, 평균적 성능(기댓값)이 결정론적 알고리즘보다 우수하거나 동일한 문제를 더 단순하게 해결할 수 있다.
+> 3. **융합**: 랜덤화 알고리즘은 암호학(RSA 키 생성), 해시 테이블(체이닝의 랜덤 해시), 근사 알고리즘(Monte Carlo), 정수론(소수 판별, Miller-Rabin) 등 광범위한 영역에서 필수적으로 활용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Randomized [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 1970년대 Yuri N. Fedor, Michael Rabin 등의 연구를 통해 컴퓨터 과학의 주요 분야로 자리 잡았다. 전통적인 결정론적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 동일한 입력에 대해 항상 동일한 동작과 결과를 내놓는 반면, 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)에 영향을 받아 동일한 입력이라도 실행할 때마다 다른 경로를 탐색할 수 있다. 이러한 무작위성의 도입이 오히려 평균적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이나 구현의 단순함을 제공한다.
+랜덤화 알고리즘(Randomized Algorithm)은 1970년대 Yuri N. Fedor, Michael Rabin 등의 연구를 통해 컴퓨터 과학의 주요 분야로 자리 잡았다. 전통적인 결정론적 알고리즘이 동일한 입력에 대해 항상 동일한 동작과 결과를 내놓는 반면, 랜덤화 알고리즘은 난수 생성기에 영향을 받아 동일한 입력이라도 실행할 때마다 다른 경로를 탐색할 수 있다. 이러한 무작위성의 도입이 오히려 평균적 성능이나 구현의 단순함을 제공한다.
 
-랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요한 이유는 크게 두 가지이다. 첫째, <strong>결정론적 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>보다 더 단순하거나 더 빠른 경우가 많다</strong>는 것이다. [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 피벗을 랜덤하게 선택하면 평균적으로 O(N log N)을 보장하는 매우 단순한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 만들 수 있다. 둘째, <strong>적대적 입력(Adversarial Input)에 강건하다</strong>는 것이다. 결정론적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 최악의 입력을 specially 설계되어 공격받을 수 있는 반면, 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 입력이 아무리 나쁘더라도 평균적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장된다.
+랜덤화 알고리즘이 필요한 이유는 크게 두 가지이다. 첫째, <strong>결정론적 알고리즘보다 더 단순하거나 더 빠른 경우가 많다</strong>는 것이다. 퀵 정렬에서 피벗을 랜덤하게 선택하면 평균적으로 O(N log N)을 보장하는 매우 단순한 알고리즘을 만들 수 있다. 둘째, <strong>적대적 입력(Adversarial Input)에 강건하다</strong>는 것이다. 결정론적 알고리즘이 최악의 입력을 specially 설계되어 공격받을 수 있는 반면, 랜덤화 알고리즘은 입력이 아무리 나쁘더라도 평균적 성능이 보장된다.
 
-> 이 도식은 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 두 가지 유형을 보여준다.
+> 이 도식은 랜덤화 알고리즘의 두 가지 유형을 보여준다.
 
 ```text
 [랜덤화 알고리즘의 두 가지 유형]
@@ -57,20 +57,20 @@ weight: 13
 +------------------------------------------------------+
 ```
 
-- **관찰**: 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심은 "무작위성이 오히려 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 단순성을 높인다"는 반직관적 결론이다.
+- **관찰**: 랜덤화 알고리즘의 핵심은 "무작위성이 오히려 성능과 단순성을 높인다"는 반직관적 결론이다.
 - **원인**: 무작위성은 worst-case 시나리오가 발생하는 확률을 극적으로 낮추기 때문이다.
-- **결과**: 이러한 특성으로 인해 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현대 컴퓨팅의 많은 영역에서 표준으로 자리 잡았다.
-- **판단**: 보안 관련 작업에서는 무작위성의 품질이 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 안전성을직접 결정하므로, [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 안전한 [난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)의 사용이 필수적이다.
+- **결과**: 이러한 특성으로 인해 랜덤화 알고리즘은 현대 컴퓨팅의 많은 영역에서 표준으로 자리 잡았다.
+- **판단**: 보안 관련 작업에서는 무작위성의 품질이 알고리즘의 안전성을직접 결정하므로, 암호학적으로 안전한 난수 생성기의 사용이 필수적이다.
 
-📢 **섹션 요약 비유**: 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 card 게임의 전략과 같습니다.잡를 세는 것(결정론적)은 정확하지만 복잡하고, 주사위를 굴리는 것(랜덤화)은 단순하지만평균적으로 좋은 결과가 나옵니다.
+📢 **섹션 요약 비유**: 랜덤화 알고리즘은 card 게임의 전략과 같습니다.잡를 세는 것(결정론적)은 정확하지만 복잡하고, 주사위를 굴리는 것(랜덤화)은 단순하지만평균적으로 좋은 결과가 나옵니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 원리는 <strong><a href="/studynote/08_algorithm_stats/08_stats/135_expected_value/">기댓값</a>(E[값])</strong> 분석이다. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 평균적으로어느정도인지를 수학적으로 분석하며, 이는 확률론적 분석을 필요로 한다. 대표적인 예로 <strong>랜덤 <a href="/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a></strong>과 <strong><a href="/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a>의 랜덤화</strong>가 있다.
+랜덤화 알고리즘의 핵심 원리는 <strong>기댓값(E[값])</strong> 분석이다. 알고리즘의 성능은 평균적으로어느정도인지를 수학적으로 분석하며, 이는 확률론적 분석을 필요로 한다. 대표적인 예로 <strong>랜덤 퀵 정렬</strong>과 <strong>해시 테이블의 랜덤화</strong>가 있다.
 
-<strong>랜덤 <a href="/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a></strong>에서 피벗을 랜덤하게 선택하면, 입력 데이터의 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 순서에 관계없이 평균적으로 O(N log N) 복잡도를 보장한다. 이것은 결정론적 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 특정 입력에 대해 O(N^)가 될 수 있는 것에 비해대きな 장점이다.
+<strong>랜덤 퀵 정렬</strong>에서 피벗을 랜덤하게 선택하면, 입력 데이터의 배열 순서에 관계없이 평균적으로 O(N log N) 복잡도를 보장한다. 이것은 결정론적 퀵 정렬이 특정 입력에 대해 O(N^)가 될 수 있는 것에 비해대きな 장점이다.
 
 ```text
 [랜덤 퀵 정렬의 확률적 분석]
@@ -100,20 +100,20 @@ weight: 13
 +------------------------------------------------------+
 ```
 
-- **관찰**: 랜덤 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 실제 데이터에서 거의 항상 O(N log N)에 동작하며, 심지어 이미 정렬된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에서도 마찬가지이다.
-- **원인**: 피벗이 랜덤이므로 입력의 순서가 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 영향을 미치지 않기 때문이다.
-- **결과**: 이러한 강건성(Robustness)이 랜덤 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 C++ STL의 `std::sort`와 Java의 `Arrays.sort()` 등의 표준 구현으로 채택된 이유이다.
-- **판단**: 실무에서 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 직접 구현할 때는 랜덤 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)을 선택하는 것이 대부분의 경우에서 최선이다.
+- **관찰**: 랜덤 퀵 정렬은 실제 데이터에서 거의 항상 O(N log N)에 동작하며, 심지어 이미 정렬된 배열에서도 마찬가지이다.
+- **원인**: 피벗이 랜덤이므로 입력의 순서가 알고리즘 성능에 영향을 미치지 않기 때문이다.
+- **결과**: 이러한 강건성(Robustness)이 랜덤 퀵 정렬이 C++ STL의 `std::sort`와 Java의 `Arrays.sort()` 등의 표준 구현으로 채택된 이유이다.
+- **판단**: 실무에서 정렬 알고리즘을 직접 구현할 때는 랜덤 퀵 정렬을 선택하는 것이 대부분의 경우에서 최선이다.
 
-📢 **섹션 요약 비유**: 랜덤 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 연못에서 개구리가 점프하는 것과 같습니다. 다음 나뭇잎으로 어디로 점프할지 주사위를 굴려 결정하면, 어떤 특정한 위치에 개구리가취집되어(적대적 입력) 특정 나뭇잎만 밟게 될 위험이 없습니다.
+📢 **섹션 요약 비유**: 랜덤 퀵 정렬은 연못에서 개구리가 점프하는 것과 같습니다. 다음 나뭇잎으로 어디로 점프할지 주사위를 굴려 결정하면, 어떤 특정한 위치에 개구리가취집되어(적대적 입력) 특정 나뭇잎만 밟게 될 위험이 없습니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실무 적용은 광범위한 영역에서 나타난다. <strong><a href="/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/">암호학</a></strong>: [RSA](/studynote/09_security/03_network_security/110_rsa/) 키 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 두 개의 큰 소수를 랜덤하게 선택하며, 이 무작위성의 보안성이 전체 시스템의 안전성을좌우한다. <strong><a href="/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a></strong>: 체이닝에서 해시 함수를 랜덤하게 선택하는 универсал 해싱은 특정 키들이 모두 동일한 버킷에 모이는 것을 방지한다. <strong><a href="/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/">근사 알고리즘</a></strong>: Monte Carlo적분에서 난수 샘플링을 통해 통계적으로 추정한다.
+랜덤화 알고리즘의 실무 적용은 광범위한 영역에서 나타난다. <strong>암호학</strong>: RSA 키 생성에서 두 개의 큰 소수를 랜덤하게 선택하며, 이 무작위성의 보안성이 전체 시스템의 안전성을좌우한다. <strong>해시 테이블</strong>: 체이닝에서 해시 함수를 랜덤하게 선택하는 универсал 해싱은 특정 키들이 모두 동일한 버킷에 모이는 것을 방지한다. <strong>근사 알고리즘</strong>: Monte Carlo적분에서 난수 샘플링을 통해 통계적으로 추정한다.
 
-<strong>랜덤 <a href="/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a> 구현</strong>에서 피벗을 랜덤하게 선택하는 것만으로 결정론적 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 O(N^)가 발생할 가능성이 크게 줄어든다.
+<strong>랜덤 퀵 정렬 구현</strong>에서 피벗을 랜덤하게 선택하는 것만으로 결정론적 퀵 정렬에서 O(N^)가 발생할 가능성이 크게 줄어든다.
 
 ```text
 [랜덤 퀵 정렬 의사코드]
@@ -132,31 +132,31 @@ weight: 13
 +------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 길게 늘어진 차선 중 어디로 갈지 고르는고속공로 driver와 같습니다. 결정론적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "항상 오른쪽 차선"을 고수하지만, 랜덤 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "매번 무작위로 차선 선택"하여 교통 체증 가능성을 크게 줄입니다.
+📢 **섹션 요약 비유**: 랜덤화 알고리즘은 길게 늘어진 차선 중 어디로 갈지 고르는고속공로 driver와 같습니다. 결정론적 알고리즘은 "항상 오른쪽 차선"을 고수하지만, 랜덤 알고리즘은 "매번 무작위로 차선 선택"하여 교통 체증 가능성을 크게 줄입니다.
 
 ---
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 품질 관리에서 가장 중요한 것은 <strong><a href="/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a>의품질</strong>과 <strong>확률적 분석의 <a href="/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>이다. 예측 가능한 [난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)를 사용하면 보안 관련 응용에서 공격에 노출될 수 있다.
+랜덤화 알고리즘의 품질 관리에서 가장 중요한 것은 <strong>난수 생성기의품질</strong>과 <strong>확률적 분석의 정확성</strong>이다. 예측 가능한 난수 생성기를 사용하면 보안 관련 응용에서 공격에 노출될 수 있다.
 
-<strong>품질 관리 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 보안 관련 응용에서는 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 안전한 [난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)([CSPRNG](/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))를 사용해야 한다. [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/) 분석의 가정(난수의 균등 분포)이 실제 구현에서도 유지되는지 확인해야 한다.
+<strong>품질 관리 체크리스트</strong>는 다음과 같다. 보안 관련 응용에서는 암호학적으로 안전한 난수 생성기(CSPRNG)를 사용해야 한다. 기댓값 분석의 가정(난수의 균등 분포)이 실제 구현에서도 유지되는지 확인해야 한다.
 
-📢 **섹션 요약 비유**: 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 품질 관리는 casino의 주사위 품질 관리와 같습니다. 주사위가 완전히ランダム하지 않으면([난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/) [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 게이머가 규칙을 깨고 이익을 취할 수 있어, 주사위의 완전なランダム성이 casino 운영의근본입니다.
+📢 **섹션 요약 비유**: 랜덤화 알고리즘의 품질 관리는 casino의 주사위 품질 관리와 같습니다. 주사위가 완전히ランダム하지 않으면(난수 생성기 결함) 게이머가 규칙을 깨고 이익을 취할 수 있어, 주사위의 완전なランダム성이 casino 운영의근본입니다.
 
 ---
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 최신 동향은 <strong>양자 랜덤화(<a href="/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> Randomness)</strong>이다. 양자 컴퓨터에서는 양자역학적 불확정성을리용한진의 [난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)가실현되어, 이론적으로 예측 불가능한 완전なランダム성을제공할 수 있다.
+랜덤화 알고리즘의 최신 동향은 <strong>양자 랜덤화(Quantum Randomness)</strong>이다. 양자 컴퓨터에서는 양자역학적 불확정성을리용한진의 난수 생성기가실현되어, 이론적으로 예측 불가능한 완전なランダム성을제공할 수 있다.
 
-랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 컴퓨터 과학의 가장 실용적인 도구 중 하나이다. 구현이 단순하고 평균성능이 우수하며, 적대적 입력에 강건하다는 점에서 많은 표준 라이브러리에서 채택되고 있다. 기술사 시험에서는 Las Vegas와 Monte Carlo의구별, 랜덤 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/) 분석을 검증한다.
+랜덤화 알고리즘은 컴퓨터 과학의 가장 실용적인 도구 중 하나이다. 구현이 단순하고 평균성능이 우수하며, 적대적 입력에 강건하다는 점에서 많은 표준 라이브러리에서 채택되고 있다. 기술사 시험에서는 Las Vegas와 Monte Carlo의구별, 랜덤 퀵 정렬의 기댓값 분석을 검증한다.
 
-📢 **섹션 요약 비유**: 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 요리에서 재료 분량을 "약간"이라고 않고 "무작위하게 +-10%" 설정하는 것과 같습니다. 평균적으로는 맛이 일정하지만 매 번 다른 맛이 나는 이색적 요리와 같습니다.
+📢 **섹션 요약 비유**: 랜덤화 알고리즘은 요리에서 재료 분량을 "약간"이라고 않고 "무작위하게 +-10%" 설정하는 것과 같습니다. 평균적으로는 맛이 일정하지만 매 번 다른 맛이 나는 이색적 요리와 같습니다.
 
 ---
 
-## 핵심 인사이트 [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
+## 핵심 인사이트 ASCII 다이어그램 (Concept Map)
 
 ```text
 [랜덤화 알고리즘 (Randomized Algorithm) 핵심 개념 맵]
@@ -189,9 +189,9 @@ weight: 13
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>라스베이거스 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Las Vegas <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> | 항상 정확한 해를 반환하되 실행 시간이 확률적으로 결정되는 유형 |
-| <strong>몬테카를로 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Monte Carlo <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> | 고정된 시간 내에 확률적 정확도로 해를 반환하는 유형 |
-| <strong><a href="/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/">CSPRNG</a> (Cryptographically Secure Pseudorandom Number Generator)</strong> | 보안 응용에서 반드시 사용해야 하는 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 안전한 [난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/) |
+| <strong>라스베이거스 알고리즘 (Las Vegas Algorithm)</strong> | 항상 정확한 해를 반환하되 실행 시간이 확률적으로 결정되는 유형 |
+| <strong>몬테카를로 알고리즘 (Monte Carlo Algorithm)</strong> | 고정된 시간 내에 확률적 정확도로 해를 반환하는 유형 |
+| <strong>CSPRNG (Cryptographically Secure Pseudorandom Number Generator)</strong> | 보안 응용에서 반드시 사용해야 하는 암호학적으로 안전한 난수 생성기 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -211,11 +211,11 @@ weight: 13
 [양자 랜덤화 (Quantum Randomness) — 양자역학적 불확정성을 활용한 진정한 난수]
 ```
 
-이 흐름은 결정론적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 한계에서 출발하여 무작위성을 도입한 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 등장하고, 확률론적 분석으로 평균 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장하며, 양자 난수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 진화하는 과정을 보여준다.
+이 흐름은 결정론적 알고리즘의 한계에서 출발하여 무작위성을 도입한 랜덤화 알고리즘이 등장하고, 확률론적 분석으로 평균 성능을 보장하며, 양자 난수 생성으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 랜덤화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 매번 주사위를 굴려 다음 할 일을 정하는 방법이에요.
+1. 랜덤화 알고리즘은 매번 주사위를 굴려 다음 할 일을 정하는 방법이에요.
 2. 나쁜 친구가 미리 함정을 파놔도(적대적 입력), 주사위를 굴리면 함정에 빠질 확률이 엄청 낮아져서 안전하답니다.
 3. 빠르게 답을 찾는 대부분의 정렬·암호·소수 판별이 이 방법으로 동작하고 있어요.
 
@@ -223,16 +223,5 @@ weight: 13
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 13 / 175
-
-<- **이전**: [12. 근사 알고리즘 (Approximation Algorithm) — NP 문제](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)
-**다음**: [14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우](/studynote/08_algorithm_stats/01_basics/014_recursion/) ->
-
----
+- 최소 800자/파일
+- 파일명: 01_, 02_... 형식

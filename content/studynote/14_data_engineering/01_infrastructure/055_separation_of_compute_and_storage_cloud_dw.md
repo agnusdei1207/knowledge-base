@@ -7,17 +7,17 @@ weight: 55
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴퓨트와 스토리지 분리는 연산과 저장을 분리해 각각 독립적으로 확장하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스 구조다.
-> 2. **가치**: [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 비용 효율, 탄력성을 높여 클라우드 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))를 유연하게 만든다.
-> 3. **판단 포인트**: 캐시, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/), 네트워크 비용, 워크로드 분리를 함께 고려해야 한다.
+> 1. **본질**: 컴퓨트와 스토리지 분리는 연산과 저장을 분리해 각각 독립적으로 확장하는 데이터웨어하우스 구조다.
+> 2. **가치**: 동시성, 비용 효율, 탄력성을 높여 클라우드 DW (Data Warehouse)를 유연하게 만든다.
+> 3. **판단 포인트**: 캐시, 메타데이터, 네트워크 비용, 워크로드 분리를 함께 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스는 저장과 연산이 한 덩어리였다. 클라우드에서는 이 둘을 분리해 더 유연하게 운영한다.
+전통적인 데이터웨어하우스는 저장과 연산이 한 덩어리였다. 클라우드에서는 이 둘을 분리해 더 유연하게 운영한다.
 
-분리 구조는 워크로드별 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 격리와 비용 최적화에 유리하다.
+분리 구조는 워크로드별 성능 격리와 비용 최적화에 유리하다.
 
 - **📢 섹션 요약 비유**: 컴퓨트와 스토리지 분리는 창고와 작업장을 따로 두는 공장 배치다.
 
@@ -25,7 +25,7 @@ weight: 55
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스토리지는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하고, 컴퓨트는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 변환을 수행한다. 둘을 분리하면 저장은 크게, 계산은 필요할 때만 확장할 수 있다.
+스토리지는 데이터를 저장하고, 컴퓨트는 쿼리와 변환을 수행한다. 둘을 분리하면 저장은 크게, 계산은 필요할 때만 확장할 수 있다.
 
 ```text
 Storage Layer <--> Compute Layer -> Query / Transform
@@ -33,10 +33,10 @@ Storage Layer <--> Compute Layer -> Query / Transform
 
 | 구성 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
-| Storage | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | [영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) |
+| Storage | 데이터 저장 | 영속성 |
 | Compute | 연산 수행 | 탄력 확장 |
-| [Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/) | 테이블 정보 | 위치/[스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) |
-| Cache | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 | 재사용 |
+| Metadata | 테이블 정보 | 위치/스냅샷 |
+| Cache | 성능 보완 | 재사용 |
 
 핵심은 연산 자원과 저장 자원을 독립적으로 스케일링한다는 점이다.
 
@@ -46,7 +46,7 @@ Storage Layer <--> Compute Layer -> Query / Transform
 
 ## Ⅲ. 비교 및 연결
 
-분리 구조는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 처리와 비용 제어에 강하다. 많은 클라우드 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 솔루션이 이 구조를 채택한다.
+분리 구조는 동시성 처리와 비용 제어에 강하다. 많은 클라우드 DW 솔루션이 이 구조를 채택한다.
 
 | 항목 | 통합 구조 | 분리 구조 |
 | :--- | :--- | :--- |
@@ -54,7 +54,7 @@ Storage Layer <--> Compute Layer -> Query / Transform
 | 비용 | 고정적 | 탄력적 |
 | 격리 | 낮음 | 높음 |
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크하우스와도 이어지며, 다양한 워크로드를 분리된 컴퓨트로 처리할 수 있다.
+데이터 레이크하우스와도 이어지며, 다양한 워크로드를 분리된 컴퓨트로 처리할 수 있다.
 
 - **📢 섹션 요약 비유**: 통합 구조는 한 방에서 모든 일을 하는 것, 분리 구조는 부엌과 창고를 나누는 것이다.
 
@@ -62,19 +62,19 @@ Storage Layer <--> Compute Layer -> Query / Transform
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴, 동시 사용자, 캐시 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 네트워크 비용, 스토리지 포맷을 함께 본다. compute scaling과 storage scaling을 분리해 계획해야 한다.
+실무에서는 쿼리 패턴, 동시 사용자, 캐시 적중률, 네트워크 비용, 스토리지 포맷을 함께 본다. compute scaling과 storage scaling을 분리해 계획해야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 컴퓨트와 스토리지가 독립 확장되는가?
 2. 워크로드 분리가 가능한가?
-3. [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)와 캐시가 잘 동작하는가?
+3. 메타데이터와 캐시가 잘 동작하는가?
 4. 네트워크 비용이 감당 가능한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 연산과 저장이 한 덩어리로 묶인 구조를 그대로 쓰는 경우
-- [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제를 확장만으로 덮는 경우
+- 동시성 문제를 확장만으로 덮는 경우
 - 워크로드 분리 없이 모두 같은 클러스터에 넣는 경우
 
 기술사 관점에서는 분리 구조가 클라우드 DW의 핵심 운영 원리라는 점을 설명해야 한다.
@@ -99,9 +99,9 @@ Storage Layer <--> Compute Layer -> Query / Transform
 | :--- | :--- |
 | Storage | 영속 저장 |
 | Compute | 연산 |
-| [Metadata](/studynote/05_database/01_db_architecture_relational/012_metadata/) | 관리 정보 |
-| Cache | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 |
-| Cloud [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | 확장형 분석 |
+| Metadata | 관리 정보 |
+| Cache | 성능 보완 |
+| Cloud DW | 확장형 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,21 +118,10 @@ Storage Layer <--> Compute Layer -> Query / Transform
 클라우드 DW / 레이크하우스
 ```
 
-이 흐름은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스가 클라우드에서 더 유연해지는 과정을 보여준다.
+이 흐름은 데이터웨어하우스가 클라우드에서 더 유연해지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 컴퓨트는 일하는 사람, 스토리지는 물건을 넣는 창고예요.
 2. 둘을 나누면 더 편하게 늘릴 수 있어요.
 3. 그래서 필요할 때만 계산 일을 더 시킬 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 55 / 258
-
-<- **이전**: [54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)
-**다음**: [56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진](/studynote/14_data_engineering/01_infrastructure/056_data_virtualization_federated_query_trino/) ->
-
----

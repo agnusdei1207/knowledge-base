@@ -6,13 +6,13 @@ tags:
 weight: 115
 ---
 > **핵심 인사이트**
-> 1. [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)(Traveling Salesman Problem)는 모든 도시를 [정확히 한 번](/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 방문하고 출발점으로 돌아오는 최단 경로를 찾는 문제로 — 결정 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(경로 길이 k 이하의 해밀톤 순환 존재하는가?)은 NP-완전이고, 최적화 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 NP-하드이다.
-> 2. TSP는 물류 배송 경로 최적화, [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 드릴링 순서, PCB 부품 배치 등 현실 문제의 "이상화"로 — 정확한 최적해는 지수 시간이 필요하지만, Christofides [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(1.5-근사)과 2-opt [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이 실용적 해를 빠르게 제공한다.
-> 3. 모든 NP-하드 최적화 문제를 "TSP로 변환"할 수 있다는 점에서 — [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 솔버(Concorde, LKH)의 발전은 물류 최적화뿐 아니라 유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)·[모의 담금질](/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/) 같은 메타휴리스틱 기법 발전을 이끌었다.
+> 1. TSP(Traveling Salesman Problem)는 모든 도시를 정확히 한 번 방문하고 출발점으로 돌아오는 최단 경로를 찾는 문제로 — 결정 버전(경로 길이 k 이하의 해밀톤 순환 존재하는가?)은 NP-완전이고, 최적화 버전은 NP-하드이다.
+> 2. TSP는 물류 배송 경로 최적화, 반도체 드릴링 순서, PCB 부품 배치 등 현실 문제의 "이상화"로 — 정확한 최적해는 지수 시간이 필요하지만, Christofides 알고리즘(1.5-근사)과 2-opt 휴리스틱이 실용적 해를 빠르게 제공한다.
+> 3. 모든 NP-하드 최적화 문제를 "TSP로 변환"할 수 있다는 점에서 — TSP 솔버(Concorde, LKH)의 발전은 물류 최적화뿐 아니라 유전 알고리즘·모의 담금질 같은 메타휴리스틱 기법 발전을 이끌었다.
 
 ---
 
-## Ⅰ. [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 정의
+## Ⅰ. TSP 정의
 
 ```
 TSP (Traveling Salesman Problem — 외판원 문제):
@@ -95,11 +95,11 @@ TSP 최적화 ∈ NP-하드:
   -> TSP 최적화 ≥ TSP(결정) -> NP-하드 ✓
 ```
 
-> 📢 **섹션 요약 비유**: [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) NP-완전 증명은 "같은 어려움의 다른 옷" — 해밀톤 경로라는 이미 어려운 문제를 TSP로 변환. TSP가 해밀톤 경로만큼 어렵다는 것을 증명해요.
+> 📢 **섹션 요약 비유**: TSP NP-완전 증명은 "같은 어려움의 다른 옷" — 해밀톤 경로라는 이미 어려운 문제를 TSP로 변환. TSP가 해밀톤 경로만큼 어렵다는 것을 증명해요.
 
 ---
 
-## Ⅲ. 근사 및 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
+## Ⅲ. 근사 및 휴리스틱
 
 ```
 TSP 근사 알고리즘:
@@ -188,7 +188,7 @@ TSP에 적용되는 고급 최적화 기법:
   Held-Karp (정확):  불가능 (n=1000)
 ```
 
-> 📢 **섹션 요약 비유**: 메타휴리스틱은 자연을 모방한 탐색 — 유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 진화처럼, 담금질은 철 냉각처럼, 개미는 페로몬처럼. 자연이 수억 년 동안 최적화한 방법을 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 차용!
+> 📢 **섹션 요약 비유**: 메타휴리스틱은 자연을 모방한 탐색 — 유전 알고리즘은 진화처럼, 담금질은 철 냉각처럼, 개미는 페로몬처럼. 자연이 수억 년 동안 최적화한 방법을 알고리즘에 차용!
 
 ---
 
@@ -241,7 +241,7 @@ AI 발전:
   -> Pointer Network, Attention Model
 ```
 
-> 📢 **섹션 요약 비유**: 물류 [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 최적화는 배달원 루트 최적화 — 500개 집을 배달하는 최단 경로를 컴퓨터가 수분 내 계산. 25% 단축하면 연간 수천만 원 연료비 절감!
+> 📢 **섹션 요약 비유**: 물류 TSP 최적화는 배달원 루트 최적화 — 500개 집을 배달하는 최단 경로를 컴퓨터가 수분 내 계산. 25% 단축하면 연간 수천만 원 연료비 절감!
 
 ---
 
@@ -304,14 +304,3 @@ Attention Model (Google Brain)
 1. TSP는 배달원의 딜레마 — 여러 집을 배달하는 가장 짧은 경로 찾기. 집이 20개만 넘어도 모든 경우를 보는 건 우주 나이보다 오래 걸려요!
 2. 2-opt는 경로 두 군데 바꿔보기 — 경로 일부를 뒤집어보고 더 짧아지면 그걸 채택. 간단하지만 효과적!
 3. 물류 회사들이 TSP를 매일 사용 — 배달 경로 25% 단축 = 연간 수천만 원 절감. 이론이 실제 돈을 아껴주는 사례!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 115 / 175
-
-<- **이전**: [009. 버텍스 커버 — Vertex Cover](/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/)
-**다음**: [011. 배낭 문제 — Knapsack Problem](/studynote/08_algorithm_stats/06_np_theory/116_knapsack/) ->
-
----

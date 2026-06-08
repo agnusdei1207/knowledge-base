@@ -7,24 +7,24 @@ weight: 549
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 rwx 권한 체계가 세상 사람을 딱 3단계(나, 내그룹, 남들)로만 나누는 편협한 틀이었다면, <strong>ACL(<a href="/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/">접근 제어 목록</a>)</strong> 은 그 제한을 박살 내고 <strong>"존에게는 읽기! 마이크에게는 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 금지! A팀에게는 실행만! 이라는 특정 유저/그룹 100만 명의 지명 수배지를 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 뒤꼬리에 주렁주렁 무한대로 매달아 핀셋(<a href="/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-grained</a>) 제어 렌더!"</strong> 를 실현한 아키텍처다.
-> 2. **가치**: 1개의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 대고 "영업팀은 읽기, 개발팀은 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 하지만 개발팀의 톰(Tom)은 얄미우니 암것도 못 하게 완전 거부(Deny 컷!)" 라는 기상천외한 실무 부서 매트릭스 [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(N:M) 융합 통치를 가능하게 했다. 이 덕분에 복잡한 클라우드 및 엔터프라이즈 보안 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 환경에서 $O(1)$ 비율의 관리 극대화 락백을 쟁취했다 포팅.
-> 3. **한계**: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개마다 그 수많은 이름표 목록(리스트) 명단을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) i-node 옆 어딘가에 보관(ExtAttr 확장 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))해야 하므로 메모리와 디스크 탐색 경로가 무거워진다. 권한이 충돌할 때(그룹은 가능, 개인은 불가) 누구 말을 들어야 하는지 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 OS 검문소 연산(Evaluation 랙!)이 복잡해져, ACL 남발 시 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서칭 속도 스로틀 병목 데들락을 유발하는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 파단을 담보한다.
+> 1. **본질**: 앞선 rwx 권한 체계가 세상 사람을 딱 3단계(나, 내그룹, 남들)로만 나누는 편협한 틀이었다면, <strong>ACL(접근 제어 목록)</strong> 은 그 제한을 박살 내고 <strong>"존에게는 읽기! 마이크에게는 쓰기 금지! A팀에게는 실행만! 이라는 특정 유저/그룹 100만 명의 지명 수배지를 파일 뒤꼬리에 주렁주렁 무한대로 매달아 핀셋(Fine-grained) 제어 렌더!"</strong> 를 실현한 아키텍처다.
+> 2. **가치**: 1개의 파일에 대고 "영업팀은 읽기, 개발팀은 쓰기, 하지만 개발팀의 톰(Tom)은 얄미우니 암것도 못 하게 완전 거부(Deny 컷!)" 라는 기상천외한 실무 부서 매트릭스 다대다(N:M) 융합 통치를 가능하게 했다. 이 덕분에 복잡한 클라우드 및 엔터프라이즈 보안 사일로(Silo) 환경에서 $O(1)$ 비율의 관리 극대화 락백을 쟁취했다 포팅.
+> 3. **한계**: 파일 1개마다 그 수많은 이름표 목록(리스트) 명단을 커널 i-node 옆 어딘가에 보관(ExtAttr 확장 속성)해야 하므로 메모리와 디스크 탐색 경로가 무거워진다. 권한이 충돌할 때(그룹은 가능, 개인은 불가) 누구 말을 들어야 하는지 커널의 OS 검문소 연산(Evaluation 랙!)이 복잡해져, ACL 남발 시 파일 서칭 속도 스로틀 병목 데들락을 유발하는 성능 트레이드오프 파단을 담보한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**:
-  - **UGO (전통적 rwx의 숨막히는 벽 파단 늪)**: "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개에 연결할 수 있는 사용자(User) 1명, 그룹(Group) 1개 끝!" 이라는 구식 리눅스 감옥. 팀이 여러 개 있는 다국적 기업에서 권한을 주려면 그룹을 또 만들고 합치고 꼬이다가 결국 `chmod 777 (모두 오픈 폭파)` 해버리는 시스템 패배의 민낯.
-  - <strong>ACL (<a href="/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a> List 핀셋 제어 명부 빔!)</strong>: 확장 룰. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 껍데기에만 rwx를 달고 있는 게 아니다. 뒤쪽에 보이지 않는 거대한 꼬리표 장부를 펼친다. `setfacl` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 발포하면 "이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 유저 톰(rw-), 유저 길동(r--), 세일즈그룹(---) 도 추가로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 제어 통치 록백!" 완전히 새로운 개별 차단막을 다이내믹하게 증식시키는 구조 설계 기전이다.
-- **필요성**: 수천 명의 직원이 접속하는 AWS S3 스토리지 버킷이나 사내 [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/). "마케팅 A팀과 재무 B팀은 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능, 기획 C팀은 읽기만 가능, 단 A팀의 인턴은 읽기 금지!" 이 미친 기업 요구사항 로직을 어떻게 OS에 박아 넣을 건가? 전통적인 9Bit rwx로는 물리적으로 불가능하므로, 리스트(List) 기반의 객체 권한 매핑(Object [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔진이 필연적으로 투입되어야만 했다 증명.
+  - **UGO (전통적 rwx의 숨막히는 벽 파단 늪)**: "파일 1개에 연결할 수 있는 사용자(User) 1명, 그룹(Group) 1개 끝!" 이라는 구식 리눅스 감옥. 팀이 여러 개 있는 다국적 기업에서 권한을 주려면 그룹을 또 만들고 합치고 꼬이다가 결국 `chmod 777 (모두 오픈 폭파)` 해버리는 시스템 패배의 민낯.
+  - <strong>ACL (Access Control List 핀셋 제어 명부 빔!)</strong>: 확장 룰. 파일은 껍데기에만 rwx를 달고 있는 게 아니다. 뒤쪽에 보이지 않는 거대한 꼬리표 장부를 펼친다. `setfacl` 명령어를 발포하면 "이 파일은 유저 톰(rw-), 유저 길동(r--), 세일즈그룹(---) 도 추가로 설정 제어 통치 록백!" 완전히 새로운 개별 차단막을 다이내믹하게 증식시키는 구조 설계 기전이다.
+- **필요성**: 수천 명의 직원이 접속하는 AWS S3 스토리지 버킷이나 사내 NAS. "마케팅 A팀과 재무 B팀은 쓰기 가능, 기획 C팀은 읽기만 가능, 단 A팀의 인턴은 읽기 금지!" 이 미친 기업 요구사항 로직을 어떻게 OS에 박아 넣을 건가? 전통적인 9Bit rwx로는 물리적으로 불가능하므로, 리스트(List) 기반의 객체 권한 매핑(Object Mapping) SRE 엔진이 필연적으로 투입되어야만 했다 증명.
 
   - (기존 rwx 방식의 치명적 절망 늪): 파티장 경호원이 딱 3가지만 봅니다. "나(파티 주최자), 황금색 옷(VIP 그룹), 기타 잡옷(아무나)". 황금색 옷을 입었으면 누구나 통과입니다. 특정 황금옷 입은 진상 손님 1명만 딱 골라서 입장 거부시키기가 절대 물리적으로 불가능합니다!
   - **(ACL 정밀 타격 명부 기전!)**: 똑똑한 리눅스/윈도우 경호원은 파티장 문 앞에 **[초정밀 VIP 명단 책자(ACL 장부 스왑!)]** 를 갖다 놨습니다! "어? 황금옷(그룹 허용) 입었네요? 근데 장부를 보니 '황금옷 그룹이긴 하지만 이름이 존(John)인 놈은 무조건 출입 금지 발포!' 라고 적혀있네? 넌 컷!!" 개인별, 팀별, 특별 손님별로 하나하나 이름표를 붙여 아주 촘촘하게 개별 제어가 가능한 철벽 방어 시스템입니다 결속!
 
-- <strong>i-node 권한 평가(Evaluation) 순서와 ACL 마스킹 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
-유저 존(John)이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열 때(Open 콜), [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 검사봇이 전통적 권한과 ACL 장부 사이에서 어떻게 충돌을 조율하고 뚝배기를 깨는지 그 렌더를 까보면 다음과 같다.
+- <strong>i-node 권한 평가(Evaluation) 순서와 ACL 마스킹 ASCII 폭쇄 뷰</strong>:
+유저 존(John)이 파일을 열 때(Open 콜), 커널 검사봇이 전통적 권한과 ACL 장부 사이에서 어떻게 충돌을 조율하고 뚝배기를 깨는지 그 렌더를 까보면 다음과 같다.
 
 ```text
   +-------------------------------------------------------------------------------------+
@@ -59,7 +59,7 @@ weight: 549
   +-------------------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** ACL이 박히면 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색(ls -l) 시 권한 끝에 `+` 기호가 붙는다(예: `-rw-r--r--+`). OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [접근 통제](/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 모듈은 권한을 짬뽕시키지 않는다. 철저한 순차 폭포수(Waterfall) 처형 룰이다. **[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 진짜 주인 \> ACL에 명시된 특정 유저 \> [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 기본 소속 그룹 및 ACL 명시 그룹 \> 생판 타인(Other)** 순서로 내려간다. 내 이름이 위쪽에 걸리는 순간 그 밑에 내가 속한 그룹 규칙은 무시당하는 마스킹(Masking 렌더) 권력 우위다. 마이크(Mike)처럼 속한 부서는 열려있어도 개인 족쇄가 차단이면 칼같이 목이 날아가는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 뷰가 도출된다.
+**[다이어그램 해설]** ACL이 박히면 파일 탐색(ls -l) 시 권한 끝에 `+` 기호가 붙는다(예: `-rw-r--r--+`). OS 커널의 VFS 접근 통제 모듈은 권한을 짬뽕시키지 않는다. 철저한 순차 폭포수(Waterfall) 처형 룰이다. **파일의 진짜 주인 \> ACL에 명시된 특정 유저 \> 파일의 기본 소속 그룹 및 ACL 명시 그룹 \> 생판 타인(Other)** 순서로 내려간다. 내 이름이 위쪽에 걸리는 순간 그 밑에 내가 속한 그룹 규칙은 무시당하는 마스킹(Masking 렌더) 권력 우위다. 마이크(Mike)처럼 속한 부서는 열려있어도 개인 족쇄가 차단이면 칼같이 목이 날아가는 무결성 뷰가 도출된다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -67,25 +67,25 @@ weight: 549
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 전선 종결: 윈도우(NTFS)의 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) ACL vs 리눅스(POSIX) ACL 체제 대폭발 비교
-운영체제의 양대 산맥은 ACL을 다루는 이념([상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)과 충돌)에서 치명적 위상 차이 스왑을 보인다.
+### 1. 전선 종결: 윈도우(NTFS)의 상속 ACL vs 리눅스(POSIX) ACL 체제 대폭발 비교
+운영체제의 양대 산맥은 ACL을 다루는 이념(상속과 충돌)에서 치명적 위상 차이 스왑을 보인다.
 
-| ACL [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 아키텍처 뷰 | 리눅스 POSIX ACL (getfacl/setfacl 방어선) | ✨ 윈도우 NTFS ACL (보안 탭 MFT 폭쇄 군주) |
+| ACL 정책 아키텍처 뷰 | 리눅스 POSIX ACL (getfacl/setfacl 방어선) | ✨ 윈도우 NTFS ACL (보안 탭 MFT 폭쇄 군주) |
 |:---|:---|:---|
-| <strong>저장 위치와 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 처리 포팅</strong> | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 숨겨진 보너스 주머니 <strong>확장 <a href="/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(xattr)</strong> 에 몰래 기생하여 리스트 구축. | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(MFT)의 심장부 메인 스펙! <strong>뼈대 그 자체(<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Descriptor) 록백.</strong> |
-| **권한 충돌 로직 (허용 Allow vs 거부 Deny 빔)** | 먼저 발견되는 상위 룰(특정 User > Group)이 우선 덮어씀 ([Top-down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 순차 컷). | 100만 개의 허용(Allow)이 있어도 **단 1개의 명시적 거부(Deny)가 끼어있으면 모든 것을 압살 파단(Deny-First 기전).** |
-| <strong><a href="/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 자식 <a href="/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>(Inheritance) 전위망</strong> | 기본적으로 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 불가. 원하면 Default ACL 이란 꼼수 플래그를 폴더에 박아 하위 강제 전파 랙. | <strong>무한 <a href="/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>(Inheritance 폭포수).</strong> C드라이브 권한 고치면 수억 개 하위 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)까지 권한을 폭포처럼 다시 칠해버림 CPU 과부하 병목. |
+| <strong>저장 위치와 커널 처리 포팅</strong> | 파일 시스템의 숨겨진 보너스 주머니 <strong>확장 속성(xattr)</strong> 에 몰래 기생하여 리스트 구축. | 파일 시스템(MFT)의 심장부 메인 스펙! <strong>뼈대 그 자체(Security Descriptor) 록백.</strong> |
+| **권한 충돌 로직 (허용 Allow vs 거부 Deny 빔)** | 먼저 발견되는 상위 룰(특정 User > Group)이 우선 덮어씀 (Top-down 순차 컷). | 100만 개의 허용(Allow)이 있어도 **단 1개의 명시적 거부(Deny)가 끼어있으면 모든 것을 압살 파단(Deny-First 기전).** |
+| <strong>디렉터리 자식 상속(Inheritance) 전위망</strong> | 기본적으로 상속 불가. 원하면 Default ACL 이란 꼼수 플래그를 폴더에 박아 하위 강제 전파 랙. | <strong>무한 상속(Inheritance 폭포수).</strong> C드라이브 권한 고치면 수억 개 하위 파일까지 권한을 폭포처럼 다시 칠해버림 CPU 과부하 병목. |
 
-### 2. 치명적 오버헤드 폭발: ACL Mask 와 xattr(확장 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) 기반 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 비만화 연쇄 랙
-단순했던 9Bit 를 버린 대가는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 사이즈 오버헤드와 Mask 리미트 제한선이라는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 트레이드오프 데들락을 낳았다.
+### 2. 치명적 오버헤드 폭발: ACL Mask 와 xattr(확장 속성) 기반 메타데이터 비만화 연쇄 랙
+단순했던 9Bit 를 버린 대가는 파일 사이즈 오버헤드와 Mask 리미트 제한선이라는 SRE 트레이드오프 데들락을 낳았다.
 
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (ACL 명부 수천 개 달기 극한 용량 팽창 늪)</strong>:
-  - (용량 부스트 파단 늪 스왑): 1KB짜리 빈 텍스트 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개에, 직원 1만 명의 이름을 ACL로 개별 추가(`setfacl -m u:직원1:rwx...`)했다.
-  - (In-node 박쇄 폭파 빔 발동!): 원래 i-node 공간은 256Byte 뿐이다. 1만 명의 텍스트 리스트가 들어갈 턱이 없다! [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "안되겠다 이 명단을 별도의 다른 디스크 공간(ExtAttr Block 블록 스왑)에 묶어 연결해 포인터 쏴라!" 라고 도망친다.
-  - 결과: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 1번 읽을 때 본문 찾으러 I/O 이동, 그놈의 1만 명짜리 보안 장부(ACL 리스트) 찾아서 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하느라 디스크 I/O가 2배 3배(Random Seek 폭발 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 뛰어버려, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서칭 속도 레이턴시 스로틀이 곤두박질치는 기적의 마비 셧다운 병목 늪 입증.
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (유효 권한 캡 Mask Limit 록백!!) / 권한 방파제</strong>:
-  - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 사고 예방 관통 뷰!: ACL로 특정 유저에게 무적(rwx) 빔을 다 열어놨는데, 관리자가 실수로 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기본 권한(Group)을 `r-- (읽기만)` 로 훅 줄여버렸다. "어라? ACL은 rwx 폭주인데 저거 막아야 하지 않나?"
-  - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 궁극 마스킹 (ACL Mask 스로틀 한계선 록백!): [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 <strong><code>m (Mask 최대 허용치 천장)</code></strong> 이라는 최상위 갑옷을 입혀 둔다. 만약 Mask가 `r--` 이면, ACL 장부에 해커 이름이 `rwx` 로 휘황찬란하게 적혀있어도 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 감시기(Evaluator)가 0.1초 만에 "Mask 천장에 부딪힘! 너의 실행(x) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(w) 권한은 무효 칼등치기 파단 빔!" 하며 권한 폭주를 $O(1)$ 비율로 봉쇄 강등시키는 제어 룰(Effective Rights 삭감 뼈대)을 가동해 방산 비리를 증명해 낸다 안전 확보 컷.
+- <strong>안티패턴 오염 발생 미스터리 (ACL 명부 수천 개 달기 극한 용량 팽창 늪)</strong>:
+  - (용량 부스트 파단 늪 스왑): 1KB짜리 빈 텍스트 파일 1개에, 직원 1만 명의 이름을 ACL로 개별 추가(`setfacl -m u:직원1:rwx...`)했다.
+  - (In-node 박쇄 폭파 빔 발동!): 원래 i-node 공간은 256Byte 뿐이다. 1만 명의 텍스트 리스트가 들어갈 턱이 없다! 커널은 "안되겠다 이 명단을 별도의 다른 디스크 공간(ExtAttr Block 블록 스왑)에 묶어 연결해 포인터 쏴라!" 라고 도망친다.
+  - 결과: 파일을 1번 읽을 때 본문 찾으러 I/O 이동, 그놈의 1만 명짜리 보안 장부(ACL 리스트) 찾아서 확인하느라 디스크 I/O가 2배 3배(Random Seek 폭발 지연) 뛰어버려, 파일 서칭 속도 레이턴시 스로틀이 곤두박질치는 기적의 마비 셧다운 병목 늪 입증.
+- <strong>SRE 극복 솔루션 패치 타결 조율 (유효 권한 캡 Mask Limit 록백!!) / 권한 방파제</strong>:
+  - SRE 사고 예방 관통 뷰!: ACL로 특정 유저에게 무적(rwx) 빔을 다 열어놨는데, 관리자가 실수로 파일 기본 권한(Group)을 `r-- (읽기만)` 로 훅 줄여버렸다. "어라? ACL은 rwx 폭주인데 저거 막아야 하지 않나?"
+  - SRE 궁극 마스킹 (ACL Mask 스로틀 한계선 록백!): 커널은 <strong><code>m (Mask 최대 허용치 천장)</code></strong> 이라는 최상위 갑옷을 입혀 둔다. 만약 Mask가 `r--` 이면, ACL 장부에 해커 이름이 `rwx` 로 휘황찬란하게 적혀있어도 커널 감시기(Evaluator)가 0.1초 만에 "Mask 천장에 부딪힘! 너의 실행(x) 쓰기(w) 권한은 무효 칼등치기 파단 빔!" 하며 권한 폭주를 $O(1)$ 비율로 봉쇄 강등시키는 제어 룰(Effective Rights 삭감 뼈대)을 가동해 방산 비리를 증명해 낸다 안전 확보 컷.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -93,15 +93,15 @@ weight: 549
 
 ## Ⅲ. 비교 및 연결
 
-### 찰떡같이 짰던 거미줄 ACL 보안, [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)/[압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 한 방에 허공으로 날아가는 "Tar 아카이브 파괴 랙"
-수만 개의 치밀한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)별 ACL 족쇄가 `tar` 나 `cp` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 구형 옵션에서 কিভাবে 종말을 맞이하는지 시스템 맹점을 분해한다.
+### 찰떡같이 짰던 거미줄 ACL 보안, 백업/압축 한 방에 허공으로 날아가는 "Tar 아카이브 파괴 랙"
+수만 개의 치밀한 파일별 ACL 족쇄가 `tar` 나 `cp` 명령어의 구형 옵션에서 কিভাবে 종말을 맞이하는지 시스템 맹점을 분해한다.
 
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (ACL 증발 마이그레이션 데들락 랙)</strong>:
-  - 엔지니어가 금융 서버 10만 개 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 1주일 밤새 `setfacl` 로 팀별, 사람별 예술적인 ACL 보안 구조를 짰다 (ls -l 하면 + 가 다 붙어있음).
+- <strong>안티패턴 충돌 (ACL 증발 마이그레이션 데들락 랙)</strong>:
+  - 엔지니어가 금융 서버 10만 개 파일에 1주일 밤새 `setfacl` 로 팀별, 사람별 예술적인 ACL 보안 구조를 짰다 (ls -l 하면 + 가 다 붙어있음).
   - 다음 주 서버 이전. 엔지니어가 평소처럼 `tar -cvzf backup.tar.gz /data` 로 묶어서 새 서버에 카피하고 풀었다(`tar -xzvf`).
-  - 재앙 멸망 강림: [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 푼 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 보니 뒤에 `+` (ACL 표식) 가 전부 증발했다!! 구버전 `tar` 나 단순 `cp` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 i-node 옆에 붙은 외계인 확장 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(ExtAttr / ACL)을 인지하지 못하고 버려버린 채(Truncation 삭제 스왑!) 순정 알맹이 9Bit(rwx)만 카피하는 사지절단 오버헤드 늪을 발현시킨 것. 금융사 보안망이 완전히 해체되어 전 세계 해커에 오픈되는 초유의 블로킹 사태 도출.
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 마이그레이션 도축 빔 솔루션 (<code>--acls</code> 보존 옵션과 rsync 전진 렌더!)</strong>:
-  - 엔지니어 필수 [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 사살 타결: 절대 그냥 복사하면 안 된다! `cp -a` (Archive 무결 보존) 혹은 `tar --acls -cvzf`, [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 시엔 무조건 <strong><code>rsync -A</code> (ACL 무결 보존 거시 전송 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 빔!)</strong> 를 강제로 붙여야만 i-node 본체와 그 뒤에 달린 거대한 거미줄 명부(xattr 덩어리)를 안전하게 쌍둥이 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 포팅(Migration) 해낼 수 있다는 클라우드 이관 철칙 생태계를 명심해야 권한 증발 사태를 막는다 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 선고.
+  - 재앙 멸망 강림: 압축을 푼 파일들을 보니 뒤에 `+` (ACL 표식) 가 전부 증발했다!! 구버전 `tar` 나 단순 `cp` 명령어는 i-node 옆에 붙은 외계인 확장 속성(ExtAttr / ACL)을 인지하지 못하고 버려버린 채(Truncation 삭제 스왑!) 순정 알맹이 9Bit(rwx)만 카피하는 사지절단 오버헤드 늪을 발현시킨 것. 금융사 보안망이 완전히 해체되어 전 세계 해커에 오픈되는 초유의 블로킹 사태 도출.
+- <strong>SRE 마이그레이션 도축 빔 솔루션 (<code>--acls</code> 보존 옵션과 rsync 전진 렌더!)</strong>:
+  - 엔지니어 필수 커맨드 사살 타결: 절대 그냥 복사하면 안 된다! `cp -a` (Archive 무결 보존) 혹은 `tar --acls -cvzf`, 복제 시엔 무조건 <strong><code>rsync -A</code> (ACL 무결 보존 거시 전송 파이프 빔!)</strong> 를 강제로 붙여야만 i-node 본체와 그 뒤에 달린 거대한 거미줄 명부(xattr 덩어리)를 안전하게 쌍둥이 복제 포팅(Migration) 해낼 수 있다는 클라우드 이관 철칙 생태계를 명심해야 권한 증발 사태를 막는다 확인 선고.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -109,9 +109,9 @@ weight: 549
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 'ACL ([Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) List 핀셋형 정밀 타격 보안 렌더)' 아키텍처는 UGO(3단계 딱딱이 룰) 라는 초고대 유닉스 공산주의 배급식 통제를 무참히 박살 내고, 현대 엔터프라이즈의 "N개의 팀, M개의 유저 교차 매트릭스 허용 규칙" 을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)(xattr)의 확장 장부로 끌어안아 수용해 낸 우주적 유연성(Granularity 최정점 제어)의 궁극적 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 뼈대다.
-- 특정 유저만 콕 집어 권한을 열어주거나(화이트리스트 스왑 $O(1)$) 혹은 반대로 특정 진상 1명만 칼같이 격리하는(블랙리스트 차단 파단 빔) 무한한 지명 수배지를 구현함으로써 기업 사내망 클러스터 뷰와 윈도우 스토리지 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 네트워크 방화벽을 사실상 무결하게 장악해 냈다 선고.
-- 비록 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)마다 무거운 확장 명부(ExtAttr 블럭 병목 늪)를 달고 다녀 I/O 탐색의 극악 헤드 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Random Seek 레이턴시 피로도)과 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 미달로 인한 꼬리표 증발(ACL Loss 모순 데들락) 파단을 낳는 트레이드오프 오버헤드를 짊어졌지만, Mask 제한(Limit Ceiling) 마스킹과 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 스로틀을 통해 OS 보안 코어의 중심에서 가장 세밀하고 우아한 방검복 포팅 맵으로 종결 영원 진화되었다 록백 보장.
+- 'ACL (Access Control List 핀셋형 정밀 타격 보안 렌더)' 아키텍처는 UGO(3단계 딱딱이 룰) 라는 초고대 유닉스 공산주의 배급식 통제를 무참히 박살 내고, 현대 엔터프라이즈의 "N개의 팀, M개의 유저 교차 매트릭스 허용 규칙" 을 커널 메타데이터(xattr)의 확장 장부로 끌어안아 수용해 낸 우주적 유연성(Granularity 최정점 제어)의 궁극적 스위치 뼈대다.
+- 특정 유저만 콕 집어 권한을 열어주거나(화이트리스트 스왑 $O(1)$) 혹은 반대로 특정 진상 1명만 칼같이 격리하는(블랙리스트 차단 파단 빔) 무한한 지명 수배지를 구현함으로써 기업 사내망 클러스터 뷰와 윈도우 스토리지 분산 네트워크 방화벽을 사실상 무결하게 장악해 냈다 선고.
+- 비록 파일마다 무거운 확장 명부(ExtAttr 블럭 병목 늪)를 달고 다녀 I/O 탐색의 극악 헤드 지연(Random Seek 레이턴시 피로도)과 백업 시 명령어 미달로 인한 꼬리표 증발(ACL Loss 모순 데들락) 파단을 낳는 트레이드오프 오버헤드를 짊어졌지만, Mask 제한(Limit Ceiling) 마스킹과 캐싱 압축 스로틀을 통해 OS 보안 코어의 중심에서 가장 세밀하고 우아한 방검복 포팅 맵으로 종결 영원 진화되었다 록백 보장.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -119,7 +119,7 @@ weight: 549
 
 ## Ⅴ. 기대효과 및 결론
 
-ACL ([Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) List) 확장을 통한 세밀한 사용자별 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [리눅스 확장 속성](/studynote/02_operating_system/09_file_system/550_extended_attributes_xattr/) (Extended [Attributes](/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/), xattr)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제은 파일 시스템과 디렉터리 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 리눅스 확장 속성 (Extended Attributes, xattr)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -129,10 +129,10 @@ ACL ([Access Control](/studynote/02_operating_system/09_file_system/547_access_c
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근 제어 ([Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [SetUID](/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) ([4000](/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/)), SetGID (2000), Sticky [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) (1000) 특수 권한 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [리눅스 확장 속성](/studynote/02_operating_system/09_file_system/550_extended_attributes_xattr/) (Extended [Attributes](/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/), xattr) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [할당량](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) ([Quota](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 시스템 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 파일 시스템 접근 제어 (Access Control) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 리눅스 확장 속성 (Extended Attributes, xattr) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 할당량 (Quota) 시스템 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,21 +146,10 @@ ACL ([Access Control](/studynote/02_operating_system/09_file_system/547_access_c
     +---> [할당량 (Quota) 시스템]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 앞선 UGO 기본 자물쇠는 "내 친한 친구들 그룹" 이 딱 1칸밖에 없어서, '철수' 랑 '영희' 랑 한 팀에 묶어 허락해 주려면 엄청 피곤하고 딴 애들이 쫓겨나는(딱딱한 융합 불발 바보 권한 늪!) 멍청한 불편함 에러 랙을 낳았어요 완전 멸망!
-2. 그래서 컴박사 지니어스 경찰이 **"ACL! 정밀 타겟 저격! 족집게 명부 리스트 빔!(핀셋 초정밀 스왑!)"** 방패를 만들어 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 찰싹 붙여줬어요 록백! 이제 자물쇠 1개에 의존 안 해요! [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문 앞에 아주 긴 종이 장부 명단(리스트 뼈대)을 걸어두고 "순희는 지우개 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능! 민수는 접근 완전 금지! 경수는 읽기만 가능!" 이라고 무한대 백만 명의 이름을 개별 명시해서 하나하나 따로따로 열어주는 기적 같은 출입국 심사(무결 환상 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 스피드!) 기적이 가능해요 도출!
-3. 치명적 슬픔 종이 공책 뚱뚱보 과부하 발생! 근데 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1만 개마다 이렇게 거대하고 긴 장부(종이 꼬리표)를 다 달고 다녀야 하니 디스크가 종이의 무게(ExtAttr 확장 공간 분열 마비 랙!)에 깔려 살이 찌고 느려집니다. 게다가 관리자가 "친구들 다 놀러 와(그룹 허용)!" 라고 오픈했는데, 장부에는 "진상 민수는 빼고!(금지)" 라고 충돌하는 모순을 마주칠 때 컴퓨터 경찰(Evaluator CPU)이 땀을 삐질 빼며 누굴 막아야 할지 연산하며 머리가 지끈 아파오는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 병목 현상 모순을 동시에 짊어지고 살아가야 한답니다 만렙 진화 랙!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 549 / 800
-
-<- **이전**: [548. SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions](/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/)
-**다음**: [550. 리눅스 확장 속성 (Extended Attributes, xattr)](/studynote/02_operating_system/09_file_system/550_extended_attributes_xattr/) ->
-
----
+2. 그래서 컴박사 지니어스 경찰이 **"ACL! 정밀 타겟 저격! 족집게 명부 리스트 빔!(핀셋 초정밀 스왑!)"** 방패를 만들어 파일에 찰싹 붙여줬어요 록백! 이제 자물쇠 1개에 의존 안 해요! 파일 문 앞에 아주 긴 종이 장부 명단(리스트 뼈대)을 걸어두고 "순희는 지우개 쓰기 가능! 민수는 접근 완전 금지! 경수는 읽기만 가능!" 이라고 무한대 백만 명의 이름을 개별 명시해서 하나하나 따로따로 열어주는 기적 같은 출입국 심사(무결 환상 환각 스피드!) 기적이 가능해요 도출!
+3. 치명적 슬픔 종이 공책 뚱뚱보 과부하 발생! 근데 파일 1만 개마다 이렇게 거대하고 긴 장부(종이 꼬리표)를 다 달고 다녀야 하니 디스크가 종이의 무게(ExtAttr 확장 공간 분열 마비 랙!)에 깔려 살이 찌고 느려집니다. 게다가 관리자가 "친구들 다 놀러 와(그룹 허용)!" 라고 오픈했는데, 장부에는 "진상 민수는 빼고!(금지)" 라고 충돌하는 모순을 마주칠 때 컴퓨터 경찰(Evaluator CPU)이 땀을 삐질 빼며 누굴 막아야 할지 연산하며 머리가 지끈 아파오는 성능 오버헤드 병목 현상 모순을 동시에 짊어지고 살아가야 한답니다 만렙 진화 랙!

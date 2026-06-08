@@ -7,9 +7,9 @@ weight: 626
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 메모리를 관리하려면 '게스트 가상 주소(GVA)'를 물리 서버의 진짜 '호스트 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)([HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))'로 변환해야 하는 <strong>2단계 주소 변환</strong>이 필수적이다.
-> 2. **비교**: 쉐도우 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(SPT)은 이 복잡한 변환을 소프트웨어([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))가 가로채서 숨겨진 통합 테이블을 억지로 유지하는 고비용의 방식이며, [확장 페이지 테이블](/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)(EPT/NPT)은 CPU 하드웨어 MMU에 2차원 변환기를 내장시켜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 극복한 [하드웨어 보조](/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 방식이다.
-> 3. **가치**: EPT의 도입으로 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit([문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))로 인한 수십 퍼센트의 메모리 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드가 단 1~2% 수준으로 급감했으며, 이는 현대 메모리 집약적 클라우드 워크로드(DB, In-memory Cache) 구동의 필수 기반이 되었다.
+> 1. **본질**: 가상화 환경에서 메모리를 관리하려면 '게스트 가상 주소(GVA)'를 물리 서버의 진짜 '호스트 물리 주소(HPA)'로 변환해야 하는 <strong>2단계 주소 변환</strong>이 필수적이다.
+> 2. **비교**: 쉐도우 페이지 테이블(SPT)은 이 복잡한 변환을 소프트웨어(하이퍼바이저)가 가로채서 숨겨진 통합 테이블을 억지로 유지하는 고비용의 방식이며, 확장 페이지 테이블(EPT/NPT)은 CPU 하드웨어 MMU에 2차원 변환기를 내장시켜 성능 저하를 극복한 하드웨어 보조 방식이다.
+> 3. **가치**: EPT의 도입으로 VM Exit(문맥 교환)로 인한 수십 퍼센트의 메모리 가상화 성능 오버헤드가 단 1~2% 수준으로 급감했으며, 이는 현대 메모리 집약적 클라우드 워크로드(DB, In-memory Cache) 구동의 필수 기반이 되었다.
 
 ---
 
@@ -17,21 +17,21 @@ weight: 626
 
 - **개념**:
   - 일반적인 OS는 `가상 주소(VA) -> 물리 주소(PA)`로의 1단계 변환만 수행한다.
-  - 하지만 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 환경에서는 게스트 OS가 생각하는 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)(GPA)가 실제 물리 서버의 주소([HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))가 아니므로, `게스트 가상 주소(GVA) -> 게스트 물리 주소(GPA) -> 호스트 물리 주소(HPA)`라는 2단계 변환이 필요해졌다.
-  - <strong>쉐도우 <a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> (SPT)</strong>: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 GVA $\rightarrow$ HPA로 바로 가는 다이렉트 매핑 테이블(그림자 테이블)을 소프트웨어적으로 몰래 만들어 CPU에게 던져주는 전통적 방식이다.
-  - <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/">확장 페이지 테이블</a> (EPT, Intel) / NPT (AMD)</strong>: CPU 안의 [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/)([Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) 자체를 개조하여 2단계 변환표를 하드웨어가 직접 순회(Hardware [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk)하도록 만든 기술이다.
+  - 하지만 가상머신(VM) 환경에서는 게스트 OS가 생각하는 물리 주소(GPA)가 실제 물리 서버의 주소(HPA)가 아니므로, `게스트 가상 주소(GVA) -> 게스트 물리 주소(GPA) -> 호스트 물리 주소(HPA)`라는 2단계 변환이 필요해졌다.
+  - <strong>쉐도우 페이지 테이블 (SPT)</strong>: 하이퍼바이저가 GVA $\rightarrow$ HPA로 바로 가는 다이렉트 매핑 테이블(그림자 테이블)을 소프트웨어적으로 몰래 만들어 CPU에게 던져주는 전통적 방식이다.
+  - <strong>확장 페이지 테이블 (EPT, Intel) / NPT (AMD)</strong>: CPU 안의 MMU(Memory Management Unit) 자체를 개조하여 2단계 변환표를 하드웨어가 직접 순회(Hardware Page Walk)하도록 만든 기술이다.
 
-- **필요성**: SPT 환경에서는 게스트 OS가 자기 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(CR3 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))을 수정할 때마다 무조건 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입)가 발생한다. 특히 [프로세스 생성](/studynote/02_operating_system/02_process_thread/104_process_creation/)(fork)이나 종료가 잦은 환경에서는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 그림자 테이블을 동기화하느라 CPU 리소스의 30~50%를 낭비했다. 이를 해결하기 위해 H/W가 직접 개입하는 EPT가 등장했다.
+- **필요성**: SPT 환경에서는 게스트 OS가 자기 페이지 테이블(CR3 레지스터)을 수정할 때마다 무조건 VM Exit(하이퍼바이저 개입)가 발생한다. 특히 프로세스 생성(fork)이나 종료가 잦은 환경에서는 하이퍼바이저가 그림자 테이블을 동기화하느라 CPU 리소스의 30~50%를 낭비했다. 이를 해결하기 위해 H/W가 직접 개입하는 EPT가 등장했다.
 
-  - **SPT 방식**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(번역가)가 밤을 새워 '한국어 $\rightarrow$ 아랍어' 통합 직역 사전(쉐도우 사전)을 몰래 만들어 CPU에게 준다. 게스트가 단어 하나를 바꿀 때마다 쉐도우 사전도 일일이 다시 써야 해서 번역가가 과로사한다.
-  - **EPT 방식**: CPU(스마트 안경) 자체가 두 개의 사전을 동시에 펼쳐놓고, 한국어를 보면 영어로, 영어를 바로 아랍어로 렌즈 안에서 하드웨어적으로 즉시 번역(2D [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk)해 버린다. 번역가([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))는 쉴 수 있다.
+  - **SPT 방식**: 하이퍼바이저(번역가)가 밤을 새워 '한국어 $\rightarrow$ 아랍어' 통합 직역 사전(쉐도우 사전)을 몰래 만들어 CPU에게 준다. 게스트가 단어 하나를 바꿀 때마다 쉐도우 사전도 일일이 다시 써야 해서 번역가가 과로사한다.
+  - **EPT 방식**: CPU(스마트 안경) 자체가 두 개의 사전을 동시에 펼쳐놓고, 한국어를 보면 영어로, 영어를 바로 아랍어로 렌즈 안에서 하드웨어적으로 즉시 번역(2D Page Walk)해 버린다. 번역가(하이퍼바이저)는 쉴 수 있다.
 
 - **발전 과정**:
-  1. <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (소프트웨어 <a href="/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)</strong>: 순수 SPT. 게스트 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)(Write-Protect)를 통한 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 처리로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극악.
-  2. <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/">하드웨어 보조</a> 메모리 <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (2008년)</strong>: Intel EPT([Extended Page Table](/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)), AMD NPT([Nested Page Table](/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/)) 도입 (MMU의 2차원 탐색).
-  3. **최신 최적화**: TLB에 게스트 ID(VPID)를 추가하여 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시 제거 + EPT와 [Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)(2MB/1GB)의 결합.
+  1. <strong>초기 가상화 (소프트웨어 MMU)</strong>: 순수 SPT. 게스트 페이지 테이블 쓰기 보호(Write-Protect)를 통한 트랩 처리로 성능 극악.
+  2. <strong>하드웨어 보조 메모리 가상화 (2008년)</strong>: Intel EPT(Extended Page Table), AMD NPT(Nested Page Table) 도입 (MMU의 2차원 탐색).
+  3. **최신 최적화**: TLB에 게스트 ID(VPID)를 추가하여 문맥 교환 시 TLB 플러시 제거 + EPT와 Huge Page(2MB/1GB)의 결합.
 
-- **📢 섹션 요약 비유**: 가짜 지도(GPA)를 든 여행객(게스트)을 진짜 목적지([HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))로 데려가기 위해 매번 뒤통수를 치고 길을 안내하던 가이드(SPT)가, 여행객의 안경에 실시간 AR 내비게이션(EPT)을 달아주고 퇴근한 것입니다.
+- **📢 섹션 요약 비유**: 가짜 지도(GPA)를 든 여행객(게스트)을 진짜 목적지(HPA)로 데려가기 위해 매번 뒤통수를 치고 길을 안내하던 가이드(SPT)가, 여행객의 안경에 실시간 AR 내비게이션(EPT)을 달아주고 퇴근한 것입니다.
 
 ---
 
@@ -39,18 +39,18 @@ weight: 626
 
 ### 구성 요소 비교
 
-| 요소 | 쉐도우 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) (SPT - 소프트웨어) | [확장 페이지 테이블](/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/) (EPT/NPT - 하드웨어) | 비유 |
+| 요소 | 쉐도우 페이지 테이블 (SPT - 소프트웨어) | 확장 페이지 테이블 (EPT/NPT - 하드웨어) | 비유 |
 |:---|:---|:---|:---|
-| **변환 경로** | GVA $\rightarrow$ [HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) (1단계 변환 매핑) | GVA $\rightarrow$ GPA $\rightarrow$ [HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) (2단계 변환 H/W 순회) | 숏컷 vs 정석 경로 |
-| **관리 주체** | <strong><a href="/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> (소프트웨어)</strong> | <strong>하드웨어 <a href="/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a></strong> | 수작업 vs 기계 |
-| <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Exit 발생</strong> | 게스트가 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 건드릴 때마다 발생 | 게스트 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 시에만 발생 (거의 없음) | 매번 보고 vs 알아서 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) |
+| **변환 경로** | GVA $\rightarrow$ HPA (1단계 변환 매핑) | GVA $\rightarrow$ GPA $\rightarrow$ HPA (2단계 변환 H/W 순회) | 숏컷 vs 정석 경로 |
+| **관리 주체** | <strong>하이퍼바이저 (소프트웨어)</strong> | <strong>하드웨어 MMU</strong> | 수작업 vs 기계 |
+| <strong>VM Exit 발생</strong> | 게스트가 페이지 테이블 건드릴 때마다 발생 | 게스트 페이지 폴트 시에만 발생 (거의 없음) | 매번 보고 vs 알아서 진행 |
 | **메모리 소모** | 게스트 프로세스마다 쉐도우 테이블 필요 (메모리 낭비 심함) | VM당 1개의 EPT만 필요 (메모리 절약) | 복사본 수백 개 vs 원본 1개 |
 
 ---
 
-### SPT (Shadow [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/)) 동작 원리 및 병목
+### SPT (Shadow Page Table) 동작 원리 및 병목
 
-SPT는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 물리 CPU MMU를 속이는 고도의 트릭이다.
+SPT는 하이퍼바이저가 물리 CPU MMU를 속이는 고도의 트릭이다.
 
 ```text
   +-------------------------------------------------------------------+
@@ -76,13 +76,13 @@ SPT는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architect
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 물리 CPU의 MMU는 무조건 CR3 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 가리키는 테이블 1개만 보고 주소를 변환한다. 그래서 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 게스트 OS의 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)을 읽기 전용(Read-Only)으로 잠가버린다. 게스트가 메모리 할당을 위해 테이블을 쓰려고 하면 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit)이 걸린다. [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 그 내역을 확인하고, 실제 물리 메모리([HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))에 맞게끔 변환된 '그림자(Shadow) 테이블'을 업데이트한 뒤, 물리 CR3에는 그림자 테이블을 연결해 둔다. 결과적으로 메모리 접근 자체는 GVA$\rightarrow$HPA로 빨라지지만, 테이블을 '관리'하는 비용([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit)이 너무 커서 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살난다.
+**[다이어그램 해설]** 물리 CPU의 MMU는 무조건 CR3 레지스터가 가리키는 테이블 1개만 보고 주소를 변환한다. 그래서 하이퍼바이저는 게스트 OS의 페이지 테이블을 읽기 전용(Read-Only)으로 잠가버린다. 게스트가 메모리 할당을 위해 테이블을 쓰려고 하면 트랩(VM Exit)이 걸린다. 하이퍼바이저는 그 내역을 확인하고, 실제 물리 메모리(HPA)에 맞게끔 변환된 '그림자(Shadow) 테이블'을 업데이트한 뒤, 물리 CR3에는 그림자 테이블을 연결해 둔다. 결과적으로 메모리 접근 자체는 GVA$\rightarrow$HPA로 빨라지지만, 테이블을 '관리'하는 비용(VM Exit)이 너무 커서 전체 성능이 박살난다.
 
 ---
 
-### EPT / NPT (Hardware-Assisted [Paging](/studynote/02_operating_system/04_synchronization/259_paging/)) 아키텍처
+### EPT / NPT (Hardware-Assisted Paging) 아키텍처
 
-EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk)이 가능하도록 개조한 것이다.
+EPT는 하드웨어 MMU를 2차원 횡단(2D Page Walk)이 가능하도록 개조한 것이다.
 
 ```text
   +-------------------------------------------------------------------+
@@ -110,7 +110,7 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_archi
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** EPT 아키텍처에서는 게스트가 자기 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(CR3)을 마음대로 썼다 지웠다 해도 아무 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 발생하지 않는다. 실제 메모리에 접근할 때, 하드웨어 MMU가 게스트 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(Guest PT)을 읽어 GPA를 계산하고, 즉시 VMM이 설정해둔 EPT([Extended Page Table](/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/), EPTP [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 가리킴)를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 HPA로 변환한다. 소프트웨어([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))의 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 횟수는 0으로 수렴한다. 단, 최악의 경우 1번의 주소 변환을 위해 $4 \times 4 = 16$번(64비트 기준) 또는 $5 \times 5 = 25$번의 메모리 탐색([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk)이 발생하므로 하드웨어 레벨의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생할 수 있다. (이를 TLB와 Huge Page로 극복한다.)
+**[다이어그램 해설]** EPT 아키텍처에서는 게스트가 자기 페이지 테이블(CR3)을 마음대로 썼다 지웠다 해도 아무 트랩이 발생하지 않는다. 실제 메모리에 접근할 때, 하드웨어 MMU가 게스트 페이지 테이블(Guest PT)을 읽어 GPA를 계산하고, 즉시 VMM이 설정해둔 EPT(Extended Page Table, EPTP 레지스터가 가리킴)를 참조하여 HPA로 변환한다. 소프트웨어(하이퍼바이저)의 VM Exit 횟수는 0으로 수렴한다. 단, 최악의 경우 1번의 주소 변환을 위해 $4 \times 4 = 16$번(64비트 기준) 또는 $5 \times 5 = 25$번의 메모리 탐색(Page Walk)이 발생하므로 하드웨어 레벨의 지연이 발생할 수 있다. (이를 TLB와 Huge Page로 극복한다.)
 
 - **📢 섹션 요약 비유**: SPT가 매번 주소를 물어볼 때마다 관리자가 장부를 고쳐 쓰는 수기 시스템이라면, EPT는 바코드만 찍으면 1, 2차 물류 센터를 자동으로 연결해 조회해 주는 전산 자동화 시스템입니다.
 
@@ -118,21 +118,21 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_archi
 
 ## Ⅲ. 비교 및 연결
 
-### 트레이드오프 비교 ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Trade-off)
+### 트레이드오프 비교 (Performance Trade-off)
 
-| 비교 항목 | 쉐도우 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) (SPT) | EPT / NPT (하드웨어) |
+| 비교 항목 | 쉐도우 페이징 (SPT) | EPT / NPT (하드웨어) |
 |:---|:---|:---|
-| <strong>메모리 접근 (<a href="/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Miss 시)</strong> | GVA $\rightarrow$ [HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) (1단계, 빠름) | 2차원 H/W [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk (최대 24번 메모리 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/), 상대적 느림) |
-| <strong>테이블 갱신 (<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> 시)</strong> | <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Exit 발생 (치명적 병목, 매우 느림)</strong> | <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Exit 없음 (게스트가 자체 처리, 매우 빠름)</strong> |
-| <strong>전체 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (Real Workload)</strong> | 프로세스 잦은 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 30% 이하 저하 | 대부분의 워크로드에서 네이티브(물리 서버)의 95~98% [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 달성 |
-| <strong><a href="/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 활용</strong> | 게스트 전환 시 전체 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) Flush 필요 | VPID 지원으로 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 별 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 유지 가능 |
+| <strong>메모리 접근 (TLB Miss 시)</strong> | GVA $\rightarrow$ HPA (1단계, 빠름) | 2차원 H/W Page Walk (최대 24번 메모리 참조, 상대적 느림) |
+| <strong>테이블 갱신 (Page Fault 시)</strong> | <strong>VM Exit 발생 (치명적 병목, 매우 느림)</strong> | <strong>VM Exit 없음 (게스트가 자체 처리, 매우 빠름)</strong> |
+| <strong>전체 성능 (Real Workload)</strong> | 프로세스 잦은 생성 시 성능 30% 이하 저하 | 대부분의 워크로드에서 네이티브(물리 서버)의 95~98% 성능 달성 |
+| <strong>TLB 활용</strong> | 게스트 전환 시 전체 TLB Flush 필요 | VPID 지원으로 VM 별 TLB 캐시 유지 가능 |
 
 ### 과목 융합 관점
 
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: 메모리 관리 기법 중 [다단계 페이징](/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)([Hierarchical Paging](/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)) 모델이 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 만나 어떻게 수평적 차원(EPT)으로 확장되었는지를 보여주는 아키텍처 진화의 핵심 사례다.
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> (Cloud)</strong>: [인메모리 데이터베이스](/studynote/16_bigdata/06_nosql/139_inmemory_db/)([Redis](/studynote/05_database/04_transactions_concurrency/542_redis/), SAP HANA)를 클라우드 VM에 올릴 수 있게 된 결정적 이유가 EPT 덕분이다. EPT 이전에는 메모리 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 잦은 DB를 VM에 올리면 SPT 갱신 오버헤드로 인해 서비스가 멈출 지경이었다.
+- <strong>운영체제 (OS)</strong>: 메모리 관리 기법 중 다단계 페이징(Hierarchical Paging) 모델이 가상화를 만나 어떻게 수평적 차원(EPT)으로 확장되었는지를 보여주는 아키텍처 진화의 핵심 사례다.
+- <strong>클라우드 컴퓨팅 (Cloud)</strong>: 인메모리 데이터베이스(Redis, SAP HANA)를 클라우드 VM에 올릴 수 있게 된 결정적 이유가 EPT 덕분이다. EPT 이전에는 메모리 쓰기가 잦은 DB를 VM에 올리면 SPT 갱신 오버헤드로 인해 서비스가 멈출 지경이었다.
 
-- **📢 섹션 요약 비유**: EPT는 길을 찾는 과정 자체는 여러 번 꺾여서(2D [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk) 조금 길지만, 교통경찰([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))의 검문을 아예 안 받아도 되기 때문에 목적지에는 훨씬 빨리 도착하는 고속도로입니다.
+- **📢 섹션 요약 비유**: EPT는 길을 찾는 과정 자체는 여러 번 꺾여서(2D Page Walk) 조금 길지만, 교통경찰(하이퍼바이저)의 검문을 아예 안 받아도 되기 때문에 목적지에는 훨씬 빨리 도착하는 고속도로입니다.
 
 ---
 
@@ -140,12 +140,12 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_archi
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — 클라우드 환경에서 <a href="/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a>(인메모리 DB) <a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하</strong>: 수십 GB 단위로 메모리를 읽고 쓰는 [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) VM의 응답 속도가 물리 서버 대비 40% 이상 떨어지는 현상. 분석 결과 `TLB Miss` 비율이 압도적으로 높음.
-   - **원인**: EPT 구조상 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/)(주소 변환 캐시) 미스가 나면 MMU가 무려 24번의 메모리 탐색([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk)을 해야 하므로 물리 서버(4번)보다 타격이 6배 크다.
-   - <strong>대응 (<a href="/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 적용)</strong>: 게스트 OS와 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 양쪽 모두에 [대형 페이지](/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/)(Transparent [Huge Pages](/studynote/02_operating_system/06_memory_management/371_huge_pages/), 2MB 또는 1GB)를 활성화한다. [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기가 커지면 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 단계가 4단계에서 2단계로 줄어들고, 2차원 횡단 비용이 24번 $\rightarrow$ 6번으로 급감하며, [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 적중률이 극적으로 상승하여 네이티브 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 98%를 회복할 수 있다.
+1. <strong>시나리오 — 클라우드 환경에서 Redis(인메모리 DB) VM 성능 저하</strong>: 수십 GB 단위로 메모리를 읽고 쓰는 Redis VM의 응답 속도가 물리 서버 대비 40% 이상 떨어지는 현상. 분석 결과 `TLB Miss` 비율이 압도적으로 높음.
+   - **원인**: EPT 구조상 TLB(주소 변환 캐시) 미스가 나면 MMU가 무려 24번의 메모리 탐색(Page Walk)을 해야 하므로 물리 서버(4번)보다 타격이 6배 크다.
+   - <strong>대응 (Huge Page 적용)</strong>: 게스트 OS와 하이퍼바이저 양쪽 모두에 대형 페이지(Transparent Huge Pages, 2MB 또는 1GB)를 활성화한다. 페이지 크기가 커지면 페이지 테이블 단계가 4단계에서 2단계로 줄어들고, 2차원 횡단 비용이 24번 $\rightarrow$ 6번으로 급감하며, TLB 적중률이 극적으로 상승하여 네이티브 성능의 98%를 회복할 수 있다.
 
-2. <strong>시나리오 — <a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 밀도(Density)가 높은 <a href="/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a>(데스크톱 <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>) 서버 메모리 고갈</strong>: 한 서버에 수백 대의 윈도우 VM을 띄우는 [VDI](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 환경에서 메모리 부족 현상 발생.
-   - **대응 (KSM과 EPT의 결합)**: [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 환경에서 KSM ([Kernel Samepage Merging](/studynote/02_operating_system/10_security/631_ksm_kernel_samepage_merging/))을 켠다. [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 여러 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(예: 동일한 윈도우 DLL [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이 가진 똑같은 내용의 물리 메모리([HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)) [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 스캔하여 하나로 합친다. 그리고 각 VM의 EPT가 이 단일 공유 HPA를 가리키게 매핑한 뒤, [Copy-On-Write](/studynote/02_operating_system/09_file_system/542_cow_file_system/)([COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/))를 걸어둔다. 소프트웨어 SPT로는 관리가 불가능에 가까웠던 메모리 중복 제거가 EPT 하드웨어 덕분에 손쉽게 구현되어 서버 밀도를 30% 이상 높일 수 있다.
+2. <strong>시나리오 — VM 밀도(Density)가 높은 VDI(데스크톱 가상화) 서버 메모리 고갈</strong>: 한 서버에 수백 대의 윈도우 VM을 띄우는 VDI 환경에서 메모리 부족 현상 발생.
+   - **대응 (KSM과 EPT의 결합)**: KVM 환경에서 KSM (Kernel Samepage Merging)을 켠다. 하이퍼바이저가 여러 VM(예: 동일한 윈도우 DLL 파일)이 가진 똑같은 내용의 물리 메모리(HPA) 페이지를 스캔하여 하나로 합친다. 그리고 각 VM의 EPT가 이 단일 공유 HPA를 가리키게 매핑한 뒤, Copy-On-Write(COW)를 걸어둔다. 소프트웨어 SPT로는 관리가 불가능에 가까웠던 메모리 중복 제거가 EPT 하드웨어 덕분에 손쉽게 구현되어 서버 밀도를 30% 이상 높일 수 있다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -170,13 +170,13 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_archi
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** EPT는 기본적으로 "켜기만 하면 빠른" 훌륭한 기능이지만, 2차원 탐색이라는 태생적 족쇄를 지닌다. 이 족쇄의 무게를 줄이는 가장 완벽하고 유일한 기술사적 처방은 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>(<a href="/studynote/02_operating_system/06_memory_management/371_huge_pages/">거대 페이지</a>)</strong>의 결합이다. [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기를 4KB에서 2MB로 늘리면, EPT가 순회해야 할 테이블의 층(Depth)이 낮아져 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 페널티가 사실상 제로에 수렴하게 된다.
+**[다이어그램 해설]** EPT는 기본적으로 "켜기만 하면 빠른" 훌륭한 기능이지만, 2차원 탐색이라는 태생적 족쇄를 지닌다. 이 족쇄의 무게를 줄이는 가장 완벽하고 유일한 기술사적 처방은 <strong>Huge Page(거대 페이지)</strong>의 결합이다. 페이지 크기를 4KB에서 2MB로 늘리면, EPT가 순회해야 할 테이블의 층(Depth)이 낮아져 가상화 페널티가 사실상 제로에 수렴하게 된다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- <strong>하드웨어 <a href="/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong>: 중첩 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))를 사용할 때, Intel의 `VMCS Shadowing` 기능이 지원되는 CPU인지 확인하여 EPT over EPT 오버헤드를 막고 있는가?
-- **보안 격리**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 공격([Rowhammer](/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) 등)을 방어하기 위해 KSM(Samepage Merging) 같은 메모리 공유 기술이 보안 민감 워크로드에서는 오히려 비활성화(Disable)되어 있는지 점검했는가?
+### 도입 체크리스트
+- <strong>하드웨어 호환성</strong>: 중첩 가상화(VM 안의 VM)를 사용할 때, Intel의 `VMCS Shadowing` 기능이 지원되는 CPU인지 확인하여 EPT over EPT 오버헤드를 막고 있는가?
+- **보안 격리**: 하이퍼바이저 공격(Rowhammer 등)을 방어하기 위해 KSM(Samepage Merging) 같은 메모리 공유 기술이 보안 민감 워크로드에서는 오히려 비활성화(Disable)되어 있는지 점검했는가?
 
-- **📢 섹션 요약 비유**: EPT(내비게이션)만 믿고 복잡한 골목길(4KB [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 달리면 계산이 느려집니다. 아예 길 자체를 넓은 8차선 고속도로([Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))로 뚫어주어야 진정한 무정차 통과가 가능합니다.
+- **📢 섹션 요약 비유**: EPT(내비게이션)만 믿고 복잡한 골목길(4KB 페이지)을 달리면 계산이 느려집니다. 아예 길 자체를 넓은 8차선 고속도로(Huge Page)로 뚫어주어야 진정한 무정차 통과가 가능합니다.
 
 ---
 
@@ -184,20 +184,20 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_archi
 
 ### 정량/정성 기대효과
 
-| 구분 | 쉐도우 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (SPT) 환경 | EPT ([Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 결합) 환경 | 개선 효과 |
+| 구분 | 쉐도우 페이지 (SPT) 환경 | EPT (Huge Page 결합) 환경 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 비율: 1,000회/sec 이상 | [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit: 거의 0 ([Page fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 시에만) | [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 오버헤드 폭감 (CPU 반환) |
-| **정량** | 메모리 접근 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하: 20~40% | 메모리 접근 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하: **1~3% 이내** | 네이티브 수준의 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 구동 가능 |
-| **정성** | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 코드 복잡도 극상 | MMU에 아웃소싱으로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단순화 | [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 등 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 비약적 발전 기여 |
+| **정량** | VM Exit 비율: 1,000회/sec 이상 | VM Exit: 거의 0 (Page fault 시에만) | 스케줄러 오버헤드 폭감 (CPU 반환) |
+| **정량** | 메모리 접근 성능 저하: 20~40% | 메모리 접근 성능 저하: **1~3% 이내** | 네이티브 수준의 데이터베이스 구동 가능 |
+| **정성** | 하이퍼바이저 코드 복잡도 극상 | MMU에 아웃소싱으로 커널 단순화 | KVM 등 오픈소스 하이퍼바이저의 비약적 발전 기여 |
 
 ### 미래 전망
-- <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> / 스마트 메모리 계층 <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a></strong>: 미래에는 서버에 로컬 메모리뿐 아니라 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반의 원격 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 메모리가 장착된다. EPT 기능이 CPU를 넘어 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 컨트롤러 하드웨어로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)/확장되어, VM이 원격 메모리를 마치 자기 로컬 메모리처럼 2차원 변환 없이 다이렉트로 쓰게 되는 구조로 진화할 것이다.
-- **보안 EPT (Intel TDX / AMD SEV-SNP)**: 클라우드 제공자(AWS 등)조차도 고객 VM의 메모리를 들여다보지 못하게 만들기 위해, EPT의 각 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 매핑 단계에 하드웨어 암호화 키를 부여하는 [기밀 컴퓨팅](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)([Confidential Computing](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/))이 클라우드 보안의 새로운 표준으로 정착하고 있다.
+- <strong>CXL / 스마트 메모리 계층 가상화</strong>: 미래에는 서버에 로컬 메모리뿐 아니라 CXL(Compute Express Link) 기반의 원격 풀링 메모리가 장착된다. EPT 기능이 CPU를 넘어 CXL 컨트롤러 하드웨어로 분산/확장되어, VM이 원격 메모리를 마치 자기 로컬 메모리처럼 2차원 변환 없이 다이렉트로 쓰게 되는 구조로 진화할 것이다.
+- **보안 EPT (Intel TDX / AMD SEV-SNP)**: 클라우드 제공자(AWS 등)조차도 고객 VM의 메모리를 들여다보지 못하게 만들기 위해, EPT의 각 페이지 매핑 단계에 하드웨어 암호화 키를 부여하는 기밀 컴퓨팅(Confidential Computing)이 클라우드 보안의 새로운 표준으로 정착하고 있다.
 
 ### 결론
-쉐도우 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(SPT)에서 [확장 페이지 테이블](/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)(EPT)로의 진화는, 시스템 소프트웨어의 난제를 하드웨어 아키텍처가 어떻게 구원하는지 보여주는 교과서적 사례다. EPT의 등장으로 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 '연구실의 장난감'에서 '데이터센터의 제왕'으로 신분 상승을 완료했다. 현재 클라우드 엔지니어링의 핵심은 이 EPT 위에 [Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/), KSM, IOMMU를 어떻게 적절히 조립하느냐에 달려 있다.
+쉐도우 페이지 테이블(SPT)에서 확장 페이지 테이블(EPT)로의 진화는, 시스템 소프트웨어의 난제를 하드웨어 아키텍처가 어떻게 구원하는지 보여주는 교과서적 사례다. EPT의 등장으로 가상화는 '연구실의 장난감'에서 '데이터센터의 제왕'으로 신분 상승을 완료했다. 현재 클라우드 엔지니어링의 핵심은 이 EPT 위에 Huge Page, KSM, IOMMU를 어떻게 적절히 조립하느냐에 달려 있다.
 
-- **📢 섹션 요약 비유**: 똑똑한 사람(소프트웨어)이 밤새워 장부를 맞추던 시대를 끝내고, 눈 깜짝할 새 자동 연산하는 계산기(하드웨어 [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/))가 도입되면서 현대 클라우드 공장이 완성된 것입니다.
+- **📢 섹션 요약 비유**: 똑똑한 사람(소프트웨어)이 밤새워 장부를 맞추던 시대를 끝내고, 눈 깜짝할 새 자동 연산하는 계산기(하드웨어 MMU)가 도입되면서 현대 클라우드 공장이 완성된 것입니다.
 
 ---
 
@@ -205,10 +205,10 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_archi
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [마이크로커널](/studynote/02_operating_system/01_overview_architecture/024_microkernel/) [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) 메시지 패싱 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 단축 기법 구조 설계 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [하이퍼바이저 링 레벨](/studynote/02_operating_system/10_security/625_hypervisor_ring_level_vmx/) (Ring -1 모드 VMX Root/Non-Root 모드) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/)) 역할 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [컨테이너 런타임](/studynote/02_operating_system/10_security/628_container_runtime_oci/) ([runc](/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/), containerd) [OCI](/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격 표준화 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| IOMMU (Input/Output MMU) 역할 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 컨테이너 런타임 (runc, containerd) OCI 규격 표준화 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -229,14 +229,3 @@ EPT는 하드웨어 MMU를 2차원 횡단(2D [Page](/studynote/01_computer_archi
 1. 가상머신(가짜 컴퓨터)은 진짜 메모리 주소를 모르기 때문에, 진짜 컴퓨터가 매번 "여기가 진짜 주소야"라고 알려주는 복잡한 지도(쉐도우 테이블)를 일일이 그려줘야 했어요. (이러면 컴퓨터가 너무 힘들어해요.)
 2. 그런데 똑똑한 과학자들이 컴퓨터 두뇌(CPU) 안에 '자동 내비게이션(EPT)' 기계를 넣어주었어요.
 3. 이제 가짜 컴퓨터가 메모리 주소를 부르면, 이 내비게이션이 순식간에 진짜 주소로 변환해 주어서 가상머신이 진짜 컴퓨터처럼 쌩쌩 날아다니게 되었답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 626 / 800
-
-<- **이전**: [625. 하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)](/studynote/02_operating_system/10_security/625_hypervisor_ring_level_vmx/)
-**다음**: [627. IOMMU (Input/Output MMU) 역할 - 가상머신 DMA 장치 할당 및 보호 격리](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) ->
-
----

@@ -8,7 +8,7 @@ weight: 68
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 슈퍼 키(Super [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 튜플을 유일하게 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있지만 최소성을 만족하지 않을 수 있는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합이다.
+> 1. **본질**: 슈퍼 키(Super Key)는 튜플을 유일하게 식별할 수 있지만 최소성을 만족하지 않을 수 있는 속성 집합이다.
 > 2. **가치**: 후보키를 찾기 위한 출발점이 되며, 키 설계의 넓은 개념을 보여 준다.
 > 3. **판단**: 후보키, 기본키와의 차이를 분명히 해야 모델링 오류를 줄일 수 있다.
 
@@ -16,7 +16,7 @@ weight: 68
 
 ## Ⅰ. 개요 및 필요성
 
-모든 키가 바로 후보키는 아니다. 먼저 유일하게 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 조합을 넓게 잡고, 그다음 최소성을 걸러야 한다.
+모든 키가 바로 후보키는 아니다. 먼저 유일하게 식별 가능한 속성 조합을 넓게 잡고, 그다음 최소성을 걸러야 한다.
 
 슈퍼 키는 그 첫 단계다.
 
@@ -38,11 +38,11 @@ Minimality Check
 
 | 개념 | 의미 |
 | :-- | :-- |
-| Super [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | 유일성 만족 |
-| [Candidate Key](/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/) | 유일성 + 최소성 |
-| Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | 선택된 후보키 |
+| Super Key | 유일성 만족 |
+| Candidate Key | 유일성 + 최소성 |
+| Primary Key | 선택된 후보키 |
 
-슈퍼 키는 하나의 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이든 여러 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 조합이든 될 수 있다. 중요한 것은 튜플을 유일하게 찾을 수 있다는 점이다.
+슈퍼 키는 하나의 속성이든 여러 속성의 조합이든 될 수 있다. 중요한 것은 튜플을 유일하게 찾을 수 있다는 점이다.
 
 - **📢 섹션 요약 비유**: 열쇠가 여러 개 달린 묶음이라도 문이 열리면 일단 슈퍼 키다.
 
@@ -50,7 +50,7 @@ Minimality Check
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | Super [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | [Candidate Key](/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/) | Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) |
+| 구분 | Super Key | Candidate Key | Primary Key |
 | :-- | :-- | :-- | :-- |
 | 유일성 | O | O | O |
 | 최소성 | X 가능 | O | O |
@@ -58,8 +58,8 @@ Minimality Check
 
 | 관련 개념 | 의미 |
 | :-- | :-- |
-| Minimality | 불필요한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 제거 |
-| Uniqueness | 유일 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| Minimality | 불필요한 속성 제거 |
+| Uniqueness | 유일 식별 |
 
 슈퍼 키는 후보키를 찾는 탐색 공간을 넓혀 준다. 그래서 키 설계의 기반이 된다.
 
@@ -69,20 +69,20 @@ Minimality Check
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 유일성을 만족하는가?
 2. 최소성은 아직 검사 전인가?
 3. 후보키를 찾기 위한 중간 단계인가?
 4. 기본키와 혼동하지 않는가?
-5. 복합 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 중복을 고려했는가?
+5. 복합 속성의 중복을 고려했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 슈퍼 키와 후보키를 같은 것으로 보는 설계
-- 불필요한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 계속 추가하는 설계
+- 불필요한 속성을 계속 추가하는 설계
 - 키 탐색 없이 임의로 기본키를 정하는 설계
-- 유일성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 이름만 키인 설계
+- 유일성 검증 없이 이름만 키인 설계
 
 기술사 관점에서는 슈퍼 키를 "유일성만 만족하는 상위 개념"으로 명확히 설명해야 한다.
 
@@ -92,7 +92,7 @@ Minimality Check
 
 ## Ⅴ. 기대효과 및 결론
 
-슈퍼 키를 이해하면 후보키 탐색이 쉬워지고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링이 더 정확해진다.
+슈퍼 키를 이해하면 후보키 탐색이 쉬워지고, 데이터 모델링이 더 정확해진다.
 
 결론적으로 슈퍼 키는 유일성만 만족하는 넓은 키 집합이다.
 
@@ -133,14 +133,3 @@ Key Design
 문을 열 수 있는 건 많아요.
 하지만 꼭 필요한 것만 골라야 해요.
 슈퍼 키는 그런 큰 열쇠 묶음이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 68 / 600
-
-<- **이전**: [67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)
-**다음**: [69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키](/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/) ->
-
----

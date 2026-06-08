@@ -6,13 +6,13 @@ tags:
 weight: 44
 ---
 > **핵심 인사이트**
-> 1. 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(Enterprise [Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))은 소프트웨어 개발팀의 [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)/[칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)을 넘어 — [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오, 제품, 팀의 세 계층에서 반복적 가치 전달과 지속적 개선을 조직 전체로 확장하는 경영 패러다임이다.
-> 2. [SAFe](/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)([Scaled Agile Framework](/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)), [LeSS](/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)([Large-Scale Scrum](/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)), Spotify 모델 등 확장 프레임워크는 수십~수백 개 팀 간의 의존성 조율, 릴리즈 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) 문제를 해결하지만 — 각 조직의 문화·구조에 맞지 않는 무비판적 도입이 "[Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 극장([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Theater)"으로 이어지는 위험이 있다.
-> 3. 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 핵심은 프로세스 준수가 아닌 "고객 가치 흐름을 중단 없이 가속"하는 것이며 — [OKR](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)([Objectives and Key Results](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/))과의 결합을 통해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표에서 팀 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)까지의 정렬(Alignment)이 달성될 때 진정한 비즈니스 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)리티가 실현된다.
+> 1. 기업 애자일(Enterprise Agile)은 소프트웨어 개발팀의 스크럼/칸반을 넘어 — 포트폴리오, 제품, 팀의 세 계층에서 반복적 가치 전달과 지속적 개선을 조직 전체로 확장하는 경영 패러다임이다.
+> 2. SAFe(Scaled Agile Framework), LeSS(Large-Scale Scrum), Spotify 모델 등 확장 프레임워크는 수십~수백 개 팀 간의 의존성 조율, 릴리즈 동기화, 지속적 통합 문제를 해결하지만 — 각 조직의 문화·구조에 맞지 않는 무비판적 도입이 "Agile 극장(Agile Theater)"으로 이어지는 위험이 있다.
+> 3. 기업 애자일의 핵심은 프로세스 준수가 아닌 "고객 가치 흐름을 중단 없이 가속"하는 것이며 — OKR(Objectives and Key Results)과의 결합을 통해 전략 목표에서 팀 스프린트까지의 정렬(Alignment)이 달성될 때 진정한 비즈니스 애자일리티가 실현된다.
 
 ---
 
-## Ⅰ. 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개요
+## Ⅰ. 기업 애자일 개요
 
 ```
 기업 애자일 (Enterprise Agile):
@@ -48,11 +48,11 @@ weight: 44
   Business Value: 스프린트별 비즈니스 가치 측정
 ```
 
-> 📢 **섹션 요약 비유**: 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 공장 전체 컨베이어 개선 — 한 작업자(팀)가 빨라지는 게 아니라, 공장 전체(전 팀)의 흐름을 끊김 없이 만드는 경영 방식.
+> 📢 **섹션 요약 비유**: 기업 애자일은 공장 전체 컨베이어 개선 — 한 작업자(팀)가 빨라지는 게 아니라, 공장 전체(전 팀)의 흐름을 끊김 없이 만드는 경영 방식.
 
 ---
 
-## Ⅱ. [SAFe](/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) — 확장 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크
+## Ⅱ. SAFe — 확장 애자일 프레임워크
 
 ```
 SAFe (Scaled Agile Framework):
@@ -88,11 +88,11 @@ SAFe의 장단점:
   -> 조직 특성에 맞는 선택적 도입이 핵심
 ```
 
-> 📢 **섹션 요약 비유**: SAFe의 ART는 기차 시간표 — 수십 개 팀이 같은 선로([PI](/studynote/12_it_management/01_governance_strategy/805_process_innovation/) 주기)를 달리도록 시간표를 맞추는 것. 혼자 달리면 충돌, 같이 달리면 안전.
+> 📢 **섹션 요약 비유**: SAFe의 ART는 기차 시간표 — 수십 개 팀이 같은 선로(PI 주기)를 달리도록 시간표를 맞추는 것. 혼자 달리면 충돌, 같이 달리면 안전.
 
 ---
 
-## Ⅲ. Spotify 모델 & [OKR](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/)
+## Ⅲ. Spotify 모델 & OKR
 
 ```
 Spotify 모델:
@@ -140,11 +140,11 @@ OKR (Objectives and Key Results):
   팀: 스프린트 OKR (부서 OKR 기여)
 ```
 
-> 📢 **섹션 요약 비유**: [OKR](/studynote/12_it_management/01_governance_strategy/831_okr_objectives_key_results/) + [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 나침반 + 배 — OKR이 방향(목표)을 가리키고, [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 그 방향으로 빠르게 노를 저어요. 방향 없이 빠른 것도, 느린 방향도 낭비.
+> 📢 **섹션 요약 비유**: OKR + 애자일은 나침반 + 배 — OKR이 방향(목표)을 가리키고, 애자일 스프린트가 그 방향으로 빠르게 노를 저어요. 방향 없이 빠른 것도, 느린 방향도 낭비.
 
 ---
 
-## Ⅳ. 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 실패 패턴
+## Ⅳ. 기업 애자일 전환 실패 패턴
 
 ```
 기업 애자일 전환 실패 패턴:
@@ -186,11 +186,11 @@ OKR (Objectives and Key Results):
    프로젝트(기한 있음) -> 제품(지속적 진화)으로 전환
 ```
 
-> 📢 **섹션 요약 비유**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 실패는 운동복만 입은 것 — 운동복([스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 의식) 입었다고 건강(민첩성)해지는 게 아니에요. 실제 운동(가치 흐름 개선)이 없으면 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 극장.
+> 📢 **섹션 요약 비유**: 애자일 전환 실패는 운동복만 입은 것 — 운동복(스크럼 의식) 입었다고 건강(민첩성)해지는 게 아니에요. 실제 운동(가치 흐름 개선)이 없으면 애자일 극장.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 은행 [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)
+## Ⅴ. 실무 시나리오 — 은행 디지털 전환
 
 ```
 대형 은행 디지털 전환 기업 애자일:
@@ -235,7 +235,7 @@ Phase 3 — OKR + 애자일 정렬:
   -> 이 부분은 애자일로도 빠르게 못 함 (현실 인식 필요)
 ```
 
-> 📢 **섹션 요약 비유**: 은행 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 14차선 도로 만들기 — 기존 도로(14일 대출)의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등(결재)과 좁은 구간(수작업)을 없애고, 고속도로(자동화 + 자율팀)로 재설계.
+> 📢 **섹션 요약 비유**: 은행 기업 애자일은 14차선 도로 만들기 — 기존 도로(14일 대출)의 신호등(결재)과 좁은 구간(수작업)을 없애고, 고속도로(자동화 + 자율팀)로 재설계.
 
 ---
 
@@ -292,17 +292,6 @@ HR, 재무, 마케팅까지 애자일 확장
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 공장 전체 속도 높이기 — 한 팀이 빠르면 뭐해요, 옆 팀이 느리면 전체가 늦어요. 모든 팀이 같은 리듬으로 달리게 만드는 게 기업 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)!
-2. SAFe의 [PI](/studynote/12_it_management/01_governance_strategy/805_process_innovation/) Planning은 기차 시간표 — 수십 팀이 동시에 출발하는 날을 맞추는 것. 혼자 먼저 가면 충돌 사고!
-3. OKR과 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 나침반과 배 — OKR이 방향을 정해주고, [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 그 방향으로 빠르게 노를 저어요. 방향이 맞아야 빠른 게 의미 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 44 / 482
-
-<- **이전**: [043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)](/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/)
-**다음**: [045. ITIL과 ITSM 프레임워크 — ITIL & ITSM](/studynote/07_enterprise_systems/01_strategy_governance/045_itil_itsm_framework/) ->
-
----
+1. 기업 애자일은 공장 전체 속도 높이기 — 한 팀이 빠르면 뭐해요, 옆 팀이 느리면 전체가 늦어요. 모든 팀이 같은 리듬으로 달리게 만드는 게 기업 애자일!
+2. SAFe의 PI Planning은 기차 시간표 — 수십 팀이 동시에 출발하는 날을 맞추는 것. 혼자 먼저 가면 충돌 사고!
+3. OKR과 애자일은 나침반과 배 — OKR이 방향을 정해주고, 스프린트가 그 방향으로 빠르게 노를 저어요. 방향이 맞아야 빠른 게 의미 있어요!

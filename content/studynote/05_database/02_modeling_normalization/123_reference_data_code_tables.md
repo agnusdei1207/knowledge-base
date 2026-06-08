@@ -6,8 +6,8 @@ tags:
 weight: 123
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 <strong>성별(M/F)·상태(<a href="/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">ACTIVE</a>/INACTIVE)·지역코드</strong> 등 <strong>비즈니스 규칙에 의해 정해진 코드 값의 집합</strong>이며, 코드 테이블([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Table)로 관리한다.
-> 2. **가치**: 코드를 하드코딩하면 변경 시 소스코드 수정이 필요하지만, 코드 테이블로 분리하면 <strong>DB <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정만으로 코드 값을 추가·변경</strong>할 수 있고 전사 표준화가 가능하다.
+> 1. **본질**: 참조 데이터(Reference Data)는 <strong>성별(M/F)·상태(ACTIVE/INACTIVE)·지역코드</strong> 등 <strong>비즈니스 규칙에 의해 정해진 코드 값의 집합</strong>이며, 코드 테이블(Code Table)로 관리한다.
+> 2. **가치**: 코드를 하드코딩하면 변경 시 소스코드 수정이 필요하지만, 코드 테이블로 분리하면 <strong>DB 데이터 수정만으로 코드 값을 추가·변경</strong>할 수 있고 전사 표준화가 가능하다.
 > 3. **판단 포인트**: 코드 테이블 설계 시 **통합 코드 테이블(하나의 테이블에 모든 코드 유형)** vs <strong>개별 코드 테이블(유형별 별도 테이블)</strong>의 트레이드오프를 이해해야 한다.
 
 ---
@@ -68,7 +68,7 @@ weight: 123
 
 ## Ⅴ. 기대효과 및 결론
 
-[참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리는 <strong><a href="/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/">데이터 표준화</a>·MDM의 기초</strong>이며, 코드 테이블의 체계적 관리가 전사 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질의 출발점이다.
+참조 데이터 관리는 <strong>데이터 표준화·MDM의 기초</strong>이며, 코드 테이블의 체계적 관리가 전사 데이터 품질의 출발점이다.
 
 ---
 
@@ -76,11 +76,11 @@ weight: 123
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **코드 테이블** | [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 저장소 |
-| <strong><a href="/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">MDM</a></strong> | [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포함한 마스터 관리 |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 표준</strong> | 코드 값의 전사 표준화 |
+| **코드 테이블** | 참조 데이터의 저장소 |
+| <strong>MDM</strong> | 참조 데이터를 포함한 마스터 관리 |
+| <strong>데이터 표준</strong> | 코드 값의 전사 표준화 |
 | **Enum** | 프로그래밍 언어의 코드 값 표현 |
-| **캐시** | 코드 테이블의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
+| **캐시** | 코드 테이블의 성능 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -104,14 +104,3 @@ weight: 123
 1. 코드 테이블은 <strong>약어 사전</strong>이에요. "M=남자, F=여자"처럼 약속된 의미를 정해요.
 2. 사전이 없으면 "M이 뭐지?"라고 <strong>사람마다 다르게 이해</strong>할 수 있어요.
 3. 사전(코드 테이블) 하나로 <strong>모든 사람이 같은 뜻</strong>으로 이해할 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 123 / 600
-
-<- **이전**: [122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간](/studynote/05_database/02_modeling_normalization/122_master_data_management_db_perspective/)
-**다음**: [124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계](/studynote/05_database/02_modeling_normalization/124_data_governance_db_perspective/) ->
-
----

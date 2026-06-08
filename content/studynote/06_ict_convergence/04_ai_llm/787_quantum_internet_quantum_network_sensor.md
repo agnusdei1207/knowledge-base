@@ -176,11 +176,3 @@ DEJMPS 프로토콜(1998)은 4 Bell states 기반으로 한 번에 2개 비트�
 | **오류 정정** | Reed-Solomon, LDPC(10⁻⁹ BER) | Surface Code(d=3~21), Bacon-Shor, Topological |
 | **지연 시간** | ms~s (광속 한계) | 동일 (광속 한계), 단 teleportation 시 큐비트 확정 필요 |
 |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 787 / 800
-
-<- **이전**: [786. 사이버 물리 시스템 CPS 융합 보안](/studynote/06_ict_convergence/uncategorized/786_cyber_physical_system_cps_convergence_securit/)
-**다음**: [788. 뇌 과학 AI 인지 컴퓨팅 신경 모방](/studynote/06_ict_convergence/uncategorized/788_brain_science_ai_cognitive_computing_neuro/) ->
-
----

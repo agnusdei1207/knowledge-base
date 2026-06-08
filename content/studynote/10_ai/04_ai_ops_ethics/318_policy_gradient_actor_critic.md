@@ -7,17 +7,17 @@ weight: 318
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사 ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Gradient)는 Q값을 통해 행동을 간접 유도하는 Q-러닝과 달리, <strong><a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>) π_θ(a|s)를 파라미터 θ로 직접 표현하고 기대 보상의 그래디언트로 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 파라미터를 직접 최적화</strong>하는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 방법론이다.
-> 2. **가치**: 연속 행동 공간(로봇 관절 토크, 자율주행 핸들 각도)에서 DQN이 불가능한 문제를 처리 가능하고, [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 구조는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) 문제를 [가치 함수](/studynote/10_ai/02_dl_architecture_new/163_value_function/)(Critic)로 안정화하여 현대 Deep RL의 표준 구조가 됐다.
-> 3. **판단 포인트**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))에서 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬에 사용되는 [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))가 Actor-Critic의 대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, ChatGPT·Claude·Gemini 모두 [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 기반 RLHF로 정렬됐다는 것이 기술사 필수 지식이다.
+> 1. **본질**: 정책 경사 (Policy Gradient)는 Q값을 통해 행동을 간접 유도하는 Q-러닝과 달리, <strong>정책(Policy) π_θ(a|s)를 파라미터 θ로 직접 표현하고 기대 보상의 그래디언트로 정책 파라미터를 직접 최적화</strong>하는 강화 학습 방법론이다.
+> 2. **가치**: 연속 행동 공간(로봇 관절 토크, 자율주행 핸들 각도)에서 DQN이 불가능한 문제를 처리 가능하고, Actor-Critic(AC) 구조는 정책 경사의 분산(Variance) 문제를 가치 함수(Critic)로 안정화하여 현대 Deep RL의 표준 구조가 됐다.
+> 3. **판단 포인트**: RLHF (Reinforcement Learning from Human Feedback)에서 LLM 정렬에 사용되는 PPO (Proximal Policy Optimization)가 Actor-Critic의 대표 알고리즘이며, ChatGPT·Claude·Gemini 모두 PPO 기반 RLHF로 정렬됐다는 것이 기술사 필수 지식이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-로봇 팔이 공을 잡으려면 관절 토크를 연속 실수값으로 출력해야 한다. DQN은 "버튼 3번 누르기" 같은 이산 행동에만 적합하고, 이런 연속 제어에는 부적합하다. 또한 DQN은 Q값 최대화를 통해 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 간접 유도하여, Q값 과대추정 등의 문제가 있다.
+로봇 팔이 공을 잡으려면 관절 토크를 연속 실수값으로 출력해야 한다. DQN은 "버튼 3번 누르기" 같은 이산 행동에만 적합하고, 이런 연속 제어에는 부적합하다. 또한 DQN은 Q값 최대화를 통해 정책을 간접 유도하여, Q값 과대추정 등의 문제가 있다.
 
-<strong><a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 경사(<a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> Gradient)</strong>는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) π_θ(a|s)를 신경망 파라미터 θ로 직접 모델링하고, 그래디언트 상승(Gradient Ascent)으로 기대 누적 보상 J(θ)를 직접 최대화한다. "직접 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습"하는 것이 핵심 철학이다.
+<strong>정책 경사(Policy Gradient)</strong>는 정책 π_θ(a|s)를 신경망 파라미터 θ로 직접 모델링하고, 그래디언트 상승(Gradient Ascent)으로 기대 누적 보상 J(θ)를 직접 최대화한다. "직접 정책을 학습"하는 것이 핵심 철학이다.
 
 ```text
 +----------------------------------------------+
@@ -28,7 +28,7 @@ weight: 318
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: DQN이 "각 식당의 맛 점수표를 보고 가장 맛있는 곳을 선택"하는 것이라면, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사는 "식당 선택 습관 자체([정책](/studynote/10_ai/02_dl_architecture_new/164_policy/))를 직접 최적화"하는 것이다. 점수표 없이 "어떤 날, 어떤 기분에 어떤 종류 식당이 최고인가"를 직관적으로 학습해서 점점 더 만족스러운 선택 패턴을 발전시킨다.
+- **📢 섹션 요약 비유**: DQN이 "각 식당의 맛 점수표를 보고 가장 맛있는 곳을 선택"하는 것이라면, 정책 경사는 "식당 선택 습관 자체(정책)를 직접 최적화"하는 것이다. 점수표 없이 "어떤 날, 어떤 기분에 어떤 종류 식당이 최고인가"를 직관적으로 학습해서 점점 더 만족스러운 선택 패턴을 발전시킨다.
 
 ---
 
@@ -68,55 +68,55 @@ weight: 318
 +------------------------------------------------------------------+
 ```
 
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 적합 환경 |
+| 알고리즘 | 특징 | 적합 환경 |
 |:---|:---|:---|
-| REINFORCE | 몬테카를로 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사, 에피소드 후 업데이트 | 단순 환경 |
-| [A2C](/studynote/10_ai/05_data_science_ml/373_actor_critic_advantage/) (Advantage [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) | 동기식 멀티-환경 학습, 어드밴티지 사용 | 보통 복잡도 |
-| [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 클리핑으로 안정적 학습, 실무 표준 | 대부분 환경 |
-| SAC (Soft [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) | [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 연속 행동 최강 | 로봇 제어, 연속 행동 |
+| REINFORCE | 몬테카를로 정책 경사, 에피소드 후 업데이트 | 단순 환경 |
+| A2C (Advantage Actor-Critic) | 동기식 멀티-환경 학습, 어드밴티지 사용 | 보통 복잡도 |
+| PPO (Proximal Policy Optimization) | 클리핑으로 안정적 학습, 실무 표준 | 대부분 환경 |
+| SAC (Soft Actor-Critic) | 엔트로피 정규화, 연속 행동 최강 | 로봇 제어, 연속 행동 |
 
-- **📢 섹션 요약 비유**: Actor-Critic은 야구의 투수(Actor)와 포수(Critic)다. 포수(Critic)는 현재 상황(상태 가치 V(s))을 평가해서 "지금 커브를 던지면 얼마나 유리한가(어드밴티지)"를 투수에게 알려준다. 투수(Actor)는 포수의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 받아 최적의 구종(행동 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/))을 선택한다. 둘이 협력해야 타자(환경)를 삼진 아웃(목표 달성)시킬 수 있다.
+- **📢 섹션 요약 비유**: Actor-Critic은 야구의 투수(Actor)와 포수(Critic)다. 포수(Critic)는 현재 상황(상태 가치 V(s))을 평가해서 "지금 커브를 던지면 얼마나 유리한가(어드밴티지)"를 투수에게 알려준다. 투수(Actor)는 포수의 신호를 받아 최적의 구종(행동 확률)을 선택한다. 둘이 협력해야 타자(환경)를 삼진 아웃(목표 달성)시킬 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-<strong><a href="/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">Reinforcement Learning from Human Feedback</a>)</strong>:
-1. SFT (Supervised [Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)): 이상적 응답으로 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)
-2. [Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) ([RM](/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 학습: 인간 평가자의 선호도 순위로 보상 모델 학습
-3. [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 최적화: [RM](/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 보상을 최대화하도록 LLM을 PPO로 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)
+<strong>RLHF (Reinforcement Learning from Human Feedback)</strong>:
+1. SFT (Supervised Fine-Tuning): 이상적 응답으로 LLM 파인 튜닝
+2. Reward Model (RM) 학습: 인간 평가자의 선호도 순위로 보상 모델 학습
+3. PPO 최적화: RM 보상을 최대화하도록 LLM을 PPO로 강화 학습
 
-ChatGPT, Claude, Gemini 모두 이 3단계 [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 사용하여 "사람이 원하는" 방식으로 응답하도록 정렬(Alignment)됐다.
+ChatGPT, Claude, Gemini 모두 이 3단계 RLHF 파이프라인을 사용하여 "사람이 원하는" 방식으로 응답하도록 정렬(Alignment)됐다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
-| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사 ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Gradient) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
+| 정책 경사 (Policy Gradient) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
 
-- **📢 섹션 요약 비유**: RLHF는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 신입사원 교육 3단계다. 1단계(SFT): "이상적인 업무 보고서(이상적 응답)"로 기초 교육, 2단계([RM](/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)): "팀장들이 여러 보고서 중 어느 것이 더 좋은지(인간 선호도)"로 평가 기준 학습, 3단계([PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)): "팀장 점수가 높은 보고서를 더 많이 쓰도록([PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))" 반복 훈련. 이 세 단계가 신입사원을 최고 직원으로 만든다.
+- **📢 섹션 요약 비유**: RLHF는 AI 신입사원 교육 3단계다. 1단계(SFT): "이상적인 업무 보고서(이상적 응답)"로 기초 교육, 2단계(RM): "팀장들이 여러 보고서 중 어느 것이 더 좋은지(인간 선호도)"로 평가 기준 학습, 3단계(PPO): "팀장 점수가 높은 보고서를 더 많이 쓰도록(PPO)" 반복 훈련. 이 세 단계가 신입사원을 최고 직원으로 만든다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a> 하이퍼파라미터 설계</strong>:
-- `clip_range` ε: 0.1~0.2. [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화 허용 범위. 클수록 빠르지만 불안정
-- `n_steps`: 2048~4096. 업데이트 전 수집할 샘플 수. 클수록 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소
-- `n_epochs`: 3~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 업데이트 반복 횟수
-- `entropy_coeff`: 0.01~0.05. [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 촉진을 위한 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 보너스
+<strong>PPO 하이퍼파라미터 설계</strong>:
+- `clip_range` ε: 0.1~0.2. 정책 변화 허용 범위. 클수록 빠르지만 불안정
+- `n_steps`: 2048~4096. 업데이트 전 수집할 샘플 수. 클수록 분산 감소
+- `n_epochs`: 3~10. 같은 데이터로 업데이트 반복 횟수
+- `entropy_coeff`: 0.01~0.05. 탐험 촉진을 위한 엔트로피 보너스
 
-**연속 제어에서 SAC 선택**: 로봇팔 조작, 드론 제어, 자율주행 등 연속 행동 공간에서는 PPO보다 SAC가 일반적으로 더 빠른 수렴과 높은 최종 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다. SAC의 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 목표가 자동으로 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 수준을 조절하는 장점이 있다.
+**연속 제어에서 SAC 선택**: 로봇팔 조작, 드론 제어, 자율주행 등 연속 행동 공간에서는 PPO보다 SAC가 일반적으로 더 빠른 수렴과 높은 최종 성능을 달성한다. SAC의 엔트로피 목표가 자동으로 탐험 수준을 조절하는 장점이 있다.
 
-- **📢 섹션 요약 비유**: PPO의 클리핑은 운전 교습소의 안전 규칙이다. 핸들을 너무 급격히 꺾으면([정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 급변) 전복(학습 불안정) 위험이 있어서, "한 번에 최대 10도만 꺾어"(clip_range)라고 제한한다. 조금씩 안전하게 코너를 돌면서 점점 더 빠른 드라이버(최적 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/))가 된다.
+- **📢 섹션 요약 비유**: PPO의 클리핑은 운전 교습소의 안전 규칙이다. 핸들을 너무 급격히 꺾으면(정책이 급변) 전복(학습 불안정) 위험이 있어서, "한 번에 최대 10도만 꺾어"(clip_range)라고 제한한다. 조금씩 안전하게 코너를 돌면서 점점 더 빠른 드라이버(최적 정책)가 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사와 Actor-Critic은 Deep RL의 연속 제어 문제를 해결하고, RLHF를 통해 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬의 핵심이 됐다. PPO는 구현 단순성과 강건성 덕분에 OpenAI Gym부터 ChatGPT까지 거의 모든 RL 응용의 첫 번째 선택지로 자리 잡았다. Actor([생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))와 Critic(평가)의 이중 구조는 GAN의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자-판별자와 개념적으로 유사하며, "두 네트워크의 경쟁·협력으로 최적화"하는 철학이 현대 AI의 핵심 패턴으로 자리 잡고 있다.
+정책 경사와 Actor-Critic은 Deep RL의 연속 제어 문제를 해결하고, RLHF를 통해 LLM 정렬의 핵심이 됐다. PPO는 구현 단순성과 강건성 덕분에 OpenAI Gym부터 ChatGPT까지 거의 모든 RL 응용의 첫 번째 선택지로 자리 잡았다. Actor(생성)와 Critic(평가)의 이중 구조는 GAN의 생성자-판별자와 개념적으로 유사하며, "두 네트워크의 경쟁·협력으로 최적화"하는 철학이 현대 AI의 핵심 패턴으로 자리 잡고 있다.
 
-- **📢 섹션 요약 비유**: Actor-Critic은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 감독-배우 시스템이다. 감독(Critic)이 "이 연기는 70점"이라고 평가하면, 배우(Actor)는 더 좋은 점수를 받기 위해 연기를 개선한다. 감독과 배우가 함께 성장하면서 결국 아카데미상(최적 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/))에 도달한다. ChatGPT도 이 방식으로 "인간이 원하는 대답"을 배웠다.
+- **📢 섹션 요약 비유**: Actor-Critic은 AI 세계의 감독-배우 시스템이다. 감독(Critic)이 "이 연기는 70점"이라고 평가하면, 배우(Actor)는 더 좋은 점수를 받기 위해 연기를 개선한다. 감독과 배우가 함께 성장하면서 결국 아카데미상(최적 정책)에 도달한다. ChatGPT도 이 방식으로 "인간이 원하는 대답"을 배웠다.
 
 ---
 
@@ -124,11 +124,11 @@ ChatGPT, Claude, Gemini 모두 이 3단계 [RLHF](/studynote/14_data_engineering
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사 ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Gradient) | ∇J(θ), 직접 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 / Actor-Critic의 이론적 기반 |
-| [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 네트워크 + 가치 네트워크 / [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 문제 해결 구조 |
-| [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) | 클리핑, 안정적 학습 / 실무 표준 [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) | 인간 피드백, [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬 / PPO를 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬에 적용한 패러다임 |
-| SAC | [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 연속 행동 / 로봇 제어에서 PPO와 경쟁하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 정책 경사 (Policy Gradient) | ∇J(θ), 직접 정책 최적화 / Actor-Critic의 이론적 기반 |
+| Actor-Critic | 정책 네트워크 + 가치 네트워크 / 정책 경사의 분산 문제 해결 구조 |
+| PPO | 클리핑, 안정적 학습 / 실무 표준 Actor-Critic 알고리즘 |
+| RLHF | 인간 피드백, LLM 정렬 / PPO를 LLM 정렬에 적용한 패러다임 |
+| SAC | 엔트로피 정규화, 연속 행동 / 로봇 제어에서 PPO와 경쟁하는 알고리즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,17 +138,6 @@ ChatGPT, Claude, Gemini 모두 이 3단계 [RLHF](/studynote/14_data_engineering
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong><a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 경사</strong>는 Q값 표 대신 <strong>"이 상황에서 이 행동을 할 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>"을 직접 신경망으로 배우는</strong> 방법으로, 버튼 고르기가 아닌 **핸들 각도(연속값)** 결정에 딱 맞아요!
-2. <strong><a href="/studynote/10_ai/02_dl_architecture_new/172_actor_critic/">Actor-Critic</a></strong>은 행동을 결정하는 배우(Actor)와 "그 행동이 얼마나 좋았나" 평가하는 감독(Critic)이 협력하는 구조예요.
-3. <strong>ChatGPT가 좋은 대답을 하도록 훈련</strong>한 RLHF도 이 [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)([PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 방식이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 318 / 420
-
-<- **이전**: [317. DQN (Deep Q-Network)](/studynote/10_ai/04_ai_ops_ethics/317_dqn/)
-**다음**: [319. GAN (Generative Adversarial Network)](/studynote/10_ai/04_ai_ops_ethics/319_gan/) ->
-
----
+1. <strong>정책 경사</strong>는 Q값 표 대신 <strong>"이 상황에서 이 행동을 할 확률"을 직접 신경망으로 배우는</strong> 방법으로, 버튼 고르기가 아닌 **핸들 각도(연속값)** 결정에 딱 맞아요!
+2. <strong>Actor-Critic</strong>은 행동을 결정하는 배우(Actor)와 "그 행동이 얼마나 좋았나" 평가하는 감독(Critic)이 협력하는 구조예요.
+3. <strong>ChatGPT가 좋은 대답을 하도록 훈련</strong>한 RLHF도 이 Actor-Critic(PPO) 방식이에요!

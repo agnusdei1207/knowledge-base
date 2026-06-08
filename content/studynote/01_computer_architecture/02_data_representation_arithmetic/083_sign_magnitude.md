@@ -7,17 +7,17 @@ weight: 83
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: Sign-Magnitude 표현은 [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 부호로 두고 나머지를 절댓값으로 두는 가장 직관적인 이진수 표현이다.
-- **가치**: 사람 눈에는 이해하기 쉽고 IEEE (Institute of Electrical and Electronics 엔진ers) 754 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)의 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와도 닮았지만, 정수 연산에서는 두 개의 0 때문에 불리하다.
+- **본질**: Sign-Magnitude 표현은 MSB (Most Significant Bit)를 부호로 두고 나머지를 절댓값으로 두는 가장 직관적인 이진수 표현이다.
+- **가치**: 사람 눈에는 이해하기 쉽고 IEEE (Institute of Electrical and Electronics 엔진ers) 754 부동소수점의 부호 비트와도 닮았지만, 정수 연산에서는 두 개의 0 때문에 불리하다.
 - **판단 포인트**: 덧셈 회로 단순화가 가능한 2의 보수 (Two's Complement)가 정수 시스템의 표준이며, Sign-Magnitude는 역사와 개념 이해용으로 보는 것이 맞다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-부호와 절댓값(Sign-Magnitude)은 숫자의 부호와 크기를 분리해 표현하는 방식이다. 0101은 +5, 1101은 -5처럼, [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))가 부호를 나타내고 나머지 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 절댓값을 나타낸다. 사람은 음수와 양수를 따로 읽는 데 익숙하므로, 이 표현은 직관적으로 이해하기 쉽다.
+부호와 절댓값(Sign-Magnitude)은 숫자의 부호와 크기를 분리해 표현하는 방식이다. 0101은 +5, 1101은 -5처럼, MSB (Most Significant Bit)가 부호를 나타내고 나머지 비트가 절댓값을 나타낸다. 사람은 음수와 양수를 따로 읽는 데 익숙하므로, 이 표현은 직관적으로 이해하기 쉽다.
 
-[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 디지털 컴퓨터 시대와 ENIAC (Electronic Numerical Integrator and Computer) 세대로 대표되는 고전적 컴퓨팅 환경에서는 이런 직관성이 매력적이었다. 하지만 숫자를 읽기 쉬운 것과 덧셈 회로가 쉬운 것은 다르다. 컴퓨터는 숫자를 사람이 보는 것보다 훨씬 많이 더하고 비교하므로, 연산 효율이 더 중요해진다.
+초기 디지털 컴퓨터 시대와 ENIAC (Electronic Numerical Integrator and Computer) 세대로 대표되는 고전적 컴퓨팅 환경에서는 이런 직관성이 매력적이었다. 하지만 숫자를 읽기 쉬운 것과 덧셈 회로가 쉬운 것은 다르다. 컴퓨터는 숫자를 사람이 보는 것보다 훨씬 많이 더하고 비교하므로, 연산 효율이 더 중요해진다.
 
 | 4비트 값 | 의미 |
 | :--- | :--- |
@@ -32,7 +32,7 @@ weight: 83
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Sign-Magnitude의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조는 단순하다. 맨 앞 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 부호, 나머지는 크기다. 이 구조는 절댓값 추출이 쉽고, 숫자의 방향과 크기를 시각적으로 분리할 수 있다. 그러나 연산 시에는 부호를 먼저 보고, 그다음 절댓값을 비교해야 하므로 하드웨어 로직이 복잡해진다.
+Sign-Magnitude의 비트 구조는 단순하다. 맨 앞 비트는 부호, 나머지는 크기다. 이 구조는 절댓값 추출이 쉽고, 숫자의 방향과 크기를 시각적으로 분리할 수 있다. 그러나 연산 시에는 부호를 먼저 보고, 그다음 절댓값을 비교해야 하므로 하드웨어 로직이 복잡해진다.
 
 ```text
 +----+-----+-----+-----+
@@ -57,7 +57,7 @@ Sign-Magnitude의 [비트](/studynote/01_computer_architecture/02_data_represent
 절댓값 비교 ---> 큰 값 - 작은 값 ---> 큰 쪽 부호 유지
 ```
 
-이 과정은 덧셈 하나를 위해 여러 비교와 분기가 필요하다는 뜻이다. 정수 [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 단순해지기 어렵고, 결과적으로 속도와 면적에서 손해를 본다.
+이 과정은 덧셈 하나를 위해 여러 비교와 분기가 필요하다는 뜻이다. 정수 ALU (Arithmetic Logic Unit)가 단순해지기 어렵고, 결과적으로 속도와 면적에서 손해를 본다.
 
 - **📢 섹션 요약 비유**: 두 사람을 더할 때 먼저 이름표를 보고, 다음에 몸집을 재고, 마지막에 누가 큰지 판단하는 것과 같다. 계산할 때마다 절차가 길어지니 빨라질 수 없다.
 
@@ -71,37 +71,37 @@ Sign-Magnitude는 1의 보수 (One's Complement)와 함께 고전적 음수 표�
 | One's Complement | 2개(+0, -0) | end-around carry 필요 | 중간 단계 |
 | Two's Complement | 1개 | 단순 | 현재 정수 연산 표준 |
 
-[부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)에서는 `IEEE (Institute of Electrical and Electronics Engineers) 754` 표준이 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 따로 둔다. 다만 이것은 정수용 sign-magnitude가 그대로 쓰인다는 뜻은 아니고, 부호만 분리하고 나머지 값은 지수와 가수로 표현하는 구조다. 그래서 float에서는 `+0`과 `-0`이 존재할 수 있지만, 정수 연산과는 목적이 다르다.
+부동소수점에서는 `IEEE (Institute of Electrical and Electronics Engineers) 754` 표준이 부호 비트를 따로 둔다. 다만 이것은 정수용 sign-magnitude가 그대로 쓰인다는 뜻은 아니고, 부호만 분리하고 나머지 값은 지수와 가수로 표현하는 구조다. 그래서 float에서는 `+0`과 `-0`이 존재할 수 있지만, 정수 연산과는 목적이 다르다.
 
-또 하나의 차이는 비교 연산이다. sign-magnitude에서는 음수 중 절댓값이 더 큰 수가 더 작다는 사실을 별도로 처리해야 한다. 2의 보수는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 비교만으로 정렬과 비교를 쉽게 만들므로, 하드웨어와 소프트웨어 모두에서 유리하다.
+또 하나의 차이는 비교 연산이다. sign-magnitude에서는 음수 중 절댓값이 더 큰 수가 더 작다는 사실을 별도로 처리해야 한다. 2의 보수는 비트 비교만으로 정렬과 비교를 쉽게 만들므로, 하드웨어와 소프트웨어 모두에서 유리하다.
 
 - **📢 섹션 요약 비유**: 같은 숫자라도 옷을 뒤집어 입는 방식과, 아예 다른 산수 규칙을 쓰는 방식은 다르다. 정수 계산에서는 옷을 뒤집는 것보다 규칙을 단순하게 만드는 쪽이 훨씬 낫다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-Sign-Magnitude는 오늘날 정수 [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 설계에는 거의 쓰지 않지만, 개념 학습과 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 부호 이해에는 여전히 중요하다. 특히 음수의 의미를 분리해 생각해야 할 때, 또는 절댓값 계산을 먼저 떠올려야 할 때 sign-magnitude식 사고가 도움을 준다.
+Sign-Magnitude는 오늘날 정수 ALU 설계에는 거의 쓰지 않지만, 개념 학습과 부동소수점 부호 이해에는 여전히 중요하다. 특히 음수의 의미를 분리해 생각해야 할 때, 또는 절댓값 계산을 먼저 떠올려야 할 때 sign-magnitude식 사고가 도움을 준다.
 
 ### 판단 기준
 
 1. 정수 연산 회로를 설계한다면 2의 보수를 선택한다.
-2. 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 개념을 설명할 때는 sign-magnitude를 예로 들면 이해가 쉽다.
-3. [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)의 +0/-0, 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 설명은 [IEEE 754](/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 관점에서 다룬다.
+2. 부호 비트 개념을 설명할 때는 sign-magnitude를 예로 들면 이해가 쉽다.
+3. 부동소수점의 +0/-0, 부호 비트 설명은 IEEE 754 관점에서 다룬다.
 4. 비교/정렬 성능이 중요하면 sign-magnitude는 피한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- sign-magnitude [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 그대로 정수 덧셈에 넣기
+- sign-magnitude 비트를 그대로 정수 덧셈에 넣기
 - +0과 -0을 같은 값으로 정규화하지 않기
-- 음수 정렬을 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)순으로만 판단하기
+- 음수 정렬을 비트순으로만 판단하기
 - 2의 보수와 sign-magnitude를 혼동하기
 
 기술사 답안에서는 "사람이 보기 쉬운 표현"과 "기계가 계산하기 쉬운 표현"을 구분해서 설명하는 것이 핵심이다. sign-magnitude는 전자 쪽 관점보다 인간 친화적 관점에 가깝다.
 
-- **📢 섹션 요약 비유**: 도서관 책등은 제목을 읽기 쉽게 붙여도, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 번호는 따로 있어야 한다. 눈에 쉬운 방식과 계산에 좋은 방식은 달라야 한다.
+- **📢 섹션 요약 비유**: 도서관 책등은 제목을 읽기 쉽게 붙여도, 분류 번호는 따로 있어야 한다. 눈에 쉬운 방식과 계산에 좋은 방식은 달라야 한다.
 
 ## Ⅴ. 기대효과 및 결론
 
-Sign-Magnitude의 장점은 직관성이다. 부호와 절댓값을 분리해 생각하므로 숫자의 의미를 쉽게 이해할 수 있고, 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 개념을 설명하기도 좋다. 그러나 두 개의 0, 복잡한 덧셈, 까다로운 비교 때문에 정수 표현의 주류가 되지 못했다.
+Sign-Magnitude의 장점은 직관성이다. 부호와 절댓값을 분리해 생각하므로 숫자의 의미를 쉽게 이해할 수 있고, 부호 비트 개념을 설명하기도 좋다. 그러나 두 개의 0, 복잡한 덧셈, 까다로운 비교 때문에 정수 표현의 주류가 되지 못했다.
 
 결론적으로 sign-magnitude는 "왜 2의 보수가 표준이 되었는가"를 설명하기 위한 좋은 비교 기준이다. 역사적으로는 의미가 있지만, 실무에서는 개념 이해용으로 기억하는 것이 적절하다.
 
@@ -109,11 +109,11 @@ Sign-Magnitude의 장점은 직관성이다. 부호와 절댓값을 분리해 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)) | 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 역할 |
+| MSB (Most Significant Bit) | 부호 비트 역할 |
 | Sign-Magnitude | 부호/절댓값 분리 표현 |
 | One's Complement | 중간 단계의 음수 표현 |
 | Two's Complement | 정수 연산 표준 |
-| IEEE (Institute of Electrical and Electronics 엔진ers) 754 | [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 부호 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) |
+| IEEE (Institute of Electrical and Electronics 엔진ers) 754 | 부동소수점 부호 비트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,14 +137,3 @@ IEEE 754 부동소수점의 부호 비트
 1. 사탕 봉지에 빨간 스티커를 붙이면 플러스와 마이너스를 쉽게 알아볼 수 있어요.
 2. 그런데 같은 0 봉지가 두 개 있으면 정리할 때 헷갈려요.
 3. 그래서 컴퓨터는 더 단순한 방법을 좋아한답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 83 / 803
-
-<- **이전**: [82. 부호 있는 정수 (Signed Integer)](/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)
-**다음**: [84. 1의 보수 (1's Complement)](/studynote/01_computer_architecture/02_data_representation_arithmetic/084_ones_complement/) ->
-
----

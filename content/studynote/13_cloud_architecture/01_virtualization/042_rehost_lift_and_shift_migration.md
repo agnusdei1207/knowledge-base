@@ -6,8 +6,8 @@ tags:
 weight: 42
 ---
 > **핵심 인사이트**
-> 1. Rehost([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift)는 클라우드 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 가장 빠르고 위험이 낮은 방법으로, [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 워크로드를 코드 수정 없이 클라우드 VM으로 이전하지만 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 최적화([PaaS](/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 오토스케일링)를 활용하지 못해 비용 절감 효과가 제한적이다.
-> 2. AWS MGN(Application Migration [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), Azure Migrate, Google Migrate for Compute 엔진 같은 자동화 도구가 Rehost를 대폭 단순화했으나, 성공적인 Rehost는 반드시 네트워크 설계([VPC](/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), 서브넷), 보안 그룹, 스토리지 용량 계획을 사전에 수립해야 한다.
+> 1. Rehost(Lift & Shift)는 클라우드 6R 전략 중 가장 빠르고 위험이 낮은 방법으로, 온프레미스 워크로드를 코드 수정 없이 클라우드 VM으로 이전하지만 클라우드 네이티브 최적화(PaaS, 서버리스, 오토스케일링)를 활용하지 못해 비용 절감 효과가 제한적이다.
+> 2. AWS MGN(Application Migration Service), Azure Migrate, Google Migrate for Compute 엔진 같은 자동화 도구가 Rehost를 대폭 단순화했으나, 성공적인 Rehost는 반드시 네트워크 설계(VPC, 서브넷), 보안 그룹, 스토리지 용량 계획을 사전에 수립해야 한다.
 > 3. Rehost는 종착점이 아닌 출발점 — 이전 후 안정화 기간(보통 3~6개월)을 거쳐 Re-platform 또는 Re-architect로 진화하는 단계적 클라우드 여정의 첫 번째 관문이다.
 
 ---
@@ -158,7 +158,7 @@ RTO/RPO 목표:
   데이터 손실: 최소화 (마지막 동기화 이후 델타만)
 ```
 
-> 📢 **섹션 요약 비유**: Rehost 컷오버는 비행기 탑승 — 게이트 닫히는 순간([DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 전환)이 컷오버, 그 전까지는 탑승 준비([복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 테스트).
+> 📢 **섹션 요약 비유**: Rehost 컷오버는 비행기 탑승 — 게이트 닫히는 순간(DNS 전환)이 컷오버, 그 전까지는 탑승 준비(복제, 테스트).
 
 ---
 
@@ -260,14 +260,3 @@ CloudOps 자동화 통합
 1. Rehost는 이사할 때 가구를 그대로 옮기는 것 — 가구 디자인(코드)을 바꾸지 않고 새 집(클라우드)으로 이사해요!
 2. 빠르게 이사할 수 있지만 새 집 구조에 맞춰 가구를 배치하지 않아 공간 활용이 비효율적일 수 있어요.
 3. 이사 후에 조금씩 인테리어(Re-platform -> Re-architect)를 개선하면 결국 훨씬 좋은 집이 돼요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 41 / 371
-
-<- **이전**: [041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)](/studynote/13_cloud_architecture/01_virtualization/041_cloud_migration_6r_strategies/)
-**다음**: [043. Re-platform — 클라우드 관리형 서비스 전환](/studynote/13_cloud_architecture/01_virtualization/043_replatform_cloud_managed_services/) ->
-
----

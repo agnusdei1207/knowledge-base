@@ -6,9 +6,9 @@ tags:
 weight: 84
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 덱(Deque, Double-Ended [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))은 양쪽 끝에서 삽입·삭제가 모두 가능한 자료구조다. 큐([FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))와 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(LIFO)의 기능을 모두 포함하는 슈퍼셋이다.
-> 2. **가치**: 슬라이딩 윈도우 최댓값/최솟값 문제에서 덱을 사용하면 O(n) 시간에 해결 가능하다(단순 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 O(n^)). 이중 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 또는 순환 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 구현하며 모든 연산이 O(1) 분할 상환이다.
-> 3. **판단 포인트**: 덱의 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 응용은 "단조 덱(Monotonic Deque)"이다. 슬라이딩 윈도우에서 최대/최솟값 조회 시 덱의 양끝 관리로 O(n) 달성. LeetCode 239번 Sliding Window Maximum이 대표 문제다.
+> 1. **본질**: 덱(Deque, Double-Ended Queue)은 양쪽 끝에서 삽입·삭제가 모두 가능한 자료구조다. 큐(FIFO)와 스택(LIFO)의 기능을 모두 포함하는 슈퍼셋이다.
+> 2. **가치**: 슬라이딩 윈도우 최댓값/최솟값 문제에서 덱을 사용하면 O(n) 시간에 해결 가능하다(단순 배열은 O(n^)). 이중 연결 리스트 또는 순환 배열로 구현하며 모든 연산이 O(1) 분할 상환이다.
+> 3. **판단 포인트**: 덱의 핵심 알고리즘 응용은 "단조 덱(Monotonic Deque)"이다. 슬라이딩 윈도우에서 최대/최솟값 조회 시 덱의 양끝 관리로 O(n) 달성. LeetCode 239번 Sliding Window Maximum이 대표 문제다.
 
 ---
 
@@ -33,7 +33,7 @@ weight: 84
 +----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 덱은 양쪽에 문이 있는 버스다. 앞문·뒷문 어디서든 승객([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 탑승·하차할 수 있어 상황에 따라 큐처럼 앞뒤로 사용하거나 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 한쪽만 사용할 수 있다.
+- **📢 섹션 요약 비유**: 덱은 양쪽에 문이 있는 버스다. 앞문·뒷문 어디서든 승객(데이터)이 탑승·하차할 수 있어 상황에 따라 큐처럼 앞뒤로 사용하거나 스택처럼 한쪽만 사용할 수 있다.
 
 ---
 
@@ -60,9 +60,9 @@ weight: 84
 
 | 구현 | 장점 | 단점 |
 |:---|:---|:---|
-| <strong>이중 <a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a></strong> | O(1) 삽입·삭제 | 포인터 오버헤드 |
-| <strong>순환 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> | 캐시 친화적 | 크기 제한 |
-| **Python collections.deque** | 표준 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | C 구현, 빠름 |
+| <strong>이중 연결 리스트</strong> | O(1) 삽입·삭제 | 포인터 오버헤드 |
+| <strong>순환 배열</strong> | 캐시 친화적 | 크기 제한 |
+| **Python collections.deque** | 표준 라이브러리 | C 구현, 빠름 |
 
 - **📢 섹션 요약 비유**: 단조 덱은 자동으로 더 작은 값을 버리는 스마트 줄이다. 줄에 들어올 때 나보다 작은 사람은 자동으로 줄에서 빠지는 규칙 덕분에 줄에는 항상 내림차순으로만 사람이 있다.
 
@@ -70,19 +70,19 @@ weight: 84
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 큐 | 덱 |
+| 비교 | 스택 | 큐 | 덱 |
 |:---|:---|:---|:---|
 | 삽입 | 한쪽 끝 | 한쪽 끝 | 양쪽 끝 |
 | 삭제 | 같은 끝 | 반대 끝 | 양쪽 끝 |
-| 패턴 | LIFO | [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) | 둘 다 |
+| 패턴 | LIFO | FIFO | 둘 다 |
 
-- **📢 섹션 요약 비유**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)·큐·덱은 도로 구조다. [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 막힌 골목(한쪽만 출입), 큐는 일방통행 도로(한쪽 입구·반대쪽 출구), 덱은 양방향 도로(양쪽 모두 출입 가능)다.
+- **📢 섹션 요약 비유**: 스택·큐·덱은 도로 구조다. 스택은 막힌 골목(한쪽만 출입), 큐는 일방통행 도로(한쪽 입구·반대쪽 출구), 덱은 양방향 도로(양쪽 모두 출입 가능)다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 응용
+### 알고리즘 응용
 
 ```python
 from collections import deque
@@ -114,12 +114,12 @@ def maxSlidingWindow(nums, k):
 | 기대효과 | 내용 |
 |:---|:---|
 | **슬라이딩 윈도우** | O(n^) -> O(n) 최적화 |
-| **양방향 처리** | 큐+[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기능 통합 |
-| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> 변형</strong> | 우선순위 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/), 0-1 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) |
+| **양방향 처리** | 큐+스택 기능 통합 |
+| <strong>BFS 변형</strong> | 우선순위 BFS, 0-1 BFS |
 
-덱은 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 변형 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(0-1 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/), 양방향 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/))에서도 핵심 역할을 한다. 0-1 BFS에서 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0인 엣지는 덱 앞쪽에, 1인 엣지는 뒤쪽에 추가하여 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 없이 O(V+E) 최단 경로를 구현한다.
+덱은 BFS 변형 알고리즘(0-1 BFS, 양방향 BFS)에서도 핵심 역할을 한다. 0-1 BFS에서 가중치가 0인 엣지는 덱 앞쪽에, 1인 엣지는 뒤쪽에 추가하여 다익스트라 없이 O(V+E) 최단 경로를 구현한다.
 
-- **📢 섹션 요약 비유**: 0-1 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) + 덱은 급행·완행이 혼합된 지하철이다. 급행([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0)은 맨 앞에 서고, 완행([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 1)은 맨 뒤에 서서 항상 가장 빠른 경로가 앞에 있도록 관리한다.
+- **📢 섹션 요약 비유**: 0-1 BFS + 덱은 급행·완행이 혼합된 지하철이다. 급행(가중치 0)은 맨 앞에 서고, 완행(가중치 1)은 맨 뒤에 서서 항상 가장 빠른 경로가 앞에 있도록 관리한다.
 
 ---
 
@@ -128,10 +128,10 @@ def maxSlidingWindow(nums, k):
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **단조 덱** | 슬라이딩 윈도우 최적화 핵심 |
-| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a></strong> | 덱 기반 [그래프 탐색](/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/) |
-| <strong>0-1 <a href="/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a></strong> | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 덱 기반 최단 경로 |
-| **슬라이딩 윈도우** | 덱의 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 응용 패턴 |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a></strong> | 덱의 확장 개념 |
+| <strong>BFS</strong> | 덱 기반 그래프 탐색 |
+| <strong>0-1 BFS</strong> | 가중치 덱 기반 최단 경로 |
+| **슬라이딩 윈도우** | 덱의 핵심 알고리즘 응용 패턴 |
+| <strong>우선순위 큐</strong> | 덱의 확장 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,14 +156,3 @@ def maxSlidingWindow(nums, k):
 1. 덱은 양쪽 모두 출입 가능한 버스예요! 앞문·뒷문 어디서든 타고 내릴 수 있어요.
 2. 단조 덱을 쓰면 이동하는 창문 안의 최댓값을 매번 다시 계산하지 않아도 돼요 — O(n^)을 O(n)으로 줄이는 마법!
 3. Python의 collections.deque는 이 덱을 빠르게 구현해둔 도구로 코딩 테스트에서 자주 쓰인답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 84 / 175
-
-<- **이전**: [28. 우선순위 큐 (Priority Queue)](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)
-**다음**: [29. 세그먼트 트리 (Segment Tree)](/studynote/08_algorithm_stats/04_datastructure/085_segment_tree/) ->
-
----

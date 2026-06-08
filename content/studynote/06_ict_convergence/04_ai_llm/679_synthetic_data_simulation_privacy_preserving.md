@@ -54,11 +54,3 @@ weight: 679
 ```
 
 - **📢 섹션 요약 비유**: 비식별화는 주민등록번호 뒷자리를 ⭐⭐로 가리는 '마스킹 테이프'와 같아서, 다른 컬럼(생년월
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 679 / 800
-
-<- **이전**: [678. 데이터 프라이버시 비식별화 동의 관리](/studynote/06_ict_convergence/uncategorized/678_data_privacy_de_identification_consent/)
-**다음**: [680. A/B 테스팅 인과 추론 실험 설계](/studynote/06_ict_convergence/uncategorized/680_ab_testing_causal_inference_experiment/) ->
-
----

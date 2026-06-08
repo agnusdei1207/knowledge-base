@@ -182,11 +182,3 @@ def agent_loop(user_goal, max_iter=10):
 **연계 아키텍처**: AI 에이전트는 **RAG(Retrieval-Augmented Generation)** 와 결합되어 도구 사용 전 컨텍스트를 보강하며, **MCP(Model Context Protocol)** 가 2024년 Anthropic이 출시한 **표준 도구 호출 프로토콜**로 자리잡아 OpenAI·Google·IDE(vscode/Cursor)·DB·CRM이 통합된다. LangChain·LangGraph·LlamaIndex·CrewAI·AutoGen은 에이전트 오케스트레이션 프레임워크로, 다중 에이전트 협업(Multi-Agent Collaboration) 패턴을 지원한다.
 
 - **📢 섹션 요약 비유**: RPA는 **정해진 줄에서만 노를 젓는 배**, 워크플로우 엔진은 **철도 신호
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 648 / 800
-
-<- **이전**: [647. 프롬프트 엔지니어링 체인 오브 쏘트](/studynote/06_ict_convergence/uncategorized/647_prompt_engineering_chain_of_thought/)
-**다음**: [649. 멀티모달 AI 비전 언어 모델](/studynote/06_ict_convergence/uncategorized/649_multimodal_ai_vision_language_model/) ->
-
----

@@ -7,7 +7,7 @@ weight: 60
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 MSP는 클라우드 도입, 운영, 최적화를 대신 수행하는 전문 관리 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.
+> 1. **본질**: 클라우드 MSP는 클라우드 도입, 운영, 최적화를 대신 수행하는 전문 관리 서비스다.
 > 2. **가치**: 복잡한 클라우드 환경에서 빌 쇼크를 줄이고, 운영 안정성과 비용 효율을 높인다.
 > 3. **판단 포인트**: CSP와 MSP의 역할을 구분하고, SLA와 FinOps를 함께 설계해야 한다.
 
@@ -15,9 +15,9 @@ weight: 60
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드는 쉬워 보이지만 실제 운영은 어렵다. [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 많고 요금 체계가 복잡해서, 잘못 쓰면 비용이 빠르게 커진다.
+클라우드는 쉬워 보이지만 실제 운영은 어렵다. 서비스가 많고 요금 체계가 복잡해서, 잘못 쓰면 비용이 빠르게 커진다.
 
-MSP는 이런 어려움을 대신 처리해 주는 외부 운영 파트너다. 마이그레이션, 운영, [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링, 비용 최적화를 함께 맡는다.
+MSP는 이런 어려움을 대신 처리해 주는 외부 운영 파트너다. 마이그레이션, 운영, 모니터링, 비용 최적화를 함께 맡는다.
 
 - **📢 섹션 요약 비유**: 이사할 때 짐도 싸 주고, 이사 후 정리까지 해 주는 전문가다.
 
@@ -25,7 +25,7 @@ MSP는 이런 어려움을 대신 처리해 주는 외부 운영 파트너다. �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MSP의 핵심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 클라우드 도입 지원, 24x7 운영, 그리고 비용 최적화다.
+MSP의 핵심 서비스는 클라우드 도입 지원, 24x7 운영, 그리고 비용 최적화다.
 
 ```text
 기업
@@ -38,14 +38,14 @@ MSP
 AWS / Azure / GCP
 ```
 
-| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 설명 |
+| 서비스 | 설명 |
 | :-- | :-- |
-| Migration | [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에서 클라우드로 이전 |
-| Managed [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) | 장애 대응, [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링, 패치 |
-| [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) | 비용 분석과 최적화 |
-| Governance | 표준, 권한, [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) 관리 |
+| Migration | 온프레미스에서 클라우드로 이전 |
+| Managed Operation | 장애 대응, 모니터링, 패치 |
+| FinOps | 비용 분석과 최적화 |
+| Governance | 표준, 권한, 보안 정책 관리 |
 
-MSP는 클라우드를 파는 [CSP](/studynote/09_security/05_web_app_security/475_csp/)(Cloud [Service Provider](/studynote/09_security/11_iam_access_control/535_sp_service_provider/))와 다르다. CSP가 인프라 제공자라면, MSP는 그 인프라를 기업 업무에 맞게 운용해 주는 파트너다.
+MSP는 클라우드를 파는 CSP(Cloud Service Provider)와 다르다. CSP가 인프라 제공자라면, MSP는 그 인프라를 기업 업무에 맞게 운용해 주는 파트너다.
 
 - **📢 섹션 요약 비유**: 가구를 만드는 회사와, 그 가구를 우리 집에 맞게 설치하고 유지해 주는 회사의 차이다.
 
@@ -53,13 +53,13 @@ MSP는 클라우드를 파는 [CSP](/studynote/09_security/05_web_app_security/4
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [CSP](/studynote/09_security/05_web_app_security/475_csp/) | MSP |
+| 구분 | CSP | MSP |
 | :-- | :-- | :-- |
 | 역할 | 클라우드 인프라 제공 | 운영/관리/최적화 대행 |
 | 책임 | 플랫폼 자체 | 고객 환경 운영 |
 | 핵심 역량 | 규모와 인프라 | 컨설팅과 운영 자동화 |
 
-ITO와 비슷해 보이지만 MSP는 클라우드 전용 운영 능력이 핵심이다. 특히 예약 인스턴스, 오토스케일링, [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) 같은 복잡한 부분에서 가치를 낸다.
+ITO와 비슷해 보이지만 MSP는 클라우드 전용 운영 능력이 핵심이다. 특히 예약 인스턴스, 오토스케일링, 보안 정책 같은 복잡한 부분에서 가치를 낸다.
 
 - **📢 섹션 요약 비유**: 전기회사와 전기 배선 전문가를 구분하는 것과 같다.
 
@@ -67,16 +67,16 @@ ITO와 비슷해 보이지만 MSP는 클라우드 전용 운영 능력이 핵심
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-MSP를 쓰면 편하지만, 내부 지식이 완전히 사라지면 [벤더 종속](/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)이 생길 수 있다. 그래서 계약보다 거버넌스가 중요하다.
+MSP를 쓰면 편하지만, 내부 지식이 완전히 사라지면 벤더 종속이 생길 수 있다. 그래서 계약보다 거버넌스가 중요하다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. SLA와 책임 범위가 명확한가?
 2. FinOps로 비용을 지속적으로 점검하는가?
 3. 보안과 권한 관리가 분리되어 있는가?
 4. 벤더 전환(exit) 계획이 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 클라우드 비용을 MSP에게만 맡기고 내부는 무관심한 설계
 - 운영 지식이 전부 외주화되는 설계
@@ -129,14 +129,3 @@ FinOps / Governance
 MSP는 클라우드 이사를 도와주는 전문가예요.
 서버를 옮기고, 고장 나면 살피고, 돈도 아껴 주려고 해요.
 그래서 클라우드를 더 편하게 쓸 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 60 / 482
-
-<- **이전**: [59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)](/studynote/07_enterprise_systems/01_strategy_governance/059_it_outsourcing_ito_bpo/)
-**다음**: [61. 온프레미스 (On-Premise) 프라이빗 IT 인프라](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) ->
-
----

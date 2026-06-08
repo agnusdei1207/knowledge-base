@@ -6,13 +6,13 @@ tags:
 weight: 44
 ---
 > **핵심 인사이트**
-> 1. 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로(Sequential Logic Circuit)는 현재 입력과 <strong>이전 상태(메모리)</strong>에 따라 출력이 결정되는 회로로 — 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Combinational Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/))와 달리 피드백 루프와 기억 소자([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/), [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))를 포함하여 시간 의존성을 갖는다.
-> 2. 동기식 순서 회로([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Sequential Circuit)는 클록 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(CLK)에 맞춰 상태가 전환되므로 설계·분석이 명확하지만 — 클록 스큐([Clock Skew](/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))와 셋업/홀드 타임(Setup/Hold Time) 위반이 타이밍 오류의 주요 원인이다.
-> 3. 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 핵심 기억 소자인 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))은 SR/D/JK/T 종류가 있으며 — [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), FSM(유한 상태 기계)의 구성 요소이자 CPU 파이프라인 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 캐시의 기반이다.
+> 1. 순서 논리 회로(Sequential Logic Circuit)는 현재 입력과 <strong>이전 상태(메모리)</strong>에 따라 출력이 결정되는 회로로 — 조합 논리(Combinational Logic)와 달리 피드백 루프와 기억 소자(Flip-Flop, Latch)를 포함하여 시간 의존성을 갖는다.
+> 2. 동기식 순서 회로(Synchronous Sequential Circuit)는 클록 신호(CLK)에 맞춰 상태가 전환되므로 설계·분석이 명확하지만 — 클록 스큐(Clock Skew)와 셋업/홀드 타임(Setup/Hold Time) 위반이 타이밍 오류의 주요 원인이다.
+> 3. 순서 논리의 핵심 기억 소자인 플립플롭(Flip-Flop)은 SR/D/JK/T 종류가 있으며 — 레지스터, 카운터, FSM(유한 상태 기계)의 구성 요소이자 CPU 파이프라인 레지스터와 캐시의 기반이다.
 
 ---
 
-## Ⅰ. 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 개념
+## Ⅰ. 순서 논리 회로 개념
 
 ```
 순서 논리 회로 (Sequential Logic Circuit):
@@ -52,11 +52,11 @@ weight: 44
   예: 신호등 FSM: RED -> GREEN -> YELLOW -> RED
 ```
 
-> 📢 **섹션 요약 비유**: 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 메모리 있는 계산 — 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 "지금만 보는 사람"이라면, 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 "전 상황도 기억하는 사람". 다음 행동이 과거에도 영향받아요.
+> 📢 **섹션 요약 비유**: 순서 논리는 메모리 있는 계산 — 조합 논리가 "지금만 보는 사람"이라면, 순서 논리는 "전 상황도 기억하는 사람". 다음 행동이 과거에도 영향받아요.
 
 ---
 
-## Ⅱ. [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 종류
+## Ⅱ. 플립플롭 종류
 
 ```
 플립플롭 (Flip-Flop):
@@ -102,7 +102,7 @@ weight: 44
   위반 시: 메타스태빌리티 (Metastability) -> 불확정 출력
 ```
 
-> 📢 **섹션 요약 비유**: D/JK/T [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 메모리 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 종류 — D는 "그냥 저장", JK는 "더 많은 명령 수용", T는 "ON/OFF 토글". 클록이 울릴 때만 상태 바뀌는 엄격한 기억 소자.
+> 📢 **섹션 요약 비유**: D/JK/T 플립플롭은 메모리 스위치 종류 — D는 "그냥 저장", JK는 "더 많은 명령 수용", T는 "ON/OFF 토글". 클록이 울릴 때만 상태 바뀌는 엄격한 기억 소자.
 
 ---
 
@@ -151,11 +151,11 @@ FSM 설계 절차:
   통신: UART, I2C 프로토콜
 ```
 
-> 📢 **섹션 요약 비유**: FSM은 게임 캐릭터 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) — "대기->공격->[후퇴](/studynote/02_operating_system/05_deadlock/313_rollback/)->대기" 상태가 있고, 입력(플레이어 위치)에 따라 상태가 전환. 현재 상태만이 다음 행동을 결정해요.
+> 📢 **섹션 요약 비유**: FSM은 게임 캐릭터 AI — "대기->공격->후퇴->대기" 상태가 있고, 입력(플레이어 위치)에 따라 상태가 전환. 현재 상태만이 다음 행동을 결정해요.
 
 ---
 
-## Ⅳ. [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
+## Ⅳ. 카운터와 레지스터
 
 ```
 카운터 (Counter):
@@ -203,11 +203,11 @@ FSM 설계 절차:
     암호화, 테스트 패턴 생성
 ```
 
-> 📢 **섹션 요약 비유**: [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 탁상 달력 — [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 날짜를 하루씩 넘기는 것, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 메모를 써두는 것. 시프트 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 컨베이어 벨트처럼 정보가 줄지어 이동.
+> 📢 **섹션 요약 비유**: 카운터와 레지스터는 탁상 달력 — 카운터는 날짜를 하루씩 넘기는 것, 레지스터는 메모를 써두는 것. 시프트 레지스터는 컨베이어 벨트처럼 정보가 줄지어 이동.
 
 ---
 
-## Ⅴ. 실무 시나리오 — CPU 파이프라인 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
+## Ⅴ. 실무 시나리오 — CPU 파이프라인 레지스터
 
 ```
 CPU 파이프라인 레지스터 (순서 논리 응용):
@@ -253,7 +253,7 @@ CPU 파이프라인 레지스터 (순서 논리 응용):
   각 단계 경계마다 순서 논리 레지스터 사용
 ```
 
-> 📢 **섹션 요약 비유**: CPU 파이프라인 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 공장 작업대 칸막이 — 각 작업자가 물건을 다음 칸으로 넘기려면 클록이 울릴 때까지 기다려야 해요. 칸막이([레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) = D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 집합.
+> 📢 **섹션 요약 비유**: CPU 파이프라인 레지스터는 공장 작업대 칸막이 — 각 작업자가 물건을 다음 칸으로 넘기려면 클록이 울릴 때까지 기다려야 해요. 칸막이(레지스터) = D 플립플롭의 집합.
 
 ---
 
@@ -312,17 +312,6 @@ GHz 클록, 딥 파이프라인
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 "기억하는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)" — 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 지금만 보는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라면, 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 전 [상태도](/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 기억해서 다음을 결정하는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)!
-2. [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 메모장 — 클록이 울릴 때마다 입력 값을 "탁!" 저장하고, 다음 클록까지 그 값을 유지해요.
-3. CPU의 파이프라인은 순서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 집합체 — 각 단계 사이에 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 대기해서 클록마다 데이터를 다음 단계로 전달해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 44 / 803
-
-<- **이전**: [043. 비교기 (Comparator)](/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)
-**다음**: [045. 클럭 — Clock Signal](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) ->
-
----
+1. 순서 논리는 "기억하는 스위치" — 조합 논리가 지금만 보는 스위치라면, 순서 논리는 전 상태도 기억해서 다음을 결정하는 스위치!
+2. 플립플롭은 한 비트 메모장 — 클록이 울릴 때마다 입력 값을 "탁!" 저장하고, 다음 클록까지 그 값을 유지해요.
+3. CPU의 파이프라인은 순서 논리의 집합체 — 각 단계 사이에 D 플립플롭이 대기해서 클록마다 데이터를 다음 단계로 전달해요!

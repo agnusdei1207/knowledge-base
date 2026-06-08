@@ -6,17 +6,17 @@ tags:
 weight: 99
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 통계적 검정력 (Statistical [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 대립가설이 참일 때 이를 올바르게 찾아낼 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(1-β)로, 실제 존재하는 효과를 놓치지 않는 탐지 능력이다.
+> 1. **본질**: 통계적 검정력 (Statistical Power)은 대립가설이 참일 때 이를 올바르게 찾아낼 확률(1-β)로, 실제 존재하는 효과를 놓치지 않는 탐지 능력이다.
 > 2. **가치**: p-value에만 의존하는 1종 오류 중심의 분석 한계를 극복하고, 실험에 필요한 최소 표본 크기(Sample Size)와 테스트 기간을 사전에 확정하게 해준다.
-> 3. **판단 포인트**: 유의미한 결과가 나올 때까지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개거나 기간을 연장하는 [p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) 해킹(p-hacking)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 신뢰성을 파괴하므로, 사전 설계된 MDE(Minimum Detectable Effect)와 표본 크기를 엄격히 지켜야 한다.
+> 3. **판단 포인트**: 유의미한 결과가 나올 때까지 데이터를 쪼개거나 기간을 연장하는 p-value 해킹(p-hacking)은 데이터의 신뢰성을 파괴하므로, 사전 설계된 MDE(Minimum Detectable Effect)와 표본 크기를 엄격히 지켜야 한다.
 
 ## Ⅰ. 개요 및 필요성
-현대 비즈니스는 A/B 테스트를 통해 직관이 아닌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 의사결정을 내린다. 그러나 실무에서는 p-value가 0.05 미만이 나올 때까지만 테스트를 진행하거나, 의미 있는 결과가 나올 때까지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무한정 쪼개보는 '통계적 유의성의 함정'에 빠지기 쉽다. 만약 실험의 검정력을 사전에 설계하지 않으면, 실제로 비즈니스에 도움이 되는 긍정적인 변화를 놓치거나(2종 오류), 우연한 결과를 진짜 효과로 착각하는(1종 오류 증가) 치명적인 오판이 발생하게 된다.
+현대 비즈니스는 A/B 테스트를 통해 직관이 아닌 데이터 기반의 의사결정을 내린다. 그러나 실무에서는 p-value가 0.05 미만이 나올 때까지만 테스트를 진행하거나, 의미 있는 결과가 나올 때까지 데이터를 무한정 쪼개보는 '통계적 유의성의 함정'에 빠지기 쉽다. 만약 실험의 검정력을 사전에 설계하지 않으면, 실제로 비즈니스에 도움이 되는 긍정적인 변화를 놓치거나(2종 오류), 우연한 결과를 진짜 효과로 착각하는(1종 오류 증가) 치명적인 오판이 발생하게 된다.
 
 - **📢 섹션 요약 비유**: 밤하늘에 진짜 혜성이 지나가고 있는데, 들고 있는 망원경의 렌즈가 너무 작아서(낮은 검정력) 그 혜성을 놓쳐버리는 문제와 같다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α, 검정력 1-β, 효과 크기 δ, 표본 크기 n)가 서로 톱니바퀴처럼 맞물려 결정된다. 검정력을 높이려면 더 큰 표본(n)을 수집하거나, 더 큰 효과(δ)를 기대해야 한다.
+A/B 테스트의 통계적 신뢰성은 4가지 요소(유의 수준 α, 검정력 1-β, 효과 크기 δ, 표본 크기 n)가 서로 톱니바퀴처럼 맞물려 결정된다. 검정력을 높이려면 더 큰 표본(n)을 수집하거나, 더 큰 효과(δ)를 기대해야 한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -37,33 +37,33 @@ A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/studynot
 - **📢 섹션 요약 비유**: 그물코를 너무 성글게 짜면(낮은 검정력) 작은 물고기가 다 빠져나가고, 무조건 잡겠다고 뜰채를 마구 휘두르면(p-hacking) 쓰레기(가짜 효과)까지 잔뜩 건져 올리게 된다.
 
 ## Ⅲ. 비교 및 연결
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서는 "우연을 배제하는 것"과 "진짜를 찾아내는 것"의 관점 차이를 이해해야 한다. p-value는 전자를 방어하고, 검정력은 후자를 공격적으로 확보한다.
+데이터 분석에서는 "우연을 배제하는 것"과 "진짜를 찾아내는 것"의 관점 차이를 이해해야 한다. p-value는 전자를 방어하고, 검정력은 후자를 공격적으로 확보한다.
 
-| 비교 항목 | [p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) 중심 검정 (제1종 오류 통제) | 검정력 분석([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Analysis) 중심 설계 |
+| 비교 항목 | p-value 중심 검정 (제1종 오류 통제) | 검정력 분석(Power Analysis) 중심 설계 |
 | :--- | :--- | :--- |
-| **초점** | 결과가 우연히 발생했을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 낮은가? | 우리가 원하는 크기의 효과를 발견할 수 있는가? |
-| **설계 시점** | 주로 사후적(Post-hoc) 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 반드시 실험 전 사전적(A-priori) 표본 산정 |
-| **핵심 지표** | [유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) (Significance Level, α) | 최소 탐지 효과 (MDE) 및 표본 크기 (n) |
-| <strong>발생 <a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 거짓 양성 (효과가 없는데 있다고 함) | 거짓 음성 (효과가 있는데 없다고 함) |
+| **초점** | 결과가 우연히 발생했을 확률이 낮은가? | 우리가 원하는 크기의 효과를 발견할 수 있는가? |
+| **설계 시점** | 주로 사후적(Post-hoc) 결과 확인 | 반드시 실험 전 사전적(A-priori) 표본 산정 |
+| **핵심 지표** | 유의 수준 (Significance Level, α) | 최소 탐지 효과 (MDE) 및 표본 크기 (n) |
+| <strong>발생 리스크</strong> | 거짓 양성 (효과가 없는데 있다고 함) | 거짓 음성 (효과가 있는데 없다고 함) |
 
 빈도주의 통계의 이러한 한계를 보완하기 위해 베이지안(Bayesian) A/B 테스트가 도입되기도 하며, 이는 사전 지식(Prior)을 활용해 중간에 실험을 멈춰도 통계적 왜곡이 적은 특성을 가진다.
 
 - **📢 섹션 요약 비유**: p-value가 무고한 시민을 감옥에 보내지 않으려는 방어벽이라면, 검정력은 진짜 범인이 도망치기 전에 확실히 잡아내려는 경찰의 수사력이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 A/B 테스트 플랫폼을 설계할 때 p-hacking을 구조적으로 방지해야 한다. 사용자가 실험 중간에 p-value를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 임의로 종료하는 것(Peeking)을 시스템적으로 막거나 경고를 띄워야 한다.
+실무에서 데이터 엔지니어는 A/B 테스트 플랫폼을 설계할 때 p-hacking을 구조적으로 방지해야 한다. 사용자가 실험 중간에 p-value를 확인하고 임의로 종료하는 것(Peeking)을 시스템적으로 막거나 경고를 띄워야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 체크리스트 및 안티패턴
 1. **사전 표본 산정**: 실험 전 예상 효과 크기(MDE)를 바탕으로 n을 계산하고, 해당 기간을 반드시 완주하는가?
-2. **다중 비교 보정**: 여러 버튼의 색상을 동시에 테스트할 때, 본페로니 교정(Bonferroni Correction) 등으로 [유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)(α)을 엄격하게 재조정하는가?
-3. <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: p-value가 0.05 밑으로 내려가는 순간 즉시 실험을 종료하고 성공을 선언하는 행위.
+2. **다중 비교 보정**: 여러 버튼의 색상을 동시에 테스트할 때, 본페로니 교정(Bonferroni Correction) 등으로 유의 수준(α)을 엄격하게 재조정하는가?
+3. <strong>안티패턴</strong>: p-value가 0.05 밑으로 내려가는 순간 즉시 실험을 종료하고 성공을 선언하는 행위.
 
 - **📢 섹션 요약 비유**: 마라톤 코스를 미리 42.195km로 정해놓고 뛰어야지, 뛰다가 자신이 1등일 때 임의로 결승선을 그어버리고 경기를 끝내면(p-hacking) 안 된다.
 
 ## Ⅴ. 기대효과 및 결론
-정교한 검정력 설계는 비즈니스 리소스의 낭비를 막고, '가짜 성과'에 속아 엉뚱한 기능을 개발하는 매몰 비용을 예방한다. 단순히 통계 패키지가 뱉어내는 p-value에 매몰되지 않고, "이 정도 표본이라면 우리가 원하는 변화를 놓치지 않는다"는 확신을 설계하는 것이 [데이터옵스](/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)([DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/)) 환경에서 요구되는 핵심 역량이다. 결국 훌륭한 A/B 테스트는 통계적 수식의 문제가 아니라, 엄격한 실험 규율과 인내심의 문제다.
+정교한 검정력 설계는 비즈니스 리소스의 낭비를 막고, '가짜 성과'에 속아 엉뚱한 기능을 개발하는 매몰 비용을 예방한다. 단순히 통계 패키지가 뱉어내는 p-value에 매몰되지 않고, "이 정도 표본이라면 우리가 원하는 변화를 놓치지 않는다"는 확신을 설계하는 것이 데이터옵스(DataOps) 환경에서 요구되는 핵심 역량이다. 결국 훌륭한 A/B 테스트는 통계적 수식의 문제가 아니라, 엄격한 실험 규율과 인내심의 문제다.
 
-- **📢 섹션 요약 비유**: 정확한 나침반(검정력)과 충분한 식량(표본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 미리 계산해서 출발해야만, 가짜 오아시스(거짓 효과)에 속지 않고 목적지에 도착할 수 있다.
+- **📢 섹션 요약 비유**: 정확한 나침반(검정력)과 충분한 식량(표본 데이터)을 미리 계산해서 출발해야만, 가짜 오아시스(거짓 효과)에 속지 않고 목적지에 도착할 수 있다.
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
@@ -71,7 +71,7 @@ A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/studynot
 | MDE (Minimum Detectable Effect) | 비즈니스적으로 의미가 있다고 판단되는 최소한의 차이 (효과 크기) |
 | 제1종 오류 (Type I Error, α) | 귀무가설이 참인데 기각하는 오류 (가짜 약을 진짜 약으로 착각) |
 | 제2종 오류 (Type II Error, β) | 대립가설이 참인데 기각하지 못하는 오류 (진짜 약의 효과를 놓침) |
-| 본페로니 교정 (Bonferroni Correction) | 동시에 여러 가설을 검정할 때 1종 오류가 커지는 것을 막기 위한 [p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) 보정법 |
+| 본페로니 교정 (Bonferroni Correction) | 동시에 여러 가설을 검정할 때 1종 오류가 커지는 것을 막기 위한 p-value 보정법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -94,15 +94,4 @@ Sequential Testing 및 Bayesian A/B 테스트 (실시간 의사결정 보완)
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 돋보기(A/B 테스트)로 아주 작은 개미(효과)를 찾으려고 할 때, 돋보기의 성능이 얼마나 좋은지가 바로 '검정력'이에요.
 2. 만약 돋보기가 너무 나쁘면(낮은 검정력) 개미가 지나가는데도 못 보고 밟을 수 있어요.
-3. 그렇다고 억지로 개미를 찾으려고 없는 점을 펜으로 그려 넣는 것([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) 해킹)은 아주 정직하지 못한 행동이랍니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 99 / 258
-
-<- **이전**: [결정 계수 (Coefficient of Determination) - R-Squared](/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)
-**다음**: [K-Means 군집화와 최적 K 도출 (K-Means Clustering & Optimal K)](/studynote/14_data_engineering/02_math_mining/100_k_means_clustering_elbow_silhouette/) ->
-
----
+3. 그렇다고 억지로 개미를 찾으려고 없는 점을 펜으로 그려 넣는 것(p-value 해킹)은 아주 정직하지 못한 행동이랍니다!

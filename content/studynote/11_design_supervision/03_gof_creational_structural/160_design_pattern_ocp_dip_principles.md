@@ -7,9 +7,9 @@ weight: 160
 ---
 ## 핵심 인사이트
 
-> 1. **본질**: 디자인 패턴은 자주 발생하는 구조 문제를 해결하는 재사용 가능한 설계 해법이며, 특히 [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/), [개방-폐쇄 원칙](/studynote/11_design_supervision/06_exam_summary/356_process/))와 [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([Dependency Inversion Principle](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), [의존성 역전 원칙](/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/))를 코드 구조로 구현하는 도구다.
+> 1. **본질**: 디자인 패턴은 자주 발생하는 구조 문제를 해결하는 재사용 가능한 설계 해법이며, 특히 OCP (Open-Closed Principle, 개방-폐쇄 원칙)와 DIP (Dependency Inversion Principle, 의존성 역전 원칙)를 코드 구조로 구현하는 도구다.
 > 2. **가치**: 패턴을 원칙과 연결해 이해하면 "이 패턴이 왜 필요한가"를 설명할 수 있어, 암기식 답안이 아니라 변경 비용을 줄이는 설계 판단으로 이어진다.
-> 3. **판단 포인트**: 새 기능 추가 때 기존 핵심 코드를 계속 고쳐야 하면 [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반이고, 고수준 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 구체 클래스에 직접 매달려 있으면 [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 위반이므로 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 조합 구조를 먼저 재설계해야 한다.
+> 3. **판단 포인트**: 새 기능 추가 때 기존 핵심 코드를 계속 고쳐야 하면 OCP 위반이고, 고수준 정책이 구체 클래스에 직접 매달려 있으면 DIP 위반이므로 추상화와 조합 구조를 먼저 재설계해야 한다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 160
 
 디자인 패턴은 객체지향 설계에서 반복적으로 등장하는 문제에 대한 검증된 구조적 해법이다. 그러나 패턴을 이름만 외우면 실무에서는 쉽게 남용된다. 중요한 것은 패턴 그 자체가 아니라, 그 패턴이 어떤 설계 원칙을 만족시키기 위해 등장했는지 이해하는 일이다. 이때 가장 핵심이 되는 원칙이 OCP와 DIP다.
 
-OCP는 안정적인 핵심 코드는 닫아 두고, 새로운 기능은 확장 포인트를 통해 덧붙이라는 원칙이다. DIP는 상위 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 하위 구현이 서로 직접 묶이지 말고, 둘 다 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)에 의존해야 한다는 원칙이다. 결국 좋은 패턴은 "변경이 자주 일어나는 부분"을 바깥으로 빼고, "바뀌면 안 되는 부분"을 중심에 고정하는 구조를 만든다.
+OCP는 안정적인 핵심 코드는 닫아 두고, 새로운 기능은 확장 포인트를 통해 덧붙이라는 원칙이다. DIP는 상위 정책과 하위 구현이 서로 직접 묶이지 말고, 둘 다 추상화에 의존해야 한다는 원칙이다. 결국 좋은 패턴은 "변경이 자주 일어나는 부분"을 바깥으로 빼고, "바뀌면 안 되는 부분"을 중심에 고정하는 구조를 만든다.
 
 - **📢 섹션 요약 비유**: 건물의 뼈대는 자주 뜯어고치지 않고, 가구와 설비만 바꾸는 것이 좋은 설계다. OCP는 벽을 허물지 않고 방을 확장하는 규칙이고, DIP는 특정 가전제품이 아니라 표준 콘센트 규격에 맞추는 원칙이다.
 
@@ -25,9 +25,9 @@ OCP는 안정적인 핵심 코드는 닫아 두고, 새로운 기능은 확장 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-OCP와 DIP는 함께 작동할 때 효과가 크다. OCP가 "어디를 확장 가능하게 만들 것인가"를 정한다면, DIP는 "그 확장 포인트를 무엇에 의존하게 할 것인가"를 정한다. 보통 인터페이스나 추상 클래스를 중심에 두고, 고수준 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 그 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)만 바라보며, 구체 구현은 바깥에서 연결한다. 이 구조를 가장 잘 보여 주는 패턴이 [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) ([팩토리 메서드](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)), [Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) ([추상 팩토리](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)), [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ([브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)), [Decorator](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([데코레이터](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))다.
+OCP와 DIP는 함께 작동할 때 효과가 크다. OCP가 "어디를 확장 가능하게 만들 것인가"를 정한다면, DIP는 "그 확장 포인트를 무엇에 의존하게 할 것인가"를 정한다. 보통 인터페이스나 추상 클래스를 중심에 두고, 고수준 서비스는 그 추상화만 바라보며, 구체 구현은 바깥에서 연결한다. 이 구조를 가장 잘 보여 주는 패턴이 Strategy (전략), Factory Method (팩토리 메서드), Abstract Factory (추상 팩토리), Bridge (브리지), Decorator (데코레이터)다.
 
-아래 그림은 결제 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 저장소 구현을 예로 들어 OCP와 DIP가 동시에 성립하는 구조를 보여 준다.
+아래 그림은 결제 정책과 저장소 구현을 예로 들어 OCP와 DIP가 동시에 성립하는 구조를 보여 준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -50,15 +50,15 @@ OCP와 DIP는 함께 작동할 때 효과가 크다. OCP가 "어디를 확장 �
 +----------------------------------------------------------------------------+
 ```
 
-이 구조의 핵심은 `OrderService`가 구체 결제 방식이나 저장소 구현을 몰라도 된다는 점이다. 결제 수단이 추가되면 새 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 클래스를 만들면 되고, 저장소가 바뀌면 구현체만 교체하면 된다. 기존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로직을 수정하지 않고 기능을 늘릴 수 있으므로 OCP를 만족하고, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 구체 클래스 대신 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)에 의존하므로 DIP도 만족한다.
+이 구조의 핵심은 `OrderService`가 구체 결제 방식이나 저장소 구현을 몰라도 된다는 점이다. 결제 수단이 추가되면 새 정책 클래스를 만들면 되고, 저장소가 바뀌면 구현체만 교체하면 된다. 기존 서비스 로직을 수정하지 않고 기능을 늘릴 수 있으므로 OCP를 만족하고, 서비스가 구체 클래스 대신 추상화에 의존하므로 DIP도 만족한다.
 
-| 패턴 | [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 관점 | [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 관점 | 대표 상황 |
+| 패턴 | OCP 관점 | DIP 관점 | 대표 상황 |
 | :--- | :--- | :--- | :--- |
-| [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 새 알고리즘을 클래스로 추가 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 인터페이스에 의존 | 결제, 할인, 정렬 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
-| [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직을 확장 포인트로 분리 | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 주체를 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 뒤로 숨김 | 문서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 알림 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| [Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 제품군 추가를 기존 코드 수정 없이 처리 | 클라이언트가 구체 제품이 아닌 팩토리에 의존 | UI [테마](/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), DB 벤더 교체 |
-| [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) | 추상 계층과 구현 계층을 독립 확장 | 추상부가 구현 인터페이스에 의존 | 장치 제어, 메시지 채널 |
-| [Decorator](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) | 기존 객체 수정 없이 책임 추가 | 공통 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 인터페이스 유지 | 로깅, 캐시, 보안 래핑 |
+| Strategy | 새 알고리즘을 클래스로 추가 | 서비스는 전략 인터페이스에 의존 | 결제, 할인, 정렬 정책 |
+| Factory Method | 생성 로직을 확장 포인트로 분리 | 생성 주체를 추상화 뒤로 숨김 | 문서 생성, 알림 객체 생성 |
+| Abstract Factory | 제품군 추가를 기존 코드 수정 없이 처리 | 클라이언트가 구체 제품이 아닌 팩토리에 의존 | UI 테마, DB 벤더 교체 |
+| Bridge | 추상 계층과 구현 계층을 독립 확장 | 추상부가 구현 인터페이스에 의존 | 장치 제어, 메시지 채널 |
+| Decorator | 기존 객체 수정 없이 책임 추가 | 공통 컴포넌트 인터페이스 유지 | 로깅, 캐시, 보안 래핑 |
 
 - **📢 섹션 요약 비유**: OCP는 레고 블록을 추가하는 방식이고, DIP는 블록끼리 직접 접착하지 않고 표준 결합 홈을 맞추는 방식이다. 그래서 새 블록을 붙여도 기존 구조가 잘 안 무너진다.
 
@@ -66,17 +66,17 @@ OCP와 DIP는 함께 작동할 때 효과가 크다. OCP가 "어디를 확장 �
 
 ## Ⅲ. 비교 및 연결
 
-OCP와 DIP는 함께 언급되지만 질문이 다르다. OCP는 "변경을 어떻게 받아들일 것인가"를 묻고, DIP는 "의존 방향을 어디로 향하게 할 것인가"를 묻는다. 따라서 OCP만 지키려다 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)가 부실하면 if-else 체인을 클래스 여러 개로 흩뿌린 것에 그칠 수 있고, DIP만 강조하다 과도한 인터페이스를 만들면 불필요한 복잡성만 늘 수 있다.
+OCP와 DIP는 함께 언급되지만 질문이 다르다. OCP는 "변경을 어떻게 받아들일 것인가"를 묻고, DIP는 "의존 방향을 어디로 향하게 할 것인가"를 묻는다. 따라서 OCP만 지키려다 추상화가 부실하면 if-else 체인을 클래스 여러 개로 흩뿌린 것에 그칠 수 있고, DIP만 강조하다 과도한 인터페이스를 만들면 불필요한 복잡성만 늘 수 있다.
 
-| 비교 축 | [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) | [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) |
+| 비교 축 | OCP | DIP |
 | :--- | :--- | :--- |
 | 핵심 질문 | 새 기능을 어디서 확장할 것인가 | 고수준 모듈은 무엇에 의존할 것인가 |
 | 해결 대상 | 변경 지점 폭발 | 강한 결합과 교체 불가 |
-| 주된 수단 | [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)보다 조합, 확장 포인트 설계 | [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), [의존성 주입](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), 팩토리 |
+| 주된 수단 | 상속보다 조합, 확장 포인트 설계 | 추상화, 의존성 주입, 팩토리 |
 | 대표 위반 징후 | 타입 분기 if-else 증가 | `new ConcreteClass()` 남발 |
-| 연결 패턴 | [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [Decorator](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/), [Template Method](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | Factory, [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), [Dependency Injection](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) |
+| 연결 패턴 | Strategy, Decorator, Template Method | Factory, Bridge, Dependency Injection |
 
-또한 [SOLID](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) (Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion)의 다른 원칙과도 연결된다. OCP를 지키려면 변경 이유를 분리하는 [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/studynote/11_design_supervision/06_exam_summary/355_process/))가 함께 필요하고, DIP를 지키려면 지나치게 큰 인터페이스를 쪼개는 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/), [인터페이스 분리 원칙](/studynote/11_design_supervision/06_exam_summary/358_architecture/))가 따라와야 한다. 즉 패턴은 원칙 하나만 만족하는 고립된 도구가 아니라 여러 원칙이 만나는 구조적 접점이다.
+또한 SOLID (Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion)의 다른 원칙과도 연결된다. OCP를 지키려면 변경 이유를 분리하는 SRP (Single Responsibility Principle, 단일 책임 원칙)가 함께 필요하고, DIP를 지키려면 지나치게 큰 인터페이스를 쪼개는 ISP (Interface Segregation Principle, 인터페이스 분리 원칙)가 따라와야 한다. 즉 패턴은 원칙 하나만 만족하는 고립된 도구가 아니라 여러 원칙이 만나는 구조적 접점이다.
 
 - **📢 섹션 요약 비유**: OCP는 증축 설계도이고, DIP는 배선을 표준 규격으로 빼 두는 일이다. 증축만 잘해도 배선이 얽히면 고장 나고, 배선만 표준이어도 방을 늘릴 자리가 없으면 확장이 어렵다.
 
@@ -84,20 +84,20 @@ OCP와 DIP는 함께 언급되지만 질문이 다르다. OCP는 "변경을 어�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 패턴 이름보다 변경 시나리오를 먼저 본다. 예를 들어 결제 수단, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식, 알림 채널처럼 앞으로 계속 늘어날 가능성이 높은 영역은 Strategy나 Abstract Factory로 확장 지점을 미리 분리하는 것이 맞다. 반면 한 번 정하면 거의 바뀌지 않는 단순 CRUD까지 무조건 인터페이스화하면 오히려 설계가 비대해질 수 있다. 결국 OCP와 DIP는 "모든 곳에 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)"가 아니라 "변경 가능성이 높은 경계에 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)"를 두라는 원칙이다.
+실무에서는 패턴 이름보다 변경 시나리오를 먼저 본다. 예를 들어 결제 수단, 인증 방식, 알림 채널처럼 앞으로 계속 늘어날 가능성이 높은 영역은 Strategy나 Abstract Factory로 확장 지점을 미리 분리하는 것이 맞다. 반면 한 번 정하면 거의 바뀌지 않는 단순 CRUD까지 무조건 인터페이스화하면 오히려 설계가 비대해질 수 있다. 결국 OCP와 DIP는 "모든 곳에 추상화"가 아니라 "변경 가능성이 높은 경계에 추상화"를 두라는 원칙이다.
 
-### [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/) [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 코드 리뷰 체크리스트
 
-1. 새 기능 추가 때 기존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 클래스의 분기문을 수정해야 하는가?
-2. 상위 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 특정 프레임워크 클래스나 DB 구현에 직접 묶여 있는가?
-3. [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임과 사용 책임이 한 클래스에 동시에 몰려 있는가?
+1. 새 기능 추가 때 기존 서비스 클래스의 분기문을 수정해야 하는가?
+2. 상위 정책이 특정 프레임워크 클래스나 DB 구현에 직접 묶여 있는가?
+3. 생성 책임과 사용 책임이 한 클래스에 동시에 몰려 있는가?
 4. 인터페이스가 실제 교체 가능성을 반영하는가, 아니면 형식적 분리인가?
 
-### 대표 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 대표 안티패턴
 
-- 작은 변화도 모두 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층으로 해결해 조합 폭발을 만드는 경우
+- 작은 변화도 모두 상속 계층으로 해결해 조합 폭발을 만드는 경우
 - 테스트 편의만 위해 실사용 교체 가능성 없는 인터페이스를 남발하는 경우
-- [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) ([Dependency Injection](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [의존성 주입](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 프레임워크가 있으니 자동으로 DIP가 지켜진다고 착각하는 경우
+- DI (Dependency Injection, 의존성 주입) 프레임워크가 있으니 자동으로 DIP가 지켜진다고 착각하는 경우
 
 - **📢 섹션 요약 비유**: 좋은 설계는 자주 갈아끼우는 부품만 모듈화하고, 뼈대는 안정적으로 유지한다. 나사를 풀 일도 없는데 모든 곳에 분리형 커넥터를 다는 것은 오히려 관리 부담만 키운다.
 
@@ -105,9 +105,9 @@ OCP와 DIP는 함께 언급되지만 질문이 다르다. OCP는 "변경을 어�
 
 ## Ⅴ. 기대효과 및 결론
 
-OCP와 DIP를 패턴과 연결해 적용하면 변경 비용, 테스트 비용, 구현체 교체 비용을 동시에 줄일 수 있다. [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 안정적으로 유지하면서도, 세부 구현은 새 요구사항에 맞춰 유연하게 바꿀 수 있기 때문이다. 기술사 답안에서도 "이 패턴이 OCP를 어떻게 만족하는가", "이 구조가 DIP를 어떻게 구현하는가"를 설명할 수 있으면 설계 이유가 분명해진다.
+OCP와 DIP를 패턴과 연결해 적용하면 변경 비용, 테스트 비용, 구현체 교체 비용을 동시에 줄일 수 있다. 서비스 정책은 안정적으로 유지하면서도, 세부 구현은 새 요구사항에 맞춰 유연하게 바꿀 수 있기 때문이다. 기술사 답안에서도 "이 패턴이 OCP를 어떻게 만족하는가", "이 구조가 DIP를 어떻게 구현하는가"를 설명할 수 있으면 설계 이유가 분명해진다.
 
-다만 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 공짜가 아니다. 지나치면 클래스 수와 학습 비용이 늘고, 실제로는 교체되지 않을 구조를 괜히 복잡하게 만들 수 있다. 따라서 디자인 패턴은 "멋진 이름 모음"이 아니라, OCP와 DIP가 필요한 변경 지점에만 정확히 적용하는 설계 도구로 기억해야 한다.
+다만 추상화는 공짜가 아니다. 지나치면 클래스 수와 학습 비용이 늘고, 실제로는 교체되지 않을 구조를 괜히 복잡하게 만들 수 있다. 따라서 디자인 패턴은 "멋진 이름 모음"이 아니라, OCP와 DIP가 필요한 변경 지점에만 정확히 적용하는 설계 도구로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 패턴은 만능 장식이 아니라 교체가 잦은 부품에만 쓰는 표준 공구다. 맞는 곳에 쓰면 수리와 확장이 쉬워지지만, 아무 곳에나 쓰면 공구함만 무거워진다.
 
@@ -117,12 +117,12 @@ OCP와 DIP를 패턴과 연결해 적용하면 변경 비용, 테스트 비용, 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) | 확장에는 열고 수정에는 닫는 설계 원칙 |
-| [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([Dependency Inversion Principle](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)) | 고수준 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 저수준 구현을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로 분리 |
-| [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 패턴 | 변하는 알고리즘을 교체 가능한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 분리 |
-| [Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 패턴 | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 구현체 교체를 쉽게 함 |
-| [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 패턴 | 추상부와 구현부를 별도 축으로 분리 |
-| [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) | DIP를 런타임 구성으로 실현하는 대표 메커니즘 |
+| OCP (Open-Closed Principle) | 확장에는 열고 수정에는 닫는 설계 원칙 |
+| DIP (Dependency Inversion Principle) | 고수준 정책과 저수준 구현을 추상화로 분리 |
+| Strategy 패턴 | 변하는 알고리즘을 교체 가능한 정책으로 분리 |
+| Abstract Factory 패턴 | 생성 로직을 추상화해 구현체 교체를 쉽게 함 |
+| Bridge 패턴 | 추상부와 구현부를 별도 축으로 분리 |
+| DI | DIP를 런타임 구성으로 실현하는 대표 메커니즘 |
 
 ### 관련 키워드 및 발전 흐름도
 
@@ -146,21 +146,10 @@ DIP: 고수준 정책의 의존 방향 역전
 유지보수성 향상 · 테스트 용이성 · 구현체 교체성 확보
 ```
 
-이 흐름은 변경 압력을 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 패턴으로 흡수해 설계 안정성을 높이는 과정을 요약한다.
+이 흐름은 변경 압력을 추상화와 패턴으로 흡수해 설계 안정성을 높이는 과정을 요약한다.
 
 ### 어린이 비유 설명
 
 1. OCP는 레고 성에 새 방을 붙일 때, 기존 성벽을 부수지 않고 블록만 더 끼우는 규칙이에요.
 2. DIP는 장난감이 특정 배터리 모양이 아니라 표준 건전지 규격에 맞게 만드는 것과 같아요.
 3. 디자인 패턴은 이런 규칙을 지키면서 만들 수 있게 도와주는 조립 설명서예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 216 / 530
-
-<- **이전**: [159. 프록시 패턴 유형 (Proxy Pattern Types)](/studynote/11_design_supervision/03_gof_creational_structural/159_proxy_pattern_types/)
-**다음**: [161. 안티 패턴 (Anti-Pattern)](/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) ->
-
----

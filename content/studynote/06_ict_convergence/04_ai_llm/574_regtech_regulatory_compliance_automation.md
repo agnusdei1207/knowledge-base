@@ -110,12 +110,3 @@ RegTech 규제 준수 자동화은(는) 현장의 상태를 데이터로 가시�
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 574 / 800
-
-<- **이전**: [573. 블록체인 포렌식 거래 추적](/studynote/06_ict_convergence/uncategorized/573_blockchain_forensics_transaction_tracing/)
-**다음**: [575. STO 증권형 토큰 디지털 증권](/studynote/06_ict_convergence/uncategorized/575_security_token_offering_sto_digital_securitie/) ->
-
----

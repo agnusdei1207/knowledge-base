@@ -7,17 +7,17 @@ weight: 172
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) (Network Visualization)는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 노드와 엣지로 그려 주는 작업이 아니라, 중심성·커뮤니티·[브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 같은 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조를 사람이 읽을 수 있는 위치·색·크기로 번역하는 분석 기법이다.
-> 2. **가치**: 표로는 보이지 않는 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), 군집, 병목, 전파 경로를 한눈에 드러내므로 소셜 분석, 보안 탐지, 생물정보학, [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 탐색에서 강력하다.
-> 3. **판단 포인트**: 모든 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 힘 기반 레이아웃으로 그리면 "털실 뭉치"가 되기 쉽기 때문에, 질문에 맞는 레이아웃·집계·도구를 먼저 고르고 나서 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)해야 한다.
+> 1. **본질**: 네트워크 시각화 (Network Visualization)는 관계형 데이터를 노드와 엣지로 그려 주는 작업이 아니라, 중심성·커뮤니티·브리지 같은 그래프 구조를 사람이 읽을 수 있는 위치·색·크기로 번역하는 분석 기법이다.
+> 2. **가치**: 표로는 보이지 않는 허브, 군집, 병목, 전파 경로를 한눈에 드러내므로 소셜 분석, 보안 탐지, 생물정보학, 지식 그래프 탐색에서 강력하다.
+> 3. **판단 포인트**: 모든 그래프를 힘 기반 레이아웃으로 그리면 "털실 뭉치"가 되기 쉽기 때문에, 질문에 맞는 레이아웃·집계·도구를 먼저 고르고 나서 시각화해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구조로 읽게 만드는 기술이다. 고객-고객, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)-[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 단백질-단백질, 계정-계정처럼 연결이 핵심인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단순 테이블로 보면 "누가 누구와 연결되었는가"까지만 보이고, **어느 집단이 뭉쳐 있는지**, **어느 노드가 다리를 놓는지**, <strong>어디가 <a href="/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>인지</strong>는 잘 드러나지 않는다. 이때 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면 분석 질문 자체가 달라진다.
+네트워크 시각화는 관계 데이터를 구조로 읽게 만드는 기술이다. 고객-고객, 서비스-서비스, 단백질-단백질, 계정-계정처럼 연결이 핵심인 데이터는 단순 테이블로 보면 "누가 누구와 연결되었는가"까지만 보이고, **어느 집단이 뭉쳐 있는지**, **어느 노드가 다리를 놓는지**, <strong>어디가 허브인지</strong>는 잘 드러나지 않는다. 이때 그래프 구조를 시각화하면 분석 질문 자체가 달라진다.
 
-아래처럼 같은 엣지 목록도 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)되면 바로 새로운 의미를 얻는다.
+아래처럼 같은 엣지 목록도 시각화되면 바로 새로운 의미를 얻는다.
 
 ```text
 Edge list:
@@ -35,9 +35,9 @@ Insight:
   - removing X splits the graph
 ```
 
-이처럼 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 단순히 예쁜 그림을 만드는 작업이 아니다. [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 자체가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴에 대한 가설 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구가 된다. 사기 거래 탐지에서는 브로커 계정이 보이고, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 의존성에서는 과도한 중심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 보이며, 소셜 분석에서는 커뮤니티 경계와 정보 확산 경로가 보인다.
+이처럼 네트워크 시각화는 단순히 예쁜 그림을 만드는 작업이 아니다. 시각화 자체가 관계 패턴에 대한 가설 생성 도구가 된다. 사기 거래 탐지에서는 브로커 계정이 보이고, 마이크로서비스 의존성에서는 과도한 중심 서비스가 보이며, 소셜 분석에서는 커뮤니티 경계와 정보 확산 경로가 보인다.
 
-그래서 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 필요성은 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보여 주기 위해서"보다 "구조를 이해하기 위해서"에 있다. 노드 수가 많아질수록 텍스트 표는 빨리 무력해지지만, 잘 설계된 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 뷰는 구조적 패턴을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
+그래서 네트워크 시각화의 필요성은 "데이터를 보여 주기 위해서"보다 "구조를 이해하기 위해서"에 있다. 노드 수가 많아질수록 텍스트 표는 빨리 무력해지지만, 잘 설계된 그래프 뷰는 구조적 패턴을 압축해 보여 준다.
 
 - **📢 섹션 요약 비유**: 친구 목록을 이름표로만 보면 누가 반장인지 알기 어렵지만, 서로 손을 잡고 서 있는 모습을 보면 누가 중심이고 누가 무리 사이를 이어 주는지 바로 보이는 것과 같다.
 
@@ -45,7 +45,7 @@ Insight:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 그린 결과"가 아니라, [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델링과 분석을 거친 뒤 시각 채널에 매핑한 결과다. 일반적인 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 엣지 목록 수집 -> 노드/엣지 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 정리 -> [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 지표 계산 -> 레이아웃 배치 -> 색·크기·두께 인코딩 -> 인터랙션 추가 순서로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
+좋은 네트워크 시각화는 "데이터를 바로 그린 결과"가 아니라, 그래프 모델링과 분석을 거친 뒤 시각 채널에 매핑한 결과다. 일반적인 파이프라인은 엣지 목록 수집 -> 노드/엣지 속성 정리 -> 그래프 지표 계산 -> 레이아웃 배치 -> 색·크기·두께 인코딩 -> 인터랙션 추가 순서로 진행된다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -74,37 +74,37 @@ Insight:
 | 시각 요소 | 무엇을 담기 좋은가 | 대표 지표 예시 |
 | :--- | :--- | :--- |
 | 위치 (Position) | 구조와 거리감 | ForceAtlas2, 계층형 배치 |
-| 크기 (Size) | 중요도 | Degree [Centrality](/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/), PageRank |
-| 색상 (Color) | 집단 구분 | Louvain community, 역할 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
-| 선 굵기 (Edge Width) | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도 | 거래 금액, 호출 빈도 |
-| 라벨 (Label) | 해석 보조 | 상위 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), 이상 노드 |
+| 크기 (Size) | 중요도 | Degree Centrality, PageRank |
+| 색상 (Color) | 집단 구분 | Louvain community, 역할 분류 |
+| 선 굵기 (Edge Width) | 관계 강도 | 거래 금액, 호출 빈도 |
+| 라벨 (Label) | 해석 보조 | 상위 허브, 이상 노드 |
 
 핵심은 레이아웃이 의미를 만든다는 점이다. 힘 기반 레이아웃 (Force-Directed Layout)은 연결된 노드를 가깝게, 무관한 노드를 멀게 배치해 군집을 드러내는 데 좋다. 반면 계층형 레이아웃은 호출 방향이나 의존성 흐름을 볼 때 유리하다. 즉 "무슨 질문을 하려는가"가 레이아웃 선택보다 앞선다.
 
-또한 큰 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 계산과 렌더링 모두가 문제다. 단순 힘 기반 배치는 노드 수가 많아질수록 계산량이 커지므로 Barnes-Hut 근사, WebGL (Web Graphics [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 렌더링, Level of Detail (LOD), 커뮤니티 집계가 함께 필요하다. 원본 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 무조건 다 보여 주는 것은 분석이 아니라 혼잡을 키우는 일에 가깝다.
+또한 큰 그래프는 계산과 렌더링 모두가 문제다. 단순 힘 기반 배치는 노드 수가 많아질수록 계산량이 커지므로 Barnes-Hut 근사, WebGL (Web Graphics Library) 렌더링, Level of Detail (LOD), 커뮤니티 집계가 함께 필요하다. 원본 그래프를 무조건 다 보여 주는 것은 분석이 아니라 혼잡을 키우는 일에 가깝다.
 
-- **📢 섹션 요약 비유**: 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 지도를 그리는 것과 같다. 도로, 색, 아이콘, 축척을 어떻게 정하느냐에 따라 같은 도시도 교통 흐름이 보일 수도 있고 관광지가 보일 수도 있다.
+- **📢 섹션 요약 비유**: 네트워크 시각화는 지도를 그리는 것과 같다. 도로, 색, 아이콘, 축척을 어떻게 정하느냐에 따라 같은 도시도 교통 흐름이 보일 수도 있고 관광지가 보일 수도 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 제대로 이해하려면 "어떤 그림 형식이 맞는가"와 "어떤 도구가 맞는가"를 함께 봐야 한다. 노드-링크 다이어그램은 경로와 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 직관적으로 보여 주지만, 매우 밀집된 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 엣지가 엉켜 읽기 어렵다. 이런 경우 인접 행렬 ([Adjacency](/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)이나 커뮤니티 집계 뷰가 더 나을 수 있다.
+네트워크 시각화를 제대로 이해하려면 "어떤 그림 형식이 맞는가"와 "어떤 도구가 맞는가"를 함께 봐야 한다. 노드-링크 다이어그램은 경로와 허브를 직관적으로 보여 주지만, 매우 밀집된 그래프에서는 엣지가 엉켜 읽기 어렵다. 이런 경우 인접 행렬 (Adjacency Matrix)이나 커뮤니티 집계 뷰가 더 나을 수 있다.
 
 | 표현 방식 | 강점 | 약점 | 적합한 질문 |
 | :--- | :--- | :--- | :--- |
-| Node-Link | 경로, [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 파악이 직관적 | 밀집 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 hairball이 되기 쉬움 | 누가 누구를 잇는가 |
-| [Adjacency](/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix | 밀집 네트워크도 겹침 없이 표현 | 경로 추적은 덜 직관적 | 집단 간 연결 밀도는 어떤가 |
-| Community [Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) | 대규모 구조를 빠르게 요약 | 개별 노드 디테일은 줄어듦 | 어떤 군집들이 상호작용하는가 |
+| Node-Link | 경로, 허브, 브리지 파악이 직관적 | 밀집 그래프에서 hairball이 되기 쉬움 | 누가 누구를 잇는가 |
+| Adjacency Matrix | 밀집 네트워크도 겹침 없이 표현 | 경로 추적은 덜 직관적 | 집단 간 연결 밀도는 어떤가 |
+| Community Aggregate | 대규모 구조를 빠르게 요약 | 개별 노드 디테일은 줄어듦 | 어떤 군집들이 상호작용하는가 |
 
-도구도 질문에 따라 갈린다. Gephi는 일반 목적 탐색, 레이아웃 튜닝, 대화형 필터링에 강하다. Cytoscape는 생물정보학, 경로 분석, 풍부한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 스타일링과 플러그인 생태계에서 강점이 크다. 즉 Gephi는 "탐색형 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 워크벤치", Cytoscape는 "[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식이 풍부한 네트워크 분석 플랫폼"에 가깝다.
+도구도 질문에 따라 갈린다. Gephi는 일반 목적 탐색, 레이아웃 튜닝, 대화형 필터링에 강하다. Cytoscape는 생물정보학, 경로 분석, 풍부한 속성 스타일링과 플러그인 생태계에서 강점이 크다. 즉 Gephi는 "탐색형 그래프 워크벤치", Cytoscape는 "도메인 지식이 풍부한 네트워크 분석 플랫폼"에 가깝다.
 
 | 도구 | 강점 | 적합한 영역 |
 | :--- | :--- | :--- |
-| Gephi | ForceAtlas2, 빠른 탐색, 통계와 스타일 조절 | 소셜, 보안, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 의존성, 일반 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
-| Cytoscape | [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 스타일링, 생명과학 플러그인, pathway 분석 | 단백질 상호작용, 유전자 네트워크, 생물정보학 |
+| Gephi | ForceAtlas2, 빠른 탐색, 통계와 스타일 조절 | 소셜, 보안, 서비스 의존성, 일반 그래프 |
+| Cytoscape | 속성 기반 스타일링, 생명과학 플러그인, pathway 분석 | 단백질 상호작용, 유전자 네트워크, 생물정보학 |
 
-이 영역은 [그래프 분석](/studynote/16_bigdata/05_analysis/114_graph_analytics/)과도 직접 연결된다. PageRank, Betweenness [Centrality](/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/), Community [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) 같은 수치가 먼저 계산되어야 노드 크기, 색상, 라벨링이 의미를 가진다. 즉 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 [그래프 분석](/studynote/16_bigdata/05_analysis/114_graph_analytics/)의 출력물을 사람이 해석 가능한 장면으로 바꾸는 마지막 단계다.
+이 영역은 그래프 분석과도 직접 연결된다. PageRank, Betweenness Centrality, Community Detection 같은 수치가 먼저 계산되어야 노드 크기, 색상, 라벨링이 의미를 가진다. 즉 네트워크 시각화는 그래프 분석의 출력물을 사람이 해석 가능한 장면으로 바꾸는 마지막 단계다.
 
 - **📢 섹션 요약 비유**: 모든 지도를 지하철 노선도처럼 그리면 안 되는 것처럼, 모든 네트워크를 같은 그림으로 그리면 안 된다. 산길을 볼 때와 지하철 환승을 볼 때 필요한 지도 모양이 다르다.
 
@@ -112,7 +112,7 @@ Insight:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 흔한 실패는 "원본 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그대로 올리면 통찰이 나온다"는 기대다. 대규모 네트워크는 필터, 샘플링, 커뮤니티 집계, 라벨 축소가 먼저다. 특히 사기 거래, 보안 이벤트, 호출 토폴로지처럼 엣지가 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저가치 엣지를 줄이지 않으면 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 분석 도구가 아니라 노이즈 발생기가 된다.
+실무에서 가장 흔한 실패는 "원본 그래프를 그대로 올리면 통찰이 나온다"는 기대다. 대규모 네트워크는 필터, 샘플링, 커뮤니티 집계, 라벨 축소가 먼저다. 특히 사기 거래, 보안 이벤트, 호출 토폴로지처럼 엣지가 많은 데이터는 저가치 엣지를 줄이지 않으면 시각화가 분석 도구가 아니라 노이즈 발생기가 된다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -128,42 +128,42 @@ Insight:
 
 | 상황 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
-| 소셜 / 사기 거래 클러스터 탐색 | Force-directed + community color | [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)와 군집이 잘 드러남 |
+| 소셜 / 사기 거래 클러스터 탐색 | Force-directed + community color | 허브와 군집이 잘 드러남 |
 | 시스템 의존성 / 호출 흐름 분석 | Hierarchical layout | 방향성과 계층이 중요 |
-| 수십만 노드 이상 대형 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 집계 + WebGL + LOD | 원본 전부를 그리면 읽을 수 없음 |
-| 단백질 상호작용 / 경로 분석 | Cytoscape 중심 | [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 스타일링과 생물학 플러그인이 강점 |
-| 경영진 공유용 요약 화면 | 커뮤니티 단위 요약 + 상위 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)만 라벨 | 전달력이 중요 |
+| 수십만 노드 이상 대형 그래프 | 집계 + WebGL + LOD | 원본 전부를 그리면 읽을 수 없음 |
+| 단백질 상호작용 / 경로 분석 | Cytoscape 중심 | 속성 스타일링과 생물학 플러그인이 강점 |
+| 경영진 공유용 요약 화면 | 커뮤니티 단위 요약 + 상위 허브만 라벨 | 전달력이 중요 |
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
-1. [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 전에 분석 질문을 먼저 정한다. "[허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 찾을 것인지, 군집을 볼 것인지, 흐름을 볼 것인지"가 우선이다.
+1. 시각화 전에 분석 질문을 먼저 정한다. "허브를 찾을 것인지, 군집을 볼 것인지, 흐름을 볼 것인지"가 우선이다.
 2. 지표 계산과 시각 인코딩을 분리한다. 크기는 중심성, 색상은 커뮤니티처럼 역할을 분명히 나눈다.
 3. 라벨은 상위 중요 노드만 노출한다. 모든 라벨을 켜면 읽는 순간 실패한다.
-4. 큰 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 필터링, threshold, edge bundling, [aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) view를 기본값으로 둔다.
-5. 사람·거래·보안 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 익명화와 접근권한을 함께 설계한다.
+4. 큰 그래프는 필터링, threshold, edge bundling, aggregate view를 기본값으로 둔다.
+5. 사람·거래·보안 데이터는 익명화와 접근권한을 함께 설계한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 1. 질문 없이 ForceAtlas2만 돌리고 "예쁜 그림"으로 끝내는 것
 2. 중심성 계산 없이 노드 크기를 임의로 조정하는 것
-3. 대형 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 축약 없이 그대로 렌더링하는 것
-4. 민감한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 라벨 그대로 외부 공유하는 것
+3. 대형 그래프를 축약 없이 그대로 렌더링하는 것
+4. 민감한 관계 데이터를 라벨 그대로 외부 공유하는 것
 
-기술사 답안에서는 <strong><a href="/studynote/16_bigdata/05_analysis/114_graph_analytics/">그래프 분석</a> 지표 + 레이아웃 선택 + 대규모 최적화 + <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 적합 도구 선택</strong>을 함께 적어야 완성도가 높다. 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 단순한 출력이 아니라, 질문 지향적 분석 인터페이스다.
+기술사 답안에서는 <strong>그래프 분석 지표 + 레이아웃 선택 + 대규모 최적화 + 도메인 적합 도구 선택</strong>을 함께 적어야 완성도가 높다. 네트워크 시각화는 단순한 출력이 아니라, 질문 지향적 분석 인터페이스다.
 
-- **📢 섹션 요약 비유**: 발표 자료를 만들 때도 사진을 전부 붙이지 않고 핵심 사진만 고르듯, 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)도 중요한 연결만 남기고 나머지는 정리해야 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 살아난다.
+- **📢 섹션 요약 비유**: 발표 자료를 만들 때도 사진을 전부 붙이지 않고 핵심 사진만 고르듯, 네트워크 시각화도 중요한 연결만 남기고 나머지는 정리해야 메시지가 살아난다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 잘 설계되면 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 정적인 표에서 탐색 가능한 구조로 바뀐다. 분석가는 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 군집, 이상 패턴을 빠르게 찾을 수 있고, 비전문가도 복잡한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 그림으로 이해할 수 있다. 이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색, 이상 징후 설명, 시스템 구조 커뮤니케이션 모두에서 큰 장점이 된다.
+네트워크 시각화가 잘 설계되면 관계 데이터는 정적인 표에서 탐색 가능한 구조로 바뀐다. 분석가는 허브, 브리지, 군집, 이상 패턴을 빠르게 찾을 수 있고, 비전문가도 복잡한 관계를 그림으로 이해할 수 있다. 이는 데이터 탐색, 이상 징후 설명, 시스템 구조 커뮤니케이션 모두에서 큰 장점이 된다.
 
-다만 한계도 분명하다. 레이아웃은 해석을 돕지만 동시에 오해를 만들 수도 있고, [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 너무 크면 적절한 집계 없이는 아무것도 읽히지 않는다. 또한 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)만으로 원인이나 인과를 증명할 수는 없고, [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 결과와 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 해석이 함께 필요하다.
+다만 한계도 분명하다. 레이아웃은 해석을 돕지만 동시에 오해를 만들 수도 있고, 그래프가 너무 크면 적절한 집계 없이는 아무것도 읽히지 않는다. 또한 시각화만으로 원인이나 인과를 증명할 수는 없고, 그래프 알고리즘 결과와 도메인 해석이 함께 필요하다.
 
-결국 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 "선을 많이 그리는 기술"이 아니라 "[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 구조를 읽을 수 있게 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 기술"로 기억해야 한다. 좋은 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 많이 보여 주는 그림이 아니라, 더 적은 시선 이동으로 더 많은 구조를 이해하게 만드는 그림이다.
+결국 네트워크 시각화는 "선을 많이 그리는 기술"이 아니라 "관계 구조를 읽을 수 있게 압축하는 기술"로 기억해야 한다. 좋은 그래프는 데이터를 더 많이 보여 주는 그림이 아니라, 더 적은 시선 이동으로 더 많은 구조를 이해하게 만드는 그림이다.
 
-- **📢 섹션 요약 비유**: 지하철 노선도가 실제 도시 모양과 똑같지 않아도 길 찾기에 훨씬 유용한 것처럼, 좋은 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 모든 세부를 그대로 복사하지 않아도 구조를 훨씬 잘 이해하게 해 준다.
+- **📢 섹션 요약 비유**: 지하철 노선도가 실제 도시 모양과 똑같지 않아도 길 찾기에 훨씬 유용한 것처럼, 좋은 네트워크 시각화는 모든 세부를 그대로 복사하지 않아도 구조를 훨씬 잘 이해하게 해 준다.
 
 ---
 
@@ -171,12 +171,12 @@ Insight:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Force-Directed Layout | 연결 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 거리와 군집으로 번역하는 대표 레이아웃 |
-| Community [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) | 색상 [그룹화](/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)의 근거가 되는 군집 탐지 |
-| Degree / Betweenness [Centrality](/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/) | [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)와 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 노드를 크기나 강조로 표현하는 기준 |
+| Force-Directed Layout | 연결 관계를 거리와 군집으로 번역하는 대표 레이아웃 |
+| Community Detection | 색상 그룹화의 근거가 되는 군집 탐지 |
+| Degree / Betweenness Centrality | 허브와 브리지 노드를 크기나 강조로 표현하는 기준 |
 | Edge Bundling | 복잡한 엣지를 묶어 시각적 혼잡을 줄이는 기법 |
 | Gephi | 범용 네트워크 탐색과 레이아웃 조정에 강한 도구 |
-| Cytoscape | 생물정보학과 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 네트워크 스타일링에 강한 도구 |
+| Cytoscape | 생물정보학과 속성 기반 네트워크 스타일링에 강한 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -196,21 +196,10 @@ Visual encoding (size, color, label, width)
 Interactive exploration and large-scale aggregation
 ```
 
-이 흐름은 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 원시 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 그림으로 바꾸는 것이 아니라, 분석과 요약 단계를 거쳐 의미 있는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 완성되는 과정임을 보여준다.
+이 흐름은 네트워크 시각화가 원시 관계 데이터를 곧바로 그림으로 바꾸는 것이 아니라, 분석과 요약 단계를 거쳐 의미 있는 그래프로 완성되는 과정임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 네트워크 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 친구들이 누구랑 친한지 선으로 이어서 보는 친구 지도예요.
+1. 네트워크 시각화는 친구들이 누구랑 친한지 선으로 이어서 보는 친구 지도예요.
 2. 친한 친구끼리 뭉치면 같은 색으로 보고, 모두를 이어 주는 친구는 더 크게 보여 줄 수 있어요.
 3. 친구가 너무 많으면 한 명씩 다 적지 말고, 모둠별로 묶어서 보면 더 쉽게 이해할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 172 / 262
-
-<- **이전**: [171. Plotly / Dash — Python 기반 인터랙티브 시각화 프레임워크](/studynote/16_bigdata/08_visualization/171_plotly_dash/)
-**다음**: [173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl](/studynote/16_bigdata/08_visualization/173_geospatial_visualization/) ->
-
----

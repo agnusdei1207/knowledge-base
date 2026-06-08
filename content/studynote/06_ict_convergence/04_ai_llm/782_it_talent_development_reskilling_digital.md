@@ -153,11 +153,3 @@ Kirkpatrick 4단계 + Phillips 5단계 ROI 모델은 다음과 같이 정량화�
 핵심 파라미터는 다음과 같다.
 
 | 파라미터 | 정의 | 일반적 목표치
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 782 / 800
-
-<- **이전**: [781. 디지털 리터러시 데이터 리터러시 교육](/studynote/06_ict_convergence/uncategorized/781_digital_literacy_data_literacy_education/)
-**다음**: [783. 기술 부채 관리 현대화 전략 우선순위](/studynote/06_ict_convergence/uncategorized/783_tech_debt_management_modernization_priority/) ->
-
----

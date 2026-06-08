@@ -139,11 +139,3 @@ Responsible AI 시스템은 크게 **① 데이터 계층의 Bias Audit**, **②
 | **Fairness Intervention Module** | Pre/In/Post-processing 3-Stage 파이프라인에서 공정성 제약 삽입 | **Pre**: Reweighing(`w(x)=P(S)/P(S,Y)`), LFR(Learning Fair Representations, Zemel 2013). **In**: Adversarial Debiasing(Discriminator가 S를 예측 못하도록 G는 Adversarial Loss 최소화, L=L_task - λ·L_adv). **Post**: Calibrated Equalized Odds(Pleiss 2017, Mixup 기반), Threshold Optimizer per-group |
 | **Explainability Engine (XAI Core)** | 결정 근거에 대한 Local/Global 해석 산출 | **Model-Agnostic**: SHAP(Shapley Value, 협력 게임 이론 기반 5가지 공리·Efficiency·Symmetry·Dummy·Additivity 만족, KernelSHAP·TreeSHAP·DeepSHAP 변형), LIME(SP-LIME로 fidelity-interpretability 균형). **Model-Specific**: Grad-CAM(CNN 시각), Integrated Gradients(Sundararajan 2017, Axiomatic Attribution), Attention Rollout(Transformer). **Counterfactual**: DiCE( Diverse Counterfactual Explanations, Mothilal 2020), Wachter CF( Mixed-Integer Programming) |
 | **Governance & Audit Layer** | 규제 준수, 문서화, 모니터링 | Model Card(Mitchell 2019, 9개 섹션), Datasheet for Datasets(Gebru 2021), AI Risk Register(NIST AI RMF Govern·Map·Measure·Manage
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 653 / 800
-
-<- **이전**: [652. AI 할루시네이션 환각 방지 전략](/studynote/06_ict_convergence/uncategorized/652_ai_hallucination_prevention_strategy/)
-**다음**: [654. AI 규제 EU AI Act 위험 등급](/studynote/06_ict_convergence/uncategorized/654_ai_regulation_eu_ai_act_risk_classification/) ->
-
----

@@ -175,11 +175,3 @@ def get_llrd_params(model, base_lr=1e-5, decay=0.95):
 ```
 
 - **📢 섹션 요약 비유**: 다국적 대기업의 본사 시스템(Foundation Model)에 각 국가 지사(Domain)가 연결되어 있는데, 본사 정책은 유지하되(Backbone Freeze), 현지 시장에 맞게 영업 전략만 수정(Head
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 644 / 800
-
-<- **이전**: [643. BERT 양방향 인코더 사전 학습](/studynote/06_ict_convergence/uncategorized/643_bert_bidirectional_encoder_pre_training/)
-**다음**: [645. LoRA 효율적 파인 튜닝 어댑터](/studynote/06_ict_convergence/uncategorized/645_lora_efficient_fine_tuning_adapter/) ->
-
----

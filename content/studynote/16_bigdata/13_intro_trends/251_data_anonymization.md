@@ -6,9 +6,9 @@ tags:
 weight: 251
 ---
 > **핵심 인사이트**
-> 1. [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 비식별화는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유용성(Utility)과 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)(Privacy) 사이의 근본적 트레이드오프를 다루는 기술로, 완전한 비식별화는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무용하게 만들기 때문에 "충분히 비식별화"와 "여전히 유용"의 균형이 핵심이다.
-> 2. [k-익명성](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)([k-Anonymity](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/))은 어떤 레코드도 최소 k-1개의 다른 레코드와 구별할 수 없도록 일반화(Generalization)·[억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(Suppression)하는 모델로, k값이 클수록 강한 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)지만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡이 커지며 ℓ-다양성([l-Diversity](/studynote/09_security/16_data_privacy/815_l_diversity/))·[t-근접성](/studynote/09_security/16_data_privacy/816_t_closeness/)([t-Closeness](/studynote/09_security/16_data_privacy/816_t_closeness/))으로 확장 발전했다.
-> 3. [차등 프라이버시](/studynote/16_bigdata/10_governance/209_differential_privacy/)([Differential Privacy](/studynote/09_security/16_data_privacy/817_differential_privacy/))는 [k-익명성](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)의 재식별 취약점을 수학적으로 해결한 현대적 기법으로, Apple·Google·미국 인구조사국이 적용했으며 "어떤 개인의 포함/제외가 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과에 구분할 수 없는 차이만 만든다"는 수학적 보장을 제공한다.
+> 1. 개인정보 비식별화는 데이터 유용성(Utility)과 프라이버시 보호(Privacy) 사이의 근본적 트레이드오프를 다루는 기술로, 완전한 비식별화는 데이터를 무용하게 만들기 때문에 "충분히 비식별화"와 "여전히 유용"의 균형이 핵심이다.
+> 2. k-익명성(k-Anonymity)은 어떤 레코드도 최소 k-1개의 다른 레코드와 구별할 수 없도록 일반화(Generalization)·억제(Suppression)하는 모델로, k값이 클수록 강한 보호지만 데이터 왜곡이 커지며 ℓ-다양성(l-Diversity)·t-근접성(t-Closeness)으로 확장 발전했다.
+> 3. 차등 프라이버시(Differential Privacy)는 k-익명성의 재식별 취약점을 수학적으로 해결한 현대적 기법으로, Apple·Google·미국 인구조사국이 적용했으며 "어떤 개인의 포함/제외가 쿼리 결과에 구분할 수 없는 차이만 만든다"는 수학적 보장을 제공한다.
 
 ---
 
@@ -53,7 +53,7 @@ weight: 251
 
 ---
 
-## II. [k-익명성](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)
+## II. k-익명성
 
 ```
 k-Anonymity (Latanya Sweeney, 1998):
@@ -85,11 +85,11 @@ k-Anonymity (Latanya Sweeney, 1998):
   -> 보조 데이터와 결합 시 취약
 ```
 
-> 📢 **섹션 요약 비유**: [k-익명성](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)은 쌍둥이 이상인 그룹만 허용 — 적어도 k명이 같은 "외형(준식별자)"을 가져야 특정인 지목 불가.
+> 📢 **섹션 요약 비유**: k-익명성은 쌍둥이 이상인 그룹만 허용 — 적어도 k명이 같은 "외형(준식별자)"을 가져야 특정인 지목 불가.
 
 ---
 
-## III. ℓ-다양성과 [t-근접성](/studynote/09_security/16_data_privacy/816_t_closeness/)
+## III. ℓ-다양성과 t-근접성
 
 ```
 k-익명성 한계:
@@ -117,11 +117,11 @@ t-근접성 (t-Closeness, 2007):
   각각 이전 모델의 취약점 보완
 ```
 
-> 📢 **섹션 요약 비유**: k는 사람 수 보장, ℓ은 비밀 종류 다양성 보장, t는 비밀 분포 균형 보장 — 점점 강화되는 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/).
+> 📢 **섹션 요약 비유**: k는 사람 수 보장, ℓ은 비밀 종류 다양성 보장, t는 비밀 분포 균형 보장 — 점점 강화되는 프라이버시 보호.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [차등 프라이버시](/studynote/16_bigdata/10_governance/209_differential_privacy/)
+## IV. 차등 프라이버시
 
 ```
 Differential Privacy (Dwork, 2006):
@@ -152,11 +152,11 @@ Differential Privacy (Dwork, 2006):
   ε < 1: 매우 강한 보호 (학술 연구 수준)
 ```
 
-> 📢 **섹션 요약 비유**: [차등 프라이버시](/studynote/16_bigdata/10_governance/209_differential_privacy/)는 의도적 소음으로 진실을 흐리기 — 전체 평균은 정확하게 유지하면서 개인 정보는 노이즈로 숨기기.
+> 📢 **섹션 요약 비유**: 차등 프라이버시는 의도적 소음으로 진실을 흐리기 — 전체 평균은 정확하게 유지하면서 개인 정보는 노이즈로 숨기기.
 
 ---
 
-## V. 실무 시나리오 — 의료 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공개
+## V. 실무 시나리오 — 의료 데이터 공개
 
 ```
 의료 연구 데이터 공개 프로세스:
@@ -192,7 +192,7 @@ Differential Privacy (Dwork, 2006):
      적용 대상 제외 (불완전 비식별 = 여전히 개인정보)
 ```
 
-> 📢 **섹션 요약 비유**: 의료 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공개는 환자 정보를 마모시킨 신분증처럼 — 이름·주소는 지워도 의학적 패턴은 연구에 활용 가능하게.
+> 📢 **섹션 요약 비유**: 의료 데이터 공개는 환자 정보를 마모시킨 신분증처럼 — 이름·주소는 지워도 의학적 패턴은 연구에 활용 가능하게.
 
 ---
 
@@ -246,17 +246,6 @@ Apple/Google 적용 (2014~)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 비식별화는 학생 성적표에서 이름을 지우고 나이를 "10대"로 바꾸어서 특정 학생이 누구인지 알 수 없게 만드는 방법이에요.
-2. [k-익명성](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)은 같은 조건(나이, 지역)을 가진 사람이 최소 k명 이상이어야 해서 한 사람을 찾아낼 수 없게 하는 기법이에요.
-3. [차등 프라이버시](/studynote/16_bigdata/10_governance/209_differential_privacy/)는 응답에 작은 오차(노이즈)를 의도적으로 섞어서 개인 정보는 숨기면서도 전체 통계는 정확하게 유지하는 가장 현대적인 방법이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 251 / 262
-
-<- **이전**: [038. 데이터 주권 (Data Sovereignty)](/studynote/16_bigdata/13_intro_trends/250_data_sovereignty/)
-**다음**: [040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)](/studynote/16_bigdata/13_intro_trends/252_data_structured_ratio/) ->
-
----
+1. 개인정보 비식별화는 학생 성적표에서 이름을 지우고 나이를 "10대"로 바꾸어서 특정 학생이 누구인지 알 수 없게 만드는 방법이에요.
+2. k-익명성은 같은 조건(나이, 지역)을 가진 사람이 최소 k명 이상이어야 해서 한 사람을 찾아낼 수 없게 하는 기법이에요.
+3. 차등 프라이버시는 응답에 작은 오차(노이즈)를 의도적으로 섞어서 개인 정보는 숨기면서도 전체 통계는 정확하게 유지하는 가장 현대적인 방법이에요!

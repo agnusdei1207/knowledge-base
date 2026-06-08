@@ -7,19 +7,19 @@ weight: 197
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 사용자 UI에는 전혀 보이지 않지만, 백그라운드에서 신기능 코드에 실제 운영 요청을 흘려보내 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·부하 특성을 사전 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기법이다.
-> 2. **가치**: 사용자에게 영향을 주지 않고 운영 환경의 실제 트래픽 패턴으로 신기능을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있어, 대규모 트래픽 급증이 예상되는 기능 출시 전 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 제거한다.
-> 3. **판단 포인트**: 다크 론칭은 결과를 사용자에게 반환하지 않지만 백엔드는 실행하므로, DB [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업이 있는 경우 사이드 이펙트(이중 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 등) 방지 설계가 필수다.
+> 1. **본질**: 사용자 UI에는 전혀 보이지 않지만, 백그라운드에서 신기능 코드에 실제 운영 요청을 흘려보내 성능·부하 특성을 사전 검증하는 기법이다.
+> 2. **가치**: 사용자에게 영향을 주지 않고 운영 환경의 실제 트래픽 패턴으로 신기능을 검증할 수 있어, 대규모 트래픽 급증이 예상되는 기능 출시 전 리스크를 제거한다.
+> 3. **판단 포인트**: 다크 론칭은 결과를 사용자에게 반환하지 않지만 백엔드는 실행하므로, DB 쓰기 작업이 있는 경우 사이드 이펙트(이중 데이터 저장 등) 방지 설계가 필수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-다크 론칭(Dark Launching)은 Facebook이 2009년 "Like" 버튼을 전 세계에 출시하기 전, 기존 버튼 클릭마다 백그라운드에서 Like 버튼 로직을 실행하여 수억 건의 요청을 사전 처리함으로써 대규모 트래픽 처리 능력을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 것이 유명한 사례다.
+다크 론칭(Dark Launching)은 Facebook이 2009년 "Like" 버튼을 전 세계에 출시하기 전, 기존 버튼 클릭마다 백그라운드에서 Like 버튼 로직을 실행하여 수억 건의 요청을 사전 처리함으로써 대규모 트래픽 처리 능력을 검증한 것이 유명한 사례다.
 
 핵심은 <strong>UI는 그대로, 백엔드만 실행</strong>이다. 사용자가 어떤 버튼을 클릭하면, 기존 로직도 실행하고 새 로직도 "조용히(Dark)" 실행한다. 하지만 사용자에게는 기존 결과만 반환한다. 새 로직의 실행 결과는 로그나 메트릭으로만 수집하여 엔지니어가 분석한다.
 
-이 방식이 특히 가치 있는 상황은 <strong>대규모 아키텍처 전환</strong>이다. 예를 들어, 기존 모놀리식 검색 API를 새로운 마이크로서비스로 교체할 때, 새 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 동일한 요청에 대해 기존과 동일한 결과를 반환하는지, 응답 시간이 얼마나 되는지를 실제 운영 트래픽으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+이 방식이 특히 가치 있는 상황은 <strong>대규모 아키텍처 전환</strong>이다. 예를 들어, 기존 모놀리식 검색 API를 새로운 마이크로서비스로 교체할 때, 새 서비스가 동일한 요청에 대해 기존과 동일한 결과를 반환하는지, 응답 시간이 얼마나 되는지를 실제 운영 트래픽으로 검증할 수 있다.
 
 📢 **섹션 요약 비유**: 다크 론칭은 연습 시험과 같다. 학생(사용자)은 진짜 시험만 보지만, 선생님(시스템)은 뒤에서 같은 문제를 새 채점 시스템으로도 채점해보며 새 시스템의 정확도와 속도를 확인한다.
 
@@ -52,15 +52,15 @@ weight: 197
                                  - v1과 결과 비교
 ```
 
-### 다크 론칭 vs [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) 차이점
+### 다크 론칭 vs 섀도우 배포 차이점
 
-| 항목 | 다크 론칭 | [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) |
+| 항목 | 다크 론칭 | 섀도우 배포 |
 |:---|:---|:---|
-| 트래픽 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 수준 | 요청 로직을 공유 (같은 코드 내) | 네트워크 레벨 트래픽 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) |
+| 트래픽 복제 수준 | 요청 로직을 공유 (같은 코드 내) | 네트워크 레벨 트래픽 미러링 |
 | 신기능 서버 | 동일 서버 내 코드 분기 | 별도 격리 서버/클러스터 |
 | DB 사이드 이펙트 | ⚠️ 코드에서 방지 필요 | ✅ 별도 DB로 격리 가능 |
 | 구현 복잡도 | 코드 레벨 (낮음) | 인프라 레벨 (높음) |
-| 활용 시나리오 | 단일 기능 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 마이그레이션 |
+| 활용 시나리오 | 단일 기능 검증 | 서비스 전체 마이그레이션 |
 
 ### 구현 코드 예시 (Python)
 
@@ -87,28 +87,28 @@ def process_search(query, user_id):
     return result  # 항상 기존 결과 반환
 ```
 
-📢 **섹션 요약 비유**: 다크 론칭 코드는 마치 그림자(Shadow)를 가진 사람처럼, 사용자 앞에선 기존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 움직이고, 그 옆에선 새 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 조용히 따라 움직이면서 결과만 기록한다.
+📢 **섹션 요약 비유**: 다크 론칭 코드는 마치 그림자(Shadow)를 가진 사람처럼, 사용자 앞에선 기존 서비스가 움직이고, 그 옆에선 새 서비스가 조용히 따라 움직이면서 결과만 기록한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 기능 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법 비교
+### 기능 검증 기법 비교
 
-| 기법 | 가시성 | 영향 범위 | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 기법 | 가시성 | 영향 범위 | 검증 데이터 |
 |:---|:---:|:---:|:---|
-| 다크 론칭 | 없음 (UI 숨김) | 없음 | 백엔드 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/정확도 |
-| [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 있음 (일부 노출) | 소수 사용자 | 사용자 경험 |
-| [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) | 없음 ([미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)) | 없음 | 전체 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 동작 |
-| A/B 테스트 | 있음 (분할 노출) | 전 사용자 | 비즈니스 [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/) |
+| 다크 론칭 | 없음 (UI 숨김) | 없음 | 백엔드 성능/정확도 |
+| 카나리 배포 | 있음 (일부 노출) | 소수 사용자 | 사용자 경험 |
+| 섀도우 배포 | 없음 (미러링) | 없음 | 전체 서비스 동작 |
+| A/B 테스트 | 있음 (분할 노출) | 전 사용자 | 비즈니스 KPI |
 
-📢 **섹션 요약 비유**: 다크 론칭·섀도우·[카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·A/B는 "새 요리사의 실력 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)" 단계와 같다. 다크=부엌 뒤에서 몰래 요리해봄, 섀도우=주방 전체를 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해서 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 운영, [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)=일부 테이블에만 신메뉴 제공, A/B=절반 테이블씩 나눠 비교.
+📢 **섹션 요약 비유**: 다크 론칭·섀도우·카나리·A/B는 "새 요리사의 실력 검증" 단계와 같다. 다크=부엌 뒤에서 몰래 요리해봄, 섀도우=주방 전체를 복제해서 병렬 운영, 카나리=일부 테이블에만 신메뉴 제공, A/B=절반 테이블씩 나눠 비교.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong>DB <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 사이드 이펙트 방지 설계</strong>:
+<strong>DB 쓰기 사이드 이펙트 방지 설계</strong>:
 ```python
 # 잘못된 예: 다크 론칭 중 실제 DB에 데이터 저장
 def dark_execute():
@@ -124,13 +124,13 @@ def dark_execute():
 **Facebook Like 버튼 사례 분석**:
 - 2009년 Facebook: 기존 "이 사람을 팬으로 등록" 기능이 있었음
 - Like 버튼 출시 전 수 주간: 모든 "팬 등록" 클릭마다 백그라운드에서 Like 처리 로직도 실행
-- 수억 건의 실제 트래픽으로 Like 시스템의 DB 부하·응답시간·에러 패턴 완전 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
-- 공식 출시 당일: 이미 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 시스템이므로 안정적 출시 성공
+- 수억 건의 실제 트래픽으로 Like 시스템의 DB 부하·응답시간·에러 패턴 완전 검증
+- 공식 출시 당일: 이미 검증된 시스템이므로 안정적 출시 성공
 
 **기술사 판단 포인트**:
-- 다크 론칭은 주로 **읽기(Read) 중심** 기능 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 적합하다. [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 기능에 적용 시 반드시 dry_run 모드나 별도 테스트 DB를 사용해야 한다.
+- 다크 론칭은 주로 **읽기(Read) 중심** 기능 검증에 적합하다. 쓰기 기능에 적용 시 반드시 dry_run 모드나 별도 테스트 DB를 사용해야 한다.
 - 비동기 실행으로 인한 레이턴시 오버헤드가 기존 응답 시간에 영향을 주지 않도록 Fire-and-Forget 패턴을 사용한다.
-- 결과 비교 분석에는 정확도 지표(일치율)와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표(p99 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 함께 수집한다.
+- 결과 비교 분석에는 정확도 지표(일치율)와 성능 지표(p99 지연)를 함께 수집한다.
 
 📢 **섹션 요약 비유**: 다크 론칭의 dry_run 모드는 요리사가 새 레시피로 요리해보되, 실제 식재료 대신 모조 식재료를 쓰는 것과 같다. 맛은 보지 못하지만 조리 시간·난이도는 정확히 알 수 있다.
 
@@ -140,12 +140,12 @@ def dark_execute():
 
 | 기대효과 | 설명 |
 |:---|:---|
-| [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 제로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 사용자 영향 없이 실운영 트래픽으로 신기능 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| 리스크 제로 검증 | 사용자 영향 없이 실운영 트래픽으로 신기능 검증 |
 | 대규모 출시 자신감 | 수억 건의 실제 요청으로 부하 특성 사전 파악 |
-| 결과 비교 분석 | 기존 vs 신규 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 정확도·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 정량 비교 |
-| 점진적 자신감 축적 | 수 주~수 달의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 신뢰 구축 후 공식 출시 |
+| 결과 비교 분석 | 기존 vs 신규 서비스의 정확도·성능 정량 비교 |
+| 점진적 자신감 축적 | 수 주~수 달의 데이터로 신뢰 구축 후 공식 출시 |
 
-다크 론칭은 "출시 전 모든 걱정을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 해소"하는 기법이다. 특히 대규모 아키텍처 리팩토링이나 핵심 기능 교체 시, 기존 시스템의 동작을 완전히 재현하는지 실제 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 데 탁월한 가치를 제공한다.
+다크 론칭은 "출시 전 모든 걱정을 데이터로 해소"하는 기법이다. 특히 대규모 아키텍처 리팩토링이나 핵심 기능 교체 시, 기존 시스템의 동작을 완전히 재현하는지 실제 운영 데이터로 검증하는 데 탁월한 가치를 제공한다.
 
 📢 **섹션 요약 비유**: 다크 론칭은 올림픽 전 비밀 훈련과 같다. 무대에 서지 않고 뒤에서 수천 번 연습해서 실력을 증명한 뒤, 올림픽 당일에는 자신감 있게 등장한다.
 
@@ -155,12 +155,12 @@ def dark_execute():
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [피처 플래그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 다크 론칭 활성화 여부를 제어하는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 역할 |
-| [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) | 다크 론칭의 인프라 레벨 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (트래픽 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)) |
-| [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 다크 론칭 완료 후 다음 단계로 일부 사용자에게 공개 |
-| [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | 다크 론칭 결과를 수집·분석하기 위한 필수 인프라 |
+| 피처 플래그 | 다크 론칭 활성화 여부를 제어하는 스위치 역할 |
+| 섀도우 배포 | 다크 론칭의 인프라 레벨 버전 (트래픽 미러링) |
+| 카나리 배포 | 다크 론칭 완료 후 다음 단계로 일부 사용자에게 공개 |
+| Observability | 다크 론칭 결과를 수집·분석하기 위한 필수 인프라 |
 | Fire-and-Forget | 비동기 다크 실행의 레이턴시 오버헤드 방지 패턴 |
-| Dry Run 모드 | [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 연산 다크 론칭 시 사이드 이펙트 방지 기법 |
+| Dry Run 모드 | 쓰기 연산 다크 론칭 시 사이드 이펙트 방지 기법 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -181,14 +181,3 @@ Dark Launching: 사용자 모르게 신버전 동작 검증
 ```
 2. 친구에게는 기존 계산기 답을 알려주고, 새 계산기 결과는 선생님 수첩에만 적어둬.
 3. 수첩에 틀린 답이 없고 속도도 빠르다는 걸 확인하면, 그때서야 친구에게 새 계산기를 공개해.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 196 / 371
-
-<- **이전**: [196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)](/studynote/13_cloud_architecture/04_devops_observability/196_feature_flag_toggle_ab_testing/)
-**다음**: [198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)](/studynote/13_cloud_architecture/04_devops_observability/198_shadow_deployment_traffic_mirroring/) ->
-
----

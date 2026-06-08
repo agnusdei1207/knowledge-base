@@ -110,12 +110,3 @@ Core flow: Plan -> Navigate -> Sense -> Control -> Recover
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 587 / 800
-
-<- **이전**: [586. AMI 지능형 검침 스마트그리드](/studynote/06_ict_convergence/uncategorized/586_ami_advanced_metering_smart_grid/)
-**다음**: [588. RPA 엔터프라이즈 업무 자동화](/studynote/06_ict_convergence/uncategorized/588_robot_process_automation_rpa_enterprise/) ->
-
----

@@ -8,8 +8,8 @@ weight: 62
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스크럼([Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/))은 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 철학을 가장 널리 실천하는 반복적 팀 운영 프레임워크다.
-> 2. **가치**: 짧은 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)로 일하고, 매번 결과를 점검하고, 다음 사이클에 개선을 반영한다.
+> 1. **본질**: 스크럼(Scrum)은 애자일 철학을 가장 널리 실천하는 반복적 팀 운영 프레임워크다.
+> 2. **가치**: 짧은 스프린트로 일하고, 매번 결과를 점검하고, 다음 사이클에 개선을 반영한다.
 > 3. **판단**: 역할, 이벤트, 산출물을 형식만 지키는 것이 아니라 피드백과 학습이 실제로 돌아가야 한다.
 
 ---
@@ -33,21 +33,21 @@ weight: 62
 | 역할 | 의미 |
 | :-- | :-- |
 | Product Owner | 무엇을 만들지 결정 |
-| [Scrum Master](/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) | 스크럼이 잘 돌아가게 돕는 서번트 리더 |
+| Scrum Master | 스크럼이 잘 돌아가게 돕는 서번트 리더 |
 | Developers | 어떻게 만들지 책임지는 팀 |
 
 | 이벤트 | 의미 |
 | :-- | :-- |
-| [Sprint](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) | 1~4주의 반복 주기 |
-| [Sprint Planning](/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/) | 이번 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표와 작업 결정 |
-| [Daily Scrum](/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/) | 15분 짧은 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
-| [Sprint Review](/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/) | 결과 시연과 피드백 |
-| [Sprint Retrospective](/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/) | 프로세스 개선 회고 |
+| Sprint | 1~4주의 반복 주기 |
+| Sprint Planning | 이번 스프린트 목표와 작업 결정 |
+| Daily Scrum | 15분 짧은 동기화 |
+| Sprint Review | 결과 시연과 피드백 |
+| Sprint Retrospective | 프로세스 개선 회고 |
 
 | 산출물 | 의미 |
 | :-- | :-- |
-| [Product Backlog](/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) | 전체 요구사항 목록 |
-| [Sprint](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Backlog | 이번 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 작업 목록 |
+| Product Backlog | 전체 요구사항 목록 |
+| Sprint Backlog | 이번 스프린트 작업 목록 |
 | Increment | 완료된 작동 결과물 |
 
 스크럼의 핵심은 "결과"보다 "검토 가능한 작은 결과"다. 그래서 팀은 매번 보여 줄 수 있는 증분을 만들어야 한다.
@@ -61,10 +61,10 @@ weight: 62
 | 방식 | 특징 | 적합한 상황 |
 | :-- | :-- | :-- |
 | Waterfall | 순차, 계획 중심 | 요구가 거의 변하지 않을 때 |
-| [Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/) | 반복, 피드백 중심 | 요구가 자주 바뀔 때 |
-| [Kanban](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) | 흐름, [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 중심 | 지속적 작업 흐름이 중요할 때 |
+| Scrum | 반복, 피드백 중심 | 요구가 자주 바뀔 때 |
+| Kanban | 흐름, 시각화 중심 | 지속적 작업 흐름이 중요할 때 |
 
-스크럼은 단순한 회의 체계가 아니다. [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표, 백로그 우선순위, 팀 자율성이 함께 맞아야 효과가 난다.
+스크럼은 단순한 회의 체계가 아니다. 스프린트 목표, 백로그 우선순위, 팀 자율성이 함께 맞아야 효과가 난다.
 
 - **📢 섹션 요약 비유**: 정해진 시간 안에 달리고, 바로 결과를 보고, 다음 달리기를 고치는 경기 운영이다.
 
@@ -72,20 +72,20 @@ weight: 62
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. Product Owner가 우선순위를 명확히 정하는가?
-2. [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표가 하나로 묶이는가?
-3. Daily Scrum이 진짜 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에 쓰이는가?
-4. Review와 [Retrospective](/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/) 결과가 다음 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 반영되는가?
+2. 스프린트 목표가 하나로 묶이는가?
+3. Daily Scrum이 진짜 동기화에 쓰이는가?
+4. Review와 Retrospective 결과가 다음 스프린트에 반영되는가?
 5. 완료 기준(Definition of Done)이 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 회의만 많고 실제 개선은 없는 스크럼
-- [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)마다 목표가 없는 스크럼
+- 스프린트마다 목표가 없는 스크럼
 - Product Owner 없이 개발자만 도는 스크럼
-- 회고 액션 아이템을 다음 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 반영하지 않는 스크럼
+- 회고 액션 아이템을 다음 스프린트에 반영하지 않는 스크럼
 
 기술사 관점에서는 스크럼을 "절차"가 아니라 "학습 루프"로 봐야 한다. 의식만 남고 피드백이 사라지면 스크럼은 껍데기가 된다.
 
@@ -138,14 +138,3 @@ Sprint Review / Retrospective
 스크럼은 짧게 일하고 자주 확인하는 방법이에요.
 무엇을 할지 정하고, 조금 만들고, 다시 고쳐요.
 그래서 점점 더 잘할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 62 / 973
-
-<- **이전**: [61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙](/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/)
-**다음**: [63. 제품 책임자 (Product Owner, PO)](/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) ->
-
----

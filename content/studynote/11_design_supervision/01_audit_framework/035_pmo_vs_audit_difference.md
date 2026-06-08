@@ -6,9 +6,9 @@ tags:
 weight: 35
 ---
 > **핵심 인사이트**
-> 1. [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ([Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 조직 내부의 프로젝트 지원·표준화·거버넌스 기관이고, 감리([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))는 제3자가 프로젝트의 법적·기술적 준수 여부를 독립적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 외부 통제 메커니즘이다.
-> 2. PMO는 '잘 되게 돕는 역할', 감리는 '제대로 됐는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 역할' — 목적과 독립성이 근본적으로 다르다.
-> 3. 국내 [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/)는 「정보시스템의 효율적 도입 및 운영 등에 관한 법률」에 따라 일정 규모 이상의 공공 정보화 사업에 법적으로 의무화되어 있다.
+> 1. PMO (Project Management Office)는 조직 내부의 프로젝트 지원·표준화·거버넌스 기관이고, 감리(Audit)는 제3자가 프로젝트의 법적·기술적 준수 여부를 독립적으로 검증하는 외부 통제 메커니즘이다.
+> 2. PMO는 '잘 되게 돕는 역할', 감리는 '제대로 됐는지 확인하는 역할' — 목적과 독립성이 근본적으로 다르다.
+> 3. 국내 정보시스템 감리는 「정보시스템의 효율적 도입 및 운영 등에 관한 법률」에 따라 일정 규모 이상의 공공 정보화 사업에 법적으로 의무화되어 있다.
 
 ---
 
@@ -30,15 +30,15 @@ PMO (Project Management Office)
 +-- 법적 의무: 있음 (공공 사업)
 ```
 
-| 구분       | [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)                    | 감리               |
+| 구분       | PMO                    | 감리               |
 |-----------|------------------------|--------------------|
-| 관점       | 프로젝트 내부 관리       | 외부 독립 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)      |
+| 관점       | 프로젝트 내부 관리       | 외부 독립 검증      |
 | 주요 활동  | 일정·비용·품질 관리      | 산출물 검토·승인    |
-| 결과물     | 프로젝트 계획·보고서     | [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)·지적사항|
+| 결과물     | 프로젝트 계획·보고서     | 감리 보고서·지적사항|
 | 수행 시점  | 전 기간 상시             | 단계별 정기 감리    |
 | 책임       | 프로젝트 성과           | 독립적 의견 표명    |
 
-> 📢 **섹션 요약 비유**: PMO는 운동팀의 코칭스태프(이기도록 훈련), 감리는 심판(규칙 준수 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) — 둘 다 필요하지만 역할이 다르다.
+> 📢 **섹션 요약 비유**: PMO는 운동팀의 코칭스태프(이기도록 훈련), 감리는 심판(규칙 준수 확인) — 둘 다 필요하지만 역할이 다르다.
 
 ---
 
@@ -60,19 +60,19 @@ PMO 유형 (성숙도 순)
    +-- 높은 통제력
 ```
 
-| [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 활동         | 설명                         |
+| PMO 활동         | 설명                         |
 |----------------|------------------------------|
 | 표준화          | 방법론, 템플릿, 도구 통일      |
 | 포트폴리오 관리  | 우선순위, 자원 배분            |
-| [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리      | 교차 프로젝트 [위험 식별](/studynote/09_security/01_intro_principles/027_risk_identification/)        |
-| [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/) 추적        | [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/), 일정 준수율, 품질 지표   |
+| 리스크 관리      | 교차 프로젝트 위험 식별        |
+| KPI 추적        | EVM, 일정 준수율, 품질 지표   |
 | 역량 개발        | PM 교육, 멘토링               |
 
 > 📢 **섹션 요약 비유**: PMO는 여러 건설 현장을 동시에 운영하는 건설사 본사 — 표준과 자원을 관리하지만 직접 망치를 들지 않는다.
 
 ---
 
-## III. [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 체계 (한국)
+## III. 정보시스템 감리 체계 (한국)
 
 ```
 법적 근거:
@@ -90,11 +90,11 @@ PMO 유형 (성숙도 순)
 +-- 종료 감리: 최종 산출물 검토
 ```
 
-> 📢 **섹션 요약 비유**: 건축 공사의 단계별 감리처럼 — 기초, 골조, 완공 시 각각 검사관이 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+> 📢 **섹션 요약 비유**: 건축 공사의 단계별 감리처럼 — 기초, 골조, 완공 시 각각 검사관이 확인한다.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 감리 지적사항과 처리 절차
+## IV. 감리 지적사항과 처리 절차
 
 ```
 감리 수행 흐름:
@@ -122,20 +122,20 @@ PMO 유형 (성숙도 순)
 
 | 지적 유형   | 예시                          |
 |-----------|-------------------------------|
-| 중대 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)   | 보안 취약점, 핵심 기능 미구현  |
-| 경미 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)   | 문서 누락, 명명 규칙 불일치    |
-| 권고사항    | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 제안, 모범 사례 적용 |
+| 중대 결함   | 보안 취약점, 핵심 기능 미구현  |
+| 경미 결함   | 문서 누락, 명명 규칙 불일치    |
+| 권고사항    | 성능 개선 제안, 모범 사례 적용 |
 
-> 📢 **섹션 요약 비유**: 의사 진단서처럼 — 심각한 질환(중대 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))은 즉시 치료, 경미한 것은 추적 관찰.
+> 📢 **섹션 요약 비유**: 의사 진단서처럼 — 심각한 질환(중대 결함)은 즉시 치료, 경미한 것은 추적 관찰.
 
 ---
 
 ## V. 실무 시나리오 — 대형 공공 SI 프로젝트
 
-| 역할         | [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)                          | 감리 기관                  |
+| 역할         | PMO                          | 감리 기관                  |
 |-------------|------------------------------|---------------------------|
 | 투입 시점    | 사업 착수부터 종료까지         | 단계 종료 시점             |
-| 주요 활동    | [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 관리, 이슈 추적, [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 보고  | 산출물 검토, 테스트 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)   |
+| 주요 활동    | WBS 관리, 이슈 추적, EVM 보고  | 산출물 검토, 테스트 확인   |
 | 보고 대상    | 프로젝트 스폰서, 경영진        | 발주기관 (행정기관)        |
 | 권한         | 내부 의사결정 지원             | 시정 요구권               |
 | 협력 방식    | 상시 소통, 주간 보고           | 감리 기간 중 협조 요청     |
@@ -192,16 +192,5 @@ PMO vs 감리
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. PMO는 학교 선생님처럼 공부를 잘할 수 있도록 도와주는 역할이에요.
-2. 감리는 시험 감독관처럼 규칙을 제대로 지키는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 역할이에요.
+2. 감리는 시험 감독관처럼 규칙을 제대로 지키는지 확인하는 역할이에요.
 3. 선생님과 감독관이 모두 있어야 공정하고 좋은 공부 환경이 만들어지죠!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 46 / 530
-
-<- **이전**: [34. SW 개발보안 진단 (Secure Coding Diagnosis)](/studynote/11_design_supervision/01_audit_framework/611_sw_secure_coding_diagnosis/)
-**다음**: [35. 웹 접근성 및 호환성 진단 (Web Accessibility and Compatibility Diagnosis)](/studynote/11_design_supervision/01_audit_framework/612_web_accessibility_compatibility_diagnosis/) ->
-
----

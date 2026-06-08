@@ -15,9 +15,9 @@ weight: 576
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IEEE 802.11ax는 2019년에 공식 승인된 무선랜 표준으로, <strong>Wi-Fi 6</strong>로 불린다. [11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)([Wi-Fi 5](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/))가 5GHz 전용이었던 것과 달리, 2.4GHz와 5GHz 대역을 모두 완벽하게 지원하며 1024-QAM 변조 방식을 채택해 이론상 최대 9.6Gbps의 속도를 지원하는 HEW (High-Efficiency Wireless) 규격이다.
-- **필요성**: [11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) 공유기는 혼자서 속도를 잴 땐 1Gbps가 넘지만, 지하철역이나 코엑스에서 100명이 동시에 접속하면 인터넷이 완전히 멈춰버렸다(Ping 수백 ms 폭발). 원인은 와이파이 특유의 '눈치 보기([CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))' 때문이었다. 1명이 말할 때 나머지 99명이 숨죽여 기다려야 했고, 누군가 작은 카톡 하나를 보낼 때도 20MHz짜리 넒은 도로를 혼자 전세 내서 쓰는 엄청난 자원 낭비가 발생했다. 공유기가 경찰관처럼 "너는 1차선, 너는 2차선"하고 통제해 주는 중앙 스케줄링 아키텍처가 절실했다.
-- **등장 배경**: ① 공공 와이파이 혼잡도 증가로 인한 사용자 불만(체감 속도 저하) 폭발 -> ② 4G LTE가 채택하여 대성공을 거둔 [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술의 도입 요구 -> ③ [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) Color(공간 재사용), TWT, UL MU-MIMO 등 트래픽 분산과 전력 관리에 특화된 혁신 기술들을 모아 802.11ax 제정.
+- **개념**: IEEE 802.11ax는 2019년에 공식 승인된 무선랜 표준으로, <strong>Wi-Fi 6</strong>로 불린다. 11ac(Wi-Fi 5)가 5GHz 전용이었던 것과 달리, 2.4GHz와 5GHz 대역을 모두 완벽하게 지원하며 1024-QAM 변조 방식을 채택해 이론상 최대 9.6Gbps의 속도를 지원하는 HEW (High-Efficiency Wireless) 규격이다.
+- **필요성**: 11ac 공유기는 혼자서 속도를 잴 땐 1Gbps가 넘지만, 지하철역이나 코엑스에서 100명이 동시에 접속하면 인터넷이 완전히 멈춰버렸다(Ping 수백 ms 폭발). 원인은 와이파이 특유의 '눈치 보기(CSMA/CA)' 때문이었다. 1명이 말할 때 나머지 99명이 숨죽여 기다려야 했고, 누군가 작은 카톡 하나를 보낼 때도 20MHz짜리 넒은 도로를 혼자 전세 내서 쓰는 엄청난 자원 낭비가 발생했다. 공유기가 경찰관처럼 "너는 1차선, 너는 2차선"하고 통제해 주는 중앙 스케줄링 아키텍처가 절실했다.
+- **등장 배경**: ① 공공 와이파이 혼잡도 증가로 인한 사용자 불만(체감 속도 저하) 폭발 -> ② 4G LTE가 채택하여 대성공을 거둔 OFDMA 다중 접속 기술의 도입 요구 -> ③ BSS Color(공간 재사용), TWT, UL MU-MIMO 등 트래픽 분산과 전력 관리에 특화된 혁신 기술들을 모아 802.11ax 제정.
 
 ```text
 +-------------------------------------------------------------+
@@ -44,7 +44,7 @@ weight: 576
 +-------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** Wi-Fi 6의 심장인 [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)(직교 주파수 분할 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))의 철학을 가장 잘 나타내는 그림이다. 과거 11ac는 주파수 채널(도로)을 쪼갤 줄을 몰랐다. 무조건 도로 전체 폭(20MHz, 40MHz, 80MHz)을 한 사람이 혼자 썼다(OFDM). 반면 11ax 공유기는 20MHz 대역폭을 최소 2MHz 폭을 가진 **RU(Resource Unit)** 단위로 잘게 썰어버린다. 공유기가 폰들에게 "너희들 각자 필요한 짐의 크기가 얼마야?" 물어본 뒤, A에게는 1개 RU, 짐이 많은 B에게는 4개 RU를 할당해서 거대한 트럭 짐칸에 테트리스 하듯 꽉꽉 끼워 맞춰 한 번에 쏘아 보낸다. 이것이 11ax가 혼잡 구역에서도 체감 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Ping)을 혁신적으로 낮출 수 있었던 진짜 마법이다.
+**[다이어그램 해설]** Wi-Fi 6의 심장인 OFDMA(직교 주파수 분할 다중 접속)의 철학을 가장 잘 나타내는 그림이다. 과거 11ac는 주파수 채널(도로)을 쪼갤 줄을 몰랐다. 무조건 도로 전체 폭(20MHz, 40MHz, 80MHz)을 한 사람이 혼자 썼다(OFDM). 반면 11ax 공유기는 20MHz 대역폭을 최소 2MHz 폭을 가진 **RU(Resource Unit)** 단위로 잘게 썰어버린다. 공유기가 폰들에게 "너희들 각자 필요한 짐의 크기가 얼마야?" 물어본 뒤, A에게는 1개 RU, 짐이 많은 B에게는 4개 RU를 할당해서 거대한 트럭 짐칸에 테트리스 하듯 꽉꽉 끼워 맞춰 한 번에 쏘아 보낸다. 이것이 11ax가 혼잡 구역에서도 체감 지연(Ping)을 혁신적으로 낮출 수 있었던 진짜 마법이다.
 
 - **📢 섹션 요약 비유**: 11ac는 짜장면 한 그릇을 배달시킬 때마다 큰 배달 트럭이 한 대씩 나가야 해서 차가 엄청 밀렸습니다. 11ax는 커다란 트럭의 짐칸을 수십 개의 작은 보관함(RU)으로 쪼갠 뒤, 짜장면, 피자, 치킨을 한꺼번에 꽉 채워서 한 번에 출발하는 똑똑한 쿠팡맨 새벽 배송 시스템입니다. 배달을 기다리는 대기 줄이 0이 됩니다.
 
@@ -54,16 +54,16 @@ weight: 576
 
 Wi-Fi 6는 단순히 속도만 올린 것이 아니라, 무선 통신의 "눈치 보기(경쟁)" 규칙 자체를 근본적으로 해킹했다.
 
-| 혁신 기술 | 기존 [Wi-Fi 5](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) ([11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)) 한계 | Wi-Fi 6 (11ax) 해결책 | 극복 효과 및 융합 포인트 |
+| 혁신 기술 | 기존 Wi-Fi 5 (11ac) 한계 | Wi-Fi 6 (11ax) 해결책 | 극복 효과 및 융합 포인트 |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> (주파수 분할 접속) | 한 번에 한 명만 전체 주파수 독식 (OFDM) | 20MHz 대역폭을 최대 9명의 RU로 쪼개서 **다중 합승 동시 전송** | 작은 패킷([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 카톡, 게임)이 몰릴 때의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 완벽 해소. LTE와 기술 철학 동일. |
+| <strong>OFDMA</strong> (주파수 분할 접속) | 한 번에 한 명만 전체 주파수 독식 (OFDM) | 20MHz 대역폭을 최대 9명의 RU로 쪼개서 **다중 합승 동시 전송** | 작은 패킷(IoT, 카톡, 게임)이 몰릴 때의 지연(Latency) 완벽 해소. LTE와 기술 철학 동일. |
 | **양방향 MU-MIMO** | 다운로드(DL) 시에만 여러 명에게 빔 찢어 쏨 | **업로드(UL)** 할 때도 여러 폰이 동시에 공유기를 향해 빔을 쏨! | 사람들이 일제히 인스타에 사진을 올릴 때 멈추던 카페 와이파이 업로드 병목 타파. |
-| <strong><a href="/studynote/02_operating_system/02_process_thread/083_bss_segment/">BSS</a> Color</strong> (공간 재사용) | 옆집 공유기가 말하면, 우리 집 공유기는 입 다물고 양보함([CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) | 옆집 파동(빨간색)과 우리 집 파동(파란색)에 <strong>컬러 꼬리표</strong>를 달아 옆집이 말해도 그냥 내 할 말 쏨! | 밀집 아파트에서 공유기들이 서로 눈치 보느라 속도 0 되는 간섭(OBSS) 셧다운 방어. |
-| **TWT** (타겟 웨이크 타임) | 공유기가 아무 때나 폰을 깨워서 배터리 소모 큼 (짧은 DRX) | "너는 1분 뒤에 일어나서 나랑 0.1초만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주고받자"고 **취침 시간 예약** | 스마트홈 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(온도계 등)가 배터리 하나로 수년 버틸 수 있는 극단적 전력 다이어트. |
+| <strong>BSS Color</strong> (공간 재사용) | 옆집 공유기가 말하면, 우리 집 공유기는 입 다물고 양보함(CSMA/CA) | 옆집 파동(빨간색)과 우리 집 파동(파란색)에 <strong>컬러 꼬리표</strong>를 달아 옆집이 말해도 그냥 내 할 말 쏨! | 밀집 아파트에서 공유기들이 서로 눈치 보느라 속도 0 되는 간섭(OBSS) 셧다운 방어. |
+| **TWT** (타겟 웨이크 타임) | 공유기가 아무 때나 폰을 깨워서 배터리 소모 큼 (짧은 DRX) | "너는 1분 뒤에 일어나서 나랑 0.1초만 데이터 주고받자"고 **취침 시간 예약** | 스마트홈 IoT(온도계 등)가 배터리 하나로 수년 버틸 수 있는 극단적 전력 다이어트. |
 
-### UL MU-MIMO와 OFDMA의 기적: Trigger Frame ([트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 프레임)
+### UL MU-MIMO와 OFDMA의 기적: Trigger Frame (트리거 프레임)
 
-[Wi-Fi 5](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) 시절 업로드 MU-MIMO가 불가능했던 이유는 "스마트폰 여러 대가 동시에 전파를 쏘면, 공유기 안테나에서 도저히 역계산으로 분리할 수가 없었기" 때문이다(폰끼리 박자가 안 맞아서). Wi-Fi 6는 이를 <strong>Trigger Frame(방아쇠 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)</strong>이라는 무자비한 중앙 통제 프로토콜로 뚫어냈다.
+Wi-Fi 5 시절 업로드 MU-MIMO가 불가능했던 이유는 "스마트폰 여러 대가 동시에 전파를 쏘면, 공유기 안테나에서 도저히 역계산으로 분리할 수가 없었기" 때문이다(폰끼리 박자가 안 맞아서). Wi-Fi 6는 이를 <strong>Trigger Frame(방아쇠 신호)</strong>이라는 무자비한 중앙 통제 프로토콜로 뚫어냈다.
 
 ```text
 +---------------------------------------------------------------+
@@ -87,25 +87,25 @@ Wi-Fi 6는 단순히 속도만 올린 것이 아니라, 무선 통신의 "눈치
 +---------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 Trigger Frame 아키텍처야말로 Wi-Fi가 그동안의 "자유방임주의(Ad-hoc)" 시장통 룰을 버리고, 이동통신([LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 기지국의 **"스케줄링(Scheduling)"** 철학을 완벽하게 베껴온 융합의 결정체다. 공유기는 폰들에게 '언제, 어떤 주파수, 어느 정도의 힘(출력)으로 쏠지'를 명시한 방아쇠(Trigger) 편지를 쏜다. 폰들은 이 편지를 받자마자 자신의 내부 시계를 공유기 시계와 나노초 단위로 동기화한 뒤, 일제히 합창하듯 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘아 올린다. 발사 타이밍과 주파수(RU)가 칼같이 분리되어 있으므로, 허공에서 파동들이 엉키지 않고 공유기 안테나에 순수하게 도달하여 업로드 병목이 기적처럼 해소된다.
+**[다이어그램 해설]** 이 Trigger Frame 아키텍처야말로 Wi-Fi가 그동안의 "자유방임주의(Ad-hoc)" 시장통 룰을 버리고, 이동통신(LTE/5G) 기지국의 **"스케줄링(Scheduling)"** 철학을 완벽하게 베껴온 융합의 결정체다. 공유기는 폰들에게 '언제, 어떤 주파수, 어느 정도의 힘(출력)으로 쏠지'를 명시한 방아쇠(Trigger) 편지를 쏜다. 폰들은 이 편지를 받자마자 자신의 내부 시계를 공유기 시계와 나노초 단위로 동기화한 뒤, 일제히 합창하듯 데이터를 쏘아 올린다. 발사 타이밍과 주파수(RU)가 칼같이 분리되어 있으므로, 허공에서 파동들이 엉키지 않고 공유기 안테나에 순수하게 도달하여 업로드 병목이 기적처럼 해소된다.
 
-- **📢 섹션 요약 비유**: 시장 바닥에서 상인들(폰)이 서로 자기가 먼저 말하겠다고 소리치던 난장판을 끝냈습니다. 공유기가 오케스트라 지휘자가 되어 지휘봉(Trigger Frame)을 딱 올리고 "바이올린(A폰), 첼로(B폰), 피아노(C폰) 지금 이 악보(RU)대로 동시에 연주 시작!"이라고 통제하니, 잡음이 완벽한 화음(업로드 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))으로 변하는 기적입니다.
+- **📢 섹션 요약 비유**: 시장 바닥에서 상인들(폰)이 서로 자기가 먼저 말하겠다고 소리치던 난장판을 끝냈습니다. 공유기가 오케스트라 지휘자가 되어 지휘봉(Trigger Frame)을 딱 올리고 "바이올린(A폰), 첼로(B폰), 피아노(C폰) 지금 이 악보(RU)대로 동시에 연주 시작!"이라고 통제하니, 잡음이 완벽한 화음(업로드 다중화)으로 변하는 기적입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### QAM 밀도의 극한: 256-QAM([11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)) vs 1024-QAM(11ax)의 한계 돌파
+### QAM 밀도의 극한: 256-QAM(11ac) vs 1024-QAM(11ax)의 한계 돌파
 
-Wi-Fi 6는 OFDMA로 딜레이만 줄인 게 아니다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 덩치(용량)를 한 번 더 욱여넣기 위해, 11ac의 256-QAM을 <strong>1024-QAM</strong>으로 진화시켰다.
+Wi-Fi 6는 OFDMA로 딜레이만 줄인 게 아니다. 데이터의 덩치(용량)를 한 번 더 욱여넣기 위해, 11ac의 256-QAM을 <strong>1024-QAM</strong>으로 진화시켰다.
 
-| 변조 방식 (QAM) | 한 번 쏠 때 전송 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 과녁판 점의 개수 | 최고 체감 속도 (이론치) | 방어 및 안정성 제약 |
+| 변조 방식 (QAM) | 한 번 쏠 때 전송 비트 | 과녁판 점의 개수 | 최고 체감 속도 (이론치) | 방어 및 안정성 제약 |
 |:---|:---|:---|:---|:---|
-| **64-QAM** ([11n](/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)) | 6 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 64개 | 일반적 (최대 수백 Mbps) | 거실에서 안방으로 가도 잘 터짐 (안전함) |
-| **256-QAM** ([11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/))| 8 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 256개 | 빠름 (최대 1Gbps 돌파) | 벽 하나 뚫거나 조금만 멀어져도 에러 나서 강등됨 |
-| **1024-QAM** (11ax)| <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong> | **1,024개** | <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> (약 25% 추가 뻥튀기)</strong>| **미친 예민함.** 공유기 앞 3미터 이내의 무결점 청정 환경에서만 작동! |
+| **64-QAM** (11n) | 6 비트 | 64개 | 일반적 (최대 수백 Mbps) | 거실에서 안방으로 가도 잘 터짐 (안전함) |
+| **256-QAM** (11ac)| 8 비트 | 256개 | 빠름 (최대 1Gbps 돌파) | 벽 하나 뚫거나 조금만 멀어져도 에러 나서 강등됨 |
+| **1024-QAM** (11ax)| <strong>10 비트</strong> | **1,024개** | <strong>초고속 (약 25% 추가 뻥튀기)</strong>| **미친 예민함.** 공유기 앞 3미터 이내의 무결점 청정 환경에서만 작동! |
 
-과녁판 하나에 점을 1,024개(32 x 32) 찍어놓았다고 상상해 보라. 수전증(노이즈)이 0.1mm만 있어도 바로 옆 칸으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 넘어가 에러가 터진다. 즉, 1024-QAM은 도서관이나 거실처럼 "공유기가 눈앞에 떡하니 보이고 간섭이 1도 없는 뻥 뚫린(LOS) 환경"에서만 잠깐 발동되는 치트키다. 거리가 조금만 멀어져 에러 벡터([EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))가 흔들리면, 공유기는 자비 없이 256-QAM, 64-QAM으로 속도를 낮춰버린다([Fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)). 따라서 11ax의 진짜 위대함은 1024-QAM의 속도 뻥튀기가 아니라 앞서 말한 <strong>OFDMA의 '안 멈추는 부드러움'</strong>에 있다.
+과녁판 하나에 점을 1,024개(32 x 32) 찍어놓았다고 상상해 보라. 수전증(노이즈)이 0.1mm만 있어도 바로 옆 칸으로 데이터가 넘어가 에러가 터진다. 즉, 1024-QAM은 도서관이나 거실처럼 "공유기가 눈앞에 떡하니 보이고 간섭이 1도 없는 뻥 뚫린(LOS) 환경"에서만 잠깐 발동되는 치트키다. 거리가 조금만 멀어져 에러 벡터(EVM)가 흔들리면, 공유기는 자비 없이 256-QAM, 64-QAM으로 속도를 낮춰버린다(Fallback). 따라서 11ax의 진짜 위대함은 1024-QAM의 속도 뻥튀기가 아니라 앞서 말한 <strong>OFDMA의 '안 멈추는 부드러움'</strong>에 있다.
 
 ```text
 +---------------------------------------------------------------+
@@ -130,48 +130,48 @@ Wi-Fi 6는 OFDMA로 딜레이만 줄인 게 아니다. [데이터](/studynote/05
 +---------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** Wi-Fi의 기본 철학인 [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)("듣고 비어있을 때 쏜다")는 아파트나 도심 상가처럼 남의 공유기 전파가 난무하는 곳에서는 끔찍한 올가미다. 내 폰은 전파가 우리 집 건지 옆집 건지 구별할 지능이 없어서 무조건 쉬어버렸다. 11ax는 모든 프레임 헤더에 6비트짜리 <strong>Color(색상 코드, 1~63번)</strong>를 박아 넣었다. 내 폰은 귓가에 들리는 전파가 내 공유기 색깔(파랑)이면 조용히 기다리지만, 옆집 공유기 색깔(빨강)이면 그 전파 세기(Threshold)를 억지로 낮춰 듣는(무시하는) **공간 재사용(Spatial Reuse)** 기능을 켠다. 덕분에 아파트 단지 전체의 와이파이 체감 속도가 극적으로 회복되었다.
+**[다이어그램 해설]** Wi-Fi의 기본 철학인 CSMA/CA("듣고 비어있을 때 쏜다")는 아파트나 도심 상가처럼 남의 공유기 전파가 난무하는 곳에서는 끔찍한 올가미다. 내 폰은 전파가 우리 집 건지 옆집 건지 구별할 지능이 없어서 무조건 쉬어버렸다. 11ax는 모든 프레임 헤더에 6비트짜리 <strong>Color(색상 코드, 1~63번)</strong>를 박아 넣었다. 내 폰은 귓가에 들리는 전파가 내 공유기 색깔(파랑)이면 조용히 기다리지만, 옆집 공유기 색깔(빨강)이면 그 전파 세기(Threshold)를 억지로 낮춰 듣는(무시하는) **공간 재사용(Spatial Reuse)** 기능을 켠다. 덕분에 아파트 단지 전체의 와이파이 체감 속도가 극적으로 회복되었다.
 
-- **📢 섹션 요약 비유**: 독서실에서 남이 떠들면 조용해질 때까지 기다렸다가 내 말을 하는 게 옛날 와이파이였습니다. 11ax([BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) Color)는 귀마개를 끼는 것과 같습니다. "저 멀리 옆자리(빨간색) 사람이 떠드는 소리는 무시하고, 내 앞에 앉은 친구(파란색)랑 동시에 말하자!"며 눈치를 안 보고 통신해 버리는 뻔뻔하지만 효율적인 룰입니다.
+- **📢 섹션 요약 비유**: 독서실에서 남이 떠들면 조용해질 때까지 기다렸다가 내 말을 하는 게 옛날 와이파이였습니다. 11ax(BSS Color)는 귀마개를 끼는 것과 같습니다. "저 멀리 옆자리(빨간색) 사람이 떠드는 소리는 무시하고, 내 앞에 앉은 친구(파란색)랑 동시에 말하자!"며 눈치를 안 보고 통신해 버리는 뻔뻔하지만 효율적인 룰입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **상황**: 지하철 객차 안에 통신사가 설치한 802.[11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)([Wi-Fi 5](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)) 공유기가 있다. 승객 50명이 타고 있는데, 모두가 인스타 릴스나 카카오톡을 한다. 대역폭은 충분한데 인터넷을 누르면 모래시계만 5초 돌다가 안 넘어가는 극심한 병목 현상이 발생했다.
-2. <strong>원인 (<a href="/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CA의 충돌 지옥)</strong>: 카카오톡 메시지는 크기가 수십 바이트밖에 안 되는 엄청나게 작은 패킷이다. 하지만 50명이 이 작은 패킷 하나를 보내기 위해 "나 보낼게!"라며 1차선 좁은 문(무선 채널)으로 수천 번씩 동시에 돌진했다. 결과적으로 허공에서 패킷들이 꽝꽝 부딪혀 깨지고([Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)), 다시 보내느라 기다리고(Backoff), 결국 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송보다 줄 서서 눈치 보는 데 시간의 90%를 다 써버렸다.
-3. <strong>의사결정 및 조치 (Wi-Fi 6 <a href="/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a> 강제 적용)</strong>:
-   - 통신 아키텍트는 객차 공유기를 **802.11ax (Wi-Fi 6)** 모델로 전면 교체하고, <strong><a href="/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a> 기능</strong>을 활성화한다.
+1. **상황**: 지하철 객차 안에 통신사가 설치한 802.11ac(Wi-Fi 5) 공유기가 있다. 승객 50명이 타고 있는데, 모두가 인스타 릴스나 카카오톡을 한다. 대역폭은 충분한데 인터넷을 누르면 모래시계만 5초 돌다가 안 넘어가는 극심한 병목 현상이 발생했다.
+2. <strong>원인 (CSMA/CA의 충돌 지옥)</strong>: 카카오톡 메시지는 크기가 수십 바이트밖에 안 되는 엄청나게 작은 패킷이다. 하지만 50명이 이 작은 패킷 하나를 보내기 위해 "나 보낼게!"라며 1차선 좁은 문(무선 채널)으로 수천 번씩 동시에 돌진했다. 결과적으로 허공에서 패킷들이 꽝꽝 부딪혀 깨지고(Collision), 다시 보내느라 기다리고(Backoff), 결국 실제 데이터 전송보다 줄 서서 눈치 보는 데 시간의 90%를 다 써버렸다.
+3. <strong>의사결정 및 조치 (Wi-Fi 6 OFDMA 강제 적용)</strong>:
+   - 통신 아키텍트는 객차 공유기를 **802.11ax (Wi-Fi 6)** 모델로 전면 교체하고, <strong>OFDMA 기능</strong>을 활성화한다.
    - 공유기는 50명의 폰에게 "너 카톡 보낼 거 작은 거지? 너네 10명은 2MHz짜리 작은 조각(RU) 하나씩 딱딱 맡아서 한 번에 싹 다 보내!"라고 스케줄링(Trigger Frame)을 해준다.
-   - **결과**: 줄 서서 싸우는 충돌([Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 0%로 소멸했다. 10명이 보낼 카톡이 단 한 번의 전파 송신(1개의 프레임)으로 한 방에 처리되며, 모래시계 도는 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Ping)이 500ms에서 20ms로 기적처럼 사라졌다. 이것이 Wi-Fi 6가 '기가비트'가 아니라 '체감 속도(Efficiency)'의 제왕인 이유다.
+   - **결과**: 줄 서서 싸우는 충돌(Collision)이 0%로 소멸했다. 10명이 보낼 카톡이 단 한 번의 전파 송신(1개의 프레임)으로 한 방에 처리되며, 모래시계 도는 지연 시간(Ping)이 500ms에서 20ms로 기적처럼 사라졌다. 이것이 Wi-Fi 6가 '기가비트'가 아니라 '체감 속도(Efficiency)'의 제왕인 이유다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>구형 단말기(Legacy <a href="/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>) 혼재에 따른 <a href="/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a> 무력화 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 11ax 공유기를 달아도, 그 안에 접속한 폰 중 절반이 구형 [11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)/[11n](/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/) 폰이라면 기적이 일어나지 않는다. 구형 폰들은 [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)(주파수 쪼개기)를 알아듣지 못하고 옛날 방식대로 20MHz 폭 전체를 혼자 점유하려고([CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 덤벼든다. 공유기는 어쩔 수 없이 구형 폰이 말할 때는 [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 스케줄링을 멈추고 기다려줘야 한다. 진정한 11ax의 힘은 망 내의 모든 단말기가 11ax 칩셋을 달고 있는 <strong>'Greenfield 환경'</strong>에 근접할수록 100% 폭발한다. (이것이 기업 환경에서 주기적으로 단말기 교체 주기를 강제하는 기술적 이유다).
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (불필요한 160MHz 채널 본딩 고집)</strong>: 일반적인 카페나 사무실에서 속도 뽕을 뽑겠다고 160MHz 채널 본딩을 강제로 켜두는 짓. 160MHz는 5GHz 대역의 거의 1/3을 혼자 삼킨다. 옆 부서 사무실 공유기와 필연적으로 주파수가 겹치게 되고, 결국 [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) Color가 아무리 뛰어나도 감당할 수 없는 엄청난 층간 소음(CCI)이 터진다. 고밀도 환경에서는 차선을 넓히는 게(160MHz) 아니라 차선을 20MHz나 40MHz로 좁게 쪼개어 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 개수를 늘리고 각자 간섭 없이 통신하게 만드는 셀 플래닝이 100배 현명한 아키텍처다.
+### 도입 체크리스트 및 안티패턴
+- <strong>구형 단말기(Legacy Client) 혼재에 따른 OFDMA 무력화 검증</strong>: 11ax 공유기를 달아도, 그 안에 접속한 폰 중 절반이 구형 11ac/11n 폰이라면 기적이 일어나지 않는다. 구형 폰들은 OFDMA(주파수 쪼개기)를 알아듣지 못하고 옛날 방식대로 20MHz 폭 전체를 혼자 점유하려고(CSMA/CA) 덤벼든다. 공유기는 어쩔 수 없이 구형 폰이 말할 때는 OFDMA 스케줄링을 멈추고 기다려줘야 한다. 진정한 11ax의 힘은 망 내의 모든 단말기가 11ax 칩셋을 달고 있는 <strong>'Greenfield 환경'</strong>에 근접할수록 100% 폭발한다. (이것이 기업 환경에서 주기적으로 단말기 교체 주기를 강제하는 기술적 이유다).
+- <strong>안티패턴 (불필요한 160MHz 채널 본딩 고집)</strong>: 일반적인 카페나 사무실에서 속도 뽕을 뽑겠다고 160MHz 채널 본딩을 강제로 켜두는 짓. 160MHz는 5GHz 대역의 거의 1/3을 혼자 삼킨다. 옆 부서 사무실 공유기와 필연적으로 주파수가 겹치게 되고, 결국 BSS Color가 아무리 뛰어나도 감당할 수 없는 엄청난 층간 소음(CCI)이 터진다. 고밀도 환경에서는 차선을 넓히는 게(160MHz) 아니라 차선을 20MHz나 40MHz로 좁게 쪼개어 AP 개수를 늘리고 각자 간섭 없이 통신하게 만드는 셀 플래닝이 100배 현명한 아키텍처다.
 
-- **📢 섹션 요약 비유**: 막히는 톨게이트(지하철 와이파이)에 차들을 그냥 들이밀면 병목(충돌)이 생깁니다. Wi-Fi 6는 카풀(합승) 전용 차선을 만들어, 목적지가 비슷한 10대의 소형차 승객들을 대형 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)) 한 대에 꽉꽉 채워 한 번에 톨게이트를 무정차로 쏴버리는 궁극의 교통 체증 해결책입니다.
+- **📢 섹션 요약 비유**: 막히는 톨게이트(지하철 와이파이)에 차들을 그냥 들이밀면 병목(충돌)이 생깁니다. Wi-Fi 6는 카풀(합승) 전용 차선을 만들어, 목적지가 비슷한 10대의 소형차 승객들을 대형 버스(OFDMA) 한 대에 꽉꽉 채워 한 번에 톨게이트를 무정차로 쏴버리는 궁극의 교통 체증 해결책입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 802.[11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) ([Wi-Fi 5](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)) | 802.11ax (Wi-Fi 6) | 개선 효과 |
+| 구분 | 802.11ac (Wi-Fi 5) | 802.11ax (Wi-Fi 6) | 개선 효과 |
 |:---|:---|:---|:---|
-| <strong>정량 (밀집 지역 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>율)</strong> | 100명 접속 시 Ping 수백 ms, 패킷 드랍 폭발 | [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 스케줄링으로 합승 배달 | 경기장/공항 고밀도(Dense) 환경에서 <strong>체감 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 75% 감소</strong> |
-| **정량 (배터리 보존, TWT)** | 공유기 맘대로 깨워서 배터리 낭비 | 1분/1시간 단위로 자는 시간(TWT) 예약 합의 | 폰 및 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 <strong>대기 <a href="/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a> 최대 3배 절감</strong> |
-| **정성 (전파 간섭 극복)** | 옆집 공유기가 말하면 무조건 기다려야 함 | [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) Color로 옆집 전파 강제 무시 | 아파트 등 OBSS 간섭 환경에서의 <strong>실효 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리율(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>) 4배 펌핑</strong> |
+| <strong>정량 (밀집 지역 지연율)</strong> | 100명 접속 시 Ping 수백 ms, 패킷 드랍 폭발 | OFDMA 스케줄링으로 합승 배달 | 경기장/공항 고밀도(Dense) 환경에서 <strong>체감 지연(Latency) 75% 감소</strong> |
+| **정량 (배터리 보존, TWT)** | 공유기 맘대로 깨워서 배터리 낭비 | 1분/1시간 단위로 자는 시간(TWT) 예약 합의 | 폰 및 IoT 기기의 <strong>대기 전력 소모 최대 3배 절감</strong> |
+| **정성 (전파 간섭 극복)** | 옆집 공유기가 말하면 무조건 기다려야 함 | BSS Color로 옆집 전파 강제 무시 | 아파트 등 OBSS 간섭 환경에서의 <strong>실효 데이터 처리율(Throughput) 4배 펌핑</strong> |
 
 ### 미래 전망 및 진화 방향
-- <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/">Wi-Fi 6E</a> (6GHz 대역의 해방)</strong>: Wi-Fi 6의 기술은 너무 훌륭하지만, 2.4GHz와 5GHz 도로는 이미 구형 11a/b/g/n/[ac](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 차들로 꽉 막혀있어 제 속도를 낼 수 없었다. 그래서 등장한 확장 규격이 <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/">Wi-Fi 6E</a> (577번 문서)</strong>다. 6E는 아예 아무도 밟지 않은 신대륙인 6GHz 대역(1200MHz 광활한 영토)으로 이사가서, 오직 Wi-Fi 6(ax) 칩셋을 단 최신 스포츠카들끼리만 거칠 것 없이 160MHz 풀 액셀을 밟아 진정한 11ax의 잠재력을 폭발시키고 있다.
-- <strong><a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> NR-U (Unlicensed)와의 정면승부</strong>: Wi-Fi 6는 OFDMA와 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 프레임을 도입하며 사실상 '통신사 없는 미니 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국'이 되어버렸다. 이에 위협을 느낀 [3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 셀룰러 진영은 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파(NR)를 공짜 와이파이 대역(Unlicensed Band, [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6GHz)에서 쏘아버리는 NR-U 표준을 만들었다. 미래의 실내 스마트 팩토리망 패권을 두고, 누구나 꽂으면 되는 Wi-Fi 6/7 진영과 완벽한 통제력의 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 특화망(이음 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 진영 간의 거대한 기술 전쟁이 벌어지고 있다.
+- <strong>Wi-Fi 6E (6GHz 대역의 해방)</strong>: Wi-Fi 6의 기술은 너무 훌륭하지만, 2.4GHz와 5GHz 도로는 이미 구형 11a/b/g/n/ac 차들로 꽉 막혀있어 제 속도를 낼 수 없었다. 그래서 등장한 확장 규격이 <strong>Wi-Fi 6E (577번 문서)</strong>다. 6E는 아예 아무도 밟지 않은 신대륙인 6GHz 대역(1200MHz 광활한 영토)으로 이사가서, 오직 Wi-Fi 6(ax) 칩셋을 단 최신 스포츠카들끼리만 거칠 것 없이 160MHz 풀 액셀을 밟아 진정한 11ax의 잠재력을 폭발시키고 있다.
+- <strong>5G NR-U (Unlicensed)와의 정면승부</strong>: Wi-Fi 6는 OFDMA와 트리거 프레임을 도입하며 사실상 '통신사 없는 미니 5G 기지국'이 되어버렸다. 이에 위협을 느낀 3GPP 셀룰러 진영은 5G 전파(NR)를 공짜 와이파이 대역(Unlicensed Band, 5G/6GHz)에서 쏘아버리는 NR-U 표준을 만들었다. 미래의 실내 스마트 팩토리망 패권을 두고, 누구나 꽂으면 되는 Wi-Fi 6/7 진영과 완벽한 통제력의 5G 특화망(이음 5G) 진영 간의 거대한 기술 전쟁이 벌어지고 있다.
 
 ### 참고 표준
-- **IEEE 802.11ax-2021**: High Efficiency (HE) [WLAN](/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/). 11ac의 VHT를 넘어 '고효율(HE)'이라는 철학을 이름에 박아넣고, OFDMA와 TWT, [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) Color를 처음 규정한 Wi-Fi 6의 마스터 표준.
-- <strong>WFA (Wi-Fi Alliance) Wi-Fi 6 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>: 제조사들이 OFDMA나 UL MU-MIMO를 대충 빼먹고 팔아먹는 걸 막기 위해, 이 핵심 스펙들을 모두 탑재해야만 'Wi-Fi 6 Certified' 로고를 주도록 강제한 소비자 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 프로그램.
+- **IEEE 802.11ax-2021**: High Efficiency (HE) WLAN. 11ac의 VHT를 넘어 '고효율(HE)'이라는 철학을 이름에 박아넣고, OFDMA와 TWT, BSS Color를 처음 규정한 Wi-Fi 6의 마스터 표준.
+- <strong>WFA (Wi-Fi Alliance) Wi-Fi 6 인증</strong>: 제조사들이 OFDMA나 UL MU-MIMO를 대충 빼먹고 팔아먹는 걸 막기 위해, 이 핵심 스펙들을 모두 탑재해야만 'Wi-Fi 6 Certified' 로고를 주도록 강제한 소비자 보호 프로그램.
 
 802.11ax (Wi-Fi 6)는 20년 넘게 무선랜이 버리지 못했던 "무식하게 차선만 넓히고 파워만 올리면 빠르겠지"라는 철학(Capacity)에 사망 선고를 내렸다. 속도는 덤일 뿐, 본질은 100명이 좁은 방에 모여 있어도 단 한 명의 통화도 튕기지 않도록 주파수를 레고 블록(RU)처럼 쪼개어 핀셋으로 입에 넣어주는 "스케줄링의 위대한 정밀함(Efficiency)"에 있다. 이로써 와이파이는 통신사 기지국 부럽지 않은 완벽한 뇌(Brain)를 가지게 되었다.
 
-- **📢 섹션 요약 비유**: 이전의 Wi-Fi 5가 넓고 시원한 8차선 고속도로를 깔았지만 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등이 없어 차가 밀릴 땐 엉망진창이었다면, Wi-Fi 6는 그 고속도로에 완벽한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등과 교통경찰([OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))을 투입해, 100대의 차가 한 치의 오차도 없이 1차선, 2차선을 칼같이 나누어 최고 속도로 빠져나가게 통제하는 궁극의 '스마트 교통 시스템'입니다.
+- **📢 섹션 요약 비유**: 이전의 Wi-Fi 5가 넓고 시원한 8차선 고속도로를 깔았지만 신호등이 없어 차가 밀릴 땐 엉망진창이었다면, Wi-Fi 6는 그 고속도로에 완벽한 AI 인공지능 신호등과 교통경찰(OFDMA)을 투입해, 100대의 차가 한 치의 오차도 없이 1차선, 2차선을 칼같이 나누어 최고 속도로 빠져나가게 통제하는 궁극의 '스마트 교통 시스템'입니다.
 
 ---
 
@@ -179,10 +179,10 @@ Wi-Fi 6는 OFDMA로 딜레이만 줄인 게 아니다. [데이터](/studynote/05
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [11ac](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 셀 (Cell) | 무선 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
-| [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
-| [11ax 6GHz](/studynote/03_network/11_wireless_mobile_communication/577_802_11ax_6ghz_wifi_6e/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 11ac | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 셀 (Cell) | 무선 서비스 범위를 나누는 기본 단위다. |
+| 핸드오버 (Handover) | 이동 중에도 연결을 유지하게 만든다. |
+| 11ax 6GHz | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -200,17 +200,6 @@ Wi-Fi 6는 OFDMA로 딜레이만 줄인 게 아니다. [데이터](/studynote/05
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날엔 트럭(주파수)에 작은 편지 한 통만 실어도 트럭 전체가 출발해야 해서, 뒤에서 기다리는 친구들은 엄청 짜증이 났어요(와이파이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
-2. Wi-Fi 6 아저씨는 커다란 트럭 짐칸을 수십 개의 작은 우편함([OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))으로 쪼갰어요. 편지, 택배, 피자를 한 트럭에 꽉꽉 테트리스처럼 채워서 한 번에 배달해 버리죠!
+1. 옛날엔 트럭(주파수)에 작은 편지 한 통만 실어도 트럭 전체가 출발해야 해서, 뒤에서 기다리는 친구들은 엄청 짜증이 났어요(와이파이 지연).
+2. Wi-Fi 6 아저씨는 커다란 트럭 짐칸을 수십 개의 작은 우편함(OFDMA)으로 쪼갰어요. 편지, 택배, 피자를 한 트럭에 꽉꽉 테트리스처럼 채워서 한 번에 배달해 버리죠!
 3. 덕분에 100명이 붐비는 지하철 와이파이에서도 서로 줄 서서 싸우지 않고, 빙글빙글 모래시계 도는 일 없이 유튜브와 카톡이 1초 만에 팍펑 터지는 거랍니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 697 / 1120
-
-<- **이전**: [575. 11ac (Wi-Fi 5)](/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)
-**다음**: [577. 11ax 6GHz (Wi-Fi 6E)](/studynote/03_network/11_wireless_mobile_communication/577_802_11ax_6ghz_wifi_6e/) ->
-
----

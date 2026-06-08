@@ -6,9 +6,9 @@ tags:
 weight: 30
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 암호화폐 지갑(Crypto Wallet)은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 자산의 소유권을 증명하는 개인키(Private [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 안전하게 보관하는 도구다. 지갑이 "돈을 보관"하는 게 아니라 "소유권 증명서(개인키)를 보관"한다.
+> 1. **본질**: 암호화폐 지갑(Crypto Wallet)은 블록체인 자산의 소유권을 증명하는 개인키(Private Key)를 안전하게 보관하는 도구다. 지갑이 "돈을 보관"하는 게 아니라 "소유권 증명서(개인키)를 보관"한다.
 > 2. **가치**: BIP-39 니모닉(Mnemonic)은 128~256비트 엔트로피를 12~24개 단어로 인코딩한 시드 문구(Seed Phrase)다. 니모닉 -> 시드 -> 마스터키 -> 수백만 개 하위키 파생이 가능한 HD(Hierarchical Deterministic) 지갑의 기반이다.
-> 3. **판단 포인트**: 니모닉 12~24단어는 자산의 모든 것이다. 누출 시 모든 자산 탈취 가능, 분실 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능하다. 니모닉 보안이 곧 자산 보안이며 이것이 "Not your keys, not your coins"의 의미다.
+> 3. **판단 포인트**: 니모닉 12~24단어는 자산의 모든 것이다. 누출 시 모든 자산 탈취 가능, 분실 시 복구 불가능하다. 니모닉 보안이 곧 자산 보안이며 이것이 "Not your keys, not your coins"의 의미다.
 
 ---
 
@@ -44,7 +44,7 @@ weight: 30
 | **커스터디얼** | 거래소가 키 보관 (빗썸, 바이낸스) | 위탁 | 편리 |
 | **논커스터디얼** | 사용자가 키 직접 보관 | 자기 책임 | 자유 |
 
-### BIP-39 니모닉 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정
+### BIP-39 니모닉 생성 과정
 
 ```text
 1. 128비트 난수 엔트로피 생성
@@ -99,7 +99,7 @@ weight: 30
 ✅ 지리적 분산 보관 (2~3곳)
 ```
 
-- **📢 섹션 요약 비유**: 멀티시그는 핵 발사 코드 2인 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시스템이다. 한 사람(한 키)만으로는 발사([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))가 불가능하고, 2명 이상이 동시에 동의해야 한다.
+- **📢 섹션 요약 비유**: 멀티시그는 핵 발사 코드 2인 인증 시스템이다. 한 사람(한 키)만으로는 발사(트랜잭션)가 불가능하고, 2명 이상이 동시에 동의해야 한다.
 
 ---
 
@@ -108,12 +108,12 @@ weight: 30
 | 기대효과 | 내용 |
 |:---|:---|
 | **자산 통제** | 진정한 자기 주권 자산 관리 |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/">상호운용성</a></strong> | BIP-44로 멀티체인 지갑 지원 |
-| <strong><a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능성</strong> | 니모닉으로 어느 기기에서도 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| <strong>상호운용성</strong> | BIP-44로 멀티체인 지갑 지원 |
+| <strong>복구 가능성</strong> | 니모닉으로 어느 기기에서도 복구 |
 
-MPC(Multi-Party Computation, 다자 계산) 지갑이 차세대 기술로 부상 중이다. 개인키를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하여 어느 한 곳에도 완전한 키가 존재하지 않아 탈취 위험을 원천 차단한다. 기관 투자자용 커스터디 서비스에서 표준으로 자리 잡고 있다.
+MPC(Multi-Party Computation, 다자 계산) 지갑이 차세대 기술로 부상 중이다. 개인키를 분산 저장하여 어느 한 곳에도 완전한 키가 존재하지 않아 탈취 위험을 원천 차단한다. 기관 투자자용 커스터디 서비스에서 표준으로 자리 잡고 있다.
 
-- **📢 섹션 요약 비유**: MPC 지갑은 비밀 레시피를 3등분해서 서로 다른 금고에 보관하는 것이다. 3분의 1씩만 알고 있는 상태에서도 협력하면 요리([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 서명)가 가능하다.
+- **📢 섹션 요약 비유**: MPC 지갑은 비밀 레시피를 3등분해서 서로 다른 금고에 보관하는 것이다. 3분의 1씩만 알고 있는 상태에서도 협력하면 요리(트랜잭션 서명)가 가능하다.
 
 ---
 
@@ -124,7 +124,7 @@ MPC(Multi-Party Computation, 다자 계산) 지갑이 차세대 기술로 부상
 | **BIP-39** | 니모닉 표준 명세 |
 | **BIP-32** | HD 지갑 키 파생 표준 |
 | **멀티시그** | 다중 서명 보안 강화 |
-| **MPC 지갑** | 차세대 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 키 관리 |
+| **MPC 지갑** | 차세대 분산 키 관리 |
 | **커스터디얼** | 거래소 위탁 vs 자기 주권 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -153,14 +153,3 @@ MPC(Multi-Party Computation, 다자 계산) 지갑이 차세대 기술로 부상
 1. 암호화폐 지갑은 돈을 담는 지갑이 아니라 "소유권 증명서(열쇠)"를 보관하는 금고예요!
 2. 니모닉 12단어는 그 금고의 만능 마스터 비밀번호예요 — 잃어버리면 영원히 잠기니 잘 보관해요!
 3. 멀티시그는 3명이 각자 1/3씩 비밀번호를 가져서 2명 이상이 동의해야 금고가 열리는 시스템이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 30 / 552
-
-<- **이전**: [29. NFT — 대체 불가 토큰 (Non-Fungible Token)](/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/)
-**다음**: [31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생](/studynote/06_ict_convergence/01_blockchain/031_mnemonic_seed_phrase/) ->
-
----

@@ -7,7 +7,7 @@ weight: 746
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TI 융합 / STIX, TAXII 표준 지…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: TI 융합 / STIX, TAXII 표준 지…는 네트워크 보안 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: TI 융합 / STIX, TAXII 표준 지…를 이해하면 탐지 가능성과 복구성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,8 +15,8 @@ weight: 746
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 단순한 방어 장비([방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 넘어, <strong>현재 일어나고 있거나 발생할 가능성이 있는 사이버 공격(해커 집단, 유행하는 <a href="/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>, 신종 악성 IP, 취약점)에 대한 증거 기반의 빅데이터와 인사이트(정보)를 수집, 분석하여 전 세계 기업이 방어에 선제적으로 활용하도록 배포하는 지식 플랫폼</strong>입니다.
-- 구글의 VirusTotal, 한국 KISA의 C-TAS, 민간 업체의 TI 피드(Feed) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등이 대표적입니다.
+- **개념**: 단순한 방어 장비(방화벽)를 넘어, <strong>현재 일어나고 있거나 발생할 가능성이 있는 사이버 공격(해커 집단, 유행하는 랜섬웨어, 신종 악성 IP, 취약점)에 대한 증거 기반의 빅데이터와 인사이트(정보)를 수집, 분석하여 전 세계 기업이 방어에 선제적으로 활용하도록 배포하는 지식 플랫폼</strong>입니다.
+- 구글의 VirusTotal, 한국 KISA의 C-TAS, 민간 업체의 TI 피드(Feed) 서비스 등이 대표적입니다.
 
 ```text
 [SOAR]
@@ -27,19 +27,19 @@ weight: 746
     +---> [웹쉘]
 ```
 
-- **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TI 시스템이 씹고 뜯고 맛보는 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(수배 전단지의 내용물)입니다.
+TI 시스템이 씹고 뜯고 맛보는 핵심 데이터(수배 전단지의 내용물)입니다.
 - **개념**: 어떤 컴퓨터가 해킹당했을 때(또는 해킹을 시도할 때) 남기는 범죄자의 명확한 족적, 즉 <strong>'침해(해킹) 사고의 뚜렷한 증거 지표'</strong>입니다.
 - **IoC의 종류**:
   - 해커의 명령조종(C&C) 서버 **IP 주소** (예: 185.12.x.x)
-  - 악성코드를 퍼뜨리는 가짜 <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> URL</strong> (예: naver-login-update.com)
-  - 방금 잡힌 신종 [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 고유한 **해시값(SHA-256)**
-  - 특정 윈도우 [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 키가 몰래 변경된 기록
+  - 악성코드를 퍼뜨리는 가짜 <strong>도메인 URL</strong> (예: naver-login-update.com)
+  - 방금 잡힌 신종 랜섬웨어 실행 파일의 고유한 **해시값(SHA-256)**
+  - 특정 윈도우 레지스트리 키가 몰래 변경된 기록
 
 ```text
 [SOAR]
@@ -56,22 +56,22 @@ TI 시스템이 씹고 뜯고 맛보는 핵심 [데이터](/studynote/05_databas
 
 ## Ⅲ. 비교 및 연결
 
-미국 은행에서 잡은 해커(IoC) 정보를 한국 은행의 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 1초 만에 꽂아 넣으려면, 둘이 <strong>"말이 통하는 자동화된 언어(표준)"</strong>를 써야 합니다. OASIS 기구에서 이를 통일했습니다.
+미국 은행에서 잡은 해커(IoC) 정보를 한국 은행의 방화벽(IPS)에 1초 만에 꽂아 넣으려면, 둘이 <strong>"말이 통하는 자동화된 언어(표준)"</strong>를 써야 합니다. OASIS 기구에서 이를 통일했습니다.
 
 ### 1. STIX (Structured Threat Information eXpression) - "어떻게 적을 것인가?"
-- 해커의 신상 명세서(IoC)를 적는 전 세계 공통 <strong><a href="/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>(또는 XML) 기반의 통일된 양식(언어)</strong>입니다.
-- "공격자 이름은 A, 목적은 [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 악성 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시값은 B, 타겟 포트는 C"라는 내용을 인간이 아닌 기계(보안 장비)가 1초 만에 읽고 해석할 수 있도록 매우 체계적으로 구조화한 포맷입니다.
+- 해커의 신상 명세서(IoC)를 적는 전 세계 공통 <strong>JSON(또는 XML) 기반의 통일된 양식(언어)</strong>입니다.
+- "공격자 이름은 A, 목적은 랜섬웨어, 악성 파일 해시값은 B, 타겟 포트는 C"라는 내용을 인간이 아닌 기계(보안 장비)가 1초 만에 읽고 해석할 수 있도록 매우 체계적으로 구조화한 포맷입니다.
 
 ### 2. TAXII (Trusted Automated eXchange of Indicator Information) - "어떻게 배달할 것인가?"
-- STIX로 예쁘게 적은 수배 전단지를, <strong>인터넷(<a href="/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)을 통해 전 세계 기업의 <a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>과 <a href="/studynote/09_security/13_secops_ir_forensics/624_siem/">SIEM</a> 장비로 실시간으로 빠르고 안전하게 배달(전송)해 주는 통신 배달 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. (Pub/Sub 모델을 지원하여 구독만 해놓으면 새 수배 전단지가 폰 푸시 알림처럼 쏙쏙 들어옵니다.)
+- STIX로 예쁘게 적은 수배 전단지를, <strong>인터넷(HTTPS)을 통해 전 세계 기업의 방화벽과 SIEM 장비로 실시간으로 빠르고 안전하게 배달(전송)해 주는 통신 배달 프로토콜</strong>입니다. (Pub/Sub 모델을 지원하여 구독만 해놓으면 새 수배 전단지가 폰 푸시 알림처럼 쏙쏙 들어옵니다.)
 
-TI 융합 / STIX, TAXII 표준 지…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SOAR가 기반 조건을 만든다면, TI 융합 / STIX, TAXII 표준 지…는 그 위에서 핵심 메커니즘을 구현하고, [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+TI 융합 / STIX, TAXII 표준 지…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SOAR가 기반 조건을 만든다면, TI 융합 / STIX, TAXII 표준 지…는 그 위에서 핵심 메커니즘을 구현하고, 웹쉘은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | SOAR의 기반 정리 | TI 융합 / STIX, TAXII 표준 지…의 핵심 동작 | [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)의 확장 적용 |
+| 초점 | SOAR의 기반 정리 | TI 융합 / STIX, TAXII 표준 지…의 핵심 동작 | 웹쉘의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 탐지 가능성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -79,23 +79,23 @@ TI 융합 / STIX, TAXII 표준 지…를 볼 때는 앞뒤 개념과의 경계�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 사내 [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) 관제 화면에 어떤 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 찍힙니다. SIEM은 이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시값을 즉시 인터넷망의 TI(위협 인텔리전스) 서버에 던져 질문합니다.
+- 사내 SIEM 관제 화면에 어떤 파일이 찍힙니다. SIEM은 이 파일의 해시값을 즉시 인터넷망의 TI(위협 인텔리전스) 서버에 던져 질문합니다.
 - TI 서버가 0.1초 만에 "그거 어제 북한 킴수키 해커 그룹이 뿌린 신종 악성코드임!"이라고 STIX 문서로 답장을 줍니다.
-- 사내 [SOAR](/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/)(자동화 장비)가 이 답장을 읽고, 사내망 스위치와 백신([EDR](/studynote/09_security/04_endpoint_security/325_edr/))에 "그 해시값 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 가진 놈 다 찢어죽여!"라고 자동 방역 명령을 하달합니다. 완전한 자동 방어 생태계입니다.
+- 사내 SOAR(자동화 장비)가 이 답장을 읽고, 사내망 스위치와 백신(EDR)에 "그 해시값 파일 가진 놈 다 찢어죽여!"라고 자동 방역 명령을 하달합니다. 완전한 자동 방어 생태계입니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날 경찰(일반 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 도둑이 자기 구역에 들어와서 물건을 훔칠 때까지(공격 개시) 도둑 얼굴을 모르는 맹인이었습니다. TI(위협 인텔리전스)는 전 세계 인터폴이 만든 '거대한 실시간 수배자 클라우드'입니다. 서울에서 도둑이 편의점을 털면 그 도둑의 지문과 몽타주(IoC)가 STIX라는 공용 양식으로 예쁘게 팩스로 정리되어, TAXII라는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 우편 시스템을 통해 전 세계 모든 경찰의 스캐너로 1초 만에 배달됩니다. 이제 뉴욕 경찰은 도둑이 비행기에서 내리자마자 몽타주를 대조해 입구에서 완벽히 체포할 수 있습니다.
+- **📢 섹션 요약 비유**: 옛날 경찰(일반 방화벽)은 도둑이 자기 구역에 들어와서 물건을 훔칠 때까지(공격 개시) 도둑 얼굴을 모르는 맹인이었습니다. TI(위협 인텔리전스)는 전 세계 인터폴이 만든 '거대한 실시간 수배자 클라우드'입니다. 서울에서 도둑이 편의점을 털면 그 도둑의 지문과 몽타주(IoC)가 STIX라는 공용 양식으로 예쁘게 팩스로 정리되어, TAXII라는 초고속 우편 시스템을 통해 전 세계 모든 경찰의 스캐너로 1초 만에 배달됩니다. 이제 뉴욕 경찰은 도둑이 비행기에서 내리자마자 몽타주를 대조해 입구에서 완벽히 체포할 수 있습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-TI 융합 / STIX, TAXII 표준 지…는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/), 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+TI 융합 / STIX, TAXII 표준 지…는 네트워크 보안 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 웹쉘, 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -105,10 +105,10 @@ TI 융합 / STIX, TAXII 표준 지…는 [네트워크 보안](/studynote/03_net
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [SOAR](/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| SOAR | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 공격 표면 (Attack Surface) | 위협이 침투할 수 있는 노출 지점을 뜻한다. |
-| [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
-| [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 이상 탐지 (Anomaly Detection) | 정상 패턴과 다른 징후를 찾아낸다. |
+| 웹쉘 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,21 +122,10 @@ TI 융합 / STIX, TAXII 표준 지…는 [네트워크 보안](/studynote/03_net
     +---> [확장 B: 예측형 위협 대응]
 ```
 
-TI 융합 / STIX, TAXII 표준 지…는 SOAR에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹쉘](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+TI 융합 / STIX, TAXII 표준 지…는 SOAR에서 출발해 현재 메커니즘을 정교화하고, 이후 웹쉘와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 867 / 1120
-
-<- **이전**: [745. SOAR (Security Orchestration, Automation and Response)](/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/)
-**다음**: [747. 웹쉘 (Web Shell 모니터, 디렉토리 실행 등 권한 취약 방지 스캔)](/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) ->
-
----

@@ -7,8 +7,8 @@ weight: 844
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: A/B 테스트은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: A/B 테스트은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -52,8 +52,8 @@ A/B 테스트는 A안과 B안을 나눠 실제 사용자에게 보여 주고 반
 
 | 요소 | 의미 |
 |:---|:---|
-| A안 | 기존 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
-| B안 | 변경 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| A안 | 기존 버전 |
+| B안 | 변경 버전 |
 | 지표 | 클릭률, 전환율, 체류시간 |
 
 ```text
@@ -74,9 +74,9 @@ A/B 테스트는 실험 설계가 무너지면 아무 의미가 없다.
 
 ## Ⅲ. 비교 및 연결
 
-A/B 테스트는 [사용성 테스트](/studynote/04_software_engineering/11_testing_validation/843_usability_test/)와 닮았지만, 더 실험적이고 수치 중심이다. [사용성 테스트](/studynote/04_software_engineering/11_testing_validation/843_usability_test/)가 관찰이라면 A/B는 실험이다.
+A/B 테스트는 사용성 테스트와 닮았지만, 더 실험적이고 수치 중심이다. 사용성 테스트가 관찰이라면 A/B는 실험이다.
 
-| 구분 | [사용성 테스트](/studynote/04_software_engineering/11_testing_validation/843_usability_test/) | A/B 테스트 |
+| 구분 | 사용성 테스트 | A/B 테스트 |
 |:---|:---|:---|
 | 방식 | 관찰 | 실험 |
 | 대상 | 사용 편의성 | 반응 차이 |
@@ -117,7 +117,7 @@ A/B 테스트는 [사용성 테스트](/studynote/04_software_engineering/11_tes
 
 A/B 테스트는 실제 사용자 선호를 기반으로 선택하게 해 준다. 그래서 감보다 데이터가 강해진다.
 
-결론적으로 이 개념은 "두 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 중 더 나은 것을 고르는 실험"이다. 제품 개선의 강력한 도구다.
+결론적으로 이 개념은 "두 버전 중 더 나은 것을 고르는 실험"이다. 제품 개선의 강력한 도구다.
 
 - **📢 섹션 요약 비유**: 두 길 중 어느 길이 더 빨리 도착하는지 직접 걸어 보는 것이다.
 
@@ -131,10 +131,10 @@ A/B 테스트는 실제 사용자 선호를 기반으로 선택하게 해 준다
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | A/B 테스트의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | A/B 테스트은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | A/B 테스트의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | A/B 테스트은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | A/B 테스트 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | A/B 테스트에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | A/B 테스트에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,21 +154,10 @@ A/B 테스트 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. A/B 테스트은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 495 / 973
-
-<- **이전**: [451. 사용성 테스트 (Usability Test) - 사용자가 시스템을 얼마나 쉽게 다룰 수 있는지 UI/UX 관점 평가](/studynote/04_software_engineering/11_testing_validation/843_usability_test/)
-**다음**: [452. A/B 테스트 - 두 가지 UI/기능을 실 사용자에게 노출하여 반응 비교](/studynote/04_software_engineering/11_testing_validation/844_ab_test/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

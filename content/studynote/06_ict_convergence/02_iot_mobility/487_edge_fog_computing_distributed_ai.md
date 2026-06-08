@@ -7,9 +7,9 @@ weight: 487
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지점 최근방에서 연산을 수행하고, [포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)([Fog Computing](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/))은 엣지와 클라우드 사이의 중간 계층에서 집계·전처리를 담당한다. 두 기술은 클라우드 집중화의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))·[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 병목을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)으로 해결한다.
-> 2. **가치**: 자율주행·스마트팩토리처럼 100ms 이하 반응이 생명인 환경에서, 클라우드 왕복 [RTT](/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)(Round-Trip Time)를 제거하고 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)(Privacy) 문제를 현장에서 해결함으로써 미션 크리티컬 시스템의 무선화를 가능하게 한다.
-> 3. **판단 포인트**: 엣지 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([Edge AI](/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/))는 TensorFlow Lite, ONNX Runtime 등 경량 추론 엔진으로 클라우드 없이 현장 추론을 수행한다. 엣지 단독 처리 vs 포그 집계 vs 클라우드 학습의 역할 분담 설계가 기술사 핵심 판단이다.
+> 1. **본질**: 엣지 컴퓨팅(Edge Computing)은 데이터 생성 지점 최근방에서 연산을 수행하고, 포그 컴퓨팅(Fog Computing)은 엣지와 클라우드 사이의 중간 계층에서 집계·전처리를 담당한다. 두 기술은 클라우드 집중화의 지연(Latency)·대역폭(Bandwidth) 병목을 분산으로 해결한다.
+> 2. **가치**: 자율주행·스마트팩토리처럼 100ms 이하 반응이 생명인 환경에서, 클라우드 왕복 RTT(Round-Trip Time)를 제거하고 데이터 주권(Privacy) 문제를 현장에서 해결함으로써 미션 크리티컬 시스템의 무선화를 가능하게 한다.
+> 3. **판단 포인트**: 엣지 AI(Edge AI)는 TensorFlow Lite, ONNX Runtime 등 경량 추론 엔진으로 클라우드 없이 현장 추론을 수행한다. 엣지 단독 처리 vs 포그 집계 vs 클라우드 학습의 역할 분담 설계가 기술사 핵심 판단이다.
 
 ---
 
@@ -17,13 +17,13 @@ weight: 487
 
 **클라우드 중심 한계**
 
-기존 클라우드 아키텍처는 모든 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 서버로 전송해 처리한다. 수백만 기기가 연결될수록 세 가지 병목이 심화된다.
+기존 클라우드 아키텍처는 모든 IoT 데이터를 중앙 서버로 전송해 처리한다. 수백만 기기가 연결될수록 세 가지 병목이 심화된다.
 
-- <strong><a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 클라우드 왕복 [RTT](/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 50~200ms. 자율주행 충돌 회피(요구 < 10ms) 불가.
-- <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 공장 카메라 1,000대가 4K 스트리밍을 클라우드로 쏘면 [백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 회선 포화.
-- **프라이버시(Privacy)**: 의료·생체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 인터넷을 통해 외부로 전송되는 규제·법적 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/).
+- <strong>지연(Latency)</strong>: 클라우드 왕복 RTT 50~200ms. 자율주행 충돌 회피(요구 < 10ms) 불가.
+- <strong>대역폭(Bandwidth)</strong>: 공장 카메라 1,000대가 4K 스트리밍을 클라우드로 쏘면 백홀 회선 포화.
+- **프라이버시(Privacy)**: 의료·생체 데이터가 인터넷을 통해 외부로 전송되는 규제·법적 리스크.
 
-- **📢 섹션 요약 비유**: 클라우드 집중화는 전국 요리사가 모두 서울 중앙 주방에서 요리하는 것이다. 부산 손님은 요리가 식어서 도착하고, 서울 주방은 터져 나간다. 엣지·포그는 각 동네에 주방을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 전략이다.
+- **📢 섹션 요약 비유**: 클라우드 집중화는 전국 요리사가 모두 서울 중앙 주방에서 요리하는 것이다. 부산 손님은 요리가 식어서 도착하고, 서울 주방은 터져 나간다. 엣지·포그는 각 동네에 주방을 분산시키는 전략이다.
 
 ---
 
@@ -49,17 +49,17 @@ weight: 487
 
 | 항목 | 엣지 | 포그 | 클라우드 |
 |:---:|:---:|:---:|:---:|
-| 위치 | 디바이스 인근 | 네트워크 중간 계층 | 원격 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | < 1ms | 5~20ms | 50~200ms |
+| 위치 | 디바이스 인근 | 네트워크 중간 계층 | 원격 데이터센터 |
+| 지연 | < 1ms | 5~20ms | 50~200ms |
 | 처리 규모 | 소 (추론 전용) | 중 (집계·전처리) | 대 (학습·분석) |
-| 비용 | 높음 ([분산](/studynote/08_algorithm_stats/08_stats/136_variance/)) | 중간 | 낮음 (규모의 경제) |
+| 비용 | 높음 (분산) | 중간 | 낮음 (규모의 경제) |
 | 프라이버시 | 최상 | 양호 | 낮음 |
 
-<strong>엣지 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(<a href="/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/">Edge AI</a>) 핵심 기술</strong>
+<strong>엣지 AI(Edge AI) 핵심 기술</strong>
 
-- **TensorFlow Lite**: 모바일·임베디드용 경량 추론 런타임. [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) INT8 지원.
-- **ONNX Runtime**: 이기종 하드웨어([NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)·[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·CPU) 가속 지원 범용 추론 엔진.
-- **모델 경량화**: [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)), [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)), [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로 모델 크기 1/4 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/).
+- **TensorFlow Lite**: 모바일·임베디드용 경량 추론 런타임. 양자화(Quantization) INT8 지원.
+- **ONNX Runtime**: 이기종 하드웨어(NPU·GPU·CPU) 가속 지원 범용 추론 엔진.
+- **모델 경량화**: 가지치기(Pruning), 지식 증류(Knowledge Distillation), 양자화로 모델 크기 1/4 압축.
 
 - **📢 섹션 요약 비유**: 엣지 AI는 셰프가 직접 손님 테이블에서 요리하는 것이다. 주방(클라우드)에 음식을 가져갔다 오는 시간 없이 바로 서빙. 단, 테이블이 좁으니 간단한 요리(경량 모델)만 가능하다.
 
@@ -73,12 +73,12 @@ weight: 487
 |:---|:---:|:---:|:---:|
 | 자율주행 | 장애물 즉시 회피 | 교통 흐름 집계 | 지도 업데이트·학습 |
 | 스마트팩토리 | 불량 즉시 검출 | 라인별 통계 | 전체 예측 유지보수 |
-| 스마트시티 | 교통 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 제어 | 구역 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계 | 도시 전체 계획 |
+| 스마트시티 | 교통 신호 제어 | 구역 데이터 집계 | 도시 전체 계획 |
 
 **엣지와 포그의 차이점**
 
 - **엣지**: 디바이스와 물리적으로 동일 위치 또는 바로 인접. 극초저지연 전용.
-- <strong>포그(Fog, <a href="/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a> 제안)</strong>: 네트워크 엣지와 클라우드 사이의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 중간 계층. 지리적으로 더 넓은 범위 커버.
+- <strong>포그(Fog, Cisco 제안)</strong>: 네트워크 엣지와 클라우드 사이의 분산 중간 계층. 지리적으로 더 넓은 범위 커버.
 
 - **📢 섹션 요약 비유**: 엣지는 현장 응급처치, 포그는 지역 병원, 클라우드는 대형 종합병원이다. 심정지는 현장에서 CPR(엣지)부터, 수술은 병원(포그), 희귀 질환 연구는 대형병원(클라우드).
 
@@ -88,20 +88,20 @@ weight: 487
 
 **엣지·포그 설계 결정 기준**
 
-1. <strong><a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구</strong> < 10ms -> 반드시 엣지 처리. 클라우드 불가.
-2. <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민감도</strong> 높음(의료·생체) -> 엣지·포그 내 처리, 클라우드 전송 최소화.
+1. <strong>지연 요구</strong> < 10ms -> 반드시 엣지 처리. 클라우드 불가.
+2. <strong>데이터 민감도</strong> 높음(의료·생체) -> 엣지·포그 내 처리, 클라우드 전송 최소화.
 3. **모델 크기** > 1GB -> 클라우드 학습 후 경량화하여 엣지 배포.
-4. <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계</strong> -> 포그에서 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·필터링 후 클라우드로 요약 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 전송.
+4. <strong>대역폭 한계</strong> -> 포그에서 압축·필터링 후 클라우드로 요약 데이터만 전송.
 
-**보안 고려사항**: 엣지 노드는 물리 접근이 쉬워 탬퍼링(Tampering) 위험. [TEE](/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)), [보안 부팅](/studynote/02_operating_system/10_security/608_secure_boot/)([Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/)) 필수.
+**보안 고려사항**: 엣지 노드는 물리 접근이 쉬워 탬퍼링(Tampering) 위험. TEE(Trusted Execution Environment), 보안 부팅(Secure Boot) 필수.
 
-- **📢 섹션 요약 비유**: 엣지 설계 판단은 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 기기 배치 전략이다. 동네마다 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)(엣지)을 놓으면 빠르지만 관리 비용이 높다. 지점(포그)에 몇 대만 놓으면 균형이 맞는다. 본사 금고(클라우드)에만 있으면 매번 서울까지 달려가야 한다.
+- **📢 섹션 요약 비유**: 엣지 설계 판단은 ATM 기기 배치 전략이다. 동네마다 ATM(엣지)을 놓으면 빠르지만 관리 비용이 높다. 지점(포그)에 몇 대만 놓으면 균형이 맞는다. 본사 금고(클라우드)에만 있으면 매번 서울까지 달려가야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-엣지·[포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)은 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), AI가 융합되면서 그 중요성이 폭발적으로 증가하고 있다. 특히 엣지 AI의 등장으로 클라우드 의존 없는 자율적 현장 판단이 가능해졌다. 기술사 시험에서는 계층별 역할 분담 설계와 트레이드오프([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) vs 비용 vs 처리 규모)를 명확히 기술하는 것이 핵심이다.
+엣지·포그 컴퓨팅은 5G, IoT, AI가 융합되면서 그 중요성이 폭발적으로 증가하고 있다. 특히 엣지 AI의 등장으로 클라우드 의존 없는 자율적 현장 판단이 가능해졌다. 기술사 시험에서는 계층별 역할 분담 설계와 트레이드오프(지연 vs 비용 vs 처리 규모)를 명확히 기술하는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 엣지·포그·클라우드 3계층은 군대의 소대·중대·사단이다. 최전선 소대(엣지)가 즉각 교전하고, 중대(포그)가 전술을 조율하며, 사단(클라우드)이 전략을 수립한다. 소대가 사단 명령만 기다리면 전투에서 진다.
 
@@ -111,11 +111,11 @@ weight: 487
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [MEC](/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)(Multi-access [Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), ETSI · [이동통신망](/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/) 기지국 인근 엣지 |
-| TensorFlow Lite | [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 경량화 · 엣지 추론 프레임워크 |
+| MEC(Multi-access Edge Computing) | 5G, ETSI · 이동통신망 기지국 인근 엣지 |
+| TensorFlow Lite | 양자화, 경량화 · 엣지 추론 프레임워크 |
 | ONNX Runtime | 이기종 가속 · 범용 경량 추론 엔진 |
-| [Fog Computing](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) | [Cisco](/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/), OpenFog · 네트워크 중간 계층 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 |
-| [TEE](/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)) | [ARM TrustZone](/studynote/01_computer_architecture/14_hardware_security_trends/479_arm_trustzone/) · 엣지 보안 격리 실행 |
+| Fog Computing | Cisco, OpenFog · 네트워크 중간 계층 분산 처리 |
+| TEE(Trusted Execution Environment) | ARM TrustZone · 엣지 보안 격리 실행 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,17 +125,6 @@ weight: 487
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 편의점 계산대예요. 멀리 본사 서버까지 가지 않고 바로 계산해 줘요.
-2. [포그 컴퓨팅](/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)은 동네 마트 창고예요. 여러 편의점 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아서 정리한 뒤 본사에 보내요.
+1. 엣지 컴퓨팅은 편의점 계산대예요. 멀리 본사 서버까지 가지 않고 바로 계산해 줘요.
+2. 포그 컴퓨팅은 동네 마트 창고예요. 여러 편의점 데이터를 모아서 정리한 뒤 본사에 보내요.
 3. 클라우드는 본사 대형 창고예요. 느리지만 엄청 많은 걸 저장하고 분석할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 487 / 552
-
-<- **이전**: [486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)](/studynote/06_ict_convergence/02_iot_mobility/486_iot_sensor_network_comprehensive/)
-**다음**: [488. LPWAN: LoRa, NB-IoT 면허/비면허 비교 (LPWAN: LoRa NB-IoT Licensed Unlicensed)](/studynote/06_ict_convergence/02_iot_mobility/488_lpwan_lora_nb_iot_licensed_unlicensed/) ->
-
----

@@ -6,8 +6,8 @@ tags:
 weight: 140
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Self-Attention은 <strong>시퀀스 내 모든 위치 쌍의 관련도를 계산</strong>하는 메커니즘이고, Multi-Head는 <strong>h개의 독립 Attention을 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 수행</strong>하여 다양한 관점의 패턴을 학습하며, Positional Encoding은 <strong>순서 정보를 주입</strong>한다.
-> 2. **가치**: RNN은 순차 처리로 위치 정보가 자연 반영되지만, Transformer는 **순서 정보가 없으므로** [Positional Encoding](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)(사인/코사인 or 학습)으로 위치를 알려줘야 한다.
+> 1. **본질**: Self-Attention은 <strong>시퀀스 내 모든 위치 쌍의 관련도를 계산</strong>하는 메커니즘이고, Multi-Head는 <strong>h개의 독립 Attention을 병렬 수행</strong>하여 다양한 관점의 패턴을 학습하며, Positional Encoding은 <strong>순서 정보를 주입</strong>한다.
+> 2. **가치**: RNN은 순차 처리로 위치 정보가 자연 반영되지만, Transformer는 **순서 정보가 없으므로** Positional Encoding(사인/코사인 or 학습)으로 위치를 알려줘야 한다.
 > 3. **판단 포인트**: head 수(h=8~96)·d_model(512~4096)이 핵심 하이퍼파라미터이며, RoPE(Rotary PE)가 LLM의 표준 위치 인코딩이다.
 
 ---
@@ -28,7 +28,7 @@ Positional Encoding:
 
 ## Ⅱ~Ⅴ. 결론
 
-[Self-Attention](/studynote/10_ai/02_dl_architecture_new/124_self_attention/)+Multi-Head+PE는 <strong>Transformer의 3대 핵심 구성</strong>이며, RoPE가 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 위치 인코딩의 표준이다.
+Self-Attention+Multi-Head+PE는 <strong>Transformer의 3대 핵심 구성</strong>이며, RoPE가 LLM 위치 인코딩의 표준이다.
 
 ---
 
@@ -36,9 +36,9 @@ Positional Encoding:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a></strong> | 자기 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 관련도 |
-| **Multi-Head** | 다관점 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/">Positional Encoding</a></strong> | 순서 정보 주입 |
+| <strong>Self-Attention</strong> | 자기 참조 관련도 |
+| **Multi-Head** | 다관점 병렬 |
+| <strong>Positional Encoding</strong> | 순서 정보 주입 |
 | **RoPE** | 회전 위치 인코딩 |
 | **ALiBi** | 위치 바이어스 대안 |
 
@@ -55,14 +55,3 @@ Positional Encoding:
 1. Multi-Head는 <strong>여러 탐정</strong>이에요. 각각 다른 관점으로 <strong>동시에 조사</strong>해요.
 2. Positional Encoding은 <strong>번호표</strong>예요. "이 단어는 <strong>3번째</strong>입니다" 알려줘요.
 3. 번호표가 없으면 AI가 **순서를 모르니까** 문장을 이해 못 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 140 / 258
-
-<- **이전**: [139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리](/studynote/14_data_engineering/03_ml_dl_llm/139_transformer_architecture_self_attention/)
-**다음**: [141. BERT Encoder - MLM 양방향 사전 학습 상세](/studynote/14_data_engineering/03_ml_dl_llm/141_bert_encoder_mlm_bidirectional/) ->
-
----

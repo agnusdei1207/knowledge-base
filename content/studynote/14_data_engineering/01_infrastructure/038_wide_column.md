@@ -6,9 +6,9 @@ tags:
 weight: 38
 ---
 > **핵심 인사이트**
-> 1. 와이드 컬럼 저장소(Wide Column Store)는 행 키(Row [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하되, 각 행이 서로 다른 컬럼 집합을 가질 수 있는 스파스 매트릭스 구조로, 스키마가 행마다 다를 수 있는 반정형 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 최적화되어 있다.
-> 2. [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 설계가 [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)/[HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/) 성능의 90%를 결정 — [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 핫스팟(Hot Spot)을 만들거나 너무 세밀하면 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 효과가 사라지며, "[쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 중심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링(Query-Driven Modeling)"이 관계형 DB의 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 완전히 다른 설계 철학이다.
-> 3. Cassandra는 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템([가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 우선, [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리), HBase는 [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템([일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 우선) — 같은 와이드 컬럼이지만 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델이 다르므로 유스케이스를 구분하여 선택해야 한다.
+> 1. 와이드 컬럼 저장소(Wide Column Store)는 행 키(Row Key)로 데이터를 분산 저장하되, 각 행이 서로 다른 컬럼 집합을 가질 수 있는 스파스 매트릭스 구조로, 스키마가 행마다 다를 수 있는 반정형 대용량 데이터에 최적화되어 있다.
+> 2. 파티션 키(Partition Key) 설계가 Cassandra/HBase 성능의 90%를 결정 — 파티션 키가 핫스팟(Hot Spot)을 만들거나 너무 세밀하면 분산 효과가 사라지며, "쿼리 중심 데이터 모델링(Query-Driven Modeling)"이 관계형 DB의 정규화와 완전히 다른 설계 철학이다.
+> 3. Cassandra는 AP 시스템(가용성 우선, CAP 정리), HBase는 CP 시스템(일관성 우선) — 같은 와이드 컬럼이지만 일관성 모델이 다르므로 유스케이스를 구분하여 선택해야 한다.
 
 ---
 
@@ -42,7 +42,7 @@ weight: 38
 
 ---
 
-## II. Apache [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)
+## II. Apache Cassandra
 
 ```
 Cassandra (Facebook 개발, Apache 오픈소스):
@@ -73,11 +73,11 @@ Cassandra (Facebook 개발, Apache 오픈소스):
   CAP: AP (가용성 + 파티션 허용)
 ```
 
-> 📢 **섹션 요약 비유**: Cassandra는 배달 기사들이 지역별로 나뉘어([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 각자 담당 지역 배달 — 지역 내 빠른 배달, 전체 재고 파악은 느림.
+> 📢 **섹션 요약 비유**: Cassandra는 배달 기사들이 지역별로 나뉘어(파티션) 각자 담당 지역 배달 — 지역 내 빠른 배달, 전체 재고 파악은 느림.
 
 ---
 
-## III. Apache [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/)
+## III. Apache HBase
 
 ```
 HBase (Google BigTable 아키텍처, Hadoop 기반):
@@ -104,18 +104,18 @@ Cassandra vs HBase:
   HBase: 마스터 기반, CP, Hadoop 통합
 ```
 
-| 특성     | [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/)     | [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/)         |
+| 특성     | Cassandra     | HBase         |
 |--------|--------------|--------------|
-| [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/)    | [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)           | [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)           |
+| CAP    | AP           | CP           |
 | 마스터   | 마스터리스       | HMaster       |
-| [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) | 독립          | 필수 ([HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/))    |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)    | 낮음 (ms)     | 중간 (ms~초)   |
+| Hadoop | 독립          | 필수 (HDFS)    |
+| 지연    | 낮음 (ms)     | 중간 (ms~초)   |
 
-> 📢 **섹션 요약 비유**: Cassandra는 여러 창고에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 보관([가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 우선), HBase는 중앙 창고 관리자가 있어 정확한 재고 파악([일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 우선).
+> 📢 **섹션 요약 비유**: Cassandra는 여러 창고에 분산 보관(가용성 우선), HBase는 중앙 창고 관리자가 있어 정확한 재고 파악(일관성 우선).
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 중심 모델링
+## IV. 쿼리 중심 모델링
 
 ```
 관계형 DB vs 와이드 컬럼 설계 철학:
@@ -141,11 +141,11 @@ Cassandra vs HBase:
   대신 빠른 읽기, 분산 용이
 ```
 
-> 📢 **섹션 요약 비유**: 관계형은 서류를 원본 하나만 보관([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)), Cassandra는 자주 쓰는 서류를 각 팀에 복사본 비치(비정규화) — 찾기 빠른 대신 저장 공간 더 씀.
+> 📢 **섹션 요약 비유**: 관계형은 서류를 원본 하나만 보관(정규화), Cassandra는 자주 쓰는 서류를 각 팀에 복사본 비치(비정규화) — 찾기 빠른 대신 저장 공간 더 씀.
 
 ---
 
-## V. 실무 시나리오 — [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 시계열
+## V. 실무 시나리오 — IoT 센서 시계열
 
 ```
 시나리오:
@@ -177,7 +177,7 @@ Cassandra 설계:
   가용성: 99.99% (RF=3, QUORUM)
 ```
 
-> 📢 **섹션 요약 비유**: [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 date 포함해서 자동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 만료([TTL](/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))처럼 관리 — 특정 날짜 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 전체를 일괄 삭제도 가능.
+> 📢 **섹션 요약 비유**: 파티션 키를 date 포함해서 자동 데이터 만료(TTL)처럼 관리 — 특정 날짜 파티션 전체를 일괄 삭제도 가능.
 
 ---
 
@@ -229,17 +229,6 @@ SQL 유사 문법으로 접근성 향상
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 와이드 컬럼 저장소는 학생마다 다른 과목을 가질 수 있는 성적표처럼, 행마다 서로 다른 컬럼을 가질 수 있는 유연한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 방식이에요.
-2. Cassandra는 창고를 여러 곳에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)해 항상 이용 가능하게 하고([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)), HBase는 중앙 창고 관리자가 정확한 재고를 보장해요([CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)).
-3. [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 100만 대가 매초 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 시스템에 Cassandra가 딱 맞는 이유는, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 균등하게 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)해 초당 100만 건 쓰기를 처리할 수 있기 때문이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 38 / 258
-
-<- **이전**: [037. 문서 저장소 (Document Store)](/studynote/14_data_engineering/01_infrastructure/037_document/)
-**다음**: [039. 그래프 데이터베이스 (Graph Database)](/studynote/14_data_engineering/01_infrastructure/039_graph_db/) ->
-
----
+1. 와이드 컬럼 저장소는 학생마다 다른 과목을 가질 수 있는 성적표처럼, 행마다 서로 다른 컬럼을 가질 수 있는 유연한 데이터 저장 방식이에요.
+2. Cassandra는 창고를 여러 곳에 분산해 항상 이용 가능하게 하고(AP), HBase는 중앙 창고 관리자가 정확한 재고를 보장해요(CP).
+3. IoT 기기 100만 대가 매초 데이터를 보내는 시스템에 Cassandra가 딱 맞는 이유는, 파티션 키로 데이터를 균등하게 분산해 초당 100만 건 쓰기를 처리할 수 있기 때문이에요!

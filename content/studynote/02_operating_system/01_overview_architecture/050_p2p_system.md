@@ -14,24 +14,24 @@ tags:
 weight: 50
 ---
 > **핵심 인사이트 3줄**
-> 1. [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 시스템은 중앙 서버 없이 노드([peer](/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))들이 클라이언트와 서버 역할을 동시에 수행하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처다.
-> 2. DHT(Distributed [Hash Table](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))는 키-값 쌍을 노드들에게 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장해 O(log N) 검색을 보장하는 P2P의 핵심 자료구조다.
-> 3. BitTorrent의 조각(piece) 스와핑과 IPFS의 콘텐츠 주소 지정(CID)은 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유의 두 대표 진화 방향이다.
+> 1. P2P(Peer-to-Peer) 시스템은 중앙 서버 없이 노드(peer)들이 클라이언트와 서버 역할을 동시에 수행하는 분산 아키텍처다.
+> 2. DHT(Distributed Hash Table)는 키-값 쌍을 노드들에게 분산 저장해 O(log N) 검색을 보장하는 P2P의 핵심 자료구조다.
+> 3. BitTorrent의 조각(piece) 스와핑과 IPFS의 콘텐츠 주소 지정(CID)은 P2P 데이터 공유의 두 대표 진화 방향이다.
 
 ---
 
-## Ⅰ. [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 시스템 개요
+## Ⅰ. P2P 시스템 개요
 
 ### 1.1 정의와 특성
 
-| 특성          | 클라이언트-서버    | [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)                    |
+| 특성          | 클라이언트-서버    | P2P                    |
 |-------------|-----------------|------------------------|
 | 서버 역할     | 전담 서버 필요   | 모든 노드가 서버+클라이언트 |
 | 확장성        | 서버가 병목      | 노드 증가 = 자원 증가   |
-| [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)        | 서버 장애 = 중단 | 단일 실패점 없음         |
+| 가용성        | 서버 장애 = 중단 | 단일 실패점 없음         |
 | 관리 복잡성   | 낮음            | 높음                    |
 
-### 1.2 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 유형
+### 1.2 P2P 유형
 
 ```
 순수 P2P (Pure P2P)
@@ -51,9 +51,9 @@ DHT 기반 구조 P2P
 
 ---
 
-## Ⅱ. DHT — [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)
+## Ⅱ. DHT — 분산 해시 테이블
 
-### 2.1 Chord [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### 2.1 Chord 알고리즘
 
 ```
 Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
@@ -81,7 +81,7 @@ Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
 
 ---
 
-## Ⅲ. [BitTorrent](/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) — 콘텐츠 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 공유
+## Ⅲ. BitTorrent — 콘텐츠 분산 공유
 
 ### 3.1 동작 흐름
 
@@ -100,16 +100,16 @@ Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
 
 ---
 
-## Ⅳ. [IPFS](/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) — 콘텐츠 주소 지정 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템
+## Ⅳ. IPFS — 콘텐츠 주소 지정 파일 시스템
 
 ### 4.1 핵심 아이디어
 
 기존 웹 = 위치 기반 (Location-based): `https://server/path`
-[IPFS](/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) = 콘텐츠 기반 (Content-based): `/ipfs/QmHash`
+IPFS = 콘텐츠 기반 (Content-based): `/ipfs/QmHash`
 
-콘텐츠의 해시(CID, Content [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 주소 -> 위치 무관, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
+콘텐츠의 해시(CID, Content Identifier)가 주소 -> 위치 무관, 무결성 자동 검증.
 
-### 4.2 Merkle [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)
+### 4.2 Merkle DAG
 
 ```
 파일 -> 청크(chunk) 분할 -> SHA256 해시
@@ -122,24 +122,24 @@ Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
 
 ---
 
-## Ⅴ. [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 보안과 과제
+## Ⅴ. P2P 보안과 과제
 
 ### 5.1 주요 보안 위협
 
 | 위협              | 설명                                         |
 |------------------|----------------------------------------------|
-| [시빌 공격](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)(Sybil)  | 하나의 공격자가 다수 노드 위장                |
-| [이클립스 공격](/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/)     | 피해자 노드를 악성 피어로 둘러싸 고립         |
+| 시빌 공격(Sybil)  | 하나의 공격자가 다수 노드 위장                |
+| 이클립스 공격     | 피해자 노드를 악성 피어로 둘러싸 고립         |
 | 무임승차(Free-riding) | 다운로드만 하고 업로드 안 함              |
 | 콘텐츠 오염       | 잘못된 조각(piece)를 의도적으로 배포          |
 
 ### 5.2 대응
 
-- Kademlia: XOR [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) -> 시빌 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)
-- [BitTorrent](/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/): SHA-1 해시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 오염 방지
-- [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) + [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/): Filecoin은 저장 증명(PoS)으로 무임승차 방지
+- Kademlia: XOR 메트릭 기반 라우팅 -> 시빌 저항
+- BitTorrent: SHA-1 해시 검증으로 오염 방지
+- 블록체인 + P2P: Filecoin은 저장 증명(PoS)으로 무임승차 방지
 
-📢 **섹션 요약 비유**: [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크는 신분증 없는 마을 장터 — 활발하지만 사기꾼(시빌)이 많이 들어올 수 있어 조심해야 한다.
+📢 **섹션 요약 비유**: P2P 네트워크는 신분증 없는 마을 장터 — 활발하지만 사기꾼(시빌)이 많이 들어올 수 있어 조심해야 한다.
 
 ---
 
@@ -184,7 +184,7 @@ IPFS / Filecoin (콘텐츠 주소 지정, 2015~)
 Web3 분산 인프라 (현재)
 ```
 
-**핵심 키워드**: DHT, Chord, Kademlia, [BitTorrent](/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/), [IPFS](/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/), CID, [시빌 공격](/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/), [이클립스 공격](/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/)
+**핵심 키워드**: DHT, Chord, Kademlia, BitTorrent, IPFS, CID, 시빌 공격, 이클립스 공격
 
 ---
 
@@ -193,14 +193,3 @@ Web3 분산 인프라 (현재)
 1. P2P는 반 친구들이 선생님 없이 서로 공책을 빌려주는 것 — 한 명이 아파도(서버 장애) 공부할 수 있어.
 2. DHT는 학교 게시판 대신 친구들끼리 순서대로 쪽지를 전달하는 규칙 — "502호 -> 505호 -> 정보 도착!"
 3. BitTorrent는 피자를 한 조각씩 여러 친구에게서 동시에 받는 것 — 다 받으면 완성된 피자가 돼.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 50 / 800
-
-<- **이전**: [049. 클라이언트-서버 — Client-Server Architecture](/studynote/02_operating_system/01_overview_architecture/049_client_server/)
-**다음**: [51. 그리드 컴퓨팅 (Grid Computing)](/studynote/02_operating_system/01_overview_architecture/051_grid_computing/) ->
-
----

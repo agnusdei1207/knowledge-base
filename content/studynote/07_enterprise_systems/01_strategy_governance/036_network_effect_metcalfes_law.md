@@ -6,9 +6,9 @@ tags:
 weight: 36
 ---
 > **핵심 인사이트**
-> 1. [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/studynote/12_it_management/01_governance_strategy/824_network_effect/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 사용자가 증가할수록 각 사용자의 가치가 증가하는 현상으로, [플랫폼 비즈니스](/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)가 독점적 지위를 확보하는 핵심 메커니즘이다.
+> 1. 네트워크 효과(Network Effect)는 서비스의 사용자가 증가할수록 각 사용자의 가치가 증가하는 현상으로, 플랫폼 비즈니스가 독점적 지위를 확보하는 핵심 메커니즘이다.
 > 2. 메칼프의 법칙(Metcalfe's Law)은 네트워크의 가치가 연결 노드 수의 제곱(n^)에 비례한다고 주장하며, 이는 플랫폼이 임계 질량(Critical Mass)을 넘으면 기하급수적 성장을 하는 이유를 설명한다.
-> 3. 양면 [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)(Two-Sided [Network Effect](/studynote/12_it_management/01_governance_strategy/824_network_effect/))는 플랫폼이 두 사용자 그룹(공급자·소비자) 모두를 동시에 확장해야 효과가 발생하며, 닭-달걀 문제(Chicken-and-Egg Problem)를 극복하는 것이 플랫폼 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이다.
+> 3. 양면 네트워크 효과(Two-Sided Network Effect)는 플랫폼이 두 사용자 그룹(공급자·소비자) 모두를 동시에 확장해야 효과가 발생하며, 닭-달걀 문제(Chicken-and-Egg Problem)를 극복하는 것이 플랫폼 초기 전략의 핵심이다.
 
 ---
 
@@ -31,15 +31,15 @@ n=100:연결 4950개 가치 ∝ 10,000
 | 노드 수 | 연결 수 | 가치 (n^) | 사용자당 가치 |
 |--------|--------|---------|------------|
 | 2      | 1      | 4       | 2          |
-| [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)     | 45     | 100     | [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)         |
-| 100    | 4,950  | [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000  | 100        |
+| 10     | 45     | 100     | 10         |
+| 100    | 4,950  | 10,000  | 100        |
 | 1,000  | 499,500| 1,000,000| 1,000     |
 
 > 📢 **섹션 요약 비유**: 팩스 한 대는 쓸모없지만, 100만 대가 연결되면 누구에게나 팩스를 보낼 수 있어 엄청난 가치를 가진다.
 
 ---
 
-## II. [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)의 종류
+## II. 네트워크 효과의 종류
 
 ```
 1. 직접 네트워크 효과 (Direct):
@@ -62,7 +62,7 @@ n=100:연결 4950개 가치 ∝ 10,000
    예: Google 검색, Netflix 추천
 ```
 
-> 📢 **섹션 요약 비유**: 참가자가 많을수록 더 좋은 파티처럼 — 직접(같은 파티 참가자), 간접(케이터링 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)도 좋아짐), 양면(손님과 주인 모두 이득).
+> 📢 **섹션 요약 비유**: 참가자가 많을수록 더 좋은 파티처럼 — 직접(같은 파티 참가자), 간접(케이터링 서비스도 좋아짐), 양면(손님과 주인 모두 이득).
 
 ---
 
@@ -90,15 +90,15 @@ n=100:연결 4950개 가치 ∝ 10,000
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 닭-달걀 문제 극복 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## IV. 닭-달걀 문제 극복 전략
 
-| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)              | 설명                              | 사례          |
+| 전략              | 설명                              | 사례          |
 |----------------|-----------------------------------|--------------|
 | 한쪽 먼저 보조    | 가치 있는 한쪽에 무료 제공         | OpenTable(식당)|
 | 단독 가치 제공    | 네트워크 없이도 가치 있는 기능 제공 | PayPal(이메일 송금)|
 | 앵커 파트너       | 유명 파트너 먼저 유치              | Apple Pay    |
 | 지역 집중 공략    | 특정 지역·커뮤니티부터 집중         | Facebook(하버드)|
-| 시뮬레이션        | 공급자 역할 직접 수행              | Reddit [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)  |
+| 시뮬레이션        | 공급자 역할 직접 수행              | Reddit 초기  |
 
 > 📢 **섹션 요약 비유**: 새 식당에 손님을 모으려면 처음에는 무료 시식 이벤트를 열어야 — 첫 손님이 생겨야 소문이 난다.
 
@@ -125,7 +125,7 @@ n=100:연결 4950개 가치 ∝ 10,000
 -> 네트워크 효과의 복리: 생태계 전체 가치가 부분 합보다 큼
 ```
 
-> 📢 **섹션 요약 비유**: 카카오톡 하나로 시작한 네트워크가 금융·커머스·엔터테인먼트로 확장 — [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)는 생태계 전체를 잠근다([Lock-in](/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)).
+> 📢 **섹션 요약 비유**: 카카오톡 하나로 시작한 네트워크가 금융·커머스·엔터테인먼트로 확장 — 네트워크 효과는 생태계 전체를 잠근다(Lock-in).
 
 ---
 
@@ -177,17 +177,6 @@ GAFA 독점 구조의 핵심 원인
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)는 참여자가 많아질수록 모두에게 더 유용해지는 마법이에요.
+1. 네트워크 효과는 참여자가 많아질수록 모두에게 더 유용해지는 마법이에요.
 2. 카카오톡이 친구들이 많아질수록 더 쓸모있어지는 게 바로 그 예예요.
 3. 메칼프의 법칙에 따르면 사람이 2배 늘면 가치는 4배가 된답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 36 / 482
-
-<- **이전**: [035. 롱테일 이론 (Long Tail Theory)](/studynote/07_enterprise_systems/01_strategy_governance/035_long_tail_theory/)
-**다음**: [037. 파괴적 혁신 (Disruptive Innovation)](/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/) ->
-
----

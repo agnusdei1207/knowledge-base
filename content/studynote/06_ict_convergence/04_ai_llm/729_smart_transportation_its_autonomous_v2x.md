@@ -127,11 +127,3 @@ weight: 729
      |                | --------------►|                  |                |
      |                |                | ④ BSM 10Hz      |                |
      |                |                |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 729 / 800
-
-<- **이전**: [728. 해양 기술 심해 탐사 해양 에너지](/studynote/06_ict_convergence/uncategorized/728_ocean_technology_deep_sea_exploration_energy/)
-**다음**: [730. 스마트 빌딩 에너지 관리 BEMS 자동화](/studynote/06_ict_convergence/uncategorized/730_smart_building_energy_management_bems/) ->
-
----

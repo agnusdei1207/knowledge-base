@@ -7,26 +7,26 @@ weight: 519
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 사이버 레질리언스 (Cyber Resilience) 아키텍처은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 사이버 레질리언스 (Cyber Resilience) 아키텍처은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Resilience(레질리언스)는 고무줄이 늘어났다가 원래 모양으로 튕겨 돌아오는 '[회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)'을 뜻한다. 사이버 레질리언스는 해커의 [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/)나 디도스(DDoS) 폭격으로 시스템이 짓눌렸을 때, 유리가 깨지듯 쩍 갈라지며 파멸(Brittle)하는 것이 아니라, 고무줄처럼 충격을 웅~ 흡수하고 1분 만에 원래 상태로 복원되는 능력이다.
+- **개념**: Resilience(레질리언스)는 고무줄이 늘어났다가 원래 모양으로 튕겨 돌아오는 '회복 탄력성'을 뜻한다. 사이버 레질리언스는 해커의 랜섬웨어나 디도스(DDoS) 폭격으로 시스템이 짓눌렸을 때, 유리가 깨지듯 쩍 갈라지며 파멸(Brittle)하는 것이 아니라, 고무줄처럼 충격을 웅~ 흡수하고 1분 만에 원래 상태로 복원되는 능력이다.
 
-- **필요성**: 100억을 들여 철통같은 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 시큐어 코딩을 발랐다. 그런데 회사 신입사원이 이메일로 온 악성 코드를 클릭했다. 내부자 계정이 털렸으니 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 무용지물이다. 해커가 사내 서버 데이터를 다 암호화([랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/))했다. 서버를 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하려는데 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 파일까지 다 감염되어 버렸다. 회사는 파산했다. <strong>"방패(보안)는 언젠가 뚫린다"는 뼈저린 현실 앞에서, 뚫린 이후의 골든타임(<a href="/studynote/09_security/01_intro_principles/009_incident_response/">사고 대응</a>, 격리, <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>)을 설계하지 않으면 회사가 멸망한다는 공포</strong>가 사이버 레질리언스를 현대 기업 생존의 1순위로 끌어올렸다.
+- **필요성**: 100억을 들여 철통같은 방화벽과 시큐어 코딩을 발랐다. 그런데 회사 신입사원이 이메일로 온 악성 코드를 클릭했다. 내부자 계정이 털렸으니 방화벽은 무용지물이다. 해커가 사내 서버 데이터를 다 암호화(랜섬웨어)했다. 서버를 복구하려는데 백업 파일까지 다 감염되어 버렸다. 회사는 파산했다. <strong>"방패(보안)는 언젠가 뚫린다"는 뼈저린 현실 앞에서, 뚫린 이후의 골든타임(사고 대응, 격리, 복구)을 설계하지 않으면 회사가 멸망한다는 공포</strong>가 사이버 레질리언스를 현대 기업 생존의 1순위로 끌어올렸다.
 
-- **💡 비유**: 사이버 레질리언스는 전투함의 <strong>'침수 대비 격벽 시스템'</strong>과 똑같습니다. 전통적 보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 배의 외벽(철갑)을 두껍게 만들어서 어뢰를 튕겨내는 데만 돈을 씁니다. 하지만 어뢰를 맞아 구멍이 뚫리면 외벽은 끝입니다. 배 전체에 물이 차서 가라앉죠. 사이버 레질리언스 아키텍트는 "어뢰는 맞게 되어있다"고 가정합니다. 그래서 배의 밑바닥을 50개의 독립된 방(격벽)으로 쪼개 놓습니다. 1번 방이 어뢰에 뚫려 물(해커)이 꽉 차도, 그 즉시 티타늄 문을 닫아버려 2번 방으로 물이 못 넘어가게 막습니다. 배는 1번 방 하나만 잃었을 뿐, 엔진은 멀쩡히 돌아가며 항구까지 유유히 생환합니다.
+- **💡 비유**: 사이버 레질리언스는 전투함의 <strong>'침수 대비 격벽 시스템'</strong>과 똑같습니다. 전통적 보안(Security)은 배의 외벽(철갑)을 두껍게 만들어서 어뢰를 튕겨내는 데만 돈을 씁니다. 하지만 어뢰를 맞아 구멍이 뚫리면 외벽은 끝입니다. 배 전체에 물이 차서 가라앉죠. 사이버 레질리언스 아키텍트는 "어뢰는 맞게 되어있다"고 가정합니다. 그래서 배의 밑바닥을 50개의 독립된 방(격벽)으로 쪼개 놓습니다. 1번 방이 어뢰에 뚫려 물(해커)이 꽉 차도, 그 즉시 티타늄 문을 닫아버려 2번 방으로 물이 못 넘어가게 막습니다. 배는 1번 방 하나만 잃었을 뿐, 엔진은 멀쩡히 돌아가며 항구까지 유유히 생환합니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **방어 성곽의 시대 (Prevention-only)**: 2000년대엔 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)/[IPS](/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))만 높이 쌓으면 끝인 줄 알았다.
-  2. <strong>탐지 및 대응의 시대 (<a href="/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> &amp; Response)</strong>: 2010년대 [APT](/studynote/09_security/15_malware_attack_vectors/748_apt/)([지능형 지속 위협](/studynote/09_security/04_endpoint_security/374_apt/)) 해킹이 판치면서 100% 방어가 불가능해지자, "빨리 찾아내서 고치자"는 [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/)/[SOAR](/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) 같은 모니터링 체제로 진화했다.
-  3. <strong>레질리언스와 <a href="/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a> 시대 (현재)</strong>: 빨리 고치는 걸 넘어, "해킹 당하는 그 와중에도 장사(비즈니스)는 해야 한다!"라는 극강의 생존 철학이 등장했다. 클라우드 자동화(오토스케일링)와 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 이 불사조 같은 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)력을 기술적으로 가능하게 만들며 레질리언스라는 거대한 헌법이 완성되었다.
+  1. **방어 성곽의 시대 (Prevention-only)**: 2000년대엔 방화벽(WAF/IPS)만 높이 쌓으면 끝인 줄 알았다.
+  2. <strong>탐지 및 대응의 시대 (Detection &amp; Response)</strong>: 2010년대 APT(지능형 지속 위협) 해킹이 판치면서 100% 방어가 불가능해지자, "빨리 찾아내서 고치자"는 SIEM/SOAR 같은 모니터링 체제로 진화했다.
+  3. <strong>레질리언스와 제로 트러스트 시대 (현재)</strong>: 빨리 고치는 걸 넘어, "해킹 당하는 그 와중에도 장사(비즈니스)는 해야 한다!"라는 극강의 생존 철학이 등장했다. 클라우드 자동화(오토스케일링)와 마이크로서비스(MSA)가 이 불사조 같은 회복력을 기술적으로 가능하게 만들며 레질리언스라는 거대한 헌법이 완성되었다.
 
-- **📢 섹션 요약 비유**: <strong>보안(Cyber <a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>은 권투 선수가 가드를 바짝 올리고 주먹을 안 맞으려 피하는 훈련입니다. <strong>레질리언스(Cyber Resilience)</strong>는 그 선수가 턱을 정통으로 맞고 다운되었을 때, 10초 카운트다운이 끝나기 전에 비틀거리면서도 다시 일어나 기어코 경기를 끝마치는 <strong>'좀비 같은 맷집과 <a href="/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>력'</strong>입니다. 주먹을 한 번도 안 맞는 선수는 없습니다. 진짜 챔피언은 맞고 일어나는 선수입니다.
+- **📢 섹션 요약 비유**: <strong>보안(Cyber Security)</strong>은 권투 선수가 가드를 바짝 올리고 주먹을 안 맞으려 피하는 훈련입니다. <strong>레질리언스(Cyber Resilience)</strong>는 그 선수가 턱을 정통으로 맞고 다운되었을 때, 10초 카운트다운이 끝나기 전에 비틀거리면서도 다시 일어나 기어코 경기를 끝마치는 <strong>'좀비 같은 맷집과 회복력'</strong>입니다. 주먹을 한 번도 안 맞는 선수는 없습니다. 진짜 챔피언은 맞고 일어나는 선수입니다.
 
 ---
 
@@ -59,8 +59,8 @@ weight: 519
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -85,7 +85,7 @@ weight: 519
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 사이버 레질리언스 (Cyber Resilience) 아키텍처은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 소프트웨어 공학 개념과의 연결을 보면, 사이버 레질리언스 (Cyber Resilience) 아키텍처은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 사이버 레질리언스 (Cyber Resilience) 아키텍처과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -107,21 +107,21 @@ weight: 519
 
 ## Ⅴ. 기대효과 및 결론
 
-사이버 레질리언스 (Cyber Resilience) 아키텍처을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+사이버 레질리언스 (Cyber Resilience) 아키텍처을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 사이버 레질리언스 (Cyber Resilience) 아키텍처은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 사이버 레질리언스 (Cyber Resilience) 아키텍처의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 사이버 레질리언스 (Cyber Resilience) 아키텍처의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -133,10 +133,10 @@ weight: 519
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 사이버 레질리언스 (Cyber Resilience) 아키텍처의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 사이버 레질리언스 (Cyber Resilience) 아키텍처은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 사이버 레질리언스 (Cyber Resilience) 아키텍처의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 사이버 레질리언스 (Cyber Resilience) 아키텍처은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 사이버 레질리언스 (Cyber Resilience) 아키텍처 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 사이버 레질리언스 (Cyber Resilience) 아키텍처에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 사이버 레질리언스 (Cyber Resilience) 아키텍처에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,21 +156,10 @@ weight: 519
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 사이버 레질리언스 (Cyber Resilience) 아키텍처은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 630 / 973
-
-<- **이전**: [519. 사이버 레질리언스 (Cyber Resilience) 아키텍처](/studynote/04_software_engineering/11_testing_validation/911_cyber_resilience/)
-**다음**: [520. 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

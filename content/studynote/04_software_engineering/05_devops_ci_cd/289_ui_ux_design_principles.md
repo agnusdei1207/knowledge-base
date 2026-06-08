@@ -7,8 +7,8 @@ weight: 289
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: UI/UX 설계 원칙 - 직관성, 유효성, 학습성, 유연성은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: UI/UX 설계 원칙 - 직관성, 유효성, 학습성, 유연성은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -20,12 +20,12 @@ weight: 289
   - **UX (User Experience)**: 시스템을 사용하면서 사용자가 느끼는 전반적인 만족감, 감정, 경험의 총체.
   이 둘을 성공적으로 구축하기 위해 학계와 업계가 정립한 핵심 4가지 설계 기준이 '직관성, 유효성, 학습성, 유연성'이다.
 
-- **필요성**: 은행 앱을 열었는데 송금 버튼이 어디 있는지 한참 찾아야 한다면(직관성 부족), 기껏 10자리의 비밀번호를 쳤더니 에러가 나서 처음부터 다시 쳐야 한다면(유효성 부족), 앱이 업데이트될 때마다 조작법이 완전히 바뀌어 매번 다시 배워야 한다면(학습성 부족), 왼손잡이나 저시력자를 위한 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경이 안 된다면(유연성 부족) 사용자는 화를 내며 다른 은행 앱으로 갈아탈 것이다.
+- **필요성**: 은행 앱을 열었는데 송금 버튼이 어디 있는지 한참 찾아야 한다면(직관성 부족), 기껏 10자리의 비밀번호를 쳤더니 에러가 나서 처음부터 다시 쳐야 한다면(유효성 부족), 앱이 업데이트될 때마다 조작법이 완전히 바뀌어 매번 다시 배워야 한다면(학습성 부족), 왼손잡이나 저시력자를 위한 설정 변경이 안 된다면(유연성 부족) 사용자는 화를 내며 다른 은행 앱으로 갈아탈 것이다.
 
 - **💡 비유**: 훌륭한 UI/UX는 <strong>'좋은 문 손잡이'</strong>와 같습니다. 손잡이가 평평한 판(Push)이면 사람들은 본능적으로 밀고, 튀어나온 바(Pull) 형태면 당깁니다(직관성). 문을 열 때 큰 힘이 들지 않아야 하며(유효성), 처음 보는 문이라도 어떻게 여는지 한눈에 알 수 있고(학습성), 어린아이나 휠체어 탄 사람도 쉽게 문을 열게 도와주는 장치(유연성)가 있는 문이 완벽한 디자인입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong>초창기 CLI (<a href="/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> Line Interface)</strong>: 오직 전문가만이 검은 화면에 텍스트 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(학습성 극악)를 입력해 시스템을 썼다. 기능만 돌아가면 장땡이던 시절.
+  1. <strong>초창기 CLI (Command Line Interface)</strong>: 오직 전문가만이 검은 화면에 텍스트 명령어(학습성 극악)를 입력해 시스템을 썼다. 기능만 돌아가면 장땡이던 시절.
   2. **GUI (Graphic User Interface) 패러다임**: 애플과 마이크로소프트의 등장으로 화면에 휴지통, 폴더 등 현실 세계를 본뜬 은유(Metaphor)가 등장해 직관성과 학습성이 혁명적으로 상승했다.
   3. **UX (사용자 경험) 시대**: 스티브 잡스와 돈 노먼(Don Norman)에 의해 "기능과 디자인을 넘어 사용자의 감정과 여정 전체를 설계해야 한다"는 UX 철학이 확립되어 오늘날 모바일, VR/AR의 4대 설계 원칙으로 굳어졌다.
 
@@ -62,8 +62,8 @@ UI/UX 설계 원칙 - 직관성, 유효성, 학습성, 유연성의 핵심 원�
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -88,7 +88,7 @@ UI/UX 설계 원칙을(를) 유사 개념과 비교하면 경계와 특성이 �
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, UI/UX 설계 원칙은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 소프트웨어 공학 개념과의 연결을 보면, UI/UX 설계 원칙은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: UI/UX 설계 원칙과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -110,21 +110,21 @@ UI/UX 설계 원칙을(를) 실무에 적용할 때는 다음 판단 기준을 �
 
 ## Ⅴ. 기대효과 및 결론
 
-UI/UX 설계 원칙을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+UI/UX 설계 원칙을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 UI/UX 설계 원칙은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: UI/UX 설계 원칙의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: UI/UX 설계 원칙의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -136,10 +136,10 @@ UI/UX 설계 원칙은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | UI/UX 설계 원칙의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | UI/UX 설계 원칙은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | UI/UX 설계 원칙의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | UI/UX 설계 원칙은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | UI/UX 설계 원칙 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | UI/UX 설계 원칙에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | UI/UX 설계 원칙에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,21 +159,10 @@ UI/UX 설계 원칙 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. UI/UX 설계 원칙은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 289 / 973
-
-<- **이전**: [288. 개념적 무결성 (Conceptual Integrity) - 아키텍처 전반의 일관성](/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)
-**다음**: [290. 니코보코 (Nielsen-Norman) 10대 휴리스틱 원칙](/studynote/04_software_engineering/05_devops_ci_cd/290_nielsen_norman_10_heuristics/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

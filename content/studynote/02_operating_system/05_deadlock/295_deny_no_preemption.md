@@ -7,17 +7,17 @@ weight: 295
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태 예방](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) 관점에서의 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정 (Deny No-Preemption) 기법은 프로세스가 특정 자원 부족으로 할당을 요청하며 대기(Block) 상태로 들어가려 할 때, **현재 자신이 쥐고 있던 기존 자원들을 "운영체제가 강제로 박탈(Preempt)"해버리는(혹은 반환하도록 강제하는)** 극약 처방이다.
-> 2. **가치**: 쥐고 있으면서 잠드는([점유 대기](/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)) 상황이 오면 그냥 쥐고 있던 걸 죄다 토해내게 만들므로, 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 내 자원을 이용해 고착 고리를 풀 수 있어 데드락이 100% 분해된다.
-> 3. **융합**: CPU 타이머나 메모리 페이지처럼 "현재까지의 상태를 쉽게 멈추고 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)/복원([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Save/Restore)할 수 있는" 일부 자원에만 제한적으로 접목되며, 프린터나 DB의 핵심 락처럼 작업 도중 뺏기면 아예 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 박살 나는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 필수 자원에는 도입 자체가 물리적으로 불가능하다.
+> 1. **본질**: 교착 상태 예방 관점에서의 비선점 부정 (Deny No-Preemption) 기법은 프로세스가 특정 자원 부족으로 할당을 요청하며 대기(Block) 상태로 들어가려 할 때, **현재 자신이 쥐고 있던 기존 자원들을 "운영체제가 강제로 박탈(Preempt)"해버리는(혹은 반환하도록 강제하는)** 극약 처방이다.
+> 2. **가치**: 쥐고 있으면서 잠드는(점유 대기) 상황이 오면 그냥 쥐고 있던 걸 죄다 토해내게 만들므로, 다른 스레드가 내 자원을 이용해 고착 고리를 풀 수 있어 데드락이 100% 분해된다.
+> 3. **융합**: CPU 타이머나 메모리 페이지처럼 "현재까지의 상태를 쉽게 멈추고 롤백/복원(Context Save/Restore)할 수 있는" 일부 자원에만 제한적으로 접목되며, 프린터나 DB의 핵심 락처럼 작업 도중 뺏기면 아예 데이터가 박살 나는 무결성 필수 자원에는 도입 자체가 물리적으로 불가능하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데드락의 세 번째 조건인 '[비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))'은 "내가 내 손으로 내려놓기 전엔 아무도 못 뺏어!"라는 철칙이다.
+데드락의 세 번째 조건인 '비선점(No Preemption)'은 "내가 내 손으로 내려놓기 전엔 아무도 못 뺏어!"라는 철칙이다.
 
-이걸 깨버리는 <strong><a href="/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 부정</strong>은 아주 무자비하지만 확실한 해결책이다.
+이걸 깨버리는 <strong>비선점 부정</strong>은 아주 무자비하지만 확실한 해결책이다.
 "네가 자원 A를 쥐고 B를 달라고 손을 내밀었지? 근데 B가 당장 없어? 그럼 넌 괘씸죄로 당장 네가 쥐고 있던 A마저 강제로 뱉어내고 쫓겨나라!"
 
 **💡 비유**: 줄을 서서 식판(A)을 받고 반찬(B)을 받으려는데 반찬이 다 떨어져 멈춰 서면, 배식원이 "뒤에 식판 필요한 사람 있으니까, 너 식판 도로 뺏고 반찬 채워질 때까지 아예 식당 밖으로 나가!" 하고 내쫓는 것. 내 뒤통수에 붙어있던 대기열(데드락 후보군)은 해소된다.
@@ -44,20 +44,20 @@ weight: 295
 +---------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정은 수채화 그리다 물감이 모자라 기다리니, 미술 선생님이 "기다리는 동안 도화지도 딴 친구 줘!" 하고 뺏어버리는 겁니다. 교실 안 그림 그리는 사람은 계속 돌아가지만(데드락 없음) 뺏긴 내 도화지는 다시 처음부터 스케치해야 합니다([롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)의 피로도).
+**📢 섹션 요약 비유**: 비선점 부정은 수채화 그리다 물감이 모자라 기다리니, 미술 선생님이 "기다리는 동안 도화지도 딴 친구 줘!" 하고 뺏어버리는 겁니다. 교실 안 그림 그리는 사람은 계속 돌아가지만(데드락 없음) 뺏긴 내 도화지는 다시 처음부터 스케치해야 합니다(롤백의 피로도).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 상태 저장이 불가한 물리적 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 한계
+### 상태 저장이 불가한 물리적 비선점 한계
 
 이론적으론 아주 간단히 "뺏어!" 하면 될 것 같지만 현대 컴퓨터 아키텍처는 이를 완강히 거부한다.
 
-1. <strong>상태(<a href="/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>) 복사 비용의 폭증</strong>: CPU는 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 버리면 그만이다(완벽한 선점 부정). 그러나 프린터나 DVD 버너, 혹은 DB 테이블 업데이트는 중간에 뺏기면 잉크가 번지고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 깨진다.
-2. <strong>소프트웨어 <a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> (<a href="/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> Log)</strong>: 만약 굳이 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 파괴하고 뺏어 오려면, DBMS처럼 그동안 해온 모든 작업을 추적하는 [UNDO](/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 촘촘히 짜서 "뺏김과 동시에 예전 상태로 무결점 타임머신 복원"을 수행해야 하는데 엄청난 연산 부하가 터진다.
+1. <strong>상태(Context) 복사 비용의 폭증</strong>: CPU는 레지스터 몇 바이트 버리면 그만이다(완벽한 선점 부정). 그러나 프린터나 DVD 버너, 혹은 DB 테이블 업데이트는 중간에 뺏기면 잉크가 번지고 데이터 트랜잭션이 깨진다.
+2. <strong>소프트웨어 롤백 로그 (Undo Log)</strong>: 만약 굳이 비선점을 파괴하고 뺏어 오려면, DBMS처럼 그동안 해온 모든 작업을 추적하는 UNDO 로그를 촘촘히 짜서 "뺏김과 동시에 예전 상태로 무결점 타임머신 복원"을 수행해야 하는데 엄청난 연산 부하가 터진다.
 
-**📢 섹션 요약 비유**: 강제 선점이 CPU에선 쉽지만, 하드디스크 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 에선 불가능한 건 블럭 쌓기(CPU-쉽게 멈추고 기록)와 찰흙 빚기(디스크-중간에 남이 만지면 아예 망함)의 차이입니다. 찰흙은 절대 뺏으면 안 되는 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 룰의 성역입니다.
+**📢 섹션 요약 비유**: 강제 선점이 CPU에선 쉽지만, 하드디스크 쓰기 에선 불가능한 건 블럭 쌓기(CPU-쉽게 멈추고 기록)와 찰흙 빚기(디스크-중간에 남이 만지면 아예 망함)의 차이입니다. 찰흙은 절대 뺏으면 안 되는 비선점 룰의 성역입니다.
 
 ---
 
@@ -65,36 +65,36 @@ weight: 295
 
 | 예방 파괴의 표적 | 자원 환원 가능성 | 도입 현실성 (데어/소프트웨어) |
 |:---|:---|:---|
-| [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 타파 | Read-Only 등 특수만 가능 | 프린터/DB엔 절대 도입 불가 ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 붕괴) |
-| [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)(No-Preempt) 타파 | CPU/메모리는 아주 잘 환원됨 | DBMS의 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)/락-[타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)으로 이빨 빠진 형태로 응용 |
-| [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/) 타파 | [락 순서화](/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) Hierachy) | 가장 현실성 100%의 엔지니어링 패러다임 |
+| 상호 배제 타파 | Read-Only 등 특수만 가능 | 프린터/DB엔 절대 도입 불가 (데이터 붕괴) |
+| 비선점(No-Preempt) 타파 | CPU/메모리는 아주 잘 환원됨 | DBMS의 롤백/락-타임아웃으로 이빨 빠진 형태로 응용 |
+| 순환 대기 타파 | 락 순서화(Lock Hierachy) | 가장 현실성 100%의 엔지니어링 패러다임 |
 
-**📢 섹션 요약 비유**: 결국 4가지 데드락 조건 중 시스템이 뺏을 수 있는 건([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정) CPU(머리)나 메모리(책상) 정도일 뿐, 이미 잉크가 묻은 프린터(손발)를 강제로 꺾어버릴 수는 없어 반쪽짜리 대책입니다.
+**📢 섹션 요약 비유**: 결국 4가지 데드락 조건 중 시스템이 뺏을 수 있는 건(비선점 부정) CPU(머리)나 메모리(책상) 정도일 뿐, 이미 잉크가 묻은 프린터(손발)를 강제로 꺾어버릴 수는 없어 반쪽짜리 대책입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong>CPU <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (타이머 <a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 기반)</strong>: 데드락 관점이 아니라 코어 병발성을 위해 타임 [슬라이스](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(10ms)가 지나거나 더 높은 우선순위 태스크가 오면 즉시 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) Context를 PCB에 우겨넣고 강제 탈취(응용형 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정)한다. 이 덕분에 코어 위에서는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 단어가 성립하지 않는다.
-2. <strong><a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> Victim <a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> (RDBMS)</strong>: 락이 꼬였을 때 오라클/MySQL은 Victim을 골라 [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) Segment를 이용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옛날로 되돌리고 락을 다 강제로 풀어버린다. "너 하던 업데이트 다 취소하고 자원 뱉아!" 이는 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정을 고도화된 SW 로직([롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))으로 가장 극적으로 융합시킨 실무 최고의 사례다.
+1. <strong>CPU 스케줄러 (타이머 인터럽트 기반)</strong>: 데드락 관점이 아니라 코어 병발성을 위해 타임 슬라이스(10ms)가 지나거나 더 높은 우선순위 태스크가 오면 즉시 레지스터 Context를 PCB에 우겨넣고 강제 탈취(응용형 비선점 부정)한다. 이 덕분에 코어 위에서는 교착 상태라는 단어가 성립하지 않는다.
+2. <strong>트랜잭션 Victim Rollback (RDBMS)</strong>: 락이 꼬였을 때 오라클/MySQL은 Victim을 골라 Undo Segment를 이용해 데이터를 옛날로 되돌리고 락을 다 강제로 풀어버린다. "너 하던 업데이트 다 취소하고 자원 뱉아!" 이는 비선점 부정을 고도화된 SW 로직(롤백)으로 가장 극적으로 융합시킨 실무 최고의 사례다.
 
-<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- <strong>외부 I/O 장치를 <a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> 안에서 <a href="/studynote/02_operating_system/04_synchronization/231_hold_and_wait/">점유 대기</a></strong>: 외부 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) API나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O는 본질적으로 '[비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)' 자원이다. 이걸 쥔 채 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수십 개가 데드락에 빠지면, 어플리케이션 개발자는 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘을 짠 적이 없으므로 영원히 서버가 마비되는 참사를 유발한다. "절대 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)/블로킹 I/O를 [Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에 두지 마라."
+<strong>안티패턴</strong>:
+- <strong>외부 I/O 장치를 Lock 안에서 점유 대기</strong>: 외부 소켓 API나 파일 I/O는 본질적으로 '비선점' 자원이다. 이걸 쥔 채 스레드 수십 개가 데드락에 빠지면, 어플리케이션 개발자는 롤백 메커니즘을 짠 적이 없으므로 영원히 서버가 마비되는 참사를 유발한다. "절대 비선점/블로킹 I/O를 Critical Section 안에 두지 마라."
 
-**📢 섹션 요약 비유**: DBMS가 데드락 꼬였을 때 한 명을 강제로 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 파괴) 시킬 수 있는 건, 뒤로 감기([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/)) 기능의 타임머신을 구현하느라 피땀을 쏟았기 때문입니다. 타임머신이 없는 평범한 프로그램에서 강제로 뺏으면 시스템이 다 부서집니다.
+**📢 섹션 요약 비유**: DBMS가 데드락 꼬였을 때 한 명을 강제로 롤백(비선점 파괴) 시킬 수 있는 건, 뒤로 감기(Undo) 기능의 타임머신을 구현하느라 피땀을 쏟았기 때문입니다. 타임머신이 없는 평범한 프로그램에서 강제로 뺏으면 시스템이 다 부서집니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 기준 | 자발적 해제([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 존중) | 강제 탈취([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정) OS 구축 |
+| 기준 | 자발적 해제(비선점 존중) | 강제 탈취(비선점 부정) OS 구축 |
 |:---|:---|:---|
-| 시스템 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 수호 | 보장됨 (조용히 기다리기만 하므로) | 심장 뜯어냄 ([복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직 없으면 블루스크린) |
-| 데드락 교착 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) | 무방비 시 발생 빈도 높음 | 원천 파괴 (하지만 파편 잔재인 기아 유발) |
-| 도입 한계점 | [락 오더링](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)/[타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 같은 꼼수 요 | CPU 이외 주변 디바이스에는 도입 단념 |
+| 시스템 무결성 수호 | 보장됨 (조용히 기다리기만 하므로) | 심장 뜯어냄 (복구 로직 없으면 블루스크린) |
+| 데드락 교착 확률 | 무방비 시 발생 빈도 높음 | 원천 파괴 (하지만 파편 잔재인 기아 유발) |
+| 도입 한계점 | 락 오더링/타임아웃 같은 꼼수 요 | CPU 이외 주변 디바이스에는 도입 단념 |
 
-`비선점(No Preemption)`을 부정하는 방식은 기계적, 물리적 한계 앞에서 무릎을 꿇었다. 데드락을 예방하려 모터를 고장 낼 순 없는 노릇이었기 때문이다. 다만 이 아이디어는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이라는 거대한 SW 생태계를 만나 [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기법(사후 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))으로 승화되어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 막강한 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 백신으로 환생한 위대한 영감을 제공했다.
+`비선점(No Preemption)`을 부정하는 방식은 기계적, 물리적 한계 앞에서 무릎을 꿇었다. 데드락을 예방하려 모터를 고장 낼 순 없는 노릇이었기 때문이다. 다만 이 아이디어는 트랜잭션이라는 거대한 SW 생태계를 만나 Undo/Redo 롤백 기법(사후 복구)으로 승화되어, 데이터베이스의 막강한 동시성 제어 백신으로 환생한 위대한 영감을 제공했다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -104,10 +104,10 @@ weight: 295
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [상호 배제 부정](/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [점유 대기 부정](/studynote/02_operating_system/05_deadlock/294_deny_hold_and_wait/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [순환 대기 부정](/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [교착 상태 회피](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) ([Deadlock Avoidance](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 상호 배제 부정 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 점유 대기 부정 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 순환 대기 부정 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 교착 상태 회피 (Deadlock Avoidance) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,17 +125,6 @@ weight: 295
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 내가 물감(자원)을 쥐고 도화지(자원)를 달라고 기다리는데, 도화지가 안 나온다고 미술 선생님이 나에게서 강제로 물감을 확! 뺏어버리는 규칙([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 파괴).
-2. 데드락(얼음 땡)은 당장 풀리고 다른 친구가 뺏긴 내 물감을 쓰겠지만, 뺏긴 내 그림은 완전히 망쳐지고 눈물이 나겠죠? ([복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능 에러)
-3. 그래서 이런 강력한 뺏기 룰은 찢어져서 버려져도 바로 다시 그릴 수 있는 칠판(CPU) 같은 곳에서만 쓸 수 있고, 찰흙([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 절대 쓸 수 없는 위험한 룰이랍니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 295 / 800
-
-<- **이전**: [294. 점유 대기 부정 (Deny Hold And Wait)](/studynote/02_operating_system/05_deadlock/294_deny_hold_and_wait/)
-**다음**: [296. 순환 대기 부정 (Deny Circular Wait)](/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/) ->
-
----
+1. 내가 물감(자원)을 쥐고 도화지(자원)를 달라고 기다리는데, 도화지가 안 나온다고 미술 선생님이 나에게서 강제로 물감을 확! 뺏어버리는 규칙(비선점 파괴).
+2. 데드락(얼음 땡)은 당장 풀리고 다른 친구가 뺏긴 내 물감을 쓰겠지만, 뺏긴 내 그림은 완전히 망쳐지고 눈물이 나겠죠? (복구 불가능 에러)
+3. 그래서 이런 강력한 뺏기 룰은 찢어져서 버려져도 바로 다시 그릴 수 있는 칠판(CPU) 같은 곳에서만 쓸 수 있고, 찰흙(데이터)에는 절대 쓸 수 없는 위험한 룰이랍니다!

@@ -35,7 +35,7 @@ Chi-square Statistic
 
 | 종류 | 의미 |
 | :-- | :-- |
-| [Independence](/studynote/08_algorithm_stats/08_stats/133_independence/) | 독립성 검정 |
+| Independence | 독립성 검정 |
 | Goodness-of-fit | 적합성 검정 |
 | Expected Count | 기대도수 |
 
@@ -50,7 +50,7 @@ Chi-square Statistic
 | 검정 | 대상 | 차이 |
 | :-- | :-- | :-- |
 | Chi-square | 범주형 | 빈도 |
-| [t-Test](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 연속형 | 평균 |
+| t-Test | 연속형 | 평균 |
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -65,7 +65,7 @@ Chi-square Statistic
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 범주형 데이터인가?
 2. 기대도수를 계산했는가?
@@ -73,7 +73,7 @@ Chi-square Statistic
 4. 독립성과 적합성을 구분하는가?
 5. 교차표 해석이 가능한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 연속형 데이터에 무분별하게 쓰는 설계
 - 기대도수를 무시하는 설계
@@ -127,14 +127,3 @@ Independence / Goodness-of-fit
 사탕 개수를 세어요.
 예상한 수와 비교해요.
 카이제곱 검정은 그런 계산이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 72 / 258
-
-<- **이전**: [71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)
-**다음**: [73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법](/studynote/14_data_engineering/02_math_mining/073_central_limit_theorem_clt_sample_mean_normal_distribution/) ->
-
----

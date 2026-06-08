@@ -6,13 +6,13 @@ tags:
 weight: 42
 ---
 > **핵심 인사이트**
-> 1. [위험 대응 전략](/studynote/09_security/01_intro_principles/033_risk_response_strategies/)의 4가지 유형(회피·전가·완화·수용)은 위험 확률과 영향도의 매트릭스에서 최적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택하며, [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7판과 ISO 31000은 이를 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 처리([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Treatment) 활동으로 표준화하고 있다.
-> 2. 회피(Avoid)는 위험 원인을 제거하는 가장 강력한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이지만 사업 기회도 함께 포기할 수 있으며, 전가(Transfer)는 보험·계약으로 재무적 책임을 이전하지만 위험 자체는 사라지지 않는다는 점이 핵심 차이다.
-> 3. 실무에서 대부분의 위험은 단일 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아닌 복합 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(완화 + 수용 한계치 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/))으로 관리되며, 완화 후 남는 "잔류 위험([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/))"에 대한 수용 한계 정의가 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 완성의 핵심이다.
+> 1. 위험 대응 전략의 4가지 유형(회피·전가·완화·수용)은 위험 확률과 영향도의 매트릭스에서 최적 전략을 선택하며, PMBOK 7판과 ISO 31000은 이를 리스크 처리(Risk Treatment) 활동으로 표준화하고 있다.
+> 2. 회피(Avoid)는 위험 원인을 제거하는 가장 강력한 전략이지만 사업 기회도 함께 포기할 수 있으며, 전가(Transfer)는 보험·계약으로 재무적 책임을 이전하지만 위험 자체는 사라지지 않는다는 점이 핵심 차이다.
+> 3. 실무에서 대부분의 위험은 단일 전략이 아닌 복합 전략(완화 + 수용 한계치 설정)으로 관리되며, 완화 후 남는 "잔류 위험(Residual Risk)"에 대한 수용 한계 정의가 리스크 관리 완성의 핵심이다.
 
 ---
 
-## Ⅰ. [위험 대응 전략](/studynote/09_security/01_intro_principles/033_risk_response_strategies/) 4유형
+## Ⅰ. 위험 대응 전략 4유형
 
 ```
 위험 대응 전략 (PMBOK, ISO 31000):
@@ -46,11 +46,11 @@ weight: 42
    적용: 낮은 위험, 대응 비용 > 위험 비용
 ```
 
-> 📢 **섹션 요약 비유**: 4가지 대응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 폭풍 대비법 — 회피(여행 취소), 전가(여행 보험), 완화(튼튼한 우산), 수용(비 맞기 각오).
+> 📢 **섹션 요약 비유**: 4가지 대응 전략은 폭풍 대비법 — 회피(여행 취소), 전가(여행 보험), 완화(튼튼한 우산), 수용(비 맞기 각오).
 
 ---
 
-## Ⅱ. 위험 매트릭스와 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택
+## Ⅱ. 위험 매트릭스와 전략 선택
 
 ```
 위험 매트릭스 (Risk Matrix):
@@ -80,7 +80,7 @@ weight: 42
   -> 수용: 이슈 트래커 등록, 다음 릴리즈 대응
 ```
 
-> 📢 **섹션 요약 비유**: 위험 매트릭스는 의사 결정 지도 — 심각도×발생 가능성으로 좌표를 찍고 "회피/완화/전가/수용" 구역 중 어디에 있는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+> 📢 **섹션 요약 비유**: 위험 매트릭스는 의사 결정 지도 — 심각도×발생 가능성으로 좌표를 찍고 "회피/완화/전가/수용" 구역 중 어디에 있는지 확인.
 
 ---
 
@@ -191,7 +191,7 @@ R04. 성능 목표 미달 (점수 9, 중간)
   Mock API 전략으로 일정 영향 2주 최소화
 ```
 
-> 📢 **섹션 요약 비유**: IT 위험 관리는 여행 보험 패키지 — 항공+의료+분실 복합 보험(복합 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))으로 모든 상황에 대비.
+> 📢 **섹션 요약 비유**: IT 위험 관리는 여행 보험 패키지 — 항공+의료+분실 복합 보험(복합 전략)으로 모든 상황에 대비.
 
 ---
 
@@ -239,16 +239,5 @@ ML 기반 리스크 모델 적용
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 위험 대응 4전략은 폭풍 대비 방법 — 여행 취소(회피), 여행 보험(전가), 우산 챙기기(완화), 비 맞을 각오(수용)!
-2. 위험 점수 = 발생 가능성 × 심각도 — 점수가 높을수록 강한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(회피/전가)이 필요해요.
-3. 어떤 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 써도 남는 잔류 위험은 있어요 — 얼마까지 허용할지 사전에 정해두는 것이 위험 관리의 완성이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 42 / 973
-
-<- **이전**: [041. 위험 관리 4단계 (Risk Management)](/studynote/04_software_engineering/01_overview_principles/041_risk_management_4_steps/)
-**다음**: [043. QA vs QC (품질 보증 vs 품질 통제)](/studynote/04_software_engineering/01_overview_principles/043_qa_vs_qc/) ->
-
----
+2. 위험 점수 = 발생 가능성 × 심각도 — 점수가 높을수록 강한 전략(회피/전가)이 필요해요.
+3. 어떤 전략을 써도 남는 잔류 위험은 있어요 — 얼마까지 허용할지 사전에 정해두는 것이 위험 관리의 완성이에요!

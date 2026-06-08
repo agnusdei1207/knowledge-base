@@ -7,23 +7,23 @@ weight: 928
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신 - 메시지 큐, AMQP은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 서비스 간 비동기 통신 - 메시지 큐, AMQP은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-메시지 큐는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 바로 응답하지 않아도 되게 해 준다. 장애 전파를 줄이고 확장성을 높인다.
+메시지 큐는 서비스가 바로 응답하지 않아도 되게 해 준다. 장애 전파를 줄이고 확장성을 높인다.
 
-RabbitMQ, [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), AMQP (Advanced Message Queuing [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))가 대표적이다.
+RabbitMQ, Kafka, AMQP (Advanced Message Queuing Protocol)가 대표적이다.
 
 - **📢 섹션 요약 비유**: 편지를 우체통에 넣고 답장은 나중에 받는 것이다.
 
 ---
 
-다음은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 서비스 간 비동기 통신의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -38,7 +38,7 @@ RabbitMQ, [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_waterm
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 서비스 간 비동기 통신가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -56,7 +56,7 @@ Producer -> Broker -> Consumer
 
 | 요소 | 의미 |
 |:---|:---|
-| Producer | 메시지 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| Producer | 메시지 생성 |
 | Broker | 중계 |
 | Consumer | 처리 |
 
@@ -76,7 +76,7 @@ Producer -> Broker -> Consumer
 
 | 구분 | 동기 | 비동기 |
 |:---|:---|:---|
-| 응답 | 즉시 | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 가능 |
+| 응답 | 즉시 | 지연 가능 |
 | 복잡성 | 낮음 | 높음 |
 | 확장성 | 보통 | 높음 |
 
@@ -94,7 +94,7 @@ Producer -> Broker -> Consumer
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 재시도, 데드 레터 큐, [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 순서 보장이 중요하다.
+실무에서는 재시도, 데드 레터 큐, 멱등성, 순서 보장이 중요하다.
 
 점검 포인트는 다음과 같다.
 1. 중복 메시지를 처리할 수 있는가?
@@ -129,10 +129,10 @@ Producer -> Broker -> Consumer
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 서비스 간 비동기 통신의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 서비스 간 비동기 통신은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 서비스 간 비동기 통신 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 서비스 간 비동기 통신에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,21 +152,10 @@ Producer -> Broker -> Consumer
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 서비스 간 비동기 통신은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 664 / 973
-
-<- **이전**: [536. 서비스 간 비동기 통신 - 메시지 큐 (RabbitMQ, Kafka), AMQP 프로토콜](/studynote/04_software_engineering/09_cloud_native_ai_architecture/536_asynchronous_communication_kafka_rabbitmq/)
-**다음**: [537. 안티패턴: 분산 모놀리스 (Distributed Monolith) - 독립 배포 불가능한 MSA](/studynote/04_software_engineering/09_cloud_native_ai_architecture/537_anti_pattern_distributed_monolith/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

@@ -7,9 +7,9 @@ weight: 69
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: FPGA는 사용자가 현장에서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 재구성할 수 있는 프로그래머블 반도체다.
-> 2. **가치**: ASIC보다 유연하고, 소프트웨어보다 하드웨어에 가까운 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다.
-> 3. **판단**: 재구성 가능성, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 개발 비용을 함께 봐야 한다.
+> 1. **본질**: FPGA는 사용자가 현장에서 논리 회로를 재구성할 수 있는 프로그래머블 반도체다.
+> 2. **가치**: ASIC보다 유연하고, 소프트웨어보다 하드웨어에 가까운 성능을 낼 수 있다.
+> 3. **판단**: 재구성 가능성, 병렬성, 개발 비용을 함께 봐야 한다.
 
 ---
 
@@ -35,11 +35,11 @@ Configured Hardware
 
 | 요소 | 역할 |
 | :-- | :-- |
-| LUT | [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 기능 구현 |
-| [Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) | 상태 저장 |
+| LUT | 논리 기능 구현 |
+| Flip-Flop | 상태 저장 |
 | Interconnect | 배선 재구성 |
 
-FPGA는 비트스트림으로 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연결을 설정한다. 따라서 같은 칩이라도 서로 다른 하드웨어를 구현할 수 있다.
+FPGA는 비트스트림으로 논리 연결을 설정한다. 따라서 같은 칩이라도 서로 다른 하드웨어를 구현할 수 있다.
 
 - **📢 섹션 요약 비유**: 같은 뼈대에 다른 집을 짓는 것과 같다.
 
@@ -47,19 +47,19 @@ FPGA는 비트스트림으로 [논리](/studynote/09_security/04_endpoint_securi
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) | [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) | [CPLD](/studynote/01_computer_architecture/01_basic_electronics_logic/071_cpld/) |
+| 구분 | FPGA | ASIC | CPLD |
 | :-- | :-- | :-- | :-- |
 | 유연성 | 높음 | 낮음 | 중간 |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 높음 | 매우 높음 | 중간 |
+| 성능 | 높음 | 매우 높음 | 중간 |
 | 비용 | 중간 | 높음 | 중간 |
 
 | 사용처 | 예 |
 | :-- | :-- |
-| [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | 설계 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| 가속기 | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
+| 프로토타입 | 설계 검증 |
+| 가속기 | 병렬 처리 |
 | 통신/임베디드 | 맞춤 로직 |
 
-FPGA는 하드웨어를 빠르게 바꿔야 할 때 유리하다. 하지만 전용 칩처럼 최적화된 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 아닐 수 있다.
+FPGA는 하드웨어를 빠르게 바꿔야 할 때 유리하다. 하지만 전용 칩처럼 최적화된 성능은 아닐 수 있다.
 
 - **📢 섹션 요약 비유**: 맞춤 옷처럼 바꿀 수 있지만, 공장 생산품과는 방식이 다르다.
 
@@ -67,19 +67,19 @@ FPGA는 하드웨어를 빠르게 바꿔야 할 때 유리하다. 하지만 전�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 재구성 가능성이 필요한가?
-2. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요한가?
-3. [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 대비 개발 속도가 중요한가?
-4. 전력/[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/비용을 비교했는가?
-5. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 타이밍 분석을 했는가?
+2. 병렬 처리 성능이 필요한가?
+3. ASIC 대비 개발 속도가 중요한가?
+4. 전력/성능/비용을 비교했는가?
+5. 검증과 타이밍 분석을 했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - FPGA를 단순 소프트웨어처럼 보는 설계
 - ASIC과 같은 비용 구조로 착각하는 설계
-- 타이밍 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 소홀히 하는 설계
+- 타이밍 검증을 소홀히 하는 설계
 - 재구성 장점을 활용하지 않는 설계
 
 기술사 관점에서는 FPGA를 "유연한 하드웨어 구현 플랫폼"으로 설명해야 한다.
@@ -90,9 +90,9 @@ FPGA는 하드웨어를 빠르게 바꿔야 할 때 유리하다. 하지만 전�
 
 ## Ⅴ. 기대효과 및 결론
 
-FPGA는 빠른 개발과 맞춤형 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에 유리하다. 그래서 하드웨어 설계의 중요한 선택지다.
+FPGA는 빠른 개발과 맞춤형 병렬 처리에 유리하다. 그래서 하드웨어 설계의 중요한 선택지다.
 
-결론적으로 FPGA는 현장에서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 재구성할 수 있는 프로그래머블 반도체다.
+결론적으로 FPGA는 현장에서 논리를 재구성할 수 있는 프로그래머블 반도체다.
 
 - **📢 섹션 요약 비유**: 필요한 대로 회로를 바꿀 수 있는 레고판이다.
 
@@ -131,14 +131,3 @@ Reconfigurable Computing
 블록을 다시 끼워서 다른 모양을 만들 수 있어요.
 회로도 그렇게 바꿀 수 있어요.
 FPGA는 그런 특별한 칩이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 69 / 803
-
-<- **이전**: [68. 밀리 머신 (Mealy Machine)](/studynote/01_computer_architecture/01_basic_electronics_logic/068_mealy_machine/)
-**다음**: [70. ASIC (주문형 반도체)](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) ->
-
----

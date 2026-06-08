@@ -110,12 +110,3 @@ ZK Rollup 영지식 롤업 프로토콜은(는) 현장의 상태를 데이터로
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 579 / 800
-
-<- **이전**: [578. 인터체인 Cosmos Polkadot 블록체인](/studynote/06_ict_convergence/uncategorized/578_blockchain_interchain_cosmos_polkadot/)
-**다음**: [580. DeSci 탈중앙 과학 연구 공유](/studynote/06_ict_convergence/uncategorized/580_decentralized_science_desci_research_sharing/) ->
-
----

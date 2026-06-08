@@ -50,11 +50,11 @@ ERC-20은 인터페이스와 이벤트를 표준화해 여러 앱이 같은 방�
 | :-- | :-- |
 | ERC-20 | 대체 가능 토큰 |
 | ERC-721 | 대체 불가 토큰 |
-| [ERC-1155](/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/) | 다중 토큰 |
+| ERC-1155 | 다중 토큰 |
 
 | 효과 | 의미 |
 | :-- | :-- |
-| [Interoperability](/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/) | 상호 운용 |
+| Interoperability | 상호 운용 |
 | Liquidity | 유동성 |
 
 ERC-20은 이더리움 생태계의 토큰 공통 규격이다.
@@ -65,7 +65,7 @@ ERC-20은 이더리움 생태계의 토큰 공통 규격이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 표준 함수와 이벤트를 지켰는가?
 2. 지갑/거래소 호환성을 고려했는가?
@@ -73,7 +73,7 @@ ERC-20은 이더리움 생태계의 토큰 공통 규격이다.
 4. 승인/위임 흐름을 이해하는가?
 5. 표준 버전을 확인했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 표준 함수명을 바꾸는 설계
 - 호환성을 무시한 토큰 발행
@@ -125,14 +125,3 @@ Fungible Token
 모두 같은 토큰 규칙을 써요.
 지갑도 거래소도 잘 알아봐요.
 ERC-20은 그런 약속이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 72 / 552
-
-<- **이전**: [71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스](/studynote/06_ict_convergence/01_blockchain/071_baas_blockchain_as_a_service/)
-**다음**: [73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)](/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/) ->
-
----

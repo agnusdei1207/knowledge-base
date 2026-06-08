@@ -176,11 +176,3 @@ weight: 651
 | :--- | :--- | :--- |
 | **Foundation Model (LLM)** | 텍스트·이미지·오디오·코드 생성의 두뇌 역할 | GPT-4o(128K ctx), Claude 3.5 Sonnet(200K), Gemini 1.5 Pro(2M), Llama 3.1-405B, Mixtral 8x22B(MoE), Solar-10.7B. 추론 시 **Transformer의 Multi-Head Self-Attention**으로 토큰 간 문맥 의존성 포착, **KV Cache**로 생성 가속, **Speculative Decoding**으로 처리량 향상 |
 | **Embedding Model** | 비정형 데이터(문서·이미지)를 고차원 벡터로 변환, 의미적 유사도 검색의 핵심 | OpenAI text-embedding-3-large(3072d, MTEB
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 651 / 800
-
-<- **이전**: [650. 디퓨전 모델 이미지 생성 아키텍처](/studynote/06_ict_convergence/uncategorized/650_diffusion_model_image_generation_architecture/)
-**다음**: [652. AI 할루시네이션 환각 방지 전략](/studynote/06_ict_convergence/uncategorized/652_ai_hallucination_prevention_strategy/) ->
-
----

@@ -7,15 +7,15 @@ weight: 335
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스와핑 (Swapping)은 메모리 부족 시 실행 중인 프로세스 전체(또는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위)를 디스크의 백킹 스토어 (Backing Store)로 이동시켜 메모리를 확보하는 OS 메모리 관리 기법이다.
-> 2. **가치**: 스와핑은 물리 메모리를 초과하는 총 프로세스 메모리를 실행 가능하게 하는 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 핵심 메커니즘으로, 물리 메모리 한계를 SW적으로 초월한다.
-> 3. **융합**: 현대 OS는 [전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 스와핑 대신 <strong><a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 단위 스와핑 (Paging-based Swapping)</strong>을 사용하며, [스왑 공간](/studynote/02_operating_system/07_virtual_memory/390_swap_space/), 스왑 데몬 (kswapd), [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer와 연동하여 메모리 압박을 자동으로 관리한다.
+> 1. **본질**: 스와핑 (Swapping)은 메모리 부족 시 실행 중인 프로세스 전체(또는 페이지 단위)를 디스크의 백킹 스토어 (Backing Store)로 이동시켜 메모리를 확보하는 OS 메모리 관리 기법이다.
+> 2. **가치**: 스와핑은 물리 메모리를 초과하는 총 프로세스 메모리를 실행 가능하게 하는 다중 프로그래밍 (Multiprogramming)의 핵심 메커니즘으로, 물리 메모리 한계를 SW적으로 초월한다.
+> 3. **융합**: 현대 OS는 전체 프로세스 스와핑 대신 <strong>페이지 단위 스와핑 (Paging-based Swapping)</strong>을 사용하며, 스왑 공간, 스왑 데몬 (kswapd), OOM Killer와 연동하여 메모리 압박을 자동으로 관리한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-물리 메모리 ([DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) 크기는 유한하다. 동시에 실행되는 프로세스들의 총 메모리 요구량이 물리 메모리를 초과하면, OS는 일부 프로세스를 디스크로 내보내야 한다.
+물리 메모리 (DRAM) 크기는 유한하다. 동시에 실행되는 프로세스들의 총 메모리 요구량이 물리 메모리를 초과하면, OS는 일부 프로세스를 디스크로 내보내야 한다.
 
 **💡 비유**: 작은 책상(RAM)에 올려둔 책(프로세스)들이 너무 많으면, 지금 안 보는 책은 서랍(디스크 스왑 영역)에 잠시 넣는 것.
 
@@ -53,14 +53,14 @@ weight: 335
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [표준 스와핑](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) vs [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 기반 스와핑
+### 표준 스와핑 vs 페이징 기반 스와핑
 
-| 항목 | [표준 스와핑](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) ([전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)) | [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 기반 스와핑 (현대) |
+| 항목 | 표준 스와핑 (전체 프로세스) | 페이징 기반 스와핑 (현대) |
 |:---|:---|:---|
-| 단위 | [전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (4KB) |
+| 단위 | 전체 프로세스 | 페이지 (4KB) |
 | I/O 크기 | 수십~수백MB | 최소 4KB |
 | 오버헤드 | 매우 큼 | 작음 |
-| 유연성 | 낮음 | 높음 ([워킹 셋](/studynote/02_operating_system/04_synchronization/265_working_set/) 유지) |
+| 유연성 | 낮음 | 높음 (워킹 셋 유지) |
 | 현대 OS | 거의 사용 안 함 | **기본 사용** |
 
 ### Linux kswapd 데몬 동작
@@ -90,38 +90,38 @@ weight: 335
 +--------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: kswapd는 청소부 — 방(메모리)이 너무 꽉 차기 전에 미리 안 쓰는 물건을 창고(스왑)로 옮겨요. [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer는 창고마저 꽉 찼을 때 가장 큰 짐을 들고 있는 사람(프로세스)에게 나가달라고 하는 보안 요원이에요.
+**📢 섹션 요약 비유**: kswapd는 청소부 — 방(메모리)이 너무 꽉 차기 전에 미리 안 쓰는 물건을 창고(스왑)로 옮겨요. OOM Killer는 창고마저 꽉 찼을 때 가장 큰 짐을 들고 있는 사람(프로세스)에게 나가달라고 하는 보안 요원이에요.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [스왑 공간](/studynote/02_operating_system/07_virtual_memory/390_swap_space/) 종류
+### 스왑 공간 종류
 
-| 종류 | 특성 | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| 종류 | 특성 | 설정 |
 |:---|:---|:---|
-| <strong>스왑 <a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> | 전용 디스크 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 빠름 | `/dev/sda2 swap` |
-| <strong>스왑 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> | 일반 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 유연 | `fallocate + swapon` |
-| **zRAM** | RAM을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 [스왑 공간](/studynote/02_operating_system/07_virtual_memory/390_swap_space/)으로 | `modprobe zram` |
-| **zswap** | [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 후 스왑 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 | [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 캐시 |
+| <strong>스왑 파티션</strong> | 전용 디스크 파티션, 빠름 | `/dev/sda2 swap` |
+| <strong>스왑 파일</strong> | 일반 파일시스템 파일, 유연 | `fallocate + swapon` |
+| **zRAM** | RAM을 압축해 스왑 공간으로 | `modprobe zram` |
+| **zswap** | 압축 후 스왑 파티션으로 | 쓰기 전 압축 캐시 |
 
-<strong>zRAM</strong>은 Android 스마트폰에서 널리 사용. 실제 디스크 I/O 없이 RAM 내 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 공간을 스왑으로 사용하여 빠른 스와핑을 지원한다.
+<strong>zRAM</strong>은 Android 스마트폰에서 널리 사용. 실제 디스크 I/O 없이 RAM 내 압축 공간을 스왑으로 사용하여 빠른 스와핑을 지원한다.
 
-**📢 섹션 요약 비유**: zRAM은 서랍에 진공 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 옷을 넣는 것 — 작은 서랍에 더 많은 옷(프로세스)을 넣을 수 있어요.
+**📢 섹션 요약 비유**: zRAM은 서랍에 진공 압축팩으로 옷을 넣는 것 — 작은 서랍에 더 많은 옷(프로세스)을 넣을 수 있어요.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 기반 서버</strong>: [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD로 스왑하면 [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 대비 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50배 빠름. 단, [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명(TBW) 소모 주의.
-2. <strong>클라우드 <a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 메모리 과도할당</strong>: Hypervisor가 VM들의 총 메모리를 물리 메모리보다 많이 할당하고 스와핑으로 관리 (Balloon Driver + Swap).
+1. <strong>SSD 기반 서버</strong>: NVMe SSD로 스왑하면 HDD 대비 10~50배 빠름. 단, SSD 수명(TBW) 소모 주의.
+2. <strong>클라우드 VM 메모리 과도할당</strong>: Hypervisor가 VM들의 총 메모리를 물리 메모리보다 많이 할당하고 스와핑으로 관리 (Balloon Driver + Swap).
 
-<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **스왑 없는 서버**: [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 상황에서 즉시 [프로세스 종료](/studynote/02_operating_system/02_process_thread/107_process_termination/) 위험. 작은 스왑 버퍼(2~4GB)라도 유지 권장.
-- <strong>과도한 스와핑 (<a href="/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>: 프로세스가 실행될 때마다 스왑 인/아웃이 반복되어 CPU가 스와핑에만 95% 소비 -> 전체 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 급락.
+<strong>안티패턴</strong>:
+- **스왑 없는 서버**: OOM 상황에서 즉시 프로세스 종료 위험. 작은 스왑 버퍼(2~4GB)라도 유지 권장.
+- <strong>과도한 스와핑 (Thrashing)</strong>: 프로세스가 실행될 때마다 스왑 인/아웃이 반복되어 CPU가 스와핑에만 95% 소비 -> 전체 처리량 급락.
 
-**📢 섹션 요약 비유**: [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))은 좁은 책상에 책을 계속 서랍에서 꺼내고 넣기를 반복하다 실제 공부는 못 하는 상황 — 이사 자체가 일이 돼버린 비효율입니다.
+**📢 섹션 요약 비유**: 스래싱(Thrashing)은 좁은 책상에 책을 계속 서랍에서 꺼내고 넣기를 반복하다 실제 공부는 못 하는 상황 — 이사 자체가 일이 돼버린 비효율입니다.
 
 ---
 
@@ -129,11 +129,11 @@ weight: 335
 
 | 구분 | 스와핑 없음 | 스와핑 적용 |
 |:---|:---|:---|
-| [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 수준 | 물리 메모리에 제한 | 물리 메모리 초과 실행 가능 |
-| 메모리 부족 시 | 즉시 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/)/크래시 | 스왑으로 완충 |
+| 다중 프로그래밍 수준 | 물리 메모리에 제한 | 물리 메모리 초과 실행 가능 |
+| 메모리 부족 시 | 즉시 OOM/크래시 | 스왑으로 완충 |
 | I/O 오버헤드 | 없음 | 스왑 I/O 레이턴시 |
 
-스와핑은 OS의 메모리 초과 할당을 가능하게 하는 필수 메커니즘이다. 현대에는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 스와핑+zRAM으로 오버헤드를 최소화하며, kswapd의 선제적 회수와 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 최후 방어선으로 메모리 관리 안전망을 구성한다.
+스와핑은 OS의 메모리 초과 할당을 가능하게 하는 필수 메커니즘이다. 현대에는 페이지 단위 스와핑+zRAM으로 오버헤드를 최소화하며, kswapd의 선제적 회수와 OOM Killer의 최후 방어선으로 메모리 관리 안전망을 구성한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -143,10 +143,10 @@ weight: 335
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/studynote/02_operating_system/06_memory_management/333_shared_library/)) 스터브 ([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [정적 연결](/studynote/02_operating_system/06_memory_management/334_static_linking/) ([Static Linking](/studynote/02_operating_system/06_memory_management/334_static_linking/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [스왑 아웃](/studynote/02_operating_system/06_memory_management/336_swap_out_in/) ([Swap out](/studynote/02_operating_system/06_memory_management/336_swap_out_in/)) / 스왑 인 (Swap in) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [표준 스와핑](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) ([전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)) vs [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 스와핑 ([페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 정적 연결 (Static Linking) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 스왑 아웃 (Swap out) / 스왑 인 (Swap in) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,21 +160,10 @@ weight: 335
     +---> [표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 스와핑은 책상(RAM)이 꽉 찼을 때 안 보는 책(프로세스)을 서랍(디스크)에 잠깐 넣는 것이에요.
 2. 나중에 그 책이 필요하면 서랍에서 다시 꺼내서 책상 위에 올리는데 — 이게 스왑 인이에요!
-3. 서랍이 너무 느려서 책 넣었다 꺼냈다만 반복하면 공부(연산)는 하나도 못 해요 — 이를 [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)이라고 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 335 / 800
-
-<- **이전**: [334. 정적 연결 (Static Linking)](/studynote/02_operating_system/06_memory_management/334_static_linking/)
-**다음**: [336. 스왑 아웃 (Swap out) / 스왑 인 (Swap in)](/studynote/02_operating_system/06_memory_management/336_swap_out_in/) ->
-
----
+3. 서랍이 너무 느려서 책 넣었다 꺼냈다만 반복하면 공부(연산)는 하나도 못 해요 — 이를 스래싱이라고 해요!

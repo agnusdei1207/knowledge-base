@@ -121,14 +121,3 @@ GitOps 보안 Git 기반 배포 보안 강화을(를) 체계적으로 적용하�
 1. GitOps 보안 Git 기반 배포 보안 강화은(는) 물건을 만들 때 마지막에만 검사하지 않고 만드는 동안 계속 안전을 확인하는 방법이에요.
 2. 문제가 작을 때 바로 찾으면 고치기 쉽고 사고도 줄어들어요.
 3. 좋은 DevSecOps는 빠르게 만들면서도 안전 규칙을 계속 지키게 해줘요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 395 / 400
-
-<- **이전**: [394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)](/studynote/15_devops_sre/05_devsecops/394_api_security_oauth_jwt/)
-**다음**: [396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)](/studynote/15_devops_sre/05_devsecops/396_infra_security_scanning/) ->
-
----

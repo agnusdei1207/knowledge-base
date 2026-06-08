@@ -133,11 +133,3 @@ weight: 709
 |  |  | INT4~INT16      | INT8~FP16        | FP16~FP32            |   | |
 |  |  | Apple ANE       | Qualcomm Hexagon | Mali, Adreno         |   | |
 |  |  | Snapdragon Hex  | MediaTek APU
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 709 / 800
-
-<- **이전**: [708. AI 칩 NPU TPU GPU 가속기 비교](/studynote/06_ict_convergence/uncategorized/708_ai_chip_npu_tpu_gpu_accelerator_comparison/)
-**다음**: [710. ICT 융합 기술사 종합 아키텍처 마스터 맵](/studynote/06_ict_convergence/uncategorized/710_ict_convergence_pe_master_architecture_map/) ->
-
----

@@ -7,9 +7,9 @@ weight: 339
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Word2Vec 은 주변 단어([컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/))와 중심 단어 간의 예측 과제를 통해 단어를 밀집 실수 벡터 (Dense Vector) 로 표현하는 비지도 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 기법으로, CBOW (Continuous Bag of Words) 와 Skip-Gram 두 가지 학습 방식이 있다.
-> 2. **가치**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 표현 (Distributed Representation) 을 통해 "King - Man + Woman ≈ Queen" 같은 의미 연산이 벡터 공간에서 가능해져, NLP (Natural Language Processing) 의 사전 학습 패러다임을 열었다.
-> 3. **판단 포인트**: 네거티브 샘플링 (Negative [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 이 [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/studynote/10_ai/03_llm_nlp/270_softmax/)) 의 전체 어휘 계산 비용 O(V) 를 O(k) 로 줄이는 핵심 최적화임을 명확히 서술해야 한다.
+> 1. **본질**: Word2Vec 은 주변 단어(컨텍스트)와 중심 단어 간의 예측 과제를 통해 단어를 밀집 실수 벡터 (Dense Vector) 로 표현하는 비지도 임베딩 기법으로, CBOW (Continuous Bag of Words) 와 Skip-Gram 두 가지 학습 방식이 있다.
+> 2. **가치**: 분산 표현 (Distributed Representation) 을 통해 "King - Man + Woman ≈ Queen" 같은 의미 연산이 벡터 공간에서 가능해져, NLP (Natural Language Processing) 의 사전 학습 패러다임을 열었다.
+> 3. **판단 포인트**: 네거티브 샘플링 (Negative Sampling) 이 소프트맥스 (Softmax) 의 전체 어휘 계산 비용 O(V) 를 O(k) 로 줄이는 핵심 최적화임을 명확히 서술해야 한다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 339
 
 ### One-Hot 표현의 한계
 
-기존 [One-Hot Encoding](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 은 단어를 V 차원 (어휘 크기) 희소 벡터로 표현해 다음 문제를 일으켰다.
+기존 One-Hot Encoding 은 단어를 V 차원 (어휘 크기) 희소 벡터로 표현해 다음 문제를 일으켰다.
 
 | 한계 | 설명 |
 |:---|:---|
@@ -66,11 +66,11 @@ Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 
                                    +------+
 ```
 
-### 네거티브 샘플링 (Negative [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 원리
+### 네거티브 샘플링 (Negative Sampling) 원리
 
-기본 [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/)는 전체 어휘 V 에 대해 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 필요해 O(V) 비용 발생. 네거티브 샘플링은 이를 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Binary [Classification](/studynote/12_it_management/03_ea_isp/107_classification/)) 로 단순화한다.
+기본 소프트맥스는 전체 어휘 V 에 대해 정규화가 필요해 O(V) 비용 발생. 네거티브 샘플링은 이를 이진 분류 (Binary Classification) 로 단순화한다.
 
-- **긍정 샘플**: 실제로 함께 등장하는 (중심, [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)) 쌍 -> label = 1
+- **긍정 샘플**: 실제로 함께 등장하는 (중심, 컨텍스트) 쌍 -> label = 1
 - **부정 샘플**: 무작위로 선택된 k개 단어 쌍 -> label = 0
 - **목적 함수**: `L = log σ(v_c · v_w) + Σk log σ(-v_n · v_w)`
 - **비용**: O(k) — k 는 보통 5~20 (V 대비 수만 배 감소)
@@ -88,10 +88,10 @@ Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 
 
 | 비교 항목 | CBOW | Skip-Gram |
 |:---|:---|:---|
-| 예측 방향 | [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) -> 중심 단어 | 중심 단어 -> [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) |
+| 예측 방향 | 컨텍스트 -> 중심 단어 | 중심 단어 -> 컨텍스트 |
 | 학습 속도 | 빠름 | 느림 |
 | 희귀 단어 표현 | 약함 | 강함 |
-| 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 유리 | 유리 |
+| 대규모 데이터 | 유리 | 유리 |
 
 - **📢 섹션 요약 비유**: CBOW 는 "빈칸 채우기 문제 — 앞뒤 단어 보고 가운데 단어 맞추기"고, Skip-Gram 은 "역 빈칸 채우기 — 가운데 단어 보고 앞뒤 단어 맞추기"다. Skip-Gram 이 더 어려운 과제이므로 희귀 단어 학습에 강하다.
 
@@ -99,18 +99,18 @@ Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 
 
 ## Ⅲ. 비교 및 연결
 
-### 단어 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 발전사
+### 단어 임베딩 발전사
 
 | 방법 | 연도 | 특징 | 한계 |
 |:---|:---:|:---|:---|
 | One-Hot | ~2012 | 간단, 희소 | 의미 없음 |
 | Word2Vec | 2013 | 밀집, 빠름 | 다의어 미구분 |
-| [GloVe](/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/) (Global Vectors) | 2014 | 전역 통계 활용 | 다의어 미구분 |
+| GloVe (Global Vectors) | 2014 | 전역 통계 활용 | 다의어 미구분 |
 | FastText | 2016 | 서브워드 (Subword) | 미등록어 처리 |
-| ELMo | 2018 | 문맥 의존 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 양방향 [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) |
-| [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | 2018 | [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), 문맥 반영 | 대규모 사전학습 필요 |
+| ELMo | 2018 | 문맥 의존 임베딩 | 양방향 LSTM |
+| BERT | 2018 | 트랜스포머, 문맥 반영 | 대규모 사전학습 필요 |
 
-- **📢 섹션 요약 비유**: Word2Vec 에서 [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 로의 진화는 "고정된 프로필 사진(Word2Vec)" 에서 "상황에 따라 다른 표정을 보여주는 동영상([BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))" 으로의 변화다. "배" 라는 단어가 먹는 배인지 타는 배인지 문맥에 따라 달라진다.
+- **📢 섹션 요약 비유**: Word2Vec 에서 BERT 로의 진화는 "고정된 프로필 사진(Word2Vec)" 에서 "상황에 따라 다른 표정을 보여주는 동영상(BERT)" 으로의 변화다. "배" 라는 단어가 먹는 배인지 타는 배인지 문맥에 따라 달라진다.
 
 ---
 
@@ -135,25 +135,25 @@ result = model.wv["king"] - model.wv["man"] + model.wv["woman"]
 
 ### 기술사 출제 포인트
 
-- CBOW vs Skip-Gram 예측 방향과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성 비교
+- CBOW vs Skip-Gram 예측 방향과 성능 특성 비교
 - 네거티브 샘플링의 계산 복잡도 개선: O(V) -> O(k)
-- [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 표현의 의미적 덧셈 연산 예시 (King-Man+Woman=Queen)
-- Word2Vec 의 한계: 다의어 미구분, 문맥 무시 -> [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 로의 발전
+- 분산 표현의 의미적 덧셈 연산 예시 (King-Man+Woman=Queen)
+- Word2Vec 의 한계: 다의어 미구분, 문맥 무시 -> BERT 로의 발전
 
-- **📢 섹션 요약 비유**: Word2Vec 의 네거티브 샘플링은 "100만 명 전교생 명단을 다 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 대신, 무작위로 10명만 골라 '이 사람이 짝꿍이냐?'를 빠르게 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는" 근사 방법이다.
+- **📢 섹션 요약 비유**: Word2Vec 의 네거티브 샘플링은 "100만 명 전교생 명단을 다 확인하는 대신, 무작위로 10명만 골라 '이 사람이 짝꿍이냐?'를 빠르게 확인하는" 근사 방법이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-- **효율성**: 대규모 코퍼스에서 수 시간 만에 고품질 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 학습 가능
-- <strong><a href="/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">전이 학습</a> 선구</strong>: 사전 학습된 벡터를 다운스트림 과제에 재사용하는 패러다임 개척
-- **의미 연산**: 벡터 공간에서 단어 의미 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 수학적으로 표현 가능
+- **효율성**: 대규모 코퍼스에서 수 시간 만에 고품질 임베딩 학습 가능
+- <strong>전이 학습 선구</strong>: 사전 학습된 벡터를 다운스트림 과제에 재사용하는 패러다임 개척
+- **의미 연산**: 벡터 공간에서 단어 의미 관계를 수학적으로 표현 가능
 - **한계**: 문맥 무시 (같은 단어 = 항상 같은 벡터), 다의어 처리 불가
 
-Word2Vec 은 현대 NLP 의 출발점이자 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 시대를 연 역사적 기술이다. 기술사 시험에서는 CBOW/Skip-Gram 구조, 네거티브 샘플링, One-Hot 대비 장점, [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 로의 발전 흐름을 체계적으로 서술하면 고득점 가능하다.
+Word2Vec 은 현대 NLP 의 출발점이자 임베딩 시대를 연 역사적 기술이다. 기술사 시험에서는 CBOW/Skip-Gram 구조, 네거티브 샘플링, One-Hot 대비 장점, BERT 로의 발전 흐름을 체계적으로 서술하면 고득점 가능하다.
 
-- **📢 섹션 요약 비유**: Word2Vec 은 "언어의 지도를 처음 만든 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가"다. 단어를 지도의 좌표로 나타내어 비슷한 의미의 단어는 가까이, 반대 의미는 멀리 배치했다. [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 는 이 지도에 실시간 교통 상황(문맥)까지 반영한 내비게이션으로 발전했다.
+- **📢 섹션 요약 비유**: Word2Vec 은 "언어의 지도를 처음 만든 탐험가"다. 단어를 지도의 좌표로 나타내어 비슷한 의미의 단어는 가까이, 반대 의미는 멀리 배치했다. BERT 는 이 지도에 실시간 교통 상황(문맥)까지 반영한 내비게이션으로 발전했다.
 
 ---
 
@@ -161,11 +161,11 @@ Word2Vec 은 현대 NLP 의 출발점이자 [임베딩](/studynote/06_ict_conver
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| CBOW (Continuous Bag of Words) | [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)->중심 예측 / Word2Vec 학습 방식 1 |
-| Skip-Gram | 중심->[컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 예측 / Word2Vec 학습 방식 2 |
-| 네거티브 샘플링 (Negative [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) | O(k) 계산, 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) / [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) 대체 최적화 |
-| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 표현 (Distributed Representation) | 밀집 벡터, 의미 공간 / One-Hot 의 비선형 대안 |
-| [GloVe](/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/) (Global Vectors) | 공기 행렬, 전역 통계 / Word2Vec 의 경쟁 모델 |
+| CBOW (Continuous Bag of Words) | 컨텍스트->중심 예측 / Word2Vec 학습 방식 1 |
+| Skip-Gram | 중심->컨텍스트 예측 / Word2Vec 학습 방식 2 |
+| 네거티브 샘플링 (Negative Sampling) | O(k) 계산, 이진 분류 / 소프트맥스 대체 최적화 |
+| 분산 표현 (Distributed Representation) | 밀집 벡터, 의미 공간 / One-Hot 의 비선형 대안 |
+| GloVe (Global Vectors) | 공기 행렬, 전역 통계 / Word2Vec 의 경쟁 모델 |
 | FastText | 서브워드, 미등록어 처리 / Word2Vec 의 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -179,14 +179,3 @@ Word2Vec 은 현대 NLP 의 출발점이자 [임베딩](/studynote/06_ict_conver
 1. 📍 Word2Vec 은 단어마다 "지도의 좌표"를 부여해서, 비슷한 단어는 좌표가 가깝게 만들어요.
 2. 🔍 Skip-Gram 은 "사과"라는 단어를 보면 주변에 "과일", "빨간색", "맛있다"가 올 거라고 예측해서 단어의 의미를 배워요.
 3. ✨ 그래서 "왕 - 남자 + 여자" 계산을 하면 "여왕"이 나오는 신기한 수학이 가능해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 339 / 420
-
-<- **이전**: [338. vLLM과 PagedAttention (페이지드 어텐션)](/studynote/10_ai/04_ai_ops_ethics/338_vllm_paged_attention/)
-**다음**: [340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)](/studynote/10_ai/04_ai_ops_ethics/340_deepfm_recommendation/) ->
-
----

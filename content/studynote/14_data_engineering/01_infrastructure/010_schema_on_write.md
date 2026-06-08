@@ -6,22 +6,22 @@ tags:
   - "studynote-data-engineering"
 weight: 10
 ---
-# [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 ([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Write)
+# 스키마 온 라이트 (Schema-on-Write)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스토리지에 기록(Write)하기 전에 반드시 사전에 정의된 엄격한 구조(테이블, 컬럼, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입)를 만족하도록 강제하는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 저장 철학입니다.
-> 2. **가치**: 불량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Garbage)가 시스템에 진입하는 것을 원천 차단하여 완벽한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질([Data Quality](/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/))과 정합성을 보장하며, 읽기(Read) 시점의 파싱 오버헤드를 없애 극도로 빠른 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공합니다.
-> 3. **융합**: 전통적인 RDBMS와 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))의 근간이며, 최근에는 [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))의 오픈 테이블 포맷과 결합하여 빅데이터 환경에서도 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 핵심 기제로 부활하고 있습니다.
+> 1. **본질**: 데이터를 스토리지에 기록(Write)하기 전에 반드시 사전에 정의된 엄격한 구조(테이블, 컬럼, 데이터 타입)를 만족하도록 강제하는 데이터베이스 저장 철학입니다.
+> 2. **가치**: 불량 데이터(Garbage)가 시스템에 진입하는 것을 원천 차단하여 완벽한 데이터 품질(Data Quality)과 정합성을 보장하며, 읽기(Read) 시점의 파싱 오버헤드를 없애 극도로 빠른 분석 쿼리 성능을 제공합니다.
+> 3. **융합**: 전통적인 RDBMS와 데이터 웨어하우스(DW)의 근간이며, 최근에는 데이터 레이크하우스(Data Lakehouse)의 오픈 테이블 포맷과 결합하여 빅데이터 환경에서도 무결성을 지키는 핵심 기제로 부활하고 있습니다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-<strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 온 라이트 (<a href="/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>-on-Write)</strong>는 IT 시스템 역사상 가장 오랫동안, 그리고 가장 신뢰받아 온 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제 패러다임입니다.
+<strong>스키마 온 라이트 (Schema-on-Write)</strong>는 IT 시스템 역사상 가장 오랫동안, 그리고 가장 신뢰받아 온 데이터 통제 패러다임입니다.
 
-금융, 의료, [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템처럼 단 1원의 오차나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누락도 허용되지 않는 환경에서는 "아무 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 일단 넣고 보자"는 식의 접근이 불가능합니다. "나이는 반드시 정수(Integer)여야 하고, 주민번호는 13자리 문자열이어야 한다"는 명확한 계약(Contract)이 선행되어야만 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과를 100% 신뢰할 수 있습니다. [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 디스크에 안착하기 직전에 강력한 문지기 역할을 하여, 규격을 벗어난 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 과감히 튕겨냅니다.
+금융, 의료, ERP 시스템처럼 단 1원의 오차나 데이터 누락도 허용되지 않는 환경에서는 "아무 데이터나 일단 넣고 보자"는 식의 접근이 불가능합니다. "나이는 반드시 정수(Integer)여야 하고, 주민번호는 13자리 문자열이어야 한다"는 명확한 계약(Contract)이 선행되어야만 쿼리 결과를 100% 신뢰할 수 있습니다. 스키마 온 라이트는 데이터가 디스크에 안착하기 직전에 강력한 문지기 역할을 하여, 규격을 벗어난 데이터는 과감히 튕겨냅니다.
 
-빅데이터 초창기에는 이러한 엄격함이 적재 속도를 저하시키는 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))으로 치부되어 유연한 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))에 밀리는 듯 보였습니다. 그러나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 호수가 관리되지 않는 쓰레기장([Data Swamp](/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))으로 변질되고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트들이 불량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하는 데 업무 시간의 80%를 낭비하는 문제가 심화되면서, <strong>"<a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 시점의 강력한 품질 통제"</strong>라는 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트의 철학적 가치가 [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 차원에서 다시 절대적인 중요성을 확보하게 되었습니다.
+빅데이터 초창기에는 이러한 엄격함이 적재 속도를 저하시키는 병목(Bottleneck)으로 치부되어 유연한 데이터 레이크(Schema-on-Read)에 밀리는 듯 보였습니다. 그러나 데이터 호수가 관리되지 않는 쓰레기장(Data Swamp)으로 변질되고 데이터 사이언티스트들이 불량 데이터를 정제하는 데 업무 시간의 80%를 낭비하는 문제가 심화되면서, <strong>"쓰기 시점의 강력한 품질 통제"</strong>라는 스키마 온 라이트의 철학적 가치가 데이터 거버넌스 차원에서 다시 절대적인 중요성을 확보하게 되었습니다.
 
 ```text
 [스키마 온 라이트의 엄격한 방어막 아키텍처]
@@ -42,25 +42,25 @@ weight: 10
                        | (읽기 오버헤드 제로, 인덱스 활용)
              [ BI / 고속 SQL 분석가 ]
 ```
-이 도식은 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트가 작동하는 전형적인 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) 파이프라인의 구조를 보여줍니다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DB에 진입하기 전에 구조 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 타입 캐스팅, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 제약 조건(Not Null, [외래 키](/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) 등)의 살벌한 검열을 거칩니다. 이 과정에서 파이프라인 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생하지만, 톨게이트를 통과해 내부에 저장된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 '단일 진실 공급원(SSOT)'으로서의 무결점을 획득합니다. 분석가는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨져 있을까 봐 걱정할 필요 없이 인덱스가 타는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/)) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)만 작성하면 됩니다.
+이 도식은 스키마 온 라이트가 작동하는 전형적인 ETL (Extract, Transform, Load) 파이프라인의 구조를 보여줍니다. 데이터는 DB에 진입하기 전에 구조 검증, 타입 캐스팅, 무결성 제약 조건(Not Null, 외래 키 등)의 살벌한 검열을 거칩니다. 이 과정에서 파이프라인 지연(Latency)이 발생하지만, 톨게이트를 통과해 내부에 저장된 데이터는 '단일 진실 공급원(SSOT)'으로서의 무결점을 획득합니다. 분석가는 데이터가 깨져 있을까 봐 걱정할 필요 없이 인덱스가 타는 초고속 조인(Join) 쿼리만 작성하면 됩니다.
 
-> 📢 **섹션 비유**: [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트는 클럽 입구의 '엄격한 기도(Bouncer)'와 같습니다. 드레스 코드가 맞지 않으면 절대 들여보내지 않아서 입장 줄은 길어질 수 있지만, 일단 클럽 안에 들어간 사람들은 완벽한 물관리가 되어 있어 파티([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)가 최상의 품질로 진행됩니다.
+> 📢 **섹션 비유**: 스키마 온 라이트는 클럽 입구의 '엄격한 기도(Bouncer)'와 같습니다. 드레스 코드가 맞지 않으면 절대 들여보내지 않아서 입장 줄은 길어질 수 있지만, 일단 클럽 안에 들어간 사람들은 완벽한 물관리가 되어 있어 파티(데이터 분석)가 최상의 품질로 진행됩니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 시스템의 내부는 디스크 I/O 최적화와 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)의 강력한 결합으로 이루어져 있습니다. RDBMS와 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 엔진이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기록하는 과정을 뜯어보면 왜 이것이 읽기 속도를 극대화하는지 알 수 있습니다.
+스키마 온 라이트 시스템의 내부는 디스크 I/O 최적화와 메타데이터의 강력한 결합으로 이루어져 있습니다. RDBMS와 DW 엔진이 데이터를 기록하는 과정을 뜯어보면 왜 이것이 읽기 속도를 극대화하는지 알 수 있습니다.
 
 | 구성 요소 | 역할 | 내부 동작 메커니즘 | 실무 비유 |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/020_ddl/">Data Definition Language</a> (<a href="/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a>)</strong> | 시스템 뼈대 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `CREATE TABLE`을 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딕셔너리([메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/))에 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 공간 사전 할당 | 건물의 철골 설계도 작성 |
-| **Constraint Checker** | [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 제약 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 적재(Insert) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 발생 시 Not Null, Unique, Type 검사를 통과해야만 Commit | 불량 자재 반입 통제관 |
-| **Storage Layout** | 물리적 디스크 블록 할당 | INT(4Byte), CHAR(10Byte) 등 사전에 고정된 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 크기만큼 디스크 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 슬롯에 밀어 넣음 | 딱 맞는 크기의 얼음틀 |
-| <strong><a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> <a href="/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a> / Bitmap</strong> | 고속 검색 구조 형성 | [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시점에 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 구조를 바탕으로 검색 트리를 동시에 업데이트 ([쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도 저하 유발) | 책의 뒤쪽 색인(목차) 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| <strong>Query <a href="/studynote/12_it_management/02_itsm_itil/088_optimizer/">Optimizer</a></strong> | [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 | 사전에 고정된 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 통계 정보(카디널리티, 분포도)를 믿고 가장 빠른 조인 경로 연산 | 내비게이션의 최단 거리 계산 |
+| <strong>Data Definition Language (DDL)</strong> | 시스템 뼈대 생성 | `CREATE TABLE`을 통해 데이터 딕셔너리(메타데이터)에 스키마 공간 사전 할당 | 건물의 철골 설계도 작성 |
+| **Constraint Checker** | 무결성 제약 검증 | 적재(Insert) 트랜잭션 발생 시 Not Null, Unique, Type 검사를 통과해야만 Commit | 불량 자재 반입 통제관 |
+| **Storage Layout** | 물리적 디스크 블록 할당 | INT(4Byte), CHAR(10Byte) 등 사전에 고정된 바이트 크기만큼 디스크 페이지 슬롯에 밀어 넣음 | 딱 맞는 크기의 얼음틀 |
+| <strong>Index B-Tree / Bitmap</strong> | 고속 검색 구조 형성 | 쓰기 시점에 스키마 구조를 바탕으로 검색 트리를 동시에 업데이트 (쓰기 속도 저하 유발) | 책의 뒤쪽 색인(목차) 자동 생성 |
+| <strong>Query Optimizer</strong> | 실행 계획 최적화 | 사전에 고정된 스키마 통계 정보(카디널리티, 분포도)를 믿고 가장 빠른 조인 경로 연산 | 내비게이션의 최단 거리 계산 |
 
-[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트의 숨겨진 강력함은 물리적 디스크에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기록되는 <strong>고정 길이 메모리 레이아웃(Storage Layout)</strong>에서 나옵니다.
+스키마 온 라이트의 숨겨진 강력함은 물리적 디스크에 데이터가 기록되는 <strong>고정 길이 메모리 레이아웃(Storage Layout)</strong>에서 나옵니다.
 
 ```text
 [스키마 온 라이트의 물리적 메모리/디스크 블록 레이아웃]
@@ -74,7 +74,7 @@ weight: 10
 +------+----------------------+----------------------+----------------------+
          ^ (Offset: +0)         ^ (Offset: +10)        ^ (Offset: +20)
 ```
-이 도식은 엔진이 왜 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 강제하는지 그 물리적 이유를 보여줍니다. [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)([Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) 같은 가변 길이 텍스트 파일은 100만 번째 레코드를 찾으려면 파일의 처음부터 쉼표와 괄호를 일일이 파싱하며 읽어야 합니다(Full Scan). 반면, [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트에서는 레코드 길이가 정확히 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Byte로 고정(Fix)되어 있으므로, 옵티마이저는 `(목표 행 번호) * 10 Byte`라는 단순한 오프셋 수식만으로 디스크의 특정 블록으로 즉시 점프(Random Access)할 수 있습니다. 즉, 쓸 때 고생한 덕분에 읽을 때 파싱 오버헤드가 제로(0)가 되는 경이로운 읽기 최적화를 달성합니다.
+이 도식은 엔진이 왜 스키마를 강제하는지 그 물리적 이유를 보여줍니다. JSON(Schema-on-Read) 같은 가변 길이 텍스트 파일은 100만 번째 레코드를 찾으려면 파일의 처음부터 쉼표와 괄호를 일일이 파싱하며 읽어야 합니다(Full Scan). 반면, 스키마 온 라이트에서는 레코드 길이가 정확히 10 Byte로 고정(Fix)되어 있으므로, 옵티마이저는 `(목표 행 번호) * 10 Byte`라는 단순한 오프셋 수식만으로 디스크의 특정 블록으로 즉시 점프(Random Access)할 수 있습니다. 즉, 쓸 때 고생한 덕분에 읽을 때 파싱 오버헤드가 제로(0)가 되는 경이로운 읽기 최적화를 달성합니다.
 
 > 📢 **섹션 비유**: 짐을 아무렇게나 박스에 우겨넣는 대신(가변 길이), 정확히 규격화된 블록(레고)으로 끼워 맞추어 건물을 지어두면, 나중에 10층의 3번째 방을 찾을 때 처음부터 세어볼 필요 없이 설계도만 보고 헬기로 단숨에 날아갈 수 있는 원리입니다.
 
@@ -82,33 +82,33 @@ weight: 10
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-현대의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 저장 구조를 설계할 때 속도(적재 vs 조회)의 트레이드오프를 철저히 계산해야 합니다.
+현대의 데이터 엔지니어는 저장 구조를 설계할 때 속도(적재 vs 조회)의 트레이드오프를 철저히 계산해야 합니다.
 
-<strong>1. <a href="/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>-on-Write vs <a href="/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a> 의사결정 매트릭스</strong>
+<strong>1. Schema-on-Write vs Schema-on-Read 의사결정 매트릭스</strong>
 
-| 비교 항목 | [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Write (RDBMS/[DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | [Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) ([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) | 아키텍처 판단 포인트 |
+| 비교 항목 | Schema-on-Write (RDBMS/DW) | Schema-on-Read (Data Lake) | 아키텍처 판단 포인트 |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조의 변동성</strong> | 안정적 (잘 변하지 않는 비즈니스 로직) | 매우 유동적 (수시로 필드가 추가/삭제됨) | 소스 시스템의 변화 빈도 |
-| **목적의 명확성** | 무엇을 분석할지 미리 명확히 정의됨 | 일단 모아두고 나중에 가치를 발굴함 | [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴의 사전 예측 가능성 |
-| **처리 병목의 위치** | 적재 시점 ([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 조회 시점 ([쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 시간 증가) | 실시간 유입량 vs 빠른 응답성 |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 타입</strong> | 테이블/관계형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전용 | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이미지, 영상 등 100% 수용 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다양성 한계치 |
-| **유지보수 비용** | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경(ALTER TABLE) 시 막대한 다운타임 | [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 코드([View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))만 변경하면 즉시 반영 | 운영 조직의 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 대응력 |
+| <strong>데이터 구조의 변동성</strong> | 안정적 (잘 변하지 않는 비즈니스 로직) | 매우 유동적 (수시로 필드가 추가/삭제됨) | 소스 시스템의 변화 빈도 |
+| **목적의 명확성** | 무엇을 분석할지 미리 명확히 정의됨 | 일단 모아두고 나중에 가치를 발굴함 | 쿼리 패턴의 사전 예측 가능성 |
+| **처리 병목의 위치** | 적재 시점 (ETL 파이프라인 지연) | 조회 시점 (쿼리 실행 시간 증가) | 실시간 유입량 vs 빠른 응답성 |
+| <strong>데이터 타입</strong> | 테이블/관계형 데이터 전용 | 로그, 이미지, 영상 등 100% 수용 | 데이터 다양성 한계치 |
+| **유지보수 비용** | 스키마 변경(ALTER TABLE) 시 막대한 다운타임 | 쿼리 코드(View)만 변경하면 즉시 반영 | 운영 조직의 애자일(Agile) 대응력 |
 
-<strong>2. 융합 관점: <a href="/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a>와 <a href="/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/">메달리온 아키텍처</a>의 결합</strong>
-최근 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계는 두 사상의 대립을 끝내고 <strong>공존</strong>의 길을 찾았습니다. [메달리온 아키텍처](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)([Medallion Architecture](/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/))에서 <strong>Bronze(원시) 존</strong>은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 막기 위해 <strong><a href="/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a></strong>로 무조건 쏟아붓습니다. 이후 Spark나 dbt를 통해 정제를 거쳐 최종 BI가 바라보는 <strong>Gold(집계) 존</strong>에 도달할 때는 엄격한 제약 조건을 강제하는 <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 온 라이트</strong> 방식([Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/)/Iceberg의 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 강제화 기능)을 적용합니다. 이 융합을 통해 수집의 유연성과 조회의 정합성이라는 두 마리 토끼를 모두 잡게 되었습니다.
+<strong>2. 융합 관점: 레이크하우스와 메달리온 아키텍처의 결합</strong>
+최근 데이터 생태계는 두 사상의 대립을 끝내고 <strong>공존</strong>의 길을 찾았습니다. 메달리온 아키텍처(Medallion Architecture)에서 <strong>Bronze(원시) 존</strong>은 데이터 유실을 막기 위해 <strong>스키마 온 리드</strong>로 무조건 쏟아붓습니다. 이후 Spark나 dbt를 통해 정제를 거쳐 최종 BI가 바라보는 <strong>Gold(집계) 존</strong>에 도달할 때는 엄격한 제약 조건을 강제하는 <strong>스키마 온 라이트</strong> 방식(Delta Lake/Iceberg의 스키마 강제화 기능)을 적용합니다. 이 융합을 통해 수집의 유연성과 조회의 정합성이라는 두 마리 토끼를 모두 잡게 되었습니다.
 
-> 📢 **섹션 비유**: [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read가 뭐든 섞어버리는 '아이디어 회의(브레인스토밍)' 단계라면, [Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Write는 그것을 논리적이고 엄격한 포맷의 '최종 결재 기안서'로 작성하는 단계입니다. 조직에는 이 두 가지 단계가 순차적으로 모두 필요합니다.
+> 📢 **섹션 비유**: Schema-on-Read가 뭐든 섞어버리는 '아이디어 회의(브레인스토밍)' 단계라면, Schema-on-Write는 그것을 논리적이고 엄격한 포맷의 '최종 결재 기안서'로 작성하는 단계입니다. 조직에는 이 두 가지 단계가 순차적으로 모두 필요합니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
 
-실무에서 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트를 고수하다 보면 빈번하게 마주하는 장애물은 <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 에볼루션(<a href="/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a> Evolution)</strong>에 따른 시스템 마비입니다.
+실무에서 스키마 온 라이트를 고수하다 보면 빈번하게 마주하는 장애물은 <strong>스키마 에볼루션(Schema Evolution)</strong>에 따른 시스템 마비입니다.
 
-<strong>실무 시나리오: 소스 <a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경으로 인한 <a href="/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 파이프라인 붕괴 (<a href="/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a> Breakage)</strong>
-- **상황**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개발팀이 앱을 업데이트하면서 운영 DB의 `user_profile` 테이블에 `phone_number`라는 새로운 컬럼을 추가함. 하지만 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 담당자에게 이를 알리지 않음. 야간 배치가 돌면서 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버가 DW에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣으려 했으나, [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 테이블에는 해당 컬럼이 정의되어 있지 않아 에러([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/) Mismatch)를 뱉고 전체 파이프라인이 중단됨.
-- **원인**: 엄격한 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 방어막이, 예고되지 않은 구조 변경을 '오염'으로 간주하고 시스템을 셧다운시킨 정상적이지만 파괴적인 동작.
-- <strong>해결 (장애 대응 및 <a href="/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a>)</strong>:
+<strong>실무 시나리오: 소스 스키마 변경으로 인한 ETL 파이프라인 붕괴 (Pipeline Breakage)</strong>
+- **상황**: 서비스 개발팀이 앱을 업데이트하면서 운영 DB의 `user_profile` 테이블에 `phone_number`라는 새로운 컬럼을 추가함. 하지만 DW 담당자에게 이를 알리지 않음. 야간 배치가 돌면서 ETL 서버가 DW에 데이터를 밀어 넣으려 했으나, DW 테이블에는 해당 컬럼이 정의되어 있지 않아 에러(Schema Mismatch)를 뱉고 전체 파이프라인이 중단됨.
+- **원인**: 엄격한 스키마 온 라이트 방어막이, 예고되지 않은 구조 변경을 '오염'으로 간주하고 시스템을 셧다운시킨 정상적이지만 파괴적인 동작.
+- <strong>해결 (장애 대응 및 의사결정 트리)</strong>:
 
 ```text
 [스키마 불일치(Mismatch) 예방 및 자동화 파이프라인 트리]
@@ -126,38 +126,38 @@ weight: 10
                             +-- 2. 기존 데이터의 해당 컬럼은 NULL로 채움 (역방향 호환성 유지)
                             +--> [ 중단 없이 정상 적재 재개 ]
 ```
-이 의사결정 흐름도는 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트의 경직성을 어떻게 소프트웨어 엔지니어링으로 우회할 것인가를 보여줍니다. 실무에서는 개발팀과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀 간의 소통 부재로 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 에러가 일상적으로 발생합니다. 이를 극복하기 위해 최신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼([Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/), [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/))은 `mergeSchema=true` 같은 옵션을 제공하여, 새로 들어온 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 컬럼이 타겟 테이블에 없다면 자동으로 테이블 구조를 진화시키는([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution) 유연성을 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 환경에 부여하고 있습니다.
+이 의사결정 흐름도는 스키마 온 라이트의 경직성을 어떻게 소프트웨어 엔지니어링으로 우회할 것인가를 보여줍니다. 실무에서는 개발팀과 데이터팀 간의 소통 부재로 스키마 변경 에러가 일상적으로 발생합니다. 이를 극복하기 위해 최신 데이터 플랫폼(Snowflake, Delta Lake)은 `mergeSchema=true` 같은 옵션을 제공하여, 새로 들어온 데이터의 컬럼이 타겟 테이블에 없다면 자동으로 테이블 구조를 진화시키는(Schema Evolution) 유연성을 스키마 온 라이트 환경에 부여하고 있습니다.
 
-<strong>운영 및 아키텍처 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
-- **강결합 완화**: [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 실패가 전체 비즈니스 대시보드의 먹통으로 이어지지 않도록 데드 레터 큐(DLQ, Dead Letter [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 도입하여 실패한 레코드만 옆으로 빼내고 정상 레코드는 통과시키고 있는가?
-- <strong><a href="/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a>(<a href="/studynote/16_bigdata/12_trends/236_data_contract/">Data Contract</a>)</strong>: 개발팀(생산자)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀(소비자) 사이에 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 함부로 변경하지 않겠다는 명시적인 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규약([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 활용 등)이 거버넌스로 체계화되어 있는가?
+<strong>운영 및 아키텍처 체크리스트</strong>
+- **강결합 완화**: ETL 실패가 전체 비즈니스 대시보드의 먹통으로 이어지지 않도록 데드 레터 큐(DLQ, Dead Letter Queue)를 도입하여 실패한 레코드만 옆으로 빼내고 정상 레코드는 통과시키고 있는가?
+- <strong>데이터 계약(Data Contract)</strong>: 개발팀(생산자)과 데이터팀(소비자) 사이에 스키마를 함부로 변경하지 않겠다는 명시적인 API 규약(Schema Registry 활용 등)이 거버넌스로 체계화되어 있는가?
 
-> 📢 **섹션 비유**: [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트는 완벽히 짜여진 '기차 선로'와 같아서 열차([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 선로 규격을 조금이라도 벗어나면 즉시 탈선(장애)합니다. 따라서 선로를 변경할 때는 앞뒤 부서가 완벽한 무전([데이터 계약](/studynote/16_bigdata/12_trends/236_data_contract/))을 주고받아야 대참사를 막을 수 있습니다.
+> 📢 **섹션 비유**: 스키마 온 라이트는 완벽히 짜여진 '기차 선로'와 같아서 열차(데이터)가 선로 규격을 조금이라도 벗어나면 즉시 탈선(장애)합니다. 따라서 선로를 변경할 때는 앞뒤 부서가 완벽한 무전(데이터 계약)을 주고받아야 대참사를 막을 수 있습니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트는 고품질 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 마지막 보루로서 비즈니스 의사결정의 신뢰도를 결정짓습니다.
+스키마 온 라이트는 고품질 데이터의 마지막 보루로서 비즈니스 의사결정의 신뢰도를 결정짓습니다.
 
-| 기대 효과 구분 | 유연성 우선 시 ([Schema-on-Read](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) 남용) | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 (엄격 통제) 적용 시 |
+| 기대 효과 구분 | 유연성 우선 시 (Schema-on-Read 남용) | 스키마 온 라이트 (엄격 통제) 적용 시 |
 |:---|:---|:---|
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정합성</strong> | 분석가가 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 짤 때마다 결과가 달라짐 (Garbage [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방치) | 전사적으로 100% 동일하게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 단일 지표(SSOT) 획득 |
-| <strong>조회 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>| [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시점마다 타입 변환과 예외 처리 파싱으로 인한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 인덱스와 파티셔닝이 완벽히 적용되어 즉각적인 밀리초(ms) 응답 |
+| <strong>데이터 정합성</strong> | 분석가가 쿼리를 짤 때마다 결과가 달라짐 (Garbage 데이터 방치) | 전사적으로 100% 동일하게 검증된 단일 지표(SSOT) 획득 |
+| <strong>조회 성능 (Latency)</strong>| 쿼리 시점마다 타입 변환과 예외 처리 파싱으로 인한 지연 | 인덱스와 파티셔닝이 완벽히 적용되어 즉각적인 밀리초(ms) 응답 |
 
 **미래 전망 및 결론**
-"가장 빠른 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 디스크에서 읽을 필요가 없는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)이고, 그다음으로 빠른 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 완벽히 고정된 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)이다." [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트는 단순히 낡은 RDBMS의 잔재가 아닙니다. 머신러닝의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 결국 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질에 종속되는 현시대에, <strong>가비지 인 가비지 아웃(Garbage-In Garbage-Out)</strong>을 막는 가장 엔지니어링적인 해법입니다.
-미래의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처는 유연한 수집(Read)과 엄격한 서빙(Write)이 융합된 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 형태로 귀결되고 있습니다. 즉, 시스템 깊숙한 곳에서는 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트의 강력한 제약과 타입 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Type Checking)이 부활하여, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 보이지 않는 뼈대 역할을 영원히 수행할 것입니다.
+"가장 빠른 쿼리는 디스크에서 읽을 필요가 없는 쿼리이고, 그다음으로 빠른 쿼리는 스키마가 완벽히 고정된 쿼리이다." 스키마 온 라이트는 단순히 낡은 RDBMS의 잔재가 아닙니다. 머신러닝의 성능이 결국 입력 데이터의 품질에 종속되는 현시대에, <strong>가비지 인 가비지 아웃(Garbage-In Garbage-Out)</strong>을 막는 가장 엔지니어링적인 해법입니다.
+미래의 데이터 아키텍처는 유연한 수집(Read)과 엄격한 서빙(Write)이 융합된 레이크하우스 형태로 귀결되고 있습니다. 즉, 시스템 깊숙한 곳에서는 스키마 온 라이트의 강력한 제약과 타입 검증(Type Checking)이 부활하여, 데이터의 무결성을 지키는 보이지 않는 뼈대 역할을 영원히 수행할 것입니다.
 
-> 📢 **섹션 비유**: 흙탕물([비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/))을 그냥 퍼서 마시는 유연성도 생존에 필요하지만, 결국 문명 사회의 건강을 지키는 것은 수백 번의 깐깐한 필터링([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Write)을 거쳐 가정에 배달되는 완벽한 수돗물 정수 시스템입니다.
+> 📢 **섹션 비유**: 흙탕물(비정형 데이터)을 그냥 퍼서 마시는 유연성도 생존에 필요하지만, 결국 문명 사회의 건강을 지키는 것은 수백 번의 깐깐한 필터링(Schema-on-Write)을 거쳐 가정에 배달되는 완벽한 수돗물 정수 시스템입니다.
 
 ---
-### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- <strong><a href="/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/">Data Warehouse</a> (<a href="/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>)</strong> | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 철학이 극대화된 전사적 통합 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 ([Inmon](/studynote/12_it_management/05_security_compliance/953_inmon/) 모델).
-- <strong><a href="/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> (Extract, Transform, Load)</strong> | 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 구조에 맞게 깎고 정제하여 쑤셔 넣는 가장 고통스러운 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 병목 구간.
-- <strong><a href="/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a> Evolution (<a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 진화)</strong> | 경직된 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트 시스템이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조의 변화를 수용할 수 있도록 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 유연하게 갱신하는 기능.
-- <strong><a href="/studynote/16_bigdata/12_trends/236_data_contract/">Data Contract</a> (<a href="/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a>)</strong> | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산팀과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소비팀 간에 사전에 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격)를 약속하여, 함부로 컬럼을 삭제하거나 변경하지 못하게 막는 거버넌스 체계.
-- **RDBMS** | 엄격한 2차원 테이블과 컬럼 타입을 강제하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/studynote/09_security/01_intro_principles/003_integrity/))과 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 100% 보장하는 전통적 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/).
+### 📌 관련 개념 맵 (Knowledge Graph)
+- <strong>Data Warehouse (DW)</strong> | 스키마 온 라이트 철학이 극대화된 전사적 통합 데이터 저장소 (Inmon 모델).
+- <strong>ETL (Extract, Transform, Load)</strong> | 원시 데이터를 스키마 온 라이트 구조에 맞게 깎고 정제하여 쑤셔 넣는 가장 고통스러운 데이터 파이프라인 병목 구간.
+- <strong>Schema Evolution (스키마 진화)</strong> | 경직된 스키마 온 라이트 시스템이 데이터 구조의 변화를 수용할 수 있도록 메타데이터를 유연하게 갱신하는 기능.
+- <strong>Data Contract (데이터 계약)</strong> | 데이터 생산팀과 데이터 소비팀 간에 사전에 스키마(API 규격)를 약속하여, 함부로 컬럼을 삭제하거나 변경하지 못하게 막는 거버넌스 체계.
+- **RDBMS** | 엄격한 2차원 테이블과 컬럼 타입을 강제하여 데이터 무결성(Integrity)과 트랜잭션을 100% 보장하는 전통적 데이터베이스.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -179,20 +179,9 @@ weight: 10
     v
 [데이터 메시 (Data Mesh) — 도메인별 분산 스키마 자율 관리]
 ```
-[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 사전에 보장하며, [스키마 온 리드](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)와의 상호 보완을 통해 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메시라는 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처로 수렴했다.
+스키마 온 라이트는 데이터 무결성을 사전에 보장하며, 스키마 온 리드와의 상호 보완을 통해 레이크하우스·데이터 메시라는 현대 데이터 아키텍처로 수렴했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 만약 장난감 상자에 '동그라미 블록'만 넣을 수 있는 구멍([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/))이 뚫려 있다면, 네모나 세모 블록은 절대 들어갈 수 없어요.
+1. 만약 장난감 상자에 '동그라미 블록'만 넣을 수 있는 구멍(스키마)이 뚫려 있다면, 네모나 세모 블록은 절대 들어갈 수 없어요.
 2. 넣을 때 모양을 맞춰야 해서 귀찮고 시간은 걸리지만, 상자 안에는 무조건 완벽한 동그라미 블록만 있다는 걸 우리는 100% 믿을 수 있죠.
-3. 이렇게 상자에 넣기 전에 모양이 맞는지 엄격하게 검사해서, 나중에 꺼내 쓸 때 에러가 없게 만드는 방법을 '[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 온 라이트'라고 한답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 10 / 258
-
-<- **이전**: [9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터](/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)
-**다음**: [11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능](/studynote/14_data_engineering/01_infrastructure/011_distributed_computing_scale_out/) ->
-
----
+3. 이렇게 상자에 넣기 전에 모양이 맞는지 엄격하게 검사해서, 나중에 꺼내 쓸 때 에러가 없게 만드는 방법을 '스키마 온 라이트'라고 한답니다!

@@ -15,7 +15,7 @@ weight: 86
 ---
 
 ## Ⅰ. 개요 및 필요성
-장바구니 분석에서는 많이 같이 팔리는 것과 의미 있게 같이 팔리는 것을 구분해야 한다. Lift는 B의 기본 출현 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 대비 A가 있을 때 B가 얼마나 더 잘 나오는지를 본다.
+장바구니 분석에서는 많이 같이 팔리는 것과 의미 있게 같이 팔리는 것을 구분해야 한다. Lift는 B의 기본 출현 확률 대비 A가 있을 때 B가 얼마나 더 잘 나오는지를 본다.
 
 그래서 교차 판매나 추천 상품 선정에서 중요하다.
 - **📢 섹션 요약 비유**: 같이 보이는 것과 의미 있는 것은 다르다.
@@ -25,24 +25,24 @@ weight: 86
 ## Ⅱ. 아키텍처 및 핵심 원리
 | 지표 | 식 | 의미 |
 |:---|:---|:---|
-| [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) | P(A and B) | 함께 나타나는 비율 |
-| [Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | P(B given A) | A가 있을 때 B가 나올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| Support | P(A and B) | 함께 나타나는 비율 |
+| Confidence | P(B given A) | A가 있을 때 B가 나올 확률 |
 | Lift | P(B given A) / P(B) | 우연 대비 강도 |
 
 Lift = 1이면 독립, 1보다 크면 양의 연관, 1보다 작으면 음의 연관이다.
-- **📢 섹션 요약 비유**: 기본 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)과 비교해야 한다.
+- **📢 섹션 요약 비유**: 기본 확률과 비교해야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) | [Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | Lift | Leverage |
+| 비교 항목 | Support | Confidence | Lift | Leverage |
 |:---|:---|:---|:---|:---|
 | 질문 | 같이 얼마나 자주 나오나 | A가 있으면 B가 얼마나 나오나 | 우연보다 얼마나 강한가 | 기대치와 얼마나 차이나나 |
 | 장점 | 희귀성 판단 | 규칙성 판단 | 의미성 판단 | 차이 크기 강조 |
 | 한계 | 희소하면 낮음 | 인기 상품 편향 | 저지원 규칙에 흔들림 | 직관성이 약함 |
 
 실무에서는 Support와 Confidence로 후보를 걸러낸 뒤, Lift로 의미를 판정한다.
-- **📢 섹션 요약 비유**: [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)/[Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)/Lift는 역할이 다르다.
+- **📢 섹션 요약 비유**: Support/Confidence/Lift는 역할이 다르다.
 
 ---
 
@@ -70,9 +70,9 @@ Lift는 같이 자주 보이는 것과 정말 의미 있게 연결된 것을 구
 | 개념 | 연결 포인트 |
 |:---|:---|
 | Lift | 우연 대비 관계의 강도를 보여 준다. |
-| [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) | 규칙이 얼마나 자주 나오는지 본다. |
-| [Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | 조건부 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 본다. |
-| [Association Rule](/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/) Mining | 장바구니 패턴을 찾는다. |
+| Support | 규칙이 얼마나 자주 나오는지 본다. |
+| Confidence | 조건부 확률을 본다. |
+| Association Rule Mining | 장바구니 패턴을 찾는다. |
 | A/B test | 추천 결과를 실제로 검증한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -86,14 +86,3 @@ Lift는 같이 자주 보이는 것과 정말 의미 있게 연결된 것을 구
 1. 쿠키를 사는 사람 옆에 우유가 자주 보이면 둘이 같이 잘 팔리는지 보는 일과 같다.
 2. 그냥 인기 있는 물건인지, 정말 연관이 있는지는 따로 봐야 한다.
 3. Lift는 우연보다 더 붙어 다니는지 알려 준다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 86 / 258
-
-<- **이전**: [85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)
-**다음**: [87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출](/studynote/14_data_engineering/02_math_mining/087_fp_growth_algorithm_frequent_pattern_tree/) ->
-
----

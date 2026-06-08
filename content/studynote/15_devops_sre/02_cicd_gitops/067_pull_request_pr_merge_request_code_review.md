@@ -36,13 +36,13 @@ merge to main
 | 구성 요소 | 역할 |
 | :-- | :-- |
 | Branch | 변경 분리 |
-| [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 품질 검토 |
-| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| Review | 품질 검토 |
+| CI | 자동 검증 |
 | Merge | 본선 반영 |
 
-PR은 사람의 판단과 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 만나는 지점이다.
+PR은 사람의 판단과 자동 검증이 만나는 지점이다.
 
-- **📢 섹션 요약 비유**: 선생님이 내용 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 하고, 계산기가 숫자를 다시 보는 과정이다.
+- **📢 섹션 요약 비유**: 선생님이 내용 확인을 하고, 계산기가 숫자를 다시 보는 과정이다.
 
 ---
 
@@ -68,24 +68,24 @@ PR은 코드 품질뿐 아니라 팀 학습에도 도움이 된다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 리뷰 규칙이 있는가?
-2. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 통과 후 머지하는가?
+2. CI 통과 후 머지하는가?
 3. 작은 단위로 PR을 내는가?
 4. 승인 책임이 분명한가?
 5. 변경 이력이 추적되는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 너무 큰 PR을 올리는 설계
 - 테스트 없이 머지하는 설계
 - 리뷰 없이 승인하는 설계
 - PR을 형식만 남기는 설계
 
-기술사 관점에서는 PR을 "검토와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 포함한 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)"로 설명해야 한다.
+기술사 관점에서는 PR을 "검토와 검증을 포함한 변경 관리"로 설명해야 한다.
 
-- **📢 섹션 요약 비유**: 결과만 던지지 말고, [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받고 들어가야 한다.
+- **📢 섹션 요약 비유**: 결과만 던지지 말고, 확인받고 들어가야 한다.
 
 ---
 
@@ -95,7 +95,7 @@ PR 프로세스는 코드 품질과 협업 품질을 동시에 높인다. 그래
 
 결론적으로 PR은 메인 브랜치에 들어가기 전의 공식 검토 절차다.
 
-- **📢 섹션 요약 비유**: 문 앞에서 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받고 들어가는 입장 절차다.
+- **📢 섹션 요약 비유**: 문 앞에서 확인받고 들어가는 입장 절차다.
 
 ---
 
@@ -130,16 +130,5 @@ Merge Workflow
 ## 어린이를 위한 3줄 비유 설명
 
 숙제를 바로 내지 않아요.
-먼저 친구와 선생님이 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
-PR은 그런 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과정이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 67 / 373
-
-<- **이전**: [66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)
-**다음**: [68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)](/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/) ->
-
----
+먼저 친구와 선생님이 확인해요.
+PR은 그런 확인 과정이에요.

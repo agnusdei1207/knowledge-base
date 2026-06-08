@@ -6,13 +6,13 @@ tags:
 weight: 35
 ---
 > **핵심 인사이트**
-> 1. [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) (Financial Operations)는 클라우드 비용을 엔지니어링·재무·비즈니스가 협업해 관리하는 운영 프레임워크로, 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)(Over-Provisioning)은 클라우드 낭비의 가장 큰 원인(업계 평균 35% 낭비)이다.
-> 2. 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)은 '필요한 것보다 많은 리소스(CPU·메모리·스토리지)를 할당하는 것'으로, 피크 트래픽을 대비해 항상 최대 사양을 유지하는 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 사고방식이 클라우드로 이전된 결과다.
-> 3. 올바른 크기 조정(Right-sizing) + 예약 인스턴스(Reserved Instance) + 오토스케일링의 3종 조합으로 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)을 체계적으로 제거해 클라우드 비용 40-60% 절감이 가능하다.
+> 1. FinOps (Financial Operations)는 클라우드 비용을 엔지니어링·재무·비즈니스가 협업해 관리하는 운영 프레임워크로, 오버 프로비저닝(Over-Provisioning)은 클라우드 낭비의 가장 큰 원인(업계 평균 35% 낭비)이다.
+> 2. 오버 프로비저닝은 '필요한 것보다 많은 리소스(CPU·메모리·스토리지)를 할당하는 것'으로, 피크 트래픽을 대비해 항상 최대 사양을 유지하는 온프레미스 사고방식이 클라우드로 이전된 결과다.
+> 3. 올바른 크기 조정(Right-sizing) + 예약 인스턴스(Reserved Instance) + 오토스케일링의 3종 조합으로 오버 프로비저닝을 체계적으로 제거해 클라우드 비용 40-60% 절감이 가능하다.
 
 ---
 
-## I. 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)의 원인과 비용
+## I. 오버 프로비저닝의 원인과 비용
 
 ```
 온프레미스 사고방식 -> 클라우드 이전
@@ -30,9 +30,9 @@ weight: 35
 
 | 낭비 유형           | 원인                     | 규모 (업계 평균) |
 |-------------------|--------------------------|----------------|
-| 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)     | 과도한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사양 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)      | ~35%           |
+| 오버 프로비저닝     | 과도한 초기 사양 설정      | ~35%           |
 | 유휴 리소스        | 사용 안 하는 인스턴스      | ~28%           |
-| 스토리지 낭비       | 삭제 안 된 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)/볼륨    | ~15%           |
+| 스토리지 낭비       | 삭제 안 된 스냅샷/볼륨    | ~15%           |
 | 라이선스 낭비       | 미사용 소프트웨어 라이선스 | ~12%           |
 
 > 📢 **섹션 요약 비유**: 2명이 탈 차에 10인승 버스를 매일 빌리는 것 — 클라우드는 필요할 때 딱 맞는 크기로 빌릴 수 있는데.
@@ -60,14 +60,14 @@ weight: 35
 |---------------|------------|------------|
 | 다운사이징      | 30-50%     | 중         |
 | Graviton/Arm  | 20-40%     | 중         |
-| [스팟 인스턴스](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)   | 60-90%     | 어려움      |
+| 스팟 인스턴스   | 60-90%     | 어려움      |
 | 예약 인스턴스   | 30-60%     | 쉬움        |
 
 > 📢 **섹션 요약 비유**: 매월 옷 크기 실측 후 딱 맞는 사이즈만 주문 — 6개월 전 예측으로 맞춘 옷은 이미 크거나 작다.
 
 ---
 
-## III. [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 프레임워크
+## III. FinOps 프레임워크
 
 ```
 FinOps 3단계 사이클:
@@ -89,7 +89,7 @@ Operate (운영)
   +-- 지속적 개선 문화
 ```
 
-| [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 원칙              | 설명                              |
+| FinOps 원칙              | 설명                              |
 |------------------------|-----------------------------------|
 | 팀이 사용하면 팀이 관리  | 엔지니어가 클라우드 비용 인식       |
 | 협업 거버넌스            | 재무·엔지니어링·비즈니스 협력       |
@@ -99,7 +99,7 @@ Operate (운영)
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 오토스케일링으로 오버 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/) 근본 해결
+## IV. 오토스케일링으로 오버 프로비저닝 근본 해결
 
 ```
 오토스케일링 없음:
@@ -124,11 +124,11 @@ AWS Auto Scaling 예시:
 
 | 단계 | 활동                                     | 기대 절감 |
 |------|------------------------------------------|---------|
-| 1    | 태깅 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립 (팀별, 환경별)             | -       |
+| 1    | 태깅 정책 수립 (팀별, 환경별)             | -       |
 | 2    | AWS Compute Optimizer로 Right-sizing 분석 | 20-30%  |
 | 3    | Reserved Instance (1년) 구매              | 30-40%  |
-| 4    | 개발/스테이징 환경 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 종료 (야간)      | 10-15%  |
-| 5    | 미사용 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)/EIP 정리                    | 5-10%   |
+| 4    | 개발/스테이징 환경 스케줄 종료 (야간)      | 10-15%  |
+| 5    | 미사용 스냅샷/EIP 정리                    | 5-10%   |
 | 6    | 오토스케일링 적용                          | 15-25%  |
 | 합계 |                                          | ~50-60% |
 
@@ -193,14 +193,3 @@ Green Cloud FinOps 통합 추세
 1. FinOps는 클라우드 서버 비용을 낭비 없이 쓰도록 관리하는 방법이에요.
 2. 2명이 탈 차에 버스를 빌리는 것처럼, 필요 이상으로 큰 서버를 쓰면 돈이 많이 나와요.
 3. 딱 필요한 만큼만 쓰고, 필요할 때 자동으로 늘리면 비용을 절반으로 줄일 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 34 / 371
-
-<- **이전**: [온디맨드·예약·스팟 인스턴스 (On-Demand · Reserved · Spot Instances)](/studynote/13_cloud_architecture/01_virtualization/034_ondemand_reserved_spot_instances/)
-**다음**: [036. 클라우드 마이그레이션 6R 전략](/studynote/13_cloud_architecture/01_virtualization/036_migration_6r/) ->
-
----

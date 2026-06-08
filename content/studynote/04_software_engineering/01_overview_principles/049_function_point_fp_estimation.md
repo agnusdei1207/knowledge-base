@@ -6,13 +6,13 @@ tags:
 weight: 49
 ---
 > **핵심 인사이트**
-> 1. [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/), [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/))는 소프트웨어의 기능적 규모를 사용자 관점에서 측정하는 표준 방법론 — 코드 라인(LOC)이나 기술적 복잡도가 아닌 사용자가 인식하는 기능(입력, 출력, 조회, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 인터페이스)을 기준으로 측정하여 언어·기술에 독립적이다.
-> 2. 미조정 [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)(UFP) × 기술 복잡도 조정 인자(VAF)가 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 계산의 두 단계 — UFP는 5가지 기능 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(EI, EO, EQ, ILF, EIF)의 가중합이고, VAF는 14개 일반 시스템 특성(GSC)으로 0.65~1.35 범위에서 조정된다.
-> 3. IFPUG FP와 COSMIC FP가 현대의 두 축 — IFPUG(전통적 MIS/업무 시스템)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Movement)으로 측정하고, COSMIC FP는 실시간·임베디드 시스템에서 더 정확한 기능 규모를 제공한다.
+> 1. 기능 점수(Function Point, FP)는 소프트웨어의 기능적 규모를 사용자 관점에서 측정하는 표준 방법론 — 코드 라인(LOC)이나 기술적 복잡도가 아닌 사용자가 인식하는 기능(입력, 출력, 조회, 파일, 인터페이스)을 기준으로 측정하여 언어·기술에 독립적이다.
+> 2. 미조정 기능 점수(UFP) × 기술 복잡도 조정 인자(VAF)가 FP 계산의 두 단계 — UFP는 5가지 기능 컴포넌트(EI, EO, EQ, ILF, EIF)의 가중합이고, VAF는 14개 일반 시스템 특성(GSC)으로 0.65~1.35 범위에서 조정된다.
+> 3. IFPUG FP와 COSMIC FP가 현대의 두 축 — IFPUG(전통적 MIS/업무 시스템)는 데이터 이동(Data Movement)으로 측정하고, COSMIC FP는 실시간·임베디드 시스템에서 더 정확한 기능 규모를 제공한다.
 
 ---
 
-## Ⅰ. [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기초
+## Ⅰ. FP 기초
 
 ```
 Function Point (기능 점수):
@@ -48,7 +48,7 @@ EO vs EQ 구분:
   EQ: 단순 조회 (검색 결과)
 ```
 
-> 📢 **섹션 요약 비유**: [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 5가지 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) = 사무실 업무 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) — EI(접수), EO(보고서 발행), EQ(문서 검색), ILF(내부 서류함), EIF(외부 참고 자료). 업무량 = 각 유형 × 복잡도!
+> 📢 **섹션 요약 비유**: FP 5가지 컴포넌트 = 사무실 업무 분류 — EI(접수), EO(보고서 발행), EQ(문서 검색), ILF(내부 서류함), EIF(외부 참고 자료). 업무량 = 각 유형 × 복잡도!
 
 ---
 
@@ -91,7 +91,7 @@ EI 복잡도:
   UFP = 4+6+5+3+10+15+5 = 48 FP
 ```
 
-> 📢 **섹션 요약 비유**: UFP 계산 = 사무실 가구 포인트 — 책상(ILF, 무거워 높은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))×15, 의자(EI)×4, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)함(EIF)×5. 각 가구 개수×무게 = 총 이사 점수(UFP)!
+> 📢 **섹션 요약 비유**: UFP 계산 = 사무실 가구 포인트 — 책상(ILF, 무거워 높은 가중치)×15, 의자(EI)×4, 파일함(EIF)×5. 각 가구 개수×무게 = 총 이사 점수(UFP)!
 
 ---
 
@@ -146,7 +146,7 @@ VAF 공식:
 
 ---
 
-## Ⅳ. [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 활용
+## Ⅳ. FP 활용
 
 ```
 FP 기반 프로젝트 추정:
@@ -189,11 +189,11 @@ COSMIC FP (ISO 19761):
   레거시 IFPUG보다 현대 시스템에 맞음
 ```
 
-> 📢 **섹션 요약 비유**: [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 활용 = 레시피 분량 계산 — [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(재료 양) × 요리사 생산성(시간/[FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) = 총 요리 시간. 10인분 요리에 요리사 1명이 30분 걸리면 2인분은 6분. 표준화로 추정!
+> 📢 **섹션 요약 비유**: FP 활용 = 레시피 분량 계산 — FP(재료 양) × 요리사 생산성(시간/FP) = 총 요리 시간. 10인분 요리에 요리사 1명이 30분 걸리면 2인분은 6분. 표준화로 추정!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 정부 정보화 사업 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정
+## Ⅴ. 실무 시나리오 — 정부 정보화 사업 FP 산정
 
 ```
 정부 전자정부 시스템 FP 산정:
@@ -239,7 +239,7 @@ FP 산정 절차:
   FP 차이 ±5% 이내: 적정 범위 인정
 ```
 
-> 📢 **섹션 요약 비유**: 정부 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 = 건축 면적 산정 — 방(EI/EO/EQ) + 창고(ILF) + 외부 연결 도로(EIF) = 연면적(UFP). 층수 등 보정 = VAF. 연면적×평당가 = 공사비!
+> 📢 **섹션 요약 비유**: 정부 FP 산정 = 건축 면적 산정 — 방(EI/EO/EQ) + 창고(ILF) + 외부 연결 도로(EIF) = 연면적(UFP). 층수 등 보정 = VAF. 연면적×평당가 = 공사비!
 
 ---
 
@@ -297,17 +297,6 @@ FP와 병행 사용
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) = 이사 짐 포인트 — 가구(EI/EO/EQ/ILF/EIF) 종류마다 무게 점수. 총점이 이사 난이도. 언어/기술 상관없이 기능만!
+1. FP = 이사 짐 포인트 — 가구(EI/EO/EQ/ILF/EIF) 종류마다 무게 점수. 총점이 이사 난이도. 언어/기술 상관없이 기능만!
 2. UFP×VAF = 기본 짐 × 층수 보정 — 5층(고성능 요구)이면 기본 짐보다 25% 더 힘듦(VAF=1.25). 0.65~1.35 사이 조정!
-3. [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 활용 = 레시피 분량 계산 — FP당 소요 시간(생산성) × [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 수 = 총 공수. 정부 SW 사업비 = [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) × 고시 단가!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 49 / 973
-
-<- **이전**: [048. COCOMO II — 소프트웨어 비용 추정](/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/)
-**다음**: [기능점수 간이법 vs 상세법 (FP Simple vs Detailed)](/studynote/04_software_engineering/01_overview_principles/050_fp_simple_vs_detailed/) ->
-
----
+3. FP 활용 = 레시피 분량 계산 — FP당 소요 시간(생산성) × FP 수 = 총 공수. 정부 SW 사업비 = FP × 고시 단가!

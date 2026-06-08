@@ -7,17 +7,17 @@ weight: 539
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 루프 타일링은 큰 반복 공간을 캐시와 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))가 감당할 수 있는 작은 블록으로 쪼개, 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짧은 시간 안에 반복 재사용하게 만드는 최적화다.
-> 2. **가치**: 메인 메모리 왕복을 줄여 캐시 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율, 연산기 가동률을 동시에 높이므로 메모리 벽이 강한 코드에서 특히 효과적이다.
+> 1. **본질**: 루프 타일링은 큰 반복 공간을 캐시와 TLB (Translation Lookaside Buffer)가 감당할 수 있는 작은 블록으로 쪼개, 같은 데이터를 짧은 시간 안에 반복 재사용하게 만드는 최적화다.
+> 2. **가치**: 메인 메모리 왕복을 줄여 캐시 적중률, 대역폭 효율, 연산기 가동률을 동시에 높이므로 메모리 벽이 강한 코드에서 특히 효과적이다.
 > 3. **판단 포인트**: 타일 크기는 캐시 용량만이 아니라 연관도, 캐시 라인 크기, 벡터 폭, 경계 처리, prefetch 친화성까지 함께 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-루프 타일링은 다중 반복문을 작은 블록 단위로 재구성해, 현재 필요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합이 캐시 안에 머무는 동안 최대한 많은 연산을 수행하도록 만드는 기법이다. 단순히 행렬 전체나 이미지 전체를 순서대로 훑으면, 방금 읽은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아직 쓸모가 남아 있어도 캐시 밖으로 밀려나기 쉽다. 결국 같은 값을 다시 메모리에서 가져오느라 계산보다 이동에 더 많은 시간을 쓰게 된다.
+루프 타일링은 다중 반복문을 작은 블록 단위로 재구성해, 현재 필요한 데이터 집합이 캐시 안에 머무는 동안 최대한 많은 연산을 수행하도록 만드는 기법이다. 단순히 행렬 전체나 이미지 전체를 순서대로 훑으면, 방금 읽은 데이터가 아직 쓸모가 남아 있어도 캐시 밖으로 밀려나기 쉽다. 결국 같은 값을 다시 메모리에서 가져오느라 계산보다 이동에 더 많은 시간을 쓰게 된다.
 
-이 기법이 필요한 이유는 현대 프로세서에서 산술 연산 속도와 메모리 접근 속도 사이의 차이가 매우 크기 때문이다. 특히 행렬 곱셈, [convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/), stencil, transpose 같은 작업은 수식 자체보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용 방식이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 루프 타일링은 바로 그 재사용 기회를 의도적으로 가까운 시간축 안에 몰아넣는 전략이다.
+이 기법이 필요한 이유는 현대 프로세서에서 산술 연산 속도와 메모리 접근 속도 사이의 차이가 매우 크기 때문이다. 특히 행렬 곱셈, convolution, stencil, transpose 같은 작업은 수식 자체보다 데이터 재사용 방식이 성능을 좌우한다. 루프 타일링은 바로 그 재사용 기회를 의도적으로 가까운 시간축 안에 몰아넣는 전략이다.
 
 - **📢 섹션 요약 비유**: 루프 타일링은 거대한 창고를 한 번에 정리하려 하지 않고, 손이 닿는 선반 한 구역씩 끝내고 다음 구역으로 넘어가는 정리 방식과 같다.
 
@@ -25,16 +25,16 @@ weight: 539
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-루프 타일링의 핵심은 작업 집합 ([Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/))을 계층형 메모리에 맞게 자르는 것이다. 바깥쪽 루프는 어떤 타일을 다룰지 결정하고, 안쪽 루프는 타일 내부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 촘촘히 재사용한다. 예를 들어 행렬 곱셈에서 `ii, jj, kk` 같은 바깥 루프가 타일 경계를 정하고, 그 안의 `i, j, k`가 작은 블록 안에서 실제 연산을 수행한다.
+루프 타일링의 핵심은 작업 집합 (Working Set)을 계층형 메모리에 맞게 자르는 것이다. 바깥쪽 루프는 어떤 타일을 다룰지 결정하고, 안쪽 루프는 타일 내부 데이터를 촘촘히 재사용한다. 예를 들어 행렬 곱셈에서 `ii, jj, kk` 같은 바깥 루프가 타일 경계를 정하고, 그 안의 `i, j, k`가 작은 블록 안에서 실제 연산을 수행한다.
 
-| 계층 | 타일링 목표 | 설계 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) |
+| 계층 | 타일링 목표 | 설계 힌트 |
 | :--- | :--- | :--- |
-| [L3 cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/) ([Level 3 Cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/)) | 큰 패널 재사용, [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 왕복 감소 | [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 간/[NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 배치까지 고려 |
-| [L2 cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/) ([Level 2 Cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/)) | 다음 계산에 필요한 블록 유지 | 패널 간 이동과 prefetch 조화 |
-| [L1 cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/) ([Level 1 Cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) | 가장 뜨거운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 즉시 재사용 | 벡터 폭, load/store [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 반영 |
-| [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 블록 | FMA (Fused Multiply-Add), [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) lane 포화 | 언롤링과 벡터화가 함께 작동 |
+| L3 cache (Level 3 Cache) | 큰 패널 재사용, DRAM (Dynamic Random Access Memory) 왕복 감소 | 소켓 간/NUMA (Non-Uniform Memory Access) 배치까지 고려 |
+| L2 cache (Level 2 Cache) | 다음 계산에 필요한 블록 유지 | 패널 간 이동과 prefetch 조화 |
+| L1 cache (Level 1 Cache) | 가장 뜨거운 데이터 즉시 재사용 | 벡터 폭, load/store 대역폭 반영 |
+| 레지스터 블록 | FMA (Fused Multiply-Add), SIMD (Single Instruction Multiple Data) lane 포화 | 언롤링과 벡터화가 함께 작동 |
 
-행렬 곱셈처럼 `A`, `B`, `C` 세 타일을 동시에 잡아야 하는 경우에는 타일 크기를 대략적으로 계산할 수도 있다. 예를 들어 [배정밀도](/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/) 8바이트 기준으로 `B × B` 타일 세 개가 L1 캐시의 유효 용량 안에 들어오게 하려면, 대략 `3 × B^ × 8 bytes`가 L1 유효 공간을 넘지 않도록 잡는다. 실제 설계에서는 캐시 전체가 아니라 코드와 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓸 여유를 남겨 두기 때문에 60~80% 정도만 사용하는 경우가 많다.
+행렬 곱셈처럼 `A`, `B`, `C` 세 타일을 동시에 잡아야 하는 경우에는 타일 크기를 대략적으로 계산할 수도 있다. 예를 들어 배정밀도 8바이트 기준으로 `B × B` 타일 세 개가 L1 캐시의 유효 용량 안에 들어오게 하려면, 대략 `3 × B^ × 8 bytes`가 L1 유효 공간을 넘지 않도록 잡는다. 실제 설계에서는 캐시 전체가 아니라 코드와 다른 데이터가 쓸 여유를 남겨 두기 때문에 60~80% 정도만 사용하는 경우가 많다.
 
 이 그림은 행렬 곱셈에서 타일링이 어떻게 재사용을 만드는지 보여 준다.
 
@@ -60,13 +60,13 @@ weight: 539
 
 ## Ⅲ. 비교 및 연결
 
-루프 타일링을 제대로 이해하려면 다른 루프 변환과 비교해야 한다. 루프 교환 (Loop Interchange)은 가장 안쪽 루프를 연속 메모리 방향으로 바꿔 [stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 문제를 줄이는 데 초점이 있고, [루프 언롤링](/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/)은 제어 오버헤드를 줄이는 데 초점이 있다. 타일링은 그보다 한 단계 더 나아가, 아예 동시에 살아 있어야 할 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합의 크기를 조절한다.
+루프 타일링을 제대로 이해하려면 다른 루프 변환과 비교해야 한다. 루프 교환 (Loop Interchange)은 가장 안쪽 루프를 연속 메모리 방향으로 바꿔 stride 문제를 줄이는 데 초점이 있고, 루프 언롤링은 제어 오버헤드를 줄이는 데 초점이 있다. 타일링은 그보다 한 단계 더 나아가, 아예 동시에 살아 있어야 할 데이터 집합의 크기를 조절한다.
 
 | 변환 | 직접 겨냥하는 문제 | 잘 맞는 경우 | 대표 한계 |
 | :--- | :--- | :--- | :--- |
-| 루프 교환 (Loop Interchange) | 나쁜 stride와 비연속 접근 | 행/열 순회 방향이 메모리 레이아웃과 안 맞을 때 | [working set](/studynote/02_operating_system/04_synchronization/265_working_set/) 자체는 여전히 클 수 있음 |
+| 루프 교환 (Loop Interchange) | 나쁜 stride와 비연속 접근 | 행/열 순회 방향이 메모리 레이아웃과 안 맞을 때 | working set 자체는 여전히 클 수 있음 |
 | 루프 타일링 (Loop Tiling) | 큰 working set과 반복 miss | 행렬, 영상, stencil, GEMM (General Matrix Multiply) | 타일 크기 튜닝 필요 |
-| [루프 언롤링](/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) ([Loop Unrolling](/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/)) | 제어 오버헤드와 짧은 바디 | 단순 반복, 누산, copy loop | 지역성 자체는 개선 못 함 |
+| 루프 언롤링 (Loop Unrolling) | 제어 오버헤드와 짧은 바디 | 단순 반복, 누산, copy loop | 지역성 자체는 개선 못 함 |
 
 실무 커널은 보통 교환 -> 타일링 -> 언롤링 -> 벡터화 순으로 누적 최적화를 적용한다. 먼저 stride를 바로잡고, 그다음 working set을 줄이고, 그 안에서 분기 비용을 줄이고, 마지막으로 SIMD로 한 번에 여러 값을 계산하는 식이다. 즉 타일링은 메모리 계층 최적화의 중심 축이면서, 다른 최적화가 효과를 낼 수 있는 무대를 만들어 주는 역할도 한다.
 
@@ -76,33 +76,33 @@ weight: 539
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 루프 타일링은 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때 가장 먼저 검토하는 최적화 중 하나다. 하지만 "캐시가 32KiB니까 타일도 32KiB"처럼 단순 계산으로 끝내면 실패하기 쉽다. 실제로는 연관도 충돌, 캐시 라인 크기, [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 경계, [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) miss, prefetch 동작, 벡터 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭까지 함께 맞아야 하기 때문이다.
+실무에서 루프 타일링은 대용량 데이터를 다룰 때 가장 먼저 검토하는 최적화 중 하나다. 하지만 "캐시가 32KiB니까 타일도 32KiB"처럼 단순 계산으로 끝내면 실패하기 쉽다. 실제로는 연관도 충돌, 캐시 라인 크기, 페이지 경계, TLB miss, prefetch 동작, 벡터 레지스터 폭까지 함께 맞아야 하기 때문이다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 
 1. 현재 병목이 연산 부족이 아니라 cache miss와 memory bandwidth인가?
 2. 타일이 L1/L2에 들어갈 뿐 아니라 연관도 충돌 없이 유지되는가?
 3. 경계 타일 처리와 remainder path가 정확하게 설계되어 있는가?
 4. 타일링 후 stride와 prefetch 패턴이 오히려 나빠지지 않는가?
-5. 벡터화·언롤링과 결합했을 때 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 블록까지 자연스럽게 이어지는가?
+5. 벡터화·언롤링과 결합했을 때 레지스터 블록까지 자연스럽게 이어지는가?
 
-### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 안티패턴
 
 - 타일이 너무 커서 캐시에 못 들어가는데도 형식적으로만 타일링한 코드
 - 2의 거듭제곱 크기만 고집해 set conflict를 악화시키는 배치
 - sparse·irregular workload인데도 dense 행렬처럼 같은 타일 전략을 적용하는 설계
 
-기술사 답안에서는 루프 타일링을 "캐시 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이는 기법"으로만 쓰지 말고, <strong><a href="/studynote/02_operating_system/04_synchronization/265_working_set/">working set</a> 축소 + 계층형 메모리 맞춤 + 다른 루프 변환과의 결합</strong>까지 적어 주는 것이 좋다. 그래야 왜 행렬 연산 라이브러리가 다층 타일링과 packing을 집요하게 쓰는지 설명할 수 있다.
+기술사 답안에서는 루프 타일링을 "캐시 적중률을 높이는 기법"으로만 쓰지 말고, <strong>working set 축소 + 계층형 메모리 맞춤 + 다른 루프 변환과의 결합</strong>까지 적어 주는 것이 좋다. 그래야 왜 행렬 연산 라이브러리가 다층 타일링과 packing을 집요하게 쓰는지 설명할 수 있다.
 
-- **📢 섹션 요약 비유**: 반찬통 크기에 맞게 음식을 나눠 담아야 냉장고가 정리되듯, 캐시 크기와 구조에 맞게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘라야 컴퓨터도 어지럽지 않게 일한다.
+- **📢 섹션 요약 비유**: 반찬통 크기에 맞게 음식을 나눠 담아야 냉장고가 정리되듯, 캐시 크기와 구조에 맞게 데이터를 잘라야 컴퓨터도 어지럽지 않게 일한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-루프 타일링이 잘 맞으면 캐시 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 올라가고, 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 줄며, 산술 유닛이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기다리는 시간이 짧아진다. 그래서 같은 프로세서에서도 수배 이상의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 나는 경우가 드물지 않다. 특히 GEMM, 영상 필터, 과학 계산 커널처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용이 풍부한 코드에서 효과가 극적이다.
+루프 타일링이 잘 맞으면 캐시 적중률이 올라가고, 메모리 대역폭 낭비가 줄며, 산술 유닛이 데이터를 기다리는 시간이 짧아진다. 그래서 같은 프로세서에서도 수배 이상의 성능 차이가 나는 경우가 드물지 않다. 특히 GEMM, 영상 필터, 과학 계산 커널처럼 데이터 재사용이 풍부한 코드에서 효과가 극적이다.
 
-물론 한계도 있다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 복잡하거나 접근 패턴이 매우 불규칙하면, 타일 경계를 예쁘게 그어도 재사용 자체가 충분히 나오지 않을 수 있다. 앞으로는 polyhedral 최적화, cache-oblivious [algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 가속기 메모리 계층을 고려한 다층 타일링이 더 중요해지겠지만, 핵심 관점은 같다. 루프 타일링은 <strong>계산 순서를 메모리 계층에 맞게 재설계하는 기술</strong>이다.
+물론 한계도 있다. 데이터 의존성이 복잡하거나 접근 패턴이 매우 불규칙하면, 타일 경계를 예쁘게 그어도 재사용 자체가 충분히 나오지 않을 수 있다. 앞으로는 polyhedral 최적화, cache-oblivious algorithm, 가속기 메모리 계층을 고려한 다층 타일링이 더 중요해지겠지만, 핵심 관점은 같다. 루프 타일링은 <strong>계산 순서를 메모리 계층에 맞게 재설계하는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 루프 타일링은 큰 퍼즐을 바닥 전체에 흩뿌리지 않고, 작은 판 위에서 한 조각씩 맞춘 뒤 완성된 판을 옆으로 옮기는 방식과 같다.
 
@@ -112,12 +112,12 @@ weight: 539
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/) | 타일링이 직접 줄이려는 동시에 살아 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합이다. |
-| [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) | 타일링은 캐시뿐 아니라 주소 변환 locality에도 영향을 준다. |
+| Working Set | 타일링이 직접 줄이려는 동시에 살아 있는 데이터 집합이다. |
+| TLB (Translation Lookaside Buffer) | 타일링은 캐시뿐 아니라 주소 변환 locality에도 영향을 준다. |
 | Loop Interchange | 타일링 전에 stride를 바로잡아 주는 선행 변환이 될 수 있다. |
 | GEMM (General Matrix Multiply) | 타일링 효과가 가장 대표적으로 드러나는 고성능 커널이다. |
-| [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) | 캐시 타일 안쪽에서 마지막 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어내는 미세 타일링 단계다. |
-| [오토 벡터라이제이션](/studynote/01_computer_architecture/15_advanced_topics/537_auto_vectorization/) ([Auto-vectorization](/studynote/01_computer_architecture/15_advanced_topics/537_auto_vectorization/)) | 타일 내부의 짧고 규칙적인 루프를 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 친화적으로 만든다. |
+| Register Blocking | 캐시 타일 안쪽에서 마지막 성능을 끌어내는 미세 타일링 단계다. |
+| 오토 벡터라이제이션 (Auto-vectorization) | 타일 내부의 짧고 규칙적인 루프를 SIMD 친화적으로 만든다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,14 +147,3 @@ GEMM micro-kernel · polyhedral optimization · cache-oblivious 접근
 1. 아주 큰 그림을 한 번에 다 그리려 하면 색연필을 찾느라 자꾸 멈추게 돼요.
 2. 그래서 작은 네모 칸 하나씩 색칠하면, 필요한 색연필을 가까이 두고 계속 쓸 수 있어요.
 3. 컴퓨터도 이렇게 작은 구역씩 계산하면 멀리 있는 메모리까지 자꾸 가지 않아도 돼서 더 빨라져요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 539 / 803
-
-<- **이전**: [538. 루프 언롤링 (Loop Unrolling)](/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/)
-**다음**: [540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)](/studynote/01_computer_architecture/15_advanced_topics/540_intel_cet/) ->
-
----

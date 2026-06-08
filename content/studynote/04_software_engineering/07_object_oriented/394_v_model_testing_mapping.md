@@ -7,8 +7,8 @@ weight: 394
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,9 +17,9 @@ weight: 394
 
 - **개념**: 폭포수 모델이 물이 위에서 아래로 떨어지듯(요구사항 -> 설계 -> 구현 -> 테스트) 직선형이라면, V-모델은 이 직선의 한가운데(코딩)를 반으로 접어 위로 꺾어 올린 형태다. 왼쪽 가지는 설계(만드는 과정)를 뜻하고 오른쪽 가지는 테스트(검증하는 과정)를 뜻한다. 양쪽 가지의 같은 높이에 있는 항목들은 서로 완벽한 짝꿍이다.
 - **필요성**: 폭포수 시절에는 기획자가 3개월 동안 기획서를 쓰고, 개발자가 3개월 동안 코딩을 한 뒤, 남은 1주일 동안 QA팀이 부랴부랴 마우스 클릭을 하며 테스트를 했다. 기준(명세서)이 없으니 테스터 마음대로 클릭해 보다가 "에러 없네요" 하고 오픈했다. 결과는 대재앙이었다. "개발자가 짠 코드가 아니라, 원래 고객이 원했던 그 요구사항을 테스트하라"는 원칙을 강제하기 위해, '설계 단계'와 '테스트 설계'를 하나로 묶어버리는 V-모델의 시각적 규율이 절대적으로 필요했다.
-- **💡 비유**: V-모델은 "거대한 레고 성 조립 매뉴얼"과 같다. 설명서 1페이지(요구사항)에는 "빨간 성벽"이 그려져 있다. 이때 아빠는 레고를 다 조립한 뒤에 검사하는 게 아니라, 1페이지를 보자마자 "나중에 이 성벽이 정말 빨간색인지 검사해야지([인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 계획)"라고 미리 검사표를 적어둔다. 즉, '설명서를 그리는 시간'과 '검사표를 만드는 시간'이 양옆에서 동시에(V자 대칭으로) 진행되는 완벽한 짝꿍 시스템이다.
+- **💡 비유**: V-모델은 "거대한 레고 성 조립 매뉴얼"과 같다. 설명서 1페이지(요구사항)에는 "빨간 성벽"이 그려져 있다. 이때 아빠는 레고를 다 조립한 뒤에 검사하는 게 아니라, 1페이지를 보자마자 "나중에 이 성벽이 정말 빨간색인지 검사해야지(인수 테스트 계획)"라고 미리 검사표를 적어둔다. 즉, '설명서를 그리는 시간'과 '검사표를 만드는 시간'이 양옆에서 동시에(V자 대칭으로) 진행되는 완벽한 짝꿍 시스템이다.
 
-- **📢 섹션 요약 비유**: 옷을 다 만들고 나서 손님에게 입혀보고 "어? 작네?"라고 하는 건 최악의 재단사(폭포수)입니다. 옷감을 자르기 전에(설계), 자로 잰 치수(요구사항)를 바탕으로 미리 마네킹([테스트 시나리오](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/))을 세워두고, 바느질이 끝날 때마다 그 치수에 맞는지 확인하는 꼼꼼함이 V-모델의 핵심입니다.
+- **📢 섹션 요약 비유**: 옷을 다 만들고 나서 손님에게 입혀보고 "어? 작네?"라고 하는 건 최악의 재단사(폭포수)입니다. 옷감을 자르기 전에(설계), 자로 잰 치수(요구사항)를 바탕으로 미리 마네킹(테스트 시나리오)을 세워두고, 바느질이 끝날 때마다 그 치수에 맞는지 확인하는 꼼꼼함이 V-모델의 핵심입니다.
 
 ---
 
@@ -52,8 +52,8 @@ V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스�
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -78,7 +78,7 @@ V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스�
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 소프트웨어 공학 개념과의 연결을 보면, V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -100,21 +100,21 @@ V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스�
 
 ## Ⅴ. 기대효과 및 결론
 
-V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -126,10 +126,10 @@ V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,21 +149,10 @@ V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스�
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. V-모델의 매핑 (요구사항-인수테스트, 기본설계-시스템테스트, 상세 설계-통합테스트, 코딩-단위테스트)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 394 / 973
-
-<- **이전**: [393. 오류 부재의 궤변 (Absence of Errors Fallacy)](/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/)
-**다음**: [395. 검증 (Verification) - 제품을 올바르게 만들고 있는가 (과정, 산출 물 리뷰)](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

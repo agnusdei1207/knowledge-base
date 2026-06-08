@@ -171,11 +171,3 @@ $$\mathcal{L}_{total} = \lambda_{cls}\mathcal{L}_{cls} + \lambda_{box}\mathcal{L
 | **공간 정보** | 손실 (GAP 후 1D) | 박스 단위 유지 | 픽셀 단위 유지 | 픽셀 단위 + 인스턴스 분리 | 픽셀+인스턴스(stuff+thing) |
 | **대표 모델** | ResNet-50, ViT-L/16, ConvNeXt | Faster R-CNN, RetinaNet, YOLOv8, DETR | FCN, U-Net, DeepLab v3+, SegFormer, HRNet | Mask R-CNN, YOLACT, SOLO, PointRend | Panoptic FPN, Mask2Former, kMaX-DeepLab |
 | **학습 데이터** | ImageNet(1.2M) | COCO(118K), Objects365, OpenImages | Cityscapes,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 717 / 800
-
-<- **이전**: [716. 추천 시스템 협업 필터링 콘텐츠 기반](/studynote/06_ict_convergence/uncategorized/716_recommendation_collaborative_content_based/)
-**다음**: [718. 음성 인식 ASR 화자 분리 합성](/studynote/06_ict_convergence/uncategorized/718_speech_recognition_asr_speaker_diarization/) ->
-
----

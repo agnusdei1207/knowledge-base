@@ -6,8 +6,8 @@ tags:
 weight: 28
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: AND·OR·NOT은 디지털 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 3대 기본 연산이자 불 대수([Boolean Algebra](/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/))의 기본 연산자다. 이 세 연산의 조합으로 모든 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 표현할 수 있으며, 이를 기능적 완전성(Functional Completeness)이라 한다.
-> 2. **가치**: AND·OR·NOT은 단순 게이트 이상의 의미가 있다. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) WHERE 절, 프로그래밍 조건문, [암호화 알고리즘](/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/), CPU 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 모두 이 세 연산의 조합으로 구현된다. 불 대수를 이해하면 디지털 시스템 전체를 이해할 수 있다.
+> 1. **본질**: AND·OR·NOT은 디지털 논리의 3대 기본 연산이자 불 대수(Boolean Algebra)의 기본 연산자다. 이 세 연산의 조합으로 모든 논리 함수를 표현할 수 있으며, 이를 기능적 완전성(Functional Completeness)이라 한다.
+> 2. **가치**: AND·OR·NOT은 단순 게이트 이상의 의미가 있다. 데이터베이스 WHERE 절, 프로그래밍 조건문, 암호화 알고리즘, CPU 제어 신호 모두 이 세 연산의 조합으로 구현된다. 불 대수를 이해하면 디지털 시스템 전체를 이해할 수 있다.
 > 3. **판단 포인트**: 드 모르간 법칙(De Morgan's Law)은 AND/OR/NOT을 상호 변환하는 핵심 규칙이다. NOT(A AND B) = NOT(A) OR NOT(B), NOT(A OR B) = NOT(A) AND NOT(B). 이 법칙으로 NAND를 OR로, NOR를 AND로 등가 변환하여 회로를 최소화한다.
 
 ---
@@ -69,10 +69,10 @@ POS (Product of Sums): F = (A+B)·(Ā+C)
 |:---|:---|:---|:---|
 | 기본 식 | A·B | A+B | NOT(A·B) |
 | 드 모르간 변환 | - | - | NOT(A)+NOT(B) |
-| [CMOS](/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) | 6T | 6T | 4T |
-| 실무 선호 | [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계 | [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계 | 물리 구현 |
+| CMOS 트랜지스터 | 6T | 6T | 4T |
+| 실무 선호 | 논리 설계 | 논리 설계 | 물리 구현 |
 
-- **📢 섹션 요약 비유**: 드 모르간 법칙은 교통 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 변환이다. "직진 AND 좌회전 금지" = "직진 금지 OR 좌회전 금지". 표현 방식이 달라도 같은 의미를 전달한다.
+- **📢 섹션 요약 비유**: 드 모르간 법칙은 교통 신호 변환이다. "직진 AND 좌회전 금지" = "직진 금지 OR 좌회전 금지". 표현 방식이 달라도 같은 의미를 전달한다.
 
 ---
 
@@ -87,11 +87,11 @@ WHERE status = 'active'         -- 조건 1
   AND NOT cancelled;            -- NOT 연산
 ```
 
-### [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최소화
-- 불 대수 식을 [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)으로 그리면 AND/OR 게이트 수를 최소화하는 최적 식 도출.
+### 카르노 맵 최소화
+- 불 대수 식을 카르노 맵으로 그리면 AND/OR 게이트 수를 최소화하는 최적 식 도출.
 - 인접 1을 묶어 공통 인수 제거 -> 게이트 수 감소 -> 회로 면적·전력 절감.
 
-- **📢 섹션 요약 비유**: [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)은 숫자 퍼즐 스도쿠다. 1이 몰려있는 블록을 찾아 묶으면([그룹화](/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)) 공통 패턴이 드러나고, 그것이 게이트를 최소화하는 최적 식이 된다.
+- **📢 섹션 요약 비유**: 카르노 맵은 숫자 퍼즐 스도쿠다. 1이 몰려있는 블록을 찾아 묶으면(그룹화) 공통 패턴이 드러나고, 그것이 게이트를 최소화하는 최적 식이 된다.
 
 ---
 
@@ -100,12 +100,12 @@ WHERE status = 'active'         -- 조건 1
 | 기대효과 | 내용 |
 |:---|:---|
 | **회로 최적화** | 불 대수 간소화로 게이트 수 최소화 |
-| **전력 절감** | 게이트 수 감소 -> [CMOS](/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) [전력 소모](/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 감소 |
-| <strong><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 드 모르간 법칙으로 회로 등가성 증명 |
+| **전력 절감** | 게이트 수 감소 -> CMOS 전력 소모 감소 |
+| <strong>논리 검증</strong> | 드 모르간 법칙으로 회로 등가성 증명 |
 
 양자 컴퓨팅에서는 고전 AND/OR/NOT 대신 양자 게이트(Hadamard, CNOT, Toffoli)를 사용하며, Toffoli 게이트는 고전 AND와 NOT을 가역적(Reversible)으로 구현한 양자 등가 게이트다.
 
-- **📢 섹션 요약 비유**: 양자 게이트는 AND/OR/NOT을 4D 공간에서 표현한 것이다. 고전 게이트가 0 또는 1만 다루는 흑백 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)라면, 양자 게이트는 중첩·얽힘으로 무한한 색 조합을 다룰 수 있다.
+- **📢 섹션 요약 비유**: 양자 게이트는 AND/OR/NOT을 4D 공간에서 표현한 것이다. 고전 게이트가 0 또는 1만 다루는 흑백 논리라면, 양자 게이트는 중첩·얽힘으로 무한한 색 조합을 다룰 수 있다.
 
 ---
 
@@ -116,8 +116,8 @@ WHERE status = 'active'         -- 조건 1
 | **불 대수** | AND/OR/NOT의 수학적 체계 |
 | **드 모르간 법칙** | AND↔OR 변환의 핵심 규칙 |
 | **NAND/NOR** | AND+NOT, OR+NOT 조합 (기능 완전) |
-| <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/">카르노 맵</a></strong> | 불 식 최소화 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구 |
-| **SOP/POS** | [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수의 두 가지 정규 표현 |
+| <strong>카르노 맵</strong> | 불 식 최소화 시각화 도구 |
+| **SOP/POS** | 논리 함수의 두 가지 정규 표현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,16 +140,5 @@ WHERE status = 'active'         -- 조건 1
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. AND는 두 자물쇠가 모두 열려야 열리는 문, OR는 하나만 열려도 열리는 문, NOT은 열린 것을 닫고 닫힌 것을 여는 마법 버튼이에요!
-2. 드 모르간 법칙은 "두 사람 모두 오면 안 돼" = "한 사람이 안 오거나 다른 사람이 안 오면 돼"와 같은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 변환이에요!
-3. [카르노 맵](/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)으로 게이트를 최소화하면 칩이 더 작고 전기도 적게 써요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 28 / 803
-
-<- **이전**: [27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)
-**다음**: [29. NAND/NOR 게이트 (NAND/NOR Gates)](/studynote/01_computer_architecture/01_basic_electronics_logic/029_nand_nor/) ->
-
----
+2. 드 모르간 법칙은 "두 사람 모두 오면 안 돼" = "한 사람이 안 오거나 다른 사람이 안 오면 돼"와 같은 논리 변환이에요!
+3. 카르노 맵으로 게이트를 최소화하면 칩이 더 작고 전기도 적게 써요!

@@ -194,11 +194,3 @@ FIDO2는 다음 4계층 구조를 가진다.
 | **Attestation** | Authenticator의 출처·무결성 입증 | (1) **Basic**: 제조사 자체 서명(Self), (2) **AttCA**: 제조사 CA 인증서 연쇄, (3) **AnonCA**: 익명화 CA로 동일 모델 식별. `fmt` 값으로 구분. RP는 MDS3(FIDO Alliance Metadata Service v3) 조회하여 AAGUID 검증 |
 | **User Verification (UV)** | 사용자가 본인임을 로컬 검증 | `discouraged` / `preferred` / `required` 3단계. `required` 시 `flags.UV=1` & `authenticatorData`에 `UV count byte` 포함. 생체 False Accept Rate(FAR)는 보통 1/50,000 ~ 1/1,000,000 |
 | **Extensions (확장)** | 부가 기능 | `prf`(HMAC-SHA256 파생키 -> credential 암호화 대체), `hmac-secret`(F
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 702 / 800
-
-<- **이전**: [701. 산업 메타버스 디지털 트윈 시뮬레이션](/studynote/06_ict_convergence/uncategorized/701_industrial_metaverse_digital_twin_simulation/)
-**다음**: [703. 양자 내성 암호 PQC 전환 전략](/studynote/06_ict_convergence/uncategorized/703_post_quantum_cryptography_pqc_migration/) ->
-
----

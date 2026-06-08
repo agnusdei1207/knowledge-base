@@ -7,20 +7,20 @@ weight: 240
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 타입에 따라 분기하는 if-else / [switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 조건문 블록을 [상태 패턴](/studynote/11_design_supervision/06_exam_summary/394_process/) ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 이나 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy Pattern](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 같은 다형성 (Polymorphism) 기반 클래스 계층으로 대체하여 [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open/Closed Principle: 개방/폐쇄 원칙) 를 실현한다.
+> 1. **본질**: 타입에 따라 분기하는 if-else / switch 조건문 블록을 상태 패턴 (State Pattern) 이나 전략 패턴 (Strategy Pattern) 같은 다형성 (Polymorphism) 기반 클래스 계층으로 대체하여 OCP (Open/Closed Principle: 개방/폐쇄 원칙) 를 실현한다.
 > 2. **가치**: 새 타입이 추가될 때 기존 조건문을 수정하는 대신 새 클래스를 추가하기만 하면 되어, 기존 코드 변경 없이 기능 확장이 가능해진다.
 > 3. **판단 포인트**: 동일한 조건 블록이 여러 메서드에 반복되거나, 새 타입 추가 때마다 여러 곳을 수정해야 한다면 다형성으로 전환할 시점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-소프트웨어 개발 초기에는 간단한 if-else로 타입을 분기하는 코드가 자연스럽게 작성된다. 그러나 타입이 추가되고 조건이 복잡해지면 이 코드는 <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 문 냄새 (<a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> Statement Smell)</strong> 라는 안티 패턴이 된다.
+소프트웨어 개발 초기에는 간단한 if-else로 타입을 분기하는 코드가 자연스럽게 작성된다. 그러나 타입이 추가되고 조건이 복잡해지면 이 코드는 <strong>스위치 문 냄새 (Switch Statement Smell)</strong> 라는 안티 패턴이 된다.
 
-마틴 파울러의 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/), 2018 2판) 에서 "Replace Conditional with Polymorphism" 은 가장 중요한 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 기법 중 하나로 다룬다. 핵심 직관은 다음과 같다:
+마틴 파울러의 리팩토링 (Refactoring, 2018 2판) 에서 "Replace Conditional with Polymorphism" 은 가장 중요한 리팩토링 기법 중 하나로 다룬다. 핵심 직관은 다음과 같다:
 
 > **"객체에게 자신이 무엇인지 물어보지 말고, 무엇을 해야 하는지 시켜라."**
 
-이는 GoF (Gang of Four) 설계 원칙—<strong>'<a href="/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>보다 구성 (Composition over Inheritance)'</strong>, <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> (Open/Closed Principle)</strong> —의 실천이다.
+이는 GoF (Gang of Four) 설계 원칙—<strong>'상속보다 구성 (Composition over Inheritance)'</strong>, <strong>OCP (Open/Closed Principle)</strong> —의 실천이다.
 
 ```java
 // 안티패턴: 타입에 따른 switch 분기 (여러 메서드에 동일 패턴 반복)
@@ -124,12 +124,12 @@ public class Order {
 }
 ```
 
-[상태 패턴](/studynote/11_design_supervision/06_exam_summary/394_process/)은 객체의 <strong>내부 상태</strong>가 바뀔 때 행동이 달라지는 경우에 적용한다:
+상태 패턴은 객체의 <strong>내부 상태</strong>가 바뀔 때 행동이 달라지는 경우에 적용한다:
 
 | 패턴 | 사용 시기 | 상태 전환 |
 |:---|:---|:---:|
-| [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 (외부 주입) | 클라이언트가 선택 |
-| [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 내부 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | 상태 자신이 전환 |
+| Strategy | 알고리즘 교체 (외부 주입) | 클라이언트가 선택 |
+| State | 내부 상태 전이 | 상태 자신이 전환 |
 
 - **📢 섹션 요약 비유**: 리모컨의 버튼마다 if-else를 쓰는 대신, TV·에어컨·오디오가 각자 "전원" 버튼을 어떻게 처리할지 알고 있는 것이다. 새 기기가 생겨도 리모컨 코드는 바꾸지 않는다.
 
@@ -139,9 +139,9 @@ public class Order {
 | 기법 | 목적 | 적용 조건 |
 |:---|:---|:---|
 | Replace Conditional with Polymorphism | 타입별 분기 제거 | 동일 switch가 여러 곳에 반복 |
-| Replace Type [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) with Subclass | 타입 코드를 서브클래스로 | 타입에 따라 동작이 다름 |
+| Replace Type Code with Subclass | 타입 코드를 서브클래스로 | 타입에 따라 동작이 다름 |
 | Extract Method | 긴 메서드 분리 | 메서드가 너무 길 때 |
-| [Introduce Parameter Object](/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) | 매개변수 묶기 | 매개변수가 3개 이상 반복 |
+| Introduce Parameter Object | 매개변수 묶기 | 매개변수가 3개 이상 반복 |
 
 ```
 Before (OCP 위반):
@@ -156,11 +156,11 @@ After (OCP 준수):
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-1. **테스트 작성**: 기존 조건문 커버하는 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 먼저 작성
+1. **테스트 작성**: 기존 조건문 커버하는 단위 테스트 먼저 작성
 2. **인터페이스 추출**: 공통 행동을 인터페이스로 정의
-3. <strong>구현 클래스 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 각 분기를 별도 클래스로 분리
-4. **조건문 교체**: if-else를 [팩토리 메서드](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) 또는 [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) ([Dependency Injection](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/): [의존성 주입](/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 로 교체
-5. **테스트 재실행**: 동일 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+3. <strong>구현 클래스 생성</strong>: 각 분기를 별도 클래스로 분리
+4. **조건문 교체**: if-else를 팩토리 메서드 또는 DI (Dependency Injection: 의존성 주입) 로 교체
+5. **테스트 재실행**: 동일 결과 확인
 
 모든 if-else를 다형성으로 전환하는 것은 오버엔지니어링이다:
 
@@ -176,12 +176,12 @@ After (OCP 준수):
   ❌ 분기가 2개이고 확장 가능성 없음
 ```
 
-"[리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 목적은 무엇인가?" — 답은 **"동작 변경 없이 코드 구조를 개선하여 미래 변경 비용을 낮추는 것"** 이다. 조건문->다형성 전환은 그 대표 사례로, [SOLID](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙 중 OCP와 [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/): [단일 책임 원칙](/studynote/11_design_supervision/06_exam_summary/355_process/)) 를 동시에 실현한다.
+"리팩토링의 목적은 무엇인가?" — 답은 **"동작 변경 없이 코드 구조를 개선하여 미래 변경 비용을 낮추는 것"** 이다. 조건문->다형성 전환은 그 대표 사례로, SOLID 원칙 중 OCP와 SRP (Single Responsibility Principle: 단일 책임 원칙) 를 동시에 실현한다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
 2. 냄새의 원인이 구조 문제인지 일회성 구현인지 구분했는가?
-3. [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 단위를 작게 나눠 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능하게 했는가?
+3. 리팩토링 단위를 작게 나눠 롤백 가능하게 했는가?
 4. 명명·모델·패키지 경계가 함께 개선되는가?
 
 - **📢 섹션 요약 비유**: 스위스 아미 나이프(조건문)는 하나로 다 되지만 날이 무뎌지면 전체를 교체해야 한다. 전문 도구 세트(다형성)는 필요한 도구만 교체하거나 추가하면 된다.
@@ -189,55 +189,44 @@ After (OCP 준수):
 ---
 
 ## Ⅴ. 기대효과 및 결론
-Replace Conditional with Polymorphism [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 효과:
+Replace Conditional with Polymorphism 리팩토링의 효과:
 
-- <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> 달성</strong>: 새 타입 추가 시 기존 코드 변경 없음
-- **코드 중복 제거**: 동일 [switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패턴이 여러 메서드에서 제거됨
-- **테스트 용이성**: 각 타입별 독립 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 가능
-- <strong><a href="/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">가독성</a> 향상</strong>: 각 클래스가 단일 타입의 행동만 담당 ([SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 준수)
+- <strong>OCP 달성</strong>: 새 타입 추가 시 기존 코드 변경 없음
+- **코드 중복 제거**: 동일 switch 패턴이 여러 메서드에서 제거됨
+- **테스트 용이성**: 각 타입별 독립 단위 테스트 가능
+- <strong>가독성 향상</strong>: 각 클래스가 단일 타입의 행동만 담당 (SRP 준수)
 
 GoF (Gang of Four) 패턴과의 연결:
 
-| [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 기법 | 연결되는 GoF 패턴 |
+| 리팩토링 기법 | 연결되는 GoF 패턴 |
 |:---|:---|
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 (외부 결정) | [Strategy Pattern](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| 내부 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
-| 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 분리 | [Factory Method Pattern](/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/) |
-| 타입별 연산 추가 | [Visitor Pattern](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) |
+| 알고리즘 교체 (외부 결정) | Strategy Pattern |
+| 내부 상태 전이 | State Pattern |
+| 객체 생성 분리 | Factory Method Pattern |
+| 타입별 연산 추가 | Visitor Pattern |
 
-기술사 시험에서 이 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 <strong>"<a href="/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> 해소와 설계 품질 향상을 동시에 달성하는 실천 기법"</strong> 으로 자주 출제된다. 코드 예시와 함께 전후를 비교 서술하면 높은 점수를 얻을 수 있다.
+기술사 시험에서 이 리팩토링은 <strong>"기술 부채 해소와 설계 품질 향상을 동시에 달성하는 실천 기법"</strong> 으로 자주 출제된다. 코드 예시와 함께 전후를 비교 서술하면 높은 점수를 얻을 수 있다.
 
-확장 방향은 ① [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
+확장 방향은 ① 정적 분석 자동화, ② 아키텍처 적합성 검증, ③ 작은 단위의 상시 리팩토링 문화 정착이다.
 
 - **📢 섹션 요약 비유**: 다형성으로의 전환은 회사 규정집(if-else)을 없애고 각 부서(클래스)가 자기 업무 방식을 자율적으로 처리하게 하는 것이다. 새 부서가 생겨도 규정집은 건드리지 않는다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [Refactoring](/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/) ([리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)) | 동작 변경 없는 코드 구조 개선 |
-| 상위 개념 | [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open/Closed Principle) | 확장에 열리고 수정에 닫힌 원칙 |
-| 연관 개념 | [Strategy Pattern](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)) | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 교체 가능한 클래스로 분리 |
-| 연관 개념 | [State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) ([상태 패턴](/studynote/11_design_supervision/06_exam_summary/394_process/)) | 내부 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)에 따른 행동 변화 |
-| 연관 개념 | [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | 타입에 맞는 구현체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 분리 |
+| 상위 개념 | Refactoring (리팩토링) | 동작 변경 없는 코드 구조 개선 |
+| 상위 개념 | OCP (Open/Closed Principle) | 확장에 열리고 수정에 닫힌 원칙 |
+| 연관 개념 | Strategy Pattern (전략 패턴) | 알고리즘을 교체 가능한 클래스로 분리 |
+| 연관 개념 | State Pattern (상태 패턴) | 내부 상태 전이에 따른 행동 변화 |
+| 연관 개념 | Factory Method | 타입에 맞는 구현체 생성 분리 |
 | 하위 개념 | Polymorphism (다형성) | 동일 인터페이스로 다양한 구현 교체 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-조건문 냄새 -> 조건문을 다형성으로 전환 -> [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)/[상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 분기 제거
+조건문 냄새 -> 조건문을 다형성으로 전환 -> 전략/상속 분기 제거
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. "강아지면 짖고, 고양이면 야옹하고, 새면 짹짹해"라고 매번 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 대신, 동물에게 직접 "소리내봐!"라고 시키는 거야.
+1. "강아지면 짖고, 고양이면 야옹하고, 새면 짹짹해"라고 매번 확인하는 대신, 동물에게 직접 "소리내봐!"라고 시키는 거야.
 2. 새 동물(새 타입)이 생겨도 기존 코드는 바꾸지 않고, 그 동물만 "소리내봐" 방법을 알면 돼!
 3. 이게 바로 다형성(Polymorphism)이야—"뭐야?"가 아니라 "해봐!"가 핵심이야.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 301 / 530
-
-<- **이전**: [239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)](/studynote/11_design_supervision/04_gof_behavioral/239_gateway_msa_entry_pattern/)
-**다음**: [241. 메서드 분리 리팩토링 (Extract Method Refactoring)](/studynote/11_design_supervision/04_gof_behavioral/241_extract_method_refactoring/) ->
-
----

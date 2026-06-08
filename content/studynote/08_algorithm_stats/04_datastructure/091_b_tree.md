@@ -6,15 +6,15 @@ tags:
 weight: 91
 ---
 > **핵심 인사이트 3줄**
-> 1. B-트리([B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/))는 디스크 I/O를 최소화하기 위해 설계된 자기 균형 m-원 탐색 트리로, 루트에서 리프까지 모든 경로의 길이가 동일하다.
-> 2. 노드 하나가 여러 키와 자식을 가져(최소 차수 t), 한 번의 디스크 읽기로 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리해 대용량 DB·파일시스템 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 핵심 자료구조다.
-> 3. 삽입·삭제 시 노드 분할(Split)·병합(Merge)·재분배(Redistribution)로 균형을 유지하며, 모든 연산의 [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 O(log n)이다.
+> 1. B-트리(B-Tree)는 디스크 I/O를 최소화하기 위해 설계된 자기 균형 m-원 탐색 트리로, 루트에서 리프까지 모든 경로의 길이가 동일하다.
+> 2. 노드 하나가 여러 키와 자식을 가져(최소 차수 t), 한 번의 디스크 읽기로 많은 데이터를 처리해 대용량 DB·파일시스템 인덱스의 핵심 자료구조다.
+> 3. 삽입·삭제 시 노드 분할(Split)·병합(Merge)·재분배(Redistribution)로 균형을 유지하며, 모든 연산의 시간 복잡도는 O(log n)이다.
 
 ---
 
-## Ⅰ. B-트리의 정의와 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)
+## Ⅰ. B-트리의 정의와 속성
 
-B-트리([B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/))는 <strong>Rudolf Bayer와 Edward McCreight(1972)</strong>가 대용량 디스크 저장소를 위해 설계한 자기 균형 탐색 트리다.
+B-트리(B-Tree)는 <strong>Rudolf Bayer와 Edward McCreight(1972)</strong>가 대용량 디스크 저장소를 위해 설계한 자기 균형 탐색 트리다.
 
 ### B-트리 성질 (최소 차수 t 기준)
 
@@ -77,7 +77,7 @@ def search(node, k):
 |-------------|----------------------------|-----------------------------|
 | Case 1       | 리프 노드의 키 삭제           | 단순 삭제                    |
 | Case 2       | 내부 노드의 키 삭제           | 전임자/후계자로 대체 후 삭제   |
-| Case 3       | 삭제 후 노드 [언더플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)       | 형제에서 빌리거나(재분배) 병합 |
+| Case 3       | 삭제 후 노드 언더플로우       | 형제에서 빌리거나(재분배) 병합 |
 
 ```
 언더플로우 처리:
@@ -85,13 +85,13 @@ def search(node, k):
   형제도 최소 -> 병합 (두 노드 + 부모 키 합체)
 ```
 
-📢 **섹션 요약 비유**: B-트리 삭제는 학급 합반 규칙이다 — 한 반 학생이 너무 적어지면([언더플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 옆 반에서 한 명 빌리거나(재분배), 아예 두 반을 합반(병합)한다.
+📢 **섹션 요약 비유**: B-트리 삭제는 학급 합반 규칙이다 — 한 반 학생이 너무 적어지면(언더플로우) 옆 반에서 한 명 빌리거나(재분배), 아예 두 반을 합반(병합)한다.
 
 ---
 
-## Ⅳ. [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)와 실제 활용
+## Ⅳ. 시간 복잡도와 실제 활용
 
-### [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
+### 시간 복잡도
 
 | 연산   | 복잡도       | 디스크 I/O   |
 |------|------------|------------|
@@ -102,8 +102,8 @@ def search(node, k):
 ### 실제 적용
 
 - **파일시스템**: NTFS·HFS+·ext4 모두 B-트리 변형 사용
-- <strong><a href="/studynote/05_database/04_transactions_concurrency/502_dbms/">DBMS</a> <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: InnoDB (B+ 트리), [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) (B-트리)
-- **t 값 선택**: [페이지 크기](/studynote/02_operating_system/06_memory_management/352_page_size/) 4KB 기준 -> t ≈ 50~100
+- <strong>DBMS 인덱스</strong>: InnoDB (B+ 트리), Oracle (B-트리)
+- **t 값 선택**: 페이지 크기 4KB 기준 -> t ≈ 50~100
 
 ```
 디스크 페이지 크기 4096 bytes
@@ -116,7 +116,7 @@ t ≈ 4096 / (2 × 20) ≈ 100
 
 ---
 
-## Ⅴ. B-트리 vs [이진 탐색 트리](/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) 비교
+## Ⅴ. B-트리 vs 이진 탐색 트리 비교
 
 ```
 이진 탐색 트리 (BST) vs B-트리 (t=100):
@@ -131,11 +131,11 @@ B-트리 높이: log₁₀₀(1,000,000) ≈ 3
 
 | 유형       | 특징                         | 주요 사용           |
 |----------|-----------------------------|--------------------|
-| B-트리    | 모든 노드에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장        | 파일시스템           |
-| B+-트리   | 리프에만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 리프 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)| DB [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (주류)   |
-| B*-트리   | 노드 2/3 이상 채움, 분할 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)  | 일부 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/)           |
+| B-트리    | 모든 노드에 데이터 저장        | 파일시스템           |
+| B+-트리   | 리프에만 데이터, 리프 연결 리스트| DB 인덱스 (주류)   |
+| B*-트리   | 노드 2/3 이상 채움, 분할 지연  | 일부 DBMS           |
 
-�� **섹션 요약 비유**: B-트리 계열은 도서관 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다 — BST가 1권짜리 칸마다 책 1권을 꽂는다면, B-트리는 한 칸에 100권을 꽂아 검색 효율이 훨씬 높다.
+�� **섹션 요약 비유**: B-트리 계열은 도서관 분류 체계다 — BST가 1권짜리 칸마다 책 1권을 꽂는다면, B-트리는 한 칸에 100권을 꽂아 검색 효율이 훨씬 높다.
 
 ---
 
@@ -186,17 +186,6 @@ B-트리 (B-Tree)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. B-트리는 넓고 낮은 나무다 — 높이가 낮을수록 꼭대기에서 잎까지 거리가 짧아 원하는 잎([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 빨리 찾는다.
+1. B-트리는 넓고 낮은 나무다 — 높이가 낮을수록 꼭대기에서 잎까지 거리가 짧아 원하는 잎(데이터)을 빨리 찾는다.
 2. 노드 분할은 꽉 찬 책가방을 반으로 나누는 것이다 — 가운데 책(중간 키)을 선생님(부모 노드)에게 전달하고 가방 두 개로 나눈다.
 3. 디스크 I/O가 적다는 것은 서랍을 덜 열어도 된다는 뜻이다 — 서랍 하나에 많은 것을 넣어두면 몇 개만 열어도 원하는 걸 찾을 수 있다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 91 / 175
-
-<- **이전**: [B+트리 (B+-Tree)](/studynote/08_algorithm_stats/04_datastructure/090_b_plus_tree/)
-**다음**: [단조 스택 (Monotonic Stack) / 단조 큐 (Monotonic Queue)](/studynote/08_algorithm_stats/04_datastructure/092_monotonic_stack/) ->
-
----

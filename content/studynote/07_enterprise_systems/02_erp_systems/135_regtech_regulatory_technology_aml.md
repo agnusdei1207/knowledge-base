@@ -6,9 +6,9 @@ tags:
 weight: 135
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RegTech(Regulatory Technology)는 <strong>금융 규제 준수(<a href="/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)를 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>·빅데이터·자동화로 효율화</strong>하는 기술이며, AML(자금세탁방지)·KYC(고객확인)·규제 보고가 핵심 영역이다.
-> 2. **가치**: 수작업 규제 준수는 비용이 막대(글로벌 은행 연간 수십조)하고 오류 위험이 높지만, RegTech는 <strong>실시간 자동 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링·보고로 비용 70%+ 절감</strong>과 정확도 향상을 동시 달성한다.
-> 3. **판단 포인트**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 이상 거래 탐지(AML), [생체 인증](/studynote/09_security/uncategorized/1047_biometric_authentication/) eKYC, 규제 변경 자동 적용(Regulatory [Change Management](/studynote/04_software_engineering/01_overview_principles/027_change_management/))이 핵심 기능이다.
+> 1. **본질**: RegTech(Regulatory Technology)는 <strong>금융 규제 준수(Compliance)를 AI·빅데이터·자동화로 효율화</strong>하는 기술이며, AML(자금세탁방지)·KYC(고객확인)·규제 보고가 핵심 영역이다.
+> 2. **가치**: 수작업 규제 준수는 비용이 막대(글로벌 은행 연간 수십조)하고 오류 위험이 높지만, RegTech는 <strong>실시간 자동 모니터링·보고로 비용 70%+ 절감</strong>과 정확도 향상을 동시 달성한다.
+> 3. **판단 포인트**: AI 이상 거래 탐지(AML), 생체 인증 eKYC, 규제 변경 자동 적용(Regulatory Change Management)이 핵심 기능이다.
 
 ---
 
@@ -37,7 +37,7 @@ RegTech는 <strong>금융 규제 준수의 필수 인프라</strong>이며, AI�
 |:---|:---|
 | **RegTech** | 규제 기술 |
 | **AML** | 자금세탁방지 |
-| **KYC/eKYC** | 고객 신원 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| **KYC/eKYC** | 고객 신원 확인 |
 | **SupTech** | 감독 기관용 기술 |
 | **FinTech** | RegTech의 상위 범주 |
 
@@ -52,15 +52,4 @@ RegTech는 <strong>금융 규제 준수의 필수 인프라</strong>이며, AI�
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RegTech는 <strong>자동 교통단속 카메라</strong>예요. 위반(불법 거래)을 <strong>AI가 자동 탐지</strong>해요.
 2. 사람이 수천 대 차를 보는 건 불가능하지만 <strong>AI는 실시간 감시</strong>가 가능해요.
-3. 은행이 **규칙을 잘 지키는지** AI가 자동으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해준답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 135 / 482
-
-<- **이전**: [134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리](/studynote/07_enterprise_systems/02_erp_systems/134_esg_management_it_system_carbon_tracking/)
-**다음**: [136. PropTech (부동산 기술) - 디지털 부동산 혁신](/studynote/07_enterprise_systems/02_erp_systems/136_proptech_property_technology_real_estate/) ->
-
----
+3. 은행이 **규칙을 잘 지키는지** AI가 자동으로 확인해준답니다!

@@ -196,11 +196,3 @@ KV Cache size per token = 2 × num_layers × num_kv_heads × head_dim × dtype_b
 | 구분 | **vLLM** | **TGI (Text Generation Inference)** |
 | :--- | :--- | :--- |
 | **개발 주체** | UC Berkeley (学术界) -> Anyscale 상
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 707 / 800
-
-<- **이전**: [706. LLM 미세 조정 PEFT QLoRA 전략](/studynote/06_ict_convergence/uncategorized/706_llm_fine_tuning_peft_qlora_strategy/)
-**다음**: [708. AI 칩 NPU TPU GPU 가속기 비교](/studynote/06_ict_convergence/uncategorized/708_ai_chip_npu_tpu_gpu_accelerator_comparison/) ->
-
----

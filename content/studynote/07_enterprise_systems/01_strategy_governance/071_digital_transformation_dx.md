@@ -38,9 +38,9 @@ Culture Change
 
 | 요소 | 의미 |
 | :-- | :-- |
-| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 지능화 |
+| AI | 지능화 |
 | Cloud | 민첩성 |
-| Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 통찰 |
+| Big Data | 통찰 |
 
 DX는 기술 도입과 함께 프로세스, 조직, 문화까지 바꾸는 변혁이다.
 
@@ -50,7 +50,7 @@ DX는 기술 도입과 함께 프로세스, 조직, 문화까지 바꾸는 변�
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | 전산화 | [DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) |
+| 구분 | 전산화 | DX |
 | :-- | :-- | :-- |
 | 목적 | 효율화 | 혁신 |
 | 범위 | 업무 일부 | 비즈니스 전체 |
@@ -59,8 +59,8 @@ DX는 기술 도입과 함께 프로세스, 조직, 문화까지 바꾸는 변�
 | 연결 | 의미 |
 | :-- | :-- |
 | Cloud | 민첩성 |
-| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 자동화/지능화 |
-| [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 의사결정 |
+| AI | 자동화/지능화 |
+| Data | 의사결정 |
 
 DX는 기술만으로 되지 않고, 조직과 고객 경험이 함께 바뀌어야 한다.
 
@@ -70,7 +70,7 @@ DX는 기술만으로 되지 않고, 조직과 고객 경험이 함께 바뀌어
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 비즈니스 모델을 바꾸는가?
 2. 고객 경험이 개선되는가?
@@ -78,7 +78,7 @@ DX는 기술만으로 되지 않고, 조직과 고객 경험이 함께 바뀌어
 4. 기술만 도입하고 끝나지 않는가?
 5. 변화 관리가 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - DX를 단순 그룹웨어 도입으로 보는 설계
 - 기술 도입만 하고 조직은 그대로 두는 설계
@@ -93,7 +93,7 @@ DX는 기술만으로 되지 않고, 조직과 고객 경험이 함께 바뀌어
 
 ## Ⅴ. 기대효과 및 결론
 
-DX는 경쟁력과 민첩성을 높이는 핵심 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+DX는 경쟁력과 민첩성을 높이는 핵심 전략이다.
 
 결론적으로 DX는 디지털 기술로 비즈니스 모델을 재창조하는 것이다.
 
@@ -134,14 +134,3 @@ Innovation
 새 도구만 넣는 게 아니에요.
 일하는 방법도 바꿔요.
 DX는 그런 큰 변화예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 71 / 482
-
-<- **이전**: [70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source](/studynote/07_enterprise_systems/01_strategy_governance/070_master_data_management_mdm_ssot/)
-**다음**: [72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조](/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/) ->
-
----

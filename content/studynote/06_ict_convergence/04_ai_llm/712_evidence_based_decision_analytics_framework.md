@@ -191,11 +191,3 @@ n = (Z_{1-α/2} + Z_{1-β})² × (σ₁² + σ₂²) / Δ²
 **③ 인과 효과 추정(Rubin Causal Model)**
 
 `ATE = E[Y(1) - Y(0)] ≈ (1/N)Σ(Y_treated - Y
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 712 / 800
-
-<- **이전**: [711. 데이터 분석 파이프라인 자동화 전략](/studynote/06_ict_convergence/uncategorized/711_data_analytics_pipeline_automation_strategy/)
-**다음**: [713. 인과 추론 반사실 분석 개입 효과](/studynote/06_ict_convergence/uncategorized/713_causal_inference_counterfactual_intervention/) ->
-
----

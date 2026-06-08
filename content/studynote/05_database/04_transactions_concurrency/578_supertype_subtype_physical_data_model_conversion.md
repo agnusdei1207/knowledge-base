@@ -7,7 +7,7 @@ weight: 578
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 수퍼타입/서브타입 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 물리 변환 1:1 병합 테이블 최적 접근 모델는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 모델이다.
+> 1. **본질**: 수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델는 데이터베이스 관점에서 자주 쓰이는 모델이다.
 > 2. **가치**: 개념 간 경계를 선명하게 잡아 시험 답안과 실무 판단을 동시에 강화할 수 있다. 특히 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`는 `데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 설계 판단으로 연결해 준다.
 > 3. **판단 포인트**: 정의만 외우면 적용 범위와 한계를 잘못 판단하기 쉽다. 따라서 무엇을 우선 보호할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
@@ -15,7 +15,7 @@ weight: 578
 
 ## Ⅰ. 개요 및 필요성
 
-수퍼타입/서브타입 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 물리 변환 1:1 병합 테이블 최적 접근 모델는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서 자주 쓰이는 모델이다. 이 주제가 필요한 이유는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개념은 서로 연결되어 있어 배경, 구조, 비교, 운영 판단을 함께 봐야 의미가 선명해진다. 특히 `다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해`에서 드러난 한계를 줄이고 `무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정` 같은 후속 판단의 기준선을 세울 때 현재 개념이 중심축이 된다.
+수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델는 데이터베이스 관점에서 자주 쓰이는 모델이다. 이 주제가 필요한 이유는 데이터베이스 개념은 서로 연결되어 있어 배경, 구조, 비교, 운영 판단을 함께 봐야 의미가 선명해진다. 특히 `다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해`에서 드러난 한계를 줄이고 `무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정` 같은 후속 판단의 기준선을 세울 때 현재 개념이 중심축이 된다.
 
 시험과 실무에서 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`를 따로 외우기보다, "무엇을 보호하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 설계 검토에서는 정의보다도 어디에 두고 어떤 비용을 감수할지 설명할 수 있어야 한다.
 
@@ -37,14 +37,14 @@ weight: 578
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-`수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`의 핵심 원리는 입력 조건, 처리 규칙, 저장 구조, 운영 지표를 한 흐름으로 묶어 이해한다는 점이다. 여기서 중요한 것은 `데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 어떤 순서로 평가하고 어느 경계에서 확정하느냐다. 이 순서가 바뀌면 정합성, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간 중 손해를 보는 축이 달라진다.
+`수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`의 핵심 원리는 입력 조건, 처리 규칙, 저장 구조, 운영 지표를 한 흐름으로 묶어 이해한다는 점이다. 여기서 중요한 것은 `데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 어떤 순서로 평가하고 어느 경계에서 확정하느냐다. 이 순서가 바뀌면 정합성, 처리량, 지연시간 중 손해를 보는 축이 달라진다.
 
 | 관점 | 설명 | 설계 포인트 |
 | :--- | :--- | :--- |
 | 핵심 대상 | `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`는 `데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 다루는 중심 규칙이다. | 먼저 무엇을 보호하거나 빠르게 할 것인지 명확히 정한다. |
 | 작동 방식 | 입력 조건, 처리 규칙, 저장 구조, 운영 지표를 한 흐름으로 묶어 이해한다. | 평가 시점, 적용 범위, 예외 조건을 문서화해야 한다. |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 개념 간 경계를 선명하게 잡아 시험 답안과 실무 판단을 동시에 강화할 수 있다. | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·지연시간·정합성 중 우선순위를 수치로 합의한다. |
-| 운영 위험 | 정의만 외우면 적용 범위와 한계를 잘못 판단하기 쉽다. | 장애 지표, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 재처리 기준을 함께 설계한다. |
+| 성능 영향 | 개념 간 경계를 선명하게 잡아 시험 답안과 실무 판단을 동시에 강화할 수 있다. | 처리량·지연시간·정합성 중 우선순위를 수치로 합의한다. |
+| 운영 위험 | 정의만 외우면 적용 범위와 한계를 잘못 판단하기 쉽다. | 장애 지표, 롤백 전략, 재처리 기준을 함께 설계한다. |
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
@@ -56,7 +56,7 @@ weight: 578
 +--------------------------------------------------------------+
 ```
 
-결국 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
+결국 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 복구 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
 - **📢 섹션 요약 비유**: 부품 설명서와 조립 순서를 함께 보는 일과 같다.
 
@@ -70,7 +70,7 @@ weight: 578
 | :--- | :--- | :--- | :--- |
 | 대표 질문 | `다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해`는 왜 현재 문제가 생기는지 보여 준다. | `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`는 지금 무엇을 통제하는지 답한다. | `무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정`는 이후 무엇을 더 강화하거나 확장하는지 보여 준다. |
 | 초점 | 배경, 전제, 한계가 중심이다. | `데이터베이스 맥락에서 역할과 경계를 판단해야 하는 주제`를 직접 다룬다. | 확장, 보완, 운영 관점이 중심이다. |
-| 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
+| 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 성능과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
 
 또한 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`는 `DBMS (Database Management System)`·`데이터 모델`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 -> 현재 통제 -> 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
 
@@ -82,11 +82,11 @@ weight: 578
 
 실무에서는 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`를 이론 용어가 아니라 운영 선택지로 다뤄야 한다. 설계 검토에서는 정의보다도 어디에 두고 어떤 비용을 감수할지 설명할 수 있어야 한다. 특히 장애가 나거나 부하가 급증할 때는 현재 개념이 병목을 줄이는지, 아니면 구조만 복잡하게 만드는지 냉정하게 평가해야 한다.
 
-### 기술사 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 판단 체크리스트
 
 1. 현재 워크로드에서 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`가 실제로 해결하는 병목이나 위험이 명확한가?
 2. `다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해` 또는 `무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정`로 더 단순하게 풀 수 없는가?
-3. 모니터링 지표, 예외 처리, [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`의 특성과 맞게 준비되어 있는가?
+3. 모니터링 지표, 예외 처리, 복구 절차가 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`의 특성과 맞게 준비되어 있는가?
 
 한마디로 `수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델`는 "좋은 개념"이라서 채택하는 것이 아니라, 어떤 손실을 줄이고 어떤 비용을 감수할지 분명할 때 채택해야 한다. 그 판단 기준을 숫자와 운영 시나리오로 설명할 수 있어야 완성도 있는 답안이 된다.
 
@@ -108,10 +108,10 @@ weight: 578
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 해소 교차 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) (Intersection Entity / [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) Table) 분해 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
-| [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
+| 다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
+| 무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| DBMS (Database Management System) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| 데이터 모델 | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,14 +132,3 @@ weight: 578
 1. 컴퓨터가 정보를 잘 정리하고 지키기 위해 쓰는 약속이에요.
 2. 약속마다 하는 일이 조금씩 달라요.
 3. 그래서 이름만 외우지 말고 언제 쓰는지 같이 알아야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 578 / 600
-
-<- **이전**: [577. 다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해](/studynote/05_database/04_transactions_concurrency/577_many_to_many_resolution_intersection_entity/)
-**다음**: [579. 무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정](/studynote/05_database/04_transactions_concurrency/579_referential_integrity_cascade_restrict_set_null/) ->
-
----

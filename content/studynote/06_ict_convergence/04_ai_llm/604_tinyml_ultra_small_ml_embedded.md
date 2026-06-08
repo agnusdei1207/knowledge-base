@@ -110,12 +110,3 @@ TinyML 초소형 임베디드 머신러닝은(는) 디지털 기술을 실제 �
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 604 / 800
-
-<- **이전**: [603. 엣지 AI 온디바이스 경량 추론](/studynote/06_ict_convergence/uncategorized/603_edge_ai_on_device_inference_lightweight/)
-**다음**: [605. OTA 펌웨어 업데이트 관리](/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/) ->
-
----

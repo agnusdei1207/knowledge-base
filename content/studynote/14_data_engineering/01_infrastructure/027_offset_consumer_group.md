@@ -6,9 +6,9 @@ tags:
 weight: 27
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Kafka에서 오프셋(Offset)은 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 메시지의 순서 번호이고, [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)([Consumer Group](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/))은 하나의 토픽을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 소비하는 컨슈머 집합으로 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 그룹 내 컨슈머에 1:1로 할당된다.
-> 2. **가치**: 오프셋 기반 소비는 "메시지가 한 번 전달되면 삭제되는" 전통 MQ와 달리, 컨슈머가 자신의 소비 위치를 독립적으로 관리하므로 다른 [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)이 같은 메시지를 독립적으로 재소비할 수 있다. 이것이 Pub/Sub 멀티 컨슈머 패턴을 가능하게 한다.
-> 3. **판단 포인트**: 오프셋 커밋(Commit)의 세 가지 의미 보장: ①At-Most-Once(최대 1회): 처리 전 커밋 -> 실패 시 손실, ②At-Least-Once(최소 1회): 처리 후 커밋 -> 실패 시 재처리(중복 가능), ③Exactly-Once(정확히 1회): [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) + idempotent 프로듀서. 대부분의 실무는 At-Least-Once + 멱등 처리로 구현한다.
+> 1. **본질**: Kafka에서 오프셋(Offset)은 파티션 내 메시지의 순서 번호이고, 컨슈머 그룹(Consumer Group)은 하나의 토픽을 병렬로 소비하는 컨슈머 집합으로 파티션이 그룹 내 컨슈머에 1:1로 할당된다.
+> 2. **가치**: 오프셋 기반 소비는 "메시지가 한 번 전달되면 삭제되는" 전통 MQ와 달리, 컨슈머가 자신의 소비 위치를 독립적으로 관리하므로 다른 컨슈머 그룹이 같은 메시지를 독립적으로 재소비할 수 있다. 이것이 Pub/Sub 멀티 컨슈머 패턴을 가능하게 한다.
+> 3. **판단 포인트**: 오프셋 커밋(Commit)의 세 가지 의미 보장: ①At-Most-Once(최대 1회): 처리 전 커밋 -> 실패 시 손실, ②At-Least-Once(최소 1회): 처리 후 커밋 -> 실패 시 재처리(중복 가능), ③Exactly-Once(정확히 1회): 트랜잭션 + idempotent 프로듀서. 대부분의 실무는 At-Least-Once + 멱등 처리로 구현한다.
 
 ---
 
@@ -31,13 +31,13 @@ weight: 27
 +--------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋은 책의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 북마크다. 독자(컨슈머)마다 자신의 북마크를 독립적으로 관리하여 같은 책(토픽)을 다른 속도로 읽을 수 있다.
+- **📢 섹션 요약 비유**: Kafka 오프셋은 책의 페이지 북마크다. 독자(컨슈머)마다 자신의 북마크를 독립적으로 관리하여 같은 책(토픽)을 다른 속도로 읽을 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당 규칙
+### 컨슈머 그룹 파티션 할당 규칙
 
 ```text
 파티션 수 = 3, 컨슈머 수 = 2:
@@ -52,39 +52,39 @@ weight: 27
 규칙: 컨슈머 수 > 파티션 수 -> 일부 컨슈머 유휴
 ```
 
-### 오프셋 커밋 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 오프셋 커밋 전략
 
-| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 특징 | 위험 |
+| 전략 | 특징 | 위험 |
 |:---|:---|:---|
 | Auto Commit | enable.auto.commit=true | 처리 전 커밋 -> 손실 가능 |
-| Manual Sync | commitSync() | 처리 후 커밋, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
+| Manual Sync | commitSync() | 처리 후 커밋, 성능 저하 |
 | Manual Async | commitAsync() | 비동기, 순서 보장 필요 |
 
-- **📢 섹션 요약 비유**: [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당은 바리스타 배치다. 커피 머신([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 3대에 바리스타(컨슈머) 2명이면 한 명이 2대를 담당한다. 바리스타가 4명이면 1명은 할 일이 없다.
+- **📢 섹션 요약 비유**: 컨슈머 그룹 파티션 할당은 바리스타 배치다. 커피 머신(파티션) 3대에 바리스타(컨슈머) 2명이면 한 명이 2대를 담당한다. 바리스타가 4명이면 1명은 할 일이 없다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋 | RabbitMQ ACK | 전통 MQ |
+| 비교 | Kafka 오프셋 | RabbitMQ ACK | 전통 MQ |
 |:---|:---|:---|:---|
 | 소비 기록 | 컨슈머 측 오프셋 | 브로커 ACK | 브로커 메시지 삭제 |
 | 재처리 | 오프셋 리셋 | 재전송 요청 | 불가 |
 | 멀티 소비 | 그룹별 독립 오프셋 | 큐 방식 1회 | 불가 |
 
-- **📢 섹션 요약 비유**: [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋은 스트리밍 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시청 기록이다. Netflix가 내 시청 위치를 기억해서 어디서든 이어보기가 가능하다. 전통 TV(전통 MQ)는 방송이 지나가면 다시 볼 수 없다.
+- **📢 섹션 요약 비유**: Kafka 오프셋은 스트리밍 서비스 시청 기록이다. Netflix가 내 시청 위치를 기억해서 어디서든 이어보기가 가능하다. 전통 TV(전통 MQ)는 방송이 지나가면 다시 볼 수 없다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [Consumer Lag](/studynote/16_bigdata/04_streaming/089_consumer_lag/) 모니터링
-- [Consumer Lag](/studynote/16_bigdata/04_streaming/089_consumer_lag/) = Latest Offset - Committed Offset.
+### Consumer Lag 모니터링
+- Consumer Lag = Latest Offset - Committed Offset.
 - Lag이 증가 -> 컨슈머 처리 속도 < 프로듀서 생산 속도.
-- 대응: 컨슈머 인스턴스 수 증가 or [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 증가.
+- 대응: 컨슈머 인스턴스 수 증가 or 파티션 수 증가.
 
-### [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Rebalancing
-- 컨슈머 추가·제거 시 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재할당 발생 -> 짧은 소비 중단(Rebalance).
+### Kafka Rebalancing
+- 컨슈머 추가·제거 시 파티션 재할당 발생 -> 짧은 소비 중단(Rebalance).
 - 최소화 방법: Sticky Assignor, Static Membership.
 
 - **📢 섹션 요약 비유**: Consumer Lag은 콜센터 대기열이다. 상담 전화(메시지)가 처리 속도보다 빠르게 쌓이면 대기 줄(Lag)이 길어진다. 상담원(컨슈머)을 더 추가하면 해소된다.
@@ -95,13 +95,13 @@ weight: 27
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **독립 소비** | 다수 [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)이 같은 토픽 독립 소비 |
+| **독립 소비** | 다수 컨슈머 그룹이 같은 토픽 독립 소비 |
 | **재처리 가능** | 오프셋 리셋으로 과거 메시지 재소비 |
-| **수평 확장** | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수에 비례한 컨슈머 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장 |
+| **수평 확장** | 파티션 수에 비례한 컨슈머 병렬 확장 |
 
-[Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 3.x에서 도입된 KRaft 모드는 [ZooKeeper](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 없이 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 자체가 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)·오프셋을 관리하며, [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 재조정 알고리즘이 더 효율적으로 개선되었다.
+Kafka 3.x에서 도입된 KRaft 모드는 ZooKeeper 없이 Kafka 자체가 메타데이터·오프셋을 관리하며, 컨슈머 그룹 재조정 알고리즘이 더 효율적으로 개선되었다.
 
-- **📢 섹션 요약 비유**: KRaft는 도시 교통 관제 시스템이 외부 컨트롤 타워([ZooKeeper](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) 없이 자체 AI로 신호를 제어하는 것이다. 더 빠르고 안정적으로 [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)을 관리한다.
+- **📢 섹션 요약 비유**: KRaft는 도시 교통 관제 시스템이 외부 컨트롤 타워(ZooKeeper) 없이 자체 AI로 신호를 제어하는 것이다. 더 빠르고 안정적으로 컨슈머 그룹을 관리한다.
 
 ---
 
@@ -109,11 +109,11 @@ weight: 27
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> | 오프셋이 관리되는 단위 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
-| <strong><a href="/studynote/16_bigdata/04_streaming/089_consumer_lag/">Consumer Lag</a></strong> | Committed Offset 대비 최신 오프셋 차이 |
-| **Rebalancing** | 컨슈머 추가·제거 시 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재할당 |
-| **Exactly-Once** | [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)+멱등 프로듀서의 의미 보장 |
-| **KRaft** | [ZooKeeper](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 없는 자체 [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) |
+| <strong>파티션</strong> | 오프셋이 관리되는 단위 로그 |
+| <strong>Consumer Lag</strong> | Committed Offset 대비 최신 오프셋 차이 |
+| **Rebalancing** | 컨슈머 추가·제거 시 파티션 재할당 |
+| **Exactly-Once** | 트랜잭션+멱등 프로듀서의 의미 보장 |
+| **KRaft** | ZooKeeper 없는 자체 메타데이터 관리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,17 +135,6 @@ weight: 27
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋은 책 북마크예요! 여러 독자([컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/))가 같은 책(토픽)을 각자 북마크를 꽂아서 독립적으로 읽어요.
-2. [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)은 바리스타 팀이에요 — 커피 머신([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 개수만큼 바리스타를 배정해서 빠르게 주문(메시지)을 처리해요!
-3. 처리 속도가 느리면 대기 줄([Consumer Lag](/studynote/16_bigdata/04_streaming/089_consumer_lag/))이 길어지니 바리스타(컨슈머)를 더 추가해야 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 27 / 258
-
-<- **이전**: [26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리](/studynote/14_data_engineering/01_infrastructure/026_topic_partition/)
-**다음**: [28. Apache Hive](/studynote/14_data_engineering/01_infrastructure/028_apache_hive/) ->
-
----
+1. Kafka 오프셋은 책 북마크예요! 여러 독자(컨슈머 그룹)가 같은 책(토픽)을 각자 북마크를 꽂아서 독립적으로 읽어요.
+2. 컨슈머 그룹은 바리스타 팀이에요 — 커피 머신(파티션) 개수만큼 바리스타를 배정해서 빠르게 주문(메시지)을 처리해요!
+3. 처리 속도가 느리면 대기 줄(Consumer Lag)이 길어지니 바리스타(컨슈머)를 더 추가해야 해요!

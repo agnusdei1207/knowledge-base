@@ -6,9 +6,9 @@ tags:
 weight: 43
 ---
 > **핵심 인사이트**
-> 1. IT 아웃소싱(ITO, IT Outsourcing)은 내부 IT 기능의 전부 또는 일부를 외부 전문 업체에 위임하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정으로 — "핵심 역량에 집중(Core Competency Focus)"과 "비용 절감"이 주된 동기이지만, 동시에 의존성 증가, 지식 유출, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 통제 어려움이라는 트레이드오프를 내포한다.
-> 2. ITO 성공의 핵심은 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/)) 설계 — [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/), 패널티/인센티브 구조, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 측정 방법을 계약 초기에 명확히 정의해야 하며, 단순 비용 절감 목표보다 "[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 유지"와 "지식 이전(Knowledge Transfer)" 조항이 장기적으로 더 중요하다.
-> 3. 클라우드 전환 시대에 ITO는 "전통적 인프라 아웃소싱"에서 "클라우드 관리 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(MSP, [Managed Service Provider](/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/))"로 진화하고 있으며 — [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)([클라우드 비용 최적화](/studynote/07_enterprise_systems/08_cloud_finops/227_cloud_cost_optimization/))와 결합한 새로운 형태의 IT 파트너십 모델이 주목받고 있다.
+> 1. IT 아웃소싱(ITO, IT Outsourcing)은 내부 IT 기능의 전부 또는 일부를 외부 전문 업체에 위임하는 전략적 의사결정으로 — "핵심 역량에 집중(Core Competency Focus)"과 "비용 절감"이 주된 동기이지만, 동시에 의존성 증가, 지식 유출, 서비스 품질 통제 어려움이라는 트레이드오프를 내포한다.
+> 2. ITO 성공의 핵심은 SLA(Service Level Agreement) 설계 — KPI, 패널티/인센티브 구조, 서비스 수준 측정 방법을 계약 초기에 명확히 정의해야 하며, 단순 비용 절감 목표보다 "서비스 품질 유지"와 "지식 이전(Knowledge Transfer)" 조항이 장기적으로 더 중요하다.
+> 3. 클라우드 전환 시대에 ITO는 "전통적 인프라 아웃소싱"에서 "클라우드 관리 서비스(MSP, Managed Service Provider)"로 진화하고 있으며 — FinOps(클라우드 비용 최적화)와 결합한 새로운 형태의 IT 파트너십 모델이 주목받고 있다.
 
 ---
 
@@ -57,11 +57,11 @@ ITO 유형:
   MSP (Managed Service Provider) = 클라우드 운영 관리
 ```
 
-> 📢 **섹션 요약 비유**: IT 아웃소싱은 집에서 청소부 고용 — 청소(비핵심 IT)를 외주하고 본인은 핵심 업무(사업 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))에 집중. 단, 집 열쇠(시스템 접근)를 줬으니 신뢰와 계약이 중요.
+> 📢 **섹션 요약 비유**: IT 아웃소싱은 집에서 청소부 고용 — 청소(비핵심 IT)를 외주하고 본인은 핵심 업무(사업 전략)에 집중. 단, 집 열쇠(시스템 접근)를 줬으니 신뢰와 계약이 중요.
 
 ---
 
-## Ⅱ. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 설계와 [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/)
+## Ⅱ. SLA 설계와 KPI
 
 ```
 SLA (Service Level Agreement) 핵심 구성:
@@ -102,7 +102,7 @@ SLA 함정:
   -> 서비스 시간대별 가중 가용성 측정 필요
 ```
 
-> 📢 **섹션 요약 비유**: SLA는 음식점 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 계약 — "주문 후 15분 내 음식 제공, 불이행 시 식사비 할인"처럼 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 보상을 명확히 계약.
+> 📢 **섹션 요약 비유**: SLA는 음식점 서비스 품질 계약 — "주문 후 15분 내 음식 제공, 불이행 시 식사비 할인"처럼 서비스 수준과 보상을 명확히 계약.
 
 ---
 
@@ -155,11 +155,11 @@ ITO 주요 위험:
      대체 업체 전환 계획 수립
 ```
 
-> 📢 **섹션 요약 비유**: ITO 위험 관리는 집 세입자 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) — 세입자(아웃소서)가 갑자기 나가거나(파산), 집을 망가뜨리거나([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 저하), 열쇠를 복사하거나(보안 위험). 계약서가 핵심.
+> 📢 **섹션 요약 비유**: ITO 위험 관리는 집 세입자 리스크 — 세입자(아웃소서)가 갑자기 나가거나(파산), 집을 망가뜨리거나(서비스 저하), 열쇠를 복사하거나(보안 위험). 계약서가 핵심.
 
 ---
 
-## Ⅳ. 클라우드 MSP와 [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)
+## Ⅳ. 클라우드 MSP와 FinOps
 
 ```
 전통 ITO -> 클라우드 MSP 진화:
@@ -204,11 +204,11 @@ MSP 선택 기준:
   초기 마이그레이션 비용 vs 장기 절감 TCO 분석 필수
 ```
 
-> 📢 **섹션 요약 비유**: 클라우드 MSP는 클라우드 전용 관리인 — 아파트 관리 사무소처럼, 클라우드라는 건물에서 전기(컴퓨팅), 수도([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 보안(보안 관제)을 전문적으로 관리.
+> 📢 **섹션 요약 비유**: 클라우드 MSP는 클라우드 전용 관리인 — 아파트 관리 사무소처럼, 클라우드라는 건물에서 전기(컴퓨팅), 수도(데이터), 보안(보안 관제)을 전문적으로 관리.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 제조업 ITO [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅴ. 실무 시나리오 — 제조업 ITO 전략
 
 ```
 중견 제조업체 ITO 전략 수립 사례:
@@ -251,7 +251,7 @@ SLA 설계:
   지식 이전 조항 강제 (3년 계약 만료 시 재내부화 가능성)
 ```
 
-> 📢 **섹션 요약 비유**: ITO는 식당의 반조리 식재료 활용 — 모든 것을 직접 만들지 않고, 전문 식재료(클라우드/보안)를 사서 요리사(핵심 IT팀)가 최종 요리([전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))에만 집중.
+> 📢 **섹션 요약 비유**: ITO는 식당의 반조리 식재료 활용 — 모든 것을 직접 만들지 않고, 전문 식재료(클라우드/보안)를 사서 요리사(핵심 IT팀)가 최종 요리(전략)에만 집중.
 
 ---
 
@@ -307,17 +307,6 @@ AI/ML 운영 관리 서비스 MSP
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. IT 아웃소싱은 전문 청소부 고용 — 청소(비핵심 IT)는 전문가에게 맡기고, 자신은 핵심 일(사업 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))에 집중해요!
-2. SLA는 청소부 계약서 — "매주 월요일 청소 완료, 못 하면 요금 할인"처럼 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 보상을 명확히 정해요.
+1. IT 아웃소싱은 전문 청소부 고용 — 청소(비핵심 IT)는 전문가에게 맡기고, 자신은 핵심 일(사업 전략)에 집중해요!
+2. SLA는 청소부 계약서 — "매주 월요일 청소 완료, 못 하면 요금 할인"처럼 서비스 수준과 보상을 명확히 정해요.
 3. 전부 맡기면 위험 — 집 열쇠를 줬다가 청소부가 갑자기 그만두면 청소 방법을 아무도 모르는 것처럼, 핵심 역량은 내부에 유지해야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 77 / 587
-
-<- **이전**: [042. 그로스 해킹 (Growth Hacking)](/studynote/12_it_management/01_governance_strategy/834_growth_hacking/)
-**다음**: [43. IT 아웃소싱 (ITO, IT Outsourcing) 전략](/studynote/12_it_management/01_governance_strategy/835_it_outsourcing_strategy/) ->
-
----

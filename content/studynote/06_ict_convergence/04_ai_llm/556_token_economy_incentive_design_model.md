@@ -110,12 +110,3 @@ Core flow: Utility -> Reward -> Staking -> Burn -> Governance
 | 오라클 | 외부 세계와 온체인 상태를 연결하는 신뢰 경계 |
 | 거버넌스 | 업그레이드, 파라미터, 분쟁 해결을 담당하는 운영 체계 |
 | 보안 감사 | 배포 전 취약점과 운영 리스크를 줄이는 필수 절차 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 556 / 800
-
-<- **이전**: [555. CBDC 중앙은행 디지털 화폐 설계](/studynote/06_ict_convergence/uncategorized/555_cbdc_central_bank_digital_currency_design/)
-**다음**: [557. 크로스체인 상호운용성 브리지](/studynote/06_ict_convergence/uncategorized/557_cross_chain_interoperability_bridge/) ->
-
----

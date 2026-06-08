@@ -7,9 +7,9 @@ weight: 582
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LSM(Linux [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules)은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 <strong>"보안 enforcement를 위한 훅(Hook)"</strong>을 제공하여, [SELinux](/studynote/02_operating_system/10_security/583_selinux/), [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/) 등 다양한 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 수정하지 않고 **플러그인 방식으로** 부착할 수 있게 하는 프레임워크이다.
-> 2. **가치**: 이 <strong><a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층(<a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> Layer)</strong> 덕분에 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드와 [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) 코드가 분리되어, 다양한 [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/)([SELinux](/studynote/02_operating_system/10_security/583_selinux/), [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/), Smack, Tomoyo 등)을 자유롭게 선택하고 교체할 수 있다.
-> 3. **한계**: 각 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 LSM 훅을 모두 지원하지는 않아서, <strong><a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 간 기능 차이</strong>가 있으며, 동시에 두 개 이상의 주요 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 사용하는 것은 권장되지 않는다.
+> 1. **본질**: LSM(Linux Security Modules)은 리눅스 커널에 <strong>"보안 enforcement를 위한 훅(Hook)"</strong>을 제공하여, SELinux, AppArmor 등 다양한 보안 모듈이 커널을 수정하지 않고 **플러그인 방식으로** 부착할 수 있게 하는 프레임워크이다.
+> 2. **가치**: 이 <strong>추상화 계층(Abstraction Layer)</strong> 덕분에 커널 코드와 보안 정책 코드가 분리되어, 다양한 보안 정책(SELinux, AppArmor, Smack, Tomoyo 등)을 자유롭게 선택하고 교체할 수 있다.
+> 3. **한계**: 각 보안 모듈이 LSM 훅을 모두 지원하지는 않아서, <strong>모듈 간 기능 차이</strong>가 있으며, 동시에 두 개 이상의 주요 MAC 모듈을 사용하는 것은 권장되지 않는다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 582
 
 ### 1.1 LSM 이전의 문제점
 
-과거에는 보안 기능이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드에 직접 구현되었다:
+과거에는 보안 기능이 커널 코드에 직접 구현되었다:
 
 ```c
 // 과거 구현 예시
@@ -30,8 +30,8 @@ int sys_open(const char *filename, int flags) {
 ```
 
 **문제점**:
-- [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 변경 필요
-- 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 코드 중복
+- 커널 코드 변경 필요
+- 보안 모듈 간 코드 중복
 - 유지보수 어려움
 
 ### 1.2 LSM의 해결책
@@ -59,18 +59,18 @@ LSM은 약 <strong>150개 이상의 훅</strong>을 제공한다:
 
 | 카테고리 | 주요 훅 | 설명 |
 |:---|:---|:---|
-| **프로세스** | `task_alloc`, `task_free` | [프로세스 생성](/studynote/02_operating_system/02_process_thread/104_process_creation/)/소멸 시 |
-| <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> | `inode_permission`, `file_permission` | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 시 |
+| **프로세스** | `task_alloc`, `task_free` | 프로세스 생성/소멸 시 |
+| <strong>파일</strong> | `inode_permission`, `file_permission` | 파일 접근 시 |
 | **네트워크** | `inet_conn_request`, `socket_sendmsg` | 네트워크 통신 시 |
 
-### 2.2 주요 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)
+### 2.2 주요 보안 모듈
 
-| [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 개발자 | 특징 |
+| 모듈 | 개발자 | 특징 |
 |:---|:---|:---|
-| <strong><a href="/studynote/02_operating_system/10_security/583_selinux/">SELinux</a></strong> | [NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) | 유형 Enforcement, 가장 강력한 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) |
-| <strong><a href="/studynote/02_operating_system/10_security/584_apparmor/">AppArmor</a></strong> | Novell/SUSE | 경로 기반 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) |
-| **Smack** | [NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) | 단순화된 라벨 기반 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) |
-| **Tomoyo** | NTT | 경로 기반 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 관리 용이 |
+| <strong>SELinux</strong> | NSA | 유형 Enforcement, 가장 강력한 MAC |
+| <strong>AppArmor</strong> | Novell/SUSE | 경로 기반 MAC |
+| **Smack** | NSA | 단순화된 라벨 기반 MAC |
+| **Tomoyo** | NTT | 경로 기반 MAC, 관리 용이 |
 
 ### 2.3 SELinux와의관계
 
@@ -85,7 +85,7 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 ---
 
-### 3.1 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 시 [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) check 흐름
+### 3.1 파일 접근 시 security check 흐름
 
 ```text
 [ 파일 접근 요청 ]
@@ -111,8 +111,8 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 | 모드 | 설명 |
 |:---|:---|
-| **Enforcing** | [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) 위반 시 접근 거부 |
-| **Permissive** | 위반 시ログ([로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))만 기록, 접근은 허용 |
+| **Enforcing** | 보안 정책 위반 시 접근 거부 |
+| **Permissive** | 위반 시ログ(로그)만 기록, 접근은 허용 |
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -120,9 +120,9 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 ## Ⅲ. 비교 및 연결
 
-리눅스 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (LSM, Linux [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules)은(는) [비바 모델](/studynote/02_operating_system/10_security/581_biba_model/) ([Biba Model](/studynote/02_operating_system/10_security/581_biba_model/)), SELinux과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
+리눅스 보안 모듈 (LSM, Linux Security Modules)은(는) 비바 모델 (Biba Model), SELinux과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
 
-| 비교 축 | [비바 모델](/studynote/02_operating_system/10_security/581_biba_model/) ([Biba Model](/studynote/02_operating_system/10_security/581_biba_model/)) | 리눅스 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (LSM, Linux [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules) | [SELinux](/studynote/02_operating_system/10_security/583_selinux/) |
+| 비교 축 | 비바 모델 (Biba Model) | 리눅스 보안 모듈 (LSM, Linux Security Modules) | SELinux |
 |:---|:---|:---|:---|
 | 초점 | 기반 조건 | 현재 판단 기준 | 확장/세분화 방향 |
 | 운영 관점 | 준비 단계 | 핵심 제어 단계 | 후속 최적화 단계 |
@@ -133,8 +133,8 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **유연성**: 다양한 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 선택적으로 사용 가능
-- <strong><a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>성</strong>: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드와 [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) 분리
+- **유연성**: 다양한 보안 모듈을 선택적으로 사용 가능
+- <strong>모듈성</strong>: 커널 코드와 보안 정책 분리
 - **표준화**: LSM API를 통해 다양한 보안 솔루션 지원
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -143,7 +143,7 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 ## Ⅴ. 기대효과 및 결론
 
-리눅스 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (LSM, Linux [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 SELinux처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+리눅스 보안 모듈 (LSM, Linux Security Modules)은 운영체제 보호와 보안 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 SELinux처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -153,10 +153,10 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [벨-라파둘라 모델](/studynote/02_operating_system/10_security/580_bell_lapadula_model/) ([Bell-LaPadula](/studynote/02_operating_system/10_security/580_bell_lapadula_model/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [비바 모델](/studynote/02_operating_system/10_security/581_biba_model/) ([Biba Model](/studynote/02_operating_system/10_security/581_biba_model/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [SELinux](/studynote/02_operating_system/10_security/583_selinux/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 벨-라파둘라 모델 (Bell-LaPadula) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 비바 모델 (Biba Model) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| SELinux | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| AppArmor | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -174,19 +174,8 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong>LSM</strong>은 놀이공원의 <strong>"입구 보안 시스템"</strong>과 같다. 놀이공원 입장구에 **"보안 Hook"** 장치를 설치해 두고, 원하는 보안 회사([SELinux](/studynote/02_operating_system/10_security/583_selinux/), [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/) 등)로부터 <strong>"보안 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>"</strong>를 선택받아 Hook에 연결할 수 있다.
+1. <strong>LSM</strong>은 놀이공원의 <strong>"입구 보안 시스템"</strong>과 같다. 놀이공원 입장구에 **"보안 Hook"** 장치를 설치해 두고, 원하는 보안 회사(SELinux, AppArmor 등)로부터 <strong>"보안 서비스"</strong>를 선택받아 Hook에 연결할 수 있다.
 
-2. <strong><a href="/studynote/02_operating_system/10_security/583_selinux/">SELinux</a></strong>는 놀이공원의 <strong>"<a href="/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/">NSA</a> <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 경비 회사"</strong>이고, <strong><a href="/studynote/02_operating_system/10_security/584_apparmor/">AppArmor</a></strong>는 <strong>"SUSE 경비 회사"</strong>이다. 둘 다 Hook에 연결할 수 있지만, 동시에 두 개의 경비 회사를 고용하는 것은 불가능하다.
+2. <strong>SELinux</strong>는 놀이공원의 <strong>"NSA 인증 경비 회사"</strong>이고, <strong>AppArmor</strong>는 <strong>"SUSE 경비 회사"</strong>이다. 둘 다 Hook에 연결할 수 있지만, 동시에 두 개의 경비 회사를 고용하는 것은 불가능하다.
 
 3. <strong>Enforcing vs Permissive</strong>는 경비 회사의 <strong>"적용 모드"</strong>와 같다. Enforcing은 규칙을 위반하면 입장 차단하고, Permissive는Violations(위반)을 기록만 하고 입장은 허용한다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 582 / 800
-
-<- **이전**: [581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)](/studynote/02_operating_system/10_security/581_biba_model/)
-**다음**: [583. SELinux](/studynote/02_operating_system/10_security/583_selinux/) ->
-
----

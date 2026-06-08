@@ -110,12 +110,3 @@ Core flow: Ingest -> Normalize -> Label -> Metric -> Dashboard
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 576 / 800
-
-<- **이전**: [575. STO 증권형 토큰 디지털 증권](/studynote/06_ict_convergence/uncategorized/575_security_token_offering_sto_digital_securitie/)
-**다음**: [577. 스테이블코인 알고리즘 담보 모델](/studynote/06_ict_convergence/uncategorized/577_stablecoin_algorithm_collateral_model/) ->
-
----

@@ -8,8 +8,8 @@ weight: 166
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MoSCoW 기법은 고정된 시간과 자원 안에서 요구사항을 Must Have, Should Have, Could Have, Won't Have로 나누어 릴리스 범위를 통제하는 우선순위 프레임워크다.
-> 2. **가치**: 이 기법은 "다 중요하다"는 모호한 요구를 실행 가능한 합의로 바꾸어, 최소 기능 제품 ([Minimum Viable Product](/studynote/12_it_management/01_governance_strategy/036_mvp/), [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/))과 타임박스 (Timebox) 중심 개발에서 일정 준수 가능성을 높인다.
-> 3. **판단 포인트**: MoSCoW는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)표를 만드는 기법이 아니라 트레이드오프를 강제하는 의사결정 장치이므로, Must 남발과 Won't 관리 실패를 막는 운영 원칙이 함께 있어야 효과가 난다.
+> 2. **가치**: 이 기법은 "다 중요하다"는 모호한 요구를 실행 가능한 합의로 바꾸어, 최소 기능 제품 (Minimum Viable Product, MVP)과 타임박스 (Timebox) 중심 개발에서 일정 준수 가능성을 높인다.
+> 3. **판단 포인트**: MoSCoW는 분류표를 만드는 기법이 아니라 트레이드오프를 강제하는 의사결정 장치이므로, Must 남발과 Won't 관리 실패를 막는 운영 원칙이 함께 있어야 효과가 난다.
 
 ---
 
@@ -19,7 +19,7 @@ MoSCoW 기법은 요구사항을 네 가지 우선순위 범주로 구분해 한
 
 이 기법이 필요한 이유는 대부분의 프로젝트가 기능보다 시간과 예산이 먼저 고정되기 때문이다. 고객은 로그인, 결제, 추천, 통계, 알림, 관리자 기능을 모두 원하지만, 팀이 한 번에 완성할 수 있는 양은 제한적이다. 이때 우선순위를 명시하지 않으면 중요하지 않은 기능까지 핵심 기능과 같은 무게로 취급되어, 결국 출시일은 밀리고 핵심 품질도 떨어진다.
 
-이 그림은 요구사항이 왜 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)되어야 하는지 보여준다.
+이 그림은 요구사항이 왜 분류되어야 하는지 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -49,14 +49,14 @@ MoSCoW의 핵심은 각 범주를 감정이 아니라 기준으로 나누는 데
 
 | 범주 | 판단 기준 | 예시 | 관리 원칙 |
 | :-- | :-- | :-- | :-- |
-| Must Have | 없으면 제품 목적이 성립하지 않음 | 로그인, 결제, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 전체 용량의 핵심만 허용 |
+| Must Have | 없으면 제품 목적이 성립하지 않음 | 로그인, 결제, 데이터 저장 | 전체 용량의 핵심만 허용 |
 | Should Have | 중요하지만 임시 우회 가능 | 비밀번호 재설정 자동화 | 일정 압박 시 다음 후보로 이연 |
 | Could Have | 여유가 있을 때 넣는 개선 요소 | 추천 배너, 애니메이션 | 마지막에 포함 여부 판단 |
-| Won't Have | 이번 릴리스에서 제외 | 차기 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 고급 기능 | 명시적으로 기록하고 관리 |
+| Won't Have | 이번 릴리스에서 제외 | 차기 버전 고급 기능 | 명시적으로 기록하고 관리 |
 
 실무에서 가장 유용한 질문은 다음 두 가지다. 첫째, "이 항목이 없으면 이번 릴리스를 해도 되는가?" 둘째, "짧은 기간 동안 수작업이나 다른 절차로 우회 가능한가?" 첫 질문에 아니오라면 Must 후보이고, 둘째 질문에 예라면 Should일 가능성이 높다. 결국 MoSCoW는 기능의 멋보다 사업 연속성과 우회 가능성을 기준으로 판단한다.
 
-이 그림은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 논리가 어떻게 흘러가는지 보여준다.
+이 그림은 분류 논리가 어떻게 흘러가는지 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -82,52 +82,52 @@ MoSCoW의 핵심은 각 범주를 감정이 아니라 기준으로 나누는 데
 
 ## Ⅲ. 비교 및 연결
 
-MoSCoW는 단순한 상·중·하 우선순위보다 강한 이유가 범위 제외를 명시하기 때문이다. High, Medium, Low는 모두 결국 "언젠가 다 할 것"처럼 들리지만, Won't는 "이번에는 하지 않는다"를 분명히 선언한다. 이 차이가 스코프 크리프 ([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))를 막는 데 큰 역할을 한다.
+MoSCoW는 단순한 상·중·하 우선순위보다 강한 이유가 범위 제외를 명시하기 때문이다. High, Medium, Low는 모두 결국 "언젠가 다 할 것"처럼 들리지만, Won't는 "이번에는 하지 않는다"를 분명히 선언한다. 이 차이가 스코프 크리프 (Scope Creep)를 막는 데 큰 역할을 한다.
 
-또한 MoSCoW는 [카노 모델](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/))과 목적이 다르다. [카노 모델](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)이 고객 만족을 높이는 기능 유형을 찾는 데 강하다면, MoSCoW는 정해진 릴리스 안에서 무엇을 먼저 싣고 무엇을 미룰지 결정하는 데 강하다. 따라서 제품 아이디어를 탐색할 때는 [카노 모델](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)이 유리하고, 실제 릴리스 범위를 고정할 때는 MoSCoW가 더 직접적이다.
+또한 MoSCoW는 카노 모델 (Kano Model)과 목적이 다르다. 카노 모델이 고객 만족을 높이는 기능 유형을 찾는 데 강하다면, MoSCoW는 정해진 릴리스 안에서 무엇을 먼저 싣고 무엇을 미룰지 결정하는 데 강하다. 따라서 제품 아이디어를 탐색할 때는 카노 모델이 유리하고, 실제 릴리스 범위를 고정할 때는 MoSCoW가 더 직접적이다.
 
-| 비교 항목 | MoSCoW | High / Medium / Low | [카노 모델](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) |
+| 비교 항목 | MoSCoW | High / Medium / Low | 카노 모델 |
 | :-- | :-- | :-- | :-- |
 | 핵심 질문 | 이번 릴리스에 무엇을 넣을까? | 대략 어느 정도 중요한가? | 어떤 기능이 만족을 키우는가? |
 | 범위 제외 표현 | Won't로 명시 | 대개 모호함 | 직접적이지 않음 |
-| 강점 | 일정 방어, [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 구성 | 간단한 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 고객 가치 탐색 |
+| 강점 | 일정 방어, MVP 구성 | 간단한 분류 | 고객 가치 탐색 |
 | 약점 | 운영 원칙 없으면 Must 인플레이션 | 합의력이 약함 | 일정 통제에는 약함 |
 
-다른 소프트웨어공학 개념과도 자연스럽게 연결된다. MVP는 Must 중심으로 정의되고, [인수 기준](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) ([Acceptance Criteria](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/))은 각 Must나 Should가 어떤 상태여야 완료인지 구체화한다. [비기능 요구사항](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) (Non-Functional Requirement, [NFR](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/))도 이 틀 안에서 다뤄야 한다. 예를 들어 보안 패치나 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화가 눈에 띄지 않는다고 Could로 밀리면, 릴리스는 나가도 운영은 실패할 수 있다.
+다른 소프트웨어공학 개념과도 자연스럽게 연결된다. MVP는 Must 중심으로 정의되고, 인수 기준 (Acceptance Criteria)은 각 Must나 Should가 어떤 상태여야 완료인지 구체화한다. 비기능 요구사항 (Non-Functional Requirement, NFR)도 이 틀 안에서 다뤄야 한다. 예를 들어 보안 패치나 성능 안정화가 눈에 띄지 않는다고 Could로 밀리면, 릴리스는 나가도 운영은 실패할 수 있다.
 
-- **📢 섹션 요약 비유**: [카노 모델](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)이 메뉴 개발 회의라면, MoSCoW는 오늘 장사할 때 무엇을 실제로 조리할지 정하는 주방 운영표와 같다. 손님이 좋아할 메뉴를 아는 것과, 지금 만들 수 있는 메뉴를 고르는 것은 다른 문제다.
+- **📢 섹션 요약 비유**: 카노 모델이 메뉴 개발 회의라면, MoSCoW는 오늘 장사할 때 무엇을 실제로 조리할지 정하는 주방 운영표와 같다. 손님이 좋아할 메뉴를 아는 것과, 지금 만들 수 있는 메뉴를 고르는 것은 다른 문제다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 MoSCoW는 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획과 릴리스 협상에서 가장 빛난다. 예를 들어 전자상거래 첫 출시를 준비할 때 로그인, 상품 조회, 장바구니, 결제는 Must가 될 가능성이 높다. 반면 쿠폰 추천, [테마](/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 커스터마이징, 리뷰 감정 분석은 중요할 수 있어도 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 출시 생존선과는 거리가 있으므로 Should나 Could로 두는 편이 안전하다. 이런 식으로 핵심 흐름을 먼저 살리고 나머지를 단계적으로 붙여야 일정과 품질을 동시에 지킬 수 있다.
+실무에서 MoSCoW는 스프린트 계획과 릴리스 협상에서 가장 빛난다. 예를 들어 전자상거래 첫 출시를 준비할 때 로그인, 상품 조회, 장바구니, 결제는 Must가 될 가능성이 높다. 반면 쿠폰 추천, 테마 커스터마이징, 리뷰 감정 분석은 중요할 수 있어도 초기 출시 생존선과는 거리가 있으므로 Should나 Could로 두는 편이 안전하다. 이런 식으로 핵심 흐름을 먼저 살리고 나머지를 단계적으로 붙여야 일정과 품질을 동시에 지킬 수 있다.
 
-기술사 관점에서 특히 중요한 것은 Must 인플레이션과 [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 배제다. 모든 부서가 자기 요구를 Must로 올리면 우선순위는 사라진다. 반대로 눈에 보이지 않는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, 운영 자동화 요구를 Could로만 밀어 두면 릴리스 후 장애 비용이 더 커진다. 따라서 우선순위 결정에는 사업 담당자뿐 아니라 아키텍트, 운영, 품질 담당자의 참여가 필요하다.
+기술사 관점에서 특히 중요한 것은 Must 인플레이션과 기술 부채 배제다. 모든 부서가 자기 요구를 Must로 올리면 우선순위는 사라진다. 반대로 눈에 보이지 않는 성능, 보안, 운영 자동화 요구를 Could로만 밀어 두면 릴리스 후 장애 비용이 더 커진다. 따라서 우선순위 결정에는 사업 담당자뿐 아니라 아키텍트, 운영, 품질 담당자의 참여가 필요하다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 
 1. Must 항목이 정말 이번 릴리스 목적과 직접 연결되는가?
 2. Should 항목에는 실제 우회 절차가 존재하는가?
 3. Won't 항목이 회의록·백로그에 명시적으로 기록되었는가?
-4. 기능 요구뿐 아니라 보안·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영 요구도 함께 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)했는가?
+4. 기능 요구뿐 아니라 보안·성능·운영 요구도 함께 분류했는가?
 5. 팀 용량 기준으로 Must 비중이 과도하지 않은가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 압력 때문에 대부분의 요구사항을 Must로 올리는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+- 이해관계자 압력 때문에 대부분의 요구사항을 Must로 올리는 분류
 - Won't를 "영원히 버림"으로 오해해 추후 검토 체계를 없애는 운영
 - 눈에 보이지 않는 NFR을 Could나 Won't로만 밀어 넣는 일정 중심 판단
 
-- **📢 섹션 요약 비유**: MoSCoW를 잘 쓰는 것은 무대 공연 전 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)를 정하는 것과 같다. 마이크와 조명은 필수지만, 장식 배너까지 전부 필수라고 하면 공연 시작 시간만 계속 늦어진다.
+- **📢 섹션 요약 비유**: MoSCoW를 잘 쓰는 것은 무대 공연 전 체크리스트를 정하는 것과 같다. 마이크와 조명은 필수지만, 장식 배너까지 전부 필수라고 하면 공연 시작 시간만 계속 늦어진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-MoSCoW를 제대로 적용하면 프로젝트는 "모든 요구를 다 만족시키겠다"는 막연한 약속에서 벗어나, 어떤 기능으로 출시를 성립시키고 어떤 기능을 다음 단계로 미룰지 명확한 로드맵을 갖게 된다. 그 결과 일정 준수 가능성이 높아지고, 핵심 흐름 품질에 자원을 집중할 수 있으며, [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간 우선순위 논쟁도 구조화된다.
+MoSCoW를 제대로 적용하면 프로젝트는 "모든 요구를 다 만족시키겠다"는 막연한 약속에서 벗어나, 어떤 기능으로 출시를 성립시키고 어떤 기능을 다음 단계로 미룰지 명확한 로드맵을 갖게 된다. 그 결과 일정 준수 가능성이 높아지고, 핵심 흐름 품질에 자원을 집중할 수 있으며, 이해관계자 간 우선순위 논쟁도 구조화된다.
 
-하지만 MoSCoW는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)만 한다고 자동으로 성공하지 않는다. Must를 제한하는 규칙, Won't를 관리하는 백로그, NFR을 누락하지 않는 시야가 함께 있어야 한다. 따라서 MoSCoW는 "기능 등급표"가 아니라, 고정된 시간과 자원 아래에서 릴리스 생존선을 지키는 범위 통제 도구로 기억하는 것이 가장 정확하다.
+하지만 MoSCoW는 분류만 한다고 자동으로 성공하지 않는다. Must를 제한하는 규칙, Won't를 관리하는 백로그, NFR을 누락하지 않는 시야가 함께 있어야 한다. 따라서 MoSCoW는 "기능 등급표"가 아니라, 고정된 시간과 자원 아래에서 릴리스 생존선을 지키는 범위 통제 도구로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: MoSCoW는 다리를 건널 때 먼저 꼭 필요한 널판지를 까는 일과 같다. 장식을 먼저 올리면 보기엔 좋을지 몰라도, 정작 사람은 건너지 못한다.
 
@@ -138,11 +138,11 @@ MoSCoW를 제대로 적용하면 프로젝트는 "모든 요구를 다 만족시
 | 개념 | 연결 포인트 |
 | :-- | :-- |
 | 타임박스 (Timebox) | MoSCoW가 전제하는 고정 일정 조건 |
-| 최소 기능 제품 ([MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/)) | Must 중심으로 구성되는 첫 출시 범위 |
-| 스코프 크리프 ([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)) | Won't 명시로 방어해야 하는 대표 위험 |
-| [카노 모델](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)) | 고객 만족 관점의 우선순위 도구로 보완 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| [인수 기준](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) ([Acceptance Criteria](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/)) | Must/Should 요구사항의 완료 조건을 구체화 |
-| [비기능 요구사항](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) ([NFR](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안·운영 요구도 MoSCoW 대상에 포함 |
+| 최소 기능 제품 (MVP) | Must 중심으로 구성되는 첫 출시 범위 |
+| 스코프 크리프 (Scope Creep) | Won't 명시로 방어해야 하는 대표 위험 |
+| 카노 모델 (Kano Model) | 고객 만족 관점의 우선순위 도구로 보완 관계 |
+| 인수 기준 (Acceptance Criteria) | Must/Should 요구사항의 완료 조건을 구체화 |
+| 비기능 요구사항 (NFR) | 성능·보안·운영 요구도 MoSCoW 대상에 포함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -163,21 +163,10 @@ MoSCoW 분류
 릴리스 후 피드백 기반 재우선순위화
 ```
 
-이 흐름도는 MoSCoW가 한 번의 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)로 끝나는 것이 아니라, 릴리스 계획과 후속 재조정을 연결하는 관리 루프임을 보여준다.
+이 흐름도는 MoSCoW가 한 번의 분류로 끝나는 것이 아니라, 릴리스 계획과 후속 재조정을 연결하는 관리 루프임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. MoSCoW는 소풍 가방에 무엇을 먼저 넣을지 정하는 방법이에요.
 2. 도시락과 물은 꼭 넣고, 장난감은 자리가 남으면 넣어요.
 3. 그래서 가장 중요한 것을 놓치지 않고 제시간에 출발할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 166 / 973
-
-<- **이전**: [165. 인수 기준 (Acceptance Criteria) 정의](/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/)
-**다음**: [167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질](/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ->
-
----

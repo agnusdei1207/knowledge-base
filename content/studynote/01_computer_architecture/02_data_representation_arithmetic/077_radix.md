@@ -26,9 +26,9 @@ weight: 77
 
 | 기수 | 사용 기호 | 특징 | 실무 예 |
 | :--- | :--- | :--- | :--- |
-| 2 | 0, 1 | 하드웨어 친화 | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 논리회로 |
+| 2 | 0, 1 | 하드웨어 친화 | 비트, 논리회로 |
 | 8 | 0~7 | 3비트 묶음이 쉬움 | 레거시 표기 |
-| [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 0~9 | 인간이 가장 익숙 | 일상 수치 |
+| 10 | 0~9 | 인간이 가장 익숙 | 일상 수치 |
 | 16 | 0~9, A~F | 4비트 묶음이 쉬움 | 주소, 메모리 덤프 |
 
 ```text
@@ -41,16 +41,16 @@ weight: 77
          A    3    F
 ```
 
-16진수는 4비트씩 묶어 읽기 좋기 때문에 메모리 주소, 색상 코드, 디버깅 덤프에서 자주 쓰인다. 8진수는 3비트 묶음과 잘 맞아 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템에서 많이 사용됐다.
+16진수는 4비트씩 묶어 읽기 좋기 때문에 메모리 주소, 색상 코드, 디버깅 덤프에서 자주 쓰인다. 8진수는 3비트 묶음과 잘 맞아 초기 시스템에서 많이 사용됐다.
 
 📢 섹션 요약 비유: 같은 장부를 큰 숫자로 길게 적을 수도 있고, 짧은 약자로 압축해서 적을 수도 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-10진수는 읽기 쉽지만 기계적 변환 비용이 크고, 2진수는 계산이 단순하지만 사람이 길게 읽기 어렵다. 8진수와 16진수는 그 중간에서 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 묶음을 압축해 보여주는 타협안이다.
+10진수는 읽기 쉽지만 기계적 변환 비용이 크고, 2진수는 계산이 단순하지만 사람이 길게 읽기 어렵다. 8진수와 16진수는 그 중간에서 비트 묶음을 압축해 보여주는 타협안이다.
 
-기수는 부호 표현과도 연결된다. 같은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열이라도 [부호 없는 정수](/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/), 2의 보수, 고정소수점에서 해석이 달라지므로, 자리값과 표현 규칙을 함께 봐야 한다. 즉 숫자를 보는 눈은 기수와 표현 체계를 함께 읽어야 완성된다.
+기수는 부호 표현과도 연결된다. 같은 비트열이라도 부호 없는 정수, 2의 보수, 고정소수점에서 해석이 달라지므로, 자리값과 표현 규칙을 함께 봐야 한다. 즉 숫자를 보는 눈은 기수와 표현 체계를 함께 읽어야 완성된다.
 
 📢 섹션 요약 비유: 지도는 축척이 달라져도 같은 땅을 보여준다. 다만 축척이 바뀌면 읽는 방식도 달라져야 한다.
 
@@ -59,10 +59,10 @@ weight: 77
 ## Ⅳ. 실무 적용 및 기술사 판단
 실무에서는 16진수가 주소, 마스크, 색상, 해시 앞부분을 읽는 표준 도구로 쓰인다.
 
-- 채택: [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 빠르게 확인해야 할 때
+- 채택: 비트 패턴을 빠르게 확인해야 할 때
 - 회피: 사람이 직접 계산해야 하는 업무 규칙 설명서
 - 판단: 2의 거듭제곱과 잘 맞는 기수는 변환이 쉽고 오류가 적다
-- [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- 체크리스트
   1. 변환 대상이 자주 쓰는 자리 묶음과 맞는가?
   2. 사람이 읽어야 할지, 장치가 읽어야 할지 구분했는가?
   3. 부호 표현과 자리값 해석을 혼동하지 않는가?
@@ -74,7 +74,7 @@ weight: 77
 ---
 
 ## Ⅴ. 기대효과 및 결론
-기수 개념을 이해하면 [진법 변환](/studynote/01_computer_architecture/02_data_representation_arithmetic/078_numeral_systems/), 메모리 주소 읽기, [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산, 디버깅이 훨씬 빨라진다. 결국 기수는 숫자의 껍데기가 아니라, 값이 자리마다 어떻게 나뉘는지를 설명하는 핵심 언어다.
+기수 개념을 이해하면 진법 변환, 메모리 주소 읽기, 비트 연산, 디버깅이 훨씬 빨라진다. 결국 기수는 숫자의 껍데기가 아니라, 값이 자리마다 어떻게 나뉘는지를 설명하는 핵심 언어다.
 
 📢 섹션 요약 비유: 기수는 숫자를 세는 언어다. 언어를 바꾸면 표기는 달라져도 뜻은 그대로다.
 
@@ -82,11 +82,11 @@ weight: 77
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 위치 값 기수법(Positional Notation) | 자릿값과 밑의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 위치 값 기수법(Positional Notation) | 자릿값과 밑의 관계 |
 | 2진수(Binary) | 컴퓨터 내부 표현 |
 | 8진수(Octal) | 3비트 묶음 표기 |
 | 16진수(Hexadecimal) | 4비트 묶음 표기 |
-| 2의 보수 | [부호 있는 정수](/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/) 표현 |
+| 2의 보수 | 부호 있는 정수 표현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -108,14 +108,3 @@ weight: 77
 1. 숫자를 셀 때는 10개짜리 상자를 쓰기도 하고, 2개짜리 상자를 쓰기도 해요.
 2. 상자 크기가 달라지면 적는 방법은 달라도 안에 들어 있는 개수는 같아요.
 3. 컴퓨터는 작은 상자를, 사람은 큰 상자를 더 자주 쓴답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 77 / 803
-
-<- **이전**: [76. 더블 워드 (Double Word)](/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/)
-**다음**: [78. 진법 변환 (2진수, 8진수, 10진수, 16진수)](/studynote/01_computer_architecture/02_data_representation_arithmetic/078_numeral_systems/) ->
-
----

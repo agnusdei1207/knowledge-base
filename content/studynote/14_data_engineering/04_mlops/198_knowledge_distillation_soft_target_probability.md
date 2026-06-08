@@ -6,9 +6,9 @@ tags:
 weight: 198
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))는 대형 교사 모델(Teacher Model)의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포(소프트 타겟)를 소형 학생 모델(Student Model)이 모방하여, 크기를 줄이면서도 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최대한 유지하는 경량화 기법이다.
-> 2. **가치**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) -> DistilBERT처럼 파라미터 40% 감소 시 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 97% 유지가 가능하며, 온도 매개변수([Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/))로 클래스 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 정보까지 전이하는 것이 일반 Hard Label 학습 대비 핵심 차별점이다.
-> 3. **판단 포인트**: 응답 기반(Response-based), [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 기반(Feature-based), [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 기반(Relation-based) 3가지 증류 방식을 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)와 모델 구조에 맞게 선택해야 한다.
+> 1. **본질**: 지식 증류(Knowledge Distillation)는 대형 교사 모델(Teacher Model)의 확률 분포(소프트 타겟)를 소형 학생 모델(Student Model)이 모방하여, 크기를 줄이면서도 성능을 최대한 유지하는 경량화 기법이다.
+> 2. **가치**: BERT -> DistilBERT처럼 파라미터 40% 감소 시 성능 97% 유지가 가능하며, 온도 매개변수(Temperature)로 클래스 간 관계 정보까지 전이하는 것이 일반 Hard Label 학습 대비 핵심 차별점이다.
+> 3. **판단 포인트**: 응답 기반(Response-based), 피처 기반(Feature-based), 관계 기반(Relation-based) 3가지 증류 방식을 태스크와 모델 구조에 맞게 선택해야 한다.
 
 ---
 
@@ -16,26 +16,26 @@ weight: 198
 
 ### 1.1 모델 경량화의 필요성
 
-대형 언어 모델([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))과 대형 비전 모델은 추론 비용이 막대하여 엣지 디바이스나 실시간 서비스에 배포하기 어렵다.
+대형 언어 모델(LLM)과 대형 비전 모델은 추론 비용이 막대하여 엣지 디바이스나 실시간 서비스에 배포하기 어렵다.
 
 | 모델 | 파라미터 수 | 추론 메모리 | 추론 속도 |
 |:---|:---|:---|:---|
 | GPT-3 | 175B | 350GB | 수초/요청 |
 | GPT-4 (추정) | 1T+ | 2TB+ | 수초/요청 |
-| [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-base | 110M | 440MB | 100ms |
+| BERT-base | 110M | 440MB | 100ms |
 | DistilBERT | 66M (-40%) | 264MB | 60ms (-40%) |
 | MobileNet V3 | 5.4M | 22MB | 10ms |
 
-### 1.2 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) vs 다른 경량화 기법
+### 1.2 지식 증류 vs 다른 경량화 기법
 
 | 기법 | 방법 | 특징 |
 |:---|:---|:---|
-| [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | 교사->학생 지식 전이 | 작은 모델로 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
-| [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 감소 (FP32->INT8) | 구현 쉬움, 정확도 일부 손실 |
-| [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 불필요 파라미터 제거 | 구조적/비구조적 선택 |
-| [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) (Neural [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Search) | 최적 아키텍처 탐색 | 높은 계산 비용 |
+| 지식 증류 | 교사->학생 지식 전이 | 작은 모델로 높은 성능 |
+| 양자화(Quantization) | 정밀도 감소 (FP32->INT8) | 구현 쉬움, 정확도 일부 손실 |
+| 가지치기(Pruning) | 불필요 파라미터 제거 | 구조적/비구조적 선택 |
+| NAS (Neural Architecture Search) | 최적 아키텍처 탐색 | 높은 계산 비용 |
 
-### 1.3 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)의 핵심 아이디어
+### 1.3 지식 증류의 핵심 아이디어
 
 ```
 Hard Label (전통 학습) vs Soft Target (지식 증류)
@@ -53,13 +53,13 @@ Soft Target (교사 모델 출력):
   -> 학생 모델이 더 풍부한 정보로 학습
 ```
 
-📢 **섹션 요약 비유**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 대학교수(교사 모델)가 학생(학생 모델)을 가르칠 때, 단순히 "정답은 A"가 아니라 "A가 가장 맞고 B도 일부 맞으며 C는 전혀 아니다"는 뉘앙스까지 전달하는 것이다.
+📢 **섹션 요약 비유**: 지식 증류는 대학교수(교사 모델)가 학생(학생 모델)을 가르칠 때, 단순히 "정답은 A"가 아니라 "A가 가장 맞고 B도 일부 맞으며 C는 전혀 아니다"는 뉘앙스까지 전달하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)
+### 2.1 지식 증류 손실 함수
 
 ```
 지식 증류 학습 구조
@@ -82,7 +82,7 @@ Soft Target (교사 모델 출력):
   T^: 온도 스케일링 보정 (그래디언트 크기 정규화)
 ```
 
-### 2.2 온도 매개변수 ([Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) 효과
+### 2.2 온도 매개변수 (Temperature) 효과
 
 ```
 온도(T)에 따른 확률 분포 변화
@@ -139,11 +139,11 @@ T->∞:
 
 | 방식 | 전이 정보 | 구현 난이도 | 효과 |
 |:---|:---|:---|:---|
-| 응답 기반 | 최종 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 쉬움 | 기본 경량화 |
-| [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 기반 | 중간 레이어 표현 | 중간 | 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 |
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 기반 | 샘플 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 어려움 | 일반화 향상 |
+| 응답 기반 | 최종 확률 분포 | 쉬움 | 기본 경량화 |
+| 피처 기반 | 중간 레이어 표현 | 중간 | 높은 성능 유지 |
+| 관계 기반 | 샘플 간 관계 | 어려움 | 일반화 향상 |
 
-### 2.4 [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) -> DistilBERT 증류 실제 구현
+### 2.4 BERT -> DistilBERT 증류 실제 구현
 
 ```
 DistilBERT 증류 과정
@@ -169,15 +169,15 @@ DistilBERT 증류 과정
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 적용 사례
+### 3.1 지식 증류 적용 사례
 
-| 사례 | 교사 | 학생 | 감소율 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 |
+| 사례 | 교사 | 학생 | 감소율 | 성능 유지 |
 |:---|:---|:---|:---|:---|
-| DistilBERT | [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-base | DistilBERT | 40% 파라미터 | 97% GLUE |
-| TinyBERT | [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-base | TinyBERT | 87% 파라미터 | 96% GLUE |
-| DistilGPT-2 | GPT-2 | DistilGPT-2 | 33% 파라미터 | 유사 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질 |
+| DistilBERT | BERT-base | DistilBERT | 40% 파라미터 | 97% GLUE |
+| TinyBERT | BERT-base | TinyBERT | 87% 파라미터 | 96% GLUE |
+| DistilGPT-2 | GPT-2 | DistilGPT-2 | 33% 파라미터 | 유사 생성 품질 |
 | MobileNet -> ??? | EfficientNet | MobileNet | 96% 파라미터 | 90% Top-1 |
-| [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) -> 경량화 | [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)-50 | [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)-18 + KD | 75% 파라미터 | 98% [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| ResNet -> 경량화 | ResNet-50 | ResNet-18 + KD | 75% 파라미터 | 98% 성능 |
 
 ### 3.2 Self-Distillation (자기 증류)
 
@@ -194,33 +194,33 @@ Born Again Networks (BAN):
   -> 앙상블 없이 앙상블 효과
 ```
 
-### 3.3 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) vs [전이 학습](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 비교
+### 3.3 지식 증류 vs 전이 학습 비교
 
-| 항목 | [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | [전이 학습](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) |
+| 항목 | 지식 증류 | 전이 학습 (Fine-tuning) |
 |:---|:---|:---|
-| 목표 | 모델 경량화 | 새 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 적응 |
-| 교사 역할 | 소프트 레이블 제공 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제공 |
+| 목표 | 모델 경량화 | 새 태스크 적응 |
+| 교사 역할 | 소프트 레이블 제공 | 초기 가중치 제공 |
 | 학생 크기 | 교사보다 작음 | 교사와 동일 또는 더 작음 |
-| 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 동일 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 새 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| 출력 | 경량 추론 모델 | 새 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 특화 모델 |
+| 학습 데이터 | 동일 태스크 데이터 | 새 태스크 데이터 |
+| 출력 | 경량 추론 모델 | 새 태스크 특화 모델 |
 
-📢 **섹션 요약 비유**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 전문의(교사)가 의대생(학생)을 가르칠 때, 교과서(하드 레이블) 외에 실제 임상 경험과 직관(소프트 타겟)까지 전달하는 것이다. 의대생은 더 빠르게, 더 폭넓은 지식으로 성장한다.
+📢 **섹션 요약 비유**: 지식 증류는 전문의(교사)가 의대생(학생)을 가르칠 때, 교과서(하드 레이블) 외에 실제 임상 경험과 직관(소프트 타겟)까지 전달하는 것이다. 의대생은 더 빠르게, 더 폭넓은 지식으로 성장한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 엣지 배포를 위한 모델 경량화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
+### 4.1 엣지 배포를 위한 모델 경량화 전략 비교
 
-| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 파라미터 감소 | 정확도 손실 | 구현 난이도 | 적합 시나리오 |
+| 전략 | 파라미터 감소 | 정확도 손실 | 구현 난이도 | 적합 시나리오 |
 |:---|:---|:---|:---|:---|
-| [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | 40~90% | 낮음 (1~5%) | 중간 | 구조 변경 가능 시 |
-| PTQ [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 0% (메모리만) | 낮음 (1~3%) | 쉬움 | 빠른 배포 필요 |
-| QAT [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 0% (메모리만) | 최소 | 어려움 | 최고 품질 필요 |
-| 구조적 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) | [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50% | 중간 | 어려움 | FLOP 감소 필요 |
-| [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) | 60~95% | 최소 | 매우 어려움 | 장기 프로젝트 |
+| 지식 증류 | 40~90% | 낮음 (1~5%) | 중간 | 구조 변경 가능 시 |
+| PTQ 양자화 | 0% (메모리만) | 낮음 (1~3%) | 쉬움 | 빠른 배포 필요 |
+| QAT 양자화 | 0% (메모리만) | 최소 | 어려움 | 최고 품질 필요 |
+| 구조적 가지치기 | 10~50% | 중간 | 어려움 | FLOP 감소 필요 |
+| NAS | 60~95% | 최소 | 매우 어려움 | 장기 프로젝트 |
 
-### 4.2 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 구현 코드 (PyTorch)
+### 4.2 지식 증류 구현 코드 (PyTorch)
 
 ```python
 import torch
@@ -267,27 +267,27 @@ for inputs, labels in dataloader:
 
 ### 4.3 기술사 논술 핵심 판단 기준
 
-| 판단 항목 | [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 선택 기준 |
+| 판단 항목 | 지식 증류 선택 기준 |
 |:---|:---|
 | 엣지 디바이스 배포 | 구조 변경 가능하고 재학습 리소스 있을 때 |
-| 빠른 경량화 필요 | PTQ [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 먼저 고려 (구현 쉬움) |
-| 최고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 | [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 기반 증류 + QAT [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 조합 |
+| 빠른 경량화 필요 | PTQ 양자화 먼저 고려 (구현 쉬움) |
+| 최고 성능 유지 | 피처 기반 증류 + QAT 양자화 조합 |
 | 언어 모델 경량화 | DistilBERT/TinyBERT 사전학습 모델 활용 |
 
-📢 **섹션 요약 비유**: 모델 경량화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택은 이삿짐 싸기와 같다. 빠리 이사(빠른 배포)에는 핵심만 챙기는 PTQ [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 장거리 이사(장기 프로젝트)에는 꼼꼼히 분류하는 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)가 적합하다.
+📢 **섹션 요약 비유**: 모델 경량화 전략 선택은 이삿짐 싸기와 같다. 빠리 이사(빠른 배포)에는 핵심만 챙기는 PTQ 양자화, 장거리 이사(장기 프로젝트)에는 꼼꼼히 분류하는 지식 증류가 적합하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 기대효과
+### 5.1 지식 증류 기대효과
 
 | 효과 | 수치 |
 |:---|:---|
 | 모델 크기 감소 | 40~90% |
 | 추론 속도 향상 | 2~5배 |
 | 메모리 사용 감소 | 40~90% |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지율 | 95~99% ([태스크](/studynote/02_operating_system/02_process_thread/150_task/)에 따라) |
+| 성능 유지율 | 95~99% (태스크에 따라) |
 | 배포 비용 감소 | 클라우드 추론 비용 50~80% 감소 |
 
 ### 5.2 최신 증류 기법 동향
@@ -312,29 +312,29 @@ for inputs, labels in dataloader:
 
 ### 5.3 결론 요약
 
-[지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 엣지 배포와 실시간 서빙을 가능하게 하는 핵심 경량화 기법이다. 소프트 타겟이 하드 레이블 대비 더 풍부한 학습 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 제공하는 원리를 이해하고, 기술사 관점에서는 <strong>3가지 증류 방식의 차이, 온도 매개변수의 역할, <a href="/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> -> DistilBERT 같은 실제 적용 사례</strong>를 명확히 설명할 수 있어야 한다.
+지식 증류는 AI 모델의 엣지 배포와 실시간 서빙을 가능하게 하는 핵심 경량화 기법이다. 소프트 타겟이 하드 레이블 대비 더 풍부한 학습 신호를 제공하는 원리를 이해하고, 기술사 관점에서는 <strong>3가지 증류 방식의 차이, 온도 매개변수의 역할, BERT -> DistilBERT 같은 실제 적용 사례</strong>를 명확히 설명할 수 있어야 한다.
 
-📢 **섹션 요약 비유**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 거대한 백과사전(교사 모델)의 핵심 내용을 작은 포켓북(학생 모델)으로 압축하는 작업이다. 단순히 내용을 잘라내는 것이 아니라, 전문가(교사)가 "이것이 왜 중요한지"(소프트 타겟)를 함께 기록해서 포켓북만 봐도 본질을 이해할 수 있게 한다.
+📢 **섹션 요약 비유**: 지식 증류는 거대한 백과사전(교사 모델)의 핵심 내용을 작은 포켓북(학생 모델)으로 압축하는 작업이다. 단순히 내용을 잘라내는 것이 아니라, 전문가(교사)가 "이것이 왜 중요한지"(소프트 타겟)를 함께 기록해서 포켓북만 봐도 본질을 이해할 수 있게 한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 기법 | [Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 교사->학생 모델 지식 전이 |
-| 입력 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | [Soft Target](/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/) (소프트 타겟) | 교사 모델 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 출력 |
-| 하이퍼파라미터 | [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/) (온도) | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 부드러움 조절 |
+| 핵심 기법 | Knowledge Distillation (지식 증류) | 교사->학생 모델 지식 전이 |
+| 입력 신호 | Soft Target (소프트 타겟) | 교사 모델 확률 분포 출력 |
+| 하이퍼파라미터 | Temperature (온도) | 확률 분포 부드러움 조절 |
 | 증류 방식 | Response-based | 최종 출력 모방 |
 | 증류 방식 | Feature-based | 중간 레이어 표현 모방 |
-| 증류 방식 | Relation-based | 샘플 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모방 |
-| 실사례 | DistilBERT | [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 40% 경량화 |
-| 비교 기법 | [Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | FP32->INT8 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 감소 |
-| 비교 기법 | [Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 불필요 파라미터 제거 |
+| 증류 방식 | Relation-based | 샘플 간 관계 모방 |
+| 실사례 | DistilBERT | BERT 40% 경량화 |
+| 비교 기법 | Quantization (양자화) | FP32->INT8 정밀도 감소 |
+| 비교 기법 | Pruning (가지치기) | 불필요 파라미터 제거 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 선생님(큰 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 "정답은 A야, 근데 B도 조금 맞고 C는 완전히 틀렸어"라고 자세히 설명해주면, 학생(작은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 더 빠르게 배우는 거예요.
+1. 지식 증류는 선생님(큰 AI)이 "정답은 A야, 근데 B도 조금 맞고 C는 완전히 틀렸어"라고 자세히 설명해주면, 학생(작은 AI)이 더 빠르게 배우는 거예요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -358,14 +358,3 @@ for inputs, labels in dataloader:
 ```
 2. 온도 매개변수는 아이스크림 온도예요. 너무 딱딱하면(낮은 온도) 한 맛만 강하게 느껴지고, 살짝 녹으면(높은 온도) 여러 맛이 고루 느껴지죠.
 3. DistilBERT는 두꺼운 사전을 얇은 포켓 사전으로 만든 거예요. 40%는 줄었지만 97%의 내용은 그대로 담겨 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 198 / 258
-
-<- **이전**: [197. 데이터 카탈로그 (Data Catalog) 계보 (Lineage) 시각화 보안 정책 연계망](/studynote/14_data_engineering/04_mlops/197_data_catalog_lineage_visualization_security/)
-**다음**: [199. 인텐트 기반 네트워킹 (IBN, Intent-Based Networking) 트래픽 AI 라우팅 분배망](/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/) ->
-
----

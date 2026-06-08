@@ -7,23 +7,23 @@ weight: 260
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 이전 모델이 틀린 샘플에 더 높은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여하며 순차적([직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/))으로 약한 학습기(Weak Learner)를 쌓아 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 줄이는 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.
-> 2. **가치**: XGBoost(eXtreme [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/))는 [그래디언트 부스팅](/studynote/10_ai/01_ai_basics/034_gradient_boosting/)을 극도로 최적화하여 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)·[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화·결측값 처리를 통합, Kaggle 대회 최다 우승 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 되었다.
-> 3. **판단 포인트**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 편향을 줄이는 데 탁월하지만 노이즈가 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 위험이 크므로, [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)과 트리 수를 신중히 조정해야 한다.
+> 1. **본질**: 부스팅(Boosting)은 이전 모델이 틀린 샘플에 더 높은 가중치를 부여하며 순차적(직렬)으로 약한 학습기(Weak Learner)를 쌓아 편향(Bias)을 줄이는 앙상블 기법이다.
+> 2. **가치**: XGBoost(eXtreme Gradient Boosting)는 그래디언트 부스팅을 극도로 최적화하여 정규화·병렬화·결측값 처리를 통합, Kaggle 대회 최다 우승 알고리즘이 되었다.
+> 3. **판단 포인트**: 부스팅은 편향을 줄이는 데 탁월하지만 노이즈가 많은 데이터에서는 과적합(Overfitting) 위험이 크므로, 학습률(Learning Rate)과 트리 수를 신중히 조정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-<strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a>(<a href="/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">Boosting</a>)</strong>은 Robert Schapire(1990)의 이론적 증명에서 출발했다: "약한 학습기(랜덤보다 조금 나은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기)를 순차적으로 결합하면 임의의 강한 학습기(Strong Learner)를 만들 수 있다."
+<strong>부스팅(Boosting)</strong>은 Robert Schapire(1990)의 이론적 증명에서 출발했다: "약한 학습기(랜덤보다 조금 나은 분류기)를 순차적으로 결합하면 임의의 강한 학습기(Strong Learner)를 만들 수 있다."
 
-[배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)이 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이는 데 집중한다면, [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 <strong>편향(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)을 줄이는</strong> 데 집중한다.
+배깅이 분산을 줄이는 데 집중한다면, 부스팅은 <strong>편향(Bias)을 줄이는</strong> 데 집중한다.
 
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 핵심 아이디어 | 등장 시기 |
+| 알고리즘 | 핵심 아이디어 | 등장 시기 |
 |:---|:---|:---|
-| [AdaBoost](/studynote/12_it_management/02_itsm_itil/077_Adaboost/) ([Adaptive Boosting](/studynote/12_it_management/02_itsm_itil/077_Adaboost/)) | 오분류 샘플 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 증가 | 1995 |
-| [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) | 잔차(Residual)의 그래디언트 최소화 | 1999 |
-| XGBoost (eXtreme [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/)) | [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) + [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) + [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | 2016 |
+| AdaBoost (Adaptive Boosting) | 오분류 샘플 가중치 증가 | 1995 |
+| Gradient Boosting | 잔차(Residual)의 그래디언트 최소화 | 1999 |
+| XGBoost (eXtreme Gradient Boosting) | Gradient Boosting + 정규화 + 병렬화 | 2016 |
 | LightGBM | 리프 중심 트리 성장 + 히스토그램 최적화 | 2017 |
 | CatBoost | 범주형 변수 자동 처리 | 2017 |
 
@@ -36,13 +36,13 @@ weight: 260
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 "선생님이 틀린 문제만 집중적으로 가르쳐주는 과외"다. 매 회차마다 이전에 틀렸던 문제에 더 많은 시간을 투자해 약점을 없애나간다.
+- **📢 섹션 요약 비유**: 부스팅은 "선생님이 틀린 문제만 집중적으로 가르쳐주는 과외"다. 매 회차마다 이전에 틀렸던 문제에 더 많은 시간을 투자해 약점을 없애나간다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [AdaBoost](/studynote/12_it_management/02_itsm_itil/077_Adaboost/) 동작 원리
+### AdaBoost 동작 원리
 
 ```
   Round 1: 균등 가중치 w = 1/n
@@ -64,7 +64,7 @@ weight: 260
         α_t = 0.5 · ln((1-ε_t)/ε_t)  <- 모델 정확도 기반 가중치
 ```
 
-### [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) 핵심 구조
+### Gradient Boosting 핵심 구조
 
 ```
   F_0(x) = 초기 예측 (평균값)
@@ -87,12 +87,12 @@ weight: 260
 
 ### XGBoost의 핵심 개선사항
 
-| 항목 | 기존 [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) | XGBoost |
+| 항목 | 기존 Gradient Boosting | XGBoost |
 |:---|:---|:---|
-| [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 없음 | L1([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) + L2(Ridge) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| 정규화 | 없음 | L1(Lasso) + L2(Ridge) 정규화 |
 | 결측값 처리 | 별도 전처리 필요 | 자동 처리 (Sparsity-Aware) |
-| [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | 불가 (순차적) | 노드 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
-| [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) | 없음 | [Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/) 내장 |
+| 병렬화 | 불가 (순차적) | 노드 수준 병렬화 |
+| 조기 종료 | 없음 | Early Stopping 내장 |
 | 트리 성장 | 깊이 우선 (Depth-wise) | 최적 노드 우선 |
 | 캐시 최적화 | 없음 | 있음 (Column Block) |
 
@@ -121,22 +121,22 @@ weight: 260
   -> LightGBM이 더 빠르지만 과적합 위험 ^
 ```
 
-- **📢 섹션 요약 비유**: XGBoost는 "실수한 부분을 집중 보완하는 특수 교관이 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 벌점까지 적용하여 너무 과하게 외우는 것(과적합)을 방지"하는 시스템이다.
+- **📢 섹션 요약 비유**: XGBoost는 "실수한 부분을 집중 보완하는 특수 교관이 정규화 벌점까지 적용하여 너무 과하게 외우는 것(과적합)을 방지"하는 시스템이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [AdaBoost](/studynote/12_it_management/02_itsm_itil/077_Adaboost/) vs [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) 비교
+### AdaBoost vs Gradient Boosting 비교
 
-| 특성 | [AdaBoost](/studynote/12_it_management/02_itsm_itil/077_Adaboost/) | [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) |
+| 특성 | AdaBoost | Gradient Boosting |
 |:---|:---|:---|
-| 오류 처리 방식 | 샘플 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 조정 | 잔차(Residual) 직접 학습 |
-| [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) | 지수 손실 (Exponential Loss) | 임의 미분 가능 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) |
-| 이상값 민감성 | 높음 ([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 급증) | 중간 ([손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 의존) |
-| 적용 범위 | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) + 회귀 |
+| 오류 처리 방식 | 샘플 가중치 조정 | 잔차(Residual) 직접 학습 |
+| 손실 함수 | 지수 손실 (Exponential Loss) | 임의 미분 가능 손실 함수 |
+| 이상값 민감성 | 높음 (가중치 급증) | 중간 (손실 함수에 의존) |
+| 적용 범위 | 분류 | 분류 + 회귀 |
 
-### [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 과적합 제어
+### 부스팅 과적합 제어
 
 ```
   부스팅 과적합 제어 방법:
@@ -150,7 +150,7 @@ weight: 260
   +-----------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)의 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 매운 소스를 넣을 때와 같다. 조금씩(낮은 η) 넣어야 맛의 균형을 잡을 수 있고, 한꺼번에 많이(높은 η) 넣으면 음식이 망가진다(과적합).
+- **📢 섹션 요약 비유**: 부스팅의 학습률은 매운 소스를 넣을 때와 같다. 조금씩(낮은 η) 넣어야 맛의 균형을 잡을 수 있고, 한꺼번에 많이(높은 η) 넣으면 음식이 망가진다(과적합).
 
 ---
 
@@ -160,44 +160,44 @@ weight: 260
 
 | 파라미터 | 역할 | 권장 범위 |
 |:---|:---|:---|
-| n_estimators | 트리 수 | 100~1000 ([Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/)) |
-| learning_rate | [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) η | 0.01~0.3 |
+| n_estimators | 트리 수 | 100~1000 (Early Stopping) |
+| learning_rate | 학습률 η | 0.01~0.3 |
 | max_depth | 트리 깊이 | 3~6 |
 | subsample | 행 샘플링 비율 | 0.6~0.9 |
 | colsample_bytree | 열 샘플링 비율 | 0.6~0.9 |
-| reg_alpha | L1 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 0~1 |
-| reg_lambda | L2 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 1 (기본) |
+| reg_alpha | L1 정규화 | 0~1 |
+| reg_lambda | L2 정규화 | 1 (기본) |
 
-### [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 기준
+### 부스팅 알고리즘 선택 기준
 
 1. **XGBoost**: 정확도 최우선, 범용
-2. **LightGBM**: 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(수백만 행), 빠른 훈련 속도 필요
-3. **CatBoost**: 범주형 변수가 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 전처리 최소화
-4. <strong><a href="/studynote/12_it_management/02_itsm_itil/077_Adaboost/">AdaBoost</a></strong>: 교육용, 이론 학습 목적
+2. **LightGBM**: 대규모 데이터(수백만 행), 빠른 훈련 속도 필요
+3. **CatBoost**: 범주형 변수가 많은 데이터, 전처리 최소화
+4. <strong>AdaBoost</strong>: 교육용, 이론 학습 목적
 
 ### 기술사 답안 포인트
 
-- <strong>"<a href="/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a>이 편향을 줄이는 원리"</strong>: 잔차 반복 학습 -> 각 트리가 이전 트리가 설명 못한 패턴 학습
-- **"XGBoost가 빠른 이유"**: Column Block으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬 캐시, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 노드 분할
-- <strong>"<a href="/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a> vs <a href="/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">배깅</a> 선택 기준"</strong>: 고편향 -> [Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/), 고분산 -> [Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)
-- **"과적합 방지 조합"**: 낮은 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) + [Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/) + Subsampling
+- <strong>"부스팅이 편향을 줄이는 원리"</strong>: 잔차 반복 학습 -> 각 트리가 이전 트리가 설명 못한 패턴 학습
+- **"XGBoost가 빠른 이유"**: Column Block으로 데이터 정렬 캐시, 병렬 노드 분할
+- <strong>"부스팅 vs 배깅 선택 기준"</strong>: 고편향 -> Boosting, 고분산 -> Bagging
+- **"과적합 방지 조합"**: 낮은 학습률 + Early Stopping + Subsampling
 
-- **📢 섹션 요약 비유**: XGBoost는 "빈틈없이 실수를 채워가는 [리팩토링](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 팀"이다. 단, 너무 완벽하게 과거 실수만 고치려 하면(과적합) 새로운 문제에 적응 못하는 부작용이 생긴다.
+- **📢 섹션 요약 비유**: XGBoost는 "빈틈없이 실수를 채워가는 리팩토링 팀"이다. 단, 너무 완벽하게 과거 실수만 고치려 하면(과적합) 새로운 문제에 적응 못하는 부작용이 생긴다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/), 특히 XGBoost/LightGBM을 활용하면:
+부스팅, 특히 XGBoost/LightGBM을 활용하면:
 
-1. <strong>최고 수준의 예측 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(Tabular [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 분야에서 딥러닝과 경쟁 또는 압도
-2. **빠른 훈련**: 최적화된 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 실용적 훈련 시간
-3. **내장 기능 풍부**: 결측값 처리, [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/), 특성 중요도를 추가 코드 없이 지원
-4. **유연한 목적 함수**: 커스텀 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 정의로 다양한 비즈니스 목표 최적화
+1. <strong>최고 수준의 예측 성능</strong>: 정형 데이터(Tabular Data) 분야에서 딥러닝과 경쟁 또는 압도
+2. **빠른 훈련**: 최적화된 병렬 처리로 대규모 데이터에서도 실용적 훈련 시간
+3. **내장 기능 풍부**: 결측값 처리, 조기 종료, 특성 중요도를 추가 코드 없이 지원
+4. **유연한 목적 함수**: 커스텀 손실 함수 정의로 다양한 비즈니스 목표 최적화
 
-기술사 시험에서 XGBoost는 <strong><a href="/studynote/10_ai/01_ai_basics/034_gradient_boosting/">Gradient Boosting</a> 원리 -> XGBoost 개선점 -> 하이퍼파라미터 조정 -> 과적합 방지</strong> 순서로 체계적으로 서술해야 고득점을 받는다.
+기술사 시험에서 XGBoost는 <strong>Gradient Boosting 원리 -> XGBoost 개선점 -> 하이퍼파라미터 조정 -> 과적합 방지</strong> 순서로 체계적으로 서술해야 고득점을 받는다.
 
-- **📢 섹션 요약 비유**: XGBoost는 "모든 선수가 약점을 집중 보완하면서 팀 전체 역량을 높이는 코치" 시스템이다. 선수(트리)들이 서로의 실수를 보완하며 성장해 최강의 팀([앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/))을 만든다.
+- **📢 섹션 요약 비유**: XGBoost는 "모든 선수가 약점을 집중 보완하면서 팀 전체 역량을 높이는 코치" 시스템이다. 선수(트리)들이 서로의 실수를 보완하며 성장해 최강의 팀(앙상블)을 만든다.
 
 ---
 
@@ -205,11 +205,11 @@ weight: 260
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)) | Weak Learner, [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 학습, 편향 감소 / 순차 오차 보완 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
-| [AdaBoost](/studynote/12_it_management/02_itsm_itil/077_Adaboost/) ([Adaptive Boosting](/studynote/12_it_management/02_itsm_itil/077_Adaboost/)) | 샘플 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 지수 손실 / 최초 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 구현 |
-| [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) | 잔차, 그래디언트, [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) / 범용 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 프레임워크 |
-| XGBoost (eXtreme [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/)) | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화, Column Block / 최적화된 [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) |
-| LightGBM | Leaf-wise, 히스토그램, 빠른 훈련 / 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특화 |
+| 부스팅 (Boosting) | Weak Learner, 직렬 학습, 편향 감소 / 순차 오차 보완 앙상블 |
+| AdaBoost (Adaptive Boosting) | 샘플 가중치, 지수 손실 / 최초 부스팅 구현 |
+| Gradient Boosting | 잔차, 그래디언트, 손실 함수 / 범용 부스팅 프레임워크 |
+| XGBoost (eXtreme Gradient Boosting) | 정규화, 병렬화, Column Block / 최적화된 Gradient Boosting |
+| LightGBM | Leaf-wise, 히스토그램, 빠른 훈련 / 대규모 데이터 특화 |
 | CatBoost | 범주형 변수, 대칭 트리 / 전처리 최소화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -220,17 +220,6 @@ weight: 260
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 시험에서 틀린 문제만 골라서 다음엔 집중적으로 공부하는 방식이 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)이야.
+1. 시험에서 틀린 문제만 골라서 다음엔 집중적으로 공부하는 방식이 부스팅이야.
 2. 첫 번째 선생님이 틀린 문제를, 두 번째 선생님이 담당하고, 세 번째 선생님이 그 다음 남은 오류를 고치는 식으로 반복하지!
-3. XGBoost는 이 방식에 "너무 한 부분만 과하게 공부하지 말기"([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))와 "빨리 가르치기"([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화)를 추가한 슈퍼 선생님이야.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 260 / 420
-
-<- **이전**: [259. 배깅 (Bagging)](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)
-**다음**: [261. SVM (Support Vector Machine)](/studynote/10_ai/03_llm_nlp/261_svm_hyperplane_kernel/) ->
-
----
+3. XGBoost는 이 방식에 "너무 한 부분만 과하게 공부하지 말기"(정규화)와 "빨리 가르치기"(병렬화)를 추가한 슈퍼 선생님이야.

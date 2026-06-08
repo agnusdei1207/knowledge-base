@@ -7,18 +7,18 @@ weight: 207
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데드라인 스케줄링 ([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) Scheduling)은 프로세스([태스크](/studynote/02_operating_system/02_process_thread/150_task/))가 시스템에 진입할 때 <strong>"반드시 이때까지는 연산을 끝마쳐야 한다"는 명시적인 시간(<a href="/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a>)</strong>을 선언하고, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 시간 약속을 지키기 위해 CPU [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 동적으로 할당하는 실시간(Real-time) 스케줄링 패러다임이다.
-> 2. **가치**: 기존의 우선순위(Priority) 기반 스케줄링이 가진 "우선순위가 낮은 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 무기한 굶주림([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))"과 "도미노 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter)" 문제를 해결하고, 여러 개의 실시간 프로세스가 각자의 데드라인을 침해하지 않으면서 공존할 수 있는 **결정론적(Deterministic)** 시스템을 완성한다.
-> 3. **융합**: 이 철학은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `SCHED_DEADLINE` [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 구현되었으며, EDF(Earliest [Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) First) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 CBS(Constant [Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Server) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어 기술이 완벽히 융합되어, 컨테이너나 가상머신에 물리적 수준의 CPU 타임 슬라이스를 절대 보장(Guarantee)하는 구원투수가 되었다.
+> 1. **본질**: 데드라인 스케줄링 (Deadline Scheduling)은 프로세스(태스크)가 시스템에 진입할 때 <strong>"반드시 이때까지는 연산을 끝마쳐야 한다"는 명시적인 시간(Deadline)</strong>을 선언하고, 커널이 그 시간 약속을 지키기 위해 CPU 대역폭을 동적으로 할당하는 실시간(Real-time) 스케줄링 패러다임이다.
+> 2. **가치**: 기존의 우선순위(Priority) 기반 스케줄링이 가진 "우선순위가 낮은 태스크의 무기한 굶주림(Starvation)"과 "도미노 지연(Jitter)" 문제를 해결하고, 여러 개의 실시간 프로세스가 각자의 데드라인을 침해하지 않으면서 공존할 수 있는 **결정론적(Deterministic)** 시스템을 완성한다.
+> 3. **융합**: 이 철학은 리눅스 커널의 `SCHED_DEADLINE` 정책으로 구현되었으며, EDF(Earliest Deadline First) 알고리즘과 CBS(Constant Bandwidth Server) 대역폭 제어 기술이 완벽히 융합되어, 컨테이너나 가상머신에 물리적 수준의 CPU 타임 슬라이스를 절대 보장(Guarantee)하는 구원투수가 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 스케줄러의 판단 기준([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 1~99 같은 추상적인 '우선순위' 숫자가 아니라, `(실행 시간, 주기, 마감 시간)`이라는 구체적인 3차원 물리적 시간 데이터로 대체한 스케줄링 체계다.
-- **필요성**: 기존 POSIX 실시간 스케줄링(`SCHED_FIFO`, `SCHED_RR`)은 최우선순위(99)를 부여받은 악성 스레드가 `while(1)` 같은 무한 루프를 도는 순간, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 프로세스(심지어 마우스 입력조차)가 얼어붙는 치명적 약점이 있었다. 즉, 권력은 주되 '책임(시간 한도)'은 묻지 않는 시스템이었다. 이 폭주를 막고, 여러 실시간 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 안전하게 동거하려면 우선순위를 넘어서는 '시간 기반의 예산(Budget) 통제'가 절실했다.
+- **개념**: 스케줄러의 판단 기준(Metric)을 1~99 같은 추상적인 '우선순위' 숫자가 아니라, `(실행 시간, 주기, 마감 시간)`이라는 구체적인 3차원 물리적 시간 데이터로 대체한 스케줄링 체계다.
+- **필요성**: 기존 POSIX 실시간 스케줄링(`SCHED_FIFO`, `SCHED_RR`)은 최우선순위(99)를 부여받은 악성 스레드가 `while(1)` 같은 무한 루프를 도는 순간, 커널의 모든 프로세스(심지어 마우스 입력조차)가 얼어붙는 치명적 약점이 있었다. 즉, 권력은 주되 '책임(시간 한도)'은 묻지 않는 시스템이었다. 이 폭주를 막고, 여러 실시간 태스크가 안전하게 동거하려면 우선순위를 넘어서는 '시간 기반의 예산(Budget) 통제'가 절실했다.
 
-- **등장 배경**: 오디오/비디오 코덱, 에지 컴퓨팅([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)), 자율주행 등에서 1초에 수백 번 켜졌다 꺼졌다를 반복하는 주기적(Periodic) 마이크로 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)들이 폭증했다. 이들이 서로 간섭(Interference)하여 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 튀는 것을 막기 위해 2014년 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 3.14 버전에 `SCHED_DEADLINE`이라는 이름으로 정식 도입되었다.
+- **등장 배경**: 오디오/비디오 코덱, 에지 컴퓨팅(Edge Computing), 자율주행 등에서 1초에 수백 번 켜졌다 꺼졌다를 반복하는 주기적(Periodic) 마이크로 태스크들이 폭증했다. 이들이 서로 간섭(Interference)하여 응답 지연이 튀는 것을 막기 위해 2014년 리눅스 커널 3.14 버전에 `SCHED_DEADLINE`이라는 이름으로 정식 도입되었다.
 
 ```text
   [우선순위 기반(FIFO) vs 데드라인 기반(DEADLINE)의 태스크 통제력 차이]
@@ -34,9 +34,9 @@ weight: 207
   -> 결과: 스케줄러(CBS)가 5ms를 넘기는 즉시 B의 목을 치고(Throttle) 다음 주기까지 강제 수면시킴!
            A는 약속대로 CPU를 받아 무사히 생존함.
 ```
-**[다이어그램 해설]** 데드라인 스케줄링의 가장 큰 무기는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 가진 "격리([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))" 능력이다. [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 자신이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 맺은 계약(시간)을 어기려 하면, 스케줄러가 데드라인을 근거로 가차 없이 CPU를 압수한다. 이 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Control) 덕분에 한 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 폭주가 다른 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 데드라인을 망치는 끔찍한 나비효과를 원천 차단한다.
+**[다이어그램 해설]** 데드라인 스케줄링의 가장 큰 무기는 알고리즘 자체가 가진 "격리(Isolation)" 능력이다. 태스크가 자신이 커널과 맺은 계약(시간)을 어기려 하면, 스케줄러가 데드라인을 근거로 가차 없이 CPU를 압수한다. 이 대역폭 제어(Bandwidth Control) 덕분에 한 태스크의 폭주가 다른 태스크의 데드라인을 망치는 끔찍한 나비효과를 원천 차단한다.
 
-- **📢 섹션 요약 비유**: 신용카드 한도(데드라인과 예산)가 없는 무제한 블랙카드(우선순위 99)를 주면 철없는 자식(버그 난 프로세스)이 집안을 파산시킵니다. 그래서 아무리 예뻐도 "이번 달엔 딱 100만 원까지만 써!"라고 한도가 정해진 체크카드(데드라인 스케줄링)를 쥐여주는 것이 부모([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 현명한 통제입니다.
+- **📢 섹션 요약 비유**: 신용카드 한도(데드라인과 예산)가 없는 무제한 블랙카드(우선순위 99)를 주면 철없는 자식(버그 난 프로세스)이 집안을 파산시킵니다. 그래서 아무리 예뻐도 "이번 달엔 딱 100만 원까지만 써!"라고 한도가 정해진 체크카드(데드라인 스케줄링)를 쥐여주는 것이 부모(커널)의 현명한 통제입니다.
 
 ---
 
@@ -44,24 +44,24 @@ weight: 207
 
 ### 데드라인 스케줄링의 3대 핵심 파라미터
 
-리눅스에서 프로세스를 `SCHED_DEADLINE`으로 띄우려면 개발자는 반드시 아래 3가지 시간(Time) 값을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 제출하여 허락(Admission Control)을 받아야 한다.
+리눅스에서 프로세스를 `SCHED_DEADLINE`으로 띄우려면 개발자는 반드시 아래 3가지 시간(Time) 값을 커널에 제출하여 허락(Admission Control)을 받아야 한다.
 
 1. **실행 시간 (Runtime / $C$)**: 1회의 주기 동안, 내가 최악의 경우(WCET)라도 최대로 쓸 CPU 시간 (예: 2ms).
-2. **데드라인 ([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) / $D$)**: [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 준비 큐에 진입한 후, 이 시간 전까지는 무조건 처리를 마쳐야 하는 한계 시간 (예: 5ms).
-3. **주기 (Period / $P$)**: 이 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 반복해서 호출되는 시간 간격 (예: 10ms).
+2. **데드라인 (Deadline / $D$)**: 태스크가 준비 큐에 진입한 후, 이 시간 전까지는 무조건 처리를 마쳐야 하는 한계 시간 (예: 5ms).
+3. **주기 (Period / $P$)**: 이 태스크가 반복해서 호출되는 시간 간격 (예: 10ms).
 
 *※ 통상적으로 $C \le D \le P$ 의 관계를 가진다.*
 
-### CBS (Constant [Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Server) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### CBS (Constant Bandwidth Server) 알고리즘
 
-데드라인 스케줄링 내부에서 가장 중요한 엔진은 EDF(Earliest [Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) First)가 아니다. EDF는 단순히 "급한 놈 먼저" 꺼내 줄 뿐이다. 진짜 핵심은 한 놈이 폭주할 때 차단하는 <strong>CBS (지속 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 서버)</strong> [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+데드라인 스케줄링 내부에서 가장 중요한 엔진은 EDF(Earliest Deadline First)가 아니다. EDF는 단순히 "급한 놈 먼저" 꺼내 줄 뿐이다. 진짜 핵심은 한 놈이 폭주할 때 차단하는 <strong>CBS (지속 대역폭 서버)</strong> 알고리즘이다.
 
-- [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 각 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)마다 `예산 잔고(Budget)`를 만들어 둔다.
-- [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 CPU를 쓸 때마다 잔고가 줄어든다.
+- 커널은 각 태스크마다 `예산 잔고(Budget)`를 만들어 둔다.
+- 태스크가 CPU를 쓸 때마다 잔고가 줄어든다.
 - **잔고가 0이 되면 (Overrun)**:
-  - 이 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 아직 연산을 덜 끝냈더라도 스케줄러는 즉시 CPU를 뺏는다.
-  - 그리고 이 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 **다음 데드라인을 다음 주기(Period)까지 강제로 미뤄버린다(Postpone)**.
-  - 데드라인이 미래로 밀렸으므로, EDF 큐(RB-Tree)에서 이 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)는 저 멀리 뒤로 쫓겨나 당분간 절대 실행되지 않는다.
+  - 이 태스크가 아직 연산을 덜 끝냈더라도 스케줄러는 즉시 CPU를 뺏는다.
+  - 그리고 이 태스크의 **다음 데드라인을 다음 주기(Period)까지 강제로 미뤄버린다(Postpone)**.
+  - 데드라인이 미래로 밀렸으므로, EDF 큐(RB-Tree)에서 이 태스크는 저 멀리 뒤로 쫓겨나 당분간 절대 실행되지 않는다.
 
 ```text
   +--------------------------------------------------------------------+
@@ -84,7 +84,7 @@ weight: 207
   |          완벽히 철창(Bandwidth)에 가둬버렸다!                      |
   +--------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 기존 EDF의 최악의 약점이었던 '도미노 현상(한 놈이 늦게 끝나면 뒤에 놈들이 다 같이 죽는 현상)'을 이 CBS가 완벽하게 파괴했다. [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 계약한 예산을 초과하는 순간 스케줄러가 그 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 멱살을 잡고 트리의 꼴찌로 던져버림으로써, 이기적인 프로세스가 선량한 이웃들의 데드라인을 갉아먹는 행위를 원천 봉쇄한 것이다.
+**[다이어그램 해설]** 기존 EDF의 최악의 약점이었던 '도미노 현상(한 놈이 늦게 끝나면 뒤에 놈들이 다 같이 죽는 현상)'을 이 CBS가 완벽하게 파괴했다. 태스크가 계약한 예산을 초과하는 순간 스케줄러가 그 태스크의 멱살을 잡고 트리의 꼴찌로 던져버림으로써, 이기적인 프로세스가 선량한 이웃들의 데드라인을 갉아먹는 행위를 원천 봉쇄한 것이다.
 
 - **📢 섹션 요약 비유**: 놀이공원 뷔페에서 1인당 고기 3접시(예산)만 먹기로 계약했습니다. 어떤 먹보(버그)가 3접시를 다 먹고 또 퍼가려 하면, 직원(CBS)이 그 먹보의 목덜미를 잡아 식당 밖으로 던져버리고 "내일(다음 주기) 다시 와!"라고 외칩니다. 덕분에 다른 사람들도 고기를 평화롭게 먹을 수 있습니다.
 
@@ -92,33 +92,33 @@ weight: 207
 
 ## Ⅲ. 비교 및 연결
 
-### 리눅스 실시간 스케줄링 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)) 대결
+### 리눅스 실시간 스케줄링 정책 (Policy) 대결
 
-POSIX 표준이 정의한 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 실시간 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 삼대장이다.
+POSIX 표준이 정의한 리눅스 커널의 실시간 정책 삼대장이다.
 
-| 스케줄링 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | [스케줄링 기준](/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/) | 우선순위 성격 | 폭주 방어 ([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) | 주 사용처 |
+| 스케줄링 정책 | 스케줄링 기준 | 우선순위 성격 | 폭주 방어 (Isolation) | 주 사용처 |
 |:---|:---|:---|:---|:---|
 | `SCHED_FIFO` | 고정 우선순위 (1~99) | 절대 권력, 퀀텀 없음 | ❌ 무한 루프 시 시스템 즉사 | RTOS의 전통적 뼈대, 단순 임베디드 |
-| `SCHED_RR` | 고정 우선순위 (1~99) | 퀀텀(시간) 소진 시 동일 계급 간 교대 | ❌ 동급끼린 살지만 하위 계급은 즉사 | 다수의 실시간 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 동일 중요도일 때 |
-| `SCHED_DEADLINE`| **(런타임, 마감, 주기)** | **가장 마감 임박한 놈 (EDF 기반)** | ✅ **예산 초과 시 즉각 쓰로틀링(CBS)** | <strong>현대 혼합 임계 시스템, 멀티미디어, <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a></strong> |
+| `SCHED_RR` | 고정 우선순위 (1~99) | 퀀텀(시간) 소진 시 동일 계급 간 교대 | ❌ 동급끼린 살지만 하위 계급은 즉사 | 다수의 실시간 태스크가 동일 중요도일 때 |
+| `SCHED_DEADLINE`| **(런타임, 마감, 주기)** | **가장 마감 임박한 놈 (EDF 기반)** | ✅ **예산 초과 시 즉각 쓰로틀링(CBS)** | <strong>현대 혼합 임계 시스템, 멀티미디어, 가상화</strong> |
 
-`SCHED_DEADLINE`은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내에서 <strong>우주 최고 존엄</strong>의 계급을 갖는다. (심지어 `SCHED_FIFO`의 99순위보다도 더 위에 존재한다). 데드라인 큐에 프로세스가 하나라도 있으면, FIFO나 RR은 물론 일반 리눅스 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)(CFS)들은 1나노초의 CPU도 구경할 수 없다.
+`SCHED_DEADLINE`은 리눅스 커널 내에서 <strong>우주 최고 존엄</strong>의 계급을 갖는다. (심지어 `SCHED_FIFO`의 99순위보다도 더 위에 존재한다). 데드라인 큐에 프로세스가 하나라도 있으면, FIFO나 RR은 물론 일반 리눅스 태스크(CFS)들은 1나노초의 CPU도 구경할 수 없다.
 
-### [보장 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/) ([Guaranteed Scheduling](/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)) 과의 융합
-`SCHED_DEADLINE`에 `Runtime=2ms`, `Period=10ms`를 주면, 이 프로세스는 전체 CPU 시간의 20% [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 100% 보장받는다. 이는 과거 복잡하게 구현하려 했던 "[공평 몫 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/)(Fair-share)"이나 "[보장 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)"이, 데드라인 큐의 CBS [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 통해 마이크로초 단위의 극강의 정밀도로 완벽하게 구현(현실화)되었음을 의미한다.
+### 보장 스케줄링 (Guaranteed Scheduling) 과의 융합
+`SCHED_DEADLINE`에 `Runtime=2ms`, `Period=10ms`를 주면, 이 프로세스는 전체 CPU 시간의 20% 대역폭(Bandwidth)을 100% 보장받는다. 이는 과거 복잡하게 구현하려 했던 "공평 몫 스케줄링(Fair-share)"이나 "보장 스케줄링"이, 데드라인 큐의 CBS 알고리즘을 통해 마이크로초 단위의 극강의 정밀도로 완벽하게 구현(현실화)되었음을 의미한다.
 
-- **📢 섹션 요약 비유**: FIFO가 "왕족(99순위)은 무조건 프리패스"라는 중세 신분제라면, [DEADLINE](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 스케줄링은 "아무리 왕족이라도 계약서(주기/예산)에 서명한 만큼만 쓸 수 있는" 현대의 헌법 기반 법치국가 시스템입니다.
+- **📢 섹션 요약 비유**: FIFO가 "왕족(99순위)은 무조건 프리패스"라는 중세 신분제라면, DEADLINE 스케줄링은 "아무리 왕족이라도 계약서(주기/예산)에 서명한 만큼만 쓸 수 있는" 현대의 헌법 기반 법치국가 시스템입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>에지 컴퓨팅(<a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)에서의 비디오 스트리밍 튜닝</strong>: 라즈베리 파이 같은 소형 칩에서 60FPS(16ms)로 4개의 카메라 영상을 인코딩해서 보내야 한다. 일반 CFS 스케줄러에 던지면 네트워크 인터럽트가 뜰 때마다 프레임이 밀려서 화면이 깨진다(Jitter).
-   - **실무 조치**: 엔지니어는 4개의 인코딩 스레드를 `chrt` 명령어가 아닌 `sched_setattr()` 시스템 콜을 써서 `SCHED_DEADLINE`으로 넘긴다. `Runtime=3ms`, `Deadline=16ms`, `Period=16ms`로 설정한다. (4개 합쳐서 12ms/16ms 이므로 CPU 75% 사용). 이제 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 다른 백그라운드 앱이 무슨 짓을 하든 이 4개의 스레드가 16ms마다 무조건 3ms씩 렌더링하도록 쇠사슬로 묶어(Guarantee) 완벽한 60프레임을 뽑아낸다.
+1. <strong>에지 컴퓨팅(Edge Computing)에서의 비디오 스트리밍 튜닝</strong>: 라즈베리 파이 같은 소형 칩에서 60FPS(16ms)로 4개의 카메라 영상을 인코딩해서 보내야 한다. 일반 CFS 스케줄러에 던지면 네트워크 인터럽트가 뜰 때마다 프레임이 밀려서 화면이 깨진다(Jitter).
+   - **실무 조치**: 엔지니어는 4개의 인코딩 스레드를 `chrt` 명령어가 아닌 `sched_setattr()` 시스템 콜을 써서 `SCHED_DEADLINE`으로 넘긴다. `Runtime=3ms`, `Deadline=16ms`, `Period=16ms`로 설정한다. (4개 합쳐서 12ms/16ms 이므로 CPU 75% 사용). 이제 리눅스 커널은 다른 백그라운드 앱이 무슨 짓을 하든 이 4개의 스레드가 16ms마다 무조건 3ms씩 렌더링하도록 쇠사슬로 묶어(Guarantee) 완벽한 60프레임을 뽑아낸다.
 2. **Admission Control (승인 제어)의 벽**: 개발자가 욕심을 내서 5번째 카메라 스레드를 동일하게 `Runtime=3ms, Period=16ms`로 `SCHED_DEADLINE`에 쑤셔 넣으려 했다 치자.
    - **결과**: `sched_setattr()` 시스템 콜이 에러코드 `-EBUSY`를 뱉으며 실행을 거부(Reject)한다.
-   - **이유**: 기존 4개(12ms) + 신규 1개(3ms) = 총 15ms. 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 데드라인 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 총 CPU 점유율 합계가 기본적으로 물리 코어의 <strong>95%</strong>를 넘지 못하도록 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터(`kernel.sched_rt_runtime_us`)로 막아두었다. (나머지 5%는 시스템이 죽지 않게 쉘이나 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 쓰도록 남겨둔 비상용 산소). 이처럼 <strong>"안 될 것 같으면 애초에 받지를 않는" 수학적 결벽증</strong>이 데드라인 스케줄링의 위엄이다.
+   - **이유**: 기존 4개(12ms) + 신규 1개(3ms) = 총 15ms. 리눅스 커널은 데드라인 태스크의 총 CPU 점유율 합계가 기본적으로 물리 코어의 <strong>95%</strong>를 넘지 못하도록 커널 파라미터(`kernel.sched_rt_runtime_us`)로 막아두었다. (나머지 5%는 시스템이 죽지 않게 쉘이나 OOM 킬러가 쓰도록 남겨둔 비상용 산소). 이처럼 <strong>"안 될 것 같으면 애초에 받지를 않는" 수학적 결벽증</strong>이 데드라인 스케줄링의 위엄이다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -140,7 +140,7 @@ POSIX 표준이 정의한 리눅스 [커널](/studynote/02_operating_system/01_o
   |          가상머신 간 CPU 격리(Noisy Neighbor 원천 차단) 달성.       |
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 데드라인 스케줄링은 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)가 아니라 거대한 가상 머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이나 컨테이너의 목줄을 채우는 데 가장 완벽한 툴이다. 클라우드 제공자([CSP](/studynote/09_security/05_web_app_security/475_csp/))가 "당신 VM에 CPU 40% 성능을 보장합니다"라고 SLA를 팔았을 때, 그걸 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 1ns의 오차도 없이 집행(Enforcement)해 주는 행동 대장이 바로 `SCHED_DEADLINE`의 CBS 제어기다.
+**[다이어그램 해설]** 데드라인 스케줄링은 태스크가 아니라 거대한 가상 머신(VM)이나 컨테이너의 목줄을 채우는 데 가장 완벽한 툴이다. 클라우드 제공자(CSP)가 "당신 VM에 CPU 40% 성능을 보장합니다"라고 SLA를 팔았을 때, 그걸 리눅스 커널 레벨에서 1ns의 오차도 없이 집행(Enforcement)해 주는 행동 대장이 바로 `SCHED_DEADLINE`의 CBS 제어기다.
 
 - **📢 섹션 요약 비유**: 일반 아파트(CFS)는 윗집(VM_A)이 쿵쿵 뛰면 아랫집(VM_B)이 괴롭지만, 데드라인 아파트(SCHED_DEADLINE)는 윗집이 계약된 소음 수치(Runtime)를 넘는 순간 OS가 윗집의 전기를 다음 날(Period)까지 통째로 끊어버리는 완벽한 층간 소음(자원 간섭) 방어 시스템입니다.
 
@@ -149,11 +149,11 @@ POSIX 표준이 정의한 리눅스 [커널](/studynote/02_operating_system/01_o
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-`SCHED_DEADLINE`을 통해 시스템 아키텍트는 특정 프로세스들이 유발할 수 있는 '최악의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간(Worst-Case [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'과 '최대 CPU 점유율'을 수학적 수식으로 완벽히 통제(Bounded)할 수 있게 되었으며, 이를 통해 단일 리눅스 서버 하나로 무기 체계, 공장 로봇, 미디어 스트리밍을 충돌 없이 섞어 돌리는 기적을 이뤄냈다.
+`SCHED_DEADLINE`을 통해 시스템 아키텍트는 특정 프로세스들이 유발할 수 있는 '최악의 지연시간(Worst-Case Latency)'과 '최대 CPU 점유율'을 수학적 수식으로 완벽히 통제(Bounded)할 수 있게 되었으며, 이를 통해 단일 리눅스 서버 하나로 무기 체계, 공장 로봇, 미디어 스트리밍을 충돌 없이 섞어 돌리는 기적을 이뤄냈다.
 
 ### 결론 및 미래 전망
-과거에는 [실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)(RTOS)의 특권이었던 EDF와 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 보장 기술이, 2014년 이후 범용 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 속으로 완전히 녹아들며 <strong>'범용 시스템과 <a href="/studynote/02_operating_system/01_overview_architecture/009_real_time_system/">실시간 시스템</a>의 통합'</strong>이라는 숙원을 이뤄냈다. 현재 자율주행 플랫폼(AUTOSAR)과 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 기지국(vRAN) 인프라의 코어 엔진으로 활약 중이다.
-미래에는 다중 코어([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 환경에서 데드라인 스레드들이 캐시를 부수며 이 코어 저 코어로 이동하는 문제(Migration Overhead)를 막기 위해, EDF [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)/캐시 친화도 지표를 결합하는 고도화된 멀티코어 데드라인 스케줄링(Global/Partitioned EDF) 연구가 계속되며 궁극의 결정론적 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) OS로 진화하고 있다.
+과거에는 실시간 시스템(RTOS)의 특권이었던 EDF와 대역폭 보장 기술이, 2014년 이후 범용 리눅스 커널 속으로 완전히 녹아들며 <strong>'범용 시스템과 실시간 시스템의 통합'</strong>이라는 숙원을 이뤄냈다. 현재 자율주행 플랫폼(AUTOSAR)과 5G 통신 기지국(vRAN) 인프라의 코어 엔진으로 활약 중이다.
+미래에는 다중 코어(SMP) 환경에서 데드라인 스레드들이 캐시를 부수며 이 코어 저 코어로 이동하는 문제(Migration Overhead)를 막기 위해, EDF 알고리즘에 NUMA/캐시 친화도 지표를 결합하는 고도화된 멀티코어 데드라인 스케줄링(Global/Partitioned EDF) 연구가 계속되며 궁극의 결정론적 분산 OS로 진화하고 있다.
 
 - **📢 섹션 요약 비유**: 우선순위 기반 스케줄링이 "목소리 큰 놈이 다 먹는 야만의 시대"였다면, 데드라인 스케줄링은 "서로 약속한 계약서(주기와 예산)에 잉크를 찍고, 1원이라도 더 쓰면 경찰(CBS)이 잡혀가는 완벽한 신용 사회"의 완성입니다.
 
@@ -163,10 +163,10 @@ POSIX 표준이 정의한 리눅스 [커널](/studynote/02_operating_system/01_o
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 주기적 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) (Periodic [Task](/studynote/02_operating_system/02_process_thread/150_task/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [RM](/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([Rate-Monotonic](/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [비례 배분 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/) ([Proportionate Share Scheduling](/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| POSIX 스케줄링 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 주기적 태스크 (Periodic Task) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| RM (Rate-Monotonic) 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 비례 배분 스케줄링 (Proportionate Share Scheduling) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| POSIX 스케줄링 API | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -187,14 +187,3 @@ POSIX 표준이 정의한 리눅스 [커널](/studynote/02_operating_system/01_o
 1. 게임방에서 "나는 1등 VIP니까 하루 종일 안 비킬 거야!"라고 고집부리는 나쁜 형들(`SCHED_FIFO`) 때문에 게임방이 망했어요.
 2. 그래서 <strong>데드라인 스케줄링</strong>이라는 새로운 규칙을 만들었어요. "누구든 10분 중에 딱 2분만 게임을 하기로 도장을 찍어라!"
 3. 아무리 VIP 형이라도 계약한 2분을 넘기려고 하면 게임기 전원이 확 꺼져버려요(CBS 쓰로틀링). 덕분에 게임방 안의 모든 친구들이 자기가 약속한 시간 안에 완벽하게 게임을 즐길 수 있게 되었답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 207 / 800
-
-<- **이전**: [206. RM (Rate-Monotonic) 스케줄링 - 주기가 짧을수록 높은 우선순위 (정적 우선순위)](/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)
-**다음**: [208. 비례 배분 스케줄링 (Proportionate Share Scheduling)](/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/) ->
-
----

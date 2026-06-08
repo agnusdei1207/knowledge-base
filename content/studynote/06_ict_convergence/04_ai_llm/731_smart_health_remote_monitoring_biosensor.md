@@ -78,11 +78,3 @@ weight: 731
    [Layer 1: Bioreceptor]    [Layer 2: Transducer]   [Layer 3: AFE]
    +--------------+         +--------------+        +--------------+
    |  Enzyme      |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 731 / 800
-
-<- **이전**: [730. 스마트 빌딩 에너지 관리 BEMS 자동화](/studynote/06_ict_convergence/uncategorized/730_smart_building_energy_management_bems/)
-**다음**: [732. 스마트 그리드 수요 반응 DR 가상발전](/studynote/06_ict_convergence/uncategorized/732_smart_grid_demand_response_dr_vpp/) ->
-
----

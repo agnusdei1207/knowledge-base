@@ -6,13 +6,13 @@ tags:
 weight: 43
 ---
 > **핵심 인사이트**
-> 1. [람다 아키텍처](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)([Lambda Architecture](/studynote/16_bigdata/04_streaming/095_lambda_architecture/))는 Nathan Marz가 제안한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 아키텍처로 — 배치 레이어([정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 스피드 레이어(실시간성), 서빙 레이어(통합 조회)의 3계층으로 "정확하고 빠른" [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 달성하지만, 동일 로직을 두 번 구현해야 하는 "코드 중복" 문제가 근본 한계이다.
-> 2. [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)의 이진적 접근(배치 OR 스피드)과 달리, [카파 아키텍처](/studynote/16_bigdata/04_streaming/096_kappa_architecture/)([Kappa Architecture](/studynote/16_bigdata/04_streaming/096_kappa_architecture/))는 스트리밍 레이어만으로 모든 처리를 통합하여 코드 중복을 해소하지만 — 대규모 재처리(Reprocessing) 시 배치보다 자원이 많이 소요되는 트레이드오프가 있다.
-> 3. 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼([Databricks](/studynote/16_bigdata/03_spark/074_photon_engine/), [Apache Flink](/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/))은 배치와 스트리밍을 동일 API로 처리하는 "통합 컴퓨팅(Unified Compute)" 패러다임으로 [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)의 한계를 극복하며 — Kappa에 가까운 형태로 수렴하고 있다.
+> 1. 람다 아키텍처(Lambda Architecture)는 Nathan Marz가 제안한 데이터 처리 아키텍처로 — 배치 레이어(정확성), 스피드 레이어(실시간성), 서빙 레이어(통합 조회)의 3계층으로 "정확하고 빠른" 데이터 처리를 달성하지만, 동일 로직을 두 번 구현해야 하는 "코드 중복" 문제가 근본 한계이다.
+> 2. 람다의 이진적 접근(배치 OR 스피드)과 달리, 카파 아키텍처(Kappa Architecture)는 스트리밍 레이어만으로 모든 처리를 통합하여 코드 중복을 해소하지만 — 대규모 재처리(Reprocessing) 시 배치보다 자원이 많이 소요되는 트레이드오프가 있다.
+> 3. 현대 데이터 플랫폼(Databricks, Apache Flink)은 배치와 스트리밍을 동일 API로 처리하는 "통합 컴퓨팅(Unified Compute)" 패러다임으로 람다의 한계를 극복하며 — Kappa에 가까운 형태로 수렴하고 있다.
 
 ---
 
-## Ⅰ. [람다 아키텍처](/studynote/16_bigdata/04_streaming/095_lambda_architecture/) 3계층
+## Ⅰ. 람다 아키텍처 3계층
 
 ```
 람다 아키텍처 (Lambda Architecture):
@@ -45,7 +45,7 @@ weight: 43
   3. 정확성 (Accuracy): 배치 레이어가 최종 정확한 답 제공
 ```
 
-> 📢 **섹션 요약 비유**: [람다 아키텍처](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)는 어제 신문(배치) + 속보 알림(스피드) 조합 — 어제까지의 정확한 기사(배치 뷰)와 방금 업데이트된 속보(리얼타임 뷰)를 함께 보여줘요.
+> 📢 **섹션 요약 비유**: 람다 아키텍처는 어제 신문(배치) + 속보 알림(스피드) 조합 — 어제까지의 정확한 기사(배치 뷰)와 방금 업데이트된 속보(리얼타임 뷰)를 함께 보여줘요.
 
 ---
 
@@ -141,7 +141,7 @@ Flink 스트리밍 예시:
 
 ---
 
-## Ⅳ. [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs [카파 아키텍처](/studynote/16_bigdata/04_streaming/096_kappa_architecture/)
+## Ⅳ. 람다 vs 카파 아키텍처
 
 ```
 람다의 문제:
@@ -182,7 +182,7 @@ Flink 스트리밍 예시:
     = Kappa + 대규모 재처리 개선
 ```
 
-> 📢 **섹션 요약 비유**: [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs 카파는 두 가지 장부 vs 하나의 디지털 장부 — [람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 종이 장부(배치) + 메모장(스피드) 두 개, 카파는 클라우드 실시간 장부 하나. 현대는 카파 방향.
+> 📢 **섹션 요약 비유**: 람다 vs 카파는 두 가지 장부 vs 하나의 디지털 장부 — 람다는 종이 장부(배치) + 메모장(스피드) 두 개, 카파는 클라우드 실시간 장부 하나. 현대는 카파 방향.
 
 ---
 
@@ -232,7 +232,7 @@ Flink 스트리밍 예시:
     재처리: Kafka lag으로 처음부터 재실행 (수시간 소요)
 ```
 
-> 📢 **섹션 요약 비유**: 이커머스 [람다 아키텍처](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)는 은행 잔액 조회 — 어제까지 정산된 잔액(배치) + 오늘 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 출금 합산(스피드)을 더해서 현재 잔액 표시.
+> 📢 **섹션 요약 비유**: 이커머스 람다 아키텍처는 은행 잔액 조회 — 어제까지 정산된 잔액(배치) + 오늘 ATM 출금 합산(스피드)을 더해서 현재 잔액 표시.
 
 ---
 
@@ -289,17 +289,6 @@ Apache Iceberg + Flink
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [람다 아키텍처](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)는 어제 신문 + 속보 조합 — 정확한 어제 기사(배치)와 방금 올라온 속보(스피드)를 합쳐서 보여줘요!
+1. 람다 아키텍처는 어제 신문 + 속보 조합 — 정확한 어제 기사(배치)와 방금 올라온 속보(스피드)를 합쳐서 보여줘요!
 2. 배치는 느리지만 정확, 스피드는 빠르지만 근사치 — 두 개를 합치면 빠르고 정확한 결과를 얻을 수 있어요.
-3. 현대는 [카파 아키텍처](/studynote/16_bigdata/04_streaming/096_kappa_architecture/)로 진화 — "두 개의 시스템을 만드는 게 너무 복잡하니, 스트리밍 하나만 잘 만들자"는 방향이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 43 / 258
-
-<- **이전**: [042. BASE 특성 — NoSQL 일관성 모델](/studynote/14_data_engineering/01_infrastructure/042_base_characteristics_nosql_eventual_consistency/)
-**다음**: [044. 카파 아키텍처 — 단일 스트리밍 레이어](/studynote/14_data_engineering/01_infrastructure/044_kappa_architecture_single_streaming_layer/) ->
-
----
+3. 현대는 카파 아키텍처로 진화 — "두 개의 시스템을 만드는 게 너무 복잡하니, 스트리밍 하나만 잘 만들자"는 방향이에요!

@@ -6,9 +6,9 @@ tags:
 weight: 144
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Fine-tuning은 <strong>사전 학습된 Foundation Model의 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 특정 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>·작업의 라벨 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 추가 학습</strong>하여 적응시키는 [Transfer Learning](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 기법이다.
-> 2. **가치**: 처음부터 학습하면 <strong>수백만 달러·수개월</strong>이 소요되지만, Fine-tuning은 <strong>소량 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(수천~수만)로 수시간</strong>만에 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 모델을 만들어 비용을 100배+ 절감한다.
-> 3. **판단 포인트**: Full [Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)(전체 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))->[PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)([LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)·[QLoRA](/studynote/10_ai/05_data_science_ml/404_qlora/), 일부만)->[Instruction Tuning](/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/)(지시-응답 쌍)으로 구분하며, LoRA가 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Fine-tuning의 사실상 표준이다.
+> 1. **본질**: Fine-tuning은 <strong>사전 학습된 Foundation Model의 가중치를 특정 도메인·작업의 라벨 데이터로 추가 학습</strong>하여 적응시키는 Transfer Learning 기법이다.
+> 2. **가치**: 처음부터 학습하면 <strong>수백만 달러·수개월</strong>이 소요되지만, Fine-tuning은 <strong>소량 데이터(수천~수만)로 수시간</strong>만에 도메인 특화 모델을 만들어 비용을 100배+ 절감한다.
+> 3. **판단 포인트**: Full Fine-tuning(전체 가중치)->PEFT(LoRA·QLoRA, 일부만)->Instruction Tuning(지시-응답 쌍)으로 구분하며, LoRA가 LLM Fine-tuning의 사실상 표준이다.
 
 ---
 
@@ -27,7 +27,7 @@ Instruction Tuning: 지시-응답 쌍으로 지시 따르기 학습
 
 ## Ⅱ~Ⅴ. 결론
 
-Fine-tuning은 <strong>FM을 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>에 적응시키는 핵심 기법</strong>이며, [LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)/QLoRA가 효율적 표준이다.
+Fine-tuning은 <strong>FM을 도메인에 적응시키는 핵심 기법</strong>이며, LoRA/QLoRA가 효율적 표준이다.
 
 ---
 
@@ -35,11 +35,11 @@ Fine-tuning은 <strong>FM을 <a href="/studynote/05_database/02_modeling_normali
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a></strong> | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 적응 |
-| <strong><a href="/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a></strong> | 지식 이전 |
-| <strong><a href="/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a></strong> | 저랭크 [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) |
-| <strong><a href="/studynote/10_ai/05_data_science_ml/404_qlora/">QLoRA</a></strong> | [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)+[LoRA](/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) |
-| <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/">Instruction Tuning</a></strong> | 지시 따르기 |
+| <strong>Fine-tuning</strong> | 가중치 적응 |
+| <strong>Transfer Learning</strong> | 지식 이전 |
+| <strong>LoRA</strong> | 저랭크 PEFT |
+| <strong>QLoRA</strong> | 양자화+LoRA |
+| <strong>Instruction Tuning</strong> | 지시 따르기 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -53,14 +53,3 @@ Fine-tuning은 <strong>FM을 <a href="/studynote/05_database/02_modeling_normali
 1. Fine-tuning은 <strong>대학 졸업 후 직무 교육(OJT)</strong>이에요.
 2. 기초(사전 학습)가 있으니 <strong>적은 교육</strong>만으로 전문가가 돼요.
 3. LoRA는 <strong>핵심 부분만 교육</strong>해서 시간과 비용을 아껴요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 144 / 258
-
-<- **이전**: [143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리](/studynote/14_data_engineering/03_ml_dl_llm/143_foundation_model_llm_pretraining/)
-**다음**: [145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정](/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/) ->
-
----

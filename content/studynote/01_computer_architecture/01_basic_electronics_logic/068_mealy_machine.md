@@ -8,7 +8,7 @@ weight: 68
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Mealy Machine은 현재 상태와 현재 입력을 함께 사용해 출력을 결정하는 상태 मशीन이다.
-> 2. **가치**: 입력 변화에 빠르게 반응할 수 있어 제어 논리와 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계에 유리하다.
+> 2. **가치**: 입력 변화에 빠르게 반응할 수 있어 제어 논리와 프로토콜 설계에 유리하다.
 > 3. **판단**: 출력이 입력에 민감하므로 안정성은 Moore Machine보다 낮을 수 있다.
 
 ---
@@ -35,7 +35,7 @@ Output
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
-| [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 현재 내부 상황 |
+| State | 현재 내부 상황 |
 | Input | 즉시 반응 요소 |
 | Output | 상태+입력 기반 결과 |
 
@@ -61,15 +61,15 @@ Mealy와 Moore는 각각 장단점이 뚜렷하다. 빠른 반응이 중요하�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 출력이 입력에 직접 의존하는가?
 2. 빠른 반응이 필요한가?
 3. 잡음에 민감해도 되는가?
 4. Moore와의 차이를 설명할 수 있는가?
-5. FSM 구현 시 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)/안정성을 고려했는가?
+5. FSM 구현 시 지연/안정성을 고려했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - Mealy와 Moore를 혼동하는 설계
 - 입력 잡음을 출력에 그대로 반영하는 설계
@@ -125,14 +125,3 @@ Control Logic
 말을 듣자마자 바로 대답해요.
 상황과 말 둘 다 봐요.
 밀리 머신은 그런 빠른 기계예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 68 / 803
-
-<- **이전**: [67. 무어 머신 (Moore Machine)](/studynote/01_computer_architecture/01_basic_electronics_logic/067_moore_machine/)
-**다음**: [69. FPGA (Field Programmable Gate Array)](/studynote/01_computer_architecture/01_basic_electronics_logic/069_fpga/) ->
-
----

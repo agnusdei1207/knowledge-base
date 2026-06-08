@@ -7,17 +7,17 @@ weight: 171
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 안테나 (Antenna)는 전송선로의 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 자유공간 전자기파로 바꾸고, 반대로 공중의 전파를 다시 전기 신호로 바꾸는 변환기다.
-> 2. **가치**: 안테나가 공진 (Resonance) 길이에 맞으면 급전점 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)와 방사가 커지고 반사 손실이 줄어, 같은 송신 전력으로도 더 효율적인 통신이 가능해진다.
-> 3. **판단 포인트**: 반파장 다이폴 (Half-[wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) Dipole)은 가장 기본적인 기준 안테나이지만, 실제 설계에서는 주파수·공간 제약·접지면·[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·인체 근접 효과까지 함께 고려해야 한다.
+> 1. **본질**: 안테나 (Antenna)는 전송선로의 전류를 자유공간 전자기파로 바꾸고, 반대로 공중의 전파를 다시 전기 신호로 바꾸는 변환기다.
+> 2. **가치**: 안테나가 공진 (Resonance) 길이에 맞으면 급전점 전류와 방사가 커지고 반사 손실이 줄어, 같은 송신 전력으로도 더 효율적인 통신이 가능해진다.
+> 3. **판단 포인트**: 반파장 다이폴 (Half-wave Dipole)은 가장 기본적인 기준 안테나이지만, 실제 설계에서는 주파수·공간 제약·접지면·대역폭·인체 근접 효과까지 함께 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-안테나는 케이블 안에서 움직이는 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)와 공기 중을 퍼지는 전자기파 사이의 경계 장치다. 송신 시에는 급전점에 걸린 교류 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 시간에 따라 변하면서 전기장 (Electric Field)과 자기장 (Magnetic Field)을 만들고, 그 변화가 공간으로 퍼져 나간다. 수신 시에는 이 과정이 거꾸로 일어나 외부 전자기장이 [도체](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) 안 전자를 흔들어 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 만든다.
+안테나는 케이블 안에서 움직이는 전류와 공기 중을 퍼지는 전자기파 사이의 경계 장치다. 송신 시에는 급전점에 걸린 교류 전류가 시간에 따라 변하면서 전기장 (Electric Field)과 자기장 (Magnetic Field)을 만들고, 그 변화가 공간으로 퍼져 나간다. 수신 시에는 이 과정이 거꾸로 일어나 외부 전자기장이 도체 안 전자를 흔들어 전압과 전류를 만든다.
 
-이 개념이 중요한 이유는 전송선로에서 잘 흐르던 에너지가 자유공간으로 자동 전환되지는 않기 때문이다. 안테나 길이와 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 맞지 않으면 에너지 상당 부분이 급전선으로 반사되어 되돌아간다. 즉 안테나는 단순한 금속 막대가 아니라, 전파를 제대로 내보내기 위한 정합과 공진의 문제를 함께 품고 있다.
+이 개념이 중요한 이유는 전송선로에서 잘 흐르던 에너지가 자유공간으로 자동 전환되지는 않기 때문이다. 안테나 길이와 임피던스가 맞지 않으면 에너지 상당 부분이 급전선으로 반사되어 되돌아간다. 즉 안테나는 단순한 금속 막대가 아니라, 전파를 제대로 내보내기 위한 정합과 공진의 문제를 함께 품고 있다.
 
 아래 그림은 안테나가 왜 "선로와 공간 사이의 변환기"로 불리는지 보여준다.
 
@@ -42,7 +42,7 @@ weight: 171
 
 안테나 기본 원리의 중심에는 공진이 있다. 파장 `λ`는 `λ = c / f`로 계산되며, 여기서 `c`는 빛의 속도, `f`는 주파수다. 반파장 다이폴은 전체 길이가 대략 `λ/2`일 때 가장 효율적으로 동작하며, 실제 금속 두께와 끝단 효과 때문에 실물 길이는 보통 `0.95 × λ/2` 정도로 약간 짧게 잡는다.
 
-반파장 다이폴의 중요한 특징은 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 분포와 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 분포가 다르다는 점이다. 급전점 중앙에서는 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 가장 크고 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 낮으며, 양 끝으로 갈수록 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 줄고 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 커진다. 이 상태가 형성되면 안테나는 저장 에너지보다 방사 에너지를 더 효율적으로 다루게 되고, 자유공간 기준 급전점 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)도 약 73Ω 근처의 실수 성분 중심으로 나타난다.
+반파장 다이폴의 중요한 특징은 전류 분포와 전압 분포가 다르다는 점이다. 급전점 중앙에서는 전류가 가장 크고 전압이 낮으며, 양 끝으로 갈수록 전류는 줄고 전압은 커진다. 이 상태가 형성되면 안테나는 저장 에너지보다 방사 에너지를 더 효율적으로 다루게 되고, 자유공간 기준 급전점 임피던스도 약 73Ω 근처의 실수 성분 중심으로 나타난다.
 
 ```text
 +--------------------------------------------------------------+
@@ -56,15 +56,15 @@ weight: 171
 +--------------------------------------------------------------+
 ```
 
-이 그림은 왜 다이폴이 가운데에서 급전되는지를 설명한다. 중앙은 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 가장 큰 지점이라 선로 에너지를 방사체로 전달하기에 유리하고, 양 끝은 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 커져 끝단 전계가 강해진다. 전송선로와 안테나 길이가 이 공진 상태에서 벗어나면 유도성 또는 용량성 리액턴스가 커져 방사가 비효율적이 된다.
+이 그림은 왜 다이폴이 가운데에서 급전되는지를 설명한다. 중앙은 전류가 가장 큰 지점이라 선로 에너지를 방사체로 전달하기에 유리하고, 양 끝은 전압이 커져 끝단 전계가 강해진다. 전송선로와 안테나 길이가 이 공진 상태에서 벗어나면 유도성 또는 용량성 리액턴스가 커져 방사가 비효율적이 된다.
 
 | 주파수 | 파장 `λ` | 이상적 반파장 `λ/2` | 실무 길이 예시(약 95%) |
 | :--- | :--- | :--- | :--- |
 | 100 MHz | 3.0 m | 1.50 m | 약 1.43 m |
 | 2.4 GHz | 12.5 cm | 6.25 cm | 약 5.9 cm |
-| 28 GHz | [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).7 mm | 5.35 mm | 약 5.1 mm |
+| 28 GHz | 10.7 mm | 5.35 mm | 약 5.1 mm |
 
-이 표는 주파수가 올라갈수록 안테나가 급격히 작아지는 이유를 보여 준다. 그래서 FM 방송 안테나는 길고, 스마트폰 내부 안테나는 짧으며, [밀리미터파](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테나는 매우 작은 소자를 여러 개 묶는 방식이 가능해진다.
+이 표는 주파수가 올라갈수록 안테나가 급격히 작아지는 이유를 보여 준다. 그래서 FM 방송 안테나는 길고, 스마트폰 내부 안테나는 짧으며, 밀리미터파 배열 안테나는 매우 작은 소자를 여러 개 묶는 방식이 가능해진다.
 
 - **📢 섹션 요약 비유**: 공진은 그네를 가장 잘 밀리는 타이밍에 맞추는 것과 같다. 줄 길이와 박자가 맞으면 작은 힘으로도 크게 흔들리지만, 박자가 어긋나면 힘을 많이 써도 잘 오르지 않는다.
 
@@ -72,18 +72,18 @@ weight: 171
 
 ## Ⅲ. 비교 및 연결
 
-다이폴을 이해할 때는 "공진한 안테나"와 "그렇지 않은 안테나"를 구분해야 한다. 공진 길이에 가까우면 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 정합과 방사 효율이 좋아지고, 공진점에서 벗어나면 반사 손실과 무효전력 성분이 커진다. 즉 길이는 외형 문제가 아니라 전력 전달 품질 문제다.
+다이폴을 이해할 때는 "공진한 안테나"와 "그렇지 않은 안테나"를 구분해야 한다. 공진 길이에 가까우면 임피던스 정합과 방사 효율이 좋아지고, 공진점에서 벗어나면 반사 손실과 무효전력 성분이 커진다. 즉 길이는 외형 문제가 아니라 전력 전달 품질 문제다.
 
 | 비교 대상 | 특징 | 장점 | 주의점 |
 | :--- | :--- | :--- | :--- |
 | 짧은 다이폴 (Short Dipole) | `λ/2`보다 훨씬 짧음 | 소형화 가능 | 방사 저항이 작아 효율 저하 |
-| 반파장 다이폴 | 전체 길이 약 `λ/2` | 기준 패턴·효율·[임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 안정적 | 길이 확보 필요 |
+| 반파장 다이폴 | 전체 길이 약 `λ/2` | 기준 패턴·효율·임피던스가 안정적 | 길이 확보 필요 |
 | 1/4파장 모노폴 | 접지면 위에서 다이폴 절반 역할 | 구조 단순, 모바일 기기 친화적 | 접지면 품질에 민감 |
-| 비공진 길이 안테나 | 정합 회로 의존 | 물리 길이 유연 | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·효율·손실 trade-off 증가 |
+| 비공진 길이 안테나 | 정합 회로 의존 | 물리 길이 유연 | 대역폭·효율·손실 trade-off 증가 |
 
 또한 다이폴은 다음 주제인 무지향성과 지향성 개념의 출발점이 된다. 이상적인 반파장 다이폴의 방사 패턴은 축 방향으로는 약하고 수직 방향으로는 강한 도넛형에 가깝다. 그래서 다이폴은 "완전히 사방으로 같은" 안테라가 아니라, 특정 방향 성분을 가진 기본 방사체로 이해해야 한다.
 
-이 주제는 전송선로와도 연결된다. 급전선 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)와 안테나 입력 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 맞지 않으면 정재파비 (Standing [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) Ratio, SWR)가 나빠지고, 케이블에서 손실과 반사가 커진다. 즉 안테나는 공간 쪽만 보는 부품이 아니라, 송수신기·급전선·접지면을 함께 포함한 시스템 요소다.
+이 주제는 전송선로와도 연결된다. 급전선 임피던스와 안테나 입력 임피던스가 맞지 않으면 정재파비 (Standing Wave Ratio, SWR)가 나빠지고, 케이블에서 손실과 반사가 커진다. 즉 안테나는 공간 쪽만 보는 부품이 아니라, 송수신기·급전선·접지면을 함께 포함한 시스템 요소다.
 
 - **📢 섹션 요약 비유**: 같은 악기도 줄 길이를 맞게 조율하면 맑은 소리가 나고, 길이가 어긋나면 힘껏 켜도 탁한 소리가 난다. 안테나 길이 조정도 바로 그런 조율 과정이다.
 
@@ -91,7 +91,7 @@ weight: 171
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 먼저 목표 주파수와 사용 가능한 공간을 동시에 본다. 가장 이상적인 반파장 다이폴이 기구 설계에 들어갈 수 있으면 기준점으로 삼기 좋지만, 스마트폰·[사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기처럼 공간이 부족하면 1/4파장 모노폴, 미앤더 라인, 적재형 안테나와 정합 회로를 조합해야 한다. 이때 작게 만드는 대가로 효율과 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 줄 수 있음을 받아들여야 한다.
+실무에서는 먼저 목표 주파수와 사용 가능한 공간을 동시에 본다. 가장 이상적인 반파장 다이폴이 기구 설계에 들어갈 수 있으면 기준점으로 삼기 좋지만, 스마트폰·사물인터넷 기기처럼 공간이 부족하면 1/4파장 모노폴, 미앤더 라인, 적재형 안테나와 정합 회로를 조합해야 한다. 이때 작게 만드는 대가로 효율과 대역폭이 줄 수 있음을 받아들여야 한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -105,12 +105,12 @@ weight: 171
 +--------------------------------------------------------------+
 ```
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 목표 주파수에서 반파장 또는 1/4파장 구조가 물리적으로 가능한가?
 2. 접지면, 케이스, 배터리, 손과 머리 같은 주변 물체가 공진점을 얼마나 이동시키는가?
 3. 정재파비 또는 반사손실이 허용 범위 안에 들어오는가?
-4. 소형화 때문에 효율과 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 얼마나 희생되는지 링크 버짓으로 검증했는가?
+4. 소형화 때문에 효율과 대역폭이 얼마나 희생되는지 링크 버짓으로 검증했는가?
 
 ### 대표 의사결정 포인트
 
@@ -118,19 +118,19 @@ weight: 171
 - 휴대기기처럼 공간이 작으면 "완전한 공진 길이" 대신 정합 회로와 기구 설계를 함께 최적화한다.
 - 고주파일수록 소형화는 쉬워지지만, 제조 오차와 손실, 인체 근접에 더 민감해진다.
 
-기술사 답안에서는 단순히 "주파수가 높을수록 짧아진다"에서 멈추지 않고, 공진 길이·입력 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)·정합·방사 패턴·주변 환경 디튜닝까지 연결해 설명해야 완성도가 높다.
+기술사 답안에서는 단순히 "주파수가 높을수록 짧아진다"에서 멈추지 않고, 공진 길이·입력 임피던스·정합·방사 패턴·주변 환경 디튜닝까지 연결해 설명해야 완성도가 높다.
 
-- **📢 섹션 요약 비유**: 안테나 설계는 연필을 깎는 일과 비슷하다. 뾰족하게 만들수록 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편한 부분도 있지만, 너무 짧아지면 금방 부러지듯이 소형화에도 반드시 대가가 따른다.
+- **📢 섹션 요약 비유**: 안테나 설계는 연필을 깎는 일과 비슷하다. 뾰족하게 만들수록 쓰기 편한 부분도 있지만, 너무 짧아지면 금방 부러지듯이 소형화에도 반드시 대가가 따른다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-안테나 기본 원리와 반파장 다이폴을 이해하면 이후의 모노폴, 야기, 패치, 어레이, 다중 안테나 ([Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/), [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 구조도 훨씬 쉽게 연결된다. 대부분의 실무 안테나는 기본 공진체를 변형하거나 여러 개 결합한 형태이기 때문이다. 다이폴은 일종의 좌표축 역할을 한다.
+안테나 기본 원리와 반파장 다이폴을 이해하면 이후의 모노폴, 야기, 패치, 어레이, 다중 안테나 (Multiple-Input Multiple-Output, MIMO) 구조도 훨씬 쉽게 연결된다. 대부분의 실무 안테나는 기본 공진체를 변형하거나 여러 개 결합한 형태이기 때문이다. 다이폴은 일종의 좌표축 역할을 한다.
 
-한계도 분명하다. 실제 제품은 금속 프레임, 플라스틱 하우징, 손 접촉, 기판 유전율, [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구 때문에 교과서적 `λ/2` 그대로 구현되지 않는다. 그래서 공진 길이 계산은 출발점일 뿐이고, 최종 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 시뮬레이션과 실측 튜닝으로 완성된다.
+한계도 분명하다. 실제 제품은 금속 프레임, 플라스틱 하우징, 손 접촉, 기판 유전율, 대역폭 요구 때문에 교과서적 `λ/2` 그대로 구현되지 않는다. 그래서 공진 길이 계산은 출발점일 뿐이고, 최종 성능은 시뮬레이션과 실측 튜닝으로 완성된다.
 
-결국 이 주제의 핵심은 안테나를 "쇠막대"가 아니라 "길이·[전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 분포·정합이 함께 맞아야 하는 공진 장치"로 보는 데 있다. 반파장 다이폴은 그 가장 기본적이고도 중요한 기준 모델이다.
+결국 이 주제의 핵심은 안테나를 "쇠막대"가 아니라 "길이·전류 분포·정합이 함께 맞아야 하는 공진 장치"로 보는 데 있다. 반파장 다이폴은 그 가장 기본적이고도 중요한 기준 모델이다.
 
 - **📢 섹션 요약 비유**: 다이폴은 악기 튜닝 포크와 같다. 기준음을 알아야 다른 악기들도 맞출 수 있듯, 기본 다이폴을 알아야 다른 안테나 구조도 비교하고 설계할 수 있다.
 
@@ -141,10 +141,10 @@ weight: 171
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
 | 파장 `λ` | 주파수와 안테나 길이를 잇는 가장 기본 변수 |
-| 공진 (Resonance) | 방사 효율과 입력 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)를 결정하는 핵심 현상 |
+| 공진 (Resonance) | 방사 효율과 입력 임피던스를 결정하는 핵심 현상 |
 | 반파장 다이폴 | 가장 기본적인 기준 안테나 구조 |
 | 급전점 (Feed Point) | 전송선로와 방사체가 만나는 에너지 전달 지점 |
-| 입력 [임피던스](/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) | 정합과 반사 손실 판단의 직접 기준 |
+| 입력 임피던스 | 정합과 반사 손실 판단의 직접 기준 |
 | 정재파비 (SWR) | 정합 상태를 실무에서 확인하는 대표 지표 |
 | 방사 패턴 (Radiation Pattern) | 안테나가 어느 방향으로 에너지를 퍼뜨리는지 나타내는 모양 |
 
@@ -165,21 +165,10 @@ weight: 171
 커버리지 · 링크 버짓 · 배열 안테나 설계
 ```
 
-이 흐름도는 안테나 설계가 단순 길이 계산에서 끝나지 않고, 정합과 패턴을 거쳐 실제 링크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단으로 이어진다는 점을 보여준다.
+이 흐름도는 안테나 설계가 단순 길이 계산에서 끝나지 않고, 정합과 패턴을 거쳐 실제 링크 성능 판단으로 이어진다는 점을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 안테나는 전기를 공기 중 파도로 바꿔서 멀리 보내는 막대예요.
 2. 막대 길이가 파도 길이에 딱 맞으면 그네처럼 가장 잘 흔들려서 전파가 세게 나가요.
 3. 그래서 안테나는 아무 쇠막대가 아니라, 길이를 잘 맞춰 만든 특별한 도구랍니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 292 / 1120
-
-<- **이전**: [170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)](/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/)
-**다음**: [172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)](/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/) ->
-
----

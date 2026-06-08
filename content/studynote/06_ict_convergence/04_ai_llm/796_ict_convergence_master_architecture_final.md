@@ -126,11 +126,3 @@ ICT 융합 마스터 아키텍처는 **OT(운용기술) × IT(정보기술) × C
 3. **데이터 거버넌스**: Data Mesh(Federated Computational Governance) 적용 시 도메인 단위 Data Product 카드(DC v3.0) 발행, Data Lineage(OpenLineage) + PII 마스킹(Diffix·Tokenization) 필수
 4. **제로트러스트 도입**: 마이크로세그멘테이션(Cilium/ZeroTier), ID 페데레이션(SSO+SCIM 2.0), 비밀 자동회전(Vault), DevSecOps(SAST/DAST/SCA/Grype) 파이프라인 – **"내부망=안전"** 이라는 false premise 제거
 5. **AI 윤리·규제**:
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 796 / 800
-
-<- **이전**: [795. ICT 융합 기술사 논술 키워드 최종 정리](/studynote/06_ict_convergence/uncategorized/795_ict_pe_essay_keywords_final_summary/)
-**다음**: [797. ICT 융합 기술사 합격 최종 키워드 정리](/studynote/06_ict_convergence/uncategorized/797_ict_pe_pass_final_keywords_summary/) ->
-
----

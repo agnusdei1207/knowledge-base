@@ -7,30 +7,30 @@ tags:
   - "studynote-network"
 weight: 14
 ---
-# 14. [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) / 굿풋 (Goodput)
+# 14. 처리량 (Throughput) / 굿풋 (Goodput)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>이 물리적인 '최대 가능 속도'라면, <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>은 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드와 혼잡을 포함하여 '실제로 전송에 성공한 속도'이며, <strong>굿풋(Goodput)</strong>은 여기서 재전송과 패킷 헤더까지 모두 빼고 '애플리케이션 계층이 실제로 넘겨받은 순수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 속도'다.
-> 2. **가치**: 네트워크 벤더가 카탈로그에 적어놓는 속도는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이지만, 사용자가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운로드할 때 체감하는 진짜 속도는 굿풋이다. 따라서 실무에서 네트워크 품질을 평가하고 SLA를 보장하는 기준은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 아니라 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 굿풋이 되어야 한다.
-> 3. **융합**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 굿풋을 떨어뜨리는 주범은 TCP의 혼잡 제어([Congestion Control](/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/)), [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 충돌([CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)), 그리고 암호화 오버헤드([IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/), [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))이며, 이를 극복하기 위한 수단으로 현대 클라우드망에서는 MTU 점보 프레임(Jumbo Frame) 확장과 [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 필수적으로 적용된다.
+> 1. **본질**: <strong>대역폭(Bandwidth)</strong>이 물리적인 '최대 가능 속도'라면, <strong>처리량(Throughput)</strong>은 프로토콜 오버헤드와 혼잡을 포함하여 '실제로 전송에 성공한 속도'이며, <strong>굿풋(Goodput)</strong>은 여기서 재전송과 패킷 헤더까지 모두 빼고 '애플리케이션 계층이 실제로 넘겨받은 순수 데이터의 속도'다.
+> 2. **가치**: 네트워크 벤더가 카탈로그에 적어놓는 속도는 대역폭이지만, 사용자가 파일을 다운로드할 때 체감하는 진짜 속도는 굿풋이다. 따라서 실무에서 네트워크 품질을 평가하고 SLA를 보장하는 기준은 대역폭이 아니라 처리량과 굿풋이 되어야 한다.
+> 3. **융합**: 처리량과 굿풋을 떨어뜨리는 주범은 TCP의 혼잡 제어(Congestion Control), MAC 계층의 충돌(CSMA/CD/CA), 그리고 암호화 오버헤드(IPsec, TLS)이며, 이를 극복하기 위한 수단으로 현대 클라우드망에서는 MTU 점보 프레임(Jumbo Frame) 확장과 DPU 오프로딩이 필수적으로 적용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 (Context & Necessity)
 
 - **개념**:
-  - <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 100Mbps 랜선을 꽂으면 1초에 1억 개의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 보낼 수 있다는 '물리적 한계치'다.
-  - <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>: 1초 동안 성공적으로 목적지에 도착한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수다. 충돌, 손실, 대기 시간 때문에 절대 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 같을 수 없다.
-  - **굿풋 (Goodput)**: [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중에서 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)/IP/[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더와 재전송된 패킷들을 다 버리고, 순수하게 유저가 요청한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Payload)만이 1초에 얼마나 전송되었는지를 나타내는 '최종 유효 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)'이다.
+  - <strong>대역폭 (Bandwidth)</strong>: 100Mbps 랜선을 꽂으면 1초에 1억 개의 비트를 보낼 수 있다는 '물리적 한계치'다.
+  - <strong>처리량 (Throughput)</strong>: 1초 동안 성공적으로 목적지에 도착한 비트 수다. 충돌, 손실, 대기 시간 때문에 절대 대역폭과 같을 수 없다.
+  - **굿풋 (Goodput)**: 처리량 중에서 이더넷/IP/TCP 헤더와 재전송된 패킷들을 다 버리고, 순수하게 유저가 요청한 파일(Payload)만이 1초에 얼마나 전송되었는지를 나타내는 '최종 유효 처리량'이다.
 
-- **필요성**: 많은 사용자들이 "기가 인터넷(1Gbps)을 쓰는데 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 속도는 100MB/s(800Mbps)밖에 안 나온다"고 불만을 제기한다. 이것은 통신사가 속이는 것이 아니라, 네트워크가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 보내기 위해 겹겹이 씌우는 포장지(헤더)와 사고(에러/충돌)를 수습하는 과정에서 발생하는 필연적인 손실이다. 엔지니어는 시스템의 진짜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하고 병목을 뚫기 위해 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이라는 허상을 버리고 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 굿풋이라는 실질적 지표로 네트워크를 설계하고 분석해야 한다.
+- **필요성**: 많은 사용자들이 "기가 인터넷(1Gbps)을 쓰는데 파일 다운로드 속도는 100MB/s(800Mbps)밖에 안 나온다"고 불만을 제기한다. 이것은 통신사가 속이는 것이 아니라, 네트워크가 데이터를 안전하게 보내기 위해 겹겹이 씌우는 포장지(헤더)와 사고(에러/충돌)를 수습하는 과정에서 발생하는 필연적인 손실이다. 엔지니어는 시스템의 진짜 성능을 평가하고 병목을 뚫기 위해 대역폭이라는 허상을 버리고 처리량과 굿풋이라는 실질적 지표로 네트워크를 설계하고 분석해야 한다.
 
 - **💡 비유**:
-  - <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 고속도로 톨게이트를 1시간에 통과할 수 있는 **최대 차량 대수** (예: [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대).
-  - <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>: 톨게이트를 1시간 동안 **실제로 통과한 차량 대수** (사고나 정체 때문에 7,000대만 통과함).
+  - <strong>대역폭(Bandwidth)</strong>: 고속도로 톨게이트를 1시간에 통과할 수 있는 **최대 차량 대수** (예: 10,000대).
+  - <strong>처리량(Throughput)</strong>: 톨게이트를 1시간 동안 **실제로 통과한 차량 대수** (사고나 정체 때문에 7,000대만 통과함).
   - **굿풋(Goodput)**: 통과한 7,000대의 차량 중에서 짐을 싣고 온 트럭만 세고, 길을 잘못 들어 다시 돌아가는 차(재전송)나 짐 없이 빈 차로 달리는 경찰차/구급차(헤더/오버헤드)를 다 뺀, **진짜로 목적지에 배달된 화물의 양**.
 
-- <strong>속도 지표의 논리적 계층 구조 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
+- <strong>속도 지표의 논리적 계층 구조 시각화</strong>:
 
 ```text
   +---------------------------------------------------------+
@@ -55,22 +55,22 @@ weight: 14
   +---------------------------------------------------------+
 ```
 
-  **[다이어그램 해설]** 양파 껍질처럼 속도 지표가 깎여나가는 모습을 보여준다. 1Gbps 허브에 꽂았다고 1Gbps 속도가 나오는 것은 거짓말이다. 네트워크 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 버퍼 큐 대기와 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 공유에 따른 충돌([CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)) 때문에 실제로 패킷이 날아가는 속도([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))는 깎인다. 그리고 날아온 패킷을 까보면 거기엔 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 헤더(14B), IP 헤더(20B), [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더(20B)가 덕지덕지 붙어 있다. 이건 사용자의 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니다. 중간에 깨져서 두 번 전송받은 패킷도 있다. 이런 쓸데없는 쓰레기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 싹 다 덜어내고 남은 알맹이의 속도가 바로 애플리케이션 계층이 체감하는 굿풋(Goodput)이다.
+  **[다이어그램 해설]** 양파 껍질처럼 속도 지표가 깎여나가는 모습을 보여준다. 1Gbps 허브에 꽂았다고 1Gbps 속도가 나오는 것은 거짓말이다. 네트워크 스위치의 버퍼 큐 대기와 매체 공유에 따른 충돌(CSMA) 때문에 실제로 패킷이 날아가는 속도(Throughput)는 깎인다. 그리고 날아온 패킷을 까보면 거기엔 이더넷 헤더(14B), IP 헤더(20B), TCP 헤더(20B)가 덕지덕지 붙어 있다. 이건 사용자의 영화 파일이 아니다. 중간에 깨져서 두 번 전송받은 패킷도 있다. 이런 쓸데없는 쓰레기 데이터들을 싹 다 덜어내고 남은 알맹이의 속도가 바로 애플리케이션 계층이 체감하는 굿풋(Goodput)이다.
 
-- **📢 섹션 요약 비유**: [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 내 월급 명세서에 찍힌 '세전 연봉(1억)'이고, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 세금을 떼고 통장에 들어온 '세후 연봉(8천만 원)'이며, 굿풋은 거기서 방세와 식비를 다 빼고 내가 진짜로 마음대로 쓸 수 있는 '순수 가처분 소득(5천만 원)'과 같습니다.
+- **📢 섹션 요약 비유**: 대역폭은 내 월급 명세서에 찍힌 '세전 연봉(1억)'이고, 처리량은 세금을 떼고 통장에 들어온 '세후 연봉(8천만 원)'이며, 굿풋은 거기서 방세와 식비를 다 빼고 내가 진짜로 마음대로 쓸 수 있는 '순수 가처분 소득(5천만 원)'과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-### [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 저하의 물리/링크적 원인
-[처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 주로 L1(물리) / L2([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크) 계층의 환경적 요인에 의해 결정된다.
-1. <strong><a href="/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 공유 (Shared <a href="/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">Media</a>)</strong>: Wi-Fi나 구형 허브망에서는 한 명이 쏠 때 남들은 기다려야 한다. [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 300Mbps라도 10명이 접속하면 Throughput은 $1/[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$ 인 30Mbps로 추락한다.
-2. <strong>충돌 및 에러 (<a href="/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> / Error)</strong>: 패킷이 허공에서 부딪히거나 노이즈로 깨지면 재전송을 해야 하므로 그 시간 동안 유효 패킷 전송량은 0이 된다.
-3. <strong>병목 현상 (<a href="/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: 내 랜선은 1Gbps지만, 서버로 나가는 회사 메인 라우터의 회선이 100Mbps라면, 전체 시스템의 엔드투엔드([End-to-End](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 무조건 가장 좁은 관문인 100Mbps로 수렴한다.
+### 처리량 (Throughput) 저하의 물리/링크적 원인
+처리량은 주로 L1(물리) / L2(데이터 링크) 계층의 환경적 요인에 의해 결정된다.
+1. <strong>매체 공유 (Shared Media)</strong>: Wi-Fi나 구형 허브망에서는 한 명이 쏠 때 남들은 기다려야 한다. 대역폭은 300Mbps라도 10명이 접속하면 Throughput은 $1/10$ 인 30Mbps로 추락한다.
+2. <strong>충돌 및 에러 (Collision / Error)</strong>: 패킷이 허공에서 부딪히거나 노이즈로 깨지면 재전송을 해야 하므로 그 시간 동안 유효 패킷 전송량은 0이 된다.
+3. <strong>병목 현상 (Bottleneck)</strong>: 내 랜선은 1Gbps지만, 서버로 나가는 회사 메인 라우터의 회선이 100Mbps라면, 전체 시스템의 엔드투엔드(End-to-End) 처리량은 무조건 가장 좁은 관문인 100Mbps로 수렴한다.
 
 ### 굿풋 (Goodput) 저하의 논리적 원인 (오버헤드)
-굿풋은 L3(네트워크), L4(전송), L7(애플리케이션) 계층의 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드에 의해 깎인다. 가장 대표적인 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)/[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 환경의 오버헤드를 해부해보자.
+굿풋은 L3(네트워크), L4(전송), L7(애플리케이션) 계층의 프로토콜 오버헤드에 의해 깎인다. 가장 대표적인 이더넷/TCP/IP 환경의 오버헤드를 해부해보자.
 
 ```text
  +---------------------------------------------------------------+
@@ -92,19 +92,19 @@ weight: 14
  +---------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 기본적으로 통신망에 아무 사고가 없어도, 포장지(헤더)의 무게 때문에 1Gbps 회선에서 약 50Mbps는 공중으로 증발한다 (94.9% 효율). 더 치명적인 것은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아주 작을 때다. 1바이트짜리 문자를 보내도 IP/[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 40바이트를 똑같이 붙여야 한다 (Goodput 효율 약 2%). 따라서 굿풋을 올리는 가장 단순하고 강력한 아키텍처적 방법은 한 번에 포장하는 알맹이의 크기를 무지막지하게 키우는 것(점보 프레임 적용)이다.
+**[다이어그램 해설]** 기본적으로 통신망에 아무 사고가 없어도, 포장지(헤더)의 무게 때문에 1Gbps 회선에서 약 50Mbps는 공중으로 증발한다 (94.9% 효율). 더 치명적인 것은 파일이 아주 작을 때다. 1바이트짜리 문자를 보내도 IP/TCP 헤더 40바이트를 똑같이 붙여야 한다 (Goodput 효율 약 2%). 따라서 굿풋을 올리는 가장 단순하고 강력한 아키텍처적 방법은 한 번에 포장하는 알맹이의 크기를 무지막지하게 키우는 것(점보 프레임 적용)이다.
 
 ---
 
 ### 재전송(Retransmission)에 의한 굿풋 붕괴
 Throughput과 Goodput이 결정적으로 갈라지는 순간은 '패킷 로스(Drop)'가 발생했을 때다.
-- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10MB 중 1MB짜리 패킷 하나가 깨졌다.
-- [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 에러 복구를 위해 그 1MB 패킷을 다시(Retransmit) 보낸다.
-- 회선 입장에서는 분명히 11MB의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 성공적으로 통과했으므로 <strong>Throughput은 11MB/s</strong>다.
-- 하지만 사용자 입장에서는 똑같은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 2번 받았을 뿐, 새로 받은 유효 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 10MB뿐이므로 <strong>Goodput은 10MB/s</strong>로 떨어진다.
+- 파일 10MB 중 1MB짜리 패킷 하나가 깨졌다.
+- TCP 프로토콜은 에러 복구를 위해 그 1MB 패킷을 다시(Retransmit) 보낸다.
+- 회선 입장에서는 분명히 11MB의 데이터가 성공적으로 통과했으므로 <strong>Throughput은 11MB/s</strong>다.
+- 하지만 사용자 입장에서는 똑같은 파일을 2번 받았을 뿐, 새로 받은 유효 데이터는 10MB뿐이므로 <strong>Goodput은 10MB/s</strong>로 떨어진다.
 - **결론**: 에러가 심한 망에서는 Throughput이 아무리 높아 보여도(망은 바쁘지만) Goodput은 바닥을 친다.
 
-- **📢 섹션 요약 비유**: 과대 포장된 질소 과자(작은 MTU)를 샀을 때, 마트에서 들고 온 무게([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))는 1kg이지만 뜯어보면 과자 알맹이(Goodput)는 100g밖에 안 되는 것과 같습니다. 포장지를 줄이고 큰 봉지에 과자를 꽉꽉 채워야 진짜 가성비가 올라갑니다.
+- **📢 섹션 요약 비유**: 과대 포장된 질소 과자(작은 MTU)를 샀을 때, 마트에서 들고 온 무게(Throughput)는 1kg이지만 뜯어보면 과자 알맹이(Goodput)는 100g밖에 안 되는 것과 같습니다. 포장지를 줄이고 큰 봉지에 과자를 꽉꽉 채워야 진짜 가성비가 올라갑니다.
 
 ---
 
@@ -112,19 +112,19 @@ Throughput과 Goodput이 결정적으로 갈라지는 순간은 '패킷 로스(D
 
 ### 비교 1: TCP와 UDP의 스루풋/굿풋 특성 비교
 
-| 전송 계층 | [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([Transmission Control Protocol](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) | [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) ([User Datagram Protocol](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) |
+| 전송 계층 | TCP (Transmission Control Protocol) | UDP (User Datagram Protocol) |
 |:---|:---|:---|
-| <strong>혼잡 제어/<a href="/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a></strong>| 윈도우 사이즈를 조절하며 스스로 속도를 줄임 (스루풋 저하) | 눈치 안 보고 전송 속도 무한 유지 (스루풋 유지) |
+| <strong>혼잡 제어/흐름 제어</strong>| 윈도우 사이즈를 조절하며 스스로 속도를 줄임 (스루풋 저하) | 눈치 안 보고 전송 속도 무한 유지 (스루풋 유지) |
 | **재전송 오버헤드** | 손실 발생 시 패킷 재전송 (스루풋은 높으나 굿풋 하락) | 손실 나면 그냥 버림 (스루풋 = 굿풋 유지율 높음) |
 | **헤더 크기 (오버헤드)**| 20 Bytes ~ 최대 60 Bytes | 단 8 Bytes (헤더 다이어트 극대화) |
-| **적합한 애플리케이션**| [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드, 웹 (무결성이 굿풋보다 중요할 때) | 실시간 스트리밍, 게임 (오버헤드 없이 스루풋을 쥐어짤 때) |
+| **적합한 애플리케이션**| 파일 다운로드, 웹 (무결성이 굿풋보다 중요할 때) | 실시간 스트리밍, 게임 (오버헤드 없이 스루풋을 쥐어짤 때) |
 
-실시간 화상 회의에서 화질이 깨져도(로스) 다시 전송받지 않고 계속 밀어붙이는 이유는, 재전송으로 인해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하고 굿풋이 엉키는 것보다 차라리 현재의 빠른 스루풋을 유지하는 것이 인간의 체감에 유리하기 때문이다.
+실시간 화상 회의에서 화질이 깨져도(로스) 다시 전송받지 않고 계속 밀어붙이는 이유는, 재전송으로 인해 지연이 발생하고 굿풋이 엉키는 것보다 차라리 현재의 빠른 스루풋을 유지하는 것이 인간의 체감에 유리하기 때문이다.
 
 ### 과목 융합 관점
 
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: 디스크 스토리지의 IOPS (Input/Output Operations Per Second)와 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(MB/s)도 본질적으로 스루풋 개념이다. SSD의 최대 스루풋이 5GB/s 라 해도, OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 작은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(4KB)을 수만 개 랜덤으로 읽으면 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)(헤더) 검색 오버헤드 때문에 실제 애플리케이션이 느끼는 굿풋은 수십 MB/s로 폭락한다.
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> (Cloud)</strong>: AWS나 Azure에서 제공하는 EC2 인스턴스의 "네트워크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/): 최대 10Gbps"라는 문구는 순수 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))이다. 클라우드 내부에 겹겹이 쌓인 [vSwitch](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), [VXLAN](/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 캡슐화, 암호화 [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(오버헤드)을 거치고 나면 실제 DB 동기화용 굿풋은 3~4Gbps에 그치는 경우가 허다하여 아키텍처 산정 시 이를 반드시 고려해야 한다.
+- <strong>운영체제 (OS)</strong>: 디스크 스토리지의 IOPS (Input/Output Operations Per Second)와 대역폭(MB/s)도 본질적으로 스루풋 개념이다. SSD의 최대 스루풋이 5GB/s 라 해도, OS 커널이 작은 파일(4KB)을 수만 개 랜덤으로 읽으면 메타데이터(헤더) 검색 오버헤드 때문에 실제 애플리케이션이 느끼는 굿풋은 수십 MB/s로 폭락한다.
+- <strong>클라우드 컴퓨팅 (Cloud)</strong>: AWS나 Azure에서 제공하는 EC2 인스턴스의 "네트워크 성능: 최대 10Gbps"라는 문구는 순수 대역폭(Bandwidth)이다. 클라우드 내부에 겹겹이 쌓인 vSwitch, VXLAN 캡슐화, 암호화 터널링(오버헤드)을 거치고 나면 실제 DB 동기화용 굿풋은 3~4Gbps에 그치는 경우가 허다하여 아키텍처 산정 시 이를 반드시 고려해야 한다.
 
 - **📢 섹션 요약 비유**: TCP는 고가의 도자기를 뽁뽁이로 칭칭 감아 느리게 배송(오버헤드 큼)하는 것이고, UDP는 던져도 안 깨지는 축구공을 포장 없이 트럭에 대충 쓸어 담아 시속 150km로 내달리는 것(스루풋/굿풋 극대화)과 같습니다.
 
@@ -134,15 +134,15 @@ Throughput과 Goodput이 결정적으로 갈라지는 순간은 '패킷 로스(D
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — <a href="/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 서버 <a href="/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>/<a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 시 Goodput 극대화 (Jumbo Frame 도입)</strong>:
-   [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버 A에서 B로 매일 밤 테라바이트급 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 진행한다. 두 서버는 10G [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 연결되어 있는데 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 툴의 실제 속도는 3Gbps를 넘지 못한다.
-   **[해결책]** 1500바이트라는 표준 MTU 낡은 규격이 최신 10G 망의 굿풋을 갉아먹고 있는 상황이다. 작은 상자에 담아 보내느라 양쪽 서버의 CPU가 패킷을 자르고 헤더를 붙이는 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리에 치여(CPU 병목) 스루풋을 내지 못한 것이다. 엔지니어는 서버 NIC와 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 <strong>MTU (<a href="/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/">Maximum Transmission Unit</a>)를 9000 바이트인 점보 프레임 (Jumbo Frame)</strong>으로 일괄 상향한다. 포장지(헤더) 비율이 급감하고 CPU 부하가 사라져 단숨에 8~9Gbps의 궁극적인 굿풋을 뽑아낼 수 있다.
+1. <strong>시나리오 — 데이터센터 서버 백업/복제 시 Goodput 극대화 (Jumbo Frame 도입)</strong>:
+   데이터베이스 서버 A에서 B로 매일 밤 테라바이트급 백업을 진행한다. 두 서버는 10G 스위치로 연결되어 있는데 백업 툴의 실제 속도는 3Gbps를 넘지 못한다.
+   **[해결책]** 1500바이트라는 표준 MTU 낡은 규격이 최신 10G 망의 굿풋을 갉아먹고 있는 상황이다. 작은 상자에 담아 보내느라 양쪽 서버의 CPU가 패킷을 자르고 헤더를 붙이는 인터럽트 처리에 치여(CPU 병목) 스루풋을 내지 못한 것이다. 엔지니어는 서버 NIC와 스위치 포트의 <strong>MTU (Maximum Transmission Unit)를 9000 바이트인 점보 프레임 (Jumbo Frame)</strong>으로 일괄 상향한다. 포장지(헤더) 비율이 급감하고 CPU 부하가 사라져 단숨에 8~9Gbps의 궁극적인 굿풋을 뽑아낼 수 있다.
 
-2. <strong>시나리오 — 무선 망(Wi-Fi) 설계 시 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a> 산정 오류로 인한 불만</strong>:
-   회사 회의실에 "최대 1Gbps 속도 지원"이라고 적힌 [Wi-Fi 6](/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 1대를 달았는데, 20명이 접속해 줌(Zoom) 회의를 켜자마자 속도가 10Mbps로 바닥을 치며 불통이 되었다.
-   **[해결책]** 무선 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 스펙(1Gbps)을 실제 스루풋으로 착각한 전형적 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 무선 스루풋은 반이중(Half-Duplex) 통신이므로 절반인 500Mbps로 깎이고, 여기에 [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 충돌 회피 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 대기 시간, 암호화 복호화 시간, 제어 프레임 [비컨](/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)([Beacon](/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 등을 빼면 실제 최대 굿풋은 잘해야 400Mbps다. 이를 20명이 '동시'에 나누어 쓰면 인당 20Mbps조차 확보하기 어렵다. 아키텍트는 카탈로그의 Bandwidth가 아닌, [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 백오프를 계산한 <strong>실측 Goodput</strong>을 기준으로 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 수량과 셀(Cell) 반경을 재설계해야 한다.
+2. <strong>시나리오 — 무선 망(Wi-Fi) 설계 시 Throughput 산정 오류로 인한 불만</strong>:
+   회사 회의실에 "최대 1Gbps 속도 지원"이라고 적힌 Wi-Fi 6 AP 1대를 달았는데, 20명이 접속해 줌(Zoom) 회의를 켜자마자 속도가 10Mbps로 바닥을 치며 불통이 되었다.
+   **[해결책]** 무선 대역폭 스펙(1Gbps)을 실제 스루풋으로 착각한 전형적 안티패턴이다. 무선 스루풋은 반이중(Half-Duplex) 통신이므로 절반인 500Mbps로 깎이고, 여기에 CSMA/CA 충돌 회피 알고리즘 대기 시간, 암호화 복호화 시간, 제어 프레임 비컨(Beacon) 등을 빼면 실제 최대 굿풋은 잘해야 400Mbps다. 이를 20명이 '동시'에 나누어 쓰면 인당 20Mbps조차 확보하기 어렵다. 아키텍트는 카탈로그의 Bandwidth가 아닌, CSMA 백오프를 계산한 <strong>실측 Goodput</strong>을 기준으로 AP 수량과 셀(Cell) 반경을 재설계해야 한다.
 
-네트워크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 시 "[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목인지, 오버헤드 병목인지"를 갈라내는 트러블슈팅 흐름은 다음과 같다.
+네트워크 성능 저하 시 "대역폭 병목인지, 오버헤드 병목인지"를 갈라내는 트러블슈팅 흐름은 다음과 같다.
 
 ```text
   +-------------------------------------------------------------------+
@@ -171,16 +171,16 @@ Throughput과 Goodput이 결정적으로 갈라지는 순간은 '패킷 로스(D
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 속도가 느릴 때 어디서 깎아 먹었는지(병목 지점)를 찾는 매뉴얼이다. 첫 번째로 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))와 [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(무대뽀)의 스루풋을 비교해본다. UDP는 잘 나오는데 TCP가 느리다면 회선은 뻥 뚫려 있는데 논리적인 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)([윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))이 바보 같아서 굿풋을 갉아먹는 것이다. 두 번째, 둘 다 느리다면 중간에 패킷이 박살 나서 재전송을 하느라 시간을 버리는지 점검한다. 세 번째로, 에러도 없는데 느리다면 장비가 헤더를 처리하는 속도(CPU 한계)가 회선 속도를 못 따라가는(오버헤드 병목) 가장 골치 아픈 상황이다.
+**[다이어그램 해설]** 속도가 느릴 때 어디서 깎아 먹었는지(병목 지점)를 찾는 매뉴얼이다. 첫 번째로 TCP(데이터 검증)와 UDP(무대뽀)의 스루풋을 비교해본다. UDP는 잘 나오는데 TCP가 느리다면 회선은 뻥 뚫려 있는데 논리적인 TCP 설정(윈도우 크기)이 바보 같아서 굿풋을 갉아먹는 것이다. 두 번째, 둘 다 느리다면 중간에 패킷이 박살 나서 재전송을 하느라 시간을 버리는지 점검한다. 세 번째로, 에러도 없는데 느리다면 장비가 헤더를 처리하는 속도(CPU 한계)가 회선 속도를 못 따라가는(오버헤드 병목) 가장 골치 아픈 상황이다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **기술적**: [SD-WAN](/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 장비 도입 시, [IPSec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 암호화/복호화를 걸었을 때 실제 유효 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 속도(Goodput)가 도입 전 평문 통신 대비 $20\%$ 이상 깎이지 않는 고성능 암호화 가속 칩([ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))을 내장하고 있는지 벤치마크([BMT](/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/)) 했는가?
-- **운영·보안적**: 망 내 [패킷 스니핑](/studynote/09_security/03_network_security/272_packet_sniffing/) 장비나 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(Mirror/SPAN) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구성 시, 재전송(Retransmission)된 패킷까지 전부 수집하여 스루풋 통계를 내면 실제 굿풋보다 트래픽이 뻥튀기되므로 통계 보정(Deduplication) 로직을 적용했는가?
+### 도입 체크리스트
+- **기술적**: SD-WAN 장비 도입 시, IPSec VPN 암호화/복호화를 걸었을 때 실제 유효 파일 전송 속도(Goodput)가 도입 전 평문 통신 대비 $20\%$ 이상 깎이지 않는 고성능 암호화 가속 칩(ASIC)을 내장하고 있는지 벤치마크(BMT) 했는가?
+- **운영·보안적**: 망 내 패킷 스니핑 장비나 미러링(Mirror/SPAN) 포트 구성 시, 재전송(Retransmission)된 패킷까지 전부 수집하여 스루풋 통계를 내면 실제 굿풋보다 트래픽이 뻥튀기되므로 통계 보정(Deduplication) 로직을 적용했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>단일 스트림(Single <a href="/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>) 테스트의 맹신</strong>: 100Gbps [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 회선을 개통한 뒤, [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대에서 단일 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)으로 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받아보고 속도가 2Gbps밖에 안 나온다며 회선 불량을 주장하는 행위. 현대의 초고속망 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 1개의 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 도달할 수 있는 물리/논리적 한계를 아득히 뛰어넘었다. 100G망의 진짜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보려면 다수의 PC에서 수천 개의 멀티스레드로 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 열어(Parallel Streams) 합산된 총 스루풋([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 측정해야만 정확한 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가능하다.
+### 안티패턴
+- <strong>단일 스트림(Single Stream) 테스트의 맹신</strong>: 100Gbps 대역폭 회선을 개통한 뒤, PC 1대에서 단일 세션으로 파일을 받아보고 속도가 2Gbps밖에 안 나온다며 회선 불량을 주장하는 행위. 현대의 초고속망 대역폭은 1개의 세션(스레드) 처리량(Throughput)이 도달할 수 있는 물리/논리적 한계를 아득히 뛰어넘었다. 100G망의 진짜 성능을 보려면 다수의 PC에서 수천 개의 멀티스레드로 세션을 열어(Parallel Streams) 합산된 총 스루풋(Aggregate Throughput)을 측정해야만 정확한 대역폭 검증이 가능하다.
 
-- **📢 섹션 요약 비유**: 10차선 고속도로(10G [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 지어놨는데, 내 차(단일 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))가 람보르기니가 아닌 똥차(CPU 한계)라서 시속 80km밖에 못 낸다고 도로 공사를 원망하면 안 됩니다. 똥차 10만 대를 동시에 달리게 해야 고속도로의 진가가 나타납니다.
+- **📢 섹션 요약 비유**: 10차선 고속도로(10G 대역폭)를 지어놨는데, 내 차(단일 세션)가 람보르기니가 아닌 똥차(CPU 한계)라서 시속 80km밖에 못 낸다고 도로 공사를 원망하면 안 됩니다. 똥차 10만 대를 동시에 달리게 해야 고속도로의 진가가 나타납니다.
 
 ---
 
@@ -188,21 +188,21 @@ Throughput과 Goodput이 결정적으로 갈라지는 순간은 '패킷 로스(D
 
 ### 정량/정성 기대효과
 
-| 구분 | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 증설에만 집착할 때 | 굿풋(Goodput) 극대화 아키텍처 적용 시 | 핵심 개선 포인트 |
+| 구분 | 대역폭(Bandwidth) 증설에만 집착할 때 | 굿풋(Goodput) 극대화 아키텍처 적용 시 | 핵심 개선 포인트 |
 |:---|:---|:---|:---|
-| **비용 효율** | 매달 막대한 통신사 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 요금 지불 | MTU 확장, [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 튜닝으로 공짜 속도 향상 | 물리적 추가 비용 없는 <strong>소프트웨어적 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 극대화</strong> |
-| **처리 효율** | 1바이트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 40바이트 헤더 낭비 | 점보 프레임으로 오버헤드 비율 1% 미만 | 서버 CPU의 네트워킹 부하 <strong>50% 이상 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a></strong> |
+| **비용 효율** | 매달 막대한 통신사 전용선 요금 지불 | MTU 확장, TCP 튜닝으로 공짜 속도 향상 | 물리적 추가 비용 없는 <strong>소프트웨어적 성능 극대화</strong> |
+| **처리 효율** | 1바이트 데이터에 40바이트 헤더 낭비 | 점보 프레임으로 오버헤드 비율 1% 미만 | 서버 CPU의 네트워킹 부하 <strong>50% 이상 오프로딩</strong> |
 | **품질 지표** | 링크 속도만 보고 장애 원인 파악 불가 | 재전송률(Retrans) 지표로 병목 정확히 타겟팅| 사용자 체감 품질(QoE) 기반의 **선제적 망 관리** |
 
 ### 미래 전망
-- <strong><a href="/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (<a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3) <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 세계 제패</strong>: 기존 TCP의 고질적인 문제점들(연결 맺기 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 헤더 오버헤드, 앞 패킷이 깨지면 뒤 패킷도 멈추는 [Head-of-Line](/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))로 인해 굿풋이 깎이는 현상을 타파하기 위해, [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 위에서 구동되는 [QUIC](/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 웹 생태계를 완전히 장악하고 있다. 오버헤드(지방)를 극한으로 덜어내어 스루풋을 거의 100% 굿풋으로 치환하는 차세대 전송 아키텍처다.
-- <strong><a href="/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> 기반 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 바이패스 (<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass)</strong>: [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부의 초저지연 통신을 위해, 서버 CPU의 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 거치지 않고 스마트NIC(하드웨어)가 직접 상대방 서버의 메모리에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂아버리는 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)(Remote [Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 기술이 필수가 되었다. OS가 헤더를 뜯어보고 붙이는 시간조차 오버헤드로 여겨 아예 스킵해버림으로써 100%에 근접한 물리적 스루풋/굿풋을 실현한다.
+- <strong>QUIC (HTTP/3) 프로토콜의 세계 제패</strong>: 기존 TCP의 고질적인 문제점들(연결 맺기 지연, 헤더 오버헤드, 앞 패킷이 깨지면 뒤 패킷도 멈추는 Head-of-Line Blocking)로 인해 굿풋이 깎이는 현상을 타파하기 위해, UDP 위에서 구동되는 QUIC 프로토콜이 웹 생태계를 완전히 장악하고 있다. 오버헤드(지방)를 극한으로 덜어내어 스루풋을 거의 100% 굿풋으로 치환하는 차세대 전송 아키텍처다.
+- <strong>RDMA 기반 커널 바이패스 (Kernel Bypass)</strong>: 데이터센터 내부의 초저지연 통신을 위해, 서버 CPU의 OS 커널(TCP/IP 스택)을 거치지 않고 스마트NIC(하드웨어)가 직접 상대방 서버의 메모리에 데이터를 꽂아버리는 RDMA(Remote Direct Memory Access) 기술이 필수가 되었다. OS가 헤더를 뜯어보고 붙이는 시간조차 오버헤드로 여겨 아예 스킵해버림으로써 100%에 근접한 물리적 스루풋/굿풋을 실현한다.
 
 ### 참고 표준
-- **RFC 2544**: 네트워크 인터페이스 장비의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 벤치마킹하기 위한 방법론. 패킷 크기별(64B ~ 1518B) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 패킷 로스를 객관적으로 측정하는 전 세계 표준 기준이다.
-- <strong><a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/">Window Scale Option</a> (RFC 1323)</strong>: 광대역이면서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 긴(BDP가 큰) 최신 네트워크에서, 작은 윈도우 사이즈로 인해 굿풋이 처참하게 낮아지는 현상을 막기 위해 수신 버퍼 크기를 기가바이트급으로 확장하는 표준.
+- **RFC 2544**: 네트워크 인터페이스 장비의 성능을 벤치마킹하기 위한 방법론. 패킷 크기별(64B ~ 1518B) 처리량(Throughput)과 지연, 패킷 로스를 객관적으로 측정하는 전 세계 표준 기준이다.
+- <strong>TCP Window Scale Option (RFC 1323)</strong>: 광대역이면서 지연 시간이 긴(BDP가 큰) 최신 네트워크에서, 작은 윈도우 사이즈로 인해 굿풋이 처참하게 낮아지는 현상을 막기 위해 수신 버퍼 크기를 기가바이트급으로 확장하는 표준.
 
-"[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 샀지만, 실제로 우리가 쓰는 것은 굿풋이다." 이 한 문장이 전체 네트워크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 목적이다. 도로([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 넓히는 것은 덤프트럭([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 지나가기 위한 첫 번째 조건일 뿐, 중간에 톨게이트 요금소(헤더 오버헤드)가 너무 많거나 포장도로에 구멍(로스)이 파여 차가 돌아가야(재전송) 한다면 도로는 텅텅 비어 있는데 목적지에 짐은 도착하지 않는 기현상이 발생한다. 고도의 시스템 엔지니어란 물리적인 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)에 현혹되지 않고, 스루풋이라는 혈류량을 체크하여 찌꺼기를 도려내고 굿풋이라는 진짜 알맹이의 크기를 극대화하는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 마술사들이다.
+"대역폭을 샀지만, 실제로 우리가 쓰는 것은 굿풋이다." 이 한 문장이 전체 네트워크 성능 튜닝의 목적이다. 도로(대역폭)를 넓히는 것은 덤프트럭(데이터)이 지나가기 위한 첫 번째 조건일 뿐, 중간에 톨게이트 요금소(헤더 오버헤드)가 너무 많거나 포장도로에 구멍(로스)이 파여 차가 돌아가야(재전송) 한다면 도로는 텅텅 비어 있는데 목적지에 짐은 도착하지 않는 기현상이 발생한다. 고도의 시스템 엔지니어란 물리적인 대역폭에 현혹되지 않고, 스루풋이라는 혈류량을 체크하여 찌꺼기를 도려내고 굿풋이라는 진짜 알맹이의 크기를 극대화하는 성능의 마술사들이다.
 
 ```text
   +------------------------------------------------------------------+
@@ -222,21 +222,21 @@ Throughput과 Goodput이 결정적으로 갈라지는 순간은 '패킷 로스(D
   +------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 로드맵은 "속도를 올리는 방법"의 차원이 어떻게 진화했는지 보여준다. 과거에는 돈을 들여 무조건 굵은 광케이블([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장)로 바꾸었다. 그런데 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 100G인데 실제 다운로드는 10G밖에 안 나오는 병목이 생겼다. 그 원인이 수많은 자잘한 패킷에 붙은 거대한 헤더(포장지)와 OS의 검수 시간 때문임(굿풋 저하)을 깨달았다. 이에 2세대에서는 패킷을 9000바이트씩 크게 뭉쳐(Jumbo Frame) 포장지를 줄였다. 그래도 400G 시대가 오자 CPU가 검수하다가 뻗어버렸다. 결국 3세대에 이르러 CPU와 OS(택배기사)를 아예 우회하고 칩셋끼리 메모리에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다이렉트로 때려 박는 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass) 기술이 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 정복했다.
+**[다이어그램 해설]** 로드맵은 "속도를 올리는 방법"의 차원이 어떻게 진화했는지 보여준다. 과거에는 돈을 들여 무조건 굵은 광케이블(대역폭 확장)로 바꾸었다. 그런데 대역폭은 100G인데 실제 다운로드는 10G밖에 안 나오는 병목이 생겼다. 그 원인이 수많은 자잘한 패킷에 붙은 거대한 헤더(포장지)와 OS의 검수 시간 때문임(굿풋 저하)을 깨달았다. 이에 2세대에서는 패킷을 9000바이트씩 크게 뭉쳐(Jumbo Frame) 포장지를 줄였다. 그래도 400G 시대가 오자 CPU가 검수하다가 뻗어버렸다. 결국 3세대에 이르러 CPU와 OS(택배기사)를 아예 우회하고 칩셋끼리 메모리에 데이터를 다이렉트로 때려 박는 RDMA(Kernel Bypass) 기술이 데이터센터를 정복했다.
 
-- **📢 섹션 요약 비유**: 식당 매출(굿풋)을 올리려면 가게를 넓히는 것([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))도 좋지만, 서빙 직원이 반찬을 하나씩 나르던 걸(표준 MTU), 커다란 쟁반에 한꺼번에 담아 나르게 하거나(점보 프레임), 아예 레일로 고객 테이블에 직접 쏘아주는 것([RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/))이 최후의 혁신입니다.
+- **📢 섹션 요약 비유**: 식당 매출(굿풋)을 올리려면 가게를 넓히는 것(대역폭)도 좋지만, 서빙 직원이 반찬을 하나씩 나르던 걸(표준 MTU), 커다란 쟁반에 한꺼번에 담아 나르게 하거나(점보 프레임), 아예 레일로 고객 테이블에 직접 쏘아주는 것(RDMA)이 최후의 혁신입니다.
 
 ---
 
-## 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+## 📌 관련 개념 맵 (Knowledge Graph)
 
-| 개념 명칭 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
+| 개념 명칭 | 관계 및 시너지 설명 |
 |:---|:---|
-| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong> | 통신 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 물리적으로 제공할 수 있는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)의 절대적인 두께로, 스루풋과 굿풋이 절대 넘을 수 없는 천장이다. |
-| <strong>MTU (<a href="/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/">Maximum Transmission Unit</a>)</strong> | 한 번에 포장할 수 있는 페이로드(알맹이)의 최대 크기로, 이 값을 점보 프레임(9000)으로 올릴수록 오버헤드가 줄어 굿풋이 극대화된다. |
-| **오버헤드 (Overhead)** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 목적지에 안전하게 보내기 위해 덧붙이는 제어 정보(L2/L3/L4 헤더)로, 스루풋과 굿풋의 차이를 만드는 핵심 원인이다. |
-| <strong>BDP (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>-Delay Product)</strong> | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 곱한 값으로, [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 안에 둥둥 떠 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양을 의미. 윈도우 사이즈를 BDP만큼 키워야 스루풋 100%를 뽑아낼 수 있다. |
-| <strong><a href="/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> (Remote <a href="/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>)</strong> | [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 처리와 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입을 생략하여 스루풋과 굿풋의 격차를 0에 수렴하게 만드는 현대 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 최고의 가속 기술이다. |
+| <strong>대역폭 (Bandwidth)</strong> | 통신 매체가 물리적으로 제공할 수 있는 파이프의 절대적인 두께로, 스루풋과 굿풋이 절대 넘을 수 없는 천장이다. |
+| <strong>MTU (Maximum Transmission Unit)</strong> | 한 번에 포장할 수 있는 페이로드(알맹이)의 최대 크기로, 이 값을 점보 프레임(9000)으로 올릴수록 오버헤드가 줄어 굿풋이 극대화된다. |
+| **오버헤드 (Overhead)** | 데이터를 목적지에 안전하게 보내기 위해 덧붙이는 제어 정보(L2/L3/L4 헤더)로, 스루풋과 굿풋의 차이를 만드는 핵심 원인이다. |
+| <strong>BDP (Bandwidth-Delay Product)</strong> | 대역폭과 지연시간을 곱한 값으로, 파이프 안에 둥둥 떠 있는 데이터의 양을 의미. 윈도우 사이즈를 BDP만큼 키워야 스루풋 100%를 뽑아낼 수 있다. |
+| <strong>RDMA (Remote Direct Memory Access)</strong> | TCP/IP 헤더 처리와 OS 커널 개입을 생략하여 스루풋과 굿풋의 격차를 0에 수렴하게 만드는 현대 데이터센터 최고의 가속 기술이다. |
 
 ---
 
@@ -259,21 +259,10 @@ Throughput과 Goodput이 결정적으로 갈라지는 순간은 '패킷 로스(D
 [QUIC / HTTP/3 — UDP 기반 멀티플렉싱으로 굿풋 극대화]
 ```
 
-이 흐름은 물리 링크의 최대 용량([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))에서 실제 활용 효율([처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·굿풋)로 초점이 이동하고, [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 한계를 극복하기 위해 [QUIC](/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/)/[HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3로 진화하는 네트워크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 계보를 보여준다.
+이 흐름은 물리 링크의 최대 용량(대역폭)에서 실제 활용 효율(처리량·굿풋)로 초점이 이동하고, TCP 혼잡 제어 한계를 극복하기 위해 QUIC/HTTP/3로 진화하는 네트워크 성능 최적화 계보를 보여준다.
 
 
 ## 👶 어린이를 위한 3줄 비유 설명
-1. <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>은 100명이 앉을 수 있는 커다란 극장(최대 자리 수)이에요. 이 극장에 몇 명이 앉을 수 있는지가 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이죠.
-2. <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>은 오늘 이 극장에 실제로 표를 끊고 들어온 80명이에요. (나머지 20자리는 사고나 지각으로 못 왔어요.)
+1. <strong>대역폭</strong>은 100명이 앉을 수 있는 커다란 극장(최대 자리 수)이에요. 이 극장에 몇 명이 앉을 수 있는지가 대역폭이죠.
+2. <strong>처리량(Throughput)</strong>은 오늘 이 극장에 실제로 표를 끊고 들어온 80명이에요. (나머지 20자리는 사고나 지각으로 못 왔어요.)
 3. <strong>굿풋(Goodput)</strong>은 그 80명 중에서, 도중에 자거나 떠들지 않고 '진짜로 영화를 끝까지 재밌게 본 60명'이에요. 영화감독님이 제일 중요하게 생각하는 진짜 성공한 관객 수랍니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 14 / 1120
-
-<- **이전**: [13. 대역폭 (Bandwidth), 대역폭-효율성 관계](/studynote/03_network/01_data_communication/013_대역폭_효율성/)
-**다음**: [15. 지연 (Latency/Delay) - 데이터 관점](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ->
-
----

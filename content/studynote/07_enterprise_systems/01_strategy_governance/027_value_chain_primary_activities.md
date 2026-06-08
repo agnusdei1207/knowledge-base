@@ -6,9 +6,9 @@ tags:
 weight: 27
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 마이클 포터(Michael Porter)의 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석에서 본원적 활동(Primary Activities)은 제품·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 물리적 생산, 판매, 배송, 사후 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 직접 관여하는 5가지 활동(내부 물류·운영·외부 물류·마케팅·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))으로 구성된다.
-> 2. **가치**: 각 본원적 활동에서 비용 우위 또는 차별화를 달성하는 것이 경쟁 우위의 원천이다. 5가지 활동 중 어느 단계에서 경쟁자보다 더 잘하거나 더 싸게 할 수 있는가가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 핵심이다.
-> 3. **판단 포인트**: [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)(DT) 맥락에서 [가치 사슬 분석](/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/)은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·클라우드·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 각 본원적 활동을 어떻게 강화하는가를 분석하는 틀로 활용된다. IT 투자 우선순위를 결정할 때 "어느 활동의 디지털화가 가장 큰 가치를 창출하는가"를 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
+> 1. **본질**: 마이클 포터(Michael Porter)의 가치 사슬(Value Chain) 분석에서 본원적 활동(Primary Activities)은 제품·서비스의 물리적 생산, 판매, 배송, 사후 서비스에 직접 관여하는 5가지 활동(내부 물류·운영·외부 물류·마케팅·서비스)으로 구성된다.
+> 2. **가치**: 각 본원적 활동에서 비용 우위 또는 차별화를 달성하는 것이 경쟁 우위의 원천이다. 5가지 활동 중 어느 단계에서 경쟁자보다 더 잘하거나 더 싸게 할 수 있는가가 전략 분석의 핵심이다.
+> 3. **판단 포인트**: 디지털 전환(DT) 맥락에서 가치 사슬 분석은 AI·클라우드·데이터가 각 본원적 활동을 어떻게 강화하는가를 분석하는 틀로 활용된다. IT 투자 우선순위를 결정할 때 "어느 활동의 디지털화가 가장 큰 가치를 창출하는가"를 식별한다.
 
 ---
 
@@ -29,7 +29,7 @@ weight: 27
 +------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 음식점 운영 흐름이다. 식재료 입고(내부 물류) -> 요리(운영) -> 서빙(외부 물류) -> 홍보(마케팅) -> 애프터 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(고객 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)). 각 단계를 잘할수록 더 많은 이익이 남는다.
+- **📢 섹션 요약 비유**: 가치 사슬은 음식점 운영 흐름이다. 식재료 입고(내부 물류) -> 요리(운영) -> 서빙(외부 물류) -> 홍보(마케팅) -> 애프터 서비스(고객 서비스). 각 단계를 잘할수록 더 많은 이익이 남는다.
 
 ---
 
@@ -39,40 +39,40 @@ weight: 27
 
 | 활동 | 정의 | IT 디지털화 예시 |
 |:---|:---|:---|
-| **내부 물류** | 원재료·부품 수입, 보관, 분배 | [WMS](/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)(창고관리시스템), [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 재고 |
-| **운영** | 제품·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 생산 | [MES](/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조실행시스템), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 품질 검사 |
-| **외부 물류** | 완제품 보관·배송 | [TMS](/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)(운송관리), 라스트마일 드론 |
-| **마케팅·판매** | 제품 홍보, 주문 수주 | [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), 개인화 추천, 디지털 광고 |
-| <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong> | [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/), 고객 지원, 설치 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 챗봇, 예측 정비 |
+| **내부 물류** | 원재료·부품 수입, 보관, 분배 | WMS(창고관리시스템), IoT 재고 |
+| **운영** | 제품·서비스 생산 | MES(제조실행시스템), AI 품질 검사 |
+| **외부 물류** | 완제품 보관·배송 | TMS(운송관리), 라스트마일 드론 |
+| **마케팅·판매** | 제품 홍보, 주문 수주 | CRM, 개인화 추천, 디지털 광고 |
+| <strong>서비스</strong> | AS, 고객 지원, 설치 | AI 챗봇, 예측 정비 |
 
-- **📢 섹션 요약 비유**: 디지털화된 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 스마트 공장이다. 재료 입고부터 배송까지 모든 단계가 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·클라우드로 연결되어 자동화·최적화된다.
+- **📢 섹션 요약 비유**: 디지털화된 가치 사슬은 스마트 공장이다. 재료 입고부터 배송까지 모든 단계가 IoT·AI·클라우드로 연결되어 자동화·최적화된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 비용 우위 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 차별화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 비교 | 비용 우위 전략 | 차별화 전략 |
 |:---|:---|:---|
 | **내부 물류** | JIT로 재고 최소화 | 신속 조달로 리드타임 단축 |
-| **운영** | 자동화로 생산 비용 절감 | [커스터마이즈](/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 생산 |
-| **마케팅** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 타기팅 광고 | 브랜드 프리미엄 구축 |
+| **운영** | 자동화로 생산 비용 절감 | 커스터마이즈 생산 |
+| **마케팅** | 데이터 기반 타기팅 광고 | 브랜드 프리미엄 구축 |
 
-- **📢 섹션 요약 비유**: 비용 우위는 더 싸게 만드는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(삼성 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 대량 생산), 차별화는 더 특별하게 만드는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(애플 디자인)이다. [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 각 단계에서 어느 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택하느냐가 기업 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 결정한다.
+- **📢 섹션 요약 비유**: 비용 우위는 더 싸게 만드는 전략(삼성 반도체 대량 생산), 차별화는 더 특별하게 만드는 전략(애플 디자인)이다. 가치 사슬 각 단계에서 어느 전략을 선택하느냐가 기업 전략을 결정한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### DT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립에서 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활용
-1. 각 본원적 활동의 현행 수준 평가([As-Is](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)).
-2. 디지털 기술이 어떤 활동을 강화할 수 있는가 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/).
+### DT 전략 수립에서 가치 사슬 활용
+1. 각 본원적 활동의 현행 수준 평가(As-Is).
+2. 디지털 기술이 어떤 활동을 강화할 수 있는가 식별.
 3. 경쟁사 대비 취약한 활동에 우선 투자.
-4. 디지털 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 목표 상태(To-Be) 설계.
+4. 디지털 가치 사슬 목표 상태(To-Be) 설계.
 
 예시: 제조기업 DT 우선순위
-- 운영([MES](/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) + [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 품질 검사) > 내부물류([WMS](/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) > [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(예측 정비)
+- 운영(MES + AI 품질 검사) > 내부물류(WMS IoT) > 서비스(예측 정비)
 
-- **📢 섹션 요약 비유**: [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) DT 우선순위 결정은 집 수리 순서 정하기다. 지붕(운영)이 새면 먼저 고치고, 다음 창문(물류), 마지막 인테리어(마케팅) 순으로 가장 중요한 것부터 고친다.
+- **📢 섹션 요약 비유**: 가치 사슬 DT 우선순위 결정은 집 수리 순서 정하기다. 지붕(운영)이 새면 먼저 고치고, 다음 창문(물류), 마지막 인테리어(마케팅) 순으로 가장 중요한 것부터 고친다.
 
 ---
 
@@ -80,13 +80,13 @@ weight: 27
 
 | 기대효과 | 내용 |
 |:---|:---|
-| <strong><a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 명확화</strong> | 경쟁 우위 원천 활동 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| <strong>전략 명확화</strong> | 경쟁 우위 원천 활동 식별 |
 | **IT 투자 우선순위** | 가장 큰 가치를 창출하는 디지털화 활동 결정 |
-| <strong><a href="/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/">벤치마킹</a></strong> | 경쟁사 대비 각 활동 역량 비교 |
+| <strong>벤치마킹</strong> | 경쟁사 대비 각 활동 역량 비교 |
 
-AI와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이 모든 본원적 활동에 통합되면서 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)이 디지털 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)(Digital [Value Chain](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))로 진화하고, [플랫폼 비즈니스 모델](/studynote/12_it_management/01_governance_strategy/825_platform_business_model/)에서는 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)이 가치 네트워크(Value Network)로 재편되고 있다.
+AI와 데이터 분석이 모든 본원적 활동에 통합되면서 가치 사슬이 디지털 가치 사슬(Digital Value Chain)로 진화하고, 플랫폼 비즈니스 모델에서는 가치 사슬이 가치 네트워크(Value Network)로 재편되고 있다.
 
-- **📢 섹션 요약 비유**: 디지털 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 스마트 고속도로다. 전통 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)이 일방통행 도로라면, 디지털 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등·자율주행 차량이 모든 진입로를 동시에 최적화하는 지능형 교통망이다.
+- **📢 섹션 요약 비유**: 디지털 가치 사슬은 스마트 고속도로다. 전통 가치 사슬이 일방통행 도로라면, 디지털 가치 사슬은 AI 신호등·자율주행 차량이 모든 진입로를 동시에 최적화하는 지능형 교통망이다.
 
 ---
 
@@ -95,10 +95,10 @@ AI와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **지원 활동** | 본원적 활동을 뒷받침하는 HR·IT·조달·인프라 |
-| **비용 우위** | [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동의 비용 최소화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **차별화** | [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동의 독특한 가치 창출 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **3C 분석** | [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)과 연계하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 도구 |
-| <strong>디지털 <a href="/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/">가치 사슬</a></strong> | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합으로 자동화된 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) |
+| **비용 우위** | 가치 사슬 활동의 비용 최소화 전략 |
+| **차별화** | 가치 사슬 활동의 독특한 가치 창출 전략 |
+| **3C 분석** | 가치 사슬과 연계하는 전략 분석 도구 |
+| <strong>디지털 가치 사슬</strong> | AI·IoT 통합으로 자동화된 가치 사슬 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -120,17 +120,6 @@ AI와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 본원적 활동은 음식점 운영 5단계예요! 재료 입고 -> 요리 -> 서빙 -> 홍보 -> [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 순서예요.
+1. 가치 사슬 본원적 활동은 음식점 운영 5단계예요! 재료 입고 -> 요리 -> 서빙 -> 홍보 -> AS 순서예요.
 2. 각 단계를 더 잘하거나 더 싸게 할수록 경쟁자를 이길 수 있어요!
-3. 요즘은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·IoT가 모든 단계를 자동화해서 더 빠르고 저렴하게 운영할 수 있는 디지털 [가치 사슬](/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)로 진화하고 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 27 / 482
-
-<- **이전**: [26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석](/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/)
-**다음**: [28. 가치 사슬 지원 활동 (Value Chain Support Activities)](/studynote/07_enterprise_systems/01_strategy_governance/028_value_chain_support_activities/) ->
-
----
+3. 요즘은 AI·IoT가 모든 단계를 자동화해서 더 빠르고 저렴하게 운영할 수 있는 디지털 가치 사슬로 진화하고 있답니다!

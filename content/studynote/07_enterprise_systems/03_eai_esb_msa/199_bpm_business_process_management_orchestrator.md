@@ -7,17 +7,17 @@ weight: 199
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비즈니스 프로세스 관리 (BPM, Business [Process](/studynote/12_it_management/05_security_compliance/943_process/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))은 사람 업무와 [시스템 호출](/studynote/02_operating_system/01_overview_architecture/013_system_call/)이 섞인 장기 프로세스를 모델로 정의하고, 엔진이 그 순서를 실행·추적하게 만드는 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 체계다.
-> 2. **가치**: 이메일·메신저·수기 결재로 흩어진 업무 흐름을 가시화하여, 어디서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고 누가 다음 작업을 해야 하는지 즉시 파악하게 해 준다.
-> 3. **판단 포인트**: BPM은 절차 변경이 잦고 승인·예외·대기 시간이 긴 업무에 강하지만, 단순한 단건 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출이나 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이벤트 처리까지 모두 끌어들이면 오히려 과설계가 된다.
+> 1. **본질**: 비즈니스 프로세스 관리 (BPM, Business Process Management)은 사람 업무와 시스템 호출이 섞인 장기 프로세스를 모델로 정의하고, 엔진이 그 순서를 실행·추적하게 만드는 오케스트레이션 체계다.
+> 2. **가치**: 이메일·메신저·수기 결재로 흩어진 업무 흐름을 가시화하여, 어디서 지연되고 누가 다음 작업을 해야 하는지 즉시 파악하게 해 준다.
+> 3. **판단 포인트**: BPM은 절차 변경이 잦고 승인·예외·대기 시간이 긴 업무에 강하지만, 단순한 단건 API 호출이나 초고속 이벤트 처리까지 모두 끌어들이면 오히려 과설계가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-BPM은 조직의 업무 절차를 모델로 정의하고, 그 모델을 실행 엔진이 해석해 사람과 시스템 작업을 연결하는 관리 체계다. 기업 업무는 단순 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)이 아니라 승인, 대기, 분기, 타이머, 예외 처리처럼 긴 호흡의 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 많다. 이런 흐름을 사람 기억이나 이메일 전달에 맡기면, 병목 위치와 책임 주체가 흐려져 운영 품질이 급격히 떨어진다.
+BPM은 조직의 업무 절차를 모델로 정의하고, 그 모델을 실행 엔진이 해석해 사람과 시스템 작업을 연결하는 관리 체계다. 기업 업무는 단순 함수 호출이 아니라 승인, 대기, 분기, 타이머, 예외 처리처럼 긴 호흡의 상태 전이가 많다. 이런 흐름을 사람 기억이나 이메일 전달에 맡기면, 병목 위치와 책임 주체가 흐려져 운영 품질이 급격히 떨어진다.
 
-기존에는 업무 절차를 애플리케이션 코드에 직접 넣는 경우도 많았다. 하지만 대출 심사, 입사 처리, 구매 승인처럼 부서 간 단계가 얽힌 흐름은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경이 잦아서, 코드 수정 중심 접근으로는 현업 변화를 따라가기 어렵다. 결국 업무가 바뀔 때마다 개발 일정이 병목이 되고, 시스템은 현실 프로세스를 늦게 반영하는 경직된 도구가 된다.
+기존에는 업무 절차를 애플리케이션 코드에 직접 넣는 경우도 많았다. 하지만 대출 심사, 입사 처리, 구매 승인처럼 부서 간 단계가 얽힌 흐름은 정책 변경이 잦아서, 코드 수정 중심 접근으로는 현업 변화를 따라가기 어렵다. 결국 업무가 바뀔 때마다 개발 일정이 병목이 되고, 시스템은 현실 프로세스를 늦게 반영하는 경직된 도구가 된다.
 
 BPM이 필요한 이유는 업무의 "순서와 상태"를 별도 자산으로 다뤄야 하기 때문이다. 애플리케이션 기능 구현과 프로세스 운영을 분리해야, 현업은 절차를 이해하고 IT는 실행 자동화를 안정적으로 제공할 수 있다.
 
@@ -27,17 +27,17 @@ BPM이 필요한 이유는 업무의 "순서와 상태"를 별도 자산으로 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BPM의 핵심은 모델, 실행 엔진, 상태 저장, 작업 분배, [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링의 조합이다. 보통 업무 흐름은 업무 프로세스 모델 및 표기법 ([BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/), [Business Process Model and Notation](/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/))으로 정의한다. 실행 엔진은 시작 이벤트, 사용자 작업, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 작업, 게이트웨이, 타이머, 예외 이벤트를 해석해 현재 어느 단계에 있는지 상태를 저장하고 다음 행동을 지시한다.
+BPM의 핵심은 모델, 실행 엔진, 상태 저장, 작업 분배, 모니터링의 조합이다. 보통 업무 흐름은 업무 프로세스 모델 및 표기법 (BPMN, Business Process Model and Notation)으로 정의한다. 실행 엔진은 시작 이벤트, 사용자 작업, 서비스 작업, 게이트웨이, 타이머, 예외 이벤트를 해석해 현재 어느 단계에 있는지 상태를 저장하고 다음 행동을 지시한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
-| [BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 모델 | 절차, 분기, 역할, 이벤트 정의 | 현업 이해도, 변경 용이성 |
-| 프로세스 엔진 | 모델 실행과 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 관리 | 장기 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)성 |
-| 작업함 (Worklist) | 사용자 할 일을 역할별로 배정 | 권한, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/), [Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/)), 재할당 |
-| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 커넥터 | 외부 시스템, [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 연계 | 재시도, 보상 처리 |
-| 비즈니스 활동 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 (BAM, Business Activity Monitoring) 대시보드 | [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 현황과 병목 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 가시성, [핵심 성과 지표](/studynote/12_it_management/01_governance_strategy/018_kpi/) ([KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/), [Key Performance Indicator](/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) 측정 |
+| BPMN 모델 | 절차, 분기, 역할, 이벤트 정의 | 현업 이해도, 변경 용이성 |
+| 프로세스 엔진 | 모델 실행과 상태 전이 관리 | 장기 트랜잭션, 복구성 |
+| 작업함 (Worklist) | 사용자 할 일을 역할별로 배정 | 권한, 서비스 수준 협약 (SLA, Service Level Agreement), 재할당 |
+| 서비스 커넥터 | 외부 시스템, 메시지 연계 | 재시도, 보상 처리 |
+| 비즈니스 활동 모니터링 (BAM, Business Activity Monitoring) 대시보드 | 진행 현황과 병목 모니터링 | 가시성, 핵심 성과 지표 (KPI, Key Performance Indicator) 측정 |
 
-아래 구조는 BPM 엔진이 사람 작업과 시스템 작업을 모두 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)하는 방식을 보여준다.
+아래 구조는 BPM 엔진이 사람 작업과 시스템 작업을 모두 오케스트레이션하는 방식을 보여준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -51,7 +51,7 @@ BPM의 핵심은 모델, 실행 엔진, 상태 저장, 작업 분배, [모니터
 +----------------------------------------------------------------------------+
 ```
 
-이 구조에서 중요한 것은 프로세스가 메모리 속 일회성 함수가 아니라, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 상태를 남기는 장기 실행 객체라는 점이다. 누가 승인했는지, 어디서 3일 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되었는지, 어떤 예외 분기를 탔는지 기록이 남아야 재시작·[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·개선이 가능하다. 그래서 BPM은 단순 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 엔진이 아니라, 상태 기반의 업무 실행 플랫폼으로 봐야 한다.
+이 구조에서 중요한 것은 프로세스가 메모리 속 일회성 함수가 아니라, 데이터베이스에 상태를 남기는 장기 실행 객체라는 점이다. 누가 승인했는지, 어디서 3일 지연되었는지, 어떤 예외 분기를 탔는지 기록이 남아야 재시작·감사·개선이 가능하다. 그래서 BPM은 단순 라우팅 엔진이 아니라, 상태 기반의 업무 실행 플랫폼으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: BPM 엔진은 악보를 보고 연주 순서를 지휘하는 지휘자와 같다. 누가 먼저 연주하고, 누가 잠시 기다리며, 어디서 다시 시작할지까지 한눈에 통제한다.
 
@@ -59,16 +59,16 @@ BPM의 핵심은 모델, 실행 엔진, 상태 저장, 작업 분배, [모니터
 
 ## Ⅲ. 비교 및 연결
 
-BPM은 전사 통합 기술과 자주 함께 등장하지만 역할은 분명히 다르다. 기업 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/), [Enterprise Service Bus](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))는 시스템 간 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 중계와 변환에 강하고, [비즈니스 룰 엔진](/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/) (BRE, Business Rule 엔진)은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)성 의사결정에 강하다. BPM은 이 둘을 활용해 "누가 언제 무엇을 할지"라는 흐름을 관리하는 상위 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층이다.
+BPM은 전사 통합 기술과 자주 함께 등장하지만 역할은 분명히 다르다. 기업 서비스 버스 (ESB, Enterprise Service Bus)는 시스템 간 메시지 중계와 변환에 강하고, 비즈니스 룰 엔진 (BRE, Business Rule 엔진)은 정책성 의사결정에 강하다. BPM은 이 둘을 활용해 "누가 언제 무엇을 할지"라는 흐름을 관리하는 상위 오케스트레이션 계층이다.
 
-| 항목 | BPM | [ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) | BRE |
+| 항목 | BPM | ESB | BRE |
 | :-- | :-- | :-- | :-- |
-| 중심 질문 | 어떤 순서로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)할까 | 어떻게 연결·변환할까 | 어떤 조건으로 결정할까 |
-| 관리 대상 | 사람 + 시스템 + 상태 | 시스템 간 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 | 규칙·조건·결정 |
-| 강점 | 가시성, 장기 흐름 관리 | 통합, 변환, [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 빠른 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 |
+| 중심 질문 | 어떤 순서로 진행할까 | 어떻게 연결·변환할까 | 어떤 조건으로 결정할까 |
+| 관리 대상 | 사람 + 시스템 + 상태 | 시스템 간 메시지 | 규칙·조건·결정 |
+| 강점 | 가시성, 장기 흐름 관리 | 통합, 변환, 라우팅 | 빠른 정책 변경 |
 | 한계 | 과설계 위험, 엔진 의존 | 흐름 가시성 부족 | 절차 관리 기능 부족 |
 
-[마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 BPM과 [사가 패턴](/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/studynote/12_it_management/05_security_compliance/948_saga_pattern/))도 비교 대상이 된다. 사람이 개입하고 승인 대기 시간이 긴 프로세스는 BPM이 자연스럽지만, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 보상 거래처럼 완전 자동화된 흐름은 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 중심 [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)가 더 단순할 수 있다. 즉 BPM은 업무 중심 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)에 강하고, 모든 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 만능 해법은 아니다.
+마이크로서비스 환경에서는 BPM과 사가 패턴 (Saga Pattern)도 비교 대상이 된다. 사람이 개입하고 승인 대기 시간이 긴 프로세스는 BPM이 자연스럽지만, 서비스 간 초고속 보상 거래처럼 완전 자동화된 흐름은 메시지 중심 사가가 더 단순할 수 있다. 즉 BPM은 업무 중심 오케스트레이션에 강하고, 모든 분산 트랜잭션의 만능 해법은 아니다.
 
 - **📢 섹션 요약 비유**: ESB가 도로와 교차로를 관리하는 교통 관제라면, BPM은 하루 일정표를 짜고 회의를 어디서 멈췄는지 기억하는 비서실장에 가깝다. 길을 연결하는 일과 일정을 운영하는 일은 다르다.
 
@@ -76,19 +76,19 @@ BPM은 전사 통합 기술과 자주 함께 등장하지만 역할은 분명히
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-BPM은 인사 온보딩, 구매 승인, 보험 청구, 대출 심사, 민원 처리처럼 다단계 승인과 예외가 많은 업무에서 효과적이다. 절차가 표준화되어 있고 업무 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인을 추적해야 할 때 특히 가치가 크다. 반면 단일 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부의 짧은 로직이나 초당 수만 건의 단순 이벤트 흐름까지 BPM 엔진으로 처리하려 하면, 모델링 비용과 운영 오버헤드가 더 커질 수 있다.
+BPM은 인사 온보딩, 구매 승인, 보험 청구, 대출 심사, 민원 처리처럼 다단계 승인과 예외가 많은 업무에서 효과적이다. 절차가 표준화되어 있고 업무 지연 원인을 추적해야 할 때 특히 가치가 크다. 반면 단일 마이크로서비스 내부의 짧은 로직이나 초당 수만 건의 단순 이벤트 흐름까지 BPM 엔진으로 처리하려 하면, 모델링 비용과 운영 오버헤드가 더 커질 수 있다.
 
 ### 채택 판단 기준
 
-1. 사람 승인, 대기 시간, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/), [Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/)) 추적이 중요한가?
+1. 사람 승인, 대기 시간, 서비스 수준 협약 (SLA, Service Level Agreement) 추적이 중요한가?
 2. 절차 변경을 코드 배포보다 빠르게 반영해야 하는가?
 3. 병목, 예외, 재처리 현황을 대시보드로 가시화해야 하는가?
 4. 외부 시스템 장애 시 재시도와 보상 흐름을 설계할 수 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출을 BPM 엔진 중앙에서 세세하게 통제해 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 자율성을 없애는 설계
-- 프로세스 모델은 그려 놓고 실제 예외 처리와 타이머 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드에 숨겨 두는 설계
+- 모든 서비스 호출을 BPM 엔진 중앙에서 세세하게 통제해 마이크로서비스 자율성을 없애는 설계
+- 프로세스 모델은 그려 놓고 실제 예외 처리와 타이머 정책을 코드에 숨겨 두는 설계
 - 업무 KPI와 BAM (Business Activity Monitoring) 없이 엔진만 도입해 가시성 효과를 놓치는 경우
 
 기술사 관점에서는 BPM 도입 목적을 "자동화"만이 아니라 "가시성 + 통제 + 개선"으로 제시하는 것이 중요하다. 또한 프로세스와 규칙은 분리하고, 사람 개입 여부와 장기 상태 관리 필요성을 채택 기준으로 제시하면 답안의 경계가 분명해진다.
@@ -101,7 +101,7 @@ BPM은 인사 온보딩, 구매 승인, 보험 청구, 대출 심사, 민원 처
 
 BPM을 제대로 적용하면 업무 절차의 표준화, 병목 가시화, 책임 추적, 자동 재처리가 가능해진다. 특히 업무와 시스템 연계가 복잡할수록 "절차가 문서에만 있는 조직"에서 "절차가 실행되고 측정되는 조직"으로 전환하는 효과가 크다. 프로세스 변경도 모델 수정 중심으로 전환되어, 현업과 IT의 소통 비용이 줄어든다.
 
-다만 BPM은 모든 업무를 모델링해야 한다는 강박으로 흐르면 실패한다. 빈번히 바뀌지 않는 단순 흐름이나 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 기술성 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 코드나 이벤트 기반 구조가 더 적합할 수 있다. 결국 BPM은 <strong>사람과 시스템이 함께 움직이는 긴 업무 흐름을 상태 기반으로 운영·개선하는 도구</strong>로 기억하는 것이 가장 정확하다.
+다만 BPM은 모든 업무를 모델링해야 한다는 강박으로 흐르면 실패한다. 빈번히 바뀌지 않는 단순 흐름이나 초고속 기술성 파이프라인은 코드나 이벤트 기반 구조가 더 적합할 수 있다. 결국 BPM은 <strong>사람과 시스템이 함께 움직이는 긴 업무 흐름을 상태 기반으로 운영·개선하는 도구</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: BPM의 진짜 힘은 서류를 빨리 보내는 데만 있는 것이 아니라, 지금 서류가 누구 책상 위에 있고 왜 멈췄는지 모두가 볼 수 있게 만드는 데 있다.
 
@@ -111,11 +111,11 @@ BPM을 제대로 적용하면 업무 절차의 표준화, 병목 가시화, 책�
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([Business Process Model and Notation](/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/)) | BPM 흐름을 시각적으로 모델링하는 표준 언어 |
-| BAM (Business Activity Monitoring) | 실행 중인 프로세스의 병목과 KPI를 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
-| BRE (Business Rule 엔진) | 프로세스 안의 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 판단을 분리해 실행 |
-| [사가 패턴](/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/studynote/12_it_management/05_security_compliance/948_saga_pattern/)) | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 보상 흐름을 처리하는 대안적 방식 |
-| [보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) (Compensation [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) | 실패 시 이전 단계를 되돌리는 핵심 기법 |
+| BPMN (Business Process Model and Notation) | BPM 흐름을 시각적으로 모델링하는 표준 언어 |
+| BAM (Business Activity Monitoring) | 실행 중인 프로세스의 병목과 KPI를 모니터링 |
+| BRE (Business Rule 엔진) | 프로세스 안의 정책 판단을 분리해 실행 |
+| 사가 패턴 (Saga Pattern) | 분산 서비스 보상 흐름을 처리하는 대안적 방식 |
+| 보상 트랜잭션 (Compensation Transaction) | 실패 시 이전 단계를 되돌리는 핵심 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,14 +142,3 @@ BAM 모니터링 · 병목 개선 · 지속적 프로세스 혁신
 1. BPM은 학교에서 숙제를 누가 먼저 하고 누구에게 넘길지 적어 둔 순서표예요.
 2. 선생님이 그 순서표를 보며 다음 친구에게 "이제 네 차례야" 하고 알려 주는 것과 같아요.
 3. 그래서 숙제가 어디서 멈췄는지 금방 찾고 다시 움직일 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 199 / 482
-
-<- **이전**: [198. 비즈니스 룰 엔진 (BRE, Business Rule 엔진)](/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/)
-**다음**: [200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화](/studynote/07_enterprise_systems/03_eai_esb_msa/200_low_code_no_code_enterprise_workflow_automation/) ->
-
----

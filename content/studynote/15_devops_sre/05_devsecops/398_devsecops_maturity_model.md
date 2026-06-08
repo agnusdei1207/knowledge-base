@@ -121,14 +121,3 @@ DevSecOps 성숙도 모델 보안 내재화 평가을(를) 체계적으로 적�
 1. DevSecOps 성숙도 모델 보안 내재화 평가은(는) 물건을 만들 때 마지막에만 검사하지 않고 만드는 동안 계속 안전을 확인하는 방법이에요.
 2. 문제가 작을 때 바로 찾으면 고치기 쉽고 사고도 줄어들어요.
 3. 좋은 DevSecOps는 빠르게 만들면서도 안전 규칙을 계속 지키게 해줘요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 398 / 400
-
-<- **이전**: [397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)](/studynote/15_devops_sre/05_devsecops/397_security_observability_siem/)
-**다음**: [399. DevSecOps 기술사 핵심 통합 요약 마스터 맵 (DevSecOps PE Master Summary Integration Map)](/studynote/15_devops_sre/05_devsecops/399_devsecops_master_summary/) ->
-
----

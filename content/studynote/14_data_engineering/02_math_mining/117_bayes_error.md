@@ -6,9 +6,9 @@ tags:
 weight: 117
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 베이즈 에러(Bayes Error)는 <strong>어떤 분류기도 달성할 수 없는 최소 오류율</strong>이며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 **본질적 노이즈(겹치는 분포)** 때문에 발생하는 <strong>이론적 오류 하한</strong>이다.
-> 2. **가치**: 모델의 학습 에러가 베이즈 에러에 수렴하면 **더 이상 모델 복잡도를 높여도 의미 없고**, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질([피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추가·노이즈 제거)을 개선해야 한다. 이를 통해 <strong>모델 개선의 한계점</strong>을 객관적으로 판단한다.
-> 3. **판단 포인트**: 실무에서 베이즈 에러는 정확히 알 수 없으므로, <strong>인간 수준 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(Human-level <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong>을 베이즈 에러의 근사치로 사용하며, "학습 에러 - HLP"를 <strong>회피 가능 편향(Avoidable <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>이라 한다.
+> 1. **본질**: 베이즈 에러(Bayes Error)는 <strong>어떤 분류기도 달성할 수 없는 최소 오류율</strong>이며, 데이터 자체의 **본질적 노이즈(겹치는 분포)** 때문에 발생하는 <strong>이론적 오류 하한</strong>이다.
+> 2. **가치**: 모델의 학습 에러가 베이즈 에러에 수렴하면 **더 이상 모델 복잡도를 높여도 의미 없고**, 데이터 품질(피처 추가·노이즈 제거)을 개선해야 한다. 이를 통해 <strong>모델 개선의 한계점</strong>을 객관적으로 판단한다.
+> 3. **판단 포인트**: 실무에서 베이즈 에러는 정확히 알 수 없으므로, <strong>인간 수준 성능(Human-level Performance)</strong>을 베이즈 에러의 근사치로 사용하며, "학습 에러 - HLP"를 <strong>회피 가능 편향(Avoidable Bias)</strong>이라 한다.
 
 ---
 
@@ -32,34 +32,34 @@ weight: 117
 +-------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 베이즈 에러는 도로의 <strong>속도 제한</strong>이다. 아무리 좋은 차(모델)를 가져와도 이 제한([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노이즈)을 넘을 수 없다.
+- **📢 섹션 요약 비유**: 베이즈 에러는 도로의 <strong>속도 제한</strong>이다. 아무리 좋은 차(모델)를 가져와도 이 제한(데이터 노이즈)을 넘을 수 없다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 편향-[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 분해와 베이즈 에러
+### 편향-분산 분해와 베이즈 에러
 
 | 구간 | 의미 | 개선 방법 |
 |:---|:---|:---|
 | **학습 에러 - 베이즈** | 회피 가능 편향 | 모델 복잡도 ^, 학습 시간 ^ |
-| <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 에러 - 학습 에러</strong> | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) (과적합) | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강, [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) |
-| **베이즈 에러 자체** | 본질적 노이즈 | <strong><a href="/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 추가, <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 개선</strong> |
+| <strong>검증 에러 - 학습 에러</strong> | 분산 (과적합) | 정규화, 데이터 증강, 드롭아웃 |
+| **베이즈 에러 자체** | 본질적 노이즈 | <strong>피처 추가, 데이터 품질 개선</strong> |
 
-### Human-level [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Bayes [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)
+### Human-level Performance as Bayes Proxy
 
 의료 영상 진단에서 전문의의 에러율 = 1% -> 베이즈 에러 ≈ 1%로 추정.
 
-- **📢 섹션 요약 비유**: 베이즈 에러는 시험의 <strong>만점이 95점인 것</strong>이다. 100점은 존재하지 않으며, 95점에 가까울수록 더 이상 공부(모델 튜닝)보다 시험 문제([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 바꿔야 한다.
+- **📢 섹션 요약 비유**: 베이즈 에러는 시험의 <strong>만점이 95점인 것</strong>이다. 100점은 존재하지 않으며, 95점에 가까울수록 더 이상 공부(모델 튜닝)보다 시험 문제(데이터)를 바꿔야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 회피 가능 편향 큼 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 큼 |
+| 비교 | 회피 가능 편향 큼 | 분산 큼 |
 |:---|:---|:---|
 | **문제** | 과소적합 | 과적합 |
-| **해결** | 모델 복잡도 ^ | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ^ |
+| **해결** | 모델 복잡도 ^ | 정규화·데이터 ^ |
 
 ---
 
@@ -68,14 +68,14 @@ weight: 117
 ### Andrew Ng의 에러 분석 프레임워크
 1. 베이즈 에러(≈HLP) 추정.
 2. 학습 에러 측정.
-3. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 에러 측정.
-4. 회피 가능 편향 vs [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 -> 우선순위 결정.
+3. 검증 에러 측정.
+4. 회피 가능 편향 vs 분산 비교 -> 우선순위 결정.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-베이즈 에러는 ML 모델 개선의 <strong>나침반</strong>이다. 학습 에러가 베이즈에 수렴하면 모델 튜닝을 멈추고 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>([피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링·노이즈 제거·라벨 품질)으로 전환해야 한다.
+베이즈 에러는 ML 모델 개선의 <strong>나침반</strong>이다. 학습 에러가 베이즈에 수렴하면 모델 튜닝을 멈추고 <strong>데이터 전략</strong>(피처 엔지니어링·노이즈 제거·라벨 품질)으로 전환해야 한다.
 
 ---
 
@@ -85,9 +85,9 @@ weight: 117
 |:---|:---|
 | **베이즈 최적 분류기** | 베이즈 에러를 달성하는 이론적 최적 분류기 |
 | **회피 가능 편향** | 학습 에러 - 베이즈 에러 |
-| <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 에러 - 학습 에러 |
-| <strong>Human-level <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a></strong> | 베이즈 에러의 실무적 근사치 |
-| <strong><a href="/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/">편향-분산 트레이드오프</a></strong> | 베이즈 에러를 기준으로 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 결정 |
+| <strong>분산</strong> | 검증 에러 - 학습 에러 |
+| <strong>Human-level Performance</strong> | 베이즈 에러의 실무적 근사치 |
+| <strong>편향-분산 트레이드오프</strong> | 베이즈 에러를 기준으로 전략 결정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -110,15 +110,4 @@ weight: 117
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 시험에서 <strong>만점이 95점</strong>인 과목이 있어요. 아무리 공부해도 <strong>100점은 불가능</strong>해요 (베이즈 에러).
 2. 지금 점수가 80점이면 <strong>공부(모델 튜닝)</strong>로 95점까지 올릴 수 있어요.
-3. 하지만 94점이면 공부보다 <strong>시험 문제 자체(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질)</strong>를 바꿔야 점수가 올라요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 117 / 258
-
-<- **이전**: [116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정](/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/)
-**다음**: [118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반](/studynote/14_data_engineering/02_math_mining/118_cross_entropy_kl_divergence/) ->
-
----
+3. 하지만 94점이면 공부보다 <strong>시험 문제 자체(데이터 품질)</strong>를 바꿔야 점수가 올라요!

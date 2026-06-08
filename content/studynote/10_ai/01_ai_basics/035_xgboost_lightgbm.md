@@ -6,9 +6,9 @@ tags:
 weight: 35
 ---
 > **핵심 인사이트**
-> 1. XGBoost (Extreme [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/))와 LightGBM은 모두 [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) 계열의 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 테이블 형식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/))에서 최고 수준의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이는 ML 표준 도구다.
-> 2. XGBoost는 레벨 단위(Level-wise) 트리 성장으로 안정적이고, LightGBM은 리프 단위(Leaf-wise) 트리 성장으로 더 빠르고 낮은 메모리로 동일 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.
-> 3. Kaggle·산업 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대회에서 XGBoost/LightGBM은 딥러닝보다 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 우위를 점하며, CatBoost와 함께 "테이블 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3대 부스터"를 형성한다.
+> 1. XGBoost (Extreme Gradient Boosting)와 LightGBM은 모두 Gradient Boosting 계열의 앙상블 알고리즘으로, 테이블 형식 데이터(정형 데이터)에서 최고 수준의 성능을 보이는 ML 표준 도구다.
+> 2. XGBoost는 레벨 단위(Level-wise) 트리 성장으로 안정적이고, LightGBM은 리프 단위(Leaf-wise) 트리 성장으로 더 빠르고 낮은 메모리로 동일 성능을 달성한다.
+> 3. Kaggle·산업 데이터 대회에서 XGBoost/LightGBM은 딥러닝보다 정형 데이터에서 우위를 점하며, CatBoost와 함께 "테이블 데이터 3대 부스터"를 형성한다.
 
 ---
 
@@ -34,11 +34,11 @@ LightGBM (2017, Microsoft)
 | 트리 성장 방식 | Level-wise      | Leaf-wise       |
 | 학습 속도     | 빠름             | 매우 빠름        |
 | 메모리 사용   | 높음             | 낮음             |
-| 과적합 위험   | 낮음             | 높음 (소규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))|
+| 과적합 위험   | 낮음             | 높음 (소규모 데이터)|
 | 범주형 처리   | 직접 안됨        | 내장 지원        |
-| 적합한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 중간 크기        | 대용량 (100만+) |
+| 적합한 데이터 | 중간 크기        | 대용량 (100만+) |
 
-> 📢 **섹션 요약 비유**: XGBoost는 꼼꼼하게 층층이 쌓는 벽돌공, LightGBM은 가장 약한 곳을 집중 공략하는 수리공 — 같은 결과, 다른 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
+> 📢 **섹션 요약 비유**: XGBoost는 꼼꼼하게 층층이 쌓는 벽돌공, LightGBM은 가장 약한 곳을 집중 공략하는 수리공 — 같은 결과, 다른 전략.
 
 ---
 
@@ -65,10 +65,10 @@ LightGBM (2017, Microsoft)
 |--------------|------------------------|--------|
 | n_estimators | 트리 개수               | 100    |
 | max_depth    | 트리 최대 깊이          | 6      |
-| learning_rate| [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) (eta)            | 0.3    |
+| learning_rate| 학습률 (eta)            | 0.3    |
 | subsample    | 행 샘플링 비율          | 1.0    |
 | colsample    | 열(특성) 샘플링 비율    | 1.0    |
-| [lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)       | L2 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)              | 1.0    |
+| lambda       | L2 정규화              | 1.0    |
 
 > 📢 **섹션 요약 비유**: 각 선생님(트리)이 이전 선생님의 실수를 집중 가르치는 보충수업 — 수업(learning_rate)이 너무 크면 오히려 혼란스럽다.
 
@@ -95,14 +95,14 @@ Leaf-wise (LightGBM):
 | 기법  | 설명                                      |
 |------|-------------------------------------------|
 | GOSS | 큰 그래디언트 샘플은 전부 사용, 작은 것은 무작위 샘플링 |
-| EFB  | 상호 배타적인 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 묶어 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 수 감소     |
+| EFB  | 상호 배타적인 피처를 묶어 피처 수 감소     |
 | 히스토그램 | 연속 값을 이산 구간으로 묶어 분기 탐색 가속 |
 
 > 📢 **섹션 요약 비유**: 수업에서 잘 틀리는 학생에게만 집중 — 다 아는 학생을 반복 지도하는 시간을 줄인다.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 실용 코드 예시
+## IV. 실용 코드 예시
 
 ```python
 import xgboost as xgb
@@ -130,15 +130,15 @@ lgbm.fit(X_train, y_train,
 
 ---
 
-## V. 실무 시나리오 — Kaggle [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 경진대회
+## V. 실무 시나리오 — Kaggle 정형 데이터 경진대회
 
-| 단계          | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                                        |
+| 단계          | 전략                                        |
 |-------------|---------------------------------------------|
-| [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 | 결측값 처리, 인코딩, 교차 특성 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)         |
+| 피처 엔지니어링 | 결측값 처리, 인코딩, 교차 특성 생성         |
 | 모델 선택     | LightGBM (대용량), XGBoost (소-중 규모)     |
 | 하이퍼파라미터 | Optuna / Bayesian 최적화                    |
-| [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)        | XGBoost + LightGBM + CatBoost 스태킹        |
-| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)         | K-Fold [CV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), OOF (Out-of-Fold) 예측           |
+| 앙상블        | XGBoost + LightGBM + CatBoost 스태킹        |
+| 검증         | K-Fold CV, OOF (Out-of-Fold) 예측           |
 
 > 📢 **섹션 요약 비유**: Kaggle 금메달의 레시피 — LightGBM으로 속도, XGBoost로 안정성, CatBoost로 범주형 처리, 셋을 합치면 최강.
 
@@ -202,17 +202,6 @@ Optuna 최적화 + SHAP 피처 중요도
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. XGBoost와 LightGBM은 여러 약한 예측기(나무)를 합쳐 강한 예측기를 만드는 팀워크 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이에요.
+1. XGBoost와 LightGBM은 여러 약한 예측기(나무)를 합쳐 강한 예측기를 만드는 팀워크 알고리즘이에요.
 2. 각 나무는 이전 나무가 틀린 부분을 집중적으로 고치면서 점점 똑똑해져요.
-3. 표 형태의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서는 딥러닝보다 더 빠르고 정확할 때가 많답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 35 / 420
-
-<- **이전**: [그래디언트 부스팅 (Gradient Boosting)](/studynote/10_ai/01_ai_basics/034_gradient_boosting/)
-**다음**: [036. 서포트 벡터 머신 (Support Vector Machine, SVM)](/studynote/10_ai/01_ai_basics/036_support_vector_machine/) ->
-
----
+3. 표 형태의 데이터 분석에서는 딥러닝보다 더 빠르고 정확할 때가 많답니다!

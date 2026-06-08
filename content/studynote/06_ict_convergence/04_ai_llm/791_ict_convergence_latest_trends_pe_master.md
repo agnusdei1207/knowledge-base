@@ -144,11 +144,3 @@ ICT 융합의 표준 참조 아키텍처는 **ITU-T Y.3170(Y.3172·Y.3320·Y.353
 
 - **Foundation Model 추론 비용 최적화**: `Total Cost = (Tokens_Input × P_input + Tokens_Output × P_output) / Quantization_Factor`. INT4 양자화 시 GPU 메모리 **~75% 절감**, latency 1.3~2.0× 개선 (TensorRT-LLM, AWQ, GPTQ, SmoothQuant)
 - **RAG 재현율**: **Hybrid Retrieval α·BM25 + (1-α)·Vector**, α≈0.3~0.4 시 도메인 특화 corpus에서 Recall@10 12~18%
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 791 / 800
-
-<- **이전**: [790. 6G 비전 AI 네이티브 자율 네트워크](/studynote/06_ict_convergence/uncategorized/790_6g_vision_ai_native_autonomous_network/)
-**다음**: [792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2](/studynote/06_ict_convergence/uncategorized/792_ict_convergence_pe_architecture_master_map_2/) ->
-
----

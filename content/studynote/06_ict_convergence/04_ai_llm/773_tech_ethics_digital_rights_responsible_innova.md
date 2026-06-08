@@ -117,11 +117,3 @@ weight: 773
 | :--- | :--- | :--- |
 | **가치 민감 설계 (VSD)** | 추상적 가치를 시스템 매개변수로 매핑 | Friedman & Hendry(2019)의 3단계: 개념적 조사(Conceptual Inquiry) -> 경험적 조사(Empirical Inquiry) -> 기술적 조사(Technical Inquiry). 예: 개인정보 자기결정권 -> 사용자 동의 UI/UX 설계 |
 | **설명 가능 AI (XAI)** | 블랙박스 모델의 의사결정 근거 제공 | • 국소 설명: **LIME**(Local Interpretable Model-agnostic Explanations, Ribeiro 2016) — 입력 주변을 선형 모델로 근사<br>• 전역/국소: **SHAP**(SHapley Additive exPlanations, Lundberg 2017) — 게임이론 Shapley 값으로 기여도 분배<br>• 신경망 특화: **Integrated Gradients**(Sundararajan 2017), **Grad-CAM**<br>• 시간적 모델: **ProtoAttend**, **TCN-Vis**<br>
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 773 / 800
-
-<- **이전**: [772. 디지털 포용 접근성 정보 격차 해소](/studynote/06_ict_convergence/uncategorized/772_digital_inclusion_accessibility_gap_bridging/)
-**다음**: [774. 사이버 주권 디지털 자주권 기술 독립](/studynote/06_ict_convergence/uncategorized/774_cyber_sovereignty_digital_independence/) ->
-
----

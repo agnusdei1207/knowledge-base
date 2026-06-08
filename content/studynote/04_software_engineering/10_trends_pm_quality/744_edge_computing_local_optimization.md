@@ -7,25 +7,25 @@ weight: 744
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 엣지 컴퓨팅 데이터 로컬 최적화은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 시대가 열리면서, 우리는 스마트폰의 모든 사진과 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 AWS나 구글 클라우드로 보냈다. 똑똑한 클라우드 AI가 이를 분석해서 결과를 돌려주었다.
+클라우드 컴퓨팅 시대가 열리면서, 우리는 스마트폰의 모든 사진과 센서 데이터를 AWS나 구글 클라우드로 보냈다. 똑똑한 클라우드 AI가 이를 분석해서 결과를 돌려주었다.
 
-하지만 [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))이 폭발하면서 문제가 생겼다. 자율주행 자동차가 1초에 1GB씩 쏟아내는 라이다([LiDAR](/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 클라우드로 보내서 "저 앞에 사람이야?"라고 묻고 답을 기다리면, 그 0.1초의 통신 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 사이에 차는 사람을 치게 된다. 게다가 산속 깊은 곳이나 바다 한가운데에서는 인터넷(통신망)이 끊길 수도 있다.
+하지만 사물인터넷(IoT)이 폭발하면서 문제가 생겼다. 자율주행 자동차가 1초에 1GB씩 쏟아내는 라이다(LiDAR) 센서 데이터를 전부 클라우드로 보내서 "저 앞에 사람이야?"라고 묻고 답을 기다리면, 그 0.1초의 통신 지연(Latency) 사이에 차는 사람을 치게 된다. 게다가 산속 깊은 곳이나 바다 한가운데에서는 인터넷(통신망)이 끊길 수도 있다.
 
-이 생존의 딜레마를 해결하기 위해, <strong>"<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 클라우드로 보내지 말고, <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 태어난 곳(현장)에 작은 미니 컴퓨터를 둬서 그 자리에서 바로 생각하고 결정하게 만들자!"</strong>는 역발상이 나왔다. 이것이 클라우드 아키텍처의 중심을 다시 현장으로 끌어내린 <strong><a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>(<a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong>이다.
+이 생존의 딜레마를 해결하기 위해, <strong>"데이터를 클라우드로 보내지 말고, 데이터가 태어난 곳(현장)에 작은 미니 컴퓨터를 둬서 그 자리에서 바로 생각하고 결정하게 만들자!"</strong>는 역발상이 나왔다. 이것이 클라우드 아키텍처의 중심을 다시 현장으로 끌어내린 <strong>엣지 컴퓨팅(Edge Computing)</strong>이다.
 
-- **📢 섹션 요약 비유**: 옛날엔 동네 파출소(엣지)에 권한이 없어서, 도둑을 잡으면 무조건 서울 경찰청(클라우드)까지 데려가서 판결을 받고 와야 했다. [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 파출소장에게 즉결 처분 권한을 주어, 현장에서 1초 만에 도둑을 잡게 해주는 시스템이다.
+- **📢 섹션 요약 비유**: 옛날엔 동네 파출소(엣지)에 권한이 없어서, 도둑을 잡으면 무조건 서울 경찰청(클라우드)까지 데려가서 판결을 받고 와야 했다. 엣지 컴퓨팅은 파출소장에게 즉결 처분 권한을 주어, 현장에서 1초 만에 도둑을 잡게 해주는 시스템이다.
 
 ---
 
-다음은 [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 엣지 컴퓨팅 데이터 로컬 최적화의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -40,7 +40,7 @@ weight: 744
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 엣지 컴퓨팅 데이터 로컬 최적화가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -50,13 +50,13 @@ weight: 744
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 클라우드, 엣지 노드, 엔드 디바이스라는 3계층 아키텍처로 구성된다.
+엣지 컴퓨팅은 클라우드, 엣지 노드, 엔드 디바이스라는 3계층 아키텍처로 구성된다.
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 엣지 컴퓨팅 데이터 로컬 최적화은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | 엣지 컴퓨팅 데이터 로컬 최적화의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -68,18 +68,18 @@ weight: 744
 
 ## Ⅲ. 비교 및 연결
 
-[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 패러다임은 시계추처럼 중앙 집중과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 오가며 진화했다.
+분산 컴퓨팅의 패러다임은 시계추처럼 중앙 집중과 분산을 오가며 진화했다.
 
-| 시대 | 컴퓨팅 패러다임 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 위치 | 엣지 관점의 의미 |
+| 시대 | 컴퓨팅 패러다임 | 데이터 처리 위치 | 엣지 관점의 의미 |
 |:---|:---|:---|:---|
 | **1990년대** | 메인프레임 | 중앙 집중형 | 엣지(터미널)는 깡통에 불과함 |
-| **2000년대** | 클라이언트-서버 ([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) | 완전 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)형 | 엣지(내 컴퓨터)에서 모든 걸 처리함 |
-| **2010년대** | [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) | 다시 중앙 집중형 | 스마트폰은 거들 뿐, AWS가 다 계산함 |
-| **현재** | <strong><a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a> (<a href="/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">Fog Computing</a>)</strong>| **하이브리드 (중앙 + 끝단)** | **클라우드와 엣지가 영리하게 역할을 나눠 가짐** |
+| **2000년대** | 클라이언트-서버 (PC) | 완전 분산형 | 엣지(내 컴퓨터)에서 모든 걸 처리함 |
+| **2010년대** | 클라우드 컴퓨팅 | 다시 중앙 집중형 | 스마트폰은 거들 뿐, AWS가 다 계산함 |
+| **현재** | <strong>엣지 컴퓨팅 (Fog Computing)</strong>| **하이브리드 (중앙 + 끝단)** | **클라우드와 엣지가 영리하게 역할을 나눠 가짐** |
 
-*안개(Fog) 컴퓨팅*: 시스코([Cisco](/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 만든 용어로, 저 높은 구름(Cloud)과 땅(Device) 사이에 안개(Fog)처럼 넓게 퍼져있는 중간 엣지 네트워크를 의미한다. 실무에서는 [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)과 거의 동의어로 쓰인다.
+*안개(Fog) 컴퓨팅*: 시스코(Cisco)가 만든 용어로, 저 높은 구름(Cloud)과 땅(Device) 사이에 안개(Fog)처럼 넓게 퍼져있는 중간 엣지 네트워크를 의미한다. 실무에서는 엣지 컴퓨팅과 거의 동의어로 쓰인다.
 
-- **📢 섹션 요약 비유**: 패션의 유행이 돌고 도는 것처럼, IT 역사도 "다 같이 모여서 살자(클라우드)"와 "흩어져서 살자([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)/엣지)"를 반복한다. 지금은 각자의 장점만 취해서, 도심(클라우드)에는 본사를 두고 각 동네마다 지점(엣지)을 두는 프랜차이즈 모델로 진화한 것이다.
+- **📢 섹션 요약 비유**: 패션의 유행이 돌고 도는 것처럼, IT 역사도 "다 같이 모여서 살자(클라우드)"와 "흩어져서 살자(PC/엣지)"를 반복한다. 지금은 각자의 장점만 취해서, 도심(클라우드)에는 본사를 두고 각 동네마다 지점(엣지)을 두는 프랜차이즈 모델로 진화한 것이다.
 
 ---
 
@@ -91,9 +91,9 @@ weight: 744
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)을 도입할 때 아키텍트가 직면하는 가장 큰 고통은 '엣지 기기의 빈약한 스펙'과 '수만 대 기기의 관리 배포'다.
+엣지 컴퓨팅을 도입할 때 아키텍트가 직면하는 가장 큰 고통은 '엣지 기기의 빈약한 스펙'과 '수만 대 기기의 관리 배포'다.
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 엣지 컴퓨팅 데이터 로컬 최적화은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -103,11 +103,11 @@ weight: 744
 
 ## Ⅴ. 기대효과 및 결론
 
-[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)을 제대로 구현하면 '속도([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))', '통신 비용([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))', '보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))'이라는 세 마리 토끼를 한 번에 잡을 수 있다. 특히 병원이나 군부대처럼 외부 클라우드로 민감한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절대로 빼낼 수 없는 도메인에서, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 엣지에 가둔 채 계산만 엣지에서 처리하는 아키텍처는 유일한 해결책이다.
+엣지 컴퓨팅을 제대로 구현하면 '속도(Latency)', '통신 비용(Bandwidth)', '보안(Security)'이라는 세 마리 토끼를 한 번에 잡을 수 있다. 특히 병원이나 군부대처럼 외부 클라우드로 민감한 데이터를 절대로 빼낼 수 없는 도메인에서, 데이터는 엣지에 가둔 채 계산만 엣지에서 처리하는 아키텍처는 유일한 해결책이다.
 
-결론적으로 클라우드 만능주의 시대는 저물었다. 기술 리더는 "이 로직을 클라우드에서 돌릴 것인가, 엣지에서 돌릴 것인가?"를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 신선도(Freshness), 민감도, 네트워크 비용이라는 트레이드오프(Trade-off) 관점에서 철저히 저울질하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 중력을 현장으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 설계를 그려야 한다.
+결론적으로 클라우드 만능주의 시대는 저물었다. 기술 리더는 "이 로직을 클라우드에서 돌릴 것인가, 엣지에서 돌릴 것인가?"를 데이터의 신선도(Freshness), 민감도, 네트워크 비용이라는 트레이드오프(Trade-off) 관점에서 철저히 저울질하여 데이터의 중력을 현장으로 분산시키는 설계를 그려야 한다.
 
-- **📢 섹션 요약 비유**: 클라우드는 엄청난 재료가 모여있는 '초대형 공장'이고, 엣지는 공장 밖 현장 곳곳에 돌아다니는 '푸드트럭'이다. [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 이 두 가지를 섞어, 가장 맛있고 신선한 음식(결과)을 손님 입에 0.1초 만에 넣어주는 최고의 프랜차이즈 시스템이다.
+- **📢 섹션 요약 비유**: 클라우드는 엄청난 재료가 모여있는 '초대형 공장'이고, 엣지는 공장 밖 현장 곳곳에 돌아다니는 '푸드트럭'이다. 엣지 컴퓨팅은 이 두 가지를 섞어, 가장 맛있고 신선한 음식(결과)을 손님 입에 0.1초 만에 넣어주는 최고의 프랜차이즈 시스템이다.
 
 ---
 
@@ -121,10 +121,10 @@ weight: 744
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 엣지 컴퓨팅 데이터 로컬 최적화의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 엣지 컴퓨팅 데이터 로컬 최적화은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 엣지 컴퓨팅 데이터 로컬 최적화 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 엣지 컴퓨팅 데이터 로컬 최적화에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,21 +144,10 @@ weight: 744
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 엣지 컴퓨팅 데이터 로컬 최적화은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 917 / 973
-
-<- **이전**: [743. 데이터 마스킹 FPE 암호 유지](/studynote/04_software_engineering/10_trends_pm_quality/743_data_masking_fpe_encryption/)
-**다음**: [745. 디지털 트윈 동기화 인터페이스 모델](/studynote/04_software_engineering/10_trends_pm_quality/745_digital_twin_synchronization_model/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

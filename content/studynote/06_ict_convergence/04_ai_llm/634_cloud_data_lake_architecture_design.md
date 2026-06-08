@@ -165,11 +165,3 @@ Databricks가 2019년 제안한 **Medallion Architecture**는 데이터 품질·
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **Object Storage** | 무제한 확장, 11 9s 내구성의 원시 데이터 저장소 | **Amazon S3**(Standard/IA/Glacier IR/Deep Archive), **Azure Data Lake Storage Gen2**(HNS namespace, ACL), **Google Cloud Storage**(Autoclass 자동 티어링), **MinIO/OSS**(온프레). 핵심: **Hadoop Compatibility**(
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 634 / 800
-
-<- **이전**: [633. 제로 트러스트 네트워크 마이크로세그먼트](/studynote/06_ict_convergence/uncategorized/633_zero_trust_network_microsegmentation/)
-**다음**: [635. GPU 클라우드 AI 인프라 최적화](/studynote/06_ict_convergence/uncategorized/635_gpu_cloud_ai_infrastructure_optimization/) ->
-
----

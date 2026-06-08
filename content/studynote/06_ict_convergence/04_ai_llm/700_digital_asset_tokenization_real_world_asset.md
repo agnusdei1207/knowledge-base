@@ -120,11 +120,3 @@ RWA 토큰화 시스템은 크게 **① Off-chain 실물 자산 및 법적 구�
 
 1. **자산 출연(Origination)**: Originator가 부동산 또는 채권을 SPV에 이전. SPV는 발행 total supply(`maxSupply`)를 결정하고, Investor 모집을 위한 Subscription Agreement 체결.
 2. **KYC/AML 신원 발급**: Investor의 지갑 주소와 신원 정보가 `Identity Registry` 컨트랙트에 매핑. 각
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 700 / 800
-
-<- **이전**: [699. 프라이버시 강화 기술 PETs 연합 분석](/studynote/06_ict_convergence/uncategorized/699_privacy_enhancing_technology_pets/)
-**다음**: [701. 산업 메타버스 디지털 트윈 시뮬레이션](/studynote/06_ict_convergence/uncategorized/701_industrial_metaverse_digital_twin_simulation/) ->
-
----

@@ -121,14 +121,3 @@ DevSecOps 관점에서는 보안을 요구사항, 코드, 빌드, 배포, 런타
 1. 정책 코드화 OPA Rego 거버넌스 자동화은(는) 물건을 만들 때 마지막에만 검사하지 않고 만드는 동안 계속 안전을 확인하는 방법이에요.
 2. 문제가 작을 때 바로 찾으면 고치기 쉽고 사고도 줄어들어요.
 3. 좋은 DevSecOps는 빠르게 만들면서도 안전 규칙을 계속 지키게 해줘요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 379 / 400
-
-<- **이전**: [378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)](/studynote/15_devops_sre/05_devsecops/378_runtime_security_ebpf/)
-**다음**: [380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)](/studynote/15_devops_sre/05_devsecops/380_dast_penetration_testing/) ->
-
----

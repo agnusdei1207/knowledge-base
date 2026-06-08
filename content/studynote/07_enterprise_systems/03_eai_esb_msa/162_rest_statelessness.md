@@ -7,19 +7,19 @@ weight: 162
 ---
 ## 핵심 인사이트
 
-> 1. **본질**: 무상태성 (Statelessness)은 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))에서 <strong>각 요청이 스스로 완결된 정보를 담아 서버가 이전 대화를 기억하지 않아도 처리 가능해야 한다</strong>는 제약이다.
-> 2. **가치**: 서버가 사용자별 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 문맥을 붙잡지 않으므로, 로드밸런싱·장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·수평 확장에 유리해 대규모 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 운영의 기본 토대가 된다.
-> 3. **판단 포인트**: 무상태성은 "아무 [상태도](/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 없다"는 뜻이 아니라, <strong>대화 상태를 서버 메모리에 숨기지 말고 자원 상태와 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 정보를 명시적으로 다루라</strong>는 설계 원칙이다.
+> 1. **본질**: 무상태성 (Statelessness)은 REST (Representational State Transfer)에서 <strong>각 요청이 스스로 완결된 정보를 담아 서버가 이전 대화를 기억하지 않아도 처리 가능해야 한다</strong>는 제약이다.
+> 2. **가치**: 서버가 사용자별 세션 문맥을 붙잡지 않으므로, 로드밸런싱·장애 복구·수평 확장에 유리해 대규모 API (Application Programming Interface) 운영의 기본 토대가 된다.
+> 3. **판단 포인트**: 무상태성은 "아무 상태도 없다"는 뜻이 아니라, <strong>대화 상태를 서버 메모리에 숨기지 말고 자원 상태와 인증 정보를 명시적으로 다루라</strong>는 설계 원칙이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-무상태성은 서버가 클라이언트의 이전 요청 문맥을 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 형태로 보관하지 않고, 현재 요청만으로 필요한 처리를 수행하는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 따라서 요청에는 자원 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰, 필요한 파라미터가 충분히 포함되어야 하며, 서버는 "이 사용자가 방금 무엇을 했는지"를 메모리에서 더듬지 않아야 한다.
+무상태성은 서버가 클라이언트의 이전 요청 문맥을 세션 형태로 보관하지 않고, 현재 요청만으로 필요한 처리를 수행하는 속성이다. 따라서 요청에는 자원 식별자, 인증 토큰, 필요한 파라미터가 충분히 포함되어야 하며, 서버는 "이 사용자가 방금 무엇을 했는지"를 메모리에서 더듬지 않아야 한다.
 
-이 제약이 중요해진 이유는 웹 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모가 커질수록 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지 비용이 급격히 증가하기 때문이다. 특정 서버에만 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 붙어 있으면 로드밸런서가 자유롭게 요청을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하기 어렵고, 서버가 장애를 일으킬 때 사용자의 문맥도 함께 사라진다. 반면 요청이 독립적이면 어느 서버가 받아도 동일하게 처리할 수 있어 확장성과 복원력이 커진다.
+이 제약이 중요해진 이유는 웹 서비스 규모가 커질수록 세션 유지 비용이 급격히 증가하기 때문이다. 특정 서버에만 세션이 붙어 있으면 로드밸런서가 자유롭게 요청을 분산하기 어렵고, 서버가 장애를 일으킬 때 사용자의 문맥도 함께 사라진다. 반면 요청이 독립적이면 어느 서버가 받아도 동일하게 처리할 수 있어 확장성과 복원력이 커진다.
 
-즉 무상태성은 REST의 미학적 원칙이 아니라, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 서버를 가볍고 교체 가능하게 유지하는 운영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 다만 이 원칙을 잘못 이해해 모든 책임을 클라이언트에 떠넘기면 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 보안, 네트워크 효율 측면의 새로운 부담이 생길 수 있다.
+즉 무상태성은 REST의 미학적 원칙이 아니라, 분산 시스템에서 서버를 가볍고 교체 가능하게 유지하는 운영 전략이다. 다만 이 원칙을 잘못 이해해 모든 책임을 클라이언트에 떠넘기면 인증, 보안, 네트워크 효율 측면의 새로운 부담이 생길 수 있다.
 
 - **📢 섹션 요약 비유**: 무상태성은 창구 직원이 손님 얼굴을 외우는 방식이 아니라, 손님이 올 때마다 번호표와 신청서를 함께 내서 어느 창구에서도 바로 처리받는 방식과 같다.
 
@@ -27,7 +27,7 @@ weight: 162
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-무상태 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API의 핵심은 "대화 상태"와 "자원 상태"를 구분하는 데 있다. 장바구니 내용, 주문 상태, 결제 완료 여부 같은 비즈니스 상태는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 같은 영속 저장소에 자원 상태로 남을 수 있다. 다만 서버 프로세스 메모리에 "이 사용자는 지금 3단계 화면까지 왔다" 같은 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 문맥을 숨겨 두지 않는 것이 무상태성의 요지다.
+무상태 REST API의 핵심은 "대화 상태"와 "자원 상태"를 구분하는 데 있다. 장바구니 내용, 주문 상태, 결제 완료 여부 같은 비즈니스 상태는 데이터베이스 같은 영속 저장소에 자원 상태로 남을 수 있다. 다만 서버 프로세스 메모리에 "이 사용자는 지금 3단계 화면까지 왔다" 같은 세션 문맥을 숨겨 두지 않는 것이 무상태성의 요지다.
 
 아래 그림은 상태 유지 방식과 무상태 방식의 차이를 보여준다.
 
@@ -43,14 +43,14 @@ weight: 162
 +--------------------------------------------------------------------+
 ```
 
-이 구조에서 서버는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 필요한 자원 상태를 저장소에서 읽어 현재 요청을 처리한다. 그래서 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 어피니티 ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))나 인메모리 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)에 덜 의존하게 된다. 다만 토큰 자체에 너무 많은 정보를 넣으면 길이 증가, 보안 노출, 만료 관리 문제가 생길 수 있으므로 적절한 균형이 필요하다.
+이 구조에서 서버는 인증 토큰을 검증하고, 필요한 자원 상태를 저장소에서 읽어 현재 요청을 처리한다. 그래서 세션 어피니티 (Session Affinity)나 인메모리 세션 복제에 덜 의존하게 된다. 다만 토큰 자체에 너무 많은 정보를 넣으면 길이 증가, 보안 노출, 만료 관리 문제가 생길 수 있으므로 적절한 균형이 필요하다.
 
 | 요소 | 무상태 설계에서의 역할 | 주의점 |
 | :--- | :--- | :--- |
-| 요청 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 | 처리에 필요한 문맥 전달 | [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)·파라미터 누락 시 재현성 저하 |
-| [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 | 사용자 신원과 권한 증명 | 만료 시간, 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 탈취 대응 필요 |
-| 자원 저장소 | 주문·장바구니 등 비즈니스 상태 보관 | 서버 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)과 혼동하지 않아야 함 |
-| 로드밸런서 | 요청 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 특정 서버 고정 없이 유연한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 가능 |
+| 요청 메시지 | 처리에 필요한 문맥 전달 | 식별자·파라미터 누락 시 재현성 저하 |
+| 인증 토큰 | 사용자 신원과 권한 증명 | 만료 시간, 서명 검증, 탈취 대응 필요 |
+| 자원 저장소 | 주문·장바구니 등 비즈니스 상태 보관 | 서버 세션과 혼동하지 않아야 함 |
+| 로드밸런서 | 요청 분산 | 특정 서버 고정 없이 유연한 분산 가능 |
 
 따라서 무상태성의 핵심 원리는 "상태 제거"가 아니라, <strong>상태의 위치를 명확하게 재배치하는 것</strong>이다. 서버 메모리에 숨겨진 대화 상태를 줄이고, 필요한 상태는 자원 표현과 저장소, 토큰으로 드러내는 방식이다.
 
@@ -60,57 +60,57 @@ weight: 162
 
 ## Ⅲ. 비교 및 연결
 
-무상태성을 이해하려면 상태 유지형 (Stateful) [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 방식과 비교해야 한다. 상태 유지형 구조는 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 후 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 서버가 보관하며, 이후 요청마다 그 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 찾아 문맥을 이어 간다. 구현은 직관적일 수 있지만, 서버 장애나 확장 시 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·공유 저장소·[세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 스티키 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 같은 부가 복잡도가 따라온다.
+무상태성을 이해하려면 상태 유지형 (Stateful) 세션 방식과 비교해야 한다. 상태 유지형 구조는 로그인 후 세션 ID를 서버가 보관하며, 이후 요청마다 그 세션을 찾아 문맥을 이어 간다. 구현은 직관적일 수 있지만, 서버 장애나 확장 시 세션 복제·공유 저장소·세션 스티키 설정 같은 부가 복잡도가 따라온다.
 
-| 항목 | 상태 유지형 (Stateful) | 무상태성 ([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) |
+| 항목 | 상태 유지형 (Stateful) | 무상태성 (Stateless) |
 | :--- | :--- | :--- |
 | 서버 메모리 의존 | 높음 | 낮음 |
-| 수평 확장 | [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 공유 장치 필요 | 상대적으로 용이 |
-| 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유실 위험 | 다른 서버로 재처리 용이 |
+| 수평 확장 | 세션 공유 장치 필요 | 상대적으로 용이 |
+| 장애 복구 | 세션 유실 위험 | 다른 서버로 재처리 용이 |
 | 요청 크기 | 상대적으로 작을 수 있음 | 토큰·문맥 포함으로 커질 수 있음 |
-| 구현 난이도 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구현은 단순 | [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·토큰 설계가 중요 |
+| 구현 난이도 | 초기 구현은 단순 | 인증·토큰 설계가 중요 |
 
-또한 무상태성은 캐시 가능성, HATEOAS, [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))와도 연결된다. 요청이 독립적일수록 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 게이트웨이 계층에서 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)·재시도·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리가 수월해진다. 반대로 백엔드에서 결국 서버 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장소를 강하게 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)한다면, 겉으로만 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API이고 실제로는 상태 유지형 구조에 가까워질 수 있다.
+또한 무상태성은 캐시 가능성, HATEOAS, 마이크로서비스 아키텍처 (MSA, Microservices Architecture)와도 연결된다. 요청이 독립적일수록 프록시와 게이트웨이 계층에서 캐싱·재시도·분산 처리가 수월해진다. 반대로 백엔드에서 결국 서버 세션 저장소를 강하게 참조한다면, 겉으로만 REST API이고 실제로는 상태 유지형 구조에 가까워질 수 있다.
 
-즉 무상태성은 단순히 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 없애는 기법이 아니라, <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경에서 인터페이스 책임을 정리하는 아키텍처 선택</strong>이다. 이 관점이 있어야 [JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)), [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 스토어, 캐시, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 역할도 구분해서 설명할 수 있다.
+즉 무상태성은 단순히 세션을 없애는 기법이 아니라, <strong>분산 환경에서 인터페이스 책임을 정리하는 아키텍처 선택</strong>이다. 이 관점이 있어야 JWT (JSON Web Token), 세션 스토어, 캐시, API 게이트웨이의 역할도 구분해서 설명할 수 있다.
 
-- **📢 섹션 요약 비유**: 상태 유지형이 단골 손님을 얼굴로 기억하는 작은 가게라면, 무상태성은 어느 지점을 가도 주문 번호만 있으면 같은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 받을 수 있는 프랜차이즈 체계와 같다.
+- **📢 섹션 요약 비유**: 상태 유지형이 단골 손님을 얼굴로 기억하는 작은 가게라면, 무상태성은 어느 지점을 가도 주문 번호만 있으면 같은 서비스를 받을 수 있는 프랜차이즈 체계와 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "REST니까 무조건 무상태"라고 말하기보다, 어디까지를 서버 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)으로 두지 않을지 명확히 정하는 것이 중요하다. [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 이후 액세스 토큰으로 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하고, 비즈니스 상태는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 저장하며, 서버 인스턴스는 요청 처리 후 문맥을 남기지 않는 구조가 대표적이다. 이런 방식은 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 오토스케일링, 다중 리전 운영에서 특히 유리하다.
+실무에서는 "REST니까 무조건 무상태"라고 말하기보다, 어디까지를 서버 세션으로 두지 않을지 명확히 정하는 것이 중요하다. 로그인 이후 액세스 토큰으로 인증하고, 비즈니스 상태는 데이터베이스에 저장하며, 서버 인스턴스는 요청 처리 후 문맥을 남기지 않는 구조가 대표적이다. 이런 방식은 API 게이트웨이, 컨테이너 오토스케일링, 다중 리전 운영에서 특히 유리하다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
-1. 각 요청이 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 처리에 필요한 정보를 충분히 포함하는가?
+1. 각 요청이 인증과 처리에 필요한 정보를 충분히 포함하는가?
 2. 장바구니·주문 상태를 서버 메모리가 아니라 영속 자원으로 관리하는가?
-3. 토큰 만료, 재발급, 폐기 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 준비되어 있는가?
-4. 재시도와 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 고려한 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계가 되어 있는가?
-5. 서버 간 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 공유가 없더라도 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능한가?
+3. 토큰 만료, 재발급, 폐기 전략이 준비되어 있는가?
+4. 재시도와 멱등성 (Idempotency)을 고려한 API 설계가 되어 있는가?
+5. 서버 간 세션 공유가 없더라도 장애 복구가 가능한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API라 부르지만 실제로는 서버 메모리 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 필수로 요구하는 구조
+- REST API라 부르지만 실제로는 서버 메모리 세션을 필수로 요구하는 구조
 - 토큰에 과도한 민감 정보와 긴 수명을 넣어 보안 위험을 키우는 설계
-- 긴 사용자 흐름을 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)에 숨겨 두어 로드밸런싱과 장애 대응을 어렵게 만드는 방식
+- 긴 사용자 흐름을 HTTP 세션에 숨겨 두어 로드밸런싱과 장애 대응을 어렵게 만드는 방식
 
-기술사 답안에서는 "무상태성은 서버 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 미사용으로 확장성과 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높이지만, 토큰 관리와 요청 설계가 함께 성숙해야 한다"고 정리하면 좋다. 즉 무상태성은 만능 단순화가 아니라, <strong>운영 편의와 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 명시성을 맞바꾸는 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
+기술사 답안에서는 "무상태성은 서버 세션 미사용으로 확장성과 가용성을 높이지만, 토큰 관리와 요청 설계가 함께 성숙해야 한다"고 정리하면 좋다. 즉 무상태성은 만능 단순화가 아니라, <strong>운영 편의와 메시지 명시성을 맞바꾸는 전략</strong>이다.
 
-- **📢 섹션 요약 비유**: 무상태성은 여행 가이드가 손님 일정을 외우는 대신, 일정표와 예약 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서를 손님이 늘 들고 다니게 하는 방식과 같다. 어디서 합류해도 안내가 가능하지만, 서류 관리가 중요해진다.
+- **📢 섹션 요약 비유**: 무상태성은 여행 가이드가 손님 일정을 외우는 대신, 일정표와 예약 확인서를 손님이 늘 들고 다니게 하는 방식과 같다. 어디서 합류해도 안내가 가능하지만, 서류 관리가 중요해진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-무상태 설계가 잘 적용되면 서버를 자유롭게 증설·교체할 수 있고, 장애가 나도 특정 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)에 덜 묶이며, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층의 재시도와 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 쉬워진다. 특히 클라우드 기반 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 이런 장점이 운영 비용과 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 개선으로 직접 이어진다. 그래서 무상태성은 REST의 핵심 제약인 동시에 현대 웹 아키텍처의 기본 전제처럼 다뤄진다.
+무상태 설계가 잘 적용되면 서버를 자유롭게 증설·교체할 수 있고, 장애가 나도 특정 세션에 덜 묶이며, API 계층의 재시도와 분산이 쉬워진다. 특히 클라우드 기반 서비스와 MSA 환경에서는 이런 장점이 운영 비용과 가용성 개선으로 직접 이어진다. 그래서 무상태성은 REST의 핵심 제약인 동시에 현대 웹 아키텍처의 기본 전제처럼 다뤄진다.
 
-하지만 모든 부담이 자동으로 사라지는 것은 아니다. 요청당 정보량 증가, 토큰 보안, 만료 처리, 권한 변경 전파 문제는 여전히 설계해야 한다. 따라서 무상태성은 "기억을 포기한 서버"가 아니라, <strong>기억을 자원과 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지에 명시적으로 배치한 서버</strong>로 이해하는 것이 정확하다.
+하지만 모든 부담이 자동으로 사라지는 것은 아니다. 요청당 정보량 증가, 토큰 보안, 만료 처리, 권한 변경 전파 문제는 여전히 설계해야 한다. 따라서 무상태성은 "기억을 포기한 서버"가 아니라, <strong>기억을 자원과 메시지에 명시적으로 배치한 서버</strong>로 이해하는 것이 정확하다.
 
-결론적으로 무상태성은 확장성을 위한 형식 규칙이 아니라, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 서버를 교체 가능하게 만드는 인터페이스 원칙이다. 이 관점을 잡으면 왜 REST가 요청 독립성을 강조하는지, 왜 토큰 설계가 중요한지, 왜 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 남용이 확장을 막는지도 자연스럽게 연결된다.
+결론적으로 무상태성은 확장성을 위한 형식 규칙이 아니라, 분산 환경에서 서버를 교체 가능하게 만드는 인터페이스 원칙이다. 이 관점을 잡으면 왜 REST가 요청 독립성을 강조하는지, 왜 토큰 설계가 중요한지, 왜 세션 남용이 확장을 막는지도 자연스럽게 연결된다.
 
-- **📢 섹션 요약 비유**: 좋은 무상태 API는 직원이 손님을 외우지 않아도 표준 양식만 보면 바로 응대할 수 있는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 창구와 같다. 사람이 바뀌어도 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 흔들리지 않는다.
+- **📢 섹션 요약 비유**: 좋은 무상태 API는 직원이 손님을 외우지 않아도 표준 양식만 보면 바로 응대할 수 있는 서비스 창구와 같다. 사람이 바뀌어도 서비스 품질이 흔들리지 않는다.
 
 ---
 
@@ -118,11 +118,11 @@ weight: 162
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) | 무상태성을 핵심 제약으로 포함 |
-| [JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) | 무상태 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 구현할 때 자주 사용하는 토큰 방식 |
-| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 어피니티 ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) | 상태 유지형 구조에서 필요한 서버 고정 기법 |
+| REST (Representational State Transfer) | 무상태성을 핵심 제약으로 포함 |
+| JWT (JSON Web Token) | 무상태 인증을 구현할 때 자주 사용하는 토큰 방식 |
+| 세션 어피니티 (Session Affinity) | 상태 유지형 구조에서 필요한 서버 고정 기법 |
 | 캐시 가능성 (Cacheability) | 요청 독립성이 높을수록 중간 계층 활용이 쉬워짐 |
-| [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) | 독립 배포·확장 환경에서 무상태 API의 장점이 크게 드러남 |
+| MSA (Microservices Architecture) | 독립 배포·확장 환경에서 무상태 API의 장점이 크게 드러남 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,21 +142,10 @@ weight: 162
 클라우드 · MSA 운영 최적화
 ```
 
-이 흐름은 "서버 기억 의존 -> 요청 독립성 강화 -> [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 운영 최적화"로 웹 아키텍처가 발전하는 맥락을 보여준다.
+이 흐름은 "서버 기억 의존 -> 요청 독립성 강화 -> 분산 운영 최적화"로 웹 아키텍처가 발전하는 맥락을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 무상태성은 가게 아저씨가 손님을 외우지 않고, 손님이 번호표를 보여 주면 바로 도와주는 방법이에요.
 2. 그래서 어느 직원이 와도 같은 번호표만 있으면 일을 이어서 할 수 있어요.
 3. 대신 손님은 필요한 표를 잘 챙겨 와야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 162 / 482
-
-<- **이전**: [161. Level 3 - HATEOAS (Hypermedia As The 엔진 Of Application State), 응답에](/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)
-**다음**: [163. 마이크로서비스 아키텍처 (MSA, Microservices Architecture) - 거대한 모놀리식(Monolithic)](/studynote/07_enterprise_systems/03_eai_esb_msa/163_microservices_architecture_msa/) ->
-
----

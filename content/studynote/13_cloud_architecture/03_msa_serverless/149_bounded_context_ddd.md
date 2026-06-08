@@ -6,21 +6,21 @@ tags:
 weight: 149
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))란 [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))에서 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 유효한 논리적 경계로, 동일 단어도 경계 안에서 서로 다른 의미를 가질 수 있다.
-> 2. **가치**: 각 [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))에서 독립 배포 가능한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 후보로 직결되어, 팀 경계·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계·코드 경계를 일치시킨다.
-> 3. **판단 포인트**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계를 자를 때 비즈니스 언어([유비쿼터스 언어](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)) 충돌 지점을 찾아 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 맵을 그리면 과분리·과통합 없이 최적 경계를 도출할 수 있다.
+> 1. **본질**: 바운디드 컨텍스트 (Bounded Context)란 DDD (Domain-Driven Design)에서 특정 도메인 모델이 유효한 논리적 경계로, 동일 단어도 경계 안에서 서로 다른 의미를 가질 수 있다.
+> 2. **가치**: 각 바운디드 컨텍스트는 MSA (Microservices Architecture)에서 독립 배포 가능한 서비스 후보로 직결되어, 팀 경계·데이터 경계·코드 경계를 일치시킨다.
+> 3. **판단 포인트**: 서비스 경계를 자를 때 비즈니스 언어(유비쿼터스 언어) 충돌 지점을 찾아 컨텍스트 맵을 그리면 과분리·과통합 없이 최적 경계를 도출할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-대규모 소프트웨어 시스템에서는 "고객([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/))"이라는 단어 하나가 영업 팀에서는 잠재 리드를 뜻하고, 배송 팀에서는 수취인을, 청구 팀에서는 납부 주체를 의미한다. 이처럼 같은 용어가 맥락에 따라 다른 개념을 가리킬 때 하나의 통합 모델로 모든 의미를 담으려 하면 클래스는 비대해지고 결합도는 폭발적으로 늘어난다.
+대규모 소프트웨어 시스템에서는 "고객(C고객)"이라는 단어 하나가 영업 팀에서는 잠재 리드를 뜻하고, 배송 팀에서는 수취인을, 청구 팀에서는 납부 주체를 의미한다. 이처럼 같은 용어가 맥락에 따라 다른 개념을 가리킬 때 하나의 통합 모델로 모든 의미를 담으려 하면 클래스는 비대해지고 결합도는 폭발적으로 늘어난다.
 
-[DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))의 [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))는 이 문제를 "모델이 유효한 경계를 명시적으로 선언"함으로써 해결한다. 경계 안에서는 [유비쿼터스 언어](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) ([Ubiquitous Language](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))가 일관되게 유지되며, 경계 바깥과는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Map)으로 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맺는다.
+DDD (Domain-Driven Design)의 바운디드 컨텍스트 (Bounded Context)는 이 문제를 "모델이 유효한 경계를 명시적으로 선언"함으로써 해결한다. 경계 안에서는 유비쿼터스 언어 (Ubiquitous Language)가 일관되게 유지되며, 경계 바깥과는 컨텍스트 맵 (Context Map)으로 관계를 맺는다.
 
-[MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 설계 시 [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리의 핵심 기준이 된다. 각 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)는 자체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스토어를 소유하고, 다른 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)와 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 또는 이벤트로만 통신한다. 이를 통해 팀 자율성(Conway's Law)과 기술 이종성(Polyglot)을 동시에 달성한다.
+MSA (Microservices Architecture) 설계 시 바운디드 컨텍스트는 서비스 분리의 핵심 기준이 된다. 각 컨텍스트는 자체 데이터 스토어를 소유하고, 다른 컨텍스트와 API 또는 이벤트로만 통신한다. 이를 통해 팀 자율성(Conway's Law)과 기술 이종성(Polyglot)을 동시에 달성한다.
 
-📢 **섹션 요약 비유**: [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 외국어 사전과 같다 — "bank"가 영영 사전에서는 금융기관이지만, 지형 사전에서는 강둑이듯, 경계를 먼저 정해야 뜻이 명확해진다.
+📢 **섹션 요약 비유**: 바운디드 컨텍스트는 외국어 사전과 같다 — "bank"가 영영 사전에서는 금융기관이지만, 지형 사전에서는 강둑이듯, 경계를 먼저 정해야 뜻이 명확해진다.
 
 ---
 
@@ -28,11 +28,11 @@ weight: 149
 
 | 항목 | 내용 | 특징 |
 |:---|:---|:---|
-| 경계 정의 | [유비쿼터스 언어](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)가 일관된 범위 | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가·개발자 공유 언어 |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권 | [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)별 독립 DB | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 최소화 |
-| [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 | 경계 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 명시 | [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Shared [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), Upstream/Downstream |
-| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 후보 | 1 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) ≈ 1 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) | 팀·배포·스케일 단위 일치 |
-| 통신 방식 | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(동기) 또는 이벤트(비동기) | 느슨한 결합 유지 |
+| 경계 정의 | 유비쿼터스 언어가 일관된 범위 | 도메인 전문가·개발자 공유 언어 |
+| 데이터 소유권 | 컨텍스트별 독립 DB | 데이터 결합 최소화 |
+| 컨텍스트 맵 | 경계 간 관계 명시 | ACL, Shared Kernel, Upstream/Downstream |
+| 서비스 후보 | 1 컨텍스트 ≈ 1 마이크로서비스 | 팀·배포·스케일 단위 일치 |
+| 통신 방식 | API(동기) 또는 이벤트(비동기) | 느슨한 결합 유지 |
 
 ```text
 +-----------------------------------------------------------------+
@@ -58,65 +58,65 @@ weight: 149
 +-----------------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 각 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)는 독립된 왕국 — 왕국마다 화폐 단위가 달라도 국경의 환전소([ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Anti-Corruption Layer)를 통해 교역이 가능하다.
+📢 **섹션 요약 비유**: 각 컨텍스트는 독립된 왕국 — 왕국마다 화폐 단위가 달라도 국경의 환전소(ACL, Anti-Corruption Layer)를 통해 교역이 가능하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) | 하위 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) (Subdomain) |
+| 구분 | 바운디드 컨텍스트 (Bounded Context) | 하위 도메인 (Subdomain) |
 |:---|:---|:---|
 | 관점 | 솔루션 공간 (구현 경계) | 문제 공간 (비즈니스 영역) |
 | 개수 | 설계 선택에 따라 변동 | 비즈니스 구조에 의해 결정 |
-| 1:1 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 권장하나 필수 아님 | 1개 하위 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) -> 여러 BC 가능 |
-| 핵심 도구 | [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 맵, [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | 코어/서브/지원 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| 1:1 관계 | 권장하나 필수 아님 | 1개 하위 도메인 -> 여러 BC 가능 |
+| 핵심 도구 | 컨텍스트 맵, ACL | 코어/서브/지원 도메인 분류 |
 
-[컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 패턴 종류:
-- <strong>Shared <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a></strong>: 두 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)가 작은 모델 일부를 공유, 변경 시 협의 필수.
-- <strong><a href="/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a>/Supplier</strong>: 업스트림이 다운스트림 요구를 충족해야 함.
-- <strong><a href="/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a> (Anti-Corruption Layer)</strong>: 외부 모델을 내부 모델로 변환하는 번역 계층.
-- <strong>Open Host <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong>: 퍼블릭 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 형태로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 노출.
+컨텍스트 맵 패턴 종류:
+- <strong>Shared Kernel</strong>: 두 컨텍스트가 작은 모델 일부를 공유, 변경 시 협의 필수.
+- <strong>C고객/Supplier</strong>: 업스트림이 다운스트림 요구를 충족해야 함.
+- <strong>ACL (Anti-Corruption Layer)</strong>: 외부 모델을 내부 모델로 변환하는 번역 계층.
+- <strong>Open Host Service</strong>: 퍼블릭 API 형태로 서비스를 노출.
 
-📢 **섹션 요약 비유**: 하위 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 지도 위의 지형이라면, [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 그 위에 그린 행정구역 선 — 지형은 고정이지만 경계선은 필요에 따라 조정된다.
+📢 **섹션 요약 비유**: 하위 도메인이 지도 위의 지형이라면, 바운디드 컨텍스트는 그 위에 그린 행정구역 선 — 지형은 고정이지만 경계선은 필요에 따라 조정된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 경계 도출 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
-1. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 이벤트 스토밍 (Event Storming) 세션을 통해 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 목록 작성.
-2. 같은 명사가 다른 의미로 쓰이는 충돌 지점 -> [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 후보.
-3. 각 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)의 변경 빈도·팀 소유권·독립 배포 요구 사항 검토.
-4. [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 작성 후 순환 의존 여부 점검 -> 순환 발생 시 경계 재조정.
+<strong>서비스 경계 도출 체크리스트</strong>
+1. 도메인 전문가와 이벤트 스토밍 (Event Storming) 세션을 통해 도메인 이벤트 목록 작성.
+2. 같은 명사가 다른 의미로 쓰이는 충돌 지점 -> 컨텍스트 경계 후보.
+3. 각 컨텍스트의 변경 빈도·팀 소유권·독립 배포 요구 사항 검토.
+4. 컨텍스트 맵 작성 후 순환 의존 여부 점검 -> 순환 발생 시 경계 재조정.
 5. 단일 DB 공유 여부 점검 -> 공유 시 경계 실질적으로 무의미.
 
 **기술사 시험 포인트**
-- [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)와 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 1:1 대응 원칙을 설명하고, 예외(대형 BC를 여러 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분리)도 언급할 것.
-- [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴을 레거시 시스템 연동 시나리오에서 적용하는 방법을 서술하면 가점.
+- 바운디드 컨텍스트와 마이크로서비스 1:1 대응 원칙을 설명하고, 예외(대형 BC를 여러 서비스로 분리)도 언급할 것.
+- ACL 패턴을 레거시 시스템 연동 시나리오에서 적용하는 방법을 서술하면 가점.
 
-📢 **섹션 요약 비유**: 경계 설계는 도시 계획 — 처음에 도로망(경계)을 잘 깔아야 나중에 건물([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 자유롭게 신축·재건축할 수 있다.
+📢 **섹션 요약 비유**: 경계 설계는 도시 계획 — 처음에 도로망(경계)을 잘 깔아야 나중에 건물(서비스)을 자유롭게 신축·재건축할 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)를 기반으로 MSA를 설계하면 팀 자율성, 독립 배포, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권 명확화라는 세 가지 이점을 동시에 얻는다. 비즈니스 언어와 코드 구조가 일치하므로 신규 팀원의 온보딩 속도가 빨라지고, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 변경이 특정 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 국소화된다.
+바운디드 컨텍스트를 기반으로 MSA를 설계하면 팀 자율성, 독립 배포, 데이터 소유권 명확화라는 세 가지 이점을 동시에 얻는다. 비즈니스 언어와 코드 구조가 일치하므로 신규 팀원의 온보딩 속도가 빨라지고, 도메인 변경이 특정 서비스에 국소화된다.
 
-한계점으로는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 비용이 크고, 잘못된 경계 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 네트워크 홉 (hop) 증가·[분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 복잡도 상승 등의 역효과가 발생한다. 따라서 작은 모놀리스로 시작해 [Strangler Fig](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴으로 점진적으로 분리하는 것이 리스크를 줄이는 실용적 접근이다.
+한계점으로는 초기 설계 비용이 크고, 잘못된 경계 설정 시 네트워크 홉 (hop) 증가·분산 트랜잭션 복잡도 상승 등의 역효과가 발생한다. 따라서 작은 모놀리스로 시작해 Strangler Fig 패턴으로 점진적으로 분리하는 것이 리스크를 줄이는 실용적 접근이다.
 
-📢 **섹션 요약 비유**: [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 집의 방 구조 — 방을 잘 나눠야 각자 편히 살 수 있지만, 벽을 너무 많이 세우면 이사하기도 불편하다.
+📢 **섹션 요약 비유**: 바운디드 컨텍스트는 집의 방 구조 — 방을 잘 나눠야 각자 편히 살 수 있지만, 벽을 너무 많이 세우면 이사하기도 불편하다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [유비쿼터스 언어](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) ([Ubiquitous Language](/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)) | BC 내부에서 일관된 용어 사용 |
-| [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Map) | BC 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·통신 패턴 명시 |
+| 유비쿼터스 언어 (Ubiquitous Language) | BC 내부에서 일관된 용어 사용 |
+| 컨텍스트 맵 (Context Map) | BC 간 관계·통신 패턴 명시 |
 | 이벤트 스토밍 (Event Storming) | BC 경계 발견 워크숍 기법 |
-| [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) | BC 1개 = [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 후보 |
-| [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) (Anti-Corruption Layer) | 외부 BC 모델 오염 방지 번역 계층 |
-| [Strangler Fig](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴 | 모놀리스를 BC 단위로 점진적 분리 |
+| MSA (Microservices Architecture) | BC 1개 = 서비스 후보 |
+| ACL (Anti-Corruption Layer) | 외부 BC 모델 오염 방지 번역 계층 |
+| Strangler Fig 패턴 | 모놀리스를 BC 단위로 점진적 분리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 학교에서 "선생님"은 담임 선생님이지만, 병원에서 "선생님"은 의사 선생님이에요 — 같은 말이라도 장소에 따라 뜻이 달라요.
@@ -134,16 +134,5 @@ Bounded Context: 도메인별 독립 모델 경계
     v
 MSA 서비스 분할 기준 -> API 계약
 ```
-2. [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 그 '장소의 울타리'예요 — 울타리 안에서는 모두 같은 언어로 이야기해요.
+2. 바운디드 컨텍스트는 그 '장소의 울타리'예요 — 울타리 안에서는 모두 같은 언어로 이야기해요.
 3. 울타리를 잘 치면, 학교와 병원이 서로 독립적으로 운영되면서도 필요할 때 연락해서 협력할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 148 / 371
-
-<- **이전**: [148. 보편적 언어 (Ubiquitous Language)](/studynote/13_cloud_architecture/03_msa_serverless/148_ubiquitous_language/)
-**다음**: [150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)](/studynote/13_cloud_architecture/03_msa_serverless/150_serverless_computing_faas/) ->
-
----

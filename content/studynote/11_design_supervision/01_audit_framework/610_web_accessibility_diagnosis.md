@@ -6,51 +6,51 @@ tags:
 weight: 610
 ---
 > **핵심 인사이트 3줄**
-> 1. 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(Web [Accessibility](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))은 장애인·고령자를 포함한 모든 사용자가 웹 콘텐츠를 동등하게 이용할 수 있도록 보장하는 품질 기준으로, WCAG 2.1 기반 4대 원칙(POUR)이 국제 표준이다.
-> 2. 국내 공공·민간 웹사이트는 「장애인차별금지법」과 「한국형 웹 콘텐츠 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침([KWCAG](/studynote/12_it_management/05_security_compliance/334_kwcag/)) 2.1」에 따라 법적 의무 준수가 요구된다.
-> 3. 자동화 도구(axe, [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/), Lighthouse)로 40~50%의 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 오류를 탐지하고, 나머지는 스크린 리더 실사용자 테스트·전문가 수동 검토로 보완하는 혼합 진단이 현대 표준이다.
+> 1. 웹 접근성(Web Accessibility)은 장애인·고령자를 포함한 모든 사용자가 웹 콘텐츠를 동등하게 이용할 수 있도록 보장하는 품질 기준으로, WCAG 2.1 기반 4대 원칙(POUR)이 국제 표준이다.
+> 2. 국내 공공·민간 웹사이트는 「장애인차별금지법」과 「한국형 웹 콘텐츠 접근성 지침(KWCAG) 2.1」에 따라 법적 의무 준수가 요구된다.
+> 3. 자동화 도구(axe, WAVE, Lighthouse)로 40~50%의 접근성 오류를 탐지하고, 나머지는 스크린 리더 실사용자 테스트·전문가 수동 검토로 보완하는 혼합 진단이 현대 표준이다.
 
 ---
 
-## Ⅰ. 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)의 정의와 POUR 원칙
+## Ⅰ. 웹 접근성의 정의와 POUR 원칙
 
-웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(Web [Accessibility](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))은 <strong>장애 유형과 관계없이 모든 사람이 웹을 이용할 수 있도록 하는 설계 원칙</strong>이다.
+웹 접근성(Web Accessibility)은 <strong>장애 유형과 관계없이 모든 사람이 웹을 이용할 수 있도록 하는 설계 원칙</strong>이다.
 
 ### WCAG 2.1 POUR 4대 원칙
 
 | 원칙               | 의미                        | 핵심 지침 예시              |
 |------------------|-----------------------------|-----------------------------|
-| Perceivable (인지) | 정보를 감각으로 인식 가능   | 이미지 대체 텍스트([alt](/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/))     |
+| Perceivable (인지) | 정보를 감각으로 인식 가능   | 이미지 대체 텍스트(alt)     |
 | Operable (운용)   | 모든 기능을 조작 가능       | 키보드만으로 전체 조작 가능 |
 | Understandable (이해) | 정보·UI가 이해 가능    | 오류 메시지 명확히 안내     |
 | Robust (견고)     | 다양한 기술·보조 기기 호환  | 유효한 HTML/ARIA 마크업     |
 
 ### WCAG 적합성 수준
 
-- **A 수준**: 최소 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 요건 (필수)
-- <strong><a href="/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/">AA</a> 수준</strong>: 권장·법적 기준 (대부분 국가)
+- **A 수준**: 최소 접근성 요건 (필수)
+- <strong>AA 수준</strong>: 권장·법적 기준 (대부분 국가)
 - **AAA 수준**: 최고 수준 (일부 콘텐츠)
 
-📢 **섹션 요약 비유**: POUR 원칙은 건물 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)이다 — 볼 수 있는(인지), 들어갈 수 있는(운용), 이해할 수 있는 표지판(이해), 모든 기기와 호환(견고).
+📢 **섹션 요약 비유**: POUR 원칙은 건물 접근성이다 — 볼 수 있는(인지), 들어갈 수 있는(운용), 이해할 수 있는 표지판(이해), 모든 기기와 호환(견고).
 
 ---
 
-## Ⅱ. 한국형 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침 ([KWCAG](/studynote/12_it_management/05_security_compliance/334_kwcag/) 2.1)
+## Ⅱ. 한국형 웹 접근성 지침 (KWCAG 2.1)
 
 | 원칙   | 지침 번호 | 핵심 검사 항목                   |
 |------|---------|----------------------------------|
 | 인식   | 1.1~1.4 | 대체 텍스트, 자막, 색깔 의존 금지  |
 | 운용   | 2.1~2.4 | 키보드 접근, 충분한 시간, 광과민 자극 방지 |
 | 이해   | 3.1~3.3 | 읽기 쉬운 콘텐츠, 예측 가능성, 입력 도움 |
-| 견고   | 4.1     | 문법 준수, [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 적합성      |
+| 견고   | 4.1     | 문법 준수, 접근성 API 적합성      |
 
-**법적 근거**: 장애인차별금지법 제21조, 웹접근성 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)마크(WA) 취득 의무
+**법적 근거**: 장애인차별금지법 제21조, 웹접근성 인증마크(WA) 취득 의무
 
 📢 **섹션 요약 비유**: KWCAG는 건물 안전 기준이다 — 경사로(키보드 접근), 점자 안내판(대체 텍스트), 넓은 복도(충분한 클릭 영역)처럼 모두를 위한 설계 기준이다.
 
 ---
 
-## Ⅲ. 주요 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 오류와 해결
+## Ⅲ. 주요 접근성 오류와 해결
 
 ### 이미지 대체 텍스트
 
@@ -63,7 +63,7 @@ weight: 610
 <img src="decorative.png" alt="">  <!-- 장식 이미지: 빈 alt -->
 ```
 
-### 키보드 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)
+### 키보드 접근성
 
 ```html
 <!-- 잘못된 예: div로 버튼 구현 -->
@@ -93,13 +93,13 @@ weight: 610
 
 | 도구           | 탐지율   | 특징                            |
 |-------------|--------|---------------------------------|
-| axe DevTools | ~40%   | Chrome 확장, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합 가능    |
-| [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)         | ~35%   | 시각적 오버레이로 오류 표시      |
-| Lighthouse   | ~30%   | Google, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 통합 점수   |
-| Pa11y        | ~40%   | CLI 자동화, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 통합              |
-| [Deque](/studynote/08_algorithm_stats/04_datastructure/084_deque/) axe    | ~45%   | 엔터프라이즈, JIRA 연동          |
+| axe DevTools | ~40%   | Chrome 확장, CI/CD 통합 가능    |
+| WAVE         | ~35%   | 시각적 오버레이로 오류 표시      |
+| Lighthouse   | ~30%   | Google, 성능·접근성 통합 점수   |
+| Pa11y        | ~40%   | CLI 자동화, CI 통합              |
+| Deque axe    | ~45%   | 엔터프라이즈, JIRA 연동          |
 
-### [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합 예시
+### CI/CD 통합 예시
 
 ```yaml
 # GitHub Actions 접근성 자동 테스트
@@ -112,26 +112,26 @@ weight: 610
 
 ---
 
-## Ⅴ. 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 감리
+## Ⅴ. 웹 접근성 인증과 감리
 
-### 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)마크 (WA)
+### 웹 접근성 인증마크 (WA)
 
 ```
 신청 -> 서류 검토 -> 전문가 진단 (자동+수동) -> 보완
      -> 최종 심사 -> 인증마크 부여 (유효 1년)
 ```
 
-### [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 감리 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 접근성 감리 체크리스트
 
 | 항목              | 진단 방법              |
 |-----------------|----------------------|
 | 대체 텍스트       | 자동(axe) + 스크린 리더 |
-| 키보드 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)     | 수동 탭 네비게이션 테스트 |
+| 키보드 접근성     | 수동 탭 네비게이션 테스트 |
 | 색상 대비         | Contrast Checker 자동 |
 | 폼 레이블 연결    | HTML 검사 + AT 테스트  |
-| 동영상 자막       | 수동 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)              |
+| 동영상 자막       | 수동 확인              |
 
-📢 **섹션 요약 비유**: 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 감리는 건물 준공 검사다 — 도면(WCAG)에 맞게 지어졌는지 전문 감사관이 점검하고 합격해야 사용 허가(WA [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))가 난다.
+📢 **섹션 요약 비유**: 웹 접근성 감리는 건물 준공 검사다 — 도면(WCAG)에 맞게 지어졌는지 전문 감사관이 점검하고 합격해야 사용 허가(WA 인증)가 난다.
 
 ---
 
@@ -183,17 +183,6 @@ POUR 원칙 -> WCAG 2.1 -> KWCAG 2.1 -> WA 인증
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 웹 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 모든 사람을 위한 계단 없는 건물이다 — 휠체어를 탄 사람도 경사로로 들어갈 수 있도록 처음부터 설계한다.
+1. 웹 접근성은 모든 사람을 위한 계단 없는 건물이다 — 휠체어를 탄 사람도 경사로로 들어갈 수 있도록 처음부터 설계한다.
 2. 대체 텍스트는 그림책의 설명이다 — 눈이 보이지 않는 친구에게 그림 대신 "귀여운 강아지가 달리고 있어요"라고 읽어준다.
-3. 키보드 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 마우스 없이 탭 키로만 웹을 쓸 수 있는 것이다 — 손을 못 쓰는 사람도 키보드만으로 모든 기능을 사용할 수 있어야 한다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 43 / 530
-
-<- **이전**: [33. 기능점수 검증 (Function Point Verification)](/studynote/11_design_supervision/01_audit_framework/033_function_point_verification/)
-**다음**: [감리 품질 관리 (Audit Quality Management)](/studynote/11_design_supervision/01_audit_framework/034_audit_quality_management/) ->
-
----
+3. 키보드 접근성은 마우스 없이 탭 키로만 웹을 쓸 수 있는 것이다 — 손을 못 쓰는 사람도 키보드만으로 모든 기능을 사용할 수 있어야 한다.

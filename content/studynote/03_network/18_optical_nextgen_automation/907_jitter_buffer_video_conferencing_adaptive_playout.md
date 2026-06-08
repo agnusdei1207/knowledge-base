@@ -15,8 +15,8 @@ weight: 907
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Delay/<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 내 목소리가 상대방에게 도착할 때까지 걸리는 절대적인 시간. (예: 모두 50ms씩 늦게 옴 ➜ 대화가 늦어질 뿐 소리가 깨지진 않음).
-- <strong>지터 (Jitter / <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 변이)</strong>: <strong>패킷들이 도착하는 '<a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 시간의 차이(편차, Variation)'가 들쭉날쭉한 현상</strong>입니다. (808번 문서 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+- <strong>지연(Delay/Latency)</strong>: 내 목소리가 상대방에게 도착할 때까지 걸리는 절대적인 시간. (예: 모두 50ms씩 늦게 옴 ➜ 대화가 늦어질 뿐 소리가 깨지진 않음).
+- <strong>지터 (Jitter / 지연 변이)</strong>: <strong>패킷들이 도착하는 '지연 시간의 차이(편차, Variation)'가 들쭉날쭉한 현상</strong>입니다. (808번 문서 참조)
   - 1번 패킷은 50ms 만에 오고, 2번 패킷은 라우터에서 길이 막혀 150ms 만에 오고, 3번 패킷은 20ms 만에 쏟아져 들어옵니다(무작위성).
   - VoIP(인터넷 전화)나 화상 회의에서 이 간격의 널뛰기는 음성 왜곡, 기계음, 모자이크(깍두기) 화면 깨짐의 100% 근본 원인이 됩니다.
 
@@ -29,7 +29,7 @@ weight: 907
     +---> [FEC 실시간 비디오 손실 은닉 기법 미디어…]
 ```
 
-- **📢 섹션 요약 비유**: 화상 회의 지터 버퍼는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 화상 회의 지터 버퍼는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
@@ -37,10 +37,10 @@ weight: 907
 
 - **개념**: 수신 측 단말기(스마트폰 줌 앱, IP 전화기)의 램(RAM) 메모리에 만들어둔 <strong>임시 패킷 대기실(완충 저장소)</strong>입니다. 네트워크를 타고 불규칙하게 쏟아져 들어오는 패킷들을 스피커로 바로 쏘지 않고, 이 대기실에 잠시 가둬두고 순서를 예쁘게 정렬한 뒤 **완벽하게 일정한 타이밍(간격)으로 하나씩 꺼내어 스피커(재생기)로 보내는 충격 흡수 쇼바(완충기)** 역할을 합니다.
 
-### 완충 재생 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Playout Delay)의 원리
+### 완충 재생 지연(Playout Delay)의 원리
 1. 패킷들이 "우르르-뚝-우르르" 지멋대로 도착합니다.
-2. 지터 버퍼가 패킷 헤더에 적힌 타임스탬프([RTP](/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) 헤더 등)를 보고 1번, 2번, 3번 순서대로 바구니에 예쁘게 줄을 세웁니다.
-3. **핵심 딜레마**: 바구니에 패킷을 너무 짧게 머물게 하면, 지각하는 3번 패킷을 기다려주지 못해 소리가 끊깁니다([Underflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)). 반대로 3번을 무작정 기다려주려고 바구니 대기 시간(지터 버퍼 사이즈)을 너무 길게(예: 3초) 잡아두면? 상무님 목소리가 스피커에서 3초 뒤에 나와 대화가 불가능해집니다([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 렉 폭발).
+2. 지터 버퍼가 패킷 헤더에 적힌 타임스탬프(RTP 헤더 등)를 보고 1번, 2번, 3번 순서대로 바구니에 예쁘게 줄을 세웁니다.
+3. **핵심 딜레마**: 바구니에 패킷을 너무 짧게 머물게 하면, 지각하는 3번 패킷을 기다려주지 못해 소리가 끊깁니다(Underflow). 반대로 3번을 무작정 기다려주려고 바구니 대기 시간(지터 버퍼 사이즈)을 너무 길게(예: 3초) 잡아두면? 상무님 목소리가 스피커에서 3초 뒤에 나와 대화가 불가능해집니다(지연 렉 폭발).
 
 ```text
 [CMAF]
@@ -57,12 +57,12 @@ weight: 907
 
 ## Ⅲ. 비교 및 연결
 
-고정된 크기의 바구니로는 널뛰는 인터넷을 감당할 수 없어 AI와 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 섞은 똑똑한 고무줄 바구니를 씁니다.
+고정된 크기의 바구니로는 널뛰는 인터넷을 감당할 수 없어 AI와 알고리즘을 섞은 똑똑한 고무줄 바구니를 씁니다.
 
-- <strong>적응형 크기 조절 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
+- <strong>적응형 크기 조절 알고리즘</strong>:
   - 앱(수신기)이 네트워크 핑(Ping) 상태를 실시간 감시합니다.
   - **인터넷이 쌩쌩할 때**: "오, 패킷들 지각 안 하고 따박따박 잘 오네!" ➜ **지터 버퍼 크기를 10ms로 팍 줄여버립니다.** 대화 딜레이가 0이 되어 면대면 대화처럼 빠릿빠릿해집니다.
-  - **인터넷이 불안정(지터 폭증)할 때**: "야, 패킷 놈들 엄청 지각하고 널뛰기 시작한다!" ➜ **지터 버퍼 크기를 100ms, 200ms로 고무줄처럼 쫘악 늘립니다.** 딜레이(렉)는 좀 심해지더라도, 목소리가 로봇처럼 찢어지는 치명적인 왜곡만큼은 100% 방어해 내는(버티는) 동적 최신 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 체계입니다.
+  - **인터넷이 불안정(지터 폭증)할 때**: "야, 패킷 놈들 엄청 지각하고 널뛰기 시작한다!" ➜ **지터 버퍼 크기를 100ms, 200ms로 고무줄처럼 쫘악 늘립니다.** 딜레이(렉)는 좀 심해지더라도, 목소리가 로봇처럼 찢어지는 치명적인 왜곡만큼은 100% 방어해 내는(버티는) 동적 최신 동기화 체계입니다.
 
 화상 회의 지터 버퍼를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CMAF가 기반 조건을 만든다면, 화상 회의 지터 버퍼는 그 위에서 핵심 메커니즘을 구현하고, FEC 실시간 비디오 손실 은닉 기법 미디어…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -70,7 +70,7 @@ weight: 907
 |:---|:---|:---|:---|
 | 초점 | CMAF의 기반 정리 | 화상 회의 지터 버퍼의 핵심 동작 | FEC 실시간 비디오 손실 은닉 기법 미디어…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: 화상 회의 지터 버퍼는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -79,9 +79,9 @@ weight: 907
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 지터 버퍼를 아무리 200ms로 길게 열어두고 기다려도, 끝끝내 지각해서 못 들어온 3번 패킷이 있습니다. 이 놈은 버퍼 타임오버로 가차 없이 버려집니다(버퍼 드랍).
-- 이때 3번 패킷의 빈자리 때문에 스피커에서 "뚝!" 소리가 나는 걸 막기 위해, 2번 패킷과 4번 패킷의 소리 파장을 인공지능이 분석해 <strong>가짜 3번 목소리 파형을 마술처럼 그려서 빈 공간을 부드럽게 메꿔버리는 기술</strong>이 바로 다음 908번 문서의 <strong>손실 은닉(FEC/<a href="/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/">PLC</a>)</strong> 기법입니다.
+- 이때 3번 패킷의 빈자리 때문에 스피커에서 "뚝!" 소리가 나는 걸 막기 위해, 2번 패킷과 4번 패킷의 소리 파장을 인공지능이 분석해 <strong>가짜 3번 목소리 파형을 마술처럼 그려서 빈 공간을 부드럽게 메꿔버리는 기술</strong>이 바로 다음 908번 문서의 <strong>손실 은닉(FEC/PLC)</strong> 기법입니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -103,8 +103,8 @@ weight: 907
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [CMAF](/studynote/03_network/18_optical_nextgen_automation/906_cmaf_common_media_application_format_low_latency/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
+| CMAF | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | 초고속 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
 | FEC 실시간 비디오 손실 은닉 기법 미디어… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
@@ -127,14 +127,3 @@ weight: 907
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 1028 / 1120
-
-<- **이전**: [906. CMAF (Common Media Application Format DASH/HLS 파편화 인코딩 단일 미디어 컨테이너 포맷](/studynote/03_network/18_optical_nextgen_automation/906_cmaf_common_media_application_format_low_latency/)
-**다음**: [908. FEC 실시간 비디오 손실 은닉 기법 미디어 품질 보상 (에러 패킷 무시 보간 재생 보정망 통신 대역 폭증 대비 잉여 비트 기술](/studynote/03_network/18_optical_nextgen_automation/908_fec_error_concealment_video_streaming_quality_compensation/) ->
-
----

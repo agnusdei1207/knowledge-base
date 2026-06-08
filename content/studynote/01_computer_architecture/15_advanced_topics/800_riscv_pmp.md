@@ -7,15 +7,15 @@ weight: 800
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) PMP는 M-mode (Machine Mode)가 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/) 범위별 R/W/X 권한을 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)해 하위 모드의 메모리 접근을 하드웨어로 제한하는 메커니즘이다.
-> 2. **가치**: MMU가 없거나 단순한 임베디드 코어에서도 샌드박스와 부트 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 구현할 수 있어, [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) 보안의 최소 기본선 역할을 한다.
-> 3. **판단 포인트**: PMP 설계의 핵심은 적은 엔트리 수 안에서 TOR·NAPOT 매칭 방식을 섞어 코드·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·I/O 경계를 어떻게 배치하느냐에 있다.
+> 1. **본질**: RISC-V PMP는 M-mode (Machine Mode)가 물리 주소 범위별 R/W/X 권한을 설정해 하위 모드의 메모리 접근을 하드웨어로 제한하는 메커니즘이다.
+> 2. **가치**: MMU가 없거나 단순한 임베디드 코어에서도 샌드박스와 부트 보호를 구현할 수 있어, RISC-V 보안의 최소 기본선 역할을 한다.
+> 3. **판단 포인트**: PMP 설계의 핵심은 적은 엔트리 수 안에서 TOR·NAPOT 매칭 방식을 섞어 코드·데이터·I/O 경계를 어떻게 배치하느냐에 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 대형 하이퍼바이저가 없는 마이크로컨트롤러나 부트 단계에서는, 물리 메모리 자체를 직접 잘라 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)해야 하는 경우가 많다. [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) PMP는 이런 환경에서 주소 변환보다 앞서, 특정 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/) 범위에 읽기·[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·실행 권한을 붙여 경계를 만드는 도구다. 즉 복잡한 OS가 없어도 하드웨어 차단선을 만들 수 있게 해 주는 것이다. 그래서 PMP는 단순 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 개 같아 보여도, 임베디드 보안과 secure boot에서 매우 중요하다.
+가상 메모리와 대형 하이퍼바이저가 없는 마이크로컨트롤러나 부트 단계에서는, 물리 메모리 자체를 직접 잘라 보호해야 하는 경우가 많다. RISC-V PMP는 이런 환경에서 주소 변환보다 앞서, 특정 물리 주소 범위에 읽기·쓰기·실행 권한을 붙여 경계를 만드는 도구다. 즉 복잡한 OS가 없어도 하드웨어 차단선을 만들 수 있게 해 주는 것이다. 그래서 PMP는 단순 레지스터 몇 개 같아 보여도, 임베디드 보안과 secure boot에서 매우 중요하다.
 
 ```text
 +--------------------------------------------------------------+
@@ -34,12 +34,12 @@ weight: 800
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PMP는 pmpcfg와 pmpaddr [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 쌍으로 구성되며, 각 엔트리는 주소 매칭 모드와 R/W/X 권한, 락 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 가진다. TOR (Top of Range)는 인접 엔트리 두 개로 임의 범위를 표현하기 좋고, NAPOT (Naturally Aligned Power-of-Two)는 하나의 엔트리로 정렬된 2의 거듭제곱 크기 영역을 표현할 수 있다. 하드웨어는 낮은 번호 엔트리부터 순차 매칭하므로 우선순위 설계도 중요하다. 또한 L bit를 세우면 M-mode까지 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 함부로 바꾸기 어렵게 만들 수 있다.
+PMP는 pmpcfg와 pmpaddr 레지스터 쌍으로 구성되며, 각 엔트리는 주소 매칭 모드와 R/W/X 권한, 락 비트를 가진다. TOR (Top of Range)는 인접 엔트리 두 개로 임의 범위를 표현하기 좋고, NAPOT (Naturally Aligned Power-of-Two)는 하나의 엔트리로 정렬된 2의 거듭제곱 크기 영역을 표현할 수 있다. 하드웨어는 낮은 번호 엔트리부터 순차 매칭하므로 우선순위 설계도 중요하다. 또한 L bit를 세우면 M-mode까지 설정을 함부로 바꾸기 어렵게 만들 수 있다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| pmpcfg | 권한·매칭 방식 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | L/A/X/W/R [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 해석 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/) |
-| pmpaddr | 주소 경계 정의 | 정렬과 범위 계산 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| pmpcfg | 권한·매칭 방식 설정 | L/A/X/W/R 비트 해석 정확성 |
+| pmpaddr | 주소 경계 정의 | 정렬과 범위 계산 검증 |
 | TOR | 임의 범위 표현 | 엔트리 2개 소비 |
 | NAPOT | 정렬된 2^N 범위 표현 | 엔트리 절약, 정렬 제약 |
 
@@ -54,18 +54,18 @@ PMP는 pmpcfg와 pmpaddr [레지스터](/studynote/01_computer_architecture/01_b
 +--------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 문을 순서대로 지나가며 첫 번째로 걸리는 출입 규칙이 곧 최종 판정이 되는 건물과 같다. 문 배치 순서가 곧 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 된다.
+- **📢 섹션 요약 비유**: 문을 순서대로 지나가며 첫 번째로 걸리는 출입 규칙이 곧 최종 판정이 되는 건물과 같다. 문 배치 순서가 곧 정책이 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-PMP는 MMU보다 단순하지만 물리 경계 제어에서는 더 직접적이다. MMU가 가상 주소 번역과 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 제공한다면, PMP는 그 아래에서 절대 넘어가면 안 되는 물리 울타리를 만든다. 따라서 [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/) 없는 MCU에서는 주 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치이고, [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/) 있는 시스템에서는 부트 코드와 보안 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위한 하드웨어 최후선이 된다.
+PMP는 MMU보다 단순하지만 물리 경계 제어에서는 더 직접적이다. MMU가 가상 주소 번역과 페이지 보호를 제공한다면, PMP는 그 아래에서 절대 넘어가면 안 되는 물리 울타리를 만든다. 따라서 MMU 없는 MCU에서는 주 보호 장치이고, MMU 있는 시스템에서는 부트 코드와 보안 모니터 보호를 위한 하드웨어 최후선이 된다.
 
 | 비교 대상 | 강점 | 대표 한계 |
 | :--- | :--- | :--- |
 | PMP | 가벼운 하드웨어로 물리 경계 강제 | 엔트리 수와 표현력 제한 |
-| [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/) | 풍부한 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 | 복잡도와 RAM 부담 증가 |
+| MMU | 풍부한 가상 메모리 관리 | 복잡도와 RAM 부담 증가 |
 | 소프트웨어 검사 | 유연성 높음 | 우회 가능성과 실수 위험 |
 
 - **📢 섹션 요약 비유**: 낮은 울타리지만 철근으로 만든 담장과, 유연한 안내선, 복잡한 도로 표지판의 차이라고 볼 수 있다. PMP는 단순하지만 강제력이 높다.
@@ -74,7 +74,7 @@ PMP는 MMU보다 단순하지만 물리 경계 제어에서는 더 직접적이�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 부트 [ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/), [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 영역 제어, MMIO (Memory-Mapped I/O) 접근 제한, RTOS [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 격리에 PMP가 쓰인다. 기술사 답안에서는 엔트리 수가 적기 때문에 코드/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/주변장치/가드 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 같은 핵심 구역 우선 배치를 해야 한다고 쓰면 좋다. 또한 부팅 초기에 PMP를 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하기 전의 공백 시간, 그리고 락 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 언제 세울지 결정하는 시점이 매우 중요하다.
+실무에서는 부트 ROM 보호, 펌웨어 업데이트 영역 제어, MMIO (Memory-Mapped I/O) 접근 제한, RTOS 태스크 격리에 PMP가 쓰인다. 기술사 답안에서는 엔트리 수가 적기 때문에 코드/데이터/주변장치/가드 페이지 같은 핵심 구역 우선 배치를 해야 한다고 쓰면 좋다. 또한 부팅 초기에 PMP를 설정하기 전의 공백 시간, 그리고 락 비트를 언제 세울지 결정하는 시점이 매우 중요하다.
 
 - **📢 섹션 요약 비유**: 울타리를 늦게 세우면 이미 아이들이 금지 구역에 들어간 뒤일 수 있다. PMP는 빨리, 그리고 핵심 구역부터 세워야 한다.
 
@@ -82,7 +82,7 @@ PMP는 MMU보다 단순하지만 물리 경계 제어에서는 더 직접적이�
 
 ## Ⅴ. 기대효과 및 결론
 
-PMP는 RISC-V가 소형 코어부터 보안을 실용적으로 가져가기 위한 기본 도구다. 적은 자원으로도 물리적 경계를 만들 수 있어, 오픈 하드웨어 기반 secure boot와 TEE의 최소 기반이 된다. 다만 엔트리 제약과 복잡한 주소 계획 부담은 항상 남는다. 따라서 PMP는 "간단한 권한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)"가 아니라 "한정된 하드웨어로 만드는 물리 메모리 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)"으로 이해하는 것이 좋다.
+PMP는 RISC-V가 소형 코어부터 보안을 실용적으로 가져가기 위한 기본 도구다. 적은 자원으로도 물리적 경계를 만들 수 있어, 오픈 하드웨어 기반 secure boot와 TEE의 최소 기반이 된다. 다만 엔트리 제약과 복잡한 주소 계획 부담은 항상 남는다. 따라서 PMP는 "간단한 권한 비트"가 아니라 "한정된 하드웨어로 만드는 물리 메모리 정책"으로 이해하는 것이 좋다.
 
 - **📢 섹션 요약 비유**: 색연필 몇 자루만으로 큰 지도를 나눠 칠해야 하는 것처럼, PMP는 적은 엔트리로 중요한 구역을 똑똑하게 나눠야 한다.
 
@@ -94,8 +94,8 @@ PMP는 RISC-V가 소형 코어부터 보안을 실용적으로 가져가기 위�
 | :--- | :--- |
 | TOR | 임의 범위를 표현하는 대표 PMP 매칭 방식 |
 | NAPOT | 엔트리 효율이 좋은 정렬 기반 매칭 방식 |
-| [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경을 어렵게 만들어 부트 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 강화 |
-| MMIO [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | PMP가 단순 메모리뿐 아니라 장치 접근 제어에도 쓰이는 이유 |
+| Lock Bit | 설정 변경을 어렵게 만들어 부트 보호를 강화 |
+| MMIO 보호 | PMP가 단순 메모리뿐 아니라 장치 접근 제어에도 쓰이는 이유 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -112,21 +112,10 @@ PMP는 RISC-V가 소형 코어부터 보안을 실용적으로 가져가기 위�
     +---> [Fault on Forbidden Region]
 ```
 
-이 흐름은 부팅 초기에 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)된 PMP 규칙이 이후 하위 모드의 실제 메모리 접근을 하드웨어로 판정하는 과정을 보여준다. 즉 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 시점이 곧 보안 출발점이다.
+이 흐름은 부팅 초기에 설정된 PMP 규칙이 이후 하위 모드의 실제 메모리 접근을 하드웨어로 판정하는 과정을 보여준다. 즉 정책 설정 시점이 곧 보안 출발점이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴퓨터가 자기 방을 여러 칸으로 나누고, 각 칸마다 읽기와 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 실행 표지판을 붙이는 것과 비슷해요.
+1. 컴퓨터가 자기 방을 여러 칸으로 나누고, 각 칸마다 읽기와 쓰기와 실행 표지판을 붙이는 것과 비슷해요.
 2. 어린 동생 프로그램은 허락된 칸만 들어갈 수 있어요.
 3. 그래서 실수로 중요한 칸을 건드리면 바로 경보가 울리고 막을 수 있답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 801 / 803
-
-<- **이전**: [799. ARM CCA (Confidential Compute Architecture)](/studynote/01_computer_architecture/15_advanced_topics/799_arm_cca/)
-**다음**: [801. RISC-V ePMP (Enhanced PMP)](/studynote/01_computer_architecture/15_advanced_topics/801_riscv_epmp/) ->
-
----

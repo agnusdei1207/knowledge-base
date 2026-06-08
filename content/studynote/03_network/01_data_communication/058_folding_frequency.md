@@ -10,7 +10,7 @@ weight: 58
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폴딩 주파수(Folding Frequency)는 샘플링 주파수의 절반에 해당하는 경계 주파수다.
-> 2. **가치**: 이 경계를 넘는 성분은 [에일리어싱](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)([Aliasing](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/))으로 접혀 들어가므로, 설계 기준점이 된다.
+> 2. **가치**: 이 경계를 넘는 성분은 에일리어싱(Aliasing)으로 접혀 들어가므로, 설계 기준점이 된다.
 > 3. **판단 포인트**: 나이퀴스트 주파수(Nyquist Frequency)와 같은 의미로 이해하고, 필터와 함께 봐야 한다.
 
 ---
@@ -39,7 +39,7 @@ f_folding = f_s / 2
 
 ---
 
-## Ⅲ. [에일리어싱](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)과의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+## Ⅲ. 에일리어싱과의 관계
 
 폴딩 주파수를 넘는 성분은 거울에 비친 것처럼 반대편으로 접혀 들어간다. 이때 다른 저주파와 섞여 잘못된 신호처럼 보인다.
 
@@ -91,7 +91,7 @@ f_folding = f_s / 2
 
 1. 나이퀴스트 주파수 -> 샘플링 한계선
 2. 폴딩 주파수 -> 접힘 경계의 해석
-3. [에일리어싱](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) -> 왜곡 발생
+3. 에일리어싱 -> 왜곡 발생
 4. 저역통과 필터 -> 고주파 제거
 5. 오버샘플링 -> 복원 여유 확보
 
@@ -102,14 +102,3 @@ f_folding = f_s / 2
 폴딩 주파수는 사진을 찍을 때 넘어가면 안 되는 선이에요.
 그 선을 넘으면 그림이 반대로 접혀 보일 수 있어요.
 그래서 선보다 앞에서 잘라내는 게 중요해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 58 / 1120
-
-<- **이전**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)
-**다음**: [59. 양자화 (Quantization) - 선형/비선형](/studynote/03_network/01_data_communication/059_양자화_Quantization/) ->
-
----

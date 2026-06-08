@@ -7,24 +7,24 @@ weight: 472
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: WWW [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: WWW [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 이해하면 응답 시간과 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: WWW 캐싱 메커니즘 / 프록시는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: WWW 캐싱 메커니즘 / 프록시를 이해하면 응답 시간과 호환성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 웹 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Web [Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))은 클라이언트가 이전에 한 번 다운로드한 문서나 이미지의 사본(Copy)을 저장해 두었다가, 이후 동일한 URL에 대한 요청이 발생하면 멀리 있는 원본 웹 서버(Origin Server)까지 가지 않고 로컬 저장소나 중간 서버에서 즉시 사본을 꺼내어 응답하는 기술이다.
+- **개념**: 웹 캐싱(Web Caching)은 클라이언트가 이전에 한 번 다운로드한 문서나 이미지의 사본(Copy)을 저장해 두었다가, 이후 동일한 URL에 대한 요청이 발생하면 멀리 있는 원본 웹 서버(Origin Server)까지 가지 않고 로컬 저장소나 중간 서버에서 즉시 사본을 꺼내어 응답하는 기술이다.
 
-- **필요성**: 웹 생태계의 트래픽 중 상당수는 로고 이미지, 폰트, 자바스크립트 라이브러리처럼 한 번 만들어지면 잘 변하지 않는 정적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 만약 천만 명의 사용자가 접속할 때마다 서울에서 미국 본토에 있는 서버까지 태평양 해저 케이블을 건너 똑같은 로고 이미지를 천만 번 다운로드한다면, 천문학적인 국제망 통신 비용이 발생하고 사용자는 엄청난 로딩 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 겪어야 한다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치를 "생산된 곳(서버)"에서 "소비되는 곳(클라이언트)" 근처로 옮겨놓는 [공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) 최적화가 필수적이었다.
+- **필요성**: 웹 생태계의 트래픽 중 상당수는 로고 이미지, 폰트, 자바스크립트 라이브러리처럼 한 번 만들어지면 잘 변하지 않는 정적 데이터다. 만약 천만 명의 사용자가 접속할 때마다 서울에서 미국 본토에 있는 서버까지 태평양 해저 케이블을 건너 똑같은 로고 이미지를 천만 번 다운로드한다면, 천문학적인 국제망 통신 비용이 발생하고 사용자는 엄청난 로딩 지연을 겪어야 한다. 데이터의 위치를 "생산된 곳(서버)"에서 "소비되는 곳(클라이언트)" 근처로 옮겨놓는 공간적 지역성 최적화가 필수적이었다.
 
-- **💡 비유**: 원본 서버에서 직접 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받는 것이 매일 아침 '제주도 본점 도서관'까지 비행기를 타고 가서 책을 빌려보는 것이라면, [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)은 자주 보는 책을 내 방 '책꽂이(브라우저 캐시)'에 꽂아두거나 동네 '대여점([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))'에 비치해 두고 1초 만에 꺼내 보는 것과 같습니다.
+- **💡 비유**: 원본 서버에서 직접 데이터를 받는 것이 매일 아침 '제주도 본점 도서관'까지 비행기를 타고 가서 책을 빌려보는 것이라면, 캐싱은 자주 보는 책을 내 방 '책꽂이(브라우저 캐시)'에 꽂아두거나 동네 '대여점(CDN 프록시)'에 비치해 두고 1초 만에 꺼내 보는 것과 같습니다.
 
 - **등장 배경**:
-  1. <strong>망 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>의 한계와 비용</strong>: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인터넷 환경은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 비좁고 비쌌다. 트래픽을 아끼기 위해 대학이나 기업망 입구에 포워드 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))를 두고 조직원들이 공통 자원을 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했다.
+  1. <strong>망 대역폭의 한계와 비용</strong>: 초기 인터넷 환경은 대역폭이 비좁고 비쌌다. 트래픽을 아끼기 위해 대학이나 기업망 입구에 포워드 프록시(Forward Proxy)를 두고 조직원들이 공통 자원을 캐싱해 쓰기 시작했다.
   2. **서버 확장성의 한계**: 뉴스 사이트에 속보가 뜨거나 이벤트가 열려 트래픽이 폭주(Slashdot effect)하면 서버가 다운되는 일이 잦았다.
-  3. **글로벌 CDN의 탄생**: 전 세계 엣지(Edge) 노드에 캐시 서버를 전진 배치하여 클라이언트와 물리적 거리를 좁힌 아카마이(Akamai), 클라우드플레어(Cloudflare) 같은 [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 아키텍처가 등장하며 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이 웹 인프라의 핵심으로 자리 잡았다.
+  3. **글로벌 CDN의 탄생**: 전 세계 엣지(Edge) 노드에 캐시 서버를 전진 배치하여 클라이언트와 물리적 거리를 좁힌 아카마이(Akamai), 클라우드플레어(Cloudflare) 같은 CDN 아키텍처가 등장하며 캐싱이 웹 인프라의 핵심으로 자리 잡았다.
 
 ```text
 +-------------------------------------------------------------+
@@ -51,9 +51,9 @@ weight: 472
 +-------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 상단의 논-캐시 환경에서는 모든 클라이언트의 요청이 물리적 거리가 먼 Origin 서버로 곧바로 직행한다. 레이턴시는 높고, 트래픽이 몰리면 서버는 즉각 다운된다. 하단의 계층적 캐시 환경에서는 철저한 방어막이 형성된다. 클라이언트 A는 자신이 과거에 다운받은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 브라우저 하드디스크(Private Cache)에서 0ms 만에 꺼내 본다. 클라이언트 B는 로컬엔 없지만, 통신사 근처에 위치한 [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 서버(Shared Cache)에 다른 사람이 받아놓은 사본이 있어 15ms 만에 받아온다. 오직 전 세계에서 최초로 해당 리소스를 요청하는 클라이언트 C의 요청만이 최종 목적지인 Origin 서버까지 도달한다(Cache Miss). 이 구조가 구글, 넷플릭스 등 글로벌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 수억 명을 버티는 근본 원리다.
+**[다이어그램 해설]** 상단의 논-캐시 환경에서는 모든 클라이언트의 요청이 물리적 거리가 먼 Origin 서버로 곧바로 직행한다. 레이턴시는 높고, 트래픽이 몰리면 서버는 즉각 다운된다. 하단의 계층적 캐시 환경에서는 철저한 방어막이 형성된다. 클라이언트 A는 자신이 과거에 다운받은 파일을 브라우저 하드디스크(Private Cache)에서 0ms 만에 꺼내 본다. 클라이언트 B는 로컬엔 없지만, 통신사 근처에 위치한 CDN 엣지 서버(Shared Cache)에 다른 사람이 받아놓은 사본이 있어 15ms 만에 받아온다. 오직 전 세계에서 최초로 해당 리소스를 요청하는 클라이언트 C의 요청만이 최종 목적지인 Origin 서버까지 도달한다(Cache Miss). 이 구조가 구글, 넷플릭스 등 글로벌 서비스가 수억 명을 버티는 근본 원리다.
 
-- **📢 섹션 요약 비유**: 유명한 아이돌의 굿즈를 사기 위해 전국 팬들이 매번 기획사 본사(Origin)로 찾아가는 대신, 전국 각지의 동네 대리점([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에 미리 물건을 꽉꽉 채워두어 줄을 서지 않고 바로 사갈 수 있게 만든 유통망과 같습니다.
+- **📢 섹션 요약 비유**: 유명한 아이돌의 굿즈를 사기 위해 전국 팬들이 매번 기획사 본사(Origin)로 찾아가는 대신, 전국 각지의 동네 대리점(CDN)에 미리 물건을 꽉꽉 채워두어 줄을 서지 않고 바로 사갈 수 있게 만든 유통망과 같습니다.
 
 ---
 
@@ -64,16 +64,16 @@ weight: 472
 | 요소명 | 역할 | 주체 및 특성 | 용도 비유 |
 |:---|:---|:---|:---|
 | **로컬 캐시 (Private Cache)** | 사용자 개인의 브라우저 로컬 저장소 (메모리/디스크) | 1인 전용. 타인과 공유 불가. 브라우저가 관리 | 내 개인 책상 서랍 |
-| <strong>리버스 <a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (Reverse <a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)</strong> | 원본 서버 앞단을 지키는 방파제. 트래픽 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 및 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | 서버 인프라 관리자가 구축 (Nginx, Varnish 등) | 도서관 1층 무인 반납기 |
-| <strong><a href="/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a> (Content Delivery Network)</strong> | 전 세계 거점에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치된 공유 캐시 서버 그룹 | 인프라 벤더 제공 (Cloudflare, AWS CloudFront) | 전국 프랜차이즈 대리점 |
-| <strong>포워드 <a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (<a href="/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)</strong> | 사내망/기업망 출구에서 구성원들이 외부망 요청 시 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | 회사 네트워크 관리자가 구축 (보안+[캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 목적) | 회사 비품실 창고 |
+| <strong>리버스 프록시 (Reverse Proxy)</strong> | 원본 서버 앞단을 지키는 방파제. 트래픽 분산 및 캐싱 | 서버 인프라 관리자가 구축 (Nginx, Varnish 등) | 도서관 1층 무인 반납기 |
+| <strong>CDN (Content Delivery Network)</strong> | 전 세계 거점에 분산 배치된 공유 캐시 서버 그룹 | 인프라 벤더 제공 (Cloudflare, AWS CloudFront) | 전국 프랜차이즈 대리점 |
+| <strong>포워드 프록시 (Forward Proxy)</strong> | 사내망/기업망 출구에서 구성원들이 외부망 요청 시 캐싱 | 회사 네트워크 관리자가 구축 (보안+캐싱 목적) | 회사 비품실 창고 |
 
-### 웹 캐시의 신선도 판별 ([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) & Expiration) 메커니즘
+### 웹 캐시의 신선도 판별 (Validation & Expiration) 메커니즘
 
-캐시에 저장된 사본은 영원히 유효하지 않다. 서버에서 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수정되었음에도 불구하고, 캐시 서버가 계속 옛날 사본(Stale [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하면 치명적인 정보 불일치가 발생한다. 이를 제어하기 위해 캐시는 <strong>"만료(Expiration)"</strong>와 <strong>"<a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)"</strong>이라는 두 가지 무기를 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더를 통해 사용한다.
+캐시에 저장된 사본은 영원히 유효하지 않다. 서버에서 원본 데이터가 수정되었음에도 불구하고, 캐시 서버가 계속 옛날 사본(Stale Data)을 서비스하면 치명적인 정보 불일치가 발생한다. 이를 제어하기 위해 캐시는 <strong>"만료(Expiration)"</strong>와 <strong>"검증(Validation)"</strong>이라는 두 가지 무기를 HTTP 헤더를 통해 사용한다.
 
 1. **만료 (Expiration - max-age)**: "이 사본은 1시간 동안은 절대 변하지 않아. 1시간 안에는 서버에 묻지도 말고 그냥 캐시에서 꺼내 써." (네트워크 요청 0)
-2. <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (<a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a> - ETag / Last-Modified)</strong>: 만료 시간이 지났을 때, 사본을 무조건 버리는 게 아니라 1바이트짜리 질문표를 던진다. "내가 가진 사본 버전이 V1인데, 서버님 쪽에 V2로 업데이트된 거 있나요?" 서버가 안 변했다고 대답(`304 Not Modified`)하면, 기존 사본 수명을 연장해 다시 쓴다. ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다운로드 통신비 0)
+2. <strong>검증 (Validation - ETag / Last-Modified)</strong>: 만료 시간이 지났을 때, 사본을 무조건 버리는 게 아니라 1바이트짜리 질문표를 던진다. "내가 가진 사본 버전이 V1인데, 서버님 쪽에 V2로 업데이트된 거 있나요?" 서버가 안 변했다고 대답(`304 Not Modified`)하면, 기존 사본 수명을 연장해 다시 쓴다. (데이터 다운로드 통신비 0)
 
 ```text
 +---------------------------------------------------------------+
@@ -107,42 +107,42 @@ weight: 472
 +---------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 플로우는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 어떻게 극단적으로 아끼는지 보여준다. 서버는 처음에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄 때 유통기한(`max-age=3600`)과 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지문(`ETag`)을 도장 찍어 보낸다. 1시간 이내에는 브라우저가 알아서 사본을 꺼내 쓴다(디스크 캐시). 1시간이 지나 유통기한이 폐기처분 상태(Stale)가 되면 브라우저는 조심스레 서버에 묻는다(`If-None-Match`). 서버가 원본 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 지문을 비교해보니 여전히 "W/12345"로 변함이 없다면, 1MB짜리 그림 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다시 보내는 대신 <strong>몇 바이트짜리 빈 껍데기 헤더(<code>304 Not Modified</code>)</strong>만 보낸다. 클라이언트는 이 작은 허락 서명만 받고 원래 갖고 있던 큰 이미지를 다시 안전하게 화면에 그린다.
+**[다이어그램 해설]** 이 플로우는 대역폭을 어떻게 극단적으로 아끼는지 보여준다. 서버는 처음에 데이터를 줄 때 유통기한(`max-age=3600`)과 파일 지문(`ETag`)을 도장 찍어 보낸다. 1시간 이내에는 브라우저가 알아서 사본을 꺼내 쓴다(디스크 캐시). 1시간이 지나 유통기한이 폐기처분 상태(Stale)가 되면 브라우저는 조심스레 서버에 묻는다(`If-None-Match`). 서버가 원본 파일의 지문을 비교해보니 여전히 "W/12345"로 변함이 없다면, 1MB짜리 그림 파일을 다시 보내는 대신 <strong>몇 바이트짜리 빈 껍데기 헤더(<code>304 Not Modified</code>)</strong>만 보낸다. 클라이언트는 이 작은 허락 서명만 받고 원래 갖고 있던 큰 이미지를 다시 안전하게 화면에 그린다.
 
-- **📢 섹션 요약 비유**: 우유에 적힌 유통기한(max-age) 전에는 그냥 냉장고에서 꺼내 마시고, 유통기한이 며칠 지났을 때는 냄새를 한 번 맡아본 뒤(조건부 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 요청) 상하지 않았으면([304 Not Modified](/studynote/03_network/09_application_layer_web_email/474_etag_last_modified_304/)) 버리지 않고 다시 마시는 것과 같습니다.
+- **📢 섹션 요약 비유**: 우유에 적힌 유통기한(max-age) 전에는 그냥 냉장고에서 꺼내 마시고, 유통기한이 며칠 지났을 때는 냄새를 한 번 맡아본 뒤(조건부 검증 요청) 상하지 않았으면(304 Not Modified) 버리지 않고 다시 마시는 것과 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 "대리인"이라는 뜻이다. 이 대리인이 <strong>누구를 위해 일하느냐</strong>에 따라 방향과 목적이 완전히 달라진다.
+프록시는 "대리인"이라는 뜻이다. 이 대리인이 <strong>누구를 위해 일하느냐</strong>에 따라 방향과 목적이 완전히 달라진다.
 
-| 항목 | [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) (포워드 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) | Reverse [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) (리버스 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) |
+| 항목 | Forward Proxy (포워드 프록시) | Reverse Proxy (리버스 프록시) |
 |:---|:---|:---|
 | **배치 위치** | 클라이언트(사용자) 앞단 | 웹 서버(Origin) 앞단 |
-| <strong><a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 대상</strong> | 내부 망의 <strong>클라이언트들</strong>을 숨기고 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | 백엔드의 <strong>웹 서버들</strong>을 숨기고 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
-| <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 목적</strong> | 외부로 나가는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감, 웹 서핑 체감 속도 향상 | 외부에서 밀려오는 폭주 트래픽 방어, 서버 부하 감소 |
-| **주요 부가 기능** | 유해 사이트 접속 차단(필터링), IP 우회 | [로드 밸런싱](/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)(L7), SSL [Offloading](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/), [웹 방화벽](/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)([WAF](/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) |
-| **실무 예시** | 기업 내 사내 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), Squid, [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) | Nginx, AWS ALB, Varnish Cache |
+| <strong>보호 대상</strong> | 내부 망의 <strong>클라이언트들</strong>을 숨기고 보호 | 백엔드의 <strong>웹 서버들</strong>을 숨기고 보호 |
+| <strong>캐싱 목적</strong> | 외부로 나가는 대역폭 절감, 웹 서핑 체감 속도 향상 | 외부에서 밀려오는 폭주 트래픽 방어, 서버 부하 감소 |
+| **주요 부가 기능** | 유해 사이트 접속 차단(필터링), IP 우회 | 로드 밸런싱(L7), SSL Offloading, 웹 방화벽(WAF) |
+| **실무 예시** | 기업 내 사내 프록시, Squid, VPN | Nginx, AWS ALB, Varnish Cache |
 
-| 항목 | Private Cache (브라우저) | Shared Cache ([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) / Reverse [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) |
+| 항목 | Private Cache (브라우저) | Shared Cache (CDN / Reverse Proxy) |
 |:---|:---|:---|
-| <strong>저장 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 성격</strong> | 개인화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함 가능 (마이페이지 등) | <strong>절대 <a href="/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a>가 들어가면 안 됨</strong> (타인 노출 위험) |
+| <strong>저장 데이터 성격</strong> | 개인화된 데이터 포함 가능 (마이페이지 등) | <strong>절대 개인정보가 들어가면 안 됨</strong> (타인 노출 위험) |
 | **통제 헤더 지시자** | `Cache-Control: private` | `Cache-Control: public` |
-| **제어 주체** | 사용자의 로컬 환경 (OS, 브라우저 스토리지) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자의 인프라 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Edge Rules) |
-| **캐시 무효화 통제력** | 강제 삭제 불가능. (브라우저가 알아서 비울 때까지) | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 (Purge/Invalidation)로 즉각 삭제 가능 |
+| **제어 주체** | 사용자의 로컬 환경 (OS, 브라우저 스토리지) | 서비스 제공자의 인프라 정책 (Edge Rules) |
+| **캐시 무효화 통제력** | 강제 삭제 불가능. (브라우저가 알아서 비울 때까지) | API 호출 (Purge/Invalidation)로 즉각 삭제 가능 |
 
-- **📢 섹션 요약 비유**: 포워드 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 학생들이 학교 밖으로 나가지 못하게 막고 심부름을 대신해 주는 '기숙사 사감'이라면, 리버스 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 아이돌 스타(서버)를 극성팬들로부터 지키며 사인회를 통제하는 '경호원 겸 매니저'입니다.
+- **📢 섹션 요약 비유**: 포워드 프록시는 학생들이 학교 밖으로 나가지 못하게 막고 심부름을 대신해 주는 '기숙사 사감'이라면, 리버스 프록시는 아이돌 스타(서버)를 극성팬들로부터 지키며 사인회를 통제하는 '경호원 겸 매니저'입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. <strong>시나리오 — 동적 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a>)의 잘못된 <a href="/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a>으로 인한 타인 정보 노출 (<a href="/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/">Cache Poisoning</a>)</strong>: 개발자가 마이페이지 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(`/api/user/profile`) 응답 헤더에 실수로 `Cache-Control: public, max-age=60`을 달아버렸다. 이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 앞단의 [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 서버(공유 캐시)에 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)되었고, 이후 다른 사용자가 접속했을 때 최초 접속자(A)의 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 이름과 전화번호가 고스란히 화면에 노출되는 치명적 보안 사고가 터졌다.
-   - **판단**: [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 쿠키에 기반한 로그인 사용자별 동적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)는 엣지 서버에 절대 저장되지 않도록 철저히 `Cache-Control: private, no-store`로 통제해야 한다. 웹 보안 아키텍처에서 가장 두려워해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 바로 '공유 캐시 오염'이다.
+1. <strong>시나리오 — 동적 API(개인정보)의 잘못된 캐싱으로 인한 타인 정보 노출 (Cache Poisoning)</strong>: 개발자가 마이페이지 API(`/api/user/profile`) 응답 헤더에 실수로 `Cache-Control: public, max-age=60`을 달아버렸다. 이 데이터가 앞단의 CDN 엣지 서버(공유 캐시)에 캐싱되었고, 이후 다른 사용자가 접속했을 때 최초 접속자(A)의 개인정보 이름과 전화번호가 고스란히 화면에 노출되는 치명적 보안 사고가 터졌다.
+   - **판단**: 세션 쿠키에 기반한 로그인 사용자별 동적 데이터나 개인정보는 엣지 서버에 절대 저장되지 않도록 철저히 `Cache-Control: private, no-store`로 통제해야 한다. 웹 보안 아키텍처에서 가장 두려워해야 할 안티패턴이 바로 '공유 캐시 오염'이다.
 
-2. <strong>시나리오 — 배포 직후 정적 자원(<a href="/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a>/JS) 업데이트 미반영 문제</strong>: 프론트엔드 개발자가 홈페이지 디자인 버그를 고쳐 `style.css`를 서버에 새로 배포했다. 하지만 고객들의 항의 전화가 쏟아졌다. 고객들의 브라우저 로컬 캐시가 1주일(`max-age=604800`)로 잡혀 있어서, 옛날 깨진 화면을 계속 보고 있었던 것이다. 개발자는 고객 브라우저의 캐시를 강제로 비울 권한이 없다.
-   - **판단**: 실무 프론트엔드 빌드 파이프라인(Webpack, Vite 등)에서는 정적 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름에 해시값을 붙이는 **"캐시 버스팅 (Cache Busting)"** 기법을 표준으로 쓴다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 수정되면 이름이 `style.v1.css`에서 `style.v2.css`로 아예 변경되므로, 브라우저는 무조건 새로운 URL로 인식해 서버에 최신 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받아오고, 기존 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 영원히 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(1년 만료)해 두어도 안전한 구조를 완성한다.
+2. <strong>시나리오 — 배포 직후 정적 자원(CSS/JS) 업데이트 미반영 문제</strong>: 프론트엔드 개발자가 홈페이지 디자인 버그를 고쳐 `style.css`를 서버에 새로 배포했다. 하지만 고객들의 항의 전화가 쏟아졌다. 고객들의 브라우저 로컬 캐시가 1주일(`max-age=604800`)로 잡혀 있어서, 옛날 깨진 화면을 계속 보고 있었던 것이다. 개발자는 고객 브라우저의 캐시를 강제로 비울 권한이 없다.
+   - **판단**: 실무 프론트엔드 빌드 파이프라인(Webpack, Vite 등)에서는 정적 파일 이름에 해시값을 붙이는 **"캐시 버스팅 (Cache Busting)"** 기법을 표준으로 쓴다. 파일이 수정되면 이름이 `style.v1.css`에서 `style.v2.css`로 아예 변경되므로, 브라우저는 무조건 새로운 URL로 인식해 서버에 최신 파일을 받아오고, 기존 파일은 영원히 캐싱(1년 만료)해 두어도 안전한 구조를 완성한다.
 
 ```text
   +-------------------------------------------------------------+
@@ -170,38 +170,38 @@ weight: 472
 +-------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 웹 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 중 가장 골치 아픈 "고객님, F5 누르시거나 캐시 삭제 버튼 좀 눌러주세요"라는 CS 전화를 없애는 아키텍처 패턴이다. 껍데기 역할을 하는 `index.html`은 절대 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)되지 않도록 막아두고(또는 항상 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 거치도록 설계), 실제 무거운 용량을 차지하는 JS/[CSS](/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) 덩어리들은 내용물의 내용(Content)을 해시 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(SHA-256 등)에 돌려 나온 무작위 문자를 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름에 박아 넣는다(`app.abcd12.js`). 내용이 1바이트라도 바뀌면 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 자체가 변한다. 따라서 이 JS/[CSS](/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들은 수명을 1년(`max-age=31536000`)으로 엄청나게 길게 잡아 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 효율을 100%까지 끌어올리더라도, 내용이 업데이트되면 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명이 바뀌어 새 자원을 즉각 다운받게 되는 완벽한 캐시 갱신 통제권을 서버가 갖게 된다.
+**[다이어그램 해설]** 웹 서비스 운영 중 가장 골치 아픈 "고객님, F5 누르시거나 캐시 삭제 버튼 좀 눌러주세요"라는 CS 전화를 없애는 아키텍처 패턴이다. 껍데기 역할을 하는 `index.html`은 절대 캐싱되지 않도록 막아두고(또는 항상 검증만 거치도록 설계), 실제 무거운 용량을 차지하는 JS/CSS 덩어리들은 내용물의 내용(Content)을 해시 알고리즘(SHA-256 등)에 돌려 나온 무작위 문자를 파일 이름에 박아 넣는다(`app.abcd12.js`). 내용이 1바이트라도 바뀌면 파일 이름 자체가 변한다. 따라서 이 JS/CSS 파일들은 수명을 1년(`max-age=31536000`)으로 엄청나게 길게 잡아 캐싱 효율을 100%까지 끌어올리더라도, 내용이 업데이트되면 파일명이 바뀌어 새 자원을 즉각 다운받게 되는 완벽한 캐시 갱신 통제권을 서버가 갖게 된다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **기술적**: [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 앞단 캐시 레이어에서 [REST API](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 응답(GET) [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 시 URL 파라미터뿐만 아니라 `Vary: Accept-Encoding, Authorization` 등의 헤더를 기준으로 캐시 키(Cache [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 정교하게 분리하고 있는가?
-- **운영·보안적**: 관리자 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 업데이트, 상품 품절 처리 등 긴급 상황 발생 시 [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 인프라의 캐시 사본을 즉각 강제로 삭제할 수 있는 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Purge / Invalidation) 연동 파이프라인이 백엔드에 구축되어 있는가?
+### 도입 체크리스트
+- **기술적**: API 서버 앞단 캐시 레이어에서 REST API 응답(GET) 캐싱 시 URL 파라미터뿐만 아니라 `Vary: Accept-Encoding, Authorization` 등의 헤더를 기준으로 캐시 키(Cache Key)를 정교하게 분리하고 있는가?
+- **운영·보안적**: 관리자 페이지 업데이트, 상품 품절 처리 등 긴급 상황 발생 시 CDN 인프라의 캐시 사본을 즉각 강제로 삭제할 수 있는 API (Purge / Invalidation) 연동 파이프라인이 백엔드에 구축되어 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>의미 없는 짧은 <a href="/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 불안하다는 이유로 정적 이미지의 만료 시간을 10분, 30분 단위로 짧게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것. 엣지 서버와 브라우저가 시도 때도 없이 Origin 서버로 ETag [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 요청(304)을 날리게 되어, 페이로드는 절감될지언정 트래픽 커넥션 부하 방어 효과는 거의 상실된다.
+### 안티패턴
+- <strong>의미 없는 짧은 TTL 설정</strong>: 불안하다는 이유로 정적 이미지의 만료 시간을 10분, 30분 단위로 짧게 설정하는 것. 엣지 서버와 브라우저가 시도 때도 없이 Origin 서버로 ETag 검증 요청(304)을 날리게 되어, 페이로드는 절감될지언정 트래픽 커넥션 부하 방어 효과는 거의 상실된다.
 
-- **📢 섹션 요약 비유**: 도서관 대출증 이름이 헷갈려 남의 비밀일기를 빌려주는 사고(공유 캐시 오염)를 막으려면, 처음부터 공용 서재([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))와 개인 사물함(브라우저)에 들어갈 책 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준(Cache-Control 헤더)을 목숨 걸고 분리해야 합니다.
+- **📢 섹션 요약 비유**: 도서관 대출증 이름이 헷갈려 남의 비밀일기를 빌려주는 사고(공유 캐시 오염)를 막으려면, 처음부터 공용 서재(CDN)와 개인 사물함(브라우저)에 들어갈 책 분류 기준(Cache-Control 헤더)을 목숨 걸고 분리해야 합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 캐시 계층 미적용 | 다중 캐시/[CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 아키텍처 적용 | 개선 효과 |
+| 구분 | 캐시 계층 미적용 | 다중 캐시/CDN 아키텍처 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 모든 요청이 Origin 타격 | Origin 히트율 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 미만으로 방어 | 클라우드 트래픽/DB 비용 **80~90% 절감** |
-| **정량** | 물리 거리에 따른 TTFB [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 엣지 서버 로드로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제거 | 글로벌 사용자 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) **밀리초(ms) 단위 방어** |
-| **정성** | 이벤트 폭주 시 서버 다운 | 방파제 역할로 안정적 트래픽 소화 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 및 대규모 마케팅 소화력 확보 |
+| **정량** | 모든 요청이 Origin 타격 | Origin 히트율 10% 미만으로 방어 | 클라우드 트래픽/DB 비용 **80~90% 절감** |
+| **정량** | 물리 거리에 따른 TTFB 지연 | 엣지 서버 로드로 지연 제거 | 글로벌 사용자 응답 지연 **밀리초(ms) 단위 방어** |
+| **정성** | 이벤트 폭주 시 서버 다운 | 방파제 역할로 안정적 트래픽 소화 | 서비스 신뢰도 및 대규모 마케팅 소화력 확보 |
 
 ### 미래 전망
-- <strong>동적 콘텐츠 엣지 <a href="/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 및 연산 (<a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong>: 과거 CDN은 단순 정적 이미지 배달부 역할에 그쳤으나, 현재는 클라우드플레어 워커(Cloudflare Workers), AWS [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)@Edge처럼 캐시 서버 단(Edge)에서 직접 자바스크립트나 [웹어셈블리](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) 로직을 실행하여 사용자 맞춤 동적 콘텐츠까지 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)과 동시에 렌더링하는 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 엣지 아키텍처로 진화하고 있다.
-- <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 선제적 프리캐싱</strong>: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 트래픽 패턴과 사용자 동선을 분석하여, 특정 지역에서 곧 터질 트래픽을 미리 예측하고 엣지 노드에 알아서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어넣어 놓는(Pre-fetching) 지능형 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 네트워크가 상용화 궤도에 오르고 있다.
+- <strong>동적 콘텐츠 엣지 캐싱 및 연산 (Edge Computing)</strong>: 과거 CDN은 단순 정적 이미지 배달부 역할에 그쳤으나, 현재는 클라우드플레어 워커(Cloudflare Workers), AWS Lambda@Edge처럼 캐시 서버 단(Edge)에서 직접 자바스크립트나 웹어셈블리 로직을 실행하여 사용자 맞춤 동적 콘텐츠까지 캐싱과 동시에 렌더링하는 서버리스 엣지 아키텍처로 진화하고 있다.
+- <strong>AI 기반 선제적 프리캐싱</strong>: AI 모델이 트래픽 패턴과 사용자 동선을 분석하여, 특정 지역에서 곧 터질 트래픽을 미리 예측하고 엣지 노드에 알아서 데이터를 밀어넣어 놓는(Pre-fetching) 지능형 캐싱 네트워크가 상용화 궤도에 오르고 있다.
 
 ### 참고 표준
-- **RFC 7234**: [Hypertext Transfer Protocol](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1): [Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)
-- **RFC 8246**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Cache-Control Extensions for Stale Content (stale-while-revalidate)
+- **RFC 7234**: Hypertext Transfer Protocol (HTTP/1.1): Caching
+- **RFC 8246**: HTTP Cache-Control Extensions for Stale Content (stale-while-revalidate)
 
-웹 아키텍처에서 캐시는 '마약'과 같다. 한 번 맛보면 극강의 성능과 비용 절감에 중독되어 뗄 수 없게 되지만, 캐시 무효화(Invalidation)라는 늪에 빠지면 사용자는 수정되지 않는 유령 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 고통받고 개발자는 버그의 원인을 찾지 못해 밤을 새운다. "컴퓨터 과학의 두 가지 난제는 캐시 무효화와 이름 짓기다"라는 맹제처럼, 완벽한 통제력(Cache Busting [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 없이 설계된 무분별한 캐시는 구원자가 아니라 시한폭탄이 된다.
+웹 아키텍처에서 캐시는 '마약'과 같다. 한 번 맛보면 극강의 성능과 비용 절감에 중독되어 뗄 수 없게 되지만, 캐시 무효화(Invalidation)라는 늪에 빠지면 사용자는 수정되지 않는 유령 데이터에 고통받고 개발자는 버그의 원인을 찾지 못해 밤을 새운다. "컴퓨터 과학의 두 가지 난제는 캐시 무효화와 이름 짓기다"라는 맹제처럼, 완벽한 통제력(Cache Busting 전략) 없이 설계된 무분별한 캐시는 구원자가 아니라 시한폭탄이 된다.
 
-- **📢 섹션 요약 비유**: 물건을 싸게 많이 쟁여두는 창고(캐시)는 사업([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 마진을 극대화해주지만, 재고 관리 장부(캐시 무효화 로직)가 엉망이면 결국 썩은 물건을 손님에게 내주어 가게 문을 닫게 만드는 양날의 검입니다.
+- **📢 섹션 요약 비유**: 물건을 싸게 많이 쟁여두는 창고(캐시)는 사업(서비스)의 마진을 극대화해주지만, 재고 관리 장부(캐시 무효화 로직)가 엉망이면 결국 썩은 물건을 손님에게 내주어 가게 문을 닫게 만드는 양날의 검입니다.
 
 ---
 
@@ -209,10 +209,10 @@ weight: 472
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 사용자 상태 유지와 요청 흐름을 묶는다. |
+| HTTPS | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세션 (Session) | 사용자 상태 유지와 요청 흐름을 묶는다. |
 | 캐시 (Cache) | 응답 속도와 백엔드 부하에 직접 영향을 준다. |
-| [캐시 제어 헤더](/studynote/03_network/09_application_layer_web_email/473_cache_control_header/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 캐시 제어 헤더 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -226,21 +226,10 @@ weight: 472
     +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
-WWW [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 HTTPS에서 출발해 현재 메커니즘을 정교화하고, 이후 [캐시 제어 헤더](/studynote/03_network/09_application_layer_web_email/473_cache_control_header/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+WWW 캐싱 메커니즘 / 프록시는 HTTPS에서 출발해 현재 메커니즘을 정교화하고, 이후 캐시 제어 헤더와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 인터넷에서 사진을 볼 때마다 매번 멀리 있는 미국 서버까지 가서 가져오려면 시간도 오래 걸리고 배달부 아저씨도 너무 힘들어요.
-2. 웹 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)은 그 사진을 내 컴퓨터 서랍(브라우저)이나 우리 동네 창고([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에 살짝 <strong>'복사본'</strong>으로 보관해 두고, 다음에 볼 때는 서랍에서 1초 만에 꺼내보는 마법이에요.
+2. 웹 캐싱은 그 사진을 내 컴퓨터 서랍(브라우저)이나 우리 동네 창고(CDN)에 살짝 <strong>'복사본'</strong>으로 보관해 두고, 다음에 볼 때는 서랍에서 1초 만에 꺼내보는 마법이에요.
 3. 대신 원본 사진이 업데이트되면 서랍에 있는 낡은 사진을 과감히 버리고 새 사진을 받아와야 하는데, 언제 버릴지 똑똑하게 정해주는 규칙이 아주 중요하답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 593 / 1120
-
-<- **이전**: [471. HTTPS (HTTP over TLS)](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)
-**다음**: [473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)](/studynote/03_network/09_application_layer_web_email/473_cache_control_header/) ->
-
----

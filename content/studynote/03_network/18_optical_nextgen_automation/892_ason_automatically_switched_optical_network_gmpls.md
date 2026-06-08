@@ -15,7 +15,7 @@ weight: 892
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong>지옥 같은 수동 할당(Manual <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)</strong>: 과거의 WDM(파장 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 광통신 장비들은 멍청한 거울에 불과했습니다. 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길(회선)을 하나 뚫어주려면, 엔지니어가 중간 기착지 전화국마다 일일이 로그인하여 '1번 파장(빨간빛)은 3번 구멍으로 나가라'고 수동으로 스위칭 룰을 세팅(Cross-connect)해야 했습니다.
+- <strong>지옥 같은 수동 할당(Manual Provisioning)</strong>: 과거의 WDM(파장 다중화) 광통신 장비들은 멍청한 거울에 불과했습니다. 새로운 데이터 길(회선)을 하나 뚫어주려면, 엔지니어가 중간 기착지 전화국마다 일일이 로그인하여 '1번 파장(빨간빛)은 3번 구멍으로 나가라'고 수동으로 스위칭 룰을 세팅(Cross-connect)해야 했습니다.
 - 망을 하나 개통하는 데 짧게는 며칠, 길게는 한 달이 걸렸고 트래픽 변화에 유연한 대응이 불가능했습니다.
 
 ```text
@@ -27,23 +27,23 @@ weight: 892
     +---> [OTN]
 ```
 
-- **📢 섹션 요약 비유**: ASON는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: ASON는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: ITU-T에서 제정한 국제 광통신 표준으로, 멍청하고 수동적인 광전송 네트워크(Optical Network) 장비들 위에 <strong>'<a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 지능형 제어 평면(Control Plane)'을 탑재하여, 사람이 개입하지 않고도 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>들 스스로 경로를 계산하고 광 파장(빛의 길)을 1초 만에 동적으로 개통(Switched), <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>해 내는 차세대 지능형 광 백본망 아키텍처</strong>입니다.
-- **SDN과의 차이**: 850번대의 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의망)은 뇌 1개를 <strong>중앙 클라우드(Centralized)</strong>에 모아두는 방식이라면, 이 ASON은 각 광스위치 기계마다 똑똑한 미니 뇌를 하나씩 박아두고 자기들끼리 대화하며 길을 찾는 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>형(Distributed)</strong> [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)/GMPLS) 제어 방식입니다.
+- **개념**: ITU-T에서 제정한 국제 광통신 표준으로, 멍청하고 수동적인 광전송 네트워크(Optical Network) 장비들 위에 <strong>'분산 지능형 제어 평면(Control Plane)'을 탑재하여, 사람이 개입하지 않고도 스위치들 스스로 경로를 계산하고 광 파장(빛의 길)을 1초 만에 동적으로 개통(Switched), 복구해 내는 차세대 지능형 광 백본망 아키텍처</strong>입니다.
+- **SDN과의 차이**: 850번대의 SDN(소프트웨어 정의망)은 뇌 1개를 <strong>중앙 클라우드(Centralized)</strong>에 모아두는 방식이라면, 이 ASON은 각 광스위치 기계마다 똑똑한 미니 뇌를 하나씩 박아두고 자기들끼리 대화하며 길을 찾는 <strong>분산형(Distributed)</strong> 라우팅(OSPF/GMPLS) 제어 방식입니다.
 
 ASON은 인프라 구조를 완벽히 3가지 세상으로 쪼갰습니다.
 
-1. <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 (Transport / <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane)</strong>:
-   - 땅바닥에 깔려있는 <strong>진짜 광케이블과 쇳덩어리 광 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비들(OXC 등)</strong>입니다. 위에서 내려온 명령대로 빨간빛, 파란빛을 꺾어서 투명하게 넘겨주기만 합니다.
+1. <strong>데이터 평면 (Transport / Data Plane)</strong>:
+   - 땅바닥에 깔려있는 <strong>진짜 광케이블과 쇳덩어리 광 스위치 장비들(OXC 등)</strong>입니다. 위에서 내려온 명령대로 빨간빛, 파란빛을 꺾어서 투명하게 넘겨주기만 합니다.
 2. **제어 평면 (Control Plane) 🌟 핵심 🌟**:
-   - ASON의 심장이자 뇌입니다. GMPLS(범용 다중 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 라벨 스위칭)라는 고도의 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘이 탑재된 소프트웨어 뇌들입니다.
-   - 뇌들끼리 1초 만에 통신하며 <strong>"서울에서 부산 가는 빛의 최단 거리 경로"를 스스로 찾고(<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>), "여기부터 여기까지 파란색 파장으로 길 뚫어라!"라고 바닥의 기계에 신호를 쏴서 길을 동적으로 뚫어줍니다(Signaling &amp; <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>).</strong>
-3. <strong>관리 평면 (<a href="/studynote/12_it_management/05_security_compliance/1013_management/">Management</a> Plane)</strong>:
+   - ASON의 심장이자 뇌입니다. GMPLS(범용 다중 프로토콜 라벨 스위칭)라는 고도의 라우팅 알고리즘이 탑재된 소프트웨어 뇌들입니다.
+   - 뇌들끼리 1초 만에 통신하며 <strong>"서울에서 부산 가는 빛의 최단 거리 경로"를 스스로 찾고(Routing), "여기부터 여기까지 파란색 파장으로 길 뚫어라!"라고 바닥의 기계에 신호를 쏴서 길을 동적으로 뚫어줍니다(Signaling &amp; Provisioning).</strong>
+3. <strong>관리 평면 (Management Plane)</strong>:
    - 가장 위에 있는 인간 관리자용 대시보드 화면(NMS)입니다. 장비의 고장 감시, 요금 청구, 장애 알람 등의 운영(OAM)을 담당합니다.
 
 ```text
@@ -61,13 +61,13 @@ ASON은 인프라 구조를 완벽히 3가지 세상으로 쪼갰습니다.
 
 ## Ⅲ. 비교 및 연결
 
-ASON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 장거리 백본 [해저 광케이블 아키텍처](/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…가 기반 조건을 만든다면, ASON는 그 위에서 핵심 메커니즘을 구현하고, OTN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+ASON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 장거리 백본 해저 광케이블 아키텍처 및 증폭…가 기반 조건을 만든다면, ASON는 그 위에서 핵심 메커니즘을 구현하고, OTN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 장거리 백본 [해저 광케이블 아키텍처](/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…의 기반 정리 | ASON의 핵심 동작 | OTN의 확장 적용 |
+| 초점 | 장거리 백본 해저 광케이블 아키텍처 및 증폭…의 기반 정리 | ASON의 핵심 동작 | OTN의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: ASON는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -75,27 +75,27 @@ ASON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 동적 할당 (BoD, [Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) on Demand)
-- 월드컵 결승전 때 방송국이 100Gbps [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 갑자기 필요합니다.
+### 1. 대역폭 동적 할당 (BoD, Bandwidth on Demand)
+- 월드컵 결승전 때 방송국이 100Gbps 대역폭이 갑자기 필요합니다.
 - ASON 망에서는 며칠 안 기다려도 됩니다. 그냥 시스템에 요청을 쏘면, ASON 제어 평면이 알아서 1초 만에 비어있는 광 파장(빛)들을 조합해 100G짜리 임시 고속도로를 새로 찍어내어 열어줍니다. 끝나면 1초 만에 회수합니다.
 
-### 2. 자동 우회 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Dynamic Restoration / Self-Healing)
+### 2. 자동 우회 복구 (Dynamic Restoration / Self-Healing)
 - 공사 포크레인이 1번 메인 광케이블을 찍어서 끊어먹었습니다.
-- 옛날엔 통신이 다 죽었습니다. <strong>ASON 망에서는 케이블이 끊긴 지 0.05초 만에 제어 평면(뇌)이 "우회로 찾아!"라고 소리치며 알아서 2번 보조 케이블 쪽으로 빛의 방향(거울)을 싹 꺾어 통신을 100% 자동 치유(<a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>)해 냅니다.</strong>
+- 옛날엔 통신이 다 죽었습니다. <strong>ASON 망에서는 케이블이 끊긴 지 0.05초 만에 제어 평면(뇌)이 "우회로 찾아!"라고 소리치며 알아서 2번 보조 케이블 쪽으로 빛의 방향(거울)을 싹 꺾어 통신을 100% 자동 치유(복구)해 냅니다.</strong>
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 광통신망은 수동으로 차단기를 올렸다 내리는 '수동 기차역 선로 변경'이었습니다. 기차([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 하나 지나가려면 10개의 기차역 역장들(관리자)이 전화를 돌려가며 철길 레일을 수동으로 일일이 돌려놔야(수동 할당) 했기 때문에 며칠이 걸렸습니다. <strong>ASON(자동 교환 광망)</strong>은 각 기차역에 '[인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 내비게이션 관제 시스템(제어 평면)'을 도입한 혁명입니다. 기차가 "부산으로 가겠다!"라고 출발하면, 기차역 내비게이션들끼리 0.1초 만에 서로 통신하여 최적의 경로를 짠 뒤, 전 구간의 철길 레일(광 파장 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 자기들 스스로 찰칵찰칵 꺾어서 논스톱 고속도로를 1초 만에 깔아버립니다. 철길에 벼락이 떨어지면 스스로 즉시 샛길로 레일을 꺾어버리는 완벽한 0.1초 컷 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 자율 철도망입니다.
+- **📢 섹션 요약 비유**: 기존 광통신망은 수동으로 차단기를 올렸다 내리는 '수동 기차역 선로 변경'이었습니다. 기차(데이터)가 하나 지나가려면 10개의 기차역 역장들(관리자)이 전화를 돌려가며 철길 레일을 수동으로 일일이 돌려놔야(수동 할당) 했기 때문에 며칠이 걸렸습니다. <strong>ASON(자동 교환 광망)</strong>은 각 기차역에 '인공지능 내비게이션 관제 시스템(제어 평면)'을 도입한 혁명입니다. 기차가 "부산으로 가겠다!"라고 출발하면, 기차역 내비게이션들끼리 0.1초 만에 서로 통신하여 최적의 경로를 짠 뒤, 전 구간의 철길 레일(광 파장 스위치)을 자기들 스스로 찰칵찰칵 꺾어서 논스톱 고속도로를 1초 만에 깔아버립니다. 철길에 벼락이 떨어지면 스스로 즉시 샛길로 레일을 꺾어버리는 완벽한 0.1초 컷 인공지능 자율 철도망입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-ASON는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [OTN](/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+ASON는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 OTN, 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: ASON는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -105,10 +105,10 @@ ASON는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 장거리 백본 [해저 광케이블 아키텍처](/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
+| 장거리 백본 해저 광케이블 아키텍처 및 증폭… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | 초고속 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [OTN](/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| OTN | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,21 +122,10 @@ ASON는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
     +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
-ASON는 장거리 백본 [해저 광케이블 아키텍처](/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…에서 출발해 현재 메커니즘을 정교화하고, 이후 OTN와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+ASON는 장거리 백본 해저 광케이블 아키텍처 및 증폭…에서 출발해 현재 메커니즘을 정교화하고, 이후 OTN와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 1013 / 1120
-
-<- **이전**: [891. 해저 광케이블 아키텍처](/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/)
-**다음**: [893. OTN (광전송망)](/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/) ->
-
----

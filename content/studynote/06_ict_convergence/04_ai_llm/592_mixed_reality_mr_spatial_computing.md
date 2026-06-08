@@ -110,12 +110,3 @@ Core flow: Map -> Anchor -> Render -> Interact -> Synchronize
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 592 / 800
-
-<- **이전**: [591. 가상현실 VR 몰입형 훈련](/studynote/06_ict_convergence/uncategorized/591_virtual_reality_vr_immersive_training/)
-**다음**: [593. 메타버스 가상세계 경제 상호작용](/studynote/06_ict_convergence/uncategorized/593_metaverse_virtual_world_economy_interaction/) ->
-
----

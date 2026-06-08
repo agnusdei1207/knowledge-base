@@ -7,17 +7,17 @@ weight: 166
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 코드 변경을 빌드·테스트·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·배포 가능한 산출물까지 자동 흐름으로 연결해, 통합과 배포를 이벤트가 아니라 일상 작업으로 바꾸는 개발 운영 체계다.
-> 2. **가치**: 작은 변경을 자주 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 자주 배포하면 통합 충돌, 배포 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 장애 원인 범위가 함께 줄어들어 속도와 안정성을 동시에 높일 수 있다.
-> 3. **판단 포인트**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)), [Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) ([지속적 제공](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)), [Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) ([지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/))의 경계를 명확히 구분하고, 조직 성숙도에 맞는 자동화 수준을 선택해야 한다.
+> 1. **본질**: CI/CD는 코드 변경을 빌드·테스트·검증·배포 가능한 산출물까지 자동 흐름으로 연결해, 통합과 배포를 이벤트가 아니라 일상 작업으로 바꾸는 개발 운영 체계다.
+> 2. **가치**: 작은 변경을 자주 검증하고 자주 배포하면 통합 충돌, 배포 리스크, 장애 원인 범위가 함께 줄어들어 속도와 안정성을 동시에 높일 수 있다.
+> 3. **판단 포인트**: CI (Continuous Integration, 지속적 통합), Continuous Delivery (지속적 제공), Continuous Deployment (지속적 배포)의 경계를 명확히 구분하고, 조직 성숙도에 맞는 자동화 수준을 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 소프트웨어 변경을 "개발 완료 후 한 번에 통합"하던 방식에서 벗어나, 커밋 단위로 자주 통합하고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며 배포 가능한 상태를 유지하는 접근이다. 과거의 대규모 통합 방식에서는 개발자별 작업 기간이 길어질수록 코드 충돌, 환경 차이, 수작업 배포 오류가 한 번에 폭발했다. 이른바 통합 지옥 (Integration Hell)은 기능 개발보다 병합과 안정화에 더 많은 시간을 쓰게 만들었다.
+CI/CD는 소프트웨어 변경을 "개발 완료 후 한 번에 통합"하던 방식에서 벗어나, 커밋 단위로 자주 통합하고 검증하며 배포 가능한 상태를 유지하는 접근이다. 과거의 대규모 통합 방식에서는 개발자별 작업 기간이 길어질수록 코드 충돌, 환경 차이, 수작업 배포 오류가 한 번에 폭발했다. 이른바 통합 지옥 (Integration Hell)은 기능 개발보다 병합과 안정화에 더 많은 시간을 쓰게 만들었다.
 
-CI는 이 문제를 "작은 변경의 빠른 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 줄인다. CD는 여기서 한 걸음 더 나아가, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 산출물을 스테이징이나 운영 환경으로 안전하게 보내는 자동 경로를 만든다. 결국 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 필요성은 단순 자동화가 아니라, 변경의 크기를 줄여 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 관리 가능한 단위로 쪼개는 데 있다.
+CI는 이 문제를 "작은 변경의 빠른 검증"으로 줄인다. CD는 여기서 한 걸음 더 나아가, 검증된 산출물을 스테이징이나 운영 환경으로 안전하게 보내는 자동 경로를 만든다. 결국 CI/CD의 필요성은 단순 자동화가 아니라, 변경의 크기를 줄여 리스크를 관리 가능한 단위로 쪼개는 데 있다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -32,25 +32,25 @@ CI는 이 문제를 "작은 변경의 빠른 [검증](/studynote/04_software_eng
 +--------------------------------------------------------------------+
 ```
 
-이 그림에서 핵심은 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 단지 속도를 올리는 장치가 아니라, 실패 반경 (Blast [Radius](/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))을 줄이는 구조라는 점이다. 변경 단위가 작을수록 원인 추적, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 재배포가 모두 쉬워진다.
+이 그림에서 핵심은 CI/CD가 단지 속도를 올리는 장치가 아니라, 실패 반경 (Blast Radius)을 줄이는 구조라는 점이다. 변경 단위가 작을수록 원인 추적, 롤백, 재배포가 모두 쉬워진다.
 
-- **📢 섹션 요약 비유**: 한 달 치 숙제를 마지막 날 몰아서 검사하면 어디서 틀렸는지 찾기 어렵다. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 숙제를 매일 내고 바로 채점받아, 틀린 부분을 작고 빨리 고치게 하는 방식이다.
+- **📢 섹션 요약 비유**: 한 달 치 숙제를 마지막 날 몰아서 검사하면 어디서 틀렸는지 찾기 어렵다. CI/CD는 숙제를 매일 내고 바로 채점받아, 틀린 부분을 작고 빨리 고치게 하는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인은 보통 소스 변경 감지, 빌드, 자동 테스트, 보안·품질 검사, [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) ([Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 환경 배포의 순서로 구성된다. 중요한 점은 각 단계가 단순 절차가 아니라 "다음 단계로 넘겨도 되는가"를 판단하는 품질 게이트 (Quality Gate) 역할을 한다는 것이다. 즉 파이프라인은 자동화된 컨베이어벨트이면서 동시에 자동 심사관이다.
+CI/CD 파이프라인은 보통 소스 변경 감지, 빌드, 자동 테스트, 보안·품질 검사, 아티팩트 (Artifact) 생성, 환경 배포의 순서로 구성된다. 중요한 점은 각 단계가 단순 절차가 아니라 "다음 단계로 넘겨도 되는가"를 판단하는 품질 게이트 (Quality Gate) 역할을 한다는 것이다. 즉 파이프라인은 자동화된 컨베이어벨트이면서 동시에 자동 심사관이다.
 
 | 단계 | 주요 작업 | 실패 시 의미 |
 | :--- | :--- | :--- |
-| Source | 커밋, [Pull Request](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/) | 변경 추적 불가, [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 불명확 |
-| Build | 컴파일, 패키징, 이미지 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 실행 가능한 산출물 미확보 |
-| Test | 단위·통합·[E2E](/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) ([End-to-End](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 테스트 | 기능 안정성 미검증 |
-| Scan | [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/), 취약점 검사, 라이선스 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 품질·보안 위험 잠재 |
+| Source | 커밋, Pull Request, 코드 리뷰 | 변경 추적 불가, 기준선 불명확 |
+| Build | 컴파일, 패키징, 이미지 생성 | 실행 가능한 산출물 미확보 |
+| Test | 단위·통합·E2E (End-to-End) 테스트 | 기능 안정성 미검증 |
+| Scan | 정적 분석, 취약점 검사, 라이선스 확인 | 품질·보안 위험 잠재 |
 | Deploy | 스테이징/운영 반영 | 운영 전환 실패 또는 배포 위험 |
 
-다음 [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램은 전형적인 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 흐름과 "한 번 만든 산출물을 같은 형태로 승격"하는 원칙을 보여준다.
+다음 ASCII 다이어그램은 전형적인 CI/CD 흐름과 "한 번 만든 산출물을 같은 형태로 승격"하는 원칙을 보여준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -70,23 +70,23 @@ CI는 이 문제를 "작은 변경의 빠른 [검증](/studynote/04_software_eng
 +--------------------------------------------------------------------+
 ```
 
-여기서 좋은 파이프라인은 환경마다 다시 빌드하지 않는다. 같은 [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 테스트, 스테이징, 운영으로 승격해야 환경 차이로 인한 "테스트에서는 성공했는데 운영에서 실패" 문제를 줄일 수 있다. 또한 Fail Fast 원칙에 따라 앞단에서 실패를 빨리 드러내야 전체 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 짧아진다.
+여기서 좋은 파이프라인은 환경마다 다시 빌드하지 않는다. 같은 아티팩트를 테스트, 스테이징, 운영으로 승격해야 환경 차이로 인한 "테스트에서는 성공했는데 운영에서 실패" 문제를 줄일 수 있다. 또한 Fail Fast 원칙에 따라 앞단에서 실패를 빨리 드러내야 전체 리드 타임이 짧아진다.
 
-- **📢 섹션 요약 비유**: 공장에서 제품을 만들 때 중간 검사에서 불량이 나오면 바로 라인을 멈춰야 손실이 적다. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD도 앞 단계에서 빨리 걸러낼수록 뒤의 큰 사고를 막는다.
+- **📢 섹션 요약 비유**: 공장에서 제품을 만들 때 중간 검사에서 불량이 나오면 바로 라인을 멈춰야 손실이 적다. CI/CD도 앞 단계에서 빨리 걸러낼수록 뒤의 큰 사고를 막는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-시험과 실무에서 가장 자주 묻는 포인트는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), Continuous Deployment의 차이다. CI는 코드가 항상 통합 가능한 상태인지 보장하는 데 초점이 있다. Continuous Delivery는 운영 직전까지 자동화하되 최종 운영 반영에 사람 승인을 두고, Continuous Deployment는 그 승인마저 자동화해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통과 후 바로 운영에 반영한다.
+시험과 실무에서 가장 자주 묻는 포인트는 CI, Continuous Delivery, Continuous Deployment의 차이다. CI는 코드가 항상 통합 가능한 상태인지 보장하는 데 초점이 있다. Continuous Delivery는 운영 직전까지 자동화하되 최종 운영 반영에 사람 승인을 두고, Continuous Deployment는 그 승인마저 자동화해 검증 통과 후 바로 운영에 반영한다.
 
 | 구분 | 핵심 질문 | 운영 배포 승인 | 적합한 환경 |
 | :--- | :--- | :--- | :--- |
-| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 통합 결과가 항상 건강한가? | 해당 없음 | 모든 개발 조직 |
-| [Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) | 언제든 배포할 준비가 되었는가? | 있음 | 규제 산업, 승인 절차가 중요한 조직 |
-| [Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통과 시 즉시 배포할 것인가? | 없음 | 테스트 자동화와 관측성이 높은 조직 |
+| CI | 통합 결과가 항상 건강한가? | 해당 없음 | 모든 개발 조직 |
+| Continuous Delivery | 언제든 배포할 준비가 되었는가? | 있음 | 규제 산업, 승인 절차가 중요한 조직 |
+| Continuous Deployment | 검증 통과 시 즉시 배포할 것인가? | 없음 | 테스트 자동화와 관측성이 높은 조직 |
 
-브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)도 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 성숙도와 연결된다. Git Flow는 릴리스 브랜치 중심이라 Delivery에 잘 맞고, [Trunk-Based Development](/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/) ([트렁크 기반 개발](/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/))는 짧은 브랜치 수명과 기능 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ([Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))를 전제로 Deployment에 더 유리하다. 즉 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 도구 설정만의 문제가 아니라 소스 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 테스트 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/), 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 맞물린 운영 체계다.
+브랜치 전략도 CI/CD 성숙도와 연결된다. Git Flow는 릴리스 브랜치 중심이라 Delivery에 잘 맞고, Trunk-Based Development (트렁크 기반 개발)는 짧은 브랜치 수명과 기능 플래그 (Feature Flag)를 전제로 Deployment에 더 유리하다. 즉 CI/CD는 도구 설정만의 문제가 아니라 소스 관리 전략, 테스트 신뢰도, 배포 전략이 맞물린 운영 체계다.
 
 - **📢 섹션 요약 비유**: CI는 매일 건강검진을 하는 것이고, Continuous Delivery는 여행 가방을 늘 싸 둔 상태, Continuous Deployment는 비행기 표만 나오면 바로 공항으로 출발하는 상태다. 자동화 수준이 올라갈수록 준비와 신뢰가 더 필요하다.
 
@@ -94,36 +94,36 @@ CI는 이 문제를 "작은 변경의 빠른 [검증](/studynote/04_software_eng
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "파이프라인이 돌아간다"보다 "배포를 믿고 맡길 수 있는가"가 더 중요하다. 예를 들어 웹 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀이 GitHub Actions나 Jenkins로 CI를 구축했더라도, 테스트가 느리거나 자주 깨지는 플래키 테스트 (Flaky Test) 상태라면 운영 자동 배포는 오히려 위험하다. 따라서 자동화 수준은 조직의 테스트 품질, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 체계, 관측성, 승인 요구사항에 맞춰 단계적으로 올려야 한다.
+실무에서는 "파이프라인이 돌아간다"보다 "배포를 믿고 맡길 수 있는가"가 더 중요하다. 예를 들어 웹 서비스 팀이 GitHub Actions나 Jenkins로 CI를 구축했더라도, 테스트가 느리거나 자주 깨지는 플래키 테스트 (Flaky Test) 상태라면 운영 자동 배포는 오히려 위험하다. 따라서 자동화 수준은 조직의 테스트 품질, 롤백 체계, 관측성, 승인 요구사항에 맞춰 단계적으로 올려야 한다.
 
-### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 체크리스트
 
 1. 빌드 결과가 환경마다 동일하게 재현되는가?
-2. [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), [통합 테스트](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/), 보안 스캔이 자동 게이트로 연결돼 있는가?
-3. 운영 배포 후 이상 징후를 감지할 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스가 준비돼 있는가?
-4. [블루-그린 배포](/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/) ([Blue-Green Deployment](/studynote/12_it_management/05_security_compliance/947_process/))나 [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ([Canary Deployment](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)) 같은 안전한 전환 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
-5. 실패 시 자동 또는 반자동 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 절차가 정의돼 있는가?
+2. 단위 테스트, 통합 테스트, 보안 스캔이 자동 게이트로 연결돼 있는가?
+3. 운영 배포 후 이상 징후를 감지할 메트릭·로그·트레이스가 준비돼 있는가?
+4. 블루-그린 배포 (Blue-Green Deployment)나 카나리 배포 (Canary Deployment) 같은 안전한 전환 전략이 있는가?
+5. 실패 시 자동 또는 반자동 롤백 절차가 정의돼 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 테스트 없이 빌드 성공만으로 운영 자동 배포를 여는 경우
 - 스테이징과 운영이 다른 이미지나 다른 설정으로 배포되는 경우
 - 파이프라인 시간이 너무 길어 개발자가 우회 배포를 선택하게 되는 경우
 - 비밀정보를 파이프라인 스크립트에 직접 넣어 보안 사고를 유발하는 경우
 
-대표 시나리오로 전자상거래 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 단계에서 [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)과 테스트를 수행하고, `main` 병합 시 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 스테이징에 자동 배포한 뒤, 핵심 지표가 안정적이면 운영으로 승격한다. 규제가 강한 금융권은 Continuous Delivery가 현실적일 수 있고, [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 플랫폼은 높은 테스트 성숙도를 바탕으로 Continuous Deployment를 선택할 수 있다.
+대표 시나리오로 전자상거래 서비스는 PR 단계에서 정적 분석과 테스트를 수행하고, `main` 병합 시 컨테이너 이미지를 생성해 스테이징에 자동 배포한 뒤, 핵심 지표가 안정적이면 운영으로 승격한다. 규제가 강한 금융권은 Continuous Delivery가 현실적일 수 있고, SaaS (Software as a Service) 플랫폼은 높은 테스트 성숙도를 바탕으로 Continuous Deployment를 선택할 수 있다.
 
-- **📢 섹션 요약 비유**: 자동문이 있다고 해서 모든 건물 출입을 무조건 무인으로 맡기지는 않는다. 사람 흐름과 위험도에 따라 경비원을 두기도 하고 완전 자동 출입을 쓰기도 하듯, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD도 조직 상황에 맞는 자동화 강도를 골라야 한다.
+- **📢 섹션 요약 비유**: 자동문이 있다고 해서 모든 건물 출입을 무조건 무인으로 맡기지는 않는다. 사람 흐름과 위험도에 따라 경비원을 두기도 하고 완전 자동 출입을 쓰기도 하듯, CI/CD도 조직 상황에 맞는 자동화 강도를 골라야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 잘 정착되면 배포 빈도는 높아지고, 변경 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) for Changes)은 짧아지며, 장애가 나도 원인 범위를 좁게 잡아 빠르게 복구할 수 있다. 이는 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 지표에서 말하는 배포 빈도, 변경 실패율, [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To [Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 개선과 직결된다. 즉 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 개발 편의 도구가 아니라, 조직의 전달 성능을 측정 가능한 수준으로 끌어올리는 관리 체계다.
+CI/CD가 잘 정착되면 배포 빈도는 높아지고, 변경 리드 타임 (Lead Time for Changes)은 짧아지며, 장애가 나도 원인 범위를 좁게 잡아 빠르게 복구할 수 있다. 이는 DORA (DevOps Research and Assessment) 지표에서 말하는 배포 빈도, 변경 실패율, MTTR (Mean Time To Recovery), 리드 타임 개선과 직결된다. 즉 CI/CD는 개발 편의 도구가 아니라, 조직의 전달 성능을 측정 가능한 수준으로 끌어올리는 관리 체계다.
 
-반대로 자동화만 있고 테스트 신뢰, 운영 가시성, 팀 문화가 부족하면 "빠르게 자주 망가뜨리는 파이프라인"이 될 수 있다. 따라서 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD의 핵심 기억 포인트는 "빠른 배포"가 아니라 "작은 변경을 반복 가능하게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 안전하게 흘려보내는 시스템"이다. 도착점은 도구 도입이 아니라, 배포가 특별 이벤트가 아닌 평상 업무가 되는 상태다.
+반대로 자동화만 있고 테스트 신뢰, 운영 가시성, 팀 문화가 부족하면 "빠르게 자주 망가뜨리는 파이프라인"이 될 수 있다. 따라서 CI/CD의 핵심 기억 포인트는 "빠른 배포"가 아니라 "작은 변경을 반복 가능하게 검증하고 안전하게 흘려보내는 시스템"이다. 도착점은 도구 도입이 아니라, 배포가 특별 이벤트가 아닌 평상 업무가 되는 상태다.
 
-- **📢 섹션 요약 비유**: 좋은 택배 시스템은 빨리 보내는 것만이 아니라, 어디에 있는지 보이고 문제 나면 바로 회수할 수 있어야 한다. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD도 속도와 통제를 함께 갖춘 배송망으로 기억해야 한다.
+- **📢 섹션 요약 비유**: 좋은 택배 시스템은 빨리 보내는 것만이 아니라, 어디에 있는지 보이고 문제 나면 바로 회수할 수 있어야 한다. CI/CD도 속도와 통제를 함께 갖춘 배송망으로 기억해야 한다.
 
 ---
 
@@ -131,11 +131,11 @@ CI는 이 문제를 "작은 변경의 빠른 [검증](/studynote/04_software_eng
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD가 실천되는 조직 문화와 운영 방식 |
-| [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 동일 산출물을 여러 환경으로 승격시키는 핵심 단위 |
+| DevOps | CI/CD가 실천되는 조직 문화와 운영 방식 |
+| Artifact | 동일 산출물을 여러 환경으로 승격시키는 핵심 단위 |
 | Quality Gate | 테스트·보안·품질 기준을 자동으로 통과시키는 문턱 |
-| [Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | Trunk-Based Development와 자동 배포를 연결하는 위험 분리 장치 |
-| Blue-Green/[Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | 운영 전환 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄이는 대표 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| Feature Flag | Trunk-Based Development와 자동 배포를 연결하는 위험 분리 장치 |
+| Blue-Green/Canary | 운영 전환 리스크를 줄이는 대표 배포 전략 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,16 +160,5 @@ GitOps · Progressive Delivery · DevSecOps
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 친구들이 만든 레고를 매일 조금씩 합쳐 보고 바로 흔들어 보면 어디가 잘못됐는지 빨리 알 수 있어요.
-2. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 레고를 다 만든 뒤 창고에만 두지 않고, 검사까지 끝내서 바로 전시장에 가져갈 수 있게 준비해 두는 거예요.
+2. CI/CD는 레고를 다 만든 뒤 창고에만 두지 않고, 검사까지 끝내서 바로 전시장에 가져갈 수 있게 준비해 두는 거예요.
 3. 그래서 큰 실수는 줄고, 고쳐야 할 부분도 작은 조각 단위로 금방 찾을 수 있답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 280 / 587
-
-<- **이전**: [165. BDD (Behavior Driven Development, 행위 주도 개발)](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)
-**다음**: [167. SCM (Software Configuration Management, 소프트웨어 형상 관리)](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ->
-
----

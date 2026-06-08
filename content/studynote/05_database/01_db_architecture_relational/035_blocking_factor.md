@@ -6,9 +6,9 @@ tags:
 weight: 35
 ---
 > **핵심 인사이트**
-> 1. 블로킹 팩터([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) Factor, BF)는 디스크 블록 하나에 저장 가능한 레코드 수로, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 효율을 직접 결정하는 핵심 저장 매개변수다.
-> 2. BF = floor(블록 크기 / 레코드 크기)이며, 블록 크기가 클수록 BF가 높아져 I/O 횟수가 감소하지만 [내부 단편화](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)([Internal Fragmentation](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))가 증가한다.
-> 3. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계 시 레코드 크기, 블록 크기, 레코드 배치 방식(Spanned/Unspanned)을 함께 고려해 최적 I/O를 달성해야 한다.
+> 1. 블로킹 팩터(Blocking Factor, BF)는 디스크 블록 하나에 저장 가능한 레코드 수로, 파일 I/O 효율을 직접 결정하는 핵심 저장 매개변수다.
+> 2. BF = floor(블록 크기 / 레코드 크기)이며, 블록 크기가 클수록 BF가 높아져 I/O 횟수가 감소하지만 내부 단편화(Internal Fragmentation)가 증가한다.
+> 3. 데이터베이스 설계 시 레코드 크기, 블록 크기, 레코드 배치 방식(Spanned/Unspanned)을 함께 고려해 최적 I/O를 달성해야 한다.
 
 ---
 
@@ -48,14 +48,14 @@ Block 2: [R4 back][R5][R6]...
 
 | 방식        | 장점                    | 단점                  |
 |------------|-------------------------|-----------------------|
-| Unspanned  | 구현 단순, 랜덤 접근 용이 | [내부 단편화](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 발생      |
+| Unspanned  | 구현 단순, 랜덤 접근 용이 | 내부 단편화 발생      |
 | Spanned    | 공간 낭비 최소           | 구현 복잡, 두 번 I/O |
 
 > 📢 **섹션 요약 비유**: Unspanned는 박스가 짐칸을 넘어가면 새 트럭에 싣는 것, Spanned는 박스를 잘라 두 트럭에 나누어 싣는 것.
 
 ---
 
-## Ⅲ. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 블록 수 계산
+## Ⅲ. 파일 블록 수 계산
 
 ```
 전체 레코드 수 = 10,000개
@@ -68,7 +68,7 @@ BF = 20 (블록당 레코드 수)
   총 읽기 시간 = 500 × 10 ms = 5,000 ms = 5초
 ```
 
-### [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 BF의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+### 인덱스와 BF의 관계
 
 ```
 B-Tree 인덱스 노드:
@@ -89,16 +89,16 @@ B-Tree 인덱스 노드:
 
 | 작업 유형         | 최적 블록 크기 | 이유                        |
 |-----------------|--------------|------------------------------|
-| [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (랜덤 I/O) | 4–8 KB       | 작은 레코드, 빠른 응답        |
-| [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) (순차 스캔) | 64–512 KB    | 대용량 스캔, I/O 횟수 최소화 |
-| [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 스토리지    | 4–16 KB      | [페이지 크기](/studynote/02_operating_system/06_memory_management/352_page_size/) 정렬             |
-| [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/)            | 128–256 MB   | 대용량 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 최적   |
+| OLTP (랜덤 I/O) | 4–8 KB       | 작은 레코드, 빠른 응답        |
+| OLAP (순차 스캔) | 64–512 KB    | 대용량 스캔, I/O 횟수 최소화 |
+| SSD 스토리지    | 4–16 KB      | 페이지 크기 정렬             |
+| HDFS            | 128–256 MB   | 대용량 파일, MapReduce 최적   |
 
 > 📢 **섹션 요약 비유**: 소포는 작은 상자, 이사짐은 대형 트럭 — 화물 크기에 맞는 운반 도구가 효율적이다.
 
 ---
 
-## Ⅴ. 실무 시나리오 — PostgreSQL [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 설계
+## Ⅴ. 실무 시나리오 — PostgreSQL 페이지 설계
 
 ```
 PostgreSQL 기본 페이지(블록) 크기 = 8 KB
@@ -113,7 +113,7 @@ BF = floor(8192 / 100) = 81개 (헤더 공간 제외 실제는 ~70개)
 3. TOAST: 큰 값(> 2KB)은 별도 테이블에 오프라인 저장
 ```
 
-> 📢 **섹션 요약 비유**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 꽉 채우면 나중에 수정할 공간이 없어 외부 저장소를 쓰게 된다 — 미리 여유를 남겨두는 게 더 빠르다.
+> 📢 **섹션 요약 비유**: 페이지를 꽉 채우면 나중에 수정할 공간이 없어 외부 저장소를 쓰게 된다 — 미리 여유를 남겨두는 게 더 빠르다.
 
 ---
 
@@ -169,15 +169,4 @@ MapReduce / Spark 처리 단위 기반
 
 1. 블로킹 팩터는 트럭 짐칸에 상자를 몇 개 실을 수 있는지 나타내는 숫자예요.
 2. 상자가 작을수록 더 많이 실을 수 있고, 한 번에 많이 나를수록 배달이 빠르지요.
-3. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)도 한 블록에 많은 레코드를 담을수록 디스크를 적게 읽어서 빠르답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 35 / 600
-
-<- **이전**: [레코드 길이 · 파일 조직 방식 (Record Length & File Organization)](/studynote/05_database/01_db_architecture_relational/034_record_length/)
-**다음**: [036. B-트리 (B-Tree)](/studynote/05_database/01_db_architecture_relational/036_b_tree/) ->
-
----
+3. 데이터베이스도 한 블록에 많은 레코드를 담을수록 디스크를 적게 읽어서 빠르답니다!

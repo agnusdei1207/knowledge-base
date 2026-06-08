@@ -7,17 +7,17 @@ weight: 126
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/))은 모놀리식 레거시 시스템을 한 번에 재작성하는 빅뱅 방식 대신, 전면에 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(게이트웨이)를 두고 새로운 기능부터 신규 마이크로서비스로 하나씩 가로채어 레거시를 점진적으로 고사시키는 레거시 전환 전략이다.
-> 2. **가치**: 시스템 전체를 중단하지 않고 운영 중에 레거시를 신규 아키텍처로 교체할 수 있어, 재작성 리스크를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하고 신규 기능과 레거시 기능을 공존시키면서 점진적으로 전환한다.
+> 1. **본질**: 스트랭글러 피그 패턴 (Strangler Fig Pattern)은 모놀리식 레거시 시스템을 한 번에 재작성하는 빅뱅 방식 대신, 전면에 프록시(게이트웨이)를 두고 새로운 기능부터 신규 마이크로서비스로 하나씩 가로채어 레거시를 점진적으로 고사시키는 레거시 전환 전략이다.
+> 2. **가치**: 시스템 전체를 중단하지 않고 운영 중에 레거시를 신규 아키텍처로 교체할 수 있어, 재작성 리스크를 분산하고 신규 기능과 레거시 기능을 공존시키면서 점진적으로 전환한다.
 > 3. **판단 포인트**: 전환 완료 시점을 명확히 정의하지 않으면 레거시와 신규 시스템이 장기간 혼재하는 '영구 혼합 아키텍처' 함정에 빠지므로, 각 기능 단위의 전환 완료 기준(Definition of Done)과 일정을 사전에 정의해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)([Strangler Fig](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/))는 열대우림에서 숙주 나무를 감싸고 올라가 결국 숙주를 고사시키는 무화과 나무 일종이다. 마틴 파울러(Martin Fowler)가 2004년 이 생물학적 현상을 레거시 시스템 전환 전략으로 비유했다.
+스트랭글러 피그(Strangler Fig)는 열대우림에서 숙주 나무를 감싸고 올라가 결국 숙주를 고사시키는 무화과 나무 일종이다. 마틴 파울러(Martin Fowler)가 2004년 이 생물학적 현상을 레거시 시스템 전환 전략으로 비유했다.
 
-레거시 시스템을 빅뱅(big bang) 방식으로 완전 재작성하면 수년간의 개발 기간 동안 기존 시스템을 동결해야 하고, 완성 후 일제 전환 시 예상치 못한 버그와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 문제가 한꺼번에 터진다. [스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 이 위험을 기능 단위로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)한다.
+레거시 시스템을 빅뱅(big bang) 방식으로 완전 재작성하면 수년간의 개발 기간 동안 기존 시스템을 동결해야 하고, 완성 후 일제 전환 시 예상치 못한 버그와 데이터 이관 문제가 한꺼번에 터진다. 스트랭글러 피그 패턴은 이 위험을 기능 단위로 분산한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -44,14 +44,14 @@ weight: 126
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-패턴의 핵심 구성 요소는 세 가지다. ① [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 레이어): 전환 기간 동안 레거시와 신규 시스템으로의 트래픽을 분기하는 중앙 라우터, ② 공존 기간(Co-existence Period): 두 시스템이 함께 운영되는 과도기, ③ 전환 기준(Strangling Criteria): 언제 특정 기능을 완전히 신규로 전환할지 결정하는 조건.
+패턴의 핵심 구성 요소는 세 가지다. ① 프록시(라우팅 레이어): 전환 기간 동안 레거시와 신규 시스템으로의 트래픽을 분기하는 중앙 라우터, ② 공존 기간(Co-existence Period): 두 시스템이 함께 운영되는 과도기, ③ 전환 기준(Strangling Criteria): 언제 특정 기능을 완전히 신규로 전환할지 결정하는 조건.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 배치 | 모든 트래픽이 레거시 통과 | 낮음 |
+| 초기 프록시 배치 | 모든 트래픽이 레거시 통과 | 낮음 |
 | 일부 기능 전환 | 레거시+신규 혼재 | 중간 |
-| 대부분 전환 | 레거시 최소화 | 높음 ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 부담) |
-| 레거시 제거 | 신규 시스템 완전 이관 | 낮음 ([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료 후) |
+| 대부분 전환 | 레거시 최소화 | 높음 (데이터 동기화 부담) |
+| 레거시 제거 | 신규 시스템 완전 이관 | 낮음 (검증 완료 후) |
 
 ```text
 +-------------------------------------------------------------+
@@ -72,40 +72,40 @@ weight: 126
 ---
 ## Ⅲ. 비교 및 연결
 
-레거시 전환 전략에는 [스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 외에 빅뱅 재작성, 갈치 (Branch by [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 패턴이 있다. 각각 위험 수준과 소요 기간이 다르다.
+레거시 전환 전략에는 스트랭글러 피그 외에 빅뱅 재작성, 갈치 (Branch by Abstraction) 패턴이 있다. 각각 위험 수준과 소요 기간이 다르다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 전환 방식 | 전체를 한 번에 재작성 | 기능 단위 점진적 전환 |
 | 운영 중단 | 장기간 (수개월~수년) | 없음 |
-| 위험 수준 | 높음 (일제 전환) | 낮음 (단계적 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)) |
+| 위험 수준 | 높음 (일제 전환) | 낮음 (단계적 분산) |
 | 비즈니스 기민성 | 전환 완료 전 신기능 불가 | 전환 중에도 신기능 출시 |
 
-- **📢 섹션 요약 비유**: 낡은 옷을 한 번에 모두 버리고 새 옷을 사는 것(빅뱅)이 아니라, 계절마다 낡은 옷 하나씩 새 옷으로 교체하는 것([스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/))이다.
+- **📢 섹션 요약 비유**: 낡은 옷을 한 번에 모두 버리고 새 옷을 사는 것(빅뱅)이 아니라, 계절마다 낡은 옷 하나씩 새 옷으로 교체하는 것(스트랭글러 피그)이다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)의 핵심 실무 도전은 레거시와 신규 시스템 간의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)다. 두 시스템이 공존하는 기간 동안 동일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 불일치가 발생하지 않도록 [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))나 이벤트 기반 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 구현해야 한다.
+스트랭글러 피그 패턴의 핵심 실무 도전은 레거시와 신규 시스템 간의 데이터 동기화다. 두 시스템이 공존하는 기간 동안 동일 데이터에 대한 불일치가 발생하지 않도록 CDC (Change Data Capture)나 이벤트 기반 동기화를 구현해야 한다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 전환할 기능의 경계([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))가 명확히 정의되어 있는가?
-2. 레거시와 신규 시스템 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 전략이 수립되어 있는가?
+### 판단 체크리스트
+1. 전환할 기능의 경계(Bounded Context)가 명확히 정의되어 있는가?
+2. 레거시와 신규 시스템 간 데이터 동기화 전략이 수립되어 있는가?
 3. 각 기능 전환의 완료 기준(Definition of Done)이 측정 가능한 형태로 정의되어 있는가?
 4. 전환 완료 타임라인이 설정되어 '영구 혼합 아키텍처' 함정을 피할 계획인가?
 5. 신규 서비스로 전환 후 레거시 코드를 실제로 비활성화하는 프로세스가 있는가?
 
-- **📢 섹션 요약 비유**: 낡은 파이프라인을 교체할 때 새 파이프를 먼저 연결하고 물이 제대로 흐르는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후에야 낡은 파이프를 막는다. [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전에 막으면 단수가 된다.
+- **📢 섹션 요약 비유**: 낡은 파이프라인을 교체할 때 새 파이프를 먼저 연결하고 물이 제대로 흐르는지 확인한 후에야 낡은 파이프를 막는다. 확인 전에 막으면 단수가 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)을 적용하면 레거시 시스템을 운영하면서 점진적으로 현대화할 수 있어 비즈니스 연속성이 유지된다. 각 기능 전환이 독립적 배포 단위가 되어 위험이 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)되고, 전환 중에도 신규 기능 출시가 가능하다.
+스트랭글러 피그 패턴을 적용하면 레거시 시스템을 운영하면서 점진적으로 현대화할 수 있어 비즈니스 연속성이 유지된다. 각 기능 전환이 독립적 배포 단위가 되어 위험이 분산되고, 전환 중에도 신규 기능 출시가 가능하다.
 
-한계는 전환 기간 동안 두 시스템을 동시에 운영·유지보수해야 하는 이중 부담이다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 복잡성과 레거시 팀·신규 팀 간의 조율 비용도 증가한다. 전환 완료 타임라인을 명확히 설정하지 않으면 레거시가 '영구히 존재'하는 상황이 된다.
+한계는 전환 기간 동안 두 시스템을 동시에 운영·유지보수해야 하는 이중 부담이다. 데이터 동기화 복잡성과 레거시 팀·신규 팀 간의 조율 비용도 증가한다. 전환 완료 타임라인을 명확히 설정하지 않으면 레거시가 '영구히 존재'하는 상황이 된다.
 
-미래 방향으로는 ① [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 레거시 코드 자동 분석으로 전환 기능 경계 추천, ② 컨테이너화를 통한 레거시 시스템 격리·현대화, ③ [스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)와 CDC의 결합으로 실시간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 자동화가 발전하고 있다.
+미래 방향으로는 ① AI 기반 레거시 코드 자동 분석으로 전환 기능 경계 추천, ② 컨테이너화를 통한 레거시 시스템 격리·현대화, ③ 스트랭글러 피그와 CDC의 결합으로 실시간 데이터 동기화 자동화가 발전하고 있다.
 
 - **📢 섹션 요약 비유**: 식물이 자라면서 기존 지지대(레거시)를 점차 자신의 줄기로 대체하듯, 레거시 시스템의 책임을 신규 서비스가 하나씩 흡수하여 결국 레거시가 필요 없어지게 만든다.
 
@@ -113,14 +113,14 @@ weight: 126
 
 ### 📌 관련 개념 맵
 
-[모놀리식 레거시] -> [스트랭글러 피그 패턴] -> [점진적 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환] -> [레거시 고사] -> [클린 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)]
+[모놀리식 레거시] -> [스트랭글러 피그 패턴] -> [점진적 MSA 전환] -> [레거시 고사] -> [클린 MSA]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [모놀리식 아키텍처](/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) | [스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)의 출발점이 되는 레거시 구조 |
-| [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이/[프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) | 레거시와 신규 시스템의 트래픽 분기 지점 |
-| [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) | 전환 기간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기술 |
-| [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) [바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) | 전환할 기능 경계 결정 기준 |
+| 모놀리식 아키텍처 | 스트랭글러 피그의 출발점이 되는 레거시 구조 |
+| API 게이트웨이/프록시 | 레거시와 신규 시스템의 트래픽 분기 지점 |
+| CDC (Change Data Capture) | 전환 기간 데이터 동기화 기술 |
+| DDD 바운디드 컨텍스트 | 전환할 기능 경계 결정 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,14 +131,3 @@ weight: 126
 1. 낡은 나무집 옆에 새 집을 짓고, 방 하나씩 이사하면서 낡은 집 방을 하나씩 부수는 방법이에요.
 2. 이사가 완전히 끝나면 낡은 집은 아무도 사용하지 않아서 자연스럽게 사라져요.
 3. 이렇게 하면 이사하는 중에도 계속 집에서 생활할 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 182 / 530
-
-<- **이전**: [125. 서비스 메시 (Service Mesh)](/studynote/11_design_supervision/02_architecture_principles/125_service_mesh/)
-**다음**: [127. 서버리스·FaaS 아키텍처 (Serverless / FaaS Architecture)](/studynote/11_design_supervision/02_architecture_principles/127_serverless_faas_architecture/) ->
-
----

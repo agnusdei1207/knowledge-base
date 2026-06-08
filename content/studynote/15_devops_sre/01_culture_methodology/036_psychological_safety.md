@@ -6,8 +6,8 @@ tags:
 weight: 36
 ---
 > **핵심 인사이트**
-> 1. 심리적 안전(Psychological Safety)은 팀 내에서 의견 제시·질문·실수 인정 시 처벌이나 비난을 받지 않을 것이라는 구성원의 신뢰 상태로, Google [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Aristotle이 고성과 팀의 제1 요소로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했다.
-> 2. 심리적 안전이 없으면 개발자는 버그를 숨기고, 배포 실패를 보고하지 않으며, 개선 아이디어를 말하지 않는다 — DevOps의 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표(배포 빈도·[MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))는 심리적 안전이 높은 팀에서만 지속 개선된다.
+> 1. 심리적 안전(Psychological Safety)은 팀 내에서 의견 제시·질문·실수 인정 시 처벌이나 비난을 받지 않을 것이라는 구성원의 신뢰 상태로, Google Project Aristotle이 고성과 팀의 제1 요소로 확인했다.
+> 2. 심리적 안전이 없으면 개발자는 버그를 숨기고, 배포 실패를 보고하지 않으며, 개선 아이디어를 말하지 않는다 — DevOps의 DORA 지표(배포 빈도·MTTR)는 심리적 안전이 높은 팀에서만 지속 개선된다.
 > 3. 심리적 안전은 "비판 없는 분위기"가 아니라 "책임은 유지하되 두려움은 제거"하는 환경이다 — 고성과 팀은 높은 기준과 높은 심리적 안전을 동시에 달성한다.
 
 ---
@@ -33,7 +33,7 @@ Google Project Aristotle (2012-2015):
 
 ---
 
-## II. 심리적 안전과 [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과
+## II. 심리적 안전과 DevOps 성과
 
 ```
 DORA 연구 (2023) 상관관계:
@@ -54,11 +54,11 @@ DevOps 3가지 방법(Three Ways)과 연결:
   지속 학습:       심리적 안전 -> 실험 장려
 ```
 
-| [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 행동          | 심리적 안전 높음     | 심리적 안전 낮음    |
+| DevOps 행동          | 심리적 안전 높음     | 심리적 안전 낮음    |
 |-------------------|--------------------|-------------------|
-| 장애 보고          | 즉시 투명하게       | 숨기거나 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)       |
+| 장애 보고          | 즉시 투명하게       | 숨기거나 지연       |
 | 포스트모템         | 비난 없는 원인 분석  | 책임자 찾기         |
-| [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/)          | 건설적 피드백        | 방어적 반응         |
+| 코드 리뷰          | 건설적 피드백        | 방어적 반응         |
 | 신기술 실험        | 적극 시도           | 실패 두려워 포기    |
 
 > 📢 **섹션 요약 비유**: 심리적 안전은 안전망이 있는 고공 곡예 — 안전망 없이는 아무도 새로운 기술을 시도하지 않는다.
@@ -87,11 +87,11 @@ Timothy Clark의 4단계 모델 (2020):
         온보딩, 심리적 소속감
 ```
 
-> 📢 **섹션 요약 비유**: 1단계는 반에 잘 적응하기, 2단계는 손 들고 질문하기, 3단계는 발표하기, 4단계는 선생님 의견에 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 반박하기.
+> 📢 **섹션 요약 비유**: 1단계는 반에 잘 적응하기, 2단계는 손 들고 질문하기, 3단계는 발표하기, 4단계는 선생님 의견에 논리적으로 반박하기.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 심리적 안전 구축 실천
+## IV. 심리적 안전 구축 실천
 
 ```
 리더 행동:
@@ -185,14 +185,3 @@ AI 코드 리뷰, 자동화로 인한 불안감 증가
 1. 심리적 안전은 "틀려도 혼나지 않는다"는 믿음이에요 — 그래야 자유롭게 새로운 것을 시도하고 실수에서 배울 수 있어요.
 2. Google이 200개가 넘는 팀을 연구했더니 최고의 팀은 가장 똑똑한 팀이 아니라 가장 편하게 말할 수 있는 팀이었대요.
 3. 개발팀도 실수가 생기면 "누가 잘못했어?"가 아니라 "왜 이런 일이 생겼고, 어떻게 막을까?"를 물어야 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 36 / 373
-
-<- **이전**: [035. 무결함 사후 검토 (Blameless Postmortem)](/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/)
-**다음**: [037. 애자일 PMO (Agile PMO)](/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/) ->
-
----

@@ -6,7 +6,7 @@ tags:
 weight: 28
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RWA(Real World Asset) [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)는 부동산·채권·예술품·탄소 크레딧 등 실물 자산을 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 토큰으로 표현하여 분할 소유권, 즉각 결제, 24/7 거래를 가능하게 하는 금융 혁신이다.
+> 1. **본질**: RWA(Real World Asset) 토큰화는 부동산·채권·예술품·탄소 크레딧 등 실물 자산을 블록체인 토큰으로 표현하여 분할 소유권, 즉각 결제, 24/7 거래를 가능하게 하는 금융 혁신이다.
 > 2. **가치**: 전통 자산 시장의 3대 문제(유동성 부족, 높은 진입 장벽, 느린 결제)를 동시에 해결한다. 1억 원짜리 부동산을 1만 개의 1만 원 토큰으로 쪼개면 소액 투자자도 참여 가능하며, 결제는 T+0 즉시 완결된다.
 > 3. **판단 포인트**: RWA의 핵심 리스크는 "법적 집행 가능성"이다. 토큰이 온체인에서 이전되더라도 실물 자산 소유권이 법적으로 추종되지 않으면 토큰은 무의미하다. SPV(특수목적법인), 신탁, 법적 귀속 구조(Legal Wrapper)가 핵심 설계 요소다.
 
@@ -29,19 +29,19 @@ weight: 28
 +------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: RWA는 건물 지분을 아파트 주식처럼 파는 것이다. 100억짜리 빌딩을 1만 개의 주식(토큰)으로 쪼개면 100만 원으로도 빌딩 투자가 가능하고, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 즉시 사고팔 수 있다.
+- **📢 섹션 요약 비유**: RWA는 건물 지분을 아파트 주식처럼 파는 것이다. 100억짜리 빌딩을 1만 개의 주식(토큰)으로 쪼개면 100만 원으로도 빌딩 투자가 가능하고, 블록체인으로 즉시 사고팔 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### RWA [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) 레이어
+### RWA 토큰화 레이어
 
 | 레이어 | 역할 | 예시 |
 |:---|:---|:---|
 | **법적 레이어** | SPV/신탁 설립, 소유권 귀속 | 케이만 SPV, 한국 신탁법 |
 | **오라클 레이어** | 실물 자산 가치 온체인 반영 | Chainlink, Pyth Network |
-| **토큰 레이어** | 소유권·배당 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) | [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/), ERC-1400 |
+| **토큰 레이어** | 소유권·배당 토큰화 | ERC-20, ERC-1400 |
 | **컴플라이언스 레이어** | KYC/AML, 증권법 준수 | Polymath, Tokeny |
 
 ### 주요 RWA 자산 유형
@@ -60,14 +60,14 @@ weight: 28
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 전통 부동산 투자 | RWA [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) |
+| 비교 | 전통 부동산 투자 | RWA 토큰화 |
 |:---|:---|:---|
 | 최소 투자금 | 수억 원 | 수만 원 |
 | 결제 속도 | T+3~30일 | T+0 즉시 |
 | 유동성 | 낮음 | 높음 (DEX 거래) |
 | 법적 안정성 | 높음 | 발전 중 |
 
-- **📢 섹션 요약 비유**: 전통 부동산 투자가 한국 식당에서 밥을 먹는 것이라면 RWA는 배달앱이다. 기존에는 직접 가야 했지만 이제 집에서 소액으로 주문(투자)할 수 있다. 단, 배달([블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 법적 체계)이 아직 완전히 자리잡지 않았다.
+- **📢 섹션 요약 비유**: 전통 부동산 투자가 한국 식당에서 밥을 먹는 것이라면 RWA는 배달앱이다. 기존에는 직접 가야 했지만 이제 집에서 소액으로 주문(투자)할 수 있다. 단, 배달(블록체인 법적 체계)이 아직 완전히 자리잡지 않았다.
 
 ---
 
@@ -75,11 +75,11 @@ weight: 28
 
 ### 기관 진출 사례
 - **BlackRock BUIDL**: 이더리움에 미국 국채 토큰 펀드 출시 (2024).
-- **JPMorgan Onyx**: 은행 간 담보 결제에 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) 적용.
-- <strong>싱가포르 MAS <a href="/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/">Project</a> Guardian</strong>: 기관급 RWA [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) 파일럿.
+- **JPMorgan Onyx**: 은행 간 담보 결제에 토큰화 적용.
+- <strong>싱가포르 MAS Project Guardian</strong>: 기관급 RWA 토큰화 파일럿.
 - **한국 금융위**: 토큰증권(STO) 가이드라인 발표 (2023).
 
-- **📢 섹션 요약 비유**: BlackRock의 RWA [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)는 세계 최대 자산운용사가 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 은행 통장을 만든 것이다. 미국 국채를 토큰으로 바꿔서 전 세계 누구나 미국 정부 채권에 소액 투자할 수 있게 됐다.
+- **📢 섹션 요약 비유**: BlackRock의 RWA 토큰화는 세계 최대 자산운용사가 블록체인 은행 통장을 만든 것이다. 미국 국채를 토큰으로 바꿔서 전 세계 누구나 미국 정부 채권에 소액 투자할 수 있게 됐다.
 
 ---
 
@@ -92,9 +92,9 @@ weight: 28
 | **결제 효율** | 즉시 청산·결제 (T+0) |
 | **투명성** | 온체인 소유권 추적 |
 
-2024년 기준 RWA [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) 시장은 약 150조 원 규모이며, 2030년까지 수천조 원 규모로 성장이 전망된다. 법적 인프라가 정비됨에 따라 기관 자금의 대규모 유입이 예상된다.
+2024년 기준 RWA 토큰화 시장은 약 150조 원 규모이며, 2030년까지 수천조 원 규모로 성장이 전망된다. 법적 인프라가 정비됨에 따라 기관 자금의 대규모 유입이 예상된다.
 
-- **📢 섹션 요약 비유**: RWA 성장은 인터넷 뱅킹의 등장과 같다. 처음에는 법적 불확실성으로 느렸지만, 규제가 정비되자 폭발적으로 성장했다. RWA도 법적 인프라가 완비되면 모든 실물 자산이 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)될 것이다.
+- **📢 섹션 요약 비유**: RWA 성장은 인터넷 뱅킹의 등장과 같다. 처음에는 법적 불확실성으로 느렸지만, 규제가 정비되자 폭발적으로 성장했다. RWA도 법적 인프라가 완비되면 모든 실물 자산이 토큰화될 것이다.
 
 ---
 
@@ -131,14 +131,3 @@ weight: 28
 1. RWA는 100억짜리 빌딩을 1만 개의 조각(토큰)으로 나눠서 팔 수 있는 마법이에요!
 2. 소액 투자자도 100만 원으로 대형 빌딩 주인이 될 수 있고, 언제든 조각을 사고팔 수 있어요!
 3. 하지만 종이 증서(법적 구조)가 제대로 갖춰져야 진짜 내 것이 된답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 28 / 552
-
-<- **이전**: [27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식](/studynote/06_ict_convergence/01_blockchain/027_ico_sto_ieo/)
-**다음**: [29. NFT — 대체 불가 토큰 (Non-Fungible Token)](/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/) ->
-
----

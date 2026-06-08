@@ -108,11 +108,3 @@ Red/Blue/Purple Team 운영의 기술적 핵심은 **공격자 관점의 TTP 인
 | **측정 KPI** | 침투 성공률, Critical 자산 도달 시간, 데이터 유출 시뮬레이션 | MTTD, MTTR, 알림 처리량, Tier 1~3 에스컬레이션 비율 | Detection Coverage %, Time-to-Detect-Gap, False Negative Rate, Purple Cycle Time |
 | **소요 시간/주기** | 연 1~4회, 프로젝트당 4~12주 | 24/7 상시 운영 + 월간 hunt | Sprint 주제(2~4주) + 지속적 자동화 검증 |
 | **법적 책임** |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 739 / 800
-
-<- **이전**: [738. 사이버 위협 인텔리전스 CTI TTP IOC](/studynote/06_ict_convergence/uncategorized/738_cyber_threat_intelligence_cti_ttp_ioc/)
-**다음**: [740. 버그 바운티 책임 있는 공개 정책](/studynote/06_ict_convergence/uncategorized/740_bug_bounty_responsible_disclosure_policy/) ->
-
----

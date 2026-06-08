@@ -6,9 +6,9 @@ tags:
 weight: 44
 ---
 > **핵심 인사이트**
-> 1. [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 나눗셈([Division](/studynote/05_database/07_exam_summary/411_division_operation/), ÷) 연산은 "모든 조건을 만족하는 대상"을 구하는 연산으로 — "모든 과목을 수강한 학생", "모든 상품을 구매한 고객" 등 <strong>전체 집합 포함 여부</strong>를 묻는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 사용된다.
-> 2. 나눗셈 R÷S의 결과는 — R에서 S의 모든 투플과 조합될 수 있는 R의 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값들로 구성되며, SQL에서는 직접 지원하지 않아 <strong>이중 NOT <a href="/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/">EXISTS</a></strong> 또는 COUNT 비교로 구현해야 한다.
-> 3. 나눗셈은 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 6개 기본 연산(선택, 투영, 합집합, 차집합, 카티전 곱, 이름 변경)으로 유도 가능한 파생 연산이지만 — "모든 X를 포함하는 Y"라는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴에서 표현력이 매우 높아 개념적 이해가 중요하다.
+> 1. 관계 대수의 나눗셈(Division, ÷) 연산은 "모든 조건을 만족하는 대상"을 구하는 연산으로 — "모든 과목을 수강한 학생", "모든 상품을 구매한 고객" 등 <strong>전체 집합 포함 여부</strong>를 묻는 쿼리에 사용된다.
+> 2. 나눗셈 R÷S의 결과는 — R에서 S의 모든 투플과 조합될 수 있는 R의 속성값들로 구성되며, SQL에서는 직접 지원하지 않아 <strong>이중 NOT EXISTS</strong> 또는 COUNT 비교로 구현해야 한다.
+> 3. 나눗셈은 관계 대수의 6개 기본 연산(선택, 투영, 합집합, 차집합, 카티전 곱, 이름 변경)으로 유도 가능한 파생 연산이지만 — "모든 X를 포함하는 Y"라는 쿼리 패턴에서 표현력이 매우 높아 개념적 이해가 중요하다.
 
 ---
 
@@ -163,7 +163,7 @@ SQL에서 나눗셈 구현:
       CEIL(0.8 × (SELECT COUNT(*) FROM RequiredCourses))
 ```
 
-> 📢 **섹션 요약 비유**: 이중 NOT EXISTS는 이중 부정 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — "필수 과목 중에서, 이 학생이 안 들은 게 없는가?" 물어보는 것. "없다가 없다" = 있다! [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적이지만 머리가 좀 복잡해요.
+> 📢 **섹션 요약 비유**: 이중 NOT EXISTS는 이중 부정 확인 — "필수 과목 중에서, 이 학생이 안 들은 게 없는가?" 물어보는 것. "없다가 없다" = 있다! 논리적이지만 머리가 좀 복잡해요.
 
 ---
 
@@ -316,16 +316,5 @@ COUNT vs NOT EXISTS 성능 비교
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 나눗셈은 "다 갖췄나?" 검사 — 필수 과목 목록 전부를 수강한 학생만 뽑는 것처럼, 조건 리스트를 전부 충족해야 결과에 포함돼요!
-2. 이중 NOT EXISTS는 이중 부정 — "없는 게 없다 = 다 있다"! [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 복잡하지만 결과는 정확해요.
+2. 이중 NOT EXISTS는 이중 부정 — "없는 게 없다 = 다 있다"! 논리는 복잡하지만 결과는 정확해요.
 3. COUNT 방법이 더 쉬워요 — "필수과목 수 = 내가 들은 필수과목 수"면 합격! 실무에서는 이 방법을 더 자주 써요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 44 / 600
-
-<- **이전**: [043. 관계 대수 — 조인 (Relational Algebra Join)](/studynote/05_database/01_db_architecture_relational/043_relational_algebra_join/)
-**다음**: [045. 관계 해석 — Relational Calculus](/studynote/05_database/01_db_architecture_relational/045_relational_calculus/) ->
-
----

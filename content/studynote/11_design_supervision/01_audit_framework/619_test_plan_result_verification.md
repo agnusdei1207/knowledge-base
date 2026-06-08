@@ -6,9 +6,9 @@ tags:
 weight: 619
 ---
 > **핵심 인사이트**
-> 1. 감리 과정에서 [객관적 증거](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)([Objective Evidence](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/))는 면담·관찰·문서 검토·직접 진단(테스트)의 4가지 기법으로 수집되며, 각 기법의 특성상 단일 기법보다 복수 기법 조합(증거 삼각화)이 감리 결론의 신뢰성을 높인다.
-> 2. [객관적 증거](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)는 "[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하고 재현 가능한 사실"이어야 하며, 감리원의 주관적 판단이나 추론이 아닌 문서·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·시스템 출력·직접 관찰 결과를 근거로 해야 한다는 것이 감리 표준(ISO 19011)의 핵심 원칙이다.
-> 3. 직접 진단(테스트) 기법은 가장 강력한 증거를 제공하지만 시스템 영향 가능성 때문에 사전 협의와 테스트 환경 설정이 필수이며, 샘플링 방법(MUS, [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 샘플링)의 신뢰수준이 증거의 통계적 완전성을 결정한다.
+> 1. 감리 과정에서 객관적 증거(Objective Evidence)는 면담·관찰·문서 검토·직접 진단(테스트)의 4가지 기법으로 수집되며, 각 기법의 특성상 단일 기법보다 복수 기법 조합(증거 삼각화)이 감리 결론의 신뢰성을 높인다.
+> 2. 객관적 증거는 "검증 가능하고 재현 가능한 사실"이어야 하며, 감리원의 주관적 판단이나 추론이 아닌 문서·로그·시스템 출력·직접 관찰 결과를 근거로 해야 한다는 것이 감리 표준(ISO 19011)의 핵심 원칙이다.
+> 3. 직접 진단(테스트) 기법은 가장 강력한 증거를 제공하지만 시스템 영향 가능성 때문에 사전 협의와 테스트 환경 설정이 필수이며, 샘플링 방법(MUS, 속성 샘플링)의 신뢰수준이 증거의 통계적 완전성을 결정한다.
 
 ---
 
@@ -154,7 +154,7 @@ ISAE 3000 / SSAE 18:
 
 ---
 
-## Ⅴ. 실무 시나리오 — [정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/)
+## Ⅴ. 실무 시나리오 — 정보시스템 감리
 
 ```
 공공기관 ERP 구축 감리 증거 수집 사례:
@@ -192,7 +192,7 @@ ISAE 3000 / SSAE 18:
   30일 내 조치 후 재감리
 ```
 
-> 📢 **섹션 요약 비유**: 감리 증거 삼각화는 진찰 + 검사 + 직접 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 의사가 "어디 아파요?"(면담) + "차트 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"(문서) + "직접 촉진"(진단)으로 정확한 진단.
+> 📢 **섹션 요약 비유**: 감리 증거 삼각화는 진찰 + 검사 + 직접 확인 — 의사가 "어디 아파요?"(면담) + "차트 확인"(문서) + "직접 촉진"(진단)으로 정확한 진단.
 
 ---
 
@@ -245,17 +245,6 @@ AI 기반 코드 품질 자동 분석
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 감리 증거 수집은 탐정 조사 — 사람에게 묻고(면담), 현장을 보고(관찰), 서류를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고(문서 검토), 직접 실험해보는(직접 진단) 4가지 방법을 써요!
-2. 가장 강력한 증거는 "직접 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" — DB에 실제 쿼리를 날려서 암호화가 됐는지 직접 보는 것처럼요.
+1. 감리 증거 수집은 탐정 조사 — 사람에게 묻고(면담), 현장을 보고(관찰), 서류를 확인하고(문서 검토), 직접 실험해보는(직접 진단) 4가지 방법을 써요!
+2. 가장 강력한 증거는 "직접 확인" — DB에 실제 쿼리를 날려서 암호화가 됐는지 직접 보는 것처럼요.
 3. 세 가지 이상 증거가 같은 결론을 가리키면 "강한 증거" — 1가지 증거만 있으면 반박당할 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 61 / 530
-
-<- **이전**: [42. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/studynote/11_design_supervision/01_audit_framework/042_objective_evidence_collection/)
-**다음**: [043. 요구사항 추적성 매트릭스 (RTM)](/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/) ->
-
----

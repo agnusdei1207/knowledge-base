@@ -7,23 +7,23 @@ weight: 836
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/), TDM)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 테스트의 연료다. 값이 없거나 부정확하면 테스트는 시작할 수 없다.
+테스트 데이터는 테스트의 연료다. 값이 없거나 부정확하면 테스트는 시작할 수 없다.
 
-현실에서는 실제 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다. 그래서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 마스킹, 익명화, 갱신, 폐기까지 포함한 관리가 필요하다.
+현실에서는 실제 운영 데이터를 그대로 쓰기 어렵다. 그래서 생성, 마스킹, 익명화, 갱신, 폐기까지 포함한 관리가 필요하다.
 
 - **📢 섹션 요약 비유**: 자동차를 몰려면 연료가 필요하고, 연료통도 안전해야 한다.
 
 ---
 
-다음은 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 테스트 데이터 (Test Data) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -38,7 +38,7 @@ weight: 836
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 테스트 데이터 (Test Data) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -48,20 +48,20 @@ weight: 836
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TDM은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들고, [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, 필요한 시점에 공급하는 흐름이다. 특히 [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/)는 익명화가 중요하다.
+TDM은 데이터를 만들고, 보호하고, 필요한 시점에 공급하는 흐름이다. 특히 민감정보는 익명화가 중요하다.
 
 | 작업 | 설명 |
 |:---|:---|
-| [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 테스트용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 |
-| 마스킹 | [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/) 가리기 |
-| 익명화 | 개인 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 제거 |
-| 보관 | [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 수명 관리 |
+| 생성 | 테스트용 데이터 준비 |
+| 마스킹 | 민감정보 가리기 |
+| 익명화 | 개인 식별 제거 |
+| 보관 | 버전과 수명 관리 |
 
 ```text
 운영 데이터 -> 익명화/마스킹 -> 테스트 데이터 -> 실행 -> 폐기/보관
 ```
 
-좋은 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 현실성과 안전성을 같이 만족해야 한다.
+좋은 테스트 데이터는 현실성과 안전성을 같이 만족해야 한다.
 
 - **📢 섹션 요약 비유**: 요리 재료는 같아 보여도, 독성은 빼고 써야 한다.
 
@@ -75,15 +75,15 @@ TDM은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw
 
 ## Ⅲ. 비교 및 연결
 
-테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단순 샘플이 아니다. 경계값, 정상값, 예외값, 대량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모두 필요하다.
+테스트 데이터는 단순 샘플이 아니다. 경계값, 정상값, 예외값, 대량 데이터가 모두 필요하다.
 
 | 구분 | 역할 | 주의점 |
 |:---|:---|:---|
-| 정상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 일반 흐름 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 너무 평범하면 결함을 놓침 |
-| 예외 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 오류 처리 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 누락되기 쉬움 |
-| 민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 현실성 확보 | 반드시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 필요 |
+| 정상 데이터 | 일반 흐름 확인 | 너무 평범하면 결함을 놓침 |
+| 예외 데이터 | 오류 처리 확인 | 누락되기 쉬움 |
+| 민감 데이터 | 현실성 확보 | 반드시 보호 필요 |
 
-TDM은 [회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/), [성능 테스트](/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/), 보안 테스트와도 연결된다.
+TDM은 회귀 테스트, 성능 테스트, 보안 테스트와도 연결된다.
 
 - **📢 섹션 요약 비유**: 같은 요리라도 달콤한 재료, 신 재료, 맵게 하는 재료를 다 준비해야 한다.
 
@@ -97,12 +97,12 @@ TDM은 [회귀 테스트](/studynote/04_software_engineering/11_testing_validati
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자동화, 익명화 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 보관 기간 관리가 중요하다. 법적 규정과 운영 규칙도 함께 고려해야 한다.
+실무에서는 데이터 생성 자동화, 익명화 정책, 보관 기간 관리가 중요하다. 법적 규정과 운영 규칙도 함께 고려해야 한다.
 
 체크 포인트는 다음과 같다.
-1. 실제와 비슷한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지 본다.
-2. [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/)가 남지 않는지 본다.
-3. 재사용 시 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 차이를 관리한다.
+1. 실제와 비슷한 데이터인지 본다.
+2. 민감정보가 남지 않는지 본다.
+3. 재사용 시 버전 차이를 관리한다.
 
 - **📢 섹션 요약 비유**: 연습용 칼은 날카로워도 사람을 다치게 하면 안 된다.
 
@@ -116,9 +116,9 @@ TDM은 [회귀 테스트](/studynote/04_software_engineering/11_testing_validati
 
 ## Ⅴ. 기대효과 및 결론
 
-TDM은 테스트 신뢰성과 보안을 동시에 지킨다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 좋을수록 테스트 품질도 좋아진다.
+TDM은 테스트 신뢰성과 보안을 동시에 지킨다. 데이터 품질이 좋을수록 테스트 품질도 좋아진다.
 
-결론적으로 이 개념은 "테스트의 재료를 안전하게 관리하는 일"이다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 품질의 일부다.
+결론적으로 이 개념은 "테스트의 재료를 안전하게 관리하는 일"이다. 데이터 자체가 품질의 일부다.
 
 - **📢 섹션 요약 비유**: 좋은 밥은 좋은 쌀에서 시작된다.
 
@@ -132,10 +132,10 @@ TDM은 테스트 신뢰성과 보안을 동시에 지킨다. [데이터](/studyn
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/), TDM)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/), TDM)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/), TDM) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/), TDM)에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,21 +155,10 @@ TDM은 테스트 신뢰성과 보안을 동시에 지킨다. [데이터](/studyn
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 테스트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/), TDM)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 479 / 973
-
-<- **이전**: [443. 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)](/studynote/04_software_engineering/11_testing_validation/835_test_procedure_test_script/)
-**다음**: [444. 테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM)](/studynote/04_software_engineering/11_testing_validation/836_test_data_management/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

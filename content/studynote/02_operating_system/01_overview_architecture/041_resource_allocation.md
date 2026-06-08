@@ -6,9 +6,9 @@ tags:
 weight: 41
 ---
 > **핵심 인사이트**
-> 1. 자원 할당(Resource Allocation)은 OS의 핵심 기능으로, CPU·메모리·I/O 장치·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등 한정된 자원을 여러 프로세스에 공정하고 효율적으로 분배하는 문제이며, 잘못된 할당은 교착상태([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))·기아([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))·[스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))을 유발한다.
-> 2. 자원 할당의 핵심 트레이드오프는 공정성(Fairness)·처리율([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))·응답시간([Response Time](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))·이용률(Utilization) 간의 균형으로, 어떤 스케줄링 정책도 모든 기준을 동시에 최적화할 수 없다.
-> 3. 교착상태 예방을 위한 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Banker's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))과 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([Resource Allocation Graph](/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))는 자원 할당의 안전성을 형식적으로 검증하는 핵심 도구로, OS 설계의 안전성·활성성(Liveness) 보장 메커니즘이다.
+> 1. 자원 할당(Resource Allocation)은 OS의 핵심 기능으로, CPU·메모리·I/O 장치·파일 등 한정된 자원을 여러 프로세스에 공정하고 효율적으로 분배하는 문제이며, 잘못된 할당은 교착상태(Deadlock)·기아(Starvation)·스래싱(Thrashing)을 유발한다.
+> 2. 자원 할당의 핵심 트레이드오프는 공정성(Fairness)·처리율(Throughput)·응답시간(Response Time)·이용률(Utilization) 간의 균형으로, 어떤 스케줄링 정책도 모든 기준을 동시에 최적화할 수 없다.
+> 3. 교착상태 예방을 위한 은행원 알고리즘(Banker's Algorithm)과 RAG(Resource Allocation Graph)는 자원 할당의 안전성을 형식적으로 검증하는 핵심 도구로, OS 설계의 안전성·활성성(Liveness) 보장 메커니즘이다.
 
 ---
 
@@ -37,7 +37,7 @@ weight: 41
 
 ---
 
-## Ⅱ. [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Resource Allocation Graph](/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))
+## Ⅱ. RAG (Resource Allocation Graph)
 
 ```
 자원 할당 그래프 (Resource Allocation Graph):
@@ -65,11 +65,11 @@ weight: 41
   -> R1에 여유 인스턴스 있음 -> 해결 가능
 ```
 
-> 📢 **섹션 요약 비유**: RAG는 [식사하는 철학자 문제](/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/) 지도 — 누가 어떤 젓가락을 잡고, 누가 기다리는지 그림으로 그려 교착상태 탐지.
+> 📢 **섹션 요약 비유**: RAG는 식사하는 철학자 문제 지도 — 누가 어떤 젓가락을 잡고, 누가 기다리는지 그림으로 그려 교착상태 탐지.
 
 ---
 
-## Ⅲ. 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅲ. 은행원 알고리즘
 
 ```
 Banker's Algorithm (Dijkstra):
@@ -102,7 +102,7 @@ Banker's Algorithm (Dijkstra):
   안전하면 할당, 불안전하면 대기
 ```
 
-> 📢 **섹션 요약 비유**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 대출 심사 — "모든 고객이 대출 상환할 수 있는 순서가 있는가?"를 확인하고 안전할 때만 대출 승인.
+> 📢 **섹션 요약 비유**: 은행원 알고리즘은 대출 심사 — "모든 고객이 대출 상환할 수 있는 순서가 있는가?"를 확인하고 안전할 때만 대출 승인.
 
 ---
 
@@ -131,7 +131,7 @@ Banker's Algorithm (Dijkstra):
   해결: 워킹 셋(Working Set) 모델
 ```
 
-> 📢 **섹션 요약 비유**: 교착상태는 사거리 4방향 동시 진입 차량 — 아무도 양보 안 하면 영원히 막힌다. 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 교통 경찰이 미리 통제.
+> 📢 **섹션 요약 비유**: 교착상태는 사거리 4방향 동시 진입 차량 — 아무도 양보 안 하면 영원히 막힌다. 은행원 알고리즘은 교통 경찰이 미리 통제.
 
 ---
 
@@ -225,16 +225,5 @@ FinOps: 비용 최적화 자원 할당
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 자원 할당은 여러 친구들이 한 대의 컴퓨터를 같이 쓸 때 누가 얼마나 쓸 수 있는지 규칙을 정하는 것이에요.
-2. 교착상태는 두 사람이 서로 상대방 물건을 가져야 자기 물건을 넘겨주겠다고 버티는 상황 — 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 이를 미리 막아줘요.
+2. 교착상태는 두 사람이 서로 상대방 물건을 가져야 자기 물건을 넘겨주겠다고 버티는 상황 — 은행원 알고리즘이 이를 미리 막아줘요.
 3. 클라우드에서는 쿠버네티스가 각 앱에 CPU와 메모리를 배정하고, 너무 많이 쓰면 제한하는 역할을 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 41 / 800
-
-<- **이전**: [040. 오류 탐지 (Error Detection)](/studynote/02_operating_system/01_overview_architecture/040_error_detection/)
-**다음**: [042. 회계 및 로깅 (Accounting and Logging)](/studynote/02_operating_system/01_overview_architecture/042_accounting_logging/) ->
-
----

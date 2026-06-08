@@ -7,17 +7,17 @@ weight: 720
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PROCHOT# (Processor Hot) 핀은 CPU가 과열 임계점에 도달했음을 알리거나, 반대로 플랫폼 외부 장치가 CPU에 강제 감속을 요청할 때 쓰는 활성-로우(Active-Low) 열 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)선이다.
-> 2. **가치**: 소프트웨어가 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남기기 전에 하드웨어 수준에서 즉시 스로틀링과 팬 제어를 연동할 수 있어, 밀리초 단위의 열 사고를 플랫폼 차원에서 막을 수 있다.
-> 3. **판단 포인트**: CPU 온도는 높지 않은데 클럭이 비정상적으로 낮다면 외부 [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 배터리, 전원 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 등이 BD PROCHOT (Bi-Directional PROCHOT)을 통해 CPU를 강제로 제한하고 있을 가능성을 봐야 한다.
+> 1. **본질**: PROCHOT# (Processor Hot) 핀은 CPU가 과열 임계점에 도달했음을 알리거나, 반대로 플랫폼 외부 장치가 CPU에 강제 감속을 요청할 때 쓰는 활성-로우(Active-Low) 열 보호 신호선이다.
+> 2. **가치**: 소프트웨어가 로그를 남기기 전에 하드웨어 수준에서 즉시 스로틀링과 팬 제어를 연동할 수 있어, 밀리초 단위의 열 사고를 플랫폼 차원에서 막을 수 있다.
+> 3. **판단 포인트**: CPU 온도는 높지 않은데 클럭이 비정상적으로 낮다면 외부 VRM, GPU, 배터리, 전원 어댑터 등이 BD PROCHOT (Bi-Directional PROCHOT)을 통해 CPU를 강제로 제한하고 있을 가능성을 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-PROCHOT# 핀은 CPU 패키지와 메인보드 사이를 잇는 대표적인 열 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다. 이름의 `#`은 이 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 Active-Low, 즉 전압을 낮춰 "위험"을 표현한다는 뜻이다. CPU 내부의 DTS (Digital Thermal Sensor)가 [TjMax](/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) (Maximum Junction [Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) 근처를 감지하면, TCC (Thermal Control Circuit)는 내부적으로 주파수를 낮추는 동시에 PROCHOT#을 활성화해 플랫폼 전체에 열 비상 상태를 알린다.
+PROCHOT# 핀은 CPU 패키지와 메인보드 사이를 잇는 대표적인 열 보호 신호다. 이름의 `#`은 이 신호가 Active-Low, 즉 전압을 낮춰 "위험"을 표현한다는 뜻이다. CPU 내부의 DTS (Digital Thermal Sensor)가 TjMax (Maximum Junction Temperature) 근처를 감지하면, TCC (Thermal Control Circuit)는 내부적으로 주파수를 낮추는 동시에 PROCHOT#을 활성화해 플랫폼 전체에 열 비상 상태를 알린다.
 
-이 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 필요한 이유는 CPU 혼자 느려지는 것만으로는 열 문제가 끝나지 않기 때문이다. 메인보드의 팬 제어기, EC (Embedded Controller), 전원부는 CPU가 위험 상태에 들어갔음을 즉시 알아야 팬을 올리고 전력 공급 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꾸며 전체 시스템을 식힐 수 있다. 결국 PROCHOT#은 "CPU의 열 문제"를 "플랫폼의 공동 대응"으로 확장하는 하드웨어 비상벨이다.
+이 신호가 필요한 이유는 CPU 혼자 느려지는 것만으로는 열 문제가 끝나지 않기 때문이다. 메인보드의 팬 제어기, EC (Embedded Controller), 전원부는 CPU가 위험 상태에 들어갔음을 즉시 알아야 팬을 올리고 전력 공급 정책을 바꾸며 전체 시스템을 식힐 수 있다. 결국 PROCHOT#은 "CPU의 열 문제"를 "플랫폼의 공동 대응"으로 확장하는 하드웨어 비상벨이다.
 
 - **📢 섹션 요약 비유**: 건물 안 한 방에서 연기가 나면 그 방만 조용히 문을 닫는 것으로는 부족하다. PROCHOT#은 중앙 경보실까지 동시에 울려서 환풍기와 경보 시스템이 함께 움직이게 하는 화재 경보선과 같다.
 
@@ -25,17 +25,17 @@ PROCHOT# 핀은 CPU 패키지와 메인보드 사이를 잇는 대표적인 열 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PROCHOT#의 핵심은 <strong>공유된 활성-로우 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>선</strong>이라는 점이다. 많은 플랫폼에서 이 선은 사실상 wired-OR처럼 동작해, CPU든 외부 장치든 누구라도 선을 낮게 끌어내리면 전체 플랫폼이 "지금은 감속해야 한다"고 해석한다. CPU 내부에서 시작되는 경우에는 보통 TCC가 동작하며 배수 하향, 터보 해제, 클럭 제한이 뒤따른다. 외부에서 시작되는 경우에는 BD PROCHOT 경로를 통해 EC, [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 쪽 과열 정보가 CPU에 전달된다.
+PROCHOT#의 핵심은 <strong>공유된 활성-로우 신호선</strong>이라는 점이다. 많은 플랫폼에서 이 선은 사실상 wired-OR처럼 동작해, CPU든 외부 장치든 누구라도 선을 낮게 끌어내리면 전체 플랫폼이 "지금은 감속해야 한다"고 해석한다. CPU 내부에서 시작되는 경우에는 보통 TCC가 동작하며 배수 하향, 터보 해제, 클럭 제한이 뒤따른다. 외부에서 시작되는 경우에는 BD PROCHOT 경로를 통해 EC, VRM, GPU 쪽 과열 정보가 CPU에 전달된다.
 
-즉 PROCHOT#은 단일 센서값이 아니라 <strong>열 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 요청의 공유 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a></strong>에 가깝다. CPU가 선을 내리면 메인보드는 팬을 올리고, 외부 장치가 선을 내리면 CPU는 자기가 충분히 차갑더라도 전체 플랫폼 안전을 위해 속도를 줄일 수 있다. 이 때문에 얇은 노트북이나 고밀도 서버에서는 CPU 온도만 보고 스로틀링 원인을 단정하면 자주 오진하게 된다.
+즉 PROCHOT#은 단일 센서값이 아니라 <strong>열 보호 요청의 공유 버스</strong>에 가깝다. CPU가 선을 내리면 메인보드는 팬을 올리고, 외부 장치가 선을 내리면 CPU는 자기가 충분히 차갑더라도 전체 플랫폼 안전을 위해 속도를 줄일 수 있다. 이 때문에 얇은 노트북이나 고밀도 서버에서는 CPU 온도만 보고 스로틀링 원인을 단정하면 자주 오진하게 된다.
 
-| 방향 | [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 주체 | 의미 | 주된 후속 동작 |
+| 방향 | 신호 주체 | 의미 | 주된 후속 동작 |
 | :-- | :-- | :-- | :-- |
-| 내부 -> 외부 | CPU / TCC | "CPU가 뜨겁다" | CPU 스로틀링, 팬 가속, 전력 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 조정 |
-| 외부 -> 내부 | EC, [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 배터리 | "플랫폼 다른 곳이 위험하다" | CPU 강제 감속, 전체 발열 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
-| 장기 유지 | 어느 한쪽이라도 Low 유지 | 위험 지속 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한 유지, 필요 시 추가 셧다운 |
+| 내부 -> 외부 | CPU / TCC | "CPU가 뜨겁다" | CPU 스로틀링, 팬 가속, 전력 정책 조정 |
+| 외부 -> 내부 | EC, VRM, GPU, 배터리 | "플랫폼 다른 곳이 위험하다" | CPU 강제 감속, 전체 발열 억제 |
+| 장기 유지 | 어느 한쪽이라도 Low 유지 | 위험 지속 | 성능 제한 유지, 필요 시 추가 셧다운 |
 
-아래 그림은 PROCHOT#이 CPU 전용 핀이 아니라, CPU와 보드가 함께 쓰는 열 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)선이라는 점을 보여준다.
+아래 그림은 PROCHOT#이 CPU 전용 핀이 아니라, CPU와 보드가 함께 쓰는 열 보호 신호선이라는 점을 보여준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -63,16 +63,16 @@ PROCHOT#의 핵심은 <strong>공유된 활성-로우 <a href="/studynote/02_ope
 
 ## Ⅲ. 비교 및 연결
 
-PROCHOT#은 종종 단순한 "과열 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)"로만 기억되지만, 실제로는 THERMTRIP#, 소프트웨어 온도 제어, 팬 PWM (Pulse Width Modulation) 제어와 구분해야 한다. PROCHOT#은 **감속 요청선**, THERMTRIP#은 **강제 전원 차단선**, 소프트웨어 온도 제어는 <strong>느리지만 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>적인 조정</strong>, 팬 PWM은 <strong>냉각 장치 구동 명령</strong>이다. 이 역할 차이를 알면 같은 스로틀링 현상도 훨씬 정확하게 해석할 수 있다.
+PROCHOT#은 종종 단순한 "과열 신호"로만 기억되지만, 실제로는 THERMTRIP#, 소프트웨어 온도 제어, 팬 PWM (Pulse Width Modulation) 제어와 구분해야 한다. PROCHOT#은 **감속 요청선**, THERMTRIP#은 **강제 전원 차단선**, 소프트웨어 온도 제어는 <strong>느리지만 정책적인 조정</strong>, 팬 PWM은 <strong>냉각 장치 구동 명령</strong>이다. 이 역할 차이를 알면 같은 스로틀링 현상도 훨씬 정확하게 해석할 수 있다.
 
 | 항목 | PROCHOT# | THERMTRIP# | 소프트웨어 열 제어 |
 | :-- | :-- | :-- | :-- |
-| 목적 | 즉시 감속 요청 | 최후 전원 차단 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 온도 관리 |
+| 목적 | 즉시 감속 요청 | 최후 전원 차단 | 정책 기반 온도 관리 |
 | 반응 속도 | 하드웨어 즉시 | 하드웨어 즉시 | 상대적으로 느림 |
-| 결과 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한 후 생존 시도 | 시스템 셧다운 | 팬 곡선, P-state 조정 |
-| [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성 | 냉각 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시 해제 가능 | 재부팅 필요 | 계속 조정 가능 |
+| 결과 | 성능 제한 후 생존 시도 | 시스템 셧다운 | 팬 곡선, P-state 조정 |
+| 복구 가능성 | 냉각 회복 시 해제 가능 | 재부팅 필요 | 계속 조정 가능 |
 
-또한 PROCHOT#은 CPU 온도만의 함수가 아니라는 점이 중요하다. 얇은 노트북에서는 GPU와 CPU가 히트파이프를 공유하고, 서버 메인보드에서는 VRM이 별도 한계 온도를 가진다. 따라서 외부 BD PROCHOT이 작동하면 CPU 코어 온도는 70+C 수준이어도 클럭이 크게 떨어질 수 있다. 이는 고장이라기보다 플랫폼 전체를 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위한 설계 선택이다.
+또한 PROCHOT#은 CPU 온도만의 함수가 아니라는 점이 중요하다. 얇은 노트북에서는 GPU와 CPU가 히트파이프를 공유하고, 서버 메인보드에서는 VRM이 별도 한계 온도를 가진다. 따라서 외부 BD PROCHOT이 작동하면 CPU 코어 온도는 70+C 수준이어도 클럭이 크게 떨어질 수 있다. 이는 고장이라기보다 플랫폼 전체를 보호하기 위한 설계 선택이다.
 
 - **📢 섹션 요약 비유**: PROCHOT#이 속도 제한 표지판이라면, THERMTRIP#은 도로를 아예 막아 버리는 차단기다. 둘 다 안전을 위한 장치지만, 하나는 감속이고 다른 하나는 운행 중단이다.
 
@@ -80,22 +80,22 @@ PROCHOT#은 종종 단순한 "과열 [신호](/studynote/02_operating_system/02_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 PROCHOT#은 특히 "CPU는 안 뜨거운데 왜 느리지?"라는 상황에서 중요해진다. 게이밍 노트북에서 CPU 온도는 정상인데도 순간적으로 800MHz 수준으로 떨어진다면, CPU 자체가 아니라 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 핫스팟, 배터리 충전부, 전원 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) 과열 때문에 외부 BD PROCHOT이 걸렸을 가능성이 크다. 서버에서도 고부하 [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card)나 가속기 카드 주변 전원부가 과열되면 보드 컨트롤러가 CPU [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제한해 랙 전체 열 밀도를 낮추는 경우가 있다.
+실무에서 PROCHOT#은 특히 "CPU는 안 뜨거운데 왜 느리지?"라는 상황에서 중요해진다. 게이밍 노트북에서 CPU 온도는 정상인데도 순간적으로 800MHz 수준으로 떨어진다면, CPU 자체가 아니라 GPU 핫스팟, 배터리 충전부, 전원 어댑터, VRM 과열 때문에 외부 BD PROCHOT이 걸렸을 가능성이 크다. 서버에서도 고부하 NIC (Network Interface Card)나 가속기 카드 주변 전원부가 과열되면 보드 컨트롤러가 CPU 성능을 제한해 랙 전체 열 밀도를 낮추는 경우가 있다.
 
-따라서 기술사 관점의 판단은 "PROCHOT#이 켜졌는가"보다, <strong>누가 그 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 만들었는가</strong>를 가리는 데 있다. CPU 내부 센서가 원인인지, 외부 EC/VRM이 원인인지 구분해야 냉각 점검 위치도 달라진다. 일부 사용자는 ThrottleStop 같은 도구로 BD PROCHOT을 무시해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 되찾으려 하지만, 이는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 숨기는 대신 배터리·전원부·보드 손상 위험을 떠안는 선택일 수 있다.
+따라서 기술사 관점의 판단은 "PROCHOT#이 켜졌는가"보다, <strong>누가 그 신호를 만들었는가</strong>를 가리는 데 있다. CPU 내부 센서가 원인인지, 외부 EC/VRM이 원인인지 구분해야 냉각 점검 위치도 달라진다. 일부 사용자는 ThrottleStop 같은 도구로 BD PROCHOT을 무시해 성능을 되찾으려 하지만, 이는 성능 문제를 숨기는 대신 배터리·전원부·보드 손상 위험을 떠안는 선택일 수 있다.
 
-### 점검 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 점검 체크리스트
 
 1. CPU 패키지 온도와 실제 클럭 저하 시점이 일치하는가?
-2. [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/), 배터리, [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 온도 또는 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 제한 이벤트가 동시에 발생하는가?
-3. 팬 속도 상승, EC [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 전원부 센서가 같은 순간을 가리키는가?
+2. GPU, VRM, 배터리, 어댑터 온도 또는 전류 제한 이벤트가 동시에 발생하는가?
+3. 팬 속도 상승, EC 로그, 전원부 센서가 같은 순간을 가리키는가?
 4. 외부 BD PROCHOT을 무시하기 전에 플랫폼 열 설계 한계를 확인했는가?
 
-### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 안티패턴
 
 - CPU 온도만 보고 외부 열원 가능성을 배제하는 진단
-- [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 없애겠다고 BD PROCHOT을 무조건 차단하는 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
-- 팬 곡선, 방열판 접촉, 전원 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 상태를 보지 않고 OS 튜닝만 반복하는 운영
+- 성능 저하를 없애겠다고 BD PROCHOT을 무조건 차단하는 설정
+- 팬 곡선, 방열판 접촉, 전원 어댑터 상태를 보지 않고 OS 튜닝만 반복하는 운영
 
 - **📢 섹션 요약 비유**: 자동차 대시보드에 엔진 경고가 떴다고 꼭 엔진만 문제인 것은 아니다. 냉각수 펌프나 브레이크 쪽 열 문제여도 차 전체 속도를 줄여야 하듯, PROCHOT#도 플랫폼 전체 사정을 보고 해석해야 한다.
 
@@ -103,9 +103,9 @@ PROCHOT#은 종종 단순한 "과열 [신호](/studynote/02_operating_system/02_
 
 ## Ⅴ. 기대효과 및 결론
 
-PROCHOT#의 기대효과는 속도보다 생존을 우선하는 하드웨어 협조 체계를 만든다는 데 있다. CPU, 메인보드, 전원부, 팬 제어기가 동일한 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 공유하면 소프트웨어 개입을 기다리지 않고도 즉시 감속과 냉각을 연동할 수 있다. 이는 열 밀도가 높은 노트북, 블레이드 서버, 고성능 워크스테이션처럼 물리 여유가 작은 시스템일수록 더 중요하다.
+PROCHOT#의 기대효과는 속도보다 생존을 우선하는 하드웨어 협조 체계를 만든다는 데 있다. CPU, 메인보드, 전원부, 팬 제어기가 동일한 신호를 공유하면 소프트웨어 개입을 기다리지 않고도 즉시 감속과 냉각을 연동할 수 있다. 이는 열 밀도가 높은 노트북, 블레이드 서버, 고성능 워크스테이션처럼 물리 여유가 작은 시스템일수록 더 중요하다.
 
-반대로 한계도 있다. PROCHOT#은 매우 빠르지만 비교적 거친 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)이기 때문에, 외부 원인으로 인한 감속이 사용자에게는 "이유 없는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하"처럼 보일 수 있다. 또한 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 차단해 벤치마크 점수를 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)하는 것은 단기 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 플랫폼 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치를 훼손하는 선택이 될 수 있다. 앞으로는 더 세밀한 센서 데이터와 결합되더라도, PROCHOT#이 맡는 1차 비상 제동 역할 자체는 계속 중요할 가능성이 높다.
+반대로 한계도 있다. PROCHOT#은 매우 빠르지만 비교적 거친 신호이기 때문에, 외부 원인으로 인한 감속이 사용자에게는 "이유 없는 성능 저하"처럼 보일 수 있다. 또한 신호를 차단해 벤치마크 점수를 회복하는 것은 단기 성능을 위해 플랫폼 보호 장치를 훼손하는 선택이 될 수 있다. 앞으로는 더 세밀한 센서 데이터와 결합되더라도, PROCHOT#이 맡는 1차 비상 제동 역할 자체는 계속 중요할 가능성이 높다.
 
 정리하면 PROCHOT#은 단순한 CPU 핀이 아니라, <strong>플랫폼 전체가 열 위험을 가장 빠르게 공유하고 즉시 속도를 줄이게 만드는 공용 비상 브레이크</strong>다.
 
@@ -120,7 +120,7 @@ PROCHOT#의 기대효과는 속도보다 생존을 우선하는 하드웨어 협
 | DTS (Digital Thermal Sensor) | PROCHOT# 내부 발동의 출발점이 되는 온도 센서 |
 | TCC (Thermal Control Circuit) | 센서값을 받아 실제 스로틀링과 PROCHOT# 출력을 제어 |
 | BD PROCHOT (Bi-Directional PROCHOT) | 외부 장치가 CPU에 감속을 요청하는 양방향 운용 방식 |
-| [VRM](/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) | 외부 PROCHOT#의 흔한 발신원 중 하나인 전원부 |
+| VRM (Voltage Regulator Module) | 외부 PROCHOT#의 흔한 발신원 중 하나인 전원부 |
 | THERMTRIP# | PROCHOT#으로도 해결되지 않을 때 동작하는 최종 셧다운 경로 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -141,21 +141,10 @@ BD PROCHOT 기반 외부 열원 반영
 플랫폼 전체 열 보호 · 최종 THERMTRIP# 연계
 ```
 
-이 흐름은 CPU 단독 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)가 어떻게 보드 전체 열 협조 제어로 확장되었는지 보여준다.
+이 흐름은 CPU 단독 보호가 어떻게 보드 전체 열 협조 제어로 확장되었는지 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. PROCHOT#은 컴퓨터 안에서 "너무 뜨거워! 모두 천천히!"라고 외치는 비상벨이에요.
 2. 이 비상벨은 CPU가 직접 울릴 수도 있고, 옆에 있는 다른 부품이 대신 울릴 수도 있어요.
 3. 그래서 컴퓨터는 누가 뜨거운지 빨리 알고, 다 같이 속도를 줄여 안전하게 식을 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 721 / 803
-
-<- **이전**: [719. CPU 클럭 다운클럭킹 (안전 모드)](/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/)
-**다음**: [721. 패키지 C-States](/studynote/01_computer_architecture/15_advanced_topics/721_package_c_states/) ->
-
----

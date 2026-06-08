@@ -180,11 +180,3 @@ CRISP-DM (1996)          Microsoft TDSP (2017)         Google MLOps Levels (2021
 | **Experiment Tracking** | 하이퍼파라미터·지표·아티팩트 기록 | MLflow Tracking, Weights & Biases, Neptune, TensorBoard |
 | **Model Registry** | 모델 버전·스테이지 관리 | MLflow Registry, BentoML, SageMaker Model Registry, Vertex AI |
 | **Feature Store** | Online/Offline 피처 일관성 | Feast, Tecton, Hopsworks, DynamoDB+Redis (Online) / S3+Parquet (
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 693 / 800
-
-<- **이전**: [692. 데이터 엔지니어링 아키텍처 종합 요약](/studynote/06_ict_convergence/uncategorized/692_data_engineering_architecture_summary/)
-**다음**: [694. ICT 융합 기술 최신 동향 2025](/studynote/06_ict_convergence/uncategorized/694_ict_convergence_technology_trends_2025/) ->
-
----

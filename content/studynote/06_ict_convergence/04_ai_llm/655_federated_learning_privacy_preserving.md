@@ -120,11 +120,3 @@ weight: 655
 4. **글로벌 모델 정확도 손실(DP-SGD 적용 시)**: Rényi Divergence 기반 분석에서 `E[L(w_T)] − L* = O( √(p·log(1/δ)/(K·T·ε²)) + ... )`. -> 클라이언트 수 K^, 라운드 수 T^일수록 정확도 회복.
 
 5. **Non
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 655 / 800
-
-<- **이전**: [654. AI 규제 EU AI Act 위험 등급](/studynote/06_ict_convergence/uncategorized/654_ai_regulation_eu_ai_act_risk_classification/)
-**다음**: [656. 강화 학습 RLHF 인간 피드백 정렬](/studynote/06_ict_convergence/uncategorized/656_reinforcement_learning_rlhf_human_feedback/) ->
-
----

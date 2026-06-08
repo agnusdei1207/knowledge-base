@@ -110,12 +110,3 @@ RPA 엔터프라이즈 업무 자동화은(는) 현장의 상태를 데이터로
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 588 / 800
-
-<- **이전**: [587. 드론 UAV 무인항공 제어 시스템](/studynote/06_ict_convergence/uncategorized/587_drone_uav_unmanned_aerial_control_system/)
-**다음**: [589. 웨어러블 헬스케어 모니터링](/studynote/06_ict_convergence/uncategorized/589_wearable_device_healthcare_monitoring/) ->
-
----

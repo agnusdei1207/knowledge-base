@@ -7,8 +7,8 @@ weight: 967
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우를 이해하면 구분 명확성과 설명력 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: TCP 슬라이딩 윈도우는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: TCP 슬라이딩 윈도우를 이해하면 구분 명확성과 설명력 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
@@ -16,7 +16,7 @@ weight: 967
 ## Ⅰ. 개요 및 필요성
 
 - **딜레마**: 송신자 컴퓨터(최새로운 유형의 10기가 랜카드)가 수신자 컴퓨터(낡은 구형 폰)로 데이터를 쏠 때 속도(스피드)의 격차가 끔찍하게 납니다.
-- 송신자가 너무 빨리 쏘면 수신자 램(RAM)의 임시 저장소(수신 버퍼)가 꽉 차서 넘쳐흐르고, 결국 패킷이 공중 분해되어 다시 쏴야 하는(재전송 트래픽 폭주) 악순환이 터집니다. <strong>수신자가 감당할 수 있는 속도만큼만 송신자의 목줄을 조이는 기술이 <a href="/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a></strong>입니다.
+- 송신자가 너무 빨리 쏘면 수신자 램(RAM)의 임시 저장소(수신 버퍼)가 꽉 차서 넘쳐흐르고, 결국 패킷이 공중 분해되어 다시 쏴야 하는(재전송 트래픽 폭주) 악순환이 터집니다. <strong>수신자가 감당할 수 있는 속도만큼만 송신자의 목줄을 조이는 기술이 흐름 제어</strong>입니다.
 
 ```text
 [멀티캐스트]
@@ -27,14 +27,14 @@ weight: 967
     +---> [TCP 쓰리웨이 핸드셰이크]
 ```
 
-- **📢 섹션 요약 비유**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: TCP 슬라이딩 윈도우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - 949번 문서에서 배웠듯, 택배 박스 1개를 쏘고 수신자가 "잘 받았어(ACK)!" 할 때까지 멍때리며 기다립니다.
-- 오버헤드나 손실은 전혀 없지만, 1초면 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개를 보낼 수 있는 1Gbps 광케이블 고속도로에서 1개씩 찔끔찔끔 보내고 있으니 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율(속도)이 지옥 수준으로 떨어집니다.
+- 오버헤드나 손실은 전혀 없지만, 1초면 10,000개를 보낼 수 있는 1Gbps 광케이블 고속도로에서 1개씩 찔끔찔끔 보내고 있으니 대역폭 효율(속도)이 지옥 수준으로 떨어집니다.
 
 ```text
 [멀티캐스트]
@@ -45,7 +45,7 @@ weight: 967
     +---> [TCP 쓰리웨이 핸드셰이크]
 ```
 
-- **📢 섹션 요약 비유**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: TCP 슬라이딩 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -53,10 +53,10 @@ weight: 967
 
 이 답답함을 박살 내고 파이프를 데이터로 꽉 채우는 '연사(Pipelining)' 기술입니다.
 
-### 1. [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ([Window Size](/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))의 합의 🌟
-- 영희(수신자)가 철수와 처음 연결을 맺을 때 자기 뱃속(수신 버퍼)의 남은 여유 공간을 잽니다. "내 빈 공간이 딱 5개([바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)/패킷 단위)네!"
-- 영희가 철수에게 보내는 응답 패킷([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더) 안에 <strong><code>Window Size = 5</code></strong>라고 쾅 박아서 알려줍니다.
-- 이 숫자는 철수에게 <strong>"철수야, 나한테 내 답장(ACK) 안 기다리고 그냥 막 연속으로 쏴도 되는 허락된 개수가 5개야!"</strong>라는 절대 명령(송신 [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))이 됩니다.
+### 1. 윈도우 크기 (Window Size)의 합의 🌟
+- 영희(수신자)가 철수와 처음 연결을 맺을 때 자기 뱃속(수신 버퍼)의 남은 여유 공간을 잽니다. "내 빈 공간이 딱 5개(바이트/패킷 단위)네!"
+- 영희가 철수에게 보내는 응답 패킷(TCP 헤더) 안에 <strong><code>Window Size = 5</code></strong>라고 쾅 박아서 알려줍니다.
+- 이 숫자는 철수에게 <strong>"철수야, 나한테 내 답장(ACK) 안 기다리고 그냥 막 연속으로 쏴도 되는 허락된 개수가 5개야!"</strong>라는 절대 명령(송신 윈도우 크기)이 됩니다.
 
 ### 2. 슬라이딩 (Sliding, 창문 밀기) 동작 원리 🌟
 송신자(철수) 앞에 5칸짜리 투명한 네모 창문(Window)이 떠 있다고 상상해 봅니다.
@@ -66,29 +66,29 @@ weight: 967
 4. **마법의 슬라이딩**: 철수는 이 응답을 듣는 순간, 앞쪽의 1, 2번 공간이 비었다는 걸 깨닫고 **네모난 창문 틀을 오른쪽으로 2칸 스르륵 밀어(슬라이딩) 버립니다!**
 5. 창문이 오른쪽으로 밀리면서, 뒤에 갇혀있던 새로운 6, 7번 패킷이 창문 안으로 쏙 들어옵니다. 철수는 신나서 6, 7번을 또 기관총처럼 연사로 쏴버립니다.
 
-### 3. 영희의 목 조르기 (동적 조절, [Zero Window](/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/))
+### 3. 영희의 목 조르기 (동적 조절, Zero Window)
 - 영희 컴퓨터가 CPU 과부하가 걸려 뱃속 소화가 아예 멈췄습니다.
 - 영희는 긴급하게 철수에게 <strong><code>Window Size = 0</code></strong> 이라는 끔찍한 패킷을 날립니다.
 - 철수의 네모난 창문이 완전히 찌그러져 닫혀버립니다. 철수는 전송을 즉각 멈추고 숨죽이며 엎드립니다. 나중에 영희가 뱃속이 비어서 윈도우를 다시 늘려줄 때까지 절대 쏘지 않아 패킷 드랍을 완벽하게 0%로 통제해 냅니다.
 
-[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)가 기반 조건을 만든다면, [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 그 위에서 핵심 메커니즘을 구현하고, [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+TCP 슬라이딩 윈도우를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 멀티캐스트가 기반 조건을 만든다면, TCP 슬라이딩 윈도우는 그 위에서 핵심 메커니즘을 구현하고, TCP 쓰리웨이 핸드셰이크는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)의 기반 정리 | [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우의 핵심 동작 | [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크의 확장 적용 |
+| 초점 | 멀티캐스트의 기반 정리 | TCP 슬라이딩 윈도우의 핵심 동작 | TCP 쓰리웨이 핸드셰이크의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: TCP 슬라이딩 윈도우는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- <strong><a href="/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (슬라이딩 윈도우)</strong>: 딱 너(철수)와 나(영희) **둘 사이의 그릇 크기(단말기 수신 버퍼)** 격차를 조율하는 개인적인 1:1 대화.
-- <strong>혼잡 제어 (969번 <a href="/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/">혼잡 윈도우</a>)</strong>: 우리 둘 사이의 문제가 아니라, 중간에 거쳐 가는 <strong>대한민국 고속도로망 전체 라우터의 톨게이트 병목 상태(네트워크 전체 교통체증)</strong>를 눈치채고 속도를 줄이는 전 지구적 통제.
+- <strong>흐름 제어 (슬라이딩 윈도우)</strong>: 딱 너(철수)와 나(영희) **둘 사이의 그릇 크기(단말기 수신 버퍼)** 격차를 조율하는 개인적인 1:1 대화.
+- <strong>혼잡 제어 (969번 혼잡 윈도우)</strong>: 우리 둘 사이의 문제가 아니라, 중간에 거쳐 가는 <strong>대한민국 고속도로망 전체 라우터의 톨게이트 병목 상태(네트워크 전체 교통체증)</strong>를 눈치채고 속도를 줄이는 전 지구적 통제.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -100,9 +100,9 @@ weight: 967
 
 ## Ⅴ. 기대효과 및 결론
 
-[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크, [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+TCP 슬라이딩 윈도우는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 TCP 쓰리웨이 핸드셰이크, 컨텍스트 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 컨텍스트 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: TCP 슬라이딩 윈도우는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -110,10 +110,10 @@ weight: 967
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 멀티캐스트 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| TCP 쓰리웨이 핸드셰이크 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,21 +127,10 @@ weight: 967
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+TCP 슬라이딩 윈도우는 멀티캐스트에서 출발해 현재 메커니즘을 정교화하고, 이후 TCP 쓰리웨이 핸드셰이크와 컨텍스트 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 1088 / 1120
-
-<- **이전**: [966. 멀티캐스트 (IGMP, PIM)](/studynote/03_network/19_frequent_topics_terms/966_multicast_igmp_pim_routing_snooping_dense_sparse/)
-**다음**: [968. TCP 쓰리웨이 핸드셰이크](/studynote/03_network/19_frequent_topics_terms/968_tcp_three_way_handshake_syn_ack_established/) ->
-
----

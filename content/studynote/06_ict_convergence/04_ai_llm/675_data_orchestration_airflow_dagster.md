@@ -160,11 +160,3 @@ Dagster는 ①**User Code(Definitions / Assets / Ops)** ②**Dagster Webserver**
    +---------------------------------------------------------+
    |             Dagster Daemon                              |
    |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 675 / 800
-
-<- **이전**: [674. 실시간 스트리밍 분석 Kafka Flink](/studynote/06_ict_convergence/uncategorized/674_real_time_streaming_analytics_kafka_flink/)
-**다음**: [676. 피처 스토어 ML 특성 관리 재사용](/studynote/06_ict_convergence/uncategorized/676_feature_store_ml_feature_management_reuse/) ->
-
----

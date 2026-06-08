@@ -7,17 +7,17 @@ weight: 138
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 아키텍처 리팩터링 (Architectural [Refactoring](/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))은 소프트웨어의 외부 동작을 유지하면서 내부 아키텍처 구조를 개선하여 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 확장성, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안 등 품질 속성을 향상시키는 지속적인 기술적 활동이다.
-> 2. **가치**: 기능 추가(Feature Work)와 병행하여 아키텍처 리팩터링을 지속적으로 수행하면 [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))가 누적되지 않아 장기적으로 개발 속도가 유지되고, 코드베이스가 '리팩터링 불가능한 상태'로 굳어지는 것을 예방한다.
-> 3. **판단 포인트**: 아키텍처 리팩터링의 최대 위험은 '빅뱅 리팩터링'이다. 전체를 한 번에 재작성하지 않고 [스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/), Branch by [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 같은 점진적 기법으로 리팩터링하여 운영 중단 없이 아키텍처를 개선해야 한다.
+> 1. **본질**: 아키텍처 리팩터링 (Architectural Refactoring)은 소프트웨어의 외부 동작을 유지하면서 내부 아키텍처 구조를 개선하여 유지보수성, 확장성, 성능, 보안 등 품질 속성을 향상시키는 지속적인 기술적 활동이다.
+> 2. **가치**: 기능 추가(Feature Work)와 병행하여 아키텍처 리팩터링을 지속적으로 수행하면 기술 부채(Technical Debt)가 누적되지 않아 장기적으로 개발 속도가 유지되고, 코드베이스가 '리팩터링 불가능한 상태'로 굳어지는 것을 예방한다.
+> 3. **판단 포인트**: 아키텍처 리팩터링의 최대 위험은 '빅뱅 리팩터링'이다. 전체를 한 번에 재작성하지 않고 스트랭글러 피그, Branch by Abstraction 같은 점진적 기법으로 리팩터링하여 운영 중단 없이 아키텍처를 개선해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 아키텍처는 시간이 지남에 따라 비즈니스 요구사항 변화, 기술 진화, 빠른 기능 개발 압박으로 인해 점점 복잡해지고 설계 의도에서 멀어진다. 이를 '아키텍처 부식([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Erosion)' 또는 '아키텍처 드리프트([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Drift)'라고 한다.
+소프트웨어 아키텍처는 시간이 지남에 따라 비즈니스 요구사항 변화, 기술 진화, 빠른 기능 개발 압박으로 인해 점점 복잡해지고 설계 의도에서 멀어진다. 이를 '아키텍처 부식(Architecture Erosion)' 또는 '아키텍처 드리프트(Architecture Drift)'라고 한다.
 
-코드 수준의 리팩터링(메서드 추출, 변수 이름 변경)이 일상적으로 수행되는 것처럼, 아키텍처 수준의 리팩터링도 지속적으로 수행해야 한다. 아키텍처 리팩터링은 계층 재구조화, 의존성 역전, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 재정의, [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 분리 등을 포함한다.
+코드 수준의 리팩터링(메서드 추출, 변수 이름 변경)이 일상적으로 수행되는 것처럼, 아키텍처 수준의 리팩터링도 지속적으로 수행해야 한다. 아키텍처 리팩터링은 계층 재구조화, 의존성 역전, 서비스 경계 재정의, 데이터 모델 분리 등을 포함한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -43,14 +43,14 @@ weight: 138
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아키텍처 리팩터링의 대표 기법: ① Branch by [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/): 공통 추상화를 도입하고 구현체를 하나씩 교체하는 기법, ② [스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/): 레거시를 점진적으로 신규 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 가로채는 기법, ③ 계층 분리: 모놀리식에서 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 계층과 인프라 계층을 명확히 분리, ④ [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 분리: 공유 DB를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 DB로 분리.
+아키텍처 리팩터링의 대표 기법: ① Branch by Abstraction: 공통 추상화를 도입하고 구현체를 하나씩 교체하는 기법, ② 스트랭글러 피그 패턴: 레거시를 점진적으로 신규 서비스로 가로채는 기법, ③ 계층 분리: 모놀리식에서 도메인 계층과 인프라 계층을 명확히 분리, ④ 데이터베이스 분리: 공유 DB를 서비스별 독립 DB로 분리.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| Branch by [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 구현체 점진적 교체 | 낮음 |
-| [스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) | 레거시를 신규로 점진 전환 | 중간 |
+| Branch by Abstraction | 구현체 점진적 교체 | 낮음 |
+| 스트랭글러 피그 | 레거시를 신규로 점진 전환 | 중간 |
 | 계층 명시적 분리 | 아키텍처 의도 복원 | 중간 |
-| DB 분리 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 높음 |
+| DB 분리 | 서비스별 독립 데이터 | 높음 |
 
 ```text
 +-------------------------------------------------------------+
@@ -77,7 +77,7 @@ weight: 138
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 운영 중단 | 없음 | 긴 중단 또는 동결 기간 |
-| 위험 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 기능 단위 점진적 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 일시에 집중 |
+| 위험 분산 | 기능 단위 점진적 분산 | 일시에 집중 |
 | 비즈니스 가치 | 리팩터링 중에도 기능 출시 가능 | 완료 전 기능 출시 불가 |
 | 성공률 | 높음 | 낮음 (대형 재작성의 높은 실패율) |
 
@@ -86,14 +86,14 @@ weight: 138
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-아키텍처 리팩터링의 성공 조건은 충분한 테스트 커버리지다. 자동화 테스트(단위·통합·[E2E](/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트)가 없으면 리팩터링 후 회귀 버그를 검출하기 어렵다. 리팩터링 전에 '리팩터링을 위한 테스트 추가'가 선행되어야 한다.
+아키텍처 리팩터링의 성공 조건은 충분한 테스트 커버리지다. 자동화 테스트(단위·통합·E2E 테스트)가 없으면 리팩터링 후 회귀 버그를 검출하기 어렵다. 리팩터링 전에 '리팩터링을 위한 테스트 추가'가 선행되어야 한다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 1. 아키텍처 리팩터링을 보호할 충분한 자동화 테스트가 있는가?
-2. 빅뱅 재작성이 아닌 점진적 리팩터링 기법(Branch by [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), [스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/))이 적용되는가?
-3. 리팩터링 이후 외부 동작([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세, 기능)이 변경되지 않는지 검증하는 계약 테스트가 있는가?
+2. 빅뱅 재작성이 아닌 점진적 리팩터링 기법(Branch by Abstraction, 스트랭글러 피그)이 적용되는가?
+3. 리팩터링 이후 외부 동작(API 명세, 기능)이 변경되지 않는지 검증하는 계약 테스트가 있는가?
 4. 각 리팩터링 단계가 독립적으로 배포 가능한 작은 단위로 쪼개져 있는가?
-5. 아키텍처 리팩터링이 [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 상환 계획의 일환으로 정기적으로 수행되는가?
+5. 아키텍처 리팩터링이 기술 부채 상환 계획의 일환으로 정기적으로 수행되는가?
 
 - **📢 섹션 요약 비유**: 의사가 수술(빅뱅 재작성) 대신 약물치료(점진적 리팩터링)를 선택하는 것처럼, 리스크가 낮은 점진적 방법을 먼저 시도한다.
 
@@ -101,7 +101,7 @@ weight: 138
 
 ## Ⅴ. 기대효과 및 결론
 
-지속적인 아키텍처 리팩터링으로 [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 관리되어 개발 속도가 장기적으로 유지된다. 시스템의 설계 의도가 복원되어 새로운 개발자가 코드를 이해하기 쉬워지고, 새로운 기능 추가와 버그 수정이 빠르고 안전해진다.
+지속적인 아키텍처 리팩터링으로 기술 부채가 관리되어 개발 속도가 장기적으로 유지된다. 시스템의 설계 의도가 복원되어 새로운 개발자가 코드를 이해하기 쉬워지고, 새로운 기능 추가와 버그 수정이 빠르고 안전해진다.
 
 한계는 리팩터링 자체가 비즈니스 가치를 직접 생산하지 않아 경영진 설득이 어렵고, 불충분한 테스트 커버리지에서 리팩터링하면 회귀 버그가 발생한다. 리팩터링과 기능 개발의 균형을 유지하는 것이 중요하다.
 
@@ -111,32 +111,21 @@ weight: 138
 
 ### 📌 관련 개념 맵
 
-[기술 부채 누적] -> [아키텍처 리팩터링] -> [Branch by [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)] -> [스트랭글러 피그] -> [지속적 리팩터링 문화]
+[기술 부채 누적] -> [아키텍처 리팩터링] -> [Branch by Abstraction] -> [스트랭글러 피그] -> [지속적 리팩터링 문화]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) | 리팩터링으로 상환해야 할 구조적 문제 |
-| [스트랭글러 피그](/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) | 대규모 아키텍처 리팩터링의 점진적 기법 |
+| 기술 부채 | 리팩터링으로 상환해야 할 구조적 문제 |
+| 스트랭글러 피그 | 대규모 아키텍처 리팩터링의 점진적 기법 |
 | 자동화 테스트 | 리팩터링의 안전망 |
-| [개념 무결성](/studynote/11_design_supervision/02_architecture_principles/139_conceptual_integrity/) | 리팩터링으로 회복해야 할 설계 의도 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| 개념 무결성 | 리팩터링으로 회복해야 할 설계 의도 일관성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[아키텍처 부식 문제] -> [점진적 리팩터링 기법] -> [Branch by [Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)] -> [스트랭글러 피그] -> [지속적 리팩터링 자동화([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 분석)]
+[아키텍처 부식 문제] -> [점진적 리팩터링 기법] -> [Branch by Abstraction] -> [스트랭글러 피그] -> [지속적 리팩터링 자동화(AI 코드 분석)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 아키텍처 리팩터링은 방을 쓰면서 조금씩 정리하는 것이에요 - 한꺼번에 다 치우지 않아요.
 2. 외부에서 보면 방이 똑같이 쓸 수 있지만, 내부는 훨씬 깔끔해져요.
 3. 꾸준히 정리하면 나중에 대청소를 할 필요가 없어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 194 / 530
-
-<- **이전**: [137. 공간 기반 아키텍처 (Space-Based Architecture)](/studynote/11_design_supervision/02_architecture_principles/137_space_based_architecture/)
-**다음**: [139. 개념 무결성 (Conceptual Integrity)](/studynote/11_design_supervision/02_architecture_principles/139_conceptual_integrity/) ->
-
----

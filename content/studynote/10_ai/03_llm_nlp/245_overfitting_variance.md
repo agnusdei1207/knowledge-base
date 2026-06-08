@@ -7,31 +7,31 @@ weight: 245
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 과대적합(Overfitting)은 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 잡음(Noise)까지 암기하여, 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 일반화(Generalization)되지 않는 현상이다.
-> 2. **가치**: 과대적합 진단과 규제([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 기법은 실용적 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 구축의 핵심 역량이며, 모든 ML 실무에서 반드시 처리해야 하는 문제다.
-> 3. **판단 포인트**: 훈련 오차([Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Error)는 낮고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/테스트 오차([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test Error)가 높을 때 과대적합으로 진단하며, [편향-분산 트레이드오프](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)([Bias-Variance Tradeoff](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)) 개념으로 설명한다.
+> 1. **본질**: 과대적합(Overfitting)은 모델이 훈련 데이터(Training Data)의 잡음(Noise)까지 암기하여, 새로운 데이터에는 일반화(Generalization)되지 않는 현상이다.
+> 2. **가치**: 과대적합 진단과 규제(Regularization) 기법은 실용적 AI 모델 구축의 핵심 역량이며, 모든 ML 실무에서 반드시 처리해야 하는 문제다.
+> 3. **판단 포인트**: 훈련 오차(Training Error)는 낮고 검증/테스트 오차(Validation/Test Error)가 높을 때 과대적합으로 진단하며, 편향-분산 트레이드오프(Bias-Variance Tradeoff) 개념으로 설명한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### 1.1 과대적합이란?
-모델 복잡도가 지나치게 높아 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 세세한 패턴(잡음 포함)까지 모두 학습한 상태다. 결과적으로 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이지만 새로운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(테스트/실서비스)에서는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 하락한다.
+모델 복잡도가 지나치게 높아 훈련 데이터의 세세한 패턴(잡음 포함)까지 모두 학습한 상태다. 결과적으로 훈련 데이터에서는 높은 성능을 보이지만 새로운 데이터(테스트/실서비스)에서는 성능이 급격히 하락한다.
 
 ### 1.2 과대적합 진단 기준
 
-| 지표 | 과대적합 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | 정상 범위 |
+| 지표 | 과대적합 신호 | 정상 범위 |
 |:---|:---|:---|
 | 훈련 오차 | 매우 낮음 (≈ 0) | 낮음 |
-| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 | 훈련 오차 대비 크게 높음 | 훈련 오차와 유사 |
+| 검증 오차 | 훈련 오차 대비 크게 높음 | 훈련 오차와 유사 |
 | 오차 격차(Gap) | 두 오차 간 격차가 크게 벌어짐 | 격차 최소 |
-| 학습 곡선 | 훈련v / [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)^ 갈라짐 | 수렴하며 근접 |
+| 학습 곡선 | 훈련v / 검증^ 갈라짐 | 수렴하며 근접 |
 
 ### 1.3 과대적합이 발생하는 주요 원인
 - 모델 복잡도 과도 (너무 많은 파라미터, 깊은 트리)
-- 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족
-- 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 잡음(Noise) 과다
-- [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 부재
+- 훈련 데이터 부족
+- 훈련 데이터에 잡음(Noise) 과다
+- 정규화 부재
 
 ```text
 +----------------------------------------------+
@@ -48,7 +48,7 @@ weight: 245
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 [편향-분산 트레이드오프](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance Tradeoff](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/))
+### 2.1 편향-분산 트레이드오프 (Bias-Variance Tradeoff)
 
 ```
   오차
@@ -67,22 +67,22 @@ weight: 245
   [과소적합]     [과대적합]
 ```
 
-- <strong>편향(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델이 단순하여 실제 패턴을 포착하지 못하는 오차 -> 과소적합
-- <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 모델이 복잡하여 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 잡음에 민감하게 반응하는 오차 -> 과대적합
-- 둘은 반비례 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)이므로 **트레이드오프(Trade-off)** 존재
+- <strong>편향(Bias)</strong>: 모델이 단순하여 실제 패턴을 포착하지 못하는 오차 -> 과소적합
+- <strong>분산(Variance)</strong>: 모델이 복잡하여 훈련 데이터의 잡음에 민감하게 반응하는 오차 -> 과대적합
+- 둘은 반비례 관계이므로 **트레이드오프(Trade-off)** 존재
 
 ### 2.2 과대적합 완화 기법
 
 | 기법 | 원리 | 효과 |
 |:---|:---|:---|
-| <strong>L1 규제(<a href="/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a>)</strong> | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 절댓값 합 패널티 추가 | 불필요한 특성 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0으로 만들어 희소 모델 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| **L2 규제(Ridge)** | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱합 패널티 추가 | 모든 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 작게 유지하여 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 |
-| <strong><a href="/studynote/10_ai/03_llm_nlp/280_dropout/">드롭아웃</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a>)</strong> | 학습 시 뉴런을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 비활성화 | 특정 뉴런에 의존하지 않는 강건한 표현 학습 |
-| <strong><a href="/studynote/10_ai/03_llm_nlp/281_early_stopping/">조기 종료</a>(<a href="/studynote/10_ai/03_llm_nlp/281_early_stopping/">Early Stopping</a>)</strong> | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차가 증가하면 학습 중단 | 최적 에폭(Epoch)에서 학습 종료 |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 증강(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Augmentation)</strong> | 기존 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환하여 다양성 추가 | 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효과적 확장 |
-| <strong><a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a>(<a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">Ensemble</a>)</strong> | 여러 모델의 예측 결합 | 개별 모델의 과대적합 평균화 |
+| <strong>L1 규제(Lasso)</strong> | 가중치 절댓값 합 패널티 추가 | 불필요한 특성 가중치 0으로 만들어 희소 모델 생성 |
+| **L2 규제(Ridge)** | 가중치 제곱합 패널티 추가 | 모든 가중치를 작게 유지하여 분산 감소 |
+| <strong>드롭아웃(Dropout)</strong> | 학습 시 뉴런을 확률적으로 비활성화 | 특정 뉴런에 의존하지 않는 강건한 표현 학습 |
+| <strong>조기 종료(Early Stopping)</strong> | 검증 오차가 증가하면 학습 중단 | 최적 에폭(Epoch)에서 학습 종료 |
+| <strong>데이터 증강(Data Augmentation)</strong> | 기존 데이터를 변환하여 다양성 추가 | 훈련 데이터 효과적 확장 |
+| <strong>앙상블(Ensemble)</strong> | 여러 모델의 예측 결합 | 개별 모델의 과대적합 평균화 |
 
-### 2.3 학습 곡선 ([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve) 해석
+### 2.3 학습 곡선 (Learning Curve) 해석
 
 ```
 +----------------------------------------------+
@@ -99,7 +99,7 @@ weight: 245
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))이 높다는 것은 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 결과가 들쑥날쑥하다는 뜻이다. 마치 같은 요리사가 날씨에 따라 음식 맛이 완전히 달라지는 상황—오늘은 미슐랭, 내일은 급식이다.
+- **📢 섹션 요약 비유**: 분산(Variance)이 높다는 것은 모델이 훈련 데이터마다 결과가 들쑥날쑥하다는 뜻이다. 마치 같은 요리사가 날씨에 따라 음식 맛이 완전히 달라지는 상황—오늘은 미슐랭, 내일은 급식이다.
 
 ---
 
@@ -107,18 +107,18 @@ weight: 245
 
 ### 3.1 과대적합 vs 과소적합 비교
 
-| 구분 | 과대적합(Overfitting) | 과소적합([Underfitting](/studynote/10_ai/03_llm_nlp/246_underfitting_bias/)) |
+| 구분 | 과대적합(Overfitting) | 과소적합(Underfitting) |
 |:---|:---|:---|
 | 훈련 오차 | 낮음 | 높음 |
 | 테스트 오차 | 높음 | 높음 |
 | 모델 복잡도 | 과도하게 복잡 | 지나치게 단순 |
-| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) | 높음 | 낮음 |
-| 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) | 낮음 | 높음 |
+| 분산(Variance) | 높음 | 낮음 |
+| 편향(Bias) | 낮음 | 높음 |
 | 해결 방향 | 모델 단순화, 규제 | 모델 복잡화, 특성 추가 |
 
 ### 3.2 규제화 공식 비교
-- **L2 (Ridge)**: `손실함수 + λΣw^` -> [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 유지
-- <strong>L1 (<a href="/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a>)</strong>: `손실함수 + λΣ|w|` -> 일부 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 0으로 만들어 특성 선택 효과
+- **L2 (Ridge)**: `손실함수 + λΣw^` -> 가중치를 0에 가깝게 유지
+- <strong>L1 (Lasso)</strong>: `손실함수 + λΣ|w|` -> 일부 가중치를 정확히 0으로 만들어 특성 선택 효과
 - **ElasticNet**: L1 + L2 혼합
 
 - **📢 섹션 요약 비유**: 과대적합은 공책을 달달 외웠지만 시험장에서 "왜?" 라고 묻는 서술형 문제 앞에 굳어버리는 학생이고, 과소적합은 공책 자체를 읽지 않아 객관식도 틀리는 학생이다.
@@ -128,12 +128,12 @@ weight: 245
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 4.1 과대적합 탐지 프로세스
-1. 훈련/[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 분리 (Hold-out 또는 K-Fold)
-2. 에폭별 훈련 오차와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 동시 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링
-3. 두 오차 간 격차(Gap) 임계값 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
-4. 과대적합 탐지 시 [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) 또는 규제 강도(λ) 증가
+1. 훈련/검증 세트 분리 (Hold-out 또는 K-Fold)
+2. 에폭별 훈련 오차와 검증 오차 동시 모니터링
+3. 두 오차 간 격차(Gap) 임계값 설정
+4. 과대적합 탐지 시 조기 종료 또는 규제 강도(λ) 증가
 
-### 4.2 [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 동작
+### 4.2 드롭아웃 (Dropout) 동작
 
 ```
 훈련 시 (Dropout 적용):        추론 시 (Dropout 미적용):
@@ -141,28 +141,28 @@ weight: 245
            (× = 비활성화)                 (전체 뉴런 사용)
 ```
 
-[드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) 비율(p)이 0.5일 경우 추론 시 각 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 (1-p)로 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)하거나, 훈련 시 역스케일링(Inverted [Dropout](/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 적용.
+드롭아웃 비율(p)이 0.5일 경우 추론 시 각 가중치를 (1-p)로 스케일링하거나, 훈련 시 역스케일링(Inverted Dropout) 적용.
 
 ### 4.3 기술사 핵심 판단 포인트
-- 과대적합 해결 시 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 증가 vs 규제 강화</strong> 중 어느 것이 더 효과적인지 상황별 판단
-- 딥러닝에서는 <strong><a href="/studynote/10_ai/03_llm_nlp/280_dropout/">드롭아웃</a> + <a href="/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a>(<a href="/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong> 조합이 표준
+- 과대적합 해결 시 <strong>데이터 증가 vs 규제 강화</strong> 중 어느 것이 더 효과적인지 상황별 판단
+- 딥러닝에서는 <strong>드롭아웃 + 배치 정규화(Batch Normalization)</strong> 조합이 표준
 - L1/L2 선택은 <strong>희소성(Sparsity) 필요 여부</strong>로 결정
 
-- **📢 섹션 요약 비유**: [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)은 팀 훈련에서 매번 무작위로 몇 명을 빠지게 해서 나머지 팀원들이 빠진 자리를 메우는 연습을 반복하는 것과 같다. 실전에서 전원이 나오면 팀은 더 강해져 있다.
+- **📢 섹션 요약 비유**: 드롭아웃은 팀 훈련에서 매번 무작위로 몇 명을 빠지게 해서 나머지 팀원들이 빠진 자리를 메우는 연습을 반복하는 것과 같다. 실전에서 전원이 나오면 팀은 더 강해져 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 5.1 규제 적용 효과
-- 모델 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 (실서비스 정확도 증가)
+- 모델 일반화 성능 향상 (실서비스 정확도 증가)
 - 불필요한 파라미터 제거로 모델 경량화
-- 훈련 오차와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차의 격차 최소화
+- 훈련 오차와 검증 오차의 격차 최소화
 
 ### 5.2 결론
-과대적합은 모든 ML 모델이 직면하는 본질적 도전이다. [편향-분산 트레이드오프](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)를 이해하고, L1/L2 규제, [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강, [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) 등 상황에 맞는 기법을 선택하는 능력이 ML 엔지니어의 핵심 역량이다. 기술사 시험에서는 과대적합 원인 -> 진단 방법 -> 해결 기법을 체계적으로 서술할 수 있어야 한다.
+과대적합은 모든 ML 모델이 직면하는 본질적 도전이다. 편향-분산 트레이드오프를 이해하고, L1/L2 규제, 드롭아웃, 데이터 증강, 조기 종료 등 상황에 맞는 기법을 선택하는 능력이 ML 엔지니어의 핵심 역량이다. 기술사 시험에서는 과대적합 원인 -> 진단 방법 -> 해결 기법을 체계적으로 서술할 수 있어야 한다.
 
-- **📢 섹션 요약 비유**: 과대적합 방지는 학생에게 "이 문제만 외우지 말고 개념을 이해해라"고 가르치는 것이다. 규제([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))는 그 훈육 과정에서 쓰이는 채점 기준이고, [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/)는 "이제 그만 외워도 돼"라는 선생님의 말이다.
+- **📢 섹션 요약 비유**: 과대적합 방지는 학생에게 "이 문제만 외우지 말고 개념을 이해해라"고 가르치는 것이다. 규제(Regularization)는 그 훈육 과정에서 쓰이는 채점 기준이고, 조기 종료는 "이제 그만 외워도 돼"라는 선생님의 말이다.
 
 ---
 
@@ -170,12 +170,12 @@ weight: 245
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 과대적합 | 높은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/), 낮은 편향 / [편향-분산 트레이드오프](/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) |
-| L1 규제 | [Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/), 희소 모델 / 과대적합 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) (특성 선택) |
-| L2 규제 | Ridge, [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 / 과대적합 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) (전체 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 축소) |
-| [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/) | 뉴런 비활성화 / 딥러닝 과대적합 방지 |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 | 이미지 회전/반전 / 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다양성 증가 |
-| [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 / 최적 에폭에서 학습 중단 |
+| 과대적합 | 높은 분산, 낮은 편향 / 편향-분산 트레이드오프 |
+| L1 규제 | Lasso, 희소 모델 / 과대적합 억제 (특성 선택) |
+| L2 규제 | Ridge, 가중치 감쇠 / 과대적합 억제 (전체 가중치 축소) |
+| 드롭아웃 | 뉴런 비활성화 / 딥러닝 과대적합 방지 |
+| 데이터 증강 | 이미지 회전/반전 / 훈련 데이터 다양성 증가 |
+| 조기 종료 | 검증 오차 모니터링 / 최적 에폭에서 학습 중단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -186,16 +186,5 @@ weight: 245
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 과대적합은 <strong>답안지를 달달 외웠는데 문제가 조금만 바뀌어도 틀리는 것</strong>이에요.
-2. 모델이 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 너무 열심히 암기해서 새로운 문제는 못 푸는 상태예요.
-3. 이럴 때는 [드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)(공부할 때 일부러 헷갈리게 연습)이나 규제(너무 세세하게 외우지 못하게 제한)로 고쳐줄 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 245 / 420
-
-<- **이전**: [244. 강화 학습 (Reinforcement Learning)](/studynote/10_ai/03_llm_nlp/244_reinforcement_learning_mdp/)
-**다음**: [246. 과소 적합 (Underfitting)](/studynote/10_ai/03_llm_nlp/246_underfitting_bias/) ->
-
----
+2. 모델이 훈련 데이터를 너무 열심히 암기해서 새로운 문제는 못 푸는 상태예요.
+3. 이럴 때는 드롭아웃(공부할 때 일부러 헷갈리게 연습)이나 규제(너무 세세하게 외우지 못하게 제한)로 고쳐줄 수 있어요!

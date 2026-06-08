@@ -110,12 +110,3 @@ Core flow: Propose -> Validate -> Vote -> Finalize -> Punish
 | 오라클 | 외부 세계와 온체인 상태를 연결하는 신뢰 경계 |
 | 거버넌스 | 업그레이드, 파라미터, 분쟁 해결을 담당하는 운영 체계 |
 | 보안 감사 | 배포 전 취약점과 운영 리스크를 줄이는 필수 절차 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 560 / 800
-
-<- **이전**: [559. 영지식 증명 ZK-SNARKs ZK-STARKs](/studynote/06_ict_convergence/uncategorized/559_zero_knowledge_proof_zk_snarks_zk_starks/)
-**다음**: [561. 블록체인 확장성 트릴레마 해결 전략](/studynote/06_ict_convergence/uncategorized/561_blockchain_scalability_trilemma_resolution/) ->
-
----

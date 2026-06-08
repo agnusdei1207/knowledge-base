@@ -7,8 +7,8 @@ weight: 1111
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: DPDK 패킷 바이패스는 성능 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: DPDK 패킷 바이패스를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
@@ -16,8 +16,8 @@ weight: 1111
 ## Ⅰ. 개요 및 필요성
 
 서버에 100Gbps 트래픽이 쏟아집니다.
-1. <strong><a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>) 폭탄</strong>: 랜카드가 패킷 1개를 받을 때마다 CPU에 알람을 때립니다. 1초에 수천만 번 알람이 울려 CPU는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 하느라 100% 뻗어버립니다.
-2. <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 스택의 오버헤드</strong>: 패킷이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간(L2~L4 검사)을 힘겹게 통과한 뒤, 사용자 공간(애플리케이션)으로 한 번 더 복사(Copy)되어 올라가는 메모리 낭비가 치명적입니다.
+1. <strong>인터럽트(Interrupt) 폭탄</strong>: 랜카드가 패킷 1개를 받을 때마다 CPU에 알람을 때립니다. 1초에 수천만 번 알람이 울려 CPU는 컨텍스트 스위칭을 하느라 100% 뻗어버립니다.
+2. <strong>커널 스택의 오버헤드</strong>: 패킷이 커널 공간(L2~L4 검사)을 힘겹게 통과한 뒤, 사용자 공간(애플리케이션)으로 한 번 더 복사(Copy)되어 올라가는 메모리 낭비가 치명적입니다.
 
 ```text
 [무손실 이더넷]
@@ -28,13 +28,13 @@ weight: 1111
     +---> [스마트NIC 가속 오프로딩 시스템]
 ```
 
-- **📢 섹션 요약 비유**: [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: DPDK 패킷 바이패스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 인텔(Intel)이 주도하여 만든 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리로, 패킷 처리 프로그램을 짤 때 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(리눅스 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)의 개입을 100% 무시하고(<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass), 랜카드 하드웨어와 사용자 공간(User Space) 앱이 메모리를 직통으로 뚫어서 데이터를 주고받게 만드는 <a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 패킷 처리 프레임워크</strong>입니다.
+- **개념**: 인텔(Intel)이 주도하여 만든 오픈소스 라이브러리로, 패킷 처리 프로그램을 짤 때 <strong>운영체제(리눅스 커널)의 개입을 100% 무시하고(Kernel Bypass), 랜카드 하드웨어와 사용자 공간(User Space) 앱이 메모리를 직통으로 뚫어서 데이터를 주고받게 만드는 초고속 패킷 처리 프레임워크</strong>입니다.
 
 ```text
 [무손실 이더넷]
@@ -45,57 +45,57 @@ weight: 1111
     +---> [스마트NIC 가속 오프로딩 시스템]
 ```
 
-- **📢 섹션 요약 비유**: [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: DPDK 패킷 바이패스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. UIO (User-space I/O) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바이패스와 제로 카피
-- 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아예 장님으로 만듭니다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안의 무거운 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 코드를 싹 덜어내고, 아주 얇은 UIO 껍데기 드라이버만 남깁니다.
-- 랜카드([NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어오면 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 거치지 않고, <strong><a href="/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>(<a href="/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/">직접 메모리 접근</a>) 기술을 써서 바로 사용자 프로그램(앱) 메모리 영역에 다이렉트로 꽂아버립니다(<a href="/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>).</strong>
+### 1. UIO (User-space I/O) 커널 바이패스와 제로 카피
+- 리눅스 커널을 아예 장님으로 만듭니다. 커널 안의 무거운 TCP/IP 코드를 싹 덜어내고, 아주 얇은 UIO 껍데기 드라이버만 남깁니다.
+- 랜카드(NIC)에 패킷이 들어오면 커널 메모리를 거치지 않고, <strong>DMA(직접 메모리 접근) 기술을 써서 바로 사용자 프로그램(앱) 메모리 영역에 다이렉트로 꽂아버립니다(Zero-Copy).</strong>
 
-### 2. PMD ([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Mode Driver) - [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 멸망 🌟
+### 2. PMD (Polling Mode Driver) - 인터럽트의 멸망 🌟
 가장 위대한 튜닝입니다.
-- <strong>기존 (<a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>)</strong>: 편지가 올 때마다 우체부가 벨을 누르면([인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 나가서 받았습니다. 편지가 1초에 1만 통 오면 벨 소리에 노이로제가 옵니다.
-- <strong>PMD (<a href="/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> 모드)</strong>: 벨을 떼버립니다. 아예 CPU 코어 하나(전용 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 이 작업에 영구적으로 할당(Pinning)해서 무한 루프를 돌립니다. <strong>CPU가 1초에 1억 번씩 랜카드 우체통을 열어보고, 편지가 있으면 싹 쓸어오고 없으면 또 열어봅니다(<a href="/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>).</strong> 대기 시간이 0에 수렴하여 100Gbps 패킷을 씹어 먹습니다.
+- <strong>기존 (인터럽트)</strong>: 편지가 올 때마다 우체부가 벨을 누르면(인터럽트) 나가서 받았습니다. 편지가 1초에 1만 통 오면 벨 소리에 노이로제가 옵니다.
+- <strong>PMD (폴링 모드)</strong>: 벨을 떼버립니다. 아예 CPU 코어 하나(전용 스레드)를 이 작업에 영구적으로 할당(Pinning)해서 무한 루프를 돌립니다. <strong>CPU가 1초에 1억 번씩 랜카드 우체통을 열어보고, 편지가 있으면 싹 쓸어오고 없으면 또 열어봅니다(Polling).</strong> 대기 시간이 0에 수렴하여 100Gbps 패킷을 씹어 먹습니다.
 
-### 3. 거대한 [메모리 풀](/studynote/02_operating_system/06_memory_management/369_memory_pool/) (Hugepages)
-- 일반 리눅스는 메모리를 4KB 단위로 쪼개서 씁니다. 패킷 수억 개를 저장하려면 메모리 주소([페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/))가 수천만 개로 찢어져 CPU 캐시([TLB](/studynote/02_operating_system/06_memory_management/357_tlb/))가 터집니다.
+### 3. 거대한 메모리 풀 (Hugepages)
+- 일반 리눅스는 메모리를 4KB 단위로 쪼개서 씁니다. 패킷 수억 개를 저장하려면 메모리 주소(페이지 테이블)가 수천만 개로 찢어져 CPU 캐시(TLB)가 터집니다.
 - DPDK는 부팅할 때 메모리를 <strong>2MB 또는 1GB 단위의 거대한 덩어리(Hugepages)</strong>로 뭉탱이로 떼어놓습니다. CPU가 책갈피를 한 번만 뒤져도 거대한 데이터를 한방에 읽어오므로 메모리 병목이 완벽히 사라집니다.
 
-[DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [무손실 이더넷](/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)이 기반 조건을 만든다면, [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 그 위에서 핵심 메커니즘을 구현하고, 스마트NIC 가속 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+DPDK 패킷 바이패스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 무손실 이더넷이 기반 조건을 만든다면, DPDK 패킷 바이패스는 그 위에서 핵심 메커니즘을 구현하고, 스마트NIC 가속 오프로딩 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [무손실 이더넷](/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)의 기반 정리 | [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스의 핵심 동작 | 스마트NIC 가속 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템의 확장 적용 |
+| 초점 | 무손실 이더넷의 기반 정리 | DPDK 패킷 바이패스의 핵심 동작 | 스마트NIC 가속 오프로딩 시스템의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: DPDK 패킷 바이패스는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- AWS나 SKT 데이터센터에 가면, 수많은 866번 <strong><a href="/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a>(가상 <a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>, 가상 라우터)</strong>들이 소프트웨어로 돌아갑니다.
-- 시스코의 쇳덩어리 전용 기계를 버리고 x86 깡통 서버를 쓸 수 있었던 유일한 이유는, 이 깡통 서버에 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> 흑마법을 끼얹은 오픈 <a href="/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">vSwitch</a> (OVS-<a href="/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a>)</strong>를 깔아 돌리면 수천만 원짜리 전용 하드웨어 칩셋([ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 뺨치는 미친 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 속도가 소프트웨어로도 뽑혀 나오기 때문입니다.
+- AWS나 SKT 데이터센터에 가면, 수많은 866번 <strong>VNF(가상 방화벽, 가상 라우터)</strong>들이 소프트웨어로 돌아갑니다.
+- 시스코의 쇳덩어리 전용 기계를 버리고 x86 깡통 서버를 쓸 수 있었던 유일한 이유는, 이 깡통 서버에 <strong>DPDK 흑마법을 끼얹은 오픈 vSwitch (OVS-DPDK)</strong>를 깔아 돌리면 수천만 원짜리 전용 하드웨어 칩셋(ASIC) 뺨치는 미친 라우팅 속도가 소프트웨어로도 뽑혀 나오기 때문입니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)망은 <strong>'우체국(랜카드)에서 편지가 1장 올 때마다 전화(<a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>)를 걸어 사장님(CPU)을 귀찮게 하는 비효율적인 사무실'</strong>입니다. 게다가 편지를 비서([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 한 번 읽고 다시 사장님 책상으로 옮겨 적는(메모리 복사) 헛짓거리를 했습니다. <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> (패킷 바이패스)</strong>는 비서의 책상을 없애버리고 사장님 책상 한가운데에 <strong>'우체국 직통 텔레포트 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass &amp; <a href="/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>)'</strong>를 뚫어버린 것입니다. 게다가 전화를 다 끊어버리고, 아르바이트생 한 명(PMD 전용 코어)을 고용해 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 입구만 하루 종일 쳐다보며 쏟아지는 편지를 1초의 틈도 없이 바구니(Hugepages)에 쓸어 담게 만듭니다([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)). [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라는 비효율적인 중간 관리자([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 100% 해고하고, 하드웨어와 앱을 물리적으로 직결시켜 x86 깡통 서버를 100Gbps 괴물 라우터로 탈바꿈시킨 소프트웨어 네트워킹의 궁극의 마약입니다.
+- **📢 섹션 요약 비유**: 기존 리눅스 커널망은 <strong>'우체국(랜카드)에서 편지가 1장 올 때마다 전화(인터럽트)를 걸어 사장님(CPU)을 귀찮게 하는 비효율적인 사무실'</strong>입니다. 게다가 편지를 비서(커널)가 한 번 읽고 다시 사장님 책상으로 옮겨 적는(메모리 복사) 헛짓거리를 했습니다. <strong>DPDK (패킷 바이패스)</strong>는 비서의 책상을 없애버리고 사장님 책상 한가운데에 <strong>'우체국 직통 텔레포트 파이프(Kernel Bypass &amp; Zero-Copy)'</strong>를 뚫어버린 것입니다. 게다가 전화를 다 끊어버리고, 아르바이트생 한 명(PMD 전용 코어)을 고용해 파이프 입구만 하루 종일 쳐다보며 쏟아지는 편지를 1초의 틈도 없이 바구니(Hugepages)에 쓸어 담게 만듭니다(Polling). 운영체제라는 비효율적인 중간 관리자(커널)를 100% 해고하고, 하드웨어와 앱을 물리적으로 직결시켜 x86 깡통 서버를 100Gbps 괴물 라우터로 탈바꿈시킨 소프트웨어 네트워킹의 궁극의 마약입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 스마트NIC 가속 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+DPDK 패킷 바이패스는 성능 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 스마트NIC 가속 오프로딩 시스템, AI 기반 성능 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 AI 기반 성능 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: DPDK 패킷 바이패스는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -103,10 +103,10 @@ weight: 1111
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [무손실 이더넷](/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| 스마트NIC 가속 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 무손실 이더넷 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 처리량 (Throughput) | 실제 전달 성능을 나타내는 대표 지표다. |
+| 지연 (Latency) | 사용자 체감 품질을 좌우한다. |
+| 스마트NIC 가속 오프로딩 시스템 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -120,21 +120,10 @@ weight: 1111
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-[DPDK](/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 [무손실 이더넷](/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트NIC 가속 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+DPDK 패킷 바이패스는 무손실 이더넷에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트NIC 가속 오프로딩 시스템와 AI 기반 성능 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 222 / 1120
-
-<- **이전**: [1110. 무손실 이더넷 (PFC 체제)](/studynote/03_network/20_performance_evaluation_advanced/1110_lossless_ethernet_pfc_priority_flow_control/)
-**다음**: [1112. 스마트NIC 가속 오프로딩 시스템](/studynote/03_network/20_performance_evaluation_advanced/1112_smartnic_dpu_hardware_acceleration_offloading/) ->
-
----

@@ -135,11 +135,3 @@ EU AI Act의 규율 아키텍처는 **위험 등급 분류 -> 의무 부과 -> �
 | 기술문서      |  ✗   |   ✗     |   ✓     |   —     |
 | 로깅          |  ✗   |   ✗     |   ✓     |   —     |
 | 사후 모니터링 |  ✗   |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 654 / 800
-
-<- **이전**: [653. AI 윤리 편향 공정성 설명 가능성](/studynote/06_ict_convergence/uncategorized/653_ai_ethics_bias_fairness_explainability/)
-**다음**: [655. 연합 학습 프라이버시 보존 분산 학습](/studynote/06_ict_convergence/uncategorized/655_federated_learning_privacy_preserving/) ->
-
----

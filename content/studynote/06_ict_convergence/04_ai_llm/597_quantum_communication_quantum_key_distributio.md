@@ -110,12 +110,3 @@ Core flow: Generate -> Transmit -> Measure -> Sift -> Use Key
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 597 / 800
-
-<- **이전**: [596. 저궤도 위성 인터넷 LEO](/studynote/06_ict_convergence/uncategorized/596_satellite_internet_leo_low_earth_orbit/)
-**다음**: [598. 양자컴퓨팅 큐비트 양자우월성](/studynote/06_ict_convergence/uncategorized/598_quantum_computing_qubit_quantum_supremacy/) ->
-
----

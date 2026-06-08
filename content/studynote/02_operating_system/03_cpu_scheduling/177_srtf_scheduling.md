@@ -7,15 +7,15 @@ weight: 177
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SRTF (Shortest Remaining Time First)는 현재 실행 중인 작업까지 포함해 <strong>남은 CPU (Central Processing Unit) 실행 시간이 가장 짧은 프로세스</strong>를 즉시 선택하는 [선점형 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/)이다.
-> 2. **가치**: 남은 시간이 정확히 알려진다는 이상 조건에서는 평균 대기 시간과 평균 [반환 시간](/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)을 가장 작게 만들어, 짧은 상호작용 작업에 매우 빠른 응답을 제공한다.
-> 3. **판단 포인트**: 실제 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 남은 시간을 예측해야 하고 긴 작업 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))와 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 제어해야 하므로, 교과서적 SRTF를 그대로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 그 철학만 부분적으로 차용한다.
+> 1. **본질**: SRTF (Shortest Remaining Time First)는 현재 실행 중인 작업까지 포함해 <strong>남은 CPU (Central Processing Unit) 실행 시간이 가장 짧은 프로세스</strong>를 즉시 선택하는 선점형 스케줄링이다.
+> 2. **가치**: 남은 시간이 정확히 알려진다는 이상 조건에서는 평균 대기 시간과 평균 반환 시간을 가장 작게 만들어, 짧은 상호작용 작업에 매우 빠른 응답을 제공한다.
+> 3. **판단 포인트**: 실제 운영체제는 남은 시간을 예측해야 하고 긴 작업 기아 상태 (Starvation)와 문맥 교환 비용을 제어해야 하므로, 교과서적 SRTF를 그대로 쓰기보다 그 철학만 부분적으로 차용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SRTF는 [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))의 선점형 버전이다. 비선점형 SJF는 "짧은 작업을 먼저 끝낸다"는 점에서는 훌륭하지만, 이미 긴 작업이 CPU를 잡고 있으면 그 뒤에 도착한 아주 짧은 작업도 끝날 때까지 기다려야 한다. SRTF는 이 약점을 바로 겨냥해, 더 짧은 작업이 Ready 큐에 들어오는 순간 현재 작업을 중단시키고 CPU를 넘겨준다.
+SRTF는 SJF (Shortest Job First)의 선점형 버전이다. 비선점형 SJF는 "짧은 작업을 먼저 끝낸다"는 점에서는 훌륭하지만, 이미 긴 작업이 CPU를 잡고 있으면 그 뒤에 도착한 아주 짧은 작업도 끝날 때까지 기다려야 한다. SRTF는 이 약점을 바로 겨냥해, 더 짧은 작업이 Ready 큐에 들어오는 순간 현재 작업을 중단시키고 CPU를 넘겨준다.
 
 이 개념이 필요해진 배경은 시분할 시스템과 상호작용형 시스템의 등장이다. 사용자는 터미널 입력, 마우스 클릭, 짧은 I/O (Input/Output) 처리처럼 빨리 끝나는 일을 즉각 처리해 주길 원한다. 그런데 긴 계산 작업 하나가 CPU를 오래 점유하고 있으면, 이런 짧은 작업의 응답 시간이 급격히 나빠진다. SRTF는 바로 이 문제를 해결하기 위해 "이미 돌고 있더라도 더 짧은 일이 오면 비켜라"라는 강한 규칙을 도입했다.
 
@@ -35,7 +35,7 @@ SRTF는 [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_schedulin
 +--------------------------------------------------------------------+
 ```
 
-핵심은 SRTF가 단순히 "짧은 작업을 먼저 고른다"에서 끝나지 않고, <strong>상황이 바뀌는 순간 현재 선택을 뒤집을 수 있다</strong>는 데 있다. 그래서 이 알고리즘은 평균 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 줄이는 이론적 최적점으로 자주 등장한다.
+핵심은 SRTF가 단순히 "짧은 작업을 먼저 고른다"에서 끝나지 않고, <strong>상황이 바뀌는 순간 현재 선택을 뒤집을 수 있다</strong>는 데 있다. 그래서 이 알고리즘은 평균 성능을 줄이는 이론적 최적점으로 자주 등장한다.
 
 - **📢 섹션 요약 비유**: SRTF는 줄 서 있는 손님만 보는 계산대가 아니라, 지금 계산 중이어도 바로 끝날 손님이 오면 잠깐 먼저 처리해 주는 계산대와 같다.
 
@@ -43,14 +43,14 @@ SRTF는 [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_schedulin
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SRTF의 판단식은 단순하다. Ready 상태 프로세스와 현재 Running 프로세스의 남은 실행 시간을 비교해 가장 작은 값을 선택하면 된다. 문제는 "남은 시간"이 정적 값이 아니라 실행하면서 계속 줄어든다는 점이다. 따라서 스케줄러는 프로세스 도착, CPU 버스트 종료, I/O 완료 후 Ready 복귀, 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 같은 시점마다 다시 비교해야 한다.
+SRTF의 판단식은 단순하다. Ready 상태 프로세스와 현재 Running 프로세스의 남은 실행 시간을 비교해 가장 작은 값을 선택하면 된다. 문제는 "남은 시간"이 정적 값이 아니라 실행하면서 계속 줄어든다는 점이다. 따라서 스케줄러는 프로세스 도착, CPU 버스트 종료, I/O 완료 후 Ready 복귀, 타이머 인터럽트 같은 시점마다 다시 비교해야 한다.
 
 | 이벤트 | 스케줄러가 하는 일 | 의미 |
 | :--- | :--- | :--- |
 | 새 프로세스 도착 | Running 프로세스와 남은 시간 비교 | 더 짧으면 즉시 선점 |
-| 현재 [프로세스 종료](/studynote/02_operating_system/02_process_thread/107_process_termination/) | Ready 큐에서 최단 남은 시간 선택 | 자연스러운 다음 선택 |
+| 현재 프로세스 종료 | Ready 큐에서 최단 남은 시간 선택 | 자연스러운 다음 선택 |
 | I/O 완료 후 복귀 | Ready 큐 재정렬 | 짧은 I/O 바운드 작업 우대 |
-| 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | 예측값·남은 시간 재점검 | 선점 시점 보장 |
+| 타이머 인터럽트 | 예측값·남은 시간 재점검 | 선점 시점 보장 |
 
 다음 예시는 SRTF가 평균 대기 시간을 어떻게 줄이는지 보여 준다.
 
@@ -75,7 +75,7 @@ SRTF의 판단식은 단순하다. Ready 상태 프로세스와 현재 Running �
 
 이때 대기 시간은 `P1 = 14 - 0 - 8 = 6 ms`, `P2 = 7 - 1 - 4 = 2 ms`, `P3 = 4 - 2 - 2 = 0 ms`가 되어 평균 2.67 ms가 된다. 같은 입력을 비선점형 SJF로 처리하면 `P1`이 먼저 8 ms를 다 쓰고 난 뒤 `P3`, `P2`가 실행되어 평균 대기 시간이 5.0 ms까지 늘어난다. 즉 SRTF는 짧은 작업을 더 빨리 배출해 전체 평균을 줄인다.
 
-다만 이 원리가 실제로 성립하려면 남은 CPU 버스트를 알아야 한다. 현실의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이를 정확히 알 수 없으므로, [지수 평균법](/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/) ([Exponential Averaging](/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/)) 같은 예측 기법으로 다음 버스트를 추정해 근사 적용한다.
+다만 이 원리가 실제로 성립하려면 남은 CPU 버스트를 알아야 한다. 현실의 운영체제는 이를 정확히 알 수 없으므로, 지수 평균법 (Exponential Averaging) 같은 예측 기법으로 다음 버스트를 추정해 근사 적용한다.
 
 - **📢 섹션 요약 비유**: SRTF는 놀이기구 줄에서 "지금 가장 빨리 끝나고 나갈 사람"을 계속 다시 골라 먼저 태우는 규칙과 같다. 줄이 자주 바뀌지만 전체 줄 길이는 빨리 줄어든다.
 
@@ -83,28 +83,28 @@ SRTF의 판단식은 단순하다. Ready 상태 프로세스와 현재 Running �
 
 ## Ⅲ. 비교 및 연결
 
-SRTF를 이해할 때 가장 중요한 비교축은 [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/), [라운드 로빈](/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) (Round Robin, [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)), 그리고 현대 공정성 스케줄러다. SJF와 SRTF는 둘 다 "짧은 작업 우대" 철학을 공유하지만, SRTF는 상황 변화에 따라 현재 실행 중인 프로세스까지 빼앗을 수 있다. 반면 RR은 작업 길이를 모르더라도 공정하게 CPU를 나눠 주는 데 초점을 둔다.
+SRTF를 이해할 때 가장 중요한 비교축은 SJF, 라운드 로빈 (Round Robin, RR), 그리고 현대 공정성 스케줄러다. SJF와 SRTF는 둘 다 "짧은 작업 우대" 철학을 공유하지만, SRTF는 상황 변화에 따라 현재 실행 중인 프로세스까지 빼앗을 수 있다. 반면 RR은 작업 길이를 모르더라도 공정하게 CPU를 나눠 주는 데 초점을 둔다.
 
-| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 선점 여부 | 최우선 목표 | 장점 | 한계 |
+| 정책 | 선점 여부 | 최우선 목표 | 장점 | 한계 |
 | :--- | :---: | :--- | :--- | :--- |
-| [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) | 아니오 | 평균 대기 시간 감소 | 구조 단순 | 짧은 작업이 뒤늦게 와도 기다림 |
-| SRTF (Shortest Remaining Time First) | 예 | 평균 대기·[반환 시간](/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/) 최소화 | 짧은 작업 응답 우수 | [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/), 예측 의존 |
-| [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 예 | 공정한 시간 분할 | 응답성·공정성 양호 | 평균 대기 시간은 비효율 가능 |
+| SJF (Shortest Job First) | 아니오 | 평균 대기 시간 감소 | 구조 단순 | 짧은 작업이 뒤늦게 와도 기다림 |
+| SRTF (Shortest Remaining Time First) | 예 | 평균 대기·반환 시간 최소화 | 짧은 작업 응답 우수 | 기아 상태, 예측 의존 |
+| RR (Round Robin) | 예 | 공정한 시간 분할 | 응답성·공정성 양호 | 평균 대기 시간은 비효율 가능 |
 | CFS (Completely Fair Scheduler) 계열 | 예 | 장기 공정성 | 기아 완화, 현실 적합 | 이론적 최단 평균은 아님 |
 
 여기서 중요한 경계는 <strong>최적성 대 공정성</strong>이다. SRTF는 짧은 작업의 평균 지연을 극적으로 줄이지만, 긴 CPU 바운드 작업은 계속 뒤로 밀릴 수 있다. 반면 RR이나 CFS는 평균 대기 시간을 조금 희생해도 "아무도 영원히 굶지 않게" 만드는 쪽에 무게를 둔다.
 
-또한 SRTF는 단순 CPU 스케줄링 개념을 넘어, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 질의 처리나 서버 요청 스케줄링의 Shortest Remaining Processing Time (SRPT) 아이디어와도 연결된다. 즉 "남은 일이 적은 것을 빨리 비워 전체 평균을 낮춘다"는 철학은 여러 시스템 영역에서 반복된다.
+또한 SRTF는 단순 CPU 스케줄링 개념을 넘어, 데이터베이스 질의 처리나 서버 요청 스케줄링의 Shortest Remaining Processing Time (SRPT) 아이디어와도 연결된다. 즉 "남은 일이 적은 것을 빨리 비워 전체 평균을 낮춘다"는 철학은 여러 시스템 영역에서 반복된다.
 
-- **📢 섹션 요약 비유**: SRTF가 빨리 끝나는 손님부터 먼저 계산해 전체 줄을 빨리 비우는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이라면, RR은 손님 모두에게 1분씩 차례를 주는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이고, CFS는 오래 못 받은 손님이 너무 손해 보지 않게 균형을 맞추는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
+- **📢 섹션 요약 비유**: SRTF가 빨리 끝나는 손님부터 먼저 계산해 전체 줄을 빨리 비우는 정책이라면, RR은 손님 모두에게 1분씩 차례를 주는 정책이고, CFS는 오래 못 받은 손님이 너무 손해 보지 않게 균형을 맞추는 정책이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현실 시스템에서 교과서적 SRTF를 그대로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어려운 이유는 세 가지다. 첫째, 남은 CPU 버스트를 정확히 알 수 없다. 둘째, 짧은 작업이 계속 유입되면 긴 작업은 사실상 무기한 대기할 수 있다. 셋째, 선점이 잦아질수록 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용과 캐시 오염 비용이 커진다. 결국 실제 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 SRTF를 "정답"이 아니라 "[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)"으로 활용한다.
+현실 시스템에서 교과서적 SRTF를 그대로 쓰기 어려운 이유는 세 가지다. 첫째, 남은 CPU 버스트를 정확히 알 수 없다. 둘째, 짧은 작업이 계속 유입되면 긴 작업은 사실상 무기한 대기할 수 있다. 셋째, 선점이 잦아질수록 문맥 교환 (Context Switch) 비용과 캐시 오염 비용이 커진다. 결국 실제 운영체제는 SRTF를 "정답"이 아니라 "성능 기준선"으로 활용한다.
 
-그럼에도 SRTF 철학은 여러 형태로 살아 있다. 짧은 상호작용 작업을 빠르게 반응시켜야 하는 시스템은 최근 CPU 사용량이 적은 작업을 우대하거나, 예측된 burst가 짧은 작업에 높은 우선순위를 주는 방식으로 SRTF에 가까운 효과를 낸다. 리눅스의 CFS는 남은 시간이 아니라 [가상 실행 시간](/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) (virtual runtime, vruntime)을 사용하지만, 결과적으로 I/O 바운드 작업이 빠르게 CPU를 다시 잡도록 유도한다.
+그럼에도 SRTF 철학은 여러 형태로 살아 있다. 짧은 상호작용 작업을 빠르게 반응시켜야 하는 시스템은 최근 CPU 사용량이 적은 작업을 우대하거나, 예측된 burst가 짧은 작업에 높은 우선순위를 주는 방식으로 SRTF에 가까운 효과를 낸다. 리눅스의 CFS는 남은 시간이 아니라 가상 실행 시간 (virtual runtime, vruntime)을 사용하지만, 결과적으로 I/O 바운드 작업이 빠르게 CPU를 다시 잡도록 유도한다.
 
 아래 흐름은 SRTF를 직접 쓰거나 유사 철학을 차용할지 판단하는 기준이다.
 
@@ -124,14 +124,14 @@ SRTF를 이해할 때 가장 중요한 비교축은 [SJF](/studynote/02_operatin
 
 1. **실행 시간 예측이 가능한가?** 웹 요청 크기, 배치 작업 크기처럼 예측 가능한 환경이면 적용 가치가 높다.
 2. **짧은 작업 응답성이 핵심인가?** 사용자 입력, I/O 복귀 작업이 많으면 SRTF 철학이 효과적이다.
-3. <strong><a href="/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>를 제어할 장치가 있는가?</strong> [aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 최대 대기 한도, fair-share 보완이 필요하다.
-4. <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 비용이 작은가?</strong> 선점 빈도가 높으면 오히려 처리량이 떨어질 수 있다.
+3. <strong>기아 상태를 제어할 장치가 있는가?</strong> aging, 최대 대기 한도, fair-share 보완이 필요하다.
+4. <strong>문맥 교환 비용이 작은가?</strong> 선점 빈도가 높으면 오히려 처리량이 떨어질 수 있다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 남은 시간을 예측할 방법이 없는데도 SRTF가 항상 최적이라고 단정하는 것
-- 평균 대기 시간만 보고 긴 작업의 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 무시하는 것
-- 실시간 [deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 문제를 SRTF로 풀려는 것
+- 평균 대기 시간만 보고 긴 작업의 기아 상태를 무시하는 것
+- 실시간 deadline 문제를 SRTF로 풀려는 것
 
 - **📢 섹션 요약 비유**: SRTF는 가장 빨리 끝나는 주문부터 먼저 조리해 전체 평균 대기 시간을 낮추는 주방과 같다. 하지만 작은 주문만 계속 들어오면 오래 걸리는 요리는 끝없이 뒤로 밀릴 수 있다.
 
@@ -139,11 +139,11 @@ SRTF를 이해할 때 가장 중요한 비교축은 [SJF](/studynote/02_operatin
 
 ## Ⅴ. 기대효과 및 결론
 
-SRTF의 가장 큰 장점은 이론적으로 매우 강한 기준점을 제공한다는 점이다. 정확한 남은 시간을 안다는 가정 아래에서는 짧은 작업을 신속히 끝내 전체 평균 대기 시간과 [반환 시간](/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)을 낮출 수 있다. 그래서 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 교과서에서 SRTF는 "짧은 작업 우대 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)의 이상적 극한"으로 자주 등장한다.
+SRTF의 가장 큰 장점은 이론적으로 매우 강한 기준점을 제공한다는 점이다. 정확한 남은 시간을 안다는 가정 아래에서는 짧은 작업을 신속히 끝내 전체 평균 대기 시간과 반환 시간을 낮출 수 있다. 그래서 운영체제 교과서에서 SRTF는 "짧은 작업 우대 정책의 이상적 극한"으로 자주 등장한다.
 
-하지만 운영 환경은 이 가정을 쉽게 허용하지 않는다. 남은 시간을 틀리게 예측하면 잘못된 선점이 일어나고, 선점이 잦으면 CPU 캐시와 파이프라인의 지역성이 깨지며, 긴 작업은 공정성 측면에서 손해를 본다. 따라서 실무에서는 SRTF를 그대로 채택하기보다, 그 장점을 살리면서 공정성과 오버헤드를 보완한 현실형 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 변형해 사용한다.
+하지만 운영 환경은 이 가정을 쉽게 허용하지 않는다. 남은 시간을 틀리게 예측하면 잘못된 선점이 일어나고, 선점이 잦으면 CPU 캐시와 파이프라인의 지역성이 깨지며, 긴 작업은 공정성 측면에서 손해를 본다. 따라서 실무에서는 SRTF를 그대로 채택하기보다, 그 장점을 살리면서 공정성과 오버헤드를 보완한 현실형 정책으로 변형해 사용한다.
 
-정리하면 SRTF는 "항상 가장 빨리 끝날 일을 먼저 끝낸다"는 단순하지만 강력한 원리를 가진다. 기억할 핵심은 분명하다. <strong>평균 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>에는 매우 강하지만, 정확한 예측과 공정성 보완 없이는 <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 기본 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 되기 어렵다</strong>는 점이다.
+정리하면 SRTF는 "항상 가장 빨리 끝날 일을 먼저 끝낸다"는 단순하지만 강력한 원리를 가진다. 기억할 핵심은 분명하다. <strong>평균 성능에는 매우 강하지만, 정확한 예측과 공정성 보완 없이는 운영체제의 기본 정책이 되기 어렵다</strong>는 점이다.
 
 - **📢 섹션 요약 비유**: SRTF는 전체 줄을 가장 빨리 줄이는 계산 방식이지만, 맨 뒤에서 오래 기다리는 손님이 생기지 않도록 별도의 배려 규칙이 함께 있어야 진짜 좋은 가게가 된다.
 
@@ -153,11 +153,11 @@ SRTF의 가장 큰 장점은 이론적으로 매우 강한 기준점을 제공�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) | SRTF의 비선점형 원형이다 |
-| [선점형 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) ([Preemptive Scheduling](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/)) | 더 짧은 작업이 오면 CPU를 강제로 회수하게 해 준다 |
-| [지수 평균법](/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/) ([Exponential Averaging](/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/)) | 남은 버스트를 현실적으로 추정하는 대표 기법이다 |
-| [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | 잦은 선점이 불러오는 직접 비용이다 |
-| [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) | 긴 작업이 계속 밀릴 수 있는 SRTF의 핵심 약점이다 |
+| SJF (Shortest Job First) | SRTF의 비선점형 원형이다 |
+| 선점형 스케줄링 (Preemptive Scheduling) | 더 짧은 작업이 오면 CPU를 강제로 회수하게 해 준다 |
+| 지수 평균법 (Exponential Averaging) | 남은 버스트를 현실적으로 추정하는 대표 기법이다 |
+| 문맥 교환 (Context Switch) | 잦은 선점이 불러오는 직접 비용이다 |
+| 기아 상태 (Starvation) | 긴 작업이 계속 밀릴 수 있는 SRTF의 핵심 약점이다 |
 | CFS (Completely Fair Scheduler) | SRTF의 응답성 장점을 공정성과 타협해 계승한 현실형 접근이다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -186,14 +186,3 @@ SRTF preemption
 1. SRTF는 놀이터에서 가장 빨리 끝낼 수 있는 친구부터 먼저 미끄럼틀을 타게 해 주는 규칙이에요.
 2. 그래서 금방 끝나는 친구들은 빨리 놀 수 있지만, 오래 놀 친구는 계속 뒤로 밀릴 수 있어요.
 3. 컴퓨터는 이 규칙 덕분에 짧은 일을 아주 빠르게 처리하지만, 오래 기다리는 친구가 없도록 다른 규칙도 함께 써야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 177 / 800
-
-<- **이전**: [176. 지수 평균법 (Exponential Averaging) - 다음 CPU 버스트 길이 예측](/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/)
-**다음**: [178. 라운드 로빈 (Round Robin, RR) 스케줄링 - 시분할 시스템, 선점형](/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ->
-
----

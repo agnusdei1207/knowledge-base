@@ -135,11 +135,3 @@ weight: 767
 | **Multi-CDN Delivery** | 글로벌 전송 최적화 | Anycast DNS + RUM(Real User Monitoring) 데이터 기반 가중치 라우팅, HTTP/3(QUIC) + 0-RTT 핸드셰이크, 엣지 캐시 적중률 95%+ 목표, Signed Cookie 인증 |
 | **Monetization Engine** | 수익 분배 및 정산 | Stripe Connect(글로벌) + 토스페이먼츠/KCP(한국) + PayPal(국제). 멱등성 키(Idempotency Key) + Saga 패턴(롤백), 일배치/월배치 정산, 수익 쉐어 계산식: `creator_revenue = (ad_revenue × 0.55) - (platform_fee × 0.30) - (pg_fee × 0.029 + 0.30)` |
 | **Creator Analytics** | 데이터 기반 의사결정 | ClickHouse(컬럼형 OLAP, 100B+ 행) + Apache Superset BI, A/B 테스트 프레임워크
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 767 / 800
-
-<- **이전**: [766. 구독 경제 SaaS 리커링 수익 모델](/studynote/06_ict_convergence/uncategorized/766_subscription_economy_saas_recurring_revenue/)
-**다음**: [768. 공유 경제 P2P 마켓플레이스 신뢰](/studynote/06_ict_convergence/uncategorized/768_sharing_economy_p2p_marketplace_trust/) ->
-
----

@@ -6,13 +6,13 @@ tags:
 weight: 46
 ---
 > **핵심 인사이트**
-> 1. [DBSCAN](/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)([Density-Based Spatial Clustering](/studynote/10_ai/05_data_science_ml/357_dbscan/) of Applications with Noise)은 밀도가 높은 지역을 군집으로 인식하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — k-means와 달리 군집 수(k)를 사전에 지정할 필요 없고, 임의 형태의 군집과 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)(Noise)를 자동으로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
-> 2. 핵심 매개변수 ε(엡실론)과 minPts — ε(이웃 반경)과 minPts(최소 이웃 점 수)의 조합이 군집 품질을 결정하며, k-거리 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(k-distance [graph](/studynote/12_it_management/03_ea_isp/888_graph/))로 최적 ε을 찾는 방법이 실무에서 널리 사용된다.
+> 1. DBSCAN(Density-Based Spatial Clustering of Applications with Noise)은 밀도가 높은 지역을 군집으로 인식하는 알고리즘 — k-means와 달리 군집 수(k)를 사전에 지정할 필요 없고, 임의 형태의 군집과 이상치(Noise)를 자동으로 식별한다.
+> 2. 핵심 매개변수 ε(엡실론)과 minPts — ε(이웃 반경)과 minPts(최소 이웃 점 수)의 조합이 군집 품질을 결정하며, k-거리 그래프(k-distance graph)로 최적 ε을 찾는 방법이 실무에서 널리 사용된다.
 > 3. DBSCAN의 한계: 고차원·가변 밀도 군집 — 차원이 높아질수록 거리 계산 의미 감소(차원의 저주)하고, 밀도가 다른 군집이 혼재할 때 단일 ε로 모든 군집을 적절히 잡기 어렵다. HDBSCAN이 이 한계를 개선한다.
 
 ---
 
-## Ⅰ. [DBSCAN](/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) 개요
+## Ⅰ. DBSCAN 개요
 
 ```
 밀도 기반 군집화 직관:
@@ -57,11 +57,11 @@ DBSCAN 핵심 아이디어:
   F = Noise
 ```
 
-> 📢 **섹션 요약 비유**: DBSCAN의 점 유형은 모임 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 핵심 점(모임 주최자: 주변에 친구 많음), 경계 점(참가자: 주최자 알지만 본인은 친구 적음), 잡음(아는 사람 없는 혼자)!
+> 📢 **섹션 요약 비유**: DBSCAN의 점 유형은 모임 분류 — 핵심 점(모임 주최자: 주변에 친구 많음), 경계 점(참가자: 주최자 알지만 본인은 친구 적음), 잡음(아는 사람 없는 혼자)!
 
 ---
 
-## Ⅱ. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 동작
+## Ⅱ. 알고리즘 동작
 
 ```
 DBSCAN 알고리즘:
@@ -105,7 +105,7 @@ DBSCAN 알고리즘:
   이상치: -1
 ```
 
-> 📢 **섹션 요약 비유**: [DBSCAN](/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 친구 그룹 찾기 — 한 명(핵심 점)에서 시작, 친구 목록 탐색, 친구의 친구도 탐색... 더 이상 확장 안 되면 하나의 그룹 완성!
+> 📢 **섹션 요약 비유**: DBSCAN 알고리즘은 친구 그룹 찾기 — 한 명(핵심 점)에서 시작, 친구 목록 탐색, 친구의 친구도 탐색... 더 이상 확장 안 되면 하나의 그룹 완성!
 
 ---
 
@@ -247,7 +247,7 @@ OPTICS (Ordering Points To Identify Clustering Structure):
   레이블 없음: 정기 전문가 검토로 정밀도 보정
 ```
 
-> 📢 **섹션 요약 비유**: [DBSCAN](/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) 이상 거래 탐지는 군중 속 낯선 사람 — 밀집한 군중(정상 거래 군집)에서 혼자 떨어진 사람(Noise=이상 거래)을 자동 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/). k-means보다 20% 정확!
+> 📢 **섹션 요약 비유**: DBSCAN 이상 거래 탐지는 군중 속 낯선 사람 — 밀집한 군중(정상 거래 군집)에서 혼자 떨어진 사람(Noise=이상 거래)을 자동 식별. k-means보다 20% 정확!
 
 ---
 
@@ -303,17 +303,6 @@ Ester et al., KDD 1996
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. DBSCAN은 별자리 찾기 — 별이 많이 모여 있는 곳(밀도 높은 군집), 홀로 떨어진 별(Noise=[이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))을 자동으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해요!
+1. DBSCAN은 별자리 찾기 — 별이 많이 모여 있는 곳(밀도 높은 군집), 홀로 떨어진 별(Noise=이상치)을 자동으로 분류해요!
 2. ε은 손 뻗는 거리 — "이 거리 안에 친구가 많으면(minPts) 핵심 점". ε 너무 좁으면 친구 0명, 너무 넓으면 모두 친구!
 3. HDBSCAN은 자동 배율 현미경 — DBSCAN은 배율 고정, HDBSCAN은 촘촘한 군집/느슨한 군집 모두 자동으로 적합한 배율로 찾아요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 46 / 420
-
-<- **이전**: [045. K-평균 군집화 — K-Means Clustering](/studynote/10_ai/01_ai_basics/045_kmeans/)
-**다음**: [047. 계층적 군집화 — Hierarchical Clustering](/studynote/10_ai/01_ai_basics/047_hierarchical_clustering/) ->
-
----

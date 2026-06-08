@@ -112,12 +112,3 @@ Kubernetes에서는 NetworkPolicy, Cilium/eBPF, Istio authorization policy가 �
 | SASE | 네트워크 보안 기능의 클라우드 통합 제공 |
 | eBPF | 커널 수준 트래픽 관찰과 집행 |
 | Service Mesh | 서비스 간 인증, 인가, 암호화 제어 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 633 / 800
-
-<- **이전**: [632. 클라우드 보안 CSPM CWPP CNAPP](/studynote/06_ict_convergence/uncategorized/632_cloud_security_cspm_cwpp_cnapp/)
-**다음**: [634. 클라우드 데이터 레이크 아키텍처 설계](/studynote/06_ict_convergence/uncategorized/634_cloud_data_lake_architecture_design/) ->
-
----

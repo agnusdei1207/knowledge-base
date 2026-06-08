@@ -110,12 +110,3 @@ V2X 차량 통신 C-V2X DSRC은(는) 현장의 상태를 데이터로 가시화�
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 583 / 800
-
-<- **이전**: [582. 자율주행 센서퓨전 아키텍처](/studynote/06_ict_convergence/uncategorized/582_autonomous_vehicle_sensor_fusion_architecture/)
-**다음**: [584. 스마트시티 도시 데이터 플랫폼](/studynote/06_ict_convergence/uncategorized/584_smart_city_urban_data_platform/) ->
-
----

@@ -8,16 +8,16 @@ weight: 217
 ## 핵심 인사이트 (3줄 요약)
 
 - 제조 빅데이터의 핵심 가치는 <strong>계획되지 않은 다운타임(Unplanned Downtime) 제거</strong>에 있다. 설비 1시간 정지 손실이 수억 원인 산업에서 예지정비는 투자 대비 효과가 가장 높다.
-- [PdM](/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/) (Predictive Maintenance, 예지정비)은 "고장 나면 수리"에서 "고장 나기 전에 교체"로 정비 패러다임을 전환한다.
-- [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) (Industrial [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 산업사물인터넷) + 시계열 DB + [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 결합이 제조 빅데이터 아키텍처의 표준 구성이다.
+- PdM (Predictive Maintenance, 예지정비)은 "고장 나면 수리"에서 "고장 나기 전에 교체"로 정비 패러다임을 전환한다.
+- IIoT (Industrial IoT, 산업사물인터넷) + 시계열 DB + 엣지 컴퓨팅의 결합이 제조 빅데이터 아키텍처의 표준 구성이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-인더스트리 4.0(Industry 4.0)의 핵심은 물리적 생산 시스템과 디지털 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레이어의 융합이다. 센서가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 진동·온도·[전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)·압력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 설비의 "건강 상태"를 실시간으로 반영하며, 이를 분석하면 고장이 가시화되기 훨씬 전에 이상을 감지할 수 있다.
+인더스트리 4.0(Industry 4.0)의 핵심은 물리적 생산 시스템과 디지털 데이터 플레이어의 융합이다. 센서가 생성하는 진동·온도·전류·압력 데이터는 설비의 "건강 상태"를 실시간으로 반영하며, 이를 분석하면 고장이 가시화되기 훨씬 전에 이상을 감지할 수 있다.
 
-### 정비 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 진화
+### 정비 전략의 진화
 
 ```
 +-----------------------------------------------------------------+
@@ -43,7 +43,7 @@ weight: 217
 
 ### OEE (Overall Equipment Effectiveness, 종합설비효율)
 
-- <strong>OEE = 가동률 × <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>률 × 품질률</strong>
+- <strong>OEE = 가동률 × 성능률 × 품질률</strong>
 - 세계 평균 OEE: 약 60%, 우수 기업: 85% 이상
 - 빅데이터 목표: OEE를 1~5%p 개선 -> 수십억 원 가치
 
@@ -53,7 +53,7 @@ weight: 217
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 기반 예지정비 아키텍처
+### IIoT 기반 예지정비 아키텍처
 
 ```
 +-----------------------------------------------------------------+
@@ -100,32 +100,32 @@ weight: 217
 
 ### 불량 감지 (Quality Control) — 컴퓨터 비전
 
-| 전통 방식 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비전 방식 | 개선 효과 |
+| 전통 방식 | AI 비전 방식 | 개선 효과 |
 |:---|:---|:---|
-| 샘플링 검사 (5~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%) | 100% 전수 검사 | 불량 유출 대폭 감소 |
-| 검사원 피로 오류 | [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 자동 판정 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 |
-| 시간당 제한 검사량 | 라인 속도와 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 병목 제거 |
-| 주관적 판정 기준 | 정량적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 기준 표준화 |
+| 샘플링 검사 (5~10%) | 100% 전수 검사 | 불량 유출 대폭 감소 |
+| 검사원 피로 오류 | CNN 기반 자동 판정 | 일관성 유지 |
+| 시간당 제한 검사량 | 라인 속도와 동기화 | 처리량 병목 제거 |
+| 주관적 판정 기준 | 정량적 결함 분류 | 기준 표준화 |
 
-<strong><a href="/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 불량 탐지 구조</strong>:
+<strong>CNN 불량 탐지 구조</strong>:
 - 입력: 고해상도 카메라 이미지 (4K, >100fps)
-- 모델: [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) / EfficientNet 전이학습 + [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)
-- 출력: [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) + 위치 바운딩박스
+- 모델: ResNet / EfficientNet 전이학습 + 결함 세그멘테이션
+- 출력: 결함 유형 분류 + 위치 바운딩박스
 
-> 📢 **섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 불량 감지는 "눈이 100개 달린 검사관이 1초도 쉬지 않고 모든 제품을 들여다보는 것"이다. 사람은 지치지만 AI는 지치지 않는다.
+> 📢 **섹션 요약 비유**: AI 불량 감지는 "눈이 100개 달린 검사관이 1초도 쉬지 않고 모든 제품을 들여다보는 것"이다. 사람은 지치지만 AI는 지치지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 제조 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 비교
+### 제조 데이터 프로토콜 비교
 
-| [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 특징 | 용도 | 표준화 |
+| 프로토콜 | 특징 | 용도 | 표준화 |
 |:---|:---|:---|:---|
-| [MQTT](/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) | 경량 Pub/Sub, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 최적화 | 센서->브로커 전송 | ISO 20922 |
-| OPC-UA | 보안·[인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 강화, 구조적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)/[SCADA](/studynote/09_security/18_iot_ot_physical/894_scada/) 연동 | IEC 62541 |
-| Modbus | 레거시 호환, 단순 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 구형 설비 통신 | 사실상 표준 |
-| AMQP | [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 | 기업급 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 | ISO 19464 |
+| MQTT | 경량 Pub/Sub, IoT 최적화 | 센서->브로커 전송 | ISO 20922 |
+| OPC-UA | 보안·인증 강화, 구조적 데이터 | PLC/SCADA 연동 | IEC 62541 |
+| Modbus | 레거시 호환, 단순 프로토콜 | 구형 설비 통신 | 사실상 표준 |
+| AMQP | 신뢰성 높은 메시지 큐 | 기업급 메시징 | ISO 19464 |
 
 ### 정비 비용 비교
 
@@ -135,34 +135,34 @@ weight: 217
 예지 정비 비용  : ██████                30%  <- 목표
 ```
 
-> 📢 **섹션 요약 비유**: MQTT는 "공장 안 센서가 속삭이는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 빠르게 전달하는 라디오"고, OPC-UA는 "기계와 시스템이 서로 믿고 대화하는 암호화된 전화"다.
+> 📢 **섹션 요약 비유**: MQTT는 "공장 안 센서가 속삭이는 메시지를 빠르게 전달하는 라디오"고, OPC-UA는 "기계와 시스템이 서로 믿고 대화하는 암호화된 전화"다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) 공정 예지정비
+### 실무 시나리오: 반도체 CMP 공정 예지정비
 
-**환경**: [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)(Chemical Mechanical Planarization) 장비. 장비 1대 정지 손실 = 시간당 수억 원.
+**환경**: 반도체 CMP(Chemical Mechanical Planarization) 장비. 장비 1대 정지 손실 = 시간당 수억 원.
 
-<strong><a href="/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링</strong>:
+<strong>피처 엔지니어링</strong>:
 
-| [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 | 이상 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) |
+| 피처 | 데이터 출처 | 이상 신호 |
 |:---|:---|:---|
 | 진동 주파수 스펙트럼 | 가속도 센서 | 특정 주파수 대역 에너지 증가 |
-| 슬러리 유량 편차 | 유량계 | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값 ±5% 초과 |
+| 슬러리 유량 편차 | 유량계 | 설정값 ±5% 초과 |
 | 패드 온도 분포 | 적외선 센서 | 국소 과열 패턴 |
-| 스핀들 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 센서 | 마찰 증가 -> [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 상승 |
+| 스핀들 전류 | 전류 센서 | 마찰 증가 -> 전류 상승 |
 
 **모델 선택 기준**:
 
 | 조건 | 선택 모델 | 이유 |
 |:---|:---|:---|
-| 라벨 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충분 | [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/) / TCN | [지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)으로 높은 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) |
-| 라벨 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족 | [Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) | 정상 패턴만으로 [비지도 학습](/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) |
-| 해석 중요 | [Gradient Boosting](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) + [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) | [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도 설명 |
+| 라벨 데이터 충분 | LSTM / TCN | 지도 학습으로 높은 정밀도 |
+| 라벨 데이터 부족 | Autoencoder | 정상 패턴만으로 비지도 학습 |
+| 해석 중요 | Gradient Boosting + SHAP | 피처 중요도 설명 |
 
-> 📢 **섹션 요약 비유**: [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공장에서 예지정비는 "수술실 장비가 수술 도중 꺼지지 않도록 미리 점검하는 것"과 같다. 타이밍이 생명이기 때문에 조기 경보가 핵심이다.
+> 📢 **섹션 요약 비유**: 반도체 공장에서 예지정비는 "수술실 장비가 수술 도중 꺼지지 않도록 미리 점검하는 것"과 같다. 타이밍이 생명이기 때문에 조기 경보가 핵심이다.
 
 ---
 
@@ -170,15 +170,15 @@ weight: 217
 
 | 효과 | 수치 예시 |
 |:---|:---|
-| 비계획 다운타임 감소 | [PdM](/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/) 도입 시 30~50% 감소 |
+| 비계획 다운타임 감소 | PdM 도입 시 30~50% 감소 |
 | 정비 비용 절감 | 예방 정비 대비 25~35% 절감 |
-| 불량률 감소 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비전 검사로 불량 유출 80~95% 감소 |
+| 불량률 감소 | AI 비전 검사로 불량 유출 80~95% 감소 |
 | OEE 향상 | 평균 3~8%p 향상 -> 생산 용량 증가 |
-| 에너지 절감 | 최적 생산 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)로 피크 전력 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 감소 |
+| 에너지 절감 | 최적 생산 스케줄로 피크 전력 10~20% 감소 |
 
-**결론**: 제조 빅데이터는 생산 라인의 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 관리하는 핵심 인프라다. [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/)->엣지->클라우드의 3계층 아키텍처와 [시계열 분석](/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/) 역량이 성공의 열쇠이며, 기술사는 IT/[OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 통합의 보안 위험과 레거시 장비 연동 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 설계해야 한다.
+**결론**: 제조 빅데이터는 생산 라인의 신뢰성을 데이터 기반으로 관리하는 핵심 인프라다. IIoT->엣지->클라우드의 3계층 아키텍처와 시계열 분석 역량이 성공의 열쇠이며, 기술사는 IT/OT 통합의 보안 위험과 레거시 장비 연동 전략을 함께 설계해야 한다.
 
-> 📢 **섹션 요약 비유**: 제조 빅데이터는 "공장 전체가 하나의 살아있는 유기체처럼 자신의 건강 상태를 스스로 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 것"이다. 문제가 생기기 전에 몸이 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 보내고, AI가 그 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 듣는다.
+> 📢 **섹션 요약 비유**: 제조 빅데이터는 "공장 전체가 하나의 살아있는 유기체처럼 자신의 건강 상태를 스스로 모니터링하는 것"이다. 문제가 생기기 전에 몸이 신호를 보내고, AI가 그 신호를 듣는다.
 
 ---
 
@@ -186,11 +186,11 @@ weight: 217
 
 | 개념 | 연관 개념 | 비고 |
 |:---|:---|:---|
-| [PdM](/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/) (예지정비) | [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/), [Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/), RUL, CMMS | 제조 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 핵심 |
-| OEE (종합설비효율) | 가동률, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)률, 품질률 | 제조 [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/) |
-| [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) (산업사물인터넷) | [MQTT](/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/), OPC-UA, [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 인프라 |
-| 컴퓨터 비전 검사 | [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 | 품질 관리 자동화 |
-| 시계열 DB | [InfluxDB](/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/), TimescaleDB | 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 최적화 |
+| PdM (예지정비) | LSTM, Autoencoder, RUL, CMMS | 제조 AI 핵심 |
+| OEE (종합설비효율) | 가동률, 성능률, 품질률 | 제조 KPI |
+| IIoT (산업사물인터넷) | MQTT, OPC-UA, 엣지 컴퓨팅 | 데이터 수집 인프라 |
+| 컴퓨터 비전 검사 | CNN, ResNet, 결함 탐지 | 품질 관리 자동화 |
+| 시계열 DB | InfluxDB, TimescaleDB | 센서 데이터 저장 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -219,15 +219,4 @@ weight: 217
 
 - 제조 빅데이터는 "공장 기계가 아프기 전에 '나 좀 이상해'라고 말하는 시스템"이다.
 - 예지정비는 "이가 썩기 전에 치과를 예약하는 것"처럼 미리 고장을 막는 것이다.
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 불량 검사는 "100개의 제품을 1초도 안 걸려 다 검사하는 로봇 눈"이다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 217 / 262
-
-<- **이전**: [211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획](/studynote/16_bigdata/11_industry/216_public_bigdata/)
-**다음**: [213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로](/studynote/16_bigdata/11_industry/218_retail_logistics_bigdata/) ->
-
----
+- AI 불량 검사는 "100개의 제품을 1초도 안 걸려 다 검사하는 로봇 눈"이다.

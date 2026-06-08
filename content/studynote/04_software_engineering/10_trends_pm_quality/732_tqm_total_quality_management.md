@@ -7,8 +7,8 @@ weight: 732
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: TQM 전사적 품질 관리 예방 위주은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,15 +17,15 @@ weight: 732
 
 1950년대 공장에서는 컨베이어 벨트 끝에 검사관을 세워두고, 다 만들어진 물건 중 불량품을 버리는 방식(QC, Quality Control)을 썼다. 이 방식은 불량품을 만드는 데 이미 재료비와 인건비가 낭비되었기 때문에 회사에 엄청난 손실을 입혔다.
 
-일본의 도요타 등은 사고방식을 완전히 바꿨다. "마지막에 검사하지 말고, 아예 처음부터 불량이 안 나오는 제조 공정(프로세스)을 만들자!" 이를 위해 부품을 깎는 노동자부터 사장님까지 전 직원이 품질 개선에 참여하는 문화가 생겼고, 이것이 미국으로 건너가 <strong>TQM (<a href="/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/">Total Quality Management</a>)</strong>이라는 경영 철학으로 정립되었다.
+일본의 도요타 등은 사고방식을 완전히 바꿨다. "마지막에 검사하지 말고, 아예 처음부터 불량이 안 나오는 제조 공정(프로세스)을 만들자!" 이를 위해 부품을 깎는 노동자부터 사장님까지 전 직원이 품질 개선에 참여하는 문화가 생겼고, 이것이 미국으로 건너가 <strong>TQM (Total Quality Management)</strong>이라는 경영 철학으로 정립되었다.
 
-소프트웨어 역시 마찬가지다. 배포 전날 QA 팀이 밤을 새워 버그를 100개 찾는 것(QC)보다, 애초에 개발자가 버그를 낼 수 없는 아키텍처와 [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 문화를 정착시키는 것(TQM)이 훨씬 싸고 완벽하다.
+소프트웨어 역시 마찬가지다. 배포 전날 QA 팀이 밤을 새워 버그를 100개 찾는 것(QC)보다, 애초에 개발자가 버그를 낼 수 없는 아키텍처와 시큐어 코딩 문화를 정착시키는 것(TQM)이 훨씬 싸고 완벽하다.
 
 - **📢 섹션 요약 비유**: 충치가 생긴 뒤에 치과에 가서 이를 뽑는 것은 QC(사후 통제)다. TQM은 아예 충치가 안 생기도록, 엄마(경영진)가 매일 밤 양치질 검사를 하고 냉장고에서 사탕을 치워버리는 전 가족의 예방 프로젝트다.
 
 ---
 
-다음은 TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 TQM 전사적 품질 관리 예방 위주의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -40,7 +40,7 @@ weight: 732
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 TQM 전사적 품질 관리 예방 위주가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -52,11 +52,11 @@ weight: 732
 
 TQM은 단순히 '결함률 제로(0)'라는 결과가 아니라, 그 결과를 만들어내는 '문화와 프로세스'에 집중한다.
 
-- **📢 섹션 요약 비유**: TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: TQM 전사적 품질 관리 예방 위주은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | TQM 전사적 품질 관리 예방 위주의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -70,11 +70,11 @@ TQM은 단순히 '결함률 제로(0)'라는 결과가 아니라, 그 결과를 
 
 TQM과 소프트웨어 세계의 QA(품질 보증)는 어떻게 다를까?
 
-| 비교 항목 | QA (Quality Assurance) | TQM ([Total Quality Management](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/)) |
+| 비교 항목 | QA (Quality Assurance) | TQM (Total Quality Management) |
 |:---|:---|:---|
 | **주요 초점** | 프로세스 준수 및 산출물 보장 | **조직 문화, 리더십, 고객 만족** |
-| **적용 범위** | 소프트웨어 개발 수명 주기([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 내 | <strong>경영 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>, 인사, 영업 등 회사 전체</strong> |
-| **핵심 활동** | 리뷰, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/)), 테스팅 프로세스 | 품질 경영, 식스시그마([6 Sigma](/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)), 사내 교육 |
+| **적용 범위** | 소프트웨어 개발 수명 주기(SDLC) 내 | <strong>경영 전략, 인사, 영업 등 회사 전체</strong> |
+| **핵심 활동** | 리뷰, 감사(Audit), 테스팅 프로세스 | 품질 경영, 식스시그마(6 Sigma), 사내 교육 |
 | **목표** | 불량이 발생하지 않는 프로세스 구축 | **품질을 통한 기업의 궁극적 경쟁력 제고** |
 
 즉, 소프트웨어 개발팀이 하는 QA 활동은 기업 전체가 추구하는 거대한 TQM 우산 아래에 속해 있는 하위 실행 단위다.
@@ -93,7 +93,7 @@ TQM과 소프트웨어 세계의 QA(품질 보증)는 어떻게 다를까?
 
 TQM을 도입한다고 하면서 책상에 '품질 제일' 표어만 붙여놓고 끝나는 경우가 많다. 실무에서는 명확한 계량화와 프로세스 모델이 필요하다.
 
-- **📢 섹션 요약 비유**: TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: TQM 전사적 품질 관리 예방 위주은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -103,9 +103,9 @@ TQM을 도입한다고 하면서 책상에 '품질 제일' 표어만 붙여놓�
 
 ## Ⅴ. 기대효과 및 결론
 
-TQM이 성공적으로 내재화된 기업(예: 구글의 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 문화, 도요타의 린 생산 방식)은 버그가 터진 후 개발자를 비난(Blame)하지 않는다. 대신 "어떤 프로세스의 빈틈이 이 버그를 실서버까지 살아서 가게 만들었는가?"를 질문하고 시스템을 고친다([Blameless Post-mortem](/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/)).
+TQM이 성공적으로 내재화된 기업(예: 구글의 SRE 문화, 도요타의 린 생산 방식)은 버그가 터진 후 개발자를 비난(Blame)하지 않는다. 대신 "어떤 프로세스의 빈틈이 이 버그를 실서버까지 살아서 가게 만들었는가?"를 질문하고 시스템을 고친다(Blameless Post-mortem).
 
-결론적으로 기술 리더는 "QA 팀의 인원을 늘려서 테스트를 빡세게 하라"고 지시하는 사람이 아니다. 경영진을 설득하여 <strong>개발, 기획, 인프라 전 부서가 <a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 설계 단계부터 품질(Quality)을 고민하도록 조직의 체질을 완전히 뜯어고치는 TQM 마에스트로</strong>가 되어야 한다.
+결론적으로 기술 리더는 "QA 팀의 인원을 늘려서 테스트를 빡세게 하라"고 지시하는 사람이 아니다. 경영진을 설득하여 <strong>개발, 기획, 인프라 전 부서가 초기 설계 단계부터 품질(Quality)을 고민하도록 조직의 체질을 완전히 뜯어고치는 TQM 마에스트로</strong>가 되어야 한다.
 
 - **📢 섹션 요약 비유**: 나무에 썩은 열매가 자꾸 열릴 때, 가지에 매달려 썩은 열매만 하루 종일 따서 버리는 것은 하수(QC)다. 진짜 농부(TQM)는 나무뿌리에 병이 들었는지 흙과 비료를 갈아엎는 근본적인 체질 개선을 한다.
 
@@ -121,10 +121,10 @@ TQM이 성공적으로 내재화된 기업(예: 구글의 [SRE](/studynote/04_so
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | TQM 전사적 품질 관리 예방 위주의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | TQM 전사적 품질 관리 예방 위주은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | TQM 전사적 품질 관리 예방 위주 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | TQM 전사적 품질 관리 예방 위주에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,21 +144,10 @@ TQM 전사적 품질 관리 예방 위주 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. TQM [전사적 품질 관리](/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. TQM 전사적 품질 관리 예방 위주은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 905 / 973
-
-<- **이전**: [731. ATAM 트레이드오프 분석 평가 트리](/studynote/04_software_engineering/10_trends_pm_quality/731_atam_architecture_tradeoff_analysis/)
-**다음**: [733. GQM 지표 측정 골 기반 구조](/studynote/04_software_engineering/10_trends_pm_quality/733_gqm_goal_question_metric/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

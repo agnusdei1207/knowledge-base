@@ -6,13 +6,13 @@ tags:
 weight: 836
 ---
 > **핵심 인사이트**
-> 1. [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)([Business Process Outsourcing](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))는 기업의 비핵심 비즈니스 프로세스(인사, 회계, 고객 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 등)를 전문 외부 기업에 위탁하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 — 핵심 역량(Core Competency)에 집중하고 규모의 경제·전문성을 활용하여 비용 절감과 품질 향상을 동시에 달성한다.
-> 2. BPO는 위치에 따라 온쇼어(국내), 니어쇼어(인접국), 오프쇼어(원격국)로 구분되며 — 비용·품질·[리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)·제어 수준 간의 트레이드오프가 다르고, [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)·[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 보호법([GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/))이 오프쇼어 BPO의 규제 장벽이 되고 있다.
-> 3. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)([Robotic Process Automation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))의 확산으로 전통적 BPO는 "지식 프로세스 아웃소싱(KPO)"과 "자동화 기반 [ITO](/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/)/[BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 융합"으로 진화하며 — 단순 반복 업무는 자동화로 대체되고 판단·분석이 필요한 고가치 업무로 [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 범위가 이동하고 있다.
+> 1. BPO(Business Process Outsourcing)는 기업의 비핵심 비즈니스 프로세스(인사, 회계, 고객 서비스, 공급망 등)를 전문 외부 기업에 위탁하는 전략으로 — 핵심 역량(Core Competency)에 집중하고 규모의 경제·전문성을 활용하여 비용 절감과 품질 향상을 동시에 달성한다.
+> 2. BPO는 위치에 따라 온쇼어(국내), 니어쇼어(인접국), 오프쇼어(원격국)로 구분되며 — 비용·품질·리스크·제어 수준 간의 트레이드오프가 다르고, 데이터 주권·개인정보 보호법(GDPR)이 오프쇼어 BPO의 규제 장벽이 되고 있다.
+> 3. AI·RPA(Robotic Process Automation)의 확산으로 전통적 BPO는 "지식 프로세스 아웃소싱(KPO)"과 "자동화 기반 ITO/BPO 융합"으로 진화하며 — 단순 반복 업무는 자동화로 대체되고 판단·분석이 필요한 고가치 업무로 BPO 범위가 이동하고 있다.
 
 ---
 
-## Ⅰ. [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 개념
+## Ⅰ. BPO 개념
 
 ```
 BPO (Business Process Outsourcing):
@@ -60,7 +60,7 @@ BPO 위치 분류:
 
 ---
 
-## Ⅱ. [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크
+## Ⅱ. BPO 전략 프레임워크
 
 ```
 BPO 결정 매트릭스:
@@ -102,11 +102,11 @@ SLA 핵심 KPI:
   대응: 이중 벤더, 강력한 SLA, 감사 권한
 ```
 
-> 📢 **섹션 요약 비유**: [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) SLA는 청소 도우미 계약서 — "일주일 3회 방문, 화장실 청결도 95% 이상, 지각 3회 시 계약 해지". SLA는 결과를 계약으로 보장하는 방법.
+> 📢 **섹션 요약 비유**: BPO SLA는 청소 도우미 계약서 — "일주일 3회 방문, 화장실 청결도 95% 이상, 지각 3회 시 계약 해지". SLA는 결과를 계약으로 보장하는 방법.
 
 ---
 
-## Ⅲ. RPA와 [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 융합
+## Ⅲ. RPA와 BPO 융합
 
 ```
 RPA (Robotic Process Automation) + BPO:
@@ -149,11 +149,11 @@ ITO vs BPO vs KPO:
   고부가가치 지식 업무로 이동 추세
 ```
 
-> 📢 **섹션 요약 비유**: [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) + BPO는 자동 생산라인 + 전문 공장 — 자동화 로봇([RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))이 단순 작업하고, 전문 외주 공장([BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))이 판단이 필요한 복잡한 작업 처리.
+> 📢 **섹션 요약 비유**: RPA + BPO는 자동 생산라인 + 전문 공장 — 자동화 로봇(RPA)이 단순 작업하고, 전문 외주 공장(BPO)이 판단이 필요한 복잡한 작업 처리.
 
 ---
 
-## Ⅳ. [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 전환 과정
+## Ⅳ. BPO 전환 과정
 
 ```
 BPO 전환 프로세스:
@@ -195,11 +195,11 @@ BPO 전환 프로세스:
   직원 만족도: 핵심 업무 집중으로 개선 여부
 ```
 
-> 📢 **섹션 요약 비유**: [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 전환은 집 이사 — 새 집(벤더)을 구하고, 짐(지식)을 옮기고, 며칠 병행 생활(병행 운영)하다가 완전히 이사. 처음엔 불편하지만 결국 더 효율적.
+> 📢 **섹션 요약 비유**: BPO 전환은 집 이사 — 새 집(벤더)을 구하고, 짐(지식)을 옮기고, 며칠 병행 생활(병행 운영)하다가 완전히 이사. 처음엔 불편하지만 결국 더 효율적.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 글로벌 제조기업 [BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)
+## Ⅴ. 실무 시나리오 — 글로벌 제조기업 BPO
 
 ```
 글로벌 제조기업 F&A BPO 전환:
@@ -241,7 +241,7 @@ BPO 결정:
   데이터 보안 계약 (GDPR 준수) 필수
 ```
 
-> 📢 **섹션 요약 비유**: F&A BPO는 외식업체 위탁 급식 — 직원 식당을 직접 운영하는 것(내재화)보다, 전문 외식업체([BPO](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))에 맡겨 비용 절감 + 품질 향상. 요리는 맡기고, 메뉴([전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))는 우리가 결정.
+> 📢 **섹션 요약 비유**: F&A BPO는 외식업체 위탁 급식 — 직원 식당을 직접 운영하는 것(내재화)보다, 전문 외식업체(BPO)에 맡겨 비용 절감 + 품질 향상. 요리는 맡기고, 메뉴(전략)는 우리가 결정.
 
 ---
 
@@ -298,15 +298,4 @@ BPO의 고부가가치화
 
 1. BPO는 집안일 외주 — 요리(핵심 사업)는 내가 하고, 청소(회계)·빨래(HR)는 전문 도우미에게 맡겨서 더 중요한 일에 집중해요!
 2. SLA는 도우미와의 계약서 — "화장실 청결도 95% 이상, 어기면 계약 해지". 품질을 계약으로 보장받아요.
-3. [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) + BPO는 자동 청소기 + 도우미 — 로봇 청소기([RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))가 단순 청소하고, 도우미는 복잡한 집안일만. 더 효율적이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 80 / 587
-
-<- **이전**: [44. BPO (Business Process Outsourcing)](/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)
-**다음**: [045. 클라우드 MSP — Cloud Managed Service Provider](/studynote/12_it_management/01_governance_strategy/045_msp_cloud_managed_service_provider/) ->
-
----
+3. RPA + BPO는 자동 청소기 + 도우미 — 로봇 청소기(RPA)가 단순 청소하고, 도우미는 복잡한 집안일만. 더 효율적이에요!

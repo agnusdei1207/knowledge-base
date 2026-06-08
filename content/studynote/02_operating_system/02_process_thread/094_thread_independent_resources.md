@@ -6,19 +6,19 @@ tags:
 weight: 94
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 프로세스의 자원을 공유하지만, 독립적인 실행 흐름 (Execution Flow)을 유지하기 위해 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ID (TID), [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Registers), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 고유하게 할당받는다.
-> 2. **가치**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 PC를 독립적으로 보유함으로써, 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 코드 영역을 공유하면서도 서로 다른 함수 위치에서 자신만의 지역 변수를 가지고 충돌 없이 비동기적으로 함수를 호출하고 복귀할 수 있다.
-> 3. **판단 포인트**: [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 시 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태를 저장하고 복원하는 핵심 대상이 바로 이 독립 자원들이며, 이 자원들의 크기가 전체 시스템이 생성할 수 있는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 밀도의 한계를 결정한다.
+> 1. **본질**: 스레드 (Thread)는 프로세스의 자원을 공유하지만, 독립적인 실행 흐름 (Execution Flow)을 유지하기 위해 스레드 ID (TID), 프로그램 카운터 (PC), 레지스터 (Registers), 스택 (Stack)은 스레드별로 고유하게 할당받는다.
+> 2. **가치**: 스택과 PC를 독립적으로 보유함으로써, 여러 스레드가 코드 영역을 공유하면서도 서로 다른 함수 위치에서 자신만의 지역 변수를 가지고 충돌 없이 비동기적으로 함수를 호출하고 복귀할 수 있다.
+> 3. **판단 포인트**: 컨텍스트 스위칭 (Context Switching) 시 스레드의 상태를 저장하고 복원하는 핵심 대상이 바로 이 독립 자원들이며, 이 자원들의 크기가 전체 시스템이 생성할 수 있는 동시성 (Concurrency) 밀도의 한계를 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 독립 자원 (Independent Resources)은 동일한 프로세스 내에서 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 논리적으로 독립된 실행 흐름을 보장받기 위해 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 메모리 할당기가 개별 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 고유하게 부여하는 최소한의 실행 문맥 (Execution [Context](/studynote/02_operating_system/01_overview_architecture/033_context/))이다.
+스레드의 독립 자원 (Independent Resources)은 동일한 프로세스 내에서 여러 스레드가 논리적으로 독립된 실행 흐름을 보장받기 위해 운영체제 (OS, Operating System) 커널과 메모리 할당기가 개별 스레드마다 고유하게 부여하는 최소한의 실행 문맥 (Execution Context)이다.
 
-모든 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))나 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)마저 공유한다면, 한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 함수 A를 실행하고 있을 때 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 함수 B를 실행하려 하면 명령 실행 위치와 지역 변수들이 뒤섞여 엉망이 된다. 따라서 코드([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 같은 공유 자원의 이점은 살리되, "실행의 추적"은 각자 관리해야만 멀티태스킹이 온전히 동작할 수 있다.
+모든 스레드가 프로그램 카운터 (PC)나 스택마저 공유한다면, 한 스레드가 함수 A를 실행하고 있을 때 다른 스레드가 함수 B를 실행하려 하면 명령 실행 위치와 지역 변수들이 뒤섞여 엉망이 된다. 따라서 코드(Code), 데이터(Data), 힙(Heap) 같은 공유 자원의 이점은 살리되, "실행의 추적"은 각자 관리해야만 멀티태스킹이 온전히 동작할 수 있다.
 
-- **📢 섹션 요약 비유**: 영화관에서 여러 사람이 같은 영화([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 보더라도, 각자의 뇌리([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))에 남는 감상 포인트와 기억의 위치([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))는 모두 독립적으로 존재하는 것과 같다.
+- **📢 섹션 요약 비유**: 영화관에서 여러 사람이 같은 영화(Code)를 보더라도, 각자의 뇌리(Register)에 남는 감상 포인트와 기억의 위치(PC)는 모두 독립적으로 존재하는 것과 같다.
 
 ---
 
@@ -28,12 +28,12 @@ weight: 94
 
 | 구성 요소 | 역할 | 내부 동작 | 관리 위치 |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> ID (TID)</strong> | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 고유 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | OS [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 타겟을 지정할 때 사용 | TCB ([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block) |
-| <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> (Program <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a>)</strong> | 다음 번 실행할 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소 | CPU Fetch 사이클마다 자동 증가 갱신 | TCB 내 문맥 정보 |
-| <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a> 집합</strong> | 연산의 중간 결과, 상태 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) | [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 CPU에서 읽어와 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)됨 | TCB ([컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 저장소) |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> (<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>)</strong> | 매개변수, 복귀 주소, 지역 변수 보관 | 함수 [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) 시 Push, Return 시 [Pop](/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) | 프로세스 주소 공간 내 개별 할당 |
+| <strong>Thread ID (TID)</strong> | 스레드의 고유 식별자 | OS 스케줄러가 타겟을 지정할 때 사용 | TCB (Thread Control Block) |
+| <strong>PC (Program Counter)</strong> | 다음 번 실행할 명령어 주소 | CPU Fetch 사이클마다 자동 증가 갱신 | TCB 내 문맥 정보 |
+| <strong>Register 집합</strong> | 연산의 중간 결과, 상태 플래그 | 문맥 교환 시 CPU에서 읽어와 백업됨 | TCB (컨텍스트 저장소) |
+| <strong>Stack (스택)</strong> | 매개변수, 복귀 주소, 지역 변수 보관 | 함수 Call 시 Push, Return 시 Pop | 프로세스 주소 공간 내 개별 할당 |
 
-[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시, 프로세스의 무거운 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑([TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 등)은 그대로 두고 이 가벼운 독립 자원 정보들만 CPU와 TCB 사이에서 교체된다.
+스레드 문맥 교환 시, 프로세스의 무거운 가상 메모리 매핑(TLB 등)은 그대로 두고 이 가벼운 독립 자원 정보들만 CPU와 TCB 사이에서 교체된다.
 
 ```text
 +------------------------------------------------------------------------+
@@ -55,26 +55,26 @@ weight: 94
 +------------------------------------------------------------------------+
 ```
 
-다이어그램이 보여주듯, 각 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 전용 [스택 포인터](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer)를 가지며 함수를 호출한다. 이 구조 덕분에 한 함수를 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 호출(Re-entrant)하더라도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌 없이 안전한 처리가 가능하다.
+다이어그램이 보여주듯, 각 스레드는 전용 스택 포인터 (SP, Stack Pointer)를 가지며 함수를 호출한다. 이 구조 덕분에 한 함수를 여러 스레드가 동시에 호출(Re-entrant)하더라도 데이터 충돌 없이 안전한 처리가 가능하다.
 
-- **📢 섹션 요약 비유**: 등산객들이 같은 산([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))을 오르지만, 각자의 배낭([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))에는 본인만의 식량과 현재 어느 지점까지 왔는지 기록한 나침반([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 따로 들어있는 것과 같다.
+- **📢 섹션 요약 비유**: 등산객들이 같은 산(Code)을 오르지만, 각자의 배낭(Stack)에는 본인만의 식량과 현재 어느 지점까지 왔는지 기록한 나침반(PC)이 따로 들어있는 것과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-독립 자원의 구조를 가장 잘 이해할 수 있는 것은 전통적인 OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 최신 [코루틴](/studynote/02_operating_system/02_process_thread/141_coroutine/) ([Coroutine](/studynote/02_operating_system/02_process_thread/141_coroutine/))의 비교다.
+독립 자원의 구조를 가장 잘 이해할 수 있는 것은 전통적인 OS 스레드와 최신 코루틴 (Coroutine)의 비교다.
 
-| 비교 항목 | OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (OS [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) | [코루틴](/studynote/02_operating_system/02_process_thread/141_coroutine/) / 가상 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Virtual [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) |
+| 비교 항목 | OS 스레드 (OS Thread) | 코루틴 / 가상 스레드 (Virtual Thread) |
 |:---|:---|:---|
-| **제어 주체** | OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (선점형) | 사용자 레벨 런타임 (비선점형) |
-| <strong>TCB / <a href="/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a></strong> | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 무거운 TCB 객체 보관 | 유저 힙 ([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))에 가벼운 상태 객체로 저장 |
-| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 크기 (핵심 차이)</strong>| <strong>고정된 큰 <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 할당 (보통 1~8MB)</strong> | <strong>필요 시 수십 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>~KB 단위로 동적 확장</strong> |
-| <strong><a href="/studynote/02_operating_system/01_overview_architecture/034_context_switch/">컨텍스트 스위칭</a></strong> | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환 오버헤드 | 함수 반환 수준의 가벼운 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) |
+| **제어 주체** | OS 커널 스케줄러 (선점형) | 사용자 레벨 런타임 (비선점형) |
+| <strong>TCB / 컨텍스트</strong> | 커널 메모리에 무거운 TCB 객체 보관 | 유저 힙 (Heap)에 가벼운 상태 객체로 저장 |
+| <strong>스택 크기 (핵심 차이)</strong>| <strong>고정된 큰 스택 할당 (보통 1~8MB)</strong> | <strong>필요 시 수십 바이트~KB 단위로 동적 확장</strong> |
+| <strong>컨텍스트 스위칭</strong> | 레지스터 백업 및 커널 모드 전환 오버헤드 | 함수 반환 수준의 가벼운 레지스터 백업 |
 
-OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 독립 자원 중 특히 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 고정된 메가바이트(MB) 단위로 낭비하며 확보한다. 수만 개를 띄우면 메모리가 고갈된다. 반면 [코루틴](/studynote/02_operating_system/02_process_thread/141_coroutine/)이나 Go의 고루틴은 이 독립 자원([스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 극단적으로 경량화하여 동적 할당함으로써 한 대의 서버에서 수십만 개의 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 확보할 수 있게 한다.
+OS 스레드는 독립 자원 중 특히 스택을 고정된 메가바이트(MB) 단위로 낭비하며 확보한다. 수만 개를 띄우면 메모리가 고갈된다. 반면 코루틴이나 Go의 고루틴은 이 독립 자원(스택)을 극단적으로 경량화하여 동적 할당함으로써 한 대의 서버에서 수십만 개의 동시성을 확보할 수 있게 한다.
 
-- **📢 섹션 요약 비유**: OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 각 요리사에게 무조건 100평짜리 대형 주방(고정 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 할당한다면, [코루틴](/studynote/02_operating_system/02_process_thread/141_coroutine/)은 필요한 만큼만 넓어지는 조립식 테이블(동적 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 주는 것과 같다.
+- **📢 섹션 요약 비유**: OS 스레드가 각 요리사에게 무조건 100평짜리 대형 주방(고정 스택)을 할당한다면, 코루틴은 필요한 만큼만 넓어지는 조립식 테이블(동적 스택)을 주는 것과 같다.
 
 ---
 
@@ -82,20 +82,20 @@ OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)
 
 독립 자원의 오용은 치명적인 프로세스 전체 장애를 부른다.
 
-- <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a> (<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a>)</strong>: 깊은 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출을 하거나 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역에 수십 MB짜리 거대한 지역 변수 배열을 선언하면, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 OS가 허용한 경계를 넘어버려 하드웨어 MMU가 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 던지고, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 속한 프로세스 자체를 Kill 해버린다 (Segfault). 이를 회피하기 위해 거대한 배열은 반드시 공유 자원인 [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역에 할당(`malloc`, `new`)해야 한다.
-- <strong><a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 로컬 누수</strong>: Java Spring 등에서 [Thread Local Storage](/studynote/02_operating_system/02_process_thread/113_thread_local_storage/) ([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))에 사용자의 보안 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보를 남기고 초기화(`remove()`)하지 않으면, [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/)에서 다음 번 재사용될 때 전혀 엉뚱한 사용자가 그 정보를 이어받는 대형 보안 사고가 터진다. [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 독립 자원은 생명주기가 끝날 때 반드시 정리되어야 한다.
+- <strong>스택 오버플로우 (Stack Overflow)</strong>: 깊은 재귀 호출을 하거나 스택 영역에 수십 MB짜리 거대한 지역 변수 배열을 선언하면, 스택이 OS가 허용한 경계를 넘어버려 하드웨어 MMU가 Page Fault를 던지고, 커널은 해당 스레드가 속한 프로세스 자체를 Kill 해버린다 (Segfault). 이를 회피하기 위해 거대한 배열은 반드시 공유 자원인 Heap 영역에 할당(`malloc`, `new`)해야 한다.
+- <strong>스레드 로컬 누수</strong>: Java Spring 등에서 Thread Local Storage (TLS)에 사용자의 보안 인증 정보를 남기고 초기화(`remove()`)하지 않으면, 스레드 풀에서 다음 번 재사용될 때 전혀 엉뚱한 사용자가 그 정보를 이어받는 대형 보안 사고가 터진다. 스레드 독립 자원은 생명주기가 끝날 때 반드시 정리되어야 한다.
 
-- **📢 섹션 요약 비유**: 개인 서랍([스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))에 물건을 너무 꽉 채워 넣어 서랍장이 터져버리면, 방 안의 다른 사람들(프로세스 내 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))까지 모두 쫓겨나게 되는 것과 같다.
+- **📢 섹션 요약 비유**: 개인 서랍(스택)에 물건을 너무 꽉 채워 넣어 서랍장이 터져버리면, 방 안의 다른 사람들(프로세스 내 다른 스레드)까지 모두 쫓겨나게 되는 것과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-독립 자원은 프로세스 내에서 가벼운 형태의 격리를 제공하여, [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)에 걸리는 오버헤드를 마이크로초(us) 단위로 줄이면서도 여러 비동기 요청을 투명하게 처리할 수 있는 완벽한 구조를 선사한다.
+독립 자원은 프로세스 내에서 가벼운 형태의 격리를 제공하여, 문맥 교환에 걸리는 오버헤드를 마이크로초(us) 단위로 줄이면서도 여러 비동기 요청을 투명하게 처리할 수 있는 완벽한 구조를 선사한다.
 
-미래에는 하드웨어 스레딩 ([SMT](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/))의 발전에 따라 CPU 코어 내에 물리적인 PC와 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 셋을 다수 탑재하여 독립 자원의 스위칭 비용을 사실상 0으로 만드는 아키텍처, 혹은 유저 공간에서 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)를 극단적으로 줄이는 그린 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Green [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 기술로 양극화되며 발전할 것이다. 독립 자원은 "[동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이란 무엇인가"를 정의하는 가장 원초적인 메모리이자 지표로 남을 것이다.
+미래에는 하드웨어 스레딩 (SMT)의 발전에 따라 CPU 코어 내에 물리적인 PC와 레지스터 셋을 다수 탑재하여 독립 자원의 스위칭 비용을 사실상 0으로 만드는 아키텍처, 혹은 유저 공간에서 컨텍스트를 극단적으로 줄이는 그린 스레드 (Green Thread) 기술로 양극화되며 발전할 것이다. 독립 자원은 "동시성이란 무엇인가"를 정의하는 가장 원초적인 메모리이자 지표로 남을 것이다.
 
-- **📢 섹션 요약 비유**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 독립 자원은 무대 위 배우들의 각자 머릿속에 든 대본과 같아서, 모두가 한 무대(프로세스)에 서더라도 헷갈림 없이 자신만의 연기(실행)를 완벽하게 해낼 수 있게 해준다.
+- **📢 섹션 요약 비유**: 스레드의 독립 자원은 무대 위 배우들의 각자 머릿속에 든 대본과 같아서, 모두가 한 무대(프로세스)에 서더라도 헷갈림 없이 자신만의 연기(실행)를 완벽하게 해낼 수 있게 해준다.
 
 ---
 
@@ -103,10 +103,10 @@ OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>TCB (<a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Control Block)</strong> | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 독립 자원인 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태, TID를 보관하는 OS의 핵심 자료구조 |
-| <strong><a href="/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> (<a href="/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)</strong> | 매번 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 할당/해제하는 비용을 막기 위해 미리 독립 자원 세트를 만들어놓고 빌려 쓰는 패턴 |
-| **재진입성 (Reentrancy)** | 동일 코드를 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시 실행해도 안전한 성질, 독립된 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조 덕분에 보장됨 |
-| <strong><a href="/studynote/02_operating_system/02_process_thread/113_thread_local_storage/">Thread Local Storage</a> (<a href="/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a>)</strong> | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 고유하게 할당되는 전역 상태 공간으로, 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때 독립 자원처럼 쓰임 |
+| <strong>TCB (Thread Control Block)</strong> | 스레드의 독립 자원인 PC, 레지스터 상태, TID를 보관하는 OS의 핵심 자료구조 |
+| <strong>스레드 풀 (Thread Pool)</strong> | 매번 스택을 할당/해제하는 비용을 막기 위해 미리 독립 자원 세트를 만들어놓고 빌려 쓰는 패턴 |
+| **재진입성 (Reentrancy)** | 동일 코드를 여러 스레드가 동시 실행해도 안전한 성질, 독립된 스택 구조 덕분에 보장됨 |
+| <strong>Thread Local Storage (TLS)</strong> | 스레드마다 고유하게 할당되는 전역 상태 공간으로, 락(Lock) 없이 스레드 전용 데이터를 다룰 때 독립 자원처럼 쓰임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,21 +126,10 @@ OS [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)
 초경량 가상 스레드 (Virtual Thread) / 코루틴의 동적 스택 확장 진화
 ```
 
-이 흐름도는 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 낮추기 위해 하드웨어 레벨의 필수 자원만 남기고 공유하는 구조로의 발전을 보여준다.
+이 흐름도는 문맥 교환 비용을 낮추기 위해 하드웨어 레벨의 필수 자원만 남기고 공유하는 구조로의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 독립 자원은 공책 한 권(프로세스)을 친구들과 같이 쓸 때, "내가 어디까지 읽었지?" 표시하는 <strong>개인용 책갈피 (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong>와 같아요.
-2. 그리고 복잡한 계산을 할 때 남의 공책에 낙서하면 안 되니까, 각자 주머니에 넣어두고 쓰는 <strong>나만의 작은 메모장 (<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong>이기도 해요.
-3. 이 책갈피와 메모장이 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 따로따로 있기 때문에, 수십 명의 친구들이 한 방에 모여 있어도 각자 하던 일을 헷갈리지 않고 착착 해낼 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 94 / 800
-
-<- **이전**: [93. 스레드의 자원 공유 - Code, Data, Heap, 열린 파일](/studynote/02_operating_system/02_process_thread/093_thread_shared_resources/)
-**다음**: [95. 다중 스레드 (Multithreading)의 장점 - 응답성, 자원 공유, 경제성, 다중 처리기 활용](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) ->
-
----
+1. 스레드 독립 자원은 공책 한 권(프로세스)을 친구들과 같이 쓸 때, "내가 어디까지 읽었지?" 표시하는 <strong>개인용 책갈피 (PC)</strong>와 같아요.
+2. 그리고 복잡한 계산을 할 때 남의 공책에 낙서하면 안 되니까, 각자 주머니에 넣어두고 쓰는 <strong>나만의 작은 메모장 (Stack)</strong>이기도 해요.
+3. 이 책갈피와 메모장이 스레드마다 따로따로 있기 때문에, 수십 명의 친구들이 한 방에 모여 있어도 각자 하던 일을 헷갈리지 않고 착착 해낼 수 있답니다!

@@ -6,23 +6,23 @@ tags:
 weight: 4
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 다중 처리 시스템 (Multiprocessing System)은 두 개 이상의 CPU (Central Processing Unit)가 메모리와 입출력 장치 등을 공유하며 여러 작업을 동시에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (Parallel)로 처리하는 고성능 컴퓨팅 아키텍처다.
-> 2. **가치**: 단일 프로세서의 물리적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 극복하여 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 획기적으로 높이고, 특정 CPU 장애 시에도 다른 CPU가 작업을 승계하는 [결함 허용](/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 통해 시스템 가용성을 보장한다.
-> 3. **융합**: 현대의 멀티코어 (Multi-core) 프로세서와 대규모 서버 클러스터의 핵심 기반이며, [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) (Cache Coherency) 및 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Load Balancing](/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 기술과 결합하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집약적 연산을 가속화한다.
+> 1. **본질**: 다중 처리 시스템 (Multiprocessing System)은 두 개 이상의 CPU (Central Processing Unit)가 메모리와 입출력 장치 등을 공유하며 여러 작업을 동시에 병렬 (Parallel)로 처리하는 고성능 컴퓨팅 아키텍처다.
+> 2. **가치**: 단일 프로세서의 물리적 성능 한계를 극복하여 처리량 (Throughput)을 획기적으로 높이고, 특정 CPU 장애 시에도 다른 CPU가 작업을 승계하는 결함 허용 (Fault Tolerance)을 통해 시스템 가용성을 보장한다.
+> 3. **융합**: 현대의 멀티코어 (Multi-core) 프로세서와 대규모 서버 클러스터의 핵심 기반이며, 캐시 일관성 (Cache Coherency) 및 부하 분산 (Load Balancing) 기술과 결합하여 데이터 집약적 연산을 가속화한다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-- **개념**: 다중 처리 시스템 (Multiprocessing System)은 하나의 컴퓨터 시스템 내에 물리적으로 독립된 두 개 이상의 프로세서 (CPU)를 탑재하고, 이들이 공통의 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)), 메모리, 주변 장치들을 공유하며 협력하여 작업을 수행하는 방식이다. 이는 여러 프로그램을 동시에 실행하는 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))을 넘어, 물리적인 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 (Parallel Execution)을 실현한다.
+- **개념**: 다중 처리 시스템 (Multiprocessing System)은 하나의 컴퓨터 시스템 내에 물리적으로 독립된 두 개 이상의 프로세서 (CPU)를 탑재하고, 이들이 공통의 버스 (Bus), 메모리, 주변 장치들을 공유하며 협력하여 작업을 수행하는 방식이다. 이는 여러 프로그램을 동시에 실행하는 다중 프로그래밍 (Multiprogramming)을 넘어, 물리적인 병렬 실행 (Parallel Execution)을 실현한다.
 
-- **필요성**: CPU의 클럭 속도를 높이는 방식 ([Scale-up](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))은 전력 소비와 발열 문제로 인해 물리적 한계에 부딪혔다. 이에 따라 여러 개의 프로세서를 연결하여 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 방식 ([Scale-out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))이 필수적이 되었다. 특히 대규모 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 처리, 기상 예측, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 등 고도의 연산 능력이 요구되는 분야에서 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상과 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 단축을 위해 다중 처리는 선택이 아닌 필수 기술이다.
+- **필요성**: CPU의 클럭 속도를 높이는 방식 (Scale-up)은 전력 소비와 발열 문제로 인해 물리적 한계에 부딪혔다. 이에 따라 여러 개의 프로세서를 연결하여 성능을 높이는 방식 (Scale-out)이 필수적이 되었다. 특히 대규모 데이터베이스 처리, 기상 예측, AI 학습 등 고도의 연산 능력이 요구되는 분야에서 처리량 향상과 응답 시간 단축을 위해 다중 처리는 선택이 아닌 필수 기술이다.
 
 - **💡 비유**: 다중 처리는 "주방에 여러 명의 요리사가 있는 것"과 같다. 요리사 한 명이 아무리 빨라도 한계가 있지만, 여러 명이 각자 화구를 잡고 동시에 요리를 하면 훨씬 많은 음식을 빠르게 만들어낼 수 있는 것과 같은 원리다.
 
-- **발전 과정**: 초기에는 고가의 메인프레임에서만 지원되던 [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing) 기술이 멀티코어 기술의 발전으로 개인용 PC와 스마트폰에까지 보편화되었다.
+- **발전 과정**: 초기에는 고가의 메인프레임에서만 지원되던 대칭형 다중 처리 (SMP, Symmetric Multiprocessing) 기술이 멀티코어 기술의 발전으로 개인용 PC와 스마트폰에까지 보편화되었다.
 
-이 도식은 단일 프로세서와 [다중 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) 시스템의 작업 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 차이를 시각적으로 비교한다.
+이 도식은 단일 프로세서와 다중 프로세서 시스템의 작업 처리량 차이를 시각적으로 비교한다.
 
 ```text
 +---------------------------------------------------------------------+
@@ -39,9 +39,9 @@ weight: 4
 +---------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 단일 프로세서 시스템에서는 아무리 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)이나 시분할 기술을 써도 특정 시점에는 오직 하나의 작업만 수행된다. 하지만 다중 처리 시스템 (Multiprocessing System)에서는 물리적으로 독립된 CPU 1과 CPU 2가 존재하여 Job 1과 Job 2를 문자 그대로 '동시에' 처리한다. 이를 통해 시스템 전체의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 증가한다. 이론적으로 프로세서 수만큼 비례하여 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 늘어나야 하지만, 실제로는 메모리 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합 (Contention)이나 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드 때문에 약간의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실이 발생한다. 또한 한 CPU가 고장 나더라도 다른 CPU가 남은 작업을 계속할 수 있어 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/)) 측면에서도 탁월한 이점을 가진다.
+**[다이어그램 해설]** 단일 프로세서 시스템에서는 아무리 다중 프로그래밍이나 시분할 기술을 써도 특정 시점에는 오직 하나의 작업만 수행된다. 하지만 다중 처리 시스템 (Multiprocessing System)에서는 물리적으로 독립된 CPU 1과 CPU 2가 존재하여 Job 1과 Job 2를 문자 그대로 '동시에' 처리한다. 이를 통해 시스템 전체의 처리량 (Throughput)이 비약적으로 증가한다. 이론적으로 프로세서 수만큼 비례하여 성능이 늘어나야 하지만, 실제로는 메모리 버스 경합 (Contention)이나 동기화 오버헤드 때문에 약간의 성능 손실이 발생한다. 또한 한 CPU가 고장 나더라도 다른 CPU가 남은 작업을 계속할 수 있어 신뢰성 (Reliability) 측면에서도 탁월한 이점을 가진다.
 
-- **📢 섹션 요약 비유**: 한 명의 천재보다 여러 명의 전문가가 협업하여 복잡한 프로젝트를 동시에 진행함으로써 마감 기한을 앞당기고 안정성을 높이는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같습니다.
+- **📢 섹션 요약 비유**: 한 명의 천재보다 여러 명의 전문가가 협업하여 복잡한 프로젝트를 동시에 진행함으로써 마감 기한을 앞당기고 안정성을 높이는 전략과 같습니다.
 
 ---
 
@@ -51,17 +51,17 @@ weight: 4
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **프로세서 (Processor)** | 독립적인 연산 수행 | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출, 해독, [실행 사이클](/studynote/01_computer_architecture/05_control_unit_pipelining/210_execute_cycle/) 반복 | 개별 요리사 |
-| <strong><a href="/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> (<a href="/studynote/02_operating_system/02_process_thread/118_shared_memory/">Shared Memory</a>)</strong> | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 프로그램 저장 공간 | 모든 CPU가 접근 가능한 공용 주소 공간 | 공용 식재료 창고 |
-| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">System Bus</a>)</strong> | 자원 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 통로 | CPU, 메모리, I/O 장치를 연결하는 고속 통로 | 주방 복도 |
-| <strong><a href="/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> 제어기</strong> | 각 CPU 캐시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일치 유지 | 스누핑 (Snooping) 또는 디렉토리 기반 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 정보 공유 게시판 |
-| <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (Scheduler)</strong> | 각 CPU에 작업 할당 및 균형 유지 | 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Load Balancing](/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 및 친화도 ([Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 관리 | 작업 배정 팀장 |
+| **프로세서 (Processor)** | 독립적인 연산 수행 | 명령어 인출, 해독, 실행 사이클 반복 | 개별 요리사 |
+| <strong>공유 메모리 (Shared Memory)</strong> | 데이터 및 프로그램 저장 공간 | 모든 CPU가 접근 가능한 공용 주소 공간 | 공용 식재료 창고 |
+| <strong>시스템 버스 (System Bus)</strong> | 자원 간 데이터 전송 통로 | CPU, 메모리, I/O 장치를 연결하는 고속 통로 | 주방 복도 |
+| <strong>캐시 일관성 제어기</strong> | 각 CPU 캐시 데이터 일치 유지 | 스누핑 (Snooping) 또는 디렉토리 기반 프로토콜 | 정보 공유 게시판 |
+| <strong>스케줄러 (Scheduler)</strong> | 각 CPU에 작업 할당 및 균형 유지 | 부하 분산 (Load Balancing) 및 친화도 (Affinity) 관리 | 작업 배정 팀장 |
 
 ---
 
-### [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing) 아키텍처
+### 대칭형 다중 처리 (SMP, Symmetric Multiprocessing) 아키텍처
 
-현대 다중 처리 시스템의 가장 보편적인 형태인 SMP는 모든 프로세서가 대등한 권한을 가지고 하나의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 의해 제어되는 구조다.
+현대 다중 처리 시스템의 가장 보편적인 형태인 SMP는 모든 프로세서가 대등한 권한을 가지고 하나의 운영체제에 의해 제어되는 구조다.
 
 ```text
 +------------------------------------------------------------------+
@@ -80,13 +80,13 @@ weight: 4
 +------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing)의 핵심은 '모든 CPU가 동등하다'는 점이다. 각 CPU는 자신의 로컬 캐시를 가지며 고속 [시스템 버스](/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)를 통해 하나의 거대한 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 접근한다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 어느 CPU에서든 실행될 수 있으며, 모든 프로세서가 자원을 공평하게 공유하고 제어한다. 이 구조는 프로그래밍이 상대적으로 쉽고 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 용이하다는 장점이 있다. 하지만 CPU 수가 늘어날수록 [시스템 버스](/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)에 과부하가 걸리는 병목 현상 ([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))이 발생하기 쉬워, 수십 개 이상의 CPU를 연결할 때는 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 아키텍처로 확장되기도 한다. 실무적으로 서버급 하드웨어는 대부분 이 [SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 구조를 기반으로 설계된다.
+**[다이어그램 해설]** 대칭형 다중 처리 (SMP, Symmetric Multiprocessing)의 핵심은 '모든 CPU가 동등하다'는 점이다. 각 CPU는 자신의 로컬 캐시를 가지며 고속 시스템 버스를 통해 하나의 거대한 공유 메모리에 접근한다. 운영체제 커널은 어느 CPU에서든 실행될 수 있으며, 모든 프로세서가 자원을 공평하게 공유하고 제어한다. 이 구조는 프로그래밍이 상대적으로 쉽고 부하 분산이 용이하다는 장점이 있다. 하지만 CPU 수가 늘어날수록 시스템 버스에 과부하가 걸리는 병목 현상 (Bottleneck)이 발생하기 쉬워, 수십 개 이상의 CPU를 연결할 때는 NUMA (Non-Uniform Memory Access) 아키텍처로 확장되기도 한다. 실무적으로 서버급 하드웨어는 대부분 이 SMP 구조를 기반으로 설계된다.
 
 ---
 
-### [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 흐름 및 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)
+### 병렬 실행 흐름 및 부하 분산
 
-여러 작업이 각 CPU에 할당되어 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리되는 과정에서 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 자원 효율을 극대화하기 위해 유동적으로 작업을 재배치한다.
+여러 작업이 각 CPU에 할당되어 병렬로 처리되는 과정에서 운영체제는 자원 효율을 극대화하기 위해 유동적으로 작업을 재배치한다.
 
 ```text
 [작업 큐] ---> [OS 스케줄러] --+---> [CPU 1 할당] ---> [Job A 실행]
@@ -98,51 +98,51 @@ weight: 4
                              (CPU 2 바쁘면 3으로 이동!)
 ```
 
-**[다이어그램 해설]** 다중 처리 시스템의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓는 핵심 소프트웨어 기술은 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Load Balancing](/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))이다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 준비 큐에 쌓인 작업들을 각 CPU의 현재 부하 상태를 고려하여 지능적으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)한다. 만약 특정 CPU (예: CPU 2)가 무거운 연산을 수행하느라 바쁘다면, 새로 들어온 작업은 유휴 상태인 CPU 3으로 즉시 할당된다. 이를 통해 전체 CPU가 골고루 일하게 하여 유휴 자원을 최소화한다. 또한 프로세서 친화도 (Processor [Affinity](/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 기술을 써서, 특정 프로세스가 이전에 실행되었던 CPU (캐시에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 남아있는 곳)에서 계속 실행되도록 유도함으로써 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더욱 최적화한다.
+**[다이어그램 해설]** 다중 처리 시스템의 성능을 결정짓는 핵심 소프트웨어 기술은 부하 분산 (Load Balancing)이다. 운영체제는 준비 큐에 쌓인 작업들을 각 CPU의 현재 부하 상태를 고려하여 지능적으로 분산한다. 만약 특정 CPU (예: CPU 2)가 무거운 연산을 수행하느라 바쁘다면, 새로 들어온 작업은 유휴 상태인 CPU 3으로 즉시 할당된다. 이를 통해 전체 CPU가 골고루 일하게 하여 유휴 자원을 최소화한다. 또한 프로세서 친화도 (Processor Affinity) 기술을 써서, 특정 프로세스가 이전에 실행되었던 CPU (캐시에 데이터가 남아있는 곳)에서 계속 실행되도록 유도함으로써 성능을 더욱 최적화한다.
 
-- **📢 섹션 요약 비유**: 마트 계산대 여러 곳에 손님들을 골고루 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 전체 대기 시간을 줄이고, 계산원 한 명이 쉬더라도 옆 계산대를 이용할 수 있게 하는 효율적인 매장 운영과 같습니다.
+- **📢 섹션 요약 비유**: 마트 계산대 여러 곳에 손님들을 골고루 분산시켜 전체 대기 시간을 줄이고, 계산원 한 명이 쉬더라도 옆 계산대를 이용할 수 있게 하는 효율적인 매장 운영과 같습니다.
 
 ---
 
 ## Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-### [SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (대칭) vs [ASMP](/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) (비대칭) 시스템 비교
+### SMP (대칭) vs ASMP (비대칭) 시스템 비교
 
-| 비교 항목 | [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) | 비대칭형 다중 처리 ([ASMP](/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/)) |
+| 비교 항목 | 대칭형 다중 처리 (SMP) | 비대칭형 다중 처리 (ASMP) |
 |:---|:---|:---|
-| **CPU 권한** | 모든 CPU가 대등함 | Master-Slave [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 존재 |
-| <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 실행</strong> | 모든 CPU에서 실행 가능 | Master CPU에서 전담 |
-| **스케줄링** | 복잡함 (부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 중요) | 단순함 (Master가 결정) |
+| **CPU 권한** | 모든 CPU가 대등함 | Master-Slave 관계 존재 |
+| <strong>운영체제 실행</strong> | 모든 CPU에서 실행 가능 | Master CPU에서 전담 |
+| **스케줄링** | 복잡함 (부하 분산 중요) | 단순함 (Master가 결정) |
 | **확장성** | 높음 (병목 전까지) | 낮음 (Master가 병목 지점) |
-| **구현 난이도** | 높음 ([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필요) | 낮음 (구조 단순) |
+| **구현 난이도** | 높음 (커널 동기화 필요) | 낮음 (구조 단순) |
 
-### 다중 처리와 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 융합 시너지
+### 다중 처리와 다중 프로그래밍의 융합 시너지
 
-현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 두 기술을 동시에 사용하여 극한의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다.
-- <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 (Parallelism)</strong>: 다중 처리를 통해 물리적으로 동시에 실행 (하드웨어적).
-- <strong><a href="/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> (<a href="/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/">Concurrency</a>)</strong>: [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)을 통해 논리적으로 동시에 실행 (소프트웨어적).
+현대 운영체제는 두 기술을 동시에 사용하여 극한의 성능을 낸다.
+- <strong>병렬성 (Parallelism)</strong>: 다중 처리를 통해 물리적으로 동시에 실행 (하드웨어적).
+- <strong>동시성 (Concurrency)</strong>: 다중 프로그래밍을 통해 논리적으로 동시에 실행 (소프트웨어적).
 - **결과**: 다중 처리 시스템 상에서 각 CPU가 시분할로 여러 프로세스를 돌림으로써, 단일 CPU 대비 수십 배의 작업 처리 능력을 확보한다.
 
-- **📢 섹션 요약 비유**: 여러 명의 요리사(다중 처리)가 각자 여러 개의 가스레인지 불을 관리하며([다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) 수많은 요리를 쏟아내는 전문 주방의 모습입니다.
+- **📢 섹션 요약 비유**: 여러 명의 요리사(다중 처리)가 각자 여러 개의 가스레인지 불을 관리하며(다중 프로그래밍) 수많은 요리를 쏟아내는 전문 주방의 모습입니다.
 
 ---
 
-## Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+## Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
 
 ### 실무 적용 시나리오 및 설계 고려사항
 
-1. <strong>시나리오 — 고가용성 (High <a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>) 서버 설계</strong>: 무중단 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 필요한 금융 시스템에서 다중 처리는 필수다. 한 프로세서 보드에 장애가 발생해도 시스템이 전체 중단되는 것이 아니라, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 약간 저하된 상태로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지속하는 고장 감내 (Graceful Degradation) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 확보해야 한다. 이를 위해 하드웨어 수준의 핫 스왑 (Hot-swap) 기능과 OS 수준의 장애 전이 ([Failover](/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)) 로직을 결합한다.
+1. <strong>시나리오 — 고가용성 (High Availability) 서버 설계</strong>: 무중단 서비스가 필요한 금융 시스템에서 다중 처리는 필수다. 한 프로세서 보드에 장애가 발생해도 시스템이 전체 중단되는 것이 아니라, 성능이 약간 저하된 상태로 서비스를 지속하는 고장 감내 (Graceful Degradation) 성능을 확보해야 한다. 이를 위해 하드웨어 수준의 핫 스왑 (Hot-swap) 기능과 OS 수준의 장애 전이 (Failover) 로직을 결합한다.
 
-2. <strong>시나리오 — <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 및 캐시 스누핑</strong>: 다중 처리 환경에서는 CPU 1이 수정한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 CPU 2의 캐시에 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 달라지는 문제가 발생한다. 실무적으로는 MESI (Modified, Exclusive, Shared, Invalid) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 같은 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 메커니즘을 지원하는 하드웨어를 선택하고, 소프트웨어적으로는 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/))이나 뮤텍스 ([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))를 사용하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이스 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Race)를 방지해야 한다.
+2. <strong>시나리오 — 데이터 일관성 및 캐시 스누핑</strong>: 다중 처리 환경에서는 CPU 1이 수정한 데이터가 CPU 2의 캐시에 있는 데이터와 달라지는 문제가 발생한다. 실무적으로는 MESI (Modified, Exclusive, Shared, Invalid) 프로토콜과 같은 캐시 일관성 메커니즘을 지원하는 하드웨어를 선택하고, 소프트웨어적으로는 스핀락 (Spinlock)이나 뮤텍스 (Mutex)를 사용하여 데이터 레이스 (Data Race)를 방지해야 한다.
 
-### 도입 시 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **확장 한계**: CPU를 추가할 때 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 대역폭이 충분히 받쳐주는가? (Amdahl의 법칙 고려)
-- <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 오버헤드</strong>: 공유 자원 접근을 위한 락 ([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합이 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 발목을 잡고 있지는 않은가?
+### 도입 시 체크리스트
+- **확장 한계**: CPU를 추가할 때 버스 대역폭이 충분히 받쳐주는가? (Amdahl의 법칙 고려)
+- <strong>동기화 오버헤드</strong>: 공유 자원 접근을 위한 락 (Lock) 경합이 전체 성능의 발목을 잡고 있지는 않은가?
 - **부하 균형**: 특정 CPU만 100%를 찍고 나머지는 노는 '부하 불균형'이 발생하지 않는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>과도한 락 (<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 사용</strong>: [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 높이려고 CPU를 늘려놓고, 정작 코드에서 거대한 단일 락 (Big [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) 등)을 사용하면 CPU들이 락을 얻기 위해 줄만 서게 되어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 단일 CPU보다 못해질 수 있다.
-- **캐시 바운싱 (Cache Bouncing)**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 여러 CPU 사이를 계속 왔다 갔다 하며 캐시 미스를 유발하는 구조는 다중 처리 시스템의 적이다.
+### 안티패턴
+- <strong>과도한 락 (Lock) 사용</strong>: 병렬성을 높이려고 CPU를 늘려놓고, 정작 코드에서 거대한 단일 락 (Big Kernel Lock 등)을 사용하면 CPU들이 락을 얻기 위해 줄만 서게 되어 성능이 단일 CPU보다 못해질 수 있다.
+- **캐시 바운싱 (Cache Bouncing)**: 데이터가 여러 CPU 사이를 계속 왔다 갔다 하며 캐시 미스를 유발하는 구조는 다중 처리 시스템의 적이다.
 
 - **📢 섹션 요약 비유**: 팀원이 아무리 많아도 결정권자가 한 명뿐이거나(병목), 서로 자료를 공유하지 않아 엉뚱한 결과가 나오면(불일치) 팀워크가 깨지는 것과 같습니다.
 
@@ -154,29 +154,29 @@ weight: 4
 
 | 구분 | 도입 전 (Single-CPU) | 도입 후 (Multi-CPU) | 기대 효과 |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (TPS)</strong> | [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 TPS | 80,000 TPS (8코어 시) | 비즈니스 처리 속도 8배 향상 |
-| <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | CPU 장애 시 즉시 셧다운 | 일부 장애 시 지속 가동 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가동률 ([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)) 99.99% 달성 |
-| **경제성** | 초고가 특수 CPU 필요 | 저가 범용 CPU 여러 개 활용 | [TCO](/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) 절감 |
+| <strong>처리량 (TPS)</strong> | 10,000 TPS | 80,000 TPS (8코어 시) | 비즈니스 처리 속도 8배 향상 |
+| <strong>신뢰성</strong> | CPU 장애 시 즉시 셧다운 | 일부 장애 시 지속 가동 | 서비스 가동률 (SLA) 99.99% 달성 |
+| **경제성** | 초고가 특수 CPU 필요 | 저가 범용 CPU 여러 개 활용 | TCO (Total Cost of Ownership) 절감 |
 
 ### 미래 전망
-미래의 다중 처리는 <strong>이 기종 다중 처리 (<a href="/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/">Heterogeneous</a> Multiprocessing)</strong>로 진화 중이다. CPU와 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))가 하나의 시스템 안에서 각자 잘하는 작업을 나누어 처리하는 구조다. 또한 수천 개의 코어를 단일 칩에 넣는 Many-core 시대를 맞아, 코어 간 통신을 위한 [NOC](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) ([Network on Chip](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)) 기술이 다중 처리 아키텍처의 핵심 과제가 될 것이다.
+미래의 다중 처리는 <strong>이 기종 다중 처리 (Heterogeneous Multiprocessing)</strong>로 진화 중이다. CPU와 GPU, NPU (Neural Processing Unit)가 하나의 시스템 안에서 각자 잘하는 작업을 나누어 처리하는 구조다. 또한 수천 개의 코어를 단일 칩에 넣는 Many-core 시대를 맞아, 코어 간 통신을 위한 NOC (Network on Chip) 기술이 다중 처리 아키텍처의 핵심 과제가 될 것이다.
 
 ### 참고 표준
-- **OpenMP**: 다중 처리 환경에서의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 표준 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/).
-- <strong>MPI (<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/227_mpi_message_passing_interface_distributed_computing/">Message Passing Interface</a>)</strong>: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)/다중 처리 시스템 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 표준.
+- **OpenMP**: 다중 처리 환경에서의 병렬 프로그래밍 표준 API.
+- <strong>MPI (Message Passing Interface)</strong>: 분산/다중 처리 시스템 간 데이터 교환 표준.
 
 - **📢 섹션 요약 비유**: 개별 선수의 기량에 의존하던 시대를 지나, 완벽한 전술과 협업으로 무장한 드림팀이 복잡한 미래의 난제들을 해결해 나가는 과정입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-| 개념 명칭 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
+### 📌 관련 개념 맵 (Knowledge Graph)
+| 개념 명칭 | 관계 및 시너지 설명 |
 |:---|:---|
-| <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> (Symmetric Multiprocessing)</strong> | 모든 프로세서가 동등한 권한을 갖는 가장 대중적인 다중 처리 아키텍처 |
-| <strong><a href="/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> (Cache Coherency)</strong> | 여러 CPU가 동일 메모리를 공유할 때 각 캐시 값을 일치시키는 필수 기술 |
-| <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 (Parallel Processing)</strong> | 물리적으로 동시에 여러 계산을 수행하여 처리 속도를 높이는 기법 |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong> | 부품 고장 시에도 전체 시스템이 멈추지 않고 동작하게 하는 다중 처리의 핵심 가치 |
-| <strong>부하 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (<a href="/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong> | 여러 CPU에 작업을 골고루 배정하여 유휴 자원을 최소화하는 운영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong>SMP (Symmetric Multiprocessing)</strong> | 모든 프로세서가 동등한 권한을 갖는 가장 대중적인 다중 처리 아키텍처 |
+| <strong>캐시 일관성 (Cache Coherency)</strong> | 여러 CPU가 동일 메모리를 공유할 때 각 캐시 값을 일치시키는 필수 기술 |
+| <strong>병렬 처리 (Parallel Processing)</strong> | 물리적으로 동시에 여러 계산을 수행하여 처리 속도를 높이는 기법 |
+| <strong>결함 허용 (Fault Tolerance)</strong> | 부품 고장 시에도 전체 시스템이 멈추지 않고 동작하게 하는 다중 처리의 핵심 가치 |
+| <strong>부하 분산 (Load Balancing)</strong> | 여러 CPU에 작업을 골고루 배정하여 유휴 자원을 최소화하는 운영 전략 |
 
 ---
 
@@ -201,20 +201,9 @@ weight: 4
 [부하 분산 (Load Balancing)]
 ```
 
-이 흐름도는 :---에서 출발해 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Load Balancing](/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 :---에서 출발해 부하 분산 (Load Balancing)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 다중 처리 시스템은 컴퓨터 안에 **"두뇌가 여러 개"** 있는 것과 같아요.
 2. 예전에는 똑똑한 사람 한 명이 문제를 풀었다면, 이제는 여러 명의 똑똑한 사람들이 문제를 나눠서 동시에 풀기 때문에 훨씬 어려운 숙제도 빨리 끝낼 수 있어요.
 3. 만약 한 명이 아파서 쉬더라도 다른 사람들이 대신 문제를 풀어줄 수 있어서, 컴퓨터가 갑자기 멈추는 일도 훨씬 줄어든답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 4 / 800
-
-<- **이전**: [3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브](/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/)
-**다음**: [5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)](/studynote/02_operating_system/01_overview_architecture/005_asmp/) ->
-
----

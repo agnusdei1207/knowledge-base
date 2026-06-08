@@ -6,8 +6,8 @@ tags:
 weight: 49
 ---
 > **핵심 인사이트**
-> 1. 클라우드 시대의 섀도 IT는 개인 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 사용을 넘어 무단 클라우드 인프라 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)(Shadow Cloud)으로 확대 — 개발자가 신용카드로 AWS 계정을 직접 개설하거나, 팀이 IT 승인 없이 Azure 구독을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면서 기업 보안 경계가 무너진다.
-> 2. [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)([Cloud Security](/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/studynote/12_it_management/05_security_compliance/1013_management/))이 클라우드 섀도 IT 탐지와 거버넌스의 핵심 도구 — 다중 클라우드 환경에서 리소스 구성 오류(Misconfiguration), 공개 S3 버킷, 과도한 권한을 자동으로 탐지하고 컴플라이언스 위반을 실시간으로 모니터링한다.
+> 1. 클라우드 시대의 섀도 IT는 개인 SaaS 사용을 넘어 무단 클라우드 인프라 프로비저닝(Shadow Cloud)으로 확대 — 개발자가 신용카드로 AWS 계정을 직접 개설하거나, 팀이 IT 승인 없이 Azure 구독을 생성하면서 기업 보안 경계가 무너진다.
+> 2. CSPM(Cloud Security Posture Management)이 클라우드 섀도 IT 탐지와 거버넌스의 핵심 도구 — 다중 클라우드 환경에서 리소스 구성 오류(Misconfiguration), 공개 S3 버킷, 과도한 권한을 자동으로 탐지하고 컴플라이언스 위반을 실시간으로 모니터링한다.
 > 3. FinOps와 클라우드 거버넌스의 결합이 클라우드 섀도 IT의 비용 최적화 접근법 — 승인되지 않은 클라우드 리소스는 비용 추적이 안 되어 예산 초과와 낭비로 이어지며, 태깅(Tagging) 정책과 비용 할당이 가시성 확보의 첫걸음이다.
 
 ---
@@ -56,7 +56,7 @@ weight: 49
 
 ---
 
-## Ⅱ. [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)
+## Ⅱ. CSPM
 
 ```
 CSPM (Cloud Security Posture Management):
@@ -102,7 +102,7 @@ CSPM (Cloud Security Posture Management):
   Wiz, Orca Security
 ```
 
-> 📢 **섹션 요약 비유**: [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) = 클라우드 자동 안전 감사원 — 매일 전체 클라우드 자산 점검. 열린 창문(S3 퍼블릭), 잠금 없는 문([MFA](/studynote/09_security/11_iam_access_control/552_mfa/) 없음) 자동 탐지. 규정 준수율(%) 실시간 표시!
+> 📢 **섹션 요약 비유**: CSPM = 클라우드 자동 안전 감사원 — 매일 전체 클라우드 자산 점검. 열린 창문(S3 퍼블릭), 잠금 없는 문(MFA 없음) 자동 탐지. 규정 준수율(%) 실시간 표시!
 
 ---
 
@@ -151,7 +151,7 @@ CSPM (Cloud Security Posture Management):
   IAM Access Analyzer
 ```
 
-> 📢 **섹션 요약 비유**: 클라우드 거버넌스 = 도시 계획 — AWS Organizations(행정구역), [SCP](/studynote/01_computer_architecture/15_advanced_topics/747_scp/)(건축 규제), 태깅(주소 등록 필수), [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)(세금 납부). 무단 건물(섀도 클라우드)은 철거!
+> 📢 **섹션 요약 비유**: 클라우드 거버넌스 = 도시 계획 — AWS Organizations(행정구역), SCP(건축 규제), 태깅(주소 등록 필수), FinOps(세금 납부). 무단 건물(섀도 클라우드)은 철거!
 
 ---
 
@@ -236,7 +236,7 @@ Prisma Cloud:
   GDPR 위반 재발: 0건
 ```
 
-> 📢 **섹션 요약 비유**: 클라우드 거버넌스 구축 = 도시 무허가 건물 정비 — CSPM으로 전체 스캔(위성 지도). 무허가(섀도) 5개 계정, 12개 열린 창고 발견. 정비 후 비용 32% 절감, [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반 0건!
+> 📢 **섹션 요약 비유**: 클라우드 거버넌스 구축 = 도시 무허가 건물 정비 — CSPM으로 전체 스캔(위성 지도). 무허가(섀도) 5개 계정, 12개 열린 창고 발견. 정비 후 비용 32% 절감, GDPR 위반 0건!
 
 ---
 
@@ -294,17 +294,6 @@ Cloud Native Application Protection
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 클라우드 섀도 IT = 개인 사무실 차리기 — 신용카드로 5분에 AWS 계정 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/). 회사 모르는 클라우드 = 보안·비용 사각지대!
-2. [CSPM](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) = 자동 안전 감사원 — 매일 전체 클라우드 점검. 열린 S3(잠금 없는 창고), [MFA](/studynote/09_security/11_iam_access_control/552_mfa/) 없는 계정 자동 탐지. 컴플라이언스 준수율 실시간!
-3. AWS Organizations = 도시 계획 — 계정(구역) 분리, [SCP](/studynote/01_computer_architecture/15_advanced_topics/747_scp/)(건축 규제), 태깅(주소 등록). 무허가 건물(섀도 클라우드) 자동 발견!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 48 / 371
-
-<- **이전**: [048. MSP — 클라우드 관리형 서비스 제공자](/studynote/13_cloud_architecture/01_virtualization/048_msp_managed_service_provider_cloud/)
-**다음**: [데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)](/studynote/13_cloud_architecture/01_virtualization/050_data_gravity_cloud_lock_in/) ->
-
----
+1. 클라우드 섀도 IT = 개인 사무실 차리기 — 신용카드로 5분에 AWS 계정 생성. 회사 모르는 클라우드 = 보안·비용 사각지대!
+2. CSPM = 자동 안전 감사원 — 매일 전체 클라우드 점검. 열린 S3(잠금 없는 창고), MFA 없는 계정 자동 탐지. 컴플라이언스 준수율 실시간!
+3. AWS Organizations = 도시 계획 — 계정(구역) 분리, SCP(건축 규제), 태깅(주소 등록). 무허가 건물(섀도 클라우드) 자동 발견!

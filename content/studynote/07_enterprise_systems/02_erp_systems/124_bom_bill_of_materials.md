@@ -6,9 +6,9 @@ tags:
 weight: 124
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: BOM은 <strong>제품을 구성하는 모든 부품·원자재·반조립품의 계층적 목록</strong>이며, 각 부품의 수량·사양·대체품을 정의하여 설계->조달->제조->[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기준 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 역할을 한다.
-> 2. **가치**: BOM이 부정확하면 부품 발주 오류·제조 라인 정지·완제품 불량이 발생하며, E-BOM(설계 관점)->M-BOM(제조 관점)->S-BOM([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관점) 변환이 제조업 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 핵심이다.
-> 3. **판단 포인트**: **단계 BOM(계층적, 모든 레벨)** vs <strong>단일 수준 BOM(부모-자식 1레벨)</strong>을 구분하고, BOM은 [PDM](/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/)/PLM에서 관리되어 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·MES에 전달된다.
+> 1. **본질**: BOM은 <strong>제품을 구성하는 모든 부품·원자재·반조립품의 계층적 목록</strong>이며, 각 부품의 수량·사양·대체품을 정의하여 설계->조달->제조->서비스의 기준 데이터 역할을 한다.
+> 2. **가치**: BOM이 부정확하면 부품 발주 오류·제조 라인 정지·완제품 불량이 발생하며, E-BOM(설계 관점)->M-BOM(제조 관점)->S-BOM(서비스 관점) 변환이 제조업 데이터 관리의 핵심이다.
+> 3. **판단 포인트**: **단계 BOM(계층적, 모든 레벨)** vs <strong>단일 수준 BOM(부모-자식 1레벨)</strong>을 구분하고, BOM은 PDM/PLM에서 관리되어 ERP·MES에 전달된다.
 
 ---
 
@@ -42,7 +42,7 @@ weight: 124
 |:---|:---|:---|
 | **E-BOM** | 설계 (엔진ering) | 기능 구조 |
 | **M-BOM** | 제조 (Manufacturing) | 조립 공정 순서 |
-| **S-BOM** | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 교체 부품 |
+| **S-BOM** | 서비스 (Service) | 교체 부품 |
 
 - **📢 섹션 요약 비유**: E-BOM은 건축 설계도, M-BOM은 시공 순서도, S-BOM은 수리 매뉴얼이다.
 
@@ -54,21 +54,21 @@ weight: 124
 |:---|:---|:---|
 | **관점** | 기능 (설계) | **공정 (제조)** |
 | **구조** | 기능별 그룹 | **조립 순서** |
-| **관리** | [PDM](/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/) | <strong><a href="/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>/<a href="/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/">MES</a></strong> |
+| **관리** | PDM | <strong>ERP/MES</strong> |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### BOM [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)의 중요성
-- BOM 오류 1건 -> 부품 발주 오류 -> 제조 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) -> 납기 위반.
+### BOM 정확성의 중요성
+- BOM 오류 1건 -> 부품 발주 오류 -> 제조 지연 -> 납기 위반.
 - 글로벌 제조사는 BOM 정확도 <strong>99.5% 이상</strong>을 목표.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BOM은 <strong>제조업 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 DNA</strong>이며, [PLM](/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)->[ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)->MES를 관통하는 Digital Thread의 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이다.
+BOM은 <strong>제조업 데이터의 DNA</strong>이며, PLM->ERP->MES를 관통하는 Digital Thread의 핵심 데이터 자산이다.
 
 ---
 
@@ -78,9 +78,9 @@ BOM은 <strong>제조업 <a href="/studynote/05_database/01_db_architecture_rela
 |:---|:---|
 | **E-BOM** | 설계 관점 부품 목록 |
 | **M-BOM** | 제조 관점 부품 목록 |
-| <strong><a href="/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/">PDM</a>/<a href="/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/">PLM</a></strong> | BOM을 관리하는 시스템 |
-| <strong><a href="/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/">MRP</a></strong> | BOM 기반 자재 소요량 계산 |
-| <strong>Digital <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong> | BOM이 흐르는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연속 체계 |
+| <strong>PDM/PLM</strong> | BOM을 관리하는 시스템 |
+| <strong>MRP</strong> | BOM 기반 자재 소요량 계산 |
+| <strong>Digital Thread</strong> | BOM이 흐르는 데이터 연속 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -104,14 +104,3 @@ BOM은 <strong>제조업 <a href="/studynote/05_database/01_db_architecture_rela
 1. BOM은 요리 <strong>레시피</strong>예요. 밀가루·계란·설탕 등 <strong>재료(부품)와 양(수량)</strong>이 적혀 있어요.
 2. 레시피가 틀리면 <strong>맛없는 요리(불량 제품)</strong>가 나오니까, 정확해야 해요.
 3. 설계 레시피(E-BOM)와 조리 순서(M-BOM)가 **다를 수 있어서** 변환이 필요하답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 124 / 482
-
-<- **이전**: [123. PDM (Product Data Management) - 제품 데이터 관리 시스템](/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/)
-**다음**: [125. C-Commerce (Collaborative Commerce) - 기업 간 협업 상거래](/studynote/07_enterprise_systems/02_erp_systems/125_c_commerce_collaborative_commerce/) ->
-
----

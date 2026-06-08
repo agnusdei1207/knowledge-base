@@ -7,15 +7,15 @@ weight: 84
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 힙 ([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역은 동적 할당된 객체를 담는 프로세스 주소 공간의 일부다.
-> 2. **가치**: 크기와 수명이 실행 중에 바뀌는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 수 있게 하지만, 관리 책임이 커져 조각화와 [메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/) 위험이 생긴다.
-> 3. **판단 포인트**: 힙은 '유연성'을 위해 쓰고, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 '자동 정리'를 위해 쓴다. 수명과 소유권이 길수록 힙이 필요하다.
+> 1. **본질**: 힙 (Heap) 영역은 동적 할당된 객체를 담는 프로세스 주소 공간의 일부다.
+> 2. **가치**: 크기와 수명이 실행 중에 바뀌는 데이터를 다룰 수 있게 하지만, 관리 책임이 커져 조각화와 메모리 누수 위험이 생긴다.
+> 3. **판단 포인트**: 힙은 '유연성'을 위해 쓰고, 스택은 '자동 정리'를 위해 쓴다. 수명과 소유권이 길수록 힙이 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-힙 ([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역은 실행 중에 필요한 크기만큼 동적으로 메모리를 할당하는 공간이다. 함수가 끝나도 살아 있어야 하는 객체, 크기가 실행 중에 정해지는 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/), 여러 구조체가 엮인 자료구조는 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)만으로 처리하기 어렵다. 그래서 힙은 프로그램이 '얼마나 오래 쓸지 모르는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 담는 유연한 저장소로 쓰인다.
+힙 (Heap) 영역은 실행 중에 필요한 크기만큼 동적으로 메모리를 할당하는 공간이다. 함수가 끝나도 살아 있어야 하는 객체, 크기가 실행 중에 정해지는 배열, 여러 구조체가 엮인 자료구조는 스택만으로 처리하기 어렵다. 그래서 힙은 프로그램이 '얼마나 오래 쓸지 모르는 데이터'를 담는 유연한 저장소로 쓰인다.
 
 힙을 이해해야 하는 이유는 단순히 malloc/free를 외우기 위해서가 아니라, 주소 공간과 수명 관리가 어떻게 연결되는지 보기 위해서다. 메모리 문제는 대부분 '어디에 저장했는가'보다 '누가 언제 정리하는가'에서 시작한다.
 
@@ -39,15 +39,15 @@ high addr
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-힙은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 직접 하나하나 관리한다기보다, 프로세스의 힙 관리자가 free list, [buddy system](/studynote/02_operating_system/06_memory_management/348_buddy_system/), arena 같은 구조로 조각을 배분한다. 작은 할당은 재사용과 병합을, 큰 할당은 [mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) 같은 별도 경로를 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 한다. 핵심은 요청 크기와 수명이 실행 중에 달라질 수 있다는 점이다.
+힙은 운영체제가 직접 하나하나 관리한다기보다, 프로세스의 힙 관리자가 free list, buddy system, arena 같은 구조로 조각을 배분한다. 작은 할당은 재사용과 병합을, 큰 할당은 mmap 같은 별도 경로를 쓰기도 한다. 핵심은 요청 크기와 수명이 실행 중에 달라질 수 있다는 점이다.
 
-| 항목 | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 힙 |
+| 항목 | 스택 | 힙 |
 | :--- | :--- | :--- |
 | 할당 방식 | 자동 | 명시적 |
 | 수명 | 스코프 종료 시 자동 해제 | 프로그래머 / 런타임이 관리 |
 | 속도 | 빠름 | 상대적으로 느림 |
 | 유연성 | 고정 크기 / 짧은 수명 | 가변 크기 / 긴 수명 |
-| 주요 위험 | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로 | 누수 / 중복 해제 / 조각화 |
+| 주요 위험 | 스택 오버플로 | 누수 / 중복 해제 / 조각화 |
 
 ```text
 힙은 여러 크기의 블록을 반복적으로 빌려주고 돌려받는다.
@@ -63,16 +63,16 @@ high addr
 
 ## Ⅲ. 비교 및 연결
 
-힙은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 가장 자주 비교된다. [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 함수 호출과 함께 자동으로 쌓이고 사라지므로 빠르지만, 수명이 짧고 크기가 고정적이다. 힙은 느릴 수 있지만, 객체를 함수 밖으로 넘기거나 트리·[그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)처럼 크기가 실행 중에 변하는 구조를 다루는 데 필수다.
+힙은 스택과 가장 자주 비교된다. 스택은 함수 호출과 함께 자동으로 쌓이고 사라지므로 빠르지만, 수명이 짧고 크기가 고정적이다. 힙은 느릴 수 있지만, 객체를 함수 밖으로 넘기거나 트리·그래프처럼 크기가 실행 중에 변하는 구조를 다루는 데 필수다.
 
-| 비교 축 | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 힙 |
+| 비교 축 | 스택 | 힙 |
 | :--- | :--- | :--- |
-| [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) / 소멸 | 함수 진입 / 종료와 함께 | 명시적 할당 / 해제 |
+| 생성 / 소멸 | 함수 진입 / 종료와 함께 | 명시적 할당 / 해제 |
 | 주소 이동 | 연속적 | 분산될 수 있음 |
 | 대표 사용 | 지역 변수, 호출 기록 | 동적 객체, 가변 크기 |
 | 설계 관점 | 자동 정리 | 소유권 관리 필요 |
 
-mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷한 동적 저장소로 이해할 수 있다. 다만 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 관리 단위와 반환 방식이 달라서, 할당 경로를 구분해서 보는 습관이 중요하다.
+mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷한 동적 저장소로 이해할 수 있다. 다만 운영체제 관점에서는 관리 단위와 반환 방식이 달라서, 할당 경로를 구분해서 보는 습관이 중요하다.
 
 - **📢 섹션 요약 비유**: 주머니에 바로 넣는 물건은 빠르지만, 큰 물건은 가방이 따로 있어야 한다.
 
@@ -80,16 +80,16 @@ mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 힙은 크기가 정해지지 않은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/), 트리, [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 객체 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 만들 때 쓴다. 하지만 한 번 할당하면 누가 언제 반납할지 규칙을 정해야 한다. C 계열에서는 malloc/free 쌍을 맞추고, 객체 지향 언어에서는 소유권이나 가비지 컬렉션을 통해 이 문제를 관리한다.
+실무에서 힙은 크기가 정해지지 않은 배열, 트리, 그래프, 객체 그래프를 만들 때 쓴다. 하지만 한 번 할당하면 누가 언제 반납할지 규칙을 정해야 한다. C 계열에서는 malloc/free 쌍을 맞추고, 객체 지향 언어에서는 소유권이나 가비지 컬렉션을 통해 이 문제를 관리한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 할당한 객체의 소유자가 명확한가?
 2. 해제 시점과 해제 책임이 정의돼 있는가?
-3. 반환값이 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 주소가 아닌가?
-4. 누수, 이중 해제, [use-after-free](/studynote/09_security/04_endpoint_security/351_use_after_free/) 위험을 점검했는가?
+3. 반환값이 스택 주소가 아닌가?
+4. 누수, 이중 해제, use-after-free 위험을 점검했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 짧은 값까지 무조건 힙에 올리는 경우
 - free / delete 경로가 여러 개로 갈라지는 경우
@@ -103,9 +103,9 @@ mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷�
 
 힙은 동적 자료구조와 유연한 수명 관리를 가능하게 해서 프로그램의 표현력을 크게 높인다. 대신 성능과 안전성은 소유권 규칙과 할당기 품질에 좌우된다. 결국 힙은 '편리한 만큼 책임이 큰 공간'으로 기억해야 한다.
 
-정리하면, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 자동 정리의 공간이라면 힙은 설계자가 관리 정책을 정해야 하는 공간이다. 이 차이를 이해하면 [메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/), 조각화, 포인터 버그도 같은 관점에서 보인다.
+정리하면, 스택이 자동 정리의 공간이라면 힙은 설계자가 관리 정책을 정해야 하는 공간이다. 이 차이를 이해하면 메모리 누수, 조각화, 포인터 버그도 같은 관점에서 보인다.
 
-- **📢 섹션 요약 비유**: 큰 창고는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편하지만, 열쇠와 정리 규칙이 없으면 금방 엉망이 된다.
+- **📢 섹션 요약 비유**: 큰 창고는 쓰기 편하지만, 열쇠와 정리 규칙이 없으면 금방 엉망이 된다.
 
 ---
 
@@ -113,11 +113,11 @@ mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Process](/studynote/12_it_management/05_security_compliance/943_process/) address space | 프로그램이 보는 전체 메모리 지도 |
+| Process address space | 프로그램이 보는 전체 메모리 지도 |
 | Allocator | 힙 블록을 나누고 합치는 관리자 |
-| [Fragmentation](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) | 작은 빈 공간이 쌓이는 문제 |
-| [mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) | 큰 영역을 별도로 매핑하는 경로 |
-| [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 자동 수명 관리와 비교되는 영역 |
+| Fragmentation | 작은 빈 공간이 쌓이는 문제 |
+| mmap | 큰 영역을 별도로 매핑하는 경로 |
+| Stack | 자동 수명 관리와 비교되는 영역 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,14 +141,3 @@ free / 해제 / 병합
 1. 필요할 때 꺼내 쓰는 큰 상자 공간이 힙이에요.
 2. 대신 누가 다시 넣을지 약속을 안 하면 금방 어질러져요.
 3. 그래서 힙은 편하지만, 정리 규칙이 꼭 필요해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 84 / 800
-
-<- **이전**: [83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수](/studynote/02_operating_system/02_process_thread/083_bss_segment/)
-**다음**: [85. 스택 (Stack) 영역 - 지역 변수, 매개변수, 리턴 주소](/studynote/02_operating_system/02_process_thread/085_stack_segment/) ->
-
----

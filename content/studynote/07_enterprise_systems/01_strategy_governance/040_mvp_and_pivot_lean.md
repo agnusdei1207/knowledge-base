@@ -6,13 +6,13 @@ tags:
 weight: 40
 ---
 > **핵심 인사이트**
-> 1. [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/)([Minimum Viable Product](/studynote/12_it_management/01_governance_strategy/036_mvp/), 최소 기능 제품)는 Eric Ries의 [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/)([Lean Startup](/studynote/12_it_management/01_governance_strategy/827_lean_startup/)) 핵심 개념으로, 최소한의 기능으로 고객 가설을 빠르게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Validated [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))하는 제품 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이며, "완성된 제품"이 아닌 "학습 도구"임을 이해하는 것이 핵심이다.
-> 2. MVP의 목적은 Build-Measure-Learn(BML) [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 최대한 짧게 돌리는 것으로, 빠른 실패(Fail Fast)와 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/)) 또는 인내(Persevere) 결정이 MVP가 달성해야 하는 실질적 성과다.
-> 3. 기업 환경에서 MVP는 단순히 스타트업 기법이 아니라, 불확실성이 높은 [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 프로젝트에서 대규모 선행 투자 없이 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 확대(Start Small, Scale Fast) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 채택되고 있다.
+> 1. MVP(Minimum Viable Product, 최소 기능 제품)는 Eric Ries의 린 스타트업(Lean Startup) 핵심 개념으로, 최소한의 기능으로 고객 가설을 빠르게 검증(Validated Learning)하는 제품 버전이며, "완성된 제품"이 아닌 "학습 도구"임을 이해하는 것이 핵심이다.
+> 2. MVP의 목적은 Build-Measure-Learn(BML) 피드백 루프를 최대한 짧게 돌리는 것으로, 빠른 실패(Fail Fast)와 피벗(Pivot) 또는 인내(Persevere) 결정이 MVP가 달성해야 하는 실질적 성과다.
+> 3. 기업 환경에서 MVP는 단순히 스타트업 기법이 아니라, 불확실성이 높은 디지털 전환(DX) 프로젝트에서 대규모 선행 투자 없이 검증 후 확대(Start Small, Scale Fast) 전략으로 채택되고 있다.
 
 ---
 
-## Ⅰ. [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 개념과 목적
+## Ⅰ. MVP 개념과 목적
 
 ```
 MVP (Minimum Viable Product):
@@ -36,11 +36,11 @@ MVP가 답해야 하는 질문:
    최소 노력을 가진 제품 버전이다"
 ```
 
-> 📢 **섹션 요약 비유**: MVP는 세단을 만들기 전에 먼저 킥보드를 출시해서 "사람들이 이동 보조기구를 원하는지" [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 방법.
+> 📢 **섹션 요약 비유**: MVP는 세단을 만들기 전에 먼저 킥보드를 출시해서 "사람들이 이동 보조기구를 원하는지" 확인하는 방법.
 
 ---
 
-## Ⅱ. [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 유형
+## Ⅱ. MVP 유형
 
 ```
 MVP 유형 비교:
@@ -68,11 +68,11 @@ MVP 유형 비교:
    - 나머지는 수동 or 생략
 ```
 
-> 📢 **섹션 요약 비유**: [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 유형은 식당 운영 방식 — 랜딩페이지는 메뉴판만 보여주기, 컨시어지는 셰프가 직접 집에 찾아와 요리하기.
+> 📢 **섹션 요약 비유**: MVP 유형은 식당 운영 방식 — 랜딩페이지는 메뉴판만 보여주기, 컨시어지는 셰프가 직접 집에 찾아와 요리하기.
 
 ---
 
-## Ⅲ. BML 루프와 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)
+## Ⅲ. BML 루프와 피벗
 
 ```
 Build-Measure-Learn 루프:
@@ -109,7 +109,7 @@ Build-Measure-Learn 루프:
 
 ---
 
-## Ⅳ. [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 핵심 지표 ([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))
+## Ⅳ. MVP 핵심 지표 (Metrics)
 
 ```
 올바른 MVP 지표 선택:
@@ -140,7 +140,7 @@ Build-Measure-Learn 루프:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 기업 [DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/)
+## Ⅴ. 실무 시나리오 — 기업 DX MVP
 
 ```
 대기업 디지털 전환 (DX) MVP 사례:
@@ -169,7 +169,7 @@ MVP 접근:
   Fail Cheap: 실패해도 500만원 손실로 제한
 ```
 
-> 📢 **섹션 요약 비유**: 기업 [DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) MVP는 새 공장 기계 도입 전에 먼저 한 개 기계로 시험 가동하는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 운영 — 결과 보고 전체 도입 결정.
+> 📢 **섹션 요약 비유**: 기업 DX MVP는 새 공장 기계 도입 전에 먼저 한 개 기계로 시험 가동하는 파일럿 운영 — 결과 보고 전체 도입 결정.
 
 ---
 
@@ -225,17 +225,6 @@ MVP -> MLP (Minimum Lovable Product)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. MVP는 자동차를 만들기 전에 먼저 킥보드를 만들어 "사람들이 새로운 이동 수단을 원하는지" [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 방법이에요.
-2. "완벽한 제품"을 오래 만들다가 아무도 안 쓰는 것보다, 단순한 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 빨리 만들어 실제 반응을 보는 것이 훨씬 현명해요.
-3. 피드백을 받아 "계속 이 방향으로 가자(Persevere)"거나 "방향을 바꾸자([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/))"를 결정하는 것이 MVP의 진짜 목적이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 40 / 482
-
-<- **이전**: [039. BML 루프 심화 — 린 스타트업 측정 지표](/studynote/07_enterprise_systems/01_strategy_governance/039_lean_startup_bml_loop/)
-**다음**: [041. 피벗 (Pivot) — 전략적 방향 전환](/studynote/07_enterprise_systems/01_strategy_governance/041_lean_startup_pivot/) ->
-
----
+1. MVP는 자동차를 만들기 전에 먼저 킥보드를 만들어 "사람들이 새로운 이동 수단을 원하는지" 확인하는 방법이에요.
+2. "완벽한 제품"을 오래 만들다가 아무도 안 쓰는 것보다, 단순한 버전을 빨리 만들어 실제 반응을 보는 것이 훨씬 현명해요.
+3. 피드백을 받아 "계속 이 방향으로 가자(Persevere)"거나 "방향을 바꾸자(Pivot)"를 결정하는 것이 MVP의 진짜 목적이에요!

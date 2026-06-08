@@ -35,7 +35,7 @@ find-set
 | 기법 | 역할 |
 | :-- | :-- |
 | Parent Pointer | 대표 연결 |
-| Path [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/) | 경로 단축 |
+| Path Compression | 경로 단축 |
 | Rank/Size | 균형 유지 |
 
 Union-Find는 대표자를 추적하며 집합을 합친다. 반복적인 find를 빠르게 하기 위해 경로 압축을 쓴다.
@@ -49,14 +49,14 @@ Union-Find는 대표자를 추적하며 집합을 합친다. 반복적인 find�
 | 개념 | 역할 | 차이 |
 | :-- | :-- | :-- |
 | Union-Find | 집합 관리 | 대표 기반 |
-| [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) | 연결 탐색 | 탐색 기반 |
+| BFS/DFS | 연결 탐색 | 탐색 기반 |
 
 | 활용 | 예 |
 | :-- | :-- |
 | Connectivity | 연결 여부 |
-| Cycle [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) | 사이클 탐지 |
+| Cycle Detection | 사이클 탐지 |
 
-Union-Find는 연결 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 판별에 매우 강하다.
+Union-Find는 연결 컴포넌트 판별에 매우 강하다.
 
 - **📢 섹션 요약 비유**: 줄이 같은 편인지 빠르게 확인하는 도구다.
 
@@ -64,7 +64,7 @@ Union-Find는 연결 [컴포넌트](/studynote/04_software_engineering/10_trends
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. find와 union이 빠른가?
 2. path compression을 쓰는가?
@@ -72,7 +72,7 @@ Union-Find는 연결 [컴포넌트](/studynote/04_software_engineering/10_trends
 4. 연결 요소 문제에 적합한가?
 5. 사이클 탐지에 활용하는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 대표를 매번 끝까지 따라가는 설계
 - 집합 병합 시 균형을 무시하는 설계
@@ -128,14 +128,3 @@ Graph Algorithms
 친구 무리를 합쳐요.
 대표를 빨리 찾아요.
 Union-Find는 그런 도구예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 124 / 587
-
-<- **이전**: [70. ITIL 4 서비스 가치 사슬 (Service Value Chain)](/studynote/12_it_management/02_itsm_itil/070_service_value_chain/)
-**다음**: [71. 4차원 모델 (Four Dimensions of Service Management)](/studynote/12_it_management/02_itsm_itil/071_four_dimensions/) ->
-
----

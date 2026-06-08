@@ -7,8 +7,8 @@ weight: 873
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: Insecure Design (안전하지 않은 설계)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -23,7 +23,7 @@ weight: 873
 
 ---
 
-다음은 [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 Insecure Design (안전하의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -38,7 +38,7 @@ weight: 873
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 Insecure Design (안전하가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -58,7 +58,7 @@ weight: 873
 |:---|:---|
 | 정상 흐름 | 일반 사용자 경로 |
 | 남용 흐름 | 공격자 경로 |
-| 방어 요구사항 | 제한, [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 격리 |
+| 방어 요구사항 | 제한, 확인, 격리 |
 
 보안은 기능 뒤에 덧붙이는 장식이 아니라 설계의 일부다.
 
@@ -74,15 +74,15 @@ weight: 873
 
 ## Ⅲ. 비교 및 연결
 
-Insecure Design은 Broken Access Control이나 [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/) 같은 결과를 낳을 수 있다.
+Insecure Design은 Broken Access Control이나 Injection 같은 결과를 낳을 수 있다.
 
 | 구분 | 안전한 설계 | 안전하지 않은 설계 |
 |:---|:---|:---|
 | 관점 | 예방 중심 | 기능 중심 |
-| 입력 | 제한/[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 신뢰 |
+| 입력 | 제한/검증 | 신뢰 |
 | 결과 | 남용 차단 | 취약점 누적 |
 
-[STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/), DREAD, Threat Modeling이 여기서 유효하다.
+STRIDE, DREAD, Threat Modeling이 여기서 유효하다.
 
 - **📢 섹션 요약 비유**: 길을 만들 때 차선뿐 아니라 신호등도 같이 그려야 한다.
 
@@ -100,7 +100,7 @@ Insecure Design은 Broken Access Control이나 [Injection](/studynote/04_softwar
 
 점검 포인트는 다음과 같다.
 1. 남용 시나리오가 문서화되어 있는가?
-2. 중요한 경계에 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 단계가 있는가?
+2. 중요한 경계에 확인 단계가 있는가?
 3. 실패 시 안전한 기본값을 쓰는가?
 
 - **📢 섹션 요약 비유**: 놀이기구는 탈 수 있는지보다, 안전벨트가 먼저인지가 더 중요하다.
@@ -131,10 +131,10 @@ Insecure Design은 Broken Access Control이나 [Injection](/studynote/04_softwar
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | Insecure Design (안전하지 않은 설계)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | Insecure Design (안전하지 않은 설계)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | Insecure Design (안전하지 않은 설계) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | Insecure Design (안전하지 않은 설계)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,21 +154,10 @@ Insecure Design (안전하지 않은 설계) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [Insecure Design](/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. Insecure Design (안전하지 않은 설계)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 553 / 973
-
-<- **이전**: [480. Injection (인젝션 / SQLi, OS Command, NoSQL 등)](/studynote/04_software_engineering/11_testing_validation/872_injection/)
-**다음**: [481. Insecure Design (안전하지 않은 설계)](/studynote/04_software_engineering/11_testing_validation/873_insecure_design/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

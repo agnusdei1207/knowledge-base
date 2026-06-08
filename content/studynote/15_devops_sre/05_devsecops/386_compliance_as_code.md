@@ -121,14 +121,3 @@ DevSecOps 관점에서는 보안을 요구사항, 코드, 빌드, 배포, 런타
 1. 컴플라이언스 코드화 규제 준수 자동화은(는) 물건을 만들 때 마지막에만 검사하지 않고 만드는 동안 계속 안전을 확인하는 방법이에요.
 2. 문제가 작을 때 바로 찾으면 고치기 쉽고 사고도 줄어들어요.
 3. 좋은 DevSecOps는 빠르게 만들면서도 안전 규칙을 계속 지키게 해줘요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 386 / 400
-
-<- **이전**: [385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)](/studynote/15_devops_sre/05_devsecops/385_security_gate_cicd/)
-**다음**: [387. 취약점 관리 CVE CVSS 우선순위 기반 패치 (Vulnerability Management CVE CVSS Prioritization)](/studynote/15_devops_sre/05_devsecops/387_vulnerability_management_cve/) ->
-
----

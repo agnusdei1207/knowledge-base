@@ -7,20 +7,20 @@ weight: 421
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)를 이해하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: TCP 흐름 제어는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: TCP 흐름 제어를 이해하면 신뢰성과 지연 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 송신 측과 수신 측 사이의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 속도 차이로 인해 수신 버퍼가 [오버플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))되는 것을 방지하기 위해, 수신 측이 `Window Size` 필드를 통해 수신 가능한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양을 송신 측에 지속적으로 통보하는 제어 기법.
-- **필요성**: 구글(슈퍼컴퓨터)이 내 구형 똥컴 노트북에 영화를 다운로드 쏴주고 있다. 구글은 10Gbps로 쏠 수 있는데 내 똥컴 하드디스크는 10Mbps로밖에 저장을 못 한다. 구글이 무자비하게 쏴버리면 내 똥컴의 RAM(수신 버퍼)은 1초 만에 가득 차고, 넘쳐흐른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다 바닥에 떨어져 쓰레기(Drop)가 된다. 구글은 "어? 못 받았네?" 하고 또 10Gbps로 재전송한다. 내 똥컴은 완전히 뻗어버린다. <strong>"야 구글! 내 램(버퍼)에 빈 공간이 얼마나 남았는지 매번 알려줄 테니까, 딱 그 빈 공간 크기(<a href="/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a>)만큼만 보내고 숨 참아!!"</strong>
+- **개념**: 송신 측과 수신 측 사이의 데이터 처리 속도 차이로 인해 수신 버퍼가 오버플로우(Overflow)되는 것을 방지하기 위해, 수신 측이 `Window Size` 필드를 통해 수신 가능한 데이터양을 송신 측에 지속적으로 통보하는 제어 기법.
+- **필요성**: 구글(슈퍼컴퓨터)이 내 구형 똥컴 노트북에 영화를 다운로드 쏴주고 있다. 구글은 10Gbps로 쏠 수 있는데 내 똥컴 하드디스크는 10Mbps로밖에 저장을 못 한다. 구글이 무자비하게 쏴버리면 내 똥컴의 RAM(수신 버퍼)은 1초 만에 가득 차고, 넘쳐흐른 데이터는 다 바닥에 떨어져 쓰레기(Drop)가 된다. 구글은 "어? 못 받았네?" 하고 또 10Gbps로 재전송한다. 내 똥컴은 완전히 뻗어버린다. <strong>"야 구글! 내 램(버퍼)에 빈 공간이 얼마나 남았는지 매번 알려줄 테니까, 딱 그 빈 공간 크기(Window Size)만큼만 보내고 숨 참아!!"</strong>
 
-- **💡 비유**: [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 식당의 <strong>"회전초밥 레일 통제"</strong>와 같습니다.
+- **💡 비유**: 흐름 제어는 식당의 <strong>"회전초밥 레일 통제"</strong>와 같습니다.
   - **Stop-and-Wait**: 손님이 초밥 1접시를 다 먹고 빈 접시를 내려놓을 때까지, 주방장이 다음 초밥을 레일에 올리지 않고 팔짱 끼고 기다립니다 (속도 최악).
-  - **슬라이딩 윈도우**: 주방장이 손님 테이블 빈 공간([Window Size](/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))을 봅니다. "오, 5접시 놓을 수 있네!" 주방장은 **한 번에 5접시를 레일에 쫙 깝니다**. 손님이 1접시를 다 먹고 빈 그릇을 치우면(ACK), 주방장은 빈자리가 1개 났으므로 기다리지 않고 **새 초밥 1접시를 레일에 바로 밀어 넣습니다(Sliding)**.
+  - **슬라이딩 윈도우**: 주방장이 손님 테이블 빈 공간(Window Size)을 봅니다. "오, 5접시 놓을 수 있네!" 주방장은 **한 번에 5접시를 레일에 쫙 깝니다**. 손님이 1접시를 다 먹고 빈 그릇을 치우면(ACK), 주방장은 빈자리가 1개 났으므로 기다리지 않고 **새 초밥 1접시를 레일에 바로 밀어 넣습니다(Sliding)**.
 
 ```text
 [CLOSE_WAIT / LAST_ACK 상태]
@@ -37,15 +37,15 @@ weight: 421
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-송신자의 머릿속([송신 버퍼](/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/))에는 긴 띠 모양의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있고, 그 위에 사각형 모양의 <strong>창문(Window)</strong>이 씌워져 있다. 이 창문의 크기는 수신자가 정해준 크기(예: 3개)다.
+송신자의 머릿속(송신 버퍼)에는 긴 띠 모양의 데이터가 있고, 그 위에 사각형 모양의 <strong>창문(Window)</strong>이 씌워져 있다. 이 창문의 크기는 수신자가 정해준 크기(예: 3개)다.
 
-### 1. [송신 버퍼](/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/)의 3가지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태
-송신자는 자기가 가진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 3그룹으로 쪼개어 관리한다.
-1. **창문 왼쪽 (과거)**: 이미 보내서 상대방이 잘 받았다고 영수증(ACK)까지 다 보내준 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). 미련 없이 메모리에서 지워버린다.
+### 1. 송신 버퍼의 3가지 데이터 상태
+송신자는 자기가 가진 데이터를 3그룹으로 쪼개어 관리한다.
+1. **창문 왼쪽 (과거)**: 이미 보내서 상대방이 잘 받았다고 영수증(ACK)까지 다 보내준 데이터. 미련 없이 메모리에서 지워버린다.
 2. **창문 안쪽 (현재) ★핵심**:
-   - 이 창문 크기가 곧 <strong>수신자가 허락한 <a href="/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a></strong>다.
-   - 영수증(ACK)을 아직 못 받았지만, 수신자가 허락했으니 <strong>지금 당장 냅다 쏠 수 있는 (또는 이미 쏜) <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>들이다.
-3. **창문 오른쪽 (미래)**: 아직 창문 안에 못 들어와서, 보내고 싶어도 꾹 참고 대기해야 하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
+   - 이 창문 크기가 곧 <strong>수신자가 허락한 Window Size</strong>다.
+   - 영수증(ACK)을 아직 못 받았지만, 수신자가 허락했으니 <strong>지금 당장 냅다 쏠 수 있는 (또는 이미 쏜) 데이터</strong>들이다.
+3. **창문 오른쪽 (미래)**: 아직 창문 안에 못 들어와서, 보내고 싶어도 꾹 참고 대기해야 하는 데이터.
 
 ### 2. 창문이 스르륵 밀리는 기적 (Sliding)
 1. 수신자가 허락한 창문 크기가 3개(패킷 1, 2, 3번)다.
@@ -75,55 +75,55 @@ weight: 421
  +-------------------------------------------------------------+
 ```
 
-### 3. Window 0 ([Zero Window](/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/))의 딜레마
+### 3. Window 0 (Zero Window)의 딜레마
 만약 수신자 PC가 멈춰서 버퍼가 꽉 찼다. 수신자는 영수증에 `Window Size = 0`을 적어 보낸다.
 송신자의 창문 크기가 0이 되어 완전히 닫힌다(통신 정지).
 문제는 수신자가 3초 뒤에 버퍼를 비우고 `Window Size = 3`을 적어 보냈는데, 하필 그 패킷이 바다에서 유실(Drop)됐다면?
-송신자는 계속 창문이 0인 줄 알고 평생 대기하고, 수신자도 송신자가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 줘서 평생 대기하는 데드락([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다.
-이를 막기 위해 송신자는 창문이 0이어도, 가끔 <strong><a href="/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/">Zero Window</a> Probe(찔러보기)</strong>라는 1바이트짜리 깡통 패킷을 던져 "야, 너 아직도 창고 꽉 찼어?"라고 주기적으로 물어보는 똑똑한 안전장치를 쓴다.
+송신자는 계속 창문이 0인 줄 알고 평생 대기하고, 수신자도 송신자가 데이터를 안 줘서 평생 대기하는 데드락(Deadlock)에 빠진다.
+이를 막기 위해 송신자는 창문이 0이어도, 가끔 <strong>Zero Window Probe(찔러보기)</strong>라는 1바이트짜리 깡통 패킷을 던져 "야, 너 아직도 창고 꽉 찼어?"라고 주기적으로 물어보는 똑똑한 안전장치를 쓴다.
 
-- **📢 섹션 요약 비유**: ** 슬라이딩 윈도우는 우물에서 불을 끌 때 쓰는 **"인간 사다리 양동이 릴레이"**입니다. 한 사람이 빈 양동이(ACK)가 올 때까지 무작정 기다리는 게 아니라, 양동이 5개([Window Size](/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))를 일정한 간격으로 계속 퍼서 앞사람에게 쉴 새 없이 밀어 던짐(Sliding)으로써, 물이 끊기지 않고 불 난 곳까지 콸콸콸 쏟아지게 만드는 궁극의 연속 작업입니다.
+- **📢 섹션 요약 비유**: ** 슬라이딩 윈도우는 우물에서 불을 끌 때 쓰는 **"인간 사다리 양동이 릴레이"**입니다. 한 사람이 빈 양동이(ACK)가 올 때까지 무작정 기다리는 게 아니라, 양동이 5개(Window Size)를 일정한 간격으로 계속 퍼서 앞사람에게 쉴 새 없이 밀어 던짐(Sliding)으로써, 물이 끊기지 않고 불 난 곳까지 콸콸콸 쏟아지게 만드는 궁극의 연속 작업입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CLOSE_WAIT / LAST_ACK 상태가 기반 조건을 만든다면, [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 그 위에서 핵심 메커니즘을 구현하고, [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+TCP 흐름 제어를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CLOSE_WAIT / LAST_ACK 상태가 기반 조건을 만든다면, TCP 흐름 제어는 그 위에서 핵심 메커니즘을 구현하고, 윈도우 스케일옵션은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 신뢰성과 지연에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | CLOSE_WAIT / LAST_ACK 상태의 기반 정리 | [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)의 핵심 동작 | [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | CLOSE_WAIT / LAST_ACK 상태의 기반 정리 | TCP 흐름 제어의 핵심 동작 | 윈도우 스케일옵션의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | 신뢰성 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: TCP 흐름 제어는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 CLOSE_WAIT / LAST_ACK 상태 수준의 기본 대책으로 충분한지, 아니면 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 TCP 흐름 제어를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 CLOSE_WAIT / LAST_ACK 상태 수준의 기본 대책으로 충분한지, 아니면 TCP 흐름 제어가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 윈도우 스케일옵션와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
-1. 현재 문제의 핵심이 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 부족인지, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 악화인지 먼저 분리한다.
-2. [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 신뢰성 부족인지, 지연 악화인지 먼저 분리한다.
+2. TCP 흐름 제어가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+3. 도입 후에는 인접 기술인 윈도우 스케일옵션와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- CLOSE_WAIT / LAST_ACK 상태와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- TCP 흐름 제어의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- CLOSE_WAIT / LAST_ACK 상태와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: TCP 흐름 제어를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/), 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+TCP 흐름 제어는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 신뢰성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 윈도우 스케일옵션, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: TCP 흐름 제어는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -132,9 +132,9 @@ weight: 421
 | 개념 | 연결 포인트 |
 |:---|:---|
 | CLOSE_WAIT / LAST_ACK 상태 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
-| [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) (Flow Control) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 세그먼트 (Segment) | 전송 계층이 다루는 기본 단위다. |
+| 흐름 제어 (Flow Control) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| 윈도우 스케일옵션 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,21 +148,10 @@ weight: 421
     +---> [확장 B: 적응형 저지연 전송]
 ```
 
-[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 CLOSE_WAIT / LAST_ACK 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 스케일옵션](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+TCP 흐름 제어는 CLOSE_WAIT / LAST_ACK 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 윈도우 스케일옵션와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 542 / 1120
-
-<- **이전**: [420. CLOSE_WAIT / LAST_ACK 상태](/studynote/03_network/08_transport_layer/420_close_wait_last_ack_state/)
-**다음**: [422. 윈도우 스케일옵션 (Window Scale Option)](/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) ->
-
----

@@ -7,36 +7,36 @@ weight: 517
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정상성([Stationarity](/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/)) — 평균·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 시간에 따라 변하지 않음 — 은 [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 모델링의 전제 조건이며, ADF 검정(Augmented Dickey-Fuller Test)으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 차분(Differencing)으로 달성한다.
-> 2. **가치**: [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)([Autoregressive](/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/) Integrated Moving Average)의 p, d, q 파라미터는 ACF(Autocorrelation Function)/PACF(Partial ACF) 패턴으로 체계적으로 결정하고, AIC/BIC로 최적 모델을 선택한다.
-> 3. **판단 포인트**: 계절성이 있으면 SARIMA, 딥러닝이 필요하면 [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)·TCN([Temporal Convolutional Network](/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/)) — 단, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 충분해야 딥러닝이 통계 모델을 능가한다.
+> 1. **본질**: 정상성(Stationarity) — 평균·분산이 시간에 따라 변하지 않음 — 은 ARIMA 모델링의 전제 조건이며, ADF 검정(Augmented Dickey-Fuller Test)으로 확인 후 차분(Differencing)으로 달성한다.
+> 2. **가치**: ARIMA(Autoregressive Integrated Moving Average)의 p, d, q 파라미터는 ACF(Autocorrelation Function)/PACF(Partial ACF) 패턴으로 체계적으로 결정하고, AIC/BIC로 최적 모델을 선택한다.
+> 3. **판단 포인트**: 계절성이 있으면 SARIMA, 딥러닝이 필요하면 LSTM·TCN(Temporal Convolutional Network) — 단, 데이터 양이 충분해야 딥러닝이 통계 모델을 능가한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Time Series [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 시간 순서가 의미를 갖는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 주가, 기온, 서버 트래픽 등이 대표 예시다. 일반 ML 모델과 달리 시간적 의존성을 명시적으로 모델링해야 한다.
+시계열 데이터(Time Series Data)는 시간 순서가 의미를 갖는 데이터다. 주가, 기온, 서버 트래픽 등이 대표 예시다. 일반 ML 모델과 달리 시간적 의존성을 명시적으로 모델링해야 한다.
 
-### 정상성 ([Stationarity](/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/)) 조건
+### 정상성 (Stationarity) 조건
 
 | 조건 | 수식 | 의미 |
 |:---|:---|:---|
 | 평균 불변 | E[Xₜ] = μ (상수) | 트렌드(Trend) 없음 |
-| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 불변 | Var(Xₜ) = σ^ (상수) | 변동성 변화 없음 |
+| 분산 불변 | Var(Xₜ) = σ^ (상수) | 변동성 변화 없음 |
 | 공분산 시차 의존 | Cov(Xₜ, Xₜ₊ₖ) = f(k)만 의존 | 계절성 없음 |
 
 **비정상 시계열 변환**:
 - 트렌드 제거: 1차 차분 (d=1) -> Xₜ' = Xₜ − Xₜ₋₁
-- [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 안정화: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환 -> ln(Xₜ)
+- 분산 안정화: 로그 변환 -> ln(Xₜ)
 - 계절성 제거: 계절 차분 -> Xₜ − Xₜ₋ₛ (s: 계절 주기)
 
-- **📢 섹션 요약 비유**: 정상성은 강물이 일정한 수위로 흘러야 예측이 가능한 것처럼, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들쭉날쭉 올라가거나 내려가면(비정상) 모델이 패턴을 찾기 어려워. 차분은 강물의 수위 변화를 분석하는 것과 같아.
+- **📢 섹션 요약 비유**: 정상성은 강물이 일정한 수위로 흘러야 예측이 가능한 것처럼, 데이터가 들쭉날쭉 올라가거나 내려가면(비정상) 모델이 패턴을 찾기 어려워. 차분은 강물의 수위 변화를 분석하는 것과 같아.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)(p, d, q) 파라미터 결정 흐름
+### ARIMA(p, d, q) 파라미터 결정 흐름
 
 ```
 시계열 데이터
@@ -59,12 +59,12 @@ ARIMA(p,d,q) 적합 -> AIC/BIC 최소 모델 선택
 
 ### ACF vs PACF 패턴 해석
 
-| 패턴 | AR(p) [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | MA(q) [신호](/studynote/02_operating_system/02_process_thread/130_signal/) |
+| 패턴 | AR(p) 신호 | MA(q) 신호 |
 |:---|:---|:---|
 | ACF | 지수적 감소 또는 진동 감소 | q 시차 후 절단 |
 | PACF | p 시차 후 절단 | 지수적 감소 또는 진동 감소 |
 
-<strong><a href="/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/">ARIMA</a> 구성 요소</strong>:
+<strong>ARIMA 구성 요소</strong>:
 - AR(p): Xₜ = φ₁Xₜ₋₁ + ... + φₚXₜ₋ₚ + εₜ (자기회귀)
 - I(d): d회 차분으로 정상성 달성
 - MA(q): Xₜ = εₜ + θ₁εₜ₋₁ + ... + θqεₜ₋q (이동평균)
@@ -75,7 +75,7 @@ ARIMA(p,d,q) 적합 -> AIC/BIC 최소 모델 선택
 
 ## Ⅲ. 비교 및 연결
 
-### 지수 평활법 ([Exponential Smoothing](/studynote/06_ict_convergence/05_data_science/344_exponential_smoothing_moving_average/)) 비교
+### 지수 평활법 (Exponential Smoothing) 비교
 
 | 방법 | 대응 패턴 | 파라미터 |
 |:---|:---|:---|
@@ -89,31 +89,31 @@ ARIMA(p,d,q) 적합 -> AIC/BIC 최소 모델 선택
 
 ### 딥러닝 시계열 모델
 
-- <strong><a href="/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> (<a href="/studynote/10_ai/04_ai_ops_ethics/292_lstm/">Long Short-Term Memory</a>)</strong>: RNN의 [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 학습. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ≥ 수천 포인트 권장.
-- <strong>TCN (<a href="/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/">Temporal Convolutional Network</a>)</strong>: 인과 합성곱으로 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 가능, LSTM보다 빠름.
+- <strong>LSTM (Long Short-Term Memory)</strong>: RNN의 장기 의존성 학습. 데이터 ≥ 수천 포인트 권장.
+- <strong>TCN (Temporal Convolutional Network)</strong>: 인과 합성곱으로 병렬 학습 가능, LSTM보다 빠름.
 - **Prophet (Facebook)**: 트렌드 + 계절성 + 휴일 효과 분리 모델, 비전문가도 사용 용이.
 
-- **📢 섹션 요약 비유**: 지수 평활은 최근 기억에 더 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 두는 인간의 기억 방식이야. 오래된 기억은 흐릿해지고(작은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), 최근 기억은 선명해(큰 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)). 어제 있었던 일이 일주일 전보다 더 잘 기억되는 것처럼.
+- **📢 섹션 요약 비유**: 지수 평활은 최근 기억에 더 가중치를 두는 인간의 기억 방식이야. 오래된 기억은 흐릿해지고(작은 가중치), 최근 기억은 선명해(큰 가중치). 어제 있었던 일이 일주일 전보다 더 잘 기억되는 것처럼.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **시나리오 - 소매점 매출 예측**:
-- 3년치 주간 매출 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석.
+- 3년치 주간 매출 데이터 분석.
 - 1단계: ADF 검정 p-값 = 0.48 > 0.05 -> 비정상 -> 1차 차분 후 p-값 = 0.003 -> 정상 (d=1).
 - 2단계: ACF가 12시차(연간 계절성) 반복 -> SARIMA 적용.
 - 3단계: 모델 탐색 SARIMA(1,1,1)(1,1,1)[52] -> AIC 최소.
 - RMSE = 4,200만 원 (MAPE 3.8%) -> 재고 최적화 연 1.2억 원 절감.
 
 **잔차 진단**:
-- Ljung-Box 검정: 잔차에 자기상관 없음 -> 모델 적합 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-- 잔차 정규성: Q-Q 플롯 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+- Ljung-Box 검정: 잔차에 자기상관 없음 -> 모델 적합 확인.
+- 잔차 정규성: Q-Q 플롯 확인.
 
 **기술사 판단 포인트**:
-- [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) < 50 포인트: 단순 지수 평활 또는 Holt-Winters 우선 고려.
+- 데이터 < 50 포인트: 단순 지수 평활 또는 Holt-Winters 우선 고려.
 - 구조 변화(Structural Break) 탐지: Chow Test -> 변환점 전후 별도 모델링.
-- 이상값 탐지: 시계열 이상값(Innovational [Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), Additive [Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 유형별 처리.
+- 이상값 탐지: 시계열 이상값(Innovational Outlier, Additive Outlier) 유형별 처리.
 
 - **📢 섹션 요약 비유**: 시계열 예측은 날씨 예보처럼, "오늘이 맑으면 내일도 맑을 가능성이 높다(AR)"는 규칙과 "어제 예보가 틀렸으니 오늘은 보정하자(MA)"는 두 가지 논리를 합쳐서 미래를 예측하는 거야.
 
@@ -121,11 +121,11 @@ ARIMA(p,d,q) 적합 -> AIC/BIC 최소 모델 선택
 
 ## Ⅴ. 기대효과 및 결론
 
-[ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 계열 모델과 딥러닝 시계열 모델을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞게 선택하면 재고 관리·에너지 수요 예측·금융 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 등 다양한 영역에서 예측 정확도를 높일 수 있다.
+ARIMA 계열 모델과 딥러닝 시계열 모델을 데이터 특성에 맞게 선택하면 재고 관리·에너지 수요 예측·금융 리스크 관리 등 다양한 영역에서 예측 정확도를 높일 수 있다.
 
-- **재고 최적화**: 정확한 수요 예측으로 과재고·품절 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소.
-- <strong><a href="/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 예측값과 실제값 차이(잔차) 모니터링으로 시스템 이상 조기 감지.
-- **운영 효율**: 자동화된 [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 파라미터 탐색(Auto-[ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/))으로 모델 유지 비용 절감.
+- **재고 최적화**: 정확한 수요 예측으로 과재고·품절 리스크 감소.
+- <strong>이상 탐지</strong>: 예측값과 실제값 차이(잔차) 모니터링으로 시스템 이상 조기 감지.
+- **운영 효율**: 자동화된 ARIMA 파라미터 탐색(Auto-ARIMA)으로 모델 유지 비용 절감.
 
 - **📢 섹션 요약 비유**: 시계열 분석은 역사책을 읽고 미래를 예측하는 거야. 과거 패턴(AR), 과거 실수(MA), 그리고 계절 반복(S)을 모두 고려해야 좋은 예측이 나와.
 
@@ -135,11 +135,11 @@ ARIMA(p,d,q) 적합 -> AIC/BIC 최소 모델 선택
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 정상성 | ADF 검정, 차분 · [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 전처리 |
-| [ARIMA](/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)(p,d,q) | ACF/PACF, AIC/BIC · 시계열 예측 |
-| SARIMA | 계절성, 계절 차분 · 월별/분기별 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 정상성 | ADF 검정, 차분 · ARIMA 전처리 |
+| ARIMA(p,d,q) | ACF/PACF, AIC/BIC · 시계열 예측 |
+| SARIMA | 계절성, 계절 차분 · 월별/분기별 데이터 |
 | Holt-Winters | 지수 평활, 트렌드+계절 · 단기 예측 |
-| [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/TCN | [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/), 딥러닝 · 복잡 비선형 패턴 |
+| LSTM/TCN | 장기 의존성, 딥러닝 · 복잡 비선형 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,17 +149,6 @@ ARIMA(p,d,q) 적합 -> AIC/BIC 최소 모델 선택
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 시계열은 매일 기온을 기록한 일기장처럼, 시간 순서가 중요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)야.
+1. 시계열은 매일 기온을 기록한 일기장처럼, 시간 순서가 중요한 데이터야.
 2. ARIMA는 "어제 기온이 오늘에 영향을 주고(AR), 어제 예측 실수도 반영해서(MA)" 미래 기온을 예측하는 방법이야.
 3. 계절이 있으면 SARIMA로 "작년 여름이 올해 여름에도 영향을 준다"는 패턴까지 추가로 학습해!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 517 / 552
-
-<- **이전**: [516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)](/studynote/06_ict_convergence/05_data_science/516_markov_chain_absorbing_ergodic_transition/)
-**다음**: [518. TF-IDF, 코사인 유사도, 텍스트 마이닝 (TF-IDF Cosine Similarity Text Mining Word2Vec)](/studynote/06_ict_convergence/05_data_science/518_tfidf_cosine_similarity_text_mining_word2vec/) ->
-
----

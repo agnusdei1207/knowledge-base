@@ -6,22 +6,22 @@ tags:
   - "studynote-cloud-architecture"
 weight: 19
 ---
-# [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ([Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/))
+# 전가상화 (Full Virtualization)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ([Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/))는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 밑단 하드웨어 전체를 완벽하게 모방(Emulation)하여, 가상 머신 위의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Guest OS)가 자신이 가상 환경에 있다는 사실조차 모른 채 동작하게 만드는 기술이다.
-> 2. **가치**: 윈도우나 기존 레거시 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 단 한 줄의 소스코드 수정 없이(Unmodified) 그대로 가상 머신에 올려 실행할 수 있는 압도적인 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 제공한다.
-> 3. **융합**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 소프트웨어 번역(Binary Translation)으로 인한 막대한 오버헤드가 있었으나, CPU 차원의 [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)([Intel VT-x](/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/), [AMD-V](/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/))와 융합하며 현재 클라우드 표준 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 방식으로 자리 잡았다.
+> 1. **본질**: 전가상화 (Full Virtualization)는 하이퍼바이저가 밑단 하드웨어 전체를 완벽하게 모방(Emulation)하여, 가상 머신 위의 운영체제(Guest OS)가 자신이 가상 환경에 있다는 사실조차 모른 채 동작하게 만드는 기술이다.
+> 2. **가치**: 윈도우나 기존 레거시 리눅스 커널을 단 한 줄의 소스코드 수정 없이(Unmodified) 그대로 가상 머신에 올려 실행할 수 있는 압도적인 호환성을 제공한다.
+> 3. **융합**: 초기에는 소프트웨어 번역(Binary Translation)으로 인한 막대한 오버헤드가 있었으나, CPU 차원의 하드웨어 보조 가상화(Intel VT-x, AMD-V)와 융합하며 현재 클라우드 표준 가상화 방식으로 자리 잡았다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-[가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술의 핵심 과제는 <strong>"어떻게 하나의 물리적 CPU와 메모리를 여러 개의 <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 엉키지 않고 나눠 쓰게 할 것인가"</strong>이다. 본래 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)라는 녀석은 자신이 컴퓨터 하드웨어를 독점하는 절대 권력자라고 믿게끔 설계되었다. 그런데 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 환경에서는 1개의 하드웨어 위에 여러 명의 권력자(Guest OS)들이 올라탄다. 이들이 동시에 CPU의 핵심 제어 권한(특권 명령)을 달라고 아우성치면 시스템은 즉시 붕괴(Crash)되고 만다.
+가상화 기술의 핵심 과제는 <strong>"어떻게 하나의 물리적 CPU와 메모리를 여러 개의 운영체제가 엉키지 않고 나눠 쓰게 할 것인가"</strong>이다. 본래 운영체제(OS)라는 녀석은 자신이 컴퓨터 하드웨어를 독점하는 절대 권력자라고 믿게끔 설계되었다. 그런데 하이퍼바이저 환경에서는 1개의 하드웨어 위에 여러 명의 권력자(Guest OS)들이 올라탄다. 이들이 동시에 CPU의 핵심 제어 권한(특권 명령)을 달라고 아우성치면 시스템은 즉시 붕괴(Crash)되고 만다.
 
-이 문제를 가장 직관적이고 무식하게(?) 해결한 접근법이 바로 <strong><a href="/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a> (<a href="/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">Full Virtualization</a>)</strong>이다. [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 철학은 "Guest OS를 완벽하게 속인다"는 것이다. [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 Guest OS 아래에 거대한 가상의 매트릭스 세계(가상 하드웨어)를 만들어 놓는다. Guest OS가 "나 CPU 메모리 바꿀래!"라고 특권 명령을 외치면, 실제 하드웨어로 가기 전에 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 이를 중간에 낚아채어([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 안전한 가짜 명령으로 번역하여 실행해준다(Emulate). 이 덕분에 우리는 기존 서버에서 돌던 낡은 Windows 2000이든 구형 Linux든, 소스코드를 전혀 건드릴 필요 없이(수정 불가능한 상용 OS도 포함) 그대로 복사해서 가상 머신에 이식할 수 있게 되었다. 이것이 클라우드 마이그레이션([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift)의 출발점이다.
+이 문제를 가장 직관적이고 무식하게(?) 해결한 접근법이 바로 <strong>전가상화 (Full Virtualization)</strong>이다. 전가상화의 철학은 "Guest OS를 완벽하게 속인다"는 것이다. 하이퍼바이저는 Guest OS 아래에 거대한 가상의 매트릭스 세계(가상 하드웨어)를 만들어 놓는다. Guest OS가 "나 CPU 메모리 바꿀래!"라고 특권 명령을 외치면, 실제 하드웨어로 가기 전에 하이퍼바이저가 이를 중간에 낚아채어(Trap) 안전한 가짜 명령으로 번역하여 실행해준다(Emulate). 이 덕분에 우리는 기존 서버에서 돌던 낡은 Windows 2000이든 구형 Linux든, 소스코드를 전혀 건드릴 필요 없이(수정 불가능한 상용 OS도 포함) 그대로 복사해서 가상 머신에 이식할 수 있게 되었다. 이것이 클라우드 마이그레이션(Lift and Shift)의 출발점이다.
 
-아래 다이어그램은 물리 CPU의 권한 계층(Ring [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)) 구조 하에서, 기존 시스템과 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 시스템의 치명적인 권한 충돌과 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 틈새 진입을 보여준다.
+아래 다이어그램은 물리 CPU의 권한 계층(Ring Architecture) 구조 하에서, 기존 시스템과 전가상화 시스템의 치명적인 권한 충돌과 하이퍼바이저의 틈새 진입을 보여준다.
 
 ```text
 [전통적인 x86 권한 구조]        [전가상화 시 충돌 발생 딜레마]     [하이퍼바이저의 개입(Ring Deprivileging)]
@@ -36,25 +36,25 @@ weight: 19
 +------------------+        +------------------+           +------------------+
 ```
 
-이 그림의 핵심은 x86 CPU 아키텍처의 한계인 'Ring 0 (루트 권한) 독점' 문제다. 본래 OS는 Ring 0에 있어야만 동작한다. 그런데 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 Ring 0를 차지해버리면, Guest OS는 어디로 가야 할까? [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 기술은 Guest OS를 억지로 하위 권한인 Ring 1로 내쫓아버린다(Ring Deprivileging). Guest OS는 자신이 Ring 0인 줄 착각하고 특권 명령을 내리지만, 실제로는 Ring 1에 있기 때문에 CPU에서 에러([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))가 발생한다. 이때 Ring 0에 대기하던 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 그 에러를 잡아내어 "아, 얘가 뭘 하려는지 알겠다"며 대신 하드웨어를 조작해 주는 것이 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 마법의 시작이다.
+이 그림의 핵심은 x86 CPU 아키텍처의 한계인 'Ring 0 (루트 권한) 독점' 문제다. 본래 OS는 Ring 0에 있어야만 동작한다. 그런데 하이퍼바이저가 Ring 0를 차지해버리면, Guest OS는 어디로 가야 할까? 전가상화 기술은 Guest OS를 억지로 하위 권한인 Ring 1로 내쫓아버린다(Ring Deprivileging). Guest OS는 자신이 Ring 0인 줄 착각하고 특권 명령을 내리지만, 실제로는 Ring 1에 있기 때문에 CPU에서 에러(Trap)가 발생한다. 이때 Ring 0에 대기하던 하이퍼바이저가 그 에러를 잡아내어 "아, 얘가 뭘 하려는지 알겠다"며 대신 하드웨어를 조작해 주는 것이 전가상화 마법의 시작이다.
 
-📢 **섹션 요약 비유**: 영화 '매트릭스'처럼 가상 현실 속 인간(Guest OS)들은 자신이 진짜 세상(물리 하드웨어)을 만지고 있다고 100% 믿고 있지만, 실제로는 기계([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))가 만들어낸 정교한 환상 속에서 모든 감각을 조작당하고 있는 것과 완벽히 같습니다.
+📢 **섹션 요약 비유**: 영화 '매트릭스'처럼 가상 현실 속 인간(Guest OS)들은 자신이 진짜 세상(물리 하드웨어)을 만지고 있다고 100% 믿고 있지만, 실제로는 기계(하이퍼바이저)가 만들어낸 정교한 환상 속에서 모든 감각을 조작당하고 있는 것과 완벽히 같습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 뼈대를 이루는 핵심 메커니즘은 <strong><a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> 앤 에뮬레이트 (<a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> and Emulate)</strong> 와 그 한계를 극복하기 위한 **바이너리 트랜슬레이션 (Binary Translation, 이진 변환)** 기술이다.
+전가상화의 뼈대를 이루는 핵심 메커니즘은 <strong>트랩 앤 에뮬레이트 (Trap and Emulate)</strong> 와 그 한계를 극복하기 위한 **바이너리 트랜슬레이션 (Binary Translation, 이진 변환)** 기술이다.
 
 | 구성 요소 | 역할 | 내부 동작 | 병목 요인 | 비유 |
 |:---|:---|:---|:---|:---|
-| **비특권 명령 (User)** | 일반적인 덧셈/뺄셈 연산 | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입 없이 물리 CPU에서 다이렉트로 실행 | 오버헤드 0% (빠름) | 직원들의 일상적 서류 결재 |
-| <strong>특권 명령 (<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong> | 메모리, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 등 하드웨어 제어 | Ring 1의 Guest OS가 시도 시 권한 부족으로 [Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 발생 | VMM 호출에 따른 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 사장 도장이 필요한 중요 결재 |
-| <strong><a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> 핸들러</strong> | 권한 이탈 예외 감지 및 낚아채기 | CPU의 Exception [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 발생 | 결재 서류를 가로채는 비서 |
+| **비특권 명령 (User)** | 일반적인 덧셈/뺄셈 연산 | 하이퍼바이저 개입 없이 물리 CPU에서 다이렉트로 실행 | 오버헤드 0% (빠름) | 직원들의 일상적 서류 결재 |
+| <strong>특권 명령 (Kernel)</strong> | 메모리, 인터럽트 등 하드웨어 제어 | Ring 1의 Guest OS가 시도 시 권한 부족으로 Trap 발생 | VMM 호출에 따른 지연 | 사장 도장이 필요한 중요 결재 |
+| <strong>Trap 핸들러</strong> | 권한 이탈 예외 감지 및 낚아채기 | CPU의 Exception 인터럽트를 하이퍼바이저로 라우팅 | 컨텍스트 스위칭 발생 | 결재 서류를 가로채는 비서 |
 | **Binary Translation** | Trap이 안 먹히는 난해한 명령 번역 | 런타임에 Guest OS의 기계어를 안전한 명령으로 실시간 치환 | 심각한 CPU 오버헤드유발 | 외국어 서류의 실시간 동시통역 |
-| <strong><a href="/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/">Shadow Page Table</a></strong> | Guest [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 통제 | Guest의 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)을 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 가짜로 유지 및 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 메모리 조회 시 2배 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 이중 장부 관리 |
+| <strong>Shadow Page Table</strong> | Guest 가상 메모리를 통제 | Guest의 페이지 테이블을 하이퍼바이저가 가짜로 유지 및 동기화 | 메모리 조회 시 2배 지연 | 이중 장부 관리 |
 
-[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86 CPU는 치명적인 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있었다. Guest OS가 내리는 특권 명령 중 일부(예: 현재 CPU 상태를 읽는 POPF 명령 등)는 Ring 1에서 실행해도 에러([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 발생시키지 않고 그냥 무시되어 조용히 넘어가버리는 현상(Non-virtualizable instructions)이 존재했다. Trap이 걸리지 않으면 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 개입할 수 없고, Guest OS는 오작동하여 블루스크린을 띄우게 된다. 이를 해결하기 위해 VMware가 발명한 전설적인 아키텍처가 바로 '동적 이진 변환'이다.
+초기 x86 CPU는 치명적인 결함이 있었다. Guest OS가 내리는 특권 명령 중 일부(예: 현재 CPU 상태를 읽는 POPF 명령 등)는 Ring 1에서 실행해도 에러(Trap)를 발생시키지 않고 그냥 무시되어 조용히 넘어가버리는 현상(Non-virtualizable instructions)이 존재했다. Trap이 걸리지 않으면 하이퍼바이저가 개입할 수 없고, Guest OS는 오작동하여 블루스크린을 띄우게 된다. 이를 해결하기 위해 VMware가 발명한 전설적인 아키텍처가 바로 '동적 이진 변환'이다.
 
 ```text
 [전가상화의 핵심: 동적 이진 변환 (Dynamic Binary Translation) 흐름]
@@ -76,7 +76,7 @@ weight: 19
                    변환된 코드만 물리 CPU로 전송 (안전 실행 보장)
 ```
 
-이 흐름의 핵심은 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 단순히 예외([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 기다리는 수동적 입장이 아니라, <strong>Guest OS가 실행하려는 기계어 코드를 물리 CPU에 던지기 1밀리초 전에 미리 읽고, 위험한 부분을 찾아 안전한 코드로 실시간 교체(번역)</strong>한다는 점이다. 이것은 엄청나게 복잡한 소프트웨어 공학의 정수이지만, 시스템의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(CPU 자원)을 미친 듯이 갉아먹는다는 치명적인 트레이드오프(Trade-off)를 동반한다. 모든 명령을 실시간 통역해야 하니 속도가 느려질 수밖에 없는 것이다.
+이 흐름의 핵심은 하이퍼바이저가 단순히 예외(Trap)를 기다리는 수동적 입장이 아니라, <strong>Guest OS가 실행하려는 기계어 코드를 물리 CPU에 던지기 1밀리초 전에 미리 읽고, 위험한 부분을 찾아 안전한 코드로 실시간 교체(번역)</strong>한다는 점이다. 이것은 엄청나게 복잡한 소프트웨어 공학의 정수이지만, 시스템의 성능(CPU 자원)을 미친 듯이 갉아먹는다는 치명적인 트레이드오프(Trade-off)를 동반한다. 모든 명령을 실시간 통역해야 하니 속도가 느려질 수밖에 없는 것이다.
 
 📢 **섹션 요약 비유**: 발표자(Guest OS)가 연단에서 위험한 폭탄 발언(특권 명령)을 하려 할 때, 실시간 동시통역사(Binary Translator)가 그 단어만 교묘하게 순화된 단어로 바꿔서 청중(하드웨어)에게 전달하여 방송 사고를 막는 엄청난 임기응변 시스템입니다.
 
@@ -84,19 +84,19 @@ weight: 19
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-[전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 극심한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드를 타개하기 위해 나타난 라이벌이 바로 '[반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)([Para-virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/))'이며, 이후 하드웨어의 발전([하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/))으로 인해 둘의 경쟁 양상은 완전히 뒤바뀌게 된다.
+전가상화의 극심한 성능 오버헤드를 타개하기 위해 나타난 라이벌이 바로 '반가상화(Para-virtualization)'이며, 이후 하드웨어의 발전(하드웨어 보조 가상화)으로 인해 둘의 경쟁 양상은 완전히 뒤바뀌게 된다.
 
-#### [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) (소프트웨어) vs [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 패러다임 비교
+#### 전가상화 (소프트웨어) vs 반가상화 패러다임 비교
 
-| 비교 항목 | [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) (Software [Full Virtualization](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)) | [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) ([Para-virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/)) | 판단 포인트 |
+| 비교 항목 | 전가상화 (Software Full Virtualization) | 반가상화 (Para-virtualization) | 판단 포인트 |
 |:---|:---|:---|:---|
-| **Guest OS 수정 여부** | **절대 수정 안 함 (Unmodified)** | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드 뜯어고침 (Modified) | 이식의 난이도 및 윈도우 지원 |
-| <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 처리 방식</strong> | [Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) & Emulate 및 실시간 기계어 변환 | OS가 스스로 VMM을 명시적 호출 (Hypercall) | 병목의 원인 차이 |
-| <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | **Windows**, Linux, [Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 등 완벽히 모두 지원 | 소스코드를 뜯을 수 있는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Linux)만 제한적 가능 | 엔터프라이즈 환경에서의 채택률 |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (과거 기준)</strong> | 소프트웨어 번역으로 인해 **매우 느림** | 통역 없이 다이렉트 호출하므로 **매우 빠름** | 속도 vs [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)의 저울질 |
+| **Guest OS 수정 여부** | **절대 수정 안 함 (Unmodified)** | 커널 소스코드 뜯어고침 (Modified) | 이식의 난이도 및 윈도우 지원 |
+| <strong>명령어 처리 방식</strong> | Trap & Emulate 및 실시간 기계어 변환 | OS가 스스로 VMM을 명시적 호출 (Hypercall) | 병목의 원인 차이 |
+| <strong>운영체제 호환성</strong> | **Windows**, Linux, Mac 등 완벽히 모두 지원 | 소스코드를 뜯을 수 있는 오픈소스(Linux)만 제한적 가능 | 엔터프라이즈 환경에서의 채택률 |
+| <strong>성능 (과거 기준)</strong> | 소프트웨어 번역으로 인해 **매우 느림** | 통역 없이 다이렉트 호출하므로 **매우 빠름** | 속도 vs 호환성의 저울질 |
 
-<strong><a href="/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/">하드웨어 보조 가상화</a> (<a href="/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/">Hardware-assisted Virtualization</a>)의 융합 구원</strong>
-소프트웨어 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 이진 변환(Binary Translation) 오버헤드는 클라우드 대중화의 가장 큰 걸림돌이었다. 이를 해결하기 위해 Intel과 AMD가 직접 나서서 CPU 칩셋 안에 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 박아버린 것이 바로 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/">Intel VT-x</a></strong>와 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/">AMD-V</a></strong> 기술이다.
+<strong>하드웨어 보조 가상화 (Hardware-assisted Virtualization)의 융합 구원</strong>
+소프트웨어 전가상화의 이진 변환(Binary Translation) 오버헤드는 클라우드 대중화의 가장 큰 걸림돌이었다. 이를 해결하기 위해 Intel과 AMD가 직접 나서서 CPU 칩셋 안에 가상화 전용 명령어를 박아버린 것이 바로 <strong>Intel VT-x</strong>와 <strong>AMD-V</strong> 기술이다.
 
 ```text
 [하드웨어 보조 전가상화 (Intel VT-x) 혁명]
@@ -116,26 +116,26 @@ weight: 19
 +------------------+
 ```
 
-이 구조 변화의 핵심은 '하드웨어가 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 위한 VMX Root Mode라는 신의 영역(Ring -1 이라 불리기도 함)을 새로 창조'해 주었다는 점이다. 이 덕분에 Guest OS는 더 이상 하위 권한으로 쫓겨나지 않고 자기만의 가상 Ring 0에서 특권 명령을 날릴 수 있다. Trap을 소프트웨어로 가로채어 번역하던 그 끔찍한 오버헤드가, 칩셋 내부의 하드웨어 스위칭([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit/Entry)으로 대체되면서 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)를 압도하며 떡상하게 되었다. 이것이 바로 현재 현대 클라우드가 [하드웨어 보조](/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)를 100% 채택하게 된 결정적 아키텍처 시너지다.
+이 구조 변화의 핵심은 '하드웨어가 하이퍼바이저를 위한 VMX Root Mode라는 신의 영역(Ring -1 이라 불리기도 함)을 새로 창조'해 주었다는 점이다. 이 덕분에 Guest OS는 더 이상 하위 권한으로 쫓겨나지 않고 자기만의 가상 Ring 0에서 특권 명령을 날릴 수 있다. Trap을 소프트웨어로 가로채어 번역하던 그 끔찍한 오버헤드가, 칩셋 내부의 하드웨어 스위칭(VM Exit/Entry)으로 대체되면서 전가상화의 성능이 반가상화를 압도하며 떡상하게 되었다. 이것이 바로 현재 현대 클라우드가 하드웨어 보조 전가상화를 100% 채택하게 된 결정적 아키텍처 시너지다.
 
-📢 **섹션 요약 비유**: 번역 앱(소프트웨어 이진 변환)을 켜고 더듬더듬 외국인과 대화하던 시대에서 벗어나, 아예 뇌에 실시간 자동 번역칩([하드웨어 보조](/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) VT-x)을 심어버려 현지인처럼 초고속으로 대화하게 된 완벽한 진화와 같습니다.
+📢 **섹션 요약 비유**: 번역 앱(소프트웨어 이진 변환)을 켜고 더듬더듬 외국인과 대화하던 시대에서 벗어나, 아예 뇌에 실시간 자동 번역칩(하드웨어 보조 VT-x)을 심어버려 현지인처럼 초고속으로 대화하게 된 완벽한 진화와 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
 
-실제 현장에서 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 아키텍처를 도입하고 트러블슈팅할 때 시스템 아키텍트가 고려해야 할 핵심 판단 지표들이다.
+실제 현장에서 전가상화 아키텍처를 도입하고 트러블슈팅할 때 시스템 아키텍트가 고려해야 할 핵심 판단 지표들이다.
 
-#### 1. 레거시(Legacy) 시스템의 클라우드 [Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift 시나리오
-- **상황**: 15년 전 구축되어 소스코드를 아는 개발자가 모두 퇴사한 상용 솔루션(Windows Server 2003 기반)이 물리 서버 수명 다함으로 인해 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경으로 급건 이관(P2V, Physical to Virtual)되어야 한다.
-- **판단**: [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)(OS 수정)나 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 재설계([Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))는 절대 불가능하다. 오직 <strong><a href="/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>(<a href="/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">Full Virtualization</a>)</strong> 방식을 통해서만 물리 서버의 하드 디스크 이미지를 그대로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(P2V)하여 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 위에 올려 단 1비트의 훼손 없이 구동할 수 있다. 이는 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 가용 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 최우선시되는 완벽한 타겟 시나리오다.
+#### 1. 레거시(Legacy) 시스템의 클라우드 Lift and Shift 시나리오
+- **상황**: 15년 전 구축되어 소스코드를 아는 개발자가 모두 퇴사한 상용 솔루션(Windows Server 2003 기반)이 물리 서버 수명 다함으로 인해 가상화 환경으로 급건 이관(P2V, Physical to Virtual)되어야 한다.
+- **판단**: 반가상화(OS 수정)나 컨테이너 기반 재설계(Refactor)는 절대 불가능하다. 오직 <strong>전가상화(Full Virtualization)</strong> 방식을 통해서만 물리 서버의 하드 디스크 이미지를 그대로 복제(P2V)하여 하이퍼바이저 위에 올려 단 1비트의 훼손 없이 구동할 수 있다. 이는 호환성이 가용 성능보다 최우선시되는 완벽한 타겟 시나리오다.
 
-#### 2. [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 무분별한 에뮬레이트 장치(IDE, E1000) 유지로 인한 디스크 I/O 붕괴
-- **상황**: [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 환경에 리눅스 DB 서버를 띄웠는데, 디스크 읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 물리 서버 대비 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 수준으로 처참하게 폭락하는 병목 발생.
-- **판단**: [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 위해 낡은 IDE 하드디스크나 구형 인텔 E1000 랜카드 드라이버를 완벽히 흉내 내어(Emulate) Guest OS에 제공한다. Guest OS는 드라이버 수정 없이 부팅되지만, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입출력 시마다 VMM이 이 구형 하드웨어를 소프트웨어로 하나하나 모방 계산하느라 I/O 대기열이 터져버린다.
-- **해결책**: 부팅 자체는 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)로 하더라도, 부팅 직후 Guest OS에 <strong><a href="/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a> I/O 전용 드라이버 (예: VirtIO, VMware Tools의 VMXNET3/PVSCSI)</strong>를 수동으로 설치(Add-on)해야 한다. CPU/메모리는 하드웨어 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)(VT-x)에 맡기고, 병목이 심한 I/O 부분만 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 통신을 쓰도록 혼합하는 '하이브리드 패러다임'을 실무에서는 무조건 적용해야 한다.
+#### 2. 안티패턴: 무분별한 에뮬레이트 장치(IDE, E1000) 유지로 인한 디스크 I/O 붕괴
+- **상황**: 전가상화 환경에 리눅스 DB 서버를 띄웠는데, 디스크 읽기/쓰기 속도가 물리 서버 대비 10% 수준으로 처참하게 폭락하는 병목 발생.
+- **판단**: 전가상화는 호환성을 위해 낡은 IDE 하드디스크나 구형 인텔 E1000 랜카드 드라이버를 완벽히 흉내 내어(Emulate) Guest OS에 제공한다. Guest OS는 드라이버 수정 없이 부팅되지만, 데이터 입출력 시마다 VMM이 이 구형 하드웨어를 소프트웨어로 하나하나 모방 계산하느라 I/O 대기열이 터져버린다.
+- **해결책**: 부팅 자체는 전가상화로 하더라도, 부팅 직후 Guest OS에 <strong>반가상화 I/O 전용 드라이버 (예: VirtIO, VMware Tools의 VMXNET3/PVSCSI)</strong>를 수동으로 설치(Add-on)해야 한다. CPU/메모리는 하드웨어 전가상화(VT-x)에 맡기고, 병목이 심한 I/O 부분만 반가상화 통신을 쓰도록 혼합하는 '하이브리드 패러다임'을 실무에서는 무조건 적용해야 한다.
 
-이 의사결정 트리는 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 도입 시 I/O 병목을 해결하는 아키텍처 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 흐름이다.
+이 의사결정 트리는 가상화 도입 시 I/O 병목을 해결하는 아키텍처 설정 흐름이다.
 
 ```text
 [VM I/O 디바이스 구성 의사결정]
@@ -152,34 +152,34 @@ weight: 19
                                 (현대 클라우드 IaaS 인스턴스의 100% 필수 표준 설정)
 ```
 
-이 판단의 핵심은 <strong>"<a href="/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>의 덫(에뮬레이션 부하)에서 I/O만큼은 반드시 구출해 내야 한다"</strong>는 실무적 진리다. 아무리 CPU가 [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)를 지원해도, 네트워크나 디스크 입출력을 소프트웨어로 흉내 내는 부하는 감당할 수 없기 때문이다.
+이 판단의 핵심은 <strong>"전가상화의 덫(에뮬레이션 부하)에서 I/O만큼은 반드시 구출해 내야 한다"</strong>는 실무적 진리다. 아무리 CPU가 하드웨어 보조 가상화를 지원해도, 네트워크나 디스크 입출력을 소프트웨어로 흉내 내는 부하는 감당할 수 없기 때문이다.
 
-📢 **섹션 요약 비유**: 낡은 마차(레거시 OS)의 겉모습과 좌석은 전혀 건드리지 않고 그대로 유지하되([전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)), 마차 바퀴 밑의 낡은 나무축만 최새로운 유형의 고속 베어링(VirtIO [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버)으로 몰래 갈아 끼워 승차감과 속도를 모두 잡는 정비공의 비법과 같습니다.
+📢 **섹션 요약 비유**: 낡은 마차(레거시 OS)의 겉모습과 좌석은 전혀 건드리지 않고 그대로 유지하되(전가상화 호환성), 마차 바퀴 밑의 낡은 나무축만 최새로운 유형의 고속 베어링(VirtIO 반가상화 드라이버)으로 몰래 갈아 끼워 승차감과 속도를 모두 잡는 정비공의 비법과 같습니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 폭발적 성장의 가장 큰 일등 공신이다. 세상의 모든 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 소프트웨어를 단 한 줄의 수정 없이 가상 세계로 빨아들일 수 있었던 이 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)의 마법이 없었다면 퍼블릭 클라우드는 결코 성공하지 못했을 것이다.
+전가상화는 클라우드 컴퓨팅 폭발적 성장의 가장 큰 일등 공신이다. 세상의 모든 운영체제와 소프트웨어를 단 한 줄의 수정 없이 가상 세계로 빨아들일 수 있었던 이 호환성의 마법이 없었다면 퍼블릭 클라우드는 결코 성공하지 못했을 것이다.
 
-| 구분 | [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 도입 부재 시 (P2V 실패) | [하드웨어 보조](/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 확립 후 | 패러다임 변화 |
+| 구분 | 전가상화 도입 부재 시 (P2V 실패) | 하드웨어 보조 전가상화 확립 후 | 패러다임 변화 |
 |:---|:---|:---|:---|
-| **마이그레이션** | 기존 앱을 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)용으로 전면 재코딩 필요 | 디스크 이미지 그대로 복사 후 부팅 끝 ([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift) | 클라우드 도입 장벽 붕괴 |
-| <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | 리눅스([오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 계열만 제한적 클라우드 이관 | Windows 포함 세상의 모든 레거시 OS 100% 포용 | 엔터프라이즈(금융/공공) 시장 장악 |
+| **마이그레이션** | 기존 앱을 가상화용으로 전면 재코딩 필요 | 디스크 이미지 그대로 복사 후 부팅 끝 (Lift & Shift) | 클라우드 도입 장벽 붕괴 |
+| <strong>운영체제 종속성</strong> | 리눅스(오픈소스) 계열만 제한적 클라우드 이관 | Windows 포함 세상의 모든 레거시 OS 100% 포용 | 엔터프라이즈(금융/공공) 시장 장악 |
 | **아키텍처 진화** | S/W 방식(이진 변환)의 끔찍한 오버헤드 | CPU 제조사(Intel/AMD)의 하드웨어 스위칭 지원 | 베어메탈에 근접한 속도 달성 |
 
-[전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 미래는 CPU를 넘어 메모리(EPT/NPT)와 I/O 디바이스(VT-d, [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/))까지 하드웨어 칩셋 단위로 완벽하게 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능을 떠넘기는 방향으로 표준이 완성되었다. 과거 소프트웨어 개발자들이 뼈를 깎아 만들던 Binary Translation 로직은 이제 역사 속으로 사라졌고, 하드웨어 칩 자체가 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 한 몸이 되어 움직이는 <strong>'실리콘 기반의 100% <a href="/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>'</strong> 시대가 현재의 스탠다드이다.
+전가상화의 미래는 CPU를 넘어 메모리(EPT/NPT)와 I/O 디바이스(VT-d, SR-IOV)까지 하드웨어 칩셋 단위로 완벽하게 가상화 기능을 떠넘기는 방향으로 표준이 완성되었다. 과거 소프트웨어 개발자들이 뼈를 깎아 만들던 Binary Translation 로직은 이제 역사 속으로 사라졌고, 하드웨어 칩 자체가 하이퍼바이저와 한 몸이 되어 움직이는 <strong>'실리콘 기반의 100% 전가상화'</strong> 시대가 현재의 스탠다드이다.
 
-📢 **섹션 요약 비유**: 처음에는 사람이 일일이 손으로 위조지폐를 그려내느라 너무 느리고 힘들었지만([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) S/W [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)), 아예 국가 조폐공사(Intel/AMD 칩셋)가 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)폐를 완벽하게 찍어내는 전용 기계를 만들어주면서 부작용 없이 시장이 대통합을 이룬 것과 같습니다.
+📢 **섹션 요약 비유**: 처음에는 사람이 일일이 손으로 위조지폐를 그려내느라 너무 느리고 힘들었지만(초기 S/W 전가상화), 아예 국가 조폐공사(Intel/AMD 칩셋)가 가상화폐를 완벽하게 찍어내는 전용 기계를 만들어주면서 부작용 없이 시장이 대통합을 이룬 것과 같습니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* <strong><a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> and Emulate (<a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> 앤 에뮬레이트)</strong> | [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 핵심 원리로, Guest OS의 특권 명령을 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 가로채어 모방 실행하는 기법
-* **Binary Translation (이진 변환)** | [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)에 걸리지 않는 x86의 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 런타임에 안전한 기계어로 실시간 번역하는 초창기 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 극복 기술
-* <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/">Intel VT-x</a> / <a href="/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/">AMD-V</a></strong> | CPU에 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 실행 모드(Root Mode)를 추가하여 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 소프트웨어 오버헤드를 하드웨어 차원에서 싹쓸이해버린 일등 공신
-* <strong><a href="/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/">Shadow Page Table</a> (섀도우 <a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>)</strong> | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 Guest OS의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 변환 과정을 가로채기 위해 관리하는 이중 장부 (현재는 EPT 하드웨어로 대체됨)
-* <strong><a href="/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a> (<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/">Para-virtualization</a>)</strong> | [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 에뮬레이션 오버헤드를 피하기 위해 Guest OS의 소스코드를 뜯어고쳐 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 직접 통신하게 만든 라이벌 기술
+### 📌 관련 개념 맵 (Knowledge Graph)
+* <strong>Trap and Emulate (트랩 앤 에뮬레이트)</strong> | 전가상화의 핵심 원리로, Guest OS의 특권 명령을 하이퍼바이저가 가로채어 모방 실행하는 기법
+* **Binary Translation (이진 변환)** | 트랩에 걸리지 않는 x86의 결함 명령어를 런타임에 안전한 기계어로 실시간 번역하는 초창기 전가상화 극복 기술
+* <strong>Intel VT-x / AMD-V</strong> | CPU에 가상화 전용 실행 모드(Root Mode)를 추가하여 전가상화의 소프트웨어 오버헤드를 하드웨어 차원에서 싹쓸이해버린 일등 공신
+* <strong>Shadow Page Table (섀도우 페이지 테이블)</strong> | 하이퍼바이저가 Guest OS의 가상 메모리 변환 과정을 가로채기 위해 관리하는 이중 장부 (현재는 EPT 하드웨어로 대체됨)
+* <strong>반가상화 (Para-virtualization)</strong> | 전가상화의 에뮬레이션 오버헤드를 피하기 위해 Guest OS의 소스코드를 뜯어고쳐 하이퍼바이저와 직접 통신하게 만든 라이벌 기술
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -198,20 +198,9 @@ weight: 19
     v
 [컨테이너 (Container) — OS 공유로 더 가벼운 격리]
 ```
-[전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 Guest OS를 무수정으로 실행하는 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 제공하며, 하드웨어 지원 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술로 발전해 현대 클라우드 인프라의 기반이 되었다.
+전가상화는 Guest OS를 무수정으로 실행하는 호환성을 제공하며, 하드웨어 지원 가상화와 컨테이너 기술로 발전해 현대 클라우드 인프라의 기반이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 윈도우나 리눅스 같은 컴퓨터 프로그램에게 자기가 가짜 세계에 있다는 걸 완벽하게 숨기고 진짜 컴퓨터인 척 속이는 마술이에요.
+1. 전가상화는 윈도우나 리눅스 같은 컴퓨터 프로그램에게 자기가 가짜 세계에 있다는 걸 완벽하게 숨기고 진짜 컴퓨터인 척 속이는 마술이에요.
 2. 예전에는 프로그램을 속이기 위해 중간에서 통역사가 너무 고생해서 컴퓨터 속도가 엄청 느려졌어요.
 3. 하지만 지금은 인텔 같은 똑똑한 컴퓨터 부품(CPU)들이 아예 마술용 지팡이를 자체적으로 가지고 나와서, 속도도 진짜 컴퓨터만큼 빠르고 완벽하게 프로그램을 실행시켜 준답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 18 / 371
-
-<- **이전**: [18. Type 2 하이퍼바이저 (호스트형, Hosted) - 호스트 OS 위에서 하나의 애플리케이션처럼 구동 (VMware Workstation,](/studynote/13_cloud_architecture/01_virtualization/018_Type_2_하이퍼바이저/)
-**다음**: [20. 반가상화 (Para-virtualization) - Guest OS의 커널을 일부 수정하여 하이퍼바이저와 직접 통신(Hypercall),](/studynote/13_cloud_architecture/01_virtualization/020_para_virtualization/) ->
-
----

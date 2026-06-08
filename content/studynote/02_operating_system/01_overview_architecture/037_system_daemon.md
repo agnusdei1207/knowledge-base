@@ -6,9 +6,9 @@ tags:
 weight: 37
 ---
 > **핵심 인사이트**
-> 1. 데몬(Daemon)은 백그라운드에서 지속적으로 실행되는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스로, 터미널(제어 터미널)에 연결되지 않고 부팅 시 시작해 시스템이 종료될 때까지 운영된다.
-> 2. 데몬 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 핵심은 fork-exec 패턴에서 부모를 종료하고, 새 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(setsid())을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 제어 터미널을 분리하며, 표준 입출력을 /dev/null로 리다이렉트하는 것이다.
-> 3. 현대 Linux에서는 systemd가 SysV init을 대체해 데몬 관리를 유닛 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Unit [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 기반으로 표준화했으며, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 부팅·[소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 활성화·의존성 추적·cgroup 자원 제어를 제공한다.
+> 1. 데몬(Daemon)은 백그라운드에서 지속적으로 실행되는 서비스 프로세스로, 터미널(제어 터미널)에 연결되지 않고 부팅 시 시작해 시스템이 종료될 때까지 운영된다.
+> 2. 데몬 생성의 핵심은 fork-exec 패턴에서 부모를 종료하고, 새 세션(setsid())을 생성해 제어 터미널을 분리하며, 표준 입출력을 /dev/null로 리다이렉트하는 것이다.
+> 3. 현대 Linux에서는 systemd가 SysV init을 대체해 데몬 관리를 유닛 파일(Unit File) 기반으로 표준화했으며, 병렬 부팅·소켓 활성화·의존성 추적·cgroup 자원 제어를 제공한다.
 
 ---
 
@@ -32,11 +32,11 @@ weight: 37
   httpd, sshd, cron, syslogd, ntpd, mysqld
 ```
 
-> 📢 **섹션 요약 비유**: 데몬은 보이지 않는 집사 — 사용자가 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인하든 아니든 항상 집안일([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 처리한다.
+> 📢 **섹션 요약 비유**: 데몬은 보이지 않는 집사 — 사용자가 로그인하든 아니든 항상 집안일(서비스)을 처리한다.
 
 ---
 
-## II. 전통적 데몬 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정
+## II. 전통적 데몬 생성 과정
 
 ```
 fork-exec 데몬화 과정:
@@ -53,9 +53,9 @@ fork-exec 데몬화 과정:
 
 | 단계       | 호출        | 목적                         |
 |-----------|------------|------------------------------|
-| 분기       | fork()     | 자식 [프로세스 생성](/studynote/02_operating_system/02_process_thread/104_process_creation/)              |
+| 분기       | fork()     | 자식 프로세스 생성              |
 | 부모 종료  | exit()     | 터미널에서 분리               |
-| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 독립  | setsid()   | 새 [프로세스 그룹](/studynote/02_operating_system/02_process_thread/159_process_group/)·[세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)      |
+| 세션 독립  | setsid()   | 새 프로세스 그룹·세션 생성      |
 | I/O 리다이렉트| dup2() | stdin/stdout -> /dev/null    |
 
 > 📢 **섹션 요약 비유**: 부모(fork)가 가게를 열고 자식에게 맡기고 퇴장(exit) — 자식 데몬은 이후 독립적으로 가게를 운영한다.
@@ -92,11 +92,11 @@ systemd 주요 특징:
   journalctl -u nginx      (로그 확인)
 ```
 
-> 📢 **섹션 요약 비유**: systemd는 데몬 관리 앱 — 언제 켜고, 얼마만큼 자원 쓰고, 실패 시 재시작 규칙을 한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 정의.
+> 📢 **섹션 요약 비유**: systemd는 데몬 관리 앱 — 언제 켜고, 얼마만큼 자원 쓰고, 실패 시 재시작 규칙을 한 파일에 정의.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 핵심 시스템 데몬
+## IV. 핵심 시스템 데몬
 
 ```
 네트워크/서비스:
@@ -121,7 +121,7 @@ systemd 주요 특징:
 
 ---
 
-## V. 실무 시나리오 — 커스텀 데몬 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등록
+## V. 실무 시나리오 — 커스텀 데몬 서비스 등록
 
 ```
 Python 백그라운드 워커를 systemd 데몬으로 등록:
@@ -153,7 +153,7 @@ Python 백그라운드 워커를 systemd 데몬으로 등록:
    systemctl start myworker
 ```
 
-> 📢 **섹션 요약 비유**: Python 스크립트를 전문 데몬으로 변신 — 부팅 시 자동 시작, 실패 시 자동 재시작, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 자동 수집.
+> 📢 **섹션 요약 비유**: Python 스크립트를 전문 데몬으로 변신 — 부팅 시 자동 시작, 실패 시 자동 재시작, 로그 자동 수집.
 
 ---
 
@@ -214,14 +214,3 @@ systemd --user: 사용자 레벨 서비스
 1. 데몬은 컴퓨터가 켜져 있는 동안 항상 뒤에서 일하는 보이지 않는 일꾼이에요.
 2. 웹사이트 서버, 이메일 서버 같은 것들이 모두 데몬으로 계속 실행되고 있어요.
 3. systemd는 이 일꾼들을 관리하는 매니저로, 자동으로 켜고 끄고 실패하면 다시 시작시켜줘요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 37 / 800
-
-<- **이전**: [036. 커널 패닉 (Kernel Panic)](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)
-**다음**: [038. init과 systemd — 부팅 초기화 시스템](/studynote/02_operating_system/01_overview_architecture/038_init_systemd/) ->
-
----

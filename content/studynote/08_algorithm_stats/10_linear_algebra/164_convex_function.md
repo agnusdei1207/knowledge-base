@@ -7,9 +7,9 @@ weight: 164
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 볼록 함수 (Convex Function) 는 *어느 두 점을 잡아도 그 사이 곡선이 직선 아래에 있는 함수* — 이 단 하나의 성질이 "[지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) = 전역 최솟값"을 보장한다.
-> 2. **가치**: 볼록 최적화 문제는 경사하강법이 전역 해로 반드시 수렴하며, [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)·[로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)·[LASSO](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)·LP 등 ML의 핵심 모델이 볼록 구조를 가진다.
-> 3. **판단 포인트**: 신경망 손실 함수는 비볼록(Non-convex) — [지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/), 안장점(Saddle Point)이 존재하므로 SGD는 전역 최적 수렴을 보장하지 않으며, 실무에서 좋은 지역 해를 찾는 것이 현실적 목표다.
+> 1. **본질**: 볼록 함수 (Convex Function) 는 *어느 두 점을 잡아도 그 사이 곡선이 직선 아래에 있는 함수* — 이 단 하나의 성질이 "지역 최솟값 = 전역 최솟값"을 보장한다.
+> 2. **가치**: 볼록 최적화 문제는 경사하강법이 전역 해로 반드시 수렴하며, SVM·로지스틱 회귀·LASSO·LP 등 ML의 핵심 모델이 볼록 구조를 가진다.
+> 3. **판단 포인트**: 신경망 손실 함수는 비볼록(Non-convex) — 지역 최솟값, 안장점(Saddle Point)이 존재하므로 SGD는 전역 최적 수렴을 보장하지 않으며, 실무에서 좋은 지역 해를 찾는 것이 현실적 목표다.
 
 ---
 
@@ -42,7 +42,7 @@ f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)    [Jensen 부등식]
 어떤 접선도 함수 위에 있음   여러 지역 최소 존재 가능
 ```
 
-📢 **섹션 요약 비유**: 볼록 함수는 "오목한 그릇"이다 — 어디서 굴러도 바닥(전역 최솟값)으로 반드시 흘러간다. 비볼록 함수는 "울퉁불퉁한 지형"으로 구덩이([지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))가 여러 곳에 있다.
+📢 **섹션 요약 비유**: 볼록 함수는 "오목한 그릇"이다 — 어디서 굴러도 바닥(전역 최솟값)으로 반드시 흘러간다. 비볼록 함수는 "울퉁불퉁한 지형"으로 구덩이(지역 최솟값)가 여러 곳에 있다.
 
 ---
 
@@ -78,11 +78,11 @@ f가 엄밀히 볼록 ⟺ ∇^f(x) ≻ 0  (헤시안이 양정치)
 
 | 문제 유형 | 볼록? | 전역 해 보장 |
 |:---|:---:|:---:|
-| [선형 프로그래밍](/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/) (LP) | ✅ | ✅ |
+| 선형 프로그래밍 (LP) | ✅ | ✅ |
 | 이차 프로그래밍 (QP) | ✅ | ✅ |
-| [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) | ✅ | ✅ |
-| [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([서포트 벡터 머신](/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/)) | ✅ | ✅ |
-| [LASSO](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) | ✅ (비미분) | ✅ |
+| 로지스틱 회귀 | ✅ | ✅ |
+| SVM (서포트 벡터 머신) | ✅ | ✅ |
+| LASSO | ✅ (비미분) | ✅ |
 | 신경망 학습 | ❌ | ❌ |
 
 ### 볼록 집합과 볼록 함수의 연산 보존
@@ -99,7 +99,7 @@ f 볼록 -> 부분집합 합 볼록
 자주 쓰이는 볼록 함수:
 - L2 노름: ‖x‖₂ (∇^f = I ≻ 0)
 - L1 노름: ‖x‖₁ (볼록, 미분 불가)
-- log-sum-exp: log(Σ exp(xᵢ)) ([소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) 분모)
+- log-sum-exp: log(Σ exp(xᵢ)) (소프트맥스 분모)
 - 이차 함수: xᵀAx + bᵀx + c (A ≽ 0일 때)
 
 📢 **섹션 요약 비유**: 볼록 함수의 합도 볼록인 것은 "여러 그릇을 쌓으면 여전히 그릇 형태"와 같다 — 볼록 함수들을 더해도 볼록성이 유지된다.
@@ -113,13 +113,13 @@ f 볼록 -> 부분집합 합 볼록
 | 항목 | 볼록 최적화 | 비볼록 최적화 |
 |:---|:---|:---|
 | 전역 최적 보장 | ✅ | ❌ |
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 경사하강, 내점법 등 | SGD + 트릭, 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 알고리즘 | 경사하강, 내점법 등 | SGD + 트릭, 진화 알고리즘 |
 | 수렴 속도 | O(1/t) ~ O(1/t^) | 보장 없음 |
-| 예시 | [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), LP | 신경망, 조합 최적화 |
+| 예시 | SVM, 로지스틱 회귀, LP | 신경망, 조합 최적화 |
 
-### [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) — 볼록 이차 프로그래밍 (QP)
+### SVM — 볼록 이차 프로그래밍 (QP)
 
-<strong><a href="/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a> (<a href="/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">Support Vector Machine</a>)</strong> 원형 문제:
+<strong>SVM (Support Vector Machine)</strong> 원형 문제:
 
 ```
 minimize   ½‖w‖^
@@ -128,13 +128,13 @@ subject to yᵢ(wᵀxᵢ + b) ≥ 1   ∀i
 이것은 볼록 QP -> 전역 최솟값 반드시 달성!
 ```
 
-KKT (Karush-Kuhn-Tucker) 조건으로 해석적 조건 도출 -> 듀얼 문제(Lagrange Dual)로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 확장.
+KKT (Karush-Kuhn-Tucker) 조건으로 해석적 조건 도출 -> 듀얼 문제(Lagrange Dual)로 커널 SVM 확장.
 
 ### 비볼록 신경망의 실용적 대응
 
 신경망은 비볼록이지만 실무에서 잘 동작하는 이유:
-1. <strong>대부분의 <a href="/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a>이 비슷한 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> (과잉 매개변수 시)
-2. **안장점은 경사하강으로 탈출 가능** (노이즈 + [모멘텀](/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))
+1. <strong>대부분의 지역 최솟값이 비슷한 성능</strong> (과잉 매개변수 시)
+2. **안장점은 경사하강으로 탈출 가능** (노이즈 + 모멘텀)
 3. **배치 정규화가 손실 경관 평탄화** -> 더 쉬운 최적화
 
 📢 **섹션 요약 비유**: SVM이 볼록 QP인 것은 "답이 단 하나인 수학 문제"와 같다 — 풀이 방법이 달라도 항상 같은 최적 해에 도달한다.
@@ -179,12 +179,12 @@ subject to wᵀΣw ≤ σ^  (위험 제약)
 
 ## Ⅴ. 기대효과 및 결론
 
-볼록 최적화는 <strong>수학적으로 보장된 최적화의 황금 기준</strong>이다. [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), LP/QP 등 전통 ML의 핵심이 볼록 구조를 가진 것은 이 이유에서다.
+볼록 최적화는 <strong>수학적으로 보장된 최적화의 황금 기준</strong>이다. SVM, 로지스틱 회귀, LP/QP 등 전통 ML의 핵심이 볼록 구조를 가진 것은 이 이유에서다.
 
 딥러닝 시대에도 볼록 최적화가 중요한 이유:
 1. 볼록 서브문제(내점법, 프록시말 기울기)가 신경망 내부에 등장
 2. 볼록 분석 기법이 비볼록 분석의 기준점 제공
-3. [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), 포트폴리오 최적화, 로봇 경로 계획 등 실무에서 여전히 직접 사용
+3. SVM, 포트폴리오 최적화, 로봇 경로 계획 등 실무에서 여전히 직접 사용
 
 📢 **섹션 요약 비유**: 볼록 최적화는 "완벽한 지도가 있는 보물찾기"다 — 지도(볼록성)가 있으면 어디서 출발해도 반드시 보물(전역 최솟값)을 찾지만, 비볼록 지형에서는 여러 가짜 보물 구덩이가 있다.
 
@@ -194,10 +194,10 @@ subject to wᵀΣw ≤ σ^  (위험 제약)
 
 | 개념 | 조건 | 응용 |
 |:---|:---|:---|
-| 볼록 함수 | f(λx+(1-λ)y) ≤ λf(x)+(1-λ)f(y) | [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), 로지스틱 |
+| 볼록 함수 | f(λx+(1-λ)y) ≤ λf(x)+(1-λ)f(y) | SVM, 로지스틱 |
 | 헤시안 양반정치 | H ≽ 0 | 2차 볼록성 조건 |
-| [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 볼록 QP | 마진 최대화 |
-| [LASSO](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) | 볼록 L1 | 희소 회귀 |
+| SVM | 볼록 QP | 마진 최대화 |
+| LASSO | 볼록 L1 | 희소 회귀 |
 | 비볼록 신경망 | H ≭ 0 | 지역 해, 안장점 |
 
 ---
@@ -225,16 +225,5 @@ subject to wᵀΣw ≤ σ^  (위험 제약)
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **볼록 함수는 "오목한 그릇"**: 어디에 공을 놓아도 그릇 바닥으로 굴러간다 — 항상 같은 최솟값!
-2. **비볼록은 "울퉁불퉁한 언덕"**: 어디서 시작하느냐에 따라 다른 구덩이([지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 빠질 수 있다.
+2. **비볼록은 "울퉁불퉁한 언덕"**: 어디서 시작하느냐에 따라 다른 구덩이(지역 최솟값)에 빠질 수 있다.
 3. **LASSO의 희소해는 "날카로운 다이아몬드 끝"**: 다이아몬드 모양의 제약과 만날 때, 자연스럽게 뾰족한 끝(좌표축)에서 만나 많은 값이 0이 된다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 164 / 175
-
-<- **이전**: [4. PCA (Principal Component Analysis) — SVD 기반 차원 축소](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)
-**다음**: [6. 기울기 하강법 (Gradient Descent) — 최적화 기본](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/) ->
-
----

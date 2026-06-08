@@ -7,9 +7,9 @@ weight: 45
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 최소 컷 (Min Cut)은 소스와 싱크를 분리하는 간선 집합 중 총 용량이 최소인 것이며, Max-Flow Min-Cut 정리에 의해 최소 컷의 용량 = [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)이 성립한다.
-> 2. **가치**: [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 실행 후 잔여 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 소스 도달 가능 정점을 BFS로 탐색하면 O(V+E)에 최소 컷을 도출할 수 있어, 네트워크 병목 분석과 분리 문제를 해결한다.
-> 3. **판단 포인트**: 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최소 정점 커버 (König's theorem), 이미지 세분화, 네트워크 안정성 분석 등에서 최소 컷 = 최소 비용 분리 도구로 직접 활용된다.
+> 1. **본질**: 최소 컷 (Min Cut)은 소스와 싱크를 분리하는 간선 집합 중 총 용량이 최소인 것이며, Max-Flow Min-Cut 정리에 의해 최소 컷의 용량 = 최대 유량이 성립한다.
+> 2. **가치**: 최대 유량 알고리즘 실행 후 잔여 그래프에서 소스 도달 가능 정점을 BFS로 탐색하면 O(V+E)에 최소 컷을 도출할 수 있어, 네트워크 병목 분석과 분리 문제를 해결한다.
+> 3. **판단 포인트**: 이분 그래프 최소 정점 커버 (König's theorem), 이미지 세분화, 네트워크 안정성 분석 등에서 최소 컷 = 최소 비용 분리 도구로 직접 활용된다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -18,9 +18,9 @@ weight: 45
 | 특성 | 내용 |
 |:---|:---|
 | 최소 컷 정의 | 소스-싱크 분리 간선 중 최소 총 용량 |
-| Max-Flow Min-Cut 정리 | [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 값 = 최소 컷 용량 |
-| 도출 방법 | [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 후 잔여 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) |
-| [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(V+E) ([최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 이후) |
+| Max-Flow Min-Cut 정리 | 최대 유량 값 = 최소 컷 용량 |
+| 도출 방법 | 최대 유량 후 잔여 그래프 BFS |
+| 시간 복잡도 | O(V+E) (최대 유량 이후) |
 
 📢 **섹션 요약 비유**: 최소 컷은 강 위의 댐 중 가장 적은 재료(최소 용량)로 물의 흐름을 완전히 막을 수 있는 댐 위치를 찾는 것이다.
 
@@ -40,7 +40,7 @@ weight: 45
 3. 1, 2에서: |f*| = min cap(S,T)
 ```
 
-### [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 최소 컷 도출
+### ASCII 다이어그램 — 최소 컷 도출
 
 ```
 +----------------------------------------------------------+
@@ -62,7 +62,7 @@ weight: 45
 +----------------------------------------------------------+
 ```
 
-### 최소 컷 도출 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### 최소 컷 도출 알고리즘
 
 ```
 1. 최대 유량 알고리즘 실행 완료
@@ -73,25 +73,25 @@ weight: 45
 
 | 단계 | 설명 |
 |:---|:---|
-| [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 계산 | Edmonds-Karp O(VE^) |
-| 잔여 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) | O(V+E) |
+| 최대 유량 계산 | Edmonds-Karp O(VE^) |
+| 잔여 그래프 BFS | O(V+E) |
 | 컷 간선 수집 | O(E) |
-| 전체 | O(VE^) — [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 지배 |
+| 전체 | O(VE^) — 최대 유량 지배 |
 
 📢 **섹션 요약 비유**: 최소 컷 도출은 최대로 물을 보낸 뒤, 소스에서 어디까지 물이 닿는지 표시하는 것이다. 물이 닿는 영역과 안 닿는 영역의 경계가 바로 최소 컷이다.
 
 ## Ⅲ. 비교 및 연결
 
-### König's 정리 (이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최소 정점 커버)
+### König's 정리 (이분 그래프 최소 정점 커버)
 
-이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서:
+이분 그래프에서:
 ```
 최소 정점 커버 크기 = 최대 매칭 크기 = 최대 유량 = 최소 컷
 ```
 
-이 등식은 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 매칭, 커버, 유량, 컷이 모두 동일한 값임을 보인다.
+이 등식은 이분 그래프에서 매칭, 커버, 유량, 컷이 모두 동일한 값임을 보인다.
 
-### 네트워크 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) (Network [Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))
+### 네트워크 신뢰성 (Network Reliability)
 
 ```
 최소 컷 = 네트워크 연결을 끊는 최소 간선 집합
@@ -106,16 +106,16 @@ weight: 45
 ### 실무 시나리오
 
 **시나리오 1**: 네트워크 장애 취약점 분석
-- 인터넷 백본 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 최소 컷 = 가장 취약한 링크 집합
+- 인터넷 백본 그래프에서 최소 컷 = 가장 취약한 링크 집합
 - 이 링크들이 동시에 장애 나면 네트워크 이분화
-- [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 계획 ([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)): 최소 컷 링크에 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 우선 적용
+- 재해 복구 계획 (DR): 최소 컷 링크에 이중화 우선 적용
 
-**시나리오 2**: 이미지 세분화 ([Image Segmentation](/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/))
-- 전경(소스)과 배경(싱크)을 연결하는 픽셀 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
+**시나리오 2**: 이미지 세분화 (Image Segmentation)
+- 전경(소스)과 배경(싱크)을 연결하는 픽셀 그래프
 - 최소 컷 = 물체 경계 (최소 비용으로 전경-배경 분리)
-- GrabCut, GraphCut [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심
+- GrabCut, GraphCut 알고리즘의 핵심
 
-**시나리오 3**: 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최소 정점 커버
+**시나리오 3**: 이분 그래프 최소 정점 커버
 - 매칭 문제에서 König's 정리 활용
 - 모든 간선을 커버하는 최소 정점 집합 = 최대 매칭
 
@@ -124,8 +124,8 @@ weight: 45
 | 상황 | 최소 컷 활용 |
 |:---|:---|
 | 네트워크 병목 분석 | 최소 컷 = 병목 링크 집합 |
-| [이미지 분할](/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/) | 픽셀 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최소 컷 |
-| [이분 매칭](/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) 커버 | König 정리: 최소 컷 = 최소 정점 커버 |
+| 이미지 분할 | 픽셀 그래프 최소 컷 |
+| 이분 매칭 커버 | König 정리: 최소 컷 = 최소 정점 커버 |
 | 프로젝트 클로저 | 프로젝트 선택 문제 최소 컷 |
 | 보안 취약점 | 최소 컷 = 네트워크 분리 최약 지점 |
 
@@ -133,7 +133,7 @@ weight: 45
 
 ## Ⅴ. 기대효과 및 결론
 
-최소 컷 (Min Cut)은 Max-Flow Min-Cut 정리를 통해 [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)과 동치임이 보장된다. [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 계산 후 O(V+E)로 최소 컷을 도출할 수 있으며, 네트워크 분석, 이미지 세분화, 최소 정점 커버 등 실무에서 폭넓게 활용된다.
+최소 컷 (Min Cut)은 Max-Flow Min-Cut 정리를 통해 최대 유량과 동치임이 보장된다. 최대 유량 계산 후 O(V+E)로 최소 컷을 도출할 수 있으며, 네트워크 분석, 이미지 세분화, 최소 정점 커버 등 실무에서 폭넓게 활용된다.
 
 **핵심 결론**: "최대로 흘릴 수 있는 양 = 최소한으로 막아야 하는 양" — 이 이중성이 네트워크 분석의 핵심 원리다.
 
@@ -141,14 +141,14 @@ weight: 45
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | 관계 | 설명 |
 |:---|:---|:---|
-| [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) ([Max Flow](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)) | 동치 | Max-Flow = Min-Cut |
-| Ford-Fulkerson | 도출 방법 | [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 후 잔여 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) |
-| König's 정리 | 응용 | 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최소 커버 |
+| 최대 유량 (Max Flow) | 동치 | Max-Flow = Min-Cut |
+| Ford-Fulkerson | 도출 방법 | 최대 유량 후 잔여 BFS |
+| König's 정리 | 응용 | 이분 그래프 최소 커버 |
 | 이미지 세분화 | 응용 | GraphCut, GrabCut |
-| 네트워크 안정성 | 응용 | 최약 링크 집합 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
-| 잔여 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 핵심 도구 | 최소 컷 도출 수단 |
+| 네트워크 안정성 | 응용 | 최약 링크 집합 식별 |
+| 잔여 그래프 | 핵심 도구 | 최소 컷 도출 수단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,21 +164,10 @@ weight: 45
     v
 [네트워크 분할·이미지 세그멘테이션·클러스터링 응용]
 ```
-최소 컷(Min-Cut)은 [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)(Max-Flow)과 동일한 값을 가지며, 네트워크 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 분석과 [이미지 분할](/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/) 등 다양한 분야에 응용된다.
+최소 컷(Min-Cut)은 최대 유량(Max-Flow)과 동일한 값을 가지며, 네트워크 신뢰성 분석과 이미지 분할 등 다양한 분야에 응용된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 🌊 최소 컷은 강의 흐름을 막는 가장 짧은 댐을 찾는 것이다. 댐이 짧을수록(최소 컷 용량) 적은 재료로 완전히 막을 수 있다.
-2. ✅ 신기한 점은 "강에서 흘릴 수 있는 최대 물의 양([최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/))"이 "댐의 최소 길이(최소 컷)"와 항상 같다는 것이다.
-3. 🔍 [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 계산이 끝나면, 물이 닿는 곳과 닿지 않는 곳의 경계를 찾으면 자동으로 최소 댐 위치가 드러난다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 45 / 175
-
-<- **이전**: [19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)
-**다음**: [20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer](/studynote/08_algorithm_stats/03_graph_search/046_euler_path/) ->
-
----
+2. ✅ 신기한 점은 "강에서 흘릴 수 있는 최대 물의 양(최대 유량)"이 "댐의 최소 길이(최소 컷)"와 항상 같다는 것이다.
+3. 🔍 최대 유량 계산이 끝나면, 물이 닿는 곳과 닿지 않는 곳의 경계를 찾으면 자동으로 최소 댐 위치가 드러난다.

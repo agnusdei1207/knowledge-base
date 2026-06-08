@@ -7,24 +7,24 @@ weight: 557
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드디스크나 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)([블록 장치](/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/))에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 썼다 지웠다 반복하면 디스크 모터 수명이 줄고 무지막지한 I/O 병목 레이턴시 굴레에 빠진다. 이를 뚫어 버린 <strong><code>tmpfs / ramfs</code></strong> 는 <strong>"컴퓨터의 엄청나게 빠른 램(<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a> 메인 메모리) 저장 공간의 한쪽 구석을 뚝 떼어내서 '이곳을 C드라이브 폴더'처럼 환상 <a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a>(Illusion 둔갑 스왑) 시켜버리는 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 특수 가상 렌더"</strong> 다.
-> 2. **가치**: 이 램 상주형 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공간 덕분에, 서버 부팅 시 수만 개의 임시 찌꺼기 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 캐시(`tmp`, `run`, `shm`)를 1초 만에 쏟아내고 읽어 들이며 시스템 코어 병목을 0으로 압살했다(메모리 엑세스 급의 극초광속 I/O 부스트 록백!). 수천만 트래픽의 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 웹 서버 간 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)(통신) 임시 큐 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)의 거시적 윤활유를 완성했다 포팅.
-> 3. **한계**: 가장 큰 딜레마. 컴퓨터 코드를 뽑거나 서버 전원이 꺼지는(Reboot) 순간? 폴더 뱃속의 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파편 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 우주 밖으로 $O(1)$ 비율로 동시 영원 증발 소거되어 쓰레기(Volatile 휘발성 늪)가 된다(영구 저장 절대 불가 모순!). 또한 엄청나게 큰 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이 폴더에 던지면, 램(RAM) 용량 전체를 좀비처럼 갉아먹어서 다른 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스들을 죽여버리는([OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 학살 발동 랙) 극악의 메모리 침탈 데들락 트레이드오프 파단을 안고 있다 결착.
+> 1. **본질**: 하드디스크나 SSD(블록 장치)에 파일을 썼다 지웠다 반복하면 디스크 모터 수명이 줄고 무지막지한 I/O 병목 레이턴시 굴레에 빠진다. 이를 뚫어 버린 <strong><code>tmpfs / ramfs</code></strong> 는 <strong>"컴퓨터의 엄청나게 빠른 램(DRAM 메인 메모리) 저장 공간의 한쪽 구석을 뚝 떼어내서 '이곳을 C드라이브 폴더'처럼 환상 마운트(Illusion 둔갑 스왑) 시켜버리는 커널 VFS 특수 가상 렌더"</strong> 다.
+> 2. **가치**: 이 램 상주형 파일 공간 덕분에, 서버 부팅 시 수만 개의 임시 찌꺼기 락(Lock) 파일과 캐시(`tmp`, `run`, `shm`)를 1초 만에 쏟아내고 읽어 들이며 시스템 코어 병목을 0으로 압살했다(메모리 엑세스 급의 극초광속 I/O 부스트 록백!). 수천만 트래픽의 Docker 컨테이너와 분산 웹 서버 간 IPC(통신) 임시 큐 파이프의 거시적 윤활유를 완성했다 포팅.
+> 3. **한계**: 가장 큰 딜레마. 컴퓨터 코드를 뽑거나 서버 전원이 꺼지는(Reboot) 순간? 폴더 뱃속의 모든 데이터 파편 파일이 우주 밖으로 $O(1)$ 비율로 동시 영원 증발 소거되어 쓰레기(Volatile 휘발성 늪)가 된다(영구 저장 절대 불가 모순!). 또한 엄청나게 큰 영화 파일을 이 폴더에 던지면, 램(RAM) 용량 전체를 좀비처럼 갉아먹어서 다른 커널 프로세스들을 죽여버리는(OOM Killer 학살 발동 랙) 극악의 메모리 침탈 데들락 트레이드오프 파단을 안고 있다 결착.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**:
-  - **전통적 디스크 스토리지의 한계 (Disk I/O 늪의 피로도 파단 방치)**: 프로그램 A가 B에게 잠깐 메시지(임시 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 전달하고 지운다. 겨우 100바이트 저장하려고 VFS를 타고, ext4 저널링 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(539장)를 쓰고, 디스크 하드에 전기를 넣어 굽고 삭제하는 끔찍한 오버헤드 삽질 노동을 매초 1만 번씩 벌이는 낭비.
-  - <strong>tmpfs (가상 램 메모리 <a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 블랙홀 빔!)</strong>: 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 규격을 이용해 램(메모리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 덩어리를 `폴더(/tmp, /dev/shm)` 로 둔갑 발싸([Mount](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 기전) 시킨다! 유저의 앱 코드(C언어)는 "어? 이거 그냥 하드디스크 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)네? `fopen` 호출! `fwrite` 써야지!" 라며 속지만, 밑바탕에선 철판 하드디스크 모터는 0.1초도 돌지 않고 오로지 초싸이언 RAM 메모리 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 버스의 1ns 광속 카피 렌더만 돌고 끝난다 스왑.
-- **필요성**: 수백만 유저가 접속하는 아파치(Apache) Nginx [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이나, 리눅스 시스템 데몬의 자잘한 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/), 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 상태를 1초에도 수십만 번 업데이트하는 찰나의 순간. 이것을 실제 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 블록 철판에다 박아 쓰게 되면 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명([Wear Leveling](/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) 피로도)은 한 달 만에 타버리고 서버는 멈춘다(I/O Wait 폭발 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)). "지워져도 상관없으니 지구상에서 가장 빠른 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 동굴" 이 필요했던 클라우드 인프라의 필연적 극복 톱니바퀴였다 증명.
+  - **전통적 디스크 스토리지의 한계 (Disk I/O 늪의 피로도 파단 방치)**: 프로그램 A가 B에게 잠깐 메시지(임시 파일)를 전달하고 지운다. 겨우 100바이트 저장하려고 VFS를 타고, ext4 저널링 로그(539장)를 쓰고, 디스크 하드에 전기를 넣어 굽고 삭제하는 끔찍한 오버헤드 삽질 노동을 매초 1만 번씩 벌이는 낭비.
+  - <strong>tmpfs (가상 램 메모리 마운트 블랙홀 빔!)</strong>: 리눅스 커널이 VFS 규격을 이용해 램(메모리 페이지) 덩어리를 `폴더(/tmp, /dev/shm)` 로 둔갑 발싸(Mount 기전) 시킨다! 유저의 앱 코드(C언어)는 "어? 이거 그냥 하드디스크 디렉터리네? `fopen` 호출! `fwrite` 써야지!" 라며 속지만, 밑바탕에선 철판 하드디스크 모터는 0.1초도 돌지 않고 오로지 초싸이언 RAM 메모리 반도체 버스의 1ns 광속 카피 렌더만 돌고 끝난다 스왑.
+- **필요성**: 수백만 유저가 접속하는 아파치(Apache) Nginx 세션(Session 파일)이나, 리눅스 시스템 데몬의 자잘한 소켓, 락(Lock) 상태를 1초에도 수십만 번 업데이트하는 찰나의 순간. 이것을 실제 SSD 블록 철판에다 박아 쓰게 되면 SSD 수명(Wear Leveling 피로도)은 한 달 만에 타버리고 서버는 멈춘다(I/O Wait 폭발 지연). "지워져도 상관없으니 지구상에서 가장 빠른 파일 동굴" 이 필요했던 클라우드 인프라의 필연적 극복 톱니바퀴였다 증명.
 
   - (일반 ext4 하드디스크 경로 늪): 내일 먹을 점심 메뉴를 잠깐 남겨달라고 했더니, 옥상 지하 10층까지 뛰어 내려가 무거운 철제 캐비닛(하드디스크 Disk Block 빔) 문을 열고 영구 보관용 일기장에 잉크로 정성껏 적어 올립니다(1시간 걸림 엄청 느린 퍼포먼스 에러!).
-  - **(tmpfs 초광속 램 메모리 기전!)**: 똑똑한 리눅스 비서는 옥상까지 안 갑니다! 자기 눈앞 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 베젤에 <strong><a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">노란색 포스트잇 메모지 한 장(RAM 공간 [마운트</a> 빔!)]</strong> 을 턱 붙이고 연필로 슥 비빕니다! 적는 데 1초도 안 걸리고 빛의 속도 부스트! 나중에 점심 다 먹고 볼일이 끝나거나([프로세스 종료](/studynote/02_operating_system/02_process_thread/107_process_termination/)) 퇴근(서버 전원 차단 Reboot!) 할 때 바람이 훅 불면 그 포스트잇은 쓰레기통으로 날아가 깨끗이 다 지워지고 초기화되는(어차피 점심 메뉴라 없어져도 노 타격!) 완벽한 환상의 메모 스왑 융합입니다 결속!
+  - **(tmpfs 초광속 램 메모리 기전!)**: 똑똑한 리눅스 비서는 옥상까지 안 갑니다! 자기 눈앞 모니터 베젤에 <strong>노란색 포스트잇 메모지 한 장(RAM 공간 [마운트 빔!)]</strong> 을 턱 붙이고 연필로 슥 비빕니다! 적는 데 1초도 안 걸리고 빛의 속도 부스트! 나중에 점심 다 먹고 볼일이 끝나거나(프로세스 종료) 퇴근(서버 전원 차단 Reboot!) 할 때 바람이 훅 불면 그 포스트잇은 쓰레기통으로 날아가 깨끗이 다 지워지고 초기화되는(어차피 점심 메뉴라 없어져도 노 타격!) 완벽한 환상의 메모 스왑 융합입니다 결속!
 
-- <strong>ext4 (Disk) vs tmpfs (RAM) I/O <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 읽기/<a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 통치 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 뷰</strong>:
-유저가 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `$ touch /tmp/테스트.txt` 를 쳤을 때, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 무거운 디스크를 피해 메모리 파도 위를 서핑하는지 그 렌더 체계를 까보면 다음과 같다.
+- <strong>ext4 (Disk) vs tmpfs (RAM) I/O 파일 읽기/쓰기 ASCII 통치 파이프 뷰</strong>:
+유저가 명령어 `$ touch /tmp/테스트.txt` 를 쳤을 때, 데이터가 어떻게 무거운 디스크를 피해 메모리 파도 위를 서핑하는지 그 렌더 체계를 까보면 다음과 같다.
 
 ```text
   +----------------------------------------------------------------------------------+
@@ -53,7 +53,7 @@ weight: 557
   +----------------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 클라우드 서버의 속도 치트키 아키텍처다. 사용자는 `ext4`든 `tmpfs`든 터미널에서 구별할 수 없고 똑같은 `표준 파일 함수(open, write)` 를 쓴다(VFS의 완벽한 튜리링 투명 마장). 왼쪽 ext4 경로는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하드웨어 블록 레이어(Block Layer)까지 질질 끌고 가 엘리베이터 스케줄러를 거쳐 디스크 전극에 박아 넣는 무거운 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Overhead)을 치른다. 오른쪽 `tmpfs` 경로는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 536장) 단계에서 딱 멈춘 채, 물리 디스크로 내려가는 통로(Flusher 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 다운) 자체의 끈을 가위로 잘라버린다(No Sync To Disk 스왑). 즉 영원히 더티(Dirty) 상태의 메모리로만 둥둥 떠서 $O(1)$ 비율의 읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭주를 보장한다 도출.
+**[다이어그램 해설]** 클라우드 서버의 속도 치트키 아키텍처다. 사용자는 `ext4`든 `tmpfs`든 터미널에서 구별할 수 없고 똑같은 `표준 파일 함수(open, write)` 를 쓴다(VFS의 완벽한 튜리링 투명 마장). 왼쪽 ext4 경로는 데이터를 하드웨어 블록 레이어(Block Layer)까지 질질 끌고 가 엘리베이터 스케줄러를 거쳐 디스크 전극에 박아 넣는 무거운 파이프라인(Overhead)을 치른다. 오른쪽 `tmpfs` 경로는 커널 페이지 캐시(Page Cache 536장) 단계에서 딱 멈춘 채, 물리 디스크로 내려가는 통로(Flusher 더티 페이지 다운) 자체의 끈을 가위로 잘라버린다(No Sync To Disk 스왑). 즉 영원히 더티(Dirty) 상태의 메모리로만 둥둥 떠서 $O(1)$ 비율의 읽기/쓰기 대역폭 폭주를 보장한다 도출.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -62,24 +62,24 @@ weight: 557
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 트레이드오프 전선 종결: 구식 ramfs 의 무지성 폭주 vs 똑똑한 tmpfs 의 스왑 진화 뷰
-RAM을 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 쓸 때 발생하는 치명적인 공포 메모리 학살전을 두 형제가 풀어낸 차이 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/).
+RAM을 파일 시스템으로 쓸 때 발생하는 치명적인 공포 메모리 학살전을 두 형제가 풀어낸 차이 파이프.
 
-| RAM 블록 아키텍처 뷰 | 구식 `ramfs` (무장 해제 통제 상실 고장 늪) | ✨ 새로운 유형의 `tmpfs` (안전띠 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 융합 록백) |
+| RAM 블록 아키텍처 뷰 | 구식 `ramfs` (무장 해제 통제 상실 고장 늪) | ✨ 새로운 유형의 `tmpfs` (안전띠 페이징 융합 록백) |
 |:---|:---|:---|
-| **메모리(RAM) 용량 한계 (Limit 스왑)** | **크기 제한(Max Size)을 무조건 뚫고 계속 우주 밖으로 폭주팽창(Grow) 가능.** | [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 시킬 때 **"넌 1GB까지만 RAM 써!" 라고 사이즈 한도 용량 상한선(Limit 빔)** 통제 장착. |
-| <strong>치명적 <a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 발생 데들락 (서버 파단 랙)</strong> | 해커가 `ramfs` 에 100GB 거대 영화를 던지면? 한도초과로 <strong>서버 전체 RAM이 올-킬 오링 나며 <a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 에러 동반 서버 셧다운 사형.</strong> | 1GB 넘으면 `Disk Full` 뱉으며 <strong>스스로 멈춰서 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 타 프로세스 RAM을 무결 방어.</strong> |
-| **스왑(Swap 7단원) 영역 쫓겨남 허용 포팅** | 절대 하드디스크 **미끄럼틀 스왑 영역으로 쫓겨 가지 않음 (100% On-Memory 고집통 랙).** | 메모리 꽉 차서 헐떡거리면? [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 파편 일부를 일시적으로 **디스크 Swap 공간(535장 가상메모리 방어)으로 강제 이주** 시켜 산소호흡기 연명 유연성 부스트 달성. |
+| **메모리(RAM) 용량 한계 (Limit 스왑)** | **크기 제한(Max Size)을 무조건 뚫고 계속 우주 밖으로 폭주팽창(Grow) 가능.** | 마운트 시킬 때 **"넌 1GB까지만 RAM 써!" 라고 사이즈 한도 용량 상한선(Limit 빔)** 통제 장착. |
+| <strong>치명적 OOM 발생 데들락 (서버 파단 랙)</strong> | 해커가 `ramfs` 에 100GB 거대 영화를 던지면? 한도초과로 <strong>서버 전체 RAM이 올-킬 오링 나며 OOM 에러 동반 서버 셧다운 사형.</strong> | 1GB 넘으면 `Disk Full` 뱉으며 <strong>스스로 멈춰서 커널 타 프로세스 RAM을 무결 방어.</strong> |
+| **스왑(Swap 7단원) 영역 쫓겨남 허용 포팅** | 절대 하드디스크 **미끄럼틀 스왑 영역으로 쫓겨 가지 않음 (100% On-Memory 고집통 랙).** | 메모리 꽉 차서 헐떡거리면? 파일 파편 일부를 일시적으로 **디스크 Swap 공간(535장 가상메모리 방어)으로 강제 이주** 시켜 산소호흡기 연명 유연성 부스트 달성. |
 
-### 2. 치명적 오버헤드 폭발: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비영속성(Volatile)의 눈물과 임시 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 폭쇄 병목
+### 2. 치명적 오버헤드 폭발: 데이터 비영속성(Volatile)의 눈물과 임시 큐(Queue) 폭쇄 병목
 "지워져도 되는 정보" 라고 막 짰다가 서버 리부트 한 방에 어플리케이션 상태가 절단 나는 트레이드오프 한계를 해석한다.
 
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (<a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> <a href="/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> 공용 캐시의 휘발성 소거 멸망 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙)</strong>:
-  - (캐시 망각 늪 스왑): 웹 개발자가 속도 좀 내보겠다고 쇼핑몰 장바구니 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 `/var/run/` [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) (이곳은 무적권 `tmpfs` 램 상주 폴더다!) 에 모조리 꿀 저장했다.
+- <strong>안티패턴 오염 발생 미스터리 (Docker IPC 공용 캐시의 휘발성 소거 멸망 타임아웃 랙)</strong>:
+  - (캐시 망각 늪 스왑): 웹 개발자가 속도 좀 내보겠다고 쇼핑몰 장바구니 세션(Session) 파일들을 `/var/run/` 디렉터리 (이곳은 무적권 `tmpfs` 램 상주 폴더다!) 에 모조리 꿀 저장했다.
   - (정전 크래시 빔 결합 발동!): 수만 명 유저가 장바구니에 옷을 담고 쾌적하고 미친 빠른 속도로 서핑 중이다. 앗! 순간 정전이 와 서버가 리부팅 1번 때렸다 쾅!
-  - 파멸 결과: ext4 에 저장된 DB 결제 내용은 살았으나, `/var/run/` 에 있던 모든 장바구니 임시 찌꺼기 텍스트 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수백만 개가 단 1바이트 뼈조각 카빙도 허용치 않고 전원 차단과 함께 우주 속으로 (Volatile 휘발성 멸종) $O(1)$ 공중분해 암살 파단 발생. 수만 명 결제 장바구니 오류 항의 전화 빗발 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 폭쇄.
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<code>/dev/shm</code> <a href="/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> 통신 윤활유 록백!!) / <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 본진 아크</strong>:
-  - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 구조 1방 설계: 절대 램 디스크(`tmpfs`) 안에 "1%라도 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해야 할 비즈니스 사용자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)" 를 두지 마라 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 방역!
-  - 갓기능 포팅 로직 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 빔!: 리눅스의 `/dev/shm` ([Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 특수 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/), tmpfs [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/))의 진가는 따로 있다. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(PostgreSQL)의 흩어진 수십 개 프로세스 데몬끼리 서로 "야 너 이거 계산한 거 나한테 줘" 며 초당 100만 번 핑퐁 대화([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) 통신 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 5단원 연계)를 던질 때. 이 고통스러운 로컬 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 통신을 `/dev/shm` 폴더를 매개체로 환상 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(진짜 램 구역 포인터)을 생성해 서로 메모리 번지를 찍어먹으며([Memory Mapped File](/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/) 무결 스피드) CPU 클러스터링 병목을 조율 돌파하는 용도로만 스로틀 컨트롤 해냈다 보장 록.
+  - 파멸 결과: ext4 에 저장된 DB 결제 내용은 살았으나, `/var/run/` 에 있던 모든 장바구니 임시 찌꺼기 텍스트 파일 수백만 개가 단 1바이트 뼈조각 카빙도 허용치 않고 전원 차단과 함께 우주 속으로 (Volatile 휘발성 멸종) $O(1)$ 공중분해 암살 파단 발생. 수만 명 결제 장바구니 오류 항의 전화 빗발 OOM 폭쇄.
+- <strong>SRE 극복 솔루션 패치 타결 조율 (<code>/dev/shm</code> IPC 통신 윤활유 록백!!) / 커널 본진 아크</strong>:
+  - SRE 구조 1방 설계: 절대 램 디스크(`tmpfs`) 안에 "1%라도 복구해야 할 비즈니스 사용자 데이터" 를 두지 마라 파일 방역!
+  - 갓기능 포팅 로직 공유 메모리 빔!: 리눅스의 `/dev/shm` (Shared Memory 특수 디렉터리, tmpfs 마운트)의 진가는 따로 있다. 데이터베이스(PostgreSQL)의 흩어진 수십 개 프로세스 데몬끼리 서로 "야 너 이거 계산한 거 나한테 줘" 며 초당 100만 번 핑퐁 대화(IPC 통신 파이프 5단원 연계)를 던질 때. 이 고통스러운 로컬 소켓 통신을 `/dev/shm` 폴더를 매개체로 환상 파일(진짜 램 구역 포인터)을 생성해 서로 메모리 번지를 찍어먹으며(Memory Mapped File 무결 스피드) CPU 클러스터링 병목을 조율 돌파하는 용도로만 스로틀 컨트롤 해냈다 보장 록.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -87,16 +87,16 @@ RAM을 [파일](/studynote/02_operating_system/09_file_system/501_file_definitio
 
 ## Ⅲ. 비교 및 연결
 
-### 끔찍하게 느린 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) Overlay2 디스크를 찢고 탈출하는 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 전격 고속 통신망
-초단기 수명의 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)/[도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/)) 봇들이 I/O 오버헤드를 낳지 않도록 램을 잘라서 나눠주는 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 마스킹 주입술.
+### 끔찍하게 느린 컨테이너(Docker) Overlay2 디스크를 찢고 탈출하는 마이크로서비스 전격 고속 통신망
+초단기 수명의 쿠버네티스/도커(Container) 봇들이 I/O 오버헤드를 낳지 않도록 램을 잘라서 나눠주는 SRE 마스킹 주입술.
 
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (<a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> OverlayFS 디스크 긁힘 파단 데들락 랙)</strong>:
-  - 1시간만 일하다 죽는 [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에 Nginx 캐시 서버가 떠서, 외부 유저의 정적 이미지 압축본(5KB)을 초 단위로 수만 폴더 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 저장하고 지운다.
-  - [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기본 디스크는 `OverlayFS(다중 겹겹 추상화 554장 연계)` 라 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 오버헤드가 순정 하드보다도 3배 느려서([COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/) 병목 늪!), [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) I/O 디스크 로드가 폭주하며 다른 서비스까지 발목 잡는 좀비 현상 발현.
-- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (<a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">docker</a> run --tmpfs <a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> 램 <a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 타격 렌더!)</strong>:
-  - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 초격차 [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 발사!: [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 띄울 때 옵션을 찢는다. `docker run --tmpfs /app/cache:rw,size=512m nginx`
-  - 결과 방패 뷰!: OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 특정 동굴 방 `/app/cache` 만 딱 도려내어 숙주 서버 물리 램(RAM) 512MB 구역에 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(tmpfs) 맵핑 포팅 록백을 걸어버린다!
-  - Nginx가 수백만 번 쓰고 지우는 캐시는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 무거운 가상 하드디스크를 단 한 번도 찍지 않고 오직 램 위에서만 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 찰나의 폭풍(In-Memory 스피드 부스트)을 만들며 동작 완료. 그리고 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 폭파(Stop) 될 때 찌꺼기도 남김없이 휘발 청소되어 무결 클라우드 렌더를 완성해 냈다 증명.
+- <strong>안티패턴 충돌 (Docker OverlayFS 디스크 긁힘 파단 데들락 랙)</strong>:
+  - 1시간만 일하다 죽는 도커(Docker) 컨테이너 안에 Nginx 캐시 서버가 떠서, 외부 유저의 정적 이미지 압축본(5KB)을 초 단위로 수만 폴더 캐싱 저장하고 지운다.
+  - 컨테이너 기본 디스크는 `OverlayFS(다중 겹겹 추상화 554장 연계)` 라 쓰기 오버헤드가 순정 하드보다도 3배 느려서(COW 병목 늪!), 컨테이너 I/O 디스크 로드가 폭주하며 다른 서비스까지 발목 잡는 좀비 현상 발현.
+- <strong>SRE 엔지니어 도축 솔루션 (docker run --tmpfs 도커 램 마운트 타격 렌더!)</strong>:
+  - SRE 초격차 커맨드 발사!: 도커를 띄울 때 옵션을 찢는다. `docker run --tmpfs /app/cache:rw,size=512m nginx`
+  - 결과 방패 뷰!: OS 커널이 컨테이너의 특정 동굴 방 `/app/cache` 만 딱 도려내어 숙주 서버 물리 램(RAM) 512MB 구역에 환각(tmpfs) 맵핑 포팅 록백을 걸어버린다!
+  - Nginx가 수백만 번 쓰고 지우는 캐시는 컨테이너의 무거운 가상 하드디스크를 단 한 번도 찍지 않고 오직 램 위에서만 초고속 찰나의 폭풍(In-Memory 스피드 부스트)을 만들며 동작 완료. 그리고 컨테이너가 폭파(Stop) 될 때 찌꺼기도 남김없이 휘발 청소되어 무결 클라우드 렌더를 완성해 냈다 증명.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -104,9 +104,9 @@ RAM을 [파일](/studynote/02_operating_system/09_file_system/501_file_definitio
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- '임시 메모리 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (`tmpfs` 램 상주 [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 렌더)' 아키텍처는 유닉스 시대 하드디스크의 미친 대기 랙(Disk I/O [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 이라는 태생적 모터를 뽑아 버리고, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 관리자(VMM [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 늪)와 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 껍데기([VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))를 인위적으로 직결시켜 빛의 속도를 창출해 낸 궁극적 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 오버라이드 뼈대다.
-- 시스템 부팅 중 뿜어내는 수천 개 데몬의 쓸데없는 잡동사니 [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 통신망 흔적을 디스크에 구워 모터 수명([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) Wear 레벨링 데들락)을 박살 내는 대신 램 한편 공간(RAM Disk 스왑 뷰)에 깔끔하게 받아내고 영구 소각함으로써, 컴퓨팅 퍼포먼스와 생존 쿨타임(Limit 배급)을 무결하게 달성해 냈다 선고.
-- 비록 정전 한 방에 모든 저장물이 자비 없이 증발하는(Volatile 휘발성 멸종 참사) 운명과 용량 조절을 실패하면 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) CPU 메모리를 오링 내는 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 악마 소환(Limit 천장을 뜯는 트레이드오프 파단)을 낳았지만, 이 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 자체가 오히려 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)(프로세스 통신망)와 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 캐시([Database](/studynote/05_database/04_transactions_concurrency/501_database/) Shared Mem 거시 융합) 시스템에선 "필연적 단기 기억상실증" 으로 보안을 담보해 주는 아이러니한 무장 요새 스토리지 영원 진화판으로 록백 보장.
+- '임시 메모리 파일 시스템 (`tmpfs` 램 상주 마운트 환각 렌더)' 아키텍처는 유닉스 시대 하드디스크의 미친 대기 랙(Disk I/O Latency) 이라는 태생적 모터를 뽑아 버리고, 커널의 메모리 관리자(VMM 페이징 늪)와 파일 시스템 껍데기(VFS)를 인위적으로 직결시켜 빛의 속도를 창출해 낸 궁극적 스위치 오버라이드 뼈대다.
+- 시스템 부팅 중 뿜어내는 수천 개 데몬의 쓸데없는 잡동사니 Lock 파일과 통신망 흔적을 디스크에 구워 모터 수명(SSD Wear 레벨링 데들락)을 박살 내는 대신 램 한편 공간(RAM Disk 스왑 뷰)에 깔끔하게 받아내고 영구 소각함으로써, 컴퓨팅 퍼포먼스와 생존 쿨타임(Limit 배급)을 무결하게 달성해 냈다 선고.
+- 비록 정전 한 방에 모든 저장물이 자비 없이 증발하는(Volatile 휘발성 멸종 참사) 운명과 용량 조절을 실패하면 커널 CPU 메모리를 오링 내는 OOM 악마 소환(Limit 천장을 뜯는 트레이드오프 파단)을 낳았지만, 이 속성 자체가 오히려 IPC(프로세스 통신망)와 데이터베이스 캐시(Database Shared Mem 거시 융합) 시스템에선 "필연적 단기 기억상실증" 으로 보안을 담보해 주는 아이러니한 무장 요새 스토리지 영원 진화판으로 록백 보장.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -114,7 +114,7 @@ RAM을 [파일](/studynote/02_operating_system/09_file_system/501_file_definitio
 
 ## Ⅴ. 기대효과 및 결론
 
-임시 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (tmpfs / ramfs)은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 가상 장치 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (sysfs, procfs)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+임시 파일 시스템 (tmpfs / ramfs)은 파일 시스템과 디렉터리 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 가상 장치 파일 시스템 (sysfs, procfs)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -124,10 +124,10 @@ RAM을 [파일](/studynote/02_operating_system/09_file_system/501_file_definitio
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) ([Backup](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)) 및 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Restore) / 전체 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) vs 증분(Incremental) [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [삭제된 파일 복구](/studynote/02_operating_system/09_file_system/556_undelete_data_carving/) ([Undelete](/studynote/02_operating_system/09_file_system/556_undelete_data_carving/)) 및 포렌식 디스크 이미지 카빙(Carving) 원리 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 가상 장치 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (sysfs, procfs) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사 (fsck / chkdsk) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 가상 장치 파일 시스템 (sysfs, procfs) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 파일 시스템 일관성 검사 (fsck / chkdsk) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,17 +145,6 @@ RAM을 [파일](/studynote/02_operating_system/09_file_system/501_file_definitio
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴퓨터(직장 사무실)에서 내가 "점심 메뉴 목록(임시로 저장할 엄청 작은 메모 쪼가리 파단 늪!)" 을 적기 위해, 저 멀리 꽉 닫힌 지하실 무거운 철제 금고(디스크 하드웨어 철판 구이 병목 I/O 랙!) 문을 열고 붓글씨 잉크로 정성스럽게 적어야 하는 끔찍한 시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바보 행정 현상이 매일 100만 번 벌어졌어요 완전 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭망 멸망!
-2. 그래서 컴퓨터 천재 마술사가 <strong>"tmpfs 램 가상 디스크! 마법의 투명 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> 메모지!(메모리 폴더 <a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 스왑!)"</strong> 를 만들었어요 록백! 지하로 안 내려가고, 그냥 책상 앞 허공(RAM 메인 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 속 부스트!)에 '가짜 유리 폴더' 를 매달아요. 사용자는 그냥 평소 금고 쓰듯 똑같이 글을 쓰지만, 사실은 바람처럼 가벼운 메모지 위에 써져서 속도가 1만 배 이상 초광속으로 날아다니는(무결 환상 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 스피드!) 완전 마법 시스템이에요 도출!
-3. 치명적 슬픔 정전 초기화 망각 삭제 발생! 근데 이 마법 메모지에는 저주가 걸려있어요. 컴퓨터 전원 코드가 0.1초라도 뽑히면? 아니면 퇴근(리부팅 Reboot 통신 빔!)을 해서 컴퓨터를 끄는 바로 그 순간! 유리 폴더 안에 있던 수만 장의 그 모든 글씨들이 우주 먼지로 변하며 100% 완전 소각 삭제(Volatile 휘발의 늪!) 되어 버린답니다. 절대 중요한 엑셀 문서나 숙제 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이곳에 보관하면 영원히 피눈물을 흘리는 트레이드오프 파괴 슬픔을 지닌 채 태어나게 되었답니다 시스템 진화 랙!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 557 / 800
-
-<- **이전**: [556. 삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리](/studynote/02_operating_system/09_file_system/556_undelete_data_carving/)
-**다음**: [558. 가상 장치 파일 시스템 (sysfs, procfs) - 커널 변수와 하드웨어 정보 노출 통로](/studynote/02_operating_system/09_file_system/558_proc_sysfs_virtual_filesystem/) ->
-
----
+1. 컴퓨터(직장 사무실)에서 내가 "점심 메뉴 목록(임시로 저장할 엄청 작은 메모 쪼가리 파단 늪!)" 을 적기 위해, 저 멀리 꽉 닫힌 지하실 무거운 철제 금고(디스크 하드웨어 철판 구이 병목 I/O 랙!) 문을 열고 붓글씨 잉크로 정성스럽게 적어야 하는 끔찍한 시간 지연 바보 행정 현상이 매일 100만 번 벌어졌어요 완전 성능 폭망 멸망!
+2. 그래서 컴퓨터 천재 마술사가 <strong>"tmpfs 램 가상 디스크! 마법의 투명 모니터 메모지!(메모리 폴더 마운트 스왑!)"</strong> 를 만들었어요 록백! 지하로 안 내려가고, 그냥 책상 앞 허공(RAM 메인 초고속 반도체 속 부스트!)에 '가짜 유리 폴더' 를 매달아요. 사용자는 그냥 평소 금고 쓰듯 똑같이 글을 쓰지만, 사실은 바람처럼 가벼운 메모지 위에 써져서 속도가 1만 배 이상 초광속으로 날아다니는(무결 환상 환각 스피드!) 완전 마법 시스템이에요 도출!
+3. 치명적 슬픔 정전 초기화 망각 삭제 발생! 근데 이 마법 메모지에는 저주가 걸려있어요. 컴퓨터 전원 코드가 0.1초라도 뽑히면? 아니면 퇴근(리부팅 Reboot 통신 빔!)을 해서 컴퓨터를 끄는 바로 그 순간! 유리 폴더 안에 있던 수만 장의 그 모든 글씨들이 우주 먼지로 변하며 100% 완전 소각 삭제(Volatile 휘발의 늪!) 되어 버린답니다. 절대 중요한 엑셀 문서나 숙제 파일을 이곳에 보관하면 영원히 피눈물을 흘리는 트레이드오프 파괴 슬픔을 지닌 채 태어나게 되었답니다 시스템 진화 랙!

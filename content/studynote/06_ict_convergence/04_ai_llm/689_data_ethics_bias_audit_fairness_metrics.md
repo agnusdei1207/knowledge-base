@@ -131,11 +131,3 @@ weight: 689
 핵심 알고리즘 원리를 수식으로 표현하면 다음과 같다. 가장 기본적인 **Demographic Parity(통계적 동등성)**는 보호 속성 A에 조건부인 양성 예측 확률이 모든 그룹에서 동일해야 한다는 원칙으로, $\Pr(\hat{Y}=1 \mid A=a) = \Pr(\hat{Y}=1 \mid A=b)$ for all $a, b \in A$ 로 정의된다. 실제 구현에서는 **Disparate Impact Ratio(DIR)**로 측정하며, DIR < 0.8 이면 EEOC 4/5 Rule 위반으로 간주한다.
 
 **Equalized Odds(Hardt et al., 2016)**는 $\Pr(\hat{Y}=1 \mid Y=y, A=a) = \Pr(\hat{Y}=1 \mid Y=y, A=b)$ for $y \in \{0,1\}$ 로, 실제 라벨이 동일할 때 모든 그룹의 TPR과 FPR이 같아야 한다는 더 강한 조건이다. **Predictive Parity(Chouldechova, 2017)**는 PPV가 그룹 간 동일해야 한다는 조건 $\Pr(Y=1 \mid \hat{Y}=1, A=a) = \Pr(Y=1 \mid \hat{Y}=1, A=b)$ 으로, 이 세 가지 조건은 **베이즈 정리(Bayes' Theorem)**에 의해
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 689 / 800
-
-<- **이전**: [688. 인과 추론 도구 변수 반사실 분석](/studynote/06_ict_convergence/uncategorized/688_causal_inference_instrumental_counterfactual/)
-**다음**: [690. 오픈 데이터 공공 데이터 활용 전략](/studynote/06_ict_convergence/uncategorized/690_open_data_public_data_utilization_strategy/) ->
-
----

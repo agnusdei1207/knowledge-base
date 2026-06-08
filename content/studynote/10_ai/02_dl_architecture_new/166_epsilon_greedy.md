@@ -7,17 +7,17 @@ weight: 166
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 엡실론-그리디 (Epsilon-Greedy)는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 에이전트가 현재 최고라고 믿는 행동을 주로 선택하되, 일정 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) $\epsilon$만큼은 일부러 다른 행동을 시도하게 만드는 가장 기본적인 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
-> 2. **가치**: 이 단순한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 규칙 덕분에 에이전트는 초반의 우연한 보상에 갇히지 않고, 지역 최적해 (Local Optimum)를 넘어 더 좋은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 발견할 가능성을 확보한다.
-> 3. **판단 포인트**: [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름보다 $\epsilon$의 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값·감쇠 방식·평가 시점 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에 더 크게 좌우되며, 특히 학습과 추론에서 서로 다른 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 강도를 적용해야 한다.
+> 1. **본질**: 엡실론-그리디 (Epsilon-Greedy)는 강화 학습 에이전트가 현재 최고라고 믿는 행동을 주로 선택하되, 일정 확률 $\epsilon$만큼은 일부러 다른 행동을 시도하게 만드는 가장 기본적인 탐험 정책이다.
+> 2. **가치**: 이 단순한 확률 규칙 덕분에 에이전트는 초반의 우연한 보상에 갇히지 않고, 지역 최적해 (Local Optimum)를 넘어 더 좋은 정책을 발견할 가능성을 확보한다.
+> 3. **판단 포인트**: 성능은 알고리즘 이름보다 $\epsilon$의 초기값·감쇠 방식·평가 시점 설정에 더 크게 좌우되며, 특히 학습과 추론에서 서로 다른 정책 강도를 적용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-엡실론-그리디는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))에서 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) ([Exploration](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))과 활용 (Exploitation)의 균형을 잡기 위해 사용하는 행동 선택 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 에이전트가 매번 가장 높은 Q값 (Action Value)을 가진 행동만 고르면, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 우연히 얻은 작은 보상을 정답으로 오해하고 더 나은 행동을 영원히 시도하지 않을 수 있다. 반대로 모든 행동을 계속 무작위로 고르면 학습은 느려지고 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 수렴하지 않는다.
+엡실론-그리디는 강화 학습 (Reinforcement Learning)에서 탐험 (Exploration)과 활용 (Exploitation)의 균형을 잡기 위해 사용하는 행동 선택 정책이다. 에이전트가 매번 가장 높은 Q값 (Action Value)을 가진 행동만 고르면, 초기에 우연히 얻은 작은 보상을 정답으로 오해하고 더 나은 행동을 영원히 시도하지 않을 수 있다. 반대로 모든 행동을 계속 무작위로 고르면 학습은 느려지고 정책은 수렴하지 않는다.
 
-즉 문제의 핵심은 "지금까지 배운 것을 얼마나 믿고, 아직 모르는 행동을 얼마나 더 시험할 것인가"이다. 다중 슬롯머신 (Multi-Armed Bandit) 문제부터 [DQN](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) 같은 딥 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)까지, 이 균형이 무너지면 학습 안정성과 최종 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 동시에 흔들린다. 엡실론-그리디는 매우 단순하지만, 이 딜레마를 가장 낮은 구현 복잡도로 다루는 출발점이 된다.
+즉 문제의 핵심은 "지금까지 배운 것을 얼마나 믿고, 아직 모르는 행동을 얼마나 더 시험할 것인가"이다. 다중 슬롯머신 (Multi-Armed Bandit) 문제부터 DQN (Deep Q-Network) 같은 딥 강화 학습까지, 이 균형이 무너지면 학습 안정성과 최종 성능이 동시에 흔들린다. 엡실론-그리디는 매우 단순하지만, 이 딜레마를 가장 낮은 구현 복잡도로 다루는 출발점이 된다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -43,14 +43,14 @@ weight: 166
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-엡실론-그리디의 핵심 규칙은 단순하다. [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) $1-\epsilon$에서는 현재 추정된 최고 행동을 선택하고, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) $\epsilon$에서는 가능한 행동 중 하나를 무작위로 고른다. 수식으로 쓰면 $\[pi](/studynote/12_it_management/01_governance_strategy/805_process_innovation/)(a|s)$는 특정 상태 $s$에서 행동 $a$를 선택할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이고, 최적 행동 $a^*$에 더 큰 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 배정하면서도 다른 행동의 기회를 완전히 0으로 만들지 않는다.
+엡실론-그리디의 핵심 규칙은 단순하다. 확률 $1-\epsilon$에서는 현재 추정된 최고 행동을 선택하고, 확률 $\epsilon$에서는 가능한 행동 중 하나를 무작위로 고른다. 수식으로 쓰면 $\pi(a|s)$는 특정 상태 $s$에서 행동 $a$를 선택할 확률이고, 최적 행동 $a^*$에 더 큰 확률을 배정하면서도 다른 행동의 기회를 완전히 0으로 만들지 않는다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| $\epsilon$ | [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 비율 | 너무 크면 수렴이 느리고, 너무 작으면 조기 고착 발생 |
+| $\epsilon$ | 탐험 비율 | 너무 크면 수렴이 느리고, 너무 작으면 조기 고착 발생 |
 | Greedy 선택 | 현재 최선 활용 | $Q(s,a)$ 추정 품질에 직접 의존 |
-| Random 선택 | 미지 영역 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) | 행동 공간이 크면 효율이 급격히 떨어짐 |
-| Decay [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | 학습 단계별 균형 조정 | 선형 감쇠, 지수 감쇠, 구간별 감쇠 선택 |
+| Random 선택 | 미지 영역 탐험 | 행동 공간이 크면 효율이 급격히 떨어짐 |
+| Decay 스케줄 | 학습 단계별 균형 조정 | 선형 감쇠, 지수 감쇠, 구간별 감쇠 선택 |
 
 다음 그림은 행동 결정 흐름과 병목 지점을 보여준다.
 
@@ -74,47 +74,47 @@ weight: 166
 +--------------------------------------------------------------------+
 ```
 
-실무에서는 고정된 $\epsilon$보다 감쇠 (Decay) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 더 중요하다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 $\epsilon=1.0$ 또는 0.5처럼 크게 두어 상태 공간을 넓게 탐색하고, 학습이 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될수록 0.1, 0.05, 0.01 수준으로 줄여 수집한 지식을 활용한다. [DQN](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 계열에서는 보통 수십만~수백만 스텝 동안 선형 또는 지수 방식으로 $\epsilon$을 줄이며, 평가 단계에서는 $\epsilon=0$ 또는 매우 작은 값으로 고정해 순수 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정한다.
+실무에서는 고정된 $\epsilon$보다 감쇠 (Decay) 전략이 더 중요하다. 초기에는 $\epsilon=1.0$ 또는 0.5처럼 크게 두어 상태 공간을 넓게 탐색하고, 학습이 진행될수록 0.1, 0.05, 0.01 수준으로 줄여 수집한 지식을 활용한다. DQN 계열에서는 보통 수십만~수백만 스텝 동안 선형 또는 지수 방식으로 $\epsilon$을 줄이며, 평가 단계에서는 $\epsilon=0$ 또는 매우 작은 값으로 고정해 순수 정책 성능을 측정한다.
 
-- **📢 섹션 요약 비유**: 처음 여행을 가면 지도를 넓게 훑어보지만, 동네를 익힌 뒤에는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 길을 주로 쓴다. 엡실론 감쇠는 "탐방 모드"에서 "출퇴근 모드"로 바꾸는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.
+- **📢 섹션 요약 비유**: 처음 여행을 가면 지도를 넓게 훑어보지만, 동네를 익힌 뒤에는 검증된 길을 주로 쓴다. 엡실론 감쇠는 "탐방 모드"에서 "출퇴근 모드"로 바꾸는 스위치다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-엡실론-그리디를 이해하려면 다른 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과의 경계를 봐야 한다. 이 방법은 가장 구현이 쉽고 계산량이 작지만, [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)할 때 "어떤 행동이 더 유망한지"를 고려하지 않는다는 한계가 있다. 그래서 상태가 단순하거나 빠른 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 필요한 문제에는 좋지만, 행동 공간이 크고 보상이 희소한 문제에서는 더 정교한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요해진다.
+엡실론-그리디를 이해하려면 다른 탐험 전략과의 경계를 봐야 한다. 이 방법은 가장 구현이 쉽고 계산량이 작지만, 탐험할 때 "어떤 행동이 더 유망한지"를 고려하지 않는다는 한계가 있다. 그래서 상태가 단순하거나 빠른 기준선이 필요한 문제에는 좋지만, 행동 공간이 크고 보상이 희소한 문제에서는 더 정교한 전략이 필요해진다.
 
-| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 방식 | 장점 | 한계 |
+| 전략 | 탐험 방식 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| 엡실론-그리디 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) $\epsilon$만큼 완전 무작위 선택 | 구현 간단, 디버깅 용이, [DQN](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 적합 | 나쁜 행동도 동일 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 고를 수 있음 |
-| [Softmax](/studynote/10_ai/03_llm_nlp/270_softmax/) (Boltzmann [Exploration](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)) | Q값 비례 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 선택 | 유망한 행동에 더 많은 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 기회 부여 | 온도 파라미터 튜닝 민감 |
-| UCB (Upper [Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound) | 불확실성 높은 행동에 보너스 부여 | [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 효율 우수 | 함수 근사 환경 적용이 복잡 |
-| Thompson [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) | 사후분포 기반 샘플링 | 불확실성 반영이 자연스러움 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 모델링 비용 큼 |
+| 엡실론-그리디 | 확률 $\epsilon$만큼 완전 무작위 선택 | 구현 간단, 디버깅 용이, DQN 기준선으로 적합 | 나쁜 행동도 동일 확률로 고를 수 있음 |
+| Softmax (Boltzmann Exploration) | Q값 비례 확률 선택 | 유망한 행동에 더 많은 탐험 기회 부여 | 온도 파라미터 튜닝 민감 |
+| UCB (Upper Confidence Bound) | 불확실성 높은 행동에 보너스 부여 | 탐험 효율 우수 | 함수 근사 환경 적용이 복잡 |
+| Thompson Sampling | 사후분포 기반 샘플링 | 불확실성 반영이 자연스러움 | 확률 모델링 비용 큼 |
 
-[강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 전체 관점에서 보면, 엡실론-그리디는 [정책 경사법](/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/) ([Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/))의 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와도 연결된다. 둘 다 "너무 빨리 한 행동만 고집하지 않게 만들기" 위한 장치이지만, 엡실론-그리디는 행동 선택 단계에서 외부적으로 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 섞고, [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 학습 목적 함수 안에서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 분포를 넓힌다. 따라서 값 기반 (Value-Based) 방법의 기초로는 엡실론-그리디가 직관적이고, 연속 행동 공간에서는 다른 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 메커니즘이 더 자주 쓰인다.
+강화 학습 전체 관점에서 보면, 엡실론-그리디는 정책 경사법 (Policy Gradient)의 엔트로피 정규화와도 연결된다. 둘 다 "너무 빨리 한 행동만 고집하지 않게 만들기" 위한 장치이지만, 엡실론-그리디는 행동 선택 단계에서 외부적으로 확률을 섞고, 엔트로피 정규화는 학습 목적 함수 안에서 정책 분포를 넓힌다. 따라서 값 기반 (Value-Based) 방법의 기초로는 엡실론-그리디가 직관적이고, 연속 행동 공간에서는 다른 탐험 메커니즘이 더 자주 쓰인다.
 
-- **📢 섹션 요약 비유**: 엡실론-그리디는 가끔 아무 가게나 들어가 보는 방식이고, Softmax는 평점 높은 가게를 더 자주 고르는 방식이다. 둘 다 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)이지만 "얼마나 똑똑하게 헤맬 것인가"에서 차이가 난다.
+- **📢 섹션 요약 비유**: 엡실론-그리디는 가끔 아무 가게나 들어가 보는 방식이고, Softmax는 평점 높은 가게를 더 자주 고르는 방식이다. 둘 다 탐험이지만 "얼마나 똑똑하게 헤맬 것인가"에서 차이가 난다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현업에서 엡실론-그리디는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 운영 파라미터 관리가 더 중요하다. 예를 들어 게임 플레이 에이전트나 추천 시뮬레이터에서 $\epsilon$이 너무 빨리 줄면 초반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향이 굳어지고, 너무 늦게 줄면 학습 후반에도 무작위 행동이 남아 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 불안정해진다. 희소 보상 (Sparse Reward) 환경에서는 단순 무작위 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)만으로 목표 상태를 거의 만나지 못하므로, 보상 설계·내재적 동기 (Intrinsic Motivation)·우선순위 경험 재현 (Prioritized [Experience Replay](/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)) 같은 보조 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 검토해야 한다.
+현업에서 엡실론-그리디는 알고리즘보다 운영 파라미터 관리가 더 중요하다. 예를 들어 게임 플레이 에이전트나 추천 시뮬레이터에서 $\epsilon$이 너무 빨리 줄면 초반 데이터 편향이 굳어지고, 너무 늦게 줄면 학습 후반에도 무작위 행동이 남아 성능이 불안정해진다. 희소 보상 (Sparse Reward) 환경에서는 단순 무작위 탐험만으로 목표 상태를 거의 만나지 못하므로, 보상 설계·내재적 동기 (Intrinsic Motivation)·우선순위 경험 재현 (Prioritized Experience Replay) 같은 보조 전략을 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 학습 초반 $\epsilon$이 상태 공간을 충분히 덮을 만큼 큰가?
-2. 감쇠 종료 시점이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집량과 환경 복잡도에 비해 너무 이르지 않은가?
+2. 감쇠 종료 시점이 데이터 수집량과 환경 복잡도에 비해 너무 이르지 않은가?
 3. 평가·운영 환경에서는 $\epsilon$을 0 또는 매우 작은 값으로 고정했는가?
-4. 행동 공간이 큰데도 균일 무작위 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)만 사용하고 있지 않은가?
+4. 행동 공간이 큰데도 균일 무작위 탐험만 사용하고 있지 않은가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 훈련과 평가에 같은 $\epsilon$을 사용해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 과대 또는 과소평가하는 경우
-- 실서비스 추론에도 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)을 남겨 예측 불가능한 행동을 유발하는 경우
-- 희소 보상 문제에 단순 선형 감쇠만 적용하고 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 실패를 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제로 오해하는 경우
+- 훈련과 평가에 같은 $\epsilon$을 사용해 성능을 과대 또는 과소평가하는 경우
+- 실서비스 추론에도 탐험을 남겨 예측 불가능한 행동을 유발하는 경우
+- 희소 보상 문제에 단순 선형 감쇠만 적용하고 탐험 실패를 모델 성능 문제로 오해하는 경우
 
-실무 시나리오로는 물류 로봇 경로 최적화가 대표적이다. 학습 중에는 다른 통로도 시험해야 병목 없는 경로를 찾을 수 있지만, 실제 창고 운영 시에는 무작위 우회가 곧 충돌 위험이므로 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)을 꺼야 한다. 즉 엡실론-그리디는 "훈련용 호기심"이지 "운영용 즉흥성"이 아니다.
+실무 시나리오로는 물류 로봇 경로 최적화가 대표적이다. 학습 중에는 다른 통로도 시험해야 병목 없는 경로를 찾을 수 있지만, 실제 창고 운영 시에는 무작위 우회가 곧 충돌 위험이므로 탐험을 꺼야 한다. 즉 엡실론-그리디는 "훈련용 호기심"이지 "운영용 즉흥성"이 아니다.
 
 - **📢 섹션 요약 비유**: 운전 연습 때는 여러 길을 시험해 볼 수 있지만, 손님을 태운 택시는 갑자기 모험하면 안 된다. 엡실론은 연습장에서는 필요하지만 실전 운행에서는 줄여야 하는 안전 장치다.
 
@@ -122,9 +122,9 @@ weight: 166
 
 ## Ⅴ. 기대효과 및 결론
 
-엡실론-그리디의 가장 큰 장점은 단순함이 만든 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이다. 구현이 짧고 해석이 쉬워 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 모델, 교육용 예제, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)에서 빠르게 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 또한 값 기반 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 자연스럽게 결합되어, 복잡한 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 도입하기 전 비교 기준으로 매우 유용하다.
+엡실론-그리디의 가장 큰 장점은 단순함이 만든 신뢰성이다. 구현이 짧고 해석이 쉬워 기준선 (Baseline) 모델, 교육용 예제, 초기 프로토타입에서 빠르게 성능을 확인할 수 있다. 또한 값 기반 강화 학습 알고리즘과 자연스럽게 결합되어, 복잡한 탐험 정책을 도입하기 전 비교 기준으로 매우 유용하다.
 
-다만 이 방법은 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)의 질을 세밀하게 제어하지 못한다. 행동 종류가 많거나 위험한 행동 비용이 큰 환경에서는 무작위 선택이 비효율적이거나 치명적일 수 있다. 따라서 엡실론-그리디는 "언제나 최선의 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)법"이라기보다, 가장 단순한 균형 제어기로 기억하는 것이 맞다. 시작은 이 방법으로 하되, 환경 복잡도가 커질수록 더 정보량 높은 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 확장하는 관점이 필요하다.
+다만 이 방법은 탐험의 질을 세밀하게 제어하지 못한다. 행동 종류가 많거나 위험한 행동 비용이 큰 환경에서는 무작위 선택이 비효율적이거나 치명적일 수 있다. 따라서 엡실론-그리디는 "언제나 최선의 탐험법"이라기보다, 가장 단순한 균형 제어기로 기억하는 것이 맞다. 시작은 이 방법으로 하되, 환경 복잡도가 커질수록 더 정보량 높은 탐험 전략으로 확장하는 관점이 필요하다.
 
 - **📢 섹션 요약 비유**: 엡실론-그리디는 자전거의 보조바퀴와 같다. 처음에는 매우 유용하지만, 더 복잡한 지형을 빠르게 달리려면 결국 더 정교한 균형 기술이 필요하다.
 
@@ -134,11 +134,11 @@ weight: 166
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) vs 활용 ([Exploration vs Exploitation](/studynote/10_ai/02_dl_architecture_new/165_exploration_vs_exploitation/)) | 엡실론-그리디가 직접 다루는 핵심 딜레마 |
-| Q-러닝 ([Q-Learning](/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)) | Q값 기반으로 탐욕 행동을 계산하는 대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| [DQN](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) | 신경망으로 Q함수를 근사하면서 엡실론 감쇠를 자주 사용 |
-| 다중 슬롯머신 (Multi-Armed Bandit) | [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 비교의 기초 문제 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) |
-| 내재적 동기 (Intrinsic Motivation) | 희소 보상 환경에서 추가 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 제공 |
+| 탐험 vs 활용 (Exploration vs Exploitation) | 엡실론-그리디가 직접 다루는 핵심 딜레마 |
+| Q-러닝 (Q-Learning) | Q값 기반으로 탐욕 행동을 계산하는 대표 알고리즘 |
+| DQN (Deep Q-Network) | 신경망으로 Q함수를 근사하면서 엡실론 감쇠를 자주 사용 |
+| 다중 슬롯머신 (Multi-Armed Bandit) | 탐험 정책 비교의 기초 문제 설정 |
+| 내재적 동기 (Intrinsic Motivation) | 희소 보상 환경에서 추가 탐험 신호를 제공 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,21 +158,10 @@ DQN (Deep Q-Network) 실전 적용
 UCB · Thompson Sampling · Intrinsic Motivation
 ```
 
-이 흐름은 "단순 탐욕"에서 출발해 "기본 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)"을 거쳐 "더 정교한 불확실성 기반 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)"으로 확장되는 경로를 보여준다.
+이 흐름은 "단순 탐욕"에서 출발해 "기본 탐험 정책"을 거쳐 "더 정교한 불확실성 기반 탐험"으로 확장되는 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 게임 로봇이 맨날 같은 버튼만 누르면 더 좋은 비밀 기술을 못 찾을 수 있어요.
-2. 그래서 선생님이 "가끔은 다른 버튼도 눌러 봐"라고 작은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)의 모험 규칙을 넣어 줘요.
+2. 그래서 선생님이 "가끔은 다른 버튼도 눌러 봐"라고 작은 확률의 모험 규칙을 넣어 줘요.
 3. 충분히 배운 뒤에는 그 모험을 줄여서, 이제는 가장 잘하는 기술을 자신 있게 쓰게 한답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 166 / 420
-
-<- **이전**: [165. 탐험 (Exploration) vs 활용 (Exploitation) 딜레마](/studynote/10_ai/02_dl_architecture_new/165_exploration_vs_exploitation/)
-**다음**: [167. 큐-러닝 (Q-Learning)](/studynote/10_ai/02_dl_architecture_new/167_q_learning/) ->
-
----

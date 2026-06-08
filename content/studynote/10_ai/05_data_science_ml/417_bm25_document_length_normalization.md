@@ -7,9 +7,9 @@ weight: 417
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BM25 (Best Matching 25)는 질의어 빈도, 문서 길이, 단어 희귀도를 함께 반영해 문서를 점수화하는 <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 정보 검색 랭킹 함수</strong>다.
-> 2. **가치**: [TF-IDF](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) ([Term Frequency-Inverse Document Frequency](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/))의 단순 선형 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 가지는 한계를 보완해, 단어가 많이 나온다고 무한정 점수를 주지 않고 문서 길이 편향도 줄인다.
-> 3. **판단 포인트**: `k1`은 빈도 포화 정도, `b`는 문서 길이 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도를 정하며, BM25는 여전히 희소 검색이므로 의미 [유사도 검색](/studynote/05_database/06_dw_olap_trends/348_similarity_search/)과는 역할이 다르다.
+> 1. **본질**: BM25 (Best Matching 25)는 질의어 빈도, 문서 길이, 단어 희귀도를 함께 반영해 문서를 점수화하는 <strong>확률적 정보 검색 랭킹 함수</strong>다.
+> 2. **가치**: TF-IDF (Term Frequency-Inverse Document Frequency)의 단순 선형 가중치가 가지는 한계를 보완해, 단어가 많이 나온다고 무한정 점수를 주지 않고 문서 길이 편향도 줄인다.
+> 3. **판단 포인트**: `k1`은 빈도 포화 정도, `b`는 문서 길이 정규화 강도를 정하며, BM25는 여전히 희소 검색이므로 의미 유사도 검색과는 역할이 다르다.
 
 ---
 
@@ -44,14 +44,14 @@ score(D, Q) = \sum_{q_i \in Q} IDF(q_i) \cdot
 \frac{f(q_i, D) \cdot (k_1 + 1)}{f(q_i, D) + k_1 \cdot \left(1 - b + b \cdot \frac{|D|}{avgdl}\right)}
 $$
 
-여기서 `f(q_i, D)`는 문서 `D` 안에서 질의어 `q_i`가 나온 횟수, `|D|`는 문서 길이, `avgdl`은 평균 문서 길이다. `IDF`는 희귀 단어에 더 높은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 준다.
+여기서 `f(q_i, D)`는 문서 `D` 안에서 질의어 `q_i`가 나온 횟수, `|D|`는 문서 길이, `avgdl`은 평균 문서 길이다. `IDF`는 희귀 단어에 더 높은 가중치를 준다.
 
 | 파라미터    | 의미             | 해석                                   |
 | :---------- | :--------------- | :------------------------------------- |
 | **IDF**     | 역문서 빈도      | 드문 단어일수록 중요                   |
 | <strong><code>k1</code></strong>    | TF 포화 정도     | 값이 클수록 빈도 증가 영향이 오래 유지 |
-| <strong><code>b</code></strong>     | 길이 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도 | 0이면 길이 무시, 1이면 강하게 보정     |
-| <strong><code>avgdl</code></strong> | 평균 문서 길이   | 길이 비교 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)                       |
+| <strong><code>b</code></strong>     | 길이 정규화 강도 | 0이면 길이 무시, 1이면 강하게 보정     |
+| <strong><code>avgdl</code></strong> | 평균 문서 길이   | 길이 비교 기준선                       |
 
 ```text
 +--------------------------------------------------------------+
@@ -68,22 +68,22 @@ $$
 
 BM25에서 중요한 부분은 TF 포화 (Saturation)다. 어떤 단어가 1회에서 3회로 늘어날 때는 의미가 크지만, 30회에서 32회로 늘어날 때는 관련성이 크게 늘었다고 보기 어렵다. `k1`이 바로 이 "추가 등장 1회의 체감 가치"를 조절한다. `b`는 긴 문서가 무조건 유리해지는 현상을 눌러 준다.
 
-- **📢 섹션 요약 비유**: 발표 자료에 핵심 단어가 두세 번 더 나오는 건 분명 의미가 있지만, 같은 단어를 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0번 반복했다고 자료가 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0배 좋은 건 아니다. BM25는 이 상식적인 감각을 수식으로 만든 것이다.
+- **📢 섹션 요약 비유**: 발표 자료에 핵심 단어가 두세 번 더 나오는 건 분명 의미가 있지만, 같은 단어를 100번 반복했다고 자료가 100배 좋은 건 아니다. BM25는 이 상식적인 감각을 수식으로 만든 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목             | [TF-IDF](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)           | BM25             | Dense Retrieval       |
+| 항목             | TF-IDF           | BM25             | Dense Retrieval       |
 | :--------------- | :--------------- | :--------------- | :-------------------- |
-| 기반             | 단어 빈도 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 랭킹 함수 | [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 벡터 유사도    |
+| 기반             | 단어 빈도 가중치 | 확률적 랭킹 함수 | 임베딩 벡터 유사도    |
 | 문서 길이 보정   | 약함             | 강함             | 직접적 길이 개념 없음 |
 | TF 포화          | 없음             | 있음             | 없음                  |
 | 의미 유사어 대응 | 약함             | 약함             | 강함                  |
 
 BM25는 고전적이지만 여전히 강력하다. 특히 질의어가 명확하고, 색인 가능한 텍스트가 충분히 구조화되어 있을 때 높은 효율을 보인다. 반면 동의어, 문맥 의미, 패러프레이즈를 잘 잡아내려면 벡터 검색이 유리하다.
 
-그래서 최근 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/))에서는 BM25와 벡터 검색을 함께 쓰는 [하이브리드 검색](/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/)이 많다. BM25가 명시적 키워드 일치를 잘 잡고, 벡터 검색이 의미 유사성을 보완한다. 두 방식을 결합하면 [재현율](/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)과 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 함께 끌어올리기 쉽다.
+그래서 최근 RAG (Retrieval-Augmented Generation)에서는 BM25와 벡터 검색을 함께 쓰는 하이브리드 검색이 많다. BM25가 명시적 키워드 일치를 잘 잡고, 벡터 검색이 의미 유사성을 보완한다. 두 방식을 결합하면 재현율과 정밀도를 함께 끌어올리기 쉽다.
 
 - **📢 섹션 요약 비유**: BM25가 사전의 정확한 표제어 찾기라면, 벡터 검색은 비슷한 뜻의 말을 눈치로 찾아주는 친구다. 둘을 같이 쓰면 놓치는 문서가 줄어든다.
 
@@ -91,33 +91,33 @@ BM25는 고전적이지만 여전히 강력하다. 특히 질의어가 명확하
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 검색 질의가 정확한 키워드 중심인가, 의미 기반 탐색인가?
 2. 문서 길이 편차가 큰 코퍼스인가?
-3. 불용어 제거, 형태소 분석, [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) 품질이 충분한가?
-4. `k1`, `b`를 기본값에만 의존하지 않고 코퍼스 특성에 맞게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가?
+3. 불용어 제거, 형태소 분석, 토큰화 품질이 충분한가?
+4. `k1`, `b`를 기본값에만 의존하지 않고 코퍼스 특성에 맞게 검증했는가?
 5. RAG라면 벡터 검색과 하이브리드 결합 여부를 검토했는가?
 
 ### 실무 판단
 
-사내 문서 검색, FAQ 검색, 법률 조항 검색처럼 질의가 비교적 명시적이면 BM25만으로도 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다. 구현이 단순하고 색인 비용이 낮으며, 결과 설명 가능성도 높다. 어떤 단어가 얼마나 점수에 기여했는지 설명하기 쉽기 때문이다.
+사내 문서 검색, FAQ 검색, 법률 조항 검색처럼 질의가 비교적 명시적이면 BM25만으로도 높은 성능을 낼 수 있다. 구현이 단순하고 색인 비용이 낮으며, 결과 설명 가능성도 높다. 어떤 단어가 얼마나 점수에 기여했는지 설명하기 쉽기 때문이다.
 
-반면 자연어 질문 응답, 긴 대화형 검색, 의미 기반 추천에서는 BM25만으로 한계가 있다. 이때는 dense retrieval과 혼합하거나, BM25를 1차 후보 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기로 쓰고 재랭킹 모델을 얹는 구조가 실무적이다. 기술사 답안에서는 "BM25는 아직도 1차 검색의 강자이지만, 의미 검색 시대에는 하이브리드 아키텍처로 이해해야 한다"고 정리하면 좋다.
+반면 자연어 질문 응답, 긴 대화형 검색, 의미 기반 추천에서는 BM25만으로 한계가 있다. 이때는 dense retrieval과 혼합하거나, BM25를 1차 후보 생성기로 쓰고 재랭킹 모델을 얹는 구조가 실무적이다. 기술사 답안에서는 "BM25는 아직도 1차 검색의 강자이지만, 의미 검색 시대에는 하이브리드 아키텍처로 이해해야 한다"고 정리하면 좋다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 형태소 분석과 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) 품질을 무시한 채 파라미터만 조정하는 설계
+- 형태소 분석과 토큰화 품질을 무시한 채 파라미터만 조정하는 설계
 - 긴 문서 코퍼스에 TF-IDF만 고집해 길이 편향을 키우는 설계
 - 의미 기반 질의를 BM25 단독으로 처리하려는 설계
 
-- **📢 섹션 요약 비유**: 주소 검색이 필요한데 지도 없이 감으로만 찾아가는 것은 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. BM25는 정확한 주소를 찾는 데 강하지만, 대략적인 분위기만으로 장소를 찾는 일까지 혼자 맡기면 힘들다.
+- **📢 섹션 요약 비유**: 주소 검색이 필요한데 지도 없이 감으로만 찾아가는 것은 안티패턴이다. BM25는 정확한 주소를 찾는 데 강하지만, 대략적인 분위기만으로 장소를 찾는 일까지 혼자 맡기면 힘들다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BM25를 적용하면 문서 길이 편향과 단순 TF 폭주를 줄이면서, 설명 가능한 검색 랭킹을 구축할 수 있다. 그래서 검색 인프라의 기본기이자, 현대 [하이브리드 검색](/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/)의 중요한 한 축으로 남아 있다.
+BM25를 적용하면 문서 길이 편향과 단순 TF 폭주를 줄이면서, 설명 가능한 검색 랭킹을 구축할 수 있다. 그래서 검색 인프라의 기본기이자, 현대 하이브리드 검색의 중요한 한 축으로 남아 있다.
 
 결론적으로 BM25의 본질은 "희귀하고 중요한 단어가 적절한 길이의 문서에서 얼마나 설득력 있게 등장했는가"를 점수화하는 데 있다. 즉, 검색 시스템 설계자는 단순 키워드 개수보다 <strong>희귀도, 포화, 길이 보정의 균형</strong>을 먼저 이해해야 한다.
 
@@ -129,10 +129,10 @@ BM25를 적용하면 문서 길이 편향과 단순 TF 폭주를 줄이면서, �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [TF-IDF](/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) | BM25가 보완하려는 고전적 희소 검색 기준 |
-| IDF (Inverse [Document](/studynote/14_data_engineering/01_infrastructure/037_document/) Frequency) | 희귀 단어의 중요도를 반영 |
-| [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) | BM25를 벡터 검색과 함께 쓰는 대표 응용 |
-| Dense Retrieval | BM25와 보완 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인 의미 기반 검색 |
+| TF-IDF | BM25가 보완하려는 고전적 희소 검색 기준 |
+| IDF (Inverse Document Frequency) | 희귀 단어의 중요도를 반영 |
+| RAG | BM25를 벡터 검색과 함께 쓰는 대표 응용 |
+| Dense Retrieval | BM25와 보완 관계인 의미 기반 검색 |
 | Re-ranking | BM25 후보를 후속 모델로 재정렬하는 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -146,14 +146,3 @@ BM25를 적용하면 문서 길이 편향과 단순 TF 폭주를 줄이면서, �
 1. 책에서 필요한 내용을 찾을 때, 그냥 단어가 많이 나온다고 좋은 책은 아니에요.
 2. 드문 중요한 단어가 적당히 들어 있고, 책이 너무 길어서 우연히 많이 나온 건 아닌지도 봐야 해요.
 3. BM25는 그런 걸 계산해서 더 알맞은 책을 먼저 보여주는 똑똑한 검색 규칙이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 417 / 420
-
-<- **이전**: [416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)](/studynote/10_ai/05_data_science_ml/416_dp_sgd_model_inversion_defense/)
-**다음**: [418. 오버샘플링·언더샘플링·SMOTE (Synthetic Minority Over-sampling Technique)](/studynote/10_ai/05_data_science_ml/418_smote_oversampling_undersampling/) ->
-
----

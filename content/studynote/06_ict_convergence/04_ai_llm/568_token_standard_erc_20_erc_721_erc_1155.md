@@ -110,12 +110,3 @@ Core flow: Balance -> Approve -> Transfer -> Metadata -> Event
 | 오라클 | 외부 세계와 온체인 상태를 연결하는 신뢰 경계 |
 | 거버넌스 | 업그레이드, 파라미터, 분쟁 해결을 담당하는 운영 체계 |
 | 보안 감사 | 배포 전 취약점과 운영 리스크를 줄이는 필수 절차 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 568 / 800
-
-<- **이전**: [567. 블록체인 거버넌스 온체인 오프체인](/studynote/06_ict_convergence/uncategorized/567_blockchain_governance_on_chain_off_chain/)
-**다음**: [569. 블록체인 프라이버시 믹싱 프로토콜](/studynote/06_ict_convergence/uncategorized/569_blockchain_privacy_mixing_protocol/) ->
-
----

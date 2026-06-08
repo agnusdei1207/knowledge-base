@@ -6,9 +6,9 @@ tags:
 weight: 169
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 모델 서빙 엔진 (Model Serving 엔진)은 학습된 ML 모델을 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[gRPC](/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) API로 실시간 제공하는 인프라로, TensorFlow Serving과 NVIDIA Triton Inference Server가 각각 단일 프레임워크와 멀티 프레임워크 서빙의 대표 솔루션이다.
-> 2. **가치**: 동적 배치 (Dynamic [Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))로 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률을 극대화하고, 모델 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))과 TensorRT 변환으로 지연시간을 수십 배 단축하여 대규모 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 SLA를 충족한다.
-> 3. **판단 포인트**: [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 단일 모델에는 TF Serving, 멀티 프레임워크/고성능 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추론에는 Triton, [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경의 멀티 프레임워크에는 KServe가 적합하며, 지연시간 vs [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 트레이드오프를 비즈니스 SLA에 맞게 튜닝해야 한다.
+> 1. **본질**: 모델 서빙 엔진 (Model Serving 엔진)은 학습된 ML 모델을 REST/gRPC API로 실시간 제공하는 인프라로, TensorFlow Serving과 NVIDIA Triton Inference Server가 각각 단일 프레임워크와 멀티 프레임워크 서빙의 대표 솔루션이다.
+> 2. **가치**: 동적 배치 (Dynamic Batching)로 GPU 활용률을 극대화하고, 모델 압축(Quantization)과 TensorRT 변환으로 지연시간을 수십 배 단축하여 대규모 서비스의 SLA를 충족한다.
+> 3. **판단 포인트**: GPU 단일 모델에는 TF Serving, 멀티 프레임워크/고성능 GPU 추론에는 Triton, 쿠버네티스 환경의 멀티 프레임워크에는 KServe가 적합하며, 지연시간 vs 처리량 트레이드오프를 비즈니스 SLA에 맞게 튜닝해야 한다.
 
 ---
 
@@ -33,16 +33,16 @@ weight: 169
                                   +----------------------------+
 ```
 
-### 1.2 모델 서빙의 핵심 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표
+### 1.2 모델 서빙의 핵심 성능 지표
 
 | 지표 | 설명 | 기준 값 | 영향 요소 |
 |:---|:---|:---|:---|
-| <strong>지연시간 (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 요청~응답 소요 시간 | P99 < 100ms | 배치 크기, 모델 크기 |
-| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> | 초당 처리 가능 요청 수 | QPS (Queries Per Second) | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 배치 |
-| <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정상 운영 비율 | 99.9% 이상 | 복제본, 헬스체크 |
-| <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 활용률</strong> | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 유닛 사용 비율 | 70~90% 목표 | 동적 배치, 최적화 |
+| <strong>지연시간 (Latency)</strong> | 요청~응답 소요 시간 | P99 < 100ms | 배치 크기, 모델 크기 |
+| <strong>처리량 (Throughput)</strong> | 초당 처리 가능 요청 수 | QPS (Queries Per Second) | GPU 병렬성, 배치 |
+| <strong>가용성 (Availability)</strong> | 서비스 정상 운영 비율 | 99.9% 이상 | 복제본, 헬스체크 |
+| <strong>GPU 활용률</strong> | GPU 연산 유닛 사용 비율 | 70~90% 목표 | 동적 배치, 최적화 |
 
-📢 **섹션 요약 비유**: 모델 서빙은 패스트푸드 주방과 같다. 레시피(모델)를 미리 준비해두고, 주문이 들어오면 즉시 조리해서 내놓는다. [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 분당 버거 생산량, 지연시간은 주문 후 수령까지 시간이다.
+📢 **섹션 요약 비유**: 모델 서빙은 패스트푸드 주방과 같다. 레시피(모델)를 미리 준비해두고, 주문이 들어오면 즉시 조리해서 내놓는다. 처리량은 분당 버거 생산량, 지연시간은 주문 후 수령까지 시간이다.
 
 ---
 
@@ -76,7 +76,7 @@ weight: 169
 +--------------------------------------------------------------+
 ```
 
-#### TF Serving 동적 배치 (Dynamic [Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) 원리
+#### TF Serving 동적 배치 (Dynamic Batching) 원리
 
 ```
 동적 배치 없음:
@@ -127,7 +127,7 @@ weight: 169
 +--------------------------------------------------------------+
 ```
 
-#### Triton [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 파이프라인 예시
+#### Triton 앙상블 파이프라인 예시
 
 ```
 입력 (이미지)
@@ -148,16 +148,16 @@ weight: 169
 |:---|:---|:---|
 | **지원 프레임워크** | TensorFlow 전용 | TF, PyTorch, ONNX, TensorRT, etc. |
 | **배포 복잡도** | 낮음 | 중간 |
-| <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 최적화</strong> | 기본 | TensorRT 통합, 매우 강력 |
+| <strong>GPU 최적화</strong> | 기본 | TensorRT 통합, 매우 강력 |
 | **동적 배치** | 지원 | 지원 (더 유연) |
-| <strong><a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong> | 제한적 | 완전 지원 (파이프라인) |
+| <strong>앙상블</strong> | 제한적 | 완전 지원 (파이프라인) |
 | **동시 모델 실행** | 제한적 | 완전 지원 |
-| <strong><a href="/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | 기본 | [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 통합, 상세 |
+| <strong>메트릭</strong> | 기본 | Prometheus 통합, 상세 |
 | **적합 상황** | TF 단일 모델 서빙 | 멀티 프레임워크, 고성능 |
 
 ### 2.4 모델 최적화 기법
 
-#### [Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))
+#### Quantization (양자화)
 
 ```
 FP32 (32비트 부동소수점) 모델
@@ -200,7 +200,7 @@ TensorRT Plan (.plan)
   - 동일 GPU 아키텍처에서만 사용 가능
 ```
 
-### 2.5 서빙 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 목표값
+### 2.5 서빙 성능 지표 목표값
 
 ```
 +--------------------------------------------------------------+
@@ -226,34 +226,34 @@ TensorRT Plan (.plan)
 
 | 솔루션 | 특징 | 강점 | 적합 환경 |
 |:---|:---|:---|:---|
-| **TF Serving** | TF 전용, 안정적 | 안정성, 간단한 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | TF 단일 모델 |
-| **Triton** | 멀티 프레임워크, [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 최적화 | 고성능, 유연성 | 멀티 프레임워크, 고성능 |
-| **KServe** | K8s 기반, 멀티 프레임워크 | [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/), [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경 |
+| **TF Serving** | TF 전용, 안정적 | 안정성, 간단한 설정 | TF 단일 모델 |
+| **Triton** | 멀티 프레임워크, GPU 최적화 | 고성능, 유연성 | 멀티 프레임워크, 고성능 |
+| **KServe** | K8s 기반, 멀티 프레임워크 | 클라우드 네이티브, 카나리 | 쿠버네티스 환경 |
 | **TorchServe** | PyTorch 전용 | PyTorch 네이티브 | PyTorch 모델 |
-| **BentoML** | 코드 중심, 쉬운 배포 | 개발자 친화적 | [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 소규모 |
-| **Ray Serve** | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) Python | 유연한 Python 로직 | 복잡한 서빙 로직 |
+| **BentoML** | 코드 중심, 쉬운 배포 | 개발자 친화적 | 프로토타입, 소규모 |
+| **Ray Serve** | 분산 Python | 유연한 Python 로직 | 복잡한 서빙 로직 |
 
 ### 3.2 동적 배치 vs 정적 배치
 
-| 항목 | 정적 배치 (Static [Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) | 동적 배치 (Dynamic [Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) |
+| 항목 | 정적 배치 (Static Batching) | 동적 배치 (Dynamic Batching) |
 |:---|:---|:---|
 | **배치 구성** | 고정 크기로 전처리 | 런타임에 요청 묶음 |
 | **지연시간** | 낮음 (즉시 처리) | 약간 높음 (대기 시간) |
-| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 낮음 | 높음 ([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률^) |
-| **복잡도** | 간단 | 복잡 ([타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝) |
-| **적합 상황** | 지연시간 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 엄격 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| <strong>처리량</strong> | 낮음 | 높음 (GPU 활용률^) |
+| **복잡도** | 간단 | 복잡 (타임아웃 튜닝) |
+| **적합 상황** | 지연시간 SLA 엄격 | 처리량 중심 서비스 |
 
-### 3.3 모델 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기법 비교
+### 3.3 모델 압축 기법 비교
 
 | 기법 | 원리 | 속도 향상 | 정확도 손실 | 구현 난이도 |
 |:---|:---|:---:|:---:|:---:|
-| <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a> (INT8)</strong> | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 축소 | 2~4배 | <1% | 낮음 |
-| <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a> (<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)</strong> | 중요도 낮은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 1.5~3배 | 1~3% | 중간 |
-| <strong><a href="/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">Knowledge Distillation</a></strong> | 큰 모델 -> 작은 모델 학습 | 2~10배 | 1~5% | 높음 |
-| **TensorRT** | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 특화 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최적화 | 3~10배 | <0.5% | 중간 |
+| <strong>Quantization (INT8)</strong> | 가중치 비트 수 축소 | 2~4배 | <1% | 낮음 |
+| <strong>Pruning (가지치기)</strong> | 중요도 낮은 가중치 제거 | 1.5~3배 | 1~3% | 중간 |
+| <strong>Knowledge Distillation</strong> | 큰 모델 -> 작은 모델 학습 | 2~10배 | 1~5% | 높음 |
+| **TensorRT** | GPU 특화 그래프 최적화 | 3~10배 | <0.5% | 중간 |
 | **ONNX 변환** | 중간 표현으로 최적화 | 1.5~3배 | <0.1% | 낮음 |
 
-📢 **섹션 요약 비유**: 모델 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 짐 줄이기와 같다. Quantization은 짐을 작은 박스로 옮기는 것(용량 감소), Pruning은 불필요한 짐을 버리는 것(모델 경량화), Knowledge Distillation은 베테랑 직원의 노하우를 신입에게 빠르게 전수하는 것(소형 모델이 대형 모델 흉내)이다.
+📢 **섹션 요약 비유**: 모델 압축은 짐 줄이기와 같다. Quantization은 짐을 작은 박스로 옮기는 것(용량 감소), Pruning은 불필요한 짐을 버리는 것(모델 경량화), Knowledge Distillation은 베테랑 직원의 노하우를 신입에게 빠르게 전수하는 것(소형 모델이 대형 모델 흉내)이다.
 
 ---
 
@@ -285,15 +285,15 @@ TensorRT Plan (.plan)
 
 ### 4.2 기술사 시험 핵심 포인트
 
-<strong>Q. 동적 배치(Dynamic <a href="/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a>)로 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 활용률을 향상시키는 원리와 트레이드오프를 설명하시오.</strong>
+<strong>Q. 동적 배치(Dynamic Batching)로 GPU 활용률을 향상시키는 원리와 트레이드오프를 설명하시오.</strong>
 
-GPU는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산에 최적화되어 있어 단일 요청 처리 시 대부분의 연산 유닛이 유휴 상태다. 동적 배치는 일정 시간(batch_timeout) 동안 들어오는 요청을 모아 배치로 처리하여 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 극대화한다.
+GPU는 병렬 연산에 최적화되어 있어 단일 요청 처리 시 대부분의 연산 유닛이 유휴 상태다. 동적 배치는 일정 시간(batch_timeout) 동안 들어오는 요청을 모아 배치로 처리하여 GPU 병렬성을 극대화한다.
 
-**트레이드오프**: 배치 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(수 ms)만큼 지연시간이 증가하지만, [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 수배 향상된다. 지연시간 SLA가 엄격한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(50ms 이하)에서는 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 매우 짧게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하거나 비활성화해야 한다.
+**트레이드오프**: 배치 타임아웃(수 ms)만큼 지연시간이 증가하지만, GPU 처리량이 수배 향상된다. 지연시간 SLA가 엄격한 서비스(50ms 이하)에서는 타임아웃을 매우 짧게 설정하거나 비활성화해야 한다.
 
-<strong>Q. TensorRT 변환의 원리와 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 아키텍처 의존성 문제를 설명하시오.</strong>
+<strong>Q. TensorRT 변환의 원리와 GPU 아키텍처 의존성 문제를 설명하시오.</strong>
 
-TensorRT는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 특화 딥러닝 추론 최적화 라이브러리다. 변환 시 Layer Fusion(여러 레이어를 하나로 합병), [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Auto-Tuning([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처별 최적 [CUDA](/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택), [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 최적화(FP16/INT8)를 수행한다. 단, 변환된 `.plan` 파일은 특정 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처([SM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))에 종속되어, A100용 Plan을 V100에서 실행 불가능하다는 이식성 한계가 있다.
+TensorRT는 GPU 특화 딥러닝 추론 최적화 라이브러리다. 변환 시 Layer Fusion(여러 레이어를 하나로 합병), Kernel Auto-Tuning(GPU 아키텍처별 최적 CUDA 커널 선택), 정밀도 최적화(FP16/INT8)를 수행한다. 단, 변환된 `.plan` 파일은 특정 GPU 아키텍처(SM 버전)에 종속되어, A100용 Plan을 V100에서 실행 불가능하다는 이식성 한계가 있다.
 
 ### 4.3 모델 서빙 최적화 튜닝 가이드
 
@@ -327,16 +327,16 @@ TensorRT는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardwar
 
 ### 5.1 모델 서빙 최적화 효과
 
-| 최적화 기법 | 지연시간 개선 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 개선 | 비용 절감 |
+| 최적화 기법 | 지연시간 개선 | 처리량 개선 | 비용 절감 |
 |:---|:---:|:---:|:---:|
-| **동적 배치** | 약간 증가 ([타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) | 3~5배 향상 | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 비용 40~60% 절감 |
-| **TensorRT 변환** | 3~10배 감소 | 3~10배 향상 | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수 감소 |
-| <strong>INT8 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a></strong> | 2~4배 감소 | 2~4배 향상 | 메모리 75% 절감 |
-| <strong>모델 <a href="/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> (Triton)</strong> | - | 전체 파이프라인 최적화 | 추가 서버 불필요 |
+| **동적 배치** | 약간 증가 (타임아웃) | 3~5배 향상 | GPU 비용 40~60% 절감 |
+| **TensorRT 변환** | 3~10배 감소 | 3~10배 향상 | GPU 수 감소 |
+| <strong>INT8 양자화</strong> | 2~4배 감소 | 2~4배 향상 | 메모리 75% 절감 |
+| <strong>모델 앙상블 (Triton)</strong> | - | 전체 파이프라인 최적화 | 추가 서버 불필요 |
 
 ### 5.2 결론
 
-모델 서빙 엔진은 ML 시스템의 프로덕션 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하는 핵심 인프라다. TensorFlow Serving은 TF 단일 모델 안정 서빙에, NVIDIA Triton은 멀티 프레임워크 고성능 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서빙에 적합하다. 동적 배치와 TensorRT/[Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 최적화를 조합하면 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 비용을 수십~수백% 절감하면서 SLA를 충족할 수 있다.
+모델 서빙 엔진은 ML 시스템의 프로덕션 성능을 결정하는 핵심 인프라다. TensorFlow Serving은 TF 단일 모델 안정 서빙에, NVIDIA Triton은 멀티 프레임워크 고성능 GPU 서빙에 적합하다. 동적 배치와 TensorRT/Quantization 최적화를 조합하면 GPU 비용을 수십~수백% 절감하면서 SLA를 충족할 수 있다.
 
 📢 **섹션 요약 비유**: 모델 서빙 최적화는 피자 배달 최적화와 같다. 동적 배치는 배달 경로 묶음 배달(한 번에 여러 집), TensorRT는 더 빠른 차량 도입, Quantization은 피자 박스 경량화다. 세 가지를 모두 적용하면 같은 배달원이 더 많은 집에 더 빠르게 배달할 수 있다.
 
@@ -344,26 +344,26 @@ TensorRT는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardwar
 
 ### 📌 관련 개념 맵
 
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
 | 핵심 도구 | TensorFlow Serving | TF 단일 프레임워크 서빙 |
-| 핵심 도구 | NVIDIA Triton | 멀티 프레임워크 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서빙 |
-| 최적화 | TensorRT | NVIDIA [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추론 최적화 |
-| 최적화 | [Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | 모델 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 축소 |
-| 최적화 | Dynamic [Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률 향상 |
-| K8s 서빙 | KServe | [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 기반 멀티 서빙 |
-| 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | A/B 테스트 | 서빙 중 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 |
-| 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 롤아웃 | 점진적 트래픽 증가 |
-| 상위 개념 | [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) | 서빙은 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 배포 단계 |
-| 연관 | [모델 레지스트리](/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) | 서빙할 모델 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 선택 |
+| 핵심 도구 | NVIDIA Triton | 멀티 프레임워크 GPU 서빙 |
+| 최적화 | TensorRT | NVIDIA GPU 추론 최적화 |
+| 최적화 | Quantization (양자화) | 모델 비트 수 축소 |
+| 최적화 | Dynamic Batching | GPU 활용률 향상 |
+| K8s 서빙 | KServe | 쿠버네티스 기반 멀티 서빙 |
+| 배포 전략 | A/B 테스트 | 서빙 중 모델 성능 비교 |
+| 배포 전략 | 카나리 롤아웃 | 점진적 트래픽 증가 |
+| 상위 개념 | MLOps | 서빙은 MLOps 배포 단계 |
+| 연관 | 모델 레지스트리 | 서빙할 모델 버전 선택 |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 모델 서빙은 배달 음식점 같아요. 주방(학습 서버)에서 만든 레시피(모델)로, 손님(클라이언트)의 주문([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청)을 받아 즉시 음식(예측 결과)을 내놓아요.
-2. 동적 배치는 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 시스템과 같아요. 한 명씩 태우면(단건 처리) 비효율적이지만, 몇 분 기다려서 여러 명을 한 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 태우면([배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) 연료([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 훨씬 아낄 수 있어요.
-3. TensorRT는 자동차 엔진 튜닝과 같아요. 같은 자동차(모델)라도 특정 도로([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처)에 맞게 엔진을 최적화하면 3~10배 빠르게 달릴(추론) 수 있어요.
+1. 모델 서빙은 배달 음식점 같아요. 주방(학습 서버)에서 만든 레시피(모델)로, 손님(클라이언트)의 주문(API 요청)을 받아 즉시 음식(예측 결과)을 내놓아요.
+2. 동적 배치는 버스 시스템과 같아요. 한 명씩 태우면(단건 처리) 비효율적이지만, 몇 분 기다려서 여러 명을 한 버스에 태우면(배치 처리) 연료(GPU)를 훨씬 아낄 수 있어요.
+3. TensorRT는 자동차 엔진 튜닝과 같아요. 같은 자동차(모델)라도 특정 도로(GPU 아키텍처)에 맞게 엔진을 최적화하면 3~10배 빠르게 달릴(추론) 수 있어요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -386,14 +386,3 @@ TensorRT는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardwar
     v
 API 게이트웨이 -> REST/gRPC -> 클라이언트 응답 (ms 이내)
 ```
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 169 / 258
-
-<- **이전**: [168. 데이터 파이프라인 워크플로우 DAG 제어 (Apache Airflow) 자동화](/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)
-**다음**: [170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터](/studynote/14_data_engineering/04_mlops/170_ab_test_canary_rollout_shadow_mirroring/) ->
-
----

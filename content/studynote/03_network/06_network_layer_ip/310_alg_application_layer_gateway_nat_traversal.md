@@ -15,10 +15,10 @@ weight: 310
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 라우터나 방화벽이 특정 애플리케이션 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/), [SIP](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), H.323 등)의 구조를 깊숙이 이해(Deep Packet Inspection)하여, [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 환경에서도 정상적으로 통신 세션이 맺어지도록 패킷 페이로드의 IP/[포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 정보를 동적으로 변조해 주는 기능이다.
-- **필요성**: 웹서핑([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))은 단순하다. 내가 요청하면 서버가 나에게 응답한다. NAT가 봉투 겉면만 잘 갈아 끼우면 문제가 없다. 하지만 구형 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 <strong><a href="/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 능동 모드(<a href="/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Mode)</strong>는 내가 서버에 "내 주소 192.168.x.x의 3000번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 좀 쏴줘!"라고 편지지에 적어 보낸다. 서버는 겉 봉투의 공인 IP가 아니라 편지지 속의 192 주소로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘려다 실패한다. [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 기술의 근본적인 "내용물은 건드리지 않는다"는 철학이 부른 참사를 해결할 특수 요원이 필요했다.
+- **개념**: 라우터나 방화벽이 특정 애플리케이션 프로토콜(FTP, SIP, H.323 등)의 구조를 깊숙이 이해(Deep Packet Inspection)하여, NAT 환경에서도 정상적으로 통신 세션이 맺어지도록 패킷 페이로드의 IP/포트 정보를 동적으로 변조해 주는 기능이다.
+- **필요성**: 웹서핑(HTTP)은 단순하다. 내가 요청하면 서버가 나에게 응답한다. NAT가 봉투 겉면만 잘 갈아 끼우면 문제가 없다. 하지만 구형 프로토콜인 <strong>FTP 능동 모드(Active Mode)</strong>는 내가 서버에 "내 주소 192.168.x.x의 3000번 포트로 데이터 좀 쏴줘!"라고 편지지에 적어 보낸다. 서버는 겉 봉투의 공인 IP가 아니라 편지지 속의 192 주소로 데이터를 쏘려다 실패한다. NAT 기술의 근본적인 "내용물은 건드리지 않는다"는 철학이 부른 참사를 해결할 특수 요원이 필요했다.
 
-- **💡 비유**: 미국 유학생이 부모님께 편지를 씁니다. 겉 봉투(IP 헤더)에는 미국 배대지([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 주소가 적혀있어 문제가 없는데, 편지 내용물(페이로드) 안에 <strong>"답장은 한국 우리 집(192.168...)으로 보내주세요"</strong>라고 적어버렸습니다. 부모님이 그 주소로 답장을 쓰면 편지가 우주 미아가 됩니다. <strong>ALG</strong>는 배대지 직원이 몰래 편지를 뜯어보고 내용물 안의 주소마저 <strong>"미국 배대지 주소"</strong>로 화이트를 칠해 고쳐 적어주는 불법(오지랖) 서비스입니다.
+- **💡 비유**: 미국 유학생이 부모님께 편지를 씁니다. 겉 봉투(IP 헤더)에는 미국 배대지(NAT) 주소가 적혀있어 문제가 없는데, 편지 내용물(페이로드) 안에 <strong>"답장은 한국 우리 집(192.168...)으로 보내주세요"</strong>라고 적어버렸습니다. 부모님이 그 주소로 답장을 쓰면 편지가 우주 미아가 됩니다. <strong>ALG</strong>는 배대지 직원이 몰래 편지를 뜯어보고 내용물 안의 주소마저 <strong>"미국 배대지 주소"</strong>로 화이트를 칠해 고쳐 적어주는 불법(오지랖) 서비스입니다.
 
 ```text
 [헤어핀 NAT]
@@ -35,19 +35,19 @@ weight: 310
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 페이로드에 적는 FTP의 구조
-[FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)([File Transfer Protocol](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))는 특이하게 두 개의 길을 판다.
-- 길 1 (Control) : 21번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주고받기)
-- 길 2 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) : 20번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (실제 묵직한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송하기)
+### 1. 포트 번호를 페이로드에 적는 FTP의 구조
+FTP(File Transfer Protocol)는 특이하게 두 개의 길을 판다.
+- 길 1 (Control) : 21번 포트 (명령어 주고받기)
+- 길 2 (Data) : 20번 포트 (실제 묵직한 파일 전송하기)
 
-클라이언트(사설망)가 `PORT 192,168,0,5,19,136` 이라는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 페이로드에 텍스트로 적어서 21번 채널로 서버에 쏜다.
-이는 "내 IP는 `192.168.0.5`고 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 `5000번(19*256+136)`이니까 여기로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏴라"는 뜻이다.
+클라이언트(사설망)가 `PORT 192,168,0,5,19,136` 이라는 명령어를 페이로드에 텍스트로 적어서 21번 채널로 서버에 쏜다.
+이는 "내 IP는 `192.168.0.5`고 포트는 `5000번(19*256+136)`이니까 여기로 데이터를 쏴라"는 뜻이다.
 
-### 2. 일반 [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 장비의 멍청한 실패
-1. 공유기([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))는 패킷의 3계층 IP 헤더만 192.x에서 `211.200.x.x(공인 IP)`로 바꾼다.
+### 2. 일반 NAT 장비의 멍청한 실패
+1. 공유기(NAT)는 패킷의 3계층 IP 헤더만 192.x에서 `211.200.x.x(공인 IP)`로 바꾼다.
 2. 하지만 페이로드 안의 텍스트 `PORT 192,168,0,5...`는 남의 일급기밀이므로 건드리지 않고 그대로 보낸다.
-3. [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버가 이 편지를 받고 "오케이, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보낸다!" 하며 `192.168.0.5:5000`으로 20번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 냅다 쏜다.
-4. 이 주소는 사설 IP이므로 인터넷상에서 라우팅되지 못하고 쓰레기통에 폐기된다. <strong>사용자는 "<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 목록은 보이는데 다운로드가 안 눌려요!"라며 절규한다.</strong>
+3. FTP 서버가 이 편지를 받고 "오케이, 파일 보낸다!" 하며 `192.168.0.5:5000`으로 20번 포트 데이터를 냅다 쏜다.
+4. 이 주소는 사설 IP이므로 인터넷상에서 라우팅되지 못하고 쓰레기통에 폐기된다. <strong>사용자는 "파일 목록은 보이는데 다운로드가 안 눌려요!"라며 절규한다.</strong>
 
 ```text
  +-------------------------------------------------------------+
@@ -69,10 +69,10 @@ weight: 310
 ```
 
 ### 3. ALG의 부하와 수동 모드(Passive Mode)의 등장
-ALG는 라우터가 3계층 헤더만 만지는 게 아니라, 엄청나게 무거운 7계층 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일일이 까서 정규식(문자열 검색)으로 IP 주소를 찾아 고쳐야 하므로 라우터의 CPU를 폭발시킨다 (Deep Packet Inspection 오버헤드).
-또한 암호화된 트래픽([HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)/[FTPS](/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/))일 경우 ALG는 암호를 풀지 못해 내용물을 고칠 수가 없다.
-- **해결책**: "아잇 귀찮게 공유기가 고치게 하지 말고, 클라이언트가 서버한테 <strong>'네가 열어둔 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 내가 알아서 찾아갈게(Passive Mode)'</strong>라고 하면 되잖아!"
-- 이것이 바로 클라이언트가 서버로 길을 먼저 치고 들어가는 <strong><a href="/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 수동 모드(Passive Mode)</strong>의 탄생 배경이며, 이 방식은 NAT나 방화벽의 제약을 전혀 받지 않아 현대 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 통신의 99%를 장악했다.
+ALG는 라우터가 3계층 헤더만 만지는 게 아니라, 엄청나게 무거운 7계층 데이터를 일일이 까서 정규식(문자열 검색)으로 IP 주소를 찾아 고쳐야 하므로 라우터의 CPU를 폭발시킨다 (Deep Packet Inspection 오버헤드).
+또한 암호화된 트래픽(HTTPS/FTPS)일 경우 ALG는 암호를 풀지 못해 내용물을 고칠 수가 없다.
+- **해결책**: "아잇 귀찮게 공유기가 고치게 하지 말고, 클라이언트가 서버한테 <strong>'네가 열어둔 포트로 내가 알아서 찾아갈게(Passive Mode)'</strong>라고 하면 되잖아!"
+- 이것이 바로 클라이언트가 서버로 길을 먼저 치고 들어가는 <strong>FTP 수동 모드(Passive Mode)</strong>의 탄생 배경이며, 이 방식은 NAT나 방화벽의 제약을 전혀 받지 않아 현대 FTP 통신의 99%를 장악했다.
 
 - **📢 섹션 요약 비유**: <strong> ALG는 공유기가 택배 상자 안에 든 편지 내용을 몰래 읽어보고 </strong>오타를 고쳐주는 무거운 스팸 검사기**입니다. 라우터가 너무 힘들어서 쓰러지기 때문에, 현대 네트워크는 라우터가 이런 오지랖을 부릴 필요가 없게 애초에 편지를 잘 쓰는 방식(Passive 모드)으로 완전히 진화했습니다.
 
@@ -86,7 +86,7 @@ ALG를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 |:---|:---|:---|:---|
 | 초점 | 헤어핀 NAT의 기반 정리 | ALG의 핵심 동작 | STUN, TURN, ICE의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: ALG는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -94,18 +94,18 @@ ALG를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 ALG를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 헤어핀 [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 수준의 기본 대책으로 충분한지, 아니면 ALG가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 STUN, TURN, ICE와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 ALG를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 헤어핀 NAT 수준의 기본 대책으로 충분한지, 아니면 ALG가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 STUN, TURN, ICE와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. ALG가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. ALG가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
 3. 도입 후에는 인접 기술인 STUN, TURN, ICE와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - ALG의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 헤어핀 NAT와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 헤어핀 NAT와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: ALG를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -123,8 +123,8 @@ ALG는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 헤어핀 [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
+| 헤어핀 NAT | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| IP 주소 (Internet Protocol Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
 | STUN, TURN, ICE | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
@@ -147,14 +147,3 @@ ALG는 헤어핀 NAT에서 출발해 현재 메커니즘을 정교화하고, 이
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 431 / 1120
-
-<- **이전**: [309. 헤어핀 NAT (Hairpin NAT, NAT Loopback)](/studynote/03_network/06_network_layer_ip/309_hairpin_nat_loopback/)
-**다음**: [311. STUN, TURN, ICE (NAT 횡단/Traversing 기법, VoIP/WebRTC)](/studynote/03_network/06_network_layer_ip/311_stun_turn_ice_nat_traversal_webrtc/) ->
-
----

@@ -7,9 +7,9 @@ weight: 389
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메시 (Mesh) 토폴로지는 노드를 격자 형태로 배치하고 이웃 노드끼리만 연결해, 배선 복잡도를 통제하면서도 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 통신 경로를 확보하는 정적 [상호 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/) (Static [Interconnection Network](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/))이다.
-> 2. **가치**: 모든 노드를 직접 잇는 [크로스바 스위치](/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/) ([Crossbar Switch](/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/))보다 훨씬 적은 배선으로 확장성을 얻고, 공유 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Shared [Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))보다 훨씬 높은 동시 통신량을 제공한다.
-> 3. **판단 포인트**: 메시의 성패는 "전체 연결 수"보다 "평균 홉 수(Hop Count), [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 방식, [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/)(Locality)"을 얼마나 잘 맞추느냐에 달려 있다.
+> 1. **본질**: 메시 (Mesh) 토폴로지는 노드를 격자 형태로 배치하고 이웃 노드끼리만 연결해, 배선 복잡도를 통제하면서도 병렬 통신 경로를 확보하는 정적 상호 연결망 (Static Interconnection Network)이다.
+> 2. **가치**: 모든 노드를 직접 잇는 크로스바 스위치 (Crossbar Switch)보다 훨씬 적은 배선으로 확장성을 얻고, 공유 버스 (Shared Bus)보다 훨씬 높은 동시 통신량을 제공한다.
+> 3. **판단 포인트**: 메시의 성패는 "전체 연결 수"보다 "평균 홉 수(Hop Count), 라우팅 방식, 데이터 지역성(Locality)"을 얼마나 잘 맞추느냐에 달려 있다.
 
 ---
 
@@ -17,11 +17,11 @@ weight: 389
 
 메시 (Mesh) 토폴로지는 프로세서나 메모리 노드를 2차원 또는 3차원 격자로 놓고, 각 노드가 상·하·좌·우 같은 인접 이웃과만 직접 연결되는 구조다. 핵심은 모든 곳을 한 번에 연결하는 것이 아니라, 가까운 곳부터 규칙적으로 이어 전체 시스템을 확장 가능하게 만드는 데 있다. 즉 메시의 출발점은 "최단 거리"보다 "감당 가능한 배선"에 있다.
 
-[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템에서 노드 수가 커지면 두 가지 문제가 동시에 커진다. 첫째, 공유 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 한 번에 한 통신만 허용하므로 코어 수가 늘수록 병목이 급격히 심해진다. 둘째, [크로스바 스위치](/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/)처럼 모든 노드를 직접 잇는 구조는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 짧지만 배선 수와 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수가 급증해 면적, 전력, 설계 복잡도를 감당하기 어렵다.
+병렬 시스템에서 노드 수가 커지면 두 가지 문제가 동시에 커진다. 첫째, 공유 버스는 한 번에 한 통신만 허용하므로 코어 수가 늘수록 병목이 급격히 심해진다. 둘째, 크로스바 스위치처럼 모든 노드를 직접 잇는 구조는 지연은 짧지만 배선 수와 스위치 수가 급증해 면적, 전력, 설계 복잡도를 감당하기 어렵다.
 
-메시는 이 두 극단 사이의 절충안이다. 한 노드가 멀리 있는 목적지까지 바로 가지는 못해도, 여러 홉을 거쳐 릴레이하듯 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하면 전체 네트워크를 규칙적으로 키울 수 있다. 그래서 메시는 "조금 돌아가더라도 크게 만들 수 있는 구조"라는 점에서 매니코어 프로세서 (Many-core Processor), 네트워크 온 칩 (Network-on-Chip, [NoC](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)), [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기에 널리 채택된다.
+메시는 이 두 극단 사이의 절충안이다. 한 노드가 멀리 있는 목적지까지 바로 가지는 못해도, 여러 홉을 거쳐 릴레이하듯 데이터를 전달하면 전체 네트워크를 규칙적으로 키울 수 있다. 그래서 메시는 "조금 돌아가더라도 크게 만들 수 있는 구조"라는 점에서 매니코어 프로세서 (Many-core Processor), 네트워크 온 칩 (Network-on-Chip, NoC), 인공지능 가속기에 널리 채택된다.
 
-이 그림은 메시가 왜 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 크로스바의 중간 해법인지 보여준다.
+이 그림은 메시가 왜 버스와 크로스바의 중간 해법인지 보여준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -35,7 +35,7 @@ weight: 389
 +----------------------+----------------------+------------------------+
 ```
 
-메시가 없으면 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템은 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목이나 배선 폭발 중 하나를 감수해야 한다. 메시의 필요성은 그래서 단순한 토폴로지 선택이 아니라, "수십~수백 개 노드를 현실적으로 묶는 방법"이라는 설계 문제의 답에 가깝다.
+메시가 없으면 대규모 병렬 시스템은 버스 병목이나 배선 폭발 중 하나를 감수해야 한다. 메시의 필요성은 그래서 단순한 토폴로지 선택이 아니라, "수십~수백 개 노드를 현실적으로 묶는 방법"이라는 설계 문제의 답에 가깝다.
 
 - **📢 섹션 요약 비유**: 메시 토폴로지는 모든 집을 고속도로로 직접 잇는 대신, 바둑판 도로를 깔아 동네 전체가 커져도 길을 계속 늘릴 수 있게 만드는 도시 설계와 같다.
 
@@ -45,14 +45,14 @@ weight: 389
 
 메시의 기본 단위는 노드와 링크다. 각 노드는 연산 코어, 캐시, 메모리 컨트롤러, 혹은 라우터를 포함할 수 있고, 링크는 이웃 노드 사이를 잇는 통신선이다. 실무적으로는 각 타일 (Tile)에 소형 라우터를 두고, 패킷이 목적지 좌표를 보고 한 칸씩 이동하는 네트워크 온 칩 구조가 가장 흔하다.
 
-메시에서 중요한 것은 연결 수보다 경로 규칙이다. 예를 들어 2D 메시에서는 보통 X축으로 먼저 이동한 뒤 Y축으로 이동하는 차원 우선 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Dimension-Order [Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), XY [Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))을 사용한다. 이 방식은 단순하고 하드웨어 구현이 쉬우며, [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 줄이는 데 유리하다.
+메시에서 중요한 것은 연결 수보다 경로 규칙이다. 예를 들어 2D 메시에서는 보통 X축으로 먼저 이동한 뒤 Y축으로 이동하는 차원 우선 라우팅 (Dimension-Order Routing, XY Routing)을 사용한다. 이 방식은 단순하고 하드웨어 구현이 쉬우며, 교착 상태 (Deadlock)를 줄이는 데 유리하다.
 
 | 구성 요소 | 역할 | 설계 시 보는 포인트 |
 | :-- | :-- | :-- |
 | 노드 (Node) | 연산 또는 저장의 주체 | 코어/캐시/메모리 배치 |
-| 링크 (Link) | 이웃 노드 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 전력 |
+| 링크 (Link) | 이웃 노드 간 데이터 전달 | 대역폭, 지연, 전력 |
 | 라우터 (Router) | 다음 홉 결정 | 버퍼 크기, 충돌 처리 |
-| 좌표 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 목적지까지 경로 선택 | 단순성, 교착 회피 |
+| 좌표 기반 라우팅 | 목적지까지 경로 선택 | 단순성, 교착 회피 |
 
 이 그림은 4x4 메시에서 패킷이 이동하는 방식을 보여준다.
 
@@ -74,7 +74,7 @@ weight: 389
 +--------------------------------------------------------------+
 ```
 
-이 구조의 장점은 노드가 늘어도 각 노드의 연결 차수 (Degree)가 크게 늘지 않는다는 점이다. 반면 약점은 멀리 떨어진 노드끼리 통신할수록 홉 수가 증가해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 에너지 소모가 커진다는 점이다. 따라서 메시는 단순히 "많이 연결된 구조"가 아니라, "국소 통신이 많은 작업에 특히 강한 구조"로 이해해야 한다.
+이 구조의 장점은 노드가 늘어도 각 노드의 연결 차수 (Degree)가 크게 늘지 않는다는 점이다. 반면 약점은 멀리 떨어진 노드끼리 통신할수록 홉 수가 증가해 지연과 에너지 소모가 커진다는 점이다. 따라서 메시는 단순히 "많이 연결된 구조"가 아니라, "국소 통신이 많은 작업에 특히 강한 구조"로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 메시의 라우터는 각 사거리에서 "먼저 동쪽으로 몇 블록, 그다음 남쪽으로 몇 블록"을 안내하는 교통경찰과 같다.
 
@@ -82,44 +82,44 @@ weight: 389
 
 ## Ⅲ. 비교 및 연결
 
-메시를 이해하려면 인접한 토폴로지와의 경계를 같이 봐야 한다. [크로스바 스위치](/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/)는 어느 두 노드도 사실상 직접 연결하므로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 매우 짧지만, 비용이 빠르게 커진다. 반대로 [토러스](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/) ([Torus](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/))는 메시의 가장자리를 서로 이어 평균 거리와 최대 거리를 더 줄이지만, 랩어라운드 (Wrap-around) 배선 때문에 구현 복잡도가 높아진다.
+메시를 이해하려면 인접한 토폴로지와의 경계를 같이 봐야 한다. 크로스바 스위치는 어느 두 노드도 사실상 직접 연결하므로 지연이 매우 짧지만, 비용이 빠르게 커진다. 반대로 토러스 (Torus)는 메시의 가장자리를 서로 이어 평균 거리와 최대 거리를 더 줄이지만, 랩어라운드 (Wrap-around) 배선 때문에 구현 복잡도가 높아진다.
 
-| 항목 | 메시 (Mesh) | [토러스](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/) ([Torus](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/)) | [크로스바 스위치](/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/) |
+| 항목 | 메시 (Mesh) | 토러스 (Torus) | 크로스바 스위치 |
 | :-- | :-- | :-- | :-- |
 | 연결 방식 | 이웃 노드만 연결 | 메시 + 가장자리 연결 | 모든 노드를 직접 연결 |
 | 확장성 | 높음 | 높음 | 낮음 |
 | 평균 홉 수 | 중간 | 메시보다 짧음 | 매우 짧음 |
 | 배선 난이도 | 규칙적 | 더 복잡함 | 매우 복잡함 |
-| 적합한 곳 | [NoC](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 | 대규모 [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 망 | 소규모 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스위칭 |
+| 적합한 곳 | NoC, AI 가속기 | 대규모 HPC 망 | 소규모 초고속 스위칭 |
 
-메시는 소프트웨어와도 연결된다. 운영체제는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 메모리 배치를 통해 물리적으로 가까운 코어를 활용하려 하고, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 알고리즘은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인접 노드 위주로 배치해 홉 수를 줄이려 한다. [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기의 [시스톨릭 어레이](/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/))도 본질적으로는 이웃 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달을 극단적으로 최적화한 메시적 사고에 가깝다.
+메시는 소프트웨어와도 연결된다. 운영체제는 스레드와 메모리 배치를 통해 물리적으로 가까운 코어를 활용하려 하고, 병렬 알고리즘은 데이터를 인접 노드 위주로 배치해 홉 수를 줄이려 한다. 인공지능 가속기의 시스톨릭 어레이 (Systolic Array)도 본질적으로는 이웃 간 데이터 전달을 극단적으로 최적화한 메시적 사고에 가깝다.
 
-즉 메시는 단순한 하드웨어 배선도가 아니다. 컴퓨터구조에서는 [NoC](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/), 운영체제에서는 스케줄링과 지역성, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 하드웨어에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)플로우 최적화로 이어지는 중심 개념이다.
+즉 메시는 단순한 하드웨어 배선도가 아니다. 컴퓨터구조에서는 NoC, 운영체제에서는 스케줄링과 지역성, 인공지능 하드웨어에서는 데이터플로우 최적화로 이어지는 중심 개념이다.
 
-- **📢 섹션 요약 비유**: 메시가 바둑판 도시라면, [토러스](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/)는 도시 바깥순환도로를 추가한 형태이고, 크로스바는 모든 집 사이에 전용 헬기장을 만든 형태다.
+- **📢 섹션 요약 비유**: 메시가 바둑판 도시라면, 토러스는 도시 바깥순환도로를 추가한 형태이고, 크로스바는 모든 집 사이에 전용 헬기장을 만든 형태다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 메시를 채택할지는 "가장 빠른가"보다 "노드 수가 커져도 일관되게 운영 가능한가"로 판단해야 한다. 칩 내부에서 수십~수백 개 코어를 연결할 때는 배선 길이와 전력, 레이아웃 규칙성이 매우 중요하므로 메시가 유력하다. 반면 소수 노드 사이에서 극단적 저지연이 최우선이면 [크로스바 스위치](/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/)가 더 맞을 수 있다.
+실무에서 메시를 채택할지는 "가장 빠른가"보다 "노드 수가 커져도 일관되게 운영 가능한가"로 판단해야 한다. 칩 내부에서 수십~수백 개 코어를 연결할 때는 배선 길이와 전력, 레이아웃 규칙성이 매우 중요하므로 메시가 유력하다. 반면 소수 노드 사이에서 극단적 저지연이 최우선이면 크로스바 스위치가 더 맞을 수 있다.
 
-특히 메시는 [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/)이 좋은 워크로드에서 빛난다. 예를 들어 행렬 연산, 스텐실 연산, 이미지 처리처럼 이웃 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 반복적으로 상호작용하는 경우, 패킷이 멀리 가지 않아도 되므로 메시의 홉 기반 비용이 잘 통제된다. 반대로 모든 노드가 동시에 중앙 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 몰리는 워크로드는 메시 중앙부에 혼잡 (Congestion)과 핫스팟 (Hot Spot)을 만들기 쉽다.
+특히 메시는 데이터 지역성이 좋은 워크로드에서 빛난다. 예를 들어 행렬 연산, 스텐실 연산, 이미지 처리처럼 이웃 데이터와 반복적으로 상호작용하는 경우, 패킷이 멀리 가지 않아도 되므로 메시의 홉 기반 비용이 잘 통제된다. 반대로 모든 노드가 동시에 중앙 데이터에 몰리는 워크로드는 메시 중앙부에 혼잡 (Congestion)과 핫스팟 (Hot Spot)을 만들기 쉽다.
 
-### 설계 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 체크리스트
 
 1. 평균 통신이 이웃 중심인가, 아니면 전역 통신 중심인가?
-2. 최대 홉 수 증가를 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)/버퍼 설계로 감당할 수 있는가?
+2. 최대 홉 수 증가를 라우팅/버퍼 설계로 감당할 수 있는가?
 3. 특정 중앙 노드나 메모리 뱅크에 트래픽이 집중되지 않는가?
 4. 향후 코어 수 증가 시 동일한 타일 구조로 확장 가능한가?
 
-### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 안티패턴
 
-- 메시 구조를 쓰면서도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 지점에만 집중시키는 설계
-- 물리적 인접성을 무시한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 배치
-- 라우터 버퍼와 링크 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 과소 설계한 상태에서 코어 수만 늘리는 확장
+- 메시 구조를 쓰면서도 데이터를 한 지점에만 집중시키는 설계
+- 물리적 인접성을 무시한 스레드 배치
+- 라우터 버퍼와 링크 대역폭을 과소 설계한 상태에서 코어 수만 늘리는 확장
 
-정리하면 메시는 "배선 친화적 확장"을 사는 대신 "거리 기반 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"을 감수하는 선택이다. 기술사 관점에서는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치 하나보다, 워크로드의 통신 패턴이 메시와 맞는지를 먼저 판단해야 한다.
+정리하면 메시는 "배선 친화적 확장"을 사는 대신 "거리 기반 지연"을 감수하는 선택이다. 기술사 관점에서는 성능 수치 하나보다, 워크로드의 통신 패턴이 메시와 맞는지를 먼저 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 메시 도시는 집 근처 학교·마트를 자주 가는 생활에는 효율적이지만, 모든 시민이 매일 한 건물로만 출근하면 중심 교차로가 바로 막힌다.
 
@@ -127,11 +127,11 @@ weight: 389
 
 ## Ⅴ. 기대효과 및 결론
 
-메시 토폴로지의 가장 큰 효과는 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템을 "규칙적으로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능한 구조"로 바꾼다는 점이다. 동일한 타일과 링크 패턴을 반복해 코어 수를 키울 수 있으므로, 설계 자동화와 물리 구현 측면에서 강한 장점이 있다. 또한 여러 경로가 존재하므로 단일 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)보다 동시 통신량을 높이기 쉽다.
+메시 토폴로지의 가장 큰 효과는 대규모 병렬 시스템을 "규칙적으로 복제 가능한 구조"로 바꾼다는 점이다. 동일한 타일과 링크 패턴을 반복해 코어 수를 키울 수 있으므로, 설계 자동화와 물리 구현 측면에서 강한 장점이 있다. 또한 여러 경로가 존재하므로 단일 버스보다 동시 통신량을 높이기 쉽다.
 
-다만 메시가 만능은 아니다. 노드 수가 커질수록 평균 거리와 최대 거리가 함께 증가하고, 중앙부 혼잡이나 비균일 트래픽 문제가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제한할 수 있다. 그래서 현대 시스템은 메시 위에 적응형 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 계층형 메시, 3D 적층, [토러스](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/) 확장 같은 보완책을 더한다.
+다만 메시가 만능은 아니다. 노드 수가 커질수록 평균 거리와 최대 거리가 함께 증가하고, 중앙부 혼잡이나 비균일 트래픽 문제가 성능을 제한할 수 있다. 그래서 현대 시스템은 메시 위에 적응형 라우팅, 계층형 메시, 3D 적층, 토러스 확장 같은 보완책을 더한다.
 
-결국 메시는 "최단 연결"의 구조가 아니라 "현실적으로 크게 만들 수 있는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연결"의 구조로 기억하는 것이 정확하다. [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 병목과 크로스바의 비용 사이에서, 메시는 확장 가능한 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅의 표준 바닥 설계를 제공한다.
+결국 메시는 "최단 연결"의 구조가 아니라 "현실적으로 크게 만들 수 있는 병렬 연결"의 구조로 기억하는 것이 정확하다. 버스의 병목과 크로스바의 비용 사이에서, 메시는 확장 가능한 병렬 컴퓨팅의 표준 바닥 설계를 제공한다.
 
 - **📢 섹션 요약 비유**: 메시 토폴로지는 모든 길을 가장 빠르게 만드는 마법이 아니라, 도시가 계속 커져도 도로망 자체가 무너지지 않게 해 주는 튼튼한 골격이다.
 
@@ -141,11 +141,11 @@ weight: 389
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [상호 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/) ([Interconnection Network](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)) | 프로세서와 메모리, 노드를 연결하는 전체 통신 구조의 상위 개념 |
-| 네트워크 온 칩 (Network-on-Chip, [NoC](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)) | 칩 내부에서 메시를 실제로 구현하는 대표 방식 |
-| [토러스](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/) ([Torus](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/)) | 메시의 가장자리를 연결해 평균 거리와 대칭성을 개선한 확장형 |
-| [시스톨릭 어레이](/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/)) | 이웃 노드 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달을 극대화한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 구조 |
-| 지역성 (Locality) | 메시 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 핵심 조건으로, 가까운 노드 통신 비율과 직결 |
+| 상호 연결망 (Interconnection Network) | 프로세서와 메모리, 노드를 연결하는 전체 통신 구조의 상위 개념 |
+| 네트워크 온 칩 (Network-on-Chip, NoC) | 칩 내부에서 메시를 실제로 구현하는 대표 방식 |
+| 토러스 (Torus) | 메시의 가장자리를 연결해 평균 거리와 대칭성을 개선한 확장형 |
+| 시스톨릭 어레이 (Systolic Array) | 이웃 노드 간 데이터 전달을 극대화한 AI 가속기 구조 |
+| 지역성 (Locality) | 메시 성능을 좌우하는 핵심 조건으로, 가까운 노드 통신 비율과 직결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,21 +166,10 @@ weight: 389
              +-► 시스톨릭 어레이 (Systolic Array)
 ```
 
-이 흐름은 병목 해소를 위해 연결 구조가 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 [상호 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)으로 발전하고, 그중 메시가 확장성과 지역성 중심 설계의 표준으로 자리 잡는 과정을 보여준다.
+이 흐름은 병목 해소를 위해 연결 구조가 버스에서 상호 연결망으로 발전하고, 그중 메시가 확장성과 지역성 중심 설계의 표준으로 자리 잡는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 메시 토폴로지는 친구들을 바둑판처럼 앉혀 놓고, 바로 옆 친구에게만 쪽지를 넘길 수 있게 만든 자리 배치예요.
 2. 멀리 있는 친구에게는 한 번에 못 가지만, 옆 친구들이 차례로 전달해서 결국 끝까지 보낼 수 있어요.
 3. 그래서 아주 많은 친구가 모여도 복잡한 줄을 한꺼번에 깔지 않고, 규칙적으로 쉽게 늘릴 수 있답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 390 / 803
-
-<- **이전**: [388. 크로스바 스위치 (Crossbar Switch)](/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/)
-**다음**: [390. 토러스 (Torus)](/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/) ->
-
----

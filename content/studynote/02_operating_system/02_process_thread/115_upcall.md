@@ -7,18 +7,18 @@ weight: 115
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 상향 호출 (Upcall)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [사용자 수준 스레드](/studynote/02_operating_system/02_process_thread/096_user_level_thread/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에게 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태 변화를 통지하기 위해, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 유저 모드로 제어권을 넘겨주고 유저 영역에 등록된 콜백 핸들러를 실행하는 비동기 통지 메커니즘이다.
-> 2. **가치**: 일반적인 시스템 콜이 유저에서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로의 하향 (Downcall) 흐름인 반면, 업콜은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저로의 상향 흐름을 제공하여 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 협력적으로 스케줄링 결정을 내릴 수 있게 한다.
-> 3. **융합**: 업콜 메커니즘은 현대 언어 런타임(Go, Java Virtual [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [Erlang](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) BEAM)의 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/studynote/02_operating_system/02_process_thread/142_event_loop/))와 리액터 (Reactor) 패턴의 근간이 되며, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리에서 콜백 함수를 호출하는 하드웨어-소프트웨어 인터페이스와 동일한 설계 철학을 공유한다.
+> 1. **본질**: 상향 호출 (Upcall)은 운영체제 커널이 사용자 수준 스레드 라이브러리에게 스레드의 상태 변화를 통지하기 위해, 커널 모드에서 유저 모드로 제어권을 넘겨주고 유저 영역에 등록된 콜백 핸들러를 실행하는 비동기 통지 메커니즘이다.
+> 2. **가치**: 일반적인 시스템 콜이 유저에서 커널로의 하향 (Downcall) 흐름인 반면, 업콜은 커널에서 유저로의 상향 흐름을 제공하여 커널이 스레드 라이브러리와 협력적으로 스케줄링 결정을 내릴 수 있게 한다.
+> 3. **융합**: 업콜 메커니즘은 현대 언어 런타임(Go, Java Virtual Thread, Erlang BEAM)의 이벤트 루프 (Event Loop)와 리액터 (Reactor) 패턴의 근간이 되며, 인터럽트 처리에서 콜백 함수를 호출하는 하드웨어-소프트웨어 인터페이스와 동일한 설계 철학을 공유한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 상향 호출 (Upcall)은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 사용자 영역에 정의된 함수(업콜 핸들러)를 직접 호출하는 메커니즘이다. 일반적으로 프로그램은 시스템 콜 ([System Call](/studynote/02_operating_system/01_overview_architecture/013_system_call/))이라는 인터페이스를 통해 유저 모드에서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 제어권을 넘기지만(하향 호출), 업콜은 그 반대 방향으로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 유저 모드의 코드를 실행시킨다. 이때 업콜 핸들러는 LWP (Lightweight [Process](/studynote/12_it_management/05_security_compliance/943_process/)) 위에서 실행되며, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 업콜이 완료될 때까지 해당 LWP를 점유한다.
-- **필요성**: [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) (M:N) [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델에서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 존재를 직접 알지 못한다. 따라서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 LWP를 블로킹시키거나 선점할 때, 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 이를 인지하지 못하면 잘못된 스케줄링 결정을 내리게 된다. 업콜은 이 "인식 격차"를 해소하기 위해 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 능동적으로 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 상황을 통보하는 유일한 통로다.
+- **개념**: 상향 호출 (Upcall)은 커널이 사용자 영역에 정의된 함수(업콜 핸들러)를 직접 호출하는 메커니즘이다. 일반적으로 프로그램은 시스템 콜 (System Call)이라는 인터페이스를 통해 유저 모드에서 커널 모드로 제어권을 넘기지만(하향 호출), 업콜은 그 반대 방향으로 커널이 유저 모드의 코드를 실행시킨다. 이때 업콜 핸들러는 LWP (Lightweight Process) 위에서 실행되며, 커널은 업콜이 완료될 때까지 해당 LWP를 점유한다.
+- **필요성**: 다대다 (M:N) 스레드 모델에서 커널은 유저 스레드의 존재를 직접 알지 못한다. 따라서 커널이 LWP를 블로킹시키거나 선점할 때, 유저 라이브러리가 이를 인지하지 못하면 잘못된 스케줄링 결정을 내리게 된다. 업콜은 이 "인식 격차"를 해소하기 위해 커널이 능동적으로 유저 라이브러리에 상황을 통보하는 유일한 통로다.
 
-- **등장 배경**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 유닉스 시스템에서는 시그널 ([Signal](/studynote/02_operating_system/02_process_thread/130_signal/)) 메커니즘이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 프로세스로 비동기 이벤트를 통보하는 유일한 수단이었다. 하지만 시그널은 전달할 수 있는 정보의 양이 극히 제한적이고(정수값 1개), 핸들러 실행 환경이 매우 제약적이라(시그널 안전 함수만 호출 가능) 복잡한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 결정을 내리기에는 부족했다. Anderson 등이 1991년 [스케줄러 액티베이션](/studynote/02_operating_system/02_process_thread/114_scheduler_activation/) 논문에서 제안한 업콜 메커니즘은 시그널의 한계를 극복하고 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-유저 간 풍부한 양방향 통신을 실현한 혁신적 접근이었다.
+- **등장 배경**: 초기 유닉스 시스템에서는 시그널 (Signal) 메커니즘이 커널에서 프로세스로 비동기 이벤트를 통보하는 유일한 수단이었다. 하지만 시그널은 전달할 수 있는 정보의 양이 극히 제한적이고(정수값 1개), 핸들러 실행 환경이 매우 제약적이라(시그널 안전 함수만 호출 가능) 복잡한 스레드 스케줄링 결정을 내리기에는 부족했다. Anderson 등이 1991년 스케줄러 액티베이션 논문에서 제안한 업콜 메커니즘은 시그널의 한계를 극복하고 커널-유저 간 풍부한 양방향 통신을 실현한 혁신적 접근이었다.
 
 업콜과 기존 시그널 기반 통지의 차이를 시각화하면 업콜이 왜 필요한지 명확히 이해할 수 있다.
 
@@ -53,7 +53,7 @@ weight: 115
 +--------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 시그널과 업콜의 가장 큰 차이는 "전달할 수 있는 정보의 풍부함"과 "핸들러의 실행 자유도"에 있다. 시그널은 단일 정수값만 전달할 수 있어, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 "어떤 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 어떤 이유로 상태가 변했는지"를 상세히 알려줄 수 없다. 또한 시그널 핸들러 내에서는 비동기 시그널 안전 (Async-[signal](/studynote/02_operating_system/02_process_thread/130_signal/)-safe) 함수만 호출할 수 있어 메모리 할당이나 락 획득 같은 복잡한 작업이 불가능하다. 반면 업콜 핸들러는 일반적인 유저 모드 함수 환경에서 실행되므로, 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 자신의 내부 자료구조(레디 큐, [대기 큐](/studynote/02_operating_system/02_process_thread/089_wait_queue/))를 자유롭게 조작하여 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 재스케줄링과 LWP 재할당을 수행할 수 있다. 이것이 업콜이 복잡한 M:N [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 시스템에서 필수적인 이유다.
+**[다이어그램 해설]** 시그널과 업콜의 가장 큰 차이는 "전달할 수 있는 정보의 풍부함"과 "핸들러의 실행 자유도"에 있다. 시그널은 단일 정수값만 전달할 수 있어, 커널이 "어떤 스레드가 어떤 이유로 상태가 변했는지"를 상세히 알려줄 수 없다. 또한 시그널 핸들러 내에서는 비동기 시그널 안전 (Async-signal-safe) 함수만 호출할 수 있어 메모리 할당이나 락 획득 같은 복잡한 작업이 불가능하다. 반면 업콜 핸들러는 일반적인 유저 모드 함수 환경에서 실행되므로, 유저 스레드 라이브러리가 자신의 내부 자료구조(레디 큐, 대기 큐)를 자유롭게 조작하여 스레드 재스케줄링과 LWP 재할당을 수행할 수 있다. 이것이 업콜이 복잡한 M:N 스레드 시스템에서 필수적인 이유다.
 
 - **📢 섹션 요약 비유**: 시그널이 "긴급 연락 왔어!"라고 짧은 문자만 보내는 것이라면, 업콜은 "3번 팀원이 회의에 들어갔으니 5번 팀원에게 업무를 인계하고, 남은 인원으로 새 조를 짜!"라고 상세한 지시서를 직접 전달하는 것과 같습니다.
 
@@ -63,17 +63,17 @@ weight: 115
 
 ### 업콜의 발생 조건과 핸들러 동작
 
-| 이벤트 유형 | 발생 조건 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 동작 | 업콜 핸들러의 응답 |
+| 이벤트 유형 | 발생 조건 | 커널의 동작 | 업콜 핸들러의 응답 |
 |:---|:---|:---|:---|
-| **블로킹 (Block)** | 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블로킹 시스템 콜 호출 | LWP를 Wait 큐로 이동, 새/기존 LWP에 업콜 | 차단된 UT를 [대기 큐](/studynote/02_operating_system/02_process_thread/089_wait_queue/)로 이동, 레디 UT를 LWP에 할당 |
+| **블로킹 (Block)** | 유저 스레드가 블로킹 시스템 콜 호출 | LWP를 Wait 큐로 이동, 새/기존 LWP에 업콜 | 차단된 UT를 대기 큐로 이동, 레디 UT를 LWP에 할당 |
 | **언블로킹 (Unblock)** | 대기 중이던 I/O 완료 또는 리소스 해제 | LWP를 Ready 큐로 복원, 업콜 발생 | 대기 중이던 UT를 레디 큐로 이동, 가용 LWP에 할당 |
-| **선점 (Preempt)** | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 다른 프로세스를 위해 LWP 회수 | 실행 중이던 LWP 강제 회수, 업콜 발생 | 해당 LWP 위에 있던 UT를 레디 큐로 보존 |
+| **선점 (Preempt)** | 커널이 다른 프로세스를 위해 LWP 회수 | 실행 중이던 LWP 강제 회수, 업콜 발생 | 해당 LWP 위에 있던 UT를 레디 큐로 보존 |
 
 ---
 
 ### 업콜의 내부 실행 메커니즘
 
-업콜이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 영역으로 제어권을 넘기는 과정은 일반적인 시스템 콜의 귀환과 유사하지만, 호출 주체가 반대라는 점이 결정적으로 다르다. 다음은 세 가지 이벤트 유형별 업콜 동작 흐름이다.
+업콜이 커널에서 유저 영역으로 제어권을 넘기는 과정은 일반적인 시스템 콜의 귀환과 유사하지만, 호출 주체가 반대라는 점이 결정적으로 다르다. 다음은 세 가지 이벤트 유형별 업콜 동작 흐름이다.
 
 ```text
 +-------------------------------------------------------------------------+
@@ -119,30 +119,30 @@ weight: 115
 +-------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 흐름도는 업콜이 세 가지 핵심 이벤트에서 어떻게 작동하는지를 보여준다. 블로킹 이벤트에서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 LWP를 대기 상태로 전환한 뒤, 남아있는 다른 LWP(또는 새로 할당된 LWP) 위에서 업콜 핸들러를 실행한다. 핸들러는 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 내부 자료구조에 접근하여 차단된 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [대기 큐](/studynote/02_operating_system/02_process_thread/089_wait_queue/)로 옮기고 실행 가능한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 LWP에 재할당한다. 언블로킹 이벤트에서는 I/O 완료를 감지한 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 대기 중이던 LWP를 복원하고 업콜을 발생시킨다. 선점 이벤트에서는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 높은 우선순위 프로세스의 도착으로 LWP를 강제 회수하지만, 업콜을 통해 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 현재 실행 중이던 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 문맥을 레디 큐에 안전하게 보존할 수 있게 한다. 이 세 가지 경로 모두에서 업콜은 "[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 먼저 상황을 인지하고 유저가 대응하게 만드는" 협력적 스케줄링의 핵심 수단이다.
+**[다이어그램 해설]** 이 흐름도는 업콜이 세 가지 핵심 이벤트에서 어떻게 작동하는지를 보여준다. 블로킹 이벤트에서 커널은 LWP를 대기 상태로 전환한 뒤, 남아있는 다른 LWP(또는 새로 할당된 LWP) 위에서 업콜 핸들러를 실행한다. 핸들러는 유저 라이브러리의 내부 자료구조에 접근하여 차단된 스레드를 대기 큐로 옮기고 실행 가능한 스레드를 LWP에 재할당한다. 언블로킹 이벤트에서는 I/O 완료를 감지한 커널이 대기 중이던 LWP를 복원하고 업콜을 발생시킨다. 선점 이벤트에서는 커널이 타이머 인터럽트나 높은 우선순위 프로세스의 도착으로 LWP를 강제 회수하지만, 업콜을 통해 유저 라이브러리가 현재 실행 중이던 유저 스레드의 문맥을 레디 큐에 안전하게 보존할 수 있게 한다. 이 세 가지 경로 모두에서 업콜은 "커널이 먼저 상황을 인지하고 유저가 대응하게 만드는" 협력적 스케줄링의 핵심 수단이다.
 
 ---
 
-### 업콜 핸들러의 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 실행 환경
+### 업콜 핸들러의 스택과 실행 환경
 
-업콜 핸들러가 실행될 때, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 LWP 위에 별도의 업콜 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Upcall [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 구성한다. 이 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 이전에 실행되던 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 독립적이므로, 핸들러가 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 오염시키지 않고 안전하게 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 재스케줄링을 수행할 수 있다.
+업콜 핸들러가 실행될 때, 커널은 해당 LWP 위에 별도의 업콜 스택 (Upcall Stack)을 구성한다. 이 스택은 이전에 실행되던 유저 스레드의 스택과 독립적이므로, 핸들러가 유저 스레드의 스택을 오염시키지 않고 안전하게 스레드 재스케줄링을 수행할 수 있다.
 
-- **📢 섹션 요약 비유**: 비상벨이 울리면(업콜 발생), 교장([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 반장(핸들러)을 교무실(전용 업콜 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))로 불러 상황을 설명하고, 반장은 교실(유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/))로 돌아가 학생들의 자리를 다시 배정하는 것과 같습니다.
+- **📢 섹션 요약 비유**: 비상벨이 울리면(업콜 발생), 교장(커널)이 반장(핸들러)을 교무실(전용 업콜 스택)로 불러 상황을 설명하고, 반장은 교실(유저 스레드)로 돌아가 학생들의 자리를 다시 배정하는 것과 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 업콜 vs 시그널 vs [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 비교
+### 업콜 vs 시그널 vs 폴링 (Polling) 비교
 
-| 비교 항목 | 상향 호출 (Upcall) | 시그널 ([Signal](/studynote/02_operating_system/02_process_thread/130_signal/)) | [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) |
+| 비교 항목 | 상향 호출 (Upcall) | 시그널 (Signal) | 폴링 (Polling) |
 |:---|:---|:---|:---|
-| **통지 방향** | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) -> 유저 (능동) | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) -> 유저 (능동) | 유저 -> [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (수동 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) |
-| **전달 정보량** | 풍부 (구조체 전달) | 극히 제한적 (정수 1개) | [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시점의 상태만 |
-| <strong>응답 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 이벤트 즉시 (비동기) | 이벤트 즉시 (비동기) | [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 주기에 따른 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| **CPU 낭비** | 없음 (이벤트 구동) | 없음 (이벤트 구동) | 큼 (주기적 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필요) |
+| **통지 방향** | 커널 -> 유저 (능동) | 커널 -> 유저 (능동) | 유저 -> 커널 (수동 확인) |
+| **전달 정보량** | 풍부 (구조체 전달) | 극히 제한적 (정수 1개) | 확인 시점의 상태만 |
+| <strong>응답 지연</strong> | 이벤트 즉시 (비동기) | 이벤트 즉시 (비동기) | 폴링 주기에 따른 지연 |
+| **CPU 낭비** | 없음 (이벤트 구동) | 없음 (이벤트 구동) | 큼 (주기적 확인 필요) |
 | **핸들러 자유도** | 높음 (일반 함수 환경) | 매우 낮음 (시그널 안전 함수만) | 해당 없음 |
-| **구현 복잡도** | 높음 ([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-유저 양방향 설계) | 낮음 (POSIX 표준) | 낮음 (루프만 구현) |
+| **구현 복잡도** | 높음 (커널-유저 양방향 설계) | 낮음 (POSIX 표준) | 낮음 (루프만 구현) |
 
 세 가지 통지 메커니즘이 동일한 I/O 완료 상황에서 어떻게 다르게 반응하는지를 시간축으로 비교한다.
 
@@ -186,13 +186,13 @@ weight: 115
 +-----------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 타임라인 비교는 세 가지 통지 메커니즘이 I/O 완료 이벤트에 얼마나 빠르고 풍부하게 반응하는지를 명확히 보여준다. 시그널과 업콜은 모두 이벤트 구동 (Event-driven) 방식으로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 최소화되지만, 시그널은 전달할 수 있는 정보가 정수 1개로 제한되어 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 "무엇을 어떻게 해야 하는지"를 스스로 판단해야 한다. 반면 업콜은 이벤트 유형, 관련 LWP 번호, 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 상태 정보 등이 담긴 구조체를 전달하므로 핸들러가 즉각적이고 정확한 스케줄링 결정을 내릴 수 있다. [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 가장 단순하지만 I/O 완료 후 최대 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 주기만큼의 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하고, [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 루프 자체가 CPU를 낭비하므로 고성능 시스템에는 부적합하다.
+**[다이어그램 해설]** 이 타임라인 비교는 세 가지 통지 메커니즘이 I/O 완료 이벤트에 얼마나 빠르고 풍부하게 반응하는지를 명확히 보여준다. 시그널과 업콜은 모두 이벤트 구동 (Event-driven) 방식으로 지연이 최소화되지만, 시그널은 전달할 수 있는 정보가 정수 1개로 제한되어 유저 라이브러리가 "무엇을 어떻게 해야 하는지"를 스스로 판단해야 한다. 반면 업콜은 이벤트 유형, 관련 LWP 번호, 유저 스레드 식별자, 상태 정보 등이 담긴 구조체를 전달하므로 핸들러가 즉각적이고 정확한 스케줄링 결정을 내릴 수 있다. 폴링은 가장 단순하지만 I/O 완료 후 최대 폴링 주기만큼의 응답 지연이 발생하고, 폴링 루프 자체가 CPU를 낭비하므로 고성능 시스템에는 부적합하다.
 
 ### 과목 융합 관점
-- <strong>컴퓨터 아키텍처 (<a href="/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: [하드웨어 인터럽트](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))가 CPU에 비동기 이벤트를 통지하고, CPU가 [인터럽트 핸들러](/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/) ([ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/))를 실행하는 과정은 업콜의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-유저 관계와 정확히 동형 (Isomorphic) 구조다. [인터럽트 벡터](/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) 테이블이 업콜 핸들러 테이블에 대응되며, 두 계층 모두 이벤트 구동 아키텍처의 근간을 이룬다.
-- <strong><a href="/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a> (SE)</strong>: 업콜은 관찰자 ([Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)) 패턴의 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 구현이다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 주체 (Subject), 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 핸들러가 관찰자 ([Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)) 역할을 하며, 이벤트 발생 시 등록된 핸들러가 자동으로 호출되는 구조다.
+- <strong>컴퓨터 아키텍처 (CA)</strong>: 하드웨어 인터럽트 (Interrupt)가 CPU에 비동기 이벤트를 통지하고, CPU가 인터럽트 핸들러 (ISR)를 실행하는 과정은 업콜의 커널-유저 관계와 정확히 동형 (Isomorphic) 구조다. 인터럽트 벡터 테이블이 업콜 핸들러 테이블에 대응되며, 두 계층 모두 이벤트 구동 아키텍처의 근간을 이룬다.
+- <strong>소프트웨어 공학 (SE)</strong>: 업콜은 관찰자 (Observer) 패턴의 OS 커널 레벨 구현이다. 커널이 주체 (Subject), 유저 라이브러리 핸들러가 관찰자 (Observer) 역할을 하며, 이벤트 발생 시 등록된 핸들러가 자동으로 호출되는 구조다.
 
-- **📢 섹션 요약 비유**: [하드웨어 인터럽트](/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)가 "CPU야, 키보드 입력 들어왔어!"라고 전기적 신호로 알려주는 것처럼, 업콜은 "유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)야, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 상태가 바뀌었어!"라고 소프트웨어 신호로 알려주는 같은 패턴입니다.
+- **📢 섹션 요약 비유**: 하드웨어 인터럽트가 "CPU야, 키보드 입력 들어왔어!"라고 전기적 신호로 알려주는 것처럼, 업콜은 "유저 라이브러리야, 스레드 상태가 바뀌었어!"라고 소프트웨어 신호로 알려주는 같은 패턴입니다.
 
 ---
 
@@ -200,15 +200,15 @@ weight: 115
 
 ### 실무 시나리오
 
-1. **시나리오 -- Go 런타임의 Netpoller 업콜 모사**: Go 언어의 런타임은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 epoll/kqueue 이벤트를 모니터링하는 Netpoller를 내장하고, I/O 완료 시 [고루틴](/studynote/02_operating_system/02_process_thread/140_goroutine/)([Goroutine](/studynote/02_operating_system/02_process_thread/140_goroutine/))을 깨우는 업콜 유사 메커니즘을 구현한다. 시스템 콜 기반의 네트워크 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 Go로 마이그레이션할 때, 기존의 시그널 기반 비동기 통지를 Go의 채널 (Channel) 기반 업콜로 교체하여 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 30% 개선한 사례.
-   - **판단**: Go의 Netpoller는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 비동기 I/O 이벤트를 감지하고 런타임 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(GMP 모델)에 통지하는 업콜 메커니즘이다. 시그널보다 풍부한 이벤트 정보를 전달하고, 채널을 통해 [고루틴](/studynote/02_operating_system/02_process_thread/140_goroutine/) 간 안전한 통신을 보장하므로, 복잡한 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어가 필요한 시스템에서 시그널 기반 통지를 업콜 유사 패턴으로 교체하는 것은 정당한 아키텍처 개선이다.
+1. **시나리오 -- Go 런타임의 Netpoller 업콜 모사**: Go 언어의 런타임은 커널의 epoll/kqueue 이벤트를 모니터링하는 Netpoller를 내장하고, I/O 완료 시 고루틴(Goroutine)을 깨우는 업콜 유사 메커니즘을 구현한다. 시스템 콜 기반의 네트워크 라이브러리를 Go로 마이그레이션할 때, 기존의 시그널 기반 비동기 통지를 Go의 채널 (Channel) 기반 업콜로 교체하여 응답 지연을 30% 개선한 사례.
+   - **판단**: Go의 Netpoller는 운영체제의 비동기 I/O 이벤트를 감지하고 런타임 스케줄러(GMP 모델)에 통지하는 업콜 메커니즘이다. 시그널보다 풍부한 이벤트 정보를 전달하고, 채널을 통해 고루틴 간 안전한 통신을 보장하므로, 복잡한 동시성 제어가 필요한 시스템에서 시그널 기반 통지를 업콜 유사 패턴으로 교체하는 것은 정당한 아키텍처 개선이다.
 
-2. **시나리오 -- 업콜 핸들러 내에서의 데드락 발생**: 업콜 핸들러가 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부의 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 획득하려 시도했으나, 동일한 락을 쥔 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블로킹된 LWP 위에서 대기 중인 상황.
-   - **판단**: 전형적인 업콜 관련 데드락 시나리오다. 업콜 핸들러는 이전에 실행되던 유저 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 독립적인 컨텍스트에서 실행되므로, 핸들러가 필요한 락을 이미 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 점유하고 있으면 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))가 발생한다. 해결책으로 핸들러가 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/))을 사용하거나, 락 없이 동작하는 락 프리 ([Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 자료구조로 레디 큐를 구현해야 한다.
+2. **시나리오 -- 업콜 핸들러 내에서의 데드락 발생**: 업콜 핸들러가 유저 라이브러리 내부의 락(Lock)을 획득하려 시도했으나, 동일한 락을 쥔 유저 스레드가 블로킹된 LWP 위에서 대기 중인 상황.
+   - **판단**: 전형적인 업콜 관련 데드락 시나리오다. 업콜 핸들러는 이전에 실행되던 유저 스레드와 독립적인 컨텍스트에서 실행되므로, 핸들러가 필요한 락을 이미 다른 스레드가 점유하고 있으면 교착 상태(Deadlock)가 발생한다. 해결책으로 핸들러가 스핀락 (Spinlock)을 사용하거나, 락 없이 동작하는 락 프리 (Lock-free) 자료구조로 레디 큐를 구현해야 한다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **기술적**: 업콜 핸들러 내에서 접근하는 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 자료구조가 데드락으로부터 안전한가(락 프리 구조 또는 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/) 사용)? 업콜 발생 빈도가 높은 시스템에서 핸들러 실행 오버헤드가 전체 성능에 미치는 영향을 프로파일링했는가?
-- **운영·보안적**: 업콜 핸들러가 악의적으로 조작될 경우(예: [버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/)) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로의 [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 경로가 될 위험이 있는가? 핸들러 실행 환경이 유저 모드로 제한되어 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 접근할 수 없는지 검증했는가?
+### 도입 체크리스트
+- **기술적**: 업콜 핸들러 내에서 접근하는 유저 라이브러리 자료구조가 데드락으로부터 안전한가(락 프리 구조 또는 스핀락 사용)? 업콜 발생 빈도가 높은 시스템에서 핸들러 실행 오버헤드가 전체 성능에 미치는 영향을 프로파일링했는가?
+- **운영·보안적**: 업콜 핸들러가 악의적으로 조작될 경우(예: 버퍼 오버플로우) 커널로의 권한 상승 경로가 될 위험이 있는가? 핸들러 실행 환경이 유저 모드로 제한되어 커널 메모리에 접근할 수 없는지 검증했는가?
 
 - **📢 섹션 요약 비유**: 비상 연락망(업콜)이 너무 자주 울리면 반장(핸들러)이 제 역할을 못 하고 연락만 받다 지쳐버리니, 연락의 빈도와 내용을 신중하게 설계해야 합니다.
 
@@ -220,17 +220,17 @@ weight: 115
 
 | 구분 | 시그널 기반 통지 | 업콜 기반 통지 | 개선 효과 |
 |:---|:---|:---|:---|
-| <strong>정량 (응답 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong> | 수 마이크로초 | 수 마이크로초 (동등) | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 면에서는 동등 |
-| **정량 (스케줄링 정확도)** | 유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 상태 추측 필요 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 정확한 상태 전달 | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 재할당 오류 **0%** |
+| <strong>정량 (응답 지연)</strong> | 수 마이크로초 | 수 마이크로초 (동등) | 지연 면에서는 동등 |
+| **정량 (스케줄링 정확도)** | 유저 라이브러리가 상태 추측 필요 | 커널이 정확한 상태 전달 | 스레드 재할당 오류 **0%** |
 | **정성 (핸들러 유연성)** | 시그널 안전 함수만 호출 | 일반 함수와 동일한 환경 | 복잡한 스케줄링 로직 구현 가능 |
 
 ### 미래 전망
-- **이벤트 기반 OS와의 융합**: 최신 OS(예: [io_uring](/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/) 기반 Linux)는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-유저 간의 비동기 통신을 업콜이 아닌 공유 링 버퍼 (Shared Ring Buffer)와 사용자 공간 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) (User-space [Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 기반으로 구현하여, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환 오버헤드마저 제거하는 방향으로 진화하고 있다.
-- <strong><a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반 유연한 업콜</strong>: 리눅스의 [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) (Extended [Berkeley Packet Filter](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 기술을 활용하면 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 안전하게 사용자 정의 업콜 로직을 실행할 수 있어, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링뿐만 아니라 네트워크, 보안 등 다양한 도메인에서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-유저 협력적 이벤트 처리가 확장되고 있다.
+- **이벤트 기반 OS와의 융합**: 최신 OS(예: io_uring 기반 Linux)는 커널-유저 간의 비동기 통신을 업콜이 아닌 공유 링 버퍼 (Shared Ring Buffer)와 사용자 공간 인터럽트 (User-space Interrupt) 기반으로 구현하여, 커널 모드 전환 오버헤드마저 제거하는 방향으로 진화하고 있다.
+- <strong>eBPF 기반 유연한 업콜</strong>: 리눅스의 eBPF (Extended Berkeley Packet Filter) 기술을 활용하면 커널 모드에서 안전하게 사용자 정의 업콜 로직을 실행할 수 있어, 스레드 스케줄링뿐만 아니라 네트워크, 보안 등 다양한 도메인에서 커널-유저 협력적 이벤트 처리가 확장되고 있다.
 
 ### 참고 표준
-- **Anderson et al. (1991)**: "Scheduler Activations: Effective [Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) for the User-Level [Management](/studynote/12_it_management/05_security_compliance/1013_management/) of Parallelism" -- 업콜 메커니즘의 최초 학술적 정의.
-- <strong>Linux <a href="/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/">io_uring</a> (2019~)</strong>: 공유 링 버퍼 기반의 차세대 비동기 I/O 인터페이스로, 업콜의 개념을 더 효율적으로 구현.
+- **Anderson et al. (1991)**: "Scheduler Activations: Effective Kernel Support for the User-Level Management of Parallelism" -- 업콜 메커니즘의 최초 학술적 정의.
+- <strong>Linux io_uring (2019~)</strong>: 공유 링 버퍼 기반의 차세대 비동기 I/O 인터페이스로, 업콜의 개념을 더 효율적으로 구현.
 
 - **📢 섹션 요약 비유**: 과거에는 우편함(시그널)에 짧은 쪽지를 넣어 연락했지만, 이제는 스마트폰(업콜)으로 상세한 메시지와 함께 즉시 알림을 받고 직접 대응할 수 있게 된, OS 통신 기술의 진화입니다.
 
@@ -240,10 +240,10 @@ weight: 115
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [스레드 로컬 저장소](/studynote/02_operating_system/02_process_thread/113_thread_local_storage/) ([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-Local Storage) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [스케줄러 액티베이션](/studynote/02_operating_system/02_process_thread/114_scheduler_activation/) ([Scheduler Activation](/studynote/02_operating_system/02_process_thread/114_scheduler_activation/)) / 경량 프로세스(LWP) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [협력적 프로세스](/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/) ([Cooperating Process](/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/)) vs 독립적 프로세스 (Independent [Process](/studynote/12_it_management/05_security_compliance/943_process/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/) ([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/), Inter-[Process](/studynote/12_it_management/05_security_compliance/943_process/) Communication) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 스레드 로컬 저장소 (TLS, Thread-Local Storage) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 프로세스 간 통신 (IPC, Inter-Process Communication) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -261,17 +261,6 @@ weight: 115
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 상향 호출은 선생님([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 학생(유저 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))에게 "너희 반 친구 한 명이 체육대회(블로킹)에 나가서, 남은 사람들로 조를 다시 짜!"라고 알려주는 시스템이에요.
+1. 상향 호출은 선생님(커널)이 학생(유저 라이브러리)에게 "너희 반 친구 한 명이 체육대회(블로킹)에 나가서, 남은 사람들로 조를 다시 짜!"라고 알려주는 시스템이에요.
 2. 예전에는 짧은 종소리(시그널)만 울려서 학생들이 상황을 잘 몰랐지만, 이제는 선생님이 직접 와서 누가 어디에 있는지 자세히 알려주니까(업콜) 빠르고 정확하게 대처할 수 있어요.
 3. 이렇게 선생님과 학생이 서로 소통하며 학급을 잘 운영하는 방법은, 나중에 컴퓨터 프로그램에서 수백만 개의 일을 동시에 처리하는 Go 언어 같은 최신 기술의 바탕이 되었답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 115 / 800
-
-<- **이전**: [114. 스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)](/studynote/02_operating_system/02_process_thread/114_scheduler_activation/)
-**다음**: [116. 협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)](/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/) ->
-
----

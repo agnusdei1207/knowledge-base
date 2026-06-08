@@ -7,7 +7,7 @@ weight: 1114
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스몰 셀 조밀화 간섭 통제망은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 스몰 셀 조밀화 간섭 통제망은 성능 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 스몰 셀 조밀화 간섭 통제망을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -16,7 +16,7 @@ weight: 1114
 ## Ⅰ. 개요 및 필요성
 
 - **매크로 셀**: 과거 3G, 4G 시절 동네 산꼭대기나 아파트 옥상에 세우던 반경 수 km 커버리지의 거대 철탑 기지국입니다.
-- <strong><a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 고주파의 재앙</strong>: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 6G의 고주파수([mmWave](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))는 100m도 못 가서 소멸합니다. 서울 전체를 덮으려면 이 거대 철탑을 강남구에만 수천 개 세워야 하는데 땅값이 비싸고 미관상 주민들이 철거 시위를 벌여 공사가 불가능합니다.
+- <strong>5G 고주파의 재앙</strong>: 5G, 6G의 고주파수(mmWave)는 100m도 못 가서 소멸합니다. 서울 전체를 덮으려면 이 거대 철탑을 강남구에만 수천 개 세워야 하는데 땅값이 비싸고 미관상 주민들이 철거 시위를 벌여 공사가 불가능합니다.
 
 ```text
 [5G SA/NSA 아키텍처 비교망]
@@ -27,13 +27,13 @@ weight: 1114
     +---> [Massive MIMO 빔 관리 시스템]
 ```
 
-- **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 와이파이 공유기 크기부터 여행 가방 크기까지 다양한 <strong>초소형 소출력 기지국(<a href="/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>)들을 도심 곳곳의 가로등, 건물 벽, 실내 천장에 50~100m 간격으로 촘촘하게 도배하듯 밀집(Densification)시켜, 고주파의 짧은 도달 거리를 메꾸고 폭증하는 트래픽을 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리하는 차세대 네트워크 구축 아키텍처</strong>입니다.
+- **개념**: 와이파이 공유기 크기부터 여행 가방 크기까지 다양한 <strong>초소형 소출력 기지국(Small Cell)들을 도심 곳곳의 가로등, 건물 벽, 실내 천장에 50~100m 간격으로 촘촘하게 도배하듯 밀집(Densification)시켜, 고주파의 짧은 도달 거리를 메꾸고 폭증하는 트래픽을 분산 처리하는 차세대 네트워크 구축 아키텍처</strong>입니다.
 
 ### 스몰 셀의 3대 계급 (크기별)
 1. **마이크로 셀 (Micro)**: 반경 수백 m. 빌딩 밀집 구역 옥상용.
@@ -61,18 +61,18 @@ weight: 1114
 이 전파 엉킴을 해결하는 마법의 교차로 통제술입니다.
 ### 1. eICIC (확장형 셀 간 간섭 제어) - "형이 1초 참을게"
 - 1012번 ICIC의 진화형입니다. 옥상의 거대 기지국(형)과 가로등 미니 기지국(동생)이 무전(X2 인터페이스)을 칩니다.
-- **ABS (Almost Blank Subframe)**: 거대 철탑 형님이 "야! 네 구역 근처에서 폰 전파 엉키지? 내가 1초 동안 전파를 안 쏘고 '텅 빈 시간(ABS)'을 줄 테니까, 그 시간 동안 동생 네가 폰한테 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다 쏴라!" 라며 <strong>시간을 쪼개어 형님이 강제로 양보(침묵)하는 방식</strong>으로 굉음(간섭)을 완전히 회피합니다.
+- **ABS (Almost Blank Subframe)**: 거대 철탑 형님이 "야! 네 구역 근처에서 폰 전파 엉키지? 내가 1초 동안 전파를 안 쏘고 '텅 빈 시간(ABS)'을 줄 테니까, 그 시간 동안 동생 네가 폰한테 데이터 다 쏴라!" 라며 <strong>시간을 쪼개어 형님이 강제로 양보(침묵)하는 방식</strong>으로 굉음(간섭)을 완전히 회피합니다.
 
-### 2. C-RAN과 [캐리어 어그리게이션](/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/) ([CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 융합
-- 1014번 융합: 스몰 셀에선 고화질 유튜브 영상(고주파 다운로드)을 쏘게 하고, 철탑 매크로 셀에선 안 끊기는 카톡과 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(저주파)를 쏘게 만든 뒤, 폰이 이 2개를 하나로 묶어([CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 동시에 받아내는 영리한 역할 분담망을 짭니다.
+### 2. C-RAN과 캐리어 어그리게이션 (CA) 융합
+- 1014번 융합: 스몰 셀에선 고화질 유튜브 영상(고주파 다운로드)을 쏘게 하고, 철탑 매크로 셀에선 안 끊기는 카톡과 제어 신호(저주파)를 쏘게 만든 뒤, 폰이 이 2개를 하나로 묶어(CA) 동시에 받아내는 영리한 역할 분담망을 짭니다.
 
-스몰 셀 조밀화 간섭 통제망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [5G SA](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망이 기반 조건을 만든다면, 스몰 셀 조밀화 간섭 통제망은 그 위에서 핵심 메커니즘을 구현하고, [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+스몰 셀 조밀화 간섭 통제망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 5G SA/NSA 아키텍처 비교망이 기반 조건을 만든다면, 스몰 셀 조밀화 간섭 통제망은 그 위에서 핵심 메커니즘을 구현하고, Massive MIMO 빔 관리 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [5G SA](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망의 기반 정리 | 스몰 셀 조밀화 간섭 통제망의 핵심 동작 | [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템의 확장 적용 |
+| 초점 | 5G SA/NSA 아키텍처 비교망의 기반 정리 | 스몰 셀 조밀화 간섭 통제망의 핵심 동작 | Massive MIMO 빔 관리 시스템의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -80,9 +80,9 @@ weight: 1114
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 스몰 셀을 10만 개 달면 끝이 아닙니다. 이 스몰 셀 10만 대 뒷구멍에 일일이 광케이블([백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))을 꽂아서 통신사 전화국으로 연결해야 진짜 인터넷이 됩니다. 땅 파는 공사비가 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 값보다 비싸서, 최근엔 <strong>통신사들이 전봇대(<a href="/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a>)와 전봇대 사이를 광케이블 없이 레이저 전파로 쏴서(무선 <a href="/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/">백홀</a>, IAB 기술) 우회하는 꼼수</strong>를 개발 중입니다.
+- 스몰 셀을 10만 개 달면 끝이 아닙니다. 이 스몰 셀 10만 대 뒷구멍에 일일이 광케이블(백홀)을 꽂아서 통신사 전화국으로 연결해야 진짜 인터넷이 됩니다. 땅 파는 공사비가 안테나 값보다 비싸서, 최근엔 <strong>통신사들이 전봇대(스몰셀)와 전봇대 사이를 광케이블 없이 레이저 전파로 쏴서(무선 백홀, IAB 기술) 우회하는 꼼수</strong>를 개발 중입니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -94,7 +94,7 @@ weight: 1114
 
 ## Ⅴ. 기대효과 및 결론
 
-스몰 셀 조밀화 간섭 통제망은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+스몰 셀 조밀화 간섭 통제망은 성능 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 Massive MIMO 빔 관리 시스템, AI 기반 성능 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 AI 기반 성능 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -104,10 +104,10 @@ weight: 1114
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [5G SA](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 5G SA/NSA 아키텍처 비교망 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 처리량 (Throughput) | 실제 전달 성능을 나타내는 대표 지표다. |
+| 지연 (Latency) | 사용자 체감 품질을 좌우한다. |
+| Massive MIMO 빔 관리 시스템 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -121,21 +121,10 @@ weight: 1114
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-스몰 셀 조밀화 간섭 통제망는 [5G SA](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망에서 출발해 현재 메커니즘을 정교화하고, 이후 [Massive MIMO](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+스몰 셀 조밀화 간섭 통제망는 5G SA/NSA 아키텍처 비교망에서 출발해 현재 메커니즘을 정교화하고, 이후 Massive MIMO 빔 관리 시스템와 AI 기반 성능 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 225 / 1120
-
-<- **이전**: [1113. 5G SA/NSA 아키텍처 비교망](/studynote/03_network/20_performance_evaluation_advanced/1113_5g_sa_nsa_standalone_non_standalone_architecture/)
-**다음**: [1115. Massive MIMO 빔 관리 시스템](/studynote/03_network/20_performance_evaluation_advanced/1115_massive_mimo_beamforming_management_system/) ->
-
----

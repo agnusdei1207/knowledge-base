@@ -148,11 +148,3 @@ $$y(t) = g(t) + s(t) + h(t) + \epsilon_t$$
 | **SARIMA 계절 차수 (P,D,Q,s)** | 계절 주기성 모형화 | `s`는 데이터의 계절 주기(7=주간, 12=월간, 24=일간-시간, 52=주간-년). `seasonal=True`로 pmdarima auto-ARIMA가 탐지. 다중계절성(예: 주간+연간) 지원 안 됨 -> Prophet/TFT 권장. |
 | **Prophet Changepoints** | 추세 구조가 바뀌는 시점을 자동 감지 | 기본적으로 시계열의 80% 지점에 균등 분포로 25개 변동점 후보 배치. `changepoint_prior_scale`이 클수록 추세 변동에 유연(과적합 위험), 작을수록 매끄러운 추세(과소적합 위험). 비즈니스 도메인 이벤트(COVID, 마케팅 캠페인) 사전 주입 가능. |
 | **Prophet Seasonality** | 다중·비대칭 계절성 모델링 | `yearly_seasonality`, `weekly_seasonality`, `daily_seasonality` + `add
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 714 / 800
-
-<- **이전**: [713. 인과 추론 반사실 분석 개입 효과](/studynote/06_ict_convergence/uncategorized/713_causal_inference_counterfactual_intervention/)
-**다음**: [715. 자연어 처리 감성 분석 텍스트 마이닝](/studynote/06_ict_convergence/uncategorized/715_nlp_sentiment_analysis_text_mining/) ->
-
----

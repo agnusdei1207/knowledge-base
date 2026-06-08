@@ -110,12 +110,3 @@ Core flow: Assess -> Classify -> Design -> Operate -> Optimize
 | IaC/GitOps | 인프라와 배포 상태를 코드로 관리 |
 | Observability | 장애 원인과 사용자 영향을 추적 |
 | FinOps | 클라우드 비용 책임과 최적화를 운영화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 612 / 800
-
-<- **이전**: [611. 서버리스 컴퓨팅 FaaS 이벤트 기반](/studynote/06_ict_convergence/uncategorized/611_serverless_computing_faas_event_driven/)
-**다음**: [613. 하이브리드 클라우드 온프레미스 통합](/studynote/06_ict_convergence/uncategorized/613_hybrid_cloud_on_premise_integration/) ->
-
----

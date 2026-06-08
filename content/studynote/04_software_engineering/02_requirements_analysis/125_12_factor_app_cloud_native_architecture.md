@@ -6,9 +6,9 @@ tags:
 weight: 125
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 12 Factor App은 Heroku 공동창업자가 정리한 <strong><a href="/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a>/<a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 애플리케이션 설계의 12가지 <a href="/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/">Best Practice</a></strong>이며, 이식성·확장성·개발-운영 일관성을 보장한다.
-> 2. **가치**: 12 Factor를 따르지 않은 앱은 <strong>환경 의존성·<a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 하드코딩·<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 직접 관리</strong> 등으로 클라우드 배포 시 문제가 발생하지만, 12 Factor를 따르면 <strong>어떤 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a>/K8s에서도 동일하게 동작</strong>한다.
-> 3. **판단 포인트**: 특히 <strong>III. <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a>(<a href="/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a>)·VI. Processes(<a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)·XI. <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a>(stdout 스트림)</strong>가 가장 자주 위반되며, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 12 Factor 준수가 필수이다.
+> 1. **본질**: 12 Factor App은 Heroku 공동창업자가 정리한 <strong>SaaS/클라우드 네이티브 애플리케이션 설계의 12가지 Best Practice</strong>이며, 이식성·확장성·개발-운영 일관성을 보장한다.
+> 2. **가치**: 12 Factor를 따르지 않은 앱은 <strong>환경 의존성·설정 하드코딩·로그 파일 직접 관리</strong> 등으로 클라우드 배포 시 문제가 발생하지만, 12 Factor를 따르면 <strong>어떤 PaaS/K8s에서도 동일하게 동작</strong>한다.
+> 3. **판단 포인트**: 특히 <strong>III. Config(환경 변수)·VI. Processes(Stateless)·XI. Logs(stdout 스트림)</strong>가 가장 자주 위반되며, 컨테이너 환경에서 12 Factor 준수가 필수이다.
 
 ---
 
@@ -43,11 +43,11 @@ weight: 125
 
 | Factor | 핵심 | 위반 예 |
 |:---|:---|:---|
-| <strong>III. <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a></strong> | [환경 변수](/studynote/02_operating_system/02_process_thread/156_environment_variables/) | DB 비번 하드코딩 |
-| **VI. Processes** | [Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) | 로컬 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장 |
-| <strong>XI. <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a></strong> | stdout | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 직접 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) |
+| <strong>III. Config</strong> | 환경 변수 | DB 비번 하드코딩 |
+| **VI. Processes** | Stateless | 로컬 세션 저장 |
+| <strong>XI. Logs</strong> | stdout | 파일에 직접 쓰기 |
 
-- **📢 섹션 요약 비유**: Config는 "비밀번호를 코드에 적지 마", Processes는 "기억력(상태)에 의존하지 마", Logs는 "일기장([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 대신 방송(stdout)해라"이다.
+- **📢 섹션 요약 비유**: Config는 "비밀번호를 코드에 적지 마", Processes는 "기억력(상태)에 의존하지 마", Logs는 "일기장(파일) 대신 방송(stdout)해라"이다.
 
 ---
 
@@ -55,9 +55,9 @@ weight: 125
 
 | 비교 | 전통 앱 | 12 Factor 앱 |
 |:---|:---|:---|
-| <strong><a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong> | [config](/studynote/15_devops_sre/01_culture_methodology/009_config/).xml 포함 | <strong><a href="/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a></strong> |
-| <strong><a href="/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a></strong> | 로컬 메모리 | <strong><a href="/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a>/외부</strong> |
-| <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong> | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 직접 관리 | **stdout 스트림** |
+| <strong>설정</strong> | config.xml 포함 | <strong>환경 변수</strong> |
+| <strong>세션</strong> | 로컬 메모리 | <strong>Redis/외부</strong> |
+| <strong>로그</strong> | 파일 직접 관리 | **stdout 스트림** |
 | **배포** | 서버 종속 | **이식 가능** |
 
 ---
@@ -65,16 +65,16 @@ weight: 125
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### K8s와의 매핑
-- [Config](/studynote/15_devops_sre/01_culture_methodology/009_config/) -> [ConfigMap](/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)/[Secret](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/).
-- Processes -> StatelessSet, [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/).
-- [Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) -> stdout -> Fluentd -> [Elasticsearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/).
-- [Disposability](/studynote/15_devops_sre/01_culture_methodology/015_disposability/) -> Graceful Shutdown (SIGTERM).
+- Config -> ConfigMap/Secret.
+- Processes -> StatelessSet, Deployment.
+- Logs -> stdout -> Fluentd -> Elasticsearch.
+- Disposability -> Graceful Shutdown (SIGTERM).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-12 Factor App은 <strong><a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a> 설계의 기본 교과서</strong>이며, K8s·[Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)·[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 환경에서 필수 준수 사항이다.
+12 Factor App은 <strong>클라우드 네이티브 설계의 기본 교과서</strong>이며, K8s·Docker·CI/CD 환경에서 필수 준수 사항이다.
 
 ---
 
@@ -82,10 +82,10 @@ weight: 125
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a></strong> | [환경 변수](/studynote/02_operating_system/02_process_thread/156_environment_variables/)로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리 |
-| <strong><a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a></strong> | 프로세스 무상태 원칙 |
-| <strong><a href="/studynote/15_devops_sre/01_culture_methodology/015_disposability/">Disposability</a></strong> | 빠른 시작·우아한 종료 |
-| <strong><a href="/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/">클라우드 네이티브</a></strong> | 12 Factor의 상위 패러다임 |
+| <strong>Config</strong> | 환경 변수로 설정 분리 |
+| <strong>Stateless</strong> | 프로세스 무상태 원칙 |
+| <strong>Disposability</strong> | 빠른 시작·우아한 종료 |
+| <strong>클라우드 네이티브</strong> | 12 Factor의 상위 패러다임 |
 | **K8s** | 12 Factor 구현의 최적 플랫폼 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -108,16 +108,5 @@ weight: 125
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 12 Factor는 클라우드 앱의 <strong>건축 법규 12가지</strong>예요.
-2. "비밀번호를 코드에 적지 마([Config](/studynote/15_devops_sre/01_culture_methodology/009_config/))", "기억력에 의존하지 마([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))" 같은 규칙이에요.
+2. "비밀번호를 코드에 적지 마(Config)", "기억력에 의존하지 마(Stateless)" 같은 규칙이에요.
 3. 이 규칙을 따르면 어떤 클라우드에서도 <strong>안전하게 앱이 동작</strong>한답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 125 / 973
-
-<- **이전**: [124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임](/studynote/04_software_engineering/02_requirements_analysis/124_cloud_native_development_architecture/)
-**다음**: [126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발](/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/) ->
-
----

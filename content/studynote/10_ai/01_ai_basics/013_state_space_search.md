@@ -6,19 +6,19 @@ tags:
   - "studynote-ai"
 weight: 13
 ---
-# 13. [상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) ([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Search)
+# 13. 상태 공간 탐색 (State Space Search)
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 복잡한 현실의 문제를 유한 또는 무한의 노드(상태)와 간선(연산자)으로 이루어진 수학적 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델로 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여, 목표 지점을 찾아가는 최적 경로 탐색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 체계.
-> 2. **가치**: 퍼즐, 체스, 로봇 네비게이션부터 네트워크 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)까지, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 조건과 목표가 주어졌을 때 일련의 액션(Action) 시퀀스를 수치적으로 도출해내는 범용적 해결 프레임워크 제공.
-> 3. **융합**: 이 근간 위에서 [맹목적 탐색](/studynote/10_ai/01_ai_basics/014_uninformed_search/)([BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/)), [휴리스틱 탐색](/studynote/10_ai/01_ai_basics/015_heuristic_search/)(A*), 더 나아가 [마르코프 결정 과정](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([MDP](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)) 기반의 강화학습 에이전트 환경 모델링으로 진화 및 융합됨.
+> 1. **본질**: 복잡한 현실의 문제를 유한 또는 무한의 노드(상태)와 간선(연산자)으로 이루어진 수학적 그래프 모델로 추상화하여, 목표 지점을 찾아가는 최적 경로 탐색 알고리즘 체계.
+> 2. **가치**: 퍼즐, 체스, 로봇 네비게이션부터 네트워크 라우팅까지, 초기 조건과 목표가 주어졌을 때 일련의 액션(Action) 시퀀스를 수치적으로 도출해내는 범용적 해결 프레임워크 제공.
+> 3. **융합**: 이 근간 위에서 맹목적 탐색(BFS/DFS), 휴리스틱 탐색(A*), 더 나아가 마르코프 결정 과정(MDP) 기반의 강화학습 에이전트 환경 모델링으로 진화 및 융합됨.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-[인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 초창기, 학자들은 기계가 '문제를 푼다(Problem Solving)'는 행위를 어떻게 정의할 것인가 고민했다. 그 결과물인 '[상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/)([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Search)'은 문제를 물리적 형태가 아닌 추상적인 상태([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))들의 집합으로 변환하는 패러다임이다.
-만약 로봇이 방을 청소해야 한다면, 방의 더러운 정도, 로봇의 현재 위치 등이 하나의 '상태'가 되며, 로봇이 이동하거나 진공 흡입을 하는 동작이 '연산자([Operator](/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))'가 된다. 이 기법이 없다면 기계는 환경과 상호작용하는 시퀀스를 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 기획(Planning)할 수 없다. 따라서 상태 공간 모델링은 모든 고전 AI와 현대 강화학습 환경 구축의 절대적인 전제 조건이 된다.
+### Ⅰ. 개요 및 필요성 (Context & Necessity)
+인공지능 초창기, 학자들은 기계가 '문제를 푼다(Problem Solving)'는 행위를 어떻게 정의할 것인가 고민했다. 그 결과물인 '상태 공간 탐색(State Space Search)'은 문제를 물리적 형태가 아닌 추상적인 상태(State)들의 집합으로 변환하는 패러다임이다.
+만약 로봇이 방을 청소해야 한다면, 방의 더러운 정도, 로봇의 현재 위치 등이 하나의 '상태'가 되며, 로봇이 이동하거나 진공 흡입을 하는 동작이 '연산자(Operator)'가 된다. 이 기법이 없다면 기계는 환경과 상호작용하는 시퀀스를 논리적으로 기획(Planning)할 수 없다. 따라서 상태 공간 모델링은 모든 고전 AI와 현대 강화학습 환경 구축의 절대적인 전제 조건이 된다.
 
-이 도식은 현실의 문제가 어떻게 추상적인 노드와 간선의 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 모델링되는지 보여주는 기초 구조도이다.
+이 도식은 현실의 문제가 어떻게 추상적인 노드와 간선의 그래프로 모델링되는지 보여주는 기초 구조도이다.
 ```text
 [현실 세계]                [상태 공간 그래프 추상화]
 로봇이 방 A에 있음  ====>    (Node S0: 로봇=A, 방=더러움) -- [Start]
@@ -27,7 +27,7 @@ weight: 13
       v (청소)                       |  (간선: Vacuum)
 방 B가 깨끗해짐    ====>    (Node S2: 로봇=B, 방=깨끗함) -- [Goal]
 ```
-이 구조도의 핵심은 복잡한 다차원 현실을 컴퓨터가 연산 가능한 이산적(Discrete) 노드 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 맵핑([Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))했다는 점이다. 이렇게 변환되면 어떤 문제든 'S0에서 S2로 가는 최단 경로를 찾는 수학 문제'로 치환되며, 이후에는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론 기반의 탐색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/), [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/), [Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 등)을 일관되게 적용할 수 있게 된다.
+이 구조도의 핵심은 복잡한 다차원 현실을 컴퓨터가 연산 가능한 이산적(Discrete) 노드 그래프로 맵핑(Mapping)했다는 점이다. 이렇게 변환되면 어떤 문제든 'S0에서 S2로 가는 최단 경로를 찾는 수학 문제'로 치환되며, 이후에는 그래프 이론 기반의 탐색 알고리즘(BFS, DFS, Dijkstra 등)을 일관되게 적용할 수 있게 된다.
 
 📢 **섹션 요약 비유**: 마치 복잡한 서울 시내의 실제 지형과 건물을 다 지워버리고, 오직 지하철역(상태)과 철로(연산자)만 남겨놓은 노선도로 바꾸어 최단 경로를 쉽게 찾는 것과 같습니다.
 
@@ -37,15 +37,15 @@ weight: 13
 상태 공간을 정의하고 탐색을 수행하기 위해서는 명확하게 정형화된 5가지 구성 요소가 필요하다.
 
 **상태 공간 문제의 5요소 (Problem Formulation)**
-| 구성 요소 | 역할 | 내부 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 및 예시 (8-퍼즐 기준) |
+| 구성 요소 | 역할 | 내부 논리 및 예시 (8-퍼즐 기준) |
 |:---|:---|:---|
-| **상태 (States, S)** | 에이전트가 처할 수 있는 모든 가능한 상황의 집합 | 타일 8개와 빈칸 1개의 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 모양 |
-| <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태 (Initial <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong> | 탐색을 시작하는 출발 노드 | 게임이 섞인 직후의 타일 배치 |
+| **상태 (States, S)** | 에이전트가 처할 수 있는 모든 가능한 상황의 집합 | 타일 8개와 빈칸 1개의 배열 모양 |
+| <strong>초기 상태 (Initial State)</strong> | 탐색을 시작하는 출발 노드 | 게임이 섞인 직후의 타일 배치 |
 | **연산자 / 행동 (Actions, A)** | 한 상태에서 다른 상태로 전이시키는 함수 (Transition Model) | 빈칸을 상/하/좌/우로 이동 (Move) |
-| **목표 검사 (Goal Test)** | [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)가 정답인지 판별하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수 | 타일이 1~8까지 순서대로 정렬되었는가? |
-| **경로 비용 (Path Cost)** | [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 시 발생하는 비용 함수 ([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) | 한 번 이동할 때마다 코스트 +1 증가 |
+| **목표 검사 (Goal Test)** | 현재 상태가 정답인지 판별하는 논리 함수 | 타일이 1~8까지 순서대로 정렬되었는가? |
+| **경로 비용 (Path Cost)** | 상태 전이 시 발생하는 비용 함수 (가중치) | 한 번 이동할 때마다 코스트 +1 증가 |
 
-다음은 상태 공간 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 탐색 트리(Search Tree)가 메모리 상에 확장(Expansion)되는 동적 과정을 보여주는 흐름도이다.
+다음은 상태 공간 그래프에서 탐색 트리(Search Tree)가 메모리 상에 확장(Expansion)되는 동적 과정을 보여주는 흐름도이다.
 ```text
 [그래프 모델] (무한 순환 가능)      [탐색 트리 확장 과정] (루프 방지 구조)
    (S0) ---+                            [ S0 ] (Root Node)
@@ -55,24 +55,24 @@ weight: 13
    (S3) <--+                     (무시)    [S3] [S4] (목표 도달 시 중단)
                              (S0 회귀 방지)
 ```
-이 흐름의 핵심은 '[그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/studynote/12_it_management/03_ea_isp/888_graph/))'와 '탐색 트리(Tree)'의 차이다. 상태 공간 자체는 순환(Loop)이 존재하는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)일 수 있으나, 탐색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이를 실행 메모리 상에 루트에서 뻗어나가는 순환 없는 트리 구조로 풀어낸다(Unrolling). 이때 S1에서 다시 S0로 돌아가는 불필요한 반복 전개를 막기 위해 '방문한 노드(Closed List / Explored Set)'를 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 메모리 병목과 무한 루프를 방지하는 컷오프(Cut-off) 메커니즘이 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화의 핵심으로 작용한다.
+이 흐름의 핵심은 '그래프(Graph)'와 '탐색 트리(Tree)'의 차이다. 상태 공간 자체는 순환(Loop)이 존재하는 그래프일 수 있으나, 탐색 알고리즘은 이를 실행 메모리 상에 루트에서 뻗어나가는 순환 없는 트리 구조로 풀어낸다(Unrolling). 이때 S1에서 다시 S0로 돌아가는 불필요한 반복 전개를 막기 위해 '방문한 노드(Closed List / Explored Set)'를 캐싱하여 메모리 병목과 무한 루프를 방지하는 컷오프(Cut-off) 메커니즘이 알고리즘 최적화의 핵심으로 작용한다.
 
-📢 **섹션 요약 비유**: 상태 공간 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 모든 교차로가 얽혀 있는 실제 도로망이라면, 탐색 트리는 내가 출발지에서 목적지까지 가면서 지나온 궤적만 나뭇가지처럼 그려놓은 내비게이션 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 같습니다.
+📢 **섹션 요약 비유**: 상태 공간 그래프가 모든 교차로가 얽혀 있는 실제 도로망이라면, 탐색 트리는 내가 출발지에서 목적지까지 가면서 지나온 궤적만 나뭇가지처럼 그려놓은 내비게이션 로그와 같습니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-문제의 복잡도가 증가할수록 [상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/)은 '조합 폭발(Combinatorial Explosion)'이라는 치명적 한계에 부딪힌다. 따라서 공간의 크기에 따라 탐색 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 다르게 취해야 한다.
+문제의 복잡도가 증가할수록 상태 공간 탐색은 '조합 폭발(Combinatorial Explosion)'이라는 치명적 한계에 부딪힌다. 따라서 공간의 크기에 따라 탐색 전략을 다르게 취해야 한다.
 
-<strong><a href="/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/">상태 공간 탐색</a> <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>별 비교 매트릭스</strong>
-| 비교 항목 | [맹목적 탐색](/studynote/10_ai/01_ai_basics/014_uninformed_search/) (Uninformed) | [휴리스틱 탐색](/studynote/10_ai/01_ai_basics/015_heuristic_search/) (Informed) | 로컬 탐색 (Local Search) |
+<strong>상태 공간 탐색 전략별 비교 매트릭스</strong>
+| 비교 항목 | 맹목적 탐색 (Uninformed) | 휴리스틱 탐색 (Informed) | 로컬 탐색 (Local Search) |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 지식</strong> | 없음 (오직 목표 판별만 가능) | 있음 (목표까지의 거리 추정치 $h(n)$) | 오직 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 이웃만 평가 |
-| **공간 유지** | 지나온 전체 경로 트리를 메모리에 유지 | [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([PQ](/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/))로 경로 유지 | 현재 노드만 유지 (메모리 O(1)) |
+| <strong>도메인 지식</strong> | 없음 (오직 목표 판별만 가능) | 있음 (목표까지의 거리 추정치 $h(n)$) | 오직 현재 상태의 이웃만 평가 |
+| **공간 유지** | 지나온 전체 경로 트리를 메모리에 유지 | 우선순위 큐(PQ)로 경로 유지 | 현재 노드만 유지 (메모리 O(1)) |
 | **목적** | 최단 '경로' 찾기 보장 | 빠른 '최적 경로' 찾기 보장 | '목표 상태' 자체를 찾기 (경로 무관) |
-| **적용 사례** | 소규모 퍼즐, 기본 웹 크롤러 | 네비게이션, 게임 유닛 길찾기 | N-Queen 문제, 유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 |
+| **적용 사례** | 소규모 퍼즐, 기본 웹 크롤러 | 네비게이션, 게임 유닛 길찾기 | N-Queen 문제, 유전 알고리즘 기반 스케줄링 |
 
-다음은 문제의 복잡도에 따른 상태 공간의 폭발적 증가([Curse of Dimensionality](/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))를 보여주는 비용 함수 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)이다.
+다음은 문제의 복잡도에 따른 상태 공간의 폭발적 증가(Curse of Dimensionality)를 보여주는 비용 함수 시각화이다.
 ```text
 상태 수(Nodes)
   ^
@@ -86,16 +86,16 @@ weight: 13
   | * (8-퍼즐: 10^5, 완전 탐색 가능)
   +---------------------------------------> 문제 차원 깊이(Depth)
 ```
-이 차트의 핵심은 차원의 저주다. 깊이가 얕을 때는 [맹목적 탐색](/studynote/10_ai/01_ai_basics/014_uninformed_search/)으로도 노드를 전개할 수 있지만, 깊이가 증가하면 지수함수적으로 노드가 폭발한다. 실무적으로 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^10을 넘어서는 상태 공간은 모든 경로를 스캔하는 것이 불가능하다. 따라서 거대 상태 공간에서는 공간의 일부만 선택적으로 탐색하는 빔 서치(Beam Search)나, 무작위성을 부여한 몬테카를로 탐색([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))으로 탐색의 패러다임을 전환해야 한다.
+이 차트의 핵심은 차원의 저주다. 깊이가 얕을 때는 맹목적 탐색으로도 노드를 전개할 수 있지만, 깊이가 증가하면 지수함수적으로 노드가 폭발한다. 실무적으로 10^10을 넘어서는 상태 공간은 모든 경로를 스캔하는 것이 불가능하다. 따라서 거대 상태 공간에서는 공간의 일부만 선택적으로 탐색하는 빔 서치(Beam Search)나, 무작위성을 부여한 몬테카를로 탐색(MCTS)으로 탐색의 패러다임을 전환해야 한다.
 
-📢 **섹션 요약 비유**: 체육관에서 잃어버린 바늘을 찾을 때, 바닥을 1cm씩 돋보기로 다 훑는 것(맹목 탐색)은 불가능하니, 빛이 반사되는 곳만 집중적으로 보거나([휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)), 강력한 자석을 들고 돌아다니는(최적화 근사) 방식이 필요한 것과 같습니다.
+📢 **섹션 요약 비유**: 체육관에서 잃어버린 바늘을 찾을 때, 바닥을 1cm씩 돋보기로 다 훑는 것(맹목 탐색)은 불가능하니, 빛이 반사되는 곳만 집중적으로 보거나(휴리스틱), 강력한 자석을 들고 돌아다니는(최적화 근사) 방식이 필요한 것과 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-실제 산업 환경에서 상태 공간 모델링을 적용할 때 가장 중요한 엔지니어링 판단은 '상태를 어떻게 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))할 것인가'이다.
+### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+실제 산업 환경에서 상태 공간 모델링을 적용할 때 가장 중요한 엔지니어링 판단은 '상태를 어떻게 추상화(Abstraction)할 것인가'이다.
 
-<strong>실무 의사결정 시나리오: 물류 창고 로봇 <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>
+<strong>실무 의사결정 시나리오: 물류 창고 로봇 라우팅</strong>
 ```text
 [상태 추상화 수준 결정 플로우]
    v
@@ -107,27 +107,27 @@ weight: 13
  +-- (No) -> 정적 A* 상태 탐색 그래프 구축 후 캐싱
  +-- (Yes) -> 실시간 D* (Dynamic A*) 적용 또는 탐색 트리 주기적 재계산 강제
 ```
-이 시나리오의 핵심 판단 기준은 '디테일과 연산량의 트레이드오프'다. 상태를 정의할 때 불필요한 정보(로봇의 배터리 잔량, 미세 각도)를 포함시키면 노드 수가 수천만 배로 증가한다. 실무에서는 해결하고자 하는 문제에 꼭 필요한 '최소 충족 특성(Minimal Sufficient Features)'만 상태 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple)로 남겨 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 높이는 것이 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 예방하는 1원칙이다.
+이 시나리오의 핵심 판단 기준은 '디테일과 연산량의 트레이드오프'다. 상태를 정의할 때 불필요한 정보(로봇의 배터리 잔량, 미세 각도)를 포함시키면 노드 수가 수천만 배로 증가한다. 실무에서는 해결하고자 하는 문제에 꼭 필요한 '최소 충족 특성(Minimal Sufficient Features)'만 상태 튜플(Tuple)로 남겨 추상화 수준을 높이는 것이 시스템 성능 병목을 예방하는 1원칙이다.
 
-<strong>실무 <a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
+<strong>실무 안티패턴</strong>
 - **과도한 상태 정의**: 상태 변수가 1개 늘어날 때마다 상태 공간의 크기는 차원의 저주에 의해 곱연산으로 폭발한다.
-- **방문 상태 관리 부재**: 이미 거쳐간 상태(Explored List)를 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)이나 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 필터 없이 리스트로 관리하면, 탐색 후반부에 중복 검사 비용(O(N))이 탐색 비용을 초과하여 시스템이 멈추는 데드락 유사 현상을 겪는다.
+- **방문 상태 관리 부재**: 이미 거쳐간 상태(Explored List)를 해시 테이블이나 비트맵 필터 없이 리스트로 관리하면, 탐색 후반부에 중복 검사 비용(O(N))이 탐색 비용을 초과하여 시스템이 멈추는 데드락 유사 현상을 겪는다.
 
 📢 **섹션 요약 비유**: 서울에서 부산 가는 길을 찾을 때 내비게이션 상태 공간에 '도로의 자갈 개수'나 '가로수 위치'까지 포함시키면 컴퓨터가 터지듯, 모델링의 생명은 '목적 달성에 불필요한 디테일을 과감히 버리는 것'입니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-[상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/)은 단순한 과거의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라, 현대 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 세계를 이해하고 시뮬레이션하는 기저 구조로서 여전히 진화 중이다.
+상태 공간 탐색은 단순한 과거의 알고리즘이 아니라, 현대 인공지능이 세계를 이해하고 시뮬레이션하는 기저 구조로서 여전히 진화 중이다.
 
-| 구분 | 고전적 [상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) | 현대적 응용 아키텍처 |
+| 구분 | 고전적 상태 공간 탐색 | 현대적 응용 아키텍처 |
 |:---|:---|:---|
-| **환경 모델** | 결정론적 (액션 결과 100% 확정) | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 ([MDP](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/), [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 개입) |
-| **가치 평가** | 고정된 경로 비용 ([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 덧셈) | 딥러닝(신경망) 기반 [가치 함수](/studynote/10_ai/02_dl_architecture_new/163_value_function/) (Value Network) |
-| **탐색 범위** | 전역적 완전 탐색 지향 | 롤아웃 기반 부분 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시뮬레이션 ([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)) |
+| **환경 모델** | 결정론적 (액션 결과 100% 확정) | 확률적 (MDP, 상태 전이 확률 개입) |
+| **가치 평가** | 고정된 경로 비용 (가중치 덧셈) | 딥러닝(신경망) 기반 가치 함수 (Value Network) |
+| **탐색 범위** | 전역적 완전 탐색 지향 | 롤아웃 기반 부분 병렬 시뮬레이션 (MCTS) |
 
 **미래 전망**
-최근의 [상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/)은 딥러닝과 결합하고 있다. 알파고(AlphaGo)가 증명했듯, 방대한 상태 공간 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 전체를 메모리에 올리는 대신 직관([정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)망/[Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Network)으로 유망한 노드만 고르고, 시뮬레이션([MCTS](/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))을 통해 국소적인 탐색 트리만 전개하는 하이브리드 아키텍처가 AGI([강인공지능](/studynote/10_ai/01_ai_basics/003_strong_ai_agi/))의 추론 능력 향상을 이끄는 코어 메커니즘으로 자리매김하고 있다.
+최근의 상태 공간 탐색은 딥러닝과 결합하고 있다. 알파고(AlphaGo)가 증명했듯, 방대한 상태 공간 그래프 전체를 메모리에 올리는 대신 직관(정책망/Policy Network)으로 유망한 노드만 고르고, 시뮬레이션(MCTS)을 통해 국소적인 탐색 트리만 전개하는 하이브리드 아키텍처가 AGI(강인공지능)의 추론 능력 향상을 이끄는 코어 메커니즘으로 자리매김하고 있다.
 
 📢 **섹션 요약 비유**: 과거의 AI가 모든 갈림길의 지도를 직접 손으로 그려가며 길을 찾았다면, 현대의 AI는 헬기를 띄워(딥러닝) 대략적인 숲을 파악하고 꼭 필요한 샛길만 정밀 탐색하는 식으로 진화했습니다.
 
@@ -137,9 +137,9 @@ weight: 13
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> (Breadth-First Search)</strong> | 최단 경로를 보장하는 너비 우선 맹목 탐색, 메모리 집약적 |
-| **A* [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([A-star](/studynote/10_ai/01_ai_basics/017_a_star_algorithm/))** | [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수로 유망 노드 우선 탐색, 최적성 보장 |
-| <strong><a href="/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/">MCTS</a> (Monte Carlo Tree Search)</strong> | 롤아웃 시뮬레이션으로 거대 상태 공간을 부분 탐색하는 알파고 핵심 기술 |
+| <strong>BFS (Breadth-First Search)</strong> | 최단 경로를 보장하는 너비 우선 맹목 탐색, 메모리 집약적 |
+| **A* 알고리즘 (A-star)** | 휴리스틱 함수로 유망 노드 우선 탐색, 최적성 보장 |
+| <strong>MCTS (Monte Carlo Tree Search)</strong> | 롤아웃 시뮬레이션으로 거대 상태 공간을 부분 탐색하는 알파고 핵심 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,21 +159,10 @@ weight: 13
 [MCTS + 딥러닝 (Deep RL) — 정책망·가치망으로 대규모 상태 공간 극복]
 ```
 
-이 흐름은 문제를 상태 공간으로 정형화한 뒤 맹목 탐색에서 [휴리스틱 탐색](/studynote/10_ai/01_ai_basics/015_heuristic_search/)으로 발전하고, 딥러닝과 결합한 MCTS로 바둑·게임AI의 거대 상태 공간을 극복하는 진화 과정을 보여준다.
+이 흐름은 문제를 상태 공간으로 정형화한 뒤 맹목 탐색에서 휴리스틱 탐색으로 발전하고, 딥러닝과 결합한 MCTS로 바둑·게임AI의 거대 상태 공간을 극복하는 진화 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [상태 공간 탐색](/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/)은 미로를 빠져나가는 방법을 찾는 것과 똑같아요.
+1. 상태 공간 탐색은 미로를 빠져나가는 방법을 찾는 것과 똑같아요.
 2. 옛날에는 모든 길을 하나씩 다 걸어보았지만, 이제는 '이 방향이 더 가까울 것 같다'고 느끼며 똑똑하게 골라가요.
 3. 알파고도 이 방법으로 수백만 가지 바둑 수 중에서 가장 좋은 수를 찾아냈답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 13 / 420
-
-<- **이전**: [12. 퍼지 논리 (Fuzzy Logic) - 0과 1 사이의 확률적 연속값(소속도)을 이용해 애매한 개념 처리 (Zadeh 제안)](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)
-**다음**: [14. 맹목적 탐색 (Uninformed Search) - DFS(깊이 우선 탐색), BFS(너비 우선 탐색)](/studynote/10_ai/01_ai_basics/014_uninformed_search/) ->
-
----

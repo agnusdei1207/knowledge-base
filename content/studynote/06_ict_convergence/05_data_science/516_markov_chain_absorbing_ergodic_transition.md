@@ -7,23 +7,23 @@ weight: 516
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [마르코프 성질](/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/studynote/08_algorithm_stats/08_stats/141_markov_property/))은 "미래 상태는 오직 현재 상태에만 의존하고, 과거 이력은 무관하다"는 메모리 없음(Memoryless) 가정이다.
-> 2. **가치**: 에르고딕 체인(Ergodic Chain)은 시간이 충분히 지나면 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태와 무관하게 고유한 정상 분포(Stationary Distribution)에 수렴 — PageRank와 [MCMC](/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) 샘플링의 이론적 토대.
-> 3. **판단 포인트**: 흡수 상태(Absorbing [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 존재 여부가 체인 거동을 결정한다 — 흡수 상태 있으면 결국 흡수, 없고 에르고딕이면 정상 분포 수렴.
+> 1. **본질**: 마르코프 성질(Markov Property)은 "미래 상태는 오직 현재 상태에만 의존하고, 과거 이력은 무관하다"는 메모리 없음(Memoryless) 가정이다.
+> 2. **가치**: 에르고딕 체인(Ergodic Chain)은 시간이 충분히 지나면 초기 상태와 무관하게 고유한 정상 분포(Stationary Distribution)에 수렴 — PageRank와 MCMC 샘플링의 이론적 토대.
+> 3. **판단 포인트**: 흡수 상태(Absorbing State) 존재 여부가 체인 거동을 결정한다 — 흡수 상태 있으면 결국 흡수, 없고 에르고딕이면 정상 분포 수렴.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-현실의 많은 시스템 — 날씨, 주가, 고객 상태, 웹 탐색 — 은 이전 상태에서 다음 상태로 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 이행한다. [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 이런 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 동역학을 수학적으로 모델링한다.
+현실의 많은 시스템 — 날씨, 주가, 고객 상태, 웹 탐색 — 은 이전 상태에서 다음 상태로 확률적으로 이행한다. 마르코프 체인은 이런 확률적 동역학을 수학적으로 모델링한다.
 
-### [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 기본 요소
+### 마르코프 체인 기본 요소
 
 - **상태 공간 S**: {S₁, S₂, ..., Sₙ} — 시스템이 취할 수 있는 모든 상태.
-- <strong>전이 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> P(i->j)</strong>: 상태 i에서 j로 이동할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) (각 행의 합 = 1).
+- <strong>전이 확률 P(i->j)</strong>: 상태 i에서 j로 이동할 확률 (각 행의 합 = 1).
 - **전이 행렬 (Transition Matrix)**: n×n 행렬, Pᵢⱼ = P(Xₜ₊₁=j | Xₜ=i).
 
-- **📢 섹션 요약 비유**: [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 기억상실증 여행자 같아. 오늘 어디 있는지는 알지만, 어제 어디서 왔는지는 신경 쓰지 않고 오늘 위치에서만 다음 목적지를 정해.
+- **📢 섹션 요약 비유**: 마르코프 체인은 기억상실증 여행자 같아. 오늘 어디 있는지는 알지만, 어제 어디서 왔는지는 신경 쓰지 않고 오늘 위치에서만 다음 목적지를 정해.
 
 ---
 
@@ -51,9 +51,9 @@ weight: 516
 
 ### 정상 분포 (Stationary Distribution)
 
-전이 행렬 P의 <strong>정상 분포 π</strong>는 π = πP를 만족하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 벡터.
+전이 행렬 P의 <strong>정상 분포 π</strong>는 π = πP를 만족하는 확률 벡터.
 - **에르고딕 체인(Ergodic Chain)**: 모든 상태가 도달 가능(Irreducible) + 비주기적(Aperiodic) -> 유일한 정상 분포 존재.
-- 수렴 속도: **혼합 시간(Mixing Time)** = [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포가 정상 분포의 ε-근방에 도달하는 시간.
+- 수렴 속도: **혼합 시간(Mixing Time)** = 초기 분포가 정상 분포의 ε-근방에 도달하는 시간.
 
 | 체인 유형 | 조건 | 장기 거동 |
 |:---|:---|:---|
@@ -61,28 +61,28 @@ weight: 516
 | 흡수 체인 (Absorbing) | 흡수 상태 ≥ 1개 | 흡수 상태로 진입 |
 | 주기적 (Periodic) | 주기 d ≥ 2 | 정상 분포 없음 |
 
-- **📢 섹션 요약 비유**: 에르고딕 체인은 완전히 섞인 카드 덱처럼, 어떤 순서로 시작해도 충분히 섞으면 결국 같은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 수렴해. 흡수 상태는 블랙홀 같아서 한 번 빠지면 절대 못 나와.
+- **📢 섹션 요약 비유**: 에르고딕 체인은 완전히 섞인 카드 덱처럼, 어떤 순서로 시작해도 충분히 섞으면 결국 같은 확률 분포로 수렴해. 흡수 상태는 블랙홀 같아서 한 번 빠지면 절대 못 나와.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### PageRank와 [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)
+### PageRank와 마르코프 체인
 
 **Google PageRank**:
-- 웹 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) = 상태, 하이퍼링크 = 전이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/).
-- 랜덤 서퍼([Random Surfer](/studynote/06_ict_convergence/05_data_science/384_pagerank_random_surfer/))가 링크를 따라 이동하는 [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/).
-- 댐핑 팩터(Damping Factor) α=0.85: 85% [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 링크 클릭, 15%는 임의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동 -> 에르고딕성 보장.
+- 웹 페이지 = 상태, 하이퍼링크 = 전이 확률.
+- 랜덤 서퍼(Random Surfer)가 링크를 따라 이동하는 마르코프 체인.
+- 댐핑 팩터(Damping Factor) α=0.85: 85% 확률로 링크 클릭, 15%는 임의 페이지 이동 -> 에르고딕성 보장.
 - 정상 분포 π = PageRank 점수.
 
-### [MCMC](/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) ([Markov Chain](/studynote/08_algorithm_stats/08_stats/140_markov_chain/) Monte Carlo)
+### MCMC (Markov Chain Monte Carlo)
 
-- 직접 샘플링이 어려운 복잡한 분포에서 [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)을 이용해 샘플링.
-- **Metropolis-Hastings**: 제안 분포에서 후보 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> 수락/기각 결정.
-- <strong>Gibbs <a href="/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: 조건부 분포를 순환적으로 샘플링.
+- 직접 샘플링이 어려운 복잡한 분포에서 마르코프 체인을 이용해 샘플링.
+- **Metropolis-Hastings**: 제안 분포에서 후보 생성 -> 수락/기각 결정.
+- <strong>Gibbs Sampling</strong>: 조건부 분포를 순환적으로 샘플링.
 - 수렴 후 체인의 상태 시퀀스 = 목표 분포의 샘플.
 
-- **📢 섹션 요약 비유**: MCMC는 지도 없이 산을 탐험하면서 높이 비례 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 각 위치에 머무는 방법이야. 오래 걸으면 결국 높은 봉우리 근처에 자주 머물게 되어 지형도(목표 분포)를 자동으로 그릴 수 있어.
+- **📢 섹션 요약 비유**: MCMC는 지도 없이 산을 탐험하면서 높이 비례 확률로 각 위치에 머무는 방법이야. 오래 걸으면 결국 높은 봉우리 근처에 자주 머물게 되어 지형도(목표 분포)를 자동으로 그릴 수 있어.
 
 ---
 
@@ -97,26 +97,26 @@ weight: 516
 **시나리오 2 - 날씨 예측**:
 - 상태: {맑음, 흐림, 비}.
 - 전이 행렬: 맑음 -> 맑음 0.7, 맑음 -> 흐림 0.2, 맑음 -> 비 0.1.
-- 5일 후 날씨 분포 = [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포 × P⁵.
+- 5일 후 날씨 분포 = 초기 분포 × P⁵.
 - 정상 분포 수렴 후 맑음 45%, 흐림 35%, 비 20%.
 
 **기술사 판단 포인트**:
-- 전이 행렬 구축: 충분한 관측 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) -> 최대 가능도 추정([MLE](/studynote/08_algorithm_stats/08_stats/143_mle/)).
-- 비정상성(Non-Stationarity): 시간에 따라 전이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 변하면 숨겨진 [마르코프 모델](/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)(HMM, Hidden [Markov Model](/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)) 적용.
+- 전이 행렬 구축: 충분한 관측 데이터 -> 최대 가능도 추정(MLE).
+- 비정상성(Non-Stationarity): 시간에 따라 전이 확률이 변하면 숨겨진 마르코프 모델(HMM, Hidden Markov Model) 적용.
 
-- **📢 섹션 요약 비유**: 고객 이탈 분석에서 "지금 이 고객이 휴면 상태야. 이탈까지 평균 몇 개월이나 남았어?"를 [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)이 계산해줘. 흡수 상태(이탈)에 빠지기 전 개입 타이밍을 잡는 거야.
+- **📢 섹션 요약 비유**: 고객 이탈 분석에서 "지금 이 고객이 휴면 상태야. 이탈까지 평균 몇 개월이나 남았어?"를 마르코프 체인이 계산해줘. 흡수 상태(이탈)에 빠지기 전 개입 타이밍을 잡는 거야.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 동역학의 범용 프레임워크로 PageRank부터 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(RL)의 [MDP](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([Markov Decision Process](/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))까지 광범위하게 활용된다.
+마르코프 체인은 확률 동역학의 범용 프레임워크로 PageRank부터 강화 학습(RL)의 MDP(Markov Decision Process)까지 광범위하게 활용된다.
 
 - **예측 정밀화**: 장기 거동(정상 분포)과 단기 거동(k단계 전이) 모두 계산 가능.
-- <strong><a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 기반</strong>: RL의 MDP는 [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)에 행동(Action)과 보상(Reward)을 추가한 확장.
+- <strong>알고리즘 기반</strong>: RL의 MDP는 마르코프 체인에 행동(Action)과 보상(Reward)을 추가한 확장.
 - **베이즈 추론 실용화**: MCMC로 해석적으로 풀기 어려운 사후 분포(Posterior) 샘플링.
 
-- **📢 섹션 요약 비유**: [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 미래를 예측하는 데 현재 순간만 필요하다는 간단하지만 강력한 원칙이야. 이 원칙 하나로 구글 검색 순위, 게임 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 유전자 분석까지 다 연결돼 있어.
+- **📢 섹션 요약 비유**: 마르코프 체인은 미래를 예측하는 데 현재 순간만 필요하다는 간단하지만 강력한 원칙이야. 이 원칙 하나로 구글 검색 순위, 게임 AI, 유전자 분석까지 다 연결돼 있어.
 
 ---
 
@@ -124,11 +124,11 @@ weight: 516
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [마르코프 성질](/studynote/08_algorithm_stats/08_stats/141_markov_property/) | 메모리 없음, [MDP](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) · RL, 시계열 |
+| 마르코프 성질 | 메모리 없음, MDP · RL, 시계열 |
 | 정상 분포 | 에르고딕, 고유벡터 · PageRank |
 | 흡수 상태 | 기본 행렬 · 고객 이탈 분석 |
-| [MCMC](/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) | Metropolis-Hastings, Gibbs · 베이즈 추론 |
-| HMM | 숨겨진 상태, [Viterbi](/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/) · 음성 인식, 생물정보학 |
+| MCMC | Metropolis-Hastings, Gibbs · 베이즈 추론 |
+| HMM | 숨겨진 상태, Viterbi · 음성 인식, 생물정보학 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,17 +138,6 @@ weight: 516
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [마르코프 체인](/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 기억상실 개구리가 연못에서 수련잎을 뛰어다니는 것처럼, 지금 어느 잎에 있는지만 보고 다음 잎으로 점프하는 방식이야.
+1. 마르코프 체인은 기억상실 개구리가 연못에서 수련잎을 뛰어다니는 것처럼, 지금 어느 잎에 있는지만 보고 다음 잎으로 점프하는 방식이야.
 2. 흡수 상태는 개구리가 빠지면 절대 못 나오는 함정 잎이야 — 한 번 빠지면 끝!
 3. 에르고딕 체인은 계속 뛰다 보면 결국 어느 잎에 제일 많이 있게 되는지 알 수 있어 — 그게 바로 정상 분포야!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 516 / 552
-
-<- **이전**: [515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)](/studynote/06_ict_convergence/05_data_science/515_pca_lda_svd_dimensionality_reduction/)
-**다음**: [517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)](/studynote/06_ict_convergence/05_data_science/517_time_series_arima_stationarity_smoothing/) ->
-
----

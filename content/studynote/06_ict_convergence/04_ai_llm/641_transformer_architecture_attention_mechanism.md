@@ -143,11 +143,3 @@ $$\text{head}_i = \text{Attention}(QW_i^Q,\, KW_i^K,\, VW_i^V)$$
 
 **연결 통합 포인트**
 - **Encoder-only (BERT 계열)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 641 / 800
-
-<- **이전**: [640. 이벤트 드리븐 아키텍처 EventBridge](/studynote/06_ict_convergence/uncategorized/640_event_driven_architecture_eventbridge/)
-**다음**: [642. GPT 대규모 언어 모델 사전 학습](/studynote/06_ict_convergence/uncategorized/642_gpt_large_language_model_pre_training/) ->
-
----

@@ -33,11 +33,11 @@ Configured Output
 
 | 특징 | 의미 |
 | :-- | :-- |
-| Macrocells | 기본 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 블록 |
+| Macrocells | 기본 논리 블록 |
 | Non-volatile | 전원 꺼져도 유지 |
 | Fast Startup | 빠른 구동 |
 
-CPLD는 일반적으로 비휘발성 구성으로 빠르게 동작을 시작한다. 그래서 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 제어 회로에 유리하다.
+CPLD는 일반적으로 비휘발성 구성으로 빠르게 동작을 시작한다. 그래서 초기 제어 회로에 유리하다.
 
 - **📢 섹션 요약 비유**: 전원을 켜자마자 바로 반응하는 스위치판이다.
 
@@ -45,7 +45,7 @@ CPLD는 일반적으로 비휘발성 구성으로 빠르게 동작을 시작한�
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | CPLD | [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) |
+| 구분 | CPLD | FPGA |
 | :-- | :-- | :-- |
 | 규모 | 작음 | 큼 |
 | 구조 | 단순 | 복잡 |
@@ -54,9 +54,9 @@ CPLD는 일반적으로 비휘발성 구성으로 빠르게 동작을 시작한�
 | 사용처 | 예 |
 | :-- | :-- |
 | 제어 로직 | 인터페이스 |
-| 부팅 전 처리 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 동작 |
+| 부팅 전 처리 | 초기 동작 |
 
-CPLD는 제어 신호나 간단한 glue logic에 적합하고, FPGA는 더 복잡한 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 로직에 적합하다.
+CPLD는 제어 신호나 간단한 glue logic에 적합하고, FPGA는 더 복잡한 병렬 로직에 적합하다.
 
 - **📢 섹션 요약 비유**: 작은 자물쇠는 열쇠 하나로, 큰 보드는 여러 블록으로 맞춘다.
 
@@ -64,7 +64,7 @@ CPLD는 제어 신호나 간단한 glue logic에 적합하고, FPGA는 더 복�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 로직 규모가 작은가?
 2. 빠른 부팅이 필요한가?
@@ -72,11 +72,11 @@ CPLD는 제어 신호나 간단한 glue logic에 적합하고, FPGA는 더 복�
 4. FPGA보다 단순한가?
 5. 인터페이스 제어에 적합한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 CPLD에 맡기는 설계
+- 대규모 병렬 처리를 CPLD에 맡기는 설계
 - FPGA와 동일한 유연성을 기대하는 설계
-- [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 제어와 복잡한 연산을 혼동하는 설계
+- 초기 제어와 복잡한 연산을 혼동하는 설계
 - 규모에 맞지 않는 칩 선택
 
 기술사 관점에서는 CPLD를 "작고 빠른 프로그래머블 로직"으로 설명해야 한다.
@@ -87,7 +87,7 @@ CPLD는 제어 신호나 간단한 glue logic에 적합하고, FPGA는 더 복�
 
 ## Ⅴ. 기대효과 및 결론
 
-CPLD는 간단한 제어 로직과 빠른 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 동작에 유리하다.
+CPLD는 간단한 제어 로직과 빠른 초기 동작에 유리하다.
 
 결론적으로 CPLD는 비교적 작은 프로그래머블 로직 장치다.
 
@@ -128,14 +128,3 @@ Programmable Hardware
 작은 회로를 빨리 만들어요.
 전원을 켜면 바로 움직여요.
 CPLD는 그런 칩이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 71 / 803
-
-<- **이전**: [70. ASIC (주문형 반도체)](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)
-**다음**: [72. 하드웨어 기술 언어 (VHDL, Verilog)](/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) ->
-
----

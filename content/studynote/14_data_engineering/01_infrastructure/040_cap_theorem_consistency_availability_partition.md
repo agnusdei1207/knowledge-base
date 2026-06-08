@@ -6,13 +6,13 @@ tags:
 weight: 40
 ---
 > **핵심 인사이트**
-> 1. [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리([CAP Theorem](/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/), Brewer 2000)는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 시스템이 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))·[가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))·[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내성([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance) 세 가지를 동시에 완벽히 보장할 수 없으며, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(네트워크 분리)은 실제 환경에서 불가피하므로 [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 또는 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 중 하나를 선택해야 한다는 근본 제약이다.
-> 2. [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템([MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/), [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/), [ZooKeeper](/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))은 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 발생 시 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 희생해 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 유지하고, [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템([Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/), [DynamoDB](/studynote/05_database/04_transactions_concurrency/545_dynamodb/), CouchDB)은 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 유지하되 [결과적 일관성](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))을 허용한다.
-> 3. 현실 설계에서 CAP는 이진 선택이 아닌 스펙트럼이며, [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 모델(2012)이 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 없는 상황에서도 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 트레이드오프를 추가로 고려하는 더 실용적 프레임워크다.
+> 1. CAP 정리(CAP Theorem, Brewer 2000)는 분산 데이터베이스 시스템이 일관성(Consistency)·가용성(Availability)·파티션 내성(Partition Tolerance) 세 가지를 동시에 완벽히 보장할 수 없으며, 파티션(네트워크 분리)은 실제 환경에서 불가피하므로 CP 또는 AP 중 하나를 선택해야 한다는 근본 제약이다.
+> 2. CP 시스템(MongoDB, HBase, ZooKeeper)은 파티션 발생 시 가용성을 희생해 일관성을 유지하고, AP 시스템(Cassandra, DynamoDB, CouchDB)은 가용성을 유지하되 결과적 일관성(Eventual Consistency)을 허용한다.
+> 3. 현실 설계에서 CAP는 이진 선택이 아닌 스펙트럼이며, PACELC 모델(2012)이 파티션 없는 상황에서도 지연(Latency)과 일관성 트레이드오프를 추가로 고려하는 더 실용적 프레임워크다.
 
 ---
 
-## Ⅰ. [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 세 축
+## Ⅰ. CAP 세 축
 
 ```
 CAP 정리의 세 속성:
@@ -38,11 +38,11 @@ P (Partition Tolerance, 파티션 내성):
   CA 시스템 = 실질적으로 단일 노드 (분산 아님)
 ```
 
-> 📢 **섹션 요약 비유**: CAP는 쌍둥이 중 항상 한 명은 자야 하는 것 — [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C)과 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(A) 중 네트워크 장애(P) 때는 하나를 포기해야 한다.
+> 📢 **섹션 요약 비유**: CAP는 쌍둥이 중 항상 한 명은 자야 하는 것 — 일관성(C)과 가용성(A) 중 네트워크 장애(P) 때는 하나를 포기해야 한다.
 
 ---
 
-## Ⅱ. [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템
+## Ⅱ. CP 시스템
 
 ```
 CP (Consistency + Partition Tolerance):
@@ -73,11 +73,11 @@ CP (Consistency + Partition Tolerance):
   예약 시스템 (중복 예약 방지)
 ```
 
-> 📢 **섹션 요약 비유**: [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템은 보수적인 은행 창구 — 시스템 점검 중에는 "잠시 후 다시 오세요"라고 하지만 실수로 이중 인출은 절대 안 한다.
+> 📢 **섹션 요약 비유**: CP 시스템은 보수적인 은행 창구 — 시스템 점검 중에는 "잠시 후 다시 오세요"라고 하지만 실수로 이중 인출은 절대 안 한다.
 
 ---
 
-## Ⅲ. [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템
+## Ⅲ. AP 시스템
 
 ```
 AP (Availability + Partition Tolerance):
@@ -109,11 +109,11 @@ AP (Availability + Partition Tolerance):
   콘텐츠 캐싱 레이어
 ```
 
-> 📢 **섹션 요약 비유**: [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템은 소셜 미디어 좋아요 — 잠깐 동안 내가 본 좋아요 수와 다른 사람 것이 달라도 나중엔 같아지면 OK.
+> 📢 **섹션 요약 비유**: AP 시스템은 소셜 미디어 좋아요 — 잠깐 동안 내가 본 좋아요 수와 다른 사람 것이 달라도 나중엔 같아지면 OK.
 
 ---
 
-## Ⅳ. [PACELC](/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 모델
+## Ⅳ. PACELC 모델
 
 ```
 PACELC (Daniel Abadi, 2012):
@@ -177,7 +177,7 @@ Black Friday 트래픽 시나리오:
 결론: 데이터 성격별 CP/AP 혼합 아키텍처
 ```
 
-> 📢 **섹션 요약 비유**: E-commerce [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 선택은 식당 음식 준비 — 계산서(결제)는 정확해야 하고([CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)), 오늘의 메뉴판([카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/))은 잠깐 틀려도 OK([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)).
+> 📢 **섹션 요약 비유**: E-commerce CAP 선택은 식당 음식 준비 — 계산서(결제)는 정확해야 하고(CP), 오늘의 메뉴판(카탈로그)은 잠깐 틀려도 OK(AP).
 
 ---
 
@@ -235,17 +235,6 @@ CockroachDB, Spanner: CP + 글로벌 분산
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 세 가지 좋은 점(정확함, 빠름, 고장에도 OK) 중 동시에 두 개만 선택할 수 있는 규칙이에요.
-2. 인터넷 장애가 나면 "일단 응답하되 데이터가 조금 오래됐을 수 있어요([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))" 또는 "정확한 데이터가 준비될 때까지 잠깐 기다려요([CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))" 중 하나를 선택해야 해요.
-3. 은행 앱([CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))과 SNS 좋아요([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))가 다르게 작동하는 이유가 바로 이 [CAP](/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 때문이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 40 / 258
-
-<- **이전**: [039. 그래프 데이터베이스 (Graph Database)](/studynote/14_data_engineering/01_infrastructure/039_graph_db/)
-**다음**: [041. PACELC 정리 (PACELC Theorem)](/studynote/14_data_engineering/01_infrastructure/041_pacelc_theorem_cap_extension/) ->
-
----
+1. CAP 정리는 세 가지 좋은 점(정확함, 빠름, 고장에도 OK) 중 동시에 두 개만 선택할 수 있는 규칙이에요.
+2. 인터넷 장애가 나면 "일단 응답하되 데이터가 조금 오래됐을 수 있어요(AP)" 또는 "정확한 데이터가 준비될 때까지 잠깐 기다려요(CP)" 중 하나를 선택해야 해요.
+3. 은행 앱(CP)과 SNS 좋아요(AP)가 다르게 작동하는 이유가 바로 이 CAP 정리 때문이에요!

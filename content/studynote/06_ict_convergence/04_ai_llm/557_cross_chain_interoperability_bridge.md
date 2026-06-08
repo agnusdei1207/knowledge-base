@@ -110,12 +110,3 @@ Core flow: Lock -> Proof -> Relay -> Mint -> Redeem
 | 오라클 | 외부 세계와 온체인 상태를 연결하는 신뢰 경계 |
 | 거버넌스 | 업그레이드, 파라미터, 분쟁 해결을 담당하는 운영 체계 |
 | 보안 감사 | 배포 전 취약점과 운영 리스크를 줄이는 필수 절차 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 557 / 800
-
-<- **이전**: [556. 토큰 이코노미 인센티브 설계 모델](/studynote/06_ict_convergence/uncategorized/556_token_economy_incentive_design_model/)
-**다음**: [558. Layer2 확장 솔루션 롤업 사이드체인](/studynote/06_ict_convergence/uncategorized/558_layer2_scaling_solution_rollup_sidechain/) ->
-
----

@@ -7,8 +7,8 @@ weight: 56
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/) ([The Open Group](/studynote/12_it_management/03_ea_isp/113_togaf/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Framework)는 기업 아키텍처를 체계적으로 설계/운영하기 위한 프레임워크다.
-> 2. **가치**: [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/studynote/12_it_management/03_ea_isp/898_togaf_adm_architecture_development_method/))을 통해 비즈니스/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/애플리케이션/기술 아키텍처를 단계적으로 정리한다.
+> 1. **본질**: TOGAF (The Open Group Architecture Framework)는 기업 아키텍처를 체계적으로 설계/운영하기 위한 프레임워크다.
+> 2. **가치**: ADM (Architecture Development Method)을 통해 비즈니스/데이터/애플리케이션/기술 아키텍처를 단계적으로 정리한다.
 > 3. **판단 포인트**: 표준, 거버넌스, 로드맵이 함께 있어야 실무 적용이 가능하다.
 
 ---
@@ -17,7 +17,7 @@ weight: 56
 
 기업 아키텍처는 복잡한 시스템을 한 방향으로 정렬하는 작업이다. TOGAF는 이를 위한 대표적인 프레임워크다.
 
-[전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 실행 사이를 연결하는 구조가 필요할 때 사용한다.
+전략과 실행 사이를 연결하는 구조가 필요할 때 사용한다.
 
 - **📢 섹션 요약 비유**: TOGAF는 큰 집을 지을 때 설계도, 공정표, 검사표를 함께 쓰는 일이다.
 
@@ -33,8 +33,8 @@ Preliminary -> Vision -> Business -> Data -> Application -> Technology -> Migrat
 
 | 영역 | 역할 |
 | :--- | :--- |
-| Business | 업무/[전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 정보 구조 |
+| Business | 업무/전략 |
+| Data | 정보 구조 |
 | Application | 시스템 |
 | Technology | 인프라 |
 
@@ -46,13 +46,13 @@ Preliminary -> Vision -> Business -> Data -> Application -> Technology -> Migrat
 
 ## Ⅲ. 비교 및 연결
 
-TOGAF는 Zachman처럼 전체 아키텍처를 다루지만, Zachman이 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계라면 TOGAF는 절차와 방법론이 더 강하다.
+TOGAF는 Zachman처럼 전체 아키텍처를 다루지만, Zachman이 분류 체계라면 TOGAF는 절차와 방법론이 더 강하다.
 
-| 항목 | [Zachman](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) | [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/) |
+| 항목 | Zachman | TOGAF |
 | :--- | :--- | :--- |
-| 성격 | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 방법론 |
+| 성격 | 분류 | 방법론 |
 | 강점 | 누락 방지 | 실행 절차 |
-| 산출물 | 매트릭스 | [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 결과물 |
+| 산출물 | 매트릭스 | ADM 결과물 |
 
 TOGAF는 거버넌스와 표준화에 유리하며, 큰 조직에서 특히 유용하다.
 
@@ -62,16 +62,16 @@ TOGAF는 거버넌스와 표준화에 유리하며, 큰 조직에서 특히 유�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Vision, Requirements, Roadmap, Governance를 함께 관리한다. 조직의 변화관리와 함께 가야 한다.
+실무에서는 Architecture Vision, Requirements, Roadmap, Governance를 함께 관리한다. 조직의 변화관리와 함께 가야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
-1. [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 단계가 정의되어 있는가?
+1. ADM 단계가 정의되어 있는가?
 2. 비즈니스와 기술이 연결되는가?
 3. 로드맵과 전환 계획이 있는가?
 4. 거버넌스가 작동하는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 프레임워크를 문서 템플릿으로만 쓰는 경우
 - 개발과 무관한 아키텍처가 되는 경우
@@ -97,11 +97,11 @@ TOGAF는 전사 아키텍처를 체계적으로 정렬하고, 변화에 대한 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [ADM](/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) | 개발 방법 |
+| ADM | 개발 방법 |
 | Governance | 통제 |
 | Roadmap | 전환 계획 |
-| Business/[Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/App/Tech | 아키텍처 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) |
-| [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Repository | 산출물 저장소 |
+| Business/Data/App/Tech | 아키텍처 도메인 |
+| Architecture Repository | 산출물 저장소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,21 +118,10 @@ ADM
 로드맵 / 거버넌스
 ```
 
-이 흐름은 기업 아키텍처가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 실행으로 이어지는 과정을 보여준다.
+이 흐름은 기업 아키텍처가 전략에서 실행으로 이어지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. TOGAF는 큰 집을 어떻게 지을지 정하는 책이에요.
 2. 어디부터 어떻게 할지 순서가 있어요.
 3. 그래서 큰 집도 헷갈리지 않고 지을 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 56 / 973
-
-<- **이전**: [55. Zachman Framework](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/)
-**다음**: [57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/) ->
-
----

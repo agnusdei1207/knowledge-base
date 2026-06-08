@@ -7,8 +7,8 @@ weight: 108
 ---
 > **핵심 인사이트**
 > 1. NP-완전(NP-Complete)은 NP 문제 중에서도 "NP에서 가장 어려운" 문제로, 이를 다항시간에 풀 수 있으면 모든 NP 문제를 다항시간에 풀 수 있다는 특성을 가져 P=NP 문제 해결의 열쇠가 된다.
-> 2. Cook-Levin 정리(1971)는 [SAT](/studynote/12_it_management/03_ea_isp/887_chaining/)(Boolean 만족가능성) 문제가 최초의 NP-완전 문제임을 증명했으며, 이후 Karp가 21개의 NP-완전 문제를 다항시간 환산([Polynomial Reduction](/studynote/08_algorithm_stats/06_np_theory/111_polynomial_reduction/))으로 목록화하여 NP-완전 문제군 이론의 토대를 놓았다.
-> 3. NP-완전 문제는 현실에서 [근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)([Approximation Algorithm](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))·메타휴리스틱([SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/), [GA](/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/))·고정 파라미터 추론(FPT)으로 "충분히 좋은" 해를 빠르게 찾는 실용적 접근이 핵심이다.
+> 2. Cook-Levin 정리(1971)는 SAT(Boolean 만족가능성) 문제가 최초의 NP-완전 문제임을 증명했으며, 이후 Karp가 21개의 NP-완전 문제를 다항시간 환산(Polynomial Reduction)으로 목록화하여 NP-완전 문제군 이론의 토대를 놓았다.
+> 3. NP-완전 문제는 현실에서 근사 알고리즘(Approximation Algorithm)·메타휴리스틱(SA, GA)·고정 파라미터 추론(FPT)으로 "충분히 좋은" 해를 빠르게 찾는 실용적 접근이 핵심이다.
 
 ---
 
@@ -118,7 +118,7 @@ NP-완전 문제 목록:
     k색으로 인접 정점이 다른 색이 되도록 채색?
 ```
 
-> 📢 **섹션 요약 비유**: NP-완전 문제들은 서로 다른 모양의 퍼즐인데 사실 같은 난이도 — [해밀턴 경로](/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/), 배낭, 채색 모두 다항시간에 서로 변환 가능.
+> 📢 **섹션 요약 비유**: NP-완전 문제들은 서로 다른 모양의 퍼즐인데 사실 같은 난이도 — 해밀턴 경로, 배낭, 채색 모두 다항시간에 서로 변환 가능.
 
 ---
 
@@ -159,7 +159,7 @@ NP-완전 문제 실용적 해법:
 
 ---
 
-## Ⅴ. 실무 시나리오 — [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 NP-완전
+## Ⅴ. 실무 시나리오 — 스케줄링 NP-완전
 
 ```
 물류 센터 배송 스케줄링 (TSP 변형):
@@ -192,7 +192,7 @@ NP-완전 문제 실용적 해법:
    충분히 좋은 해로 실무 문제 해결 가능"
 ```
 
-> 📢 **섹션 요약 비유**: 물류 TSP는 "완벽한 최단 경로" 대신 "충분히 좋은 경로" 실용 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 완벽 해는 영원히 못 찾지만, 85% 효율로도 비즈니스 문제는 해결.
+> 📢 **섹션 요약 비유**: 물류 TSP는 "완벽한 최단 경로" 대신 "충분히 좋은 경로" 실용 전략 — 완벽 해는 영원히 못 찾지만, 85% 효율로도 비즈니스 문제는 해결.
 
 ---
 
@@ -250,16 +250,5 @@ LLM 기반 조합 최적화 연구 진행 중
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. NP-완전 문제는 "답이 있는지 확인은 빠르지만, 답을 찾는 게 엄청 어려운" 최고 난이도 수학 퍼즐이에요!
-2. [SAT](/studynote/12_it_management/03_ea_isp/887_chaining/)(변수들을 참/거짓으로 정해서 수식이 참이 되게 할 수 있나?)가 첫 NP-완전 문제로 증명됐고, 이걸 빠르게 풀면 수천 개의 어려운 문제도 빠르게 풀 수 있어요.
-3. 완벽한 답을 빠르게 찾을 수 없어서, 현실에서는 "충분히 좋은 답([근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))"으로 배송 경로, 공장 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 같은 문제를 해결해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 108 / 175
-
-<- **이전**: [002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제](/studynote/08_algorithm_stats/06_np_theory/107_np_class/)
-**다음**: [004. NP-어려움 (NP-Hard)](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) ->
-
----
+2. SAT(변수들을 참/거짓으로 정해서 수식이 참이 되게 할 수 있나?)가 첫 NP-완전 문제로 증명됐고, 이걸 빠르게 풀면 수천 개의 어려운 문제도 빠르게 풀 수 있어요.
+3. 완벽한 답을 빠르게 찾을 수 없어서, 현실에서는 "충분히 좋은 답(근사 알고리즘)"으로 배송 경로, 공장 스케줄 같은 문제를 해결해요!

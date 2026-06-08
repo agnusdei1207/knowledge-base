@@ -9,7 +9,7 @@ weight: 130
 
 > 확률은 "불확실성을 수로 표현하는 언어"다. 고전/빈도/주관이라는 세 가지 관점은 같은 수식을 서로 다른 세계관으로 해석한다.
 > 콜모고로프 공리 (Kolmogorov Axioms) 는 세 관점을 하나의 수학적 지붕 아래 통합하여, P(A)가 어떤 의미이든 반드시 지켜야 할 최소 규칙을 제공한다.
-> [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)·AI에서 확률은 단순한 이론이 아니라, 랜덤 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)·베이즈 네트워크·강화학습 등 핵심 설계 도구로 직결된다.
+> 알고리즘·AI에서 확률은 단순한 이론이 아니라, 랜덤 알고리즘·베이즈 네트워크·강화학습 등 핵심 설계 도구로 직결된다.
 
 ---
 
@@ -32,7 +32,7 @@ weight: 130
 
 - **정의**: 동일 실험을 n번 반복했을 때, 사건 A 가 n(A) 번 발생하면
   `P(A) = lim_{n->∞} n(A) / n`
-- **예시**: 불량률 측정 — [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개 중 35개 불량 -> P(불량) ≈ 0.0035
+- **예시**: 불량률 측정 — 10,000개 중 35개 불량 -> P(불량) ≈ 0.0035
 - **장점**: 물리적 실재에 기반, 실험 반복 가능한 경우 강력
 - **한계**: 반복 불가능한 사건 (지구온난화 2+C 도달 확률) 에는 적용 불가
 
@@ -69,7 +69,7 @@ weight: 130
 | 전사건 | Ω | 반드시 발생 |
 | 공사건 (Null Event) | ∅ | 절대 발생 불가 |
 
-<strong>표본공간 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> — 동전 2회 던지기</strong>
+<strong>표본공간 시각화 — 동전 2회 던지기</strong>
 
 ```
 +-----------------------------------------+
@@ -98,7 +98,7 @@ weight: 130
 세 관점의 차이에도 불구하고, 모든 확률은 다음 **3가지 공리 (Axioms)** 를 만족해야 한다.
 
 1. **비음성 (Non-negativity)**: `P(A) ≥ 0` (확률은 음수일 수 없다)
-2. <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong>: `P(Ω) = 1` (전체 확률의 합은 1)
+2. <strong>정규화 (Normalization)</strong>: `P(Ω) = 1` (전체 확률의 합은 1)
 3. **가산 가법성 (Countable Additivity)**: A∩B = ∅ 이면 `P(A∪B) = P(A) + P(B)`
 
 이 공리로부터 다음 결과들이 파생된다:
@@ -154,23 +154,23 @@ P(A∪B) = P(A) + P(B) - P(A∩B)
 
 ---
 
-## Ⅴ. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)·AI에서의 확률 응용
+## Ⅴ. 알고리즘·AI에서의 확률 응용
 
-### 확률적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Randomized Algorithm](/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/))
+### 확률적 알고리즘 (Randomized Algorithm)
 
-- <strong>Las Vegas <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 항상 정답, 실행 시간이 확률적 (예: 랜덤 퀵정렬)
-- <strong>Monte Carlo <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 실행 시간 확정, 오답 확률 허용 (예: 소수 판별 밀러-라빈 테스트)
+- <strong>Las Vegas 알고리즘</strong>: 항상 정답, 실행 시간이 확률적 (예: 랜덤 퀵정렬)
+- <strong>Monte Carlo 알고리즘</strong>: 실행 시간 확정, 오답 확률 허용 (예: 소수 판별 밀러-라빈 테스트)
 
 ### 베이즈 네트워크 (Bayesian Network)
 
-- 확률 변수들의 조건부 독립 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) 로 표현
-- 각 노드 P(Xᵢ | 부모 노드들) 형태의 [조건부 확률](/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) 테이블 보유
+- 확률 변수들의 조건부 독립 관계를 DAG (Directed Acyclic Graph) 로 표현
+- 각 노드 P(Xᵢ | 부모 노드들) 형태의 조건부 확률 테이블 보유
 - 의료 진단, 자연어 처리 (NLP, Natural Language Processing), 추천 시스템에 활용
 
-### 강화학습 ([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) 에서의 확률
+### 강화학습 (Reinforcement Learning) 에서의 확률
 
 - 환경 전이 확률 (Transition Probability): `P(s'|s, a)` — 상태 s 에서 행동 a 후 s' 로 이동할 확률
-- [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)): `π(a|s)` — 상태 s 에서 행동 a 를 선택할 확률
+- 정책 (Policy): `π(a|s)` — 상태 s 에서 행동 a 를 선택할 확률
 
 ```
 +------------------------------------------------------+
@@ -194,14 +194,14 @@ P(A∪B) = P(A) + P(B) - P(A∩B)
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 연결 개념 | 관계 |
 |:---|:---|:---|
-| 고전적 확률 | 조합론 ([Combinatorics](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)) | 경우의 수 계산 |
-| 상대도수 확률 | [대수의 법칙](/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) (Law of Large Numbers) | 극한 수렴 |
+| 고전적 확률 | 조합론 (Combinatorics) | 경우의 수 계산 |
+| 상대도수 확률 | 대수의 법칙 (Law of Large Numbers) | 극한 수렴 |
 | 주관적 확률 | 베이즈 정리 (Bayes' Theorem) | 사전->사후 업데이트 |
 | 콜모고로프 공리 | 측도론 (Measure Theory) | 수학적 기반 |
 | 덧셈 법칙 | 포함-배제 원리 | 일반화 |
-| 확률적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/) 분석 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장 |
+| 확률적 알고리즘 | 기댓값 분석 | 성능 보장 |
 
 ---
 
@@ -226,15 +226,4 @@ P(A∪B) = P(A) + P(B) - P(A∩B)
 
 - 주사위를 던질 때 1이 나올 확률 1/6은, 눈 6개 중 1개니까 6번 중 1번꼴로 나온다는 약속이야.
 - 확률은 0(절대 안 됨)부터 1(반드시 됨) 사이 숫자로, "얼마나 잘 될까"를 표현하는 점수야.
-- 확률이 있으면 AI도 "이게 고양이일 확률 90%, 강아지일 확률 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%"처럼 자기 믿음을 숫자로 말할 수 있어.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 130 / 175
-
-<- **이전**: [10. 몬테카를로 수치적분 (Monte Carlo Integration) — 확률적 근사](/studynote/08_algorithm_stats/07_numerical/129_monte_carlo_integration/)
-**다음**: [2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트](/studynote/08_algorithm_stats/08_stats/131_bayes_theorem/) ->
-
----
+- 확률이 있으면 AI도 "이게 고양이일 확률 90%, 강아지일 확률 10%"처럼 자기 믿음을 숫자로 말할 수 있어.

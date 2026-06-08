@@ -7,17 +7,17 @@ weight: 96
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) (카파 아키텍처)는 Jay Kreps (링크드인, 2014)가 제안한 빅데이터 아키텍처로, [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture의 배치 레이어를 제거하고 <strong>스트리밍 단일 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>만으로 배치와 실시간 처리를 통합하며, 재처리(Reprocessing)는 Kafka의 오프셋 0부터 재생(Replay)하여 달성한다.
-- **가치**: 동일한 비즈니스 로직을 배치용·실시간용으로 이중 구현하는 Lambda의 코드 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 문제를 완전히 해소하고, 단일 스트리밍 [코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/)로 유지보수 비용을 절반 이하로 줄이면서 코드 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장한다.
-- **판단 포인트**: Kappa가 성립하려면 <strong>Kafka에 원본 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 무한정 보존(<a href="/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a> Log)</strong> 가능해야 하고 스트리밍 잡이 멱등적(Idempotent)으로 재처리할 수 있어야 한다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 비용과 재처리 시간이 Lambda의 배치 주기보다 허용 가능해야 한다.
+- **본질**: Kappa Architecture (카파 아키텍처)는 Jay Kreps (링크드인, 2014)가 제안한 빅데이터 아키텍처로, Lambda Architecture의 배치 레이어를 제거하고 <strong>스트리밍 단일 파이프라인</strong>만으로 배치와 실시간 처리를 통합하며, 재처리(Reprocessing)는 Kafka의 오프셋 0부터 재생(Replay)하여 달성한다.
+- **가치**: 동일한 비즈니스 로직을 배치용·실시간용으로 이중 구현하는 Lambda의 코드 이중화 문제를 완전히 해소하고, 단일 스트리밍 코드베이스로 유지보수 비용을 절반 이하로 줄이면서 코드 일관성을 보장한다.
+- **판단 포인트**: Kappa가 성립하려면 <strong>Kafka에 원본 데이터가 무한정 보존(Immutable Log)</strong> 가능해야 하고 스트리밍 잡이 멱등적(Idempotent)으로 재처리할 수 있어야 한다. 데이터 보존 비용과 재처리 시간이 Lambda의 배치 주기보다 허용 가능해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture의 핵심 문제
+### 1. Lambda Architecture의 핵심 문제
 
-Jay Kreps는 2014년 "Questioning the [Lambda Architecture](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)"라는 블로그 글에서 Lambda의 근본적인 문제를 제기했다.
+Jay Kreps는 2014년 "Questioning the Lambda Architecture"라는 블로그 글에서 Lambda의 근본적인 문제를 제기했다.
 
 ```
 Lambda의 핵심 문제:
@@ -49,13 +49,13 @@ Kappa 제안:
 ```
 
 **📢 섹션 요약 비유**
-> [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) Architecture는 "DVD(배치)를 버리고 스트리밍 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(실시간)만 사용"하는 것과 같다. 예전에 보고 싶은 영화(재처리)는 스트리밍에서 다시 처음부터 보면([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 리플레이) 된다. DVD 플레이어(배치 시스템)를 따로 관리할 필요가 없어진다.
+> Kappa Architecture는 "DVD(배치)를 버리고 스트리밍 서비스(실시간)만 사용"하는 것과 같다. 예전에 보고 싶은 영화(재처리)는 스트리밍에서 다시 처음부터 보면(Kafka 리플레이) 된다. DVD 플레이어(배치 시스템)를 따로 관리할 필요가 없어진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) 다이어그램
+### 1. Kappa Architecture 다이어그램
 
 ```
 원본 이벤트 스트림
@@ -94,33 +94,33 @@ Step 4: 트래픽을 v2 출력 테이블로 전환
 Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 ```
 
-### 3. [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) 전제 조건
+### 3. Kappa 전제 조건
 
 | 조건 | 설명 | 위반 시 문제 |
 |:---|:---|:---|
-| [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 무한 보존 | 전체 히스토리 Kafka에 보존 | 재처리 시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 |
+| Kafka 무한 보존 | 전체 히스토리 Kafka에 보존 | 재처리 시 데이터 손실 |
 | 멱등적 처리 | 같은 이벤트 재처리해도 같은 결과 | 중복 처리 -> 오염된 결과 |
-| 충분한 재처리 용량 | 재처리 시 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 소비 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 재처리 시간이 너무 길면 실용성 없음 |
+| 충분한 재처리 용량 | 재처리 시 Kafka 소비 처리량 | 재처리 시간이 너무 길면 실용성 없음 |
 
 **📢 섹션 요약 비유**
-> Kappa의 재처리는 "게임 기록([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 처음부터 다시 돌려 점수를 재계산"하는 것과 같다. 점수 계산 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(스트리밍 잡)이 바뀌면 모든 과거 기록을 다시 적용하여 새 최종 점수를 만들면 된다.
+> Kappa의 재처리는 "게임 기록(Kafka 로그)을 처음부터 다시 돌려 점수를 재계산"하는 것과 같다. 점수 계산 알고리즘(스트리밍 잡)이 바뀌면 모든 과거 기록을 다시 적용하여 새 최종 점수를 만들면 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) 심층 비교
+### 1. Lambda vs Kappa 심층 비교
 
-| 항목 | [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) | [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) |
+| 항목 | Lambda | Kappa |
 |:---|:---|:---|
 | 처리 레이어 수 | 2 (배치 + 실시간) | 1 (실시간만) |
 | 코드 중복 | 있음 | 없음 |
-| 재처리 방법 | 배치 레이어 재실행 | [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 리플레이 |
-| [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 보존 필요 | 스피드 레이어용 (최근 N일) | 전체 히스토리 |
+| 재처리 방법 | 배치 레이어 재실행 | Kafka 리플레이 |
+| Kafka 보존 필요 | 스피드 레이어용 (최근 N일) | 전체 히스토리 |
 | 복잡한 집계 | 배치로 정확 처리 가능 | 스트리밍 한계 (상태 크기) |
 | 적합 케이스 | 복잡 배치 + 실시간 혼용 | 단순~중간 복잡도 스트리밍 |
 
-### 2. 현실의 하이브리드: 수정된 [Kappa](/studynote/16_bigdata/12_trends/235_kappa/)
+### 2. 현실의 하이브리드: 수정된 Kappa
 
 ```
 실제 많은 기업이 사용하는 절충안:
@@ -132,30 +132,30 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 ```
 
 **📢 섹션 요약 비유**
-> [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs Kappa는 "두 공장 운영 vs 공장 확장"이다. Lambda는 일반 공장 + 특급 공장 두 개를 따로 운영하는 것이고, Kappa는 하나의 공장을 충분히 빠르게 만들어 두 역할을 모두 담당하게 하는 것이다.
+> Lambda vs Kappa는 "두 공장 운영 vs 공장 확장"이다. Lambda는 일반 공장 + 특급 공장 두 개를 따로 운영하는 것이고, Kappa는 하나의 공장을 충분히 빠르게 만들어 두 역할을 모두 담당하게 하는 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 1. Kappa Architecture 도입 체크리스트
 
-- [ ] [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 보존 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): S3/ADLS를 Tiered Storage로 연결하여 비용 효율적 무한 보존
-- [ ] 스트리밍 잡의 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): 재처리 테스트 수행
-- [ ] 재처리 시 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 충분한 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Consumer 그룹 준비
-- [ ] 출력 테이블 블루/그린 전환 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 (재처리 완료 시 원자적 전환)
-- [ ] 재처리 소요 시간 = 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 / 처리 속도 사전 계산
+- [ ] Kafka 보존 전략: S3/ADLS를 Tiered Storage로 연결하여 비용 효율적 무한 보존
+- [ ] 스트리밍 잡의 멱등성 검증: 재처리 테스트 수행
+- [ ] 재처리 시 처리량 충분한 Kafka Consumer 그룹 준비
+- [ ] 출력 테이블 블루/그린 전환 전략 수립 (재처리 완료 시 원자적 전환)
+- [ ] 재처리 소요 시간 = 전체 데이터 크기 / 처리 속도 사전 계산
 
 ### 2. 도입 비용-효익 분석
 
 | 비용 | 효익 |
 |:---|:---|
-| [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 장기 보존 스토리지 비용 | 배치 시스템 운영 비용 제거 |
-| 재처리 시 일시 클러스터 비용 | 코드 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 개발 비용 절감 |
-| 복잡 배치 집계 재설계 비용 | 버그 수정 -> 단일 [코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/) |
+| Kafka 장기 보존 스토리지 비용 | 배치 시스템 운영 비용 제거 |
+| 재처리 시 일시 클러스터 비용 | 코드 이중화 개발 비용 절감 |
+| 복잡 배치 집계 재설계 비용 | 버그 수정 -> 단일 코드베이스 |
 
 **📢 섹션 요약 비유**
-> [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) 도입 결정은 "집 청소 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 하나 vs 방마다 다른 청소 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 두 개"이다. 하나로 통일하면 규칙이 단순하지만, 각방 전용 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만큼 세밀하지 않을 수 있다. 집의 크기([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복잡도)에 맞는 선택이 중요하다.
+> Kappa 도입 결정은 "집 청소 서비스 하나 vs 방마다 다른 청소 서비스 두 개"이다. 하나로 통일하면 규칙이 단순하지만, 각방 전용 서비스만큼 세밀하지 않을 수 있다. 집의 크기(데이터 복잡도)에 맞는 선택이 중요하다.
 
 ---
 
@@ -166,27 +166,27 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 | 효과 | 수치 예시 |
 |:---|:---|
 | 코드 유지보수 비용 | 배치 + 실시간 개별 유지 -> 실시간 단일로 50% 절감 |
-| 배포 복잡도 감소 | 두 시스템의 별도 배포 -> 단일 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 배포 |
-| [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 | 배치/실시간 결과 불일치 제거 |
+| 배포 복잡도 감소 | 두 시스템의 별도 배포 -> 단일 파이프라인 배포 |
+| 일관성 보장 | 배치/실시간 결과 불일치 제거 |
 
 ### 2. 결론
 
-[Kappa](/studynote/16_bigdata/12_trends/235_kappa/) Architecture는 <strong>스트리밍이 충분히 성숙한 현재 환경에서 Lambda의 복잡성을 해소하는 현대적 대안</strong>이다. 기술사 답안에서는 Lambda의 코드 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 문제, Kappa의 핵심 원칙(이뮤터블 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) + 재처리), 성립 조건([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 무한 보존, 멱등적 처리), 그리고 Lambda와의 트레이드오프를 함께 서술해야 한다.
+Kappa Architecture는 <strong>스트리밍이 충분히 성숙한 현재 환경에서 Lambda의 복잡성을 해소하는 현대적 대안</strong>이다. 기술사 답안에서는 Lambda의 코드 이중화 문제, Kappa의 핵심 원칙(이뮤터블 로그 + 재처리), 성립 조건(Kafka 무한 보존, 멱등적 처리), 그리고 Lambda와의 트레이드오프를 함께 서술해야 한다.
 
 **📢 섹션 요약 비유**
-> [Kappa](/studynote/16_bigdata/12_trends/235_kappa/) Architecture는 "모든 레코드를 시작부터 끝까지 기록하는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 방식"이다. 기록([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))은 변경 불가능하고, 원하는 시점부터 재생(Replay)하면 언제든지 정확한 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 재현할 수 있다.
+> Kappa Architecture는 "모든 레코드를 시작부터 끝까지 기록하는 블록체인 방식"이다. 기록(Kafka 로그)은 변경 불가능하고, 원하는 시점부터 재생(Replay)하면 언제든지 정확한 현재 상태를 재현할 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | 관계 | 설명 |
 |:---|:---|:---|
-| [Lambda Architecture](/studynote/16_bigdata/04_streaming/095_lambda_architecture/) | 비교/전임 패턴 | Kappa가 해결하려는 배치+실시간 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 패턴 |
-| [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | 핵심 기반 | [Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) Log로서 Kappa의 전제 조건 |
-| Exactly-Once | [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 기반 | 멱등적 재처리를 위한 보장 |
-| [Apache Flink](/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) | 실행 엔진 | Kappa의 단일 스트리밍 처리 엔진 |
-| Tiered Storage | 비용 최적화 | [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 무한 보존을 위한 저렴한 콜드 스토리지 |
+| Lambda Architecture | 비교/전임 패턴 | Kappa가 해결하려는 배치+실시간 이중화 패턴 |
+| Apache Kafka | 핵심 기반 | Immutable Log로서 Kappa의 전제 조건 |
+| Exactly-Once | 신뢰성 기반 | 멱등적 재처리를 위한 보장 |
+| Apache Flink | 실행 엔진 | Kappa의 단일 스트리밍 처리 엔진 |
+| Tiered Storage | 비용 최적화 | Kafka 무한 보존을 위한 저렴한 콜드 스토리지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -205,19 +205,8 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
     v
 [Tiered Storage (콜드 저장) -> Replay (재처리) 기반 보정]
 ```
-[Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 코드 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 복잡성을 해소하기 위해 Kappa는 Kafka의 불변 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 Flink의 Exactly-Once 스트리밍만으로 배치와 실시간을 단일 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 통합한다.
+Lambda 아키텍처의 코드 이중화 복잡성을 해소하기 위해 Kappa는 Kafka의 불변 로그와 Flink의 Exactly-Once 스트리밍만으로 배치와 실시간을 단일 파이프라인에 통합한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-[Kappa](/studynote/16_bigdata/12_trends/235_kappa/) Architecture는 "모든 일을 일기장([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))에 날짜순으로 적고, 나중에 처음부터 다시 읽어서(리플레이) 결과를 계산"하는 방법이에요. Lambda처럼 일기장 요약(배치)과 실시간 메모(스트리밍) 두 가지를 따로 관리할 필요가 없어요. 일기장만 잘 보관하면 언제든지 처음부터 다시 읽어서 원하는 결과를 만들 수 있거든요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 96 / 262
-
-<- **이전**: [20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)
-**다음**: [22. 스트리밍 SQL (Streaming SQL) — ksqlDB/Flink SQL/Spark Structured Streaming](/studynote/16_bigdata/04_streaming/097_streaming_sql/) ->
-
----
+Kappa Architecture는 "모든 일을 일기장(Kafka 로그)에 날짜순으로 적고, 나중에 처음부터 다시 읽어서(리플레이) 결과를 계산"하는 방법이에요. Lambda처럼 일기장 요약(배치)과 실시간 메모(스트리밍) 두 가지를 따로 관리할 필요가 없어요. 일기장만 잘 보관하면 언제든지 처음부터 다시 읽어서 원하는 결과를 만들 수 있거든요!

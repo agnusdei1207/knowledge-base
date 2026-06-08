@@ -7,9 +7,9 @@ weight: 210
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [개체명 인식](/studynote/16_bigdata/05_analysis/117_ner/) ([NER](/studynote/16_bigdata/05_analysis/117_ner/), Named Entity Recognition)은 쏟아지는 텍스트 문장 속에서 인명(Person), 지명(Location), 기관명(Organization), 날짜(Date) 등 <strong>고유한 의미를 가진 핵심 명사(Entity)들을 핀셋으로 집어내어 이름표(Label)를 찰칵찰칵 붙여주는 자연어 처리(NLP) 정보 추출의 뼈대 기술</strong>이다.
-> 2. **가치**: 수천 장의 기업 계약서나 뉴스 기사에서 굳이 사람이 다 읽어볼 필요 없이, [NER](/studynote/16_bigdata/05_analysis/117_ner/) 딥러닝 모델 한 번만 돌리면 1초 만에 "이 계약의 갑은 [삼성], 을은 [애플], 날짜는 [12월 5일], 금액은 [1억 원]"이라고 핵심 알맹이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 쏙쏙 발라내 엑셀로 자동 정리해 주는 마법의 문서 자동화 공장이다.
-> 3. **판단 포인트**: '애플'이라는 단어가 과일(Fruit)인지 스마트폰 회사(Organization)인지 문맥에 따라 180도 뜻이 바뀌기 때문에, 단순 사전 매칭 룰(Rule-based)을 쓰면 시스템이 파탄 난다. 문장의 앞뒤를 살펴서 동음이의어의 눈치를 100% 까는 <strong>Bi-<a href="/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> + CRF</strong> 아키텍처나 <strong><a href="/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a></strong> 뇌 구조를 태워야만 상용 수준의 완벽한 라벨링이 보장된다.
+> 1. **본질**: 개체명 인식 (NER, Named Entity Recognition)은 쏟아지는 텍스트 문장 속에서 인명(Person), 지명(Location), 기관명(Organization), 날짜(Date) 등 <strong>고유한 의미를 가진 핵심 명사(Entity)들을 핀셋으로 집어내어 이름표(Label)를 찰칵찰칵 붙여주는 자연어 처리(NLP) 정보 추출의 뼈대 기술</strong>이다.
+> 2. **가치**: 수천 장의 기업 계약서나 뉴스 기사에서 굳이 사람이 다 읽어볼 필요 없이, NER 딥러닝 모델 한 번만 돌리면 1초 만에 "이 계약의 갑은 [삼성], 을은 [애플], 날짜는 [12월 5일], 금액은 [1억 원]"이라고 핵심 알맹이 데이터만 쏙쏙 발라내 엑셀로 자동 정리해 주는 마법의 문서 자동화 공장이다.
+> 3. **판단 포인트**: '애플'이라는 단어가 과일(Fruit)인지 스마트폰 회사(Organization)인지 문맥에 따라 180도 뜻이 바뀌기 때문에, 단순 사전 매칭 룰(Rule-based)을 쓰면 시스템이 파탄 난다. 문장의 앞뒤를 살펴서 동음이의어의 눈치를 100% 까는 <strong>Bi-LSTM + CRF</strong> 아키텍처나 <strong>BERT</strong> 뇌 구조를 태워야만 상용 수준의 완벽한 라벨링이 보장된다.
 
 ---
 
@@ -17,10 +17,10 @@ weight: 210
 
 컴퓨터에게 "어제 스티브 잡스가 서울에서 애플의 새 아이폰을 발표했다"라는 문장을 주면, 컴퓨터는 그저 0과 1로 된 길고 멍청한 글자들의 나열로만 이해한다. 누가 주인공이고 어떤 회사가 사고를 쳤는지 '의미'를 전혀 모른다.
 
-검색 엔진이나 챗봇이 진짜 똑똑해지려면, 이 문장 안에서 <strong>어떤 놈이 핵심 뼈대(주어, 목적어, 장소)</strong>인지 알아내야 한다. 이 숙제를 풀기 위해 자연어 처리(NLP) 학자들은 문장의 단어 하나하나에 형광펜을 칠하는 <strong><a href="/studynote/16_bigdata/05_analysis/117_ner/">개체명 인식</a> (<a href="/studynote/16_bigdata/05_analysis/117_ner/">NER</a>)</strong> 기술을 발명했다.
-"어제(날짜) [스티브 잡스(인물)]가 [서울(지명)]에서 [애플(기관)]의 새 아이폰을 발표했다"라고 이름표(Tag)를 붙여주는 순간, 컴퓨터는 거대한 신문 기사를 3줄짜리 요약 엑셀 표로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)할 수 있게 되었다.
+검색 엔진이나 챗봇이 진짜 똑똑해지려면, 이 문장 안에서 <strong>어떤 놈이 핵심 뼈대(주어, 목적어, 장소)</strong>인지 알아내야 한다. 이 숙제를 풀기 위해 자연어 처리(NLP) 학자들은 문장의 단어 하나하나에 형광펜을 칠하는 <strong>개체명 인식 (NER)</strong> 기술을 발명했다.
+"어제(날짜) [스티브 잡스(인물)]가 [서울(지명)]에서 [애플(기관)]의 새 아이폰을 발표했다"라고 이름표(Tag)를 붙여주는 순간, 컴퓨터는 거대한 신문 기사를 3줄짜리 요약 엑셀 표로 압축할 수 있게 되었다.
 
-이 기술이 없다면 구글의 [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))도, 애플 시리(Siri)의 알람 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)("내일 강남역에서 회식 메모해 줘" $\rightarrow$ 시간/장소 추출) 기능도 아예 존재할 수 없다. NER은 흩날리는 텍스트 쓰레기 산에서 다이아몬드(핵심 정보)만 핀셋으로 건져 올리는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 가장 강력한 채굴기다.
+이 기술이 없다면 구글의 지식 그래프(Knowledge Graph)도, 애플 시리(Siri)의 알람 설정("내일 강남역에서 회식 메모해 줘" $\rightarrow$ 시간/장소 추출) 기능도 아예 존재할 수 없다. NER은 흩날리는 텍스트 쓰레기 산에서 다이아몬드(핵심 정보)만 핀셋으로 건져 올리는 인공지능의 가장 강력한 채굴기다.
 
 ```text
 +----------------------------------------------+
@@ -31,13 +31,13 @@ weight: 210
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: NER은 택배 물류 센터의 초정밀 '바코드 스캐너'다. 텍스트라는 거대한 택배 박스가 1초에 1만 개씩 쏟아져 들어올 때, 박스를 뜯어볼 필요 없이 박스 겉면의 바코드(단어)만 쓱 스캔해서 "아 이건 서울(지명) 가는 거! 저건 삼성전자(기관)로 가는 거!"라고 1초 만에 레일(DB) 위로 촥촥 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 버리는 완벽한 무인 자동화 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다.
+- **📢 섹션 요약 비유**: NER은 택배 물류 센터의 초정밀 '바코드 스캐너'다. 텍스트라는 거대한 택배 박스가 1초에 1만 개씩 쏟아져 들어올 때, 박스를 뜯어볼 필요 없이 박스 겉면의 바코드(단어)만 쓱 스캔해서 "아 이건 서울(지명) 가는 거! 저건 삼성전자(기관)로 가는 거!"라고 1초 만에 레일(DB) 위로 촥촥 분류해 버리는 완벽한 무인 자동화 분류 시스템이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NER은 단순히 단어가 긍정인지 부정인지 1개로 찍는 [감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)과 다르다. 문장의 모든 글자 덩어리(Token) 하나하나마다 "너의 신분이 무엇이냐"라고 수십 번 연속으로 묻고 대답하는 **시퀀스 라벨링 (Sequence Labeling)** 아키텍처를 따른다.
+NER은 단순히 단어가 긍정인지 부정인지 1개로 찍는 감성 분석과 다르다. 문장의 모든 글자 덩어리(Token) 하나하나마다 "너의 신분이 무엇이냐"라고 수십 번 연속으로 묻고 대답하는 **시퀀스 라벨링 (Sequence Labeling)** 아키텍처를 따른다.
 
 ```text
 +--------------------------------------------------------------+
@@ -64,14 +64,14 @@ NER은 단순히 단어가 긍정인지 부정인지 1개로 찍는 [감성 분�
 ```
 
 **핵심 원리 (문맥 추론과 동음이의어 돌파)**:
-NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이를 해석하는 모델의 <strong>문맥(<a href="/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong> 흡수력이다. 과거의 모델은 사전에 '아마존'이라는 단어가 있으면 무조건 회사(ORG)로 찍었다. 하지만 딥러닝([BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))이 탑재된 NER은 "아마존 정글에서 뱀이 나왔다"라는 문장을 보면, 뒤에 '정글'과 '뱀'이 있다는 주변 단어([Context](/studynote/02_operating_system/01_overview_architecture/033_context/))들의 기운(Attention)을 싹 빨아들여, 0.1초 만에 "아, 이번 아마존은 회사가 아니라 장소(Location)구나!"라고 동음이의어를 100% 완벽하게 분기 처리해 낸다.
+NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이를 해석하는 모델의 <strong>문맥(Context)</strong> 흡수력이다. 과거의 모델은 사전에 '아마존'이라는 단어가 있으면 무조건 회사(ORG)로 찍었다. 하지만 딥러닝(BERT)이 탑재된 NER은 "아마존 정글에서 뱀이 나왔다"라는 문장을 보면, 뒤에 '정글'과 '뱀'이 있다는 주변 단어(Context)들의 기운(Attention)을 싹 빨아들여, 0.1초 만에 "아, 이번 아마존은 회사가 아니라 장소(Location)구나!"라고 동음이의어를 100% 완벽하게 분기 처리해 낸다.
 
 | 요소 | 역할 |
 |:---|:---|
-| 입력 표현 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 토큰·벡터·[특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)으로 바꾸는 전처리 계층이다. |
-| 모델 구조 | 정보를 축적·선택·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 핵심 계산 흐름을 담당한다. |
+| 입력 표현 | 데이터를 토큰·벡터·특성 맵으로 바꾸는 전처리 계층이다. |
+| 모델 구조 | 정보를 축적·선택·생성하는 핵심 계산 흐름을 담당한다. |
 | 경량화 | 배포 환경에 맞춰 메모리와 연산량을 조정한다. |
-| 응용 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 검색, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 추천, 제어 등 실제 문제 해결 단계로 이어진다. |
+| 응용 서비스 | 검색, 생성, 추천, 제어 등 실제 문제 해결 단계로 이어진다. |
 
 - **📢 섹션 요약 비유**: NER의 BIO 태깅은 경찰이 100명의 용의자(단어) 일렬종대 틈에서 범인 일당을 묶어서 체포하는 수갑이다. "B"는 범인 무리의 대장(시작)에게 채우고, "I"는 대장 뒤에 붙어있는 부하(연결된 단어)들에게 채우고, "O"는 죄 없는 일반 시민들이다. 이 수갑 룰 덕분에 "대한(B) + 민국(I)"처럼 여러 단어가 길게 찢어져 있어도 컴퓨터는 "아 이게 하나의 나라(범인)구나!" 하고 한 덩어리로 완벽히 묶어서 포장해 낼 수 있다.
 
@@ -79,43 +79,43 @@ NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이�
 
 ## Ⅲ. 비교 및 연결
 
-[NER](/studynote/16_bigdata/05_analysis/117_ner/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 무식한 사전 찾기 시대에서 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)과 딥러닝의 시대로 처절하게 진화하며 살아남았다.
+NER 알고리즘은 무식한 사전 찾기 시대에서 확률과 딥러닝의 시대로 처절하게 진화하며 살아남았다.
 
-| [NER](/studynote/16_bigdata/05_analysis/117_ner/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 진화 | 작동 원리 및 핵심 철학 | 장점 | 치명적 한계 및 버그 |
+| NER 파이프라인 진화 | 작동 원리 및 핵심 철학 | 장점 | 치명적 한계 및 버그 |
 |:---|:---|:---|:---|
-| **1세대: 룰/사전 기반 (Rule-based)** | 사람이 100만 개짜리 엑셀 인명/지명 사전(Dictionary)을 만들고, 정규표현식([Regex](/studynote/08_algorithm_stats/05_string/104_regex/))으로 찾아서 매칭함. | 에러가 날 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 없고, 속도가 광속임. 법률이나 의료 등 절대 틀리면 안 되는 닫힌 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 최고. | 사전에 없는 신조어(예: 르세라핌, 테슬라)가 튀어나오면 100% 놓치고 바보가 됨. 매일 사전을 업데이트해야 하는 지옥. |
-| <strong>2세대: 통계 기반 <a href="/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> (HMM / CRF)</strong>| 문장에서 단어가 나타나는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)과, "앞 단어가 지명이면 다음 단어는 조사일 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다"는 문법 통계(CRF)를 씀. | 사전 없이도 어느 정도 신조어를 눈치로 때려 맞춤. | 문장이 길어지면 앞부분의 문맥을 잊어버려서 뒤통수를 맞고 오답을 냄. |
-| <strong>3세대: 딥러닝 융합 (Bi-<a href="/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> + CRF)</strong> | 딥러닝([LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/))으로 앞뒤 문맥 기억력을 챙기고, 마지막 출력에 문법 경찰(CRF)을 씌워 말이 안 되는 오답 태그를 걸러냄. | 긴 문장의 맥락도 완벽히 기억하며 90% 이상의 극강의 정확도를 뽐냄. 오랫동안 천하 통일. | 훈련시키는 데 시간이 오래 걸리고 양질의 라벨링 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 10만 장 이상 필요함. |
-| <strong>4세대: 거대 뇌 (<a href="/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> / <a href="/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4)</strong> | 문장을 양방향으로 한 번에 다 씹어먹는 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/). 프롬프트에 "여기서 인물만 JSON으로 뽑아줘" 하면 끝. | 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 거의 필요 없음([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-shot). 동음이의어 파훼의 절대 신. | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버비가 너무 비싸고 툭하면 무거운 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(거짓말)을 섞어 뱉어서 후처리가 빡셈. |
+| **1세대: 룰/사전 기반 (Rule-based)** | 사람이 100만 개짜리 엑셀 인명/지명 사전(Dictionary)을 만들고, 정규표현식(Regex)으로 찾아서 매칭함. | 에러가 날 확률이 없고, 속도가 광속임. 법률이나 의료 등 절대 틀리면 안 되는 닫힌 도메인에서 최고. | 사전에 없는 신조어(예: 르세라핌, 테슬라)가 튀어나오면 100% 놓치고 바보가 됨. 매일 사전을 업데이트해야 하는 지옥. |
+| <strong>2세대: 통계 기반 머신러닝 (HMM / CRF)</strong>| 문장에서 단어가 나타나는 확률과, "앞 단어가 지명이면 다음 단어는 조사일 확률이 높다"는 문법 통계(CRF)를 씀. | 사전 없이도 어느 정도 신조어를 눈치로 때려 맞춤. | 문장이 길어지면 앞부분의 문맥을 잊어버려서 뒤통수를 맞고 오답을 냄. |
+| <strong>3세대: 딥러닝 융합 (Bi-LSTM + CRF)</strong> | 딥러닝(LSTM)으로 앞뒤 문맥 기억력을 챙기고, 마지막 출력에 문법 경찰(CRF)을 씌워 말이 안 되는 오답 태그를 걸러냄. | 긴 문장의 맥락도 완벽히 기억하며 90% 이상의 극강의 정확도를 뽐냄. 오랫동안 천하 통일. | 훈련시키는 데 시간이 오래 걸리고 양질의 라벨링 데이터셋이 10만 장 이상 필요함. |
+| <strong>4세대: 거대 뇌 (BERT / GPT-4)</strong> | 문장을 양방향으로 한 번에 다 씹어먹는 트랜스포머. 프롬프트에 "여기서 인물만 JSON으로 뽑아줘" 하면 끝. | 훈련 데이터가 거의 필요 없음(Zero-shot). 동음이의어 파훼의 절대 신. | GPU 서버비가 너무 비싸고 툭하면 무거운 환각(거짓말)을 섞어 뱉어서 후처리가 빡셈. |
 
-실무 엔터프라이즈 환경에서는 1세대와 3세대를 합친 <strong>하이브리드(Hybrid) 아키텍처</strong>가 1군이다. 절대 놓치면 안 되는 사내 부서명이나 전문 약어는 1세대 '사전 매칭(Dictionary)'으로 앞단에서 칼같이 잡고, 그 뒤에 통과된 일반 문장들만 3세대 딥러닝([BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 뇌)에 흘려보내 신조어나 문맥 속 숨은 단어를 싹쓸이하는 쌍끌이 그물망 구조가 속도와 정확도를 모두 잡는다.
+실무 엔터프라이즈 환경에서는 1세대와 3세대를 합친 <strong>하이브리드(Hybrid) 아키텍처</strong>가 1군이다. 절대 놓치면 안 되는 사내 부서명이나 전문 약어는 1세대 '사전 매칭(Dictionary)'으로 앞단에서 칼같이 잡고, 그 뒤에 통과된 일반 문장들만 3세대 딥러닝(BERT 뇌)에 흘려보내 신조어나 문맥 속 숨은 단어를 싹쓸이하는 쌍끌이 그물망 구조가 속도와 정확도를 모두 잡는다.
 
-- **📢 섹션 요약 비유**: 1세대 사전 기반은 벽에 지명수배자 전단을 붙여놓고 똑같이 생긴 사람만 체포하는 고지식한 순경이다. 범인이 성형수술(신조어)을 하면 절대 못 잡는다. 4세대 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))는 관상과 말투만 보고도 "저놈 숨 쉬는 게 사기꾼 냄새가 난다!"라며 전단지에 없는 범인까지 직관으로 잡아버리는 FBI 프로파일러다. 실무에서는 순경이 수배자를 먼저 다 잡고, 남은 사람들 틈에서 프로파일러가 숨은 마피아를 색출해 내는 완벽한 공조 수사를 편다.
+- **📢 섹션 요약 비유**: 1세대 사전 기반은 벽에 지명수배자 전단을 붙여놓고 똑같이 생긴 사람만 체포하는 고지식한 순경이다. 범인이 성형수술(신조어)을 하면 절대 못 잡는다. 4세대 트랜스포머(BERT)는 관상과 말투만 보고도 "저놈 숨 쉬는 게 사기꾼 냄새가 난다!"라며 전단지에 없는 범인까지 직관으로 잡아버리는 FBI 프로파일러다. 실무에서는 순경이 수배자를 먼저 다 잡고, 남은 사람들 틈에서 프로파일러가 숨은 마피아를 색출해 내는 완벽한 공조 수사를 편다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-매일 10만 건의 고객 [클레임](/studynote/09_security/11_iam_access_control/539_claims/)(VOC) 게시판에서 악성 유저의 이름과 불량 제품명을 자동 스크랩하는 [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 런타임 배포(Serving)할 때, 아키텍트는 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)([Tokenization](/studynote/09_security/16_data_privacy/820_tokenization/)) 병목을 부숴야 한다.
+매일 10만 건의 고객 클레임(VOC) 게시판에서 악성 유저의 이름과 불량 제품명을 자동 스크랩하는 MLOps 파이프라인을 런타임 배포(Serving)할 때, 아키텍트는 토큰화(Tokenization) 병목을 부숴야 한다.
 
-### 실무 아키텍처 판단 ([체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **Subword Tokenizer 붕괴 방어 (BPE/WordPiece 정렬)**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 같은 최신 모델은 "이순신"을 모르면 ["이", "##순", "##신"]으로 단어를 무참하게 잘라버린다(Subword 쪼개기). 뇌는 "##순"이라는 쪼가리에 `[I-PER]`라는 인물 태그를 매겼는데, 앱 화면에 뿌려줄 때는 다시 이 쪼가리들을 "이순신"이라는 원래 단어로 풀로 붙여서(Detokenization) 매핑해야 한다. 이 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 오프셋(Offset [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))을 백엔드 파이썬 코드에서 1글자라도 잘못 계산하면, "이순신"이 아니라 "순신은"에 형광펜이 칠해지는 화면 밀림(Alignment) 버그가 터져 유저 [클레임](/studynote/09_security/11_iam_access_control/539_claims/)이 폭주한다.
-2. <strong>OOD (Out Of Distribution) 및 <a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 확장 한계 극복</strong>: 훈련할 땐 [인물, 장소, 기관] 3가지만 라벨링해서 딥러닝 뇌를 구웠다. 그런데 사장님이 갑자기 내일 당장 "제품명(Product)이랑 가격(Price)도 추가로 뽑아내!"라고 지시했다. 옛날 구조(Bi-[LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)+CRF)는 뇌를 0부터 다시 구워야 하므로 한 달이 걸린다. 하지만 <strong><a href="/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/">기계 독해</a>(MRC)</strong> 형식이나 <strong><a href="/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 프롬프팅</strong> 구조로 [NER](/studynote/16_bigdata/05_analysis/117_ner/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 설계해 두면, 그냥 질문을 "여기서 제품명이 뭐야?"라고 텍스트만 바꿔 던지면 1초 만에 새로운 카테고리를 무한대로 뽑아낼 수 있는 제로샷([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-shot) 확장의 축복을 얻는다.
+### 실무 아키텍처 판단 (체크리스트)
+1. **Subword Tokenizer 붕괴 방어 (BPE/WordPiece 정렬)**: BERT 같은 최신 모델은 "이순신"을 모르면 ["이", "##순", "##신"]으로 단어를 무참하게 잘라버린다(Subword 쪼개기). 뇌는 "##순"이라는 쪼가리에 `[I-PER]`라는 인물 태그를 매겼는데, 앱 화면에 뿌려줄 때는 다시 이 쪼가리들을 "이순신"이라는 원래 단어로 풀로 붙여서(Detokenization) 매핑해야 한다. 이 인덱스 오프셋(Offset Mapping)을 백엔드 파이썬 코드에서 1글자라도 잘못 계산하면, "이순신"이 아니라 "순신은"에 형광펜이 칠해지는 화면 밀림(Alignment) 버그가 터져 유저 클레임이 폭주한다.
+2. <strong>OOD (Out Of Distribution) 및 스키마 확장 한계 극복</strong>: 훈련할 땐 [인물, 장소, 기관] 3가지만 라벨링해서 딥러닝 뇌를 구웠다. 그런데 사장님이 갑자기 내일 당장 "제품명(Product)이랑 가격(Price)도 추가로 뽑아내!"라고 지시했다. 옛날 구조(Bi-LSTM+CRF)는 뇌를 0부터 다시 구워야 하므로 한 달이 걸린다. 하지만 <strong>기계 독해(MRC)</strong> 형식이나 <strong>LLM 프롬프팅</strong> 구조로 NER 파이프라인을 설계해 두면, 그냥 질문을 "여기서 제품명이 뭐야?"라고 텍스트만 바꿔 던지면 1초 만에 새로운 카테고리를 무한대로 뽑아낼 수 있는 제로샷(Zero-shot) 확장의 축복을 얻는다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 쌩얼(<a href="/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a>) <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 무지성 전이학습 (<a href="/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a>)</strong>: 네이버 뉴스 기사로 훈련된 기가 막힌 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 한국어 [NER](/studynote/16_bigdata/05_analysis/117_ner/) 모델(예: KoBERT-[NER](/studynote/16_bigdata/05_analysis/117_ner/))을 다운받아서, 의학(병원 진단서) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 특허 법률 문서에 그대로 꽂아버리는 주니어의 만용. 일반 뉴스 모델은 "타이레놀"을 기관(ORG)이나 일반 명사로 착각하고 넘겨버린다. 의료 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 `[DISEASE(질병)]`, `[SYMPTOM(증상)]`, `[DRUG(약)]`이라는 아예 완전히 다른 생태계 태그([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/))가 필요하므로, 반드시 1만 장 이상의 병원 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 처음부터 멱살을 잡고 파인튜닝([Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 뇌수술을 하지 않으면 정확도 20%의 쓰레기 모델이 된다.
+### 안티패턴
+- <strong>도메인 쌩얼(Raw) 데이터의 무지성 전이학습 (Transfer Learning)</strong>: 네이버 뉴스 기사로 훈련된 기가 막힌 오픈소스 한국어 NER 모델(예: KoBERT-NER)을 다운받아서, 의학(병원 진단서) 데이터나 특허 법률 문서에 그대로 꽂아버리는 주니어의 만용. 일반 뉴스 모델은 "타이레놀"을 기관(ORG)이나 일반 명사로 착각하고 넘겨버린다. 의료 도메인은 `[DISEASE(질병)]`, `[SYMPTOM(증상)]`, `[DRUG(약)]`이라는 아예 완전히 다른 생태계 태그(Schema)가 필요하므로, 반드시 1만 장 이상의 병원 도메인 데이터로 처음부터 멱살을 잡고 파인튜닝(Fine-Tuning) 뇌수술을 하지 않으면 정확도 20%의 쓰레기 모델이 된다.
 
-- **📢 섹션 요약 비유**: 서브워드(Subword) 정렬 버그는 색칠 공부 책에 줄을 잘못 긋는 것과 같다. 딥러닝은 퍼즐 조각처럼 단어를 다 부숴서 색칠(태깅)을 끝냈는데, 나중에 그 조각을 다시 원래 문장으로 테이프로 붙일 때 칸이 1mm만 밀려도 호랑이 코에 칠해야 할 빨간 줄이 호랑이 입에 칠해지는 코미디가 벌어진다. 자르고 다시 붙이는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(순서) 지퍼백 관리가 백엔드 코더의 가장 지독하고 중요한 노가다다.
+- **📢 섹션 요약 비유**: 서브워드(Subword) 정렬 버그는 색칠 공부 책에 줄을 잘못 긋는 것과 같다. 딥러닝은 퍼즐 조각처럼 단어를 다 부숴서 색칠(태깅)을 끝냈는데, 나중에 그 조각을 다시 원래 문장으로 테이프로 붙일 때 칸이 1mm만 밀려도 호랑이 코에 칠해야 할 빨간 줄이 호랑이 입에 칠해지는 코미디가 벌어진다. 자르고 다시 붙이는 인덱스(순서) 지퍼백 관리가 백엔드 코더의 가장 지독하고 중요한 노가다다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[개체명 인식](/studynote/16_bigdata/05_analysis/117_ner/)([NER](/studynote/16_bigdata/05_analysis/117_ner/))은 혼돈의 쓰레기더미인 비정형 텍스트(Unstructured Text)의 늪에서, 컴퓨터가 정형화된 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB 테이블)의 질서를 뽑아내 창조하는 <strong>'자연어 연금술'의 가장 위대한 첫 번째 관문</strong>이다.
+개체명 인식(NER)은 혼돈의 쓰레기더미인 비정형 텍스트(Unstructured Text)의 늪에서, 컴퓨터가 정형화된 데이터베이스(DB 테이블)의 질서를 뽑아내 창조하는 <strong>'자연어 연금술'의 가장 위대한 첫 번째 관문</strong>이다.
 
-이 기술이 없다면 우리는 매일 아침 수십 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 뉴스레터를 눈이 빠지게 읽어야 할 것이다. 하지만 [NER](/studynote/16_bigdata/05_analysis/117_ner/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 신문 기사 100만 장을 단 10분 만에 훑어보고, "오늘 애플(기관)이 삼성(기관)을 10억 달러(금액)에 소송(행위)했다"라는 엑셀 표로 완벽하게 요약해 CEO의 아침 책상에 대시보드로 띄워준다. 또한 수만 건의 고객 [클레임](/studynote/09_security/11_iam_access_control/539_claims/)에서 "강남점(장소)"과 "배터리 폭발(증상)"이라는 단어를 칼같이 묶어내어 회사의 위기관리 센서를 0.1초 만에 격상시키는 심장 역할을 한다.
+이 기술이 없다면 우리는 매일 아침 수십 페이지의 뉴스레터를 눈이 빠지게 읽어야 할 것이다. 하지만 NER 파이프라인은 신문 기사 100만 장을 단 10분 만에 훑어보고, "오늘 애플(기관)이 삼성(기관)을 10억 달러(금액)에 소송(행위)했다"라는 엑셀 표로 완벽하게 요약해 CEO의 아침 책상에 대시보드로 띄워준다. 또한 수만 건의 고객 클레임에서 "강남점(장소)"과 "배터리 폭발(증상)"이라는 단어를 칼같이 묶어내어 회사의 위기관리 센서를 0.1초 만에 격상시키는 심장 역할을 한다.
 
-앞으로의 NER은 단순히 이름표를 다는 것을 뛰어넘어, 뽑아낸 단어들을 [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))의 노드와 선으로 연결하여 세상을 3차원으로 이해하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추출([Relation](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) Extraction)의 대우주로 뻗어 나가고 있다. 문서 속의 죽어있던 활자들이 NER의 형광펜 마법을 통해 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 뇌 속에서 살아 움직이는 '진짜 팩트(Fact) 덩어리'로 환생하고 있는 것이다.
+앞으로의 NER은 단순히 이름표를 다는 것을 뛰어넘어, 뽑아낸 단어들을 지식 그래프(Knowledge Graph)의 노드와 선으로 연결하여 세상을 3차원으로 이해하는 관계 추출(Relation Extraction)의 대우주로 뻗어 나가고 있다. 문서 속의 죽어있던 활자들이 NER의 형광펜 마법을 통해 인공지능의 뇌 속에서 살아 움직이는 '진짜 팩트(Fact) 덩어리'로 환생하고 있는 것이다.
 
 - **📢 섹션 요약 비유**: NER은 텍스트의 정글에서 금을 캐는 <strong>'황금 채굴 체(Sieve)'</strong>다. 진흙탕 물(수만 자의 텍스트)을 체에 푹 퍼서 흔들면, 물과 진흙(쓸데없는 접속사와 부사)은 밑으로 다 빠져나가고, 반짝이는 황금 알갱이(인물, 장소, 핵심 명사)만 딱 걸러져서 쟁반 위에 남는다. 컴퓨터는 이 황금 알갱이만 주머니에 쏙 챙기면, 굳이 진흙탕 전체를 뒤지지 않고도 우주 최고의 부자(지식왕)가 될 수 있는 완벽한 효율의 연금술이다.
 
@@ -126,9 +126,9 @@ NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **BIO 태깅 (BIO Tagging)** | 컴퓨터에게 단어의 시작(B), 중간(I), 끝(O)을 가르쳐주어 여러 단어로 이루어진 하나의 덩어리(예: 서울특별시)를 칼같이 한 묶음으로 오려내게 만드는 절대 문법 룰 |
-| **CRF (조건부 무작위 장)** | "명사 뒤에 갑자기 조사가 안 나오고 또 다른 동사가 나올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)은 0%다!"라고 강력한 문법적 족쇄를 씌워서, 딥러닝 뇌가 멍청한 오답 태그를 뱉어내는 걸 강제 차단하는 막판 보정 필터 |
-| <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a> (<a href="/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong> | NER이 텍스트에서 '스티브 잡스'와 '애플'이라는 황금(노드)을 캐주면, 그 두 개의 황금을 "창립했다"라는 선(엣지)으로 이어 붙여서 3D 인물 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도를 엮어버리는 NER의 최종 진화 종착역 |
-| <strong><a href="/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/">기계 독해</a> (MRC / <a href="/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>)</strong> | NER이 단순한 짧은 명사 단어(Entity)에만 색칠을 한다면, MRC나 RAG는 아예 "왜 이순신이 전쟁에서 이겼나?" 같은 긴 서술형 질문에 맞춰 통문장(문단)에 통째로 형광펜을 긋는 상위 호환의 거대 탐색술 |
+| **CRF (조건부 무작위 장)** | "명사 뒤에 갑자기 조사가 안 나오고 또 다른 동사가 나올 확률은 0%다!"라고 강력한 문법적 족쇄를 씌워서, 딥러닝 뇌가 멍청한 오답 태그를 뱉어내는 걸 강제 차단하는 막판 보정 필터 |
+| <strong>지식 그래프 (Knowledge Graph)</strong> | NER이 텍스트에서 '스티브 잡스'와 '애플'이라는 황금(노드)을 캐주면, 그 두 개의 황금을 "창립했다"라는 선(엣지)으로 이어 붙여서 3D 인물 관계도를 엮어버리는 NER의 최종 진화 종착역 |
+| <strong>기계 독해 (MRC / RAG)</strong> | NER이 단순한 짧은 명사 단어(Entity)에만 색칠을 한다면, MRC나 RAG는 아예 "왜 이순신이 전쟁에서 이겼나?" 같은 긴 서술형 질문에 맞춰 통문장(문단)에 통째로 형광펜을 긋는 상위 호환의 거대 탐색술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,17 +138,6 @@ NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [개체명 인식](/studynote/16_bigdata/05_analysis/117_ner/)([NER](/studynote/16_bigdata/05_analysis/117_ner/))은 빽빽한 글씨로 가득 찬 지루한 책을 읽을 때, <strong>로봇이 빨강, 파랑 형광펜을 들고 핵심 단어에 쓱쓱 밑줄을 그어주는 천재 요약 마법</strong>이에요.
+1. 개체명 인식(NER)은 빽빽한 글씨로 가득 찬 지루한 책을 읽을 때, <strong>로봇이 빨강, 파랑 형광펜을 들고 핵심 단어에 쓱쓱 밑줄을 그어주는 천재 요약 마법</strong>이에요.
 2. 사람 이름이 나오면 빨간색 펜으로 쫙! 나라나 장소 이름이 나오면 파란색 펜으로 쫙! 날짜나 돈 액수가 나오면 노란색 펜으로 쫙쫙!
 3. 덕분에 우리는 두꺼운 책을 다 읽지 않아도, 로봇이 형광펜 칠해준 알록달록한 글자 몇 개만 쏙쏙 골라 읽으면 1초 만에 "누가 어디서 언제 뭘 했는지" 완벽하게 깨닫게 된답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 210 / 420
-
-<- **이전**: [209. 감성 분석 (Sentiment Analysis)](/studynote/10_ai/03_llm_nlp/209_sentiment_analysis/)
-**다음**: [211. 추천 시스템 (Recommendation System)](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) ->
-
----

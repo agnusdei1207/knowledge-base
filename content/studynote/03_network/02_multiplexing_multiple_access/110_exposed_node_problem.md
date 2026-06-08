@@ -7,15 +7,15 @@ weight: 110
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 노출 노드 문제는 물리적으로 충분히 통신할 수 있는 상황임에도 불구하고, 주변 다른 단말의 통신 전파를 엿듣고(Carrier Sense) 불필요하게 송신을 포기하는 무선망의 '과잉 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)' 현상이다.
-> 2. **가치**: 이 현상은 네트워크의 치명적인 에러(충돌)를 유발하지는 않지만, 무선 채널의 공간적 재사용성(Spatial Reuse)을 심각하게 훼손하여 전체 시스템의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 크게 떨어뜨리는 병목 요인이 된다.
-> 3. **판단 포인트**: 은닉 노드(Hidden Node)를 막기 위해 도입된 RTS/CTS 메커니즘이 오히려 노출 노드 문제를 악화시키는 딜레마를 낳았으며, 이를 극복하기 위해 지향성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))와 독립적 [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) 구조가 발전하게 되었다.
+> 1. **본질**: 노출 노드 문제는 물리적으로 충분히 통신할 수 있는 상황임에도 불구하고, 주변 다른 단말의 통신 전파를 엿듣고(Carrier Sense) 불필요하게 송신을 포기하는 무선망의 '과잉 보호' 현상이다.
+> 2. **가치**: 이 현상은 네트워크의 치명적인 에러(충돌)를 유발하지는 않지만, 무선 채널의 공간적 재사용성(Spatial Reuse)을 심각하게 훼손하여 전체 시스템의 처리량(Throughput)을 크게 떨어뜨리는 병목 요인이 된다.
+> 3. **판단 포인트**: 은닉 노드(Hidden Node)를 막기 위해 도입된 RTS/CTS 메커니즘이 오히려 노출 노드 문제를 악화시키는 딜레마를 낳았으며, 이를 극복하기 위해 지향성 안테나(MIMO)와 독립적 BSS 구조가 발전하게 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-무선 통신에서 노드들은 다른 누군가가 전파를 사용하고 있으면(Carrier Sense), 간섭을 피하기 위해 통신을 멈추고 기다리는 [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 기본 철학을 따른다. 하지만 무선 전파는 물결처럼 사방으로 퍼지기 때문에, 나와 전혀 상관없는 방향으로 이루어지는 남의 통신 전파도 내 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 수신된다. 만약 A가 B에게 송신 중일 때, 그 옆에 있던 C가 D에게 송신하고 싶다고 가정해 보자. C가 D에게 쏘는 전파는 B에게 닿지 않아 아무런 간섭을 주지 않음에도 불구하고, C는 A가 쏘는 전파를 듣고 "아, 누군가 채널을 쓰고 있네"라고 착각하여 송신을 포기해 버린다. 이렇게 주변의 통신에 노출되어 억울하게 전송 기회를 박탈당하는 단말을 '노출 노드(Exposed Node)'라고 한다.
+무선 통신에서 노드들은 다른 누군가가 전파를 사용하고 있으면(Carrier Sense), 간섭을 피하기 위해 통신을 멈추고 기다리는 CSMA/CA의 기본 철학을 따른다. 하지만 무선 전파는 물결처럼 사방으로 퍼지기 때문에, 나와 전혀 상관없는 방향으로 이루어지는 남의 통신 전파도 내 안테나에 수신된다. 만약 A가 B에게 송신 중일 때, 그 옆에 있던 C가 D에게 송신하고 싶다고 가정해 보자. C가 D에게 쏘는 전파는 B에게 닿지 않아 아무런 간섭을 주지 않음에도 불구하고, C는 A가 쏘는 전파를 듣고 "아, 누군가 채널을 쓰고 있네"라고 착각하여 송신을 포기해 버린다. 이렇게 주변의 통신에 노출되어 억울하게 전송 기회를 박탈당하는 단말을 '노출 노드(Exposed Node)'라고 한다.
 
 이 도식은 노출 노드 문제가 발생하는 공간적 배치와 통신 범위의 불일치를 시각화한다.
 ```text
@@ -44,7 +44,7 @@ weight: 110
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-노출 노드 문제는 무선 통신의 두 가지 중요한 반경 범위(Range)가 일치하지 않는 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 구조에서 기인한다.
+노출 노드 문제는 무선 통신의 두 가지 중요한 반경 범위(Range)가 일치하지 않는 매체 접근 구조에서 기인한다.
 
 | 구성 요소 | 영문 명칭 | 정의 및 범위 | 비유 |
 |:---|:---|:---|:---|
@@ -53,7 +53,7 @@ weight: 110
 | **은닉 노드** | Hidden Node | 수신자는 겹치는데, 송신자끼리 서로 간섭 범위 밖에 있어 충돌을 유발하는 노드 | 서로 안 보이는데 같은 과녁에 활을 쏘는 사람 |
 | **노출 노드** | Exposed Node | 수신자는 안 겹치는데, 송신자끼리 간섭 범위 안에 있어 불필요하게 양보하는 노드 | 서로 다른 과녁에 쏘려는데 너무 붙어 있어 겁먹은 사람 |
 
-이 흐름도는 노출 노드(C)가 [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 프로세스를 진행하다가 어떻게 스스로 멈추게 되는지 논리적 상태 변화를 나타낸다.
+이 흐름도는 노출 노드(C)가 CSMA/CA 프로세스를 진행하다가 어떻게 스스로 멈추게 되는지 논리적 상태 변화를 나타낸다.
 ```text
 [CSMA/CA의 물리적 Carrier Sense로 인한 노출 노드의 억제 시퀀스]
 
@@ -73,7 +73,7 @@ weight: 110
      => C는 B에게 아무런 피해를 주지 않음에도 불구하고,
         자신의 전송(C->D)을 완전히 중단하고 A의 통신이 끝날 때까지 대기.
 ```
-이 메커니즘의 맹점은 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 [CCA](/studynote/09_security/02_crypto/093_cca/)(Clear Channel Assessment) 로직이 지나치게 보수적으로 설계되어 있다는 것이다. 무선 칩셋은 허공의 전파 에너지가 특정 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold) 이상이면 그 전파가 누구를 향하는 것인지, 나와 겹치는지를 묻지도 따지지도 않고 채널을 잠가버린다. 이는 무선 네트워크의 생명인 '공간적 재사용성(Spatial Reuse)'을 극도로 떨어뜨린다. 넓은 공간에서 A-B 커플과 C-D 커플이 동시에 대화할 수 있음에도, 한 커플이 대화하면 다른 커플이 강제로 침묵해야 하므로 전체 네트워크의 총 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 절반으로 반토막 나는 것이다.
+이 메커니즘의 맹점은 MAC 계층의 CCA(Clear Channel Assessment) 로직이 지나치게 보수적으로 설계되어 있다는 것이다. 무선 칩셋은 허공의 전파 에너지가 특정 임계치(Threshold) 이상이면 그 전파가 누구를 향하는 것인지, 나와 겹치는지를 묻지도 따지지도 않고 채널을 잠가버린다. 이는 무선 네트워크의 생명인 '공간적 재사용성(Spatial Reuse)'을 극도로 떨어뜨린다. 넓은 공간에서 A-B 커플과 C-D 커플이 동시에 대화할 수 있음에도, 한 커플이 대화하면 다른 커플이 강제로 침묵해야 하므로 전체 네트워크의 총 처리량(Aggregate Throughput)이 절반으로 반토막 나는 것이다.
 
 - **📢 섹션 요약 비유**: 시끄러운 클럽 안에서 각자 자기 일행과 귀에 대고 속삭이면 충분히 수십 명이 동시에 대화(공간적 재사용성)할 수 있는데, 규칙상 "누구든 소음이 50데시벨 이상이면 무조건 입을 다물라"고 강제해서 결국 한 명씩밖에 말을 못 하는 답답한 규칙과 같습니다.
 
@@ -85,10 +85,10 @@ weight: 110
 
 | 비교 항목 | 은닉 노드 상황 시 RTS/CTS | 노출 노드 상황 시 RTS/CTS | 시스템 전체 득실 |
 |:---|:---|:---|:---|
-| **문제의 성격** | "보이지 않아 충돌 유발" (치명적 에러) | "보여서 스스로 포기" ([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하) | 에러(충돌) vs 효율([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) |
+| **문제의 성격** | "보이지 않아 충돌 유발" (치명적 에러) | "보여서 스스로 포기" (성능 저하) | 에러(충돌) vs 효율(지연) |
 | **RTS 프레임 수신** | 수신하지 못함 (은닉 노드이므로) | **수신함 (A가 쏜 RTS를 C가 들음)** | 제어 프레임의 전파 도달 |
-| **CTS 프레임 수신** | 수신함 (B가 쏜 CTS를 들음) | 수신하지 못함 (B와 너무 멂) | NAV 타이머 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 여부 |
-| **발생 결과** | 충돌 완벽히 방어 성공! | <strong>C가 A의 RTS를 듣고 NAV를 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>해 버림!</strong> | **노출 노드 현상 더욱 악화** |
+| **CTS 프레임 수신** | 수신함 (B가 쏜 CTS를 들음) | 수신하지 못함 (B와 너무 멂) | NAV 타이머 설정 여부 |
+| **발생 결과** | 충돌 완벽히 방어 성공! | <strong>C가 A의 RTS를 듣고 NAV를 설정해 버림!</strong> | **노출 노드 현상 더욱 악화** |
 
 이 비교 매트릭스는 RTS/CTS 교환이 노출 노드에게 미치는 악영향을 시각화한다.
 ```text
@@ -106,19 +106,19 @@ weight: 110
 |    Duration 시간(가짜 알람) 때문에 더 철저하게 침묵함! |
 +--------------------------------------------------------+
 ```
-이 대조표는 무선 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계의 가장 유명한 트레이드오프(딜레마)를 보여준다. 은닉 노드는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 충돌시켜 찢어버리므로 반드시 막아야 하는 '치명상'이다. 이를 막기 위해 RTS/CTS를 켜면, 이번엔 주변의 억울한 노출 노드(C)들마저 A의 RTS를 엿듣고 가상 타이머(NAV)를 잠가버려 네트워크가 지나치게 경직된다. 즉, 충돌(에러)은 사라지지만 빈 공간에서 동시 통신할 수 있는 기회([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))마저 증발해 버리는 것이다. 실무 설계에서는 에러를 허용할 것인가, 비효율을 감수할 것인가의 끊임없는 저울질이 요구된다.
+이 대조표는 무선 프로토콜 설계의 가장 유명한 트레이드오프(딜레마)를 보여준다. 은닉 노드는 데이터를 충돌시켜 찢어버리므로 반드시 막아야 하는 '치명상'이다. 이를 막기 위해 RTS/CTS를 켜면, 이번엔 주변의 억울한 노출 노드(C)들마저 A의 RTS를 엿듣고 가상 타이머(NAV)를 잠가버려 네트워크가 지나치게 경직된다. 즉, 충돌(에러)은 사라지지만 빈 공간에서 동시 통신할 수 있는 기회(대역폭)마저 증발해 버리는 것이다. 실무 설계에서는 에러를 허용할 것인가, 비효율을 감수할 것인가의 끊임없는 저울질이 요구된다.
 
-- **📢 섹션 요약 비유**: 감기(은닉 노드)를 잡으려고 강력한 항생제(RTS/CTS)를 먹었더니, 멀쩡하던 소화 기관(노출 노드)의 유익균까지 모조리 활동을 멈춰서 소화 불량([처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하)이라는 심각한 부작용을 얻게 된 것과 같습니다.
+- **📢 섹션 요약 비유**: 감기(은닉 노드)를 잡으려고 강력한 항생제(RTS/CTS)를 먹었더니, 멀쩡하던 소화 기관(노출 노드)의 유익균까지 모조리 활동을 멈춰서 소화 불량(처리량 저하)이라는 심각한 부작용을 얻게 된 것과 같습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 네트워크 환경에서 노출 노드 문제를 극복하기 위해서는 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 소프트웨어적 접근을 넘어 물리 계층(PHY)의 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 튜닝과 공간 설계가 필수적이다.
+실무 네트워크 환경에서 노출 노드 문제를 극복하기 위해서는 MAC 계층의 소프트웨어적 접근을 넘어 물리 계층(PHY)의 안테나 튜닝과 공간 설계가 필수적이다.
 
 **실무 판단 시나리오**
-1. <strong>고밀도 <a href="/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 배치 환경(밀집 사무실)</strong>: 여러 대의 AP가 같은 층에 촘촘히 배치될 경우, AP끼리 서로의 비콘([Beacon](/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전파를 들으면서 노출 노드 현상이 집단으로 발생하여 전체 속도가 바닥을 친다. 실무자는 [동일 채널 간섭](/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)([Co-Channel Interference](/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/))을 막기 위해 2.4GHz 대역에서는 1, 6, 11번 채널을 물리적으로 엇갈리게 배치(Cell Planning)하여, 옆 AP의 통신이 내 AP에게 들리지 않는 '서로 다른 방'을 강제로 만들어 주어야 한다.
-2. <strong><a href="/studynote/09_security/02_crypto/093_cca/">CCA</a> (Clear Channel Assessment) <a href="/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 조절</strong>: 기업용 컨트롤러 기반 Wi-Fi 장비에서는 전파 감지 민감도([CCA](/studynote/09_security/02_crypto/093_cca/) Threshold)를 조정할 수 있다. 기본값(-82dBm)을 더 둔감하게(-70dBm 등) 올리면, 멀리서 들려오는 A의 전파를 C가 무시하고(노이즈로 취급) D에게 전송을 강행할 수 있다. 하지만 이를 잘못 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 노출 노드를 풀려다가 은닉 노드 충돌을 양산할 수 있으므로, 반드시 철저한 사이트 서베이(Site Survey) 후 보수적으로 튜닝해야 한다.
+1. <strong>고밀도 AP 배치 환경(밀집 사무실)</strong>: 여러 대의 AP가 같은 층에 촘촘히 배치될 경우, AP끼리 서로의 비콘(Beacon)과 데이터 전파를 들으면서 노출 노드 현상이 집단으로 발생하여 전체 속도가 바닥을 친다. 실무자는 동일 채널 간섭(Co-Channel Interference)을 막기 위해 2.4GHz 대역에서는 1, 6, 11번 채널을 물리적으로 엇갈리게 배치(Cell Planning)하여, 옆 AP의 통신이 내 AP에게 들리지 않는 '서로 다른 방'을 강제로 만들어 주어야 한다.
+2. <strong>CCA (Clear Channel Assessment) 임계치 조절</strong>: 기업용 컨트롤러 기반 Wi-Fi 장비에서는 전파 감지 민감도(CCA Threshold)를 조정할 수 있다. 기본값(-82dBm)을 더 둔감하게(-70dBm 등) 올리면, 멀리서 들려오는 A의 전파를 C가 무시하고(노이즈로 취급) D에게 전송을 강행할 수 있다. 하지만 이를 잘못 설정하면 노출 노드를 풀려다가 은닉 노드 충돌을 양산할 수 있으므로, 반드시 철저한 사이트 서베이(Site Survey) 후 보수적으로 튜닝해야 한다.
 
 이 판단 트리는 고밀도 환경에서 무선 간섭과 노출 노드 억제를 위한 엔지니어의 의사결정 과정을 보여준다.
 ```text
@@ -139,27 +139,27 @@ weight: 110
                         옆 공간으로 넘어가는 간섭(노출) 차단.
                         지향성 안테나(Directional) 장비 도입.
 ```
-이 흐름의 핵심은 노출 노드 현상이 '전파가 너무 멀리, 원형(Omni)으로 퍼져서' 생기는 물리적 한계라는 점이다. 따라서 출력 전력을 줄이거나(Tx [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control), 전파를 특정 방향으로만 쏘는 지향성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 배치하여 물리적인 간섭 반경 자체를 칼로 자르듯 좁혀주는 것이 가장 확실한 처방이다. 소프트웨어적으로는 [CCA](/studynote/09_security/02_crypto/093_cca/) [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 높여 귀를 살짝 막아버리는 최적화 기법이 병행된다.
+이 흐름의 핵심은 노출 노드 현상이 '전파가 너무 멀리, 원형(Omni)으로 퍼져서' 생기는 물리적 한계라는 점이다. 따라서 출력 전력을 줄이거나(Tx Power Control), 전파를 특정 방향으로만 쏘는 지향성 안테나를 배치하여 물리적인 간섭 반경 자체를 칼로 자르듯 좁혀주는 것이 가장 확실한 처방이다. 소프트웨어적으로는 CCA 임계치를 높여 귀를 살짝 막아버리는 최적화 기법이 병행된다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 도서관에서 너무 귀가 밝아([CCA](/studynote/09_security/02_crypto/093_cca/) 민감) 남의 책장 넘기는 소리에도 공부를 못하는 학생(노출 노드)에게, 귀마개를 씌워주거나([CCA](/studynote/09_security/02_crypto/093_cca/) 둔감화) 칸막이 책상(지향성 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))을 설치해 주어 자기 공부에만 집중하게 만드는 환경 통제와 같습니다.
+- **📢 섹션 요약 비유**: 도서관에서 너무 귀가 밝아(CCA 민감) 남의 책장 넘기는 소리에도 공부를 못하는 학생(노출 노드)에게, 귀마개를 씌워주거나(CCA 둔감화) 칸막이 책상(지향성 안테나)을 설치해 주어 자기 공부에만 집중하게 만드는 환경 통제와 같습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-노출 노드 문제는 무선 통신의 1차원적(시간/주파수) [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 방식이 가진 태생적 한계였으며, 현대 통신은 이를 '공간적 분리'라는 3차원적 기술로 혁파하고 있다.
+노출 노드 문제는 무선 통신의 1차원적(시간/주파수) 매체 접근 방식이 가진 태생적 한계였으며, 현대 통신은 이를 '공간적 분리'라는 3차원적 기술로 혁파하고 있다.
 
-| 해결 기술 | 적용 방식 및 원리 | 기대 효과 및 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 |
+| 해결 기술 | 적용 방식 및 원리 | 기대 효과 및 성능 개선 |
 |:---|:---|:---|
-| <strong>지향성 <a href="/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong> | 전파를 부채꼴이 아닌 직선(Beam)으로 쏨 | 노출 노드 반경을 획기적으로 축소, 공간 재사용 극대화 |
-| <strong><a href="/studynote/09_security/02_crypto/093_cca/">CCA</a> <a href="/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 제어</strong> | 수신 감도 기준을 높여 미세 간섭 무시 | 단말이 더 공격적으로 채널을 점유하도록 유도 |
-| <strong><a href="/studynote/03_network/15_nextgen_communication_architecture/779_bss_coloring_wifi_6_spatial_reuse/">BSS Coloring</a> (<a href="/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/">Wi-Fi 6</a>)</strong> | 프레임 헤더에 공유기([BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/)) 고유 색상 태그 부여 | 옆 공유기의 전파(다른 색상)를 들어도 무시하고 동시 전송 |
+| <strong>지향성 안테나</strong> | 전파를 부채꼴이 아닌 직선(Beam)으로 쏨 | 노출 노드 반경을 획기적으로 축소, 공간 재사용 극대화 |
+| <strong>CCA 임계치 제어</strong> | 수신 감도 기준을 높여 미세 간섭 무시 | 단말이 더 공격적으로 채널을 점유하도록 유도 |
+| <strong>BSS Coloring (Wi-Fi 6)</strong> | 프레임 헤더에 공유기(BSS) 고유 색상 태그 부여 | 옆 공유기의 전파(다른 색상)를 들어도 무시하고 동시 전송 |
 
 이 로드맵은 노출 노드 병목을 극복하기 위한 무선 공간 재사용(Spatial Reuse) 기술의 진화 방향을 보여준다.
 ```text
@@ -176,9 +176,9 @@ weight: 110
    * 완성: 허공의 전파를 레이저처럼 깎아 특정 단말에게만 쏘므로,
            애초에 옆 단말이 그 전파를 들을(노출될) 일 자체가 사라짐
 ```
-초창기 무선 통신 공학자들은 보이지 않는 충돌(은닉 노드)을 막는 데 급급하여, 지나치게 예의 바르고 조심스러운 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(RTS/CTS와 민감한 Carrier Sense)을 설계했고, 그 부작용으로 공간의 낭비(노출 노드)라는 대가를 치렀다. 그러나 최신 [Wi-Fi 6](/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)(802.[11ax](/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/))의 [BSS Coloring](/studynote/03_network/15_nextgen_communication_architecture/779_bss_coloring_wifi_6_spatial_reuse/) 기술과 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 [빔포밍](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 기술은, 전파가 겹치더라도 시스템이 이를 구별해 내거나 물리적으로 전파의 길을 비틀어버림으로써 노출 노드 문제 자체를 무의미하게 만들고 있다. 이는 통신 기술이 무조건적인 양보(회피)에서 정교한 통제(스케줄링 및 공간 분할)로 진보하고 있음을 증명하는 완벽한 기술사적 궤적이다.
+초창기 무선 통신 공학자들은 보이지 않는 충돌(은닉 노드)을 막는 데 급급하여, 지나치게 예의 바르고 조심스러운 프로토콜(RTS/CTS와 민감한 Carrier Sense)을 설계했고, 그 부작용으로 공간의 낭비(노출 노드)라는 대가를 치렀다. 그러나 최신 Wi-Fi 6(802.11ax)의 BSS Coloring 기술과 5G/6G의 빔포밍 기술은, 전파가 겹치더라도 시스템이 이를 구별해 내거나 물리적으로 전파의 길을 비틀어버림으로써 노출 노드 문제 자체를 무의미하게 만들고 있다. 이는 통신 기술이 무조건적인 양보(회피)에서 정교한 통제(스케줄링 및 공간 분할)로 진보하고 있음을 증명하는 완벽한 기술사적 궤적이다.
 
-- **📢 섹션 요약 비유**: 옆집 대화가 들리면 무조건 조용히 해야 했던 얇은 판잣집(구형 Wi-Fi)에서, 이제는 100명이 떠들어도 완벽히 소음이 차단되는 완벽한 방음벽과 개별 스피커([BSS Coloring](/studynote/03_network/15_nextgen_communication_architecture/779_bss_coloring_wifi_6_spatial_reuse/), [빔포밍](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))를 설치하여 모두가 동시에 노래할 수 있는 최첨단 스튜디오로 진화한 것과 같습니다.
+- **📢 섹션 요약 비유**: 옆집 대화가 들리면 무조건 조용히 해야 했던 얇은 판잣집(구형 Wi-Fi)에서, 이제는 100명이 떠들어도 완벽히 소음이 차단되는 완벽한 방음벽과 개별 스피커(BSS Coloring, 빔포밍)를 설치하여 모두가 동시에 노래할 수 있는 최첨단 스튜디오로 진화한 것과 같습니다.
 
 ---
 
@@ -186,11 +186,11 @@ weight: 110
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) | 노드가 전송 전 채널을 감지하여 비어있을 때만 전송하는 무선 통신의 기본 예절 |
+| CSMA/CA | 노드가 전송 전 채널을 감지하여 비어있을 때만 전송하는 무선 통신의 기본 예절 |
 | Hidden Node Problem | 노출 노드와 정반대로, 서로 보이지 않아 충돌을 일으키는 무선의 가장 치명적인 병목 |
-| Spatial Reuse (공간적 재사용성) | 동일한 주파수를 서로 다른 물리적 공간에서 동시에 사용하여 전체 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 뻥튀기하는 설계 목표 |
-| [CCA](/studynote/09_security/02_crypto/093_cca/) (Clear Channel Assessment) | 물리 계층에서 현재 허공의 전파 에너지가 비어있는지(Clear)를 감지하는 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 판단 기준 |
-| [BSS Coloring](/studynote/03_network/15_nextgen_communication_architecture/779_bss_coloring_wifi_6_spatial_reuse/) | Wi-Fi 6에 도입되어 인접 AP의 신호를 색깔로 구분하고 노출 노드 억울함을 해소해 주는 혁신 기술 |
+| Spatial Reuse (공간적 재사용성) | 동일한 주파수를 서로 다른 물리적 공간에서 동시에 사용하여 전체 대역폭을 뻥튀기하는 설계 목표 |
+| CCA (Clear Channel Assessment) | 물리 계층에서 현재 허공의 전파 에너지가 비어있는지(Clear)를 감지하는 임계치 판단 기준 |
+| BSS Coloring | Wi-Fi 6에 도입되어 인접 AP의 신호를 색깔로 구분하고 노출 노드 억울함을 해소해 주는 혁신 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -204,21 +204,10 @@ weight: 110
     +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
-노출 노드 문제는 RTS/CTS에서 출발해 현재 메커니즘을 정교화하고, 이후 [ALOHA](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) 및 지능형 자원 스케줄링로 확장되는 흐름 속에서 이해하면 기억이 오래간다.
+노출 노드 문제는 RTS/CTS에서 출발해 현재 메커니즘을 정교화하고, 이후 ALOHA 및 지능형 자원 스케줄링로 확장되는 흐름 속에서 이해하면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 내가 친구랑 얘기하려고 폼을 잡았는데, 옆에 있는 다른 형이 자기 친구랑 아주 큰 소리로 떠들고 있어요.
 2. 사실 그 형은 내 친구랑 아무 상관도 없는데, 소리가 너무 커서 나는 "지금 말하면 안 되겠다" 하고 입을 꾹 다물게 돼요. (노출 노드)
 3. 이렇게 나랑 상관없는 사람의 대화 때문에 억울하게 기다리느라 시간을 낭비하는 현상을 노출 노드 문제라고 부른답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 220 / 1120
-
-<- **이전**: [1109. OPC UA 자동화 프레임 표준 통신](/studynote/03_network/20_performance_evaluation_advanced/1109_opc_ua_industrial_automation_protocol/)
-**다음**: [1110. 무손실 이더넷 (PFC 체제)](/studynote/03_network/20_performance_evaluation_advanced/1110_lossless_ethernet_pfc_priority_flow_control/) ->
-
----

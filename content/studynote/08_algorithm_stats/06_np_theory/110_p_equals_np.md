@@ -6,9 +6,9 @@ tags:
 weight: 110
 ---
 > **핵심 인사이트**
-> 1. P = NP 문제는 "검증이 쉬운 문제는 풀기도 쉬운가?"라는 질문으로, 밀레니엄 7대 난제 중 하나이자 100만 달러 상금의 클레이 수학 연구소 문제이며 — 만약 P = NP라면 암호화([RSA](/studynote/09_security/03_network_security/110_rsa/), [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))의 수학적 기반이 붕괴된다.
+> 1. P = NP 문제는 "검증이 쉬운 문제는 풀기도 쉬운가?"라는 질문으로, 밀레니엄 7대 난제 중 하나이자 100만 달러 상금의 클레이 수학 연구소 문제이며 — 만약 P = NP라면 암호화(RSA, 블록체인)의 수학적 기반이 붕괴된다.
 > 2. 현재까지 P ≠ NP로 추측되지만 증명이 없으며, 수학자 Scott Aaronson은 "P = NP라면 수학 자체가 자동화된다 — AI가 모든 수학 증명을 실용적으로 찾아낼 수 있다"고 설명했다.
-> 3. P = NP 여부와 관계없이 현실의 NP 문제는 [근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)([Approximation Algorithm](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))과 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristic](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))으로 다루며 — 이것이 현대 최적화 이론과 AI의 실용적 기반이다.
+> 3. P = NP 여부와 관계없이 현실의 NP 문제는 근사 알고리즘(Approximation Algorithm)과 휴리스틱(Heuristic)으로 다루며 — 이것이 현대 최적화 이론과 AI의 실용적 기반이다.
 
 ---
 
@@ -168,11 +168,11 @@ Fixed-Parameter Tractable (FPT):
   입력에 제약 조건 -> DP로 폭발적 탐색 제한
 ```
 
-> 📢 **섹션 요약 비유**: P ≠ NP 세계에서의 생존은 탐험가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 지도 없이 정글을 헤맬 때 최선의 방향을 빠르게 찾는 경험과 직관([휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))이 완벽한 지도보다 실용적.
+> 📢 **섹션 요약 비유**: P ≠ NP 세계에서의 생존은 탐험가 전략 — 지도 없이 정글을 헤맬 때 최선의 방향을 빠르게 찾는 경험과 직관(휴리스틱)이 완벽한 지도보다 실용적.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 보안 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계
+## Ⅴ. 실무 시나리오 — 보안 프로토콜 설계
 
 ```
 암호화 시스템과 P ≠ NP 가정:
@@ -269,14 +269,3 @@ Shor 알고리즘 -> P=NP 없이도 RSA 위협
 1. P = NP는 "정답지 보고 맞다는 걸 아는 것"과 "처음부터 답을 찾는 것"이 같은 난이도인지 묻는 것 — 수학자들은 50년째 "아니요"라고 생각하지만 증명 못 했어요!
 2. 만약 P = NP면 인터넷 비밀번호 암호화가 모두 의미 없어질 수 있어요 — 현재 보안의 기반이 "P ≠ NP일 것이다"라는 가정이에요.
 3. 수학계의 가장 어려운 숙제 — 100만 달러 상금이 50년 넘게 아무도 못 받고 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 110 / 175
-
-<- **이전**: [004. NP-어려움 (NP-Hard)](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
-**다음**: [006. 다항 시간 환산 (Polynomial Reduction)](/studynote/08_algorithm_stats/06_np_theory/111_polynomial_reduction/) ->
-
----

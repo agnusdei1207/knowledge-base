@@ -6,15 +6,15 @@ tags:
 weight: 33
 ---
 > **핵심 인사이트 3줄**
-> 1. [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/))는 [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)) + 특성 무작위화(Feature Randomness)를 결합해 다수의 독립적인 [의사결정 트리](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)를 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)하는 강력한 지도학습 모델이다.
-> 2. 각 트리가 부트스트랩 샘플과 무작위 선택된 특성 부분집합으로 학습해 상관관계가 낮은 다양한 트리를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 다수결/평균으로 최종 예측한다.
-> 3. 특성 중요도([Feature Importance](/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)) 계산이 내장되어 해석 가능성이 뛰어나고, 과적합에 강하며, 결측값·[이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)에도 견고해 실무에서 가장 널리 사용되는 기반 모델이다.
+> 1. 랜덤 포레스트(Random Forest)는 배깅(Bagging) + 특성 무작위화(Feature Randomness)를 결합해 다수의 독립적인 의사결정 트리를 앙상블하는 강력한 지도학습 모델이다.
+> 2. 각 트리가 부트스트랩 샘플과 무작위 선택된 특성 부분집합으로 학습해 상관관계가 낮은 다양한 트리를 생성하며, 다수결/평균으로 최종 예측한다.
+> 3. 특성 중요도(Feature Importance) 계산이 내장되어 해석 가능성이 뛰어나고, 과적합에 강하며, 결측값·이상치에도 견고해 실무에서 가장 널리 사용되는 기반 모델이다.
 
 ---
 
-## Ⅰ. [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)의 구조와 원리
+## Ⅰ. 랜덤 포레스트의 구조와 원리
 
-[랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/))는 <strong><a href="/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">Leo</a> Breiman(2001)</strong>이 제안한 [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 기반 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+랜덤 포레스트(Random Forest)는 <strong>Leo Breiman(2001)</strong>이 제안한 배깅 기반 앙상블 알고리즘이다.
 
 ```
 원본 데이터 (N개 샘플)
@@ -33,7 +33,7 @@ weight: 33
 1. **부트스트랩 샘플링**: 각 트리마다 복원 추출로 N개 샘플 선택 (약 63.2% 고유 샘플)
 2. **특성 무작위화**: 각 분기점에서 m개 특성만 고려 (m ≈ √p, p=전체 특성 수)
 
-📢 **섹션 요약 비유**: [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 다수결 전문가 패널이다 — 서로 다른 배경(부트스트랩)과 전공(무작위 특성)을 가진 전문가들이 투표해 편향 없는 결론을 낸다.
+📢 **섹션 요약 비유**: 랜덤 포레스트는 다수결 전문가 패널이다 — 서로 다른 배경(부트스트랩)과 전공(무작위 특성)을 가진 전문가들이 투표해 편향 없는 결론을 낸다.
 
 ---
 
@@ -42,11 +42,11 @@ weight: 33
 | 파라미터             | 설명                          | 기본값·권장 범위      |
 |------------------|------------------------------|---------------------|
 | n_estimators     | 트리 개수                     | 100~500 (많을수록 좋음) |
-| max_features     | 각 분기점 고려 특성 수         | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/): √p, 회귀: p/3  |
+| max_features     | 각 분기점 고려 특성 수         | 분류: √p, 회귀: p/3  |
 | max_depth        | 각 트리 최대 깊이              | None (완전 성장)     |
 | min_samples_leaf | 리프 최소 샘플 수             | 1~5                  |
 | bootstrap        | 부트스트랩 사용 여부           | True                 |
-| oob_score        | OOB 오류율로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)             | True (권장)          |
+| oob_score        | OOB 오류율로 검증             | True (권장)          |
 
 ### OOB (Out-of-Bag) 오류
 
@@ -59,7 +59,7 @@ weight: 33
 
 ---
 
-## Ⅲ. 특성 중요도 ([Feature Importance](/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/))
+## Ⅲ. 특성 중요도 (Feature Importance)
 
 ### 불순도 기반 중요도 (MDI)
 
@@ -124,17 +124,17 @@ for i in idx:
 
 ---
 
-## Ⅴ. [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/) vs [그래디언트 부스팅](/studynote/10_ai/01_ai_basics/034_gradient_boosting/)
+## Ⅴ. 랜덤 포레스트 vs 그래디언트 부스팅
 
-| 특성          | [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)        | XGBoost / LightGBM     |
+| 특성          | 랜덤 포레스트        | XGBoost / LightGBM     |
 |-------------|---------------------|------------------------|
-| 학습 방식    | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) (독립 트리)    | 순차 (이전 오류 보완)    |
-| 과적합 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)  | 강함                 | 중간 (하이퍼파라미터 민감) |
+| 학습 방식    | 병렬 (독립 트리)    | 순차 (이전 오류 보완)    |
+| 과적합 저항  | 강함                 | 중간 (하이퍼파라미터 민감) |
 | 속도         | 빠름                 | 느림 (많은 트리 반복)    |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (일반)  | 좋음                 | 더 좋음 (튜닝 시)        |
+| 성능 (일반)  | 좋음                 | 더 좋음 (튜닝 시)        |
 | 해석 가능성  | 높음 (OOB, MDI)    | 중간                     |
 | 결측값 처리  | 내장 없음            | 내장 처리 (XGBoost)     |
-| 적합 상황    | 빠른 [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)      | Kaggle 경진대회, 세밀 튜닝|
+| 적합 상황    | 빠른 베이스라인      | Kaggle 경진대회, 세밀 튜닝|
 
 📢 **섹션 요약 비유**: RF vs XGBoost는 민주주의 vs 멘토링 학습이다 — RF는 각자 독립 투표, XGBoost는 이전 실수를 선생님이 집중 보완한다.
 
@@ -188,17 +188,6 @@ for i in idx:
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 100명 전문가 다수결이다 — 각자 다른 공부를 하고(무작위 특성) 다른 문제를 풀어(부트스트랩) 가장 많이 나온 답이 정답이 된다.
+1. 랜덤 포레스트는 100명 전문가 다수결이다 — 각자 다른 공부를 하고(무작위 특성) 다른 문제를 풀어(부트스트랩) 가장 많이 나온 답이 정답이 된다.
 2. OOB 점수는 예습 안 한 문제로 시험 보기다 — 공부 안 한 문제도 잘 맞히면 진짜 잘 이해한 것이다.
 3. 특성 중요도는 선수별 기여도다 — 한 선수를 빼봤을 때 팀 성적이 많이 떨어지면 그 선수가 핵심 선수이다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 33 / 420
-
-<- **이전**: [의사결정 트리 (Decision Tree)](/studynote/10_ai/01_ai_basics/032_decision_tree/)
-**다음**: [그래디언트 부스팅 (Gradient Boosting)](/studynote/10_ai/01_ai_basics/034_gradient_boosting/) ->
-
----

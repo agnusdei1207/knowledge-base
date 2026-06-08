@@ -6,32 +6,32 @@ tags:
 weight: 246
 ---
 > **핵심 인사이트 3줄**
-> 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 사업은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매·가공·결합 비용을 정부가 일부 지원해 중소기업·스타트업의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 높이는 한국 산업통상자원부·과기부 주관 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 사업이다.
-> 2. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 바우처·빅데이터 플랫폼·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)댐 사업과 연계된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계 진흥 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 기업(셀러)과 수요 기업(바이어)을 매칭하는 B2B [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 플랫폼을 지원한다.
-> 3. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매 바우처(상용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구입)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가공 바우처(원시 [데이터 정제](/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)·분석 의뢰)로 구분되며, 수혜 기업의 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·빅데이터 역량 강화와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 비즈니스 모델 수립을 궁극적 목표로 한다.
+> 1. 데이터바우처 사업은 데이터 구매·가공·결합 비용을 정부가 일부 지원해 중소기업·스타트업의 데이터 접근성을 높이는 한국 산업통상자원부·과기부 주관 정책 사업이다.
+> 2. AI 바우처·빅데이터 플랫폼·데이터댐 사업과 연계된 데이터 생태계 진흥 정책으로, 데이터 공급 기업(셀러)과 수요 기업(바이어)을 매칭하는 B2B 데이터 거래 플랫폼을 지원한다.
+> 3. 데이터 구매 바우처(상용 데이터 구입)와 데이터 가공 바우처(원시 데이터 정제·분석 의뢰)로 구분되며, 수혜 기업의 AI·빅데이터 역량 강화와 데이터 기반 비즈니스 모델 수립을 궁극적 목표로 한다.
 
 ---
 
-## Ⅰ. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처의 정의와 목적
+## Ⅰ. 데이터바우처의 정의와 목적
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처([Data Voucher](/studynote/16_bigdata/01_intro/014_data_voucher/))는 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구입·가공 비용의 일부를 정부가 바우처 형태로 지원하는 사업</strong>이다.
+데이터바우처(Data Voucher)는 <strong>데이터 구입·가공 비용의 일부를 정부가 바우처 형태로 지원하는 사업</strong>이다.
 
 ### 지원 목표
 
-| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 목표          | 내용                              |
+| 정책 목표          | 내용                              |
 |-----------------|----------------------------------|
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 평등화 | 대기업 독점 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중소기업도 활용 |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 활성화 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셀러·가공 기업 생태계 성장   |
-| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·빅데이터 역량  | 수요 기업의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 혁신 지원   |
-| [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/) 선순환 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유통·거래 인프라 구축        |
+| 데이터 접근 평등화 | 대기업 독점 데이터를 중소기업도 활용 |
+| 데이터 산업 활성화 | 데이터 셀러·가공 기업 생태계 성장   |
+| AI·빅데이터 역량  | 수요 기업의 데이터 기반 혁신 지원   |
+| 데이터 경제 선순환 | 데이터 유통·거래 인프라 구축        |
 
-📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처는 도서관 이용권이다 — 비싼 전문 도서(상용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 살 돈이 없는 사람에게 정부가 이용권을 줘서, 공부(사업)할 수 있게 돕는다.
+📢 **섹션 요약 비유**: 데이터바우처는 도서관 이용권이다 — 비싼 전문 도서(상용 데이터)를 살 돈이 없는 사람에게 정부가 이용권을 줘서, 공부(사업)할 수 있게 돕는다.
 
 ---
 
 ## Ⅱ. 바우처 유형과 지원 내용
 
-### [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매 바우처
+### 데이터 구매 바우처
 
 ```
 지원 대상: 상용 데이터 구입 비용
@@ -45,7 +45,7 @@ weight: 246
   - SNS·미디어 데이터
 ```
 
-### [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가공 바우처
+### 데이터 가공 바우처
 
 ```
 지원 대상: 보유 원시 데이터의 정제·분석·AI 학습 가공
@@ -58,11 +58,11 @@ weight: 246
   - 수요 예측·이상 탐지 모델 개발
 ```
 
-📢 **섹션 요약 비유**: 구매 바우처는 재료 구입비 지원이고, 가공 바우처는 요리사 고용비 지원이다 — 좋은 재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 사거나, 전문 요리사([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문가)에게 맡겨 결과물을 만든다.
+📢 **섹션 요약 비유**: 구매 바우처는 재료 구입비 지원이고, 가공 바우처는 요리사 고용비 지원이다 — 좋은 재료(데이터)를 사거나, 전문 요리사(데이터 전문가)에게 맡겨 결과물을 만든다.
 
 ---
 
-## Ⅲ. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 신청·수행 절차
+## Ⅲ. 데이터바우처 신청·수행 절차
 
 ```
 1단계: 공고 및 신청 (과기부·AI Hub 공고)
@@ -80,11 +80,11 @@ weight: 246
        - 데이터 활용 결과·사업 성과 제출
 ```
 
-📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 절차는 정부 지원금 사업과 같다 — 신청->심사->선정->지원금으로 구입->성과 보고 순서로, 투명하게 관리된다.
+📢 **섹션 요약 비유**: 데이터바우처 절차는 정부 지원금 사업과 같다 — 신청->심사->선정->지원금으로 구입->성과 보고 순서로, 투명하게 관리된다.
 
 ---
 
-## Ⅳ. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 생태계 구조
+## Ⅳ. 데이터바우처 생태계 구조
 
 ```
 데이터 바우처 생태계:
@@ -105,31 +105,31 @@ weight: 246
   - 데이터 전문 기업: 가공·분석 서비스
 ```
 
-📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 생태계는 정부가 운영하는 오픈 마켓이다 — 정부가 입점 판매자(셀러)를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 소비자(수요 기업)에게 상품권(바우처)을 나눠줘서 안전하게 거래할 수 있게 한다.
+📢 **섹션 요약 비유**: 데이터바우처 생태계는 정부가 운영하는 오픈 마켓이다 — 정부가 입점 판매자(셀러)를 검증하고, 소비자(수요 기업)에게 상품권(바우처)을 나눠줘서 안전하게 거래할 수 있게 한다.
 
 ---
 
-## Ⅴ. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 성과와 한계
+## Ⅴ. 데이터바우처 성과와 한계
 
 ### 주요 성과
 
 | 지표            | 내용                          |
 |------------|------------------------------|
 | 지원 기업 수 | 연간 3,000+ 기업 (2023년 기준) |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래액 | 누적 수천억 원 규모            |
-| 일자리 창출  | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문 인력 1만+ 명       |
-| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 개발 | 바우처로 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 출시 1,000+ 건|
+| 데이터 거래액 | 누적 수천억 원 규모            |
+| 일자리 창출  | 데이터 전문 인력 1만+ 명       |
+| AI 모델 개발 | 바우처로 AI 서비스 출시 1,000+ 건|
 
 ### 한계와 개선 과제
 
 | 한계             | 개선 방향                     |
 |--------------|------------------------------|
 | 단기 지원 효과 | 사후 관리·성과 추적 강화        |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 편차 | 셀러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 강화 |
+| 데이터 품질 편차 | 셀러 데이터 품질 인증 체계 강화 |
 | 대기업 접근 차별 | 중소기업 우선 지원 유지        |
-| 가이드라인 부족 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 교육·컨설팅 확대   |
+| 가이드라인 부족 | 데이터 활용 교육·컨설팅 확대   |
 
-📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 한계는 낚시 도구 지원이다 — 낚시 도구([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 주는 것은 좋지만, 낚시하는 방법([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 역량)도 함께 가르쳐야 진짜 효과가 난다.
+📢 **섹션 요약 비유**: 데이터바우처 한계는 낚시 도구 지원이다 — 낚시 도구(데이터)를 주는 것은 좋지만, 낚시하는 방법(데이터 활용 역량)도 함께 가르쳐야 진짜 효과가 난다.
 
 ---
 
@@ -180,17 +180,6 @@ weight: 246
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처는 도서관 이용권이다 — 비싼 전문 책(상용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 살 돈이 없는 중소기업에게 정부가 이용권을 줘서 공부(사업 혁신)할 수 있게 돕는다.
-2. 구매 바우처는 재료 구입비고, 가공 바우처는 요리사 고용비다 — 좋은 재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 사거나, 전문 요리사([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문가)에게 가공을 맡긴다.
-3. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계는 정부 오픈마켓이다 — [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 판매자(셀러)에게 정부 상품권(바우처)으로 안전하게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살 수 있는 시장이다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 246 / 262
-
-<- **이전**: [공공 빅데이터 (Public Big Data)](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)
-**다음**: [035. 오픈데이터 원칙 — FAIR](/studynote/16_bigdata/13_intro_trends/247_open_data_fair/) ->
-
----
+1. 데이터바우처는 도서관 이용권이다 — 비싼 전문 책(상용 데이터)을 살 돈이 없는 중소기업에게 정부가 이용권을 줘서 공부(사업 혁신)할 수 있게 돕는다.
+2. 구매 바우처는 재료 구입비고, 가공 바우처는 요리사 고용비다 — 좋은 재료(데이터)를 사거나, 전문 요리사(데이터 전문가)에게 가공을 맡긴다.
+3. 데이터 생태계는 정부 오픈마켓이다 — 검증된 데이터 판매자(셀러)에게 정부 상품권(바우처)으로 안전하게 데이터를 살 수 있는 시장이다.

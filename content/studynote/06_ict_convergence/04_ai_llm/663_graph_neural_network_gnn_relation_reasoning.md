@@ -145,11 +145,3 @@ GNN의 학습은 **순전파(Forward Pass)** 단계에서 반복적으로 발생
 | **확장성 (10⁹ 노드)** | Cluster/ShaDow-GNN 필요 | O(|E|) 학습, 분산 용이 | O(L²) 메모리 (long context) | #rules 증가 시 폭발 | R-GCN은 basis 분해로 압축 |
 | **설명 가능성** | 어텐션 가중치 시각화 | 거리 기반 단순 해석 | 어텐션 맵 | 규칙 직접 추출 | attention + path 기반 |
 | **대표 응용** | 노드 분류, 추천, 사기 탐지 | 지식 그래프 완성 (FB15k, WN18) | LLM (GPT), 시계열 | 의료 추론
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 663 / 800
-
-<- **이전**: [662. 벡터 데이터베이스 Pinecone Weaviate](/studynote/06_ict_convergence/uncategorized/662_vector_database_pinecone_weaviate/)
-**다음**: [664. 시계열 예측 자기회귀 트랜스포머](/studynote/06_ict_convergence/uncategorized/664_time_series_forecasting_autoregressive_transf/) ->
-
----

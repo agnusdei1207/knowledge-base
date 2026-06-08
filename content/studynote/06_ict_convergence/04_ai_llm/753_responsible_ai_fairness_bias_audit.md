@@ -151,11 +151,3 @@ weight: 753
 | **Measurement Bias** | 라벨링 | 라벨 정의·측정 방식의 그룹 간 차이 | Inter-annotator agreement κ per group | 신용评分에서 자영업자·프리랜서 데이터 부족 |
 | **Aggregation Bias** | 모델 학습 | 단일 모델로 이질적 하위그룹 통합 | Cluster analysis, Subgroup performance gap | GBDT 모델의 20대·60대 통합 예측 오류 |
 | **Learning Bias** | 모델 학습 | 손실함수·정규화·하이퍼파라미터가 그룹에 차별 | Gradient norm per group
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 753 / 800
-
-<- **이전**: [752. 설명 가능 AI XAI 모델 해석 투명성](/studynote/06_ict_convergence/uncategorized/752_explainable_ai_xai_interpretability_transpare/)
-**다음**: [754. AI 안전 정렬 문제 강건성 검증](/studynote/06_ict_convergence/uncategorized/754_ai_safety_alignment_problem_robustness/) ->
-
----

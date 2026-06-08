@@ -8,8 +8,8 @@ weight: 226
 ## 핵심 인사이트 (3줄 요약)
 
 - 전력 그리드는 "발전량 = 수요량"을 실시간으로 유지해야 하며, 1%의 예측 오차가 정전 또는 낭비 비용으로 이어지기 때문에 빅데이터 기반 수요 예측이 안정적 전력 공급의 핵심이다.
-- 신재생에너지(태양광·풍력)는 날씨 의존적 간헐성이 특징이며, 발전량 예측의 정확도가 에너지 저장장치([ESS](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)) 운영과 계통 안정성을 결정한다.
-- [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) ([Advanced Metering Infrastructure](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/), 지능형 원격검침)의 15분 단위 스마트미터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 에너지 절도 탐지·고장 진단·수요 반응([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 프로그램의 기반이다.
+- 신재생에너지(태양광·풍력)는 날씨 의존적 간헐성이 특징이며, 발전량 예측의 정확도가 에너지 저장장치(ESS) 운영과 계통 안정성을 결정한다.
+- AMI (Advanced Metering Infrastructure, 지능형 원격검침)의 15분 단위 스마트미터 데이터는 에너지 절도 탐지·고장 진단·수요 반응(DR) 프로그램의 기반이다.
 
 ---
 
@@ -19,12 +19,12 @@ weight: 226
 
 ### 에너지 빅데이터 4대 영역
 
-| 영역 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 빅데이터 역할 | 목표 |
+| 영역 | 데이터 | 빅데이터 역할 | 목표 |
 |:---|:---|:---|:---|
-| 전력 수요 예측 | 기상, 경제활동, 시계열 수요 | [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/Prophet 30분 단위 예측 | 발전 계획 최적화 |
-| 신재생 출력 예측 | 일사량·풍속 예보, 패널 상태 | 기상-발전량 회귀 모델 | [ESS](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) 충방전 최적화 |
+| 전력 수요 예측 | 기상, 경제활동, 시계열 수요 | LSTM/Prophet 30분 단위 예측 | 발전 계획 최적화 |
+| 신재생 출력 예측 | 일사량·풍속 예보, 패널 상태 | 기상-발전량 회귀 모델 | ESS 충방전 최적화 |
 | 스마트미터 분석 | 15분 간격 전력 사용량 | 이상 패턴 탐지, 고장 진단 | 전력 손실 최소화 |
-| 수요 반응 ([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) | 실시간 전력 가격, 수요 | 참여 고객 제어 자동화 | 피크 부하 감소 |
+| 수요 반응 (DR) | 실시간 전력 가격, 수요 | 참여 고객 제어 자동화 | 피크 부하 감소 |
 
 > 📢 **섹션 요약 비유**: 전력 수요 예측은 "오늘 얼마나 많은 사람이 에어컨을 틀지 미리 알아야 발전소를 알맞게 돌릴 수 있는 것"이다. 예측이 곧 안정적인 전기 공급이다.
 
@@ -73,16 +73,16 @@ weight: 226
 +-----------------------------------------------------------------+
 ```
 
-### 전력 수요 예측 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)
+### 전력 수요 예측 피처
 
-| [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 그룹 | [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | 영향 |
+| 피처 그룹 | 피처 | 영향 |
 |:---|:---|:---|
 | 기상 | 기온, 습도, 풍속, 일조 | 냉난방 수요 직접 연동 |
 | 시간 | 시간대, 요일, 공휴일 | 패턴 주기성 |
 | 경제 | GDP 성장률, 산업 생산 지수 | 장기 트렌드 |
 | 이벤트 | 대형 경기, TV 방송 | 순간 부하 급등 |
 
-### 스마트미터 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)
+### 스마트미터 이상 탐지
 
 ```
 정상 패턴:   07시~09시 ^ / 12시~13시 ^ / 18시~21시 ^
@@ -98,13 +98,13 @@ weight: 226
 
 ## Ⅲ. 비교 및 연결
 
-### 수요 반응 ([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), Demand Response) 방식 비교
+### 수요 반응 (DR, Demand Response) 방식 비교
 
 | 방식 | 원리 | 빅데이터 역할 |
 |:---|:---|:---|
-| 가격 기반 [DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) | 피크 시간대 높은 전력 단가 | 실시간 가격 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 제공 |
-| 인센티브 기반 [DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) | 절감 참여 시 보상 | 절감량 정확 측정 (M&V) |
-| 자동 [DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) ([ADR](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) | 스마트미터 -> 가전 자동 제어 | [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) + 스마트미터 통합 |
+| 가격 기반 DR | 피크 시간대 높은 전력 단가 | 실시간 가격 신호 제공 |
+| 인센티브 기반 DR | 절감 참여 시 보상 | 절감량 정확 측정 (M&V) |
+| 자동 DR (ADR) | 스마트미터 -> 가전 자동 제어 | IoT + 스마트미터 통합 |
 
 ### 신재생에너지 예측 정확도 영향 요인
 
@@ -130,15 +130,15 @@ weight: 226
 
 | 기관 | 플랫폼 | 역할 |
 |:---|:---|:---|
-| 한국전력공사 | [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), E-Brain | 전국 스마트미터 운영 |
-| 에너지경제연구원 | 에너지빅데이터플랫폼 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)·연구 지원 |
+| 한국전력공사 | AMI 데이터, E-Brain | 전국 스마트미터 운영 |
+| 에너지경제연구원 | 에너지빅데이터플랫폼 | 정책·연구 지원 |
 | 한국에너지공단 | K-EMS | 기업 에너지 관리 지원 |
-| 산업통상자원부 | 전력시장 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 공개 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공 |
+| 산업통상자원부 | 전력시장 운영 데이터 | 공개 데이터 제공 |
 
 **기술사 핵심 판단**:
-- **ISO 50001**: 에너지 관리 시스템 국제 표준 -> [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 에너지 경영의 프레임워크.
-- **사이버 보안**: 전력 인프라([CPS](/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), Cyber-Physical System)는 [ICS](/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) 보안 취약점이 국가 안보 위험 -> [OT](/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안 분리 설계 필수.
-- <strong><a href="/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong>: 스마트미터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 생활 패턴 노출 -> 집계 단위 제한, 동의 기반 [DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 참여.
+- **ISO 50001**: 에너지 관리 시스템 국제 표준 -> 데이터 기반 에너지 경영의 프레임워크.
+- **사이버 보안**: 전력 인프라(CPS, Cyber-Physical System)는 ICS 보안 취약점이 국가 안보 위험 -> OT 보안 분리 설계 필수.
+- <strong>개인정보</strong>: 스마트미터 데이터는 생활 패턴 노출 -> 집계 단위 제한, 동의 기반 DR 참여.
 
 > 📢 **섹션 요약 비유**: 에너지 빅데이터의 설계 원칙은 "전기를 안정적으로 공급하면서도, 내 전기 사용 패턴이 누군가에게 감시당하지 않아야 한다"는 것이다. 안전과 프라이버시가 동시에 필요하다.
 
@@ -148,14 +148,14 @@ weight: 226
 
 | 효과 | 수치 예시 |
 |:---|:---|
-| 예비력 절감 | 예측 정확도 향상으로 과잉 예비력 5~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 감소 |
-| 전력 손실 감소 | 스마트미터 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 전력 손실 3~8% 감소 |
-| 피크 부하 절감 | [DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 프로그램으로 최대 5~15% 피크 감소 |
-| 신재생 통합 비용 | 예측 정확도 향상으로 보조 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 비용 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 절감 |
+| 예비력 절감 | 예측 정확도 향상으로 과잉 예비력 5~10% 감소 |
+| 전력 손실 감소 | 스마트미터 이상 탐지로 전력 손실 3~8% 감소 |
+| 피크 부하 절감 | DR 프로그램으로 최대 5~15% 피크 감소 |
+| 신재생 통합 비용 | 예측 정확도 향상으로 보조 서비스 비용 10~20% 절감 |
 
-**결론**: 에너지 빅데이터는 탄소 중립 목표 달성과 에너지 안보를 동시에 지원하는 핵심 인프라다. 수요·공급 예측의 정밀화, 스마트미터 활용, [ESS](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)-신재생 통합 관리가 에너지 전환 시대의 빅데이터 3대 역할이다.
+**결론**: 에너지 빅데이터는 탄소 중립 목표 달성과 에너지 안보를 동시에 지원하는 핵심 인프라다. 수요·공급 예측의 정밀화, 스마트미터 활용, ESS-신재생 통합 관리가 에너지 전환 시대의 빅데이터 3대 역할이다.
 
-> 📢 **섹션 요약 비유**: 에너지 빅데이터는 "전기가 필요한 순간에 딱 맞게 만들어지고, 낭비 없이 사용되도록 하는 지능형 전력망의 두뇌"다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없으면 전기를 너무 많이 또는 너무 적게 만들게 된다.
+> 📢 **섹션 요약 비유**: 에너지 빅데이터는 "전기가 필요한 순간에 딱 맞게 만들어지고, 낭비 없이 사용되도록 하는 지능형 전력망의 두뇌"다. 데이터가 없으면 전기를 너무 많이 또는 너무 적게 만들게 된다.
 
 ---
 
@@ -163,11 +163,11 @@ weight: 226
 
 | 개념 | 연관 개념 | 비고 |
 |:---|:---|:---|
-| [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) (지능형 원격검침) | 스마트미터, 15분 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 에너지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 |
-| 수요 반응 ([DR](/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) | 가격 [신호](/studynote/02_operating_system/02_process_thread/130_signal/), [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [ADR](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/), M&V | 피크 부하 관리 |
-| 신재생 예측 | 일사량, 풍속, [ESS](/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), 간헐성 | 탄소 중립 핵심 |
-| ISO 50001 | 에너지 경영 시스템, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 관리 | 에너지 표준 |
-| [V2G](/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/) (차량-그리드) | 전기차 배터리, 양방향 충방전 | 미래 에너지 자원 |
+| AMI (지능형 원격검침) | 스마트미터, 15분 데이터, 이상 탐지 | 에너지 데이터 인프라 |
+| 수요 반응 (DR) | 가격 신호, IoT, ADR, M&V | 피크 부하 관리 |
+| 신재생 예측 | 일사량, 풍속, ESS, 간헐성 | 탄소 중립 핵심 |
+| ISO 50001 | 에너지 경영 시스템, 데이터 기반 관리 | 에너지 표준 |
+| V2G (차량-그리드) | 전기차 배터리, 양방향 충방전 | 미래 에너지 자원 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -187,21 +187,10 @@ weight: 226
 [탄소 중립 최적화 (Carbon Neutral Optimization) — 빅데이터 분석으로 ESG 목표 달성]
 ```
 
-이 흐름은 스마트 미터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 출발한 에너지 빅데이터 분석이 수요 예측과 [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 거래 플랫폼으로 발전하고, 탄소 중립 목표 달성의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 진화하는 과정을 보여준다.
+이 흐름은 스마트 미터 데이터에서 출발한 에너지 빅데이터 분석이 수요 예측과 P2P 거래 플랫폼으로 발전하고, 탄소 중립 목표 달성의 데이터 기반으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 - 에너지 빅데이터는 "오늘 얼마나 많은 사람이 에어컨을 켤지 미리 알아서 발전소가 준비하는 것"이다.
 - 스마트미터는 "우리 집 전기 사용을 15분마다 기록하는 아주 꼼꼼한 일기장"이다.
 - 수요 반응은 "전기가 부족할 것 같으면 자동으로 에어컨을 잠깐 끄고, 나중에 보상을 받는 것"이다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 226 / 262
-
-<- **이전**: [220. 통신 빅데이터 (Telecom Big Data) — 네트워크장애예측/고객이탈분석/QoE최적화](/studynote/16_bigdata/11_industry/225_telecom_bigdata/)
-**다음**: [222. 보험 빅데이터 (보험료 산정, 사기 탐지, 언더라이팅 자동화)](/studynote/16_bigdata/11_industry/227_management/) ->
-
----

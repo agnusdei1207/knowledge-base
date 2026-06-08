@@ -110,12 +110,3 @@ Core flow: Capture -> Calibrate -> Fuse -> Perceive -> Plan
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 582 / 800
-
-<- **이전**: [581. 디지털 트윈 산업 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/581_digital_twin_industrial_simulation_optimizati/)
-**다음**: [583. V2X 차량 통신 C-V2X DSRC](/studynote/06_ict_convergence/uncategorized/583_v2x_vehicle_communication_c_v2x_dsrc/) ->
-
----

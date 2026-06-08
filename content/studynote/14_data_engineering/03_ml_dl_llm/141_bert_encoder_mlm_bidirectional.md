@@ -6,9 +6,9 @@ tags:
 weight: 141
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) Encoder는 <strong><a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> Encoder를 12/24층 쌓아</strong> [MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/)(15% 마스킹)과 NSP로 양방향 사전 학습한 모델이며, [CLS] 토큰으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·유사도, 각 토큰 출력으로 [NER](/studynote/16_bigdata/05_analysis/117_ner/)·QA를 수행한다.
-> 2. **가치**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-Base(110M)·[BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-Large(340M)의 사전 학습 후, <strong>소량의 라벨 데이터로 <a href="/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a></strong>하면 11개 NLU 벤치마크를 동시 갱신(2018)하여 "사전 학습+[미세 조정](/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)" 패러다임을 확립했다.
-> 3. **판단 포인트**: WordPiece 토크나이저(30K vocab), 최대 512 토큰, [CLS]+SEP] 특수 토큰이 입력 구조이며, Sentence-BERT로 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)·검색에 특화된 변형이 활용된다.
+> 1. **본질**: BERT Encoder는 <strong>Transformer Encoder를 12/24층 쌓아</strong> MLM(15% 마스킹)과 NSP로 양방향 사전 학습한 모델이며, [CLS] 토큰으로 분류·유사도, 각 토큰 출력으로 NER·QA를 수행한다.
+> 2. **가치**: BERT-Base(110M)·BERT-Large(340M)의 사전 학습 후, <strong>소량의 라벨 데이터로 Fine-tuning</strong>하면 11개 NLU 벤치마크를 동시 갱신(2018)하여 "사전 학습+미세 조정" 패러다임을 확립했다.
+> 3. **판단 포인트**: WordPiece 토크나이저(30K vocab), 최대 512 토큰, [CLS]+SEP] 특수 토큰이 입력 구조이며, Sentence-BERT로 임베딩·검색에 특화된 변형이 활용된다.
 
 ---
 
@@ -22,13 +22,13 @@ BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
   각 토큰 벡터: NER·QA 태깅
 ```
 
-- **📢 섹션 요약 비유**: BERT는 <strong>독해 시험의 달인</strong>이다. 지문(양방향 문맥)을 완벽히 이해하고, 질문([Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))에 따라 답을 내놓는다.
+- **📢 섹션 요약 비유**: BERT는 <strong>독해 시험의 달인</strong>이다. 지문(양방향 문맥)을 완벽히 이해하고, 질문(Fine-tuning)에 따라 답을 내놓는다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-[BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) Encoder는 <strong>NLU의 사전 학습 표준</strong>을 확립했으며, [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)·검색·[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 여전히 핵심이다.
+BERT Encoder는 <strong>NLU의 사전 학습 표준</strong>을 확립했으며, 임베딩·검색·분류에서 여전히 핵심이다.
 
 ---
 
@@ -36,11 +36,11 @@ BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a></strong> | 12/24층 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
-| **[CLS]** | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·유사도 토큰 |
+| <strong>BERT Encoder</strong> | 12/24층 Transformer |
+| **[CLS]** | 분류·유사도 토큰 |
 | **WordPiece** | 서브워드 토크나이저 |
-| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a></strong> | 소량 라벨 적응 |
-| <strong>Sentence-<a href="/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a></strong> | [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 특화 |
+| <strong>Fine-tuning</strong> | 소량 라벨 적응 |
+| <strong>Sentence-BERT</strong> | 임베딩 특화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -53,16 +53,5 @@ BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. BERT는 <strong>독해 시험 달인</strong>이에요. 지문의 <strong>앞뒤를 다 이해</strong>해요.
-2. [CLS] 토큰은 <strong>전체 요약 점수</strong>예요. 이걸로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·비교를 해요.
-3. 적은 연습([Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))만으로도 <strong>다양한 시험</strong>을 잘 볼 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 141 / 258
-
-<- **이전**: [140. Self-Attention·Multi-Head·Positional Encoding 상세](/studynote/14_data_engineering/03_ml_dl_llm/140_self_attention_multihead_positional_encoding/)
-**다음**: [142. GPT Decoder - 자기회귀 생성 모델 상세](/studynote/14_data_engineering/03_ml_dl_llm/142_gpt_decoder_autoregressive_generation/) ->
-
----
+2. [CLS] 토큰은 <strong>전체 요약 점수</strong>예요. 이걸로 분류·비교를 해요.
+3. 적은 연습(Fine-tuning)만으로도 <strong>다양한 시험</strong>을 잘 볼 수 있어요!

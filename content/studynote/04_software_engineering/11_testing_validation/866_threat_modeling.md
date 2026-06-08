@@ -7,23 +7,23 @@ weight: 866
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) ([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 위협 모델링 (Threat Modeling)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 "어디가 공격받을 수 있는지"를 설계에서 미리 보는 작업이다. 코드가 완성된 뒤보다 훨씬 싸고 빠르다.
+위협 모델링은 "어디가 공격받을 수 있는지"를 설계에서 미리 보는 작업이다. 코드가 완성된 뒤보다 훨씬 싸고 빠르다.
 
-시스템 경계, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 권한 구조를 알면 공격 면을 더 잘 찾을 수 있다.
+시스템 경계, 데이터 흐름, 권한 구조를 알면 공격 면을 더 잘 찾을 수 있다.
 
 - **📢 섹션 요약 비유**: 집을 짓기 전에 창문과 문이 어디 있는지 미리 보는 것이다.
 
 ---
 
-다음은 [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) (Threat Model의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 위협 모델링 (Threat Model의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -38,7 +38,7 @@ weight: 866
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) (Threat Model가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 위협 모델링 (Threat Model가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -48,7 +48,7 @@ weight: 866
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대표적으로 [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 같은 분류를 써서 위협을 나눈다. 자산, 진입점, 신뢰 경계를 살핀다.
+대표적으로 STRIDE 같은 분류를 써서 위협을 나눈다. 자산, 진입점, 신뢰 경계를 살핀다.
 
 | 요소 | 의미 |
 |:---|:---|
@@ -74,15 +74,15 @@ weight: 866
 
 ## Ⅲ. 비교 및 연결
 
-[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 [취약점 스캔](/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/)과 다르다. 스캔은 구현 후, [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 설계 전이다.
+위협 모델링은 취약점 스캔과 다르다. 스캔은 구현 후, 위협 모델링은 설계 전이다.
 
-| 구분 | [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) | [취약점 스캔](/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/) |
+| 구분 | 위협 모델링 | 취약점 스캔 |
 |:---|:---|:---|
-| 시점 | 설계 전/[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | 구현 후 |
+| 시점 | 설계 전/초기 | 구현 후 |
 | 대상 | 구조적 위협 | 알려진 취약점 |
 | 효과 | 예방 | 발견 |
 
-[Secure SDLC](/studynote/04_software_engineering/11_testing_validation/863_secure_sdlc/), SDL, 보안 리뷰와 직접 연결된다.
+Secure SDLC, SDL, 보안 리뷰와 직접 연결된다.
 
 - **📢 섹션 요약 비유**: 길이 완성되기 전에 도둑이 올 길을 먼저 생각하는 것이다.
 
@@ -96,7 +96,7 @@ weight: 866
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 결제, [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/), 외부 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동에서 많이 쓴다. 위협을 적는 것보다 대응을 설계하는 것이 더 중요하다.
+실무에서는 인증, 결제, 개인정보, 외부 API 연동에서 많이 쓴다. 위협을 적는 것보다 대응을 설계하는 것이 더 중요하다.
 
 체크 포인트는 다음과 같다.
 1. 자산과 경계를 먼저 정한다.
@@ -115,7 +115,7 @@ weight: 866
 
 ## Ⅴ. 기대효과 및 결론
 
-[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 보안을 후처리가 아니라 설계 문제로 바꾼다. 그래서 구조적 결함을 줄인다.
+위협 모델링은 보안을 후처리가 아니라 설계 문제로 바꾼다. 그래서 구조적 결함을 줄인다.
 
 결론적으로 이 개념은 "설계 단계 공격 분석"이다.
 
@@ -131,10 +131,10 @@ weight: 866
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) ([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) ([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) ([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) ([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 위협 모델링 (Threat Modeling)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 위협 모델링 (Threat Modeling)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 위협 모델링 (Threat Modeling) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 위협 모델링 (Threat Modeling)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,21 +154,10 @@ weight: 866
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/) ([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 위협 모델링 (Threat Modeling)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 539 / 973
-
-<- **이전**: [473. Microsoft SDL (Security Development Lifecycle) - 7단계 보안 생명주기](/studynote/04_software_engineering/08_security_compliance_devsecops/473_ms_sdl/)
-**다음**: [474. 위협 모델링 (Threat Modeling) 아키텍처 보안 분석](/studynote/04_software_engineering/11_testing_validation/866_threat_modeling/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

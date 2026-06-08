@@ -138,11 +138,3 @@ LLM·Foundation Model이 산업 전반에 임베딩됨에 따라 "모델이 학�
 ## Ⅲ. 비교 및 연결
 
 | 구분 | **사후 필터링(Word Filter / Perspective API)** | **RLHF / DPO 기반 정렬** | **Constitutional AI
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 754 / 800
-
-<- **이전**: [753. 책임 있는 AI 공정성 편향 감사](/studynote/06_ict_convergence/uncategorized/753_responsible_ai_fairness_bias_audit/)
-**다음**: [755. 합성 데이터 프라이버시 보존 생성](/studynote/06_ict_convergence/uncategorized/755_synthetic_data_privacy_preserving_generation/) ->
-
----

@@ -120,11 +120,3 @@ weight: 701
 | 구분 | **Digital Model (디지털 모델)** | **Digital Shadow (디지털 섀도우)** | **Digital Twin (디지털 트윈)** | **Metaverse (메타버스)** |
 | :--- | :--- | :--- | :--- | :--- |
 | **데이터 흐름** | 수동(Manual), 일방향 | 자동, 단방향(물리->사이버) | **자동, 양방향(Closed Loop)** | 양방향 +
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 701 / 800
-
-<- **이전**: [700. 디지털 자산 토큰화 실물 연동](/studynote/06_ict_convergence/uncategorized/700_digital_asset_tokenization_real_world_asset/)
-**다음**: [702. 생체 인증 FIDO2 패스키 인증 체계](/studynote/06_ict_convergence/uncategorized/702_biometric_auth_fido2_passkey_authentication/) ->
-
----

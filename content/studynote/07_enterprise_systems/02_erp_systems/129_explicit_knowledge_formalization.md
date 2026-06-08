@@ -7,9 +7,9 @@ weight: 129
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 형식지 (Explicit Knowledge)는 문서, 규정, 설계서, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)처럼 언어·기호·모형으로 외부에 표현되어 저장·전달 가능한 지식이다.
-> 2. **가치**: 개인의 경험을 조직 자산으로 바꾸어 교육, 인수인계, 품질 표준화, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응을 가능하게 한다.
-> 3. **판단 포인트**: 형식지는 공유하기 쉽지만 맥락이 빠지고 빨리 낡기 때문에, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)관리·검토주기·검색성까지 설계해야 살아 있는 지식이 된다.
+> 1. **본질**: 형식지 (Explicit Knowledge)는 문서, 규정, 설계서, 데이터베이스처럼 언어·기호·모형으로 외부에 표현되어 저장·전달 가능한 지식이다.
+> 2. **가치**: 개인의 경험을 조직 자산으로 바꾸어 교육, 인수인계, 품질 표준화, 감사 대응을 가능하게 한다.
+> 3. **판단 포인트**: 형식지는 공유하기 쉽지만 맥락이 빠지고 빨리 낡기 때문에, 버전관리·검토주기·검색성까지 설계해야 살아 있는 지식이 된다.
 
 ---
 
@@ -25,14 +25,14 @@ weight: 129
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-형식지는 "기록"만으로 완성되지 않는다. 포착, 구조화, 저장, 검색, 갱신의 다섯 단계가 연결되어야 비로소 조직에서 쓸 수 있다. 그래서 현대의 형식지 관리는 [KMS](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Knowledge Management System](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)), 위키, 검색엔진, 접근권한 체계를 함께 고려한다.
+형식지는 "기록"만으로 완성되지 않는다. 포착, 구조화, 저장, 검색, 갱신의 다섯 단계가 연결되어야 비로소 조직에서 쓸 수 있다. 그래서 현대의 형식지 관리는 KMS (Knowledge Management System), 위키, 검색엔진, 접근권한 체계를 함께 고려한다.
 
 | 구성 요소 | 핵심 역할 | 관리 포인트 |
 | :--- | :--- | :--- |
 | Capture | 인터뷰, 회의록, 사례 정리 | 암묵지를 끌어내는 질문 설계 |
-| Structure | 템플릿, 태그, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)체계 | 검색성과 재사용성 확보 |
-| Repository | 위키, 문서관리, [KMS](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) | 단일 저장소와 권한 관리 |
-| Retrieval | 검색, 추천, [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) | 최신 문서 우선 제공 |
+| Structure | 템플릿, 태그, 분류체계 | 검색성과 재사용성 확보 |
+| Repository | 위키, 문서관리, KMS | 단일 저장소와 권한 관리 |
+| Retrieval | 검색, 추천, RAG | 최신 문서 우선 제공 |
 | Governance | 검토주기, 승인, 폐기 | 진부화와 중복 방지 |
 
 아래 흐름은 형식지가 조직 지식으로 작동하는 최소 구조를 보여준다.
@@ -56,22 +56,22 @@ weight: 129
 
 즉 형식지의 핵심 원리는 "표현 가능성"과 "반복 가능성"이다. 그러나 문서가 많아질수록 품질 편차와 중복이 커지므로, 검색 구조와 거버넌스가 없으면 저장소는 곧 문서 무덤이 된다.
 
-- **📢 섹션 요약 비유**: 형식지는 메모 한 장이 아니라, 잘 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된 도서관이어야 한다. 책이 많아도 찾지 못하면 지식은 없는 것과 비슷하다.
+- **📢 섹션 요약 비유**: 형식지는 메모 한 장이 아니라, 잘 분류된 도서관이어야 한다. 책이 많아도 찾지 못하면 지식은 없는 것과 비슷하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-형식지는 암묵지와 비교할 때 경계가 가장 뚜렷해진다. 암묵지는 경험·직관·감각에 강하지만 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 어렵고, 형식지는 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 전달에 강하지만 현장 맥락이 빠질 수 있다. 그래서 조직은 둘 중 하나를 선택하는 것이 아니라, SECI 모델의 외부화·결합화를 통해 둘을 순환시켜야 한다.
+형식지는 암묵지와 비교할 때 경계가 가장 뚜렷해진다. 암묵지는 경험·직관·감각에 강하지만 복제가 어렵고, 형식지는 복제와 전달에 강하지만 현장 맥락이 빠질 수 있다. 그래서 조직은 둘 중 하나를 선택하는 것이 아니라, SECI 모델의 외부화·결합화를 통해 둘을 순환시켜야 한다.
 
 | 항목 | 형식지 (Explicit Knowledge) | 암묵지 (Tacit Knowledge) |
 | :--- | :--- | :--- |
 | 표현 가능성 | 문서·표·규칙으로 표현 가능 | 말이나 글로 완전 표현 어려움 |
-| 공유 방식 | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 위키, DB로 빠르게 공유 | 도제, 협업, 경험 전수 중심 |
-| 장점 | 확산, 표준화, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 | 맥락 이해, 숙련도, 예외 대응 |
+| 공유 방식 | 파일, 위키, DB로 빠르게 공유 | 도제, 협업, 경험 전수 중심 |
+| 장점 | 확산, 표준화, 감사 추적 | 맥락 이해, 숙련도, 예외 대응 |
 | 위험 | 진부화, 문서 과잉, 맥락 손실 | 퇴사·이동 시 유실 |
 
-형식지는 SECI (Socialization, Externalization, Combination, Internalization) 모델에서 외부화와 결합화의 핵심 자산이고, KMS와 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/))의 직접 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이기도 하다. 즉 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 활용이 늘수록 형식지의 양보다 <strong>정확한 구조와 최신성</strong>이 더 중요해진다.
+형식지는 SECI (Socialization, Externalization, Combination, Internalization) 모델에서 외부화와 결합화의 핵심 자산이고, KMS와 RAG (Retrieval-Augmented Generation)의 직접 입력 데이터이기도 하다. 즉 AI 활용이 늘수록 형식지의 양보다 <strong>정확한 구조와 최신성</strong>이 더 중요해진다.
 
 - **📢 섹션 요약 비유**: 형식지는 복사 가능한 지도이고, 암묵지는 오랜 길치 경험 끝에 생긴 방향 감각과 같다. 지도만 있어도 불안하고, 감각만 있어도 남에게 전달하기 어렵다.
 
@@ -81,18 +81,18 @@ weight: 129
 
 실무에서는 "무엇을 문서화할 것인가"보다 "어떻게 믿을 수 있게 유지할 것인가"가 더 중요하다. 장애 대응서, 보안 통제 기준, 설계 의사결정 기록처럼 반복 사용되거나 책임 추적이 필요한 지식은 우선적으로 형식지화해야 한다. 반면 변화가 잦은 내용을 PDF로 고정해 두면 최신성과 검색성이 급격히 떨어진다.
 
-### 설계 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 체크리스트
 
 1. 문서마다 책임자, 최신 수정일, 적용 범위가 명확한가?
-2. 위키나 KMS에서 단일 기준 문서(SSOT, [Single Source of Truth](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))를 유지하는가?
+2. 위키나 KMS에서 단일 기준 문서(SSOT, Single Source of Truth)를 유지하는가?
 3. 권한·보안 등급과 공개 범위가 분리되어 있는가?
-4. RAG를 적용한다면 오래된 문서와 승인 문서를 구분할 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)가 있는가?
+4. RAG를 적용한다면 오래된 문서와 승인 문서를 구분할 메타데이터가 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 회의록과 매뉴얼을 같은 중요도로 무차별 적재하는 것
 - 최신 시스템은 바뀌었는데 옛 절차서를 계속 교육 자료로 쓰는 것
-- 검색 태그 없이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명 관행에만 의존하는 것
+- 검색 태그 없이 파일명 관행에만 의존하는 것
 
 - **📢 섹션 요약 비유**: 형식지 관리는 냉장고에 음식만 넣는 일이 아니다. 유통기한, 라벨, 보관 칸이 없으면 필요한 순간에 먹을 수 없다.
 
@@ -100,7 +100,7 @@ weight: 129
 
 ## Ⅴ. 기대효과 및 결론
 
-형식지가 잘 관리되면 온보딩 속도 향상, 업무 표준화, 장애 대응 재현성, 규제 준수, 퇴사 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화라는 효과를 얻는다. 특히 여러 지역·법인·팀이 같은 업무를 수행하는 조직일수록 형식지는 품질 편차를 줄이는 핵심 장치가 된다. 최근에는 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기반 사내 AI가 형식지를 직접 검색·요약하면서 활용 가치가 더 커지고 있다.
+형식지가 잘 관리되면 온보딩 속도 향상, 업무 표준화, 장애 대응 재현성, 규제 준수, 퇴사 리스크 완화라는 효과를 얻는다. 특히 여러 지역·법인·팀이 같은 업무를 수행하는 조직일수록 형식지는 품질 편차를 줄이는 핵심 장치가 된다. 최근에는 RAG 기반 사내 AI가 형식지를 직접 검색·요약하면서 활용 가치가 더 커지고 있다.
 
 하지만 모든 지식을 완전히 형식지로 바꿀 수는 없다. 예외 판단, 협상 감각, 위기 대응의 미묘한 숙련은 여전히 사람의 경험 속에 남는다. 따라서 형식지는 "암묵지를 대체하는 것"이 아니라 <strong>조직이 반복해서 사용할 수 있는 부분을 안정적으로 고정하는 장치</strong>로 기억하는 것이 정확하다.
 
@@ -113,10 +113,10 @@ weight: 129
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 암묵지 (Tacit Knowledge) | 형식지의 반대 개념, 외부화 대상 |
-| SECI 모델 | 형식지가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·결합되는 지식 순환 구조 |
-| [KMS](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Knowledge Management System](/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)) | 형식지 저장·검색 플랫폼 |
+| SECI 모델 | 형식지가 생성·결합되는 지식 순환 구조 |
+| KMS (Knowledge Management System) | 형식지 저장·검색 플랫폼 |
 | SOP (Standard Operating Procedure) | 대표적인 형식지 산출물 |
-| [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) | 형식지를 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 질의응답에 활용 |
+| RAG (Retrieval-Augmented Generation) | 형식지를 AI 질의응답에 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,14 +140,3 @@ RAG-enabled enterprise knowledge use
 1. 형식지는 잘하는 사람이 알고 있던 방법을 종이에 적어 두는 거예요.
 2. 그러면 다른 친구도 그 종이를 보고 같은 방법을 배울 수 있어요.
 3. 하지만 종이가 오래되면 틀릴 수 있어서, 자주 고쳐 줘야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 129 / 482
-
-<- **이전**: [128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델](/studynote/07_enterprise_systems/02_erp_systems/128_tacit_vs_explicit_knowledge/)
-**다음**: [130. SECI 모델 - 노나카의 조직 지식 창조 이론](/studynote/07_enterprise_systems/02_erp_systems/130_seci_model_knowledge_creation/) ->
-
----

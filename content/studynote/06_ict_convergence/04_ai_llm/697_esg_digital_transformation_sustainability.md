@@ -137,11 +137,3 @@ ESG DX의 기술 아키텍처는 국제 표준인 **GRI(Global Reporting Initiat
     "data_quality_score": 0.94,
     "assurance_level": "limited",
     "
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 697 / 800
-
-<- **이전**: [696. 스마트 모빌리티 MaaS 통합 교통](/studynote/06_ict_convergence/uncategorized/696_smart_mobility_maas_integrated_transportation/)
-**다음**: [698. 사이버 보안 위협 인텔리전스 CTI](/studynote/06_ict_convergence/uncategorized/698_cyber_security_threat_intelligence_cti/) ->
-
----

@@ -6,9 +6,9 @@ tags:
 weight: 145
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>생산자와 소비자 사이에서 <a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지를 중계(<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>·<a href="/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a>·변환)</strong>하여 비동기·느슨 결합 통신을 가능하게 하는 미들웨어이며, RabbitMQ·ActiveMQ·Kafka가 대표이다.
-> 2. **가치**: 동기([REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))는 <strong>수신자 장애 시 전체 실패</strong>하지만, [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>큐에 저장 후 비동기 처리</strong>하여 장애 격리·피크 완화·순서 보장을 제공한다.
-> 3. **판단 포인트**: RabbitMQ(전통 MQ, AMQP)·[Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 대용량)·SQS(AWS 관리형)를 워크로드에 맞게 선택한다.
+> 1. **본질**: 메시지 브로커는 <strong>생산자와 소비자 사이에서 메시지를 중계(라우팅·버퍼링·변환)</strong>하여 비동기·느슨 결합 통신을 가능하게 하는 미들웨어이며, RabbitMQ·ActiveMQ·Kafka가 대표이다.
+> 2. **가치**: 동기(REST)는 <strong>수신자 장애 시 전체 실패</strong>하지만, 메시지 브로커는 <strong>큐에 저장 후 비동기 처리</strong>하여 장애 격리·피크 완화·순서 보장을 제공한다.
+> 3. **판단 포인트**: RabbitMQ(전통 MQ, AMQP)·Kafka(분산 로그, 대용량)·SQS(AWS 관리형)를 워크로드에 맞게 선택한다.
 
 ---
 
@@ -22,13 +22,13 @@ RabbitMQ: 전통 MQ (AMQP, 복잡 라우팅)
 Kafka: 분산 로그 (대용량, 순서 보장)
 ```
 
-- **📢 섹션 요약 비유**: [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>우체국</strong>이다. 편지([메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 우체국이 상대방에게 배달한다.
+- **📢 섹션 요약 비유**: 메시지 브로커는 <strong>우체국</strong>이다. 편지(메시지)를 맡기면 우체국이 상대방에게 배달한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>비동기 통합의 핵심 인프라</strong>이며, [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)(대용량)와 RabbitMQ(복잡 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 상황에 맞게 선택한다.
+메시지 브로커는 <strong>비동기 통합의 핵심 인프라</strong>이며, Kafka(대용량)와 RabbitMQ(복잡 라우팅)를 상황에 맞게 선택한다.
 
 ---
 
@@ -36,11 +36,11 @@ Kafka: 분산 로그 (대용량, 순서 보장)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 브로커</strong> | 중계 미들웨어 |
+| <strong>메시지 브로커</strong> | 중계 미들웨어 |
 | **RabbitMQ** | AMQP (전통 MQ) |
-| <strong><a href="/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a></strong> | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
+| <strong>Kafka</strong> | 분산 로그 |
 | **Pub/Sub** | 발행/구독 |
-| **Dead Letter** | 처리 실패 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 |
+| **Dead Letter** | 처리 실패 메시지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -52,17 +52,6 @@ Kafka: 분산 로그 (대용량, 순서 보장)
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>우체국</strong>이에요. 편지([메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 <strong>대신 배달</strong>해요.
+1. 메시지 브로커는 <strong>우체국</strong>이에요. 편지(메시지)를 맡기면 <strong>대신 배달</strong>해요.
 2. 상대방이 부재(장애)여도 <strong>우체국이 보관</strong>했다가 나중에 전달해요.
 3. Kafka는 **대형 택배 센터**, RabbitMQ는 <strong>동네 우체국</strong>이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 145 / 482
-
-<- **이전**: [144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합](/studynote/07_enterprise_systems/03_eai_esb_msa/144_hub_and_spoke_architecture_eai/)
-**다음**: [146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) ->
-
----

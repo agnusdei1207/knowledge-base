@@ -15,10 +15,10 @@ weight: 321
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IP [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램이 최종 목적지까지 배달되지 못하고 중간에 폐기되었을 때, 폐기한 장비가 패킷의 출발지 IP를 향해 쏘아 보내는 [ICMP](/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 오류 보고 메시지 (Type 3).
+- **개념**: IP 데이터그램이 최종 목적지까지 배달되지 못하고 중간에 폐기되었을 때, 폐기한 장비가 패킷의 출발지 IP를 향해 쏘아 보내는 ICMP 오류 보고 메시지 (Type 3).
 - **필요성**: 내가 미국 구글 서버(`8.8.8.8`)로 패킷을 쐈다. 만약 중간 해저 케이블이 끊어졌는데 라우터가 아무 말 없이 패킷만 버리면, 내 PC는 패킷이 가다가 죽은 건지, 구글 서버가 느린 건지 알 방법이 없어 몇 분 동안 모래시계만 쳐다보고 있어야 한다. <strong>"배달 사고가 났으면 즉시 반송 사유를 알려줘서, 송신자가 포기하든 다른 길을 찾든 결정을 내리게 하자!"</strong>는 것이 이 메시지의 존재 이유다.
 
-- **💡 비유**: Type 3 메시지는 우체국에서 편지가 반송될 때 겉면에 찍혀 있는 <strong>"반송 사유 스탬프"</strong>와 같습니다. 스탬프 항목에는 [수취인 불명([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 1)], [주소지 파괴([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0)], [우편함 잠김([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 3)], [규격 초과([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 4)] 등이 있어서, 보낸 사람은 스탬프에 체크된 항목을 보고 왜 편지가 되돌아왔는지 정확히 알 수 있습니다.
+- **💡 비유**: Type 3 메시지는 우체국에서 편지가 반송될 때 겉면에 찍혀 있는 <strong>"반송 사유 스탬프"</strong>와 같습니다. 스탬프 항목에는 [수취인 불명(Code 1)], [주소지 파괴(Code 0)], [우편함 잠김(Code 3)], [규격 초과(Code 4)] 등이 있어서, 보낸 사람은 스탬프에 체크된 항목을 보고 왜 편지가 되돌아왔는지 정확히 알 수 있습니다.
 
 ```text
 [Time Exceeded]
@@ -37,25 +37,25 @@ weight: 321
 
 네트워크 실무에서 핑(Ping)이나 통신이 실패했을 때, 아래의 4가지 Code를 모르면 맹인과 다름없다.
 
-### 1. [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0: Network Unreachable (네트워크 도달 불가)
+### 1. Code 0: Network Unreachable (네트워크 도달 불가)
 - **발생자**: 중간 라우터
-- **상황**: "네가 가려는 그 동네(예: 192.168.5.x)로 가는 길이 내 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(지도)에 아예 적혀있질 않아!"
-- **의미**: [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류 거나 중간 링크가 끊어져서 아예 동네 자체를 찾을 수 없는 큼직한 인프라 장애다.
+- **상황**: "네가 가려는 그 동네(예: 192.168.5.x)로 가는 길이 내 라우팅 테이블(지도)에 아예 적혀있질 않아!"
+- **의미**: 라우팅 설정 오류 거나 중간 링크가 끊어져서 아예 동네 자체를 찾을 수 없는 큼직한 인프라 장애다.
 
-### 2. [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 1: Host Unreachable (호스트 도달 불가)
+### 2. Code 1: Host Unreachable (호스트 도달 불가)
 - **발생자**: 목적지 동네의 마지막 라우터 (게이트웨이)
-- **상황**: "동네(192.168.5.x)까지는 무사히 왔는데, 네가 찾는 그 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(192.168.5.[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))가 전원이 꺼져있거나 랜선을 뽑아놨네! ([ARP](/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 대답이 안 옴)"
+- **상황**: "동네(192.168.5.x)까지는 무사히 왔는데, 네가 찾는 그 PC(192.168.5.10)가 전원이 꺼져있거나 랜선을 뽑아놨네! (ARP 대답이 안 옴)"
 - **의미**: 길은 정상인데, 최종 목적지 기기 자체가 죽어있는 상태다.
 
-### 3. [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 3: [Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Unreachable ([포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 도달 불가)
-- **발생자**: 최종 목적지 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (또는 서버) 본인
-- **상황**: "나 살아서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잘 받았어! 근데 네가 열어달라고 한 80번(웹) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 지금 프로그램이 안 켜져서 잠겨있어!"
-- **의미**: 통신망은 100% 정상이고 목적지 PC도 살아있으나, 해당 프로그램([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 안 떠 있어서 튕겨낸 것이다. 주로 [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 통신에서 대상 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 닫혀있을 때 이 에러가 날아온다.
+### 3. Code 3: Port Unreachable (포트 도달 불가)
+- **발생자**: 최종 목적지 PC (또는 서버) 본인
+- **상황**: "나 살아서 데이터 잘 받았어! 근데 네가 열어달라고 한 80번(웹) 포트는 지금 프로그램이 안 켜져서 잠겨있어!"
+- **의미**: 통신망은 100% 정상이고 목적지 PC도 살아있으나, 해당 프로그램(서비스)이 안 떠 있어서 튕겨낸 것이다. 주로 UDP 통신에서 대상 포트가 닫혀있을 때 이 에러가 날아온다.
 
-### 4. [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 4: [Fragmentation](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) Needed but DF Set ([단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 필요)
+### 4. Code 4: Fragmentation Needed but DF Set (단편화 필요)
 - **발생자**: 좁은 길목(병목)에 있는 중간 라우터
-- **상황**: "내 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 나가려면 1400바이트로 찢어야 하는데, 네가 1500바이트 패킷에 찢지 마(DF=1) 딱지를 붙여놔서 나보고 어쩌라는 건지 몰라 그냥 버렸음!"
-- **의미**: [PMTU](/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/) ([Path MTU Discovery](/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/)) 원리에 쓰이는 핵심 에러 코드. 송신자가 이 코드를 받으면 패킷 사이즈를 줄여서 다시 보낸다.
+- **상황**: "내 포트로 나가려면 1400바이트로 찢어야 하는데, 네가 1500바이트 패킷에 찢지 마(DF=1) 딱지를 붙여놔서 나보고 어쩌라는 건지 몰라 그냥 버렸음!"
+- **의미**: PMTU (Path MTU Discovery) 원리에 쓰이는 핵심 에러 코드. 송신자가 이 코드를 받으면 패킷 사이즈를 줄여서 다시 보낸다.
 
 ```text
  +-------------------------------------------------------------+
@@ -77,7 +77,7 @@ weight: 321
  +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: ** Type 3 에러 코드들은 우체국 소포 반송 딱지의 **"체크박스"**입니다. 주소 불명(네트워크), 수취인 부재(호스트), 수취 거부([포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 등 어떤 박스에 체크되어 있느냐에 따라 송신자는 문제 해결의 정확한 실마리를 잡을 수 있습니다.
+- **📢 섹션 요약 비유**: ** Type 3 에러 코드들은 우체국 소포 반송 딱지의 **"체크박스"**입니다. 주소 불명(네트워크), 수취인 부재(호스트), 수취 거부(포트) 등 어떤 박스에 체크되어 있느냐에 따라 송신자는 문제 해결의 정확한 실마리를 잡을 수 있습니다.
 
 ---
 
@@ -89,7 +89,7 @@ Destination Unreachable…를 볼 때는 앞뒤 개념과의 경계를 함께 �
 |:---|:---|:---|:---|
 | 초점 | Time Exceeded의 기반 정리 | Destination Unreachable…의 핵심 동작 | Echo Request/Reply / Sou…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: Destination Unreachable…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -97,18 +97,18 @@ Destination Unreachable…를 볼 때는 앞뒤 개념과의 경계를 함께 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 Destination Unreachable…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [Time Exceeded](/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/) 수준의 기본 대책으로 충분한지, 아니면 Destination Unreachable…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Echo Request/Reply / Sou…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 Destination Unreachable…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 Time Exceeded 수준의 기본 대책으로 충분한지, 아니면 Destination Unreachable…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Echo Request/Reply / Sou…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. Destination Unreachable…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. Destination Unreachable…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
 3. 도입 후에는 인접 기술인 Echo Request/Reply / Sou…와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - Destination Unreachable…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- Time Exceeded와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- Time Exceeded와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: Destination Unreachable…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -126,8 +126,8 @@ Destination Unreachable…는 네트워크 계층과 IP를 이해할 때 핵심 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Time Exceeded](/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
+| Time Exceeded | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| IP 주소 (Internet Protocol Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
 | Echo Request/Reply / Sou… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
@@ -150,14 +150,3 @@ Destination Unreachable…는 Time Exceeded에서 출발해 현재 메커니즘�
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 442 / 1120
-
-<- **이전**: [320. Time Exceeded (TTL 만료, Traceroute 원리)](/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/)
-**다음**: [322. Echo Request/Reply (Ping 원리) / Source Quench (혼잡 제어, 구형)](/studynote/03_network/06_network_layer_ip/322_echo_request_reply_ping_source_quench/) ->
-
----

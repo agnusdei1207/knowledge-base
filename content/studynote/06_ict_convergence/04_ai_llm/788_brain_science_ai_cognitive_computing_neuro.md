@@ -56,11 +56,3 @@ weight: 788
 |  |  Plasticity: STDP / Hebbian / BCM / Reward-modulated STDP  |   |
 |  |  Topology: FFN / Recurrent (LSTM-like) / Reservoir / STDP  |   |
 |  +----------------------
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 788 / 800
-
-<- **이전**: [787. 양자 인터넷 양자 네트워크 양자 센서](/studynote/06_ict_convergence/uncategorized/787_quantum_internet_quantum_network_sensor/)
-**다음**: [789. 생물학적 컴퓨팅 DNA 저장 분자 기계](/studynote/06_ict_convergence/uncategorized/789_biological_computing_dna_storage_molecular/) ->
-
----

@@ -15,7 +15,7 @@ weight: 791
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 방대한 네트워크 장비와 서버에서 매일 쏟아지는 테라바이트급 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트래픽 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 알람을 <strong><a href="/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a>/딥러닝) 모델이 실시간으로 수집 및 분석하여, 사람을 대신해 네트워크의 이상 징후를 탐지하고 자동으로 문제를 해결(자동화)하는 차세대 IT 운영 관리 체계</strong>입니다.
+- **개념**: 방대한 네트워크 장비와 서버에서 매일 쏟아지는 테라바이트급 로그, 트래픽 데이터, 알람을 <strong>인공지능(머신러닝/딥러닝) 모델이 실시간으로 수집 및 분석하여, 사람을 대신해 네트워크의 이상 징후를 탐지하고 자동으로 문제를 해결(자동화)하는 차세대 IT 운영 관리 체계</strong>입니다.
 - 통신망(Network)에 적용되면 <strong>'자율 주행 네트워크(Autonomous Network)'</strong>의 두뇌가 됩니다.
 
 ```text
@@ -27,7 +27,7 @@ weight: 791
     +---> [AI 내재화]
 ```
 
-- **📢 섹션 요약 비유**: 자율 주행 넷망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 자율 주행 넷망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
@@ -35,10 +35,10 @@ weight: 791
 
 AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니다.
 
-- **기존 SDN의 한계**: 관리자가 장비에 대고 "IP A에서 온 건 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1로 보내"라고 기계어(CLI)로 하나하나 쳐줘야 했습니다(명령적 방식, Imperative).
-- <strong><a href="/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/">IBN</a> (<a href="/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a>-Based Networking) 혁명</strong>:
-  - 관리자는 시스템에 기계어 대신 사람이 쓰는 말(의도, [Intent](/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))을 던집니다. **"이번 주말 콘서트장에 홀로그램 영상망(VIP) 절대 안 끊기게 보장해 줘!"** (선언적 방식, [Declarative](/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)).
-  - IBN의 두뇌([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 이 '의도'를 스스로 해석하여, "음, 콘서트장이니까 B 라우터를 켜고 C [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 수정해야겠군" 하고 <strong>수백 대의 장비 세팅 값을 AI가 스스로 다 짜서 자동으로 밀어 넣습니다(Translation &amp; <a href="/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>).</strong>
+- **기존 SDN의 한계**: 관리자가 장비에 대고 "IP A에서 온 건 포트 1로 보내"라고 기계어(CLI)로 하나하나 쳐줘야 했습니다(명령적 방식, Imperative).
+- <strong>IBN (Intent-Based Networking) 혁명</strong>:
+  - 관리자는 시스템에 기계어 대신 사람이 쓰는 말(의도, Intent)을 던집니다. **"이번 주말 콘서트장에 홀로그램 영상망(VIP) 절대 안 끊기게 보장해 줘!"** (선언적 방식, Declarative).
+  - IBN의 두뇌(AI)가 이 '의도'를 스스로 해석하여, "음, 콘서트장이니까 B 라우터를 켜고 C 방화벽 룰을 수정해야겠군" 하고 <strong>수백 대의 장비 세팅 값을 AI가 스스로 다 짜서 자동으로 밀어 넣습니다(Translation &amp; Provisioning).</strong>
 
 ```text
 [네트워크 프로그래밍 모델 P4 지원 고정 하…]
@@ -55,20 +55,20 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 ## Ⅲ. 비교 및 연결
 
-사람의 손(Touch)이 1%도 개입하지 않는 [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통합 자력 제어 모델입니다.
+사람의 손(Touch)이 1%도 개입하지 않는 6G 통합 자력 제어 모델입니다.
 
 1. **상태 모니터링 (Telemtry)**: AI가 1밀리초 단위로 망의 트래픽을 감시합니다.
-2. <strong>이상 예측 (<a href="/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/">AIOps</a>)</strong>: "어? 콘서트장에 사람들이 몰리면서 3번 라우터 온도가 올라가네? 10분 뒤에 터지겠군."
+2. <strong>이상 예측 (AIOps)</strong>: "어? 콘서트장에 사람들이 몰리면서 3번 라우터 온도가 올라가네? 10분 뒤에 터지겠군."
 3. **자동 치유 체계 (Self-Healing)**: AI가 사람에게 묻지 않고 스스로 판단합니다. "3번 라우터 트래픽을 4번으로 우회시켜!" 그리고 장비에 자동으로 명령을 쏴서 고장을 미연에 100% 방어해 냅니다.
-4. <strong>지속 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Assurance)</strong>: 관리자의 '의도(홀로그램 무중단)'가 잘 지켜지고 있는지 스스로 24시간 피드백 루프를 돌립니다.
+4. <strong>지속 검증 (Assurance)</strong>: 관리자의 '의도(홀로그램 무중단)'가 잘 지켜지고 있는지 스스로 24시간 피드백 루프를 돌립니다.
 
-자율 주행 넷망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 네트워크 프로그래밍 모델 [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…가 기반 조건을 만든다면, 자율 주행 넷망은 그 위에서 핵심 메커니즘을 구현하고, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+자율 주행 넷망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 네트워크 프로그래밍 모델 P4 지원 고정 하…가 기반 조건을 만든다면, 자율 주행 넷망은 그 위에서 핵심 메커니즘을 구현하고, AI 내재화는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 네트워크 프로그래밍 모델 [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…의 기반 정리 | 자율 주행 넷망의 핵심 동작 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화의 확장 적용 |
+| 초점 | 네트워크 프로그래밍 모델 P4 지원 고정 하…의 기반 정리 | 자율 주행 넷망의 핵심 동작 | AI 내재화의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -76,22 +76,22 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 우주(위성)부터 지상(스마트폰), 하늘([UAM](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))까지 네트워크가 미친 듯이 복잡하게 얽힙니다. 인간의 인지 능력으로는 이 거대한 망의 오류를 잡아낼 수 없습니다.
+- 6G 시대에는 우주(위성)부터 지상(스마트폰), 하늘(UAM)까지 네트워크가 미친 듯이 복잡하게 얽힙니다. 인간의 인지 능력으로는 이 거대한 망의 오류를 잡아낼 수 없습니다.
 - AIOps와 IBN이 결합한 자율 주행 네트워크만이 이 초거대 인프라를 다운타임 제로(0)로 유지할 수 있는 유일한 해결책입니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
-2. 운영 복잡도와 도입 효과를 함께 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 네트워크 운영은 '수동 변속기 자동차'입니다. 운전자(관리자)가 오르막길을 만날 때마다 엔진 소리(알람)를 듣고 클러치를 밟으며 기어를 1단 2단 일일이 손으로 바꿔줘야(CLI [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 입력) 차가 안 섭니다. [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 기반의 [IBN](/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 자율망은 '완전 자율주행 테슬라'입니다. 관리자는 뒷좌석에 누워 "부산 해운대로 조용하게 모셔"라고 의도([Intent](/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 말하면 끝입니다. 차에 달린 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/))가 알아서 앞차와의 거리, 노면 상태, 엔진 온도를 1초에 수천 번 계산하며, 스스로 핸들을 꺾고 브레이크를 밟아 목적지까지 완벽한 무사고(제로 터치)로 도착하게 만드는 통신 인프라의 최종 진화형입니다.
+- **📢 섹션 요약 비유**: 기존 네트워크 운영은 '수동 변속기 자동차'입니다. 운전자(관리자)가 오르막길을 만날 때마다 엔진 소리(알람)를 듣고 클러치를 밟으며 기어를 1단 2단 일일이 손으로 바꿔줘야(CLI 명령어 입력) 차가 안 섭니다. AIOps 기반의 IBN 자율망은 '완전 자율주행 테슬라'입니다. 관리자는 뒷좌석에 누워 "부산 해운대로 조용하게 모셔"라고 의도(Intent)만 말하면 끝입니다. 차에 달린 AI(AIOps)가 알아서 앞차와의 거리, 노면 상태, 엔진 온도를 1초에 수천 번 계산하며, 스스로 핸들을 꺾고 브레이크를 밟아 목적지까지 완벽한 무사고(제로 터치)로 도착하게 만드는 통신 인프라의 최종 진화형입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-자율 주행 넷망은 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+자율 주행 넷망은 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 AI 내재화, AI 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 AI 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -101,10 +101,10 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 네트워크 프로그래밍 모델 [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
-| [네트워크 슬라이싱](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
-| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 네트워크 프로그래밍 모델 P4 지원 고정 하… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 서비스 기반 구조 (Service-Based Architecture) | 기능을 느슨하게 결합해 유연성을 높인다. |
+| 네트워크 슬라이싱 (Network Slicing) | 서비스별 요구사항을 논리적으로 분리한다. |
+| AI 내재화 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,21 +118,10 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
     +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
-자율 주행 넷망는 네트워크 프로그래밍 모델 [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…에서 출발해 현재 메커니즘을 정교화하고, 이후 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+자율 주행 넷망는 네트워크 프로그래밍 모델 P4 지원 고정 하…에서 출발해 현재 메커니즘을 정교화하고, 이후 AI 내재화와 AI 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 912 / 1120
-
-<- **이전**: [790. 네트워크 프로그래밍 모델 P4 지원 고정 하드웨어 규격 ASIC 탈피 자율망 라우팅 룰 적용 최적 커스텀 프로세싱 (초저지연](/studynote/03_network/15_nextgen_communication_architecture/790_p4_programming_network_data_plane/)
-**다음**: [792. AI 내재화 (AI-Native)](/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/) ->
-
----

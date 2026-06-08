@@ -6,9 +6,9 @@ tags:
 weight: 90
 ---
 > **핵심 인사이트 3줄**
-> 1. B+트리(B+-Tree)는 B-트리에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리프 노드에만 저장하고, 모든 리프를 연결 리스트로 이어 범위 검색(Range Scan) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 O(k)로 극적으로 개선한 구조다.
-> 2. 내부 노드는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 키만 보유해 더 많은 키를 담을 수 있어 트리 높이가 낮아지고, MySQL InnoDB·PostgreSQL 등 모든 주요 RDBMS [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 표준이다.
-> 3. 클러스터 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 B+트리 리프에 실제 행 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하고, 세컨더리 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 PK 값을 저장해 2단계 조회(InnoDB 이중 조회) 구조를 형성한다.
+> 1. B+트리(B+-Tree)는 B-트리에서 데이터를 리프 노드에만 저장하고, 모든 리프를 연결 리스트로 이어 범위 검색(Range Scan) 성능을 O(k)로 극적으로 개선한 구조다.
+> 2. 내부 노드는 라우팅 키만 보유해 더 많은 키를 담을 수 있어 트리 높이가 낮아지고, MySQL InnoDB·PostgreSQL 등 모든 주요 RDBMS 인덱스의 표준이다.
+> 3. 클러스터 인덱스(Primary Key)는 B+트리 리프에 실제 행 데이터를 저장하고, 세컨더리 인덱스는 PK 값을 저장해 2단계 조회(InnoDB 이중 조회) 구조를 형성한다.
 
 ---
 
@@ -16,11 +16,11 @@ weight: 90
 
 | 특성             | B-트리                   | B+트리                      |
 |----------------|-------------------------|-----------------------------|
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 위치 | 모든 노드                 | 리프 노드만                  |
-| 내부 노드 용도  | [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)           | [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 키만                   |
+| 데이터 저장 위치 | 모든 노드                 | 리프 노드만                  |
+| 내부 노드 용도  | 라우팅 + 데이터           | 라우팅 키만                   |
 | 범위 검색       | 트리 순회 필요 (느림)     | 리프 체인 스캔 O(k) (빠름)   |
-| 내부 노드 용량  | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함으로 적음      | 키만 있어 더 많은 키 보유     |
-| 삭제 복잡도     | 복잡 (내부 노드 처리)     | 리프만 처리, 내부는 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 키   |
+| 내부 노드 용량  | 데이터 포함으로 적음      | 키만 있어 더 많은 키 보유     |
+| 삭제 복잡도     | 복잡 (내부 노드 처리)     | 리프만 처리, 내부는 더미 키   |
 
 ```
 B+트리 구조:
@@ -34,7 +34,7 @@ B+트리 구조:
   ^ 실제 데이터(또는 Row Pointer) 저장 + 연결 포인터
 ```
 
-📢 **섹션 요약 비유**: B+트리는 색인 카드 + 실제 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 분리 시스템이다 — 색인(내부 노드)은 위치만 알려주고, 실제 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(리프)은 순서대로 서랍에 연결되어 있다.
+📢 **섹션 요약 비유**: B+트리는 색인 카드 + 실제 파일 분리 시스템이다 — 색인(내부 노드)은 위치만 알려주고, 실제 파일(리프)은 순서대로 서랍에 연결되어 있다.
 
 ---
 
@@ -72,13 +72,13 @@ def range_search(root, low, high):
     return result
 ```
 
-📢 **섹션 요약 비유**: 범위 검색은 사전에서 특정 알파벳 구간 단어 찾기다 — B-트리는 각 단어를 따로 찾고, B+트리는 'A' [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 찾은 뒤 'B', 'C'로 쭉 넘기면 된다.
+📢 **섹션 요약 비유**: 범위 검색은 사전에서 특정 알파벳 구간 단어 찾기다 — B-트리는 각 단어를 따로 찾고, B+트리는 'A' 페이지 찾은 뒤 'B', 'C'로 쭉 넘기면 된다.
 
 ---
 
-## Ⅲ. MySQL InnoDB B+트리 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조
+## Ⅲ. MySQL InnoDB B+트리 인덱스 구조
 
-### 클러스터 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))
+### 클러스터 인덱스 (Primary Key Index)
 
 ```
 InnoDB B+트리 리프 노드:
@@ -90,7 +90,7 @@ InnoDB B+트리 리프 노드:
 +--------------------------------------+
 ```
 
-### 세컨더리 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Secondary [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))
+### 세컨더리 인덱스 (Secondary Index)
 
 ```
 세컨더리 B+트리 리프 노드:
@@ -102,11 +102,11 @@ InnoDB B+트리 리프 노드:
 +---------------------------+
 ```
 
-**이중 조회 (Double Lookup) 문제**: 세컨더리 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 후 PK로 클러스터 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 재탐색 필요
+**이중 조회 (Double Lookup) 문제**: 세컨더리 인덱스 탐색 후 PK로 클러스터 인덱스 재탐색 필요
 
--> <strong>커버링 <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> (Covering <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>: [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼을 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 포함해 이중 조회 방지
+-> <strong>커버링 인덱스 (Covering Index)</strong>: SELECT 컬럼을 인덱스에 모두 포함해 이중 조회 방지
 
-📢 **섹션 요약 비유**: 이중 조회는 책에서 목차(세컨더리 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))로 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾고, 그 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 다시 내용을 읽는 것이다. 커버링 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 목차에 요약이 다 있어 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 안 넘겨도 되는 것이다.
+📢 **섹션 요약 비유**: 이중 조회는 책에서 목차(세컨더리 인덱스)로 페이지를 찾고, 그 페이지에서 다시 내용을 읽는 것이다. 커버링 인덱스는 목차에 요약이 다 있어 페이지를 안 넘겨도 되는 것이다.
 
 ---
 
@@ -122,7 +122,7 @@ InnoDB B+트리 리프 노드:
            부모에 25(복사) 올라감  <- B-트리와 차이: B+트리는 복사(copy), B-트리는 이동(move)
 ```
 
-### 삭제 — 내부 노드 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) 키 유지
+### 삭제 — 내부 노드 더미 키 유지
 
 ```
 B+트리 특성:
@@ -135,9 +135,9 @@ B+트리 특성:
 
 ---
 
-## Ⅴ. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 현대 적용
+## Ⅴ. 성능 최적화와 현대 적용
 
-### [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기와 차수 최적화
+### 페이지 크기와 차수 최적화
 
 ```
 MySQL InnoDB 페이지: 16KB 기본
@@ -150,12 +150,12 @@ MySQL InnoDB 페이지: 16KB 기본
 
 | DB            | B+트리 변형          | 특이사항                   |
 |-------------|--------------------|-----------------------------|
-| MySQL InnoDB | 클러스터 B+트리      | PK 리프에 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장  |
-| PostgreSQL   | 힙 기반 + B+트리    | 세컨더리 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 힙 포인터 |
-| [MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/) WiredTiger | B-트리 변형   | LSM 트리와 혼합              |
+| MySQL InnoDB | 클러스터 B+트리      | PK 리프에 실제 데이터 저장  |
+| PostgreSQL   | 힙 기반 + B+트리    | 세컨더리 인덱스에 힙 포인터 |
+| MongoDB WiredTiger | B-트리 변형   | LSM 트리와 혼합              |
 | SQLite       | B-트리             | 이식성 중시, 단순 구조       |
 
-📢 **섹션 요약 비유**: InnoDB 클러스터 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 전화번호부다 — 이름(PK) 순서대로 모든 정보가 정렬되어 있어 이름만 알면 주소·번호를 즉시 찾는다.
+📢 **섹션 요약 비유**: InnoDB 클러스터 인덱스는 전화번호부다 — 이름(PK) 순서대로 모든 정보가 정렬되어 있어 이름만 알면 주소·번호를 즉시 찾는다.
 
 ---
 
@@ -208,17 +208,6 @@ B-트리 -> B+트리(리프 체인) -> 범위 스캔 O(k)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. B+트리는 책에서 목차와 내용이 분리된 구조다 — 목차(내부 노드)는 길만 알려주고, 실제 내용([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 순서대로 연결된 마지막 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(리프)에만 있다.
+1. B+트리는 책에서 목차와 내용이 분리된 구조다 — 목차(내부 노드)는 길만 알려주고, 실제 내용(데이터)은 순서대로 연결된 마지막 페이지(리프)에만 있다.
 2. 리프 체인은 연결된 서랍 손잡이다 — 첫 서랍을 열면 다음 서랍 손잡이(포인터)가 달려있어 원하는 범위까지 빠르게 이동할 수 있다.
-3. 클러스터 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 학교 출석부다 — 학번(PK) 순서대로 모든 학생 정보가 정리되어 있어 학번만 알면 모든 정보를 즉시 찾는다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 90 / 175
-
-<- **이전**: [31. Red-Black 트리 — STL·JVM의 표준 균형 BST](/studynote/08_algorithm_stats/04_datastructure/089_rb_tree/)
-**다음**: [B-트리 (B-Tree)](/studynote/08_algorithm_stats/04_datastructure/091_b_tree/) ->
-
----
+3. 클러스터 인덱스는 학교 출석부다 — 학번(PK) 순서대로 모든 학생 정보가 정리되어 있어 학번만 알면 모든 정보를 즉시 찾는다.

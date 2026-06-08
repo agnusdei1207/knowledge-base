@@ -154,11 +154,3 @@ Loki는 Grafana Labs가 만든 **"Prometheus for logs"** 철학의 **수평 확�
 | :--- | :--- | :--- | :--- | :--- |
 | **인덱싱 방식** | **Lucene 풀텍스트 역색인** (필드별 토크나이저) | **라벨만 인덱싱**, 본문은 압축 chunk | ES와 동일(Lucene) | **tsidx**(자체 인덱스, sparse index) |
 | **검색 성능** | ms 단위 풀텍스트 `match_phrase` | `\|~` regex는 **full scan**, `\|=` exact는 라벨 인
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 625 / 800
-
-<- **이전**: [624. 분산 추적 예거 집킨 오픈텔레메트리](/studynote/06_ict_convergence/uncategorized/624_distributed_tracing_jaeger_zipkin_opentelemet/)
-**다음**: [626. eBPF 커널 관측성 네트워크 보안](/studynote/06_ict_convergence/uncategorized/626_ebpf_kernel_observability_network_security/) ->
-
----

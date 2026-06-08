@@ -147,12 +147,3 @@ weight: 682
 | :--- | :--- | :--- |
 | **Ingestion Layer** | 다양한 비정형 소스(웹, SNS, PDF, 로그, RSS) 통합 수집 | Scrapy(웹크롤러, robots.txt 준수), Tesseract/Docling(OCR+PDF), Kafka(Fluentd Logstash, Exactly-Once Semantics), `Tika`(포맷 자동 감지) |
 | **Cleaning Engine** | 노이즈 제거·유니코드 정규화·인코딩 통일 | `unicodedata.normalize('NFKC')`로 전각/반각 통일, `BeautifulSoup`로 HTML 태그 제거, 정규식 기반 URL·이메일·이모티콘 처리, **2-byte/3-byte 한글 보존** 위해 `[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9\s]` 활용 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 682 / 800
-
-<- **이전**: [681. 데이터 시각화 대시보드 스토리텔링](/studynote/06_ict_convergence/uncategorized/681_data_visualization_dashboard_storytelling/)
-**다음**: [683. 지식 그래프 온톨로지 시맨틱 웹](/studynote/06_ict_convergence/uncategorized/683_knowledge_graph_ontology_semantic_web/) ->
-
----

@@ -134,11 +134,3 @@ weight: 737
 | **Memory Forensics (메모리 분석)** | RAM의 휘발성 잔재로부터 프로세스/네트워크/키로깅/루트킷 추출 | **Volatility 2/3**(Python, Win/Linux/Mac), **Rekall**, **MemProcFS**: 프로세스 트리, 핸들, DLL, 네트워크 연결, 코드 인젝션, EPROCESS, KDBG 구조체 분석 |
 | **Mobile Forensics (모바일 분석)** | iOS/Android의 앱 데이터, 채팅, GPS, 사진 메타데이터 | **Cellebrite UFED 4PC**, **MSAB XRY**, **Magnet AXIOM**, **iMazing**: Logical(앱 DB 추출) / File System(파일시스템) / Physical(전체 플래시) / Chip-off(BGA 리볼) |
 | **Network Forensics (네트워크 분석)** | 패킷 캡처, 흐름 분석, 침해 추적 | **Wireshark**(GUI),
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 737 / 800
-
-<- **이전**: [736. 로봇 협동 코봇 휴먼 로봇 인터랙션](/studynote/06_ict_convergence/uncategorized/736_collaborative_robot_cobot_human_interaction/)
-**다음**: [738. 사이버 위협 인텔리전스 CTI TTP IOC](/studynote/06_ict_convergence/uncategorized/738_cyber_threat_intelligence_cti_ttp_ioc/) ->
-
----

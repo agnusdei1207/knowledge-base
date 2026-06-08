@@ -6,13 +6,13 @@ tags:
 weight: 40
 ---
 > **핵심 인사이트**
-> 1. [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(Alternate Mark Inversion, 교류 마크 반전)는 0을 0전압, 1을 +V와 -V 교번(交番)으로 표현하는 삼진 부호 방식으로, DC 성분 제거와 단일 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [오류 탐지](/studynote/02_operating_system/01_overview_architecture/040_error_detection/)(연속 동극성 위반 검출)라는 두 가지 효과를 동시에 달성한다.
-> 2. Pseudoternary(의사 삼진 부호)는 AMI의 역(逆) — 1을 0전압, 0을 ±V 교번으로 표현하며, 동일한 수학적 특성을 가지지만 1이 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경에서 유리하다.
-> 3. [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 계열 라인 코딩은 ISDN BRI(기본 속도 인터페이스) 표준 코딩으로 채택됐으며, 이후 B8ZS·HDB3 등 연속 0 처리 개선 버전으로 발전하여 E1/T1 디지털 전화망의 기반이 됐다.
+> 1. AMI(Alternate Mark Inversion, 교류 마크 반전)는 0을 0전압, 1을 +V와 -V 교번(交番)으로 표현하는 삼진 부호 방식으로, DC 성분 제거와 단일 비트 오류 탐지(연속 동극성 위반 검출)라는 두 가지 효과를 동시에 달성한다.
+> 2. Pseudoternary(의사 삼진 부호)는 AMI의 역(逆) — 1을 0전압, 0을 ±V 교번으로 표현하며, 동일한 수학적 특성을 가지지만 1이 많은 데이터 환경에서 유리하다.
+> 3. AMI 계열 라인 코딩은 ISDN BRI(기본 속도 인터페이스) 표준 코딩으로 채택됐으며, 이후 B8ZS·HDB3 등 연속 0 처리 개선 버전으로 발전하여 E1/T1 디지털 전화망의 기반이 됐다.
 
 ---
 
-## Ⅰ. 라인 코딩 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+## Ⅰ. 라인 코딩 분류
 
 ```
 라인 코딩 (Line Coding) 분류:
@@ -35,11 +35,11 @@ AMI vs Pseudoternary:
   Pseudoternary: 0 = +V/-V 교번, 1 = 0V
 ```
 
-> 📢 **섹션 요약 비유**: 라인 코딩은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전선에 싣는 "언어 선택" — AMI는 1을 번갈아 +/-로 말하는 특별한 언어.
+> 📢 **섹션 요약 비유**: 라인 코딩은 데이터를 전선에 싣는 "언어 선택" — AMI는 1을 번갈아 +/-로 말하는 특별한 언어.
 
 ---
 
-## Ⅱ. [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 인코딩 원리
+## Ⅱ. AMI 인코딩 원리
 
 ```
 AMI (Alternate Mark Inversion):
@@ -65,7 +65,7 @@ AMI (Alternate Mark Inversion):
   3. 대역폭: NRZ-L 대비 낮은 주파수 성분
 ```
 
-> 📢 **섹션 요약 비유**: AMI는 1을 "위, 아래, 위, 아래"처럼 번갈아 전달하는 지그재그 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) — 모두 같은 방향이면 오류 경보!
+> 📢 **섹션 요약 비유**: AMI는 1을 "위, 아래, 위, 아래"처럼 번갈아 전달하는 지그재그 신호 — 모두 같은 방향이면 오류 경보!
 
 ---
 
@@ -93,7 +93,7 @@ HDB3 (High Density Bipolar 3):
   HDB3: E1 표준, 4개 연속 0 처리
 ```
 
-> 📢 **섹션 요약 비유**: B8ZS/HDB3는 오래 침묵하면 "가짜 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)"를 넣어 시계가 계속 돌아가게 유지하는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 도우미.
+> 📢 **섹션 요약 비유**: B8ZS/HDB3는 오래 침묵하면 "가짜 신호"를 넣어 시계가 계속 돌아가게 유지하는 신호 도우미.
 
 ---
 
@@ -120,7 +120,7 @@ ISDN BRI (Basic Rate Interface) 사용:
   U 인터페이스: 2B1Q (4레벨 PAM) 전환
 ```
 
-> 📢 **섹션 요약 비유**: Pseudoternary는 AMI와 같은 규칙이지만 0과 1 역할만 바꾼 쌍둥이 코딩 — 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 더 자주 오느냐에 따라 유리한 쪽을 선택.
+> 📢 **섹션 요약 비유**: Pseudoternary는 AMI와 같은 규칙이지만 0과 1 역할만 바꾼 쌍둥이 코딩 — 어떤 데이터가 더 자주 오느냐에 따라 유리한 쪽을 선택.
 
 ---
 
@@ -150,7 +150,7 @@ ISDN BRI (Basic Rate Interface):
   그러나 레거시 기업/통신사에서 여전히 사용
 ```
 
-> 📢 **섹션 요약 비유**: T1/E1은 고속도로 차선처럼 고정 대역폭을 나눠 쓰는 디지털 전화망 — [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)/HDB3가 각 차선의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등 역할.
+> 📢 **섹션 요약 비유**: T1/E1은 고속도로 차선처럼 고정 대역폭을 나눠 쓰는 디지털 전화망 — AMI/HDB3가 각 차선의 신호등 역할.
 
 ---
 
@@ -208,17 +208,6 @@ AMI + B8ZS 복합 사용
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. AMI는 "1"을 보낼 때마다 위로, 아래로, 위로... 번갈아 가며 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 보내는 방식이에요 — 계속 같은 방향이면 "오류야!"라고 알 수 있어요.
-2. 0이 많이 연속되면 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 너무 오래 조용해져서 수신기가 헷갈리는데, B8ZS는 그럴 때 대신 "가짜 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 패턴"을 끼워 넣어줘요.
-3. 국제전화나 옛날 인터넷 회선에서 이 방법을 사용해 먼 거리로도 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 정확하게 전달했답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 40 / 1120
-
-<- **이전**: [039. 맨체스터 / 차분 맨체스터 인코딩](/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/)
-**다음**: [041. 차분 부호화 (Differential Encoding)](/studynote/03_network/01_data_communication/041_차분_부호화/) ->
-
----
+1. AMI는 "1"을 보낼 때마다 위로, 아래로, 위로... 번갈아 가며 신호를 보내는 방식이에요 — 계속 같은 방향이면 "오류야!"라고 알 수 있어요.
+2. 0이 많이 연속되면 신호가 너무 오래 조용해져서 수신기가 헷갈리는데, B8ZS는 그럴 때 대신 "가짜 신호 패턴"을 끼워 넣어줘요.
+3. 국제전화나 옛날 인터넷 회선에서 이 방법을 사용해 먼 거리로도 신호를 정확하게 전달했답니다!

@@ -179,11 +179,3 @@ ICT 융합 DX 아키텍처는 **데이터 수집 -> 전송 -> 저장 -> 처리 -
 | **AI/ML 플랫폼 계층** | 데이터 -> 지능 변환 | MLOps 파이프라인(Kubeflow, MLflow, SageMaker, Vertex AI), Foundation Model(LLM, MLLM, SAM), RAG(Retrieval-Augmented Generation, LangChain/LlamaIndex), AutoML(H2O, AutoGluon), Explainable AI(SHAP, LIME), Responsible AI(Bias Detection) |
 | **통합/플랫폼 계층** | 시스템 간 연결·오케스트레이션 | Service Mesh(Istio, mTLS/Envoy), API Gateway(Kong, Apigee, gRPC-Gateway), Event-Driven Architecture(Saga, Outbox, CQRS), BPMN/DMN, Workflow Engine(Temporal, Camunda), Hyperautomation(UiPath, Automation Anywhere + AI) |
 | **경험/인터페이스 계층** | 사용자·디지털 트윈 접
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 794 / 800
-
-<- **이전**: [793. ICT 융합 시험 빈출 핵심 100선 요약](/studynote/06_ict_convergence/uncategorized/793_ict_convergence_exam_top_100_summary/)
-**다음**: [795. ICT 융합 기술사 논술 키워드 최종 정리](/studynote/06_ict_convergence/uncategorized/795_ict_pe_essay_keywords_final_summary/) ->
-
----

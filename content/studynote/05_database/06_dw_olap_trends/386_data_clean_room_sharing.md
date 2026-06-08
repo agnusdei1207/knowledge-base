@@ -7,19 +7,19 @@ weight: 386
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing / Clean Room) 보안 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교환 모델 ([Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/) [Data Clean Room](/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/) 등)는 보안·프라이버시 관점에서 자주 쓰이는 모델이다.
+> 1. **본질**: 데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)는 보안·프라이버시 관점에서 자주 쓰이는 모델이다.
 > 2. **가치**: 유출 가능성과 규제 위반 위험을 낮추고 추적 가능성을 높인다. 특히 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 `보안·프라이버시 맥락에서 역할과 경계를 판단해야 하는 주제`를 설계 판단으로 연결해 준다.
-> 3. **판단 포인트**: 보안 계층을 성급히 덧붙이면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 키 관리 복잡도가 커질 수 있다. 따라서 무엇을 우선 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)할지와 어느 비용을 감수할지를 함께 봐야 한다.
+> 3. **판단 포인트**: 보안 계층을 성급히 덧붙이면 성능 저하와 키 관리 복잡도가 커질 수 있다. 따라서 무엇을 우선 보호할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing / Clean Room) 보안 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교환 모델 ([Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/) [Data Clean Room](/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/) 등)는 보안·프라이버시 관점에서 자주 쓰이는 모델이다. 이 주제가 필요한 이유는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)와 핵심 업무 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 담기 때문에 저장·전송·조회 전 구간의 통제가 필요하다. 특히 `서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처`에서 드러난 한계를 줄이고 `블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델` 같은 후속 판단의 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
+데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)는 보안·프라이버시 관점에서 자주 쓰이는 모델이다. 이 주제가 필요한 이유는 데이터베이스는 개인정보와 핵심 업무 데이터를 동시에 담기 때문에 저장·전송·조회 전 구간의 통제가 필요하다. 특히 `서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처`에서 드러난 한계를 줄이고 `블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델` 같은 후속 판단의 기준선을 세울 때 현재 개념이 중심축이 된다.
 
-시험과 실무에서 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`를 따로 외우기보다, "무엇을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/)를 다루는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 저장 시 암호화와 조회 시 최소권한을 함께 설계해야 한다.
+시험과 실무에서 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`를 따로 외우기보다, "무엇을 보호하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 민감정보를 다루는 서비스에서는 저장 시 암호화와 조회 시 최소권한을 함께 설계해야 한다.
 
-이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
+이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 압축해 보여 준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -37,14 +37,14 @@ weight: 386
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-`데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`의 핵심 원리는 암호화, [접근 통제](/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/), [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 안전한 질의 실행으로 노출 면적을 줄인다는 점이다. 여기서 중요한 것은 `보안·프라이버시 맥락에서 역할과 경계를 판단해야 하는 주제`를 어떤 순서로 평가하고 어느 경계에서 확정하느냐다. 이 순서가 바뀌면 정합성, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 중 손해를 보는 축이 달라진다.
+`데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`의 핵심 원리는 암호화, 접근 통제, 감사, 마스킹, 안전한 질의 실행으로 노출 면적을 줄인다는 점이다. 여기서 중요한 것은 `보안·프라이버시 맥락에서 역할과 경계를 판단해야 하는 주제`를 어떤 순서로 평가하고 어느 경계에서 확정하느냐다. 이 순서가 바뀌면 정합성, 처리량, 지연시간 중 손해를 보는 축이 달라진다.
 
 | 관점 | 설명 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 핵심 대상 | `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 `보안·프라이버시 맥락에서 역할과 경계를 판단해야 하는 주제`를 다루는 중심 규칙이다. | 먼저 무엇을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 빠르게 할 것인지 명확히 정한다. |
-| 작동 방식 | 암호화, [접근 통제](/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/), [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 안전한 질의 실행으로 노출 면적을 줄인다. | 평가 시점, 적용 범위, 예외 조건을 문서화해야 한다. |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 유출 가능성과 규제 위반 위험을 낮추고 추적 가능성을 높인다. | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간·정합성 중 우선순위를 수치로 합의한다. |
-| 운영 위험 | 보안 계층을 성급히 덧붙이면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 키 관리 복잡도가 커질 수 있다. | 장애 지표, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 재처리 기준을 함께 설계한다. |
+| 핵심 대상 | `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 `보안·프라이버시 맥락에서 역할과 경계를 판단해야 하는 주제`를 다루는 중심 규칙이다. | 먼저 무엇을 보호하거나 빠르게 할 것인지 명확히 정한다. |
+| 작동 방식 | 암호화, 접근 통제, 감사, 마스킹, 안전한 질의 실행으로 노출 면적을 줄인다. | 평가 시점, 적용 범위, 예외 조건을 문서화해야 한다. |
+| 성능 영향 | 유출 가능성과 규제 위반 위험을 낮추고 추적 가능성을 높인다. | 처리량·지연시간·정합성 중 우선순위를 수치로 합의한다. |
+| 운영 위험 | 보안 계층을 성급히 덧붙이면 성능 저하와 키 관리 복잡도가 커질 수 있다. | 장애 지표, 롤백 전략, 재처리 기준을 함께 설계한다. |
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
@@ -56,7 +56,7 @@ weight: 386
 +--------------------------------------------------------------+
 ```
 
-결국 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
+결국 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 복구 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
 - **📢 섹션 요약 비유**: 현관문, 금고, CCTV가 함께 움직여 집을 지키는 구조와 같다.
 
@@ -70,7 +70,7 @@ weight: 386
 | :--- | :--- | :--- | :--- |
 | 대표 질문 | `서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처`는 왜 현재 문제가 생기는지 보여 준다. | `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 지금 무엇을 통제하는지 답한다. | `블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델`는 이후 무엇을 더 강화하거나 확장하는지 보여 준다. |
 | 초점 | 배경, 전제, 한계가 중심이다. | `보안·프라이버시 맥락에서 역할과 경계를 판단해야 하는 주제`를 직접 다룬다. | 확장, 보완, 운영 관점이 중심이다. |
-| 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
+| 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 성능과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
 
 또한 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 `암호화 (Encryption)`·`감사 (Auditing)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 -> 현재 통제 -> 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
 
@@ -80,13 +80,13 @@ weight: 386
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`를 이론 용어가 아니라 운영 선택지로 다뤄야 한다. [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/)를 다루는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 저장 시 암호화와 조회 시 최소권한을 함께 설계해야 한다. 특히 장애가 나거나 부하가 급증할 때는 현재 개념이 병목을 줄이는지, 아니면 구조만 복잡하게 만드는지 냉정하게 평가해야 한다.
+실무에서는 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`를 이론 용어가 아니라 운영 선택지로 다뤄야 한다. 민감정보를 다루는 서비스에서는 저장 시 암호화와 조회 시 최소권한을 함께 설계해야 한다. 특히 장애가 나거나 부하가 급증할 때는 현재 개념이 병목을 줄이는지, 아니면 구조만 복잡하게 만드는지 냉정하게 평가해야 한다.
 
-### 기술사 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 판단 체크리스트
 
 1. 현재 워크로드에서 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`가 실제로 해결하는 병목이나 위험이 명확한가?
 2. `서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처` 또는 `블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델`로 더 단순하게 풀 수 없는가?
-3. [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 지표, 예외 처리, [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`의 특성과 맞게 준비되어 있는가?
+3. 모니터링 지표, 예외 처리, 복구 절차가 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`의 특성과 맞게 준비되어 있는가?
 
 한마디로 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 "좋은 개념"이라서 채택하는 것이 아니라, 어떤 손실을 줄이고 어떤 비용을 감수할지 분명할 때 채택해야 한다. 그 판단 기준을 숫자와 운영 시나리오로 설명할 수 있어야 완성도 있는 답안이 된다.
 
@@ -98,7 +98,7 @@ weight: 386
 
 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`를 올바르게 적용하면 유출 가능성과 규제 위반 위험을 낮추고 추적 가능성을 높인다. 반대로 적용 위치를 잘못 잡으면 불필요한 비용과 운영 복잡도가 커질 수 있다. 그래서 이 주제는 정의 하나보다도 "어디에 두고 무엇을 보장할 것인가"라는 배치 감각으로 기억하는 편이 낫다.
 
-결론적으로 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 `서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처`와 `블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델` 사이에서 현재 시스템이 감당할 수 있는 균형점을 만드는 개념이다. 시험에서는 배경, 원리, 비교, 판단 기준을 함께 답하고, 실무에서는 지표와 운영 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 연결할 수 있어야 한다.
+결론적으로 `데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)`는 `서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처`와 `블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델` 사이에서 현재 시스템이 감당할 수 있는 균형점을 만드는 개념이다. 시험에서는 배경, 원리, 비교, 판단 기준을 함께 답하고, 실무에서는 지표와 운영 정책으로 연결할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 보안 규칙은 평소에는 조용하지만 사고가 나면 차이를 크게 만든다.
 
@@ -108,10 +108,10 @@ weight: 386
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [서드파티](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) ([3rd Party](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/)) [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 소멸에 대비한 퍼스트파티 고객 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(CDW) 아키텍처 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [블록체인 기반의 영지식 증명](/studynote/05_database/06_dw_olap_trends/387_zkp_blockchain_data_query/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의 프레임워크 연구 모델 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| 서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처 | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
+| 블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델 | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
 | 암호화 (Encryption) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
-| [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Auditing](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
+| 감사 (Auditing) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,14 +132,3 @@ weight: 386
 1. 비밀상자에 자물쇠를 달고 누가 열었는지 기록하는 일이에요.
 2. 상자를 잘 잠가도 열쇠를 아무나 주면 소용없어요.
 3. 그래서 잠그는 법과 보여 주는 법을 같이 정해야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 386 / 600
-
-<- **이전**: [385. 서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처](/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/)
-**다음**: [387. 블록체인 기반의 영지식 증명(ZKP) 데이터 질의 프레임워크 연구 모델](/studynote/05_database/06_dw_olap_trends/387_zkp_blockchain_data_query/) ->
-
----

@@ -6,15 +6,15 @@ tags:
 weight: 93
 ---
 > **핵심 인사이트 3줄**
-> 1. [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)([Skip List](/studynote/12_it_management/03_ea_isp/894_skip_list/))는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 다중 레벨 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로, 균형 [이진 탐색](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리와 동일한 O(log n) 평균 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 단순한 구조로 달성하는 자료구조다.
-> 2. 각 노드가 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) p(=0.5)로 상위 레벨에 복사되어 "고속도로 레이어"를 형성하며, 이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 균형이 결정적 균형 트리(AVL·RB)의 복잡한 회전 연산을 대체한다.
-> 3. Redis의 Sorted Set(zset), LevelDB의 [MemTable](/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/), MemSQL 등에서 실제로 사용되며, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리·락프리([Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 구현에 유리해 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조로 주목받는다.
+> 1. 스킵 리스트(Skip List)는 확률적 다중 레벨 연결 리스트로, 균형 이진 탐색 트리와 동일한 O(log n) 평균 성능을 단순한 구조로 달성하는 자료구조다.
+> 2. 각 노드가 확률 p(=0.5)로 상위 레벨에 복사되어 "고속도로 레이어"를 형성하며, 이 확률적 균형이 결정적 균형 트리(AVL·RB)의 복잡한 회전 연산을 대체한다.
+> 3. Redis의 Sorted Set(zset), LevelDB의 MemTable, MemSQL 등에서 실제로 사용되며, 병렬 처리·락프리(Lock-free) 구현에 유리해 동시성 데이터 구조로 주목받는다.
 
 ---
 
-## Ⅰ. [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)의 구조와 개념
+## Ⅰ. 스킵 리스트의 구조와 개념
 
-[스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)([Skip List](/studynote/12_it_management/03_ea_isp/894_skip_list/))는 <strong>William Pugh(1990)</strong>가 제안한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 자료구조다.
+스킵 리스트(Skip List)는 <strong>William Pugh(1990)</strong>가 제안한 확률적 자료구조다.
 
 ```
 레벨 3: HEAD ------------------------ 25 ------------ NULL
@@ -26,16 +26,16 @@ weight: 93
 
 ### 핵심 특성
 
-- **레벨 0**: 모든 요소를 포함한 완전 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)
-- **상위 레벨**: [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 선택된 요소만 포함 (빠른 건너뛰기)
+- **레벨 0**: 모든 요소를 포함한 완전 연결 리스트
+- **상위 레벨**: 확률적으로 선택된 요소만 포함 (빠른 건너뛰기)
 - **노드 높이**: 동전 던지기(p=0.5)로 결정
 - **예상 높이**: O(log n)
 
-📢 **섹션 요약 비유**: [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)는 서울 지하철 시스템이다 — 일반 역(레벨 0), 환승역(레벨 1), 급행 정차역(레벨 2)처럼 중요도에 따라 여러 층의 노선이 있어 목적지까지 빠르게 이동한다.
+📢 **섹션 요약 비유**: 스킵 리스트는 서울 지하철 시스템이다 — 일반 역(레벨 0), 환승역(레벨 1), 급행 정차역(레벨 2)처럼 중요도에 따라 여러 층의 노선이 있어 목적지까지 빠르게 이동한다.
 
 ---
 
-## Ⅱ. [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/) 탐색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅱ. 스킵 리스트 탐색 알고리즘
 
 ```python
 def search(skip_list, target):
@@ -53,7 +53,7 @@ def search(skip_list, target):
     return None
 ```
 
-### 탐색 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+### 탐색 시각화
 
 ```
 15를 검색:
@@ -63,7 +63,7 @@ def search(skip_list, target):
 비교 횟수: 4회 (전체 9개 노드 중 44%)
 ```
 
-📢 **섹션 요약 비유**: [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/) 탐색은 대도시 여행 계획이다 — 고속버스(레벨 3)로 큰 도시까지 가고, 시내버스(레벨 1)로 동네까지, 걷기(레벨 0)로 목적지 찾기.
+📢 **섹션 요약 비유**: 스킵 리스트 탐색은 대도시 여행 계획이다 — 고속버스(레벨 3)로 큰 도시까지 가고, 시내버스(레벨 1)로 동네까지, 걷기(레벨 0)로 목적지 찾기.
 
 ---
 
@@ -90,13 +90,13 @@ def search(skip_list, target):
 3. 빈 레벨 정리 (max_level 감소)
 ```
 
-📢 **섹션 요약 비유**: 삽입 시 높이 결정은 계급 진급이다 — 동전 앞면([확률](/studynote/08_algorithm_stats/08_stats/130_probability/) p)이 나올수록 더 높은 레벨에 등록되고, 뒷면이 나오면 그 계급으로 확정된다.
+📢 **섹션 요약 비유**: 삽입 시 높이 결정은 계급 진급이다 — 동전 앞면(확률 p)이 나올수록 더 높은 레벨에 등록되고, 뒷면이 나오면 그 계급으로 확정된다.
 
 ---
 
-## Ⅳ. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석
+## Ⅳ. 성능 분석
 
-### [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
+### 시간 복잡도
 
 | 연산   | 평균 복잡도  | 최악 복잡도 |
 |------|-----------|-----------|
@@ -104,24 +104,24 @@ def search(skip_list, target):
 | 삽입  | O(log n)  | O(n)      |
 | 삭제  | O(log n)  | O(n)      |
 
-**최악의 경우**: 모든 노드가 레벨 0에만 있을 때 ([확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 낮음)
+**최악의 경우**: 모든 노드가 레벨 0에만 있을 때 (확률 낮음)
 
-### AVL 트리 vs [레드-블랙 트리](/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) vs [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)
+### AVL 트리 vs 레드-블랙 트리 vs 스킵 리스트
 
-| 특성         | AVL 트리      | [레드-블랙 트리](/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)  | [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)    |
+| 특성         | AVL 트리      | 레드-블랙 트리  | 스킵 리스트    |
 |-----------|------------|--------------|--------------|
-| 균형 방식  | 결정적 (회전) | 결정적 (회전+색) | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적       |
+| 균형 방식  | 결정적 (회전) | 결정적 (회전+색) | 확률적       |
 | 구현 복잡도 | 높음        | 매우 높음      | 낮음          |
 | 메모리     | 낮음        | 낮음           | 높음 (포인터^) |
-| [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리  | 어려움      | 어려움         | 유리 (LF 가능)|
+| 병렬 처리  | 어려움      | 어려움         | 유리 (LF 가능)|
 
-📢 **섹션 요약 비유**: [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)는 "근사치 균형"이다 — AVL처럼 완벽한 균형이 아니라 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 균형에 가깝게 만들어, 복잡한 회전 없이 비슷한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다.
+📢 **섹션 요약 비유**: 스킵 리스트는 "근사치 균형"이다 — AVL처럼 완벽한 균형이 아니라 확률적으로 균형에 가깝게 만들어, 복잡한 회전 없이 비슷한 성능을 낸다.
 
 ---
 
-## Ⅴ. 실제 활용 — [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) Sorted Set
+## Ⅴ. 실제 활용 — Redis Sorted Set
 
-### [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) ZADD/ZRANGE 구현
+### Redis ZADD/ZRANGE 구현
 
 ```
 ZADD scores 90 "Alice"    -> 스킵 리스트에 (key=Alice, score=90) 삽입
@@ -135,12 +135,12 @@ ZRANGEBYSCORE scores 85 95
   -> ["Bob", "Alice", "Carol"]           // 범위 검색
 ```
 
-<strong>Redis가 <a href="/studynote/12_it_management/02_itsm_itil/851_skip_list/">스킵 리스트</a>를 선택한 이유</strong>:
+<strong>Redis가 스킵 리스트를 선택한 이유</strong>:
 1. 범위 검색이 O(k+log n)으로 효율적
 2. 구현 단순 -> 유지보수 용이
-3. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능성 ([Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 확장)
+3. 병렬 처리 가능성 (Lock-free 확장)
 
-📢 **섹션 요약 비유**: Redis의 [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)는 게임 리더보드와 같다 — 점수(score) 기준으로 정렬되어 있고, "90점~95점 사이 플레이어"처럼 범위 조회가 빠르다.
+📢 **섹션 요약 비유**: Redis의 스킵 리스트는 게임 리더보드와 같다 — 점수(score) 기준으로 정렬되어 있고, "90점~95점 사이 플레이어"처럼 범위 조회가 빠르다.
 
 ---
 
@@ -191,17 +191,6 @@ AVL/RB 트리와 성능 동등 -> 병렬 처리 우위
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/)는 고속도로가 있는 일반 도로다 — 급하면 고속도로(상위 레벨)로 빠르게 이동하고, 목적지 근처에서 내려(하위 레벨) 정확히 찾는다.
+1. 스킵 리스트는 고속도로가 있는 일반 도로다 — 급하면 고속도로(상위 레벨)로 빠르게 이동하고, 목적지 근처에서 내려(하위 레벨) 정확히 찾는다.
 2. 높이 결정은 동전 던지기다 — 앞면이 나오면 계속 올라가고 뒷면이 나오면 멈춘다. 그래서 어떤 노드는 고속도로까지 올라가고, 어떤 노드는 골목길에만 있다.
-3. [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) 리더보드는 [스킵 리스트](/studynote/12_it_management/02_itsm_itil/851_skip_list/) 덕분에 빠르다 — "80점~90점 플레이어 모두 보기"처럼 범위 검색을 효율적으로 처리한다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 93 / 175
-
-<- **이전**: [단조 스택 (Monotonic Stack) / 단조 큐 (Monotonic Queue)](/studynote/08_algorithm_stats/04_datastructure/092_monotonic_stack/)
-**다음**: [KMP (Knuth-Morris-Pratt) 알고리즘](/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) ->
-
----
+3. Redis 리더보드는 스킵 리스트 덕분에 빠르다 — "80점~90점 플레이어 모두 보기"처럼 범위 검색을 효율적으로 처리한다.

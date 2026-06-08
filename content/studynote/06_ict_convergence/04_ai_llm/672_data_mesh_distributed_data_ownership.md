@@ -164,11 +164,3 @@ Zhamak Dehghani(2019)가 제안한 **데이터 메시(Data Mesh)**는 위 문제
 ### 단계적 도입 로드맵 (실무 권장)
 
 데이터 메시는 **"Big Bang 도입"이 거의 불가능**하며, 다음
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 672 / 800
-
-<- **이전**: [671. 데이터 거버넌스 정책 품질 관리 체계](/studynote/06_ict_convergence/uncategorized/671_data_governance_policy_quality_management/)
-**다음**: [673. 데이터 레이크하우스 통합 분석 플랫폼](/studynote/06_ict_convergence/uncategorized/673_data_lakehouse_unified_analytics_platform/) ->
-
----

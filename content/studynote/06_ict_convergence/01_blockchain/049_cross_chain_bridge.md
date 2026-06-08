@@ -6,9 +6,9 @@ tags:
 weight: 49
 ---
 > **핵심 인사이트**
-> 1. 크로스체인 브릿지(Cross-Chain [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))는 서로 다른 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 간 자산·데이터를 전송하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) — 이더리움의 [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 토큰을 솔라나·[BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/)·폴리곤으로 이동하거나, 비트코인을 DeFi에서 사용할 수 있게 해주는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 인터넷의 기반 인프라다.
-> 2. 락-앤-민트([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-and-Mint)와 번-앤-민트(Burn-and-Mint)가 크로스체인 브릿지의 두 핵심 메커니즘 — 원본 체인에서 자산을 잠그고([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 목표 체인에서 동등한 래핑 토큰(Wrapped Token)을 발행(Mint)하거나, 원본을 소각(Burn)하고 목표 체인에서 민트하는 방식이다.
-> 3. 크로스체인 브릿지는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 생태계에서 가장 큰 해킹 피해를 낸 취약 지점 — 2022년 Ronin [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)($625M), Wormhole($320M), Nomad($190M) 등 단일 취약점이 수천억 원의 손실로 이어지며, [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 검증과 다중 서명이 핵심 보안 요소다.
+> 1. 크로스체인 브릿지(Cross-Chain Bridge)는 서로 다른 블록체인 네트워크 간 자산·데이터를 전송하는 프로토콜 — 이더리움의 ERC-20 토큰을 솔라나·BSC·폴리곤으로 이동하거나, 비트코인을 DeFi에서 사용할 수 있게 해주는 블록체인 인터넷의 기반 인프라다.
+> 2. 락-앤-민트(Lock-and-Mint)와 번-앤-민트(Burn-and-Mint)가 크로스체인 브릿지의 두 핵심 메커니즘 — 원본 체인에서 자산을 잠그고(Lock) 목표 체인에서 동등한 래핑 토큰(Wrapped Token)을 발행(Mint)하거나, 원본을 소각(Burn)하고 목표 체인에서 민트하는 방식이다.
+> 3. 크로스체인 브릿지는 블록체인 생태계에서 가장 큰 해킹 피해를 낸 취약 지점 — 2022년 Ronin Bridge($625M), Wormhole($320M), Nomad($190M) 등 단일 취약점이 수천억 원의 손실로 이어지며, 탈중앙화 검증과 다중 서명이 핵심 보안 요소다.
 
 ---
 
@@ -99,7 +99,7 @@ weight: 49
   락/민트 없이 즉시 전송
 ```
 
-> 📢 **섹션 요약 비유**: [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-and-Mint = 짐 맡기고 영수증 받기 — 이더리움에 [ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/) 맡기고([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 폴리곤에서 영수증(wETH) 받음. 반환 시 영수증 돌려주면 [ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/) 찾음. 브릿지가 금고!
+> 📢 **섹션 요약 비유**: Lock-and-Mint = 짐 맡기고 영수증 받기 — 이더리움에 ETH 맡기고(Lock) 폴리곤에서 영수증(wETH) 받음. 반환 시 영수증 돌려주면 ETH 찾음. 브릿지가 금고!
 
 ---
 
@@ -198,7 +198,7 @@ IBC (Inter-Blockchain Communication):
 
 ---
 
-## Ⅴ. 실무 시나리오 — [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 멀티체인 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅴ. 실무 시나리오 — DeFi 멀티체인 전략
 
 ```
 DeFi 프로토콜 멀티체인 브릿지 전략:
@@ -247,7 +247,7 @@ Circle CCTP (Cross-Chain Transfer Protocol):
   거래량: 월 $150M -> $400M
 ```
 
-> 📢 **섹션 요약 비유**: 멀티체인 브릿지 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) = 도로망 최적 경로 — 이더리움-아비트럼(고속도로: 안전, [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)), 이더리움-솔라나(Wormhole: 빠름, 위험 관리). 자산 크기/용도별 경로 선택!
+> 📢 **섹션 요약 비유**: 멀티체인 브릿지 전략 = 도로망 최적 경로 — 이더리움-아비트럼(고속도로: 안전, 롤업 상속), 이더리움-솔라나(Wormhole: 빠름, 위험 관리). 자산 크기/용도별 경로 선택!
 
 ---
 
@@ -306,16 +306,5 @@ $1.2B+ 피해
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 크로스체인 브릿지 = 국가 간 환전 — A국 돈(이더리움)을 B국(솔라나)에서 쓰려면 환전(브릿지). 직접 사용 불가!
-2. [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)-and-Mint = 짐 맡기고 영수증 — 이더리움에 맡기고([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 폴리곤 영수증(wToken) 받음. 반환 시 돌려줌!
+2. Lock-and-Mint = 짐 맡기고 영수증 — 이더리움에 맡기고(Lock) 폴리곤 영수증(wToken) 받음. 반환 시 돌려줌!
 3. ZK 브릿지 = 수학 증명서 환전 — 증명서 위조 불가. 검증자 키 탈취해도 수학적으로 안전!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 49 / 552
-
-<- **이전**: [048. 소프트 포크 — Soft Fork & 하위 호환성](/studynote/06_ict_convergence/01_blockchain/048_soft_fork_backward_compatibility/)
-**다음**: [SBT — 소울바운드 토큰 (Soulbound Token)](/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/) ->
-
----

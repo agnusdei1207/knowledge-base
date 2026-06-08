@@ -7,16 +7,16 @@ weight: 366
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: iBGP, eBGP, BGP Split Ho…는 라우팅과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: iBGP, eBGP, BGP Split Ho…를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 피어링(Peering)의 두 가지 형태와, 단일 [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 내부에서 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보가 루프(Loop) 도는 것을 방지하기 위한 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
-- **필요성**: SKT 관문 라우터(A)가 미국 구글에서 eBGP로 최신 90만 개짜리 인터넷 지도를 받아왔다. 이제 A는 부산에 있는 SKT 관문 라우터(B)에게 이 지도를 넘겨줘야, B도 일본으로 나가는 트래픽을 처리할 수 있다. A와 B는 같은 SKT([AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100) 소속이므로 iBGP로 지도를 교환한다. 이때 B가 C한테 주고, C가 다시 A한테 주면 사내에서 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 루프가 돌아 망이 터진다. <strong>"우리 식구(iBGP)끼리는 한번 받은 지도는 절대 다른 식구한테 토스하지 말자! 무조건 자기가 직접 받은 것만 쓰자!"</strong>라는 극단적인 룰이 스플릿 호라이즌이다.
+- **개념**: BGP 피어링(Peering)의 두 가지 형태와, 단일 AS 내부에서 BGP 라우팅 정보가 루프(Loop) 도는 것을 방지하기 위한 핵심 알고리즘.
+- **필요성**: SKT 관문 라우터(A)가 미국 구글에서 eBGP로 최신 90만 개짜리 인터넷 지도를 받아왔다. 이제 A는 부산에 있는 SKT 관문 라우터(B)에게 이 지도를 넘겨줘야, B도 일본으로 나가는 트래픽을 처리할 수 있다. A와 B는 같은 SKT(AS 100) 소속이므로 iBGP로 지도를 교환한다. 이때 B가 C한테 주고, C가 다시 A한테 주면 사내에서 BGP 루프가 돌아 망이 터진다. <strong>"우리 식구(iBGP)끼리는 한번 받은 지도는 절대 다른 식구한테 토스하지 말자! 무조건 자기가 직접 받은 것만 쓰자!"</strong>라는 극단적인 룰이 스플릿 호라이즌이다.
 
 - **💡 비유**: iBGP 스플릿 호라이즌 룰은 <strong>"사내 메신저 귓속말 규칙"</strong>과 같습니다.
   - 외부 손님(eBGP)에게 들은 정보는 사내 직원(iBGP)에게 전달할 수 있습니다.
@@ -38,16 +38,16 @@ weight: 366
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-네트워크 실무에서 이 둘의 동작 차이를 모르면 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 망을 절대 설계할 수 없다.
+네트워크 실무에서 이 둘의 동작 차이를 모르면 BGP 망을 절대 설계할 수 없다.
 
-### 1. eBGP (External [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) - 국경선 넘기
-- **대상**: [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호가 서로 다른 라우터 간의 Peering.
-- **연결 조건**: 보안과 신뢰성을 위해 물리적으로 **랜선이 1:1로 직접 꽂혀 있어야(Directly Connected)** 맺어지는 것이 원칙이다. (패킷 수명인 [TTL](/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 값이 1로 고정되어 있어 라우터를 하나라도 더 거치면 패킷이 폐기된다).
+### 1. eBGP (External BGP) - 국경선 넘기
+- **대상**: AS 번호가 서로 다른 라우터 간의 Peering.
+- **연결 조건**: 보안과 신뢰성을 위해 물리적으로 **랜선이 1:1로 직접 꽂혀 있어야(Directly Connected)** 맺어지는 것이 원칙이다. (패킷 수명인 TTL 값이 1로 고정되어 있어 라우터를 하나라도 더 거치면 패킷이 폐기된다).
 - **정보 전달**: 남의 나라에서 지도를 받아오면, 우리나라(iBGP)에도 뿌리고 또 다른 남의 나라(eBGP)에도 자유롭게 뿌린다.
 
-### 2. iBGP (Internal [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) - 사내 정보 공유
-- **대상**: [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호가 서로 같은 라우터 간의 Peering.
-- **연결 조건**: 같은 회사망이므로 랜선이 직접 꽂혀 있을 필요가 없다. 중간에 [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터들이 수십 대 끼어 있어도, <strong>논리적으로(<a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 179번 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>) 통신만 뚫려 있으면</strong> 저 멀리 있는 라우터와 가상의 친구를 맺을 수 있다. ([TTL](/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 값이 255다).
+### 2. iBGP (Internal BGP) - 사내 정보 공유
+- **대상**: AS 번호가 서로 같은 라우터 간의 Peering.
+- **연결 조건**: 같은 회사망이므로 랜선이 직접 꽂혀 있을 필요가 없다. 중간에 OSPF 라우터들이 수십 대 끼어 있어도, <strong>논리적으로(TCP 179번 포트) 통신만 뚫려 있으면</strong> 저 멀리 있는 라우터와 가상의 친구를 맺을 수 있다. (TTL 값이 255다).
 - **정보 전달 (스플릿 호라이즌 룰)**: **"iBGP 피어로부터 학습한 경로는 다른 iBGP 피어에게 절대 광고하지 않는다."** 이것이 알파이자 오메가다.
 
 ```text
@@ -72,53 +72,53 @@ weight: 366
 
 ### 3. Full-Mesh 구조의 확장성 문제
 라우터가 3대(A, B, C)면 1:1로 맺을 iBGP 연결은 $3 \times (3-1)/2 = 3$개로 할 만하다.
-하지만 통신사처럼 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터가 1,000대가 되면?
-$1000 \times 999 / 2 = 499,500$개의 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 179번 연결 세션이 필요하다.
+하지만 통신사처럼 BGP 라우터가 1,000대가 되면?
+$1000 \times 999 / 2 = 499,500$개의 TCP 179번 연결 세션이 필요하다.
 이 50만 개의 세션을 라우터가 맺다가 CPU가 타버린다(확장성 붕괴).
 이 끔찍한 노가다를 피하기 위해 등장한 꼼수가 바로 다음 장에 배울 <strong>Route Reflector(경로 반사기)</strong>다.
 
-- **📢 섹션 요약 비유**: ** iBGP 스플릿 호라이즌은 다단계 판매(루핑)를 금지하는 **"방문판매법"**입니다. 물건([라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보)은 본사(A)에서 지사장(B, C)에게만 팔 수 있고, 지사장이 다른 지사장에게 되파는 짓은 절대 금지됩니다. 그래서 본사(A)는 전국 모든 지사장과 일일이 계약(Full-Mesh)을 맺어야 하는 지옥의 노가다에 시달립니다.
+- **📢 섹션 요약 비유**: ** iBGP 스플릿 호라이즌은 다단계 판매(루핑)를 금지하는 **"방문판매법"**입니다. 물건(라우팅 정보)은 본사(A)에서 지사장(B, C)에게만 팔 수 있고, 지사장이 다른 지사장에게 되파는 짓은 절대 금지됩니다. 그래서 본사(A)는 전국 모든 지사장과 일일이 계약(Full-Mesh)을 맺어야 하는 지옥의 노가다에 시달립니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. BGP가 기반 조건을 만든다면, iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 그 위에서 핵심 메커니즘을 구현하고, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+iBGP, eBGP, BGP Split Ho…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. BGP가 기반 조건을 만든다면, iBGP, eBGP, BGP Split Ho…는 그 위에서 핵심 메커니즘을 구현하고, BGP 속성은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | BGP의 기반 정리 | iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…의 핵심 동작 | [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 확장 적용 |
+| 초점 | BGP의 기반 정리 | iBGP, eBGP, BGP Split Ho…의 핵심 동작 | BGP 속성의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: iBGP, eBGP, BGP Split Ho…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 수준의 기본 대책으로 충분한지, 아니면 iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 iBGP, eBGP, BGP Split Ho…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 BGP 수준의 기본 대책으로 충분한지, 아니면 iBGP, eBGP, BGP Split Ho…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 BGP 속성와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)와의 연계 방식을 함께 검증한다.
+2. iBGP, eBGP, BGP Split Ho…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+3. 도입 후에는 인접 기술인 BGP 속성와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- BGP와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- iBGP, eBGP, BGP Split Ho…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- BGP와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: iBGP, eBGP, BGP Split Ho…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+iBGP, eBGP, BGP Split Ho…는 라우팅과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 BGP 속성, 의도 기반 라우팅, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 라우팅 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: iBGP, eBGP, BGP Split Ho…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -126,10 +126,10 @@ iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
-| [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| BGP | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 라우팅 테이블 (Routing Table) | 패킷 전달 의사결정의 기준이 된다. |
+| 메트릭 (Metric) | 최적 경로를 선택하는 비교 척도다. |
+| BGP 속성 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,21 +143,10 @@ iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-iBGP, eBGP, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 BGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+iBGP, eBGP, BGP Split Ho…는 BGP에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP 속성와 의도 기반 라우팅 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 487 / 1120
-
-<- **이전**: [365. BGP (Border Gateway Protocol)](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)
-**다음**: [367. BGP 속성(Attributes)](/studynote/03_network/07_network_layer_routing/367_bgp_attributes_next_hop_as_path_local_pref_med/) ->
-
----

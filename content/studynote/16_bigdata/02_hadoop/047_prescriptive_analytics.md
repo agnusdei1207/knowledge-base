@@ -6,9 +6,9 @@ tags:
 weight: 47
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 처방 분석(Prescriptive Analytics)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 4단계 중 최고 수준으로, "무엇이 일어날 것인가([예측 분석](/studynote/16_bigdata/02_hadoop/046_predictive_analytics/))"를 넘어 "어떤 행동을 취해야 하는가"를 구체적으로 처방하는 분석 방법이다. 최적화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(OR, Operations Research), 시뮬레이션, 강화학습(RL)을 결합하여 최적 의사결정을 도출한다.
-> 2. **가치**: 처방 분석은 의사결정 자동화의 핵심 기술로, 물류 최적화([UPS](/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) ORION: 연간 1억 마일 절감), 동적 가격 책정(항공사 수익 관리), 의료 치료 최적화, 금융 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 재조정에 실시간으로 활용된다.
-> 3. **판단 포인트**: 처방 분석의 실제 가치는 "자동화된 의사결정(Automated Decision-Making)"에 있다. [예측 분석](/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)이 미래를 보여주면, 처방 분석은 그 미래에 최적으로 대응하는 행동을 자동으로 실행한다. 그러나 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 처방이 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 가질 수 있어 공정성(Fairness) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필수다.
+> 1. **본질**: 처방 분석(Prescriptive Analytics)은 데이터 분석의 4단계 중 최고 수준으로, "무엇이 일어날 것인가(예측 분석)"를 넘어 "어떤 행동을 취해야 하는가"를 구체적으로 처방하는 분석 방법이다. 최적화 알고리즘(OR, Operations Research), 시뮬레이션, 강화학습(RL)을 결합하여 최적 의사결정을 도출한다.
+> 2. **가치**: 처방 분석은 의사결정 자동화의 핵심 기술로, 물류 최적화(UPS ORION: 연간 1억 마일 절감), 동적 가격 책정(항공사 수익 관리), 의료 치료 최적화, 금융 포트폴리오 재조정에 실시간으로 활용된다.
+> 3. **판단 포인트**: 처방 분석의 실제 가치는 "자동화된 의사결정(Automated Decision-Making)"에 있다. 예측 분석이 미래를 보여주면, 처방 분석은 그 미래에 최적으로 대응하는 행동을 자동으로 실행한다. 그러나 알고리즘의 처방이 편향(Bias)을 가질 수 있어 공정성(Fairness) 검증이 필수다.
 
 ---
 
@@ -34,7 +34,7 @@ weight: 47
 +------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 처방 분석은 의사의 역할이다. 환자 검사 결과(기술 분석) -> 증상 원인 파악(진단 분석) -> 병의 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 예측([예측 분석](/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)) -> 최적 치료법 처방(처방 분석). 처방 분석만이 "이 약을 이 용량으로 복용하세요"라는 구체적 행동 지침을 준다.
+- **📢 섹션 요약 비유**: 처방 분석은 의사의 역할이다. 환자 검사 결과(기술 분석) -> 증상 원인 파악(진단 분석) -> 병의 진행 예측(예측 분석) -> 최적 치료법 처방(처방 분석). 처방 분석만이 "이 약을 이 용량으로 복용하세요"라는 구체적 행동 지침을 준다.
 
 ---
 
@@ -54,7 +54,7 @@ weight: 47
 +------------------------------------------------------------+
 ```
 
-### [UPS](/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) ORION: 처방 분석 실제 사례
+### UPS ORION: 처방 분석 실제 사례
 
 ```text
 입력 데이터:
@@ -71,7 +71,7 @@ weight: 47
   - 연간 수억 달러 절감
 ```
 
-- **📢 섹션 요약 비유**: ORION은 무한한 경로 조합 중 최적을 찾는 수학 엔진이다. 사람(운전사)이 직관으로 경로를 정하는 것보다, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 수만 가지 경우의 수를 계산하여 최적 경로를 처방한다.
+- **📢 섹션 요약 비유**: ORION은 무한한 경로 조합 중 최적을 찾는 수학 엔진이다. 사람(운전사)이 직관으로 경로를 정하는 것보다, 알고리즘이 수만 가지 경우의 수를 계산하여 최적 경로를 처방한다.
 
 ---
 
@@ -79,19 +79,19 @@ weight: 47
 
 | 분석 유형 | 질문 | 기술 | 자동화 수준 |
 |:---|:---|:---|:---|
-| <strong><a href="/studynote/16_bigdata/02_hadoop/046_predictive_analytics/">예측 분석</a></strong> | 무슨 일이? | ML, 통계 모델 | 낮음 (사람이 판단) |
+| <strong>예측 분석</strong> | 무슨 일이? | ML, 통계 모델 | 낮음 (사람이 판단) |
 | **처방 분석** | 어떻게 해야? | OR, RL, 시뮬레이션 | 높음 (자동 실행 가능) |
 
-처방 분석은 MLOps와 결합하여 "예측 -> 처방 -> 자동 실행"의 완전 자동화 의사결정 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구성한다:
+처방 분석은 MLOps와 결합하여 "예측 -> 처방 -> 자동 실행"의 완전 자동화 의사결정 파이프라인을 구성한다:
 - Amazon 동적 가격 책정: 수요 예측(예측) -> 최적 가격 계산(처방) -> 가격 자동 변경(실행)
 
-- **📢 섹션 요약 비유**: [예측 분석](/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)은 일기 예보(비 올 것 같다)이고, 처방 분석은 날씨앱의 자동 우산 주문(비가 예보되면 우산을 자동 구매)이다. 처방 분석은 예측을 넘어 행동까지 자동화한다.
+- **📢 섹션 요약 비유**: 예측 분석은 일기 예보(비 올 것 같다)이고, 처방 분석은 날씨앱의 자동 우산 주문(비가 예보되면 우산을 자동 구매)이다. 처방 분석은 예측을 넘어 행동까지 자동화한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 클라우드 리소스 자동 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)
+### 실무 시나리오: 클라우드 리소스 자동 스케일링
 
 ```python
 # 처방 분석 기반 K8s HPA (Horizontal Pod Autoscaler) 확장
@@ -111,12 +111,12 @@ scale_deployment("my-service", optimal_pods)
 ```
 
 ### 처방 분석의 편향 문제
-처방 분석이 자동 의사결정에 사용될 때 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향(Algorithmic [Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 발생할 수 있다.
-- 채용 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 특정 성별/인종을 불리하게 처방
-- 신용 점수 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 소득 수준에 따라 불공정하게 처방
--> 공정성(Fairness) [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(Equal Opportunity, Demographic Parity) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수
+처방 분석이 자동 의사결정에 사용될 때 알고리즘 편향(Algorithmic Bias)이 발생할 수 있다.
+- 채용 알고리즘이 특정 성별/인종을 불리하게 처방
+- 신용 점수 알고리즘이 소득 수준에 따라 불공정하게 처방
+-> 공정성(Fairness) 메트릭(Equal Opportunity, Demographic Parity) 검증 필수
 
-- **📢 섹션 요약 비유**: 처방 분석의 편향은 편견 있는 의사의 처방과 같다. 훌륭한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 편향이 반영되면, 특정 그룹에 불공정한 처방을 내릴 수 있다. 처방이 강력할수록 공정성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 더욱 중요하다.
+- **📢 섹션 요약 비유**: 처방 분석의 편향은 편견 있는 의사의 처방과 같다. 훌륭한 알고리즘이라도 훈련 데이터의 편향이 반영되면, 특정 그룹에 불공정한 처방을 내릴 수 있다. 처방이 강력할수록 공정성 검증은 더욱 중요하다.
 
 ---
 
@@ -128,9 +128,9 @@ scale_deployment("my-service", optimal_pods)
 | **비용 절감** | 물류·에너지·인력 최적화로 수억~수십억 절감 |
 | **실시간 대응** | 동적 환경 변화에 실시간 최적 처방 |
 
-[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini)를 처방 분석 엔진으로 활용하는 Agentic AI가 등장했다. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 -> 처방 -> 실행([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출, 코드 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))을 자율적으로 수행하며, 이는 처방 분석의 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 비전문가에게까지 확장하고 있다.
+생성형 AI(GPT-4, Gemini)를 처방 분석 엔진으로 활용하는 Agentic AI가 등장했다. AI 에이전트가 데이터 분석 -> 처방 -> 실행(API 호출, 코드 생성)을 자율적으로 수행하며, 이는 처방 분석의 접근성을 비전문가에게까지 확장하고 있다.
 
-- **📢 섹션 요약 비유**: 처방 분석의 미래([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트)는 자율주행 자동차다. 목적지(목표)만 입력하면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집(예측) -> 최적 경로 계산(처방) -> 자동 운전(실행)을 사람 개입 없이 완전 자동화한다.
+- **📢 섹션 요약 비유**: 처방 분석의 미래(AI 에이전트)는 자율주행 자동차다. 목적지(목표)만 입력하면 데이터 수집(예측) -> 최적 경로 계산(처방) -> 자동 운전(실행)을 사람 개입 없이 완전 자동화한다.
 
 ---
 
@@ -138,11 +138,11 @@ scale_deployment("my-service", optimal_pods)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/16_bigdata/02_hadoop/046_predictive_analytics/">예측 분석</a></strong> | 처방 분석의 입력값 (미래 상태 예측) |
-| **강화학습 (RL)** | 순차적 처방의 핵심 ML [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong>예측 분석</strong> | 처방 분석의 입력값 (미래 상태 예측) |
+| **강화학습 (RL)** | 순차적 처방의 핵심 ML 알고리즘 |
 | **OR 최적화** | 선형/정수 최적화로 최적 처방 계산 |
-| <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/587_agentic_ai_autonomous_tools/">Agentic AI</a></strong> | 처방 분석의 자율 실행 확장 |
-| <strong><a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 공정성</strong> | 처방의 편향 방지 필수 요건 |
+| <strong>Agentic AI</strong> | 처방 분석의 자율 실행 확장 |
+| <strong>알고리즘 공정성</strong> | 처방의 편향 방지 필수 요건 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,17 +164,6 @@ scale_deployment("my-service", optimal_pods)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 처방 분석은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의사예요! 몸 상태([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보고 어떤 약(행동)을 먹어야 할지 구체적으로 알려줘요.
+1. 처방 분석은 데이터 의사예요! 몸 상태(데이터)를 보고 어떤 약(행동)을 먹어야 할지 구체적으로 알려줘요.
 2. "내일 비 올 것 같다(예측)"에서 나아가 "지금 우산을 사러 가세요, 가장 가까운 편의점은 100m 앞입니다(처방)"까지 말해줘요.
-3. 요즘 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트는 처방까지 자동으로 실행해서, 사람이 아무것도 안 해도 최적 결정이 이루어지는 세상을 만들고 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 47 / 262
-
-<- **이전**: [24. 예측 분석 (Predictive Analytics) — 과거 데이터로 미래 예측](/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)
-**다음**: [26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰](/studynote/16_bigdata/02_hadoop/048_hdfs_viewfs/) ->
-
----
+3. 요즘 AI 에이전트는 처방까지 자동으로 실행해서, 사람이 아무것도 안 해도 최적 결정이 이루어지는 세상을 만들고 있답니다!

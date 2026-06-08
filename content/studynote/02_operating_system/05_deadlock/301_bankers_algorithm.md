@@ -7,15 +7,15 @@ weight: 301
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Banker's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 에츠허르 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) (Edsger W. [Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 설계한 [교착 상태 회피](/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 요청 시 [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/) 유지 여부를 검사하여 [불안전 상태](/studynote/02_operating_system/05_deadlock/299_unsafe_state/)로 이어지는 할당을 거부한다.
-> 2. **가치**: 은행이 대출 전에 상환 가능 여부를 심사하듯, 시스템이 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 전에 모든 프로세스가 종료 가능한 순서(안전 순서)가 존재하는지 검증하여 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 원천 방지한다.
-> 3. **융합**: Available, Max, Allocation, Need 행렬 4개의 자료구조와 [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) + 자원 요청 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 2개의 서브루틴으로 구성되며, 다중 인스턴스 자원 환경에서의 교착 회피 표준 해법이다.
+> 1. **본질**: 은행원 알고리즘 (Banker's Algorithm)은 에츠허르 다익스트라 (Edsger W. Dijkstra)가 설계한 교착 상태 회피 알고리즘으로, 자원 할당 요청 시 안전 상태 유지 여부를 검사하여 불안전 상태로 이어지는 할당을 거부한다.
+> 2. **가치**: 은행이 대출 전에 상환 가능 여부를 심사하듯, 시스템이 자원 할당 전에 모든 프로세스가 종료 가능한 순서(안전 순서)가 존재하는지 검증하여 교착 상태를 원천 방지한다.
+> 3. **융합**: Available, Max, Allocation, Need 행렬 4개의 자료구조와 안전 상태 알고리즘 + 자원 요청 알고리즘 2개의 서브루틴으로 구성되며, 다중 인스턴스 자원 환경에서의 교착 회피 표준 해법이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-다중 인스턴스 자원 환경에서는 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 그래프만으로 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 감지하기 어렵다. 프로세스가 최대 n개의 자원을 요청할 수 있고 현재 m개를 보유 중일 때, "이 요청을 들어줘도 나중에 모든 프로세스가 완료될 수 있는가?"를 미리 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+다중 인스턴스 자원 환경에서는 자원 할당 그래프만으로 교착 상태를 감지하기 어렵다. 프로세스가 최대 n개의 자원을 요청할 수 있고 현재 m개를 보유 중일 때, "이 요청을 들어줘도 나중에 모든 프로세스가 완료될 수 있는가?"를 미리 계산하는 알고리즘이 은행원 알고리즘이다.
 
 이름의 유래: 은행은 예금 총액을 초과하는 대출을 해주지 않으면서도, 고객들이 돌아가며 빌리고 갚는 한 파산하지 않는다. 시스템도 마찬가지다.
 
@@ -49,13 +49,13 @@ weight: 301
 +--------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자원 배분의 사전 심사 시스템 — "지금 이 요청을 들어줘도 미래에 모두 회수할 수 있는가"를 계산하는 안전망입니다.
+**📢 섹션 요약 비유**: 은행원 알고리즘은 자원 배분의 사전 심사 시스템 — "지금 이 요청을 들어줘도 미래에 모두 회수할 수 있는가"를 계산하는 안전망입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### 안전 상태 알고리즘
 
 ```
 Safety Algorithm:
@@ -73,7 +73,7 @@ Safety Algorithm:
     그렇지 않으면 -> 불안전 상태
 ```
 
-### 자원 요청 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Resource-Request [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
+### 자원 요청 알고리즘 (Resource-Request Algorithm)
 
 ```
 프로세스 Pi가 Request[i] 요청 시:
@@ -94,7 +94,7 @@ Safety Algorithm:
    불안전 -> 가상 할당 취소, Pi를 대기 상태로
 ```
 
-### 안전 순서 탐색 과정 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+### 안전 순서 탐색 과정 시각화
 
 ```text
 +--------------------------------------------------------------+
@@ -126,15 +126,15 @@ Safety Algorithm:
 +--------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 안전 순서 탐색은 욕심쟁이(Greedy) 방식으로 현재 가용 자원(Work)으로 완료 가능한 프로세스를 찾아 완료시키고 자원을 누적해가는 시뮬레이션이다. 시뮬레이션이 완전히 성공하면(Finish 모두 true) 시스템이 [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/)다. 자원 요청 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 먼저 가상으로 할당한 뒤 이 [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/) 시뮬레이션을 돌려본다 — 성공하면 실제 할당하고, 실패하면 취소한다.
+**[다이어그램 해설]** 안전 순서 탐색은 욕심쟁이(Greedy) 방식으로 현재 가용 자원(Work)으로 완료 가능한 프로세스를 찾아 완료시키고 자원을 누적해가는 시뮬레이션이다. 시뮬레이션이 완전히 성공하면(Finish 모두 true) 시스템이 안전 상태다. 자원 요청 알고리즘은 먼저 가상으로 할당한 뒤 이 안전 상태 시뮬레이션을 돌려본다 — 성공하면 실제 할당하고, 실패하면 취소한다.
 
-**📢 섹션 요약 비유**: 안전 순서 탐색은 퍼즐 게임처럼 "어떤 순서로 빠져나오면 모두 탈출할 수 있는가"를 미리 풀어보는 것 — 성공하면 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/), 실패하면 그 조각은 넣지 않습니다.
+**📢 섹션 요약 비유**: 안전 순서 탐색은 퍼즐 게임처럼 "어떤 순서로 빠져나오면 모두 탈출할 수 있는가"를 미리 풀어보는 것 — 성공하면 진행, 실패하면 그 조각은 넣지 않습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 한계
+### 은행원 알고리즘의 한계
 
 ```text
 +--------------------------------------------------------------+
@@ -157,36 +157,36 @@ Safety Algorithm:
 +--------------------------------------------------------------+
 ```
 
-**[비교 해설]** 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이론적으로 완벽하지만 실무에서 전면 채택은 거의 없다. 대부분의 일반 목적 OS는 Ostrich [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(무시)을 채택하는 반면, 데이터베이스는 탐지+[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를, 실시간 OS는 예방(PCP)을 채택한다. 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자원 수와 프로세스 수가 제한적이고 사전 정보를 알 수 있는 임베디드·실시간 환경에서 실용적이다.
+**[비교 해설]** 은행원 알고리즘은 이론적으로 완벽하지만 실무에서 전면 채택은 거의 없다. 대부분의 일반 목적 OS는 Ostrich 알고리즘(무시)을 채택하는 반면, 데이터베이스는 탐지+복구를, 실시간 OS는 예방(PCP)을 채택한다. 은행원 알고리즘은 자원 수와 프로세스 수가 제한적이고 사전 정보를 알 수 있는 임베디드·실시간 환경에서 실용적이다.
 
-**📢 섹션 요약 비유**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 완벽한 이론 — 하지만 실제 은행은 대규모 고객에게 실시간 심사를 해주기 어렵듯이, 대규모 OS에서는 현실적 한계가 있습니다.
+**📢 섹션 요약 비유**: 은행원 알고리즘은 완벽한 이론 — 하지만 실제 은행은 대규모 고객에게 실시간 심사를 해주기 어렵듯이, 대규모 OS에서는 현실적 한계가 있습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>클라우드 <a href="/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a>자</strong>: [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Admission Controller가 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 배치 전 노드 자원 여유분(Available) 대비 요청량을 확인하는 것은 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 간소화 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/).
-2. **항공 예약 시스템**: 좌석 배정 전 "이 예약을 처리해도 다른 예약 의무를 이행할 수 있는가"를 확인하는 것이 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/).
+1. <strong>클라우드 자원 할당자</strong>: Kubernetes Admission Controller가 Pod 배치 전 노드 자원 여유분(Available) 대비 요청량을 확인하는 것은 은행원 알고리즘의 간소화 버전.
+2. **항공 예약 시스템**: 좌석 배정 전 "이 예약을 처리해도 다른 예약 의무를 이행할 수 있는가"를 확인하는 것이 은행원 알고리즘 논리.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>Max 과소 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 프로세스가 실제로 필요한 것보다 Max를 적게 신고하면 [안전 상태](/studynote/02_operating_system/05_deadlock/298_safe_state/) 판단이 잘못되어 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 가능.
-- **N·M 크기 간과**: 큰 시스템에서 O(n^m)의 반복 실행 시 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 레이턴시가 급증.
+### 안티패턴
+- <strong>Max 과소 설정</strong>: 프로세스가 실제로 필요한 것보다 Max를 적게 신고하면 안전 상태 판단이 잘못되어 교착 상태 발생 가능.
+- **N·M 크기 간과**: 큰 시스템에서 O(n^m)의 반복 실행 시 스케줄러 레이턴시가 급증.
 
-**📢 섹션 요약 비유**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 Max 신고 오류는 대출 신청서에 잘못된 소득을 기재하는 것 — 시스템이 잘못된 판단을 내려 결국 파산(교착)에 이를 수 있습니다.
+**📢 섹션 요약 비유**: 은행원 알고리즘의 Max 신고 오류는 대출 신청서에 잘못된 소득을 기재하는 것 — 시스템이 잘못된 판단을 내려 결국 파산(교착)에 이를 수 있습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 교착 예방 | 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(회피) | 교착 탐지+[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| 구분 | 교착 예방 | 은행원 알고리즘(회피) | 교착 탐지+복구 |
 |:---|:---|:---|:---|
 | 자원 이용률 | 낮음 | 중간 | 높음 |
 | 교착 보장 | 100% | 100% | 탐지 주기 내 |
 | 구현 복잡도 | 낮음 | 높음 | 중간 |
 | 사전 정보 | 불필요 | Max 필요 | 불필요 |
 
-**📢 섹션 요약 비유**: 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자원 관리의 완벽한 보험 상품 — 가격(오버헤드)이 비싸고 가입 조건(Max 사전 정보)이 까다롭지만, 보장(교착 방지)은 완벽합니다.
+**📢 섹션 요약 비유**: 은행원 알고리즘은 자원 관리의 완벽한 보험 상품 — 가격(오버헤드)이 비싸고 가입 조건(Max 사전 정보)이 까다롭지만, 보장(교착 방지)은 완벽합니다.
 
 ---
 
@@ -194,10 +194,10 @@ Safety Algorithm:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [불안전 상태](/studynote/02_operating_system/05_deadlock/299_unsafe_state/) ([Unsafe State](/studynote/02_operating_system/05_deadlock/299_unsafe_state/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 불안전 상태 (Unsafe State) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 단일 인스턴스 환경의 회피 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [은행원 알고리즘 자료구조](/studynote/02_operating_system/05_deadlock/302_bankers_data_structure/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [은행원 알고리즘 한계](/studynote/02_operating_system/05_deadlock/303_bankers_limitations/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 은행원 알고리즘 자료구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 은행원 알고리즘 한계 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -217,15 +217,4 @@ Safety Algorithm:
 
 1. 선생님이 학생들에게 색종이를 나눠줄 때 "지금 이 학생에게 3장 줘도, 다른 모든 학생 프로젝트를 도울 수 있는가?"를 먼저 계산해요.
 2. 계산해서 "가능해요!"(안전 순서 존재) 나오면 줘요. 불가능하면 기다려 달라고 해요.
-3. 이것이 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 자원을 욕심껏 주는 게 아니라, 모두가 행복한 순서를 찾은 뒤에만 나눠줍니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 301 / 800
-
-<- **이전**: [300. 단일 인스턴스 환경의 회피 (Rag Avoidance)](/studynote/02_operating_system/05_deadlock/300_rag_avoidance/)
-**다음**: [302. 은행원 알고리즘 자료구조 (Bankers Data Structure)](/studynote/02_operating_system/05_deadlock/302_bankers_data_structure/) ->
-
----
+3. 이것이 은행원 알고리즘 — 자원을 욕심껏 주는 게 아니라, 모두가 행복한 순서를 찾은 뒤에만 나눠줍니다!

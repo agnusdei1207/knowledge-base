@@ -135,11 +135,3 @@ $$\dot{x}_i = f(x_i) + g(x_i)u_i \quad \text{s.t.} \quad h(x_i) \geq 0$$
 
 **연결 통합 관점**:
 - **MOCAP(도심항공모빌리티, K
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 735 / 800
-
-<- **이전**: [734. 스마트 안전 재난 관리 조기 경보](/studynote/06_ict_convergence/uncategorized/734_smart_safety_disaster_management_early_warnin/)
-**다음**: [736. 로봇 협동 코봇 휴먼 로봇 인터랙션](/studynote/06_ict_convergence/uncategorized/736_collaborative_robot_cobot_human_interaction/) ->
-
----

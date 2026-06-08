@@ -204,11 +204,3 @@ h = W₀ x + ΔW x = W₀ x + (α/r) · B · A · x
 | **DoRA** | W = m·(V/‖V‖) 분리, magnitude(벡터) + direction(LoRA) | LoRA 동일 | - | Full FT 품질 동등 |
 | **LongLoRA** | **Shifted Sparse Attention** + LoRA, 문맥 100k+ | LoRA 동일 | - | Long-context |
 | **LoRA-FA** | Frozen-A: A를 랜덤 고정,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 645 / 800
-
-<- **이전**: [644. 파인 튜닝 전이 학습 도메인 적응](/studynote/06_ict_convergence/uncategorized/644_fine_tuning_transfer_learning_domain_adaptati/)
-**다음**: [646. RAG 검색 증강 생성 벡터 검색](/studynote/06_ict_convergence/uncategorized/646_rag_retrieval_augmented_generation_vector_sea/) ->
-
----

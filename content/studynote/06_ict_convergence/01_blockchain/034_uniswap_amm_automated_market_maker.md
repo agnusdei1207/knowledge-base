@@ -6,9 +6,9 @@ tags:
 weight: 34
 ---
 > **핵심 인사이트 3줄**
-> 1. AMM(Automated Market Maker, 자동화 시장 조성자)은 전통적인 오더북 거래소 대신 수학적 공식(CPMM: x·y=k)으로 자산 가격을 자동 결정하는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 거래 메커니즘이다.
+> 1. AMM(Automated Market Maker, 자동화 시장 조성자)은 전통적인 오더북 거래소 대신 수학적 공식(CPMM: x·y=k)으로 자산 가격을 자동 결정하는 탈중앙화 거래 메커니즘이다.
 > 2. 유니스왑(Uniswap)은 Ethereum 기반 최초의 성공적인 AMM DEX로, 유동성 공급자(LP)가 자산 쌍을 예치해 수수료(0.3%)를 획득하고, 트레이더는 슬리피지를 감수하며 즉시 거래한다.
-> 3. 비영구적 손실(Impermanent Loss)은 AMM LP의 핵심 리스크로, 예치 자산의 가격 비율이 변화할수록 단순 보유 대비 손실이 발생하며, 이는 [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 유동성 공급의 근본적 트레이드오프다.
+> 3. 비영구적 손실(Impermanent Loss)은 AMM LP의 핵심 리스크로, 예치 자산의 가격 비율이 변화할수록 단순 보유 대비 손실이 발생하며, 이는 DeFi 유동성 공급의 근본적 트레이드오프다.
 
 ---
 
@@ -33,17 +33,17 @@ CPMM(Constant Product Market Maker): **x × y = k** 공식
 
 **슬리피지(Slippage)**: 거래 크기가 클수록 가격 불리해짐
 
-📢 **섹션 요약 비유**: AMM 풀은 시소다 — 한쪽([ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/))을 내리누르면(구매하면) 다른 쪽(USDC)이 올라가서(가격 상승) 균형을 맞춘다.
+📢 **섹션 요약 비유**: AMM 풀은 시소다 — 한쪽(ETH)을 내리누르면(구매하면) 다른 쪽(USDC)이 올라가서(가격 상승) 균형을 맞춘다.
 
 ---
 
-## Ⅱ. 유니스왑 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 비교
+## Ⅱ. 유니스왑 버전 비교
 
-| [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)       | 출시   | 핵심 개선 사항                               |
+| 버전       | 출시   | 핵심 개선 사항                               |
 |---------|------|---------------------------------------------|
-| v1       | 2018 | 최초 [ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/) ↔ [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) AMM                       |
-| v2       | 2020 | [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) ↔ [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 직접 교환, 플래시 스왑      |
-| v3       | [2021](/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/) | 집중 유동성(Concentrated Liquidity), 다중 수수료 |
+| v1       | 2018 | 최초 ETH ↔ ERC-20 AMM                       |
+| v2       | 2020 | ERC-20 ↔ ERC-20 직접 교환, 플래시 스왑      |
+| v3       | 2021 | 집중 유동성(Concentrated Liquidity), 다중 수수료 |
 | v4       | 2024 | Hooks 아키텍처, 완전 맞춤형 풀               |
 
 ### v3 집중 유동성
@@ -108,7 +108,7 @@ LP 수익 = 거래 수수료 수입 - 비영구적 손실
 | 한계             | 해결 방향                          |
 |---------------|----------------------------------|
 | 슬리피지 (대형 거래) | 오더북+AMM 하이브리드 (dYdX)     |
-| 비영구적 손실   | 동적 수수료·헤징 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)              |
+| 비영구적 손실   | 동적 수수료·헤징 전략              |
 | MEV (최대 추출 가능 가치) | 프라이빗 멤풀, Flashbot    |
 | 자본 효율 낮음  | 집중 유동성 (v3), 곡선 AMM (Curve)|
 
@@ -168,14 +168,3 @@ DeFi 생태계 -> TVL(Total Value Locked) 지표
 1. AMM은 자동 환전 기계다 — 달러와 원화를 비율에 맞게 교환해 주는데, 많이 바꾸면 불리한 환율(슬리피지)이 적용된다.
 2. LP는 환전소 자금을 제공하는 사람이다 — 창고에 돈을 맡기고 교환 수수료를 나눠 받는데, 환율이 크게 변하면(비영구적 손실) 손해를 볼 수 있다.
 3. v3 집중 유동성은 환전소가 특정 환율 범위만 집중적으로 서비스하는 것이다 — "달러가 1,000~1,200원 사이일 때만 환전"하면 자금을 더 효율적으로 쓸 수 있다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 34 / 552
-
-<- **이전**: [DeFi (Decentralized Finance, 탈중앙화 금융)](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)
-**다음**: [035. 플래시 론 (Flash Loan)](/studynote/06_ict_convergence/01_blockchain/035_flash_loan/) ->
-
----

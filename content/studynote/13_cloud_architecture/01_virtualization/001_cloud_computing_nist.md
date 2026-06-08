@@ -189,12 +189,3 @@ CSP의 컴퓨팅 자원은 **다중 테넌트(Multi-Tenant)가 공유하는 풀(
    1K -------╱                                  (Baseline)
        +-----------------------------------------> 시간
             Mon 09:00   Tue 10:00   Wed 12:00
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 1 / 800
-
-<- **이전**: (첫 번째 글입니다)
-**다음**: [2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2, S3)](/studynote/13_cloud_architecture/01_virtualization/002_iaas/) ->
-
----

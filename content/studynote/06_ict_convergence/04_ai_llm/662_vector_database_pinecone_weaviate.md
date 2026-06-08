@@ -146,11 +146,3 @@ weight: 662
 **HNSW(Hierarchical Navigable Small World)**는 다층 그래프 구조로, 상위 레이어는 long-range link, 하위 레이어는 short-range link를 가진다. 탐색 시 최상위 entry point에서 시작해 greedy search로 하강하며 각 레이어에서 `efSearch`만큼의 이웃을 탐색한다. **시간 복잡도 O(log N)**, **메모리 O(M × N × d × 4bytes)**로 d=1536, M=16, N=1억이면 약 9.8TB RAM 필요(양자화 미적용 시). **Recall 99%@100ms** 수준으로 가장 인기 있는 알고리즘.
 
 **IVF-PQ(Inverted File with Product Quantization)**는 두 단계 최적화다. ① IVF: k-means로 벡터 공간을 `nlist`개(보통 √N) 클러스터로 분할, 클러스터 centroid와 거리 계산 후 가까운 `nprobe`(보통
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 662 / 800
-
-<- **이전**: [661. LLMOps 대규모 언어 모델 운영](/studynote/06_ict_convergence/uncategorized/661_llmops_large_language_model_operations/)
-**다음**: [663. 그래프 신경망 GNN 관계 추론](/studynote/06_ict_convergence/uncategorized/663_graph_neural_network_gnn_relation_reasoning/) ->
-
----

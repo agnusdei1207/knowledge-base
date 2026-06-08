@@ -6,9 +6,9 @@ tags:
 weight: 47
 ---
 > **핵심 인사이트**
-> 1. CSB(Cloud [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Brokerage)는 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소비자와 제공자 사이에서 중개·통합·커스터마이징·거버넌스 역할을 수행하는 개체 — Gartner가 정의한 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 모델의 핵심 구성 요소로, [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 환경의 복잡성을 관리한다.
-> 2. CSB의 세 가지 역할 — 중개(Intermediation: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 부가가치 추가), 집계(Aggregation: 여러 클라우드 통합), 차익거래(Arbitrage: 비용 최적화를 위한 자동 클라우드 전환)로 구성되며, 현대 CSB는 이 세 역할을 통합 제공한다.
-> 3. FinOps와 CSB의 융합이 현대 트렌드 — 단순 중개를 넘어 [클라우드 비용 최적화](/studynote/07_enterprise_systems/08_cloud_finops/227_cloud_cost_optimization/)([FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)), [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([CASB](/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/)), 거버넌스 자동화를 통합하는 클라우드 관리 플랫폼([CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/))으로 진화하고 있다.
+> 1. CSB(Cloud Service Brokerage)는 클라우드 서비스 소비자와 제공자 사이에서 중개·통합·커스터마이징·거버넌스 역할을 수행하는 개체 — Gartner가 정의한 클라우드 컴퓨팅 참조 모델의 핵심 구성 요소로, 멀티 클라우드 환경의 복잡성을 관리한다.
+> 2. CSB의 세 가지 역할 — 중개(Intermediation: 서비스 부가가치 추가), 집계(Aggregation: 여러 클라우드 통합), 차익거래(Arbitrage: 비용 최적화를 위한 자동 클라우드 전환)로 구성되며, 현대 CSB는 이 세 역할을 통합 제공한다.
+> 3. FinOps와 CSB의 융합이 현대 트렌드 — 단순 중개를 넘어 클라우드 비용 최적화(FinOps), 보안 정책 일관성(CASB), 거버넌스 자동화를 통합하는 클라우드 관리 플랫폼(CMP)으로 진화하고 있다.
 
 ---
 
@@ -59,7 +59,7 @@ CSB 3대 역할 (Gartner):
 
 ---
 
-## Ⅱ. 클라우드 관리 플랫폼 ([CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/))
+## Ⅱ. 클라우드 관리 플랫폼 (CMP)
 
 ```
 CMP (Cloud Management Platform):
@@ -111,11 +111,11 @@ Flexera:
   오픈소스 멀티 클라우드 추상화
 ```
 
-> 📢 **섹션 요약 비유**: CMP는 [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 원격 관리 — 여러 집(클라우드)을 한 앱으로 관리. 전기(비용), 보안([정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)), 청소(자동화) 통합 관리. 집마다 따로 안 가도 돼요!
+> 📢 **섹션 요약 비유**: CMP는 멀티 클라우드 원격 관리 — 여러 집(클라우드)을 한 앱으로 관리. 전기(비용), 보안(정책), 청소(자동화) 통합 관리. 집마다 따로 안 가도 돼요!
 
 ---
 
-## Ⅲ. [CASB](/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) (Cloud Access [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Broker)
+## Ⅲ. CASB (Cloud Access Security Broker)
 
 ```
 CASB (Cloud Access Security Broker):
@@ -159,7 +159,7 @@ CASB 배포 방식:
   McAfee MVISION Cloud
 ```
 
-> 📢 **섹션 요약 비유**: CASB는 회사 클라우드 경비원 — 직원이 어떤 클라우드 쓰는지 감시(가시성), 기밀 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개인 드롭박스 전송 차단([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안), 이상 행동 탐지(위협 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/))!
+> 📢 **섹션 요약 비유**: CASB는 회사 클라우드 경비원 — 직원이 어떤 클라우드 쓰는지 감시(가시성), 기밀 파일 개인 드롭박스 전송 차단(데이터 보안), 이상 행동 탐지(위협 보호)!
 
 ---
 
@@ -265,7 +265,7 @@ CASB (Netskope) 도입:
   ROI: 솔루션 비용 6개월 내 회수
 ```
 
-> 📢 **섹션 요약 비유**: 중견사 CSB 구축 결과 — [멀티 클라우드](/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 가계부([CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)) 열어보니 2,400만원 낭비 발견! 경비원([CASB](/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/)) 배치하니 직원 개인 클라우드 사용 차단. 6개월에 솔루션 비용 회수!
+> 📢 **섹션 요약 비유**: 중견사 CSB 구축 결과 — 멀티 클라우드 가계부(CMP) 열어보니 2,400만원 낭비 발견! 경비원(CASB) 배치하니 직원 개인 클라우드 사용 차단. 6개월에 솔루션 비용 회수!
 
 ---
 
@@ -322,16 +322,5 @@ AI 비용 예측/최적화
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. CSB는 여행사 — 여러 항공사(AWS, Azure, GCP)를 비교해서 가장 좋은 것 골라주고, 패키지로 묶어주고, 보험(보안)까지 추가!
-2. CASB는 회사 클라우드 경비원 — 직원이 개인 드롭박스에 기밀 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 올리면 차단. 허락된 클라우드만 사용 가능!
+2. CASB는 회사 클라우드 경비원 — 직원이 개인 드롭박스에 기밀 파일 올리면 차단. 허락된 클라우드만 사용 가능!
 3. FinOps는 클라우드 가계부 — 5억 쓰다가 가계부 열어보니 2,400만원 낭비 발견. 끄고 줄이니 1.7억원 절감!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 46 / 371
-
-<- **이전**: [046. 클라우드 마이그레이션 — Retire & Retain 전략](/studynote/13_cloud_architecture/01_virtualization/046_migration_retire_retain/)
-**다음**: [048. MSP — 클라우드 관리형 서비스 제공자](/studynote/13_cloud_architecture/01_virtualization/048_msp_managed_service_provider_cloud/) ->
-
----

@@ -7,17 +7,17 @@ weight: 633
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소프트웨어 라이선스 컴플라이언스는 사용한 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)와 상용 소프트웨어의 라이선스 의무를 지키는 관리 체계다.
-> 2. **가치**: GPL, MIT, Apache 2.0 같은 라이선스는 허용 범위와 의무가 다르므로, 배포 전에 반드시 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
-> 3. **판단**: [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)(Software [Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)), 스캐너, 승인 절차를 묶어야 법적·운영적 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄일 수 있다.
+> 1. **본질**: 소프트웨어 라이선스 컴플라이언스는 사용한 오픈소스와 상용 소프트웨어의 라이선스 의무를 지키는 관리 체계다.
+> 2. **가치**: GPL, MIT, Apache 2.0 같은 라이선스는 허용 범위와 의무가 다르므로, 배포 전에 반드시 확인해야 한다.
+> 3. **판단**: SBOM(Software Bill of Materials), 스캐너, 승인 절차를 묶어야 법적·운영적 리스크를 줄일 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-라이선스는 "공짜로 쓸 수 있느냐"보다 "어떤 조건으로 쓸 수 있느냐"를 말한다. [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 많이 쓸수록 코드는 편해지지만, 의무를 모르면 배포가 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 된다.
+라이선스는 "공짜로 쓸 수 있느냐"보다 "어떤 조건으로 쓸 수 있느냐"를 말한다. 오픈소스를 많이 쓸수록 코드는 편해지지만, 의무를 모르면 배포가 리스크가 된다.
 
-컴플라이언스는 법무만의 일이 아니라 개발, 보안, 배포까지 연결된 운영 문제다. 그래서 라이선스는 소스코드 옆에서 끝나지 않고 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체를 따라간다.
+컴플라이언스는 법무만의 일이 아니라 개발, 보안, 배포까지 연결된 운영 문제다. 그래서 라이선스는 소스코드 옆에서 끝나지 않고 공급망 전체를 따라간다.
 
 - **📢 섹션 요약 비유**: 빌린 장난감마다 "어떻게 쓰고 어떻게 돌려줘야 하는지" 규칙이 다르다.
 
@@ -39,8 +39,8 @@ Approval / Notice / Distribution
 
 | 항목 | 의미 | 관리 포인트 |
 | :-- | :-- | :-- |
-| Copyleft | 파생 저작물에도 공개 의무가 이어짐 | 배포 조건 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| Permissive | 비교적 자유로운 사용 | 고지와 [저작권](/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 유지 |
+| Copyleft | 파생 저작물에도 공개 의무가 이어짐 | 배포 조건 확인 |
+| Permissive | 비교적 자유로운 사용 | 고지와 저작권 유지 |
 | Proprietary | 사용 허가 범위가 좁음 | 계약 조건 준수 |
 
 라이선스는 단순 문구가 아니라 배포·수정·재배포 시 행동 규칙이다. 따라서 라이선스 종류를 분류하고, 어떤 의무가 붙는지 자동으로 점검해야 한다.
@@ -54,17 +54,17 @@ Approval / Notice / Distribution
 | 라이선스 | 특징 | 주요 의무 |
 | :-- | :-- | :-- |
 | GPL | 강한 Copyleft | 소스 공개, 파생물 공개 |
-| LGPL | 약한 Copyleft | [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 결합 시 조건 완화 |
+| LGPL | 약한 Copyleft | 라이브러리 결합 시 조건 완화 |
 | MIT | 매우 관대 | 고지 유지 |
 | Apache 2.0 | 관대 + 특허 조항 | 고지, NOTICE 유지 |
-| BSD | 관대 | [저작권](/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 고지 |
+| BSD | 관대 | 저작권 고지 |
 
 | 도구/개념 | 역할 |
 | :-- | :-- |
-| [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) | 사용 구성요소 목록화 |
-| [SCA](/studynote/09_security/05_web_app_security/453_sca/)([Software Composition Analysis](/studynote/04_software_engineering/11_testing_validation/887_sca_software_composition_analysis/)) | [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 사용 추적 |
-| Notice [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 배포 시 고지 정보 |
-| [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) Gate | 배포 승인 차단 |
+| SBOM | 사용 구성요소 목록화 |
+| SCA(Software Composition Analysis) | 오픈소스 사용 추적 |
+| Notice File | 배포 시 고지 정보 |
+| Policy Gate | 배포 승인 차단 |
 
 GPL과 MIT를 단순히 "엄격/느슨"으로만 보면 안 된다. 배포 모델과 파생물 공개 의무까지 같이 봐야 실제 위험을 판단할 수 있다.
 
@@ -74,22 +74,22 @@ GPL과 MIT를 단순히 "엄격/느슨"으로만 보면 안 된다. 배포 모�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
-1. 사용한 모든 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 목록화했는가?
+1. 사용한 모든 오픈소스를 목록화했는가?
 2. 라이선스 의무를 SBOM으로 추적하는가?
 3. 배포 산출물에 Notice와 고지 문구가 포함되는가?
 4. Copyleft 의무가 걸린 컴포넌트를 구분했는가?
-5. 승인 없이 외부 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 들어오지 않게 막는가?
+5. 승인 없이 외부 라이브러리가 들어오지 않게 막는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 라이선스 검토 없이 dependency를 추가하는 설계
 - 배포 직전에야 법무팀에 물어보는 설계
 - 고지 파일을 빼먹고 재배포하는 설계
-- 라이선스 차이를 "[오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)니까 다 같다"로 보는 설계
+- 라이선스 차이를 "오픈소스니까 다 같다"로 보는 설계
 
-기술사 관점에서는 라이선스를 법률 텍스트로만 보지 말고, [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리의 일부로 봐야 한다. 자동화와 승인 절차가 함께 있어야 실무가 유지된다.
+기술사 관점에서는 라이선스를 법률 텍스트로만 보지 말고, 공급망 리스크 관리의 일부로 봐야 한다. 자동화와 승인 절차가 함께 있어야 실무가 유지된다.
 
 - **📢 섹션 요약 비유**: 규칙이 다른 장난감을 섞어 놓으면, 나중에 누구 것이었는지 헷갈리기 쉽다.
 
@@ -97,7 +97,7 @@ GPL과 MIT를 단순히 "엄격/느슨"으로만 보면 안 된다. 배포 모�
 
 ## Ⅴ. 기대효과 및 결론
 
-라이선스 컴플라이언스가 잘 되면 배포 중단과 법적 분쟁 위험이 줄고, [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 더 안전하게 활용할 수 있다. 결국 좋은 컴플라이언스는 개발 속도를 늦추는 것이 아니라 예측 가능하게 만드는 것이다.
+라이선스 컴플라이언스가 잘 되면 배포 중단과 법적 분쟁 위험이 줄고, 오픈소스를 더 안전하게 활용할 수 있다. 결국 좋은 컴플라이언스는 개발 속도를 늦추는 것이 아니라 예측 가능하게 만드는 것이다.
 
 결론적으로 라이선스 관리는 "쓰지 말자"가 아니라 "알고 쓰자"다.
 
@@ -138,14 +138,3 @@ SBOM
 빌린 장난감마다 돌려주는 방법이 달라요.
 어떤 건 이름만 적으면 되고, 어떤 건 같이 공개해야 해요.
 라이선스 컴플라이언스는 그 규칙을 지키는 일이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 96 / 530
-
-<- **이전**: [63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)](/studynote/11_design_supervision/01_audit_framework/063_software_license_compliance/)
-**다음**: [64. 접근 통제 및 권한 관리 (RBAC) - 권한 오남용 감사](/studynote/11_design_supervision/01_audit_framework/064_access_control_matrix_rbac_audit/) ->
-
----

@@ -6,9 +6,9 @@ tags:
 weight: 45
 ---
 > **핵심 인사이트**
-> 1. 하향식([Top-Down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 비용 산정은 시스템 전체를 먼저 추정한 후 세부 요소로 분해하는 방식 — 전문가 경험이나 유추 비교(Analogous Estimation)를 기반으로 빠르게 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 예산을 잡을 수 있으나, 세부 설계가 없는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 정확도가 낮다.
-> 2. 하향식 산정의 대표 기법은 전문가 감정(Expert Judgment), [델파이](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)([Delphi](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)), 유추 산정(Analogous) — 과거 유사 프로젝트 데이터와 전문가 직관을 활용해 신속하게 추정하며, 아키텍처 수준의 이해만으로도 적용 가능하다.
-> 3. 하향식은 상향식([Bottom-Up](/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))과 상호 보완적 — [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 타당성 검토와 예산 설정은 하향식, 상세 계획과 정확한 산정은 상향식을 활용하는 이중 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 실무 모범 사례다.
+> 1. 하향식(Top-Down) 비용 산정은 시스템 전체를 먼저 추정한 후 세부 요소로 분해하는 방식 — 전문가 경험이나 유추 비교(Analogous Estimation)를 기반으로 빠르게 초기 예산을 잡을 수 있으나, 세부 설계가 없는 초기 단계에서 정확도가 낮다.
+> 2. 하향식 산정의 대표 기법은 전문가 감정(Expert Judgment), 델파이(Delphi), 유추 산정(Analogous) — 과거 유사 프로젝트 데이터와 전문가 직관을 활용해 신속하게 추정하며, 아키텍처 수준의 이해만으로도 적용 가능하다.
+> 3. 하향식은 상향식(Bottom-Up)과 상호 보완적 — 초기 타당성 검토와 예산 설정은 하향식, 상세 계획과 정확한 산정은 상향식을 활용하는 이중 검증이 실무 모범 사례다.
 
 ---
 
@@ -95,7 +95,7 @@ weight: 45
    95% 구간: 5.3 ± 2σ = 3.3 ~ 7.3개월
 ```
 
-> 📢 **섹션 요약 비유**: 하향식 기법들은 전문가 집단 지성 — 혼자의 감(전문가 감정), 여럿의 합의([델파이](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)), 과거 비교(유추), 낙관/비관 평균(3점)으로 미래를 예측!
+> 📢 **섹션 요약 비유**: 하향식 기법들은 전문가 집단 지성 — 혼자의 감(전문가 감정), 여럿의 합의(델파이), 과거 비교(유추), 낙관/비관 평균(3점)으로 미래를 예측!
 
 ---
 
@@ -176,7 +176,7 @@ Cone of Uncertainty (불확실성 원뿔):
 
 ---
 
-## Ⅴ. 실무 시나리오 — 스타트업 [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 예산 산정
+## Ⅴ. 실무 시나리오 — 스타트업 MVP 예산 산정
 
 ```
 핀테크 스타트업 MVP 개발 예산 산정:
@@ -219,7 +219,7 @@ Cone of Uncertainty (불확실성 원뿔):
   Phase 2 정밀 산정: WBS 작성 후 상향식 재검토
 ```
 
-> 📢 **섹션 요약 비유**: 스타트업 [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) 산정은 맛집 오픈 예산 — 인테리어·장비·인건비 정확히 모르지만 "비슷한 가게 개업에 1억 들었으니 1~1.2억" 투자자 설득에 충분!
+> 📢 **섹션 요약 비유**: 스타트업 MVP 산정은 맛집 오픈 예산 — 인테리어·장비·인건비 정확히 모르지만 "비슷한 가게 개업에 1억 들었으니 1~1.2억" 투자자 설득에 충분!
 
 ---
 
@@ -274,16 +274,5 @@ Velocity 기반 예측
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 하향식 산정은 전체에서 나누기 — "집 짓는 데 총 5억" 먼저 잡고 방별 예산 나눠요. 정확하진 않지만 빨라요!
-2. [델파이](/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)는 전문가 투표 — 여러 전문가가 몰래 예상하고, 공유하고, 다시 예상. 극단 의견 빼고 중간값 합의!
-3. 하향식 + 상향식 이중 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) — 위에서 내려다보고(하향식), 아래서 쌓아올려(상향식) 두 값이 비슷하면 믿을 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 45 / 973
-
-<- **이전**: [044. 소프트웨어 비용 산정 개요](/studynote/04_software_engineering/01_overview_principles/044_software_cost_estimation_overview/)
-**다음**: [046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation](/studynote/04_software_engineering/01_overview_principles/046_bottom_up_estimation_loc/) ->
-
----
+2. 델파이는 전문가 투표 — 여러 전문가가 몰래 예상하고, 공유하고, 다시 예상. 극단 의견 빼고 중간값 합의!
+3. 하향식 + 상향식 이중 검증 — 위에서 내려다보고(하향식), 아래서 쌓아올려(상향식) 두 값이 비슷하면 믿을 수 있어요!

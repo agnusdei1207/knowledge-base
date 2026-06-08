@@ -149,11 +149,3 @@ NLG 보고서 자동화는 인접 기술인 BI Self-Service, 검색 기반 분�
 | **처리 속도 (1건)** | < 100ms | 200~800ms | 2~30s (API 의존) | 4~12h |
 | **톤·스타일 통제** | 완벽 통제 | 통제 가능 | Prompt로 부분 통제 | 분석가 역량 의존 |
 | **비용 (1K 보고
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 686 / 800
-
-<- **이전**: [685. 공간 데이터 GIS 위치 기반 분석](/studynote/06_ict_convergence/uncategorized/685_spatial_data_gis_location_based_analysis/)
-**다음**: [687. 설명 가능 AI XAI LIME SHAP 해석](/studynote/06_ict_convergence/uncategorized/687_explainable_ai_xai_lime_shap_interpretation/) ->
-
----

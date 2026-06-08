@@ -6,9 +6,9 @@ tags:
 weight: 46
 ---
 > **핵심 인사이트**
-> 1. 상향식([Bottom-Up](/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) 비용 산정은 [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)([Work Breakdown Structure](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))의 개별 작업 단위에서 시작해 합산하는 방식 — 세부 계획이 확정된 후 적용 가능하며, 하향식보다 정확하지만 시간이 많이 소요된다.
-> 2. LOC(Lines of [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), 소스 코드 라인 수)는 가장 오래되고 직관적인 소프트웨어 규모 측정 지표 — 생산성(LOC/인월)과 비용(비용/LOC)으로 산정하나, 언어·개발자 숙련도·코딩 스타일에 크게 의존하는 한계가 있다.
-> 3. LOC와 [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/))의 비율은 언어별로 크게 다름 — C언어 1 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) ≈ 100~150 LOC, Java 1 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) ≈ 50~70 LOC, Python 1 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) ≈ 30~50 LOC로, LOC만으로 다른 언어 프로젝트를 비교하면 오류가 생긴다.
+> 1. 상향식(Bottom-Up) 비용 산정은 WBS(Work Breakdown Structure)의 개별 작업 단위에서 시작해 합산하는 방식 — 세부 계획이 확정된 후 적용 가능하며, 하향식보다 정확하지만 시간이 많이 소요된다.
+> 2. LOC(Lines of Code, 소스 코드 라인 수)는 가장 오래되고 직관적인 소프트웨어 규모 측정 지표 — 생산성(LOC/인월)과 비용(비용/LOC)으로 산정하나, 언어·개발자 숙련도·코딩 스타일에 크게 의존하는 한계가 있다.
+> 3. LOC와 기능점수(FP)의 비율은 언어별로 크게 다름 — C언어 1 FP ≈ 100~150 LOC, Java 1 FP ≈ 50~70 LOC, Python 1 FP ≈ 30~50 LOC로, LOC만으로 다른 언어 프로젝트를 비교하면 오류가 생긴다.
 
 ---
 
@@ -59,7 +59,7 @@ WBS (Work Breakdown Structure):
   설계 수준 WBS 구성 가능 시점에 적용
 ```
 
-> 📢 **섹션 요약 비유**: 상향식은 재료비 정확 계산 — 레시피([WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))대로 재료 하나하나 가격 합산. 시간은 걸리지만 정확. 레시피도 없는 초기엔 사용 불가!
+> 📢 **섹션 요약 비유**: 상향식은 재료비 정확 계산 — 레시피(WBS)대로 재료 하나하나 가격 합산. 시간은 걸리지만 정확. 레시피도 없는 초기엔 사용 불가!
 
 ---
 
@@ -117,7 +117,7 @@ LOC 단점:
 
 ---
 
-## Ⅲ. 언어별 LOC/[FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 비율
+## Ⅲ. 언어별 LOC/FP 비율
 
 ```
 언어별 FP(기능점수) 당 LOC 비교:
@@ -166,7 +166,7 @@ Cobol           107                레거시 비즈니스
 
 ---
 
-## Ⅳ. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II LOC 기반 모델
+## Ⅳ. COCOMO II LOC 기반 모델
 
 ```
 COCOMO II (Constructive Cost Model):
@@ -212,7 +212,7 @@ COCOMO II (Constructive Cost Model):
        = 3.67 × 501^0.33 ≈ 29.5개월
 ```
 
-> 📢 **섹션 요약 비유**: [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II는 요리 시간 계산기 — 재료 양(LOC) × 어려운 레시피(복잡도) × 초보 요리사(역량 드라이버) = 완성 시간. 변수가 많을수록 정확!
+> 📢 **섹션 요약 비유**: COCOMO II는 요리 시간 계산기 — 재료 양(LOC) × 어려운 레시피(복잡도) × 초보 요리사(역량 드라이버) = 완성 시간. 변수가 많을수록 정확!
 
 ---
 
@@ -265,7 +265,7 @@ LOC 검증:
   총 비용: 14인월 × 500만 = 7,000만원
 ```
 
-> 📢 **섹션 요약 비유**: SI 프로젝트 상향식은 견적서 — 화면 10개 × 요금, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 20개 × 요금, 테스트 포함. 재료 하나하나 더하기. LOC 모델과 비교해서 차이 크면 이유 분석!
+> 📢 **섹션 요약 비유**: SI 프로젝트 상향식은 견적서 — 화면 10개 × 요금, API 20개 × 요금, 테스트 포함. 재료 하나하나 더하기. LOC 모델과 비교해서 차이 크면 이유 분석!
 
 ---
 
@@ -324,16 +324,5 @@ LOC는 코드 품질 측정 보조 지표
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 상향식은 장보기 목록 더하기 — 밀가루 얼마, 버터 얼마, 달걀 얼마... 하나하나 더해서 총 장보기 비용. 정확하지만 시간 걸려요!
-2. LOC는 코드 길이 — 소설 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수처럼 코드 줄 수로 크기 측정. 하지만 영어 책이랑 한자 책을 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 비교하면 오해!
-3. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II는 공사 견적 공식 — 건물 크기(LOC) × 공사 어려움(복잡도) × 인부 실력(역량) = 완공 기간. 변수 많을수록 정확!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 46 / 973
-
-<- **이전**: [045. 하향식 비용 산정 — Top-Down Estimation](/studynote/04_software_engineering/01_overview_principles/045_top_down_estimation/)
-**다음**: [047. COCOMO 모델 — 소프트웨어 비용 추정](/studynote/04_software_engineering/01_overview_principles/047_cocomo_model/) ->
-
----
+2. LOC는 코드 길이 — 소설 페이지 수처럼 코드 줄 수로 크기 측정. 하지만 영어 책이랑 한자 책을 페이지로 비교하면 오해!
+3. COCOMO II는 공사 견적 공식 — 건물 크기(LOC) × 공사 어려움(복잡도) × 인부 실력(역량) = 완공 기간. 변수 많을수록 정확!

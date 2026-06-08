@@ -161,11 +161,3 @@ $$E_{qs} = \frac{1}{2} m_r \cdot v^2 \leq 80 \text{ W·s (생체 한계)}$$
 | **안전 표준** | ISO 10218-1/2 (격리) | ISO/TS 15066 (4대 협동모드) | ISO 13482 (Personal Care), UL 3300 |
 | **반복 정밀도** | ±0.02~0.05 mm | ±0.03~0.1 mm | ±1~5 mm (보행 포함) |
 | **페이로드** | 5~2,300 kg | 0.5~35 kg (UR30까지
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 736 / 800
-
-<- **이전**: [735. 드론 군집 비행 무인 물류 배송](/studynote/06_ict_convergence/uncategorized/735_drone_swarm_flight_unmanned_logistics/)
-**다음**: [737. 디지털 포렌식 증거 수집 분석 법정](/studynote/06_ict_convergence/uncategorized/737_digital_forensics_evidence_collection_analysi/) ->
-
----

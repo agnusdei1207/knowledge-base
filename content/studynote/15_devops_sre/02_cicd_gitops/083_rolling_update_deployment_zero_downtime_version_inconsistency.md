@@ -6,17 +6,17 @@ tags:
 weight: 83
 ---
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/) (Rolling Update)는 기존 Pod를 한 번에 하나 또는 소수씩 새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 교체하면서 원하는 replica 수를 유지하는 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-- **가치**: 추가 인프라를 거의 쓰지 않고 [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime을 달성할 수 있어, 기본 [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 가장 널리 쓰인다.
-- **판단 포인트**: 구버전과 신버전이 동시에 살아도 되는지, 즉 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 혼재 (Version Inconsistency)를 감당할 수 있는지 먼저 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+- **본질**: 롤링 배포 (Rolling Update)는 기존 Pod를 한 번에 하나 또는 소수씩 새 버전으로 교체하면서 원하는 replica 수를 유지하는 배포 전략이다.
+- **가치**: 추가 인프라를 거의 쓰지 않고 Zero Downtime을 달성할 수 있어, 기본 Deployment 전략으로 가장 널리 쓰인다.
+- **판단 포인트**: 구버전과 신버전이 동시에 살아도 되는지, 즉 버전 혼재 (Version Inconsistency)를 감당할 수 있는지 먼저 확인해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 바꾸려는 요구에서 나온다. 트래픽을 받는 상태에서 애플리케이션을 교체해야 하므로, 기존 Pod를 전부 내렸다가 새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리는 Recreate 방식은 다운타임이 생긴다. 반면 [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 조금씩 교체해서 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 살아 있는 시간을 최대화한다.
+롤링 배포는 서비스 중단 없이 버전을 바꾸려는 요구에서 나온다. 트래픽을 받는 상태에서 애플리케이션을 교체해야 하므로, 기존 Pod를 전부 내렸다가 새 버전을 올리는 Recreate 방식은 다운타임이 생긴다. 반면 롤링 배포는 조금씩 교체해서 서비스가 살아 있는 시간을 최대화한다.
 
-[쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))는 이 과정을 Deployment와 ReplicaSet으로 관리한다. 사용자는 이미지 태그만 바꾸지만, 내부에서는 새 ReplicaSet이 생기고 이전 ReplicaSet이 천천히 줄어든다. 이때 전체 replica 수는 거의 일정하게 유지되므로 사용자는 배포 중단을 체감하지 않는다.
+쿠버네티스 (Kubernetes)는 이 과정을 Deployment와 ReplicaSet으로 관리한다. 사용자는 이미지 태그만 바꾸지만, 내부에서는 새 ReplicaSet이 생기고 이전 ReplicaSet이 천천히 줄어든다. 이때 전체 replica 수는 거의 일정하게 유지되므로 사용자는 배포 중단을 체감하지 않는다.
 
 ```text
 +--------------------------------------------------------------+
@@ -32,16 +32,16 @@ weight: 83
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)의 핵심 손잡이는 maxUnavailable과 maxSurge다. maxUnavailable은 배포 중 동시에 비어 있어도 되는 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수이고, maxSurge는 원하는 개수보다 초과로 더 띄울 수 있는 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수다. 전자는 안정성과, 후자는 속도와 자원 여력을 조절한다.
+롤링 배포의 핵심 손잡이는 maxUnavailable과 maxSurge다. maxUnavailable은 배포 중 동시에 비어 있어도 되는 Pod 수이고, maxSurge는 원하는 개수보다 초과로 더 띄울 수 있는 Pod 수다. 전자는 안정성과, 후자는 속도와 자원 여력을 조절한다.
 
 | 항목 | 의미 | 기본값 | 효과 |
 | :--- | :--- | :--- | :--- |
-| maxUnavailable | 동시에 중단 가능한 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수 | 25% | 높일수록 빠르지만 위험 증가 |
-| maxSurge | 초과 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능한 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수 | 25% | 높일수록 더 안전하지만 자원 사용 증가 |
-| readinessProbe | 트래픽 투입 가능 여부 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | - | 준비 전 Pod로 트래픽 차단 |
-| [kubectl](/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/) rollout [undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) | 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 되돌리기 | - | [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 수행 |
+| maxUnavailable | 동시에 중단 가능한 Pod 수 | 25% | 높일수록 빠르지만 위험 증가 |
+| maxSurge | 초과 생성 가능한 Pod 수 | 25% | 높일수록 더 안전하지만 자원 사용 증가 |
+| readinessProbe | 트래픽 투입 가능 여부 확인 | - | 준비 전 Pod로 트래픽 차단 |
+| kubectl rollout undo | 이전 버전으로 되돌리기 | - | 롤백 수행 |
 
-새 Pod가 뜬다고 바로 트래픽을 받는 것은 아니다. readinessProbe를 통과해야 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 엔드포인트에 들어간다. 이 장치가 없으면 아직 준비되지 않은 Pod가 요청을 받아 장애를 만든다. 그래서 [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 "교체"보다 "[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 교체"라는 표현이 더 맞다.
+새 Pod가 뜬다고 바로 트래픽을 받는 것은 아니다. readinessProbe를 통과해야 서비스 엔드포인트에 들어간다. 이 장치가 없으면 아직 준비되지 않은 Pod가 요청을 받아 장애를 만든다. 그래서 롤링 배포는 "교체"보다 "검증된 교체"라는 표현이 더 맞다.
 
 ```text
 +----------------------------------------------------------------+
@@ -51,7 +51,7 @@ weight: 83
 +----------------------------------------------------------------+
 ```
 
-이 구조의 핵심은 전체 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 용량을 유지한 채 배포를 진전시키는 것이다. 다만 네트워크나 외부 상태를 고려하지 않으면 겉으로는 무중단이지만 내부적으로는 혼선이 생길 수 있다.
+이 구조의 핵심은 전체 서비스 용량을 유지한 채 배포를 진전시키는 것이다. 다만 네트워크나 외부 상태를 고려하지 않으면 겉으로는 무중단이지만 내부적으로는 혼선이 생길 수 있다.
 
 - **📢 섹션 요약 비유**: 수업 중 한 명씩 교실을 나가 새 옷으로 갈아입고 돌아오는 방식이다. 나간 사람이 너무 많으면 수업이 멈추고, 새 옷 입은 학생이 준비 안 됐으면 발표가 꼬인다.
 
@@ -59,34 +59,34 @@ weight: 83
 
 ## Ⅲ. 비교 및 연결
 
-[롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 Recreate, Blue/Green, Canary와 비교해야 의미가 선명해진다. Recreate는 단순하지만 다운타임이 있고, Blue/Green은 빠른 전환이 가능하지만 자원을 두 배로 쓴다. Canary는 일부 트래픽만 먼저 새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 보내 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄인다.
+롤링 배포는 Recreate, Blue/Green, Canary와 비교해야 의미가 선명해진다. Recreate는 단순하지만 다운타임이 있고, Blue/Green은 빠른 전환이 가능하지만 자원을 두 배로 쓴다. Canary는 일부 트래픽만 먼저 새 버전으로 보내 리스크를 줄인다.
 
-| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 다운타임 | 자원 사용 | [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 혼재 |
+| 전략 | 다운타임 | 자원 사용 | 롤백 | 버전 혼재 |
 | :--- | :--- | :--- | :--- | :--- |
-| Recreate | 있음 | 적음 | 단순하지만 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 | 없음 |
+| Recreate | 있음 | 적음 | 단순하지만 서비스 중단 | 없음 |
 | Rolling Update | 거의 없음 | 적음 | 보통 | 있음 |
 | Blue/Green | 거의 없음 | 큼(2배) | 매우 빠름 | 전환 전엔 없음 |
-| [Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | 거의 없음 | 중간 | 점진적 | 제한적 |
+| Canary | 거의 없음 | 중간 | 점진적 | 제한적 |
 
-[버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 혼재는 [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)의 본질적 그림자다. 배포 중에는 v1과 v2가 동시에 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하므로 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 계약과 DB ([Database](/studynote/05_database/04_transactions_concurrency/501_database/)) [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 하위 호환이어야 한다. 즉, [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 인프라 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이면서 동시에 애플리케이션 설계 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+버전 혼재는 롤링 배포의 본질적 그림자다. 배포 중에는 v1과 v2가 동시에 서비스하므로 API (Application Programming Interface) 계약과 DB (Database) 스키마가 하위 호환이어야 한다. 즉, 롤링 배포는 인프라 전략이면서 동시에 애플리케이션 설계 전략이다.
 
-백엔드가 DB 컬럼을 삭제하거나 응답 포맷을 깨뜨리면, 아직 남아 있는 구버전 Pod가 바로 실패한다. 그래서 실제 운영에서는 expand/contract 방식, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [feature flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 같은 호환 설계가 함께 가야 한다.
+백엔드가 DB 컬럼을 삭제하거나 응답 포맷을 깨뜨리면, 아직 남아 있는 구버전 Pod가 바로 실패한다. 그래서 실제 운영에서는 expand/contract 방식, 버전별 API, feature flag 같은 호환 설계가 함께 가야 한다.
 
-- **📢 섹션 요약 비유**: [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 교대를 하듯 새 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 옛 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 잠깐 함께 다니는 동안, 승객 표가 둘 다 읽혀야 진짜 무중단이다.
+- **📢 섹션 요약 비유**: 버스 교대를 하듯 새 버스와 옛 버스가 잠깐 함께 다니는 동안, 승객 표가 둘 다 읽혀야 진짜 무중단이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)를 써도 되는지의 판단 기준은 단순하다. [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 stateless에 가깝고, 구버전과 신버전이 잠시 공존해도 기능이 깨지지 않으면 적합하다. 반대로 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 메모리에 박혀 있거나, DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)가 파괴적으로 바뀌거나, 외부 연계가 강한 경우는 Blue/Green이나 별도 마이그레이션이 더 낫다.
+롤링 배포를 써도 되는지의 판단 기준은 단순하다. 서비스가 stateless에 가깝고, 구버전과 신버전이 잠시 공존해도 기능이 깨지지 않으면 적합하다. 반대로 세션이 Pod 메모리에 박혀 있거나, DB 스키마가 파괴적으로 바뀌거나, 외부 연계가 강한 경우는 Blue/Green이나 별도 마이그레이션이 더 낫다.
 
-[체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 다음과 같다.
-1. v1과 v2가 동시에 떠도 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약이 유지되는가?
-2. readinessProbe가 실제 의존성(DB, 캐시, 외부 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 반영하는가?
-3. maxUnavailable과 maxSurge가 현재 용량과 [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))에 맞는가?
-4. [rollback](/studynote/02_operating_system/05_deadlock/313_rollback/) 절차를 실제로 연습해 봤는가?
+체크리스트는 다음과 같다.
+1. v1과 v2가 동시에 떠도 API 계약이 유지되는가?
+2. readinessProbe가 실제 의존성(DB, 캐시, 외부 API)을 반영하는가?
+3. maxUnavailable과 maxSurge가 현재 용량과 SLO (Service Level Objective)에 맞는가?
+4. rollback 절차를 실제로 연습해 봤는가?
 
-[안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 분명하다. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되지 않은 상태에서 maxUnavailable을 크게 잡는 것, DB 마이그레이션과 앱 배포를 한 번에 깨는 것, 장기 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 내부에 두는 것, 그리고 문제가 생겼는데 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)보다 수동 핫픽스로 버티는 것이다. [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 느리게 바꾸는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이지, 대충 바꾸는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아니다.
+안티패턴은 분명하다. 검증되지 않은 상태에서 maxUnavailable을 크게 잡는 것, DB 마이그레이션과 앱 배포를 한 번에 깨는 것, 장기 세션을 Pod 내부에 두는 것, 그리고 문제가 생겼는데 롤백보다 수동 핫픽스로 버티는 것이다. 롤링 배포는 느리게 바꾸는 전략이지, 대충 바꾸는 전략이 아니다.
 
 - **📢 섹션 요약 비유**: 한 줄씩 바꾸는 셔틀버스라 생각하면 된다. 차가 절반도 안 남았는데 새 차가 고장 나면 전체 통근이 멈춘다.
 
@@ -94,7 +94,7 @@ weight: 83
 
 ## Ⅴ. 기대효과 및 결론
 
-[롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)의 가장 큰 효과는 "[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 멈추지 않고 바꿀 수 있다"는 점이다. 비용 추가가 적고, 작은 변경을 자주 넣기 좋으며, 운영자는 배포 상태를 단계적으로 관찰할 수 있다. 그러나 이 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 혼재를 전제로 하므로, 애플리케이션과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층의 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 뒷받침되어야 한다.
+롤링 배포의 가장 큰 효과는 "서비스를 멈추지 않고 바꿀 수 있다"는 점이다. 비용 추가가 적고, 작은 변경을 자주 넣기 좋으며, 운영자는 배포 상태를 단계적으로 관찰할 수 있다. 그러나 이 전략은 버전 혼재를 전제로 하므로, 애플리케이션과 데이터 계층의 호환성이 뒷받침되어야 한다.
 
 미래의 배포는 Rolling Update 단독이 아니라 Canary와 Blue/Green이 섞인 Progressive Delivery로 간다. 그래도 기본은 같다. 배포 중에도 살아 있어야 한다면, 교체 속도와 위험을 숫자로 제어할 수 있어야 한다.
 
@@ -102,13 +102,13 @@ weight: 83
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)를 소유하는 상위 리소스 |
-| [ReplicaSet](/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) | 구버전과 신버전 replica를 교대 관리 |
-| readinessProbe | 트래픽 투입 전 준비 상태 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| Deployment | 롤링 배포를 소유하는 상위 리소스 |
+| ReplicaSet | 구버전과 신버전 replica를 교대 관리 |
+| readinessProbe | 트래픽 투입 전 준비 상태 확인 |
 | maxUnavailable | 동시에 줄일 수 있는 여유 |
-| maxSurge | 추가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 속도 조절 |
-| Blue/Green | 빠른 절체형 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| [Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) | 일부 트래픽 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)형 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| maxSurge | 추가 생성으로 속도 조절 |
+| Blue/Green | 빠른 절체형 배포 전략 |
+| Canary | 일부 트래픽 검증형 배포 전략 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,17 +125,6 @@ Rolling Update
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [롤링 배포](/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 놀이터 그네를 한 번에 다 바꾸지 않고 하나씩 교체하는 거예요.
-2. 그래서 다른 친구들은 계속 놀 수 있지만, 새 그네가 안전한지 먼저 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
+1. 롤링 배포는 놀이터 그네를 한 번에 다 바꾸지 않고 하나씩 교체하는 거예요.
+2. 그래서 다른 친구들은 계속 놀 수 있지만, 새 그네가 안전한지 먼저 확인해야 해요.
 3. 만약 옛 그네와 새 그네를 같이 써도 되면, 아무도 기다리지 않고 계속 놀 수 있답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 83 / 373
-
-<- **이전**: [82. 무중단 배포 (Zero Downtime Deployment) 전략 3가지](/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)
-**다음**: [84. 블루/그린 배포 (Blue/Green) - 무중단 광속 라우팅 스위칭 전략](/studynote/15_devops_sre/02_cicd_gitops/084_blue_green_deployment_zero_downtime_fast_rollback/) ->
-
----

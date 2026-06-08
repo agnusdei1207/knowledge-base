@@ -177,11 +177,3 @@ s.t. ẋ(t) = f(x(t), u(t))           // 차량 동역학 (Bicycle Model)
 | **최적성** | Heuristic 품질 의존 | 점근적 (RRT*) | 국소 최적 | Sample 수에 의존 | 학습 데이터 의존 |
 | **계산 복잡도** | O(b^d), 메모리 ^ | O(n log n) | O(N·M) iter | O(K·N) 병렬화 | O(Network FLOPs) |
 | **차원 확장성** | 7~8 DoF 한계 | 10+ DoF 우수 | 7~14 DoF | 10+ DoF | 20+ DoF 가능
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 719 / 800
-
-<- **이전**: [718. 음성 인식 ASR 화자 분리 합성](/studynote/06_ict_convergence/uncategorized/718_speech_recognition_asr_speaker_diarization/)
-**다음**: [720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI](/studynote/06_ict_convergence/uncategorized/720_cyborg_technology_brain_computer_interface_bc/) ->
-
----

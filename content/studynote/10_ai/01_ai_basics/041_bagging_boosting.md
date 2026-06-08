@@ -6,9 +6,9 @@ tags:
 weight: 41
 ---
 > **핵심 인사이트**
-> 1. 하이퍼파라미터(Hyperparameter)는 모델 학습 전 인간이 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 메타 수준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값으로([학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)·트리 깊이·[드롭아웃](/studynote/10_ai/03_llm_nlp/280_dropout/)율 등), 모델 파라미터([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 학습되는 것과 달리 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체의 동작 방식을 결정한다.
-> 2. 하이퍼파라미터 튜닝의 체계적 방법은 [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)([Grid Search](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/))->랜덤 서치(Random Search)->베이지안 최적화(Bayesian Optimization)->[AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 순으로 발전했으며, 랜덤 서치는 [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)보다 같은 계산 비용에서 더 좋은 결과를 찾을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다는 수학적 근거가 있다.
-> 3. 하이퍼파라미터 튜닝은 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 마지막 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15%를 결정하는 작업으로, 올바른 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 훨씬 더 중요하며 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 유발하는 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)' 없이 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트에서 독립적으로 평가해야 한다.
+> 1. 하이퍼파라미터(Hyperparameter)는 모델 학습 전 인간이 설정하는 메타 수준 설정값으로(학습률·트리 깊이·드롭아웃율 등), 모델 파라미터(가중치)가 데이터에서 학습되는 것과 달리 알고리즘 자체의 동작 방식을 결정한다.
+> 2. 하이퍼파라미터 튜닝의 체계적 방법은 그리드 서치(Grid Search)->랜덤 서치(Random Search)->베이지안 최적화(Bayesian Optimization)->AutoML 순으로 발전했으며, 랜덤 서치는 그리드 서치보다 같은 계산 비용에서 더 좋은 결과를 찾을 확률이 높다는 수학적 근거가 있다.
+> 3. 하이퍼파라미터 튜닝은 모델 성능의 마지막 10~15%를 결정하는 작업으로, 올바른 피처 엔지니어링·데이터 품질이 훨씬 더 중요하며 과적합(Overfitting)을 유발하는 '데이터 누수(Data Leakage)' 없이 검증 세트에서 독립적으로 평가해야 한다.
 
 ---
 
@@ -44,7 +44,7 @@ SVM:
   γ (RBF 커널 파라미터)
 ```
 
-> 📢 **섹션 요약 비유**: 하이퍼파라미터는 요리사가 레시피 전에 결정하는 "오븐 온도"와 "조리 시간" — 재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 조리 중에 알아서 반응하는 것이 파라미터.
+> 📢 **섹션 요약 비유**: 하이퍼파라미터는 요리사가 레시피 전에 결정하는 "오븐 온도"와 "조리 시간" — 재료(데이터)가 조리 중에 알아서 반응하는 것이 파라미터.
 
 ---
 
@@ -81,11 +81,11 @@ SVM:
    Google AutoML Tables, H2O, Auto-sklearn
 ```
 
-> 📢 **섹션 요약 비유**: [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)는 모든 메뉴 다 먹어보기, 랜덤 서치는 무작위 샘플링, 베이지안은 이전 음식 반응 보고 다음 메뉴 선택.
+> 📢 **섹션 요약 비유**: 그리드 서치는 모든 메뉴 다 먹어보기, 랜덤 서치는 무작위 샘플링, 베이지안은 이전 음식 반응 보고 다음 메뉴 선택.
 
 ---
 
-## Ⅲ. [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링
+## Ⅲ. 학습률과 스케줄링
 
 ```
 학습률 (Learning Rate):
@@ -111,11 +111,11 @@ SVM:
   배치 크기 2배 시 학습률도 2배 (선형 스케일링)
 ```
 
-> 📢 **섹션 요약 비유**: [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 산을 내려가는 보폭 — 너무 크면 최저점을 지나쳐버리고, 너무 작으면 평생 걸려도 못 내려간다.
+> 📢 **섹션 요약 비유**: 학습률은 산을 내려가는 보폭 — 너무 크면 최저점을 지나쳐버리고, 너무 작으면 평생 걸려도 못 내려간다.
 
 ---
 
-## Ⅳ. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수
+## Ⅳ. 검증 전략과 데이터 누수
 
 ```
 올바른 하이퍼파라미터 검증:
@@ -146,7 +146,7 @@ Nested Cross-Validation:
   과적합 방지된 공정한 평가
 ```
 
-> 📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 방지는 시험 전날 답지 못 보기 — [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(시험)이 학습(공부)에 영향을 받으면 진짜 실력이 아니다.
+> 📢 **섹션 요약 비유**: 데이터 누수 방지는 시험 전날 답지 못 보기 — 검증(시험)이 학습(공부)에 영향을 받으면 진짜 실력이 아니다.
 
 ---
 
@@ -187,7 +187,7 @@ Nested Cross-Validation:
   데이터 분포 변화 감지 후 전체 튜닝 반복
 ```
 
-> 📢 **섹션 요약 비유**: ML 튜닝은 레이싱카 셋업 — 기본 세팅으로도 달리지만, 서킷([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 맞게 타이어 공기압(HP)을 정밀 조정하면 랩 타임이 줄어든다.
+> 📢 **섹션 요약 비유**: ML 튜닝은 레이싱카 셋업 — 기본 세팅으로도 달리지만, 서킷(데이터)에 맞게 타이어 공기압(HP)을 정밀 조정하면 랩 타임이 줄어든다.
 
 ---
 
@@ -244,17 +244,6 @@ LLM 사전학습 HP = 핵심 연구 영역
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 하이퍼파라미터는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 전에 사람이 정해주는 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값으로 — [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)(학습 속도), 트리 깊이(복잡도) 같은 것들이에요.
-2. [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)는 모든 경우의 수를 다 시도하고, 랜덤 서치는 무작위로 시도하는데, 수학적으로 랜덤이 더 효율적이에요!
-3. 베이지안 최적화는 이전 결과를 기억하며 더 좋은 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값이 있을 것 같은 방향으로 똑똑하게 찾아나가는 방법이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 41 / 420
-
-<- **이전**: [040. 앙상블 학습 (Ensemble Learning)](/studynote/10_ai/01_ai_basics/040_ensemble_learning/)
-**다음**: [042. 그리드/랜덤/베이지안 하이퍼파라미터 튜닝 비교](/studynote/10_ai/01_ai_basics/042_pca/) ->
-
----
+1. 하이퍼파라미터는 AI 학습 전에 사람이 정해주는 설정값으로 — 학습률(학습 속도), 트리 깊이(복잡도) 같은 것들이에요.
+2. 그리드 서치는 모든 경우의 수를 다 시도하고, 랜덤 서치는 무작위로 시도하는데, 수학적으로 랜덤이 더 효율적이에요!
+3. 베이지안 최적화는 이전 결과를 기억하며 더 좋은 설정값이 있을 것 같은 방향으로 똑똑하게 찾아나가는 방법이에요!

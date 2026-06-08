@@ -139,11 +139,3 @@ weight: 667
 | **NMS** | 필요 | 필요 | **불필요** (구조적 제거) |
 | **소형 객체** | FPN으로 강함 | 약점 (해결책: BiFPN, P2 레벨 추가) | Deformable Attention으로 개선 |
 | **학습 수렴** | 안정적 (2-stage)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 667 / 800
-
-<- **이전**: [666. 자연어 처리 NER 감성 분석 요약](/studynote/06_ict_convergence/uncategorized/666_nlp_ner_sentiment_analysis_summarization/)
-**다음**: [668. 음성 인식 TTS ASR 음성 합성](/studynote/06_ict_convergence/uncategorized/668_speech_recognition_tts_asr_voice_synthesis/) ->
-
----

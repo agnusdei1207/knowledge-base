@@ -6,9 +6,9 @@ tags:
 weight: 27
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [맥킨지](/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) 7S 모델(McKinsey 7S Framework)은 조직의 내부 역량을 7가지 요소([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크로, 조직 변화 관리·[디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)·IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 시 내부 정합성(Alignment)을 점검하는 데 활용된다.
-> 2. **가치**: 7S 모델의 핵심 통찰은 "7가지 요소가 서로 정렬(Aligned)될 때 조직이 효과적으로 작동한다"는 것이다. [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)만 바꾸고 구조·시스템·역량이 따라오지 않으면 [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 실패한다.
-> 3. **판단 포인트**: DT 맥락에서 7S 분석의 핵심 체크포인트는 Systems(IT 시스템)와 나머지 6S의 정합성이다. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·클라우드를 도입(Systems 변경)하면 Skill([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역량), Staff([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트), Structure([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리븐 조직), Style(실험적 의사결정)이 함께 변해야 한다.
+> 1. **본질**: 맥킨지 7S 모델(McKinsey 7S Framework)은 조직의 내부 역량을 7가지 요소(Strategy·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크로, 조직 변화 관리·디지털 전환·IT 전략 수립 시 내부 정합성(Alignment)을 점검하는 데 활용된다.
+> 2. **가치**: 7S 모델의 핵심 통찰은 "7가지 요소가 서로 정렬(Aligned)될 때 조직이 효과적으로 작동한다"는 것이다. 전략만 바꾸고 구조·시스템·역량이 따라오지 않으면 디지털 전환은 실패한다.
+> 3. **판단 포인트**: DT 맥락에서 7S 분석의 핵심 체크포인트는 Systems(IT 시스템)와 나머지 6S의 정합성이다. AI·클라우드를 도입(Systems 변경)하면 Skill(AI 역량), Staff(데이터 사이언티스트), Structure(데이터 드리븐 조직), Style(실험적 의사결정)이 함께 변해야 한다.
 
 ---
 
@@ -31,7 +31,7 @@ weight: 27
 +------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 7S 모델은 오케스트라 조율이다. 악기([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), 자리 배치(Structure), 악보(Systems), 연주 스타일(Style), 단원(Staff), 연주 실력(Skills), 화음(Shared Values) — 7가지가 조화를 이뤄야 아름다운 음악이 나온다.
+- **📢 섹션 요약 비유**: 7S 모델은 오케스트라 조율이다. 악기(Strategy), 자리 배치(Structure), 악보(Systems), 연주 스타일(Style), 단원(Staff), 연주 실력(Skills), 화음(Shared Values) — 7가지가 조화를 이뤄야 아름다운 음악이 나온다.
 
 ---
 
@@ -39,9 +39,9 @@ weight: 27
 
 ### 7S 요소 정의
 
-| 요소 | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 정의 |
+| 요소 | 분류 | 정의 |
 |:---|:---|:---|
-| <strong><a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> (<a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>)</strong> | Hard | 경쟁 우위를 위한 자원 배분 계획 |
+| <strong>Strategy (전략)</strong> | Hard | 경쟁 우위를 위한 자원 배분 계획 |
 | **Structure (구조)** | Hard | 조직 체계, 보고 라인 |
 | **Systems (시스템)** | Hard | 업무 수행 절차, IT 시스템 |
 | **Shared Values (공유 가치)** | Soft | 조직 문화의 핵심 가치 |
@@ -49,7 +49,7 @@ weight: 27
 | **Staff (인재)** | Soft | 구성원 특성, 인재 관리 |
 | **Skills (역량)** | Soft | 조직이 탁월하게 수행하는 것 |
 
-- **📢 섹션 요약 비유**: Hard S([전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·구조·시스템)는 집의 뼈대·배관·전기다. 눈에 보이고 설계도로 명확히 표현된다. Soft S(가치·스타일·인재·역량)는 집의 분위기·가족 문화다. 눈에 안 보이지만 실제 생활에 더 큰 영향을 준다.
+- **📢 섹션 요약 비유**: Hard S(전략·구조·시스템)는 집의 뼈대·배관·전기다. 눈에 보이고 설계도로 명확히 표현된다. Soft S(가치·스타일·인재·역량)는 집의 분위기·가족 문화다. 눈에 안 보이지만 실제 생활에 더 큰 영향을 준다.
 
 ---
 
@@ -58,8 +58,8 @@ weight: 27
 | 비교 | 7S 모델 | SWOT | 3C 분석 |
 |:---|:---|:---|:---|
 | 초점 | 내부 조직 정합성 | 내외부 강약점 | 고객·경쟁·자사 |
-| 수준 | 조직 변화 관리 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 | 시장 포지셔닝 |
-| 연계 | SWOT의 내부 S·W 상세화 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 | 경쟁 분석 |
+| 수준 | 조직 변화 관리 | 전략 도출 | 시장 포지셔닝 |
+| 연계 | SWOT의 내부 S·W 상세화 | 전략 수립 | 경쟁 분석 |
 
 - **📢 섹션 요약 비유**: 7S는 집 내부 인테리어 점검표, SWOT는 집 전체 상태 평가, 3C는 주변 부동산 시세 비교다. 각 도구가 다른 수준에서 조직을 분석한다.
 
@@ -67,18 +67,18 @@ weight: 27
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### DT([디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)) 7S 점검
+### DT(디지털 전환) 7S 점검
 | 요소 | DT 관점 질문 |
 |:---|:---|
-| [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 목표와 KPI가 명확한가? |
-| Structure | 디지털 사업부·[CDO](/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/) 역할이 있는가? |
-| Systems | 클라우드·[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이 구축됐는가? |
-| Shared Values | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 문화인가? |
-| Style | 실험·실패 허용의 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 문화인가? |
+| Strategy | 디지털 전환 목표와 KPI가 명확한가? |
+| Structure | 디지털 사업부·CDO 역할이 있는가? |
+| Systems | 클라우드·AI·데이터 플랫폼이 구축됐는가? |
+| Shared Values | 데이터 기반 의사결정 문화인가? |
+| Style | 실험·실패 허용의 애자일 문화인가? |
 | Staff | 디지털 네이티브 인재가 충분한가? |
-| Skills | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 역량이 있는가? |
+| Skills | AI·데이터 분석 역량이 있는가? |
 
-- **📢 섹션 요약 비유**: DT 7S 점검은 군대의 전투 준비 태세 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이다. 작전 계획([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))만 있고 병사(Staff) 훈련이 안 되어있거나 무기(Systems)가 없으면 전투(DT)에서 진다.
+- **📢 섹션 요약 비유**: DT 7S 점검은 군대의 전투 준비 태세 확인이다. 작전 계획(Strategy)만 있고 병사(Staff) 훈련이 안 되어있거나 무기(Systems)가 없으면 전투(DT)에서 진다.
 
 ---
 
@@ -87,12 +87,12 @@ weight: 27
 | 기대효과 | 내용 |
 |:---|:---|
 | **변화 관리** | 7가지 요소 동시 변화로 변환 성공률 향상 |
-| **내부 정합성** | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)-구조-시스템-역량 일치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| **DT 청사진** | [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 로드맵의 조직 역량 기반 설계 |
+| **내부 정합성** | 전략-구조-시스템-역량 일치 확인 |
+| **DT 청사진** | 디지털 전환 로드맵의 조직 역량 기반 설계 |
 
-[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 조직 분석 도구는 7S 요소별 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(직원 설문·성과 지표·IT 시스템 활용도)를 분석하여 조직 정합성 점수를 자동으로 계산하고 개선 우선순위를 추천하는 방향으로 발전하고 있다.
+AI 조직 분석 도구는 7S 요소별 데이터(직원 설문·성과 지표·IT 시스템 활용도)를 분석하여 조직 정합성 점수를 자동으로 계산하고 개선 우선순위를 추천하는 방향으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 7S 분석은 조직 건강 검진 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 의사다. 7가지 생체 지표(7S 요소)를 동시에 분석해서 "이 조직의 Systems와 Skills가 불일치합니다 — 역량 강화가 시급합니다"고 자동 진단한다.
+- **📢 섹션 요약 비유**: AI 7S 분석은 조직 건강 검진 AI 의사다. 7가지 생체 지표(7S 요소)를 동시에 분석해서 "이 조직의 Systems와 Skills가 불일치합니다 — 역량 강화가 시급합니다"고 자동 진단한다.
 
 ---
 
@@ -100,11 +100,11 @@ weight: 27
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **SWOT** | 7S의 내부 요소(S·W)를 상세화하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| **SWOT** | 7S의 내부 요소(S·W)를 상세화하는 관계 |
 | **조직 문화** | Shared Values·Style·Staff의 핵심 |
-| <strong><a href="/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a></strong> | 7S 프레임워크의 대표 적용 사례 |
+| <strong>디지털 전환</strong> | 7S 프레임워크의 대표 적용 사례 |
 | **변화 관리** | 7S 기반 조직 변화 계획·실행 |
-| <strong><a href="/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/">CDO</a></strong> | Structure 요소의 디지털 리더십 역할 |
+| <strong>CDO</strong> | Structure 요소의 디지털 리더십 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,17 +126,6 @@ weight: 27
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 7S 모델은 오케스트라 점검표예요! 악기([전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), 자리(구조), 악보(시스템), 연주법(스타일), 단원(인재), 실력(역량), 화음(공유 가치) — 7가지가 맞아야 좋은 음악이 나와요.
-2. [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)할 때 IT 시스템만 바꾸고 사람(Staff)·역량(Skills)·문화(Shared Values)를 바꾸지 않으면 실패해요!
+1. 7S 모델은 오케스트라 점검표예요! 악기(전략), 자리(구조), 악보(시스템), 연주법(스타일), 단원(인재), 실력(역량), 화음(공유 가치) — 7가지가 맞아야 좋은 음악이 나와요.
+2. 디지털 전환할 때 IT 시스템만 바꾸고 사람(Staff)·역량(Skills)·문화(Shared Values)를 바꾸지 않으면 실패해요!
 3. AI가 7가지 조직 지표를 자동으로 분석해서 "어디가 어긋나있는지" 진단해주는 시대가 됐답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 47 / 587
-
-<- **이전**: [26. 3C 분석 (C고객)](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)
-**다음**: [27. 7S 모델 (맥킨지)](/studynote/12_it_management/01_governance_strategy/821_seven_s_model/) ->
-
----

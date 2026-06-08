@@ -131,11 +131,3 @@ CoAP는 **REST 아키텍처 스타일을 UDP에 매핑**한 프로토콜이다. 
   |  |      | NON=1  | Length | 0.02 POST|          |               |
   |  |      | ACK=2  |        | 2.05 Cont|          |               |
   |  |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 606 / 800
-
-<- **이전**: [605. OTA 무선 업데이트 펌웨어 관리](/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/)
-**다음**: [607. Matter 스마트홈 통합 표준 프로토콜](/studynote/06_ict_convergence/uncategorized/607_matter_smart_home_unified_standard_protocol/) ->
-
----

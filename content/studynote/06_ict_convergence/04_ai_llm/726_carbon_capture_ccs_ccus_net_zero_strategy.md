@@ -89,11 +89,3 @@ weight: 726
         |   • Adsorption: Zeolite 13X, VSA cycle, dry flue gas 한정
         |   • Cryogenic: Dual-pressure distillation, 고농도(>50%) 적용
         |   • Chemical Looping: CuO/C
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 726 / 800
-
-<- **이전**: [725. 수소 경제 그린 수소 연료 전지](/studynote/06_ict_convergence/uncategorized/725_hydrogen_economy_green_hydrogen_fuel_cell/)
-**다음**: [727. 우주 기술 뉴스페이스 발사체 위성](/studynote/06_ict_convergence/uncategorized/727_space_technology_newspace_launch_satellite/) ->
-
----

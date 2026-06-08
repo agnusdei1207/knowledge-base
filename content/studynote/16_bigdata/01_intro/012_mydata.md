@@ -6,18 +6,18 @@ tags:
   - "studynote-bigdata"
 weight: 12
 ---
-# 마이데이터 ([MyData](/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))
+# 마이데이터 (MyData)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 기관과 기업이 독점하던 개인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통제권을 정보 주체(개인)에게 돌려주어, 본인의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원하는 곳으로 이동시키고 활용할 수 있도록 하는 '[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 자기결정권'의 실현 체계이다.
-> 2. **가치**: 스크래핑 방식의 보안 취약성을 극복하고 표준화된 Open API를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 유통하며, 개인 맞춤형 초개인화 자산관리 및 헬스케어 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등을 창출한다.
-> 3. **융합**: OAuth 2.0 기반의 강력한 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 모델, FIDO 기반 신원 증명 기술과 결합하여 무신뢰([Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 환경에서도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출을 방어한다.
+> 1. **본질**: 기관과 기업이 독점하던 개인 데이터의 통제권을 정보 주체(개인)에게 돌려주어, 본인의 데이터를 원하는 곳으로 이동시키고 활용할 수 있도록 하는 '개인정보 자기결정권'의 실현 체계이다.
+> 2. **가치**: 스크래핑 방식의 보안 취약성을 극복하고 표준화된 Open API를 통해 데이터를 안전하게 유통하며, 개인 맞춤형 초개인화 자산관리 및 헬스케어 서비스 등을 창출한다.
+> 3. **융합**: OAuth 2.0 기반의 강력한 인가(Authorization) 모델, FIDO 기반 신원 증명 기술과 결합하여 무신뢰(Zero Trust) 환경에서도 데이터 유출을 방어한다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-마이데이터([MyData](/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))는 정보 주체인 개인이 본인의 정보를 적극적으로 관리, 통제하고 이를 신용평가, 자산관리, 건강관리 등에 주도적으로 활용하는 일련의 패러다임이다. 과거에는 개인이 발생시킨 금융 내역이나 진료 기록을 기업이 독점하여([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 비즈니스 이득을 취했다. 그러나 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 의식이 향상되고 EU의 GDPR이 제정됨에 따라, 개인은 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제3자에게 전송하도록 요구할 수 있는 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동권(Right to [Data Portability](/studynote/09_security/16_data_privacy/795_data_portability/))'을 보장받게 되었다. 이는 단순한 규제 컴플라이언스가 아니라, 흩어진 개인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합하여 이전에 없던 초개인화 가치를 창출하는 혁신적 비즈니스 기반이 된다.
+마이데이터(MyData)는 정보 주체인 개인이 본인의 정보를 적극적으로 관리, 통제하고 이를 신용평가, 자산관리, 건강관리 등에 주도적으로 활용하는 일련의 패러다임이다. 과거에는 개인이 발생시킨 금융 내역이나 진료 기록을 기업이 독점하여(Silo) 비즈니스 이득을 취했다. 그러나 데이터 주권 의식이 향상되고 EU의 GDPR이 제정됨에 따라, 개인은 자신의 데이터를 제3자에게 전송하도록 요구할 수 있는 '데이터 이동권(Right to Data Portability)'을 보장받게 되었다. 이는 단순한 규제 컴플라이언스가 아니라, 흩어진 개인 데이터를 통합하여 이전에 없던 초개인화 가치를 창출하는 혁신적 비즈니스 기반이 된다.
 
 ```text
 이 도식은 데이터 통제권 패러다임이 기업 중심에서 정보 주체(개인) 중심으로 어떻게 이동했는지를 보여주는 문제 배경 시각화이다.
@@ -32,7 +32,7 @@ weight: 12
                      v
 [B병원] --(API 전송)-> [정보 주체(개인) & 마이데이터 사업자] --> 초개인화 서비스 혜택
 ```
-이 도식의 핵심은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제 권한의 헤게모니가 기업 내부에서 중앙의 사용자 중심으로 역전되었다는 점이다. 이런 배치는 정보 주체가 개별 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 묶이지 않고 플랫폼 독립성을 획득하게 함을 의미하며, 따라서 시스템 전체의 혁신 동력은 단위 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기능보다는 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [상호운용성](/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)과 전송의 안전성에 의해 결정된다. 실무에서는 이러한 주도권 변화를 수용하기 위해 레거시 시스템을 표준 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스펙에 맞춰 개방하는 작업이 선결되어야 한다.
+이 도식의 핵심은 데이터 통제 권한의 헤게모니가 기업 내부에서 중앙의 사용자 중심으로 역전되었다는 점이다. 이런 배치는 정보 주체가 개별 서비스에 묶이지 않고 플랫폼 독립성을 획득하게 함을 의미하며, 따라서 시스템 전체의 혁신 동력은 단위 서비스의 기능보다는 API 상호운용성과 전송의 안전성에 의해 결정된다. 실무에서는 이러한 주도권 변화를 수용하기 위해 레거시 시스템을 표준 API 스펙에 맞춰 개방하는 작업이 선결되어야 한다.
 
 **📢 섹션 요약 비유**: 마치 각기 다른 은행에 묶여있어 인출할 수 없던 예금을, '오픈 뱅킹 통합 통장' 하나로 모아서 언제든 원하는 곳으로 이체하고 종합적인 자산 관리를 받는 것과 같습니다.
 
@@ -40,16 +40,16 @@ weight: 12
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-마이데이터 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시스템은 정보 제공자, 정보 수신자(마이데이터 사업자), 정보 주체, 그리고 중계 기관이라는 4개의 핵심 축으로 구동된다.
+마이데이터 서비스 시스템은 정보 제공자, 정보 수신자(마이데이터 사업자), 정보 주체, 그리고 중계 기관이라는 4개의 핵심 축으로 구동된다.
 
-| 구성 요소 | 역할 | 내부 동작 | [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)/기술 | 비유 |
+| 구성 요소 | 역할 | 내부 동작 | 프로토콜/기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **정보 주체** | [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)의 소유자 | 전송 요구권 행사, 동의/철회 | 스마트폰 App, [전자서명](/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) | 고객 |
-| **정보 제공자** | 기존 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보유 기관 | API를 통한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방 (은행, 병원 등) | [Open API](/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/), [API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) | 기존 금고 |
-| **마이데이터 사업자** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 및 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 융합, 맞춤형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 | [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/), 분석 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 자산 관리사 |
-| <strong>중계/<a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 기관</strong> | [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 및 토큰 발급 중계 | 통합 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 토큰(Access Token) 발급 | OAuth 2.0, [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), FIDO | 신분증명센터 |
+| **정보 주체** | 개인정보의 소유자 | 전송 요구권 행사, 동의/철회 | 스마트폰 App, 전자서명 | 고객 |
+| **정보 제공자** | 기존 데이터 보유 기관 | API를 통한 데이터 개방 (은행, 병원 등) | Open API, API Gateway | 기존 금고 |
+| **마이데이터 사업자** | 데이터 수신 및 서비스 제공자 | 데이터 수집, 융합, 맞춤형 서비스 제공 | 데이터 레이크, 분석 AI | 자산 관리사 |
+| <strong>중계/인증 기관</strong> | 인가 및 토큰 발급 중계 | 통합 인증, 토큰(Access Token) 발급 | OAuth 2.0, mTLS, FIDO | 신분증명센터 |
 
-핵심 원리는 스크래핑(Scraping)을 전면 금지하고, 보안이 강화된 <strong>표준 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/">Open API</a></strong>와 <strong>OAuth 2.0 기반 <a href="/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a></strong> 프레임워크를 사용하는 것이다.
+핵심 원리는 스크래핑(Scraping)을 전면 금지하고, 보안이 강화된 <strong>표준 Open API</strong>와 <strong>OAuth 2.0 기반 인가</strong> 프레임워크를 사용하는 것이다.
 
 ```text
 이 흐름도는 사용자가 전송 요구를 했을 때, OAuth 2.0 기반으로 어떻게 인증과 인가가 이루어지고 데이터가 안전하게 이동하는지 보여준다.
@@ -66,7 +66,7 @@ weight: 12
      |                        | <-- ⑦ 표준 JSON Data 응답 ------------------------------- |
   ⑧ 융합 결과 뷰 제공 <------ +                                                             |
 ```
-이 흐름의 핵심은 마이데이터 사업자(수신자)가 고객의 ID/PW를 직접 수집하지 않는다는 점이다. 이런 배치는 크리덴셜(비밀번호) 유출로 인한 2차 피해를 근본적으로 차단하기 때문이며, 따라서 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 토큰의 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도와 암호화 복호화([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 과정의 오버헤드에 크게 영향을 받는다. 실무에서는 이 지점의 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 토큰 만료 갱신([Refresh Token](/studynote/09_security/05_web_app_security/505_refresh_token/)) 로직의 예외 처리를 반드시 정밀하게 설계해야 한다.
+이 흐름의 핵심은 마이데이터 사업자(수신자)가 고객의 ID/PW를 직접 수집하지 않는다는 점이다. 이런 배치는 크리덴셜(비밀번호) 유출로 인한 2차 피해를 근본적으로 차단하기 때문이며, 따라서 시스템 성능은 API 토큰의 검증 속도와 암호화 복호화(TLS) 과정의 오버헤드에 크게 영향을 받는다. 실무에서는 이 지점의 인가 지연 시간과 토큰 만료 갱신(Refresh Token) 로직의 예외 처리를 반드시 정밀하게 설계해야 한다.
 
 마이데이터에서 사용되는 사용자 동의 정보(Consent)는 아래와 같은 포맷으로 관리된다.
 ```json
@@ -88,16 +88,16 @@ weight: 12
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-마이데이터 기술의 핵심 전환점은 기존의 '스크래핑(Scraping)' 방식에서 '표준 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))' 방식으로의 진화다.
+마이데이터 기술의 핵심 전환점은 기존의 '스크래핑(Scraping)' 방식에서 '표준 API(Application Programming Interface)' 방식으로의 진화다.
 
-| 항목 | 화면 스크래핑 (Screen Scraping) | 오픈 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Open API](/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/)) | 판단 포인트 |
+| 항목 | 화면 스크래핑 (Screen Scraping) | 오픈 API (Open API) | 판단 포인트 |
 |:---|:---|:---|:---|
-| **수집 원리** | 봇(Bot)이 화면 HTML/DOM 파싱 | 규격화된 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)/XML 엔드포인트 호출 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 |
-| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a></strong> | 고객 ID/PW를 제3자가 보관해야 함 (매우 취약) | OAuth 토큰 기반 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) (안전, ID/PW 불필요) | 자격증명 보관 주체 |
+| **수집 원리** | 봇(Bot)이 화면 HTML/DOM 파싱 | 규격화된 JSON/XML 엔드포인트 호출 | 데이터 정합성 |
+| <strong>보안성</strong> | 고객 ID/PW를 제3자가 보관해야 함 (매우 취약) | OAuth 토큰 기반 인가 (안전, ID/PW 불필요) | 자격증명 보관 주체 |
 | **서버 부하** | 제공자 서버(웹) 부하 매우 높음 | 경량화된 트래픽, 세밀한 제어 가능 | 트래픽 오버헤드 |
-| **운영 유지보수** | UI/UX 변경 시 파서 전면 수정 필수 (비용 폭증) | 백엔드 로직 변경에도 인터페이스 유지 가능 | 시스템 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) |
+| **운영 유지보수** | UI/UX 변경 시 파서 전면 수정 필수 (비용 폭증) | 백엔드 로직 변경에도 인터페이스 유지 가능 | 시스템 결합도 |
 
-마이데이터는 <strong><a href="/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>) 및 <a href="/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a>(<a href="/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong>와 융합할 때 진정한 위력을 발휘한다. 단순한 잔액의 총합을 보여주는 수준을 넘어, 통신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 결제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 건강 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 형태로 연결하여 "이 고객이 이번 달 의료비 지출이 늘었으니 관련 보장성 보험을 추천해야겠다"와 같은 [인과 추론](/studynote/16_bigdata/05_analysis/122_causal_inference/)적 분석을 수행할 수 있게 된다.
+마이데이터는 <strong>인공지능(AI) 및 지식 그래프(Knowledge Graph)</strong>와 융합할 때 진정한 위력을 발휘한다. 단순한 잔액의 총합을 보여주는 수준을 넘어, 통신 데이터, 결제 데이터, 건강 데이터를 그래프 형태로 연결하여 "이 고객이 이번 달 의료비 지출이 늘었으니 관련 보장성 보험을 추천해야겠다"와 같은 인과 추론적 분석을 수행할 수 있게 된다.
 
 ```text
 이 도식은 스크래핑 방식의 아키텍처 한계와 오픈 API 방식의 구조적 차이를 나타낸 대조 매트릭스이다.
@@ -108,27 +108,27 @@ weight: 12
 [Open API의 토큰 기반 병렬 구조]
 마이데이터 앱 -(Token 전달)-> [API Gateway (Rate Limit)] -(경량 쿼리)-> [제공자 DB] (부하 통제 가능)
 ```
-이 구조 차이의 핵심은 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway의 통제력 개입 여부이다. 오픈 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 방식은 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 통해 속도 제한(Rate Limit)과 [할당량](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)([Quota](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 제어가 가능하다. 반면 스크래핑 방식은 단건 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 고사하고 방어 메커니즘을 뚫기 위해 시스템 자원을 비정상적으로 낭비하며, 트래픽 변동이 큰 환경에서는 제공자 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체를 마비시킬 위험이 있다.
+이 구조 차이의 핵심은 API Gateway의 통제력 개입 여부이다. 오픈 API 방식은 API 게이트웨이를 통해 속도 제한(Rate Limit)과 할당량(Quota) 제어가 가능하다. 반면 스크래핑 방식은 단건 지연은 고사하고 방어 메커니즘을 뚫기 위해 시스템 자원을 비정상적으로 낭비하며, 트래픽 변동이 큰 환경에서는 제공자 서비스 전체를 마비시킬 위험이 있다.
 
-**📢 섹션 요약 비유**: 화면 스크래핑이 요리사(수집기)가 남의 식당 주방에 몰래 들어가 레시피를 훔쳐보는 것이라면, 오픈 API는 정식으로 재료 창구에 메뉴를 주문하여 깔끔하게 포장된 식재료([JSON](/studynote/11_design_supervision/06_exam_summary/343_json/))를 받아오는 것과 같습니다.
+**📢 섹션 요약 비유**: 화면 스크래핑이 요리사(수집기)가 남의 식당 주방에 몰래 들어가 레시피를 훔쳐보는 것이라면, 오픈 API는 정식으로 재료 창구에 메뉴를 주문하여 깔끔하게 포장된 식재료(JSON)를 받아오는 것과 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
 
-실무에서 마이데이터 시스템을 구축하거나 연동할 때, 기술사와 아키텍트는 극도의 [보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)과 트래픽 조절 능력을 설계해야 한다.
+실무에서 마이데이터 시스템을 구축하거나 연동할 때, 기술사와 아키텍트는 극도의 보안성과 트래픽 조절 능력을 설계해야 한다.
 
-<strong>실무 시나리오 1: 마이데이터 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 전송 집중 트래픽 대응</strong>
-- **상황**: 매일 자정, 수백만 사용자의 앱이 동시에 백그라운드 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신을 요청하여 정보 제공자 은행 서버에 대규모 트래픽 [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)(Thundering Herd) 발생.
-- **판단**: 클라이언트 앱에서 동기식([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 일괄 호출을 지양하고, 시스템 부하를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 Jitter(난수) 기반의 백오프 재시도 로직을 구현해야 한다. 또한 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway에서 과도한 트래픽에 대해 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 429 (Too Many Requests)를 반환하는 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)를 적용하여 DB 장애 전파를 막아야 한다.
+<strong>실무 시나리오 1: 마이데이터 API 전송 집중 트래픽 대응</strong>
+- **상황**: 매일 자정, 수백만 사용자의 앱이 동시에 백그라운드 데이터 갱신을 요청하여 정보 제공자 은행 서버에 대규모 트래픽 스파이크(Thundering Herd) 발생.
+- **판단**: 클라이언트 앱에서 동기식(Synchronous) 일괄 호출을 지양하고, 시스템 부하를 분산시키는 Jitter(난수) 기반의 백오프 재시도 로직을 구현해야 한다. 또한 API Gateway에서 과도한 트래픽에 대해 HTTP 429 (Too Many Requests)를 반환하는 서킷 브레이커를 적용하여 DB 장애 전파를 막아야 한다.
 
-<strong>도입 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
-1. <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>/<a href="/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a></strong>: OAuth [Refresh Token](/studynote/09_security/05_web_app_security/505_refresh_token/) 생명 주기 관리 및 탈취 대비 취소(Revoke) 로직이 구현되었는가?
-2. <strong><a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 시 [mTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)([Mutual TLS](/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/)) 상호 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통해 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)받지 않은 노드의 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 탈취를 방지했는가?
-3. **거버넌스**: 사용자의 동의(Consent)가 철회되었을 때, 지체 없이 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 내의 파생 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 하드 삭제(Hard Delete) 또는 파기 처리가 보장되는가?
+<strong>도입 체크리스트</strong>
+1. <strong>인증/인가</strong>: OAuth Refresh Token 생명 주기 관리 및 탈취 대비 취소(Revoke) 로직이 구현되었는가?
+2. <strong>무결성</strong>: 데이터 전송 시 mTLS(Mutual TLS) 상호 인증을 통해 인가받지 않은 노드의 API 탈취를 방지했는가?
+3. **거버넌스**: 사용자의 동의(Consent)가 철회되었을 때, 지체 없이 데이터 레이크 내의 파생 데이터까지 하드 삭제(Hard Delete) 또는 파기 처리가 보장되는가?
 
-<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>: 동의 철회 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 Soft Delete 방치</strong>
-사용자가 마이데이터 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 탈퇴 및 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제(잊힐 권리)를 요구했음에도, 분석계 DB에 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(is_deleted=true)만 변경하고 물리적 파기를 누락하는 경우가 흔하다. 이는 명백한 법률 위반이며, 추후 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 사고 발생 시 기업에 치명적인 페널티를 안겨준다. 반드시 배치 잡(Batch Job)을 통해 정기적으로 물리 블록을 덮어쓰거나([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-out) 삭제 증명서를 남겨야 한다.
+<strong>안티패턴: 동의 철회 데이터의 Soft Delete 방치</strong>
+사용자가 마이데이터 서비스 탈퇴 및 데이터 삭제(잊힐 권리)를 요구했음에도, 분석계 DB에 플래그(is_deleted=true)만 변경하고 물리적 파기를 누락하는 경우가 흔하다. 이는 명백한 법률 위반이며, 추후 데이터 유출 사고 발생 시 기업에 치명적인 페널티를 안겨준다. 반드시 배치 잡(Batch Job)을 통해 정기적으로 물리 블록을 덮어쓰거나(Zero-out) 삭제 증명서를 남겨야 한다.
 
 ```text
 이 도식은 마이데이터 인프라에서 장애 및 침해가 발생할 수 있는 취약 지점과 방어선을 보여준다.
@@ -138,28 +138,28 @@ weight: 12
     단말 해킹            DDoS / API Abuse     Token 탈취 / 재사용             동의 철회 데이터 잔류
   (난독화 대응)        (Rate Limit 방어)    (짧은 수명 / mTLS 방어)          (완전 파기 배치 적용)
 ```
-이 도식의 핵심은 모든 구간 계층마다 독립적인 방어 기제가 필요하다는 점이다. 이런 배치는 [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 철학을 반영한 것이며, 따라서 하나의 방어선(예: [API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))이 뚫리더라도 내부 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버가 토큰 유효성을 다시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 대형 사고를 막아낸다. 실무에서는 이 지점의 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) 등과 연동하여 비정상적인 전송 요구 패턴을 실시간으로 관찰해야 한다.
+이 도식의 핵심은 모든 구간 계층마다 독립적인 방어 기제가 필요하다는 점이다. 이런 배치는 제로 트러스트(Zero Trust) 철학을 반영한 것이며, 따라서 하나의 방어선(예: API Gateway)이 뚫리더라도 내부 인가 서버가 토큰 유효성을 다시 검증해 대형 사고를 막아낸다. 실무에서는 이 지점의 로그를 SIEM 등과 연동하여 비정상적인 전송 요구 패턴을 실시간으로 관찰해야 한다.
 
-**📢 섹션 요약 비유**: 마이데이터 시스템은 튼튼한 금고 문([API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/))을 만드는 것뿐만 아니라, 고객이 언제든 "내 물건을 당장 폐기해 줘"라고 했을 때 즉시 파쇄기에 넣을 수 있는 파기 절차([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 거버넌스)가 완벽히 준비되어야 비로소 완성됩니다.
+**📢 섹션 요약 비유**: 마이데이터 시스템은 튼튼한 금고 문(API Gateway)을 만드는 것뿐만 아니라, 고객이 언제든 "내 물건을 당장 폐기해 줘"라고 했을 때 즉시 파쇄기에 넣을 수 있는 파기 절차(데이터 삭제 거버넌스)가 완벽히 준비되어야 비로소 완성됩니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-마이데이터의 확산은 단순히 IT 시스템 연동의 변화가 아니라, [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/)의 패러다임을 B2C에서 C2B(개인이 기업을 통제)로 역전시키는 촉매제이다.
+마이데이터의 확산은 단순히 IT 시스템 연동의 변화가 아니라, 데이터 경제의 패러다임을 B2C에서 C2B(개인이 기업을 통제)로 역전시키는 촉매제이다.
 
 | 구분 | 정보 주체 (개인) | 마이데이터 사업자 | 정보 제공 기관 |
 |:---|:---|:---|:---|
-| **가치** | [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/), 맞춤형 통합 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 획득 비용 절감, 신사업 창출 | 타 산업 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 융합 기회 |
-| **운영** | 편의성 극대화, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 일원화 | 스크래핑 비용 절감, 합법적 수집 | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 관리 체계 전환, 트래픽 최적화 |
+| **가치** | 데이터 주권 회복, 맞춤형 통합 서비스 | 데이터 획득 비용 절감, 신사업 창출 | 타 산업 데이터 융합 기회 |
+| **운영** | 편의성 극대화, 인증 일원화 | 스크래핑 비용 절감, 합법적 수집 | API 관리 체계 전환, 트래픽 최적화 |
 
 **미래 전망**:
-[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 금융 분야(오픈뱅킹 중심)에서 시작된 마이데이터는 의료(마이헬스웨이), 공공(공공 마이데이터), 통신, 교육 등 <strong>'전 분야 마이데이터(All-<a href="/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/">MyData</a>)'</strong>로 확산될 것이다. 장기적으로는 중앙 기관이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중계하는 방식에서 벗어나, 개인이 개인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(PDS: Personal [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Store)를 스마트폰 등 로컬에 소유하고 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 쪽에 분석 권한만 잠시 위임하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)형 아키텍처([DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 연계)로 발전할 것이다.
+초기 금융 분야(오픈뱅킹 중심)에서 시작된 마이데이터는 의료(마이헬스웨이), 공공(공공 마이데이터), 통신, 교육 등 <strong>'전 분야 마이데이터(All-MyData)'</strong>로 확산될 것이다. 장기적으로는 중앙 기관이 데이터를 중계하는 방식에서 벗어나, 개인이 개인 데이터 저장소(PDS: Personal Data Store)를 스마트폰 등 로컬에 소유하고 서비스 쪽에 분석 권한만 잠시 위임하는 분산형 아키텍처(DID 연계)로 발전할 것이다.
 
 **참고 표준**:
-- <strong>금융 마이데이터 표준 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 가이드 (KOR)</strong>: 금융보안원이 주관하는 전송 규격
-- <strong><a href="/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> Article 20</strong>: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동권(Right to [data portability](/studynote/09_security/16_data_privacy/795_data_portability/)) 법적 근거
-- <strong>OAuth 2.0 / <a href="/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a></strong>: [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 및 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 국제 표준 프레임워크
+- <strong>금융 마이데이터 표준 API 가이드 (KOR)</strong>: 금융보안원이 주관하는 전송 규격
+- <strong>GDPR Article 20</strong>: 데이터 이동권(Right to data portability) 법적 근거
+- <strong>OAuth 2.0 / OIDC</strong>: 인가 및 인증 국제 표준 프레임워크
 
 ```text
 마이데이터 시스템의 미래 진화 방향을 보여주는 로드맵 다이어그램이다.
@@ -167,18 +167,18 @@ weight: 12
 [1단계: 부문별 고립] --> [2단계: 금융 중심 마이데이터] --> [3단계: 이종 산업 연계] --> [4단계: Web3 분산형 PDS]
 (스크래핑/불안정)           (Open API/OAuth 정착)        (의료, 통신, 공공 융합)       (개인 로컬 저장/DID 결합)
 ```
-이 로드맵의 핵심은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소의 중심축이 기업 서버(1~3단계)에서 궁극적으로 개인의 단말(4단계)로 이동한다는 점이다. 이는 중앙화된 [허니팟](/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/)([Honeypot](/studynote/03_network/18_optical_nextgen_automation/939_honeypot_deception/)) [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 원천적으로 제거하기 위함이며, 따라서 향후 [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 기술과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ID 기술이 마이데이터 아키텍처를 주도하게 될 것이다. 실무에서는 지금의 중앙형 마이데이터를 설계할 때부터 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경을 고려해 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 강결합시키지 않아야 한다.
+이 로드맵의 핵심은 데이터 저장소의 중심축이 기업 서버(1~3단계)에서 궁극적으로 개인의 단말(4단계)로 이동한다는 점이다. 이는 중앙화된 허니팟(Honeypot) 리스크를 원천적으로 제거하기 위함이며, 따라서 향후 엣지 컴퓨팅 기술과 분산 ID 기술이 마이데이터 아키텍처를 주도하게 될 것이다. 실무에서는 지금의 중앙형 마이데이터를 설계할 때부터 분산 환경을 고려해 식별자를 강결합시키지 않아야 한다.
 
 **📢 섹션 요약 비유**: 마치 처음에는 동네 병원 차트만 보다가(1단계), 전국 은행 통장을 다 보게 되고(2단계), 나중에는 내 건강, 지갑, 스마트폰 기록을 모두 모아 내 방 비밀 금고(PDS)에만 보관하고 남들에겐 필요한 것만 보여주는 완벽한 독립(4단계)을 이루는 것과 같습니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- <strong>오픈 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/">Open API</a>)</strong> | 외부 시스템이 마이데이터 플랫폼의 기능과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 안전하게 접근할 수 있도록 규격화된 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 인터페이스.
-- <strong>OAuth 2.0 (Open <a href="/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong> | 사용자 비밀번호 제공 없이 제3자 앱에 접근 권한(Token)을 위임하는 마이데이터 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)의 핵심 프레임워크.
-- <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동권 (Right to <a href="/studynote/09_security/16_data_privacy/795_data_portability/">Data Portability</a>)</strong> | 정보 주체가 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기계 판독 가능한 형식으로 돌려받거나 타 기관으로 전송 요구할 수 있는 법적 권리.
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 게이트웨이 (<a href="/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a>)</strong> | 외부의 무수한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 요청에 대해 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 속도 제한을 수행하는 시스템 최전방 수문장.
-- <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 신원 증명 (<a href="/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a>)</strong> | 중앙 기관 없이 정보 주체가 직접 본인의 신원을 증명하고 관리할 수 있어 마이데이터의 궁극적 목표와 부합하는 기술.
+### 📌 관련 개념 맵 (Knowledge Graph)
+- <strong>오픈 API (Open API)</strong> | 외부 시스템이 마이데이터 플랫폼의 기능과 데이터에 안전하게 접근할 수 있도록 규격화된 프로토콜 인터페이스.
+- <strong>OAuth 2.0 (Open Authorization)</strong> | 사용자 비밀번호 제공 없이 제3자 앱에 접근 권한(Token)을 위임하는 마이데이터 인가의 핵심 프레임워크.
+- <strong>데이터 이동권 (Right to Data Portability)</strong> | 정보 주체가 자신의 데이터를 기계 판독 가능한 형식으로 돌려받거나 타 기관으로 전송 요구할 수 있는 법적 권리.
+- <strong>API 게이트웨이 (API Gateway)</strong> | 외부의 무수한 데이터 전송 요청에 대해 인증, 라우팅, 속도 제한을 수행하는 시스템 최전방 수문장.
+- <strong>분산 신원 증명 (DID)</strong> | 중앙 기관 없이 정보 주체가 직접 본인의 신원을 증명하고 관리할 수 있어 마이데이터의 궁극적 목표와 부합하는 기술.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -198,20 +198,9 @@ weight: 12
 [데이터 브로커리지 (Data Brokerage) — 동의 기반 공유]
 ```
 
-이 흐름은 법적 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 시작해 개인이 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 통제하고, API와 PDS를 거쳐 동의 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유통으로 확장되는 과정을 보여준다.
+이 흐름은 법적 보호에서 시작해 개인이 자신의 데이터를 직접 통제하고, API와 PDS를 거쳐 동의 기반 데이터 유통으로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 마이데이터는 예전에 은행 아저씨나 병원 선생님이 꽉 쥐고 안 주던 '내 숙제와 성적표([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'를, 내가 원할 때 언제든 돌려받을 수 있는 마법의 권리예요.
-2. 예전에는 다른 학원에 성적표를 주려면 내가 직접 뛰어가야 했지만, 이제는 내가 버튼 하나만 누르면 안전한 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)(오픈 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 통해 알아서 슝 날아간답니다.
+1. 마이데이터는 예전에 은행 아저씨나 병원 선생님이 꽉 쥐고 안 주던 '내 숙제와 성적표(데이터)'를, 내가 원할 때 언제든 돌려받을 수 있는 마법의 권리예요.
+2. 예전에는 다른 학원에 성적표를 주려면 내가 직접 뛰어가야 했지만, 이제는 내가 버튼 하나만 누르면 안전한 파이프(오픈 API)를 통해 알아서 슝 날아간답니다.
 3. 이렇게 모인 내 모든 정보들을 똑똑한 로봇 비서에게 보여주면, 나에게 딱 맞는 용돈 기입장이나 운동 계획표를 뚝딱 만들어줘서 내 생활이 훨씬 편해져요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 12 / 262
-
-<- **이전**: [11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소](/studynote/16_bigdata/01_intro/011_data_economy/)
-**다음**: [13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책](/studynote/16_bigdata/01_intro/013_public_bigdata/) ->
-
----

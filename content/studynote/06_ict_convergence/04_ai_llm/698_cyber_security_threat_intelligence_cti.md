@@ -151,11 +151,3 @@ CTI 라이프사이클은 Gartner의 6단계 모델(Direction -> Collection -> P
 | **데이터 형태** | STIX 2.1/TAXII 2.1, IoC, TTP | 로그(Syslog, CEF, LEEF), 이벤트, 플로우 | Playbook(DSL: YAML/JSON), 케이스 티켓 | 프로세스 트리, 파일 이벤트, 메모리 덤프 |
 | **주요 기능** | 위협 정보 통합·스코어링·맥락화 | 실시간 상관분석·이상탐지·대시보드 | 자동 티켓 생성·격리·사용자 통지 | 행위기반 탐지·원격 포렌식·격리 |
 | **대표 제품** | MISP, OpenCTI, ThreatConnect, Anomali, Recorded Future, Mandiant
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 698 / 800
-
-<- **이전**: [697. ESG 디지털 전환 지속가능 경영](/studynote/06_ict_convergence/uncategorized/697_esg_digital_transformation_sustainability/)
-**다음**: [699. 프라이버시 강화 기술 PETs 연합 분석](/studynote/06_ict_convergence/uncategorized/699_privacy_enhancing_technology_pets/) ->
-
----

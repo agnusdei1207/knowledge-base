@@ -131,11 +131,3 @@ weight: 690
 - -> **Q와 L이 높을수록, Cp/Cr이 낮을수록 활용 가치 증가**
 
 **데이터 갱신 5단계**: ① 실시간
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 690 / 800
-
-<- **이전**: [689. 데이터 윤리 편향 감사 공정성 지표](/studynote/06_ict_convergence/uncategorized/689_data_ethics_bias_audit_fairness_metrics/)
-**다음**: [691. 데이터 리터러시 조직 역량 교육](/studynote/06_ict_convergence/uncategorized/691_data_literacy_organization_capability_educati/) ->
-
----

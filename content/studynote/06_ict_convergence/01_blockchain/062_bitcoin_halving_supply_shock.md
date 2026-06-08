@@ -54,8 +54,8 @@ weight: 62
 
 | 항목 | 비트코인 | 법정화폐 |
 | :-- | :-- | :-- |
-| 발행 | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규칙 | 중앙은행 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
-| 공급 | 점진적 감소 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 증가/감소 |
+| 발행 | 알고리즘 규칙 | 중앙은행 정책 |
+| 공급 | 점진적 감소 | 정책에 따라 증가/감소 |
 | 희소성 | 강함 | 상대적으로 약함 |
 | 가치 기대 | 반감기 영향 큼 | 금리/유동성 영향 큼 |
 
@@ -67,21 +67,21 @@ weight: 62
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 채굴 보상 감소 후 수익 구조를 이해했는가?
 2. 해시레이트와 채굴 난이도 변화를 같이 보는가?
 3. 수수료 시장이 장기 보상을 이어받을 수 있는가?
 4. 가격 사이클을 단정하지 않고 리스크로 보는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 반감기 직후 가격이 무조건 오른다고 단정하는 설계
 - 채굴 수익이 보상에만 의존한다고 보는 설계
 - 공급 쇼크와 수요 변수를 분리해서 보는 설계
 - 보상 감소 후 보안 예산/수수료 경제를 무시하는 설계
 
-기술사 관점에서는 반감기를 "가격 예언 이벤트"가 아니라 "발행 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)의 전환점"으로 봐야 한다. 특히 채굴자의 경제 모델과 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 유지가 함께 중요하다.
+기술사 관점에서는 반감기를 "가격 예언 이벤트"가 아니라 "발행 정책의 전환점"으로 봐야 한다. 특히 채굴자의 경제 모델과 네트워크 보안 유지가 함께 중요하다.
 
 - **📢 섹션 요약 비유**: 매년 과자 봉지가 반으로 줄어들어도, 그 과자를 사려는 사람이 많으면 가격은 달라질 수 있다.
 
@@ -132,14 +132,3 @@ Fee Market
 처음에는 사탕을 많이 주다가, 시간이 지나면 절반만 주는 거예요.
 그래서 사탕이 점점 귀해져요.
 비트코인 반감기도 그렇게 코인을 천천히 나눠 주는 규칙이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 62 / 552
-
-<- **이전**: [61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐](/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/)
-**다음**: [63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소](/studynote/06_ict_convergence/01_blockchain/063_mempool_transaction_queue/) ->
-
----

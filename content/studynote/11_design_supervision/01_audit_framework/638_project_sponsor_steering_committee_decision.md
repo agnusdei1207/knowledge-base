@@ -67,7 +67,7 @@ Direction / Budget / Escalation
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 스폰서 책임이 명확한가?
 2. 위원회 의사결정 범위가 있는가?
@@ -75,7 +75,7 @@ Direction / Budget / Escalation
 4. 이슈 escalation 경로가 있는가?
 5. 회의가 아니라 결정이 남는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 스폰서가 없는 프로젝트
 - 위원회가 형식만 있는 설계
@@ -131,14 +131,3 @@ Decision Making
 큰 방향을 정하는 사람이 있어요.
 돈과 허락을 챙겨 줘요.
 스폰서와 위원회는 그런 역할이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 107 / 530
-
-<- **이전**: [69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)](/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee/)
-**다음**: [70. 형상 관리 저장소 (Git, SVN) 및 지속적 통합(CI) 감리](/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_ci_audit/) ->
-
----

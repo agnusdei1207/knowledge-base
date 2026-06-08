@@ -110,12 +110,3 @@ Core flow: Hash -> Pin -> Replicate -> Retrieve -> Prove
 | 오라클 | 외부 세계와 온체인 상태를 연결하는 신뢰 경계 |
 | 거버넌스 | 업그레이드, 파라미터, 분쟁 해결을 담당하는 운영 체계 |
 | 보안 감사 | 배포 전 취약점과 운영 리스크를 줄이는 필수 절차 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 564 / 800
-
-<- **이전**: [563. 탈중앙 신원 DID 자기주권 신원](/studynote/06_ict_convergence/uncategorized/563_decentralized_identity_did_self_sovereign/)
-**다음**: [565. 블록체인 오라클 오프체인 데이터 통합](/studynote/06_ict_convergence/uncategorized/565_blockchain_oracle_off_chain_data_integration/) ->
-
----

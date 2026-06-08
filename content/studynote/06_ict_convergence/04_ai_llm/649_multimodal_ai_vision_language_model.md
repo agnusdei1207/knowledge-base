@@ -117,11 +117,3 @@ VLM의 표준 아키텍처는 **3-Stage Encoder-Projection-LLM** 구조이며, �
 | **Modality Projection** | 시각 토큰을 LLM 입력 공간에 정렬 | • **Linear/MLP(LLaVA)**: 1~2-layer MLP, 빠른 학습·배포, 성능 충분<br>• **Q-Former(BLIP-2)**: 32~256 learnable queries와 cross-attn, 압축률 높음<br>• **Perceiver Resampler(Flamingo)**: N개 visual token -> 고정 K(latent array)<br>• **Native Fusion(GPT-4o)**: 별도 projection 없이 통합 토크나이저 |
 | **LLM Backbone** | 통합 토큰 시퀀스의 자기회귀 추론 | • **LLaMA-3.1-8B/70B**, **Qwen2-7B/72B**, **InternLM2.5-20B**<br>• **RoPE** 위치 인코딩, **GQA(Grouped Query Attention)**, **Flash Attention 2**<br>• **Token 한계**: 시각 토큰 K가 길수록 컨텍스트 윈도우 점유(예: 1K vis token = 4K text) |
 | **Output Decoder** | 다음 토큰 확률 분포 -> 텍스트
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 649 / 800
-
-<- **이전**: [648. AI 에이전트 도구 사용 자율 계획](/studynote/06_ict_convergence/uncategorized/648_ai_agent_tool_use_autonomous_planning/)
-**다음**: [650. 디퓨전 모델 이미지 생성 아키텍처](/studynote/06_ict_convergence/uncategorized/650_diffusion_model_image_generation_architecture/) ->
-
----

@@ -9,15 +9,15 @@ weight: 165
 
 > 1. **본질**: 프레넬 영역 (Fresnel Zone)은 송신기와 수신기 사이 직선 경로 주변에 형성되는 타원체 공간으로, 전파가 단순 직선이 아니라 파동으로 퍼지며 전달된다는 사실을 반영한다.
 > 2. **가치**: 가시선 (Line of Sight, LOS)만 확보했다고 링크 품질이 보장되지 않는 이유를 설명하며, 특히 제1 프레넬 영역의 약 60% 이상을 비워 두어야 회절과 상쇄 간섭을 줄일 수 있다.
-> 3. **판단 포인트**: 주파수, 거리, 지형 높이를 함께 계산해 철탑을 높일지, 주파수를 낮출지, 중계 지점을 둘지 결정해야 하며, 단순 시야 확인만으로는 무선 [백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 품질을 예측할 수 없다.
+> 3. **판단 포인트**: 주파수, 거리, 지형 높이를 함께 계산해 철탑을 높일지, 주파수를 낮출지, 중계 지점을 둘지 결정해야 하며, 단순 시야 확인만으로는 무선 백홀 품질을 예측할 수 없다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-프레넬 영역 (Fresnel Zone)은 송신 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 수신 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 잇는 중심선 주변에서 전파 에너지가 의미 있게 퍼져 지나가는 3차원 공간이다. 전파는 레이저처럼 한 줄로만 날아가지 않고, 파동 특성 때문에 중심 경로 주변으로 함께 퍼진다. 따라서 눈으로 직선 시야가 보인다고 해서 항상 안정적인 무선 링크가 성립하는 것은 아니다.
+프레넬 영역 (Fresnel Zone)은 송신 안테나와 수신 안테나를 잇는 중심선 주변에서 전파 에너지가 의미 있게 퍼져 지나가는 3차원 공간이다. 전파는 레이저처럼 한 줄로만 날아가지 않고, 파동 특성 때문에 중심 경로 주변으로 함께 퍼진다. 따라서 눈으로 직선 시야가 보인다고 해서 항상 안정적인 무선 링크가 성립하는 것은 아니다.
 
-이 개념이 중요한 이유는 장애물이 중심선 자체를 가리지 않아도, 프레넬 영역을 침범하면 회절 (Diffraction)과 위상 차이 때문에 수신 전력이 크게 떨어질 수 있기 때문이다. 특히 산등성이, 나무, 건물, 교량 같은 구조물이 제1 프레넬 영역을 건드리면 직진파와 우회파가 서로 상쇄되어 링크 마진 (Link Margin)이 급격히 줄어든다. 그래서 무선 [백홀](/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), [마이크로파](/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/) 중계, 장거리 와이파이 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 설계에서는 LOS 확보보다 프레넬 클리어런스가 더 실질적인 판단 기준이 된다.
+이 개념이 중요한 이유는 장애물이 중심선 자체를 가리지 않아도, 프레넬 영역을 침범하면 회절 (Diffraction)과 위상 차이 때문에 수신 전력이 크게 떨어질 수 있기 때문이다. 특히 산등성이, 나무, 건물, 교량 같은 구조물이 제1 프레넬 영역을 건드리면 직진파와 우회파가 서로 상쇄되어 링크 마진 (Link Margin)이 급격히 줄어든다. 그래서 무선 백홀, 마이크로파 중계, 장거리 와이파이 브리지 설계에서는 LOS 확보보다 프레넬 클리어런스가 더 실질적인 판단 기준이 된다.
 
 이 그림은 LOS와 프레넬 영역의 차이를 직관적으로 보여준다.
 
@@ -82,12 +82,12 @@ weight: 165
 | :-- | :-- | :-- |
 | 보는 대상 | 송수신점 사이 직선 시야 | 중심선 주변 타원체 공간 |
 | 장점 | 빠르고 직관적 | 링크 품질 예측에 유리 |
-| 한계 | 회절/상쇄 간섭 반영 부족 | 계산과 지형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 |
+| 한계 | 회절/상쇄 간섭 반영 부족 | 계산과 지형 데이터 필요 |
 | 적합한 단계 | 1차 후보 경로 선정 | 최종 무선 링크 설계 |
 
 주파수 선택과도 연결된다. 낮은 주파수는 프레넬 반경이 커져 공간 확보는 더 어렵지만, 회절 특성과 손실 측면에서 장거리 전송에 유리할 수 있다. 높은 주파수는 프레넬 반경이 줄어 장애물 회피가 쉬워 보이지만, FSPL과 강우 감쇠 (Rain Fade)가 커지므로 더 촘촘한 기지국이나 더 높은 정렬 정밀도가 필요하다.
 
-따라서 프레넬 영역은 물리 계층 개념이지만, [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 높이 설계, 주파수 계획, 링크 버짓 (Link Budget), 사이트 서베이까지 이어지는 연결 축이다. 단순히 "나무를 피하자"가 아니라, 어떤 대역과 경로가 장기 운영에 더 안정적인가를 판단하게 만든다.
+따라서 프레넬 영역은 물리 계층 개념이지만, 안테나 높이 설계, 주파수 계획, 링크 버짓 (Link Budget), 사이트 서베이까지 이어지는 연결 축이다. 단순히 "나무를 피하자"가 아니라, 어떤 대역과 경로가 장기 운영에 더 안정적인가를 판단하게 만든다.
 
 - **📢 섹션 요약 비유**: LOS는 문이 열려 있는지만 보는 것이고, 프레넬은 큰 소파를 실제로 그 문으로 무리 없이 옮길 수 있는지 보는 것과 같다. 문틈이 보인다고 소파가 안전하게 지나가는 것은 아니다.
 
@@ -95,18 +95,18 @@ weight: 165
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 장거리 무선 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 설계 때 프레넬 반경을 먼저 계산한 뒤, 지형 단면도에 대입해 철탑 높이를 정한다. 예를 들어 6 GHz 링크를 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) km로 구성하고 중간점 기준으로 계산하면, 제1 프레넬 반경은 약 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).2 m이고 최소 60% 클리어런스는 약 6.7 m다. 만약 중간 언덕 위 수목이 중심선 아래 4 m까지 올라온다면 시야는 보일 수 있어도 실제 품질은 불안정해질 수 있다.
+실무에서는 장거리 무선 브리지 설계 때 프레넬 반경을 먼저 계산한 뒤, 지형 단면도에 대입해 철탑 높이를 정한다. 예를 들어 6 GHz 링크를 10 km로 구성하고 중간점 기준으로 계산하면, 제1 프레넬 반경은 약 11.2 m이고 최소 60% 클리어런스는 약 6.7 m다. 만약 중간 언덕 위 수목이 중심선 아래 4 m까지 올라온다면 시야는 보일 수 있어도 실제 품질은 불안정해질 수 있다.
 
 이때 선택지는 세 가지다. 첫째, 철탑을 높여 전체 타원체를 띄운다. 둘째, 더 낮은 주파수 대역이나 다른 경로를 검토해 링크 마진을 확보한다. 셋째, 중계 지점을 추가해 링크 길이를 나눈다. 어느 선택이든 비용, 주파수 자원, 인허가, 유지보수 접근성을 함께 봐야 한다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 
 1. LOS 확보뿐 아니라 제1 프레넬 영역 60% 이상 클리어런스를 계산했는가?
 2. 거리, 주파수, 지형, 수목 성장까지 포함한 최악 조건을 봤는가?
-3. FSPL, 강우 감쇠, [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 이득을 포함한 링크 버짓과 함께 검토했는가?
+3. FSPL, 강우 감쇠, 안테나 이득을 포함한 링크 버짓과 함께 검토했는가?
 4. 철탑 증설, 대역 변경, 중계 추가 중 어떤 선택이 총비용 대비 안정성이 높은가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 지도상 직선 시야만 보고 현장 지형 단면과 프레넬 반경 계산을 생략하는 설계
 - 현재 나무 높이만 보고 수년 후 성장과 계절별 환경 변화를 무시하는 판단
@@ -119,7 +119,7 @@ weight: 165
 
 프레넬 영역을 기준으로 무선 링크를 설계하면, 설치 직후에는 연결되지만 비 오거나 나뭇가지가 자라면 끊기는 불안정한 링크를 크게 줄일 수 있다. 즉 프레넬은 눈에 보이는 LOS를 전파 품질 관점으로 한 단계 더 엄밀하게 해석하게 해 주는 도구다. 이 덕분에 철탑 높이, 주파수 계획, 링크 예비율을 더 현실적으로 잡을 수 있다.
 
-다만 프레넬 클리어런스만 맞춘다고 모든 문제가 해결되지는 않는다. 강우 감쇠, [다중 경로 페이딩](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) ([Multipath Fading](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)), [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 정렬 오차, 송수신 출력 제한은 별도로 관리해야 한다. 결국 프레넬 영역은 무선 설계의 출발선이지, 링크 품질을 단독으로 보장하는 만능 답안은 아니다.
+다만 프레넬 클리어런스만 맞춘다고 모든 문제가 해결되지는 않는다. 강우 감쇠, 다중 경로 페이딩 (Multipath Fading), 안테나 정렬 오차, 송수신 출력 제한은 별도로 관리해야 한다. 결국 프레넬 영역은 무선 설계의 출발선이지, 링크 품질을 단독으로 보장하는 만능 답안은 아니다.
 
 - **📢 섹션 요약 비유**: 프레넬은 다리를 설계할 때 차 한 대가 겨우 지나갈 폭이 아니라, 바람과 흔들림까지 견디는 안전 폭을 남겨 두는 생각과 같다. 여유 공간이 있어야 오래 안정적으로 쓸 수 있다.
 
@@ -133,7 +133,7 @@ weight: 165
 | 제1 프레넬 영역 (First Fresnel Zone) | 실무에서 가장 중요하게 비워 두는 핵심 공간 |
 | 자유 공간 경로 손실 (Free Space Path Loss, FSPL) | 주파수·거리 변화가 링크 설계에 미치는 또 다른 축 |
 | 링크 버짓 (Link Budget) | 프레넬 클리어런스와 함께 수신 전력 여유 판단 |
-| [다중 경로 페이딩](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) ([Multipath Fading](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)) | 장애물과 반사로 인한 위상 간섭 문제로 연결 |
+| 다중 경로 페이딩 (Multipath Fading) | 장애물과 반사로 인한 위상 간섭 문제로 연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,14 +155,3 @@ LOS 확인
 1. 전파는 실 한 가닥처럼 가는 게 아니라, 통통한 풍선 길처럼 넓게 지나가요.
 2. 그래서 가운데 줄만 비어 있어도 풍선 몸통이 나무에 닿으면 힘이 약해질 수 있어요.
 3. 무선 엔지니어는 그 풍선 길이 안전하게 지나가도록 탑 높이와 길을 미리 계산한답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 286 / 1120
-
-<- **이전**: [164. 산란 (Scattering) / 반사 (Reflection)](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)
-**다음**: [166. 자유 공간 경로 손실 (FSPL, Free Space Path Loss)](/studynote/03_network/03_physical_layer_media/166_fspl_free_space_path_loss/) ->
-
----

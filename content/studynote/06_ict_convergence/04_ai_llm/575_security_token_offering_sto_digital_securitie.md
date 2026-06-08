@@ -110,12 +110,3 @@ STO 증권형 토큰 디지털 증권은(는) 현장의 상태를 데이터로 �
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 575 / 800
-
-<- **이전**: [574. RegTech 규제 준수 자동화](/studynote/06_ict_convergence/uncategorized/574_regtech_regulatory_compliance_automation/)
-**다음**: [576. 블록체인 데이터 분석 온체인 지표](/studynote/06_ict_convergence/uncategorized/576_blockchain_data_analysis_on_chain_metrics/) ->
-
----

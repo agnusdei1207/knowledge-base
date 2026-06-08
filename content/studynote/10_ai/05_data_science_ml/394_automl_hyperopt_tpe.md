@@ -8,16 +8,16 @@ weight: 394
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: TPE (Tree-structured Parzen Estimator)는 하이퍼파라미터 최적화를 베이지안 방법으로 접근하여, 좋은 결과를 낸 하이퍼파라미터 분포(l(x))와 나쁜 결과 분포(g(x))를 분리 모델링해 l(x)/g(x) 비율을 최대화하는 다음 탐색 포인트를 선택한다.
-> 2. **가치**: [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/) ([Grid Search](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/))의 지수적 탐색 비용과 랜덤 서치 (Random Search)의 비효율을 극복하며, 이전 결과를 활용해 탐색-활용 ([Exploration](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)-Exploitation) 균형을 자동으로 조절한다.
-> 3. **판단 포인트**: Optuna, Hyperopt, Ray Tune 등 실무 [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 도구의 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 TPE이며, [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) (Neural [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Search)와 결합해 완전 자동화 ML [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구현한다.
+> 2. **가치**: 그리드 서치 (Grid Search)의 지수적 탐색 비용과 랜덤 서치 (Random Search)의 비효율을 극복하며, 이전 결과를 활용해 탐색-활용 (Exploration-Exploitation) 균형을 자동으로 조절한다.
+> 3. **판단 포인트**: Optuna, Hyperopt, Ray Tune 등 실무 AutoML 도구의 핵심 알고리즘이 TPE이며, NAS (Neural Architecture Search)와 결합해 완전 자동화 ML 파이프라인을 구현한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 하이퍼파라미터([학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 배치 크기, 레이어 수 등)에 크게 의존하지만, 최적값을 찾는 것은 비용이 많이 든다.
+머신러닝 모델 성능은 하이퍼파라미터(학습률, 배치 크기, 레이어 수 등)에 크게 의존하지만, 최적값을 찾는 것은 비용이 많이 든다.
 
-- <strong><a href="/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/">그리드 서치</a></strong>: 모든 조합 탐색 -> k개 파라미터, 각 n값 -> nᵏ 조합
+- <strong>그리드 서치</strong>: 모든 조합 탐색 -> k개 파라미터, 각 n값 -> nᵏ 조합
 - **랜덤 서치**: 무작위 탐색 -> 이전 결과 활용 없음
 - **베이지안 최적화 (BO)**: 대리 모델(Surrogate Model)로 목적 함수를 근사하며 효율적 탐색
 
@@ -30,7 +30,7 @@ weight: 394
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)는 "지도의 모든 칸을 탐색", 랜덤 서치는 "지도를 무작위로 탐색", TPE는 "이미 찾은 보물 근처를 집중 탐색"이다.
+- **📢 섹션 요약 비유**: 그리드 서치는 "지도의 모든 칸을 탐색", 랜덤 서치는 "지도를 무작위로 탐색", TPE는 "이미 찾은 보물 근처를 집중 탐색"이다.
 
 ---
 
@@ -48,7 +48,7 @@ Expected Improvement: EI(x) = E[max(f(x)-f*, 0)]
 
 ### TPE (Tree-structured Parzen Estimator)
 
-표준 GP (Gaussian [Process](/studynote/12_it_management/05_security_compliance/943_process/)) BO와 달리, TPE는 p(x|y)를 모델링:
+표준 GP (Gaussian Process) BO와 달리, TPE는 p(x|y)를 모델링:
 
 ```
 y* = 좋은 성능의 임계값 (예: 상위 γ=25%)
@@ -79,8 +79,8 @@ g(x) = p(x | y ≥ y*)  <- 나쁜 하이퍼파라미터 분포
 |:---|:---|:---|:---|:---|
 | GP-BO | 가우시안 프로세스 | O(n³) | 어려움 | 어려움 |
 | TPE | 비모수 KDE | O(n log n) | 쉬움 (Tree) | 가능 |
-| SMAC | [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/) | O(n log n) | 가능 | 가능 |
-| CMA-ES | 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(d^) | 어려움 | 중간 |
+| SMAC | 랜덤 포레스트 | O(n log n) | 가능 | 가능 |
+| CMA-ES | 진화 알고리즘 | O(d^) | 어려움 | 중간 |
 
 ### Tree-structured의 의미
 
@@ -91,23 +91,23 @@ g(x) = p(x | y ≥ y*)  <- 나쁜 하이퍼파라미터 분포
 TPE는 이 조건부 구조를 트리 형태로 모델링
 ```
 
-- **📢 섹션 요약 비유**: TPE는 "이미 금이 나온 광산 지역(l(x))에 집중 채굴하되, 별로였던 지역(g(x))은 피하는" 경험적 광산 탐사 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+- **📢 섹션 요약 비유**: TPE는 "이미 금이 나온 광산 지역(l(x))에 집중 채굴하되, 별로였던 지역(g(x))은 피하는" 경험적 광산 탐사 전략이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-**Optuna**: TPE 기반, 파이썬 친화적 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 지원
+**Optuna**: TPE 기반, 파이썬 친화적 API, 가지치기 (Pruning) 지원
 **Hyperopt**: TPE + 랜덤 서치 혼합, 최초 TPE 구현
-<strong><a href="/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/">AutoML</a> 프레임워크</strong>: Auto-sklearn (SMAC), NNI (TPE+진화), H2O [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/)
+<strong>AutoML 프레임워크</strong>: Auto-sklearn (SMAC), NNI (TPE+진화), H2O AutoML
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
-| [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) / Hyperopt ([Automl](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) Hyperopt TPE) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
+| AutoML / Hyperopt (Automl Hyperopt TPE) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
 
-- **📢 섹션 요약 비유**: AutoML은 "AI가 AI를 설계하는" 메타 AI다. 하이퍼파라미터뿐만 아니라 모델 선택, [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링까지 자동화한다.
+- **📢 섹션 요약 비유**: AutoML은 "AI가 AI를 설계하는" 메타 AI다. 하이퍼파라미터뿐만 아니라 모델 선택, 피처 엔지니어링까지 자동화한다.
 
 ---
 
@@ -128,13 +128,13 @@ study.optimize(objective, n_trials=100)
 
 기술사 포인트: TPE의 l(x)/g(x) 분리 방식이 GP-BO보다 고차원에서 효율적인 이유 설명.
 
-- **📢 섹션 요약 비유**: n_trials=[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0은 "[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0번의 실험 중 TPE가 경험으로 최적 조합을 향해 점점 좁혀가는" 스마트한 탐색이다.
+- **📢 섹션 요약 비유**: n_trials=100은 "100번의 실험 중 TPE가 경험으로 최적 조합을 향해 점점 좁혀가는" 스마트한 탐색이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-TPE 기반 베이지안 최적화는 제한된 계산 예산으로 최적 하이퍼파라미터를 찾는 현실적 방법이다. AutoML의 보편화로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자의 핵심 업무가 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링과 문제 정의로 이동하고 있다. [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) (신경망 구조 탐색)와의 결합으로 모델 아키텍처 설계 자동화까지 확장되고 있다.
+TPE 기반 베이지안 최적화는 제한된 계산 예산으로 최적 하이퍼파라미터를 찾는 현실적 방법이다. AutoML의 보편화로 데이터 과학자의 핵심 업무가 피처 엔지니어링과 문제 정의로 이동하고 있다. NAS (신경망 구조 탐색)와의 결합으로 모델 아키텍처 설계 자동화까지 확장되고 있다.
 
 - **📢 섹션 요약 비유**: TPE는 AI를 훈련시키는 AI의 "코치"다. 어떤 훈련 방법이 효과적인지 경험으로 배우고, 점점 더 좋은 훈련 계획을 제안한다.
 
@@ -146,9 +146,9 @@ TPE 기반 베이지안 최적화는 제한된 계산 예산으로 최적 하이
 |:---|:---|
 | TPE | l(x)/g(x), KDE / 베이지안 하이퍼파라미터 최적화 |
 | 베이지안 최적화 | 대리 모델, 획득 함수 / 효율적 블랙박스 최적화 |
-| [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) | 자동화 ML [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 / TPE 응용 분야 |
+| AutoML | 자동화 ML 파이프라인 / TPE 응용 분야 |
 | Optuna | 파이썬 BO 프레임워크 / TPE 대표 구현체 |
-| [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) | 신경망 구조 탐색 / [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 확장 |
+| NAS | 신경망 구조 탐색 / AutoML 확장 |
 | 그리드/랜덤 서치 | 기본 하이퍼파라미터 탐색 / TPE의 대안 비교 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -159,17 +159,6 @@ TPE 기반 베이지안 최적화는 제한된 계산 예산으로 최적 하이
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 하이퍼파라미터 탐색은 "보물 지도 없이 넓은 밭에서 보물 찾기"야. [그리드 서치](/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)는 모든 칸을 파고, 랜덤은 찍어서 파.
+1. 하이퍼파라미터 탐색은 "보물 지도 없이 넓은 밭에서 보물 찾기"야. 그리드 서치는 모든 칸을 파고, 랜덤은 찍어서 파.
 2. TPE는 "금이 나온 곳 근처를 집중해서 파는" 똑똑한 방법이야. 과거 경험으로 다음 어디를 팔지 결정해.
-3. Optuna가 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0번 실험하면 처음엔 여기저기 파다가 나중엔 좋은 결과가 나온 근처만 집중해서 파게 돼.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 394 / 420
-
-<- **이전**: [393. t-SNE / UMAP (TSNE UMAP)](/studynote/10_ai/05_data_science_ml/393_tsne_umap/)
-**다음**: [395. PPO (Proximal Policy Optimization)](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ->
-
----
+3. Optuna가 100번 실험하면 처음엔 여기저기 파다가 나중엔 좋은 결과가 나온 근처만 집중해서 파게 돼.

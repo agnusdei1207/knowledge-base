@@ -6,9 +6,9 @@ tags:
 weight: 39
 ---
 > **핵심 인사이트**
-> 1. BML(Build-Measure-Learn) 루프에서 "측정(Measure)"의 핵심은 허영 지표(Vanity [Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))와 실행 가능 지표(Actionable [Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 구분하는 것 — "총 가입자 100만"은 성장하는 것처럼 보이지만, 재방문율·전환율·코호트 리텐션 없이는 아무것도 말해주지 않는다.
+> 1. BML(Build-Measure-Learn) 루프에서 "측정(Measure)"의 핵심은 허영 지표(Vanity Metric)와 실행 가능 지표(Actionable Metric)를 구분하는 것 — "총 가입자 100만"은 성장하는 것처럼 보이지만, 재방문율·전환율·코호트 리텐션 없이는 아무것도 말해주지 않는다.
 > 2. PMF(Product-Market Fit)는 측정 가능한 임계점이다 — Sean Ellis의 기준: "이 제품이 없어지면 매우 실망할 것" 응답이 40% 이상이면 PMF 달성; NPS 50 이상, D30 리텐션 25% 이상도 실무 기준으로 사용된다.
-> 3. 성장 엔진 선택(바이럴 vs 스티키 vs 유료)이 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 가장 중요한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 결정이며, 잘못된 성장 엔진으로 지표를 최적화하면 후기에 완전히 다른 조직 역량이 필요하게 된다.
+> 3. 성장 엔진 선택(바이럴 vs 스티키 vs 유료)이 초기 단계에서 가장 중요한 전략 결정이며, 잘못된 성장 엔진으로 지표를 최적화하면 후기에 완전히 다른 조직 역량이 필요하게 된다.
 
 ---
 
@@ -104,11 +104,11 @@ PMF 전후 차이:
          "제품 쓰다 보니 주변에 소개하게 됨"
 ```
 
-> 📢 **섹션 요약 비유**: PMF는 마라톤 선수가 "페이스가 잡혔다"는 느낌 — 수치(심박수, 페이스)로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 전에도 느낌이 달라짐.
+> 📢 **섹션 요약 비유**: PMF는 마라톤 선수가 "페이스가 잡혔다"는 느낌 — 수치(심박수, 페이스)로 확인하기 전에도 느낌이 달라짐.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 성장 엔진 3가지
+## IV. 성장 엔진 3가지
 
 ```
 Growth Engine (성장 엔진):
@@ -179,7 +179,7 @@ MVP 빌드 (2주):
   바이럴 계수 k = 0.4 (유기적 성장)
 ```
 
-> 📢 **섹션 요약 비유**: BML은 요리 레시피 실험 — 알림(재료) 추가 후 손님 재방문율(측정) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 재료 비율 조정(학습)을 반복해 최고의 레시피 완성.
+> 📢 **섹션 요약 비유**: BML은 요리 레시피 실험 — 알림(재료) 추가 후 손님 재방문율(측정) 확인, 재료 비율 조정(학습)을 반복해 최고의 레시피 완성.
 
 ---
 
@@ -229,17 +229,6 @@ LLM 기반 인사이트 생성
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 허영 지표는 SNS 팔로워 수처럼 보기 좋지만 정작 제품이 잘 팔리는지 알 수 없는 숫자이고, 실행 가능 지표는 "재구매율"처럼 행동을 바꿀 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 주는 숫자예요.
+1. 허영 지표는 SNS 팔로워 수처럼 보기 좋지만 정작 제품이 잘 팔리는지 알 수 없는 숫자이고, 실행 가능 지표는 "재구매율"처럼 행동을 바꿀 힌트를 주는 숫자예요.
 2. PMF(제품-시장 적합성)는 "이 제품이 없어지면 매우 실망할 것"이라는 사람이 40% 이상이어야 달성한 것으로 보아요.
-3. 성장 엔진은 입소문(바이럴), 단골(스티키), 광고(유료) 세 가지 중 자기 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 맞는 것을 선택해야 지속 성장할 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 39 / 482
-
-<- **이전**: [038. 양손잡이 조직 II — IT 전략 적용](/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
-**다음**: [040. MVP (Minimum Viable Product) — 최소 기능 제품](/studynote/07_enterprise_systems/01_strategy_governance/040_mvp_and_pivot_lean/) ->
-
----
+3. 성장 엔진은 입소문(바이럴), 단골(스티키), 광고(유료) 세 가지 중 자기 서비스에 맞는 것을 선택해야 지속 성장할 수 있어요!

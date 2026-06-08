@@ -7,15 +7,15 @@ weight: 187
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 시계열 DB([Time-Series Database](/studynote/11_design_supervision/06_exam_summary/340_process/))는 타임스탬프를 기본 인덱스로 삼아 <strong>시간 순서 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 고속 삽입·<a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·집계</strong>에 특화된 스토리지로, 일반 RDBMS 대비 100배 이상의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우위를 제공한다.
-> 2. **가치**: 보간법(Interpolation)으로 결측 구간을 채우고 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))으로 고해상도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저해상도로 집계하여, <strong><a href="/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a> 같은 대시보드가 어떤 시간 범위도 일관된 응답 속도로 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>할 수 있게 한다.
-> 3. **판단 포인트**: 카디널리티 폭발(Cardinality Explosion)—태그 조합 수의 급격한 증가—이 시계열 DB [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 주범이며, 태그 설계 시 고카디널리티 값(userId, IP 등)을 태그가 아닌 필드(Field)로 분리하는 것이 기술사 답안의 핵심이다.
+> 1. **본질**: 시계열 DB(Time-Series Database)는 타임스탬프를 기본 인덱스로 삼아 <strong>시간 순서 데이터의 고속 삽입·압축·집계</strong>에 특화된 스토리지로, 일반 RDBMS 대비 100배 이상의 성능 우위를 제공한다.
+> 2. **가치**: 보간법(Interpolation)으로 결측 구간을 채우고 롤업(Rollup)으로 고해상도 데이터를 저해상도로 집계하여, <strong>Grafana 같은 대시보드가 어떤 시간 범위도 일관된 응답 속도로 시각화</strong>할 수 있게 한다.
+> 3. **판단 포인트**: 카디널리티 폭발(Cardinality Explosion)—태그 조합 수의 급격한 증가—이 시계열 DB 성능 저하의 주범이며, 태그 설계 시 고카디널리티 값(userId, IP 등)을 태그가 아닌 필드(Field)로 분리하는 것이 기술사 답안의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성
+### 1.1 시계열 데이터의 특성
 
 ```
 시계열 데이터 예시:
@@ -35,14 +35,14 @@ weight: 187
 
 ### 1.2 주요 시계열 DB 비교
 
-| DB | 개발사 | 특징 | [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
+| DB | 개발사 | 특징 | 쿼리 언어 |
 |:---|:---|:---|:---|
-| [InfluxDB](/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) | InfluxData | 강력한 [RP](/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/)/CQ 기능 | InfluxQL / Flux |
+| InfluxDB | InfluxData | 강력한 RP/CQ 기능 | InfluxQL / Flux |
 | TimescaleDB | Timescale | PostgreSQL 확장 | SQL (표준 SQL 지원) |
-| OpenTSDB | StumbleUpon | [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/) 기반, 대규모 | [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
-| [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | [CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) | [풀 기반](/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/), [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 표준 | PromQL |
+| OpenTSDB | StumbleUpon | HBase 기반, 대규모 | HTTP API |
+| Prometheus | CNCF | 풀 기반, 쿠버네티스 표준 | PromQL |
 | ClickHouse | Yandex | 컬럼형, 초고성능 분석 | SQL |
-| VictoriaMetrics | [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 호환, 효율적 | MetricsQL |
+| VictoriaMetrics | VM | Prometheus 호환, 효율적 | MetricsQL |
 
 📢 **섹션 요약 비유**: 시계열 DB는 마치 의사의 심전도 기록지다. 시간 순서대로 심박수가 찍히고, "오전 10시부터 11시 사이 평균 심박수"를 순식간에 계산할 수 있어야 한다. 일반 메모장(RDBMS)에 심전도를 적으면 찾는 데 너무 오래 걸린다.
 
@@ -50,7 +50,7 @@ weight: 187
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 시계열 DB 내부 구조 ([InfluxDB](/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 기준)
+### 2.1 시계열 DB 내부 구조 (InfluxDB 기준)
 
 ```
 InfluxDB 데이터 모델:
@@ -104,7 +104,7 @@ CPU:   45     ?      ?      50     ?
    적합: 간단한 갭 채움
 ```
 
-### 2.3 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) / 연속 집계 아키텍처
+### 2.3 롤업 (Rollup) / 연속 집계 아키텍처
 
 ```
 +----------------------------------------------------------+
@@ -153,7 +153,7 @@ SELECT add_continuous_aggregate_policy(
 );
 ```
 
-📢 **섹션 요약 비유**: [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 마치 1초마다 찍은 수백만 장의 사진을 1분 단위로 대표 사진 하나로 줄이는 것이다. 오래된 사진일수록 더 많이 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해서 저장 공간을 아끼면서도 "그 시간대의 대략적인 모습"은 유지한다.
+📢 **섹션 요약 비유**: 롤업은 마치 1초마다 찍은 수백만 장의 사진을 1분 단위로 대표 사진 하나로 줄이는 것이다. 오래된 사진일수록 더 많이 압축해서 저장 공간을 아끼면서도 "그 시간대의 대략적인 모습"은 유지한다.
 
 ---
 
@@ -185,18 +185,18 @@ SELECT add_continuous_aggregate_policy(
   4. 데이터 모델 재설계 (측정 분리)
 ```
 
-### 3.2 [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) vs [InfluxDB](/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) vs TimescaleDB 비교
+### 3.2 Prometheus vs InfluxDB vs TimescaleDB 비교
 
-| 항목 | [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | [InfluxDB](/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) | TimescaleDB |
+| 항목 | Prometheus | InfluxDB | TimescaleDB |
 |:---|:---|:---|:---|
 | 수집 방식 | 풀(Pull) | 푸시(Push)/풀 | 푸시(Push) |
-| [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 | PromQL | InfluxQL/Flux | SQL |
-| 보관 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 기본 15일 | 유연한 [RP](/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) | 청크 기반 |
-| [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) | Recording Rules | CQ (Continuous Query) | Continuous Aggregates |
-| [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 연계 | 표준 ([CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)) | 별도 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 별도 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| 쿼리 언어 | PromQL | InfluxQL/Flux | SQL |
+| 보관 정책 | 기본 15일 | 유연한 RP | 청크 기반 |
+| 롤업 | Recording Rules | CQ (Continuous Query) | Continuous Aggregates |
+| 쿠버네티스 연계 | 표준 (CNCF) | 별도 설정 | 별도 설정 |
 | 장기 보관 | 외부 연계 필요 (Thanos) | 내장 | PostgreSQL 기반 |
 
-### 3.3 [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) 대시보드 연동 아키텍처
+### 3.3 Grafana 대시보드 연동 아키텍처
 
 ```
 +----------------------------------------------------------+
@@ -220,13 +220,13 @@ SELECT add_continuous_aggregate_policy(
 +----------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) + [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 마치 비행기 조종석 계기판이다. 수천 개의 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 모아서, 조종사가 한눈에 모든 상태를 볼 수 있게 정리해주고, 이상이 생기면 경고등을 켜준다.
+📢 **섹션 요약 비유**: Grafana + Prometheus 스택은 마치 비행기 조종석 계기판이다. 수천 개의 센서 데이터를 실시간으로 모아서, 조종사가 한눈에 모든 상태를 볼 수 있게 정리해주고, 이상이 생기면 경고등을 켜준다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 시계열 파이프라인 설계
+### 4.1 IoT 센서 시계열 파이프라인 설계
 
 ```
 +----------------------------------------------------------+
@@ -251,7 +251,7 @@ SELECT add_continuous_aggregate_policy(
 +----------------------------------------------------------+
 ```
 
-### 4.2 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))
+### 4.2 데이터 보관 정책 (Retention Policy)
 
 ```sql
 -- InfluxDB 보관 정책 및 연속 쿼리 예시
@@ -291,7 +291,7 @@ END;
   ✓ 백필(Backfill): 과거 데이터로 롤업 소급 생성
 ```
 
-📢 **섹션 요약 비유**: 카디널리티 폭발 방지는 마치 도서관 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템에서 "책 제목"을 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 번호로 쓰지 않는 것과 같다. 책 제목은 수백만 가지라 색인이 폭발적으로 커지므로, "분야(컴퓨터)+ 저자 첫 글자"처럼 카디널리티가 낮은 값으로 인덱스를 만들어야 한다.
+📢 **섹션 요약 비유**: 카디널리티 폭발 방지는 마치 도서관 분류 시스템에서 "책 제목"을 분류 번호로 쓰지 않는 것과 같다. 책 제목은 수백만 가지라 색인이 폭발적으로 커지므로, "분야(컴퓨터)+ 저자 첫 글자"처럼 카디널리티가 낮은 값으로 인덱스를 만들어야 한다.
 
 ---
 
@@ -301,12 +301,12 @@ END;
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 | RDBMS 대비 100~1,000배 빠른 시계열 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
-| 저장 효율 | 시계열 특화 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)으로 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50배 용량 감소 |
+| 쿼리 성능 향상 | RDBMS 대비 100~1,000배 빠른 시계열 쿼리 |
+| 저장 효율 | 시계열 특화 압축으로 10~50배 용량 감소 |
 | 대시보드 응답성 | 수십억 포인트도 초단위 집계 응답 |
-| [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 실시간 [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) + 경보로 장애 선제 대응 |
+| 이상 탐지 | 실시간 스트림 처리 + 경보로 장애 선제 대응 |
 
-### 5.2 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기 관리
+### 5.2 시계열 데이터 생명주기 관리
 
 ```
 +------------------------------------------------------+
@@ -325,28 +325,28 @@ END;
 +------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 시계열 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기는 마치 신문 보관과 같다. 이번 주 신문은 책상 위(핫 저장소)에, 지난달 신문은 책장에(웜), 5년 전 신문은 창고에(콜드) 보관하고, 필요할 때만 창고에서 꺼내 열람한다.
+📢 **섹션 요약 비유**: 시계열 데이터 생명주기는 마치 신문 보관과 같다. 이번 주 신문은 책상 위(핫 저장소)에, 지난달 신문은 책장에(웜), 5년 전 신문은 창고에(콜드) 보관하고, 필요할 때만 창고에서 꺼내 열람한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 DB | [InfluxDB](/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) / TimescaleDB | 시계열 특화 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) |
+| 핵심 DB | InfluxDB / TimescaleDB | 시계열 특화 데이터베이스 |
 | 결측값 처리 | 보간법 (Interpolation) | 선형, 스플라인, LOCF, NOCB |
-| 집계 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) | [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) | 고해상도 -> 저해상도 집계 |
+| 집계 압축 | 롤업 (Rollup) | 고해상도 -> 저해상도 집계 |
 | 자동화 집계 | 연속 집계 (Continuous Aggregates) | 실시간 집계 뷰 자동 갱신 |
-| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 장애 | 카디널리티 폭발 | 태그 조합 과다로 시리즈 수 폭증 |
-| 보관 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | [RP](/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) ([Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)) | 기간별 해상도·보관 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
-| [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) | [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) + [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | 표준 모니터링 대시보드 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층 | 핫/웜/콜드 스토리지 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나이별 저장 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 분리 |
+| 성능 장애 | 카디널리티 폭발 | 태그 조합 과다로 시리즈 수 폭증 |
+| 보관 정책 | RP (Retention Policy) | 기간별 해상도·보관 정책 |
+| 시각화 | Grafana + Prometheus | 표준 모니터링 대시보드 스택 |
+| 데이터 계층 | 핫/웜/콜드 스토리지 | 데이터 나이별 저장 매체 분리 |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong>시계열 DB</strong>는 마치 매초마다 체온을 재서 기록하는 의료 기기처럼, 시간 순서대로 쌓이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 빠르게 저장하고 "지난 1시간 평균 체온"을 순식간에 계산할 수 있는 특별한 기록장이에요.
+1. <strong>시계열 DB</strong>는 마치 매초마다 체온을 재서 기록하는 의료 기기처럼, 시간 순서대로 쌓이는 데이터를 가장 빠르게 저장하고 "지난 1시간 평균 체온"을 순식간에 계산할 수 있는 특별한 기록장이에요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -365,16 +365,5 @@ RDBMS (범용, 시계열 비최적화)
     v
 IoT · 모니터링 · 금융 틱 데이터 분석
 ```
-2. <strong>보간법</strong>은 체온계가 잠깐 고장나서 몇 분간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없을 때, "아까 36.5도였고 나중에 37도가 됐으니, 그 사이에는 36.7도 정도였겠지"라고 빈 칸을 채우는 방법이에요.
-3. <strong>카디널리티 폭발</strong>은 마치 도서관에서 모든 책의 제목을 색인으로 만들면 색인 카드가 책보다 더 많아지는 것처럼, 너무 다양한 태그를 사용하면 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 색인이 폭발적으로 커지는 문제예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 187 / 258
-
-<- **이전**: [186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트](/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)
-**다음**: [188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어](/studynote/14_data_engineering/04_mlops/188_oom_memory_protection_gc_spark_spill/) ->
-
----
+2. <strong>보간법</strong>은 체온계가 잠깐 고장나서 몇 분간 데이터가 없을 때, "아까 36.5도였고 나중에 37도가 됐으니, 그 사이에는 36.7도 정도였겠지"라고 빈 칸을 채우는 방법이에요.
+3. <strong>카디널리티 폭발</strong>은 마치 도서관에서 모든 책의 제목을 색인으로 만들면 색인 카드가 책보다 더 많아지는 것처럼, 너무 다양한 태그를 사용하면 데이터베이스의 색인이 폭발적으로 커지는 문제예요.

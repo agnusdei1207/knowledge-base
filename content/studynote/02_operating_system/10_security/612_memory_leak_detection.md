@@ -7,9 +7,9 @@ weight: 612
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 누수(Memory Leak)는 동적 할당된 메모리(malloc/[new](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))가 더 이상 참조되지 않음에도 해제(free/delete)되지 않아 프로세스의 RSS(Resident Set Size)가 지속적으로 증가하는 결함으로, 장기간 실행 서버에서 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out-Of-Memory](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) Kill을 유발하는 치명적 버그다.
-> 2. **가치**: Valgrind Memcheck, AddressSanitizer(ASan), LeakSanitizer(LSan) 등은 각각 시뮬레이션 기반·컴파일러 계측 기반으로 동작하여, 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 할당-해제 불일치, [use-after-free](/studynote/09_security/04_endpoint_security/351_use_after_free/), double-free 등을 정적·동적으로 탐지한다.
-> 3. **융합**: [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) (#615) 기반 memleak 도구는 프로덕션 환경에서 오버헤드 <5%로 실시간 메모리 누수 탐지가 가능하여, 개발 단계(Valgrind)와 운영 단계([eBPF](/studynote/02_operating_system/10_security/615_ebpf/))의호보적(complementary) 메모리 안전망을 구성한다.
+> 1. **본질**: 메모리 누수(Memory Leak)는 동적 할당된 메모리(malloc/new)가 더 이상 참조되지 않음에도 해제(free/delete)되지 않아 프로세스의 RSS(Resident Set Size)가 지속적으로 증가하는 결함으로, 장기간 실행 서버에서 OOM(Out-Of-Memory) Kill을 유발하는 치명적 버그다.
+> 2. **가치**: Valgrind Memcheck, AddressSanitizer(ASan), LeakSanitizer(LSan) 등은 각각 시뮬레이션 기반·컴파일러 계측 기반으로 동작하여, 힙(Heap) 할당-해제 불일치, use-after-free, double-free 등을 정적·동적으로 탐지한다.
+> 3. **융합**: eBPF (#615) 기반 memleak 도구는 프로덕션 환경에서 오버헤드 <5%로 실시간 메모리 누수 탐지가 가능하여, 개발 단계(Valgrind)와 운영 단계(eBPF)의호보적(complementary) 메모리 안전망을 구성한다.
 
 ---
 
@@ -20,13 +20,13 @@ weight: 612
 
 ### 필요성
 - 서버 프로세스가 24/7 실행되면 누적 누수가 GB 단위로 증가
-- 결국 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 프로세스를 강제 종료 -> [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애
-- 재현이 어려워 [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)·동적 탐지 도구 필수
+- 결국 OOM Killer가 프로세스를 강제 종료 -> 서비스 장애
+- 재현이 어려워 정적 분석·동적 탐지 도구 필수
 
 ### 등장 배경
 1. **Valgrind (2000)**: 동적 이진 계측(DBI, Dynamic Binary Instrumentation) 기반
 2. **AddressSanitizer (2011)**: Clang/GCC 컴파일러 내장 메모리 검사기
-3. <strong><a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak (2019+)</strong>: 프로덕션 안전 실시간 탐지
+3. <strong>eBPF memleak (2019+)</strong>: 프로덕션 안전 실시간 탐지
 
 ```text
 +------------- 메모리 누수 진행 과정 -------------+
@@ -49,7 +49,7 @@ weight: 612
 
 **[해설]** 메모리 누수는 점진적으로 진행되므로 단기 테스트에서는 발견되지 않는다. 따라서 개발 단계의 정밀 검사와 운영 단계의 실시간 모니터링이 모두 필요하다.
 
-- **📢 섹션 요약 비유**: 수도꼭지가 조금씩 새서(메모리 누수) 처음엔 모르지만, 며칠 지나면 물통([OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 넘쳐 바닥([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 잠기는 것과 같습니다.
+- **📢 섹션 요약 비유**: 수도꼭지가 조금씩 새서(메모리 누수) 처음엔 모르지만, 며칠 지나면 물통(OOM)이 넘쳐 바닥(서비스)이 잠기는 것과 같습니다.
 
 ---
 
@@ -59,10 +59,10 @@ weight: 612
 
 | 도구 | 방식 | 오버헤드 | 탐지 항목 | 적용 시기 |
 |:---|:---|:---|:---|:---|
-| **Valgrind Memcheck** | DBI 시뮬레이션 | 20~50x 느림 | 누수, [use-after-free](/studynote/09_security/04_endpoint_security/351_use_after_free/), 미초기화 | 개발/테스트 |
-| **AddressSanitizer** | 컴파일러 계측 | 2x 느림, 3x 메모리 | [use-after-free](/studynote/09_security/04_endpoint_security/351_use_after_free/), [buffer overflow](/studynote/02_operating_system/10_security/591_buffer_overflow/) | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD |
-| **LeakSanitizer** | ASan + 누수 전용 | 2x 느림 | 힙 누수만 | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD |
-| <strong><a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak</strong> | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱 | <5% | 할당/해제 추적 | 프로덕션 |
+| **Valgrind Memcheck** | DBI 시뮬레이션 | 20~50x 느림 | 누수, use-after-free, 미초기화 | 개발/테스트 |
+| **AddressSanitizer** | 컴파일러 계측 | 2x 느림, 3x 메모리 | use-after-free, buffer overflow | CI/CD |
+| **LeakSanitizer** | ASan + 누수 전용 | 2x 느림 | 힙 누수만 | CI/CD |
+| <strong>eBPF memleak</strong> | 커널 트레이싱 | <5% | 할당/해제 추적 | 프로덕션 |
 | **perf record** | 샘플링 | <1% | 간접적 (할당 패턴) | 프로덕션 |
 
 ### Valgrind Memcheck 아키텍처
@@ -99,7 +99,7 @@ weight: 612
 +--------------------------------------------------+
 ```
 
-**[해설]** Valgrind는 프로그램의 모든 메모리 접근을 중간 표현([IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))으로 변환하여 Shadow Memory와 비교 검증한다. malloc은 기록하고 free는 검증하여 프로그램 종료 시 미해제 블록을 리포트한다.
+**[해설]** Valgrind는 프로그램의 모든 메모리 접근을 중간 표현(IR)으로 변환하여 Shadow Memory와 비교 검증한다. malloc은 기록하고 free는 검증하여 프로그램 종료 시 미해제 블록을 리포트한다.
 
 ### AddressSanitizer 원리
 
@@ -142,10 +142,10 @@ weight: 612
 | **오버헤드** | 20~50x | 2~3x |
 | **메모리** | ~2x | ~3x |
 | **탐지 범위** | 누수, 미초기화, 접근 오류 | 접근 오류, 누수(LSan) |
-| <strong><a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 버그</strong> | 제한적 | TSan 별도 필요 |
-| **적용** | 개발 전용 | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 통합 가능 |
+| <strong>스레드 버그</strong> | 제한적 | TSan 별도 필요 |
+| **적용** | 개발 전용 | CI/CD 통합 가능 |
 
-- **📢 섹션 요약 비유**: Valgrind는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 희생하더라도 모든 것을 검사하는 종합 검진이고, ASan은 빠르고 효율적인 정기 검진입니다.
+- **📢 섹션 요약 비유**: Valgrind는 성능을 희생하더라도 모든 것을 검사하는 종합 검진이고, ASan은 빠르고 효율적인 정기 검진입니다.
 
 ---
 
@@ -159,23 +159,23 @@ valgrind --leak-check=full --show-leak-kinds=all ./myserver
 ```
 -> 종료 시 LEAK SUMMARY에서 definitely lost 추적
 
-<strong>시나리오 2: <a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD에 ASan 통합</strong>
+<strong>시나리오 2: CI/CD에 ASan 통합</strong>
 ```bash
 gcc -fsanitize=address -g -O1 test.c && ./a.out
 ```
 -> 런타임에 즉시 오류 보고
 
-<strong>시나리오 3: 프로덕션 <a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak</strong>
+<strong>시나리오 3: 프로덕션 eBPF memleak</strong>
 ```bash
 bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 ```
 -> 실시간 할당 추적
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Valgrind를 프로덕션에서 실행**: 20~50x [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 -> 불가
+### 안티패턴
+- **Valgrind를 프로덕션에서 실행**: 20~50x 성능 저하 -> 불가
 - **누수 무시**: "메모리 많으니까" -> 장애 위험 누적
 
-- **📢 섹션 요약 비유**: 건강 검진(Valgrind)은 병원에서만 받고, 일상 운동(ASan)은 매일 하고, 스마트워치([eBPF](/studynote/02_operating_system/10_security/615_ebpf/))는 항상 착용하는 것처럼, 단계별 도구를 상황에 맞게 활용해야 합니다.
+- **📢 섹션 요약 비유**: 건강 검진(Valgrind)은 병원에서만 받고, 일상 운동(ASan)은 매일 하고, 스마트워치(eBPF)는 항상 착용하는 것처럼, 단계별 도구를 상황에 맞게 활용해야 합니다.
 
 ---
 
@@ -184,7 +184,7 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 | 항목 | 도입 전 | 도입 후 |
 |:---|:---|:---|
 | 누수 탐지 | 수동 분석 | 자동 탐지 |
-| [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 사고 | 빈번 | 사전 예방 |
+| OOM 사고 | 빈번 | 사전 예방 |
 | 디버깅 시간 | 시간~일 | 분 단위 |
 
 - **📢 섹션 요약 비유**: 작은 샘물(누수)을 방치하면 댐이 무너지지만, 일찍 발견하면 손가락 하나로 막을 수 있습니다.
@@ -196,9 +196,9 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 리틀의 법칙 (Little's Law) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| CPU 유휴 ([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 대기 루프 최적화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [프로파일링](/studynote/02_operating_system/10_security/613_profiling_gprof/) ([Profiling](/studynote/02_operating_system/10_security/613_profiling_gprof/)) 도구 Gprof [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 후킹 작동 원리 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 시스템 [DTrace](/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| CPU 유휴 (Idle) 대기 루프 최적화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -221,14 +221,3 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 **원리**: Valgrind라는 로봇이 "이 장난감 아직 안 치웠어!" 하고 알려줘요. 그럼 빨리 치울 수 있죠.
 
 **효과**: 방이 깨끗하게 유지되어서 나중에 다른 장난감을 꺼낼 공간이 항상 넉넉해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 612 / 800
-
-<- **이전**: [611. CPU 유휴 (Idle) 대기 루프 최적화](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)
-**다음**: [613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리](/studynote/02_operating_system/10_security/613_profiling_gprof/) ->
-
----

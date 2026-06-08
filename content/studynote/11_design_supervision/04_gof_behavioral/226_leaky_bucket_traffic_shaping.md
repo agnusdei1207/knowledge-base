@@ -7,8 +7,8 @@ weight: 226
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Leaky Bucket (리키 버킷) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 입력 트래픽의 버스트(Burst) 여부와 무관하게 **일정한 속도(Constant Rate)** 로만 패킷을 출력하는 [Traffic Shaping](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) ([트래픽 쉐이핑](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다 — 물이 구멍 뚫린 양동이에서 일정 속도로 새어나오는 것처럼.
-> 2. **가치**: 네트워크 [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질) 보장에 이상적이다 — 버스트 트래픽을 흡수하고, 다운스트림에는 예측 가능한 일정 속도로만 전달하여 버퍼 오버플로우와 혼잡을 방지한다.
+> 1. **본질**: Leaky Bucket (리키 버킷) 알고리즘은 입력 트래픽의 버스트(Burst) 여부와 무관하게 **일정한 속도(Constant Rate)** 로만 패킷을 출력하는 Traffic Shaping (트래픽 쉐이핑) 알고리즘이다 — 물이 구멍 뚫린 양동이에서 일정 속도로 새어나오는 것처럼.
+> 2. **가치**: 네트워크 QoS (Quality of Service, 서비스 품질) 보장에 이상적이다 — 버스트 트래픽을 흡수하고, 다운스트림에는 예측 가능한 일정 속도로만 전달하여 버퍼 오버플로우와 혼잡을 방지한다.
 > 3. **판단 포인트**: 리키 버킷은 "일정 출력 속도 보장(평활화)"이 목적 — 토큰 버킷은 "평균 속도 제한 + 버스트 허용"이 목적. 버스트를 허용할지, 완전히 평활화할지가 선택의 기준이다.
 
 ---
@@ -16,14 +16,14 @@ weight: 226
 ## Ⅰ. 개요 및 필요성
 네트워크나 API에서 트래픽 버스트가 발생하면:
 - 순간 과부하로 패킷 손실 증가
-- [큐잉 지연](/studynote/03_network/01_data_communication/018_큐잉_지연/)(Queuing [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 급증
-- [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질([QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 저하
+- 큐잉 지연(Queuing Latency) 급증
+- 서비스 품질(QoS) 저하
 - 다운스트림 서버 과부하
 
 **실제 시나리오**:
-- 뉴스 사이트에서 기사 발행 직후 트래픽 폭증 (1초에 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 요청)
+- 뉴스 사이트에서 기사 발행 직후 트래픽 폭증 (1초에 10,000 요청)
 - 이벤트 큐에서 배치로 메시지가 쏟아질 때
-- [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일시에 전송할 때
+- IoT 센서가 데이터를 일시에 전송할 때
 
 ```
 입력 (불규칙 버스트):
@@ -115,7 +115,7 @@ class LeakyBucket:
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 - **📢 섹션 요약 비유**: 리키 버킷은 도로의 신호등 — 아무리 많은 차(버스트 트래픽)가 몰려도 신호등(리키 버킷)이 일정 간격으로만 차를 통과시켜서 교차로(다운스트림) 혼잡을 방지한다.
 
@@ -128,16 +128,16 @@ class LeakyBucket:
 | 버스트 트래픽 처리 | 버킷에 토큰 있으면 즉시 처리 | 버킷(큐)에 흡수, 일정 속도 출력 |
 | 버킷 가득 찰 때 | 추가 토큰 무시 (요청 거부) | 패킷/요청 드롭 |
 | 출력 속도 | 가변 (버스트 시 높음) | 고정 (항상 R req/s) |
-| 적합한 사용처 | [API Rate Limiting](/studynote/04_software_engineering/08_security_compliance_devsecops/511_api_rate_limiting_throttling/) | 네트워크 [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [트래픽 쉐이핑](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) |
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도 | 중간 | 단순 (큐 기반) |
+| 적합한 사용처 | API Rate Limiting | 네트워크 QoS, 트래픽 쉐이핑 |
+| 알고리즘 복잡도 | 중간 | 단순 (큐 기반) |
 
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 버스트 처리 | 메모리 | 정확도 | 적합한 사용처 |
+| 알고리즘 | 버스트 처리 | 메모리 | 정확도 | 적합한 사용처 |
 |:---|:---|:---|:---|:---|
-| Fixed Window | 경계에서 2× 버스트 가능 | O(1) | 낮음 | 단순 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) |
+| Fixed Window | 경계에서 2× 버스트 가능 | O(1) | 낮음 | 단순 카운터 |
 | Sliding Window Log | 없음 (정확) | O(N) | 높음 | 정밀 제어 |
-| Sliding Window [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | 근사 제거 | O(1) | 높음 | 대부분 상황 |
-| Token Bucket | 허용 (B 용량까지) | O(1) | 높음 | [API Gateway](/studynote/04_software_engineering/11_testing_validation/934_api_gateway/) |
-| Leaky Bucket | 흡수 후 평활화 | O(B) | 높음 | 네트워크 [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) |
+| Sliding Window Counter | 근사 제거 | O(1) | 높음 | 대부분 상황 |
+| Token Bucket | 허용 (B 용량까지) | O(1) | 높음 | API Gateway |
+| Leaky Bucket | 흡수 후 평활화 | O(B) | 높음 | 네트워크 QoS |
 
 - **📢 섹션 요약 비유**: 토큰 버킷과 리키 버킷의 차이는 고속버스 터미널(토큰 버킷)과 지하철(리키 버킷)의 차이 — 고속버스는 여러 버스가 한꺼번에 출발(버스트 허용)할 수 있지만, 지하철은 정해진 배차 간격(일정 속도)을 반드시 지킨다.
 
@@ -164,7 +164,7 @@ http {
 <strong>Nginx <code>limit_req</code>의 <code>burst</code> 파라미터</strong>:
 - `burst=20`: 최대 20개 요청을 큐잉(리키 버킷의 버킷 크기)
 - `nodelay`: 큐잉된 요청을 즉시 처리 (토큰 버킷과 유사한 동작)
-- `nodelay` 없음: 큐잉된 요청을 rate에 맞춰 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 (순수 리키 버킷)
+- `nodelay` 없음: 큐잉된 요청을 rate에 맞춰 지연 처리 (순수 리키 버킷)
 
 ```
 Kafka Consumer 속도 제어:
@@ -176,18 +176,18 @@ Kafka Consumer 속도 제어:
   오버플로우: Retention 정책 (오래된 메시지 삭제)
 ```
 
-| 요구사항 | 선택 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 이유 |
+| 요구사항 | 선택 알고리즘 | 이유 |
 |:---|:---|:---|
-| [API Rate Limiting](/studynote/04_software_engineering/08_security_compliance_devsecops/511_api_rate_limiting_throttling/) | Token Bucket | 버스트 허용 + 평균 속도 제한 |
-| 실시간 스트리밍 [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) | Leaky Bucket | CBR 보장, 지터 최소화 |
+| API Rate Limiting | Token Bucket | 버스트 허용 + 평균 속도 제한 |
+| 실시간 스트리밍 QoS | Leaky Bucket | CBR 보장, 지터 최소화 |
 | 메시지 처리 평활화 | Leaky Bucket | 배치 입력 -> 일정 처리 |
-| [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제한 | Token Bucket | 사용자별 버스트 허용 |
-| [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 | Leaky Bucket | 센서 폭발 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평활화 |
+| CDN 대역폭 제한 | Token Bucket | 사용자별 버스트 허용 |
+| IoT 데이터 수집 | Leaky Bucket | 센서 폭발 데이터 평활화 |
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 1. 해결하려는 변화 축이 분명한가?
-2. [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
+2. 추상화 비용보다 변경 절감 효과가 큰가?
+3. 테스트·로그·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
 - **📢 섹션 요약 비유**: Nginx의 `burst`는 리키 버킷에 약간의 여유 공간 — 폭발적 요청이 와도 burst 크기만큼은 큐에 넣어두고 일정 속도로 처리한다. `nodelay`를 추가하면 버킷 내에서는 즉시 처리하는 하이브리드 방식이 된다.
@@ -195,53 +195,42 @@ Kafka Consumer 속도 제어:
 ---
 
 ## Ⅴ. 기대효과 및 결론
-리키 버킷 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "예측 가능한 출력"이 핵심 가치다:
+리키 버킷 알고리즘은 "예측 가능한 출력"이 핵심 가치다:
 
 **기대효과**:
-- **트래픽 평활화**: 버스트 트래픽의 충격을 흡수하여 다운스트림 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)
+- **트래픽 평활화**: 버스트 트래픽의 충격을 흡수하여 다운스트림 보호
 - **CBR 보장**: 일정 비트율로 음성/영상 스트리밍 품질 보장
-- **혼잡 방지**: 네트워크 혼잡 제어의 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+- **혼잡 방지**: 네트워크 혼잡 제어의 기반 알고리즘
 - **단순한 구현**: 큐 + 타이머만으로 구현 가능
 
 **한계**:
 - 버스트 트래픽을 허용하지 않으므로 정상적인 접속 급증(프로모션 이벤트)에도 요청이 드롭될 수 있음
-- 큐잉으로 인한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Queuing Delay) 발생
+- 큐잉으로 인한 지연(Queuing Delay) 발생
 - 토큰 버킷 대비 사용자 경험 저하 가능성
 
-**최종 선택 기준**: 출력 속도의 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(평활화)이 중요하면 리키 버킷, 사용자 경험(버스트 허용)이 중요하면 토큰 버킷을 선택한다.
+**최종 선택 기준**: 출력 속도의 일관성(평활화)이 중요하면 리키 버킷, 사용자 경험(버스트 허용)이 중요하면 토큰 버킷을 선택한다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② 관측 가능성(Observability) 내장, ③ 분산 환경에 맞는 변형 패턴 적용이다.
 
 - **📢 섹션 요약 비유**: 리키 버킷은 철도 시스템 — 아무리 많은 승객이 역에 몰려도 기차(출력)는 정해진 시간표(일정 속도)대로만 출발한다. 다음 기차 전까지 승객은 플랫폼(버킷)에서 대기하고, 플랫폼이 가득 차면 더 이상 입장할 수 없다(드롭).
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [Traffic Shaping](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) ([트래픽 쉐이핑](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/)) | 리키 버킷이 구현하는 [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 기법 |
-| 대비 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Token Bucket | 버스트 허용 + 평균 속도 제한 방식 |
-| 연관 개념 | [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) | 리키 버킷이 보장하는 네트워크 품질 |
-| 연관 개념 | CBR (Constant [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rate) | 리키 버킷이 실현하는 일정 비트율 |
-| 구현체 | Nginx `limit_req` | 리키 버킷 기반 [Rate Limiting](/studynote/09_security/05_web_app_security/520_rate_limiting/) |
-| 연관 개념 | Backpressure | 버킷 가득 찰 때의 역압 처리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| 연관 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Sliding Window [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | 다른 [Rate Limiting](/studynote/09_security/05_web_app_security/520_rate_limiting/) 비교 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 상위 개념 | Traffic Shaping (트래픽 쉐이핑) | 리키 버킷이 구현하는 QoS 기법 |
+| 대비 알고리즘 | Token Bucket | 버스트 허용 + 평균 속도 제한 방식 |
+| 연관 개념 | QoS (Quality of Service) | 리키 버킷이 보장하는 네트워크 품질 |
+| 연관 개념 | CBR (Constant Bit Rate) | 리키 버킷이 실현하는 일정 비트율 |
+| 구현체 | Nginx `limit_req` | 리키 버킷 기반 Rate Limiting |
+| 연관 개념 | Backpressure | 버킷 가득 찰 때의 역압 처리 전략 |
+| 연관 알고리즘 | Sliding Window Counter | 다른 Rate Limiting 비교 알고리즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) shaping -> 리키 버킷 [트래픽 쉐이핑](/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) -> [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 제어
+queue shaping -> 리키 버킷 트래픽 쉐이핑 -> QoS 제어
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 리키 버킷은 구멍 뚫린 물통 — 빗물(버스트 트래픽)이 아무리 많이 와도 물통(버킷)이 받아두고, 구멍(출력)에서는 항상 똑같은 속도로만 물이 나와.
 2. 물통이 가득 차면 더 이상 물을 받을 수 없어서 넘치는 빗물(초과 트래픽)은 버려져(드롭) — 토큰 버킷과 달리 버스트를 즉시 처리하지 않고 일정 속도로만 내보내.
-3. 이 방법은 네트워크에서 영상 통화(CBR)처럼 "일정한 속도"가 중요할 때 사용해 — 갑자기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰려도 수신자는 일정한 속도로만 받으니 화면이 끊기지 않아.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 287 / 530
-
-<- **이전**: [225. 쓰로틀링과 토큰 버킷 패턴 (Throttling / Token Bucket Pattern)](/studynote/11_design_supervision/04_gof_behavioral/225_throttling_token_bucket/)
-**다음**: [227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)](/studynote/11_design_supervision/04_gof_behavioral/227_boolean_parser_interpreter/) ->
-
----
+3. 이 방법은 네트워크에서 영상 통화(CBR)처럼 "일정한 속도"가 중요할 때 사용해 — 갑자기 데이터가 몰려도 수신자는 일정한 속도로만 받으니 화면이 끊기지 않아.

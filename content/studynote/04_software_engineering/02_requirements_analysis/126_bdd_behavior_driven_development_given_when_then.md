@@ -7,7 +7,7 @@ weight: 126
 ---
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BDD는 <strong>비즈니스 요구사항을 Given(전제)·When(행동)·Then(결과) 형식의 시나리오로 작성</strong>하고, 이 시나리오가 곧 자동화 테스트가 되는 개발 방법론이다.
-> 2. **가치**: TDD가 개발자 관점의 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 중심이라면, BDD는 <strong>비즈니스 <a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>(PO·QA)도 읽고 검증할 수 있는 자연어 시나리오</strong>로 요구사항과 테스트의 일치를 보장한다.
+> 2. **가치**: TDD가 개발자 관점의 단위 테스트 중심이라면, BDD는 <strong>비즈니스 이해관계자(PO·QA)도 읽고 검증할 수 있는 자연어 시나리오</strong>로 요구사항과 테스트의 일치를 보장한다.
 > 3. **판단 포인트**: Gherkin 문법(Given/When/Then)으로 시나리오를 작성하고, Cucumber·Behave 등 도구가 이를 자동화 테스트로 실행한다.
 
 ---
@@ -38,13 +38,13 @@ weight: 126
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) vs [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)
+### TDD vs BDD
 
-| 비교 | [TDD](/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) | [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) |
+| 비교 | TDD | BDD |
 |:---|:---|:---|
 | **관점** | 개발자 | **비즈니스 + 개발자** |
 | **언어** | 코드 | **자연어 (Gherkin)** |
-| **범위** | [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) | <strong><a href="/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a></strong> |
+| **범위** | 단위 테스트 | <strong>인수 테스트</strong> |
 | **도구** | JUnit, pytest | **Cucumber, Behave** |
 
 - **📢 섹션 요약 비유**: TDD는 부품 검사(단위), BDD는 완성차 시승(인수)이다.
@@ -53,26 +53,26 @@ weight: 126
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 수동 [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) | [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) |
+| 비교 | 수동 인수 테스트 | BDD |
 |:---|:---|:---|
 | **문서** | 엑셀 | **실행 가능 시나리오** |
 | **자동화** | 불가 | **자동 실행** |
-| **유지보수** | 문서 갱신 누락 | <strong>코드와 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> |
+| **유지보수** | 문서 갱신 누락 | <strong>코드와 동기화</strong> |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 도구
-- **Cucumber** (Java/Ruby): [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 대표.
-- **Behave** (Python): Python [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/).
-- **SpecFlow** (.NET): C# [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/).
+### BDD 도구
+- **Cucumber** (Java/Ruby): BDD 대표.
+- **Behave** (Python): Python BDD.
+- **SpecFlow** (.NET): C# BDD.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BDD는 <strong>"살아있는 문서(Living <a href="/studynote/04_software_engineering/06_software_architecture/378_software_documentation/">Documentation</a>)"</strong>를 통해 요구사항·테스트·코드의 일치를 보장하는 [Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발의 핵심 실천이다.
+BDD는 <strong>"살아있는 문서(Living Documentation)"</strong>를 통해 요구사항·테스트·코드의 일치를 보장하는 Agile 개발의 핵심 실천이다.
 
 ---
 
@@ -80,11 +80,11 @@ BDD는 <strong>"살아있는 문서(Living <a href="/studynote/04_software_engin
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Given/When/Then** | [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 시나리오 문법 |
-| **Gherkin** | [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 시나리오 언어 |
-| **Cucumber** | [BDD](/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 자동화 도구 |
-| <strong><a href="/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a></strong> | BDD의 기반 (코드 레벨) |
-| <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/">ATDD</a></strong> | 인수 [테스트 주도 개발](/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) |
+| **Given/When/Then** | BDD 시나리오 문법 |
+| **Gherkin** | BDD 시나리오 언어 |
+| **Cucumber** | BDD 자동화 도구 |
+| <strong>TDD</strong> | BDD의 기반 (코드 레벨) |
+| <strong>ATDD</strong> | 인수 테스트 주도 개발 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -108,14 +108,3 @@ BDD는 <strong>"살아있는 문서(Living <a href="/studynote/04_software_engin
 1. BDD는 연극 <strong>대본(시나리오)</strong>이에요. "만약 이러면, 이렇게 하면, 이런 결과가 나와야 해!"
 2. 감독(PO)·배우(개발자)·관객(QA) <strong>모두가 같은 대본</strong>을 보고 이해해요.
 3. 대본대로 연습(테스트)하면 **진짜 공연(배포) 때 실수가 없어요!**
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 126 / 973
-
-<- **이전**: [125. 12 Factor App - 클라우드 네이티브 애플리케이션 설계 12원칙](/studynote/04_software_engineering/02_requirements_analysis/125_12_factor_app_cloud_native_architecture/)
-**다음**: [127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/) ->
-
----

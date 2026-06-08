@@ -6,13 +6,13 @@ tags:
 weight: 47
 ---
 > **핵심 인사이트**
-> 1. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)([Constructive Cost Model](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/))는 Barry Boehm이 1981년 제안한 소프트웨어 개발 비용 추정 모델 — 소스 코드 라인 수(KLOC)를 기반으로 개발 공수(Person-Month)와 일정(Duration)을 계산하며, 프로젝트 규모와 유형에 따라 Basic->Intermediate->Detailed 3단계로 구성된다.
-> 2. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II(1995)는 객체 지향과 재사용 기반 개발을 반영한 현대화 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) — KLOC 대신 [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/))와 객체 점수(Object Point)를 지원하고, 22개 비용 드라이버(Cost Driver)로 [보정 계수](/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)를 계산하는 더 정교한 모델이다.
-> 3. COCOMO의 본질적 한계는 추정 정확도 — 동일 KLOC라도 언어, 팀 역량, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡도에 따라 실제 비용이 3~10배 차이날 수 있으며, COCOMO는 역사 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이는 ±50% 이상 오차가 일반적이다.
+> 1. COCOMO(Constructive Cost Model)는 Barry Boehm이 1981년 제안한 소프트웨어 개발 비용 추정 모델 — 소스 코드 라인 수(KLOC)를 기반으로 개발 공수(Person-Month)와 일정(Duration)을 계산하며, 프로젝트 규모와 유형에 따라 Basic->Intermediate->Detailed 3단계로 구성된다.
+> 2. COCOMO II(1995)는 객체 지향과 재사용 기반 개발을 반영한 현대화 버전 — KLOC 대신 기능 점수(Function Point)와 객체 점수(Object Point)를 지원하고, 22개 비용 드라이버(Cost Driver)로 보정 계수를 계산하는 더 정교한 모델이다.
+> 3. COCOMO의 본질적 한계는 추정 정확도 — 동일 KLOC라도 언어, 팀 역량, 도메인 복잡도에 따라 실제 비용이 3~10배 차이날 수 있으며, COCOMO는 역사 데이터 없이는 ±50% 이상 오차가 일반적이다.
 
 ---
 
-## Ⅰ. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 기본 모델
+## Ⅰ. COCOMO 기본 모델
 
 ```
 COCOMO Basic 모델:
@@ -61,7 +61,7 @@ Embedded (엄격한 제약, 복잡한 하드웨어):
 
 ---
 
-## Ⅱ. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) Intermediate와 비용 드라이버
+## Ⅱ. COCOMO Intermediate와 비용 드라이버
 
 ```
 COCOMO Intermediate:
@@ -107,11 +107,11 @@ EAF 계산 예:
   -> 팀 역량이 비용에 미치는 엄청난 영향!
 ```
 
-> 📢 **섹션 요약 비유**: EAF는 공사 조건 보정 — 기본 공사비에 "특수 자재([신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))×숙련 기술자(ACAP)×좋은 장비(도구)"를 곱해서 실제 비용 계산. 최고 팀은 절반 비용!
+> 📢 **섹션 요약 비유**: EAF는 공사 조건 보정 — 기본 공사비에 "특수 자재(신뢰성)×숙련 기술자(ACAP)×좋은 장비(도구)"를 곱해서 실제 비용 계산. 최고 팀은 절반 비용!
 
 ---
 
-## Ⅲ. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II
+## Ⅲ. COCOMO II
 
 ```
 COCOMO II (1995, USC-CSE):
@@ -158,7 +158,7 @@ COCOMO II 공수 공식:
   Python: 1 FP ≈ 21 LOC
 ```
 
-> 📢 **섹션 요약 비유**: [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II는 업그레이드된 설계 소프트웨어 — 2D 도면([COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) I) 대신 3D BIM 모델링. 재사용 자재, 현대 공법, 팀 성숙도까지 반영한 정교한 적산!
+> 📢 **섹션 요약 비유**: COCOMO II는 업그레이드된 설계 소프트웨어 — 2D 도면(COCOMO I) 대신 3D BIM 모델링. 재사용 자재, 현대 공법, 팀 성숙도까지 반영한 정교한 적산!
 
 ---
 
@@ -205,7 +205,7 @@ COCOMO II 공수 공식:
   초기 추정 = 범위(Range), 아님 정확값
 ```
 
-> 📢 **섹션 요약 비유**: 비용 추정 기법은 여행 경비 계산 — 가이드북([COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)), 경험자 물어보기(전문가), 지난 여행 비교(유추), 팀 토론([플래닝 포커](/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/)). 초기엔 어느 방법도 정확도 낮아요!
+> 📢 **섹션 요약 비유**: 비용 추정 기법은 여행 경비 계산 — 가이드북(COCOMO), 경험자 물어보기(전문가), 지난 여행 비교(유추), 팀 토론(플래닝 포커). 초기엔 어느 방법도 정확도 낮아요!
 
 ---
 
@@ -258,7 +258,7 @@ COCOMO II 계산:
   PERT 공수: (480+4×692+900)/6 = 692 PM
 ```
 
-> 📢 **섹션 요약 비유**: 공공 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 견적 계산은 건물 공사 적산 — [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II가 692 PM(약 58명×12개월) 산출. 발주처 요구(12개월)와 다르면? 범위 축소 또는 팀 증원으로 협상!
+> 📢 **섹션 요약 비유**: 공공 ERP 견적 계산은 건물 공사 적산 — COCOMO II가 692 PM(약 58명×12개월) 산출. 발주처 요구(12개월)와 다르면? 범위 축소 또는 팀 증원으로 협상!
 
 ---
 
@@ -317,16 +317,5 @@ ML 기반 추정 연구
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. COCOMO는 공사 견적서 — 지을 집 크기(KLOC)×공사 단가 = 공사비(공수). 간단하지만 숙련공(팀 역량)에 따라 단가가 달라요!
-2. EAF는 [보정 계수](/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/) — 기본 공사비에 "어려운 현장(복잡도)×명장(ACAP)×현대 장비(도구)" 곱해서 실제 비용 산출. 명장 팀이면 절반 비용!
-3. 추정 오차는 콘 모양 — 프로젝트 초기엔 ±50%, 설계 완료 후 ±[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%. 처음엔 범위로, 나중에 점으로 좁혀지는 불확실성!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 47 / 973
-
-<- **이전**: [046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation](/studynote/04_software_engineering/01_overview_principles/046_bottom_up_estimation_loc/)
-**다음**: [048. COCOMO II — 소프트웨어 비용 추정](/studynote/04_software_engineering/01_overview_principles/048_cocomo_2_model/) ->
-
----
+2. EAF는 보정 계수 — 기본 공사비에 "어려운 현장(복잡도)×명장(ACAP)×현대 장비(도구)" 곱해서 실제 비용 산출. 명장 팀이면 절반 비용!
+3. 추정 오차는 콘 모양 — 프로젝트 초기엔 ±50%, 설계 완료 후 ±10%. 처음엔 범위로, 나중에 점으로 좁혀지는 불확실성!

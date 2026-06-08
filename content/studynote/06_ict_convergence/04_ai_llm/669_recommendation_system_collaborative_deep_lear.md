@@ -166,11 +166,3 @@ $$
 - **Cold-start 지표 미측정**: 신규 아이템에 대한 Recall@K를 별도로 추적하지 않으면 **모델 개선이 long-tail에서 무효**화될 수 있음
 
 - **📢 섹션 요약 비유**: CDL을 **"콘텐츠도 보고 취향도 보는 똑똑한 도서관 사서"** 라고 하면, 사서가 너무
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 669 / 800
-
-<- **이전**: [668. 음성 인식 TTS ASR 음성 합성](/studynote/06_ict_convergence/uncategorized/668_speech_recognition_tts_asr_voice_synthesis/)
-**다음**: [670. AutoML 자동 모델 선택 하이퍼파라미터](/studynote/06_ict_convergence/uncategorized/670_automl_auto_model_selection_hyperparameter/) ->
-
----

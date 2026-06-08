@@ -7,30 +7,30 @@ weight: 620
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 이벤트 소싱 상태 재생 가능성 보장은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 전통적인 CRUD (Create, Read, Update, Delete) 모델에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 레코드가 덮어씌워지므로 "[현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)"만 남고 과거는 사라진다. 반면, [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 "잔고가 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원이다"라고 저장하는 대신, "15,000원 입금됨", "5,000원 출금됨" 이라는 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 자체를 저장한다. [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)는 이 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)들을 순차적으로 계산(Fold/Reduce)하여 도출해낸다.
+- **개념**: 전통적인 CRUD (Create, Read, Update, Delete) 모델에서는 데이터베이스의 레코드가 덮어씌워지므로 "현재 상태"만 남고 과거는 사라진다. 반면, 이벤트 소싱은 "잔고가 10,000원이다"라고 저장하는 대신, "15,000원 입금됨", "5,000원 출금됨" 이라는 이벤트 로그 자체를 저장한다. 현재 상태는 이 로그들을 순차적으로 계산(Fold/Reduce)하여 도출해낸다.
 
-- **필요성**: 은행 계좌나 쇼핑몰 장바구니처럼 "왜 이 상태가 되었는가?"에 대한 이력이 비즈니스적으로 매우 중요한 도메인에서는 단순 CRUD가 치명적인 한계를 갖는다. 별도의 이력 테이블(History Table)을 유지하려 해도 본진 테이블과 이력 테이블 간의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 불일치가 발생할 위험이 크다. 모든 변경을 '이벤트'라는 단일 진실의 원천(Source of Truth)으로 통합하면, [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 원천적으로 차단할 수 있다.
+- **필요성**: 은행 계좌나 쇼핑몰 장바구니처럼 "왜 이 상태가 되었는가?"에 대한 이력이 비즈니스적으로 매우 중요한 도메인에서는 단순 CRUD가 치명적인 한계를 갖는다. 별도의 이력 테이블(History Table)을 유지하려 해도 본진 테이블과 이력 테이블 간의 트랜잭션 불일치가 발생할 위험이 크다. 모든 변경을 '이벤트'라는 단일 진실의 원천(Source of Truth)으로 통합하면, 동시성 문제와 데이터 유실을 원천적으로 차단할 수 있다.
 
-- **💡 비유**: 체스 게임을 할 때 '현재 체스판에 놓인 말들의 위치'만 사진으로 찍어두는 것이 CRUD 방식이라면, '백이 폰을 E4로 옮겼다', '흑이 나이트를 C6로 옮겼다'는 '기보(棋譜)'를 순서대로 모두 적어두는 것이 [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이다. 기보만 있으면 언제든 빈 체스판에서부터 지금의 상태를 똑같이 재현할 수 있다.
+- **💡 비유**: 체스 게임을 할 때 '현재 체스판에 놓인 말들의 위치'만 사진으로 찍어두는 것이 CRUD 방식이라면, '백이 폰을 E4로 옮겼다', '흑이 나이트를 C6로 옮겼다'는 '기보(棋譜)'를 순서대로 모두 적어두는 것이 이벤트 소싱이다. 기보만 있으면 언제든 빈 체스판에서부터 지금의 상태를 똑같이 재현할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **회계 장부 모델 (Ledger)**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 철학은 수백 년 전부터 쓰인 복식부기 회계 장부와 동일하다. 회계 장부는 한 번 적힌 기록을 지우개로 지우지 않고(No Delete), 취소할 때는 차감 내역을 새로 적어 넣는다(Append-only).
-  2. <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템과 MSA의 등장</strong>: [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 상태값만 주고받으면 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 생긴다. "어떤 사건이 발생했는지([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Event)"를 전달하는 것이 훨씬 결합도를 낮춘다는 사실이 증명되면서 [이벤트 주도 아키텍처](/studynote/11_design_supervision/06_exam_summary/367_architecture/)([EDA](/studynote/12_it_management/02_itsm_itil/064_eda/))가 부상했다.
-  3. **Event Store의 발전**: [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), EventStoreDB 등 Append-only에 최적화된 고성능 스토리지 기술이 성숙해지며 [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)을 엔터프라이즈 레벨에서 구현할 수 있는 토대가 마련되었다.
+  1. **회계 장부 모델 (Ledger)**: 이벤트 소싱의 철학은 수백 년 전부터 쓰인 복식부기 회계 장부와 동일하다. 회계 장부는 한 번 적힌 기록을 지우개로 지우지 않고(No Delete), 취소할 때는 차감 내역을 새로 적어 넣는다(Append-only).
+  2. <strong>분산 시스템과 MSA의 등장</strong>: 마이크로서비스 간에 데이터를 주고받을 때 상태값만 주고받으면 동기화 문제가 생긴다. "어떤 사건이 발생했는지(Domain Event)"를 전달하는 것이 훨씬 결합도를 낮춘다는 사실이 증명되면서 이벤트 주도 아키텍처(EDA)가 부상했다.
+  3. **Event Store의 발전**: Kafka, EventStoreDB 등 Append-only에 최적화된 고성능 스토리지 기술이 성숙해지며 이벤트 소싱을 엔터프라이즈 레벨에서 구현할 수 있는 토대가 마련되었다.
 
 - **📢 섹션 요약 비유**: 일기장에 "오늘은 슬프다"라고만 지우고 덧쓰는 것이 아니라, "아침에 비가 옴", "우산을 잃어버림", "넘어짐"이라는 사건들을 시간순으로 적어두면, 나중에 왜 슬퍼졌는지 완벽하게 추적하고 과거를 돌아볼 수 있는 것과 같습니다.
 
 ---
 
-다음은 [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 이벤트 소싱 상태 재생 가능성 보장의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -45,7 +45,7 @@ weight: 620
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 이벤트 소싱 상태 재생 가능성 보장가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -55,18 +55,18 @@ weight: 620
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+이벤트 소싱 상태 재생 가능성 보장의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+이벤트 소싱 상태 재생 가능성 보장의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: 이벤트 소싱 상태 재생 가능성 보장의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -76,18 +76,18 @@ weight: 620
 
 ## Ⅲ. 비교 및 연결
 
-[이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+이벤트 소싱 상태 재생 가능성 보장을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장 | 유사 대안 |
+| 비교 항목 | 이벤트 소싱 상태 재생 가능성 보장 | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 소프트웨어 공학 개념과의 연결을 보면, 이벤트 소싱 상태 재생 가능성 보장은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: 이벤트 소싱 상태 재생 가능성 보장과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -97,9 +97,9 @@ weight: 620
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+이벤트 소싱 상태 재생 가능성 보장을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 이벤트 소싱 상태 재생 가능성 보장은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -107,21 +107,21 @@ weight: 620
 
 ## Ⅴ. 기대효과 및 결론
 
-[이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+이벤트 소싱 상태 재생 가능성 보장을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-[이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+이벤트 소싱 상태 재생 가능성 보장은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 이벤트 소싱 상태 재생 가능성 보장의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -133,10 +133,10 @@ weight: 620
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 이벤트 소싱 상태 재생 가능성 보장의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 이벤트 소싱 상태 재생 가능성 보장은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 이벤트 소싱 상태 재생 가능성 보장 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 이벤트 소싱 상태 재생 가능성 보장에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,21 +156,10 @@ weight: 620
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [이벤트 소싱](/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 상태 재생 가능성 보장은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 이벤트 소싱 상태 재생 가능성 보장은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 786 / 973
-
-<- **이전**: [619. 사가 (Saga) 패턴 2PC 한계 극복 분산 트랜잭션](/studynote/04_software_engineering/10_trends_pm_quality/619_saga_pattern_distributed_transaction/)
-**다음**: [621. CQRS 읽기 쓰기 분리 스케일 아웃](/studynote/04_software_engineering/10_trends_pm_quality/621_cqrs_read_write_separation_scale_out/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

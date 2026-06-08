@@ -110,12 +110,3 @@ Core flow: Sense -> Measure -> Analyze -> Actuate -> Optimize
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 609 / 800
-
-<- **이전**: [608. 디지털 헬스 원격의료 PHR 건강데이터](/studynote/06_ict_convergence/uncategorized/608_digital_health_telemedicine_phr_health_data/)
-**다음**: [610. 스마트 물류 자동화 라스트마일 배송](/studynote/06_ict_convergence/uncategorized/610_smart_logistics_automation_last_mile_delivery/) ->
-
----

@@ -8,17 +8,17 @@ weight: 76
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동기식 [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) TDM)는 모든 채널에 고정된 타임 슬롯(Time Slot)을 미리 배정하는 가장 단순한 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 방식이다.
-> 2. **가치**: 슬롯 순서만 알면 되므로 헤더 오버헤드가 거의 없고, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 예측 가능해 음성 같은 일정한 전송에 잘 맞는다.
-> 3. **판단 포인트**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비는 채널도 자리를 비워 두므로, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트형 트래픽이 많은 환경에서는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 크다.
+> 1. **본질**: 동기식 시분할 다중화(Synchronous TDM)는 모든 채널에 고정된 타임 슬롯(Time Slot)을 미리 배정하는 가장 단순한 다중화 방식이다.
+> 2. **가치**: 슬롯 순서만 알면 되므로 헤더 오버헤드가 거의 없고, 지연이 예측 가능해 음성 같은 일정한 전송에 잘 맞는다.
+> 3. **판단 포인트**: 데이터가 비는 채널도 자리를 비워 두므로, 버스트형 트래픽이 많은 환경에서는 대역폭 낭비가 크다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-동기식 TDM(Time [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))은 하나의 회선을 여러 채널이 나눠 쓰도록 시간표를 고정해 둔 방식이다. 송신기와 수신기가 같은 클럭에 맞춰 움직여야 하므로 "언제 보낼 차례인가"가 항상 정해져 있다.
+동기식 TDM(Time Division Multiplexing)은 하나의 회선을 여러 채널이 나눠 쓰도록 시간표를 고정해 둔 방식이다. 송신기와 수신기가 같은 클럭에 맞춰 움직여야 하므로 "언제 보낼 차례인가"가 항상 정해져 있다.
 
-이 방식이 등장한 이유는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 통신망이 단순하고, 회선이 비쌌으며, 일정한 주기로 말소리를 보내는 음성 서비스가 많았기 때문이다. 즉, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자주 비어도 정해진 박자로 보내는 것이 오히려 안정적이었다.
+이 방식이 등장한 이유는 초기 통신망이 단순하고, 회선이 비쌌으며, 일정한 주기로 말소리를 보내는 음성 서비스가 많았기 때문이다. 즉, 데이터가 자주 비어도 정해진 박자로 보내는 것이 오히려 안정적이었다.
 
 ```text
 Frame 1: | A | B | C | D |
@@ -35,15 +35,15 @@ Frame 2: | A | B | C | D |
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-동기식 TDM은 [MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)([Multiplexer](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/))가 각 입력의 시간을 나눠 한 개의 고속 링크에 순서대로 실어 보내고, DEMUX([Demultiplexer](/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/))가 같은 순서로 다시 나눈다. 핵심은 프레임과 슬롯의 고정성이며, 주소 정보가 따로 필요 없다는 점이다.
+동기식 TDM은 MUX(Multiplexer)가 각 입력의 시간을 나눠 한 개의 고속 링크에 순서대로 실어 보내고, DEMUX(Demultiplexer)가 같은 순서로 다시 나눈다. 핵심은 프레임과 슬롯의 고정성이며, 주소 정보가 따로 필요 없다는 점이다.
 
 | 구성 요소 | 역할 | 특징 |
 | :-- | :-- | :-- |
-| [MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)([Multiplexer](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)) | 여러 채널을 하나의 링크로 합침 | 고정 슬롯 순서 유지 |
+| MUX(Multiplexer) | 여러 채널을 하나의 링크로 합침 | 고정 슬롯 순서 유지 |
 | Frame | 슬롯 묶음 | 반복 주기 |
-| Slot | 한 채널의 시간 조각 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유무와 무관 |
-| DEMUX([Demultiplexer](/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)) | 수신 측 분리 | 순서만 알면 복원 가능 |
-| [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Sync | 송수신 동기 | 프레임 오정렬 방지 |
+| Slot | 한 채널의 시간 조각 | 데이터 유무와 무관 |
+| DEMUX(Demultiplexer) | 수신 측 분리 | 순서만 알면 복원 가능 |
+| Clock Sync | 송수신 동기 | 프레임 오정렬 방지 |
 
 ```text
 [Node A] -+
@@ -52,7 +52,7 @@ Frame 2: | A | B | C | D |
 [Node D] -+
 ```
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없을 때도 자리를 비워 두므로 단순하지만 낭비가 생긴다. 그 대신 구현은 쉽고 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 예측 가능하다.
+데이터가 없을 때도 자리를 비워 두므로 단순하지만 낭비가 생긴다. 그 대신 구현은 쉽고 지연은 예측 가능하다.
 
 - **📢 섹션 요약 비유**: 학교 시간표처럼 1교시, 2교시, 3교시가 항상 정해져 있으면 관리가 쉽다. 하지만 어떤 수업은 비어 있어도 그 시간은 그대로 지나간다.
 
@@ -60,13 +60,13 @@ Frame 2: | A | B | C | D |
 
 ## Ⅲ. 비교 및 연결
 
-동기식 TDM은 통계적 TDM(Statistical TDM), FDM(Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))과 비교하면 성격이 더 분명해진다.
+동기식 TDM은 통계적 TDM(Statistical TDM), FDM(Frequency Division Multiplexing)과 비교하면 성격이 더 분명해진다.
 
-| 방식 | 슬롯/대역 배정 | 효율 | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 적합한 트래픽 |
+| 방식 | 슬롯/대역 배정 | 효율 | 지연 | 적합한 트래픽 |
 | :-- | :-- | :-- | :-- | :-- |
-| 동기식 TDM | 고정 | 낮을 수 있음 | 예측 가능 | 일정한 음성/[전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) |
-| 통계적 TDM | 수요 기반 | 높음 | 변동 가능 | [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| FDM(Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) | 주파수 분할 | 중간 | 예측 가능 | 아날로그/혼합 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) |
+| 동기식 TDM | 고정 | 낮을 수 있음 | 예측 가능 | 일정한 음성/전용선 |
+| 통계적 TDM | 수요 기반 | 높음 | 변동 가능 | 버스트형 데이터 |
+| FDM(Frequency Division Multiplexing) | 주파수 분할 | 중간 | 예측 가능 | 아날로그/혼합 신호 |
 
 동기식 TDM은 헤더가 거의 필요 없다는 점에서 단순하다. 하지만 인터넷처럼 트래픽이 들쭉날쭉하면 그 단순함이 곧 낭비가 된다.
 
@@ -78,15 +78,15 @@ Frame 2: | A | B | C | D |
 
 동기식 TDM은 일정한 전송률이 중요한 레거시 회선에서 여전히 의미가 있다. 예를 들어 PSTN(Public Switched Telephone Network), E1(2.048 Mbps), T1(1.544 Mbps) 같은 전용 회선 구조는 이 철학과 잘 맞는다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 1. 트래픽이 거의 일정한가?
-2. [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예측 가능성이 중요한가?
+2. 지연 예측 가능성이 중요한가?
 3. 빈 슬롯 낭비를 감수해도 되는가?
 4. 송수신 클럭 동기가 안정적인가?
 5. 레거시 회선(E1/T1, PSTN)에 맞는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트형 인터넷 트래픽에 무조건 적용
+### 안티패턴
+- 버스트형 인터넷 트래픽에 무조건 적용
 - 슬롯 낭비를 무시하고 효율만 주장
 - 동기 클럭 오차를 검증하지 않음
 - 현대 패킷망과 구분 없이 설명
@@ -99,22 +99,22 @@ Frame 2: | A | B | C | D |
 
 ## Ⅴ. 기대효과 및 결론
 
-동기식 TDM은 구조가 단순하고 구현이 쉬우며, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 일정하다는 장점이 있다. 그래서 음성처럼 일정 주기로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오는 서비스에 잘 맞는다.
+동기식 TDM은 구조가 단순하고 구현이 쉬우며, 지연이 일정하다는 장점이 있다. 그래서 음성처럼 일정 주기로 데이터가 오는 서비스에 잘 맞는다.
 
-하지만 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신처럼 불규칙한 트래픽에서는 비효율이 커진다. 따라서 동기식 TDM은 "예측 가능한 전송을 얻기 위해 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 감수하는 방식"으로 기억해야 한다.
+하지만 현대 데이터 통신처럼 불규칙한 트래픽에서는 비효율이 커진다. 따라서 동기식 TDM은 "예측 가능한 전송을 얻기 위해 대역폭 낭비를 감수하는 방식"으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 빈 좌석이 있어도 시간표대로 출발하는 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 같다. 정시에 오지만, 타는 사람이 적으면 비어 있는 칸이 많다.
+- **📢 섹션 요약 비유**: 빈 좌석이 있어도 시간표대로 출발하는 버스와 같다. 정시에 오지만, 타는 사람이 적으면 비어 있는 칸이 많다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| TDM(Time [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) | 시간 분할 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) |
-| [MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)/DEMUX | 합치기와 나누기 |
+| TDM(Time Division Multiplexing) | 시간 분할 다중화 |
+| MUX/DEMUX | 합치기와 나누기 |
 | Frame / Slot | 고정된 시간 구조 |
-| [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Sync | 송수신 동기 |
+| Clock Sync | 송수신 동기 |
 | PSTN | 전통적 음성망 |
-| E1/T1 | 대표 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) |
+| E1/T1 | 대표 전용선 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,21 +132,10 @@ Frame 2: | A | B | C | D |
     +- 수요 기반 / 효율 향상
 ```
 
-이 흐름은 회선 중심의 고정 배분에서 수요 중심의 유연 배분으로 진화한 과정을 보여준다. 앞으로는 패킷 기반 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)가 더 일반적이지만, 일정성은 여전히 레거시 분야에서 중요하다.
+이 흐름은 회선 중심의 고정 배분에서 수요 중심의 유연 배분으로 진화한 과정을 보여준다. 앞으로는 패킷 기반 다중화가 더 일반적이지만, 일정성은 여전히 레거시 분야에서 중요하다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 좌석을 항상 같은 사람에게 미리 정해 두는 것과 같아요.
+1. 버스 좌석을 항상 같은 사람에게 미리 정해 두는 것과 같아요.
 2. 그 사람이 안 와도 좌석은 그냥 비워 둬요.
 3. 동기식 TDM은 자리를 고정해 두고 보내는 방법이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 76 / 1120
-
-<- **이전**: [75. 시분할 다중화 (TDM, Time Division Multiplexing) (타임디비전 멀티플렉싱)](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)
-**다음**: [77. 비동기식/통계적 시분할 다중화 (Asynchronous/Statistical TDM) - 동적 할당](/studynote/03_network/02_multiplexing_multiple_access/077_비동기식_통계적_TDM/) ->
-
----

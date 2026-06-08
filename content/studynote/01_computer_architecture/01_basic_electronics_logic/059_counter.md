@@ -7,9 +7,9 @@ weight: 59
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카운터(Counter)는 클럭([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))마다 미리 정한 이진 상태 순서를 따라 전이하는 순차 논리회로다.
-> 2. **가치**: 주파수 분주(Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/)), 타이머, [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program Counter)의 하드웨어 기반이 된다.
-> 3. **판단 포인트**: 비동기식(Ripple)과 동기식([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/))의 선택이 속도, 글리치(Glitch), 회로 복잡도를 가른다.
+> 1. **본질**: 카운터(Counter)는 클럭(Clock)마다 미리 정한 이진 상태 순서를 따라 전이하는 순차 논리회로다.
+> 2. **가치**: 주파수 분주(Frequency Division), 타이머, 프로그램 카운터(PC, Program Counter)의 하드웨어 기반이 된다.
+> 3. **판단 포인트**: 비동기식(Ripple)과 동기식(Synchronous)의 선택이 속도, 글리치(Glitch), 회로 복잡도를 가른다.
 
 ---
 
@@ -25,7 +25,7 @@ weight: 59
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-카운터의 핵심은 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)) 여러 개를 연결해 상태를 저장하고, 클럭 에지([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Edge)에서만 값을 바꾸는 데 있다. 3비트 카운터는 000부터 111까지 상태를 순서대로 훑는다.
+카운터의 핵심은 플립플롭(Flip-Flop) 여러 개를 연결해 상태를 저장하고, 클럭 에지(Clock Edge)에서만 값을 바꾸는 데 있다. 3비트 카운터는 000부터 111까지 상태를 순서대로 훑는다.
 
 ```text
 클럭 --> [T FF Q0] --> [T FF Q1] --> [T FF Q2]
@@ -41,7 +41,7 @@ weight: 59
 | 3   | 0 | 1 | 1 |
 | 4   | 1 | 0 | 0 |
 
-T [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)(Toggle [Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))은 클럭이 들어오면 상태를 반전시키기 때문에 카운터 구현에 가장 잘 맞는다. JK [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)도 토글 모드로 묶으면 같은 역할을 수행한다.
+T 플립플롭(Toggle Flip-Flop)은 클럭이 들어오면 상태를 반전시키기 때문에 카운터 구현에 가장 잘 맞는다. JK 플립플롭도 토글 모드로 묶으면 같은 역할을 수행한다.
 
 - **📢 섹션 요약 비유**: 손가락을 하나씩 접으며 숫자를 세는 로봇인데, 맨 오른쪽 손가락이 두 번 움직일 때만 옆 손가락이 한 번 움직인다.
 
@@ -49,12 +49,12 @@ T [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/
 
 ## Ⅲ. 비교 및 연결
 
-카운터는 동작 방식에 따라 비동기식(Ripple Counter)과 동기식([Synchronous Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/))으로 나뉜다.
+카운터는 동작 방식에 따라 비동기식(Ripple Counter)과 동기식(Synchronous Counter)으로 나뉜다.
 
 | 항목 | 비동기식 | 동기식 |
 | :-- | :-- | :-- |
-| 클럭 연결 | 앞 단계 출력이 다음 단계 클럭 | 모든 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)에 공통 클럭 |
-| 속도 | 느림, [전파 지연](/studynote/03_network/01_data_communication/016_전파_지연/) 누적 | 빠름, 동시에 갱신 |
+| 클럭 연결 | 앞 단계 출력이 다음 단계 클럭 | 모든 플립플롭에 공통 클럭 |
+| 속도 | 느림, 전파 지연 누적 | 빠름, 동시에 갱신 |
 | 안정성 | 글리치 발생 가능 | 타이밍 제어가 수월 |
 | 복잡도 | 단순 | 회로가 더 복잡 |
 
@@ -68,13 +68,13 @@ T [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/
 
 실무에서는 카운터를 단순 숫자 세기보다 시스템 시간축 제어로 본다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. Mod-N 카운터가 필요한가? 예: 10진 시계, 통신 프레임 수 카운트.
-2. 속도가 중요한가? 예: 동기식 선택, [전파 지연](/studynote/03_network/01_data_communication/016_전파_지연/) 검토.
-3. 상태 전이가 외부에 보여도 안전한가? 예: [Gray Code](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) ([Gray Code](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)) 적용.
+2. 속도가 중요한가? 예: 동기식 선택, 전파 지연 검토.
+3. 상태 전이가 외부에 보여도 안전한가? 예: Gray Code (Gray Code) 적용.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 소프트웨어 폴링으로 하드웨어 카운터를 대신하는 설계
 - 비동기식 카운터를 고속 클럭에 그대로 쓰는 설계
@@ -83,9 +83,9 @@ T [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/
 ### 활용 포인트
 
 - 하드웨어 타이머
-- [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program Counter)
+- 프로그램 카운터(PC, Program Counter)
 - 주파수 분주기
-- 회전 인코더와 [Gray Code](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/)
+- 회전 인코더와 Gray Code
 
 - **📢 섹션 요약 비유**: 숫자판을 손으로 직접 돌릴지, 자동 시계 장치에 맡길지 결정하는 문제다.
 
@@ -136,14 +136,3 @@ Mod-N / Gray Code / 분주기
 카운터는 박수 소리가 날 때마다 숫자를 하나씩 올려 주는 로봇이에요.
 어떤 로봇은 느리게 차례차례 움직이고, 어떤 로봇은 한 번에 같이 움직여요.
 이 로봇 덕분에 컴퓨터는 시간을 세고 순서를 잊지 않아요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 59 / 803
-
-<- **이전**: [58. 시프트 레지스터 (Shift Register)](/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/)
-**다음**: [60. 동기식 카운터 (Synchronous Counter)](/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/) ->
-
----

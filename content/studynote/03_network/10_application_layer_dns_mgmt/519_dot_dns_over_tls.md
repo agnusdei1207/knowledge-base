@@ -15,8 +15,8 @@ weight: 519
 
 ## Ⅰ. 개요 및 필요성
 
-DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의(Query)와 응답(Response)을 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 프로토콜로 암호화하여 전송하는 국제 표준(RFC 7858)입니다.
-인터넷 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))나 중간자(Man-in-the-Middle)가 사용자의 웹 방문 기록을 도청하거나 조작하는 것을 방지하기 위해 도입되었습니다.
+DoT는 기존에 평문(Plaintext)으로 전송되던 DNS 질의(Query)와 응답(Response)을 TLS(Transport Layer Security) 프로토콜로 암호화하여 전송하는 국제 표준(RFC 7858)입니다.
+인터넷 서비스 제공자(ISP)나 중간자(Man-in-the-Middle)가 사용자의 웹 방문 기록을 도청하거나 조작하는 것을 방지하기 위해 도입되었습니다.
 
 ```text
 [DNSSEC]
@@ -27,7 +27,7 @@ DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/studynote/03_networ
     +---> [DoH]
 ```
 
-- **📢 섹션 요약 비유**: DoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: DoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
@@ -35,9 +35,9 @@ DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/studynote/03_networ
 
 | 구분 | 설명 |
 |:---|:---|
-| <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)</strong> | 전용 <strong><a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 853번</strong>을 사용합니다. |
-| **암호화 방식** | HTTPS와 동일하게 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 지향 종단간([End-to-End](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 암호화를 제공합니다. |
-| **목적** | <strong>프라이버시(Privacy) <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>가 최우선 목적입니다. (DNSSEC은 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 검증이 목적) |
+| <strong>포트(Port)</strong> | 전용 <strong>TCP 포트 853번</strong>을 사용합니다. |
+| **암호화 방식** | HTTPS와 동일하게 TLS 지향 종단간(End-to-End) 암호화를 제공합니다. |
+| **목적** | <strong>프라이버시(Privacy) 보호</strong>가 최우선 목적입니다. (DNSSEC은 무결성 검증이 목적) |
 
 ```text
 [DNSSEC]
@@ -54,8 +54,8 @@ DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/studynote/03_networ
 
 ## Ⅲ. 비교 및 연결
 
-1. <strong><a href="/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 연결 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 클라이언트(또는 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 포워더)가 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(예: 8.8.8.8, 1.1.1.1)의 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 853 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 연결하고 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 수행합니다.
-2. **암호화된 질의 전송**: [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 터널이 형성되면, 기존의 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 메시지 형식 그대로 암호화 터널을 통해 질의를 보냅니다.
+1. <strong>TLS 연결 설정</strong>: 클라이언트(또는 DNS 포워더)가 DNS 서버(예: 8.8.8.8, 1.1.1.1)의 TCP 853 포트로 연결하고 TLS 핸드셰이크를 수행합니다.
+2. **암호화된 질의 전송**: TLS 터널이 형성되면, 기존의 DNS 메시지 형식 그대로 암호화 터널을 통해 질의를 보냅니다.
 3. **암호화된 응답 수신**: 서버 역시 암호화된 상태로 IP 주소를 응답합니다.
 
 DoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DNSSEC가 기반 조건을 만든다면, DoT는 그 위에서 핵심 메커니즘을 구현하고, DoH는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -64,7 +64,7 @@ DoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 |:---|:---|:---|:---|
 | 초점 | DNSSEC의 기반 정리 | DoT의 핵심 동작 | DoH의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 가시성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
 - **📢 섹션 요약 비유**: DoT는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -73,22 +73,22 @@ DoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 DoT와 DoH는 모두 DNS를 암호화하지만 접근 방식이 다릅니다.
-- <strong>DoT (<a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 853)</strong>: 네트워크 계층 수준에서 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 전용 암호화 채널을 분리합니다. [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자가 853 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 차단하면 쉽게 막힐 수 있습니다.
-- <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/">DoH</a> (<a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 443)</strong>: 일반 웹 트래픽([HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))과 동일한 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 사용해 그 속에 DNS를 숨깁니다. 네트워크 관리자가 웹 트래픽과 [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 트래픽을 구분하기 어려워 검열(차단)을 회피하는 데 훨씬 유리합니다.
+- <strong>DoT (TCP 853)</strong>: 네트워크 계층 수준에서 DNS 전용 암호화 채널을 분리합니다. 방화벽 관리자가 853 포트를 차단하면 쉽게 막힐 수 있습니다.
+- <strong>DoH (TCP 443)</strong>: 일반 웹 트래픽(HTTPS)과 동일한 포트를 사용해 그 속에 DNS를 숨깁니다. 네트워크 관리자가 웹 트래픽과 DNS 트래픽을 구분하기 어려워 검열(차단)을 회피하는 데 훨씬 유리합니다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날에는 수신인 이름이 다 보이는 엽서([UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 53)를 썼기 때문에 우체부([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))가 내 관심사를 다 알았지만, DoT는 그걸 단단한 '보안 서류 가방([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 853)'에 넣어서 잠근 뒤 우체국에 전달하는 방식입니다.
+- **📢 섹션 요약 비유**: 옛날에는 수신인 이름이 다 보이는 엽서(UDP 53)를 썼기 때문에 우체부(ISP)가 내 관심사를 다 알았지만, DoT는 그걸 단단한 '보안 서류 가방(TLS 853)'에 넣어서 잠근 뒤 우체국에 전달하는 방식입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DoT는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 가시성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [DoH](/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/), 자율 운영 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율 운영 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+DoT는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 가시성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 DoH, 자율 운영 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율 운영 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: DoT는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -98,10 +98,10 @@ DoT는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [DNSSEC](/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) | 이름과 주소를 연결해 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 접근성을 만든다. |
+| DNSSEC | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| DNS (Domain Name System) | 이름과 주소를 연결해 서비스 접근성을 만든다. |
 | 모니터링 (Monitoring) | 장애 징후를 조기에 발견하기 위한 기초다. |
-| [DoH](/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| DoH | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,14 +122,3 @@ DoT는 DNSSEC에서 출발해 현재 메커니즘을 정교화하고, 이후 DoH
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 640 / 1120
-
-<- **이전**: [518. DNSSEC (DNS Security Extensions)](/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/)
-**다음**: [520. DoH (DNS over HTTPS)](/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) ->
-
----

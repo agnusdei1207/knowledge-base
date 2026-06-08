@@ -6,17 +6,17 @@ tags:
 weight: 25
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 모든 상황에서 최적인 단일 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없으며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모·분포·메모리·안정성 요구에 따라 최적 선택이 달라진다.
-> 2. **가치**: 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 종합 비교 이해는 면접·기술사 시험에서 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 판단력을 보여주는 핵심 소양이며 실무 시스템 설계의 직접적 기준이 된다.
-> 3. **판단 포인트**: 실무에서는 언어 표준 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)([Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/), [Introsort](/studynote/08_algorithm_stats/02_sorting/020_introsort/))가 기본 선택이며, 비교 기반 O(n log n) 한계가 문제일 때만 비비교 정렬(계수/[기수](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)/버킷)을 고려한다.
+> 1. **본질**: 모든 상황에서 최적인 단일 정렬 알고리즘은 없으며, 데이터 규모·분포·메모리·안정성 요구에 따라 최적 선택이 달라진다.
+> 2. **가치**: 정렬 알고리즘의 종합 비교 이해는 면접·기술사 시험에서 알고리즘 설계 판단력을 보여주는 핵심 소양이며 실무 시스템 설계의 직접적 기준이 된다.
+> 3. **판단 포인트**: 실무에서는 언어 표준 라이브러리(Timsort, Introsort)가 기본 선택이며, 비교 기반 O(n log n) 한계가 문제일 때만 비비교 정렬(계수/기수/버킷)을 고려한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 단순히 복잡도 표를 외우는 것이 아니라, <strong>실제 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 시스템 제약을 고려한 종합 판단</strong>이다. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)마다 장단점이 있으며, 같은 O(n log n) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 캐시 효율, 안정성, 메모리 사용량에서 크게 다르다.
+정렬 알고리즘 선택은 단순히 복잡도 표를 외우는 것이 아니라, <strong>실제 데이터와 시스템 제약을 고려한 종합 판단</strong>이다. 알고리즘마다 장단점이 있으며, 같은 O(n log n) 알고리즘도 캐시 효율, 안정성, 메모리 사용량에서 크게 다르다.
 
-### 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계
+### 정렬 알고리즘 분류 체계
 
 ```
 정렬 알고리즘
@@ -32,30 +32,30 @@ weight: 25
     +-- 버킷 정렬 (Bucket Sort)
 ```
 
-📢 **섹션 요약 비유**: 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 여행 수단 선택과 같다. 짧은 거리는 자전거([삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)), 보통 거리는 자동차(퀵/병합), 정해진 노선은 기차([기수 정렬](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)), 느린 교통 상황에는 오토바이([Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/))가 최적이다.
+📢 **섹션 요약 비유**: 정렬 알고리즘 선택은 여행 수단 선택과 같다. 짧은 거리는 자전거(삽입 정렬), 보통 거리는 자동차(퀵/병합), 정해진 노선은 기차(기수 정렬), 느린 교통 상황에는 오토바이(Timsort)가 최적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 종합 비교표
+### 정렬 알고리즘 종합 비교표
 
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최선 | 평균 | 최악 | 공간 | 안정 | 제자리 | 적응형 |
+| 알고리즘 | 최선 | 평균 | 최악 | 공간 | 안정 | 제자리 | 적응형 |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| [버블 정렬](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) | O(n) | O(n^) | O(n^) | O(1) | ✅ | ✅ | ✅ |
-| [선택 정렬](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) | O(n^) | O(n^) | O(n^) | O(1) | ❌ | ✅ | ❌ |
-| [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) | O(n) | O(n^) | O(n^) | O(1) | ✅ | ✅ | ✅ |
-| [셸 정렬](/studynote/08_algorithm_stats/02_sorting/029_shell_sort/) | O(n log n) | O(n^1.3) | O(n^) | O(1) | ❌ | ✅ | ✅ |
+| 버블 정렬 | O(n) | O(n^) | O(n^) | O(1) | ✅ | ✅ | ✅ |
+| 선택 정렬 | O(n^) | O(n^) | O(n^) | O(1) | ❌ | ✅ | ❌ |
+| 삽입 정렬 | O(n) | O(n^) | O(n^) | O(1) | ✅ | ✅ | ✅ |
+| 셸 정렬 | O(n log n) | O(n^1.3) | O(n^) | O(1) | ❌ | ✅ | ✅ |
 | 병합 정렬 | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ | ❌ | ❌ |
-| [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | O(n log n) | O(n log n) | O(n^) | O(log n) | ❌ | ✅ | ❌ |
-| [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | O(n log n) | O(n log n) | O(n log n) | O(1) | ❌ | ✅ | ❌ |
-| [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/) | O(n) | O(n log n) | O(n log n) | O(n) | ✅ | ❌ | ✅ |
-| [Introsort](/studynote/08_algorithm_stats/02_sorting/020_introsort/) | O(n log n) | O(n log n) | O(n log n) | O(log n) | ❌ | ✅ | ❌ |
-| [계수 정렬](/studynote/08_algorithm_stats/02_sorting/016_counting_sort/) | O(n+k) | O(n+k) | O(n+k) | O(n+k) | ✅ | ❌ | — |
-| [기수 정렬](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) | O(d·n) | O(d·n) | O(d·n) | O(n+k) | ✅ | ❌ | — |
-| [버킷 정렬](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) | O(n) | O(n) | O(n^) | O(n) | ✅ | ❌ | — |
+| 퀵 정렬 | O(n log n) | O(n log n) | O(n^) | O(log n) | ❌ | ✅ | ❌ |
+| 힙 정렬 | O(n log n) | O(n log n) | O(n log n) | O(1) | ❌ | ✅ | ❌ |
+| Timsort | O(n) | O(n log n) | O(n log n) | O(n) | ✅ | ❌ | ✅ |
+| Introsort | O(n log n) | O(n log n) | O(n log n) | O(log n) | ❌ | ✅ | ❌ |
+| 계수 정렬 | O(n+k) | O(n+k) | O(n+k) | O(n+k) | ✅ | ❌ | — |
+| 기수 정렬 | O(d·n) | O(d·n) | O(d·n) | O(n+k) | ✅ | ❌ | — |
+| 버킷 정렬 | O(n) | O(n) | O(n^) | O(n) | ✅ | ❌ | — |
 
-### [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 의사결정 다이어그램
+### 알고리즘 선택 의사결정 다이어그램
 
 ```
 +-------------------------------------------------------+
@@ -74,35 +74,35 @@ weight: 25
 +-------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 정렬 선택 트리는 의사의 진단 차트와 같다. 증상([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성)에 따라 처방([알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 달라지며, 만병통치약(모든 상황 최고 정렬)은 없다.
+📢 **섹션 요약 비유**: 정렬 선택 트리는 의사의 진단 차트와 같다. 증상(데이터 특성)에 따라 처방(알고리즘)이 달라지며, 만병통치약(모든 상황 최고 정렬)은 없다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 캐시 효율 및 실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)
+### 캐시 효율 및 실제 성능
 
 이론적 복잡도가 같아도 <strong>캐시 지역성(Cache Locality)</strong>에 따라 실제 속도가 크게 다르다.
 
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 캐시 효율 | 이유 |
+| 알고리즘 | 캐시 효율 | 이유 |
 |:---|:---:|:---|
-| [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | 매우 높음 | 연속 메모리 접근, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) in-place |
-| 병합 정렬 | 보통 | 보조 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 복사로 메모리 접근 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | 낮음 | 힙 구조상 원거리 메모리 접근 |
-| [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) | 높음 | 소규모에서 이웃 원소 접근 |
+| 퀵 정렬 | 매우 높음 | 연속 메모리 접근, 파티션 in-place |
+| 병합 정렬 | 보통 | 보조 배열 복사로 메모리 접근 분산 |
+| 힙 정렬 | 낮음 | 힙 구조상 원거리 메모리 접근 |
+| 삽입 정렬 | 높음 | 소규모에서 이웃 원소 접근 |
 
 ### 실무 언어별 기본 정렬
 
-| 언어/환경 | 기본 정렬 | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 언어/환경 | 기본 정렬 | 알고리즘 |
 |:---|:---:|:---|
-| Python list.sort() | [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/) | 병합+삽입 하이브리드 |
-| Java Arrays.sort(Object[]) | [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/) | 병합+삽입 하이브리드 |
-| Java Arrays.sort(int[]) | Dual-Pivot QuickSort | [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 변형 |
-| C++ std::sort | [Introsort](/studynote/08_algorithm_stats/02_sorting/020_introsort/) | 퀵+힙+삽입 하이브리드 |
+| Python list.sort() | Timsort | 병합+삽입 하이브리드 |
+| Java Arrays.sort(Object[]) | Timsort | 병합+삽입 하이브리드 |
+| Java Arrays.sort(int[]) | Dual-Pivot QuickSort | 퀵 정렬 변형 |
+| C++ std::sort | Introsort | 퀵+힙+삽입 하이브리드 |
 | C++ std::stable_sort | 병합 정렬 | 안정 정렬 요구 시 |
-| JavaScript [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/).sort() | [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/) (V8 기준) | 브라우저 엔진마다 다름 |
+| JavaScript Array.sort() | Timsort (V8 기준) | 브라우저 엔진마다 다름 |
 
-📢 **섹션 요약 비유**: 실무 언어의 기본 정렬은 주방의 만능 칼과 같다. 대부분 상황에서 충분히 좋지만, 특별한 재료(특수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 전용 도구(비비교 정렬)가 더 적합할 수 있다.
+📢 **섹션 요약 비유**: 실무 언어의 기본 정렬은 주방의 만능 칼과 같다. 대부분 상황에서 충분히 좋지만, 특별한 재료(특수 데이터)에는 전용 도구(비비교 정렬)가 더 적합할 수 있다.
 
 ---
 
@@ -110,16 +110,16 @@ weight: 25
 
 ### 상황별 정렬 선택 가이드
 
-| 상황 | 권장 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 이유 |
+| 상황 | 권장 알고리즘 | 이유 |
 |:---|:---|:---|
-| 일반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 언어 표준 사용 | [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/) (Python/Java) | 실용적 최선, 안정 |
-| C++ 최고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 불안정 허용 | [Introsort](/studynote/08_algorithm_stats/02_sorting/020_introsort/) (std::sort) | 캐시 효율 + 최악 보장 |
-| 거의 정렬된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) 또는 [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/) | O(n) 수렴 |
-| 역순 정렬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 병합 정렬 | O(n log n) 안정 |
-| 소규모 (n ≤ 16) | [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) | 오버헤드 없이 빠름 |
-| 정수, k ≤ O(n) | [계수 정렬](/studynote/08_algorithm_stats/02_sorting/016_counting_sort/) | O(n+k) 선형 |
-| 고정 자릿수 정수/문자열 | [기수 정렬](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) | O(d·n) 선형 |
-| 균등 분포 실수 | [버킷 정렬](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) | O(n) 평균 |
+| 일반 데이터, 언어 표준 사용 | Timsort (Python/Java) | 실용적 최선, 안정 |
+| C++ 최고 성능, 불안정 허용 | Introsort (std::sort) | 캐시 효율 + 최악 보장 |
+| 거의 정렬된 데이터 | 삽입 정렬 또는 Timsort | O(n) 수렴 |
+| 역순 정렬 데이터 | 병합 정렬 | O(n log n) 안정 |
+| 소규모 (n ≤ 16) | 삽입 정렬 | 오버헤드 없이 빠름 |
+| 정수, k ≤ O(n) | 계수 정렬 | O(n+k) 선형 |
+| 고정 자릿수 정수/문자열 | 기수 정렬 | O(d·n) 선형 |
+| 균등 분포 실수 | 버킷 정렬 | O(n) 평균 |
 | RAM 초과 대용량 | 외부 K-way 병합 | I/O 최소화 |
 | 다중 키 정렬 | 안정 정렬 필수 | 키 순서 보존 |
 
@@ -144,34 +144,34 @@ weight: 25
 +------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 건축 자재 선택과 같다. 단열재(안정성), 내진 등급(최악 보장), 시공 비용(공간), 공사 기간(시간)을 모두 고려해야 최적의 설계가 나온다.
+📢 **섹션 요약 비유**: 정렬 알고리즘 선택은 건축 자재 선택과 같다. 단열재(안정성), 내진 등급(최악 보장), 시공 비용(공간), 공사 기간(시간)을 모두 고려해야 최적의 설계가 나온다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 종합 이해는 <strong><a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 사고력의 기초</strong>다. 단순 암기가 아닌, 각 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 철학(교환/선택/분할정복/비비교)을 이해하면 새로운 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 논리적으로 분석할 수 있다.
+정렬 알고리즘의 종합 이해는 <strong>알고리즘 사고력의 기초</strong>다. 단순 암기가 아닌, 각 알고리즘의 설계 철학(교환/선택/분할정복/비비교)을 이해하면 새로운 알고리즘도 논리적으로 분석할 수 있다.
 
 ### 효과 정리
 
 | 항목 | 가장 빠름(평균) | 가장 빠름(최악) | 메모리 최소 | 안정+최악보장 |
 |:---|:---:|:---:|:---:|:---:|
-| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | 병합/[Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/) |
+| 알고리즘 | 퀵 정렬 | 힙 정렬 | 힙 정렬 | 병합/Timsort |
 | 복잡도 | O(n log n) | O(n log n) | O(1) 추가 | O(n log n) |
 
-📢 **섹션 요약 비유**: 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 종합 지식은 요리사의 전체 레시피북과 같다. 어떤 재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 어떤 상황(제약)이 주어지든, 레시피북(비교 표)을 펴면 최적 요리법([알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 찾을 수 있다.
+📢 **섹션 요약 비유**: 정렬 알고리즘의 종합 지식은 요리사의 전체 레시피북과 같다. 어떤 재료(데이터)와 어떤 상황(제약)이 주어지든, 레시피북(비교 표)을 펴면 최적 요리법(알고리즘)을 찾을 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | 연결 관계 | 설명 |
 |:---|:---|:---|
-| 비교 기반 하한 정리 | -> [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준 | O(n log n) 한계 경계 |
-| 캐시 지역성 (Cache Locality) | -> 실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 이론 복잡도와 실측 차이 |
+| 비교 기반 하한 정리 | -> 분류 기준 | O(n log n) 한계 경계 |
+| 캐시 지역성 (Cache Locality) | -> 실제 성능 | 이론 복잡도와 실측 차이 |
 | 안정 정렬 (Stable Sort) | -> 선택 기준 | 다중 키 정렬 필수 조건 |
-| [외부 정렬](/studynote/08_algorithm_stats/02_sorting/023_external_sort/) ([External Sort](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)) | -> 확장 개념 | RAM 초과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 |
-| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 정렬 (Distributed Sort) | -> 현대 확장 | [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/), Spark 정렬 |
+| 외부 정렬 (External Sort) | -> 확장 개념 | RAM 초과 데이터 처리 |
+| 분산 정렬 (Distributed Sort) | -> 현대 확장 | MapReduce, Spark 정렬 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -191,21 +191,10 @@ weight: 25
     v
 [분산 정렬 (Distributed Sort) — MapReduce/Spark 기반 대규모 외부 정렬]
 ```
-이 흐름은 단순 구조의 O(N^) 정렬이 이론적 한계를 드러낸 뒤 O(N log N) 분할정복으로 발전하고, 선형 정렬과의 하이브리드 실용화를 거쳐 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 대규모 정렬로 확장되는 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 계보를 보여준다.
+이 흐름은 단순 구조의 O(N^) 정렬이 이론적 한계를 드러낸 뒤 O(N log N) 분할정복으로 발전하고, 선형 정렬과의 하이브리드 실용화를 거쳐 분산 환경의 대규모 정렬로 확장되는 정렬 알고리즘의 진화 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🔧 **도구 상자**: 망치([퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), 드라이버([삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)), 레이저 커터([기수 정렬](/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))처럼 상황마다 맞는 도구가 달라요 — 만능 도구는 없지만 상황을 알면 최고의 선택을 할 수 있어요!
-🏆 **운동 종목 챔피언**: 수영 1등이 육상에서도 1등은 아니에요. 정렬도 마찬가지 — 정수 정렬 챔피언([계수 정렬](/studynote/08_algorithm_stats/02_sorting/016_counting_sort/))이 실수 정렬에서도 1등은 아니에요.
-📖 **요리 레시피**: 어떤 재료가 오냐에 따라 레시피가 달라지듯, 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오냐에 따라 최고의 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 달라져요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 25 / 175
-
-<- **이전**: [16. 선택 정렬 (Selection Sort) — O(n^), 불안정, 제자리](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)
-**다음**: [17. 삽입 정렬 (Insertion Sort) — O(n^)/O(n) 최선, 안정, 소규모 효율](/studynote/08_algorithm_stats/02_sorting/026_insertion_sort/) ->
-
----
+🔧 **도구 상자**: 망치(퀵 정렬), 드라이버(삽입 정렬), 레이저 커터(기수 정렬)처럼 상황마다 맞는 도구가 달라요 — 만능 도구는 없지만 상황을 알면 최고의 선택을 할 수 있어요!
+🏆 **운동 종목 챔피언**: 수영 1등이 육상에서도 1등은 아니에요. 정렬도 마찬가지 — 정수 정렬 챔피언(계수 정렬)이 실수 정렬에서도 1등은 아니에요.
+📖 **요리 레시피**: 어떤 재료가 오냐에 따라 레시피가 달라지듯, 어떤 데이터가 오냐에 따라 최고의 정렬 알고리즘이 달라져요!

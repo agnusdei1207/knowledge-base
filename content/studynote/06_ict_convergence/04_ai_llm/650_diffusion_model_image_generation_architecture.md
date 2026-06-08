@@ -157,11 +157,3 @@ L_simple = E_{t, x_0, ε} [ ||ε - ε_θ(√ᾱ_t x_0 + √(1-ᾱ_t) ε, t)||² 
 
 ```
 ε̃_θ(z_t, t, c) = (1 + w) · ε_θ(z_t, t, c
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 650 / 800
-
-<- **이전**: [649. 멀티모달 AI 비전 언어 모델](/studynote/06_ict_convergence/uncategorized/649_multimodal_ai_vision_language_model/)
-**다음**: [651. 생성형 AI 비즈니스 적용 전략](/studynote/06_ict_convergence/uncategorized/651_generative_ai_business_application_strategy/) ->
-
----

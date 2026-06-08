@@ -7,8 +7,8 @@ weight: 623
 ---
 > **핵심 인사이트**
 > 1. 테스트 계획서(Test Plan)는 무엇을, 어떻게, 언제, 누가 테스트할지를 정의한 테스트의 "헌법" — IEEE 829 표준이 테스트 계획서 구조를 정의하며, 잘 작성된 계획서는 QA팀과 개발팀 간 기대 불일치를 예방한다.
-> 2. [테스트 시나리오](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/)([Test Scenario](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/))는 사용자 관점의 실제 동작 흐름을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) — 단순 기능 테스트(버튼 클릭)를 넘어 [end-to-end](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 비즈니스 흐름(회원가입->로그인->결제->환불)을 시뮬레이션하며, 높은 커버리지와 실질적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지를 동시에 달성한다.
-> 3. [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) vs [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))의 구분 — Verification은 "올바르게 만들었는가(스펙 준수)", Validation은 "올바른 것을 만들었는가(사용자 요구 충족)". 두 활동 모두 필수이며, V&V([Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))는 소프트웨어 품질의 양대 축이다.
+> 2. 테스트 시나리오(Test Scenario)는 사용자 관점의 실제 동작 흐름을 검증 — 단순 기능 테스트(버튼 클릭)를 넘어 end-to-end 비즈니스 흐름(회원가입->로그인->결제->환불)을 시뮬레이션하며, 높은 커버리지와 실질적 결함 탐지를 동시에 달성한다.
+> 3. 확인(Verification) vs 검증(Validation)의 구분 — Verification은 "올바르게 만들었는가(스펙 준수)", Validation은 "올바른 것을 만들었는가(사용자 요구 충족)". 두 활동 모두 필수이며, V&V(Verification & Validation)는 소프트웨어 품질의 양대 축이다.
 
 ---
 
@@ -64,7 +64,7 @@ IEEE 829 구조:
 
 ---
 
-## Ⅱ. [테스트 시나리오](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/)
+## Ⅱ. 테스트 시나리오
 
 ```
 테스트 시나리오 (Test Scenario):
@@ -107,11 +107,11 @@ vs 테스트 케이스:
   빈도×영향도 -> 높은 위험 시나리오 우선
 ```
 
-> 📢 **섹션 요약 비유**: [테스트 시나리오](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/)는 영화 시나리오 — 영화(시스템)에서 주인공(사용자)이 경험하는 장면(비즈니스 흐름)을 순서대로 기술. 시나리오마다 여러 테이크(케이스)!
+> 📢 **섹션 요약 비유**: 테스트 시나리오는 영화 시나리오 — 영화(시스템)에서 주인공(사용자)이 경험하는 장면(비즈니스 흐름)을 순서대로 기술. 시나리오마다 여러 테이크(케이스)!
 
 ---
 
-## Ⅲ. [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+## Ⅲ. Verification & Validation
 
 ```
 V&V (Verification & Validation):
@@ -161,7 +161,7 @@ V 모델 (V-Model):
 우측 V: 테스트(Validation)
 ```
 
-> 📢 **섹션 요약 비유**: V&V는 설계도 검사+입주자 검사 — [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): 집이 설계도대로 지어졌나(벽 두께, 전기 배선). [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/): 입주자가 실제로 살기 편한가!
+> 📢 **섹션 요약 비유**: V&V는 설계도 검사+입주자 검사 — Verification: 집이 설계도대로 지어졌나(벽 두께, 전기 배선). Validation: 입주자가 실제로 살기 편한가!
 
 ---
 
@@ -211,7 +211,7 @@ V 모델 (V-Model):
   커버리지 < 목표 -> 빌드 실패
 ```
 
-> 📢 **섹션 요약 비유**: 테스트 커버리지는 건물 검사 점검표 — 점검 항목(구문)을 모두 체크했나, 양쪽 문(분기) 모두 열어봤나, 각 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 독립 동작(MC/DC). 더 꼼꼼할수록 비용^!
+> 📢 **섹션 요약 비유**: 테스트 커버리지는 건물 검사 점검표 — 점검 항목(구문)을 모두 체크했나, 양쪽 문(분기) 모두 열어봤나, 각 스위치 독립 동작(MC/DC). 더 꼼꼼할수록 비용^!
 
 ---
 
@@ -269,7 +269,7 @@ V 모델 (V-Model):
   커버리지: 85% 이상
 ```
 
-> 📢 **섹션 요약 비유**: 모바일 뱅킹 테스트 계획은 신차 출시 전 검사 — 엔진([단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)), 부품 연결([통합 테스트](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)), 실도로 주행([시스템 테스트](/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)), 고객 시승(UAT). 단계마다 합격 기준!
+> 📢 **섹션 요약 비유**: 모바일 뱅킹 테스트 계획은 신차 출시 전 검사 — 엔진(단위 테스트), 부품 연결(통합 테스트), 실도로 주행(시스템 테스트), 고객 시승(UAT). 단계마다 합격 기준!
 
 ---
 
@@ -327,16 +327,5 @@ AI 기반 테스트 케이스 자동 생성
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 테스트 계획서는 검사 일정표 — "언제, 무엇을, 어떻게 검사할까?" 미리 쓴 표. 없으면 검사가 엉망이 돼요!
-2. V&V는 레시피+손님 만족 — 레시피(설계서)대로 만들었나([Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) + 손님이 맛있다고 하나([Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 둘 다 OK여야 성공!
-3. 테스트 커버리지는 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 달성률 — 100개 항목 중 80개 검사(80% 커버리지). 더 많이 검사할수록 더 안전하지만 시간도 더 걸려요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 69 / 530
-
-<- **이전**: [46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)](/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/)
-**다음**: [47. 요구사항 추적 매트릭스 양방향 추적성 검증 (RTM Bidirectional Traceability Validation)](/studynote/11_design_supervision/01_audit_framework/047_rtm_bidirectional_traceability_validation/) ->
-
----
+2. V&V는 레시피+손님 만족 — 레시피(설계서)대로 만들었나(Verification) + 손님이 맛있다고 하나(Validation). 둘 다 OK여야 성공!
+3. 테스트 커버리지는 체크리스트 달성률 — 100개 항목 중 80개 검사(80% 커버리지). 더 많이 검사할수록 더 안전하지만 시간도 더 걸려요!

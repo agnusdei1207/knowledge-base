@@ -7,17 +7,17 @@ weight: 203
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)(Financial Operations)는 클라우드 비용의 가시성(Inform) -> 최적화(Optimize) -> 지속 운영(Operate) 3단계 라이프사이클을 통해 기술·재무·비즈니스 팀이 협력하여 클라우드 지출을 최적화하는 프레임워크다.
+> 1. **본질**: FinOps(Financial Operations)는 클라우드 비용의 가시성(Inform) -> 최적화(Optimize) -> 지속 운영(Operate) 3단계 라이프사이클을 통해 기술·재무·비즈니스 팀이 협력하여 클라우드 지출을 최적화하는 프레임워크다.
 > 2. **가치**: 단순 비용 절감이 아니라 "비즈니스 가치 대비 클라우드 지출 효율"을 최대화하는 것이 목적이며, 개발 속도와 비용 효율의 균형이 핵심이다.
-> 3. **판단 포인트**: [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 성숙도의 첫 단계는 태깅(Tagging) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 리소스에 팀·환경·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 태그가 없으면 비용 할당이 불가능하고, 최적화 출발점을 찾을 수 없다.
+> 3. **판단 포인트**: FinOps 성숙도의 첫 단계는 태깅(Tagging) 전략이다. 리소스에 팀·환경·서비스 태그가 없으면 비용 할당이 불가능하고, 최적화 출발점을 찾을 수 없다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 도입 초기에는 "[온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 대비 비용 절감"이 명분이었다. 그러나 실제 클라우드 사용량이 늘면서 예상치 못한 비용 폭증, 좀비 리소스(사용하지 않는 인스턴스), 과다 프로비저닝이 새로운 문제로 등장했다. Gartner 연구에 따르면 기업 클라우드 지출의 약 35%가 낭비되고 있다.
+클라우드 도입 초기에는 "온프레미스 대비 비용 절감"이 명분이었다. 그러나 실제 클라우드 사용량이 늘면서 예상치 못한 비용 폭증, 좀비 리소스(사용하지 않는 인스턴스), 과다 프로비저닝이 새로운 문제로 등장했다. Gartner 연구에 따르면 기업 클라우드 지출의 약 35%가 낭비되고 있다.
 
-[FinOps](/studynote/12_it_management/05_security_compliance/344_finops/)(Financial Operations)는 이 문제를 해결하기 위해 [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) Foundation이 체계화한 클라우드 재무 관리 프레임워크다. "클라우드를 사용하는 모든 사람이 비용 의식을 갖는" 문화와 "엔지니어링 속도를 포기하지 않는" 균형을 추구한다.
+FinOps(Financial Operations)는 이 문제를 해결하기 위해 FinOps Foundation이 체계화한 클라우드 재무 관리 프레임워크다. "클라우드를 사용하는 모든 사람이 비용 의식을 갖는" 문화와 "엔지니어링 속도를 포기하지 않는" 균형을 추구한다.
 
 FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 모델은 기회이자 위험이다." 가변비용은 낭비 없이 최적화할 수 있는 기회지만, 통제하지 않으면 예산을 초과하는 위험이 된다. FinOps는 이 균형을 데이터와 협업으로 관리한다.
 
@@ -27,7 +27,7 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 라이프사이클 3단계
+### FinOps 라이프사이클 3단계
 
 ```
   +------------------------------------------------------+
@@ -49,11 +49,11 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 
 | 단계 | 핵심 활동 | 도구/방법 |
 |:---|:---|:---|
-| **Inform** | 비용 가시성 확보, 팀·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 할당 | AWS Cost Explorer, 태깅 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **Optimize** | 미사용 리소스 제거, RI/[SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 구매, 적정 사이징 | Reserved Instance, Spot, Rightsizing |
+| **Inform** | 비용 가시성 확보, 팀·서비스별 할당 | AWS Cost Explorer, 태깅 전략 |
+| **Optimize** | 미사용 리소스 제거, RI/SP 구매, 적정 사이징 | Reserved Instance, Spot, Rightsizing |
 | **Operate** | 예산 알림, 이상 감지, 지속적 거버넌스 | 자동화 스케줄링, 이상비용 알림 |
 
-### [클라우드 비용 최적화](/studynote/07_enterprise_systems/08_cloud_finops/227_cloud_cost_optimization/) 기법 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+### 클라우드 비용 최적화 기법 분류
 
 ```
   비용 최적화 기법
@@ -85,9 +85,9 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 | Reserved Instance (1년) | ~40% | 낮음 (인스턴스 유형 고정) | 안정적 기반 워크로드 |
 | Reserved Instance (3년) | ~60% | 매우 낮음 | 핵심 장기 운영 서버 |
 | Savings Plans | 40~66% | 높음 (인스턴스 유형 유연) | 다양한 워크로드 |
-| [Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) | 60~90% | 중단 가능 | [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, 빅데이터 |
+| Spot Instance | 60~90% | 중단 가능 | 배치 처리, CI/CD, 빅데이터 |
 
-### 태깅(Tagging) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 태깅(Tagging) 전략
 
 ```
 # AWS 리소스 태그 표준 예시
@@ -105,11 +105,11 @@ AutoShutdown:   true (야간 자동 셧다운 대상)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> 조직 구조 (<a href="/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> Foundation 모델)</strong>:
-- <strong><a href="/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> Practitioner</strong>: 비용 최적화를 조율하는 중앙 팀
+<strong>FinOps 조직 구조 (FinOps Foundation 모델)</strong>:
+- <strong>FinOps Practitioner</strong>: 비용 최적화를 조율하는 중앙 팀
 - **엔진ering Teams**: 비용을 생성하는 팀, 비용 의식 교육 필요
 - **Finance Team**: 예산 계획·예측·차지백(chargeback) 관리
-- **Business Stakeholders**: [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 관점의 클라우드 투자 의사결정
+- **Business Stakeholders**: ROI 관점의 클라우드 투자 의사결정
 
 **자동화 비용 제어 예시**:
 ```python
@@ -135,7 +135,7 @@ def lambda_handler(event, context):
 
 **기술사 판단 포인트**:
 - 단위 비용(Unit Economics): 요청 당 비용, 사용자 당 비용으로 클라우드 지출을 비즈니스 지표와 연결
-- [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 성숙도 레벨: Crawl(기초 가시성) -> Walk(최적화 시작) -> Run(완전 자동화 거버넌스)
+- FinOps 성숙도 레벨: Crawl(기초 가시성) -> Walk(최적화 시작) -> Run(완전 자동화 거버넌스)
 - 차지백(Chargeback) vs 쇼백(Showback): 비용을 팀에 실제 청구하거나 투명하게 보여주는 두 접근법
 
 📢 **섹션 요약 비유**: 단위 비용(Unit Economics)은 배달 앱에서 "배달 1건당 비용"을 추적하는 것과 같다. 총 비용이 아니라 건당 비용이 줄어야 비즈니스 효율이 개선되고 있다는 것을 알 수 있다.
@@ -147,9 +147,9 @@ def lambda_handler(event, context):
 | 기대효과 | 설명 |
 |:---|:---|
 | 비용 낭비 절감 | Zombie 리소스 제거로 즉시 20~35% 절약 가능 |
-| 예측 가능한 비용 | RI/[SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 활용으로 월별 비용 변동성 감소 |
+| 예측 가능한 비용 | RI/SP 활용으로 월별 비용 변동성 감소 |
 | 팀별 비용 책임 | 태깅 기반 할당으로 팀의 비용 의식 제고 |
-| 비즈니스 [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 증명 | 단위 비용으로 클라우드 투자 효과 측정 |
+| 비즈니스 ROI 증명 | 단위 비용으로 클라우드 투자 효과 측정 |
 
 FinOps는 "클라우드 청구서를 줄이는 것"이 아니라 "클라우드 지출이 비즈니스 가치를 만들고 있음을 증명하는 것"이다. 클라우드 비용을 기술 부채처럼 방치하지 않고, 재무·기술·비즈니스 팀이 함께 지속적으로 최적화하는 문화가 FinOps의 본질이다.
 
@@ -161,12 +161,12 @@ FinOps는 "클라우드 청구서를 줄이는 것"이 아니라 "클라우드 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 태깅 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 가시성(Inform)의 출발점 |
-| Reserved Instance / Savings Plans | [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) 최적화(Optimize) 핵심 도구 |
-| [Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) | 배치 워크로드 비용 최대 90% 절감 |
+| 태깅 전략 | FinOps 가시성(Inform)의 출발점 |
+| Reserved Instance / Savings Plans | FinOps 최적화(Optimize) 핵심 도구 |
+| Spot Instance | 배치 워크로드 비용 최대 90% 절감 |
 | 자동화 스케줄링 | 개발/테스트 환경 야간 셧다운으로 즉각 절약 |
 | 단위 비용 (Unit Economics) | 비즈니스 KPI와 클라우드 비용을 연결하는 지표 |
-| [FinOps](/studynote/12_it_management/05_security_compliance/344_finops/) Foundation | 프레임워크 표준화 및 자격증 운영 기관 |
+| FinOps Foundation | 프레임워크 표준화 및 자격증 운영 기관 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -188,14 +188,3 @@ Unit Economics: 비용 / 사용자 · 트랜잭션 기반 측정
 ```
 2. 먼저 어디서 돈이 나가는지 보고(Inform), 안 쓰는 장치 끄고(Optimize), 매달 계속 확인하는(Operate) 3단계야.
 3. 빠르게 개발하면서도 비용 낭비 없이 지내는 게 목표야. 빠르다고 무조건 돈을 많이 써야 하는 건 아니니까!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 202 / 371
-
-<- **이전**: [202. SPACE 프레임워크 (SPACE Framework)](/studynote/13_cloud_architecture/04_devops_observability/202_space_framework_agile_performance/)
-**다음**: [204. 컨테이너 보안 / Pod 시큐리티 (PSA/PSP)](/studynote/13_cloud_architecture/04_devops_observability/204_pod_security_psa_psp_kubernetes/) ->
-
----

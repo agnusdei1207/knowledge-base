@@ -7,9 +7,9 @@ weight: 159
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 베이스라인 ([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))은 요구사항, 설계, 코드, 테스트 산출물 중 특정 시점의 승인된 기준본을 공식적으로 동결한 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 상태다.
-> 2. **가치**: 베이스라인이 있어야 범위 팽창 ([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))을 통제하고, 무엇이 현재 합의본인지 명확히 하며, 변경 영향 분석과 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적을 정확하게 수행할 수 있다.
-> 3. **판단 포인트**: 모든 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 베이스라인은 아니며, 승인 기준·형상 항목 ([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·변경 절차·추적성까지 갖춰야 비로소 관리 가능한 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 된다.
+> 1. **본질**: 베이스라인 (Baseline)은 요구사항, 설계, 코드, 테스트 산출물 중 특정 시점의 승인된 기준본을 공식적으로 동결한 참조 상태다.
+> 2. **가치**: 베이스라인이 있어야 범위 팽창 (Scope Creep)을 통제하고, 무엇이 현재 합의본인지 명확히 하며, 변경 영향 분석과 감사 추적을 정확하게 수행할 수 있다.
+> 3. **판단 포인트**: 모든 버전이 베이스라인은 아니며, 승인 기준·형상 항목 (CI, Configuration Item) 식별·변경 절차·추적성까지 갖춰야 비로소 관리 가능한 기준선이 된다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 159
 
 베이스라인은 프로젝트 수행 중 특정 시점에 “이 산출물을 공식 기준으로 삼는다”라고 합의해 동결한 상태다. 요구사항 명세서, 아키텍처 문서, 소스 코드, 테스트 결과물은 초안 단계에서는 계속 바뀔 수 있지만, 일정 시점이 지나면 기준본으로 굳혀야 다음 단계가 안정적으로 진행된다. 즉 베이스라인은 자유로운 수정 구간과 통제된 변경 구간을 가르는 경계선이다.
 
-이 개념이 필요한 이유는 프로젝트가 진행될수록 변경 비용이 급격히 커지기 때문이다. 요구사항 분석이 끝난 뒤 설계와 구현이 시작되면, 문서 한 줄 변경이 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/), [테스트 시나리오](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/), 일정 전체를 흔들 수 있다. 그런데 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 없으면 누가 어떤 문서를 근거로 개발했고 무엇이 최신 합의인지조차 불분명해진다. 베이스라인은 이 혼란을 막고 “변경은 가능하지만, 근거와 기록 아래에서만 가능하다”는 질서를 세우는 장치다.
+이 개념이 필요한 이유는 프로젝트가 진행될수록 변경 비용이 급격히 커지기 때문이다. 요구사항 분석이 끝난 뒤 설계와 구현이 시작되면, 문서 한 줄 변경이 API (Application Programming Interface), 데이터베이스, 테스트 시나리오, 일정 전체를 흔들 수 있다. 그런데 기준선이 없으면 누가 어떤 문서를 근거로 개발했고 무엇이 최신 합의인지조차 불분명해진다. 베이스라인은 이 혼란을 막고 “변경은 가능하지만, 근거와 기록 아래에서만 가능하다”는 질서를 세우는 장치다.
 
 - **📢 섹션 요약 비유**: 베이스라인은 건축 도면에 최종 승인 도장을 찍는 일과 같다. 도장 전에는 수정이 자유롭지만, 도장 후에는 바꾸는 순간 공사비와 일정이 함께 움직인다.
 
@@ -25,17 +25,17 @@ weight: 159
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-베이스라인 관리는 단순 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 아니라 승인된 형상 항목 집합을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 변경을 통제하며, 다음 기준본으로 이어지는 흐름을 관리하는 활동이다. 보통 요구사항 단계에서는 기능적 베이스라인, 설계 단계에서는 설계 베이스라인, 출시 직전에는 제품 베이스라인을 만든다. 핵심은 “무엇을 동결할지”, “누가 승인했는지”, “어떤 변경 요청을 거쳐 다음 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 됐는지”를 명확히 남기는 것이다.
+베이스라인 관리는 단순 백업이 아니라 승인된 형상 항목 집합을 식별하고, 변경을 통제하며, 다음 기준본으로 이어지는 흐름을 관리하는 활동이다. 보통 요구사항 단계에서는 기능적 베이스라인, 설계 단계에서는 설계 베이스라인, 출시 직전에는 제품 베이스라인을 만든다. 핵심은 “무엇을 동결할지”, “누가 승인했는지”, “어떤 변경 요청을 거쳐 다음 버전이 됐는지”를 명확히 남기는 것이다.
 
 ### 대표 베이스라인 유형
 
 | 유형 | 동결 시점 | 대표 산출물 | 관리 목적 |
 | :--- | :--- | :--- | :--- |
-| 요구사항 베이스라인 | 분석·합의 완료 시 | SRS (Software Requirements [Specification](/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)), 요구 목록 | 개발 범위 확정 |
-| 설계 베이스라인 | 아키텍처·상세 설계 완료 시 | 구조도, 인터페이스 정의, [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 구현 기준 고정 |
-| 제품 베이스라인 | 시험 통과·배포 직전 | 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 배포 패키지, 릴리스 노트 | 운영 배포 기준 확보 |
+| 요구사항 베이스라인 | 분석·합의 완료 시 | SRS (Software Requirements Specification), 요구 목록 | 개발 범위 확정 |
+| 설계 베이스라인 | 아키텍처·상세 설계 완료 시 | 구조도, 인터페이스 정의, 데이터 모델 | 구현 기준 고정 |
+| 제품 베이스라인 | 시험 통과·배포 직전 | 실행 파일, 배포 패키지, 릴리스 노트 | 운영 배포 기준 확보 |
 
-아래 그림은 초안에서 베이스라인이 설정되고, 통제된 변경을 거쳐 다음 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 이어지는 과정을 보여 준다.
+아래 그림은 초안에서 베이스라인이 설정되고, 통제된 변경을 거쳐 다음 기준선으로 이어지는 과정을 보여 준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -56,45 +56,45 @@ weight: 159
 +----------------------------------------------------------------------------+
 ```
 
-이 그림의 핵심은 베이스라인이 “절대 변경 금지”가 아니라 “통제되지 않은 직접 수정 금지”라는 점이다. 즉 승인된 베이스라인을 원본 삼아 개발·테스트·[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 수행하고, 변경이 필요하면 변경 요청과 영향도 분석을 거쳐 새로운 베이스라인으로 진화시킨다. 따라서 좋은 베이스라인 관리에는 [형상 식별](/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/), 승인 기록, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이력, 추적성 자료가 함께 있어야 한다.
+이 그림의 핵심은 베이스라인이 “절대 변경 금지”가 아니라 “통제되지 않은 직접 수정 금지”라는 점이다. 즉 승인된 베이스라인을 원본 삼아 개발·테스트·감사를 수행하고, 변경이 필요하면 변경 요청과 영향도 분석을 거쳐 새로운 베이스라인으로 진화시킨다. 따라서 좋은 베이스라인 관리에는 형상 식별, 승인 기록, 버전 이력, 추적성 자료가 함께 있어야 한다.
 
-- **📢 섹션 요약 비유**: 베이스라인은 게임 저장 지점과 같다. 세이브 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있어야 어디서부터 다시 시작할지 모두가 같은 기준을 공유할 수 있다.
+- **📢 섹션 요약 비유**: 베이스라인은 게임 저장 지점과 같다. 세이브 파일이 있어야 어디서부터 다시 시작할지 모두가 같은 기준을 공유할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-베이스라인은 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 릴리스, 단순 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)과 닮아 보이지만 의미가 다르다. 특히 “Git 태그가 있으니 모두 베이스라인”이라고 보는 것은 위험하다.
+베이스라인은 버전, 릴리스, 단순 스냅샷과 닮아 보이지만 의미가 다르다. 특히 “Git 태그가 있으니 모두 베이스라인”이라고 보는 것은 위험하다.
 
-| 항목 | 베이스라인 | 일반 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 릴리스 (Release) | [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) / [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) |
+| 항목 | 베이스라인 | 일반 버전 | 릴리스 (Release) | 백업 / 스냅샷 |
 | :--- | :--- | :--- | :--- | :--- |
 | 성격 | 승인된 공식 기준본 | 변경 이력의 한 지점 | 외부 배포용 결과물 | 복구용 사본 |
 | 필수 조건 | 합의·동결·추적성 | 번호 또는 이력만 있으면 가능 | 배포 가능 상태 | 저장만 하면 가능 |
-| 변경 방식 | 통제된 절차 필요 | 자유롭게 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능 | 배포 프로세스 따름 | 운영 정책에 따름 |
+| 변경 방식 | 통제된 절차 필요 | 자유롭게 생성 가능 | 배포 프로세스 따름 | 운영 정책에 따름 |
 | 핵심 질문 | 현재 공식 기준은 무엇인가? | 몇 번째 수정본인가? | 사용자에게 무엇을 내보냈는가? | 장애 시 무엇을 복원할 수 있는가? |
 
-이 차이를 이해해야 [요구사항 관리](/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/), [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/studynote/12_it_management/02_itsm_itil/873_configuration_management/)), [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)), [CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board)의 역할도 분리된다. 베이스라인은 “공식 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)”이고, [요구사항 관리](/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)는 그 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 포함한 변경 운영 체계다. RTM은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 설계·코드·테스트로 어떻게 이어졌는지 보여 주고, CCB는 변경 요청을 승인할지 판단한다. 즉 베이스라인은 이들 활동이 만나는 중심 축이다.
+이 차이를 이해해야 요구사항 관리, 형상 관리 (Configuration Management), RTM (Requirements Traceability Matrix), CCB (Change Control Board)의 역할도 분리된다. 베이스라인은 “공식 기준선”이고, 요구사항 관리는 그 기준선을 포함한 변경 운영 체계다. RTM은 기준선이 설계·코드·테스트로 어떻게 이어졌는지 보여 주고, CCB는 변경 요청을 승인할지 판단한다. 즉 베이스라인은 이들 활동이 만나는 중심 축이다.
 
-- **📢 섹션 요약 비유**: 일반 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 초고를 계속 고친 기록이라면, 베이스라인은 “이 판본을 교과서 정본으로 삼는다”라고 출판사가 공식 선언한 판이다.
+- **📢 섹션 요약 비유**: 일반 버전이 초고를 계속 고친 기록이라면, 베이스라인은 “이 판본을 교과서 정본으로 삼는다”라고 출판사가 공식 선언한 판이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 베이스라인을 문서 폴더에 복사해 두는 것으로 끝내면 안 된다. 어떤 형상 항목을 포함하는지 정의하고, 승인 기준을 명문화하며, 베이스라인 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자를 부여하고, 이후 변경 요청과 테스트 증적을 연결해야 한다. 요구사항 베이스라인이라면 관련 RTM과 인수 기준까지 묶여 있어야 하고, 제품 베이스라인이라면 빌드 결과물, 배포 스크립트, 릴리스 노트, 시험 통과 기록이 함께 관리돼야 한다.
+실무에서는 베이스라인을 문서 폴더에 복사해 두는 것으로 끝내면 안 된다. 어떤 형상 항목을 포함하는지 정의하고, 승인 기준을 명문화하며, 베이스라인 식별자를 부여하고, 이후 변경 요청과 테스트 증적을 연결해야 한다. 요구사항 베이스라인이라면 관련 RTM과 인수 기준까지 묶여 있어야 하고, 제품 베이스라인이라면 빌드 결과물, 배포 스크립트, 릴리스 노트, 시험 통과 기록이 함께 관리돼야 한다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 
-1. **베이스라인 대상 형상 항목이 명확한가?** 문서만 묶고 코드·테스트를 빼면 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 끊긴다.
-2. **승인 기준과 승인권자가 정의돼 있는가?** 누구 판단으로 동결됐는지 모르면 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응이 어렵다.
+1. **베이스라인 대상 형상 항목이 명확한가?** 문서만 묶고 코드·테스트를 빼면 기준선이 끊긴다.
+2. **승인 기준과 승인권자가 정의돼 있는가?** 누구 판단으로 동결됐는지 모르면 감사 대응이 어렵다.
 3. **변경 요청과 영향도 분석 기록이 연결되는가?** 베이스라인만 있고 변경 이력이 없으면 관리가 무의미하다.
-4. <strong>저장소 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 정책이 있는가?</strong> 승인된 태그·브랜치·문서를 직접 수정 가능하게 두면 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 훼손된다.
+4. <strong>저장소 보호 정책이 있는가?</strong> 승인된 태그·브랜치·문서를 직접 수정 가능하게 두면 기준선이 훼손된다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 승인된 베이스라인 문서를 직접 덮어써 과거 기준을 잃는 경우
 - 모든 커밋과 모든 산출물을 베이스라인이라고 부르는 경우
-- 베이스라인은 만들었지만 [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), 테스트 결과, 릴리스 기록과 연결하지 않는 경우
+- 베이스라인은 만들었지만 RTM, 테스트 결과, 릴리스 기록과 연결하지 않는 경우
 
 - **📢 섹션 요약 비유**: 베이스라인 관리는 은행 장부 마감과 같다. 마감본을 확정한 뒤에는 수정 이력을 남기지 않고 숫자를 바꿔서는 안 된다.
 
@@ -102,9 +102,9 @@ weight: 159
 
 ## Ⅴ. 기대효과 및 결론
 
-베이스라인을 정확히 운영하면 프로젝트는 “현재 무엇이 공식 기준인지”를 분명히 유지할 수 있다. 그 결과 변경 비용 산정, 일정 예측, 계약 관리, 품질 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 장애 시점 복원, 릴리스 회귀 분석이 쉬워진다. 특히 여러 팀이 병렬로 일하는 대규모 프로젝트일수록 베이스라인은 협업 마찰을 줄이는 공통 좌표가 된다.
+베이스라인을 정확히 운영하면 프로젝트는 “현재 무엇이 공식 기준인지”를 분명히 유지할 수 있다. 그 결과 변경 비용 산정, 일정 예측, 계약 관리, 품질 감사, 장애 시점 복원, 릴리스 회귀 분석이 쉬워진다. 특히 여러 팀이 병렬로 일하는 대규모 프로젝트일수록 베이스라인은 협업 마찰을 줄이는 공통 좌표가 된다.
 
-물론 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 너무 자주 만들면 승인 오버헤드가 커지고, 너무 늦게 만들면 통제 시점을 놓친다. 그래서 베이스라인은 많이 만드는 것이 중요한 게 아니라, <strong>프로젝트 관문마다 필요한 단위로 정확히 설정하고 추적 가능하게 관리하는 것</strong>이 중요하다. 결국 베이스라인은 문서 한 묶음이 아니라, 변경을 질서 있게 받아들이기 위한 프로젝트의 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
+물론 기준선을 너무 자주 만들면 승인 오버헤드가 커지고, 너무 늦게 만들면 통제 시점을 놓친다. 그래서 베이스라인은 많이 만드는 것이 중요한 게 아니라, <strong>프로젝트 관문마다 필요한 단위로 정확히 설정하고 추적 가능하게 관리하는 것</strong>이 중요하다. 결국 베이스라인은 문서 한 묶음이 아니라, 변경을 질서 있게 받아들이기 위한 프로젝트의 기준선이다.
 
 - **📢 섹션 요약 비유**: 베이스라인은 배가 항해할 때 찍어 두는 기준 좌표와 같다. 좌표가 있어야 어디서 방향을 틀었는지, 어디로 돌아가야 하는지 설명할 수 있다.
 
@@ -114,12 +114,12 @@ weight: 159
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 형상 항목 ([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), [Configuration Item](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)) | 베이스라인에 포함될 관리 대상 단위 |
-| [요구사항 관리](/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) (Requirements [Management](/studynote/12_it_management/05_security_compliance/1013_management/)) | 베이스라인 설정과 변경 통제를 운영하는 상위 활동 |
-| [CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board) | 베이스라인 변경 승인 여부를 판단하는 조직 |
-| [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) | [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 설계·구현·테스트로 이어졌는지 추적 |
-| 범위 팽창 ([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)) | 베이스라인 부재 시 가장 쉽게 커지는 위험 |
-| 릴리스 태그 / 브랜치 | 제품 베이스라인을 저장소에서 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 실무 수단 |
+| 형상 항목 (CI, Configuration Item) | 베이스라인에 포함될 관리 대상 단위 |
+| 요구사항 관리 (Requirements Management) | 베이스라인 설정과 변경 통제를 운영하는 상위 활동 |
+| CCB (Change Control Board) | 베이스라인 변경 승인 여부를 판단하는 조직 |
+| RTM (Requirements Traceability Matrix) | 기준선이 설계·구현·테스트로 이어졌는지 추적 |
+| 범위 팽창 (Scope Creep) | 베이스라인 부재 시 가장 쉽게 커지는 위험 |
+| 릴리스 태그 / 브랜치 | 제품 베이스라인을 저장소에서 식별하는 실무 수단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,21 +139,10 @@ weight: 159
 새로운 베이스라인과 추적성 유지
 ```
 
-이 흐름은 베이스라인이 단발성 문서 고정이 아니라, 승인된 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)에서 시작해 통제된 변경과 다음 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 이어지는 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 축임을 보여 준다.
+이 흐름은 베이스라인이 단발성 문서 고정이 아니라, 승인된 기준선에서 시작해 통제된 변경과 다음 기준선으로 이어지는 형상 관리 축임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 같이 블록 성을 만들 때 “이 그림대로 만들자” 하고 약속한 종이가 베이스라인이에요.
 2. 중간에 바꾸고 싶으면 그냥 몰래 고치는 게 아니라, 모두에게 다시 보여 주고 허락을 받아야 해요.
 3. 그래야 나중에 왜 바뀌었는지 잊지 않고 같은 그림을 보고 계속 만들 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 159 / 973
-
-<- **이전**: [158. 요구사항 관리 (Management) - 변경 통제, 버전 관리](/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)
-**다음**: [160. 형상 통제 위원회 (CCB) 요구사항 변경 심사](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ->
-
----

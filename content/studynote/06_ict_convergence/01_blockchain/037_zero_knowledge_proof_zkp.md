@@ -6,9 +6,9 @@ tags:
 weight: 37
 ---
 > **핵심 인사이트**
-> 1. [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/), Zero-Knowledge Proof)은 증명자(Prover)가 어떤 사실의 지식을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier)에게 증명할 때, 그 지식 자체의 내용을 전혀 공개하지 않고도 참임을 증명하는 암호학적 프로토콜이다.
-> 2. ZKP의 3가지 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(완전성·건전성·영지식성)을 모두 만족해야 하며, zk-SNARK·zk-STARK는 이를 실용적인 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 스케일링과 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)에 적용한 현대적 구현이다.
-> 3. ZKP는 신원 증명("나는 18세 이상입니다"를 나이를 공개하지 않고 증명), [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 의료·금융 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 등 "아는 것을 증명하되 내용은 숨기는" 모든 문제의 핵심 기술이다.
+> 1. 영지식 증명(ZKP, Zero-Knowledge Proof)은 증명자(Prover)가 어떤 사실의 지식을 검증자(Verifier)에게 증명할 때, 그 지식 자체의 내용을 전혀 공개하지 않고도 참임을 증명하는 암호학적 프로토콜이다.
+> 2. ZKP의 3가지 속성(완전성·건전성·영지식성)을 모두 만족해야 하며, zk-SNARK·zk-STARK는 이를 실용적인 블록체인 스케일링과 프라이버시 보호에 적용한 현대적 구현이다.
+> 3. ZKP는 신원 증명("나는 18세 이상입니다"를 나이를 공개하지 않고 증명), 블록체인 롤업(Rollup) 검증, 의료·금융 데이터 프라이버시 보호 등 "아는 것을 증명하되 내용은 숨기는" 모든 문제의 핵심 기술이다.
 
 ---
 
@@ -34,7 +34,7 @@ weight: 37
 
 ---
 
-## II. [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 3가지 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)
+## II. ZKP 3가지 속성
 
 ```
 1. 완전성 (Completeness):
@@ -51,7 +51,7 @@ weight: 37
    "Victor는 비밀번호에 대해 아무것도 배우지 못함"
 ```
 
-| [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)    | 의미                           | 동굴 비유                     |
+| 속성    | 의미                           | 동굴 비유                     |
 |-------|-------------------------------|------------------------------|
 | 완전성  | 진짜 지식 -> 항상 증명 성공     | 진짜 비밀번호면 항상 통과      |
 | 건전성  | 가짜 지식 -> 속임 불가         | 모르면 매번 요청 방향 못 맞춤  |
@@ -81,16 +81,16 @@ zk-STARK (Scalable Transparent ARguments of Knowledge):
 
 | 비교      | zk-SNARK       | zk-STARK        |
 |---------|----------------|-----------------|
-| 증명 크기 | 수백 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) (소) | 수십 KB (대)    |
-| 신뢰 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 필요            | 불필요           |
+| 증명 크기 | 수백 바이트 (소) | 수십 KB (대)    |
+| 신뢰 설정 | 필요            | 불필요           |
 | 양자 안전 | 아님 (EC 기반)  | 안전 (해시 기반) |
-| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도 | 빠름            | 상대적 느림      |
+| 검증 속도 | 빠름            | 상대적 느림      |
 
-> 📢 **섹션 요약 비유**: zk-SNARK는 작고 빠른 [USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 키, zk-STARK는 양자 내성 금고 — 용도와 보안 요구에 따라 선택.
+> 📢 **섹션 요약 비유**: zk-SNARK는 작고 빠른 USB 키, zk-STARK는 양자 내성 금고 — 용도와 보안 요구에 따라 선택.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 응용 분야
+## IV. ZKP 응용 분야
 
 ```
 1. 블록체인 레이어 2 스케일링 (ZK-Rollup):
@@ -112,11 +112,11 @@ zk-STARK (Scalable Transparent ARguments of Knowledge):
    "신용 점수 700 이상" -> 상세 내역 공개 없이 증명
 ```
 
-> 📢 **섹션 요약 비유**: 금융 기관에 "나는 신용이 좋습니다"를 계좌 내역 한 줄도 보여주지 않고 증명하는 시스템 — [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 혁명.
+> 📢 **섹션 요약 비유**: 금융 기관에 "나는 신용이 좋습니다"를 계좌 내역 한 줄도 보여주지 않고 증명하는 시스템 — 개인정보 혁명.
 
 ---
 
-## V. 실무 시나리오 — ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
+## V. 실무 시나리오 — ZK-Rollup 트랜잭션 검증
 
 ```
 Ethereum ZK-Rollup 동작:
@@ -190,17 +190,6 @@ AI+ZKP: 추론 결과 무결성 증명
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)은 비밀을 말하지 않고 "내가 비밀을 알고 있다"는 것만 증명하는 마법 같은 수학이에요.
-2. 나이를 알려주지 않고 "나는 18살 이상이에요"를 증명할 수 있어서 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)를 지킬 수 있어요.
-3. 이더리움 같은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 수천 건 거래를 하나의 증명서로 묶어 처리 속도를 100배 올리는 데도 쓰여요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 37 / 552
-
-<- **이전**: [036. 블록체인 오라클 문제 (Blockchain Oracle Problem)](/studynote/06_ict_convergence/01_blockchain/036_blockchain_oracle_problem/)
-**다음**: [038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)](/studynote/06_ict_convergence/01_blockchain/038_zk_snarks_non_interactive/) ->
-
----
+1. 영지식 증명은 비밀을 말하지 않고 "내가 비밀을 알고 있다"는 것만 증명하는 마법 같은 수학이에요.
+2. 나이를 알려주지 않고 "나는 18살 이상이에요"를 증명할 수 있어서 개인정보를 지킬 수 있어요.
+3. 이더리움 같은 블록체인에서 수천 건 거래를 하나의 증명서로 묶어 처리 속도를 100배 올리는 데도 쓰여요!

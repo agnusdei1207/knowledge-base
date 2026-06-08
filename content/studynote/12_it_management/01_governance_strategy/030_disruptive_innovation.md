@@ -6,9 +6,9 @@ tags:
 weight: 30
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 와해성 혁신(Disruptive Innovation)은 처음에는 기존 주류 시장보다 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮지만 더 저렴하고 간단하여 새로운 시장·고객층을 창출한 뒤, 점차 주류 시장을 잠식하는 현상이다. Clayton Christensen이 1997년 제시한 이론이다.
+> 1. **본질**: 와해성 혁신(Disruptive Innovation)은 처음에는 기존 주류 시장보다 성능이 낮지만 더 저렴하고 간단하여 새로운 시장·고객층을 창출한 뒤, 점차 주류 시장을 잠식하는 현상이다. Clayton Christensen이 1997년 제시한 이론이다.
 > 2. **가치**: 와해성 혁신의 핵심 통찰은 '기존 강자가 왜 신기술에 대응 실패하는가'다. 기존 기업은 현재 고마진 고객 유지에 집중하다가 저가 신기술이 시장 하단에서 올라와 주류를 잠식할 때 대응이 늦어진다(Innovator's Dilemma).
-> 3. **판단 포인트**: 모든 새로운 기술이 와해성 혁신은 아니다. 기존 제품보다 처음부터 더 나은 기술(예: Intel CPU [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선)은 지속적 혁신(Sustaining Innovation)이다. 와해성은 반드시 "처음에 열등 -> 점차 주류 장악"의 경로가 있어야 한다.
+> 3. **판단 포인트**: 모든 새로운 기술이 와해성 혁신은 아니다. 기존 제품보다 처음부터 더 나은 기술(예: Intel CPU 성능 개선)은 지속적 혁신(Sustaining Innovation)이다. 와해성은 반드시 "처음에 열등 -> 점차 주류 장악"의 경로가 있어야 한다.
 
 ---
 
@@ -32,7 +32,7 @@ weight: 30
 나중: 와해성 기술이 주류 요구 수준에 도달 -> 시장 역전
 ```
 
-- **📢 섹션 요약 비유**: 와해성 혁신은 다윗과 골리앗이다. 다윗(와해성 기술)은 처음에 골리앗(기존 기술)보다 약하지만, 다른 무기(저가·단순·[접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))로 새 영역에서 성장해 결국 골리앗을 쓰러뜨린다.
+- **📢 섹션 요약 비유**: 와해성 혁신은 다윗과 골리앗이다. 다윗(와해성 기술)은 처음에 골리앗(기존 기술)보다 약하지만, 다른 무기(저가·단순·접근성)로 새 영역에서 성장해 결국 골리앗을 쓰러뜨린다.
 
 ---
 
@@ -42,10 +42,10 @@ weight: 30
 
 | 와해성 기술 | 기존 강자 | 새 시장/가치 |
 |:---|:---|:---|
-| **스마트폰** | Nokia, 모토로라 | 저성능 인터넷폰 -> [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 대체 |
+| **스마트폰** | Nokia, 모토로라 | 저성능 인터넷폰 -> PC 대체 |
 | **넷플릭스 (DVD)** | 블록버스터 | 온라인 DVD 배송 -> 스트리밍 |
 | **AWS 클라우드** | HP·Dell 서버 | 소규모 스타트업 -> 기업 표준 |
-| **ChatGPT** | 전통 검색엔진 | 대화형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) -> 정보 검색 패턴 변화 |
+| **ChatGPT** | 전통 검색엔진 | 대화형 AI -> 정보 검색 패턴 변화 |
 | **디지털 카메라** | 코닥 필름 | 저품질 -> 필름 시장 완전 대체 |
 
 ### Innovator's Dilemma (혁신가의 딜레마)
@@ -71,8 +71,8 @@ weight: 30
 |:---|:---|:---|
 | 방향 | 아래서 위로 (새 시장->주류) | 위에서 위로 (기존 개선) |
 | 위험 | 기존 강자 위협 | 기존 강자에게 유리 |
-| [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 기존보다 열등 | 기존보다 우월 |
-| 예시 | 클라우드·스마트폰 | CPU [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선·카메라 화소 향상 |
+| 초기 성능 | 기존보다 열등 | 기존보다 우월 |
+| 예시 | 클라우드·스마트폰 | CPU 성능 개선·카메라 화소 향상 |
 
 - **📢 섹션 요약 비유**: 와해성 vs 지속적 혁신은 청출어람(와해성)과 장인 개선(지속적)이다. 청출어람은 제자가 새로운 방식으로 스승을 능가하고, 장인 개선은 같은 방식의 지속적 완성도 향상이다.
 
@@ -80,7 +80,7 @@ weight: 30
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 와해성 기술 대응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 와해성 기술 대응 전략
 
 ```text
 양손잡이 경영 (Ambidextrous Organization):
@@ -109,9 +109,9 @@ weight: 30
 | **새 시장 창출** | 와해성으로 블루오션 개척 |
 | **경쟁 우위** | Innovator's Dilemma 극복 |
 
-AI가 와해성 혁신의 새로운 파도로 부상하고 있다. [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) AI는 검색·법률·의료·교육 등 지식 산업 전반에서 기존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 와해하는 중이다. 기존 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기업은 AI를 기존 제품 개선(지속적 혁신)에만 활용할 게 아니라, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 네이티브 새 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(와해성 혁신)로 독립 공략해야 한다.
+AI가 와해성 혁신의 새로운 파도로 부상하고 있다. LLM·생성 AI는 검색·법률·의료·교육 등 지식 산업 전반에서 기존 서비스를 와해하는 중이다. 기존 서비스 기업은 AI를 기존 제품 개선(지속적 혁신)에만 활용할 게 아니라, AI 네이티브 새 서비스(와해성 혁신)로 독립 공략해야 한다.
 
-- **📢 섹션 요약 비유**: AI의 와해성 혁신은 스마트폰이 카메라 시장을 잠식한 것과 같다. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 네이티브 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 기존 지식 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 산업을 아래서부터 잠식하고 있다.
+- **📢 섹션 요약 비유**: AI의 와해성 혁신은 스마트폰이 카메라 시장을 잠식한 것과 같다. AI 네이티브 서비스가 기존 지식 서비스 산업을 아래서부터 잠식하고 있다.
 
 ---
 
@@ -121,9 +121,9 @@ AI가 와해성 혁신의 새로운 파도로 부상하고 있다. [LLM](/studyn
 |:---|:---|
 | **Innovator's Dilemma** | 기존 강자의 대응 실패 이유 |
 | **지속적 혁신** | 와해성 혁신과 대비 |
-| **양손잡이 경영** | 기존+탐색 동시 추구 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| <strong>블루오션 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | 새 시장 창출 관련 개념 |
-| <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 와해</strong> | [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 지식 산업 잠식 |
+| **양손잡이 경영** | 기존+탐색 동시 추구 전략 |
+| <strong>블루오션 전략</strong> | 새 시장 창출 관련 개념 |
+| <strong>AI 와해</strong> | LLM 기반 지식 산업 잠식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,14 +148,3 @@ AI가 와해성 혁신의 새로운 파도로 부상하고 있다. [LLM](/studyn
 1. 와해성 혁신은 처음엔 약해 보이지만 결국 강자를 이기는 다윗 이야기예요!
 2. 큰 회사들이 새로운 기술을 무시하다가 나중에 시장을 빼앗기는 것을 Innovator's Dilemma라고 해요!
 3. 현명한 회사는 기존 사업과 새로운 탐색을 두 손으로 동시에 잡아요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 52 / 587
-
-<- **이전**: [29. IT 포트폴리오 관리 (IT PPM)](/studynote/12_it_management/01_governance_strategy/822_it_ppm/)
-**다음**: [31. 롱테일 법칙 (Long Tail)](/studynote/12_it_management/01_governance_strategy/031_long_tail/) ->
-
----

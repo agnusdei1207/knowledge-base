@@ -7,9 +7,9 @@ weight: 84
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: 이벤트 시간(Event Time)은 이벤트가 실제로 발생한 시각([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내 타임스탬프)이고, 처리 시간(Processing Time)은 스트리밍 시스템이 해당 이벤트를 처리한 시각(시스템 시계)으로, [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)·장애·배치 재처리 등에 의해 둘 사이에 수 분~수 시간의 차이([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 생긴다.
-- **가치**: 사기 탐지·세금 계산·[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 측정 등 비즈니스 로직이 "언제 일어난 일인가"에 의존할 때는 이벤트 시간이 필수이며, 처리 시간은 구현이 단순하지만 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 이벤트로 인해 집계 결과가 틀릴 수 있다.
-- **판단 포인트**: 이벤트 시간 처리는 [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/) ([워터마크](/studynote/16_bigdata/04_streaming/085_watermark/))를 통해 "얼마나 늦은 이벤트까지 기다릴 것인가"를 결정해야 하며, 이는 <strong><a href="/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>(Accuracy)과 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)의 트레이드오프</strong>로 [워터마크](/studynote/16_bigdata/04_streaming/085_watermark/)가 클수록 정확하지만 늦게 결과가 나온다.
+- **본질**: 이벤트 시간(Event Time)은 이벤트가 실제로 발생한 시각(데이터 내 타임스탬프)이고, 처리 시간(Processing Time)은 스트리밍 시스템이 해당 이벤트를 처리한 시각(시스템 시계)으로, 네트워크 지연·장애·배치 재처리 등에 의해 둘 사이에 수 분~수 시간의 차이(지연)가 생긴다.
+- **가치**: 사기 탐지·세금 계산·SLA 측정 등 비즈니스 로직이 "언제 일어난 일인가"에 의존할 때는 이벤트 시간이 필수이며, 처리 시간은 구현이 단순하지만 지연된 이벤트로 인해 집계 결과가 틀릴 수 있다.
+- **판단 포인트**: 이벤트 시간 처리는 Watermark (워터마크)를 통해 "얼마나 늦은 이벤트까지 기다릴 것인가"를 결정해야 하며, 이는 <strong>정확성(Accuracy)과 지연(Latency)의 트레이드오프</strong>로 워터마크가 클수록 정확하지만 늦게 결과가 나온다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 84
 
 ### 1. 시간 개념의 중요성
 
-스트리밍 처리에서 "시간"은 단순한 타임스탬프가 아니라 <strong>집계 결과의 <a href="/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>을 결정하는 핵심 기준</strong>이다.
+스트리밍 처리에서 "시간"은 단순한 타임스탬프가 아니라 <strong>집계 결과의 정확성을 결정하는 핵심 기준</strong>이다.
 
 ```
 실제 발생 타임라인:
@@ -38,7 +38,7 @@ weight: 84
 
 | 시간 개념 | 정의 | 특징 |
 |:---|:---|:---|
-| Event Time | 이벤트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내 타임스탬프 | 정확한 비즈니스 시간, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 필요 |
+| Event Time | 이벤트 데이터 내 타임스탬프 | 정확한 비즈니스 시간, 지연 이벤트 처리 필요 |
 | Processing Time | 시스템이 이벤트를 처리한 시각 | 간단, 빠름, 재처리 시 결과 다를 수 있음 |
 | Ingestion Time | 이벤트가 소스 연산자에 들어온 시각 | Event Time과 Processing Time의 중간 |
 
@@ -103,11 +103,11 @@ withTimestamps
 
 | 항목 | 이벤트 시간 | 처리 시간 |
 |:---|:---|:---|
-| [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/) | 높음 (실제 발생 시간 기준) | 낮음 (도착 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 영향) |
-| 구현 복잡도 | 높음 ([Watermark](/studynote/16_bigdata/04_streaming/085_watermark/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요) | 낮음 |
+| 정확성 | 높음 (실제 발생 시간 기준) | 낮음 (도착 지연 영향) |
+| 구현 복잡도 | 높음 (Watermark 설정 필요) | 낮음 |
 | 재처리 결정론성 | 동일한 결과 보장 | 실행 시점마다 다를 수 있음 |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 | Watermark로 조절 | 없음 (도착 즉시 처리) |
-| 적합한 사용 사례 | 사기 탐지, 청구, [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 측정 | [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 대시보드, 실시간 알림 |
+| 지연 허용 | Watermark로 조절 | 없음 (도착 즉시 처리) |
+| 적합한 사용 사례 | 사기 탐지, 청구, SLA 측정 | 모니터링 대시보드, 실시간 알림 |
 
 **📢 섹션 요약 비유**
 > 처리 시간은 "택배 배송 완료 시간으로 정렬하는 것", 이벤트 시간은 "주문서에 적힌 주문 날짜로 정렬하는 것"이다. 배송이 늦었어도 주문 날짜 기준으로 순서를 매겨야 고객에게 올바른 영수증이 나온다.
@@ -116,13 +116,13 @@ withTimestamps
 
 ## Ⅲ. 비교 및 연결
 
-### 1. [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트(Late [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 처리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 1. 지연 이벤트(Late Data) 처리 전략
 
-이벤트 시간 처리에서 [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/) 이후에 도착한 이벤트는 "[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트(Late Event)"다. 처리 옵션:
+이벤트 시간 처리에서 Watermark 이후에 도착한 이벤트는 "지연 이벤트(Late Event)"다. 처리 옵션:
 
-1. **무시(Drop)**: 기본 동작 — 이미 닫힌 윈도우의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트는 버림
-2. **Side Output**: [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트를 별도 스트림으로 분기하여 이후 처리
-3. <strong>허용 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 확장</strong>: `allowedLateness(Time.minutes(5))` — 윈도우를 조금 더 열어둠
+1. **무시(Drop)**: 기본 동작 — 이미 닫힌 윈도우의 지연 이벤트는 버림
+2. **Side Output**: 지연 이벤트를 별도 스트림으로 분기하여 이후 처리
+3. <strong>허용 지연 시간 확장</strong>: `allowedLateness(Time.minutes(5))` — 윈도우를 조금 더 열어둠
 
 ```java
 // 지연 이벤트 Side Output 처리
@@ -140,12 +140,12 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 
 ### 2. 연결 개념
 
-- <strong><a href="/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a></strong>: 이벤트 시간 처리의 핵심 — [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 허용 임계값
-- <strong><a href="/studynote/16_bigdata/04_streaming/086_window_operations/">Window Operations</a></strong>: 이벤트 시간 기반 윈도우의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 위한 기반
+- <strong>Watermark</strong>: 이벤트 시간 처리의 핵심 — 지연 이벤트 허용 임계값
+- <strong>Window Operations</strong>: 이벤트 시간 기반 윈도우의 정확성을 위한 기반
 - **Exactly-Once**: 이벤트 시간 재처리 시 결정론적 결과 보장
 
 **📢 섹션 요약 비유**
-> [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리는 "늦게 도착한 참가자를 어디까지 허용하는 경기"와 같다. 5분까지 늦게 온 사람은 참가 허용(allowedLateness), 그 이상 늦은 사람은 대기실(side output)에서 따로 처리한다.
+> 지연 이벤트 처리는 "늦게 도착한 참가자를 어디까지 허용하는 경기"와 같다. 5분까지 늦게 온 사람은 참가 허용(allowedLateness), 그 이상 늦은 사람은 대기실(side output)에서 따로 처리한다.
 
 ---
 
@@ -157,17 +157,17 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 |:---|:---|
 | 월말 청구서 집계 | 이벤트 시간 — 발생 일자 기준 집계 |
 | 실시간 사기 탐지 | 이벤트 시간 — 짧은 시간 내 패턴 감지 |
-| 운영 대시보드 ([현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 처리 시간 — 지금 이 순간의 상태 |
-| [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 이벤트 시간 — 센서 발생 시간 기준 |
-| [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계 리포트 | 이벤트 시간 — [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 발생 시각 기준 통계 |
+| 운영 대시보드 (현재 상태) | 처리 시간 — 지금 이 순간의 상태 |
+| IoT 센서 이상 탐지 | 이벤트 시간 — 센서 발생 시간 기준 |
+| 로그 집계 리포트 | 이벤트 시간 — 로그 발생 시각 기준 통계 |
 
-### 2. [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 2. 체크리스트
 
-- [ ] 이벤트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 타임스탬프 필드 포함 여부 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- [ ] 이벤트 데이터에 타임스탬프 필드 포함 여부 확인
 - [ ] 타임존 처리: UTC 기준 저장 권장
-- [ ] [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/) 크기: [네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 측정 후 P99 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 약간 크게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
+- [ ] Watermark 크기: 네트워크 지연 측정 후 P99 지연보다 약간 크게 설정
 - [ ] 장애 후 재처리 시 이벤트 시간 사용으로 결정론적 결과 보장
-- [ ] Side Output으로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 ([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 비율 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 관리)
+- [ ] Side Output으로 지연 이벤트 모니터링 (지연 비율 SLA 관리)
 
 **📢 섹션 요약 비유**
 > 이벤트 시간/처리 시간 선택은 "역사책 vs 일기"의 차이다. 역사책은 사건이 일어난 날짜(이벤트 시간)로 기록하고, 일기는 오늘 내가 경험한 것(처리 시간)을 적는다. 나중에 다시 읽을 때 "그 사건은 언제 일어났나"를 알려면 역사책이 더 정확하다.
@@ -181,27 +181,27 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 | 이벤트 시간 사용 시 | 설명 |
 |:---|:---|
 | 비즈니스 정확도 향상 | 발생 시간 기준 집계로 올바른 리포트 |
-| 재처리 안전성 | 동일한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재처리 시 동일한 결과 |
-| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 유연성 | Watermark로 정확도-[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 균형 조절 |
+| 재처리 안전성 | 동일한 데이터 재처리 시 동일한 결과 |
+| 지연 허용 유연성 | Watermark로 정확도-지연 균형 조절 |
 
 ### 2. 결론
 
-이벤트 시간 vs 처리 시간의 선택은 <strong>"얼마나 정확한 비즈니스 시간 기반 분석이 필요한가"</strong>에 달려 있다. 기술사 답안에서는 두 개념의 정의, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Skew)이 발생하는 원인, Watermark를 통한 이벤트 시간 처리 메커니즘, 그리고 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Side Output, allowedLateness)을 함께 서술해야 한다.
+이벤트 시간 vs 처리 시간의 선택은 <strong>"얼마나 정확한 비즈니스 시간 기반 분석이 필요한가"</strong>에 달려 있다. 기술사 답안에서는 두 개념의 정의, 지연(Skew)이 발생하는 원인, Watermark를 통한 이벤트 시간 처리 메커니즘, 그리고 지연 이벤트 처리 전략(Side Output, allowedLateness)을 함께 서술해야 한다.
 
 **📢 섹션 요약 비유**
-> 이벤트 시간은 "과거를 정확히 재구성하는 역사가의 도구"이고, 처리 시간은 "지금 이 순간을 빠르게 기록하는 저널리스트의 도구"다. 정확한 역사서(이벤트 시간 집계)를 쓰려면 느려도 출처를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하고, 속보(처리 시간 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링)는 빠르게 발행해야 한다.
+> 이벤트 시간은 "과거를 정확히 재구성하는 역사가의 도구"이고, 처리 시간은 "지금 이 순간을 빠르게 기록하는 저널리스트의 도구"다. 정확한 역사서(이벤트 시간 집계)를 쓰려면 느려도 출처를 확인해야 하고, 속보(처리 시간 모니터링)는 빠르게 발행해야 한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | 관계 | 설명 |
 |:---|:---|:---|
-| [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/) | 이벤트 시간의 핵심 도구 | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 임계값 정의 |
-| [Window Operations](/studynote/16_bigdata/04_streaming/086_window_operations/) | 적용 대상 | 이벤트 시간 기반 윈도우 집계 |
-| Side Output | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 | 늦게 도착한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 대안 처리 경로 |
+| Watermark | 이벤트 시간의 핵심 도구 | 지연 허용 임계값 정의 |
+| Window Operations | 적용 대상 | 이벤트 시간 기반 윈도우 집계 |
+| Side Output | 지연 이벤트 처리 | 늦게 도착한 데이터의 대안 처리 경로 |
 | Exactly-Once | 재처리 보장 | 이벤트 시간 사용 시 결정론적 결과 |
-| Flink [Savepoint](/studynote/05_database/04_transactions_concurrency/200_savepoint_partial_rollback/) | 연동 개념 | 이벤트 시간 기반 재처리를 위한 상태 보존 |
+| Flink Savepoint | 연동 개념 | 이벤트 시간 기반 재처리를 위한 상태 보존 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -221,19 +221,8 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 [지연 데이터 처리]
 ```
 
-[스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)는 처리 시간에서 이벤트 시간과 [워터마크](/studynote/16_bigdata/04_streaming/085_watermark/) 중심으로 발전했다.
+스트림 처리는 처리 시간에서 이벤트 시간과 워터마크 중심으로 발전했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 이벤트 시간은 "편지에 쓰여 있는 날짜"이고, 처리 시간은 "편지가 우체통에 도착한 날짜"예요. 편지가 눈보라로 늦게 왔더라도 편지에 적힌 날짜(이벤트 시간)로 정렬해야 "어떤 순서로 일어난 일인지" 알 수 있어요. 처리 시간으로 정렬하면 눈보라 때문에 늦게 온 편지가 나중에 쓴 것처럼 보여서 틀린 답이 나올 수 있답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 84 / 262
-
-<- **이전**: [08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점](/studynote/16_bigdata/04_streaming/083_flink_savepoint_checkpoint/)
-**다음**: [10. 워터마크 (Watermark) — 지연 이벤트 허용 임계](/studynote/16_bigdata/04_streaming/085_watermark/) ->
-
----

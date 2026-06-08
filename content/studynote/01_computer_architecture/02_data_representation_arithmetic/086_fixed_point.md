@@ -8,8 +8,8 @@ weight: 86
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Fixed Point(고정소수점)는 소수점 위치를 미리 정해 정수부와 소수부를 함께 담는 표현 방식이다.
-> 2. **가치**: [Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)([부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))보다 범위는 좁지만 계산이 예측 가능해 DSP (Digital [Signal](/studynote/02_operating_system/02_process_thread/130_signal/) Processing)와 임베디드에 잘 맞는다.
-> 3. **판단 포인트**: 범위, [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), 오버플로 정책을 먼저 정해야 실수를 줄일 수 있다.
+> 2. **가치**: Floating Point(부동소수점)보다 범위는 좁지만 계산이 예측 가능해 DSP (Digital Signal Processing)와 임베디드에 잘 맞는다.
+> 3. **판단 포인트**: 범위, 정밀도, 오버플로 정책을 먼저 정해야 실수를 줄일 수 있다.
 
 ---
 
@@ -24,8 +24,8 @@ weight: 86
 ## Ⅱ. 아키텍처 및 핵심 원리
 | 요소 | 의미 | 포인트 |
 |:---|:---|:---|
-| 정수부 | 큰 범위 담당 | 부호와 오버플로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| 소수부 | 미세 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 담당 | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 결정 |
+| 정수부 | 큰 범위 담당 | 부호와 오버플로 확인 |
+| 소수부 | 미세 정밀도 담당 | 비트 수가 정밀도를 결정 |
 | binary point | 소수점 위치 | 고정되어 있음 |
 | scale factor | 실제값 변환 배수 | 값 = 저장값 / 2^n |
 | rounding | 근사 방식 | truncation, round, saturation |
@@ -34,30 +34,30 @@ weight: 86
 | 00010110               | 10100000               |
 +------------------------+------------------------+
              binary point
-- **📢 섹션 요약 비유**: [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 범위는 서로 바꿔야 한다.
+- **📢 섹션 요약 비유**: 정밀도와 범위는 서로 바꿔야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | Integer | Fixed Point | [Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) |
+| 비교 항목 | Integer | Fixed Point | Floating Point |
 |:---|:---|:---|:---|
 | 소수 표현 | 없음 | 고정 위치 | 가변 지수 |
-| [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 낮음 | 일정 | 넓은 범위에서 균형 |
+| 정밀도 | 낮음 | 일정 | 넓은 범위에서 균형 |
 | 범위 | 정수 범위 | 중간 | 매우 넓음 |
 | 하드웨어 | 가장 단순 | 단순 | 복잡 |
 
-고정소수점은 범위와 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 교환을 명확히 이해할 때 강하다.
-- **📢 섹션 요약 비유**: 정수와 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 사이의 중간 지점이다.
+고정소수점은 범위와 정밀도의 교환을 명확히 이해할 때 강하다.
+- **📢 섹션 요약 비유**: 정수와 부동소수점 사이의 중간 지점이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 - [ ] 데이터의 최대/최소 범위를 먼저 계산한다.
 - [ ] Qm.n 같은 스케일을 명시한다.
-- [ ] [overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 시 saturation 또는 wrap-around 정책을 정한다.
+- [ ] overflow 시 saturation 또는 wrap-around 정책을 정한다.
 - [ ] 반올림 규칙을 테스트한다.
 
-- ❌ 모든 문제를 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)으로만 푸는 것
+- ❌ 모든 문제를 부동소수점으로만 푸는 것
 - ❌ 정수부와 소수부 스케일을 주석 없이 섞는 것
 - ❌ 오버플로를 무시하고 합산하는 것
 - **📢 섹션 요약 비유**: 오버플로와 반올림이 핵심이다.
@@ -75,10 +75,10 @@ weight: 86
 | 개념 | 연결 포인트 |
 |:---|:---|
 | Fixed Point | 소수점 위치가 고정된다. |
-| [Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) | 지수로 넓은 범위를 다룬다. |
-| Qm.n | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배치를 표현하는 방식이다. |
+| Floating Point | 지수로 넓은 범위를 다룬다. |
+| Qm.n | 비트 배치를 표현하는 방식이다. |
 | saturation | 넘치면 최대/최소로 묶는다. |
-| DSP (Digital [Signal](/studynote/02_operating_system/02_process_thread/130_signal/) Processing) | 대표 사용처다. |
+| DSP (Digital Signal Processing) | 대표 사용처다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -91,14 +91,3 @@ weight: 86
 1. 정해진 눈금이 있는 자로 길이를 재는 것과 비슷하다.
 2. 눈금이 일정하니 빠르게 재지만, 너무 길면 자를 넘칠 수 있다.
 3. 그래서 길이와 눈금을 먼저 정해야 한다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 86 / 803
-
-<- **이전**: [85. 2의 보수 (2's Complement)](/studynote/01_computer_architecture/02_data_representation_arithmetic/085_twos_complement/)
-**다음**: [87. 부동소수점 (Floating Point)](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) ->
-
----

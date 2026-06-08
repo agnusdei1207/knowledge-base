@@ -197,11 +197,3 @@ weight: 751
 | **Drift Detection Engine** | 통계적 분포 변화 정량화 | **PSI**: `Σ (P_ref - P_curr) × ln(P_ref/P_curr)`, 임계치 `<0.1 안정 / 0.1~0.2 경고 / >0.2 위험`. **KS-Test**: 누적 분포 함수 최대 차이로 비모수 검정 (p-value < 0.05 유의). **ADWIN**: 적응형 윈도우 기반 변화점 탐지로 메모리 효율적 |
 | **Performance Monitor** | 실제 라벨 대비 정확도 측정 | **라벨 지연(Lag)**이 큰 경우 **Prequential Evaluation**(test-then-train) 또는 **Importance-Weighted AUC** 활용. 분류는 F1/AUC/LogLoss, 회귀는 RMSE/MAE/MAPE, 랭킹은 NDCG/MRR |
 | **Alert & Orchestrator** | 임계치
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 751 / 800
-
-<- **이전**: [750. 데이터 드리프트 개념 드리프트 탐지](/studynote/06_ict_convergence/uncategorized/750_data_drift_concept_drift_detection/)
-**다음**: [752. 설명 가능 AI XAI 모델 해석 투명성](/studynote/06_ict_convergence/uncategorized/752_explainable_ai_xai_interpretability_transpare/) ->
-
----

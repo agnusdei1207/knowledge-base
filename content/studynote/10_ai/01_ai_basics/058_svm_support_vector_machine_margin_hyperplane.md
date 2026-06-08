@@ -7,17 +7,17 @@ weight: 58
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SVM은 두 클래스 사이를 나누는 초평면을 찾되, 마진을 최대화하는 선을 고르는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이다.
-> 2. **가치**: 경계에 가까운 일부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 중요하게 보므로 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋고, 노이즈에도 비교적 강하다.
-> 3. **판단 포인트**: 서포트 벡터, 소프트 마진, [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)을 함께 이해해야 실전 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 쓸 수 있다.
+> 1. **본질**: SVM은 두 클래스 사이를 나누는 초평면을 찾되, 마진을 최대화하는 선을 고르는 분류 모델이다.
+> 2. **가치**: 경계에 가까운 일부 데이터만 중요하게 보므로 일반화 성능이 좋고, 노이즈에도 비교적 강하다.
+> 3. **판단 포인트**: 서포트 벡터, 소프트 마진, 커널 트릭을 함께 이해해야 실전 분류에 쓸 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 두 집단으로 나뉘어 있을 때, 단순히 나누는 선은 매우 많다. SVM은 그중에서 가장 안전한 선을 찾는다.
+데이터가 두 집단으로 나뉘어 있을 때, 단순히 나누는 선은 매우 많다. SVM은 그중에서 가장 안전한 선을 찾는다.
 
-안전하다는 뜻은 양쪽 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와의 간격, 즉 마진이 가장 넓다는 뜻이다.
+안전하다는 뜻은 양쪽 데이터와의 간격, 즉 마진이 가장 넓다는 뜻이다.
 
 - **📢 섹션 요약 비유**: 양 떼와 늑대 떼 사이에 가장 넓은 울타리 위치를 찾는 일이다.
 
@@ -35,7 +35,7 @@ SVM의 경계는 초평면(Hyperplane)이다. 2차원에서는 선, 3차원 이�
 클래스 B  ^ ^ ^
 ```
 
-마진이 넓을수록 새 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어와도 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 흔들릴 가능성이 줄어든다.
+마진이 넓을수록 새 데이터가 들어와도 분류가 흔들릴 가능성이 줄어든다.
 
 - **📢 섹션 요약 비유**: 길 한가운데에 아주 넓은 안전지대를 두는 것과 같다.
 
@@ -43,17 +43,17 @@ SVM의 경계는 초평면(Hyperplane)이다. 2차원에서는 선, 3차원 이�
 
 ## Ⅲ. 서포트 벡터와 소프트 마진
 
-경계선을 결정하는 데 실제로 중요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 일부뿐이다. 이 경계에 가장 가까운 점들을 서포트 벡터([Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector)라고 부른다.
+경계선을 결정하는 데 실제로 중요한 데이터는 일부뿐이다. 이 경계에 가장 가까운 점들을 서포트 벡터(Support Vector)라고 부른다.
 
-현실 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완벽히 분리되지 않기 때문에, 소프트 마진(Soft Margin)으로 약간의 오차를 허용한다. 이때 오차 허용 정도를 조절하는 파라미터가 중요하다.
+현실 데이터는 완벽히 분리되지 않기 때문에, 소프트 마진(Soft Margin)으로 약간의 오차를 허용한다. 이때 오차 허용 정도를 조절하는 파라미터가 중요하다.
 
 - **📢 섹션 요약 비유**: 울타리를 칠 때 꼭 붙은 동물 몇 마리만 기준이 되는 셈이다.
 
 ---
 
-## Ⅳ. [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)
+## Ⅳ. 커널 트릭
 
-선형으로 나뉘지 않는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))으로 해결할 수 있다.
+선형으로 나뉘지 않는 데이터는 커널 트릭(Kernel Trick)으로 해결할 수 있다.
 
 - 2차원에서는 안 나뉘는 점들을
 - 더 높은 차원으로 올린 뒤
@@ -67,9 +67,9 @@ SVM의 경계는 초평면(Hyperplane)이다. 2차원에서는 선, 3차원 이�
 
 ## Ⅴ. 실무 적용과 비교
 
-SVM은 작은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이나 경계가 명확한 문제에서 특히 강하다. 텍스트 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 이미지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 패턴 인식에서 자주 쓰였다.
+SVM은 작은 데이터셋이나 경계가 명확한 문제에서 특히 강하다. 텍스트 분류, 이미지 분류, 패턴 인식에서 자주 쓰였다.
 
-하지만 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 학습이 무거울 수 있고, 파라미터 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 중요하다. 그래서 최근에는 다른 모델과 함께 비교하며 쓴다.
+하지만 대규모 데이터에서는 학습이 무거울 수 있고, 파라미터 선택도 중요하다. 그래서 최근에는 다른 모델과 함께 비교하며 쓴다.
 
 - **📢 섹션 요약 비유**: 칼을 예리하게 갈아 쓰면 잘 자르지만, 무겁고 큰 도구라면 다루는 법도 알아야 한다.
 
@@ -92,9 +92,9 @@ SVM은 작은 [데이터](/studynote/05_database/01_db_architecture_relational/0
 ## 관련 키워드 및 발전 흐름도
 
 1. 선형 분리 문제 -> 초평면 필요
-2. 마진 최대화 -> 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+2. 마진 최대화 -> 일반화 성능 향상
 3. 서포트 벡터 -> 경계 결정점 축소
-4. [커널 트릭](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) -> 비선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 확장
+4. 커널 트릭 -> 비선형 분류 확장
 5. 실전 튜닝 -> 소프트 마진과 파라미터 조절
 
 ---
@@ -104,14 +104,3 @@ SVM은 작은 [데이터](/studynote/05_database/01_db_architecture_relational/0
 SVM은 두 무리를 가장 안전하게 나누는 선을 찾는 거예요.
 가장 가까운 친구들만 보고 선을 정해요.
 그래서 새 친구가 와도 덜 흔들려요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 58 / 420
-
-<- **이전**: [57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기](/studynote/10_ai/01_ai_basics/057_k_means_clustering_unsupervised_learning/)
-**다음**: [59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)](/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ->
-
----

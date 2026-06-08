@@ -134,11 +134,3 @@ $$Gap_{role} = \frac{1}{n}\sum_{j=1}^{5} (Target_{role,j} - Current_{role,j})$$
 $$ROI(\%) = \frac{Net\ Program\ Benefits}{Program\ Costs} \times 100$$
    - 순편익 = (Time-to-Insight 감소분 × 인건비) + (의사결정 오류 감소분) + (Self-Service 채택률 증가에 따른 BI 부서 부담 절감)
    - 비용 = LMS 라이선스 + 강사비 + 직원 학습시간(인건비
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 691 / 800
-
-<- **이전**: [690. 오픈 데이터 공공 데이터 활용 전략](/studynote/06_ict_convergence/uncategorized/690_open_data_public_data_utilization_strategy/)
-**다음**: [692. 데이터 엔지니어링 아키텍처 종합 요약](/studynote/06_ict_convergence/uncategorized/692_data_engineering_architecture_summary/) ->
-
----

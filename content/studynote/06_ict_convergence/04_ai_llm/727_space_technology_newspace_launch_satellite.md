@@ -101,11 +101,3 @@ weight: 727
 | **구조/열제어(Structure & TCS)** | 진동·열환경 보호, 전개 | 알루미늄 허니콤·CFRP 스킨, 능동/수동 TCS(MLI, OSR, 히터, 라디에이터); 위성 외부 -180~+150°C, 내부 -30~+50°C |
 | **전력(EPS, Power)** | 생성·저장·분배 | 트리플정션 GaAs/삼중접합 GaInP/GaAs/Ge(30%+ 효율, BOL), Li-ion(NMC, LTO), MPPT, PCU 28V/100V, 2.0kW-12kW |
 | **추진(Propulsion)** | 궤도삽입·유지·드래그 컴펜,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 727 / 800
-
-<- **이전**: [726. 탄소 포집 CCS CCUS 넷제로 전략](/studynote/06_ict_convergence/uncategorized/726_carbon_capture_ccs_ccus_net_zero_strategy/)
-**다음**: [728. 해양 기술 심해 탐사 해양 에너지](/studynote/06_ict_convergence/uncategorized/728_ocean_technology_deep_sea_exploration_energy/) ->
-
----

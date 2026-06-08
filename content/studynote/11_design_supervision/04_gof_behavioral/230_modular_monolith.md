@@ -7,9 +7,9 @@ weight: 230
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Modular Monolith](/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/) ([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스)는 단일 배포 단위(Monolithic [Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))를 유지하면서도 내부를 명확한 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계([Module](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Boundary)로 분리하여, [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/))의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 이점과 모놀리스의 운영 단순성을 동시에 달성하는 아키텍처다.
-> 2. **가치**: [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환의 과도기 또는 대안으로, 단일 프로세스의 낮은 운영 복잡도를 유지하면서 [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) Bounded Context를 기반으로 미래 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분리를 대비한 내부 구조를 갖춘다.
-> 3. **판단 포인트**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 통신은 반드시 <strong>공개 인터페이스(Public <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong> 를 통해서만 — [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부 클래스의 직접 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)는 금지. 이 규칙 위반 감지를 위해 ArchUnit 등의 아키텍처 테스트 도구가 필수다.
+> 1. **본질**: Modular Monolith (모듈형 모놀리스)는 단일 배포 단위(Monolithic Deployment)를 유지하면서도 내부를 명확한 모듈 경계(Module Boundary)로 분리하여, MSA (Microservice Architecture)의 모듈화 이점과 모놀리스의 운영 단순성을 동시에 달성하는 아키텍처다.
+> 2. **가치**: MSA 전환의 과도기 또는 대안으로, 단일 프로세스의 낮은 운영 복잡도를 유지하면서 DDD Bounded Context를 기반으로 미래 MSA 분리를 대비한 내부 구조를 갖춘다.
+> 3. **판단 포인트**: 모듈 간 통신은 반드시 <strong>공개 인터페이스(Public API)</strong> 를 통해서만 — 모듈 내부 클래스의 직접 참조는 금지. 이 규칙 위반 감지를 위해 ArchUnit 등의 아키텍처 테스트 도구가 필수다.
 
 ---
 
@@ -32,11 +32,11 @@ MSA의 오버킬:
 적절한 중간 지점: Modular Monolith
 ```
 
-- **Shopify**: Ruby on Rails 모놀리스를 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화하여 수십억 달러 규모 유지
-- <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a></strong>: 대부분을 모놀리스로 운영하며 초당 수백만 페이지뷰 처리
-- **Basecamp**: 의도적으로 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 대신 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 선택
+- **Shopify**: Ruby on Rails 모놀리스를 모듈화하여 수십억 달러 규모 유지
+- <strong>Stack Overflow</strong>: 대부분을 모놀리스로 운영하며 초당 수백만 페이지뷰 처리
+- **Basecamp**: 의도적으로 MSA 대신 모듈형 모놀리스 선택
 
-- **📢 섹션 요약 비유**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스는 아파트 건물 — 하나의 건물(단일 배포)이지만 각 세대([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))는 독립적인 생활 공간을 가지고, 복도(공개 인터페이스)를 통해서만 서로 방문할 수 있다.
+- **📢 섹션 요약 비유**: 모듈형 모놀리스는 아파트 건물 — 하나의 건물(단일 배포)이지만 각 세대(모듈)는 독립적인 생활 공간을 가지고, 복도(공개 인터페이스)를 통해서만 서로 방문할 수 있다.
 
 ---
 
@@ -71,11 +71,11 @@ MSA의 오버킬:
 
 | 원칙 | 설명 |
 |:---|:---|
-| <strong>퍼블릭 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 강제</strong> | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 통신은 공개 인터페이스만 허용 (내부 구현 은닉) |
-| <strong><a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 격리</strong> | 각 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 자신의 DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)/테이블만 접근 |
-| **순환 의존 금지** | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A -> B -> A 순환 의존 불허 |
-| **이벤트 기반 통신** | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 결합 최소화 시 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 활용 |
-| **독립 배포 준비** | 향후 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분리 시 경계가 자연스럽게 분리선이 됨 |
+| <strong>퍼블릭 API 강제</strong> | 모듈 간 통신은 공개 인터페이스만 허용 (내부 구현 은닉) |
+| <strong>스키마 격리</strong> | 각 모듈은 자신의 DB 스키마/테이블만 접근 |
+| **순환 의존 금지** | 모듈 A -> B -> A 순환 의존 불허 |
+| **이벤트 기반 통신** | 모듈 간 결합 최소화 시 도메인 이벤트 활용 |
+| **독립 배포 준비** | 향후 MSA 분리 시 경계가 자연스럽게 분리선이 됨 |
 
 ```java
 // module-info.java (Java 9+ JPMS)
@@ -88,7 +88,7 @@ module com.example.order {
 }
 ```
 
-- **📢 섹션 요약 비유**: Java [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 시스템에서 `exports`는 건물의 공식 입구(공개 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) — 방문자는 반드시 정문(exports된 패키지)으로만 들어와야 하고, 건물 내부 통로(internal 패키지)는 외부에서 접근 불가하다.
+- **📢 섹션 요약 비유**: Java 모듈 시스템에서 `exports`는 건물의 공식 입구(공개 API) — 방문자는 반드시 정문(exports된 패키지)으로만 들어와야 하고, 건물 내부 통로(internal 패키지)는 외부에서 접근 불가하다.
 
 ---
 
@@ -96,20 +96,20 @@ module com.example.order {
 | 단계 | 아키텍처 | 특징 | 적합한 팀 규모 |
 |:---|:---|:---|:---|
 | 1단계 | 전통 모놀리스 | 단순, 경계 없음 | 1~5명 |
-| 2단계 | <strong><a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>형 모놀리스</strong> | **경계 있음, 단일 배포** | **5~50명** |
-| 3단계 | [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) | 경계 있음, 다중 배포 | 50명+ |
+| 2단계 | <strong>모듈형 모놀리스</strong> | **경계 있음, 단일 배포** | **5~50명** |
+| 3단계 | MSA | 경계 있음, 다중 배포 | 50명+ |
 
-| 항목 | 전통 모놀리스 | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 | [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
+| 항목 | 전통 모놀리스 | 모듈형 모놀리스 | MSA |
 |:---|:---|:---|:---|
-| 배포 단위 | 단일 | 단일 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 |
-| 코드 경계 | 없음 | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계 있음 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 |
+| 배포 단위 | 단일 | 단일 | 서비스별 독립 |
+| 코드 경계 | 없음 | 모듈 경계 있음 | 서비스 경계 |
 | 운영 복잡도 | 낮음 | 낮음 | 높음 |
-| 기술 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 다양성 | 없음 | 없음 | 가능 |
+| 기술 스택 다양성 | 없음 | 없음 | 가능 |
 | 독립 배포 | 불가 | 불가 | 가능 |
 | 장애 격리 | 없음 | 부분적 | 강함 |
-| [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 이전 용이성 | 어려움 | 용이 | — |
+| MSA 이전 용이성 | 어려움 | 용이 | — |
 
-- **📢 섹션 요약 비유**: 전통 모놀리스는 방 없는 오픈 사무실, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스는 칸막이 있는 사무실, MSA는 각자 다른 건물에 있는 사무실 — 소통과 독립성의 트레이드오프이다.
+- **📢 섹션 요약 비유**: 전통 모놀리스는 방 없는 오픈 사무실, 모듈형 모놀리스는 칸막이 있는 사무실, MSA는 각자 다른 건물에 있는 사무실 — 소통과 독립성의 트레이드오프이다.
 
 ---
 
@@ -154,70 +154,59 @@ Phase 3: 선택적 MSA 전환
 
 | 함정 | 설명 | 방지책 |
 |:---|:---|:---|
-| Shared DB [Anti-Pattern](/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) | 모든 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 같은 테이블 직접 접근 | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 격리 + Repository 패턴 |
-| 경계 침식 | 편의상 내부 클래스 직접 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | ArchUnit 테스트 강제 |
-| [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 순환 의존 | A가 B를, B가 A를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | 이벤트 기반 디커플링 |
-| 거대 공유 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 공통 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 비대해짐 | 공유 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 최소화 원칙 |
+| Shared DB Anti-Pattern | 모든 모듈이 같은 테이블 직접 접근 | 스키마 격리 + Repository 패턴 |
+| 경계 침식 | 편의상 내부 클래스 직접 참조 | ArchUnit 테스트 강제 |
+| 모듈 간 순환 의존 | A가 B를, B가 A를 참조 | 이벤트 기반 디커플링 |
+| 거대 공유 모듈 | 공통 모듈이 비대해짐 | 공유 모듈 최소화 원칙 |
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 1. 해결하려는 변화 축이 분명한가?
-2. [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
+2. 추상화 비용보다 변경 절감 효과가 큰가?
+3. 테스트·로그·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
-- **📢 섹션 요약 비유**: Shared DB Anti-Pattern은 아파트에서 모든 세대가 옆집 냉장고를 직접 열어보는 것 — 각 세대([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))는 자신의 냉장고([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/))만 접근하고, 필요한 것은 문을 두드려(공개 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 부탁해야 한다.
+- **📢 섹션 요약 비유**: Shared DB Anti-Pattern은 아파트에서 모든 세대가 옆집 냉장고를 직접 열어보는 것 — 각 세대(모듈)는 자신의 냉장고(스키마)만 접근하고, 필요한 것은 문을 두드려(공개 API) 부탁해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-[모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스는 "MSA의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 + 모놀리스의 단순성"을 모두 취하는 현실적인 선택이다:
+모듈형 모놀리스는 "MSA의 모듈화 + 모놀리스의 단순성"을 모두 취하는 현실적인 선택이다:
 
 **기대효과**:
-- **개발 생산성**: 단일 프로세스로 디버깅 단순 ([분산 추적](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) 불필요)
-- **배포 단순성**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인 1개, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 단순
-- <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 준비</strong>: 경계가 명확하여 필요 시 점진적 분리 가능
-- <strong>일관된 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong>: ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 적용 가능 (MSA의 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 불필요)
+- **개발 생산성**: 단일 프로세스로 디버깅 단순 (분산 추적 불필요)
+- **배포 단순성**: CI/CD 파이프라인 1개, 롤백 단순
+- <strong>MSA 준비</strong>: 경계가 명확하여 필요 시 점진적 분리 가능
+- <strong>일관된 트랜잭션</strong>: ACID 트랜잭션 적용 가능 (MSA의 분산 트랜잭션 불필요)
 
 **적합한 시나리오**:
-- 스타트업 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)~중기 (빠른 개발 우선)
-- 팀 규모 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30명
-- [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계가 안정화 단계
-- [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환을 고려하지만 아직 필요성 불명확
+- 스타트업 초기~중기 (빠른 개발 우선)
+- 팀 규모 10~30명
+- 도메인 경계가 안정화 단계
+- MSA 전환을 고려하지만 아직 필요성 불명확
 
-기술사 시험에서는 <strong><a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>형 모놀리스와 전통 모놀리스의 차이(<a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 경계 존재 여부)</strong>, **MSA와의 트레이드오프(운영 복잡도 vs 독립 배포)**, <strong><a href="/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> -> <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/">Modular Monolith</a> -> <a href="/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 진화 경로</strong>를 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 <strong>모듈형 모놀리스와 전통 모놀리스의 차이(모듈 경계 존재 여부)</strong>, **MSA와의 트레이드오프(운영 복잡도 vs 독립 배포)**, <strong>DDD -> Modular Monolith -> MSA 진화 경로</strong>를 명확히 서술하는 것이 핵심이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② 관측 가능성(Observability) 내장, ③ 분산 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스는 레고 성 — 하나의 성(단일 배포)이지만 내부는 왕궁, 마굿간, 군사 요새 등 독립적인 구역([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))으로 나뉘어 있다. 언제든 특정 구역([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))만 떼어내 새 성([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))으로 확장할 수 있도록 연결부(공개 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 표준화되어 있다.
+- **📢 섹션 요약 비유**: 모듈형 모놀리스는 레고 성 — 하나의 성(단일 배포)이지만 내부는 왕궁, 마굿간, 군사 요새 등 독립적인 구역(모듈)으로 나뉘어 있다. 언제든 특정 구역(모듈)만 떼어내 새 성(MSA)으로 확장할 수 있도록 연결부(공개 API)가 표준화되어 있다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 스타일 | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스가 속하는 아키텍처 범주 |
-| 진화 전 단계 | 전통 모놀리스 (Monolith) | 경계 없는 단일 [코드베이스](/studynote/15_devops_sre/01_culture_methodology/007_codebase/) |
-| 진화 후 단계 | [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/)) | 독립 배포, 다중 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| 핵심 기반 개념 | [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/) [Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계의 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방법 |
-| 경계 강제 도구 | ArchUnit | Java 아키텍처 테스트 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| 전환 패턴 | [Strangler Fig Pattern](/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/) | 모놀리스에서 MSA로 점진적 전환 |
-| 성공 사례 | Shopify, [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) | 대규모 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 운영 사례 |
+| 상위 개념 | 소프트웨어 아키텍처 스타일 | 모듈형 모놀리스가 속하는 아키텍처 범주 |
+| 진화 전 단계 | 전통 모놀리스 (Monolith) | 경계 없는 단일 코드베이스 |
+| 진화 후 단계 | MSA (Microservice Architecture) | 독립 배포, 다중 서비스 |
+| 핵심 기반 개념 | DDD Bounded Context | 모듈 경계의 식별 방법 |
+| 경계 강제 도구 | ArchUnit | Java 아키텍처 테스트 라이브러리 |
+| 전환 패턴 | Strangler Fig Pattern | 모놀리스에서 MSA로 점진적 전환 |
+| 성공 사례 | Shopify, Stack Overflow | 대규모 모듈형 모놀리스 운영 사례 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-monolith boundary -> [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스 -> [microservices](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분해
+monolith boundary -> 모듈형 모놀리스 -> microservices 분해
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리스는 잘 정리된 학교 건물 — 하나의 건물(단일 배포)이지만 국어실, 수학실, 과학실(각 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 따로 있어서 각 방에서 필요한 것은 복도(공개 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 통해서만 요청해.
-2. 방([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 안에 있는 물건(내부 클래스)은 다른 방에서 직접 가져오면 안 되고, 담당 선생님([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 통해서만 빌릴 수 있어.
-3. 나중에 학교가 커지면(팀/[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모 증가) 수학실만 떼어내 다른 건물(별도 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 이전할 수 있어 — 이미 경계가 명확하기 때문에 분리가 쉬워.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 291 / 530
-
-<- **이전**: [229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)](/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/)
-**다음**: [231. 도메인 이벤트 아웃박스 패턴 (Domain Event Outbox Pattern)](/studynote/11_design_supervision/04_gof_behavioral/231_domain_event_outbox_pattern/) ->
-
----
+1. 모듈형 모놀리스는 잘 정리된 학교 건물 — 하나의 건물(단일 배포)이지만 국어실, 수학실, 과학실(각 모듈)이 따로 있어서 각 방에서 필요한 것은 복도(공개 API)를 통해서만 요청해.
+2. 방(모듈) 안에 있는 물건(내부 클래스)은 다른 방에서 직접 가져오면 안 되고, 담당 선생님(모듈 API)을 통해서만 빌릴 수 있어.
+3. 나중에 학교가 커지면(팀/서비스 규모 증가) 수학실만 떼어내 다른 건물(별도 MSA 서비스)로 이전할 수 있어 — 이미 경계가 명확하기 때문에 분리가 쉬워.

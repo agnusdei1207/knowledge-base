@@ -186,11 +186,3 @@ weight: 718
 | **VAD (Voice Activity Detection)** | 비음성 구간 제거 | Silero VAD(ONNX, 4MB), WebRTC VAD(GMM), Energy-based, DNN 기반(상용 SOTA) |
 | **Speaker Embedding** | 화자 특성 192~512d 벡터 추출 | **x-vector**(Kaldi, TDNN, PLDA 점수), **d-vector**(LSTM), **ECAPA-TDNN**(Squeeze-Excitation, Attentive Statistics Pooling, SOTA) |
 | **Clustering** | 동일 화자 임베딩 그룹화 | Spectral Clustering(Ng-Jordan-Weiss), AHC(complete linkage, threshold 0.5~0.7), **VBx**(
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 718 / 800
-
-<- **이전**: [717. 이미지 인식 CNN 객체 탐지 분할](/studynote/06_ict_convergence/uncategorized/717_image_recognition_cnn_object_detection/)
-**다음**: [719. 로보틱스 자율 내비게이션 모션 플래닝](/studynote/06_ict_convergence/uncategorized/719_robotics_autonomous_navigation_motion_plannin/) ->
-
----

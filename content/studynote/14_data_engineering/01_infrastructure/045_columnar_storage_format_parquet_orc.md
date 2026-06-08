@@ -6,9 +6,9 @@ tags:
 weight: 45
 ---
 > **핵심 인사이트**
-> 1. 컬럼형 저장 형식([Columnar Storage](/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/) Format)은 행(Row) 대신 열(Column) 단위로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장해 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 I/O를 극적으로 줄이는 빅데이터 핵심 기술 — 수백만 행에서 특정 열 5개만 조회할 때 행 기반은 전체 행을 읽지만, 컬럼형은 해당 열만 읽는다.
-> 2. Apache Parquet와 ORC(Optimized Row Columnar)는 현재 빅데이터 생태계의 양대 표준 — Parquet는 Spark·다중 언어 생태계에서 강점, ORC는 [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 최적화와 ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 지원에서 강점이며, 두 형식 모두 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·술어 푸시다운(Predicate Pushdown)을 지원한다.
-> 3. [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/ORC의 핵심 최적화 기법은 Row Group + Column Chunk + [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) + 통계(Min/Max/[Bloom Filter](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)) — [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진이 Row Group 통계를 이용해 불필요한 Row Group 자체를 건너뛰는 "스킵핑"이 성능의 핵심이다.
+> 1. 컬럼형 저장 형식(Columnar Storage Format)은 행(Row) 대신 열(Column) 단위로 데이터를 저장해 분석 쿼리의 I/O를 극적으로 줄이는 빅데이터 핵심 기술 — 수백만 행에서 특정 열 5개만 조회할 때 행 기반은 전체 행을 읽지만, 컬럼형은 해당 열만 읽는다.
+> 2. Apache Parquet와 ORC(Optimized Row Columnar)는 현재 빅데이터 생태계의 양대 표준 — Parquet는 Spark·다중 언어 생태계에서 강점, ORC는 Hive 최적화와 ACID 트랜잭션 지원에서 강점이며, 두 형식 모두 압축·술어 푸시다운(Predicate Pushdown)을 지원한다.
+> 3. Parquet/ORC의 핵심 최적화 기법은 Row Group + Column Chunk + 압축 + 통계(Min/Max/Bloom Filter) — 쿼리 엔진이 Row Group 통계를 이용해 불필요한 Row Group 자체를 건너뛰는 "스킵핑"이 성능의 핵심이다.
 
 ---
 
@@ -58,7 +58,7 @@ weight: 45
 
 ---
 
-## Ⅱ. Apache [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)
+## Ⅱ. Apache Parquet
 
 ```
 Apache Parquet:
@@ -110,7 +110,7 @@ Apache Parquet:
   -> 이 Row Group 건너뜀! (I/O 절감)
 ```
 
-> 📢 **섹션 요약 비유**: Parquet는 목차 있는 백과사전 — Row Group = 챕터, 목차(Footer 통계)로 "이 챕터에 찾는 내용 있나?" [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/). 없으면 챕터 통째로 건너뜀!
+> 📢 **섹션 요약 비유**: Parquet는 목차 있는 백과사전 — Row Group = 챕터, 목차(Footer 통계)로 "이 챕터에 찾는 내용 있나?" 확인. 없으면 챕터 통째로 건너뜀!
 
 ---
 
@@ -167,11 +167,11 @@ ORC 적합 환경:
   Hive ACID 트랜잭션
 ```
 
-> 📢 **섹션 요약 비유**: ORC는 [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 최적화 선반 — [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 창고([Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 웨어하우스)에 최적화된 정리 방식. 특히 물건 교체(UPDATE/ACID)가 필요할 때 강점!
+> 📢 **섹션 요약 비유**: ORC는 Hive 최적화 선반 — Hive 창고(Hive 웨어하우스)에 최적화된 정리 방식. 특히 물건 교체(UPDATE/ACID)가 필요할 때 강점!
 
 ---
 
-## Ⅳ. [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) vs ORC vs CSV
+## Ⅳ. Parquet vs ORC vs CSV
 
 ```
 비교표:
@@ -206,11 +206,11 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
   ORC:     10s  (ZLIB 압축, Bloom Filter)
 ```
 
-> 📢 **섹션 요약 비유**: [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) vs ORC는 삼성 vs LG 가전 — 둘 다 훌륭하지만, Spark 집(생태계)에는 Parquet가, [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 집에는 ORC가 잘 맞아요!
+> 📢 **섹션 요약 비유**: Parquet vs ORC는 삼성 vs LG 가전 — 둘 다 훌륭하지만, Spark 집(생태계)에는 Parquet가, Hive 집에는 ORC가 잘 맞아요!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 최적화
+## Ⅴ. 실무 시나리오 — 데이터 레이크 최적화
 
 ```
 전자상거래 데이터 레이크 최적화:
@@ -257,7 +257,7 @@ Bloom Filter   | 없음     | 있음(선택)| 있음
   (일 데이터 수정 필요 케이스 처리)
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 최적화는 창고 정리 — CSV(무분류 박스) -> [Parquet](/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)(카테고리별 투명 박스). "1월 주문"만 찾을 때 해당 칸만 보면 OK. 비용 96% 절감!
+> 📢 **섹션 요약 비유**: 데이터 레이크 최적화는 창고 정리 — CSV(무분류 박스) -> Parquet(카테고리별 투명 박스). "1월 주문"만 찾을 때 해당 칸만 보면 OK. 비용 96% 절감!
 
 ---
 
@@ -312,16 +312,5 @@ AWS, Snowflake, Databricks 지원
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 컬럼형은 같은 종류끼리 묶기 — CSV가 "1번 사람 모든 정보"를 묶으면, Parquet는 "모든 사람의 나이"를 묶어요. 나이만 필요할 때 엄청 빠르죠!
-2. 술어 푸시다운은 목차 이용하기 — "1월 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 찾을 때 목차(Row Group 통계) 보고 12월 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 통째로 건너뛰어요!
-3. Parquet는 Spark 친구, ORC는 [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 친구 — 같은 기능이지만 각자 잘 맞는 생태계가 달라요. 쓰는 도구에 맞게 선택!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 45 / 258
-
-<- **이전**: [044. 카파 아키텍처 — 단일 스트리밍 레이어](/studynote/14_data_engineering/01_infrastructure/044_kappa_architecture_single_streaming_layer/)
-**다음**: [046. LSM 트리 — Log-Structured Merge-Tree](/studynote/14_data_engineering/01_infrastructure/046_lsm_tree_log_structured_merge/) ->
-
----
+2. 술어 푸시다운은 목차 이용하기 — "1월 데이터"를 찾을 때 목차(Row Group 통계) 보고 12월 데이터는 통째로 건너뛰어요!
+3. Parquet는 Spark 친구, ORC는 Hive 친구 — 같은 기능이지만 각자 잘 맞는 생태계가 달라요. 쓰는 도구에 맞게 선택!

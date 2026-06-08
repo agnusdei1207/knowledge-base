@@ -7,17 +7,17 @@ tags:
 weight: 4
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: O(1)에서 O(n!)까지의 복잡도 등급은 입력 크기 N이 증가할 때 연산량이 어떤 속도로 증가하는지를 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 것으로, 복잡도가 낮을수록 더 큰규모적 문제도 효율적으로 해결할 수 있다.
-> 2. **가치**: 기술사 수준의 분석에서는 정확한 등급 판별과 각 등급에 해당하는 실제 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 예시를 빠르고 정확하게 연결할 수 있는 능력이 핵심이며, 이것은 시스템 아키텍트의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 역량의 기반이다.
-> 3. **융합**: 복잡도 등급은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계([B-tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) = O(log N)), 네트워크 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 컴파일러 최적화, [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 훈련 시간 예측 등 모든 컴퓨팅 영역의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준이 된다.
+> 1. **본질**: O(1)에서 O(n!)까지의 복잡도 등급은 입력 크기 N이 증가할 때 연산량이 어떤 속도로 증가하는지를 분류한 것으로, 복잡도가 낮을수록 더 큰규모적 문제도 효율적으로 해결할 수 있다.
+> 2. **가치**: 기술사 수준의 분석에서는 정확한 등급 판별과 각 등급에 해당하는 실제 알고리즘 예시를 빠르고 정확하게 연결할 수 있는 능력이 핵심이며, 이것은 시스템 아키텍트의 성능 판단 역량의 기반이다.
+> 3. **융합**: 복잡도 등급은 데이터베이스 인덱스 설계(B-tree = O(log N)), 네트워크 라우팅, 컴파일러 최적화, 머신러닝 모델 훈련 시간 예측 등 모든 컴퓨팅 영역의 성능 기준이 된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 (Context & Necessity)
 
-[알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도의 등급 체계는 1960년대 Don Knuth와 Bob Floyd 등의 선구적 연구를 통해 체계화되었다. 타문는 점근적 표기법(Asymptotic Notation)을 사용하여 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의효솔를 수학적으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는프레임워크를건립했고, 오늘날에도 이 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계는 변함없이 사용되고 있다. 복잡도 등급의 차이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 따라 극적으로 벌어지며, N이 작은 구간에서는 체감하기 어려운 차이가 N이 커짐에 따라Implement불가능에 가까워지는 것을 경험적으로 알 수 있다.
+알고리즘 복잡도의 등급 체계는 1960년대 Don Knuth와 Bob Floyd 등의 선구적 연구를 통해 체계화되었다. 타문는 점근적 표기법(Asymptotic Notation)을 사용하여 알고리즘의효솔를 수학적으로 분류하는프레임워크를건립했고, 오늘날에도 이 분류 체계는 변함없이 사용되고 있다. 복잡도 등급의 차이는 데이터 규모에 따라 극적으로 벌어지며, N이 작은 구간에서는 체감하기 어려운 차이가 N이 커짐에 따라Implement불가능에 가까워지는 것을 경험적으로 알 수 있다.
 
-10부터 시작하여 각 복잡도 등급에서 N이 10배 증가할 때([10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) -> 100) 연산량의 변화를 비교하면 그 격차가 극적으로 드러난다. O(1)은 항상 1이고, O(log N)은 3.3에서 6.6으로 약 2배 증가하며, O(N)은 10에서 100으로 10배, O(N log N)은 33에서 664으로 약 20배, O(N^)는 100에서 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000으로 100배, O(2^N)는 1,024에서 2^100(약 1.27×10³⁰)이라는 천문 숫자로 폭발하며, O(N!)은 이것보다 훨씬 괴상한 수치에 도달한다. 이 수치 비교는 왜 O(N^) 이상의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 사용 불가인지를 극명하게 보여준다.
+10부터 시작하여 각 복잡도 등급에서 N이 10배 증가할 때(10 -> 100) 연산량의 변화를 비교하면 그 격차가 극적으로 드러난다. O(1)은 항상 1이고, O(log N)은 3.3에서 6.6으로 약 2배 증가하며, O(N)은 10에서 100으로 10배, O(N log N)은 33에서 664으로 약 20배, O(N^)는 100에서 10,000으로 100배, O(2^N)는 1,024에서 2^100(약 1.27×10³⁰)이라는 천문 숫자로 폭발하며, O(N!)은 이것보다 훨씬 괴상한 수치에 도달한다. 이 수치 비교는 왜 O(N^) 이상의 알고리즘이 대규모 데이터에서 사용 불가인지를 극명하게 보여준다.
 
 > 이 도식은 복잡도 등급 간의 관계와 크기 비교를 보여준다.
 
@@ -69,7 +69,7 @@ weight: 4
 - **관찰**: O(2^N)과 O(N!)은 N이 100만 되어도 감당 불가능한 수치가 되며, N=100에서조차 2^100이 이미 천문학적수자임을 알 수 있다.
 - **원인**: 지수적 복잡도는 매 단계마다 경우의 수가 N배로 늘어나기 때문에 매우 빠른 속도로 연산량이 폭증한다.
 - **결과**: NP-완전 문제와 같이 O(2^N) 이상의 복잡도를 가지는 문제들은 입력 크기가 조금만 커져도 실용적 시간 내에 해결이 불가능하다.
-- **판단**: 기술사 시험에서 "N이 100 이상이라면 O(N^) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 피해야 한다"는 것을 직관적으로 설명할 수 있어야 하며, 그 수학적 근거를 제시할 수 있어야 한다.
+- **판단**: 기술사 시험에서 "N이 100 이상이라면 O(N^) 알고리즘은 피해야 한다"는 것을 직관적으로 설명할 수 있어야 하며, 그 수학적 근거를 제시할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: 복잡도 등급은 살인 사건의 수사를 생각하면 이해가 쉽다. 목격자 1명(O(1))에게 물으면 바로 답을 알지만, 목격자 100명(O(N))에게 각각 물어보면 10배 시간이 걸리고, 100명이 각자 다른 100명에게 물어련쇄 responsiblity(O(N^))하면 순식간에 1만 번의 질문이 되어 감당 불가능에 이른다.
 
@@ -77,11 +77,11 @@ weight: 4
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-각 복잡도 등급에 해당하는 전형적인 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패턴을 이해하는 것은 기술사 응시의 필수 역량이다. <strong>O(1) - 상수 시간</strong>은 입력 크기와 무관하게 항상 동일한 시간에완료한다. [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)([Hash Table](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))의 평균적 조회, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 접근, 단순 산술 연산이 이에 해당한다. <strong>O(log N) - <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 시간</strong>은 매 단계마다 문제의 크기가 절반으로 줄어드는 경우에 발생한다. [이진 탐색](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)([Binary Search](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)), 이진 검색 트리(BST) 탐색, 밸런스 트리([B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/), B+Tree) 탐색이 대표적이다. <strong>O(N) - 선형 시간</strong>은 모든 원소를 한 번씩 방문해야 하는 경우에 발생한다. [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 탐색, 선형 탐색이 대표적이다.
+각 복잡도 등급에 해당하는 전형적인 알고리즘 패턴을 이해하는 것은 기술사 응시의 필수 역량이다. <strong>O(1) - 상수 시간</strong>은 입력 크기와 무관하게 항상 동일한 시간에완료한다. 해시 테이블(Hash Table)의 평균적 조회, 배열의 인덱스 접근, 단순 산술 연산이 이에 해당한다. <strong>O(log N) - 로그 시간</strong>은 매 단계마다 문제의 크기가 절반으로 줄어드는 경우에 발생한다. 이진 탐색(Binary Search), 이진 검색 트리(BST) 탐색, 밸런스 트리(B-Tree, B+Tree) 탐색이 대표적이다. <strong>O(N) - 선형 시간</strong>은 모든 원소를 한 번씩 방문해야 하는 경우에 발생한다. 배열 순회, 연결 리스트 탐색, 선형 탐색이 대표적이다.
 
-<strong>O(N log N) - 선형 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 시간</strong>은 문제를 반으로 분할하여 각각을 재귀적으로 풀고, 그 결과를 합병하는 [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패턴에서 주로 나타난다. [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)([Merge Sort](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)), [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)([Heap Sort](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)), [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))의 평균적 경우가 이에 해당한다. <strong>O(N^) - 이차 시간</strong>은 일반적으로 이중 루프(Double Loop), 즉 모든 쌍을 비교하거나 처리하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. [버블 정렬](/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/), [선택 정렬](/studynote/08_algorithm_stats/02_sorting/024_selection_sort/), [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/), 그래프에서 인접 행렬을 사용하는 모든 쌍 최단 경로 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 대표적이다.
+<strong>O(N log N) - 선형 로그 시간</strong>은 문제를 반으로 분할하여 각각을 재귀적으로 풀고, 그 결과를 합병하는 분할 정복(Divide and Conquer) 패턴에서 주로 나타난다. 합병 정렬(Merge Sort), 힙 정렬(Heap Sort), 퀵 정렬(Quick Sort)의 평균적 경우가 이에 해당한다. <strong>O(N^) - 이차 시간</strong>은 일반적으로 이중 루프(Double Loop), 즉 모든 쌍을 비교하거나 처리하는 알고리즘에서 나타난다. 버블 정렬, 선택 정렬, 삽입 정렬, 그래프에서 인접 행렬을 사용하는 모든 쌍 최단 경로 알고리즘이 대표적이다.
 
-<strong>O(2^N) - 지수 시간</strong>은 모든 가능한 경우의 수를 하나씩 탐색하는 완전 탐색([Brute Force](/studynote/09_security/05_web_app_security/456_brute_force/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. 부분집합 문제(Subset Sum), 일부 동적 프로그래밍의 naive 구현, 결정 문제의 모든가능적 경로를 탐색하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 대표적이다. <strong>O(N!) - 계승 시간</strong>은 가능한 모든 순열을 생성하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. [외판원 문제](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)([TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/))의 완전 탐색 brute-force 해결, N Queens 문제의 naive 구현이 대표적이다.
+<strong>O(2^N) - 지수 시간</strong>은 모든 가능한 경우의 수를 하나씩 탐색하는 완전 탐색(Brute Force) 알고리즘에서 나타난다. 부분집합 문제(Subset Sum), 일부 동적 프로그래밍의 naive 구현, 결정 문제의 모든가능적 경로를 탐색하는 알고리즘이 대표적이다. <strong>O(N!) - 계승 시간</strong>은 가능한 모든 순열을 생성하는 알고리즘에서 나타난다. 외판원 문제(TSP)의 완전 탐색 brute-force 해결, N Queens 문제의 naive 구현이 대표적이다.
 
 ```text
 [각 복잡도 등급의 전형적 알고리즘 패턴]
@@ -145,12 +145,12 @@ weight: 4
 +------------------------------------------------------+
 ```
 
-- **관찰**: O(N^)에서 O(N log N)으로의 개선은 단순해 보이지만, N=1,000,000에서 1조(N^)에서 2천만(N log N)으로 약 5,000배 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 의미한다.
+- **관찰**: O(N^)에서 O(N log N)으로의 개선은 단순해 보이지만, N=1,000,000에서 1조(N^)에서 2천만(N log N)으로 약 5,000배 성능 향상을 의미한다.
 - **원인**: log N은 N에 비해 극도로 느리게 증가한다. 100만 원소의 정렬에서 log₂(1,000,000) ≈ 20이다.
-- **결과**: O(N log N) 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(합병, 힙, 퀵)의발명은 컴퓨팅 역사에서 중요한 이정표였다.
-- **판단**: 실무에서 N의 최대 크기를 예측할 수 있다면, 그에 맞는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등급을 선택해야 하고, N이 불특정하게 증가할 가능성이 있다면 항상 더 낮은 등급의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택해야 한다.
+- **결과**: O(N log N) 정렬 알고리즘(합병, 힙, 퀵)의발명은 컴퓨팅 역사에서 중요한 이정표였다.
+- **판단**: 실무에서 N의 최대 크기를 예측할 수 있다면, 그에 맞는 알고리즘 등급을 선택해야 하고, N이 불특정하게 증가할 가능성이 있다면 항상 더 낮은 등급의 알고리즘을 선택해야 한다.
 
-📢 **섹션 요약 비유**: 복잡도 등급은 점심시간에 식당에 사람이 늘었을 때의 상황과 같습니다. 식당에 손님이 10명(O(1): 계산은 인원 수와 무관)일 때와 100명(O(N): 명 수에 비례)이 있을 때의 대기 시간 차이는 크지만, 각 테이블에서 다른 테이블과상을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(O(N^))하면 복싱 경기장이련옥으로 변모합니다.
+📢 **섹션 요약 비유**: 복잡도 등급은 점심시간에 식당에 사람이 늘었을 때의 상황과 같습니다. 식당에 손님이 10명(O(1): 계산은 인원 수와 무관)일 때와 100명(O(N): 명 수에 비례)이 있을 때의 대기 시간 차이는 크지만, 각 테이블에서 다른 테이블과상을 확인(O(N^))하면 복싱 경기장이련옥으로 변모합니다.
 
 ---
 
@@ -211,25 +211,25 @@ T(N) = 2^N + N⁹⁹
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-복잡도 등급의 품질 관리에서 가장 중요한 것은 <strong>구현한 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>이 설계한 복잡도와 tatsächlich 구현이 일치하는지</strong> 검증하는 것이다. 예컨대, [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)을 사용한다고 O(1)이라 생각해도, 충돌([Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 많아지면 최악의 경우 O(N)이 될 수 있다. 따라서 평균적 복잡도와 최악의 복잡도를 모두 파악하고 있어야 한다.
+복잡도 등급의 품질 관리에서 가장 중요한 것은 <strong>구현한 알고리즘이 설계한 복잡도와 tatsächlich 구현이 일치하는지</strong> 검증하는 것이다. 예컨대, 해시 테이블을 사용한다고 O(1)이라 생각해도, 충돌(Collision)이 많아지면 최악의 경우 O(N)이 될 수 있다. 따라서 평균적 복잡도와 최악의 복잡도를 모두 파악하고 있어야 한다.
 
-<strong>품질 관리 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 시 최악의 경우 복잡도도 함께 분석해야 한다. 충돌 가능성 있는 자료구조([해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/), 체이닝 등)의 평균/최악 경우를 모두 파악해야 한다. 입력 분포에 따라 실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 달라질 수 있음을 인식해야 한다.
+<strong>품질 관리 체크리스트</strong>는 다음과 같다. 알고리즘 선택 시 최악의 경우 복잡도도 함께 분석해야 한다. 충돌 가능성 있는 자료구조(해시 테이블, 체이닝 등)의 평균/최악 경우를 모두 파악해야 한다. 입력 분포에 따라 실제 성능이 달라질 수 있음을 인식해야 한다.
 
-📢 **섹션 요약 비유**: 복잡도 등급 품질 관리는 자동차의 연비 공인 테스트와 같습니다. 공인 연비(평균 복잡도)가 좋다고 해도, 운전자의 주가사 습관(입력 분포)에 따라 실제 연비(실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))는 크게 달라질 수 있습니다.
+📢 **섹션 요약 비유**: 복잡도 등급 품질 관리는 자동차의 연비 공인 테스트와 같습니다. 공인 연비(평균 복잡도)가 좋다고 해도, 운전자의 주가사 습관(입력 분포)에 따라 실제 연비(실제 성능)는 크게 달라질 수 있습니다.
 
 ---
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-[알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도 등급 연구의 최신 동향은 <strong> <a href="/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-grained</a> 복잡도(<a href="/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-Grained</a> Complexity)</strong>령역적심화이다. 기존에는 P vs NP 정도로 거칠게 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)했지만, 최근에는 "이 문제의 시간 복잡도는 N^{1.5}보다 낮출 수 없다"는 식으로 더 정밀한 하한을정명하는 연구가 활발히 진행되고 있다. 또한 <strong>Parameterised Algorithms</strong>는 입력의 특정 파라미터(예: 그래프의 트리 너비)에 따른 복잡도를 분석하여, 전체 입력 크기에서는 지수적이지만 특정 조건에서는 다항 시간에 해결 가능한 경우를 찾는 분야이다.
+알고리즘 복잡도 등급 연구의 최신 동향은 <strong> Fine-grained 복잡도(Fine-Grained Complexity)</strong>령역적심화이다. 기존에는 P vs NP 정도로 거칠게 분류했지만, 최근에는 "이 문제의 시간 복잡도는 N^{1.5}보다 낮출 수 없다"는 식으로 더 정밀한 하한을정명하는 연구가 활발히 진행되고 있다. 또한 <strong>Parameterised Algorithms</strong>는 입력의 특정 파라미터(예: 그래프의 트리 너비)에 따른 복잡도를 분석하여, 전체 입력 크기에서는 지수적이지만 특정 조건에서는 다항 시간에 해결 가능한 경우를 찾는 분야이다.
 
-복잡도 등급 체계는 계산궤과학의 영원한 기초이다. 새로운 하드웨어, [양자 컴퓨터](/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/), 신경망 기반 컴퓨팅 등이 나와도, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 구조적 복잡도를 비교하는 이 프레임워크는 기본불변이다. 기출사 시험에서 이 주제가 반드시 출제되는 것도, 신청인가 이러한 기본 원리를 확실히 이해하고 있는지를 검증할 수 있기 때문이다.
+복잡도 등급 체계는 계산궤과학의 영원한 기초이다. 새로운 하드웨어, 양자 컴퓨터, 신경망 기반 컴퓨팅 등이 나와도, 알고리즘의 구조적 복잡도를 비교하는 이 프레임워크는 기본불변이다. 기출사 시험에서 이 주제가 반드시 출제되는 것도, 신청인가 이러한 기본 원리를 확실히 이해하고 있는지를 검증할 수 있기 때문이다.
 
-📢 **섹션 요약 비유**: 복잡도 등급은 모든 운동 종목의 기록과 같습니다. 육상에서 100m 달리기 기록([알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 등급)이 10초에서 9초로 단축되면 세계 기록이지만, 마라톤(O(N))에서는 기록이 30분대에서 2시간대로 늘어도 정상적인 것이며,량자를 같은기준으로 비교할 수 없는 것처럼, 알고리즘에도 등급에 따른 평가 기준이 있습니다.
+📢 **섹션 요약 비유**: 복잡도 등급은 모든 운동 종목의 기록과 같습니다. 육상에서 100m 달리기 기록(알고리즘의 등급)이 10초에서 9초로 단축되면 세계 기록이지만, 마라톤(O(N))에서는 기록이 30분대에서 2시간대로 늘어도 정상적인 것이며,량자를 같은기준으로 비교할 수 없는 것처럼, 알고리즘에도 등급에 따른 평가 기준이 있습니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+### 📌 관련 개념 맵 (Knowledge Graph)
 
 ```text
 [복잡도 등급 핵심 개념 맵]
@@ -292,16 +292,5 @@ N >= 1,000,000 -> O(N^)는 절대 사용 금지
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 4 / 175
-
-<- **이전**: [3. 공간 복잡도 (Space Complexity)](/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
-**다음**: [5. 분할 정복 (Divide and Conquer) — 재귀 분할 + 병합](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ->
-
----
+- 최소 800자/파일
+- 파일명: 01_, 02_... 형식

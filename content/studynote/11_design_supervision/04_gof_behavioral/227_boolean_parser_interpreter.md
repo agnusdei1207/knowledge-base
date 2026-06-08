@@ -7,9 +7,9 @@ weight: 227
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Interpreter](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) (인터프리터) 패턴은 언어의 문법을 객체 계층(Object Hierarchy)으로 표현하고, 각 객체가 자신의 해석(Interpret)을 담당하여 표현식을 평가하는 패턴이다 — Boolean Parser는 이 패턴의 가장 실용적인 구현 예다.
-> 2. **가치**: 비개발자도 이해할 수 있는 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어(DSL, [Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Specific Language)를 설계하여, 복잡한 비즈니스 규칙을 코드 변경 없이 외부에서 표현하고 변경할 수 있다.
-> 3. **판단 포인트**: 렉서(Lexer) -> 파서(Parser, [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 하강) -> AST (Abstract Syntax Tree, 추상 구문 트리) -> 평가기(Evaluator)의 4단계 파이프라인이 인터프리터의 표준 구조다.
+> 1. **본질**: Interpreter (인터프리터) 패턴은 언어의 문법을 객체 계층(Object Hierarchy)으로 표현하고, 각 객체가 자신의 해석(Interpret)을 담당하여 표현식을 평가하는 패턴이다 — Boolean Parser는 이 패턴의 가장 실용적인 구현 예다.
+> 2. **가치**: 비개발자도 이해할 수 있는 도메인 특화 언어(DSL, Domain Specific Language)를 설계하여, 복잡한 비즈니스 규칙을 코드 변경 없이 외부에서 표현하고 변경할 수 있다.
+> 3. **판단 포인트**: 렉서(Lexer) -> 파서(Parser, 재귀 하강) -> AST (Abstract Syntax Tree, 추상 구문 트리) -> 평가기(Evaluator)의 4단계 파이프라인이 인터프리터의 표준 구조다.
 
 ---
 
@@ -36,9 +36,9 @@ boolean eligible = interpreter.evaluate(rule, user);
 | 구성 요소 | 설명 | 예시 |
 |:---|:---|:---|
 | 터미널 표현식 | 최소 단위 (변수, 리터럴) | `age >= 18`, `true`, `"KR"` |
-| [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) AND | 두 표현식 모두 참 | `A AND B` |
-| [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) OR | 하나 이상 참 | `A OR B` |
-| [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) NOT | 부정 | `NOT A` |
+| 논리 AND | 두 표현식 모두 참 | `A AND B` |
+| 논리 OR | 하나 이상 참 | `A OR B` |
+| 논리 NOT | 부정 | `NOT A` |
 | 괄호 그룹 | 우선순위 조정 | `(A OR B) AND C` |
 
 ```text
@@ -142,9 +142,9 @@ class AndExpression implements Expression {
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-- **📢 섹션 요약 비유**: [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 하강 파서는 수학 문제를 푸는 학생 — "괄호 먼저, 곱셈/나눗셈 그다음, 덧셈/뺄셈 마지막"처럼 문법 우선순위 규칙을 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 함수의 호출 순서로 구현한다.
+- **📢 섹션 요약 비유**: 재귀 하강 파서는 수학 문제를 푸는 학생 — "괄호 먼저, 곱셈/나눗셈 그다음, 덧셈/뺄셈 마지막"처럼 문법 우선순위 규칙을 재귀 함수의 호출 순서로 구현한다.
 
 ---
 
@@ -154,15 +154,15 @@ class AndExpression implements Expression {
 | AbstractExpression | `Expression` 인터페이스 (evaluate 메서드) |
 | TerminalExpression | `ComparisonExpression` (단말 비교 노드) |
 | NonterminalExpression | `AndExpression`, `OrExpression`, `NotExpression` |
-| [Context](/studynote/02_operating_system/01_overview_architecture/033_context/) | 변수 값을 담은 평가 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) |
-| [Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) | 파서로 AST를 구성하고 evaluate 호출 |
+| Context | 변수 값을 담은 평가 컨텍스트 |
+| Client | 파서로 AST를 구성하고 evaluate 호출 |
 
 | 시스템 | 인터프리터 활용 |
 |:---|:---|
-| [ElasticSearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) Query DSL | [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 기반 Boolean [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파서 |
-| Spring [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) SpEL | `hasRole('ADMIN') and isAuthenticated()` |
+| ElasticSearch Query DSL | JSON 기반 Boolean 쿼리 파서 |
+| Spring Security SpEL | `hasRole('ADMIN') and isAuthenticated()` |
 | Drools Business Rules | 비즈니스 규칙 DSL 평가 엔진 |
-| AWS [IAM](/studynote/09_security/11_iam_access_control/526_iam/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) | JSON으로 표현된 권한 표현식 평가 |
+| AWS IAM Policy | JSON으로 표현된 권한 표현식 평가 |
 | SQL WHERE 절 | `age > 18 AND status = 'ACTIVE'` |
 
 - **📢 섹션 요약 비유**: Spring Security의 `@PreAuthorize("hasRole('ADMIN') and #userId == principal.id")` 는 인터프리터 패턴의 실사용 — 문자열로 쓴 보안 규칙을 런타임에 파싱하고 평가한다.
@@ -203,67 +203,56 @@ boolean allowed = engine.evaluate(rule, new PermissionContext(currentUser, targe
 |:---|:---|
 | 간단한 문법의 DSL | 복잡한 프로그래밍 언어 구현 |
 | 빈번한 규칙 변경 | 규칙이 고정된 경우 |
-| 규칙을 DB/설정에 저장 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최우선 (파싱 오버헤드) |
+| 규칙을 DB/설정에 저장 | 성능 최우선 (파싱 오버헤드) |
 | 비개발자가 규칙 정의 | 개발자만 규칙 관리 |
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 1. 해결하려는 변화 축이 분명한가?
-2. [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
+2. 추상화 비용보다 변경 절감 효과가 큰가?
+3. 테스트·로그·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
-- **📢 섹션 요약 비유**: 인터프리터 패턴은 교통 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 제어 시스템 — 교통 담당자(비개발자)가 "출퇴근 시간 버스전용차로 활성화" 규칙을 텍스트로 입력하면, 시스템이 런타임에 해석해서 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 바꾼다. 개발자가 코드를 바꿀 필요 없다.
+- **📢 섹션 요약 비유**: 인터프리터 패턴은 교통 신호 제어 시스템 — 교통 담당자(비개발자)가 "출퇴근 시간 버스전용차로 활성화" 규칙을 텍스트로 입력하면, 시스템이 런타임에 해석해서 신호를 바꾼다. 개발자가 코드를 바꿀 필요 없다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-Boolean Parser [Interpreter](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴은 비즈니스 규칙의 외부화(Externalize)를 통해 시스템 유연성을 극대화한다:
+Boolean Parser Interpreter 패턴은 비즈니스 규칙의 외부화(Externalize)를 통해 시스템 유연성을 극대화한다:
 
 **기대효과**:
 - **배포 없는 규칙 변경**: DB의 규칙 문자열만 수정하면 즉시 반영
-- <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가 참여</strong>: 코드를 모르는 전문가도 규칙 정의 가능
-- **테스트 용이성**: 규칙을 독립적으로 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 가능
-- **재사용성**: 동일 인터프리터로 다양한 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙 처리
+- <strong>도메인 전문가 참여</strong>: 코드를 모르는 전문가도 규칙 정의 가능
+- **테스트 용이성**: 규칙을 독립적으로 단위 테스트 가능
+- **재사용성**: 동일 인터프리터로 다양한 도메인 규칙 처리
 
 **한계**:
-- 복잡한 언어일수록 파서 구현이 복잡해짐 (ANTLR 등 파서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기 권장)
+- 복잡한 언어일수록 파서 구현이 복잡해짐 (ANTLR 등 파서 생성기 권장)
 - 파싱 오버헤드 (AST 캐싱으로 완화)
 - 문법 에러 처리 및 디버깅 도구 필요
 
-기술사 시험에서는 <strong>Lexer -> Parser -> AST -> Evaluator 4단계</strong>와 <strong>TerminalExpression/NonterminalExpression 역할</strong>을 명확히 서술하고, <strong>실무 적용 사례(Spring <a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> SpEL, Drools)</strong>를 언급하는 것이 핵심이다.
+기술사 시험에서는 <strong>Lexer -> Parser -> AST -> Evaluator 4단계</strong>와 <strong>TerminalExpression/NonterminalExpression 역할</strong>을 명확히 서술하고, <strong>실무 적용 사례(Spring Security SpEL, Drools)</strong>를 언급하는 것이 핵심이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② 관측 가능성(Observability) 내장, ③ 분산 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: Boolean Parser는 법원의 판사 — 법 조문(문법 정의)에 따라 사건(표현식)을 분석하고, 증거([컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 값)를 검토하여 무죄/유죄(true/false)를 판결(evaluate)한다.
+- **📢 섹션 요약 비유**: Boolean Parser는 법원의 판사 — 법 조문(문법 정의)에 따라 사건(표현식)을 분석하고, 증거(컨텍스트 값)를 검토하여 무죄/유죄(true/false)를 판결(evaluate)한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| 관계 | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | GoF [Interpreter Pattern](/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) | Boolean Parser의 상위 패턴 |
-| 구성 패턴 | [Composite Pattern](/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/) | AST 노드 계층 구조에 활용 |
-| 연관 개념 | DSL ([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Specific Language) | 인터프리터가 해석하는 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어 |
+| 상위 개념 | GoF Interpreter Pattern | Boolean Parser의 상위 패턴 |
+| 구성 패턴 | Composite Pattern | AST 노드 계층 구조에 활용 |
+| 연관 개념 | DSL (Domain Specific Language) | 인터프리터가 해석하는 도메인 언어 |
 | 연관 개념 | AST (Abstract Syntax Tree) | 파싱 결과물, 평가의 입력 |
-| 구현 도구 | ANTLR | 문법 정의 -> 파서 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구 |
-| 실무 사례 | Spring [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) SpEL | 권한 표현식 DSL 인터프리터 |
+| 구현 도구 | ANTLR | 문법 정의 -> 파서 자동 생성 도구 |
+| 실무 사례 | Spring Security SpEL | 권한 표현식 DSL 인터프리터 |
 | 연관 개념 | BNF 문법 정의 | 언어 구조를 형식적으로 기술하는 표기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[토큰화](/studynote/09_security/16_data_privacy/820_tokenization/) -> 불리언 파서 인터프리터 -> 규칙 DSL
+토큰화 -> 불리언 파서 인터프리터 -> 규칙 DSL
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 인터프리터는 번역기 — "나이 >= 18 그리고 회원등급 = VIP" 같은 조건문(DSL)을 컴퓨터가 이해하는 true/false로 번역해줘.
 2. 번역하는 순서는 먼저 단어로 쪼개고(Lexer), 그다음 문장 구조를 파악하고(Parser -> AST), 마지막으로 실제로 계산해서(Evaluator) 답을 내.
 3. 이 방법 덕분에 "접속 허용 규칙"을 개발자가 코드를 바꾸지 않아도 비개발자가 텍스트로 수정할 수 있어 — 마치 법률 조항을 바꾸는 것처럼.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 288 / 530
-
-<- **이전**: [226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)](/studynote/11_design_supervision/04_gof_behavioral/226_leaky_bucket_traffic_shaping/)
-**다음**: [228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)](/studynote/11_design_supervision/04_gof_behavioral/228_context_map_acl_pattern/) ->
-
----

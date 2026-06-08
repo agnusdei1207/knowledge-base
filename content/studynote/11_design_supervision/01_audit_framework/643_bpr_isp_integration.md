@@ -8,16 +8,16 @@ weight: 643
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/))과 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Information [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 프로세스, 시스템을 한 줄로 묶어야 사후 효과를 검증할 수 있다.
-> 2. **가치**: [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)만 있고 재설계가 없으면 시스템은 기존 업무를 전산화하는 데 그치므로 개선 효과가 작다.
-> 3. **판단 포인트**: 기술사는 구축 완료가 아니라 [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))와 추적성으로 [AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 대비 TO-BE 성과를 증명해야 한다.
+> 1. **본질**: BPR (Business Process Reengineering)과 ISP (Information Strategy Planning)는 전략, 프로세스, 시스템을 한 줄로 묶어야 사후 효과를 검증할 수 있다.
+> 2. **가치**: 전략만 있고 재설계가 없으면 시스템은 기존 업무를 전산화하는 데 그치므로 개선 효과가 작다.
+> 3. **판단 포인트**: 기술사는 구축 완료가 아니라 KPI (Key Performance Indicator)와 추적성으로 AS-IS 대비 TO-BE 성과를 증명해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 BPR과 ISP는 모두 기업 변화를 다루지만 역할이 다르다. ISP는 목표 아키텍처와 투자 우선순위를 정하고, BPR은 그 목표에 맞게 핵심 업무를 다시 설계한다.
-두 작업이 분리되면 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서는 멋있지만 현업은 그대로인 상태가 되기 쉽다. 그래서 시스템 구축 뒤에는 사후평가로 원래 목표가 실제로 달성됐는지 확인해야 한다.
+두 작업이 분리되면 전략 문서는 멋있지만 현업은 그대로인 상태가 되기 쉽다. 그래서 시스템 구축 뒤에는 사후평가로 원래 목표가 실제로 달성됐는지 확인해야 한다.
 ```text
 +----------------------------------------------+
 | 전략 목표 -> ISP -> BPR -> 시스템 구축 -> KPI 검증 |
@@ -32,28 +32,28 @@ BPR과 ISP는 모두 기업 변화를 다루지만 역할이 다르다. ISP는 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ISP는 비전, 응용, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라 방향을 내놓고, BPR은 업무 순서와 승인·예외 규칙을 바꾼다. 둘이 같은 목표 문구와 지표를 공유해야 요구사항 추적표가 흔들리지 않는다.
-즉, [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 설계 문서와 따로 놀지 않도록 사업 목표 -> 프로세스 변경 -> 화면/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구현이 한 묶음으로 내려와야 한다.
+ISP는 비전, 응용, 데이터, 인프라 방향을 내놓고, BPR은 업무 순서와 승인·예외 규칙을 바꾼다. 둘이 같은 목표 문구와 지표를 공유해야 요구사항 추적표가 흔들리지 않는다.
+즉, 전략 문서가 설계 문서와 따로 놀지 않도록 사업 목표 -> 프로세스 변경 -> 화면/데이터 구현이 한 묶음으로 내려와야 한다.
 | 구분 | 역할 | 판단 포인트 |
 | --- | --- | --- |
-| [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | 목표 아키텍처와 로드맵 수립 | 범위와 투자 우선순위를 정한다 |
-| [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) | 핵심 업무 재설계 | 승인·역할·예외 규칙을 바꾼다 |
-| 시스템 구축 | 기능·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·권한 구현 | 설계와 실행이 일치해야 한다 |
+| ISP | 목표 아키텍처와 로드맵 수립 | 범위와 투자 우선순위를 정한다 |
+| BPR | 핵심 업무 재설계 | 승인·역할·예외 규칙을 바꾼다 |
+| 시스템 구축 | 기능·데이터·권한 구현 | 설계와 실행이 일치해야 한다 |
 | 사후평가 | 성과 측정과 보완 과제 도출 | KPI와 실제 효과를 비교한다 |
 
-- **📢 섹션 요약 비유**: [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 재설계, 구현, 검증이 한 체인으로 이어져야 한다.
+- **📢 섹션 요약 비유**: 전략, 재설계, 구현, 검증이 한 체인으로 이어져야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정한다. [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/))와 [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ([Project Management Office](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 이 둘을 실행 가능한 구조로 묶는다.
-[BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) 없는 시스템은 업무 자동화에 머무르고, [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 없는 BPR은 전사 투자 순서가 흔들린다. 반대로 둘이 연결되면 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 경영 보고가 같은 지표를 볼 수 있다.
-| 기준 | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) | 시스템 구축 |
+ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정한다. EA (Enterprise Architecture)와 PMO (Project Management Office)는 이 둘을 실행 가능한 구조로 묶는다.
+BPR 없는 시스템은 업무 자동화에 머무르고, ISP 없는 BPR은 전사 투자 순서가 흔들린다. 반대로 둘이 연결되면 감사와 경영 보고가 같은 지표를 볼 수 있다.
+| 기준 | ISP | BPR | 시스템 구축 |
 | --- | --- | --- | --- |
-| 초점 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 구조 | 업무와 통제 | 기능과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 초점 | 전략과 구조 | 업무와 통제 | 기능과 데이터 |
 | 산출물 | 로드맵·표준·원칙 | 업무 절차·역할 | 화면·인터페이스·DB |
-| 실패 시 | 방향 상실 | 비효율 자동화 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 미반영 |
+| 실패 시 | 방향 상실 | 비효율 자동화 | 전략 미반영 |
 
 - **📢 섹션 요약 비유**: ISP는 방향, BPR은 방법, EA와 PMO는 연결 장치다.
 
@@ -61,15 +61,15 @@ ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 처리 시간, 재작업률, 오류율, 승인 단계 수, 사용자 채택률로 효과를 본다. [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 관점에서는 경영 목표 -> 프로세스 변경 -> 기능 구현 -> 결과 보고서의 연결이 끊기지 않아야 한다.
+실무에서는 처리 시간, 재작업률, 오류율, 승인 단계 수, 사용자 채택률로 효과를 본다. 감사 관점에서는 경영 목표 -> 프로세스 변경 -> 기능 구현 -> 결과 보고서의 연결이 끊기지 않아야 한다.
 또한 사업 책임자와 프로세스 오너가 분리되지 않아야 하고, 변경된 업무가 교육과 운영 규정에 반영돼야 한다.
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
-1. 현행([AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))과 목표(TO-BE)의 차이가 수치로 설명되는가?
-2. 요구사항이 프로세스와 화면, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 추적되는가?
+1. 현행(AS-IS)과 목표(TO-BE)의 차이가 수치로 설명되는가?
+2. 요구사항이 프로세스와 화면, 데이터까지 추적되는가?
 3. 구축 후 KPI가 실제로 개선됐는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 시스템부터 먼저 사는 "툴 우선" 접근
 - 사후평가 없이 완료 보고만 하는 방식
@@ -80,8 +80,8 @@ ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정�
 
 ## Ⅴ. 기대효과 및 결론
 
-통합된 [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/)/ISP는 투자와 운영을 함께 설계하게 해 정량적 효과를 남긴다. 그래서 문서가 아니라 변화의 증거가 조직 안에 남는다.
-앞으로는 일회성 문서보다 [Process Mining](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)([프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/))과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개선을 연결하는 방식이 중요해진다.
+통합된 BPR/ISP는 투자와 운영을 함께 설계하게 해 정량적 효과를 남긴다. 그래서 문서가 아니라 변화의 증거가 조직 안에 남는다.
+앞으로는 일회성 문서보다 Process Mining(프로세스 마이닝)과 데이터 기반 개선을 연결하는 방식이 중요해진다.
 기술사는 이 주제를 "계획과 실행, 효과 검증을 하나로 묶는 거버넌스"로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: 변화를 만든다는 말보다 변화를 증명하는 구조가 더 중요하다.
@@ -92,12 +92,12 @@ ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정�
 
 | 개념 | 연결 포인트 |
 | --- | --- |
-| [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표와 로드맵을 정리한다 |
-| [BPR](/studynote/12_it_management/03_ea_isp/911_bpr_business_process_reengineering_radical_redesign/) | 핵심 업무와 통제 흐름을 재설계한다 |
-| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 사업·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·기술 구조를 정렬한다 |
-| [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/) | 성과 달성 여부를 수치로 확인한다 |
-| [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) | 일정·범위·변경을 통제한다 |
-| [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) | 목표와 결과의 증빙을 확인한다 |
+| ISP | 전략 목표와 로드맵을 정리한다 |
+| BPR | 핵심 업무와 통제 흐름을 재설계한다 |
+| EA | 사업·데이터·기술 구조를 정렬한다 |
+| KPI | 성과 달성 여부를 수치로 확인한다 |
+| PMO | 일정·범위·변경을 통제한다 |
+| 감사 | 목표와 결과의 증빙을 확인한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,14 +122,3 @@ BPR (프로세스 재설계)
 1. 학교가 교실을 새로 짓기 전에 먼저 시간표와 규칙부터 다시 정하는 것과 같다.
 2. 그다음 책상 배치와 수업 흐름을 바꾸면, 새 건물도 진짜 편해진다.
 3. 마지막에 시험 점수와 만족도를 보면, 바꾼 일이 정말 도움이 됐는지 알 수 있다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 121 / 530
-
-<- **이전**: [78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)](/studynote/11_design_supervision/01_audit_framework/078_bpr_isp_alignment_audit/)
-**다음**: [79. 개발자 클린룸 망분리(VDI) 환경 및 보안 이동 경로 점검 (Security)](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) ->
-
----

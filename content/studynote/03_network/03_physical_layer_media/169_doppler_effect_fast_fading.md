@@ -8,18 +8,18 @@ weight: 169
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 도플러 효과 (Doppler Effect)는 송신기·수신기·반사체의 상대 속도 때문에 수신 주파수가 원래 값에서 이동하는 현상이며, 이동통신에서는 채널이 시간축에서 흔들리는 직접 원인이다.
-> 2. **가치**: 이 현상을 이해해야 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Fast [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)), 결맞음 시간 (Coherence Time), 직교 [주파수 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/) (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), OFDM) [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) 간 간섭을 올바르게 해석할 수 있다.
-> 3. **판단 포인트**: 속도가 빨라질수록 도플러 천이와 도플러 확산이 커지고 채널 추정이 빨리 낡는다. 따라서 고속 이동체 통신은 전력 증폭보다 파일럿 간격, 보상 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 설계가 더 중요해진다.
+> 2. **가치**: 이 현상을 이해해야 빠른 페이딩 (Fast Fading), 결맞음 시간 (Coherence Time), 직교 주파수 분할 다중화 (Orthogonal Frequency Division Multiplexing, OFDM) 부반송파 간 간섭을 올바르게 해석할 수 있다.
+> 3. **판단 포인트**: 속도가 빨라질수록 도플러 천이와 도플러 확산이 커지고 채널 추정이 빨리 낡는다. 따라서 고속 이동체 통신은 전력 증폭보다 파일럿 간격, 보상 알고리즘, 핸드오버 설계가 더 중요해진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-도플러 효과는 파원의 상대 운동 때문에 관측 주파수가 달라지는 물리 현상이다. 무선 통신에서는 기지국이 정지해 있어도 단말이 이동하거나 주변 반사체가 움직이면, 수신기는 원래 [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)와 조금 다른 주파수를 받게 된다. 접근하면 주파수가 높아지고, 멀어지면 낮아진다.
+도플러 효과는 파원의 상대 운동 때문에 관측 주파수가 달라지는 물리 현상이다. 무선 통신에서는 기지국이 정지해 있어도 단말이 이동하거나 주변 반사체가 움직이면, 수신기는 원래 반송파와 조금 다른 주파수를 받게 된다. 접근하면 주파수가 높아지고, 멀어지면 낮아진다.
 
-이 현상이 중요한 이유는 무선 채널이 단순히 "약해지는 선로"가 아니라 시간에 따라 계속 바뀌는 매질이기 때문이다. 고속열차, 차량, 드론처럼 이동 속도가 커질수록 주파수 오차와 위상 변화가 빨라져 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 등화, 복조가 모두 어려워진다. 결국 도플러는 "움직이는 통신"의 품질 한계를 정하는 핵심 물리 변수다.
+이 현상이 중요한 이유는 무선 채널이 단순히 "약해지는 선로"가 아니라 시간에 따라 계속 바뀌는 매질이기 때문이다. 고속열차, 차량, 드론처럼 이동 속도가 커질수록 주파수 오차와 위상 변화가 빨라져 동기화, 등화, 복조가 모두 어려워진다. 결국 도플러는 "움직이는 통신"의 품질 한계를 정하는 핵심 물리 변수다.
 
-대표 근사식은 `f_d = (v / λ) cos θ`다. 여기서 `f_d`는 도플러 천이, `v`는 상대 속도, `λ`는 파장, `θ`는 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향과 입사 방향의 각도다. 같은 속도라도 주파수가 높아 파장이 짧을수록, 그리고 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향이 정면에 가까울수록 도플러 영향이 커진다.
+대표 근사식은 `f_d = (v / λ) cos θ`다. 여기서 `f_d`는 도플러 천이, `v`는 상대 속도, `λ`는 파장, `θ`는 진행 방향과 입사 방향의 각도다. 같은 속도라도 주파수가 높아 파장이 짧을수록, 그리고 진행 방향이 정면에 가까울수록 도플러 영향이 커진다.
 
 - **📢 섹션 요약 비유**: 도플러 효과는 달려오는 구급차 사이렌 소리가 높게, 멀어지는 순간 낮게 들리는 것과 같다. 무선에서는 그 "음정 변화"가 그대로 통신 주파수 오차가 된다.
 
@@ -27,9 +27,9 @@ weight: 169
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실제 이동통신에서는 단일 경로만 있는 것이 아니라, 직접파와 반사파가 함께 들어온다. 각 경로는 입사 각도가 달라 서로 다른 도플러 천이를 만든다. 그 결과 수신 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)는 한 점 주파수로 이동하는 데서 끝나지 않고, 여러 경로의 도플러 성분으로 퍼진다. 이를 도플러 확산 (Doppler Spread)이라 하며, 채널이 짧은 시간 안에 크게 변하는 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)으로 이어진다.
+실제 이동통신에서는 단일 경로만 있는 것이 아니라, 직접파와 반사파가 함께 들어온다. 각 경로는 입사 각도가 달라 서로 다른 도플러 천이를 만든다. 그 결과 수신 신호는 한 점 주파수로 이동하는 데서 끝나지 않고, 여러 경로의 도플러 성분으로 퍼진다. 이를 도플러 확산 (Doppler Spread)이라 하며, 채널이 짧은 시간 안에 크게 변하는 빠른 페이딩으로 이어진다.
 
-아래 그림은 고속 이동체가 여러 경로 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 받는 상황을 보여준다.
+아래 그림은 고속 이동체가 여러 경로 신호를 동시에 받는 상황을 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -48,57 +48,57 @@ weight: 169
 +--------------------------------------------------------------+
 ```
 
-도플러와 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 연결하는 핵심 값은 결맞음 시간이다. 도플러 확산이 크면 채널의 상관성이 빨리 깨져, 조금 전 추정한 채널 상태 정보 (Channel [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information, [CSI](/studynote/12_it_management/02_itsm_itil/068_csi/))가 곧바로 낡아 버린다. 그래서 OFDM 시스템에서는 파일럿 배치, 채널 추적 루프, 주파수 오프셋 보정이 매우 중요하다.
+도플러와 빠른 페이딩을 연결하는 핵심 값은 결맞음 시간이다. 도플러 확산이 크면 채널의 상관성이 빨리 깨져, 조금 전 추정한 채널 상태 정보 (Channel State Information, CSI)가 곧바로 낡아 버린다. 그래서 OFDM 시스템에서는 파일럿 배치, 채널 추적 루프, 주파수 오프셋 보정이 매우 중요하다.
 
 | 물리량 | 의미 | 설계 해석 |
 | :----- | :--- | :-------- |
-| 도플러 천이 (Doppler Shift) | 평균 주파수 이동 | [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 부담 증가 |
+| 도플러 천이 (Doppler Shift) | 평균 주파수 이동 | 반송파 동기화 부담 증가 |
 | 도플러 확산 (Doppler Spread) | 경로별 주파수 퍼짐 | 채널 시변성 증가 |
 | 결맞음 시간 (Coherence Time) | 채널이 비슷하게 유지되는 시간 | 파일럿·추정 갱신 주기 결정 |
-| 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Fast [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) | 심볼 구간 내외에서 채널 급변 | OFDM ICI, 추정 오차 증가 |
+| 빠른 페이딩 (Fast Fading) | 심볼 구간 내외에서 채널 급변 | OFDM ICI, 추정 오차 증가 |
 
 트레이드오프도 존재한다. 파일럿을 자주 넣으면 추정 정확도는 올라가지만 유효 데이터율은 줄어든다. 보상 루프를 공격적으로 잡으면 추적성은 좋아지지만 잡음 민감도가 커질 수 있다.
 
-- **📢 섹션 요약 비유**: 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)은 달리는 차 안에서 사진을 찍는 것과 같다. 자주 초점을 다시 맞추면 선명해지지만, 그만큼 촬영 시간이 더 들고 흔들림에도 민감해진다.
+- **📢 섹션 요약 비유**: 빠른 페이딩은 달리는 차 안에서 사진을 찍는 것과 같다. 자주 초점을 다시 맞추면 선명해지지만, 그만큼 촬영 시간이 더 들고 흔들림에도 민감해진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-도플러 문제를 이해할 때는 느린 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Slow [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))과 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 구분해야 한다. 느린 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)은 건물 차폐나 거리 변화처럼 큰 환경 변화로 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 천천히 바뀌는 현상이다. 반면 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)은 파장 수준 이동과 도플러 확산 때문에 아주 짧은 시간에도 채널이 달라지는 현상이다.
+도플러 문제를 이해할 때는 느린 페이딩 (Slow Fading)과 빠른 페이딩을 구분해야 한다. 느린 페이딩은 건물 차폐나 거리 변화처럼 큰 환경 변화로 신호 세기가 천천히 바뀌는 현상이다. 반면 빠른 페이딩은 파장 수준 이동과 도플러 확산 때문에 아주 짧은 시간에도 채널이 달라지는 현상이다.
 
-| 비교 축 | 느린 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Slow [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) | 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Fast [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) |
+| 비교 축 | 느린 페이딩 (Slow Fading) | 빠른 페이딩 (Fast Fading) |
 | :------ | :------------------------ | :------------------------ |
 | 주 원인 | 거리 변화, 그림자 효과 | 상대 속도, 다중 경로 도플러 |
 | 변화 속도 | 느림 | 매우 빠름 |
 | 대표 지표 | 경로 손실, 쉐도잉 | 도플러 확산, 결맞음 시간 |
 | 대표 대책 | 전력 제어, 셀 설계 | 파일럿 추적, 다이버시티, OFDM 보정 |
 
-이 현상은 다중 경로 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)과도 직접 연결된다. 다중 경로가 시간 지연과 주파수 선택성을 만든다면, 도플러는 그 다중 경로 채널 자체를 시간에 따라 계속 움직이게 만든다. 그래서 고속 이동체 통신은 "다중 경로 + 도플러"를 동시에 상대해야 한다.
+이 현상은 다중 경로 페이딩과도 직접 연결된다. 다중 경로가 시간 지연과 주파수 선택성을 만든다면, 도플러는 그 다중 경로 채널 자체를 시간에 따라 계속 움직이게 만든다. 그래서 고속 이동체 통신은 "다중 경로 + 도플러"를 동시에 상대해야 한다.
 
-또한 고주파 대역으로 갈수록 도플러 영향은 더 커진다. 같은 시속 300km라도 700MHz보다 28GHz [밀리미터파](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) (Millimeter [Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/), [mmWave](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))에서 파장이 훨씬 짧아, 주파수 오차와 빔 정렬 문제가 더 민감해진다.
+또한 고주파 대역으로 갈수록 도플러 영향은 더 커진다. 같은 시속 300km라도 700MHz보다 28GHz 밀리미터파 (Millimeter Wave, mmWave)에서 파장이 훨씬 짧아, 주파수 오차와 빔 정렬 문제가 더 민감해진다.
 
-- **📢 섹션 요약 비유**: 느린 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)이 날씨가 서서히 흐려지는 것이라면, 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)은 달리는 차 창문으로 들어오는 햇빛이 나무 그림자 때문에 깜빡깜빡 바뀌는 것과 같다. 둘 다 밝기 변화지만 대응 속도가 전혀 다르다.
+- **📢 섹션 요약 비유**: 느린 페이딩이 날씨가 서서히 흐려지는 것이라면, 빠른 페이딩은 달리는 차 창문으로 들어오는 햇빛이 나무 그림자 때문에 깜빡깜빡 바뀌는 것과 같다. 둘 다 밝기 변화지만 대응 속도가 전혀 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "얼마나 빨리 움직이는가"를 곧바로 파일럿 밀도, 추적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 전략으로 번역해야 한다. 예를 들어 LTE와 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR은 고속철도 환경에서도 통신이 되도록 파일럿 구조와 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 설계하지만, 속도와 주파수가 높아질수록 채널 추정 오차와 [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) 간 간섭 (Inter-Carrier Interference, ICI)이 더 커진다.
+실무에서는 "얼마나 빨리 움직이는가"를 곧바로 파일럿 밀도, 추적 알고리즘, 핸드오버 전략으로 번역해야 한다. 예를 들어 LTE와 5G NR은 고속철도 환경에서도 통신이 되도록 파일럿 구조와 참조 신호를 설계하지만, 속도와 주파수가 높아질수록 채널 추정 오차와 부반송파 간 간섭 (Inter-Carrier Interference, ICI)이 더 커진다.
 
 ### 실무 시나리오
 
-1. **고속철도 셀룰러 통신**: 시속 300km 환경에서는 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 빈도와 도플러 보상 정확도가 동시에 중요하다. 셀 경계를 짧게만 만들면 오히려 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 부담이 늘 수 있어, 커버리지와 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 오버헤드를 같이 봐야 한다.
-2. <strong>차량 <a href="/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a> 통신</strong>: 차량 대 차량 ([Vehicle-to-Everything](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/), [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)) 환경은 양쪽이 모두 움직일 수 있어 상대 속도가 더 커진다. 이 경우 파일럿 재배치와 적응 변조가 필수적이다.
-3. <strong><a href="/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a> <a href="/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/">백홀</a>·드론 링크</strong>: 고주파수일수록 도플러가 커지고 빔 정렬 민감도도 올라가므로, 단순 출력 증폭보다 빔 추적과 주파수 보상이 더 중요하다.
+1. **고속철도 셀룰러 통신**: 시속 300km 환경에서는 핸드오버 빈도와 도플러 보상 정확도가 동시에 중요하다. 셀 경계를 짧게만 만들면 오히려 핸드오버 부담이 늘 수 있어, 커버리지와 제어 신호 오버헤드를 같이 봐야 한다.
+2. <strong>차량 V2X 통신</strong>: 차량 대 차량 (Vehicle-to-Everything, V2X) 환경은 양쪽이 모두 움직일 수 있어 상대 속도가 더 커진다. 이 경우 파일럿 재배치와 적응 변조가 필수적이다.
+3. <strong>mmWave 백홀·드론 링크</strong>: 고주파수일수록 도플러가 커지고 빔 정렬 민감도도 올라가므로, 단순 출력 증폭보다 빔 추적과 주파수 보상이 더 중요하다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 - 예상 최고 속도와 사용 주파수에서 최대 도플러 천이를 계산했는가?
 - 파일럿 주기와 채널 추적 루프가 결맞음 시간보다 충분히 촘촘한가?
-- OFDM 시스템이라면 ICI와 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 오버헤드를 함께 검토했는가?
+- OFDM 시스템이라면 ICI와 핸드오버 오버헤드를 함께 검토했는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 이동성이 큰 환경을 정지 채널처럼 가정하는 것
 - 전력만 올리면 도플러 문제도 해결된다고 생각하는 것
@@ -110,11 +110,11 @@ weight: 169
 
 ## Ⅴ. 기대효과 및 결론
 
-도플러 효과를 정확히 이해하면 이동통신 설계자는 단순 수신 감도보다 채널의 시간 변화율을 더 잘 다룰 수 있다. 그 결과 파일럿 배치, 등화, 주파수 보정, [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/), 다이버시티 전략을 이동 속도와 주파수 대역에 맞게 조합할 수 있다. 특히 고속 이동체 환경에서 링크 안정성과 체감 품질을 크게 개선할 수 있다.
+도플러 효과를 정확히 이해하면 이동통신 설계자는 단순 수신 감도보다 채널의 시간 변화율을 더 잘 다룰 수 있다. 그 결과 파일럿 배치, 등화, 주파수 보정, 핸드오버, 다이버시티 전략을 이동 속도와 주파수 대역에 맞게 조합할 수 있다. 특히 고속 이동체 환경에서 링크 안정성과 체감 품질을 크게 개선할 수 있다.
 
-하지만 대책은 비용을 동반한다. 파일럿을 늘리면 전송 효율이 줄고, 정교한 추적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 계산량과 전력을 더 요구한다. 또한 초고주파 대역에서는 도플러뿐 아니라 빔 정렬 실패와 차폐 문제도 함께 커진다.
+하지만 대책은 비용을 동반한다. 파일럿을 늘리면 전송 효율이 줄고, 정교한 추적 알고리즘은 계산량과 전력을 더 요구한다. 또한 초고주파 대역에서는 도플러뿐 아니라 빔 정렬 실패와 차폐 문제도 함께 커진다.
 
-결국 도플러 효과는 고속 이동체 통신의 주변 이슈가 아니라, 채널 추정과 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 설계를 결정하는 중심 변수다. 움직이는 환경에서는 "[신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 세냐"만큼 "채널이 얼마나 빨리 바뀌느냐"를 기억해야 한다.
+결국 도플러 효과는 고속 이동체 통신의 주변 이슈가 아니라, 채널 추정과 동기화 설계를 결정하는 중심 변수다. 움직이는 환경에서는 "신호가 세냐"만큼 "채널이 얼마나 빨리 바뀌느냐"를 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 도플러 효과는 달리는 열차 안에서 친구와 공을 주고받는 것과 같다. 공을 세게 던지는 것보다, 서로의 움직임을 계속 읽고 타이밍을 맞추는 것이 더 중요하다.
 
@@ -126,9 +126,9 @@ weight: 169
 | :--- | :---------- |
 | 도플러 천이 (Doppler Shift) | 상대 속도에 따른 평균 주파수 이동 |
 | 도플러 확산 (Doppler Spread) | 경로별 서로 다른 천이가 만드는 주파수 퍼짐 |
-| 빠른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Fast [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) | 도플러 확산으로 채널이 짧은 시간에 급변하는 현상 |
+| 빠른 페이딩 (Fast Fading) | 도플러 확산으로 채널이 짧은 시간에 급변하는 현상 |
 | 결맞음 시간 (Coherence Time) | 채널 추정 유효 기간을 정하는 지표 |
-| OFDM | 도플러에 민감한 [부반송파](/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) 구조를 가진 대표 시스템 |
+| OFDM | 도플러에 민감한 부반송파 구조를 가진 대표 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,15 +155,4 @@ weight: 169
 
 1. 달리는 자전거에서 노래를 들으면 소리가 조금 다르게 들릴 수 있어요.
 2. 휴대폰도 빠르게 움직이면 전파의 "음정"이 자꾸 바뀌어서 알아듣기 어려워져요.
-3. 그래서 기지국과 휴대폰은 계속 서로 박자를 맞추며 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 고쳐 듣는답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 290 / 1120
-
-<- **이전**: [168. 다중 경로 페이딩 (Multipath Fading) - 주파수 선택적/평탄 페이딩](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)
-**다음**: [170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)](/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/) ->
-
----
+3. 그래서 기지국과 휴대폰은 계속 서로 박자를 맞추며 신호를 고쳐 듣는답니다.

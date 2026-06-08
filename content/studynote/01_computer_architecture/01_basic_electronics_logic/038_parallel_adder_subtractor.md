@@ -6,13 +6,13 @@ tags:
 weight: 38
 ---
 > **핵심 인사이트**
-> 1. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가감산기(Parallel Adder-Subtractor)는 단일 회로에서 ADD(덧셈)와 SUB(뺄셈)를 모두 처리하는 복합 산술 회로로, SUB 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 하나로 XOR 게이트를 통한 B 반전과 Carry-In=1(2의 보수 +1)을 동시에 제어한다.
-> 2. n비트 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가감산기의 핵심은 Ripple Carry vs Carry Lookahead 트레이드오프 — Ripple Carry는 단순하지만 n단 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), CLA([Carry Lookahead Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/))는 복잡하지만 O(log n) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 고속 CPU에 필수다.
-> 3. 오버플로([Overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 감지는 부호 있는 연산의 필수 기능으로, 두 양수를 더해 음수가 되거나 두 음수를 더해 양수가 될 때 발생하며, [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) Carry-In과 Carry-Out의 XOR로 검출한다.
+> 1. 병렬 가감산기(Parallel Adder-Subtractor)는 단일 회로에서 ADD(덧셈)와 SUB(뺄셈)를 모두 처리하는 복합 산술 회로로, SUB 제어 신호 하나로 XOR 게이트를 통한 B 반전과 Carry-In=1(2의 보수 +1)을 동시에 제어한다.
+> 2. n비트 병렬 가감산기의 핵심은 Ripple Carry vs Carry Lookahead 트레이드오프 — Ripple Carry는 단순하지만 n단 지연, CLA(Carry Lookahead Adder)는 복잡하지만 O(log n) 지연으로 고속 CPU에 필수다.
+> 3. 오버플로(Overflow) 감지는 부호 있는 연산의 필수 기능으로, 두 양수를 더해 음수가 되거나 두 음수를 더해 양수가 될 때 발생하며, MSB Carry-In과 Carry-Out의 XOR로 검출한다.
 
 ---
 
-## I. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가감산기 구조
+## I. 병렬 가감산기 구조
 
 ```
 4비트 병렬 가감산기:
@@ -31,12 +31,12 @@ SUB=0: S = A + B       (덧셈)
 SUB=1: S = A + ~B + 1  (뺄셈, 2의 보수)
 ```
 
-| 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | 동작              | Carry-In | B 처리    |
+| 제어 신호 | 동작              | Carry-In | B 처리    |
 |---------|-----------------|---------|---------|
 | SUB=0  | 덧셈 (A + B)     | 0       | 그대로   |
 | SUB=1  | 뺄셈 (A - B)     | 1       | XOR로 반전|
 
-> 📢 **섹션 요약 비유**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나로 믹서기(더하기 모드)와 분리기(빼기 모드)를 바꾸는 것 — 회로 두 배 없이 기능 두 배.
+> 📢 **섹션 요약 비유**: 스위치 하나로 믹서기(더하기 모드)와 분리기(빼기 모드)를 바꾸는 것 — 회로 두 배 없이 기능 두 배.
 
 ---
 
@@ -68,7 +68,7 @@ Carry Lookahead Adder (CLA):
 
 ---
 
-## III. 오버플로([Overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 검출
+## III. 오버플로(Overflow) 검출
 
 ```
 부호 있는 n비트 표현 범위:
@@ -94,7 +94,7 @@ Carry Lookahead Adder (CLA):
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 내 가감산기 통합
+## IV. ALU 내 가감산기 통합
 
 ```
 현대 ALU (Arithmetic Logic Unit) 구조:
@@ -123,7 +123,7 @@ Carry Lookahead Adder (CLA):
 
 ---
 
-## V. 실무 시나리오 — [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 실현
+## V. 실무 시나리오 — RISC-V ALU 실현
 
 ```
 RISC-V 32비트 ALU:
@@ -191,17 +191,6 @@ AI 가속기: 행렬 곱 전용 ALU
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가감산기는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나로 덧셈과 뺄셈을 모두 할 수 있는 계산기 회로예요.
+1. 병렬 가감산기는 스위치 하나로 덧셈과 뺄셈을 모두 할 수 있는 계산기 회로예요.
 2. 자리 올림수(Carry)를 미리 계산하는 CLA 방식 덕분에 32자리 수도 빠르게 계산할 수 있어요.
 3. 오버플로는 계산기 표시 범위를 벗어나는 것 — CPU가 이를 감지해서 프로그램이 이상한 결과를 쓰지 않도록 막아요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 38 / 803
-
-<- **이전**: [037. 감산기 (Subtractor) — 반감산기·전감산기](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)
-**다음**: [039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) ->
-
----

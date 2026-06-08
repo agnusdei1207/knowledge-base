@@ -7,23 +7,23 @@ weight: 858
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 시프트 레프트 테스팅 (Shift-Left Testing)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 테스트를 왼쪽, 즉 개발 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)로 끌어당긴다. 버그를 나중에 찾을수록 비싸기 때문이다.
+시프트 레프트는 테스트를 왼쪽, 즉 개발 초기로 끌어당긴다. 버그를 나중에 찾을수록 비싸기 때문이다.
 
-[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 요구사항 오해와 설계 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)도 빨리 잡을 수 있다.
+초기에 검증하면 요구사항 오해와 설계 결함도 빨리 잡을 수 있다.
 
 - **📢 섹션 요약 비유**: 불이 크게 번지기 전에 작은 불씨를 끄는 것이다.
 
 ---
 
-다음은 [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 (Shift-L의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 시프트 레프트 테스팅 (Shift-L의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -38,7 +38,7 @@ weight: 858
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 (Shift-L가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 시프트 레프트 테스팅 (Shift-L가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -48,20 +48,20 @@ weight: 858
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심은 "빨리, 자주"다. [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/), 리뷰, 계약 테스트를 앞단에 배치한다.
+핵심은 "빨리, 자주"다. 단위 테스트, 정적 분석, 리뷰, 계약 테스트를 앞단에 배치한다.
 
 | 영역 | 예시 |
 |:---|:---|
 | 요구사항 | 리뷰, 검토 |
-| 설계 | [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) |
-| 코드 | [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) |
+| 설계 | 정적 분석 |
+| 코드 | 단위 테스트 |
 
 ```text
 요구사항 -> 설계 -> 구현 -> 배포
    ^ 테스트를 더 왼쪽으로 이동
 ```
 
-[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 많을수록 후반 비용이 줄어든다.
+초기 검증이 많을수록 후반 비용이 줄어든다.
 
 - **📢 섹션 요약 비유**: 씨앗일 때 잡초를 뽑는 것이 가장 쉽다.
 
@@ -75,17 +75,17 @@ weight: 858
 
 ## Ⅲ. 비교 및 연결
 
-[시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 시프트 라이트의 반대 개념처럼 보이지만, 실제로는 함께 써야 한다. 초반과 운영 후반을 모두 본다.
+시프트 레프트는 시프트 라이트의 반대 개념처럼 보이지만, 실제로는 함께 써야 한다. 초반과 운영 후반을 모두 본다.
 
-| 구분 | [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) | 시프트 라이트 |
+| 구분 | 시프트 레프트 | 시프트 라이트 |
 |:---|:---|:---|
 | 시점 | 개발 초반 | 운영 중 |
-| 목적 | 조기 발견 | 실환경 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| 효과 | 수정 비용 절감 | 실제 품질 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| 목적 | 조기 발견 | 실환경 검증 |
+| 효과 | 수정 비용 절감 | 실제 품질 확인 |
 
-[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD, [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)과 강하게 연결된다.
+DevOps, CI/CD, 정적 분석과 강하게 연결된다.
 
-- **📢 섹션 요약 비유**: 장보기 전에 목록을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 왼쪽이라면, 요리한 뒤 맛보는 것은 오른쪽이다.
+- **📢 섹션 요약 비유**: 장보기 전에 목록을 확인하는 것이 왼쪽이라면, 요리한 뒤 맛보는 것은 오른쪽이다.
 
 ---
 
@@ -97,7 +97,7 @@ weight: 858
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 리뷰, [정적 테스팅](/studynote/04_software_engineering/11_testing_validation/822_static_testing/), 자동화 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), 계약 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 앞단에 둔다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 줄이면 전체 품질이 올라간다.
+실무에서는 리뷰, 정적 테스팅, 자동화 단위 테스트, 계약 검증을 앞단에 둔다. 초기 결함을 줄이면 전체 품질이 올라간다.
 
 체크 포인트는 다음과 같다.
 1. 테스트를 개발보다 늦추지 않는다.
@@ -116,9 +116,9 @@ weight: 858
 
 ## Ⅴ. 기대효과 및 결론
 
-[시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 비용을 줄이고 품질을 안정화한다. 뒤늦은 폭발을 앞단에서 막는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+시프트 레프트는 결함 비용을 줄이고 품질을 안정화한다. 뒤늦은 폭발을 앞단에서 막는 전략이다.
 
-결론적으로 이 개념은 "[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 앞당기는 품질 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"이다.
+결론적으로 이 개념은 "검증을 앞당기는 품질 전략"이다.
 
 - **📢 섹션 요약 비유**: 시험 공부를 전날이 아니라 한 달 전부터 하는 것과 같다.
 
@@ -132,10 +132,10 @@ weight: 858
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 시프트 레프트 테스팅 (Shift-Left Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 시프트 레프트 테스팅 (Shift-Left Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 시프트 레프트 테스팅 (Shift-Left Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 시프트 레프트 테스팅 (Shift-Left Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,21 +155,10 @@ weight: 858
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [시프트 레프트](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 시프트 레프트 테스팅 (Shift-Left Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 523 / 973
-
-<- **이전**: [465. 지속적 테스팅 (Continuous Testing) - CI/CD 파이프라인 전 과정에 테스트 자동화 통합](/studynote/04_software_engineering/11_testing_validation/857_continuous_testing/)
-**다음**: [466. 시프트 레프트 테스팅 (Shift-Left Testing) - 테스트 활동을 개발 초기(왼쪽) 단계로 당겨 결함 조기 발견](/studynote/04_software_engineering/11_testing_validation/858_shift_left_testing/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

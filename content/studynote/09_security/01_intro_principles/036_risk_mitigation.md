@@ -6,9 +6,9 @@ tags:
 weight: 36
 ---
 > **핵심 인사이트**
-> 1. 위험 경감([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Mitigation](/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/))은 보안 통제([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Control)를 적용해 위험의 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Likelihood) 또는 영향(Impact)을 허용 가능한 수준으로 낮추는 위험 처리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 2. 경감 통제는 예방적(Preventive)·탐지적(Detective)·교정적([Corrective](/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/)) 세 유형으로 분류되며, 효과적인 보안은 세 유형의 심층 방어(Defense-in-Depth)를 통해 달성한다.
-> 3. 비용-효익 분석(Cost-Benefit Analysis)이 핵심 — 통제 적용 비용이 경감되는 위험의 재정적 기대 손실([ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/), Annualized Loss Expectancy)보다 낮아야 경제적으로 합리적이다.
+> 1. 위험 경감(Risk Mitigation)은 보안 통제(Security Control)를 적용해 위험의 발생 확률(Likelihood) 또는 영향(Impact)을 허용 가능한 수준으로 낮추는 위험 처리 전략이다.
+> 2. 경감 통제는 예방적(Preventive)·탐지적(Detective)·교정적(Corrective) 세 유형으로 분류되며, 효과적인 보안은 세 유형의 심층 방어(Defense-in-Depth)를 통해 달성한다.
+> 3. 비용-효익 분석(Cost-Benefit Analysis)이 핵심 — 통제 적용 비용이 경감되는 위험의 재정적 기대 손실(ALE, Annualized Loss Expectancy)보다 낮아야 경제적으로 합리적이다.
 
 ---
 
@@ -27,7 +27,7 @@ weight: 36
   -> 수용(Accept) 또는 추가 경감 결정 필요
 ```
 
-> 📢 **섹션 요약 비유**: 차 사고 위험 경감 = 안전벨트(영향 감소) + 방어 운전([확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 감소) + 에어백(영향 감소) — 위험이 0이 되지는 않는다.
+> 📢 **섹션 요약 비유**: 차 사고 위험 경감 = 안전벨트(영향 감소) + 방어 운전(확률 감소) + 에어백(영향 감소) — 위험이 0이 되지는 않는다.
 
 ---
 
@@ -56,11 +56,11 @@ weight: 36
   +-- 격리 (Quarantine)
 ```
 
-> 📢 **섹션 요약 비유**: 예방=잠금장치, 탐지=[CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/)·경보, 교정=보험+수리 — 세 가지 모두 있어야 완전한 보안이다.
+> 📢 **섹션 요약 비유**: 예방=잠금장치, 탐지=CCTV·경보, 교정=보험+수리 — 세 가지 모두 있어야 완전한 보안이다.
 
 ---
 
-## III. [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 비용-효익 분석
+## III. ALE 기반 비용-효익 분석
 
 ```
 경제성 분석 공식:
@@ -89,7 +89,7 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 심층 방어 (Defense-in-Depth)
+## IV. 심층 방어 (Defense-in-Depth)
 
 ```
 네트워크 경계
@@ -113,18 +113,18 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 
 ---
 
-## V. 실무 시나리오 — [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 경감 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## V. 실무 시나리오 — 랜섬웨어 경감 전략
 
 | 통제 유형    | 구체적 통제                       | 목적                   |
 |-----------|----------------------------------|------------------------|
-| 예방       | [MFA](/studynote/09_security/11_iam_access_control/552_mfa/), [최소 권한 원칙](/studynote/09_security/01_intro_principles/010_least_privilege/) (PoLP)        | 계정 탈취 방지          |
-| 예방       | [EDR](/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) & Response)| 악성코드 실행 차단      |
-| 예방       | 이메일 필터링 ([SPF](/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/), [DKIM](/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/), [DMARC](/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/))  | [피싱](/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일 차단          |
-| 탐지       | [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) + [SOAR](/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) (자동 대응)           | 이상 징후 조기 탐지     |
-| 교정       | 3-2-1 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (3개 복사, 2매체, 1오프사이트)| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 보장     |
-| 교정       | IRP ([인시던트 대응](/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 계획)          | 신속한 피해 최소화      |
+| 예방       | MFA, 최소 권한 원칙 (PoLP)        | 계정 탈취 방지          |
+| 예방       | EDR (Endpoint Detection & Response)| 악성코드 실행 차단      |
+| 예방       | 이메일 필터링 (SPF, DKIM, DMARC)  | 피싱 메일 차단          |
+| 탐지       | SIEM + SOAR (자동 대응)           | 이상 징후 조기 탐지     |
+| 교정       | 3-2-1 백업 (3개 복사, 2매체, 1오프사이트)| 데이터 복구 보장     |
+| 교정       | IRP (인시던트 대응 계획)          | 신속한 피해 최소화      |
 
-> 📢 **섹션 요약 비유**: [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 방어는 여러 겹의 보호막 — 하나가 뚫려도 다른 층이 막아주고, 만약 암호화되어도 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)으로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.
+> 📢 **섹션 요약 비유**: 랜섬웨어 방어는 여러 겹의 보호막 — 하나가 뚫려도 다른 층이 막아주고, 만약 암호화되어도 백업으로 복구한다.
 
 ---
 
@@ -178,16 +178,5 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 위험 경감은 위험이 발생할 가능성이나 피해를 줄이기 위해 미리 대비하는 거예요.
-2. 안전벨트, [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/), 소화기처럼 막고·보고·고치는 세 가지 방법을 모두 써야 해요.
+2. 안전벨트, CCTV, 소화기처럼 막고·보고·고치는 세 가지 방법을 모두 써야 해요.
 3. 통제에 드는 비용이 예상 피해보다 적을 때 적용하는 게 스마트한 보안이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 36 / 1108
-
-<- **이전**: [035. 위험 전가 (Risk Transfer)](/studynote/09_security/01_intro_principles/035_risk_transfer/)
-**다음**: [037. 위험 수용 (Risk Acceptance)](/studynote/09_security/01_intro_principles/037_risk_acceptance/) ->
-
----

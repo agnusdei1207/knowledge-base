@@ -188,11 +188,3 @@ weight: 779
 
   ② Running Royalty           : R = p × q × r  (단가 × 수량 × 로열티율)
      (경상 royalty)             예)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 779 / 800
-
-<- **이전**: [778. 기술 사업화 스타트업 생태계 VC](/studynote/06_ict_convergence/uncategorized/778_technology_commercialization_startup_ecosyste/)
-**다음**: [780. 규제 샌드박스 혁신 규제 완화 전략](/studynote/06_ict_convergence/uncategorized/780_regulatory_sandbox_innovation_regulation/) ->
-
----

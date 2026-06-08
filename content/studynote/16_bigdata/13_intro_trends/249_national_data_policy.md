@@ -6,13 +6,13 @@ tags:
 weight: 249
 ---
 > **핵심 인사이트**
-> 1. 「[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업진흥 및 이용촉진에 관한 기본법」([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법, 2022년 시행)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 국가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 자산으로 선언하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산·거래·활용의 기본 원칙과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 생태계 육성 체계를 규정한 한국 최초의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기본법이다.
-> 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법의 핵심은 공정한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이용 보장([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독점 방지) + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기술·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 산업 육성 + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바우처 법적 근거 마련의 3축이며, 기존 [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)(PIPA)과 상호 보완 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.
-> 3. [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)(유럽)·[CCPA](/studynote/09_security/16_data_privacy/800_ccpa/)(미국 캘리포니아)·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법(한국)으로 대표되는 글로벌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규제 삼각 구도를 이해하는 것이 글로벌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스 설계](/studynote/12_it_management/02_itsm_itil/849_service_design/)의 필수 전제가 됐다.
+> 1. 「데이터 산업진흥 및 이용촉진에 관한 기본법」(데이터기본법, 2022년 시행)은 데이터를 국가 전략 자산으로 선언하고, 데이터 생산·거래·활용의 기본 원칙과 데이터 산업 생태계 육성 체계를 규정한 한국 최초의 데이터 기본법이다.
+> 2. 데이터기본법의 핵심은 공정한 데이터 이용 보장(데이터 독점 방지) + 데이터 기술·서비스 산업 육성 + 데이터 거래소·데이터 바우처 법적 근거 마련의 3축이며, 기존 개인정보보호법(PIPA)과 상호 보완 관계다.
+> 3. GDPR(유럽)·CCPA(미국 캘리포니아)·데이터기본법(한국)으로 대표되는 글로벌 데이터 규제 삼각 구도를 이해하는 것이 글로벌 데이터 서비스 설계의 필수 전제가 됐다.
 
 ---
 
-## I. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법 개요
+## I. 데이터기본법 개요
 
 ```
 법령 정보:
@@ -39,11 +39,11 @@ weight: 249
      데이터 분쟁조정위원회
 ```
 
-> 📢 **섹션 요약 비유**: 부동산 거래에 부동산 기본법이 있듯이, 이제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래에도 기본법이 생겨 공정한 거래와 산업 육성 기반이 마련됐다.
+> 📢 **섹션 요약 비유**: 부동산 거래에 부동산 기본법이 있듯이, 이제 데이터 거래에도 기본법이 생겨 공정한 거래와 산업 육성 기반이 마련됐다.
 
 ---
 
-## II. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법 핵심 조항
+## II. 데이터기본법 핵심 조항
 
 ```
 제3조 (데이터 이용 기본 원칙):
@@ -70,12 +70,12 @@ weight: 249
 
 | 조항         | 내용                        | 의미                 |
 |------------|---------------------------|---------------------|
-| 제3조       | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이용 기본 원칙          | 독점 방지, 공정 거래  |
-| 제11조      | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 제도화             | 거래소, 표준 계약     |
-| 제15조      | 전문기업 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)제도              | 산업 육성             |
-| 제17조      | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바우처                 | 수요 기업 지원        |
+| 제3조       | 데이터 이용 기본 원칙          | 독점 방지, 공정 거래  |
+| 제11조      | 데이터 거래 제도화             | 거래소, 표준 계약     |
+| 제15조      | 전문기업 인증제도              | 산업 육성             |
+| 제17조      | 데이터 바우처                 | 수요 기업 지원        |
 
-> 📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법은 [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/)의 헌법 — 공정 거래 규칙(독점 방지)과 인프라 지원(바우처, 거래소)을 동시에 제공.
+> 📢 **섹션 요약 비유**: 데이터기본법은 데이터 경제의 헌법 — 공정 거래 규칙(독점 방지)과 인프라 지원(바우처, 거래소)을 동시에 제공.
 
 ---
 
@@ -99,16 +99,16 @@ weight: 249
 
 | 법률             | 주요 대상          | 목적            |
 |---------------|-----------------|----------------|
-| [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)  | 개인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)        | 프라이버시 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)  |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법    | 산업 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)        | 산업 육성        |
-| 공공데이터법    | 공공기관 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)    | 개방 촉진        |
-| 신용정보법      | 금융 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)       | [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) 근거  |
+| 개인정보보호법  | 개인 데이터        | 프라이버시 보호  |
+| 데이터기본법    | 산업 데이터        | 산업 육성        |
+| 공공데이터법    | 공공기관 데이터    | 개방 촉진        |
+| 신용정보법      | 금융 데이터       | 마이데이터 근거  |
 
-> 📢 **섹션 요약 비유**: [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)이 개인의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 권리 지킴이라면, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법은 [데이터 경제](/studynote/16_bigdata/01_intro/011_data_economy/) 성장 촉진제 — 둘은 충돌하지 않고 상호 보완한다.
+> 📢 **섹션 요약 비유**: 개인정보보호법이 개인의 데이터 권리 지킴이라면, 데이터기본법은 데이터 경제 성장 촉진제 — 둘은 충돌하지 않고 상호 보완한다.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 글로벌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규제 비교
+## IV. 글로벌 데이터 규제 비교
 
 ```
 주요국 데이터 규제 비교:
@@ -137,7 +137,7 @@ EU (GDPR, 2018):
 
 ---
 
-## V. 실무 시나리오 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바우처 활용
+## V. 실무 시나리오 — 데이터 바우처 활용
 
 ```
 지원 내용 (2024 기준):
@@ -162,7 +162,7 @@ EU (GDPR, 2018):
     투자 유치 성공
 ```
 
-> 📢 **섹션 요약 비유**: 정부가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매 상품권을 주는 것 — 돈이 없는 스타트업도 양질의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이용해 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제품을 만들 수 있게 해준다.
+> 📢 **섹션 요약 비유**: 정부가 데이터 구매 상품권을 주는 것 — 돈이 없는 스타트업도 양질의 데이터를 이용해 AI 제품을 만들 수 있게 해준다.
 
 ---
 
@@ -219,17 +219,6 @@ AI 학습 데이터 규정 (AI 기본법 준비)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사고 팔 때 지켜야 할 규칙을 정한 법이에요 — 누군가가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 독점하거나 허락 없이 사용하면 안 된다고 규정해요.
-2. 정부가 작은 회사들에게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매 상품권(바우처)을 줘서 값비싼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 살 수 있게 해줘요.
-3. 한국, 유럽([GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)), 미국이 각각 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙을 가지고 있어서 글로벌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만들려면 세 나라 규칙을 모두 알아야 해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 249 / 262
-
-<- **이전**: [036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)](/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/)
-**다음**: [038. 데이터 주권 (Data Sovereignty)](/studynote/16_bigdata/13_intro_trends/250_data_sovereignty/) ->
-
----
+1. 데이터기본법은 데이터를 사고 팔 때 지켜야 할 규칙을 정한 법이에요 — 누군가가 데이터를 독점하거나 허락 없이 사용하면 안 된다고 규정해요.
+2. 정부가 작은 회사들에게 데이터 구매 상품권(바우처)을 줘서 값비싼 데이터도 살 수 있게 해줘요.
+3. 한국, 유럽(GDPR), 미국이 각각 다른 데이터 규칙을 가지고 있어서 글로벌 서비스를 만들려면 세 나라 규칙을 모두 알아야 해요!

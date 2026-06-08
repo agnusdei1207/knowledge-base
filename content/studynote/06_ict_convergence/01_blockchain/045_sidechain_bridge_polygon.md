@@ -6,9 +6,9 @@ tags:
 weight: 45
 ---
 > **핵심 인사이트**
-> 1. 사이드체인(Sidechain)은 메인체인(Main Chain)과 양방향 페그(Two-Way Peg)로 연결된 독립 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) — 메인체인의 보안을 활용하면서 독자적 합의 규칙으로 더 빠르고 저렴한 트랜잭션을 처리하며, Polygon PoS가 대표적 Ethereum 사이드체인이다.
-> 2. 브릿지([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))는 서로 다른 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 간 자산/데이터를 이전하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) — Lock-and-Mint(원체인 잠금 + 대상체인 발행) 방식이 일반적이며, 브릿지 스마트 컨트랙트는 해커의 주요 공격 표적(2022년 Ronin 해킹 6,100억원)이다.
-> 3. Polygon은 사이드체인 + ZK [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)을 모두 제공하는 Ethereum [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 생태계 — Polygon PoS(사이드체인), Polygon [zkEVM](/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)(ZK [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))으로 다양한 확장 솔루션을 제공하며, [ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/) -> MATIC 페그를 통해 가스비를 95% 절감한다.
+> 1. 사이드체인(Sidechain)은 메인체인(Main Chain)과 양방향 페그(Two-Way Peg)로 연결된 독립 블록체인 — 메인체인의 보안을 활용하면서 독자적 합의 규칙으로 더 빠르고 저렴한 트랜잭션을 처리하며, Polygon PoS가 대표적 Ethereum 사이드체인이다.
+> 2. 브릿지(Bridge)는 서로 다른 블록체인 간 자산/데이터를 이전하는 프로토콜 — Lock-and-Mint(원체인 잠금 + 대상체인 발행) 방식이 일반적이며, 브릿지 스마트 컨트랙트는 해커의 주요 공격 표적(2022년 Ronin 해킹 6,100억원)이다.
+> 3. Polygon은 사이드체인 + ZK 롤업을 모두 제공하는 Ethereum 스케일링 생태계 — Polygon PoS(사이드체인), Polygon zkEVM(ZK 롤업)으로 다양한 확장 솔루션을 제공하며, ETH -> MATIC 페그를 통해 가스비를 95% 절감한다.
 
 ---
 
@@ -97,7 +97,7 @@ weight: 45
   ZK 브릿지: 수학적 증명으로 검증 (가장 안전)
 ```
 
-> 📢 **섹션 요약 비유**: 브릿지는 국제 환전소 — 달러([ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/))를 맡기고 원화(sETH) 받기. 환전소(브릿지)가 털리면 맡긴 돈(자산) 다 사라져요! ZK 브릿지는 금고가 투명한 환전소!
+> 📢 **섹션 요약 비유**: 브릿지는 국제 환전소 — 달러(ETH)를 맡기고 원화(sETH) 받기. 환전소(브릿지)가 털리면 맡긴 돈(자산) 다 사라져요! ZK 브릿지는 금고가 투명한 환전소!
 
 ---
 
@@ -285,15 +285,4 @@ LayerZero V2, Chainlink CCIP
 
 1. 사이드체인은 보조 놀이터 — 큰 운동장(이더리움)에 줄이 길어서, 옆에 작은 놀이터(Polygon)를 만들어 빠르게 놀아요!
 2. 브릿지는 환전소 — 이더리움(달러)을 Polygon(원화)으로 바꿔주고, 다 쓰면 다시 달러로 바꿔요. 환전소가 안전해야 해요!
-3. ZK 브릿지가 가장 안전 — 수학 증명(ZK)으로 "정말 맞아요!"를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/). 해커가 속이기 불가능!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 45 / 552
-
-<- **이전**: [044. ZK-Rollup & 유효성 증명](/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/)
-**다음**: [046. 블록체인 샤딩 — Blockchain Sharding](/studynote/06_ict_convergence/01_blockchain/046_sharding_parallel_processing/) ->
-
----
+3. ZK 브릿지가 가장 안전 — 수학 증명(ZK)으로 "정말 맞아요!"를 확인. 해커가 속이기 불가능!

@@ -134,11 +134,3 @@ MySQL binlog -> Debezium Kafka Connect -> Kafka Topic -> Flink/Flink CDC -> Iceb
 ## Ⅲ. 비교 및 연결
 
 데이터 엔지니어링은 유사하지만 상이한 패러다임 간 선택의 연속선(Trade-off Spectrum) 위에
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 692 / 800
-
-<- **이전**: [691. 데이터 리터러시 조직 역량 교육](/studynote/06_ict_convergence/uncategorized/691_data_literacy_organization_capability_educati/)
-**다음**: [693. 데이터 사이언스 기술사 마스터 정리](/studynote/06_ict_convergence/uncategorized/693_data_science_pe_master_summary/) ->
-
----

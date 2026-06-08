@@ -117,11 +117,3 @@ SPARQL은 이 트리플을 변수가 포함된 **Triple Pattern**(`?city rdf:typ
 ```
 
 - **📢 섹션 요약 비유**: 시맨틱 웹 스택은 **"통역이 가능한 다층 우체국"**이다. 가장 아래 URI는 **우편번호**(전 세계 유일), RDF는 **"누가 무엇을 누구에게" 형식의 짧은 우편 엽서**, RDFS는 **엽서에 쓰인 단어의 뜻풀이 사전**, OWL은 **"아버지의 아버지는 할아버지다" 같은 우편 규칙집**, SPARQL은 **"이런 엽서만 골라줘"라는 검색 담당자**, Reasoner는 **
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 683 / 800
-
-<- **이전**: [682. 비정형 데이터 텍스트 마이닝 전처리](/studynote/06_ict_convergence/uncategorized/682_unstructured_data_text_mining_preprocessing/)
-**다음**: [684. 그래프 분석 소셜 네트워크 중심성](/studynote/06_ict_convergence/uncategorized/684_graph_analysis_social_network_centrality/) ->
-
----

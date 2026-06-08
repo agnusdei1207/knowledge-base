@@ -6,8 +6,8 @@ tags:
 weight: 43
 ---
 > **핵심 인사이트**
-> 1. B8ZS(Bipolar with 8-Zero Substitution)와 HDB3(High-Density Bipolar 3)은 T1/E1 통신에서 연속 0 비트의 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 손실을 방지하기 위한 회선 코딩 규칙으로, 정규 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 위반하는 특수 패턴(Violation)을 삽입해 수신측이 0 대체 위치를 역으로 식별한다.
-> 2. [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(Alternate Mark Inversion) 규칙에서 연속된 0은 전압이 없으므로 수신측이 클럭을 잃어버리는데, B8ZS는 8개 0을 4칸 패턴으로 대체하고 HDB3은 4개 0을 V(Violation)+B(Balancing) 조합으로 대체한다.
+> 1. B8ZS(Bipolar with 8-Zero Substitution)와 HDB3(High-Density Bipolar 3)은 T1/E1 통신에서 연속 0 비트의 동기화 손실을 방지하기 위한 회선 코딩 규칙으로, 정규 신호를 위반하는 특수 패턴(Violation)을 삽입해 수신측이 0 대체 위치를 역으로 식별한다.
+> 2. AMI(Alternate Mark Inversion) 규칙에서 연속된 0은 전압이 없으므로 수신측이 클럭을 잃어버리는데, B8ZS는 8개 0을 4칸 패턴으로 대체하고 HDB3은 4개 0을 V(Violation)+B(Balancing) 조합으로 대체한다.
 > 3. B8ZS는 북미 T1(1.544Mbps), HDB3은 유럽 E1(2.048Mbps)의 표준 스크램블링 방식으로 — 각각 ITU-T G.703 표준에 포함되어 있으며 DSL, ISDN, T1/E1 인터페이스 장비에 필수 구현된다.
 
 ---
@@ -38,7 +38,7 @@ AMI (Alternate Mark Inversion) 코딩:
   수신측이 "이건 원래 0이 아니라 0 대체 패턴"임을 인지
 ```
 
-> 📢 **섹션 요약 비유**: 연속 0 문제는 모스 부호에서 긴 침묵 — 너무 오래 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 없으면 "통화 종료인지 0인지" 판단 불가. B8ZS는 "나 살아있어요!" [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 주기적으로 삽입.
+> 📢 **섹션 요약 비유**: 연속 0 문제는 모스 부호에서 긴 침묵 — 너무 오래 신호가 없으면 "통화 종료인지 0인지" 판단 불가. B8ZS는 "나 살아있어요!" 신호를 주기적으로 삽입.
 
 ---
 
@@ -191,7 +191,7 @@ DSL과의 관계:
   B8ZS/HDB3은 PSTN 백본 레거시 인터페이스
 ```
 
-> 📢 **섹션 요약 비유**: T1/E1 B8ZS/HDB3 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)은 전화 교환기의 사투리 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) — 미국 T1과 유럽 E1이 연결될 때는 공통 언어(변환 게이트웨이) 필요.
+> 📢 **섹션 요약 비유**: T1/E1 B8ZS/HDB3 설정은 전화 교환기의 사투리 설정 — 미국 T1과 유럽 E1이 연결될 때는 공통 언어(변환 게이트웨이) 필요.
 
 ---
 
@@ -249,17 +249,6 @@ TDM(T1/E1) -> IP 대체 (SIP, VoIP)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. B8ZS/HDB3는 "0이 너무 많으면 거짓 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 삽입" — [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 없는 구간이 길어지면 시계(클럭)가 멈추니까, 특별한 거짓 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 "아직 살아있어요!"라고 알려줘요!
+1. B8ZS/HDB3는 "0이 너무 많으면 거짓 신호 삽입" — 신호 없는 구간이 길어지면 시계(클럭)가 멈추니까, 특별한 거짓 신호로 "아직 살아있어요!"라고 알려줘요!
 2. B8ZS는 미국식 8개 0 교체, HDB3는 유럽식 4개 0 교체 — 같은 문제를 다른 방식으로 해결한 두 표준이에요.
-3. 수신측은 "이상한 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(Violation)" 패턴을 보고 원래 0으로 돌려놓아요 — 일종의 비밀 코드 해독이에요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 43 / 1120
-
-<- **이전**: [042. 4B/5B, 8B/10B 블록 코딩 (Block Coding)](/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/)
-**다음**: [044. 변조의 필요성](/studynote/03_network/01_data_communication/044_변조의_필요성/) ->
-
----
+3. 수신측은 "이상한 신호(Violation)" 패턴을 보고 원래 0으로 돌려놓아요 — 일종의 비밀 코드 해독이에요!

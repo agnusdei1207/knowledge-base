@@ -7,17 +7,17 @@ weight: 137
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 공간 기반 아키텍처 ([SBA](/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/), [Space-Based Architecture](/studynote/11_design_supervision/03_gof_creational_structural/186_space_based_architecture/))는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)(Tuple Space / [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid)를 중앙 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소로 사용하여, 처리 유닛(Processing Unit)들이 DB 대신 메모리 그리드에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 읽고 쓰며 극한의 확장성과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 달성하는 아키텍처 패턴이다.
-> 2. **가치**: DB 중심 아키텍처의 병목(DB Connection Pool, [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 잠금)을 제거하고, 처리 유닛이 독립적으로 수평 확장되어 초당 수백만 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하는 하이퍼스케일 시스템(티켓팅, 주식 거래, 게임 서버)에 적합하다.
-> 3. **판단 포인트**: 공간 기반 아키텍처는 극한의 확장성이 필요한 경우에만 적합하며, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장과 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 복잡하므로 구현·운영 비용이 매우 높다. 99%의 시스템은 더 단순한 아키텍처로 충분하다.
+> 1. **본질**: 공간 기반 아키텍처 (SBA, Space-Based Architecture)는 분산 공유 메모리(Tuple Space / Data Grid)를 중앙 데이터 저장소로 사용하여, 처리 유닛(Processing Unit)들이 DB 대신 메모리 그리드에서 데이터를 직접 읽고 쓰며 극한의 확장성과 처리량을 달성하는 아키텍처 패턴이다.
+> 2. **가치**: DB 중심 아키텍처의 병목(DB Connection Pool, 트랜잭션 잠금)을 제거하고, 처리 유닛이 독립적으로 수평 확장되어 초당 수백만 트랜잭션을 처리하는 하이퍼스케일 시스템(티켓팅, 주식 거래, 게임 서버)에 적합하다.
+> 3. **판단 포인트**: 공간 기반 아키텍처는 극한의 확장성이 필요한 경우에만 적합하며, 분산 메모리의 데이터 일관성 보장과 장애 복구가 복잡하므로 구현·운영 비용이 매우 높다. 99%의 시스템은 더 단순한 아키텍처로 충분하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 3-Tier 아키텍처(Presentation -> Application -> [Database](/studynote/05_database/04_transactions_concurrency/501_database/))에서 DB는 단일 확장 병목이다. 트래픽이 10배 증가하면 Application Tier는 인스턴스를 늘려 확장하지만, DB Connection Pool과 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 잠금으로 DB가 병목이 된다.
+전통적인 3-Tier 아키텍처(Presentation -> Application -> Database)에서 DB는 단일 확장 병목이다. 트래픽이 10배 증가하면 Application Tier는 인스턴스를 늘려 확장하지만, DB Connection Pool과 트랜잭션 잠금으로 DB가 병목이 된다.
 
-공간 기반 아키텍처는 DB를 메모리 그리드(In-Memory [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid)로 대체한다. 모든 처리 유닛이 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 공간(Tuple Space)에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰며, DB는 비동기 영속화 전용으로만 사용한다. 대표 구현: Hazelcast, Apache Ignite, GigaSpaces.
+공간 기반 아키텍처는 DB를 메모리 그리드(In-Memory Data Grid)로 대체한다. 모든 처리 유닛이 공유 메모리 공간(Tuple Space)에서 데이터를 읽고 쓰며, DB는 비동기 영속화 전용으로만 사용한다. 대표 구현: Hazelcast, Apache Ignite, GigaSpaces.
 
 ```text
 +-------------------------------------------------------------+
@@ -46,14 +46,14 @@ weight: 137
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 로직과 로컬 인메모리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포함하는 자급자족 처리 단위, ② Virtualized Middleware: 메시징 그리드(요청 분배), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그리드([공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)), 처리 그리드([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리) 조합, ③ [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Pump: 처리 유닛이 처리한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 DB에 비동기 영속화하는 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/).
+SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 로직과 로컬 인메모리 데이터를 포함하는 자급자족 처리 단위, ② Virtualized Middleware: 메시징 그리드(요청 분배), 데이터 그리드(공유 메모리), 처리 그리드(병렬 처리) 조합, ③ Data Pump: 처리 유닛이 처리한 데이터를 DB에 비동기 영속화하는 컴포넌트.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| In-Memory [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) | Hazelcast, Ignite |
-| Processing Unit | 비즈니스 로직 + 로컬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | Spring Boot 인스턴스 |
-| Messaging Grid | 요청 분배 | [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ |
-| [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Pump | 비동기 DB 영속화 | [CDC](/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), 배치 |
+| In-Memory Data Grid | 분산 공유 메모리 | Hazelcast, Ignite |
+| Processing Unit | 비즈니스 로직 + 로컬 데이터 | Spring Boot 인스턴스 |
+| Messaging Grid | 요청 분배 | Kafka, RabbitMQ |
+| Data Pump | 비동기 DB 영속화 | CDC, 배치 |
 
 ```text
 +-------------------------------------------------------------+
@@ -67,7 +67,7 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 구글 독스([공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/))에서 여러 사람이 동시에 편집하듯, 여러 처리 유닛이 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 그리드에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 읽고 쓴다.
+- **📢 섹션 요약 비유**: 구글 독스(공유 메모리)에서 여러 사람이 동시에 편집하듯, 여러 처리 유닛이 공유 메모리 그리드에서 데이터를 동시에 읽고 쓴다.
 
 ---
 ## Ⅲ. 비교 및 연결
@@ -76,9 +76,9 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 | DB 직접 접근 | 인메모리 그리드 |
+| 데이터 접근 | DB 직접 접근 | 인메모리 그리드 |
 | 확장성 | DB 병목 | 선형 확장 가능 |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | ACID [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) | 최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| 데이터 일관성 | ACID 트랜잭션 | 최종 일관성 |
 | 복잡성 | 낮음 | 매우 높음 |
 | 비용 | 낮음 | 높음 (메모리 비용) |
 
@@ -87,59 +87,48 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 방지다. [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 팩터([Replication Factor](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))를 높이면 메모리 사용량이 증가하고, 낮추면 장애 시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 위험이 있다. 일반적으로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 팩터 2(2개 노드에 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))가 권장된다.
+SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 데이터 손실 방지다. 복제 팩터(Replication Factor)를 높이면 메모리 사용량이 증가하고, 낮추면 장애 시 데이터 손실 위험이 있다. 일반적으로 복제 팩터 2(2개 노드에 복제)가 권장된다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 1. 시스템이 DB 병목으로 인해 수평 확장이 불가능한 상황인가?
-2. 초당 수십만~수백만 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리해야 하는 극한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구사항이 있는가?
-3. 인메모리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 위험을 허용하거나 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전략이 있는가?
-4. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))을 비즈니스가 수용하는가?
+2. 초당 수십만~수백만 트랜잭션을 처리해야 하는 극한 성능 요구사항이 있는가?
+3. 인메모리 데이터 손실 위험을 허용하거나 복구 전략이 있는가?
+4. 분산 트랜잭션과 최종 일관성(Eventual Consistency)을 비즈니스가 수용하는가?
 5. 인메모리 그리드 운영 전문성과 비용을 감당할 수 있는가?
 
-- **📢 섹션 요약 비유**: 슈퍼컴퓨터([SBA](/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/))는 일반 계산(3-Tier)보다 월등히 빠르지만 구축·운영 비용이 수백 배 높다. 일반 업무에는 PC로 충분하다.
+- **📢 섹션 요약 비유**: 슈퍼컴퓨터(SBA)는 일반 계산(3-Tier)보다 월등히 빠르지만 구축·운영 비용이 수백 배 높다. 일반 업무에는 PC로 충분하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-공간 기반 아키텍처를 적용하면 DB 병목을 제거하여 이론적으로 선형 확장(처리 유닛 2배 = [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 2배)이 가능하다. 티켓팅 시스템, 주식 거래, 온라인 게임 서버 등 초고트래픽 시스템에 적합하다.
+공간 기반 아키텍처를 적용하면 DB 병목을 제거하여 이론적으로 선형 확장(처리 유닛 2배 = 처리량 2배)이 가능하다. 티켓팅 시스템, 주식 거래, 온라인 게임 서버 등 초고트래픽 시스템에 적합하다.
 
-한계는 구현·운영 복잡성과 높은 메모리 비용, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장의 어려움이다. 99%의 시스템은 DB [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Redis](/studynote/05_database/04_transactions_concurrency/542_redis/)), 읽기 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본, [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/) 등 더 간단한 방법으로 충분한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성할 수 있다.
+한계는 구현·운영 복잡성과 높은 메모리 비용, 데이터 일관성 보장의 어려움이다. 99%의 시스템은 DB 캐싱(Redis), 읽기 복제본, CQRS 등 더 간단한 방법으로 충분한 성능을 달성할 수 있다.
 
-미래 방향으로는 ① [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 인메모리 그리드(Azure Cache for [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster, AWS ElastiCache), ② [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그리드 구현이 발전하고 있다.
+미래 방향으로는 ① 클라우드 네이티브 인메모리 그리드(Azure Cache for Redis Cluster, AWS ElastiCache), ② 서버리스 데이터 그리드 구현이 발전하고 있다.
 
-- **📢 섹션 요약 비유**: 번개([SBA](/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/))는 매우 빠르지만 매일 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다. 필요할 때(극한 트래픽)만 사용하는 특수 도구다.
+- **📢 섹션 요약 비유**: 번개(SBA)는 매우 빠르지만 매일 쓰기 어렵다. 필요할 때(극한 트래픽)만 사용하는 특수 도구다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[DB 병목 문제] -> [공간 기반 아키텍처([SBA](/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/))] -> [인메모리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그리드] -> [선형 수평 확장] -> [클라우드 네이티브 인메모리]
+[DB 병목 문제] -> [공간 기반 아키텍처(SBA)] -> [인메모리 데이터 그리드] -> [선형 수평 확장] -> [클라우드 네이티브 인메모리]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| In-Memory [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid | SBA의 핵심 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 구현체 |
-| [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/) | SBA와 결합하여 읽기 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
-| 최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | SBA에서 비동기 영속화로 인한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델 |
-| Hazelcast / Apache Ignite | [SBA](/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 구현 대표 프레임워크 |
+| In-Memory Data Grid | SBA의 핵심 공유 메모리 구현체 |
+| CQRS | SBA와 결합하여 읽기 성능 최적화 |
+| 최종 일관성 | SBA에서 비동기 영속화로 인한 일관성 모델 |
+| Hazelcast / Apache Ignite | SBA 구현 대표 프레임워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[DB 확장 병목] -> [Tuple Space 개념] -> [In-Memory [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid] -> [Hazelcast·Ignite] -> [클라우드 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 그리드]
+[DB 확장 병목] -> [Tuple Space 개념] -> [In-Memory Data Grid] -> [Hazelcast·Ignite] -> [클라우드 서버리스 그리드]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 공간 기반 아키텍처는 모든 요리사가 공유 냉장고(메모리 그리드)에서 바로 재료를 꺼내 요리하는 방식이에요.
 2. 창고(DB)에는 나중에 천천히 정리해요 - 이렇게 하면 훨씬 빠르게 요리할 수 있어요.
 3. 티켓팅처럼 수백만 명이 동시에 요청하는 상황에 적합해요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 193 / 530
-
-<- **이전**: [136. 마이크로커널·플러그인 아키텍처 (Microkernel / Plugin Architecture)](/studynote/11_design_supervision/02_architecture_principles/136_microkernel_plugin_architecture/)
-**다음**: [138. 아키텍처 리팩터링 (Architectural Refactoring)](/studynote/11_design_supervision/02_architecture_principles/138_architectural_refactoring/) ->
-
----

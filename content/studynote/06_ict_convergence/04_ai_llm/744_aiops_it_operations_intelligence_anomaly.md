@@ -156,11 +156,3 @@ AIOps 이상 탐지 시스템은 **데이터 수집 -> 정규화/전처리 -> �
 | MTTD 목표 | 5분 이내 | SLO 기반 알람 등급별 차등 적용 |
 
 - **📢 섹션 요
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 744 / 800
-
-<- **이전**: [743. 네트워크 자동화 NetDevOps Ansible](/studynote/06_ict_convergence/uncategorized/743_network_automation_netdevops_ansible/)
-**다음**: [745. 데이터옵스 파이프라인 자동화 품질](/studynote/06_ict_convergence/uncategorized/745_dataops_pipeline_automation_quality/) ->
-
----

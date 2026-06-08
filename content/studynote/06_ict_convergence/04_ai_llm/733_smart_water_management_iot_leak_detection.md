@@ -197,11 +197,3 @@ MNF_index = (Q_night / Q_avg) × 100
 
 **다. 수질 이상탐지**
 다변량 통계적 공정관리(MSPC)와 **Isolation Forest** 를 결합하여 다중
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 733 / 800
-
-<- **이전**: [732. 스마트 그리드 수요 반응 DR 가상발전](/studynote/06_ict_convergence/uncategorized/732_smart_grid_demand_response_dr_vpp/)
-**다음**: [734. 스마트 안전 재난 관리 조기 경보](/studynote/06_ict_convergence/uncategorized/734_smart_safety_disaster_management_early_warnin/) ->
-
----

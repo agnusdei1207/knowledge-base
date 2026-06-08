@@ -7,9 +7,9 @@ weight: 265
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)(SLP, Single-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 맥컬럭-피츠(McCulloch-Pitts) 뉴런 모델을 공식화한 것으로, 입력의 가중합이 임계값을 넘으면 발화(Fire)하는 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기이며 **선형 분리 가능(Linearly Separable)** 문제만 풀 수 있다.
-> 2. **가치**: 민스키와 패퍼트(Minsky & Papert, 1969)가 XOR 문제 해결 불가능을 수학적으로 증명함으로써 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 1차 겨울을 초래했으나, 이것이 [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP)과 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 발견의 직접적 동기가 되었다.
-> 3. **판단 포인트**: 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 결정 경계(Decision Boundary)는 항상 직선(초평면)이므로 비선형(Non-linear) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 없다는 구조적 한계가 핵심이다.
+> 1. **본질**: 단층 퍼셉트론(SLP, Single-Layer Perceptron)은 맥컬럭-피츠(McCulloch-Pitts) 뉴런 모델을 공식화한 것으로, 입력의 가중합이 임계값을 넘으면 발화(Fire)하는 이진 분류기이며 **선형 분리 가능(Linearly Separable)** 문제만 풀 수 있다.
+> 2. **가치**: 민스키와 패퍼트(Minsky & Papert, 1969)가 XOR 문제 해결 불가능을 수학적으로 증명함으로써 AI 1차 겨울을 초래했으나, 이것이 다층 퍼셉트론(MLP)과 역전파 알고리즘 발견의 직접적 동기가 되었다.
+> 3. **판단 포인트**: 단층 퍼셉트론의 결정 경계(Decision Boundary)는 항상 직선(초평면)이므로 비선형(Non-linear) 데이터를 분류할 수 없다는 구조적 한계가 핵심이다.
 
 ---
 
@@ -17,7 +17,7 @@ weight: 265
 
 ### 역사적 배경
 
-1943년 맥컬럭과 피츠(McCulloch & Pitts)는 뉴런을 이진 [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)로 모델링했다. 1958년 로젠블랫(Frank Rosenblatt)은 이를 <strong><a href="/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/">퍼셉트론</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/">Perceptron</a>)</strong>이라는 학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 발전시켰다. [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 최초의 [인공 신경망](/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)으로, AND·OR 같은 선형 분리 가능 문제를 자동으로 학습할 수 있었다.
+1943년 맥컬럭과 피츠(McCulloch & Pitts)는 뉴런을 이진 논리 게이트로 모델링했다. 1958년 로젠블랫(Frank Rosenblatt)은 이를 <strong>퍼셉트론(Perceptron)</strong>이라는 학습 알고리즘으로 발전시켰다. 퍼셉트론은 최초의 인공 신경망으로, AND·OR 같은 선형 분리 가능 문제를 자동으로 학습할 수 있었다.
 
 ### 뉴런 모델 수식
 
@@ -28,26 +28,26 @@ z = w₁x₁ + w₂x₂ + ... + wₙxₙ - θ  (θ: 임계값, Threshold)
          0  if z < 0
 ```
 
-- <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>, wᵢ)</strong>: 각 입력의 중요도
+- <strong>가중치(Weight, wᵢ)</strong>: 각 입력의 중요도
 - **임계값(Threshold, θ)**: 발화 기준값 (편향 -b로 치환 가능)
-- <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a></strong>: [계단 함수](/studynote/10_ai/01_ai_basics/068_step_function_activation/)([Step Function](/studynote/10_ai/01_ai_basics/068_step_function_activation/))
+- <strong>활성화 함수</strong>: 계단 함수(Step Function)
 
-### [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 규칙
+### 퍼셉트론 학습 규칙
 
 ```
 wᵢ <- wᵢ + η × (y_target - y_pred) × xᵢ
 ```
 
-- **η**: [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)
+- **η**: 학습률(Learning Rate)
 - 오차가 0이 될 때까지 반복 (선형 분리 가능 시 수렴 보장)
 
-- **📢 섹션 요약 비유**: 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 눈금자 하나로 두 그룹을 나누는 행위 — 그룹들이 직선 하나로 나뉜다면 완벽하지만, 서로 뒤엉켜 있다면 절대 나눌 수 없다.
+- **📢 섹션 요약 비유**: 단층 퍼셉트론은 눈금자 하나로 두 그룹을 나누는 행위 — 그룹들이 직선 하나로 나뉜다면 완벽하지만, 서로 뒤엉켜 있다면 절대 나눌 수 없다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 구조
+### 단층 퍼셉트론 구조
 
 ```
 +--------------------------------------------------------------+
@@ -85,7 +85,7 @@ wᵢ <- wᵢ + η × (y_target - y_pred) × xᵢ
 +-------------------------------------------------+
 ```
 
-XOR [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/):
+XOR 진리표:
 
 | x₁ | x₂ | XOR 결과 | AND 결과 | OR 결과 |
 |:---:|:---:|:---:|:---:|:---:|
@@ -98,33 +98,33 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 
 ### 민스키와 패퍼트의 증명 (1969)
 
-민스키(Marvin Minsky)와 패퍼트(Seymour Papert)는 저서 『Perceptrons』에서 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 XOR 같은 비선형 분리 불가능 문제를 해결할 수 없음을 <strong>수학적으로 엄밀하게 증명</strong>했다. 이는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연구 투자가 급감한 1차 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Winter, 1974~1980)의 직접적 원인이 되었다.
+민스키(Marvin Minsky)와 패퍼트(Seymour Papert)는 저서 『Perceptrons』에서 단층 퍼셉트론이 XOR 같은 비선형 분리 불가능 문제를 해결할 수 없음을 <strong>수학적으로 엄밀하게 증명</strong>했다. 이는 AI 연구 투자가 급감한 1차 AI 겨울(AI Winter, 1974~1980)의 직접적 원인이 되었다.
 
-- **📢 섹션 요약 비유**: 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 체스판의 흑백 칸을 직선 하나로 나누려는 시도 — AND(한쪽 귀퉁이)는 가능하지만, XOR(대각선 패턴)은 어떤 직선으로도 불가능하다.
+- **📢 섹션 요약 비유**: 단층 퍼셉트론은 체스판의 흑백 칸을 직선 하나로 나누려는 시도 — AND(한쪽 귀퉁이)는 가능하지만, XOR(대각선 패턴)은 어떤 직선으로도 불가능하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) vs [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP)
+### 단층 퍼셉트론 vs 다층 퍼셉트론 (MLP)
 
 | 비교 항목 | SLP (단층) | MLP (다층) |
 |:---|:---|:---|
 | **은닉층** | 없음 | 1개 이상 |
 | **결정 경계** | 직선 (초평면) | 비선형 곡선 |
 | **XOR 해결** | ❌ 불가 | ✅ 가능 |
-| <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a></strong> | [계단 함수](/studynote/10_ai/01_ai_basics/068_step_function_activation/) | [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 등 |
-| <strong>학습 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 규칙 | [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
-| **표현 능력** | 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)만 | 임의 함수 근사 가능 |
+| <strong>활성화 함수</strong> | 계단 함수 | Sigmoid, ReLU 등 |
+| <strong>학습 알고리즘</strong> | 퍼셉트론 규칙 | 역전파 (Backpropagation) |
+| **표현 능력** | 선형 분류만 | 임의 함수 근사 가능 |
 
-### [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)와의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+### 논리 게이트와의 관계
 
-단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)으로 구현 가능한 [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/):
+단층 퍼셉트론으로 구현 가능한 논리 게이트:
 - AND: w₁=1, w₂=1, θ=1.5 -> 두 입력 모두 1일 때만 출력 1
 - OR: w₁=1, w₂=1, θ=0.5 -> 하나 이상 1이면 출력 1
 - NAND: w₁=-1, w₂=-1, θ=-1.5
 
-**불가능**: XOR (두 개의 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 조합 필요 -> MLP)
+**불가능**: XOR (두 개의 퍼셉트론 조합 필요 -> MLP)
 
 - **📢 섹션 요약 비유**: SLP로 할 수 있는 것과 없는 것의 경계는 "직선 한 개로 그림을 자를 수 있느냐"의 문제 — 직선 하나로 구역을 나눌 수 있으면 SLP로 가능, 그렇지 않으면 MLP가 필요하다.
 
@@ -135,11 +135,11 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 ### 기술사 시험 핵심 논점
 
 1. **왜 XOR 불가능한가**: 2차원 공간에서 XOR의 네 점이 선형 분리 불가능한 구조를 형성하기 때문 — 직선(결정 경계)이 아닌 비선형 경계가 필요
-2. **역사적 의의**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계 증명 -> [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울 -> MLP + [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 재발견 (1986) -> 딥러닝 시대의 밑거름
-3. <strong>편향(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>) 도입</strong>: 임계값 θ를 음수 편향 b = -θ로 치환하면 학습 가능 파라미터로 통일 가능
-4. **수렴 정리**: 선형 분리 가능 문제에서 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 유한 번의 반복으로 반드시 수렴 ([퍼셉트론 수렴 정리](/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/), [Perceptron Convergence Theorem](/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/))
+2. **역사적 의의**: 퍼셉트론 한계 증명 -> AI 겨울 -> MLP + 역전파 재발견 (1986) -> 딥러닝 시대의 밑거름
+3. <strong>편향(Bias) 도입</strong>: 임계값 θ를 음수 편향 b = -θ로 치환하면 학습 가능 파라미터로 통일 가능
+4. **수렴 정리**: 선형 분리 가능 문제에서 퍼셉트론 학습 알고리즘은 유한 번의 반복으로 반드시 수렴 (퍼셉트론 수렴 정리, Perceptron Convergence Theorem)
 
-### [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계를 극복하는 방법
+### 퍼셉트론 한계를 극복하는 방법
 
 ```
 +------------------------------------------------------+
@@ -156,26 +156,26 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 +------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: SLP의 한계 극복은 "더 많은 눈금자(은닉층)"를 추가하거나 "3D로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들어올려([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))" 직선으로 나누는 것 — 평면에서 불가능한 분리가 입체에서는 가능해진다.
+- **📢 섹션 요약 비유**: SLP의 한계 극복은 "더 많은 눈금자(은닉층)"를 추가하거나 "3D로 데이터를 들어올려(커널)" 직선으로 나누는 것 — 평면에서 불가능한 분리가 입체에서는 가능해진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 역사적 기여
+### 단층 퍼셉트론의 역사적 기여
 
 | 기여 | 내용 |
 |:---|:---|
 | **신경망 이론 정립** | 생물학적 뉴런을 수학적으로 모델링하는 프레임워크 제공 |
-| <strong>학습 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 도입</strong> | 규칙을 수동 입력하지 않고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 자동 학습하는 개념 확립 |
-| **한계 증명의 가치** | XOR 불가능 증명이 MLP와 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 연구로 이어져 딥러닝 탄생 |
-| **현재 활용** | [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)와 동등 — 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) [태스크](/studynote/02_operating_system/02_process_thread/150_task/)의 기본 구성 요소 |
+| <strong>학습 알고리즘 도입</strong> | 규칙을 수동 입력하지 않고 데이터로 자동 학습하는 개념 확립 |
+| **한계 증명의 가치** | XOR 불가능 증명이 MLP와 역전파 연구로 이어져 딥러닝 탄생 |
+| **현재 활용** | 로지스틱 회귀와 동등 — 선형 분류 태스크의 기본 구성 요소 |
 
 ### 결론
 
-단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 선형 분리 가능 문제에서 이론적으로 완벽히 학습한다는 장점을 가지지만, XOR로 대표되는 비선형 문제에서 구조적 한계를 보인다. 이 한계는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사에서 가장 중요한 전환점 중 하나였으며, [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)과 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 발견으로 이어졌다. 기술사 시험에서는 XOR 불가 이유, 선형 분리 가능성의 정의, 역사적 맥락(민스키-패퍼트 1969)이 핵심 출제 포인트다.
+단층 퍼셉트론은 선형 분리 가능 문제에서 이론적으로 완벽히 학습한다는 장점을 가지지만, XOR로 대표되는 비선형 문제에서 구조적 한계를 보인다. 이 한계는 AI 역사에서 가장 중요한 전환점 중 하나였으며, 다층 퍼셉트론과 역전파 알고리즘 발견으로 이어졌다. 기술사 시험에서는 XOR 불가 이유, 선형 분리 가능성의 정의, 역사적 맥락(민스키-패퍼트 1969)이 핵심 출제 포인트다.
 
-- **📢 섹션 요약 비유**: 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 한계는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 "아킬레스건"이었지만, 그 약점을 발견한 덕분에 더 강한 신발([다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/))이 만들어졌다 — 실패의 정확한 분석이 다음 혁신의 출발점이 된다.
+- **📢 섹션 요약 비유**: 단층 퍼셉트론의 한계는 인공지능의 "아킬레스건"이었지만, 그 약점을 발견한 덕분에 더 강한 신발(다층 퍼셉트론)이 만들어졌다 — 실패의 정확한 분석이 다음 혁신의 출발점이 된다.
 
 ---
 
@@ -183,12 +183,12 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [퍼셉트론 수렴 정리](/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) ([Perceptron Convergence Theorem](/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/)) | 유한 반복, 선형 분리 보장 / 선형 분리 가능 시 학습 수렴 보장 |
+| 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem) | 유한 반복, 선형 분리 보장 / 선형 분리 가능 시 학습 수렴 보장 |
 | XOR 문제 (XOR Problem) | 비선형 분리, 민스키-패퍼트 / SLP 한계를 드러낸 핵심 사례 |
 | 선형 분리 가능 (Linearly Separable) | 초평면, 결정 경계 / SLP 적용 가능 조건 |
-| [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP) | 은닉층, 비선형 활성화 / SLP 한계 극복을 위한 확장 |
-| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 1차 겨울 ([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Winter) | 1974~1980, 연구 침체 / 민스키-패퍼트 증명의 사회적 결과 |
-| [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | Rumelhart 1986, 연쇄 법칙 / MLP 학습 가능하게 만든 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 다층 퍼셉트론 (MLP) | 은닉층, 비선형 활성화 / SLP 한계 극복을 위한 확장 |
+| AI 1차 겨울 (AI Winter) | 1974~1980, 연구 침체 / 민스키-패퍼트 증명의 사회적 결과 |
+| 역전파 (Backpropagation) | Rumelhart 1986, 연쇄 법칙 / MLP 학습 가능하게 만든 알고리즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -199,16 +199,5 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 📏 **"눈금자 하나로 팀 나누기"**
-2. 운동장에서 키 큰 아이와 작은 아이를 줄 하나로 나누면 돼요 — 단층 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 이렇게 직선 하나로 두 팀을 가르는 기계예요.
+2. 운동장에서 키 큰 아이와 작은 아이를 줄 하나로 나누면 돼요 — 단층 퍼셉트론은 이렇게 직선 하나로 두 팀을 가르는 기계예요.
 3. 그런데 "빨간 모자 vs 파란 모자"처럼 위아래가 섞여있으면 직선 하나로는 절대 못 나눠요 — 이게 바로 XOR 문제예요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 265 / 420
-
-<- **이전**: [264. 나이브 베이즈 (Naive Bayes)](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)
-**다음**: [266. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron)](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) ->
-
----

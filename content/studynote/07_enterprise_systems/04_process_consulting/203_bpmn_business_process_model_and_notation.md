@@ -9,15 +9,15 @@ weight: 203
 
 > 1. **본질**: BPMN은 사람에게는 읽기 쉬운 프로세스 그림이면서, 엔진에게는 실행 의미를 전달하는 표준 모델링 언어다.
 > 2. **가치**: 현업, 컨설턴트, 개발자가 서로 다른 문법으로 같은 업무를 설명하던 문제를 줄여, 설계와 실행 사이의 해석 오차를 최소화한다.
-> 3. **판단 포인트**: BPMN의 품질은 도형 개수를 많이 아는 데 있지 않고, 이벤트·[태스크](/studynote/02_operating_system/02_process_thread/150_task/)·게이트웨이·Pool/Lane이 책임과 흐름을 얼마나 명확히 드러내는지에 달려 있다.
+> 3. **판단 포인트**: BPMN의 품질은 도형 개수를 많이 아는 데 있지 않고, 이벤트·태스크·게이트웨이·Pool/Lane이 책임과 흐름을 얼마나 명확히 드러내는지에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) (Business [Process](/studynote/12_it_management/05_security_compliance/943_process/) Model and Notation)은 비즈니스 프로세스를 표준 도형으로 표현하는 국제 모델링 표기법이다. 과거에는 현업이 파워포인트 순서도로 업무를 설명하고, 개발자는 이를 다시 코드와 인터페이스 설계로 번역해야 했기 때문에, 문서와 시스템이 쉽게 어긋났다. BPMN은 이 간극을 줄이기 위해 "업무 설명용 그림"과 "실행 설계의 기초"를 가능한 한 같은 모델 위에서 다루도록 만든 표준이다.
+BPMN (Business Process Model and Notation)은 비즈니스 프로세스를 표준 도형으로 표현하는 국제 모델링 표기법이다. 과거에는 현업이 파워포인트 순서도로 업무를 설명하고, 개발자는 이를 다시 코드와 인터페이스 설계로 번역해야 했기 때문에, 문서와 시스템이 쉽게 어긋났다. BPMN은 이 간극을 줄이기 위해 "업무 설명용 그림"과 "실행 설계의 기초"를 가능한 한 같은 모델 위에서 다루도록 만든 표준이다.
 
-이 표준이 필요한 이유는 프로세스 자동화가 사람, 시스템, 외부 기관을 동시에 연결하기 때문이다. 단순 플로우차트는 순서만 보여주기 쉽지만, 누가 수행하는지, 어떤 사건이 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)인지, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리인지, 외부 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 교환인지까지 정밀하게 표현하기 어렵다. BPMN은 이런 경계와 책임을 함께 나타내기 때문에, 프로세스 설계의 공용 언어로 자리 잡았다.
+이 표준이 필요한 이유는 프로세스 자동화가 사람, 시스템, 외부 기관을 동시에 연결하기 때문이다. 단순 플로우차트는 순서만 보여주기 쉽지만, 누가 수행하는지, 어떤 사건이 트리거인지, 병렬 처리인지, 외부 메시지 교환인지까지 정밀하게 표현하기 어렵다. BPMN은 이런 경계와 책임을 함께 나타내기 때문에, 프로세스 설계의 공용 언어로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: BPMN은 "대충 이런 순서예요" 수준의 낙서가 아니라, 누구 차례인지와 어디서 갈라지는지까지 모두 알아볼 수 있는 경기장 작전판과 같다.
 
@@ -29,13 +29,13 @@ BPMN의 기본 문법은 이벤트(Event), 액티비티(Activity), 게이트웨�
 
 | 요소 | 의미 | 대표 질문 | 실수 포인트 |
 | :--- | :--- | :--- | :--- |
-| 이벤트 (Event) | 시작·중간·종료 조건 | 무엇이 흐름을 시작하거나 멈추는가 | 시간/[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 누락 |
-| [태스크](/studynote/02_operating_system/02_process_thread/150_task/) ([Task](/studynote/02_operating_system/02_process_thread/150_task/)) | 사람 또는 시스템 작업 | 누가 무엇을 수행하는가 | 업무명 대신 부서명만 적는 경우 |
+| 이벤트 (Event) | 시작·중간·종료 조건 | 무엇이 흐름을 시작하거나 멈추는가 | 시간/메시지 트리거 누락 |
+| 태스크 (Task) | 사람 또는 시스템 작업 | 누가 무엇을 수행하는가 | 업무명 대신 부서명만 적는 경우 |
 | 게이트웨이 (Gateway) | 분기·병합 규칙 | 하나만 선택하는가, 모두 병행하는가 | XOR와 AND 혼동 |
 | Pool/Lane | 조직·시스템 경계 | 책임 주체가 누구인가 | 역할 경계 불명확 |
-| [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 흐름 (Message Flow) | 외부 참여자 간 교환 | 내부 시퀀스가 아닌가 | 외부 통신을 실선으로 그림 |
+| 메시지 흐름 (Message Flow) | 외부 참여자 간 교환 | 내부 시퀀스가 아닌가 | 외부 통신을 실선으로 그림 |
 
-아래 그림은 고객 요청이 접수된 뒤 사람 승인과 시스템 자동 처리, 그리고 외부 기관과의 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 교환이 BPMN에서 어떻게 구분되는지 요약한다.
+아래 그림은 고객 요청이 접수된 뒤 사람 승인과 시스템 자동 처리, 그리고 외부 기관과의 메시지 교환이 BPMN에서 어떻게 구분되는지 요약한다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -50,7 +50,7 @@ BPMN의 기본 문법은 이벤트(Event), 액티비티(Activity), 게이트웨�
 +----------------------------------------------------------------------+
 ```
 
-[BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 2.0이 중요한 이유는 단지 시각 표준이어서가 아니라, XML (eXtensible Markup Language) 기반 교환 형식을 통해 모델을 도구 간에 옮기고 일부 엔진에서는 실행까지 연계할 수 있기 때문이다. 다만 모든 BPMN이 곧바로 실행 가능한 것은 아니며, 모델링 목적이 커뮤니케이션인지 실행 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)인지에 따라 상세 수준을 조절해야 한다.
+BPMN 2.0이 중요한 이유는 단지 시각 표준이어서가 아니라, XML (eXtensible Markup Language) 기반 교환 형식을 통해 모델을 도구 간에 옮기고 일부 엔진에서는 실행까지 연계할 수 있기 때문이다. 다만 모든 BPMN이 곧바로 실행 가능한 것은 아니며, 모델링 목적이 커뮤니케이션인지 실행 오케스트레이션인지에 따라 상세 수준을 조절해야 한다.
 
 - **📢 섹션 요약 비유**: BPMN은 보드게임의 말판과 규칙서를 합쳐 놓은 것과 같다. 그림만 예쁜 것이 아니라, 어디서 멈추고 어느 길로 가는지가 명확해야 실제 게임이 돌아간다.
 
@@ -58,45 +58,45 @@ BPMN의 기본 문법은 이벤트(Event), 액티비티(Activity), 게이트웨�
 
 ## Ⅲ. 비교 및 연결
 
-BPMN은 전통 플로우차트나 [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) Activity Diagram보다 프로세스 자동화 맥락에 더 적합하다. 플로우차트는 순서를 빠르게 설명하는 데 유리하지만, 책임 주체와 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 교환 표현이 약하다. [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) Activity Diagram은 소프트웨어 설계와의 연결이 좋지만, 비즈니스 사용자에게는 BPMN보다 직관성이 떨어질 수 있다.
+BPMN은 전통 플로우차트나 UML (Unified Modeling Language) Activity Diagram보다 프로세스 자동화 맥락에 더 적합하다. 플로우차트는 순서를 빠르게 설명하는 데 유리하지만, 책임 주체와 메시지 교환 표현이 약하다. UML Activity Diagram은 소프트웨어 설계와의 연결이 좋지만, 비즈니스 사용자에게는 BPMN보다 직관성이 떨어질 수 있다.
 
-| 항목 | 플로우차트 | [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) [Activity Diagram](/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/) | [BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) |
+| 항목 | 플로우차트 | UML Activity Diagram | BPMN |
 | :--- | :--- | :--- | :--- |
-| 주 용도 | 절차 설명 | 소프트웨어 행위 모델링 | [비즈니스 프로세스 모델링](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) |
+| 주 용도 | 절차 설명 | 소프트웨어 행위 모델링 | 비즈니스 프로세스 모델링 |
 | 책임 구분 | 약함 | 보통 | Pool/Lane으로 강함 |
-| 이벤트 표현 | 제한적 | 보통 | 시간·[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지·예외 표현 강함 |
+| 이벤트 표현 | 제한적 | 보통 | 시간·메시지·예외 표현 강함 |
 | 엔진 연계 | 낮음 | 낮음 | 상대적으로 높음 |
 
-또한 BPMN은 WfMS ([Workflow Management System](/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/)), DMN (Decision Model and Notation), [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)과 연결된다. BPMN이 흐름을 정의하면, WfMS는 이를 실행하고, DMN은 복잡한 의사결정 규칙을 분리하며, [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)은 실제 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 모델과 어떻게 다른지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 즉 BPMN은 혼자 존재하는 그림이 아니라, 실행·규칙·분석으로 이어지는 플랫폼의 출발점이다.
+또한 BPMN은 WfMS (Workflow Management System), DMN (Decision Model and Notation), 프로세스 마이닝과 연결된다. BPMN이 흐름을 정의하면, WfMS는 이를 실행하고, DMN은 복잡한 의사결정 규칙을 분리하며, 프로세스 마이닝은 실제 로그가 모델과 어떻게 다른지 검증한다. 즉 BPMN은 혼자 존재하는 그림이 아니라, 실행·규칙·분석으로 이어지는 플랫폼의 출발점이다.
 
-- **📢 섹션 요약 비유**: 단순 플로우차트가 길 안내 표지판이라면, BPMN은 차선·[신호](/studynote/02_operating_system/02_process_thread/130_signal/)등·[버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전용차로까지 포함한 실제 교통 설계도에 가깝다.
+- **📢 섹션 요약 비유**: 단순 플로우차트가 길 안내 표지판이라면, BPMN은 차선·신호등·버스 전용차로까지 포함한 실제 교통 설계도에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 BPMN을 "모든 것을 다 그리는 언어"가 아니라 "의사소통과 실행에 필요한 수준만 정확히 그리는 언어"로 써야 한다. 예를 들어 고객 온보딩, 구매 승인, 장애 조치 흐름처럼 역할 전환과 예외 처리 규칙이 중요한 프로세스에 BPMN이 특히 적합하다. 반면 화면 버튼 이동이나 내부 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 세부 로직까지 BPMN에 몰아 넣으면 다이어그램이 비대해지고 읽기 어려워진다.
+실무에서는 BPMN을 "모든 것을 다 그리는 언어"가 아니라 "의사소통과 실행에 필요한 수준만 정확히 그리는 언어"로 써야 한다. 예를 들어 고객 온보딩, 구매 승인, 장애 조치 흐름처럼 역할 전환과 예외 처리 규칙이 중요한 프로세스에 BPMN이 특히 적합하다. 반면 화면 버튼 이동이나 내부 알고리즘 세부 로직까지 BPMN에 몰아 넣으면 다이어그램이 비대해지고 읽기 어려워진다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
-1. [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 이름이 "검토"가 아니라 "신용 한도 검토"처럼 결과가 보이게 작성되었는가?
+1. 태스크 이름이 "검토"가 아니라 "신용 한도 검토"처럼 결과가 보이게 작성되었는가?
 2. XOR (Exclusive Gateway)와 AND (Parallel Gateway)를 혼동하지 않았는가?
 3. 외부 기관 호출은 Message Flow로 분리했는가?
 4. 실행용 모델이라면 예외 이벤트와 타이머가 포함되었는가?
 
-### 회피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 회피해야 할 안티패턴
 
 - 조직도 설명을 BPMN으로 대체하는 경우
-- 한 장의 다이어그램에 여러 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 섞는 경우
+- 한 장의 다이어그램에 여러 추상화 수준을 섞는 경우
 - 책임 구분 없이 Task만 연속 배치하는 경우
 
-- **📢 섹션 요약 비유**: [BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 설계는 지하철 노선도를 그리는 일과 같다. 환승역과 종점이 명확해야지, 도시의 모든 건물을 함께 그리기 시작하면 아무도 못 읽는다.
+- **📢 섹션 요약 비유**: BPMN 설계는 지하철 노선도를 그리는 일과 같다. 환승역과 종점이 명확해야지, 도시의 모든 건물을 함께 그리기 시작하면 아무도 못 읽는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BPMN을 잘 사용하면 설계 문서와 운영 모델 사이의 거리가 줄어들고, 역할·이벤트·예외 조건을 명확히 합의할 수 있다. 그 결과 자동화 범위를 넓히기 쉬워지고, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적성과 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/)도 좋아진다. 특히 현업과 개발이 같은 그림을 보며 대화할 수 있다는 점이 프로젝트 품질에 큰 영향을 준다.
+BPMN을 잘 사용하면 설계 문서와 운영 모델 사이의 거리가 줄어들고, 역할·이벤트·예외 조건을 명확히 합의할 수 있다. 그 결과 자동화 범위를 넓히기 쉬워지고, 감사 추적성과 변경 관리도 좋아진다. 특히 현업과 개발이 같은 그림을 보며 대화할 수 있다는 점이 프로젝트 품질에 큰 영향을 준다.
 
 하지만 BPMN도 과용하면 복잡성 자체가 문제가 된다. 모델링 목적이 불분명하거나, 세부 구현 로직까지 전부 담으려 하면 표준 도형이 오히려 소통을 막는다. 따라서 BPMN은 "표준 그림"이 아니라 "책임·흐름·예외를 정밀하게 합의하는 언어"로 기억해야 한다.
 
@@ -108,9 +108,9 @@ BPMN을 잘 사용하면 설계 문서와 운영 모델 사이의 거리가 줄�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| WfMS ([Workflow Management System](/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/)) | [BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 모델을 실행하거나 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙으로 해석하는 엔진 |
+| WfMS (Workflow Management System) | BPMN 모델을 실행하거나 라우팅 규칙으로 해석하는 엔진 |
 | Pool/Lane | 조직과 역할의 책임 경계를 모델 안에 표현 |
-| DMN (Decision Model and Notation) | 복잡한 의사결정 규칙을 [BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 밖으로 분리하는 보완 표준 |
+| DMN (Decision Model and Notation) | 복잡한 의사결정 규칙을 BPMN 밖으로 분리하는 보완 표준 |
 | Message Flow | 외부 시스템·기관과의 상호작용을 내부 흐름과 구분 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -131,21 +131,10 @@ Executable Process Model · WfMS
 BPMN + DMN + Mining 연계
 ```
 
-이 흐름은 단순 절차 도식이 점차 실행 가능 모델과 분석 생태계로 확장되는 과정을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
+이 흐름은 단순 절차 도식이 점차 실행 가능 모델과 분석 생태계로 확장되는 과정을 압축한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. BPMN은 회사 일이 어떻게 흘러가는지 그리는 특별한 그림 약속이에요.
 2. 동그라미는 시작, 네모는 할 일, 갈림길 표시는 어느 길로 갈지 정하는 곳이에요.
 3. 그래서 사람들도 이해하고 컴퓨터도 따라 하기 쉬워져요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 203 / 482
-
-<- **이전**: [202. BPM 라이프사이클 (Business Process Management Lifecycle)](/studynote/07_enterprise_systems/04_process_consulting/202_bpm_lifecycle_design_execution_monitoring_optimization/)
-**다음**: [204. 워크플로우 관리 시스템 (Workflow Management System)](/studynote/07_enterprise_systems/04_process_consulting/204_workflow_management_system_business_automation/) ->
-
----

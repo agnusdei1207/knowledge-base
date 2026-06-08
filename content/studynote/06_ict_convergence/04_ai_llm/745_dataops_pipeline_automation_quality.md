@@ -124,11 +124,3 @@ weight: 745
 **핵심 품질 메트릭과 임계치 결정 알고리즘**: 데이터옵스에서 품질 임계치(threshold)는 고정값이 아니라 **통계적 학습 + 도메인 지식**의 조합으로 결정한다. 예를 들어, `ExpectColumnMeanToBeBetween(min, max)`는 (a) 과거 90일 P5~P95 범위로 자동 계산하거나, (b) `data-context.yml`에 비즈니스 규칙(예: 일일 거래액은 0~1,000,000,000원)으로 고정한다. **드리프트 감지 알고리즘**은 Kolmogorov-Smirnov test(분포), Page Hinkley test(평균 변화), Isolation Forest(다변량 이상치)를 혼용한다. 또한 **4-eyes 원칙**을 적용해 품질 룰 변경 시 데이터 도메인 오너 + 데이터 플랫폼 엔지니어의双人 승인(bitbucket PR approver 설정)을 강제한다.
 
 **📢 섹션 요약 비유**: 이
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 745 / 800
-
-<- **이전**: [744. AIOps IT 운영 지능화 이상 탐지](/studynote/06_ict_convergence/uncategorized/744_aiops_it_operations_intelligence_anomaly/)
-**다음**: [746. MLOps 머신러닝 생명주기 관리](/studynote/06_ict_convergence/uncategorized/746_mlops_machine_learning_lifecycle_management/) ->
-
----

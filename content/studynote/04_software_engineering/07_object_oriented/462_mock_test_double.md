@@ -7,24 +7,24 @@ weight: 462
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Mock (목) - 행위(Behavior) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 예상되는 호출 명세가 프로그래밍된 객체은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Mock(모조품)은 텅 빈 합판으로 만든 가짜 세트장이다. [스텁](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))이 "100원을 줘라"는 '상태([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'에 집착한다면, Mock은 "너 방금 내 배를 찌른 거 맞아? 정확히 찌른 거 확실해?"라며 **상호 작용 행위(Behavior)** 자체를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 개발자가 사전에 입력해 둔 '대본(Expectation)'과 단 1mm라도 다르게 함수가 호출되면, 즉시 빨간불(Fail)을 뿜으며 테스트를 터뜨려버리는 성질 더러운 객체다.
+- **개념**: Mock(모조품)은 텅 빈 합판으로 만든 가짜 세트장이다. 스텁(Stub)이 "100원을 줘라"는 '상태(State)'에 집착한다면, Mock은 "너 방금 내 배를 찌른 거 맞아? 정확히 찌른 거 확실해?"라며 **상호 작용 행위(Behavior)** 자체를 검증한다. 개발자가 사전에 입력해 둔 '대본(Expectation)'과 단 1mm라도 다르게 함수가 호출되면, 즉시 빨간불(Fail)을 뿜으며 테스트를 터뜨려버리는 성질 더러운 객체다.
 
-- **필요성**: 내가 `회원탈퇴(withdraw)` 함수를 짰다. 이 함수 안에서는 `DB에서 유저 삭제` -> `카카오톡으로 작별 문자 발송` 이라는 2가지 외부 함수가 불린다. 문제는 이 탈퇴 함수가 **리턴값이 없다(void)**. 단위 테스트에서 `assertEquals(결과, "탈퇴성공")`을 쓸 수가 없다. 그럼 어떻게 탈퇴 로직이 정상 작동했다고 증명할 것인가? 바로 빈자리에 가짜 `MockDB`와 `MockKakao`를 꽂아두고, <strong>"야, 너네 방금 삭제 명령이랑 카톡 발송 명령 정확히 1번씩 받은 거 맞아?"</strong>라고 다그쳐서 "네! 받았습니다!"라는 자백(행위 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 얻어내는 것 말고는 이 우주에 테스트할 방법이 존재하지 않기 때문이다.
+- **필요성**: 내가 `회원탈퇴(withdraw)` 함수를 짰다. 이 함수 안에서는 `DB에서 유저 삭제` -> `카카오톡으로 작별 문자 발송` 이라는 2가지 외부 함수가 불린다. 문제는 이 탈퇴 함수가 **리턴값이 없다(void)**. 단위 테스트에서 `assertEquals(결과, "탈퇴성공")`을 쓸 수가 없다. 그럼 어떻게 탈퇴 로직이 정상 작동했다고 증명할 것인가? 바로 빈자리에 가짜 `MockDB`와 `MockKakao`를 꽂아두고, <strong>"야, 너네 방금 삭제 명령이랑 카톡 발송 명령 정확히 1번씩 받은 거 맞아?"</strong>라고 다그쳐서 "네! 받았습니다!"라는 자백(행위 검증)을 얻어내는 것 말고는 이 우주에 테스트할 방법이 존재하지 않기 때문이다.
 
-- **💡 비유**: Mock은 경찰견 훈련소의 <strong>'폭발물 냄새 묻은 가짜 가방'</strong>과 같습니다. 훈련(테스트)할 때 진짜 폭탄(진짜 DB)을 가방에 넣으면 다 터져 죽습니다. 그래서 가짜 가방(Mock)을 둡니다. 경찰견이 가방을 물어뜯거나([스텁](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 결과를 내는 게 중요한 게 아닙니다. 경찰견이 가방 앞에서 <strong>"정확히 짖는 행동(행위 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)을 딱 3번 했는가?"</strong>라는 대본에 맞는 액션을 취했는지를 훈련 교관(Assert)이 깐깐하게 채점하는 완벽한 행동 통제 시뮬레이션입니다.
+- **💡 비유**: Mock은 경찰견 훈련소의 <strong>'폭발물 냄새 묻은 가짜 가방'</strong>과 같습니다. 훈련(테스트)할 때 진짜 폭탄(진짜 DB)을 가방에 넣으면 다 터져 죽습니다. 그래서 가짜 가방(Mock)을 둡니다. 경찰견이 가방을 물어뜯거나(스텁) 결과를 내는 게 중요한 게 아닙니다. 경찰견이 가방 앞에서 <strong>"정확히 짖는 행동(행위 검증)을 딱 3번 했는가?"</strong>라는 대본에 맞는 액션을 취했는지를 훈련 교관(Assert)이 깐깐하게 채점하는 완벽한 행동 통제 시뮬레이션입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong>상태 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>의 한계</strong>: 전통적 TDD는 무조건 결괏값 5가 나오는지만 비교(AssertEquals)했다. 객체들이 거미줄처럼 통신하는 MSA나 거대 엔터프라이즈 환경에서는, 리턴값 없는 외부 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출이 난무하여 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 불능 상태에 빠졌다.
-  2. <strong>JMock과 행위 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>의 탄생</strong>: 2000년대 초반 "객체는 상태가 아니라 협력(메시지 전송)이다"라는 객체지향의 본질을 깨달은 개발자들이 JMock 프레임워크를 만들며 행위 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 패러다임을 폭발시켰다.
-  3. **Mockito의 세계 제패 (현재)**: 복잡한 대본 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 `verify()`라는 직관적인 단어 하나로 퉁쳐버린 마법의 도구 Mockito가 등장하면서, Mock은 자바 백엔드 생태계에서 숨 쉬듯 쓰이는 '공기'와 같은 존재로 융합되었다.
+  1. <strong>상태 검증의 한계</strong>: 전통적 TDD는 무조건 결괏값 5가 나오는지만 비교(AssertEquals)했다. 객체들이 거미줄처럼 통신하는 MSA나 거대 엔터프라이즈 환경에서는, 리턴값 없는 외부 API 호출이 난무하여 검증 불능 상태에 빠졌다.
+  2. <strong>JMock과 행위 검증의 탄생</strong>: 2000년대 초반 "객체는 상태가 아니라 협력(메시지 전송)이다"라는 객체지향의 본질을 깨달은 개발자들이 JMock 프레임워크를 만들며 행위 검증 패러다임을 폭발시켰다.
+  3. **Mockito의 세계 제패 (현재)**: 복잡한 대본 설정을 `verify()`라는 직관적인 단어 하나로 퉁쳐버린 마법의 도구 Mockito가 등장하면서, Mock은 자바 백엔드 생태계에서 숨 쉬듯 쓰이는 '공기'와 같은 존재로 융합되었다.
 
 - **📢 섹션 요약 비유**: Stub이 요리사에게 "소금 10g을 줬다(상태)"라면, Mock은 요리사 뒤에 서 있는 깐깐한 백종원 셰프입니다. 요리가 다 끝나기도 전에 요리사가 설탕을 집어 드는 찰나의 순간, <strong>"에라이! 내가 대본에 소금 1번만 치라 그랬지 설탕 치라 그랬냐!"(행동 일탈 탐지)</strong>라며 즉시 국자를 뺏어 던져버리는(테스트 즉시 실패) 행동 감시자입니다.
 
@@ -45,7 +45,7 @@ weight: 462
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 Mock (목)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 Mock (목)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -55,12 +55,12 @@ weight: 462
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Mock (목) - 행위(Behavior) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 예상되는 호출 명세가 프로그래밍된 객체의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -85,7 +85,7 @@ Mock (목)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확�
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, Mock (목)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 소프트웨어 공학 개념과의 연결을 보면, Mock (목)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: Mock (목)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -107,21 +107,21 @@ Mock (목)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한�
 
 ## Ⅴ. 기대효과 및 결론
 
-Mock (목)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+Mock (목)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 초기 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
+- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 Mock (목)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: Mock (목)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: Mock (목)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -133,10 +133,10 @@ Mock (목)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | Mock (목)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | Mock (목)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | Mock (목) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | Mock (목)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 소프트웨어 공학 (Software 엔진ering) | Mock (목)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | Mock (목)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | Mock (목) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| 형상 관리 (SCM, Software Configuration Management) | Mock (목)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,21 +156,10 @@ Mock (목) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. Mock (목)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 516 / 973
-
-<- **이전**: [462. Mock (목)](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)
-**다음**: [463. Fake (페이크)](/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

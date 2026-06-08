@@ -16,7 +16,7 @@ weight: 65
 
 ## Ⅰ. 개요 및 필요성
 
-[블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 거래가 블록에 들어갔다고 끝이 아니다. 진짜 중요한 것은 미래에 되돌릴 수 없는가다.
+블록체인에서 거래가 블록에 들어갔다고 끝이 아니다. 진짜 중요한 것은 미래에 되돌릴 수 없는가다.
 
 완결성은 결제, 정산, 자산 이전 같은 곳에서 사용자 신뢰를 만드는 핵심 개념이다.
 
@@ -41,7 +41,7 @@ Finality
 | Probabilistic Finality | 확률이 높아질수록 되돌릴 가능성이 낮아짐 |
 | Deterministic Finality | 일정 조건 충족 시 즉시 확정 |
 
-PoW에서는 블록이 여러 개 더 쌓일수록 reorg 가능성이 낮아진다. 반면 [BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 계열은 합의가 끝나는 순간 사실상 완결된다.
+PoW에서는 블록이 여러 개 더 쌓일수록 reorg 가능성이 낮아진다. 반면 BFT 계열은 합의가 끝나는 순간 사실상 완결된다.
 
 - **📢 섹션 요약 비유**: 모래성이 물결을 몇 번 더 맞아야 안정되는 것과, 벽돌을 마지막에 딱 고정하는 것의 차이다.
 
@@ -53,7 +53,7 @@ PoW에서는 블록이 여러 개 더 쌓일수록 reorg 가능성이 낮아진�
 | :-- | :-- | :-- | :-- |
 | PoW | 확률적 | 단순, 공개형에 강함 | 확정까지 시간 필요 |
 | PoS | 보통 확률적~강한 완결성 | 에너지 효율 | 설계 복잡 |
-| [BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) | 즉각적 | 빠른 확정 | 노드/통신 비용 큼 |
+| BFT | 즉각적 | 빠른 확정 | 노드/통신 비용 큼 |
 
 | 관점 | 설명 |
 | :-- | :-- |
@@ -69,15 +69,15 @@ Finality는 합의 메커니즘의 결과물이다. 그래서 합의 프로토�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 완결성을 확률적/결정적으로 구분하는가?
-2. reorg 가능성과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 횟수를 설명할 수 있는가?
+2. reorg 가능성과 확인 횟수를 설명할 수 있는가?
 3. 결제/정산 업무에서 완결성 요구를 반영했는가?
 4. 합의 방식에 따른 UX 차이를 고려했는가?
 5. BFT와 PoW의 차이를 비교할 수 있는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 전파와 완결을 같은 의미로 쓰는 설계
 - PoW의 완결성을 즉시 확정으로 오해하는 설계
@@ -92,7 +92,7 @@ Finality는 합의 메커니즘의 결과물이다. 그래서 합의 프로토�
 
 ## Ⅴ. 기대효과 및 결론
 
-완결성을 이해하면 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 시스템의 사용자 경험과 보안 특성을 제대로 설명할 수 있다. 결국 어떤 시스템은 "얼마나 빨리"보다 "얼마나 확실히"가 더 중요하다.
+완결성을 이해하면 블록체인 시스템의 사용자 경험과 보안 특성을 제대로 설명할 수 있다. 결국 어떤 시스템은 "얼마나 빨리"보다 "얼마나 확실히"가 더 중요하다.
 
 결론적으로 Finality는 합의된 결과가 뒤집히지 않는 정도를 의미한다.
 
@@ -133,14 +133,3 @@ Deterministic Finality
 블록에 들어갔다고 아직 끝난 건 아니에요.
 다시 바뀌지 않게 확정되는 게 더 중요해요.
 그걸 완결성이라고 불러요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 65 / 552
-
-<- **이전**: [64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit](/studynote/06_ict_convergence/01_blockchain/064_bft_pbft_consensus_3_phases/)
-**다음**: [66. 지향성 비순환 그래프 (DAG, Directed Acyclic Graph) - 블록체인 대신 트랜잭션들이 거미줄처럼 서로를 증명하는](/studynote/06_ict_convergence/01_blockchain/066_dag_directed_acyclic_graph_tangle/) ->
-
----

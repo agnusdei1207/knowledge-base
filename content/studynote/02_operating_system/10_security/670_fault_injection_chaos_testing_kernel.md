@@ -7,54 +7,54 @@ weight: 670
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입(Fault [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/))은 소프트웨어 인프라가 실제 장애 상황(디스크 I/O 에러, 메모리 할당 실패, 네트워크 단절)에서 올바르게 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되거나 우아하게 죽는지(Graceful Degradation)를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위해 <strong>고의로 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>에 오류를 발생시키는 <a href="/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> 기법</strong>이다.
-> 2. **메커니즘**: 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `Fault Injection Framework`를 활성화하면, 디바이스 드라이버가 디스크를 읽을 때나 `kmalloc`으로 메모리를 할당할 때 확률적으로 가짜 에러 코드(`-EIO`, `-ENOMEM`)를 반환하게 만들어 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉이나 애플리케이션의 예외 처리 로직을 강제로 태운다.
-> 3. **가치**: 넷플릭스의 Chaos Monkey처럼 클라우드나 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 "절대 죽지 않는 하드웨어"를 가정한 오만한 설계를 버리고, <strong>"언제든 망가질 수 있음(Design for Failure)"</strong>을 전제로 아키텍처의 내성(Resilience)을 증명하는 필수 테스트 도구다.
+> 1. **본질**: 결함 주입(Fault Injection)은 소프트웨어 인프라가 실제 장애 상황(디스크 I/O 에러, 메모리 할당 실패, 네트워크 단절)에서 올바르게 복구되거나 우아하게 죽는지(Graceful Degradation)를 검증하기 위해 <strong>고의로 커널에 오류를 발생시키는 카오스 엔지니어링 기법</strong>이다.
+> 2. **메커니즘**: 리눅스 커널의 `Fault Injection Framework`를 활성화하면, 디바이스 드라이버가 디스크를 읽을 때나 `kmalloc`으로 메모리를 할당할 때 확률적으로 가짜 에러 코드(`-EIO`, `-ENOMEM`)를 반환하게 만들어 커널 패닉이나 애플리케이션의 예외 처리 로직을 강제로 태운다.
+> 3. **가치**: 넷플릭스의 Chaos Monkey처럼 클라우드나 분산 시스템이 "절대 죽지 않는 하드웨어"를 가정한 오만한 설계를 버리고, <strong>"언제든 망가질 수 있음(Design for Failure)"</strong>을 전제로 아키텍처의 내성(Resilience)을 증명하는 필수 테스트 도구다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**:
-  - <strong><a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 주입 (Fault <a href="/studynote/04_software_engineering/11_testing_validation/872_injection/">Injection</a>)</strong>: 시스템의 특정 구성 요소에 의도적으로 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 일으켜 시스템의 예외 처리 능력과 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 테스트하는 기법.
-  - <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)</strong>: 프로덕션(운영) 환경에서도 무작위로 인스턴스를 끄거나 네트워크를 지연시켜 시스템이 견디는지 실험하는 학문.
+  - <strong>결함 주입 (Fault Injection)</strong>: 시스템의 특정 구성 요소에 의도적으로 결함을 일으켜 시스템의 예외 처리 능력과 가용성을 테스트하는 기법.
+  - <strong>카오스 엔지니어링 (Chaos 엔진ering)</strong>: 프로덕션(운영) 환경에서도 무작위로 인스턴스를 끄거나 네트워크를 지연시켜 시스템이 견디는지 실험하는 학문.
 
 - **필요성 (잡을 수 없는 에러의 공포)**:
   - 개발자가 에러 처리 코드(Exception Handling)를 짰다. `if (malloc() == NULL) { 로깅하고 복구 }`.
   - 그런데 개발 서버에서는 메모리가 빵빵해서 `malloc`이 한 번도 실패하지 않는다. 이 에러 처리 코드는 운영에 배포된 후 3년 뒤에 처음으로 메모리가 부족해졌을 때 처음 실행된다. 그런데 그 에러 코드 안에 오타(버그)가 있어서 시스템이 통째로 뻗어버렸다.
   - 디스크 I/O 에러(`EIO`) 같은 하드웨어 장애는 평소에 재현하는 것이 물리적으로 불가능에 가깝다.
-  - **해결책**: 디스크를 망치로 때리지 않고도, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스스로가 1% 확률로 가짜 에러를 뱉어내게 만드는 <strong>소프트웨어적 오류 주입 프레임워크</strong>가 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 필요해졌다.
+  - **해결책**: 디스크를 망치로 때리지 않고도, 커널 스스로가 1% 확률로 가짜 에러를 뱉어내게 만드는 <strong>소프트웨어적 오류 주입 프레임워크</strong>가 커널 내부에 필요해졌다.
 
-  - **일반 테스트**: 모의고사([Unit Test](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))를 100번 풀어서 100점을 맞는다. 하지만 실제 수능 날 배가 아프거나 연필이 부러지는 상황은 연습해 보지 않았다.
-  - <strong><a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 주입 (Fault <a href="/studynote/04_software_engineering/11_testing_validation/872_injection/">Injection</a>)</strong>: 모의고사를 치는 도중에 선생님이 일부러 학생의 연필을 뺏거나(메모리 에러), 교실 불을 10초 끄거나(네트워크 단절), 시험지 한 장을 찢어버린다(디스크 에러). 학생이 이 개판 속에서도 당황하지 않고 여분 연필을 꺼내 문제를 끝까지 푸는지(Resilience) 확인하는 독한 훈련이다.
+  - **일반 테스트**: 모의고사(Unit Test)를 100번 풀어서 100점을 맞는다. 하지만 실제 수능 날 배가 아프거나 연필이 부러지는 상황은 연습해 보지 않았다.
+  - <strong>결함 주입 (Fault Injection)</strong>: 모의고사를 치는 도중에 선생님이 일부러 학생의 연필을 뺏거나(메모리 에러), 교실 불을 10초 끄거나(네트워크 단절), 시험지 한 장을 찢어버린다(디스크 에러). 학생이 이 개판 속에서도 당황하지 않고 여분 연필을 꺼내 문제를 끝까지 푸는지(Resilience) 확인하는 독한 훈련이다.
 
 - **발전 과정**:
   1. **하드웨어 오류 주입**: 물리적인 핀에 노이즈를 쏘거나 열을 가함 (비싸고 재현 어려움).
-  2. **소프트웨어 오류 주입 (SWFI)**: OS [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레벨에서 훅(Hook)을 걸어 에러 반환.
-  3. <strong>Linux <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Fault <a href="/studynote/04_software_engineering/11_testing_validation/872_injection/">Injection</a></strong>: 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스에 공식 프레임워크로 내장되어, 메모리/디스크/[NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/네트워크 등 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가장 밑바닥에서 에러를 확률적으로 뿜어냄.
+  2. **소프트웨어 오류 주입 (SWFI)**: OS API 레벨에서 훅(Hook)을 걸어 에러 반환.
+  3. <strong>Linux Kernel Fault Injection</strong>: 리눅스 커널 소스에 공식 프레임워크로 내장되어, 메모리/디스크/NVMe/네트워크 등 커널 가장 밑바닥에서 에러를 확률적으로 뿜어냄.
 
-- **📢 섹션 요약 비유**: 평화로운 항해(정상 동작)만 연습한 선원은 폭풍우를 만나면 배를 버립니다. [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입은 배에 일부러 작은 구멍을 내서 선원들이 배수 펌프(예외 처리)를 얼마나 빨리 켜는지 훈련시키는 항해 시뮬레이션입니다.
+- **📢 섹션 요약 비유**: 평화로운 항해(정상 동작)만 연습한 선원은 폭풍우를 만나면 배를 버립니다. 결함 주입은 배에 일부러 작은 구멍을 내서 선원들이 배수 펌프(예외 처리)를 얼마나 빨리 켜는지 훈련시키는 항해 시뮬레이션입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 Fault [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/) 프레임워크
+### 리눅스 커널의 Fault Injection 프레임워크
 
-리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 컴파일할 때 `CONFIG_FAULT_INJECTION=y` 옵션을 주면 활성화되며, `debugfs`를 통해 유저 스페이스에서 오류 주입 확률과 대상을 조절할 수 있다.
+리눅스 커널을 컴파일할 때 `CONFIG_FAULT_INJECTION=y` 옵션을 주면 활성화되며, `debugfs`를 통해 유저 스페이스에서 오류 주입 확률과 대상을 조절할 수 있다.
 
-| 주입 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (Subsystem) | 역할 | 발생시키는 오류 형태 | 활용 시나리오 |
+| 주입 모듈 (Subsystem) | 역할 | 발생시키는 오류 형태 | 활용 시나리오 |
 |:---|:---|:---|:---|
-| **failslab / fail_page_alloc**| 메모리 할당 오류 주입 | `kmalloc()`, `alloc_pages()` 호출 시 강제로 NULL 반환 | 앱이나 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 대응([메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/), 예외 처리) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **fail_make_request** | 블록 I/O(디스크) 오류 주입 | 하드디스크/SSD의 Read/Write 요청을 강제로 에러(`-EIO`) 처리 | [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), LVM, ZFS의 디스크 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 및 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **fail_function** | 범용 함수 오류 주입 ([eBPF](/studynote/02_operating_system/10_security/615_ebpf/) 결합) | Kprobes를 통해 지정한 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수의 반환값을 임의로 조작 | 특정 시스템 콜(예: `sys_open`) 실패 상황 시뮬레이션 |
-| **nvme_core.fault_inject** | [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 전용 오류 주입 | 최신 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 컨트롤러의 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 단절 모사 | 고성능 스토리지망의 페일오버([Multipath](/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 테스트 |
+| **failslab / fail_page_alloc**| 메모리 할당 오류 주입 | `kmalloc()`, `alloc_pages()` 호출 시 강제로 NULL 반환 | 앱이나 커널의 OOM 대응(메모리 누수, 예외 처리) 검증 |
+| **fail_make_request** | 블록 I/O(디스크) 오류 주입 | 하드디스크/SSD의 Read/Write 요청을 강제로 에러(`-EIO`) 처리 | RAID, LVM, ZFS의 디스크 장애 복구 및 데이터 정합성 검증 |
+| **fail_function** | 범용 함수 오류 주입 (eBPF 결합) | Kprobes를 통해 지정한 커널 함수의 반환값을 임의로 조작 | 특정 시스템 콜(예: `sys_open`) 실패 상황 시뮬레이션 |
+| **nvme_core.fault_inject** | NVMe 전용 오류 주입 | 최신 NVMe 컨트롤러의 타임아웃, 포트 단절 모사 | 고성능 스토리지망의 페일오버(Multipath) 테스트 |
 
 ---
 
-### 블록 I/O [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 (fail_make_request) 동작 메커니즘
+### 블록 I/O 결함 주입 (fail_make_request) 동작 메커니즘
 
-[RAID 1](/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)([미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))을 구축하고, 디스크 1개가 고장 났을 때 시스템이 안 멈추는지 테스트하는 과정이다.
+RAID 1(미러링)을 구축하고, 디스크 1개가 고장 났을 때 시스템이 안 멈추는지 테스트하는 과정이다.
 
 ```text
   +-------------------------------------------------------------------+
@@ -87,7 +87,7 @@ weight: 670
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 디스크 케이블을 진짜로 뺐다 꽂았다 하면 장비가 고장 나거나 다른 사람의 테스트를 방해한다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프레임워크는 소프트웨어(블록 레이어) 단계에서 I/O 패킷(BIO)을 인터셉트하여, 진짜 디스크로 내려보내기 전에 "이거 디스크가 망가졌다고 뻥치고 위로 돌려보내!"라고 가짜 에러를 날린다. 덕분에 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 확률의 배드 섹터 발생 같은 극도로 재현하기 힘든 하드웨어 장애 상황을 소프트웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄로 1초 만에 만들어 낼 수 있다.
+**[다이어그램 해설]** 디스크 케이블을 진짜로 뺐다 꽂았다 하면 장비가 고장 나거나 다른 사람의 테스트를 방해한다. 커널 프레임워크는 소프트웨어(블록 레이어) 단계에서 I/O 패킷(BIO)을 인터셉트하여, 진짜 디스크로 내려보내기 전에 "이거 디스크가 망가졌다고 뻥치고 위로 돌려보내!"라고 가짜 에러를 날린다. 덕분에 10% 확률의 배드 섹터 발생 같은 극도로 재현하기 힘든 하드웨어 장애 상황을 소프트웨어 명령어 한 줄로 1초 만에 만들어 낼 수 있다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -100,16 +100,16 @@ weight: 670
 | 기법 | 위치 및 주체 | 장점 | 단점 / 한계 |
 |:---|:---|:---|:---|
 | **물리적 장애 발생** | 하드웨어 (케이블 뽑기, 전원 컷) | 가장 현실적 | 하드웨어 마모, 원격 클라우드에서 불가능 |
-| <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> (Fault <a href="/studynote/04_software_engineering/11_testing_validation/872_injection/">Injection</a>)</strong> | OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 (debugfs) | 정밀한 에러 코드(-ENOMEM 등) 핀포인트 조작 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 컴파일 옵션 필요, 노드 전체가 패닉날 위험 |
-| <strong>시스템 콜 후킹 (<a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>)</strong> | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저 스페이스 경계 | 프로세스 단위로 매우 안전하게 에러 주입 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부(드라이버) 깊숙한 곳의 장애는 모사 불가 |
-| <strong>애플리케이션 레벨 (<a href="/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/">Chaos Monkey</a>)</strong> | K8s / 클라우드 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제어 | 인스턴스 킬, [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 삭제 등 [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 테스트에 최적 | 단일 앱 내부의 세밀한 메모리/디스크 에러는 모사 불가 |
+| <strong>커널 모듈 (Fault Injection)</strong> | OS 커널 내부 (debugfs) | 정밀한 에러 코드(-ENOMEM 등) 핀포인트 조작 | 커널 컴파일 옵션 필요, 노드 전체가 패닉날 위험 |
+| <strong>시스템 콜 후킹 (eBPF)</strong> | 커널과 유저 스페이스 경계 | 프로세스 단위로 매우 안전하게 에러 주입 | 커널 내부(드라이버) 깊숙한 곳의 장애는 모사 불가 |
+| <strong>애플리케이션 레벨 (Chaos Monkey)</strong> | K8s / 클라우드 API 제어 | 인스턴스 킬, 파드 삭제 등 마이크로서비스 테스트에 최적 | 단일 앱 내부의 세밀한 메모리/디스크 에러는 모사 불가 |
 
 ### 과목 융합 관점
 
-- **소프트웨어공학 (SE)**: [카오스 엔지니어링](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 핵심은 "통제된 실험(Controlled Experiment)"이다. 아무 때나 서버를 죽이는 것이 아니라, 정상 상태(Steady [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 정의하고 $\rightarrow$ 가설을 세우고(DB 하나 죽어도 서비스는 될 거야) $\rightarrow$ [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 주입하고 $\rightarrow$ 폭발 반경(Blast [Radius](/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))을 최소화하면서 결과를 분석하는 과학적 접근법이다.
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> (Cloud)</strong>: AWS Fault [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/) [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(FIS)나 Gremlin 같은 상용 카오스 테스팅 툴은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 도구와 연동하여, K8s 클러스터 환경에서 "오후 2시에 결제 컨테이너의 네트워크 지연율을 5초로 늘려봐라" 같은 정교한 워크로드 [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/)을 수행한다.
+- **소프트웨어공학 (SE)**: 카오스 엔지니어링의 핵심은 "통제된 실험(Controlled Experiment)"이다. 아무 때나 서버를 죽이는 것이 아니라, 정상 상태(Steady State)를 정의하고 $\rightarrow$ 가설을 세우고(DB 하나 죽어도 서비스는 될 거야) $\rightarrow$ 결함을 주입하고 $\rightarrow$ 폭발 반경(Blast Radius)을 최소화하면서 결과를 분석하는 과학적 접근법이다.
+- <strong>클라우드 컴퓨팅 (Cloud)</strong>: AWS Fault Injection Service(FIS)나 Gremlin 같은 상용 카오스 테스팅 툴은 커널 레벨의 도구와 연동하여, K8s 클러스터 환경에서 "오후 2시에 결제 컨테이너의 네트워크 지연율을 5초로 늘려봐라" 같은 정교한 워크로드 인젝션을 수행한다.
 
-- **📢 섹션 요약 비유**: 실제 불이 났을 때 우왕좌왕하지 않으려면, 연기 발생기(Fault [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/))를 틀어놓고 대피 훈련을 해야 합니다. 시스템의 진짜 소방관(예외 처리 코드)이 제 역할을 하는지 미리 불을 지펴보는 통제된 방화 기술입니다.
+- **📢 섹션 요약 비유**: 실제 불이 났을 때 우왕좌왕하지 않으려면, 연기 발생기(Fault Injection)를 틀어놓고 대피 훈련을 해야 합니다. 시스템의 진짜 소방관(예외 처리 코드)이 제 역할을 하는지 미리 불을 지펴보는 통제된 방화 기술입니다.
 
 ---
 
@@ -117,14 +117,14 @@ weight: 670
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — HA(고가용성) 클러스터의 Split-Brain <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 능력 테스트</strong>: Pacemaker와 Corosync로 묶인 3대의 DB 클러스터가 있다. 네트워크 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 10초간 죽었다 살아날 때, 페일오버([Failover](/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))가 정상 작동하는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 싶다.
-   - **아키텍처 적용**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 뽑는 대신 리눅스의 `tc (Traffic Control)` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `netem (Network Emulator)` [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 결합한다.
-   - `tc qdisc add dev eth0 root netem loss 100%` 명령을 치면 eth0 밖으로 나가는 패킷이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 100% 드롭(Drop)된다. 10초 뒤 `tc qdisc del`로 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)시킨다.
-   - 이를 통해 HA 클러스터가 10초 단절을 "상대방의 사망"으로 인식하고 STONITH(펜싱)를 날리는지, 아니면 일시적 단절로 무시하는지([Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 소프트웨어적으로 완벽하게 모사한다.
+1. <strong>시나리오 — HA(고가용성) 클러스터의 Split-Brain 복구 능력 테스트</strong>: Pacemaker와 Corosync로 묶인 3대의 DB 클러스터가 있다. 네트워크 스위치가 10초간 죽었다 살아날 때, 페일오버(Failover)가 정상 작동하는지 검증하고 싶다.
+   - **아키텍처 적용**: 스위치 전원을 뽑는 대신 리눅스의 `tc (Traffic Control)` 명령어와 커널의 `netem (Network Emulator)` 모듈을 결합한다.
+   - `tc qdisc add dev eth0 root netem loss 100%` 명령을 치면 eth0 밖으로 나가는 패킷이 커널 단에서 100% 드롭(Drop)된다. 10초 뒤 `tc qdisc del`로 복구시킨다.
+   - 이를 통해 HA 클러스터가 10초 단절을 "상대방의 사망"으로 인식하고 STONITH(펜싱)를 날리는지, 아니면 일시적 단절로 무시하는지(Timeout 설정 검증) 소프트웨어적으로 완벽하게 모사한다.
 
-2. <strong>시나리오 — C++ 서버의 메모리 할당 실패(<a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>) 방어 코드 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 거대 게임 서버에서 `malloc` 실패 시 우아하게 연결을 끊고 메모리를 정리하는 로직을 짰다. 하지만 서버 램이 128GB라 개발 환경에서 `malloc`이 실패할 일이 절대 없다.
-   - **대응 (fail_page_alloc)**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `debugfs`에 접근하여 특정 PID(게임 서버)를 타겟으로 `echo 10 > /sys/kernel/debug/fail_page_alloc/probability`를 준다.
-   - 서버가 `malloc`을 호출할 때마다 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 확률로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버디 할당기가 램이 텅텅 비었는데도 `NULL`을 반환한다. 게임 서버는 "메모리가 부족하다!"라고 착각하고 에러 처리 로직을 실행한다. 이때 [메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/studynote/02_operating_system/10_security/612_memory_leak_detection/))나 널 포인터 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Segfault)로 서버가 죽는다면, 방어 코드가 잘못 짜여 있음을 출시 전에 잡아낼 수 있다.
+2. <strong>시나리오 — C++ 서버의 메모리 할당 실패(OOM) 방어 코드 검증</strong>: 거대 게임 서버에서 `malloc` 실패 시 우아하게 연결을 끊고 메모리를 정리하는 로직을 짰다. 하지만 서버 램이 128GB라 개발 환경에서 `malloc`이 실패할 일이 절대 없다.
+   - **대응 (fail_page_alloc)**: 커널의 `debugfs`에 접근하여 특정 PID(게임 서버)를 타겟으로 `echo 10 > /sys/kernel/debug/fail_page_alloc/probability`를 준다.
+   - 서버가 `malloc`을 호출할 때마다 10% 확률로 커널 버디 할당기가 램이 텅텅 비었는데도 `NULL`을 반환한다. 게임 서버는 "메모리가 부족하다!"라고 착각하고 에러 처리 로직을 실행한다. 이때 메모리 누수(Memory Leak)나 널 포인터 참조(Segfault)로 서버가 죽는다면, 방어 코드가 잘못 짜여 있음을 출시 전에 잡아낼 수 있다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -153,13 +153,13 @@ weight: 670
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 초보자는 운영 서버에 대고 `kill -9`를 날리는 것이 [카오스 엔지니어링](/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)이라고 착각한다. 진정한 카오스 테스팅은 "시스템이 이 에러를 극복할 수 있다"는 확신([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))을 먼저 설계하고, 이를 증명하기 위해 바늘 찌르듯 아주 정교하게(Targeted) 에러를 주입하는 것이다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/)은 폭발 반경이 호스트 전체이므로 운영(Production) 환경에서는 절대 금물이며, 오직 샌드박싱된 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서만 쓰여야 한다.
+**[다이어그램 해설]** 초보자는 운영 서버에 대고 `kill -9`를 날리는 것이 카오스 엔지니어링이라고 착각한다. 진정한 카오스 테스팅은 "시스템이 이 에러를 극복할 수 있다"는 확신(Confidence)을 먼저 설계하고, 이를 증명하기 위해 바늘 찌르듯 아주 정교하게(Targeted) 에러를 주입하는 것이다. 커널 단위의 인젝션은 폭발 반경이 호스트 전체이므로 운영(Production) 환경에서는 절대 금물이며, 오직 샌드박싱된 CI/CD 파이프라인에서만 쓰여야 한다.
 
-### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **KASAN / KMEMLEAK 연동**: [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입을 할 때 방어 로직이 동작하면서 발생할 수 있는 2차 피해(예: 에러 처리 중 메모리를 반환 안 해서 생기는 누수)를 잡기 위해, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동적 메모리 분석 도구(KASAN)를 함께 켜두고 테스트를 진행하는가?
-- <strong><a href="/studynote/02_operating_system/02_process_thread/150_task/">Task</a> 필터링 (Pid)</strong>: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) I/O 에러 [인젝션](/studynote/04_software_engineering/11_testing_validation/872_injection/) 시, 운영체제의 핵심 데몬(systemd 등)까지 같이 에러를 맞아 서버 전체가 멈추는 것을 막기 위해, `/sys/kernel/debug/fail_make_request/task-filter` 옵션에 `Y`를 주고 테스트할 앱의 PID만 선택적으로 공격하도록 필터링했는가?
+### 도입 체크리스트
+- **KASAN / KMEMLEAK 연동**: 결함 주입을 할 때 방어 로직이 동작하면서 발생할 수 있는 2차 피해(예: 에러 처리 중 메모리를 반환 안 해서 생기는 누수)를 잡기 위해, 커널 동적 메모리 분석 도구(KASAN)를 함께 켜두고 테스트를 진행하는가?
+- <strong>Task 필터링 (Pid)</strong>: 커널 I/O 에러 인젝션 시, 운영체제의 핵심 데몬(systemd 등)까지 같이 에러를 맞아 서버 전체가 멈추는 것을 막기 위해, `/sys/kernel/debug/fail_make_request/task-filter` 옵션에 `Y`를 주고 테스트할 앱의 PID만 선택적으로 공격하도록 필터링했는가?
 
-- **📢 섹션 요약 비유**: 카오스 테스팅은 백신 예방접종입니다. 우리 몸(시스템)에 가짜 [바이러스](/studynote/02_operating_system/10_security/589_virus/)([결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))를 아주 소량만 주입하여 면역 체계(예외 처리)가 제대로 작동하는지 훈련시킵니다. 주사량을 잘못 조절하면 진짜 병에 걸려 죽으므로 극도의 통제가 필요합니다.
+- **📢 섹션 요약 비유**: 카오스 테스팅은 백신 예방접종입니다. 우리 몸(시스템)에 가짜 바이러스(결함)를 아주 소량만 주입하여 면역 체계(예외 처리)가 제대로 작동하는지 훈련시킵니다. 주사량을 잘못 조절하면 진짜 병에 걸려 죽으므로 극도의 통제가 필요합니다.
 
 ---
 
@@ -167,18 +167,18 @@ weight: 670
 
 ### 정량/정성 기대효과
 
-| 구분 | [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 미실시 환경 (희망 회로) | 카오스/[결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 테스팅 적용 | 개선 효과 |
+| 구분 | 결함 주입 미실시 환경 (희망 회로) | 카오스/결함 주입 테스팅 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 (에러 처리)**| 예외 코드가 데드 코드(Dead [code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 방치됨 | 100% 실행 커버리지 달성 | [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직의 치명적 버그 사전 제거 |
-| <strong>정량 (<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)</strong> | 첫 대형 장애 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 (수 시간 소요) | 자동화된 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 훈련 완료 | 장애 상황에서의 [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 극단적 단축 |
-| **정성 (문화)** | 인프라는 100% 안정적이어야 한다고 착각 | <strong>"모든 것은 실패한다"</strong>는 철학 내재화 | 개발자들의 [방어적 프로그래밍](/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)(Defensive Coding) 유도 |
+| **정성 (에러 처리)**| 예외 코드가 데드 코드(Dead code)로 방치됨 | 100% 실행 커버리지 달성 | 복구 로직의 치명적 버그 사전 제거 |
+| <strong>정량 (가용성)</strong> | 첫 대형 장애 시 복구 불가 (수 시간 소요) | 자동화된 복구 메커니즘 훈련 완료 | 장애 상황에서의 MTTR 극단적 단축 |
+| **정성 (문화)** | 인프라는 100% 안정적이어야 한다고 착각 | <strong>"모든 것은 실패한다"</strong>는 철학 내재화 | 개발자들의 방어적 프로그래밍(Defensive Coding) 유도 |
 
 ### 미래 전망
-- <strong><a href="/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 카오스 <a href="/studynote/04_software_engineering/11_testing_validation/872_injection/">인젝션</a>의 표준화</strong>: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 다시 컴파일해야 하는 기존 `Fault Injection Framework`의 불편함을 없애기 위해, 최신 카오스 툴(Chaos [Mesh](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 등)은 eBPF를 사용하여 특정 컨테이너나 프로세스가 부르는 시스템 콜의 리턴 값을 실시간으로 `-ENOENT`나 `-EIO`로 바꿔버리는(Error Inject [BPF](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 안전하고 동적인 카오스 훈련을 대세로 만들고 있다.
-- <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 자율 카오스 (Autonomous Chaos)</strong>: 개발자가 수동으로 시나리오를 짜는 것을 넘어, AI가 시스템의 로그와 아키텍처 다이어그램을 분석하여 "네 네트워크 구조상 이 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 죽으면 다 터질 것 같은데?"라고 약점을 스스로 찾아내 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 쏴보고 레포팅하는 자동화된 카오스 로봇이 등장하고 있다.
+- <strong>eBPF 카오스 인젝션의 표준화</strong>: 커널을 다시 컴파일해야 하는 기존 `Fault Injection Framework`의 불편함을 없애기 위해, 최신 카오스 툴(Chaos Mesh 등)은 eBPF를 사용하여 특정 컨테이너나 프로세스가 부르는 시스템 콜의 리턴 값을 실시간으로 `-ENOENT`나 `-EIO`로 바꿔버리는(Error Inject BPF) 안전하고 동적인 카오스 훈련을 대세로 만들고 있다.
+- <strong>AI 기반 자율 카오스 (Autonomous Chaos)</strong>: 개발자가 수동으로 시나리오를 짜는 것을 넘어, AI가 시스템의 로그와 아키텍처 다이어그램을 분석하여 "네 네트워크 구조상 이 스위치가 죽으면 다 터질 것 같은데?"라고 약점을 스스로 찾아내 결함을 쏴보고 레포팅하는 자동화된 카오스 로봇이 등장하고 있다.
 
 ### 결론
-소프트웨어 오류 주입과 카오스 테스팅은 "버그를 없애기 위해 테스트한다"는 전통적 관념을 뒤집어, <strong>"버그와 장애는 필연이므로, 그 속에서도 시스템이 살아남는 법을 훈련한다"</strong>는 현대 클라우드의 성숙한 회복탄력성(Resilience) 철학을 보여준다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 깊숙한 곳에서 디스크 I/O와 메모리 할당을 조작하는 이 잔인한 도구들은, 개발자의 오만한 코드를 부수고 겸손한 예외 처리 로직을 강제함으로써 무너지지 않는 엔터프라이즈 아키텍처를 세우는 가장 훌륭한 반면교사다.
+소프트웨어 오류 주입과 카오스 테스팅은 "버그를 없애기 위해 테스트한다"는 전통적 관념을 뒤집어, <strong>"버그와 장애는 필연이므로, 그 속에서도 시스템이 살아남는 법을 훈련한다"</strong>는 현대 클라우드의 성숙한 회복탄력성(Resilience) 철학을 보여준다. 커널 깊숙한 곳에서 디스크 I/O와 메모리 할당을 조작하는 이 잔인한 도구들은, 개발자의 오만한 코드를 부수고 겸손한 예외 처리 로직을 강제함으로써 무너지지 않는 엔터프라이즈 아키텍처를 세우는 가장 훌륭한 반면교사다.
 
 - **📢 섹션 요약 비유**: 검투사(프로그램)가 모래주머니(장애)를 달고 눈을 가린 채 훈련(카오스 테스팅)을 통과했다면, 실전의 로마 콜로세움(운영 환경)에서 어떤 위기가 닥쳐와도 눈 하나 깜짝하지 않고 살아남을 수 있습니다.
 
@@ -188,10 +188,10 @@ weight: 670
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [부채널 공격](/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/) ([Side-channel Attack](/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/), [Meltdown](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)/[Spectre](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)) [마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 취약점 대응 소프트웨어 패치([KPTI](/studynote/01_computer_architecture/15_advanced_topics/578_kpti/), [Retpoline](/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 하드웨어 기반 무작위 [난수 생성기](/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/) ([TRNG](/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/)) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 풀 주입 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI, Retpoline) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 시스템 프로그램과 응용 프로그램의 차이 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [일괄 처리 시스템](/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/) ([Batch Processing System](/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/)) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 일괄 처리 시스템 (Batch Processing System) 성능 지표 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -210,16 +210,5 @@ weight: 670
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 로봇(시스템)을 만들었는데, 이 로봇이 튼튼한지 알아보려고 매일 편안한 길만 걷게 하면 진짜 실력을 알 수 없어요.
-2. 그래서 로봇을 걷게 하면서 몰래 바닥에 바나나 껍질(디스크 에러)을 던지고, 다리를 살짝 걸어봐요(메모리 부족). 이걸 '[결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입'이라고 해요.
+2. 그래서 로봇을 걷게 하면서 몰래 바닥에 바나나 껍질(디스크 에러)을 던지고, 다리를 살짝 걸어봐요(메모리 부족). 이걸 '결함 주입'이라고 해요.
 3. 로봇이 미끄러져도 다시 벌떡 일어나서 끝까지 걸어가면 "아, 이 로봇은 진짜 폭풍우가 와도 안 죽겠구나!" 하고 믿고 우주로 보낼 수 있답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 670 / 800
-
-<- **이전**: [669. 하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식](/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/)
-**다음**: [671. 시스템 프로그램과 응용 프로그램의 차이 (System Program Vs Application Program)](/studynote/02_operating_system/11_exam_summary/671_system_program_vs_application_program/) ->
-
----

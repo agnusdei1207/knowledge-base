@@ -110,12 +110,3 @@ Core flow: Source -> Aggregate -> Sign -> Submit -> Consume
 | 오라클 | 외부 세계와 온체인 상태를 연결하는 신뢰 경계 |
 | 거버넌스 | 업그레이드, 파라미터, 분쟁 해결을 담당하는 운영 체계 |
 | 보안 감사 | 배포 전 취약점과 운영 리스크를 줄이는 필수 절차 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 565 / 800
-
-<- **이전**: [564. 탈중앙 저장소 IPFS Filecoin](/studynote/06_ict_convergence/uncategorized/564_decentralized_storage_ipfs_filecoin/)
-**다음**: [566. 프라이빗 블록체인 Hyperledger Fabric](/studynote/06_ict_convergence/uncategorized/566_private_blockchain_hyperledger_fabric/) ->
-
----

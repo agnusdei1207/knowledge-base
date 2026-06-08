@@ -6,15 +6,15 @@ tags:
 weight: 112
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 <strong>노드(서버) 관리 없이 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>만 선언하면 클라우드가 자동으로 컴퓨팅 자원을 할당</strong>하는 모델로, K8s의 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) API를 유지하면서 노드 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)·패치·[스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 부담을 제거한다.
-> 2. **가치**: 기존 K8s는 노드(EC2)를 직접 관리해야 하므로 OS 패치·[AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 업데이트·Cluster Autoscaler [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 등 **운영 오버헤드가 크다**. Fargate/ACI는 이를 <strong>완전히 제거</strong>하여 개발자가 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) YAML만 작성하면 된다.
-> 3. **판단 포인트**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>당 비용</strong>이 자체 노드보다 비싸므로, **버스트 트래픽·배치 작업·이벤트 드리븐** 워크로드에 적합하고, 상시 부하가 높은 워크로드는 <strong>자체 노드 + <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">Spot Instance</a></strong>가 비용 효율적이다.
+> 1. **본질**: 서버리스 K8s는 <strong>노드(서버) 관리 없이 파드만 선언하면 클라우드가 자동으로 컴퓨팅 자원을 할당</strong>하는 모델로, K8s의 오케스트레이션 API를 유지하면서 노드 프로비저닝·패치·스케일링 부담을 제거한다.
+> 2. **가치**: 기존 K8s는 노드(EC2)를 직접 관리해야 하므로 OS 패치·AMI 업데이트·Cluster Autoscaler 설정 등 **운영 오버헤드가 크다**. Fargate/ACI는 이를 <strong>완전히 제거</strong>하여 개발자가 파드 YAML만 작성하면 된다.
+> 3. **판단 포인트**: 서버리스 K8s는 <strong>파드당 비용</strong>이 자체 노드보다 비싸므로, **버스트 트래픽·배치 작업·이벤트 드리븐** 워크로드에 적합하고, 상시 부하가 높은 워크로드는 <strong>자체 노드 + Spot Instance</strong>가 비용 효율적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-K8s를 운영하려면 노드(워커) 관리가 필수다: OS 패치, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 업데이트, 노드 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 교체. 이 운영 부담이 소규모 팀에게는 K8s 도입 자체의 장벽이 된다.
+K8s를 운영하려면 노드(워커) 관리가 필수다: OS 패치, 커널 업데이트, 노드 스케일링, AMI 교체. 이 운영 부담이 소규모 팀에게는 K8s 도입 자체의 장벽이 된다.
 
 ```text
 +-------------------------------------------------------+
@@ -32,59 +32,59 @@ K8s를 운영하려면 노드(워커) 관리가 필수다: OS 패치, [커널](/
 +-------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 기존 K8s는 자가용(직접 관리·저렴), [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 택시(관리 불필요·비쌈)이다.
+- **📢 섹션 요약 비유**: 기존 K8s는 자가용(직접 관리·저렴), 서버리스 K8s는 택시(관리 불필요·비쌈)이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 클라우드 | 방식 | 특징 |
+| 서비스 | 클라우드 | 방식 | 특징 |
 |:---|:---|:---|:---|
-| **AWS Fargate** | AWS EKS | [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)별 microVM 할당 | [DaemonSet](/studynote/11_design_supervision/06_exam_summary/334_process/) 미지원 |
-| **Azure ACI** | Azure AKS | Virtual Kubelet으로 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 위임 | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 지원 |
-| **GKE Autopilot** | GCP | 노드 자동 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/) | 가장 K8s 네이티브 |
-| <strong>Virtual <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a></strong> | 멀티클라우드 | 가상 노드로 외부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 위임 | 범용 |
+| **AWS Fargate** | AWS EKS | 파드별 microVM 할당 | DaemonSet 미지원 |
+| **Azure ACI** | Azure AKS | Virtual Kubelet으로 파드 위임 | GPU 지원 |
+| **GKE Autopilot** | GCP | 노드 자동 프로비저닝 | 가장 K8s 네이티브 |
+| <strong>Virtual Kubelet</strong> | 멀티클라우드 | 가상 노드로 외부 서비스에 파드 위임 | 범용 |
 
 ### Fargate 동작 원리
-EKS에 Fargate Profile을 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하면, 해당 네임스페이스의 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 <strong>EC2 노드 대신 Fargate의 독립 microVM에서 실행</strong>된다. 각 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 전용 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 격리되어 보안이 강화된다.
+EKS에 Fargate Profile을 설정하면, 해당 네임스페이스의 파드가 <strong>EC2 노드 대신 Fargate의 독립 microVM에서 실행</strong>된다. 각 파드는 전용 커널에서 격리되어 보안이 강화된다.
 
-- **📢 섹션 요약 비유**: Fargate는 호텔([파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)마다 독립 방)이고, EC2 노드는 기숙사(여러 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 한 방 공유)이다.
+- **📢 섹션 요약 비유**: Fargate는 호텔(파드마다 독립 방)이고, EC2 노드는 기숙사(여러 파드가 한 방 공유)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 자체 노드 (EC2) | Fargate ([서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) |
+| 비교 | 자체 노드 (EC2) | Fargate (서버리스) |
 |:---|:---|:---|
 | **노드 관리** | 직접 (OS 패치 등) | **AWS 전담** |
-| **비용 모델** | 노드 시간당 과금 | <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> vCPU·메모리 시간당</strong> |
-| <strong><a href="/studynote/11_design_supervision/06_exam_summary/334_process/">DaemonSet</a></strong> | 지원 | **미지원** |
-| <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a></strong> | 지원 | 제한적 |
+| **비용 모델** | 노드 시간당 과금 | <strong>파드 vCPU·메모리 시간당</strong> |
+| <strong>DaemonSet</strong> | 지원 | **미지원** |
+| <strong>GPU</strong> | 지원 | 제한적 |
 | **적합 워크로드** | 상시 고부하 | **버스트·배치·이벤트** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 하이브리드 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
-- **상시 워크로드**: EC2 Managed Node Group ([Spot Instance](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)) -> 비용 최적.
-- **버스트 워크로드**: Fargate -> [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 시만 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 유휴 시 비용 0.
+### 하이브리드 전략
+- **상시 워크로드**: EC2 Managed Node Group (Spot Instance) -> 비용 최적.
+- **버스트 워크로드**: Fargate -> 스파이크 시만 파드 생성, 유휴 시 비용 0.
 - **배치 작업**: Fargate -> Job 실행 후 자동 종료, 노드 낭비 없음.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **모든 워크로드를 Fargate에**: 상시 트래픽 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 Fargate로 돌리면 EC2 대비 **2~3배 비용**.
+### 안티패턴
+- **모든 워크로드를 Fargate에**: 상시 트래픽 서비스를 Fargate로 돌리면 EC2 대비 **2~3배 비용**.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 지표 | 자체 노드 | [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s | 개선 |
+| 지표 | 자체 노드 | 서버리스 K8s | 개선 |
 |:---|:---|:---|:---|
 | 노드 운영 부담 | 높음 | **0** | 완전 제거 |
-| 보안 격리 | 공유 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>별 독립 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a></strong> | 강화 |
-| 버스트 비용 | 사전 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/) | **사용한 만큼** | 유연 |
+| 보안 격리 | 공유 커널 | <strong>파드별 독립 커널</strong> | 강화 |
+| 버스트 비용 | 사전 프로비저닝 | **사용한 만큼** | 유연 |
 
-[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 <strong>Karpenter(차세대 노드 오토스케일러)</strong>와 결합하여 자체 노드와 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 장점을 혼합하는 하이브리드 모델로 수렴 중이다.
+서버리스 K8s는 <strong>Karpenter(차세대 노드 오토스케일러)</strong>와 결합하여 자체 노드와 서버리스의 장점을 혼합하는 하이브리드 모델로 수렴 중이다.
 
 ---
 
@@ -92,11 +92,11 @@ EKS에 Fargate Profile을 [설정](/studynote/15_devops_sre/01_culture_methodolo
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **AWS Fargate** | EKS [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 실행 환경 |
-| <strong>Virtual <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a></strong> | 가상 노드로 외부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 위임 |
-| **GKE Autopilot** | Google의 완전 관리형 [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s |
-| **Karpenter** | 차세대 노드 오토스케일러, 하이브리드 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| <strong><a href="/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> (<a href="/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a>)</strong> | [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 함수 단위 실행 (K8s 외부) |
+| **AWS Fargate** | EKS 서버리스 파드 실행 환경 |
+| <strong>Virtual Kubelet</strong> | 가상 노드로 외부 서비스에 파드 위임 |
+| **GKE Autopilot** | Google의 완전 관리형 서버리스 K8s |
+| **Karpenter** | 차세대 노드 오토스케일러, 하이브리드 전략 |
+| <strong>FaaS (Lambda)</strong> | 서버리스의 함수 단위 실행 (K8s 외부) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,16 +118,5 @@ EKS에 Fargate Profile을 [설정](/studynote/15_devops_sre/01_culture_methodolo
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 기존 K8s는 <strong>자기 집(서버)을 직접 관리</strong>해야 해서, 청소·수리를 다 해야 돼요.
-2. [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 <strong>호텔</strong>처럼 방([파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))만 예약하면 청소·수리를 호텔(클라우드)이 다 해줘요!
+2. 서버리스 K8s는 <strong>호텔</strong>처럼 방(파드)만 예약하면 청소·수리를 호텔(클라우드)이 다 해줘요!
 3. 대신 호텔비가 좀 비싸니까, **여행(버스트 트래픽)** 때만 호텔을 쓰고 평소에는 집에서 사는 게 좋답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 111 / 371
-
-<- **이전**: [111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리](/studynote/13_cloud_architecture/02_iaas_paas_saas/111_container_runtime_sandboxing_gvisor_kata_containers/)
-**다음**: [113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리](/studynote/13_cloud_architecture/07_container_k8s/113_kubeflow_mlops_orchestration/) ->
-
----

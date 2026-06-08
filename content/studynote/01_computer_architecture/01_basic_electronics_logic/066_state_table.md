@@ -7,7 +7,7 @@ weight: 66
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 상태표([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Table)는 현재 상태와 입력에 따라 다음 상태와 출력을 표로 정리한 형식이다.
+> 1. **본질**: 상태표(State Table)는 현재 상태와 입력에 따라 다음 상태와 출력을 표로 정리한 형식이다.
 > 2. **가치**: 상태도보다 계산과 검증에 유리해서 순차 회로 설계와 디버깅에 자주 쓰인다.
 > 3. **판단**: 상태도와 상태표는 서로 보완적이며, 전이 누락 여부를 확인하는 데 특히 유용하다.
 
@@ -15,7 +15,7 @@ weight: 66
 
 ## Ⅰ. 개요 및 필요성
 
-상태도는 직관적이지만, 모든 조합을 빠짐없이 점검하려면 표가 더 정확하다. 그래서 설계에서는 상태표로 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 누락을 확인한다.
+상태도는 직관적이지만, 모든 조합을 빠짐없이 점검하려면 표가 더 정확하다. 그래서 설계에서는 상태표로 논리 누락을 확인한다.
 
 상태표는 입력 조건별로 다음 상태를 체계적으로 정리해 구현 실수를 줄인다.
 
@@ -25,25 +25,25 @@ weight: 66
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| [Current](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | Input | Next [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | Output |
+| Current State | Input | Next State | Output |
 | :-- | :-- | :-- | :-- |
 | S0 | 0 | S0 | 0 |
 | S0 | 1 | S1 | 1 |
 | S1 | 0 | S2 | 0 |
 
-상태표는 상태, 입력, 전이, 출력을 한 줄씩 나열해 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성과 검증을 돕는다. 누락된 행이 있으면 설계 오류를 찾기 쉽다.
+상태표는 상태, 입력, 전이, 출력을 한 줄씩 나열해 논리 합성과 검증을 돕는다. 누락된 행이 있으면 설계 오류를 찾기 쉽다.
 
-- **📢 섹션 요약 비유**: 칸칸이 적어 둔 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)처럼 빠진 항목을 바로 찾을 수 있다.
+- **📢 섹션 요약 비유**: 칸칸이 적어 둔 체크리스트처럼 빠진 항목을 바로 찾을 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Table | [State Diagram](/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) | [Truth Table](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) |
+| 구분 | State Table | State Diagram | Truth Table |
 | :-- | :-- | :-- | :-- |
-| 표현 | 표 | [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 조합논리 |
+| 표현 | 표 | 그래프 | 조합논리 |
 | 강점 | 완전성 검토 | 직관성 | 입력-출력 대응 |
-| 용도 | 순차 회로 | [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | 조합 회로 |
+| 용도 | 순차 회로 | 상태 전이 | 조합 회로 |
 
 상태표는 상태도에서 보이지 않는 세부 조합을 확인하는 데 좋다. 반대로 상태도는 흐름을 한눈에 보여 준다.
 
@@ -53,15 +53,15 @@ weight: 66
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 모든 상태/입력 조합이 표에 있는가?
 2. 다음 상태와 출력이 명확한가?
 3. 상태도와 표가 일치하는가?
 4. 구현 전에 누락을 잡을 수 있는가?
-5. 최종 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)식으로 변환 가능한가?
+5. 최종 논리식으로 변환 가능한가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 일부 조합을 생략하는 설계
 - 상태도와 상태표를 따로 놀게 하는 설계
@@ -76,9 +76,9 @@ weight: 66
 
 ## Ⅴ. 기대효과 및 결론
 
-상태표는 순차 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 정확성을 높여 준다. 상태도와 함께 사용하면 설계 누락과 구현 오류를 크게 줄일 수 있다.
+상태표는 순차 논리의 정확성을 높여 준다. 상태도와 함께 사용하면 설계 누락과 구현 오류를 크게 줄일 수 있다.
 
-결론적으로 상태표는 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 표로 엄밀하게 정리하는 도구다.
+결론적으로 상태표는 상태 전이를 표로 엄밀하게 정리하는 도구다.
 
 - **📢 섹션 요약 비유**: 그림만 보지 말고 표로도 확인해야 빠짐이 없다.
 
@@ -117,14 +117,3 @@ Sequential Circuit
 그림으로 보는 것도 좋지만 표로 적으면 더 정확해요.
 어떤 경우에 어디로 가는지 한 줄씩 적어요.
 상태표는 그런 약속표예요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 66 / 803
-
-<- **이전**: [65. 상태도 (State Diagram)](/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)
-**다음**: [67. 무어 머신 (Moore Machine)](/studynote/01_computer_architecture/01_basic_electronics_logic/067_moore_machine/) ->
-
----

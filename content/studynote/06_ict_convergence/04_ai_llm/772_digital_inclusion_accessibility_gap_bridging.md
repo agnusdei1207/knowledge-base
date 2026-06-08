@@ -139,11 +139,3 @@ Contrast Ratio = (L1 + 0.05) / (L2 + 0.05)   (L1 > L2)
 
 **④ 포커스 관리 알고리즘 (SPA/CSR 환경)**
 - 라우트 변경 시 `<h1>` 또는 메인 영역에 `tabindex="-1"` + `focus()` 이동 ->
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 772 / 800
-
-<- **이전**: [771. 스마트 정부 디지털 공공 서비스 혁신](/studynote/06_ict_convergence/uncategorized/771_smart_government_digital_public_innovation/)
-**다음**: [773. 기술 윤리 디지털 권리 책임 있는 혁신](/studynote/06_ict_convergence/uncategorized/773_tech_ethics_digital_rights_responsible_innova/) ->
-
----

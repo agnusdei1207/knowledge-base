@@ -7,8 +7,8 @@ weight: 543
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SBT([Soulbound Token](/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/), 소울바운드 토큰)는 비탈릭 부테린이 2022년 제안한 <strong>양도·전송 불가(Non-Transferable) NFT</strong>로, 개인의 성취·자격·소속을 온체인에 영구 기록하는 신원 증명 도구다.
-> 2. **가치**: 학위증·자격증·의료기록·신용 이력을 오프체인 VC(Verifiable Credential)가 아닌 온체인에 기록함으로써 투명성과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 편의성을 높이지만, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 투명성으로 인한 <strong>프라이버시 우려</strong>가 핵심 트레이드오프다.
+> 1. **본질**: SBT(Soulbound Token, 소울바운드 토큰)는 비탈릭 부테린이 2022년 제안한 <strong>양도·전송 불가(Non-Transferable) NFT</strong>로, 개인의 성취·자격·소속을 온체인에 영구 기록하는 신원 증명 도구다.
+> 2. **가치**: 학위증·자격증·의료기록·신용 이력을 오프체인 VC(Verifiable Credential)가 아닌 온체인에 기록함으로써 투명성과 검증 편의성을 높이지만, 블록체인 투명성으로 인한 <strong>프라이버시 우려</strong>가 핵심 트레이드오프다.
 > 3. **판단 포인트**: SBT(온체인·공개·영구)와 VC(오프체인·선택적공개·폐기 가능)의 설계 철학 차이를 이해하면 신원 시스템 설계에서 어느 방식이 더 적합한지 논리적으로 판단할 수 있다.
 
 ---
@@ -25,7 +25,7 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 - 발급(Mint)은 Issuer만 가능
 - 전송(Transfer) 불가 -> 코드 레벨에서 막음
 - 취소(Revoke)는 Issuer·Holder 합의 또는 Issuer 단독 가능
-- 공개 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 영구 저장
+- 공개 블록체인에 영구 저장
 
 - **📢 섹션 요약 비유**: — "SBT는 내 이름이 새겨진 트로피 — 팔거나 빌려줄 수 없고, 오직 내가 직접 받아야만 내 것이 된다.
 
@@ -33,7 +33,7 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### SBT 발급·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 구조
+### SBT 발급·검증 구조
 
 ```
 +----------------------------------------------------+
@@ -56,15 +56,15 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 
 ### SBT vs VC(Verifiable Credential) 비교
 
-| 항목 | SBT ([Soulbound Token](/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/)) | VC (Verifiable Credential) |
+| 항목 | SBT (Soulbound Token) | VC (Verifiable Credential) |
 |:---|:---|:---|
-| **저장 위치** | 온체인 ([블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) | 오프체인 (지갑·서버) |
+| **저장 위치** | 온체인 (블록체인) | 오프체인 (지갑·서버) |
 | **공개 여부** | 누구나 조회 가능 | Holder 선택적 공개 |
 | **폐기 가능** | 어렵거나 복잡 | 간단히 폐기 |
-| **선택적 공개** | 불가 | 가능 ([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 연계) |
+| **선택적 공개** | 불가 | 가능 (ZKP 연계) |
 | **프라이버시** | 낮음 | 높음 |
-| <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 편의</strong> | 온체인 직접 | Issuer 서버 필요 가능 |
-| **표준** | ERC-5192 | W3C VC [Data Model](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) |
+| <strong>검증 편의</strong> | 온체인 직접 | Issuer 서버 필요 가능 |
+| **표준** | ERC-5192 | W3C VC Data Model |
 
 - **📢 섹션 요약 비유**: — "SBT는 공개 게시판에 내 수상 기록을 영구 게시하는 것, VC는 내 지갑에 수상증서를 보관하고 필요할 때만 꺼내 보여주는 것이다.
 
@@ -74,16 +74,16 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 
 ### SBT 프라이버시 문제
 
-공개 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 Soul 주소와 연결된 SBT 목록이 모두 공개:
+공개 블록체인에서 Soul 주소와 연결된 SBT 목록이 모두 공개:
 - 질병 이력(의료 SBT) 노출 가능
 - 과거 단체 가입·신용 불량 기록 노출
 - 지갑 주소와 오프체인 신원 연결 시 완전한 디지털 발자국 노출
 
 **완화 방안**:
-1. <strong><a href="/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/">ZKP</a> 연계</strong>: SBT 보유 증명은 하되 구체적 내용 비공개
-2. **프라이빗 체인**: 허가형 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 SBT 발급
+1. <strong>ZKP 연계</strong>: SBT 보유 증명은 하되 구체적 내용 비공개
+2. **프라이빗 체인**: 허가형 블록체인에 SBT 발급
 3. **선택적 공개**: 조회 접근 제어 레이어 추가
-4. <strong><a href="/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a> + SBT 조합</strong>: DID로 익명화된 Soul 주소 사용
+4. <strong>DID + SBT 조합</strong>: DID로 익명화된 Soul 주소 사용
 
 ### ERC-5192 표준
 
@@ -107,15 +107,15 @@ interface IERC5192 {
 |:---|:---|:---:|
 | **학위 증명** | 졸업 대학·학과·년도 | 중간 (공개 무방) |
 | **직업 자격증** | 기술사·의사 면허 | 중간 |
-| **커뮤니티 회원** | [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)·클럽 소속 | 낮음 (공개 무방) |
+| **커뮤니티 회원** | DAO·클럽 소속 | 낮음 (공개 무방) |
 | **의료 기록** | 병력·투약 이력 | 매우 낮음 (심각) |
 | **신용 이력** | 대출·연체 이력 | 낮음 (노출 위험) |
 
 ### 기술사 핵심 판단
-1. **"VC vs SBT 언제 쓰나?"**: 공개 무방한 자격증 -> SBT 적합, 민감 정보 -> VC + [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 적합
-2. <strong><a href="/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 충돌</strong>: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성 vs 잊힐 권리 -> SBT의 법적 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
-3. **Soul 지갑 분실**: SBT는 Soul 주소에 귀속 -> 주소 분실 시 자격 증명 접근 불가 -> 소셜 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요
-4. <strong>DeSoc(<a href="/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 사회)</strong>: 비탈릭 부테린의 장기 비전, SBT 기반 신용·평판 시스템
+1. **"VC vs SBT 언제 쓰나?"**: 공개 무방한 자격증 -> SBT 적합, 민감 정보 -> VC + ZKP 적합
+2. <strong>GDPR 충돌</strong>: 블록체인 불변성 vs 잊힐 권리 -> SBT의 법적 리스크
+3. **Soul 지갑 분실**: SBT는 Soul 주소에 귀속 -> 주소 분실 시 자격 증명 접근 불가 -> 소셜 복구 필요
+4. <strong>DeSoc(탈중앙화 사회)</strong>: 비탈릭 부테린의 장기 비전, SBT 기반 신용·평판 시스템
 
 - **📢 섹션 요약 비유**: — "SBT는 공개 벽에 내 이름을 새기는 것 — 자랑스러운 내용은 좋지만, 부끄러운 내용도 지우지 못한다는 것을 기억해야 한다.
 
@@ -125,14 +125,14 @@ interface IERC5192 {
 
 | 효과 항목 | 내용 |
 |:---|:---|
-| <strong>투명한 자격 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | Issuer 서버 없이 온체인 직접 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **위조 방지** | [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성으로 자격증 위조 원천 차단 |
-| **DeSoc 기반** | 온체인 신원 기반 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 사회 설계 |
-| **프라이버시 과제** | 민감 정보 공개 방지를 위한 [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 연계 필요 |
+| <strong>투명한 자격 검증</strong> | Issuer 서버 없이 온체인 직접 검증 |
+| **위조 방지** | 블록체인 불변성으로 자격증 위조 원천 차단 |
+| **DeSoc 기반** | 온체인 신원 기반 탈중앙화 사회 설계 |
+| **프라이버시 과제** | 민감 정보 공개 방지를 위한 ZKP 연계 필요 |
 
-SBT는 [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)/VC 시스템을 온체인화한 개념으로, 투명성과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 편의를 제공하지만 프라이버시 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 핵심 과제다. 기술사는 SBT와 VC의 설계 철학 차이를 이해하고, 사용 사례에 따른 적합한 선택을 논리적으로 제시해야 한다.
+SBT는 DID/VC 시스템을 온체인화한 개념으로, 투명성과 검증 편의를 제공하지만 프라이버시 리스크가 핵심 과제다. 기술사는 SBT와 VC의 설계 철학 차이를 이해하고, 사용 사례에 따른 적합한 선택을 논리적으로 제시해야 한다.
 
-- **📢 섹션 요약 비유**: — "SBT는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 세계의 문신 — 내 역사가 영구히 새겨지고 누구나 볼 수 있으므로, 새기기 전에 반드시 신중히 생각해야 한다.
+- **📢 섹션 요약 비유**: — "SBT는 블록체인 세계의 문신 — 내 역사가 영구히 새겨지고 누구나 볼 수 있으므로, 새기기 전에 반드시 신중히 생각해야 한다.
 
 ---
 
@@ -140,11 +140,11 @@ SBT는 [DID](/studynote/12_it_management/05_security_compliance/231_did_decentra
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 설명 |
+| 연결 개념 | 관계 설명 |
 | ERC-5192 | SBT 구현 표준 |
 | VC | SBT와 비교되는 오프체인 신원 증명 |
-| [ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) | SBT 프라이버시 보호를 위한 연계 기술 |
-| [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) | SBT의 Soul 주소 익명화에 활용 |
+| ZKP | SBT 프라이버시 보호를 위한 연계 기술 |
+| DID | SBT의 Soul 주소 익명화에 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,14 +157,3 @@ SBT는 [DID](/studynote/12_it_management/05_security_compliance/231_did_decentra
 1. SBT는 내 이름이 새겨진 올림픽 메달처럼 팔 수도, 빌려줄 수도 없는 진짜 내 것이에요.
 2. 학교 졸업장이나 자격증을 SBT로 만들면 누군가 위조하거나 빌릴 수 없어서 믿을 수 있어요.
 3. 하지만 병원 기록 같은 비밀 정보는 SBT로 만들면 모두가 볼 수 있어서 조심해야 해요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 543 / 552
-
-<- **이전**: [542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)](/studynote/06_ict_convergence/01_blockchain/542_multisig_account_abstraction_erc4337/)
-**다음**: [544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)](/studynote/06_ict_convergence/01_blockchain/544_web3_decentralized_platform_economy/) ->
-
----

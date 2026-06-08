@@ -127,11 +127,3 @@ weight: 694
 ICT 융합 트렌드는 종전 기술과의 명확한 차별점이 있다. **하이퍼자동화(Hyper-Automation)** vs **에이전틱 AI**, **디지털 트윈** vs **피지컬 AI**, **클라우드 AI** vs **온디바이스 AI** 등 2025년 기술사 시험에서 빈번히 비교되는 쌍을 정리한다.
 
 | 구분 | 에이전틱 AI (Agentic AI) | 하이퍼자동화 (Hyper-Automation, 2020~)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 694 / 800
-
-<- **이전**: [693. 데이터 사이언스 기술사 마스터 정리](/studynote/06_ict_convergence/uncategorized/693_data_science_pe_master_summary/)
-**다음**: [695. 디지털 플랫폼 정부 GovTech 전자정부](/studynote/06_ict_convergence/uncategorized/695_digital_platform_government_govtech_e_gov/) ->
-
----

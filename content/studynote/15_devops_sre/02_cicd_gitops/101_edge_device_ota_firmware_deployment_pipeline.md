@@ -8,31 +8,31 @@ weight: 101
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 엣지 디바이스 OTA ([Over-The-Air](/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/))는 수천~수십만 대의 물리적 기기(차량, [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 등)를 회수하지 않고 무선 네트워크를 통해 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)나 소프트웨어를 원격 배포하는 인프라 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
-> 2. **가치**: 클라우드의 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) 워크플로우를 하드웨어 단말기까지 확장하여, 제품 판매 이후에도 지속적으로 보안 패치와 신규 기능을 주입해 기기의 라이프사이클 가치를 극대화한다.
-> 3. **판단 포인트**: 서버 업데이트와 달리 엣지 OTA는 업데이트 도중 전원이 끊기면 기기가 먹통(Brick)이 되는 치명적 위험이 있으므로, A/B 듀얼 뱅크(Dual Bank) 설계와 자동 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘을 필수적으로 도입해야 한다.
+> 1. **본질**: 엣지 디바이스 OTA (Over-The-Air)는 수천~수십만 대의 물리적 기기(차량, IoT 등)를 회수하지 않고 무선 네트워크를 통해 펌웨어나 소프트웨어를 원격 배포하는 인프라 파이프라인이다.
+> 2. **가치**: 클라우드의 CI/CD (지속적 통합/배포) 워크플로우를 하드웨어 단말기까지 확장하여, 제품 판매 이후에도 지속적으로 보안 패치와 신규 기능을 주입해 기기의 라이프사이클 가치를 극대화한다.
+> 3. **판단 포인트**: 서버 업데이트와 달리 엣지 OTA는 업데이트 도중 전원이 끊기면 기기가 먹통(Brick)이 되는 치명적 위험이 있으므로, A/B 듀얼 뱅크(Dual Bank) 설계와 자동 롤백 메커니즘을 필수적으로 도입해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software-Defined Vehicle)에서 무선으로 시스템을 통째로 갈아 끼우는 기술이다. 과거에는 냉장고나 자동차의 내부 소프트웨어에 버그가 생기면 사용자가 USB를 꽂거나 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 센터에 방문해야 했다. 이는 막대한 리콜 비용과 물리적 시간 낭비를 초래했다.
+OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software-Defined Vehicle)에서 무선으로 시스템을 통째로 갈아 끼우는 기술이다. 과거에는 냉장고나 자동차의 내부 소프트웨어에 버그가 생기면 사용자가 USB를 꽂거나 서비스 센터에 방문해야 했다. 이는 막대한 리콜 비용과 물리적 시간 낭비를 초래했다.
 
-인터넷에 연결된 엣지 디바이스가 폭발적으로 증가하면서, 클라우드 서버뿐 아니라 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 하드웨어까지 소프트웨어를 실시간으로 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해야 하는 필요성이 생겼다. 그러나 엣지 환경은 네트워크가 끊기기 쉽고, 기기의 전력이 언제 나갈지 모르며, 해커가 악성 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 주입하기 좋은 표적이 된다. 따라서 OTA [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 단순한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드를 넘어, 암호화된 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 안전한 교체 시퀀스를 보장하는 복합적인 시스템 공학으로 발전했다.
+인터넷에 연결된 엣지 디바이스가 폭발적으로 증가하면서, 클라우드 서버뿐 아니라 분산된 하드웨어까지 소프트웨어를 실시간으로 동기화해야 하는 필요성이 생겼다. 그러나 엣지 환경은 네트워크가 끊기기 쉽고, 기기의 전력이 언제 나갈지 모르며, 해커가 악성 펌웨어를 주입하기 좋은 표적이 된다. 따라서 OTA 파이프라인은 단순한 파일 다운로드를 넘어, 암호화된 무결성 검증과 안전한 교체 시퀀스를 보장하는 복합적인 시스템 공학으로 발전했다.
 
-- **📢 섹션 요약 비유**: 예전에는 장난감이 고장 나면 공장으로 다시 택배를 보내야 했다. OTA는 밤에 장난감이 잠들었을 때, 와이파이를 타고 마법사가 날아와 장난감의 뇌([펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/))를 새것으로 몰래 교체해 주는 마법이다.
+- **📢 섹션 요약 비유**: 예전에는 장난감이 고장 나면 공장으로 다시 택배를 보내야 했다. OTA는 밤에 장난감이 잠들었을 때, 와이파이를 타고 마법사가 날아와 장난감의 뇌(펌웨어)를 새것으로 몰래 교체해 주는 마법이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-안전한 OTA 업데이트는 클라우드의 배포 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)과 엣지 기기의 로컬 업데이트 엔진(OTA Agent)이 긴밀하게 협력하여 이루어진다. 그중 핵심은 장애 발생 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 보장하는 'A/B [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) (Dual Bank)' 구조다.
+안전한 OTA 업데이트는 클라우드의 배포 오케스트레이션과 엣지 기기의 로컬 업데이트 엔진(OTA Agent)이 긴밀하게 협력하여 이루어진다. 그중 핵심은 장애 발생 시 복구를 보장하는 'A/B 파티션 (Dual Bank)' 구조다.
 
 | 요소 | 역할 | 핵심 보안/설계 포인트 |
 | :--- | :--- | :--- |
-| **Cloud Update Manager** | [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 저장, 배포 타겟팅, 현황 수집 | [코드 서명](/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) ([Code Signing](/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)), 점진적 롤아웃 |
-| **OTA Agent (Edge)** | 새 바이너리 다운로드, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 검사 수행 | [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전송, 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/) 연계) |
-| <strong>A/B 뱅크 <a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> | [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)를 두 구역으로 나눠 안전하게 덮어쓰기 | 자동 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Auto-[Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)), 전원 차단 대비 |
+| **Cloud Update Manager** | 펌웨어 저장, 배포 타겟팅, 현황 수집 | 코드 서명 (Code Signing), 점진적 롤아웃 |
+| **OTA Agent (Edge)** | 새 바이너리 다운로드, 무결성 검사 수행 | TLS 전송, 서명 검증 (Secure Boot 연계) |
+| <strong>A/B 뱅크 파티션</strong> | 플래시 메모리를 두 구역으로 나눠 안전하게 덮어쓰기 | 자동 롤백 (Auto-Rollback), 전원 차단 대비 |
 
 ```text
 +--------------------------------------------------------------+
@@ -54,51 +54,51 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 +--------------------------------------------------------------+
 ```
 
-이 다이어그램이 보여주듯, 새 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 다운로드해서 덮어쓰는 동안에도 기기는 A [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 통해 정상 작동한다. 업데이트가 완료된 후 리부팅 시 [부트로더](/studynote/02_operating_system/01_overview_architecture/029_bootloader/)([Bootloader](/studynote/02_operating_system/01_overview_architecture/029_bootloader/))가 진입점을 B로 변경하기만 하면 된다. 중간에 전원이 끊어지더라도 A [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 손상되지 않았으므로 기기가 벽돌(Brick)이 되는 사태를 완벽하게 막아준다.
+이 다이어그램이 보여주듯, 새 펌웨어를 다운로드해서 덮어쓰는 동안에도 기기는 A 파티션을 통해 정상 작동한다. 업데이트가 완료된 후 리부팅 시 부트로더(Bootloader)가 진입점을 B로 변경하기만 하면 된다. 중간에 전원이 끊어지더라도 A 파티션은 손상되지 않았으므로 기기가 벽돌(Brick)이 되는 사태를 완벽하게 막아준다.
 
-- **📢 섹션 요약 비유**: 하늘을 나는 비행기의 엔진을 교체하는 것과 같다. 비행기(기기)를 멈추게 할 수 없으니, 보조 엔진(B [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))을 먼저 달아서 테스트해 보고 완벽히 돌아가면 그때 주 엔진(A [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))을 끄는 안전한 교대 방식이다.
+- **📢 섹션 요약 비유**: 하늘을 나는 비행기의 엔진을 교체하는 것과 같다. 비행기(기기)를 멈추게 할 수 없으니, 보조 엔진(B 파티션)을 먼저 달아서 테스트해 보고 완벽히 돌아가면 그때 주 엔진(A 파티션)을 끄는 안전한 교대 방식이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-웹 서버 배포([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/))와 엣지 하드웨어 배포(OTA)는 환경적 제약 때문에 완전히 다른 철학으로 접근해야 한다.
+웹 서버 배포(SaaS)와 엣지 하드웨어 배포(OTA)는 환경적 제약 때문에 완전히 다른 철학으로 접근해야 한다.
 
 | 비교 항목 | 웹/클라우드 서버 배포 | 엣지 디바이스 OTA 배포 |
 | :--- | :--- | :--- |
-| <strong>배포 <a href="/studynote/09_security/18_iot_ot_physical/937_environmental_control/">환경 통제</a>력</strong> | 완벽함 (항온항습, 안정적 전력/네트워크) | 매우 열악함 (이동형, 배터리 방전 위험, 불안정 망) |
-| **장애 시 임팩트** | [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 재시작, 트래픽 우회로 해결 | 물리적 수거 전까지 영구적 벽돌(Brick) 상태 |
-| **주요 배포 방식** | 블루/그린 (Blue/Green), [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 델타(Delta) 업데이트, A/B [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 플래싱 |
-| **보안 초점** | [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 | [하드웨어 보안 모듈](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([HSM](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)), 서명된 [부트로더](/studynote/02_operating_system/01_overview_architecture/029_bootloader/) |
+| <strong>배포 환경 통제력</strong> | 완벽함 (항온항습, 안정적 전력/네트워크) | 매우 열악함 (이동형, 배터리 방전 위험, 불안정 망) |
+| **장애 시 임팩트** | 컨테이너 재시작, 트래픽 우회로 해결 | 물리적 수거 전까지 영구적 벽돌(Brick) 상태 |
+| **주요 배포 방식** | 블루/그린 (Blue/Green), 카나리 배포 | 델타(Delta) 업데이트, A/B 파티션 플래싱 |
+| **보안 초점** | 방화벽, TLS, 인증 토큰 | 하드웨어 보안 모듈(HSM), 서명된 부트로더 |
 
-웹 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 죽으면 오케스트레이터(K8s)가 1초 만에 살려내지만, 무인 기상 관측소의 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 중 멈추면 사람이 헬기를 타고 산꼭대기로 가야 한다. 이 때문에 OTA는 전송량을 최소화하기 위한 델타(차분) 업데이트와 기기 고유 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MTLS](/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))에 훨씬 더 많은 공수를 들인다.
+웹 서비스는 컨테이너가 죽으면 오케스트레이터(K8s)가 1초 만에 살려내지만, 무인 기상 관측소의 IoT 센서가 펌웨어 업데이트 중 멈추면 사람이 헬기를 타고 산꼭대기로 가야 한다. 이 때문에 OTA는 전송량을 최소화하기 위한 델타(차분) 업데이트와 기기 고유 인증(MTLS)에 훨씬 더 많은 공수를 들인다.
 
-- **📢 섹션 요약 비유**: 클라우드 서버 배포는 "안전한 수술실에서 의사 10명이 대기하며 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 수술"이고, 엣지 OTA는 "달리는 기차 위에서 로봇 팔을 원격 조종해 부품을 갈아 끼우는 위험한 곡예"다. 실패의 대가가 다르다.
+- **📢 섹션 요약 비유**: 클라우드 서버 배포는 "안전한 수술실에서 의사 10명이 대기하며 진행하는 수술"이고, 엣지 OTA는 "달리는 기차 위에서 로봇 팔을 원격 조종해 부품을 갈아 끼우는 위험한 곡예"다. 실패의 대가가 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-엣지 OTA [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 설계할 때는 통신 인프라 비용과 기기의 하드웨어 수명을 동시에 고려해야 한다.
+엣지 OTA 파이프라인을 설계할 때는 통신 인프라 비용과 기기의 하드웨어 수명을 동시에 고려해야 한다.
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. <strong>델타(Delta) 업데이트 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 매번 100MB짜리 전체 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 전송하면 통신비가 폭발하고 [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 수명([Wear Leveling](/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))이 깎인다. 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과의 차이점(Delta, 예: 2MB)만 추출해 전송하고 기기 내부에서 패치(Patch)를 결합하도록 설계해야 한다.
-2. **배터리 및 상태 인지**: 기기의 배터리가 30% 이하이거나, 자동차가 고속 주행 중일 때는 절대로 업데이트를 시작해선 안 된다. 에이전트가 하드웨어 상태를 체크하는 조건부 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요하다.
-3. <strong><a href="/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/">코드 서명</a>과 체인 오브 트러스트 (Chain of Trust)</strong>: 해커가 가짜 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 보낼 수 없도록, 클라우드에서 배포 전 프라이빗 키로 서명하고 기기 내의 하드웨어 보안 칩([HSM](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/))이 이를 퍼블릭 키로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야만 굽기를 허락해야 한다.
+### 체크리스트 및 판단 기준
+1. <strong>델타(Delta) 업데이트 전략</strong>: 매번 100MB짜리 전체 펌웨어를 전송하면 통신비가 폭발하고 플래시 메모리 수명(Wear Leveling)이 깎인다. 이전 버전과의 차이점(Delta, 예: 2MB)만 추출해 전송하고 기기 내부에서 패치(Patch)를 결합하도록 설계해야 한다.
+2. **배터리 및 상태 인지**: 기기의 배터리가 30% 이하이거나, 자동차가 고속 주행 중일 때는 절대로 업데이트를 시작해선 안 된다. 에이전트가 하드웨어 상태를 체크하는 조건부 정책이 필요하다.
+3. <strong>코드 서명과 체인 오브 트러스트 (Chain of Trust)</strong>: 해커가 가짜 펌웨어를 보낼 수 없도록, 클라우드에서 배포 전 프라이빗 키로 서명하고 기기 내의 하드웨어 보안 칩(HSM)이 이를 퍼블릭 키로 검증해야만 굽기를 허락해야 한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 - 수만 대의 기기에 동시에 OTA 패키지를 밀어내어(Push), AWS 요금이 폭탄을 맞고 네트워크가 마비되는 설계 (반드시 지역별 점진적 롤아웃 필요).
-- [부트로더](/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 레벨의 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 모드를 설계하지 않고 애플리케이션 레벨에서만 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 구현하는 행위.
+- 부트로더 레벨의 복구(Recovery) 모드를 설계하지 않고 애플리케이션 레벨에서만 롤백을 구현하는 행위.
 
-- **📢 섹션 요약 비유**: OTA [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계는 로켓 발사 카운트다운과 같다. 날씨(네트워크), 연료(배터리), 보안코드(서명) 중 하나라도 X가 뜨면 즉시 발사(업데이트)를 중지하고 뒤로 미뤄야 대형 사고를 막는다.
+- **📢 섹션 요약 비유**: OTA 정책 설계는 로켓 발사 카운트다운과 같다. 날씨(네트워크), 연료(배터리), 보안코드(서명) 중 하나라도 X가 뜨면 즉시 발사(업데이트)를 중지하고 뒤로 미뤄야 대형 사고를 막는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-성공적인 OTA [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 하드웨어를 '한 번 팔면 끝나는 물건'에서 '구독형 진화 플랫폼'으로 탈바꿈시킨다. [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 시 실시간 패치가 가능하여 막대한 리콜 비용을 절약할 수 있으며, 자율주행이나 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 지속적으로 배포해 고객에게 새로운 가치를 판매할 수 있다.
+성공적인 OTA 파이프라인은 하드웨어를 '한 번 팔면 끝나는 물건'에서 '구독형 진화 플랫폼'으로 탈바꿈시킨다. 결함 발생 시 실시간 패치가 가능하여 막대한 리콜 비용을 절약할 수 있으며, 자율주행이나 AI 모델을 지속적으로 배포해 고객에게 새로운 가치를 판매할 수 있다.
 
-하지만 OTA는 기기의 가장 낮은 단(OS, [Bootloader](/studynote/02_operating_system/01_overview_architecture/029_bootloader/))을 건드리기 때문에 공격자에게는 최고의 타겟이 된다. 따라서 개발-빌드-배포-기기실행에 이르는 전 과정에서 소프트웨어 [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)([Supply Chain Security](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/))을 입증할 수 있어야 한다. OTA 인프라는 편의를 위한 부가 기능이 아니라, 스마트 디바이스 생태계를 지탱하는 핵심 생명줄(Lifeline)로 취급해야 한다.
+하지만 OTA는 기기의 가장 낮은 단(OS, Bootloader)을 건드리기 때문에 공격자에게는 최고의 타겟이 된다. 따라서 개발-빌드-배포-기기실행에 이르는 전 과정에서 소프트웨어 공급망 보안(Supply Chain Security)을 입증할 수 있어야 한다. OTA 인프라는 편의를 위한 부가 기능이 아니라, 스마트 디바이스 생태계를 지탱하는 핵심 생명줄(Lifeline)로 취급해야 한다.
 
 - **📢 섹션 요약 비유**: 옛날 자동차는 공장에서 나오는 날이 가장 좋은 날이었지만, OTA가 적용된 차는 오늘이 가장 낡은 날이다. 자고 일어나면 무선으로 똑똑한 새 차가 되어 있기 때문이다.
 
@@ -108,10 +108,10 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **델타 패치 (Delta Patching)** | 변경된 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Byte](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))만 추출해 네트워크 전송량을 줄이는 핵심 최적화 기술 |
-| <strong><a href="/studynote/02_operating_system/10_security/608_secure_boot/">Secure Boot</a> (보안 부트)</strong> | 부팅 시 OS 이미지의 디지털 서명을 검사해 변조된 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 실행을 차단하는 하드웨어 기술 |
-| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a></strong> | 수만 대의 엣지 기기 중 1%에만 먼저 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 배포해 치명적 오류를 테스트하는 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| <strong><a href="/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">Software Bill of Materials</a> (<a href="/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a>)</strong> | OTA로 밀어넣는 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 안에 취약한 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)가 없는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 명세서 |
+| **델타 패치 (Delta Patching)** | 변경된 바이트(Byte)만 추출해 네트워크 전송량을 줄이는 핵심 최적화 기술 |
+| <strong>Secure Boot (보안 부트)</strong> | 부팅 시 OS 이미지의 디지털 서명을 검사해 변조된 펌웨어의 실행을 차단하는 하드웨어 기술 |
+| <strong>Canary Deployment</strong> | 수만 대의 엣지 기기 중 1%에만 먼저 펌웨어를 배포해 치명적 오류를 테스트하는 배포 전략 |
+| <strong>Software Bill of Materials (SBOM)</strong> | OTA로 밀어넣는 펌웨어 안에 취약한 오픈소스가 없는지 검증하는 공급망 보안 명세서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,21 +131,10 @@ A/B 듀얼 파티션 (무중단 다운로드 및 안전 롤백 보장)
 Secure Boot 및 공급망 서명 체인 결합 (End-to-End 무결성 보장)
 ```
 
-이 흐름도는 "물리적 교체 -> 단순 원격 배포 -> 안전성 확보([롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) -> 효율성 확보(차분) -> 완벽한 보안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 원격 하드웨어 배포 기술의 진화를 보여준다.
+이 흐름도는 "물리적 교체 -> 단순 원격 배포 -> 안전성 확보(롤백) -> 효율성 확보(차분) -> 완벽한 보안 검증"으로 이어지는 원격 하드웨어 배포 기술의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. OTA는 로봇 장난감을 수리점에 가져가지 않아도, 무선 인터넷으로 새 기능을 다운받는 마법이에요.
-2. 다운받다가 갑자기 전기가 끊어져도 고장 나지 않게, 로봇 안에 예비 뇌(A/B [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))를 두 개나 만들어 뒀어요.
+2. 다운받다가 갑자기 전기가 끊어져도 고장 나지 않게, 로봇 안에 예비 뇌(A/B 파티션)를 두 개나 만들어 뒀어요.
 3. 나쁜 해커가 만든 가짜 마법을 받지 않도록, 로봇은 진짜 회사가 보낸 암호 편지만 열어볼 수 있게 똑똑하게 훈련되어 있답니다.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 101 / 373
-
-<- **이전**: [100. 멀티 리전 (Multi-Region) 배포 파이프라인 - 글로벌 고가용성(DR) 및 레이턴시 최적화](/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/)
-**다음**: [에어 갭 (Air-gapped) 환경의 CI/CD: 폐쇄망 배포 전략](/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/) ->
-
----

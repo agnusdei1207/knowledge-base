@@ -8,17 +8,17 @@ weight: 83
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I ([Material Requirements Planning](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))은 자재 소요량을 맞추는 데 강하지만, [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II (Manufacturing Resource Planning)는 설비, 인력, 재무까지 포함해 "실행 가능한 계획"으로 확장한다.
-- **가치**: 폐쇄 루프 (Closed-Loop) 피드백이 있어야 계획이 문서에서 끝나지 않고 MPS (Master Production Schedule) -> [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) -> CRP (Capacity Requirements Planning) -> [SFC](/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) (Shop Floor Control)로 현장에 내려간다.
+- **본질**: MRP I (Material Requirements Planning)은 자재 소요량을 맞추는 데 강하지만, MRP II (Manufacturing Resource Planning)는 설비, 인력, 재무까지 포함해 "실행 가능한 계획"으로 확장한다.
+- **가치**: 폐쇄 루프 (Closed-Loop) 피드백이 있어야 계획이 문서에서 끝나지 않고 MPS (Master Production Schedule) -> MRP -> CRP (Capacity Requirements Planning) -> SFC (Shop Floor Control)로 현장에 내려간다.
 - **판단 포인트**: 자재만 맞고 능력이 안 맞으면 계획은 종이 위 숫자일 뿐이므로, 무한 능력 가정과 유한 능력 가정을 구분해 적용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I ([Material Requirements Planning](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))은 "무엇을, 언제, 얼마나 주문할 것인가"를 계산하는 데 탁월했다. [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))을 기준으로 자재를 폭발시키고 납기와 재고를 맞추는 데는 유용했지만, 실제 공장에서는 설비가 이미 가동 중이거나 작업자가 부족하거나 교대조가 맞지 않는 일이 흔했다. 즉, 자재는 있는데 못 만드는 상황이 많았다.
+MRP I (Material Requirements Planning)은 "무엇을, 언제, 얼마나 주문할 것인가"를 계산하는 데 탁월했다. BOM (Bill of Materials)을 기준으로 자재를 폭발시키고 납기와 재고를 맞추는 데는 유용했지만, 실제 공장에서는 설비가 이미 가동 중이거나 작업자가 부족하거나 교대조가 맞지 않는 일이 흔했다. 즉, 자재는 있는데 못 만드는 상황이 많았다.
 
-이 한계를 넘어선 것이 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II (Manufacturing Resource Planning)이다. [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 자재 중심의 계산을 생산 자원 전체로 넓혀서, 계획이 실제 현장의 제약과 만나도 무너지지 않도록 만들었다. 1980년대 제조업은 자동화와 복잡한 다품종 소량생산이 늘어나면서, 자재만 보는 방식으로는 납기 준수와 원가 통제가 어려워졌다.
+이 한계를 넘어선 것이 MRP II (Manufacturing Resource Planning)이다. MRP II는 자재 중심의 계산을 생산 자원 전체로 넓혀서, 계획이 실제 현장의 제약과 만나도 무너지지 않도록 만들었다. 1980년대 제조업은 자동화와 복잡한 다품종 소량생산이 늘어나면서, 자재만 보는 방식으로는 납기 준수와 원가 통제가 어려워졌다.
 
 ```text
 +--------------+
@@ -34,21 +34,21 @@ weight: 83
 +--------------+
 ```
 
-이처럼 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I가 자재 수급의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 높였더라도, 능력 제약을 무시하면 실행 단계에서 계획이 붕괴한다. 그래서 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 "소요 계산"이 아니라 "실행 가능성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"까지 포함해야 의미가 있다.
+이처럼 MRP I가 자재 수급의 정확성을 높였더라도, 능력 제약을 무시하면 실행 단계에서 계획이 붕괴한다. 그래서 MRP II는 "소요 계산"이 아니라 "실행 가능성 검증"까지 포함해야 의미가 있다.
 
-- **📢 섹션 요약 비유**: 장바구니에 재료만 정확히 담아도, 냄비와 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)불이 부족하면 밥은 못 짓는다. [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 재료뿐 아니라 조리대와 요리사 시간까지 같이 보는 방식이다.
+- **📢 섹션 요약 비유**: 장바구니에 재료만 정확히 담아도, 냄비와 가스불이 부족하면 밥은 못 짓는다. MRP II는 재료뿐 아니라 조리대와 요리사 시간까지 같이 보는 방식이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II의 핵심은 폐쇄 루프 (Closed-Loop)다. 계획을 세우고, 능력을 검토하고, 현장에서 실행하고, 실제 결과를 다시 계획에 반영해야 한다. 이때 MPS는 최상위 생산 일정, MRP는 자재 소요 계산, RCCP (Rough-Cut Capacity Planning)는 거친 능력 검토, CRP (Capacity Requirements Planning)는 상세 능력 검토, [SFC](/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) (Shop Floor Control)는 현장 통제와 피드백을 담당한다.
+MRP II의 핵심은 폐쇄 루프 (Closed-Loop)다. 계획을 세우고, 능력을 검토하고, 현장에서 실행하고, 실제 결과를 다시 계획에 반영해야 한다. 이때 MPS는 최상위 생산 일정, MRP는 자재 소요 계산, RCCP (Rough-Cut Capacity Planning)는 거친 능력 검토, CRP (Capacity Requirements Planning)는 상세 능력 검토, SFC (Shop Floor Control)는 현장 통제와 피드백을 담당한다.
 
-| [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 역할 | 판단 포인트 |
+| 모듈 | 역할 | 판단 포인트 |
 | :--- | :--- | :--- |
-| MPS (Master Production Schedule) | 최종 생산 일정 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 무엇을 언제 만들 것인가 |
-| [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) ([Material Requirements Planning](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)) | 자재 소요 계산 | 어떤 자재를 언제 확보할 것인가 |
+| MPS (Master Production Schedule) | 최종 생산 일정 설정 | 무엇을 언제 만들 것인가 |
+| MRP (Material Requirements Planning) | 자재 소요 계산 | 어떤 자재를 언제 확보할 것인가 |
 | RCCP (Rough-Cut Capacity Planning) | 거친 능력 검토 | 큰 병목이 있는가 |
 | CRP (Capacity Requirements Planning) | 세부 능력 검토 | 설비/인력이 충분한가 |
-| [SFC](/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) (Shop Floor Control) | 현장 실행과 통제 | 실제 생산이 계획대로 가는가 |
+| SFC (Shop Floor Control) | 현장 실행과 통제 | 실제 생산이 계획대로 가는가 |
 
 ```text
 +------+   +------+   +------+   +------+
@@ -60,7 +60,7 @@ weight: 83
                     +---------- feedback to MPS/MRP -----
 ```
 
-[MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 자재 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐 아니라 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 공정 시간, 교대 계획, 원가 정보까지 이어 붙인다. 그래서 "무엇을 만들 것인가"와 "실제로 만들 수 있는가"를 같은 장표 안에서 검토할 수 있다.
+MRP II는 자재 데이터뿐 아니라 라우팅, 공정 시간, 교대 계획, 원가 정보까지 이어 붙인다. 그래서 "무엇을 만들 것인가"와 "실제로 만들 수 있는가"를 같은 장표 안에서 검토할 수 있다.
 
 또 하나의 중요한 원리는 능력 계획 방식이다. 무한 능력 계획 (Infinite Capacity Planning)은 자재 계산 단계에서 설비 제약을 일단 무시하고 빠르게 계산하는 방식이고, 유한 능력 계획 (Finite Capacity Planning)은 실제 설비와 인력의 한계를 반영해 일정 자체를 조정하는 방식이다.
 
@@ -68,15 +68,15 @@ weight: 83
 
 ## Ⅲ. 비교 및 연결
 
-[MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I, [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II, [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 같은 계열이지만 범위가 다르다. [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I은 자재 중심, [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 제조 자원 중심, ERP는 전사 자원 중심이다. 1990년대에 Gartner가 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II의 확장형을 ERP로 부르기 시작하면서, 제조 계획은 회사 [전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)와 연결되는 개념으로 자리 잡았다.
+MRP I, MRP II, ERP (Enterprise Resource Planning)는 같은 계열이지만 범위가 다르다. MRP I은 자재 중심, MRP II는 제조 자원 중심, ERP는 전사 자원 중심이다. 1990년대에 Gartner가 MRP II의 확장형을 ERP로 부르기 시작하면서, 제조 계획은 회사 전체 프로세스와 연결되는 개념으로 자리 잡았다.
 
 | 구분 | 범위 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I | 자재 | 소요량 계산이 빠름 | 능력 제약을 반영하지 못함 |
-| [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II | 자재 + 설비 + 인력 + 재무 | 실행 가능성까지 고려 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 요구가 큼 |
-| [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) | 전사 업무 | 생산-구매-회계-영업 통합 | 도입과 운영이 복잡함 |
+| MRP I | 자재 | 소요량 계산이 빠름 | 능력 제약을 반영하지 못함 |
+| MRP II | 자재 + 설비 + 인력 + 재무 | 실행 가능성까지 고려 | 데이터 정합성 요구가 큼 |
+| ERP | 전사 업무 | 생산-구매-회계-영업 통합 | 도입과 운영이 복잡함 |
 
-능력 계획도 구분해야 한다. 무한 능력 방식은 계획 속도가 빠르지만 현실을 거칠게 본다. 유한 능력 방식은 현실성을 높이지만 계산과 조정 비용이 커진다. 따라서 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 수립은 무한 능력으로 빠르게, 병목 공정은 유한 능력으로 정밀하게 보는 식의 혼합 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 흔하다.
+능력 계획도 구분해야 한다. 무한 능력 방식은 계획 속도가 빠르지만 현실을 거칠게 본다. 유한 능력 방식은 현실성을 높이지만 계산과 조정 비용이 커진다. 따라서 초기 수립은 무한 능력으로 빠르게, 병목 공정은 유한 능력으로 정밀하게 보는 식의 혼합 전략이 흔하다.
 
 | 방식 | 장점 | 적합한 상황 |
 | :--- | :--- | :--- |
@@ -85,48 +85,48 @@ weight: 83
 | RCCP | 빠른 거친 판별 | 경영진 승인 전 검토 |
 | CRP | 상세 판별 | 실행 직전 작업배치 |
 
-즉 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 "자재 계산"에서 끝나는 개념이 아니라, 계획과 실행을 연결하는 제조 운영 아키텍처다.
+즉 MRP II는 "자재 계산"에서 끝나는 개념이 아니라, 계획과 실행을 연결하는 제조 운영 아키텍처다.
 
-- **📢 섹션 요약 비유**: 자동차 내비게이션이 길만 알려주고 도로 공사와 차선 수를 무시하면 곤란하다. [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 길, 차선, 정체까지 함께 보는 내비게이션이다.
+- **📢 섹션 요약 비유**: 자동차 내비게이션이 길만 알려주고 도로 공사와 차선 수를 무시하면 곤란하다. MRP II는 길, 차선, 정체까지 함께 보는 내비게이션이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II의 성패는 기능이 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 [피드백 루프](/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)에 달려 있다. [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) 정확도, 공정 시간, 재고 실사, 작업장 일정, 설비 가동률이 맞지 않으면 아무리 좋은 계획도 틀어진다. 그래서 도입 전에는 "모델"보다 "[마스터 데이터](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)"를 먼저 정비해야 한다.
+실무에서 MRP II의 성패는 기능이 아니라 데이터 품질과 피드백 루프에 달려 있다. BOM (Bill of Materials) 정확도, 공정 시간, 재고 실사, 작업장 일정, 설비 가동률이 맞지 않으면 아무리 좋은 계획도 틀어진다. 그래서 도입 전에는 "모델"보다 "마스터 데이터"를 먼저 정비해야 한다.
 
 ### 적용 기준
 
 1. 병목 설비가 분명한 공정이면 유한 능력 계획을 우선 검토한다.
-2. 납기 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 비용이 큰 업종이면 [SFC](/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) 피드백을 촘촘히 잡는다.
-3. 수요 변동이 심하면 RCCP로 거칠게 먼저 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 CRP로 상세화한다.
-4. 회계와 생산을 동시에 관리해야 하면 재무 연결을 포함한 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II 범위를 유지한다.
+2. 납기 지연 비용이 큰 업종이면 SFC 피드백을 촘촘히 잡는다.
+3. 수요 변동이 심하면 RCCP로 거칠게 먼저 확인한 뒤 CRP로 상세화한다.
+4. 회계와 생산을 동시에 관리해야 하면 재무 연결을 포함한 MRP II 범위를 유지한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 자재만 맞으면 생산도 된다고 착각하기
 - 실제 설비 캘린더를 반영하지 않은 일정 확정
 - 작업 현장의 실적을 다음 계획에 반영하지 않기
 - BOM과 공정 시간이 오래된 값인 채로 운영하기
 
-기술사 관점에서는 "언제 무한 능력 가정이 허용되고, 언제 유한 능력 검토로 넘어가야 하는가"를 구분해 설명하는 것이 핵심이다. 계획 수립 단계에서는 속도가 중요하고, 병목 관리 단계에서는 현실성이 중요하다. 이 판단 기준이 있어야 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II를 단순 프로그램이 아니라 운영 체계로 설명할 수 있다.
+기술사 관점에서는 "언제 무한 능력 가정이 허용되고, 언제 유한 능력 검토로 넘어가야 하는가"를 구분해 설명하는 것이 핵심이다. 계획 수립 단계에서는 속도가 중요하고, 병목 관리 단계에서는 현실성이 중요하다. 이 판단 기준이 있어야 MRP II를 단순 프로그램이 아니라 운영 체계로 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 레스토랑은 재료 주문만 잘해선 안 된다. 주방 불판 수, 셰프 수, 피크 시간까지 함께 봐야 손님이 안 기다린다.
 
 ## Ⅴ. 기대효과 및 결론
 
-[MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II의 기대효과는 재고 감소, 납기 준수, 설비 활용도 향상, 원가 통제의 정교화다. 무엇보다 자재와 능력의 불일치를 미리 드러내므로, 현장에서 "계획은 멀쩡한데 못 만든다"는 상황을 줄여 준다. 이 점에서 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 ERP로 가기 위한 제조 운영의 중간 다리라고 볼 수 있다.
+MRP II의 기대효과는 재고 감소, 납기 준수, 설비 활용도 향상, 원가 통제의 정교화다. 무엇보다 자재와 능력의 불일치를 미리 드러내므로, 현장에서 "계획은 멀쩡한데 못 만든다"는 상황을 줄여 준다. 이 점에서 MRP II는 ERP로 가기 위한 제조 운영의 중간 다리라고 볼 수 있다.
 
-그러나 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 틀리면 결과도 틀리다. 따라서 [마스터 데이터 관리](/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/), 현장 피드백, 계획 재조정이 함께 돌아가야 한다. 결국 [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 소프트웨어보다 프로세스 관리 체계에 가깝다.
+그러나 MRP II는 데이터가 틀리면 결과도 틀리다. 따라서 마스터 데이터 관리, 현장 피드백, 계획 재조정이 함께 돌아가야 한다. 결국 MRP II는 소프트웨어보다 프로세스 관리 체계에 가깝다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) | 자재 소요 계산의 입력 |
+| BOM (Bill of Materials) | 자재 소요 계산의 입력 |
 | MPS (Master Production Schedule) | 최상위 생산 일정 |
-| [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) ([Material Requirements Planning](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)) | 자재 폭발과 소요량 계산 |
-| RCCP (Rough-Cut Capacity Planning) | 거친 능력 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| MRP (Material Requirements Planning) | 자재 폭발과 소요량 계산 |
+| RCCP (Rough-Cut Capacity Planning) | 거친 능력 확인 |
 | CRP (Capacity Requirements Planning) | 상세 능력 검토 |
-| [SFC](/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) (Shop Floor Control) | 현장 실행과 피드백 |
+| SFC (Shop Floor Control) | 현장 실행과 피드백 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,15 +149,4 @@ ERP (Enterprise Resource Planning)
 
 1. 레고를 만들 때 부품만 맞추면 끝이 아니에요.
 2. 손이 몇 개 필요한지, 테이블이 충분한지도 같이 봐야 해요.
-3. [MRP](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 부품, 자리, 사람을 함께 계산하는 똑똑한 계획이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 83 / 482
-
-<- **이전**: [82. MRP (Material Requirements Planning)](/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)
-**다음**: [84. 확장형 ERP (Extended ERP) - 외부 공급망(SCM) 및 고객(CRM)까지 통합 연계 (ERP II)](/studynote/07_enterprise_systems/02_erp_systems/084_extended_erp_erp_ii_scm_crm/) ->
-
----
+3. MRP II는 부품, 자리, 사람을 함께 계산하는 똑똑한 계획이에요.

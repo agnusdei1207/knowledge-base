@@ -110,12 +110,3 @@ Core flow: Identity -> Space -> Asset -> Interaction -> Economy
 | 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
 | AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
 | 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 593 / 800
-
-<- **이전**: [592. 혼합현실 MR 공간 컴퓨팅](/studynote/06_ict_convergence/uncategorized/592_mixed_reality_mr_spatial_computing/)
-**다음**: [594. 5G 네트워크 슬라이싱 초저지연](/studynote/06_ict_convergence/uncategorized/594_5g_network_slicing_ultra_low_latency/) ->
-
----

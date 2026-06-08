@@ -7,16 +7,16 @@ weight: 889
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 이해하면 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 네트워크 펑션 오프로딩은 SDN/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 네트워크 펑션 오프로딩을 이해하면 정책 유연성과 자동화 수준 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 1세대: 846번의 <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a></strong> (소프트웨어 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 우회, 여전히 메인 CPU가 일함)
-- 2세대: 848번의 <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a>/SmartNIC 기본 모델</strong> (랜카드 안의 ARM 미니 CPU로 일을 떠넘김). 하지만 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰이 10만 줄이 넘어가면 ARM CPU도 소프트웨어 연산을 하느라 패킷 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생했습니다.
+- 1세대: 846번의 <strong>DPDK</strong> (소프트웨어 커널만 우회, 여전히 메인 CPU가 일함)
+- 2세대: 848번의 <strong>DPU/SmartNIC 기본 모델</strong> (랜카드 안의 ARM 미니 CPU로 일을 떠넘김). 하지만 방화벽 룰이 10만 줄이 넘어가면 ARM CPU도 소프트웨어 연산을 하느라 패킷 지연(Latency)이 발생했습니다.
 
 ```text
 [멀티 테넌트]
@@ -27,22 +27,22 @@ weight: 889
     +---> [광통신 네트워크 이더넷]
 ```
 
-- **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 네트워크 펑션 오프로딩은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: <strong><a href="/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a>(네트워크 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 프로그래밍 언어)</strong>로 짜여진 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 코드를 컴파일(Compile)하여, 랜카드([DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) 안에 박혀있는 <strong>전용 하드웨어 칩셋(<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>/eBPF가속기) 회로 자체에 강제로 때려 박아버려(하드웨어 이양), 소프트웨어 개입 0%로 패킷을 광속 처리하는 궁극의 초저지연 기술</strong>입니다.
+- **개념**: <strong>P4(네트워크 데이터 평면 프로그래밍 언어)</strong>로 짜여진 방화벽이나 라우팅 코드를 컴파일(Compile)하여, 랜카드(DPU) 안에 박혀있는 <strong>전용 하드웨어 칩셋(ASIC/eBPF가속기) 회로 자체에 강제로 때려 박아버려(하드웨어 이양), 소프트웨어 개입 0%로 패킷을 광속 처리하는 궁극의 초저지연 기술</strong>입니다.
 
-### 1. [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 기능 컴파일 구조 (소프트웨어를 쇳덩어리로 굽기) 🌟
-- 개발자가 [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 코딩을 합니다. "VNI 100번 달고 온 [VXLAN](/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 박스가 오면, 껍데기를 다 벗겨내고 안에 든 놈 목적지가 DB이면 무조건 버려라(보안 룰)."
-- [P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 컴파일러(P4C)가 이 C언어 같은 텍스트 코드를 번역하여, <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 랜카드 칩셋 안의 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a> 회로(파이프라인 매치/액션 테이블) 모양 그 자체를 물리적으로 변형시켜 굽습니다.</strong>
-- 쇳덩어리 자체가 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 회로가 되어버렸기 때문에, 패킷이 랜카드 구멍으로 들어오자마자 0.0001초 만에 하드웨어 단에서 목이 잘려 나갑니다(극강의 라인-레이트 속도 100Gbps 처리).
+### 1. P4 기능 컴파일 구조 (소프트웨어를 쇳덩어리로 굽기) 🌟
+- 개발자가 P4 언어로 코딩을 합니다. "VNI 100번 달고 온 VXLAN 박스가 오면, 껍데기를 다 벗겨내고 안에 든 놈 목적지가 DB이면 무조건 버려라(보안 룰)."
+- P4 컴파일러(P4C)가 이 C언어 같은 텍스트 코드를 번역하여, <strong>DPU 랜카드 칩셋 안의 논리 게이트 회로(파이프라인 매치/액션 테이블) 모양 그 자체를 물리적으로 변형시켜 굽습니다.</strong>
+- 쇳덩어리 자체가 방화벽 회로가 되어버렸기 때문에, 패킷이 랜카드 구멍으로 들어오자마자 0.0001초 만에 하드웨어 단에서 목이 잘려 나갑니다(극강의 라인-레이트 속도 100Gbps 처리).
 
-### 2. [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))의 무덤과 [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 다이렉트 처리
-- 서버 뱃속에서 CPU를 퍼먹으며 헐떡거리던 [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/), 860번) 전체 코드 수만 줄을 통째로 이 [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 쇳덩어리 칩셋에 하드 코딩(Offload)해 버립니다.
-- 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에서 나온 패킷은 메인 OS를 아예 거치지 않고, [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 칩셋을 다이렉트로 통과하며 터널 포장(Encap)과 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사를 완벽히 받고 랜선으로 날아갑니다([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 파급 최소화).
+### 2. 가상 스위치(OVS)의 무덤과 DPU 다이렉트 처리
+- 서버 뱃속에서 CPU를 퍼먹으며 헐떡거리던 가상 스위치(OVS, 860번) 전체 코드 수만 줄을 통째로 이 DPU 쇳덩어리 칩셋에 하드 코딩(Offload)해 버립니다.
+- 가상머신(VM)에서 나온 패킷은 메인 OS를 아예 거치지 않고, DPU 칩셋을 다이렉트로 통과하며 터널 포장(Encap)과 방화벽 검사를 완벽히 받고 랜선으로 날아갑니다(지연 파급 최소화).
 
 ```text
 [멀티 테넌트]
@@ -53,7 +53,7 @@ weight: 889
     +---> [광통신 네트워크 이더넷]
 ```
 
-- **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 네트워크 펑션 오프로딩의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -61,44 +61,44 @@ weight: 889
 
 이 미친 기술의 종착지는 클라우드 회사의 '서버 장사' 꼼수입니다. (AWS Nitro 아키텍처)
 - 서버의 메인보드와 CPU는 100% 순수하게 고객에게 월세를 받고 빌려줍니다(베어메탈, CPU 자원 회수율 100%).
-- <strong><a href="/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 관리자)조차 이 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 랜카드 안에 박아 넣어버립니다.</strong> 즉, 서버의 주인이 메인 CPU가 아니라, 엉덩이에 꽂힌 랜카드([DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))가 서버 전체를 배후에서 장악하고 통제하는 신비로운 하드웨어 전복 구조(Infrastructure Processing)가 완성됩니다.
+- <strong>하이퍼바이저(VM 관리자)조차 이 DPU 랜카드 안에 박아 넣어버립니다.</strong> 즉, 서버의 주인이 메인 CPU가 아니라, 엉덩이에 꽂힌 랜카드(DPU)가 서버 전체를 배후에서 장악하고 통제하는 신비로운 하드웨어 전복 구조(Infrastructure Processing)가 완성됩니다.
 
-네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)가 기반 조건을 만든다면, 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 그 위에서 핵심 메커니즘을 구현하고, [광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+네트워크 펑션 오프로딩을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 멀티 테넌트가 기반 조건을 만든다면, 네트워크 펑션 오프로딩은 그 위에서 핵심 메커니즘을 구현하고, 광통신 네트워크 이더넷은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 정책 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)의 기반 정리 | 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 핵심 동작 | [광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | 멀티 테넌트의 기반 정리 | 네트워크 펑션 오프로딩의 핵심 동작 | 광통신 네트워크 이더넷의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | 정책 유연성 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
 
-- **📢 섹션 요약 비유**: 네트워크 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 진화의 역사를 공장 라인에 비유해 봅시다. 1세대는 사장님(메인 CPU)이 직접 택배 박스를 칼로 찢고 물건을 꺼내 검사하는 수작업(리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통신)이었습니다. 2세대(일반 [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))는 사장님 대신 공장 입구에 '인간 경비원(미니 ARM CPU)'을 둔 것입니다. 사장님은 편해졌지만, 택배가 100만 개가 오면 경비원이 과로로 쓰러집니다. <strong>3세대(<a href="/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a> + <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 하드웨어 이양 기술)</strong>는 공장 입구 철문에 아예 '[초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 레이저 엑스레이 자동 커팅 기계([P4](/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 하드웨어 컴파일)'를 용접해서 박아버린 것입니다. 인간 경비원이 눈으로 볼 필요도 없이, 박스가 컨베이어 벨트를 빛의 속도로 타고 지나가며 레이저에 의해 박스가 뜯기고(터널 해체), 폭발물이면 바닥으로 떨어지고([방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하드 드랍), 합격품만 사장님 책상으로 1초 만에 직행하는 0% [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율의 완벽한 터미네이터 무인 공장 시스템입니다.
+- **📢 섹션 요약 비유**: 네트워크 오프로딩 진화의 역사를 공장 라인에 비유해 봅시다. 1세대는 사장님(메인 CPU)이 직접 택배 박스를 칼로 찢고 물건을 꺼내 검사하는 수작업(리눅스 커널 통신)이었습니다. 2세대(일반 DPU)는 사장님 대신 공장 입구에 '인간 경비원(미니 ARM CPU)'을 둔 것입니다. 사장님은 편해졌지만, 택배가 100만 개가 오면 경비원이 과로로 쓰러집니다. <strong>3세대(P4 + DPU 하드웨어 이양 기술)</strong>는 공장 입구 철문에 아예 '초고속 레이저 엑스레이 자동 커팅 기계(P4 하드웨어 컴파일)'를 용접해서 박아버린 것입니다. 인간 경비원이 눈으로 볼 필요도 없이, 박스가 컨베이어 벨트를 빛의 속도로 타고 지나가며 레이저에 의해 박스가 뜯기고(터널 해체), 폭발물이면 바닥으로 떨어지고(방화벽 하드 드랍), 합격품만 사장님 책상으로 1초 만에 직행하는 0% 지연율의 완벽한 터미네이터 무인 공장 시스템입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 수준의 기본 대책으로 충분한지, 아니면 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 네트워크 펑션 오프로딩을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 멀티 테넌트 수준의 기본 대책으로 충분한지, 아니면 네트워크 펑션 오프로딩이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 광통신 네트워크 이더넷와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 체크리스트
 
-1. 현재 문제의 핵심이 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 부족인지, 자동화 수준 악화인지 먼저 분리한다.
-2. 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 정책 유연성 부족인지, 자동화 수준 악화인지 먼저 분리한다.
+2. 네트워크 펑션 오프로딩가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+3. 도입 후에는 인접 기술인 광통신 네트워크 이더넷와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 네트워크 펑션 오프로딩의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- 멀티 테넌트와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: 네트워크 펑션 오프로딩을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/), 프로그래머블 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 프로그래머블 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+네트워크 펑션 오프로딩은 SDN/NFV를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 정책 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 광통신 네트워크 이더넷, 프로그래머블 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 프로그래머블 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 네트워크 펑션 오프로딩은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -106,10 +106,10 @@ weight: 889
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 제어 평면 (Control Plane) | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 경로 결정을 담당한다. |
-| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) | 실제 패킷 전달을 수행한다. |
-| [광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 멀티 테넌트 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 제어 평면 (Control Plane) | 정책과 경로 결정을 담당한다. |
+| 데이터 평면 (Data Plane) | 실제 패킷 전달을 수행한다. |
+| 광통신 네트워크 이더넷 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,21 +123,10 @@ weight: 889
     +---> [확장 B: 프로그래머블 네트워크]
 ```
 
-네트워크 펑션 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)는 [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+네트워크 펑션 오프로딩는 멀티 테넌트에서 출발해 현재 메커니즘을 정교화하고, 이후 광통신 네트워크 이더넷와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 1010 / 1120
-
-<- **이전**: [888. 멀티 테넌트 (Multi-Tenant)](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)
-**다음**: [890. 광통신 네트워크 이더넷](/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/) ->
-
----

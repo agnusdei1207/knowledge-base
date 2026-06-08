@@ -138,11 +138,3 @@ PQC 마이그레이션 아키텍처는 크게 **(A) 알고리즘 계층**, **(B)
 - `X25519Kyber768Draft00` (구 draft, 폐기)
 
 `ClientHello` 패킷 크기 변화: 기존 ~512B -> 하이브리드 적용 시 **~1.5KB** (한 번의 패킷 손실 시 1-RTT 추가 발생 가능). QU
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 703 / 800
-
-<- **이전**: [702. 생체 인증 FIDO2 패스키 인증 체계](/studynote/06_ict_convergence/uncategorized/702_biometric_auth_fido2_passkey_authentication/)
-**다음**: [704. 뉴로 심볼릭 AI 논리 추론 융합](/studynote/06_ict_convergence/uncategorized/704_neuro_symbolic_ai_logic_reasoning_integration/) ->
-
----

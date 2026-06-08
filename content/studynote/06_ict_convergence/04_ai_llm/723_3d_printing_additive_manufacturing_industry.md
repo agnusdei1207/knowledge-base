@@ -42,11 +42,3 @@ weight: 723
               |                                       |
    Buy-to-Fly 10:1~20:1                     Buy-to-Fly 1:1~3:1
               |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 723 / 800
-
-<- **이전**: [722. 나노 기술 분자 컴퓨팅 나노센서](/studynote/06_ict_convergence/uncategorized/722_nanotechnology_molecular_computing_nanosensor/)
-**다음**: [724. 배터리 기술 고체 전지 에너지 저장](/studynote/06_ict_convergence/uncategorized/724_battery_technology_solid_state_energy_storage/) ->
-
----

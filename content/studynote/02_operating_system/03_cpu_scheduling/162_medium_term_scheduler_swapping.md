@@ -7,38 +7,38 @@ weight: 162
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)인 Medium-term Scheduler는 메모리 압박이 심할 때 일부 프로세스를 일시 중단 상태로 옮기고 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/))해 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도를 낮추는 조정 장치다.
-> 2. **가치**: 이 장치는 메모리 부족 상황에서 [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))과 즉시 종료를 완화해 시스템이 완전히 무너지지 않도록 시간을 벌어 준다.
-> 3. **판단 포인트**: 전통적인 [전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)은 디스크 입출력 비용이 크기 때문에, 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 회수·[압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 메모리·[OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 정책과 함께 봐야 한다.
+> 1. **본질**: 중기 스케줄러인 Medium-term Scheduler는 메모리 압박이 심할 때 일부 프로세스를 일시 중단 상태로 옮기고 스와핑 (Swapping)해 다중 프로그래밍 정도를 낮추는 조정 장치다.
+> 2. **가치**: 이 장치는 메모리 부족 상황에서 스래싱 (Thrashing)과 즉시 종료를 완화해 시스템이 완전히 무너지지 않도록 시간을 벌어 준다.
+> 3. **판단 포인트**: 전통적인 전체 프로세스 스와핑은 디스크 입출력 비용이 크기 때문에, 현대 운영체제에서는 페이지 단위 회수·압축 메모리·OOM (Out Of Memory) 정책과 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 메모리에 올라와 있는 프로세스 수를 실행 도중 조절하는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 기능이다. [단기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)가 "지금 CPU (Central Processing Unit)를 누구에게 줄까"를 결정한다면, 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 "지금 이 프로세스를 메모리에 계속 둘 것인가"를 판단한다. 핵심은 실행 가능성보다 메모리 수용 능력을 조절하는 데 있다.
+중기 스케줄러는 메모리에 올라와 있는 프로세스 수를 실행 도중 조절하는 운영체제 기능이다. 단기 스케줄러가 "지금 CPU (Central Processing Unit)를 누구에게 줄까"를 결정한다면, 중기 스케줄러는 "지금 이 프로세스를 메모리에 계속 둘 것인가"를 판단한다. 핵심은 실행 가능성보다 메모리 수용 능력을 조절하는 데 있다.
 
-이 기능이 필요해지는 순간은 메모리보다 활성 프로세스가 많아질 때다. 너무 많은 프로세스가 동시에 메모리를 차지하면 각 프로세스가 충분한 작업 집합을 유지하지 못해 [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)가 급증하고, CPU보다 디스크가 더 바빠지는 [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) 상태에 빠진다. 이때 일부 프로세스를 잠시 밖으로 내보내 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도를 낮추면, 남은 프로세스는 다시 정상적인 실행 속도를 회복할 수 있다.
+이 기능이 필요해지는 순간은 메모리보다 활성 프로세스가 많아질 때다. 너무 많은 프로세스가 동시에 메모리를 차지하면 각 프로세스가 충분한 작업 집합을 유지하지 못해 페이지 부재가 급증하고, CPU보다 디스크가 더 바빠지는 스래싱 상태에 빠진다. 이때 일부 프로세스를 잠시 밖으로 내보내 다중 프로그래밍 정도를 낮추면, 남은 프로세스는 다시 정상적인 실행 속도를 회복할 수 있다.
 
-따라서 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 단순한 대기열 관리가 아니라, 시스템 생존을 위한 압력 조절 밸브에 가깝다. 없으면 메모리 부족이 곧바로 전체 응답성 붕괴나 강제 종료로 이어질 수 있다.
+따라서 중기 스케줄러는 단순한 대기열 관리가 아니라, 시스템 생존을 위한 압력 조절 밸브에 가깝다. 없으면 메모리 부족이 곧바로 전체 응답성 붕괴나 강제 종료로 이어질 수 있다.
 
-- **📢 섹션 요약 비유**: 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 엘리베이터 무게가 한계를 넘을 때 일부 승객을 잠시 내리게 하는 안전 관리자와 같다. 모두를 태우겠다고 고집하면 아예 움직이지 못한다.
+- **📢 섹션 요약 비유**: 중기 스케줄러는 엘리베이터 무게가 한계를 넘을 때 일부 승객을 잠시 내리게 하는 안전 관리자와 같다. 모두를 태우겠다고 고집하면 아예 움직이지 못한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 보통 메모리 압박 감시, 희생 프로세스 선택, 스와프 공간 이동, 보류 큐 관리로 이해한다. 고전적 의미의 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)은 프로세스 전체 주소 공간을 디스크의 스왑 영역으로 내보내는 것이고, 복귀할 때는 다시 메모리에 적재해 실행을 이어 간다. 핵심 원리는 "실행 대상을 줄여 남은 프로세스의 작업 집합을 지킨다"는 데 있다.
+중기 스케줄러는 보통 메모리 압박 감시, 희생 프로세스 선택, 스와프 공간 이동, 보류 큐 관리로 이해한다. 고전적 의미의 스와핑은 프로세스 전체 주소 공간을 디스크의 스왑 영역으로 내보내는 것이고, 복귀할 때는 다시 메모리에 적재해 실행을 이어 간다. 핵심 원리는 "실행 대상을 줄여 남은 프로세스의 작업 집합을 지킨다"는 데 있다.
 
 ### 중기 스케줄링 구성 요소
 
 | 요소 | 역할 | 핵심 판단 |
 | :--- | :--- | :--- |
-| 메모리 압박 감시기 | 가용 메모리, [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 증가, [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) 징후 감지 | 언제 개입할지 결정 |
+| 메모리 압박 감시기 | 가용 메모리, 페이지 부재 증가, 스래싱 징후 감지 | 언제 개입할지 결정 |
 | 희생자 선택기 | 어떤 프로세스를 잠시 내보낼지 선정 | 대기 상태, 우선순위, 메모리 점유량 고려 |
-| 스와퍼 (Swapper) | 메모리와 [스왑 공간](/studynote/02_operating_system/07_virtual_memory/390_swap_space/) 사이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 | 디스크 I/O 비용이 가장 큼 |
-| Suspended 큐 | 보류된 [프로세스 상태](/studynote/02_operating_system/02_process_thread/086_process_state/) 관리 | Ready/Waiting 복귀 시점 결정 |
+| 스와퍼 (Swapper) | 메모리와 스왑 공간 사이 데이터 이동 | 디스크 I/O 비용이 가장 큼 |
+| Suspended 큐 | 보류된 프로세스 상태 관리 | Ready/Waiting 복귀 시점 결정 |
 
-아래 그림은 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)에 개입하는 위치를 보여 준다.
+아래 그림은 중기 스케줄러가 상태 전이에 개입하는 위치를 보여 준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -58,63 +58,63 @@ weight: 162
 +----------------------------------------------------------------------------+
 ```
 
-이 구조에서 중요한 점은 보류 상태가 단순 대기가 아니라 "메모리 상주권을 잃은 상태"라는 것이다. Waiting 상태의 프로세스는 어차피 CPU를 바로 쓰지 못하므로 스와프 아웃 후보가 되기 쉽다. 반대로 Swap In은 디스크에서 다시 읽어 와야 하므로 느리기 때문에, 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 자주 개입할수록 오히려 시스템을 더 느리게 만들 수 있다.
+이 구조에서 중요한 점은 보류 상태가 단순 대기가 아니라 "메모리 상주권을 잃은 상태"라는 것이다. Waiting 상태의 프로세스는 어차피 CPU를 바로 쓰지 못하므로 스와프 아웃 후보가 되기 쉽다. 반대로 Swap In은 디스크에서 다시 읽어 와야 하므로 느리기 때문에, 중기 스케줄러는 자주 개입할수록 오히려 시스템을 더 느리게 만들 수 있다.
 
-고전적인 [전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)은 원리가 명확하지만 비용이 크다. 그래서 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로세스 전체를 통째로 내보내기보다, 필요 없는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 우선 회수하거나 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 메모리 영역으로 보내는 방식으로 같은 목적을 더 세밀하게 달성한다.
+고전적인 전체 프로세스 스와핑은 원리가 명확하지만 비용이 크다. 그래서 현대 운영체제는 프로세스 전체를 통째로 내보내기보다, 필요 없는 페이지를 우선 회수하거나 압축 메모리 영역으로 보내는 방식으로 같은 목적을 더 세밀하게 달성한다.
 
-- **📢 섹션 요약 비유**: 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 무대 뒤 대기실을 관리하는 공연 감독과 같다. 지금 당장 무대에 설 필요 없는 배우를 잠시 밖으로 보내야, 무대 위 배우들이 부딪히지 않고 연기를 이어 갈 수 있다.
+- **📢 섹션 요약 비유**: 중기 스케줄러는 무대 뒤 대기실을 관리하는 공연 감독과 같다. 지금 당장 무대에 설 필요 없는 배우를 잠시 밖으로 보내야, 무대 위 배우들이 부딪히지 않고 연기를 이어 갈 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 [장기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/), [단기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)와 관심 자원이 다르다. [장기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)가 시스템 진입량을 조절하고, [단기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)가 CPU 시간을 배분한다면, 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 메모리 상주 집합을 줄이는 방향으로 개입한다. 그래서 세 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 모두 "누구를 실행시킬까"라는 하나의 질문으로 묶으면 경계가 흐려진다.
+중기 스케줄러는 장기 스케줄러, 단기 스케줄러와 관심 자원이 다르다. 장기 스케줄러가 시스템 진입량을 조절하고, 단기 스케줄러가 CPU 시간을 배분한다면, 중기 스케줄러는 메모리 상주 집합을 줄이는 방향으로 개입한다. 그래서 세 스케줄러를 모두 "누구를 실행시킬까"라는 하나의 질문으로 묶으면 경계가 흐려진다.
 
-| 구분 | [장기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/) | 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | [단기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/) |
+| 구분 | 장기 스케줄러 | 중기 스케줄러 | 단기 스케줄러 |
 | :--- | :--- | :--- | :--- |
 | 주요 자원 | 전체 시스템 부하 | 메모리 상주 집합 | CPU 시간 |
 | 개입 시점 | 작업 진입 시 | 메모리 압박 시 | 매우 자주 |
-| 대표 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [New](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) -> Ready | Ready/Waiting ↔ Suspended | Ready -> Running |
-| 핵심 목적 | 적정 작업 수 유지 | [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) 완화 | 응답성과 공정성 확보 |
+| 대표 상태 전이 | New -> Ready | Ready/Waiting ↔ Suspended | Ready -> Running |
+| 핵심 목적 | 적정 작업 수 유지 | 스래싱 완화 | 응답성과 공정성 확보 |
 
-또한 전통적 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)과 현대 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 기반 회수는 목적은 같지만 단위가 다르다. 전통적 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)은 프로세스 전체를 내보내므로 개념이 분명하지만 비용이 크고, 현대 가상 메모리에서는 [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/)), [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/), 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 사실상 중기 스케줄링의 역할 일부를 흡수한다. 즉 오늘날 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 하나의 명확한 모듈이라기보다, 메모리 압박에 대응하는 여러 정책의 묶음으로 이해하는 편이 정확하다.
+또한 전통적 스와핑과 현대 페이지 기반 회수는 목적은 같지만 단위가 다르다. 전통적 스와핑은 프로세스 전체를 내보내므로 개념이 분명하지만 비용이 크고, 현대 가상 메모리에서는 요구 페이징 (Demand Paging), 페이지 교체, 메모리 압축이 사실상 중기 스케줄링의 역할 일부를 흡수한다. 즉 오늘날 중기 스케줄러는 하나의 명확한 모듈이라기보다, 메모리 압박에 대응하는 여러 정책의 묶음으로 이해하는 편이 정확하다.
 
-그래서 시험 답안에서는 "중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) = [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)"으로만 끝내지 말고, [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)·Suspended 상태·[페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/)와 함께 연결해 설명해야 한다. 그래야 고전 개념과 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구현 사이의 차이를 함께 잡을 수 있다.
+그래서 시험 답안에서는 "중기 스케줄러 = 스와핑"으로만 끝내지 말고, 스래싱·Suspended 상태·페이지 교체와 함께 연결해 설명해야 한다. 그래야 고전 개념과 현대 운영체제 구현 사이의 차이를 함께 잡을 수 있다.
 
-- **📢 섹션 요약 비유**: 장기·중기·[단기 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)는 공연장의 예매 담당, 대기실 관리자, 무대 진행자와 같다. 모두 흐름을 조절하지만 관리하는 자리가 다르다.
+- **📢 섹션 요약 비유**: 장기·중기·단기 스케줄러는 공연장의 예매 담당, 대기실 관리자, 무대 진행자와 같다. 모두 흐름을 조절하지만 관리하는 자리가 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)을 무조건 켜는 것도, 무조건 끄는 것도 정답이 아니다. 데스크톱이나 배치 서버처럼 순간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 프로세스 생존이 중요한 환경에서는 [스왑 공간](/studynote/02_operating_system/07_virtual_memory/390_swap_space/)이 버퍼 역할을 해 줄 수 있다. 반대로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예측 가능성이 중요한 실시간 서비스나 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 기반 서비스에서는 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)이 길고 불규칙한 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만들기 때문에 기피되는 경우가 많다.
+실무에서는 스와핑을 무조건 켜는 것도, 무조건 끄는 것도 정답이 아니다. 데스크톱이나 배치 서버처럼 순간 지연보다 프로세스 생존이 중요한 환경에서는 스왑 공간이 버퍼 역할을 해 줄 수 있다. 반대로 지연 예측 가능성이 중요한 실시간 서비스나 쿠버네티스 (Kubernetes) 기반 서비스에서는 스와핑이 길고 불규칙한 응답 지연을 만들기 때문에 기피되는 경우가 많다.
 
-리눅스에서는 kswapd 같은 메모리 회수 스레드가 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 회수와 스왑을 수행하고, 더 버티지 못하면 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 프로세스를 종료한다. 모바일과 경량 시스템은 ZRAM (Compressed RAM [Block Device](/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/))처럼 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 메모리 기반 스왑을 활용해 디스크 I/O보다 빠른 절충안을 택하기도 한다. 즉 현대 실무 판단은 "[스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)을 할까 말까"보다 "어떤 형태의 메모리 압박 완화 정책을 허용할까"에 가깝다.
+리눅스에서는 kswapd 같은 메모리 회수 스레드가 페이지 회수와 스왑을 수행하고, 더 버티지 못하면 OOM Killer가 프로세스를 종료한다. 모바일과 경량 시스템은 ZRAM (Compressed RAM Block Device)처럼 압축된 메모리 기반 스왑을 활용해 디스크 I/O보다 빠른 절충안을 택하기도 한다. 즉 현대 실무 판단은 "스와핑을 할까 말까"보다 "어떤 형태의 메모리 압박 완화 정책을 허용할까"에 가깝다.
 
-### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 체크리스트
 
-1. <strong>응답 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>과 프로세스 생존 중 무엇이 더 중요한가?</strong>
-2. **메모리 부족의 원인이 일시적 피크인가, 상시 과부하인가?** 상시 과부하라면 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)보다 증설이 우선이다.
-3. **스왑 매체가 충분히 빠른가?** 느린 디스크라면 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)은 구제책보다 병목이 되기 쉽다.
-4. <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>·실시간 시스템인가?</strong> 그렇다면 예측 불가능한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 특히 주의해야 한다.
+1. <strong>응답 지연과 프로세스 생존 중 무엇이 더 중요한가?</strong>
+2. **메모리 부족의 원인이 일시적 피크인가, 상시 과부하인가?** 상시 과부하라면 스와핑보다 증설이 우선이다.
+3. **스왑 매체가 충분히 빠른가?** 느린 디스크라면 스와핑은 구제책보다 병목이 되기 쉽다.
+4. <strong>컨테이너·실시간 시스템인가?</strong> 그렇다면 예측 불가능한 지연을 특히 주의해야 한다.
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 메모리 부족 문제를 스와프 공간만 늘려 해결하려는 경우
-- [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) 상태를 방치한 채 디스크 I/O만 더 투입하는 경우
-- [전체 프로세스](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)과 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 스왑을 같은 비용으로 보는 경우
+- 스래싱 상태를 방치한 채 디스크 I/O만 더 투입하는 경우
+- 전체 프로세스 스와핑과 페이지 단위 스왑을 같은 비용으로 보는 경우
 
-- **📢 섹션 요약 비유**: [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)은 창고를 잠깐 빌려 물건을 옮겨 두는 일과 같다. 급한 불은 끌 수 있지만, 창고까지 오가는 시간이 길면 작업 자체가 더 느려질 수 있다.
+- **📢 섹션 요약 비유**: 스와핑은 창고를 잠깐 빌려 물건을 옮겨 두는 일과 같다. 급한 불은 끌 수 있지만, 창고까지 오가는 시간이 길면 작업 자체가 더 느려질 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 핵심 효과는 메모리 부족 상황에서 시스템이 즉시 붕괴하지 않도록 완충 지대를 만드는 데 있다. 적절히 개입하면 [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)을 줄이고, 중요한 프로세스가 계속 전진할 수 있는 여유를 확보하며, 갑작스러운 메모리 압박을 흡수할 수 있다. 그래서 이 개념은 메모리 관리와 프로세스 관리가 만나는 지점에 놓인 운영 정책으로 볼 수 있다.
+중기 스케줄러의 핵심 효과는 메모리 부족 상황에서 시스템이 즉시 붕괴하지 않도록 완충 지대를 만드는 데 있다. 적절히 개입하면 스래싱을 줄이고, 중요한 프로세스가 계속 전진할 수 있는 여유를 확보하며, 갑작스러운 메모리 압박을 흡수할 수 있다. 그래서 이 개념은 메모리 관리와 프로세스 관리가 만나는 지점에 놓인 운영 정책으로 볼 수 있다.
 
-그러나 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)은 어디까지나 비용이 큰 구제책이다. 지나치게 의존하면 CPU가 아니라 디스크가 시스템 속도를 결정하게 되고, 사용자는 느린 시스템을 경험하게 된다. 따라서 이 주제는 "프로세스를 옮기는 기술"이 아니라, "메모리 압박을 어떤 수준에서 견디고 언제 정리할지 결정하는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 압력 관리 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 기억하는 것이 좋다.
+그러나 스와핑은 어디까지나 비용이 큰 구제책이다. 지나치게 의존하면 CPU가 아니라 디스크가 시스템 속도를 결정하게 되고, 사용자는 느린 시스템을 경험하게 된다. 따라서 이 주제는 "프로세스를 옮기는 기술"이 아니라, "메모리 압박을 어떤 수준에서 견디고 언제 정리할지 결정하는 운영체제의 압력 관리 전략"으로 기억하는 것이 좋다.
 
-- **📢 섹션 요약 비유**: 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 빽빽한 창고에서 통로를 다시 확보해 주는 정리 담당자와 같다. 물건을 잠시 치워 두면 움직일 수는 있지만, 너무 자주 치우면 정작 일할 시간이 줄어든다.
+- **📢 섹션 요약 비유**: 중기 스케줄러는 빽빽한 창고에서 통로를 다시 확보해 주는 정리 담당자와 같다. 물건을 잠시 치워 두면 움직일 수는 있지만, 너무 자주 치우면 정작 일할 시간이 줄어든다.
 
 ---
 
@@ -122,10 +122,10 @@ weight: 162
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/)) | 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입해야 하는 대표 징후다. |
-| Suspended 상태 | [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)된 프로세스가 메모리 상주권을 잃은 상태를 설명한다. |
-| [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/)) | 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 중기 스케줄링 역할 일부를 흡수한다. |
-| [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) | [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)과 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 회수로도 버티지 못할 때의 최종 방어선이다. |
+| 스래싱 (Thrashing) | 중기 스케줄러가 개입해야 하는 대표 징후다. |
+| Suspended 상태 | 스와핑된 프로세스가 메모리 상주권을 잃은 상태를 설명한다. |
+| 요구 페이징 (Demand Paging) | 현대 운영체제에서 중기 스케줄링 역할 일부를 흡수한다. |
+| OOM Killer | 스와핑과 페이지 회수로도 버티지 못할 때의 최종 방어선이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,21 +145,10 @@ weight: 162
 ZRAM · 메모리 압축 · OOM 정책으로 현대화
 ```
 
-이 흐름은 프로세스 전체를 통째로 옮기던 전통적 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)이, 현대에는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 회수와 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 메모리, 최종 종료 정책과 결합된 형태로 진화했음을 보여 준다.
+이 흐름은 프로세스 전체를 통째로 옮기던 전통적 스와핑이, 현대에는 페이지 회수와 압축 메모리, 최종 종료 정책과 결합된 형태로 진화했음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 컴퓨터 방이 너무 좁아지면 장난감이 너무 많아서 움직일 수 없게 돼요.
-2. 중기 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 지금 안 쓰는 장난감을 잠깐 다른 상자에 옮겨 놓아 방 안을 다시 넓게 만들어요.
+2. 중기 스케줄러는 지금 안 쓰는 장난감을 잠깐 다른 상자에 옮겨 놓아 방 안을 다시 넓게 만들어요.
 3. 대신 다시 꺼내 오려면 시간이 걸리니까, 너무 자주 옮기면 오히려 더 느려져요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 162 / 800
-
-<- **이전**: [161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)
-**다음**: [163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절](/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/) ->
-
----

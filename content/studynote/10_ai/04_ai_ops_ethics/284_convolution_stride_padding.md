@@ -7,29 +7,29 @@ weight: 284
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Convolution)은 필터(Filter/[Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 입력 위에 슬라이딩하며 특징(Feature)을 추출하는 연산으로, [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))의 핵심 빌딩 블록이다.
-> 2. **가치**: [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))와 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 조절하여 출력 크기를 제어하고, 다양한 수용 영역(Receptive Field)에서 지역 패턴(Local Pattern)을 계층적으로 학습할 수 있다.
-> 3. **판단 포인트**: 시험에서는 출력 크기 공식 `(입력 - 필터 + 2×패딩) / 스트라이드 + 1`, 동일 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)(Same [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))과 유효 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)(Valid [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))의 차이, 팽창 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Dilated Convolution)의 수용 영역 확장 효과를 묻는다.
+> 1. **본질**: 합성곱(Convolution)은 필터(Filter/Kernel)를 입력 위에 슬라이딩하며 특징(Feature)을 추출하는 연산으로, CNN (Convolutional Neural Network)의 핵심 빌딩 블록이다.
+> 2. **가치**: 스트라이드(Stride)와 패딩(Padding)을 조절하여 출력 크기를 제어하고, 다양한 수용 영역(Receptive Field)에서 지역 패턴(Local Pattern)을 계층적으로 학습할 수 있다.
+> 3. **판단 포인트**: 시험에서는 출력 크기 공식 `(입력 - 필터 + 2×패딩) / 스트라이드 + 1`, 동일 패딩(Same Padding)과 유효 패딩(Valid Padding)의 차이, 팽창 합성곱(Dilated Convolution)의 수용 영역 확장 효과를 묻는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산의 탄생 배경
+### 합성곱 연산의 탄생 배경
 
 완전 연결 계층(FCN, Fully Connected Network)은 이미지를 1차원 벡터로 펼쳐 처리하기 때문에 <strong>공간 정보(Spatial Information)</strong>를 완전히 무시하고, 파라미터 수가 폭발적으로 증가한다. 예를 들어 224×224×3 이미지를 512차원 은닉층에 연결하면 약 7,700만 개의 파라미터가 필요하다.
 
-[합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산(Convolution [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))은 이러한 문제를 <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유(<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Sharing)</strong>와 <strong>지역 연결(Local Connectivity)</strong>로 해결한다. 필터 하나가 전체 입력 맵([Feature Map](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 위를 슬라이딩하며 동일한 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 재사용하므로 파라미터가 크게 줄어든다.
+합성곱 연산(Convolution Operation)은 이러한 문제를 <strong>가중치 공유(Weight Sharing)</strong>와 <strong>지역 연결(Local Connectivity)</strong>로 해결한다. 필터 하나가 전체 입력 맵(Feature Map) 위를 슬라이딩하며 동일한 가중치를 재사용하므로 파라미터가 크게 줄어든다.
 
 ### 핵심 개념 정의
 
 | 용어 | 정의 | 비고 |
 |:---|:---|:---|
-| 필터/[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Filter/[Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | 학습 가능한 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 (예: 3×3×C) | 특징 감지기 역할 |
-| 특징 맵 ([Feature Map](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) | 필터를 적용한 결과 출력 | 활성화 맵(Activation Map) |
-| [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 필터가 이동하는 간격 (픽셀 수) | 클수록 출력 크기 감소 |
-| [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | 입력 가장자리에 추가하는 테두리 | 제로 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 일반적 |
-| 수용 영역 (Receptive Field) | 출력 뉴런 하나가 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 입력 영역 | 깊을수록 넓어짐 |
+| 필터/커널 (Filter/Kernel) | 학습 가능한 가중치 행렬 (예: 3×3×C) | 특징 감지기 역할 |
+| 특징 맵 (Feature Map) | 필터를 적용한 결과 출력 | 활성화 맵(Activation Map) |
+| 스트라이드 (Stride) | 필터가 이동하는 간격 (픽셀 수) | 클수록 출력 크기 감소 |
+| 패딩 (Padding) | 입력 가장자리에 추가하는 테두리 | 제로 패딩(Zero Padding) 일반적 |
+| 수용 영역 (Receptive Field) | 출력 뉴런 하나가 참조하는 입력 영역 | 깊을수록 넓어짐 |
 
 ```text
 +----------------------------------------------+
@@ -40,7 +40,7 @@ weight: 284
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터는 '도장'이다. 동일한 도장(필터)을 종이(입력) 위에서 일정 간격([스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))으로 찍으며 문양(특징)을 추출한다. 가장자리에 여백([패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어두면 종이 끝까지 고르게 찍을 수 있다.
+- **📢 섹션 요약 비유**: 합성곱 필터는 '도장'이다. 동일한 도장(필터)을 종이(입력) 위에서 일정 간격(스트라이드)으로 찍으며 문양(특징)을 추출한다. 가장자리에 여백(패딩)을 미리 만들어두면 종이 끝까지 고르게 찍을 수 있다.
 
 ---
 
@@ -52,16 +52,16 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 - **I**: 입력 크기 (Input Size)
 - **F**: 필터 크기 (Filter Size)
-- **P**: [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 크기 ([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))
-- **S**: [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))
+- **P**: 패딩 크기 (Padding)
+- **S**: 스트라이드 (Stride)
 
-**예시**: 입력 32×32, 필터 3×3, [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 1, [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 0
+**예시**: 입력 32×32, 필터 3×3, 스트라이드 1, 패딩 0
 -> (32 - 3 + 0) / 1 + 1 = **30×30**
 
-**예시**: 입력 32×32, 필터 3×3, [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 1, [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 1 (Same [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))
+**예시**: 입력 32×32, 필터 3×3, 스트라이드 1, 패딩 1 (Same Padding)
 -> (32 - 3 + 2) / 1 + 1 = **32×32** (크기 유지)
 
-### [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산 흐름
+### 합성곱 연산 흐름
 
 ```
 입력 특징 맵 (5×5)           필터 (3×3)          출력 특징 맵 (3×3)
@@ -85,17 +85,17 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 +--------------------------------------------------+
 ```
 
-### [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 종류 비교
+### 패딩 종류 비교
 
-| [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 종류 | 설명 | 출력 크기 | 사용 목적 |
+| 패딩 종류 | 설명 | 출력 크기 | 사용 목적 |
 |:---|:---|:---|:---|
-| 유효 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) (Valid [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 없음 (P=0) | 입력보다 작아짐 | 정보 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) |
-| 동일 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) (Same [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | 출력=입력 유지 | I × I | 특징 맵 크기 보존 |
-| 완전 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) (Full [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | P = F-1 | 입력보다 커짐 | [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서 사용 |
+| 유효 패딩 (Valid Padding) | 패딩 없음 (P=0) | 입력보다 작아짐 | 정보 압축 |
+| 동일 패딩 (Same Padding) | 출력=입력 유지 | I × I | 특징 맵 크기 보존 |
+| 완전 패딩 (Full Padding) | P = F-1 | 입력보다 커짐 | 신호 처리에서 사용 |
 
-### 팽창 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Dilated/Atrous Convolution)
+### 팽창 합성곱 (Dilated/Atrous Convolution)
 
-팽창 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 필터 원소 사이에 <strong>팽창률(Dilation Rate, d)</strong>만큼 간격을 두어 <strong>수용 영역을 지수적으로 확장</strong>한다.
+팽창 합성곱은 필터 원소 사이에 <strong>팽창률(Dilation Rate, d)</strong>만큼 간격을 두어 <strong>수용 영역을 지수적으로 확장</strong>한다.
 
 ```
 일반 3×3 합성곱       팽창률 2인 3×3 합성곱
@@ -111,31 +111,31 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 파라미터 수는 동일, 수용 영역만 확장
 ```
 
-### 전치 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Transposed Convolution, 업샘플링)
+### 전치 합성곱 (Transposed Convolution, 업샘플링)
 
-전치 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Transposed Convolution, 디컨볼루션이라고도 불리지만 수학적 디컨볼루션은 아님)은 <strong><a href="/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 맵을 업샘플링</strong>하는 학습 가능한 방법으로, [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) 구조와 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델([GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), [Generative Adversarial Network](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))에서 사용된다.
+전치 합성곱(Transposed Convolution, 디컨볼루션이라고도 불리지만 수학적 디컨볼루션은 아님)은 <strong>피처 맵을 업샘플링</strong>하는 학습 가능한 방법으로, 인코더-디코더(Encoder-Decoder) 구조와 생성 모델(GAN, Generative Adversarial Network)에서 사용된다.
 
-- **📢 섹션 요약 비유**: [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)는 '걸음 폭'이다. 한 걸음([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1)씩 꼼꼼히 찍으면 촘촘한 지도가 나오고, 두 걸음([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2)씩 뛰면 지도가 절반 크기로 줄어든다. 팽창 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '망원경 필터'로, 같은 필터 크기로 더 넓은 풍경을 한번에 본다.
+- **📢 섹션 요약 비유**: 스트라이드는 '걸음 폭'이다. 한 걸음(Stride=1)씩 꼼꼼히 찍으면 촘촘한 지도가 나오고, 두 걸음(Stride=2)씩 뛰면 지도가 절반 크기로 줄어든다. 팽창 합성곱은 '망원경 필터'로, 같은 필터 크기로 더 넓은 풍경을 한번에 본다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 크기별 출력 비교
+### 스트라이드 크기별 출력 비교
 
-| [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 출력 크기 (32×32, 3×3 필터, [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 0) | 특성 |
+| 스트라이드 | 출력 크기 (32×32, 3×3 필터, 패딩 0) | 특성 |
 |:---:|:---:|:---|
 | 1 | 30×30 | 세밀한 특징 유지 |
 | 2 | 15×15 | 해상도 절반, 계산량 감소 |
 | 4 | 8×8 | 빠른 다운샘플링 |
 
-### 다른 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 변형과 연결
+### 다른 합성곱 변형과 연결
 
-- <strong>깊이별 분리 <a href="/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Depthwise Separable Convolution)</strong>: MobileNet에서 사용. 채널별로 공간 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 후 1×1 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 적용 -> 계산량 대폭 감소
-- <strong>그룹 <a href="/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Group Convolution)</strong>: 채널을 그룹으로 나눠 독립적으로 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) -> ResNeXt에서 활용
-- <strong>팽창 <a href="/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Dilated Convolution)</strong>: DeepLab, WaveNet에서 수용 영역 확장에 사용
+- <strong>깊이별 분리 합성곱 (Depthwise Separable Convolution)</strong>: MobileNet에서 사용. 채널별로 공간 합성곱 후 1×1 합성곱 적용 -> 계산량 대폭 감소
+- <strong>그룹 합성곱 (Group Convolution)</strong>: 채널을 그룹으로 나눠 독립적으로 합성곱 -> ResNeXt에서 활용
+- <strong>팽창 합성곱 (Dilated Convolution)</strong>: DeepLab, WaveNet에서 수용 영역 확장에 사용
 
-- **📢 섹션 요약 비유**: [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 1 vs 2는 사진을 찍을 때 매 cm마다 찍느냐, 2 cm마다 찍느냐의 차이다. 팽창 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 돋보기로 보이지 않는 먼 곳까지 '공짜로' 더 넓게 보는 방법이다.
+- **📢 섹션 요약 비유**: 스트라이드 1 vs 2는 사진을 찍을 때 매 cm마다 찍느냐, 2 cm마다 찍느냐의 차이다. 팽창 합성곱은 돋보기로 보이지 않는 먼 곳까지 '공짜로' 더 넓게 보는 방법이다.
 
 ---
 
@@ -143,34 +143,34 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 설계 선택 기준
 
-<strong><a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 선택</strong>:
-- <strong>Same <a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a></strong>: U-Net, [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등 크기 유지가 중요한 구조
-- <strong>Valid <a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a></strong>: 정보 손실을 감수하더라도 경계 [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)(Boundary [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)) 없애고 싶을 때
+<strong>패딩 선택</strong>:
+- <strong>Same Padding</strong>: U-Net, ResNet 등 크기 유지가 중요한 구조
+- <strong>Valid Padding</strong>: 정보 손실을 감수하더라도 경계 아티팩트(Boundary Artifact) 없애고 싶을 때
 
-<strong><a href="/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">스트라이드</a> 선택</strong>:
-- <strong><a href="/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>=1</strong>: 공간 정보 최대 보존 ([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)·검출 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 레이어)
-- <strong><a href="/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>=2</strong>: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 대신 다운샘플링 (최근 VGG 이후 트렌드)
-- <strong><a href="/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>=4 이상</strong>: ViT (Vision [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 패치 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에서 사용
+<strong>스트라이드 선택</strong>:
+- <strong>Stride=1</strong>: 공간 정보 최대 보존 (분류·검출 초기 레이어)
+- <strong>Stride=2</strong>: 풀링 대신 다운샘플링 (최근 VGG 이후 트렌드)
+- <strong>Stride=4 이상</strong>: ViT (Vision Transformer) 패치 임베딩에서 사용
 
-<strong>팽창 <a href="/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> 활용</strong>:
-- <strong>시맨틱 분할 (Semantic <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>: DeepLabV3+에서 다중 팽창률(ASPP, Atrous Spatial Pyramid [Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 적용
-- <strong>음성 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (Audio Generation)</strong>: WaveNet에서 장거리 의존성 포착
+<strong>팽창 합성곱 활용</strong>:
+- <strong>시맨틱 분할 (Semantic Segmentation)</strong>: DeepLabV3+에서 다중 팽창률(ASPP, Atrous Spatial Pyramid Pooling) 적용
+- <strong>음성 생성 (Audio Generation)</strong>: WaveNet에서 장거리 의존성 포착
 
 ### 기술사 서술 포인트
 
-> "[합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산에서 [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)와 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)은 출력 해상도와 수용 영역의 균형을 결정하는 설계 변수이다. 동일 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)(Same [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))은 잔차 연결(Residual Connection)과 같이 크기 일치가 필요한 아키텍처에서 필수적이며, 팽창 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 파라미터 증가 없이 수용 영역을 지수적으로 확대하여 밀집 예측(Dense Prediction) [태스크](/studynote/02_operating_system/02_process_thread/150_task/)에 적합하다."
+> "합성곱 연산에서 스트라이드와 패딩은 출력 해상도와 수용 영역의 균형을 결정하는 설계 변수이다. 동일 패딩(Same Padding)은 잔차 연결(Residual Connection)과 같이 크기 일치가 필요한 아키텍처에서 필수적이며, 팽창 합성곱은 파라미터 증가 없이 수용 영역을 지수적으로 확대하여 밀집 예측(Dense Prediction) 태스크에 적합하다."
 
-- **📢 섹션 요약 비유**: 실무에서 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)과 [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 선택은 '사진 확대/축소 버튼'이다. Same Padding은 '원본 해상도 유지' 버튼, [Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2는 '50% 축소' 버튼이다. 목적에 맞는 버튼을 눌러야 원하는 출력을 얻는다.
+- **📢 섹션 요약 비유**: 실무에서 패딩과 스트라이드 선택은 '사진 확대/축소 버튼'이다. Same Padding은 '원본 해상도 유지' 버튼, Stride=2는 '50% 축소' 버튼이다. 목적에 맞는 버튼을 눌러야 원하는 출력을 얻는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산의 핵심 가치
+### 합성곱 연산의 핵심 가치
 
-1. **파라미터 효율성**: [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유로 완전 연결 대비 파라미터 수 수십~수천 배 감소
+1. **파라미터 효율성**: 가중치 공유로 완전 연결 대비 파라미터 수 수십~수천 배 감소
 2. **공간 계층성**: 저수준(엣지·코너) -> 고수준(얼굴·물체) 특징을 계층적으로 학습
-3. **이동 등변성 (Translation Equivariance)**: 입력이 이동하면 출력도 동일하게 이동 ([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서는 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)으로 불변성 확보)
+3. **이동 등변성 (Translation Equivariance)**: 입력이 이동하면 출력도 동일하게 이동 (분류에서는 풀링으로 불변성 확보)
 
 ### 공식 정리 (시험 필수)
 
@@ -186,7 +186,7 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 +---------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '특징 탐정'이다. 작은 돋보기(필터)로 이미지 전체를 꼼꼼히([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1) 훑거나 빠르게([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2) 살피고, 가장자리도 놓치지 않으려면 여백([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어 두는 것이다.
+- **📢 섹션 요약 비유**: 합성곱은 '특징 탐정'이다. 작은 돋보기(필터)로 이미지 전체를 꼼꼼히(Stride=1) 훑거나 빠르게(Stride=2) 살피고, 가장자리도 놓치지 않으려면 여백(Padding)을 미리 만들어 두는 것이다.
 
 ---
 
@@ -194,12 +194,12 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Convolution) | 필터, 특징 맵, [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유 / CNN의 핵심 연산 |
-| [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 출력 크기, 다운샘플링 / 클수록 출력 해상도 감소 |
-| [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), Same, Valid / 경계 처리 및 크기 제어 |
-| 팽창 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Dilated Conv) | 수용 영역, DeepLab, WaveNet / 파라미터 없이 수용 영역 확장 |
-| 전치 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Transposed Conv) | 업샘플링, [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), U-Net / 특징 맵 해상도 복원 |
-| [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) | [Max Pooling](/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/), 다운샘플링 / [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 이후 공간 축소 |
+| 합성곱 (Convolution) | 필터, 특징 맵, 가중치 공유 / CNN의 핵심 연산 |
+| 스트라이드 (Stride) | 출력 크기, 다운샘플링 / 클수록 출력 해상도 감소 |
+| 패딩 (Padding) | Zero Padding, Same, Valid / 경계 처리 및 크기 제어 |
+| 팽창 합성곱 (Dilated Conv) | 수용 영역, DeepLab, WaveNet / 파라미터 없이 수용 영역 확장 |
+| 전치 합성곱 (Transposed Conv) | 업샘플링, GAN, U-Net / 특징 맵 해상도 복원 |
+| 풀링 (Pooling) | Max Pooling, 다운샘플링 / 합성곱 이후 공간 축소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -209,17 +209,6 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터는 '스탬프 도장'이야. 같은 도장을 그림 전체에 찍어서 특별한 무늬(특징)가 있는 곳을 찾는 거야.
-2. [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)는 도장을 찍을 때 '몇 칸씩 건너뛰느냐'야. 한 칸씩 찍으면 꼼꼼하고, 두 칸씩 건너뛰면 결과물이 절반 크기가 돼.
-3. [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)은 그림 주변에 미리 '흰 테두리'를 붙이는 거야. 그래야 가장자리도 빠짐없이 도장을 찍을 수 있거든!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 284 / 420
-
-<- **이전**: [283. CNN (Convolutional Neural Network)](/studynote/10_ai/04_ai_ops_ethics/283_cnn_overview/)
-**다음**: [285. 풀링 (Pooling)](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ->
-
----
+1. 합성곱 필터는 '스탬프 도장'이야. 같은 도장을 그림 전체에 찍어서 특별한 무늬(특징)가 있는 곳을 찾는 거야.
+2. 스트라이드는 도장을 찍을 때 '몇 칸씩 건너뛰느냐'야. 한 칸씩 찍으면 꼼꼼하고, 두 칸씩 건너뛰면 결과물이 절반 크기가 돼.
+3. 패딩은 그림 주변에 미리 '흰 테두리'를 붙이는 거야. 그래야 가장자리도 빠짐없이 도장을 찍을 수 있거든!

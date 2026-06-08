@@ -97,12 +97,3 @@ GPT 사전학습은 언어 모델의 범용 능력을 만드는 기반 단계다
 | Tokenization | 텍스트를 학습 단위로 변환 |
 | RLHF/DPO | 선호와 지시 준수 개선 |
 | RAG | 최신 지식과 출처 보강 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 642 / 800
-
-<- **이전**: [641. 트랜스포머 아키텍처 어텐션 메커니즘](/studynote/06_ict_convergence/uncategorized/641_transformer_architecture_attention_mechanism/)
-**다음**: [643. BERT 양방향 인코더 사전 학습](/studynote/06_ict_convergence/uncategorized/643_bert_bidirectional_encoder_pre_training/) ->
-
----

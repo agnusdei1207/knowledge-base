@@ -6,13 +6,13 @@ tags:
 weight: 47
 ---
 > **핵심 인사이트**
-> 1. [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(오류 예산)은 SLO에서 허용되는 오류의 총량 — "99.9% [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) = 0.1% 오류 허용 = 월 43.2분 다운타임"으로 표현되며, 오류 예산 소진 속도가 기능 개발 속도를 조절하는 SRE의 핵심 메커니즘이다.
-> 2. [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)([Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))이 없으면 이론에 불과 — SRE팀이 오류 예산이 소진될 때 "기능 개발을 멈추고 안정성에 집중한다"는 명시적 규칙이 존재해야 개발팀과의 협력이 실질적으로 작동한다.
-> 3. SLO는 사용자 경험과 직결된 지표를 측정해야 한다 — 시스템 CPU 사용률 같은 내부 지표가 아닌, 요청 성공률·[응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)·에러율처럼 사용자가 직접 느끼는 "[골든 시그널](/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)(Golden [Signal](/studynote/02_operating_system/02_process_thread/130_signal/))"을 SLI로 정의해야 의미 있는 SLO가 된다.
+> 1. Error Budget(오류 예산)은 SLO에서 허용되는 오류의 총량 — "99.9% SLO = 0.1% 오류 허용 = 월 43.2분 다운타임"으로 표현되며, 오류 예산 소진 속도가 기능 개발 속도를 조절하는 SRE의 핵심 메커니즘이다.
+> 2. Error Budget 정책(Error Budget Policy)이 없으면 이론에 불과 — SRE팀이 오류 예산이 소진될 때 "기능 개발을 멈추고 안정성에 집중한다"는 명시적 규칙이 존재해야 개발팀과의 협력이 실질적으로 작동한다.
+> 3. SLO는 사용자 경험과 직결된 지표를 측정해야 한다 — 시스템 CPU 사용률 같은 내부 지표가 아닌, 요청 성공률·응답 시간·에러율처럼 사용자가 직접 느끼는 "골든 시그널(Golden Signal)"을 SLI로 정의해야 의미 있는 SLO가 된다.
 
 ---
 
-## Ⅰ. [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)·[Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)
+## Ⅰ. SLI·SLO·SLA·Error Budget
 
 ```
 계층 구조:
@@ -56,11 +56,11 @@ Error Budget 소진율:
   소진율 100% -> SLO 위반
 ```
 
-> 📢 **섹션 요약 비유**: Error Budget은 월 용돈 — 99.9% [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) = 한 달 43.2분 용돈. 장애마다 용돈이 줄어요. 다 쓰면([SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 위반) 다음 달까지 조심해야(릴리스 중단)!
+> 📢 **섹션 요약 비유**: Error Budget은 월 용돈 — 99.9% SLO = 한 달 43.2분 용돈. 장애마다 용돈이 줄어요. 다 쓰면(SLO 위반) 다음 달까지 조심해야(릴리스 중단)!
 
 ---
 
-## Ⅱ. [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)
+## Ⅱ. Error Budget Policy
 
 ```
 Error Budget Policy (오류 예산 정책):
@@ -102,11 +102,11 @@ Error Budget Policy (오류 예산 정책):
   -> 주관적 갈등 -> 객관적 데이터 기반 대화
 ```
 
-> 📢 **섹션 요약 비유**: [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) Policy는 지출 규칙 — 용돈(예산) 50% 쓰면 사치품(고위험 릴리스) 금지, 75% 쓰면 필수품만, 다 쓰면 소비 완전 중단. 명확한 규칙!
+> 📢 **섹션 요약 비유**: Error Budget Policy는 지출 규칙 — 용돈(예산) 50% 쓰면 사치품(고위험 릴리스) 금지, 75% 쓰면 필수품만, 다 쓰면 소비 완전 중단. 명확한 규칙!
 
 ---
 
-## Ⅲ. [골든 시그널](/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/) 기반 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)
+## Ⅲ. 골든 시그널 기반 SLI
 
 ```
 Google SRE 골든 시그널 (4 Golden Signals):
@@ -157,11 +157,11 @@ SLI 작성 원칙:
   에러율 < 0.1%
 ```
 
-> 📢 **섹션 요약 비유**: [골든 시그널](/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 신체 활력 징후 — [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(맥박), 트래픽(호흡), 에러(체온), 포화도(혈압). 네 가지 정상이면 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 건강!
+> 📢 **섹션 요약 비유**: 골든 시그널은 신체 활력 징후 — 지연(맥박), 트래픽(호흡), 에러(체온), 포화도(혈압). 네 가지 정상이면 서비스 건강!
 
 ---
 
-## Ⅳ. [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 방법
+## Ⅳ. SLO 설정 방법
 
 ```
 SLO 설정 과정:
@@ -211,11 +211,11 @@ SLO 설정 과정:
   Burn Rate > 3: 심각 경보 (1시간 내 SLO 위반 예상)
 ```
 
-> 📢 **섹션 요약 비유**: [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)은 시험 목표 점수 — 평소 93점이면 SLO를 90점으로(여유 있게). 너무 높게 잡으면(97점) 항상 스트레스. 적당한 목표로 지속 가능하게!
+> 📢 **섹션 요약 비유**: SLO 설정은 시험 목표 점수 — 평소 93점이면 SLO를 90점으로(여유 있게). 너무 높게 잡으면(97점) 항상 스트레스. 적당한 목표로 지속 가능하게!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 전자상거래 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)
+## Ⅴ. 실무 시나리오 — 전자상거래 SRE
 
 ```
 전자상거래 플랫폼 Error Budget 관리:
@@ -267,7 +267,7 @@ Error Budget Policy 발동:
   (기능 개발 충분히 진행하면서 안정성 유지)
 ```
 
-> 📢 **섹션 요약 비유**: 전자상거래 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) — 2주차 장애로 용돈(Budget) 바닥. 릴리스 프리즈(쇼핑 중단) + 원인 제거(DB 최적화). 이후 3개월 용돈 30%만 써서 안정+개발 균형!
+> 📢 **섹션 요약 비유**: 전자상거래 SRE — 2주차 장애로 용돈(Budget) 바닥. 릴리스 프리즈(쇼핑 중단) + 원인 제거(DB 최적화). 이후 3개월 용돈 30%만 써서 안정+개발 균형!
 
 ---
 
@@ -325,17 +325,6 @@ ML 기반 이상 탐지
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. Error Budget은 월 용돈 — 99.9% [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) = 한 달 43분 용돈. 장애마다 용돈 줄어요. 다 쓰면 새 기능 개발 중단!
-2. [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) Policy는 지출 규칙 — 용돈 75% 쓰면 사치품(고위험 배포) 금지, 다 쓰면 완전 중단. 팀이 미리 약속한 규칙!
-3. [골든 시그널](/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 건강 진단 — [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(맥박), 트래픽(호흡), 에러(체온), 포화도(혈압). 네 가지 정상 = [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 건강!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 47 / 373
-
-<- **이전**: [046. ChatOps — 봇 기반 협업 운영](/studynote/15_devops_sre/01_culture_methodology/046_chatops_bot_collaboration/)
-**다음**: [048. MLOps — 머신러닝 운영](/studynote/15_devops_sre/01_culture_methodology/048_mlops_machine_learning_operations/) ->
-
----
+1. Error Budget은 월 용돈 — 99.9% SLO = 한 달 43분 용돈. 장애마다 용돈 줄어요. 다 쓰면 새 기능 개발 중단!
+2. Error Budget Policy는 지출 규칙 — 용돈 75% 쓰면 사치품(고위험 배포) 금지, 다 쓰면 완전 중단. 팀이 미리 약속한 규칙!
+3. 골든 시그널은 건강 진단 — 지연(맥박), 트래픽(호흡), 에러(체온), 포화도(혈압). 네 가지 정상 = 서비스 건강!

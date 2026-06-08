@@ -180,11 +180,3 @@ RLHF는 단독으로 존재하지 않으며 SFT, DPO, RLAIF, Constitutional AI, 
 즉, **RLHF는 "정렬"의 한 층**이지 시스템 전체가 아니며, 실시간 가드레일(NeMo Guardrails, Azure AI Content Safety, Llama Guard 3 등)과 결합되어야 엔터프라이즈 SLA를 만족한다.
 
 - **📢 섹션
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 656 / 800
-
-<- **이전**: [655. 연합 학습 프라이버시 보존 분산 학습](/studynote/06_ict_convergence/uncategorized/655_federated_learning_privacy_preserving/)
-**다음**: [657. 지식 증류 모델 경량화 프루닝](/studynote/06_ict_convergence/uncategorized/657_knowledge_distillation_model_pruning_compress/) ->
-
----

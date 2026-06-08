@@ -168,11 +168,3 @@ weight: 671
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
 | **CDO (Chief Data Officer)** | 데이터 전략 총괄,
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 671 / 800
-
-<- **이전**: [670. AutoML 자동 모델 선택 하이퍼파라미터](/studynote/06_ict_convergence/uncategorized/670_automl_auto_model_selection_hyperparameter/)
-**다음**: [672. 데이터 메시 분산 데이터 소유권](/studynote/06_ict_convergence/uncategorized/672_data_mesh_distributed_data_ownership/) ->
-
----

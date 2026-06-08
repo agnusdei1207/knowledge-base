@@ -6,9 +6,9 @@ tags:
 weight: 51
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Apache Oozie는 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [에코](/studynote/03_network/01_data_communication/031_에코_반향/)시스템 기반 워크플로(Workflow)와 코디네이터([Coordinator](/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/)) 잡을 관리하는 서버 기반 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다. [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)·[Hive](/studynote/05_database/04_transactions_concurrency/544_hive/)·Pig·Sqoop 등 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 잡을 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(방향성 비순환 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 구성하여 복잡한 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 자동화한다.
-> 2. **가치**: [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 기반 ETL에서 여러 잡이 의존 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 가질 때, Oozie는 순서·조건·[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 중앙에서 관리한다. 시간 기반([Coordinator](/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))·[데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) 기반 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)로 배치 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 자동 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링한다.
-> 3. **판단 포인트**: Oozie의 약점은 XML 기반 복잡한 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 현대 클라우드 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인과의 통합 어려움이다. 현대 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에서는 Apache Airflow가 Python 기반 DAG로 더 직관적이고 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 통합이 뛰어난 대안이다.
+> 1. **본질**: Apache Oozie는 Hadoop 에코시스템 기반 워크플로(Workflow)와 코디네이터(Coordinator) 잡을 관리하는 서버 기반 스케줄러다. MapReduce·Hive·Pig·Sqoop 등 Hadoop 잡을 DAG(방향성 비순환 그래프)로 구성하여 복잡한 ETL 파이프라인을 자동화한다.
+> 2. **가치**: Hadoop 기반 ETL에서 여러 잡이 의존 관계를 가질 때, Oozie는 순서·조건·병렬 실행을 중앙에서 관리한다. 시간 기반(Coordinator)·데이터 가용성 기반 트리거로 배치 파이프라인을 자동 스케줄링한다.
+> 3. **판단 포인트**: Oozie의 약점은 XML 기반 복잡한 설정과 현대 클라우드 파이프라인과의 통합 어려움이다. 현대 데이터 파이프라인에서는 Apache Airflow가 Python 기반 DAG로 더 직관적이고 클라우드 네이티브 통합이 뛰어난 대안이다.
 
 ---
 
@@ -33,7 +33,7 @@ weight: 51
 +----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: Oozie는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장의 자동화 관리자다. 매일 새벽 원재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 도착을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 순서대로 공정([ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 잡)을 실행하며, 문제가 생기면 알림을 보내는 공장 자동화 시스템이다.
+- **📢 섹션 요약 비유**: Oozie는 데이터 공장의 자동화 관리자다. 매일 새벽 원재료(데이터) 도착을 확인하고, 순서대로 공정(ETL 잡)을 실행하며, 문제가 생기면 알림을 보내는 공장 자동화 시스템이다.
 
 ---
 
@@ -43,13 +43,13 @@ weight: 51
 
 | 구성 요소 | 역할 |
 |:---|:---|
-| **워크플로** | 잡 실행 순서·분기·[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정의 (XML [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)) |
-| **코디네이터** | 시간/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 워크플로 자동 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| **워크플로** | 잡 실행 순서·분기·병렬 정의 (XML DAG) |
+| **코디네이터** | 시간/데이터 기반 워크플로 자동 트리거 |
 | **번들** | 여러 코디네이터 묶음 관리 |
-| **액션 노드** | [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)/[Hive](/studynote/05_database/04_transactions_concurrency/544_hive/)/Pig/Sqoop 잡 실행 단위 |
-| **컨트롤 노드** | start·end·fork·[join](/studynote/05_database/04_transactions_concurrency/521_join/)·decision |
+| **액션 노드** | MapReduce/Hive/Pig/Sqoop 잡 실행 단위 |
+| **컨트롤 노드** | start·end·fork·join·decision |
 
-### Oozie vs [Apache Airflow](/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)
+### Oozie vs Apache Airflow
 
 ```text
 Oozie:
@@ -65,7 +65,7 @@ Airflow:
   - 현대 데이터 엔지니어링 표준
 ```
 
-- **📢 섹션 요약 비유**: Oozie vs Airflow는 공장 수동 제어반 vs 스마트 공장 SCADA다. Oozie(수동 제어반)는 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 공장 전용이고, Airflow([SCADA](/studynote/09_security/18_iot_ot_physical/894_scada/))는 모든 공장을 시각적으로 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하고 스마트하게 제어한다.
+- **📢 섹션 요약 비유**: Oozie vs Airflow는 공장 수동 제어반 vs 스마트 공장 SCADA다. Oozie(수동 제어반)는 Hadoop 공장 전용이고, Airflow(SCADA)는 모든 공장을 시각적으로 모니터링하고 스마트하게 제어한다.
 
 ---
 
@@ -73,12 +73,12 @@ Airflow:
 
 | 비교 | Oozie | Airflow | NiFi |
 |:---|:---|:---|:---|
-| [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 방식 | XML | Python [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) | GUI |
-| 생태계 | [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 전용 | 범용 | 범용 |
-| [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 기본 | 강력 | 강력 |
+| 설정 방식 | XML | Python DAG | GUI |
+| 생태계 | Hadoop 전용 | 범용 | 범용 |
+| 모니터링 | 기본 | 강력 | 강력 |
 | 현황 | 레거시 | 현재 표준 | 스트리밍 강점 |
 
-- **📢 섹션 요약 비유**: 세 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 도구는 공장 자동화 도구 세대다. Oozie(1세대-기계식 타이머), Airflow(2세대-[PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 프로그래밍), NiFi(3세대-스마트 자동화 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링)로 발전했다.
+- **📢 섹션 요약 비유**: 세 파이프라인 도구는 공장 자동화 도구 세대다. Oozie(1세대-기계식 타이머), Airflow(2세대-PLC 프로그래밍), NiFi(3세대-스마트 자동화 모니터링)로 발전했다.
 
 ---
 
@@ -127,11 +127,11 @@ Airflow:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **자동화** | 복잡한 [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 |
-| <strong><a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong> | 잡 실행 이력·상태 중앙 관리 |
-| **의존성 관리** | [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) 기반 자동 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| **자동화** | 복잡한 Hadoop ETL 파이프라인 스케줄링 |
+| <strong>모니터링</strong> | 잡 실행 이력·상태 중앙 관리 |
+| **의존성 관리** | 데이터 가용성 기반 자동 트리거 |
 
-[온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 환경에서는 Oozie가 여전히 현역이지만, 클라우드 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)로 이전하는 기업들은 Airflow·AWS MWAA·Google Cloud Composer로 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 마이그레이션하고 있다.
+온프레미스 Hadoop 환경에서는 Oozie가 여전히 현역이지만, 클라우드 레이크하우스로 이전하는 기업들은 Airflow·AWS MWAA·Google Cloud Composer로 파이프라인을 마이그레이션하고 있다.
 
 - **📢 섹션 요약 비유**: Oozie의 현재 위치는 구형 공장 기계와 같다. 오래됐지만 아직 현역이고, 대체 작업은 계획 중이다. 단, 새로 짓는 공장(신규 클라우드 환경)에는 최신 설비(Airflow)만 들어간다.
 
@@ -141,11 +141,11 @@ Airflow:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/">Apache Airflow</a></strong> | Oozie의 현대적 대안 |
-| <strong><a href="/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a></strong> | 워크플로 비순환 의존성 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
-| <strong><a href="/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">Hadoop</a> <a href="/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a></strong> | Oozie 잡 실행 환경 |
-| **코디네이터** | 시간/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 워크플로 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
-| **NiFi** | GUI 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플로우 관리 |
+| <strong>Apache Airflow</strong> | Oozie의 현대적 대안 |
+| <strong>DAG</strong> | 워크플로 비순환 의존성 그래프 |
+| <strong>Hadoop YARN</strong> | Oozie 잡 실행 환경 |
+| **코디네이터** | 시간/데이터 기반 워크플로 트리거 |
+| **NiFi** | GUI 기반 데이터 플로우 관리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -167,17 +167,6 @@ Airflow:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Oozie는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장 자동화 관리자예요! 매일 정해진 시간에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 작업을 순서대로 자동 실행해요.
-2. 현대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 Airflow를 더 선호해요 — Python으로 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 쉽게 작성하고 예쁜 화면으로 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링할 수 있어요!
-3. Oozie는 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 환경에서 여전히 현역이지만, 클라우드로 이전할 때는 Airflow로 마이그레이션한답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 51 / 262
-
-<- **이전**: [28. Hadoop 보안 — Kerberos, Ranger, Atlas](/studynote/16_bigdata/02_hadoop/050_hadoop_security_kerberos_ranger_atlas/)
-**다음**: [01. Apache Spark — 인메모리 분산 처리 엔진 (Unified Analytics 엔진)](/studynote/16_bigdata/03_spark/052_apache_spark/) ->
-
----
+1. Oozie는 데이터 공장 자동화 관리자예요! 매일 정해진 시간에 데이터 처리 작업을 순서대로 자동 실행해요.
+2. 현대 데이터 엔지니어는 Airflow를 더 선호해요 — Python으로 파이프라인을 쉽게 작성하고 예쁜 화면으로 모니터링할 수 있어요!
+3. Oozie는 온프레미스 Hadoop 환경에서 여전히 현역이지만, 클라우드로 이전할 때는 Airflow로 마이그레이션한답니다!

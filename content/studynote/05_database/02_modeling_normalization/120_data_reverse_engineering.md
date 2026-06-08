@@ -6,9 +6,9 @@ tags:
 weight: 120
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 <strong>문서 없는 기존 DB의 물리 <a href="/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(테이블·컬럼·<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>·FK)를 분석하여 ERD·개념 모델·<a href="/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a>을 복원</strong>하는 프로세스다.
-> 2. **가치**: 레거시 시스템은 설계 문서가 분실·미작성된 경우가 많아, [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 없이는 <strong>시스템 <a href="/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/">현행화</a>·마이그레이션·리팩터링이 불가능</strong>하다.
-> 3. **판단 포인트**: CASE 도구(ERwin·[DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)#)의 자동 [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 기능으로 물리 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 읽어 ERD를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 이후 <strong>수동으로 비즈니스 의미(엔터티명·<a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 설명)를 부여</strong>하는 2단계 프로세스가 필요하다.
+> 1. **본질**: 데이터 역공학은 <strong>문서 없는 기존 DB의 물리 스키마(테이블·컬럼·인덱스·FK)를 분석하여 ERD·개념 모델·데이터 사전을 복원</strong>하는 프로세스다.
+> 2. **가치**: 레거시 시스템은 설계 문서가 분실·미작성된 경우가 많아, 역공학 없이는 <strong>시스템 현행화·마이그레이션·리팩터링이 불가능</strong>하다.
+> 3. **판단 포인트**: CASE 도구(ERwin·DA#)의 자동 역공학 기능으로 물리 스키마를 읽어 ERD를 생성하고, 이후 <strong>수동으로 비즈니스 의미(엔터티명·관계 설명)를 부여</strong>하는 2단계 프로세스가 필요하다.
 
 ---
 
@@ -28,47 +28,47 @@ weight: 120
 +-------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 정공학은 설계도를 그려서 건물을 짓는 것이고, [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 이미 지어진 건물을 조사해서 설계도를 복원하는 것이다.
+- **📢 섹션 요약 비유**: 정공학은 설계도를 그려서 건물을 짓는 것이고, 역공학은 이미 지어진 건물을 조사해서 설계도를 복원하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 프로세스
+### 역공학 프로세스
 
 | 단계 | 활동 | 산출물 |
 |:---|:---|:---|
-| **1. 물리 추출** | [DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/)·[메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집 | 테이블·컬럼·FK 목록 |
-| <strong>2. <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 복원</strong> | FK [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) -> ERD [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 자동 ERD |
+| **1. 물리 추출** | DDL·메타데이터 수집 | 테이블·컬럼·FK 목록 |
+| <strong>2. 논리 복원</strong> | FK 관계 -> ERD 생성 | 자동 ERD |
 | **3. 의미 부여** | 비즈니스 규칙·엔터티명 | 개념 ERD |
-| **4. 문서화** | [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/) 작성 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준 문서 |
+| **4. 문서화** | 데이터 사전 작성 | 데이터 표준 문서 |
 
-- **📢 섹션 요약 비유**: [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 완성된 요리를 맛보고 레시피를 추정하는 것이다. 재료(테이블)는 쉽게 알지만, 요리사의 의도(비즈니스 규칙)는 인터뷰가 필요하다.
+- **📢 섹션 요약 비유**: 역공학은 완성된 요리를 맛보고 레시피를 추정하는 것이다. 재료(테이블)는 쉽게 알지만, 요리사의 의도(비즈니스 규칙)는 인터뷰가 필요하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 정공학 | [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) |
+| 비교 | 정공학 | 역공학 |
 |:---|:---|:---|
 | **방향** | 개념->물리 | **물리->개념** |
-| **시점** | 신규 개발 | <strong>레거시 <a href="/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/">현행화</a></strong> |
-| **문서** | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | **복원** |
+| **시점** | 신규 개발 | <strong>레거시 현행화</strong> |
+| **문서** | 생성 | **복원** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 도구
-- **ERwin**: DB 연결 -> 자동 ERD [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
-- <strong><a href="/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a># (다샵)</strong>: 국내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 표준 도구.
-- **DBeaver**: 무료 ERD 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기능.
+### 역공학 도구
+- **ERwin**: DB 연결 -> 자동 ERD 생성.
+- <strong>DA# (다샵)</strong>: 국내 데이터 모델링 표준 도구.
+- **DBeaver**: 무료 ERD 자동 생성 기능.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 <strong>레거시 시스템의 <a href="/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/">현행화</a>·클라우드 마이그레이션·<a href="/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong>의 필수 사전 작업이며, 자동 추출 + 수동 의미 부여의 2단계 접근이 가장 효과적이다.
+데이터 역공학은 <strong>레거시 시스템의 현행화·클라우드 마이그레이션·데이터 거버넌스</strong>의 필수 사전 작업이며, 자동 추출 + 수동 의미 부여의 2단계 접근이 가장 효과적이다.
 
 ---
 
@@ -76,11 +76,11 @@ weight: 120
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **정공학** | [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 반대 방향 (개념->물리) |
-| **ERD** | [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 핵심 산출물 |
-| <strong><a href="/studynote/05_database/07_exam_summary/393_data_dictionary/">데이터 사전</a></strong> | [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)으로 복원하는 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 문서 |
-| **CASE 도구** | ERwin, [DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)# 등 자동 [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 도구 |
-| <strong>레거시 <a href="/studynote/12_it_management/03_ea_isp/909_asis_update_ea_maintenance_synchronization/">현행화</a></strong> | [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 주요 목적 |
+| **정공학** | 역공학의 반대 방향 (개념->물리) |
+| **ERD** | 역공학의 핵심 산출물 |
+| <strong>데이터 사전</strong> | 역공학으로 복원하는 메타데이터 문서 |
+| **CASE 도구** | ERwin, DA# 등 자동 역공학 도구 |
+| <strong>레거시 현행화</strong> | 역공학의 주요 목적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -102,16 +102,5 @@ weight: 120
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 정공학은 **레시피를 보고 요리를 만드는** 거예요.
-2. [역공학](/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 완성된 요리를 **맛보고 레시피를 알아내는** 거예요.
-3. 설계도가 없는 옛날 건물(레거시)을 수리하려면 먼저 <strong>설계도를 복원(<a href="/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a>)</strong>해야 한답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 120 / 600
-
-<- **이전**: [119. 팩트 테이블과 디멘전 테이블 (Fact & Dimension Table) - DW 스타 스키마 핵심 구성 요소](/studynote/05_database/02_modeling_normalization/119_fact_table_dimension_table/)
-**다음**: [121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계](/studynote/05_database/02_modeling_normalization/121_data_architecture_framework_zachman/) ->
-
----
+2. 역공학은 완성된 요리를 **맛보고 레시피를 알아내는** 거예요.
+3. 설계도가 없는 옛날 건물(레거시)을 수리하려면 먼저 <strong>설계도를 복원(역공학)</strong>해야 한답니다!

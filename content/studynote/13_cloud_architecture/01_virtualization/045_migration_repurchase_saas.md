@@ -6,9 +6,9 @@ tags:
 weight: 45
 ---
 > **핵심 인사이트**
-> 1. 클라우드 이전(Migration) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 6R(또는 7R) 프레임워크 — Retire(폐기), Retain(유지), Rehost([Lift](/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift), Replatform(이식), Repurchase([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 전환), [Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)(재설계), Relocate(이전)으로 각 워크로드에 최적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택한다.
-> 2. Repurchase([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 재구매)는 사내 구축 소프트웨어를 SaaS로 교체 — 이메일(Exchange->Office 365), [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Siebel->Salesforce), [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)([온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)->SAP S/4HANA Cloud) 전환이 대표적이며, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용보다 장기 총소유비용([TCO](/studynote/12_it_management/01_governance_strategy/016_tco/)) 분석이 핵심이다.
-> 3. [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 전환의 핵심 과제는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이전([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Migration)과 통합(Integration) — 수년간 축적된 레거시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델로 변환하고, 기존 시스템과의 연동([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통합)이 프로젝트 복잡성의 80%를 차지한다.
+> 1. 클라우드 이전(Migration) 전략의 6R(또는 7R) 프레임워크 — Retire(폐기), Retain(유지), Rehost(Lift & Shift), Replatform(이식), Repurchase(SaaS 전환), Refactor(재설계), Relocate(이전)으로 각 워크로드에 최적 전략을 선택한다.
+> 2. Repurchase(SaaS 재구매)는 사내 구축 소프트웨어를 SaaS로 교체 — 이메일(Exchange->Office 365), CRM(Siebel->Salesforce), ERP(온프레미스->SAP S/4HANA Cloud) 전환이 대표적이며, 초기 비용보다 장기 총소유비용(TCO) 분석이 핵심이다.
+> 3. SaaS 전환의 핵심 과제는 데이터 이전(Data Migration)과 통합(Integration) — 수년간 축적된 레거시 데이터를 SaaS 데이터 모델로 변환하고, 기존 시스템과의 연동(API 통합)이 프로젝트 복잡성의 80%를 차지한다.
 
 ---
 
@@ -63,11 +63,11 @@ AWS 클라우드 이전 6R 프레임워크:
   기간 기준: Retire -> Rehost -> Repurchase -> Refactor
 ```
 
-> 📢 **섹션 요약 비유**: 6R은 이사 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 버리기(Retire), 두고가기(Retain), 그대로 옮기기(Rehost), 포장 개선(Replatform), 새 가구로 교체(Repurchase), 집 자체를 새로([Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))!
+> 📢 **섹션 요약 비유**: 6R은 이사 전략 — 버리기(Retire), 두고가기(Retain), 그대로 옮기기(Rehost), 포장 개선(Replatform), 새 가구로 교체(Repurchase), 집 자체를 새로(Refactor)!
 
 ---
 
-## Ⅱ. Repurchase — [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 전환
+## Ⅱ. Repurchase — SaaS 전환
 
 ```
 Repurchase SaaS 전환 유형:
@@ -113,11 +113,11 @@ HR/급여:
   - 특수 비즈니스 프로세스
 ```
 
-> 📢 **섹션 요약 비유**: Repurchase는 식당 부엌 교체 — 직접 만든 낡은 냉장고([On-Premise](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 버리고, 최신 렌탈 냉장고([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)) 구독. 수리 걱정 없이 음식(비즈니스)만!
+> 📢 **섹션 요약 비유**: Repurchase는 식당 부엌 교체 — 직접 만든 낡은 냉장고(On-Premise) 버리고, 최신 렌탈 냉장고(SaaS) 구독. 수리 걱정 없이 음식(비즈니스)만!
 
 ---
 
-## Ⅲ. [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이전
+## Ⅲ. SaaS 데이터 이전
 
 ```
 SaaS 데이터 이전 (Data Migration):
@@ -163,11 +163,11 @@ SaaS 데이터 이전 (Data Migration):
   구 이력: 아카이브 또는 레거시 병행
 ```
 
-> 📢 **섹션 요약 비유**: [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이전은 이사짐 정리 — 낡은 집(레거시)에서 짐([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 꺼내고, 새 집([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)) 크기에 맞게 정리(변환)해서 옮겨요. 이사짐이 많을수록 복잡!
+> 📢 **섹션 요약 비유**: SaaS 데이터 이전은 이사짐 정리 — 낡은 집(레거시)에서 짐(데이터) 꺼내고, 새 집(SaaS) 크기에 맞게 정리(변환)해서 옮겨요. 이사짐이 많을수록 복잡!
 
 ---
 
-## Ⅳ. [TCO](/studynote/12_it_management/01_governance_strategy/016_tco/) 분석
+## Ⅳ. TCO 분석
 
 ```
 SaaS 전환 TCO (Total Cost of Ownership) 분석:
@@ -210,7 +210,7 @@ TCO 결론:
   핵심: 숫자만 보지 말고 전략적 유연성 포함 평가
 ```
 
-> 📢 **섹션 요약 비유**: TCO는 총 유지비용 — 새 차([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)) 월 리스료 vs 중고차([On-Premise](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 구입 후 수리비+보험. 겉 가격만 보지 말고 5년 총비용을 비교!
+> 📢 **섹션 요약 비유**: TCO는 총 유지비용 — 새 차(SaaS) 월 리스료 vs 중고차(On-Premise) 구입 후 수리비+보험. 겉 가격만 보지 말고 5년 총비용을 비교!
 
 ---
 
@@ -259,7 +259,7 @@ TCO 결론:
   IT-HR 협업 필수
 ```
 
-> 📢 **섹션 요약 비유**: M365 이전은 전국 지사 동시 이사 — 한 번에 5만 명 이사는 불가능, 물결([Wave](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))로 지역별 순차 이전. 기술보다 직원들 적응(변화관리)이 더 중요!
+> 📢 **섹션 요약 비유**: M365 이전은 전국 지사 동시 이사 — 한 번에 5만 명 이사는 불가능, 물결(Wave)로 지역별 순차 이전. 기술보다 직원들 적응(변화관리)이 더 중요!
 
 ---
 
@@ -312,17 +312,6 @@ SaaS First 정책 (비커스텀 기능)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 6R은 이사 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 6가지 — 버리기(Retire), 그대로(Rehost), 일부 고치기(Replatform), 새 가구로 교체(Repurchase), 집 새로([Refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))! 상황에 맞는 방법 선택!
-2. Repurchase는 구독 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 교체 — 직접 만든 낡은 냉장고(Exchange) 버리고, 매달 구독하는 새 냉장고(M365)로! 수리 걱정 끝!
-3. TCO가 핵심 — "월 구독료([SaaS](/studynote/12_it_management/05_security_compliance/951_saas/))가 비싸 보여도" 5년 총비용(서버+인건비+업그레이드) 합치면 SaaS가 저렴할 수 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 44 / 371
-
-<- **이전**: [044. Re-factor & Re-architect — 클라우드 네이티브 MSA](/studynote/13_cloud_architecture/01_virtualization/044_refactor_re_architect_cloud_native_msa/)
-**다음**: [046. 클라우드 마이그레이션 — Retire & Retain 전략](/studynote/13_cloud_architecture/01_virtualization/046_migration_retire_retain/) ->
-
----
+1. 6R은 이사 전략 6가지 — 버리기(Retire), 그대로(Rehost), 일부 고치기(Replatform), 새 가구로 교체(Repurchase), 집 새로(Refactor)! 상황에 맞는 방법 선택!
+2. Repurchase는 구독 서비스 교체 — 직접 만든 낡은 냉장고(Exchange) 버리고, 매달 구독하는 새 냉장고(M365)로! 수리 걱정 끝!
+3. TCO가 핵심 — "월 구독료(SaaS)가 비싸 보여도" 5년 총비용(서버+인건비+업그레이드) 합치면 SaaS가 저렴할 수 있어요!

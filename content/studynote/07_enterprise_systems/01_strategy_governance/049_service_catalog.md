@@ -6,13 +6,13 @@ tags:
 weight: 49
 ---
 > **핵심 인사이트**
-> 1. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)([Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/))는 IT 조직이 제공하는 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 표준화·가시화하여 비즈니스 사용자가 셀프서비스로 요청할 수 있게 하는 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리의 핵심 인터페이스 — [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) v4에서 [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)는 "비즈니스가 알아야 할 것"만 담은 고객 대면 뷰이다.
-> 2. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) vs [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오의 구분이 핵심 — [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 관점의 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(기획 중·운영 중·폐기 중)를 포함하는 반면, [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 현재 운영 중이며 고객이 요청 가능한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 포함한다.
-> 3. 클라우드 시대의 [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)는 AWS [Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)·Backstage처럼 인프라 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)·개발자 플랫폼으로 진화 — 신청->승인->자동 [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/)의 셀프서비스 워크플로우가 IT 운영 효율화의 핵심이다.
+> 1. 서비스 카탈로그(Service Catalog)는 IT 조직이 제공하는 모든 서비스를 표준화·가시화하여 비즈니스 사용자가 셀프서비스로 요청할 수 있게 하는 IT 서비스 관리의 핵심 인터페이스 — ITIL v4에서 서비스 카탈로그는 "비즈니스가 알아야 할 것"만 담은 고객 대면 뷰이다.
+> 2. 서비스 카탈로그 vs 서비스 포트폴리오의 구분이 핵심 — 포트폴리오는 전략적 관점의 모든 서비스(기획 중·운영 중·폐기 중)를 포함하는 반면, 카탈로그는 현재 운영 중이며 고객이 요청 가능한 서비스만 포함한다.
+> 3. 클라우드 시대의 서비스 카탈로그는 AWS Service Catalog·Backstage처럼 인프라 프로비저닝·개발자 플랫폼으로 진화 — 신청->승인->자동 프로비저닝의 셀프서비스 워크플로우가 IT 운영 효율화의 핵심이다.
 
 ---
 
-## Ⅰ. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) 개요
+## Ⅰ. 서비스 카탈로그 개요
 
 ```
 서비스 카탈로그 (Service Catalog):
@@ -50,11 +50,11 @@ weight: 49
   예: 노트북 지급 -> 자산 관리 DB + HR 시스템 연동
 ```
 
-> 📢 **섹션 요약 비유**: [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) = 레스토랑 메뉴판 — 메뉴판([카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)): 손님(직원)이 볼 수 있는 것만. 주방 레시피(기술 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)): 내부용. [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 전체 음식점 사업 계획!
+> 📢 **섹션 요약 비유**: 서비스 카탈로그 = 레스토랑 메뉴판 — 메뉴판(카탈로그): 손님(직원)이 볼 수 있는 것만. 주방 레시피(기술 카탈로그): 내부용. 포트폴리오는 전체 음식점 사업 계획!
 
 ---
 
-## Ⅱ. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) 구성 요소
+## Ⅱ. 서비스 카탈로그 구성 요소
 
 ```
 서비스 카탈로그 항목 구성:
@@ -99,7 +99,7 @@ weight: 49
   - 하드웨어 교체
 ```
 
-> 📢 **섹션 요약 비유**: [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) 항목 = 호텔 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안내 — 객실 청소([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명), 체크아웃 전 11시([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)), 내선 1번(신청), 무료(비용). 직원이 알아야 할 것만 명확히!
+> 📢 **섹션 요약 비유**: 서비스 카탈로그 항목 = 호텔 서비스 안내 — 객실 청소(서비스명), 체크아웃 전 11시(SLA), 내선 1번(신청), 무료(비용). 직원이 알아야 할 것만 명확히!
 
 ---
 
@@ -148,11 +148,11 @@ Freshservice:
   연 1,000건: $12,500 절감
 ```
 
-> 📢 **섹션 요약 비유**: 셀프서비스 포털 = 인터넷 쇼핑몰 — 장바구니(여러 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 묶음 신청), 배송 추적(상태 조회). 헬프데스크 없이도 직원이 직접 주문!
+> 📢 **섹션 요약 비유**: 셀프서비스 포털 = 인터넷 쇼핑몰 — 장바구니(여러 서비스 묶음 신청), 배송 추적(상태 조회). 헬프데스크 없이도 직원이 직접 주문!
 
 ---
 
-## Ⅳ. 클라우드 [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/)
+## Ⅳ. 클라우드 서비스 카탈로그
 
 ```
 AWS Service Catalog:
@@ -190,11 +190,11 @@ HashiCorp Terraform Cloud:
   Workspace 기반 셀프서비스 IaC 배포
 ```
 
-> 📢 **섹션 요약 비유**: AWS [Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) = 회사 전용 AWS 마트 — IT가 승인한 상품(CloudFormation)만 진열. 개발자가 골라 담고 계산(배포). 보안/비용 태그 자동 적용!
+> 📢 **섹션 요약 비유**: AWS Service Catalog = 회사 전용 AWS 마트 — IT가 승인한 상품(CloudFormation)만 진열. 개발자가 골라 담고 계산(배포). 보안/비용 태그 자동 적용!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) 구축
+## Ⅴ. 실무 시나리오 — 서비스 카탈로그 구축
 
 ```
 금융회사 IT 서비스 카탈로그 구축:
@@ -234,7 +234,7 @@ TO-BE ServiceNow 구축:
   연간 비용 절감: 약 2억원
 ```
 
-> 📢 **섹션 요약 비유**: [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) 구축 = 편의점 자동화 — 직원 주문(IT 요청)을 자동 키오스크(ServiceNow)로. 처리 시간 3.2일->0.8일. 헬프데스크 절반으로. 직원 만족 89%!
+> 📢 **섹션 요약 비유**: 서비스 카탈로그 구축 = 편의점 자동화 — 직원 주문(IT 요청)을 자동 키오스크(ServiceNow)로. 처리 시간 3.2일->0.8일. 헬프데스크 절반으로. 직원 만족 89%!
 
 ---
 
@@ -291,17 +291,6 @@ IaC 기반 자동 프로비저닝
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [서비스 카탈로그](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) = 레스토랑 메뉴판 — 손님(직원)이 볼 수 있는 것만. 주방 레시피(기술 내용)는 내부용. SLA는 음식 대기 시간!
-2. 셀프서비스 = 인터넷 쇼핑몰 — 장바구니에 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 담고 주문. 배송 추적처럼 처리 상태 실시간 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)!
-3. AWS [Service Catalog](/studynote/12_it_management/02_itsm_itil/872_service_catalog/) = 회사 전용 마트 — IT가 승인한 상품만 진열. 개발자가 골라 배포. 보안/비용 자동 적용!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 49 / 482
-
-<- **이전**: [048. SLM·OLA·UC — 서비스 수준 관리 체계](/studynote/07_enterprise_systems/01_strategy_governance/048_slm_ola_uc/)
-**다음**: [CMDB — 구성 관리 데이터베이스 (Configuration Management Database)](/studynote/07_enterprise_systems/01_strategy_governance/050_cmdb_configuration_management_database/) ->
-
----
+1. 서비스 카탈로그 = 레스토랑 메뉴판 — 손님(직원)이 볼 수 있는 것만. 주방 레시피(기술 내용)는 내부용. SLA는 음식 대기 시간!
+2. 셀프서비스 = 인터넷 쇼핑몰 — 장바구니에 IT 서비스 담고 주문. 배송 추적처럼 처리 상태 실시간 확인!
+3. AWS Service Catalog = 회사 전용 마트 — IT가 승인한 상품만 진열. 개발자가 골라 배포. 보안/비용 자동 적용!

@@ -6,13 +6,13 @@ tags:
 weight: 259
 ---
 > **핵심 인사이트**
-> 1. 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)([Real-Time OLAP](/studynote/16_bigdata/04_streaming/099_realtime_olap/))은 초 단위 이하 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)으로 대용량 이벤트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하는 시스템 — [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 기반 배치 분석(시간 단위 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))의 한계를 극복하고, "지금 이 순간" 수십억 행을 집계·필터링하는 능력이 핵심이다.
-> 2. 컬럼형 저장소 + 벡터화 실행 + 사전 집계(Pre-aggregation)의 조합 — ClickHouse는 컬럼형 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 저장 + [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 벡터화로 초당 수억 행 처리, Druid/Pinot은 인제스트 시 사전 집계로 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 부하를 최소화하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 차이가 있다.
-> 3. 워크로드 특성이 엔진 선택을 결정 — 고빈도 업데이트(UPDATE/DELETE) -> ClickHouse, 이벤트 스트림 실시간 인제스트 + 밀리초 응답 -> Druid/Pinot, 기존 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대체 -> StarRocks가 각각 강점을 가진다.
+> 1. 실시간 OLAP(Real-Time OLAP)은 초 단위 이하 지연 시간으로 대용량 이벤트 데이터를 분석하는 시스템 — Hadoop/Hive 기반 배치 분석(시간 단위 지연)의 한계를 극복하고, "지금 이 순간" 수십억 행을 집계·필터링하는 능력이 핵심이다.
+> 2. 컬럼형 저장소 + 벡터화 실행 + 사전 집계(Pre-aggregation)의 조합 — ClickHouse는 컬럼형 압축 저장 + SIMD 벡터화로 초당 수억 행 처리, Druid/Pinot은 인제스트 시 사전 집계로 쿼리 시 부하를 최소화하는 전략 차이가 있다.
+> 3. 워크로드 특성이 엔진 선택을 결정 — 고빈도 업데이트(UPDATE/DELETE) -> ClickHouse, 이벤트 스트림 실시간 인제스트 + 밀리초 응답 -> Druid/Pinot, 기존 데이터 웨어하우스 대체 -> StarRocks가 각각 강점을 가진다.
 
 ---
 
-## Ⅰ. 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 등장 배경
+## Ⅰ. 실시간 OLAP 등장 배경
 
 ```
 전통 분석 아키텍처의 한계:
@@ -45,7 +45,7 @@ Lambda 아키텍처:
   StarRocks (구 DorisDB, 2021)
 ```
 
-> 📢 **섹션 요약 비유**: 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) = 즉석 성적표 — 시험(이벤트) 끝나고 다음 날 성적(배치 분석) 대신 답안 제출 즉시 점수(실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)). 광고, 게임, 금융에서 "지금 바로" 답이 필요!
+> 📢 **섹션 요약 비유**: 실시간 OLAP = 즉석 성적표 — 시험(이벤트) 끝나고 다음 날 성적(배치 분석) 대신 답안 제출 즉시 점수(실시간 OLAP). 광고, 게임, 금융에서 "지금 바로" 답이 필요!
 
 ---
 
@@ -97,7 +97,7 @@ ClickHouse (클릭하우스):
 적합 워크로드: 시계열, 로그 분석, 이벤트 스트림
 ```
 
-> 📢 **섹션 요약 비유**: ClickHouse = [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 계산기 — 100억 줄 엑셀에서 특정 컬럼만 뽑아 집계([SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)). [Hive](/studynote/05_database/04_transactions_concurrency/544_hive/) 5분을 5초로. 컬럼만 읽고 CPU 한 번에 32개 처리!
+> 📢 **섹션 요약 비유**: ClickHouse = 초고속 계산기 — 100억 줄 엑셀에서 특정 컬럼만 뽑아 집계(SIMD). Hive 5분을 5초로. 컬럼만 읽고 CPU 한 번에 32개 처리!
 
 ---
 
@@ -152,7 +152,7 @@ Apache Pinot:
   ClickHouse: 복잡 SQL, 대용량 배치+스트리밍 혼합
 ```
 
-> 📢 **섹션 요약 비유**: Druid = 미리 계산해 두는 주방 — 재료(원본) 사전 손질([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))해서 요리 시간([쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)) 단축. Pinot = [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 패스트푸드 — 메뉴 미리 준비(Star-Tree)로 10ms 내 제공!
+> 📢 **섹션 요약 비유**: Druid = 미리 계산해 두는 주방 — 재료(원본) 사전 손질(Rollup)해서 요리 시간(쿼리) 단축. Pinot = 초고속 패스트푸드 — 메뉴 미리 준비(Star-Tree)로 10ms 내 제공!
 
 ---
 
@@ -210,7 +210,7 @@ StarRocks (스타록스):
   실시간 인제스트 + 즉시 쿼리 가능
 ```
 
-> 📢 **섹션 요약 비유**: StarRocks = 만능 분석 도구 — 실시간+배치, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)레이크+웨어하우스, SQL+스트리밍을 하나로. 여러 도구(Spark+[Hive](/studynote/05_database/04_transactions_concurrency/544_hive/)+Druid) 대신 StarRocks 하나!
+> 📢 **섹션 요약 비유**: StarRocks = 만능 분석 도구 — 실시간+배치, 데이터레이크+웨어하우스, SQL+스트리밍을 하나로. 여러 도구(Spark+Hive+Druid) 대신 StarRocks 하나!
 
 ---
 
@@ -255,7 +255,7 @@ StarRocks (스타록스):
   (배치 처리 감소)
 ```
 
-> 📢 **섹션 요약 비유**: 광고 플랫폼 실시간 분석 — 광고 클릭 결과를 1시간 후가 아니라 1분 이내에 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)! Druid Rollup으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 95% [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 광고주는 즉시 최적화. 실시간이 돈!
+> 📢 **섹션 요약 비유**: 광고 플랫폼 실시간 분석 — 광고 클릭 결과를 1시간 후가 아니라 1분 이내에 확인! Druid Rollup으로 데이터 95% 압축, 광고주는 즉시 최적화. 실시간이 돈!
 
 ---
 
@@ -318,17 +318,6 @@ AI 자연어 쿼리
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 실시간 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) = 즉석 성적표 — 시험 끝나고 다음 날 성적 대신 즉시 결과! 광고, 게임, 금융에서 "지금 바로" 100억 개 계산!
-2. ClickHouse = [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 집계기 — 가격 컬럼만 뽑아(컬럼형) CPU 32개씩 더하기([SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)). 100억 행도 5초!
-3. Druid [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) = 미리 손질된 재료 — 500억 이벤트를 인제스트 시 2.5억 집계로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/). [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 가볍게 바로 답변!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 259 / 262
-
-<- **이전**: [046. 데이터 레이크하우스 — Data Lakehouse](/studynote/16_bigdata/13_intro_trends/258_data_lakehouse/)
-**다음**: [048. 벡터 데이터베이스 — Vector Database](/studynote/16_bigdata/13_intro_trends/260_vector_database/) ->
-
----
+1. 실시간 OLAP = 즉석 성적표 — 시험 끝나고 다음 날 성적 대신 즉시 결과! 광고, 게임, 금융에서 "지금 바로" 100억 개 계산!
+2. ClickHouse = 초고속 집계기 — 가격 컬럼만 뽑아(컬럼형) CPU 32개씩 더하기(SIMD). 100억 행도 5초!
+3. Druid Rollup = 미리 손질된 재료 — 500억 이벤트를 인제스트 시 2.5억 집계로 압축. 쿼리 시 가볍게 바로 답변!

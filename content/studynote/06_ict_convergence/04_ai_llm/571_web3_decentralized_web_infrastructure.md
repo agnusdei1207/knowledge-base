@@ -110,12 +110,3 @@ Web3 탈중앙 웹 인프라은(는) 현장의 상태를 데이터로 가시화�
 | 데이터 플랫폼 | 여러 시스템의 데이터를 통합·분석하는 기반 |
 | AI/분석 | 예측, 분류, 최적화, 이상 탐지를 수행 |
 | 거버넌스 | 보안, 개인정보, 감사, 운영 책임을 정의 |
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 571 / 800
-
-<- **이전**: [570. 탈중앙 거래소 DEX AMM 유동성](/studynote/06_ict_convergence/uncategorized/570_decentralized_exchange_dex_amm_liquidity/)
-**다음**: [572. 메타 트랜잭션 가스리스 사용자 경험](/studynote/06_ict_convergence/uncategorized/572_meta_transaction_gasless_user_experience/) ->
-
----

@@ -7,8 +7,8 @@ weight: 778
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소프트웨어 테스트 성숙도 모델 (TMMi)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 소프트웨어 테스트 성숙도 모델 (TMMi)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,11 +17,11 @@ weight: 778
 
 소프트웨어가 커지면 자연스럽게 버그도 늘어난다. 초창기 회사들은 개발자가 자기가 짠 코드를 대충 눌러보고 "잘 되네!" 하고 배포했다. 하지만 결제가 뚫리고 서버가 멈추는 대형 사고를 몇 번 겪은 뒤, 부랴부랴 QA(품질 보증) 팀을 만들었다.
 
-문제는 QA 팀을 만들었는데도 버그가 계속 터진다는 것이었다. "우리 회사 QA 팀이 도대체 일을 잘하고 있는 건가?" 경영진은 답답해했다. 기존에 쓰던 [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)(소프트웨어 성숙도 모델)는 개발 프로세스 전체를 평가하다 보니, 테스팅에 대한 평가는 아주 수박 겉핥기였다.
+문제는 QA 팀을 만들었는데도 버그가 계속 터진다는 것이었다. "우리 회사 QA 팀이 도대체 일을 잘하고 있는 건가?" 경영진은 답답해했다. 기존에 쓰던 CMMI(소프트웨어 성숙도 모델)는 개발 프로세스 전체를 평가하다 보니, 테스팅에 대한 평가는 아주 수박 겉핥기였다.
 
 이 갈증을 해소하기 위해 ISTQB(국제 소프트웨어 테스팅 자격 위원회)를 주축으로 하는 TMMi 재단이 나섰다. **"CMMI의 구조를 빌려오되, 오직 '테스팅'에만 미친 듯이 집중한 평가 모델을 만들자!"** 이것이 바로 <strong>TMMi(테스트 성숙도 모델 통합)</strong>의 탄생이다.
 
-- **📢 섹션 요약 비유**: CMMI가 '종합 병원 평가'라면, TMMi는 오직 '암 센터(테스팅)' 하나만 떼어내서 "이 암 센터가 돌팔이 의원인지, 세계 최고의 명의가 있는지"를 5단계로 현미경처럼 평가하는 전문 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 제도다.
+- **📢 섹션 요약 비유**: CMMI가 '종합 병원 평가'라면, TMMi는 오직 '암 센터(테스팅)' 하나만 떼어내서 "이 암 센터가 돌팔이 의원인지, 세계 최고의 명의가 있는지"를 5단계로 현미경처럼 평가하는 전문 인증 제도다.
 
 ---
 
@@ -70,14 +70,14 @@ TMMi는 CMMI와 동일하게 1단계(최악)부터 5단계(최고)까지의 성�
 
 테스트와 관련된 평가 모델에는 TMMi 외에도 TPI Next가 있다.
 
-| 비교 항목 | TMMi (Test [Maturity Model](/studynote/12_it_management/01_governance_strategy/011_maturity_model/) integration) | TPI Next (Test [Process](/studynote/12_it_management/05_security_compliance/943_process/) Improvement) |
+| 비교 항목 | TMMi (Test Maturity Model integration) | TPI Next (Test Process Improvement) |
 |:---|:---|:---|
-| **설계 뼈대** | <strong><a href="/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a></strong> 기반 (조직적/단계적) | 독자적 비즈니스 중심 프레임워크 (연속적) |
+| **설계 뼈대** | <strong>CMMI</strong> 기반 (조직적/단계적) | 독자적 비즈니스 중심 프레임워크 (연속적) |
 | **평가 방식** | 1~5단계의 **'단계적(Staged)'** 심사 통과 위주 | 16개 핵심 영역별로 자유롭게 개선점 도출 |
-| **주요 목적** | 공식적인 <strong>조직 성숙도 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (대외 홍보용)</strong> | 실질적이고 유연한 **내부 프로세스 개선** |
-| **인지도** | 전 세계 테스팅 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 **절대적 표준** | 유럽을 중심으로 사용됨 |
+| **주요 목적** | 공식적인 <strong>조직 성숙도 인증 (대외 홍보용)</strong> | 실질적이고 유연한 **내부 프로세스 개선** |
+| **인지도** | 전 세계 테스팅 인증의 **절대적 표준** | 유럽을 중심으로 사용됨 |
 
-- **📢 섹션 요약 비유**: TMMi가 "우리 학교는 교육부에서 1등급 학교로 공식 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)받았어!"라는 간판이라면, TPI Next는 "국영수는 1등급인데 과학이 3등급이니까 과학 학원에 집중하자"라는 1:1 맞춤형 진단 컨설팅이다.
+- **📢 섹션 요약 비유**: TMMi가 "우리 학교는 교육부에서 1등급 학교로 공식 인증받았어!"라는 간판이라면, TPI Next는 "국영수는 1등급인데 과학이 3등급이니까 과학 학원에 집중하자"라는 1:1 맞춤형 진단 컨설팅이다.
 
 ---
 
@@ -101,7 +101,7 @@ TMMi 레벨 3 이상을 달성하기란 하늘의 별 따기다. 테스트를 '�
 
 ## Ⅴ. 기대효과 및 결론
 
-TMMi 고레벨을 달성한 은행이나 항공우주 소프트웨어 기업은, 프로젝트 막판에 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 폭탄이 터져서 오픈 일정을 미루는 '[소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'를 겪지 않는다. 버그가 발견되는 시점이 배포 전날(100만 원 비용)에서 설계 단계(1만 원 비용)로 극단적으로 앞당겨지기([Shift-Left](/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)) 때문이다.
+TMMi 고레벨을 달성한 은행이나 항공우주 소프트웨어 기업은, 프로젝트 막판에 결함 폭탄이 터져서 오픈 일정을 미루는 '소프트웨어 위기'를 겪지 않는다. 버그가 발견되는 시점이 배포 전날(100만 원 비용)에서 설계 단계(1만 원 비용)로 극단적으로 앞당겨지기(Shift-Left) 때문이다.
 
 결론적으로 기술 리더는 테스트를 "주니어 개발자나 외주 인력이 마우스 클릭하는 단순 노동"으로 깎아내리는 조직의 편견과 싸워야 한다. TMMi는 테스트를 단순한 디버깅에서 벗어나, 시스템의 뼈대를 지키는 '고도의 엔지니어링이자 전사적 품질 경영'으로 격상시킨 위대한 프레임워크다.
 
@@ -119,10 +119,10 @@ TMMi 고레벨을 달성한 은행이나 항공우주 소프트웨어 기업은,
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 테스트 성숙도 모델 (TMMi)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 소프트웨어 테스트 성숙도 모델 (TMMi)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 소프트웨어 공학 (Software 엔진ering) | 소프트웨어 테스트 성숙도 모델 (TMMi)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 소프트웨어 테스트 성숙도 모델 (TMMi)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 소프트웨어 테스트 성숙도 모델 (TMMi) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 소프트웨어 테스트 성숙도 모델 (TMMi)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| 형상 관리 (SCM, Software Configuration Management) | 소프트웨어 테스트 성숙도 모델 (TMMi)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,21 +142,10 @@ TMMi 고레벨을 달성한 은행이나 항공우주 소프트웨어 기업은,
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 소프트웨어 위기 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 소프트웨어 테스트 성숙도 모델 (TMMi)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 951 / 973
-
-<- **이전**: [777. 정량적 프로젝트 관리 SPI 통제 한계선](/studynote/04_software_engineering/10_trends_pm_quality/777_quantitative_project_management_spi/)
-**다음**: [779. ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준](/studynote/04_software_engineering/10_trends_pm_quality/779_iso_29119_software_testing_standard/) ->
-
----
+3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

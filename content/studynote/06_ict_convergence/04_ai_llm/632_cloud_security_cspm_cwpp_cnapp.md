@@ -133,11 +133,3 @@ CNAPP는 일반적으로 다음 **5개 핵심 모듈**과 **공통 데이터 레
 | **탐지 시점** | 구성 변경 후 (Posture-Time), **수 초~수 분** 내 | 런타임 행위 기반 (Real-Time), **수 밀리초~수 초** 내 | IaC 코드 단계부터 런타임까지 **전 생애주기** |
 | **데이터 소스** | 클라우드 API (AWS Config, Azure Policy, GCP Org Policy) | 에이전트(eBPF), 컨테이너 런타임, 이미지 레지스트리 | 모든 CSP/CWPP/CIEM/DSPM 소스 + 외부 위협 인텔리전스 |
 | **기술 방식** | 에이전트리스 API 스캔, 정책 코드(Rego/Cedar) | 에이전트 기반 syscall·파일·네
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 632 / 800
-
-<- **이전**: [631. 그린 클라우드 탄소 중립 PUE 최적화](/studynote/06_ict_convergence/uncategorized/631_green_cloud_carbon_neutral_pue_optimization/)
-**다음**: [633. 제로 트러스트 네트워크 마이크로세그먼트](/studynote/06_ict_convergence/uncategorized/633_zero_trust_network_microsegmentation/) ->
-
----

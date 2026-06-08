@@ -6,13 +6,13 @@ tags:
 weight: 48
 ---
 > **핵심 인사이트**
-> 1. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II([Constructive Cost Model](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II)는 소프트웨어 개발 규모(LOC 또는 [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/))와 복잡도 요인을 결합하여 공수(Person-Month)와 일정을 과학적으로 추정 — 1995년 Barry Boehm이 발전시킨 [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) I의 개선 모델로, 현대 소프트웨어 개발 환경(재사용, CBD)을 반영한다.
+> 1. COCOMO II(Constructive Cost Model II)는 소프트웨어 개발 규모(LOC 또는 기능 점수)와 복잡도 요인을 결합하여 공수(Person-Month)와 일정을 과학적으로 추정 — 1995년 Barry Boehm이 발전시킨 COCOMO I의 개선 모델로, 현대 소프트웨어 개발 환경(재사용, CBD)을 반영한다.
 > 2. 스케일 팩터(Scale Factor)와 비용 드라이버(Cost Driver)의 합성이 핵심 — 선형이 아닌 지수 스케일링으로 소규모 프로젝트(1만 LOC)와 초대형 프로젝트(100만 LOC) 사이의 비선형적 비용 증가를 모델링한다.
-> 3. 추정의 불확실성을 인식하는 것이 [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 활용의 전제 — [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 추정(Application Composition)은 ±4배, 상세 추정(Post-Architecture)도 ±25% 오차가 존재하므로, 추정을 하나의 점이 아닌 범위로 제시하고 지속적으로 검보하는 것이 올바른 활용법이다.
+> 3. 추정의 불확실성을 인식하는 것이 COCOMO II 활용의 전제 — 초기 추정(Application Composition)은 ±4배, 상세 추정(Post-Architecture)도 ±25% 오차가 존재하므로, 추정을 하나의 점이 아닌 범위로 제시하고 지속적으로 검보하는 것이 올바른 활용법이다.
 
 ---
 
-## Ⅰ. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 모델 개요
+## Ⅰ. COCOMO II 모델 개요
 
 ```
 COCOMO I vs COCOMO II:
@@ -55,7 +55,7 @@ COCOMO II (1995, 2000 개정):
   EMi: i번째 비용 드라이버 곱
 ```
 
-> 📢 **섹션 요약 비유**: [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II = 건축 공사비 견적 — 건물 크기(LOC)만으로 안 되고, 지형 난이도(SF)와 자재 품질(비용 드라이버)까지 고려해야 정확한 견적. 프로토타입엔 간단 견적, 완성 설계엔 정밀 견적!
+> 📢 **섹션 요약 비유**: COCOMO II = 건축 공사비 견적 — 건물 크기(LOC)만으로 안 되고, 지형 난이도(SF)와 자재 품질(비용 드라이버)까지 고려해야 정확한 견적. 프로토타입엔 간단 견적, 완성 설계엔 정밀 견적!
 
 ---
 
@@ -147,7 +147,7 @@ SCED 역설:
   "빨리 하면 더 비싸다!" (잔업, 품질 비용 등)
 ```
 
-> 📢 **섹션 요약 비유**: 비용 드라이버 = 건축 재료비 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) — 고급 재료(RELY=Critical: 1.26배), 최고 건축가(ACAP=Very High: 0.71배로 감소), 일정 단축(SCED: 1.29배!). 고수 팀이 실제로 비용 절감!
+> 📢 **섹션 요약 비유**: 비용 드라이버 = 건축 재료비 가중치 — 고급 재료(RELY=Critical: 1.26배), 최고 건축가(ACAP=Very High: 0.71배로 감소), 일정 단축(SCED: 1.29배!). 고수 팀이 실제로 비용 절감!
 
 ---
 
@@ -203,7 +203,7 @@ Step 6: 팀 규모
   Post-Architecture: ×0.75 ~ ×1.25
 ```
 
-> 📢 **섹션 요약 비유**: [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 추정 절차 = 여행 비용 계산 — 목적지(LOC), 이동 수단 난이도(SF), 예상치 못한 비용(EM) 합산. 결과는 범위로(±25%)! 하나의 숫자만 믿으면 위험!
+> 📢 **섹션 요약 비유**: COCOMO II 추정 절차 = 여행 비용 계산 — 목적지(LOC), 이동 수단 난이도(SF), 예상치 못한 비용(EM) 합산. 결과는 범위로(±25%)! 하나의 숫자만 믿으면 위험!
 
 ---
 
@@ -260,7 +260,7 @@ SF 평가:
   낙관 시: 21.4억원
 ```
 
-> 📢 **섹션 요약 비유**: 금융 시스템 추정 — 80KSLOC × SF × EM = 285 PM. 금융 규제(RELY×1.26)가 높지만 역량팀(ACAP×0.85)으로 상쇄. 19.5개월, 15명, 비용 범위 21~36억. 범위가 경영진 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리의 기초!
+> 📢 **섹션 요약 비유**: 금융 시스템 추정 — 80KSLOC × SF × EM = 285 PM. 금융 규제(RELY×1.26)가 높지만 역량팀(ACAP×0.85)으로 상쇄. 19.5개월, 15명, 비용 범위 21~36억. 범위가 경영진 리스크 관리의 기초!
 
 ---
 
@@ -318,17 +318,6 @@ COCOMO II + 데이터 보정
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [COCOMO](/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II = 건물 공사비 견적 — 건물 크기(LOC)만으로 안 돼요. 땅 난이도(SF)와 자재 품질(EM)까지 고려해야 정확한 견적!
+1. COCOMO II = 건물 공사비 견적 — 건물 크기(LOC)만으로 안 돼요. 땅 난이도(SF)와 자재 품질(EM)까지 고려해야 정확한 견적!
 2. SF = 공사 어려움 지수 — 처음 짓는 건물(PREC: 낮음), 규제 엄격(FLEX: 낮음) -> SF 높아져 같은 크기인데 비용 2배. 경험이 돈!
 3. 추정 결과는 범위 — 285 PM 추정이지만 ±25%로 214~356 PM. 한 숫자만 믿으면 위험. 범위 제시가 올바른 추정!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 48 / 973
-
-<- **이전**: [047. COCOMO 모델 — 소프트웨어 비용 추정](/studynote/04_software_engineering/01_overview_principles/047_cocomo_model/)
-**다음**: [049. 기능 점수 — Function Point (FP) Estimation](/studynote/04_software_engineering/01_overview_principles/049_function_point_fp_estimation/) ->
-
----

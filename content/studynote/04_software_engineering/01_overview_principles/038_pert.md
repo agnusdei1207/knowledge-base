@@ -6,13 +6,13 @@ tags:
 weight: 38
 ---
 > **핵심 인사이트**
-> 1. [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)(Program Evaluation and [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Technique)는 3점 추정(낙관·비관·최빈)을 베타 분포로 모델링해 불확실한 프로젝트의 기간 기대치와 표준편차를 계산하고, 완료 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 정량적으로 추정하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 일정 관리 기법이다.
-> 2. PERT의 핵심 수식: 기대치 μ = (o + 4m + p) / 6, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) σ^ = ((p-o)/6)^, 표준편차 σ = (p-o)/6 — 최빈치(m)에 4배 가중치를 부여해 현실적 추정치에 집중하면서도 불확실성([분산](/studynote/08_algorithm_stats/08_stats/136_variance/))을 표현한다.
-> 3. PERT는 CPM과 결합해 임계 경로의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 완료 기간을 계산하는 데 사용되며, R&D·신제품 개발처럼 과거 경험이 없어 확정적 기간 추정이 불가능한 프로젝트에서 필수적이다.
+> 1. PERT(Program Evaluation and Review Technique)는 3점 추정(낙관·비관·최빈)을 베타 분포로 모델링해 불확실한 프로젝트의 기간 기대치와 표준편차를 계산하고, 완료 확률을 정량적으로 추정하는 확률적 일정 관리 기법이다.
+> 2. PERT의 핵심 수식: 기대치 μ = (o + 4m + p) / 6, 분산 σ^ = ((p-o)/6)^, 표준편차 σ = (p-o)/6 — 최빈치(m)에 4배 가중치를 부여해 현실적 추정치에 집중하면서도 불확실성(분산)을 표현한다.
+> 3. PERT는 CPM과 결합해 임계 경로의 확률적 완료 기간을 계산하는 데 사용되며, R&D·신제품 개발처럼 과거 경험이 없어 확정적 기간 추정이 불가능한 프로젝트에서 필수적이다.
 
 ---
 
-## I. [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) 3점 추정
+## I. PERT 3점 추정
 
 ```
 3가지 추정치:
@@ -34,17 +34,17 @@ weight: 38
   σ^ = ((p - o) / 6)^
 ```
 
-| 예시 작업    | o(낙관) | m(최빈) | p(비관) | [TE](/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/)=(o+4m+p)/6 | σ=(p-o)/6 |
+| 예시 작업    | o(낙관) | m(최빈) | p(비관) | TE=(o+4m+p)/6 | σ=(p-o)/6 |
 |-----------|-------|-------|-------|------------|---------|
 | DB 설계    | 5일   | 8일   | 11일  | 8.0일      | 1.0일   |
-| [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 개발   | 3일   | 7일   | 21일  | 8.0일      | 3.0일   |
+| API 개발   | 3일   | 7일   | 21일  | 8.0일      | 3.0일   |
 | UI 구현    | 4일   | 6일   | 8일   | 6.0일      | 0.67일  |
 
-> 📢 **섹션 요약 비유**: DB 설계와 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 개발의 기대치는 같은 8일이지만, API의 표준편차(3일)가 DB(1일)의 3배 — 더 불확실하고 리스크가 높다.
+> 📢 **섹션 요약 비유**: DB 설계와 API 개발의 기대치는 같은 8일이지만, API의 표준편차(3일)가 DB(1일)의 3배 — 더 불확실하고 리스크가 높다.
 
 ---
 
-## II. [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) vs [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) 비교
+## II. PERT vs CPM 비교
 
 ```
 PERT:
@@ -69,7 +69,7 @@ CPM:
 
 ---
 
-## III. 임계 경로 완료 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
+## III. 임계 경로 완료 확률 계산
 
 ```
 임계 경로 기대치와 분산:
@@ -100,11 +100,11 @@ CPM:
   -> 28일 안에 완료할 확률 93.3%
 ```
 
-> 📢 **섹션 요약 비유**: PERT로 "25일에 완료 예상, 28일이면 93% [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"처럼 기간과 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 함께 고객에게 제시할 수 있다.
+> 📢 **섹션 요약 비유**: PERT로 "25일에 완료 예상, 28일이면 93% 확률"처럼 기간과 확률을 함께 고객에게 제시할 수 있다.
 
 ---
 
-## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 몬테카를로 시뮬레이션 응용
+## IV. 몬테카를로 시뮬레이션 응용
 
 ```
 PERT 한계:
@@ -122,11 +122,11 @@ PERT 한계:
   도구: Oracle Primavera Risk Analysis, @RISK
 ```
 
-> 📢 **섹션 요약 비유**: PERT는 한 가지 경우의 수 계산, 몬테카를로는 1만 가지 상황을 시뮬레이션해서 가장 현실적인 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 찾는 것.
+> 📢 **섹션 요약 비유**: PERT는 한 가지 경우의 수 계산, 몬테카를로는 1만 가지 상황을 시뮬레이션해서 가장 현실적인 확률 분포를 찾는 것.
 
 ---
 
-## V. 실무 시나리오 — 소프트웨어 출시 [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)
+## V. 실무 시나리오 — 소프트웨어 출시 PERT
 
 ```
 스타트업 신제품 개발 PERT:
@@ -149,7 +149,7 @@ PERT 한계:
   -> VC에게 "28주 출시 94% 확률"로 제안!
 ```
 
-> 📢 **섹션 요약 비유**: 투자자에게 "개발 기간 6개월"이 아니라 "6.5개월에 94% [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 완료"라고 말할 수 있다 — 훨씬 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높은 일정 제시.
+> 📢 **섹션 요약 비유**: 투자자에게 "개발 기간 6개월"이 아니라 "6.5개월에 94% 확률로 완료"라고 말할 수 있다 — 훨씬 신뢰도 높은 일정 제시.
 
 ---
 
@@ -205,16 +205,5 @@ JIRA + ML 기반 스프린트 예측
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. PERT는 "가장 빠를 때, 보통, 가장 늦을 때"의 세 가지 경우를 평균 내서 현실적인 일정을 만드는 방법이에요.
-2. 수학 공식으로 "30일 안에 완료할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%"처럼 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)도 알 수 있어요.
+2. 수학 공식으로 "30일 안에 완료할 확률이 95%"처럼 확률도 알 수 있어요.
 3. 우주선 발사나 신약 개발처럼 한 번도 해보지 않은 프로젝트에서 일정을 잡을 때 특히 유용하답니다!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 38 / 973
-
-<- **이전**: [037. CPM — 임계 경로 기법 (Critical Path Method)](/studynote/04_software_engineering/01_overview_principles/037_cpm/)
-**다음**: [039. 간트 차트 (Gantt Chart) — 프로젝트 일정 시각화](/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) ->
-
----

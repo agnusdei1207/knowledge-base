@@ -122,11 +122,3 @@ LLM 기반 서비스(ChatGPT 스타일의 멀티턴 대화, RAG 기반 Q&A, Code
   |  | SDK (Auto-     | | (메트릭 저장)  | | (Tempo/Jaeger)       |     |
   |  |  instrument)   | |                | | - Trace ID 전파      |     |
   |  | - W3C TraceCxt | |
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 748 / 800
-
-<- **이전**: [747. LLMOps 대규모 언어 모델 운영 관리](/studynote/06_ict_convergence/uncategorized/747_llmops_large_language_model_operations/)
-**다음**: [749. 피처 엔지니어링 자동 특성 생성](/studynote/06_ict_convergence/uncategorized/749_feature_engineering_auto_feature_generation/) ->
-
----

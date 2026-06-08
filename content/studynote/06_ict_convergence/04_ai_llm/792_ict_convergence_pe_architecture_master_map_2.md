@@ -121,11 +121,3 @@ ICT 융합 Master Map 2는 다음 6개의 **수평 계층(Horizontal Layer)**과
 3. **Edge-Cloud Orchestration**:
    - **Kubernetes Federation v2(KubeFed)**: ClusterProfile CRD로 정책 전파, **Argo CD ApplicationSet**으로 GitOps 멀티클러스터
    - **Edge Node 한계**: CPU ≤ 4Core / Mem ≤ 8GB / Storage ≤ 64GB -> **Lightweight Runtime**:
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 792 / 800
-
-<- **이전**: [791. ICT 융합 기술 최신 동향 기술사 마스터](/studynote/06_ict_convergence/uncategorized/791_ict_convergence_latest_trends_pe_master/)
-**다음**: [793. ICT 융합 시험 빈출 핵심 100선 요약](/studynote/06_ict_convergence/uncategorized/793_ict_convergence_exam_top_100_summary/) ->
-
----

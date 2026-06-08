@@ -6,9 +6,9 @@ tags:
 weight: 107
 ---
 > **핵심 인사이트**
-> 1. NP(Non-deterministic [Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Time) 클래스는 비결정론적 튜링 머신(NDTM)이 다항 시간에 해결하거나, 동등하게 주어진 해답(Certificate)을 결정론적 튜링 머신이 다항 시간에 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 판정 문제의 집합이다.
-> 2. NP의 가장 직관적 정의는 "정답을 주면 빠르게 확인할 수 있는 문제" — 스도쿠 완성 여부 확인은 쉽지만 스도쿠를 처음 푸는 것은 어렵듯이, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 쉬워도 풀기는 어려울 수 있다.
-> 3. NP는 P와 마찬가지로 판정 문제(Decision Problem)에 대한 복잡도 클래스이며, "NP = 비결정론적 다항 시간"이지 "비다항 시간(Not [Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/))"이 아님을 혼동하지 않는 것이 중요하다.
+> 1. NP(Non-deterministic Polynomial Time) 클래스는 비결정론적 튜링 머신(NDTM)이 다항 시간에 해결하거나, 동등하게 주어진 해답(Certificate)을 결정론적 튜링 머신이 다항 시간에 검증할 수 있는 판정 문제의 집합이다.
+> 2. NP의 가장 직관적 정의는 "정답을 주면 빠르게 확인할 수 있는 문제" — 스도쿠 완성 여부 확인은 쉽지만 스도쿠를 처음 푸는 것은 어렵듯이, 검증은 쉬워도 풀기는 어려울 수 있다.
+> 3. NP는 P와 마찬가지로 판정 문제(Decision Problem)에 대한 복잡도 클래스이며, "NP = 비결정론적 다항 시간"이지 "비다항 시간(Not Polynomial)"이 아님을 혼동하지 않는 것이 중요하다.
 
 ---
 
@@ -35,7 +35,7 @@ NP 의미:
   주의: "NP" ≠ "Not Polynomial"
 ```
 
-> 📢 **섹션 요약 비유**: NP는 "정답 확인이 빠른 퀴즈" — 학생이 쓴 답을 채점하는 건 빠르지만([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 문제를 처음 푸는 건 느릴 수 있다(해결).
+> 📢 **섹션 요약 비유**: NP는 "정답 확인이 빠른 퀴즈" — 학생이 쓴 답을 채점하는 건 빠르지만(검증), 문제를 처음 푸는 건 느릴 수 있다(해결).
 
 ---
 
@@ -70,11 +70,11 @@ NP에 속하는 대표 문제들:
   P의 해답 -> 검증도 당연히 빠름
 ```
 
-> 📢 **섹션 요약 비유**: NP 문제는 정답이 쪽지로 주어지면 맞는지 바로 확인할 수 있는 난해한 퍼즐 — 스도쿠 완성본 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 쉽지만 처음 풀기는 어렵다.
+> 📢 **섹션 요약 비유**: NP 문제는 정답이 쪽지로 주어지면 맞는지 바로 확인할 수 있는 난해한 퍼즐 — 스도쿠 완성본 검증은 쉽지만 처음 풀기는 어렵다.
 
 ---
 
-## Ⅲ. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier) 관점
+## Ⅲ. 검증자(Verifier) 관점
 
 ```
 NP의 검증자 정의 (형식화):
@@ -104,7 +104,7 @@ c: 증거 (Certificate, Witness)
   P = NP?: 검증이 쉬우면 해결도 쉬운가?
 ```
 
-> 📢 **섹션 요약 비유**: NP [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자는 선생님의 채점 — 학생이 답(증거)을 쓰면 선생님이 빠르게 채점([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))하지만, 선생님도 처음에 문제를 푸는 건 어렵다.
+> 📢 **섹션 요약 비유**: NP 검증자는 선생님의 채점 — 학생이 답(증거)을 쓰면 선생님이 빠르게 채점(검증)하지만, 선생님도 처음에 문제를 푸는 건 어렵다.
 
 ---
 
@@ -174,7 +174,7 @@ NP임을 알면 선택지:
   NP 클래스 인식 = 완전 해보다 현실적 해 추구 신호
 ```
 
-> 📢 **섹션 요약 비유**: NP임을 아는 것은 도로 없는 산을 인식하는 것 — 헬기([근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))나 등산로([휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))로 오르는 현실적 방법을 선택하게 된다.
+> 📢 **섹션 요약 비유**: NP임을 아는 것은 도로 없는 산을 인식하는 것 — 헬기(근사 알고리즘)나 등산로(휴리스틱)로 오르는 현실적 방법을 선택하게 된다.
 
 ---
 
@@ -235,16 +235,5 @@ NP-완전은 양자로도 쉽지 않음 (추정)
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. NP 클래스는 "정답을 보여주면 맞는지 빨리 확인할 수 있지만, 처음부터 풀기는 매우 어려운 문제들"이에요.
-2. 스도쿠를 누가 풀어 놓은 것을 검사하는 건 쉽지만(NP [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 스도쿠를 처음부터 푸는 건 훨씬 어려운 것처럼요.
-3. [RSA](/studynote/09_security/03_network_security/110_rsa/) 인터넷 암호가 안전한 이유가 바로 "큰 수의 인수분해"가 NP이기 때문이에요 — 정답(소인수)을 알면 확인은 빠르지만 찾기는 엄청나게 어려워요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 107 / 175
-
-<- **이전**: [001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제](/studynote/08_algorithm_stats/06_np_theory/106_p_class/)
-**다음**: [003. NP-완전 (NP-Complete)](/studynote/08_algorithm_stats/06_np_theory/108_np_complete/) ->
-
----
+2. 스도쿠를 누가 풀어 놓은 것을 검사하는 건 쉽지만(NP 검증), 스도쿠를 처음부터 푸는 건 훨씬 어려운 것처럼요.
+3. RSA 인터넷 암호가 안전한 이유가 바로 "큰 수의 인수분해"가 NP이기 때문이에요 — 정답(소인수)을 알면 확인은 빠르지만 찾기는 엄청나게 어려워요!

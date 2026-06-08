@@ -177,11 +177,3 @@ $$
 ### 6. Sequential Testing (Peeking 문제 해결)
 
 빈도주의 t-test를 매일 보면 Type I 오류가 1−(1−0.05)^k ≈ 1−0.95^k 로 누적. **Always-Valid Confidence Sequence** (Howard et al., 2021)
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 680 / 800
-
-<- **이전**: [679. 합성 데이터 시뮬레이션 프라이버시 보존](/studynote/06_ict_convergence/uncategorized/679_synthetic_data_simulation_privacy_preserving/)
-**다음**: [681. 데이터 시각화 대시보드 스토리텔링](/studynote/06_ict_convergence/uncategorized/681_data_visualization_dashboard_storytelling/) ->
-
----

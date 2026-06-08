@@ -8,9 +8,9 @@ weight: 64
 ---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 도메인(Domain)은 관계형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 속성이 가질 수 있는 합법적인 원자값(Atomic Value)들의 집합이다.
-> 2. **가치**: 도메인은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입보다 더 의미 있는 제약 개념으로, 잘못된 값의 입력을 막아 무결성을 지킨다.
-> 3. **판단**: 도메인을 잘 정의해야 CHECK 제약, ENUM, 형 변환, NULL [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 일관되게 설계할 수 있다.
+> 1. **본질**: 도메인(Domain)은 관계형 데이터베이스의 속성이 가질 수 있는 합법적인 원자값(Atomic Value)들의 집합이다.
+> 2. **가치**: 도메인은 데이터 타입보다 더 의미 있는 제약 개념으로, 잘못된 값의 입력을 막아 무결성을 지킨다.
+> 3. **판단**: 도메인을 잘 정의해야 CHECK 제약, ENUM, 형 변환, NULL 정책까지 일관되게 설계할 수 있다.
 
 ---
 
@@ -50,13 +50,13 @@ Integrity Check
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | Domain | [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Type | Constraint |
+| 구분 | Domain | Data Type | Constraint |
 | :-- | :-- | :-- | :-- |
-| 범위 | 의미적 허용값 | 저장 형식 | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 규칙 |
+| 범위 | 의미적 허용값 | 저장 형식 | 검증 규칙 |
 | 역할 | 값의 집합 정의 | 표현 방식 | 위반 차단 |
 | 예시 | 성별, 연령, 금액 | INT, VARCHAR | CHECK, NOT NULL |
 
-도메인은 타입과 제약을 이어 주는 개념이다. 타입만 맞고 의미가 틀리면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 여전히 나빠진다.
+도메인은 타입과 제약을 이어 주는 개념이다. 타입만 맞고 의미가 틀리면 데이터 품질은 여전히 나빠진다.
 
 - **📢 섹션 요약 비유**: 같은 크기 컵이라도 물만 담을 수 있는지, 주스도 되는지는 규칙이 다르다.
 
@@ -64,7 +64,7 @@ Integrity Check
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 체크리스트
 
 1. 속성별 허용 값 범위를 정의했는가?
 2. CHECK 제약이나 ENUM으로 도메인을 표현했는가?
@@ -72,14 +72,14 @@ Integrity Check
 4. 형 변환과 문자 집합을 일관되게 관리하는가?
 5. 도메인 위반이 입력 단계에서 차단되는가?
 
-### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
 - 타입만 맞으면 된다고 생각하는 설계
 - 의미 없는 자유 입력을 허용하는 설계
 - 도메인 규칙을 애플리케이션 코드에만 숨기는 설계
-- NULL [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 필드만 쌓는 설계
+- NULL 정책 없이 필드만 쌓는 설계
 
-기술사 관점에서는 도메인을 단순 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입으로 축소하지 말아야 한다. 도메인은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미와 무결성을 함께 담는 설계 개념이다.
+기술사 관점에서는 도메인을 단순 데이터 타입으로 축소하지 말아야 한다. 도메인은 데이터 의미와 무결성을 함께 담는 설계 개념이다.
 
 - **📢 섹션 요약 비유**: 크레파스 상자에 있는 색만 써야 그림이 망가지지 않는다.
 
@@ -87,7 +87,7 @@ Integrity Check
 
 ## Ⅴ. 기대효과 및 결론
 
-도메인을 명확히 하면 잘못된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 줄고, 통계와 검색도 안정적이 된다. 결국 도메인은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질의 출발점이다.
+도메인을 명확히 하면 잘못된 데이터가 줄고, 통계와 검색도 안정적이 된다. 결국 도메인은 데이터 품질의 출발점이다.
 
 결론적으로 도메인은 속성이 가질 수 있는 의미 있는 값의 경계다.
 
@@ -127,15 +127,4 @@ Data Integrity
 
 바구니에는 아무거나 넣지 못해요.
 도메인은 넣을 수 있는 것만 정해 주는 규칙이에요.
-그래야 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 헷갈리지 않아요.
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 64 / 600
-
-<- **이전**: [63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)
-**다음**: [65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성](/studynote/05_database/02_modeling_normalization/065_relation_characteristics/) ->
-
----
+그래야 데이터가 헷갈리지 않아요.

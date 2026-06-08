@@ -6,9 +6,9 @@ tags:
 weight: 31
 ---
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 3C 분석([3C Analysis](/studynote/12_it_management/01_governance_strategy/026_3c_analysis/))은 [C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)(고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치(大前研一)가 제시한 경영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기법이다.
-> 2. **가치**: 3C의 핵심은 교차점이다. 고객 니즈를 충족하면서([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)), 경쟁자가 제공 못 하는 것을(Competitor), 자사가 잘할 수 있는 것(Company)으로 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지션을 찾는 것이 목표다.
-> 3. **판단 포인트**: 3C는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 수립의 출발점이지, 완결된 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아니다. SWOT 분석의 내부 요인(S·W = Company), 외부 요인(O·T ⊃ Competitor·Market)과 연계하여 더 입체적인 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립한다.
+> 1. **본질**: 3C 분석(3C Analysis)은 C고객(고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 전략적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치(大前研一)가 제시한 경영 전략 기법이다.
+> 2. **가치**: 3C의 핵심은 교차점이다. 고객 니즈를 충족하면서(C고객), 경쟁자가 제공 못 하는 것을(Competitor), 자사가 잘할 수 있는 것(Company)으로 전략적 포지션을 찾는 것이 목표다.
+> 3. **판단 포인트**: 3C는 전략 방향 수립의 출발점이지, 완결된 전략이 아니다. SWOT 분석의 내부 요인(S·W = Company), 외부 요인(O·T ⊃ Competitor·Market)과 연계하여 더 입체적인 전략을 수립한다.
 
 ---
 
@@ -27,7 +27,7 @@ weight: 31
   - 경쟁자×자사: 경쟁자 대비 자사 차별점은?
 ```
 
-- **📢 섹션 요약 비유**: 3C 분석은 삼각 측량이다. 세 기준점(고객·경쟁자·자사)에서 각도를 측정해 정확한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 위치(포지셔닝)를 찾는 것처럼, 세 관점을 통합해 최적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 도출한다.
+- **📢 섹션 요약 비유**: 3C 분석은 삼각 측량이다. 세 기준점(고객·경쟁자·자사)에서 각도를 측정해 정확한 전략 위치(포지셔닝)를 찾는 것처럼, 세 관점을 통합해 최적 전략 방향을 도출한다.
 
 ---
 
@@ -37,11 +37,11 @@ weight: 31
 
 | C | 분석 항목 |
 |:---|:---|
-| <strong><a href="/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/">C고객</a></strong> | 고객 세그먼트, 니즈, 구매 기준, 불만, 트렌드 |
-| **Competitor** | 경쟁사 강점·약점, [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 시장 점유율, 차별화 |
+| <strong>C고객</strong> | 고객 세그먼트, 니즈, 구매 기준, 불만, 트렌드 |
+| **Competitor** | 경쟁사 강점·약점, 전략, 시장 점유율, 차별화 |
 | **Company** | 핵심 역량, 자원, 약점, 브랜드, 재무 현황 |
 
-### 3C -> [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 실제 예시
+### 3C -> 전략 도출 실제 예시
 
 ```text
 시나리오: B2B SaaS 스타트업 신규 시장 진출
@@ -62,7 +62,7 @@ Company:
          (저가+빠른 도입+AI 자동화 차별화)
 ```
 
-- **📢 섹션 요약 비유**: 3C [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출은 식당 틈새 시장 찾기다. 손님(고객) 원하는 것, 주변 식당(경쟁자) 메뉴 분석, 내 요리 실력(자사) 파악으로 아직 없는 메뉴 틈새([전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 포지션)를 찾는다.
+- **📢 섹션 요약 비유**: 3C 전략 도출은 식당 틈새 시장 찾기다. 손님(고객) 원하는 것, 주변 식당(경쟁자) 메뉴 분석, 내 요리 실력(자사) 파악으로 아직 없는 메뉴 틈새(전략 포지션)를 찾는다.
 
 ---
 
@@ -70,18 +70,18 @@ Company:
 
 | 비교 | 3C | SWOT | 5 Forces |
 |:---|:---|:---|:---|
-| 초점 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 포지셔닝 | 내외부 요인 | 산업 매력도 |
+| 초점 | 전략 포지셔닝 | 내외부 요인 | 산업 매력도 |
 | 관점 수 | 3개 | 4개 | 5개 |
-| 결과물 | 차별화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 4가지 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 투자 결정 |
-| 깊이 | 고객 심층 분석 | 균형 분석 | [구조적 분석](/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) |
+| 결과물 | 차별화 전략 | 4가지 전략 | 투자 결정 |
+| 깊이 | 고객 심층 분석 | 균형 분석 | 구조적 분석 |
 
-- **📢 섹션 요약 비유**: 3C·SWOT·5Forces는 사업 조사 세 방식이다. 3C(고객·경쟁·나 삼각 비교), SWOT(내외부 4분면 분석), 5Forces(산업 구조 분석)는 서로 보완하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.
+- **📢 섹션 요약 비유**: 3C·SWOT·5Forces는 사업 조사 세 방식이다. 3C(고객·경쟁·나 삼각 비교), SWOT(내외부 4분면 분석), 5Forces(산업 구조 분석)는 서로 보완하는 관계다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 3C 적용
+### IT 전략에서 3C 적용
 
 ```text
 IT 서비스/제품 기획 3C 체크리스트:
@@ -103,7 +103,7 @@ Company:
   □ 자금·시간 제약 파악
 ```
 
-- **📢 섹션 요약 비유**: IT 기획 3C [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 스타트업 PMF [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 고객 인터뷰([C고객](/studynote/12_it_management/01_governance_strategy/820_three_c_analysis/)), 경쟁사 분석(Competitor), 팀 역량 평가(Company)가 Product-Market Fit 달성의 3대 점검 항목이다.
+- **📢 섹션 요약 비유**: IT 기획 3C 체크리스트는 스타트업 PMF 검증이다. 고객 인터뷰(C고객), 경쟁사 분석(Competitor), 팀 역량 평가(Company)가 Product-Market Fit 달성의 3대 점검 항목이다.
 
 ---
 
@@ -111,11 +111,11 @@ Company:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **명확한 포지셔닝** | 3개 교차점에서 차별화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 |
+| **명확한 포지셔닝** | 3개 교차점에서 차별화 전략 도출 |
 | **고객 중심** | 경쟁 분석보다 고객 니즈 우선 |
-| <strong><a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 자사 역량과 시장 기회 정렬 |
+| <strong>전략 일관성</strong> | 자사 역량과 시장 기회 정렬 |
 
-디지털 시대에는 4C(+Community 또는 +Channel)로 확장되기도 한다. [플랫폼 비즈니스](/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)에서 커뮤니티(Community)가 핵심 경쟁 우위가 되고(Airbnb·Uber의 [네트워크 효과](/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)), 디지털 채널(Channel) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 전통 3C만큼 중요해졌다.
+디지털 시대에는 4C(+Community 또는 +Channel)로 확장되기도 한다. 플랫폼 비즈니스에서 커뮤니티(Community)가 핵심 경쟁 우위가 되고(Airbnb·Uber의 네트워크 효과), 디지털 채널(Channel) 전략이 전통 3C만큼 중요해졌다.
 
 - **📢 섹션 요약 비유**: 4C 확장은 음식점에 배달 채널과 단골 커뮤니티를 추가하는 것이다. 기존 3C(메뉴·경쟁식당·요리실력)에 배달앱(Channel)과 충성 고객 모임(Community)을 추가해 경쟁력을 강화한다.
 
@@ -126,8 +126,8 @@ Company:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SWOT** | 3C 분석 내외부 요인 연계 |
-| <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | 3C 후 시장 세분화·타깃팅·포지셔닝 |
-| **PMF** | 고객 니즈와 제품 일치 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>STP 전략</strong> | 3C 후 시장 세분화·타깃팅·포지셔닝 |
+| **PMF** | 고객 니즈와 제품 일치 검증 |
 | **4C** | 커뮤니티·채널 추가 확장 |
 | **5 Forces** | 산업 구조 분석 보완 |
 
@@ -151,17 +151,6 @@ Company:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 3C 분석은 삼각 측량이에요 — 고객·경쟁자·자사 세 관점에서 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 위치를 찾아요!
-2. 고객이 원하는데 경쟁자가 못 하고 내가 잘할 수 있는 것 -> 그게 최고의 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요!
+1. 3C 분석은 삼각 측량이에요 — 고객·경쟁자·자사 세 관점에서 전략 위치를 찾아요!
+2. 고객이 원하는데 경쟁자가 못 하고 내가 잘할 수 있는 것 -> 그게 최고의 전략이에요!
 3. 현대에는 커뮤니티와 채널도 중요해서 4C로 확장되고 있어요!
-
----
-
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 31 / 482
-
-<- **이전**: [30. SWOT 분석 — 전략 수립의 4분면 프레임워크](/studynote/07_enterprise_systems/01_strategy_governance/030_swot_analysis/)
-**다음**: [PEST / STEEP 분석](/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/) ->
-
----

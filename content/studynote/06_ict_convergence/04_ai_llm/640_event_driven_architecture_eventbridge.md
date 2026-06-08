@@ -179,11 +179,3 @@ Target: SQS/SNS/Lambda
 ```
 
 **📢 섹션 요약 비유**: EventBridge는 마치
-## 🔗 이전/다음 글 (Navigation)
-
-**진행 상황**: 640 / 800
-
-<- **이전**: [639. API 게이트웨이 매니지드 서비스 비교](/studynote/06_ict_convergence/uncategorized/639_api_gateway_managed_service_comparison/)
-**다음**: [641. 트랜스포머 아키텍처 어텐션 메커니즘](/studynote/06_ict_convergence/uncategorized/641_transformer_architecture_attention_mechanism/) ->
-
----
