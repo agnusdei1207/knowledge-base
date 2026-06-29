@@ -11,6 +11,9 @@
     "url": "https://github.com/agnusdei1207/study.git"
   },
   "scripts": {
+    "build": "zola build",
+    "dev": "zola serve",
+    "check": "zola check",
     "build:search": "pagefind --site public --glob \"**/*.html\" --force-language ko",
     "postbuild": "npm run build:search"
   },

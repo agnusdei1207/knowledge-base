@@ -1,6 +1,6 @@
-# 📚 Study — 기술사 CS 학습 노트 (Quartz 정적 사이트)
+# 📚 Study — 기술사 CS 학습 노트 (Zola 정적 사이트)
 
-Quartz 기반 개인 지식베이스. **CS 기초 학습(studynote)** 과 **기술사 시험 요약(exam)** 을 분리하여 관리한다.
+Zola 기반 개인 지식베이스. **CS 기초 학습(studynote)** 과 **기술사 시험 요약(exam)** 을 분리하여 관리한다.
 
 ---
 
@@ -212,7 +212,7 @@ npm run dev         # 로컬 개발 서버 (http://localhost:8080/study)
 
 ## ⚙️ 기술 스택
 
-- **Static Site Generator**: [Quartz v4](https://quartz.jzhao.xyz/)
+- **Static Site Generator**: [Zola](https://www.getzola.org/)
 - **Frontmatter**: YAML (`---`) 형식만 사용 — TOML (`+++`) 절대 금지
 - **Markdown**: GitHub Flavored Markdown
 - **Deploy**: GitHub Pages (`.github/workflows/`)
@@ -230,7 +230,7 @@ npm run dev         # 로컬 개발 서버 (http://localhost:8080/study)
 7. **keyword_list 링크 깨뜨리기 금지** — 파일 리네임 시 링크도 동시에 수정
 8. **studynote/exam 혼합 금지** — 용도에 맞는 폴더에만 작성
 9. **임시 스크립트 파일 루트에 방치 금지** — `fix_*.py`, `temp_*.py` 등은 작업 후 즉시 삭제
-10. **`Zola`, `Pagefind`, `templates/`, `static/assets/`, `config.toml` 재도입 금지**
+10. **빌드 체인 혼용 금지** — 이전 정적 사이트 체인 흔적과 현재 `Zola` 체인을 섞지 말 것
 
 ---
 

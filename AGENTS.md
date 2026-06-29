@@ -96,9 +96,9 @@ tags:
 
 - **studynote에 추가**: `keyword_list.md` 참조 → 빠진 개념 파일 생성
 - **exam에 추가**: 시험 문제 요약만 (개념 설명 X)
-- **Quartz**: `---` YAML frontmatter 사용 (TOML `+++` 금지)
+- **Zola**: `---` YAML frontmatter 사용 (TOML `+++` 금지)
 - **빌드 확인**: `npm run build`
-- **금지**: Zola, Pagefind, `templates/`, `static/assets/`, `config.toml` 재도입 금지
+- **금지**: 빌드 체인 혼용 금지. 이전 정적 사이트 체인 관련 코드/설정과 현재 `Zola` 체인을 섞지 말 것.
 
 ## Study Note (기술사 스터디 노트)
 
@@ -108,8 +108,8 @@ tags:
 - 허브 문서: `content/studynote/_index.md`
 - 검색 예시: `search_docs("캐시 메모리")`, `get_doc("studynote/01_computer_architecture/_index")`
 
-## Quartz Migration
+## Build Baseline
 
-- This repository is now a Quartz site. Do not reintroduce Zola, Pagefind, `templates/`, `static/assets/`, or `config.toml`.
-- Keep the Quartz implementation aligned with `../codex-skills`; project-specific changes should be limited to site metadata, CI/CD, deployment paths, and this repository's `content/`.
-- Use `npm run build` to verify the site.
+- This repository currently builds with `Zola` and `Pagefind`.
+- Do not introduce a second static-site build chain, extra plugin runtime, or conflicting workflow steps unless the build system is intentionally migrated.
+- Use `zola build` and the existing GitHub workflow as the build baseline.

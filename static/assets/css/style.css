@@ -1,4 +1,4 @@
-/* Quartz-style Zola theme using the Claude warm palette. */
+/* Zola study theme using the warm palette. */
 
 :root {
     --light: #F4EFE3;
@@ -177,7 +177,7 @@ mark,
     margin: 0 auto;
 }
 
-.page > #quartz-body {
+.page > #page-body {
     display: grid;
     grid-template-columns: var(--side-panel-width) auto var(--side-panel-width);
     grid-template-rows: auto auto auto;
@@ -793,7 +793,7 @@ img {
 }
 
 @media (min-width: 800px) and (max-width: 1200px) {
-    .page > #quartz-body {
+    .page > #page-body {
         grid-template-columns: var(--side-panel-width) auto;
         grid-template-rows: auto auto auto auto;
         grid-template-areas:
@@ -827,7 +827,7 @@ img {
         scroll-padding-top: 4rem;
     }
 
-    .page > #quartz-body {
+    .page > #page-body {
         grid-template-columns: auto;
         grid-template-rows: auto auto auto auto auto;
         grid-template-areas:
@@ -1057,4 +1057,3 @@ img {
         grid-template-columns: 1fr;
     }
 }
-

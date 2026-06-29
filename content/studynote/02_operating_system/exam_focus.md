@@ -3,6 +3,7 @@ title: "컴퓨터시스템응용기술사 핵심 트랙"
 date: "2026-06-29"
 tags:
   - "studynote-operating-system"
+weight: 91
 ---
 
 ## 핵심 인사이트 (3줄 요약)

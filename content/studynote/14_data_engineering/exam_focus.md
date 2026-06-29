@@ -3,6 +3,7 @@ title: "컴퓨터시스템응용기술사 핵심 트랙"
 date: "2026-06-29"
 tags:
   - "studynote-data-engineering"
+weight: 91
 ---
 
 ## 컴퓨터시스템응용기술사 핵심 트랙
