@@ -5,6 +5,17 @@ tags:
   - "studynote-security"
 weight: 435
 ---
+<!-- top-summary -->
+# 435. 운영체제 명령어 삽입 (OS Command Injection)
+
+> **🎯 한줄 정의** · 외부 입력이 셸(Shell) 명령으로
+> 해석돼 서버 권한으로 실행되는 주입 공격
+>
+> **핵심 특징**
+> ① 입력 검증 실패와 시스템 호출 결합이 원인
+> ② 원격 명령 실행(Remote Command Execution)로 확장
+> ③ 화이트리스트·권한분리·API 대체가 핵심 대응
+
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: OS Command Injection는 웹·API 보안에서 신뢰 가정이나 입력·상태 불일치를 악용해 비정상 결과를 만들도록 설계된 공격 기법이다.

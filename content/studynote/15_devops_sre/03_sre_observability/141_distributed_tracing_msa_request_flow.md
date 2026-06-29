@@ -5,6 +5,11 @@ tags:
   - "studynote-devops-sre"
 weight: 141
 ---
+<!-- top-summary -->
+> - 중복 정리: 비대표 노트
+> - 군집: Distributed Tracing
+> - 🔗 대표 정리: [[188_distributed_tracing_opentelemetry]]
+
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 분산 트레이싱은 <strong>하나의 사용자 요청이 여러 마이크로서비스를 거치는 전체 경로를 Trace ID로 추적</strong>하는 기술이며, 각 서비스 구간을 Span으로 기록하여 지연·에러 지점을 정확히 식별한다.
 > 2. **가치**: MSA에서 "API가 느리다"는 <strong>어떤 서비스가 병목인지</strong> 로그만으로는 알 수 없지만, 트레이싱은 <strong>A->B->C->D 전체 호출 체인의 각 구간 소요 시간</strong>을 Waterfall로 시각화한다.

@@ -5,6 +5,11 @@ tags:
   - "studynote-cloud-architecture"
 weight: 144
 ---
+<!-- top-summary -->
+> - 중복 정리: 비대표 노트
+> - 군집: Service Mesh
+> - 🔗 대표 정리: [[181_service_mesh_istio_linkerd]]
+
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 서비스 메시는 <strong>각 마이크로서비스에 사이드카 프록시(Envoy)를 배치</strong>하여, 서비스 간 통신의 <strong>로드밸런싱·서킷 브레이커·mTLS·트레이싱·트래픽 제어</strong>를 애플리케이션 코드 변경 없이 인프라 레벨에서 처리하는 패턴이다.
 > 2. **가치**: 서비스 간 통신 로직(재시도·타임아웃·암호화)을 <strong>각 서비스가 직접 구현하면 중복·불일치</strong>가 발생하지만, 서비스 메시는 <strong>사이드카가 일괄 처리</strong>하여 일관성을 보장한다.

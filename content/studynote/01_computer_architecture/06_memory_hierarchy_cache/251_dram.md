@@ -5,6 +5,17 @@ tags:
   - "studynote-computer-architecture"
 weight: 251
 ---
+<!-- top-summary -->
+# 251. 디램 (Dynamic Random Access Memory)
+
+> **🎯 한줄 정의** · 커패시터(Capacitor)에 전하를 저장하되
+> 주기적 리프레시(Refresh)가 필요한 주기억장치
+>
+> **핵심 특징**
+> ① 1T-1C(1 Transistor-1 Capacitor) 고집적 구조
+> ② 리프레시(Refresh)·파괴적 읽기(Destructive Read)
+> ③ 용량/비용 우수, 지연시간은 상대적 열세
+
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DRAM (Dynamic Random Access Memory)은 커패시터 (Capacitor)에 전하를 잠시 저장하는 방식으로 대용량을 싸게 구현하지만, 전하가 새기 때문에 리프레시 (Refresh)가 필수인 휘발성 메모리다.

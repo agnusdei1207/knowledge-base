@@ -5,6 +5,17 @@ tags:
   - "studynote-devops-sre"
 weight: 243
 ---
+<!-- top-summary -->
+# 243. 정적 애플리케이션 보안 테스팅 (Static Application Security Testing)
+
+> **🎯 한줄 정의** · 실행 전 소스코드(Source Code)를 분석해
+> 취약 패턴을 조기 탐지하는 보안 검증 방식
+>
+> **핵심 특징**
+> ① 개발 초기 시프트레프트(Shift Left) 보안에 적합
+> ② 코드 흐름·규칙 기반이라 오탐 관리가 중요
+> ③ CI(Continuous Integration) 게이트 연동 효과 큼
+
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 코드를 실행하지 않고 구문과 데이터 흐름을 분석해 취약점을 찾는 방식.

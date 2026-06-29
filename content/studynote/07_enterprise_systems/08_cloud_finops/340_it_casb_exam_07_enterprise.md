@@ -5,6 +5,11 @@ tags:
   - "studynote-enterprise-systems"
 weight: 340
 ---
+<!-- top-summary -->
+> - 중복 정리: 비대표 노트
+> - 군집: CASB
+> - 🔗 대표 정리: [[741_casb_cloud_access_security_broker]]
+
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 섀도우 IT [CASB] 솔루션은(는) 컴퓨터 과학의 핵심 개념으로, 시스템의 효율성·안전성·확장성을 높이기 위한 이론적 토대이자 실무 설계 원칙이다.

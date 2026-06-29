@@ -5,6 +5,17 @@ tags:
   - "studynote-ai"
 weight: 254
 ---
+<!-- top-summary -->
+# 254. 재현율 (Recall, Sensitivity)
+
+> **🎯 한줄 정의** · 실제 양성(Positive) 중
+> 모델이 양성으로 맞힌 비율을 뜻하는 지표
+>
+> **핵심 특징**
+> ① FN(False Negative) 최소화 관점 핵심 지표
+> ② 의료·사기탐지처럼 미탐 비용 큰 곳에 중요
+> ③ 임계값(Threshold) 낮추면 정밀도와 상충
+
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 재현율(Recall)은 실제 Positive 중 모델이 올바르게 Positive로 예측한 비율 — FN(False Negative)을 최소화하는 지표.

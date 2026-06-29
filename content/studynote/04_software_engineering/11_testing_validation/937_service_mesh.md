@@ -5,6 +5,11 @@ tags:
   - "studynote-software-engineering"
 weight: 937
 ---
+<!-- top-summary -->
+> - 중복 정리: 비대표 노트
+> - 군집: Service Mesh
+> - 🔗 대표 정리: [[181_service_mesh_istio_linkerd]]
+
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 서비스 메시 (Service Mesh) - 애플리케이션 외부(인프라 계층)에서 통신 제어은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.

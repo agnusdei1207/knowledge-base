@@ -5,6 +5,11 @@ tags:
   - "studynote-security"
 weight: 829
 ---
+<!-- top-summary -->
+> - 중복 정리: 비대표 노트
+> - 군집: CASB
+> - 🔗 대표 정리: [[741_casb_cloud_access_security_broker]]
+
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CASB (Cloud Access Security Broker)는 데이터·개인정보 보호에서 식별 가능성과 데이터 활용 범위를 조정하는 보호 기준 또는 처리 기법이다.

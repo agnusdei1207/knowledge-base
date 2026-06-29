@@ -5,6 +5,17 @@ tags:
   - "studynote-database"
 weight: 116
 ---
+<!-- top-summary -->
+# 116. ERD-릴레이션 매핑 규칙 (Mapping Rule ERD to Relation)
+
+> **🎯 한줄 정의** · 개체관계도(Entity Relationship Diagram)를
+> 테이블 스키마로 변환하는 논리 설계 규칙 집합
+>
+> **핵심 특징**
+> ① 1:1·1:N·M:N 관계별 변환 규칙 상이
+> ② 다치 속성(Multivalued Attribute)은 분리
+> ③ M:N은 교차 테이블(Intersection Table) 생성
+
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 매핑 규칙은 개념 설계의 ERD(엔터티·관계·속성)를 논리 설계의 <strong>릴레이션 스키마(테이블·PK·FK·컬럼)</strong>로 변환하는 <strong>체계적 규칙 집합</strong>이다.
 > 2. **가치**: 규칙 없이 직감으로 변환하면 관계 누락·PK 오류·중복 테이블이 발생하므로, <strong>7대 매핑 규칙</strong>을 순서대로 적용하여 정확한 릴레이션을 도출한다.
