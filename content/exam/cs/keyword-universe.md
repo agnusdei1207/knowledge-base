@@ -89,4 +89,4 @@ weight: 4
 
 - [기출 빈도 분석](frequency/)
 - [1교시 단답형 200](shortanswer/)
-- [컴퓨터시스템응용기술사 핵심 3,000](../../learning_paths/cspe-core-3000/)
+- [컴퓨터시스템응용기술사 핵심 2,000](../../learning_paths/cspe-core-2000/)
