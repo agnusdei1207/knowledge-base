@@ -50,6 +50,47 @@
 
 <article class="post-content">
     {{ page.content | safe }}
+    {% if page.path is starting_with("/exam/cs/subject-focus/") and not page.content is containing("2~4교시 서술형 확장") %}
+    <hr>
+    <h2>Ⅵ. 2~4교시 서술형 확장</h2>
+    <p>이 키워드는 1교시 단답형으로 끝내지 않고, 아래 구조로 2~4교시 서술형 답안에 확장한다.</p>
+
+    <h3>1. 개요</h3>
+    <ul>
+        <li><strong>정의</strong>: {{ page.title }}의 본질을 첫 줄에 쓰고, 왜 시스템 설계에서 필요한지 연결한다.</li>
+        <li><strong>필요성</strong>: 성능, 안정성, 보안, 비용, 운영 복잡도 중 해당 키워드와 직접 관련된 축을 2개 이상 제시한다.</li>
+    </ul>
+
+    <h3>2. 구성요소 및 동작 원리</h3>
+    <pre><code>[요구사항/입력]
+   ↓
+[핵심 구성요소] → [동작 원리] → [산출/효과]
+   ↓
+[운영·보안·성능 통제]
+</code></pre>
+
+    <table>
+        <thead>
+            <tr><th>구분</th><th>서술형 작성 포인트</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>구조</td><td>구성요소와 데이터/제어 흐름을 도식화한다.</td></tr>
+            <tr><td>장점</td><td>정량 지표나 운영 효과로 표현한다.</td></tr>
+            <tr><td>한계</td><td>적용 조건, 비용, 복잡도, 장애 가능성을 함께 쓴다.</td></tr>
+            <tr><td>판단</td><td>언제 선택하고 언제 피해야 하는지 조건부 결론을 낸다.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3. 적용 방안</h3>
+    <ol>
+        <li><strong>설계 관점</strong>: 아키텍처·알고리즘·표준과 연결한다.</li>
+        <li><strong>운영 관점</strong>: 장애, 성능, 관측성, 자동화 요소를 붙인다.</li>
+        <li><strong>기술사 판단</strong>: 대안 비교와 트레이드오프를 결론에 반영한다.</li>
+    </ol>
+
+    <h3>4. 결론</h3>
+    <p>{{ page.title }}은 단순 정의 암기보다 구조, 적용 조건, 한계, 대안 비교를 함께 제시해야 2~4교시 답안으로 완성된다.</p>
+    {% endif %}
 </article>
 
 <script>

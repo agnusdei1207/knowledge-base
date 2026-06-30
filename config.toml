@@ -1,6 +1,6 @@
 base_url = "https://agnusdei1207.github.io/study"
 title = "Study Hub"
-description = "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사"
+description = "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터시스템응용기술사"
 compile_sass = false
 build_search_index = false
 minify_html = false

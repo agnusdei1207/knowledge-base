@@ -1,6 +1,6 @@
 ---
 title: "Study Hub"
-description: "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사"
+description: "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터시스템응용기술사"
 sort_by: "weight"
 weight: 1
 ---

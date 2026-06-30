@@ -81,4 +81,4 @@ weight: 50
 - [기출 빈도 분석](frequency/)
 - [1교시 단답형 200](shortanswer/)
 - [정보통신기술사 모범답안 템플릿](model-answer/)
-- [서술형 템플릿](template/)
+- [서술형 템플릿](@/exam/ict/template.md)

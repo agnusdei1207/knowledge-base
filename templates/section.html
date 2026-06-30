@@ -16,7 +16,7 @@
 <p class="sidebar-muted">{{ section.description }}</p>
 {% endif %}
 
-{% set show_content_first = section.path is starting_with("/exam/cs/subject-focus/") or section.path == "/exam/cs/subject-focus/" %}
+{% set show_content_first = false %}
 
 {% if show_content_first and section.content %}
 <article class="section-content post-content">
