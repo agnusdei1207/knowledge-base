@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "DevOps SRE 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-devops-sre"
+  - "exam-cspe-devops-sre"
+  - "exam-cspe-track"
 weight: 91
 ---
 

@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "소프트웨어공학 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-software-engineering"
+  - "exam-cspe-software-engineering"
+  - "exam-cspe-track"
 weight: 91
 ---
 

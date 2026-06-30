@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "알고리즘 및 통계 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-algorithm-stats"
+  - "exam-cspe-algorithm-stats"
+  - "exam-cspe-track"
   - "cspe-focus"
 weight: 3
 ---

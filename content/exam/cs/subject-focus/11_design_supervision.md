@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "IT 설계 및 감리 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-design-supervision"
+  - "exam-cspe-design-supervision"
+  - "exam-cspe-track"
   - "cspe-focus"
 weight: 3
 ---

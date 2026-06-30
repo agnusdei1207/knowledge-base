@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "클라우드 아키텍처 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-cloud-architecture"
+  - "exam-cspe-cloud-architecture"
+  - "exam-cspe-track"
 weight: 91
 ---
 

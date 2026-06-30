@@ -16,7 +16,6 @@ taxonomies = [
 ]
 
 [markdown]
-highlight_code = false
 smart_punctuation = false
 
 [extra]

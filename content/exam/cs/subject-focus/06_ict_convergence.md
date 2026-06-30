@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "ICT 융합 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-ict-convergence"
+  - "exam-cspe-ict-convergence"
+  - "exam-cspe-track"
   - "cspe-focus"
 weight: 3
 ---

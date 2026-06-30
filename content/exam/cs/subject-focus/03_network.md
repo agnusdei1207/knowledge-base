@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "네트워크 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-network"
+  - "exam-cspe-network"
+  - "exam-cspe-track"
 weight: 91
 ---
 

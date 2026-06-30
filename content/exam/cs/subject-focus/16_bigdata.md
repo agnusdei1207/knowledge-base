@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "빅데이터 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-bigdata"
+  - "exam-cspe-bigdata"
+  - "exam-cspe-track"
 weight: 91
 ---
 

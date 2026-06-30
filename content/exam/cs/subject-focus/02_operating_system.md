@@ -1,8 +1,9 @@
 ---
-title: "컴퓨터시스템응용기술사 핵심 트랙"
+title: "운영체제 핵심 트랙"
 date: "2026-06-29"
 tags:
-  - "studynote-operating-system"
+  - "exam-cspe-operating-system"
+  - "exam-cspe-track"
 weight: 91
 ---
 
