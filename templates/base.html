@@ -40,7 +40,7 @@
         {% set layout_path = "/" %}
     {% endif %}
 
-    <div class="page{% if layout_path == '/' %} page-home{% endif %}" data-frame="default">
+    <div class="page{% if layout_path == '/' %} page-home{% endif %}{% if layout_path is starting_with('/exam/cs/') %} page-cspe{% endif %}" data-frame="default">
         <div id="page-body">
             <aside class="left sidebar">
                 <a href="{{ get_url(path='/') }}" class="site-title">

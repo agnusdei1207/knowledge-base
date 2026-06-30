@@ -16,6 +16,9 @@
 <p class="sidebar-muted">{{ section.description }}</p>
 {% endif %}
 
+{% set is_cspe_hub = section.path == "/exam/cs/" %}
+{% set is_cspe_subject_hub = section.path == "/exam/cs/subject-focus/" %}
+{% set is_cspe_subject = section.path is starting_with("/exam/cs/subject-focus/") and section.path != "/exam/cs/subject-focus/" %}
 {% set show_content_first = false %}
 
 {% if show_content_first and section.content %}
@@ -24,57 +27,112 @@
 </article>
 {% endif %}
 
-<div class="folder-list">
-
+{% if is_cspe_hub or is_cspe_subject_hub %}
     {% set listing_section = section %}
-    {% if section.path == "/exam/cs/" %}
+    {% if is_cspe_hub %}
         {% set listing_section = get_section(path="exam/cs/subject-focus/_index.md") %}
     {% endif %}
 
-    {# Subsections (subdirectories) #}
     {% set subs = [] %}
     {% for sub_path in listing_section.subsections %}
         {% set sub_obj = get_section(path=sub_path) %}
         {% set_global subs = subs | concat(with=sub_obj) %}
     {% endfor %}
 
-    {% for sub in subs %}
-        {# Extract numeric prefix from folder name e.g. "01_computer_architecture" → "01" #}
-        {% set sub_path_parts = sub.path | split(pat="/") %}
-        {% set sub_folder = sub_path_parts | slice(start=-2, end=-1) | first %}
-        {% set sub_num = sub_folder | split(pat="_") | first %}
-        <a class="folder-item" href="{{ sub.permalink }}">
-            <span class="fi-icon"><img src="https://api.iconify.design/lucide:folder.svg?color=%23A65B32" width="16" height="16" alt=""></span>
-            <span class="fi-name"><span class="fi-num">{{ sub_num }}.</span> {{ sub.title }}</span>
-            <span class="fi-meta">directory</span>
-        </a>
-    {% endfor %}
+    {% if is_cspe_hub %}
+    <section class="dashboard-block">
+        <h2 class="home-section-title">실전 문서</h2>
+        <div class="subject-grid dashboard-grid">
+            {% for page in section.pages %}
+            <a class="subject-card dashboard-card" href="{{ page.permalink }}">
+                <span class="subject-num">DOC</span>
+                <span class="subject-name">{{ page.title }}</span>
+                <p class="subject-desc">{% if page.description %}{{ page.description }}{% else %}컴퓨터시스템응용기술사 실전 문서{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
 
-    {# Pages in this section — sorted by numeric filename prefix order #}
-    {% set sorted_pages = listing_section.pages | sort(attribute="relative_path") %}
-    {% for page in sorted_pages %}
-    {% if not page.relative_path is ending_with("keyword_list.md") %}
-    {# Extract numeric prefix from filename e.g. "001_voltage.md" → "001" #}
-    {% set path_parts = page.relative_path | split(pat="/") %}
-    {% set filename = path_parts | last %}
-    {% set file_num = filename | split(pat="_") | first %}
-    <div class="folder-item-wrapper">
-        <a class="folder-item" href="{{ page.permalink }}" data-page-url="{{ page.permalink }}">
-            <span class="fi-icon"><img src="https://api.iconify.design/lucide:file-text.svg?color=%238E8575" width="16" height="16" alt=""></span>
-            <span class="fi-name"><span class="fi-num">{{ file_num }}.</span> {{ page.title }}</span>
-            <span class="fi-badge" aria-hidden="true">LAST READ</span>
-            <span class="fi-meta">{% if page.date %}{{ page.date | date(format="%Y-%m-%d") }}{% endif %}</span>
-        </a>
-        <button class="card-copy-btn" data-url="{{ page.permalink }}" title="Copy content">
-            {% include "icons/copy.html" %}
-            {% include "icons/check.html" %}
-        </button>
+    <section class="dashboard-block">
+        <h2 class="home-section-title">{% if is_cspe_hub %}16과목 시험 트랙{% else %}과목별 시험 트랙{% endif %}</h2>
+        <div class="subject-grid dashboard-grid">
+            {% for sub in subs %}
+            {% set sub_path_parts = sub.path | split(pat="/") %}
+            {% set sub_folder = sub_path_parts | slice(start=-2, end=-1) | first %}
+            {% set sub_num = sub_folder | split(pat="_") | first %}
+            {% set subject_page_count = sub.pages | length %}
+            <a class="subject-card dashboard-card" href="{{ sub.permalink }}">
+                <span class="subject-num">{{ sub_num }}</span>
+                <span class="subject-name">{{ sub.title }}</span>
+                <p class="subject-desc">{% if subject_page_count > 0 %}키워드 {{ subject_page_count }}개 · 과목 허브에서 바로 진입{% else %}과목 허브와 시험 답안 축부터 확인{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+{% else %}
+    {% if is_cspe_subject %}
+    <div class="subject-strip">
+        <div class="subject-strip-item">
+            <span class="subject-strip-label">키워드</span>
+            <strong>{{ section.pages | length }}개</strong>
+        </div>
+        <div class="subject-strip-item">
+            <span class="subject-strip-label">사용 방식</span>
+            <strong>검색 후 바로 답안형 본문</strong>
+        </div>
+        <div class="subject-strip-item">
+            <span class="subject-strip-label">확장 기준</span>
+            <strong>1교시 앞부분 + 2~4교시 확장</strong>
+        </div>
     </div>
     {% endif %}
-    {% endfor %}
 
+    <div class="folder-list">
+        {% set listing_section = section %}
+        {% if section.path == "/exam/cs/" %}
+            {% set listing_section = get_section(path="exam/cs/subject-focus/_index.md") %}
+        {% endif %}
 
-</div>
+        {% set subs = [] %}
+        {% for sub_path in listing_section.subsections %}
+            {% set sub_obj = get_section(path=sub_path) %}
+            {% set_global subs = subs | concat(with=sub_obj) %}
+        {% endfor %}
+
+        {% for sub in subs %}
+            {% set sub_path_parts = sub.path | split(pat="/") %}
+            {% set sub_folder = sub_path_parts | slice(start=-2, end=-1) | first %}
+            {% set sub_num = sub_folder | split(pat="_") | first %}
+            <a class="folder-item" href="{{ sub.permalink }}">
+                <span class="fi-icon"><img src="https://api.iconify.design/lucide:folder.svg?color=%23A65B32" width="16" height="16" alt=""></span>
+                <span class="fi-name"><span class="fi-num">{{ sub_num }}.</span> {{ sub.title }}</span>
+                <span class="fi-meta">directory</span>
+            </a>
+        {% endfor %}
+
+        {% set sorted_pages = listing_section.pages | sort(attribute="relative_path") %}
+        {% for page in sorted_pages %}
+        {% if not page.relative_path is ending_with("keyword_list.md") %}
+        {% set path_parts = page.relative_path | split(pat="/") %}
+        {% set filename = path_parts | last %}
+        {% set file_num = filename | split(pat="_") | first %}
+        <div class="folder-item-wrapper">
+            <a class="folder-item" href="{{ page.permalink }}" data-page-url="{{ page.permalink }}">
+                <span class="fi-icon"><img src="https://api.iconify.design/lucide:file-text.svg?color=%238E8575" width="16" height="16" alt=""></span>
+                <span class="fi-name"><span class="fi-num">{{ file_num }}.</span> {{ page.title }}</span>
+                <span class="fi-badge" aria-hidden="true">LAST READ</span>
+                <span class="fi-meta">{% if page.date %}{{ page.date | date(format="%Y-%m-%d") }}{% endif %}</span>
+            </a>
+            <button class="card-copy-btn" data-url="{{ page.permalink }}" title="Copy content">
+                {% include "icons/copy.html" %}
+                {% include "icons/check.html" %}
+            </button>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
 
 {# Section content (the _index.md body) #}
 {% if section.content and not show_content_first %}

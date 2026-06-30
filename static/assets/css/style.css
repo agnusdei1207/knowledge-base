@@ -231,6 +231,15 @@ mark,
     padding-top: 2.25rem;
 }
 
+.page-cspe .sidebar {
+    padding-top: 3rem;
+}
+
+.page-cspe .page-header {
+    margin: 0;
+    padding-top: 2.75rem;
+}
+
 footer {
     grid-area: grid-footer;
     margin: 0 0 2rem;
@@ -822,6 +831,42 @@ img {
     opacity: 1;
 }
 
+.dashboard-block {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-grid {
+    margin-bottom: 0;
+}
+
+.dashboard-card {
+    min-height: 8.25rem;
+    justify-content: space-between;
+}
+
+.subject-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.subject-strip-item {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--light) 94%, var(--lightgray));
+}
+
+.subject-strip-label {
+    color: var(--gray);
+    font-size: 0.78rem;
+}
+
 .home-products {
     margin: 1rem 0 2rem;
 }
@@ -947,6 +992,10 @@ img {
         padding-top: 0;
     }
 
+    .page-cspe .page-header {
+        padding-top: 0;
+    }
+
     header {
         margin: 1.5rem 0;
     }
@@ -1006,6 +1055,10 @@ img {
 
     .folder-item {
         padding-right: 2.8rem;
+    }
+
+    .subject-strip {
+        grid-template-columns: 1fr;
     }
 }
 
