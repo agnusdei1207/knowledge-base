@@ -1,8 +1,9 @@
 ---
-title: "Study Note 16"
-description: "16과목 9,103개 학습 노트와 과목별 키워드 목록을 모은 공부 전용 공간"
+title: "Study Note 16 (보관)"
+description: "16과목 9,103개 학습 노트 — 재작성 작업 중 임시 보관(숨김)"
 weight: 10
 sort_by: "weight"
+draft: true
 ---
 
 [ 종합 지식 포털 ] > **Study Note**

@@ -1,6 +1,6 @@
 base_url = "https://agnusdei1207.github.io/study"
-title = "Study Hub"
-description = "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터시스템응용기술사"
+title = "컴퓨터시스템응용기술사 준비"
+description = "컴퓨터시스템응용기술사(CSPE) 합격 전용 — 전략·기출·답안 템플릿·핵심 키워드"
 compile_sass = false
 build_search_index = false
 minify_html = false
