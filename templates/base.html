@@ -49,23 +49,76 @@
 
                 <nav class="explorer" aria-label="Site navigation">
                     <p class="sidebar-title">Explorer</p>
-                    <ul>
-                        <li><a href="{{ get_url(path='/') }}">🏠 Home</a></li>
-                        {% set studynote = get_section(path="studynote/_index.md") %}
-                        {% set subs = [] %}
-                        {% for sub_path in studynote.subsections %}
-                            {% set sub_obj = get_section(path=sub_path) %}
-                            {% set_global subs = subs | concat(with=sub_obj) %}
-                        {% endfor %}
-                        {% for sub in subs %}
-                        {% set sub_path_parts = sub.path | split(pat="/") %}
-                        {% set sub_folder = sub_path_parts | slice(start=-2, end=-1) | first %}
-                        {% set sub_num = sub_folder | split(pat="_") | first %}
-                        <li>
-                            <a href="{{ sub.permalink }}">{{ sub_num }}. {{ sub.title }}</a>
-                        </li>
-                        {% endfor %}
+                    {% if page %}
+                        {% set current_path = page.path %}
+                    {% elif section %}
+                        {% set current_path = section.path %}
+                    {% else %}
+                        {% set current_path = "/" %}
+                    {% endif %}
+
+                    <ul class="explorer-root">
+                        <li><a href="{{ get_url(path='/') }}">Home</a></li>
                     </ul>
+
+                    <details class="explorer-group" {% if current_path is starting_with("/studynote/") %}open{% endif %}>
+                        <summary><span>CS</span></summary>
+                        <ul>
+                            <li><a href="{{ get_url(path='/studynote/') }}">CS 허브</a></li>
+                            <li><a href="{{ get_url(path='/studynote/01_computer_architecture/') }}">01. Computer Architecture</a></li>
+                            <li><a href="{{ get_url(path='/studynote/02_operating_system/') }}">02. Operating System</a></li>
+                            <li><a href="{{ get_url(path='/studynote/03_network/') }}">03. Network</a></li>
+                            <li><a href="{{ get_url(path='/studynote/04_software_engineering/') }}">04. Software Engineering</a></li>
+                            <li><a href="{{ get_url(path='/studynote/05_database/') }}">05. Database</a></li>
+                            <li><a href="{{ get_url(path='/studynote/06_ict_convergence/') }}">06. ICT Convergence</a></li>
+                            <li><a href="{{ get_url(path='/studynote/07_enterprise_systems/') }}">07. Enterprise Systems</a></li>
+                            <li><a href="{{ get_url(path='/studynote/08_algorithm_stats/') }}">08. Algorithm & Stats</a></li>
+                            <li><a href="{{ get_url(path='/studynote/09_security/') }}">09. Security</a></li>
+                            <li><a href="{{ get_url(path='/studynote/10_ai/') }}">10. AI</a></li>
+                            <li><a href="{{ get_url(path='/studynote/11_design_supervision/') }}">11. Design & Supervision</a></li>
+                            <li><a href="{{ get_url(path='/studynote/12_it_management/') }}">12. IT Management</a></li>
+                            <li><a href="{{ get_url(path='/studynote/13_cloud_architecture/') }}">13. Cloud Architecture</a></li>
+                            <li><a href="{{ get_url(path='/studynote/14_data_engineering/') }}">14. Data Engineering</a></li>
+                            <li><a href="{{ get_url(path='/studynote/15_devops_sre/') }}">15. DevOps & SRE</a></li>
+                            <li><a href="{{ get_url(path='/studynote/16_bigdata/') }}">16. Big Data</a></li>
+                        </ul>
+                    </details>
+
+                    <details class="explorer-group" {% if current_path is starting_with("/exam/cs/") %}open{% endif %}>
+                        <summary><span>컴시응</span></summary>
+                        <ul>
+                            <li><a href="{{ get_url(path='/exam/cs/') }}">컴시응 허브</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/01_computer_architecture/') }}">01. 컴퓨터 구조</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/02_operating_system/') }}">02. 운영체제</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/03_network/') }}">03. 네트워크</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/04_software_engineering/') }}">04. 소프트웨어공학</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/05_database/') }}">05. 데이터베이스</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/06_ict_convergence/') }}">06. ICT 융합</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/07_enterprise_systems/') }}">07. 엔터프라이즈 시스템</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/08_algorithm_stats/') }}">08. 알고리즘·통계</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/09_security/') }}">09. 보안</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/10_ai/') }}">10. 인공지능</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/11_design_supervision/') }}">11. IT 설계·감리</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/12_it_management/') }}">12. IT 경영</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/13_cloud_architecture/') }}">13. 클라우드 아키텍처</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/14_data_engineering/') }}">14. 데이터 엔지니어링</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/15_devops_sre/') }}">15. DevOps·SRE</a></li>
+                            <li><a href="{{ get_url(path='/exam/cs/subject-focus/16_bigdata/') }}">16. 빅데이터</a></li>
+                        </ul>
+                    </details>
+
+                    <details class="explorer-group" {% if current_path is starting_with("/exam/ict/") %}open{% endif %}>
+                        <summary><span>정보통신기술사</span></summary>
+                        <ul>
+                            <li><a href="{{ get_url(path='/exam/ict/') }}">정보통신 허브</a></li>
+                            <li><a href="{{ get_url(path='/exam/ict/keyword_list/') }}">시험용 키워드</a></li>
+                            <li><a href="{{ get_url(path='/exam/ict/past/') }}">기출</a></li>
+                            <li><a href="{{ get_url(path='/exam/ict/strategy/') }}">전략</a></li>
+                            <li><a href="{{ get_url(path='/exam/ict/template/') }}">답안 템플릿</a></li>
+                            <li><a href="{{ get_url(path='/exam/ict/frequency/') }}">빈도 분석</a></li>
+                            <li><a href="{{ get_url(path='/exam/ict/shortanswer/') }}">1교시 단답</a></li>
+                        </ul>
+                    </details>
                 </nav>
 
                 <div class="sidebar-actions">

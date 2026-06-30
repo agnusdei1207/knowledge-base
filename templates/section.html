@@ -16,7 +16,7 @@
 <p class="sidebar-muted">{{ section.description }}</p>
 {% endif %}
 
-{% set show_content_first = section.path == "/exam/cs/" or section.path is starting_with("/exam/cs/subject-focus/") or section.path == "/exam/cs/subject-focus/" %}
+{% set show_content_first = section.path is starting_with("/exam/cs/subject-focus/") or section.path == "/exam/cs/subject-focus/" %}
 
 {% if show_content_first and section.content %}
 <article class="section-content post-content">
@@ -26,9 +26,14 @@
 
 <div class="folder-list">
 
+    {% set listing_section = section %}
+    {% if section.path == "/exam/cs/" %}
+        {% set listing_section = get_section(path="exam/cs/subject-focus/_index.md") %}
+    {% endif %}
+
     {# Subsections (subdirectories) #}
     {% set subs = [] %}
-    {% for sub_path in section.subsections %}
+    {% for sub_path in listing_section.subsections %}
         {% set sub_obj = get_section(path=sub_path) %}
         {% set_global subs = subs | concat(with=sub_obj) %}
     {% endfor %}
@@ -46,7 +51,7 @@
     {% endfor %}
 
     {# Pages in this section — sorted by numeric filename prefix order #}
-    {% set sorted_pages = section.pages | sort(attribute="relative_path") %}
+    {% set sorted_pages = listing_section.pages | sort(attribute="relative_path") %}
     {% for page in sorted_pages %}
     {% if not page.relative_path is ending_with("keyword_list.md") %}
     {# Extract numeric prefix from filename e.g. "001_voltage.md" → "001" #}
