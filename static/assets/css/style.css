@@ -216,7 +216,7 @@ mark,
 }
 
 .page-home .page-header {
-    margin-top: 2.25rem;
+    margin-top: 0;
 }
 
 .center {
@@ -225,6 +225,10 @@ mark,
     min-width: 100%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.page-home .center {
+    padding-top: 2.25rem;
 }
 
 footer {
@@ -939,6 +943,10 @@ img {
         margin-top: 0;
     }
 
+    .page-home .center {
+        padding-top: 0;
+    }
+
     header {
         margin: 1.5rem 0;
     }
@@ -1056,8 +1064,17 @@ img {
 }
 
 /* ── Home grid cards ─────────────────────────────────────────────────────── */
+.home-stack {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.page-home header {
+    margin: 0;
+}
+
 .home-header {
-    margin-bottom: 1.2rem;
+    padding: 0;
 }
 
 .home-header h1 {
@@ -1076,10 +1093,6 @@ img {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 0.75rem;
     margin-bottom: 2rem;
-}
-
-.page-home .subject-grid {
-    margin-top: 0;
 }
 
 .subject-card {
