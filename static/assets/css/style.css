@@ -415,6 +415,12 @@ header h1 {
     display: none;
 }
 
+.explorer-group summary span {
+    min-width: 0;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
 .explorer-group summary::after {
     content: "";
     width: 0.45rem;
