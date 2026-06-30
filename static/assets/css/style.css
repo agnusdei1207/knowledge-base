@@ -228,7 +228,7 @@ mark,
 }
 
 .page-home .center {
-    padding-top: 2.25rem;
+    padding-top: 0.75rem;
 }
 
 .page-cspe .sidebar {
@@ -1138,7 +1138,7 @@ img {
 .home-description {
     color: var(--gray);
     font-size: 1.05rem;
-    margin: 0.5rem 0 0;
+    margin: 0;
 }
 
 .subject-grid {
