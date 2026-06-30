@@ -16,6 +16,14 @@
 <p class="sidebar-muted">{{ section.description }}</p>
 {% endif %}
 
+{% set show_content_first = section.path == "/exam/cs/" or section.path is starting_with("/exam/cs/subject-focus/") or section.path == "/exam/cs/subject-focus/" %}
+
+{% if show_content_first and section.content %}
+<article class="section-content post-content">
+    {{ section.content | safe }}
+</article>
+{% endif %}
+
 <div class="folder-list">
 
     {# Subsections (subdirectories) #}
@@ -64,7 +72,7 @@
 </div>
 
 {# Section content (the _index.md body) #}
-{% if section.content %}
+{% if section.content and not show_content_first %}
 <article class="section-content post-content">
     {{ section.content | safe }}
 </article>

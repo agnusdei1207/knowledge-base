@@ -1,16 +1,41 @@
 ---
-title: "과목별 핵심 트랙"
-description: "컴퓨터시스템응용기술사 관점에서 16과목별 우선 학습 챕터와 답안 포인트를 정리한 시험 전용 트랙"
+title: "과목별 시험 키워드"
+description: "컴퓨터시스템응용기술사 16과목 시험용 허브. 과목별 본문과 키워드 페이지를 함께 제공"
 sort_by: "weight"
 weight: 6
 ---
 
-# 과목별 핵심 트랙
+# 과목별 시험 키워드
 
-컴퓨터시스템응용기술사 기준으로 16과목 각각의 우선 학습 챕터와 단답형/서술형 포인트를 정리한 시험 전용 섹션입니다.
+이 섹션은 `CS`의 공부 노트를 과목별로 다시 링크한 구조가 아닙니다.  
+**컴퓨터시스템응용기술사 시험 답안용으로 새로 작성된 과목 허브**입니다.
 
-## 활용 방법
+## 보는 방식
 
-1. `키워드 목록`으로 전체 빈출군을 먼저 훑습니다.
-2. 본 섹션에서 과목별 우선 챕터와 서술형 전개 포인트를 확인합니다.
-3. 상세 개념 암기는 `studynote/` 개별 노트에서 보강합니다.
+- 각 과목 첫 화면은 `2~4교시 서술형 구조`를 먼저 보여 줍니다.
+- 그 안에 `1교시 단답형 앞단위`가 포함됩니다.
+- 화면 아래로 내려가면 해당 과목의 **실제 키워드 페이지 목록**이 붙습니다.
+- 키워드 페이지는 모두 `정의 → 구성요소·원리 → 흐름도 → 핵심 표 → 기술사 적용`으로 통일했습니다.
+
+## 과목별 입구
+
+| 과목 | 압축 키워드 축 | 바로가기 |
+|:---|:---|:---|
+| 01 컴퓨터구조 | 캐시, 파이프라인, 메모리 계층, 병렬처리 | [들어가기](@/exam/cs/subject-focus/01_computer_architecture/_index.md) |
+| 02 운영체제 | 프로세스, 스케줄링, 동기화, 가상메모리 | [들어가기](@/exam/cs/subject-focus/02_operating_system/_index.md) |
+| 03 네트워크 | TCP/IP, 라우팅, QoS, SDN/NFV | [들어가기](@/exam/cs/subject-focus/03_network/_index.md) |
+| 04 소프트웨어공학 | 방법론, 요구공학, 아키텍처, 테스트 | [들어가기](@/exam/cs/subject-focus/04_software_engineering/_index.md) |
+| 05 데이터베이스 | ACID, 인덱스, 회복, 분산DB | [들어가기](@/exam/cs/subject-focus/05_database/_index.md) |
+| 06 ICT 융합 | 디지털트윈, 스마트팩토리, V2X | [들어가기](@/exam/cs/subject-focus/06_ict_convergence/_index.md) |
+| 07 엔터프라이즈 시스템 | ERP, EAI/ESB, MSA, BPM | [들어가기](@/exam/cs/subject-focus/07_enterprise_systems/_index.md) |
+| 08 알고리즘·통계 | 복잡도, 정렬, 그래프, 통계 추론 | [들어가기](@/exam/cs/subject-focus/08_algorithm_stats/_index.md) |
+| 09 보안 | 제로트러스트, PKI, IAM, 공급망 보안 | [들어가기](@/exam/cs/subject-focus/09_security/_index.md) |
+| 10 인공지능 | Transformer, LLM, RAG, MLOps | [들어가기](@/exam/cs/subject-focus/10_ai/_index.md) |
+| 11 IT 설계·감리 | 감리 절차, RTM, 품질 기준 | [들어가기](@/exam/cs/subject-focus/11_design_supervision/_index.md) |
+| 12 IT 경영 | ISP, EA, ITIL, 투자타당성 | [들어가기](@/exam/cs/subject-focus/12_it_management/_index.md) |
+| 13 클라우드 아키텍처 | K8s, 서버리스, FinOps, 소버린 | [들어가기](@/exam/cs/subject-focus/13_cloud_architecture/_index.md) |
+| 14 데이터엔지니어링 | ETL/ELT, CDC, 레이크하우스 | [들어가기](@/exam/cs/subject-focus/14_data_engineering/_index.md) |
+| 15 DevOps·SRE | CI/CD, GitOps, SLO, 에러버짓 | [들어가기](@/exam/cs/subject-focus/15_devops_sre/_index.md) |
+| 16 빅데이터 | Hadoop, Spark, 스트리밍, Vector DB | [들어가기](@/exam/cs/subject-focus/16_bigdata/_index.md) |
+
+압축 마스터는 [핵심 키워드 1000](@/exam/cs/keyword_list.md)에서 확인합니다.

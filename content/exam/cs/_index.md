@@ -5,49 +5,42 @@ sort_by: "weight"
 weight: 1
 ---
 
-# 컴퓨터시스템응용기술사 시험 준비
+# 컴퓨터시스템응용기술사 시험 허브
 
-- [마스터 템플릿](@/exam/cs/master-template.md)
-- [핵심 키워드 1000](@/exam/cs/keyword_list.md)
-- [과목별 핵심 트랙](@/exam/cs/subject-focus/_index.md)
-- [기출 키워드 우주](@/exam/cs/keyword-universe.md)
-- [핵심 학습 경로(2,000)](@/learning_paths/cspe-core-2000.md)
+이 공간은 `CS`의 공부용 노트를 가져다 놓은 곳이 아니라, **시험장에서 바로 쓰기 위한 답안용 구조**만 따로 압축한 허브입니다.
 
-## 파일 구성
+- **압축 범위**: 전체를 16과목 기준 약 `1,000`개 핵심 키워드로 재구성
+- **문서 구조**: `2~4교시 서술형 템플릿` 안에 `1교시 단답형 앞단위`가 포함되는 구조
+- **페이지 구조**: `과목 허브` → `키워드 선택` → `정의 / 구성요소·원리 / 흐름도 / 핵심 표 / 기술사 적용`
 
-| 파일 | 용도 |
+## 바로 써야 하는 문서
+
+| 문서 | 역할 |
 |:---|:---|
-| [합격 전략](@/exam/cs/strategy.md) | 시험 구조 + 교시별 전략 + 타임라인 + 과목 우선순위 |
-| [핵심 키워드 1000](@/exam/cs/keyword_list.md) | 16과목 9,103노트에서 시험 답안 직결 핵심만 ~1,000개로 압축 |
-| [과목별 핵심 트랙](@/exam/cs/subject-focus/_index.md) | 16과목별 1교시 단답형 핵심 + 2~4교시 서술형 확장 답안 포인트 |
-| [마스터 템플릿](@/exam/cs/master-template.md) | 1교시/2~4교시 답안 템플릿 + 예상문제 + 압축 로드맵 |
-| [서술형 템플릿](@/exam/cs/template.md) | 2~4교시 서술형 답안 구조 + 시간 배분 |
-| [모범답안 템플릿](@/exam/cs/model-answer.md) | 1교시·2~4교시 모범답안 골격과 유형별 치환 규칙 |
-| [기출 빈도 분석](@/exam/cs/frequency.md) | 최근 회차 중심 빈도 ★★★/★★/★ 분류 |
-| [기출 키워드 우주](@/exam/cs/keyword-universe.md) | 120~138회 기준 빈출군 + 1회성 포함 편입 규칙 |
-| [1교시 단답형 200](@/exam/cs/shortanswer.md) | 1교시 단답형 핵심 200개 |
-| [기출 분석 프레임워크](@/exam/cs/framework.md) | 기출 기록 형식 + 빈도 집계표 |
-| [연도별 기출](@/exam/cs/past/_index.md) | 120~138회 전 교시 문제·키워드·선택 전략 |
+| [핵심 키워드 1000](@/exam/cs/keyword_list.md) | 16과목을 시험 답안용 관점으로 약 1,000개 수준으로 압축한 마스터 목록 |
+| [과목별 시험 키워드](@/exam/cs/subject-focus/_index.md) | 과목별 허브. 클릭하면 해당 과목의 시험용 본문과 키워드 목록이 함께 보임 |
+| [마스터 템플릿](@/exam/cs/master-template.md) | 1교시와 2~4교시를 한 몸처럼 쓰는 통합 템플릿 |
+| [모범답안 템플릿](@/exam/cs/model-answer.md) | 답안 골격을 실제 문장 단위로 치환하는 기준 |
+| [합격 전략](@/exam/cs/strategy.md) | 시험 구조, 시간 배분, 우선순위, 최근 출제 대응 |
+| [연도별 기출](@/exam/cs/past/_index.md) | 회차별 문제 확인과 출제군 회독 |
 
-## 과목별로 바로 들어가기
+## 과목별 바로가기
 
-각 과목은 **시험용 답안 트랙**(1교시 단답형 핵심 → 2~4교시 서술형 확장)으로 들어가고, 깊은 개념 회독이 필요하면 **공부용 노트**로 이동합니다.
+아래 링크가 `컴시응`의 실제 입구입니다. 각 과목으로 들어가면 **과목 개요 → 1교시 앞단위 → 2~4교시 확장 구조 → 그 과목 키워드 목록** 순서로 보입니다.
 
-| 과목 | 시험용 트랙 | 공부용 노트 |
+| 핵심군 | 과목 바로가기 | 시험 포인트 |
 |:---|:---|:---|
-| 01 컴퓨터 구조 | [핵심 트랙](@/exam/cs/subject-focus/01_computer_architecture.md) | [Study Note](@/studynote/01_computer_architecture/_index.md) |
-| 02 운영체제 | [핵심 트랙](@/exam/cs/subject-focus/02_operating_system.md) | [Study Note](@/studynote/02_operating_system/_index.md) |
-| 03 네트워크 | [핵심 트랙](@/exam/cs/subject-focus/03_network.md) | [Study Note](@/studynote/03_network/_index.md) |
-| 04 소프트웨어공학 | [핵심 트랙](@/exam/cs/subject-focus/04_software_engineering.md) | [Study Note](@/studynote/04_software_engineering/_index.md) |
-| 05 데이터베이스 | [핵심 트랙](@/exam/cs/subject-focus/05_database.md) | [Study Note](@/studynote/05_database/_index.md) |
-| 06 ICT 융합 | [핵심 트랙](@/exam/cs/subject-focus/06_ict_convergence.md) | [Study Note](@/studynote/06_ict_convergence/_index.md) |
-| 07 엔터프라이즈 시스템 | [핵심 트랙](@/exam/cs/subject-focus/07_enterprise_systems.md) | [Study Note](@/studynote/07_enterprise_systems/_index.md) |
-| 08 알고리즘 및 통계 | [핵심 트랙](@/exam/cs/subject-focus/08_algorithm_stats.md) | [Study Note](@/studynote/08_algorithm_stats/_index.md) |
-| 09 보안 | [핵심 트랙](@/exam/cs/subject-focus/09_security.md) | [Study Note](@/studynote/09_security/_index.md) |
-| 10 인공지능 | [핵심 트랙](@/exam/cs/subject-focus/10_ai.md) | [Study Note](@/studynote/10_ai/_index.md) |
-| 11 IT 설계 및 감리 | [핵심 트랙](@/exam/cs/subject-focus/11_design_supervision.md) | [Study Note](@/studynote/11_design_supervision/_index.md) |
-| 12 IT 경영 | [핵심 트랙](@/exam/cs/subject-focus/12_it_management.md) | [Study Note](@/studynote/12_it_management/_index.md) |
-| 13 클라우드 아키텍처 | [핵심 트랙](@/exam/cs/subject-focus/13_cloud_architecture.md) | [Study Note](@/studynote/13_cloud_architecture/_index.md) |
-| 14 데이터 엔지니어링 | [핵심 트랙](@/exam/cs/subject-focus/14_data_engineering.md) | [Study Note](@/studynote/14_data_engineering/_index.md) |
-| 15 DevOps & SRE | [핵심 트랙](@/exam/cs/subject-focus/15_devops_sre.md) | [Study Note](@/studynote/15_devops_sre/_index.md) |
-| 16 빅데이터 | [핵심 트랙](@/exam/cs/subject-focus/16_bigdata.md) | [Study Note](@/studynote/16_bigdata/_index.md) |
+| 시스템 기반 | [01 컴퓨터구조](@/exam/cs/subject-focus/01_computer_architecture/_index.md) / [02 운영체제](@/exam/cs/subject-focus/02_operating_system/_index.md) | 성능 병목, 메모리, 스케줄링, 동기화 |
+| 통신·개발 | [03 네트워크](@/exam/cs/subject-focus/03_network/_index.md) / [04 소프트웨어공학](@/exam/cs/subject-focus/04_software_engineering/_index.md) | 프로토콜, 라우팅, 아키텍처, 품질 |
+| 데이터 축 | [05 데이터베이스](@/exam/cs/subject-focus/05_database/_index.md) / [14 데이터엔지니어링](@/exam/cs/subject-focus/14_data_engineering/_index.md) | ACID, 일관성, ETL/ELT, 레이크하우스 |
+| 융합·업무 | [06 ICT 융합](@/exam/cs/subject-focus/06_ict_convergence/_index.md) / [07 엔터프라이즈 시스템](@/exam/cs/subject-focus/07_enterprise_systems/_index.md) | 디지털트윈, 스마트팩토리, ERP, MSA |
+| 수리 기반 | [08 알고리즘·통계](@/exam/cs/subject-focus/08_algorithm_stats/_index.md) / [16 빅데이터](@/exam/cs/subject-focus/16_bigdata/_index.md) | 복잡도, 그래프, 분산처리, 스트리밍 |
+| 보안·AI | [09 보안](@/exam/cs/subject-focus/09_security/_index.md) / [10 인공지능](@/exam/cs/subject-focus/10_ai/_index.md) | 제로트러스트, PKI, LLM, RAG, 에이전트 |
+| 공공·경영 | [11 IT 설계·감리](@/exam/cs/subject-focus/11_design_supervision/_index.md) / [12 IT 경영](@/exam/cs/subject-focus/12_it_management/_index.md) | 감리, ISP/ISMP, EA, ITIL |
+| 클라우드 운영 | [13 클라우드 아키텍처](@/exam/cs/subject-focus/13_cloud_architecture/_index.md) / [15 DevOps·SRE](@/exam/cs/subject-focus/15_devops_sre/_index.md) | K8s, GitOps, SLO, 에러버짓 |
+
+## 사용 순서
+
+1. [핵심 키워드 1000](@/exam/cs/keyword_list.md)에서 범위를 잡습니다.
+2. 과목 허브로 들어가 `1교시 앞단위`와 `2~4교시 확장 방식`을 먼저 봅니다.
+3. 아래에 붙은 키워드 페이지를 검색하거나 클릭해서 실제 답안 틀로 내려갑니다.
