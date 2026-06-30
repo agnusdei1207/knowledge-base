@@ -5,24 +5,24 @@
 {% block content %}
 <div class="home-stack">
     <div class="home-header">
-        <p class="home-description">PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터시스템응용기술사</p>
+        <p class="home-description">컴퓨터시스템응용기술사(CSPE) 합격 전용 — 전략·기출·답안 템플릿·핵심 키워드</p>
     </div>
 
     <div class="subject-grid">
-        <a class="subject-card" href="{{ get_url(path='/studynote/') }}">
-            <span class="subject-num">CS</span>
-            <span class="subject-name">CS</span>
-            <p class="subject-desc">16과목 전체 개념과 9천개 학습 노트로 들어가기</p>
-        </a>
         <a class="subject-card" href="{{ get_url(path='/exam/cs/') }}">
             <span class="subject-num">PE</span>
-            <span class="subject-name">컴퓨터시스템응용기술사</span>
-            <p class="subject-desc">컴퓨터시스템응용기술사 시험 전략, 과목별 핵심 트랙, 기출 정리</p>
+            <span class="subject-name">시험 준비</span>
+            <p class="subject-desc">전략·기출(120~138회)·빈도·모범답안 템플릿</p>
         </a>
-        <a class="subject-card" href="{{ get_url(path='/exam/ict/') }}">
-            <span class="subject-num">ICT</span>
-            <span class="subject-name">정보통신기술사</span>
-            <p class="subject-desc">정보통신 시험 전략, 통신 과목별 학습, 기출 정리</p>
+        <a class="subject-card" href="{{ get_url(path='/cspe/') }}">
+            <span class="subject-num">KW</span>
+            <span class="subject-name">키워드 노트</span>
+            <p class="subject-desc">8개 대영역 출제동향 키워드 — 암기용 + 답안용</p>
+        </a>
+        <a class="subject-card" href="{{ get_url(path='/exam/cs/integrated-strategy/') }}">
+            <span class="subject-num">ST</span>
+            <span class="subject-name">통합 학습 전략</span>
+            <p class="subject-desc">기출 분석·과목 교차·타임라인</p>
         </a>
     </div>
 </div>

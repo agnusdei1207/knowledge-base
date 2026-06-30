@@ -68,26 +68,18 @@
                         <li><a href="{{ get_url(path='/') }}">Home</a></li>
                     </ul>
 
-                    <details class="explorer-group" {% if current_path is starting_with("/studynote/") %}open{% endif %}>
-                        <summary><span>CS</span></summary>
+                    <details class="explorer-group" {% if current_path is starting_with("/cspe/") %}open{% endif %}>
+                        <summary><span>CSPE 키워드 노트</span></summary>
                         <ul>
-                            <li><a href="{{ get_url(path='/studynote/') }}">CS 허브</a></li>
-                            <li><a href="{{ get_url(path='/studynote/01_computer_architecture/') }}">01. Computer Architecture</a></li>
-                            <li><a href="{{ get_url(path='/studynote/02_operating_system/') }}">02. Operating System</a></li>
-                            <li><a href="{{ get_url(path='/studynote/03_network/') }}">03. Network</a></li>
-                            <li><a href="{{ get_url(path='/studynote/04_software_engineering/') }}">04. Software Engineering</a></li>
-                            <li><a href="{{ get_url(path='/studynote/05_database/') }}">05. Database</a></li>
-                            <li><a href="{{ get_url(path='/studynote/06_ict_convergence/') }}">06. ICT Convergence</a></li>
-                            <li><a href="{{ get_url(path='/studynote/07_enterprise_systems/') }}">07. Enterprise Systems</a></li>
-                            <li><a href="{{ get_url(path='/studynote/08_algorithm_stats/') }}">08. Algorithm & Stats</a></li>
-                            <li><a href="{{ get_url(path='/studynote/09_security/') }}">09. Security</a></li>
-                            <li><a href="{{ get_url(path='/studynote/10_ai/') }}">10. AI</a></li>
-                            <li><a href="{{ get_url(path='/studynote/11_design_supervision/') }}">11. Design & Supervision</a></li>
-                            <li><a href="{{ get_url(path='/studynote/12_it_management/') }}">12. IT Management</a></li>
-                            <li><a href="{{ get_url(path='/studynote/13_cloud_architecture/') }}">13. Cloud Architecture</a></li>
-                            <li><a href="{{ get_url(path='/studynote/14_data_engineering/') }}">14. Data Engineering</a></li>
-                            <li><a href="{{ get_url(path='/studynote/15_devops_sre/') }}">15. DevOps & SRE</a></li>
-                            <li><a href="{{ get_url(path='/studynote/16_bigdata/') }}">16. Big Data</a></li>
+                            <li><a href="{{ get_url(path='/cspe/') }}">키워드 노트 허브</a></li>
+                            <li><a href="{{ get_url(path='/cspe/01_basic_theory/') }}">1. 컴퓨터 기초이론</a></li>
+                            <li><a href="{{ get_url(path='/cspe/02_hardware/') }}">2. 하드웨어 시스템</a></li>
+                            <li><a href="{{ get_url(path='/cspe/03_software/') }}">3. 시스템·응용 SW</a></li>
+                            <li><a href="{{ get_url(path='/cspe/04_network/') }}">4. 통신·네트워크</a></li>
+                            <li><a href="{{ get_url(path='/cspe/05_security/') }}">5. 시스템 보안</a></li>
+                            <li><a href="{{ get_url(path='/cspe/06_evaluation/') }}">6. 시스템 평가</a></li>
+                            <li><a href="{{ get_url(path='/cspe/07_law_policy/') }}">7. 법규·정책·표준</a></li>
+                            <li><a href="{{ get_url(path='/cspe/08_latest_tech/') }}">8. 최신 기술 동향</a></li>
                         </ul>
                     </details>
 

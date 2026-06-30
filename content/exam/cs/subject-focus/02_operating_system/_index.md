@@ -13,7 +13,7 @@ weight: 92
 
 ## Ⅰ. 과목 개요
 
-- 총 노트 수: `701`
+- 기준: 컴퓨터시스템응용기술사 120~138회 기출·빈도분석·운영체제 출제동향 기반 핵심 압축.
 - 우선 학습 챕터: `01_overview_architecture` · `02_process_thread` · `03_cpu_scheduling` · `04_synchronization` · `05_deadlock` · `06_memory_management` · `07_virtual_memory` · `10_security`
 - 출제 축: 프로세스/스레드, CPU 스케줄링, 병행성·동기화, 교착상태, 메인·가상 메모리, I/O·파일시스템, 가상화·컨테이너
 - 학습 전략: 1교시 단답 키워드를 먼저 고정 → 같은 키워드를 2~4교시 서술(비교·튜닝·방안)로 확장
@@ -128,4 +128,3 @@ weight: 92
 - **메모리·보안 격리**: 커널 페이지 테이블 격리(KPTI), Meltdown/Spectre 대응, 메모리 암호화(Intel SGX, AMD SEV).
 - **경량 가상화**: 마이크로 가상머신(MicroVM), 유니커널(Unikernel), 하드웨어 보조 가상화(Intel VT-x/AMD-V).
 - **실시간·전력**: PREEMPT_RT, 에너지 인지 스케줄링(EAS), 틱리스 커널.
-

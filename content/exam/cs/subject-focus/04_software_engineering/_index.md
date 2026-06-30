@@ -7,7 +7,7 @@ weight: 94
 
 # 04. 소프트웨어공학
 
-소프트웨어공학 과목을 `스터디노트의 학습 흐름`에 맞춰 재구성했습니다. 각 페이지는 `1교시 단답형 기본 골격`과 `2~4교시 서술형 확장 프레임`을 함께 제공하며, 정의·구조·비교·실무 판단이 바로 답안으로 이어지도록 맞췄습니다.
+소프트웨어공학 과목을 컴퓨터시스템응용기술사 기출·출제동향에 맞춰 재구성했습니다. 각 페이지는 `1교시 단답형 기본 골격`과 `2~4교시 서술형 확장 프레임`을 함께 제공하며, 정의·구조·비교·실무 판단이 바로 답안으로 이어지도록 맞췄습니다.
 
 ## 답안 활용 기준
 
@@ -19,7 +19,7 @@ weight: 94
 
 ## 생명주기·프로세스·관리 기반
 
-- 스터디노트 기반 축: `01_overview_principles, 10_trends_pm_quality`
+- 시험 출제 축: 생명주기·프로세스·관리
 - 출제 관점: 생명주기, 프로세스 성숙도, 형상·품질·원가·일정·위험 관리를 통합적으로 정리하는 축
 
 - [001. 소프트웨어 개발 생명주기 (SDLC)](001_sdlc.md)
@@ -36,7 +36,7 @@ weight: 94
 
 ## 애자일·DevOps·지속적 전달
 
-- 스터디노트 기반 축: `02_requirements_analysis, 05_devops_ci_cd`
+- 시험 출제 축: 애자일·DevOps·지속적 전달
 - 출제 관점: 애자일 실행체계와 DevOps 자동화를 연결해 빠른 전달과 운영 피드백을 묻는 축
 
 - [012. 애자일 선언문 (Agile Manifesto)](012_agile-manifesto.md)
@@ -62,7 +62,7 @@ weight: 94
 
 ## 요구공학·분석·명세
 
-- 스터디노트 기반 축: `02_requirements_analysis, 03_design_architecture`
+- 시험 출제 축: 요구공학·모델링·설계
 - 출제 관점: 요구 도출, 우선순위, 명세, 추적성으로 프로젝트 실패를 줄이는 분석 축
 
 - [032. 요구공학 (Requirements Engineering)](032_requirements-engineering.md)
@@ -82,7 +82,7 @@ weight: 94
 
 ## 아키텍처·설계·코드 품질
 
-- 스터디노트 기반 축: `03_design_architecture, 06_software_architecture, 07_object_oriented`
+- 시험 출제 축: 아키텍처·객체지향·설계 원칙
 - 출제 관점: 모듈성, 설계 원칙, 아키텍처 스타일, 패턴, 품질속성을 판단하는 축
 
 - [046. 응집도·결합도 (Cohesion·Coupling)](046_cohesion-coupling.md)
@@ -121,7 +121,7 @@ weight: 94
 
 ## 품질공학·검증·테스팅
 
-- 스터디노트 기반 축: `04_testing_quality, 11_testing_validation, 12_testing_maintenance`
+- 시험 출제 축: 테스팅·품질·유지보수
 - 출제 관점: 검증·확인, 테스트 설계, 커버리지, 성능, 회귀 전략을 묻는 축
 
 - [079. 테스팅 7원리 (Testing Principles)](079_testing-principles.md)
@@ -135,7 +135,7 @@ weight: 94
 
 ## 클라우드 네이티브·분산 아키텍처 운영
 
-- 스터디노트 기반 축: `05_devops_ci_cd, 09_cloud_native_ai_architecture, 11_testing_validation`
+- 시험 출제 축: 클라우드 네이티브·AI 기반 SW공학
 - 출제 관점: 컨테이너, 서비스 통신, 분산 트랜잭션, 관측성과 복원력을 묻는 운영형 축
 
 - [087. 컨테이너·쿠버네티스 (Container·Kubernetes)](087_container-kubernetes.md)
@@ -152,7 +152,7 @@ weight: 94
 
 ## 보안 내재화·공급망 신뢰
 
-- 스터디노트 기반 축: `08_security_compliance_devsecops, 11_testing_validation`
+- 시험 출제 축: Secure SDLC·DevSecOps·공급망 보안
 - 출제 관점: Secure SDLC, 위협 모델링, OSS 공급망 통제를 예방 관점으로 정리하는 축
 
 - [098. 시큐어 SDLC (Secure SDLC)](098_secure-sdlc.md)
@@ -162,7 +162,7 @@ weight: 94
 
 ## 최신 실행기술·AI 기반 공학
 
-- 스터디노트 기반 축: `09_cloud_native_ai_architecture, 10_trends_pm_quality`
+- 시험 출제 축: 최신 SW공학·프로젝트 품질
 - 출제 관점: 런타임 혁신과 AI 기반 공학을 도입 효과와 제약까지 묶어 설명하는 축
 
 - [102. 가상 스레드 (Virtual Threads)](102_virtual-threads.md)
