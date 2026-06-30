@@ -87,6 +87,6 @@ weight: 4
 
 ## 바로 연결할 문서
 
-- [기출 빈도 분석](frequency/)
-- [1교시 단답형 200](shortanswer/)
-- [컴퓨터시스템응용기술사 핵심 2,000](../../learning_paths/cspe-core-2000/)
+- [기출 빈도 분석](@/exam/cs/frequency.md)
+- [1교시 단답형 200](@/exam/cs/shortanswer.md)
+- [컴퓨터시스템응용기술사 핵심 키워드 1000](@/exam/cs/keyword_list.md)
