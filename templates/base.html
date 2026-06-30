@@ -32,8 +32,15 @@
 <body>
     <div class="navigation-progress" id="navigation-progress"></div>
     {% set root = get_section(path="_index.md") %}
+    {% if page %}
+        {% set layout_path = page.path %}
+    {% elif section %}
+        {% set layout_path = section.path %}
+    {% else %}
+        {% set layout_path = "/" %}
+    {% endif %}
 
-    <div class="page" data-frame="default">
+    <div class="page{% if layout_path == '/' %} page-home{% endif %}" data-frame="default">
         <div id="page-body">
             <aside class="left sidebar">
                 <a href="{{ get_url(path='/') }}" class="site-title">
