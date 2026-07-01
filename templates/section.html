@@ -17,8 +17,6 @@
 {% endif %}
 
 {% set is_cspe_hub = section.path == "/exam/cs/" %}
-{% set is_cspe_subject_hub = section.path == "/exam/cs/subject-focus/" %}
-{% set is_cspe_subject = section.path is starting_with("/exam/cs/subject-focus/") and section.path != "/exam/cs/subject-focus/" %}
 {% set show_content_first = false %}
 
 {% if show_content_first and section.content %}
@@ -27,19 +25,7 @@
 </article>
 {% endif %}
 
-{% if is_cspe_hub or is_cspe_subject_hub %}
-    {% set listing_section = section %}
-    {% if is_cspe_hub %}
-        {% set listing_section = get_section(path="exam/cs/subject-focus/_index.md") %}
-    {% endif %}
-
-    {% set subs = [] %}
-    {% for sub_path in listing_section.subsections %}
-        {% set sub_obj = get_section(path=sub_path) %}
-        {% set_global subs = subs | concat(with=sub_obj) %}
-    {% endfor %}
-
-    {% if is_cspe_hub %}
+{% if is_cspe_hub %}
     <section class="dashboard-block">
         <h2 class="home-section-title">실전 문서</h2>
         <div class="subject-grid dashboard-grid">
@@ -52,47 +38,9 @@
             {% endfor %}
         </div>
     </section>
-    {% endif %}
-
-    <section class="dashboard-block">
-        <h2 class="home-section-title">{% if is_cspe_hub %}16과목 시험 트랙{% else %}과목별 시험 트랙{% endif %}</h2>
-        <div class="subject-grid dashboard-grid">
-            {% for sub in subs %}
-            {% set sub_path_parts = sub.path | split(pat="/") %}
-            {% set sub_folder = sub_path_parts | slice(start=-2, end=-1) | first %}
-            {% set sub_num = sub_folder | split(pat="_") | first %}
-            {% set subject_page_count = sub.pages | length %}
-            <a class="subject-card dashboard-card" href="{{ sub.permalink }}">
-                <span class="subject-num">{{ sub_num }}</span>
-                <span class="subject-name">{{ sub.title }}</span>
-                <p class="subject-desc">{% if subject_page_count > 0 %}키워드 {{ subject_page_count }}개 · 과목 허브에서 바로 진입{% else %}과목 허브와 시험 답안 축부터 확인{% endif %}</p>
-            </a>
-            {% endfor %}
-        </div>
-    </section>
 {% else %}
-    {% if is_cspe_subject %}
-    <div class="subject-strip">
-        <div class="subject-strip-item">
-            <span class="subject-strip-label">키워드</span>
-            <strong>{{ section.pages | length }}개</strong>
-        </div>
-        <div class="subject-strip-item">
-            <span class="subject-strip-label">사용 방식</span>
-            <strong>검색 후 바로 답안형 본문</strong>
-        </div>
-        <div class="subject-strip-item">
-            <span class="subject-strip-label">확장 기준</span>
-            <strong>1교시 앞부분 + 2~4교시 확장</strong>
-        </div>
-    </div>
-    {% endif %}
-
     <div class="folder-list">
         {% set listing_section = section %}
-        {% if section.path == "/exam/cs/" %}
-            {% set listing_section = get_section(path="exam/cs/subject-focus/_index.md") %}
-        {% endif %}
 
         {% set subs = [] %}
         {% for sub_path in listing_section.subsections %}
@@ -113,7 +61,6 @@
 
         {% set sorted_pages = listing_section.pages | sort(attribute="relative_path") %}
         {% for page in sorted_pages %}
-        {% if not page.relative_path is ending_with("keyword_list.md") %}
         {% set path_parts = page.relative_path | split(pat="/") %}
         {% set filename = path_parts | last %}
         {% set file_num = filename | split(pat="_") | first %}
@@ -129,7 +76,6 @@
                 {% include "icons/check.html" %}
             </button>
         </div>
-        {% endif %}
         {% endfor %}
     </div>
 {% endif %}

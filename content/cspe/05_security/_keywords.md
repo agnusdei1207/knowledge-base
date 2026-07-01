@@ -8,7 +8,7 @@ weight: 1
 
 # 5. 시스템 보안 출제동향 키워드 (목표 240개)
 
-> 출처: 120~138회 기출 + frequency.md + 공식 8대영역 + 전망. CS(개인 학습용)·keyword_list.md 미사용.
+> 출처: 120~138회 기출 + frequency.md + 공식 8대영역 + 전망. 개인 학습 목록 미사용.
 
 ## 암호학 (Cryptography)
 

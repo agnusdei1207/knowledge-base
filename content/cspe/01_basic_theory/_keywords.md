@@ -8,7 +8,7 @@ weight: 1
 
 # 1. 컴퓨터 기초이론 출제동향 키워드 (목표 80개)
 
-> 출처: 120~138회 기출 + frequency.md + 공식 8대영역 + 전망. CS(개인 학습용)·keyword_list.md 미사용.
+> 출처: 120~138회 기출 + frequency.md + 공식 8대영역 + 전망. 개인 학습 목록 미사용.
 
 001. 알고리즘 시간복잡도·공간복잡도 (Time/Space Complexity) [출제:131회]
 002. 빅오 표기법 (Big-O Notation) [출제:131회]

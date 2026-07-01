@@ -8,7 +8,7 @@ weight: 1
 
 # 2. 하드웨어 시스템 출제동향 키워드 (목표 140개)
 
-> 출처: 120~138회 기출 + frequency.md + 공식 8대영역 + 전망. CS(개인 학습용)·keyword_list.md 미사용.
+> 출처: 120~138회 기출 + frequency.md + 공식 8대영역 + 전망. 개인 학습 목록 미사용.
 
 001. 컴퓨터 구조 개요 — 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)
 002. CPU 구성 — ALU·CU·레지스터·버스 (CPU Components)
