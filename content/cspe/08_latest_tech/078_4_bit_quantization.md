@@ -39,7 +39,9 @@ weight: 78
 
 ## Ⅰ. 개요 및 필요성
 
-4-bit Quantization은 LLM 가중치 초저비트 압축 기법임. 대형 모델의 GPU 메모리 병목을 완화해 단일 GPU, AI PC, 저비용 서빙 환경에서 모델 실행 가능성을 높임.
+- 개요: LLM 가중치 초저비트 압축 기법
+- 배경: 7B~70B LLM은 FP16 weight만으로도 수십~수백 GB VRAM을 요구해 단일 GPU·AI PC 배포가 제한됨.
+- 필요성: INT4/NF4, group-wise scale, dequant kernel로 VRAM 사용량을 낮추고 perplexity·MMLU 회귀를 측정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -52,7 +54,7 @@ FP16 Weights -> Grouping -> Scale 계산 -> 4-bit 저장
 |:---|:---|:---|
 | Group-wise Scale | weight 그룹별 범위 보정 | group size 32~128 |
 | 4-bit Code | 16단계 값 저장 | NF4/INT4 등 |
-| Dequantization | 연산 전 실수 복원 | kernel 효율 중요 |
+| Dequantization | 연산 전 실수 복원 | kernel 처리량 확인 |
 | Evaluation | 품질 회귀 측정 | perplexity, MMLU |
 
 > 요약: 4-bit 양자화는 그룹별 scale로 오차를 보정하면서 weight 저장 비용을 FP16 대비 약 25% 수준으로 낮춤.
@@ -89,7 +91,7 @@ FP16 Weights -> Grouping -> Scale 계산 -> 4-bit 저장
 **적용 방안 3개:**
 1. 7B~13B 사내 SLM은 AWQ/GPTQ 4-bit로 변환하고 MMLU·사내 QA 하락 2%p 이내 기준 검증
 2. 장문 LLM 서빙은 weight 4-bit와 KV cache INT8을 분리 적용해 VRAM과 TPOT를 동시에 측정
-3. 중요 업무는 layer별 mixed precision을 적용해 outlier layer는 FP16/INT8로 유지
+3. 고위험 업무는 layer별 mixed precision을 적용해 outlier layer는 FP16/INT8로 유지
 
 **결론 (2줄):**
 - 기술사 판단: VRAM 병목이 크고 정확도 허용폭 1~3%p가 있으면 4-bit, 정확도 민감 업무는 INT8/FP16을 선택함.

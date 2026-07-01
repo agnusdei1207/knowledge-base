@@ -43,7 +43,9 @@ weight: 25
 
 ## Ⅰ. 개요 및 필요성
 
-Agent Evaluation은 AI 에이전트 운영 품질 평가임. Agent는 답변 생성뿐 아니라 도구 실행과 업무 완료를 수행하므로 다차원 평가가 필요함.
+- 개요: AI 에이전트 운영 품질 평가
+- 배경: Agent는 답변 생성뿐 아니라 도구 실행과 업무 완료를 수행하므로 정답률 하나로 운영 품질을 판단하기 어려움.
+- 필요성: task success rate, tool error rate, cost per task, audit pass rate로 실행 품질을 측정해야 함.
 
 ---
 

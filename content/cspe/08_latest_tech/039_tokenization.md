@@ -43,7 +43,9 @@ weight: 39
 
 ## Ⅰ. 개요 및 필요성
 
-토큰화는 텍스트의 숫자 ID 변환 과정임. LLM은 문자열을 직접 연산하지 못하므로 BPE·WordPiece·SentencePiece로 입력을 부분단어 ID로 변환하고, 임베딩 테이블을 통해 벡터화함.
+- 개요: 텍스트의 숫자 ID 변환
+- 배경: LLM은 문자열을 직접 연산하지 못하므로 문장을 모델 어휘집의 정수 ID 시퀀스로 변환해야 함.
+- 필요성: BPE, WordPiece, SentencePiece와 vocabulary size 기준으로 OOV·토큰 길이·비용을 통제해야 함.
 
 ---
 

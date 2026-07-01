@@ -39,7 +39,9 @@ weight: 103
 
 ## Ⅰ. 개요 및 필요성
 
-Advanced RAG는 품질 통제형 RAG 구조임. Naive RAG는 Top-K 검색 결과를 그대로 사용해 무관 문서와 중복 청크가 답변 오류를 유발한다. 운영 환경에서는 쿼리 변환, 하이브리드 검색, 리랭킹, 평가 지표가 함께 필요하다.
+- 개요: 품질 통제형 RAG 구조
+- 배경: Naive RAG는 Top-K 검색 결과를 그대로 사용해 무관 문서와 중복 청크가 답변 오류로 전파될 수 있음.
+- 필요성: query rewrite, hybrid search, cross-encoder reranking, Ragas faithfulness 등 평가 지표로 검색-생성 품질을 통제해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

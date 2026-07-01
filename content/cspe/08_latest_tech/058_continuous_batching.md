@@ -41,7 +41,9 @@ weight: 58
 
 ## Ⅰ. 개요 및 필요성
 
-Continuous Batching은 LLM 동적 배치 처리 방식임. 요청별 생성 길이가 다른 LLM 서빙에서 고정 배치의 자원 낭비를 줄이기 위해, 완료 요청을 즉시 제거하고 새 요청을 배치에 투입함.
+- 개요: LLM 동적 배치 처리 방식
+- 배경: 요청별 생성 길이가 다른 LLM 서빙에서 고정 배치는 완료 요청이 남긴 빈 슬롯 때문에 GPU 사용률이 낮아짐.
+- 필요성: token-level scheduling, prefill/decode split, admission control로 대기열 지연과 GPU 활용률을 관리해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

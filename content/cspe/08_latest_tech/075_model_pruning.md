@@ -39,7 +39,9 @@ weight: 75
 
 ## Ⅰ. 개요 및 필요성
 
-모델 프루닝은 불필요한 모델 요소를 제거하는 압축 기법임. 대형 모델의 배포 비용과 지연을 낮추기 위해 정확도 기여가 낮은 가중치·채널·헤드·레이어를 제거함.
+- 개요: 기여 낮은 모델 요소 제거 기법
+- 배경: over-parameterized 모델은 정확도 기여가 낮은 weight·channel·head·layer까지 포함해 메모리와 FLOPs를 소모함.
+- 필요성: structured pruning, importance metric, fine-tuning으로 FLOPs·latency 감소와 정확도 회귀를 동일 평가셋에서 확인해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

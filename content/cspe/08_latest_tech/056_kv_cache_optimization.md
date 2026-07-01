@@ -41,7 +41,9 @@ weight: 56
 
 ## Ⅰ. 개요 및 필요성
 
-KV Cache 최적화는 LLM 디코딩 메모리 관리 기법임. Auto-regressive 생성은 과거 토큰을 계속 참조하므로, K/V 텐서를 저장·재사용해 반복 계산을 제거하고 동시 요청 처리량을 확보함.
+- 개요: LLM 디코딩 메모리 관리
+- 배경: Auto-regressive 생성은 과거 토큰의 K/V 텐서를 매 토큰마다 참조해 GPU 메모리 사용량이 증가함.
+- 필요성: KV cache, quantization, eviction, offload로 반복 계산 제거와 동시 요청 처리량 기준을 관리해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

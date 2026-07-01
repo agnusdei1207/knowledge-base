@@ -39,7 +39,9 @@ weight: 62
 
 ## Ⅰ. 개요 및 필요성
 
-TPOT는 토큰당 출력 지연 시간임. LLM 서비스는 첫 토큰 이후에도 수백~수천 토큰을 순차 생성하므로, TPOT 관리는 장문 답변 완료 시간과 streaming 체감 속도를 결정함.
+- 개요: LLM 토큰당 출력 지연 시간
+- 배경: LLM은 첫 토큰 이후에도 수백~수천 토큰을 auto-regressive 방식으로 순차 생성함.
+- 필요성: streaming UX와 장문 완료 시간은 ms/token 기준 TPOT, KV cache 대역폭, decode batch 크기로 관리해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

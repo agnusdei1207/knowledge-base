@@ -39,7 +39,9 @@ weight: 76
 
 ## Ⅰ. 개요 및 필요성
 
-양자화는 모델 수치 정밀도 축소 기법임. 대형 모델의 메모리와 대역폭 병목을 줄여 지연·전력·GPU 비용을 낮추기 위해 INT8/INT4 등 저비트 표현을 적용함.
+- 개요: 모델 수치 정밀도 축소 기법
+- 배경: FP16/FP32 모델은 weight·activation 저장과 메모리 대역폭 사용량이 커서 추론 지연과 GPU 비용을 증가시킴.
+- 필요성: INT8/INT4, PTQ/QAT, calibration set, quantized kernel로 VRAM·latency·정확도 회귀를 함께 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -50,7 +52,7 @@ FP Model -> Calibration/Scale 계산 -> INT8/INT4 변환
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Scale/Zero-point | 실수↔정수 매핑 | per-tensor/per-channel |
+| Scale/Zero-point | 실수-정수 매핑 | per-tensor/per-channel |
 | PTQ | 학습 후 양자화 | calibration set 필요 |
 | QAT | 학습 중 양자화 반영 | 정확도 보존에 유리 |
 | Quantized Kernel | 저비트 연산 실행 | HW 지원 필수 |

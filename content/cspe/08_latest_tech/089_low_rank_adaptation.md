@@ -20,7 +20,7 @@ weight: 89
 - **작동 원리**: 선형층에 `W x + (B A)x * α/r` 형태의 LoRA branch를 추가하고 A·B만 학습함. 추론 시 LoRA weight를 base weight에 merge할 수 있음.
 - **비유**: 원본 계약서를 새로 쓰지 않고, 특정 조항에 부속 합의서를 붙여 업무 조건만 조정하는 것과 같음.
 - **구체 예시**: rank r=8~64로 attention q_proj/v_proj에 적용하면 학습 파라미터를 전체 대비 1% 미만으로 줄일 수 있음.
-- **흔한 오해·주의점**: rank를 높이면 항상 좋아지는 것이 아님. rank가 높으면 overfitting과 adapter 크기가 증가하므로 평가셋 기준으로 선택해야 함.
+- **흔한 오해·주의점**: rank 증가는 성능 향상을 보장하지 않음. rank가 높으면 overfitting과 adapter 크기가 증가하므로 평가셋 기준으로 선택해야 함.
 
 ## 연결 개념
 - PEFT — LoRA의 상위 범주
@@ -39,7 +39,9 @@ weight: 89
 
 ## Ⅰ. 개요 및 필요성
 
-LoRA는 저랭크 기반 파라미터 효율 튜닝 기법임. 대형 모델 전체를 업데이트하지 않고, 선형층의 변화량만 작은 행렬로 학습해 비용 효율적 도메인 적응을 수행함.
+- 개요: 저랭크 기반 PEFT 튜닝 기법
+- 배경: 대형 모델 전체 weight를 업데이트하면 GPU 메모리, optimizer state, 저장 비용이 커져 도메인별 실험 반복이 제한됨.
+- 필요성: rank r, alpha, target module, adapter merge 전략으로 trainable parameter 비율과 평가셋 성능을 함께 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

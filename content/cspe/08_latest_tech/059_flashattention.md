@@ -41,7 +41,9 @@ weight: 59
 
 ## Ⅰ. 개요 및 필요성
 
-FlashAttention은 IO-aware Attention 최적화 알고리즘임. Transformer Attention은 N² 점수 행렬 저장으로 HBM 대역폭 병목이 발생하므로, SRAM tile 계산과 online softmax로 메모리 접근량을 줄임.
+- 개요: IO-aware Attention 최적화
+- 배경: Transformer Attention은 N² 점수 행렬을 HBM에 저장·읽기 때문에 긴 시퀀스에서 메모리 대역폭 병목이 발생함.
+- 필요성: SRAM tiling, online softmax, recomputation으로 HBM 접근량과 Attention 메모리 사용량을 줄여야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

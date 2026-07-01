@@ -41,7 +41,9 @@ weight: 57
 
 ## Ⅰ. 개요 및 필요성
 
-PagedAttention은 KV Cache 페이지 관리 기법임. LLM 서빙은 요청마다 context/output 길이가 달라 GPU 메모리 단편화가 발생하므로, KV를 고정 크기 블록으로 관리해 동시성·처리량을 확보함.
+- 개요: KV Cache 페이지 관리 기법
+- 배경: LLM 서빙은 요청마다 context/output 길이가 달라 GPU 메모리 단편화와 preemption 비용이 발생함.
+- 필요성: fixed-size block, block table, copy-on-write로 KV 메모리 낭비와 동시성 한계를 관리해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

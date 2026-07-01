@@ -39,7 +39,9 @@ weight: 81
 
 ## Ⅰ. 개요 및 필요성
 
-지식증류는 teacher-student 기반 모델 압축 기법임. 대형 LLM의 비용·지연 한계를 완화하기 위해 teacher의 출력 분포와 추론 패턴을 작은 student model에 이전함.
+- 개요: teacher-student 모델 압축 기법
+- 배경: 대형 LLM은 배포 비용과 지연이 커서 모든 요청을 원본 모델로 처리하기 어려움.
+- 필요성: soft label, rationale, KL loss, student model 평가로 teacher 품질을 1B~13B 모델에 이전하고 정확도 회귀를 측정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

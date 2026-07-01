@@ -16,7 +16,7 @@ weight: 87
 - **핵심 직관**: 책을 많이 읽은 사람에게 업무 지시를 받았을 때 어떤 산출물을 내야 하는지 훈련하는 과정임.
 
 ## 깊이 이해
-- **배경·문제의식**: Pretrained LM은 지식은 많지만 사용자의 의도와 출력 포맷을 안정적으로 따르지 못함. Instruction Tuning은 다양한 task instruction과 답변 예시를 학습해 범용 지시 수행 능력을 만든다.
+- **배경·문제의식**: Pretrained LM은 지식은 많지만 사용자의 의도와 출력 포맷을 일관되게 따르지 못함. Instruction Tuning은 다양한 task instruction과 답변 예시를 학습해 범용 지시 수행 능력을 만든다.
 - **작동 원리**: 지시문, 입력 맥락, 기대 출력으로 구성된 데이터셋을 SFT로 학습함. 여러 태스크를 섞어 학습하면 unseen task에도 zero-shot 수행력이 향상됨.
 - **비유**: 박식한 인턴에게 “회의록 요약”, “위험 표 작성”, “고객 답변 작성” 훈련을 반복시키는 것과 같음.
 - **구체 예시**: Alpaca류 데이터는 teacher LLM으로 생성한 instruction-response 쌍을 사용해 작은 모델의 지시 수행 능력을 높임.
@@ -39,7 +39,9 @@ weight: 87
 
 ## Ⅰ. 개요 및 필요성
 
-Instruction Tuning은 지시 수행 능력 학습 기법임. 사전학습 모델이 사용자 명령과 출력 형식을 안정적으로 따르도록, 다양한 지시-응답 예시로 supervised fine-tuning을 수행함.
+- 개요: 지시 수행 능력 학습 기법
+- 배경: 사전학습 모델은 지식은 보유하지만 사용자 명령, 출력 형식, 제한 조건을 일관되게 따르지 못할 수 있음.
+- 필요성: instruction-response dataset, supervised fine-tuning, format adherence 평가로 지시 준수율과 안전 기준을 측정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

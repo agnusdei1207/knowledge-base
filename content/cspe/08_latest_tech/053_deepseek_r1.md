@@ -43,7 +43,9 @@ weight: 53
 
 ## Ⅰ. 개요 및 필요성
 
-DeepSeek-R1은 공개 계열 추론 특화 LLM임. 폐쇄형 API 기반 reasoning model의 비용·데이터 반출 제약을 보완하기 위해 온프레미스·프라이빗 클라우드에서 운용 가능한 공개 모델 대안으로 주목됨.
+- 개요: 공개 계열 추론 특화 LLM
+- 배경: 폐쇄형 API 기반 reasoning model은 비용·데이터 반출·모델 통제 제약이 있어 민감 업무 적용 범위가 제한됨.
+- 필요성: RL, distillation, open weight, private serving으로 온프레미스·프라이빗 클라우드 적용 기준을 검토해야 함.
 
 ---
 

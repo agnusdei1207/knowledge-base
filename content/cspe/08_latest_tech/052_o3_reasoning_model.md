@@ -43,7 +43,9 @@ weight: 52
 
 ## Ⅰ. 개요 및 필요성
 
-o3는 OpenAI의 추론 특화 모델임. 일반 생성형 AI는 단일 토큰 생성 경로에 의존해 다단계 문제에서 오류가 누적되므로, 내부 사고·검증 연산을 늘린 reasoning model이 필요함.
+- 개요: OpenAI 추론 특화 모델
+- 배경: 일반 생성형 AI는 단일 토큰 생성 경로에 의존해 다단계 문제에서 초기 오류가 누적될 수 있음.
+- 필요성: internal reasoning, verifier, tool use, compute budget으로 고난도 문제 정확도와 지연·비용을 평가해야 함.
 
 ---
 

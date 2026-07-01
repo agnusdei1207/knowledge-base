@@ -39,7 +39,9 @@ weight: 66
 
 ## Ⅰ. 개요 및 필요성
 
-TensorRT-LLM은 NVIDIA 기반 LLM 추론 최적화 프레임워크임. 대형 모델 서빙은 GPU 비용과 지연이 핵심 제약이므로, 커널 융합·양자화·병렬화로 inference runtime을 최적화함.
+- 개요: NVIDIA LLM 추론 최적화 프레임워크
+- 배경: 대형 모델 서빙은 GPU 메모리, Tensor Core 활용률, decode 지연이 비용과 SLA를 제한함.
+- 필요성: kernel fusion, INT8/FP8 quantization, tensor parallelism, inflight batching으로 tokens/s와 p95 latency를 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

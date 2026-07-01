@@ -39,7 +39,9 @@ weight: 79
 
 ## Ⅰ. 개요 및 필요성
 
-GPTQ는 LLM weight-only post-training quantization 기법임. 대형 LLM의 GPU 메모리 병목을 줄이면서 단순 저비트 변환의 품질 하락을 Hessian 기반 오차 보정으로 완화함.
+- 개요: LLM weight-only PTQ 기법
+- 배경: 단순 4-bit 변환은 layer별 양자화 오차가 누적되어 답변 품질과 perplexity를 악화시킬 수 있음.
+- 필요성: calibration data, Hessian 근사, group quantization, error compensation으로 VRAM 절감과 품질 회귀를 동시에 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

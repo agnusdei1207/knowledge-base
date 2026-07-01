@@ -39,7 +39,9 @@ weight: 108
 
 ## Ⅰ. 개요 및 필요성
 
-Multi-hop RAG는 다단계 검색형 RAG임. 복합 질문은 답이 여러 문서에 분산되어 있어 단일 Top-K 검색만으로 충분한 근거를 얻기 어렵다. 질의 분해와 반복 검색으로 근거 체인을 구성한다.
+- 개요: 다단계 검색형 RAG 구조
+- 배경: 복합 질문은 답의 근거가 여러 문서·엔티티에 분산되어 단일 Top-K 검색만으로 supporting fact를 확보하기 어려움.
+- 필요성: query decomposition, hop planner, max_hop=2~3, evidence chain으로 다문서 근거 연결성과 출처 추적성을 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

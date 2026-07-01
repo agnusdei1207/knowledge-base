@@ -39,7 +39,9 @@ weight: 91
 
 ## Ⅰ. 개요 및 필요성
 
-Adapter Tuning은 모듈 삽입형 PEFT 기법임. 전체 LLM을 업무별로 학습·저장하기 어렵기 때문에, base model은 고정하고 작은 adapter만 추가 학습함.
+- 개요: 모듈 삽입형 PEFT 기법
+- 배경: 업무별 전체 모델을 따로 학습·저장하면 모델 관리와 배포 용량이 도메인 수만큼 증가함.
+- 필요성: bottleneck adapter, adapter routing, 업무별 모듈 저장으로 base model 공유와 task별 정확도 회귀를 관리해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -92,7 +94,7 @@ base model freeze -> adapter 삽입 -> adapter만 학습
 3. 실시간 API는 LoRA merge 가능성을 우선 검토하고, 다테넌트 분리 요구가 크면 Adapter를 적용
 
 **결론 (2줄):**
-- 기술사 판단: 업무별 모듈 격리와 관리성이 중요하면 Adapter, latency와 merge가 중요하면 LoRA를 선택함.
+- 기술사 판단: 업무별 모듈 격리와 관리성을 우선하면 Adapter, latency와 merge를 우선하면 LoRA를 선택함.
 - 향후 방향: Adapter는 multi-tenant LLM serving과 domain routing에서 모듈형 적응 방식으로 활용됨.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)

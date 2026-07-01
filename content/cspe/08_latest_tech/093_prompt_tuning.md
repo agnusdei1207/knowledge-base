@@ -39,7 +39,9 @@ weight: 93
 
 ## Ⅰ. 개요 및 필요성
 
-Prompt Tuning은 soft prompt 기반 경량 튜닝 기법임. 전체 모델 학습 없이 입력 embedding 앞에 학습 가능한 prompt vector를 붙여 task별 성능을 개선함.
+- 개요: soft prompt 기반 경량 튜닝 기법
+- 배경: 전체 모델 학습 없이 task별 출력 방향을 조정해야 하지만 수작업 prompt는 재현성과 평가 관리가 어렵다.
+- 필요성: trainable prompt vector, prompt length, frozen LM 구조로 task score와 추론 입력 길이 증가분을 함께 측정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

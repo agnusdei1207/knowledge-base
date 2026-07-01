@@ -43,7 +43,9 @@ weight: 8
 
 ## Ⅰ. 개요 및 필요성
 
-MCP Client는 MCP 호출 주체임. 에이전트가 여러 서버와 도구를 사용할 때 연결관리, 세션분리, 결과 반영, 오류 처리를 담당하는 계층이 필요함.
+- 개요: MCP 호출 주체 계층
+- 배경: 에이전트가 여러 MCP Server와 도구를 사용할 때 연결관리·세션분리·오류 처리가 분산됨.
+- 필요성: Client Session, Permission Prompt, Result Handling으로 서버별 권한과 도구 결과 반영 기준을 통제해야 함.
 
 ---
 

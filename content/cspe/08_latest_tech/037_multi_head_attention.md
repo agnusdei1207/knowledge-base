@@ -41,7 +41,9 @@ weight: 37
 
 ## Ⅰ. 개요 및 필요성
 
-Multi-Head Attention은 복수 Attention 병렬 구조임. Transformer는 단일 Attention의 표현 한계를 보완하기 위해 입력을 여러 부분공간에 투영하고, 각 Head가 다른 관계 패턴을 학습하도록 구성함.
+- 개요: 복수 Attention 병렬 구조
+- 배경: 단일 Attention은 한 번의 유사도 공간에 의존해 문법·의미·위치 관계를 동시에 분리하기 어려움.
+- 필요성: Head별 Wq/Wk/Wv 투영, concat, Wo 출력으로 관계 패턴을 병렬 학습하는 구조를 설명해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

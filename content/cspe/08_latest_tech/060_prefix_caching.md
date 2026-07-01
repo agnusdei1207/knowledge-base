@@ -41,7 +41,9 @@ weight: 60
 
 ## Ⅰ. 개요 및 필요성
 
-Prefix Caching은 공통 프롬프트 KV 재사용 기법임. LLM 서비스는 system prompt와 정책 문구를 반복 포함하므로, 동일 prefix prefill을 재사용해 TTFT와 GPU compute 낭비를 줄임.
+- 개요: 공통 프롬프트 KV 재사용
+- 배경: LLM 서비스는 system prompt와 정책 문구를 반복 포함하므로 동일 prefix prefill 계산이 요청마다 중복됨.
+- 필요성: cache key, exact token match, eviction policy, tenant isolation으로 TTFT와 GPU compute 낭비를 줄여야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

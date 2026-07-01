@@ -39,20 +39,22 @@ weight: 71
 
 ## Ⅰ. 개요 및 필요성
 
-NPU는 AI 추론 전용 프로세서임. 온디바이스·엣지 AI 확산으로 배터리와 발열 제약 안에서 행렬 연산을 처리할 전력 효율형 가속기가 필요함.
+- 개요: AI 추론 전용 행렬 연산 프로세서
+- 배경: CPU·GPU만으로 모바일·PC 상시 AI를 처리하면 배터리 소모와 발열 제약이 커짐.
+- 필요성: MAC array, on-chip SRAM, INT8/FP16 연산, TOPS/Watt 기준으로 로컬 추론 성능과 전력 예산을 함께 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
 CPU Control -> NPU Compiler -> MAC/Systolic Array
-      ↔ On-chip SRAM ↔ DRAM -> Output Tensor
+      <-> On-chip SRAM <-> DRAM -> Output Tensor
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | MAC Array | 행렬곱·컨볼루션 연산 | INT8/FP16 등 |
 | On-chip SRAM | activation·weight 재사용 | DRAM 접근 감소 |
-| NPU Compiler | graph 최적화·operator mapping | 지원 op 중요 |
+| NPU Compiler | graph 최적화·operator mapping | 지원 op 범위 확인 |
 | Runtime Driver | CPU-NPU 작업 제출 | OS·SDK 의존 |
 
 > 요약: NPU는 MAC 배열과 SRAM을 중심으로 AI 연산을 가속하고 compiler/runtime이 모델 실행 가능성을 결정함.

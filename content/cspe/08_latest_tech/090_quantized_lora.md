@@ -39,7 +39,9 @@ weight: 90
 
 ## Ⅰ. 개요 및 필요성
 
-QLoRA는 양자화 기반 LoRA 튜닝 기법임. 대형 LLM 도메인 튜닝에서 base model 메모리 부담을 줄이기 위해 4-bit base와 trainable LoRA adapter를 결합함.
+- 개요: 4-bit base 결합 LoRA 튜닝 기법
+- 배경: 대형 LLM 도메인 튜닝은 base model, gradient, optimizer state가 VRAM을 점유해 단일 GPU 학습을 제한함.
+- 필요성: NF4, double quantization, paged optimizer, LoRA adapter로 VRAM 사용량과 학습 안정성·평가 점수를 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

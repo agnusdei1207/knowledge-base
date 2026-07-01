@@ -41,7 +41,9 @@ weight: 34
 
 ## Ⅰ. 개요 및 필요성
 
-Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LSTM의 순차 처리·기울기 소실 한계를 해결하고, GPU 병렬화를 극대화하여 대규모 언어모델(LLM)의 기반 구조로 자리잡음.
+- 개요: Attention 기반 시퀀스 아키텍처
+- 배경: RNN/LSTM은 순차 처리와 장거리 의존성 학습 한계로 긴 문장·대규모 학습에서 병목이 발생함.
+- 필요성: Self-Attention, Feed Forward, LayerNorm으로 GPU 병렬 학습과 LLM 확장 구조를 설명해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

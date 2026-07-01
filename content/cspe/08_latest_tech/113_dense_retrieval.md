@@ -39,7 +39,9 @@ weight: 113
 
 ## Ⅰ. 개요 및 필요성
 
-Dense Retrieval은 의미 기반 벡터 검색 기법임. 키워드 검색은 동의어·문맥 차이를 처리하지 못해 검색 누락이 발생한다. LLM 기반 RAG에서 외부 지식 검색의 1차 후보 생성기로 사용된다.
+- 개요: 의미 기반 밀집 벡터 검색 기법
+- 배경: 키워드 검색은 동의어, paraphrase, 문맥 차이를 처리하지 못해 검색 누락이 발생할 수 있음.
+- 필요성: query/document encoder, ANN index, cosine/dot product로 RAG 1차 후보의 Recall@K와 검색 지연을 측정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

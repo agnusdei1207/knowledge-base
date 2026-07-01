@@ -41,7 +41,9 @@ weight: 36
 
 ## Ⅰ. 개요 및 필요성
 
-Scaled Dot-Product Attention은 Q·K·V 기반 가중합 연산임. Transformer는 이 연산으로 토큰 간 장거리 의존성을 병렬 계산하여 번역·요약·LLM 추론의 기반을 형성함. 기술사 답안에서는 수식, Mask, 복잡도를 함께 제시해야 함.
+- 개요: Q·K·V 기반 가중합 연산
+- 배경: Transformer는 토큰 간 장거리 의존성을 병렬 계산해야 하며, attention score가 커지면 softmax 포화가 발생함.
+- 필요성: QK^T/sqrt(dk), Mask, Softmax, V 가중합과 O(N²) 복잡도를 함께 제시해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

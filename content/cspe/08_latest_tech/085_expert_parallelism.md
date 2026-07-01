@@ -39,7 +39,9 @@ weight: 85
 
 ## Ⅰ. 개요 및 필요성
 
-Expert Parallelism은 MoE expert 분산 병렬화 기법임. expert 수와 총 파라미터가 큰 MoE 모델을 단일 GPU에 담기 어렵기 때문에, expert를 여러 GPU에 나누고 token을 해당 expert로 전송함.
+- 개요: MoE expert 분산 병렬화 기법
+- 배경: expert 수와 총 파라미터가 큰 MoE 모델은 단일 GPU VRAM에 적재하기 어렵고 expert별 부하도 불균등함.
+- 필요성: expert shard, all-to-all dispatch/combine, EP/TP/DP 조합으로 GPU 메모리와 통신 병목을 함께 계획해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

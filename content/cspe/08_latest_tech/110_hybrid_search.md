@@ -39,7 +39,9 @@ weight: 110
 
 ## Ⅰ. 개요 및 필요성
 
-Hybrid Search는 희소·밀집 검색 결합 방식임. BM25는 고유명사·코드·법 조항 검색에 강하고 Dense는 동의어·문맥 검색에 강하다. RAG에서 검색 누락과 오검색을 줄이기 위해 두 결과를 결합한다.
+- 개요: 희소·밀집 검색 결합 방식
+- 배경: BM25는 고유명사·코드·법 조항에 유리하고 Dense는 동의어·문맥 검색에 유리해 단일 검색 방식은 누락 또는 오검색이 생길 수 있음.
+- 필요성: BM25/SPLADE, Dense embedding, RRF, cross-encoder reranker로 Recall@K와 Precision@K를 함께 개선해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

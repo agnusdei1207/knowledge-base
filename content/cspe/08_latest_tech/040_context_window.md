@@ -41,7 +41,9 @@ weight: 40
 
 ## Ⅰ. 개요 및 필요성
 
-Context Window는 LLM의 최대 토큰 처리 범위임. 긴 문서 QA·고객 상담·코드 분석에서는 system prompt, 검색 문맥, 대화 이력, 출력 토큰을 한 윈도우 안에 배치해야 하므로 토큰 예산 설계가 필수임.
+- 개요: LLM 최대 토큰 처리 범위
+- 배경: 긴 문서 QA·고객 상담·코드 분석은 system prompt, 검색 문맥, 대화 이력, 출력 토큰이 한 윈도우를 공유함.
+- 필요성: input/output token budget, truncation policy, RAG chunking으로 윈도우 초과와 근거 누락을 방지해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소

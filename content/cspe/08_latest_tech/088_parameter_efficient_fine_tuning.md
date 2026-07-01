@@ -39,7 +39,9 @@ weight: 88
 
 ## Ⅰ. 개요 및 필요성
 
-PEFT는 파라미터 효율형 모델 적응 기법임. 대형 LLM 전체를 도메인별로 학습·저장하기 어렵기 때문에, base model은 고정하고 작은 추가 파라미터만 학습함.
+- 개요: 소수 파라미터만 학습하는 적응 기법
+- 배경: 대형 LLM 전체를 업무별로 학습·저장하면 GPU 메모리와 모델 저장소 비용이 도메인 수에 비례해 증가함.
+- 필요성: LoRA·Adapter·Prefix·Prompt tuning으로 base model을 고정하고 trainable parameter 비율, VRAM, task score를 비교해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

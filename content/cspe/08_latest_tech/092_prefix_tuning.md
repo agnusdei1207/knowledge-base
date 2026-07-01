@@ -39,7 +39,9 @@ weight: 92
 
 ## Ⅰ. 개요 및 필요성
 
-Prefix Tuning은 attention prefix 기반 모델 적응 기법임. 모델 전체를 학습하지 않고, layer별 prefix K/V를 학습해 특정 task의 출력 방향을 제어함.
+- 개요: attention prefix 기반 모델 적응 기법
+- 배경: 전체 모델 weight를 수정하지 않고 task별 행동을 바꿔야 할 때, 입력 프롬프트만으로는 제어 강도와 재현성이 부족할 수 있음.
+- 필요성: layer별 prefix K/V, prefix length, validation score로 task 적응 효과와 추론 컨텍스트 비용을 함께 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 

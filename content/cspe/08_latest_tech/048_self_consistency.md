@@ -41,7 +41,9 @@ weight: 48
 
 ## Ⅰ. 개요 및 필요성
 
-다수 CoT 경로의 다수결로 답을 선택하는 디코딩 전략. 단일 CoT greedy decoding은 하나의 경로에 의존하여 샘플링 노이즈에 취약하고, 수학·추론 벤치마크에서 정답률 한계가 존재한다.
+- 개요: 다수 CoT 경로 투표 전략
+- 배경: 단일 CoT greedy decoding은 하나의 경로에 의존해 샘플링 노이즈와 초기 추론 오류에 취약함.
+- 필요성: temperature sampling, N-path voting, answer normalization으로 정답률 개선과 토큰 비용 증가를 함께 판단해야 함.
 
 
 ## Ⅱ. 구조 및 구성요소
