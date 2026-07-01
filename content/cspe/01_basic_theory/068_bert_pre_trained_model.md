@@ -16,11 +16,20 @@ weight: 68
 - **핵심 직관**: 빈칸 문제를 대량으로 풀며 단어의 앞뒤 문맥을 동시에 읽는 언어 이해 모델이다.
 
 ## 깊이 이해
-- **배경·문제의식**: 전통 임베딩은 다의어·문맥 차이를 반영하지 못했고, RNN 계열은 긴 문맥 병렬처리에 제약이 있었다. BERT는 Transformer Encoder와 Self-Attention으로 문장 전체 관계를 병렬 계산한다.
-- **작동 원리**: 입력 토큰에 token embedding, position embedding, segment embedding을 더한다. MLM(Masked Language Modeling)으로 일부 토큰을 맞히고, 원 논문은 NSP(Next Sentence Prediction)로 문장 관계를 학습했다.
-- **비유**: 시험에서 문장 앞뒤를 모두 읽고 빈칸 단어를 고르는 방식과 같다. 한 단어만 보지 않고 주변 단어의 단서를 attention으로 가중한다.
-- **구체 예시**: BERT-base는 12 layer, hidden 768, attention head 12, 약 110M parameter 구조다. 한국어 문서 분류는 사전학습 모델 fine-tuning으로 소량 라벨 데이터에서도 F1 0.85 이상 목표를 둔다.
-- **흔한 오해·주의점**: BERT는 생성 모델이 아니라 이해 중심 Encoder 모델이다. 긴 문서 생성은 GPT 계열이 적합하고, BERT는 분류·NER·QA 추출형 문제에 맞는다.
+- **배경·문제의식**:
+  - 전통 임베딩은 다의어·문맥 차이를 반영하지 못했고, RNN 계열은 긴 문맥 병렬처리에 제약이 있었다
+  - BERT는 Transformer Encoder와 Self-Attention으로 문장 전체 관계를 병렬 계산한다
+- **작동 원리**:
+  - 입력 토큰에 token embedding, position embedding, segment embedding을 더한다
+  - MLM(Masked Language Modeling)으로 일부 토큰을 맞히고, 원 논문은 NSP(Next Sentence Prediction)로 문장 관계를 학습했다
+- **비유**: 시험에서 문장 앞뒤를 모두 읽고 빈칸 단어를 고르는 방식과 같다.
+  - 한 단어만 보지 않고 주변 단어의 단서를 attention으로 가중한다
+- **구체 예시**:
+  - BERT-base는 12 layer, hidden 768, attention head 12, 약 110M parameter 구조다
+  - 한국어 문서 분류는 사전학습 모델 fine-tuning으로 소량 라벨 데이터에서도 F1 0.85 이상 목표를 둔다
+- **흔한 오해·주의점**:
+  - BERT는 생성 모델이 아니라 이해 중심 Encoder 모델이다
+  - 긴 문서 생성은 GPT 계열이 적합하고, BERT는 분류·NER·QA 추출형 문제에 맞는다
 
 ## 연결 개념
 - Transformer — BERT의 Encoder 기반 구조
@@ -43,7 +52,9 @@ weight: 68
 
 ## Ⅰ. 개요 및 필요성
 
-BERT는 양방향 문맥을 학습한 Transformer Encoder 모델이다. 다의어·문장 관계·문맥 의존 표현을 다뤄야 하는 NLP 업무에서 정적 임베딩의 한계를 보완한다. 기업 문서 분류·개체명 인식·검색 질의 이해에 사전학습 모델 활용이 필요하다.
+- 정의: 양방향 문맥을 학습한 Transformer Encoder 기반 사전학습 언어모델
+- 배경: 다의어·문장 관계·문맥 의존 표현을 다뤄야 하는 NLP 업무에서 정적 임베딩은 한계를 가짐
+- 필요성: 기업 문서 분류·개체명 인식·검색 질의 이해에 사전학습된 문맥 표현 활용이 필요함
 
 ---
 
