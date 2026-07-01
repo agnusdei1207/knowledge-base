@@ -54,7 +54,9 @@ weight: 181
 
 ## Ⅰ. 개요 및 필요성
 
-Rootless 컨테이너는 무root 실행 모델임. 기존 root daemon 방식은 socket 노출과 런타임 취약점이 호스트 권한 침해로 확대될 수 있다. user namespace 기반 실행은 컨테이너 내부 UID 0을 호스트 일반 UID로 매핑해 권한 상승 범위를 제한한다.
+- 개요: root 권한 없는 컨테이너 실행 모델
+- 배경: 기존 root daemon 방식은 socket 노출과 런타임 취약점이 호스트 권한 침해로 확대될 수 있다.
+- 필요성: user namespace로 컨테이너 내부 UID 0을 호스트 일반 UID에 매핑해 권한 상승 범위를 제한한다.
 
 ---
 

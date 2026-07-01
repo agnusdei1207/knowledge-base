@@ -54,7 +54,9 @@ weight: 185
 
 ## Ⅰ. 개요 및 필요성
 
-Cilium은 eBPF 기반 Kubernetes CNI임. pod 이동과 서비스 확장이 빈번한 환경에서 IP·iptables 중심 정책은 추적과 운영 비용이 증가한다. Cilium은 label identity 기반 정책과 eBPF data plane으로 네트워크 통제와 관측을 결합한다.
+- 개요: eBPF 기반 Kubernetes CNI
+- 배경: pod 이동과 서비스 확장이 빈번한 환경에서 IP·iptables 중심 정책은 추적과 운영 비용이 증가한다.
+- 필요성: label identity 기반 정책과 eBPF data plane으로 L3/L4/L7 통제와 flow 관측을 결합한다.
 
 ---
 
