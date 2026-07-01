@@ -11,7 +11,7 @@ weight: 66
 > 목적: TensorRT-LLM을 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **정의**: NVIDIA GPU에서 LLM 추론을 최적화하기 위한 컴파일·커널·런타임 프레임워크
+- **개요**: NVIDIA GPU에서 LLM 추론을 최적화하기 위한 컴파일·커널·런타임 프레임워크
 - **왜 필요한가**: 대형 모델은 일반 PyTorch 실행만으로 GPU Tensor Core, fused kernel, quantization 이점을 충분히 쓰기 어려움.
 - **핵심 직관**: LLM을 NVIDIA GPU에 맞게 튜닝한 고성능 실행 파일로 바꾸는 엔진임.
 

@@ -11,7 +11,7 @@ weight: 79
 > 목적: GPTQ를 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **정의**: LLM 가중치를 3~4bit로 줄일 때 Hessian 근사로 양자화 오차를 보정하는 post-training quantization 기법
+- **개요**: LLM 가중치를 3~4bit로 줄일 때 Hessian 근사로 양자화 오차를 보정하는 post-training quantization 기법
 - **왜 필요한가**: 단순 4-bit 변환은 중요한 weight 오차가 누적되어 답변 품질이 떨어질 수 있음.
 - **핵심 직관**: 숫자를 줄이되, 정답에 영향이 큰 숫자는 더 신중하게 반올림하는 방식임.
 

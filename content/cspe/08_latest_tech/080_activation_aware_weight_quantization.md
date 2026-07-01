@@ -11,7 +11,7 @@ weight: 80
 > 목적: AWQ를 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **정의**: activation 크기를 기준으로 중요한 weight channel을 보호하며 LLM weight를 저비트로 양자화하는 기법
+- **개요**: activation 크기를 기준으로 중요한 weight channel을 보호하며 LLM weight를 저비트로 양자화하는 기법
 - **왜 필요한가**: LLM에서는 일부 activation outlier가 출력 품질에 큰 영향을 주므로 단순 weight 기준 양자화만으로는 품질 보존이 어렵다.
 - **핵심 직관**: 자주 크게 쓰이는 신경망 통로는 더 조심해서 압축하고, 영향이 작은 통로는 더 과감히 줄이는 방식임.
 

@@ -11,7 +11,7 @@ weight: 65
 > 목적: vLLM을 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **정의**: PagedAttention과 continuous batching을 중심으로 LLM 추론 처리량을 높이는 오픈소스 서빙 엔진
+- **개요**: PagedAttention과 continuous batching을 중심으로 LLM 추론 처리량을 높이는 오픈소스 서빙 엔진
 - **왜 필요한가**: 기본 Transformers 추론은 KV Cache 단편화와 정적 배치 한계로 고동시성 서비스 처리량이 낮음.
 - **핵심 직관**: GPU 메모리를 페이지처럼 잘게 나누고, 빈 자리에 새 요청을 계속 넣어 LLM API 처리량을 높이는 런타임임.
 

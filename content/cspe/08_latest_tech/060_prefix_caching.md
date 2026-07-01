@@ -11,7 +11,7 @@ weight: 60
 > 목적: Prefix Caching을 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **정의**: 여러 요청이 공유하는 system prompt·문서 prefix의 KV Cache를 재사용해 prefill 지연을 줄이는 기법
+- **개요**: 여러 요청이 공유하는 system prompt·문서 prefix의 KV Cache를 재사용해 prefill 지연을 줄이는 기법
 - **왜 필요한가**: RAG·에이전트·챗봇은 긴 system prompt와 공통 지침을 매 요청 반복 처리해 TTFT가 증가함.
 - **핵심 직관**: 매번 같은 서론을 다시 읽지 않고, 이미 읽어둔 서론의 책갈피를 다음 요청에 재사용하는 방식임.
 
