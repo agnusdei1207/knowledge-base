@@ -44,11 +44,10 @@ weight: 5
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-┌────────┐   ┌────────────┐   ┌──────────┐
-│  Key   │──▶│ Hash h(key)│──▶│ Bucket i │
-└────────┘   └─────┬──────┘   └────┬─────┘
-                   │               ▼
-              mod m 연산     Chain / Open Address
+Key -> Hash h(key) -> index = h mod m -> Bucket
+                      / Chain: linked nodes
+                      / Open Address: probing
+Load Factor -> Resize/Rehash -> collision cost control
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -63,9 +62,9 @@ weight: 5
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-put/get 요청 → h(key) 계산 → index = h mod m
-            → 버킷 접근 → 충돌 탐색 → 값 반환/삽입
-            → α 임계치 초과 시 rehash
+put/get 요청 -> h(key) 계산 -> index = h mod m
+            -> 버킷 접근 -> 충돌 탐색 -> 값 반환/삽입
+            -> α 임계치 초과 시 rehash
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -89,7 +88,35 @@ put/get 요청 → h(key) 계산 → index = h mod m
 
 > 요약: 해시 테이블은 단건 조회·삽입에 적합하고, 정렬·범위 질의는 균형 트리 또는 B-Tree가 적합함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 기존/대안 | 해시 테이블 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 균형 트리 O(log n) | 평균 O(1) 키-값 접근 | 단건 조회·삽입 비중 80% 이상 |
+| 비용/성능 | 정렬 순회 가능 | 정렬·범위 질의 별도 처리 | range query 필요 시 B-Tree |
+| 운영/위험 | 비교 기반 | 충돌·rehash·HashDoS 관리 | α 0.75, chain 길이 8 기준 |
+
+> 요약: 해시 테이블은 단건 키 접근에 적합하고, 정렬·범위·충돌 공격 조건이면 트리 구조를 병행한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 충돌 집중 | 해시 함수 분포 불량 | SipHash, random seed, tree bin | collision rate, chain length p95 |
+| Rehash 지연 | α 임계치 초과 | incremental rehash, capacity 계획 | resize pause ms |
+| 동시성 경합 | 단일 lock bucket | lock striping, concurrent map | lock wait time, throughput TPS |
+
+> 요약: 충돌, rehash, 동시성 경합은 분포·지연·대기시간 지표로 통제해야 한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 충돌률 | 평균 probe 2회 이하 또는 chain p95 8 이하 | 계측 로그 |
+| 메모리 | load factor 0.75 기준 RSS 예산 내 | heap profiler |
+| 보안 | HashDoS 테스트 요청 timeout 0건 | fuzzing, 부하 테스트 |
+
+> 요약: 해시 테이블 성공 기준은 낮은 충돌률, 예측 가능한 메모리, HashDoS 내성 확보이다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 캐시·세션: TTL, LRU, shard key를 함께 설계해 평균 O(1) 조회와 메모리 상한을 동시에 관리

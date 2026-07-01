@@ -50,14 +50,11 @@ weight: 221
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│              파이프라인 해저드 분류 구조                  │
-├──────────────┬──────────────────┬───────────────────────┤
-│  구조적 해저드 │   데이터 해저드   │    제어 해저드          │
-│ (Structural) │   (Data)         │    (Control)           │
-│              │  RAW / WAR / WAW │    분기·점프·예외       │
-│  자원 충돌   │  데이터 의존성    │   다음 PC 불확실        │
-└──────────────┴──────────────────┴───────────────────────┘
+Instruction Pipeline
+  / Structural Hazard: 자원 충돌
+  / Data Hazard: RAW / WAR / WAW 의존성
+  / Control Hazard: 분기·점프·예외로 인한 다음 PC 불확실
+Hazard Detection -> Stall / Forwarding / Flush -> CPI 손실 통제
 ```
 
 | 구성요소 | 개요 | 주요 원인 |
@@ -73,27 +70,23 @@ weight: 221
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-명령어 IF → ID → EX → MEM → WB
-                │
-         해저드 감지
-         ┌──────┴──────┐
-    구조적 해저드    데이터 해저드    제어 해저드
-         │               │               │
-    Stall 삽입    포워딩 or Stall    Flush + 예측
-         │               │               │
-    다음 클럭 재시도   정상 진행    예측 맞으면 진행
-                                   틀리면 Flush
+명령어 IF -> ID -> EX -> MEM -> WB
+  -> ID/EX 단계 해저드 감지
+  -> 구조적: 자원 충돌 확인 -> Stall 또는 자원 복제
+  -> 데이터: 의존 레지스터 확인 -> Forwarding 또는 Load-Use Stall
+  -> 제어: 분기 결과 확인 -> 예측 유지 또는 Flush
+  -> CPI, flush count, branch miss rate 측정
 ```
 
 | 단계 | 처리 내용 | 해소 기법 |
 |:---:|:---|:---|
-| 1 | 명령어 인출 (IF) — 순차 또는 예측 주소 | 분기 예측 (Branch Prediction) |
-| 2 | 디코드 (ID) — 의존성 감지 | 포워딩 경로 판단, Stall 발행 |
-| 3 | 실행 (EX) — 자원 사용 충돌 감지 | 자원 복제, 파이프라인 인터록 |
-| 4 | 메모리 (MEM) — Load-Use 충돌 | Load-Use Stall, 컴파일러 스케줄링 |
-| 5 | 분기 결과 확정 (WB 이전) — 예측 오류 시 Flush | 빠른 분기 판정, BTB (Branch Target Buffer) |
+| 1 | IF 단계에서 PC 기반 명령어 인출 | BTB, BHT, I-Cache |
+| 2 | ID 단계에서 소스·목적 레지스터 의존성 확인 | Forwarding 경로 판단, Stall 발행 |
+| 3 | EX 단계에서 ALU·분기 결과 확정 | 자원 복제, 빠른 분기 판정 |
+| 4 | MEM 단계에서 Load-Use 충돌 확인 | 1사이클 Stall, 컴파일러 스케줄링 |
+| 5 | 예측 오류 명령 제거 및 PC 복구 | Flush, pipeline redirect |
 
-> 요약: 해저드는 ID 단계 의존성 감지 → 포워딩/스톨 삽입 → 분기 확정 후 Flush 순서로 통제되며, 대부분의 해소는 하드웨어 포워딩과 컴파일러 스케줄링의 협력으로 이뤄진다.
+> 요약: 해저드는 IF/ID/EX/MEM 각 단계에서 감지되며, 데이터 해저드는 forwarding, 제어 해저드는 branch prediction과 flush로 통제한다.
 
 ---
 
@@ -103,17 +96,45 @@ weight: 221
 |:---|:---|:---|:---|
 | 발생 조건 | 자원 공유 | RAW·WAR·WAW 의존 | 분기·점프·예외 |
 | 주요 해소법 | 자원 복제, Stall | 데이터 포워딩, Stall | 분기 예측, Flush |
-| 성능 영향 | 낮음 (설계로 제거 가능) | 중간 (포워딩으로 대부분 제거) | 높음 (예측 실패 시 수 클럭 손실) |
+| 정량 영향 | 단일 메모리 포트 시 IF/MEM 충돌 | Load-Use 1사이클 Stall | 예측 실패 5~20사이클 flush |
 | 기술사 포인트 | 분리 I-Cache/D-Cache | RAW는 포워딩, WAR/WAW는 레지스터 리네이밍 | 동적 예측 vs 정적 예측 트레이드오프 |
 
 > 요약: 제어 해저드가 성능 영향이 가장 크며, 현대 CPU는 동적 분기 예측(BTB·BHT)으로 95% 이상 적중률을 달성하여 플러시 빈도를 최소화한다.
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 단일 사이클 CPU | 5단 이상 파이프라인 | 명령어 처리량 목표 IPC 1.0 근접 시 적용 |
+| 비용/성능 | 자원 복제 없음 | I/D Cache 분리, forwarding path 추가 | 면적 증가 대비 Stall cycle 감소 |
+| 운영/위험 | 단순 제어 | 예측·flush·interlock 복합 제어 | 검증 비용과 분기 miss penalty 동시 판단 |
+
+> 요약: 파이프라인은 클럭 주파수만이 아니라 Stall cycle, branch miss rate, forwarding coverage를 함께 봐야 선택 가능하다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| Load-Use Stall | Load 결과가 MEM 이후 확정 | MEM/WB forwarding, compiler scheduling | load-use stall per kilo-instruction |
+| Branch Flush | 분기 결과 지연 확정 | BHT+BTB, early branch resolution | branch miss rate 5% 이하 |
+| 검증 누락 | forwarding·stall 조건 조합 폭증 | SystemVerilog assertion, directed test | RAW/WAR/WAW coverage 100% |
+
+> 요약: 해저드 설계의 핵심 리스크는 성능보다 검증 누락이며, 의존성 조합별 coverage로 통제해야 한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| CPI | 기준 workload CPI 1.0~1.3 | cycle simulator, RTL simulation |
+| 분기 예측 | branch prediction accuracy 95% 이상 | SPECint branch trace 분석 |
+| Stall 비율 | stall cycle 전체 cycle의 10% 이하 | performance counter, waveform |
+
+> 요약: 도입 효과는 CPI, 분기 예측률, stall cycle 비율로 측정하고, 세 지표가 동시에 개선될 때 유효하다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 데이터 해저드: EX/MEM·MEM/WB 포워딩 경로 구현으로 RAW 스톨을 3사이클→0사이클로 제거, Load-Use만 1사이클 잔존
+1. 데이터 해저드: EX/MEM·MEM/WB 포워딩 경로 구현으로 RAW 스톨을 3사이클에서 0사이클로 제거, Load-Use만 1사이클 잔존
 2. 제어 해저드: 2비트 포화 카운터 BHT(Branch History Table) + BTB로 분기 적중률 95% 이상 확보, 플러시 빈도 최소화
 3. 컴파일러 협력: 명령어 재배치(Instruction Scheduling)·지연 분기(Delayed Branch)로 잔여 버블을 정적으로 흡수
 
@@ -128,6 +149,6 @@ weight: 221
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | "파이프라이닝을 설명하시오" | 3종 해저드 원리·발생 단계 폭넓게 | 분기 예측·OoO 발전 방향 |
-| 요구사항 명시형 | "해저드 해소 방안을 제시하시오" | 해저드별 해소 기법 비교표 | 포워딩·예측·컴파일러 단계별 방안, 선택 기준 |
+| 요구사항 명시형 | "해저드 해소 방안을 제시하시오" | 해저드별 해소 기법 비교표 | 포워딩·예측·컴파일러 단계별 방안, Ⅴ 선택 기준 |
 
 > 요약: 같은 키워드라도 "설명"이면 원리를 넓게, "방안 제시"면 해소 기법을 깊게 — 문제 신호어에 목차를 맞춘다.

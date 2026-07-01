@@ -51,8 +51,9 @@ weight: 13
 
 ```text
 Problem -> State Definition -> Recurrence -> DP Table -> Answer
-   |              |               |            |          |
- 요구사항        변수/차원        점화식       저장소      결과
+          / State: index and dimension
+          / Recurrence: previous states
+          / Storage: memoization or tabulation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,11 +97,39 @@ Problem -> State Definition -> Recurrence -> DP Table -> Answer
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 단순 재귀/분할정복 | 동적 프로그래밍 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 하위 문제 반복 계산 | 상태 결과 저장·재사용 | 중복 부분 문제 존재 시 |
+| 비용/성능 | Fibonacci O(2^n) | Fibonacci O(n) | 상태 수 x 전이 수 산정 가능 |
+| 운영/위험 | 구현 단순 | 상태 차원 증가와 메모리 증가 | 3차원 이상은 메모리 상한 검증 |
+
+> 요약: DP는 중복 상태를 저장해 시간을 줄이지만 상태 차원과 메모리 예산을 먼저 계산해야 한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 상태 폭발 | 상태 변수 과다 | 상태 압축, rolling array, pruning | DP table cell count |
+| 점화식 오류 | 의존 상태 누락 | 작은 입력 brute force와 대조 | golden test 일치율 |
+| 메모리 초과 | O(nm) 테이블 과대 | bitset, sparse map, rolling O(W) | peak RSS |
+
+> 요약: DP 리스크는 상태 수, 점화식, 메모리이며 작은 입력 검증과 peak RSS로 통제한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 상태 정의 | 모든 입력 조건을 상태로 표현 | 설계 리뷰 |
+| 복잡도 | 시간 = 상태 수 x 전이 수 명시 | 코드·문서 검토 |
+| 정확도 | brute force 대비 결과 100% 일치 | 단위 테스트 |
+
+> 요약: DP 성공 기준은 상태 완전성, 복잡도 명시, 작은 입력 정답 대조이다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 문자열 비교: 편집 거리 `dp[i][j]`로 삽입·삭제·치환 비용 계산, 문서 유사도와 데이터 정합성 검증에 적용
-2. 자원 배분: 0/1 배낭 `dp[i][w]`로 예산 W 내 가치 최대 조합 산출, rolling array로 공간 O(nW)->O(W) 축소
+2. 자원 배분: 0/1 배낭 `dp[i][w]`로 예산 W 내 가치 최대 조합 산출, rolling array로 공간 O(nW)에서 O(W)로 축소
 3. 그래프 분석: 플로이드-워셜 `dist[i][j]=min(dist[i][j], dist[i][k]+dist[k][j])`로 모든 쌍 비용 행렬 계산
 
 **결론 (2줄):**

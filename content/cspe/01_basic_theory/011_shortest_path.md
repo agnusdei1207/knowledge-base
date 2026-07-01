@@ -51,8 +51,9 @@ weight: 11
 
 ```text
 Graph(V,E,w) -> Distance[] -> Relaxation -> Path/Parent[]
-      |              |              |             |
-   정점/간선/가중치   현재 최소비용    비용 갱신      경로 복원
+              / Dijkstra: non-negative weight
+              / Bellman-Ford: negative edge check
+              / Floyd-Warshall: all pairs matrix
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +97,35 @@ Graph(V,E,w) -> Distance[] -> Relaxation -> Path/Parent[]
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 기존/대안 | 최단 경로 알고리즘 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | BFS 무가중치 | 가중치 기반 relaxation | 간선 비용이 모두 1이 아니면 적용 |
+| 비용/성능 | 단일 방식 사용 | Dijkstra/Bellman-Ford/Floyd 분기 | 음수 간선·전체 쌍 여부로 선택 |
+| 운영/위험 | 정적 그래프 가정 | 동적 링크·음수 사이클 검증 | topology 변경 빈도와 V,E 규모 |
+
+> 요약: 최단 경로는 가중치 조건, 계산 범위, 그래프 변경 빈도로 알고리즘을 분기한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 오답 경로 | 음수 간선에 다익스트라 적용 | 가중치 사전 검사, Bellman-Ford 전환 | negative edge count |
+| 계산 폭증 | Floyd O(V^3) 무분별 적용 | V 임계치 설정, 단일 출발 반복 | 실행시간, matrix memory |
+| 경로 불일치 | parent 갱신 누락 | relaxation 시 parent 동시 갱신 | path reconstruction test |
+
+> 요약: 리스크는 조건 위반, 계산량 폭증, 경로 복원 오류이며 사전 검사와 테스트로 통제한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 정확도 | 기준 그래프 최단거리 100% 일치 | golden test |
+| 계산량 | E log V, VE, V^3 중 선택 근거 명시 | 복잡도 리뷰 |
+| 운영 | 링크 변경 후 재계산 p95 목표 충족 | 라우팅 시뮬레이션 |
+
+> 요약: 성공 여부는 최단거리 정확도, 계산량 근거, 변경 후 재계산 지연으로 판단한다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 네트워크 라우팅: 링크 지연 ms를 가중치로 두고 다익스트라로 최저 비용 경로 산출, 링크 장애 시 parent 재계산

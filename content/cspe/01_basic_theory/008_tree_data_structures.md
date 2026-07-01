@@ -48,11 +48,10 @@ weight: 8
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-            Root
-           /    \
-       Left      Right
-      /   \      /   \
-   Leaf  Leaf  Leaf  Leaf
+Root -> Internal Node -> Leaf
+     / BST: left key < root < right key
+     / AVL/Red-Black: rotation and recolor
+     / B-Tree: multi-key page node
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +95,35 @@ weight: 8
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 배열/해시 | 트리 구조 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 배열 정렬, 해시 버킷 | 계층 노드와 균형 규칙 | 범위 검색·정렬 순회 필요 시 트리 |
+| 비용/성능 | 해시 평균 O(1), 범위 취약 | 균형 시 O(log n) | 업데이트와 range query 혼재 시 |
+| 운영/위험 | 리사이징·충돌 | 회전·분할·동시성 latch | DB는 B+Tree, 메모리는 RB/AVL |
+
+> 요약: 트리는 정렬·범위·동적 수정이 함께 필요한 경우 해시와 배열보다 일관된 비용을 제공한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 편향 트리 | 균형 규칙 없음 | AVL/Red-Black 회전 적용 | tree height <= 2log2 n |
+| 페이지 분할 비용 | B-Tree 노드 overflow | fill factor 70~90%, bulk load | page split count |
+| 동시성 병목 | 루트·상위 노드 latch 경합 | latch coupling, optimistic read | latch wait time |
+
+> 요약: 트리 리스크는 높이 증가, 페이지 분할, latch 경합이며 높이와 대기시간으로 관리한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 탐색 비용 | O(log n) 높이 유지 | height metric, benchmark |
+| 범위 질의 | leaf scan 처리량 목표 충족 | DB explain, I/O 통계 |
+| 무결성 | 정렬·균형 규칙 100% 통과 | invariant test |
+
+> 요약: 트리 도입 효과는 높이, 범위 질의 처리량, 균형 불변식으로 판단한다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. DB 인덱스: B+Tree leaf 연결로 `BETWEEN A AND B` 범위 검색을 leaf scan으로 처리

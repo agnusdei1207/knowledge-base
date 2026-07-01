@@ -51,8 +51,9 @@ weight: 15
 
 ```text
 Candidate Set -> Selection Rule -> Feasibility Check -> Solution Set -> Objective
-       |                |                  |                 |          |
-     후보              기준              제약 확인          해 구성     목표값
+              / Selection: current best candidate
+              / Feasibility: constraint check
+              / Proof: exchange argument or cut property
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +97,35 @@ Candidate Set -> Selection Rule -> Feasibility Check -> Solution Set -> Objectiv
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | DP/완전탐색 | 탐욕 알고리즘 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 여러 후보 상태 보존 | 현재 최선 선택 고정 | greedy-choice property 증명 |
+| 비용/성능 | 상태 수 또는 조합 수 증가 | 정렬 O(n log n)+스캔 O(n) | 반례 없고 선택 기준 명확 |
+| 운영/위험 | 계산량 증가 | 최적성 증명 실패 시 오답 | 교환 논증·cut property 제시 |
+
+> 요약: 탐욕은 계산량이 작지만, 전역 최적성 증명이 답안의 핵심 판단 기준이다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 오답 선택 | 지역 최적이 전역 최적 미보장 | 반례 탐색, DP와 작은 입력 대조 | counterexample count |
+| 제약 누락 | feasible 검사 부족 | 제약 조건을 선택 전후 검증 | invalid solution rate |
+| 정렬 기준 오류 | 목적함수와 기준 불일치 | 교환 논증으로 정렬 기준 검증 | proof checklist 통과 |
+
+> 요약: 탐욕 리스크는 최적성 증명, 제약 검증, 정렬 기준이며 작은 입력 대조로 보완한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 증명 | 교환 논증 또는 cut property 포함 | 설계 리뷰 |
+| 복잡도 | 정렬·스캔 비용 분리 | 코드 리뷰 |
+| 해 품질 | 작은 입력 정확해와 100% 일치 | brute force 테스트 |
+
+> 요약: 성공 기준은 증명 가능성, 복잡도 분리, 작은 입력 정확해 대조이다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 스케줄링: 종료 시간 오름차순 활동 선택으로 회의실 1개에서 배정 가능한 작업 수를 최대화

@@ -51,8 +51,9 @@ weight: 10
 
 ```text
 Graph(V,E) -> Adjacent List -> Frontier(Queue/Stack) -> Visited Set
-     |              |                 |                    |
-   정점/간선       이웃 목록          다음 방문 후보        중복 차단
+             / BFS: Queue and level distance
+             / DFS: Stack and entry/finish time
+             / Visited: cycle and duplicate control
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +97,35 @@ Graph(V,E) -> Adjacent List -> Frontier(Queue/Stack) -> Visited Set
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | BFS | DFS | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | Queue, level frontier | Stack/재귀, depth path | 최단 간선 수는 BFS |
+| 비용/성능 | O(V+E), 공간 O(V) | O(V+E), 공간 O(V) | 희소 그래프는 인접 리스트 |
+| 운영/위험 | frontier 폭증 | recursion depth 증가 | 그래프 폭·깊이 계측 |
+
+> 요약: BFS와 DFS는 같은 O(V+E)이지만 거리 보존, 깊이 분석, 메모리 폭이 선택 기준이다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 무한 반복 | visited 누락 | 방문 시점 표준화, cycle test | 중복 방문 카운트 |
+| 메모리 폭증 | BFS frontier 급증 | depth limit, bidirectional BFS | frontier size p95 |
+| 재귀 초과 | DFS 깊이 h 증가 | iterative DFS, stack limit 설정 | max depth, stack error |
+
+> 요약: 그래프 탐색 리스크는 visited, frontier 크기, DFS 깊이로 관리한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 복잡도 | 간선 확인 횟수 2E 이하 | 계측 로그 |
+| 정확도 | 연결 요소·거리 배열 기대값 일치 | 테스트 그래프 |
+| 운영 | 탐색 제한 시간과 메모리 예산 준수 | 부하 테스트 |
+
+> 요약: 성공 기준은 간선 방문 수, 알고리즘 결과, 제한 자원 준수이다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 장애 영향 분석: 서비스 의존 그래프에서 BFS로 1-hop, 2-hop 영향 범위를 산출

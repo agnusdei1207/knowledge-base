@@ -50,9 +50,9 @@ weight: 7
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Stack:  [bottom] [  ] [top]       push/pop at top
-Queue:  front -> [A][B][C] -> rear enqueue rear, dequeue front
-Deque:  front <-> [A][B][C] <-> rear both ends
+Stack: bottom -> middle elements -> top / push and pop at top
+Queue: front -> middle elements -> rear / enqueue rear, dequeue front
+Deque: front -> middle elements -> rear / add and remove at both ends
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +96,35 @@ Deque:  front <-> [A][B][C] <-> rear both ends
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 배열 구현 | 연결 리스트 구현 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 고정/동적 배열, 인덱스 관리 | 노드와 포인터 관리 | 용량 상한 명확하면 배열 |
+| 비용/성능 | 원형 큐 O(1), 재할당 가능 | 삽입·삭제 O(1), 포인터 오버헤드 | 크기 변동 크면 연결 리스트 |
+| 운영/위험 | overflow, underflow | null pointer, GC 부담 | bounded queue는 배열 우선 |
+
+> 요약: ADT 선택은 LIFO/FIFO/양단 규칙으로, 구현 선택은 용량 상한과 메모리 오버헤드로 결정한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 경계 오류 | empty/full 판정 누락 | size 기반 불변식 적용 | underflow/overflow 테스트 통과율 |
+| 큐 이동 비용 | 선형 배열 dequeue 후 shift | 원형 큐 `(idx+1)%N` 사용 | dequeue p95 지연 |
+| 동시성 경합 | 다중 producer/consumer | bounded queue, lock-free queue, backpressure | queue length, wait time |
+
+> 요약: 경계 조건, 이동 비용, 동시성 경합을 통제해야 ADT 연산 O(1)을 유지한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 연산 지연 | push/pop/enqueue/dequeue p95 목표 충족 | 마이크로벤치마크 |
+| 순서 보장 | LIFO/FIFO/Deque 불변식 100% 통과 | 단위 테스트 |
+| 운영 상태 | queue depth 임계치 알림 | 모니터링, 로그 |
+
+> 요약: 성공 기준은 연산 지연, 순서 불변식, 큐 깊이 관측성 확보이다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 호출·트랜잭션 롤백: 스택으로 undo 로그 저장, pop 순서로 역연산 수행

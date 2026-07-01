@@ -51,8 +51,9 @@ weight: 14
 
 ```text
 Original Problem -> Divide -> Subproblem A/B -> Conquer -> Combine -> Result
-        |             |             |             |          |
-      입력 n        크기 축소       독립 처리       재귀 해결    병합
+                 / Divide: reduce size n/b
+                 / Conquer: solve independent subproblems
+                 / Combine: merge partial results
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +97,35 @@ Original Problem -> Divide -> Subproblem A/B -> Conquer -> Combine -> Result
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 단순 반복/완전처리 | 분할 정복 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 전체 입력 한 번에 처리 | 독립 하위 문제와 병합 | 하위 문제가 중복되지 않을 때 |
+| 비용/성능 | 문제별 직접 산정 | `T(n)=aT(n/b)+f(n)` | Master theorem 적용 가능 |
+| 운영/위험 | 구현 단순 | 분할 불균형·combine 병목 | 병렬화 시 병합 비용 측정 |
+
+> 요약: 분할 정복은 독립 하위 문제와 제한된 병합 비용이 있을 때 점화식 기반으로 선택한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 분할 불균형 | pivot·partition 편향 | randomized pivot, sampling | subproblem size ratio |
+| 병합 병목 | combine 비용 f(n) 과대 | k-way merge, streaming combine | combine time ratio |
+| 재귀 비용 | 과도한 call depth | iterative 전환, threshold 설정 | recursion depth |
+
+> 요약: 분할 정복 리스크는 분할 균형, 병합 비율, 재귀 깊이이며 각 지표를 계측한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 점화식 | a, b, f(n) 명시 | 설계 리뷰 |
+| 병렬성 | 독립 하위 문제 비율 산정 | 프로파일링 |
+| 정확도 | 병합 결과 불변식 통과 | 단위·속성 테스트 |
+
+> 요약: 성공 기준은 점화식 명확성, 독립 실행 가능성, 병합 결과 검증이다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 정렬 처리: 병합 정렬로 O(n log n) 상한을 확보하고, 외부 정렬에서는 청크 분할 후 k-way merge 적용

@@ -51,8 +51,9 @@ weight: 12
 
 ```text
 Weighted Undirected Graph -> Edge Selection -> Cycle Check -> MST(V-1 edges)
-             |                    |              |              |
-          비용 간선              후보 선택       Union-Find      연결 트리
+                         / Kruskal: sort edges and union-find
+                         / Prim: priority queue and visited set
+                         / Result: connected, acyclic, minimum total weight
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +97,35 @@ Weighted Undirected Graph -> Edge Selection -> Cycle Check -> MST(V-1 edges)
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 최단 경로 | 최소 신장 트리 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 특정 출발지 경로 최소 | 전체 정점 연결 비용 최소 | 전체 연결망 비용 산정은 MST |
+| 비용/성능 | 경로별 distance | V-1개 간선 총합 | 회선·배선·클러스터링 비용 |
+| 운영/위험 | 경로 우회 가능 | 기본 MST는 이중화 없음 | 장애 우회 요구 시 추가 간선 설계 |
+
+> 요약: MST는 전체 연결 비용 최소 기준이며, 장애 우회와 특정 경로 최단은 별도 요구로 분리해야 한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 비연결 그래프 | 입력 그래프 연결성 부족 | connected component 검사 | component count |
+| 사이클 포함 | Union-Find 판정 누락 | find/union 불변식 테스트 | selected edge count = V-1 |
+| 이중화 부족 | MST의 간선 최소 특성 | 중요 노드에 2nd path 추가 | single point edge count |
+
+> 요약: MST 리스크는 연결성, 사이클, 이중화 부족이며 component와 간선 수로 검증한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 비용 | 총 가중치 기준안 대비 절감률 산정 | 비용 시뮬레이션 |
+| 정확도 | 간선 수 V-1, 사이클 0개 | Union-Find 검증 |
+| 운영 | 중요 구간 이중화율 목표 충족 | topology 분석 |
+
+> 요약: 도입 효과는 총 비용, 트리 조건, 중요 구간 이중화율로 판단한다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 회선 설계: 지점 간 회선비를 가중치로 모델링하고 MST로 기본 연결 비용 산출, 중요 노드는 별도 이중화 간선 추가
