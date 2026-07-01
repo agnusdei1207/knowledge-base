@@ -147,7 +147,7 @@ Job Arrival -> Memory Admission -> Ready Queue
 
 **결론 (2줄):**
 - 기술사 판단: I/O 대기 은폐 목적이면 다중프로그래밍, 계산 처리량 확장 목적이면 다중처리와 병렬 알고리즘이 필요함.
-- 향후 방향: 컨테이너·가상화 환경은 CPU quota, cpuset, NUMA policy를 함께 설계해 스케줄링 격리를 강화함.
+- 향후 방향: 컨테이너·가상화 환경은 CPU quota, cpuset, NUMA policy를 함께 설계해 CPU quota 초과 시 throttle, cpuset binding으로 코어 간 간섭을 제거함.
 
 ---
 

@@ -109,7 +109,7 @@ IP Address
 | 주소 공간 | 32bit | 128bit | IPv6 주소 공간 2^128 |
 | 주소 관리 | 사설주소+NAT 광범위 | 전역 주소와 prefix delegation | RFC 1918, RFC 4291 |
 | 이웃 탐색 | ARP broadcast | NDP multicast | ICMPv6 필수 |
-| 헤더 | 기본 20byte 가변 옵션 | 기본 40byte, 확장 헤더 | checksum 제거 |
+| 헤더 | 기본 20byte 가변 옵션 | 기본 40byte, 확장 헤더 | IPv6는 헤더 checksum 필드 제거 |
 
 > 요약: IPv6는 주소 공간뿐 아니라 NDP, multicast, 확장 헤더, 자동 구성까지 포함한 네트워크 계층 변화이다.
 

@@ -113,7 +113,7 @@ IPv4 Host
 | 전송 방식 | request broadcast, reply unicast | server 응답 필요 | EtherType 0x0806 |
 | 보안 | 인증 부재 | 서버 신뢰 필요 | DAI, static ARP |
 
-> 요약: ARP는 현재 IPv4 LAN의 주소 해석 핵심이고 RARP는 DHCP 등장 후 일반 운영에서 사용 빈도가 낮다.
+> 요약: ARP는 현재 IPv4 LAN의 주소 해석 핵심이고 RARP는 DHCP(RFC 2131) 등장 이후 실무에서 거의 사용되지 않음.
 
 ---
 

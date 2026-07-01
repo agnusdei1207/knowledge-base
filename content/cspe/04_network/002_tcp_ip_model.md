@@ -96,7 +96,7 @@ Application Data
 | 2 | TCP 3-way handshake 또는 UDP 송신 | SYN/SYN-ACK/ACK, port 0~65535 |
 | 3 | IP 패킷 생성과 라우팅 | TTL/Hop Limit, routing table |
 | 4 | L2 프레임 생성과 next-hop 전달 | ARP/ND, MTU 1500 |
-| 5 | 수신 측 계층별 헤더 제거 | p95 RTT, retransmission, packet loss |
+| 5 | 수신 측이 계층별 헤더를 역캡슐화하여 제거 | p95 RTT, retransmission, packet loss |
 
 > 요약: TCP/IP 통신은 이름 해석, 전송 세션, IP 라우팅, 링크 전달, 역캡슐화 순서로 처리된다.
 

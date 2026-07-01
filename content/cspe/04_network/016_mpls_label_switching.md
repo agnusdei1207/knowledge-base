@@ -75,7 +75,7 @@ Provider Edge Pop Label -> Customer Network
 | LSR/P Router | label swap 수행 | core에서 IP lookup 최소화 |
 | LSP | label switched path | LDP 또는 RSVP-TE로 구성 |
 
-> 요약: MPLS 구조는 PE가 분류·레이블 부여, P가 label 교환, PE가 제거하는 경계-코어 모델이다.
+> 요약: MPLS 구조는 Ingress PE가 label push, P가 label swap, Egress PE가 label pop하는 경계-코어 모델이다.
 
 ---
 

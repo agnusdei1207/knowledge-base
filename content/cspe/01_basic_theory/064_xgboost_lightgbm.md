@@ -20,7 +20,7 @@ weight: 64
 - **작동 원리**: XGBoost는 2차 미분 기반 목적함수, 정규화, 병렬 처리를 제공한다. LightGBM은 histogram 기반 분할, leaf-wise 성장, GOSS, EFB로 대규모 탭ular 데이터 처리 비용을 줄인다.
 - **비유**: 시험 오답노트를 볼 때 많이 틀린 유형을 다음 학습에서 더 많이 풀고, 반복마다 점수를 조금씩 보정하는 것과 같다.
 - **구체 예시**: 신용평가 100만 행, 변수 300개에서 LightGBM은 histogram bin 255개를 사용해 연속값 분할 후보를 압축하고, early stopping 100라운드로 과적합을 제어한다.
-- **흔한 오해·주의점**: LightGBM의 leaf-wise 성장은 손실 감소가 큰 잎을 깊게 확장하므로 max_depth, num_leaves, min_data_in_leaf를 제한하지 않으면 검증 성능이 하락한다.
+- **흔한 오해·주의점**: LightGBM의 leaf-wise 성장은 손실 감소가 큰 잎을 깊게 확장하므로 max_depth, num_leaves, min_data_in_leaf를 제한하지 않으면 학습-검증 AUC 격차가 5%p 이상 벌어지며 검증 AUC가 정체·하락한다.
 
 ## 연결 개념
 - 그래디언트 부스팅: 손실 함수의 그래디언트를 순차 보정

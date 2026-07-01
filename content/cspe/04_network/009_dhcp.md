@@ -20,7 +20,7 @@ weight: 9
 - **작동 원리**: 클라이언트는 broadcast로 DHCP Discover를 보내고, 서버는 Offer를 제안한다. 클라이언트가 Request로 선택하면 서버가 ACK로 임대를 확정한다.
 - **비유**: 호텔 체크인에서 빈 방을 제안받고, 손님이 선택하면 프런트가 숙박 기간과 출입카드를 발급하는 구조이다.
 - **구체 예시**: 사무실 VLAN `10.10.20.0/24`에서 DHCP 서버는 `10.10.20.50~200`, gateway `10.10.20.1`, DNS `10.10.1.10`을 8시간 lease로 제공할 수 있다.
-- **흔한 오해·주의점**: DHCP는 IP 주소만 주지 않는다. subnet mask, default gateway, DNS server, domain, NTP 등 다양한 option을 제공한다.
+- **흔한 오해·주의점**: DHCP는 IP 주소만 주지 않는다. subnet mask, default gateway, DNS server, domain, NTP 등 6개 이상의 DHCP option을 제공한다.
 
 ## 연결 개념
 - ARP: IP 사용 전 중복 확인과 gateway MAC 해석

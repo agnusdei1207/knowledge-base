@@ -92,7 +92,7 @@ Packet Receive -> Destination Prefix Lookup -> Longest Match
 | 1 | 목적지 IP로 라우팅 테이블 조회 | longest prefix match |
 | 2 | 복수 경로가 있으면 AD 비교 | lower AD selected |
 | 3 | 동일 프로토콜 경로는 metric 비교 | OSPF cost, RIP hop count |
-| 4 | TTL 1 감소 후 출력 인터페이스 전달 | TTL 0이면 ICMP Time Exceeded |
+| 4 | TTL을 1만큼 감소시킨 후 출력 인터페이스로 전달 | TTL 0이면 ICMP Time Exceeded |
 
 > 요약: 라우터는 prefix, AD, metric, TTL 처리 순서로 L3 패킷 전달 여부를 결정한다.
 

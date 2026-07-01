@@ -119,7 +119,7 @@ BPDU Receive -> Root Bridge Election -> Root Path Cost Compare
 | 비용/성능 | 구성 단순, 차단 링크 발생 | 장비 기능 요구 | 회선 활용률과 장비 지원 비교 |
 | 운영/위험 | root 오설정, BPDU 공격 | split-brain, L3 설계 필요 | 보호 기능과 장애 도메인 기준 |
 
-> 요약: 루프 방지만 필요하면 RSTP, 대역폭 활용과 빠른 이중화가 필요하면 LACP, MLAG, L3 ECMP를 검토한다.
+> 요약: 루프 방지만 필요하면 RSTP, 대역폭 활용과 수 초 이내 이중화 전환이 필요하면 LACP, MLAG, L3 ECMP를 검토한다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
