@@ -53,7 +53,9 @@ weight: 140
 
 ## Ⅰ. 개요 및 필요성
 
-실시간 스트리밍 플랫폼은 이벤트 기반 데이터 처리 체계임. 배치 중심 플랫폼은 의사결정 지연과 장애 탐지 지연을 만든다. 이벤트 broker, stream processor, serving store, observability를 결합해 초·분 단위 데이터 반영과 장애 복구를 지원함.
+- 개요: 실시간 스트리밍 플랫폼은 이벤트 기반 처리 체계임.
+- 배경: 배치 중심 플랫폼은 의사결정 지연과 장애 탐지 지연을 만든다.
+- 필요성: event broker, stream processor, serving store, observability를 결합해 초·분 단위 반영과 장애 복구를 지원함.
 
 ---
 

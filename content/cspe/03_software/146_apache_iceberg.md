@@ -54,7 +54,9 @@ weight: 146
 
 ## Ⅰ. 개요 및 필요성
 
-Apache Iceberg는 대규모 분석 테이블용 오픈 테이블 포맷이다. 객체 스토리지의 Parquet/ORC/Avro 파일을 snapshot과 manifest 메타데이터로 관리한다. 다중 엔진 분석, 파티션 변경, schema evolution이 필요한 레이크하우스에서 활용된다.
+- 개요: Apache Iceberg는 대규모 분석용 오픈 테이블 포맷이다.
+- 배경: 객체 스토리지의 Parquet/ORC/Avro 파일은 테이블 단위 스냅샷과 파티션 변경 관리가 필요하다.
+- 필요성: snapshot과 manifest 메타데이터로 다중 엔진 분석, 파티션 변경, schema evolution을 지원한다.
 
 ---
 

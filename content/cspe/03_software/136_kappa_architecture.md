@@ -53,7 +53,9 @@ weight: 136
 
 ## Ⅰ. 개요 및 필요성
 
-카파 아키텍처는 스트림 중심 데이터 처리 구조임. 람다 아키텍처의 batch/speed 이중 구현은 코드 불일치와 운영 비용을 만든다. 카파는 immutable event log와 stream processor replay로 실시간 처리와 재처리를 하나의 경로로 통합함.
+- 개요: 카파 아키텍처는 스트림 중심 데이터 처리 구조임.
+- 배경: 람다 아키텍처의 batch/speed 이중 구현은 코드 불일치와 운영 비용을 만든다.
+- 필요성: immutable event log와 stream processor replay로 실시간 처리와 재처리를 하나의 경로로 통합함.
 
 ---
 

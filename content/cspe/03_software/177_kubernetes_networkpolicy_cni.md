@@ -54,7 +54,9 @@ weight: 177
 
 ## Ⅰ. 개요 및 필요성
 
-NetworkPolicy는 Pod 트래픽 허용 정책임. Kubernetes 기본 모델은 Pod 간 통신을 폭넓게 허용하므로 업무별 트래픽 경계를 정의해야 한다. CNI는 이 정책을 실제 데이터 경로에 적용하는 네트워크 구현 계층이다.
+- 개요: NetworkPolicy는 Pod 트래픽 허용 정책임.
+- 배경: Kubernetes 기본 모델은 Pod 간 통신을 폭넓게 허용하므로 업무별 트래픽 경계를 지정해야 한다.
+- 필요성: CNI 구현 계층에서 ingress, egress, namespace, label 기준의 통신 정책을 데이터 경로에 적용한다.
 
 ---
 

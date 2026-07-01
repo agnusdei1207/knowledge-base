@@ -53,7 +53,9 @@ weight: 134
 
 ## Ⅰ. 개요 및 필요성
 
-Apache Spark는 범용 분산 데이터 처리 엔진임. Hadoop MapReduce는 중간 결과를 디스크에 기록해 반복 분석·머신러닝 작업에서 지연이 커짐. Spark는 DAG 실행, in-memory cache, SQL 최적화로 배치·스트림·ML 파이프라인을 통합함.
+- 개요: Apache Spark는 범용 분산 데이터 처리 엔진임.
+- 배경: Hadoop MapReduce는 중간 결과를 디스크에 기록해 반복 분석·머신러닝 작업에서 지연이 커짐.
+- 필요성: DAG 실행, in-memory cache, Spark SQL 최적화로 배치·스트림·ML 파이프라인을 통합함.
 
 ---
 

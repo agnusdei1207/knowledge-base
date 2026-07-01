@@ -53,7 +53,9 @@ weight: 133
 
 ## Ⅰ. 개요 및 필요성
 
-Hadoop MapReduce는 대용량 데이터를 분산 저장·배치 처리하는 프레임워크임. 로그·검색·정산 데이터는 TB~PB 규모로 증가해 단일 서버 처리에 한계가 있음. Hadoop은 HDFS block 분산과 data locality 기반 작업 배치로 대량 배치 분석을 수행함.
+- 개요: Hadoop MapReduce는 분산 저장·배치 처리 프레임워크임.
+- 배경: 로그·검색·정산 데이터는 TB~PB 규모로 증가해 단일 서버 처리에 한계가 있음.
+- 필요성: HDFS block 분산과 data locality 기반 작업 배치로 대량 배치 분석을 수행함.
 
 ---
 

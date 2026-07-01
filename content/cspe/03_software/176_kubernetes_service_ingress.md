@@ -54,7 +54,9 @@ weight: 176
 
 ## Ⅰ. 개요 및 필요성
 
-Service와 Ingress는 Pod 접근 추상화 계층임. Pod는 생성과 삭제에 따라 IP가 바뀌므로 고정 접속점이 필요하다. Service는 내부 L4 접근을, Ingress는 외부 HTTP/HTTPS 라우팅을 담당한다.
+- 개요: Service와 Ingress는 Pod 접근 추상화 계층임.
+- 배경: Pod는 생성과 삭제에 따라 IP가 바뀌므로 고정 접속점이 필요하다.
+- 필요성: Service는 내부 L4 접근, Ingress는 외부 HTTP/HTTPS 라우팅 기준으로 트래픽 진입점을 제공한다.
 
 ---
 
