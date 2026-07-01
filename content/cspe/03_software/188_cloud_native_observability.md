@@ -141,7 +141,7 @@ Application/Platform -> Metric/Log/Trace Collector -> Storage -> Query/Alert -> 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 표준 신호 정의: RED(Request, Error, Duration)와 USE(Utilization, Saturation, Error)를 서비스별 SLI로 지정
+1. 표준 신호 설정: RED(Request, Error, Duration)와 USE(Utilization, Saturation, Error)를 서비스별 SLI로 지정
 2. 상관관계 확보: trace_id, service.name, deployment.version을 log와 trace에 공통 삽입하고 OpenTelemetry Collector로 수집
 3. 비용·알림 통제: high cardinality label 금지, tail sampling, 7/30/90일 retention, SLO burn rate alert를 적용
 

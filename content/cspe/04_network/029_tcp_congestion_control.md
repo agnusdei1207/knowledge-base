@@ -54,7 +54,7 @@ weight: 29
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 송신자가 네트워크 경로 혼잡을 추정해 cwnd로 송신량을 조절하는 기능
+- 개요: 송신자가 네트워크 경로 혼잡을 추정해 cwnd로 송신량을 조절하는 기능
 - 배경: 송신자가 cwnd와 ssthresh를 기준으로 Slow Start, Congestion Avoidance, Fast Recovery 상태를 전이함
 - 필요성: packet loss, RTO, RTT 증가가 발생하는 WAN·인터넷 서비스에서 성능을 좌우하는 핵심 요인임
 

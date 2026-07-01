@@ -54,7 +54,7 @@ weight: 28
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 수신자 버퍼 여유량만큼 송신자 전송량을 제한하는 기능
+- 개요: 수신자 버퍼 여유량만큼 송신자 전송량을 제한하는 기능
 - 배경: 수신자가 ACK에 window size로 남은 receive buffer(rwnd)를 광고함
 - 필요성: 송신자는 advertised window와 congestion window 중 작은 값(min(rwnd, cwnd))만 전송해 수신 버퍼 overflow를 방지함
 

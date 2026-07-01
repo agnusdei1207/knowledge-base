@@ -138,7 +138,7 @@ Network Devices -> Polling/Trap/Syslog/Flow/API
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. FCAPS 범위 정의: Fault, Configuration, Accounting, Performance, Security별 수집 대상과 보존 기간 수립
+1. FCAPS 범위 설정: Fault, Configuration, Accounting, Performance, Security별 수집 대상과 보존 기간 수립
 2. 장비 연동 표준화: SNMP v3, Syslog TLS, NetFlow/IPFIX, RESTCONF API를 장비군별 적용
 3. 운영 프로세스 연계: NMS 알림을 ITSM 티켓, CMDB, Ansible 변경 검증과 연결
 

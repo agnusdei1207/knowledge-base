@@ -138,7 +138,7 @@ Data Source -> Quality Rule -> Validation Engine -> Quarantine/Load -> Alert/Das
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 규칙 정의: 핵심 테이블 50개와 핵심 컬럼에 null, range, enum, referential rule을 정의하고 coverage 95% 이상 확보
+1. 규칙 설정: 핵심 테이블 50개와 핵심 컬럼에 null, range, enum, referential rule을 정의하고 coverage 95% 이상 확보
 2. 파이프라인 내장: Airflow/dbt/Spark 단계에 Great Expectations 또는 Deequ 검사를 넣고 P1 오류는 적재 차단
 3. 개선 운영: 오류 레코드는 quarantine에 보관하고 owner 알림, RCA, 재검증을 통해 재발률 5% 이하 관리
 

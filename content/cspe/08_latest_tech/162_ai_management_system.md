@@ -87,7 +87,7 @@ AI 범위 설정 → 정책/역할 수립 → 위험·기회 평가
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. AIMS 범위 정의: 생성형 AI 서비스, ML 모델, 외부 AI SaaS를 use case registry로 등록
+1. AIMS 범위 설정: 생성형 AI 서비스, ML 모델, 외부 AI SaaS를 use case registry로 등록
 2. 운영 통제: 데이터 품질, 모델 평가, human oversight, 공급자 리스크를 체크리스트와 배포 게이트로 연결
 3. 심사·개선: 내부심사 연 1회, 고위험 AI 분기 점검, 시정조치 30일 SLA로 증적 관리
 

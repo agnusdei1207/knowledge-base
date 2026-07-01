@@ -57,7 +57,7 @@ weight: 101
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: CPU가 root·non-root 모드를 구분해 게스트 특권 명령어를 자동 트랩하는 하드웨어 가상화 확장(Intel VT-x, AMD-V)
+- 개요: CPU가 root·non-root 모드를 구분해 게스트 특권 명령어를 자동 트랩하는 하드웨어 가상화 확장(Intel VT-x, AMD-V)
 - 배경: 트랩 불가 특권 명령어 때문에 소프트웨어 단독 가상화는 Popek-Goldberg 요건을 완전히 충족하지 못함
 - 필요성: 바이너리 트랜슬레이션 대비 CPU 오버헤드를 낮추려면 하드웨어 trap-and-emulate 메커니즘이 필수
 

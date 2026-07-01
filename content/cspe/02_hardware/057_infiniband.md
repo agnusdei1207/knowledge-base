@@ -55,7 +55,7 @@ weight: 57
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: RDMA를 지원하는 IBTA 표준 기반 HPC·데이터센터 서버 간 네트워크 fabric
+- 개요: RDMA를 지원하는 IBTA 표준 기반 HPC·데이터센터 서버 간 네트워크 fabric
 - 배경: 대규모 클러스터의 서버 간 통신에서 TCP/IP 이더넷의 커널 개입·복사 오버헤드가 지연을 유발함
 - 필요성: HPC·AI 학습의 all-reduce, MPI 통신 성능은 서버 간 통신 지연에 좌우되므로 RDMA 기반 저지연 fabric이 필요함
 

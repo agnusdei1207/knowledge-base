@@ -140,7 +140,7 @@ weight: 26
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 위협 모델 정의: data-at-rest, data-in-transit, data-in-use를 분리하고 하이퍼바이저·관리자를 비신뢰 주체로 명시함.
+1. 위협 모델 설정: data-at-rest, data-in-transit, data-in-use를 분리하고 하이퍼바이저·관리자를 비신뢰 주체로 명시함.
 2. 키 릴리스 통제: attestation 측정값, TCB 버전, workload identity, mTLS를 KMS 정책 조건으로 설정함.
 3. 운영 검증: TCB 패치 SLA 30일, 키 사용 로그 100%, attestation 실패 5분 이내 SIEM 경보를 운영 기준으로 둠.
 

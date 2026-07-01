@@ -55,7 +55,7 @@ weight: 56
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: NVIDIA GPU 간 직접 연결을 위한 독자 고대역폭 point-to-point 인터커넥트
+- 개요: NVIDIA GPU 간 직접 연결을 위한 독자 고대역폭 point-to-point 인터커넥트
 - 배경: 대규모 딥러닝 학습의 GPU 간 파라미터·그래디언트 교환 트래픽이 PCIe 대역폭 한계에 부딪힘
 - 필요성: 다중 GPU 노드에서 all-reduce 등 집합 통신 지연을 줄이려면 GPU 전용 고대역폭 직결 경로가 필요함
 
