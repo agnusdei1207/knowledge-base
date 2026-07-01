@@ -54,7 +54,9 @@ weight: 86
 
 ## Ⅰ. 개요 및 필요성
 
-외부 입력을 검증하고 질의 값으로 바인딩하는 보안 통제이다. 웹·API 요청은 신뢰 경계 밖에서 오므로 타입·길이·범위·스키마 검증 없이 SQL·명령·HTML에 연결하면 Injection이 발생한다. 서버 측 검증과 Prepared Statement를 결합해 입력 해석 위치를 애플리케이션에서 DB 드라이버로 제한해야 한다.
+- 개요: 입력 검증·질의 값 분리 통제
+- 배경: 웹·API 요청은 신뢰 경계 밖에서 오므로 타입, 길이, 범위, 스키마 검증 없이 SQL·명령·HTML에 연결하면 Injection이 발생함.
+- 필요성: OWASP ASVS, allowlist 검증, Prepared Statement, ORM parameter binding을 적용해 입력 해석 위치를 DB 드라이버와 검증 계층으로 제한해야 함.
 
 ---
 

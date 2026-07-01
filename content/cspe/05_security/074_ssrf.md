@@ -54,7 +54,9 @@ weight: 74
 
 ## Ⅰ. 개요 및 필요성
 
-SSRF는 서버 요청 대행 취약점이다. URL 미리보기, 이미지 import, 웹훅 검증 기능에서 발생하며 클라우드 metadata와 내부 API 노출로 이어질 수 있다. 방어는 입력 검증보다 서버 outbound 경로를 allowlist로 제한하는 구조가 우선이다.
+- 개요: 서버 요청 대행 취약점
+- 배경: URL 미리보기, 이미지 import, 웹훅 검증 기능이 사용자 URL을 서버에서 호출하면 클라우드 metadata와 내부 API가 외부 입력 경로에 노출될 수 있음.
+- 필요성: OWASP SSRF Prevention 지침에 따라 allowlist, DNS 재해석 방지, 169.254.169.254 차단, outbound egress 정책을 서버 단에서 적용해야 함.
 
 ---
 

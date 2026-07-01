@@ -54,7 +54,9 @@ weight: 90
 
 ## Ⅰ. 개요 및 필요성
 
-웹 서비스 보안은 XML/SOAP 메시지의 인증·무결성·기밀성 통제이다. 기업 간 연계 메시지는 ESB·Gateway·중계 서버를 지나므로 전송 구간 TLS만으로는 메시지 저장 후 검증이 어렵다. SAML과 WS-Security는 메시지 내부에 신원, 서명, 암호화, 시간 조건을 포함한다.
+- 개요: SOAP 메시지 보안 통제
+- 배경: 기업 간 연계 메시지는 ESB, Gateway, 중계 서버를 지나 저장·재전송될 수 있어 전송 구간 TLS만으로는 메시지 단위 검증이 어려움.
+- 필요성: SAML 2.0, WS-Security, XML Signature, XML Encryption, timestamp를 메시지 내부에 포함해 신원, 무결성, 기밀성, 재전송 방지를 검증해야 함.
 
 ---
 

@@ -54,7 +54,9 @@ weight: 80
 
 ## Ⅰ. 개요 및 필요성
 
-스택 오버플로우는 제어 흐름 변조 공격이다. 입력 길이 검증이 없는 네이티브 코드에서 지역 버퍼를 초과하면 return address가 공격자 값으로 바뀐다. 시스템 SW, IoT, 드라이버에서는 RCE·권한 상승으로 이어져 컴파일러·런타임·SDLC 통제가 필요함.
+- 개요: 스택 제어 흐름 변조 공격
+- 배경: 입력 길이 검증이 없는 C/C++ 코드에서 지역 버퍼를 초과해 쓰면 return address와 saved frame pointer가 공격자 값으로 변조될 수 있음.
+- 필요성: CERT C, CWE-121, stack canary, ASLR, NX, bounds checking을 빌드·테스트 기준에 포함해 시스템 SW와 드라이버의 RCE를 통제해야 함.
 
 ---
 

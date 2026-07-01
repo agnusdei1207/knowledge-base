@@ -54,7 +54,9 @@ weight: 82
 
 ## Ⅰ. 개요 및 필요성
 
-쉘코드·ROP는 실행 흐름 탈취 공격이다. 쉘코드는 공격자가 주입한 기계어를 실행하고, ROP는 바이너리와 라이브러리의 gadget을 연결한다. DEP/NX 이후에는 ROP와 ret2libc가 주요 우회 기법이므로 CFI, shadow stack, ASLR 품질 검증이 필요함.
+- 개요: 실행 흐름 탈취 공격
+- 배경: 쉘코드는 공격자 기계어를 실행하고 ROP는 바이너리·라이브러리 gadget을 연결해 DEP/NX가 막은 코드 주입을 우회함.
+- 필요성: CFI, shadow stack, ASLR entropy, RELRO, retpoline 적용 여부를 바이너리 보안 점검 기준에 포함해 gadget 기반 실행 흐름 변조를 통제해야 함.
 
 ---
 
