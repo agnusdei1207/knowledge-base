@@ -44,8 +44,8 @@ vLLM은 오픈소스 LLM 서빙 엔진임. 고동시성 LLM API는 KV Cache 단�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client/OpenAI API → vLLM Server → Scheduler
-       → PagedAttention KV Blocks → GPU Executor → Streaming
+Client/OpenAI API -> vLLM Server -> Scheduler
+       -> PagedAttention KV Blocks -> GPU Executor -> Streaming
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Client/OpenAI API → vLLM Server → Scheduler
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → 토큰화 → scheduler 배치 편성
-    → PagedAttention KV 할당 → GPU decode → streaming 반환
+요청 수신 -> 토큰화 -> scheduler 배치 편성
+    -> PagedAttention KV 할당 -> GPU decode -> streaming 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

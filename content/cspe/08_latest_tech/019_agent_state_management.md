@@ -50,9 +50,9 @@ weight: 19
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Workflow Step → State Store → Recovery Manager
-       │              │              │
-       ▼              ▼              ▼
+Workflow Step -> State Store -> Recovery Manager
+
+
  입력/결과         상태/버전        재시도/보상
 ```
 
@@ -70,8 +70,8 @@ Workflow Step → State Store → Recovery Manager
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-작업 시작 → 상태 생성 → 단계 실행 → 상태 갱신
-        → 실패 감지 → 재시도/보상 → 완료 기록
+작업 시작 -> 상태 생성 -> 단계 실행 -> 상태 갱신
+        -> 실패 감지 -> 재시도/보상 -> 완료 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

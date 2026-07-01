@@ -47,11 +47,8 @@ Context Window는 LLM의 최대 토큰 처리 범위임. 긴 문서 QA·고객 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-┌──────────────────── Context Window N tokens ────────────────────┐
-│ System │ History │ Retrieved Context │ User Query │ Output Budget │
-└──────────────────────────────────────────────────────────────────┘
-                         │
-                         ▼
+ -------------------- Context Window N tokens --------------------
+  System   History   Retrieved Context   User Query   Output Budget
                  LLM Attention + KV Cache
 ```
 
@@ -68,8 +65,8 @@ Context Window는 LLM의 최대 토큰 처리 범위임. 긴 문서 QA·고객 �
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → 토큰 수 계산 → 우선순위별 문맥 선택
-    → 초과 시 요약/삭제/RAG 대체 → LLM 호출 → 출력 생성
+요청 수신 -> 토큰 수 계산 -> 우선순위별 문맥 선택
+    -> 초과 시 요약/삭제/RAG 대체 -> LLM 호출 -> 출력 생성
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

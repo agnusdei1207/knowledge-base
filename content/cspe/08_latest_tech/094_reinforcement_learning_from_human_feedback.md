@@ -44,8 +44,8 @@ RLHF는 인간 피드백 기반 LLM 정렬 기법임. SFT 모델은 지시를 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-SFT Model → 후보 답변 생성 → Human Preference Label
-      → Reward Model 학습 → PPO/RL 최적화 → Aligned Model
+SFT Model -> 후보 답변 생성 -> Human Preference Label
+      -> Reward Model 학습 -> PPO/RL 최적화 -> Aligned Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ SFT Model → 후보 답변 생성 → Human Preference Label
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-후보 답변 생성 → 인간 선호 라벨링 → RM 학습
-    → PPO 정책 업데이트 → 안전성·품질 평가 → 배포
+후보 답변 생성 -> 인간 선호 라벨링 -> RM 학습
+    -> PPO 정책 업데이트 -> 안전성·품질 평가 -> 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ SFT Model → 후보 답변 생성 → Human Preference Label
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | preference→RM→PPO 흐름 | SFT 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | preference->RM->PPO 흐름 | SFT 대비 특징 |
 | 요구사항 명시형 | 정렬 방안을 제시하시오 | 라벨링·RM·red-team 절차 | 비용·안전·reward hacking 기준 |
 
 > 요약: 설명형은 RLHF 파이프라인, 방안형은 라벨 품질과 안전성 평가 중심으로 목차를 전환함.

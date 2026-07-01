@@ -44,8 +44,8 @@ GPTQ는 LLM weight-only post-training quantization 기법임. 대형 LLM의 GPU 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP16 LLM → Calibration Data → Hessian Approximation
-      → Sequential Weight Quantization → Error Compensation → GPTQ Model
+FP16 LLM -> Calibration Data -> Hessian Approximation
+      -> Sequential Weight Quantization -> Error Compensation -> GPTQ Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ FP16 LLM → Calibration Data → Hessian Approximation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Layer 입력 수집 → Hessian 근사 → weight 순차 양자화
-    → 오차 보정 → 다음 layer 진행 → 품질 평가
+Layer 입력 수집 -> Hessian 근사 -> weight 순차 양자화
+    -> 오차 보정 -> 다음 layer 진행 -> 품질 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -47,11 +47,10 @@ Continuous Batching은 LLM 동적 배치 처리 방식임. 요청별 생성 길�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Request Queue → Scheduler → Active Decode Batch
-      ▲              │              │
-      └── New Req ◀──┴── Finished Req 제거
-                     │
-              KV Cache Manager
+Request Queue -> Scheduler -> Active Decode Batch
+New Request -> Scheduler -> Batch Insert
+Finished Request -> Scheduler -> Batch Remove
+Active Decode Batch -> KV Cache Manager
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -67,8 +66,8 @@ Request Queue → Scheduler → Active Decode Batch
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 유입 → prefill batch 편성 → decode step 실행
-    → 완료 요청 제거 → 신규 요청 삽입 → 다음 decode step
+요청 유입 -> prefill batch 편성 -> decode step 실행
+    -> 완료 요청 제거 -> 신규 요청 삽입 -> 다음 decode step
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

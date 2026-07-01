@@ -45,7 +45,7 @@ Prefix Tuning은 attention prefix 기반 모델 적응 기법임. 모델 전체�
 
 ```text
 Frozen Transformer Layer
-  + Learned Prefix K/V → Attention → Task Output
+  + Learned Prefix K/V -> Attention -> Task Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Frozen Transformer Layer
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-base freeze → prefix 초기화 → task 학습
-    → prefix 저장 → 추론 시 prefix K/V 결합 → 평가
+base freeze -> prefix 초기화 -> task 학습
+    -> prefix 저장 -> 추론 시 prefix K/V 결합 -> 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -44,8 +44,8 @@ AWQ는 activation-aware weight-only quantization 기법임. LLM의 activation ou
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP16 LLM → Calibration Activations → Important Channel Detection
-      → Weight Scaling/Protection → INT4 Weight Quantization → Serving
+FP16 LLM -> Calibration Activations -> Important Channel Detection
+      -> Weight Scaling/Protection -> INT4 Weight Quantization -> Serving
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ FP16 LLM → Calibration Activations → Important Channel Detection
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-대표 입력 수집 → activation 통계 계산 → 중요 channel 선택
-    → scaling 적용 → 4-bit weight 변환 → 정확도·지연 평가
+대표 입력 수집 -> activation 통계 계산 -> 중요 channel 선택
+    -> scaling 적용 -> 4-bit weight 변환 -> 정확도·지연 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

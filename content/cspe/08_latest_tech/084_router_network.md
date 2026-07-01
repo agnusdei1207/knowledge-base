@@ -44,8 +44,8 @@ Router Network는 MoE의 expert 선택 모듈임. MoE의 조건부 계산은 rou
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Token Hidden State → Router Linear → Expert Logits
-      → Softmax → Top-k Selection → Dispatch to Experts
+Token Hidden State -> Router Linear -> Expert Logits
+      -> Softmax -> Top-k Selection -> Dispatch to Experts
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Token Hidden State → Router Linear → Expert Logits
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-token 입력 → expert score 계산 → top-k 선택
-    → capacity 확인 → expert dispatch → load 통계 갱신
+token 입력 -> expert score 계산 -> top-k 선택
+    -> capacity 확인 -> expert dispatch -> load 통계 갱신
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ token 입력 → expert score 계산 → top-k 선택
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | score→top-k→dispatch 흐름 | static 대비 learned router |
+| 포괄형 | 설명하시오, 기술하시오 | score->top-k->dispatch 흐름 | static 대비 learned router |
 | 요구사항 명시형 | 개선 방안을 제시하시오 | collapse·load imbalance 대응 | entropy·drop rate·latency 기준 |
 
 > 요약: 설명형은 라우팅 계산 원리, 개선형은 expert 쏠림과 지연 통제 중심으로 목차를 전환함.

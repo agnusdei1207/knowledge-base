@@ -44,8 +44,8 @@ Vision-Language Model은 이미지와 텍스트를 함께 처리하는 멀티모
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Image → Vision Encoder → Visual Tokens → Projector
-Text Query → Tokenizer ───────────────▶ LLM → Answer
+Image -> Vision Encoder -> Visual Tokens -> Projector
+Text Query -> Tokenizer -> LLM -> Answer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Text Query → Tokenizer ───────────────▶ LLM �
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이미지 입력 → 패치 임베딩 → 시각 토큰 정렬
-  → 텍스트 질의 결합 → LLM 추론 → 답변/출처 출력
+이미지 입력 -> 패치 임베딩 -> 시각 토큰 정렬
+  -> 텍스트 질의 결합 -> LLM 추론 -> 답변/출처 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Text Query → Tokenizer ───────────────▶ LLM �
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "VLM을 설명하시오" | 이미지 인코딩→토큰 정렬→LLM 추론 흐름 | 이미지 모델 대비 차이 |
+| 포괄형 | "VLM을 설명하시오" | 이미지 인코딩->토큰 정렬->LLM 추론 흐름 | 이미지 모델 대비 차이 |
 | 요구사항 명시형 | "시각 AI 적용 방안을 제시하시오" | OCR·VQA·검증 지표 | 개인정보·환각·공간 추론 리스크 |
 
 > 요약: 설명형은 시각-언어 결합 원리, 방안형은 업무 적용과 검증 지표를 중심으로 작성함.

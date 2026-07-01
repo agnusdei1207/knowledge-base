@@ -44,8 +44,8 @@ LLM09는 오정보 생성 위험이다. LLM 답변은 자연스럽지만 항상 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Query → LLM/RAG Generation → Evidence Check
-  → Risk Classification → Answer/Review
+User Query -> LLM/RAG Generation -> Evidence Check
+  -> Risk Classification -> Answer/Review
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ User Query → LLM/RAG Generation → Evidence Check
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질문 분류 → 근거 검색 → 답변 생성
-  → 사실성 평가 → 제공 또는 검토
+질문 분류 -> 근거 검색 -> 답변 생성
+  -> 사실성 평가 -> 제공 또는 검토
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ User Query → LLM/RAG Generation → Evidence Check
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM09를 설명하시오" | 질문분류→근거검증 흐름 | 일반 오류 대비 차이 |
+| 포괄형 | "LLM09를 설명하시오" | 질문분류->근거검증 흐름 | 일반 오류 대비 차이 |
 | 요구사항 명시형 | "LLM 오정보 대응 방안을 제시하시오" | citation·eval·human review | 고위험 도메인 기준 |
 
 > 요약: 설명형은 오정보 생성 위험, 방안형은 근거 기반 답변과 고위험 검토 체계를 중심으로 작성함.

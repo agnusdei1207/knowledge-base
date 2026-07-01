@@ -44,8 +44,8 @@ NPU는 AI 추론 전용 프로세서임. 온디바이스·엣지 AI 확산으로
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-CPU Control → NPU Compiler → MAC/Systolic Array
-      ↔ On-chip SRAM ↔ DRAM → Output Tensor
+CPU Control -> NPU Compiler -> MAC/Systolic Array
+      ↔ On-chip SRAM ↔ DRAM -> Output Tensor
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ CPU Control → NPU Compiler → MAC/Systolic Array
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 변환 → graph 최적화 → operator를 NPU에 매핑
-    → tensor load → MAC 연산 → 결과 반환 → CPU 후처리
+모델 변환 -> graph 최적화 -> operator를 NPU에 매핑
+    -> tensor load -> MAC 연산 -> 결과 반환 -> CPU 후처리
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -47,18 +47,18 @@ weight: 38
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Token IDs → Token Embedding ┐
-                            ├→ Embedding + Position → Transformer
-Position Index → PE Vector ┘
-          │
-          ├─ Absolute PE
-          ├─ Relative PE
-          └─ RoPE / ALiBi
+Token IDs -> Token Embedding
+                             -> Embedding + Position -> Transformer
+Position Index -> PE Vector
+
+           - Absolute PE
+           - Relative PE
+           - RoPE / ALiBi
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Token Embedding | 단어 의미 표현 | 어휘 ID→d_model 벡터 |
+| Token Embedding | 단어 의미 표현 | 어휘 ID->d_model 벡터 |
 | Absolute PE | 위치 번호별 고정/학습 벡터 | 학습 길이 외삽 한계 |
 | Relative PE | 토큰 간 거리 표현 | 번역·구문 관계에 유리 |
 | RoPE/ALiBi | 장문맥 확장 지원 | RoPE scaling, 선형 bias |
@@ -69,8 +69,8 @@ Position Index → PE Vector ┘
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-토큰화 → 위치 번호 부여 → PE 계산/조회 → 임베딩 결합
-    → Q/K 위치 반영 → Attention score 계산
+토큰화 -> 위치 번호 부여 -> PE 계산/조회 -> 임베딩 결합
+    -> Q/K 위치 반영 -> Attention score 계산
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -88,7 +88,7 @@ Position Index → PE Vector ┘
 | 구분 | 절대 위치 인코딩 | 상대/RoPE 위치 인코딩 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
 | 표현 기준 | 위치 번호 자체 | 토큰 간 거리·회전각 | RoPE는 Q/K 회전 |
-| 외삽 | 학습 길이 초과 취약 | 장문맥 확장에 유리 | 32K→128K scaling |
+| 외삽 | 학습 길이 초과 취약 | 장문맥 확장에 유리 | 32K->128K scaling |
 | 구현 | 임베딩 Add | Attention score/QK 조정 | 모델 구조 영향 |
 | 리스크 | 긴 문맥 일반화 한계 | 위치 왜곡·중간 손실 | Lost in the Middle |
 

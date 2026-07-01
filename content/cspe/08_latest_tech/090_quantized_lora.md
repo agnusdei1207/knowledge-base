@@ -44,8 +44,8 @@ QLoRA는 양자화 기반 LoRA 튜닝 기법임. 대형 LLM 도메인 튜닝에�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP16 Base → NF4 4-bit Quantization → Frozen Quantized Base
-       + LoRA Adapter Training → QLoRA Adapter → Evaluation
+FP16 Base -> NF4 4-bit Quantization -> Frozen Quantized Base
+       + LoRA Adapter Training -> QLoRA Adapter -> Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ FP16 Base → NF4 4-bit Quantization → Frozen Quantized Base
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-base 4-bit 로드 → LoRA 삽입 → dequant 기반 forward/backward
-    → LoRA만 업데이트 → adapter 저장 → 평가
+base 4-bit 로드 -> LoRA 삽입 -> dequant 기반 forward/backward
+    -> LoRA만 업데이트 -> adapter 저장 -> 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

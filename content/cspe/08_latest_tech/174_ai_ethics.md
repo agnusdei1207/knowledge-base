@@ -44,8 +44,8 @@ AI Ethics는 AI 윤리 원칙과 판단 기준이다. AI는 성능이 높아도 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Ethical Principles → AI Policy → Impact Assessment
-  → Design Controls → Review Board → Monitoring/Remedy
+Ethical Principles -> AI Policy -> Impact Assessment
+  -> Design Controls -> Review Board -> Monitoring/Remedy
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Ethical Principles → AI Policy → Impact Assessment
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 사용 목적 검토 → 윤리 원칙 매핑 → 영향평가
-  → 설계 통제 적용 → 윤리 심의 → 운영 감시/구제
+AI 사용 목적 검토 -> 윤리 원칙 매핑 -> 영향평가
+  -> 설계 통제 적용 -> 윤리 심의 -> 운영 감시/구제
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ AI 사용 목적 검토 → 윤리 원칙 매핑 → 영향평가
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Ethics를 설명하시오" | 원칙→정책→영향평가→구제 흐름 | 법규 준수 대비 차이 |
+| 포괄형 | "AI Ethics를 설명하시오" | 원칙->정책->영향평가->구제 흐름 | 법규 준수 대비 차이 |
 | 요구사항 명시형 | "AI 윤리 확보 방안을 제시하시오" | 윤리 심의·지표화·이의제기 기준 | 고위험 AI 적용 방안 |
 
 > 요약: 설명형은 윤리 원칙 구조, 방안형은 심의와 구제 절차를 중심으로 작성함.

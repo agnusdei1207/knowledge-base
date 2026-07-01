@@ -44,8 +44,8 @@ AI Governance는 AI 운영 통제 체계임. AI 시스템은 정확도뿐 아니
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-AI Use Case Registry → Risk Classification → Control Design
-  → Release Gate → Monitoring/Audit → Incident Response
+AI Use Case Registry -> Risk Classification -> Control Design
+  -> Release Gate -> Monitoring/Audit -> Incident Response
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ AI Use Case Registry → Risk Classification → Control Design
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 과제 등록 → 위험 등급 평가 → 통제 요구사항 매핑
-  → 개발·평가·승인 → 운영 모니터링 → 사고 대응/개선
+AI 과제 등록 -> 위험 등급 평가 -> 통제 요구사항 매핑
+  -> 개발·평가·승인 -> 운영 모니터링 -> 사고 대응/개선
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ AI 과제 등록 → 위험 등급 평가 → 통제 요구사항 매핑
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Governance를 설명하시오" | 등록→위험분류→통제→감사 흐름 | 일반 IT 거버넌스 대비 차이 |
+| 포괄형 | "AI Governance를 설명하시오" | 등록->위험분류->통제->감사 흐름 | 일반 IT 거버넌스 대비 차이 |
 | 요구사항 명시형 | "AI 거버넌스 구축 방안을 제시하시오" | 배포 게이트·모니터링·사고대응 기준 | ISO/NIST/EU AI Act 매핑 |
 
 > 요약: 설명형은 거버넌스 체계, 방안형은 실무 통제와 표준·규제 매핑을 중심으로 작성함.

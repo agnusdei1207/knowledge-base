@@ -44,8 +44,8 @@ Data Poisoning은 학습데이터 오염 공격이다. AI 모델은 데이터 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Data Source → Poisoned Sample → Training Pipeline
-  → Corrupted Model → Wrong Decision
+Data Source -> Poisoned Sample -> Training Pipeline
+  -> Corrupted Model -> Wrong Decision
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Data Source → Poisoned Sample → Training Pipeline
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-공격 목표 설정 → 오염 샘플 주입 → 모델 학습
-  → 오동작 발생 → 데이터 검증·제거
+공격 목표 설정 -> 오염 샘플 주입 -> 모델 학습
+  -> 오동작 발생 -> 데이터 검증·제거
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Data Source → Poisoned Sample → Training Pipeline
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Data Poisoning을 설명하시오" | 오염 샘플→학습 왜곡 흐름 | 일반 데이터 오류 대비 차이 |
+| 포괄형 | "Data Poisoning을 설명하시오" | 오염 샘플->학습 왜곡 흐름 | 일반 데이터 오류 대비 차이 |
 | 요구사항 명시형 | "AI 데이터 공급망 보안 방안을 제시하시오" | provenance·검증 게이트·재학습 절차 | 공격 의도 판단 기준 |
 
 > 요약: 설명형은 학습 데이터 오염 원리, 방안형은 데이터 계보와 MLOps 검증 게이트를 중심으로 작성함.

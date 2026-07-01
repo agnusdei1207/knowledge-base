@@ -44,10 +44,10 @@ AI PC는 NPU 기반 로컬 AI 컴퓨팅 PC임. 생성형 AI 기능이 업무 생
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User App → OS AI Runtime → Model Router
-      ├→ NPU: 저전력 추론
-      ├→ GPU: 고성능 그래픽/AI
-      └→ Cloud: 고난도 추론
+User App -> OS AI Runtime -> Model Router
+       -> NPU: 저전력 추론
+       -> GPU: 고성능 그래픽/AI
+       -> Cloud: 고난도 추론
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -62,8 +62,8 @@ User App → OS AI Runtime → Model Router
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-앱 요청 → 모델·데이터 민감도 판단 → NPU/GPU 로컬 추론
-    → 결과 반환 또는 클라우드 fallback → 감사·비용 기록
+앱 요청 -> 모델·데이터 민감도 판단 -> NPU/GPU 로컬 추론
+    -> 결과 반환 또는 클라우드 fallback -> 감사·비용 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

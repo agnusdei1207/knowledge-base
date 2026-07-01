@@ -44,8 +44,8 @@ Table Understanding은 표 구조와 의미를 해석하는 문서 AI 기술임.
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Document Image → Table Detection → Structure Recognition
-  → Cell OCR/Header Linking → Semantic Table JSON
+Document Image -> Table Detection -> Structure Recognition
+  -> Cell OCR/Header Linking -> Semantic Table JSON
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Document Image → Table Detection → Structure Recognition
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 입력 → 표 영역 탐지 → 행/열 구조 복원
-  → 셀 OCR → 헤더/단위 연결 → 계산·검색 활용
+문서 입력 -> 표 영역 탐지 -> 행/열 구조 복원
+  -> 셀 OCR -> 헤더/단위 연결 -> 계산·검색 활용
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Document Image → Table Detection → Structure Recognition
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Table Understanding을 설명하시오" | 탐지→구조 복원→셀 OCR→의미 연결 흐름 | OCR 대비 차이 |
+| 포괄형 | "Table Understanding을 설명하시오" | 탐지->구조 복원->셀 OCR->의미 연결 흐름 | OCR 대비 차이 |
 | 요구사항 명시형 | "표 기반 문서 AI 방안을 제시하시오" | numeric exact match·header linking 기준 | RAG citation·검수 큐 |
 
 > 요약: 설명형은 표 구조 이해 원리, 방안형은 수치 정확도와 근거 연결 기준을 중심으로 작성함.

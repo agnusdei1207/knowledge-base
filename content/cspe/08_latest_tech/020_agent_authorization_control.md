@@ -50,9 +50,9 @@ weight: 20
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User/Agent → Policy Decision Point → Tool Gateway → Backend
-      │              │                    │          │
-      ▼              ▼                    ▼          ▼
+User/Agent -> Policy Decision Point -> Tool Gateway -> Backend
+
+
    신원/역할       허용판단              실행통제     업무시스템
 ```
 
@@ -70,8 +70,8 @@ User/Agent → Policy Decision Point → Tool Gateway → Backend
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → 신원 확인 → Tool 위험등급 판단
-        → 정책 평가 → 승인/거부/실행 → 감사 기록
+요청 수신 -> 신원 확인 -> Tool 위험등급 판단
+        -> 정책 평가 -> 승인/거부/실행 -> 감사 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

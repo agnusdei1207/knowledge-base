@@ -44,8 +44,8 @@ weight: 76
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP Model → Calibration/Scale 계산 → INT8/INT4 변환
-      → Quantized Kernel 실행 → Accuracy/Latency Evaluation
+FP Model -> Calibration/Scale 계산 -> INT8/INT4 변환
+      -> Quantized Kernel 실행 -> Accuracy/Latency Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ FP Model → Calibration/Scale 계산 → INT8/INT4 변환
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 bit 선택 → calibration data 수집 → scale 산출
-    → weight/activation 변환 → 추론 실행 → 정확도·지연 비교
+목표 bit 선택 -> calibration data 수집 -> scale 산출
+    -> weight/activation 변환 -> 추론 실행 -> 정확도·지연 비교
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -77,7 +77,7 @@ FP Model → Calibration/Scale 계산 → INT8/INT4 변환
 
 | 구분 | FP16 모델 | Quantized 모델 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
-| 메모리 | 2 byte/param | 1 byte(INT8), 0.5 byte(INT4) | 7B: 14GB→3.5~7GB |
+| 메모리 | 2 byte/param | 1 byte(INT8), 0.5 byte(INT4) | 7B: 14GB->3.5~7GB |
 | 지연 | 대역폭 부담 | kernel 지원 시 감소 | 실제 GPU 측정 |
 | 정확도 | 기준 성능 | 오차 발생 가능 | 회귀 1~3%p 기준 |
 | 적용 | 단순 | calibration·호환성 필요 | PTQ/QAT 선택 |

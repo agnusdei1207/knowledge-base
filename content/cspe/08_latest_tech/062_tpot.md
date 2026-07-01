@@ -17,7 +17,7 @@ weight: 62
 
 ## 깊이 이해
 - **배경·문제의식**: LLM 디코딩은 이전 토큰을 조건으로 다음 토큰을 생성하는 순차 구조라 병렬화가 제한됨. 긴 답변일수록 TPOT가 전체 지연의 대부분을 차지함.
-- **작동 원리**: prefill 후 KV Cache를 참조하며 새 토큰 Query를 계산하고, logits 산출→sampling→KV append를 반복함. decode 단계는 HBM 대역폭과 KV Cache 접근이 병목임.
+- **작동 원리**: prefill 후 KV Cache를 참조하며 새 토큰 Query를 계산하고, logits 산출->sampling->KV append를 반복함. decode 단계는 HBM 대역폭과 KV Cache 접근이 병목임.
 - **비유**: 긴 보고서를 한 글자씩 받아쓰는 속도임. 시작은 빨라도 글자당 간격이 길면 전체 보고서 완성이 늦어짐.
 - **구체 예시**: 70B 모델에서 TPOT 30ms/token, 출력 500토큰이면 decode 시간만 15초임.
 - **흔한 오해·주의점**: Throughput이 높아도 개별 사용자 TPOT가 낮다고 단정할 수 없음. 큰 배치는 tokens/s를 높이지만 사용자별 지연을 늘릴 수 있음.
@@ -44,8 +44,8 @@ TPOT는 토큰당 출력 지연 시간임. LLM 서비스는 첫 토큰 이후에
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prefill 완료 → Decode Loop
-  → Query 계산 → KV Cache Attention → Logits → Sampling → Token 출력
+Prefill 완료 -> Decode Loop
+  -> Query 계산 -> KV Cache Attention -> Logits -> Sampling -> Token 출력
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Prefill 완료 → Decode Loop
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-첫 토큰 출력 → 새 토큰 입력화 → cached K/V 참조
-    → 다음 토큰 샘플링 → KV append → 종료 조건까지 반복
+첫 토큰 출력 -> 새 토큰 입력화 -> cached K/V 참조
+    -> 다음 토큰 샘플링 -> KV append -> 종료 조건까지 반복
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

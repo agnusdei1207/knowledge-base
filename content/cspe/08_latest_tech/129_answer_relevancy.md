@@ -44,8 +44,8 @@ Answer Relevancy는 질문-답변 관련성 지표임. RAG 답변은 근거 문�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Question + Answer → Intent/Requirement Check
-  → Semantic Similarity/Judge → Relevancy Score
+Question + Answer -> Intent/Requirement Check
+  -> Semantic Similarity/Judge -> Relevancy Score
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Question + Answer → Intent/Requirement Check
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질문 입력 → 의도/요구사항 추출 → 답변 분석
-  → 의미 부합도 판정 → 관련성 점수 → 개선 조치
+질문 입력 -> 의도/요구사항 추출 -> 답변 분석
+  -> 의미 부합도 판정 -> 관련성 점수 -> 개선 조치
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Question + Answer → Intent/Requirement Check
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Answer Relevancy를 설명하시오" | 의도 추출→답변 분석→점수화 흐름 | Faithfulness 대비 차이 |
+| 포괄형 | "Answer Relevancy를 설명하시오" | 의도 추출->답변 분석->점수화 흐름 | Faithfulness 대비 차이 |
 | 요구사항 명시형 | "RAG 답변 품질 개선 방안을 제시하시오" | 요구사항 누락 탐지·재생성 기준 | 유형별 프롬프트·평가셋 구성 |
 
 > 요약: 설명형은 질문 적합성 지표 원리, 방안형은 요구사항 누락 방지와 재생성 기준을 중심으로 작성함.

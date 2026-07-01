@@ -50,9 +50,9 @@ weight: 21
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Request → Agent Trace → Tool Call → Approval → Result
-       │             │             │          │        │
-       ▼             ▼             ▼          ▼        ▼
+User Request -> Agent Trace -> Tool Call -> Approval -> Result
+
+
    사용자/목적      모델/프롬프트    API로그     승인자    결과/롤백
 ```
 
@@ -70,8 +70,8 @@ User Request → Agent Trace → Tool Call → Approval → Result
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → Trace 생성 → 판단/도구호출 기록
-        → 승인 기록 → 결과 저장 → 무결성 검증
+요청 수신 -> Trace 생성 -> 판단/도구호출 기록
+        -> 승인 기록 -> 결과 저장 -> 무결성 검증
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

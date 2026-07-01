@@ -44,8 +44,8 @@ INT8 Quantization은 8-bit 정수 기반 모델 압축 기법임. FP16 대비 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP Model → Calibration Dataset → Scale/Zero-point
-      → INT8 Weights/Activations → INT8 Kernel → Evaluation
+FP Model -> Calibration Dataset -> Scale/Zero-point
+      -> INT8 Weights/Activations -> INT8 Kernel -> Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ FP Model → Calibration Dataset → Scale/Zero-point
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-대표 데이터 수집 → min/max 또는 KL calibration
-    → INT8 변환 → 추론 실행 → 정확도·latency 회귀 평가
+대표 데이터 수집 -> min/max 또는 KL calibration
+    -> INT8 변환 -> 추론 실행 -> 정확도·latency 회귀 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

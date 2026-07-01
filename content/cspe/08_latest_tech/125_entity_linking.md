@@ -44,8 +44,8 @@ Entity Linking은 개체명 정규화·연결 기술임. 문서의 개체 표현
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Text → Mention Detection → Candidate Generation
-  → Context Disambiguation → Entity ID/NIL → KG Update
+Text -> Mention Detection -> Candidate Generation
+  -> Context Disambiguation -> Entity ID/NIL -> KG Update
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,9 +60,9 @@ Text → Mention Detection → Candidate Generation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 입력 → NER/사전으로 mention 탐지
-  → 별칭 테이블 후보 조회 → 문맥 점수화
-  → 임계값 이상 ID 연결 / 미만 NIL 처리
+문서 입력 -> NER/사전으로 mention 탐지
+  -> 별칭 테이블 후보 조회 -> 문맥 점수화
+  -> 임계값 이상 ID 연결 / 미만 NIL 처리
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ Text → Mention Detection → Candidate Generation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Entity Linking을 설명하시오" | mention→candidate→disambiguation→NIL 흐름 | NER 대비 차이 |
+| 포괄형 | "Entity Linking을 설명하시오" | mention->candidate->disambiguation->NIL 흐름 | NER 대비 차이 |
 | 요구사항 명시형 | "지식그래프 구축 방안을 제시하시오" | 후보 재현율·오연결률·검수 큐 기준 | KG 중복·검색 누락 방지 방안 |
 
 > 요약: 설명형은 개체 연결 절차, 방안형은 KG 품질 지표와 운영 검수 기준을 중심으로 작성함.

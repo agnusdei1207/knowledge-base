@@ -44,15 +44,15 @@ LoRA는 저랭크 기반 파라미터 효율 튜닝 기법임. 대형 모델 전
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input x → Frozen W x
-       └→ LoRA A(r) → LoRA B → scale α/r → Add → Output
+Input x -> Frozen W x
+        -> LoRA A(r) -> LoRA B -> scale α/r -> Add -> Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Frozen Weight W | 원본 모델 지식 유지 | gradient 없음 |
-| Matrix A | down projection | d→r |
-| Matrix B | up projection | r→d |
+| Matrix A | down projection | d->r |
+| Matrix B | up projection | r->d |
 | Rank/Alpha | 용량·스케일 제어 | r=8~64 |
 
 > 요약: LoRA는 원본 선형층 옆에 저랭크 branch를 추가하고 A·B만 학습해 ΔW를 근사함.
@@ -60,8 +60,8 @@ Input x → Frozen W x
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-target module 선택 → rank/alpha 설정 → A·B 학습
-    → adapter 저장 → merge 또는 동적 로드 → 평가
+target module 선택 -> rank/alpha 설정 -> A·B 학습
+    -> adapter 저장 -> merge 또는 동적 로드 -> 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

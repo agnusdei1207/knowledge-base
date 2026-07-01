@@ -44,8 +44,8 @@ Bellman Equation은 강화학습 가치함수의 재귀 방정식임. 순차 의
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-State s + Action a → Reward R(s,a)
-  + Discount γ × Expected Future Value V(s') → Value V(s)
+State s + Action a -> Reward R(s,a)
+  + Discount γ × Expected Future Value V(s') -> Value V(s)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ State s + Action a → Reward R(s,a)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-가치 초기화 → 각 상태의 행동별 보상+미래가치 계산
-  → 최대값으로 V 갱신 → 수렴 반복 → 최적 정책 추출
+가치 초기화 -> 각 상태의 행동별 보상+미래가치 계산
+  -> 최대값으로 V 갱신 -> 수렴 반복 -> 최적 정책 추출
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -44,8 +44,8 @@ Citation-based Answering은 출처 연결형 답변 방식임. RAG 답변은 근
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Retrieved Context(source_id/page) → Answer Claims
-  → Citation Mapper → Grounding Check → Answer with Sources
+Retrieved Context(source_id/page) -> Answer Claims
+  -> Citation Mapper -> Grounding Check -> Answer with Sources
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,9 +60,9 @@ Retrieved Context(source_id/page) → Answer Claims
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 → RAG 검색 → 출처 메타데이터 보존
-  → 답변 생성 → claim별 citation 연결
-  → 출처 일치성 검증 → 원문 링크 출력
+질의 -> RAG 검색 -> 출처 메타데이터 보존
+  -> 답변 생성 -> claim별 citation 연결
+  -> 출처 일치성 검증 -> 원문 링크 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ Retrieved Context(source_id/page) → Answer Claims
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "출처 기반 답변을 설명하시오" | 검색→claim→citation→검증 흐름 | 일반 RAG 대비 차이 |
+| 포괄형 | "출처 기반 답변을 설명하시오" | 검색->claim->citation->검증 흐름 | 일반 RAG 대비 차이 |
 | 요구사항 명시형 | "기업 RAG 신뢰성 확보 방안을 제시하시오" | citation coverage·correctness 기준 | 감사로그·거절 정책 |
 
 > 요약: 설명형은 출처 연결 구조, 방안형은 검증 지표와 감사 대응을 중심으로 작성함.

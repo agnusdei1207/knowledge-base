@@ -44,8 +44,8 @@ Text-to-Image Generation은 텍스트 기반 이미지 생성 기술임. 콘텐�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt → Text Encoder → Condition Vector
-  → Diffusion/Generator → Image Decoder → Safety Filter
+Prompt -> Text Encoder -> Condition Vector
+  -> Diffusion/Generator -> Image Decoder -> Safety Filter
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Prompt → Text Encoder → Condition Vector
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-프롬프트 입력 → 텍스트 인코딩 → 노이즈 초기화
-  → 조건부 denoising 반복 → 이미지 복원 → 안전성 검수
+프롬프트 입력 -> 텍스트 인코딩 -> 노이즈 초기화
+  -> 조건부 denoising 반복 -> 이미지 복원 -> 안전성 검수
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Prompt → Text Encoder → Condition Vector
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Text-to-Image를 설명하시오" | 프롬프트→조건부 생성→검수 흐름 | 수작업 제작 대비 차이 |
+| 포괄형 | "Text-to-Image를 설명하시오" | 프롬프트->조건부 생성->검수 흐름 | 수작업 제작 대비 차이 |
 | 요구사항 명시형 | "생성형 이미지 활용 방안을 제시하시오" | 안전 필터·권리 검토·품질 지표 | 시안·합성 데이터 적용 기준 |
 
 > 요약: 설명형은 텍스트 조건 이미지 생성 원리, 방안형은 활용 절차와 안전 통제를 중심으로 작성함.

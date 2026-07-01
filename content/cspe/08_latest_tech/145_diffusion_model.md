@@ -44,8 +44,8 @@ Diffusion Model은 노이즈 제거 기반 생성모델임. GAN은 학습 불안
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Clean Data x0 → Forward Noise q(xt|x0) → Noisy xt
-Noisy xt + Condition → Denoising U-Net → x(t-1) → Generated Data
+Clean Data x0 -> Forward Noise q(xt|x0) -> Noisy xt
+Noisy xt + Condition -> Denoising U-Net -> x(t-1) -> Generated Data
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Noisy xt + Condition → Denoising U-Net → x(t-1) → Generated Data
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-학습: 원본 → 노이즈 추가 → noise 예측 손실 최소화
-추론: 순수 노이즈 → 반복 denoising → 조건 반영 이미지 생성
+학습: 원본 -> 노이즈 추가 -> noise 예측 손실 최소화
+추론: 순수 노이즈 -> 반복 denoising -> 조건 반영 이미지 생성
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -69,7 +69,7 @@ Noisy xt + Condition → Denoising U-Net → x(t-1) → Generated Data
 | 1 | 원본 데이터에 timestep별 noise 추가 | noise schedule 정의 |
 | 2 | 모델이 noise ε를 예측하도록 학습 | loss MSE 감소 |
 | 3 | 추론 시 random noise에서 역확산 수행 | 20~50 inference steps |
-| 4 | 텍스트 조건·안전 필터 적용 | FID↓, CLIP score↑ |
+| 4 | 텍스트 조건·안전 필터 적용 | FID감소, CLIP score증가 |
 
 > 요약: 학습 때 노이즈 예측 능력을 익히고, 추론 때 노이즈에서 시작해 단계적으로 샘플을 복원함.
 
@@ -89,7 +89,7 @@ Noisy xt + Condition → Denoising U-Net → x(t-1) → Generated Data
 **적용 방안 3개:**
 1. 이미지 생성: Stable Diffusion 기반 Text-to-Image, CFG 7~12, 30 step 기준으로 품질·지연 균형 설정
 2. 합성 데이터: 결함·의료 이미지 생성 후 FID, downstream accuracy, privacy leakage 테스트 수행
-3. 추론 최적화: latent diffusion, DPM-Solver, distillation으로 50 step→10 step 단축 목표
+3. 추론 최적화: latent diffusion, DPM-Solver, distillation으로 50 step->10 step 단축 목표
 
 **결론 (2줄):**
 - 기술사 판단: 고품질 조건부 이미지·영상 생성은 Diffusion, 초저지연 단순 생성은 경량 GAN/Transformer 검토
@@ -99,7 +99,7 @@ Noisy xt + Condition → Denoising U-Net → x(t-1) → Generated Data
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Diffusion Model을 설명하시오" | forward noise→reverse denoising 흐름 | GAN 대비 차이 |
+| 포괄형 | "Diffusion Model을 설명하시오" | forward noise->reverse denoising 흐름 | GAN 대비 차이 |
 | 요구사항 명시형 | "이미지 생성 모델 적용 방안을 제시하시오" | sampler·CFG·안전 필터 기준 | 품질·지연·권리 리스크 |
 
 > 요약: 설명형은 확산 생성 원리, 방안형은 품질·지연 최적화와 안전 통제를 중심으로 작성함.

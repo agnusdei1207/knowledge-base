@@ -44,8 +44,8 @@ AI Management System은 AI 운영을 위한 경영시스템이다. ISO/IEC 42001
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Organization Context → Leadership/Policy → Planning
-  → Operation Controls → Performance Evaluation → Improvement
+Organization Context -> Leadership/Policy -> Planning
+  -> Operation Controls -> Performance Evaluation -> Improvement
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Organization Context → Leadership/Policy → Planning
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 범위 설정 → 정책/역할 수립 → 위험·기회 평가
-  → 운영 통제 적용 → 성과 측정/내부심사 → 시정조치
+AI 범위 설정 -> 정책/역할 수립 -> 위험·기회 평가
+  -> 운영 통제 적용 -> 성과 측정/내부심사 -> 시정조치
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ AI 범위 설정 → 정책/역할 수립 → 위험·기회 평가
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "ISO/IEC 42001을 설명하시오" | 범위→정책→통제→평가→개선 흐름 | 단발성 심의 대비 차이 |
+| 포괄형 | "ISO/IEC 42001을 설명하시오" | 범위->정책->통제->평가->개선 흐름 | 단발성 심의 대비 차이 |
 | 요구사항 명시형 | "AI 경영시스템 구축 방안을 제시하시오" | use case 등록·내부심사·시정조치 | ISO/NIST/EU AI Act 연계 |
 
 > 요약: 설명형은 AIMS 관리 구조, 방안형은 조직 적용과 지속 개선 증적을 중심으로 작성함.

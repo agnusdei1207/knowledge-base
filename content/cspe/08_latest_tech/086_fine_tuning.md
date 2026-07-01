@@ -44,8 +44,8 @@ Fine-Tuning은 사전학습 모델의 도메인 적응 학습임. 범용 모델�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Base Model → Training Data → Fine-Tuning Job
-      → Tuned Model → Evaluation → Deployment
+Base Model -> Training Data -> Fine-Tuning Job
+      -> Tuned Model -> Evaluation -> Deployment
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Base Model → Training Data → Fine-Tuning Job
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 설정 → 데이터 정제 → 학습 설정 → 추가 학습
-    → 평가·회귀 검증 → 배포·모니터링
+목표 설정 -> 데이터 정제 -> 학습 설정 -> 추가 학습
+    -> 평가·회귀 검증 -> 배포·모니터링
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

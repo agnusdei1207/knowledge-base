@@ -44,8 +44,8 @@ weight: 99
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Source Spec/Seed Data → Generator/Simulator/LLM
-      → Quality Filter → Privacy/Bias Check → Train/Eval Dataset
+Source Spec/Seed Data -> Generator/Simulator/LLM
+      -> Quality Filter -> Privacy/Bias Check -> Train/Eval Dataset
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Source Spec/Seed Data → Generator/Simulator/LLM
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 케이스 선정 → 데이터 생성 → 품질·중복 필터링
-    → 실제 데이터 분포 비교 → 학습/평가 적용 → 성능 검증
+목표 케이스 선정 -> 데이터 생성 -> 품질·중복 필터링
+    -> 실제 데이터 분포 비교 -> 학습/평가 적용 -> 성능 검증
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

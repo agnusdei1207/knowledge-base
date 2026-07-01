@@ -44,8 +44,8 @@ Token Throughput은 LLM 토큰 처리량 지표임. 생성형 AI 서비스는 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Requests → Scheduler → Prefill Tokens/s + Decode Tokens/s
-       → GPU Utilization → Cost per 1K Tokens
+Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
+       -> GPU Utilization -> Cost per 1K Tokens
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Requests → Scheduler → Prefill Tokens/s + Decode Tokens/s
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-트래픽 수집 → 입력/출력 토큰 계측 → batch 구성
-    → GPU 실행 → tokens/s 산출 → 비용·SLA 비교
+트래픽 수집 -> 입력/출력 토큰 계측 -> batch 구성
+    -> GPU 실행 -> tokens/s 산출 -> 비용·SLA 비교
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -71,7 +71,7 @@ Requests → Scheduler → Prefill Tokens/s + Decode Tokens/s
 | 3 | GPU 실행률과 tokens/s 계산 | GPU util 70~90% |
 | 4 | 지연 SLA와 비용 동시 평가 | p95 latency, $/1K tokens |
 
-> 요약: 토큰 계측→스케줄링→GPU 실행→비용 환산을 반복해 처리량과 SLA 균형점을 찾음.
+> 요약: 토큰 계측->스케줄링->GPU 실행->비용 환산을 반복해 처리량과 SLA 균형점을 찾음.
 
 ## Ⅳ. 특징
 

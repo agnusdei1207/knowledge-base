@@ -50,9 +50,9 @@ MCP Tool은 MCP의 실행 기능 단위임. AI 에이전트가 외부 시스템�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Tool Name → Description → Input Schema → Executor
-       │          │              │            │
-       ▼          ▼              ▼            ▼
+Tool Name -> Description -> Input Schema -> Executor
+
+
     식별자       용도설명        검증규칙      업무실행
 ```
 
@@ -70,8 +70,8 @@ Tool Name → Description → Input Schema → Executor
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-도구 선택 → 인자 생성 → 스키마 검증 → 권한 확인
-       → 실행 → 결과 정제 → 감사로그 저장
+도구 선택 -> 인자 생성 -> 스키마 검증 -> 권한 확인
+       -> 실행 -> 결과 정제 -> 감사로그 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

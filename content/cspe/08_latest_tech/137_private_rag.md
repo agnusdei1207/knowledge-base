@@ -44,8 +44,8 @@ Private RAG는 사내망 운영형 RAG 아키텍처임. 민감 데이터와 규�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Internal Docs → Private Ingestion → Internal Vector DB
-  → On-prem/VPC LLM → Guardrail → Audit Log
+Internal Docs -> Private Ingestion -> Internal Vector DB
+  -> On-prem/VPC LLM -> Guardrail -> Audit Log
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,9 +60,9 @@ Internal Docs → Private Ingestion → Internal Vector DB
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-사내 문서 수집 → PII 처리 → 내부 색인
-  → 사용자 질의 → 내부 검색/LLM 생성
-  → 출처 검증 → 암호화 로그 저장
+사내 문서 수집 -> PII 처리 -> 내부 색인
+  -> 사용자 질의 -> 내부 검색/LLM 생성
+  -> 출처 검증 -> 암호화 로그 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ Internal Docs → Private Ingestion → Internal Vector DB
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Private RAG를 설명하시오" | 내부 수집→색인→추론→로그 흐름 | SaaS RAG 대비 차이 |
+| 포괄형 | "Private RAG를 설명하시오" | 내부 수집->색인->추론->로그 흐름 | SaaS RAG 대비 차이 |
 | 요구사항 명시형 | "폐쇄망 RAG 구축 방안을 제시하시오" | 네트워크·암호화·운영 승인 기준 | 보안·비용·모델 품질 비교 |
 
 > 요약: 설명형은 사내망 처리 구조, 방안형은 보안 통제와 운영 절차를 중심으로 작성함.

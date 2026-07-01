@@ -50,9 +50,9 @@ MCP Prompt는 표준 프롬프트 자산임. AI 업무 자동화에서 프롬프
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt Name → Variables → Template → Model Context
-       │            │          │             │
-       ▼            ▼          ▼             ▼
+Prompt Name -> Variables -> Template -> Model Context
+
+
      식별        입력값       지시문        실행컨텍스트
 ```
 
@@ -70,8 +70,8 @@ Prompt Name → Variables → Template → Model Context
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Prompt 조회 → 변수 입력 → 입력 검증 → 템플릿 렌더링
-        → 모델 호출 → 출력 검증 → 이력 저장
+Prompt 조회 -> 변수 입력 -> 입력 검증 -> 템플릿 렌더링
+        -> 모델 호출 -> 출력 검증 -> 이력 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

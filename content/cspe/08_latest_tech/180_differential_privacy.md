@@ -44,8 +44,8 @@ Differential Privacy는 수학적 개인정보 보호 기법이다. 익명화만
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Raw Data → Query/Training → Sensitivity
-  → Noise Mechanism → DP Output
+Raw Data -> Query/Training -> Sensitivity
+  -> Noise Mechanism -> DP Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Raw Data → Query/Training → Sensitivity
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 설계 → 민감도 산정 → ε/δ 결정
-  → 노이즈 추가 → 정확도·위험 평가
+질의 설계 -> 민감도 산정 -> ε/δ 결정
+  -> 노이즈 추가 -> 정확도·위험 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Raw Data → Query/Training → Sensitivity
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Differential Privacy를 설명하시오" | 민감도→노이즈→예산 관리 | 익명화 대비 차이 |
+| 포괄형 | "Differential Privacy를 설명하시오" | 민감도->노이즈->예산 관리 | 익명화 대비 차이 |
 | 요구사항 명시형 | "개인정보 보호 방안을 제시하시오" | ε/δ 설정·accountant 운영 | 정확도 손실·재식별 대응 |
 
 > 요약: 설명형은 DP 수학적 보호 원리, 방안형은 예산·오차·공격 테스트 기준을 중심으로 작성함.

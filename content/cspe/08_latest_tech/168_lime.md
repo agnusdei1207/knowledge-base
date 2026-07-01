@@ -44,8 +44,8 @@ LIME은 모델 불가지론적 국소 설명기법이다. 복잡한 AI 모델은
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Instance x → Perturbation Samples → Black-box Predictions
-  → Weighted Local Surrogate → Feature Importance
+Instance x -> Perturbation Samples -> Black-box Predictions
+  -> Weighted Local Surrogate -> Feature Importance
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Instance x → Perturbation Samples → Black-box Predictions
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-설명 대상 입력 선택 → 주변 샘플 생성 → 모델 예측 수집
-  → 거리 가중치 부여 → 선형 대리모델 학습 → 중요도 출력
+설명 대상 입력 선택 -> 주변 샘플 생성 -> 모델 예측 수집
+  -> 거리 가중치 부여 -> 선형 대리모델 학습 -> 중요도 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Instance x → Perturbation Samples → Black-box Predictions
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LIME을 설명하시오" | perturbation→local surrogate→importance 흐름 | SHAP 대비 차이 |
+| 포괄형 | "LIME을 설명하시오" | perturbation->local surrogate->importance 흐름 | SHAP 대비 차이 |
 | 요구사항 명시형 | "개별 예측 설명 방안을 제시하시오" | fidelity·stability·샘플 수 기준 | 고객 심사·텍스트 분류 적용 |
 
 > 요약: 설명형은 국소 대리모델 원리, 방안형은 안정성 검증과 업무 적용을 중심으로 작성함.

@@ -50,9 +50,9 @@ weight: 17
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Event → Importance Filter → Summary/Embedding → Long Store
-  │             │                  │              │
-  ▼             ▼                  ▼              ▼
+Event -> Importance Filter -> Summary/Embedding -> Long Store
+
+
 로그/대화      저장판단          요약·벡터       DB/Vector
 ```
 
@@ -70,8 +70,8 @@ Event → Importance Filter → Summary/Embedding → Long Store
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이벤트 발생 → 장기저장 판단 → 요약/벡터화 → 저장
-        → 새 작업 검색 → 신뢰도 확인 → 컨텍스트 반영
+이벤트 발생 -> 장기저장 판단 -> 요약/벡터화 -> 저장
+        -> 새 작업 검색 -> 신뢰도 확인 -> 컨텍스트 반영
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

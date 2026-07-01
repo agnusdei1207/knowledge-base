@@ -19,7 +19,7 @@ weight: 103
 - **배경·문제의식**: 실제 문서는 동의어·약어·표·PDF·권한 메타데이터가 섞여 있어 단일 벡터 검색만으로 정답 근거를 찾기 어려움.
 - **작동 원리**: Query Rewrite로 질의를 보정하고, BM25+Dense로 후보를 넓힌 뒤 Cross-Encoder로 재정렬하고, 컨텍스트 압축·출처 검증 후 생성함.
 - **비유**: 논문 작성 전 검색어를 여러 개 만들고, 학술DB와 키워드 검색을 함께 돌린 뒤, 관련도 높은 논문만 인용하는 절차임.
-- **구체 예시**: 고객센터 RAG에서 Dense Top-10만 사용 시 Precision@3 62%, Hybrid+Rerank 적용 시 84%, 평균 지연 900ms→1.4초.
+- **구체 예시**: 고객센터 RAG에서 Dense Top-10만 사용 시 Precision@3 62%, Hybrid+Rerank 적용 시 84%, 평균 지연 900ms->1.4초.
 - **흔한 오해·주의점**: 단계가 많을수록 항상 이득은 아님. 리랭커·평가 호출은 지연과 비용을 증가시키므로 SLA 기준으로 조합해야 함.
 
 ## 연결 개념
@@ -34,8 +34,8 @@ weight: 103
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Advanced RAG는 검색 전·중·후 품질 통제 단계를 추가한 운영형 RAG 구조임.
-> 2. **가치**: Hybrid+Rerank로 Precision@3 62%→84% 향상, 환각률을 15% 이하로 관리함.
-> 3. **판단 포인트**: 품질 이득과 지연 증가(900ms→1.4초)를 SLA·비용 기준으로 조정해야 함.
+> 2. **가치**: Hybrid+Rerank로 Precision@3 62%->84% 향상, 환각률을 15% 이하로 관리함.
+> 3. **판단 포인트**: 품질 이득과 지연 증가(900ms->1.4초)를 SLA·비용 기준으로 조정해야 함.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -44,8 +44,8 @@ Advanced RAG는 품질 통제형 RAG 구조임. Naive RAG는 Top-K 검색 결과
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query → Rewrite/Decompose → Hybrid Search → Reranker
-  → Context Compress → Generator → Evaluator/Guardrail
+Query -> Rewrite/Decompose -> Hybrid Search -> Reranker
+  -> Context Compress -> Generator -> Evaluator/Guardrail
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,9 +60,9 @@ Query → Rewrite/Decompose → Hybrid Search → Reranker
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → 쿼리 재작성 → Sparse/Dense 병렬 검색
-  → RRF 후보 병합 → Cross-Encoder 리랭킹
-  → 컨텍스트 압축 → 생성·출처 검증 → 응답
+질의 입력 -> 쿼리 재작성 -> Sparse/Dense 병렬 검색
+  -> RRF 후보 병합 -> Cross-Encoder 리랭킹
+  -> 컨텍스트 압축 -> 생성·출처 검증 -> 응답
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ Query → Rewrite/Decompose → Hybrid Search → Reranker
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "RAG 고도화를 설명하시오" | Query→Retrieve→Rerank→Evaluate 전체 흐름 | Naive RAG 대비 품질·비용 비교 |
+| 포괄형 | "RAG 고도화를 설명하시오" | Query->Retrieve->Rerank->Evaluate 전체 흐름 | Naive RAG 대비 품질·비용 비교 |
 | 요구사항 명시형 | "기업 RAG 설계 방안을 제시하시오" | Hybrid Search·Reranker·Evaluator 선택 기준 | SLA·비용·품질 지표 기반 적용 방안 |
 
 > 요약: 설명형은 고도화 단계 전체, 설계형은 SLA와 품질 지표에 맞춘 모듈 선택을 중심으로 작성함.

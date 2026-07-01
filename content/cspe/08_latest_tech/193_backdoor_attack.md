@@ -44,8 +44,8 @@ Backdoor Attack은 트리거 기반 모델 조작 공격이다. 외부 데이터
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Poisoned Data/Model → Hidden Trigger → Normal Inference
-  → Triggered Input → Target Misclassification
+Poisoned Data/Model -> Hidden Trigger -> Normal Inference
+  -> Triggered Input -> Target Misclassification
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Poisoned Data/Model → Hidden Trigger → Normal Inference
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-트리거 설계 → 오염 학습 → 정상 검증 통과
-  → 트리거 입력 발생 → 목표 오동작
+트리거 설계 -> 오염 학습 -> 정상 검증 통과
+  -> 트리거 입력 발생 -> 목표 오동작
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Poisoned Data/Model → Hidden Trigger → Normal Inference
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Backdoor Attack을 설명하시오" | 트리거→목표 오동작 흐름 | 일반 오분류 대비 차이 |
+| 포괄형 | "Backdoor Attack을 설명하시오" | 트리거->목표 오동작 흐름 | 일반 오분류 대비 차이 |
 | 요구사항 명시형 | "AI 공급망 보안 방안을 제시하시오" | 모델 도입 검증·ASR 테스트 | clean accuracy 한계 |
 
 > 요약: 설명형은 조건부 오동작 원리, 방안형은 외부 모델 검증과 백도어 탐지 기준을 중심으로 작성함.

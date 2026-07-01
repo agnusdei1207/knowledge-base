@@ -48,12 +48,12 @@ Scaled Dot-Product Attention은 Q·K·V 기반 가중합 연산임. Transformer�
 
 ```text
 Input Embedding
-      │
- ┌────┼────┐
- ▼    ▼    ▼
+
+  ---- ----
+
  Q    K    V
- │    │    │
- └─QKᵀ/√d_k┘ → Softmax → Weight × V → Attention Output
+
+  -QKᵀ/√d_k  -> Softmax -> Weight × V -> Attention Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -69,8 +69,8 @@ Input Embedding
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-임베딩 입력 → Q/K/V 선형변환 → QKᵀ 유사도 계산
-    → √d_k 스케일링 → Mask 적용 → Softmax → V 가중합
+임베딩 입력 -> Q/K/V 선형변환 -> QKᵀ 유사도 계산
+    -> √d_k 스케일링 -> Mask 적용 -> Softmax -> V 가중합
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

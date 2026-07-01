@@ -44,8 +44,8 @@ weight: 100
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Original Dataset → Augmentation Policy → Transformed Samples
-      → Label Validation → Training → Real Test Evaluation
+Original Dataset -> Augmentation Policy -> Transformed Samples
+      -> Label Validation -> Training -> Real Test Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Original Dataset → Augmentation Policy → Transformed Samples
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 분석 → 증강 정책 선택 → 샘플 변형
-    → 라벨 의미 검증 → 학습 반영 → 실제 테스트셋 평가
+데이터 분석 -> 증강 정책 선택 -> 샘플 변형
+    -> 라벨 의미 검증 -> 학습 반영 -> 실제 테스트셋 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -50,9 +50,9 @@ Agent Workflow는 AI 업무 실행 절차임. 에이전트를 운영환경에 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input → Step 1 → Condition → Tool/Agent → Approval → Output
-  │        │          │           │            │         │
-  ▼        ▼          ▼           ▼            ▼         ▼
+Input -> Step 1 -> Condition -> Tool/Agent -> Approval -> Output
+
+
 요청     처리단계     분기       실행단위       승인      결과
 ```
 
@@ -70,8 +70,8 @@ Input → Step 1 → Condition → Tool/Agent → Approval → Output
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 접수 → Workflow 선택 → 단계 실행 → 조건 분기
-        → 승인/재시도 → 결과 생성 → 이력 저장
+요청 접수 -> Workflow 선택 -> 단계 실행 -> 조건 분기
+        -> 승인/재시도 -> 결과 생성 -> 이력 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

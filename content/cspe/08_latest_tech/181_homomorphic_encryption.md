@@ -44,8 +44,8 @@ weight: 181
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Plain Data → Encryption → Ciphertext Operation
-  → Encrypted Result → Decryption
+Plain Data -> Encryption -> Ciphertext Operation
+  -> Encrypted Result -> Decryption
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Plain Data → Encryption → Ciphertext Operation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-키 생성 → 데이터 암호화 → 암호문 연산
-  → 노이즈 관리 → 결과 복호화
+키 생성 -> 데이터 암호화 -> 암호문 연산
+  -> 노이즈 관리 -> 결과 복호화
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Plain Data → Encryption → Ciphertext Operation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "동형암호를 설명하시오" | 키 생성→암호문 연산→복호화 흐름 | 일반 암호화 대비 차이 |
+| 포괄형 | "동형암호를 설명하시오" | 키 생성->암호문 연산->복호화 흐름 | 일반 암호화 대비 차이 |
 | 요구사항 명시형 | "민감정보 분석 방안을 제시하시오" | 파라미터·연산 깊이·오차 검증 | 비용·업무 제한 기준 |
 
 > 요약: 설명형은 암호문 연산 원리, 방안형은 민감정보 외부 계산의 비용·오차·키관리 기준을 중심으로 작성함.

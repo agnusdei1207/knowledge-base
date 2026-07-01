@@ -44,8 +44,8 @@ Vector Database는 벡터 검색 전용 데이터 저장소임. LLM 서비스는
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Embedding → Vector Store → ANN Index(HNSW/IVF-PQ)
-Metadata/ACL ─────────────▶ Filter → Top-K Search → Document ID
+Embedding -> Vector Store -> ANN Index(HNSW/IVF-PQ)
+Metadata/ACL -> Filter -> Top-K Search -> Document ID
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Metadata/ACL ─────────────▶ Filter → Top-K Search 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 임베딩 → 벡터 저장/색인 → 질의 임베딩
-  → 메타데이터 필터 적용 → ANN Top-K 검색 → 원문 조회
+문서 임베딩 -> 벡터 저장/색인 -> 질의 임베딩
+  -> 메타데이터 필터 적용 -> ANN Top-K 검색 -> 원문 조회
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Metadata/ACL ─────────────▶ Filter → Top-K Search 
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Vector DB를 설명하시오" | 적재→색인→필터→검색 흐름 | RDB 확장 대비 전용 DB 차이 |
+| 포괄형 | "Vector DB를 설명하시오" | 적재->색인->필터->검색 흐름 | RDB 확장 대비 전용 DB 차이 |
 | 요구사항 명시형 | "RAG 인프라를 설계하시오" | HNSW·IVF-PQ·ACL·샤딩 기준 | 규모별 제품·운영 선택 기준 |
 
 > 요약: 설명형은 벡터DB 구성 원리, 설계형은 규모·권한·인덱스 기준을 중심으로 작성함.

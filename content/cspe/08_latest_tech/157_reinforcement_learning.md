@@ -44,9 +44,9 @@ weight: 157
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-State st → Agent/Policy π → Action at → Environment
-       ▲                                      │
-       └──────── Reward rt + Next State st+1 ─┘
+State st -> Agent/Policy π -> Action at -> Environment
+
+        -------- Reward rt + Next State st+1 -
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -61,8 +61,8 @@ State st → Agent/Policy π → Action at → Environment
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-상태 관찰 → 행동 선택 → 환경 반응 → 보상 수신
-  → 가치/정책 업데이트 → 반복 학습 → 정책 배포
+상태 관찰 -> 행동 선택 -> 환경 반응 -> 보상 수신
+  -> 가치/정책 업데이트 -> 반복 학습 -> 정책 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ State st → Agent/Policy π → Action at → Environment
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "강화학습을 설명하시오" | 상태→행동→보상→정책 업데이트 흐름 | 지도학습 대비 차이 |
+| 포괄형 | "강화학습을 설명하시오" | 상태->행동->보상->정책 업데이트 흐름 | 지도학습 대비 차이 |
 | 요구사항 명시형 | "제어 최적화 방안을 제시하시오" | 보상 설계·안전 제약·검증 절차 | 탐험 위험·sample efficiency |
 
 > 요약: 설명형은 보상 기반 학습 원리, 방안형은 안전한 정책 학습과 배포 기준을 중심으로 작성함.

@@ -44,8 +44,8 @@ Embedding은 의미 보존 벡터 표현이다. 텍스트·이미지·코드는 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input Text → Tokenizer → Transformer Encoder → Pooling
-  → Normalization → Embedding Vector → Similarity Search
+Input Text -> Tokenizer -> Transformer Encoder -> Pooling
+  -> Normalization -> Embedding Vector -> Similarity Search
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Input Text → Tokenizer → Transformer Encoder → Pooling
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-학습: 양성/음성 쌍 → Contrastive Loss → 임베딩 공간 정렬
-추론: 입력 → 인코더 → 벡터 → 유사도 계산 → 검색/분류
+학습: 양성/음성 쌍 -> Contrastive Loss -> 임베딩 공간 정렬
+추론: 입력 -> 인코더 -> 벡터 -> 유사도 계산 -> 검색/분류
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Input Text → Tokenizer → Transformer Encoder → Pooling
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Embedding을 설명하시오" | 토큰화→인코딩→벡터화→유사도 흐름 | 원문 표현 대비 차이 |
+| 포괄형 | "Embedding을 설명하시오" | 토큰화->인코딩->벡터화->유사도 흐름 | 원문 표현 대비 차이 |
 | 요구사항 명시형 | "RAG 검색 품질 개선 방안을 제시하시오" | 모델 선택·정규화·평가 지표 | BM25 결합·재색인 운영 기준 |
 
 > 요약: 설명형은 벡터 표현 원리, 방안형은 모델 평가와 RAG 운영 적용 기준을 중심으로 작성함.

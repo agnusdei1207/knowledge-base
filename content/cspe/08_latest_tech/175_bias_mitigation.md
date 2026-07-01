@@ -44,8 +44,8 @@ Bias Mitigation은 AI 편향 완화 기법이다. AI 모델은 학습 데이터�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Bias Detection → Pre-processing → In-processing
-  → Post-processing → Fairness Monitoring
+Bias Detection -> Pre-processing -> In-processing
+  -> Post-processing -> Fairness Monitoring
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Bias Detection → Pre-processing → In-processing
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-민감속성/집단 식별 → 공정성 지표 측정
-  → 완화 기법 선택 → 성능·공정성 재평가 → 배포 후 감시
+민감속성/집단 식별 -> 공정성 지표 측정
+  -> 완화 기법 선택 -> 성능·공정성 재평가 -> 배포 후 감시
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Bias Detection → Pre-processing → In-processing
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Bias Mitigation을 설명하시오" | 탐지→전처리→학습→후처리 흐름 | 성능 최적화 대비 차이 |
+| 포괄형 | "Bias Mitigation을 설명하시오" | 탐지->전처리->학습->후처리 흐름 | 성능 최적화 대비 차이 |
 | 요구사항 명시형 | "AI 편향 완화 방안을 제시하시오" | 공정성 지표·trade-off 승인 기준 | 채용·금융 적용 방안 |
 
 > 요약: 설명형은 편향 완화 단계, 방안형은 공정성 지표와 운영 모니터링을 중심으로 작성함.

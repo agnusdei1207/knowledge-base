@@ -44,8 +44,8 @@ OWASP LLM Top 10은 LLM 보안 위험 기준이다. 생성형 AI는 프롬프트
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-LLM App → Prompt/RAG/Agent/Model Supply Chain
-  → OWASP LLM Top 10 Mapping → Control/Test
+LLM App -> Prompt/RAG/Agent/Model Supply Chain
+  -> OWASP LLM Top 10 Mapping -> Control/Test
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ LLM App → Prompt/RAG/Agent/Model Supply Chain
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 기능 식별 → Top 10 위험 매핑 → 통제 설계
-  → 레드팀 테스트 → 운영 모니터링
+AI 기능 식별 -> Top 10 위험 매핑 -> 통제 설계
+  -> 레드팀 테스트 -> 운영 모니터링
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ AI 기능 식별 → Top 10 위험 매핑 → 통제 설계
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "OWASP LLM Top 10을 설명하시오" | 위험 매핑→통제→테스트 흐름 | Web Top 10 대비 차이 |
+| 포괄형 | "OWASP LLM Top 10을 설명하시오" | 위험 매핑->통제->테스트 흐름 | Web Top 10 대비 차이 |
 | 요구사항 명시형 | "생성형 AI 보안 점검 방안을 제시하시오" | LLM01~10 체크리스트와 배포 게이트 | RAG·Agent 적용 기준 |
 
 > 요약: 설명형은 Top 10 체계, 방안형은 위험 매핑과 배포 전 레드팀 기준을 중심으로 작성함.

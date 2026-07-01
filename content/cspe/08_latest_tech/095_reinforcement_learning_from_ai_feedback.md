@@ -44,8 +44,8 @@ RLAIF는 AI 피드백 기반 정렬 기법임. RLHF의 라벨링 비용과 처�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Policy Model → Candidate Answers → AI Evaluator/Rubric
-      → Preference Data → RM/DPO/RL Training → Aligned Model
+Policy Model -> Candidate Answers -> AI Evaluator/Rubric
+      -> Preference Data -> RM/DPO/RL Training -> Aligned Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Policy Model → Candidate Answers → AI Evaluator/Rubric
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-후보 답변 생성 → AI 평가·비판 → 선호 데이터 생성
-    → 인간 샘플 감사 → 정렬 학습 → 안전성 평가
+후보 답변 생성 -> AI 평가·비판 -> 선호 데이터 생성
+    -> 인간 샘플 감사 -> 정렬 학습 -> 안전성 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Policy Model → Candidate Answers → AI Evaluator/Rubric
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | AI 평가→감사→정렬 흐름 | RLHF 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | AI 평가->감사->정렬 흐름 | RLHF 대비 특징 |
 | 요구사항 명시형 | 정렬 방안을 제시하시오 | rubric·audit·judge 평가 절차 | 비용·편향·고위험 기준 |
 
 > 요약: 설명형은 AI feedback 구조, 방안형은 인간 감사와 evaluator 품질 통제 중심으로 목차를 전환함.

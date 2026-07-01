@@ -44,8 +44,8 @@ Context Precision은 검색 컨텍스트 정밀도 지표임. RAG는 검색 결�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Question → Retrieved Contexts(rank 1..K)
-  → Relevance Judge → Ranked Precision → Context Precision
+Question -> Retrieved Contexts(rank 1..K)
+  -> Relevance Judge -> Ranked Precision -> Context Precision
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Question → Retrieved Contexts(rank 1..K)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-검색 실행 → Top-K 컨텍스트 수집 → 관련/무관 판정
-  → 순위별 정밀도 계산 → 임계값 비교 → 검색 개선
+검색 실행 -> Top-K 컨텍스트 수집 -> 관련/무관 판정
+  -> 순위별 정밀도 계산 -> 임계값 비교 -> 검색 개선
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -87,7 +87,7 @@ Question → Retrieved Contexts(rank 1..K)
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 리랭커 적용: Hybrid Top-50 후보를 Cross-Encoder로 재정렬해 Context Precision@5 0.55→0.82 개선
+1. 리랭커 적용: Hybrid Top-50 후보를 Cross-Encoder로 재정렬해 Context Precision@5 0.55->0.82 개선
 2. 청크 정제: 512토큰 청크와 semantic chunking을 비교해 무관 문장 혼입률 20% 이하로 관리
 3. 운영 모니터링: 상위 Top-5 중 무관 컨텍스트 2개 이상이면 검색 튜닝 티켓 자동 생성
 
@@ -99,7 +99,7 @@ Question → Retrieved Contexts(rank 1..K)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Context Precision을 설명하시오" | Top-K 판정→순위 정밀도 계산 흐름 | Context Recall 대비 차이 |
+| 포괄형 | "Context Precision을 설명하시오" | Top-K 판정->순위 정밀도 계산 흐름 | Context Recall 대비 차이 |
 | 요구사항 명시형 | "RAG 검색 품질 개선 방안을 제시하시오" | 리랭킹·청킹·Top-K 튜닝 기준 | 비용·환각·정밀도 지표 연계 |
 
 > 요약: 설명형은 상위 컨텍스트 정밀도 원리, 방안형은 리랭킹과 청킹 개선 기준을 중심으로 작성함.

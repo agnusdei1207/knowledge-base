@@ -50,9 +50,8 @@ Speculative Decoding은 LLM 디코딩 가속 기법임. 대형 모델은 토큰�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt → Draft Model → 후보 토큰 t1..tk
-   │                         │
-   └──────────────▶ Target Model 검증 ──▶ Accept/Reject → Output
+Prompt -> Draft Model -> 후보 토큰 t1..tk
+    -> Target Model 검증 -> Accept/Reject -> Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -69,8 +68,8 @@ Prompt → Draft Model → 후보 토큰 t1..tk
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-프롬프트 입력 → draft가 k토큰 생성 → target 병렬 검증
-    → prefix 수락 → 거절 지점 fallback → 다음 반복
+프롬프트 입력 -> draft가 k토큰 생성 -> target 병렬 검증
+    -> prefix 수락 -> 거절 지점 fallback -> 다음 반복
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -114,7 +113,7 @@ Prompt → Draft Model → 후보 토큰 t1..tk
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | draft→target 검증 흐름 | 일반 디코딩 대비 처리량 |
+| 포괄형 | 설명하시오, 기술하시오 | draft->target 검증 흐름 | 일반 디코딩 대비 처리량 |
 | 요구사항 명시형 | 최적화 방안을 제시하시오 | acceptance rate 기반 적용 절차 | TPOT·품질 회귀·운영 복잡도 |
 
 > 요약: 설명형은 두 모델 검증 구조, 최적화형은 수락률과 TPOT 개선 기준으로 목차를 전환함.

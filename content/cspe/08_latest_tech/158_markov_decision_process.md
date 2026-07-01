@@ -44,8 +44,8 @@ MDP는 순차 의사결정 문제의 수학적 모델임. 강화학습은 에이
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-State S + Action A → Transition P(s'|s,a)
-  → Reward R(s,a) → Discount γ → Policy π(a|s)
+State S + Action A -> Transition P(s'|s,a)
+  -> Reward R(s,a) -> Discount γ -> Policy π(a|s)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ State S + Action A → Transition P(s'|s,a)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-상태 st 관찰 → 행동 at 선택 → 전이 P로 st+1 이동
-  → 보상 rt 수신 → 할인 누적 보상 계산 → 정책 개선
+상태 st 관찰 -> 행동 at 선택 -> 전이 P로 st+1 이동
+  -> 보상 rt 수신 -> 할인 누적 보상 계산 -> 정책 개선
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ State S + Action A → Transition P(s'|s,a)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "MDP를 설명하시오" | 상태→행동→전이→보상 흐름 | 단일 의사결정 대비 차이 |
+| 포괄형 | "MDP를 설명하시오" | 상태->행동->전이->보상 흐름 | 단일 의사결정 대비 차이 |
 | 요구사항 명시형 | "강화학습 문제를 설계하시오" | 상태·행동·보상·할인율 정의 | Markov property 검증 |
 
 > 요약: 설명형은 MDP 구성요소, 설계형은 문제별 상태·보상 정의와 가정 검증을 중심으로 작성함.

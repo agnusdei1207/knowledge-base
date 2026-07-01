@@ -44,8 +44,8 @@ Stable Diffusion은 공개 생태계 기반 이미지 생성 확산모델임. �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt → Text Encoder → Condition
-Noise Latent → U-Net Denoising → VAE Decoder → Image → Safety Filter
+Prompt -> Text Encoder -> Condition
+Noise Latent -> U-Net Denoising -> VAE Decoder -> Image -> Safety Filter
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Noise Latent → U-Net Denoising → VAE Decoder → Image → Safety Filter
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-프롬프트 입력 → 조건 인코딩 → latent noise 생성
-  → 20~50 step denoising → VAE 복원 → 안전 필터/검수
+프롬프트 입력 -> 조건 인코딩 -> latent noise 생성
+  -> 20~50 step denoising -> VAE 복원 -> 안전 필터/검수
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Noise Latent → U-Net Denoising → VAE Decoder → Image → Safety Filter
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Stable Diffusion을 설명하시오" | prompt→latent denoising→VAE 복원 흐름 | 픽셀 확산 대비 차이 |
+| 포괄형 | "Stable Diffusion을 설명하시오" | prompt->latent denoising->VAE 복원 흐름 | 픽셀 확산 대비 차이 |
 | 요구사항 명시형 | "이미지 생성 서비스 구축 방안을 제시하시오" | LoRA·ControlNet·안전 필터 기준 | 비용·권리·라이선스 통제 |
 
 > 요약: 설명형은 잠재 확산 구조, 방안형은 제어 생성과 운영 안전 기준을 중심으로 작성함.

@@ -50,9 +50,9 @@ weight: 13
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Goal → Planner → Executor → Critic → Aggregator
-                │          │         │          │
-                └──── Domain Agents / Tools ────┘
+User Goal -> Planner -> Executor -> Critic -> Aggregator
+
+                 ---- Domain Agents / Tools ----
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -69,8 +69,8 @@ User Goal → Planner → Executor → Critic → Aggregator
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 수신 → 역할 할당 → 병렬/순차 실행 → 상호 검토
-        → 충돌 조정 → 최종 결과 → 로그 저장
+목표 수신 -> 역할 할당 -> 병렬/순차 실행 -> 상호 검토
+        -> 충돌 조정 -> 최종 결과 -> 로그 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

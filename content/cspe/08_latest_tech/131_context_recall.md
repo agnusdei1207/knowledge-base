@@ -44,8 +44,8 @@ Context Recall은 검색 근거 재현율 지표임. RAG 답변 품질은 필요
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Question + Gold Evidence → Retrieved Contexts
-  → Evidence Coverage Judge → Context Recall Score
+Question + Gold Evidence -> Retrieved Contexts
+  -> Evidence Coverage Judge -> Context Recall Score
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Question + Gold Evidence → Retrieved Contexts
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-평가 질의 실행 → Top-K 컨텍스트 수집
-  → gold evidence와 매칭 → 포함/누락 판정 → Recall 산출
+평가 질의 실행 -> Top-K 컨텍스트 수집
+  -> gold evidence와 매칭 -> 포함/누락 판정 -> Recall 산출
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -87,7 +87,7 @@ Question + Gold Evidence → Retrieved Contexts
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 검색 누락 개선: Dense Top-20에 BM25 Top-20을 RRF 결합해 Context Recall 0.72→0.88 달성
+1. 검색 누락 개선: Dense Top-20에 BM25 Top-20을 RRF 결합해 Context Recall 0.72->0.88 달성
 2. 질의 보정: 약어·동의어 Query Rewrite 적용, 규정 번호·서비스명은 BM25 가중치 상향
 3. 운영 게이트: Context Recall 0.85 미만 질의는 색인·청킹·Top-K 변경 실험 대상으로 자동 분류
 
@@ -99,7 +99,7 @@ Question + Gold Evidence → Retrieved Contexts
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Context Recall을 설명하시오" | gold evidence→검색 결과→커버리지 계산 흐름 | Context Precision 대비 차이 |
+| 포괄형 | "Context Recall을 설명하시오" | gold evidence->검색 결과->커버리지 계산 흐름 | Context Precision 대비 차이 |
 | 요구사항 명시형 | "RAG 검색 누락 개선 방안을 제시하시오" | Top-K·Hybrid·Rewrite 개선 절차 | Precision과의 트레이드오프 |
 
 > 요약: 설명형은 근거 커버리지 원리, 방안형은 검색 누락 개선 기준을 중심으로 작성함.

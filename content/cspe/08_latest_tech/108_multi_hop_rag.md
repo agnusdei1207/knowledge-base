@@ -34,7 +34,7 @@ weight: 108
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Multi-hop RAG는 복수 검색 결과를 단계적으로 연결해 근거 체인을 구성하는 RAG임.
-> 2. **가치**: 단일 검색으로 답하기 어려운 복합 질의에서 supporting fact recall을 58%→72%로 높임.
+> 2. **가치**: 단일 검색으로 답하기 어려운 복합 질의에서 supporting fact recall을 58%->72%로 높임.
 > 3. **판단 포인트**: hop별 근거 검증과 검색 종료 조건을 두지 않으면 오류 전파와 지연 증가가 발생함.
 
 ## Ⅰ. 개요 및 필요성
@@ -44,10 +44,9 @@ Multi-hop RAG는 다단계 검색형 RAG임. 복합 질문은 답이 여러 문�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query → Decomposer → Hop-1 Retriever → Evidence
-          ▲              │
-          └── Hop Planner◀── Entity/Condition Extractor
-                         → Hop-2/3 Retriever → Synthesizer
+Query -> Decomposer -> Hop-1 Retriever -> Evidence
+Evidence -> Entity/Condition Extractor -> Hop Planner
+Hop Planner -> Hop-2/3 Retriever -> Synthesizer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -62,10 +61,10 @@ Query → Decomposer → Hop-1 Retriever → Evidence
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-복합 질의 → 하위 질문 생성 → 1차 검색
-  → 엔티티/조건 추출 → 2차 검색 → 근거 검증
-  ├─ 근거 부족 → 3차 검색
-  └─ 근거 충분 → 체인 통합 답변
+복합 질의 -> 하위 질문 생성 -> 1차 검색
+  -> 엔티티/조건 추출 -> 2차 검색 -> 근거 검증
+   - 근거 부족 -> 3차 검색
+   - 근거 충분 -> 체인 통합 답변
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -91,7 +90,7 @@ Query → Decomposer → Hop-1 Retriever → Evidence
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 장애 RCA: 알람→서비스→DB→배포 이력 순서로 3-hop 검색, hop별 근거와 시간축을 함께 출력
+1. 장애 RCA: 알람->서비스->DB->배포 이력 순서로 3-hop 검색, hop별 근거와 시간축을 함께 출력
 2. 규정 질의: 조항 번호·예외 조건·관련 시행령을 순차 검색, 근거 조항 2개 이상일 때만 답변 생성
 3. 종료 제어: max_hop=3, supporting fact recall 70% 미만이면 "근거 부족" 응답, 캐시로 반복 질의 지연 30% 절감
 
@@ -103,7 +102,7 @@ Query → Decomposer → Hop-1 Retriever → Evidence
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Multi-hop RAG를 설명하시오" | 질의 분해→반복 검색→근거 체인 흐름 | Single-hop 대비 장단점 |
+| 포괄형 | "Multi-hop RAG를 설명하시오" | 질의 분해->반복 검색->근거 체인 흐름 | Single-hop 대비 장단점 |
 | 요구사항 명시형 | "복합 질의 RAG 방안을 제시하시오" | hop 종료 조건·근거 검증 기준 | 지연·오류 전파 통제 방안 |
 
 > 요약: 설명형은 다단계 검색 원리, 방안형은 hop 제어와 근거 검증 기준을 중심으로 작성함.

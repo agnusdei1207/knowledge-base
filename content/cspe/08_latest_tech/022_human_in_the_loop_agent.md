@@ -50,9 +50,9 @@ Human-in-the-Loop은 AI 실행의 사람 승인 구조임. 에이전트가 실�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Agent Proposal → Risk Scoring → Human Review → Execute/Reject
-        │              │              │              │
-        ▼              ▼              ▼              ▼
+Agent Proposal -> Risk Scoring -> Human Review -> Execute/Reject
+
+
       제안          위험평가        승인/수정        실행/차단
 ```
 
@@ -70,8 +70,8 @@ Agent Proposal → Risk Scoring → Human Review → Execute/Reject
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 분석 → 위험등급 산정 → 자동/승인 분기
-        → 사람 검토 → 실행/거부 → 결과 기록
+요청 분석 -> 위험등급 산정 -> 자동/승인 분기
+        -> 사람 검토 -> 실행/거부 -> 결과 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -50,8 +50,8 @@ Inference Scaling은 추론 단계 연산 확대 전략임. 파라미터 증설�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Query → Difficulty Router → Candidate Generator(N)
-      → Verifier/Reranker → Voting/Selection → Final Answer
+User Query -> Difficulty Router -> Candidate Generator(N)
+      -> Verifier/Reranker -> Voting/Selection -> Final Answer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -68,8 +68,8 @@ User Query → Difficulty Router → Candidate Generator(N)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 → 난이도 추정 → N·토큰 예산 결정
-   → 후보 풀이 생성 → 검증/투표 → 최종 답 선택 → 비용 기록
+입력 -> 난이도 추정 -> N·토큰 예산 결정
+   -> 후보 풀이 생성 -> 검증/투표 -> 최종 답 선택 -> 비용 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -88,7 +88,7 @@ User Query → Difficulty Router → Candidate Generator(N)
 | 구분 | 학습 스케일링 | 추론 스케일링 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
 | 비용 발생 시점 | 사전학습/미세조정 | 요청 처리 시점 | 호출량 증가 시 비용 선형 증가 |
-| 적용 방식 | 파라미터·데이터 확대 | 후보 수·검증 횟수 확대 | N=1→16 |
+| 적용 방식 | 파라미터·데이터 확대 | 후보 수·검증 횟수 확대 | N=1->16 |
 | 장점 | 모든 요청 기본 능력 상승 | 고난도 요청에 선택 적용 | adaptive routing |
 | 한계 | GPU 학습비 고정 부담 | 지연·토큰 비용 증가 | p95 SLA 초과 위험 |
 

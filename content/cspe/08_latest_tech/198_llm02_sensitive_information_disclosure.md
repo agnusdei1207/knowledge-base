@@ -44,8 +44,8 @@ LLM02는 민감정보 노출 위험이다. LLM 앱은 RAG와 도구를 통해 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Sensitive Source → Retrieval/Tool Context → LLM Generation
-  → Output/Log → Disclosure Control
+Sensitive Source -> Retrieval/Tool Context -> LLM Generation
+  -> Output/Log -> Disclosure Control
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Sensitive Source → Retrieval/Tool Context → LLM Generation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 등급화 → 권한 필터 검색 → 최소 컨텍스트 구성
-  → 출력 DLP 검사 → 감사·차단
+데이터 등급화 -> 권한 필터 검색 -> 최소 컨텍스트 구성
+  -> 출력 DLP 검사 -> 감사·차단
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Sensitive Source → Retrieval/Tool Context → LLM Generation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM02를 설명하시오" | 등급화→권한검색→DLP 흐름 | 일반 데이터 유출 대비 차이 |
+| 포괄형 | "LLM02를 설명하시오" | 등급화->권한검색->DLP 흐름 | 일반 데이터 유출 대비 차이 |
 | 요구사항 명시형 | "생성형 AI 민감정보 보호 방안을 제시하시오" | RAG ACL·출력 DLP·로그 마스킹 | 개인정보 규제 대응 |
 
 > 요약: 설명형은 민감정보 노출 구조, 방안형은 권한 기반 검색과 출력 DLP를 중심으로 작성함.

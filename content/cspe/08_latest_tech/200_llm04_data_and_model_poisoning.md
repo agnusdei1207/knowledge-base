@@ -44,8 +44,8 @@ LLM04는 데이터·모델 오염 위험이다. LLM은 학습 데이터와 RAG �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Training/RAG Data → Poisoned Sample/Model → LLM Pipeline
-  → Distorted Response → Detection & Rollback
+Training/RAG Data -> Poisoned Sample/Model -> LLM Pipeline
+  -> Distorted Response -> Detection & Rollback
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Training/RAG Data → Poisoned Sample/Model → LLM Pipeline
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-출처 검증 → 오염 탐지 → 격리 학습·색인
-  → 응답 평가 → 롤백·재학습
+출처 검증 -> 오염 탐지 -> 격리 학습·색인
+  -> 응답 평가 -> 롤백·재학습
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Training/RAG Data → Poisoned Sample/Model → LLM Pipeline
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM04를 설명하시오" | 출처검증→오염탐지→롤백 흐름 | 일반 Data Poisoning 대비 차이 |
+| 포괄형 | "LLM04를 설명하시오" | 출처검증->오염탐지->롤백 흐름 | 일반 Data Poisoning 대비 차이 |
 | 요구사항 명시형 | "LLM 데이터 무결성 확보 방안을 제시하시오" | RAG 승인·artifact 검증·ASR 테스트 | 버전관리·롤백 기준 |
 
 > 요약: 설명형은 데이터·모델 오염 구조, 방안형은 RAG와 모델 artifact 무결성 통제를 중심으로 작성함.

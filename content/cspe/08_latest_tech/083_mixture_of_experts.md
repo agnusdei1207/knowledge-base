@@ -44,8 +44,8 @@ MoE는 조건부 전문가 선택 모델 구조임. Dense 모델은 파라미터
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Token Hidden State → Router → Top-k Experts
-      → Expert FFN 계산 → Weighted Combine → Next Layer
+Token Hidden State -> Router -> Top-k Experts
+      -> Expert FFN 계산 -> Weighted Combine -> Next Layer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Token Hidden State → Router → Top-k Experts
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 token → router score 산출 → top-k expert 선택
-    → expert 병렬 계산 → 출력 가중합 → load 통계 기록
+입력 token -> router score 산출 -> top-k expert 선택
+    -> expert 병렬 계산 -> 출력 가중합 -> load 통계 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Token Hidden State → Router → Top-k Experts
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | routing→expert 계산 흐름 | Dense 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | routing->expert 계산 흐름 | Dense 대비 특징 |
 | 요구사항 명시형 | 설계하시오, 비교하시오 | load balance·EP 설계 절차 | 비용·지연·통신 기준 |
 
 > 요약: 설명형은 조건부 계산 원리, 설계형은 router와 expert 병렬 운영 기준으로 목차를 전환함.

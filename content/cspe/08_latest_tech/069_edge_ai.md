@@ -44,8 +44,8 @@ Edge AI는 현장 인접 AI 처리 아키텍처임. 영상·센서·산업 데�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Sensors/Cameras → Edge Gateway/IPC → AI Inference
-      → Event Filter → Local Action + Cloud Sync
+Sensors/Cameras -> Edge Gateway/IPC -> AI Inference
+      -> Event Filter -> Local Action + Cloud Sync
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Sensors/Cameras → Edge Gateway/IPC → AI Inference
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 수집 → 엣지 전처리 → AI 추론 → 이벤트 판단
-    → 현장 조치 → 메타데이터 클라우드 동기화 → 모델 업데이트
+데이터 수집 -> 엣지 전처리 -> AI 추론 -> 이벤트 판단
+    -> 현장 조치 -> 메타데이터 클라우드 동기화 -> 모델 업데이트
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

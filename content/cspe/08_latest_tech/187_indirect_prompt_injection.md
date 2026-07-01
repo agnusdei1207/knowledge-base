@@ -44,8 +44,8 @@ weight: 187
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-External Content → Hidden Instruction → RAG/Agent Context
-  → Tool/Data Access → Exfiltration Attempt
+External Content -> Hidden Instruction -> RAG/Agent Context
+  -> Tool/Data Access -> Exfiltration Attempt
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ External Content → Hidden Instruction → RAG/Agent Context
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-외부 문서 수집 → 악성 지시 포함 → 모델 읽기
-  → 민감 작업 유도 → 정책 게이트 차단
+외부 문서 수집 -> 악성 지시 포함 -> 모델 읽기
+  -> 민감 작업 유도 -> 정책 게이트 차단
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ External Content → Hidden Instruction → RAG/Agent Context
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Indirect Prompt Injection을 설명하시오" | 외부 문서→컨텍스트 오염 흐름 | 직접 공격 대비 차이 |
+| 포괄형 | "Indirect Prompt Injection을 설명하시오" | 외부 문서->컨텍스트 오염 흐름 | 직접 공격 대비 차이 |
 | 요구사항 명시형 | "RAG 보안 방안을 제시하시오" | 콘텐츠 신뢰등급·도구 게이트 | 에이전트 권한 제한 |
 
 > 요약: 설명형은 외부 콘텐츠 공격 경로, 방안형은 RAG 전처리와 에이전트 권한 통제를 중심으로 작성함.

@@ -44,9 +44,9 @@ Hybrid Search는 희소·밀집 검색 결합 방식임. BM25는 고유명사·�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query ┬→ BM25/SPLADE → Sparse Top-N ┐
-      └→ Embedding → Dense Top-N ───┼→ Fusion(RRF/Weighted) → Reranker → Top-K
-                                    ┘
+Query  -> BM25/SPLADE -> Sparse Top-N
+       -> Embedding -> Dense Top-N --- -> Fusion(RRF/Weighted) -> Reranker -> Top-K
+
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -54,16 +54,16 @@ Query ┬→ BM25/SPLADE → Sparse Top-N ┐
 | Sparse Retriever | 키워드·고유명사 후보 검색 | BM25, SPLADE, Elasticsearch |
 | Dense Retriever | 의미 유사도 후보 검색 | BGE, E5, Vector DB |
 | Fusion Engine | 후보 순위 결합 | RRF k=60, score normalization |
-| Reranker | 최종 후보 정밀 재정렬 | Cross-Encoder Top-50→Top-5 |
+| Reranker | 최종 후보 정밀 재정렬 | Cross-Encoder Top-50->Top-5 |
 
 > 요약: Hybrid Search는 Sparse와 Dense 후보를 병렬 수집하고 Fusion과 Reranker로 최종 근거 문서를 선정함.
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → Sparse/Dense 병렬 검색
-  → 후보 중복 제거 → RRF 순위 결합
-  → Cross-Encoder 리랭킹 → Top-K 반환
+질의 입력 -> Sparse/Dense 병렬 검색
+  -> 후보 중복 제거 -> RRF 순위 결합
+  -> Cross-Encoder 리랭킹 -> Top-K 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

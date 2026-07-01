@@ -44,8 +44,8 @@ weight: 78
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
-      → Dequant/4-bit Kernel → LLM Inference → Evaluation
+FP16 Weights -> Grouping -> Scale 계산 -> 4-bit 저장
+      -> Dequant/4-bit Kernel -> LLM Inference -> Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 로드 → weight 그룹화 → 4-bit 코드 변환
-    → 추론 kernel 적용 → 정확도·메모리·지연 측정
+모델 로드 -> weight 그룹화 -> 4-bit 코드 변환
+    -> 추론 kernel 적용 -> 정확도·메모리·지연 측정
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -77,7 +77,7 @@ FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
 
 | 구분 | INT8 | 4-bit | 수치·판단 포인트 |
 |:---|:---|:---|:---|
-| 메모리 | FP16 대비 약 50% | FP16 대비 약 25% | 13B: 26GB→7~10GB |
+| 메모리 | FP16 대비 약 50% | FP16 대비 약 25% | 13B: 26GB->7~10GB |
 | 정확도 | 회귀 작음 | 회귀 위험 증가 | GPTQ/AWQ 보정 필요 |
 | 적용 | 범용 | LLM weight 중심 | activation 주의 |
 | 하드웨어 | 지원 넓음 | kernel 의존 큼 | vLLM/TensorRT 확인 |

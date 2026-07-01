@@ -44,8 +44,8 @@ LLM08은 벡터·임베딩 계층 취약점이다. RAG는 벡터 검색 결과�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Document → Chunk/Embedding → Vector DB Retrieval
-  → Context Injection → LLM Answer
+Document -> Chunk/Embedding -> Vector DB Retrieval
+  -> Context Injection -> LLM Answer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Document → Chunk/Embedding → Vector DB Retrieval
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 수집 → metadata/embedding 생성 → 권한 필터 검색
-  → 검색 품질 평가 → 인덱스 갱신·폐기
+문서 수집 -> metadata/embedding 생성 -> 권한 필터 검색
+  -> 검색 품질 평가 -> 인덱스 갱신·폐기
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Document → Chunk/Embedding → Vector DB Retrieval
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM08을 설명하시오" | 문서→벡터검색→컨텍스트 흐름 | 일반 검색 보안 대비 차이 |
+| 포괄형 | "LLM08을 설명하시오" | 문서->벡터검색->컨텍스트 흐름 | 일반 검색 보안 대비 차이 |
 | 요구사항 명시형 | "RAG 보안 방안을 제시하시오" | metadata ACL·인덱스 관리 | 벡터DB 운영 기준 |
 
 > 요약: 설명형은 RAG 검색 계층 위험, 방안형은 chunk ACL과 인덱스 생명주기 통제를 중심으로 작성함.

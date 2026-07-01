@@ -44,8 +44,8 @@ Edge TPU는 엣지 AI 전용 추론 가속기임. 현장 영상·센서 분석�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-TFLite Model → Edge TPU Compiler → INT8 Model
-      → Edge TPU Runtime → USB/PCIe/M.2 TPU → Inference
+TFLite Model -> Edge TPU Compiler -> INT8 Model
+      -> Edge TPU Runtime -> USB/PCIe/M.2 TPU -> Inference
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ TFLite Model → Edge TPU Compiler → INT8 Model
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 양자화 → Compiler 변환 → 엣지 장치 배포
-    → 입력 전처리 → TPU 추론 → 이벤트 출력
+모델 양자화 -> Compiler 변환 -> 엣지 장치 배포
+    -> 입력 전처리 -> TPU 추론 -> 이벤트 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -50,9 +50,9 @@ MCP는 모델-도구 연결 표준임. AI 에이전트가 파일·DB·SaaS·개�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-LLM App ─ MCP Client ─ MCP Server ─┬─ Tools
-                                   ├─ Resources
-                                   └─ Prompts
+LLM App - MCP Client - MCP Server - - Tools
+                                    - Resources
+                                    - Prompts
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -69,8 +69,8 @@ LLM App ─ MCP Client ─ MCP Server ─┬─ Tools
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-서버 등록 → 기능 발견 → 권한 확인 → Tool/Resource 호출
-        → 결과 반환 → 모델 컨텍스트 반영 → 로그 저장
+서버 등록 -> 기능 발견 -> 권한 확인 -> Tool/Resource 호출
+        -> 결과 반환 -> 모델 컨텍스트 반영 -> 로그 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

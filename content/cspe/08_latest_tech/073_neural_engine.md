@@ -44,10 +44,10 @@ Neural Engine은 Apple 온디바이스 AI 가속기임. 모바일·PC에서 AI �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-App → Core ML Model → ML Runtime Scheduler
-       ├→ Neural Engine
-       ├→ GPU
-       └→ CPU
+App -> Core ML Model -> ML Runtime Scheduler
+        -> Neural Engine
+        -> GPU
+        -> CPU
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -62,8 +62,8 @@ App → Core ML Model → ML Runtime Scheduler
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 변환 → Core ML 최적화 → 앱 배포
-    → 입력 전처리 → NE/GPU/CPU 실행 → 결과 반환
+모델 변환 -> Core ML 최적화 -> 앱 배포
+    -> 입력 전처리 -> NE/GPU/CPU 실행 -> 결과 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

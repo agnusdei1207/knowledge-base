@@ -44,13 +44,13 @@ Latent Diffusion은 잠재공간 기반 확산 생성 방식임. 픽셀 공간 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Image → VAE Encoder → Latent z
-Noise zT + Condition → Denoising U-Net → z0 → VAE Decoder → Image
+Image -> VAE Encoder -> Latent z
+Noise zT + Condition -> Denoising U-Net -> z0 -> VAE Decoder -> Image
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| VAE Encoder | 이미지를 latent로 압축 | 512px→64×64 latent |
+| VAE Encoder | 이미지를 latent로 압축 | 512px->64×64 latent |
 | Latent U-Net | latent noise 제거 | cross-attention 조건 반영 |
 | Condition Encoder | 텍스트·이미지 조건 제공 | CLIP/T5 |
 | VAE Decoder | latent를 픽셀로 복원 | 세부 품질 영향 |
@@ -60,8 +60,8 @@ Noise zT + Condition → Denoising U-Net → z0 → VAE Decoder → Image
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-학습: 이미지 → latent 압축 → noise 추가 → noise 예측 학습
-추론: random latent → denoising 반복 → VAE 복원 → 이미지 출력
+학습: 이미지 -> latent 압축 -> noise 추가 -> noise 예측 학습
+추론: random latent -> denoising 반복 -> VAE 복원 -> 이미지 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Noise zT + Condition → Denoising U-Net → z0 → VAE Decoder → Image
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Latent Diffusion을 설명하시오" | VAE 압축→latent denoising→복원 흐름 | Pixel Diffusion 대비 차이 |
+| 포괄형 | "Latent Diffusion을 설명하시오" | VAE 압축->latent denoising->복원 흐름 | Pixel Diffusion 대비 차이 |
 | 요구사항 명시형 | "고해상도 이미지 생성 방안을 제시하시오" | VAE 품질·step·후처리 기준 | 비용·지연·세부 품질 관리 |
 
 > 요약: 설명형은 잠재공간 확산 원리, 방안형은 고해상도 생성 최적화와 품질 검증을 중심으로 작성함.

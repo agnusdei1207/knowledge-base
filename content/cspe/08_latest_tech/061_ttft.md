@@ -17,9 +17,9 @@ weight: 61
 
 ## 깊이 이해
 - **배경·문제의식**: LLM은 출력 전에 전체 프롬프트를 한 번 처리(prefill)해야 하므로, 프롬프트가 길수록 첫 토큰이 늦어짐. 70B 모델에 4K 토큰 프롬프트 시 TTFT 200~800ms.
-- **작동 원리**: 요청 수신 → 토크나이징 → KV cache 계산(prefill) → 첫 토큰 샘플링. prefill은 프롬프트 길이에 비례하는 compute-bound 연산임.
+- **작동 원리**: 요청 수신 -> 토크나이징 -> KV cache 계산(prefill) -> 첫 토큰 샘플링. prefill은 프롬프트 길이에 비례하는 compute-bound 연산임.
 - **비유**: 시험 문제를 끝까지 다 읽어야 첫 답을 쓸 수 있는 것과 동일.
-- **구체 예시**: 70B 모델, A100 1장, 프롬프트 2K 토큰 → TTFT 약 400ms. Prefix Caching 적용 시 80ms로 단축.
+- **구체 예시**: 70B 모델, A100 1장, 프롬프트 2K 토큰 -> TTFT 약 400ms. Prefix Caching 적용 시 80ms로 단축.
 - **흔한 오해·주의점**: TTFT가 짧다고 전체 응답이 빠른 것은 아님. decode 단계(TPOT)가 별도 병목.
 
 ## 연결 개념
@@ -50,9 +50,7 @@ TTFT는 LLM 첫 토큰 생성 지연 시간임. LLM 서빙에서 사용자 체�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-요청 수신 → Tokenizer → Prefill(KV 생성) → Sampler → 첫 토큰
-                            │
-                      ┌─────┴─────┐
+요청 수신 -> Tokenizer -> Prefill(KV 생성) -> Sampler -> 첫 토큰
                 Prefix Cache    TP 분산
 ```
 
@@ -69,9 +67,9 @@ TTFT는 LLM 첫 토큰 생성 지연 시간임. LLM 서빙에서 사용자 체�
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 → 프롬프트 토크나이징 → prefix 캐시 조회
-  → 미스: 전체 prefill → KV cache 저장 → 샘플링 → 첫 토큰 출력
-  → 히트: 잔여 토큰만 prefill → 샘플링 → 첫 토큰 출력
+요청 -> 프롬프트 토크나이징 -> prefix 캐시 조회
+  -> 미스: 전체 prefill -> KV cache 저장 -> 샘플링 -> 첫 토큰 출력
+  -> 히트: 잔여 토큰만 prefill -> 샘플링 -> 첫 토큰 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -81,7 +79,7 @@ TTFT는 LLM 첫 토큰 생성 지연 시간임. LLM 서빙에서 사용자 체�
 | 3 | Prefill 연산(KV 생성) | GPU 활용률, TP degree |
 | 4 | 첫 토큰 샘플링·출력 | TTFT SLA(p99 500ms 이내) |
 
-> 요약: prefix 캐시 히트 시 prefill 연산을 건너뛰어 TTFT를 800ms→80ms로 단축함.
+> 요약: prefix 캐시 히트 시 prefill 연산을 건너뛰어 TTFT를 800ms->80ms로 단축함.
 
 ---
 
@@ -101,7 +99,7 @@ TTFT는 LLM 첫 토큰 생성 지연 시간임. LLM 서빙에서 사용자 체�
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. Prefix Caching으로 시스템 프롬프트 KV를 재사용하여 TTFT 800ms→80ms 달성
+1. Prefix Caching으로 시스템 프롬프트 KV를 재사용하여 TTFT 800ms->80ms 달성
 2. Tensor Parallelism 4-way 적용으로 prefill FLOPs를 GPU 4장에 분산, TTFT 1/3 단축
 3. 프롬프트 길이 제한(4K 토큰) + chunked prefill로 p99 TTFT 500ms SLA 준수
 
@@ -113,7 +111,7 @@ TTFT는 LLM 첫 토큰 생성 지연 시간임. LLM 서빙에서 사용자 체�
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | prefill→샘플링 전체 흐름 | TTFT vs TPOT 비교 |
+| 포괄형 | 설명하시오, 기술하시오 | prefill->샘플링 전체 흐름 | TTFT vs TPOT 비교 |
 | 요구사항 명시형 | 최적화 방안을 제시하시오 | prefix caching·TP 적용 단계 | 최적화 전후 수치 비교 |
 
 > 요약: 설명형은 prefill 원리, 방안형은 TTFT 단축 기법과 수치를 중심으로 목차를 전환함.

@@ -44,8 +44,8 @@ Text-to-Speech는 텍스트 기반 음성 합성 기술임. 음성 인터페이�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Text → Text Normalization → Acoustic Model
-  → Mel-spectrogram → Vocoder → Speech Waveform
+Text -> Text Normalization -> Acoustic Model
+  -> Mel-spectrogram -> Vocoder -> Speech Waveform
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Text → Text Normalization → Acoustic Model
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-텍스트 입력 → 발음 정규화 → prosody 예측
-  → mel-spectrogram 생성 → vocoder 합성 → 워터마크/출력
+텍스트 입력 -> 발음 정규화 -> prosody 예측
+  -> mel-spectrogram 생성 -> vocoder 합성 -> 워터마크/출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Text → Text Normalization → Acoustic Model
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "TTS를 설명하시오" | 정규화→음향 모델→vocoder 흐름 | 규칙 기반 대비 Neural TTS 차이 |
+| 포괄형 | "TTS를 설명하시오" | 정규화->음향 모델->vocoder 흐름 | 규칙 기반 대비 Neural TTS 차이 |
 | 요구사항 명시형 | "음성 AI 서비스 방안을 제시하시오" | MOS·지연·워터마크 기준 | 상담봇·접근성·악용 방지 |
 
 > 요약: 설명형은 음성 합성 파이프라인, 방안형은 서비스 품질과 화자 권리 통제를 중심으로 작성함.

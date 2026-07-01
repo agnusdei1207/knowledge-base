@@ -44,8 +44,8 @@ C2PA는 콘텐츠 출처 표준이다. 생성형 AI 시대에는 콘텐츠 출�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Asset → Assertion → Claim → Manifest
-  → Signature → Verification
+Asset -> Assertion -> Claim -> Manifest
+  -> Signature -> Verification
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Asset → Assertion → Claim → Manifest
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-콘텐츠 생성 → assertion 기록 → claim 서명
-  → manifest 저장 → 검증자 확인
+콘텐츠 생성 -> assertion 기록 -> claim 서명
+  -> manifest 저장 -> 검증자 확인
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Asset → Assertion → Claim → Manifest
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "C2PA를 설명하시오" | assertion→claim→검증 흐름 | 일반 metadata 대비 차이 |
+| 포괄형 | "C2PA를 설명하시오" | assertion->claim->검증 흐름 | 일반 metadata 대비 차이 |
 | 요구사항 명시형 | "콘텐츠 출처 검증 방안을 제시하시오" | manifest 서명·검증·표시 절차 | 제거 공격 보완 |
 
 > 요약: 설명형은 C2PA 표준 구조, 방안형은 제작·배포 단계의 provenance 검증 체계를 중심으로 작성함.

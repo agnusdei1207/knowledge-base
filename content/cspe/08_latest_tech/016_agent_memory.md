@@ -50,9 +50,9 @@ Agent Memory는 에이전트의 맥락 저장 기능임. AI 에이전트가 장�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Interaction → Short Memory → Memory Manager → Long Memory
-      │              │              │             │
-      ▼              ▼              ▼             ▼
+Interaction -> Short Memory -> Memory Manager -> Long Memory
+
+
    대화/도구       세션상태       요약/필터       벡터/DB
 ```
 
@@ -70,8 +70,8 @@ Interaction → Short Memory → Memory Manager → Long Memory
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-상호작용 수집 → 중요도 평가 → 저장소 선택 → 검색/요약
-        → 컨텍스트 주입 → 사용 이력 기록 → TTL 삭제
+상호작용 수집 -> 중요도 평가 -> 저장소 선택 -> 검색/요약
+        -> 컨텍스트 주입 -> 사용 이력 기록 -> TTL 삭제
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

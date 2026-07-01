@@ -50,9 +50,9 @@ weight: 23
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Agent Task → Sandbox Runtime → Policy Guard → Limited Resources
-      │              │              │                │
-      ▼              ▼              ▼                ▼
+Agent Task -> Sandbox Runtime -> Policy Guard -> Limited Resources
+
+
    코드/명령       컨테이너/VM      권한/망통제       CPU/Mem/Time
 ```
 
@@ -70,8 +70,8 @@ Agent Task → Sandbox Runtime → Policy Guard → Limited Resources
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-작업 수신 → 격리환경 생성 → 권한·자원 설정
-        → 실행 감시 → 결과 추출 → 환경 폐기
+작업 수신 -> 격리환경 생성 -> 권한·자원 설정
+        -> 실행 감시 -> 결과 추출 -> 환경 폐기
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

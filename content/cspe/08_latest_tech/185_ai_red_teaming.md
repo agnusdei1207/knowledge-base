@@ -44,8 +44,8 @@ AI Red Teaming은 AI 공격 검증 활동이다. 생성형 AI는 자연어 입�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Threat Scenario → Attack Prompt/Tool Test
-  → Finding Triage → Mitigation → Regression Test
+Threat Scenario -> Attack Prompt/Tool Test
+  -> Finding Triage -> Mitigation -> Regression Test
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Threat Scenario → Attack Prompt/Tool Test
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-자산 식별 → 공격 시나리오 작성 → 실행·기록
-  → 위험 등급화 → 보완·재시험
+자산 식별 -> 공격 시나리오 작성 -> 실행·기록
+  -> 위험 등급화 -> 보완·재시험
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Threat Scenario → Attack Prompt/Tool Test
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Red Teaming을 설명하시오" | 시나리오→공격→완화 흐름 | 일반 QA 대비 차이 |
+| 포괄형 | "AI Red Teaming을 설명하시오" | 시나리오->공격->완화 흐름 | 일반 QA 대비 차이 |
 | 요구사항 명시형 | "생성형 AI 보안 검증 방안을 제시하시오" | 공격 테스트셋·배포 차단 기준 | prompt injection·tool abuse 대응 |
 
 > 요약: 설명형은 레드팀 절차, 방안형은 생성형 AI 공격 시나리오와 배포 게이트를 중심으로 작성함.

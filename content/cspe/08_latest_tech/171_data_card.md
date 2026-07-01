@@ -44,8 +44,8 @@ Data Card는 데이터셋 설명·위험 문서이다. AI 모델은 데이터 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Dataset Metadata → Collection/Consent → Schema/Distribution
-  → Quality/Bias/Privacy → Usage Limits → Versioning
+Dataset Metadata -> Collection/Consent -> Schema/Distribution
+  -> Quality/Bias/Privacy -> Usage Limits -> Versioning
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Dataset Metadata → Collection/Consent → Schema/Distribution
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 등록 → 수집 맥락 기록 → 품질·분포 분석
-  → 개인정보·편향 점검 → 사용 제한 명시 → 버전 갱신
+데이터 등록 -> 수집 맥락 기록 -> 품질·분포 분석
+  -> 개인정보·편향 점검 -> 사용 제한 명시 -> 버전 갱신
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Dataset Metadata → Collection/Consent → Schema/Distribution
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Data Card를 설명하시오" | 수집 맥락→품질→위험→사용 제한 흐름 | 데이터 카탈로그 대비 차이 |
+| 포괄형 | "Data Card를 설명하시오" | 수집 맥락->품질->위험->사용 제한 흐름 | 데이터 카탈로그 대비 차이 |
 | 요구사항 명시형 | "AI 데이터 거버넌스 방안을 제시하시오" | PII·편향·라이선스·버전 기준 | Model Card·MLOps 연계 |
 
 > 요약: 설명형은 데이터 설명 문서 구조, 방안형은 AI 데이터 위험과 운영 증적 관리를 중심으로 작성함.

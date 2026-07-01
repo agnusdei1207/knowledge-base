@@ -44,8 +44,8 @@ LLM06은 과도한 에이전시 위험이다. LLM 에이전트는 외부 도구�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Goal → LLM Planner → Tool/API Permission
-  → Autonomous Action → Approval/Audit Gate
+User Goal -> LLM Planner -> Tool/API Permission
+  -> Autonomous Action -> Approval/Audit Gate
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ User Goal → LLM Planner → Tool/API Permission
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 입력 → 계획 생성 → 도구 선택
-  → 권한 검증 → 실행·감사
+목표 입력 -> 계획 생성 -> 도구 선택
+  -> 권한 검증 -> 실행·감사
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ User Goal → LLM Planner → Tool/API Permission
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM06을 설명하시오" | 목표→도구→실행 통제 흐름 | 일반 챗봇 대비 차이 |
+| 포괄형 | "LLM06을 설명하시오" | 목표->도구->실행 통제 흐름 | 일반 챗봇 대비 차이 |
 | 요구사항 명시형 | "AI 에이전트 보안 방안을 제시하시오" | 최소권한·승인·쿼터·감사 | Zero Trust 적용 기준 |
 
 > 요약: 설명형은 에이전트 권한 위험, 방안형은 도구 실행 정책과 승인 게이트를 중심으로 작성함.

@@ -44,8 +44,8 @@ weight: 68
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Sensor/User Input → On-device Runtime → NPU/GPU/DSP
-       → Local Inference → Policy Check → Optional Cloud Sync
+Sensor/User Input -> On-device Runtime -> NPU/GPU/DSP
+       -> Local Inference -> Policy Check -> Optional Cloud Sync
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Sensor/User Input → On-device Runtime → NPU/GPU/DSP
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 수집 → 전처리 → 로컬 추론 → 신뢰도 판단
-    → 충분: 즉시 응답, 부족: 클라우드 요청 → 동기화
+입력 수집 -> 전처리 -> 로컬 추론 -> 신뢰도 판단
+    -> 충분: 즉시 응답, 부족: 클라우드 요청 -> 동기화
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

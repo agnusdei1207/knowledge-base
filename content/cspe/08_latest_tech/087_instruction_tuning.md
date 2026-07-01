@@ -44,8 +44,8 @@ Instruction Tuning은 지시 수행 능력 학습 기법임. 사전학습 모델
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Instruction Dataset → SFT Training → Instruction-tuned Model
-      → Task Evaluation → Alignment/RLHF 단계
+Instruction Dataset -> SFT Training -> Instruction-tuned Model
+      -> Task Evaluation -> Alignment/RLHF 단계
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Instruction Dataset → SFT Training → Instruction-tuned Model
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-지시 데이터 수집 → 품질 필터링 → SFT 학습
-    → 지시 수행 평가 → 안전 정렬 단계 연결
+지시 데이터 수집 -> 품질 필터링 -> SFT 학습
+    -> 지시 수행 평가 -> 안전 정렬 단계 연결
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Instruction Dataset → SFT Training → Instruction-tuned Model
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 지시 데이터→SFT→평가 흐름 | Pretraining 대비 차이 |
+| 포괄형 | 설명하시오, 기술하시오 | 지시 데이터->SFT->평가 흐름 | Pretraining 대비 차이 |
 | 요구사항 명시형 | 구축 방안을 제시하시오 | 데이터 품질·형식 검증 절차 | alignment와 역할 분리 |
 
 > 요약: 설명형은 지시 수행 학습 원리, 구축형은 instruction data 품질과 형식 평가 중심으로 목차를 전환함.

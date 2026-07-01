@@ -44,8 +44,8 @@ TEE는 하드웨어 기반 격리 실행환경이다. 데이터는 저장·전�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Trusted Code → Enclave/Secure VM → Memory Encryption
-  → Remote Attestation → Protected Output
+Trusted Code -> Enclave/Secure VM -> Memory Encryption
+  -> Remote Attestation -> Protected Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Trusted Code → Enclave/Secure VM → Memory Encryption
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-코드 측정 → Enclave 생성 → 원격 검증
-  → 키 주입 → 민감 연산 수행
+코드 측정 -> Enclave 생성 -> 원격 검증
+  -> 키 주입 -> 민감 연산 수행
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Trusted Code → Enclave/Secure VM → Memory Encryption
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "TEE를 설명하시오" | 측정→검증→키주입 흐름 | 일반 실행환경 대비 차이 |
+| 포괄형 | "TEE를 설명하시오" | 측정->검증->키주입 흐름 | 일반 실행환경 대비 차이 |
 | 요구사항 명시형 | "처리 중 데이터 보호 방안을 제시하시오" | attestation·KMS·로그 통제 | side-channel·I/O 한계 |
 
 > 요약: 설명형은 하드웨어 격리 원리, 방안형은 클라우드 민감 연산의 검증·키관리·운영 통제를 중심으로 작성함.

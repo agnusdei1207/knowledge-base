@@ -50,9 +50,8 @@ Tool Use는 LLM의 외부 도구 호출 기능임. 생성형 AI가 업무 데이
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-LLM → Tool Selector → Schema Validator → Tool/API
- │                                         │
- └──────────── Result Formatter ◀─────────┘
+LLM -> Tool Selector -> Schema Validator -> Tool/API
+Tool/API -> Result Formatter -> LLM
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -69,8 +68,8 @@ LLM → Tool Selector → Schema Validator → Tool/API
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → 도구 필요성 판단 → 파라미터 생성
-        → 스키마 검증 → 도구 실행 → 결과 반영
+질의 입력 -> 도구 필요성 판단 -> 파라미터 생성
+        -> 스키마 검증 -> 도구 실행 -> 결과 반영
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

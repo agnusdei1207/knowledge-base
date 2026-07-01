@@ -44,8 +44,8 @@ Algorithmic Accountability는 알고리즘 의사결정 책임성 원칙이다. 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Automated Decision → Explanation/Log → Responsible Owner
-  → Human Review/Appeal → Remediation/Audit
+Automated Decision -> Explanation/Log -> Responsible Owner
+  -> Human Review/Appeal -> Remediation/Audit
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Automated Decision → Explanation/Log → Responsible Owner
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 결정 발생 → 입력/모델/결과 로그 저장
-  → 설명 제공 → 이의제기 접수 → 인간 검토/시정 → 감사 보고
+AI 결정 발생 -> 입력/모델/결과 로그 저장
+  -> 설명 제공 -> 이의제기 접수 -> 인간 검토/시정 -> 감사 보고
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ AI 결정 발생 → 입력/모델/결과 로그 저장
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Algorithmic Accountability를 설명하시오" | 결정→로그→설명→재심 흐름 | XAI 대비 차이 |
+| 포괄형 | "Algorithmic Accountability를 설명하시오" | 결정->로그->설명->재심 흐름 | XAI 대비 차이 |
 | 요구사항 명시형 | "자동화 의사결정 책임성 방안을 제시하시오" | RACI·appeal·audit log 기준 | 고위험 결정 구제 절차 |
 
 > 요약: 설명형은 책임성 구조, 방안형은 로그·재심·책임자 운영 기준을 중심으로 작성함.

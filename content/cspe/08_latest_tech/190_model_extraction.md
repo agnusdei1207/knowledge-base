@@ -44,8 +44,8 @@ Model Extraction은 모델 복제 공격이다. AI API는 입력에 대한 예�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Attacker Queries → API Responses → Query-Response Dataset
-  → Substitute Training → Stolen Model
+Attacker Queries -> API Responses -> Query-Response Dataset
+  -> Substitute Training -> Stolen Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Attacker Queries → API Responses → Query-Response Dataset
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 생성 → API 대량 질의 → 응답 수집
-  → 복제 모델 학습 → 유사도 평가
+입력 생성 -> API 대량 질의 -> 응답 수집
+  -> 복제 모델 학습 -> 유사도 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Attacker Queries → API Responses → Query-Response Dataset
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Model Extraction을 설명하시오" | 대량 질의→복제 학습 흐름 | 일반 API 남용 대비 차이 |
+| 포괄형 | "Model Extraction을 설명하시오" | 대량 질의->복제 학습 흐름 | 일반 API 남용 대비 차이 |
 | 요구사항 명시형 | "AI 모델 자산 보호 방안을 제시하시오" | 응답 제한·이상탐지·워터마킹 | IP 보호 기준 |
 
 > 요약: 설명형은 모델 복제 공격 흐름, 방안형은 API 응답 최소화와 워터마킹 보호를 중심으로 작성함.

@@ -44,8 +44,8 @@ weight: 82
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input Token → Router/Mask → Active Weights/Experts
-      → Sparse Compute → Output → Load/Quality Monitor
+Input Token -> Router/Mask -> Active Weights/Experts
+      -> Sparse Compute -> Output -> Load/Quality Monitor
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Input Token → Router/Mask → Active Weights/Experts
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 수신 → 활성 요소 선택 → 선택 부분만 계산
-    → 출력 결합 → load·latency·accuracy 평가
+입력 수신 -> 활성 요소 선택 -> 선택 부분만 계산
+    -> 출력 결합 -> load·latency·accuracy 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

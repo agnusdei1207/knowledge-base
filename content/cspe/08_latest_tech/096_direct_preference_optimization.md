@@ -16,7 +16,7 @@ weight: 96
 - **핵심 직관**: “좋은 답/나쁜 답” 비교 데이터를 보고, 좋은 답 확률은 올리고 나쁜 답 확률은 낮추는 직접 학습 방식임.
 
 ## 깊이 이해
-- **배경·문제의식**: RLHF는 preference data→reward model→RL optimization으로 단계가 많아 운영 복잡도와 reward hacking 리스크가 있음. DPO는 선호 데이터를 classification-like objective로 바꿔 supervised 학습처럼 처리함.
+- **배경·문제의식**: RLHF는 preference data->reward model->RL optimization으로 단계가 많아 운영 복잡도와 reward hacking 리스크가 있음. DPO는 선호 데이터를 classification-like objective로 바꿔 supervised 학습처럼 처리함.
 - **작동 원리**: 같은 prompt에 대해 chosen/rejected 답변 쌍을 준비하고, reference model 대비 policy model이 chosen 답변 확률을 더 높이도록 loss를 계산함. KL 제어가 수식에 포함됨.
 - **비유**: 채점 모델을 따로 만들지 않고, 답안 비교표를 보고 학생이 바로 좋은 답안 스타일을 따라 배우는 것과 같음.
 - **구체 예시**: 고객 응답 선호쌍 50K건으로 DPO를 수행하면 RLHF보다 구현 단계를 줄여 assistant 선호 정렬을 적용할 수 있음.
@@ -44,8 +44,8 @@ DPO는 직접 선호 최적화 기법임. RLHF의 보상모델 학습과 PPO 운
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt + Chosen/Rejected Pair → DPO Loss
-      → Policy Model Update + Reference Model Constraint → Aligned Model
+Prompt + Chosen/Rejected Pair -> DPO Loss
+      -> Policy Model Update + Reference Model Constraint -> Aligned Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Prompt + Chosen/Rejected Pair → DPO Loss
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-선호쌍 수집 → reference logprob 계산 → DPO loss 학습
-    → policy 업데이트 → win rate·안전성 평가
+선호쌍 수집 -> reference logprob 계산 -> DPO loss 학습
+    -> policy 업데이트 -> win rate·안전성 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Prompt + Chosen/Rejected Pair → DPO Loss
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 선호쌍→DPO loss 흐름 | RLHF 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | 선호쌍->DPO loss 흐름 | RLHF 대비 특징 |
 | 요구사항 명시형 | 적용 방안을 제시하시오 | beta·reference·평가 절차 | 데이터 품질·안전성 기준 |
 
 > 요약: 설명형은 직접 최적화 원리, 적용형은 선호 데이터 품질과 beta 조정 중심으로 목차를 전환함.

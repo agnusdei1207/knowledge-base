@@ -17,7 +17,7 @@ weight: 64
 
 ## 깊이 이해
 - **배경·문제의식**: LLM은 수십GB~수백GB 가중치와 긴 KV Cache를 사용해 일반 웹 API보다 자원 제약이 큼. 트래픽 급증 시 OOM, tail latency, 비용 폭증이 발생함.
-- **작동 원리**: 모델 로딩→토크나이징→prefill→decode→streaming 응답을 처리하고, scheduler가 batching·cache·GPU parallelism을 조정함. 관측성은 TTFT·TPOT·tokens/s·error rate로 수행함.
+- **작동 원리**: 모델 로딩->토크나이징->prefill->decode->streaming 응답을 처리하고, scheduler가 batching·cache·GPU parallelism을 조정함. 관측성은 TTFT·TPOT·tokens/s·error rate로 수행함.
 - **비유**: 대형 주방에서 주문 접수, 재료 준비, 조리, 배식, 재고·비용 관리를 동시에 하는 것과 같음.
 - **구체 예시**: 70B FP16 모델은 가중치만 약 140GB가 필요하므로 tensor parallel 2~4 GPU 또는 양자화가 필요함.
 - **흔한 오해·주의점**: 모델 정확도만 높으면 되는 것이 아님. p95 지연, GPU 원가, 권한 통제, 프롬프트 보안까지 운영 품질에 포함됨.
@@ -44,10 +44,10 @@ LLM Serving은 대형 언어모델 운영 배포 체계임. 생성형 AI 서비�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client → API Gateway → Serving Engine → GPU Workers
-          │              │              │
+Client -> API Gateway -> Serving Engine -> GPU Workers
+
        Auth/Rate     Scheduler       Model+KV Cache
-          └──────── Observability/Guardrail ────────┘
+           -------- Observability/Guardrail --------
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -62,8 +62,8 @@ Client → API Gateway → Serving Engine → GPU Workers
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 인증 → 토큰화 → 스케줄링 → prefill → decode
-    → streaming 응답 → 로그/비용/안전성 기록
+요청 인증 -> 토큰화 -> 스케줄링 -> prefill -> decode
+    -> streaming 응답 -> 로그/비용/안전성 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -101,7 +101,7 @@ Client → API Gateway → Serving Engine → GPU Workers
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 인증→prefill→decode→관측 흐름 | 일반 ML Serving 대비 차이 |
+| 포괄형 | 설명하시오, 기술하시오 | 인증->prefill->decode->관측 흐름 | 일반 ML Serving 대비 차이 |
 | 요구사항 명시형 | 설계하시오, 운영 방안을 제시하시오 | 엔진 선택·SLA·보안 절차 | GPU 비용·지연·가드레일 기준 |
 
 > 요약: 설명형은 운영 구조, 설계형은 SLA·비용·보안 통합 기준으로 목차를 전환함.

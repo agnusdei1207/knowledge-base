@@ -44,8 +44,8 @@ Image Captioning은 이미지 설명 생성 기술임. 기업 데이터에는 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Image → Vision Encoder → Visual Features
-  → Language Decoder/LLM → Caption → Search/Report
+Image -> Vision Encoder -> Visual Features
+  -> Language Decoder/LLM -> Caption -> Search/Report
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Image → Vision Encoder → Visual Features
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이미지 입력 → 전처리/패치화 → 시각 특징 추출
-  → 객체·관계 주목 → 문장 생성 → 품질 검증
+이미지 입력 -> 전처리/패치화 -> 시각 특징 추출
+  -> 객체·관계 주목 -> 문장 생성 -> 품질 검증
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Image → Vision Encoder → Visual Features
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Image Captioning을 설명하시오" | 이미지 인코딩→문장 생성→검증 흐름 | 이미지 분류 대비 차이 |
+| 포괄형 | "Image Captioning을 설명하시오" | 이미지 인코딩->문장 생성->검증 흐름 | 이미지 분류 대비 차이 |
 | 요구사항 명시형 | "이미지 데이터 활용 방안을 제시하시오" | 검색 색인·보고서 자동화 절차 | 객체 누락·OCR·환각 통제 |
 
 > 요약: 설명형은 캡션 생성 원리, 방안형은 이미지 검색·보고서 활용과 검증 기준을 중심으로 작성함.

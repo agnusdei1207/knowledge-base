@@ -44,8 +44,8 @@ LLM10은 무제한 자원 소비 위험이다. LLM 요청은 토큰과 GPU 사�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-LLM Request → Token/Context/Tool Usage
-  → Cost & Latency Growth → Quota/Breaker Control
+LLM Request -> Token/Context/Tool Usage
+  -> Cost & Latency Growth -> Quota/Breaker Control
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ LLM Request → Token/Context/Tool Usage
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → 비용 사전 추정 → 쿼터 검증
-  → 추론 실행 → 비용·SLA 모니터링
+요청 수신 -> 비용 사전 추정 -> 쿼터 검증
+  -> 추론 실행 -> 비용·SLA 모니터링
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ LLM Request → Token/Context/Tool Usage
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM10을 설명하시오" | 비용추정→쿼터→모니터링 흐름 | 일반 Rate Limit 대비 차이 |
+| 포괄형 | "LLM10을 설명하시오" | 비용추정->쿼터->모니터링 흐름 | 일반 Rate Limit 대비 차이 |
 | 요구사항 명시형 | "LLM 비용·가용성 관리 방안을 제시하시오" | TPM·context·tool budget 설계 | FinOps·SRE 연계 |
 
 > 요약: 설명형은 무제한 소비 위험, 방안형은 토큰·비용·SLA 기반 통제를 중심으로 작성함.

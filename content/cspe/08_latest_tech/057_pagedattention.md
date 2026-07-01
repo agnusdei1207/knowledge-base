@@ -48,10 +48,10 @@ PagedAttention은 KV Cache 페이지 관리 기법임. LLM 서빙은 요청마�
 
 ```text
 Logical Token Sequence
-   │
-Block Table ──▶ Physical KV Blocks
-   │              [B0][B1][B2][B3][Bn]
-   ▼
+
+Block Table -> Physical KV Blocks
+                  [B0][B1][B2][B3][Bn]
+
 Attention Kernel reads mapped blocks
 ```
 
@@ -59,7 +59,7 @@ Attention Kernel reads mapped blocks
 |:---|:---|:---|
 | Logical Block | 토큰 순서 기준 KV 구간 | 세션별 논리 주소 |
 | Physical Block | GPU 메모리 실제 KV 저장소 | 고정 크기 페이지 |
-| Block Table | 논리→물리 매핑 | OS page table 유사 |
+| Block Table | 논리->물리 매핑 | OS page table 유사 |
 | Attention Kernel | 매핑된 block을 읽어 연산 | 커널 최적화 필요 |
 
 > 요약: PagedAttention은 논리 토큰 순서와 물리 KV 저장 위치를 분리해 가변 길이 세션을 블록 단위로 수용함.
@@ -68,8 +68,8 @@ Attention Kernel reads mapped blocks
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 도착 → KV block 할당 → block table 갱신
-    → decode 중 block append → attention 연산 → 종료 시 block 반환
+요청 도착 -> KV block 할당 -> block table 갱신
+    -> decode 중 block append -> attention 연산 -> 종료 시 block 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

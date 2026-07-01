@@ -50,11 +50,11 @@ MCP Client는 MCP 호출 주체임. 에이전트가 여러 서버와 도구를 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-LLM App → MCP Client ─┬→ Server A
-                      ├→ Server B
-                      └→ Server C
-          │
-          ▼
+LLM App -> MCP Client - -> Server A
+                       -> Server B
+                       -> Server C
+
+
    Session/Policy/Cache
 ```
 
@@ -72,8 +72,8 @@ LLM App → MCP Client ─┬→ Server A
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-사용자 세션 시작 → 서버 연결 → 기능 목록 수집
-        → 허용 도구 필터링 → 호출 전달 → 결과 반영
+사용자 세션 시작 -> 서버 연결 -> 기능 목록 수집
+        -> 허용 도구 필터링 -> 호출 전달 -> 결과 반영
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

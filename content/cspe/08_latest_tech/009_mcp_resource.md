@@ -50,9 +50,9 @@ MCP Resource는 MCP의 읽기형 데이터 단위임. AI 에이전트가 업무 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Resource URI → Metadata → Access Policy → Content
-        │            │            │          │
-        ▼            ▼            ▼          ▼
+Resource URI -> Metadata -> Access Policy -> Content
+
+
       위치         형식/크기       권한       데이터
 ```
 
@@ -70,8 +70,8 @@ Resource URI → Metadata → Access Policy → Content
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-자원 목록 요청 → URI 선택 → 권한 확인 → 콘텐츠 조회
-        → 민감정보 필터링 → 컨텍스트 반영 → 출처 기록
+자원 목록 요청 -> URI 선택 -> 권한 확인 -> 콘텐츠 조회
+        -> 민감정보 필터링 -> 컨텍스트 반영 -> 출처 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

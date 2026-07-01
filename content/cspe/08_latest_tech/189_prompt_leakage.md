@@ -44,8 +44,8 @@ Prompt Leakage는 내부 프롬프트 노출이다. 시스템 프롬프트는 LL
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-System Prompt → User Extraction Query → LLM Response
-  → Internal Rule Exposure → Attack Reuse
+System Prompt -> User Extraction Query -> LLM Response
+  -> Internal Rule Exposure -> Attack Reuse
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ System Prompt → User Extraction Query → LLM Response
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-내부 지시 포함 → 추출 질문 입력 → 모델 재현
-  → 출력 필터 검사 → 차단·로그 기록
+내부 지시 포함 -> 추출 질문 입력 -> 모델 재현
+  -> 출력 필터 검사 -> 차단·로그 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ System Prompt → User Extraction Query → LLM Response
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Prompt Leakage를 설명하시오" | 추출 질문→내부 지시 노출 흐름 | 일반 정보노출 대비 차이 |
+| 포괄형 | "Prompt Leakage를 설명하시오" | 추출 질문->내부 지시 노출 흐름 | 일반 정보노출 대비 차이 |
 | 요구사항 명시형 | "프롬프트 보안 방안을 제시하시오" | 비밀 분리·출력 필터·회귀 테스트 | KMS·Vault 연계 |
 
 > 요약: 설명형은 내부 지시 노출 원리, 방안형은 프롬프트 자산관리와 비밀 분리 기준을 중심으로 작성함.

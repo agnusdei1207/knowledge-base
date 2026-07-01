@@ -44,8 +44,8 @@ Secure Aggregation은 암호 기반 집계 기법이다. 연합학습의 모델 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client Update → Mask/Share → Encrypted Upload
-  → Aggregator Sum → Global Update
+Client Update -> Mask/Share -> Encrypted Upload
+  -> Aggregator Sum -> Global Update
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Client Update → Mask/Share → Encrypted Upload
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-키 교환 → 업데이트 마스킹 → 암호 업로드
-  → 마스크 상쇄 → 집계값 학습 반영
+키 교환 -> 업데이트 마스킹 -> 암호 업로드
+  -> 마스크 상쇄 -> 집계값 학습 반영
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Client Update → Mask/Share → Encrypted Upload
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Secure Aggregation을 설명하시오" | 키 교환→마스킹→합산 흐름 | 일반 집계 대비 차이 |
+| 포괄형 | "Secure Aggregation을 설명하시오" | 키 교환->마스킹->합산 흐름 | 일반 집계 대비 차이 |
 | 요구사항 명시형 | "연합학습 보안 방안을 제시하시오" | dropout·키관리·감사 절차 | DP·TEE 병행 기준 |
 
 > 요약: 설명형은 암호 집계 원리, 방안형은 연합학습 환경의 업데이트 보호와 운영 통제를 중심으로 작성함.

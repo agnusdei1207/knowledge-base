@@ -44,8 +44,8 @@ MLOps는 ML 운영 자동화 체계다. ML 시스템은 데이터와 모델이 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Data Pipeline → Feature Store → Training Pipeline
-  → Model Registry → Deployment/Monitoring
+Data Pipeline -> Feature Store -> Training Pipeline
+  -> Model Registry -> Deployment/Monitoring
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Data Pipeline → Feature Store → Training Pipeline
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 검증 → 학습·평가 → 모델 등록
-  → 승인 배포 → 운영 감시·재학습
+데이터 검증 -> 학습·평가 -> 모델 등록
+  -> 승인 배포 -> 운영 감시·재학습
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Data Pipeline → Feature Store → Training Pipeline
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "MLOps를 설명하시오" | 데이터→학습→배포→감시 흐름 | DevOps 대비 차이 |
+| 포괄형 | "MLOps를 설명하시오" | 데이터->학습->배포->감시 흐름 | DevOps 대비 차이 |
 | 요구사항 명시형 | "ML 운영체계 구축 방안을 제시하시오" | registry·drift·재학습 기준 | 승인 게이트·lineage |
 
 > 요약: 설명형은 ML 생명주기 운영, 방안형은 재현성과 drift 기반 운영체계를 중심으로 작성함.

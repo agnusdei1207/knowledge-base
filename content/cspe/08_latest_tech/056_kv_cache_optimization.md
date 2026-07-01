@@ -47,10 +47,10 @@ KV Cache 최적화는 LLM 디코딩 메모리 관리 기법임. Auto-regressive 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
-       │                              │
-       └──────── Decode Token ────────┘
-                  Query + Cached K/V → Next Token
+Prompt Prefill -> K/V Tensor 생성 -> KV Cache 저장
+
+        -------- Decode Token --------
+                  Query + Cached K/V -> Next Token
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -66,8 +66,8 @@ Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → prefill로 초기 KV 생성 → cache append
-    → 새 토큰 Query 생성 → cached K/V attention → 다음 토큰 출력
+요청 수신 -> prefill로 초기 KV 생성 -> cache append
+    -> 새 토큰 Query 생성 -> cached K/V attention -> 다음 토큰 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -108,7 +108,7 @@ Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | prefill→decode cache 재사용 흐름 | 계산 절감 vs 메모리 증가 |
+| 포괄형 | 설명하시오, 기술하시오 | prefill->decode cache 재사용 흐름 | 계산 절감 vs 메모리 증가 |
 | 요구사항 명시형 | 최적화 방안을 제시하시오 | PagedAttention·양자화 적용 절차 | OOM·TPOT·동시성 기준 |
 
 > 요약: 설명형은 KV 재사용 원리, 최적화형은 메모리 관리와 SLA 지표 중심으로 목차를 전환함.

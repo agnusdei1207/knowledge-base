@@ -44,8 +44,8 @@ Deepfake Detection은 합성 미디어 탐지 기술이다. AI 기반 얼굴·�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Media Input → Feature Extraction → Detection Model
-  → Confidence Score → Review/Action
+Media Input -> Feature Extraction -> Detection Model
+  -> Confidence Score -> Review/Action
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Media Input → Feature Extraction → Detection Model
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-콘텐츠 수집 → 전처리·특징 추출 → 탐지 점수 산출
-  → 임계값 판단 → 차단·검토·표시
+콘텐츠 수집 -> 전처리·특징 추출 -> 탐지 점수 산출
+  -> 임계값 판단 -> 차단·검토·표시
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Media Input → Feature Extraction → Detection Model
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Deepfake Detection을 설명하시오" | 특징추출→score→조치 흐름 | Content Credentials 대비 차이 |
+| 포괄형 | "Deepfake Detection을 설명하시오" | 특징추출->score->조치 흐름 | Content Credentials 대비 차이 |
 | 요구사항 명시형 | "딥페이크 대응 방안을 제시하시오" | 탐지 임계값·리뷰·provenance 병행 | 오탐·drift 관리 |
 
 > 요약: 설명형은 탐지 모델 흐름, 방안형은 플랫폼·인증 환경의 다층 검증 기준을 중심으로 작성함.

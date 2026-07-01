@@ -50,9 +50,9 @@ weight: 18
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Session Input → Working Memory → Context Builder → LLM
-       │              │                │          │
-       ▼              ▼                ▼          ▼
+Session Input -> Working Memory -> Context Builder -> LLM
+
+
    사용자요청       임시상태          요약/선별    추론
 ```
 
@@ -70,8 +70,8 @@ Session Input → Working Memory → Context Builder → LLM
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-세션 시작 → 목표 저장 → 도구결과 갱신 → 컨텍스트 선별
-        → 모델 호출 → 작업 종료 → 폐기/요약
+세션 시작 -> 목표 저장 -> 도구결과 갱신 -> 컨텍스트 선별
+        -> 모델 호출 -> 작업 종료 -> 폐기/요약
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

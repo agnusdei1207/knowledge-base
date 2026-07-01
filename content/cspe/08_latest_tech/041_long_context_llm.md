@@ -47,20 +47,15 @@ Long Context LLM은 수십만 토큰 입력을 처리하는 확장 모델임. �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-입력(N tokens) → Tokenizer → Extended Positional Encoding
-                                    │
-              ┌─────────────────────┼─────────────────────┐
-              ▼                     ▼                     ▼
+입력(N tokens) -> Tokenizer -> Extended Positional Encoding
         Sparse Attention      Ring Attention        KV Cache 관리
-              └─────────────────────┼─────────────────────┘
-                                    ▼
-                              LLM Decoder → 출력
+                              LLM Decoder -> 출력
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Extended PE (YaRN/ALiBi) | 긴 시퀀스에서 위치 정보 유지 | RoPE 주파수 보간·외삽 |
-| Sparse Attention | 전체 O(N²) → 로컬+글로벌 O(N√N) | Longformer·BigBird 패턴 |
+| Sparse Attention | 전체 O(N²) -> 로컬+글로벌 O(N√N) | Longformer·BigBird 패턴 |
 | Ring Attention | 시퀀스를 GPU 간 분할 처리 | 디바이스 간 KV 순환 전달 |
 | KV Cache 관리 | 추론 시 메모리 제어 | 양자화·페이지드 어텐션(vLLM) |
 
@@ -70,8 +65,8 @@ Long Context LLM은 수십만 토큰 입력을 처리하는 확장 모델임. �
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 토큰화 → PE 확장(YaRN) → Sparse/Ring Attention 연산
-    → KV Cache 저장 → 디코딩 → 출력 생성
+입력 토큰화 -> PE 확장(YaRN) -> Sparse/Ring Attention 연산
+    -> KV Cache 저장 -> 디코딩 -> 출력 생성
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

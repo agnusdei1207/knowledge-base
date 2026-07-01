@@ -44,8 +44,8 @@ ColBERT는 후기상호작용 기반 검색 모델임. Bi-Encoder는 확장성�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Document → Token Encoder → Token Vectors → Compressed Index
-Query → Token Encoder → MaxSim(q-token, d-token) → Score → Rank
+Document -> Token Encoder -> Token Vectors -> Compressed Index
+Query -> Token Encoder -> MaxSim(q-token, d-token) -> Score -> Rank
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Query → Token Encoder → MaxSim(q-token, d-token) → Score → Rank
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-오프라인: 문서 토큰화 → 토큰 벡터 생성 → 압축 인덱스 저장
-온라인: 질의 토큰 벡터 → 후보 탐색 → MaxSim 점수 → Top-K 반환
+오프라인: 문서 토큰화 -> 토큰 벡터 생성 -> 압축 인덱스 저장
+온라인: 질의 토큰 벡터 -> 후보 탐색 -> MaxSim 점수 -> Top-K 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Query → Token Encoder → MaxSim(q-token, d-token) → Score → Rank
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "ColBERT를 설명하시오" | 토큰 벡터→MaxSim→순위화 흐름 | Bi/Cross-Encoder 대비 차이 |
+| 포괄형 | "ColBERT를 설명하시오" | 토큰 벡터->MaxSim->순위화 흐름 | Bi/Cross-Encoder 대비 차이 |
 | 요구사항 명시형 | "RAG 검색 정밀도 개선 방안을 제시하시오" | 후보 제한·압축·MaxSim 운영 기준 | 정밀도·지연·저장량 트레이드오프 |
 
 > 요약: 설명형은 후기상호작용 원리, 방안형은 압축과 후보 제한 기준을 중심으로 작성함.

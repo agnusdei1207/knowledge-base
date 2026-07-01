@@ -47,9 +47,9 @@ FlashAttention은 IO-aware Attention 최적화 알고리즘임. Transformer Atte
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Q Blocks ┐
-K Blocks ├─ SRAM Tile Compute → Online Softmax → Output Block
-V Blocks ┘                         │
+Q Blocks
+K Blocks  - SRAM Tile Compute -> Online Softmax -> Output Block
+V Blocks
                                 HBM write 최소화
 ```
 
@@ -66,8 +66,8 @@ V Blocks ┘                         │
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Q/K/V 로드 → 타일 분할 → SRAM에서 QKᵀ 계산
-    → online softmax 갱신 → V 가중합 → output block 저장
+Q/K/V 로드 -> 타일 분할 -> SRAM에서 QKᵀ 계산
+    -> online softmax 갱신 -> V 가중합 -> output block 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

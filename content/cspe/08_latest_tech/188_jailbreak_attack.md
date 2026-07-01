@@ -44,8 +44,8 @@ Jailbreak Attack은 LLM 안전정책 우회 공격이다. 생성형 AI는 역할
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Malicious Goal → Obfuscation/Roleplay → Safety Bypass
-  → Harmful Output → Guardrail Review
+Malicious Goal -> Obfuscation/Roleplay -> Safety Bypass
+  -> Harmful Output -> Guardrail Review
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Malicious Goal → Obfuscation/Roleplay → Safety Bypass
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-금지 목표 설정 → 우회 프롬프트 생성 → 모델 응답 유도
-  → 유해성 판정 → 정책 보완
+금지 목표 설정 -> 우회 프롬프트 생성 -> 모델 응답 유도
+  -> 유해성 판정 -> 정책 보완
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Malicious Goal → Obfuscation/Roleplay → Safety Bypass
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Jailbreak Attack을 설명하시오" | 우회 프롬프트→유해 출력 흐름 | 일반 위반 질의 대비 차이 |
+| 포괄형 | "Jailbreak Attack을 설명하시오" | 우회 프롬프트->유해 출력 흐름 | 일반 위반 질의 대비 차이 |
 | 요구사항 명시형 | "LLM 안전성 확보 방안을 제시하시오" | 공격셋·성공률·배포 차단 기준 | guardrail 다층 구조 |
 
 > 요약: 설명형은 안전정책 우회 원리, 방안형은 테스트셋과 정량 배포 기준을 중심으로 작성함.

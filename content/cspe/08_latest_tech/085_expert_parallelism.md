@@ -44,8 +44,8 @@ Expert Parallelism은 MoE expert 분산 병렬화 기법임. expert 수와 총 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Tokens → Router → All-to-All Dispatch
-      → GPU별 Experts → Expert Compute → All-to-All Combine
+Tokens -> Router -> All-to-All Dispatch
+      -> GPU별 Experts -> Expert Compute -> All-to-All Combine
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Tokens → Router → All-to-All Dispatch
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-router top-k 선택 → token을 expert GPU로 dispatch
-    → expert FFN 계산 → 결과 combine → 다음 layer 진행
+router top-k 선택 -> token을 expert GPU로 dispatch
+    -> expert FFN 계산 -> 결과 combine -> 다음 layer 진행
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ router top-k 선택 → token을 expert GPU로 dispatch
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | dispatch→expert compute→combine 흐름 | TP 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | dispatch->expert compute->combine 흐름 | TP 대비 특징 |
 | 요구사항 명시형 | 설계하시오, 최적화하시오 | expert placement·통신 측정 절차 | all-to-all·load balance 기준 |
 
 > 요약: 설명형은 MoE 분산 실행 원리, 설계형은 GPU 배치와 통신 병목 기준으로 목차를 전환함.

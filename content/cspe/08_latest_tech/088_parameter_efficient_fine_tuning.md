@@ -45,7 +45,7 @@ PEFT는 파라미터 효율형 모델 적응 기법임. 대형 LLM 전체를 도
 
 ```text
 Frozen Base Model + Trainable PEFT Module
-      → Task Training → Adapter/LoRA Weights → Inference
+      -> Task Training -> Adapter/LoRA Weights -> Inference
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Frozen Base Model + Trainable PEFT Module
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-base model 고정 → PEFT 모듈 삽입 → task 데이터 학습
-    → adapter 저장 → 추론 시 로드/merge → 평가
+base model 고정 -> PEFT 모듈 삽입 -> task 데이터 학습
+    -> adapter 저장 -> 추론 시 로드/merge -> 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

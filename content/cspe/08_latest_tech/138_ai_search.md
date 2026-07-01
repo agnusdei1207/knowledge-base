@@ -19,7 +19,7 @@ weight: 138
 - **배경·문제의식**: 전통 검색은 사용자가 결과 목록을 직접 읽고 판단해야 한다. 문서가 많아질수록 찾기·비교·요약 시간이 증가함.
 - **작동 원리**: BM25·Dense·Hybrid Search로 후보를 찾고, 리랭커와 RAG가 요약 답변·출처·추천 질의를 제공하며, 클릭·피드백 로그로 개선함.
 - **비유**: 사서가 책 목록만 주는 것이 아니라, 관련 페이지를 읽고 요약하며 출처까지 알려주는 방식임.
-- **구체 예시**: 기업 포털 AI Search에서 Top-5 문서 요약, 출처 링크, 관련 질문 3개를 제공해 평균 탐색 시간을 12분→4분으로 단축.
+- **구체 예시**: 기업 포털 AI Search에서 Top-5 문서 요약, 출처 링크, 관련 질문 3개를 제공해 평균 탐색 시간을 12분->4분으로 단축.
 - **흔한 오해·주의점**: AI Search는 RAG만 의미하지 않음. 검색 품질, UI, 권한, 평가, 피드백 루프가 함께 필요함.
 
 ## 연결 개념
@@ -44,8 +44,8 @@ AI Search는 생성형 AI 기반 지능형 검색 서비스임. 기존 검색은
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query → Query Understanding → Hybrid Retrieval → Reranker
-  → RAG Summarizer → Source UI/Feedback → Rank Learning
+Query -> Query Understanding -> Hybrid Retrieval -> Reranker
+  -> RAG Summarizer -> Source UI/Feedback -> Rank Learning
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Query → Query Understanding → Hybrid Retrieval → Reranker
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → 의도/엔티티 분석 → 후보 검색
-  → 리랭킹 → 출처 기반 요약 → 결과 UI → 피드백 반영
+질의 입력 -> 의도/엔티티 분석 -> 후보 검색
+  -> 리랭킹 -> 출처 기반 요약 -> 결과 UI -> 피드백 반영
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Query → Query Understanding → Hybrid Retrieval → Reranker
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Search를 설명하시오" | 질의 이해→검색→요약→피드백 흐름 | 전통 검색 대비 차이 |
+| 포괄형 | "AI Search를 설명하시오" | 질의 이해->검색->요약->피드백 흐름 | 전통 검색 대비 차이 |
 | 요구사항 명시형 | "기업 검색 고도화 방안을 제시하시오" | Hybrid·RAG·피드백 설계 | 권한·출처·품질 지표 |
 
 > 요약: 설명형은 지능형 검색 구조, 방안형은 기업 검색 고도화 적용 기준을 중심으로 작성함.

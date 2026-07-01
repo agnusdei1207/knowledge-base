@@ -44,8 +44,8 @@ SLM은 특정 업무에 맞춘 소형 언어모델임. 대형 LLM의 비용·지
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Domain Data → SFT/Distillation → Quantization
-      → SLM Runtime → Local/Edge/API Serving → Fallback LLM
+Domain Data -> SFT/Distillation -> Quantization
+      -> SLM Runtime -> Local/Edge/API Serving -> Fallback LLM
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Domain Data → SFT/Distillation → Quantization
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 입력 → 난이도/업무 분류 → SLM 추론
-    → confidence 평가 → 충분: 응답, 부족: 대형 LLM fallback
+요청 입력 -> 난이도/업무 분류 -> SLM 추론
+    -> confidence 평가 -> 충분: 응답, 부족: 대형 LLM fallback
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

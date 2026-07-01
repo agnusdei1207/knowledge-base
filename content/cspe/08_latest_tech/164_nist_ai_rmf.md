@@ -44,9 +44,9 @@ NIST AI RMF는 AI 위험관리 프레임워크이다. AI 시스템은 개인, �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Govern → Map → Measure → Manage
-  ↑                          │
-  └──────── Continuous Feedback┘
+Govern -> Map -> Measure -> Manage
+  증가
+   -------- Continuous Feedback
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -61,8 +61,8 @@ Govern → Map → Measure → Manage
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 정책 수립 → 시스템 맥락·위험 식별
-  → 지표 측정·평가 → 완화 조치 적용 → 모니터링/개선
+AI 정책 수립 -> 시스템 맥락·위험 식별
+  -> 지표 측정·평가 -> 완화 조치 적용 -> 모니터링/개선
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ AI 정책 수립 → 시스템 맥락·위험 식별
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "NIST AI RMF를 설명하시오" | Govern→Map→Measure→Manage 흐름 | ISO 42001 대비 차이 |
+| 포괄형 | "NIST AI RMF를 설명하시오" | Govern->Map->Measure->Manage 흐름 | ISO 42001 대비 차이 |
 | 요구사항 명시형 | "AI 위험관리 방안을 제시하시오" | 위험 식별·측정·완화·모니터링 | 조직 역할·SLA·GRC 연계 |
 
 > 요약: 설명형은 4개 기능 구조, 방안형은 위험관리 운영 절차와 지표를 중심으로 작성함.

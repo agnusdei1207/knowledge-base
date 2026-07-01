@@ -50,10 +50,10 @@ Function Calling은 LLM의 구조화된 함수 호출 방식임. AI 에이전트
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Intent → LLM → Function Schema → Function Call JSON
-                                      │
-                                      ▼
-                            Server Validation → API
+User Intent -> LLM -> Function Schema -> Function Call JSON
+
+
+                            Server Validation -> API
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -70,8 +70,8 @@ User Intent → LLM → Function Schema → Function Call JSON
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-사용자 요청 → 함수 후보 선택 → 인자 생성 → 스키마 검증
-        → 권한 확인 → API 실행 → 결과 반환
+사용자 요청 -> 함수 후보 선택 -> 인자 생성 -> 스키마 검증
+        -> 권한 확인 -> API 실행 -> 결과 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

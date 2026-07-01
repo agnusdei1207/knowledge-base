@@ -124,7 +124,7 @@ Govern (조직 리스크 전략/역할/정책/공급망 감독)
 | 공급망 리스크 | 1.1에서 항목 일부 보강 | Govern 내 공급망 리스크 관리 명시적 강화 | C-SCRM 서브카테고리 확대 |
 | 구조 표기 | Functions-Categories-Subcategories | 동일 구조 유지, Community Profile 확대 | Informative References ISO 27001/COBIT 매핑 |
 
-> 요약: 1.1 대비 2.0의 핵심 차이는 기능 개수(5→6)와 Govern 신설, 적용 대상의 전 조직 확대다.
+> 요약: 1.1 대비 2.0의 핵심 차이는 기능 개수(5->6)와 Govern 신설, 적용 대상의 전 조직 확대다.
 
 ---
 

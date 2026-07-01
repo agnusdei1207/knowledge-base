@@ -44,8 +44,8 @@ LLM03은 LLM 공급망 위험이다. 생성형 AI는 외부 모델과 데이터,
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Model/Data/Plugin Source → CI/CD & MLOps
-  → Integrity Scan → Deployment → Runtime Monitor
+Model/Data/Plugin Source -> CI/CD & MLOps
+  -> Integrity Scan -> Deployment -> Runtime Monitor
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Model/Data/Plugin Source → CI/CD & MLOps
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-공급원 등록 → 서명·해시 검증 → 취약점 스캔
-  → 격리 테스트 → 승인 배포
+공급원 등록 -> 서명·해시 검증 -> 취약점 스캔
+  -> 격리 테스트 -> 승인 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Model/Data/Plugin Source → CI/CD & MLOps
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM03 Supply Chain을 설명하시오" | 공급원→검증→승인 배포 흐름 | SW 공급망 대비 차이 |
+| 포괄형 | "LLM03 Supply Chain을 설명하시오" | 공급원->검증->승인 배포 흐름 | SW 공급망 대비 차이 |
 | 요구사항 명시형 | "AI 공급망 보안 방안을 제시하시오" | AI SBOM·서명·스캔 게이트 | 모델·데이터 검증 |
 
 > 요약: 설명형은 AI 공급망 위험 구조, 방안형은 MLOps 배포 게이트와 AI SBOM을 중심으로 작성함.

@@ -44,8 +44,8 @@ Adversarial Example은 적대적 입력 변조다. AI 모델은 작은 입력 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Clean Input → Perturbation Generator → Adversarial Input
-  → Model Misclassification → Robustness Defense
+Clean Input -> Perturbation Generator -> Adversarial Input
+  -> Model Misclassification -> Robustness Defense
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Clean Input → Perturbation Generator → Adversarial Input
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델·목표 선택 → loss 기반 교란 계산 → 입력 변조
-  → 오분류 확인 → 방어 학습
+모델·목표 선택 -> loss 기반 교란 계산 -> 입력 변조
+  -> 오분류 확인 -> 방어 학습
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Clean Input → Perturbation Generator → Adversarial Input
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Adversarial Example을 설명하시오" | 교란 생성→오분류 흐름 | 자연 노이즈 대비 차이 |
+| 포괄형 | "Adversarial Example을 설명하시오" | 교란 생성->오분류 흐름 | 자연 노이즈 대비 차이 |
 | 요구사항 명시형 | "AI 강건성 확보 방안을 제시하시오" | 공격별 robust accuracy 평가 | 강건학습·운영 보호 |
 
 > 요약: 설명형은 입력 교란 원리, 방안형은 강건성 평가와 안전 운영 기준을 중심으로 작성함.

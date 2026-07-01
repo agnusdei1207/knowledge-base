@@ -44,8 +44,8 @@ Groundedness는 답변 근거 기반성 품질 속성임. RAG는 외부 문서�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Answer Sentence → Citation Link → Evidence Context
-  → Grounding Judge → Groundedness Score/Policy
+Answer Sentence -> Citation Link -> Evidence Context
+  -> Grounding Judge -> Groundedness Score/Policy
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Answer Sentence → Citation Link → Evidence Context
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-답변 생성 → 문장별 출처 연결 → 근거 문서 조회
-  → 주장-근거 일치 판정 → 점수화 → 거절/수정 정책 적용
+답변 생성 -> 문장별 출처 연결 -> 근거 문서 조회
+  -> 주장-근거 일치 판정 -> 점수화 -> 거절/수정 정책 적용
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Answer Sentence → Citation Link → Evidence Context
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Groundedness를 설명하시오" | claim→citation→근거 판정 흐름 | Faithfulness 대비 차이 |
+| 포괄형 | "Groundedness를 설명하시오" | claim->citation->근거 판정 흐름 | Faithfulness 대비 차이 |
 | 요구사항 명시형 | "기업 RAG 신뢰성 확보 방안을 제시하시오" | 출처 연결·거절 정책·감사로그 | 규제 대응과 운영 통제 |
 
 > 요약: 설명형은 근거 기반성 원리, 방안형은 출처 검증과 감사 대응 기준을 중심으로 작성함.

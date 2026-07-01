@@ -50,9 +50,9 @@ Agent Planning은 에이전트 목표 분해 과정임. AI가 업무를 수행�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Goal → Constraints → Task Graph → Tool Mapping → Stop Rule
-          │              │             │             │
-          ▼              ▼             ▼             ▼
+Goal -> Constraints -> Task Graph -> Tool Mapping -> Stop Rule
+
+
        정책/한계       의존관계       실행도구       종료조건
 ```
 
@@ -70,8 +70,8 @@ Goal → Constraints → Task Graph → Tool Mapping → Stop Rule
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 입력 → 제약 확인 → 작업 분해 → 도구 매핑
-        → 실행 순서 결정 → 중간 검증 → 재계획/종료
+목표 입력 -> 제약 확인 -> 작업 분해 -> 도구 매핑
+        -> 실행 순서 결정 -> 중간 검증 -> 재계획/종료
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

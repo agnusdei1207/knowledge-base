@@ -50,9 +50,9 @@ Agent Evaluation은 AI 에이전트 운영 품질 평가임. Agent는 답변 생
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Test Tasks → Agent Run → Trace Collection → Scoring
-      │             │             │             │
-      ▼             ▼             ▼             ▼
+Test Tasks -> Agent Run -> Trace Collection -> Scoring
+
+
    시나리오       실행결과       도구/로그       지표
 ```
 
@@ -70,8 +70,8 @@ Test Tasks → Agent Run → Trace Collection → Scoring
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-시나리오 준비 → Agent 실행 → Trace 수집 → 지표 산출
-        → 실패 분석 → 개선 → 재평가
+시나리오 준비 -> Agent 실행 -> Trace 수집 -> 지표 산출
+        -> 실패 분석 -> 개선 -> 재평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

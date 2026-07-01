@@ -44,9 +44,8 @@ MCTS는 시뮬레이션 기반 트리 탐색 알고리즘임. 게임·계획 문
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Root State → Selection → Expansion → Simulation
-      ▲                                      │
-      └──────── Backpropagation(value) ◀─────┘
+Root State -> Selection -> Expansion -> Simulation -> Backpropagation(value)
+Backpropagation -> Visit/Value Update -> Next Selection
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -61,8 +60,8 @@ Root State → Selection → Expansion → Simulation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-루트 상태 입력 → UCT로 노드 선택 → 자식 확장
-  → rollout 수행 → 결과 보상 계산 → 방문 경로 가치 갱신
+루트 상태 입력 -> UCT로 노드 선택 -> 자식 확장
+  -> rollout 수행 -> 결과 보상 계산 -> 방문 경로 가치 갱신
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -88,7 +87,7 @@ Root State → Selection → Expansion → Simulation
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 게임 AI: policy network로 후보 행동을 줄이고 value network로 rollout을 대체해 탐색 횟수 1만→1천회 절감
+1. 게임 AI: policy network로 후보 행동을 줄이고 value network로 rollout을 대체해 탐색 횟수 1만->1천회 절감
 2. 계획 문제: 물류 경로·로봇 행동 계획에서 depth limit과 안전 제약을 적용해 위험 행동 제외
 3. LLM 추론: self-consistency·tree-of-thought에서 후보 reasoning path를 MCTS로 평가하고 상위 경로 선택
 
@@ -100,7 +99,7 @@ Root State → Selection → Expansion → Simulation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "MCTS를 설명하시오" | Selection→Expansion→Simulation→Backprop 흐름 | Minimax 대비 차이 |
+| 포괄형 | "MCTS를 설명하시오" | Selection->Expansion->Simulation->Backprop 흐름 | Minimax 대비 차이 |
 | 요구사항 명시형 | "게임 AI 탐색 방안을 제시하시오" | UCT·rollout·시간 예산 기준 | 정책망·가치망 결합 방안 |
 
 > 요약: 설명형은 4단계 탐색 원리, 방안형은 탐색 비용과 의사결정 품질 조정 기준을 중심으로 작성함.

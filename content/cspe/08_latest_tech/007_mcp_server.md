@@ -50,9 +50,9 @@ MCP Server는 MCP 기능 제공 서버임. AI 에이전트가 업무 시스템�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-MCP Client → MCP Server → Adapter → Backend System
-                   │          │
-                   ▼          ▼
+MCP Client -> MCP Server -> Adapter -> Backend System
+
+
               Tool Catalog  Audit/Policy
 ```
 
@@ -70,8 +70,8 @@ MCP Client → MCP Server → Adapter → Backend System
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-서버 등록 → 도구 목록 제공 → 호출 요청 수신
-       → 입력 검증 → 백엔드 호출 → 결과 정제/반환
+서버 등록 -> 도구 목록 제공 -> 호출 요청 수신
+       -> 입력 검증 -> 백엔드 호출 -> 결과 정제/반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

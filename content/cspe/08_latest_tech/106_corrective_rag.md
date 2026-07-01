@@ -17,9 +17,9 @@ weight: 106
 
 ## 깊이 이해
 - **배경·문제의식**: Naive RAG는 Top-K 문서를 그대로 LLM 컨텍스트에 넣어 오답·무관 문서가 혼입되면 환각이 오히려 증가한다. CRAG 논문(Yan 2024)은 검색 결과에 대한 평가-교정 단계를 삽입하여 이 문제를 해결했다.
-- **작동 원리**: ① Retriever가 Top-K 문서 검색 → ② Evaluator(경량 분류기 또는 LLM-as-Judge)가 각 문서를 Correct/Ambiguous/Incorrect로 판정 → ③ Correct면 지식 정제(Knowledge Refinement)로 핵심만 추출, Incorrect면 웹 검색 등 대체 소스로 교체, Ambiguous면 두 경로 병합 → ④ 정제된 컨텍스트로 LLM 생성.
+- **작동 원리**: ① Retriever가 Top-K 문서 검색 -> ② Evaluator(경량 분류기 또는 LLM-as-Judge)가 각 문서를 Correct/Ambiguous/Incorrect로 판정 -> ③ Correct면 지식 정제(Knowledge Refinement)로 핵심만 추출, Incorrect면 웹 검색 등 대체 소스로 교체, Ambiguous면 두 경로 병합 -> ④ 정제된 컨텍스트로 LLM 생성.
 - **비유**: 리포트를 쓸 때 도서관에서 빌린 책을 바로 베끼지 않고, 교수가 "이 자료는 쓸 만하다/안 된다"를 먼저 체크해 준 뒤에만 인용하는 것과 같다.
-- **구체 예시**: PopQA 벤치마크에서 Naive RAG 대비 CRAG의 정확도가 54.9% → 63.7%로 약 16% 향상(Yan et al., 2024).
+- **구체 예시**: PopQA 벤치마크에서 Naive RAG 대비 CRAG의 정확도가 54.9% -> 63.7%로 약 16% 향상(Yan et al., 2024).
 - **흔한 오해·주의점**: Evaluator 자체가 오판하면 올바른 문서도 버려진다. Evaluator 정확도가 85% 미만이면 오히려 성능이 하락할 수 있어, 평가 모델 품질 관리가 필수다.
 
 ## 연결 개념
@@ -35,7 +35,7 @@ weight: 106
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 검색 결과를 평가·교정한 뒤 생성하여 환각을 억제하는 RAG 파이프라인
-> 2. **가치**: 검색 품질 판정 단계 삽입으로 PopQA 정확도 54.9%→63.7%(+16%) 달성
+> 2. **가치**: 검색 품질 판정 단계 삽입으로 PopQA 정확도 54.9%->63.7%(+16%) 달성
 > 3. **판단 포인트**: Evaluator 정확도 ≥85%일 때 유효, 미만이면 Naive RAG보다 하락 위험
 
 
@@ -47,32 +47,30 @@ weight: 106
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-┌──────────┐   ┌───────────┐   ┌───────────┐   ┌──────────┐
-│ Retriever│──▶│ Evaluator │──▶│ Corrector │──▶│Generator │
-│ (Top-K)  │   │(품질 판정)│   │(정제/교체)│   │(LLM 생성)│
-└──────────┘   └───────────┘   └───────────┘   └──────────┘
-                  │Incorrect│
-                  └──▶ Web Search(대체 소스)──▶ Corrector
+  Retriever ->  Evaluator  ->  Corrector  -> Generator
+  (Top-K)       (품질 판정)     (정제/교체)     (LLM 생성)
+                   Incorrect
+                   -> Web Search(대체 소스)-> Corrector
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Retriever | 질의 기반 Top-K 문서 검색 | Dense/Sparse 검색 모두 적용 |
 | Evaluator | 문서별 Correct/Ambiguous/Incorrect 판정 | T5-Large 경량 분류기 또는 LLM-as-Judge |
-| Corrector | Correct→핵심 추출, Incorrect→웹 검색 교체 | Knowledge Refinement으로 노이즈 제거 |
+| Corrector | Correct->핵심 추출, Incorrect->웹 검색 교체 | Knowledge Refinement으로 노이즈 제거 |
 | Generator | 정제된 컨텍스트로 최종 답변 생성 | 교정된 문서만 입력하여 환각 억제 |
 
-> 요약: Retriever→Evaluator→Corrector→Generator 4단계로 저품질 문서를 걸러내고 대체 소스로 보정한 뒤 생성한다.
+> 요약: Retriever->Evaluator->Corrector->Generator 4단계로 저품질 문서를 걸러내고 대체 소스로 보정한 뒤 생성한다.
 
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → Top-K 검색 → 문서별 품질 판정 → 분기
-  ├─ Correct → 핵심 문장 추출(Knowledge Refinement)
-  ├─ Ambiguous → 내부 정제 + 외부 검색 병합
-  └─ Incorrect → 웹 검색으로 대체 문서 확보
-      → 정제된 컨텍스트 통합 → LLM 생성 → 답변 출력
+질의 입력 -> Top-K 검색 -> 문서별 품질 판정 -> 분기
+   - Correct -> 핵심 문장 추출(Knowledge Refinement)
+   - Ambiguous -> 내부 정제 + 외부 검색 병합
+   - Incorrect -> 웹 검색으로 대체 문서 확보
+      -> 정제된 컨텍스트 통합 -> LLM 생성 -> 답변 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -82,7 +80,7 @@ weight: 106
 | 3 | Correct 문서 정제, Incorrect 문서 웹 검색 교체 | 정제 후 토큰 수 원본 대비 30~50% 압축 |
 | 4 | 통합 컨텍스트로 LLM 생성 및 답변 출력 | 환각률 Naive RAG 대비 50% 이상 감소 |
 
-> 요약: 검색→판정→교정→생성 흐름에서, Evaluator의 3등급 분류가 파이프라인 분기를 결정하며, 교정 단계에서 토큰을 30~50% 압축하여 LLM 컨텍스트 효율을 높인다.
+> 요약: 검색->판정->교정->생성 흐름에서, Evaluator의 3등급 분류가 파이프라인 분기를 결정하며, 교정 단계에서 토큰을 30~50% 압축하여 LLM 컨텍스트 효율을 높인다.
 
 
 ## Ⅳ. 특징
@@ -100,9 +98,9 @@ weight: 106
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 사내 문서 QA: T5-Large Evaluator로 사내 문서 판정, Incorrect 시 외부 기술 블로그 검색으로 교체하여 응답 정확도 60%→75% 달성
+1. 사내 문서 QA: T5-Large Evaluator로 사내 문서 판정, Incorrect 시 외부 기술 블로그 검색으로 교체하여 응답 정확도 60%->75% 달성
 2. 의료·법률 도메인: LLM-as-Judge를 도메인 특화 프롬프트로 구성, 판정 정확도 90% 이상 확보 후 오답 문서 차단
-3. 하이브리드 파이프라인: Evaluator 결과를 캐시하여 동일 쿼리 패턴 재판정 생략, 평균 지연 400ms→150ms로 단축
+3. 하이브리드 파이프라인: Evaluator 결과를 캐시하여 동일 쿼리 패턴 재판정 생략, 평균 지연 400ms->150ms로 단축
 
 **결론 (2줄):**
 - 기술사 판단: 문서 품질 편차가 큰 도메인(사내 위키·혼합 코퍼스)이면 CRAG, 고품질 단일 DB면 Naive RAG로 충분

@@ -47,11 +47,8 @@ weight: 26
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Task Step → Checkpoint Store → Failure Detector
-                                    │
-                          ┌─────────┴─────────┐
+Task Step -> Checkpoint Store -> Failure Detector
                      Retry Engine        Compensation
-                          │                    │
                    Success/Escalate      Rollback/Alert
 ```
 
@@ -62,22 +59,22 @@ Task Step → Checkpoint Store → Failure Detector
 | Retry Engine | 지수 백오프 재시도(최대 3회) | 멱등키 기반 중복 방지 |
 | Compensation | 비멱등 작업 보상 트랜잭션 실행 | Saga 패턴 적용 |
 
-> 요약: 체크포인트 저장 → 실패 감지 → 재시도/보상 → 에스컬레이션의 4단계 복구 구조임.
+> 요약: 체크포인트 저장 -> 실패 감지 -> 재시도/보상 -> 에스컬레이션의 4단계 복구 구조임.
 
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-단계 실행 → 성공? → Yes → 체크포인트 저장 → 다음 단계
-              No → 재시도 가능? → Yes → 지수 백오프 재시도
-                                  No → 보상 트랜잭션 → Human Escalation
+단계 실행 -> 성공? -> Yes -> 체크포인트 저장 -> 다음 단계
+              No -> 재시도 가능? -> Yes -> 지수 백오프 재시도
+                                  No -> 보상 트랜잭션 -> Human Escalation
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
 | 1 | 단계 실행·결과 수신 | HTTP 200, 응답 p95 <3s |
 | 2 | 실패 감지·분류 | 일시적(5xx) vs 영구적(4xx) |
-| 3 | 재시도(지수 백오프 1s→2s→4s) | 최대 3회, 멱등키 필수 |
+| 3 | 재시도(지수 백오프 1s->2s->4s) | 최대 3회, 멱등키 필수 |
 | 4 | 복구 불가 시 보상·에스컬레이션 | Slack 알림 <30s, 보상 완료 확인 |
 
 > 요약: 일시적 실패는 지수 백오프로 자동 복구하고, 영구적 실패는 보상 트랜잭션 후 사람에게 넘김.

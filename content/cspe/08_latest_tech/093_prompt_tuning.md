@@ -45,7 +45,7 @@ Prompt Tuning은 soft prompt 기반 경량 튜닝 기법임. 전체 모델 학�
 
 ```text
 Trainable Soft Prompt + Input Embedding
-      → Frozen LLM → Task Output
+      -> Frozen LLM -> Task Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Trainable Soft Prompt + Input Embedding
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-soft prompt 초기화 → 입력 embedding 결합 → task loss 계산
-    → prompt vector만 업데이트 → 평가·저장
+soft prompt 초기화 -> 입력 embedding 결합 -> task loss 계산
+    -> prompt vector만 업데이트 -> 평가·저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

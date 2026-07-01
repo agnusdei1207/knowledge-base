@@ -44,8 +44,8 @@ Content Credentials는 콘텐츠 출처 증명 방식이다. AI 생성·편집 �
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Creator/Tool → Manifest/Claim → Digital Signature
-  → Content Binding → Viewer Verification
+Creator/Tool -> Manifest/Claim -> Digital Signature
+  -> Content Binding -> Viewer Verification
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Creator/Tool → Manifest/Claim → Digital Signature
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-생성·편집 기록 → assertion 생성 → claim 서명
-  → 콘텐츠 결합 → 검증·표시
+생성·편집 기록 -> assertion 생성 -> claim 서명
+  -> 콘텐츠 결합 -> 검증·표시
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +99,7 @@ Creator/Tool → Manifest/Claim → Digital Signature
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Content Credentials를 설명하시오" | 기록→서명→검증 흐름 | 워터마킹 대비 차이 |
+| 포괄형 | "Content Credentials를 설명하시오" | 기록->서명->검증 흐름 | 워터마킹 대비 차이 |
 | 요구사항 명시형 | "디지털 콘텐츠 진위증명 방안을 제시하시오" | manifest·signature·viewer 적용 | metadata stripping 대응 |
 
 > 요약: 설명형은 콘텐츠 provenance 구조, 방안형은 생성 파이프라인과 검증·표시 체계를 중심으로 작성함.

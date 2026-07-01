@@ -50,9 +50,8 @@ ReAct는 추론과 행동을 반복하는 LLM 패턴임. 최신 AI 에이전트 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Goal → Thought → Action(Tool) → Observation
-                ▲                         │
-                └────── Replan/Finish ◀───┘
+User Goal -> Thought -> Action(Tool) -> Observation
+Observation -> Replan or Finish -> Thought
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -69,8 +68,8 @@ User Goal → Thought → Action(Tool) → Observation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질문 수신 → Thought 생성 → Action 선택 → Tool 실행
-       → Observation 반영 → 답변 생성 or 다음 루프
+질문 수신 -> Thought 생성 -> Action 선택 -> Tool 실행
+       -> Observation 반영 -> 답변 생성 or 다음 루프
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -44,16 +44,16 @@ CLIP은 이미지-텍스트 대조학습 모델임. 고정 라벨 기반 이미�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Image → Image Encoder → image embedding ┐
-                                        ├→ Contrastive Loss → Shared Space
-Text  → Text Encoder  → text embedding  ┘
+Image -> Image Encoder -> image embedding
+                                         -> Contrastive Loss -> Shared Space
+Text  -> Text Encoder  -> text embedding
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Image Encoder | 이미지를 벡터로 변환 | ViT, ResNet |
 | Text Encoder | 자연어 프롬프트를 벡터로 변환 | Transformer |
-| Contrastive Loss | 정답 쌍 유사도↑, 오답 쌍 유사도↓ | batch 내 N×N 비교 |
+| Contrastive Loss | 정답 쌍 유사도증가, 오답 쌍 유사도감소 | batch 내 N×N 비교 |
 | Shared Embedding | 이미지-텍스트 검색 공간 | cosine similarity 사용 |
 
 > 요약: CLIP은 이미지와 텍스트를 각각 인코딩하고 대조학습으로 같은 의미의 쌍을 가까운 벡터로 정렬함.
@@ -61,8 +61,8 @@ Text  → Text Encoder  → text embedding  ┘
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이미지/문장 쌍 수집 → 인코딩 → 유사도 행렬 계산
-  → 정답 쌍 점수 상승 → 오답 쌍 점수 하락 → zero-shot 추론
+이미지/문장 쌍 수집 -> 인코딩 -> 유사도 행렬 계산
+  -> 정답 쌍 점수 상승 -> 오답 쌍 점수 하락 -> zero-shot 추론
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ Text  → Text Encoder  → text embedding  ┘
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "CLIP을 설명하시오" | 이미지/텍스트 인코딩→대조학습 흐름 | CNN·VLM 대비 차이 |
+| 포괄형 | "CLIP을 설명하시오" | 이미지/텍스트 인코딩->대조학습 흐름 | CNN·VLM 대비 차이 |
 | 요구사항 명시형 | "이미지 검색 방안을 제시하시오" | 임베딩 검색·프롬프트 설계 기준 | OCR·공간 추론 보완 |
 
 > 요약: 설명형은 대조학습 원리, 방안형은 자연어 이미지 검색 적용과 한계 보완을 중심으로 작성함.

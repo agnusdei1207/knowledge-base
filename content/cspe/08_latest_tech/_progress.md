@@ -51,4 +51,4 @@ AGENTS.md를 읽고 🤖 다음 모델에게 섹션의 지시를 따라 내용 �
 | 중간 번호 | `_keywords.md` 기준 | 영문명 소문자 스네이크케이스 |
 | 360 | AI-Native Application | 360_ai_native_application.md |
 
-> 전체 키워드→파일명 매핑은 _keywords.md의 번호+영문명을 소문자 스네이크케이스로 변환.
+> 전체 키워드->파일명 매핑은 _keywords.md의 번호+영문명을 소문자 스네이크케이스로 변환.

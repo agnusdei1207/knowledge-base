@@ -44,8 +44,8 @@ Speech-to-Text는 음성 인식 기술임. 기업의 상담·회의·현장 음�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Audio → Preprocess → Acoustic Encoder → Decoder/LM
-  → Transcript + Timestamp + Speaker Label
+Audio -> Preprocess -> Acoustic Encoder -> Decoder/LM
+  -> Transcript + Timestamp + Speaker Label
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +60,8 @@ Audio → Preprocess → Acoustic Encoder → Decoder/LM
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-음성 입력 → VAD/잡음 제거 → 특징 추출
-  → 음향 모델 인코딩 → 텍스트 디코딩 → 후처리/마스킹
+음성 입력 -> VAD/잡음 제거 -> 특징 추출
+  -> 음향 모델 인코딩 -> 텍스트 디코딩 -> 후처리/마스킹
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -87,7 +87,7 @@ Audio → Preprocess → Acoustic Encoder → Decoder/LM
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 콜센터 분석: 실시간 STT, 화자 분리, 상담 요약 LLM을 결합해 통화 후처리 시간을 10분→2분으로 단축
+1. 콜센터 분석: 실시간 STT, 화자 분리, 상담 요약 LLM을 결합해 통화 후처리 시간을 10분->2분으로 단축
 2. 회의록 자동화: STT+diarization+요약으로 발언자별 action item 추출, WER 10% 이하 검증
 3. 보안 통제: 주민번호·전화번호·계좌번호 PII 마스킹 후 저장, 전사 로그 AES-256 암호화
 
@@ -99,7 +99,7 @@ Audio → Preprocess → Acoustic Encoder → Decoder/LM
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "STT를 설명하시오" | 전처리→인코딩→디코딩→후처리 흐름 | 수동 전사 대비 차이 |
+| 포괄형 | "STT를 설명하시오" | 전처리->인코딩->디코딩->후처리 흐름 | 수동 전사 대비 차이 |
 | 요구사항 명시형 | "음성 데이터 활용 방안을 제시하시오" | WER·화자분리·PII 기준 | 콜센터·회의록 적용 방안 |
 
 > 요약: 설명형은 음성 인식 파이프라인, 방안형은 업무 적용과 품질·보안 기준을 중심으로 작성함.

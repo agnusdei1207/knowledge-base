@@ -50,11 +50,11 @@ A2A는 에이전트 간 통신 방식임. 다중 도메인 업무를 단일 에�
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Coordinator ─┬→ Search Agent
-             ├→ Analysis Agent
-             └→ Action Agent
-                   │
-                   ▼
+Coordinator - -> Search Agent
+              -> Analysis Agent
+              -> Action Agent
+
+
               Result Aggregator
 ```
 
@@ -72,8 +72,8 @@ Coordinator ─┬→ Search Agent
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 입력 → 작업 분해 → Agent 위임 → 메시지 교환
-        → 결과 검증 → 충돌 조정 → 최종 응답
+목표 입력 -> 작업 분해 -> Agent 위임 -> 메시지 교환
+        -> 결과 검증 -> 충돌 조정 -> 최종 응답
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
