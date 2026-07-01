@@ -27,7 +27,6 @@ weight: 57
 - vLLM — PagedAttention을 대표적으로 구현한 서빙 엔진
 - Continuous Batching — 동적 배치와 함께 처리량을 높임
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 57
 > 2. **가치**: 가변 길이 요청의 KV 메모리 낭비를 낮춰 동일 GPU에서 더 많은 동시 세션을 처리함.
 > 3. **판단 포인트**: block size, block table, cache eviction, attention kernel 지원 여부가 처리량을 좌우함.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 PagedAttention은 KV Cache 페이지 관리 기법임. LLM 서빙은 요청마다 context/output 길이가 달라 GPU 메모리 단편화가 발생하므로, KV를 고정 크기 블록으로 관리해 동시성·처리량을 확보함.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -67,7 +64,6 @@ Attention Kernel reads mapped blocks
 
 > 요약: PagedAttention은 논리 토큰 순서와 물리 KV 저장 위치를 분리해 가변 길이 세션을 블록 단위로 수용함.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -85,7 +81,6 @@ Attention Kernel reads mapped blocks
 
 > 요약: KV를 연속 영역이 아니라 블록 목록으로 관리해 세션 길이 변화에도 메모리를 회수·재사용함.
 
----
 
 ## Ⅳ. 특징
 
@@ -98,7 +93,6 @@ Attention Kernel reads mapped blocks
 
 > 요약: PagedAttention은 서빙 처리량을 높이는 메모리 가상화 기법이며, 엔진·커널 지원이 적용 전제임.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -111,7 +105,6 @@ Attention Kernel reads mapped blocks
 - 기술사 판단: 다중 사용자 LLM API는 PagedAttention 기반 엔진을 우선 검토하고, 단일 배치 분석은 단순 KV Cache로 충분함.
 - 향후 방향: KV Cache 가상화는 장문맥·고동시성 LLM 서빙의 기본 런타임 기능으로 편입됨.
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

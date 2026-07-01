@@ -10,21 +10,21 @@ draft: true
 # 08_latest_tech 내용 작성 진행 상황
 
 > 이 파일은 작업 이어하기용 추적 문서다. 다음 세션에서 이 파일을 읽고 미완성 범위부터 이어서 작성한다.
-> 최종 업데이트: 2026-07-01T09:52 KST
+> 최종 업데이트: 2026-07-01T10:10 KST
 
 ## 전체 목표
 - 총 360개 키워드 파일 (001~360)
 - 키워드 목록: `_keywords.md` 참조
 - 골드 스탠다드: `001_ai_agent_system.md`, `../02_hardware/221_pipeline_hazards.md`
 
-## 완료된 파일 (68개)
-001~061, 101, 106, 107, 111, 112, 121, 201
+## 완료된 파일 (73개)
+001~066, 101, 106, 107, 111, 112, 121, 201
 
 ## 현재 진행 중
 - 없음
 
 ## 미작성 범위 (우선순위 순)
-1. 062~100 — TPOT·Token Throughput·LLM 서빙·SLM·온디바이스 AI·양자화·MoE·Fine-Tuning·PEFT·LoRA·RLHF·Alignment
+1. 067~100 — SLM·온디바이스 AI·양자화·MoE·Fine-Tuning·PEFT·LoRA·RLHF·Alignment
 2. 102~105, 108~110, 113~120, 122~125 — RAG 변형·검색·임베딩·지식그래프 (일부 산발 완료)
 3. 126~150 — RAG 평가·멀티모달 AI·Diffusion
 4. 151~175 — Document AI·GNN·강화학습·AI 거버넌스·XAI
@@ -53,7 +53,7 @@ AGENTS.md를 읽고 🤖 다음 모델에게 섹션의 지시를 따라 내용 �
 |:---|:---|:---|
 | 031 | LLM 대형 언어모델 | 031_large_language_model.md |
 | 032 | 생성형 AI | 032_generative_ai.md |
-| ... | ... | ... |
+| 중간 번호 | `_keywords.md` 기준 | 영문명 소문자 스네이크케이스 |
 | 360 | AI-Native Application | 360_ai_native_application.md |
 
 > 전체 키워드→파일명 매핑은 _keywords.md의 번호+영문명을 소문자 스네이크케이스로 변환.

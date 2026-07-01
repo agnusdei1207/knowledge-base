@@ -27,7 +27,6 @@ weight: 58
 - PagedAttention — 가변 sequence KV 관리 기반
 - TTFT/TPOT — 배칭 정책으로 영향을 받는 지연 지표
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 58
 > 2. **가치**: 출력 길이 편차로 인한 GPU 유휴 시간을 줄여 req/s와 토큰 처리량을 높임.
 > 3. **판단 포인트**: batch size, queue delay, prefill/decode 분리, tail latency가 운영 기준임.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 Continuous Batching은 LLM 동적 배치 처리 방식임. 요청별 생성 길이가 다른 LLM 서빙에서 고정 배치의 자원 낭비를 줄이기 위해, 완료 요청을 즉시 제거하고 새 요청을 배치에 투입함.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -66,7 +63,6 @@ Request Queue → Scheduler → Active Decode Batch
 
 > 요약: 스케줄러가 요청 큐와 active batch를 토큰 step마다 조정해 GPU 공백 시간을 줄임.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -84,7 +80,6 @@ Request Queue → Scheduler → Active Decode Batch
 
 > 요약: Continuous Batching은 batch를 요청 단위가 아니라 토큰 step 단위로 재편성해 처리량과 지연을 조정함.
 
----
 
 ## Ⅳ. 특징
 
@@ -97,7 +92,6 @@ Request Queue → Scheduler → Active Decode Batch
 
 > 요약: Continuous Batching은 혼합 길이 트래픽에서 처리량을 높이나, 대기열 정책이 tail latency를 좌우함.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -110,7 +104,6 @@ Request Queue → Scheduler → Active Decode Batch
 - 기술사 판단: 요청 길이 편차가 큰 대화형 LLM API는 Continuous Batching, 오프라인 일괄 작업은 Static Batching을 선택함.
 - 향후 방향: SLA-aware scheduler가 요청 유형별 TTFT·TPOT 목표에 따라 배치를 자동 조정함.
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

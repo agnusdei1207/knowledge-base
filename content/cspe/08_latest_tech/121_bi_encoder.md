@@ -27,7 +27,6 @@ weight: 121
 - ColBERT — 토큰 레벨 후기상호작용으로 Bi-Encoder 한계 극복
 - RAG(Retrieval-Augmented Generation) — Bi-Encoder가 retriever 역할 담당
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,39 +38,29 @@ weight: 121
 > 2. **가치**: 수천만 문서 대상 p99 10ms 이하 의미 검색 실현, BM25 대비 Recall@20 15~20%p 향상
 > 3. **판단 포인트**: 단독 사용 시 토큰 상호작용 부재로 정밀도 한계 → 리랭킹(Cross-Encoder) 또는 ColBERT 병행 필요
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 질의·문서를 독립 임베딩하여 벡터 유사도로 검색하는 모델. BM25는 어휘 불일치에 취약하고 Cross-Encoder는 O(N) 추론으로 대규모 검색이 불가하여, 의미 이해와 실시간 속도를 양립할 구조가 필요하다.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-│ Query    │──▶│ Query    │    │ Document │──▶│ Doc      │
-│ Input    │   │ Encoder  │    │ Corpus   │   │ Encoder  │
-└──────────┘   └────┬─────┘    └──────────┘   └────┬─────┘
-                    │ q-vec (768-d)                 │ d-vec (768-d)
-                    ▼                               ▼
-               ┌─────────────────────────────────────┐
-               │   ANN Index (FAISS / ScaNN)         │
-               │   cos_sim(q, d) → Top-k 반환        │
-               └─────────────────────────────────────┘
+Query → Query Encoder → q-vec(768-d)
+Document Corpus → Doc Encoder → d-vec(768-d)
+q-vec + d-vec → ANN Index(FAISS/ScaNN) → Top-k
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Query Encoder | 질의를 768-d 벡터로 변환 | BERT-base, 추론 시 실시간 인코딩 |
 | Document Encoder | 문서를 768-d 벡터로 변환 | 오프라인 배치 인코딩, 인덱스 저장 |
-| ANN Index | 벡터 유사도 기반 Top-k 검색 | FAISS IVF-PQ: 10억 벡터 p99 < 10ms |
+| ANN Index | 벡터 유사도 Top-k 검색 | FAISS IVF-PQ: 10억 벡터 p99 < 10ms |
 | Contrastive Loss | 양성/음성 쌍으로 인코더 학습 | In-batch Negatives, Hard Negatives |
 
 > 요약: 질의·문서를 독립 인코더로 벡터화한 뒤 ANN 인덱스에서 유사도 검색하여 O(log N) 속도를 달성한다.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -90,7 +79,6 @@ weight: 121
 
 > 요약: 문서는 오프라인 벡터화·인덱싱하고, 질의만 실시간 인코딩하여 ANN 검색으로 밀리초 단위 응답을 실현한다.
 
----
 
 ## Ⅳ. 특징
 
@@ -103,7 +91,6 @@ weight: 121
 
 > 요약: 속도와 의미 이해를 양립하나 세밀 매칭 한계로 리랭킹 파이프라인 병행이 실무 표준이다.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -116,7 +103,6 @@ weight: 121
 - 기술사 판단: 문서 100만 이상이면 Bi-Encoder + ANN 필수, 정밀도 요구 시 Cross-Encoder 리랭킹 추가
 - 향후 방향: ColBERT·SPLADE 등 후기상호작용·희소 벡터 모델과의 하이브리드로 정밀도-속도 균형 최적화
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

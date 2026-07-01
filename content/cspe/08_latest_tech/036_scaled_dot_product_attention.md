@@ -27,7 +27,6 @@ weight: 36
 - Multi-Head Attention — 여러 Attention을 병렬 수행
 - Transformer — Attention을 핵심 블록으로 반복 적층
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 36
 > 2. **가치**: RNN 순차 의존을 제거하고 GPU 행렬곱으로 문장 전체 관계를 병렬 계산함.
 > 3. **판단 포인트**: `√d_k` 스케일링, Mask 적용, O(N²) 복잡도 관리가 설계 핵심임.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 Scaled Dot-Product Attention은 Q·K·V 기반 가중합 연산임. Transformer는 이 연산으로 토큰 간 장거리 의존성을 병렬 계산하여 번역·요약·LLM 추론의 기반을 형성함. 기술사 답안에서는 수식, Mask, 복잡도를 함께 제시해야 함.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -68,7 +65,6 @@ Input Embedding
 
 > 요약: Q는 찾는 조건, K는 매칭 기준, V는 전달 내용이며 Scale과 Mask가 학습 안정성과 접근 범위를 통제함.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -86,7 +82,6 @@ Input Embedding
 
 > 요약: Attention은 유사도 행렬을 확률분포로 바꾼 뒤 Value를 가중합해 문맥 벡터를 생성함.
 
----
 
 ## Ⅳ. 특징
 
@@ -99,7 +94,6 @@ Input Embedding
 
 > 요약: Scaled Dot-Product Attention은 병렬 계산과 안정적 Softmax를 제공하나, 긴 시퀀스에서는 O(N²) 점수 행렬이 병목임.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -112,7 +106,6 @@ Input Embedding
 - 기술사 판단: 일반 Transformer는 표준 Attention, 장문맥 32K 이상은 FlashAttention·Sparse Attention 병행 선택
 - 향후 방향: 선형 Attention·State Space Model과 결합해 O(N²) 병목을 완화하는 방향으로 발전
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

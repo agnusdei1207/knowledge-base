@@ -27,7 +27,6 @@ weight: 56
 - Prefix Caching — 공통 prefix의 KV를 재사용
 - TPOT — KV Cache 효율이 좌우하는 decode 지연 지표
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 56
 > 2. **가치**: prefill 이후 토큰당 계산량을 줄여 TPOT와 GPU 사용률을 개선함.
 > 3. **판단 포인트**: cache 크기, fragmentation, eviction, quantization, 동시 세션 수가 서빙 처리량을 결정함.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 KV Cache 최적화는 LLM 디코딩 메모리 관리 기법임. Auto-regressive 생성은 과거 토큰을 계속 참조하므로, K/V 텐서를 저장·재사용해 반복 계산을 제거하고 동시 요청 처리량을 확보함.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -65,7 +62,6 @@ Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
 
 > 요약: KV Cache는 K/V 저장소와 관리자를 통해 과거 토큰 재계산을 줄이고, 양자화로 메모리 한계를 완화함.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -83,7 +79,6 @@ Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
 
 > 요약: prefill에서 만든 K/V를 decode 동안 누적 재사용하고, 요청 종료 시 회수해 GPU 메모리를 순환시킴.
 
----
 
 ## Ⅳ. 특징
 
@@ -96,7 +91,6 @@ Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
 
 > 요약: KV Cache는 decode 계산을 줄이는 대신 GPU 메모리를 소비하므로, 페이지 관리·양자화·eviction 정책이 필수임.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -109,7 +103,6 @@ Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
 - 기술사 판단: 동시 대화형 LLM 서빙은 KV Cache 최적화 없이는 GPU 메모리와 TPOT SLA를 만족하기 어렵다.
 - 향후 방향: PagedAttention·prefix cache·KV quantization 결합이 장문맥 서빙의 표준 구조가 됨.
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

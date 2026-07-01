@@ -27,7 +27,6 @@ weight: 34
 - Positional Encoding — 순서 정보 보완
 - Foundation Model — Transformer 위에 구축된 대규모 모델
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 34
 > 2. **가치**: GPU 병렬화로 학습 속도를 10배+ 향상시키고, GPT·BERT 등 Foundation Model의 기반이 됨.
 > 3. **판단 포인트**: O(N²) 연산 비용을 시퀀스 길이·하드웨어 예산에 맞춰 Sparse/Linear Attention으로 완화해야 함.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LSTM의 순차 처리·기울기 소실 한계를 해결하고, GPU 병렬화를 극대화하여 대규모 언어모델(LLM)의 기반 구조로 자리잡음.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -71,7 +68,6 @@ Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LST
 
 > 요약: Transformer는 Attention→FFN→LayerNorm 블록을 L회 반복하는 인코더-디코더(또는 디코더 전용) 구조임.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -90,7 +86,6 @@ Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LST
 
 > 요약: 각 레이어에서 Attention으로 맥락을 수집하고 FFN으로 변환하는 과정을 L회 쌓아 표현력을 높임.
 
----
 
 ## Ⅳ. 특징
 
@@ -102,7 +97,6 @@ Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LST
 
 > 요약: Transformer는 병렬화·장거리 의존성에서 RNN을 압도하나, O(N²) 연산이 긴 시퀀스의 병목임.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -115,7 +109,6 @@ Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LST
 - 기술사 판단: 시퀀스 처리 과제면 Transformer 기반 선택, 시퀀스 10K+ 시 Sparse Attention 적용
 - 향후 방향: SSM(Mamba)·선형 Attention과 하이브리드 구조로 O(N²) 병목 극복 진행 중
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

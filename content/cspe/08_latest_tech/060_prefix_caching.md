@@ -27,7 +27,6 @@ weight: 60
 - KV Cache — 재사용되는 캐시 데이터
 - Prompt Template — prefix 안정성이 cache hit를 좌우
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 60
 > 2. **가치**: 공통 system prompt·정책·문서 prefix를 반복 계산하지 않아 대화형 서비스 응답 시작 지연을 낮춤.
 > 3. **판단 포인트**: prefix 안정성, cache key, hit rate, 권한 분리, eviction 정책이 운영 기준임.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 Prefix Caching은 공통 프롬프트 KV 재사용 기법임. LLM 서비스는 system prompt와 정책 문구를 반복 포함하므로, 동일 prefix prefill을 재사용해 TTFT와 GPU compute 낭비를 줄임.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -64,7 +61,6 @@ Request Prefix → Token Hash → Prefix Cache Lookup
 
 > 요약: Prefix Caching은 prefix token 해시로 KV를 조회하고, hit 시 suffix만 계산해 prefill 비용을 줄임.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -83,7 +79,6 @@ Request Prefix → Token Hash → Prefix Cache Lookup
 
 > 요약: prefix를 안정적으로 분리하고 동일 token sequence를 재사용할 때 TTFT 개선 효과가 커짐.
 
----
 
 ## Ⅳ. 특징
 
@@ -96,7 +91,6 @@ Request Prefix → Token Hash → Prefix Cache Lookup
 
 > 요약: Prefix Caching은 반복 prefix가 긴 서비스에서 효과가 크며, 권한별 cache 격리가 보안 설계의 핵심임.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -109,7 +103,6 @@ Request Prefix → Token Hash → Prefix Cache Lookup
 - 기술사 판단: 공통 prefix가 1K 토큰 이상이고 hit rate 50% 이상이면 Prefix Caching을 우선 적용함.
 - 향후 방향: RAG·에이전트 시스템은 prompt template 표준화와 prefix cache를 결합해 대화형 SLA를 맞춤.
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

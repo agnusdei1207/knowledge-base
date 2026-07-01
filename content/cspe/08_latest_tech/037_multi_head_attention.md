@@ -27,7 +27,6 @@ weight: 37
 - Transformer Block — MHA와 FFN을 반복 적층
 - Attention Head Pruning — 중복 Head 제거 기법
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 37
 > 2. **가치**: 문법·의미·위치·공참조 등 여러 관계를 Head별로 분리 학습하여 표현력을 확보함.
 > 3. **판단 포인트**: Head 수, Head 차원, 중복 Head 제거, KV Cache 메모리 증가를 함께 설계해야 함.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 Multi-Head Attention은 복수 Attention 병렬 구조임. Transformer는 단일 Attention의 표현 한계를 보완하기 위해 입력을 여러 부분공간에 투영하고, 각 Head가 다른 관계 패턴을 학습하도록 구성함.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -66,7 +63,6 @@ Input X
 
 > 요약: MHA는 Head별 Attention 결과를 연결하고 재투영하여 다양한 관계 정보를 하나의 표현으로 통합함.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -84,7 +80,6 @@ Input X
 
 > 요약: 입력을 여러 Head로 분해해 관계를 병렬 학습하고, Concatenate와 출력 투영으로 통합 표현을 생성함.
 
----
 
 ## Ⅳ. 특징
 
@@ -97,7 +92,6 @@ Input X
 
 > 요약: MHA는 표현력을 늘리지만 Head 수에 비례해 Attention score와 KV Cache 관리 부담이 증가함.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -110,7 +104,6 @@ Input X
 - 기술사 판단: 학습 표현력은 MHA, 대규모 서빙 비용은 GQA/MQA를 선택해 KV Cache를 통제함.
 - 향후 방향: LLM 서빙에서는 Full MHA보다 GQA 기반 구조가 처리량·메모리 균형점으로 확산됨.
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 

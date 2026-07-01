@@ -27,7 +27,6 @@ weight: 59
 - Long Context LLM — 긴 문맥에서 효과가 커짐
 - GPU Memory Hierarchy — HBM/SRAM 접근 비용 차이
 
----
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -39,13 +38,11 @@ weight: 59
 > 2. **가치**: N×N attention matrix 저장을 회피해 긴 문맥 학습·추론의 메모리 병목을 완화함.
 > 3. **판단 포인트**: 시퀀스 길이, GPU SRAM 크기, causal mask, 커널 지원 여부가 적용 기준임.
 
----
 
 ## Ⅰ. 개요 및 필요성
 
 FlashAttention은 IO-aware Attention 최적화 알고리즘임. Transformer Attention은 N² 점수 행렬 저장으로 HBM 대역폭 병목이 발생하므로, SRAM tile 계산과 online softmax로 메모리 접근량을 줄임.
 
----
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -65,7 +62,6 @@ V Blocks ┘                         │
 
 > 요약: FlashAttention은 tiling과 fused kernel로 Attention 중간 행렬 저장을 피하고 최종 출력만 기록함.
 
----
 
 ## Ⅲ. 동작원리 및 흐름도
 
@@ -83,7 +79,6 @@ Q/K/V 로드 → 타일 분할 → SRAM에서 QKᵀ 계산
 
 > 요약: Attention score 전체를 저장하지 않고 타일별 누적 계산으로 같은 결과를 산출함.
 
----
 
 ## Ⅳ. 특징
 
@@ -96,7 +91,6 @@ Q/K/V 로드 → 타일 분할 → SRAM에서 QKᵀ 계산
 
 > 요약: FlashAttention은 Attention 결과를 바꾸지 않고 메모리 I/O를 줄여 긴 시퀀스 처리량을 높임.
 
----
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -109,7 +103,6 @@ Q/K/V 로드 → 타일 분할 → SRAM에서 QKᵀ 계산
 - 기술사 판단: 긴 문맥 Transformer는 FlashAttention 적용을 기본값으로 두고, 미지원 GPU에서는 context 길이와 batch를 제한함.
 - 향후 방향: FlashAttention 계열은 PagedAttention·sequence parallelism과 결합해 장문맥 LLM 런타임을 구성함.
 
----
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
