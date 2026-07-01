@@ -54,9 +54,9 @@ weight: 5
 
 ## Ⅰ. 개요 및 필요성
 
-MLFQ는 feedback 기반 다단계 우선순위 스케줄링이다.
-운영체제는 작업의 실제 CPU 사용 패턴을 관찰해 interactive task를 상위 큐에 유지하고 CPU-bound task를 하위 큐로 이동시킨다.
-CPU burst 예측 없이 응답시간과 처리량을 함께 조정하기 위해 필요하다.
+- 개요: MLFQ는 피드백형 다단계 큐 스케줄러이다.
+- 배경: 운영체제는 CPU burst를 사전에 알기 어렵기 때문에 실제 실행 이력으로 interactive task와 CPU-bound task를 큐별로 재배치한다.
+- 필요성: MLFQ는 time quantum, priority boost, starvation count 기준으로 응답시간과 장기 대기 상한을 함께 조정하기 위해 필요하다.
 
 ---
 

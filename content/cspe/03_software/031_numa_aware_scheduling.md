@@ -54,7 +54,9 @@ weight: 31
 
 ## Ⅰ. 개요 및 필요성
 
-NUMA 인지 스케줄링은 CPU와 메모리의 거리 차이를 고려한 배치 기법이다. 다소켓 서버에서는 local memory와 remote memory 접근 지연이 다르다. 태스크와 메모리 페이지를 같은 노드에 배치해야 p99 지연과 메모리 대역폭 경합을 줄일 수 있다.
+- 개요: CPU-메모리 근접 배치 기법
+- 배경: 다소켓 서버는 local memory와 remote memory 접근 지연이 달라, 스레드 이동과 페이지 분산이 캐시 미스와 메모리 대역폭 경합을 유발함.
+- 필요성: 태스크와 메모리 페이지를 같은 NUMA node에 배치해 p99 지연, remote access ratio, LLC miss rate를 운영 지표로 통제해야 함.
 
 ---
 

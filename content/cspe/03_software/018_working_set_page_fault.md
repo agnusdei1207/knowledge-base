@@ -54,7 +54,9 @@ weight: 18
 
 ## Ⅰ. 개요 및 필요성
 
-Working Set은 최근 참조한 page 집합이다. Page Fault는 접근 page가 물리 메모리에 없을 때 발생한다. OS는 WSS와 PFF를 이용해 resident set을 조절하고 스레싱을 예방한다.
+- 개요: Working Set은 최근 참조 page 집합이다.
+- 배경: 접근 page가 물리 메모리에 없으면 page fault가 발생하고, WSS 합이 RAM 예산을 넘으면 fault 처리와 swap I/O가 실행 시간을 잠식한다.
+- 필요성: OS는 WSS 합 <= RAM 80%, Page Fault Frequency, major fault/sec 기준으로 resident set과 admission을 조절한다.
 
 ---
 

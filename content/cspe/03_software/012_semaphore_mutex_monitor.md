@@ -54,7 +54,9 @@ weight: 12
 
 ## Ⅰ. 개요 및 필요성
 
-동기화 원시기법은 공유 자원의 동시 접근 순서를 제어한다. 멀티스레드 프로그램은 race condition, lost update, visibility 문제를 갖기 때문에 임계 구역 보호가 필요하다. 세마포어·뮤텍스·모니터는 보호 범위와 추상화 수준이 다르다.
+- 개요: 동기화 원시기법은 공유 접근 순서 제어이다.
+- 배경: 멀티스레드 프로그램은 공유 변수 갱신이 load, update, store로 분리되어 race condition, lost update, visibility 문제가 발생한다.
+- 필요성: 세마포어·뮤텍스·모니터는 자원 수량, 소유권, 조건 대기 여부를 기준으로 race detector 0건과 lock wait p99를 관리하게 한다.
 
 ---
 

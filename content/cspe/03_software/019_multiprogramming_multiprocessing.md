@@ -54,7 +54,9 @@ weight: 19
 
 ## Ⅰ. 개요 및 필요성
 
-다중프로그래밍은 여러 작업을 교대로 실행한다. 다중처리는 여러 CPU/코어가 작업을 동시에 실행한다. OS는 CPU idle 감소, 처리량 증가, 응답시간 단축을 위해 두 방식을 스케줄링과 메모리 관리에 결합한다.
+- 개요: 다중프로그래밍은 교대 실행, 다중처리는 병렬 실행이다.
+- 배경: I/O 대기 중 CPU가 idle 상태가 되면 처리량이 제한되고, 멀티코어에서는 run queue와 cache coherence 비용까지 고려해야 한다.
+- 필요성: OS는 CPU utilization 70~85%, context switch overhead 5% 이하, throughput scaling 기준으로 동시성과 병렬성을 결합한다.
 
 ---
 

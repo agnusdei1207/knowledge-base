@@ -54,9 +54,9 @@ weight: 8
 
 ## Ⅰ. 개요 및 필요성
 
-스레드 풀은 worker thread 재사용 구조이다.
-스레드 생성·소멸과 과도한 context switch를 줄이고, work queue를 통해 요청 유입과 처리량을 조절한다.
-서버 시스템에서는 CPU-bound, I/O-bound, DB connection 한계를 반영해 pool 크기와 queue 정책을 설계해야 한다.
+- 개요: 스레드 풀은 worker thread 재사용 구조이다.
+- 배경: 요청마다 스레드를 생성하면 stack 메모리, 생성·소멸 비용, context switch/sec가 증가하므로 work queue와 고정 worker가 필요하다.
+- 필요성: 서버는 CPU-bound core×1~2, I/O-bound blocking ratio, DB connection 수를 기준으로 pool size와 reject policy를 정해야 한다.
 
 ---
 

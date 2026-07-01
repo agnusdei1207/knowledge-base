@@ -54,9 +54,9 @@ weight: 37
 
 ## Ⅰ. 개요 및 필요성
 
-Kanban은 WIP 제한 기반 흐름 관리 방식이다.
-동시 작업이 증가하면 대기열, context switching, review 병목이 늘어난다.
-Kanban은 시각화와 pull system으로 lead time과 cycle time을 통제함.
+- 개요: WIP 제한 기반 흐름 관리 방식
+- 배경: 동시 작업이 증가하면 대기열, context switching, review 병목이 늘어나 완료 기준보다 착수량이 앞서는 흐름 지연이 발생함.
+- 필요성: Kanban board, WIP limit, pull system으로 lead time, cycle time, throughput, blocker aging을 추적해야 함.
 
 ---
 

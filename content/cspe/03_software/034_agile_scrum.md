@@ -54,9 +54,9 @@ weight: 34
 
 ## Ⅰ. 개요 및 필요성
 
-Scrum은 sprint 기반 애자일 프레임워크이다.
-제품 개발은 요구사항 변경과 우선순위 변동이 빈번하므로 짧은 반복 검증이 필요하다.
-Scrum은 backlog, sprint, review, retrospective로 고객 가치와 팀 작업 방식을 지속 조정함.
+- 개요: Sprint 기반 애자일 프레임워크
+- 배경: 제품 개발은 요구사항 변경과 우선순위 변동이 반복되어, 장기 계획만으로는 고객 피드백과 개발 산출물의 차이를 조기에 발견하기 어려움.
+- 필요성: Product Backlog, Sprint Review, Retrospective로 1~4주 단위 증분을 검증하고 velocity, burn-down, defect leakage를 추적해야 함.
 
 ---
 

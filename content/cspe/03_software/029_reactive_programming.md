@@ -54,7 +54,9 @@ weight: 29
 
 ## Ⅰ. 개요 및 필요성
 
-리액티브 프로그래밍은 데이터 흐름과 변화 전파를 중심으로 구성하는 모델이다. 비동기 이벤트가 많은 시스템에서 동기 호출만 사용하면 느린 소비자가 전체 지연을 키운다. 리액티브는 스트림 조합과 backpressure로 흐름을 통제한다.
+- 개요: 리액티브는 이벤트 스트림 처리 모델이다.
+- 배경: 비동기 이벤트가 많은 시스템에서 동기 호출만 사용하면 느린 소비자가 upstream queue와 전체 지연을 키운다.
+- 필요성: Reactive Streams, request(n), backpressure로 queue depth, dropped event rate, p99 latency 기준의 흐름 제어가 필요하다.
 
 ---
 

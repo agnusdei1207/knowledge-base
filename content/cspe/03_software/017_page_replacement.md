@@ -54,7 +54,9 @@ weight: 17
 
 ## Ⅰ. 개요 및 필요성
 
-페이지 교체는 물리 메모리 frame 부족 시 내보낼 page를 선택하는 정책이다. 잘못된 victim 선택은 page fault storm과 thrashing을 유발한다. OS는 locality, reference bit, dirty bit를 활용해 fault rate와 writeback 비용을 줄인다.
+- 개요: 페이지 교체는 victim page 선택 정책이다.
+- 배경: 물리 frame이 부족할 때 임의로 page를 내보내면 곧 다시 참조되는 page가 제거되어 page fault storm과 thrashing이 발생한다.
+- 필요성: OS는 locality, reference bit, dirty bit를 활용해 page fault rate, writeback I/O, major fault/sec 기준으로 victim을 선택해야 한다.
 
 ---
 

@@ -54,9 +54,9 @@ weight: 4
 
 ## Ⅰ. 개요 및 필요성
 
-스케줄링은 ready task에 CPU를 배정하는 정책이다.
-멀티프로그래밍 환경에서 CPU burst와 I/O burst가 섞이므로, 운영체제는 응답시간·처리량·공정성 간 균형을 잡아야 한다.
-정책 선택이 부적절하면 convoy effect, starvation, deadline miss, context switch overhead가 발생한다.
+- 개요: 스케줄링은 ready task CPU 배정 정책이다.
+- 배경: 멀티프로그래밍 환경은 CPU burst와 I/O burst가 섞이므로 FCFS, SJF, RR, priority 정책마다 대기시간과 공정성 결과가 달라진다.
+- 필요성: 정책 선택은 convoy effect, starvation, deadline miss, context switch overhead를 p95 대기시간·처리량·deadline miss rate로 통제하기 위해 필요하다.
 
 ---
 

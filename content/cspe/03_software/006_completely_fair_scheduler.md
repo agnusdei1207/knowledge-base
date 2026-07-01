@@ -54,9 +54,9 @@ weight: 6
 
 ## Ⅰ. 개요 및 필요성
 
-CFS는 Linux의 가중 공정 CPU 스케줄러이다.
-runnable task의 vruntime을 red-black tree에 정렬하고, CPU를 덜 받은 task를 우선 선택해 공정한 CPU share를 제공한다.
-서버·컨테이너 환경에서는 nice와 cgroup으로 tenant별 CPU 배분을 제어하기 위해 필요하다.
+- 개요: CFS는 Linux 가중 공정 스케줄러이다.
+- 배경: 고정 time slice 방식은 task 수와 우선순위 변화에 따라 CPU share가 흔들리므로 Linux는 vruntime과 red-black tree로 runnable task를 정렬한다.
+- 필요성: 서버·컨테이너 환경은 nice, cgroup CPU weight, throttling 지표로 tenant별 CPU 배분을 검증해야 한다.
 
 ---
 

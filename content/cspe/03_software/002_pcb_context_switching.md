@@ -54,9 +54,9 @@ weight: 2
 
 ## Ⅰ. 개요 및 필요성
 
-PCB는 프로세스 실행 문맥 저장 구조이다.
-컨텍스트 스위칭은 CPU가 실행 주체를 바꿀 때 현재 문맥을 PCB에 저장하고 다음 문맥을 복원하는 커널 절차이다.
-시분할·멀티태스킹·I/O 대기 전환을 제공하지만, 전환 시간은 순수 overhead로 관리되어야 한다.
+- 개요: PCB는 실행 문맥 저장 구조이다.
+- 배경: 시분할 OS는 timer interrupt, system call, I/O blocking 시점마다 현재 PC·SP·register·MMU 정보를 저장하고 다음 실행 주체를 복원한다.
+- 필요성: 컨텍스트 스위칭은 멀티태스킹을 제공하지만 switch/sec, system CPU, p99 latency 기준으로 overhead를 관리해야 한다.
 
 ---
 

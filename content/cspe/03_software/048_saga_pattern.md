@@ -54,7 +54,9 @@ weight: 48
 
 ## Ⅰ. 개요 및 필요성
 
-Saga는 MSA 분산 트랜잭션 패턴이다. 서비스별 DB를 소유하는 MSA에서는 주문·결제·배송을 하나의 DB 트랜잭션으로 묶을 수 없다. Saga는 로컬 트랜잭션과 보상 트랜잭션으로 최종 일관성을 달성한다.
+- 개요: MSA 분산 트랜잭션 패턴
+- 배경: 서비스별 DB를 소유하는 MSA에서는 주문·결제·배송 변경을 하나의 ACID 트랜잭션으로 묶기 어려워 부분 실패와 보상 처리 문제가 발생함.
+- 필요성: Orchestration 또는 Choreography Saga로 local transaction, compensation, idempotency를 설계하고 compensation failure rate와 consistency lag를 관리해야 함.
 
 ---
 

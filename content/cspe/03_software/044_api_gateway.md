@@ -54,7 +54,9 @@ weight: 44
 
 ## Ⅰ. 개요 및 필요성
 
-API Gateway는 클라이언트와 서비스 사이의 API 진입점이다. MSA에서는 서비스 수 증가로 인증, 라우팅, 버전, rate limit 정책이 분산된다. Gateway는 공통 정책을 중앙에서 집행하고 내부 서비스 구조를 클라이언트로부터 숨긴다.
+- 개요: 클라이언트 API 단일 진입점
+- 배경: MSA에서 서비스 수가 증가하면 인증, 라우팅, 버전, rate limit, CORS 정책이 각 서비스에 흩어져 정책 누락과 클라이언트 결합이 발생함.
+- 필요성: API Gateway로 OAuth2/OIDC, routing, throttling, request aggregation을 중앙 적용하고 4xx/5xx 비율과 upstream latency를 관측해야 함.
 
 ---
 

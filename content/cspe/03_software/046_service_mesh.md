@@ -54,7 +54,9 @@ weight: 46
 
 ## Ⅰ. 개요 및 필요성
 
-Service Mesh는 서비스 간 통신을 관리하는 인프라 계층이다. MSA가 커지면 각 서비스가 인증, 암호화, retry, trace를 반복 구현한다. Mesh는 공통 통신 정책을 sidecar proxy와 control plane으로 표준화한다.
+- 개요: 서비스 간 통신 제어 계층
+- 배경: MSA 규모가 커지면 각 서비스가 인증, 암호화, retry, timeout, trace를 반복 구현해 언어별 편차와 정책 누락이 발생함.
+- 필요성: Sidecar proxy와 control plane으로 mTLS, traffic shifting, retry budget, distributed tracing을 표준 적용하고 success rate와 p95 latency를 관측해야 함.
 
 ---
 

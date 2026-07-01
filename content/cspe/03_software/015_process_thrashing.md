@@ -54,7 +54,9 @@ weight: 15
 
 ## Ⅰ. 개요 및 필요성
 
-스레싱은 페이지 교체가 실행보다 많이 발생하는 상태다. working set 합이 물리 메모리를 넘으면 page fault가 연쇄 발생하고 CPU utilization이 급락한다. OS는 다중프로그래밍 정도와 resident set을 조절해 스레싱을 통제한다.
+- 개요: 스레싱은 page fault가 실행을 압도하는 상태이다.
+- 배경: 프로세스 working set 합이 물리 메모리를 넘으면 page fault와 swap I/O가 연쇄 발생해 CPU가 사용자 코드보다 fault 처리에 시간을 사용한다.
+- 필요성: OS는 major fault/sec, PSI memory stall, CPU utilization 70% 이상 기준으로 다중프로그래밍 정도와 resident set을 조절해야 한다.
 
 ---
 

@@ -54,7 +54,9 @@ weight: 24
 
 ## Ⅰ. 개요 및 필요성
 
-I/O 관리는 OS가 장치 요청을 제어하는 계층이다. CPU와 저장장치 지연 격차가 크기 때문에 캐시, DMA, interrupt, I/O scheduler가 필요하다. 디스크 스케줄링은 요청 순서를 조정해 HDD seek와 SSD tail latency를 줄이는 역할을 한다.
+- 개요: I/O 관리는 장치 요청 제어 계층이다.
+- 배경: CPU와 저장장치 지연 격차가 커서 OS는 cache, DMA, interrupt, driver queue, I/O scheduler로 요청 경로를 분리한다.
+- 필요성: 디스크 스케줄링은 HDD seek time, SSD p99 latency, queue depth 기준으로 요청 순서를 조정하기 위해 필요하다.
 
 ---
 

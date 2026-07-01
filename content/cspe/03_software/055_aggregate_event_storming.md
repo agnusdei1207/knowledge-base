@@ -53,9 +53,9 @@ weight: 55
 
 ## Ⅰ. 개요 및 필요성
 
-이벤트 스토밍은 도메인 이벤트 기반 모델 탐색 기법이다.
-요구사항을 기능 목록으로만 정리하면 정책, 예외, 책임 경계가 누락된다.
-이벤트 흐름을 통해 Command, Policy, Aggregate를 식별하고 일관성 경계를 설계한다.
+- 개요: 이벤트 기반 도메인 모델 탐색
+- 배경: 요구사항을 기능 목록으로만 정리하면 정책, 예외, 책임 경계, 시간 순서가 누락되어 서비스 분해와 트랜잭션 경계가 흔들림.
+- 필요성: Event Storming으로 Domain Event, Command, Policy, Aggregate를 식별하고 consistency boundary와 hotspot을 검증해야 함.
 
 ---
 

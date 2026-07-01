@@ -53,9 +53,9 @@ weight: 60
 
 ## Ⅰ. 개요 및 필요성
 
-지속적 배포는 운영 반영까지 자동화하는 배포 방식이다.
-배포 대기와 대량 변경은 장애 원인 추적과 복구 시간을 증가시킨다.
-작은 변경을 자동 게이트와 관측성 기준으로 배포하여 lead time과 장애 영향 범위를 통제한다.
+- 개요: 운영 반영까지 자동화하는 배포
+- 배경: 배포 대기와 대량 변경은 장애 원인 추적, 승인 지연, 복구 시간을 증가시키며 수동 승인 중심 배포는 릴리스 병목이 됨.
+- 필요성: Automated gate, canary release, feature flag, observability로 change lead time, error budget, rollback time을 통제해야 함.
 
 ---
 

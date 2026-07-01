@@ -54,9 +54,9 @@ weight: 9
 
 ## Ⅰ. 개요 및 필요성
 
-교착상태는 순환 대기로 진행이 멈춘 상태이다.
-프로세스·스레드가 lock, file, device, transaction 자원을 공유할 때 발생하며, 한 번 발생하면 외부 개입 없이는 해소되지 않는다.
-운영체제와 DBMS는 예방·회피·탐지·복구를 상황별로 선택해야 한다.
+- 개요: 교착상태는 순환 대기 진행 불능 상태이다.
+- 배경: 프로세스·스레드가 lock, file, device, transaction 자원을 보유한 채 추가 자원을 기다리면 Coffman 4조건이 동시에 성립할 수 있다.
+- 필요성: 운영체제와 DBMS는 deadlock count, lock wait p95, rollback success rate 기준으로 예방·회피·탐지·복구를 선택해야 한다.
 
 ---
 

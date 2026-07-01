@@ -54,7 +54,9 @@ weight: 27
 
 ## Ⅰ. 개요 및 필요성
 
-가상 스레드는 JVM이 관리하는 경량 실행 단위이다. 기존 OS 스레드 기반 thread-per-request 모델은 수천 동시 요청에서 메모리와 context switch 비용이 증가한다. 가상 스레드는 blocking 코드 스타일을 유지하면서 I/O 대기 중 carrier thread를 반환한다.
+- 개요: 가상 스레드는 JVM 관리 경량 실행 단위이다.
+- 배경: OS 스레드 기반 thread-per-request 모델은 수천 동시 요청에서 stack 메모리와 context switch/sec가 증가한다.
+- 필요성: 가상 스레드는 blocking 코드 스타일을 유지하면서 I/O 대기 중 carrier thread를 반환해 동시 요청 수, heap 사용량, p95 latency 기준으로 확장성을 검증하게 한다.
 
 ---
 
