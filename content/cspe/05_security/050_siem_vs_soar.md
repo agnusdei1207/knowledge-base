@@ -54,7 +54,9 @@ weight: 50
 
 ## Ⅰ. 개요 및 필요성
 
-SIEM과 SOAR는 SOC 핵심 도구임. SIEM은 로그 기반 탐지와 분석을 담당하고 SOAR는 경보 후속 대응을 자동화함. APT, 계정 탈취, 피싱 대응에서는 SIEM으로 MTTD를 관리하고 SOAR로 MTTA/MTTR을 관리해야 함.
+- 개요: 탐지와 대응 자동화 도구 비교
+- 배경: SIEM과 SOAR를 모두 관제 도구로 묶으면 로그 분석, 경보 생성, 티켓, 승인, 차단, 롤백의 책임 경계가 흐려짐.
+- 필요성: SOC는 SIEM으로 MTTD·오탐률·로그 coverage를 관리하고, SOAR로 MTTA·MTTR·playbook success 95%를 관리해야 함.
 
 ---
 

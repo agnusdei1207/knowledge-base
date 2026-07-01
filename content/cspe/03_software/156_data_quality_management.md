@@ -54,7 +54,9 @@ weight: 156
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 품질 관리는 데이터 오류 통제 체계임. 결측, 오입력, 중복, 코드 불일치는 분석 결과와 업무 처리를 왜곡한다. 품질 관리는 규칙 기반 검증과 개선 프로세스로 데이터 사용 위험을 줄인다.
+- 개요: 데이터 품질 관리는 데이터 오류 통제 체계임.
+- 배경: 결측, 오입력, 중복, 코드 불일치는 분석 결과와 업무 처리를 왜곡한다.
+- 필요성: 완전성, 정확성, 일관성 규칙 기반 검증으로 데이터 사용 전 오류를 식별하고 개선 절차를 실행한다.
 
 ---
 
@@ -138,7 +140,7 @@ Data Source -> Quality Rule -> Validation Engine -> Quarantine/Load -> Alert/Das
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 규칙 정의: 핵심 테이블 50개와 핵심 컬럼에 null, range, enum, referential rule을 정의하고 coverage 95% 이상 확보
+1. 규칙 설정: 핵심 테이블 50개와 핵심 컬럼에 null, range, enum, referential rule을 정의하고 coverage 95% 이상 확보
 2. 파이프라인 내장: Airflow/dbt/Spark 단계에 Great Expectations 또는 Deequ 검사를 넣고 P1 오류는 적재 차단
 3. 개선 운영: 오류 레코드는 quarantine에 보관하고 owner 알림, RCA, 재검증을 통해 재발률 5% 이하 관리
 

@@ -39,13 +39,15 @@ weight: 191
 
 ## Ⅰ. 개요 및 필요성
 
-Model Inversion은 학습데이터 역추론 공격이다. AI 모델은 학습 데이터의 통계와 특징을 반영한다. 민감 분야 모델은 출력 정보량과 반복 질의를 제한해야 한다.
+- 개요: 모델 출력으로 학습정보를 역추론하는 공격이다.
+- 배경: AI 모델은 학습 데이터의 통계와 특징을 반영하므로 출력값·gradient가 민감정보 단서가 될 수 있다.
+- 필요성: Model Inversion은 confidence masking, DP-SGD, query limit으로 출력 정보량과 반복 질의를 제한한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Target Model → Query/Gradient Signal → Optimization
-  → Reconstructed Feature → Privacy Risk
+Target Model -> Query/Gradient Signal -> Optimization
+  -> Reconstructed Feature -> Privacy Risk
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Target Model → Query/Gradient Signal → Optimization
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 클래스 선택 → 반복 질의 → 출력 변화 분석
-  → 입력 특징 복원 → 위험 평가
+목표 클래스 선택 -> 반복 질의 -> 출력 변화 분석
+  -> 입력 특징 복원 -> 위험 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Target Model → Query/Gradient Signal → Optimization
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Model Inversion을 설명하시오" | 반복 질의→특징 복원 흐름 | Model Extraction 대비 차이 |
+| 포괄형 | "Model Inversion을 설명하시오" | 반복 질의->특징 복원 흐름 | Model Extraction 대비 차이 |
 | 요구사항 명시형 | "AI 개인정보 보호 방안을 제시하시오" | confidence 제한·DP·공격 테스트 | 민감 모델 운영 기준 |
 
 > 요약: 설명형은 역추론 원리, 방안형은 민감 모델의 응답 제한과 DP 적용 기준을 중심으로 작성함.

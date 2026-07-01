@@ -39,13 +39,15 @@ weight: 182
 
 ## Ⅰ. 개요 및 필요성
 
-SMPC는 입력 비공개 공동 계산 기술이다. 기관 간 데이터 협업은 원천 데이터 공개와 재식별 위험을 수반한다. 공동 분석 결과만 공유하는 암호 프로토콜이 필요하다.
+- 개요: 입력을 숨기고 공동 계산하는 기술이다.
+- 배경: 기관 간 데이터 협업은 원천 데이터 공개, 재식별, 영업비밀 노출 위험을 동반한다.
+- 필요성: SMPC는 secret sharing, garbled circuit, oblivious transfer로 입력 비공개 공동 분석을 수행한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Party Input → Secret Sharing/Garbled Circuit
-  → Joint Computation → Result Reconstruction
+Party Input -> Secret Sharing/Garbled Circuit
+  -> Joint Computation -> Result Reconstruction
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Party Input → Secret Sharing/Garbled Circuit
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-위협 모델 수립 → 입력 분할 → 프로토콜 실행
-  → 결과 복원 → 감사 기록
+위협 모델 수립 -> 입력 분할 -> 프로토콜 실행
+  -> 결과 복원 -> 감사 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Party Input → Secret Sharing/Garbled Circuit
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "SMPC를 설명하시오" | 입력 분할→프로토콜→결과 복원 흐름 | 중앙 결합 대비 차이 |
+| 포괄형 | "SMPC를 설명하시오" | 입력 분할->프로토콜->결과 복원 흐름 | 중앙 결합 대비 차이 |
 | 요구사항 명시형 | "기관 간 데이터 협업 방안을 제시하시오" | 위협 모델·함수 범위·감사 절차 | 비용·참여자 수 기준 |
 
 > 요약: 설명형은 입력 비공개 공동 계산 원리, 방안형은 기관 간 협업의 계약·위협 모델·운영 기준을 중심으로 작성함.

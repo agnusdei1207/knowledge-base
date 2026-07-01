@@ -54,7 +54,9 @@ weight: 210
 
 ## Ⅰ. 개요 및 필요성
 
-gRPC·Protocol Buffers는 내부 서비스 통신 표준 조합이다. gRPC는 HTTP/2 RPC 실행을 담당하고 Protobuf는 IDL과 binary 메시지 직렬화를 담당한다. MSA에서는 계약 자동 생성과 schema evolution이 서비스 간 변경 리스크를 줄인다.
+- 개요: 내부 서비스 통신 표준 조합
+- 배경: gRPC는 HTTP/2 RPC 실행을 담당하고 Protobuf는 IDL과 binary 메시지 직렬화를 담당한다.
+- 필요성: protoc codegen, field number, schema evolution 기준으로 MSA 서비스 간 계약 변경 리스크를 줄인다.
 
 ---
 

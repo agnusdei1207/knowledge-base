@@ -79,8 +79,8 @@ Input X -> Wq/Wk/Wv 투영
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 X → h개 Q/K/V 투영 → Head별 Attention 병렬 수행
-    → Head 출력 연결 → Wo 투영 → Residual/LayerNorm
+입력 X -> h개 Q/K/V 투영 -> Head별 Attention 병렬 수행
+    -> Head 출력 연결 -> Wo 투영 -> Residual/LayerNorm
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -137,7 +137,7 @@ Input X -> Wq/Wk/Wv 투영
 
 **적용 방안 3개:**
 1. 일반 LLM은 `d_k=64` 기준으로 Head 수를 산정하고, `d_model % h = 0` 조건을 모델 설계 기준으로 적용
-2. 추론 메모리 절감을 위해 MQA/GQA 적용, KV Head 수를 32→8로 줄여 KV Cache 약 75% 절감
+2. 추론 메모리 절감을 위해 MQA/GQA 적용, KV Head 수를 32->8로 줄여 KV Cache 약 75% 절감
 3. 모델 압축 시 Attention Head Importance를 측정해 기여도 하위 20% Head pruning 후 정확도 회귀 평가
 
 **결론 (2줄):**
@@ -150,6 +150,6 @@ Input X -> Wq/Wk/Wv 투영
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | Head별 병렬 Attention 흐름 | Single-Head 대비 표현력 |
-| 요구사항 명시형 | 비교하시오, 최적화하시오 | MHA→GQA/MQA 변환 흐름 | KV Cache·메모리 절감 기준 |
+| 요구사항 명시형 | 비교하시오, 최적화하시오 | MHA->GQA/MQA 변환 흐름 | KV Cache·메모리 절감 기준 |
 
 > 요약: 설명형은 Head 병렬 구조, 최적화형은 GQA/MQA와 Head pruning 중심으로 목차를 전환함.

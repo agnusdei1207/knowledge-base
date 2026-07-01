@@ -39,13 +39,15 @@ weight: 167
 
 ## Ⅰ. 개요 및 필요성
 
-Explainable AI는 AI 판단 근거를 사람이 이해할 수 있게 제공하는 기술이다. 고위험 AI는 결과뿐 아니라 근거, 한계, 책임 설명이 필요하다. XAI는 모델 신뢰성, 감사 가능성, 오류 개선을 지원한다.
+- 개요: AI 판단 근거를 사람이 이해하게 하는 기술이다.
+- 배경: 고위험 AI는 결과값만으로 책임 소재, 한계, 오류 원인을 판단하기 어렵다.
+- 필요성: XAI는 feature attribution, counterfactual, rule extraction으로 감사·오류 개선 근거를 제공한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input + Model Prediction → Explanation Method
-  → Feature Attribution/Rule/Visualization → Human Review
+Input + Model Prediction -> Explanation Method
+  -> Feature Attribution/Rule/Visualization -> Human Review
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Input + Model Prediction → Explanation Method
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-예측 요청 → 모델 출력 → 설명기법 적용
-  → feature/근거 산출 → 설명 품질 검증 → 사용자 제공
+예측 요청 -> 모델 출력 -> 설명기법 적용
+  -> feature/근거 산출 -> 설명 품질 검증 -> 사용자 제공
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Input + Model Prediction → Explanation Method
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "XAI를 설명하시오" | 예측→설명기법→검증→제공 흐름 | Black-box 대비 차이 |
+| 포괄형 | "XAI를 설명하시오" | 예측->설명기법->검증->제공 흐름 | Black-box 대비 차이 |
 | 요구사항 명시형 | "AI 설명가능성 확보 방안을 제시하시오" | fidelity·stability·human review 기준 | LIME/SHAP/Model Card 적용 |
 
 > 요약: 설명형은 XAI 구조, 방안형은 설명 품질 검증과 업무 적용을 중심으로 작성함.

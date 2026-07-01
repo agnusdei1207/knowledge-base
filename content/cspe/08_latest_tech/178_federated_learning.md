@@ -39,13 +39,15 @@ weight: 178
 
 ## Ⅰ. 개요 및 필요성
 
-Federated Learning은 데이터 현지 학습 방식이다. 데이터 규제와 기관 간 소유권 문제로 중앙 수집이 어려울 때 공동 모델을 학습한다. 고위험 분야는 업데이트 보안과 참여기관 품질 관리가 필요하다.
+- 개요: 데이터를 이동하지 않는 공동 학습 방식이다.
+- 배경: 개인정보 규제와 기관 간 소유권 문제로 원문 데이터를 중앙 서버에 모으기 어렵다.
+- 필요성: Federated Learning은 local training, model update, secure aggregation으로 공동 모델을 학습한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Global Server → Client Training → Model Update
-  → Secure Aggregation → Global Model
+Global Server -> Client Training -> Model Update
+  -> Secure Aggregation -> Global Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Global Server → Client Training → Model Update
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 배포 → 로컬 학습 → 업데이트 암호화
-  → 중앙 집계 → 글로벌 모델 재배포
+모델 배포 -> 로컬 학습 -> 업데이트 암호화
+  -> 중앙 집계 -> 글로벌 모델 재배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Global Server → Client Training → Model Update
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Federated Learning을 설명하시오" | 모델 배포→로컬학습→집계 반복 | 중앙집중 학습 대비 차이 |
+| 포괄형 | "Federated Learning을 설명하시오" | 모델 배포->로컬학습->집계 반복 | 중앙집중 학습 대비 차이 |
 | 요구사항 명시형 | "연합학습 적용 방안을 제시하시오" | 보안 전송·집계·검증 절차 | Non-IID·유출 위험 대응 |
 
 > 요약: 설명형은 분산 학습 흐름, 방안형은 데이터 반출 제한 환경의 보안·운영 설계를 중심으로 작성함.

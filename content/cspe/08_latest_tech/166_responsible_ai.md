@@ -39,13 +39,15 @@ weight: 166
 
 ## Ⅰ. 개요 및 필요성
 
-Responsible AI는 책임 있는 AI 설계·운영 접근이다. AI는 개인 권리와 조직 의사결정에 영향을 주므로 성능 중심 개발만으로는 부족하다. 공정성, 투명성, 안전성, 개인정보, 책임성을 운영 지표로 관리해야 한다.
+- 개요: 책임 있는 AI 설계·운영 접근
+- 배경: AI는 개인 권리와 조직 의사결정에 영향을 주므로 정확도 중심 개발만으로 차별, 개인정보, 안전 위험을 통제하기 어렵다.
+- 필요성: fairness gap, explainability report, red team result, appeal SLA를 운영 지표로 관리해야 한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Principles → Requirements → Design/Build Controls
-  → Evaluation Gate → Monitoring/Audit → Remediation
+Principles -> Requirements -> Design/Build Controls
+  -> Evaluation Gate -> Monitoring/Audit -> Remediation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Principles → Requirements → Design/Build Controls
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 과제 등록 → 위험/영향 평가 → 책임 원칙 매핑
-  → 공정성·설명성·안전성 테스트 → 배포 승인 → 운영 감시
+AI 과제 등록 -> 위험/영향 평가 -> 책임 원칙 매핑
+  -> 공정성·설명성·안전성 테스트 -> 배포 승인 -> 운영 감시
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ AI 과제 등록 → 위험/영향 평가 → 책임 원칙 매핑
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Responsible AI를 설명하시오" | 원칙→요구사항→평가→감시 흐름 | 성능 중심 AI 대비 차이 |
+| 포괄형 | "Responsible AI를 설명하시오" | 원칙->요구사항->평가->감시 흐름 | 성능 중심 AI 대비 차이 |
 | 요구사항 명시형 | "책임 있는 AI 구축 방안을 제시하시오" | 지표·배포 게이트·이의제기 절차 | 공정성·설명성·안전성 통제 |
 
 > 요약: 설명형은 책임 원칙 체계, 방안형은 정량 지표와 운영 통제를 중심으로 작성함.

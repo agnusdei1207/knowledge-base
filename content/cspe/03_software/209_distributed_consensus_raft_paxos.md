@@ -54,7 +54,9 @@ weight: 209
 
 ## Ⅰ. 개요 및 필요성
 
-분산 합의는 여러 노드가 같은 값과 순서에 동의하는 알고리즘이다. 분산 시스템은 노드 장애와 네트워크 partition 때문에 단일 서버처럼 상태를 관리하기 어렵다. Raft·Paxos는 과반 quorum으로 로그 커밋 순서를 확정해 split-brain을 방지한다.
+- 개요: 여러 노드의 값·순서 합의 알고리즘
+- 배경: 분산 시스템은 노드 장애와 네트워크 partition 때문에 단일 서버처럼 상태를 관리하기 어렵다.
+- 필요성: Raft·Paxos의 과반 quorum, leader election, log commit 기준으로 split-brain을 방지한다.
 
 ---
 

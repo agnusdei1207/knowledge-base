@@ -18,7 +18,7 @@ weight: 73
 ## 깊이 이해
 - **배경·문제의식**: 모바일·노트북은 배터리와 발열 제약이 크다. Neural Engine은 Core ML 모델을 SoC 내부 전용 가속기로 실행해 사용자 데이터의 로컬 처리를 지원함.
 - **작동 원리**: 개발자는 Core ML 모델을 배포하고, OS는 Neural Engine·GPU·CPU 중 적합한 장치에 operator를 배치함. 지원되지 않는 연산은 GPU/CPU fallback으로 처리됨.
-- **비유**: 회사 안에 AI 업무 전용 창구를 만들어 반복 업무를 빠르게 처리하되, 특수 업무는 다른 부서로 넘기는 구조임.
+- **비유**: 회사 안에 AI 업무 전용 창구를 만들어 반복 업무를 전용 경로로 처리하되, 특수 업무는 다른 부서로 넘기는 구조임.
 - **구체 예시**: Face ID, 사진 분류, 음성 인식, 키보드 추천, 온디바이스 생성형 기능에 Neural Engine이 활용됨.
 - **흔한 오해·주의점**: Neural Engine은 개발자가 임의로 모든 연산을 직접 제어하는 GPU가 아님. Core ML 변환과 OS 스케줄링을 따라야 함.
 
@@ -74,8 +74,8 @@ App -> Core ML Model -> ML Runtime Scheduler
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 변환 → Core ML 최적화 → 앱 배포
-    → 입력 전처리 → NE/GPU/CPU 실행 → 결과 반환
+모델 변환 -> Core ML 최적화 -> 앱 배포
+    -> 입력 전처리 -> NE/GPU/CPU 실행 -> 결과 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -92,7 +92,7 @@ App -> Core ML Model -> ML Runtime Scheduler
 | 구분 | GPU 실행 | Neural Engine 실행 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
 | 목적 | 범용 병렬 연산 | 신경망 저전력 추론 | TOPS/W 관점 |
-| 개발 경로 | Metal/MPS | Core ML 중심 | 변환 품질 중요 |
+| 개발 경로 | Metal/MPS | Core ML 중심 | 변환 품질 검증 |
 | 전력 | 고부하 시 배터리 부담 | 상시 AI 기능 적합 | 발열·배터리 측정 |
 | 한계 | 직접 제어 가능 | op 지원·스케줄러 의존 | fallback 감시 |
 

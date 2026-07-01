@@ -19,7 +19,7 @@ weight: 53
 - **배경·문제의식**: 기존 LLM 정렬은 SFT·RLHF로 답변 선호를 맞추는 데 집중함. DeepSeek-R1은 수학·코딩 문제에서 정답 보상을 중심으로 사고 길이·검증·반성 행동을 강화함.
 - **작동 원리**: DeepSeek-R1-Zero는 cold-start SFT 없이 RL로 추론 행동을 유도하고, R1은 cold-start 데이터와 다단계 RL·SFT를 결합해 가독성과 정답률을 함께 보정함.
 - **비유**: 풀이집을 외우는 학생(SFT)보다, 문제를 풀고 채점받으며 풀이 전략을 고치는 학생(RL)에 가까움.
-- **구체 예시**: DeepSeek-R1 논문은 R1-Zero의 AIME 2024 pass@1이 15.6%→71.0%, majority voting 적용 시 86.7%로 상승했다고 보고함.
+- **구체 예시**: DeepSeek-R1 논문은 R1-Zero의 AIME 2024 pass@1이 15.6%->71.0%, majority voting 적용 시 86.7%로 상승했다고 보고함.
 - **흔한 오해·주의점**: 공개 모델이어도 운영 비용이 0은 아님. 671B급 MoE 모델은 GPU 메모리·서빙 병렬화·보안 점검이 필요함.
 
 ## 연결 개념
@@ -36,7 +36,7 @@ weight: 53
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DeepSeek-R1은 RL 기반으로 CoT·검증·반성 추론 행동을 학습한 공개 reasoning LLM임.
-> 2. **가치**: AIME 2024 pass@1 15.6%→71.0% 사례처럼 정답 보상만으로 추론 능력 향상을 입증함.
+> 2. **가치**: AIME 2024 pass@1 15.6%->71.0% 사례처럼 정답 보상만으로 추론 능력 향상을 입증함.
 > 3. **판단 포인트**: 공개 가중치 활용성, MoE 서빙 비용, distillation, 보안·라이선스 검토가 도입 기준임.
 
 ---
@@ -62,8 +62,8 @@ weight: 53
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Base Model → Cold-start SFT → Reasoning RL(GRPO)
-      → Rejection Sampling/SFT → Distillation → Serving
+Base Model -> Cold-start SFT -> Reasoning RL(GRPO)
+      -> Rejection Sampling/SFT -> Distillation -> Serving
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -80,8 +80,8 @@ Base Model → Cold-start SFT → Reasoning RL(GRPO)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문제 입력 → CoT 생성 → 정답 채점 보상 → GRPO 업데이트
-    → 추론 행동 강화 → 후보 샘플링 → 정렬·증류 → 서비스 배포
+문제 입력 -> CoT 생성 -> 정답 채점 보상 -> GRPO 업데이트
+    -> 추론 행동 강화 -> 후보 샘플링 -> 정렬·증류 -> 서비스 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ Base Model → Cold-start SFT → Reasoning RL(GRPO)
 | 구분 | 폐쇄형 Reasoning API | DeepSeek-R1 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
 | 배포 방식 | 외부 API 호출 | 공개 가중치 기반 자체 배포 가능 | 데이터 주권 요구 |
-| 학습 접근 | 비공개 | RL·SFT 절차 공개 | R1-Zero 15.6→71.0% |
+| 학습 접근 | 비공개 | RL·SFT 절차 공개 | R1-Zero 15.6->71.0% |
 | 비용 구조 | 호출량 과금 | GPU·운영비 부담 | MoE 병렬화 필요 |
 | 운영 리스크 | 벤더 종속 | 라이선스·보안 자체 책임 | 모델카드·취약점 점검 |
 

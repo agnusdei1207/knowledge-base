@@ -39,13 +39,15 @@ weight: 169
 
 ## Ⅰ. 개요 및 필요성
 
-SHAP은 게임이론 기반 feature attribution 기법이다. AI 예측 결과를 설명하려면 각 feature가 예측을 얼마나 올리거나 낮췄는지 정량화해야 한다. SHAP은 일관성과 가산성을 가진 설명값을 제공한다.
+- 개요: 게임이론 기반 feature attribution 기법이다.
+- 배경: AI 예측 설명은 feature별 기여 방향과 크기를 정량화해야 비교와 감사가 가능하다.
+- 필요성: SHAP은 Shapley value로 local explanation과 global importance를 가산성 기준에 맞춰 계산한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
 Model + Instance + Background Data
-  → Shapley Value Estimation → SHAP Values → Local/Global Explanation
+  -> Shapley Value Estimation -> SHAP Values -> Local/Global Explanation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Model + Instance + Background Data
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-설명 대상 선택 → baseline 설정 → feature 조합 평가
-  → marginal contribution 평균 → SHAP 값 산출 → 시각화
+설명 대상 선택 -> baseline 설정 -> feature 조합 평가
+  -> marginal contribution 평균 -> SHAP 값 산출 -> 시각화
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Model + Instance + Background Data
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "SHAP을 설명하시오" | baseline→feature 조합→Shapley value 흐름 | LIME 대비 차이 |
+| 포괄형 | "SHAP을 설명하시오" | baseline->feature 조합->Shapley value 흐름 | LIME 대비 차이 |
 | 요구사항 명시형 | "모델 설명가능성 방안을 제시하시오" | local/global 설명·시각화 기준 | 감사·drift 모니터링 활용 |
 
 > 요약: 설명형은 Shapley 기여도 원리, 방안형은 감사와 운영 모니터링 적용을 중심으로 작성함.

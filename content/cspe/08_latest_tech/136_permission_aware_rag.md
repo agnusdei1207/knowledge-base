@@ -39,13 +39,15 @@ weight: 136
 
 ## Ⅰ. 개요 및 필요성
 
-Permission-aware RAG는 권한 통제형 RAG 구조임. 기업 문서는 사용자별 접근 권한이 다르므로 RAG 검색 결과에도 동일한 권한 정책이 적용되어야 한다. 검색 전 단계에서 미권한 문서를 차단해야 정보 유출을 막을 수 있다.
+- 개요: 권한 통제형 RAG 구조
+- 배경: 기업 문서는 사용자별 접근 권한이 달라 RAG 검색 결과에도 원천 시스템의 ACL 정책이 적용되어야 한다.
+- 필요성: pre-filtering·post-filtering·row-level security로 미권한 문서 노출 0건과 감사 로그 추적성을 확보한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Query + Auth Token → Policy Engine → ACL Filter
-  → Vector/BM25 Search → Allowed Context → LLM Answer
+User Query + Auth Token -> Policy Engine -> ACL Filter
+  -> Vector/BM25 Search -> Allowed Context -> LLM Answer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,9 +62,9 @@ User Query + Auth Token → Policy Engine → ACL Filter
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 수집 → ACL 메타데이터 부여 → 색인
-사용자 질의 → 권한 토큰 확인 → ACL 필터 검색
-  → 허용 문서만 컨텍스트 구성 → 답변/감사로그
+문서 수집 -> ACL 메타데이터 부여 -> 색인
+사용자 질의 -> 권한 토큰 확인 -> ACL 필터 검색
+  -> 허용 문서만 컨텍스트 구성 -> 답변/감사로그
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +102,7 @@ User Query + Auth Token → Policy Engine → ACL Filter
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Permission-aware RAG를 설명하시오" | ACL 부여→권한 필터→검색→로그 흐름 | 일반 RAG 대비 보안 차이 |
+| 포괄형 | "Permission-aware RAG를 설명하시오" | ACL 부여->권한 필터->검색->로그 흐름 | 일반 RAG 대비 보안 차이 |
 | 요구사항 명시형 | "기업 RAG 보안 방안을 제시하시오" | 검색 전 필터·권한 회귀 테스트 | RBAC/ABAC·감사로그 기준 |
 
 > 요약: 설명형은 권한 필터링 구조, 방안형은 정보 유출 방지와 검증 기준을 중심으로 작성함.

@@ -20,7 +20,7 @@ weight: 99
 - **작동 원리**: 생성모델, 시뮬레이터, rule engine, teacher LLM으로 데이터를 만들고, 품질 필터·중복 제거·privacy check를 거쳐 학습·평가에 사용함.
 - **비유**: 조종사가 실제 비행 사고를 기다리지 않고 시뮬레이터에서 폭풍·엔진 고장 상황을 반복 훈련하는 것과 같음.
 - **구체 예시**: LLM instruction data, 자율주행 rare scenario, 의료 이미지 보강, 금융 이상거래 케이스 생성에 활용됨.
-- **흔한 오해·주의점**: 합성 데이터가 많다고 품질이 좋아지는 것은 아님. 현실 분포와 다른 데이터는 모델 편향과 성능 착시를 만든다.
+- **흔한 오해·주의점**: 합성 데이터 증가는 품질 향상을 보장하지 않음. 현실 분포와 다른 데이터는 모델 편향과 성능 착시를 만든다.
 
 ## 연결 개념
 - Data Augmentation — 기존 데이터 변형 보강
@@ -39,13 +39,15 @@ weight: 99
 
 ## Ⅰ. 개요 및 필요성
 
-합성 데이터는 인공 생성 학습·평가 데이터임. 실제 데이터의 부족, 개인정보 규제, 희귀 이벤트 불균형, 라벨링 비용 문제를 해결하기 위해 생성모델과 시뮬레이터를 활용함.
+- 개요: 인공 생성 학습·평가 데이터
+- 배경: 실제 데이터는 부족하거나 개인정보 규제, 희귀 이벤트 불균형, 라벨링 비용 때문에 모델 학습에 바로 쓰기 어려움.
+- 필요성: LLM·GAN·diffusion·simulator와 품질 필터, PII 검사, 분포 검증으로 학습 데이터 범위를 보완해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Source Spec/Seed Data → Generator/Simulator/LLM
-      → Quality Filter → Privacy/Bias Check → Train/Eval Dataset
+Source Spec/Seed Data -> Generator/Simulator/LLM
+      -> Quality Filter -> Privacy/Bias Check -> Train/Eval Dataset
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Source Spec/Seed Data → Generator/Simulator/LLM
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 케이스 선정 → 데이터 생성 → 품질·중복 필터링
-    → 실제 데이터 분포 비교 → 학습/평가 적용 → 성능 검증
+목표 케이스 선정 -> 데이터 생성 -> 품질·중복 필터링
+    -> 실제 데이터 분포 비교 -> 학습/평가 적용 -> 성능 검증
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

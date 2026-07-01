@@ -54,7 +54,9 @@ weight: 87
 
 ## Ⅰ. 개요 및 필요성
 
-보안 API 설계는 API 요청의 인증·인가·전송·호출량을 통제하는 구조이다. API는 브라우저 밖의 서버·앱·파트너가 호출하므로 탈취 토큰, 과도한 scope, audience 혼동, 자동화 공격을 매 요청 단위로 검증해야 한다. Gateway와 Resource Server의 이중 검증이 설계 핵심이다.
+- 개요: API 요청 보안 통제 구조
+- 배경: API는 브라우저 밖의 서버, 앱, 파트너가 호출하므로 탈취 토큰, 과도한 scope, audience 혼동, 자동화 요청이 매 호출에서 발생할 수 있음.
+- 필요성: OAuth 2.0, OIDC, JWT validation, mTLS, rate limit, Gateway·Resource Server 이중 검증을 API 보안 설계 기준으로 적용해야 함.
 
 ---
 

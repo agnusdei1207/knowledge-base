@@ -56,8 +56,8 @@ weight: 75
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Trained Model → Importance Scoring → Pruning Mask/Removal
-      → Fine-tuning → Sparse/Compact Model → Evaluation
+Trained Model -> Importance Scoring -> Pruning Mask/Removal
+      -> Fine-tuning -> Sparse/Compact Model -> Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Trained Model → Importance Scoring → Pruning Mask/Removal
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-기준 모델 평가 → 중요도 계산 → 하위 요소 제거
-    → 미세조정 → 정확도·FLOPs·지연 평가 → 배포
+기준 모델 평가 -> 중요도 계산 -> 하위 요소 제거
+    -> 미세조정 -> 정확도·FLOPs·지연 평가 -> 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

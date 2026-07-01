@@ -1,0 +1,159 @@
+---
+title: "ADS 자율주행시스템 (Automated Driving System)"
+date: "2026-07-02"
+tags:
+  - "cspe-latest-tech"
+weight: 336
+---
+
+# 📖 【암기용】 개념 완전 이해
+
+> 목적: ADS를 SAE Level 3~5에서 ODD 내 동적 주행 과업을 수행하는 시스템으로 이해하게 만든다.
+
+## 한눈에
+- **개요**: 지정된 운행설계영역에서 차량이 인지·판단·제어·fallback을 수행하는 자동운전 시스템
+- **왜 필요한가**: 운전자 보조를 넘어 특정 조건에서 차량이 주행 과업을 책임지는 서비스가 필요하다.
+- **핵심 직관**: ADAS가 운전자를 돕는 기능이라면 ADS는 정해진 조건 안에서 운전 역할을 시스템이 맡는 구조다.
+
+## 깊이 이해
+- **배경·문제의식**: 로보택시, 물류, 셔틀, 고속도로 자동운전은 사람 운전자의 지속 감시 없이 주행 판단을 수행해야 한다.
+- **작동 원리**: 센서 융합과 HD Map이 환경을 인지하고, 예측·계획 모듈이 경로와 행동을 결정하며, 제어기가 조향·가감속을 실행한다.
+- **비유**: ADS는 항공기의 자동비행처럼 정해진 운행 조건, 감시 시스템, 비상 절차가 갖춰질 때만 책임을 맡는 조종 체계다.
+- **구체 예시**: SAE J3016에서 ADS는 Level 3~5 시스템에 적용되는 용어이며, Level 3은 요청 시 인간 fallback이 필요하고 Level 4는 ODD 내 시스템 fallback이 필요하다.
+- **흔한 오해·주의점**: ADS는 모든 도로에서 운전자 없이 작동한다는 뜻이 아니다. ODD, 최소위험상태(MRC), 안전 검증, 법규 책임을 함께 정의해야 한다.
+
+## 연결 개념
+- SAE J3016 — 주행 자동화 수준 정의
+- ADAS — Level 1~2 중심 운전자 보조
+- ISO 26262/SOTIF — 오작동과 성능 한계 안전 분석
+
+---
+
+# 📝 【답안용】 시험 답안 템플릿
+
+> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
+> 핵심: ADS는 SAE Level 3~5에서 ODD 내 DDT와 fallback을 시스템이 수행하도록 설계된 인지·판단·제어 통합 시스템이다.
+
+## 핵심 인사이트 (3줄 요약)
+
+> 1. **본질**: ADS는 지정된 ODD 안에서 동적 주행 과업(DDT)을 자동 수행하는 주행 시스템이다.
+> 2. **가치**: 로보택시, 셔틀, 물류, 고속도로 자동운전에서 운전자 의존도를 조건부로 줄인다.
+> 3. **판단 포인트**: ODD, DDT, fallback, MRC, 안전 검증, 사이버보안, 책임 주체를 명확히 해야 한다.
+
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| 자동운전 수준 이해 확인 | SAE Level 3~5, ADS, DDT, ODD | ADAS와 혼동 |
+| 시스템 구조 판단 확인 | perception, prediction, planning, control | AI 모델만 설명 |
+| 안전·책임 인식 확인 | fallback, MRC, safety case | 모든 도로 완전자율로 표현 |
+
+> 요약: 이 문제는 자동운전 책임이 시스템으로 넘어가는 조건과 검증 체계를 확인한다.
+
+---
+
+## Ⅰ. 개요 및 필요성
+
+- 개요: ODD 기반 자동운전
+- 배경: 특정 도로·속도·날씨 조건에서 차량이 운전자 지속 감시 없이 주행할 수 있는 서비스 요구가 증가한다.
+- 필요성: ADS는 ODD, DDT, fallback, MRC를 정의해 자동운전 기능의 책임 경계를 명확히 한다.
+
+---
+
+## Ⅱ. 구조 및 구성요소
+
+```text
+Sensor / HD Map / V2X -> Perception -> Prediction
+      +-> Planning -> Control -> Vehicle Actuator
+      +-> Safety Monitor / Fallback / MRC / Cybersecurity
+```
+
+| 구성요소 | 역할 | 특이사항 |
+|:---|:---|:---|
+| Perception | 객체·차선·신호·공간 인식 | camera, radar, lidar |
+| Prediction | 주변 객체의 향후 궤적 추정 | trajectory probability |
+| Planning/Control | 행동·경로 계획과 조향·가감속 제어 | rule, optimization |
+| Safety/Fallback | ODD 이탈과 결함 시 최소위험상태 전환 | MRC, redundancy |
+
+> 요약: ADS는 인지·예측·계획·제어와 안전 감시·fallback이 결합된 폐루프 주행 시스템이다.
+
+---
+
+## Ⅲ. 동작원리 및 흐름도
+
+```text
+ODD 확인 -> 환경 인지 -> 객체 예측
+-> 행동·경로 계획 -> 차량 제어 -> 모니터링 -> fallback / MRC
+```
+
+| 단계 | 처리 내용 | 검증 기준 |
+|:---:|:---|:---|
+| 1 | 도로, 날씨, 속도, 위치가 ODD 조건에 맞는지 확인함 | ODD compliance |
+| 2 | 센서 융합으로 주변 객체와 주행 공간을 인식함 | perception metric |
+| 3 | 궤적 예측과 경로 계획으로 주행 행동을 결정함 | scenario pass rate |
+| 4 | 결함·ODD 이탈 시 fallback과 MRC를 실행함 | fallback success |
+
+> 요약: ADS는 ODD 안에서 주행을 수행하고, ODD 이탈 또는 결함이 발생하면 정의된 최소위험상태로 전환한다.
+
+---
+
+## Ⅳ. 특징
+
+| 구분 | SAE Level 2 | SAE Level 3 | SAE Level 4 |
+|:---|:---|:---|:---|
+| 시스템 역할 | 조향·가감속 보조 | 조건부 자동운전 | ODD 내 자동운전 |
+| 운전자 역할 | 상시 감시 | 요청 시 takeover | ODD 내 fallback 불필요 |
+| fallback | 운전자 | 운전자 | 시스템 |
+| 판단 포인트 | ADAS | ADS 포함 | ADS 핵심 |
+
+> 요약: ADS는 Level 3 이상에서 논의되며, Level 4는 ODD 내 fallback 책임을 시스템이 갖는다는 점이 핵심 차이다.
+
+---
+
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+|:---|:---|:---|:---|
+| 운행 범위 | 운전자 전 영역 책임 | ODD 내 시스템 책임 | 도로·날씨·속도 제약 |
+| 검증 | 기능 테스트 | 시나리오 기반 safety case | corner case 커버리지 |
+| 운영 | 개인 차량 중심 | fleet monitoring | 원격지원·로그 분석 |
+
+> 요약: ADS는 넓은 기능보다 ODD를 좁게 정의하고 검증 가능한 시나리오로 운영 범위를 확정할 때 적용 가능성이 높다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 인지 실패 | 비정형 객체·센서 오염 | redundant sensor, self-check | perception miss |
+| 계획 오류 | 예측 불확실성·규칙 충돌 | safety envelope, RSS, simulation | scenario violation |
+| 책임 불명확 | Level/ODD 안내 부족 | HMI, legal ODD, event data recorder | takeover dispute |
+
+> 요약: ADS 리스크는 인지·계획·책임 경계이며 안전 감시와 운행 데이터 기록으로 통제한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| ODD 준수 | ODD 이탈 탐지와 MRC 실행 | vehicle log, geo-fence |
+| 안전 검증 | 시나리오 통과율·사고근접 이벤트 추적 | simulation, proving ground |
+| 운영 관측 | disengagement, takeover, remote assist 기록 | fleet telemetry |
+
+> 요약: ADS 성과는 주행거리보다 ODD 준수, 시나리오 검증, fallback 기록으로 판단한다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
+
+**적용 방안 3개:**
+1. 고속도로, 제한속도, 날씨, 차선 품질, 지도 커버리지로 ODD를 좁게 정의하고 ODD 이탈 탐지 조건을 구현함.
+2. ISO 26262, ISO 21448, ISO/PAS 8800 관점에서 오작동, 성능 한계, AI 위험을 분리해 safety case를 작성함.
+3. simulation, closed track, public road, fleet monitoring을 연결해 시나리오 기반 검증과 이벤트 데이터 기록을 수행함.
+
+**결론 (2줄):**
+- 기술사 판단: ADS는 기능 범위를 넓히기보다 ODD와 fallback을 검증 가능한 수준으로 제한한 뒤 단계 적용해야 함.
+- 향후 방향: ADS는 V2X, HD Map, edge AI, 원격지원과 결합해 제한 영역 자동운전 서비스부터 확대됨.
+
+### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
+
+| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+|:---|:---|:---|:---|
+| 포괄형 | "ADS를 설명하시오" | ODD·인지·계획·fallback 흐름 | SAE Level별 책임 차이 |
+| 요구사항 명시형 | "자율주행 안전 방안을 제시하시오" | MRC와 safety case 검증 | 인지·계획·책임 리스크 대응 |
+
+> 요약: 설명형은 자동운전 구조를, 안전형은 ODD와 fallback 책임을 중심으로 작성한다.

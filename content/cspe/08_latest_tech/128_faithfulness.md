@@ -56,8 +56,8 @@ weight: 128
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Answer → Claim Decomposition → Context Matching
-  → Entailment/Judge → Faithfulness Score
+Answer -> Claim Decomposition -> Context Matching
+  -> Entailment/Judge -> Faithfulness Score
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Answer → Claim Decomposition → Context Matching
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-답변 입력 → 주장 분해 → 컨텍스트 근거 검색
-  → 지지/비지지 판정 → 점수 계산 → 임계값 비교
+답변 입력 -> 주장 분해 -> 컨텍스트 근거 검색
+  -> 지지/비지지 판정 -> 점수 계산 -> 임계값 비교
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ Answer → Claim Decomposition → Context Matching
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Faithfulness를 설명하시오" | claim 분해→근거 판정→점수화 흐름 | Answer Relevancy 대비 차이 |
+| 포괄형 | "Faithfulness를 설명하시오" | claim 분해->근거 판정->점수화 흐름 | Answer Relevancy 대비 차이 |
 | 요구사항 명시형 | "RAG 환각 저감 방안을 제시하시오" | 비지지 claim 탐지·배포 게이트 | 고위험 도메인 근거 검증 기준 |
 
 > 요약: 설명형은 근거 일치성 평가 원리, 방안형은 환각 통제와 배포 기준을 중심으로 작성함.

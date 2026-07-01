@@ -39,13 +39,15 @@ weight: 155
 
 ## Ⅰ. 개요 및 필요성
 
-GNN은 그래프 구조 데이터를 학습하는 신경망이다. 관계 데이터는 노드 특성보다 연결 패턴이 예측에 중요하다. GNN은 이웃 노드 정보를 반복 집계해 관계 기반 표현을 생성한다.
+- 개요: 그래프 구조 데이터 학습 신경망
+- 배경: 소셜, 추천, 분자, 보안 로그 데이터는 개별 노드 특성뿐 아니라 연결 패턴이 예측 결과를 좌우한다.
+- 필요성: message passing과 aggregation으로 node classification accuracy, link prediction AUC, graph classification F1을 측정한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Graph(V,E,X) → Message Passing → Aggregation
-  → Node Embedding → Task Head(Node/Edge/Graph)
+Graph(V,E,X) -> Message Passing -> Aggregation
+  -> Node Embedding -> Task Head(Node/Edge/Graph)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Graph(V,E,X) → Message Passing → Aggregation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-그래프 입력 → 이웃 샘플링 → 메시지 계산
-  → aggregation/update 반복 → embedding 생성 → 예측
+그래프 입력 -> 이웃 샘플링 -> 메시지 계산
+  -> aggregation/update 반복 -> embedding 생성 -> 예측
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Graph(V,E,X) → Message Passing → Aggregation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "GNN을 설명하시오" | 메시지 패싱→집계→embedding→예측 흐름 | MLP 대비 관계 활용 차이 |
+| 포괄형 | "GNN을 설명하시오" | 메시지 패싱->집계->embedding->예측 흐름 | MLP 대비 관계 활용 차이 |
 | 요구사항 명시형 | "관계 데이터 분석 방안을 제시하시오" | 이웃 샘플링·over-smoothing 통제 | 사기탐지·추천·KG 적용 기준 |
 
 > 요약: 설명형은 그래프 학습 원리, 방안형은 관계 데이터 적용과 확장성 통제를 중심으로 작성함.

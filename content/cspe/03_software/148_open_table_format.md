@@ -54,7 +54,9 @@ weight: 148
 
 ## Ⅰ. 개요 및 필요성
 
-오픈 테이블 포맷은 레이크하우스의 테이블 관리 계층이다. 객체 스토리지의 Parquet/ORC 파일에 ACID, snapshot, update/delete, schema evolution을 제공한다. Delta Lake, Apache Iceberg, Apache Hudi가 대표 비교 대상이다.
+- 개요: 오픈 테이블 포맷은 레이크하우스 테이블 관리 계층이다.
+- 배경: 객체 스토리지의 Parquet/ORC 파일은 ACID, snapshot, update/delete, schema evolution을 자체 제공하지 않는다.
+- 필요성: Delta Lake, Apache Iceberg, Apache Hudi를 비교해 엔진 호환성, 변경 처리, 거버넌스 기준으로 선택한다.
 
 ---
 

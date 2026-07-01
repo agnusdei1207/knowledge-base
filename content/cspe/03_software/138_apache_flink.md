@@ -53,7 +53,9 @@ weight: 138
 
 ## Ⅰ. 개요 및 필요성
 
-Apache Flink는 stateful stream processing engine임. 실시간 서비스는 초 단위 처리뿐 아니라 지연 도착 이벤트, 장애 복구, 중복 처리 제어가 필요함. Flink는 event time, watermark, checkpoint로 연속 데이터 처리의 정합성과 복구를 제공함.
+- 개요: Apache Flink는 stateful stream processing engine임.
+- 배경: 실시간 서비스는 초 단위 처리뿐 아니라 지연 도착 이벤트, 장애 복구, 중복 처리 제어가 필요함.
+- 필요성: event time, watermark, checkpoint로 연속 데이터 처리의 정합성과 복구를 제공함.
 
 ---
 

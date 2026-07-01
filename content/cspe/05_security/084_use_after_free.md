@@ -54,7 +54,9 @@ weight: 84
 
 ## Ⅰ. 개요 및 필요성
 
-Use-after-free는 해제 객체 재사용 취약점이다. 객체 수명과 포인터 참조가 분리된 C/C++ 코드에서 stale pointer가 남으면 해제된 heap chunk가 새 객체로 재사용될 때 메모리 변조가 발생한다. 브라우저·커널·서버의 RCE와 권한 상승 대응을 위해 ownership 설계와 sanitizer 검증이 필요함.
+- 개요: 해제 객체 재사용 취약점
+- 배경: 객체 수명과 포인터 참조가 분리된 C/C++ 코드에서 stale pointer가 남으면 해제된 heap chunk가 새 객체로 재사용될 때 메모리 변조가 발생함.
+- 필요성: CWE-416, ownership 설계, AddressSanitizer, quarantine allocator, fuzzing을 적용해 브라우저·커널·서버의 RCE 위험을 검증해야 함.
 
 ---
 

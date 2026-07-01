@@ -54,7 +54,9 @@ weight: 68
 
 ## Ⅰ. 개요 및 필요성
 
-SDN Controller-OpenFlow는 중앙 Controller가 스위치 전달 규칙을 설치하는 SDN Southbound 구조이다. 네트워크 정책을 장비별 CLI가 아니라 프로그램 가능한 Flow Table로 관리하기 위해 필요하다. OpenFlow는 Match-Action 기반으로 ACL, 경로, 실험망, 테넌트 격리를 세밀하게 구현함.
+- 개요: SDN Southbound 제어 구조
+- 배경: 네트워크 정책을 장비별 CLI로 관리하면 ACL, 경로, 테넌트 격리 규칙의 적용 순서와 감사 추적이 흩어진다.
+- 필요성: OpenFlow는 Match-Action Flow Table로 중앙 Controller가 스위치 전달 규칙을 설치하고 검증하게 한다.
 
 ---
 

@@ -54,7 +54,9 @@ weight: 187
 
 ## Ⅰ. 개요 및 필요성
 
-WASI는 WASM 시스템 인터페이스임. 서버사이드 WASM은 파일, 시간, 난수, 네트워크 같은 시스템 기능이 필요하지만 sandbox 경계를 유지해야 한다. WASI는 capability 기반 API로 필요한 자원만 명시 허용한다.
+- 개요: WASM 시스템 인터페이스
+- 배경: 서버사이드 WASM은 파일, 시간, 난수, 네트워크 같은 시스템 기능이 필요하지만 sandbox 경계를 유지해야 한다.
+- 필요성: WASI capability API로 preopen directory, env, clock, random 등 필요한 자원만 명시 허용한다.
 
 ---
 

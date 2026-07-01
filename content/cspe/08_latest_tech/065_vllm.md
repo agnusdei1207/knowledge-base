@@ -39,13 +39,15 @@ weight: 65
 
 ## Ⅰ. 개요 및 필요성
 
-vLLM은 오픈소스 LLM 서빙 엔진임. 고동시성 LLM API는 KV Cache 단편화와 정적 배치 병목이 발생하므로, PagedAttention과 continuous batching 기반 런타임이 필요함.
+- 개요: 오픈소스 LLM 서빙 엔진
+- 배경: 고동시성 LLM API는 KV cache 단편화와 정적 배치로 GPU 메모리 낭비와 큐 대기가 발생함.
+- 필요성: PagedAttention과 continuous batching으로 KV block을 관리하고 throughput·p95 latency를 동시에 측정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client/OpenAI API → vLLM Server → Scheduler
-       → PagedAttention KV Blocks → GPU Executor → Streaming
+Client/OpenAI API -> vLLM Server -> Scheduler
+       -> PagedAttention KV Blocks -> GPU Executor -> Streaming
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Client/OpenAI API → vLLM Server → Scheduler
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → 토큰화 → scheduler 배치 편성
-    → PagedAttention KV 할당 → GPU decode → streaming 반환
+요청 수신 -> 토큰화 -> scheduler 배치 편성
+    -> PagedAttention KV 할당 -> GPU decode -> streaming 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -71,7 +73,7 @@ Client/OpenAI API → vLLM Server → Scheduler
 | 3 | PagedAttention으로 KV block 관리 | block utilization, OOM |
 | 4 | GPU 실행·streaming 응답 | TTFT, TPOT, tokens/s |
 
-> 요약: vLLM은 동적 배치와 KV block 관리를 결합해 고동시성 요청을 GPU에 효율적으로 공급함.
+> 요약: vLLM은 동적 배치와 KV block 관리를 결합해 고동시성 요청의 GPU idle time을 줄임.
 
 ## Ⅳ. 특징
 

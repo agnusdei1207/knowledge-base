@@ -39,13 +39,15 @@ weight: 68
 
 ## Ⅰ. 개요 및 필요성
 
-온디바이스 AI는 단말 내부 AI 추론 방식임. 실시간 UX, 개인정보 보호, 클라우드 비용 절감을 위해 모델 경량화와 단말 가속기를 활용한 로컬 추론이 필요함.
+- 개요: 단말 내부 AI 추론 방식
+- 배경: 네트워크 지연, 개인정보 반출, 클라우드 호출 비용은 모바일·PC 상시 AI 기능의 제약이 됨.
+- 필요성: Core ML·NNAPI·ONNX Runtime과 NPU/GPU/DSP를 활용해 오프라인 추론, PII 로컬 처리, TOPS/Watt 기준을 관리해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Sensor/User Input → On-device Runtime → NPU/GPU/DSP
-       → Local Inference → Policy Check → Optional Cloud Sync
+Sensor/User Input -> On-device Runtime -> NPU/GPU/DSP
+       -> Local Inference -> Policy Check -> Optional Cloud Sync
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Sensor/User Input → On-device Runtime → NPU/GPU/DSP
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 수집 → 전처리 → 로컬 추론 → 신뢰도 판단
-    → 충분: 즉시 응답, 부족: 클라우드 요청 → 동기화
+입력 수집 -> 전처리 -> 로컬 추론 -> 신뢰도 판단
+    -> 충분: 즉시 응답, 부족: 클라우드 요청 -> 동기화
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

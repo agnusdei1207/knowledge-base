@@ -54,7 +54,9 @@ weight: 45
 
 ## Ⅰ. 개요 및 필요성
 
-서킷 브레이커는 실패한 원격 호출을 차단하는 패턴이다. MSA는 서비스 간 동기 호출이 많아 한 서비스 지연이 thread pool 고갈과 retry 폭증으로 확산될 수 있다. Circuit Breaker는 실패를 빨리 반환하고 장애 영역을 제한한다.
+- 개요: 실패 원격 호출 차단 패턴
+- 배경: MSA는 서비스 간 동기 호출이 많아 한 서비스 지연이 thread pool 고갈, retry 폭증, cascading failure로 확산될 수 있음.
+- 필요성: Circuit Breaker의 closed/open/half-open 상태와 timeout, failure rate threshold, fallback을 적용해 p99 지연과 error rate를 제한해야 함.
 
 ---
 

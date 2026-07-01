@@ -54,7 +54,9 @@ weight: 200
 
 ## Ⅰ. 개요 및 필요성
 
-RESTful API는 HTTP 기반 리소스 설계 원칙이다. API 사용자가 늘수록 URI, 메서드, 상태 코드, 오류 응답이 일관되어야 장애와 변경 비용을 줄일 수 있다. MSA와 외부 API에서는 계약 문서화와 버전 관리가 필수이다.
+- 개요: HTTP 기반 리소스 설계 원칙
+- 배경: API 사용자가 늘수록 URI, 메서드, 상태 코드, 오류 응답이 일관되어야 장애와 변경 비용을 줄일 수 있다.
+- 필요성: HTTP method, status code, OpenAPI, versioning 기준으로 MSA와 외부 API 계약을 관리한다.
 
 ---
 

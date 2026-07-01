@@ -56,8 +56,8 @@ weight: 123
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Data Source → Entity/Relation Extraction → Graph Store
-  → Ontology/Schema → Graph Query/Reasoning → Application
+Data Source -> Entity/Relation Extraction -> Graph Store
+  -> Ontology/Schema -> Graph Query/Reasoning -> Application
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Data Source → Entity/Relation Extraction → Graph Store
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서/DB 수집 → 엔티티 추출 → 관계 추출
-  → 정규화/중복 제거 → 그래프 적재 → k-hop 탐색/추론
+문서/DB 수집 -> 엔티티 추출 -> 관계 추출
+  -> 정규화/중복 제거 -> 그래프 적재 -> k-hop 탐색/추론
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ Data Source → Entity/Relation Extraction → Graph Store
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Knowledge Graph를 설명하시오" | 추출→정규화→그래프 적재→탐색 흐름 | 문서 검색 대비 차이 |
+| 포괄형 | "Knowledge Graph를 설명하시오" | 추출->정규화->그래프 적재->탐색 흐름 | 문서 검색 대비 차이 |
 | 요구사항 명시형 | "Graph RAG를 설계하시오" | 온톨로지·엔티티 연결·k-hop 탐색 기준 | 구축 비용·품질 관리 방안 |
 
 > 요약: 설명형은 지식 표현 원리, 설계형은 Graph RAG 연계와 품질 관리 기준을 중심으로 작성함.

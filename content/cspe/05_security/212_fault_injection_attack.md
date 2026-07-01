@@ -54,7 +54,9 @@ weight: 212
 
 ## Ⅰ. 개요 및 필요성
 
-폴트 인젝션 공격은 칩 동작 조건을 순간 교란해 보안 검증 실패를 유도하는 공격이다. 부트 ROM, 암호 가속기, 권한 체크는 특정 cycle에서 branch skip, instruction corrupt, memory fault가 발생하면 공격자가 unsigned firmware 실행이나 키 추출에 도달할 수 있다. 차량 ECU, 결제 단말, IoT 게이트웨이는 현장 물리 접근을 전제로 결함 내성 설계가 필요하다.
+- 개요: 칩 동작 교란 기반 검증 우회 공격
+- 배경: 부트 ROM·암호 가속기·권한 체크는 특정 cycle의 branch skip, instruction corrupt, memory fault로 unsigned firmware 실행이나 키 추출 경로가 열릴 수 있음
+- 필요성: 차량 ECU·결제 단말·IoT 게이트웨이는 FI campaign에서 bypass 0건, fault detection 99% 이상을 목표로 결함 내성을 검증해야 함
 
 ---
 

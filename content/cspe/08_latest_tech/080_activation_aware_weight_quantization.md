@@ -20,7 +20,7 @@ weight: 80
 - **작동 원리**: calibration data로 activation 통계를 수집하고, 중요한 channel weight를 scaling으로 보호한 뒤 INT4 등으로 weight-only quantization을 수행함.
 - **비유**: 교통량이 많은 도로는 차선을 유지하고, 교통량이 낮은 도로부터 폭을 줄여 전체 도로망 효율을 높이는 것과 같음.
 - **구체 예시**: AWQ는 LLM 4-bit weight-only 배포에서 GPTQ와 함께 vLLM·TensorRT-LLM 계열 서빙에 활용됨.
-- **흔한 오해·주의점**: AWQ도 calibration data 품질에 의존함. 실제 서비스 입력과 다른 데이터로 통계를 잡으면 중요 channel 판단이 어긋남.
+- **흔한 오해·주의점**: AWQ도 calibration data 품질에 의존함. 실제 서비스 입력과 다른 데이터로 통계를 잡으면 민감 channel 판단이 어긋남.
 
 ## 연결 개념
 - 4-bit Quantization — AWQ 적용 대상
@@ -56,8 +56,8 @@ weight: 80
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP16 LLM → Calibration Activations → Important Channel Detection
-      → Weight Scaling/Protection → INT4 Weight Quantization → Serving
+FP16 LLM -> Calibration Activations -> Important Channel Detection
+      -> Weight Scaling/Protection -> INT4 Weight Quantization -> Serving
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -67,13 +67,13 @@ FP16 LLM → Calibration Activations → Important Channel Detection
 | Weight Scaling | 양자화 오차 완화 | 재학습 없음 |
 | INT4 Kernel | weight-only 추론 실행 | vLLM/TRT 지원 확인 |
 
-> 요약: AWQ는 activation 기반 중요 channel을 보호한 뒤 weight-only INT4로 변환해 LLM 품질 손실을 줄임.
+> 요약: AWQ는 activation 기반 민감 channel을 보호한 뒤 weight-only INT4로 변환해 LLM 품질 손실을 줄임.
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-대표 입력 수집 → activation 통계 계산 → 중요 channel 선택
-    → scaling 적용 → 4-bit weight 변환 → 정확도·지연 평가
+대표 입력 수집 -> activation 통계 계산 -> 민감 channel 선택
+    -> scaling 적용 -> 4-bit weight 변환 -> 정확도·지연 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

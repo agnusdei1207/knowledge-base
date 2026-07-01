@@ -73,15 +73,15 @@ weight: 34
 | Positional Encoding | 순서 정보 주입 | Sinusoidal or RoPE |
 | Layer Normalization | 학습 안정화 | Pre-LN이 대규모 모델 표준 |
 
-> 요약: Transformer는 Attention→FFN→LayerNorm 블록을 L회 반복하는 인코더-디코더(또는 디코더 전용) 구조임.
+> 요약: Transformer는 Attention->FFN->LayerNorm 블록을 L회 반복하는 인코더-디코더(또는 디코더 전용) 구조임.
 
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-토큰 임베딩 → PE 추가 → Self-Attention(Q·K·V 계산)
-    → Residual + LayerNorm → FFN → Residual + LayerNorm
-    → L회 반복 → 출력 프로젝션
+토큰 임베딩 -> PE 추가 -> Self-Attention(Q·K·V 계산)
+    -> Residual + LayerNorm -> FFN -> Residual + LayerNorm
+    -> L회 반복 -> 출력 프로젝션
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -136,7 +136,7 @@ weight: 34
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 인코더 전용(BERT) → 분류·NER, 디코더 전용(GPT) → 생성, 인코더-디코더(T5) → 번역·요약에 각각 적용
+1. 인코더 전용(BERT) -> 분류·NER, 디코더 전용(GPT) -> 생성, 인코더-디코더(T5) -> 번역·요약에 각각 적용
 2. Flash Attention 2로 O(N²) 메모리를 O(N)으로 줄이고, A100 GPU에서 학습 처리량 2배 향상
 3. Pre-LN + Gradient Checkpointing으로 100B+ 파라미터 모델 학습 안정화, 메모리 60% 절감
 

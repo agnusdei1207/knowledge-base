@@ -17,7 +17,7 @@ weight: 91
 
 ## 깊이 이해
 - **배경·문제의식**: Full Fine-Tuning은 전체 가중치를 바꾸므로 도메인별 모델 사본이 필요함. Adapter는 base model을 freeze하고 작은 bottleneck network만 학습해 업무별 모듈로 분리함.
-- **작동 원리**: Transformer layer의 attention 또는 FFN 뒤에 down-projection→activation→up-projection 구조를 삽입함. 학습 시 adapter만 업데이트하고 base model은 공유함.
+- **작동 원리**: Transformer layer의 attention 또는 FFN 뒤에 down-projection->activation->up-projection 구조를 삽입함. 학습 시 adapter만 업데이트하고 base model은 공유함.
 - **비유**: 공통 교과서에 과목별 별책 부록을 끼워 넣어, 교과서 본문은 유지하면서 과목별 설명을 보강하는 것과 같음.
 - **구체 예시**: 병원·금융·제조 업무별 adapter를 같은 base model에 붙여 tenant별로 로드하면 모델 저장 비용을 줄일 수 있음.
 - **흔한 오해·주의점**: Adapter는 추론 시 레이어에 추가 연산을 넣으므로 latency가 증가할 수 있음. merge 가능성은 LoRA보다 제한적임.
@@ -56,15 +56,15 @@ weight: 91
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Transformer Layer → Adapter Down-Projection → Activation
-      → Up-Projection → Residual Add → Next Layer
+Transformer Layer -> Adapter Down-Projection -> Activation
+      -> Up-Projection -> Residual Add -> Next Layer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Bottleneck Down | 차원 축소 | d→m |
+| Bottleneck Down | 차원 축소 | d->m |
 | Activation | 비선형 변환 | GELU/ReLU |
-| Up Projection | 원 차원 복원 | m→d |
+| Up Projection | 원 차원 복원 | m->d |
 | Adapter Registry | 업무별 모듈 관리 | tenant routing |
 
 > 요약: Adapter는 레이어 사이에 작은 병목 모듈을 삽입해 업무별 추가 지식을 분리 저장함.
@@ -72,8 +72,8 @@ Transformer Layer → Adapter Down-Projection → Activation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-base model freeze → adapter 삽입 → adapter만 학습
-    → 업무별 adapter 저장 → 요청별 adapter 로드 → 평가
+base model freeze -> adapter 삽입 -> adapter만 학습
+    -> 업무별 adapter 저장 -> 요청별 adapter 로드 -> 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -132,7 +132,7 @@ base model freeze → adapter 삽입 → adapter만 학습
 3. 실시간 API는 LoRA merge 가능성을 우선 검토하고, 다테넌트 분리 요구가 크면 Adapter를 적용
 
 **결론 (2줄):**
-- 기술사 판단: 업무별 모듈 격리와 관리성이 중요하면 Adapter, latency와 merge가 중요하면 LoRA를 선택함.
+- 기술사 판단: 업무별 모듈 격리와 관리성을 우선하면 Adapter, latency와 merge를 우선하면 LoRA를 선택함.
 - 향후 방향: Adapter는 multi-tenant LLM serving과 domain routing에서 모듈형 적응 방식으로 활용됨.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)

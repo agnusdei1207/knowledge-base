@@ -39,14 +39,16 @@ weight: 110
 
 ## Ⅰ. 개요 및 필요성
 
-Hybrid Search는 희소·밀집 검색 결합 방식임. BM25는 고유명사·코드·법 조항 검색에 강하고 Dense는 동의어·문맥 검색에 강하다. RAG에서 검색 누락과 오검색을 줄이기 위해 두 결과를 결합한다.
+- 개요: 희소·밀집 검색 결합 방식
+- 배경: BM25는 고유명사·코드·법 조항에 유리하고 Dense는 동의어·문맥 검색에 유리해 단일 검색 방식은 누락 또는 오검색이 생길 수 있음.
+- 필요성: BM25/SPLADE, Dense embedding, RRF, cross-encoder reranker로 Recall@K와 Precision@K를 함께 개선해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query ┬→ BM25/SPLADE → Sparse Top-N ┐
-      └→ Embedding → Dense Top-N ───┼→ Fusion(RRF/Weighted) → Reranker → Top-K
-                                    ┘
+Query  -> BM25/SPLADE -> Sparse Top-N
+       -> Embedding -> Dense Top-N --- -> Fusion(RRF/Weighted) -> Reranker -> Top-K
+
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -54,16 +56,16 @@ Query ┬→ BM25/SPLADE → Sparse Top-N ┐
 | Sparse Retriever | 키워드·고유명사 후보 검색 | BM25, SPLADE, Elasticsearch |
 | Dense Retriever | 의미 유사도 후보 검색 | BGE, E5, Vector DB |
 | Fusion Engine | 후보 순위 결합 | RRF k=60, score normalization |
-| Reranker | 최종 후보 정밀 재정렬 | Cross-Encoder Top-50→Top-5 |
+| Reranker | 최종 후보 정밀 재정렬 | Cross-Encoder Top-50->Top-5 |
 
 > 요약: Hybrid Search는 Sparse와 Dense 후보를 병렬 수집하고 Fusion과 Reranker로 최종 근거 문서를 선정함.
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → Sparse/Dense 병렬 검색
-  → 후보 중복 제거 → RRF 순위 결합
-  → Cross-Encoder 리랭킹 → Top-K 반환
+질의 입력 -> Sparse/Dense 병렬 검색
+  -> 후보 중복 제거 -> RRF 순위 결합
+  -> Cross-Encoder 리랭킹 -> Top-K 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

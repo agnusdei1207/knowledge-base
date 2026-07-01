@@ -54,7 +54,9 @@ weight: 179
 
 ## Ⅰ. 개요 및 필요성
 
-StatefulSet은 상태 저장 Pod 컨트롤러임. 상태 저장 시스템은 Pod별 이름, 순서, 저장소가 바뀌면 quorum, replica, 데이터 정합성 문제가 생긴다. StatefulSet은 고정 ID와 PVC로 이 요구를 충족한다.
+- 개요: StatefulSet은 상태 저장 Pod 컨트롤러임.
+- 배경: 상태 저장 시스템은 Pod별 이름, 순서, 저장소가 바뀌면 quorum, replica, 데이터 정합성 문제가 생긴다.
+- 필요성: 고정 네트워크 ID, 순차 배포, PVC 연결로 데이터베이스와 메시지 브로커의 상태 요구를 충족한다.
 
 ---
 

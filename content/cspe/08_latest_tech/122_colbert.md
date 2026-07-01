@@ -39,13 +39,15 @@ weight: 122
 
 ## Ⅰ. 개요 및 필요성
 
-ColBERT는 후기상호작용 기반 검색 모델임. Bi-Encoder는 확장성은 높지만 세밀한 토큰 매칭이 약하고, Cross-Encoder는 정밀하지만 전체 검색에 부적합하다. ColBERT는 문서 토큰 벡터를 저장해 검색 시 토큰 수준 유사도를 계산한다.
+- 개요: 토큰 단위 후기상호작용 검색 모델
+- 배경: Bi-Encoder는 문장 벡터 1개로 세밀한 토큰 매칭이 약하고 Cross-Encoder는 전체 문서 후보마다 추론이 필요하다.
+- 필요성: 문서 토큰 벡터와 MaxSim 계산으로 MRR@10·Recall@k를 검증하며 1차 검색 정밀도 손실을 줄인다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Document → Token Encoder → Token Vectors → Compressed Index
-Query → Token Encoder → MaxSim(q-token, d-token) → Score → Rank
+Document -> Token Encoder -> Token Vectors -> Compressed Index
+Query -> Token Encoder -> MaxSim(q-token, d-token) -> Score -> Rank
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Query → Token Encoder → MaxSim(q-token, d-token) → Score → Rank
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-오프라인: 문서 토큰화 → 토큰 벡터 생성 → 압축 인덱스 저장
-온라인: 질의 토큰 벡터 → 후보 탐색 → MaxSim 점수 → Top-K 반환
+오프라인: 문서 토큰화 -> 토큰 벡터 생성 -> 압축 인덱스 저장
+온라인: 질의 토큰 벡터 -> 후보 탐색 -> MaxSim 점수 -> Top-K 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Query → Token Encoder → MaxSim(q-token, d-token) → Score → Rank
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "ColBERT를 설명하시오" | 토큰 벡터→MaxSim→순위화 흐름 | Bi/Cross-Encoder 대비 차이 |
+| 포괄형 | "ColBERT를 설명하시오" | 토큰 벡터->MaxSim->순위화 흐름 | Bi/Cross-Encoder 대비 차이 |
 | 요구사항 명시형 | "RAG 검색 정밀도 개선 방안을 제시하시오" | 후보 제한·압축·MaxSim 운영 기준 | 정밀도·지연·저장량 트레이드오프 |
 
 > 요약: 설명형은 후기상호작용 원리, 방안형은 압축과 후보 제한 기준을 중심으로 작성함.

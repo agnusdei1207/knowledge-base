@@ -39,13 +39,15 @@ weight: 132
 
 ## Ⅰ. 개요 및 필요성
 
-Groundedness는 답변 근거 기반성 품질 속성임. RAG는 외부 문서를 제공하지만 LLM이 문서 밖 내용을 생성할 수 있다. 기업 환경에서는 답변과 출처를 연결해 감사 가능한 응답을 제공해야 한다.
+- 개요: 답변의 근거 기반성 품질 속성
+- 배경: RAG는 외부 문서를 제공하지만 LLM이 문서 밖 내용을 섞어 생성하면 감사와 재현 검증이 어렵다.
+- 필요성: 답변 문장과 출처 chunk를 연결해 groundedness score, citation coverage, unsupported sentence 비율로 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Answer Sentence → Citation Link → Evidence Context
-  → Grounding Judge → Groundedness Score/Policy
+Answer Sentence -> Citation Link -> Evidence Context
+  -> Grounding Judge -> Groundedness Score/Policy
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Answer Sentence → Citation Link → Evidence Context
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-답변 생성 → 문장별 출처 연결 → 근거 문서 조회
-  → 주장-근거 일치 판정 → 점수화 → 거절/수정 정책 적용
+답변 생성 -> 문장별 출처 연결 -> 근거 문서 조회
+  -> 주장-근거 일치 판정 -> 점수화 -> 거절/수정 정책 적용
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Answer Sentence → Citation Link → Evidence Context
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Groundedness를 설명하시오" | claim→citation→근거 판정 흐름 | Faithfulness 대비 차이 |
+| 포괄형 | "Groundedness를 설명하시오" | claim->citation->근거 판정 흐름 | Faithfulness 대비 차이 |
 | 요구사항 명시형 | "기업 RAG 신뢰성 확보 방안을 제시하시오" | 출처 연결·거절 정책·감사로그 | 규제 대응과 운영 통제 |
 
 > 요약: 설명형은 근거 기반성 원리, 방안형은 출처 검증과 감사 대응 기준을 중심으로 작성함.

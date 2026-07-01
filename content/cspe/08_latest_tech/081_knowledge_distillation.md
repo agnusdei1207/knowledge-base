@@ -149,7 +149,7 @@ Input Data -> Teacher Model -> Soft Label/Rationale/Feature
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | teacher→student 학습 흐름 | SFT 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | teacher->student 학습 흐름 | SFT 대비 특징 |
 | 요구사항 명시형 | 구축 방안을 제시하시오 | 데이터 생성·필터링·평가 절차 | 비용·오류 전파·fallback 기준 |
 
 > 요약: 설명형은 teacher-student 원리, 구축형은 데이터 품질과 독립 평가 중심으로 목차를 전환함.

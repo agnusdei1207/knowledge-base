@@ -39,13 +39,15 @@ weight: 69
 
 ## Ⅰ. 개요 및 필요성
 
-Edge AI는 현장 인접 AI 처리 아키텍처임. 영상·센서·산업 데이터의 실시간 처리와 대역폭 절감을 위해 엣지 장비에서 추론하고 클라우드는 학습·관제 중심으로 활용함.
+- 개요: 현장 인접 AI 처리 아키텍처
+- 배경: 영상·센서·산업 데이터는 원본을 모두 클라우드로 전송하면 지연, 회선 비용, 개인정보 노출이 증가함.
+- 필요성: Edge gateway, TensorRT·OpenVINO, event filtering으로 현장 추론 지연과 uplink bandwidth 사용량을 통제해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Sensors/Cameras → Edge Gateway/IPC → AI Inference
-      → Event Filter → Local Action + Cloud Sync
+Sensors/Cameras -> Edge Gateway/IPC -> AI Inference
+      -> Event Filter -> Local Action + Cloud Sync
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Sensors/Cameras → Edge Gateway/IPC → AI Inference
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 수집 → 엣지 전처리 → AI 추론 → 이벤트 판단
-    → 현장 조치 → 메타데이터 클라우드 동기화 → 모델 업데이트
+데이터 수집 -> 엣지 전처리 -> AI 추론 -> 이벤트 판단
+    -> 현장 조치 -> 메타데이터 클라우드 동기화 -> 모델 업데이트
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

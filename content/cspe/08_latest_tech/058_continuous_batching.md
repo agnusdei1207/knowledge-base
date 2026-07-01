@@ -76,8 +76,8 @@ Request Queue -> Scheduler -> Active Decode Batch
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 유입 → prefill batch 편성 → decode step 실행
-    → 완료 요청 제거 → 신규 요청 삽입 → 다음 decode step
+요청 유입 -> prefill batch 편성 -> decode step 실행
+    -> 완료 요청 제거 -> 신규 요청 삽입 -> 다음 decode step
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

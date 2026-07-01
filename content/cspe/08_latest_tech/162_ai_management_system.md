@@ -39,13 +39,15 @@ weight: 162
 
 ## Ⅰ. 개요 및 필요성
 
-AI Management System은 AI 운영을 위한 경영시스템이다. ISO/IEC 42001:2023은 AI 기반 제품·서비스 제공 또는 사용 조직의 관리 요구사항을 제시한다. AI 위험과 기회를 조직 차원에서 관리하기 위해 필요하다.
+- 개요: AI 운영 경영시스템
+- 배경: ISO/IEC 42001:2023은 AI 기반 제품·서비스를 제공하거나 사용하는 조직의 관리 요구사항을 제시한다.
+- 필요성: 정책, 위험평가, 영향평가, 공급망 통제, 내부심사로 AI 위험과 기회를 조직 차원에서 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Organization Context → Leadership/Policy → Planning
-  → Operation Controls → Performance Evaluation → Improvement
+Organization Context -> Leadership/Policy -> Planning
+  -> Operation Controls -> Performance Evaluation -> Improvement
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Organization Context → Leadership/Policy → Planning
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 범위 설정 → 정책/역할 수립 → 위험·기회 평가
-  → 운영 통제 적용 → 성과 측정/내부심사 → 시정조치
+AI 범위 설정 -> 정책/역할 수립 -> 위험·기회 평가
+  -> 운영 통제 적용 -> 성과 측정/내부심사 -> 시정조치
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -87,7 +89,7 @@ AI 범위 설정 → 정책/역할 수립 → 위험·기회 평가
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. AIMS 범위 정의: 생성형 AI 서비스, ML 모델, 외부 AI SaaS를 use case registry로 등록
+1. AIMS 범위 설정: 생성형 AI 서비스, ML 모델, 외부 AI SaaS를 use case registry로 등록
 2. 운영 통제: 데이터 품질, 모델 평가, human oversight, 공급자 리스크를 체크리스트와 배포 게이트로 연결
 3. 심사·개선: 내부심사 연 1회, 고위험 AI 분기 점검, 시정조치 30일 SLA로 증적 관리
 
@@ -99,7 +101,7 @@ AI 범위 설정 → 정책/역할 수립 → 위험·기회 평가
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "ISO/IEC 42001을 설명하시오" | 범위→정책→통제→평가→개선 흐름 | 단발성 심의 대비 차이 |
+| 포괄형 | "ISO/IEC 42001을 설명하시오" | 범위->정책->통제->평가->개선 흐름 | 단발성 심의 대비 차이 |
 | 요구사항 명시형 | "AI 경영시스템 구축 방안을 제시하시오" | use case 등록·내부심사·시정조치 | ISO/NIST/EU AI Act 연계 |
 
 > 요약: 설명형은 AIMS 관리 구조, 방안형은 조직 적용과 지속 개선 증적을 중심으로 작성함.

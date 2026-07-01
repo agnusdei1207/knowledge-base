@@ -54,7 +54,9 @@ weight: 45
 
 ## Ⅰ. 개요 및 필요성
 
-STIX/TAXII는 CTI 공유 표준이다. STIX는 위협 객체와 관계를 JSON 기반으로 표현하고, TAXII는 HTTPS API로 collection 단위 교환을 지원한다. 조직 간 위협 공유와 SOC 자동화를 위해 신뢰도·TLP·만료일 관리가 필요함.
+- 개요: CTI 표현·전송 표준
+- 배경: PDF, CSV, 메일 기반 위협 공유는 IoC 관계, 신뢰도, TLP, 만료일을 자동 처리하기 어렵고 SOC 반영 지연을 만든다.
+- 필요성: STIX 2.x 객체와 TAXII 2.x HTTPS collection을 사용하고 confidence, TLP, valid_until 검증 후 SIEM·EDR·SOAR에 배포해야 함.
 
 ---
 

@@ -54,7 +54,9 @@ weight: 30
 
 ## Ⅰ. 개요 및 필요성
 
-다중 프로세서 스케줄링은 여러 CPU에 태스크를 배치하는 기법이다. 멀티코어 환경에서는 ready queue 접근 경합, 코어별 부하 불균형, 캐시 locality 손실이 발생한다. SQMS와 MQMS는 run queue 구조에 따라 공정성, 경합, 이동 비용이 달라진다.
+- 개요: 다중 프로세서 스케줄링은 CPU별 태스크 배치이다.
+- 배경: 멀티코어 환경은 ready queue lock 경합, 코어별 부하 불균형, task migration에 따른 cache locality 손실을 만든다.
+- 필요성: SQMS와 MQMS는 run queue lock wait, CPU utilization 편차 10% 이하, migration/sec 기준으로 선택해야 한다.
 
 ---
 

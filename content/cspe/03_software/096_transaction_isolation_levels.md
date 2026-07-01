@@ -53,7 +53,9 @@ weight: 96
 
 ## Ⅰ. 개요 및 필요성
 
-격리 수준은 동시 트랜잭션 간 가시성 규칙이다. DB는 다수 사용자가 같은 데이터를 동시에 접근하므로 낮은 격리에서는 Dirty Read·Lost Update가 발생한다. 업무별 허용 오류와 TPS 목표에 맞게 Read Committed부터 Serializable까지 선택해야 한다.
+- 개요: 격리 수준은 트랜잭션 가시성 규칙이다.
+- 배경: 다수 사용자가 같은 데이터를 동시에 접근하면 Dirty Read, Non-Repeatable Read, Phantom Read, Lost Update가 발생한다.
+- 필요성: 업무별 오류 허용 범위와 TPS 목표에 맞춰 Read Committed, Repeatable Read, Serializable을 선택해야 한다.
 
 ---
 

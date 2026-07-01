@@ -51,9 +51,9 @@ weight: 122
 
 ## Ⅰ. 개요 및 필요성
 
-4C는 클라우드 네이티브 계층형 보안 모델이다.
-Kubernetes 환경은 클라우드 IAM, 클러스터 제어면, 컨테이너 이미지, 애플리케이션 코드가 연결됨.
-한 계층의 통제 누락이 다른 계층 권한 상승으로 확장되므로 계층별 예방·탐지·대응 설계가 필요함.
+- 개요: 4계층 클라우드 네이티브 보안
+- 배경: Kubernetes 환경은 클라우드 IAM, 클러스터 제어면, 컨테이너 이미지, 애플리케이션 코드가 연결됨.
+- 필요성: CIS Kubernetes Benchmark와 Pod Security Standards 기준으로 Cloud·Cluster·Container·Code 계층별 통제를 분리해야 함.
 
 ---
 

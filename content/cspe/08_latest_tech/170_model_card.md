@@ -39,13 +39,15 @@ weight: 170
 
 ## Ⅰ. 개요 및 필요성
 
-Model Card는 AI 모델 설명 문서이다. 모델 파일만으로는 학습 데이터와 성능 범위, 한계, 위험을 알 수 없다. 모델 카드는 배포와 재사용 시 책임 있는 사용을 위한 기준 정보를 제공한다.
+- 개요: AI 모델 설명과 사용조건 문서이다.
+- 배경: 모델 파일만으로는 학습 데이터, 평가 범위, 한계, 금지 용도를 확인할 수 없다.
+- 필요성: Model Card는 intended use, metric, limitation, risk 항목으로 배포·재사용 판단 기준을 제공한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Model Metadata → Intended Use → Data/Evaluation
-  → Limitations/Risks → Monitoring/Versioning
+Model Metadata -> Intended Use -> Data/Evaluation
+  -> Limitations/Risks -> Monitoring/Versioning
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Model Metadata → Intended Use → Data/Evaluation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 개발 → 평가 결과 수집 → 사용 조건/한계 작성
-  → 배포 심의 첨부 → 운영 지표 갱신 → 버전 관리
+모델 개발 -> 평가 결과 수집 -> 사용 조건/한계 작성
+  -> 배포 심의 첨부 -> 운영 지표 갱신 -> 버전 관리
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Model Metadata → Intended Use → Data/Evaluation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Model Card를 설명하시오" | 메타데이터→평가→한계→운영 흐름 | README 대비 차이 |
+| 포괄형 | "Model Card를 설명하시오" | 메타데이터->평가->한계->운영 흐름 | README 대비 차이 |
 | 요구사항 명시형 | "AI 투명성 확보 방안을 제시하시오" | 필수 항목·갱신 조건·배포 게이트 | 모델 카드·데이터 카드 연계 |
 
 > 요약: 설명형은 모델 카드 구성, 방안형은 배포 승인과 운영 갱신 절차를 중심으로 작성함.

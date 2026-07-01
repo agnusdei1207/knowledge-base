@@ -152,7 +152,7 @@ DPO 주요 역할:
 
 ### 결론
 
-빅데이터 법적 분쟁은 기술의 발전 속도를 법이 따라가지 못하는 **규제 갭(Regulatory Gap)** 에서 발생한다. Cambridge Analytica, Schrems II, EU AI Act 등의 사례는 단순한 법적 사건이 아니라 <strong>데이터 거버넌스 설계 원칙의 변곡점</strong>이다. 정보통신기술사는 최신 판례와 법제 변화를 지속적으로 추적하고, Privacy by Design과 DPIA를 시스템 설계의 필수 요소로 내재화해야 한다.
+빅데이터 법적 분쟁은 기술의 발전 속도를 법이 따라가지 못하는 **규제 갭(Regulatory Gap)** 에서 발생한다. Cambridge Analytica, Schrems II, EU AI Act 등의 사례는 단순한 법적 사건이 아니라 <strong>데이터 거버넌스 설계 원칙의 변곡점</strong>이다. 컴퓨터시스템응용기술사는 최신 판례와 법제 변화를 지속적으로 추적하고, Privacy by Design과 DPIA를 시스템 설계의 필수 요소로 내재화해야 한다.
 
 **📢 섹션 요약 비유**: 빅데이터 법적 분쟁에서 배우는 교훈은 <strong>교통사고 판례에서 도로 설계 기준이 발전하는 것</strong>과 같다. 사고(분쟁)가 발생할 때마다 더 안전한 설계 기준(거버넌스 원칙)이 만들어진다.
 

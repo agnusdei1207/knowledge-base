@@ -55,7 +55,9 @@ weight: 112
 
 ## Ⅰ. 개요 및 필요성
 
-샤딩은 데이터를 여러 DB 노드에 수평 분산하는 기법이다. 단일 writer의 CPU·IOPS·스토리지 한계가 명확할 때 샤드별 writer를 두어 부하를 나눈다. 대규모 서비스에서는 샤드 키 설계가 장애 격리, 조회 지연, 리샤딩 비용을 좌우한다.
+- 개요: 샤딩은 DB 노드 수평 분산 기법이다.
+- 배경: 단일 writer의 CPU, IOPS, 스토리지 한계가 지속되면 스케일업만으로 쓰기 부하를 감당하기 어렵다.
+- 필요성: shard key, shard map, router, resharding 기준으로 장애 격리, 조회 지연, cross-shard transaction 비용을 설계해야 한다.
 
 ---
 

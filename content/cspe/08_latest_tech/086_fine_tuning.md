@@ -16,7 +16,7 @@ weight: 86
 - **핵심 직관**: 이미 대학 교육을 받은 사람에게 회사 업무 매뉴얼과 사례를 추가 훈련시키는 과정임.
 
 ## 깊이 이해
-- **배경·문제의식**: Prompt Engineering은 입력 설계만으로 빠르게 개선하지만 모델 내부 지식·스타일·판단 기준을 바꾸지는 못함. Fine-Tuning은 도메인 데이터를 통해 모델 가중치를 직접 조정함.
+- **배경·문제의식**: Prompt Engineering은 입력 설계만 바꾸지만 모델 내부 지식·스타일·판단 기준을 바꾸지는 못함. Fine-Tuning은 도메인 데이터를 통해 모델 가중치를 직접 조정함.
 - **작동 원리**: base model을 선택하고 학습 데이터를 정제한 뒤, supervised fine-tuning으로 입력-출력 패턴을 학습함. 필요 시 PEFT로 일부 파라미터만 업데이트함.
 - **비유**: 범용 번역가에게 회사 용어집과 과거 번역문을 반복 학습시켜 사내 문체를 맞추게 하는 것과 같음.
 - **구체 예시**: 고객센터 50K건 질의응답으로 SFT를 수행하면 응답 형식 준수율과 도메인 F1을 개선할 수 있음.
@@ -56,8 +56,8 @@ weight: 86
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Base Model → Training Data → Fine-Tuning Job
-      → Tuned Model → Evaluation → Deployment
+Base Model -> Training Data -> Fine-Tuning Job
+      -> Tuned Model -> Evaluation -> Deployment
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Base Model → Training Data → Fine-Tuning Job
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 설정 → 데이터 정제 → 학습 설정 → 추가 학습
-    → 평가·회귀 검증 → 배포·모니터링
+목표 설정 -> 데이터 정제 -> 학습 설정 -> 추가 학습
+    -> 평가·회귀 검증 -> 배포·모니터링
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

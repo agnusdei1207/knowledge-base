@@ -61,8 +61,8 @@ weight: 39
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Raw Text → Normalizer → Pre-tokenizer → Subword Tokenizer
-    → Token IDs → Embedding Lookup → Model Input
+Raw Text -> Normalizer -> Pre-tokenizer -> Subword Tokenizer
+    -> Token IDs -> Embedding Lookup -> Model Input
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,15 +72,15 @@ Raw Text → Normalizer → Pre-tokenizer → Subword Tokenizer
 | Subword Algorithm | BPE·WordPiece·SentencePiece 분할 | OOV 완화 |
 | Special Token | BOS/EOS/PAD/UNK 등 제어 | 채팅 템플릿 포함 |
 
-> 요약: 토큰화는 정규화→부분단어 분할→ID 변환→임베딩 조회의 입력 파이프라인을 구성함.
+> 요약: 토큰화는 정규화->부분단어 분할->ID 변환->임베딩 조회의 입력 파이프라인을 구성함.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-학습 코퍼스 → 빈도 기반 병합(BPE) → Vocabulary 생성
-    → 입력 문장 분할 → Token ID 변환 → 임베딩 조회
+학습 코퍼스 -> 빈도 기반 병합(BPE) -> Vocabulary 생성
+    -> 입력 문장 분할 -> Token ID 변환 -> 임베딩 조회
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

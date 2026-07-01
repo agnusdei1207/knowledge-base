@@ -39,13 +39,15 @@ weight: 184
 
 ## Ⅰ. 개요 및 필요성
 
-Confidential Computing은 사용 중 데이터 보호 모델이다. 클라우드 워크로드는 처리 중 메모리와 관리자 권한에 노출될 수 있다. TEE와 원격 검증으로 민감 연산 경계를 보호해야 한다.
+- 개요: 사용 중 데이터까지 보호하는 모델이다.
+- 배경: 클라우드 워크로드는 처리 중 메모리, 하이퍼바이저, 관리자 권한에 노출될 수 있다.
+- 필요성: Confidential Computing은 TEE, memory encryption, remote attestation으로 민감 연산 경계를 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Confidential VM/Enclave → Memory Encryption
-  → Remote Attestation → Policy-based Key Release
+Confidential VM/Enclave -> Memory Encryption
+  -> Remote Attestation -> Policy-based Key Release
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Confidential VM/Enclave → Memory Encryption
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-워크로드 측정 → 기밀 VM 생성 → 원격 검증
-  → 키 릴리스 → 민감 처리 수행
+워크로드 측정 -> 기밀 VM 생성 -> 원격 검증
+  -> 키 릴리스 -> 민감 처리 수행
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Confidential VM/Enclave → Memory Encryption
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Confidential Computing을 설명하시오" | 측정→검증→키 릴리스 흐름 | 전통 클라우드 보안 대비 차이 |
+| 포괄형 | "Confidential Computing을 설명하시오" | 측정->검증->키 릴리스 흐름 | 전통 클라우드 보안 대비 차이 |
 | 요구사항 명시형 | "클라우드 민감정보 보호 방안을 제시하시오" | 기밀 VM·KMS·감사 절차 | 운영자 신뢰 최소화 기준 |
 
 > 요약: 설명형은 사용 중 데이터 보호 구조, 방안형은 클라우드 워크로드의 검증·키관리·운영통제를 중심으로 작성함.

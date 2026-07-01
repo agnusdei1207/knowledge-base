@@ -39,14 +39,16 @@ weight: 143
 
 ## Ⅰ. 개요 및 필요성
 
-Visual Question Answering은 이미지 기반 질의응답 태스크임. 이미지 캡셔닝은 전체 설명에 적합하지만 특정 질문에 직접 답하지 못할 수 있다. VQA는 이미지 내 관련 영역과 질문 의도를 결합해 답을 생성한다.
+- 개요: 이미지 기반 질의응답 태스크
+- 배경: 이미지 캡셔닝은 전체 장면 설명에 적합하지만 특정 객체, 수량, 위치 질문에 직접 답하지 못할 수 있다.
+- 필요성: visual grounding과 language reasoning을 결합해 VQA accuracy, grounding IoU, hallucination rate로 응답을 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Image → Vision Encoder ┐
-                       ├→ Fusion/Cross-Attention → Answer Decoder
-Question → Text Encoder┘
+Image -> Vision Encoder
+                        -> Fusion/Cross-Attention -> Answer Decoder
+Question -> Text Encoder
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -61,8 +63,8 @@ Question → Text Encoder┘
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이미지+질문 입력 → 이미지/질문 인코딩
-  → 질문 관련 영역 attention → 추론/계산 → 답변 출력
+이미지+질문 입력 -> 이미지/질문 인코딩
+  -> 질문 관련 영역 attention -> 추론/계산 -> 답변 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +102,7 @@ Question → Text Encoder┘
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "VQA를 설명하시오" | 이미지/질문 인코딩→attention→답변 흐름 | 캡셔닝 대비 차이 |
+| 포괄형 | "VQA를 설명하시오" | 이미지/질문 인코딩->attention->답변 흐름 | 캡셔닝 대비 차이 |
 | 요구사항 명시형 | "시각 질의응답 적용 방안을 제시하시오" | OCR·수치·근거 영역 검증 | 업무별 질문 유형·품질 지표 |
 
 > 요약: 설명형은 시각-질문 융합 원리, 방안형은 질문 유형별 적용과 검증 기준을 중심으로 작성함.

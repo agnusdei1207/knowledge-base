@@ -39,13 +39,15 @@ weight: 208
 
 ## Ⅰ. 개요 및 필요성
 
-Content Credentials는 콘텐츠 출처 증명 방식이다. AI 생성·편집 콘텐츠는 생성 과정과 편집 이력의 투명성이 필요하다. 암호 서명 기반 provenance를 통해 무결성을 검증한다.
+- 개요: 콘텐츠 출처와 편집 이력 증명 방식이다.
+- 배경: AI 생성·편집 콘텐츠는 생성 도구, 편집 단계, 게시 주체를 확인할 수 없으면 위변조 판단이 어렵다.
+- 필요성: Content Credentials는 C2PA manifest와 digital signature로 provenance 무결성을 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Creator/Tool → Manifest/Claim → Digital Signature
-  → Content Binding → Viewer Verification
+Creator/Tool -> Manifest/Claim -> Digital Signature
+  -> Content Binding -> Viewer Verification
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Creator/Tool → Manifest/Claim → Digital Signature
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-생성·편집 기록 → assertion 생성 → claim 서명
-  → 콘텐츠 결합 → 검증·표시
+생성·편집 기록 -> assertion 생성 -> claim 서명
+  -> 콘텐츠 결합 -> 검증·표시
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -92,14 +94,14 @@ Creator/Tool → Manifest/Claim → Digital Signature
 3. 사용자 표시: 언론·공공 사이트는 Content Credentials pin과 편집 이력 요약을 제공해 provenance 확인 경로 제공
 
 **결론 (2줄):**
-- 기술사 판단: 공개 신뢰가 중요한 콘텐츠는 Content Credentials를 기본 적용하고 워터마킹·딥페이크 탐지를 보완 적용
+- 기술사 판단: 공개 검증이 필요한 콘텐츠는 Content Credentials를 기본 적용하고 워터마킹·딥페이크 탐지를 보완 적용
 - 향후 방향: Content Credentials는 C2PA 표준과 플랫폼 표시 정책을 통해 합성 미디어 신뢰 인프라로 확산됨
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Content Credentials를 설명하시오" | 기록→서명→검증 흐름 | 워터마킹 대비 차이 |
+| 포괄형 | "Content Credentials를 설명하시오" | 기록->서명->검증 흐름 | 워터마킹 대비 차이 |
 | 요구사항 명시형 | "디지털 콘텐츠 진위증명 방안을 제시하시오" | manifest·signature·viewer 적용 | metadata stripping 대응 |
 
 > 요약: 설명형은 콘텐츠 provenance 구조, 방안형은 생성 파이프라인과 검증·표시 체계를 중심으로 작성함.

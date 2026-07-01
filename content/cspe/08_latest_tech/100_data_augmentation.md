@@ -39,13 +39,15 @@ weight: 100
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 증강은 기존 데이터를 의미 보존 변형으로 확장하는 기법임. 제한된 데이터로 학습하는 모델의 과적합을 줄이고 실제 입력 변화에 대한 일반화 성능을 확보함.
+- 개요: 의미 보존 변형 기반 데이터 확장 기법
+- 배경: 제한된 데이터만으로 학습하면 모델이 특정 표현, 배경, 노이즈 패턴에 과적합될 수 있음.
+- 필요성: crop·noise·paraphrase 등 변형 규칙과 label validation, holdout 평가로 일반화 성능과 라벨 오류를 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Original Dataset → Augmentation Policy → Transformed Samples
-      → Label Validation → Training → Real Test Evaluation
+Original Dataset -> Augmentation Policy -> Transformed Samples
+      -> Label Validation -> Training -> Real Test Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Original Dataset → Augmentation Policy → Transformed Samples
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 분석 → 증강 정책 선택 → 샘플 변형
-    → 라벨 의미 검증 → 학습 반영 → 실제 테스트셋 평가
+데이터 분석 -> 증강 정책 선택 -> 샘플 변형
+    -> 라벨 의미 검증 -> 학습 반영 -> 실제 테스트셋 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -39,13 +39,15 @@ weight: 139
 
 ## Ⅰ. 개요 및 필요성
 
-Multimodal AI는 복수 모달리티를 처리하는 AI 기술임. 실제 업무 데이터는 텍스트, 이미지, 음성, 영상, 센서가 결합되어 있다. 여러 데이터 형식을 함께 해석해 정보 누락을 줄이고 복합 판단을 지원한다.
+- 개요: 복수 모달리티 처리 AI 기술
+- 배경: 실제 업무 데이터는 텍스트, 이미지, 음성, 영상, 센서가 결합되어 단일 모달 모델로 해석 범위가 제한된다.
+- 필요성: modality encoder와 fusion layer로 cross-modal retrieval, VQA, speech analytics의 누락률과 정확도를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Text/Image/Audio/Video → Modal Encoders
-  → Fusion Layer(Cross-Attention) → Reasoner/Generator → Output
+Text/Image/Audio/Video -> Modal Encoders
+  -> Fusion Layer(Cross-Attention) -> Reasoner/Generator -> Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Text/Image/Audio/Video → Modal Encoders
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-멀티모달 입력 → 모달별 전처리 → 임베딩
-  → 정렬/융합 → 추론·생성 → 결과 검증
+멀티모달 입력 -> 모달별 전처리 -> 임베딩
+  -> 정렬/융합 -> 추론·생성 -> 결과 검증
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Text/Image/Audio/Video → Modal Encoders
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Multimodal AI를 설명하시오" | 모달 인코딩→정렬→융합→출력 흐름 | 단일 모달 대비 차이 |
+| 포괄형 | "Multimodal AI를 설명하시오" | 모달 인코딩->정렬->융합->출력 흐름 | 단일 모달 대비 차이 |
 | 요구사항 명시형 | "멀티모달 AI 적용 방안을 제시하시오" | 업무별 입력·정렬·검증 기준 | 비용·개인정보·정확도 지표 |
 
 > 요약: 설명형은 모달 융합 원리, 방안형은 업무 적용과 운영 리스크를 중심으로 작성함.

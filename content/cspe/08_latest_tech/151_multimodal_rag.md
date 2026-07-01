@@ -39,13 +39,15 @@ weight: 151
 
 ## Ⅰ. 개요 및 필요성
 
-Multimodal RAG는 복수 모달 근거를 활용하는 검색증강생성 구조임. 기업 지식은 텍스트뿐 아니라 표, 이미지, 도면, 음성에 분산되어 있다. 모달별 근거를 검색·융합해 답변 품질과 근거 범위를 확장한다.
+- 개요: 복수 모달 근거 활용 RAG 구조
+- 배경: 기업 지식은 텍스트뿐 아니라 표, 이미지, 도면, 음성에 분산되어 텍스트 RAG만으로 근거 범위가 제한된다.
+- 필요성: modality-specific retriever와 fusion으로 modality coverage, groundedness, answer accuracy를 함께 측정한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Docs/Image/Table/Audio → Modal Parsers → Modal Indexes
-  → Fusion Retriever → VLM/LLM Generator → Multimodal Citation
+Docs/Image/Table/Audio -> Modal Parsers -> Modal Indexes
+  -> Fusion Retriever -> VLM/LLM Generator -> Multimodal Citation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Docs/Image/Table/Audio → Modal Parsers → Modal Indexes
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-멀티모달 문서 수집 → 모달별 추출/임베딩
-  → 질의 분석 → 텍스트/이미지/표 검색 → 근거 융합 → 답변 생성
+멀티모달 문서 수집 -> 모달별 추출/임베딩
+  -> 질의 분석 -> 텍스트/이미지/표 검색 -> 근거 융합 -> 답변 생성
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Docs/Image/Table/Audio → Modal Parsers → Modal Indexes
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Multimodal RAG를 설명하시오" | 모달 추출→색인→융합→생성 흐름 | Text RAG 대비 차이 |
+| 포괄형 | "Multimodal RAG를 설명하시오" | 모달 추출->색인->융합->생성 흐름 | Text RAG 대비 차이 |
 | 요구사항 명시형 | "복합 문서 RAG 구축 방안을 제시하시오" | OCR·표·이미지 citation 기준 | 모달별 품질·권한 통제 |
 
 > 요약: 설명형은 멀티모달 검색 구조, 방안형은 복합 문서 처리와 검증 기준을 중심으로 작성함.

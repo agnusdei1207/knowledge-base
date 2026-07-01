@@ -17,7 +17,7 @@ weight: 121
 
 ## 깊이 이해
 - **배경·문제의식**: BM25(키워드 매칭)는 의미 불일치(vocabulary mismatch)에 약하고, Cross-Encoder는 정확하지만 100만 문서에 대해 수십 초가 걸린다. Bi-Encoder가 "의미 이해 + 속도"를 동시에 해결한다.
-- **작동 원리**: ① 질의·문서를 각각 BERT 인코더에 넣어 [CLS] 벡터(768-d)를 추출한다. ② 문서 벡터는 오프라인 인덱싱(FAISS/ScaNN)에 저장한다. ③ 질의 벡터로 ANN 검색 → top-k 후보 반환, p99 지연 10ms 이하.
+- **작동 원리**: ① 질의·문서를 각각 BERT 인코더에 넣어 [CLS] 벡터(768-d)를 추출한다. ② 문서 벡터는 오프라인 인덱싱(FAISS/ScaNN)에 저장한다. ③ 질의 벡터로 ANN 검색 -> top-k 후보 반환, p99 지연 10ms 이하.
 - **비유**: 도서관에서 책마다 "내용 요약 카드"를 미리 만들어 서랍에 넣어두고, 질문이 오면 질문 카드와 가장 비슷한 카드를 서랍에서 꺼내는 것과 같다.
 - **구체 예시**: DPR(Dense Passage Retriever)은 Wikipedia 2,100만 패시지를 768-d 벡터로 인덱싱, top-20 Recall@20 78.4% 달성(NQ 데이터셋).
 - **흔한 오해·주의점**: Bi-Encoder는 질의-문서 토큰 간 직접 상호작용이 없어 세밀한 의미 비교에 한계가 있다. 그래서 실무에서는 Bi-Encoder(1차 검색) + Cross-Encoder(2차 리랭킹) 파이프라인을 쓴다.
@@ -36,20 +36,22 @@ weight: 121
 
 > 1. **본질**: 질의·문서를 독립 인코딩 후 벡터 유사도로 검색하는 Dense Retrieval 구조
 > 2. **가치**: 수천만 문서 대상 p99 10ms 이하 의미 검색 실현, BM25 대비 Recall@20 15~20%p 향상
-> 3. **판단 포인트**: 단독 사용 시 토큰 상호작용 부재로 정밀도 한계 → 리랭킹(Cross-Encoder) 또는 ColBERT 병행 필요
+> 3. **판단 포인트**: 단독 사용 시 토큰 상호작용 부재로 정밀도 한계 -> 리랭킹(Cross-Encoder) 또는 ColBERT 병행 필요
 
 
 ## Ⅰ. 개요 및 필요성
 
-질의·문서를 독립 임베딩하여 벡터 유사도로 검색하는 모델. BM25는 어휘 불일치에 취약하고 Cross-Encoder는 O(N) 추론으로 대규모 검색이 불가하여, 의미 이해와 실시간 속도를 양립할 구조가 필요하다.
+- 개요: 질의·문서 독립 임베딩 검색 모델
+- 배경: BM25는 어휘 불일치에 취약하고 Cross-Encoder는 문서 수 N에 비례하는 추론 비용이 발생한다.
+- 필요성: FAISS·ScaNN 기반 ANN 인덱스로 수천만 문서 검색의 p99 10ms 이하 지연과 Recall@20 검증이 필요하다.
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query → Query Encoder → q-vec(768-d)
-Document Corpus → Doc Encoder → d-vec(768-d)
-q-vec + d-vec → ANN Index(FAISS/ScaNN) → Top-k
+Query -> Query Encoder -> q-vec(768-d)
+Document Corpus -> Doc Encoder -> d-vec(768-d)
+q-vec + d-vec -> ANN Index(FAISS/ScaNN) -> Top-k
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -65,17 +67,17 @@ q-vec + d-vec → ANN Index(FAISS/ScaNN) → Top-k
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → Query Encoder → q-vec → ANN 검색 → Top-k 후보 → (리랭킹) → 최종 결과
-                                        ↑
-                 오프라인: Doc Encoder → d-vec → FAISS 인덱싱
+질의 입력 -> Query Encoder -> q-vec -> ANN 검색 -> Top-k 후보 -> (리랭킹) -> 최종 결과
+                                        증가
+                 오프라인: Doc Encoder -> d-vec -> FAISS 인덱싱
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | 문서 오프라인 인코딩 → 768-d 벡터 생성 | 2,100만 문서: GPU 4장 기준 약 4시간 |
+| 1 | 문서 오프라인 인코딩 -> 768-d 벡터 생성 | 2,100만 문서: GPU 4장 기준 약 4시간 |
 | 2 | FAISS IVF-PQ 인덱스 구축 | nprobe=64, 재현율 95% 이상 |
-| 3 | 질의 실시간 인코딩 → ANN Top-k 검색 | p99 지연 10ms, Recall@20 ≥ 78% |
-| 4 | (선택) Cross-Encoder 리랭킹 | Top-100 → Top-10, MRR@10 +8%p |
+| 3 | 질의 실시간 인코딩 -> ANN Top-k 검색 | p99 지연 10ms, Recall@20 ≥ 78% |
+| 4 | (선택) Cross-Encoder 리랭킹 | Top-100 -> Top-10, MRR@10 +8%p |
 
 > 요약: 문서는 오프라인 벡터화·인덱싱하고, 질의만 실시간 인코딩하여 ANN 검색으로 밀리초 단위 응답을 실현한다.
 
@@ -95,9 +97,9 @@ q-vec + d-vec → ANN Index(FAISS/ScaNN) → Top-k
 ## Ⅴ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. RAG 파이프라인 Retriever: DPR + FAISS로 2,100만 문서 검색 → LLM 컨텍스트 주입, Recall@20 78%
+1. RAG 파이프라인 Retriever: DPR + FAISS로 2,100만 문서 검색 -> LLM 컨텍스트 주입, Recall@20 78%
 2. 사내 검색엔진: Sentence-BERT 768-d + ScaNN 인덱스, 500만 문서 p99 8ms, BM25 하이브리드 가중합
-3. 추천 시스템: 사용자 질의·아이템 Bi-Encoder 임베딩 → ANN 실시간 추천, CTR 12% 향상
+3. 추천 시스템: 사용자 질의·아이템 Bi-Encoder 임베딩 -> ANN 실시간 추천, CTR 12% 향상
 
 **결론 (2줄):**
 - 기술사 판단: 문서 100만 이상이면 Bi-Encoder + ANN 필수, 정밀도 요구 시 Cross-Encoder 리랭킹 추가

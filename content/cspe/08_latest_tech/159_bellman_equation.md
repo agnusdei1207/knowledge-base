@@ -39,13 +39,15 @@ weight: 159
 
 ## Ⅰ. 개요 및 필요성
 
-Bellman Equation은 강화학습 가치함수의 재귀 방정식임. 순차 의사결정은 현재 행동이 미래 보상에 영향을 준다. Bellman Equation은 장기 보상을 즉시 보상과 미래 가치로 분해해 최적 정책을 계산한다.
+- 개요: 가치함수 재귀 방정식
+- 배경: 순차 의사결정은 현재 행동이 즉시 보상뿐 아니라 미래 상태의 가치에도 영향을 준다.
+- 필요성: value iteration, Q-learning, dynamic programming에서 즉시 보상과 할인 미래 가치를 분해해 최적 정책을 계산한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-State s + Action a → Reward R(s,a)
-  + Discount γ × Expected Future Value V(s') → Value V(s)
+State s + Action a -> Reward R(s,a)
+  + Discount γ × Expected Future Value V(s') -> Value V(s)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ State s + Action a → Reward R(s,a)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-가치 초기화 → 각 상태의 행동별 보상+미래가치 계산
-  → 최대값으로 V 갱신 → 수렴 반복 → 최적 정책 추출
+가치 초기화 -> 각 상태의 행동별 보상+미래가치 계산
+  -> 최대값으로 V 갱신 -> 수렴 반복 -> 최적 정책 추출
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

@@ -39,13 +39,15 @@ weight: 153
 
 ## Ⅰ. 개요 및 필요성
 
-OCR with LLM은 문자 인식과 언어 이해를 결합한 문서 AI 방식임. OCR 단독은 문자 추출에 그치고 문서 의미·필드 관계를 해석하지 못한다. LLM은 OCR 결과를 업무 스키마에 맞게 구조화한다.
+- 개요: OCR과 LLM 결합 문서 AI 방식
+- 배경: OCR 단독은 문자 추출에 머물러 문서 의미, 필드 관계, 예외 표현을 업무 스키마로 해석하기 어렵다.
+- 필요성: OCR 결과를 LLM으로 검증·정규화해 field extraction F1, schema validation error, human review rate를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Document → OCR(text+bbox) → Layout Blocks
-  → LLM Schema Extraction → Validation → JSON/Citation
+Document -> OCR(text+bbox) -> Layout Blocks
+  -> LLM Schema Extraction -> Validation -> JSON/Citation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Document → OCR(text+bbox) → Layout Blocks
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 입력 → OCR/좌표 추출 → 레이아웃 직렬화
-  → LLM 필드 추출 → JSON 검증 → 원문 좌표 citation
+문서 입력 -> OCR/좌표 추출 -> 레이아웃 직렬화
+  -> LLM 필드 추출 -> JSON 검증 -> 원문 좌표 citation
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Document → OCR(text+bbox) → Layout Blocks
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "OCR+LLM을 설명하시오" | OCR→레이아웃 직렬화→LLM 추출 흐름 | OCR 단독 대비 차이 |
+| 포괄형 | "OCR+LLM을 설명하시오" | OCR->레이아웃 직렬화->LLM 추출 흐름 | OCR 단독 대비 차이 |
 | 요구사항 명시형 | "문서 이해 시스템 구축 방안을 제시하시오" | JSON schema·citation·검수 큐 기준 | 환각·오인식 통제 방안 |
 
 > 요약: 설명형은 OCR과 LLM 결합 원리, 방안형은 구조화 추출과 근거 검증 기준을 중심으로 작성함.

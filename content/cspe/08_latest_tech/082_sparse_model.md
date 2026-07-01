@@ -39,13 +39,15 @@ weight: 82
 
 ## Ⅰ. 개요 및 필요성
 
-희소 모델은 선택적 연산 구조임. 대형 dense model의 모든 파라미터를 매 요청 사용하면 비용이 증가하므로, 필요한 weight·neuron·expert만 활성화해 계산량을 줄임.
+- 개요: 필요한 연산만 활성화하는 모델 구조
+- 배경: dense model은 요청마다 모든 파라미터를 사용해 모델 용량 증가가 token당 FLOPs 증가로 이어짐.
+- 필요성: sparsity mask, router, sparse kernel, load balance loss로 활성 FLOPs와 품질·부하 편중을 함께 관리해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input Token → Router/Mask → Active Weights/Experts
-      → Sparse Compute → Output → Load/Quality Monitor
+Input Token -> Router/Mask -> Active Weights/Experts
+      -> Sparse Compute -> Output -> Load/Quality Monitor
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Input Token → Router/Mask → Active Weights/Experts
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 수신 → 활성 요소 선택 → 선택 부분만 계산
-    → 출력 결합 → load·latency·accuracy 평가
+입력 수신 -> 활성 요소 선택 -> 선택 부분만 계산
+    -> 출력 결합 -> load·latency·accuracy 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

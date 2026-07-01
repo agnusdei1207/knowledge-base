@@ -69,7 +69,7 @@ HF Checkpoint -> Model Convert -> TensorRT Engine Build
 | Runtime | inflight batching·KV cache 관리 | C++/Python runtime |
 | GPU Kernel | fused attention·GEMM 실행 | Tensor Core 활용 |
 
-> 요약: TensorRT-LLM은 모델 변환→엔진 빌드→런타임 실행 단계로 NVIDIA GPU 추론을 최적화함.
+> 요약: TensorRT-LLM은 모델 변환->엔진 빌드->런타임 실행 단계로 NVIDIA GPU 추론을 최적화함.
 
 ---
 
@@ -147,7 +147,7 @@ HF Checkpoint -> Model Convert -> TensorRT Engine Build
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 변환→빌드→런타임 흐름 | vLLM 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | 변환->빌드->런타임 흐름 | vLLM 대비 특징 |
 | 요구사항 명시형 | 비교하시오, 도입 방안을 제시하시오 | precision·엔진 빌드·벤치마크 절차 | 성능·종속성·운영비 기준 |
 
 > 요약: 설명형은 GPU 최적화 구조, 비교형은 vLLM 대비 선택 기준과 검증 절차 중심으로 목차를 전환함.

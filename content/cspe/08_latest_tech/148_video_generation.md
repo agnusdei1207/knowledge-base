@@ -39,13 +39,15 @@ weight: 148
 
 ## Ⅰ. 개요 및 필요성
 
-Video Generation은 조건 기반 영상 생성 기술임. 영상 제작은 촬영·편집·후반작업 비용이 크고 반복 시간이 길다. 생성모델은 텍스트·이미지 조건으로 시간적 일관성을 갖춘 영상 후보를 빠르게 만든다.
+- 개요: 조건 기반 영상 생성 기술
+- 배경: 영상 제작은 촬영, 편집, 후반작업 비용이 크고 프레임 간 시간 일관성 검증이 필요하다.
+- 필요성: text/image condition과 temporal module로 frame consistency, FVD, human preference 기준의 영상 후보를 생성한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt/Image/Audio → Condition Encoder
-  → Spatio-temporal Generator → Frame Decoder → Safety/Watermark
+Prompt/Image/Audio -> Condition Encoder
+  -> Spatio-temporal Generator -> Frame Decoder -> Safety/Watermark
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Prompt/Image/Audio → Condition Encoder
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-조건 입력 → 시간축 latent 초기화 → frame denoising
-  → motion consistency 보정 → 영상 복원 → 안전 검수
+조건 입력 -> 시간축 latent 초기화 -> frame denoising
+  -> motion consistency 보정 -> 영상 복원 -> 안전 검수
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Prompt/Image/Audio → Condition Encoder
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Video Generation을 설명하시오" | 조건→시간축 생성→일관성 검증 흐름 | 이미지 생성 대비 차이 |
+| 포괄형 | "Video Generation을 설명하시오" | 조건->시간축 생성->일관성 검증 흐름 | 이미지 생성 대비 차이 |
 | 요구사항 명시형 | "영상 생성 활용 방안을 제시하시오" | FVD·flicker·워터마크 기준 | 딥페이크·권리·검수 정책 |
 
 > 요약: 설명형은 시간축 생성 원리, 방안형은 활용 시 품질·안전 검증 기준을 중심으로 작성함.

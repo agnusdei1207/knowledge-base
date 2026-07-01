@@ -54,7 +54,9 @@ weight: 110
 
 ## Ⅰ. 개요 및 필요성
 
-B-Tree와 LSM-Tree는 DB 저장 엔진의 대표 인덱스 구조이다. B-Tree는 정렬 page를 제자리 갱신하고, LSM-Tree는 메모리 쓰기 후 정렬 파일로 flush·compaction한다. 워크로드의 읽기·쓰기 비율에 따라 선택 기준이 달라진다.
+- 개요: B-Tree·LSM은 저장 엔진 인덱스이다.
+- 배경: B-Tree는 정렬 page를 제자리 갱신하고 LSM-Tree는 WAL, MemTable, SSTable, Compaction으로 쓰기를 흡수한다.
+- 필요성: read amplification, write amplification, compaction debt, tail latency를 워크로드별로 비교해야 한다.
 
 ---
 

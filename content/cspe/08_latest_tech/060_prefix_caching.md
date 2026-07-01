@@ -19,7 +19,7 @@ weight: 60
 - **배경·문제의식**: LLM 요청은 `system prompt + policy + retrieved context + user query`로 구성됨. 동일한 앞부분(prefix)을 매번 prefill하면 GPU compute가 반복 낭비됨.
 - **작동 원리**: 토큰화된 prefix를 해시 키로 만들고, 해당 prefix의 KV Cache가 있으면 prefill을 건너뛰거나 suffix만 계산함. prefix가 조금이라도 달라지면 cache miss가 발생함.
 - **비유**: 시험 답안의 공통 머리말을 매번 새로 쓰지 않고, 미리 작성된 머리말 뒤에 문제별 본문만 이어 쓰는 것과 같음.
-- **구체 예시**: 긴 system prompt 2K 토큰이 모든 요청에 공통이면, prefix cache hit 시 prefill 토큰 2K 계산을 생략해 TTFT를 800ms→80ms 수준으로 줄일 수 있음.
+- **구체 예시**: 긴 system prompt 2K 토큰이 모든 요청에 공통이면, prefix cache hit 시 prefill 토큰 2K 계산을 생략해 TTFT를 800ms->80ms 수준으로 줄일 수 있음.
 - **흔한 오해·주의점**: prefix caching은 완전히 같은 prefix에 강함. 사용자별 권한·시간·검색 결과가 prefix 앞쪽에 섞이면 hit rate가 낮아짐.
 
 ## 연결 개념
@@ -76,9 +76,9 @@ Request Prefix -> Token Hash -> Prefix Cache Lookup
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 → prefix 추출 → hash 조회
-    → hit: cached KV 재사용 → suffix 계산 → 응답
-    → miss: 전체 prefill → KV 저장 → 응답
+요청 수신 -> prefix 추출 -> hash 조회
+    -> hit: cached KV 재사용 -> suffix 계산 -> 응답
+    -> miss: 전체 prefill -> KV 저장 -> 응답
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -96,7 +96,7 @@ Request Prefix -> Token Hash -> Prefix Cache Lookup
 | 구분 | Prefix Caching 미적용 | Prefix Caching 적용 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
 | prefill | 매 요청 전체 계산 | 공통 prefix 생략 | 2K token 절감 |
-| TTFT | prompt 길이에 비례 | hit 시 suffix 중심 | 800ms→80ms 사례 |
+| TTFT | prompt 길이에 비례 | hit 시 suffix 중심 | 800ms->80ms 사례 |
 | hit 조건 | 해당 없음 | prefix exact match | template 안정화 필요 |
 | 리스크 | 단순 | 권한·tenant 격리 필요 | cache key에 tenant 포함 |
 

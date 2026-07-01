@@ -39,13 +39,15 @@ weight: 207
 
 ## Ⅰ. 개요 및 필요성
 
-AI Watermarking은 AI 생성물 식별 기술이다. 생성형 AI 확산으로 콘텐츠 출처와 생성 여부 확인이 중요해졌다. 탐지 정확도와 제거 공격 저항성을 기준으로 적용해야 한다.
+- 개요: AI 생성물 식별을 위한 워터마킹 기술이다.
+- 배경: 생성형 AI 확산으로 콘텐츠 출처, 생성 여부, 편집 이력을 검증할 근거가 필요해졌다.
+- 필요성: AI Watermarking은 detection accuracy, false positive rate, removal attack resistance 기준으로 적용한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-AI Generator → Watermark Embedder → Content Output
-  → Distribution → Watermark Verifier
+AI Generator -> Watermark Embedder -> Content Output
+  -> Distribution -> Watermark Verifier
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ AI Generator → Watermark Embedder → Content Output
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-키·정책 설정 → 신호 삽입 → 콘텐츠 배포
-  → 변형 내성 검증 → 결과 표시
+키·정책 설정 -> 신호 삽입 -> 콘텐츠 배포
+  -> 변형 내성 검증 -> 결과 표시
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ AI Generator → Watermark Embedder → Content Output
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Watermarking을 설명하시오" | 삽입→배포→검증 흐름 | 사후 탐지 대비 차이 |
+| 포괄형 | "AI Watermarking을 설명하시오" | 삽입->배포->검증 흐름 | 사후 탐지 대비 차이 |
 | 요구사항 명시형 | "AI 생성물 식별 방안을 제시하시오" | 검출률·오탐률·C2PA 병행 | 제거 공격 대응 |
 
 > 요약: 설명형은 워터마크 삽입 원리, 방안형은 생성물 식별 운영 기준과 다층 검증을 중심으로 작성함.

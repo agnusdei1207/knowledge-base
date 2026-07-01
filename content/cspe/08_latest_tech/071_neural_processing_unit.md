@@ -64,7 +64,7 @@ CPU Control -> NPU Compiler -> MAC/Systolic Array
 |:---|:---|:---|
 | MAC Array | 행렬곱·컨볼루션 연산 | INT8/FP16 등 |
 | On-chip SRAM | activation·weight 재사용 | DRAM 접근 감소 |
-| NPU Compiler | graph 최적화·operator mapping | 지원 op 중요 |
+| NPU Compiler | graph 최적화·operator mapping | 지원 op 범위 확인 |
 | Runtime Driver | CPU-NPU 작업 제출 | OS·SDK 의존 |
 
 > 요약: NPU는 MAC 배열과 SRAM을 중심으로 AI 연산을 가속하고 compiler/runtime이 모델 실행 가능성을 결정함.
@@ -72,8 +72,8 @@ CPU Control -> NPU Compiler -> MAC/Systolic Array
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 변환 → graph 최적화 → operator를 NPU에 매핑
-    → tensor load → MAC 연산 → 결과 반환 → CPU 후처리
+모델 변환 -> graph 최적화 -> operator를 NPU에 매핑
+    -> tensor load -> MAC 연산 -> 결과 반환 -> CPU 후처리
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

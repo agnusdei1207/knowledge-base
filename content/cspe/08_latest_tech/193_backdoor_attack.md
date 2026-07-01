@@ -34,18 +34,20 @@ weight: 193
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Backdoor Attack은 특정 트리거 입력에서만 공격자 목표 출력을 내도록 모델을 조작하는 공격임.
-> 2. **가치**: 정상 테스트로 탐지되기 어려워 안전·보안 중요 시스템에서 치명적 오동작을 유발함.
+> 2. **가치**: 정상 테스트로 탐지되기 어려워 고위험 안전·보안 시스템에서 치명적 오동작을 유발함.
 > 3. **판단 포인트**: clean accuracy와 attack success rate를 함께 측정하고 공급망 검증을 적용해야 함.
 
 ## Ⅰ. 개요 및 필요성
 
-Backdoor Attack은 트리거 기반 모델 조작 공격이다. 외부 데이터와 사전학습 모델 사용이 늘면서 숨은 트리거가 학습 파이프라인에 들어갈 수 있다. 정상 성능 외 공격 성공률 검증이 필요하다.
+- 개요: 트리거 입력으로 모델을 조작하는 공격이다.
+- 배경: 외부 데이터와 사전학습 모델을 사용하면 숨은 트리거가 학습 파이프라인에 포함될 수 있다.
+- 필요성: Backdoor Attack은 clean accuracy와 별도로 attack success rate, trigger scan, model provenance를 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Poisoned Data/Model → Hidden Trigger → Normal Inference
-  → Triggered Input → Target Misclassification
+Poisoned Data/Model -> Hidden Trigger -> Normal Inference
+  -> Triggered Input -> Target Misclassification
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Poisoned Data/Model → Hidden Trigger → Normal Inference
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-트리거 설계 → 오염 학습 → 정상 검증 통과
-  → 트리거 입력 발생 → 목표 오동작
+트리거 설계 -> 오염 학습 -> 정상 검증 통과
+  -> 트리거 입력 발생 -> 목표 오동작
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Poisoned Data/Model → Hidden Trigger → Normal Inference
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Backdoor Attack을 설명하시오" | 트리거→목표 오동작 흐름 | 일반 오분류 대비 차이 |
+| 포괄형 | "Backdoor Attack을 설명하시오" | 트리거->목표 오동작 흐름 | 일반 오분류 대비 차이 |
 | 요구사항 명시형 | "AI 공급망 보안 방안을 제시하시오" | 모델 도입 검증·ASR 테스트 | clean accuracy 한계 |
 
 > 요약: 설명형은 조건부 오동작 원리, 방안형은 외부 모델 검증과 백도어 탐지 기준을 중심으로 작성함.

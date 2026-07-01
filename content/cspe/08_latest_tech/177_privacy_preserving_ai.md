@@ -39,13 +39,15 @@ weight: 177
 
 ## Ⅰ. 개요 및 필요성
 
-Privacy-Preserving AI는 개인정보 보호형 AI이다. 의료·금융·공공 AI는 원문 데이터 이전 없이도 공동 학습과 분석이 필요하다. 재식별, 모델 역추론, 데이터 유출 위험을 기술·절차로 통제해야 한다.
+- 개요: 개인정보 보호형 AI 기술군이다.
+- 배경: 의료·금융·공공 AI는 원문 데이터 이전 없이 기관 간 공동 학습과 분석을 수행해야 한다.
+- 필요성: 연합학습, 차분프라이버시, 동형암호, SMPC로 재식별·역추론·데이터 유출 위험을 통제한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Local Data → Privacy Technique → Secure Training
-  → Protected Model → Audit Log
+Local Data -> Privacy Technique -> Secure Training
+  -> Protected Model -> Audit Log
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Local Data → Privacy Technique → Secure Training
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-위협 모델 수립 → 보호기술 선택 → 학습·추론 수행
-  → 개인정보 위험 측정 → 감사·재승인
+위협 모델 수립 -> 보호기술 선택 -> 학습·추론 수행
+  -> 개인정보 위험 측정 -> 감사·재승인
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Local Data → Privacy Technique → Secure Training
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Privacy-Preserving AI를 설명하시오" | 위협 모델→보호기술 조합 | 중앙수집 AI 대비 차이 |
+| 포괄형 | "Privacy-Preserving AI를 설명하시오" | 위협 모델->보호기술 조합 | 중앙수집 AI 대비 차이 |
 | 요구사항 명시형 | "개인정보 보호형 AI 구축 방안을 제시하시오" | FL·DP·TEE 적용 절차 | 비용·잔여 위험 관리 |
 
 > 요약: 설명형은 기술 묶음, 방안형은 데이터 등급별 보호기술 조합과 검증 기준을 중심으로 작성함.

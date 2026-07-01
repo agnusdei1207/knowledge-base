@@ -39,13 +39,15 @@ weight: 186
 
 ## Ⅰ. 개요 및 필요성
 
-Prompt Injection은 LLM 지시 우회 공격이다. LLM 서비스는 사용자 입력을 자연어 명령으로 처리하므로 공격자가 시스템 규칙을 덮어쓰려 할 수 있다. 생성형 AI 배포 전 방어와 탐지가 필요하다.
+- 개요: LLM 지시문을 우회하는 입력 공격이다.
+- 배경: LLM 서비스는 사용자 입력을 자연어 명령으로 처리하므로 공격자가 시스템 규칙을 덮어쓰려 할 수 있다.
+- 필요성: Prompt Injection은 instruction hierarchy, input isolation, tool permission 검증으로 배포 전 통제해야 한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Input → Malicious Instruction → LLM Context
-  → Policy Bypass → Unsafe Output/Tool Call
+User Input -> Malicious Instruction -> LLM Context
+  -> Policy Bypass -> Unsafe Output/Tool Call
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ User Input → Malicious Instruction → LLM Context
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-공격 입력 작성 → 컨텍스트 삽입 → 정책 우회 시도
-  → 응답·도구 실행 → 탐지·차단
+공격 입력 작성 -> 컨텍스트 삽입 -> 정책 우회 시도
+  -> 응답·도구 실행 -> 탐지·차단
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -82,7 +84,7 @@ User Input → Malicious Instruction → LLM Context
 | 방어 | 정규식·escape | 권한·정책·출력 검증 | 다층 통제 |
 | 한계 | 패턴 기반 차단 | 변형 문장 지속 생성 | 레드팀 반복 |
 
-> 요약: Prompt Injection은 자연어 의미를 악용하므로 전통 입력 검증보다 권한과 실행 결과 통제가 중요함.
+> 요약: Prompt Injection은 자연어 의미를 악용하므로 전통 입력 검증보다 권한과 실행 결과 통제가 필요함.
 
 ## Ⅴ. 실무 적용 및 결론
 
@@ -99,7 +101,7 @@ User Input → Malicious Instruction → LLM Context
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Prompt Injection을 설명하시오" | 공격 입력→정책 우회 흐름 | 일반 입력 공격 대비 차이 |
+| 포괄형 | "Prompt Injection을 설명하시오" | 공격 입력->정책 우회 흐름 | 일반 입력 공격 대비 차이 |
 | 요구사항 명시형 | "LLM 보안 방안을 제시하시오" | 권한·출력·도구 호출 검증 | 다층 방어 기준 |
 
 > 요약: 설명형은 지시 우회 원리, 방안형은 컨텍스트 격리와 도구 권한 통제를 중심으로 작성함.

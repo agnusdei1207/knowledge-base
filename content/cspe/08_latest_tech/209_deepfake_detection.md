@@ -39,13 +39,15 @@ weight: 209
 
 ## Ⅰ. 개요 및 필요성
 
-Deepfake Detection은 합성 미디어 탐지 기술이다. AI 기반 얼굴·음성 조작은 사회적 신뢰와 인증 체계를 위협한다. 탐지 모델과 출처 증명을 결합해 대응해야 한다.
+- 개요: 합성 미디어를 판별하는 탐지 기술이다.
+- 배경: AI 기반 얼굴·음성 조작은 신원 확인, 선거 여론, 금융 인증 절차를 위협한다.
+- 필요성: Deepfake Detection은 visual artifact, audio feature, provenance signal을 결합해 합성 여부를 판정한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Media Input → Feature Extraction → Detection Model
-  → Confidence Score → Review/Action
+Media Input -> Feature Extraction -> Detection Model
+  -> Confidence Score -> Review/Action
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Media Input → Feature Extraction → Detection Model
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-콘텐츠 수집 → 전처리·특징 추출 → 탐지 점수 산출
-  → 임계값 판단 → 차단·검토·표시
+콘텐츠 수집 -> 전처리·특징 추출 -> 탐지 점수 산출
+  -> 임계값 판단 -> 차단·검토·표시
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Media Input → Feature Extraction → Detection Model
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Deepfake Detection을 설명하시오" | 특징추출→score→조치 흐름 | Content Credentials 대비 차이 |
+| 포괄형 | "Deepfake Detection을 설명하시오" | 특징추출->score->조치 흐름 | Content Credentials 대비 차이 |
 | 요구사항 명시형 | "딥페이크 대응 방안을 제시하시오" | 탐지 임계값·리뷰·provenance 병행 | 오탐·drift 관리 |
 
 > 요약: 설명형은 탐지 모델 흐름, 방안형은 플랫폼·인증 환경의 다층 검증 기준을 중심으로 작성함.

@@ -20,7 +20,7 @@ weight: 89
 - **작동 원리**: 선형층에 `W x + (B A)x * α/r` 형태의 LoRA branch를 추가하고 A·B만 학습함. 추론 시 LoRA weight를 base weight에 merge할 수 있음.
 - **비유**: 원본 계약서를 새로 쓰지 않고, 특정 조항에 부속 합의서를 붙여 업무 조건만 조정하는 것과 같음.
 - **구체 예시**: rank r=8~64로 attention q_proj/v_proj에 적용하면 학습 파라미터를 전체 대비 1% 미만으로 줄일 수 있음.
-- **흔한 오해·주의점**: rank를 높이면 항상 좋아지는 것이 아님. rank가 높으면 overfitting과 adapter 크기가 증가하므로 평가셋 기준으로 선택해야 함.
+- **흔한 오해·주의점**: rank 증가는 성능 향상을 보장하지 않음. rank가 높으면 overfitting과 adapter 크기가 증가하므로 평가셋 기준으로 선택해야 함.
 
 ## 연결 개념
 - PEFT — LoRA의 상위 범주
@@ -56,15 +56,15 @@ weight: 89
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input x → Frozen W x
-       └→ LoRA A(r) → LoRA B → scale α/r → Add → Output
+Input x -> Frozen W x
+        -> LoRA A(r) -> LoRA B -> scale α/r -> Add -> Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Frozen Weight W | 원본 모델 지식 유지 | gradient 없음 |
-| Matrix A | down projection | d→r |
-| Matrix B | up projection | r→d |
+| Matrix A | down projection | d->r |
+| Matrix B | up projection | r->d |
 | Rank/Alpha | 용량·스케일 제어 | r=8~64 |
 
 > 요약: LoRA는 원본 선형층 옆에 저랭크 branch를 추가하고 A·B만 학습해 ΔW를 근사함.
@@ -72,8 +72,8 @@ Input x → Frozen W x
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-target module 선택 → rank/alpha 설정 → A·B 학습
-    → adapter 저장 → merge 또는 동적 로드 → 평가
+target module 선택 -> rank/alpha 설정 -> A·B 학습
+    -> adapter 저장 -> merge 또는 동적 로드 -> 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

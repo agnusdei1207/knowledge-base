@@ -54,7 +54,9 @@ weight: 211
 
 ## Ⅰ. 개요 및 필요성
 
-사이드채널 공격은 실행 부가 신호를 이용한 비밀정보 추정 공격이다. 암호 모듈은 표준 알고리즘을 써도 CPU branch, cache line, power trace, EM radiation에서 키 의존 신호가 발생할 수 있다. HSM, TPM, 스마트카드, IoT 보안칩은 물리 접근 가능성이 있어 설계·검증 단계의 누설 통제가 필요하다.
+- 개요: 실행 부가 신호 기반 키 추정 공격
+- 배경: AES·RSA·ECC 알고리즘이 안전해도 CPU branch, cache line, power trace, EM radiation이 키 값과 상관되면 구현 단계에서 비밀키가 노출됨
+- 필요성: HSM·TPM·스마트카드·IoT 보안칩은 TVLA abs(t) 4.5 미만, secret-dependent branch 0건 기준으로 누설 통제를 검증해야 함
 
 ---
 

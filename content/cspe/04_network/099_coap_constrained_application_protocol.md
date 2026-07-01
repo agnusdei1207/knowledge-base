@@ -53,7 +53,9 @@ weight: 99
 
 ## Ⅰ. 개요 및 필요성
 
-CoAP은 자원 제약 IoT 장치를 위한 UDP 기반 REST 프로토콜이다. HTTP와 유사한 GET/POST/PUT/DELETE 모델을 유지하면서 헤더와 연결 비용을 줄인다. 저전력 센서망에서 요청·응답, observe 알림, 보안 통신을 제공한다.
+- 개요: 제약 장치용 UDP REST 프로토콜
+- 배경: 저전력 센서망은 HTTP/TCP 연결 유지와 큰 헤더를 처리하기에 CPU, 메모리, 전력 예산이 제한된다.
+- 필요성: CoAP은 GET/POST/PUT/DELETE, confirmable message, observe, DTLS/OSCORE로 요청·응답과 보안 통신을 제공한다.
 
 ---
 

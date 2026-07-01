@@ -39,13 +39,15 @@ weight: 203
 
 ## Ⅰ. 개요 및 필요성
 
-LLM07은 시스템 프롬프트 유출 위험이다. 시스템 프롬프트는 LLM 동작 정책을 정의하지만 출력 경로로 노출될 수 있다. 프롬프트 자산 보호와 비밀 분리가 필요하다.
+- 개요: 시스템 프롬프트 노출 위험이다.
+- 배경: 시스템 프롬프트는 LLM 동작 정책과 내부 업무 규칙을 담지만 출력 경로로 노출될 수 있다.
+- 필요성: LLM07은 prompt minimization, secret separation, leakage test로 프롬프트 자산과 비밀을 분리한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-System Prompt → Extraction Query → LLM Generation
-  → Prompt Exposure → Attack Reuse
+System Prompt -> Extraction Query -> LLM Generation
+  -> Prompt Exposure -> Attack Reuse
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ System Prompt → Extraction Query → LLM Generation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-프롬프트 민감도 분류 → 추출 공격 테스트 → 출력 검증
-  → 비밀 분리 → 회귀 테스트
+프롬프트 민감도 분류 -> 추출 공격 테스트 -> 출력 검증
+  -> 비밀 분리 -> 회귀 테스트
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ System Prompt → Extraction Query → LLM Generation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "LLM07을 설명하시오" | 추출 공격→출력 차단 흐름 | LLM02 대비 차이 |
+| 포괄형 | "LLM07을 설명하시오" | 추출 공격->출력 차단 흐름 | LLM02 대비 차이 |
 | 요구사항 명시형 | "시스템 프롬프트 보호 방안을 제시하시오" | 비밀 분리·출력 차단·회귀 테스트 | prompt hygiene 기준 |
 
 > 요약: 설명형은 시스템 프롬프트 노출 원리, 방안형은 비밀 분리와 추출 테스트를 중심으로 작성함.

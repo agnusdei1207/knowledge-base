@@ -39,13 +39,15 @@ weight: 140
 
 ## Ⅰ. 개요 및 필요성
 
-Vision-Language Model은 이미지와 텍스트를 함께 처리하는 멀티모달 모델임. 업무 데이터에는 도면, 표, 사진, 스캔 문서가 포함된다. VLM은 시각 정보와 자연어 질문을 결합해 질의응답·캡션·추론을 수행한다.
+- 개요: 이미지와 텍스트 결합 모델
+- 배경: 업무 데이터에는 도면, 표, 사진, 스캔 문서가 포함되어 텍스트 전용 LLM만으로 시각 정보를 해석하기 어렵다.
+- 필요성: image encoder와 language decoder를 결합해 VQA accuracy, caption CIDEr, OCR 연계 정확도로 시각 질의응답을 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Image → Vision Encoder → Visual Tokens → Projector
-Text Query → Tokenizer ───────────────▶ LLM → Answer
+Image -> Vision Encoder -> Visual Tokens -> Projector
+Text Query -> Tokenizer -> LLM -> Answer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Text Query → Tokenizer ───────────────▶ LLM �
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이미지 입력 → 패치 임베딩 → 시각 토큰 정렬
-  → 텍스트 질의 결합 → LLM 추론 → 답변/출처 출력
+이미지 입력 -> 패치 임베딩 -> 시각 토큰 정렬
+  -> 텍스트 질의 결합 -> LLM 추론 -> 답변/출처 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Text Query → Tokenizer ───────────────▶ LLM �
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "VLM을 설명하시오" | 이미지 인코딩→토큰 정렬→LLM 추론 흐름 | 이미지 모델 대비 차이 |
+| 포괄형 | "VLM을 설명하시오" | 이미지 인코딩->토큰 정렬->LLM 추론 흐름 | 이미지 모델 대비 차이 |
 | 요구사항 명시형 | "시각 AI 적용 방안을 제시하시오" | OCR·VQA·검증 지표 | 개인정보·환각·공간 추론 리스크 |
 
 > 요약: 설명형은 시각-언어 결합 원리, 방안형은 업무 적용과 검증 지표를 중심으로 작성함.

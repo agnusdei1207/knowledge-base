@@ -56,15 +56,15 @@ weight: 78
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
-      → Dequant/4-bit Kernel → LLM Inference → Evaluation
+FP16 Weights -> Grouping -> Scale 계산 -> 4-bit 저장
+      -> Dequant/4-bit Kernel -> LLM Inference -> Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Group-wise Scale | weight 그룹별 범위 보정 | group size 32~128 |
 | 4-bit Code | 16단계 값 저장 | NF4/INT4 등 |
-| Dequantization | 연산 전 실수 복원 | kernel 효율 중요 |
+| Dequantization | 연산 전 실수 복원 | kernel 처리량 확인 |
 | Evaluation | 품질 회귀 측정 | perplexity, MMLU |
 
 > 요약: 4-bit 양자화는 그룹별 scale로 오차를 보정하면서 weight 저장 비용을 FP16 대비 약 25% 수준으로 낮춤.
@@ -72,8 +72,8 @@ FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 로드 → weight 그룹화 → 4-bit 코드 변환
-    → 추론 kernel 적용 → 정확도·메모리·지연 측정
+모델 로드 -> weight 그룹화 -> 4-bit 코드 변환
+    -> 추론 kernel 적용 -> 정확도·메모리·지연 측정
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -89,7 +89,7 @@ FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
 
 | 구분 | INT8 | 4-bit | 수치·판단 포인트 |
 |:---|:---|:---|:---|
-| 메모리 | FP16 대비 약 50% | FP16 대비 약 25% | 13B: 26GB→7~10GB |
+| 메모리 | FP16 대비 약 50% | FP16 대비 약 25% | 13B: 26GB->7~10GB |
 | 정확도 | 회귀 작음 | 회귀 위험 증가 | GPTQ/AWQ 보정 필요 |
 | 적용 | 범용 | LLM weight 중심 | activation 주의 |
 | 하드웨어 | 지원 넓음 | kernel 의존 큼 | vLLM/TensorRT 확인 |
@@ -129,7 +129,7 @@ FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
 **적용 방안 3개:**
 1. 7B~13B 사내 SLM은 AWQ/GPTQ 4-bit로 변환하고 MMLU·사내 QA 하락 2%p 이내 기준 검증
 2. 장문 LLM 서빙은 weight 4-bit와 KV cache INT8을 분리 적용해 VRAM과 TPOT를 동시에 측정
-3. 중요 업무는 layer별 mixed precision을 적용해 outlier layer는 FP16/INT8로 유지
+3. 고위험 업무는 layer별 mixed precision을 적용해 outlier layer는 FP16/INT8로 유지
 
 **결론 (2줄):**
 - 기술사 판단: VRAM 병목이 크고 정확도 허용폭 1~3%p가 있으면 4-bit, 정확도 민감 업무는 INT8/FP16을 선택함.

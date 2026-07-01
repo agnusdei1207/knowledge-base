@@ -39,15 +39,17 @@ weight: 70
 
 ## Ⅰ. 개요 및 필요성
 
-AI PC는 NPU 기반 로컬 AI 컴퓨팅 PC임. 생성형 AI 기능이 업무 생산성 도구로 확산되면서, 지연·프라이버시·비용을 줄이기 위한 클라이언트 측 추론 플랫폼이 필요함.
+- 개요: NPU 기반 로컬 AI 컴퓨팅 PC
+- 배경: 생성형 AI 기능이 업무 도구에 내장되면서 클라우드 왕복 지연, 개인정보 반출, 호출 과금이 사용자 단말의 제약이 됨.
+- 필요성: 40 TOPS급 NPU, OS AI runtime, 로컬 SLM, DLP 정책으로 오프라인 요약·검색·음성 기능을 분리 설계해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User App → OS AI Runtime → Model Router
-      ├→ NPU: 저전력 추론
-      ├→ GPU: 고성능 그래픽/AI
-      └→ Cloud: 고난도 추론
+User App -> OS AI Runtime -> Model Router
+       -> NPU: 저전력 추론
+       -> GPU: 고성능 그래픽/AI
+       -> Cloud: 고난도 추론
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -62,8 +64,8 @@ User App → OS AI Runtime → Model Router
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-앱 요청 → 모델·데이터 민감도 판단 → NPU/GPU 로컬 추론
-    → 결과 반환 또는 클라우드 fallback → 감사·비용 기록
+앱 요청 -> 모델·데이터 민감도 판단 -> NPU/GPU 로컬 추론
+    -> 결과 반환 또는 클라우드 fallback -> 감사·비용 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

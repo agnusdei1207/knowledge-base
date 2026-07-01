@@ -73,7 +73,7 @@ User Problem -> Reasoning Planner -> Candidate Solver
 | Internal Verifier | 후보 검산·모순 탐지 | 외부 비공개 사고 사용 |
 | Answer Composer | 최종 답변·근거 요약 | 사용자용 출력으로 압축 |
 
-> 요약: o3는 문제 분해→후보 풀이→내부 검증→답변 압축의 추론 파이프라인으로 단일 패스 오류를 줄임.
+> 요약: o3는 문제 분해->후보 풀이->내부 검증->답변 압축의 추론 파이프라인으로 단일 패스 오류를 줄임.
 
 ---
 

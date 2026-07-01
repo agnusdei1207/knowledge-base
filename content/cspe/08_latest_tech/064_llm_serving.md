@@ -11,13 +11,13 @@ weight: 64
 > 목적: LLM Serving을 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **개요**: 학습된 LLM을 API·애플리케이션에서 안정적으로 호출하도록 배포·추론·스케일링하는 운영 체계
+- **개요**: 학습된 LLM을 API·애플리케이션에서 SLA 기준으로 호출하도록 배포·추론·스케일링하는 운영 체계
 - **왜 필요한가**: 모델 파일만 있으면 서비스가 되는 것이 아니라, GPU 메모리·배치·지연·보안·비용을 함께 관리해야 함.
 - **핵심 직관**: 모델을 연구실 데모에서 24시간 운영되는 생산 라인으로 올리는 과정임.
 
 ## 깊이 이해
 - **배경·문제의식**: LLM은 수십GB~수백GB 가중치와 긴 KV Cache를 사용해 일반 웹 API보다 자원 제약이 큼. 트래픽 급증 시 OOM, tail latency, 비용 폭증이 발생함.
-- **작동 원리**: 모델 로딩→토크나이징→prefill→decode→streaming 응답을 처리하고, scheduler가 batching·cache·GPU parallelism을 조정함. 관측성은 TTFT·TPOT·tokens/s·error rate로 수행함.
+- **작동 원리**: 모델 로딩->토크나이징->prefill->decode->streaming 응답을 처리하고, scheduler가 batching·cache·GPU parallelism을 조정함. 관측성은 TTFT·TPOT·tokens/s·error rate로 수행함.
 - **비유**: 대형 주방에서 주문 접수, 재료 준비, 조리, 배식, 재고·비용 관리를 동시에 하는 것과 같음.
 - **구체 예시**: 70B FP16 모델은 가중치만 약 140GB가 필요하므로 tensor parallel 2~4 GPU 또는 양자화가 필요함.
 - **흔한 오해·주의점**: 모델 정확도만 높으면 되는 것이 아님. p95 지연, GPU 원가, 권한 통제, 프롬프트 보안까지 운영 품질에 포함됨.
@@ -34,20 +34,22 @@ weight: 64
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLM Serving은 모델 추론을 API로 안정 제공하기 위한 런타임·스케줄러·관측성·보안 운영 체계임.
-> 2. **가치**: GPU 자원을 효율적으로 사용해 p95 지연, tokens/s, $/1K tokens를 서비스 목표에 맞춤.
+> 2. **가치**: GPU idle time과 KV cache 낭비를 줄여 p95 지연, tokens/s, $/1K tokens를 서비스 목표에 맞춤.
 > 3. **판단 포인트**: 모델 크기, 병렬화, 배칭, KV Cache, 가드레일, FinOps를 통합 설계해야 함.
 
 ## Ⅰ. 개요 및 필요성
 
-LLM Serving은 대형 언어모델 운영 배포 체계임. 생성형 AI 서비스는 GPU 메모리와 토큰 비용이 지배하므로, 추론 엔진·스케줄링·관측성·보안을 함께 설계해야 함.
+- 개요: LLM 운영 배포·추론 체계
+- 배경: 생성형 AI 서비스는 GPU 메모리, KV cache, 토큰 단가가 운영 비용과 지연의 주 제약이 됨.
+- 필요성: vLLM·TensorRT-LLM, 스케줄링, 관측성, RBAC·감사로그를 함께 설계해 p95 지연과 $/1K tokens를 관리해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client → API Gateway → Serving Engine → GPU Workers
-          │              │              │
+Client -> API Gateway -> Serving Engine -> GPU Workers
+
        Auth/Rate     Scheduler       Model+KV Cache
-          └──────── Observability/Guardrail ────────┘
+           -------- Observability/Guardrail --------
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -62,8 +64,8 @@ Client → API Gateway → Serving Engine → GPU Workers
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 인증 → 토큰화 → 스케줄링 → prefill → decode
-    → streaming 응답 → 로그/비용/안전성 기록
+요청 인증 -> 토큰화 -> 스케줄링 -> prefill -> decode
+    -> streaming 응답 -> 로그/비용/안전성 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -101,7 +103,7 @@ Client → API Gateway → Serving Engine → GPU Workers
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 인증→prefill→decode→관측 흐름 | 일반 ML Serving 대비 차이 |
+| 포괄형 | 설명하시오, 기술하시오 | 인증->prefill->decode->관측 흐름 | 일반 ML Serving 대비 차이 |
 | 요구사항 명시형 | 설계하시오, 운영 방안을 제시하시오 | 엔진 선택·SLA·보안 절차 | GPU 비용·지연·가드레일 기준 |
 
 > 요약: 설명형은 운영 구조, 설계형은 SLA·비용·보안 통합 기준으로 목차를 전환함.

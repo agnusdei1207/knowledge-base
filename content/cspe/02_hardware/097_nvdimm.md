@@ -145,8 +145,6 @@ Host (CPU/Memory Controller) <-> [ DDR Bus Interface ]
 
 > 요약: 도입 효과는 백업 성공 여부와 실제 애플리케이션 성능 향상 폭으로 평가한다.
 
----
-
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**

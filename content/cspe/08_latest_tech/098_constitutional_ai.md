@@ -56,8 +56,8 @@ weight: 98
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Constitution Principles → Initial Answer → AI Critique
-      → Revised Answer → SFT/RLAIF Training → Evaluation
+Constitution Principles -> Initial Answer -> AI Critique
+      -> Revised Answer -> SFT/RLAIF Training -> Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Constitution Principles → Initial Answer → AI Critique
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-원칙 수립 → 초안 답변 생성 → 원칙 기반 critique
-    → 수정 답변 생성 → 학습 데이터화 → 안전성 평가
+원칙 수립 -> 초안 답변 생성 -> 원칙 기반 critique
+    -> 수정 답변 생성 -> 학습 데이터화 -> 안전성 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ Constitution Principles → Initial Answer → AI Critique
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 원칙→critique→revision 흐름 | RLHF 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | 원칙->critique->revision 흐름 | RLHF 대비 특징 |
 | 요구사항 명시형 | 적용 방안을 제시하시오 | constitution 작성·감사 절차 | 법규·원칙충돌·과거부 기준 |
 
 > 요약: 설명형은 원칙 기반 정렬 원리, 적용형은 정책 문서화와 인간 감사 기준으로 목차를 전환함.

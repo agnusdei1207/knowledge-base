@@ -56,8 +56,8 @@ weight: 97
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Policy/Values → SFT/RLHF/DPO/Constitutional AI
-      → Guardrail → Red-team/Evaluation → Monitoring
+Policy/Values -> SFT/RLHF/DPO/Constitutional AI
+      -> Guardrail -> Red-team/Evaluation -> Monitoring
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Policy/Values → SFT/RLHF/DPO/Constitutional AI
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-위험 기준 수립 → 정렬 데이터 생성 → 모델 학습
-    → 안전성 평가 → 배포 guardrail → 로그 기반 개선
+위험 기준 수립 -> 정렬 데이터 생성 -> 모델 학습
+    -> 안전성 평가 -> 배포 guardrail -> 로그 기반 개선
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ Policy/Values → SFT/RLHF/DPO/Constitutional AI
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 정책→학습→평가→운영 흐름 | 성능 최적화 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | 정책->학습->평가->운영 흐름 | 성능 최적화 대비 특징 |
 | 요구사항 명시형 | 관리 방안을 제시하시오 | 위험분류·guardrail·감사 절차 | 규제·위반율·과거부 기준 |
 
 > 요약: 설명형은 정렬 체계 전반, 관리형은 위험 기반 통제와 지속 평가 중심으로 목차를 전환함.

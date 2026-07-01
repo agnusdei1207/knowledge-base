@@ -79,8 +79,8 @@ User Goal -> Thought -> Action(Tool) -> Observation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질문 수신 → Thought 생성 → Action 선택 → Tool 실행
-       → Observation 반영 → 답변 생성 or 다음 루프
+질문 수신 -> Thought 생성 -> Action 선택 -> Tool 실행
+       -> Observation 반영 -> 답변 생성 or 다음 루프
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

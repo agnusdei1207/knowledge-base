@@ -56,8 +56,8 @@ weight: 124
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Domain Concept → Class/Property/Constraint
-  → RDF/OWL Schema → Knowledge Graph Validation → Reasoning
+Domain Concept -> Class/Property/Constraint
+  -> RDF/OWL Schema -> Knowledge Graph Validation -> Reasoning
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Domain Concept → Class/Property/Constraint
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-도메인 분석 → 개념/관계 도출 → 온톨로지 모델링
-  → 그래프 적재 검증 → 추론/질의 → 버전 관리
+도메인 분석 -> 개념/관계 도출 -> 온톨로지 모델링
+  -> 그래프 적재 검증 -> 추론/질의 -> 버전 관리
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ Domain Concept → Class/Property/Constraint
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Ontology를 설명하시오" | 개념 도출→모델링→검증→추론 흐름 | 스키마 대비 의미 표현 차이 |
+| 포괄형 | "Ontology를 설명하시오" | 개념 도출->모델링->검증->추론 흐름 | 스키마 대비 의미 표현 차이 |
 | 요구사항 명시형 | "지식그래프 품질 관리 방안을 제시하시오" | SHACL/OWL 검증·버전 관리 | 구축 비용·변경 영향 통제 |
 
 > 요약: 설명형은 도메인 의미 모델링, 방안형은 그래프 검증과 변경 거버넌스를 중심으로 작성함.

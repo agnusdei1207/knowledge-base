@@ -56,15 +56,15 @@ weight: 74
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Trained Model → Importance Analysis
-   → Pruning / Quantization / Distillation / Low-rank
-   → Compressed Model → Accuracy & Latency Evaluation
+Trained Model -> Importance Analysis
+   -> Pruning / Quantization / Distillation / Low-rank
+   -> Compressed Model -> Accuracy & Latency Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Pruning | weight/channel 제거 | structured 권장 |
-| Quantization | FP16→INT8/INT4 변환 | 하드웨어 지원 필요 |
+| Quantization | FP16->INT8/INT4 변환 | 하드웨어 지원 필요 |
 | Distillation | teacher 지식 이전 | small student 학습 |
 | Evaluation | 품질·지연 회귀 검증 | task별 기준 필요 |
 
@@ -73,8 +73,8 @@ Trained Model → Importance Analysis
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-목표 설정 → 압축 기법 선택 → 압축 수행
-    → 재학습/보정 → 정확도·지연·메모리 평가 → 배포
+목표 설정 -> 압축 기법 선택 -> 압축 수행
+    -> 재학습/보정 -> 정확도·지연·메모리 평가 -> 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -90,7 +90,7 @@ Trained Model → Importance Analysis
 
 | 구분 | 원본 모델 | 압축 모델 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
-| 크기 | FP16/FP32 | INT8/INT4·pruned | 7B FP16 14GB→INT4 3.5~5GB |
+| 크기 | FP16/FP32 | INT8/INT4·pruned | 7B FP16 14GB->INT4 3.5~5GB |
 | 지연 | 연산량 큼 | FLOPs·메모리 감소 | p95 latency 비교 |
 | 정확도 | 기준 성능 | 하락 가능 | 1~3%p 허용 기준 |
 | 운영 | 단순 | 기법별 검증 필요 | device별 benchmark |

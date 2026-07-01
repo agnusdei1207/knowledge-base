@@ -39,18 +39,20 @@ weight: 94
 
 ## Ⅰ. 개요 및 필요성
 
-RLHF는 인간 피드백 기반 LLM 정렬 기법임. SFT 모델은 지시를 따르지만 인간 선호와 안전 기준을 충분히 반영하지 못하므로, 선호 데이터와 보상 최적화가 필요함.
+- 개요: 인간 피드백 기반 LLM 정렬 기법
+- 배경: SFT 모델은 지시 형식은 따르더라도 인간 선호, 안전 정책, 거절 기준을 충분히 반영하지 못할 수 있음.
+- 필요성: preference pair, reward model, PPO, red-team 평가로 helpfulness·harmlessness·reward hacking 위험을 검증해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-SFT Model → 후보 답변 생성 → Human Preference Label
-      → Reward Model 학습 → PPO/RL 최적화 → Aligned Model
+SFT Model -> 후보 답변 생성 -> Human Preference Label
+      -> Reward Model 학습 -> PPO/RL 최적화 -> Aligned Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Human Labeler | 답변 선호 비교 | 품질·일관성 중요 |
+| Human Labeler | 답변 선호 비교 | 품질·일관성 점검 |
 | Reward Model | 선호 점수 예측 | pairwise ranking |
 | Policy Model | 업데이트 대상 LLM | KL penalty 필요 |
 | RL Optimizer | 보상 최대화 | PPO 등 |
@@ -60,8 +62,8 @@ SFT Model → 후보 답변 생성 → Human Preference Label
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-후보 답변 생성 → 인간 선호 라벨링 → RM 학습
-    → PPO 정책 업데이트 → 안전성·품질 평가 → 배포
+후보 답변 생성 -> 인간 선호 라벨링 -> RM 학습
+    -> PPO 정책 업데이트 -> 안전성·품질 평가 -> 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -92,14 +94,14 @@ SFT Model → 후보 답변 생성 → Human Preference Label
 3. 배포 전 helpfulness, toxicity, hallucination, refusal rate를 red-team 평가로 측정
 
 **결론 (2줄):**
-- 기술사 판단: 인간 선호와 안전 기준 반영이 핵심이면 RLHF, 비용·단순성이 중요하면 DPO/RLAIF를 검토함.
+- 기술사 판단: 인간 선호와 안전 기준 반영이 핵심이면 RLHF, 비용·단순성을 우선하면 DPO/RLAIF를 검토함.
 - 향후 방향: RLHF는 고품질 alignment 기준선으로 남고, 비용 절감을 위해 AI feedback·direct preference 방식과 병행됨.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | preference→RM→PPO 흐름 | SFT 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | preference->RM->PPO 흐름 | SFT 대비 특징 |
 | 요구사항 명시형 | 정렬 방안을 제시하시오 | 라벨링·RM·red-team 절차 | 비용·안전·reward hacking 기준 |
 
 > 요약: 설명형은 RLHF 파이프라인, 방안형은 라벨 품질과 안전성 평가 중심으로 목차를 전환함.

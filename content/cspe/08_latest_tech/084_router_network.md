@@ -20,7 +20,7 @@ weight: 84
 - **작동 원리**: token hidden state를 입력받아 expert별 logits를 계산하고 softmax로 확률을 만든 뒤 top-k expert를 선택함. load balancing loss와 capacity factor로 쏠림을 완화함.
 - **비유**: 콜센터 IVR이 고객 문의를 결제·배송·환불 부서로 배정하는 것과 같음.
 - **구체 예시**: top-2 router는 각 token을 점수 상위 2개 expert로 보내고, expert capacity 초과 시 token drop 또는 fallback을 적용함.
-- **흔한 오해·주의점**: router가 복잡할수록 좋은 것은 아님. routing 계산과 통신 오버헤드가 expert 연산 절감 이득을 넘으면 지연이 증가함.
+- **흔한 오해·주의점**: router 복잡도 증가는 이득을 보장하지 않음. routing 계산과 통신 오버헤드가 expert 연산 절감 이득을 넘으면 지연이 증가함.
 
 ## 연결 개념
 - Mixture of Experts — router가 동작하는 모델 구조
@@ -39,13 +39,15 @@ weight: 84
 
 ## Ⅰ. 개요 및 필요성
 
-Router Network는 MoE의 expert 선택 모듈임. MoE의 조건부 계산은 router가 token을 적절히 분산해야 성능·처리량·부하 균형을 확보할 수 있음.
+- 개요: MoE expert 선택 모듈
+- 배경: MoE는 token을 일부 expert에만 보내므로 router 편중이 발생하면 품질 저하, expert 과부하, all-to-all 지연이 생김.
+- 필요성: softmax gate, top-k selection, capacity factor, load balance loss로 expert utilization과 token drop rate를 측정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Token Hidden State → Router Linear → Expert Logits
-      → Softmax → Top-k Selection → Dispatch to Experts
+Token Hidden State -> Router Linear -> Expert Logits
+      -> Softmax -> Top-k Selection -> Dispatch to Experts
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Token Hidden State → Router Linear → Expert Logits
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-token 입력 → expert score 계산 → top-k 선택
-    → capacity 확인 → expert dispatch → load 통계 갱신
+token 입력 -> expert score 계산 -> top-k 선택
+    -> capacity 확인 -> expert dispatch -> load 통계 갱신
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ token 입력 → expert score 계산 → top-k 선택
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | score→top-k→dispatch 흐름 | static 대비 learned router |
+| 포괄형 | 설명하시오, 기술하시오 | score->top-k->dispatch 흐름 | static 대비 learned router |
 | 요구사항 명시형 | 개선 방안을 제시하시오 | collapse·load imbalance 대응 | entropy·drop rate·latency 기준 |
 
 > 요약: 설명형은 라우팅 계산 원리, 개선형은 expert 쏠림과 지연 통제 중심으로 목차를 전환함.

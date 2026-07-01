@@ -56,8 +56,8 @@ weight: 113
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-문서 → Doc Encoder → Dense Vector → ANN Index
-질의 → Query Encoder → Query Vector → Similarity Search → Top-K
+문서 -> Doc Encoder -> Dense Vector -> ANN Index
+질의 -> Query Encoder -> Query Vector -> Similarity Search -> Top-K
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ weight: 113
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 수집 → 청킹 → 임베딩 → 벡터DB 색인
-질의 입력 → 임베딩 → ANN 검색 → Top-K 후보 반환
+문서 수집 -> 청킹 -> 임베딩 -> 벡터DB 색인
+질의 입력 -> 임베딩 -> ANN 검색 -> Top-K 후보 반환
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ weight: 113
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Dense Retrieval을 설명하시오" | 임베딩→ANN→Top-K 검색 흐름 | BM25 대비 의미 검색 차이 |
+| 포괄형 | "Dense Retrieval을 설명하시오" | 임베딩->ANN->Top-K 검색 흐름 | BM25 대비 의미 검색 차이 |
 | 요구사항 명시형 | "검색 정확도 개선 방안을 제시하시오" | 인덱스·Top-K·리랭킹 기준 | Hybrid Search와 정량 지표 |
 
 > 요약: 설명형은 벡터 검색 원리, 방안형은 BM25 결합과 리랭킹 기준을 중심으로 작성함.

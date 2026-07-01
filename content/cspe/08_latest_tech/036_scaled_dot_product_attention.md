@@ -78,8 +78,8 @@ Input Embedding -> Wq/Wk/Wv 선형변환
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-임베딩 입력 → Q/K/V 선형변환 → QKᵀ 유사도 계산
-    → √d_k 스케일링 → Mask 적용 → Softmax → V 가중합
+임베딩 입력 -> Q/K/V 선형변환 -> QKᵀ 유사도 계산
+    -> √d_k 스케일링 -> Mask 적용 -> Softmax -> V 가중합
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

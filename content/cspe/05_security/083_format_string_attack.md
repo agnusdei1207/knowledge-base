@@ -54,7 +54,9 @@ weight: 83
 
 ## Ⅰ. 개요 및 필요성
 
-포맷 스트링 공격은 format 문자열 해석 오류이다. 외부 입력이 `printf` 계열 format 인자로 직접 전달되면 stack 값 노출, 주소 누출, `%n` 기반 메모리 쓰기가 발생한다. ASLR 우회와 GOT 변조를 유발하므로 compiler warning, RELRO, secure coding 규칙이 필요함.
+- 개요: format 문자열 해석 오류
+- 배경: 외부 입력이 `printf` 계열 format 인자로 직접 전달되면 stack 값 노출, 주소 누출, `%n` 기반 메모리 쓰기가 발생할 수 있음.
+- 필요성: CWE-134, CERT C FIO30-C, compiler warning, RELRO, format literal 규칙을 빌드와 코드리뷰 기준에 포함해야 함.
 
 ---
 

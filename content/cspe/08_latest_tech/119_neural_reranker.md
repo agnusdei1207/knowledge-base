@@ -17,9 +17,9 @@ weight: 119
 
 ## 깊이 이해
 - **배경·문제의식**: Dense나 BM25 Top-K에는 관련 없는 문서가 섞인다. LLM 컨텍스트는 제한되어 있어 후보 중 핵심 근거만 남겨야 함.
-- **작동 원리**: BM25/Dense가 Top-50~100 후보를 빠르게 찾고, Reranker가 질의-문서 쌍을 더 정밀하게 점수화해 Top-3~5를 선택함.
+- **작동 원리**: BM25/Dense가 Top-50~100 후보를 생성하고, Reranker가 질의-문서 쌍을 더 정밀하게 점수화해 Top-3~5를 선택함.
 - **비유**: 검색엔진이 넓게 찾아온 기사 목록을 전문가가 다시 읽고 질문에 맞는 기사만 위로 올리는 과정임.
-- **구체 예시**: Cross-Encoder 리랭킹 적용 시 RAG Precision@5가 62%→82%, 평균 지연은 300ms→900ms로 증가.
+- **구체 예시**: Cross-Encoder 리랭킹 적용 시 RAG Precision@5가 62%->82%, 평균 지연은 300ms->900ms로 증가.
 - **흔한 오해·주의점**: Reranker는 1차 검색이 놓친 문서를 살릴 수 없음. Recall@50이 낮으면 리랭킹 이전 검색을 보완해야 함.
 
 ## 연결 개념
@@ -34,7 +34,7 @@ weight: 119
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Neural Reranker는 1차 검색 후보를 정밀 점수화해 LLM 입력 근거를 재정렬함.
-> 2. **가치**: Precision@5 62%→82%로 높여 RAG 환각 원인인 무관 문서 혼입을 줄임.
+> 2. **가치**: Precision@5 62%->82%로 높여 RAG 환각 원인인 무관 문서 혼입을 줄임.
 > 3. **판단 포인트**: 리랭커는 정밀도 개선 도구이며, 1차 검색 Recall@50 확보가 선행 조건임.
 
 ## 출제 의도 및 답안 포인트
@@ -56,8 +56,8 @@ weight: 119
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query → BM25/Dense Retriever → Top-N Candidates
-  → Reranker Scoring → Top-K Evidence → LLM
+Query -> BM25/Dense Retriever -> Top-N Candidates
+  -> Reranker Scoring -> Top-K Evidence -> LLM
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Query → BM25/Dense Retriever → Top-N Candidates
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → 1차 검색 Top-100 → 후보 필터링
-  → 리랭커 점수 계산 → Top-5 선정 → LLM 컨텍스트 구성
+질의 입력 -> 1차 검색 Top-100 -> 후보 필터링
+  -> 리랭커 점수 계산 -> Top-5 선정 -> LLM 컨텍스트 구성
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ Query → BM25/Dense Retriever → Top-N Candidates
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Reranker를 설명하시오" | 1차 검색→점수화→Top-K 선정 흐름 | 1차 검색 단독 대비 차이 |
+| 포괄형 | "Reranker를 설명하시오" | 1차 검색->점수화->Top-K 선정 흐름 | 1차 검색 단독 대비 차이 |
 | 요구사항 명시형 | "RAG 환각 저감 방안을 제시하시오" | 후보 재현율·리랭킹 정밀도 기준 | 지연·비용·후보 수 조정 방안 |
 
 > 요약: 설명형은 재순위화 원리, 방안형은 RAG 근거 품질 지표와 운영 튜닝을 중심으로 작성함.

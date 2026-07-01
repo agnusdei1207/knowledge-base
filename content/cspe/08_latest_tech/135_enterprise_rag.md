@@ -39,13 +39,15 @@ weight: 135
 
 ## Ⅰ. 개요 및 필요성
 
-Enterprise RAG는 기업 운영 환경용 RAG 아키텍처임. 기업 문서는 권한·버전·민감정보·감사 요구와 연결된다. 단순 검색증강생성을 넘어 데이터 수집, 보안, 품질평가, 모니터링을 통합해야 한다.
+- 개요: 기업 운영 환경용 RAG 아키텍처
+- 배경: 기업 문서는 권한, 버전, 민감정보, 감사 요구와 연결되어 단순 검색증강생성만으로 운영 통제가 어렵다.
+- 필요성: ACL filtering, DLP, evaluation, observability를 결합해 권한 위반 0건과 응답 품질 SLA를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Data Sources → Ingestion/Chunking → Index(BM25+Vector)
-  → ACL Filter → Reranker → LLM+Citation → Guardrail/Monitoring
+Data Sources -> Ingestion/Chunking -> Index(BM25+Vector)
+  -> ACL Filter -> Reranker -> LLM+Citation -> Guardrail/Monitoring
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,9 +62,9 @@ Data Sources → Ingestion/Chunking → Index(BM25+Vector)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-문서 수집 → 청킹/PII 처리 → 색인 생성
-  → 사용자 질의+권한 확인 → 검색/리랭킹
-  → 출처 기반 생성 → 검증/로그 저장
+문서 수집 -> 청킹/PII 처리 -> 색인 생성
+  -> 사용자 질의+권한 확인 -> 검색/리랭킹
+  -> 출처 기반 생성 -> 검증/로그 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +102,7 @@ Data Sources → Ingestion/Chunking → Index(BM25+Vector)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Enterprise RAG를 설명하시오" | 수집→색인→권한→생성→모니터링 흐름 | PoC RAG 대비 차이 |
+| 포괄형 | "Enterprise RAG를 설명하시오" | 수집->색인->권한->생성->모니터링 흐름 | PoC RAG 대비 차이 |
 | 요구사항 명시형 | "기업 RAG 구축 방안을 제시하시오" | ACL·PII·citation·평가 게이트 | 보안·감사·운영 품질 방안 |
 
 > 요약: 설명형은 운영형 RAG 구조, 방안형은 권한·출처·평가·감사 통제를 중심으로 작성함.

@@ -50,9 +50,9 @@ weight: 124
 
 ## Ⅰ. 개요 및 필요성
 
-OPA Gatekeeper는 Kubernetes 정책 집행 엔진이다.
-클러스터에서는 YAML 배포 하나로 권한·네트워크·이미지·라벨 정책 위반이 발생할 수 있음.
-따라서 Admission 단계에서 정책을 코드로 평가하고 위반 요청은 차단·경고·감사해야 함.
+- 개요: Kubernetes 정책 집행 엔진
+- 배경: 클러스터에서는 YAML 배포 하나로 권한·네트워크·이미지·라벨 정책 위반이 발생할 수 있음.
+- 필요성: Admission Control 단계에서 Rego 정책과 Kubernetes audit 모드로 차단·경고·감사 증적을 운영해야 함.
 
 ---
 

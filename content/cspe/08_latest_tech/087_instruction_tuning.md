@@ -16,7 +16,7 @@ weight: 87
 - **핵심 직관**: 책을 많이 읽은 사람에게 업무 지시를 받았을 때 어떤 산출물을 내야 하는지 훈련하는 과정임.
 
 ## 깊이 이해
-- **배경·문제의식**: Pretrained LM은 지식은 많지만 사용자의 의도와 출력 포맷을 안정적으로 따르지 못함. Instruction Tuning은 다양한 task instruction과 답변 예시를 학습해 범용 지시 수행 능력을 만든다.
+- **배경·문제의식**: Pretrained LM은 지식은 많지만 사용자의 의도와 출력 포맷을 일관되게 따르지 못함. Instruction Tuning은 다양한 task instruction과 답변 예시를 학습해 범용 지시 수행 능력을 만든다.
 - **작동 원리**: 지시문, 입력 맥락, 기대 출력으로 구성된 데이터셋을 SFT로 학습함. 여러 태스크를 섞어 학습하면 unseen task에도 zero-shot 수행력이 향상됨.
 - **비유**: 박식한 인턴에게 “회의록 요약”, “위험 표 작성”, “고객 답변 작성” 훈련을 반복시키는 것과 같음.
 - **구체 예시**: Alpaca류 데이터는 teacher LLM으로 생성한 instruction-response 쌍을 사용해 작은 모델의 지시 수행 능력을 높임.
@@ -56,8 +56,8 @@ weight: 87
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Instruction Dataset → SFT Training → Instruction-tuned Model
-      → Task Evaluation → Alignment/RLHF 단계
+Instruction Dataset -> SFT Training -> Instruction-tuned Model
+      -> Task Evaluation -> Alignment/RLHF 단계
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,8 +72,8 @@ Instruction Dataset → SFT Training → Instruction-tuned Model
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-지시 데이터 수집 → 품질 필터링 → SFT 학습
-    → 지시 수행 평가 → 안전 정렬 단계 연결
+지시 데이터 수집 -> 품질 필터링 -> SFT 학습
+    -> 지시 수행 평가 -> 안전 정렬 단계 연결
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -139,7 +139,7 @@ Instruction Dataset → SFT Training → Instruction-tuned Model
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 지시 데이터→SFT→평가 흐름 | Pretraining 대비 차이 |
+| 포괄형 | 설명하시오, 기술하시오 | 지시 데이터->SFT->평가 흐름 | Pretraining 대비 차이 |
 | 요구사항 명시형 | 구축 방안을 제시하시오 | 데이터 품질·형식 검증 절차 | alignment와 역할 분리 |
 
 > 요약: 설명형은 지시 수행 학습 원리, 구축형은 instruction data 품질과 형식 평가 중심으로 목차를 전환함.

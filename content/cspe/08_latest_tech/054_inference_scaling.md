@@ -20,7 +20,7 @@ weight: 54
 - **작동 원리**: Best-of-N, Self-Consistency, Tree-of-Thought, verifier reranking을 사용함. 단순 질의는 낮은 예산, 복잡 질의는 높은 예산을 배정하는 adaptive compute가 비용 통제 핵심임.
 - **비유**: 어려운 문제는 한 가지 풀이만 보지 않고 여러 풀이를 써 본 뒤, 검산으로 가장 타당한 답을 고르는 것임.
 - **구체 예시**: R1-Zero는 majority voting 적용 시 AIME 2024 정확도가 71.0%에서 86.7%로 상승함.
-- **흔한 오해·주의점**: 추론 예산을 무한히 늘려도 선형으로 좋아지지 않음. 쉬운 문제는 비용만 증가하고, 잘못된 검증기는 오류 답을 선택할 수 있음.
+- **흔한 오해·주의점**: 추론 예산 증가가 정답률을 선형으로 올린다는 단정은 비용 대비 효과를 검토하지 않은 표현임. 쉬운 문제는 비용만 증가하고, 잘못된 검증기는 오류 답을 선택할 수 있음.
 
 ## 연결 개념
 - Test-Time Compute — 추론 단계 연산 예산
@@ -62,8 +62,8 @@ weight: 54
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Query → Difficulty Router → Candidate Generator(N)
-      → Verifier/Reranker → Voting/Selection → Final Answer
+User Query -> Difficulty Router -> Candidate Generator(N)
+      -> Verifier/Reranker -> Voting/Selection -> Final Answer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -80,8 +80,8 @@ User Query → Difficulty Router → Candidate Generator(N)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-입력 → 난이도 추정 → N·토큰 예산 결정
-   → 후보 풀이 생성 → 검증/투표 → 최종 답 선택 → 비용 기록
+입력 -> 난이도 추정 -> N·토큰 예산 결정
+   -> 후보 풀이 생성 -> 검증/투표 -> 최종 답 선택 -> 비용 기록
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -100,7 +100,7 @@ User Query → Difficulty Router → Candidate Generator(N)
 | 구분 | 학습 스케일링 | 추론 스케일링 | 수치·판단 포인트 |
 |:---|:---|:---|:---|
 | 비용 발생 시점 | 사전학습/미세조정 | 요청 처리 시점 | 호출량 증가 시 비용 선형 증가 |
-| 적용 방식 | 파라미터·데이터 확대 | 후보 수·검증 횟수 확대 | N=1→16 |
+| 적용 방식 | 파라미터·데이터 확대 | 후보 수·검증 횟수 확대 | N=1->16 |
 | 장점 | 모든 요청 기본 능력 상승 | 고난도 요청에 선택 적용 | adaptive routing |
 | 한계 | GPU 학습비 고정 부담 | 지연·토큰 비용 증가 | p95 SLA 초과 위험 |
 

@@ -54,9 +54,9 @@ weight: 132
 
 ## Ⅰ. 개요 및 필요성
 
-아티팩트 서명은 배포 산출물의 출처·무결성 증명 기법임.
-컨테이너 이미지, Helm chart, SBOM, provenance는 레지스트리와 CI 경로에서 교체될 수 있으므로 배포 전 암호학적 검증이 필요함.
-Cosign·Sigstore는 OIDC 기반 keyless signing과 투명 로그를 제공해 공급망 위조를 배포 전 차단하게 함.
+- 개요: 배포 산출물 무결성 증명
+- 배경: 컨테이너 이미지, Helm chart, SBOM, provenance는 레지스트리와 CI 경로에서 교체될 수 있음.
+- 필요성: Cosign·Sigstore의 OIDC keyless signing과 Rekor 투명 로그로 배포 전 서명 검증을 의무화해야 함.
 
 ---
 

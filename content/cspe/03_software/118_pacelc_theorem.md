@@ -55,7 +55,9 @@ weight: 118
 
 ## Ⅰ. 개요 및 필요성
 
-PACELC는 분산 DB의 장애·정상 상태 선택을 함께 설명하는 원칙이다. CAP가 partition 시 C/A 선택에 초점을 둔다면, PACELC는 partition이 없을 때도 latency와 consistency 사이의 선택이 있음을 제시한다. 글로벌 서비스의 DB 선택과 consistency level 설계에 필요하다.
+- 개요: PACELC는 분산 DB 선택 원칙이다.
+- 배경: CAP는 partition 시 C/A 선택을 설명하지만 정상 상태의 cross-region 합의도 latency와 consistency 비용을 만든다.
+- 필요성: PA/EL, PC/EC 성향과 consistency level, quorum, cross-region latency 기준으로 글로벌 DB를 선택해야 한다.
 
 ---
 

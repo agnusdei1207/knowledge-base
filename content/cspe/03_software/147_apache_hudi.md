@@ -54,7 +54,9 @@ weight: 147
 
 ## Ⅰ. 개요 및 필요성
 
-Apache Hudi는 데이터 레이크용 변경 처리 테이블 포맷이다. 객체 스토리지 파일에 record key 기반 upsert, delete, incremental query를 제공한다. CDC와 스트리밍 적재가 많은 환경에서 전체 재작성 없이 변경분을 관리하기 위해 사용된다.
+- 개요: Apache Hudi는 데이터 레이크용 변경 처리 테이블 포맷이다.
+- 배경: CDC와 스트리밍 적재가 많은 환경은 객체 스토리지 파일의 upsert, delete, incremental query가 필요하다.
+- 필요성: record key 기반 변경 처리로 전체 재작성 없이 데이터 레이크 변경분을 관리한다.
 
 ---
 

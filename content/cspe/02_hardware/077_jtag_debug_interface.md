@@ -138,8 +138,6 @@ Instruction Load (IR) -> Data Load (DR) -> Boundary Scan 실행 -> Result Shift-
 | 테스트 커버리지 | 핀 연결 검사율 95% 이상 | BSDL 파일 기반 고장 진단 |
 | 보안 강도 | 권한 없는 접근 차단 (Auth) | 침투 테스트 및 퓨즈 상태 확인 |
 
----
-
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**

@@ -12,7 +12,7 @@ weight: 95
 
 ## 한눈에
 - **개요**: 인간 대신 AI 모델이 답변 선호·규칙 준수 여부를 평가해 정렬 학습 신호를 만드는 기법
-- **왜 필요한가**: RLHF는 인간 라벨링 비용과 속도 한계가 크므로, 대규모 선호 데이터를 더 빠르게 생성할 필요가 있음.
+- **왜 필요한가**: RLHF는 인간 라벨링 비용과 처리량 한계가 크므로, 동일 기간에 더 많은 선호 데이터를 생성할 필요가 있음.
 - **핵심 직관**: 사람이 모든 답안을 채점하지 않고, 훈련된 AI 채점관이 1차 채점을 수행하는 방식임.
 
 ## 깊이 이해
@@ -39,13 +39,15 @@ weight: 95
 
 ## Ⅰ. 개요 및 필요성
 
-RLAIF는 AI 피드백 기반 정렬 기법임. RLHF의 라벨링 비용과 처리량 한계를 보완하기 위해, AI evaluator가 후보 답변의 선호·정책 준수 여부를 평가함.
+- 개요: AI 피드백 기반 LLM 정렬 기법
+- 배경: RLHF는 인간 라벨링 비용과 처리량 제약으로 대규모 선호쌍을 목표 기간 안에 확보하기 어렵다.
+- 필요성: AI evaluator, policy rubric, preference filtering, human audit로 라벨 규모와 정책 준수율을 함께 관리해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Policy Model → Candidate Answers → AI Evaluator/Rubric
-      → Preference Data → RM/DPO/RL Training → Aligned Model
+Policy Model -> Candidate Answers -> AI Evaluator/Rubric
+      -> Preference Data -> RM/DPO/RL Training -> Aligned Model
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Policy Model → Candidate Answers → AI Evaluator/Rubric
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-후보 답변 생성 → AI 평가·비판 → 선호 데이터 생성
-    → 인간 샘플 감사 → 정렬 학습 → 안전성 평가
+후보 답변 생성 -> AI 평가·비판 -> 선호 데이터 생성
+    -> 인간 샘플 감사 -> 정렬 학습 -> 안전성 평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Policy Model → Candidate Answers → AI Evaluator/Rubric
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | AI 평가→감사→정렬 흐름 | RLHF 대비 특징 |
+| 포괄형 | 설명하시오, 기술하시오 | AI 평가->감사->정렬 흐름 | RLHF 대비 특징 |
 | 요구사항 명시형 | 정렬 방안을 제시하시오 | rubric·audit·judge 평가 절차 | 비용·편향·고위험 기준 |
 
 > 요약: 설명형은 AI feedback 구조, 방안형은 인간 감사와 evaluator 품질 통제 중심으로 목차를 전환함.

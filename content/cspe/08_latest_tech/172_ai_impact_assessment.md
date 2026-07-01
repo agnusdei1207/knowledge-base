@@ -39,13 +39,15 @@ weight: 172
 
 ## Ⅰ. 개요 및 필요성
 
-AI Impact Assessment는 AI 영향·위험 평가 절차이다. AI 시스템은 사람의 권리와 기회에 영향을 줄 수 있다. 영향평가는 AI 사용 목적, 이해관계자, 위험, 통제조치를 구조화해 배포 여부를 판단한다.
+- 개요: AI 영향·위험 평가 절차이다.
+- 배경: AI 시스템은 채용, 대출, 복지처럼 사람의 권리와 기회에 직접 영향을 줄 수 있다.
+- 필요성: 영향평가는 사용 목적, 이해관계자, 위험 시나리오, 통제조치를 근거로 배포 승인 여부를 판단한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Use Case Definition → Stakeholder/Impact Analysis
-  → Risk Scenario → Mitigation → Residual Risk Approval
+Use Case Definition -> Stakeholder/Impact Analysis
+  -> Risk Scenario -> Mitigation -> Residual Risk Approval
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Use Case Definition → Stakeholder/Impact Analysis
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 과제 등록 → 영향 대상 식별 → 위험 시나리오 평가
-  → 통제조치 설계 → 잔여위험 승인 → 운영 재평가
+AI 과제 등록 -> 영향 대상 식별 -> 위험 시나리오 평가
+  -> 통제조치 설계 -> 잔여위험 승인 -> 운영 재평가
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ AI 과제 등록 → 영향 대상 식별 → 위험 시나리오 평가
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Impact Assessment를 설명하시오" | scope→stakeholder→risk→mitigation 흐름 | 보안 위험평가 대비 차이 |
+| 포괄형 | "AI Impact Assessment를 설명하시오" | scope->stakeholder->risk->mitigation 흐름 | 보안 위험평가 대비 차이 |
 | 요구사항 명시형 | "고위험 AI 관리 방안을 제시하시오" | 잔여위험 승인·재평가 트리거 | 공정성·설명성·감독 통제 |
 
 > 요약: 설명형은 영향평가 절차, 방안형은 고위험 AI 통제와 재평가 기준을 중심으로 작성함.

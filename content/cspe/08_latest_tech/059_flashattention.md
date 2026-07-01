@@ -75,8 +75,8 @@ Q/K/V Blocks -> SRAM Tile Compute -> Online Softmax -> Output Block
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Q/K/V 로드 → 타일 분할 → SRAM에서 QKᵀ 계산
-    → online softmax 갱신 → V 가중합 → output block 저장
+Q/K/V 로드 -> 타일 분할 -> SRAM에서 QKᵀ 계산
+    -> online softmax 갱신 -> V 가중합 -> output block 저장
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |

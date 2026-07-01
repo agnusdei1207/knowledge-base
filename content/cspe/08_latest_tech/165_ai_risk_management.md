@@ -39,13 +39,15 @@ weight: 165
 
 ## Ⅰ. 개요 및 필요성
 
-AI Risk Management는 AI 위험관리 활동이다. AI 시스템은 데이터·모델·사용자·환경 변화로 인해 다양한 위험을 만든다. 조직은 위험을 사전에 식별하고 통제하며 운영 중 모니터링해야 한다.
+- 개요: AI 위험 식별·통제 활동
+- 배경: AI 시스템은 데이터, 모델, 사용자, 환경 변화에 따라 편향, 환각, 보안, 법규 위반 위험을 만든다.
+- 필요성: risk register, control mapping, monitoring metric으로 사전 식별, 완화 조치, 운영 중 재평가를 수행한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-AI Use Case → Risk Identification → Risk Assessment
-  → Mitigation Controls → Residual Approval → Monitoring
+AI Use Case -> Risk Identification -> Risk Assessment
+  -> Mitigation Controls -> Residual Approval -> Monitoring
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ AI Use Case → Risk Identification → Risk Assessment
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-위험 시나리오 도출 → 가능성/영향도 평가
-  → 통제조치 설계 → 잔여위험 승인 → 운영 모니터링/개선
+위험 시나리오 도출 -> 가능성/영향도 평가
+  -> 통제조치 설계 -> 잔여위험 승인 -> 운영 모니터링/개선
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ AI Use Case → Risk Identification → Risk Assessment
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Risk Management를 설명하시오" | 식별→평가→완화→모니터링 흐름 | 전통 IT 위험 대비 차이 |
+| 포괄형 | "AI Risk Management를 설명하시오" | 식별->평가->완화->모니터링 흐름 | 전통 IT 위험 대비 차이 |
 | 요구사항 명시형 | "AI 위험관리 방안을 제시하시오" | 위험 register·지표·SLA 기준 | 거버넌스·GRC 연계 방안 |
 
 > 요약: 설명형은 위험관리 절차, 방안형은 정량 지표와 사고 대응 체계를 중심으로 작성함.

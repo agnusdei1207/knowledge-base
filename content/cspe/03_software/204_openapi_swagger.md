@@ -54,7 +54,9 @@ weight: 204
 
 ## Ⅰ. 개요 및 필요성
 
-OpenAPI는 REST API 계약 명세 표준이다. API 수가 늘면 문서·코드·테스트가 분리되어 장애와 재작업이 발생한다. OpenAPI는 계약을 단일 원천으로 두고 문서, mock, SDK, 검증을 자동화한다.
+- 개요: REST API 계약 명세 표준
+- 배경: API 수가 늘면 문서·코드·테스트가 분리되어 장애와 재작업이 발생한다.
+- 필요성: OpenAPI Spec을 단일 원천으로 두고 Swagger UI, mock, SDK 생성, contract test 기준을 제공한다.
 
 ---
 

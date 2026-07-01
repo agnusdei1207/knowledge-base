@@ -67,7 +67,7 @@ weight: 41
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | Extended PE (YaRN/ALiBi) | 긴 시퀀스에서 위치 정보 유지 | RoPE 주파수 보간·외삽 |
-| Sparse Attention | 전체 O(N²) → 로컬+글로벌 O(N√N) | Longformer·BigBird 패턴 |
+| Sparse Attention | 전체 O(N²) -> 로컬+글로벌 O(N√N) | Longformer·BigBird 패턴 |
 | Ring Attention | 시퀀스를 GPU 간 분할 처리 | 디바이스 간 KV 순환 전달 |
 | KV Cache 관리 | 추론 시 메모리 제어 | 양자화·페이지드 어텐션(vLLM) |
 

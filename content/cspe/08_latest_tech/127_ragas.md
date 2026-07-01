@@ -39,13 +39,15 @@ weight: 127
 
 ## Ⅰ. 개요 및 필요성
 
-RAGAS는 RAG 자동 평가 프레임워크임. RAG 품질은 검색과 생성 단계 변경에 민감해 반복 평가가 필요하다. RAGAS는 지표 계산을 자동화해 배포 전 회귀 검증과 운영 모니터링에 활용된다.
+- 개요: RAG 자동 평가 프레임워크
+- 배경: 청크 크기, retriever, prompt, LLM 변경은 RAG 답변 품질을 단계별로 바꾼다.
+- 필요성: RAGAS 지표로 Faithfulness·Context Precision·Answer Relevancy를 자동 계산해 배포 전 회귀 기준을 운영한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
 Dataset(question, answer, contexts, ground_truth)
-  → RAGAS Metrics → LLM Judge → Score Report → CI Gate
+  -> RAGAS Metrics -> LLM Judge -> Score Report -> CI Gate
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Dataset(question, answer, contexts, ground_truth)
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-평가셋 준비 → RAG 실행 결과 수집 → RAGAS 지표 계산
-  → 기준 점수 비교 → 리포트 생성 → 배포 승인/차단
+평가셋 준비 -> RAG 실행 결과 수집 -> RAGAS 지표 계산
+  -> 기준 점수 비교 -> 리포트 생성 -> 배포 승인/차단
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Dataset(question, answer, contexts, ground_truth)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "RAGAS를 설명하시오" | 데이터셋→지표→Judge→리포트 흐름 | 수동 평가 대비 차이 |
+| 포괄형 | "RAGAS를 설명하시오" | 데이터셋->지표->Judge->리포트 흐름 | 수동 평가 대비 차이 |
 | 요구사항 명시형 | "RAG 평가 자동화 방안을 제시하시오" | CI 게이트·회귀 기준 | 평가 LLM 편향·검수 보완 |
 
 > 요약: 설명형은 프레임워크 구조, 방안형은 CI/CD 평가 자동화와 신뢰도 보완을 중심으로 작성함.

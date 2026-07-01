@@ -39,13 +39,15 @@ weight: 163
 
 ## Ⅰ. 개요 및 필요성
 
-EU AI Act는 EU의 위험기반 AI 규제이다. Regulation (EU) 2024/1689는 AI 시스템의 위험 수준에 따라 금지, 고위험 의무, 투명성 의무 등을 부과한다. AI가 기본권과 안전에 미치는 영향을 법적으로 관리하기 위해 필요하다.
+- 개요: EU 위험기반 AI 규제
+- 배경: Regulation (EU) 2024/1689는 AI 시스템의 위험 수준에 따라 금지, 고위험 의무, 투명성 의무를 차등 부과한다.
+- 필요성: prohibited AI, high-risk AI, GPAI 의무를 분류해 기본권, 안전, 적합성 평가, 문서화 요구를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-AI Use Case → Scope/Role Check → Risk Classification
-  → Obligations Mapping → Conformity/Monitoring → Evidence
+AI Use Case -> Scope/Role Check -> Risk Classification
+  -> Obligations Mapping -> Conformity/Monitoring -> Evidence
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ AI Use Case → Scope/Role Check → Risk Classification
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-AI 시스템 등록 → EU 적용성 검토 → 위험 등급 분류
-  → 의무사항 매핑 → 테스트/문서화 → 배포 후 모니터링
+AI 시스템 등록 -> EU 적용성 검토 -> 위험 등급 분류
+  -> 의무사항 매핑 -> 테스트/문서화 -> 배포 후 모니터링
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ AI 시스템 등록 → EU 적용성 검토 → 위험 등급 분류
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "EU AI Act를 설명하시오" | 적용성→위험분류→의무 매핑 흐름 | 가이드 대비 법적 규제 차이 |
+| 포괄형 | "EU AI Act를 설명하시오" | 적용성->위험분류->의무 매핑 흐름 | 가이드 대비 법적 규제 차이 |
 | 요구사항 명시형 | "AI 규제 대응 방안을 제시하시오" | 고위험 AI 통제·증적 관리 | ISO/NIST와 통합 운영 |
 
 > 요약: 설명형은 위험기반 규제 구조, 방안형은 use case 분류와 고위험 의무 이행을 중심으로 작성함.

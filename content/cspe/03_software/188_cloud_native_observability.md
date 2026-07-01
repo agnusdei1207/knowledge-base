@@ -54,7 +54,9 @@ weight: 188
 
 ## Ⅰ. 개요 및 필요성
 
-관측성은 장애 원인 추론 체계임. 클라우드 네이티브 환경은 pod, service, function이 동적으로 변해 단일 서버 중심 모니터링으로 원인 분석이 어렵다. metric, log, trace를 SLO와 연결해야 서비스 영향과 복구 우선순위를 판단할 수 있다.
+- 개요: 장애 원인 추론 체계
+- 배경: 클라우드 네이티브 환경은 pod, service, function이 동적으로 변해 단일 서버 중심 모니터링으로 원인 분석이 어렵다.
+- 필요성: metric, log, trace를 SLO와 연결해 사용자 영향과 복구 우선순위를 판단한다.
 
 ---
 
@@ -141,7 +143,7 @@ Application/Platform -> Metric/Log/Trace Collector -> Storage -> Query/Alert -> 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 표준 신호 정의: RED(Request, Error, Duration)와 USE(Utilization, Saturation, Error)를 서비스별 SLI로 지정
+1. 표준 신호 설정: RED(Request, Error, Duration)와 USE(Utilization, Saturation, Error)를 서비스별 SLI로 지정
 2. 상관관계 확보: trace_id, service.name, deployment.version을 log와 trace에 공통 삽입하고 OpenTelemetry Collector로 수집
 3. 비용·알림 통제: high cardinality label 금지, tail sampling, 7/30/90일 retention, SLO burn rate alert를 적용
 

@@ -17,7 +17,7 @@ weight: 111
 
 ## 깊이 이해
 - **배경·문제의식**: 전통 검색(TF-IDF, BM25)은 어휘 불일치(Vocabulary Mismatch) 문제가 있다. 동의어·다의어·문맥을 처리하지 못해 재현율(Recall)이 낮다.
-- **작동 원리**: ① 사전 학습된 인코더(BERT, E5, BGE 등)가 질의·문서를 768차원 벡터로 변환 → ② 벡터 DB(Milvus, Pinecone 등)에 색인 → ③ 코사인 유사도 또는 내적으로 Top-K 검색 → ④ 리랭커(Cross-Encoder)로 정밀 재정렬.
+- **작동 원리**: ① 사전 학습된 인코더(BERT, E5, BGE 등)가 질의·문서를 768차원 벡터로 변환 -> ② 벡터 DB(Milvus, Pinecone 등)에 색인 -> ③ 코사인 유사도 또는 내적으로 Top-K 검색 -> ④ 리랭커(Cross-Encoder)로 정밀 재정렬.
 - **비유**: 도서관 사서에게 "여름에 시원한 음식"이라 물으면, 사서는 "냉면·빙수·수박" 등 뜻을 이해해 추천한다. 키워드 검색은 "시원한"이 적힌 책만 꺼낸다.
 - **구체 예시**: MS Bing은 BERT 기반 의미 검색 도입 후 관련성 상위 5건 클릭률이 기존 BM25 대비 12% 향상(2019 공개 사례).
 - **흔한 오해·주의점**: 의미 검색이 항상 BM25보다 낫지 않다. 정확한 고유명사·코드 검색은 키워드 매칭이 더 정확하며, 실무에서는 Hybrid(BM25+Dense)를 쓴다.
@@ -43,17 +43,17 @@ weight: 111
 
 ## Ⅰ. 개요 및 필요성
 
-질의·문서의 의미를 벡터로 변환해 유사도 검색하는 기법. 키워드 일치 검색은 동의어·다의어를 처리하지 못해 Recall이 낮다. 의미 검색은 문맥을 반영하여 어휘 불일치 문제를 해소하며, RAG·추천·FAQ 자동응답 등 LLM 기반 서비스의 핵심 검색 계층이다.
+- 개요: 의미 벡터 기반 유사도 검색 기법
+- 배경: 키워드 일치 검색은 동의어, 다의어, 문맥 차이를 처리하지 못해 Recall@K가 낮아질 수 있음.
+- 필요성: Bi-Encoder, vector store, ANN index, Cross-Encoder reranker로 RAG·추천·FAQ 검색의 Recall@10과 nDCG@10을 관리해야 함.
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Encoder  │──▶│ Vector   │──▶│ ANN      │──▶│ Re-ranker│
-│ (Bi-Enc) │   │ Store    │   │ Search   │   │(Cross-Enc)│
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
+  Encoder   ->  Vector    ->  ANN       ->  Re-ranker
+  (Bi-Enc)       Store          Search        (Cross-Enc)
   질의·문서       색인 저장      Top-K 후보       정밀 재정렬
 ```
 
@@ -62,7 +62,7 @@ weight: 111
 | Bi-Encoder | 질의·문서를 독립적으로 768차원 벡터 변환 | BERT, E5-large, BGE-M3 |
 | Vector Store | 벡터 색인·저장 (HNSW, IVF-PQ) | Milvus, Pinecone, pgvector |
 | ANN Search | 근사 최근접 이웃 탐색으로 Top-K 후보 반환 | Recall@10 ≥ 95%, 지연 < 10ms |
-| Cross-Encoder | 질의-문서 쌍을 동시 입력하여 정밀 스코어링 | 정확도↑, 속도↓ (후보 20~50건만 적용) |
+| Cross-Encoder | 질의-문서 쌍을 동시 입력하여 정밀 스코어링 | 정확도증가, 속도감소 (후보 20~50건만 적용) |
 
 > 요약: Bi-Encoder가 속도를, Cross-Encoder가 정밀도를 담당하는 2단계 파이프라인 구조다.
 
@@ -71,17 +71,17 @@ weight: 111
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → Bi-Encoder 벡터화 → ANN 인덱스 검색 → Top-K 후보 → Cross-Encoder 리랭킹 → 최종 결과
+질의 입력 -> Bi-Encoder 벡터화 -> ANN 인덱스 검색 -> Top-K 후보 -> Cross-Encoder 리랭킹 -> 최종 결과
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
 | 1 | 질의를 Bi-Encoder로 768차원 벡터 변환 | 인코딩 지연 < 5ms (GPU) |
 | 2 | HNSW 인덱스에서 코사인 유사도 Top-100 검색 | Recall@100 ≥ 95% |
-| 3 | Cross-Encoder로 Top-100 → Top-10 리랭킹 | nDCG@10 ≥ 0.45 (BEIR 벤치마크) |
+| 3 | Cross-Encoder로 Top-100 -> Top-10 리랭킹 | nDCG@10 ≥ 0.45 (BEIR 벤치마크) |
 | 4 | 최종 Top-K 반환 및 스니펫 생성 | E2E 지연 < 200ms (p95) |
 
-> 요약: 인코딩→ANN→리랭킹 3단계로 속도(Bi-Encoder)와 정밀도(Cross-Encoder)를 분리 최적화한다.
+> 요약: 인코딩->ANN->리랭킹 3단계로 속도(Bi-Encoder)와 정밀도(Cross-Encoder)를 분리 최적화한다.
 
 ---
 
@@ -89,7 +89,7 @@ weight: 111
 
 | 구분 | 내용 | 판단 포인트 |
 |:---|:---|:---|
-| 장점 | 어휘 불일치 해소, Recall@10 BM25 대비 15~25%↑ | 동의어·다의어 처리 필수 도메인 |
+| 장점 | 어휘 불일치 해소, Recall@10 BM25 대비 15~25%증가 | 동의어·다의어 처리 필수 도메인 |
 | 한계 | 인코더 학습 비용 GPU 8장 × 24h, 벡터 저장 768D × 100M건 ≈ 300GB | 대규모 코퍼스 시 비용·용량 검토 |
 | BM25 대비 | 문맥 반영 가능, 고유명사·코드 정확도는 BM25이 우위 | Hybrid(BM25 + Dense) 조합이 최적 |
 
@@ -101,8 +101,8 @@ weight: 111
 
 **적용 방안 3개:**
 1. RAG 파이프라인: BGE-M3 인코더 + Milvus HNSW 인덱스로 Top-20 검색 후 GPT-4o 생성, Recall@20 97%
-2. Hybrid 검색: Elasticsearch BM25 + Dense 벡터 점수를 RRF(Reciprocal Rank Fusion)로 결합, nDCG@10 12%↑
-3. 도메인 파인튜닝: 사내 10만 건 QA 데이터로 E5-large Contrastive 학습, 도메인 Recall@10 30%→52%
+2. Hybrid 검색: Elasticsearch BM25 + Dense 벡터 점수를 RRF(Reciprocal Rank Fusion)로 결합, nDCG@10 12%증가
+3. 도메인 파인튜닝: 사내 10만 건 QA 데이터로 E5-large Contrastive 학습, 도메인 Recall@10 30%->52%
 
 **결론 (2줄):**
 - 기술사 판단: 코퍼스 100만 건 이하면 Dense 단독, 1,000만 건 이상이면 Hybrid(BM25+Dense)+리랭킹 구성
@@ -114,7 +114,7 @@ weight: 111
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "의미 검색을 설명하시오" | 인코딩→ANN→리랭킹 전체 흐름 | BM25 대비 장단점, 발전 방향 |
+| 포괄형 | "의미 검색을 설명하시오" | 인코딩->ANN->리랭킹 전체 흐름 | BM25 대비 장단점, 발전 방향 |
 | 요구사항 명시형 | "키워드 검색과 비교하시오", "검색 정확도 개선 방안" | BM25 vs Dense 비교표 중심 | Hybrid 구성·리랭킹 단계별 방안 |
 
 > 요약: "설명"이면 파이프라인 전체를, "비교·방안"이면 BM25 대비 차이와 Hybrid 구성을 중심으로 답안을 구성한다.

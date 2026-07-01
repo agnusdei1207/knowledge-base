@@ -54,7 +54,9 @@ weight: 78
 
 ## Ⅰ. 개요 및 필요성
 
-취약 컴포넌트는 의존성 기반 취약점이다. 오픈소스, OS package, container image, SaaS SDK는 transitive 구조로 포함되어 운영자가 모르는 취약 버전을 만들 수 있다. SBOM과 SCA를 CI/CD에 연결해 배포 전·후 취약 버전을 식별해야 함.
+- 개요: 의존성 기반 취약점
+- 배경: 오픈소스, OS package, container image, SaaS SDK는 transitive dependency로 포함되어 운영자가 직접 선언하지 않은 취약 버전이 배포될 수 있음.
+- 필요성: SBOM, SCA, CVE/NVD feed, SPDX·CycloneDX 형식을 CI/CD에 연결해 배포 전·후 취약 버전을 식별해야 함.
 
 ---
 

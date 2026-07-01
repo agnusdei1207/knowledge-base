@@ -54,7 +54,9 @@ weight: 197
 
 ## Ⅰ. 개요 및 필요성
 
-능동적 방어는 실시간 방어 전략임. 공격을 기다린 뒤 처리하는 방식에서 벗어나 deception, threat hunting, 자동 containment로 침투 진행을 조기 포착한다. 정상 계정 악용과 lateral movement 탐지를 위해 ATT&CK 기반 행위 관측이 필요함.
+- 개요: 침투 진행을 선제 관측하는 방어
+- 배경: 경보 발생 후 처리 방식은 정상 계정 악용, lateral movement, 내부 정찰 단계의 행위 증거를 놓칠 수 있다.
+- 필요성: MITRE ATT&CK 기반 threat hunting, deception, 자동 containment로 TTP 관측과 대응 시간을 측정한다.
 
 ---
 

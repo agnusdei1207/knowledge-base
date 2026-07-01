@@ -39,13 +39,15 @@ weight: 195
 
 ## Ⅰ. 개요 및 필요성
 
-Model DoS는 AI 추론 자원 고갈 공격이다. 대형 모델은 요청 1건의 계산 비용 편차가 크다. AI 서비스는 네트워크 계층 외 모델 계층 쿼터와 비용 통제가 필요하다.
+- 개요: AI 추론 자원을 고갈시키는 공격이다.
+- 배경: 대형 모델은 입력 길이, 출력 길이, 도구 호출 수에 따라 요청 1건의 GPU 비용 편차가 크다.
+- 필요성: Model DoS는 token quota, context limit, circuit breaker로 모델 계층 비용과 지연을 통제한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Expensive Prompt → Long Context/Output → GPU Saturation
-  → Queue Delay/Cost Spike → Policy Throttle
+Expensive Prompt -> Long Context/Output -> GPU Saturation
+  -> Queue Delay/Cost Spike -> Policy Throttle
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Expensive Prompt → Long Context/Output → GPU Saturation
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-고비용 요청 생성 → 동시·반복 호출 → 추론 자원 포화
-  → SLA 저하 → 제한·차단
+고비용 요청 생성 -> 동시·반복 호출 -> 추론 자원 포화
+  -> SLA 저하 -> 제한·차단
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Expensive Prompt → Long Context/Output → GPU Saturation
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Model DoS를 설명하시오" | 고비용 요청→자원 포화 흐름 | 네트워크 DDoS 대비 차이 |
+| 포괄형 | "Model DoS를 설명하시오" | 고비용 요청->자원 포화 흐름 | 네트워크 DDoS 대비 차이 |
 | 요구사항 명시형 | "LLM 서비스 가용성 확보 방안을 제시하시오" | 토큰·GPU·tool call 제한 | AI Gateway·FinOps 기준 |
 
 > 요약: 설명형은 모델 자원 고갈 원리, 방안형은 AI 계층 쿼터와 비용 통제 기준을 중심으로 작성함.

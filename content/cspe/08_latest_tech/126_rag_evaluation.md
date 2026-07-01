@@ -39,13 +39,15 @@ weight: 126
 
 ## Ⅰ. 개요 및 필요성
 
-RAG Evaluation은 검색증강생성 품질 평가 체계임. RAG 오류는 검색 누락, 무관 문서, 근거 불일치, 답변 관련성 부족으로 나뉜다. 운영 전후에 단계별 지표를 측정해야 개선 지점을 식별할 수 있다.
+- 개요: RAG 단계별 품질 평가 체계
+- 배경: RAG 오류는 검색 누락, 무관 문서, 근거 불일치, 답변 관련성 부족처럼 단계별 원인이 다르다.
+- 필요성: Context Recall·Precision·Faithfulness·Answer Relevancy를 분리 측정해 배포 전후 회귀 기준을 만든다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Test Set → Retriever Eval → Generator Eval → Judge/Evaluator
-  → Metric Dashboard → Release Gate
+Test Set -> Retriever Eval -> Generator Eval -> Judge/Evaluator
+  -> Metric Dashboard -> Release Gate
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Test Set → Retriever Eval → Generator Eval → Judge/Evaluator
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 세트 실행 → 검색 컨텍스트 수집 → 답변 생성
-  → 지표 계산 → 기준 비교 → 개선/배포 판단
+질의 세트 실행 -> 검색 컨텍스트 수집 -> 답변 생성
+  -> 지표 계산 -> 기준 비교 -> 개선/배포 판단
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Test Set → Retriever Eval → Generator Eval → Judge/Evaluator
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "RAG 평가를 설명하시오" | 테스트셋→지표→게이트 흐름 | 일반 LLM 평가 대비 차이 |
+| 포괄형 | "RAG 평가를 설명하시오" | 테스트셋->지표->게이트 흐름 | 일반 LLM 평가 대비 차이 |
 | 요구사항 명시형 | "RAG 품질관리 방안을 제시하시오" | 지표 임계값·회귀 테스트 기준 | 운영 모니터링·배포 차단 방안 |
 
 > 요약: 설명형은 평가 체계 전체, 방안형은 배포 게이트와 운영 지표를 중심으로 작성함.

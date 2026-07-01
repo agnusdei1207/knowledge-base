@@ -39,13 +39,15 @@ weight: 156
 
 ## Ⅰ. 개요 및 필요성
 
-Graph Transformer는 그래프용 Transformer 모델임. GNN은 이웃 메시지 패싱에 기반해 먼 노드 정보 전달과 전역 구조 학습에 한계가 있다. Graph Transformer는 attention에 구조 정보를 결합해 장거리 관계를 반영한다.
+- 개요: 그래프용 Transformer 모델
+- 배경: GNN은 이웃 메시지 패싱에 기반하므로 먼 노드 정보 전달과 전역 구조 학습에서 over-squashing 문제가 생긴다.
+- 필요성: attention에 구조 인코딩을 결합해 long-range dependency, graph classification F1, link prediction AUC를 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Graph(V,E,X) → Structural Encoding → Graph Attention
-  → Node/Graph Embedding → Prediction Head
+Graph(V,E,X) -> Structural Encoding -> Graph Attention
+  -> Node/Graph Embedding -> Prediction Head
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Graph(V,E,X) → Structural Encoding → Graph Attention
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-그래프 입력 → 구조 위치/거리 계산 → attention bias 구성
-  → self-attention 학습 → embedding 생성 → 태스크 예측
+그래프 입력 -> 구조 위치/거리 계산 -> attention bias 구성
+  -> self-attention 학습 -> embedding 생성 -> 태스크 예측
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Graph(V,E,X) → Structural Encoding → Graph Attention
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Graph Transformer를 설명하시오" | 구조 encoding→attention→예측 흐름 | GNN 대비 차이 |
+| 포괄형 | "Graph Transformer를 설명하시오" | 구조 encoding->attention->예측 흐름 | GNN 대비 차이 |
 | 요구사항 명시형 | "그래프 AI 적용 방안을 제시하시오" | sparse attention·subgraph batching 기준 | 장거리 관계·비용 트레이드오프 |
 
 > 요약: 설명형은 그래프 attention 원리, 방안형은 대규모 그래프 적용과 비용 통제를 중심으로 작성함.

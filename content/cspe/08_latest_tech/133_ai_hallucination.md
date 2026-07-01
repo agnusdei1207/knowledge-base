@@ -56,8 +56,8 @@ weight: 133
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-User Query → LLM/RAG → Generated Claims
-  → Evidence Check → Guardrail/Human Review → Final Answer
+User Query -> LLM/RAG -> Generated Claims
+  -> Evidence Check -> Guardrail/Human Review -> Final Answer
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -72,9 +72,9 @@ User Query → LLM/RAG → Generated Claims
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → 근거 검색/생성 → claim 분해
-  → 근거 일치성 검증 → 미근거 claim 탐지
-  → 재검색·재생성·거절·검토
+질의 입력 -> 근거 검색/생성 -> claim 분해
+  -> 근거 일치성 검증 -> 미근거 claim 탐지
+  -> 재검색·재생성·거절·검토
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -140,7 +140,7 @@ User Query → LLM/RAG → Generated Claims
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "AI Hallucination을 설명하시오" | 원인→탐지→검증→통제 흐름 | 원인별 대응 비교 |
+| 포괄형 | "AI Hallucination을 설명하시오" | 원인->탐지->검증->통제 흐름 | 원인별 대응 비교 |
 | 요구사항 명시형 | "환각 저감 방안을 제시하시오" | RAG·Faithfulness·citation 적용 절차 | 고위험 업무 거절·검토 정책 |
 
 > 요약: 설명형은 환각 발생 구조, 방안형은 근거 검증과 운영 통제 방안을 중심으로 작성함.

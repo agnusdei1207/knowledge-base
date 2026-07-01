@@ -39,13 +39,15 @@ weight: 176
 
 ## Ⅰ. 개요 및 필요성
 
-Fairness Metric은 AI 공정성 측정 지표다. AI가 전체 accuracy 90%를 달성해도 특정 집단 false negative rate가 높으면 실질 차별이 발생한다. 고위험 AI는 집단별 결과·오류 지표를 함께 관리해야 한다.
+- 개요: AI 공정성을 수치화하는 지표다.
+- 배경: 전체 accuracy 90% 모델도 특정 집단 false negative rate가 높으면 실질 차별을 만들 수 있다.
+- 필요성: 고위험 AI는 demographic parity, equal opportunity, equalized odds로 집단별 결과·오류 격차를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Sensitive Attribute → Outcome Metric → Error Metric
-  → Fairness Gap → Governance Threshold
+Sensitive Attribute -> Outcome Metric -> Error Metric
+  -> Fairness Gap -> Governance Threshold
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -60,8 +62,8 @@ Sensitive Attribute → Outcome Metric → Error Metric
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-집단 식별 → 지표 선택 → 집단별 산출
-  → gap 계산 → 완화·승인 판단
+집단 식별 -> 지표 선택 -> 집단별 산출
+  -> gap 계산 -> 완화·승인 판단
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -99,7 +101,7 @@ Sensitive Attribute → Outcome Metric → Error Metric
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Fairness Metric을 설명하시오" | 지표 선택→gap 계산 흐름 | 성능 지표 대비 차이 |
+| 포괄형 | "Fairness Metric을 설명하시오" | 지표 선택->gap 계산 흐름 | 성능 지표 대비 차이 |
 | 요구사항 명시형 | "AI 공정성 평가 방안을 제시하시오" | 보호집단·임계값·조치 기준 | 업무별 지표 선택 |
 
 > 요약: 설명형은 지표 체계, 방안형은 업무 피해 유형별 지표와 승인 기준을 중심으로 작성함.
