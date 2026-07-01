@@ -54,7 +54,9 @@ weight: 109
 
 ## Ⅰ. 개요 및 필요성
 
-조인 알고리즘은 두 테이블의 관련 행을 결합하는 물리 연산 방식이다. DBMS는 조인 순서와 알고리즘을 통계·인덱스·메모리 비용으로 선택한다. 잘못된 선택은 수십 배 I/O 차이와 temp spill을 만든다.
+- 개요: 조인 알고리즘은 테이블 결합 연산이다.
+- 배경: DBMS는 조인 순서와 NLJ, Hash Join, Merge Join을 통계, 인덱스, 메모리 비용으로 선택한다.
+- 필요성: outer cardinality, inner index, work memory, sort cost를 기준으로 temp spill과 buffer read를 통제해야 한다.
 
 ---
 

@@ -54,7 +54,9 @@ weight: 108
 
 ## Ⅰ. 개요 및 필요성
 
-실행 계획은 DBMS가 SQL을 처리하기 위해 선택한 연산 순서와 접근 경로이다. 대용량 DB에서는 같은 결과라도 계획에 따라 I/O와 CPU 비용이 크게 달라진다. 최적화는 통계와 비용 모델로 낮은 비용의 계획을 선택·검증하는 활동이다.
+- 개요: 실행 계획은 SQL 처리 경로이다.
+- 배경: 대용량 DB에서는 같은 결과라도 full scan, index scan, join order, hash join 선택에 따라 I/O와 CPU 비용이 달라진다.
+- 필요성: Statistics, Cost Model, EXPLAIN ANALYZE로 estimated row와 actual row 차이를 검증해야 한다.
 
 ---
 

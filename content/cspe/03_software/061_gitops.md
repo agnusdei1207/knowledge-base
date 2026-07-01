@@ -54,7 +54,9 @@ weight: 61
 
 ## Ⅰ. 개요 및 필요성
 
-GitOps는 Git을 운영 희망 상태의 단일 원천으로 사용하는 배포·운영 방식이다. Kubernetes와 IaC 확산으로 환경별 YAML, secret, 정책이 증가하면서 수동 변경 추적 비용이 커졌다. GitOps는 PR 승인과 자동 조정을 결합해 변경 이력, 권한, 롤백을 Git 흐름으로 통제한다.
+- 개요: Git 기반 운영 상태 관리
+- 배경: Kubernetes와 IaC 확산으로 환경별 YAML, Secret, 정책 변경이 증가해 수동 변경 추적만으로는 운영 상태와 Git 상태의 차이를 식별하기 어렵다.
+- 필요성: Argo CD·Flux 같은 조정기가 Git desired state와 클러스터 actual state를 비교해 drift 감지, PR 승인, 롤백 이력을 Git 흐름으로 통제한다.
 
 ---
 

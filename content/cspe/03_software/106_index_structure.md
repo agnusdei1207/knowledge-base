@@ -54,7 +54,9 @@ weight: 106
 
 ## Ⅰ. 개요 및 필요성
 
-인덱스는 테이블 행을 찾기 위한 별도 접근 경로이다. 대용량 테이블에서 조건 검색, 조인, 정렬을 full scan으로 처리하면 I/O와 CPU 비용이 증가한다. 인덱스는 선택도 높은 조건에서 읽는 page 수를 줄인다.
+- 개요: 인덱스는 테이블 행 접근 경로이다.
+- 배경: 대용량 테이블에서 조건 검색, 조인, 정렬을 full scan으로 처리하면 buffer read, CPU, temp I/O 비용이 증가한다.
+- 필요성: B+Tree, Hash, Composite Index를 선택도, 카디널리티, leftmost prefix, DML 유지 비용 기준으로 설계해야 한다.
 
 ---
 

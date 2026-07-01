@@ -53,7 +53,9 @@ weight: 99
 
 ## Ⅰ. 개요 및 필요성
 
-2PL은 잠금 기반 동시성 제어 규칙이다. 트랜잭션이 같은 데이터에 동시에 접근하면 Lost Update, Dirty Read, Cascading Rollback이 발생한다. 2PL은 Lock 획득과 해제 순서를 제한해 직렬 실행과 동등한 결과를 만든다.
+- 개요: 2PL은 잠금 기반 동시성 제어 규칙이다.
+- 배경: 트랜잭션이 같은 데이터에 동시에 접근하면 Lost Update, Dirty Read, Cascading Rollback이 발생한다.
+- 필요성: Growing Phase, Shrinking Phase, Strict 2PL, Wait-For Graph로 직렬 가능성과 Deadlock 처리를 함께 설계해야 한다.
 
 ---
 
