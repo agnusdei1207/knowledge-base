@@ -39,7 +39,9 @@ weight: 208
 
 ## Ⅰ. 개요 및 필요성
 
-Content Credentials는 콘텐츠 출처 증명 방식이다. AI 생성·편집 콘텐츠는 생성 과정과 편집 이력의 투명성이 필요하다. 암호 서명 기반 provenance를 통해 무결성을 검증한다.
+- 개요: 콘텐츠 출처와 편집 이력 증명 방식이다.
+- 배경: AI 생성·편집 콘텐츠는 생성 도구, 편집 단계, 게시 주체를 확인할 수 없으면 위변조 판단이 어렵다.
+- 필요성: Content Credentials는 C2PA manifest와 digital signature로 provenance 무결성을 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -92,7 +94,7 @@ Creator/Tool -> Manifest/Claim -> Digital Signature
 3. 사용자 표시: 언론·공공 사이트는 Content Credentials pin과 편집 이력 요약을 제공해 provenance 확인 경로 제공
 
 **결론 (2줄):**
-- 기술사 판단: 공개 신뢰가 중요한 콘텐츠는 Content Credentials를 기본 적용하고 워터마킹·딥페이크 탐지를 보완 적용
+- 기술사 판단: 공개 검증이 필요한 콘텐츠는 Content Credentials를 기본 적용하고 워터마킹·딥페이크 탐지를 보완 적용
 - 향후 방향: Content Credentials는 C2PA 표준과 플랫폼 표시 정책을 통해 합성 미디어 신뢰 인프라로 확산됨
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)

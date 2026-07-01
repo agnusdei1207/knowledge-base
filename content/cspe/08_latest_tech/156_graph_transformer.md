@@ -39,7 +39,9 @@ weight: 156
 
 ## Ⅰ. 개요 및 필요성
 
-Graph Transformer는 그래프용 Transformer 모델임. GNN은 이웃 메시지 패싱에 기반해 먼 노드 정보 전달과 전역 구조 학습에 한계가 있다. Graph Transformer는 attention에 구조 정보를 결합해 장거리 관계를 반영한다.
+- 개요: 그래프용 Transformer 모델
+- 배경: GNN은 이웃 메시지 패싱에 기반하므로 먼 노드 정보 전달과 전역 구조 학습에서 over-squashing 문제가 생긴다.
+- 필요성: attention에 구조 인코딩을 결합해 long-range dependency, graph classification F1, link prediction AUC를 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 

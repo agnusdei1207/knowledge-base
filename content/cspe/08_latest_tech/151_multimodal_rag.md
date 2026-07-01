@@ -39,7 +39,9 @@ weight: 151
 
 ## Ⅰ. 개요 및 필요성
 
-Multimodal RAG는 복수 모달 근거를 활용하는 검색증강생성 구조임. 기업 지식은 텍스트뿐 아니라 표, 이미지, 도면, 음성에 분산되어 있다. 모달별 근거를 검색·융합해 답변 품질과 근거 범위를 확장한다.
+- 개요: 복수 모달 근거 활용 RAG 구조
+- 배경: 기업 지식은 텍스트뿐 아니라 표, 이미지, 도면, 음성에 분산되어 텍스트 RAG만으로 근거 범위가 제한된다.
+- 필요성: modality-specific retriever와 fusion으로 modality coverage, groundedness, answer accuracy를 함께 측정한다.
 
 ## Ⅱ. 구조 및 구성요소
 

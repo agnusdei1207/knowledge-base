@@ -39,7 +39,9 @@ weight: 147
 
 ## Ⅰ. 개요 및 필요성
 
-Latent Diffusion은 잠재공간 기반 확산 생성 방식임. 픽셀 공간 확산은 고해상도 이미지에서 연산량과 메모리 비용이 크다. 이미지를 latent로 압축한 뒤 denoising을 수행해 생성 효율을 높인다.
+- 개요: 잠재공간 기반 확산 생성 방식
+- 배경: 픽셀 공간 확산은 고해상도 이미지에서 denoising 단계마다 연산량과 메모리 사용량이 커진다.
+- 필요성: VAE latent 압축 후 denoising을 수행해 VRAM 사용량, sampling latency, FID 기준으로 생성 비용을 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 

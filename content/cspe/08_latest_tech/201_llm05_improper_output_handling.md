@@ -43,7 +43,9 @@ weight: 201
 
 ## Ⅰ. 개요 및 필요성
 
-LLM 출력 무검증 전달로 발생하는 주입 취약점. LLM 응답이 HTML·SQL·Shell에 삽입되면서 기존 입력 검증만으로는 새로운 주입 경로를 차단할 수 없어 출력 측 검증이 필수.
+- 개요: LLM 출력 무검증 전달 취약점이다.
+- 배경: LLM 응답이 HTML, SQL, Shell, API 요청에 삽입되면 출력이 코드나 명령으로 해석될 수 있다.
+- 필요성: LLM05는 output encoding, schema validation, sandbox, CSP로 XSS·SSRF·RCE 경로를 차단한다.
 
 ---
 

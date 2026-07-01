@@ -25,7 +25,7 @@ weight: 194
 ## 연결 개념
 - Robust AI — 교란에 견디는 모델 설계
 - Backdoor Attack — 특정 트리거 기반 조건부 오동작
-- AI Safety — 안전 중요 시스템의 검증 기준
+- AI Safety — 고위험 시스템의 검증 기준
 
 # 📝 【답안용】 시험 답안 템플릿
 
@@ -34,12 +34,14 @@ weight: 194
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Adversarial Example은 사람이 알아채기 어려운 입력 교란으로 AI 오분류를 유도하는 공격임.
-> 2. **가치**: 자율주행, 생체인증, 의료영상 등 안전 중요 AI의 신뢰성과 보안성을 훼손함.
+> 2. **가치**: 자율주행, 생체인증, 의료영상 등 고위험 AI의 신뢰성과 보안성을 훼손함.
 > 3. **판단 포인트**: clean accuracy와 robust accuracy를 분리 측정하고 교란 예산 기준을 정의해야 함.
 
 ## Ⅰ. 개요 및 필요성
 
-Adversarial Example은 적대적 입력 변조다. AI 모델은 작은 입력 변화에도 잘못된 예측을 낼 수 있다. 안전 중요 분야는 교란 공격에 대한 강건성 검증이 필요하다.
+- 개요: 모델 오분류를 유도하는 입력 변조다.
+- 배경: AI 모델은 사람에게 거의 보이지 않는 perturbation에도 예측 경계가 바뀔 수 있다.
+- 필요성: Adversarial Example은 FGSM, PGD, adversarial training 기준으로 robust accuracy를 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -89,10 +91,10 @@ Clean Input -> Perturbation Generator -> Adversarial Input
 **적용 방안 3개:**
 1. 평가 체계: clean accuracy와 FGSM/PGD 공격별 robust accuracy를 분리 보고하고 ε 기준을 명시
 2. 학습 방어: adversarial training, data augmentation, confidence calibration을 적용하고 ASR 감소량 측정
-3. 운영 보호: 입력 이상탐지, 센서 다중화, human override를 적용해 안전 중요 결정은 단일 모델 판단 금지
+3. 운영 보호: 입력 이상탐지, 센서 다중화, human override를 적용해 고위험 결정은 단일 모델 판단 금지
 
 **결론 (2줄):**
-- 기술사 판단: 안전 중요 AI는 clean accuracy만으로 승인하지 말고 공격별 robust accuracy를 필수 지표로 적용
+- 기술사 판단: 고위험 AI는 clean accuracy만으로 승인하지 말고 공격별 robust accuracy를 필수 지표로 적용
 - 향후 방향: Adversarial Example 대응은 Robust AI, 형식 검증, 운영 모니터링과 결합됨
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)

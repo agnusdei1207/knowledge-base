@@ -39,7 +39,9 @@ weight: 209
 
 ## Ⅰ. 개요 및 필요성
 
-Deepfake Detection은 합성 미디어 탐지 기술이다. AI 기반 얼굴·음성 조작은 사회적 신뢰와 인증 체계를 위협한다. 탐지 모델과 출처 증명을 결합해 대응해야 한다.
+- 개요: 합성 미디어를 판별하는 탐지 기술이다.
+- 배경: AI 기반 얼굴·음성 조작은 신원 확인, 선거 여론, 금융 인증 절차를 위협한다.
+- 필요성: Deepfake Detection은 visual artifact, audio feature, provenance signal을 결합해 합성 여부를 판정한다.
 
 ## Ⅱ. 구조 및 구성요소
 

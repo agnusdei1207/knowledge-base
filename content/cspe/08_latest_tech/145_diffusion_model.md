@@ -39,7 +39,9 @@ weight: 145
 
 ## Ⅰ. 개요 및 필요성
 
-Diffusion Model은 노이즈 제거 기반 생성모델임. GAN은 학습 불안정과 mode collapse 문제가 있고, 고품질 조건부 생성에는 안정적 학습 구조가 필요하다. 확산모델은 forward noise와 reverse denoising 과정을 학습해 새 데이터를 생성한다.
+- 개요: 노이즈 제거 기반 생성모델
+- 배경: GAN은 mode collapse와 학습 불안정 문제가 있어 조건부 생성 품질을 일관되게 재현하기 어렵다.
+- 필요성: forward noise와 reverse denoising을 학습해 FID, CLIP score, sampling steps 기준으로 생성 품질을 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 

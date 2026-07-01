@@ -39,7 +39,9 @@ weight: 169
 
 ## Ⅰ. 개요 및 필요성
 
-SHAP은 게임이론 기반 feature attribution 기법이다. AI 예측 결과를 설명하려면 각 feature가 예측을 얼마나 올리거나 낮췄는지 정량화해야 한다. SHAP은 일관성과 가산성을 가진 설명값을 제공한다.
+- 개요: 게임이론 기반 feature attribution 기법이다.
+- 배경: AI 예측 설명은 feature별 기여 방향과 크기를 정량화해야 비교와 감사가 가능하다.
+- 필요성: SHAP은 Shapley value로 local explanation과 global importance를 가산성 기준에 맞춰 계산한다.
 
 ## Ⅱ. 구조 및 구성요소
 

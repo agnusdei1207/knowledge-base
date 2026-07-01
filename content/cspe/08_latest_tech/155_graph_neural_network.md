@@ -39,7 +39,9 @@ weight: 155
 
 ## Ⅰ. 개요 및 필요성
 
-GNN은 그래프 구조 데이터를 학습하는 신경망이다. 관계 데이터는 노드 특성보다 연결 패턴이 예측에 중요하다. GNN은 이웃 노드 정보를 반복 집계해 관계 기반 표현을 생성한다.
+- 개요: 그래프 구조 데이터 학습 신경망
+- 배경: 소셜, 추천, 분자, 보안 로그 데이터는 개별 노드 특성뿐 아니라 연결 패턴이 예측 결과를 좌우한다.
+- 필요성: message passing과 aggregation으로 node classification accuracy, link prediction AUC, graph classification F1을 측정한다.
 
 ## Ⅱ. 구조 및 구성요소
 

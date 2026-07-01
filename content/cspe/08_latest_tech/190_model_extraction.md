@@ -39,7 +39,9 @@ weight: 190
 
 ## Ⅰ. 개요 및 필요성
 
-Model Extraction은 모델 복제 공격이다. AI API는 입력에 대한 예측값을 제공하므로 반복 질의로 모델 동작을 근사할 수 있다. 모델 자산 보호와 API 남용 탐지가 필요하다.
+- 개요: 반복 질의로 모델을 복제하는 공격이다.
+- 배경: AI API는 입력별 예측값과 confidence를 제공하므로 공격자가 질의-응답 데이터셋을 만들 수 있다.
+- 필요성: Model Extraction은 rate limit, query anomaly detection, output rounding으로 모델 자산과 API를 보호한다.
 
 ## Ⅱ. 구조 및 구성요소
 

@@ -39,7 +39,9 @@ weight: 143
 
 ## Ⅰ. 개요 및 필요성
 
-Visual Question Answering은 이미지 기반 질의응답 태스크임. 이미지 캡셔닝은 전체 설명에 적합하지만 특정 질문에 직접 답하지 못할 수 있다. VQA는 이미지 내 관련 영역과 질문 의도를 결합해 답을 생성한다.
+- 개요: 이미지 기반 질의응답 태스크
+- 배경: 이미지 캡셔닝은 전체 장면 설명에 적합하지만 특정 객체, 수량, 위치 질문에 직접 답하지 못할 수 있다.
+- 필요성: visual grounding과 language reasoning을 결합해 VQA accuracy, grounding IoU, hallucination rate로 응답을 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 

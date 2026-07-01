@@ -39,7 +39,9 @@ weight: 176
 
 ## Ⅰ. 개요 및 필요성
 
-Fairness Metric은 AI 공정성 측정 지표다. AI가 전체 accuracy 90%를 달성해도 특정 집단 false negative rate가 높으면 실질 차별이 발생한다. 고위험 AI는 집단별 결과·오류 지표를 함께 관리해야 한다.
+- 개요: AI 공정성을 수치화하는 지표다.
+- 배경: 전체 accuracy 90% 모델도 특정 집단 false negative rate가 높으면 실질 차별을 만들 수 있다.
+- 필요성: 고위험 AI는 demographic parity, equal opportunity, equalized odds로 집단별 결과·오류 격차를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 

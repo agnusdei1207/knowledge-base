@@ -39,7 +39,9 @@ weight: 152
 
 ## Ⅰ. 개요 및 필요성
 
-Document AI는 문서 이해·구조화 AI 기술임. 기업 문서는 PDF와 스캔 이미지 형태로 저장되어 텍스트 검색만으로 업무 자동화가 어렵다. 문서의 레이아웃과 필드를 이해해 RPA, ERP, RAG에 연결한다.
+- 개요: 문서 이해·구조화 AI 기술
+- 배경: 기업 문서는 PDF와 스캔 이미지 형태로 저장되어 단순 텍스트 추출만으로 필드와 레이아웃 관계를 복원하기 어렵다.
+- 필요성: OCR, layout parser, key-value extraction으로 field F1, table accuracy, processing latency를 관리해 RPA·ERP·RAG에 연결한다.
 
 ## Ⅱ. 구조 및 구성요소
 

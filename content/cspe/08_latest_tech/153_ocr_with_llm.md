@@ -39,7 +39,9 @@ weight: 153
 
 ## Ⅰ. 개요 및 필요성
 
-OCR with LLM은 문자 인식과 언어 이해를 결합한 문서 AI 방식임. OCR 단독은 문자 추출에 그치고 문서 의미·필드 관계를 해석하지 못한다. LLM은 OCR 결과를 업무 스키마에 맞게 구조화한다.
+- 개요: OCR과 LLM 결합 문서 AI 방식
+- 배경: OCR 단독은 문자 추출에 머물러 문서 의미, 필드 관계, 예외 표현을 업무 스키마로 해석하기 어렵다.
+- 필요성: OCR 결과를 LLM으로 검증·정규화해 field extraction F1, schema validation error, human review rate를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 

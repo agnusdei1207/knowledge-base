@@ -39,7 +39,9 @@ weight: 154
 
 ## Ⅰ. 개요 및 필요성
 
-Table Understanding은 표 구조와 의미를 해석하는 문서 AI 기술임. 기업 문서의 핵심 수치와 조건은 표에 포함되지만 OCR 단독은 행·열 관계를 보존하지 못한다. 표를 구조화 데이터로 복원해야 계산과 질의응답이 가능하다.
+- 개요: 표 구조와 의미 해석 기술
+- 배경: 기업 문서의 핵심 수치와 조건은 표에 포함되지만 OCR 단독은 행·열 관계와 병합 셀 의미를 보존하지 못한다.
+- 필요성: table detection, structure recognition, cell linking으로 TEDS, cell accuracy, query accuracy 기준의 구조화 데이터를 만든다.
 
 ## Ⅱ. 구조 및 구성요소
 

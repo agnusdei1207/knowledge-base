@@ -39,7 +39,9 @@ weight: 207
 
 ## Ⅰ. 개요 및 필요성
 
-AI Watermarking은 AI 생성물 식별 기술이다. 생성형 AI 확산으로 콘텐츠 출처와 생성 여부 확인이 중요해졌다. 탐지 정확도와 제거 공격 저항성을 기준으로 적용해야 한다.
+- 개요: AI 생성물 식별을 위한 워터마킹 기술이다.
+- 배경: 생성형 AI 확산으로 콘텐츠 출처, 생성 여부, 편집 이력을 검증할 근거가 필요해졌다.
+- 필요성: AI Watermarking은 detection accuracy, false positive rate, removal attack resistance 기준으로 적용한다.
 
 ## Ⅱ. 구조 및 구성요소
 

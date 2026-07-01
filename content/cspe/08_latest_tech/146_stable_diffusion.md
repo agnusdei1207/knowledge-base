@@ -39,7 +39,9 @@ weight: 146
 
 ## Ⅰ. 개요 및 필요성
 
-Stable Diffusion은 공개 생태계 기반 이미지 생성 확산모델임. 고품질 이미지를 생성하려면 텍스트 조건 반영과 연산 효율이 필요하다. 잠재공간 denoising으로 비용을 줄이고 다양한 제어·파인튜닝 생태계를 제공한다.
+- 개요: 공개 생태계 기반 이미지 확산모델
+- 배경: 고해상도 조건부 이미지는 텍스트 조건 반영과 GPU 메모리 비용 통제가 함께 필요하다.
+- 필요성: latent denoising, ControlNet, LoRA로 VRAM 사용량, sampling step, prompt alignment를 관리한다.
 
 ## Ⅱ. 구조 및 구성요소
 

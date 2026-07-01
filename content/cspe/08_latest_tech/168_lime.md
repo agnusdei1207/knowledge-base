@@ -34,12 +34,14 @@ weight: 168
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LIME은 특정 입력 주변에서 블랙박스 모델을 단순 대리모델로 근사해 설명함.
-> 2. **가치**: 모델 종류와 무관하게 개별 예측의 feature 기여도를 빠르게 제공함.
+> 2. **가치**: 모델 종류와 무관하게 개별 예측의 feature 기여도를 샘플링 기반으로 제공함.
 > 3. **판단 포인트**: 국소 설명이므로 샘플링 안정성, kernel width, fidelity를 검증해야 함.
 
 ## Ⅰ. 개요 및 필요성
 
-LIME은 모델 불가지론적 국소 설명기법이다. 복잡한 AI 모델은 개별 예측 이유를 직접 해석하기 어렵다. LIME은 특정 입력 주변에서 단순한 대리모델을 학습해 예측 근거를 설명한다.
+- 개요: 모델 불가지론적 국소 설명기법이다.
+- 배경: 복잡한 AI 모델은 개별 입력의 예측 이유를 내부 구조만으로 해석하기 어렵다.
+- 필요성: LIME은 특정 입력 주변의 perturbation sample과 선형 surrogate model로 예측 근거를 산출한다.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -61,7 +63,7 @@ Instance x -> Perturbation Samples -> Black-box Predictions
 
 ```text
 설명 대상 입력 선택 -> 주변 샘플 생성 -> 모델 예측 수집
-  -> 거리 가중치 부여 -> 선형 대리모델 학습 -> 중요도 출력
+  -> 거리 가중치 부여 -> 선형 대리모델 학습 -> Feature Importance 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -69,9 +71,9 @@ Instance x -> Perturbation Samples -> Black-box Predictions
 | 1 | 설명할 인스턴스와 feature 정의 | 누락 feature 0건 |
 | 2 | perturbation 샘플 N개 생성 | N=1,000~5,000 |
 | 3 | 거리 가중 선형 대리모델 학습 | local fidelity ≥0.9 |
-| 4 | feature 중요도 Top-K 출력 | 설명 안정성 변동률 <10% |
+| 4 | feature contribution Top-K 출력 | 설명 안정성 변동률 <10% |
 
-> 요약: LIME은 원본 주변에서 생성한 샘플로 블랙박스 행동을 근사하고 feature 중요도를 산출함.
+> 요약: LIME은 원본 주변에서 생성한 샘플로 블랙박스 행동을 근사하고 feature contribution을 산출함.
 
 ## Ⅳ. 특징
 

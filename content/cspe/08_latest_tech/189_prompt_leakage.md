@@ -39,7 +39,9 @@ weight: 189
 
 ## Ⅰ. 개요 및 필요성
 
-Prompt Leakage는 내부 프롬프트 노출이다. 시스템 프롬프트는 LLM의 행동 규칙과 업무 정책을 담지만 출력 경로로 유출될 수 있다. 내부 지시와 민감정보를 분리 관리해야 한다.
+- 개요: 내부 프롬프트가 출력되는 위험이다.
+- 배경: 시스템 프롬프트는 LLM 행동 규칙과 업무 정책을 담지만 사용자 질의와 응답 경로에서 노출될 수 있다.
+- 필요성: Prompt Leakage는 secret separation, prompt minimization, output filtering으로 내부 지시와 민감정보를 분리한다.
 
 ## Ⅱ. 구조 및 구성요소
 

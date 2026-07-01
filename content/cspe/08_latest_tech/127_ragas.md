@@ -39,7 +39,9 @@ weight: 127
 
 ## Ⅰ. 개요 및 필요성
 
-RAGAS는 RAG 자동 평가 프레임워크임. RAG 품질은 검색과 생성 단계 변경에 민감해 반복 평가가 필요하다. RAGAS는 지표 계산을 자동화해 배포 전 회귀 검증과 운영 모니터링에 활용된다.
+- 개요: RAG 자동 평가 프레임워크
+- 배경: 청크 크기, retriever, prompt, LLM 변경은 RAG 답변 품질을 단계별로 바꾼다.
+- 필요성: RAGAS 지표로 Faithfulness·Context Precision·Answer Relevancy를 자동 계산해 배포 전 회귀 기준을 운영한다.
 
 ## Ⅱ. 구조 및 구성요소
 

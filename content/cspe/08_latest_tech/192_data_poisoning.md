@@ -39,7 +39,9 @@ weight: 192
 
 ## Ⅰ. 개요 및 필요성
 
-Data Poisoning은 학습데이터 오염 공격이다. AI 모델은 데이터 품질에 직접 영향을 받는다. 외부 데이터셋, 사용자 피드백, RAG 문서의 무결성 검증이 필요하다.
+- 개요: 학습데이터를 오염시키는 공격이다.
+- 배경: AI 모델은 학습 데이터, 사용자 피드백, RAG 문서 품질에 따라 예측과 응답이 달라진다.
+- 필요성: Data Poisoning은 data provenance, anomaly detection, holdout validation으로 오염 샘플을 차단한다.
 
 ## Ⅱ. 구조 및 구성요소
 

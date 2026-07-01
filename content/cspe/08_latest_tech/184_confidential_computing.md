@@ -39,7 +39,9 @@ weight: 184
 
 ## Ⅰ. 개요 및 필요성
 
-Confidential Computing은 사용 중 데이터 보호 모델이다. 클라우드 워크로드는 처리 중 메모리와 관리자 권한에 노출될 수 있다. TEE와 원격 검증으로 민감 연산 경계를 보호해야 한다.
+- 개요: 사용 중 데이터까지 보호하는 모델이다.
+- 배경: 클라우드 워크로드는 처리 중 메모리, 하이퍼바이저, 관리자 권한에 노출될 수 있다.
+- 필요성: Confidential Computing은 TEE, memory encryption, remote attestation으로 민감 연산 경계를 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 

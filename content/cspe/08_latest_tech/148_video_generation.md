@@ -39,7 +39,9 @@ weight: 148
 
 ## Ⅰ. 개요 및 필요성
 
-Video Generation은 조건 기반 영상 생성 기술임. 영상 제작은 촬영·편집·후반작업 비용이 크고 반복 시간이 길다. 생성모델은 텍스트·이미지 조건으로 시간적 일관성을 갖춘 영상 후보를 빠르게 만든다.
+- 개요: 조건 기반 영상 생성 기술
+- 배경: 영상 제작은 촬영, 편집, 후반작업 비용이 크고 프레임 간 시간 일관성 검증이 필요하다.
+- 필요성: text/image condition과 temporal module로 frame consistency, FVD, human preference 기준의 영상 후보를 생성한다.
 
 ## Ⅱ. 구조 및 구성요소
 

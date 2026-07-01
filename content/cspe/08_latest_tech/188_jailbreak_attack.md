@@ -39,7 +39,9 @@ weight: 188
 
 ## Ⅰ. 개요 및 필요성
 
-Jailbreak Attack은 LLM 안전정책 우회 공격이다. 생성형 AI는 역할극·우회표현·다단계 질문으로 유해 요청을 정상 요청처럼 보이게 만들 수 있다. 안전장치 우회율을 측정하고 낮춰야 한다.
+- 개요: LLM 안전정책 우회 공격이다.
+- 배경: 생성형 AI는 역할극, 우회표현, 다단계 질문으로 유해 요청을 정상 요청처럼 보이게 만들 수 있다.
+- 필요성: Jailbreak Attack은 attack success rate, refusal rate, policy coverage 기준으로 방어 수준을 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 

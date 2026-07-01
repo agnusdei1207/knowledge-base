@@ -39,7 +39,9 @@ weight: 132
 
 ## Ⅰ. 개요 및 필요성
 
-Groundedness는 답변 근거 기반성 품질 속성임. RAG는 외부 문서를 제공하지만 LLM이 문서 밖 내용을 생성할 수 있다. 기업 환경에서는 답변과 출처를 연결해 감사 가능한 응답을 제공해야 한다.
+- 개요: 답변의 근거 기반성 품질 속성
+- 배경: RAG는 외부 문서를 제공하지만 LLM이 문서 밖 내용을 섞어 생성하면 감사와 재현 검증이 어렵다.
+- 필요성: 답변 문장과 출처 chunk를 연결해 groundedness score, citation coverage, unsupported sentence 비율로 검증한다.
 
 ## Ⅱ. 구조 및 구성요소
 
