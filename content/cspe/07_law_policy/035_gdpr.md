@@ -36,9 +36,7 @@ weight: 35
 - 개인정보보호법(한국) — 국내법과 GDPR 간 상호 적정성 결정 및 이중 준수 이슈
 - ISO 27701 — 개인정보보호 경영시스템 인증으로 GDPR 준수를 입증하는 수단
 - DPIA(개인정보 영향평가) — 고위험 처리 이전에 위험을 사전 평가하는 의무 절차
-
 ---
-
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
@@ -59,21 +57,17 @@ weight: 35
 | 조직 대응 체계 확인 | DPO 지정, DPIA 수행, 72시간 침해 통지, 역외 적용 | 처벌 규정만 언급하고 예방 절차 누락 |
 
 > 요약: 이 문제는 권리 항목 나열보다 각 권리의 성립 요건과 조직의 대응 절차를 구분해서 보여야 한다.
-
 ---
-
 ## Ⅰ. 개요 및 필요성
 
 - 개요: EU 거주자 개인정보 처리에 적법 근거와 정보주체 권리를 규정한 EU 통합 법규
 - 배경: 1995년 지침 체계의 회원국 편차 문제를 해소하기 위해 2018년 5월 25일 규정(Regulation)으로 전환 시행
 - 필요성: 위반 시 최대 2천만 유로 또는 전세계 연매출 4% 중 큰 금액의 과징금이 부과되므로 처리 근거·권리 대응 체계 수립이 필요
-
 ---
-
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Data Subject -> Lawful Basis Check (Consent/Contract/Legal Obligation/...)
+Data Subject -> Lawful Basis Check (Consent/Contract/Legal Obligation/Legitimate Interest)
   -> Processing Activity -> Rights Handling
        -> Consent Withdraw
        -> Data Portability Export
@@ -91,9 +85,7 @@ Data Subject -> Lawful Basis Check (Consent/Contract/Legal Obligation/...)
 | DPIA | 고위험 처리 이전 위험 평가 | 프로파일링, 대규모 민감정보 처리 시 필수 |
 
 > 요약: GDPR은 처리 근거 선택, 3대 정보주체 권리, DPO·DPIA 감독 체계를 조합해 구성된다.
-
 ---
-
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
@@ -114,9 +106,7 @@ Personal Data Collection -> Lawful Basis Confirm
 | 5 | 개인정보 침해 발생 시 감독기관에 72시간 내 통지 | 통지 소요 시간, 침해 영향 범위 |
 
 > 요약: GDPR 대응은 수집 시점의 근거 확인과 요청 시점의 권리별 예외 심사, 침해 시 72시간 통지로 흐른다.
-
 ---
-
 ## Ⅳ. 특징
 
 | 구분 | 동의(Consent) | 데이터 이동성(Portability) | 잊혀질 권리(Erasure) | 수치·근거 조항 |
@@ -127,9 +117,7 @@ Personal Data Collection -> Lawful Basis Confirm
 | 관련 조직 의무 | DPO 감독 대상 | DPIA 대상 여부 검토 | 삭제 워크플로 및 로그 보관 | 72시간 침해 통지 병행 |
 
 > 요약: 세 권리는 근거 조항, 요건, 예외 범위가 각각 달라 하나로 뭉쳐 설명하면 안 된다.
-
 ---
-
 ## Ⅴ. 심화 비교 및 적용 판단
 
 | 비교 축 | 기존/대안 | GDPR | 선택 기준 |
@@ -155,9 +143,7 @@ Personal Data Collection -> Lawful Basis Confirm
 | 침해 통지 | 인지 후 72시간 이내 감독기관 통지 | 침해 대응 로그, 통지 시각 기록 |
 
 > 요약: 준수 여부는 동의 방식, 권리 응답 기한, 침해 통지 시간의 3개 지표로 판단한다.
-
 ---
-
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**

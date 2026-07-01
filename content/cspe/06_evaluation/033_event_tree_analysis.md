@@ -69,7 +69,7 @@ weight: 33
 ```text
 Initiating Event(초기사건)
   -> Pivotal Event 1(성공/실패) -> Pivotal Event 2(성공/실패)
-  -> ... -> Outcome(결과 시나리오)
+  -> Final Branch -> Outcome(결과 시나리오)
   -> 경로별 확률 곱셈 -> 결과별 발생확률 산출
 ```
 

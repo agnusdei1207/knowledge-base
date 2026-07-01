@@ -56,7 +56,7 @@ weight: 41
 ## Ⅰ. 개요 및 필요성
 
 - 개요: AI 시스템 위험을 4대 기능으로 관리하는 미국 NIST의 자율 프레임워크
-- 발행: 2023년 1월 AI RMF 1.0 발표, Govern·Map·Measure·Manage 구조
+- 배경: 2023년 1월 AI RMF 1.0 발표, Govern·Map·Measure·Manage 구조
 - 필요성: AI 확산에 따른 편향·설명불가·보안 위험 증가로 공통 위험관리 언어와 절차가 필요함
 
 ---
