@@ -10,21 +10,21 @@ draft: true
 # 08_latest_tech 내용 작성 진행 상황
 
 > 이 파일은 작업 이어하기용 추적 문서다. 다음 세션에서 이 파일을 읽고 미완성 범위부터 이어서 작성한다.
-> 최종 업데이트: 2026-07-01T12:08 KST
+> 최종 업데이트: 2026-07-01T12:14 KST
 
 ## 전체 목표
 - 총 360개 키워드 파일 (001~360)
 - 키워드 목록: `_keywords.md` 참조
 - 골드 스탠다드: `001_ai_agent_system.md`, `../02_hardware/221_pipeline_hazards.md`
 
-## 완료된 파일 (206개)
-001~206
+## 완료된 파일 (211개)
+001~211
 
 ## 현재 진행 중
 - 없음
 
 ## 미작성 범위 (우선순위 순)
-1. 207~225 — 워터마킹·콘텐츠 출처·MLOps·Drift
+1. 212~225 — LLMOps·ModelOps·AIOps·DataOps·Drift
 2. 226~250 — 모델 평가·AI 가속기·HBM·CXL·Chiplet
 3. 251~275 — NVLink·병렬·K8s·서비스메시·eBPF·WebAssembly
 4. 276~300 — Observability·SRE·클라우드·보안
