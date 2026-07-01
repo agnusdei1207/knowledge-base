@@ -54,7 +54,9 @@ weight: 287
 
 ## Ⅰ. 개요 및 필요성
 
-Seccomp·AppArmor는 커널 기반 접근 제한이다. 컨테이너는 호스트 커널을 공유하므로 system call과 파일 접근을 최소화해야 한다. 두 기능은 Kubernetes securityContext와 프로파일을 통해 컨테이너 탈출 공격면을 줄인다.
+- 개요: Seccomp·AppArmor는 커널 기반 접근 제한이다.
+- 배경: 컨테이너는 호스트 커널을 공유하므로 system call과 파일 접근을 최소화해야 한다.
+- 필요성: Kubernetes securityContext와 프로파일로 컨테이너 탈출 공격면을 줄여야 한다.
 
 ---
 
