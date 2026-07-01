@@ -161,12 +161,10 @@ Application이 www.example.com 요청
 - 향후 방향: DoH/DoT 확산으로 네트워크 장비 기반 DNS 가시성이 낮아져 endpoint·resolver 로그 중심 관측이 필요함
 
 ---
-
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | "DNS 구조와 동작을 설명하시오" | root -> TLD -> authoritative 질의 흐름 | 주요 레코드와 TTL 캐시 |
 | 요구사항 명시형 | "DNS 장애 대응 방안을 제시하시오", "보안 대책을 설명하시오" | resolver와 authoritative 분리 절차 | DNSSEC, TTL, multi-NS, 지표 |
-
 > 요약: 설명형은 질의 흐름을, 장애·보안형은 resolver/authoritative 분리와 TTL·DNSSEC 대응을 중심으로 전환한다.

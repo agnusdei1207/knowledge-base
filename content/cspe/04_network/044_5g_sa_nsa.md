@@ -54,7 +54,9 @@ weight: 44
 
 ## Ⅰ. 개요 및 필요성
 
-5G SA·NSA는 5G 무선망과 코어망 결합 방식의 차이를 나타낸다. NSA는 LTE EPC 기반 조기 상용화에 유리하고, SA는 5GC 기반 slicing·URLLC·MEC 적용 범위를 넓힌다. 답안은 구축 속도와 5G 고유 기능의 trade-off를 비교해야 한다.
+- 개요: 5G 무선망과 코어망 결합 방식
+- 배경: NSA는 LTE EPC를 재사용하지만 SA는 5GC 기반 기능을 전제로 함
+- 필요성: 구축 기간, EPC 의존, slicing, URLLC, MEC 적용 범위를 기준으로 방식을 선택
 
 ---
 

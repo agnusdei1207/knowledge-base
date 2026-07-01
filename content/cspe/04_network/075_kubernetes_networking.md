@@ -54,7 +54,9 @@ weight: 75
 
 ## Ⅰ. 개요 및 필요성
 
-쿠버네티스 네트워킹은 Pod와 Service 중심의 클러스터 통신 구조이다. Pod는 짧은 수명과 동적 IP를 가지므로 서버 IP 고정 운영과 맞지 않는다. CNI, Service, Ingress, NetworkPolicy를 결합해 컨테이너 생명주기와 독립적인 통신 경로를 제공한다.
+- 개요: Pod·Service 중심 클러스터 통신
+- 배경: Pod는 짧은 수명과 동적 IP를 가지므로 서버 IP 고정 운영 방식으로 서비스 발견과 접근 제어를 처리하기 어렵다.
+- 필요성: CNI, Service, Ingress, NetworkPolicy를 결합해 컨테이너 생명주기와 분리된 통신 경로를 제공한다.
 
 ---
 

@@ -54,7 +54,9 @@ weight: 45
 
 ## Ⅰ. 개요 및 필요성
 
-5G Core SBA는 AMF·SMF·UPF 등 NF가 서비스 기반으로 연동되는 3GPP 5GC 구조이다. 5G SA, network slicing, MEC, private 5G는 EPC보다 세밀한 제어면 분리와 UPF 분산을 요구한다. 답안은 NF 역할과 세션 흐름을 함께 제시해야 한다.
+- 개요: 5GC 기능을 서비스로 연동하는 구조
+- 배경: EPC 중심 구조는 제어면 분리와 UPF 분산에 한계가 있어 SA 기능 적용이 제한
+- 필요성: AMF, SMF, UPF, NRF, PCF 연동으로 세션 제어와 로컬 분기를 구성
 
 ---
 

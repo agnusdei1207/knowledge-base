@@ -55,8 +55,8 @@ weight: 22
 ## Ⅰ. 개요 및 필요성
 
 - 개요: 클라이언트 요청을 여러 서버로 분산하는 네트워크 장치
-- 분산 기준: L4는 IP·port·connection 기준, L7은 HTTP Host·URI·header·cookie 기준으로 서버를 선택
-- 필요성: 서비스 규모 증가, 서버 장애, 무중단 배포 요구에 대응하려면 VIP, 서버 풀, health check, session persistence 설계가 필요
+- 배경: 단일 서버 처리는 장애 전파와 배포 중단 위험이 있어 L4/L7 계층별 분산이 필요
+- 필요성: VIP, health check, persistence로 p95 지연과 장애 서버 우회 기준을 관리
 
 ---
 
