@@ -83,6 +83,29 @@
                         </ul>
                     </details>
 
+                    <details class="explorer-group" {% if current_path is starting_with("/studynote/") %}open{% endif %}>
+                        <summary><span>CS 16과목 학습 노트</span></summary>
+                        <ul>
+                            <li><a href="{{ get_url(path='/studynote/') }}">학습 노트 허브</a></li>
+                            <li><a href="{{ get_url(path='/studynote/01_computer_architecture/') }}">01. 컴퓨터 구조</a></li>
+                            <li><a href="{{ get_url(path='/studynote/02_operating_system/') }}">02. 운영체제</a></li>
+                            <li><a href="{{ get_url(path='/studynote/03_network/') }}">03. 네트워크</a></li>
+                            <li><a href="{{ get_url(path='/studynote/04_software_engineering/') }}">04. 소프트웨어공학</a></li>
+                            <li><a href="{{ get_url(path='/studynote/05_database/') }}">05. 데이터베이스</a></li>
+                            <li><a href="{{ get_url(path='/studynote/06_ict_convergence/') }}">06. ICT 융합</a></li>
+                            <li><a href="{{ get_url(path='/studynote/07_enterprise_systems/') }}">07. 엔터프라이즈 시스템</a></li>
+                            <li><a href="{{ get_url(path='/studynote/08_algorithm_stats/') }}">08. 알고리즘·통계</a></li>
+                            <li><a href="{{ get_url(path='/studynote/09_security/') }}">09. 보안</a></li>
+                            <li><a href="{{ get_url(path='/studynote/10_ai/') }}">10. 인공지능</a></li>
+                            <li><a href="{{ get_url(path='/studynote/11_design_supervision/') }}">11. IT 설계·감리</a></li>
+                            <li><a href="{{ get_url(path='/studynote/12_it_management/') }}">12. IT 경영</a></li>
+                            <li><a href="{{ get_url(path='/studynote/13_cloud_architecture/') }}">13. 클라우드 아키텍처</a></li>
+                            <li><a href="{{ get_url(path='/studynote/14_data_engineering/') }}">14. 데이터 엔지니어링</a></li>
+                            <li><a href="{{ get_url(path='/studynote/15_devops_sre/') }}">15. DevOps·SRE</a></li>
+                            <li><a href="{{ get_url(path='/studynote/16_bigdata/') }}">16. 빅데이터</a></li>
+                        </ul>
+                    </details>
+
                     <details class="explorer-group" {% if current_path is starting_with("/exam/cs/") %}open{% endif %}>
                         <summary><span>실전 문서</span></summary>
                         <ul>
