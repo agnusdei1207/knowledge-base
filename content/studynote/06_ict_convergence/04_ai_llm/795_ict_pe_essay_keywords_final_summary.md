@@ -15,7 +15,7 @@ weight: 795
 
 ## Ⅰ. 개요 및 필요성
 
-ICT 융합 기술사(정보·통신·방송 융합)는 4차 산업혁명 이후 **연결성(5G/6G)·지능(AI)·데이터(Data Mesh/Graph)·자율운영(AI-Ops/SRE)**이 하나의 플랫폼 위에서 융합되는 시대적 요구에 따라 등장한 국가 최고 난이도 자격이다. 한국정보통신기술사(TTA·KCA) 출제 동향을 분석하면, 단순 CS 지식(OS, DB, NW)보다 **Hyper-converged Platform, AI-Native Network, Sovereign Cloud, Quantum-Safe Cryptography, AI 윤리·개인정보 보호법** 등 융합·규제·표준을 교차하는 답안이 80% 이상이다.
+ICT 융합 기술사(정보·통신·방송 융합)는 4차 산업혁명 이후 **연결성(5G/6G)·지능(AI)·데이터(Data Mesh/Graph)·자율운영(AI-Ops/SRE)**이 하나의 플랫폼 위에서 융합되는 시대적 요구에 따라 등장한 국가 최고 난이도 자격이다. 한국컴퓨터시스템응용기술사(TTA·KCA) 출제 동향을 분석하면, 단순 CS 지식(OS, DB, NW)보다 **Hyper-converged Platform, AI-Native Network, Sovereign Cloud, Quantum-Safe Cryptography, AI 윤리·개인정보 보호법** 등 융합·규제·표준을 교차하는 답안이 80% 이상이다.
 
 따라서 본 노트는 논술 시험장에서 25분 내에 2,000자 이상의 구조화된 답안을 쓰기 위한 **“키워드 -> 표준 -> 아키텍처 -> 정량 KPI”**의 4단 매핑 표를 최종 정리한 것이다. 출제 키워드는 한국 ICT 정책(“K-ICT 2030”, “디지털 권리 장전”, “AI Basic Act”)과 국제 표준(3GPP Rel-18, ETSI ZSM, ISO/IEC 42001, NIST AI RMF, IEEE 7000 시리즈)에 기반한다.
 
