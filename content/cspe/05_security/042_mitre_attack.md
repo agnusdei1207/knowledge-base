@@ -54,7 +54,9 @@ weight: 42
 
 ## Ⅰ. 개요 및 필요성
 
-MITRE ATT&CK은 TTP 지식체계다. APT와 랜섬웨어는 도구를 바꾸어도 권한 상승, 방어 회피, 내부 이동 절차를 반복한다. SOC는 ATT&CK으로 로그와 탐지 룰을 매핑해 탐지 공백을 수치화해야 함.
+- 개요: 공격 TTP 공개 지식체계
+- 배경: APT와 랜섬웨어는 해시·IP를 바꾸어도 권한 상승, 방어 회피, 내부 이동 절차를 반복함.
+- 필요성: SOC는 ATT&CK technique ID에 로그 소스와 탐지 룰을 매핑하고 technique coverage 80%, false positive 10% 이하 기준으로 공백을 관리해야 함.
 
 ---
 
