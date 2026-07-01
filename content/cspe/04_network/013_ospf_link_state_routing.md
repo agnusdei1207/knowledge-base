@@ -54,7 +54,9 @@ weight: 13
 
 ## Ⅰ. 개요 및 필요성
 
-OSPF는 링크 상태 정보를 교환해 내부망 최단 경로를 계산하는 IGP이다. 라우터는 LSDB를 동기화하고 Dijkstra SPF로 목적지별 next-hop을 산출한다. 대규모 기업망에서는 Area 분할과 route summarization으로 라우팅 범위를 통제한다.
+- 정의: 링크 상태 정보를 교환해 내부망 최단 경로를 계산하는 IGP
+- 배경: 라우터 간 LSDB를 동기화하고 Dijkstra SPF로 목적지별 next-hop을 산출함
+- 필요성: 대규모 기업망은 Area 분할과 route summarization으로 LSA 범위와 라우팅 규모를 통제해야 함
 
 ---
 

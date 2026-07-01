@@ -54,7 +54,9 @@ weight: 25
 
 ## Ⅰ. 개요 및 필요성
 
-패킷 캡처·프로토콜 분석은 네트워크 통신 내용을 시간순으로 수집해 장애와 보안 원인을 판별하는 기법이다. 서버 로그가 정상이어도 TCP 재전송, DNS 실패, TLS alert, 방화벽 reset은 wire-level에서만 확인되는 경우가 있다. 정확한 캡처 위치와 필터 설계가 분석 품질을 좌우한다.
+- 정의: 구간 패킷을 시간순 수집해 원인을 찾는 기법
+- 배경: 서버 애플리케이션 로그가 정상이어도 TCP 재전송, DNS 실패, TLS alert, 방화벽 reset은 wire-level 캡처로만 확인되는 경우가 있음
+- 필요성: 캡처 위치 선정과 필터 설계가 정확해야 원인 분석 품질이 확보됨
 
 ---
 
@@ -70,8 +72,8 @@ Capture Tool -> pcap -> Protocol Decoder -> Timeline Analysis
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Capture Point | 수집 위치 선정 | client, server, middlebox 전후 |
-| Filter | 대상 트래픽 제한 | BPF host, port, net, proto |
+| Capture Point | 수집 위치 선정 | client, server, middlebox 전후 — SPAN/미러링 수신 NIC는 promiscuous mode로 동작해야 목적지가 아닌 프레임도 캡처 가능 |
+| Capture Filter | 캡처 단계에서 대상 트래픽을 사전 제한 | BPF 문법(host/port/net/proto) — 분석 단계의 Wireshark Display Filter(필드 기반 문법, 예: tcp.flags.syn==1)와는 문법·적용 시점이 다름 |
 | pcap File | 패킷 저장 형식 | timestamp, frame length |
 | Decoder | 프로토콜 필드 해석 | Wireshark, tshark, Zeek |
 | Timeline | 흐름·지연 분석 | RTT, retransmission, gap |
@@ -116,7 +118,7 @@ Problem Define -> Capture Point Select -> Filter Apply
 
 | 비교 축 | tcpdump/tshark | Wireshark/Zeek | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | CLI 기반 수집·필터 | GUI 분석 또는 metadata 추출 | 현장 수집은 tcpdump, 상세 해석은 Wireshark |
+| 구조 | CLI 기반 수집·필터 | Wireshark는 GUI 기반 필드 분석, Zeek는 세션 metadata 로그 추출 | 현장 수집은 tcpdump, 상세 해석은 Wireshark |
 | 비용/성능 | 서버 부하와 저장 용량 관리 | 장기 분석은 Zeek log 활용 | 캡처 파일 크기, packet drop 기준 |
 | 운영/위험 | 권한 오남용, 민감정보 포함 | pcap 반출 위험 | 마스킹, 암호화 저장, 보관 기간 |
 

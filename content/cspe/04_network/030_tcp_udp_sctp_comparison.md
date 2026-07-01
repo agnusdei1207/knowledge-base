@@ -54,7 +54,9 @@ weight: 30
 
 ## Ⅰ. 개요 및 필요성
 
-TCP·UDP·SCTP는 애플리케이션 간 데이터를 전달하는 전송 계층 프로토콜이다. TCP는 연결형 신뢰성 전송, UDP는 비연결 datagram 전송, SCTP는 message 기반 association과 multi-streaming을 제공한다. 서비스 지연, 손실 허용, 메시지 경계, 경로 이중화 요구에 따라 선택이 달라진다.
+- 정의: TCP·UDP·SCTP는 애플리케이션 간 데이터를 전달하는 전송 계층 프로토콜
+- 특징: TCP는 연결형 신뢰성 전송, UDP는 비연결 datagram 전송, SCTP는 message 기반 association과 multi-streaming을 제공
+- 선택 기준: 서비스 지연, 손실 허용, 메시지 경계, 경로 이중화 요구에 따라 프로토콜 선택이 달라짐
 
 ---
 

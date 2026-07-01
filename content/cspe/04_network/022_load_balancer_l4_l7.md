@@ -19,7 +19,7 @@ weight: 22
 - **배경·문제의식**: 웹 서비스는 요청량이 시간대별로 바뀌고 서버 장애가 발생한다. DNS만으로 분산하면 장애 감지와 세션 유지가 제한되므로 로드 밸런서가 health check, 알고리즘, NAT, TLS 처리를 맡는다.
 - **작동 원리**: L4는 IP와 TCP/UDP port, connection 정보를 보고 서버를 선택한다. L7은 HTTP Host, URI, header, cookie, gRPC method 같은 애플리케이션 정보를 보고 정책을 적용한다.
 - **비유**: L4는 창구 번호만 보고 줄을 나누는 방식이고, L7은 민원 종류와 서류 내용을 보고 담당자를 배정하는 방식이다.
-- **구체 예시**: `VIP 203.0.113.10:443`으로 들어온 요청을 L4가 round-robin으로 3대 서버에 분산한다. `/api/pay`는 L7 정책으로 결제 서버 풀에 보내고, `/static`은 캐시 서버 풀에 보낸다.
+- **구체 예시**: L4 예시 — `VIP 203.0.113.10:443`으로 들어온 요청을 L4가 경로와 무관하게 round-robin으로 3대 서버에 분산한다. L7 예시 — HTTP를 파싱하는 별도의 L7 계층에서 `/api/pay`는 결제 서버 풀로, `/static`은 캐시 서버 풀로 경로 기반 라우팅한다.
 - **흔한 오해·주의점**: health check가 통과해도 애플리케이션 오류가 0건이라는 뜻은 아니다. TCP check는 포트 열림만 확인할 수 있고, HTTP check는 status code, body keyword, 응답시간까지 설계해야 한다.
 
 ## 연결 개념
@@ -54,7 +54,9 @@ weight: 22
 
 ## Ⅰ. 개요 및 필요성
 
-로드 밸런서는 클라이언트 요청을 여러 서버에 분산하는 네트워크 장치이다. L4는 IP·port·connection 기준, L7은 HTTP 속성 기준으로 서버를 선택한다. 서비스 규모 증가, 서버 장애, 무중단 배포 요구를 처리하려면 VIP, pool, health check, persistence 설계가 필요하다.
+- 정의: 클라이언트 요청을 여러 서버로 분산하는 네트워크 장치
+- 분산 기준: L4는 IP·port·connection 기준, L7은 HTTP Host·URI·header·cookie 기준으로 서버를 선택
+- 필요성: 서비스 규모 증가, 서버 장애, 무중단 배포 요구에 대응하려면 VIP, 서버 풀, health check, session persistence 설계가 필요
 
 ---
 
@@ -74,7 +76,7 @@ Client -> VIP Listener
 | Algorithm | 서버 선택 규칙 | round-robin, least-connection, hash |
 | Health Check | 비정상 서버 제외 | TCP, HTTP status, 응답시간 |
 | Persistence | 동일 사용자 세션 유지 | source IP, cookie, consistent hash |
-| TLS Offload | 인증서와 암복호 처리 | SNI, cipher suite, cert rotation |
+| TLS Offload | LB가 인증서로 TLS를 종단하고 암호화·복호화를 대신 수행 | SNI, cipher suite, cert rotation |
 
 > 요약: 로드 밸런서는 VIP, 알고리즘, 상태 점검, 세션 유지, TLS 처리를 조합해 서버 풀 앞단을 구성한다.
 

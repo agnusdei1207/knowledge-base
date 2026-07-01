@@ -54,7 +54,9 @@ weight: 8
 
 ## Ⅰ. 개요 및 필요성
 
-ARP·RARP는 L2 MAC 주소와 L3 IP 주소를 상호 연결하는 주소 해석 프로토콜이다. IP 패킷을 Ethernet 프레임에 담으려면 destination MAC이 필요하다. ARP는 현재 IPv4 LAN의 필수 기능이고, RARP는 DHCP로 대체된 과거 부트스트랩 방식이다.
+- 정의: L2 MAC 주소와 L3 IP 주소를 상호 연결하는 주소 해석 프로토콜
+- 배경: IP 패킷을 Ethernet 프레임에 담아 전달하려면 destination MAC 확인이 필요
+- 필요성: ARP는 현재 IPv4 LAN의 필수 기능이며, RARP는 DHCP 등장 이전 diskless 단말의 IP 획득에 쓰이던 과거 방식
 
 ---
 

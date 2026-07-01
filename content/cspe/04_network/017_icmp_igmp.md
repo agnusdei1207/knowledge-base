@@ -54,7 +54,9 @@ weight: 17
 
 ## Ⅰ. 개요 및 필요성
 
-ICMP와 IGMP는 IP 계층을 보완하는 제어 프로토콜이다. ICMP는 오류·진단 메시지로 ping, traceroute, PMTUD에 사용된다. IGMP는 IPv4 멀티캐스트 수신 그룹을 관리해 불필요한 트래픽 확산을 줄인다.
+- 정의: IP 계층을 보완하는 오류 진단(ICMP)·멀티캐스트 그룹 관리(IGMP) 제어 프로토콜
+- 배경: ICMP는 오류·진단 메시지로 ping, traceroute, PMTUD에 사용됨
+- 필요성: IGMP는 IPv4 멀티캐스트 수신 그룹을 관리해 불필요한 트래픽 확산을 줄여야 함
 
 ---
 

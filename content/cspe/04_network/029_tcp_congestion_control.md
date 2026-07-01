@@ -54,7 +54,9 @@ weight: 29
 
 ## Ⅰ. 개요 및 필요성
 
-TCP 혼잡 제어는 네트워크 경로의 혼잡을 추정해 송신량을 조절하는 기능이다. 송신자는 cwnd와 ssthresh를 사용해 Slow Start, Congestion Avoidance, Fast Recovery를 수행한다. 혼잡 제어는 packet loss, RTO, RTT 증가가 발생하는 WAN·인터넷 서비스에서 핵심 성능 요인이다.
+- 정의: 송신자가 네트워크 경로 혼잡을 추정해 cwnd로 송신량을 조절하는 기능
+- 배경: 송신자가 cwnd와 ssthresh를 기준으로 Slow Start, Congestion Avoidance, Fast Recovery 상태를 전이함
+- 필요성: packet loss, RTO, RTT 증가가 발생하는 WAN·인터넷 서비스에서 성능을 좌우하는 핵심 요인임
 
 ---
 
@@ -95,7 +97,7 @@ Connection Start -> Slow Start cwnd Exponential Increase
 | 1 | 초기 cwnd에서 Slow Start 시작 | cwnd per RTT 증가 |
 | 2 | ACK 수신마다 cwnd 증가, ssthresh까지 탐색 | throughput ramp-up |
 | 3 | Congestion Avoidance에서 additive increase | cwnd linear growth |
-| 4 | loss 또는 RTO 발생 시 multiplicative decrease | packet loss, RTO count |
+| 4 | dup ACK 3회 loss는 ssthresh=cwnd/2로 multiplicative decrease(cwnd=ssthresh), RTO timeout은 cwnd를 1 MSS로 초기화 후 Slow Start 재시작 | packet loss, RTO count |
 | 5 | Fast Retransmit/Recovery로 손실 segment 복구 | duplicate ACK count |
 
 > 요약: TCP는 Slow Start로 경로 용량을 탐색하고, AIMD로 혼잡 발생 시 cwnd를 줄인 뒤 회복한다.

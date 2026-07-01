@@ -54,7 +54,9 @@ weight: 20
 
 ## Ⅰ. 개요 및 필요성
 
-STP는 이더넷 스위치망의 L2 루프를 방지하는 프로토콜이다. 중복 링크가 있는 LAN에서 일부 포트를 차단해 loop-free tree를 구성한다. RSTP는 STP 수렴 지연을 줄이고, PVST+는 VLAN별 spanning tree를 운용한다.
+- 정의: 이더넷 스위치망의 L2 루프를 방지하는 프로토콜
+- 배경: 중복 링크가 있는 LAN에서 일부 포트를 차단해 loop-free tree를 구성함
+- 필요성: RSTP는 수렴 지연을 줄이고, PVST+는 VLAN별 spanning tree로 경로를 분산해야 함
 
 ---
 

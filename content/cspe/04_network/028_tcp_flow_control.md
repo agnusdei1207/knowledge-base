@@ -54,7 +54,9 @@ weight: 28
 
 ## Ⅰ. 개요 및 필요성
 
-TCP 흐름 제어는 수신자가 처리 가능한 양만큼 송신자가 데이터를 보내도록 제한하는 기능이다. 수신자는 ACK의 window size로 남은 receive buffer를 광고한다. 송신자는 advertised window와 congestion window 중 작은 값만큼 전송해 수신 버퍼 overflow를 방지한다.
+- 정의: 수신자 버퍼 여유량만큼 송신자 전송량을 제한하는 기능
+- 배경: 수신자가 ACK에 window size로 남은 receive buffer(rwnd)를 광고함
+- 필요성: 송신자는 advertised window와 congestion window 중 작은 값(min(rwnd, cwnd))만 전송해 수신 버퍼 overflow를 방지함
 
 ---
 
@@ -118,14 +120,14 @@ Data Send -> Receiver Buffer Fill
 |:---|:---|:---|:---|
 | 구조 | receive buffer 부족, app read 지연 | BDP에 맞춘 buffer와 window scale | 고 RTT·고 대역폭 경로는 window scale 필요 |
 | 비용/성능 | throughput 제한, zero window 증가 | 대역폭 활용률 증가 | BDP=bandwidth x RTT 기준 |
-| 운영/위험 | small window syndrome | buffer memory 증가 | receive buffer와 app 처리량 균형 |
+| 운영/위험 | silly window syndrome | buffer memory 증가 | receive buffer와 app 처리량 균형 |
 
 > 요약: window 크기는 BDP와 수신 애플리케이션 처리량을 함께 고려해 조정해야 한다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
 | Zero Window | 수신 app read 지연, buffer 부족 | receive buffer 확대, app 병목 제거 | zero window count |
-| Small Window Syndrome | 작은 단위 read/write 반복 | Nagle, delayed ACK, buffer 조정 | average segment size |
+| Silly Window Syndrome | 작은 단위 read/write 반복 | Nagle, delayed ACK, buffer 조정 | average segment size |
 | Window Scale 미협상 | middlebox option drop | 경로 장비 점검, MSS/option 확인 | window scale option 존재 |
 
 > 요약: 흐름 제어 리스크는 zero window, 작은 segment, option 협상 실패로 분류해 분석한다.

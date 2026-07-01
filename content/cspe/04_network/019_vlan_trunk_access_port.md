@@ -54,7 +54,9 @@ weight: 19
 
 ## Ⅰ. 개요 및 필요성
 
-VLAN은 스위치 인프라에서 L2 브로드캐스트 도메인을 논리적으로 분리하는 기술이다. Access port는 단말을 단일 VLAN에 연결하고, trunk port는 여러 VLAN 프레임을 802.1Q tag로 구분해 전달한다. 대규모 LAN에서는 VLAN과 L3 ACL로 업무 구역을 나눈다.
+- 정의: 스위치 인프라에서 L2 브로드캐스트 도메인을 논리적으로 분리하는 기술
+- 배경: access port는 단말을 단일 VLAN에 연결하고, trunk port는 여러 VLAN 프레임을 802.1Q tag로 구분해 전달함
+- 필요성: 대규모 LAN은 VLAN과 L3 ACL로 업무 구역을 분리해야 함
 
 ---
 

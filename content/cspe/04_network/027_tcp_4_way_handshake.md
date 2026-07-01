@@ -54,7 +54,9 @@ weight: 27
 
 ## Ⅰ. 개요 및 필요성
 
-TCP 4-way handshake는 TCP 연결을 정상 종료하기 위한 FIN/ACK 교환 절차이다. TCP는 전이중 통신이므로 양방향 송신 종료가 각각 확인되어야 한다. TIME_WAIT, CLOSE_WAIT, RST 해석은 서버 접속 장애와 포트 고갈 분석의 핵심이다.
+- 정의: FIN/ACK 교환으로 TCP 연결을 양방향 종료하는 절차
+- 배경: TCP는 전이중 통신이라 양쪽 송신 방향을 각각 확인해야 함
+- 필요성: TIME_WAIT·CLOSE_WAIT·RST 상태 해석이 접속 장애와 포트 고갈 분석의 핵심 판단 기준이 됨
 
 ---
 
@@ -71,7 +73,7 @@ Passive Closer: CLOSE_WAIT -> LAST_ACK -> CLOSED
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
 | FIN | 한쪽 송신 종료 알림 | 데이터 수신은 계속 가능 |
-| ACK | FIN 수신 확인 | FIN sequence도 1 증가 |
+| ACK | FIN 수신 확인 | FIN이 시퀀스 번호 1을 소비하므로 ack 번호 = 수신한 FIN의 seq + 1 |
 | TIME_WAIT | 지연 세그먼트와 마지막 ACK 처리 | 일반적으로 2MSL 대기 |
 | CLOSE_WAIT | 상대 FIN 수신 후 앱 close 대기 | 누적 시 애플리케이션 누수 의심 |
 | RST | 연결 강제 종료 | 포트 미수신, 정책 차단, 앱 reset |

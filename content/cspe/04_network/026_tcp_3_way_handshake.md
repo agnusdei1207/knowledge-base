@@ -17,7 +17,7 @@ weight: 26
 
 ## 깊이 이해
 - **배경·문제의식**: IP는 비연결형이라 패킷이 사라지거나 순서가 바뀔 수 있다. TCP는 연결 상태, sequence/acknowledgment, window size를 관리해 데이터 흐름을 제어한다.
-- **작동 원리**: 클라이언트가 SYN과 client ISN을 보낸다. 서버가 SYN-ACK와 server ISN, client ISN+1을 응답한다. 클라이언트가 ACK로 server ISN+1을 확인하면 양쪽 상태가 ESTABLISHED가 된다.
+- **작동 원리**: 클라이언트가 SYN과 client ISN을 보낸다. 서버가 SYN-ACK와 server ISN, client ISN+1을 응답한다. 클라이언트는 이 SYN-ACK를 수신하는 즉시 ESTABLISHED로 전환하며 ACK로 server ISN+1을 확인해 전송하고, 서버는 그 ACK를 수신한 시점에 비로소 ESTABLISHED로 전환된다.
 - **비유**: 양쪽 회의 참가자가 서로 마이크와 스피커가 동작하는지 확인하고 발언 순서 번호를 맞춘 뒤 회의를 시작하는 것과 같다.
 - **구체 예시**: Client `SYN seq=1000`, Server `SYN-ACK seq=5000 ack=1001`, Client `ACK ack=5001`이면 이후 데이터는 각자의 다음 sequence 번호부터 전송된다.
 - **흔한 오해·주의점**: 3-way handshake 완료는 애플리케이션 정상 응답을 의미하지 않는다. TCP 연결이 ESTABLISHED여도 TLS handshake, HTTP 인증, 서버 thread pool에서 실패할 수 있다.
@@ -54,7 +54,9 @@ weight: 26
 
 ## Ⅰ. 개요 및 필요성
 
-TCP 3-way handshake는 TCP 연결을 시작하기 위한 3단계 제어 절차이다. 클라이언트와 서버는 SYN, SYN-ACK, ACK를 교환해 양방향 통신 가능성과 초기 sequence number를 확인한다. 연결 성립 과정은 장애 분석과 SYN flood 대응의 기본 근거가 된다.
+- 정의: TCP 연결을 시작하기 위해 SYN, SYN-ACK, ACK를 순서대로 교환하는 3단계 제어 절차
+- 배경: IP는 비연결형이라 양방향 통신 가능 여부와 초기 sequence number를 사전에 맞추지 않으면 신뢰성 있는 전송을 보장할 수 없음
+- 필요성: 연결 성립 단계와 상태 전이를 정확히 이해해야 장애 분석과 SYN flood 대응 판단의 근거로 활용 가능
 
 ---
 
@@ -92,9 +94,10 @@ Client Active Open -> SYN Send -> Server Passive Open
 | 1 | 클라이언트가 SYN과 ISN x 전송 | SYN_SENT, seq=x |
 | 2 | 서버가 SYN queue에 half-open 상태 저장 | SYN_RECEIVED, backlog 사용률 |
 | 3 | 서버가 SYN-ACK와 ISN y, ack x+1 전송 | SYN-ACK retransmission |
-| 4 | 클라이언트가 ACK y+1 전송 후 ESTABLISHED 전환 | established session count |
+| 4 | 클라이언트가 SYN-ACK 수신 즉시 ESTABLISHED로 전환하고 ACK y+1 전송 | client-side established count |
+| 5 | 서버가 클라이언트의 ACK를 수신한 시점에 ESTABLISHED로 전환 | server-side established session count |
 
-> 요약: TCP 연결은 client ISN과 server ISN을 상호 확인한 뒤 ESTABLISHED 상태로 전환된다.
+> 요약: 클라이언트는 SYN-ACK 수신 시, 서버는 마지막 ACK 수신 시 각각 ESTABLISHED로 전환되며 연결은 서버가 ACK를 수신하는 시점에 완전히 성립한다.
 
 ---
 
