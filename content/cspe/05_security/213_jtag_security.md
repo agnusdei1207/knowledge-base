@@ -54,7 +54,9 @@ weight: 213
 
 ## Ⅰ. 개요 및 필요성
 
-JTAG 보안은 디버그·시험 포트의 권한을 제품 단계별로 통제하는 기술이다. JTAG는 제조 테스트와 장애 분석에 필수 기능을 제공하지만, 출하 후 잠금이 없으면 flash dump, SRAM read, CPU halt, firmware patch가 가능하다. 임베디드·차량·산업 장비는 물리 접근 가능성을 고려해 debug auth와 fuse lock을 설계해야 한다.
+- 개요: 디버그 포트 수명주기 접근통제
+- 배경: JTAG는 제조 테스트와 장애 분석에 쓰이지만, 출하 후 잠금이 없으면 flash dump, SRAM read, CPU halt, firmware patch가 가능함
+- 필요성: 임베디드·차량·산업 장비는 IEEE 1149.1 TAP 접근을 lifecycle state, debug authentication, fuse lock으로 제어하고 PROD 상태 key read 0건을 검증해야 함
 
 ---
 

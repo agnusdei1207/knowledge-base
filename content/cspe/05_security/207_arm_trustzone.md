@@ -53,9 +53,9 @@ weight: 207
 
 ## Ⅰ. 개요 및 필요성
 
-ARM TrustZone은 ARM SoC를 Secure World와 Normal World로 분리하는 하드웨어 보안 확장이다.
-모바일·임베디드 장치는 일반 OS 공격면이 넓어 결제키, DRM키, 생체정보를 별도 실행 영역에 격리해야 한다.
-TrustZone은 Secure Boot, TEE OS, Trusted Application과 결합되어 키 보호와 원격 신뢰 검증의 기반이 된다.
+- 개요: ARM SoC 하드웨어 보안 격리
+- 배경: 모바일·임베디드 장치는 일반 OS 공격면이 넓어 결제키, DRM키, 생체정보를 별도 실행 영역에 격리해야 한다.
+- 필요성: Secure World, TEE OS, Trusted Application, secure monitor로 키 보호와 원격 신뢰 검증 기반을 제공한다.
 
 ---
 
