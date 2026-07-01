@@ -74,7 +74,7 @@ weight: 78
 ECU Node A -> CAN Controller -> CAN Transceiver
   -> CAN_H/CAN_L Bus(Twisted Pair)
      -> Termination 120Ω(양 끝단)
-  -> ECU Node B, Node C ... (Multi-Drop)
+  -> ECU Node B / ECU Node C / ECU Node N (Multi-Drop)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -147,8 +147,6 @@ ECU Node A -> CAN Controller -> CAN Transceiver
 | 물리 계층 품질 | 종단 저항 120Ω 양단 확인 | 저항계 측정, 신호 반사 파형 확인 |
 
 > 요약: 도입 후 성공 여부는 버스 부하율, error counter 기반 오류율, 종단 저항 물리 품질로 판단한다.
-
----
 
 ## Ⅵ. 실무 적용 및 결론
 

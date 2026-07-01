@@ -22,17 +22,13 @@ weight: 76
 - **작동 원리**: 메모리 컨트롤러와 주변장치 컨트롤러가 이 NS 비트를 검사해, Normal World에서 발생한 트랜잭션이 Secure로 지정된 메모리·주변장치에 도달하면 물리적으로 차단한다.
 - **작동 원리**: 이 검사는 소프트웨어 권한 체크가 아니라 하드웨어 회로(버스 필터, 메모리 맵 검사)에서 수행되므로 Normal World의 커널이 탈취되어도 우회할 수 없다.
 - **작동 원리**: Normal World에서 Secure World로 전환이 필요하면 SMC(Secure Monitor Call) 명령을 실행하고, Monitor mode(ARMv7-A 기준) 또는 EL3(ARMv8-A 기준)가 이를 받아 레지스터 저장, 월드 전환, 제어권 이전을 수행한다.
-- **작동 원리**: Secure World에는 Trusted OS(예: OP-TEE)와 TA(Trusted Application)가 상주하며 키 연산, 생체 매칭, DRM 라이선스 처리 같은 민감 작업만 담당한다.
-- **작동 원리**: Normal World에는 Android, Linux 같은 Rich OS와 일반 앱이 상주하며 TrustZone 전체 관점에서는 신뢰되지 않는 영역으로 취급된다.
+- **작동 원리**: Secure World에는 Trusted OS와 TA가 상주해 키 연산·생체 매칭·DRM을 처리하고, Normal World에는 Android·Linux 같은 Rich OS와 일반 앱이 상주한다.
 - **작동 원리(TEE와의 관계)**: TEE(Trusted Execution Environment)는 "신뢰 실행 환경"이라는 일반 개념이고, TrustZone은 ARM이 이 개념을 구현한 구체적 하드웨어 메커니즘이다.
-- **비유**: 사무실(Normal World) 안에 별도 카드키로만 열리는 금고방(Secure World)이 있고, 사무실 직원이 아무리 사무실 마스터키를 훔쳐도 금고방 카드리더(하드웨어 버스 필터)가 물리적으로 문을 열어주지 않는 구조다.
-- **비유**: SMC 명령은 금고방 앞의 경비원(Monitor mode/EL3)을 호출하는 초인종이며, 경비원만이 정해진 절차로 금고방 출입을 통제한다.
-- **구체 예시**: Samsung Knox는 지문 매칭 연산과 결제 키 저장을 TrustZone Secure World에서 수행해, Android 프레임워크가 루팅되어도 원본 지문 템플릿과 결제 키에 접근하지 못하게 한다.
-- **구체 예시**: OP-TEE는 오픈소스 Trusted OS로 Secure World에서 동작하며, keystore(암호화 키 저장), secure boot 키 검증, DRM 콘텐츠 복호화 키 관리 같은 TA를 호스팅한다.
-- **구체 예시**: Secure Boot 과정에서 부트로더 서명 검증에 쓰이는 루트 키는 TrustZone이 보호하는 Secure World 전용 메모리·퓨즈 영역에 저장되어 Normal World 코드가 직접 읽을 수 없다.
-- **흔한 오해·주의점**: TrustZone은 데이터를 암호화하는 기술이 아니라 실행 환경과 메모리·주변장치 접근을 하드웨어 버스 단에서 격리하는 기술이며, 암호화 연산은 Secure World 안에서 별도로 수행되는 것일 뿐 TrustZone 자체의 기능이 아니다.
-- **흔한 오해·주의점**: NS 비트 검사는 소프트웨어 권한(유저/커널 모드) 체크와 다른 계층이며, 커널 모드 코드라도 Normal World로 태깅되면 Secure 메모리에 물리적으로 접근할 수 없다.
-- **흔한 오해·주의점**: TrustZone 하나만으로 모든 보안 문제가 해결되지 않으며, Secure World 내부의 Trusted OS·TA 자체에 취약점이 있으면 여전히 침해될 수 있다.
+- **비유**: 사무실(Normal World) 안에 별도 카드키 금고방(Secure World)을 두고, SMC 명령으로 경비원(Monitor mode/EL3)을 호출해야만 출입하는 구조다.
+- **구체 예시**: Samsung Knox는 지문 매칭과 결제 키 저장을 Secure World에서 수행하고, OP-TEE는 keystore·secure boot 검증·DRM 키 관리 TA를 호스팅한다.
+- **구체 예시**: Secure Boot 루트 키는 Secure World 전용 메모리·퓨즈 영역에 저장되어 Normal World 코드가 직접 읽을 수 없다.
+- **흔한 오해·주의점**: TrustZone은 데이터 암호화가 아니라 실행 환경과 메모리·주변장치 접근을 하드웨어 버스 단에서 격리하는 기술이다.
+- **흔한 오해·주의점**: NS 비트 검사는 유저/커널 모드와 다른 계층이며, Secure World 내부 Trusted OS·TA 취약점은 별도 관리가 필요하다.
 
 ## 연결 개념
 - TEE(Trusted Execution Environment) — TrustZone이 구현하는 상위 일반 개념
@@ -127,9 +123,6 @@ Normal World App -> Secure 자산 필요 -> SMC 명령 실행
 | 비교 포인트 | TEE는 일반 개념, TrustZone은 ARM의 하드웨어 구현체 | Intel SGX(엔클레이브 단위 격리)와 격리 단위·구현 계층이 다름 |
 
 > 요약: TrustZone은 버스 레벨 물리적 격리로 커널 탈취 공격을 무력화하지만, Secure World 내부 소프트웨어 취약점까지 막지는 못한다.
-
----
-
 ## Ⅴ. 심화 비교 및 적용 판단
 
 | 비교 축 | 소프트웨어 격리(커널 권한·컨테이너) | ARM TrustZone | 선택 기준 |
@@ -155,9 +148,6 @@ Normal World App -> Secure 자산 필요 -> SMC 명령 실행
 | Trusted OS 취약점 관리 | 알려진 CVE 패치 적용률 100% | 취약점 스캔 리포트, 패치 이력 |
 
 > 요약: 도입 후 성공 여부는 Secure 영역 무단 접근 시도 성공 건수, SMC 왕복 지연, Trusted OS 패치 적용률로 판단한다.
-
----
-
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**

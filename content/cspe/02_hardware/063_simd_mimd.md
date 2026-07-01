@@ -24,7 +24,7 @@ weight: 63
 - **비유**: MIMD는 여러 독립 작업대에서 각 작업자가 자기 도면과 재료로 각자 다른 제품을 동시에 만드는 것이다.
 - **구체 예시**: SIMD 예시 — x86 AVX-512 명령어 하나가 512비트 레지스터의 16개 32비트 값을 한 번에 더한다.
 - **구체 예시**: MIMD 예시 — 64코어 서버에서 각 코어가 서로 다른 컨테이너의 서로 다른 프로세스를 동시에 실행한다.
-- **흔한 오해·주의점**: SIMD는 분기(if-else)가 있는 코드에서 비효율적이다. 조건이 lane마다 다르면 마스킹으로 양쪽 분기를 모두 실행 후 결과만 선택해 실질 처리량이 줄어든다.
+- **흔한 오해·주의점**: SIMD는 분기(if-else)가 있는 코드에서 lane 가동률이 낮아질 수 있다. 조건이 lane마다 다르면 마스킹으로 양쪽 분기를 모두 실행 후 결과만 선택해 실질 처리량이 줄어든다.
 - **흔한 오해·주의점**: MIMD가 항상 SIMD보다 빠른 것은 아니다. 규칙적 데이터 병렬 작업에서는 SIMD가 명령어 오버헤드를 줄여 단위 전력당 처리량이 더 높다.
 
 ## 연결 개념
@@ -68,8 +68,8 @@ weight: 63
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-SIMD: Control Unit -> Decode 1회 -> Lane1/Lane2/.../LaneN 동시 실행
-MIMD: Core1(PC1,Decode1) / Core2(PC2,Decode2) / ... 각자 독립 실행
+SIMD: Control Unit -> Decode 1회 -> Lane1/Lane2/LaneN 동시 실행
+MIMD: Core1(PC1,Decode1) / Core2(PC2,Decode2) / CoreN(PCN,DecodeN) 각자 독립 실행
   -> Shared Memory(SMP/NUMA) 또는 Distributed Memory(Cluster)
 ```
 

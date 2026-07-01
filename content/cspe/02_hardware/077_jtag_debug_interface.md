@@ -22,8 +22,7 @@ weight: 77
 - **작동 원리**: TAP Controller는 TMS 비트열로 상태를 전이하는 16-state 유한 상태 기계(FSM)이며, Shift-IR 상태에서 명령어를, Shift-DR 상태에서 데이터를 boundary-scan chain을 통해 TDI에서 TDO로 직렬 이동시킨다.
 - **작동 원리**: boundary-scan 모드는 각 핀에 연결된 shift register 셀로 실제 배선의 open·short·냉납을 물리 프로브 없이 검출하고, on-chip debug 모드는 같은 TAP을 통해 CPU 코어 레지스터·메모리에 접근해 breakpoint 설정과 single-step 실행을 수행한다.
 - **비유**: boundary-scan은 자물쇠를 분해하지 않고 4개 구멍으로 톱니 위치를 하나씩 읽어 배선이 끊겼는지 확인하는 방식이고, on-chip debug는 같은 구멍으로 자물쇠 내부 톱니를 직접 멈추고 한 칸씩 돌리는 방식이다.
-- **구체 예시**: 부트로더가 없는 신규 보드에서 J-Link 또는 ST-Link 디버그 프로브를 JTAG 핀에 연결하면, TAP FSM을 통해 flash controller 레지스터에 직접 접근해 부트로더 바이너리를 플래시할 수 있다.
-- **구체 예시**: OpenOCD는 JTAG 어댑터와 target 사이에서 TAP FSM 상태 전이를 생성하는 소프트웨어로, GDB 서버를 붙이면 소스 레벨 breakpoint와 레지스터 덤프가 가능하다.
+- **구체 예시**: 부트로더가 없는 신규 보드에서 J-Link·ST-Link·OpenOCD로 TAP FSM을 제어하면 flash controller 접근, 부트로더 플래시, GDB breakpoint와 레지스터 덤프가 가능하다.
 - **구체 예시**: PCB 양산 검사에서는 다이지 체인으로 묶은 여러 칩의 boundary-scan chain에 테스트 벡터를 흘려 모든 solder joint의 open·short 여부를 한 번에 스캔한다.
 - **흔한 오해·주의점**: JTAG 핀이 존재한다고 항상 디버그가 가능한 것은 아니며, 제조사가 debug access port를 fuse나 보안 설정으로 잠가둔 경우 TAP은 응답해도 CPU 코어 레지스터 접근은 거부된다.
 - **흔한 오해·주의점**: TRST 핀은 필수 4핀에 포함되지 않는 선택 신호이므로, TRST가 없는 보드는 TMS 시퀀스만으로 Test-Logic-Reset 상태에 진입해야 한다.
@@ -150,13 +149,11 @@ Host TMS Sequence -> TAP FSM State Transition
 
 > 요약: 도입 후 성공 여부는 chain 무결성, 디버그 가용성, TCK 신호 품질 지표로 판단한다.
 
----
-
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
 1. 신규 보드 양산 전 단계에서는 boundary-scan 벡터로 daisy-chain 전체의 open·short를 검사하고 chain 길이를 BSDL 기준으로 검증함
-2. 부트로더가 없는 초기 개발 단계에서는 J-Link·ST-Link·OpenOCD로 TAP에 접근해 flash controller 레지스터를 직접 제어해 부트로더를 플래시함
+2. 부트로더가 없는 초기 개발 단계에서는 J-Link·ST-Link·OpenOCD로 TAP과 flash controller 레지스터에 접근해 부트로더를 플래시함
 3. 핀 수가 제한된 ARM Cortex 기반 소형 보드는 JTAG 대신 SWD 2핀 구성으로 전환하고 디버그 접근 권한을 별도 인증 체계로 관리함
 
 **결론 (2줄):**
