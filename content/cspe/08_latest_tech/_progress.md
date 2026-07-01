@@ -10,29 +10,28 @@ draft: true
 # 08_latest_tech 내용 작성 진행 상황
 
 > 이 파일은 작업 이어하기용 추적 문서다. 다음 세션에서 이 파일을 읽고 미완성 범위부터 이어서 작성한다.
-> 최종 업데이트: 2026-07-01T11:25 KST
+> 최종 업데이트: 2026-07-01T11:28 KST
 
 ## 전체 목표
 - 총 360개 키워드 파일 (001~360)
 - 키워드 목록: `_keywords.md` 참조
 - 골드 스탠다드: `001_ai_agent_system.md`, `../02_hardware/221_pipeline_hazards.md`
 
-## 완료된 파일 (146개)
-001~145, 201
+## 완료된 파일 (151개)
+001~150, 201
 
 ## 현재 진행 중
 - 없음
 
 ## 미작성 범위 (우선순위 순)
-1. 146~150 — Diffusion·영상·음성 생성
-2. 151~175 — Document AI·GNN·강화학습·AI 거버넌스·XAI
-3. 176~200 — 프라이버시·AI 보안·OWASP LLM Top 10
-4. 202~225 — LLM 보안·워터마킹·MLOps·Drift (201 완료)
-5. 226~250 — 모델 평가·AI 가속기·HBM·CXL·Chiplet
-6. 251~275 — NVLink·병렬·K8s·서비스메시·eBPF·WebAssembly
-7. 276~300 — Observability·SRE·클라우드·보안
-8. 301~330 — SBOM·데이터 아키텍처·Kafka·Green SW·IoT
-9. 331~360 — SDV·양자·PQC·블록체인·메타버스
+1. 151~175 — Document AI·GNN·강화학습·AI 거버넌스·XAI
+2. 176~200 — 프라이버시·AI 보안·OWASP LLM Top 10
+3. 202~225 — LLM 보안·워터마킹·MLOps·Drift (201 완료)
+4. 226~250 — 모델 평가·AI 가속기·HBM·CXL·Chiplet
+5. 251~275 — NVLink·병렬·K8s·서비스메시·eBPF·WebAssembly
+6. 276~300 — Observability·SRE·클라우드·보안
+7. 301~330 — SBOM·데이터 아키텍처·Kafka·Green SW·IoT
+8. 331~360 — SDV·양자·PQC·블록체인·메타버스
 
 ## 다음 세션 이어하기 프롬프트
 
