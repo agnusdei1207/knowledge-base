@@ -37,9 +37,21 @@ weight: 76
 > 2. **가치**: LLM·엣지 모델을 단일 GPU·온디바이스 환경에 배포 가능하게 함.
 > 3. **판단 포인트**: bit width, PTQ/QAT, weight/activation 대상, 정확도 회귀, kernel 지원을 함께 검토해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| 양자화 원리와 적용 판단 역량 확인 | scale/zero-point 매핑, PTQ vs QAT, bit width별 메모리·정확도 trade-off | "성능이 좋다" 등 추상 표현, kernel 미지원 시 지연 미개선 누락 |
+
+> 요약: 출제자는 수치 정밀도 축소 원리와 bit width·방식별 적용 판단 기준을 확인하려 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-양자화는 모델 수치 정밀도 축소 기법임. 대형 모델의 메모리와 대역폭 병목을 줄여 지연·전력·GPU 비용을 낮추기 위해 INT8/INT4 등 저비트 표현을 적용함.
+- 정의: 모델 수치 정밀도를 낮춰 메모리·대역폭을 줄이는 압축 기법
+- 배경: LLM 수십억 파라미터가 GPU 메모리 대역폭 병목을 유발함
+- 필요성: FP16 7B 모델은 약 14GB VRAM이 필요하여 엣지·단일 GPU 배포가 어려움
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ FP Model → Calibration/Scale 계산 → INT8/INT4 변환
 
 > 요약: 양자화는 메모리와 대역폭을 줄이지만, 정확도와 하드웨어 kernel 검증이 성공 조건임.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | FP16(기존) | Quantized(INT8/INT4) | 선택 기준 |
+|:---|:---|:---|:---|
+| 메모리 | 2 byte/param, 7B≈14GB | 1 byte(INT8), 0.5 byte(INT4) | VRAM 목표에 따라 bit 결정 |
+| 정확도 | 기준선 | INT8 1~2%p, INT4 2~3%p 하락 | 업무 허용 회귀폭 |
+| 운영 복잡도 | 변환 불필요 | calibration·kernel 검증 필요 | PTQ vs QAT 선택 |
+
+> 요약: VRAM 목표와 정확도 허용폭에 따라 INT8 또는 INT4를 선택하고, kernel 지원을 확인함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 정확도 급락 | calibration 분포 불일치 | 실서비스 입력 기반 calibration | MMLU·perplexity 변화량 |
+| 지연 미개선 | INT kernel 미지원 | TensorRT/vLLM kernel 지원 확인 | TPOT, tokens/s 실측 |
+| 모델 호환 | op별 양자화 미지원 | mixed precision fallback | supported op 비율 |
+
+> 요약: calibration 분포와 kernel 지원을 사전 검증하지 않으면 양자화 효과를 얻지 못함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 메모리 절감 | VRAM 50~75% 감소 | nvidia-smi peak memory |
+| 정확도 회귀 | 하락 1~3%p 이내 | MMLU·사내 QA 벤치마크 |
+| 추론 지연 | p95 TPOT FP16 대비 동등 이하 | 부하 테스트 실측 |
+
+> 요약: VRAM 절감·정확도 회귀·추론 지연 3개 지표를 동시에 측정해 양자화 적용을 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 클라우드 LLM 서빙은 weight-only INT4/INT8로 GPU 메모리 50~75% 절감 후 MMLU·사내셋 회귀 검증

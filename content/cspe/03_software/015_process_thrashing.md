@@ -1,6 +1,6 @@
 ---
 title: "프로세스 스레싱 (Process Thrashing)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 15
@@ -8,151 +8,129 @@ weight: 15
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 스레싱을 처음 봐도 메모리 부족이 CPU 처리량을 무너뜨리는 현상으로 이해하게 만든다. 시험 답안 양식이 아니라, page fault storm의 원인을 설명한다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 스레싱은 프로세스들이 필요한 페이지를 메모리에 유지하지 못해 페이지 교체만 반복하는 현상이다.
-- **왜 필요한가**: 가상 메모리는 메모리보다 큰 프로그램 실행을 돕지만, 동시에 너무 많은 프로세스를 올리면 디스크 I/O가 폭증하고 CPU는 놀게 된다.
-- **핵심 직관**: 책상 위 공간보다 펼쳐야 할 책이 많아 매번 책을 넣고 빼느라 공부 시간이 사라지는 상황이다.
+- **개요**: **프로세스 스레싱(Thrashing)**은 메모리(RAM)가 꽉 차서 하드디스크와 페이지를 교체(Swap I/O)하느라 정작 CPU는 일(연산)을 거의 못 하고 컴퓨터가 멈춘 것처럼 버벅대는 현상이다.
+- **왜 필요한가**: 다중 프로그래밍 환경에서 CPU 이용률을 높이려고 프로그램(프로세스)을 계속 띄우다 보면, 어느 순간 각 프로세스에게 나눠줄 물리 메모리가 턱없이 부족해진다. 방금 쫓아낸 데이터 조각(페이지)을 또 불러오고 다시 쫓아내는 짓을 무한 반복하게 되므로 OS 차원의 개입이 필수다.
+- **핵심 직관**: 
+  - 스레싱 = 도서관 책상(RAM)이 꽉 차서, 책 하나 읽으려고 다른 책을 가방(디스크)에 넣었다가, 1초 뒤에 다시 가방에서 그 책을 꺼내느라 정작 공부(CPU 연산)는 1쪽도 못 하는 바보 같은 상태.
 
 ## 깊이 이해
-- **배경·문제의식**: 다중프로그래밍 정도를 높이면 CPU 대기시간은 줄지만, 각 프로세스의 resident set이 working set보다 작아지는 순간 page fault가 연쇄 발생한다.
-- **작동 원리**: page fault가 늘면 OS는 victim page를 내보내고 필요한 page를 가져온다. 이 I/O 동안 프로세스는 block되고, scheduler는 다른 프로세스를 올리지만 그 프로세스도 page fault를 내며 악순환이 생긴다.
-- **비유**: 회의실에 사람이 너무 많아 자료를 보려 할 때마다 밖 창고에 다녀오면, 회의는 진행되지 않고 출입만 반복된다.
-- **구체 예시**: RAM 8GB 시스템에서 활성 프로세스 working set 합이 12GB이면 page fault rate가 초당 수천 건으로 증가하고 CPU utilization이 80%에서 20% 이하로 떨어질 수 있다.
-- **흔한 오해·주의점**: 스레싱은 CPU가 느린 문제가 아니다. 병목은 메모리 부족과 swap I/O이며, CPU 증설보다 working set 조절이 먼저다.
+- **배경·문제의식**: OS는 CPU가 쉬는 꼴을 못 본다. CPU 이용률이 떨어지면 "아, 메모리에 대기 중인 프로그램이 몇 개 없어서 CPU가 노는구나!"라고 착각하고 새 프로그램을 더 메모리에 욱여넣는다(MPD 증가). 이 오판이 겹치면서 결국 모든 프로세스가 I/O 대기 상태에 빠지고 CPU 이용률이 0%로 곤두박질치는 치명적 붕괴가 바로 스레싱이다.
+- **작동 원리 (악순환의 고리)**:
+  1. 메모리에 프로세스가 너무 많아 각자 할당받은 프레임(방)이 부족함.
+  2. 페이지 폴트(Page Fault) 빈발 -> 하드디스크 I/O 폭증.
+  3. 모든 프로세스가 디스크를 기다리느라 대기(Blocked) 상태가 됨.
+  4. CPU 이용률 급락.
+  5. OS 스케줄러: "CPU가 노네? 프로세스 더 투입해!" (환장할 착각) -> 1번으로 돌아가 최악의 파국.
+- **비유**: 뷔페 식당. 밥상(RAM)에 반찬(프로그램)을 너무 많이 올려서 정작 젓가락질(CPU 연산)할 공간조차 사라진 대참사. 반찬을 내리고 올리느라 밥을 못 먹는다.
+- **구체 예시**: 크롬 탭을 100개 띄우고 무거운 포토샵을 돌리면 마우스가 끊기며 하드디스크 불빛만 미친 듯이 깜빡인다. 이때 CPU 점유율을 보면 의외로 1~2%밖에 안 되는데, CPU는 팽팽 놀고 디스크만 죽어라 돌고 있는 전형적인 스레싱 상태다.
+- **해결 철학**: 
+  - **워킹셋(Working Set)**: "이 프로세스가 자주 쓰는 페이지 집합(워킹셋)만큼 빈 공간이 없으면 아예 메모리에 올리지 말고 통째로 쫓아내라(Swap Out)."
+  - **PFF(페이지 부재 빈도)**: "폴트율이 상한선을 넘으면 프레임을 더 주고, 하한선 밑이면 뺏어라."
 
 ## 연결 개념
-- Working Set — 최근 참조한 페이지 집합, 스레싱 판단 기준
-- Page Fault Frequency — page fault 비율로 resident set을 조절하는 제어 방식
-- Degree of Multiprogramming — 동시에 메모리에 올린 프로세스 수
+- **다중 프로그래밍 정도 (MPD, Degree of Multiprogramming)**: 메모리에 동시에 올라가 있는 프로세스의 수. 적당히 올리면 CPU 이용률이 올라가지만, 임계점을 넘는 순간 스레싱이 터지며 0으로 곤두박질친다.
+- **전역 교체 vs 지역 교체**: 스레싱은 A가 메모리가 부족해서 엉뚱한 B의 페이지를 뺏어버리는 '전역 페이지 교체(Global Replacement)' 정책 때문에 도미노처럼 시스템 전체로 전염된다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 스레싱은 page fault storm과 CPU utilization drop을 working set 초과, 다중프로그래밍 정도, swap I/O 관점으로 설명한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스레싱(Thrashing)은 메모리 resident set이 working set보다 작아 page fault와 swap I/O가 반복되는 현상이다.
-> 2. **가치**: 원인을 파악하면 다중프로그래밍 정도, resident set 크기, PFF 제어로 CPU utilization을 회복할 수 있다.
-> 3. **판단 포인트**: CPU busy가 아니라 major fault/sec, swap in/out, run queue, I/O wait를 함께 봐야 한다.
+> 1. **본질**: 스레싱은 가상 메모리 시스템에서 과도한 페이지 폴트와 스와핑(I/O)으로 인해 시스템의 CPU 이용률이 급감하는 치명적 병목 현상이다.
+> 2. **가치**: 스레싱 방어 알고리즘(워킹셋, PFF)은 프로세스의 지역성(Locality)을 파악하여 최소 프레임을 보장하고, 램이 부족하면 과감하게 프로세스를 스왑 아웃시켜 시스템 붕괴를 막는다.
+> 3. **판단 포인트**: 다중 프로그래밍 정도(MPD) 증가가 낳는 CPU 이용률 붕괴 커브를 도식화하고, 현대 OS의 지역성 기반 동적 프레임 할당 철학(워킹셋/PFF)을 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 가상 메모리 병목 이해 확인 | working set 초과, page fault storm | 단순 CPU 성능 문제로 쓰지 않음 |
-| 제어 정책 판단 확인 | DOP 축소, PFF, local replacement | page replacement 알고리즘만 나열하지 않음 |
-| 운영 지표 연결 확인 | CPU utilization drop, swap I/O, major fault | 평균 메모리 사용률만 제시하지 않음 |
+| 스레싱 발생 메커니즘과 임계점 도식화 | MPD 증가 -> I/O 대기 폭증 -> CPU 이용률 급락의 악순환 | 단순히 "메모리가 부족해서 느려짐"이라고 적는 비전문적 추상 서술 |
+| 커널의 스레싱 극복 알고리즘 대조 | Working Set(시간 창 추적) vs PFF(폴트율 추적) | 두 기법의 본질이 궁극적으로 프로세스 강제 서스펜드(Swap-out)임을 누락하는 오류 |
 
-> 요약: 이 문제는 메모리 과다 적재가 CPU 처리량을 떨어뜨리는 경로와 제어 지표를 묻는다.
+> 요약: 스레싱은 "공간(RAM)이 부족해서 일을 못 하는 것"을 "일거리가 없어서 노는 것"으로 착각한 OS 스케줄러의 오판이 부른 참사다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스레싱은 페이지 교체가 실행보다 많이 발생하는 상태다. working set 합이 물리 메모리를 넘으면 page fault가 연쇄 발생하고 CPU utilization이 급락한다. OS는 다중프로그래밍 정도와 resident set을 조절해 스레싱을 통제한다.
+- 정의: 프로세스 실제 처리 시간보다 페이지 교체(Swap I/O) 시간이 더 많아져 시스템의 CPU 이용률(Utilization)이 0%로 수렴하는 현상
+- 배경: 전역 페이지 교체 정책 하에서 MPD(다중 프로그래밍 정도)를 무리하게 높이면, 프로세스들이 서로의 프레임을 뺏고 뺏기며 연쇄적인 Page Fault 폭발 유발
+- 필요성: 잦은 디스크 I/O로 인한 시스템 마비를 막기 위해, 각 프로세스가 원활히 실행되기 위한 최소한의 프레임 할당량을 보장하는 동적 통제 기법(Working Set, PFF) 필수
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 스레싱(Thrashing) 발생 메커니즘 및 악순환 구조도
 
 ```text
-Processes -> Working Set Demand -> Physical Memory Frames
-       / Page Fault Handler -> Swap I/O -> Replacement Policy
-       / DOP Controller -> Suspend / Resume Process
+[ 다중 프로그래밍 정도(MPD)와 CPU 이용률 커브 ]
+
+CPU 100% |        /---(최적점)
+이용률   |       /           \  🚨 임계점 돌파! (Thrashing 발생 구역)
+         |      /             \ 
+         |     /               \  
+   0%    |----/                 \______________
+           낮음 <---- MPD 증가 ----> 매우 높음 (프로세스 수)
+
+1. CPU 이용률 저하 -> 2. OS가 "일감이 부족하군!" 오판 -> 3. 새 프로세스 투입 (MPD 증가)
+4. 프로세스당 프레임 극도 부족 -> 5. 잦은 Page Fault -> 6. I/O 대기 폭증 -> 1번으로 악순환
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 진행 단계 | OS 스케줄러의 오판 및 대응 | 물리적 시스템 현상 (병목) |
 |:---|:---|:---|
-| Working Set | 최근 참조 페이지 집합 | window delta로 추정 |
-| Page Fault Handler | 부재 페이지 적재 | major fault는 디스크 I/O 포함 |
-| DOP Controller | 동시 실행 프로세스 수 제어 | swap 폭증 시 일부 suspend |
+| 초기 | MPD를 높일수록 CPU 가동률 정비례 상승 | 할당 프레임 여유. Page Fault 미미함 |
+| 임계점 돌파 | I/O 대기로 CPU가 쉬는 것을 '일감 부족'으로 오인 | 할당 프레임 수 < 지역성(Locality) 크기 |
+| 스레싱 돌입 | 남의 프레임을 뺏기 위해 연쇄적 디스크 I/O 촉발 | CPU 사용률 0% 수렴, 하드디스크 I/O 100% 폭주 |
 
-> 요약: 스레싱 구조는 working set 수요가 물리 frame 공급을 넘을 때 page fault handler와 swap I/O가 병목화되는 형태다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-High DOP -> Resident Set Shrink -> Working Set Miss
-  -> Major Page Fault -> Swap In/Out -> I/O Wait Increase
-  -> CPU Utilization Drop -> More Processes Admitted -> Thrashing Loop
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 다중프로그래밍 정도 증가 | runnable process count |
-| 2 | 프로세스별 frame 수 감소 | RSS vs WSS 비교 |
-| 3 | major page fault 증가 | major fault/sec |
-| 4 | I/O wait 증가와 CPU utilization 감소 | iowait, CPU utilization |
-
-> 요약: 스레싱은 DOP 증가, resident set 축소, major fault 증가, CPU utilization 감소가 순환하는 병목이다.
+> 요약: 너무 많은 태스크를 동시에 돌리려는 탐욕이 낳은, 전역 페이지 교체 시스템 고유의 도미노 재앙이다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅲ. 스레싱 극복 아키텍처: 워킹 셋(Working Set) vs PFF 
 
-| 구분 | 정상 페이징 | 스레싱 상태 | 수치·판단 기준 |
-|:---|:---|:---|:---|
-| Page Fault | 지역성 내부에서 간헐 발생 | 초당 수천 건 major fault | major fault/sec 급증 |
-| CPU 사용 | 계산 수행 중심 | I/O wait 중심 | CPU utilization 20% 이하 가능 |
-| 메모리 상태 | WSS 합 <= RAM | WSS 합 > RAM | swap in/out 지속 증가 |
-
-> 요약: 스레싱은 메모리 부족이 swap I/O를 늘리고 CPU 실행 시간을 빼앗는 상태다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | global replacement | working set 기반 제어 | 프로세스 간 page steal 과다 시 |
-| 비용/성능 | DOP 높게 유지 | DOP 축소로 fault 감소 | CPU utilization 회복 우선 |
-| 운영/위험 | 메모리 overcommit | admission control, cgroup limit | swap storm 재발 방지 |
-
-> 요약: 스레싱 대응은 더 많은 프로세스를 실행하는 것이 아니라 일부를 줄여 working set을 메모리에 맞추는 것이다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Swap Storm | WSS 합이 RAM 초과 | DOP 축소, process suspend | swap in/out MB/s |
-| Tail Latency 증가 | major fault가 요청 경로에 발생 | memory reservation, mlock | p99 latency, major fault |
-| OOM Kill | overcommit 과다 | cgroup memory.max, oom_score 조정 | OOM event count |
-
-> 요약: 운영 리스크는 swap storm, tail latency, OOM으로 나타나며 cgroup과 admission control로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 비교 축 | 워킹 셋 (Working Set) | 페이지 부재 빈도 (PFF, Page Fault Frequency) |
 |:---|:---|:---|
-| Fault Rate | major fault/sec 기준선 대비 50% 이하 | vmstat, perf, sar |
-| CPU 회복 | CPU utilization 70% 이상, iowait 10% 이하 | top, mpstat |
-| 메모리 적합 | WSS 합 <= RAM 80% | working set sampling, RSS 분석 |
+| **제어 철학** | **참조 지역성**: 과거 $\Delta$(Window Size) 동안 참조된 페이지 번호들의 집합 추적 | **비율 통제**: 단위 시간당 Page Fault 발생 횟수(비율) 추적 |
+| **프레임 할당 룰** | $\Sigma W_i$(요구 프레임 총합) > 물리 램 크기면, 초과 프로세스를 강제 스왑 아웃 | 폴트율 > 상한선(UB)이면 프레임 추가 증정. 폴트율 < 하한선(LB)이면 프레임 회수 |
+| **시스템 오버헤드** | 매 메모리 참조마다 윈도우 갱신 필요 (하드웨어 타이머/레지스터 비용 극심) | Page Fault 인터럽트가 터질 때만 비율을 계산하므로 커널 오버헤드 저렴 |
 
-> 요약: 스레싱 해소는 major fault 감소, CPU utilization 회복, WSS와 RAM의 적합성으로 확인한다.
+> 요약: 워킹 셋이 완벽한 이상주의(미시적 추적)라면, PFF는 적당히 눈치 보며 덩어리를 던져주는 실용주의(거시적 통제)다. 결론은 모두 "다 같이 죽기 전에 한 놈을 내쫓아라"이다.
+
+---
+
+## Ⅳ. 극복해야 할 시스템적 한계와 실무 튜닝 방안
+
+커널 단위의 스레싱은 메모리가 방대해지며 억제되었으나, 애플리케이션 레벨(JVM) 및 가상화 환경에서 변종으로 재출몰한다.
+
+| 리스크 요인 | 발생 원인 | 아키텍처 대응 방안 (운영 튜닝) |
+|:---|:---|:---|
+| **JVM GC 스레싱** | 힙(Heap) 메모리를 너무 작게 주어, 가비지 컬렉터(GC)가 객체를 지우느라 CPU 자원을 다 쓰고 정작 애플리케이션 코드는 정지 | `XX:GCTimeRatio` 파라미터 튜닝 및 초기 `Xms`/최대 `Xmx`를 동일하게 넉넉히 할당하여 Throughput 방어 |
+| **OOM 연쇄 킬 (K8s)** | Linux에서 Swap 스레싱을 막고자 Swap 파티션을 끄면, 메모리 피크 시 커널 OOM Killer가 핵심 파드(Pod)를 마구잡이로 죽임 | K8s 매니페스트에서 리소스 `requests`와 `limits`를 동일(Guaranteed QoS)하게 설정하여 OOM 1순위 타겟에서 회피 설계 |
+
+> 요약: 현대 클라우드는 디스크 I/O 스레싱으로 노드 전체가 좀비가 되는 꼴을 보느니, 차라리 스왑(Swap)을 끄고 메모리 오버 시 즉시 컨테이너를 죽여버리는(OOM Kill) 극약 처방을 쓴다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅴ. 실무 적용 방안 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. PFF(Page Fault Frequency) 상한을 설정해 fault rate가 임계값을 넘으면 resident set 확대 또는 프로세스 suspend를 수행함.
-2. 컨테이너 환경은 cgroup memory.max, memory.high, swap 제한을 설정해 한 workload의 page fault storm이 노드 전체로 번지지 않게 함.
-3. 배치·분석 작업은 working set 산정 후 RAM 80% 이내 admission control을 적용하고 초과 시 queue 대기로 전환함.
+**적용 방안 3개:**
+1. [클라우드 쿠버네티스 Swap 오프 강제] 쿠버네티스 워커 노드 배포 시 Kubelet의 기본 정책에 따라 리눅스 스왑(Swap) 파티션을 아예 비활성화(`swapoff -a`)하여, 디스크 I/O 스와핑으로 인한 스레싱을 원천 차단하고 메모리 격리 엄격 적용
+2. [Elasticsearch 힙 사이즈 방어] 검색 엔진 워킹셋 확보를 위해, 물리 메모리의 절반(최대 32GB)만 JVM Heap으로 주고 나머지 절반은 운영체제의 Page Cache가 독점하도록 튜닝하여 루씬(Lucene) 세그먼트 읽기 스레싱 방지
+3. [국부 교체(Local Replacement) 기반 Cgroup 격리] 전역 교체가 부르는 연쇄 도미노 스레싱을 막기 위해, 리눅스 Cgroup(Control Group) 리소스 쿼터(Quota)를 지정해 각 프로세스가 자기 몫의 메모리 안에서만 교체(Evict)를 수행하도록 가두리 양식 적용
 
-**결론 (2줄):**
-- 기술사 판단: CPU utilization 급락과 major fault/sec 급증이 함께 보이면 CPU 증설보다 DOP 축소와 working set 제어가 우선임.
-- 향후 방향: eBPF memory trace와 PSI(Pressure Stall Information) 기반 자동 admission control로 스레싱을 사전 감지함.
-
----
+**결론:**
+- 기술사 판단: 스레싱은 자원의 탐욕(다중 프로그래밍)과 지역성(Locality) 부족이 결합하여 빚어낸 파멸이다. 워킹 셋과 PFF는 "공유지의 비극"을 막기 위해 "살릴 놈만 살리고 나머지는 디스크로 쫓아낸다"는 냉혹한 스케줄링 철학을 증명한다.
+- 향후 방향: 최근 CXL(Compute Express Link) 메모리 확장 기술과 NVDIMM(비휘발성 메모리)이 도입되면서, 램과 스토리지의 물리적 속도 차이가 좁혀져 Page Fault 지연 자체가 하드웨어 속도로 은닉되는 메모리 티어링(Tiering) 구조로 진화 중이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "스레싱을 설명하시오" | DOP 증가에서 CPU utilization drop까지 흐름 | 정상 페이징과 스레싱 비교 |
-| 요구사항 명시형 | "방안을 제시하시오", "원인을 분석하시오" | page fault storm 진단 절차 | PFF, working set, cgroup 대응 기준 |
-
-> 요약: 원인 분석형은 CPU보다 major fault와 WSS 초과 여부를 먼저 제시해야 한다.
+| 포괄형 | "프로세스 스레싱의 원인과 해결 방안(워킹 셋, PFF)을 설명하시오" | MPD와 CPU 커브 및 Working Set vs PFF 표 | 전역 교체의 한계(도미노 현상) 및 국부 교체 적용 |
+| 요구사항 명시형 | "가상 메모리 성능 저하 요인으로서 스레싱과 JVM 관점의 한계 서술" | 폴트율과 I/O 대기에 따른 스레싱 악순환 메커니즘 | JVM GC 스레싱 및 K8s OOM Killer 기반 방어 전략 |

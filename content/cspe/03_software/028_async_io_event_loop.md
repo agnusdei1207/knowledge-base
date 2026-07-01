@@ -1,6 +1,6 @@
 ---
-title: "비동기 I/O·이벤트 루프 (Async I/O Event Loop)"
-date: "2026-07-01"
+title: "논블로킹 I/O·이벤트 루프 (Non-blocking I/O, Event Loop)"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 28
@@ -8,153 +8,134 @@ weight: 28
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 비동기 I/O와 이벤트 루프를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: I/O 완료를 기다리는 동안 스레드를 막지 않고 이벤트로 처리하는 동시성 모델
-- **왜 필요한가**: 네트워크 서버는 대부분 시간을 소켓 응답 대기에 쓴다. 요청마다 스레드를 묶어두면 스레드 수와 메모리 사용량이 커진다.
-- **핵심 직관**: 음식 주문 후 카운터 앞에서 기다리지 않고 진동벨을 받아 자리에 앉아 있다가 알림이 오면 음식을 받는 방식이다.
+- **개요**: **논블로킹(Non-blocking)**은 파일(또는 네트워크) 읽기를 요청해 놓고, 완료될 때까지 가만히 서서 멍때리지(블로킹) 않고 즉시 자기 할 일을 계속하는 기법이다. 이때 "끝났는지 안 끝났는지"를 계속 알려주고 스케줄을 짜주는 무한 순환 점검 장치가 **이벤트 루프(Event Loop)**다.
+- **왜 필요한가**: 톰캣(Tomcat)처럼 접속자마다 스레드 1개를 쥐여주는(Thread-per-request) 방식은 1만 명이 접속하면 스레드 1만 개가 생겨 서버 램이 터진다(C10K 문제). 반면 Nginx나 Node.js는 스레드 딱 1~4개만 띄우고(싱글 스레드), 1만 명의 요청을 논블로킹으로 던져놓은 뒤 이벤트 루프가 돌아가며 끝난 놈만 통보해 주는 식으로 서버의 스케일을 우주 끝까지 확장했다.
+- **핵심 직관**: 
+  - **블로킹 I/O (기존)**: 커피 주문을 하고 커피가 나올 때까지 진동벨도 없이 카운터 앞에서 10분 동안 줄 서서 기다림. 뒤에 있는 1만 명은 주문도 못 함.
+  - **논블로킹 I/O + 이벤트 루프**: 카운터 알바 1명(싱글 스레드)이 1만 명의 주문을 일단 다 받음. 그리고 진동벨(콜백/이벤트)을 줌. 커피가 완성될 때마다 알바생이 진동벨(이벤트 루프)을 울려서 찾아가게 함. 알바생 1명이 1만 명을 상대 가능!
 
 ## 깊이 이해
-- **배경·문제의식**: blocking I/O는 코드 흐름이 단순하지만 대기 중 스레드가 묶인다. 비동기 I/O는 non-blocking socket과 이벤트 통지로 적은 수의 스레드가 많은 연결을 처리한다.
-- **작동 원리**: 애플리케이션은 소켓을 non-blocking으로 설정하고 epoll, kqueue, IOCP 같은 커널 이벤트 통지기에 관심 이벤트를 등록한다. 이벤트 루프는 준비된 이벤트를 가져와 callback, promise, coroutine을 실행한다.
-- **비유**: 안내 데스크가 모든 손님 앞에서 대기하지 않고 번호표와 알림판으로 준비 완료된 손님만 호출하는 구조이다.
-- **구체 예시**: Node.js는 libuv 이벤트 루프와 epoll/kqueue/IOCP를 사용한다. Nginx는 worker 프로세스와 event-driven 구조로 수만 keep-alive 연결을 처리한다.
-- **흔한 오해·주의점**: 비동기 I/O는 CPU 연산을 분산하지 않는다. 이벤트 루프 스레드에서 긴 CPU 작업을 수행하면 전체 연결의 p99 지연이 증가한다.
+- **배경·문제의식**: I/O 통신(DB 접속, 파일 읽기)은 CPU 연산 대비 수십만 배 느리다. 스레드가 이 I/O를 기다리느라 멈춰(블로킹) 버리면, 남는 CPU 자원이 막대한데도 일을 못 한다. 더 많은 요청을 받으려고 스레드를 더 띄우면 이번엔 문맥 교환(Context Switching) 오버헤드로 서버가 마비된다.
+- **작동 원리 (동기/비동기 vs 블로킹/논블로킹)**:
+  - **블로킹 (상태)**: 내가 남에게 일을 시키고, 걔가 끝날 때까지 내 제어권이 묶임(멈춤).
+  - **논블로킹 (상태)**: 내가 남에게 일을 시키고, 끝났든 말든 제어권을 즉시 돌려받아 내 할 일을 함.
+  - **동기 (결과 통보)**: 내가 시킨 일이 끝났는지 "다 됐어? 다 됐어?" 하고 내가 직접 계속 물어봄(Polling).
+  - **비동기 (결과 통보)**: 난 신경 끄고 내 할 일 함. 걔가 다 끝나면 "다 됐습니다!" 하고 나를 쿡 찌름(Callback).
+  - *현대 최강 조합 (Asynchronous Non-blocking)*: "API 던져(논블로킹)놓고 내 할 일 할 테니까, 다 되면 네가 나 찔러줘(비동기)!" -> **이 통지(찌름)를 전문적으로 수집하는 무한 루프 스레드가 바로 이벤트 루프다.**
+- **비유 (이벤트 루프 큐 체계)**: 
+  - Call Stack (알바생 머리): 현재 하고 있는 일.
+  - Background API (커피 머신): 오래 걸리는 일(C++이나 커널이 대신해 줌).
+  - Task Queue (진동벨 목록): 커피 다 된 순서대로 줄 서 있는 목록.
+  - **Event Loop (매니저)**: Call Stack이 비어있는지 계속 확인하다가, 비어있으면 Task Queue에서 진동벨 하나를 뽑아 콜 스택에 던져줌. "야 1번 커피 나갔으니까 마저 처리해!"
+- **구체 예시**: Node.js 백엔드가 단 1개의 자바스크립트 스레드로 1초에 수만 건의 트래픽을 처리하는 마법. Redis가 싱글 스레드로 메모리 데이터베이스계를 천하 통일한 이유.
+- **흔한 오해·주의점**: 이벤트 루프(싱글 스레드) 환경에서 `while(true)` 같은 무거운 CPU 연산을 10초 동안 돌려버리면? 콜 스택이 막혀버려서 진동벨(Task Queue)이 천만 개가 쌓여도 아무것도 처리되지 않고 서버 전체가 '10초 동안 프리징(응답 없음)' 된다. 논블로킹은 I/O를 우회하는 것이지, 무거운 CPU 연산을 마법처럼 없애주진 않는다.
 
 ## 연결 개념
-- epoll/kqueue/IOCP — OS별 이벤트 통지 인터페이스
-- callback/promise/coroutine — 비동기 완료 처리 방식
-- backpressure — 생산 속도가 소비 속도를 넘지 않게 조절하는 제어
+- **epoll / kqueue**: 운영체제 커널이 수만 개의 소켓(파일 묘사자) 중 '지금 당장 데이터가 도착해 일할 준비가 된 소켓'만 빛의 속도로 솎아내어 이벤트 루프에 던져주는 하드웨어적 I/O 다중화 통지 기술.
+- **C10K Problem**: 커넥션 1만 개(Concurrent 10,000)를 동시에 처리할 때 스레드 1만 개를 띄우면 뻗어버리는 문제. 이벤트 루프(Nginx)가 이 문제를 영원히 해결했다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 이벤트 루프는 단순 callback 구조가 아니라 non-blocking I/O, readiness/completion 통지, backpressure, CPU 작업 분리까지 포함해 설명한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비동기 I/O·이벤트 루프는 I/O 대기 중 스레드를 점유하지 않고 커널 이벤트 통지로 완료 작업을 실행하는 동시성 구조이다.
-> 2. **가치**: 적은 worker로 많은 socket 연결을 처리하고, 네트워크 대기 시간이 큰 서비스의 메모리 사용량과 context switch를 줄인다.
-> 3. **판단 포인트**: epoll/kqueue/IOCP 차이, callback/promise 처리, 이벤트 루프 블로킹, backpressure를 함께 설계해야 한다.
+> 1. **본질**: 커널 I/O 완료 대기 시간으로 인한 스레드 유휴(Idle) 병목을 타파하기 위해, I/O 통지를 비동기적(Asynchronous)으로 위임하고 단일/소수 스레드의 이벤트 루프가 콜백(Callback)을 무한 처리하는 아키텍처다.
+> 2. **가치**: 스레드 생성 비용과 컨텍스트 스위칭 오버헤드를 극단적으로 제거하여, C10K(1만 동시 접속) 이상의 초고밀도 I/O 바운드 트래픽을 최소한의 하드웨어(CPU/RAM)로 완벽히 방어한다.
+> 3. **판단 포인트**: Thread-per-request(Tomcat) 모델의 스레드 스레싱(Thrashing) 한계와, 이벤트 루프(Node.js/Nginx) 모델에서 블로킹 연산(CPU Bound)이 유발하는 전체 이벤트 마비(Event Loop Blocked) 리스크를 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 비동기 I/O 원리 확인 | non-blocking, event registration, event dispatch | 멀티스레드와 같은 개념으로 설명 |
-| 플랫폼별 통지 방식 확인 | epoll, kqueue, IOCP, libuv | Linux 전용으로만 서술 |
-| 운영 리스크 판단 확인 | event loop lag, backpressure, CPU offload | callback 구조만 쓰고 장애 지표 누락 |
+| 제어권(Blocking)과 통지(Sync) 매트릭스의 논리적 분해 | 동기/비동기(완료 통지 주체) vs 블로킹/논블로킹(제어권 반환) | 4가지 매트릭스 구분을 섞어 쓰며 동기=블로킹으로 완전히 동일시하는 치명적 맹점 |
+| 이벤트 루프 스케줄링 메커니즘과 비동기 구현체 | Call Stack, Task Queue, Event Loop 간의 상태 천이 도식 | Node.js가 내부적으로 모든 연산을 싱글 스레드로 한다고 착각 (I/O는 워커 풀이 병렬 처리함) |
 
-> 요약: 이 문제는 비동기 I/O의 커널 통지 흐름과 이벤트 루프 운영 리스크를 함께 요구한다.
+> 요약: 스레드 1만 개를 띄워 9,999개가 디스크를 기다리며 멈춰(블로킹) 있는 멍청한 시대를 끝내고, 스레드 1개가 1만 명의 영수증(콜백)을 쉴 새 없이 처리하는 효율의 극단이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-비동기 I/O는 I/O 대기를 이벤트로 전환하는 방식이다. blocking I/O는 요청 수만큼 스레드가 대기하지만, 이벤트 루프는 준비된 I/O만 처리한다. 네트워크 연결이 많고 I/O 대기가 긴 서버에서 연결당 스레드 비용을 줄이기 위해 필요하다.
+- 정의: 프로세스(스레드)가 I/O 호출 후 제어권을 즉시 반환받아(Non-blocking) 다른 로직을 수행하고, I/O 완료 통지는 워커 풀(Worker Pool)과 이벤트 루프(Event Loop)의 콜백 큐를 통해 비동기적으로 스케줄링하는 아키텍처
+- 배경: 전통적인 Thread-per-request(Apache/Tomcat) 모델은 트래픽 폭주 시 막대한 쓰레드 컨텍스트 스위칭 낭비와 OOM(Out of Memory) 스레싱을 초래 (C10K 문제)
+- 필요성: 시스템 자원(특히 커널 스레드)을 낭비하지 않고 단일 또는 CPU 코어 수만큼의 소수 스레드만으로 수십만 건의 I/O 통신을 동시에 논블로킹 병렬 처리(Concurrency)하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 블로킹/논블로킹 & 동기/비동기 매트릭스 분해
+
+상태(제어권)와 결과 통보(시간축) 관점으로 분리해야 실체가 보인다.
+
+| 구분 분류 | 블로킹 (Blocking) : 제어권 묶임 | 논블로킹 (Non-Blocking) : 제어권 즉시 리턴 |
+|:---|:---|:---|
+| **동기** (Synchronous) <br> : 호출자가 계속 상태 찌름 | [일반적 I/O] 결과 나올 때까지 프로세스가 아예 정지(Sleep)됨 | [Polling] 제어권을 돌려받아 다른 일 하다가, **직접** `while()`문으로 "끝났어?" 찌름 |
+| **비동기** (Asynchronous) <br> : 피호출자가 직접 통지 | [논리적 비효율] 결과는 콜백으로 주는데, 제어권이 묶여서 결국 기다려야 함 (쓸데없음) | **[최종 진화형: AIO]** 쿨하게 던지고 내 일 하다가, 완료되면 시스템(콜백)이 나를 찌름 |
+
+> 요약: 궁극의 성능은 '비동기+논블로킹(Asynchronous Non-blocking)'의 조합에서 터진다. 요청을 던져놓고 1도 신경 쓰지 않다가, 다 되었다는 시그널(이벤트)이 오면 그때 움직이는 것이다.
+
+---
+
+## Ⅲ. 이벤트 루프(Event Loop) 아키텍처 및 상태 천이 도식 (Node.js 기준)
+
+싱글 스레드가 어떻게 1만 개의 비동기 I/O를 마술처럼 버퍼링하는지 보여주는 해부도.
 
 ```text
-Client Socket -> Non-blocking FD -> Event Demultiplexer
-  -> Event Loop -> Callback / Promise / Coroutine -> Response
-  -> Backpressure -> Queue / Buffer Control
+[ 1. Call Stack (싱글 스레드) ] -> 파일 읽기(fs.readFile) 요청!
+         | (1) I/O 작업 위임 (제어권 즉시 반환 = Non-blocking)
+         v
+[ 2. Background (C++ libuv / 커널 epoll) ] -> 무거운 디스크/네트워크 작업 실제 수행
+         | (2) 작업 완료 후 콜백(Callback) 함수를 큐로 던짐 (Asynchronous)
+         v
+[ 3. Task / Callback Queue ] -> 대기열 (예: [콜백A, 콜백B])
+         | (3) 🌟 Event Loop 순찰: "Call Stack이 비었네? 큐에서 하나 뽑아 올려!"
+         v
+[ 1. Call Stack ] -> 콜백A 로직 마저 실행
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 엔티티 구성요소 | 비동기 I/O 스케줄링 관점의 핵심 역할 |
+|:---|:---|
+| **Call Stack** (V8) | 사용자의 자바스크립트 코드가 실행되는 단 하나의 물리적 궤도(스레드). 무거운 연산을 절대 피해야 함 |
+| **Background (libuv)**| 싱글 스레드의 한계를 깨기 위해, 커널의 비동기 I/O(epoll) 기능이나 자체 C++ 워커 스레드 풀을 활용해 뒤에서 I/O를 병렬 처리하는 외주 공장 |
+| **Event Loop** | Call Stack이 비워질 때마다 Task Queue의 콜백을 밀어 넣는 **무한 루프 스케줄러 (틱, Tick)** |
+
+> 요약: 스레드는 하나(Call Stack)지만, 무거운 짐(I/O)을 지는 일꾼(Background)은 따로 있다. 이벤트 루프는 이 둘 사이에서 완료 영수증(콜백)을 부지런히 퍼 나르는 중간 관리자다.
+
+---
+
+## Ⅳ. 극복해야 할 시스템적 리스크와 실무 아키텍처 튜닝
+
+이벤트 루프는 I/O 바운드 최강자지만, 암호화나 압축 같은 CPU 렌더링에 노출되면 전체 서버가 마비된다.
+
+| 리스크 요인 | 발생 시나리오 및 시스템 마비 메커니즘 | 실무 튜닝 및 아키텍처 방어책 |
 |:---|:---|:---|
-| Non-blocking FD | 즉시 반환되는 소켓·파일 디스크립터 | EAGAIN 처리 필요 |
-| Event Demultiplexer | 준비된 이벤트 목록 반환 | epoll, kqueue, IOCP |
-| Event Loop | 이벤트 수신·콜백 실행 | 단일 루프 블로킹 주의 |
-| Callback/Promise | 완료 후 실행 로직 표현 | exception propagation 관리 |
-| Backpressure | 생산·소비 속도 조절 | queue length, high watermark |
+| **Event Loop Blocking (싱글 스레드 락)** | 1개의 스레드(Call Stack) 안에서 `JSON.parse`나 `While(10초)` 같은 무거운 CPU 바운드 연산을 돌리면, 뒤에 밀린 수만 개의 I/O 콜백 영수증이 이벤트 루프를 통과하지 못해 전체 서버 타임아웃 셧다운 | CPU 바운드 연산 로직을 철저히 뜯어내어, Node.js의 `Worker Threads`로 멀티 스레딩 오프로드하거나 별도의 Python/Go 마이크로서비스로 분리(CQRS) |
+| 콜백 지옥 (Callback Hell) | 비동기 제어권 위임이 5 뎁스 이상 꼬리를 물면 코드 가독성이 멸망하고 예외 처리가 불가능해짐 | ES6의 `Promise`, ES8의 `async/await` 문법을 도입하여 비동기 코드를 마치 동기적(Synchronous) 블로킹 코드처럼 선형적으로 작성해 구조적 복잡도 소거 |
 
-> 요약: 비동기 I/O는 non-blocking FD, OS 이벤트 통지기, 이벤트 루프, 완료 처리, backpressure로 구성된다.
+> 요약: Nginx와 Node.js가 웹 시장을 평정한 무기(싱글 스레드 이벤트 루프)는 양날의 검이다. 0.1초의 무거운 동기(Sync) 연산 실수가 전체 1만 명의 통신망을 마비시킬 수 있다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅴ. 실무 적용 방안 및 결론
 
-```text
-소켓 생성 -> non-blocking 설정 -> 이벤트 등록
-  -> epoll/kqueue/IOCP 대기 -> ready/completion 이벤트 수신
-  -> callback 실행 -> queue 압력 조절 -> 응답 전송
-```
+**적용 방안 3개:**
+1. [Nginx 리버스 프록시 적용 (epoll 통지)] C10K 트래픽을 처리하는 프론트 게이트웨이에 Apache(MPM) 대신 Nginx를 배치하여, 마스터-워커 프로세스 구조 하에서 커널 `epoll/kqueue` 기반 비동기 논블로킹 I/O로 수만 개의 Keep-Alive 소켓을 스레드 1개당 1MB의 램만으로 방어
+2. [Redis 인메모리 싱글 스레드 튜닝] Redis 아키텍처가 동시성 락(Lock) 없이 이벤트 루프 싱글 스레드만으로 초당 10만 IOPS를 찍는 원리를 이해하고, 운영 시 `KEYS *` 같은 전체 스캔(O(N) O(N)) 명령어를 금지시켜 이벤트 루프가 멈추는(Blocking) 대형 장애 원천 차단
+3. [Netty 기반 Java 비동기 서버 전환] Spring Boot 웹 서버 개발 시 기존 Tomcat(블로킹 I/O 스레드 풀) 환경에서 DB 지연(Slow Query) 스레딩 고갈 장애가 발생할 경우, 비동기 Netty 엔진 기반의 Spring WebFlux(리액티브)로 마이그레이션하여 논블로킹 백프레셔(Backpressure) 처리망 구축
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 소켓을 non-blocking으로 설정 | EAGAIN 처리 |
-| 2 | 읽기·쓰기 관심 이벤트 등록 | fd count, registration error |
-| 3 | 이벤트 루프가 준비 이벤트를 수신 | event loop lag |
-| 4 | callback/promise/coroutine으로 작업 실행 | handler duration |
-| 5 | queue와 buffer로 backpressure 적용 | queue depth, dropped event |
-
-> 요약: 이벤트 루프는 준비된 I/O 이벤트만 가져와 짧은 핸들러로 처리하고, 과부하 시 backpressure로 큐를 제어한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 기존/대안 | 본 기술 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| Blocking I/O | 요청당 스레드 대기 | non-blocking event 처리 | 연결 10,000개 이상 |
-| epoll/kqueue | readiness 통지 | 읽기 가능 상태 알림 | EAGAIN 반복 처리 |
-| IOCP | completion 통지 | 완료 이벤트 큐 | Windows 고성능 서버 |
-| 한계 | 코드 흐름 단순 | callback depth·loop blocking | loop lag 50ms 이하 |
-
-> 요약: 이벤트 루프는 I/O 대기에는 적합하나 CPU 작업과 긴 핸들러는 별도 worker로 분리해야 한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | thread-per-connection | event loop + non-blocking FD | 연결 수, 메모리 한계 |
-| 비용/성능 | context switch 증가 | fd event dispatch | p99 latency, loop lag |
-| 운영/위험 | 스레드 고갈 | loop blocking, callback error | CPU 작업 offload 필요성 |
-
-> 요약: 연결 수가 많고 I/O 대기가 길면 이벤트 루프, CPU 계산이 길면 worker pool 또는 프로세스 분리를 선택한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 이벤트 루프 지연 | 긴 CPU 작업·동기 파일 I/O | worker pool, task 분할 | loop lag p99 50ms 이하 |
-| 메모리 증가 | 큐 무제한 적재 | high watermark, rate limit | queue depth, heap usage |
-| 오류 전파 누락 | callback exception 미처리 | promise rejection handler, circuit breaker | unhandled rejection 0건 |
-
-> 요약: 운영 리스크는 loop lag, 큐 증가, 예외 누락이며 worker 분리와 backpressure로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 성능/지연 | p95 100ms 이하, loop lag p99 50ms 이하 | APM, event-loop monitor |
-| 품질/오류 | unhandled rejection 0건, error rate 0.1% 이하 | log, alert |
-| 운영/자원 | fd 사용률 70% 이하, queue depth 임계치 이하 | lsof, Prometheus |
-
-> 요약: 비동기 I/O 효과는 loop lag, p95/p99 지연, fd·queue 자원 지표로 검증한다.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 네트워크 서버는 non-blocking socket, epoll/kqueue/IOCP 기반 프레임워크를 선택하고 connection 10,000개 부하 테스트를 수행한다.
-2. 이벤트 핸들러는 10ms 이하 실행을 목표로 하고 CPU·동기 파일 I/O는 worker pool 또는 별도 프로세스로 분리한다.
-3. 큐마다 high watermark, timeout, retry 제한, circuit breaker를 적용해 backpressure와 장애 전파를 통제한다.
-
-**결론 (2줄):**
-- 기술사 판단: I/O-bound 대규모 연결 서버는 이벤트 루프, CPU-bound 서비스는 worker pool·프로세스 병렬 처리를 조합한다.
-- 향후 방향: 비동기 I/O는 coroutine, structured concurrency, io_uring과 결합해 코드 흐름과 커널 I/O 경로를 함께 단순화한다.
+**결론:**
+- 기술사 판단: 블로킹-스레드풀 모델은 "직원이 100명이면 100명까지만 상대한다"는 물량 공세의 철학이고, 비동기-이벤트루프 모델은 "알바생 1명이 1만 명의 영수증을 비동기로 받아서 스케줄링한다"는 관점의 혁명(Paradigm Shift)이다.
+- 향후 방향: 전통적 비동기 코드(콜백/Promise)의 작성이 너무 어렵다는 딜레마를 해결하기 위해, 런타임 언어들은 겉보기엔 동기(Sync)지만 내부적으로 비동기 이벤트 루프를 굴려주는 **Go의 Goroutine(코루틴)**과 **Java 21의 Virtual Thread**로 고차원적인 진화를 이룩하고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "비동기 I/O를 설명하시오" | 이벤트 등록·통지·콜백 흐름 | epoll/kqueue/IOCP 특징 |
-| 요구사항 명시형 | "설계하시오", "개선 방안을 제시하시오" | loop lag와 backpressure 흐름 | worker 분리, 큐 제어, 지표 |
-
-> 요약: 설명형은 이벤트 처리 원리, 설계형은 loop blocking 방지와 backpressure 기준을 중심으로 작성한다.
+| 포괄형 | "동기/비동기와 블로킹/논블로킹을 비교하고 이벤트 루프를 설명하시오" | 통지/제어권 매트릭스 표 및 이벤트 루프 큐 도식 | Thread-per-request(Tomcat)와의 성능/메모리 대조 |
+| 요구사항 명시형 | "대규모 트래픽 병목 극복을 위한 비동기 I/O 및 이벤트 루프 튜닝 방안" | 커널 레벨의 I/O 다중화(`epoll`) 효율성 증명 | 싱글 스레드 블로킹 장애(CPU Bound) 회피 아키텍처 |

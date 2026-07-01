@@ -1,6 +1,6 @@
 ---
-title: "페이지 교체 알고리즘 (Page Replacement)"
-date: "2026-07-01"
+title: "페이지 교체 알고리즘 (Page Replacement: FIFO, LRU, LFU, NUR)"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 17
@@ -8,152 +8,135 @@ weight: 17
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 페이지 교체 알고리즘을 처음 봐도 메모리에 남길 page를 고르는 정책으로 이해하게 만든다. 시험 답안 양식이 아니라, page fault 비용을 줄이는 원리를 설명한다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 페이지 교체는 물리 frame이 부족할 때 내보낼 victim page를 선택하는 정책이다.
-- **왜 필요한가**: demand paging은 필요한 page를 나중에 적재하지만, 메모리가 꽉 차면 새 page를 넣기 위해 기존 page를 제거해야 한다.
-- **핵심 직관**: 책상 위 공간이 부족할 때 앞으로 다시 볼 가능성이 낮은 책을 치우는 판단이다.
+- **개요**: 가상 메모리 시스템에서 RAM(빈방)이 꽉 찼을 때, 새 데이터(페이지)를 올리기 위해 **"기존 방을 차지하고 있는 놈들 중 누구를 내쫓을 것인가(희생양 선정)?"**를 결정하는 알고리즘이다.
+- **왜 필요한가**: RAM은 비싸고 좁다. 디스크에서 가져온 데이터로 RAM이 꽉 차면, 반드시 하나를 빼서 하드디스크(Swap)로 던져야 새 데이터를 넣을 수 있다. 이때 '앞으로 절대 안 쓸 놈'을 정확히 쫓아내야(Hit 방어) 컴퓨터가 느려지지 않는다.
+- **핵심 직관**: 
+  - **FIFO**: 가장 먼저 들어온 놈 내쫓기 (무식함. 오래됐지만 자주 쓰는 놈도 쫓겨남).
+  - **LRU**: 최근에 가장 오랫동안 안 쓴 놈 내쫓기 (과거를 보면 미래를 안다. 훌륭함).
+  - **LFU**: 지금까지 가장 적게 불린(참조 횟수) 놈 내쫓기.
+  - **NUR (Clock)**: LRU가 너무 비싸서 하드웨어 꼼수(1비트짜리 스위치)로 비슷하게 흉내 낸 알고리즘 (가성비 최강, 현대 OS 실무 탑재).
 
 ## 깊이 이해
-- **배경·문제의식**: victim 선택이 나쁘면 곧 다시 필요한 page를 내보내 page fault가 반복된다. 교체 정책은 locality를 이용해 미래 참조를 추정한다.
-- **작동 원리**: OPT는 미래에 가장 늦게 쓰일 page를 내보내 이론적 하한을 제공한다. FIFO는 먼저 들어온 page를 제거하고, LRU는 오래 안 쓴 page를 제거하며, Clock은 reference bit로 LRU를 근사한다.
-- **비유**: 냉장고에서 가장 오래 손대지 않은 재료를 버리는 방식이 LRU이고, 들어온 순서대로 버리는 방식이 FIFO다.
-- **구체 예시**: 참조열 1,2,3,4,1,2,5에서 frame 3개인 FIFO는 page fault가 연속 발생할 수 있고, frame 증가가 fault 감소를 보장하지 않는 Belady anomaly가 나타난다.
-- **흔한 오해·주의점**: LRU가 항상 구현 가능한 최선은 아니다. 정확한 LRU는 접근 순서 갱신 비용이 커서 OS는 Clock, NRU, Aging 등 근사 알고리즘을 쓴다.
+- **배경·문제의식**: 이론적으로 가장 완벽한 교체 알고리즘은 '미래에 가장 오랫동안 안 쓰일 페이지(OPT, 최적 알고리즘)'를 쫓아내는 것이다. 하지만 OS는 미래를 볼 수 없다. 따라서 과거의 패턴을 분석하여 미래를 예측하는 Heuristic(경험칙)을 쓸 수밖에 없다.
+- **작동 원리 (LRU vs NUR)**:
+  - **LRU (Least Recently Used)**: 매번 페이지를 읽을 때마다 "방금 읽음!" 하고 타임스탬프를 갱신해야 한다. 구현이 불가능에 가깝게 무겁고 비용이 비싸다. (메모리 접근마다 장부를 고쳐야 하므로 하드웨어 오버헤드 폭발)
+  - **NUR (Not Used Recently / Clock)**: 모든 방에 '참조 비트(Reference Bit, 0 또는 1)' 전구를 달아둔다. CPU가 방을 쓸 때마다 하드웨어가 공짜로 1을 켠다. 쫓아낼 놈을 찾을 때 OS가 방을 빙빙 돌면서 1(최근에 썼네?)이면 0으로 끄고 넘어가고, 0(안 쓴 지 오래됐네!)을 발견하면 그놈을 즉시 내쫓는다.
+- **비유**: 독서실 짐 빼기.
+  - FIFO: 무조건 1월에 등록한 사람 짐부터 뺌. (근데 그 사람이 매일 오는 고시생이면 대참사)
+  - LRU: 출입 카드를 일일이 뒤져서, 출입 기록이 가장 오래전인 사람 짐을 뺌. (매우 합리적이지만 기록 뒤지는 게 너무 힘듦)
+  - NUR (Clock): 관리자가 독서실 돌면서 책상에 불 켜진 사람(최근 사용)은 끄고 지나감. 불이 꺼져있는 자리를 발견하면 가차 없이 짐을 뺌. (순찰 한 바퀴로 해결!)
+- **흔한 오해·주의점**: 벨라디의 모순(Belady's Anomaly). FIFO는 멍청해서 "방을 3개에서 4개로 늘려줬는데 오히려 페이지 폴트(결석)가 더 많이 터지는" 기적의 버그가 있다. 반면 LRU는 수학적으로 방이 늘어나면 무조건 폴트가 줄어드는(Stack Property) 훌륭한 속성을 지닌다.
 
 ## 연결 개념
-- Locality — 최근·인접 참조가 다시 발생하는 성질
-- Belady Anomaly — frame 수 증가에도 FIFO fault가 늘어나는 현상
-- Working Set — 교체 정책보다 상위에서 필요한 page 집합을 관리하는 개념
+- **참조 지역성 (Locality)**: LRU 알고리즘이 99%의 적중률을 내며 작동하는 근본 원리. "방금 쓴 페이지는 1초 뒤에 또 쓸 확률이 엄청나게 높다(시간 지역성)"라는 진리 덕분에 과거를 기반으로 한 교체가 먹혀든다.
+- **페이지 폴트 (Page Fault)**: CPU가 페이지를 찾았는데 RAM에 없을 때 터지는 인터럽트. 이 폴트가 났을 때 빈 프레임이 없으면 비로소 페이지 교체 알고리즘이 발동(Trigger)한다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 페이지 교체는 알고리즘 이름 나열이 아니라 page fault rate, 구현 비용, locality 추정 정확도 비교로 답한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 페이지 교체 알고리즘은 frame 부족 시 victim page를 선택해 page fault 비용을 최소화하려는 메모리 관리 정책이다.
-> 2. **가치**: 적절한 교체는 major fault와 swap I/O를 줄이고 CPU utilization 하락을 막는다.
-> 3. **판단 포인트**: OPT는 기준선, LRU는 locality 추정, Clock은 구현 비용 절감, FIFO는 Belady anomaly 위험으로 구분한다.
+> 1. **본질**: 가상 메모리 시스템에서 물리 메모리(Frame)가 만석일 때, Page Fault 처리를 위해 디스크(Swap)로 방출(Evict)할 희생양 페이지(Victim)를 선정하는 경험적 예측 알고리즘이다.
+> 2. **가치**: 한정된 RAM 용량 안에서도 참조 지역성(Locality)을 극대화하여, 실질적인 페이지 부재율(Fault Rate)을 낮추고 시스템 처리량(Throughput)을 방어한다.
+> 3. **판단 포인트**: 이상적인 OPT(최적) 모델의 불가능성을 과거 참조 이력 기반의 LRU로 대체하고, LRU의 막대한 하드웨어 오버헤드를 하드웨어 비트 꼼수(NUR/Clock)로 타협해 낸 OS 아키텍처의 진화를 짚어야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 알고리즘 비교 확인 | FIFO, OPT, LRU, Clock, LFU | 이름만 쓰고 victim 기준 누락하지 않음 |
-| page fault 영향 이해 확인 | fault rate, dirty writeback, swap I/O | frame 수 증가가 항상 fault 감소라고 단정하지 않음 |
-| 적용 판단 확인 | 구현 비용, reference bit, workload locality | OPT를 실제 구현 정책으로 쓰지 않음 |
+| 알고리즘별 성능 한계와 트레이드오프 대조 | FIFO(벨라디의 모순) vs LRU(오버헤드) | LRU가 현대 OS에 그대로 쓰인다고 착각하여 서술 (실제로는 근사 알고리즘 NUR 사용) |
+| 현대 상용 OS의 실무 적용 기법 | NUR(Clock Algorithm)의 참조 비트(Ref Bit) 활용 | NUR을 단순히 큐 기반으로 설명하고 시계 바늘(Clock) 탐색 로직을 누락하는 오류 |
 
-> 요약: 이 문제는 victim 선택 기준과 page fault rate 영향을 비교해 운영 가능한 정책을 고르는 능력을 묻는다.
+> 요약: 완벽한 교체를 위해서는 미래를 알아야 한다(OPT). 미래를 모르면 과거를 완벽히 기록해야 한다(LRU). 하지만 기록 비용마저 너무 비싸서, 대충 전구(Bit) 하나 달아놓고 순찰 도는 타협안(NUR)이 세상을 지배했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-페이지 교체는 물리 메모리 frame 부족 시 내보낼 page를 선택하는 정책이다. 잘못된 victim 선택은 page fault storm과 thrashing을 유발한다. OS는 locality, reference bit, dirty bit를 활용해 fault rate와 writeback 비용을 줄인다.
+- 정의: 새로 적재될 페이지를 위한 공간(Free Frame) 확보 목적으로, 메모리에 상주 중인 페이지 중 가장 쓸모없어(참조 가능성이 낮아) 보이는 대상을 골라 스왑 영역으로 방출하는 운영체제 핵심 로직
+- 배경: 물리 메모리의 크기는 항상 유한하며, 페이지 부재(Page Fault) 처리 시 디스크 I/O가 발생해 메모리 접근 대비 수십만 배의 지연 패널티(Penalty)가 발생
+- 필요성: 시스템 성능 붕괴(Thrashing)를 막기 위해, 교체 오버헤드를 최소화하면서도 재참조 확률이 가장 낮은(Locality 부재) 페이지를 족집게처럼 골라내는 경험칙(Heuristic) 필수
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 고전적 페이지 교체 알고리즘 비교 (FIFO, LRU, LFU)
+
+미래를 보는 최적(OPT) 알고리즘은 실현 불가능하므로, 과거를 기반으로 판단한다.
 
 ```text
-Page Fault -> Free Frame Check
-  / No Free Frame -> Replacement Policy -> Victim Page
-  -> Dirty Writeback -> Page In -> Page Table / TLB Update
+[ 참조열: 2 -> 3 -> 2 -> 1 -> 5 (프레임 3개 만석 상황에서 5가 들어옴) ]
+
+- FIFO 큐 상태: [2(가장 오래됨), 3, 1] -> 2를 내쫓음 (방금 썼는데도 쫓겨남 🚨)
+- LRU  큐 상태: [3(가장 안 씀), 2, 1] -> 3을 내쫓음 (합리적 교체 ✅)
+- LFU  카운터: [2(2번), 3(1번), 1(1번)] -> 횟수 적은 3이나 1 중 내쫓음
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 교체 기법 (명칭) | 희생양 선정 기준 | 치명적 한계점 및 버그 |
 |:---|:---|:---|
-| Replacement Policy | victim page 선택 | FIFO, LRU, Clock, LFU |
-| Reference/Dirty Bit | 참조·수정 여부 기록 | Clock, NRU 판단 입력 |
-| Page Fault Handler | writeback, page-in, mapping 갱신 | major fault는 ms 단위 비용 |
+| **FIFO** <br>(First In First Out) | 램에 적재된 지 **가장 오래된** 시간 순서 | 계속 쓰이는 핵심 모듈도 오래됐다는 이유로 쫓겨남. 프레임을 늘려도 폴트가 증가하는 **벨라디의 모순(Belady's Anomaly)** 발생 |
+| **LRU** <br>(Least Recently Used) | 최근 참조 시점이 **가장 오래전**인 페이지 | 매 메모리 참조마다 연결 리스트나 타이머 갱신 락(Lock)이 필요하여 **하드웨어 구현 비용과 지연 오버헤드 극상** |
+| **LFU** <br>(Least Frequently Used)| 과거부터 누적 **참조 횟수가 가장 적은** 대상 | 초반에 반짝 쓰이고 영원히 안 쓰이는 쓰레기 페이지가 횟수가 높다는 이유로 메모리 영구 점유 (최근 동향 미반영) |
 
-> 요약: 교체 구조는 fault 발생 후 정책이 victim을 고르고 dirty writeback과 mapping 갱신을 수행하는 흐름이다.
+> 요약: LRU는 훌륭하지만, CPU가 램을 읽을 때마다 OS가 끼어들어 장부를 고치는 것은 물리적으로 미친 짓이다. 비용(Cost) 앞에 순수 LRU는 붕괴했다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 현대 운영체제의 타협안: NUR (Clock 알고리즘) 아키텍처
+
+순수 LRU의 막대한 비용을 하드웨어 비트(Bit)의 도움을 받아 O(1) 비용으로 근사(Approximation)해 낸 실무 알고리즘이다.
+
+| 하드웨어 지원 비트 | 커널 / MMU 동작 원리 | 
+|:---|:---|
+| **참조 비트 (Reference)** | CPU가 페이지를 찌르면(R/W) MMU가 하드웨어적으로 `1`로 세팅 (OS 렉 없음) |
+| **변형 비트 (Dirty/Modified)** | CPU가 페이지 내용을 수정(Write)하면 `1`로 세팅 (방출 시 디스크에 써야 함을 알림) |
 
 ```text
-Memory Access -> Page Miss -> Select Victim
-  -> If Dirty Write Back -> Load Requested Page
-  -> Update Page Table / TLB -> Resume Process
+[ Clock (Second Chance) 알고리즘 순찰 도식 ]
+
+Clock 바늘(OS 순찰대) -----> [ 페이지 A (Ref: 1) ] (방금 썼네? 기회 1번 더 줌. 0으로 끄고 패스)
+                                |
+                             [ 페이지 B (Ref: 0) ] (오랫동안 안 썼군. 💥너 당첨! Evict!)
+                                |
+                             [ 페이지 C (Ref: 1) ] ... 
 ```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | page table valid bit 확인 | minor/major fault 구분 |
-| 2 | free frame 없으면 victim 선택 | victim selection latency |
-| 3 | dirty page이면 disk write 수행 | writeback count |
-| 4 | 새 page 적재 후 매핑 갱신 | page fault rate |
-
-> 요약: 교체 비용은 victim 선택 자체보다 dirty writeback과 page-in I/O에서 크게 발생한다.
+* **동작 요약**: 참조 비트가 1이면 최근에 쓴 것이므로 0으로 초기화(Second Chance)하고 다음 방으로 넘어간다. 돌다가 0을 발견하는 순간 그놈을 쫓아낸다. 완벽한 LRU는 아니지만, 매우 훌륭하게 "최근에 안 쓴 놈"을 O(1) 비용으로 솎아낸다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 극복해야 할 시스템 리스크 및 튜닝 방안 (Dirty Page 패널티)
 
-| 구분 | Victim 기준 | 장점 | 한계·수치 |
-|:---|:---|:---|:---|
-| FIFO | 가장 먼저 적재된 page | 구현 단순 | Belady anomaly 가능 |
-| OPT | 가장 늦게 참조될 page | fault 하한 기준 | 미래 참조 필요 |
-| LRU | 가장 오래 미참조 page | locality 반영 | 정확 구현 비용 큼 |
-| Clock | reference bit 0 page | LRU 근사, O(1) 근접 | scan 길이 증가 가능 |
+희생양(Victim)을 골랐다고 끝이 아니다. 쫓아낼 놈의 상태(Dirty/Clean)에 따라 치명적 성능 갭이 존재한다.
 
-> 요약: 실제 OS는 LRU 정확도와 구현 비용 사이에서 Clock 계열 근사 정책을 주로 사용한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | FIFO queue | Clock/LRU approximation | locality가 있는 workload |
-| 비용/성능 | 낮은 메타데이터 비용 | reference bit scan 비용 | fault 감소가 scan 비용보다 클 때 |
-| 운영/위험 | 단순 eviction | dirty/writeback 제어 | writeback burst 방지 필요 |
-
-> 요약: 교체 정책은 fault rate 감소와 victim 선택 오버헤드의 균형으로 선택한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Belady Anomaly | FIFO의 적재 순서 의존 | LRU, Clock 전환 | frame 증가 대비 fault 변화 |
-| Writeback Burst | dirty page 동시 eviction | background flush, dirty ratio 제한 | dirty pages, writeback MB/s |
-| Thrashing | WSS 대비 frame 부족 | working set, PFF 제어 | major fault/sec, iowait |
-
-> 요약: 교체 정책 리스크는 anomaly, writeback burst, thrashing이며 fault와 writeback 지표로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 리스크 요인 | 발생 시나리오 | 튜닝 및 아키텍처 대응 방안 |
 |:---|:---|:---|
-| Fault Rate | 기준선 대비 major fault 50% 이하 | vmstat, perf |
-| Writeback | dirty writeback p95 지연 관리 | iostat, kernel trace |
-| 정책 비용 | replacement scan CPU 3% 이하 | perf, ftrace |
+| **Dirty Page 방출 지연** | 쫓아낼 페이지가 내용이 수정(Dirty bit=1)된 상태면, 덮어쓰기 전에 디스크(Swap)에 변경분을 저장(Write-back)하는 기나긴 I/O를 기다려야 함 | **백그라운드 플러시 (pdflush/kswapd)** 데몬을 가동하여, CPU 여유가 있을 때 Dirty 페이지들을 미리 디스크에 밀어내어 Clean 상태(비트=0)로 세탁해 둠 (교체 딜레이 제거) |
+| 버퍼 캐시 오염 폭주 | 대용량 DB 풀스캔(`SELECT *`) 시 한 번 훑고 버려질 쓰레기 페이지들이 램으로 대량 유입되어 기존 핵심 LRU 캐시들을 싹 다 밀어냄 | LRU를 두 단계(Active/Inactive)로 쪼개어, 1번 불린 놈은 차가운 큐(Inactive)에 가둬두고 2번 이상 불려야만 따뜻한 큐(Active)로 승격시키는 **LRU-K / 2Q 아키텍처** 적용 |
 
-> 요약: 교체 정책 평가는 page fault만이 아니라 dirty writeback과 scan CPU 비용까지 포함한다.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 범용 OS는 Clock/active-inactive list 계열로 LRU를 근사하고 reference bit를 주기적으로 샘플링함.
-2. DB workload는 OS page cache와 DB buffer cache 중복을 줄이기 위해 direct I/O 또는 cache 크기 상한을 설정함.
-3. dirty ratio, background writeback, cgroup memory pressure를 조정해 eviction이 tail latency p99를 만들지 않게 함.
-
-**결론 (2줄):**
-- 기술사 판단: 이론 비교는 OPT·LRU·FIFO로 설명하고, 실무 선택은 Clock 계열과 working set 제어로 답안을 마무리함.
-- 향후 방향: NUMA, SSD, persistent memory 환경에서는 page migration과 tiered memory 정책까지 함께 고려함.
+> 요약: 스왑 아웃(Swap out)될 때 디스크 쓰기(Write)가 발생하면 시스템이 멈춘다. 그래서 현대 커널 데몬(`kswapd`)은 평소에 부지런히 더러운 방(Dirty Page)을 치워 빈방(Free) 리스트를 넉넉히 비축해 둔다.
 
 ---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [RDBMS 버퍼 풀 (Buffer Pool) 튜닝] MySQL InnoDB 엔진의 `innodb_buffer_pool_size` 튜닝 시, 단발성 풀스캔 쿼리가 버퍼를 박살 내지 못하도록 중간 지점 삽입(Midpoint Insertion Strategy) 방식의 변형 LRU 리스트(3/8 지점 룰)를 강제하여 핫(Hot) 데이터 생존력 보장
+2. [Redis 캐시 Eviction 정책 설정] Redis 인메모리 DB 메모리 만공(Full) 장애 방지를 위해, `maxmemory-policy`를 `volatile-lru`(만료 시간 있는 키 중 LRU 교체) 또는 Redis 4.0의 `allkeys-lfu`(최근 접근 빈도 융합) 알고리즘으로 명시적 선언 적용
+3. [Linux Swappiness 파라미터 조절] K8s 노드 운영 시 커널이 파일 캐시(Page Cache)를 비울지 익명 메모리(Heap)를 스왑(Swap) 아웃할지 결정하는 `vm.swappiness` 값을 디폴트 60에서 10(또는 0)으로 낮춰, 억울하게 Heap 메모리 페이지가 쫓겨나는 스레싱 원천 차단
+
+**결론:**
+- 기술사 판단: 페이지 교체 알고리즘은 미래(OPT)를 알 수 없다는 시스템의 태생적 한계를 과거의 이력(LRU)과 하드웨어의 꼼수(Clock)를 결합하여 돌파한 엔지니어링의 정수다. 이론적으로 완벽한 것이 항상 시스템적으로 훌륭한 것은 아님을 증명하는 대표적 사례다.
+- 향후 방향: 최근 머신러닝(ML) 칩이 OS에 탑재됨에 따라, 단순한 참조 비트를 넘어 프로세스의 과거 접근 패턴(Sequential, Strided)을 딥러닝으로 훈련하여 교체 대상을 족집게처럼 예측하는 AI 기반 Prefetching 및 Replacement 연구가 커널 아키텍처의 차세대 화두로 부상하고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "페이지 교체 알고리즘을 설명하시오" | fault 처리와 victim 선택 흐름 | FIFO, OPT, LRU, Clock 비교 |
-| 요구사항 명시형 | "비교하시오", "방안을 제시하시오" | fault rate 진단, dirty writeback 제어 | Belady anomaly와 Clock 선택 기준 |
-
-> 요약: 비교형은 victim 기준, 구현 비용, page fault rate를 표로 압축해 제시한다.
+| 포괄형 | "가상 메모리 페이지 교체 기법 FIFO, LRU, LFU, NUR을 비교하시오" | 4대 기법 희생양 선정 기준 및 모순(벨라디) 대조표 | NUR(Clock)의 하드웨어 비트 활용 및 순찰 도식 |
+| 요구사항 명시형 | "LRU의 한계점과 상용 OS의 근사 알고리즘(NUR) 및 Dirty Page 해결책" | 장부 갱신 오버헤드와 참조/변형 비트 융합 원리 | 백그라운드 플러시 데몬(`kswapd`) 및 LRU-K 튜닝 |

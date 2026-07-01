@@ -1,6 +1,6 @@
 ---
 title: "CFS 완전 공정 스케줄러 (Completely Fair Scheduler)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 6
@@ -8,156 +8,126 @@ weight: 6
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: CFS를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Linux가 vruntime으로 CPU 사용 공정성을 맞추는 스케줄러
-- **왜 필요한가**: 여러 task가 동시에 CPU를 요구할 때, 고정 time slice만으로는 nice 값과 CPU share를 정확히 반영하기 어렵다.
-- **핵심 직관**: CPU를 덜 쓴 사람을 왼쪽 줄에 세우고, 가장 덜 쓴 사람부터 다시 CPU를 주는 방식이다.
+- **개요**: **CFS(Completely Fair Scheduler)**는 리눅스(Linux) 커널의 기본 스케줄러로, 이름 그대로 "모든 프로세스가 CPU를 수학적으로 1나노초까지 완벽하게 공평(Fair)하게 나눠 쓰자"는 강박관념으로 만들어진 알고리즘이다.
+- **왜 필요한가**: 과거의 스케줄러(MLFQ나 O(1) 스케줄러)는 수많은 큐(Queue)와 복잡한 규칙들(퀀텀 몇 초 줄 건지, 강등은 언제 할 건지)이 너무 많아 관리가 지옥이었다. CFS는 복잡한 큐와 경험칙을 다 박살 내고, 오직 **'네가 지금까지 CPU를 얼마나 썼는지(vruntime)'**라는 단 하나의 수치만 쳐다본다.
+- **핵심 직관**: 
+  - 엄마(CPU)가 자식 3명에게 아이패드를 양보하며 쓰게 한다.
+  - 엄마는 초시계(vruntime)를 들고, A가 10초 쓰면 B에게 넘기고, B가 10초 쓰면 C에게 넘긴다.
+  - 갑자기 밖에서 놀다 온 막내(새 프로세스)가 오면 초시계가 0초이므로, 공평을 맞추기 위해 막내에게 아이패드를 몰아준다.
 
 ## 깊이 이해
-- **배경·문제의식**: 전통 O(1) 스케줄러는 active/expired array와 priority 조정이 복잡했다. CFS는 이상적인 공정 공유 모델을 vruntime으로 근사한다.
-- **작동 원리**: task가 CPU를 쓸수록 vruntime이 증가한다. nice 값이 낮아 weight가 큰 task는 vruntime 증가 속도가 느려 더 많은 CPU share를 받는다. CFS는 red-black tree의 가장 왼쪽 task, 즉 vruntime이 가장 작은 task를 선택한다.
-- **비유**: 운동장 사용 시간을 장부에 적고, 누적 사용 시간이 가장 적은 팀에게 다음 차례를 주는 방식이다. 회원 등급(nice weight)에 따라 사용권 비율이 달라진다.
-- **구체 예시**: nice 0 weight 1024, nice 5 weight 335이면 nice 0 task는 같은 경쟁 조건에서 약 3배 CPU share를 받는다. target latency 24ms에서 4개 task는 각 6ms 내외 slice를 받는다.
-- **흔한 오해·주의점**: CFS는 모든 task에 같은 시간을 주는 정책이 아니다. nice weight와 cgroup cpu.weight를 반영해 가중 공정성을 제공한다.
+- **배경·문제의식**: O(1) 스케줄러는 140개의 큐를 유지하며 반응성은 최고였지만 코드가 너무 복잡했고 버그가 많았다. 커널 개발자 잉고 몰나르(Ingo Molnar)는 "이상적인 멀티태스킹(Ideal Multi-tasking)은 물리적으로 불가능하지만, 가장 적게 쓴 놈에게 무조건 CPU를 몰아주면 거기에 수렴한다"며 CFS를 창시했다.
+- **작동 원리 (vruntime과 Red-Black Tree)**:
+  - **vruntime (가상 실행 시간)**: 각 프로세스가 CPU를 쓴 시간을 누적한 값이다. 단, 중요도(nice 값)에 따라 시계가 가는 속도가 다르다. VIP는 10초를 써도 시계가 2초만 올라가고, 천민은 10초를 쓰면 시계가 50초가 올라간다.
+  - **Red-Black Tree**: CFS는 큐 대신 트리(Tree) 구조를 쓴다. `vruntime`이 제일 작은 놈(가장 불쌍한 놈)이 무조건 트리의 **맨 왼쪽 아래**에 위치한다.
+  - 스케줄러는 그냥 눈감고 "트리 맨 왼쪽 놈 튀어나와!" 해서 CPU를 주고, 걔가 한참 써서 `vruntime`이 뚱뚱해지면 다시 트리에 던져 넣는다(자연스럽게 오른쪽으로 밀려남).
+- **비유**: 빚(vruntime)이 가장 적은 사람에게 대출(CPU)을 해주는 시스템. 대출을 받아서 빚이 늘어나면, 다른 빚 없는 사람이 새롭게 대출 우선순위(트리 맨 왼쪽)를 꿰차게 된다.
+- **구체 예시**: 마우스 클릭(I/O 바운드)은 잠깐 1ms만 쓰고 자러(Wait) 가니까 `vruntime`이 거의 안 늘어난다. 그래서 잠에서 깨서 트리에 돌아오면 무조건 맨 왼쪽에 꽂혀서 최우선으로 실행(즉각 반응)된다. 비디오 인코딩(CPU 바운드)은 계속 돌면서 `vruntime`이 팍팍 늘어나 오른쪽으로 처박힌다. MLFQ처럼 복잡하게 큐를 강등시킬 필요 없이 자연스럽게 I/O가 우대받는 것이다.
+- **흔한 오해·주의점**: CFS는 무조건 1/N로 분배하는 공산주의가 아니다. 가중치(nice, 우선순위)라는 개념이 분명히 존재하며, 이 가중치는 "시간을 얼마나 더 줄까"가 아니라 **"네 초시계(vruntime)를 얼마나 천천히 돌려줄까"**의 마법으로 작동한다.
 
 ## 연결 개념
-- vruntime: 실제 실행 시간을 weight로 보정한 가상 실행 시간
-- red-black tree: runnable task 정렬 자료구조
-- cgroup CPU: container별 CPU share·quota 제어
+- **우선순위 역전 / Nice 값**: 유닉스의 `nice` 값(-20~19)은 CFS 안에서 프로세스의 가중치(Weight)로 치환되어, 값이 낮을수록(중요할수록) `vruntime`이 천천히 증가하게 만든다.
+- **레드 블랙 트리 (Red-Black Tree)**: 큐 대신 트리를 써서 삽입/삭제가 O(log N)이 걸리지만, 맨 왼쪽 노드를 찾는 것은 O(1)에 가깝게 최적화되어 커널 스케줄러로 손색없는 성능을 뽑아낸다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: CFS는 Linux scheduler를 vruntime, nice weight, red-black tree, target latency로 설명해야 한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CFS는 runnable task의 vruntime을 기준으로 CPU를 덜 사용한 task를 우선 실행하는 Linux 공정 스케줄러이다.
-> 2. **가치**: fixed quantum 대신 target latency와 weight를 이용해 interactive 응답성과 CPU share 공정성을 조정한다.
-> 3. **판단 포인트**: vruntime 산정, RB-tree 선택 비용, nice/cgroup weight, quota throttling을 함께 제시해야 한다.
+> 1. **본질**: 복잡한 휴리스틱 큐(Queue)를 폐기하고, 프로세스별 누적 가상 실행 시간(`vruntime`)을 Red-Black 트리에 정렬하여 철저한 공정성(Fairness)을 추구하는 Linux 커널 표준 스케줄러다.
+> 2. **가치**: 대화형(I/O) 프로세스와 연산형(CPU) 프로세스를 인위적으로 구분하지 않고도, `vruntime`의 자연스러운 증가 폭 차이를 통해 I/O 반응성을 완벽하게 보장한다.
+> 3. **판단 포인트**: 타임 퀀텀을 고정 할당하는 기존 방식과 달리, 목표 대기 시간(Target Latency)을 기반으로 동적 할당량(Time Slice)을 분할하는 수식 및 트리 탐색 구조를 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| Linux 스케줄러 구조 이해 확인 | vruntime, RB-tree, leftmost task, nice weight | 단순 RR로 설명 |
-| 공정성 판단 확인 | weight 기반 CPU share, target latency | 모든 task 동일 시간 배분으로 오해 |
-| 실무 튜닝 역량 확인 | nice, cgroup cpu.weight, quota, throttling | container CPU 제한 영향 누락 |
+| CFS의 핵심 지표 및 자료구조 도출 | `vruntime` (가상 실행 시간) + Red-Black Tree | CFS를 멀티레벨 큐(MLQ)의 일종으로 혼동하여 서술하는 치명적 오류 |
+| 가중치(우선순위)가 적용되는 수학적 원리 | `nice` 값에 따른 Weight 반영 비례식 | 우선순위가 높으면 "타임 퀀텀"이 길어진다고 과거 방식으로 서술 (CFS는 vruntime이 천천히 감) |
 
-> 요약: 이 문제는 CFS의 자료구조와 가중 공정성, 운영 튜닝 지표를 연결해야 한다.
+> 요약: 이상적인 프로세서는 모든 태스크를 1/N 속도로 동시에 돌리는 것이다. 하드웨어로는 불가능한 이 이상향을 소프트웨어(vruntime)로 최대한 흉내 낸 예술 작품이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CFS는 Linux의 가중 공정 CPU 스케줄러이다.
-runnable task의 vruntime을 red-black tree에 정렬하고, CPU를 덜 받은 task를 우선 선택해 공정한 CPU share를 제공한다.
-서버·컨테이너 환경에서는 nice와 cgroup으로 tenant별 CPU 배분을 제어하기 위해 필요하다.
+- 정의: 프로세스들의 CPU 점유율을 추적하는 가상 런타임(`vruntime`)을 계산하여, 가장 적게 실행된 프로세스(Tree 좌측 최하단 노드)에게 제어권을 넘기는 Linux 선점형 스케줄러
+- 배경: 기존 Linux 2.6 O(1) 스케줄러는 140개의 큐 관리에 막대한 복잡도와 휴리스틱(경험칙) 의존성 문제(버그 양산) 노출
+- 필요성: 예외 규칙(강등, 부스트) 없이 오직 '공정성'이라는 단일 수학적 수식만으로 I/O 바운드와 CPU 바운드 스케줄링을 통합 제어하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. CFS의 핵심 아키텍처 및 자료 구조도
 
 ```text
-Runnable Task -> vruntime 계산 -> RB-tree 삽입
-RB-tree Leftmost -> Pick Next Task -> Execute
-Execute Time -> vruntime 증가 -> Reinsert/Block/Exit
+[ Red-Black Tree 기반 vruntime 맵핑 ]
+
+                 [ vruntime: 120 ] (실행 꽤 많이 한 놈)
+                 /               \
+       [ vruntime: 80 ]         [ vruntime: 150 ] (엄청 많이 쓴 놈)
+       /              \                 
+🚨[ vruntime: 20 ]  [ vruntime: 90 ]
+ ^^^^^^^^^^^^^^^^^
+ 스케줄러는 O(1) 속도로 캐싱된 트리 맨 왼쪽(Left-most) 노드를 뽑아 CPU에 던짐.
+ (20짜리가 한참 실행되어 100이 되면 다시 트리에 삽입되어 우측으로 밀려남)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 핵심 컴포넌트 | 메커니즘 및 역할 | 성능 및 효과 |
 |:---|:---|:---|
-| vruntime | 실제 실행 시간을 weight로 보정 | 작을수록 먼저 실행 |
-| nice weight | task별 CPU share 가중치 | nice 0 weight 1024 |
-| red-black tree | runnable task 정렬 | 선택·삽입 O(log n) |
-| target latency | 전체 runnable 순환 목표 시간 | task 수에 따라 slice 계산 |
-| cgroup CPU | 그룹 단위 share/quota 제어 | container throttling 발생 가능 |
+| **vruntime** (가상 런타임) | 실제 물리적 CPU 사용 시간 * (가중치 상수 / 프로세스 Weight) | 우선순위가 높은 놈은 시간이 느리게 가고, 낮은 놈은 빨리 감 |
+| **RB-Tree** (레드 블랙 트리) | 프로세스를 큐가 아닌 자가 균형 이진 탐색 트리에 정렬 보관 | 삽입/삭제 오버헤드 $O(\log N)$ 방어 및 자동 정렬 |
+| **타겟 레이턴시** (Target Latency) | "모든 프로세스가 적어도 한 번씩은 CPU를 받는 시간"을 예로 20ms로 세팅 | N개의 프로세스가 존재 시 `20ms / N` 씩 동적 타임 슬라이스 분할 |
 
-> 요약: CFS는 vruntime을 RB-tree에 정렬하고 weight와 latency 기준으로 다음 실행 task를 고른다.
+> 요약: 스케줄러가 할 일은 단 하나다. 트리의 가장 왼쪽 놈을 뽑아서 실행시키고, 다 쓰면 다시 트리에 집어넣어 자연스럽게 오른쪽으로 굴러떨어지게 놔두는 것이다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. I/O 바운드 우선 처리의 자연적 달성 (수학적 증명)
 
-```text
-Task runnable 등록 -> weight 확인 -> vruntime 보정
--> RB-tree 정렬 -> leftmost task 선택
--> CPU 실행 -> vruntime 증가
--> block/expire 시 tree 재삽입 또는 제거
-```
+CFS는 큐 강등이나 승격(Boost) 룰이 1줄도 없다. 수식 자체가 마법이다.
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | runnable task의 nice/cgroup weight 확인 | cpu.weight, nice 값 |
-| 2 | 실행 시간에 weight 보정해 vruntime 계산 | schedstat vruntime |
-| 3 | RB-tree leftmost task를 pick_next로 선택 | scheduler latency |
-| 4 | target latency와 runnable 수로 slice 산정 | sched_min_granularity |
-| 5 | 실행 후 vruntime 갱신 및 재정렬 | CPU share 오차 |
-
-> 요약: CFS는 가장 작은 vruntime을 선택하고 실행 후 vruntime을 늘려 CPU 사용 균형을 맞춘다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | CFS | MLFQ/RR | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| 선택 기준 | 최소 vruntime | queue priority/time quantum | RB-tree O(log n) |
-| 공정성 | nice weight 기반 share | quantum 동일 또는 priority | nice 0 weight 1024 |
-| 응답성 | target latency로 조정 | 상위 큐 우대 | sched_latency_ns |
-| 컨테이너 | cgroup CPU와 결합 | OS 단일 queue 중심 | cpu.weight, cpu.max |
-
-> 요약: CFS는 우선순위 큐보다 누적 CPU 사용량을 기준으로 가중 공정성을 구현한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | O(1) priority array | RB-tree+vruntime | 공정 share 요구 |
-| 비용/성능 | 고정 quantum | dynamic slice | runnable task 수, latency |
-| 운영/위험 | nice만 조정 | cgroup share/quota 병행 | tenant별 CPU 격리 |
-
-> 요약: Linux 서버에서는 CFS와 cgroup을 함께 봐야 프로세스 단위와 컨테이너 단위 CPU 배분을 설명할 수 있다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| latency spike | runnable task 과다 | pool 제한, CPU request 조정 | run queue latency |
-| quota throttling | cgroup cpu.max 과소 | quota/period 조정 | throttled_time |
-| share 불균형 | nice/cpu.weight 오설정 | weight 표준화, baseline test | CPU share 오차 5% 이내 |
-
-> 요약: CFS 리스크는 task 과다, quota throttling, weight 오설정이며 cgroup 지표로 추적한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 프로세스 유형 | vruntime 누적 행태 | 트리 내 위치 및 결과 |
 |:---|:---|:---|
-| 공정성 | CPU share 오차 5% 이내 | cgroup cpu.stat, pidstat |
-| 지연시간 | run queue latency p95 10ms 이하 | perf sched latency |
-| throttling | throttled_time 비율 1% 이하 | cgroup cpu.stat |
+| **마우스 이벤트 (I/O 바운드)** | 1ms만 쓰고 디스크/입력 대기(Blocked) 상태로 자러 감. 누적된 `vruntime`이 1ms에 불과함 | 깨어나서 트리에 들어오면 빚이 거의 없으므로 **무조건 트리 최좌측 1순위로 복귀(즉각 응답 달성)** |
+| **비디오 인코딩 (CPU 바운드)** | 20ms 꽉꽉 채워 뜀. 한 바퀴 돌면 `vruntime`이 20ms 누적됨 | 트리에 들어올 때마다 `vruntime`이 가장 크므로 계속 우측으로 밀려나 **백그라운드 처리로 고정됨** |
+| **Sleep에서 깬 프로세스 예외** | 10초 동안 자다 깨면 `vruntime`이 0이므로 평생 CPU를 독점하는 버그 발생 가능 | 현재 트리의 최소 `vruntime - 보정값`으로 **빚을 임의 조정(강제 상승)**하여 무한 독점 방어 |
 
-> 요약: CFS 운영 품질은 CPU share 오차, run queue latency, throttling 비율로 판단한다.
+> 요약: "어? 너 CPU 거의 안 썼네? 옛다 먼저 써라." I/O 프로세스는 자발적으로 CPU를 안 썼을 뿐인데, CFS 수식은 이를 빚이 없는 모범 시민으로 간주해 최우선권을 준다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅳ. 극복해야 할 시스템적 리스크와 튜닝 (멀티코어와 Throttling)
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 서비스별 nice와 cgroup cpu.weight를 표준화해 online workload에 batch 대비 2~4배 CPU share 부여
-2. Kubernetes CPU limit으로 인한 throttling_time을 1% 이하로 유지하고, burst workload는 limit보다 request 중심으로 관리
-3. perf sched latency와 cgroup cpu.stat을 수집해 run queue p95, nr_throttled, CPU share 오차를 대시보드화
+| 리스크 요인 | 발생 시나리오 | 아키텍처 대응 방안 (실무 튜닝) |
+|:---|:---|:---|
+| 컨테이너(K8s) CPU 스로틀링 | 쿠버네티스에서 `cpu limits`를 너무 낮게 잡으면, CFS 할당량(Quota) 소진 시 컨테이너가 100ms 주기가 찰 때까지 아예 멈춰버림 (API 응답 지연 폭발) | `cpu.cfs_quota_us` 해제 또는 버스트(Burst) 설정 허용. 커널 5.14+ 부터 도입된 Burst 기능을 켜서 남는 주기의 CPU 잉여분을 당겨쓰게 허용 |
+| 멀티코어 로드 밸런싱 | 1번 코어 트리는 텅 비었고, 2번 코어 트리에만 무거운 프로세스가 쌓이는 부하 불균형 | 커널 타이머 주기로 **Load Balancer**가 코어별 트리의 무게(Load)를 계산하여, 무거운 트리에서 프로세스를 뽑아 빈 트리로 강제 이주(Migration) 수행 |
 
-**결론 (2줄):**
-- 기술사 판단: Linux 범용 서버는 CFS를 기본으로 하고, deadline 보장이 필요하면 SCHED_FIFO/RR 또는 EDF 계열을 별도 적용함
-- 향후 방향: 컨테이너 밀집 환경에서는 CFS 단독보다 cgroup, NUMA affinity, application pool 크기를 함께 튜닝해야 함
+> 요약: 클라우드 엔지니어들이 K8s 레이턴시로 밤을 새우는 원흉 1순위가 바로 저 `cfs_quota_us` 마이크로초 타이머 락업이다. 제한(Limit) 설정은 곧 CFS의 스로틀링 칼날을 맞는 것이다.
+
+---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [컨테이너 CPU Limit 튜닝 방지] K8s 인프라 설계 시, Java/Node.js 백엔드 앱의 Latency Spike를 막기 위해 `resources.limits.cpu`를 아예 제거하고 `requests`만으로 스케줄링 가중치(Shares)를 주어 CFS 강제 중단(Throttling) 원천 회피
+2. [nice 값 기반 백그라운드 격리] 로그 수집기(Fluentd)나 백업 에이전트 구동 시, 앱 서버의 `vruntime`을 방해하지 않도록 `nice` 값을 19(최저 우선순위)로 하향(Demote)하여 가중치(Weight) 분모를 최소화, 잉여 CPU만 소비하도록 격리
+3. [EAS (Energy Aware Scheduling) 융합] 모바일(Android) 환경이나 ARM big.LITTLE 코어에서, CFS의 로드 밸런서에 전력 소모량 맵(Energy Model)을 추가 주입하여, 무거운 프로세스는 빅(Big) 코어 트리에 꽂고 가벼운 건 리틀(Little) 코어로 넘기는 융합 튜닝 적용
+
+**결론:**
+- 기술사 판단: CFS는 경험과 땜질(Heuristic 큐)로 점철되어 온 운영체제 스케줄링의 역사를, 오직 `vruntime`이라는 하나의 수학적 진리로 통일한 아름다운 공학적 승리다. 
+- 향후 방향: CFS는 데스크톱과 범용 서버를 완벽히 평정했지만, 초저지연 실시간 시스템이나 클라우드 특수 워크로드에서는 여전히 한계가 있다. 이에 최근 리눅스 진영은 커널 스케줄러 자체를 런타임에 교체할 수 있는 BPF 기반의 확장형 스케줄러(sched_ext) 체제로 거대한 패러다임 전환을 시도 중이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "CFS를 설명하시오" | vruntime 계산과 RB-tree 선택 | MLFQ/RR 대비 공정성 |
-| 요구사항 명시형 | "Linux CPU 튜닝 방안을 제시하시오" | cgroup weight/quota 흐름 | throttling·latency 대응 |
-
-> 요약: 설명형은 vruntime 구조, 운영형은 cgroup과 throttling 지표를 중심으로 전환한다.
+| 포괄형 | "리눅스 CFS의 동작 원리와 vruntime을 설명하시오" | Red-Black Tree 내 vruntime 정렬 및 추출 도식 | I/O 바운드 프로세스가 자연스럽게 우대받는 증명 |
+| 요구사항 명시형 | "CFS 환경에서 컨테이너 스로틀링 원인과 멀티코어 튜닝" | 타겟 레이턴시와 동적 타임 슬라이스 분할 원리 | K8s CPU Limits로 인한 멈춤(Lockup) 현상 및 방어 |

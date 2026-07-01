@@ -1,6 +1,6 @@
 ---
 title: "리액티브 프로그래밍 (Reactive Programming)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 29
@@ -8,153 +8,135 @@ weight: 29
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 리액티브 프로그래밍을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 데이터와 이벤트의 흐름을 스트림으로 보고 변화에 반응해 처리하는 프로그래밍 모델
-- **왜 필요한가**: 사용자 요청, 메시지, 센서 이벤트, 외부 API 응답은 시간 순서로 계속 들어온다. 리액티브는 이 흐름을 publisher/subscriber와 backpressure로 제어한다.
-- **핵심 직관**: 수도관에 물이 흐르듯 데이터가 흘러오면 필터, 변환, 합치기 밸브를 지나 소비자에게 전달되는 구조이다.
+- **개요**: **리액티브 프로그래밍**은 "데이터가 변하거나 도착하면(이벤트), 내가 알아서 반응(Reaction)해서 촥촥촥 파이프라인으로 흘려보내겠다"는 코딩 패러다임이다. 넷플릭스가 서버 뻗는 걸 막기 위해 주도했다(RxJava, Spring WebFlux).
+- **왜 필요한가**: 수만 명이 넷플릭스 영화 리스트를 클릭하면, 기존 톰캣 서버는 DB 응답이 올 때까지 스레드를 수만 개 띄우고 멈춰(블로킹) 있다가 서버가 터졌다. 이를 막으려고 비동기(이벤트 루프)를 썼지만 코드가 지저분한 콜백 지옥(Callback Hell)이 되었다. 그래서 "데이터의 흐름(스트림)을 비동기적으로 밀어주고(Push), 받는 쪽은 압박을 견디게(Backpressure) 우아하게 짜보자"며 탄생했다.
+- **핵심 직관**: 
+  - **기존 (Pull 방식)**: 뷔페. 손님이 접시(스레드) 들고 가서 음식 나올 때까지 그 앞에서 주구장창 기다림. 줄이 엄청 밀림 (블로킹).
+  - **리액티브 (Push 방식)**: 회전초밥집. 주방장이 초밥(데이터 이벤트)을 레일(스트림)에 계속 올려서 밀어줌(Push). 손님은 자기 자리에서 딴짓(비동기)하다가 초밥이 자기 앞에 오면 그냥 집어 먹음(반응).
 
 ## 깊이 이해
-- **배경·문제의식**: 동기 호출 기반 시스템은 느린 소비자나 장애 지점이 전체 요청 지연을 끌어올린다. 이벤트 기반 시스템은 흐름을 분리하지만 큐가 무한히 쌓이면 메모리 장애가 발생한다.
-- **작동 원리**: Publisher는 데이터를 발행하고 Subscriber는 구독한다. Operator는 map, filter, flatMap 같은 변환을 수행하며, backpressure는 Subscriber가 처리 가능한 개수만 request하도록 제어한다.
-- **비유**: 신문사가 무제한으로 신문을 보내지 않고 구독자가 하루 1부를 요청하면 그 양만 배송하는 방식이다.
-- **구체 예시**: Reactive Streams는 `Publisher`, `Subscriber`, `Subscription`, `Processor` 인터페이스를 표준화했다. Reactor와 RxJava는 이를 기반으로 비동기 스트림 연산을 제공한다.
-- **흔한 오해·주의점**: 리액티브는 단순 비동기 호출이 아니다. 핵심은 이벤트 스트림, 조합 연산, backpressure, 오류 전파 규칙을 갖춘 처리 모델이다.
+- **배경·문제의식**: 마이크로서비스(MSA) 시대가 되면서 한 번의 터치에 수십 개의 API를 연쇄 호출하게 되었다. 기존의 동기/블로킹 방식으로는 한 API가 늦어지면 뒤의 모든 스레드가 멈춰 도미노 셧다운(Cascading Failure)이 일어났다. 그렇다고 비동기 콜백으로 짜기엔 흐름 제어가 불가능했다.
+- **작동 원리 (리액티브 선언문 4원칙)**:
+  1. **Responsive (응답성)**: 에러가 나든 트래픽이 터지든 시스템은 무조건 응답해야 한다.
+  2. **Resilient (회복성)**: 한 놈이 죽어도(에러) 전체 시스템이 죽지 않고 분리(격리)되어야 한다.
+  3. **Elastic (유연성)**: 접속자가 만 명이든 한 명이든 찌그러졌다 늘어났다(스케일 아웃) 해야 한다.
+  4. **Message-Driven (메시지 기반)**: 이 모든 걸 비동기 메시지 전달(논블로킹)로 해결해야 한다.
+- **배압 (Backpressure)**: 리액티브의 핵심 오브 핵심! 
+  - 주방장(DB)이 1초에 초밥 100개를 밀어내는데, 손님(서버)이 1초에 10개밖에 못 먹으면? 레일이 무너진다(메모리 터짐 OOM). 
+  - 그래서 손님이 "나 지금 10개밖에 못 먹으니까, **일단 10개만 보내!**"라고 피드백을 주는 역방향 압력 조절기가 배압이다. (구독자가 발행자에게 데이터를 제어함).
+- **비유 (Mono와 Flux)**: 
+  - `Mono`: 데이터가 0개 아니면 딱 1개(예: 내 정보 조회) 오는 상자.
+  - `Flux`: 데이터가 0개부터 무한개(예: 끝없이 갱신되는 넷플릭스 추천 목록)까지 스트림으로 계속 날아오는 컨베이어 벨트.
+- **구체 예시**: Spring Boot에서 DB 조회를 할 때, 기존처럼 `User user = repository.findById(1);` (가져올 때까지 멈춤)로 안 짠다. `Mono<User> user = repository.findById(1);` 로 상자만 달랑 받아놓고, 나중에 유저 정보가 상자에 도착하면 어떻게 하라고 체이닝(map, flatMap)을 걸어두고 스레드는 즉시 퇴근한다.
 
 ## 연결 개념
-- Reactive Streams — JVM 기반 비동기 스트림 표준
-- Reactor/RxJava — 리액티브 연산자와 스케줄러 제공 프레임워크
-- Backpressure — 생산자와 소비자 속도 차이를 통제하는 메커니즘
+- **옵저버 패턴 (Observer Pattern)**: 유튜버(Publisher)가 영상을 올리면 알림을 켜둔 구독자(Subscriber)들에게 자동으로 메시지가 날아가는 디자인 패턴. 리액티브 프로그래밍의 뼈대다.
+- **WebFlux (웹플럭스)**: 기존 블로킹 기반의 Spring MVC를 대체하기 위해 스프링이 내놓은 논블로킹 리액티브 웹 프레임워크. 단, RDBMS(JDBC)가 태생적으로 블로킹이라 R2DBC라는 새로운 비동기 DB 드라이버까지 강제된다는 악명이 있다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 리액티브는 이벤트 기반이라는 말로 끝내지 말고 stream, publisher/subscriber, operator, scheduler, backpressure, 오류 전파를 구조화한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리액티브 프로그래밍은 데이터·이벤트 흐름을 비동기 스트림으로 모델링하고 변화에 반응해 처리하는 프로그래밍 패러다임이다.
-> 2. **가치**: 생산자와 소비자를 느슨하게 결합하고 backpressure로 처리 속도 차이를 제어해 tail latency와 큐 폭증을 통제한다.
-> 3. **판단 포인트**: Publisher/Subscriber, operator chain, scheduler, backpressure 전략, 오류 처리 규칙을 함께 설계해야 한다.
+> 1. **본질**: 데이터의 변경(Event)이 발생할 때마다 비동기적(Asynchronous)으로 메시지를 푸시(Push) 받아, 파이프라인(Stream) 형태로 연속 처리하는 논블로킹 프로그래밍 패러다임이다.
+> 2. **가치**: 기존 스레드 블로킹 구조가 낳는 컨텍스트 스위칭 오버헤드와 OOM을 원천 차단하고, 배압(Backpressure) 메커니즘을 통해 대규모 MSA 환경에서 생산자-소비자 간 트래픽 폭주(OOM)를 하드웨어 증설 없이 방어한다.
+> 3. **판단 포인트**: 리액티브 선언문의 4대 가치(응답/회복/유연/메시지 구동)와 함께, 기존 Pull(동기) 방식에서 Push(비동기) + 제어권(Backpressure) 체계로의 아키텍처 전환 차이를 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 반응형 모델 이해 확인 | stream, publisher, subscriber, operator | 이벤트 기반이라고만 서술 |
-| backpressure 설계 확인 | request(n), buffer, drop, latest | 큐 무제한 사용 위험 누락 |
-| 실무 적용 판단 확인 | Reactor, RxJava, WebFlux, observability | 디버깅 난도와 스레드 전환 비용 미제시 |
+| 리액티브 시스템의 4대 본질적 특성(선언문) | Responsive, Resilient, Elastic, Message-driven | 비동기 코딩 기법 중 하나로만 치부하고 아키텍처적 선언 가치를 누락 |
+| 시스템 OOM 붕괴를 막는 흐름 제어 매커니즘 규명 | **배압(Backpressure)**: Subscriber의 수요 기반 Publisher 제어 | Publisher가 데이터를 무조건 푸시(Push)만 한다고 적어 배압의 핵심을 부정하는 오류 |
+| 마이크로서비스(MSA) 도입 시 트레이드오프 판단 | WebFlux 도입 대비 콜백 난해도 / R2DBC 강제(러닝 커브) | 리액티브를 만병통치약으로 과장 (단일체 CRUD에서는 오버헤드가 더 큼) |
 
-> 요약: 이 문제는 데이터 흐름 기반 설계와 소비 속도 제어를 함께 설명해야 한다.
+> 요약: 리액티브는 무한히 쏟아지는 트래픽(이벤트) 앞에서도 스레드를 블로킹시키지 않고, 내가 감당할 수 있는 만큼만 받아먹어(배압) 끝까지 시스템이 응답하게 만드는 생존 아키텍처다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-리액티브 프로그래밍은 데이터 흐름과 변화 전파를 중심으로 구성하는 모델이다. 비동기 이벤트가 많은 시스템에서 동기 호출만 사용하면 느린 소비자가 전체 지연을 키운다. 리액티브는 스트림 조합과 backpressure로 흐름을 통제한다.
+- 정의: 데이터 또는 이벤트의 스트림(Stream) 변경 사항을 구독(Subscribe)자에게 비동기/논블로킹으로 전파(Push)하고, 배압(Backpressure)으로 흐름을 통제하는 리액티브 스트림(Reactive Streams) 기반 프로그래밍 패러다임
+- 배경: Netflix, Amazon 등 거대 서비스들이 마이크로서비스로 분할되며 API 연쇄 통신 시나리오가 급증했고, 한 노드의 지연(I/O Blocking)이 전체 시스템 타임아웃 붕괴로 전이되는 리스크 폭발
+- 필요성: 시스템 부하 상태에서도 응답성(Responsive)을 사수하고, 전통적인 콜백(Callback) 패턴의 복잡성(Spaghetti Code)을 선언적(Declarative) 스트림 연산자(`map`, `filter`)로 우아하게 통제하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 리액티브 아키텍처의 핵심 원리: 흐름(Flow)과 배압 도식
 
 ```text
-Event Source -> Publisher -> Operator Chain -> Scheduler
-  -> Subscriber -> Backpressure Signal -> Publisher
-  -> Error Channel / Completion Signal
+[ 전통적 Pull 방식 (블로킹) ] -> 스레드 정지
+Client --- 1. "데이터 내놔(블로킹)" ---> Database (오래 걸림)
+       <-- 2. 전체 데이터(10GB) 일괄 리턴 --
+🚨 문제: 10GB를 한 번에 받다가 램 터짐 (OOM).
+
+[ 리액티브 Push + 배압(Backpressure) 통제 ] -> 스레드 논블로킹 퇴근
+Client --- 1. Subscribe (구독 신청) -------> Publisher (서버)
+       <-- 2. onSubscribe (티켓 리턴) -----
+Client --- 3. request(10) "일단 10개만 줘!"--> 
+       <-- 4. onNext(데이터) 10회 푸시 -----
+       <-- 5. onComplete (완료) ---------- 
+✅ 가치: 소비자가 자신이 소화할 수 있는 수량(request)을 생산자에게 역으로 강제하여 OOM 절대 방어.
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 리액티브 스트림스 4대 표준 API | 구현체 아키텍처 상의 역할 | 상태(Event) 통지 시그널 |
 |:---|:---|:---|
-| Publisher | 데이터·이벤트 발행 | Reactive Streams 표준 |
-| Subscriber | 데이터 소비와 request 신호 전송 | onNext, onError, onComplete |
-| Subscription | 구독 관계와 수요량 제어 | request(n), cancel |
-| Operator | map, filter, flatMap 변환 | 체인 구성 |
-| Scheduler | 실행 스레드 전환 | boundedElastic, parallel |
+| **Publisher (발행자)** | 데이터를 생성하고 Subscriber에게 스트림 형태로 밀어줌 (Push) | `subscribe(Subscriber)` |
+| **Subscriber (구독자)** | Publisher로부터 데이터를 수신하되, 자신의 처리 능력만큼만 요청 | `onNext()`, `onError()`, `onComplete()` |
+| **Subscription (구독권)** | 생산자와 소비자 간의 연결 고리로, 배압(Backpressure) 제어의 핵심 통제권 | `request(long n)`, `cancel()` |
+| **Processor (가공자)** | 중간에서 Publisher와 Subscriber 역할을 동시 수행하는 데이터 필터/변환기 | 파이프라인 가공 (`map`, `filter`) |
 
-> 요약: 리액티브 구조는 Publisher와 Subscriber 사이에 operator와 backpressure 신호가 흐르는 스트림 처리 구조이다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-구독 생성 -> request(n) 전달 -> Publisher 발행
-  -> operator 변환 -> Subscriber 소비
-  -> 오류 / 완료 신호 처리 -> backpressure 조정
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | Subscriber가 Publisher를 구독 | subscription count |
-| 2 | Subscription을 통해 request(n) 전달 | demand signal |
-| 3 | Publisher가 요청량 이하 이벤트 발행 | emitted item count |
-| 4 | operator chain이 변환·필터·병합 수행 | operator latency |
-| 5 | 오류·완료·취소 신호 처리 | error rate, cancel count |
-
-> 요약: 리액티브 흐름은 구독, 수요 신호, 발행, 변환, 소비, 오류/완료 처리 순서로 진행된다.
+> 요약: 리액티브의 백미는 데이터를 던지는 것(Push)이 아니라, 받는 놈이 "그만 던져! 나 지금 10개밖에 못 먹어!"라고 외치는 역방향 브레이크(Subscription.request)에 있다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅲ. 현대 백엔드 프레임워크 패러다임 대조 (MVC vs WebFlux)
 
-| 구분 | 기존/대안 | 본 기술 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 동기 호출 | 호출자가 응답 대기 | 비동기 stream 처리 | I/O 대기 많은 API |
-| 단순 이벤트 | 큐 기반 전달 | request(n) backpressure | queue depth 임계치 |
-| Callback | 중첩 구조 | operator chain | 오류 전파 규칙 |
-| Batch | 모아서 처리 | event-driven 처리 | p95 latency, throughput |
+스프링 프레임워크 생태계는 블로킹 모델과 리액티브 모델로 양분되었다.
 
-> 요약: 리액티브는 비동기 스트림과 backpressure가 결합될 때 대량 이벤트 처리에서 가치가 있다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | 동기 request/response | stream pipeline | 이벤트 연속성, I/O 대기 비율 |
-| 비용/성능 | 스레드 대기 | non-blocking + scheduler | p99 지연, scheduler hop |
-| 운영/위험 | 단순 stack trace | operator chain 복잡도 | tracing, checkpoint 필요성 |
-
-> 요약: 리액티브는 이벤트 흐름과 backpressure가 필요한 시스템에 적합하며 단순 CRUD에는 복잡도를 추가할 수 있다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 큐 폭증 | 소비자 처리량 부족 | request(n), buffer limit, drop/latest | queue depth, dropped count |
-| 디버깅 난도 | operator chain과 스레드 전환 | checkpoint, trace id, context propagation | trace coverage 100% |
-| 블로킹 혼입 | JDBC·파일 I/O를 event loop에서 실행 | boundedElastic, R2DBC, worker 분리 | blockhound violation 0건 |
-
-> 요약: 리액티브 운영은 큐, 추적성, 블로킹 혼입을 중심으로 통제해야 한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 비교 축 | Spring MVC (Thread per Request) | Spring WebFlux (리액티브 논블로킹) |
 |:---|:---|:---|
-| 성능/지연 | p95 100ms 이하, p99 300ms 이하 | Gatling, APM |
-| 품질/흐름 | dropped event 0.1% 이하, queue depth 임계치 이하 | Micrometer, broker metric |
-| 운영/관측 | trace propagation 100%, blockhound 0건 | OpenTelemetry, BlockHound |
+| **I/O 처리 모델** | 동기 / **블로킹 (Blocking)** | 비동기 / **논블로킹 (Non-blocking)** |
+| **스레드 운용 방식** | 요청 1개당 1개의 전용 스레드(Tomcat 200개) 할당 후 대기 | 코어 수만큼의 소수 스레드(Netty Event Loop)가 대기 없이 콜백 위임 |
+| **DB 연동 드라이버** | **JDBC** (명령 내리고 스레드 멈춤) | **R2DBC, NoSQL** (명령 내리고 스레드 즉시 리턴) |
+| **치명적 한계** | 대규모 접속(1만 명) 시 메모리 초과 및 Context Switch 병목 | 로직 디버깅/추적 불가 및 한 구간이라도 동기(JDBC)가 섞이면 전체 리액티브망 마비 |
 
-> 요약: 리액티브 도입 효과는 지연, drop 비율, 추적성, 블로킹 위반 지표로 검증한다.
+> 요약: 리액티브는 하나의 거대한 수도관이다. 중간에 일반 밸브(JDBC 블로킹) 하나만 끼워도 전체 파이프라인 수압이 멈춰버리므로, DB 통신부터 외부 API 호출까지 100% 논블로킹(R2DBC, WebClient) 생태계로 통일해야 하는 강박관념(오버헤드)이 뒤따른다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅳ. 시스템 리스크 및 실무 트러블슈팅 튜닝 극복
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. WebFlux/Reactor 또는 RxJava 적용 시 외부 I/O를 non-blocking client로 통일하고 JDBC는 R2DBC 또는 boundedElastic로 분리한다.
-2. 각 stream에 buffer 크기, timeout, retry 횟수 3회 이하, circuit breaker를 명시해 backpressure와 장애 전파를 통제한다.
-3. OpenTelemetry trace, operator checkpoint, queue depth alert를 적용해 operator chain 지연과 오류 위치를 추적한다.
+| 리스크 요인 | 발생 시나리오 및 시스템 붕괴 원인 | 아키텍처 대응 방안 (실무 튜닝) |
+|:---|:---|:---|
+| **Blocking Code 오염 (Event Loop 락)** | WebFlux Netty 기반 워커(스레드 단 4개) 안에서 레거시 JDBC(`java.sql`) 쿼리를 날려버리면, 워커 1개가 1초간 마비(블로킹)되어 남은 25% 트래픽 수용력이 완전 박살남 | 성능 프로파일러(BlockHound)를 런타임에 심어 블로킹 호출(Thread.sleep 등)을 사전 탐지하여 튕겨내거나, 불가피할 경우 전용 `Schedulers.boundedElastic()` 스레드 풀로 워크로드 물리적 격리(Off-loading) |
+| 스택트레이스(Stacktrace) 유실 지옥 | 예외(Exception) 발생 시, 코드를 작성한 스레드와 비동기로 콜백을 실행한 스레드가 달라 에러 로그에 "어디서 에러가 났는지" 경로가 다 끊겨 출력됨 | 프로덕션 환경의 성능 저하를 감수하고 `Hooks.onOperatorDebug()`를 켜 스택 조립 로직을 강제하거나, 슬루스(Sleuth)/Zipkin 분산 트레이싱 ID를 Slf4j MDC(Mapped Diagnostic Context) 컨텍스트로 캐스케이딩 전파 |
 
-**결론 (2줄):**
-- 기술사 판단: 이벤트 스트림과 속도 제어가 필요한 시스템은 리액티브, 단순 CRUD와 낮은 동시성 업무는 동기 모델을 선택한다.
-- 향후 방향: 리액티브 모델은 virtual thread, coroutine, event streaming과 결합해 비동기 코드 복잡도와 운영 관측성을 함께 개선한다.
+> 요약: 리액티브로 짠다는 것은 고성능 F1 스포츠카(Netty)를 모는 것과 같다. 중간에 방지턱(블로킹 I/O) 하나라도 밟으면 엔진 전체가 깨지므로, 코더의 극한 역량(러닝 커브)이 강제된다.
+
+---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [마이크로서비스 Gateway 넷티(Netty) 구축] 수십 개의 MSA 서버 트래픽을 단일 진입점으로 라우팅하는 Spring Cloud Gateway(SCG) 노드에, 톰캣 대신 WebFlux 기반 비동기 논블로킹 엔진을 배치하여 10배 이상의 트래픽 스파이크에도 스레드 풀 OOM 없이 라우팅 배압(Backpressure) 유지
+2. [실시간 스트리밍 대시보드 (SSE) 파이프라인] IoT 센서가 1초에 1,000개씩 데이터를 쏘는 관제 대시보드 백엔드 구축 시, `Flux<SensorData>`를 리턴 타입으로 잡고 Server-Sent Events(SSE) 규격을 통해 프론트엔드 뷰(Vue.js)까지 끊김 없는 데이터 논블로킹 푸시 연동
+3. [R2DBC 기반 NoSQL 리액티브 영속화] 대규모 사용자 세션(Redis) 및 카탈로그 이력(MongoDB) 조회 구간에서, 블로킹 드라이버(Jedis/Mongo-Java)를 폐기하고 리액티브 드라이버(Lettuce/Mongo-Reactive)를 적용하여 데이터 파이프라인 100% 완전 논블로킹 통로 개척
+
+**결론:**
+- 기술사 판단: 리액티브 프로그래밍은 단순히 비동기 코딩을 예쁘게 하는 라이브러리가 아니다. 분산 환경의 필연적 지연과 장애(I/O Blocking)를 상수로 두고, "스레드를 재우지 않고 무한정 반응하게 만들자"는 클라우드 네이티브 시대의 구조적 구명조끼(선언문)다.
+- 향후 방향: 리액티브의 무기인 '논블로킹 처리량'은 경이롭지만, 학습 곡선과 콜백 디버깅 지옥이라는 뼈아픈 대가를 요구했다. 최근 자바 21의 **가상 스레드(Project Loom)**의 등장으로, "동기식(MVC) 코드로 짰는데 성능은 논블로킹(WebFlux)처럼 내는" 패러다임이 시작되며 리액티브 생태계는 백엔드 전면에서 점차 특정 데이터 스트리밍(Kafka, SSE) 파이프라인 용도로 역할이 축소될 전망이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "리액티브 프로그래밍을 설명하시오" | 구독, request(n), operator 흐름 | stream, backpressure, framework |
-| 요구사항 명시형 | "설계하시오", "도입 방안을 제시하시오" | backpressure와 오류 처리 흐름 | 블로킹 제거, 추적성, 지표 |
-
-> 요약: 설명형은 스트림 모델을, 설계형은 backpressure와 관측성 중심으로 목차를 전환한다.
+| 포괄형 | "리액티브 선언문과 시스템 철학(배압 등)을 설명하시오" | 응답성/회복성/유연성/메시지 구동 4대 특성 도식 | Publisher와 Subscriber의 4대 표준 API 통신 규격 |
+| 요구사항 명시형 | "대규모 MSA 환경 트래픽 폭주 방어 방안(Backpressure 중심)" | Pull(블로킹 OOM) vs Push(논블로킹 배압) 흐름 제어 | Spring WebFlux 한계점(블로킹 오염)과 가상 스레드 대안 |

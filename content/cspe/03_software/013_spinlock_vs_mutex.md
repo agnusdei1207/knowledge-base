@@ -1,6 +1,6 @@
 ---
 title: "스핀락 vs 뮤텍스 (Spinlock vs Mutex)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 13
@@ -8,152 +8,130 @@ weight: 13
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 스핀락과 뮤텍스를 처음 봐도 CPU 사용 방식과 임계 구역 길이 관점에서 구분하게 만든다. 시험 답안 양식이 아니라, 잠금 대기 비용을 직관적으로 설명한다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 스핀락은 CPU를 점유한 채 잠금 해제를 반복 확인하고, 뮤텍스는 잠금이 없을 때까지 잠들어 대기한다.
-- **왜 필요한가**: 잠금 대기 방식은 응답시간과 CPU 사용률을 직접 바꾼다. 짧은 커널 임계 구역에는 스핀락, 긴 사용자 영역 대기에는 뮤텍스가 맞다.
-- **핵심 직관**: 문 앞에서 계속 손잡이를 돌려보는 방식이 스핀락, 번호표를 받고 의자에 앉아 기다리는 방식이 뮤텍스다.
+- **개요**: 다른 스레드가 자물쇠(Lock)를 쥐고 있을 때, 내가 그 자물쇠가 풀리기를 "어떻게 기다릴 것인가?"에 대한 두 가지 극단적인 전략이다.
+- **왜 필요한가**: 락(Lock)을 못 얻었을 때 대기하는 방식은 성능과 직결된다. 무식하게 CPU를 풀가동하며 락이 풀리는지 계속 쳐다보는 방식(스핀락)과, 아예 쿨쿨 자러 갔다가 락이 풀리면 누군가 깨워주기를 기다리는 방식(뮤텍스)이 있다.
+- **핵심 직관**: 식당(CPU) 화장실(자원)을 쓴다.
+  - **스핀락(Spinlock)**: 화장실 문 앞에서 "나왔어? 안 나왔어? 지금은? 지금은?" 하며 1초에 100번씩 문고리를 덜컥거린다. 내 체력(CPU)은 엄청 소모되지만, 문이 열리는 즉시 가장 빠르게 뛰어 들어갈 수 있다.
+  - **뮤텍스(Mutex)**: 화장실 문 앞에서 기다리지 않고 소파(Wait 큐)로 가서 잔다. 화장실 쓴 사람이 나오면서 나를 깨워주면 그때 들어간다. 내 체력(CPU)은 아낄 수 있지만, 자러 가고 깨어나는 과정(문맥 교환)이 번거롭다.
 
 ## 깊이 이해
-- **배경·문제의식**: 잠금이 이미 잡혀 있을 때 대기 스레드는 두 선택지를 가진다. 계속 CPU를 쓰며 확인하거나, 커널에 넘겨 sleep 상태가 된다.
-- **작동 원리**: 스핀락은 atomic test-and-set 또는 compare-and-swap으로 lock word를 반복 검사한다. 뮤텍스는 실패 시 wait queue에 들어가고 scheduler가 다른 스레드를 실행한다.
-- **비유**: 1초 안에 열릴 문이면 서서 기다리는 편이 이동 비용을 줄인다. 10분 뒤 열릴 문이면 대기실로 가서 다른 일을 배정받는 편이 CPU 낭비를 막는다.
-- **구체 예시**: critical section 2us, context switch 3~10us이면 spinlock이 유리하다. critical section 1ms이면 spin 대기 동안 CPU 1코어가 100% 소모된다.
-- **흔한 오해·주의점**: 단일 코어에서 preemption이 켜진 상태의 스핀락은 owner가 CPU를 못 받아 해제할 수 없으므로 커널은 interrupt/preemption 제어와 함께 사용한다.
+- **배경·문제의식**: 스레드를 대기실로 보내서 재우고 깨우는 '문맥 교환(Context Switching)' 비용은 생각보다 굉장히 비싸다(수십 마이크로초). 만약 남이 락을 고작 '1 마이크로초'만 쥐었다가 풀 예정이라면, 굳이 내가 소파에 자러 갔다가 깨어나는 엄청난 비용을 치러야 할까? 그냥 문 앞에서 1 마이크로초 동안 뺑뺑이(Spin) 도는 게 낫다.
+- **작동 원리 (Spin vs Sleep)**:
+  - **스핀락 (Busy Waiting)**: `while(lock == 1) { /* 무한루프 */ }` 코드를 돌며 CPU를 반납하지 않고 락이 0이 될 때까지 계속 상태를 검사한다.
+  - **뮤텍스 (Sleep & Wakeup)**: 락 획득 실패 시, 스케줄러를 호출해 자신을 대기 큐(Wait Queue)로 이동시키고 CPU를 다른 스레드에게 양보(Yield)한다.
+- **비유**: 
+  - 스핀락: 친구가 화장실에서 "나 손만 씻고 금방 나와!"라고 했다. 소파로 안 가고 문 앞에서 10초 대기 타는 게 이득이다. (임계 구역이 매우 짧을 때)
+  - 뮤텍스: 친구가 "나 큰 거 보니까 30분 걸려!"라고 했다. 문 앞에서 30분 서 있으면 다리(CPU)가 아프다. 소파(Sleep)로 가서 누워 자는 게 무조건 이득이다. (임계 구역이 길거나 I/O 대기가 있을 때)
+- **구체 예시**: 단일 코어(Single Core) CPU 환경에서 스핀락을 쓰면 재앙이 된다. A가 락을 쥐고 있고 B가 CPU를 차지해 스핀락 무한루프를 돌면, A가 락을 풀기 위해 CPU를 차지해야 하는데 B가 CPU를 안 놔줘서 시스템이 영원히 멈춘다(데드락). 스핀락은 반드시 '멀티 코어' 환경에서만 의미가 있다.
+- **흔한 오해·주의점**: "스핀락은 CPU를 낭비하니까 나쁜 거다!"는 초보적인 오해다. 리눅스 커널의 핵심 인터럽트 처리 코드는 전부 스핀락으로 도배되어 있다. 문맥 교환 오버헤드보다 루프 도는 낭비가 훨씬 싼 '초단기(Short-lived)' 락 상황에서는 스핀락이 왕이다.
 
 ## 연결 개념
-- Busy Waiting — CPU를 점유한 채 조건을 반복 확인하는 대기 방식
-- Context Switch — 뮤텍스 대기 전환의 주요 비용
-- Multicore Kernel — 스핀락이 의미를 갖는 대표 환경
+- **하드웨어 동기화 (TAS, CAS)**: 스핀락의 `while` 루프 안에서 검사(Test)하고 락을 쥐는(Set) 행위가 분리되면 안 되므로, 반드시 CPU가 제공하는 원자적(Atomic) 명령어인 Test-and-Set 등을 사용해 구현해야 한다.
+- **어댑티브 뮤텍스 (Adaptive Mutex)**: Solaris 등 현대 OS는 똑똑해서, 락을 쥔 상대가 지금 다른 코어에서 돌고 있으면 스핀락으로 버티고, 락을 쥔 상대가 지금 자고(Sleep) 있으면 나도 뮤텍스로 자러 가는 하이브리드 방식을 쓴다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: busy waiting과 sleep의 차이를 CPU 낭비가 아니라 critical section 길이, preemption, multicore 조건으로 판단한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스핀락은 busy waiting 기반 잠금, 뮤텍스는 blocking 기반 잠금으로 대기 중 CPU 사용 방식이 다르다.
-> 2. **가치**: 임계 구역이 context switch 비용보다 짧으면 스핀락, 길거나 I/O를 포함하면 뮤텍스가 CPU 낭비를 줄인다.
-> 3. **판단 포인트**: critical section 길이, 코어 수, preemption/interrupt 상태, 커널·사용자 영역 여부로 선택한다.
+> 1. **본질**: 상호 배제(Mutex) 시 락(Lock) 획득 실패에 따른 대기 전략을, '바쁜 대기(Busy Waiting)'로 할 것인지 '문맥 교환(Context Switching)'으로 할 것인지의 엔지니어링 선택이다.
+> 2. **가치**: 임계 구역(Critical Section)의 길이에 따라 문맥 교환 오버헤드와 CPU 사이클 낭비 중 더 저렴한 비용을 지불하여 전체 스루풋(Throughput)을 방어한다.
+> 3. **판단 포인트**: 단일 코어 환경에서의 스핀락 데드락 리스크와 멀티코어 환경에서의 효율성을 대조하고, 나아가 두 기법의 융합인 하이브리드 락(Adaptive Mutex)까지 결론부로 끌어내야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 잠금 대기 비용 이해 확인 | busy waiting vs sleep, context switch 비용 | 스핀락을 무조건 나쁜 방식으로 단정하지 않음 |
-| 커널 동시성 판단 확인 | interrupt disable, preemption disable, SMP | 단일 코어 조건 누락 |
-| 적용 기준 제시 확인 | 임계 구역 10us 이하, I/O 포함 여부 | 장시간 lock 보유에 spinlock 적용 지양 |
+| Lock 획득 실패 시 커널의 스케줄링 행동 분기 | 무한 루프(CPU 점유) vs 대기 큐 이동(문맥 교환) | 스핀락이 무조건 뮤텍스보다 나쁘다고 서술하는 단편적 오류 |
+| 임계 구역 크기와 코어 수에 따른 판단 기준 | 초단기(Short) 임계구역 + 멀티코어 = 스핀락 유리 | 단일 코어(Single-Core)에서의 스핀락 위험성 누락 |
 
-> 요약: 이 문제는 lock 종류 암기가 아니라 대기 비용과 CPU 스케줄링 조건을 함께 보는 선택 문제다.
+> 요약: 스핀락은 CPU를 태워 시간을 벌고, 뮤텍스는 문맥 교환 비용을 내고 CPU를 양보하는 극명한 경제적 트레이드오프 구조를 그린다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스핀락과 뮤텍스는 임계 구역을 보호하는 잠금 방식이다. 차이는 잠금 실패 시 CPU를 계속 쓰는지, sleep 상태로 전환하는지에 있다. 멀티코어 커널과 사용자 스레드 환경은 대기 비용 구조가 다르므로 선택 기준이 필요하다.
+- 정의: 다중 스레드 환경에서 임계 구역 진입 실패 시, 스핀락은 `while` 루프를 돌며 바쁜 대기(Busy Waiting)를 수행하고 뮤텍스는 큐에 진입하여 수면(Sleep)하는 대기 동기화 기법
+- 배경: 임계 구역을 수 마이크로초 안에 빠져나오는 초단기 로직의 경우, 스레드를 Sleep 시키고 Wakeup 하는 문맥 교환(Context Switch)의 커널 진입 오버헤드가 배보다 배꼽이 큰 상황 발생
+- 필요성: 시스템의 멀티코어 아키텍처 지원 여부와 임계 구역 로직의 지속 시간(Duration)에 맞춰 최적의 스케줄링 양보(Yield) 전략을 취사선택하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 스핀락(Spinlock)과 뮤텍스(Mutex) 아키텍처 동작 구조
 
 ```text
-Thread -> Lock Request -> Lock Word
-       / Spinlock: CAS loop -> Busy Wait -> Acquire
-       / Mutex: Futex/Kernel Queue -> Sleep -> Wakeup -> Acquire
+[ 스핀락 (Spinlock) - CPU 점유 유지 ]
+Thread_A: 
+  while(TestAndSet(&lock) == 1) { 
+      // 🚨 CPU 사이클을 풀가동하며 무한 대기 (No Context Switch)
+  }
+  [ 임계 구역 진입 ]
+
+[ 뮤텍스 (Mutex) - Sleep & Wakeup ]
+Thread_A:
+  if(TestAndSet(&lock) == 1) {
+      add_to_wait_queue();
+      yield(); // 🚨 스케줄러 호출! 자신을 Sleep 시키고 CPU 반납 (Context Switch 발생)
+  }
+  [ 깨어난 후 임계 구역 진입 ]
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 동작 단계 | 스핀락 처리 로직 | 뮤텍스 처리 로직 |
 |:---|:---|:---|
-| Lock Word | 잠금 상태를 원자적으로 표시 | CAS, test-and-set 사용 |
-| Spin Loop | 잠금 해제까지 반복 확인 | CPU 1코어 점유 가능 |
-| Wait Queue | 뮤텍스 대기 스레드 보관 | scheduler wakeup 필요 |
+| 락 획득 실패 시 | CPU를 절대 반납하지 않고, 락 상태를 무한 폴링(Polling) | 즉시 CPU를 반납(Block)하고 커널 대기 큐(Wait Queue)로 전이 |
+| 락 반환(Unlock) 시 | 락 변수 값을 0으로 변경 (루프 중이던 누군가가 낚아챔) | 락을 0으로 변경 후, 커널에 시그널을 보내 대기 큐 스레드 기상(Wakeup) 조치 |
+| 최적의 워크로드 | 1~2줄짜리 단순 포인터 변경 등 초단기 임계 구역 | DB 쿼리, 파일 I/O 등 수 밀리초 이상 걸리는 장기 임계 구역 |
 
-> 요약: 스핀락은 lock word를 반복 검사하고, 뮤텍스는 wait queue와 scheduler를 이용해 CPU를 다른 작업에 넘긴다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-Acquire Attempt -> Atomic CAS
-  / Success -> Critical Section -> Release
-  / Fail + Short CS -> Spin Retry -> Acquire
-  / Fail + Long CS -> Sleep Queue -> Wakeup -> Acquire
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | atomic 연산으로 lock 획득 시도 | CAS success rate |
-| 2 | 실패 시 대기 방식 결정 | critical section p95 |
-| 3 | 스핀 또는 sleep 대기 수행 | CPU utilization, wait time |
-| 4 | release 후 owner 전환 | lock handoff latency |
-
-> 요약: 잠금 실패 후 임계 구역 길이와 context switch 비용을 비교해 spin 또는 blocking 경로를 선택한다.
+> 요약: 스핀락은 문맥 교환 비용을 회피하는 대가로 빈 CPU 루프를 태우고, 뮤텍스는 CPU를 다른 스레드에게 알뜰하게 양보하는 대가로 무거운 커널 스위칭 비용을 지불한다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅲ. 코어 아키텍처별 한계점 및 치명적 리스크 비교
 
-| 구분 | Spinlock | Mutex | 수치·판단 기준 |
-|:---|:---|:---|:---|
-| 대기 방식 | busy waiting | sleep/blocking | CS 10us 이하이면 spin 검토 |
-| CPU 사용 | 대기 중 코어 점유 | 다른 스레드 실행 가능 | CPU steal 0, run queue 관측 |
-| 적용 영역 | SMP kernel, interrupt context | user thread, 긴 임계 구역 | I/O 포함 시 mutex |
-
-> 요약: 스핀락은 짧은 커널 임계 구역의 wakeup 비용을 없애고, 뮤텍스는 긴 대기에서 CPU 소모를 줄인다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | sleep 전용 mutex | spin 또는 adaptive mutex | CS p95가 context switch보다 짧음 |
-| 비용/성능 | context switch 3~10us | spin wait 1~5us 목표 | lock hold p95 10us 이하 |
-| 운영/위험 | CPU 소모 낮음 | lock convoy, starvation 가능 | contention 5% 이하 유지 |
-
-> 요약: adaptive mutex는 짧게 스핀한 뒤 sleep으로 전환해 두 방식의 비용 경계를 완화한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| CPU 소모 폭증 | 긴 임계 구역에서 spin 지속 | spin count 제한, mutex 전환 | CPU utilization 90% 이상 경보 |
-| Preemption Deadlock | owner가 CPU를 잃고 waiter가 spin | preemption disable, per-CPU lock | owner running 여부 |
-| Lock Convoy | 여러 스레드가 같은 lock 대기 | lock striping, sharding | contention ratio, wait p99 |
-
-> 요약: 스핀락은 preemption 제어와 spin 상한이 없으면 CPU 소모와 진행 지연을 만든다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 비교 축 | 스핀락 (Spinlock) | 뮤텍스 (Mutex) |
 |:---|:---|:---|
-| Lock Hold Time | p95 10us 이하 | ftrace, eBPF lock histogram |
-| Contention | lock contention 5% 이하 | perf lock report |
-| CPU 영향 | spin CPU time 3% 이하 | CPU profile, scheduler trace |
+| 단일 코어 (Single Core) 환경 | **절대 사용 금지.** 락을 쥔 스레드가 CPU를 뺏겼는데, 대기자가 CPU를 잡고 무한 루프를 돌면 영원히 락이 풀리지 않아 **시스템 데드락(Deadlock) 유발** | **정상 동작.** 대기자가 즉시 CPU를 양보(Yield)하므로 락을 쥔 스레드가 언제든 CPU를 받아 락을 풀 수 있음 |
+| 멀티 코어 (Multi Core) 환경 | 코어0이 루프를 도는 동안, 코어1에서 락을 풀면 되므로 병렬성 극대화 및 지연 시간(Latency) 최소화 | 멀티 코어라도 임계 구역이 너무 짧으면, 스위칭하러 커널 다녀오는 동안 이미 락이 풀려있는 오버헤드 불균형 발생 |
+| 우선순위 역전 방어 | 단순 루프 구조이므로 우선순위 상속(PIP) 매커니즘 구현 불가 | 커널이 소유자(Owner)를 명확히 인지하므로 PIP 구현 지원 |
 
-> 요약: lock hold time, contention, spin CPU time을 함께 측정해야 잠금 방식 선택을 검증할 수 있다.
+> 요약: 스핀락은 멀티코어라는 무대가 없으면 시스템을 얼려버리는 폭탄이며, 그 안에서도 락을 쥔 채 I/O(디스크 접근)를 하거나 잠들어버리면 전체 코어를 다 태워버리는 대참사를 일으킨다.
+
+---
+
+## Ⅳ. 극복해야 할 한계와 하이브리드 아키텍처 발전
+
+현대 운영체제와 언어 런타임(JVM)은 이 두 극단을 피하기 위해 융합(Hybrid) 기법을 기본으로 탑재한다.
+
+| 현대적 변형 락 기법 | 동작 원리 (최적화 매커니즘) | 적용 사례 |
+|:---|:---|:---|
+| 적응형 뮤텍스 (Adaptive Mutex) | 락 획득 실패 시, 락 소유자(Owner)가 **지금 다른 코어에서 Running 중이면** 금방 풀릴 거라 믿고 스핀락 모드로 대기. 소유자가 **Sleep 상태면** 희망이 없으므로 나도 즉시 뮤텍스 모드(Sleep)로 전환 | Solaris 커널, MacOS 커널 기본 락 |
+| 백오프 스핀락 (Exponential Backoff Spinlock) | 스핀락 무한루프 시, 실패할 때마다 `pause` 명령(No-op)이나 `delay` 주기를 지수 함수적으로 늘려 버스 트래픽(메모리 캐시 경합) 폭주 억제 | 데이터베이스 커널(InnoDB) 내부 락, 고성능 네트워크 스택 |
+
+> 요약: "둘 다 쓰면 되지 왜 고민하냐?"가 현대 컴퓨터 공학의 답이다. 상대가 뛰고 있으면 스핀(Spin)하고, 상대가 자면 나도 잔다(Sleep).
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅴ. 실무 적용 방안 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 커널의 짧은 자료구조 갱신은 spinlock을 적용하고 lock hold p95를 10us 이하로 유지함.
-2. 사용자 영역 파일 I/O, 네트워크 I/O, 조건 대기는 mutex 또는 condition variable로 전환해 sleep 대기를 사용함.
-3. 경합이 5%를 넘는 공유 구조는 lock striping, per-CPU data, RCU를 적용해 단일 lock 병목을 분산함.
+**적용 방안 3개:**
+1. [인터럽트 핸들러 튜닝 (Linux Kernel)] Linux 커널 드라이버 작성 시, 인터럽트 컨텍스트(Interrupt Context)에서는 스레드를 Sleep(스케줄링) 시키는 행위가 커널 패닉을 유발하므로, 데이터 보호 시 절대 Mutex를 쓰지 않고 `spin_lock_irqsave`를 강제 적용
+2. [Java synchronized의 편향 락] Java 1.8 JVM의 `synchronized` 블록은 초기 진입 시 곧바로 OS 커널의 무거운 Mutex(Monitor)로 내려가지 않고, 사용자 공간(User Space)에서 CAS(Compare And Swap) 기반의 경량 스핀락(Lightweight Lock)을 몇 번 시도하여 스위칭 비용 원천 차단
+3. [Nginx 이벤트 루프 논블로킹] 웹 서버에서 파일 I/O나 원격 API 등 Block 시간이 길어지는 구간을 만났을 때, 스핀락이나 뮤텍스로 락을 걸지 않고 `epoll`/`kqueue` 기반의 논블로킹(Non-blocking) I/O로 커넥션을 위임하여 스레드 대기 상태 자체를 소멸시킴
 
-**결론 (2줄):**
-- 기술사 판단: CS 길이가 context switch 비용보다 짧고 owner가 다른 코어에서 실행 중이면 spinlock, 그 외에는 mutex 선택이 타당함.
-- 향후 방향: 커널은 adaptive spinning과 lock contention tracing으로 workload별 대기 경로를 동적으로 조정함.
-
----
+**결론:**
+- 기술사 판단: 임계 구역의 체류 시간(T_cs)과 문맥 교환 비용(T_ctx)을 수학적으로 계산하여, $T_{cs} < T_{ctx} \times 2$ 인 짧은 구간에서는 스핀락을, 그 반대 및 I/O 동반 구간에서는 뮤텍스를 채택하는 것이 튜닝의 정석이다.
+- 향후 방향: 최근 클라우드 분산 아키텍처나 초고속 인메모리 DB(Redis 등)에서는 락 획득 경쟁에 따른 오버헤드조차 아끼기 위해, 락 자체를 없애는 Lock-Free 알고리즘(Atomic 명령어 기반)이나 스레드 간 아예 데이터를 격리(Thread-local)시키는 방향으로 코딩 패러다임이 이동하고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "스핀락과 뮤텍스를 설명하시오" | CAS, busy wait, sleep queue 흐름 | CPU 사용 방식과 적용 영역 차이 |
-| 요구사항 명시형 | "비교하시오", "선택 기준을 제시하시오" | CS 길이와 context switch 비용 비교 | SMP kernel, I/O 포함 여부, p95 지표 |
-
-> 요약: 비교형은 스핀 여부가 아니라 critical section 시간과 preemption 조건을 기준으로 답안을 구성한다.
+| 포괄형 | "스핀락과 뮤텍스의 차이점과 동작 원리를 비교하시오" | 바쁜 대기(Spin) vs 스케줄러 큐 전이(Yield) 도식 | 문맥 교환 오버헤드와 임계 구역 길이에 따른 판단표 |
+| 요구사항 명시형 | "멀티코어 환경의 스핀락 적용 고려사항과 대안을 제시하시오" | 싱글 코어 데드락 및 멀티코어 스루풋(Throughput) 비교 | 하이브리드(Adaptive Mutex) 및 락-프리(Lock-Free) 도입 |

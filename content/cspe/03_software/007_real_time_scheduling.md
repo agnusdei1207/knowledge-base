@@ -1,6 +1,6 @@
 ---
-title: "실시간 스케줄링 (Real-Time Scheduling)"
-date: "2026-07-01"
+title: "실시간 스케줄링 (Rate Monotonic, EDF)"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 7
@@ -8,156 +8,125 @@ weight: 7
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 실시간 스케줄링을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 정해진 deadline 안에 작업 완료를 보장하는 스케줄링
-- **왜 필요한가**: 자율주행 제어, 항공, 의료기기, 공장 제어는 평균 처리량보다 deadline miss 1건의 영향이 크다.
-- **핵심 직관**: 실시간 스케줄링은 빨리 끝내는 경쟁이 아니라 약속 시각을 어기지 않도록 CPU 순서를 정하는 것이다.
+- **개요**: **실시간(Real-Time) 스케줄링**은 '얼마나 많이 처리하는가(성능)'보다 **'정해진 마감 시간(Deadline) 안에 반드시 끝내는가'**가 100만 배 더 중요한 시스템(미사일, 자율주행, 심장박동기)의 스케줄러다. RM과 EDF가 그 양대 산맥이다.
+- **왜 필요한가**: 일반적인 윈도우/리눅스(CFS 등)는 공평함과 전체 처리량을 중시해서, 한 놈이 오래 쓰면 다른 놈에게 넘긴다. 하지만 자율주행차가 브레이크 밟을 시간을 공평하게 나눠주다가 마감 시간을 0.1초라도 넘기면 탑승자가 사망한다(Hard Real-Time). 여기선 공평함 따위는 개나 주고, 무조건 마감 시간 엄수(Deadline Meet)가 유일한 법이다.
+- **핵심 직관**: 
+  - **RM (Rate Monotonic)**: 주기가 짧은 놈이 짱이다 (정적 우선순위). "1초마다 울리는 알람이 10초마다 울리는 알람보다 급하니까 영구 VIP 무조건 선점!"
+  - **EDF (Earliest Deadline First)**: 마감이 닥친 놈이 짱이다 (동적 우선순위). "너희 주기가 어찌 됐든, 당장 내일이 수능인 놈(Deadline 임박)부터 무조건 먼저 챙긴다!"
 
 ## 깊이 이해
-- **배경·문제의식**: 일반 OS 스케줄러는 공정성과 응답성을 중시하지만, hard real-time에서는 deadline miss가 시스템 실패로 이어진다. 따라서 주기, 실행시간, deadline을 수학적으로 분석한다.
-- **작동 원리**: RMS는 주기가 짧은 task에 높은 고정 우선순위를 준다. EDF는 절대 deadline이 가장 가까운 task를 먼저 실행한다. CPU utilization과 worst-case execution time이 schedulability 판단의 중심이다.
-- **비유**: 택배를 많이 배송하는 것보다, 냉장 의약품 배송 마감 시각을 절대 넘기지 않도록 경로를 짜는 방식이다.
-- **구체 예시**: 주기 task 3개의 utilization 합이 0.69 이하이면 RMS의 Liu-Layland bound 3(2^(1/3)-1) 약 0.779 기준에서 스케줄 가능 후보이다.
-- **흔한 오해·주의점**: real-time은 처리 속도 자체가 아니라 deadline 보장이다. 평균 응답시간이 낮아도 deadline miss가 있으면 hard real-time 요구를 만족하지 못한다.
+- **배경·문제의식**: 주기가 있는 작업들(예: 0.1초마다 카메라 센서 읽기, 1초마다 화면 갱신하기)이 동시에 여러 개 돌 때, "이 작업들이 마감 시간을 100% 지킬 수 있는가?(Schedulable)"를 수학적으로 증명하는 것이 최우선 과제였다.
+- **작동 원리 (정적 vs 동적)**:
+  - **RM (Rate Monotonic)**: 주기가 짧을수록(자주 실행될수록) 높은 우선순위를 고정으로 부여한다. 1초 주기 A와 5초 주기 B가 겹치면, 무조건 A가 B의 CPU를 뺏는다. 우선순위가 영원히 안 바뀌므로 커널 구현이 매우 가볍고 빠르다. 단, CPU 활용률이 약 69%를 넘어가면 마감 시간을 놓치는 놈이 생긴다.
+  - **EDF (Earliest Deadline First)**: 그딴 거 없고, 현재 시점에서 남은 마감 시간(Deadline)이 가장 짧은 놈의 우선순위를 즉석에서 계속 1등으로 끌어올린다. 매 순간 장부를 고쳐 써야 해서 구현 오버헤드가 크지만, 이론상 CPU를 100% 풀(Full)로 써도 마감 시간을 다 지킬 수 있다.
+- **비유**: 대학교 과제 하기 (A 과제는 매주 1번, B 과제는 한 달에 1번 제출)
+  - RM: 무조건 자주 내야 하는 A 과제부터 우선적으로 한다. (규칙이 심플함)
+  - EDF: A건 B건 상관없고 달력을 보고 당장 제출일이 코앞에 닥친 과제부터 밤새워서 한다. (규칙이 피곤하지만 모든 과제를 마감 내에 낼 수 있음)
+- **구체 예시**: 3개의 태스크가 돌 때, RM은 우선순위가 불변이므로 코딩(RTOS 커널)하기 너무 쉬워 현업(로봇, 항공)에서 싹 다 RM을 쓴다. EDF는 100% 효율을 내지만 큐 정렬 비용이 미친 듯이 비싸 학계에서만 좋아한다.
+- **흔한 오해·주의점**: '실시간'은 '엄청 빠르다'는 뜻이 절대 아니다! 1초 안에만 결과를 내면 되는데 0.1초 만에 일찍 내든 0.99초에 내든 아무 상관 없고, 1.01초에 내면 시스템이 붕괴(Fail)하는 **예측 가능성(Predictability)의 문제**다.
 
 ## 연결 개념
-- RMS: Rate Monotonic Scheduling, 고정 우선순위
-- EDF: Earliest Deadline First, 동적 우선순위
-- Priority Inversion: 높은 우선순위 task가 lock 때문에 대기하는 현상
+- **우선순위 역전 (Priority Inversion)**: 실시간 시스템의 최대 적. 고순위 A가 하순위 C가 쥔 락(Lock)을 기다리는데, 중순위 B가 락 없이 CPU를 뺏어버리면, A가 B 때문에 마감 시간을 놓치는 대형 참사가 터진다(마스 탐사선 패스파인더 오류 원인).
+- **스케줄링 가능성(Schedulability) 검사**: 시스템을 켜기 전에 미리 수학 공식을 돌려서 "이 태스크 세트는 마감 시간을 절대 안 놓친다"를 100% 증명(보장)해야만 로켓을 쏠 수 있다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 실시간 스케줄링은 RMS·EDF 이름보다 WCET, period, deadline, utilization bound, miss 대응이 핵심이다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 실시간 스케줄링은 task의 실행시간과 deadline을 기준으로 CPU 배정 순서를 정해 deadline miss를 통제하는 정책이다.
-> 2. **가치**: hard real-time은 miss 0건, soft real-time은 miss율과 지연분포를 기준으로 서비스 품질을 보장한다.
-> 3. **판단 포인트**: RMS는 주기 기반 고정 우선순위, EDF는 deadline 기반 동적 우선순위이며 utilization과 WCET 분석이 필요하다.
+> 1. **본질**: 응답의 빠르기보다 응답의 마감 시간(Deadline) 엄수가 생명인 시스템에서, 정적 주기(RM)나 동적 마감일(EDF)을 기준으로 선점 권한을 부여하는 수학적 스케줄링 기법이다.
+> 2. **가치**: CPU 유휴 시간이나 공정성을 희생하더라도, Hard Real-Time 환경(자율주행, 항공, 의료)에서 시스템의 예측 가능성(Predictability)을 100% 보장한다.
+> 3. **판단 포인트**: 실행 주기 역수 기반의 정적 설계(RM)와 마감 시간 임박도 기반의 동적 설계(EDF)를 스케줄링 한계율(CPU Utilization Bound) 수식으로 엄밀하게 비교해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| real-time 의미 확인 | hard/soft real-time, deadline miss, WCET | 처리량 증가 문제로 오해 |
-| RMS·EDF 비교 확인 | 고정 우선순위 vs 동적 deadline 우선 | 알고리즘명만 나열 |
-| schedulability 판단 확인 | utilization bound, period, deadline | 평균 실행시간만 사용 |
+| RM과 EDF의 아키텍처적 차이점 규명 | RM(정적 우선순위, 주기 비례) vs EDF(동적, 마감시간 비례) | '실시간 = 속도가 빠른 것'으로 일반화하여 서술하는 치명적 오류 |
+| 스케줄링 가능성(Schedulability)의 수학적 검증 | CPU 한계율 공식 (RM: 약 69% 상한, EDF: 100%) | 컨텍스트 스위칭 오버헤드가 0이라는 비현실적 전제 조건 누락 |
 
-> 요약: 이 문제는 deadline 보장 조건과 miss 리스크를 수치로 판단하게 한다.
+> 요약: 공정성을 챙기는 범용 OS와 달리, RTOS는 마감 시간을 넘길 바엔 차라리 하위 프로세스를 무한정 굶겨(기아) 죽이는 잔혹한 우선순위 철학을 따른다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-실시간 스케줄링은 deadline 중심 CPU 배정 정책이다.
-일반 스케줄링이 평균 응답시간과 공정성을 중시한다면, 실시간 스케줄링은 WCET와 deadline을 기준으로 deadline miss를 통제한다.
-자율주행, 산업제어, 금융 시세 처리처럼 지연 상한이 명시된 시스템에서 필요하다.
+- 정의: 실시간(Real-Time) 제약 조건을 가진 주기적 태스크 집합이, 주어진 마감 시간(Deadline)을 위반(Miss)하지 않도록 실행 순서를 보장하는 선점형 스케줄러 알고리즘
+- 배경: CFS나 MLFQ 같은 범용 스케줄러는 공정성과 전체 처리량(Throughput) 향상에 맞춰져 있어, 특정 작업이 0.01초 안에 반드시 실행됨을 보장하지 못함(Jitter 발생)
+- 필요성: 시스템 지연이 인명/재산 피해로 직결되는 Hard Real-Time 환경에서, 태스크들의 스케줄링 가능성을 사전에 수학적으로 증명(Offline Test)하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 2대 실시간 스케줄링: RM (Rate Monotonic) vs EDF 비교
 
 ```text
-Task Set -> Period / WCET / Deadline 분석
--> Scheduler: RMS / EDF
--> Dispatch -> Deadline Monitor -> Miss Handling
+[ RM (주기 기반 정적 스케줄링) ]
+- 태스크 A (주기 20ms) -> 무조건 VIP 1순위 고정 🏆
+- 태스크 B (주기 50ms) -> 2순위 고정
+* B가 실행되다가도, 20ms마다 깨어나는 A가 무조건 B를 짓밟고 선점함 (Predictable)
+
+[ EDF (마감시간 기반 동적 스케줄링) ]
+- 현재 15ms 시점: A의 남은 마감(5ms) < B의 남은 마감(35ms) -> A가 1순위
+- 현재 25ms 시점: A 방금 끝남, 다음 마감(40ms) > B 남은 마감(35ms) -> B가 1순위 등극! 🔄
+* 매 순간 큐를 털어서 마감 시간이 가장 급한 놈으로 신분을 바꿈 (High Overhead)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 비교 축 | Rate Monotonic (RM) 알고리즘 | Earliest Deadline First (EDF) |
 |:---|:---|:---|
-| Period | task 반복 주기 | RMS 우선순위 기준 |
-| WCET | 최악 실행시간 | schedulability 입력 |
-| Deadline | 완료 시각 제한 | EDF 선택 기준 |
-| Scheduler | RMS/EDF로 실행 순서 결정 | preemption 필요 |
-| Monitor | miss 감지와 fail-safe | hard/soft 대응 분리 |
+| **우선순위 결정 룰** | **정적(Static)**: 실행 주기가 짧을수록 높은 우선순위 영구 부여 | **동적(Dynamic)**: 현재 시점에서 마감 시간이 가장 근접한 프로세스 1위 |
+| **스케줄링 가능 한계율** | $\Sigma(C_i/T_i) \leq n(2^{1/n} - 1)$ <br> (태스크가 많아지면 **약 69.3%**로 수렴) | $\Sigma(C_i/T_i) \leq 1$ <br> (**100%** CPU 활용률 보장) |
+| **운영체제 오버헤드** | 우선순위가 불변이므로 스위칭 비용이 0에 가까움 (현업 표준) | 매 틱(Tick)마다 남은 마감을 다시 정렬해야 하므로 커널 부하 극심 |
 
-> 요약: 실시간 스케줄링은 task 속성 분석, 정책 선택, deadline 감시가 결합된 구조이다.
+> 요약: 이론적으로는 CPU를 100% 쥐어짜는 EDF가 완벽해 보이지만, 현업 로봇/항공 엔지니어들은 커널이 단순하고 예측 가능한 RM(69% 한계)을 절대 표준으로 삼는다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 실시간 스케줄링의 치명적 리스크: 우선순위 역전 (Priority Inversion)
 
-```text
-Task 속성 수집 -> Utilization 계산
--> RMS/EDF 정책 선택 -> Ready Queue 정렬
--> Dispatch/Preempt -> Deadline 도달 전 완료 확인
--> Miss 발생 시 degrade/fail-safe
-```
+스케줄러가 아무리 완벽해도 락(Lock, Mutex)이 얽히면 이론이 붕괴한다.
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | task별 C 실행시간, T 주기, D deadline 산정 | WCET 측정 근거 |
-| 2 | utilization U=sum(C/T) 계산 | RMS bound, EDF U<=1 |
-| 3 | RMS는 짧은 주기, EDF는 가까운 deadline 우선 | priority/deadline order |
-| 4 | preemption과 dispatch로 CPU 배정 | preemption latency |
-| 5 | 완료 시각과 deadline 비교 | miss count, jitter |
-
-> 요약: 실시간 스케줄링은 사전 분석과 런타임 감시를 함께 수행해 deadline miss를 통제한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | RMS | EDF | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| 우선순위 | 주기 짧을수록 높음 | deadline 가까울수록 높음 | fixed vs dynamic |
-| 이용률 bound | n(2^(1/n)-1), n 무한대 약 0.693 | 이상 조건 U<=1 | overload 시 EDF 연쇄 miss |
-| 구현 난이도 | 예측·검증 단순 | queue 재정렬 필요 | deadline queue |
-| 적용 | safety-critical fixed task | task 변동 큰 시스템 | jitter, miss ratio |
-
-> 요약: RMS는 분석 단순성, EDF는 높은 CPU 이용률이 장점이나 overload 대응 설계가 필요하다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | 일반 CFS/RR | RMS/EDF 실시간 정책 | deadline 명시 여부 |
-| 비용/성능 | 평균 응답시간 중심 | miss 0건 또는 miss율 관리 | hard/soft real-time |
-| 운영/위험 | best effort | WCET와 fail-safe | safety integrity 요구 |
-
-> 요약: hard real-time은 평균 지표보다 WCET와 deadline miss 0건을 우선한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| deadline miss | WCET 과소 추정 | static analysis, margin 20% 확보 | miss count |
-| priority inversion | low task가 lock 보유 | priority inheritance/ceiling | blocking time |
-| overload collapse | utilization 1 초과 | admission control, degrade mode | U, queue backlog |
-
-> 요약: 실시간 리스크는 WCET 오류, lock blocking, overload이며 사전 허가와 우선순위 상속이 필요하다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 발생 시나리오 (마스 패스파인더 버그) | 시스템 붕괴 원인 및 결과 | 아키텍처 대응 방안 (해결책) |
 |:---|:---|:---|
-| deadline | hard RT miss 0건 | trace clock, histogram |
-| jitter | 제어주기 jitter 1ms 이하 | cyclictest, oscilloscope |
-| 이용률 | RMS bound 이하 또는 EDF U<=0.8 운영 | WCET/period 분석 |
+| 1. 최하순위 C가 락(Lock)을 쥠<br> 2. 최상순위 A가 락을 대기함(Blocked)<br> 3. 중간순위 B가 락 없이 C를 선점함 | **결과**: B가 계속 실행되면서 C가 락을 못 풀게 막음. 결국 최고 VIP인 A가 B 때문에 마감 시간을 놓치는 **어처구니없는 역전 발생** | **우선순위 상속 (Priority Inheritance)**: 락을 쥔 C의 임시 우선순위를, 락을 기다리는 A의 최고 수준으로 끌어올려(승격), B가 선점하지 못하게 막고 락을 풀자마자 원상 복구 |
 
-> 요약: 실시간 품질은 deadline miss, jitter, utilization으로 검증한다.
+> 요약: 아무리 급한 구급차(A)라도 꽉 막힌 앞차(C)가 비켜주지 않으면 갈 수 없다. 해결책은 앞차(C)에게 잠시 구급차 사이렌(상속)을 빌려주어 교차로(Lock)를 빨리 빠져나가게 하는 것이다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅳ. 현대 실시간 시스템의 혼합 워크로드 튜닝 (Hard + Soft)
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. task별 WCET, period, deadline을 표준화하고 RMS bound 또는 EDF U<=0.8 기준으로 admission control 수행
-2. Linux PREEMPT_RT, SCHED_FIFO/RR, CPU isolation, IRQ affinity로 preemption latency와 jitter를 측정·제한
-3. priority inversion 방지를 위해 priority inheritance mutex를 적용하고 blocking time을 deadline budget에 포함
+현대 차량 인포테인먼트(QNX 등)는 브레이크(Hard RT)와 유튜브 재생(Soft RT/범용)이 한 CPU에서 동시에 돌아야 한다.
 
-**결론 (2줄):**
-- 기술사 판단: task 집합이 고정이면 RMS, deadline이 가변이고 CPU 이용률을 높여야 하면 EDF, safety-critical이면 fail-safe를 추가함
-- 향후 방향: edge AI·SDV 제어는 AI inference latency와 RTOS scheduling을 함께 분석하는 혼합 실시간 구조로 확장됨
+| 아키텍처적 과제 | 발생 시나리오 | 융합 스케줄링 설계 방안 |
+|:---|:---|:---|
+| 백그라운드 태스크 기아 | RM 기반 하에서 최상위 브레이크 센서 인터럽트가 폭주하면, 내비게이션 UI 그리기 프로세스가 평생 기아 상태에 빠짐 | **CBS (Constant Bandwidth Server)** 적용: 범용 프로세스들을 묶어 가상의 서버로 만들고, 전체 CPU의 20%만 제한적으로 보장(예약)하여 하위 워크로드 숨통 확보 |
+| 멀티코어 (SMP) 확장의 맹점 | RM/EDF 한계율 공식은 싱글 코어 기준 수학이다. 멀티코어로 넘어가면 프로세스 이주(Migration) 패널티로 인해 이론이 깨짐 | **파티셔닝 스케줄링 (Partitioned)**: 프로세스를 특정 코어에 하드 코딩으로 바인딩(Pinning)하여 싱글 코어 문제 N개로 분할 수학 적용 및 캐시 오염 원천 봉쇄 |
+
+> 요약: 섞이면 죽는다. 실시간 태스크와 범용 태스크는 CPU 대역폭(Bandwidth)을 파티션으로 완벽하게 잘라 격리하는 '하이퍼바이저 수준의 분리(Isolation)'가 최선이다.
+
+---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [자율주행 RTOS(VxWorks, QNX) 설계] ADAS(첨단 운전자 보조) 시스템 설계 시, 모든 태스크를 주기 단위(예: 10ms 라이다, 50ms 카메라)로 엄격히 분할하고 커널 스케줄러를 순수 Rate Monotonic(RM)으로 고정하여 CPU Load를 69% 이하 타겟으로 하드웨어 오버프로비저닝
+2. [Priority Inheritance Mutex 적용] FreeRTOS 또는 POSIX pthread 기반 임베디드 개발 시, 공유 자원 접근 뮤텍스에 `PTHREAD_PRIO_INHERIT` 속성을 강제 활성화하여, 3자 개입에 의한 무한 블로킹(우선순위 역전) 및 워치독(Watchdog) 리셋 사태 원천 차단
+3. [리눅스 커널 패치 (PREEMPT_RT)] 로봇 제어를 위해 범용 리눅스를 써야 할 경우, 커널 내 모든 Spinlock을 Sleep 가능한 Mutex로 변환하여 커널 모드에서도 100% 선점(Preemption)을 허용하게 만드는 RT 패치를 적용해 최대 지연 시간(Jitter)을 1ms 이하로 억제
+
+**결론:**
+- 기술사 판단: 실시간 스케줄링에서 '빠르다'는 것은 아무런 미덕이 아니다. 오직 '약속된 시간을 어기지 않는다(Deadline Meet)'는 예측 가능성만이 절대 진리다. RM의 단순함이 EDF의 완벽함을 이긴 현업의 역사는, 시스템 공학에서 신뢰성(Reliability)이 효율성(Efficiency)을 압도함을 증명한다.
+- 향후 방향: 과거 단일 코어 MCU에서 제어하던 실시간 시스템이, 자율주행 시대를 맞아 수십 코어의 SoC(System on Chip)로 거대화되었다. 이에 따라 RUNNABLE 단위의 코어 매핑 최적화와 혼합 임계도(Mixed Criticality) 스케줄링 알고리즘이 AUTOSAR 등 차세대 차량용 플랫폼의 핵심 난제로 대두되고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "실시간 스케줄링을 설명하시오" | WCET·period·deadline 흐름 | RMS·EDF 비교 |
-| 요구사항 명시형 | "deadline 보장 방안을 제시하시오" | schedulability 분석 절차 | miss·jitter·inversion 대응 |
-
-> 요약: 설명형은 RMS/EDF 원리, 설계형은 deadline 보장 조건과 fail-safe를 중심으로 작성한다.
+| 포괄형 | "실시간 스케줄링의 RM과 EDF 알고리즘을 비교하시오" | 정적 vs 동적 우선순위 분기 및 CPU 한계율 수식 | Hard RT와 Soft RT 혼합(CBS) 환경 대응 방안 |
+| 요구사항 명시형 | "마스 패스파인더 사례로 우선순위 역전 현상과 해결 방안 설계" | 스케줄러의 오류가 아닌 Mutex 락 점유로 인한 현상 | 우선순위 상속(Inheritance) 프로토콜 기반 구제 방안 |

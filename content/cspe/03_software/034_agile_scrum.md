@@ -1,6 +1,6 @@
 ---
 title: "애자일 스크럼 (Agile Scrum)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 34
@@ -8,154 +8,148 @@ weight: 34
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Scrum을 처음 보는 사람도 역할, 이벤트, 산출물을 연결해 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Scrum은 1~4주 sprint로 제품 증분을 반복 제공하는 애자일 프레임워크
-- **왜 필요한가**: 요구사항이 계속 변하는 제품 개발에서는 큰 계획을 한 번에 확정하기 어렵다. Scrum은 backlog 우선순위와 sprint 목표로 작은 범위를 자주 검증한다.
-- **핵심 직관**: 긴 항해 계획보다 2주 단위 항로 점검을 반복해 목적지와 실제 바람을 맞추는 방식이다.
+- **개요**: **스크럼(Scrum)**은 럭비 경기에서 선수들이 똘똘 뭉쳐 밀어붙이는 대형이다. 소프트웨어 개발에서는 기획자, 개발자, 테스터가 한 팀으로 똘똘 뭉쳐서 **2~4주(스프린트)**라는 짧은 시간 안에 무조건 돌아가는 결과물(MVP)을 찍어내는, 가장 대중적인 애자일(Agile) 실천 방법론이다.
+- **왜 필요한가**: "1년 뒤에 완벽한 걸 줄게"라고 했더니 고객이 1년 뒤에 "이거 아냐"라고 하면 회사가 망한다. 그래서 "2주마다 찔끔찔끔 만들어 줄 테니까, 그때마다 피드백 줘"라는 생존 전략이 필요했다.
+- **핵심 직관**: 
+  - 개발 팀은 외부의 압박(임원의 갑질)으로부터 2주(스프린트) 동안 완벽히 격리(보호)된다.
+  - 리더(PM)가 이래라저래라 지시하는 게 아니라, 팀원들이 스스로 "이번 2주 동안엔 여기까지 할게요"라고 약속하고 달린다 (Self-organizing).
 
 ## 깊이 이해
-- **배경·문제의식**: 전통적 개발은 고객이 완성품을 늦게 확인해 요구사항 오해가 후반에 드러난다. Scrum은 sprint review에서 작동 제품을 보여주고, retrospective에서 팀 작업 방식을 조정한다.
-- **작동 원리**: Product Owner는 가치 기준으로 product backlog를 정렬한다. Scrum Master는 방해 요인을 제거하고 Scrum 이벤트를 촉진한다. Developers는 sprint backlog를 구현해 Done 상태의 increment를 만든다.
-- **비유**: 식당 신메뉴를 6개월 뒤 한 번에 내는 것이 아니라, 2주마다 시식회를 열어 재료와 조리법을 바꾸는 방식이다.
-- **구체 예시**: 2주 sprint에서 40 story point를 계획하고 34 point를 완료했다면 velocity는 34이다. 다음 sprint 계획은 최근 3회 평균 velocity 32~36 범위로 잡아 납기 예측을 보정한다.
-- **흔한 오해·주의점**: Daily Scrum은 보고 회의가 아니라 sprint goal 달성을 위한 15분 조정 회의이다. PO 부재, 불명확한 DoD, 과도한 scope change는 Scrum 실패 원인이다.
+- **배경·문제의식**: 옛날 폭포수(Waterfall) 모델에서는 기획팀이 6개월 기획하고 개발팀에 던져주면 끝이었다(Silo 현상). 개발자는 기획 의도를 몰랐고, 기획자는 개발 진행 상황을 몰랐다. 이를 부수기 위해 모든 직군을 한 방에 가두고 2주 단위로 쳇바퀴를 돌리는 스크럼이 탄생했다.
+- **작동 원리 (3-3-5 프레임워크)**: 스크럼은 3가지 역할, 3가지 산출물, 5가지 이벤트로 구성된다.
+  - **3가지 역할 (Roles)**: 
+    - `Product Owner (PO)`: 고객을 대변하여 "뭘 만들지" 우선순위를 정하는 사람. (비즈니스 책임자)
+    - `Scrum Master (SM)`: "빨리 해!"라고 채찍질하는 PM이 아니라, 개발자들이 코딩에만 집중하도록 장애물을 치워주는 빗자루맨(서번트 리더).
+    - `Development Team`: 실제로 코딩하고 테스트하는 자율 조직(보통 5~9명).
+  - **3가지 산출물 (Artifacts)**:
+    - `Product Backlog`: PO가 적어놓은 '우리가 평생 만들어야 할 모든 기능 리스트'.
+    - `Sprint Backlog`: 개발팀이 "이번 2주 동안은 요것만 할게요"라고 가져온 리스트.
+    - `Increment`: 2주 끝에 튀어나온, 당장 고객이 써볼 수 있는 돌아가는 소프트웨어 조각.
+  - **5가지 이벤트 (Events)**:
+    - `Sprint (스프린트)`: 2~4주의 심장 박동(주기).
+    - `Sprint Planning`: "이번 2주에 뭐 할까?" 계획 회의.
+    - `Daily Scrum (스탠드업)`: 매일 아침 15분 서서 "어제 뭐 했고, 오늘 뭐 할 거고, 막힌 거 뭐임?" 공유.
+    - `Sprint Review`: 2주 끝날 때 고객(또는 PO) 앞에서 결과물 시연.
+    - `Sprint Retrospective (회고)`: "이번 2주 동안 우리가 일하는 방식이 뭐가 구렸지? 다음엔 이렇게 개선하자." (핵심 중의 핵심!)
+- **비유**: 
+  - 식당 비유: PO는 메뉴판(Backlog)을 짠다. 스크럼 마스터는 주방에 벌레 안 들어오게 방충망을 친다. 요리사(Dev Team)들은 "이번 2주(Sprint) 동안 스테이크랑 파스타 100그릇 빼겠습니다"라고 선언하고 미친 듯이 요리한다.
+- **구체 예시**: Jira나 Trello의 칸반 보드(`To Do -> In Progress -> Done`)를 띄워놓고 아침마다 15분 스탠드업 미팅을 하는 수많은 IT 기업들의 풍경이 바로 스크럼의 흔적이다.
+- **흔한 오해·주의점**: 스크럼은 "회의를 많이 하는" 방법론이 아니다! 오히려 쓸데없는 회의를 없애기 위해 '매일 15분'이라는 룰을 강제한 것이다. 스크럼 마스터가 옛날 방식의 PM처럼 "야, 진도율 70% 맞춰"라고 압박하는 순간 그건 '가짜 애자일(Agile in Name Only)'이 된다.
 
 ## 연결 개념
-- Product Backlog: 가치 기준으로 정렬된 요구사항 목록
-- Sprint Review: 완료 증분을 이해관계자와 검증하는 이벤트
-- Velocity: 팀의 반복 처리량 추정 지표
+- **번다운 차트 (Burndown Chart)**: 스프린트 기간(예: 14일) 동안 남아있는 일감(백로그)이 얼마나 줄어들고 있는지 보여주는 우하향 그래프.
+- **스토리 포인트 (Story Point)**: 스크럼에서는 일의 양을 '시간(Man-Month)'으로 재지 않고, 피보나치 수열(1, 2, 3, 5, 8)을 이용해 "얼마나 빡센가"라는 상대적 난이도로 잰다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: Scrum 답안은 이벤트 암기가 아니라 backlog 우선순위, 역할 책임, sprint 지표로 요구사항 변동을 통제하는 구조를 보여야 한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Scrum은 PO, Scrum Master, Developers가 sprint 단위로 product increment를 만드는 애자일 프레임워크이다.
-> 2. **가치**: backlog 정렬, sprint review, retrospective로 고객 피드백과 팀 개선을 반복 반영한다.
-> 3. **판단 포인트**: velocity, burndown, defect leakage, sprint goal 달성률로 납기·품질·범위 통제를 판단한다.
+> 1. **본질**: 크로스 펑셔널(Cross-functional) 자율 조직이 2~4주의 고정된 타임박스(Timebox)인 스프린트(Sprint) 주기로 작동 가능한 소프트웨어(Increment)를 반복 개발하는 애자일 프레임워크다.
+> 2. **가치**: 데일리 스크럼을 통한 투명성(Transparency) 확보, 리뷰를 통한 빠른 인스펙션(Inspection), 회고를 통한 프로세스 적응(Adaptation)이라는 경험주의 3원칙을 실현하여 리스크를 초기에 진압한다.
+> 3. **판단 포인트**: 기존 폭포수 PM의 명령 통제(Command & Control) 방식과 스크럼 마스터의 서번트 리더십(Servant Leadership) 차이를 대조하고, 3-3-5 핵심 구조를 빈틈없이 도식화해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| Scrum 구성요소 이해 확인 | PO, Scrum Master, Developers, backlog, sprint, increment | 애자일 가치 선언만 서술 |
-| 반복 개발 통제 역량 확인 | sprint planning, daily scrum, review, retrospective | daily scrum을 상급자 보고로 설명 |
-| 지표 기반 운영 판단 확인 | velocity, burndown, sprint predictability, DoD | 속도 향상만 강조하고 품질 지표 누락 |
+| 스크럼 프레임워크의 구조적 이해 (3-3-5) | 3개 역할, 3개 산출물(Artifact), 5개 이벤트 명시 | 회고(Retrospective)를 누락하고 리뷰(Review)만 적는 치명적 실수 |
+| 프로젝트 통제 및 예측 기법 규명 | 스토리 포인트(상대적 추정)와 번다운(Burndown) 차트 | 일정을 M/M(Man-Month) 기반의 WBS로 추정한다고 적는 폭포수식 오개념 |
+| 실패하는 애자일(Anti-pattern) 리스크 관리 | 스크럼 마스터의 역할 오해 (관리자가 아닌 조력자) | 스크럼 마스터를 진도율 쪼는 전통적 PM으로 묘사 |
 
-> 요약: Scrum 문제는 역할·이벤트·산출물을 지표와 연결해 요구사항 변동을 통제하는 답안을 요구한다.
+> 요약: 스크럼은 2주짜리 완벽한 보호막이다. 밖에서 기획이 아무리 뒤집혀도, 스프린트 안으로 들어온 개발자들은 절대 방해받지 않고 백로그를 불태운다(Burndown).
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Scrum은 sprint 기반 애자일 프레임워크이다.
-제품 개발은 요구사항 변경과 우선순위 변동이 빈번하므로 짧은 반복 검증이 필요하다.
-Scrum은 backlog, sprint, review, retrospective로 고객 가치와 팀 작업 방식을 지속 조정함.
+- 정의: 경험주의(Empiricism) 관리 기법에 근거하여, 복잡하고 불확실한 요구사항 환경에서 고품질 소프트웨어를 신속하게 배포하기 위한 애자일 기반 반복(Iterative)/점진적(Incremental) 프레임워크
+- 배경: 기존 폭포수 방법론의 철저한 사일로(Silo) 분업이 낳은 부서 간 소통 단절과, 오픈 직전 통합 단계에서 발견되는 요구사항 불일치로 인한 막대한 재작업(Re-work) 비용 발생
+- 필요성: 제품 책임자(PO)와 개발팀이 한 배를 타고 스프린트 주기로 고객 피드백을 수용하며, 매 회고(Retrospective)를 통해 팀 자체의 생산성 프로세스를 지속 개선(CI)하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 스크럼 아키텍처: 3-3-5 프레임워크 도식
 
 ```text
-Product Vision -> Product Backlog -> Sprint Planning -> Sprint Backlog
-               -> Daily Scrum -> Increment -> Review -> Retrospective
-Roles: PO / Scrum Master / Developers
+[ 스크럼 3-3-5 워크플로우 ]
+
+(Role 1) Product Owner 가 비즈니스 요구사항을 
+          ---> (Artifact 1) [ Product Backlog ] 작성 및 우선순위(Priority) 정렬
+                     |
+(Event 1) [ Sprint Planning ] : 이번 주기에 할 분량(Story Point) 합의
+                     |
+(Role 2) Dev Team 이 주도하여 
+          ---> (Artifact 2) [ Sprint Backlog ] 도출 후 2주간 질주 시작!
+                     |
+(Event 2) [ Sprint (2~4주 Timebox) ] 
+            <- (Event 3) [ Daily Scrum ] : 매일 15분 서서 진행(장애물 공유)
+            <- (Role 3) Scrum Master : 개발 방해 요소 제거 (조력자)
+                     |
+(Artifact 3) [ Increment (작동하는 소프트웨어) ] 도출!
+                     |
+(Event 4) [ Sprint Review ] : 고객(PO)에게 산출물 시연 및 피드백 수렴
+(Event 5) [ Sprint Retrospective ] : "다음 2주는 어떻게 더 잘 일할까?" 팀 자체 회고
 ```
 
-| 구성요소 | 역할 | 산출물·지표 |
+| 스크럼 3대 역할 (Roles) | 본질적 책임과 권한 (폭포수와의 대조) |
+|:---|:---|
+| **Product Owner (PO)** | 제품의 "What"을 책임짐. 요구사항(백로그) 우선순위 결정권의 최종 포식자 |
+| **Scrum Master (SM)** | 프로세스의 "How"를 수호함. 매니저가 아니라, 룰(Rule)을 지키게 돕는 코치이자 쉴드(Shield) |
+| **Development Team** | 구현의 "How"를 책임짐. 스스로 목표를 정하고 스스로 분배하는 자율 융합(Cross-functional) 조직 |
+
+> 요약: 옛날에는 기획자, 디자이너, 개발자가 층을 나눠 썼다. 스크럼은 이들을 한 책상에 앉히고, "PO는 스펙만 정해, 간섭하지 마! SM은 방해꾼 막아! 개발팀 너네 알아서 뛰어!"라고 판을 깔아주는 것이다.
+
+---
+
+## Ⅲ. 예측 가능성을 사수하는 기법: 스토리 포인트와 번다운
+
+애자일은 무계획이 아니다. WBS(Work Breakdown Structure) 대신 상대적 추정과 시각화를 쓴다.
+
+| 예측 및 통제 기법 | 동작 원리 메커니즘 | 아키텍처적(관리적) 가치 |
 |:---|:---|:---|
-| Product Owner | 가치·우선순위 결정 | product backlog, release goal |
-| Scrum Master | Scrum 실행 촉진, impediment 제거 | impediment log, event adherence |
-| Developers | 설계·구현·테스트 수행 | sprint backlog, increment |
-| Scrum Events | 계획·동기화·검토·개선 | velocity, burndown, retro action |
+| **Story Point 추정** | "이 기능 3일 걸려요(절대 시간)"가 아니라 플래닝 포커(Planning Poker)를 통해 "로그인보다 3배(Point 5) 빡세네요(상대적 규모)"로 추정 | 개발자마다 코딩 속도가 달라도 절대적 규모(크기)는 일치하므로, 추정의 편차와 리스크(거짓말) 최소화 |
+| **Velocity (벨로시티)** | 우리 팀이 1번의 스프린트 동안 평균적으로 쳐내는 스토리 포인트의 총합 (예: 2주에 40포인트) | "이 속도라면 백로그 전체를 비우는 데 10스프린트(20주) 걸린다"는 데이터 기반 릴리즈 로드맵(예측력) 확보 |
+| **Burndown Chart** | x축(시간), y축(남은 업무량 Point)으로 그려진 우하향 그래프 | 그래프가 바닥을 향하지 않고 수평을 그리면 누군가 삽질(블로커) 중임을 Daily에서 즉시 시각적 감지 |
 
-> 요약: Scrum은 역할 책임과 이벤트 주기를 분리해 backlog를 완료 증분으로 전환한다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-Backlog Refinement -> Sprint Planning -> Sprint Execution
--> Daily Coordination -> Review Feedback -> Retrospective Action
--> Backlog Reprioritization
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | product backlog 정제 | user story, acceptance criteria 충족 |
-| 2 | sprint goal과 sprint backlog 확정 | capacity 대비 계획량 80~90% |
-| 3 | 개발·테스트·daily scrum 수행 | burndown 이탈 20% 이하 |
-| 4 | increment review와 피드백 수집 | DoD 충족, 이해관계자 승인 |
-| 5 | retrospective 개선 항목 실행 | retro action 완료율 80% 이상 |
-
-> 요약: Scrum은 계획-실행-검토-개선 루프를 sprint마다 반복하고 backlog 우선순위를 다시 조정한다.
+> 요약: 스크럼 마스터는 "언제 끝나냐?"고 묻지 않는다. 번다운 차트의 꺾인 각도(Velocity)를 보고 이번 스프린트가 망했는지 흥했는지 1초 만에 파악한다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 극복해야 할 시스템적 리스크 및 애자일 안티패턴(Anti-Pattern)
 
-| 구분 | 전통적 프로젝트 관리 | Scrum | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 범위 관리 | 초기 범위 기준선 | product backlog 우선순위 | sprint scope change 10% 이하 |
-| 일정 예측 | WBS milestone | velocity, release burndown | 최근 3회 평균 velocity |
-| 품질 기준 | 테스트 단계 집중 | DoD와 자동 테스트 | DoD 위반 0건 |
-| 고객 피드백 | 주요 단계 승인 | sprint review 반복 | review 참석률 80% 이상 |
+형식만 스크럼(3-3-5)을 따르고 정신은 폭포수에 머물러 있는 '워터-스크럼-폴(Water-Scrum-Fall)'의 비극.
 
-> 요약: Scrum은 범위 고정보다 우선순위 조정과 완료 기준 준수로 납기와 품질을 관리한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | Scrum 미적용 | Scrum 적용 | 선택 기준 |
-|:---|:---|:---|:---|
-| 요구사항 | 요청 순서대로 구현 | value 기반 backlog 정렬 | 기능 우선순위 변동이 월 2회 이상 |
-| 조직 | 기능별 분업 | cross-functional team | 팀 규모 5~9명 권장 |
-| 릴리스 | 대형 배포 | sprint increment 누적 | 2~4주 피드백 주기 필요 |
-
-> 요약: Scrum은 작은 제품팀, 잦은 피드백, 명확한 PO 권한이 있을 때 적용 효과를 검증할 수 있다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| PO 병목 | 의사결정 지연 | backlog refinement 정례화, 위임 기준 | story ready rate 90% 이상 |
-| 품질 저하 | DoD 미준수 | 자동 테스트, code review, CI gate | defect leakage 2% 이하 |
-| 형식적 이벤트 | 회의 목적 불명확 | timebox, agenda, retro action 추적 | event timebox 준수율 |
-
-> 요약: Scrum 리스크는 역할 공백, DoD 위반, 이벤트 형식화에서 발생하므로 준비율과 품질 지표로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 리스크 요인 | 발생 시나리오 및 애자일 붕괴 원인 | 아키텍처 대응 방안 (실무 튜닝) |
 |:---|:---|:---|
-| 납기 예측 | sprint predictability 80% 이상 | planned vs completed story point |
-| 흐름 | cycle time 5일 이하 | Jira control chart |
-| 품질 | 회귀 테스트 통과율 95% 이상 | CI test report, defect trend |
+| **스프린트 침범 (Scope Creep)** | 스프린트가 한창 돌아가는 1주 차에, 임원(VIP)이나 PO가 "이거 급하니까 지금 당장 끼워 넣어!"라고 백로그를 강제 주입하여 개발팀 몰입도 붕괴 | 스크럼의 대원칙 **"스프린트 타임박스 내 변경 절대 불가"**를 SM이 직을 걸고 사수. 급한 건은 다음 스프린트 백로그 최상단으로 미루는 원칙 강제 |
+| **가짜 스탠드업 미팅** | 매일 아침 15분 스탠드업이 리더(팀장)에게 진도율을 보고하는 '주간 회의 축소판'으로 전락하여 팀원들이 숨을 죽이고 방어적으로 변함 | SM이 주도권을 놓고 팀원들끼리 원형으로 서서 "어제 나 이거 하다 막혔어, 누구 좀 도와줄래?"라는 동료 간 기술적 P2P 소통으로 강제 포맷 전환 |
 
-> 요약: Scrum 성과는 velocity 단독이 아니라 예측 가능성, 흐름 시간, 품질 지표를 함께 봐야 한다.
+> 요약: 스크럼이 망하는 가장 흔한 이유는 스크럼 마스터(SM)가 무능해서 폭포수 시절의 권위적인 PM 빙의를 하거나, 윗선의 갑질(스프린트 개입)을 막아내는 방패막이 역할을 포기했기 때문이다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅴ. 실무 적용 방안 및 결론
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. Product backlog에 value, risk, effort, dependency 필드를 두고 WSJF 또는 MoSCoW로 sprint 후보를 정렬
-2. Sprint 2주, daily scrum 15분, review 2시간, retrospective 1시간 timebox를 적용하고 DoD에 자동 테스트 통과 포함
-3. Velocity, sprint predictability, defect leakage, cycle time을 dashboard로 운영해 scope creep과 품질 저하를 조기 식별
+**적용 방안 3개:**
+1. [Jira 툴 체인 기반 백로그 가시화] 핀테크 신사업 론칭 시, 엑셀 WBS를 찢어버리고 Jira Software를 도입하여 Epics -> User Stories -> Tasks 3계층으로 백로그를 쪼개고, 2주 스프린트 보드에 플래닝 포커(Planning Poker) 추정치를 맵핑하여 팀 Velocity 자동 측정 체계 구축
+2. [Action Item 강제화 기반의 회고(Retrospective) 튜닝] 스프린트 종료 후 회고가 단순 불만 토로장으로 전락하는 것을 막기 위해, KPT(Keep, Problem, Try) 프레임워크를 도입하고 도출된 Try(개선 행동) 1~2개를 다음 스프린트 백로그 0순위 과제로 강제 편입시켜 프로세스 자가 치유(Self-healing) 가동
+3. [XP 엔지니어링 프랙티스와의 결합 (Scrum + XP)] 스크럼은 '관리 기법'일 뿐 코드를 잘 짜는 법은 알려주지 않으므로, 백엔드 개발팀의 스파게티 코드를 막기 위해 eXtreme Programming(XP)의 TDD(테스트 주도 개발)와 짝 프로그래밍(Pair Programming)을 스프린트 내부 실천 룰로 결합(하이브리드)
 
-**결론 (2줄):**
-- 기술사 판단: 요구사항 탐색형 제품은 Scrum, 규제 산출물 고정 프로젝트는 Scrum+stage gate 혼합을 선택함
-- 향후 방향: Scrum은 DevOps, DORA, SAFe와 결합되어 팀 단위 반복을 조직 단위 가치 흐름 관리로 확장함
+**결론:**
+- 기술사 판단: 애자일 스크럼은 소프트웨어 개발을 '건축(Architecture)'에서 '생명체(Organism)'의 진화로 끌어올린 위대한 사회공학적 실험이다. 거대한 1년 치 문서를 2주짜리 작동 코드(Increment)로 교환함으로써, 고객의 비즈니스 리스크를 가장 싼 값에, 가장 빨리 검증(Fail Fast)해 낸다.
+- 향후 방향: 단일 팀 단위(5~9명)에 최적화된 스크럼은 대기업(개발자 500명) 환경에서 한계(팀 간 의존성 병목)에 부딪혔다. 이에 따라 여러 스크럼 팀을 거대한 열차(Release Train)로 묶어 조율하는 SAFe, LeSS 같은 **대규모 애자일(Scaled Agile)** 프레임워크로 엔터프라이즈의 패러다임이 진화하고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Scrum을 설명하시오" | 역할·이벤트·산출물 흐름 | backlog, sprint, review 특징 |
-| 요구사항 명시형 | "운영 방안을 제시하시오", "문제점을 논하시오" | velocity·DoD·scope change 통제 | PO 병목, 품질 저하, 이벤트 형식화 대응 |
-
-> 요약: 설명형은 Scrum 구성요소, 운영형은 지표와 리스크 대응 중심으로 답안 목차를 전환한다.
+| 포괄형 | "애자일 스크럼의 개념과 핵심 프레임워크(구성요소)를 설명하시오" | 3개 역할, 3개 산출물, 5개 이벤트(3-3-5) 도식 | 스토리 포인트 추정과 번다운 차트 예측 메커니즘 |
+| 요구사항 명시형 | "스크럼 도입 시 발생 가능한 안티패턴(실패 요인)과 해결 방안" | 스프린트 타임박스 침범과 가짜 스탠드업 보고회 | SM의 서번트 리더십(보호막)과 KPT 회고 기반 자가 치유 |

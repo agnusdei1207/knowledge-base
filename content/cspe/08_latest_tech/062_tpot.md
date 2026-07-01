@@ -27,6 +27,8 @@ weight: 62
 - Token Throughput — 전체 토큰 처리량
 - Speculative Decoding — TPOT 감소 기법
 
+---
+
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
@@ -37,9 +39,23 @@ weight: 62
 > 2. **가치**: 장문 생성의 전체 응답 시간을 결정하며, 대화형 UX와 streaming 품질의 핵심 SLA임.
 > 3. **판단 포인트**: 모델 크기, batch size, KV Cache, speculative decoding, 양자화가 TPOT를 좌우함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| LLM decode 단계 지연 구조 이해 | memory-bound 병목, KV Cache 접근, speculative decoding 원리 | throughput 증가가 개별 사용자 TPOT 감소를 보장하지 않는다는 점 누락 |
+
+> 요약: 이 문제는 decode 단계의 memory-bound 병목과 TPOT 최적화 기법·수치를 TTFT와 분리해 설명하는 능력을 요구한다.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-TPOT는 토큰당 출력 지연 시간임. LLM 서비스는 첫 토큰 이후에도 수백~수천 토큰을 순차 생성하므로, TPOT 관리는 장문 답변 완료 시간과 streaming 체감 속도를 결정함.
+- 정의: 첫 토큰 이후 출력 토큰 1개 생성당 소요 지연
+- 배경: LLM은 auto-regressive decode로 수백~수천 토큰을 순차 생성하여 TPOT가 전체 응답 시간을 지배
+- 필요성: 장문 답변 완료 시간과 streaming UX를 결정하는 SLA 지표로, p95 50ms/token 이하 관리 필요
+
+---
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -57,6 +73,8 @@ Prefill 완료 → Decode Loop
 
 > 요약: TPOT는 decode loop의 토큰별 반복 비용이며 KV Cache 접근과 batch scheduling이 핵심 변수임.
 
+---
+
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
@@ -73,6 +91,8 @@ Prefill 완료 → Decode Loop
 
 > 요약: TPOT는 매 토큰마다 attention·sampling·cache append를 반복하는 decode 경로의 단위 지연임.
 
+---
+
 ## Ⅳ. 특징
 
 | 구분 | TTFT | TPOT | 수치·판단 포인트 |
@@ -84,7 +104,37 @@ Prefill 완료 → Decode Loop
 
 > 요약: TPOT는 장문 생성 완료 시간을 지배하므로 TTFT와 분리해 SLA와 최적화 전략을 설계해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+---
+
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 기존(기본 decode) | TPOT 최적화 적용 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 1-step-1-token 순차 | Speculative Decoding(draft+verify) | 출력 500토큰 이상 장문 시 적용 |
+| 비용/성능 | 70B A100 TPOT 30ms/token | INT8 양자화 시 18ms/token | 정확도 회귀 MMLU 1% 이내 |
+| 운영/위험 | 단순 운영, 지연 안정 | draft model 관리 추가 | draft-target 모델 호환성 검증 |
+
+> 요약: 장문 생성 비율이 높으면 Speculative Decoding, 비용 우선이면 양자화를 적용한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| TPOT 급증 | batch 크기 과다, KV Cache 과점유 | max batch token 제한, 요청 우선순위 분리 | p95 TPOT 50ms/token 이하 |
+| 품질 저하 | 양자화로 logit 분포 왜곡 | INT8/FP8 적용 후 MMLU·사내셋 회귀 테스트 | 정확도 변화 1% 이내 |
+| draft 모델 불일치 | target과 어휘·분포 차이 | 동일 tokenizer·계열 모델 사용 | acceptance rate 70% 이상 |
+
+> 요약: batch 과다와 양자화 품질 저하를 TPOT SLA와 정확도 회귀 테스트로 통제한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 성능/효율 | TPOT p95 50ms/token, decode GPU util 70% | Prometheus + 서빙 엔진 메트릭 |
+| 품질/정확도 | 양자화 후 MMLU 정확도 차이 1% 이내 | A/B 비교, 벤치마크 셋 |
+| 운영/보안 | KV Cache OOM 0건/일, 응답 완료율 99.5% | 서빙 로그·알림 |
+
+> 요약: TPOT SLA, 양자화 정확도, KV Cache OOM으로 decode 최적화 효과를 판단한다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. TPOT p95 50ms/token 이하 목표를 설정하고 모델 크기·batch token·KV cache 사용량을 대시보드화

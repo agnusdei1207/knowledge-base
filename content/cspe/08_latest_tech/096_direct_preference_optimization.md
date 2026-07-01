@@ -37,9 +37,21 @@ weight: 96
 > 2. **가치**: RLHF의 reward model·PPO 복잡도를 줄여 선호 정렬을 SFT에 가까운 절차로 수행함.
 > 3. **판단 포인트**: 선호 데이터 품질, reference model, beta, KL 제어, 안전성 회귀를 검증해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| DPO가 RLHF를 대체하는 원리와 조건 판단 | chosen/rejected 선호쌍, reference model, beta, KL divergence | reward model 불필요≠보상 개념 없음, 선호 데이터 품질 의존성 누락 |
+
+> 요약: DPO는 RLHF의 보상모델·PPO 단계를 제거한 직접 선호 정렬 기법이며, 선호 데이터 품질과 beta 설정이 성패를 좌우함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-DPO는 직접 선호 최적화 기법임. RLHF의 보상모델 학습과 PPO 운영 복잡도를 줄이기 위해, 선호쌍 데이터로 정책 모델의 chosen 답변 확률을 직접 높임.
+- 정의: 선호쌍으로 정책 모델을 직접 최적화하는 보상모델 없는 정렬 기법
+- 배경: RLHF는 reward model 학습 + PPO 안정화에 GPU 비용과 운영 복잡도가 큼
+- 필요성: 파이프라인 단계를 줄여 SFT 수준의 학습 절차로 선호 정렬을 수행
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ Prompt + Chosen/Rejected Pair → DPO Loss
 
 > 요약: DPO는 RLHF보다 단순하지만, 선호쌍 데이터의 품질과 KL 제어가 성능을 좌우함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | RLHF | DPO | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | RM + PPO 2단계 | 단일 loss 직접 최적화 | 운영 단순성 우선 시 DPO |
+| 비용 | GPU 2배 이상 (RM+PPO) | SFT 대비 GPU 20~30% 추가 | 비용 제약 시 DPO |
+| 다목표 보상 | 세분화된 reward 설계 가능 | 단일 선호 축 최적화 | 복잡한 보상 설계 시 RLHF |
+
+> 요약: 단순 선호 정렬과 비용 제약 시 DPO, 다목표 보상 설계가 필요하면 RLHF를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 선호 데이터 편향 | 라벨러 기준 불일치 | inter-annotator agreement ≥ 0.7 필터 | Cohen's κ |
+| 과적합/reward hacking | beta 과소 설정 | beta 0.1/0.3/0.5 grid search | KL divergence |
+| 안전성 회귀 | 정렬 학습 후 refusal 변화 | SFT baseline 대비 toxicity 비교 | refusal rate, toxicity |
+
+> 요약: 선호 데이터 품질, beta 과적합, 안전성 회귀를 사전 실험과 모니터링으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 선호 일치도 | win rate ≥ 60% vs SFT baseline | human eval, GPT-4 judge |
+| 안전성 | toxicity ≤ 0.5%, refusal rate 2~5% | Perspective API, 수동 샘플링 |
+| 운영 효율 | 학습 시간 RLHF 대비 50% 감소 | GPU-hour, wall-clock |
+
+> 요약: win rate, toxicity, 학습 비용을 SFT·RLHF baseline과 비교해 DPO 도입 효과를 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 고객 응답 chosen/rejected 50K건을 수집하고 라벨러 일치도 기준 미달 샘플을 제거

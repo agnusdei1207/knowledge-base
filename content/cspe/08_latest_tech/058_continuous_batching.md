@@ -38,20 +38,29 @@ weight: 58
 > 2. **가치**: 출력 길이 편차로 인한 GPU 유휴 시간을 줄여 req/s와 토큰 처리량을 높임.
 > 3. **판단 포인트**: batch size, queue delay, prefill/decode 분리, tail latency가 운영 기준임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| LLM 서빙 스케줄링 이해 | Static vs Continuous 비교, step 단위 배치 재구성 원리, prefill/decode 분리 | 배치를 키우면 지연이 줄어든다는 오해 금지, tail latency 증가 리스크 명시 |
+
+> 요약: Continuous Batching은 가변 길이 트래픽의 GPU 유휴 시간을 줄이는 스케줄링이며, queue 정책과 tail latency 관리가 운영 핵심임.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-Continuous Batching은 LLM 동적 배치 처리 방식임. 요청별 생성 길이가 다른 LLM 서빙에서 고정 배치의 자원 낭비를 줄이기 위해, 완료 요청을 즉시 제거하고 새 요청을 배치에 투입함.
+- 정의: 완료된 요청을 즉시 제거하고 새 요청을 매 decode step마다 배치에 투입하는 LLM 동적 배칭
+- 배경: 고정 배치는 가장 긴 출력에 맞춰 진행되어 짧은 요청 종료 후 GPU slot이 유휴 상태로 낭비됨
+- 필요성: step 단위 배치 재편성으로 GPU utilization을 높이고 req/s·tokens/s를 개선
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Request Queue → Scheduler → Active Decode Batch
-      ▲              │              │
-      └── New Req ◀──┴── Finished Req 제거
-                     │
-              KV Cache Manager
+Request Queue -> Scheduler -> Active Decode Batch
+  -> Finished Req 제거 -> New Req 삽입 -> 다음 Decode Step
+  -> KV Cache Manager가 종료 요청 block 반환
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -93,7 +102,35 @@ Request Queue → Scheduler → Active Decode Batch
 > 요약: Continuous Batching은 혼합 길이 트래픽에서 처리량을 높이나, 대기열 정책이 tail latency를 좌우함.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Static Batching | Continuous Batching | 선택 기준 |
+|:---|:---|:---|:---|
+| 배치 구성 | 시작 시 고정, 전체 종료까지 유지 | step마다 완료 제거·신규 삽입 | 요청 길이 편차 |
+| GPU 활용 | 짧은 요청 종료 후 slot 유휴 | slot 즉시 재사용 | GPU utilization 비교 |
+| 구현 요건 | 단순, 별도 KV 관리 불필요 | PagedAttention·동적 KV 관리 필요 | 엔진 지원 여부 |
+
+> 요약: 길이 편차가 큰 대화형 트래픽은 Continuous Batching, 균일 길이 일괄 처리는 Static Batching이 적합함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| Tail Latency 증가 | 과도한 batch size로 대기열 지연 누적 | max batch token 제한, max waiting time 20~50ms | p95/p99 TTFT |
+| Prefill-Decode 경합 | 긴 프롬프트 prefill이 짧은 decode를 블로킹 | prefill/decode 분리 스케줄링 | 짧은 요청 TTFT 회귀 |
+| KV 메모리 부족 | 동시 active sequence 급증 | max concurrent requests 제한, PagedAttention 블록 관리 | OOM 건수, free block 비율 |
+
+> 요약: tail latency·prefill 경합·KV 메모리 세 리스크를 batch 파라미터와 스케줄러 분리로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| tokens/s | Static 대비 1.5~3배 향상 | 벤치마크(ShareGPT 데이터셋) |
+| p95 TTFT | 500ms 이내 (7B 모델 기준) | 추론 서버 APM |
+| GPU Utilization | 80% 이상 유지 | nvidia-smi 모니터링 |
+
+> 요약: tokens/s·TTFT·GPU utilization 세 지표로 Continuous Batching 도입 효과를 정량 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. vLLM/TGI 등 dynamic batching 지원 엔진을 적용하고 tokens/s, req/s, p95 TTFT를 배포 전후 비교

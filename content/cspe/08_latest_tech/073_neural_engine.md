@@ -37,17 +37,29 @@ weight: 73
 > 2. **가치**: 사용자 데이터를 단말 내 처리하여 지연·전력·프라이버시 요구를 충족함.
 > 3. **판단 포인트**: Core ML 변환, op 지원, CPU/GPU fallback, 모델 크기·메모리 제한을 검토해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| Apple 온디바이스 AI 가속 구조 이해 | Core ML 변환, Runtime Scheduler, NE/GPU/CPU 배치, op 지원 | Neural Engine을 독립 GPU처럼 직접 제어 가능하다고 서술 |
+
+> 요약: Neural Engine은 Core ML 런타임을 통한 자동 배치 구조이며, 개발자 직접 제어가 아닌 OS 스케줄링 의존성이 핵심임.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-Neural Engine은 Apple 온디바이스 AI 가속기임. 모바일·PC에서 AI 기능을 상시 제공하려면 배터리·발열 제약 안에서 저전력 추론을 수행하는 전용 하드웨어가 필요함.
+- 정의: Apple SoC에 통합된 신경망 추론 전용 저전력 가속기
+- 배경: 모바일·노트북에서 사진·음성·번역·개인화 AI를 상시 제공해야 하나 배터리·발열 제약이 큼
+- 필요성: Core ML 모델을 SoC 내부 전용 가속기로 실행해 지연·전력·프라이버시 요구를 충족함
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-App → Core ML Model → ML Runtime Scheduler
-       ├→ Neural Engine
-       ├→ GPU
-       └→ CPU
+App -> Core ML Model -> ML Runtime Scheduler
+  -> Neural Engine (AI 추론)
+  -> GPU (그래픽·범용 병렬)
+  -> CPU (미지원 op fallback)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -86,7 +98,35 @@ App → Core ML Model → ML Runtime Scheduler
 
 > 요약: Neural Engine은 Apple 생태계에서 저전력 AI 추론을 제공하지만, Core ML 호환성과 fallback 관리가 필수임.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | GPU 실행 | Neural Engine 실행 | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | Metal/MPS 직접 제어 | Core ML 런타임 자동 배치 | 개발 유연성 vs 전력 효율 |
+| 비용/성능 | TDP 높음, FP32 고성능 | TDP 1~5W, INT8/FP16 추론 | 배터리 장치면 NE |
+| 운영/위험 | 개발자 제어 가능 | OS 스케줄러 의존, op 제한 | NE 배치 비율 실측 |
+
+> 요약: 저전력 상시 AI는 Neural Engine, 고성능 범용 연산은 GPU를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| NE 배치율 저하 | Core ML 미지원 op | 모델 구조를 NE 호환 op으로 재설계 | NE 배치 비율 80% 이상 |
+| 세대별 성능 편차 | SoC 세대별 NE 코어 수 차이 | 최소 지원 SoC 기준 설정(예: A15 이상) | 단말별 p95 latency |
+| 프라이버시 위반 | 모델 입출력 데이터 외부 전송 | Secure Enclave/Keychain 연계, 로컬 전용 처리 | 네트워크 트래픽 감사 로그 |
+
+> 요약: Neural Engine 리스크는 op 호환·세대 편차·프라이버시이며, 단말별 실측과 보안 연계로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 성능/효율 | p95 latency 30ms, 배터리 소모 5% 이하/시간 | Xcode Instruments, Energy Log |
+| 품질/정확도 | Core ML 변환 정확도 하락 1%p 이내 | validation set 비교 |
+| 운영/보안 | 원본 데이터 단말 외 반출 0건 | 네트워크 감사, 앱 리뷰 |
+
+> 요약: Neural Engine 도입 성공은 NE 배치율·지연·배터리·프라이버시를 단말별로 실측해 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. iOS/macOS AI 기능은 Core ML 변환 후 NE 배치 비율, p95 지연, 배터리 소모를 단말별 측정

@@ -1,6 +1,6 @@
 ---
 title: "PCB·컨텍스트 스위칭 (PCB Context Switching)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 2
@@ -8,155 +8,128 @@ weight: 2
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: PCB와 컨텍스트 스위칭을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: PCB는 실행 상태 기록표, 컨텍스트 스위칭은 CPU 주인 교체 절차
-- **왜 필요한가**: CPU는 한 순간 하나의 실행 흐름만 처리하므로, 운영체제는 현재 상태를 저장하고 다음 상태를 복원해 다중 작업처럼 보이게 한다.
-- **핵심 직관**: 책갈피와 작업 일지를 남긴 뒤 다른 책을 펼치는 절차가 컨텍스트 스위칭이다.
+- **개요**: **PCB(Process Control Block)**는 운영체제가 프로세스를 관리하기 위해 만드는 '학생 기록부(장부)'다. **컨텍스트 스위칭(Context Switching, 문맥 교환)**은 CPU가 A 프로세스를 멈추고 B 프로세스로 넘어갈 때, A의 현재 상태를 PCB에 적어두고 B의 상태를 PCB에서 읽어와 CPU에 덮어씌우는 작업이다.
+- **왜 필요한가**: CPU는 1개인데 프로그램은 여러 개다. 1초에 수백 번씩 프로그램을 교대하며 실행(시분할)해야 사람이 보기에 동시에 도는 것처럼 보인다. 교대할 때 "어디까지 실행했는지"를 기억해야 나중에 다시 돌아왔을 때 이어서 할 수 있다. 그 기억 창고가 PCB다.
+- **핵심 직관**: 
+  - 책을 읽다가(프로세스 A) 엄마가 심부름을 시켰다(인터럽트). 책에 포스트잇(PCB A 기록)을 붙이고 덮는다.
+  - 갔다 와서 국어 숙제(프로세스 B)를 꺼내서, 저번에 포스트잇(PCB B) 붙여둔 곳부터 이어서 푼다.
+  - 이 '포스트잇을 붙이고, 책을 바꿔 꺼내는 과정' 전체가 컨텍스트 스위칭이다.
 
 ## 깊이 이해
-- **배경·문제의식**: 시분할 OS는 짧은 time slice마다 실행 주체를 바꾼다. 저장할 정보가 누락되면 명령 위치나 스택이 틀어져 프로세스가 잘못 실행된다.
-- **작동 원리**: 커널은 interrupt/trap/timer tick에서 현재 PC, SP, general register, 상태 레지스터, MMU 정보, scheduling metadata를 PCB에 저장한다. 이후 scheduler가 다음 PCB를 고르고 레지스터·주소공간을 복원한다.
-- **비유**: 콜센터 상담원이 고객 A의 상담 메모와 화면 상태를 저장하고 고객 B 화면으로 전환하는 과정이다. 메모가 세밀할수록 복귀는 정확하지만 전환 시간은 증가한다.
-- **구체 예시**: Linux에서 voluntary/involuntary context switch가 초당 수만 회로 증가하면 cache pollution과 TLB miss가 늘어 p99 latency가 10ms에서 80ms로 튈 수 있다.
-- **흔한 오해·주의점**: 컨텍스트 스위칭은 사용자 코드가 처리한 일이 아니다. 전환 시간은 overhead이며, runnable thread가 core 수보다 많으면 처리량보다 지연시간 악화가 먼저 나타난다.
+- **배경·문제의식**: 시분할 운영체제(Time Sharing)의 핵심은 환상(Illusion)이다. CPU가 나 혼자 100% 서비스하는 척하려면 빛의 속도로 스위칭해야 하는데, 스위칭 과정 자체가 너무 오래 걸리면(Overhead) 배보다 배꼽이 커진다.
+- **작동 원리 (PCB의 구조)**:
+  - 프로세스가 생성될 때 커널 램(RAM) 영역에 해당 프로세스의 PCB가 생성된다.
+  - **PC (Program Counter)**: 다음번 실행할 코드의 줄 번호 (제일 중요!).
+  - **레지스터 상태**: CPU 안의 임시 계산값들.
+  - **상태 (State)**: Ready, Running, Blocked 등.
+  - **메모리 맵**: 내 가상 메모리가 램 어디에 흩어져 있는지 적힌 페이지 테이블 포인터.
+- **비유**: 병원의 환자 차트(PCB). 의사(CPU)가 회진을 돌 때, 1번 환자(프로세스 A)의 차트를 보고 상태를 확인한 뒤 진료를 마친다. 다음으로 2번 환자(프로세스 B) 침대로 가서 2번 차트를 꺼내 읽고 이어서 진료한다. 차트가 없으면 의사는 환자가 누군지 모른다.
+- **구체 예시**: A가 덧셈을 하다가 스위칭 당했다. A의 레지스터 값 `3`과 `5`를 PCB A에 저장한다. B가 CPU를 차지해 레지스터를 막 쓴다. 다시 A 차례가 오면, PCB A에서 `3`과 `5`를 복원하여 CPU에 넣고 덧셈을 이어서 한다.
+- **흔한 오해·주의점**: 컨텍스트 스위칭은 '공짜'가 아니다. 스위칭하는 동안 CPU는 사용자 프로그램 연산을 단 1건도 하지 못하는 **100% 순수 오버헤드(Overhead, 버려지는 시간)**다. 따라서 무조건 스위칭이 자주 일어난다고 좋은 게 아니다(스레싱 유발).
 
 ## 연결 개념
-- 프로세스 스케줄링: 다음 실행 대상을 고르는 정책
-- TLB·Cache: 전환 후 재사용성이 깨지는 하드웨어 상태
-- PCB·TCB: 저장 범위가 프로세스와 스레드에서 달라짐
+- **인터럽트 (Interrupt)**: 컨텍스트 스위칭을 유발하는 방아쇠(Trigger)다. 타이머 인터럽트(시간 다 됨)나 I/O 인터럽트(디스크 읽기 완료)가 터져야 커널이 낚아채서 교대를 지시한다.
+- **스레드 (Thread)**: 공장을 아예 통째로 바꾸는 프로세스 스위칭은 너무 무겁다(메모리 맵 교체). 그래서 공장 안에서 일꾼만 교대하는 '스레드 컨텍스트 스위칭(TCB 교환)'이 훨씬 가볍고 빠르다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: PCB 항목 암기가 아니라 CPU 상태 저장·MMU 전환·cache/TLB 영향·scheduler overhead를 연결한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PCB는 프로세스의 CPU·메모리·스케줄링 상태를 저장하는 커널 자료구조이고, 컨텍스트 스위칭은 그 상태를 저장·복원하는 절차이다.
-> 2. **가치**: 시분할, preemption, blocking I/O를 가능하게 하지만 전환 중에는 사용자 작업이 진행되지 않는다.
-> 3. **판단 포인트**: register 저장 비용보다 TLB flush, cache pollution, run queue 길이, lock contention이 p95 지연을 좌우한다.
+> 1. **본질**: PCB는 운영체제가 프로세스 상태(문맥)를 관리하기 위한 커널 자료구조이며, 컨텍스트 스위칭은 CPU 점유권을 다른 프로세스로 넘길 때 이 PCB를 저장하고 복원하는 일련의 메커니즘이다.
+> 2. **가치**: 시분할 다중 프로그래밍(Time-Sharing) 환경을 구현하여 사용자에게 여러 프로그램이 동시에 실행되는 듯한 병행성(Concurrency)을 제공한다.
+> 3. **판단 포인트**: 컨텍스트 스위칭은 순수 오버헤드(Overhead)이므로, 캐시 플러시(TLB) 패널티를 줄이기 위한 스레드 기반 스위칭과의 비용(Cost) 차이를 도식으로 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| OS가 실행 상태를 보존하는 방식 확인 | PC, SP, register, state, priority, MMU 정보 | PCB를 단순 ID 목록으로 축소 |
-| 스케줄러와 전환 절차 연결 확인 | interrupt -> save -> select -> restore -> return | scheduler 선택과 context switch 분리 누락 |
-| 전환 overhead 판단 확인 | TLB flush, cache pollution, kernel/user mode 전환 | 전환 횟수와 latency 영향 누락 |
+| 시분할 OS의 핵심 제어 구조 이해 | PCB의 핵심 구성 요소(PC, 레지스터, 포인터) | PCB가 사용자 공간이 아닌 '커널 공간(RAM)'에 적재됨을 누락하는 오류 |
+| 스위칭 오버헤드의 실체와 최적화 방안 | 레지스터 저장/복원 + TLB/캐시 Flush 지연 시간 | 문맥 교환 동안 CPU가 유용한 작업을 수행한다고 착각하는 서술 |
 
-> 요약: 이 문제는 PCB 구성요소와 스위칭 절차를 성능 지표까지 연결하는 답안을 요구한다.
+> 요약: 스위칭은 멀티태스킹을 위한 필수 불가결한 멈춤(Pause)이다. 이 멈춤 시간을 얼마나 찰나로 깎아내느냐가 커널 엔지니어링의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-PCB는 프로세스 실행 문맥 저장 구조이다.
-컨텍스트 스위칭은 CPU가 실행 주체를 바꿀 때 현재 문맥을 PCB에 저장하고 다음 문맥을 복원하는 커널 절차이다.
-시분할·멀티태스킹·I/O 대기 전환을 제공하지만, 전환 시간은 순수 overhead로 관리되어야 한다.
+- 정의: PCB(Process Control Block)는 프로세스의 메타데이터(상태, 레지스터 등)를 저장하는 커널 자료구조이며, 컨텍스트 스위칭은 CPU가 현재 문맥을 PCB에 저장하고 새 문맥을 적재하는 교환 과정
+- 배경: CPU 자원은 단일(Single)인 반면 실행 대기 중인 프로세스는 다수이므로, 공평한 자원 할당과 병행성(Concurrency) 보장을 위한 시분할 교대 메커니즘 필수
+- 필요성: 인터럽트나 시스템 콜 발생 시 이전 작업의 연속성(어디까지 실행했는지)을 완벽히 보장하여 상태 유실 없이 작업을 재개하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. PCB 구성요소 및 컨텍스트 스위칭 흐름도
 
 ```text
-Running Process -> CPU Context Save -> PCB
-PCB -> Scheduler Metadata / MMU Info / Resource Info
-Next PCB -> CPU Context Restore -> User Mode Return
+[ 프로세스 A 실행 중 ] -> 🚨 타이머 인터럽트 발생 (할당 시간 만료)
+
+1. [ 상태 저장 ] : CPU 내부의 PC, 레지스터 값들을 -> [ PCB_A ] 에 기록 (커널 RAM)
+2. [ 상태 전이 ] : 프로세스 A의 상태를 Running -> Ready 로 변경
+3. [ 스케줄러 ] : 다음 실행할 프로세스 B를 큐(Queue)에서 선택
+4. [ 상태 복원 ] : [ PCB_B ] 의 데이터를 읽어와 -> CPU 레지스터와 PC 덮어쓰기
+5. [ 캐시 플러시 ]: 프로세스 B의 메모리 맵(MMU) 갱신 및 TLB(주소 변환 캐시) 초기화 
+
+[ 프로세스 B 실행 재개 ] (PCB_B의 PC가 가리키는 코드 라인부터)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| PCB 주요 구성요소 | 역할 및 저장 내용 | 시스템 제어 영향 |
 |:---|:---|:---|
-| CPU context | PC, SP, general register, flags 저장 | 명령 재개 위치 보존 |
-| Scheduling info | state, priority, vruntime, time slice | run queue 선택 기준 |
-| MMU info | page table base, address space id | TLB flush/ASID 영향 |
-| Resource info | open file, signal, credential | 권한·자원 추적 |
+| **프로그램 카운터 (PC)** | 이 프로세스가 중단된 지점(다음 실행할 명령어 주소) | 복원 시 가장 핵심이 되는 실행 지표 |
+| **레지스터 세트 (Registers)** | Accumulator, Index, Stack Pointer 등 임시 계산값 | 연산의 연속성 보장 |
+| **메모리 맵 포인터** | 해당 프로세스의 페이지 테이블(Page Table) 시작 주소 | 가상 주소 공간 분리 및 보안 보장 |
+| **프로세스 상태 (State)** | New, Ready, Running, Blocked(대기), Terminated | 스케줄러 큐(Queue) 이동의 판단 근거 |
 
-> 요약: PCB는 CPU 재개 정보와 스케줄링·메모리·자원 정보를 묶어 프로세스 복원을 가능하게 한다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-Timer/Interrupt/Block 발생 -> Kernel Mode 진입
--> Current Register Save -> Current PCB 갱신
--> Scheduler가 Next PCB 선택 -> MMU/Kernel Stack 전환
--> Next Register Restore -> User Mode 복귀
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | timer interrupt, system call, page fault로 커널 진입 | trap count, interrupt rate |
-| 2 | 현재 PC·SP·register를 PCB/커널 스택에 저장 | register corruption 0건 |
-| 3 | scheduler가 priority, vruntime, deadline 기준으로 next 선택 | run queue latency |
-| 4 | page table base, kernel stack, CPU register 복원 | TLB miss, cache miss |
-| 5 | return-from-trap으로 사용자 모드 재개 | context switch/sec |
-
-> 요약: 컨텍스트 스위칭은 인터럽트 진입부터 사용자 모드 복귀까지의 저장·선택·복원 연속 절차이다.
+> 요약: 인터럽트가 터지면 커널이 난입해 A의 머릿속(레지스터)을 사진 찍어 차트(PCB)에 박제하고, B의 차트를 꺼내 CPU 머리에 덮어씌우는 릴레이 바통 터치다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅲ. 프로세스 스위칭 vs 스레드 스위칭 (오버헤드 심화 대조)
 
-| 구분 | Thread Switch | Process Switch | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| 주소공간 | 동일 page table 가능 | page table 변경 가능 | ASID/PCID 없으면 TLB flush |
-| 저장 범위 | register, stack, TCB 중심 | PCB, MMU, resource 영향 | us 단위 overhead |
-| cache 영향 | working set 유사 시 낮음 | working set 변경으로 miss 증가 | LLC miss, branch predictor 영향 |
-| 발생 조건 | lock wait, yield, time slice | fork/exec, blocking I/O, preemption | voluntary/involuntary 구분 |
+컨텍스트 스위칭은 CPU가 사용자 연산을 1비트도 하지 않는 100% 버려지는 낭비(Overhead)다.
 
-> 요약: 프로세스 전환은 메모리 주소공간 전환 때문에 스레드 전환보다 TLB·cache 비용이 커질 수 있다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | 협력형 스케줄링 | 선점형 context switch | 응답시간 보장 필요 여부 |
-| 비용/성능 | 긴 time slice | 짧은 time slice | interactive p95 vs switch/sec |
-| 운영/위험 | thread 과다 생성 | pool과 affinity 제어 | run queue/core 1~2 |
-
-> 요약: time slice가 짧으면 응답성은 개선되지만 switch/sec 증가로 CPU 유효 작업 시간이 감소한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| switch storm | thread 수가 core 수 초과 | thread pool 제한, async I/O | context switch/sec |
-| TLB miss 증가 | process address space 빈번 전환 | CPU affinity, PCID/ASID 활용 | dTLB-load-misses |
-| cache pollution | working set 다른 task 교대 | workload pinning, batch size 조정 | LLC-load-misses |
-
-> 요약: 전환 overhead는 thread 수 제한, affinity, hardware counter 측정으로 줄인다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 비교 축 | 프로세스 컨텍스트 스위칭 (Heavy-weight) | 스레드 컨텍스트 스위칭 (Light-weight) |
 |:---|:---|:---|
-| 전환 횟수 | 서비스 기준선 대비 20% 이내 증가 | vmstat, pidstat -w |
-| 지연시간 | p99 latency SLO 초과율 1% 이하 | APM, eBPF tracing |
-| CPU overhead | system CPU 30% 이하 | perf stat, top |
+| 자원 공유 | 서로 다른 가상 주소 공간을 가짐 (격리) | 동일한 주소 공간(Code/Data/Heap)을 완벽히 공유 |
+| 교체 대상 장부 | **PCB (Process Control Block)** 전체 교체 | **TCB (Thread Control Block)** (스택과 레지스터만) 교체 |
+| **TLB 및 캐시 붕괴** | 페이지 테이블 포인터가 통째로 바뀌므로, 기존 MMU의 **TLB(주소 캐시)를 전부 Flush(백지화)** 해야 함. 이후 콜드 스타트(Cold Miss) 극심 | 동일 프로세스 내부 이동이므로 **TLB와 L1/L2 캐시를 그대로 유지(Warm)**. 스위칭 지연이 압도적으로 낮음 |
 
-> 요약: 컨텍스트 스위칭은 switch/sec, p99 latency, system CPU를 함께 봐야 병목 판단이 가능하다.
+> 요약: 스레드 교환은 그냥 작업복만 갈아입는 거지만, 프로세스 교환은 공장 건물 자체를 옮기는 것이라 머릿속(TLB)을 다 비워야 하는 치명상을 동반한다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅳ. 극복해야 할 시스템 병목 및 통제 방안
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. thread pool을 CPU core 수와 blocking ratio 기준으로 산정하고, runnable thread/core 2 이하 유지
-2. eBPF/perf로 context-switch, sched:sched_switch, dTLB miss를 수집해 전환 원인을 syscall·lock·I/O로 분류
-3. CPU affinity와 NUMA binding으로 cache locality를 보존하고, 비동기 I/O로 blocking wakeup 횟수 감소
+| 리스크 요인 | 발생 시나리오 | 아키텍처 대응 방안 (운영체제 튜닝) |
+|:---|:---|:---|
+| 스위칭 스레싱 (Thrashing) | 스케줄러의 타임 퀀텀(Time Quantum, 할당 시간)을 너무 짧게 (예: 1ms) 설정 시, CPU가 연산보다 PCB 저장/복원에 시간을 다 써버려 전체 처리량 붕괴 | 라운드 로빈(RR) 스케줄링 시 타임 퀀텀을 스위칭 오버헤드 시간의 10배 이상(보통 10ms~100ms)으로 설정하여 스위칭 비용을 10% 미만으로 희석 |
+| 캐시 오염 (Cache Pollution) 방어 | 멀티 코어 환경에서 프로세스를 1번 코어에서 빼서 2번 코어로 보내면(Migration), 2번 코어의 캐시는 텅 비어있어 속도 폭락 | **CPU 선호도(Affinity) 할당**: 특정 프로세스를 무조건 1번 코어에서만 스위칭되도록(Pinning) 묶어두어 L2/L3 캐시 재사용(Warm Cache) 극대화 |
 
-**결론 (2줄):**
-- 기술사 판단: 응답시간 목표가 엄격하면 선점 스케줄링을 쓰되 switch/sec와 system CPU 상한을 함께 둔다
-- 향후 방향: Linux CFS, io_uring, user-level thread는 전환 경로를 줄이는 방향으로 발전하며, 관측성 기반 튜닝이 필수임
+> 요약: 스위칭을 너무 자주 하면 CPU가 짐 싸고 풀다가 하루가 다 간다. 스위칭 주기(Quantum)를 수학적으로 튜닝하고, 가급적 살던 코어(Affinity)에 계속 살게 하는 것이 정답이다.
+
+---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [Nginx의 비동기 이벤트 루프] Apache처럼 1요청 1프로세스(스레드)를 띄우면 1만 커넥션 시 C10K 스위칭 오버헤드로 서버가 뻗으므로, Nginx는 단일 스레드 안에서 `epoll`로 이벤트를 받아 PCB 스위칭 자체를 박멸하는 락 프리(Lock-free) 아키텍처 채택
+2. [가상 스레드(Project Loom) 도입] Java 백엔드 시스템에서 I/O 블로킹 대기 시 OS 커널의 PCB 스위칭 비용을 내지 않기 위해, 사용자 공간(JVM) 내에서 힙(Heap)만 복사하며 초경량으로 교체하는 가상 스레드(Virtual Thread) 전환 설계
+3. [인터럽트 코어 분산 (IRQ Affinity)] 고성능 네트워크 서버(10Gbps+) 운영 시, 쏟아지는 패킷 인터럽트로 코어 0번만 계속 스위칭 당하는 병목을 막기 위해, `smp_affinity`를 설정하여 NIC 인터럽트를 여러 코어로 분산(RSS/RPS)하여 스위칭 부하 분할
+
+**결론:**
+- 기술사 판단: 컨텍스트 스위칭은 시분할 OS라는 마술을 완성하기 위해 필연적으로 지불해야 하는 입장료다. 이 입장료(오버헤드)를 최소화하려는 투쟁의 역사가 바로 멀티 스레드, CPU 선호도(Affinity), 그리고 최근의 비동기 이벤트 루프와 가상 스레드의 탄생을 견인했다.
+- 향후 방향: 하드웨어 진화 측면에서는 CPU 내부에 레지스터 세트(Register Window)를 통째로 여러 벌 물리적으로 탑재하여(예: SPARC 아키텍처, SMT/하이퍼스레딩), 램(PCB)에 저장할 필요 없이 단 1사이클 만에 물리적 스위치를 전환해버리는 'Zero-Cost Context Switch' 칩셋 기술로 진화 중이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "PCB와 컨텍스트 스위칭을 설명하시오" | 저장·선택·복원 단계 | PCB 구성요소와 overhead |
-| 요구사항 명시형 | "오버헤드 저감 방안을 제시하시오" | 발생 지점별 측정 흐름 | TLB·cache·run queue별 대응 |
-
-> 요약: 설명형은 절차를, 방안형은 전환 횟수와 하드웨어 부작용을 중심으로 목차를 전환한다.
+| 포괄형 | "PCB의 구조와 컨텍스트 스위칭 과정을 설명하시오" | 타이머 인터럽트 기반 상태 저장/복원 도식 | 문맥 교환 오버헤드의 실체(TLB Flush) 및 최소화 |
+| 요구사항 명시형 | "프로세스와 스레드의 문맥 교환 비용 차이와 극복 방안" | 메모리 맵(TLB) 초기화 유무에 따른 성능 대조 | 타임 퀀텀 조절 및 CPU 선호도(Affinity) 튜닝 |

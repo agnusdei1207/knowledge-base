@@ -37,9 +37,21 @@ weight: 87
 > 2. **가치**: 다양한 업무 지시를 zero-shot/few-shot으로 수행하게 하여 범용 AI assistant 기반을 형성함.
 > 3. **판단 포인트**: instruction 다양성, 출력 품질, 포맷 일관성, safety alignment 분리 여부가 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| Instruction Tuning 원리와 alignment 분리 역량 | SFT 절차, task 다양성, 형식 준수, RLHF 분리 | RLHF와 혼동, safety alignment 누락, 추상적 "성능 향상" 표현 |
+
+> 요약: 출제자는 지시 수행 학습 원리와 선호·안전 정렬의 분리 판단 역량을 확인함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-Instruction Tuning은 지시 수행 능력 학습 기법임. 사전학습 모델이 사용자 명령과 출력 형식을 안정적으로 따르도록, 다양한 지시-응답 예시로 supervised fine-tuning을 수행함.
+- 정의: 지시-응답 데이터로 모델의 명령 수행·형식 준수 능력을 학습시키는 SFT 기법
+- 배경: 사전학습 모델은 다음 토큰 예측에는 강하지만 사용자 지시를 안정적으로 수행하지 못함
+- 필요성: 다양한 task instruction과 기대 출력을 학습해 zero-shot 지시 수행 능력을 형성함
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ Instruction Dataset → SFT Training → Instruction-tuned Model
 
 > 요약: Instruction Tuning은 모델을 사용자 명령 수행형으로 바꾸지만, 안전성과 선호 정렬은 별도 단계가 필요함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Pretraining | Instruction Tuning | 선택 기준 |
+|:---|:---|:---|:---|
+| 목표 | 언어·지식 형성 | 지시 수행·형식 준수 | 범용 지식 vs 업무 수행 |
+| 데이터 | 대규모 비지도 텍스트 | 지시-응답 쌍 10K~1M | 라벨 비용·task 커버리지 |
+| 한계 | 지시 불안정 | 선호·안전 별도 필요 | RLHF/DPO 연계 여부 |
+
+> 요약: Pretraining은 지식 기반, Instruction Tuning은 업무 수행 능력 형성이며 safety는 별도 정렬함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 형식 불안정 | instruction 다양성 부족 | task 분포 균형, 형식별 template 포함 | format pass rate |
+| 유해 응답 | safety alignment 미분리 | RLHF/DPO 또는 guardrail 추가 | toxicity score |
+| Overfitting | 데이터 중복·편향 | 중복 제거, holdout 평가 | val loss 추이 |
+
+> 요약: 형식 불안정·유해 응답·overfitting을 task 다양성, alignment 분리, holdout 평가로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 지시 수행 정확도 | exact match ≥ 80%, format pass ≥ 95% | holdout unseen task 평가 |
+| 안전성 | toxicity ≤ 1%, PII 노출 0건 | red-team 테스트 |
+| 범용 회귀 | benchmark 하락 ≤ 2%p | MMLU, HellaSwag |
+
+> 요약: 지시 정확도, 안전성, 범용 회귀를 정량 기준으로 배포 여부를 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 사내 assistant는 요약·분류·검색 질의·보고서 작성 instruction 10K건 이상으로 SFT 수행

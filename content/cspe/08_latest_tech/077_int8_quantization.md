@@ -37,9 +37,21 @@ weight: 77
 > 2. **가치**: 정확도 회귀를 제한하면서 서버 GPU·NPU·엣지 장치에서 추론 비용을 낮춤.
 > 3. **판단 포인트**: calibration 품질, per-channel scale, QAT 필요성, INT8 kernel 지원이 성패를 좌우함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| INT8 양자화의 원리와 적용 조건 확인 | symmetric/asymmetric, per-tensor/per-channel, calibration 품질, kernel 지원 | calibration 없이 정확도 유지된다는 서술, 하드웨어 의존성 누락 |
+
+> 요약: 출제자는 INT8 변환 원리와 calibration·하드웨어 조건별 적용 판단 역량을 확인하려 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-INT8 Quantization은 8-bit 정수 기반 모델 압축 기법임. FP16 대비 메모리 사용량을 줄이고 INT8 가속 하드웨어를 활용해 엣지·서버 추론 지연과 비용을 낮춤.
+- 정의: 모델 수치를 8-bit 정수로 변환하는 양자화 기법
+- 배경: FP16은 2 byte/param이라 대형 모델의 메모리·대역폭 비용이 큼
+- 필요성: INT8은 메모리 50% 절감과 NPU/GPU INT8 가속을 동시에 활용 가능
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ FP Model → Calibration Dataset → Scale/Zero-point
 
 > 요약: INT8은 정확도와 효율의 균형점이지만, 대표 calibration data 없이는 회귀 위험이 큼.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | FP16(기존) | INT8 | 선택 기준 |
+|:---|:---|:---|:---|
+| 메모리 | 2 byte/param | 1 byte/param(50% 절감) | VRAM 목표 |
+| 정확도 | 기준선 | 하락 1~2%p(PTQ), <1%p(QAT) | 업무 허용 회귀폭 |
+| 하드웨어 | 범용 GPU | NPU/CPU/GPU INT8 kernel | 런타임별 지원 확인 |
+
+> 요약: INT8은 FP16 대비 메모리 50% 절감이 가능하나, kernel 지원과 calibration 품질이 선결 조건임.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| activation clipping | calibration 분포 불일치 | 실서비스 로그 기반 calibration | 정확도 하락폭 |
+| kernel 비호환 | 특정 op INT8 미지원 | mixed precision fallback | supported op 비율 |
+| 분포 shift | 입력 도메인 변경 | 주기적 재보정(월 1회) | 정확도 모니터링 |
+
+> 요약: calibration 분포 불일치와 kernel 비호환이 주요 리스크이며 사전 검증으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 메모리 절감 | VRAM 약 50% 감소 | nvidia-smi peak memory |
+| 정확도 회귀 | mAP/MMLU 하락 2%p 이내 | 벤치마크·사내 QA |
+| 추론 지연 | p95 latency FP16 동등 이하 | TensorRT/ONNX RT 프로파일 |
+
+> 요약: 메모리·정확도·지연 3개 축을 동시에 측정해 INT8 전환 성공 여부를 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 엣지 비전 모델은 INT8 QAT 적용 후 mAP 하락 2%p 이내, FPS 30 이상 기준으로 배포

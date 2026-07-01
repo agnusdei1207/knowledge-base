@@ -38,20 +38,32 @@ weight: 37
 > 2. **가치**: 문법·의미·위치·공참조 등 여러 관계를 Head별로 분리 학습하여 표현력을 확보함.
 > 3. **판단 포인트**: Head 수, Head 차원, 중복 Head 제거, KV Cache 메모리 증가를 함께 설계해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| MHA 구조와 병렬 Attention 원리 이해 확인 | Head별 Q/K/V 분할, Concat+Wo 재투영, d_k=d_model/h | 단일 Attention과 혼동, Head 수 무조건 증가 서술 |
+| 서빙 최적화 관점 MQA/GQA 판단력 확인 | GQA KV Head 축소(32→8), KV Cache 75% 절감, Head pruning 20~40% | MHA와 GQA 차이 미언급, KV Cache 비용 누락 |
+
+> 요약: MHA 구조 원리와 GQA/MQA 기반 KV Cache 최적화 판단력을 동시에 평가하는 문제임.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-Multi-Head Attention은 복수 Attention 병렬 구조임. Transformer는 단일 Attention의 표현 한계를 보완하기 위해 입력을 여러 부분공간에 투영하고, 각 Head가 다른 관계 패턴을 학습하도록 구성함.
+- 정의: Q/K/V를 h개 부분공간으로 분할해 병렬 Attention 수행 구조
+- 배경: 단일 Attention은 문법·의미·위치 관계를 하나의 공간에 혼합하여 표현력 한계 발생
+- 필요성: Head별 독립 패턴 학습으로 BERT-base h=12 기준 12종 관계 동시 포착
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input X
-  │
-  ├─ Wq1/Wk1/Wv1 → Head 1 ┐
-  ├─ Wq2/Wk2/Wv2 → Head 2 ├→ Concat → Wo → Output
-  └─ Wqh/Wkh/Wvh → Head h ┘
+Input X -> Wq/Wk/Wv 투영
+  -> Head 1 (Q1/K1/V1 -> Attention)
+  -> Head 2 (Q2/K2/V2 -> Attention)
+  -> Head h (Qh/Kh/Vh -> Attention)
+     -> Concat(Head 1..h) -> Wo 투영 -> Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -93,7 +105,35 @@ Input X
 > 요약: MHA는 표현력을 늘리지만 Head 수에 비례해 Attention score와 KV Cache 관리 부담이 증가함.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 기존(Single-Head) | Multi-Head Attention | 선택 기준 |
+|:---|:---|:---|:---|
+| 표현력 | 단일 관련도 행렬 | h개 관련도 행렬 병렬 | 문법·의미·위치 분리 필요 시 MHA |
+| 서빙 메모리 | KV Cache 1세트 | KV Cache h세트(GQA로 축소) | KV Head 32→8 축소 시 GQA |
+| 연산 비용 | O(N²·d_model) | O(N²·d_model), Head 병렬 | GPU matmul 병렬성 확보 여부 |
+
+> 요약: 학습 표현력은 MHA, 대규모 서빙은 GQA/MQA로 KV Cache를 줄여 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 중복 Head 낭비 | Head 간 학습 패턴 중복 | Head Importance 측정 후 하위 20% pruning | Head별 Attention entropy |
+| KV Cache 메모리 폭증 | h개 KV 저장 | GQA(KV Head 4~8개) 또는 MQA(KV Head 1개) 전환 | GPU 메모리 사용률 |
+| 추론 지연 증가 | Head 수 증가 시 matmul 횟수 | Flash Attention, KV 양자화(INT8) 적용 | p95 TTFT, throughput |
+
+> 요약: 중복 Head와 KV Cache 비용을 pruning·GQA·양자화로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| Head 활용률 | 전체 Head 80% 이상 유의미 패턴 | Attention rollout, Head pruning 실험 |
+| KV Cache 크기 | GPU 메모리 50% 이하 | vLLM 메모리 프로파일링 |
+| 추론 처리량 | 1,000 req/s 이상(A100 기준) | Throughput 벤치마크 |
+
+> 요약: Head 활용률과 KV Cache 메모리를 정량 측정해 MHA/GQA 전환 시점을 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 일반 LLM은 `d_k=64` 기준으로 Head 수를 산정하고, `d_model % h = 0` 조건을 모델 설계 기준으로 적용

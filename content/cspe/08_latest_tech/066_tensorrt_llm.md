@@ -37,15 +37,29 @@ weight: 66
 > 2. **가치**: fused kernel, quantization, parallelism으로 GPU당 처리량과 지연을 개선해 서빙 원가를 낮춤.
 > 3. **판단 포인트**: NVIDIA 종속성, engine build, 모델 지원성, FP8/INT8 정확도 회귀를 검토해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| GPU 추론 최적화 기법과 프레임워크 구조 이해 | kernel fusion·FP8/INT8 양자화·inflight batching·TP/PP 병렬화 수치 | vLLM과 혼동 금지, TensorRT와 TensorRT-LLM 구분 필수 |
+
+> 요약: 출제자는 NVIDIA GPU 추론 최적화 원리와 프레임워크 구성을 실무 수치로 설명하는 역량을 확인함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-TensorRT-LLM은 NVIDIA 기반 LLM 추론 최적화 프레임워크임. 대형 모델 서빙은 GPU 비용과 지연이 핵심 제약이므로, 커널 융합·양자화·병렬화로 inference runtime을 최적화함.
+- 정의: NVIDIA GPU 전용 LLM 추론 최적화 컴파일러·런타임 프레임워크
+- 배경: 대형 모델 서빙은 GPU 비용과 p95 지연이 직접 운영 비용으로 이어짐
+- 필요성: kernel fusion·양자화·병렬화로 GPU당 tokens/s를 높이고 서빙 원가를 절감함
+
+---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-HF Checkpoint → Model Convert → TensorRT Engine Build
-      → Runtime Scheduler → NVIDIA GPU Execution → API Serving
+HF Checkpoint -> Model Convert -> TensorRT Engine Build
+      -> Runtime Scheduler -> NVIDIA GPU Execution -> API Serving
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -57,11 +71,13 @@ HF Checkpoint → Model Convert → TensorRT Engine Build
 
 > 요약: TensorRT-LLM은 모델 변환→엔진 빌드→런타임 실행 단계로 NVIDIA GPU 추론을 최적화함.
 
+---
+
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-모델 변환 → precision 선택(FP16/FP8/INT8) → engine build
-    → batch scheduling → prefill/decode 실행 → 성능 계측
+모델 변환 -> precision 선택(FP16/FP8/INT8) -> engine build
+    -> batch scheduling -> prefill/decode 실행 -> 성능 계측
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -72,6 +88,8 @@ HF Checkpoint → Model Convert → TensorRT Engine Build
 | 4 | runtime serving과 벤치마크 | TTFT, TPOT, tokens/s |
 
 > 요약: TensorRT-LLM은 모델을 GPU 특화 엔진으로 빌드하고 precision·batching·kernel을 조합해 추론을 실행함.
+
+---
 
 ## Ⅳ. 특징
 
@@ -84,7 +102,37 @@ HF Checkpoint → Model Convert → TensorRT Engine Build
 
 > 요약: TensorRT-LLM은 NVIDIA GPU 처리량 최적화에 강하지만, 변환·빌드·호환성 운영 비용을 감수해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+---
+
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | vLLM (범용) | TensorRT-LLM (NVIDIA 최적화) | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | Python 기반, PagedAttention | C++ kernel fusion, engine build | 빠른 교체 vs 고처리량 |
+| 비용/성능 | 다중 GPU 벤더 지원 | H100 FP8 기준 tokens/s 1.5~2× | NVIDIA 고정 시 TRT-LLM |
+| 운영/위험 | 모델 교체 용이 | engine rebuild·버전 호환 관리 | CI 매트릭스 구축 여부 |
+
+> 요약: NVIDIA 고정 고처리량 환경은 TensorRT-LLM, 빠른 모델 교체·멀티 벤더는 vLLM을 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 정확도 회귀 | FP8/INT8 양자화 손실 | MMLU·사내 QA셋 기준 1%p 이내 검증 | 정확도 델타, F1 |
+| 빌드 실패 | CUDA·TRT 버전 불일치 | CI 매트릭스로 고정, artifact 관리 | build 성공률 |
+| 벤더 종속 | NVIDIA 전용 의존성 | vLLM fallback 경로 유지 | 벤더 전환 비용 |
+
+> 요약: 양자화 정확도와 버전 호환성을 CI로 통제하고 벤더 종속 리스크에 대비함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 성능/효율 | TTFT 50ms, TPOT 15ms, tokens/s 3,000+ | benchmark suite, GPU util |
+| 품질/정확도 | MMLU 회귀 1%p 이내 | 정확도 셋 자동 비교 |
+| 운영/보안 | engine artifact 버전 일관성 100% | CI artifact hash 검증 |
+
+> 요약: TTFT·TPOT·tokens/s와 양자화 정확도를 CI 파이프라인으로 지속 검증함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. NVIDIA H100/A100 기반 고정 모델 서비스는 TensorRT-LLM engine build 후 vLLM 대비 TTFT·TPOT·tokens/s 비교

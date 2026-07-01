@@ -37,9 +37,21 @@ weight: 89
 > 2. **가치**: LLM 도메인 적응의 GPU 메모리·학습 시간·저장 비용을 줄임.
 > 3. **판단 포인트**: rank r, alpha, target module, merge 여부, adapter 버전 관리가 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| LoRA 저랭크 근사 원리와 하이퍼파라미터 설계 역량 | ΔW = BA 분해, rank/alpha, target module, merge 전략 | rank를 높이면 항상 개선된다는 오해, adapter 관리 누락 |
+
+> 요약: 출제자는 저랭크 근사 수학 원리와 rank·module 선택의 실무 판단 역량을 확인함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-LoRA는 저랭크 기반 파라미터 효율 튜닝 기법임. 대형 모델 전체를 업데이트하지 않고, 선형층의 변화량만 작은 행렬로 학습해 비용 효율적 도메인 적응을 수행함.
+- 정의: weight update ΔW를 저랭크 행렬 A·B로 근사해 소량 파라미터만 학습하는 PEFT 기법
+- 배경: LLM 전체 가중치 학습은 GPU 메모리·저장 비용이 커서 도메인별 튜닝이 어려움
+- 필요성: 선형층 변화량이 낮은 intrinsic rank를 가진다는 관찰에 기반해 학습 비용을 절감함
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ target module 선택 → rank/alpha 설정 → A·B 학습
 
 > 요약: LoRA는 저비용 도메인 적응에 적합하지만 rank와 target module을 업무 기준으로 검증해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Full FT | LoRA | 선택 기준 |
+|:---|:---|:---|:---|
+| 학습 대상 | 전체 weight | A·B 저랭크 행렬(<1%) | GPU 메모리 제약 여부 |
+| 저장·배포 | 모델 사본 필요 | adapter 파일(MB~수백MB) | 도메인 수 × 모델 크기 |
+| 서빙 | 단일 모델 | merge 또는 동적 로드 | latency vs 저장 비용 |
+
+> 요약: GPU 메모리·다도메인 저장 제약이 크면 LoRA, 최고 정확도가 필요하면 Full FT를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| Rank 과적합 | rank를 과도하게 높임 | r=8/16/32 비교, holdout 평가 | val loss, adapter 크기 |
+| Target module 누락 | 적용 위치 선정 오류 | q/k/v/o_proj 조합 실험 | task 정확도 변화 |
+| Adapter 관리 실패 | 버전·base hash 불일치 | registry + rollback 정책 | 배포 일치율 |
+
+> 요약: rank 과적합·module 누락·adapter 관리를 grid search, 조합 실험, registry로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 도메인 정확도 | F1 ≥ 0.85, Full FT 대비 gap ≤ 2%p | holdout 평가셋 |
+| 서빙 성능 | merge 시 latency 증가 ≤ 5%, 동적 로드 p95 ≤ 200ms | 로드 테스트 |
+| Adapter 크기 | tenant별 adapter ≤ 300MB | artifact size 추적 |
+
+> 요약: 도메인 F1, 서빙 latency, adapter 크기를 정량 기준으로 LoRA 도입 성공을 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 사내 QA LoRA는 r=8/16/32를 비교하고 F1, 환각률, latency 기준으로 최적 rank 선택

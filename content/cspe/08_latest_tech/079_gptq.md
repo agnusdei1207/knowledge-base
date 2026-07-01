@@ -37,9 +37,21 @@ weight: 79
 > 2. **가치**: 재학습 없이 VRAM을 줄여 대형 LLM을 단일 GPU·저비용 서빙 환경에 배포함.
 > 3. **판단 포인트**: calibration data, group size, act-order, kernel 지원, perplexity 회귀를 검증해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| GPTQ의 Hessian 기반 보정 원리와 AWQ 대비 선택 기준 | Hessian 역행렬 근사, 순차 오차 보정, group size, act-order, PTQ 특성 | GPTQ를 QAT로 혼동, calibration 없이 적용 가능하다는 서술 |
+
+> 요약: 출제자는 GPTQ의 오차 보정 원리와 실무 적용 시 calibration·kernel 판단 역량을 확인하려 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-GPTQ는 LLM weight-only post-training quantization 기법임. 대형 LLM의 GPU 메모리 병목을 줄이면서 단순 저비트 변환의 품질 하락을 Hessian 기반 오차 보정으로 완화함.
+- 정의: Hessian 근사 기반 LLM weight-only PTQ 기법
+- 배경: 단순 4-bit 변환은 중요 weight 오차가 누적되어 출력 품질이 저하됨
+- 필요성: 재학습 없이 Hessian 오차 보정으로 4-bit 품질 하락을 완화하여 단일 GPU 배포를 가능하게 함
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ Layer 입력 수집 → Hessian 근사 → weight 순차 양자화
 
 > 요약: GPTQ는 재학습 없이 4-bit 품질을 보존하는 데 유리하지만, calibration과 kernel 설정 검증이 필요함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 단순 4-bit | GPTQ | 선택 기준 |
+|:---|:---|:---|:---|
+| 보정 방식 | scale 중심(보정 없음) | Hessian 역행렬 오차 보정 | 품질 민감도 |
+| 변환 비용 | 수 분 | 수십 분~수 시간(layer별) | GPU 시간 예산 |
+| 적용 범위 | 범용 | LLM weight-only 중심 | 모델 크기·유형 |
+
+> 요약: 품질 민감 LLM은 GPTQ 보정을 적용하고, 빠른 변환이 우선이면 단순 4-bit를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| calibration 편향 | 대표성 부족 데이터 | 실서비스 로그 1K~10K건 사용 | perplexity 변화량 |
+| kernel 비호환 | 서빙 엔진 미지원 | vLLM/TRT-LLM GPTQ kernel 확인 | tokens/s 실측 |
+| act-order 설정 오류 | group size·act-order 미조정 | group 128/64별 perplexity 비교 | MMLU 하락폭 |
+
+> 요약: calibration 대표성과 kernel 호환성을 사전 검증하지 않으면 GPTQ 효과가 불확실함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| VRAM 절감 | FP16 대비 70~75% 감소 | nvidia-smi peak memory |
+| 품질 회귀 | perplexity 증가 0.5 이내, MMLU 하락 2%p 이내 | 벤치마크 비교 |
+| 변환 시간 | 7B 기준 1시간 이내 | 변환 스크립트 로그 |
+
+> 요약: VRAM·품질·변환 비용 3개 축을 측정해 GPTQ 적용 여부를 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 7B~13B LLM을 GPTQ 4-bit로 변환하고 group size 128/64별 perplexity·MMLU를 비교

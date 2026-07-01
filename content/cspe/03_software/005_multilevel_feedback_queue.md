@@ -1,6 +1,6 @@
 ---
 title: "멀티레벨 피드백 큐 MLFQ (Multilevel Feedback Queue)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 5
@@ -8,157 +8,131 @@ weight: 5
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: MLFQ를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 여러 우선순위 큐와 feedback으로 CPU를 배분하는 스케줄링
-- **왜 필요한가**: interactive 작업은 짧게 자주 CPU를 쓰고, CPU-bound 작업은 길게 CPU를 쓰므로 같은 줄에 세우면 응답시간이 늘어난다.
-- **핵심 직관**: 짧게 끝내는 손님은 빠른 창구에 두고, 오래 붙잡는 손님은 뒤 창구로 내려보내는 방식이다.
+- **개요**: **MLFQ**는 운영체제가 프로세스의 성향(CPU 위주인지 I/O 위주인지)을 실시간으로 간파하여, 스스로 여러 개의 큐(대기줄)를 오르내리게 만드는 극강의 눈치 100단 스케줄러다.
+- **왜 필요한가**: 일반적인 큐 1개짜리 라운드 로빈(RR)은 마우스 클릭(짧음)과 동영상 인코딩(매우 김)을 똑같이 대우한다. 반면 단순히 큐를 여러 개 둔 Multi-level Queue는 한 번 큐가 정해지면 평생 신분이 바뀌지 않는 카스트 제도라서 융통성이 없다. 그래서 "일을 하는 꼬라지를 보고 신분(우선순위)을 동적으로 올리거나 내리자!"라는 발상이 MLFQ다.
+- **핵심 직관**: 
+  - 처음 들어온 신입(새 프로세스)은 무조건 VIP 줄(Queue 0, 우선순위 최고, 퀀텀 10ms)에 세운다.
+  - 10ms 안에 마우스를 클릭하고(I/O 반납) 나오면 "오, 일찍 끝나는 대화형 프로세스구나!" 하고 계속 VIP로 둔다.
+  - 근데 10ms를 꽉 채워 다 써먹고 강제로 쫓겨나면 "이 녀석 무거운 렌더링 작업이구나!" 판단하고 일반석(Queue 1, 퀀텀 20ms)으로 강등시킨다.
+  - 거기서도 다 쓰면 3등칸(FCFS)으로 계속 쫓아낸다.
 
 ## 깊이 이해
-- **배경·문제의식**: SJF는 CPU burst 예측이 필요하고 RR은 모든 작업을 같은 quantum으로 처리한다. MLFQ는 실제 CPU 사용 패턴을 관찰해 우선순위를 조정한다.
-- **작동 원리**: 새 작업은 높은 우선순위 큐에서 시작한다. quantum 안에 CPU를 반납하면 높은 우선순위를 유지하고, quantum을 다 쓰면 낮은 큐로 이동한다. 오래 기다린 작업은 aging으로 다시 올린다.
-- **비유**: 놀이공원에서 빠르게 끝나는 탑승객은 앞줄을 유지하지만, 여러 번 긴 상담을 하는 고객은 일반 대기줄로 이동한다. 너무 오래 기다리면 우선 호출권을 준다.
-- **구체 예시**: Q0 quantum 4ms, Q1 8ms, Q2 16ms로 두면 키보드 입력·GUI 이벤트는 Q0에서 p95 20ms 이내로 처리하고, 컴파일 작업은 Q2에서 긴 quantum을 받는다.
-- **흔한 오해·주의점**: MLFQ는 priority만 나눈 구조가 아니다. 핵심은 CPU 사용 행동에 따라 큐를 내리고, aging으로 다시 올리는 feedback이다.
+- **배경·문제의식**: OS는 어떤 프로세스가 얼마나 길게 실행될지 미래를 알 수 없다(SJF의 불가능성). 그래서 과거를 보고 미래를 예측하는 경험적 철학을 택했다. "방금 CPU를 꽉 채워 쓴 놈은 앞으로도 오래 쓸 놈(CPU-bound)이니 뒤로 빼고, 방금 CPU를 조금만 쓰고 놓은 놈은 찰나의 반응성이 중요한 놈(I/O-bound)이니 우선순위를 올려주자."
+- **작동 원리 (5가지 룰)**:
+  1. (우선순위) 큐 A가 큐 B보다 위에 있으면, A에 있는 프로세스만 실행한다.
+  2. (동급) 같은 큐에 있으면 라운드 로빈(RR)으로 번갈아 실행한다.
+  3. (초기화) 처음 생성된 프로세스는 최상위 큐에 들어간다.
+  4. (강등 페널티) 할당된 시간(Time Quantum)을 전부 소진하면 하위 큐로 강등(Demote)된다.
+  5. (부스트/에이징) 일정한 시간(S)이 지나면, 밑바닥 큐에 있는 모든 프로세스를 최상위 큐로 끌어올린다(Priority Boost).
+- **비유**: 클럽 입장 줄 세우기. 처음 온 손님(프로세스)은 프리패스(VIP 큐)로 들여보내서 잠깐 구경만 하고 나오게(I/O) 해준다. 근데 안에서 자리 잡고 1시간 내내 술판을 벌이면(CPU 독식) 다음번엔 일반 줄(하위 큐)로 쫓아내고, 그래도 계속 버티면 맨 뒤 대기 줄(FCFS)로 쫓아내 버린다.
+- **구체 예시**: 마우스를 움직이는 프로세스는 들어오자마자 1ms 만에 CPU를 반납하므로 영원히 VIP 큐(가장 빠른 응답성)에 남는다. 반면 머신러닝 학습 프로세스는 10ms, 20ms를 꽉 채워 쓰다가 결국 최하층 FCFS 큐로 떨어져서 남는 CPU 찌끄러기 시간만 주워 먹게 된다.
+- **흔한 오해·주의점**: 하위 큐로 갈수록 우선순위는 낮아지지만, 한 번 CPU를 잡았을 때 뛸 수 있는 '타임 퀀텀(시간)'은 오히려 2배, 4배로 길어진다. 어차피 오래 걸릴 놈이니까 잦은 컨텍스트 스위칭 오버헤드라도 줄여주자는 커널의 배려다.
 
 ## 연결 개념
-- RR: 각 큐 내부에서 time quantum 순환
-- Starvation Aging: 낮은 큐 장기 대기 방지
-- CFS: vruntime 기반 공정성 정책과 비교 대상
+- **기아와 에이징 (Starvation & Aging)**: MLFQ의 5번 룰(Priority Boost)이 바로 에이징 기법이다. 마우스 클릭(VIP)이 너무 쏟아지면 최하층 머신러닝 프로세스가 영영 CPU를 못 받는 기아(Starvation)가 발생하므로, 주기적으로 싹 다 VIP로 멱살 잡고 끌어올려 주는 구제책이 필수다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: MLFQ는 interactive 응답시간과 CPU-bound 처리량의 균형을 priority feedback, quantum, aging으로 달성하는 정책이다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MLFQ는 다단계 우선순위 큐와 실행 이력 feedback으로 task 우선순위를 동적으로 조정하는 스케줄러이다.
-> 2. **가치**: CPU burst가 짧은 interactive task에는 짧은 대기시간, CPU-bound task에는 긴 quantum을 제공한다.
-> 3. **판단 포인트**: 큐 수, quantum 배율, demotion, promotion, aging 주기를 workload에 맞게 설정해야 한다.
+> 1. **본질**: 다단계 큐(MLQ)의 정적 계급 한계를 극복하기 위해, 프로세스의 실행 패턴(CPU-bound vs I/O-bound)을 실시간으로 모니터링하여 큐 사이를 동적으로 이동(피드백)시키는 적응형 스케줄러다.
+> 2. **가치**: 짧은 응답성이 필수적인 대화형 프로세스를 최상위 큐에 고정하여 UI 반응성을 극대화하고, 무거운 연산 프로세스는 하위 큐로 밀어내어 문맥 교환 오버헤드를 최소화한다.
+> 3. **판단 포인트**: 타임 퀀텀 소진 여부에 따른 큐 강등(Demote) 로직의 구조도와, 하위 큐 프로세스들의 무한 대기(Starvation)를 해결하기 위한 일괄 승격(Priority Boost, Aging) 방어 기재를 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| feedback 기반 스케줄링 이해 확인 | high queue 시작, quantum 소진 시 demotion, aging promotion | 단순 fixed priority queue로 설명 |
-| interactive와 CPU-bound 구분 확인 | I/O block task 우대, CPU-bound task 하위 큐 이동 | 응답시간과 처리량 trade-off 누락 |
-| starvation 방지 판단 확인 | aging, priority boost, minimum share | 낮은 큐 기아 문제 누락 |
+| 경험적 예측(Heuristic) 기반의 스케줄링 메커니즘 | 시간 소진 = CPU Bound 판정 = 큐 강등 | SJF처럼 완벽한 미래 실행 시간을 '미리 알고' 동작한다고 착각하는 서술 |
+| 다단계 큐(MLQ)와의 구조적 차이점 도출 | 큐 간의 동적 이동(Feedback) 존재 여부 | 하위 큐로 갈수록 퀀텀(Time Quantum)이 커진다는 사실 누락 |
+| 기아(Starvation) 현상 방어 체계 | 주기적인 전체 부스트(Aging/Priority Boost) | I/O 양보 시 퀀텀 초기화를 악용하는 꼼수(Gaming) 통제 방안 누락 |
 
-> 요약: 이 문제는 MLFQ의 동적 우선순위 조정과 기아 방지 장치를 함께 요구한다.
+> 요약: MLFQ는 OS가 미래를 몰라도 과거의 행적만으로 대화형 작업과 연산 작업을 완벽하게 걸러내는 눈치 게임의 결정체다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MLFQ는 feedback 기반 다단계 우선순위 스케줄링이다.
-운영체제는 작업의 실제 CPU 사용 패턴을 관찰해 interactive task를 상위 큐에 유지하고 CPU-bound task를 하위 큐로 이동시킨다.
-CPU burst 예측 없이 응답시간과 처리량을 함께 조정하기 위해 필요하다.
+- 정의: 프로세스가 CPU를 사용하는 패턴(타임 퀀텀 소진 유무)에 따라 여러 개의 대기 큐를 동적으로 오르내리게(Feedback) 설계된 선점형 스케줄링 기법
+- 배경: 기존 멀티레벨 큐(MLQ)는 신분이 고정되어 융통성이 없었고, SJF는 프로세스의 미래 실행 시간을 알 수 없어 실전 도입이 불가능
+- 필요성: 미래를 몰라도 찰나의 CPU 사용만으로 I/O 바운드(대화형)를 판별해 내고, 잦은 문맥 교환 오버헤드와 기아 현상을 큐 간 이동 로직으로 자가 치유(Self-healing)하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. MLFQ 아키텍처 및 동적 큐 강등 구조도
 
 ```text
-New Task -> Q0 High Priority Short Quantum
-CPU 사용량 적음 -> Q0/Q1 유지
-Quantum 소진 -> Q1/Q2 Demotion
-Long Wait -> Aging/Boost -> Higher Queue
+[ New Process ] ----> [ Queue 0 (우선순위 High) ] : Time Quantum = 8ms (RR)
+                              |
+ (8ms 꽉 채움 = 강등)⬇️     (8ms 전 I/O 양보)➡️ [ 다시 Queue 0 에 유지 ]
+                              |
+                      [ Queue 1 (우선순위 Mid)  ] : Time Quantum = 16ms (RR)
+                              |
+ (16ms 꽉 채움 = 강등)⬇️    (16ms 전 I/O 양보)➡️ [ 다시 Queue 1 에 유지 ]
+                              |
+                      [ Queue 2 (우선순위 Low)  ] : Time Quantum = ∞ (FCFS)
+                              * CPU 바운드 연산만 모여서 남는 시간 긁어 씀
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 큐 레벨 | 스케줄링 룰 (알고리즘) | 타임 퀀텀 크기 | 타겟 프로세스 성향 (분류) |
+|:---|:---|:---|:---|
+| **상위 큐** | Round Robin (선점) | 매우 짧음 (예: 10ms) | 마우스, 키보드 입력 등 대화형 (I/O Bound) |
+| **중위 큐** | Round Robin (선점) | 중간 (예: 20ms~40ms) | 네트워크 응답, 짧은 백그라운드 연산 |
+| **하위 큐** | FCFS (비선점) | 매우 긺 또는 무한 | 동영상 인코딩, 머신러닝 연산 (CPU Bound) |
+
+> 요약: 상위 큐는 순환이 매우 빠르고(VIP 패스), 하위 큐로 갈수록 차례는 안 오지만 한 번 타면 진득하게 쓸 수 있는(문맥 교환 오버헤드 절감) 극단의 이원화 설계다.
+
+---
+
+## Ⅲ. MLFQ의 시스템적 한계와 커널 방어 로직 (Aging)
+
+경험적 룰에 의존하는 MLFQ는 악의적이거나 극단적인 부하 상황에서 2가지 치명적 취약점을 드러낸다.
+
+| 리스크 요인 | 발생 시나리오 | MLFQ의 아키텍처 방어책 (커널 튜닝) |
 |:---|:---|:---|
-| Priority queue | 우선순위별 ready task 저장 | Q0가 Q1보다 먼저 실행 |
-| Time quantum | 큐별 CPU 사용 한도 | 하위 큐일수록 길게 설정 |
-| Feedback rule | CPU 사용량 기반 승강급 | quantum 소진 시 demotion |
-| Aging/Boost | 장기 대기 task 승급 | starvation 방지 |
+| **기아 현상 (Starvation)** | 웹 서버에 I/O 요청(상위 큐)이 초당 만 번씩 쏟아지면, 하단 큐의 데이터 백업 프로세스는 영영 CPU를 받지 못해 기아 상태 전락 | **Priority Boost (에이징)**: 특정 주기(예: 50ms)마다 모든 하위 큐 프로세스의 멱살을 잡아 Q0(최상위)로 강제 끌어올려 한 번씩 숨을 쉬게 함 |
+| **스케줄러 꼼수 (Gaming)** | 개발자가 할당 시간 10ms 중 9.9ms만 쓰고 일부러 무의미한 I/O를 호출하면, 커널은 "I/O 바운드네" 속아서 평생 VIP 큐 독식 | **타임 퀀텀 누적 회계(Accounting)**: 큐에 머무는 동안 사용한 CPU 시간을 누적 계산하여, 찔끔찔끔 쓰더라도 총합이 10ms를 넘기면 가차 없이 강등 |
 
-> 요약: MLFQ는 우선순위 큐, 큐별 quantum, feedback rule, aging으로 task 위치를 동적으로 바꾼다.
+> 요약: 똑똑한 스케줄러를 속이려는 프로세스의 꼼수(Gaming)를 막기 위해, 커널은 눈속임 횟수가 아닌 '누적 점유 시간'이라는 정확한 장부(Accounting)로 팩트 폭격을 날려 강등시킨다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅳ. 현대 시스템으로의 진화 (CFS와의 비교)
 
-```text
-Task 도착 -> 최상위 큐 삽입
--> Q0부터 runnable 확인 -> Dispatch
--> Quantum 내 I/O block이면 상위 유지
--> Quantum 소진이면 하위 큐 이동
--> Aging 조건 충족이면 상위 큐 승급
-```
+MLFQ는 완벽에 가깝지만 설정해야 할 파라미터(큐 개수, 퀀텀 크기, 부스트 주기)가 너무 많아 튜닝이 끔찍하다.
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 신규 task를 Q0 또는 정책 기준 큐에 삽입 | new task latency |
-| 2 | 가장 높은 non-empty queue에서 task 선택 | priority order 준수 |
-| 3 | quantum 내 block/yield 시 interactive로 판단 | I/O wait ratio |
-| 4 | quantum 소진 시 CPU-bound로 보고 demotion | demotion count |
-| 5 | 장기 대기 task를 aging으로 promotion | max wait time |
-
-> 요약: MLFQ는 실행 결과를 다음 우선순위에 반영해 interactive task와 CPU-bound task를 자동 분류한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | MLFQ 방식 | 대안 방식 | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| 우선순위 | 실행 이력으로 동적 변경 | fixed priority | priority inversion 감시 |
-| quantum | 상위 짧고 하위 길게 | RR 단일 quantum | 4/8/16ms 계층 |
-| starvation 대응 | aging, periodic boost | 낮은 priority 대기 | max wait time 제한 |
-| workload 적합성 | interactive+batch 혼합 | pure batch는 SJF 유리 | p95 response 기준 |
-
-> 요약: MLFQ는 실제 CPU 사용 패턴을 관찰해 응답시간과 처리량의 균형점을 찾는 정책이다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | RR 단일 큐 | 다중 큐+feedback | interactive 비율 30% 이상 |
-| 비용/성능 | 공정하지만 분류 없음 | 분류 가능, 튜닝 필요 | p95 response, throughput |
-| 운영/위험 | CPU-bound 독점 가능 | aging으로 기아 방지 | max wait time 상한 |
-
-> 요약: interactive 응답시간이 채점 포인트이면 MLFQ의 demotion과 aging 구조를 먼저 제시한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| gaming | task가 quantum 직전 yield | CPU usage window 누적 평가 | suspicious yield rate |
-| starvation | 하위 큐 task 장기 대기 | aging interval, global boost | max wait time |
-| 튜닝 실패 | quantum이 workload와 불일치 | 4/8/16ms 등 배율 실험 | p95 latency, switch/sec |
-
-> 요약: MLFQ 운영 리스크는 gaming, starvation, quantum 튜닝이며 계측 기반 조정이 필요하다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 비교 축 | MLFQ (과거 UNIX의 표준) | CFS (현대 Linux 커널의 표준) |
 |:---|:---|:---|
-| 응답시간 | interactive p95 50ms 이하 | scheduler trace, APM |
-| 공정성 | 하위 큐 max wait 1s 이하 | queue wait histogram |
-| 전환 비용 | switch/sec 기준선 20% 이내 증가 | perf sched, vmstat |
+| 제어 방식 | 다수의 물리적 큐(Queue) 배열 유지 | 단일 Red-Black 트리 내 가상 실행시간(`vruntime`) 정렬 |
+| 퀀텀 계산 | 정해진 고정 퀀텀 (8ms, 16ms 등) | CPU 스케줄 지연(Latency)을 프로세스 수로 나눈 동적 할당량 |
+| 복잡도 한계 | 파라미터가 너무 많아 O(1) 수준의 튜닝 장인 필요 | 휴리스틱 룰 없이 단순 수식(`vruntime`)만으로 완전 공정함 달성 |
 
-> 요약: MLFQ 효과는 interactive p95, max wait, switch/sec로 동시에 판단한다.
+> 요약: MLFQ의 파라미터 튜닝 지옥에서 벗어나기 위해, 리눅스는 큐를 버리고 "누가 제일 CPU를 못 썼는가"만 트리로 빠르게 찾아내는 CFS로 진화했다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅴ. 실무 적용 방안 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 큐 3~5개, quantum 4/8/16/32ms 배율로 시작해 interactive p95와 switch/sec를 함께 측정
-2. aging interval을 500ms~1s 범위로 설정하고 하위 큐 max wait가 SLO를 넘으면 priority boost 수행
-3. CPU 사용 window를 누적해 gaming task를 탐지하고, container별 CPU quota와 결합해 tenant별 share 보장
+**적용 방안 3개:**
+1. [Mac OS / Windows의 기본 스케줄러 튜닝] 데스크톱 OS(Windows NT 등)는 여전히 MLFQ 기반 모델을 사용하므로, 게임이나 백그라운드 렌더링 시 "백그라운드 서비스 우선" 레지스트리 튜닝을 통해 타임 퀀텀 비중을 역전시켜 스레싱 방어
+2. [멀티코어 분산 로직 도입] SMP(Symmetric Multiprocessing) 환경에서 MLFQ의 Global Queue 락(Lock) 경합 병목을 막기 위해 코어마다 독립된 MLFQ를 배치하고, 특정 코어에만 하위 큐가 쌓이면 Work-Stealing으로 부하 분산
+3. [Solaris 디스패치 테이블 튜닝] 상용 UNIX 시스템 운영 시, I/O 바운드가 핵심인 DB 서버 환경에서는 Priority Boost 주기(Aging Interval)를 짧게 설정하여 트랜잭션 대기 시간을 최소화하는 방향으로 커널 커스텀 파라미터 조절
 
-**결론 (2줄):**
-- 기술사 판단: interactive와 batch가 혼합된 범용 OS는 MLFQ, 공정 share가 핵심인 Linux 서버는 CFS 계열을 선택함
-- 향후 방향: 클라우드 환경에서는 MLFQ 개념을 cgroup, quota, latency SLO와 결합해 workload별 CPU 정책으로 확장해야 함
+**결론:**
+- 기술사 판단: MLFQ는 미래(실행 시간)를 예측할 수 없다는 비관주의 위에서, 과거의 행적만으로 프로세스의 본질을 간파해 내는 최고의 실용주의 아키텍처다. CPU 사용 패턴에 따른 '강등'과 굶어 죽음을 막는 '에이징 부스트'의 절묘한 균형이 핵심이다.
+- 향후 방향: 최근 클라우드 워크로드는 너무나 동적이고 파편화되어 있어 단순 휴리스틱(MLFQ)으로는 한계가 있다. 이에 리눅스는 CFS를 거쳐, 최근 커널에서는 BPF(eBPF)를 통해 관리자가 스케줄링 정책을 C 코드로 직접 커스텀 주입(eBPF 훅)할 수 있는 플러그형(Pluggable) 스케줄링 시대로 넘어가고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "MLFQ를 설명하시오" | 큐 이동, demotion, aging 흐름 | RR·SJF·CFS와 차이 |
-| 요구사항 명시형 | "응답시간 개선 방안을 제시하시오" | quantum/aging 튜닝 절차 | interactive p95와 starvation 대응 |
-
-> 요약: 설명형은 feedback 원리, 방안형은 quantum과 aging 지표를 중심으로 전개한다.
+| 포괄형 | "멀티레벨 피드백 큐(MLFQ)의 규칙과 작동 원리를 서술하시오" | 3계층 동적 강등 큐(Queue) 도식 및 타임 퀀텀 배분 | 기아(Starvation) 발생 기전 및 에이징 부스트 규칙 |
+| 요구사항 명시형 | "대화형 시스템에서 MLFQ의 Gaming 문제와 극복 방안을 논하시오" | I/O 반납 꼼수로 인한 VIP 큐 독점(Gaming) 문제 | 누적 시간 회계(Accounting) 적용 및 리눅스 CFS 비교 |

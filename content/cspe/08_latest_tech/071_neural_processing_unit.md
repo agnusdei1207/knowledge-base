@@ -37,15 +37,27 @@ weight: 71
 > 2. **가치**: 모바일·PC·엣지에서 로컬 AI 기능을 낮은 지연과 낮은 전력으로 수행함.
 > 3. **판단 포인트**: TOPS, precision, memory bandwidth, compiler/runtime, 모델 지원성을 함께 평가해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| AI 전용 가속기의 구조·역할 이해 | MAC Array, TOPS/W, INT8/FP16, compiler op 지원 | TOPS 수치만 비교하고 메모리 대역폭·op 지원 누락 |
+
+> 요약: NPU는 TOPS 수치보다 op 지원·메모리 대역폭·compiler 호환성까지 포함한 end-to-end 관점에서 평가해야 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-NPU는 AI 추론 전용 프로세서임. 온디바이스·엣지 AI 확산으로 배터리와 발열 제약 안에서 행렬 연산을 처리할 전력 효율형 가속기가 필요함.
+- 정의: 신경망 추론의 행렬·컨볼루션 연산을 저전력으로 처리하는 AI 전용 프로세서
+- 배경: CPU는 범용 제어, GPU는 대규모 병렬 연산에 강하지만 모바일·PC 상시 AI에는 전력 효율 한계가 있음
+- 필요성: 온디바이스·엣지 AI 확산으로 배터리·발열 제약 안에서 행렬 연산을 수행할 전력 효율형 가속기가 필요함
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-CPU Control → NPU Compiler → MAC/Systolic Array
-      ↔ On-chip SRAM ↔ DRAM → Output Tensor
+CPU Control -> NPU Compiler -> MAC/Systolic Array
+  -> On-chip SRAM <-> DRAM -> Output Tensor
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -84,7 +96,35 @@ CPU Control → NPU Compiler → MAC/Systolic Array
 
 > 요약: NPU는 전력 효율형 AI 추론에 강하지만, 모델과 런타임 지원성이 부족하면 CPU/GPU fallback이 필요함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | GPU | NPU | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | CUDA 코어 수천 개, 범용 병렬 | MAC Array, AI 전용 파이프라인 | 추론 전용이면 NPU |
+| 비용/성능 | TDP 150~350W, FP32 고성능 | TDP 5~15W, INT8 TOPS/W 우위 | 배터리 제약 시 NPU |
+| 운영/위험 | 드라이버·CUDA 생태계 성숙 | compiler op 지원·SDK 성숙도 편차 | op coverage 95% 이상 확보 |
+
+> 요약: 상시 저전력 추론은 NPU, 학습·대규모 FP32 연산은 GPU를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 미지원 op fallback | compiler op coverage 부족 | 모델 변환 전 op 호환성 검증 | CPU fallback 비율 5% 이하 |
+| 정확도 회귀 | INT8 양자화 손실 | calibration set 1K장 이상 검증 | accuracy delta 1%p 이내 |
+| 벤더 종속 | NPU SDK·runtime 비호환 | ONNX Runtime 멀티백엔드 구성 | 2개 이상 런타임 호환 |
+
+> 요약: NPU 도입 리스크는 op 호환·양자화 회귀·벤더 종속이며, 배포 전 검증으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 성능/효율 | p95 latency 50ms, TOPS/W 10 이상 | NPU profiler, 벤치마크 |
+| 품질/정확도 | INT8 정확도 하락 1%p 이내 | validation set 비교 |
+| 운영/보안 | OTA 모델 업데이트, 모델 무결성 검증 | 서명 검증, 배포 로그 |
+
+> 요약: NPU 도입 성공은 지연·정확도·op coverage를 단말별로 실측해 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. AI PC·모바일 도입 기준에 NPU 40 TOPS, INT8 지원, ONNX/Core ML/NNAPI 호환성을 포함

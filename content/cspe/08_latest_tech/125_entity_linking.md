@@ -37,9 +37,21 @@ weight: 125
 > 2. **가치**: 별칭·약어·동명이인을 정규화해 그래프 중복과 RAG 검색 누락을 줄임.
 > 3. **판단 포인트**: 후보 생성 재현율, 문맥 기반 disambiguation, NIL 처리 기준이 품질을 결정함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| NER 이후 개체 정규화·연결 기술 이해 확인 | mention→후보→disambiguation→NIL 파이프라인, NER과의 차이, 오연결률·재현율 수치 | NER과 혼동 금지, NIL 처리·confidence threshold 누락 |
+
+> 요약: NER과 Entity Linking의 역할 차이를 명확히 하고, 후보 생성·disambiguation 단계별 품질 지표를 제시해야 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-Entity Linking은 개체명 정규화·연결 기술임. 문서의 개체 표현은 약어·별칭·동명이인으로 다양해 지식그래프 노드 중복과 검색 누락을 유발한다. 텍스트 mention을 고유 엔티티 ID로 연결해 지식 기반 품질을 높인다.
+- 정의: 텍스트 mention을 지식그래프의 고유 엔티티 ID로 연결하는 기술
+- 배경: 약어·별칭·동명이인으로 동일 대상이 분산되어 KG 노드 중복률 10~20%, RAG 검색 Recall 15%p 하락
+- 필요성: 별칭 정규화와 문맥 기반 disambiguation으로 오연결률 <3%, 후보 재현율 ≥95% 확보
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -85,7 +97,35 @@ Text → Mention Detection → Candidate Generation
 
 > 요약: NER은 개체명을 찾는 단계이고, Entity Linking은 그 개체를 정확한 지식그래프 노드와 연결하는 단계임.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | NER 단독 | Entity Linking | 선택 기준 |
+|:---|:---|:---|:---|
+| 출력 | PERSON/ORG 타입 태그 | 고유 entity_id 또는 NIL | KG 구축·RAG에는 Linking 필수 |
+| 동명이인 처리 | 미지원 | 문맥 기반 disambiguation | 다의어·별칭 빈도 높은 도메인 |
+| 운영 비용 | NER 모델 추론 비용만 | 후보 검색+cross-encoder 비용 추가 | 문서 100만 건 이상 시 배치 최적화 |
+
+> 요약: NER은 개체명 탐지까지, Entity Linking은 고유 ID 연결까지 수행하므로 KG 구축에는 Linking 필수임.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 오연결 | 문맥 부족·동명이인 | cross-encoder + 그래프 주변 관계 결합, confidence 0.8 이상만 자동 연결 | 오연결률 <3% |
+| 후보 누락 | alias table 미갱신 | 주기적 alias 확장, 신규 mention 로그 수집 | 후보 재현율 ≥95% |
+| NIL 과다 | 엔티티 미등록·KB 불완전 | NIL 검토 큐 + 주 단위 신규 엔티티 등록 | NIL 비율 <10% |
+
+> 요약: 오연결·후보 누락·NIL 과다를 confidence threshold·alias 확장·검토 큐로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| mention 탐지 | mention F1 ≥0.9 | 테스트셋 1,000건 NER 평가 |
+| disambiguation 정확도 | accuracy ≥85% | 수동 라벨 500건 대비 비교 |
+| KG 중복 노드 | 중복 노드율 <5% | 주 단위 그래프 분석 스크립트 |
+
+> 요약: mention F1·disambiguation 정확도·중복 노드율을 정기 측정해 연결 품질을 관리함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. Graph RAG 구축: alias table과 dense candidate를 결합해 후보 Top-20 생성, confidence 0.8 이상만 자동 연결

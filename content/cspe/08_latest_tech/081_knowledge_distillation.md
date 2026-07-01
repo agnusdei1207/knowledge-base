@@ -37,15 +37,31 @@ weight: 81
 > 2. **가치**: 대형 모델 수준의 도메인 능력을 더 작은 모델에 이전해 지연·비용·메모리를 줄임.
 > 3. **판단 포인트**: teacher 품질, distillation data, loss 설계, 오류 전파, student 평가가 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| teacher-student 압축 원리 이해도 확인 | soft label·KL divergence·rationale 전달 메커니즘 | teacher 오류 전파 위험을 누락하지 않을 것 |
+| distillation과 단순 SFT 차이 구분 | 학습 신호 차이(hard label vs soft label) 비교 | "성능이 좋다" 등 추상 표현 대신 F1·환각률 수치 제시 |
+| 실무 적용 시 품질 통제 역량 | 데이터 필터링·holdout 평가·fallback 설계 | 오류 전파 통제 없이 적용 방안만 나열하는 답안 |
+
+> 요약: 출제자는 teacher-student 메커니즘 이해와 오류 전파 통제 능력을 확인하려 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-지식증류는 teacher-student 기반 모델 압축 기법임. 대형 LLM의 비용·지연 한계를 완화하기 위해 teacher의 출력 분포와 추론 패턴을 작은 student model에 이전함.
+- 정의: teacher 출력 분포를 student가 모방 학습하는 모델 압축 기법
+- 배경: 대형 LLM은 추론 비용(GPU 시간·메모리)이 크고, 경량 모델은 도메인 지식이 부족함
+- 필요성: teacher의 soft label·rationale을 student에 이전해 7B 모델로 F1 0.85 이상 도메인 성능 확보
+
+---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input Data → Teacher Model → Soft Label/Rationale/Feature
-       → Student Training → Compact Model → Evaluation
+Input Data -> Teacher Model -> Soft Label/Rationale/Feature
+       -> Student Training -> Compact Model -> Evaluation
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -57,11 +73,13 @@ Input Data → Teacher Model → Soft Label/Rationale/Feature
 
 > 요약: teacher가 풍부한 학습 신호를 만들고 student가 이를 모방해 작은 모델의 성능을 끌어올림.
 
+---
+
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-데이터 수집 → teacher 추론 → 응답 필터링
-    → student 학습 → holdout 평가 → 배포
+데이터 수집 -> teacher 추론 -> 응답 필터링
+    -> student 학습 -> holdout 평가 -> 배포
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -72,6 +90,8 @@ Input Data → Teacher Model → Soft Label/Rationale/Feature
 | 4 | 독립 평가셋 검증 | F1, MMLU, 환각률 |
 
 > 요약: 증류는 teacher 출력 생성보다 데이터 필터링과 독립 평가가 품질을 좌우함.
+
+---
 
 ## Ⅳ. 특징
 
@@ -84,7 +104,37 @@ Input Data → Teacher Model → Soft Label/Rationale/Feature
 
 > 요약: 지식증류는 작은 모델의 도메인 능력 확보에 유리하지만 teacher 오류와 데이터 편향을 통제해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+---
+
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 직접 SFT/Fine-tuning | Knowledge Distillation | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 정답 라벨 기반 학습 | teacher soft label·rationale 학습 | 학습 신호 풍부도 |
+| 비용/성능 | 라벨링 인건비 높음 | teacher 추론 API 비용 | 10K 샘플 기준 비용 비교 |
+| 운영/위험 | 라벨 품질에 의존 | teacher 오류 전파 위험 | holdout F1 0.85 이상 여부 |
+
+> 요약: 도메인 라벨 확보가 어려우면 distillation, 라벨 품질이 확보되면 직접 SFT를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| teacher 오류 전파 | teacher 환각·편향 | self-consistency 0.8 이상 필터링 | student 환각률 |
+| 데이터 편향 | 도메인 편중 수집 | 분포 균형 샘플링·holdout 교차 검증 | 클래스별 F1 편차 |
+| student 성능 저하 | capacity gap | student 아키텍처 확대 또는 progressive distillation | MMLU·도메인 QA 점수 |
+
+> 요약: teacher 오류 전파가 최대 리스크이며 데이터 필터링과 독립 평가셋으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 성능/효율 | student F1 ≥ 0.85, 환각률 ≤ 5% | holdout 평가셋·MMLU 벤치마크 |
+| 품질/정확도 | self-consistency ≥ 0.8 | teacher 응답 3회 생성 일치율 |
+| 운영/보안 | PII 제거율 100%, 증류 데이터 감사 | 자동 PII 스캐너·감사 로그 |
+
+> 요약: student 환각률과 teacher 응답 일치율을 정량 측정해 품질을 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 고객지원 FAQ 50K건을 teacher LLM으로 증류해 7B SLM을 학습하고 F1 0.85 이상 기준으로 배포

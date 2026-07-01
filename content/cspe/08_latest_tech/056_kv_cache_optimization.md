@@ -38,19 +38,28 @@ weight: 56
 > 2. **가치**: prefill 이후 토큰당 계산량을 줄여 TPOT와 GPU 사용률을 개선함.
 > 3. **판단 포인트**: cache 크기, fragmentation, eviction, quantization, 동시 세션 수가 서빙 처리량을 결정함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| LLM 서빙 메모리 병목 이해 | prefill/decode 분리, KV 재사용 원리, GB/request 산정 | cache가 계산이 아닌 메모리 최적화임을 명시, OOM·fragmentation 누락 금지 |
+
+> 요약: KV Cache는 decode 반복 계산 제거가 본질이며, 메모리 관리(fragmentation·eviction·양자화) 없이는 서빙 확장이 불가함을 보여야 함.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-KV Cache 최적화는 LLM 디코딩 메모리 관리 기법임. Auto-regressive 생성은 과거 토큰을 계속 참조하므로, K/V 텐서를 저장·재사용해 반복 계산을 제거하고 동시 요청 처리량을 확보함.
+- 정의: LLM 디코딩 중 과거 토큰의 Key·Value 텐서를 저장·재사용하는 메모리 최적화 기법
+- 배경: Auto-regressive 생성은 매 토큰마다 과거 전체를 참조하므로 반복 계산이 누적됨
+- 필요성: KV 재사용으로 decode FLOPs를 줄이고, 동시 요청 처리량을 GPU 메모리 한계 내에서 확보
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
-       │                              │
-       └──────── Decode Token ────────┘
-                  Query + Cached K/V → Next Token
+Prompt Prefill -> K/V Tensor 생성 -> KV Cache 저장
+  -> Decode Token 발생 -> Query + Cached K/V 참조 -> Next Token 출력
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -92,7 +101,35 @@ Prompt Prefill → K/V Tensor 생성 → KV Cache 저장
 > 요약: KV Cache는 decode 계산을 줄이는 대신 GPU 메모리를 소비하므로, 페이지 관리·양자화·eviction 정책이 필수임.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | KV Cache 미적용 | KV Cache 최적화 적용 | 선택 기준 |
+|:---|:---|:---|:---|
+| 계산량 | 과거 토큰 매번 재계산 O(T²) | 신규 토큰만 계산 O(T) | decode FLOPs 감소율 |
+| 메모리 | 낮음(저장 없음) | 세션당 수 GB(FP16, 32L/32H/128d) | GPU VRAM 대비 동시 세션 수 |
+| 서빙 확장 | 긴 출력 시 처리량 저하 | PagedAttention·양자화 결합 | OOM 발생률, req/s |
+
+> 요약: decode 계산을 줄이는 대신 메모리를 소비하므로, 동시 세션 수와 GPU VRAM 기준으로 양자화·eviction 필요성을 판단함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| GPU OOM | 장문맥 다중 세션 KV 누적 | PagedAttention 블록 단위 관리, max context 제한 | OOM 건수/일, free block 비율 |
+| Cache Fragmentation | 가변 길이 세션 종료·생성 반복 | 블록 기반 할당·회수, defrag 주기 설정 | fragmentation ratio |
+| 정확도 회귀 | INT8/FP8 양자화 적용 | perplexity·정답률 회귀 테스트 후 배포 | perplexity 변화 0.5% 이내 |
+
+> 요약: OOM·fragmentation·양자화 정확도 세 리스크를 블록 관리·정량 검증으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| TPOT | p95 ≤ 50ms (7B 모델 기준) | 추론 서버 APM 로그 |
+| 메모리 절감률 | INT8 양자화로 30~50% 절감 | GPU VRAM 모니터링 |
+| 동시 세션 수 | 동일 GPU에서 2~3배 증가 | req/s 벤치마크 |
+
+> 요약: TPOT·메모리 절감률·동시 세션 수로 KV Cache 최적화 효과를 정량 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. vLLM PagedAttention으로 KV를 16KB~수MB 블록 단위 관리하여 fragmentation과 OOM을 감소

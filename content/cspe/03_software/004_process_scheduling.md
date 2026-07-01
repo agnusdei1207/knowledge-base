@@ -1,6 +1,6 @@
 ---
-title: "프로세스 스케줄링 알고리즘 (Process Scheduling)"
-date: "2026-07-01"
+title: "프로세스 스케줄링 알고리즘 (FCFS, SJF, RR, MLFQ, CFS)"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 4
@@ -8,155 +8,127 @@ weight: 4
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 프로세스 스케줄링을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: CPU를 어떤 프로세스에 언제 줄지 결정하는 정책
-- **왜 필요한가**: CPU는 한정되어 있고 작업 특성은 다르므로 처리량, 응답시간, 공정성, deadline을 동시에 조정해야 한다.
-- **핵심 직관**: 줄 서기 규칙을 어떻게 정하느냐에 따라 평균 대기, 긴 작업 지연, 긴급 작업 처리 결과가 달라진다.
+- **개요**: CPU(요리사)는 1명인데 실행해야 할 프로세스(주문서)가 수십 개 쌓여 있을 때, **"어떤 주문부터 먼저 처리할 것인가?"**를 결정하는 커널의 룰이다.
+- **왜 필요한가**: 은행 창구에서 1시간 걸리는 대출 업무 손님 뒤에, 10초면 끝나는 송금 손님 100명이 줄을 서 있으면 대폭동이 일어난다(Convoy Effect). 반대로 송금 손님만 먼저 처리하면 대출 손님은 평생 집에 못 간다(Starvation). 이 둘 사이의 균형을 맞추기 위해 똑똑한 스케줄러가 필요하다.
+- **핵심 직관**: 
+  - **FCFS**: 먼저 온 사람 먼저 처리 (착하지만 멍청함).
+  - **SJF**: 빨리 끝나는 일 먼저 처리 (평균 대기시간 최단, 근데 긴 일은 굶어 죽음).
+  - **RR (라운드 로빈)**: 10초씩만 번갈아 가며 찔끔찔끔 처리 (시분할의 꽃, 공평함).
+  - **MLFQ**: 여러 줄로 나눠서 뺑뺑이를 돌리되, 똑똑하게 눈치껏 신분(우선순위)을 올리고 내림.
+  - **CFS**: 리눅스 커널의 현대 표준. 트리 구조로 관리하며 1나노초 단위까지 "공정함"을 강박적으로 계산함.
 
 ## 깊이 이해
-- **배경·문제의식**: batch 작업은 처리량, interactive 작업은 응답시간, real-time 작업은 deadline이 우선이다. 단일 알고리즘으로 모든 목표를 만족하기 어렵다.
-- **작동 원리**: FCFS는 도착 순서, SJF는 예상 CPU burst, RR은 time quantum, MLFQ는 우선순위 feedback, CFS는 vruntime 기반으로 CPU 몫을 배정한다.
-- **비유**: 은행 창구에서 번호표 순서, 짧은 업무 우선, 3분씩 순환, VIP 등급 조정, 사용 시간 누적 균등 배분이 각각의 스케줄링 정책이다.
-- **구체 예시**: RR quantum이 1ms이면 응답시간은 줄 수 있으나 context switch/sec가 증가한다. 50ms이면 전환 비용은 줄지만 interactive p95가 커질 수 있다.
-- **흔한 오해·주의점**: 평균 대기시간만 낮추면 충분하지 않다. starvation, tail latency, fairness, deadline miss를 함께 봐야 한다.
+- **배경·문제의식**: 옛날 일괄 처리(Batch) 시대에는 그냥 순서대로(FCFS) 돌리면 그만이었다. 하지만 마우스가 등장하고 시분할(대화형) 시대가 열리면서, 마우스 클릭(즉각 반응)과 백그라운드 영상 인코딩(오래 걸림)을 동시에 부드럽게 처리해야 하는 미친 난이도의 과제가 생겼다.
+- **작동 원리 (선점 vs 비선점)**:
+  - **비선점(Non-preemptive)**: 한 놈이 CPU를 물면 자기가 끝날 때까지 안 뱉음. (FCFS, 순수 SJF)
+  - **선점(Preemptive)**: 무서운 타이머를 달아놓고 10ms 지나면 커널이 강제로 뺏어버림. (RR, MLFQ, CFS 등 최신 OS는 100% 선점형)
+- **비유**: 식당 주방장(CPU)
+  - FCFS: 주문 들어온 순서대로 끝까지 만듦 (코스 요리 뒤의 라면 손님 오열).
+  - SJF: 라면부터 다 끓임 (코스 요리 손님은 평생 밥 못 먹음 = 기아 현상).
+  - RR: 라면 한 젓가락 끓이고, 코스 요리 당근 썰고, 다시 라면 젓고 번갈아 함.
+  - MLFQ: 빨리 끝나는 손님은 VIP 줄, 오래 걸리는 손님은 일반 줄로 강등시켜서 관리함.
+- **구체 예시**: RR(라운드 로빈)에서 '시간 할당량(Time Quantum)'이 너무 길면 사실상 FCFS(은행 창구 폭동)가 되고, 너무 짧으면 1초에 1000번씩 줄을 바꾸느라(Context Switch 스레싱) 주방장이 밥은 안 하고 그릇만 닦다 하루가 다 간다.
+- **흔한 오해·주의점**: "SJF가 가장 좋지 않나요?" 이론적으로 대기시간이 가장 짧아 완벽(Optimal)하다. 그러나 OS는 이 프로그램이 언제 끝날지 미래를 모른다! 그래서 SJF는 현실에서 구현 불가능한 이론적 잣대(비교 기준)일 뿐이다.
 
 ## 연결 개념
-- MLFQ: interactive 우선과 aging을 결합
-- CFS: Linux 기본 공정 스케줄러
-- 실시간 스케줄링: RMS, EDF로 deadline 보장
+- **컨텍스트 스위칭 (Context Switching)**: 선점형 알고리즘(RR 등)이 굴러가게 만드는 핵심 동력. 스위칭 오버헤드와 타임 퀀텀의 길이는 스케줄러 튜닝의 영원한 딜레마다.
+- **기아와 에이징 (Starvation & Aging)**: SJF나 다단계 큐에서 꼴찌들이 굶어 죽는(기아) 현상을 막기 위해, 시간이 지나면 강제로 우선순위를 높여주는(에이징) 백신 로직이다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 알고리즘 이름 나열이 아니라 throughput, turnaround, waiting, response, fairness의 trade-off로 비교한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로세스 스케줄링은 ready queue의 실행 순서를 정해 CPU 시간을 배분하는 커널 정책이다.
-> 2. **가치**: 작업 특성에 따라 처리량, 평균 반환시간, 대기시간, 응답시간, 공정성을 조정한다.
-> 3. **판단 포인트**: FCFS·SJF·RR·MLFQ·CFS는 평가 지표와 starvation 대응 방식이 다르다.
+> 1. **본질**: Ready Queue에 대기 중인 프로세스 중 어떤 프로세스에 CPU 제어권을 넘길지 결정하는 커널의 정책 결정자(Policy Maker)다.
+> 2. **가치**: 처리량(Throughput) 극대화, 응답 시간(Response Time) 최소화, 그리고 기아 상태(Starvation) 방지라는 상충하는 목표 사이의 트레이드오프를 튜닝한다.
+> 3. **판단 포인트**: 단순 비선점형(FCFS)의 호위 효과 한계를 짚고, 이를 선점형(RR)으로 분해한 뒤, 최종적으로 동적 우선순위 기반의 복합 모델(MLFQ, CFS)로 수렴하는 아키텍처 진화 과정을 증명해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| scheduling metric 이해 확인 | throughput, turnaround, waiting, response, fairness | 지표 구분 없이 장단점만 서술 |
-| 알고리즘별 선택 기준 확인 | FCFS, SJF, RR, MLFQ, CFS 차이 | SJF를 현실 예측 문제 없이 설명 |
-| OS 병목 판단 확인 | time quantum, context switch, starvation, aging | 평균값만 보고 tail latency 누락 |
+| 알고리즘별 맹점과 한계 진단 | 호위 효과(Convoy, FCFS), 기아 현상(Starvation, SJF) | 타임 퀀텀 극단값에 따른 RR의 성능 변화(FCFS화 vs 스레싱) 누락 |
+| 현대 OS로의 진화 메커니즘 도출 | 응답성(I/O 바운드)과 처리량(CPU 바운드)의 융합 | CFS를 단순히 트리 자료구조로만 적고 vruntime 개념을 빼먹는 실수 |
 
-> 요약: 이 문제는 스케줄링 정책을 지표와 workload 특성에 맞춰 선택하는 역량을 본다.
+> 요약: 스케줄링의 역사는 "긴 놈 때문에 짧은 놈이 피 보는 현상(호위)"을 막고, 반대로 "짧은 놈만 대우하다 긴 놈이 굶어 죽는 현상(기아)"을 막기 위한 위대한 핑퐁 게임이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스케줄링은 ready task에 CPU를 배정하는 정책이다.
-멀티프로그래밍 환경에서 CPU burst와 I/O burst가 섞이므로, 운영체제는 응답시간·처리량·공정성 간 균형을 잡아야 한다.
-정책 선택이 부적절하면 convoy effect, starvation, deadline miss, context switch overhead가 발생한다.
+- 정의: 다중 프로그래밍 환경에서 CPU라는 단일 자원을 여러 프로세스가 공유할 때, 실행 순서와 점유 시간(Time Quantum)을 결정하는 커널 알고리즘
+- 배경: 일괄 처리(Batch) 중심의 비선점형 방식은 대화형 시스템(마우스, 키보드)의 즉각적인 응답성을 보장할 수 없었음
+- 필요성: 시스템의 평균 대기시간을 수학적으로 최소화하면서도, 특정 프로세스가 무한 대기(Starvation)에 빠지는 불평등을 막기 위한 동적 피드백 로직 필수
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 고전적 스케줄링 아키텍처 비교 (비선점 vs 선점)
 
 ```text
-Ready Queue -> Scheduler Policy -> Dispatch
-Policy: FCFS / SJF / RR / MLFQ / CFS
-Metric: throughput / turnaround / waiting / response / fairness
+[ 호위 효과 (Convoy Effect) 발생 도식 ]
+CPU --- [ 100초짜리 A ] --- [ 1초짜리 B ] --- [ 1초짜리 C ] (대기 큐)
+* B와 C는 단 1초면 끝나는데 A 때문에 100초를 낭비함. 전체 평균 대기시간 폭발.
+
+[ 라운드 로빈 (RR) 선점 분해 도식 ]
+CPU --- [ A 10초 ] -> [ B 1초 (완료) ] -> [ C 1초 (완료) ] -> [ A 10초 ] ...
+* B와 C가 10초 퀀텀 안에 즉시 응답을 받고 퇴장. 대화형 시스템의 승리.
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 기법 명칭 | 할당 및 선점 룰 | 한계점 및 치명적 버그 |
 |:---|:---|:---|
-| Ready queue | 실행 가능한 task 보관 | priority queue, RB-tree |
-| Scheduler | 다음 task 선택 | preemptive/non-preemptive |
-| Dispatcher | context switch 수행 | dispatch latency 발생 |
-| Timer | time slice 만료 감지 | RR, CFS preemption 기준 |
+| **FCFS** (First-Come) | 큐에 먼저 들어온 순서대로 무조건 끝까지 실행 (비선점) | 거대한 프로세스 하나가 큐 전체의 속도를 마비시키는 **호위 효과(Convoy Effect)** |
+| **SJF** (Shortest-Job) | 미래의 남은 실행 시간이 가장 짧은 프로세스 먼저 (비선점/선점) | 긴 프로세스는 영원히 CPU를 받지 못하는 **기아 현상(Starvation)** 발생 |
+| **RR** (Round Robin) | 고정된 타임 퀀텀(예: 10ms)마다 강제로 선점하여 큐 맨 뒤로 쫓아냄 | 타임 퀀텀이 너무 작으면 잦은 문맥 교환으로 **스위칭 스레싱(Thrashing)** 폭발 |
 
-> 요약: 스케줄링은 ready queue, 선택 정책, dispatch, timer가 결합된 CPU 배분 체계이다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-Task Ready 등록 -> 정책별 우선순위 계산
--> Next Task 선택 -> Context Switch
--> Time Slice/Block/Exit 감지 -> Queue 재배치 -> Metric 측정
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | runnable task를 ready queue에 삽입 | queue length |
-| 2 | policy 기준으로 우선순위 또는 vruntime 계산 | scheduler latency |
-| 3 | dispatcher가 CPU context 전환 | context switch/sec |
-| 4 | timer interrupt 또는 I/O block 발생 | time slice 사용률 |
-| 5 | waiting, ready, terminated 상태로 재분류 | turnaround, response |
-
-> 요약: 스케줄러는 task 상태 변화를 queue 이동으로 반영하고 지표 기반으로 정책 효과를 판단한다.
+> 요약: 이론적으로 평균 대기시간은 SJF가 최고지만 미래를 예측할 수 없기에 불가능하다. 그래서 차악으로 선택한 것이 "조금씩 평등하게 자르는" RR이다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅲ. 현대 운영체제의 융합 스케줄링 (MLFQ와 CFS)
 
-| 알고리즘 | 선택 기준 | 장점/한계 | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| FCFS | 도착 순서 | 구현 단순, convoy effect | long job 선점 불가 |
-| SJF/SRTF | CPU burst 짧은 작업 | 평균 대기 감소, burst 예측 필요 | exponential average |
-| RR | time quantum 순환 | interactive 응답 보장, switch 증가 | quantum 1~50ms 조정 |
-| MLFQ | priority feedback | I/O bound 우대, aging 필요 | starvation 방지 |
-| CFS | vruntime 최소 task | CPU share 공정성 | red-black tree O(log n) |
+단순 RR만으로는 I/O 대화형 프로세스(VIP)와 백그라운드 인코딩(일반)을 구분할 수 없다. 이를 극복한 현대 커널의 2대 표준이다.
 
-> 요약: batch는 SJF, interactive는 RR/MLFQ, 일반 Linux 서버는 CFS, deadline 작업은 실시간 스케줄러가 적합하다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | 단일 FIFO | 다중 정책 스케줄링 | workload 다양성 |
-| 비용/성능 | 긴 quantum | 짧은 quantum/feedback | p95 response vs switch/sec |
-| 운영/위험 | starvation 방치 | aging, fair share | longest wait time |
-
-> 요약: 스케줄링 선택은 평균 처리량보다 p95 응답시간과 starvation 방지 기준을 함께 둔다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| convoy effect | 긴 CPU-bound job 선점 불가 | preemptive RR/MLFQ | average waiting time |
-| starvation | 낮은 priority 장기 대기 | aging, minimum share | max wait time |
-| switch overhead | quantum 과소 설정 | quantum 튜닝, batching | context switch/sec |
-
-> 요약: 주요 리스크는 긴 작업 독점, 낮은 우선순위 기아, 과도한 전환이며 지표별 대응이 필요하다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 최신 알고리즘 | 핵심 철학 및 동작 메커니즘 | 에이징 (Aging/구제책) 로직 |
 |:---|:---|:---|
-| 처리량 | 기준 workload TPS 10% 이상 감소 금지 | benchmark, load test |
-| 응답시간 | interactive p95 100ms 이하 | APM, scheduler trace |
-| 공정성 | CPU share 오차 5% 이내 | cgroup cpu.stat, perf sched |
+| **MLFQ** <br>(Multi-level Feedback Queue) | 여러 개의 큐를 층층이 쌓음. 타임 퀀텀을 다 쓰면(CPU 바운드) 하위 큐로 강등시키고, I/O로 반납하면 상위 큐 유지 (동적 신분 변화) | 하위 큐에서 오랫동안 굶은 프로세스를 특정 주기마다 최상단 큐로 일괄 부스트(Boost) |
+| **CFS** <br>(Completely Fair Scheduler) | 우선순위(nice) 가중치를 반영한 '가상 실행 시간(`vruntime`)'을 계산하여, Red-Black 트리에 정렬 후 무조건 `vruntime`이 가장 작은 좌측 노드를 추출 (리눅스 커널 표준) | 오래 굶은 놈은 실행 누적 시간(`vruntime`)이 자연스럽게 작아지므로 트리 왼쪽 끝으로 이동하여 자동 구제됨 |
 
-> 요약: 스케줄러 평가는 처리량, 응답시간, CPU share 오차를 함께 측정해야 한다.
+> 요약: MLFQ는 경험칙을 바탕으로 계급을 오르내리게 하는 동적 피드백 게임이고, 리눅스의 CFS는 1나노초의 실행 시간마저 장부에 적어 철저히 평등을 맞추는 수학적 분배기다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅳ. 스케줄러 오버헤드 통제 및 실무 튜닝 방안
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. interactive 서비스는 RR/MLFQ 성격의 짧은 time slice와 priority boost를 적용하고 p95 response를 100ms 이하로 관리
-2. Linux 서버는 CFS nice, cgroup cpu.weight, quota를 사용해 batch와 online workload의 CPU share를 분리
-3. scheduler trace와 perf sched latency로 run queue 지연, switch/sec, starvation task를 주기 측정
+| 리스크 요인 | 발생 시나리오 | 아키텍처 대응 방안 (실무 튜닝) |
+|:---|:---|:---|
+| I/O 바운드 프로세스 반응성 지연 | RR 스케줄러 하에서 마우스 클릭(I/O) 프로세스와 무거운 렌더링(CPU) 로직이 동일 큐에서 경쟁 시 UI 프리징 현상 발생 | MLFQ의 도입 및 I/O 양보(Yield) 시 페널티 면제 로직을 통해 대화형 인터페이스 우선권 영구 보장 |
+| 코어 간 캐시 핑퐁 (Cache Bouncing) | 멀티코어 환경에서 1개 스케줄러 큐(Global Queue)를 두면 코어 간 락(Lock) 경합과 L1/L2 캐시 무효화로 성능 급락 | **코어별 독립 큐 (Per-Core Queue)** 설계 및 워크 스틸링(Work Stealing)을 통해 지역성(Locality) 방어 |
 
-**결론 (2줄):**
-- 기술사 판단: batch는 평균 반환시간, interactive는 p95 응답시간, multi-tenant는 CPU share 공정성을 기준으로 정책을 선택함
-- 향후 방향: 컨테이너 환경에서는 OS 스케줄러와 cgroup quota가 겹치므로 application pool 크기까지 함께 조정해야 함
+> 요약: 알고리즘이 아무리 똑똑해도 락(Lock)이 걸리면 바보가 된다. 멀티코어 시대의 스케줄러는 단순히 순서를 정하는 것을 넘어, 캐시(Cache)가 식지 않도록 살던 코어에 계속 살게 하는 '공간 최적화'로 진화했다.
+
+---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [Linux CFS 스케줄러 튜닝] K8s 컨테이너 클러스터 배포 시, `cpu.cfs_quota_us`와 `cpu.cfs_period_us`를 조절하여 CPU 스로틀링(Throttling)을 통제하고, `nice` 값을 `-20`(최고)에서 `19`(최저)로 수동 부여하여 핵심 DB 프로세스의 `vruntime` 증가율 억제
+2. [RTOS(실시간 OS) 락업 방어] 항공기/드론 등 엄격한 마감 시간(Deadline)이 필요한 제어기 환경에서는 공정성을 중시하는 CFS를 버리고, 주기가 가장 짧은 태스크에 절대 우선순위를 박는 Rate Monotonic(RM) 기반 선점 스케줄링으로 커스텀 빌드
+3. [Nginx 이벤트 주도 아키텍처] 수만 개의 웹 커넥션 처리 시 OS 스케줄러의 타임 퀀텀 오버헤드 자체를 없애기 위해, 스레드를 코어 수만큼만 띄우고(FCFS적 속성) 사용자 공간(User-space)의 이벤트 루프에서 직접 비동기 디스패치 수행
+
+**결론:**
+- 기술사 판단: 스케줄링 알고리즘은 단순히 CPU를 나눠주는 분배기가 아니다. 제한된 자원 위에서 "반응성(I/O)을 살릴 것인가, 전체 처리량(CPU)을 뽑아낼 것인가"라는 영원한 딜레마를 타임 퀀텀과 동적 가중치로 타협해 낸 운영체제 철학의 결정체다.
+- 향후 방향: 현대 데이터센터는 코어가 128개를 넘어가며 전통적인 SMP 큐 방식은 한계에 부딪혔다. 최근에는 NUMA 아키텍처를 인지하여 메모리 거리를 계산해 스케줄링하는 NUMA-aware 스케줄러와, 에너지 소모량(W)을 최소화하기 위한 전력 인지(EAS, Energy Aware Scheduling) 기법으로 진화의 방향이 넘어가고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "스케줄링 알고리즘을 설명하시오" | queue 이동과 dispatch 흐름 | 알고리즘별 지표 비교 |
-| 요구사항 명시형 | "비교하시오", "선택 기준을 제시하시오" | workload별 평가 지표 | 응답시간·처리량·공정성 trade-off |
-
-> 요약: 설명형은 알고리즘 폭을, 비교형은 지표별 선택 기준을 전면에 둔다.
+| 포괄형 | "프로세스 스케줄링 4대 알고리즘과 현대 발전 동향을 설명하시오" | 호위 효과(FCFS) 도식 및 RR/SJF 단점 비교표 | MLFQ의 피드백 로직과 리눅스 CFS 트리 융합 |
+| 요구사항 명시형 | "대화형 시스템에서의 스케줄링 한계와 MLFQ 극복 방안 제시" | 타임 퀀텀 조절 실패 리스크(FCFS화 vs 스레싱) | 동적 큐 강등과 우선순위 에이징(Aging) 기반 방어 |

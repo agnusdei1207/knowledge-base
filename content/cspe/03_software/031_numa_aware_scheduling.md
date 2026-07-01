@@ -1,6 +1,6 @@
 ---
 title: "NUMA 인지 스케줄링 (NUMA-aware Scheduling)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 31
@@ -8,153 +8,139 @@ weight: 31
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: NUMA 인지 스케줄링을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: CPU가 가까운 메모리를 우선 사용하도록 태스크와 페이지를 같은 NUMA 노드에 배치하는 스케줄링 기법
-- **왜 필요한가**: 다소켓 서버에서는 모든 메모리 접근 시간이 같지 않다. 다른 소켓의 메모리에 접근하면 local memory보다 지연이 커지고 대역폭 경합이 발생한다.
-- **핵심 직관**: 내 책상 서랍의 문서는 즉시 꺼내지만 옆 건물 창고 문서는 이동 시간이 추가되는 상황과 같다.
+- **개요**: 옛날 컴퓨터는 코어가 4개든 8개든 **메모리(RAM) 1개**를 다 같이 썼다. 이걸 UMA(Uniform Memory Access)라고 한다. 근데 서버 코어가 64개가 되자, 코어 64개가 메모리 1개에 동시에 달려들어 병목이 터졌다. 그래서 "CPU 묶음별로 전용 메모리를 따로 떼어주자!" 한 게 **NUMA(Non-Uniform Memory Access)**다. 그리고 스케줄러가 이 구조를 똑똑하게 활용하는 게 'NUMA 인지 스케줄링'이다.
+- **왜 필요한가**: NUMA 구조에서 0번 CPU는 0번 메모리에 1나노초면 간다(Local). 근데 0번 CPU가 1번 메모리에 접근하려면 다른 CPU 앞마당(인터커넥트)을 가로질러야 해서 3나노초가 걸린다(Remote). 스케줄러가 이걸 모르고 0번 CPU한테 "1번 메모리 거 읽어와!" 하고 시키면 서버가 미친 듯이 느려진다.
+- **핵심 직관**: 
+  - **UMA (과거)**: 동네 우물 1개. 마을 사람(CPU) 64명이 다 같이 줄 서서 물을 푸니까 물 푸는 데 하루 종일 걸림.
+  - **NUMA (현재)**: 마을을 2구역(Node 0, Node 1)으로 나누고 우물을 각 구역에 1개씩 팜.
+  - **NUMA 인지 스케줄링**: 이장님(OS)이 동네 사람들에게 "무조건 자기 구역 우물(Local) 물만 마시고, 웬만하면 남의 구역 우물(Remote)엔 가지 마라"라고 교통정리를 해주는 것.
 
 ## 깊이 이해
-- **배경·문제의식**: SMP처럼 모든 CPU가 같은 비용으로 메모리를 접근한다고 가정하면 대형 서버에서 remote memory access가 증가한다. DB, JVM, 인메모리 캐시처럼 메모리 집약 워크로드는 NUMA 배치에 따라 p99 지연이 달라진다.
-- **작동 원리**: OS는 CPU, 메모리 bank, I/O 장치를 NUMA node topology로 파악한다. 태스크가 주로 접근하는 페이지와 실행 CPU를 같은 노드에 두기 위해 node affinity, automatic NUMA balancing, page migration을 사용한다.
-- **비유**: 팀원이 자주 쓰는 자료를 자기 자리 근처 캐비닛에 두면 왕복 시간이 줄어든다. 팀을 다른 층으로 옮기면 자료도 같이 옮겨야 한다.
-- **구체 예시**: 2-socket 서버에서 local memory access가 80ns, remote memory access가 130ns 수준이면 remote 비율 40%인 DB는 lock 대기와 cache miss가 증가할 수 있다.
-- **흔한 오해·주의점**: CPU 사용률이 낮아도 NUMA 배치가 틀리면 지연이 커진다. 스케줄러가 태스크만 옮기고 페이지를 옮기지 않으면 remote access가 유지된다.
+- **배경·문제의식**: 코어 수가 적을 때는 SMP(대칭형 멀티프로세싱) 구조가 완벽했다. 하지만 CPU에 코어가 32개, 64개로 늘어나며 FSB(메모리 버스) 하나를 놓고 수십 개의 코어가 싸우는 끔찍한 병목이 생겼다. 그래서 AMD가 먼저(나중에 인텔도 합류) CPU와 메모리를 한 세트(NUMA Node)로 묶어버리는 혁신을 도입했다.
+- **작동 원리 (로컬 vs 리모트 메모리)**:
+  - **Node 0**: CPU 0~7 + 메모리 16GB
+  - **Node 1**: CPU 8~15 + 메모리 16GB
+  - CPU 0이 자기 앞마당(Node 0 메모리)을 읽을 때(Local Access)는 빛처럼 빠르다.
+  - 하지만 Node 0 메모리가 꽉 차서, CPU 0이 옆집(Node 1 메모리)을 읽을 때(Remote Access)는 QPI/UPI라는 연결 다리를 건너야 하므로 속도가 확 떨어진다.
+  - OS 커널은 프로세스를 처음 실행시킬 때 가급적 처음 할당된 Node 안에서만 맴돌도록 고정(Affinity)시킨다.
+- **비유**: 
+  - 1팀(Node 0) 책상에 1팀 자료(Local)가 있고, 2팀(Node 1) 책상에 2팀 자료가 있음.
+  - 1팀 직원이 1팀 책상 자료 볼 때는 1초 컷.
+  - 1팀 직원이 2팀 책상 자료 보려면 파티션을 넘어가야 해서 3초 걸림(Remote Access).
+- **구체 예시**: MongoDB나 Redis 같은 초대용량 인메모리(In-memory) DB를 NUMA 서버에 그냥 깔면 어느 순간 특정 노드 메모리만 꽉 차서 죽어버린다. 이때 `numactl --interleave=all` 옵션을 주면, 메모리를 두 구역에 골고루 분산 배치해서 특정 구역만 터지는 걸 막을 수 있다.
+- **흔한 오해·주의점**: NUMA를 끈다(Disable)고 해서 물리적으로 떨어진 램이 합쳐지는 게 아니다. 바이오스(BIOS)에서 NUMA를 끄면 램 공간을 하나(Node 0)로 속여서 쓸 뿐, 물리적인 다리(Remote)를 건너는 지연(Latency)은 그대로 남아있어 오히려 성능이 더 엉망이 된다.
 
 ## 연결 개념
-- NUMA topology — CPU·메모리·I/O 장치의 거리 정보
-- Node affinity — 태스크와 메모리를 특정 노드에 묶는 정책
-- Page migration — 자주 쓰는 메모리 페이지를 가까운 노드로 이동
+- **스레드 어피니티 (Thread Affinity)**: 프로세스(스레드)가 0번 CPU(Node 0)에서 쫓겨나지 않도록 족쇄를 채워, 캐시 메모리와 로컬 메모리 적중률을 강제로 높이는 커널 튜닝 기법.
+- **Work Stealing의 비극**: 바쁜 코어가 노는 코어에게 일거리를 뺏기는 현상인데, 이게 NUMA 노드를 넘어가서 스틸링이 발생하면 메모리까지 원격(Remote)으로 읽어야 해서 대참사가 일어난다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: NUMA-aware scheduling은 CPU 배치만이 아니라 memory locality, page migration, remote access latency, node affinity를 함께 다룬다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: NUMA 인지 스케줄링은 태스크 실행 CPU와 해당 태스크가 자주 접근하는 메모리 페이지를 같은 NUMA 노드에 배치하는 기법이다.
-> 2. **가치**: remote memory access를 줄여 인메모리 DB, JVM, 캐시 서버의 p99 지연과 메모리 대역폭 경합을 통제한다.
-> 3. **판단 포인트**: node affinity, automatic NUMA balancing, page migration, remote/local access ratio를 함께 확인해야 한다.
+> 1. **본질**: 다중 코어 프로세서 환경에서 글로벌 메모리 버스 경합(FSB Bottleneck)을 해소하기 위해 CPU 칩 단위로 로컬 메모리를 결합한 하드웨어 토폴로지를 OS가 인지하여 제어하는 스케줄링 기법이다.
+> 2. **가치**: 프로세스의 메모리 할당(Allocation)과 스레드 실행(Execution)을 동일한 NUMA 노드에 강제(Affinity)함으로써, Remote Access 지연(Latency)을 원천 차단하고 메모리 대역폭 한계를 돌파한다.
+> 3. **판단 포인트**: 기존 UMA 구조의 버스 포화 현상을 도식화하고, NUMA 환경에서 커널 스케줄러가 강제하는 Local Allocation 원칙과 `numactl`을 통한 메모리 정책(Interleave vs Bind)을 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| NUMA 구조 이해 확인 | local/remote memory, node topology | 멀티코어 부하분산으로만 설명 |
-| 스케줄링·메모리 결합 확인 | task placement, page migration, affinity | CPU 이동만 쓰고 페이지 이동 누락 |
-| 성능 분석 판단 확인 | remote latency, bandwidth, cache miss | CPU 사용률만 지표로 제시 |
+| UMA 한계와 NUMA 아키텍처의 물리적 필연성 도출 | 메모리 버스(FSB) 경합 -> 칩 단위 인터커넥트(QPI/UPI) | 단순히 "NUMA가 최신이라서 좋다"식의 피상적 서술 (버스 병목을 지적해야 함) |
+| Local/Remote 메모리 접근 비용(Cost) 차이 규명 | Node 내 접근(고속) vs 타 Node 접근(지연 폭발) | 메모리를 물리적으로 공유하지 않는 분산 시스템으로 착각하는 오류 (메모리는 논리적으로 하나로 연결됨) |
+| 운영체제 커널의 대응 및 튜닝 정책 판단 | `sched_domain` 계층화, `numactl` 어피니티 정책 | NUMA 인지를 하드웨어 칩셋 기능으로만 치부하고 OS 스케줄러의 역할을 누락 |
 
-> 요약: 이 문제는 CPU 스케줄링과 메모리 배치를 결합해 remote access를 줄이는 판단을 요구한다.
+> 요약: 서버 코어가 64개를 찍는 시대에 메모리를 한 곳에 모아두면 병목으로 폭발한다. 동네를 둘로 쪼개고 우물(메모리)을 두 개 파준 뒤 "남의 구역 우물에 가지 마라"고 명령하는 것이 NUMA 스케줄링의 진수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-NUMA 인지 스케줄링은 CPU와 메모리의 거리 차이를 고려한 배치 기법이다. 다소켓 서버에서는 local memory와 remote memory 접근 지연이 다르다. 태스크와 메모리 페이지를 같은 노드에 배치해야 p99 지연과 메모리 대역폭 경합을 줄일 수 있다.
+- 정의: CPU 코어 집합과 전용 물리 메모리를 하나의 노드(Node)로 묶은 NUMA 하드웨어 구조에서, OS 커널 스케줄러가 코어와 메모리의 토폴로지를 인지하여 로컬 히트율(Local Hit)을 극대화하는 프로세스 배치 기법
+- 배경: SMP 아키텍처(UMA)에서는 수십 개의 코어가 단일 램 컨트롤러(FSB)를 동시 타격하여 병목이 발생, 프로세서 스케일업(Scale-up) 시 성능 증가가 정체(Plateau)되는 한계 직면
+- 필요성: 노드 간 상호 연결망(Interconnect)을 횡단하는 원격 메모리 접근(Remote Access) 오버헤드를 막고, 프로세스에 로컬 메모리 선호도(Affinity)를 부여해 Throughput을 극대화하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. UMA vs NUMA 하드웨어 아키텍처 비교 도식
 
 ```text
-NUMA Topology -> Node0 CPU / Memory, Node1 CPU / Memory
-  -> Task Placement -> Memory Policy -> Page Migration
-  -> Local Access 우선 / Remote Access 측정
+[ 과거 UMA (Uniform Memory Access) 구조 ] 
+(CPU 0) (CPU 1) (CPU 2) (CPU 3) 
+   |       |       |       |       🚨 모두가 한 버스에서 치고박고 싸움
++-----------------------------+
+|    단일 시스템 버스 (FSB)      | 
++-----------------------------+
+|    공유 Main Memory (RAM)   |
++-----------------------------+
+
+[ 현대 NUMA (Non-Uniform Memory Access) 구조 ]
+  [ Node 0 ]                       [ Node 1 ]
+(CPU 0) (CPU 1)                  (CPU 2) (CPU 3)
+   |       |                        |       |
+[로컬 Memory A] <--(QPI/UPI 통신)--> [로컬 Memory B]
+  (접근 속도 1x)                    (타 노드 접근 속도 3x 🚨 지연발생)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 비교 축 | UMA (과거 4코어 시대) | NUMA (현대 64코어 시대) |
 |:---|:---|:---|
-| NUMA Node | CPU 코어와 지역 메모리 묶음 | socket 또는 memory domain |
-| Scheduler | 태스크 실행 CPU 선택 | node load와 locality 고려 |
-| Memory Policy | 페이지 할당 노드 결정 | bind, interleave, preferred |
-| Page Migration | 접근 패턴에 따라 페이지 이동 | migration cost 존재 |
-| NUMA Metric | local/remote 접근 비율 측정 | numastat, perf mem |
+| **메모리 접근 시간** | 어떤 코어든 모든 메모리 접근 시간이 **균일(Uniform)함** | 로컬은 빠르지만, 원격(Remote) 메모리는 **불균일(Non-Uniform)하게 느림** |
+| **확장성 병목 한계** | 코어가 8개를 넘어가는 순간 버스 경합으로 성능 수직 하락 | 코어 집합을 노드 단위로 격리하여 100코어 이상 무한 스케일업 달성 |
+| **OS 스케줄러 책임** | 아무 생각 없이 남는 CPU에 프로세스를 던져도 무방함 | **반드시 토폴로지를 읽고 짝을 맞춰(Affinity) 스케줄링**해야 성능 방어 가능 |
 
-> 요약: NUMA-aware 구조는 topology 파악, 태스크 배치, 메모리 정책, 페이지 이동, remote access 측정으로 구성된다.
+> 요약: UMA는 평등하지만 느리고, NUMA는 이기적이지만 빠르다. NUMA 환경에서 프로세스가 남의 노드 메모리를 읽기 위해 다리(UPI)를 건너는 순간 시스템 튜닝은 실패한 것이다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. OS 커널의 NUMA 인지 스케줄링 핵심 메커니즘
 
-```text
-프로세스 실행 -> 첫 메모리 할당 -> node 기록
-  -> scheduler가 CPU 선택 -> remote access 감지
-  -> task 이동 / page migration -> locality 재측정
-```
+리눅스 커널 스케줄러(CFS)는 이제 무지성으로 프로세스를 섞지 않는다. `sched_domain` 토폴로지를 기반으로 노드 경계를 지킨다.
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 프로세스 시작 시 NUMA policy와 cpuset 확인 | numactl policy |
-| 2 | first-touch 원칙으로 페이지 할당 | page node distribution |
-| 3 | 스케줄러가 node load와 affinity로 CPU 선택 | node utilization |
-| 4 | remote access가 크면 task 또는 page 이동 | remote ratio, migration/sec |
-| 5 | 이동 후 p99 latency와 bandwidth 재측정 | perf mem, numastat |
-
-> 요약: NUMA 인지 스케줄링은 first-touch 배치 후 접근 패턴을 보고 태스크와 페이지를 가까운 노드로 재배치한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 기존/대안 | 본 기술 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| UMA 가정 | 메모리 접근 비용 동일 | local/remote latency 구분 | remote 130ns, local 80ns 예시 |
-| 일반 스케줄링 | CPU 부하 중심 | memory locality 포함 | remote access 20% 이하 목표 |
-| 수동 정책 | 관리자 numactl 지정 | automatic NUMA balancing | page migration 비용 |
-| 한계 | 부하 균등 우선 | locality와 balance 절충 | node imbalance 10% 이하 |
-
-> 요약: NUMA-aware scheduling은 CPU 사용률보다 memory locality를 포함해 p99 지연을 관리한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | CPU 부하 기반 배치 | CPU+메모리 노드 배치 | 다소켓, 메모리 집약 워크로드 |
-| 비용/성능 | remote access 방치 | node affinity와 page migration | p99 latency, remote ratio |
-| 운영/위험 | 자동 balancing 기본값 | 수동 bind/interleave 조합 | DB, JVM heap, cache 특성 |
-
-> 요약: NUMA 정책은 워크로드 메모리 접근 패턴과 노드별 부하를 동시에 측정해 결정한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| remote access 증가 | 태스크와 페이지가 다른 노드에 위치 | numactl bind, cpuset, page migration | remote ratio 20% 이하 |
-| 노드 불균형 | 특정 노드에 CPU·메모리 집중 | interleave, load balancing | node utilization 편차 10% 이하 |
-| migration 비용 | 페이지 이동이 잦아 TLB·cache 손실 | migration threshold 조정 | migration/sec, LLC miss |
-
-> 요약: NUMA 리스크는 remote access, node imbalance, migration 비용이며 세 지표를 동시에 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 핵심 스케줄링 원칙 | 커널 스케줄러 동작 메커니즘 | 아키텍처적 가치 |
 |:---|:---|:---|
-| 성능/지연 | p99 latency 20% 이상 감소 | benchmark, APM |
-| 품질/지역성 | remote access 20% 이하 | numastat, perf mem |
-| 운영/자원 | node utilization 편차 10% 이하, migration/sec 기준선 유지 | mpstat, ftrace |
+| **Local Allocation (로컬 할당)** | 프로세스가 0번 CPU(Node 0)에 스케줄링되어 처음 메모리를 요청(`malloc`)할 때, **무조건 Node 0에 연결된 램을 1순위로 떼어줌** (First-touch Policy) | Remote Access 발생 빈도를 0%에 수렴시켜 버스 횡단 지연 원천 차단 |
+| **Node Affinity (노드 고정)** | 로드 밸런싱(Work Stealing)이 발동할 때, 가급적 같은 Node 0 안의 CPU끼리만 프로세스를 훔치도록 패널티 가중치 설정 | 캐시(L1/L2) 플러시 방어 및 메모리 원격지 참조 참사 동시 방어 |
+| **NUMA Balancing (오토 튜닝)** | 커널 데몬이 백그라운드에서 감시하다가, CPU 0이 Node 1의 메모리를 너무 많이 읽고 있으면 아예 프로세스 자체를 Node 1의 CPU로 강제 이주(Migration)시킴 | 개발자가 튜닝을 누락해도 커널이 스스로 로컬리티(Locality)를 회복하는 힐링 기제 |
 
-> 요약: NUMA-aware 도입 효과는 p99 지연, remote access 비율, 노드 부하 편차로 검증한다.
+> 요약: 똑똑한 커널은 일꾼(프로세스)을 자재(로컬 메모리)가 있는 공장에 평생 묶어둔다. 만약 자재가 딴 공장에 있으면, 아예 일꾼 자체를 그 공장으로 짐 싸서 이사시켜 버린다(NUMA Balancing).
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅳ. 극복해야 할 시스템 리스크 및 In-memory DB 붕괴 한계
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. DB·JVM·캐시 서버는 `numactl --hardware`, `numastat`, `perf mem`으로 topology와 remote access 기준선을 측정한다.
-2. 지연 민감 프로세스는 cpuset과 memory bind로 CPU·메모리를 같은 노드에 묶고 p99 latency 20% 감소 여부를 검증한다.
-3. 워크로드가 노드 전체 메모리를 고르게 쓰면 interleave 정책을 적용하고 migration/sec와 node imbalance를 모니터링한다.
+NUMA의 로컬 강박증은 특정 앱(Redis, MongoDB)을 만나면 서버를 즉사시키는 맹독이 된다.
 
-**결론 (2줄):**
-- 기술사 판단: 메모리 집약·다소켓 서버는 NUMA-aware scheduling, 단일 소켓 또는 I/O-bound 서비스는 일반 load balancing을 우선 적용한다.
-- 향후 방향: 스케줄러는 CPU, 메모리, I/O 장치 locality를 통합한 topology-aware resource management로 확장된다.
+| 리스크 요인 | 물리적 발생 메커니즘 및 시스템 마비 원인 | 아키텍처 대응 방안 (실무 튜닝 코드) |
+|:---|:---|:---|
+| **Zone Reclaim 셧다운 (OOM)** | 서버 램이 128GB(64+64)인데, MySQL 데몬이 0번 노드에서 시작함. 로컬 원칙에 따라 MySQL이 0번 노드 램 64GB를 다 써버림. 1번 노드 램은 텅 빈 64GB가 남아도, 커널이 "남의 노드 넘보지 마!"라며 MySQL에 OOM(Out of Memory) 킬러를 날려 DB 폭파 | 데이터베이스 서버 환경에서는 커널 파라미터 `vm.zone_reclaim_mode=0`을 부여하여, 로컬 노드가 차면 즉각 타 노드 메모리를 끌어다 쓰도록 성능 저하를 감수하고 생존(가용성) 우선 정책 적용 |
+| **In-memory 편중 (Node Imbalance)** | Redis 같은 싱글 스레드 인메모리 앱이 캐시를 100GB 적재할 때, 프로세스가 시작된 특정 노드 메모리만 미친 듯이 소모되어 스왑(Swap) 디스크 병목 폭발 초래 | **`numactl --interleave=all`** 명령으로 실행하여, 로컬 강제 정책을 무시하고 Node 0과 Node 1 메모리 뱅크에 데이터를 라운드 로빈(Round-robin)으로 강제 분산 매핑 |
+
+> 요약: NUMA의 "로컬 우선" 철학은 일반 앱에는 빛이지만, 서버 램 전체를 혼자 다 씹어 먹는 거대 DB(MongoDB, Redis)에게는 반쪽짜리 램만 쓰다 죽으라는 사형 선고다. 그래서 DB 서버는 NUMA 정책을 강제로 해제(Interleave)하는 것이 업계 국룰이다.
+
+---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [Redis/MongoDB In-memory 할당 튜닝] 거대 싱글 프로세스 DB 기동 시, OS의 로컬 할당(First-touch) 방침으로 인한 편중 셧다운을 막기 위해 Systemd 서비스 스크립트 실행부에 `ExecStart=/usr/bin/numactl --interleave=all /usr/bin/redis-server` 구문을 적용해 전역 메모리 골고루 분산
+2. [가상머신(KVM/ESXi) vCPU - NUMA Pinning 적용] 프라이빗 클라우드(OpenStack) 프로비저닝 시, VNF(네트워크 가상화 기능) 8코어 VM이 Node 0과 Node 1에 걸쳐 찢어지면(Split) 네트워킹 레이턴시가 폭발하므로, 하이퍼바이저 템플릿에 `NUMA Node Affinity`를 걸어 8코어 전부를 단일 NUMA 노드에 격리(Pinning) 매핑
+3. [Java JVM GC 지연(STW) 완화 튜닝] 대규모 힙(Heap) 메모리 64GB를 쓰는 JDK 11+ 스프링 애플리케이션 기동 시, 가비지 컬렉터 스레드가 타 노드 메모리를 스캔하며 멈춤(STW) 시간이 길어지는 것을 억제하기 위해 JVM 옵션 `-XX:+UseNUMA`를 켜서 힙 할당과 객체 수집을 NUMA 토폴로지에 맞게 물리적으로 격리 최적화
+
+**결론:**
+- 기술사 판단: NUMA 인지 스케줄링은 하드웨어의 한계(버스 공유 폭발)를 소프트웨어(커널 계층화)가 구조적으로 구원해 낸 최적화의 정수다. "어디서 실행되는가"가 성능의 50%를 결정하는 현대 멀티소켓 환경에서 로컬리티(Locality) 통제권은 필수 아키텍처 역량이다.
+- 향후 방향: 차세대 데이터센터 토폴로지는 NUMA 노드를 넘어 기기(Machine) 간 메모리를 공유하는 CXL(Compute Express Link) 프로토콜 시대로 접어들었다. 미래의 스케줄러는 서버 내부의 램뿐만 아니라, PCIe 케이블 저편에 꽂힌 CXL 메모리 풀(Pool)의 원격 레이턴시까지 인지하고 제어하는 거대한 오케스트레이터로 진화할 것이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "NUMA 인지 스케줄링을 설명하시오" | first-touch, task/page 이동 흐름 | local/remote memory 특징 |
-| 요구사항 명시형 | "개선 방안을 제시하시오", "설계하시오" | remote access 측정과 재배치 흐름 | bind/interleave 선택 기준과 지표 |
-
-> 요약: 설명형은 NUMA 원리, 개선형은 remote access 측정과 배치 정책 중심으로 작성한다.
+| 포괄형 | "UMA와 NUMA 구조를 비교하고 NUMA 스케줄링 방식을 설명하시오" | FSB 병목 대조 도식 및 로컬 할당(First-touch) 원리 | NUMA Balancing 데몬의 자가 치유(Migration) 메커니즘 |
+| 요구사항 명시형 | "대용량 DB(인메모리) 운영 시 NUMA 아키텍처의 리스크 및 튜닝 방안" | 메모리 편중 편식(Zone Reclaim)으로 인한 OOM 한계 | `numactl --interleave` 적용 사례 및 vCPU 노드 고정 |

@@ -37,9 +37,21 @@ weight: 88
 > 2. **가치**: GPU 메모리, 학습 시간, 모델 저장 비용을 줄여 다도메인 LLM 운영을 가능하게 함.
 > 3. **판단 포인트**: 기법 선택, trainable parameter 비율, adapter 관리, full FT 대비 정확도 회귀를 검증해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| PEFT 원리와 Full FT 대비 판단 역량 | freeze/adapter 구조, trainable params 비율, adapter 관리 | Full FT와 혼동, 정확도 회귀 검증 누락, 추상적 "비용 절감" 표현 |
+
+> 요약: 출제자는 base model 고정·소량 파라미터 학습 원리와 Full FT 대비 비용·정확도 판단을 확인함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-PEFT는 파라미터 효율형 모델 적응 기법임. 대형 LLM 전체를 도메인별로 학습·저장하기 어렵기 때문에, base model은 고정하고 작은 추가 파라미터만 학습함.
+- 정의: base model을 고정하고 소량의 task-specific 파라미터만 학습하는 비용 절감형 fine-tuning
+- 배경: LLM 전체를 도메인별로 학습·저장하면 GPU 메모리·복사 비용이 폭증함
+- 필요성: adapter, LoRA, prefix 등 작은 모듈만 학습해 다도메인 운영 비용을 절감함
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ base model 고정 → PEFT 모듈 삽입 → task 데이터 학습
 
 > 요약: PEFT는 비용과 저장 효율이 높지만, adapter 운영과 full FT 대비 정확도 차이를 관리해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Full Fine-Tuning | PEFT | 선택 기준 |
+|:---|:---|:---|:---|
+| 학습 대상 | 전체 weight | 0.1~5% adapter/LoRA | GPU 메모리 ≤ 24GB 여부 |
+| 저장 비용 | 모델 사본 | adapter만 저장(MB~GB) | 도메인 수 × 모델 크기 |
+| 정확도 | 상한 높음 | 도메인 차이에 의존 | F1 하락 2%p 이내 기준 |
+
+> 요약: GPU 메모리·저장 제약이 크면 PEFT, 정확도 최우선이면 Full FT를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 정확도 회귀 | adapter 용량 부족 | rank·layer 탐색, full FT 전환 | F1 gap ≤ 2%p |
+| Adapter 충돌 | 다도메인 adapter 버전 관리 미흡 | registry + base hash + rollback 정책 | 배포 일치율 |
+| 서빙 지연 | 동적 adapter 로딩 오버헤드 | merge 또는 캐시 정책 적용 | p95 latency |
+
+> 요약: 정확도 회귀·adapter 충돌·서빙 지연을 rank 탐색, registry 관리, merge 정책으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 도메인 정확도 | F1 ≥ 0.85, Full FT 대비 gap ≤ 2%p | holdout 평가셋 |
+| Adapter 저장 | tenant별 adapter ≤ 500MB | artifact size 모니터링 |
+| 서빙 성능 | p95 latency ≤ 200ms | 로드 테스트 |
+
+> 요약: 도메인 F1, adapter 크기, 서빙 latency를 정량 기준으로 PEFT 도입 성공을 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 부서별 assistant는 공통 13B base model에 LoRA adapter를 분리해 저장하고 tenant별 로드 정책 적용

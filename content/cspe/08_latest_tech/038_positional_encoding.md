@@ -38,22 +38,31 @@ weight: 38
 > 2. **가치**: 문장 순서·구문 구조·장거리 참조를 보존하여 Transformer가 언어를 순차적으로 해석하게 함.
 > 3. **판단 포인트**: 절대/상대/RoPE 방식, 외삽 가능성, 장문맥 확장 비용을 비교해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| PE 종류별 원리와 차이 이해 확인 | 절대 PE(학습/Sinusoidal), 상대 PE, RoPE Q/K 회전 원리, ALiBi 선형 bias | PE 종류 나열만 하고 원리 미설명, 절대/상대 차이 미구분 |
+| 장문맥 확장 설계 판단력 확인 | RoPE scaling(YaRN/NTK), 외삽 정확도 NIAH 평가, Lost in the Middle | 위치 인코딩만 바꾸면 무제한 확장 가능하다는 오류 |
+
+> 요약: PE 방식별 원리 차이와 장문맥 확장 시 외삽·정확도 검증 능력을 동시에 평가하는 문제임.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-위치 인코딩은 토큰 순서 주입 기법임. Transformer는 병렬 Attention 구조로 순서 정보를 직접 갖지 않으므로, 입력 임베딩에 위치 벡터를 결합해 문장 구조와 상대 거리를 표현함.
+- 정의: Self-Attention 입력에 토큰 위치·거리 정보를 주입하는 벡터 표현
+- 배경: Transformer는 병렬 Attention 구조로 순서 정보를 직접 갖지 않음
+- 필요성: 입력 임베딩에 위치 벡터를 결합해 문장 구조·상대 거리를 표현하며, 장문맥 확장 시 외삽 설계가 필수
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Token IDs → Token Embedding ┐
-                            ├→ Embedding + Position → Transformer
-Position Index → PE Vector ┘
-          │
-          ├─ Absolute PE
-          ├─ Relative PE
-          └─ RoPE / ALiBi
+Token IDs -> Token Embedding -+
+                               +-> Embedding + Position -> Transformer
+Position Index -> PE 계산/조회 -+
+  PE 유형 선택: Absolute PE / Relative PE / RoPE / ALiBi
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -95,7 +104,35 @@ Position Index → PE Vector ┘
 > 요약: 짧은 문맥은 절대 PE로 충분하나, 128K 이상 장문맥은 RoPE scaling·ALiBi 등 외삽형 설계가 필요함.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 절대 PE(학습/Sinusoidal) | RoPE/ALiBi | 선택 기준 |
+|:---|:---|:---|:---|
+| 외삽 능력 | 학습 길이 초과 시 정확도 급락 | RoPE scaling으로 32K→128K 확장 | 최대 입력 길이 고정 여부 |
+| 구현 위치 | 임베딩에 Add | Q/K 회전 또는 Attention bias | 모델 구조 변경 범위 |
+| 장문맥 비용 | PE 자체 비용 작음, Attention O(N²) 별도 | RoPE 확장 + FlashAttention 병행 | GPU 메모리·TTFT 허용 범위 |
+
+> 요약: 고정 길이는 절대 PE, 장문맥 외삽은 RoPE scaling + Attention 최적화를 조합해 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 외삽 정확도 붕괴 | 학습 길이 초과 시 PE 분포 불일치 | RoPE YaRN/NTK scaling, 점진적 fine-tuning | NIAH 정확도 95% 이상 |
+| Lost in the Middle | 긴 문맥 중간 위치 정보 검색 실패 | 핵심 근거를 프롬프트 앞·뒤 배치, 청크 재정렬 | 위치별 retrieval 정확도 |
+| 위치 왜곡 | RoPE 주파수 조정 과도 시 상대 거리 왜곡 | scaling factor 실험, 검증 데이터 perplexity 비교 | perplexity 증가율 5% 이내 |
+
+> 요약: 외삽 붕괴와 중간 위치 손실을 scaling·배치 전략·perplexity 측정으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 외삽 정확도 | NIAH 95% 이상(128K 기준) | Needle-in-a-Haystack 벤치마크 |
+| 위치 일관성 | perplexity 증가 5% 이내 | 학습 길이 대비 2×·4× 길이 평가 |
+| 추론 지연 | p95 TTFT 2초 이하(A100, 128K) | vLLM 프로파일링 |
+
+> 요약: 외삽 정확도·perplexity·추론 지연을 정량 측정해 PE 방식과 scaling 설정을 결정함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 일반 NLP 모델은 학습 가능한 Absolute PE를 적용하고 최대 길이 512~4K를 명시

@@ -37,9 +37,21 @@ weight: 78
 > 2. **가치**: 7B~70B 모델을 더 적은 GPU 메모리로 서빙·튜닝 가능하게 함.
 > 3. **판단 포인트**: group size, scale, weight-only 여부, kernel 지원, perplexity·업무 정확도 회귀를 검증해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| 4-bit 양자화의 원리와 INT8 대비 trade-off 판단 | weight-only vs activation, group size, GPTQ/AWQ 보정, kernel 지원 | activation 4-bit 적용 일반화, 정확도 회귀 검증 누락 |
+
+> 요약: 출제자는 초저비트 양자화의 메모리 절감과 정확도 회귀 관리 역량을 확인하려 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-4-bit Quantization은 LLM 가중치 초저비트 압축 기법임. 대형 모델의 GPU 메모리 병목을 완화해 단일 GPU, AI PC, 저비용 서빙 환경에서 모델 실행 가능성을 높임.
+- 정의: LLM 가중치를 4-bit로 저장하는 초저비트 양자화 기법
+- 배경: 7B~70B LLM은 FP16 가중치가 14~140GB라 단일 GPU 배포가 어려움
+- 필요성: 4-bit 변환으로 VRAM을 FP16 대비 약 75% 절감해 단일 GPU·AI PC 배포를 가능하게 함
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ FP16 Weights → Grouping → Scale 계산 → 4-bit 저장
 
 > 요약: 4-bit는 LLM 메모리 절감 폭이 크지만, 정확도 회귀와 kernel 지원성 검증이 INT8보다 중요함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | INT8 | 4-bit | 선택 기준 |
+|:---|:---|:---|:---|
+| 메모리 | FP16 대비 50% 절감 | FP16 대비 75% 절감 | VRAM 예산 |
+| 정확도 | 하락 1~2%p | 하락 2~3%p(보정 시) | 업무 허용 회귀폭 |
+| 하드웨어 | 범용 INT8 kernel | GPTQ/AWQ 전용 kernel | vLLM/TRT-LLM 지원 확인 |
+
+> 요약: VRAM 목표와 정확도 허용폭에 따라 INT8 또는 4-bit를 선택하고, kernel 호환성을 검증함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| perplexity 급증 | outlier weight 오차 누적 | GPTQ/AWQ 보정 적용 | perplexity 증가폭 |
+| kernel 미지원 | 4-bit 전용 op 부재 | vLLM/TRT-LLM 버전 확인 | tokens/s 실측 |
+| layer별 불균일 | 특정 layer 민감도 높음 | mixed precision(민감 layer FP16) | layer별 loss 비교 |
+
+> 요약: outlier 보정과 kernel 지원을 사전 검증하지 않으면 4-bit 양자화 품질이 보장되지 않음.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| VRAM 절감 | FP16 대비 70~75% 감소 | nvidia-smi peak memory |
+| 정확도 회귀 | MMLU·사내 QA 하락 2%p 이내 | 벤치마크 비교 |
+| 추론 처리량 | tokens/s FP16 대비 동등 이상 | 부하 테스트 실측 |
+
+> 요약: VRAM·정확도·처리량 3개 축을 동시에 측정해 4-bit 전환 성공 여부를 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 7B~13B 사내 SLM은 AWQ/GPTQ 4-bit로 변환하고 MMLU·사내 QA 하락 2%p 이내 기준 검증

@@ -38,21 +38,28 @@ weight: 57
 > 2. **가치**: 가변 길이 요청의 KV 메모리 낭비를 낮춰 동일 GPU에서 더 많은 동시 세션을 처리함.
 > 3. **판단 포인트**: block size, block table, cache eviction, attention kernel 지원 여부가 처리량을 좌우함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| LLM 서빙 메모리 가상화 이해 | OS 페이징 유사 구조(논리/물리 블록·블록 테이블), 단편화 제거 원리 | 모델 정확도 향상이 아닌 메모리 배치 최적화임을 명시, vLLM 구현 사례 포함 |
+
+> 요약: PagedAttention은 KV Cache의 메모리 단편화를 블록 단위 가상화로 제거하는 서빙 기법이며, OS 페이징과의 대응 관계가 핵심임.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-PagedAttention은 KV Cache 페이지 관리 기법임. LLM 서빙은 요청마다 context/output 길이가 달라 GPU 메모리 단편화가 발생하므로, KV를 고정 크기 블록으로 관리해 동시성·처리량을 확보함.
+- 정의: KV Cache를 고정 크기 블록으로 분할·매핑하여 GPU 메모리 단편화를 줄이는 LLM 서빙 기법
+- 배경: 요청마다 context/output 길이가 달라 연속 할당 시 내부·외부 단편화가 발생함
+- 필요성: 블록 단위 관리로 가변 길이 KV를 수용하고, 동일 GPU에서 동시 세션 처리량을 확보
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Logical Token Sequence
-   │
-Block Table ──▶ Physical KV Blocks
-   │              [B0][B1][B2][B3][Bn]
-   ▼
-Attention Kernel reads mapped blocks
+Logical Token Sequence -> Block Table -> Physical KV Blocks (B0/B1/B2/.../Bn)
+  -> Attention Kernel이 Block Table 기반으로 매핑된 블록을 조회·연산
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -94,7 +101,35 @@ Attention Kernel reads mapped blocks
 > 요약: PagedAttention은 서빙 처리량을 높이는 메모리 가상화 기법이며, 엔진·커널 지원이 적용 전제임.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 연속 KV Cache | PagedAttention | 선택 기준 |
+|:---|:---|:---|:---|
+| 메모리 배치 | 세션별 연속 공간, 단편화 발생 | 고정 블록 분산, 단편화 제거 | OOM 발생률 비교 |
+| 동시 세션 | 단편화로 세션 수 제한 | 블록 회수로 세션 수 증가 | 동일 GPU req/s 측정 |
+| 구현 복잡도 | 낮음, 별도 커널 불필요 | block table·attention 커널 수정 | vLLM 등 엔진 의존 여부 |
+
+> 요약: 동시 사용자가 많은 서빙은 PagedAttention, 단일 배치 추론은 연속 KV Cache가 적합함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| Block Fragmentation | 잦은 세션 생성·종료 시 블록 회수 지연 | 블록 회수 주기 단축, idle timeout 설정 | free block 비율, fragmentation ratio |
+| Attention Kernel 호환 | GPU 아키텍처별 커널 미지원 | vLLM/TGI 엔진 GPU 호환 매트릭스 확인 | A100/H100/MI300 지원 여부 |
+| Cross-tenant KV 누출 | 공유 블록 풀에서 tenant 격리 미흡 | tenant별 block pool 분리, cache key에 tenant id 포함 | cross-tenant access 0건 |
+
+> 요약: 블록 회수·커널 호환·tenant 격리 세 리스크를 엔진 설정과 운영 정책으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| Block Utilization | 90% 이상 | vLLM 메트릭 block_usage_ratio |
+| OOM 건수 | 0건/일 | GPU 모니터링 알림 |
+| req/s 개선률 | 연속 KV 대비 2~3배 | 배포 전후 벤치마크 |
+
+> 요약: block utilization·OOM·req/s 세 지표로 PagedAttention 도입 효과를 정량 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. vLLM 기반 서빙으로 PagedAttention을 적용하고, block utilization·OOM·req/s를 배포 전후 비교

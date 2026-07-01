@@ -38,19 +38,28 @@ weight: 59
 > 2. **가치**: N×N attention matrix 저장을 회피해 긴 문맥 학습·추론의 메모리 병목을 완화함.
 > 3. **판단 포인트**: 시퀀스 길이, GPU SRAM 크기, causal mask, 커널 지원 여부가 적용 기준임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| Attention 메모리 병목 해결 이해 | HBM/SRAM 계층 구분, tiling·online softmax 원리, exact attention 유지 | 근사(approximate) Attention이 아님을 명시, GPU 아키텍처별 커널 의존성 언급 |
+
+> 요약: FlashAttention은 정확한 Attention 결과를 유지하면서 HBM I/O를 SRAM tiling으로 줄이는 알고리즘이며, 근사가 아닌 exact임을 반드시 짚어야 함.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-FlashAttention은 IO-aware Attention 최적화 알고리즘임. Transformer Attention은 N² 점수 행렬 저장으로 HBM 대역폭 병목이 발생하므로, SRAM tile 계산과 online softmax로 메모리 접근량을 줄임.
+- 정의: Attention 행렬을 SRAM 타일 단위로 계산해 HBM I/O를 줄이는 IO-aware exact attention 알고리즘
+- 배경: Transformer의 N×N score 행렬 저장·재로드가 HBM 대역폭 병목을 야기함
+- 필요성: tiling과 online softmax로 중간 행렬 저장 없이 동일 결과를 산출, 장문맥 학습·추론 처리량 향상
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Q Blocks ┐
-K Blocks ├─ SRAM Tile Compute → Online Softmax → Output Block
-V Blocks ┘                         │
-                                HBM write 최소화
+Q/K/V Blocks -> SRAM Tile Compute -> Online Softmax -> Output Block
+  -> HBM에는 최종 Output만 기록 (중간 N×N score 저장 회피)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -92,7 +101,35 @@ Q/K/V 로드 → 타일 분할 → SRAM에서 QKᵀ 계산
 > 요약: FlashAttention은 Attention 결과를 바꾸지 않고 메모리 I/O를 줄여 긴 시퀀스 처리량을 높임.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 표준 Attention | FlashAttention | 선택 기준 |
+|:---|:---|:---|:---|
+| 중간 저장 | N×N score HBM 저장 | score 저장 회피(SRAM only) | 시퀀스 길이 4K 이상 여부 |
+| 병목 | HBM read/write bandwidth | SRAM compute bound | GPU SRAM 크기 |
+| 정확도 | exact | exact (동일) | 근사 아님 |
+
+> 요약: 4K 이상 시퀀스에서 FlashAttention은 HBM I/O를 줄여 처리량을 높이며, 정확도 손실이 없음.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| GPU 커널 미지원 | 아키텍처별 CUDA/ROCm 커널 의존 | A100/H100/MI300 호환 매트릭스 확인, fallback 경로 설정 | 커널 로드 성공 여부 |
+| Causal Mask 오류 | mask 적용 누락 시 미래 토큰 참조 | 단위 테스트로 causal 결과 검증 | 생성 품질·perplexity 비교 |
+| Mixed Precision 회귀 | FP16/BF16 전환 시 수치 불안정 | perplexity 회귀 테스트, BF16 우선 적용 | perplexity 변화 0.5% 이내 |
+
+> 요약: 커널 호환·mask 정확성·precision 세 리스크를 사전 검증과 fallback으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| Peak Memory | 표준 대비 40~60% 절감 | torch.cuda.max_memory_allocated |
+| tokens/s | 표준 대비 1.5~2배 향상 | 벤치마크(4K/16K/32K context) |
+| 정확도 | perplexity 변화 0.1% 이내 | 검증 데이터셋 평가 |
+
+> 요약: peak memory·tokens/s·perplexity 세 지표로 FlashAttention 적용 효과를 정량 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 4K 이상 context 학습·추론에서 FlashAttention 커널을 활성화하고 peak memory와 tokens/s를 비교

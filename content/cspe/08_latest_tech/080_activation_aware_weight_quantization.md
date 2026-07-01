@@ -37,9 +37,21 @@ weight: 80
 > 2. **가치**: 재학습 없이 weight-only INT4 배포를 가능하게 하여 VRAM과 대역폭을 절감함.
 > 3. **판단 포인트**: calibration 대표성, protected channel 비율, kernel 지원, GPTQ 대비 정확도·지연을 비교해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| AWQ의 activation 기반 보호 원리와 GPTQ 대비 선택 기준 | activation outlier channel 보호, weight scaling, GPTQ와의 차이(Hessian vs activation 기준) | AWQ가 재학습 기법이라는 오해, calibration 불필요라는 서술 |
+
+> 요약: 출제자는 AWQ의 activation 인지 보정 원리와 GPTQ 대비 적용 판단 역량을 확인하려 함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-AWQ는 activation-aware weight-only quantization 기법임. LLM의 activation outlier가 출력 품질에 큰 영향을 주므로, 중요한 channel을 보호하며 저비트 양자화를 수행함.
+- 정의: activation 통계 기반으로 중요 channel을 보호하는 LLM weight-only PTQ 기법
+- 배경: LLM activation은 분포가 불균일하고 outlier channel이 출력 품질을 좌우함
+- 필요성: 단순 weight 기준 양자화는 outlier channel 오차가 커서 LLM 4-bit 품질 보존이 어려움
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ FP16 LLM → Calibration Activations → Important Channel Detection
 
 > 요약: AWQ는 LLM activation outlier를 반영해 4-bit weight 양자화 품질을 보존하는 실무형 PTQ 기법임.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | GPTQ | AWQ | 선택 기준 |
+|:---|:---|:---|:---|
+| 보정 기준 | Hessian 역행렬(수학적 오차) | activation 통계(입력 중요도) | outlier 심한 모델은 AWQ 유리 |
+| 변환 비용 | layer별 Hessian 계산 | activation 통계 수집 | AWQ가 변환 시간 짧음 |
+| kernel 지원 | vLLM/TRT-LLM 지원 | vLLM/TRT-LLM 지원 | 서빙 엔진 버전 확인 |
+
+> 요약: activation outlier가 품질 병목이면 AWQ, 수학적 오차 보정이 우선이면 GPTQ를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 중요 channel 오판 | calibration 입력 편향 | 실서비스 로그 1K~10K건 사용 | MMLU·perplexity 변화량 |
+| kernel 비호환 | 서빙 엔진 AWQ 미지원 | vLLM/TRT-LLM 버전 확인 | tokens/s 실측 |
+| 도메인 shift | 서비스 입력 분포 변경 | 주기적 재보정(분기 1회) | 정확도 모니터링 |
+
+> 요약: calibration 대표성과 kernel 호환성을 사전 검증하지 않으면 AWQ 보호 효과가 불확실함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| VRAM 절감 | FP16 대비 70~75% 감소 | nvidia-smi peak memory |
+| 품질 회귀 | MMLU 하락 2%p 이내, perplexity 증가 0.5 이내 | GPTQ·FP16 대비 벤치마크 |
+| 추론 지연 | TPOT FP16 대비 동등 이하 | vLLM 부하 테스트 |
+
+> 요약: VRAM·품질·지연 3개 축과 GPTQ 대비 결과를 비교해 AWQ 적용 여부를 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 서비스 로그 기반 calibration prompt 1K~10K건으로 AWQ 변환 후 MMLU·사내 QA 하락 2%p 이내 확인

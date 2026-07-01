@@ -38,25 +38,32 @@ weight: 34
 > 2. **가치**: GPU 병렬화로 학습 속도를 10배+ 향상시키고, GPT·BERT 등 Foundation Model의 기반이 됨.
 > 3. **판단 포인트**: O(N²) 연산 비용을 시퀀스 길이·하드웨어 예산에 맞춰 Sparse/Linear Attention으로 완화해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| Self-Attention 기반 구조와 RNN 대비 차별점 이해 확인 | Q·K·V 연산 원리, 인코더/디코더 구조, O(N²) 복잡도, RoPE/Sinusoidal PE | "Attention만 쓰면 된다"로 과잉 단순화, O(N²) 한계 누락, 인코더·디코더 구분 없이 서술 |
+
+> 요약: Transformer 답안은 Self-Attention 연산 원리와 O(N²) 한계, 인코더/디코더 구조 차이를 구분해 서술해야 함.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LSTM의 순차 처리·기울기 소실 한계를 해결하고, GPU 병렬화를 극대화하여 대규모 언어모델(LLM)의 기반 구조로 자리잡음.
+- 정의: Self-Attention으로 시퀀스를 병렬 처리하는 신경망 아키텍처
+- 배경: RNN/LSTM은 순차 O(N) 처리로 기울기 소실·GPU 병렬화 불가
+- 필요성: GPU 병렬화 극대화로 학습 속도 10배+ 향상, GPT·BERT 등 Foundation Model의 기반 구조
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-입력 → Embedding + Positional Encoding
-           │
-     ┌─────▼──────┐        ┌─────────────┐
-     │  Encoder ×L │──────▶│  Decoder ×L  │
-     │ (Self-Attn  │       │ (Masked Self │
-     │  + FFN)     │       │  + Cross-Attn│
-     └─────────────┘       │  + FFN)      │
-                           └──────┬───────┘
-                                  ▼
-                            Linear + Softmax → 출력
+입력 -> Embedding + Positional Encoding
+  -> Encoder x L (Self-Attn + FFN)
+       |
+       +-> Decoder x L (Masked Self-Attn + Cross-Attn + FFN)
+            |
+            +-> Linear + Softmax -> 출력
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -98,7 +105,35 @@ Transformer는 Attention 기반 병렬 시퀀스 처리 아키텍처임. RNN/LST
 > 요약: Transformer는 병렬화·장거리 의존성에서 RNN을 압도하나, O(N²) 연산이 긴 시퀀스의 병목임.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | RNN/LSTM | Transformer | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 순환 셀 기반 순차 처리 | Self-Attention 기반 병렬 처리 | 시퀀스 길이·GPU 병렬화 요구 |
+| 비용/성능 | O(N·d²), GPU 활용률 30% | O(N²·d), GPU 활용률 90%+ | N<d이면 Transformer 효율적 |
+| 운영/위험 | 기울기 소실로 500토큰 한계 | O(N²) 메모리로 128K+ 시 Flash Attention 필수 | 시퀀스 8K 기준 분기 |
+
+> 요약: 병렬화·장거리 의존성이 필요하면 Transformer 선택, 시퀀스 8K+ 시 Sparse/Flash Attention 적용.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| O(N²) 메모리 폭증 | 시퀀스 길이 증가 시 어텐션 행렬 크기 N² | Flash Attention 2(메모리 O(N)), Sparse Attention | GPU 메모리 사용률 ≤80% |
+| 학습 불안정 | 대규모 파라미터(100B+)에서 Loss 발산 | Pre-LN + Gradient Checkpointing | Loss 수렴 여부, 기울기 norm |
+| 추론 지연 | 자기회귀 디코딩 시 토큰별 순차 생성 | KV Cache + Speculative Decoding | p95 TTFT ≤500ms |
+
+> 요약: O(N²)은 Flash Attention, 학습 불안정은 Pre-LN, 추론 지연은 KV Cache로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 학습 효율 | GPU 활용률 90%+, 학습 처리량 MFU 50%+ | GPU 프로파일러, FLOPS 측정 |
+| 모델 품질 | Perplexity 수렴, BLEU/MMLU 목표 달성 | 벤치마크 자동 평가 |
+| 추론 성능 | p95 TTFT ≤500ms, 처리량 50 req/s | APM 모니터링, 로드 테스트 |
+
+> 요약: Transformer 도입 성과는 GPU 활용률, 벤치마크 달성률, 추론 지연으로 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 인코더 전용(BERT) → 분류·NER, 디코더 전용(GPT) → 생성, 인코더-디코더(T5) → 번역·요약에 각각 적용

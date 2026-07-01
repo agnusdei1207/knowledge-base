@@ -41,18 +41,30 @@ weight: 55
 
 ---
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| draft-target 2모델 구조와 출력 분포 보존 원리를 이해하는지 확인 | draft→target 검증 구조, acceptance rate 70% 기준 1.5~3배 처리량, 출력 분포 보존 | draft 수락률 저하 시 이득 소멸을 누락, "속도가 빨라진다"로 추상 서술 |
+
+> 요약: draft-target 검증 구조와 수락률 기반 처리량 수치를 제시하고, 품질 보존 조건을 명시해야 한다.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-Speculative Decoding은 LLM 디코딩 가속 기법임. 대형 모델은 토큰을 순차 생성해 TPOT가 누적되므로, 작은 draft model의 후보 토큰을 target model이 병렬 검증해 지연을 줄임.
+- 정의: 작은 draft model이 후보 토큰을 제안하고 큰 target model이 검증해 디코딩 지연을 줄이는 서빙 최적화 기법
+- 배경: 대형 모델의 decode 단계는 토큰당 20~50ms 지연이 누적되는 memory-bound 병목
+- 필요성: target model 출력 분포를 유지하면서 토큰 생성 처리량을 1.5~3배 향상(acceptance rate 70% 기준)
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Prompt → Draft Model → 후보 토큰 t1..tk
-   │                         │
-   └──────────────▶ Target Model 검증 ──▶ Accept/Reject → Output
+Prompt -> Draft Model -> 후보 토큰 t1..tk -> Target Model 검증 -> Accept/Reject -> Output
+              |                                       |
+              +-> 빠른 후보 생성(5~20배 소형)         +-> 거절 시 Fallback Decode
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -97,7 +109,35 @@ Prompt → Draft Model → 후보 토큰 t1..tk
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 일반 디코딩 | Speculative Decoding | 선택 기준 |
+|:---|:---|:---|:---|
+| 처리량 | target 1토큰/step | 1.5~3×(acceptance 70% 기준) | 장문 비율 50% 이상 시 적용 |
+| 품질 | target 분포 그대로 | 확률 보정 시 분포 유지 | quality parity 검증 필수 |
+| 운영 복잡도 | 단일 모델 서빙 | draft+target 2모델 관리 | GPU 메모리 여유분 확인 |
+
+> 요약: 장문 생성 비율이 높고 GPU 여유가 있으면 Speculative Decoding의 처리량 이득이 운영 복잡도를 상회한다.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 수락률 저하 | draft model과 target의 분포 불일치 | draft 모델을 target의 distill 버전으로 교체, k 조정 | acceptance rate, fallback ratio |
+| 메모리 부족 | 2모델 동시 로딩 시 GPU 메모리 초과 | draft model 양자화(INT8), 모델 분리 배치 | GPU 메모리 사용률 |
+| 품질 회귀 | acceptance rule 미보정 시 분포 왜곡 | 확률 보정 적용, BLEU/ROUGE/정답률 회귀 테스트 | 품질 parity 점수 |
+
+> 요약: draft 품질·메모리·분포 보정 3가지를 관리하여 처리량 이득을 유지한다.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 처리량 향상 | 일반 디코딩 대비 1.8배 이상 | TPOT 벤치마크, 초당 토큰 수 |
+| 품질 유지 | BLEU/ROUGE 차이 1% 이내, 정답률 parity | A/B 테스트, 회귀 점수 비교 |
+| 수락률 | acceptance rate 65% 이상 유지 | 서빙 로그, 실시간 대시보드 |
+
+> 요약: 처리량·품질·수락률 3축 지표를 모니터링하여 Speculative Decoding 운영 효과를 판단한다.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. target 70B 모델에 draft 7B 모델을 결합하고 acceptance rate 70% 이상에서만 프로덕션 활성화

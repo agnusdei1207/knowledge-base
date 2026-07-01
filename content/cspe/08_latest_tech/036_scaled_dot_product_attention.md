@@ -38,22 +38,31 @@ weight: 36
 > 2. **가치**: RNN 순차 의존을 제거하고 GPU 행렬곱으로 문장 전체 관계를 병렬 계산함.
 > 3. **판단 포인트**: `√d_k` 스케일링, Mask 적용, O(N²) 복잡도 관리가 설계 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| Attention 수식 원리 이해 확인 | `softmax(QKᵀ/√d_k)V` 수식, √d_k 스케일링 이유, Softmax 포화 방지 | Attention을 단순 유사도로만 서술, 스케일링 생략 |
+| Mask·복잡도 설계 판단력 확인 | causal mask 미래 토큰 차단, padding mask, O(N²) 시간·공간 복잡도 | Mask 종류 미구분, 장문맥 O(N²) 병목 미언급 |
+
+> 요약: Attention 수식의 수학적 근거와 Mask·복잡도 통제 능력을 동시에 평가하는 문제임.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-Scaled Dot-Product Attention은 Q·K·V 기반 가중합 연산임. Transformer는 이 연산으로 토큰 간 장거리 의존성을 병렬 계산하여 번역·요약·LLM 추론의 기반을 형성함. 기술사 답안에서는 수식, Mask, 복잡도를 함께 제시해야 함.
+- 정의: `softmax(QKᵀ/√d_k)V`로 토큰 간 관련도를 계산하는 가중합 연산
+- 배경: RNN 순차 처리는 장거리 의존성이 약해지며, Attention은 모든 토큰 쌍을 행렬곱으로 병렬 계산
+- 필요성: 번역·요약·LLM 추론의 기반이며, 수식·Mask·복잡도를 함께 설계해야 함
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Input Embedding
-      │
- ┌────┼────┐
- ▼    ▼    ▼
- Q    K    V
- │    │    │
- └─QKᵀ/√d_k┘ → Softmax → Weight × V → Attention Output
+Input Embedding -> Wq/Wk/Wv 선형변환
+  -> Q / K / V 생성
+     -> QKᵀ 유사도 계산 -> √d_k 스케일링 -> Mask 적용
+        -> Softmax -> V 가중합 -> Attention Output
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -95,7 +104,35 @@ Input Embedding
 > 요약: Scaled Dot-Product Attention은 병렬 계산과 안정적 Softmax를 제공하나, 긴 시퀀스에서는 O(N²) 점수 행렬이 병목임.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | RNN Attention | Scaled Dot-Product Attention | 선택 기준 |
+|:---|:---|:---|:---|
+| 계산 구조 | 순차 hidden state 참조 | 행렬곱 기반 전체 토큰 병렬 | GPU GEMM 활용 가능 여부 |
+| 스케일링 | 별도 보정 없음 | `1/√d_k` 적용으로 Softmax 포화 방지 | `d_k=64`이면 1/8 |
+| 장문맥 대응 | 시간축 의존으로 기억 감쇠 | O(N²) 계산, FlashAttention으로 최적화 | N≥8K 시 메모리 관리 방식 |
+
+> 요약: 병렬성과 장거리 의존성은 Scaled Dot-Product Attention이 우세하나, 장문맥에서는 O(N²) 최적화가 필수임.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| Softmax 포화 | d_k 증가 시 내적값 분산 확대 | `√d_k` 스케일링 적용 | gradient norm, loss 수렴 추이 |
+| O(N²) 메모리 폭증 | N=8K 이상 시 attention matrix 64M 이상 | FlashAttention 블록 단위 계산, PagedAttention | GPU HBM 사용률 |
+| 미래 토큰 누출 | 디코더에서 causal mask 미적용 | causal mask로 t+1 이후 차단 | 생성 결과 일관성, 평가 perplexity |
+
+> 요약: 스케일링·메모리·Mask 3가지를 누락 없이 설계해야 Attention이 안정적으로 동작함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| Softmax 분포 | entropy 균일, 극단 집중 없음 | Attention weight 시각화, entropy 측정 |
+| 메모리 사용 | GPU HBM 80% 이하 | FlashAttention 프로파일링 |
+| 추론 지연 | p95 TTFT 500ms 이하(A100, N=4K) | 벤치마크, vLLM 프로파일링 |
+
+> 요약: Attention 분포 균일성과 메모리·지연 지표를 정량 측정해 스케일링·최적화 적용 여부를 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. LLM 디코더에는 causal mask를 적용하여 t시점 토큰이 t+1 이후 토큰을 참조하지 못하게 차단

@@ -38,18 +38,29 @@ weight: 60
 > 2. **가치**: 공통 system prompt·정책·문서 prefix를 반복 계산하지 않아 대화형 서비스 응답 시작 지연을 낮춤.
 > 3. **판단 포인트**: prefix 안정성, cache key, hit rate, 권한 분리, eviction 정책이 운영 기준임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| LLM 서빙 지연 최적화 이해 | prefix exact match 조건, KV 재사용 원리, TTFT 개선 수치 | prefix 변동 시 cache miss 발생 명시, tenant 격리·보안 누락 금지 |
+
+> 요약: Prefix Caching은 동일 prefix KV 재사용으로 TTFT를 줄이는 서빙 최적화이며, prefix 안정성과 tenant 격리가 운영 핵심임.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-Prefix Caching은 공통 프롬프트 KV 재사용 기법임. LLM 서비스는 system prompt와 정책 문구를 반복 포함하므로, 동일 prefix prefill을 재사용해 TTFT와 GPU compute 낭비를 줄임.
+- 정의: 여러 요청이 공유하는 system prompt·문서 prefix의 KV Cache를 재사용해 prefill을 생략하는 서빙 최적화
+- 배경: RAG·에이전트·챗봇은 긴 공통 prefix를 매 요청마다 반복 prefill하여 TTFT가 증가함
+- 필요성: 동일 prefix의 KV를 캐싱·재사용해 prefill GPU compute를 줄이고, TTFT를 800ms→80ms 수준으로 단축
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Request Prefix → Token Hash → Prefix Cache Lookup
-        ├─ Hit  → Cached KV + Suffix Prefill → Decode
-        └─ Miss → Full Prefill → KV Store → Decode
+Request Prefix -> Token Hash -> Prefix Cache Lookup
+  -> Hit: Cached KV 재사용 -> Suffix만 Prefill -> Decode
+  -> Miss: Full Prefill -> KV Store 저장 -> Decode
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -92,7 +103,35 @@ Request Prefix → Token Hash → Prefix Cache Lookup
 > 요약: Prefix Caching은 반복 prefix가 긴 서비스에서 효과가 크며, 권한별 cache 격리가 보안 설계의 핵심임.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Prefix Caching 미적용 | Prefix Caching 적용 | 선택 기준 |
+|:---|:---|:---|:---|
+| Prefill 비용 | 매 요청 전체 prefix 계산 | 공통 prefix 생략, suffix만 계산 | 공통 prefix 토큰 수 1K 이상 |
+| TTFT | prompt 길이에 비례 증가 | hit 시 suffix 중심, 800ms→80ms | hit rate 50% 이상 기대 여부 |
+| 운영 복잡도 | 낮음 | cache key·tenant 격리·eviction 관리 | 멀티테넌트 여부 |
+
+> 요약: 공통 prefix가 1K 토큰 이상이고 hit rate 50% 이상이면 Prefix Caching 적용이 유리함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| Cache Miss 급증 | prefix에 사용자별 동적 값(시간·권한·검색결과) 삽입 | 동적 값을 suffix로 이동, prefix template 고정 | hit rate 모니터링 |
+| Cross-tenant KV 누출 | 공유 cache에서 tenant 격리 미흡 | cache key에 tenant id·prompt version 포함 | cross-tenant access 0건 |
+| Stale Cache | 정책 변경 후 구 prefix KV 잔존 | prompt version 포함, TTL eviction 설정 | stale hit 건수 |
+
+> 요약: cache miss·tenant 격리·stale cache 세 리스크를 prefix 설계와 cache key 정책으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| Prefix Hit Rate | 70% 이상 | 서빙 엔진 메트릭 |
+| TTFT p95 | hit 시 100ms 이내 | APM 로그 |
+| Saved Prefill Tokens | 일 100M tokens 이상 절감 | prefix_cached_tokens 메트릭 |
+
+> 요약: hit rate·TTFT·절감 토큰 수로 Prefix Caching 도입 효과를 정량 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. system prompt·정책 문구를 요청 앞단에 고정하고 사용자별 동적 값은 suffix로 이동해 cache hit rate 70% 이상 확보

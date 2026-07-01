@@ -1,6 +1,6 @@
 ---
-title: "스레드 스케줄링·스레드 풀 (Thread Scheduling Thread Pool)"
-date: "2026-07-01"
+title: "스레드 스케줄링·스레드 풀 (Thread Scheduling, Thread Pool)"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 8
@@ -8,157 +8,144 @@ weight: 8
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 스레드 스케줄링과 스레드 풀을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 스레드 실행 순서와 재사용 작업자 집합 관리
-- **왜 필요한가**: 요청마다 스레드를 만들면 생성·전환·스택 메모리 비용이 커진다. 스레드 풀은 미리 만든 worker로 작업을 반복 처리한다.
-- **핵심 직관**: 매 주문마다 직원을 새로 뽑지 않고, 대기 중인 직원에게 주문표를 배분하는 방식이다.
+- **개요**: **스레드 스케줄링(Thread Scheduling)**은 커널(OS)과 유저(프로그램) 중 누가 스레드의 실행 순서를 정할 것인가의 문제다. **스레드 풀(Thread Pool)**은 스레드를 매번 새로 만들고 지우는 오버헤드가 너무 커서, 미리 여러 개를 만들어 놓고 '재사용'하는 아키텍처(디자인 패턴)다.
+- **왜 필요한가**: 은행 창구 직원(스레드)을 손님이 올 때마다 정규직으로 새로 뽑고, 손님이 가면 해고한다고 상상해 보라. 서류 작업(생성/소멸 오버헤드) 하다가 은행이 망한다. 차라리 직원 10명을 미리 상주(풀링)시키고 대기표(Task Queue)를 뽑게 하는 게 100배 효율적이다.
+- **핵심 직관**: 
+  - 스레드 스케줄링: 이 직원이 진짜 정직원(커널 스레드)인지, 아니면 파견업체 직원(유저 스레드)인지에 따라 관리 주체가 다름.
+  - 스레드 풀: "알바생 매번 구하기 귀찮다. 10명 미리 뽑아두고 쉬게 하다가, 일 생기면 깨워서 던져주자."
 
 ## 깊이 이해
-- **배경·문제의식**: 멀티코어 서버는 수천 요청을 동시에 받지만 CPU core는 제한되어 있다. 스레드가 core보다 과도하게 많으면 context switch와 memory footprint가 늘고, 적으면 I/O 대기 중 CPU가 놀 수 있다.
-- **작동 원리**: 요청은 work queue에 들어가고 worker thread가 꺼내 실행한다. CPU-bound는 core 수 근처, I/O-bound는 blocking ratio를 반영해 더 크게 잡는다. queue가 가득 차면 backpressure나 reject 정책이 필요하다.
-- **비유**: 식당 주방에서 주문표 queue가 있고 요리사 pool이 순서대로 처리한다. 요리사가 너무 많으면 서로 부딪히고, 너무 적으면 주문표가 쌓인다.
-- **구체 예시**: CPU-bound pool은 8 core에서 8~10개가 기준이고, I/O wait가 70%인 작업은 core/(1-blocking) 공식으로 약 26개까지 산정 가능하다.
-- **흔한 오해·주의점**: thread pool 크기를 크게 하면 처리량이 계속 증가하지 않는다. 일정 지점 이후 lock contention, DB connection 고갈, queue 대기시간 증가가 발생한다.
+- **배경·문제의식 (스레드 스케줄링)**: 사용자가 코드 단에서 만드는 스레드(User Thread)와 OS가 물리적으로 CPU 코어에 배정하는 스레드(Kernel Thread)는 다르다. 이 둘을 어떻게 매핑(Mapping)할지가 핵심이다.
+  - `다대일(N:1)`: 파견 직원 10명이 정직원 1명 이름으로 일함. (빠르지만, 1명이 I/O에 걸리면 10명 다 멈춤 = 병목)
+  - `일대일(1:1)`: 파견 직원 1명당 정직원 1명씩 붙임. (병렬 처리 최고, 요즘 OS 표준. 단, 직원 수가 너무 많아지면 커널 뻗음)
+  - `다대다(M:N)`: 파견 직원 N명을 정직원 M명이 돌려막기. (가장 이상적이지만 OS 구현이 극도로 복잡함)
+- **작동 원리 (스레드 풀)**:
+  - 톰캣(Tomcat) 같은 웹 서버를 켜면 시작부터 `Core Thread` 50개를 미리 램에 만들어 둔다.
+  - 사용자 요청(Task)이 들어오면 대기 큐(Task Queue)에 쌓인다.
+  - 놀고 있는 스레드가 큐에서 요청을 꺼내서 처리(Run)하고, 끝나면 다시 큐를 쳐다보며 대기(Wait)한다 (절대 죽지 않음!).
+- **비유**: 식당 주방 보조 (스레드 풀)
+  - 주문 올 때마다 사람을 알바몬에서 새로 구함 (일반 생성) = 손님 다 도망감.
+  - 아침에 5명 출근시켜서 대기 의자에 앉혀둠 (스레드 풀) = 주문 즉시 요리 시작, 5명 넘어가면 주문표만 큐에 꽂아둠.
+- **구체 예시**: Java Spring Boot 웹 서버에 트래픽이 1만 개 몰리면, 스레드 풀이 없었을 경우 스레드 1만 개가 생성되어 램(OOM)이 터지고 컨텍스트 스위칭으로 서버가 멈춘다. 하지만 `Max-Pool-Size=200`으로 막아두면 200명만 열심히 일하고 나머지는 큐에서 기다리므로 서버(OS) 자체는 절대 죽지 않는다.
+- **흔한 오해·주의점**: 스레드 풀이 너무 크면(예: 10,000개) 스위칭 스레싱(Thrashing)으로 속도가 오히려 떨어지고, 너무 작으면(예: 2개) CPU 코어가 8개인데 6개가 놀아서 CPU 활용률이 똥이 된다. 정답은 벤치마크 튜닝이다.
 
 ## 연결 개념
-- User/Kernel Thread: 스케줄링 주체와 커널 인식 범위
-- Work Queue: 요청 버퍼와 backpressure 지점
-- Starvation: worker 점유로 특정 작업이 처리되지 않는 현상
+- **동시성(Concurrency)과 문맥 교환(Context Switching)**: 스레드 풀을 제한(Max Size)하는 가장 큰 근본 이유다. 스레드가 CPU 코어 수보다 많아지면 어차피 진짜 동시에 실행되는 게 아니라 교대(Switching)만 미친 듯이 하므로 오버헤드만 폭발한다.
+- **가상 스레드 (Project Loom, Virtual Thread)**: 최신 Java 21에서는 I/O 대기 시 커널 스레드(1:1 맵핑)가 멈추는 걸 막기 위해, M:N 모델의 철학을 유저 레벨로 끌어올린 가상 스레드를 도입해 스레드 풀의 상한선 한계를 부숴버렸다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 스레드 풀은 생성 비용 절감이 아니라 CPU core, blocking ratio, queue, starvation, backpressure를 함께 설계하는 주제이다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스레드 스케줄링은 runnable thread에 CPU를 배정하는 정책이고, 스레드 풀은 worker thread를 재사용해 작업을 처리하는 실행 구조이다.
-> 2. **가치**: thread 생성 비용과 context switch를 줄이고, work queue로 유입량을 제어한다.
-> 3. **판단 포인트**: CPU-bound는 core 수, I/O-bound는 blocking ratio, 외부 자원은 connection pool과 함께 산정해야 한다.
+> 1. **본질**: 스레드 스케줄링은 유저 스레드와 커널 스레드 간의 N:M 맵핑 아키텍처이며, 스레드 풀(Thread Pool)은 스레드 객체의 생성/소멸 비용(Overhead)을 재사용(Reuse)으로 소거하는 동시성 디자인 패턴이다.
+> 2. **가치**: 무한한 병행성 요청(트래픽)을 유한한 하드웨어 자원(CPU/RAM) 내에서 큐(Queue)와 워커(Worker) 풀로 버퍼링하여 시스템 스레싱(OOM)을 원천 차단한다.
+> 3. **판단 포인트**: CPU 바운드와 I/O 바운드 특성에 따른 수학적 스레드 풀 사이징(Sizing) 공식 도출과, 다대일(N:1) 블로킹 한계를 1:1 맵핑이 어떻게 극복했는지 대조해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| thread 실행 모델 이해 확인 | user thread, kernel thread, 1:1/N:M 모델 | 스레드와 프로세스 혼동 |
-| pool sizing 판단 확인 | core 수, blocking ratio, queue length | 큰 pool이 항상 처리량 증가라는 단정 |
-| starvation·backpressure 확인 | work queue, reject policy, priority queue | queue 무한 증가 리스크 누락 |
+| 유저 스레드와 커널 스레드의 제어 관계 | 1:1, N:1, M:N 맵핑 모델별 블로킹(Blocking) 전파 | 유저 스레드가 커널 개입 없이 완벽한 멀티코어 병렬성을 갖는다고 착각하는 오류 |
+| 스레드 풀 아키텍처의 존재 이유 및 한계 방어 | 객체 생성 비용 소거 + Max 제한(OOM 방어) | 무조건 풀(Pool) 크기를 크게 잡을수록 서버가 빠르다고 서술하는 치명적 맹점 |
 
-> 요약: 이 문제는 thread 수가 아니라 CPU·I/O·queue·외부 자원 제한의 균형을 묻는다.
+> 요약: 매번 밥상을 새로 차리고 부수는 오버헤드(Thread-per-request)를 버리고, 미리 뷔페 식당을 세팅해 두고 줄(Queue)을 세우는 아키텍처 패러다임 전환이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스레드 풀은 worker thread 재사용 구조이다.
-스레드 생성·소멸과 과도한 context switch를 줄이고, work queue를 통해 요청 유입과 처리량을 조절한다.
-서버 시스템에서는 CPU-bound, I/O-bound, DB connection 한계를 반영해 pool 크기와 queue 정책을 설계해야 한다.
+- 정의: 스레드 스케줄링은 경량 프로세스(LWP)를 기반으로 유저 레벨 스레드를 커널 스레드에 맵핑(Mapping)하는 정책이며, 스레드 풀은 일정 수의 스레드를 사전 생성하여 워크 큐(Work Queue)의 태스크를 처리하는 아키텍처 패턴
+- 배경: 요청마다 스레드를 생성/파괴하는 Thread-per-request 모델은 램(Stack 메모리) 고갈 및 막대한 컨텍스트 스위칭 오버헤드로 인한 시스템 스레싱(Thrashing) 유발
+- 필요성: 시스템 부하(Load)의 임계치를 물리적 스레드 풀 상한(Max Limit)으로 통제하고, CPU 코어 개수에 최적화된 동시성 처리량(Throughput)을 보장하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 스레드 맵핑 아키텍처 (유저 vs 커널) 심화 비교
 
 ```text
-Client Request -> Work Queue -> Worker Thread Pool
-Worker -> CPU Task / Blocking I/O / DB Call
-Metrics -> Pool Resize / Backpressure / Reject
+[ 1:1 모델 (현재 Linux, Windows 표준) ]
+유저 스레드 A ---> 커널 스레드 1 (CPU 0) 
+유저 스레드 B ---> 커널 스레드 2 (CPU 1)
+* 장점: 완벽한 병렬(Parallel). A가 I/O에 막혀 멈춰도 B는 씽씽 달림.
+
+[ N:1 모델 (과거 Green Threads) ]
+유저 스레드 A \
+유저 스레드 B --> 커널 스레드 1 (CPU 0) 
+유저 스레드 C /
+* 치명적 단점: A가 파일 읽느라(I/O) 커널을 블로킹(Block)시키면, 
+  같은 커널 스레드를 쓰는 B, C도 줄줄이 올스톱. (멀티코어 활용률 0%)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 맵핑 모델 | 아키텍처 철학 | 병목(Bottleneck) 및 한계점 |
 |:---|:---|:---|
-| Work queue | 처리 대기 작업 저장 | bounded queue 권장 |
-| Worker thread | queue에서 작업을 꺼내 실행 | reusable thread |
-| Scheduler | runnable worker에 CPU 배정 | kernel thread 기준 |
-| Rejection policy | queue 포화 시 처리 | drop, timeout, caller-runs |
-| Monitor | pool·queue·latency 계측 | active count, queue wait |
+| **다대일 (N:1)** | 커널은 스레드 존재를 모름. 유저 라이브러리가 스위칭 | 시스템 콜(I/O) 시 전체 스레드 블로킹, 멀티코어 미활용 |
+| **일대일 (1:1)** | 유저 1개당 LWP(경량 프로세스) 1개 1:1 매칭 지원 | 스레드 생성 시 커널 모드 진입 페널티, 무한 생성 시 OS 붕괴 |
+| **다대다 (M:N)** | LWP 풀을 만들어 여러 유저 스레드가 유연하게 공유 | 커널 스케줄러와 유저 스케줄러 간 복잡성 극상 (거의 사장됨) |
 
-> 요약: 스레드 풀은 queue, worker, scheduler, rejection, monitor가 결합된 실행 제어 구조이다.
+> 요약: 유저 레벨에서 아무리 잘게 쪼개봐야(N:1), 실제 물리적 CPU 코어(커널 스레드)가 멈추면 다 같이 죽는다. 그래서 현대 OS는 무조건 1:1 맵핑을 쓴다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 스레드 풀 (Thread Pool) 런타임 아키텍처 및 제어 흐름
 
 ```text
-요청 수신 -> Work Queue enqueue
--> Idle Worker dequeue -> Task 실행
--> Blocking이면 다른 worker 실행
--> 완료 후 worker 반환
--> Queue 포화 시 backpressure/reject
+[ 클라이언트 요청 (Tasks) 폭주 ] -> 1만 개 요청
+        |
+        v
+[ 큐 (Task Queue) ] -> 대기열 버퍼링 (OOM 방어 방파제)
+        | (작업 꺼내오기)
++-------------------------------------------------------+
+|                 [ Thread Pool ]                       |
+|  [Worker 1] (실행)  [Worker 2] (대기)  [Worker 3] (실행)  |
+|      * 생성/소멸 없이 무한 루프(while)로 큐를 감시        |
++-------------------------------------------------------+
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 요청을 bounded queue에 삽입 | queue depth |
-| 2 | idle worker가 작업을 가져감 | active thread count |
-| 3 | CPU-bound 또는 I/O-bound로 실행 | CPU utilization, wait ratio |
-| 4 | 완료 후 worker를 pool에 반환 | task throughput |
-| 5 | queue 포화 시 제한 정책 수행 | reject count, timeout |
-
-> 요약: 스레드 풀은 작업을 queue로 흡수하고 worker 재사용과 포화 정책으로 처리량과 지연을 제어한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 스레드 풀 | 요청별 스레드 생성 | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| 생성 비용 | 초기 생성 후 재사용 | 요청마다 stack/TCB 생성 | stack 512KB~1MB |
-| 처리량 | pool 크기와 queue로 제한 | burst 시 thread 폭증 | Little's Law 적용 |
-| 지연 | queue wait 발생 가능 | 생성 지연 발생 | p95 queue wait |
-| 장애 범위 | worker 고갈·starvation | 메모리 고갈 | bounded queue 필수 |
-
-> 요약: 스레드 풀은 생성 비용을 줄이는 대신 queue 대기와 worker 고갈을 관리해야 한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | unbounded thread | bounded pool+queue | 메모리 상한, SLO |
-| 비용/성능 | 생성 비용 반복 | 재사용, switch 통제 | p95 latency, TPS |
-| 운영/위험 | 폭증 시 OOM | queue 포화 시 backpressure | reject 정책 명확성 |
-
-> 요약: pool은 thread 수보다 queue 상한과 reject 정책이 운영 결과를 좌우한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| starvation | 긴 작업이 worker 점유 | priority queue, pool 분리 | task wait p99 |
-| thread 폭증 | cached pool 무제한 생성 | maxPoolSize, semaphore | thread count |
-| 외부 자원 고갈 | DB/API connection보다 worker 과다 | bulkhead, connection limit | pool wait, 429/timeout |
-
-> 요약: starvation과 자원 고갈은 pool 분리, bounded 설정, bulkhead로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 설정 파라미터 | 커널 튜닝 역할 | 치명적 설정 오류 시나리오 |
 |:---|:---|:---|
-| pool 크기 | CPU-bound core×1~2, I/O-bound core/(1-B) | load test |
-| queue 대기 | p95 queue wait 50ms 이하 | executor metric |
-| 포화 | reject/timeout 비율 1% 이하 | metric, log |
+| **Core Pool Size** | 최소 유지할 유휴(Idle) 스레드 수 | 0으로 설정 시 첫 요청마다 콜드 스타트 지연 극심 |
+| **Max Pool Size** | 생성 가능한 최대 스레드 상한선 | 너무 크면 컨텍스트 스위칭 오버헤드로 CPU 유휴(Idle)율 상승 |
+| **Queue Capacity** | 풀이 꽉 찼을 때 대기시킬 버퍼 크기 | 무한대(Unbounded) 설정 시 힙(Heap) 메모리 누수로 OOM 터짐 |
 
-> 요약: 스레드 풀은 pool size, queue wait, reject rate를 함께 측정해 조정한다.
+> 요약: 스레드 풀의 본질은 "서버를 죽이지 않는 방파제"다. 1만 개 요청이 와도 200명만 일하고 나머지는 큐에 세워둠으로써, 서버(CPU/RAM)가 과로사(Thrashing)하는 것을 멱살 잡고 막아낸다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅳ. 극복해야 할 시스템적 리스크와 수학적 사이징(Sizing)
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. CPU-bound pool은 core×1~2, blocking ratio 70% I/O-bound pool은 core/(1-0.7) 기준으로 초기값 산정
-2. work queue를 bounded로 두고 timeout 200ms, reject policy, circuit breaker를 설정해 무한 대기를 차단
-3. DB, 외부 API, 파일 I/O별 pool을 분리하고 active count, queue wait, reject count를 Prometheus로 수집
+스레드 풀 튜닝은 "다다익선"이 아니다. 아키텍처 성향에 맞춘 수학 공식이 필수다.
 
-**결론 (2줄):**
-- 기술사 판단: CPU-bound는 작은 pool, I/O-bound는 blocking ratio 반영 pool, 혼합 workload는 bulkhead로 분리함
-- 향후 방향: virtual thread와 async I/O가 확산되어도 queue 상한, backpressure, 외부 자원 제한은 계속 설계 기준이 됨
+| 워크로드 특성 | 병목 원인 | 스레드 풀 사이즈 적정 공식 산출 |
+|:---|:---|:---|
+| **CPU Bound** (수학 연산, 인코딩) | 코어 수보다 스레드가 많아지면, 연산은 안 하고 짐 싸고 풀기(문맥 교환)만 반복함 | **코어 수 + 1** <br> (1개는 페이지 폴트 등 예외 대기용) |
+| **I/O Bound** (DB 쿼리, API 호출) | CPU는 놀고 있는데 스레드가 네트워크 응답을 기다리느라(Wait) 다 누워있음 | **코어 수 * (1 + 대기 시간 / 서비스 시간)** <br> (대기가 길면 100~200개까지 공격적 증설 필요) |
+
+> 요약: CPU 연산만 하는 서버에 스레드 100개를 주면 오히려 속도가 1/10로 박살 난다. CPU 코어가 8개면 일할 놈 8명만 뽑아두는 게 문맥 교환 제로(0)의 진정한 초고속이다.
+
+---
+
+## Ⅴ. 실무 적용 방안 및 결론
+
+**적용 방안 3개:**
+1. [Tomcat WAS 튜닝] Java Spring Boot 배포 시, 기본(Default) Max Threads 200개를 맹신하지 않고, APM(Scouter) 모니터링을 통해 애플리케이션이 외부 API를 많이 부르는 I/O 바운드인지(크게 설정) 내부 로직 중심인지(작게 설정) 판별 후 튜닝
+2. [가상 스레드 (Virtual Thread) 전환] Java 21+ 환경에서 I/O 블로킹 대기로 인한 커널 스레드 낭비를 없애기 위해, 유저 레벨에서 힙 영역만 교체하는 M:N 기반 가상 스레드(`Executors.newVirtualThreadPerTaskExecutor`)를 적용하여 풀 사이즈 제한 자체를 형해화
+3. [격벽(Bulkhead) 패턴 적용 풀 분리] MSA 환경에서 결제 API 지연이 전체 서버 스레드 풀을 다 빨아먹어(Exhaustion) 메인 화면까지 마비되는 장애를 막기 위해, 결제용 스레드 풀과 조회용 스레드 풀을 물리적으로 격리(Isolation) 설계
+
+**결론:**
+- 기술사 판단: 스레드 스케줄링과 풀(Pool)은 "자원은 유한하고 인간의 욕심(요청)은 끝이 없다"는 운영체제의 근본 명제를 해결하기 위한 완충 지대(Buffer)다. 무한한 동시성을 제한된 하드웨어 규격에 맞게 수학적으로 구겨 넣는 엔지니어링의 정수다.
+- 향후 방향: 최근 클라우드 백엔드는 OS 스레드 풀에 의존하는 것을 넘어, Node.js나 WebFlux처럼 아예 스레드 1~2개만 띄우고 비동기 이벤트 루프(Event Loop)를 돌려 풀(Pool) 자체의 락(Lock) 경합마저 소거해 버리는 넌블로킹(Non-blocking) 아키텍처로 거대하게 이동하고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "스레드 풀을 설명하시오" | enqueue, worker 실행, 반환 흐름 | 요청별 생성과 비교 |
-| 요구사항 명시형 | "처리량 개선 방안을 제시하시오" | pool sizing과 backpressure | starvation·외부 자원 고갈 대응 |
-
-> 요약: 설명형은 구조와 동작, 방안형은 sizing 공식과 포화 제어를 중심으로 작성한다.
+| 포괄형 | "유저/커널 스레드 맵핑 모델과 스레드 풀 패턴 비교" | 1:1, N:1 모델의 커널 블로킹 전파 도식 | 생성 비용 소거 원리와 OOM 방어를 위한 Max Size |
+| 요구사항 명시형 | "대용량 트래픽 환경의 스레드 풀 고갈 장애 원인과 튜닝 공식" | 외부 I/O 지연으로 인한 Worker 점유(Exhaustion) 메커니즘 | CPU 바운드 vs I/O 바운드 수학적 Sizing 공식 및 격벽 설계 |

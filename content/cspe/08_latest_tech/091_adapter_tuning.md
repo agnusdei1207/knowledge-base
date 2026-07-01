@@ -37,9 +37,21 @@ weight: 91
 > 2. **가치**: base model을 공유하면서 업무별 adapter만 저장해 다도메인 운영 비용을 줄임.
 > 3. **판단 포인트**: adapter 위치, bottleneck 차원, latency overhead, adapter routing이 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| PEFT 기법 간 구조 차이와 선택 기준 이해 | bottleneck 구조(d→m→d), base model freeze, adapter registry | LoRA와 혼동, merge 가능성 과장, latency overhead 누락 |
+
+> 요약: adapter의 삽입 위치·bottleneck 구조·LoRA 대비 차이와 추론 latency를 짚어야 함
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-Adapter Tuning은 모듈 삽입형 PEFT 기법임. 전체 LLM을 업무별로 학습·저장하기 어렵기 때문에, base model은 고정하고 작은 adapter만 추가 학습함.
+- 정의: Transformer 레이어에 bottleneck module을 삽입해 해당 모듈만 학습하는 PEFT 기법
+- 배경: Full Fine-Tuning은 업무별로 전체 모델 사본을 저장·학습해야 하므로 비용이 과다함
+- 필요성: base model을 공유하면서 업무별 adapter만 저장해 다도메인 운영 비용을 절감함
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ base model freeze → adapter 삽입 → adapter만 학습
 
 > 요약: Adapter는 업무별 모듈 분리가 명확하지만, 추론 시 추가 레이어 비용을 측정해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | LoRA | Adapter Tuning | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 저랭크 branch (W+ΔW) | bottleneck module 삽입 | 모듈 격리 vs merge 용이성 |
+| 추론 비용 | merge 후 추가 비용 0 | 삽입 모듈로 p95 latency 5~15% 증가 | 실시간 서빙 지연 허용 범위 |
+| 운영 | rank·alpha 관리 | adapter registry·tenant routing | 다테넌트 분리 요구 수준 |
+
+> 요약: merge 가능성과 latency가 중요하면 LoRA, 업무별 모듈 격리가 중요하면 Adapter를 선택함
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 추론 latency 증가 | 삽입 모듈의 추가 연산 | bottleneck 차원 축소, batch 최적화 | p95 latency |
+| adapter 충돌 | 동일 base에 다수 adapter 로드 | registry 기반 버전·격리 관리 | tenant별 오류율 |
+| 과적합 | 소량 데이터로 adapter만 학습 | early stopping, validation loss 모니터링 | F1, 일반화 gap |
+
+> 요약: 추론 latency와 adapter 충돌을 registry·차원 관리로 통제해야 함
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 추론 성능 | p95 latency 100ms 이하 | API 벤치마크, 부하 테스트 |
+| task 정확도 | F1 ≥ 0.85 | 도메인별 평가 데이터셋 |
+| 운영 안정성 | adapter 로드 실패율 < 0.1% | registry 모니터링, 로그 |
+
+> 요약: latency·정확도·로드 안정성을 정량 측정해 adapter 도입 효과를 판단함
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 부서별 domain adapter를 base model 하나에 연결하고 adapter registry로 버전·권한·rollback 관리

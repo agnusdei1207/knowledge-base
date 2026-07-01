@@ -39,20 +39,30 @@ weight: 35
 > 2. **가치**: 거리 무관하게 장거리 의존성을 포착하며, Transformer·LLM의 핵심 빌딩블록임.
 > 3. **판단 포인트**: O(N²) 연산·메모리 비용과 순서 정보 부재를 PE·Sparse Attention으로 보완해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| Q·K·V 연산 원리와 스케일링 목적 이해 확인 | Attention(Q,K,V)=softmax(QKᵀ/√d_k)·V 수식, √d_k 스케일링이 Softmax 포화를 방지하는 이유, O(N²) 한계 | Q·K·V 역할 미구분, 스케일링 목적 누락, Multi-Head와 Self-Attention 혼동 |
+
+> 요약: Self-Attention 답안은 Q·K·V 연산 수식과 √d_k 스케일링 이유, O(N²) 한계를 정확히 서술해야 함.
+
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Self-Attention은 시퀀스 내 토큰 간 관계를 병렬 계산하는 핵심 연산임. RNN의 순차 의존성과 CNN의 고정 수용 범위를 동시에 해결하여, Transformer 아키텍처의 기반이 됨.
+- 정의: 시퀀스 내 모든 토큰 쌍의 관계를 병렬 계산하는 연산
+- 배경: RNN은 순차 처리로 장거리 정보 소실, CNN은 고정 커널 크기만큼만 참조 가능
+- 필요성: 거리 무관 장거리 의존성 포착, Transformer·LLM의 핵심 빌딩블록
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-입력 X ──┬── W_Q ──▶ Q (Query)
-         ├── W_K ──▶ K (Key)      Q·Kᵀ/√d_k
-         └── W_V ──▶ V (Value)  ──Softmax──▶ ×V ──▶ 출력
+입력 X -> W_Q -> Q (Query)
+       -> W_K -> K (Key)     -> Q·Kᵀ/√d_k -> Softmax -> ×V -> 출력
+       -> W_V -> V (Value)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -96,7 +106,35 @@ Self-Attention은 시퀀스 내 토큰 간 관계를 병렬 계산하는 핵심 
 
 ---
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | RNN Attention | Self-Attention | 선택 기준 |
+|:---|:---|:---|:---|
+| 구조 | 인코더→디코더 Cross-Attention | 동일 시퀀스 내 전위치 참조 | 자기참조 필요 시 Self-Attention |
+| 비용/성능 | O(N·d²), 순차 처리 | O(N²·d), 완전 병렬 | N<d이면 Self-Attention 효율적 |
+| 운영/위험 | 기울기 소실로 500토큰 한계 | O(N²) 메모리, PE 없으면 순서 구분 불가 | N>8K 시 Sparse Attention 전환 |
+
+> 요약: 장거리 의존성·병렬화가 필요하면 Self-Attention 선택, 시퀀스 8K+ 시 Sparse/Linear 전환.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| O(N²) 메모리 폭증 | 어텐션 행렬 크기 N×N | Flash Attention 2(메모리 O(N)) | GPU 메모리 사용률 ≤80% |
+| Softmax 포화 | d_k가 클 때 내적값이 과대 | √d_k 스케일링 적용 | 어텐션 가중치 엔트로피 |
+| 순서 정보 부재 | Self-Attention 자체는 순서 무관 | Positional Encoding(RoPE/Sinusoidal) 추가 | 순서 민감 태스크 정확도 |
+
+> 요약: O(N²)은 Flash Attention, 포화는 √d_k 스케일링, 순서는 PE로 보완함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 연산 효율 | Flash Attention 적용 시 메모리 O(N), 처리량 2× | GPU 프로파일러 |
+| 어텐션 품질 | 어텐션 가중치가 관련 토큰에 집중(엔트로피 적정) | 어텐션 히트맵 시각화 |
+| 모델 성능 | Perplexity 수렴, 다운스트림 태스크 SOTA 대비 95%+ | 벤치마크 자동 평가 |
+
+> 요약: Self-Attention 성과는 연산 효율(메모리·처리량), 어텐션 품질, 다운스트림 성능으로 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. Flash Attention 2 적용으로 O(N²) 메모리를 O(N)으로 축소, A100에서 학습 처리량 2×

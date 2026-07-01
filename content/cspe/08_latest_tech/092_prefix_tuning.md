@@ -37,9 +37,21 @@ weight: 92
 > 2. **가치**: base model을 고정한 채 작은 prefix 파라미터만으로 task별 생성 행동을 유도함.
 > 3. **판단 포인트**: prefix length, layer 적용 범위, KV Cache 증가, task별 prefix 관리가 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| PEFT 기법 간 삽입 위치·제어 수준 차이 이해 | layer별 K/V prefix 삽입, Prompt Tuning과 삽입 위치 차이, KV Cache 영향 | Prompt Tuning과 혼동, prefix length 비용 누락 |
+
+> 요약: prefix가 attention K/V에 삽입되는 위치와 Prompt Tuning 대비 제어력·비용 차이를 짚어야 함
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-Prefix Tuning은 attention prefix 기반 모델 적응 기법임. 모델 전체를 학습하지 않고, layer별 prefix K/V를 학습해 특정 task의 출력 방향을 제어함.
+- 정의: Transformer layer별 attention K/V 앞에 학습 가능한 prefix를 삽입하는 PEFT 기법
+- 배경: 전체 모델 학습 없이 task별 출력 방향을 제어할 수 있는 경량 적응이 필요함
+- 필요성: 입력 수준 soft prompt보다 깊은 layer 내부 제어가 가능하면서 base model을 공유함
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ base freeze → prefix 초기화 → task 학습
 
 > 요약: Prefix Tuning은 Prompt Tuning보다 깊은 제어가 가능하지만 KV 메모리와 관리 비용이 증가함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Prompt Tuning | Prefix Tuning | 선택 기준 |
+|:---|:---|:---|:---|
+| 삽입 위치 | 입력 embedding 앞 | layer별 attention K/V | 제어 깊이 요구 수준 |
+| 파라미터 수 | 수백~수천 | 수천~수만 (layer 수 비례) | KV Cache 증가 허용 범위 |
+| 제어력 | 얕은 방향 유도 | layer별 깊은 생성 제어 | 생성·요약 품질 요구 수준 |
+
+> 요약: 얕은 유도는 Prompt Tuning, 깊은 생성 제어는 Prefix Tuning을 선택함
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| KV Cache 증가 | prefix token이 추론 메모리를 점유 | prefix length 상한 설정, 메모리 계측 | GPU 메모리 사용률 |
+| context window 잠식 | prefix가 실제 입력 토큰 공간을 차지 | 입력 길이 대비 prefix 비율 5% 이하 유지 | 유효 context 길이 |
+| prefix 관리 복잡도 | task별 prefix artifact 누적 | registry에 base model hash·평가 결과 함께 저장 | artifact 버전 일치율 |
+
+> 요약: KV Cache 증가와 context 잠식을 prefix length 상한과 메모리 계측으로 통제해야 함
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 생성 품질 | ROUGE-L ≥ 0.40, F1 ≥ 0.82 | task별 평가 데이터셋 |
+| 추론 지연 | p95 latency 증가 10% 이내 | API 벤치마크 |
+| 메모리 효율 | KV Cache 증가 200MB 이내 | GPU 프로파일링 |
+
+> 요약: 생성 품질·추론 지연·메모리 증가를 정량 측정해 prefix 도입 효과를 판단함
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 생성·요약 task에 prefix length 20/50/100을 비교하고 정확도와 p95 latency 기준으로 선택

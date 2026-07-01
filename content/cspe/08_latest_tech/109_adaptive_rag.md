@@ -37,18 +37,31 @@ weight: 109
 > 2. **가치**: 단순 질의 40%를 경량 경로로 처리해 호출 비용을 40% 절감하면서 복합 질의 품질을 유지함.
 > 3. **판단 포인트**: 라우터 정확도, fallback 정책, 경로별 SLA를 정의해야 운영 장애를 줄일 수 있음.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| 질의 복잡도별 동적 RAG 라우팅 설계 능력 확인 | 분류→라우팅→fallback 구조, 비용 40% 절감, 라우터 정확도 ≥90%, confidence ≤0.7 escalation | 고정 RAG와 단순 비교만 제시, fallback 정책 누락, 경로별 SLA 미명시 |
+
+> 요약: 질의 난이도별 경로 분기와 fallback 정책을 구체적 수치로 제시하는 것이 핵심임.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-Adaptive RAG는 동적 라우팅형 RAG 구조임. 질의 복잡도와 위험도가 서로 다른데도 동일 파이프라인을 적용하면 비용과 지연이 증가하거나 답변 근거가 부족해진다. 질의 분류 결과에 따라 검색·검증 강도를 조절한다.
+- 정의: 질의 난이도·위험도에 따라 RAG 경로를 동적 라우팅하는 구조
+- 배경: 동일 파이프라인으로 모든 질의를 처리하면 비용·지연·품질 중 하나를 희생
+- 필요성: 단순 질의 40%를 경량 경로로 처리해 호출 비용 40% 절감, 복합 질의 품질 유지
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Query → Classifier → Router ┬→ No-RAG/FAQ
-                            ├→ Naive RAG
-                            ├→ Advanced RAG
-                            └→ Multi-hop/Agentic RAG
-                         → Evaluator/Fallback
+Query -> Classifier -> Router
+  +-> No-RAG/FAQ
+  +-> Naive RAG
+  +-> Advanced RAG
+  +-> Multi-hop/Agentic RAG
+  -> Evaluator/Fallback
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -63,11 +76,11 @@ Query → Classifier → Router ┬→ No-RAG/FAQ
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-질의 입력 → 난이도/위험도 분류 → 경로 선택
-  ├─ 단순 → No-RAG/FAQ
-  ├─ 일반 → Naive/Advanced RAG
-  └─ 복합·고위험 → Multi-hop/Agentic + 검증
-      → 신뢰도 평가 → fallback 또는 응답
+질의 입력 -> 난이도/위험도 분류 -> 경로 선택
+  +-> 단순 -> No-RAG/FAQ
+  +-> 일반 -> Naive/Advanced RAG
+  +-> 복합·고위험 -> Multi-hop/Agentic + 검증
+      -> 신뢰도 평가 -> fallback 또는 응답
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
@@ -90,7 +103,35 @@ Query → Classifier → Router ┬→ No-RAG/FAQ
 
 > 요약: Adaptive RAG는 비용·지연·품질을 질의별로 조정하지만, 라우터 오분류에 대비한 fallback 정책이 필수임.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 고정 RAG | Adaptive RAG | 선택 기준 |
+|:---|:---|:---|:---|
+| 경로 선택 | 모든 질의 동일 파이프라인 | 난이도·위험도별 분기 | 질의 유형 편차가 크면 Adaptive |
+| 비용 | 고정 호출 비용 | 단순 질의 경량 처리로 40% 절감 | 월 호출 비용 $2,000→$1,200 |
+| 리스크 | 구조 단순 | 라우터 오분류 시 품질 저하 | fallback과 모니터링 필수 |
+
+> 요약: 질의 유형 편차와 비용 구조를 기준으로 고정 RAG와 Adaptive RAG를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 라우터 오분류 | 복합 질의를 단순 경로로 배정 | 운영 로그 5만 건 라벨링, 정확도 90% 이상 달성 후 배포 | 라우팅 정확도, 경로별 오분류율 |
+| fallback 과다 | confidence 임계값 너무 낮아 모든 질의가 상위 경로로 escalation | 경로별 fallback 비율 10% 이하로 조정, A/B 테스트 | fallback 발생률, Agentic 경로 비중 |
+| SLA 초과 | Agentic 경로 지연이 예산 초과 | 경로별 월 예산·p95 SLA 설정, Agentic 10% 초과 시 샘플링 분석 | 경로별 p95 지연, 월 비용 추이 |
+
+> 요약: 라우터 오분류·fallback 과다·SLA 초과를 운영 로그 기반 모니터링으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 라우팅 정확도 | 분류 accuracy ≥90% | 월별 샘플링 평가, confusion matrix |
+| 경로별 지연 | FAQ 200ms, Advanced 2초, Agentic 10초 | APM p95 대시보드 |
+| 비용 절감률 | 고정 RAG 대비 30~50% 절감 | 경로별 호출 비용 월 집계 |
+
+> 요약: 라우팅 정확도·경로별 지연·비용 절감률을 월 단위로 측정해 Adaptive RAG 운영 품질을 관리함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 고객센터: 인사·단순 FAQ는 캐시 응답, 정책 질의는 Advanced RAG, 분쟁성 질의는 Agentic RAG+인간 검토 큐 연결

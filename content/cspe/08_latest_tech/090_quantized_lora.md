@@ -37,9 +37,21 @@ weight: 90
 > 2. **가치**: 대형 LLM 튜닝의 VRAM 요구량을 낮춰 단일 GPU·저비용 실험을 가능하게 함.
 > 3. **판단 포인트**: NF4, double quantization, paged optimizer, 학습 안정성, 추론 merge 전략을 검토해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| QLoRA 양자화+LoRA 결합 원리와 메모리 절감 판단 | NF4, double quantization, paged optimizer, dequant 역전파 | 추론 전용 4-bit과 혼동, 학습 안정성 통제 누락 |
+
+> 요약: 출제자는 QLoRA의 NF4·double quantization 원리와 LoRA 대비 VRAM 절감 판단을 확인함.
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
-QLoRA는 양자화 기반 LoRA 튜닝 기법임. 대형 LLM 도메인 튜닝에서 base model 메모리 부담을 줄이기 위해 4-bit base와 trainable LoRA adapter를 결합함.
+- 정의: 4-bit quantized base model 위에 LoRA adapter만 학습하는 메모리 절감형 PEFT 기법
+- 배경: LoRA도 base model을 메모리에 올려야 하므로 33B~65B급 모델 튜닝은 단일 GPU에서 어려움
+- 필요성: NF4 양자화로 base VRAM을 줄이고 LoRA만 BF16으로 학습해 대형 모델 실험 비용을 낮춤
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -84,7 +96,35 @@ base 4-bit 로드 → LoRA 삽입 → dequant 기반 forward/backward
 
 > 요약: QLoRA는 LoRA의 학습 효율에 4-bit base 메모리 절감을 결합하나, 양자화 품질과 학습 안정성을 검증해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | LoRA (FP16 base) | QLoRA (4-bit base) | 선택 기준 |
+|:---|:---|:---|:---|
+| Base 메모리 | FP16/BF16 전체 | NF4 4-bit 압축 | VRAM ≤ 24GB 여부 |
+| 학습 안정성 | 일반 optimizer | paged optimizer 필요 | OOM 빈도 |
+| 정확도 | 상한 높음 | 양자화 회귀 가능 | FP16 baseline 대비 F1 gap |
+
+> 요약: VRAM 제약이 크면 QLoRA, 메모리 여유와 최고 품질이 필요하면 FP16 LoRA를 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 양자화 품질 저하 | NF4 근사 오차 | 정규분포 weight 모델 선택, calibration 검증 | perplexity 변화 |
+| 학습 불안정 | paged optimizer·dequant 오버헤드 | gradient checkpointing, LR warm-up | OOM 빈도, loss spike |
+| 서빙 복잡도 | quantized base + adapter 조합 | merge 가능 엔진 검증, vLLM·TGI 호환 확인 | 추론 latency |
+
+> 요약: 양자화 품질·학습 불안정·서빙 복잡도를 calibration, checkpointing, 엔진 호환 검증으로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 도메인 정확도 | F1 ≥ 0.83, FP16 LoRA 대비 gap ≤ 3%p | holdout 평가셋 |
+| VRAM 절감 | FP16 대비 VRAM 50% 이상 절감 | nvidia-smi 모니터링 |
+| 학습 안정성 | OOM 0회, loss spike ≤ 2회/epoch | 학습 로그 |
+
+> 요약: 도메인 F1, VRAM 절감률, 학습 안정성을 정량 기준으로 QLoRA 도입 성공을 판단함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 13B 이상 모델 도메인 튜닝은 QLoRA로 시작하고 VRAM, loss, F1을 LoRA FP16 baseline과 비교

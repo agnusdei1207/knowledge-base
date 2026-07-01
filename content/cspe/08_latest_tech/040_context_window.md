@@ -38,21 +38,31 @@ weight: 40
 > 2. **가치**: 긴 문서·대화·코드 분석 범위를 결정하며 RAG, 요약, 메모리 전략의 기준이 됨.
 > 3. **판단 포인트**: 토큰 예산, 출력 예약, 비용, Lost in the Middle, KV Cache 메모리를 함께 관리해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| Context Window 구조와 토큰 예산 설계 확인 | system/history/RAG/output 예산 분리, 초과 시 요약·삭제·RAG 대체 전략 | 윈도우 크기만 언급하고 예산 배분 미설계 |
+| Long Context vs RAG 선택 판단력 확인 | 128K 모델 NIAH 정확도 95%·p95 TTFT 2초, RAG Top-k 비용 비교, Lost in the Middle | 긴 윈도우=만능으로 서술, 비용·정확도 트레이드오프 누락 |
+
+> 요약: 토큰 예산 설계 능력과 Long Context vs RAG 선택 기준을 동시에 평가하는 문제임.
+
+---
 
 ## Ⅰ. 개요 및 필요성
 
-Context Window는 LLM의 최대 토큰 처리 범위임. 긴 문서 QA·고객 상담·코드 분석에서는 system prompt, 검색 문맥, 대화 이력, 출력 토큰을 한 윈도우 안에 배치해야 하므로 토큰 예산 설계가 필수임.
+- 정의: LLM이 한 요청에서 입력·출력으로 처리 가능한 최대 토큰 범위
+- 배경: 긴 문서 QA·다중 대화 유지에서 system prompt, 검색 문맥, 대화 이력, 출력 토큰이 같은 윈도우를 공유
+- 필요성: 토큰 예산 설계 없이는 근거 누락·비용 초과·지연 증가가 발생하며, RAG·Long Context 전략 선택이 필수
 
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-┌──────────────────── Context Window N tokens ────────────────────┐
-│ System │ History │ Retrieved Context │ User Query │ Output Budget │
-└──────────────────────────────────────────────────────────────────┘
-                         │
-                         ▼
-                 LLM Attention + KV Cache
+Context Window (N tokens 총량 제한)
+  System Prompt -> Conversation History -> Retrieved Context -> User Query -> Output Budget
+  합산 토큰 -> N 초과 시 우선순위별 요약/삭제/RAG 대체
+     -> LLM Attention + KV Cache
 ```
 
 | 구성요소 | 역할 | 특이사항 |
@@ -94,7 +104,35 @@ Context Window는 LLM의 최대 토큰 처리 범위임. 긴 문서 QA·고객 �
 > 요약: 긴 윈도우는 문맥 누락을 줄이나 비용·지연·중간 위치 검색 정확도를 별도 지표로 관리해야 함.
 
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | 짧은 윈도우 + RAG | Long Context(128K~1M) | 선택 기준 |
+|:---|:---|:---|:---|
+| 비용 | 입력 토큰 적음, 검색 인프라 별도 | 입력 토큰 과금 증가 | 월 API 예산 대비 토큰 비용 비율 |
+| 정확도 | 검색 품질에 의존, 근거 누락 가능 | 원문 전체 참조 가능, Lost in the Middle 위험 | NIAH 95% 이상 여부 |
+| 운영 복잡도 | 인덱싱·청킹·검색 파이프라인 운영 | 모델 호출만으로 처리, KV Cache 메모리 관리 | 인프라 운영 인력·비용 |
+
+> 요약: 빈번한 짧은 질의는 RAG, 전문 문서 전체 검토는 Long Context를 선택하되 비용·정확도를 비교함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 토큰 예산 초과 | system+history+RAG+output 합산 미관리 | 요소별 토큰 상한 예산표 적용(system 2K, RAG 20K, history 8K, output 4K) | 실제 토큰 수 vs 예산 |
+| Lost in the Middle | 긴 문맥 중간 위치 정보 검색 정확도 저하 | 핵심 근거를 프롬프트 앞·뒤 배치, 청크 재정렬 | 위치별 retrieval 정확도 |
+| KV Cache 메모리 폭증 | 128K 이상 시퀀스에서 KV 저장량 급증 | PagedAttention, KV 양자화(INT8), 오래된 KV 캐시 eviction | GPU HBM 사용률 80% 이하 |
+
+> 요약: 예산 초과·중간 위치 손실·KV Cache 비용을 예산표·배치 전략·메모리 최적화로 통제함.
+
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 토큰 예산 준수 | 요소별 상한 초과 0건 | 요청별 토큰 수 로깅, 예산 대비 비율 |
+| NIAH 정확도 | 95% 이상(128K 기준) | Needle-in-a-Haystack 벤치마크 |
+| 추론 비용 | 월 예산 대비 입력 토큰 비용 15% 이내 | tokens/request × 요청수 × 단가 |
+
+> 요약: 예산 준수·검색 정확도·월 비용을 정량 측정해 RAG·Long Context 혼합 비율을 결정함.
+
+---
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 요청 전 토큰 예산표를 적용해 system 2K, RAG 20K, history 8K, output 4K처럼 상한을 분리

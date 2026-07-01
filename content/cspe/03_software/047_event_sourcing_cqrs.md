@@ -1,6 +1,6 @@
 ---
-title: "이벤트 소싱·CQRS (Event Sourcing CQRS)"
-date: "2026-07-01"
+title: "이벤트 소싱·CQRS (Event Sourcing & CQRS)"
+date: "2026-07-02"
 tags:
   - "cspe-software"
 weight: 47
@@ -8,156 +8,140 @@ weight: 47
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 이벤트 소싱과 CQRS를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 상태 변경 이력을 이벤트로 저장하고 명령과 조회 모델을 분리하는 패턴
-- **왜 필요한가**: 현재 상태만 저장하면 누가 언제 왜 바꿨는지 추적하기 어려움. 쓰기와 읽기 요구가 다르면 하나의 모델이 양쪽 모두를 만족시키기 어려움.
-- **핵심 직관**: 통장 잔액만 적는 대신 모든 입출금 내역을 저장하고, 잔액표는 필요할 때 내역을 합산해 만드는 방식임.
+- **개요**: **이벤트 소싱**은 DB에 '최종 결과값(잔액 0원)'만 딸랑 저장하는 게 아니라, '입금 만원 -> 출금 오천원 -> 출금 오천원'이라는 모든 **사건(Event)의 기록장**을 통째로 저장하는 방식이다. **CQRS**는 쓰는 것(명령)과 읽는 것(조회)을 아예 찢어발겨서, **"명령용 DB 따로, 조회용 DB 따로"** 두는 극한의 속도 최적화 기법이다. (보통 둘이 세트로 다닌다).
+- **왜 필요한가**: 일반 DB에 잔액이 '0원' 찍혀있으면, 어제 0원이었는지 만원이 들어왔다 나갔는지 아무도 모른다(추적 불가). 이벤트 소싱은 이 흔적을 영원히 박제한다. 하지만 이벤트를 10만 줄 저장해 두면 "내 잔액 조회해 줘" 할 때마다 10만 줄을 더하기/빼기 해야 해서 조회가 미친 듯이 느려진다. 그래서 조회를 광속으로 할 수 있게(CQRS) 읽기 전용 DB를 옆에 따로 만들어 둔다.
+- **핵심 직관**: 
+  - **기존 RDBMS**: 칠판에 적힌 점수. 10점에서 5점으로 고치면(UPDATE) 과거 흔적이 지워진다.
+  - **이벤트 소싱**: 은행 통장(로그북). 과거 내역(INSERT)만 영원히 추가된다. 절대 수정/삭제(UPDATE/DELETE)를 못 한다!
+  - **CQRS**: "쓰기 DB(일기장)"와 "읽기 DB(요약본)" 분리. 글 쓰는 사람은 일기장에만 쓰고, 비서(이벤트 브로커)가 그걸 요약해서 요약본에 옮겨적으면 손님은 요약본만 빛의 속도로 읽는다.
 
 ## 깊이 이해
-- **배경·문제의식**: 복잡한 도메인은 감사 추적, 재현, 시간별 상태 복원이 필요함. 또한 쓰기는 불변식 검증이 중요하고 읽기는 화면 조회 속도와 검색 조건이 중요함.
-- **작동 원리**: Event Sourcing은 append-only event log에 도메인 이벤트를 저장함. CQRS는 command model이 이벤트를 만들고 query model은 projection을 통해 조회 전용 저장소를 갱신함.
-- **비유**: 법원 기록처럼 판결 결과만 남기지 않고 모든 심리 기록을 남기며, 대시보드는 기록을 가공한 요약표로 보여주는 방식임.
-- **구체 예시**: `OrderCreated`, `PaymentApproved`, `OrderShipped` 이벤트를 Kafka/EventStoreDB에 저장하고, Elasticsearch projection으로 주문 검색 화면을 구성함.
-- **흔한 오해·주의점**: Event Sourcing과 CQRS는 항상 함께 써야 하는 것은 아님. 감사·재생 요구가 약한 CRUD 시스템에는 복잡도를 추가할 수 있음.
+- **배경·문제의식**: 마이크로서비스(MSA)로 DB를 찢어놨더니, 사용자가 마이페이지(화면)에 들어오면 프론트엔드가 회원 DB, 주문 DB, 배송 DB 3곳을 다 찔러서 화면을 그려야(조립) 했다(로딩 10초). "이렇게 느린 조회(Read)를 어떡하지?" 하다가, 아예 세 군데서 변경(Write)이 일어날 때마다 그 내역을 던지게 하고, 그걸 받아서 미리 '마이페이지 전용 뷰(View)'를 만들어두자(CQRS)는 천재적인 발상이 탄생했다.
+- **작동 원리 (세트 플레이)**:
+  1. **명령 (Command)**: 사용자가 "주문 취소" 버튼을 누른다.
+  2. **이벤트 소싱 (Event Sourcing)**: 쓰기 전용 DB(카프카/이벤트 스토어)에 "1시 5분에 주문 취소됨" 이라는 이벤트 로그를 `INSERT`만 한다. (절대 `UPDATE` 안 함. 오직 追加(추가)뿐). 쓰기 속도가 미친 듯이 빠르다.
+  3. **전파 (Propagation)**: 이벤트 버스(Kafka)가 이 사실을 동네방네 소문낸다.
+  4. **CQRS 투영 (Projection)**: 조회(Query) 전용 DB(ElasticSearch나 Redis)가 그 소문을 듣고, 마이페이지 전용 JSON 데이터의 상태를 '취소'로 `UPDATE` 해둔다.
+  5. **조회 (Query)**: 사용자가 마이페이지를 새로고침하면, 조회 전용 DB에서 그냥 텍스트 덩어리를 0.01초 만에 긁어간다. 
+- **비유**: 
+  - **이벤트 소싱**: 바둑 기보. 바둑판의 최종 상태만 찍는 게 아니라(기존 DB), 1수부터 100수까지 어디 뒀는지를 다 기록함. 나중에 바둑판이 엎어져도 1수부터 똑같이 돌려보면 완벽 복구 가능.
+  - **CQRS**: 뉴스 취재와 신문. 기자는 현장에서 수첩에 미친 듯이 사실만 적는다(쓰기 DB). 편집 데스크가 이걸 예쁘게 편집해서 신문(읽기 DB)을 찍어내면, 수백만 독자는 수첩을 안 보고 신문을 편하게 읽는다(조회 폭발 감당).
+- **흔한 오해·주의점**: CQRS를 쓴다고 무조건 DB가 두 개인 건 아니다. 단순히 하나의 DB 안에서 `INSERT`하는 클래스(명령)와 `SELECT`하는 클래스(조회)를 코드 레벨에서만 분리해도 CQRS라고 부른다(넓은 의미). 하지만 진짜 가치를 뿜어내려면 쓰기 DB(RDBMS)와 읽기 DB(NoSQL)를 물리적으로 분리하는 게(좁은 의미) 국룰이다.
 
 ## 연결 개념
-- Append-only Event Log: 불변 이벤트 저장
-- Projection: 조회 모델 생성과 재구성
-- Eventual Consistency: 쓰기 모델과 읽기 모델 간 지연 허용
+- **결과적 일관성 (Eventual Consistency)**: 쓰기 DB에 "결제 됨!" 하고 적혔는데, 그게 이벤트 버스를 타고 읽기 DB에 반영되기까지 0.1초의 틈이 생긴다. 이 0.1초 동안 사용자가 조회를 누르면 방금 샀는데 안 산 걸로 뜬다. 하지만 "조금 느려도 언젠가는(Eventual) 일치한다"는 배짱 철학이 MSA의 핵심이다.
+- **카프카 (Kafka)**: 쓰기 DB에서 일어난 이벤트를 읽기 DB로 퍼나르는 고속도로(메시지 큐)의 끝판왕.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: Event Sourcing/CQRS는 append-only event log, projection, eventual consistency, replay/snapshot을 정합성·감사 관점으로 설명한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Event Sourcing은 상태 변경을 이벤트 로그로 저장하고, CQRS는 command와 query 모델을 분리하는 아키텍처 패턴이다.
-> 2. **가치**: 감사 추적, 상태 재현, 읽기 모델 최적화를 제공하지만 projection 지연과 이벤트 스키마 진화 관리가 필요함.
-> 3. **판단 포인트**: 도메인 감사성, 재처리 요구, 조회 부하, 최종 일관성 허용 범위를 기준으로 적용 여부를 결정해야 함.
+> 1. **본질**: 데이터의 최종 상태(Current State)를 덮어쓰는 전통적 CRUD를 폐기하고, 발생한 모든 비즈니스 상태 변경 내역(Event)을 순서대로 추가(Append)만 하는 **이벤트 소싱**과, 이를 통해 복잡한 조회 성능을 극대화하는 **CQRS(명령/조회 분리)**의 결합 패턴이다.
+> 2. **가치**: UPDATE 연산과 트랜잭션 락(Lock)을 없애 쓰기(Write) 처리량을 극대화하며, 읽기(Read) 전용 NoSQL View를 비동기로 구워내어 MSA 분산 환경의 최대 맹점인 'Join 불가' 성능 병목을 타파한다.
+> 3. **판단 포인트**: 기존 RDBMS의 CRUD 단점을 도출하고, Command(쓰기) -> Kafka(이벤트 전파) -> Query(읽기) 뷰 생성으로 이어지는 완벽한 비동기 데이터 파이프라인 아키텍처를 도식화해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 패턴 구조 이해 확인 | event log, command model, projection, query model | 단순 message queue로 설명 |
-| 정합성 판단 확인 | eventual consistency, replay, snapshot | 즉시 일관성만 전제로 답안 작성 |
-| 운영 리스크 확인 | event schema versioning, duplicate event, projection lag | 이벤트 재처리와 스키마 진화 누락 |
+| 기존 CRUD 덮어쓰기(Overwrite) 모델의 한계 및 철학 파괴 | 이력을 영원히 기록(Append-only)하여 추적/복구 극대화 | 이벤트 소싱을 단순히 데이터 백업/복구 기술로만 얕게 서술하는 시각 |
+| MSA 데이터 조회(Join) 병목을 CQRS로 타파하는 맵핑 | 쓰기 모델(RDBMS)과 읽기 전용 모델(NoSQL/Redis)의 물리적 분리 | Command와 Query 모델을 분리하지 않고 같은 트랜잭션으로 묶어버리는 에러 |
+| 이벤트 기반 분산 아키텍처의 필연적 부작용 방어 | 결과적 일관성(Eventual Consistency)에 대한 아키텍처 합의 | 분산 DB인데도 완벽한 실시간(Real-time) 일관성을 보장한다고 적는 치명적 모순 |
 
-> 요약: 이 문제는 이벤트 저장과 조회 모델 분리의 이점을 정합성·감사·운영 비용 관점으로 설명해야 한다.
+> 요약: 장부가 찢어지지 않는 한, 장부에 쓴 줄(Event)들을 위에서부터 다시 더하면 언제든 현재 잔액을 완벽히 복구해 낼 수 있다. 이벤트 소싱은 절대 거짓말을 하지 않는 완벽한 타임머신이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Event Sourcing/CQRS는 상태 변경 이력과 조회 모델을 분리한다. 복잡한 업무 시스템은 현재 값뿐 아니라 변경 근거, 감사 추적, 재처리가 필요하다. 쓰기 모델과 읽기 모델의 요구가 다를 때 두 모델을 분리해 각각 최적화한다.
+- 정의: **Event Sourcing**은 데이터의 상태 변경 이력을 순차적 이벤트로 영속화하는 패턴이며, **CQRS(Command Query Responsibility Segregation)**는 시스템을 상태 변경(Command)과 데이터 조회(Query) 두 개의 독립적 파트로 분리하는 아키텍처
+- 배경: MSA로 도메인별 데이터베이스가 물리적으로 찢어지며(DB-per-Service), 고객 마이페이지 구성 시 여러 DB의 API를 동기식으로 교차 조회(Join)해야 하는 최악의 성능(Latency) 병목 발생
+- 필요성: 쓰기 측면에서는 트랜잭션 락(Lock) 없는 고속 순차 저장(Append-only)을 달성하고, 읽기 측면에서는 사전 조인(Pre-join)된 뷰(Materialized View)를 제공하여 렌더링 성능을 극대화하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. CQRS + 이벤트 소싱 융합 아키텍처 도식
+
+쓰는 곳과 읽는 곳을 완전히 찢어버리고, 그 사이를 이벤트 버스(Kafka)로 묶어버리는 궁극의 성능 아키텍처.
 
 ```text
-Command -> Command Handler -> Aggregate -> Event Store
-                                      -> Event Bus -> Projection
-Projection -> Read Model DB -> Query API -> Client
-Snapshot -> Aggregate Rehydration
+[ 비동기 CQRS 파이프라인 도식 (명령과 조회의 물리적 분리) ]
+
+(사용자) ---> [ 1. Command API (명령: "장바구니 추가") ]
+                     |
+            (Insert-Only 저장 🚀 락 없음)
+            [ Event Store (Write DB: 카산드라/오라클) ] --> (이력 영구 저장)
+                     |
+            (2. 비동기 이벤트 발행 - Publish)
+            [ Event Bus (Apache Kafka) ]  (전파) 
+                     |
+            (3. 이벤트 구독 및 투영 - Subscribe / Projection)
+            [ Query Updater 데몬 ]
+                     |
+            (Update View 조립)
+            [ Read-Only DB (Query DB: Redis/Elasticsearch) ] --> (4. 사전 조인된 화면 JSON 완성)
+                     |
+(사용자) <--- [ 5. Query API (조회: 0.01초 응답 ⚡) ] 
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 핵심 메커니즘 맵핑 | 아키텍처적(엔지니어링) 극복 가치 |
+|:---|:---|
+| **Append-Only (이벤트 소싱)** | 기존 RDBMS의 `UPDATE` 문은 락(Lock)을 유발해 성능 저하. 이벤트 소싱은 무조건 끝에 덧붙이기(`INSERT`)만 하므로 **쓰기(Write) 속도가 빛에 수렴** |
+| **Projection (투영 조립)** | 여러 분산 DB의 이벤트를 구독하여 화면(UI) 렌더링에 딱 맞는 형태(JSON Document)로 뭉쳐서(미리 Join) 읽기 DB에 세팅해 둠 |
+| **물리적 DB 분리 (CQRS)**| 읽기(Read) 트래픽이 90%인 쇼핑몰에서, 90%의 부하를 가벼운 Redis/NoSQL에 몰아버리고, 무거운 RDBMS(쓰기 DB)를 완벽히 격리(부하 분산) 보호 |
+
+> 요약: 신문사(CQRS) 비유다. 취재 기자(Command)는 수첩에 팩트만 갈겨쓴다(Event Sourcing). 편집자(Kafka)가 그걸 모아 예쁘게 신문(Read DB)으로 찍어내면, 수백만 독자(Query)는 취재 수첩을 볼 필요 없이 신문만 광속으로 읽으면 된다.
+
+---
+
+## Ⅲ. 극복해야 할 시스템적 리스크 (결과적 일관성 딜레마)
+
+쓰기와 읽기를 물리적으로 분리한 탓에, 데이터가 싱크(Sync)되는 짧은 시간(ms) 동안 거짓말이 발생한다.
+
+| 리스크 요인 | 발생 시나리오 및 시스템 붕괴 원인 | 아키텍처 대응 방안 (비즈니스 타협) |
 |:---|:---|:---|
-| Command Model | 명령 검증과 도메인 불변식 처리 | 쓰기 중심 aggregate |
-| Event Store | append-only 이벤트 저장 | optimistic concurrency control |
-| Projection | 이벤트를 읽기 모델로 변환 | 재구성, 재처리 가능 |
-| Read Model | 조회 전용 저장소 | Elasticsearch, Redis, RDB 등 선택 |
+| **Eventual Consistency** <br> (결과적 일관성의 틈) | 방금 '주소 변경'을 클릭(Command DB 저장 완료)하고 바로 화면을 새로고침 했는데, 이벤트 큐(Kafka)가 밀려 아직 Read DB에 도착 안 해서 '예전 주소'가 보임 (고객 컴플레인 폭발) | 완벽한 실시간(ACID) 강박을 버리고 **버전(Version) 기반 UI 제어 튜닝**. 방금 고친 건 프론트엔드 캐시(화면) 상에서 강제로 바뀐 척 띄워주고, 백그라운드 큐 딜레이(수 초)를 비즈니스적으로 수용하는 타협 픽스 |
+| **스냅샷(Snapshot) 미비 시 리플레이 병목** | 시스템이 터져서 과거 이벤트를 다시 읽어 현재 상태를 복구(Replay)해야 하는데, 10년 치 이벤트가 1억 건이라 복구 연산(Sum)에만 2시간 소요 | 일정 주기(예: 1,000건, 혹은 자정)마다 최종 결산 상태(잔액)를 **스냅샷(Snapshot)으로 Read DB에 찍어 저장**. 복구 시 1수부터 두지 않고 최근 스냅샷 이후의 이벤트만 덧붙여 산출(O(N) -> O(1) 단축) |
 
-> 요약: 쓰기는 이벤트를 만들고, 읽기는 projection이 만든 조회 모델을 사용해 서로 다른 요구를 분리한다.
+> 요약: "방금 결제했는데 왜 아직도 장바구니에 남아있죠?" 이게 이벤트 기반 MSA가 낳은 원죄다. 개발자는 이 0.5초의 간극(딜레이)을 없애려고 싸우는 게 아니라, "아 좀 늦게 반영됩니다"라고 고객/기획자를 설득하는 것이 진짜 아키텍처다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅳ. MSA 극강의 성능 튜닝: 이벤트 저장소(Event Store) 선택
 
-```text
-Command 수신 -> Aggregate 상태 복원 -> 불변식 검증
--> Domain Event 생성 -> Event Store append
--> Projection consume -> Read Model 갱신
--> Query API 조회 -> lag 측정
-```
+이벤트를 저장하는 DB(Write DB)는 일반 RDBMS를 쓰면 장점이 다 죽는다.
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | command validation 수행 | 필수 값, 권한, 중복 명령 |
-| 2 | event replay로 aggregate 복원 | snapshot interval 100건 |
-| 3 | 신규 event append | expected version 일치 |
-| 4 | projection이 read model 갱신 | projection lag 5초 이하 |
-| 5 | query API가 조회 모델 반환 | stale read 허용 정책 |
+| 저장소 아키텍처 | 물리적 특성 및 적용 한계 |
+|:---|:---|
+| **EventStoreDB / Apache Kafka** | 수정/삭제 불가(Immutable), 오직 파티션 꼬리에 Append만 하는 극강의 순차 쓰기(Sequential I/O) 최적화 특수 솔루션. **이벤트 소싱의 진정한 무기** |
+| 전통적 RDBMS (MySQL 등) | 굳이 MySQL에 이벤트 테이블을 만들어 `INSERT`만 할 수 있으나, B-Tree 인덱스 재정렬 오버헤드로 인해 진정한 고속 쓰기 폭발력을 끌어내지 못하는 반쪽짜리 아키텍처 |
 
-> 요약: Event Sourcing은 이벤트를 append하고 projection을 통해 조회 모델을 갱신하며, CQRS는 쓰기와 읽기 경로를 분리한다.
+> 요약: 카프카(Kafka)는 큐(Queue)를 넘어 훌륭한 이벤트 DB(로그 저장소)다. 디스크 끝부분에만 테이프 레코더처럼 기록을 추가하므로, 메모리 DB(Redis) 뺨치게 쓰기 속도가 미친 듯이 빠르다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅴ. 실무 적용 방안 및 결론
 
-| 구분 | CRUD 중심 | Event Sourcing/CQRS | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 저장 방식 | 현재 상태 update | append-only event | 감사 로그 100% 보존 |
-| 조회 모델 | 쓰기 모델 공유 | projection별 read model | projection lag 5초 이하 |
-| 복구 | backup 시점 복원 | event replay, snapshot | replay 시간 10분 이하 |
-| 복잡도 | 단일 모델 | schema version, 재처리 필요 | event version 정책 필수 |
+**적용 방안 3개:**
+1. [검색(Search) 성능 극대화를 위한 Elasticsearch CQRS 융합] 이커머스 상품 MSA에서 백오피스의 복잡한 상품 등록/수정(Write) 트래픽은 오라클/PostgreSQL 계층에서 엄격하게 통제하고, 변경 발생 시 Debezium(CDC) -> Kafka로 쏴서 렌더링 전용 Document인 Elasticsearch(Read DB)로 밀어 넣어 밀리초(ms) 단위 풀텍스트 검색 및 필터링(Query) 완성
+2. [블록체인(Blockchain) 급 무결성 금융 원장(Ledger) 구축] 인터넷 전문 은행의 계좌 트랜잭션 시스템에 이벤트 소싱을 적용하여, 직원의 실수나 해킹에 의한 잔액 테이블(RDBMS) 강제 UPDATE 조작을 불가능(Immutable)하게 만들고, 1원 단위까지 모든 돈의 흐름을 100% 추적(Audit) 및 법적 증빙화(Compliance) 방어
+3. [이벤트 리플레이(Replay) 기반의 무중단 신규 피처(Feature) 배포] 모바일 앱에 '최근 1년간 주문한 카테고리 통계'라는 새 화면이 추가될 경우, 기존 시스템을 멈출 필요 없이 이벤트 스토어(Kafka)에 남아있는 과거 1년 치 '주문 발생' 이벤트를 처음부터 리플레이(Replay) 재생시켜 새로운 Read DB(통계용 View)를 단시간에 완벽히 구축(Zero-Downtime)
 
-> 요약: Event Sourcing/CQRS는 감사·재현·조회 최적화에 유리하나 스키마와 projection 운영 역량을 요구한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | CRUD+감사 테이블 | event log+projection | 변경 이력 재현 요구 100% |
-| 비용/성능 | 단일 DB 조회 | read model별 저장소 | 읽기 TPS가 쓰기 TPS의 10배 이상 |
-| 운영/위험 | 단순 schema migration | event versioning, replay | projection rebuild 30분 이하 |
-
-> 요약: 감사와 재현이 핵심이면 Event Sourcing을, 읽기 부하 분산이 핵심이면 CQRS 단독 적용도 가능하다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Projection 지연 | consumer 처리 부족 | partition 조정, backpressure | projection lag |
-| 이벤트 스키마 파손 | breaking change | schema registry, upcaster | incompatible event 0건 |
-| 중복 처리 | at-least-once delivery | idempotency key, dedup table | duplicate 처리율 |
-
-> 요약: 운영 리스크는 projection 지연과 스키마 진화이며, schema registry와 idempotency로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 감사성 | event append 누락 0건 | event store audit |
-| 조회 품질 | projection lag 5초 이하 | consumer metric |
-| 복구성 | snapshot 기반 replay 10분 이하 | disaster recovery drill |
-
-> 요약: 도입 효과는 감사 누락, projection lag, replay 시간으로 검증한다.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 감사·재현 요구가 있는 aggregate부터 EventStoreDB, Kafka compact topic, PostgreSQL event table 중 저장소를 선정함.
-2. event schema version, upcaster, snapshot interval 100건, idempotency key를 표준으로 정함.
-3. projection lag, replay duration, duplicate event count를 Prometheus로 수집하고 read model 재구성 절차를 운영 runbook에 등록함.
-
-**결론 (2줄):**
-- 기술사 판단: 금융·주문·감사처럼 변경 이력 재현이 핵심이면 Event Sourcing/CQRS를 적용하고, 단순 CRUD에는 CQRS 일부만 검토함.
-- 향후 방향: 이벤트 기반 MSA와 결합해 auditability, replay, analytics pipeline을 하나의 event log로 연결하는 방향임.
-
----
+**결론:**
+- 기술사 판단: 모놀리식 시대의 만능열쇠였던 단일 RDBMS(CRUD)는 MSA라는 거대한 트래픽 분산 환경을 만나 성능 병목이라는 죽음을 맞이했다. 이벤트 소싱과 CQRS의 결합은 데이터를 '상태(State)'가 아닌 '흐름(Event)'으로 재정의함으로써, 분산 시스템의 최대 약점인 조인(Join)의 비효율성을 완벽히 박살 낸 혁명적 튜닝이다.
+- 향후 방향: 최근 클라우드 데이터 생태계에서는 스트림 처리 프레임워크(Apache Flink, ksqlDB)가 발전하면서 별도의 백엔드 코드 작성 없이, DB의 변경 사항(CDC)을 Kafka가 실시간 낚아채어 SQL 쿼리로 곧바로 Read View를 구워내는 '스트리밍 CQRS' 시대로 진화가 가속되고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Event Sourcing과 CQRS를 설명하시오" | command, event store, projection 흐름 | CRUD 대비 감사·조회 분리 |
-| 요구사항 명시형 | "비교하시오", "도입 방안을 제시하시오" | projection lag, replay, snapshot 설계 | 정합성 리스크와 적용 조건 |
-
-> 요약: 설명형은 구조와 흐름, 방안형은 최종 일관성과 운영 지표 중심으로 전환한다.
+| 포괄형 | "이벤트 소싱(Event Sourcing)과 CQRS 패턴의 결합 아키텍처를 설명하시오" | Command(쓰기) -> Kafka -> Query(읽기) 뷰 투영 도식 | CRUD 한계(락) 극복 및 RDBMS/NoSQL의 물리적 분리 |
+| 요구사항 명시형 | "마이크로서비스 데이터 조회(Join) 성능 문제 해결 및 데이터 정합성 리스크" | 복수 DB 조회(API 조립) 병목 vs CQRS 사전 렌더링(View) | 결과적 일관성의 틈(Eventual Consistency)과 스냅샷 튜닝 |
