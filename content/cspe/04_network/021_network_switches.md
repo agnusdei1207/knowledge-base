@@ -1,6 +1,6 @@
 ---
 title: "스위칭 계층 — L2·L3·L4·L7 스위치 (Network Switches)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 21
@@ -8,155 +8,148 @@ weight: 21
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: L2·L3·L4·L7 스위치를 처음 봐도 각 계층이 어떤 정보를 보고 전달 결정을 내리는지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 스위칭 계층을 처음 보는 사람도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **개요**: OSI 계층별 헤더 정보를 기준으로 프레임·패킷·세션·애플리케이션 트래픽을 전달하는 장비군
-- **왜 필요한가**: 네트워크는 단순 연결만으로 끝나지 않고 VLAN 분리, 라우팅, 포트 기반 분산, HTTP 정책 처리가 필요하다. 계층별 스위치는 처리 위치와 정책 범위를 나눈다.
-- **핵심 직관**: 택배 분류가 집 주소, 도시, 접수창구, 물품 내용 순서로 깊게 보는 것처럼 스위칭 계층도 MAC, IP, TCP/UDP, HTTP를 단계적으로 본다.
+- **개요**: OSI 7계층에서 패킷을 전달할 때, 어느 계층의 정보를 보고 목적지를 결정할지 구분하는 장비 분류
+- **왜 필요한가**: 트래픽이 폭증하면서 단순히 MAC 주소만 보고 전달하는 L2 스위치로는 네트워크 부하 제어나 세밀한 라우팅, 로드밸런싱이 어려워짐
+- **핵심 직관**: L2는 우편번호(MAC), L3는 상세 주소(IP), L4는 받는 사람의 내선 번호(Port), L7은 편지 내용(Payload)을 뜯어보고 분류하는 우편집배원과 같다.
 
 ## 깊이 이해
-- **배경·문제의식**: L2 스위치는 MAC table로 LAN 내부를 연결하지만 서브넷 경계를 넘지 못한다. L3 스위치는 하드웨어 라우팅으로 VLAN 간 통신을 처리하고, L4·L7 스위치는 서버팜 앞에서 서비스 단위 정책을 수행한다.
-- **작동 원리**: L2는 source MAC 학습 후 destination MAC으로 포트를 선택한다. L3는 목적지 IP와 라우팅 테이블로 next-hop을 고른다. L4는 IP, TCP/UDP port, 세션 테이블을 보고 서버를 선택한다. L7은 HTTP Host, URI, header, cookie, TLS SNI 같은 애플리케이션 속성을 본다.
-- **비유**: L2는 같은 건물의 호실 안내, L3는 다른 도시로 가는 고속도로 안내, L4는 창구 번호 배정, L7은 민원 내용별 담당자 배정에 해당한다.
-- **구체 예시**: 웹 서비스에서 `10.1.10.0/24` 서버 VLAN은 L2로 묶고, 사용자 VLAN과 서버 VLAN은 L3 SVI로 라우팅하며, `TCP 443` 접속은 L4 VIP가 분산하고 `/api` 경로는 L7 정책이 별도 풀로 보낸다.
-- **흔한 오해·주의점**: L7 스위치가 모든 상황의 상위 대체재는 아니다. TLS 복호화, HTTP parsing, WAF 연계가 필요하면 L7, p95 지연 1ms 이하의 단순 전달이 필요하면 L4 또는 L3 경로가 적합하다.
+- **배경·문제의식**: 허브(L1)는 꽂힌 모든 선으로 패킷을 복사해 콜리전(충돌)이 발생. L2는 MAC을 학습해 충돌을 없앴으나 브로드캐스트 스톰은 막지 못함. 이를 IP 기반 라우팅(L3), 포트 기반 부하분산(L4), 콘텐츠 기반 필터링(L7)으로 진화시킴.
+- **작동 원리**:
+  - L2: 수신 프레임의 Source MAC을 학습하고, Destination MAC을 포워딩 테이블에서 찾아 해당 포트로만 전송.
+  - L3: 패킷의 목적지 IP를 라우팅 테이블(FIB)과 대조해 최적 경로로 스위칭(하드웨어 처리).
+  - L4: IP+Port를 확인해 세션을 식별하고 여러 서버로 부하 분산(SLB) 처리.
+  - L7: HTTP 헤더, URI, 쿠키, 페이로드 등을 DPI(Deep Packet Inspection)로 분석하여 전달 또는 차단.
+- **비유**: L2는 같은 사무실 내 자리 이동. L3는 다른 건물 부서로 전달. L4는 들어온 전화를 대기 중인 상담원에게 분배. L7은 민원 내용을 읽고 담당 부서로 정밀 배분.
+- **구체 예시**: 웹 서비스 앞단의 L4가 TCP 80 포트를 보고 3대의 WAS로 Round Robin 분산하고, 방화벽(L7 기능)이 페이로드의 SQL Injection 패턴을 차단함.
+- **흔한 오해·주의점**: "L7 스위치 = L4 스위치에 애플리케이션 기능 추가"로 단순히 보면 안 된다. 처리 깊이가 깊어질수록 레이턴시가 증가하므로 모든 트래픽을 L7으로 처리하면 병목이 된다. 목적에 맞는 계층 배치가 필수다.
 
 ## 연결 개념
-- VLAN·Trunk — L2 스위칭의 논리 분리 단위
-- 라우팅·SVI — L3 스위치의 VLAN 간 경로 결정
-- L4·L7 로드 밸런서 — 서비스 가용성과 정책 기반 분산
+- 로드 밸런싱(SLB, GSLB) — L4/L7 스위치의 주 목적
+- SDN(Software Defined Networking) — 제어부와 전송부 분리로 스위칭 유연성 극대화
+- DPI(Deep Packet Inspection) — L7 스위치의 핵심 검사 기술
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 스위칭 계층 답안은 장비 이름 나열이 아니라 헤더 관찰 범위, 전달 기준, 정책 가능 범위, 지연·처리량 트레이드오프를 계층별로 구분한다.
+> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: L2·L3·L4·L7 스위치는 각각 MAC, IP, TCP/UDP port, 애플리케이션 정보를 기준으로 트래픽 전달 결정을 수행한다.
-> 2. **가치**: 계층별 스위칭은 VLAN 분리, 라우팅, 세션 분산, URI 기반 정책을 장비 위치별로 배치하게 한다.
-> 3. **판단 포인트**: 처리 계층이 높아질수록 정책 세밀도는 증가하지만 TLS 복호화, 세션 유지, CPU 사용률, p95 지연을 함께 검토해야 한다.
+> 1. **본질**: L2~L7 스위치는 OSI 참조 모델의 특정 계층 헤더 및 페이로드 정보를 참조하여 패킷 포워딩 및 필터링 결정을 내리는 네트워크 장비다.
+> 2. **가치**: 상위 계층 정보를 참조할수록 라우팅 유연성, 보안성, 서비스 가용성이 향상되나, 패킷 검사 깊이 증가로 처리 지연(Latency)이 발생한다.
+> 3. **판단 포인트**: 트래픽 특성(볼륨 vs 보안/세션 유지)에 따라 L2/L3(Fast Path)와 L4/L7(Deep Inspection)의 배치 비율 및 아키텍처 결합이 성능을 좌우한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 계층별 전달 기준 이해 확인 | MAC, IP, port, HTTP header/URI/SNI | 스위치를 모두 L2 장비로만 서술 |
-| 장비 선택 판단 확인 | L3 SVI, L4 VIP, L7 reverse proxy 구분 | L7이 모든 L4 기능을 대체한다고 단정 |
-| 운영 지표 연결 확인 | MAC table, route table, session table, p95 latency | 처리량·세션·TLS 부하 지표 누락 |
+| 각 계층별 스위칭 동작 원리 이해 확인 | MAC 학습, 라우팅(FIB), 세션 기반 SLB, Payload 분석 기법 비교 | L2~L7의 단순 기능 나열에 그침 |
+| 트레이드오프 및 설계 적용 역량 | 상위 계층 스위칭 시 지연시간(Latency) 증가와 유연성 향상 간의 상충 관계 | L7이 L2보다 성능이 좋다고 단순 서술함 |
+| 로드밸런싱/보안 장비와의 연관성 | L4/L7의 SLB 알고리즘 및 방화벽/WAF 기능 매핑 | 스위치 기능과 보안 장비 역할을 분리하여 단절시킴 |
 
-> 요약: 이 문제는 계층별 헤더 해석 범위와 정책 가능 범위를 기준으로 스위치 선택 근거를 제시해야 한다.
+> 요약: 스위칭 계층 진화는 처리 지연과 제어 세밀도의 트레이드오프이며, 목적에 맞는 계층 스위치 배치가 성능 최적화의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 계층별 참조 헤더 정보로 전달 결정 방식을 구분한 스위칭 체계
-- 배경: L2는 MAC 기반 LAN 전달, L3는 IP 기반 라우팅, L4는 포트·세션 기반 서버 분산, L7은 HTTP 등 애플리케이션 속성 기반 정책 처리를 담당
-- 필요성: 데이터센터·기업망은 네트워크 분리, 서버 이중화, 서비스 정책 적용을 위해 계층별 스위치 장비를 조합함
+- 정의: 참조하는 OSI 계층 헤더(MAC, IP, Port, Payload) 기반으로 패킷 포워딩 경로를 결정하는 통신 장비
+- 배경: 브로드캐스트 스톰(L2 한계) 및 폭증하는 트래픽 부하분산, 보안 위협 대응을 위해 상위 계층 분석 요구 증가
+- 필요성: 10Gbps 이상 환경에서 패킷 처리량(Throughput) 보장과 가용성 99.9% 유지를 위한 정밀 트래픽 제어 필수
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client Frame/Packet -> L2 Switch: MAC/VLAN
-  -> L3 Switch: IP Prefix/SVI
-  -> L4 Switch: VIP/TCP Port/Session
-  -> L7 Switch: Host/URI/Header/Cookie
-  -> Server Pool
+Incoming Packet -> [L2] MAC Table Lookup -> [L3] FIB/Routing Table Lookup
+                                         |
+                                         +-> [L4] Session Table / SLB -> [L7] DPI / Payload Parsing -> Egress
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소 | 참조 정보 | 주요 기능 및 테이블 |
 |:---|:---|:---|
-| L2 Switch | MAC table 기반 프레임 전달 | VLAN, STP/RSTP, trunk 처리 |
-| L3 Switch | IP prefix 기반 라우팅 | SVI, ACL, ECMP 지원 |
-| L4 Switch | IP와 TCP/UDP port 기반 서버 선택 | VIP, SNAT, persistence |
-| L7 Switch | HTTP 속성 기반 정책 처리 | URI routing, header rewrite, TLS offload |
+| L2 스위치 | Source / Dest MAC 주소 | MAC Address 학습, VLAN, STP (Spanning Tree Protocol) |
+| L3 스위치 | Source / Dest IP 주소 | 하드웨어 라우팅, FIB (Forwarding Information Base), 필터링 |
+| L4 스위치 | IP 주소 + TCP/UDP Port | Server Load Balancing(SLB), 세션 유지(Sticky), NAT |
+| L7 스위치 | 애플리케이션 Payload | 콘텐츠 기반 필터링, URL 라우팅, WAF(Web Application Firewall) |
 
-> 요약: 스위칭 계층은 L2에서 L7로 갈수록 참조 헤더가 깊어지고 정책 단위가 MAC에서 애플리케이션 속성으로 이동한다.
+> 요약: 계층이 올라갈수록 MAC, IP, Port, Payload 등 패킷의 더 깊은 곳을 참조하며, 기능의 차이로 직결된다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Traffic Ingress -> Header Parse -> Table Lookup
-  -> Policy Match -> Forward/Route/Balance
-  -> Telemetry Collect -> Policy Tune
+프레임 수신 -> 헤더 디캡슐레이션 -> 목표 계층 정보 파싱 -> 포워딩 룰 적용 -> 패킷 재조합 및 전송
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | L2에서 source MAC 학습, destination MAC 조회 | MAC table aging, unknown unicast count |
-| 2 | L3에서 목적지 IP prefix와 ACL 확인 | route hit, ACL deny log |
-| 3 | L4에서 VIP, port, session table 매칭 | concurrent session, SYN rate |
-| 4 | L7에서 Host, URI, header, cookie 정책 적용 | p95 latency, HTTP 5xx rate |
+| 1 | 계층별 헤더 디캡슐레이션 | 와이어스피드 처리 여부 (ASIC/NPU 활용) |
+| 2 | 식별자 파싱 (MAC/IP/Port/URI) | L7의 경우 정규표현식 매칭 지연 시간 |
+| 3 | 포워딩 룰 / 세션 테이블 대조 | 룰 개수 증가에 따른 TCAM 조회 속도 |
+| 4 | 목표 포트로 패킷 전송 (또는 Drop) | 종단 간 처리 지연(Latency) p99 1ms 이내 |
 
-> 요약: 스위칭은 헤더 파싱, 테이블 조회, 정책 매칭, 전달 지표 수집 순서로 동작하며 계층별 검증 항목이 다르다.
+> 요약: 모든 스위치는 헤더 파싱 후 룩업 테이블(MAC, FIB, 세션 등)을 대조하여 포워딩을 결정하며 상위 계층일수록 오버헤드가 커진다.
 
 ---
 
 ## Ⅳ. 특징
 
-| 구분 | L2·L3 중심 | L4·L7 중심 | 수치·표준 포인트 |
+| 구분 | 하위 계층 스위치 (L2/L3) | 상위 계층 스위치 (L4/L7) | 판단 포인트 |
 |:---|:---|:---|:---|
-| 처리 기준 | MAC, VLAN, IP prefix | TCP/UDP port, HTTP header | OSI 2/3/4/7 계층 |
-| 정책 단위 | 세그먼트, 서브넷, ACL | VIP, pool, URI, cookie | TCP 80/443, TLS SNI |
-| 상태 관리 | MAC/route table 위주 | session table, persistence | session timeout, SYN backlog |
-| 지연 요인 | ASIC lookup, ACL hit | TLS offload, HTTP parsing | p95 latency, CPS, RPS |
+| 처리 속도 | 와이어스피드 보장 (수십~수백 Gbps) | 트래픽 룰 및 세션 수에 따라 지연 발생 | 성능 병목 구간 식별 |
+| 제어 세밀도 | 서브넷, 호스트 단위 단순 제어 | 사용자, 애플리케이션 단위 제어 | 보안 및 캐싱 적용 여부 |
+| 하드웨어 의존성 | ASIC 기반 처리 중심 | CPU/NPU 및 소프트웨어 처리 비중 높음 | 확장성(Scale-out) 한계 |
 
-> 요약: L2·L3는 네트워크 도달성, L4·L7은 서비스 분산과 애플리케이션 정책이 주 판단 기준이다.
+> 요약: L2/L3는 대용량 단순 포워딩에 적합하고, L4/L7은 부하 분산 및 보안 필터링 등 복잡한 제어에 특화되어 있다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | L2/L3 스위치 | L4/L7 스위치 | 선택 기준 |
+| 비교 축 | L4 로드밸런싱 | L7 로드밸런싱 | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | 캠퍼스·데이터센터 fabric 내부 | 서버팜·서비스 경계 | VLAN·라우팅이면 L3, 서비스 분산이면 L4/L7 |
-| 비용/성능 | ASIC 기반 line-rate 처리 | 세션·TLS·HTTP 처리 비용 발생 | p95 지연 목표와 TLS TPS 기준 |
-| 운영/위험 | 루프, VLAN 확산, ACL 누락 | 세션 고갈, 인증서 만료, 정책 충돌 | 장애 도메인과 변경 승인 기준 |
+| 부하 분산 기준 | IP 주소, TCP/UDP 포트 번호 | URI, HTTP 헤더, 쿠키, Payload | 트래픽의 앱 의존성 |
+| 세션 유지 | Source IP 기반 바인딩 | 쿠키 기반 세션 바인딩 | 클라이언트 유동 IP 환경 (모바일) |
+| 오버헤드 | 낮음 (TCP 3-way 상태만 유지) | 높음 (패킷 조립 및 Payload 파싱) | TPS 요구량 및 허용 지연 시간 |
 
-> 요약: 계층 선택은 처리 위치가 아니라 요구 정책이 MAC/IP인지 세션/HTTP인지로 결정한다.
+> 요약: 모바일 환경이나 클라우드 등 Source IP가 자주 변경되는 환경에서는 세션 유지를 위해 L7 스위치 선택이 필수적이다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| L2 루프 | STP 오설정, trunk 확산 | BPDU guard, storm-control | broadcast pps, MAC flapping |
-| 세션 고갈 | L4 session table 한계 초과 | SYN cookie, connection limit | active session, SYN drop |
-| L7 정책 오류 | URI rule 순서, TLS 인증서 만료 | staging rule test, cert rotation | HTTP 4xx/5xx, cert expiry day |
+| 성능 저하 | L7 DPI 적용 시 CPU 부하 증가 | ASIC/NPU 오프로딩, 룰셋 최적화 | 패킷 처리 지연(Latency) p95 |
+| 세션 고갈 | 봇넷 DDoS 공격 (SYN Flood 등) | SYN Cookie, Connection Rate Limit | 동시 세션 수(Concurrent Sessions) |
+| 비대칭 라우팅 | 인/아웃바운드 경로 불일치 | SNAT (Source NAT) 적용, DSR 구성 | 세션 확립 실패율, 재전송률 |
 
-> 요약: 운영 리스크는 계층별로 루프, 세션, 애플리케이션 정책 오류로 갈리며 지표와 보호 기능을 분리해야 한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 전달 처리량 | uplink 사용률 70% 이하, drop 0건 | interface counter, SNMP |
-| 서비스 지연 | L4 p95 1ms 내외, L7 p95 목표치 준수 | APM, synthetic test |
-| 테이블 상태 | MAC/route/session table 80% 이하 | 장비 telemetry, syslog |
-
-> 요약: 스위칭 품질은 처리량, 지연, 테이블 여유율을 계층별로 측정해야 한다.
+> 요약: L4/L7 스위치 도입 시 가장 큰 리스크는 세션 테이블 고갈과 분석 지연이므로, 연결 제한과 NPU 가속으로 통제해야 한다.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 캠퍼스망은 access L2, distribution/core L3 SVI 구조로 설계하고 VLAN trunk 허용 목록을 최소화함
-2. 서버팜은 L4 VIP 기준으로 TCP 80/443을 분산하고 session persistence와 health check 주기를 명시함
-3. HTTP 경로 분기, TLS offload, header 기반 정책은 L7에 배치하고 p95 latency, RPS, 5xx rate를 배포 기준으로 삼음
+**적용 방안 3개:**
+1. 경계망(L2/L3): 고성능 L3 스위치를 경계망에 배치하여 와이어스피드 라우팅 및 대용량 DDoS 1차 방어 수행
+2. 서비스망(L4): WAS 그룹 앞단에 L4 스위치를 배치하여 Source IP 기반 SLB(Round Robin, Least Connection) 구성
+3. 애플리케이션망(L7): 민감 데이터 접근 구간에 L7 스위치를 배치해 SQLi, XSS 등 Payload 기반 이상 탐지 차단
 
 **결론 (2줄):**
-- 기술사 판단: VLAN·IP 도달성 문제는 L2/L3, 서비스 분산·HTTP 정책 문제는 L4/L7을 선택함
-- 향후 방향: EVPN/VXLAN, service mesh, eBPF telemetry와 연계해 계층별 정책과 관측 지표를 일관되게 관리해야 함
+- 기술사 판단: 스위칭 계층 도입은 대역폭 처리량과 제어 깊이 간의 트레이드오프이므로, Edge는 L2/L3, Core단은 L4/L7로 배치한다.
+- 향후 방향: 하드웨어 스위치의 한계를 극복하기 위해 소프트웨어 기반의 분산 로드밸런서(Envoy 등) 및 eBPF 라우팅으로 진화하고 있다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "스위칭 계층을 설명하시오" | MAC, IP, port, HTTP 처리 흐름 | L2·L3·L4·L7 차이표 |
-| 요구사항 명시형 | "스위치 선택 방안을 제시하시오" | 요구 트래픽별 장비 배치 | p95 latency, session, TLS 기준 |
+| 포괄형 | "L2~L7 스위치를 설명하시오" | 각 계층별 패킷 처리 흐름도 | 계층별 특징 비교표 |
+| 비교형 | "L4 스위치와 L7 스위치를 비교하시오" | 세션 확립 및 Payload 파싱 차이 | 부하 분산 기준, 세션 유지(Sticky) 방식 대조 |
+| 설계형 | "대용량 웹 서비스 구성을 설계하시오" | Edge(L3) -> L4 -> L7 계층적 배치도 | 트래픽 규모에 따른 성능 병목 통제 방안 |
 
-> 요약: 설명형은 계층별 원리, 방안형은 정책 요구와 검증 지표 중심으로 목차를 전환한다.
+> 요약: 포괄형은 OSI 7계층 전반의 트레이드오프를, 비교/설계형은 L4/L7 중심의 세션 유지와 아키텍처 배치를 묻는다.

@@ -1,6 +1,6 @@
 ---
 title: "TCP 3-way handshake (TCP 3-way Handshake)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 26
@@ -8,156 +8,152 @@ weight: 26
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: TCP 3-way handshake를 처음 봐도 왜 SYN, SYN-ACK, ACK 세 단계가 필요한지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: TCP 연결 생성 과정을 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **개요**: TCP 연결 시작 시 양 끝이 초기 sequence number와 수신 가능 상태를 확인하는 3단계 절차
-- **왜 필요한가**: TCP는 신뢰성 있는 byte stream을 제공하므로 데이터 전송 전에 양방향 통신 가능 여부와 sequence 번호 기준을 맞춰야 한다.
-- **핵심 직관**: 전화를 걸 때 "들리나요?", "네 들립니다, 제 목소리도 들리나요?", "네 들립니다"라고 확인한 뒤 대화를 시작하는 과정이다.
+- **개요**: TCP 프로토콜이 신뢰성 있는 통신을 시작하기 전, 송수신 양측이 연결을 수립(Establish)하고 동기화하는 3단계 과정
+- **왜 필요한가**: 신뢰성 있는 전송을 위해서는 누가 몇 번 데이터를 보낼지(Sequence), 창 크기(Window Size)는 얼마인지 미리 합의를 봐야 함
+- **핵심 직관**: 통화를 시작할 때 "여보세요? 제 말 들리세요?(SYN)" -> "네, 들립니다. 제 말도 들리시나요?(SYN-ACK)" -> "네, 잘 들립니다(ACK)" 하고 본론을 시작하는 상호 확인 과정이다.
 
 ## 깊이 이해
-- **배경·문제의식**: IP는 비연결형이라 패킷이 사라지거나 순서가 바뀔 수 있다. TCP는 연결 상태, sequence/acknowledgment, window size를 관리해 데이터 흐름을 제어한다.
-- **작동 원리**: 클라이언트가 SYN과 client ISN을 보낸다. 서버가 SYN-ACK와 server ISN, client ISN+1을 응답한다. 클라이언트는 이 SYN-ACK를 수신하는 즉시 ESTABLISHED로 전환하며 ACK로 server ISN+1을 확인해 전송하고, 서버는 그 ACK를 수신한 시점에 비로소 ESTABLISHED로 전환된다.
-- **비유**: 양쪽 회의 참가자가 서로 마이크와 스피커가 동작하는지 확인하고 발언 순서 번호를 맞춘 뒤 회의를 시작하는 것과 같다.
-- **구체 예시**: Client `SYN seq=1000`, Server `SYN-ACK seq=5000 ack=1001`, Client `ACK ack=5001`이면 이후 데이터는 각자의 다음 sequence 번호부터 전송된다.
-- **흔한 오해·주의점**: 3-way handshake 완료는 애플리케이션 정상 응답을 의미하지 않는다. TCP 연결이 ESTABLISHED여도 TLS handshake, HTTP 인증, 서버 thread pool에서 실패할 수 있다.
+- **배경·문제의식**: UDP는 확인 없이 그냥 쏘지만, TCP는 데이터 유실을 막아야 한다. 데이터를 순서대로 조립하려면 양쪽이 사용할 일련번호(Sequence Number)의 시작점(ISN)을 공유해야 하고, 수신 버퍼 크기를 알아야 오버플로우가 안 난다.
+- **작동 원리**:
+  1. **SYN (Client -> Server)**: 클라이언트가 "연결할게. 내 시작 번호는 X야" (SYN 비트 1, Seq=X). 상태는 SYN_SENT.
+  2. **SYN-ACK (Server -> Client)**: 서버가 "알았어(X+1), 나도 연결할게. 내 시작 번호는 Y야" (SYN 1, ACK 1, Seq=Y, Ack=X+1). 상태는 SYN_RCVD.
+  3. **ACK (Client -> Server)**: 클라이언트가 "알았어(Y+1), 이제 데이터 보낼게" (ACK 1, Seq=X+1, Ack=Y+1). 상태는 ESTABLISHED.
+- **비유**: 군대 암구호 교환. 초병: "손들어 움직이면 쏜다, 화랑(SYN)" -> 거동수상자: "담배(ACK). 저는 소대장입니다(SYN)" -> 초병: "확인했습니다(ACK), 지나가십시오."
+- **구체 예시**: 웹 브라우저가 TCP 80 포트로 접속할 때, MSS(최대 세그먼트 크기), Window Scale 확장 옵션 등 통신의 '규칙'들을 이 3-way handshake의 옵션 필드에 담아 서로 교환한다.
+- **흔한 오해·주의점**: "시작 일련번호(ISN)는 무조건 0이나 1부터 시작한다"는 틀렸다. 예측 가능하면 해커가 TCP 세션을 하이재킹(가로채기) 할 수 있으므로, ISN은 난수(Random) 알고리즘으로 생성해야 한다.
 
 ## 연결 개념
-- TCP 4-way handshake — 연결 종료 시 FIN/ACK 절차
-- SYN Flood — handshake half-open 상태를 악용하는 DoS
-- TCP 흐름 제어 — window size로 수신 버퍼 범위 조절
+- TCP 4-way Handshake — 연결을 안전하게 종료하는 과정
+- SYN Flood 공격 — 3-way 약점을 악용해 서버의 백로그 큐(연결 대기열)를 꽉 채워 다운시키는 공격
+- TCP Fast Open (TFO) — 3-way의 지연(RTT)을 없애기 위해 첫 SYN에 데이터를 실어 보내는 최적화 기술
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: TCP 3-way handshake 답안은 SYN/SYN-ACK/ACK, ISN, 상태 전이, SYN backlog, 장애 분석 포인트를 포함해야 한다.
+> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TCP 3-way handshake는 양단이 초기 sequence number와 수신 가능 상태를 교환해 연결을 ESTABLISHED로 전환하는 절차이다.
-> 2. **가치**: 데이터 전송 전 양방향 도달성, ACK 처리, window size, MSS option을 협상해 신뢰성 있는 전송 기반을 만든다.
-> 3. **판단 포인트**: SYN 재전송, SYN backlog, RST, firewall drop, TLS handshake 실패를 구분해야 한다.
+> 1. **본질**: TCP 3-way Handshake는 양 종단(End-to-End) 간 신뢰성 있는 데이터 전송을 위해 시퀀스 번호(ISN)와 소켓 상태를 동기화하는 연결 수립 절차다.
+> 2. **가치**: 데이터 유실 검출 및 순서 재조합의 기반을 마련하고, 양측의 수신 버퍼 크기(Window)와 최대 세그먼트 크기(MSS)를 합의하여 흐름 통제의 기준을 설정한다.
+> 3. **판단 포인트**: 연결 수립은 필연적으로 1-RTT 지연을 발생시키며, 이 과정에서 발생하는 SYN Flood 공격 방어(SYN Cookie)와 성능 최적화(TCP Fast Open)가 주요 과제다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| TCP 연결 성립 원리 확인 | SYN, SYN-ACK, ACK와 seq/ack 증가 | 단순 3단계 명칭만 나열 |
-| 장애 분석 역량 확인 | SYN retry, RST, timeout, backlog | TCP 연결과 애플리케이션 성공 혼동 |
-| 보안 리스크 이해 확인 | SYN flood, SYN cookie, half-open | DoS 대응 누락 |
+| TCP 연결 논리 및 상태 전이 이해 | SYN/ACK 플래그 전이, ISN 동기화, SYN_SENT -> SYN_RCVD -> ESTABLISHED 상태 | 단순 1,2,3단계 순서만 나열하고 상태(State) 명칭 누락 |
+| 동기화(Synchronization) 내용 이해 | MSS, Window Scale 등 헤더 옵션 교환 | "연결을 맺는다"는 추상적 표현 (무엇을 교환하는지 명시) |
+| 보안 취약점 및 최적화 연계 판단 | SYN Flood / SYN Cookie 대응, 1-RTT 오버헤드 한계 | 보안 위협(DoS)과의 연결 고리 누락 |
 
-> 요약: 이 문제는 3단계 메시지와 상태 전이를 seq/ack 번호, 장애 원인, 보안 대응까지 연결해야 한다.
+> 요약: 3-way handshake는 단순한 인사가 아니라 "초기 파라미터(ISN, MSS) 합의 과정"이며, 성능(RTT 지연)과 보안(SYN Flood)의 트레이드오프를 수반한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: TCP 연결을 시작하기 위해 SYN, SYN-ACK, ACK를 순서대로 교환하는 3단계 제어 절차
-- 배경: IP는 비연결형이라 양방향 통신 가능 여부와 초기 sequence number를 사전에 맞추지 않으면 신뢰성 있는 전송을 보장할 수 없음
-- 필요성: 연결 성립 단계와 상태 전이를 정확히 이해해야 장애 분석과 SYN flood 대응 판단의 근거로 활용 가능
+- 정의: TCP(Transmission Control Protocol)에서 양 종단 간 논리적 연결(Session)을 수립하기 위해 3단계로 패킷(SYN/ACK)을 교환하는 동기화 절차
+- 배경: 비연결성(Connectionless)인 IP 망 위에서 신뢰성, 순서 보장, 흐름 통제를 수행하기 위한 사전 합의 필수
+- 필요성: Initial Sequence Number(ISN) 난수 동기화로 세션 하이재킹을 방지하고, 송수신 양측의 버퍼(Window) 상태를 확인하기 위해 필요
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 구조 및 구성요소 (교환 파라미터)
 
 ```text
-Client CLOSED -> SYN_SENT
-  -> SYN(seq=x) -> Server LISTEN/SYN_RECEIVED
-  <- SYN-ACK(seq=y, ack=x+1)
-  -> ACK(ack=y+1) -> ESTABLISHED
+[TCP 헤더 Control Flags] : URG | ACK | PSH | RST | SYN | FIN
+- 3-way Handshake는 SYN(동기화)과 ACK(확인) 플래그 조합으로 구성됨
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 교환 파라미터 | 목적 | 특이사항 |
 |:---|:---|:---|
-| SYN | 연결 요청과 client ISN 전달 | TCP option, MSS, window scale 포함 |
-| SYN-ACK | 서버 수락과 server ISN 전달 | ack는 client ISN+1 |
-| ACK | 서버 ISN 수신 확인 | 이후 데이터 전송 가능 |
-| State Table | 연결 상태 관리 | SYN_SENT, SYN_RECEIVED, ESTABLISHED |
-| SYN Backlog | half-open 연결 대기열 | backlog 초과 시 drop 또는 cookie |
+| ISN (Initial Seq Number) | 데이터 순서 재조합 및 중복/유실 판별 기준 | 보안을 위해 예측 불가능한 난수(Random) 사용 |
+| MSS (Max Segment Size) | IP 단편화(Fragmentation)를 방지할 최대 페이로드 크기 | SYN 패킷의 Option 필드를 통해 상호 교환 |
+| Window Size / Scale | 수신 측이 수용 가능한 버퍼 여유 공간 통보 | 고속 망에서 16비트 한계 극복 위해 Scale 인자 합의 |
 
-> 요약: 3-way handshake는 제어 flag와 seq/ack 번호, 상태 테이블, backlog 자원으로 구성된다.
+> 요약: 3-way 과정은 단순히 연결 여부를 묻는 것이 아니라, ISN, MSS, Window Scale이라는 핵심 통제 변수를 초기 셋팅하는 과정이다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 흐름도 (상태 전이)
 
 ```text
-Client Active Open -> SYN Send -> Server Passive Open
-  -> SYN-ACK Send -> Client ACK Send
-  -> State ESTABLISHED -> Data Transfer
+Client (CLOSED)                    Server (LISTEN)
+  | --- 1. SYN (Seq=X) -------------> | (SYN_RCVD)
+  |                                   | : 백로그 큐(Half-open) 할당
+(SYN_SENT)                            |
+  | <--- 2. SYN-ACK (Seq=Y, Ack=X+1) -- |
+  |                                   |
+(ESTABLISHED)                         |
+  | --- 3. ACK (Seq=X+1, Ack=Y+1) ----> | (ESTABLISHED)
+  |                                   | : 통신 준비 완료
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+| 단계 | 플래그 및 Sequence | 서버/클라이언트 상태 전이 |
 |:---:|:---|:---|
-| 1 | 클라이언트가 SYN과 ISN x 전송 | SYN_SENT, seq=x |
-| 2 | 서버가 SYN queue에 half-open 상태 저장 | SYN_RECEIVED, backlog 사용률 |
-| 3 | 서버가 SYN-ACK와 ISN y, ack x+1 전송 | SYN-ACK retransmission |
-| 4 | 클라이언트가 SYN-ACK 수신 즉시 ESTABLISHED로 전환하고 ACK y+1 전송 | client-side established count |
-| 5 | 서버가 클라이언트의 ACK를 수신한 시점에 ESTABLISHED로 전환 | server-side established session count |
+| 1 | `SYN=1` / Seq=X | Client: `SYN_SENT`, Server: `LISTEN` -> `SYN_RCVD` |
+| 2 | `SYN=1, ACK=1` / Seq=Y, Ack=X+1 | Server: 수신 버퍼 할당 완료, Client: 응답 대기 |
+| 3 | `ACK=1` / Seq=X+1, Ack=Y+1 | Client: `ESTABLISHED`, Server: `ESTABLISHED` |
 
-> 요약: 클라이언트는 SYN-ACK 수신 시, 서버는 마지막 ACK 수신 시 각각 ESTABLISHED로 전환되며 연결은 서버가 ACK를 수신하는 시점에 완전히 성립한다.
+> 요약: SYN을 받은 서버는 Half-open 상태(SYN_RCVD)로 자원을 할당하며, 클라이언트의 최종 ACK를 받아야 완전한 ESTABLISHED 상태가 된다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 주요 특징 및 한계
 
-| 구분 | 정상 handshake | 실패·공격 상황 | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 메시지 | SYN, SYN-ACK, ACK | SYN 재전송, RST, timeout | TCP flag, seq/ack |
-| 상태 | SYN_SENT, SYN_RECEIVED, ESTABLISHED | half-open 증가 | SYN backlog |
-| 옵션 | MSS, window scale, SACK permitted | MTU mismatch, option drop | MSS 1460 예시 |
-| 보안 | 정상 연결 성립 | SYN flood | SYN cookie, rate-limit |
+| 구분 | 내용 | 판단 포인트 |
+|:---|:---|:---|
+| 통신 오버헤드 | 데이터 전송 전 무조건 1-RTT(Round Trip Time) 지연 발생 | HTTP 응답 지연의 주요 원인 |
+| 보안 취약성 | 서버는 SYN 수신 시 즉시 TCB(상태정보) 메모리 할당 | SYN Flood(DoS) 공격의 근본 원인 |
+| ISN 난수화 | ISN이 예측 가능하면 악의적 TCP Reset, Session Hijacking 가능 | 난수 생성기 엔트로피 확보 필수 |
 
-> 요약: handshake 분석은 flag 순서뿐 아니라 상태, TCP option, backlog 자원을 함께 확인해야 한다.
+> 요약: 3-way 핸드쉐이크는 신뢰성을 보장하지만, 초기 지연(RTT)과 메모리 선점 방식 때문에 필연적인 성능/보안 약점을 지닌다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | TCP 3-way handshake | UDP 전송 | 선택 기준 |
+| 비교 축 | TCP 3-way Handshake | QUIC (UDP 기반) Handshake | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | 연결 성립 후 byte stream | 연결 절차 없음 | 신뢰성·순서 보장 필요 시 TCP |
-| 비용/성능 | 1 RTT 연결 비용 발생 | 초기 RTT 비용 없음 | 짧은 요청은 RTT 영향 검토 |
-| 운영/위험 | SYN flood, backlog 고갈 | spoofing, loss 처리 앱 부담 | 보안 장비와 rate-limit 기준 |
+| 연결+보안 계층 | TCP(1-RTT) + TLS(1~2-RTT) 분리 | 전송(연결)과 TLS 1.3 결합 | 초기 지연 민감도 |
+| 최초 접속 지연 | 총 2~3 RTT 소요 | 1-RTT 소요 | 웹 서비스 로딩 속도 |
+| 재접속 지연 | 다시 2~3 RTT 소요 | 0-RTT (토큰 캐싱 활용) | 모바일 등 네트워크 전환 잦은 환경 |
 
-> 요약: TCP는 연결 신뢰성을 제공하지만 초기 1 RTT와 상태 자원 비용이 발생한다.
+> 요약: 현대 웹은 TCP 3-way의 태생적 지연을 피하기 위해 전송과 암호화 연결을 한 번에 끝내는 QUIC(HTTP/3) 프로토콜로 진화 중이다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| 연결 지연 | SYN/SYN-ACK 재전송, RTT 증가 | 경로 점검, anycast, TCP Fast Open 검토 | TCP connect time |
-| SYN Flood | 대량 half-open 연결 | SYN cookie, backlog 확대, rate-limit | SYN_RECV count |
-| 방화벽 차단 | stateful rule 누락, asymmetric routing | rule audit, 양방향 경로 확인 | SYN no SYN-ACK capture |
+| SYN Flood 공격 | 출발지 IP 위조 SYN 연속 발송으로 백로그 큐 고갈 | SYN Cookie 적용, TCP 큐 크기(Somaxconn) 증가 | SYN_RCVD 상태 소켓 수 |
+| 세션 하이재킹 | 허술한 ISN 생성 알고리즘 (순차 증가 등) | 커널 레벨의 암호학적 난수 생성 (RFC 6528) | 커널 취약점 스캔 (CVE) |
+| 연결 타임아웃 | 중간 방화벽에 의한 조용한 패킷 Drop | TCP Keepalive 활성화, SYN Retries 튜닝 | SYN 패킷 재전송 비율 |
 
-> 요약: handshake 리스크는 지연, half-open 자원, 경로 차단이며 packet capture와 상태 지표로 분리한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 연결 성공률 | TCP connect success 99.9% 이상 | synthetic probe, LB metric |
-| 연결 지연 | p95 connect time SLO 준수 | APM, tcpdump timestamp |
-| backlog 상태 | SYN backlog 사용률 80% 이하 | netstat, ss, kernel metric |
-
-> 요약: 3-way handshake 품질은 연결 성공률, connect time, backlog 사용률로 판단한다.
+> 요약: SYN Flood 방어의 핵심은 상태(State)를 서버 메모리에 저장하지 않고, 응답 패킷(SYN-ACK)의 시퀀스 번호에 해시로 말아 보내는 SYN Cookie 기술이다.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 접속 장애 시 client/server 양단 pcap으로 SYN, SYN-ACK, ACK 도달 여부와 RST 송신 주체를 확인함
-2. 인터넷 서비스는 SYN backlog, SYN cookie, LB connection limit을 설정하고 SYN_RECV count를 모니터링함
-3. TLS·HTTP 장애와 TCP handshake 장애를 분리해 TCP connect time, TLS handshake time, HTTP response time을 각각 측정함
+**적용 방안 3개:**
+1. 보안 강화(SYN Cookie): 방화벽이나 L4 스위치, 리눅스 커널에서 `net.ipv4.tcp_syncookies = 1`을 설정하여 백로그 큐 고갈 공격(SYN Flood) 무력화
+2. 성능 최적화(TCP Fast Open): RFC 7413 TFO 옵션을 활성화하여, 재접속 시 SYN 패킷 내에 TFO 쿠키와 데이터를 함께 보내 0-RTT 데이터 전송 구현
+3. 커널 튜닝: 대용량 트래픽 서버의 경우 `net.core.somaxconn` 및 `tcp_max_syn_backlog` 값을 늘려 동시 SYN 요청 수용량 확대
 
 **결론 (2줄):**
-- 기술사 판단: SYN-ACK가 없으면 네트워크·방화벽·서버 listen 문제, ACK 후 실패는 TLS·애플리케이션 문제로 분리함
-- 향후 방향: QUIC, TCP Fast Open, SYN cookie, eBPF observability로 연결 지연과 half-open 공격을 함께 관리해야 함
+- 기술사 판단: TCP 3-way Handshake는 통신의 신뢰성을 위한 위대한 발명이지만, 지연(RTT)과 상태 유지(Stateful)라는 굴레를 남겼다.
+- 향후 방향: 이 한계를 극복하기 위해 TCP 단에서는 Fast Open이, 프로토콜 구조적으로는 UDP 기반의 QUIC(0-RTT)가 표준으로 자리잡고 있다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "TCP 3-way handshake를 설명하시오" | SYN/SYN-ACK/ACK와 상태 전이 | TCP option, SYN flood |
-| 요구사항 명시형 | "접속 장애 분석 방안을 제시하시오" | pcap 기반 실패 지점 분리 | backlog, 방화벽, RST 리스크 |
+| 설명형 | "TCP 3-way handshake를 설명하시오" | SYN, ACK, SEQ 번호 변화와 상태 전이도 | ISN, MSS 교환 및 연결 확립 특징 |
+| 보안형 | "SYN Flood 공격과 방어 메커니즘" | SYN_RCVD 상태에서 서버 자원 점유 흐름 | SYN Cookie의 해시값 계산 및 검증 원리 |
+| 최적화/비교형| "HTTP 지연 원인과 QUIC 비교" | 3-way 1-RTT + TLS 1.3 1-RTT 지연 구조 | TCP Fast Open 및 QUIC(0-RTT) 비교표 |
 
-> 요약: 설명형은 연결 성립 원리, 방안형은 장애 지점과 보안 대응 중심으로 전환한다.
+> 요약: 연결 과정 설명에 그치지 않고, 반드시 SYN Flood 보안 리스크와 초기 지연(RTT) 최적화 방안을 연결하여 기술사적 판단을 보여야 한다.

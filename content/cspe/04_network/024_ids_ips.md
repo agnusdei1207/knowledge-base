@@ -1,6 +1,6 @@
 ---
 title: "IDS·IPS — 탐지 vs 차단 (IDS IPS)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 24
@@ -8,155 +8,147 @@ weight: 24
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: IDS와 IPS를 처음 봐도 탐지 장비와 차단 장비의 위치, 동작, 오탐 영향 차이를 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: IDS와 IPS의 근본적인 차이점과 네트워크 배치의 연관성을 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **개요**: IDS는 공격 징후를 탐지·경보하고, IPS는 트래픽 경로에서 공격 패킷을 차단하는 보안 장비
-- **왜 필요한가**: 방화벽이 허용한 `TCP 80/443` 내부에서도 SQL Injection, C2, 취약점 exploit이 발생한다. IDS·IPS는 패턴, 행위, 이상 징후를 분석해 보안 관제와 실시간 차단을 지원한다.
-- **핵심 직관**: IDS는 CCTV 관제실, IPS는 출입문 검색대처럼 동작한다. CCTV는 사후 확인에 유리하고, 검색대는 통과 자체를 막을 수 있다.
+- **개요**: 네트워크 트래픽이나 시스템 로그를 분석해 악의적인 침입 시도를 식별하는 시스템(IDS)과 이를 적극적으로 차단하는 시스템(IPS)
+- **왜 필요한가**: 방화벽은 허용된 포트(예: 80, 443)로 들어오는 트래픽은 막지 않으므로, 정상 포트를 타고 들어오는 해킹 공격(SQLi, 버퍼 오버플로우 등)을 잡아낼 2차 방어선이 필요함
+- **핵심 직관**: IDS는 도둑이 담을 넘을 때 "도둑이야!" 하고 경보만 울리는 CCTV+경보기고, IPS는 도둑이 담을 넘자마자 전기 충격을 가해 쓰러뜨리는 스마트 철조망이다.
 
 ## 깊이 이해
-- **배경·문제의식**: 방화벽은 주로 접근 허용 여부를 판단하지만 허용된 세션의 payload를 충분히 해석하지 못한다. IDS·IPS는 signature, protocol anomaly, behavior rule로 공격 징후를 찾는다.
-- **작동 원리**: IDS는 SPAN/TAP으로 복제된 트래픽을 분석하고 event를 SIEM으로 보낸다. IPS는 inline 경로에 배치되어 패킷을 검사한 뒤 allow, drop, reset, rate-limit 같은 action을 수행한다.
-- **비유**: IDS는 도로 위반을 촬영해 과태료를 보내는 단속 카메라이고, IPS는 차단봉을 내려 차량 진입을 막는 검문소다.
-- **구체 예시**: 웹 서버로 들어오는 `GET /?id=1 OR 1=1` payload가 SQL Injection signature와 매칭되면 IDS는 alert를 생성하고, IPS는 해당 TCP 세션을 reset하거나 패킷을 drop한다.
-- **흔한 오해·주의점**: IPS를 inline에 넣으면 모든 공격이 차단되는 것이 아니다. signature 미탐, TLS 암호화, 오탐으로 인한 정상 업무 차단, 처리량 병목을 함께 관리해야 한다.
+- **배경·문제의식**: 초기 IDS는 트래픽을 복사해서(Out-of-band) 분석하므로, 경보를 울렸을 땐 이미 공격 패킷이 서버에 도달한 뒤였다(사후 대응 한계). 이를 극복하기 위해 트래픽 경로 중간(In-line)에 들어가 공격 패킷을 직접 폐기(Drop)하는 IPS가 등장했다.
+- **작동 원리**:
+  - **오용 탐지 (Signature-based)**: 알려진 공격 패턴(시그니처) 데이터베이스와 패킷을 비교. 백신과 비슷하며 속도가 빠르고 오탐이 적으나 제로데이 공격은 못 잡음.
+  - **이상 탐지 (Anomaly-based)**: 정상적인 네트워크 행위(베이스라인)를 학습한 후, 이에서 벗어나는 트래픽(갑작스러운 대량 접속 등)을 차단. 미지의 공격을 잡을 수 있으나 오탐률(False Positive)이 높음.
+- **비유**: 오용 탐지는 '지명수배자 몽타주'와 대조하는 것이고, 이상 탐지는 '여름에 패딩을 입고 땀 흘리는 사람'을 의심해 검문하는 것이다.
+- **구체 예시**: 서버로 향하는 패킷에 `UNION SELECT` 문자열이 포함되어 있으면(오용 탐지), IDS는 관리자에게 알람 이메일을 보내고 패킷은 통과되지만, IPS는 해당 패킷을 즉시 Drop하고 세션을 강제 종료(RST)한다.
+- **흔한 오해·주의점**: "차단이 탐지보다 무조건 좋으니 IPS만 쓰면 된다"는 틀렸다. IPS가 정상 패킷을 공격으로 오인해 차단(과탐)하면 서비스가 중단된다. 그래서 보통 처음에는 IPS를 '탐지(IDS) 모드'로 운영하며 튜닝한 후 차단 모드로 전환한다.
 
 ## 연결 개념
-- 방화벽 — 접근 제어와 IDS·IPS 연계 경계 장비
-- SIEM·SOAR — IDS 경보 수집, 상관분석, 대응 자동화
-- WAF — HTTP 애플리케이션 공격 특화 차단
+- Port Mirroring (SPAN/TAP) — IDS에 트래픽을 복사해 주기 위한 네트워크 스위치 기술
+- False Positive (과탐) — 정상 트래픽을 공격으로 오인. IPS에서 가장 치명적인 리스크
+- NGFW (차세대 방화벽) — IPS 기능이 방화벽 안으로 완전히 통합된 최신 보안 장비
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: IDS·IPS 답안은 탐지 위치, inline 여부, signature·anomaly 방식, 오탐·미탐 관리, 관제 연계를 명확히 구분한다.
+> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IDS는 네트워크 공격 징후를 탐지·경보하는 장비이고, IPS는 inline 경로에서 악성 트래픽을 차단하는 장비이다.
-> 2. **가치**: 허용된 세션 내부의 exploit, scanning, malware C2를 탐지하고 보안 관제 이벤트로 전환한다.
-> 3. **판단 포인트**: IDS는 가시성·관제, IPS는 실시간 차단·오탐 영향, 둘 다 signature update와 TLS 가시성 확보가 필요하다.
+> 1. **본질**: IDS와 IPS는 네트워크 또는 호스트에서 발생하는 비인가 접근 및 악성 행위를 시그니처 및 행위 기반으로 분석하여 탐지/차단하는 방어 시스템이다.
+> 2. **가치**: 포트 기반 방화벽이 막지 못하는 애플리케이션 계층 침입을 식별하며, 알려지지 않은 위협(제로데이)에 대한 대응력을 제공한다.
+> 3. **판단 포인트**: IDS는 가용성(무중단)이 최우선일 때 Out-of-band로 구성하고, IPS는 즉각적인 위협 차단이 필요할 때 In-line으로 구성하되 오탐(False Positive) 리스크를 반드시 통제해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| IDS와 IPS 차이 확인 | out-of-band 탐지 vs inline 차단 | IDS도 직접 차단한다고 서술 |
-| 탐지 방식 이해 확인 | signature, anomaly, behavior, protocol decoding | 시그니처만 쓰고 미탐·오탐 언급 누락 |
-| 운영 관제 역량 확인 | SIEM 연계, tuning, false positive 관리 | 차단률만 쓰고 업무 영향 분석 누락 |
+| IDS와 IPS의 아키텍처적 차이 이해 | IDS(Out-of-band, SPAN/TAP) vs IPS(In-line, Bridge) 구성 | "IDS는 탐지, IPS는 차단"이라는 단순 정의 나열 |
+| 탐지 기법의 트레이드오프 판단 | 오용 탐지(Signature, 낮은 오탐) vs 이상 탐지(Anomaly, 제로데이 탐지) | 특정 탐지 기법의 완벽성 주장 |
+| 실무 적용 시의 리스크 대응 방안 | IPS In-line 구성 시의 장비 장애(SPOF) 및 오탐에 의한 업무 마비 해결 | 보안성만 강조하고 서비스 가용성(Bypass) 측면 간과 |
 
-> 요약: 이 문제는 탐지와 차단의 위치 차이를 기준으로 오탐·미탐 리스크와 관제 연계를 설명해야 한다.
+> 요약: IDS/IPS 문제는 단순히 탐지 기법을 묻는 것이 아니라, "망 구성(In-line vs Out-of-band)"과 "오탐 통제력"을 묻는 아키텍처 문제다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: IDS·IPS는 네트워크 트래픽에서 공격 징후를 탐지하거나 차단하는 보안 통제 기술
-- 배경: 방화벽이 허용한 업무 포트 내부에서도 exploit과 C2가 발생해 payload·프로토콜·행위 분석이 필요함
-- 필요성: IDS는 관제 중심, IPS는 inline 차단 중심으로 운영 목적이 다름
+- 정의: 네트워크 페이로드나 시스템 로그를 분석하여 침입 시도를 식별(IDS)하고, 실시간으로 세션을 차단(IPS)하는 보안 솔루션
+- 배경: 방화벽 정책(Port Open)을 합법적으로 통과하는 HTTP/SMTP 등 애플리케이션 계층 취약점 공격 증가
+- 필요성: 알려진 공격 패턴 방어와 더불어, 이상 행위 기반의 제로데이 공격 탐지 및 확산 방지를 위한 능동적 방어선 구축 필수
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Network Traffic -> Sensor
-  / IDS: SPAN/TAP Copy -> Detection -> Alert
-  / IPS: Inline Traffic -> Detection -> Drop/Reset
-  -> Signature/Rule Engine -> SIEM/SOAR
+[IDS 구조: Out-of-band]                [IPS 구조: In-line]
+Router -> Switch(SPAN) -> Firewall      Router -> IPS -> Firewall
+           |                                       |
+          +-> IDS (트래픽 복사본 분석)            (직접 트래픽 통과 및 차단)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소 | 주요 기능 | 특이사항 |
 |:---|:---|:---|
-| Sensor | 트래픽 수집·검사 | TAP, SPAN, inline mode |
-| Detection Engine | 공격 징후 판단 | signature, anomaly, behavior |
-| Policy Action | 경보 또는 차단 수행 | alert, drop, reset, rate-limit |
-| Management Console | 정책·시그니처 관리 | update, tuning, exception |
-| SIEM 연계 | 이벤트 상관분석 | EPS, severity, ticket |
+| 센서 (Sensor) | 네트워크 트래픽 캡처 및 1차 패턴 매칭 수행 | 트래픽 규모에 따라 분산 배치 |
+| 분석기 (Analyzer) | 오용 탐지 및 이상 탐지 알고리즘으로 침입 여부 판단 | 머신러닝 기반 행위 분석(UBA) 통합 추세 |
+| 정책 관리 (Manager) | 탐지 룰셋(Signature) 업데이트 및 경보 설정 관리 | Snort, Suricata 등 개방형 룰셋 호환 |
+| 차단 엔진 (IPS 한정) | 악성 패킷 Drop, TCP RST 패킷 전송, 방화벽 룰 동적 연동 | 세션 지연(Latency) 유발 최소화가 핵심 |
 
-> 요약: IDS·IPS는 센서, 탐지 엔진, 정책 action, 관리 콘솔, 관제 연계로 구성된다.
+> 요약: IDS는 트래픽 복사본을 받아 분석 엔진을 거치고, IPS는 트래픽 경로상에서 직접 분석 엔진과 차단 엔진을 차례로 거친다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Packet Capture -> Protocol Decode -> Rule Match
-  -> Severity Score -> Action Decide
-  -> Alert/Drop/Reset -> Log Correlate
+트래픽 유입 -> 헤더/페이로드 디코딩 -> 오용 탐지(시그니처) -> 이상 탐지(임계치/AI) -> 침입 판단 -> [IDS: 경보] / [IPS: 패킷 Drop 및 RST]
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | 패킷 또는 flow를 수집하고 프로토콜을 해석 | packet loss, decode error |
-| 2 | signature, anomaly, behavior rule과 비교 | rule hit, confidence score |
-| 3 | severity와 정책에 따라 alert 또는 drop 결정 | false positive rate |
-| 4 | 이벤트를 SIEM으로 전송하고 대응 ticket 생성 | EPS, MTTD, MTTR |
+| 1 | 패킷 수집 및 프로토콜 디코딩 | IP 단편화 조립(De-fragmentation) 및 정규화 |
+| 2 | 오용 탐지 (Signature-based) 매칭 | 최신 CVE 취약점 시그니처 DB 업데이트 여부 |
+| 3 | 이상 탐지 (Anomaly-based) 분석 | 베이스라인 대비 이탈도 산정 및 임계치 초과 확인 |
+| 4 | 정책 적용 및 대응 (탐지/차단) | 오탐(False Positive) 및 미탐(False Negative) 비율 |
 
-> 요약: IDS·IPS는 패킷 해석, 탐지 규칙 매칭, action 결정, 관제 연계 순서로 동작한다.
+> 요약: 패킷의 단편화를 조립한 뒤 시그니처와 행위를 차례로 분석하며, 판단 결과에 따라 경보(Out-of-band) 또는 직접 차단(In-line)을 수행한다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 특징 (탐지 기법 비교)
 
-| 구분 | IDS | IPS | 수치·표준 포인트 |
+| 구분 | 오용 탐지 (Misuse / Signature) | 이상 탐지 (Anomaly / Behavior) | 판단 포인트 |
 |:---|:---|:---|:---|
-| 배치 위치 | SPAN/TAP, out-of-band | inline bridge 또는 routed path | packet drop 영향 여부 |
-| action | alert, log, packet capture | drop, reset, shun, rate-limit | TCP RST, block duration |
-| 장점 | 업무 트래픽 영향 제한 | 공격 패킷 실시간 차단 | MTTD, block count |
-| 한계 | 탐지 후 대응 지연 | 오탐 시 업무 차단 | false positive, bypass mode |
+| 판단 기준 | 알려진 공격 패턴(시그니처) 일치 여부 | 정상 베이스라인(트래픽 양, 프로토콜 비율) 이탈 | 패턴 DB 유무 |
+| 장점 | 오탐(False Positive)이 적고 분석 속도 빠름 | 미지의 제로데이 공격 및 변종 탐지 가능 | 오탐 vs 미탐의 트레이드오프 |
+| 한계 | 새로운 공격, 암호화된 위협 탐지 불가 | 정상 트래픽 급증을 공격으로 오인(높은 오탐률) | 임계치 튜닝(Tuning) 소요 비용 |
 
-> 요약: IDS는 관제 가시성, IPS는 inline 차단 능력이 중심이며 오탐 영향 범위가 다르다.
+> 요약: 오용 탐지는 정확성(가용성 보호)에, 이상 탐지는 커버리지(보안성 확보)에 강점이 있어 두 기법을 하이브리드로 적용해야 한다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | IDS | IPS | 선택 기준 |
+| 비교 축 | NIDS (Network-based IDS) | HIDS (Host-based IDS) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | 복제 트래픽 분석 | 실경로 트래픽 검사 | 업무 영향 허용도와 차단 필요성 |
-| 비용/성능 | packet loss와 저장 용량 관리 | latency와 throughput 용량 필요 | 링크 10Gbps, p95 latency 목표 |
-| 운영/위험 | 경보 과다, 미대응 | 오탐 차단, fail-close 위험 | false positive와 bypass 정책 |
+| 감시 영역 | 네트워크 세그먼트 전체 트래픽 | 개별 서버의 로그, 파일 무결성, 프로세스 | 보호 대상의 물리적/논리적 위치 |
+| 암호화 트래픽 | 복호화 키 없이는 분석 불가 | 단말에서 복호화된 데이터 직접 분석 가능 | End-to-End 암호화(TLS 1.3) 적용 여부 |
+| 운영 부하 | 네트워크 대역폭 및 장비 CPU 종속 | 호스트(서버) CPU 자원 일부 점유 | 서비스 서버 자원 여력 |
 
-> 요약: 탐지 우선 구간은 IDS, 공격 차단이 필요한 인터넷 경계·DMZ는 IPS를 우선 검토한다.
+> 요약: 네트워크 암호화가 기본인 현대 환경에서는 NIDS의 가시성이 저하되므로, HIDS(또는 EDR)를 병행 도입하여 호스트 단의 가시성을 확보해야 한다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| 오탐 차단 | signature 범위 과대 | IPS alert-only 검증 후 block 전환 | false positive rate |
-| 미탐 | 암호화 트래픽, signature 미갱신 | TLS inspection, rule update | missed incident count |
-| 경보 폭주 | scan, noisy rule | severity tuning, suppression | alert EPS, analyst backlog |
+| IPS 장비 장애 (SPOF) | In-line 구성 장비의 하드웨어/S/W 결함 | Hardware Bypass (Fail-open) 기능 적용 | 장비 다운 시 패킷 통과 여부 |
+| 과탐(FP)으로 인한 업무 마비 | 엄격한 이상 탐지 룰, 정상 트래픽 패턴 변화 | IDS 모드(Monitor) 선행 운영 후 IPS 차단 전환 | 정탐률 및 오탐(False Positive) 건수 |
+| 패킷 처리 지연(Latency) | 복잡한 정규식 엔진 및 대용량 트래픽 | NPU/FPGA 가속 및 불필요한 시그니처 비활성화 | 종단 간 패킷 처리 지연(Latency) p99 |
 
-> 요약: IDS·IPS 운영 리스크는 오탐, 미탐, 경보 폭주이며 tuning과 가시성 확보가 핵심 통제이다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 탐지 품질 | high severity alert 정탐률 목표 준수 | 샘플링 분석, incident review |
-| 처리 용량 | packet loss 0건, 장비 CPU 70% 이하 | sensor metric, interface counter |
-| 대응 시간 | MTTD 10분 이하, MTTR 목표 준수 | SIEM ticket, SOAR log |
-
-> 요약: IDS·IPS 성과는 정탐률, packet loss, MTTD·MTTR로 검증한다.
+> 요약: IPS 도입의 최대 적은 해커가 아니라 '장애'와 '오탐'이므로, Hardware Bypass와 탐지 모드 선행은 필수 조건이다.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 인터넷 경계는 IPS inline, 내부 east-west traffic은 IDS/TAP 기반으로 배치해 차단과 가시성을 분리함
-2. 신규 signature는 7일간 alert-only로 정탐·오탐을 검증한 뒤 high confidence rule만 block action으로 전환함
-3. IDS·IPS 이벤트를 SIEM, EDR, 방화벽 로그와 correlation하고 MTTD, MTTR, false positive rate를 월 단위로 점검함
+**적용 방안 3개:**
+1. 아키텍처 이중화: 외곽에 L3/L4 방화벽을 두고, 주요 서비스 구간 앞에 IPS를 In-line으로 배치하되 Bypass 스위치를 연동하여 가용성 99.99% 확보
+2. Ssl/TLS 가시성: TLS 1.3 도입으로 NIDS 패킷 분석이 불가해짐에 따라, SSL 복호화 전용 장비(SSL VA)를 IDS 앞단에 배치하여 평문 트래픽 공급
+3. SOAR 연동: 이상 탐지로 발생한 대량의 알람을 SIEM으로 수집하고, SOAR 플레이북을 통해 위협 IP를 방화벽 차단 리스트에 자동 업데이트
 
 **결론 (2줄):**
-- 기술사 판단: 업무 영향이 큰 구간은 IDS 관제, 외부 공격면과 DMZ는 IPS 차단을 적용함
-- 향후 방향: 암호화 트래픽 증가에 따라 TLS inspection 범위, NDR, EDR telemetry를 결합한 탐지 체계가 필요함
+- 기술사 판단: IDS/IPS는 단순한 패턴 매칭 장비를 넘어, In-line 차단에 따른 가용성 리스크와 오탐을 얼마나 잘 통제하는지가 설계의 성패를 가른다.
+- 향후 방향: 독립적인 IDS/IPS 장비는 점차 사라지고, 방화벽에 통합된 NGFW와 호스트 기반의 EDR/XDR 형태로 진화하여 컨텍스트 기반 위협 헌팅을 수행하고 있다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "IDS와 IPS를 설명하시오" | 탐지 엔진, action 흐름 | IDS·IPS 배치와 action 차이 |
-| 요구사항 명시형 | "침입 차단 방안을 제시하시오" | inline 배치, tuning, SIEM 연계 | 오탐·미탐 리스크 대응 |
+| 설명형 | "IDS/IPS 탐지 기법을 설명하시오" | 패킷 디코딩 및 시그니처 대조 흐름 | 오용 탐지와 이상 탐지 비교표 (오탐/미탐 중심) |
+| 비교형 | "IDS와 IPS의 차이를 비교하시오" | Out-of-band(복사본) vs In-line(직접 차단) 흐름도 | 대응 방식 차이, SPAN 포트 사용 여부 비교 |
+| 방안형 | "IPS 도입 시 가용성 확보 방안" | Bypass 스위치 동작 흐름도 | 장비 장애 대응(Fail-open), 오탐 튜닝 절차 |
 
-> 요약: 설명형은 탐지·차단 차이, 방안형은 배치와 운영 지표 중심으로 답안을 전환한다.
+> 요약: 탐지 기법은 "오탐(FP)과 미탐(FN)", 시스템 비교는 "In-line 여부와 Bypass"가 무조건 포함되어야 하는 채점 포인트다.

@@ -1,6 +1,6 @@
 ---
 title: "네트워크 자동화 — Ansible·RESTCONF·NETCONF (Network Automation)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 73
@@ -8,153 +8,115 @@ weight: 73
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 네트워크 자동화를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: 장비 설정·검증·복구를 코드와 API로 반복 실행하는 운영 방식
-- **왜 필요한가**: 수백 대 스위치와 라우터를 CLI로 수동 변경하면 오타, 순서 오류, 변경 이력 누락이 발생한다. 자동화는 동일 절차를 Ansible playbook, NETCONF, RESTCONF, YANG 모델로 실행한다.
-- **핵심 직관**: 사람이 장비마다 명령을 치는 방식에서, 검증된 작업지시서를 시스템이 장비 API에 맞춰 실행하는 방식으로 바뀐다.
+- **개요**: CLI 수동 설정 방식에서 벗어나, 코드(Ansible)와 표준 API(NETCONF, RESTCONF)를 통해 네트워크 장비의 설정과 운영을 자동화하는 패러다임
+- **왜 필요한가**: 수백 대의 스위치에 ACL이나 라우팅 정책을 일일이 CLI로 치면 오타가 발생하고 수일이 걸림. 이를 자동화해 몇 분 내외로 무결점 배포하기 위함
+- **핵심 직관**: 공장 기계를 조작할 때, 기술자가 기계마다 붙어 수동 다이얼(CLI)을 돌리던 방식에서, 중앙 컴퓨터가 표준 규격 선(NETCONF/RESTCONF)을 통해 조종 코드를 쏴서 한 번에 동작시키는 방식(Ansible)으로 전환하는 것이다.
 
 ## 깊이 이해
-- **배경·문제의식**: 전통 네트워크 운영은 장비 벤더별 CLI와 수동 승인에 의존했다. 클라우드와 SDN 환경에서는 VLAN, ACL, BGP, QoS 변경이 애플리케이션 배포 속도와 맞물려 분 단위로 처리되어야 한다.
-- **작동 원리**: Ansible은 agentless SSH/API 방식으로 선언형 playbook을 실행한다. NETCONF는 SSH 기반 RPC와 XML, RESTCONF는 HTTP 기반 REST와 JSON/XML을 사용한다. YANG은 장비 설정과 상태 데이터를 모델로 정의한다.
-- **비유**: 수기로 전기 배선을 바꾸는 대신, 표준 도면과 점검표를 입력하면 자동 장비가 같은 순서로 배선하고 전압을 측정하는 구조와 같다.
-- **구체 예시**: 신규 VLAN 120과 VXLAN VNI 10120을 40대 ToR에 반영할 때, Git MR 승인 후 Ansible playbook이 NETCONF edit-config를 실행하고, get-config와 ping test로 결과를 검증한다.
-- **흔한 오해·주의점**: 자동화는 CLI 명령을 반복 실행하는 스크립트가 아니다. 입력 검증, 변경 전 백업, dry-run, rollback, 관측 지표가 없으면 오류 전파 속도만 커진다.
+- **배경·문제의식**: 기존 망 관리는 SNMP(모니터링 중심, 설정은 빈약)와 SSH 기반의 CLI 매크로 스크립트에 의존했다. CLI는 장비 벤더마다 문법이 다르고 버전별로 출력이 달라져 파싱이 깨지기 일쑤였다.
+- **작동 원리**: 데이터 모델링 언어인 **YANG**을 사용해 장비 설정을 규격화(JSON/XML)한다. 이를 전송하는 프로토콜이 **NETCONF**(SSH 위에서 XML 통신)와 **RESTCONF**(HTTP 위에서 RESTful 통신)다. **Ansible**은 이런 프로토콜을 호출하는 일련의 작업 절차(Playbook)를 정의하고 실행하는 상위 자동화 도구다.
+- **비유**: 
+  - YANG = 서식(문서 규격)
+  - NETCONF / RESTCONF = 우체부(전송 수단)
+  - Ansible = 우편물 발송을 지시하는 중앙 관제탑(오케스트레이터)
+- **구체 예시**: 방화벽 룰을 100대 추가할 때, Ansible Playbook에 새 룰을 정의(YAML)하고 실행하면, Ansible이 내부적으로 NETCONF나 RESTCONF 모듈을 호출해 각 장비에 XML/JSON 포맷으로 룰을 동시에 밀어 넣는다.
+- **흔한 오해·주의점**: Ansible만 쓰면 만능이 아니다. 장비가 NETCONF/RESTCONF 같은 구조화된 API를 지원하지 않으면 여전히 화면 글자를 긁어오는(CLI Screen scraping) 방식을 써야 하므로 취약하다.
 
 ## 연결 개념
-- IaC — 네트워크 상태를 코드 저장소와 변경 승인 절차로 관리
-- YANG — 장비 설정·상태 데이터 모델 표준
-- Intent-Based Networking — 자동화 위에 의도 해석과 검증 루프를 추가한 모델
+- IaC (Infrastructure as Code): 인프라 설정을 코드로 관리하는 사상
+- SDN (Software Defined Networking): 소프트웨어 중심 네트워크 제어
+- YANG (Yet Another Next Generation): NETCONF/RESTCONF에서 쓰는 데이터 모델 표준
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 자동화 도구 나열이 아니라, 모델 기반 설정·검증·롤백 체계를 제시해야 한다.
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: 네트워크 자동화는 Ansible, NETCONF/RESTCONF, YANG을 사용해 구성 변경과 상태 검증을 코드 기반 절차로 실행하는 운영 체계이다.
-> 2. **가치**: 변경 시간 45분 수동 작업을 5분 playbook 실행으로 줄이고, 설정 drift와 미승인 변경을 Git diff로 추적한다.
-> 3. **판단 포인트**: 선언형 모델, 장비 API, 검증 테스트, rollback, 감사로그를 하나의 파이프라인으로 묶어야 한다.
+> 1. **본질**: 데이터 모델(YANG) 기반의 표준 인터페이스(NETCONF/RESTCONF)와 IaC 도구(Ansible)를 결합하여 네트워크 프로비저닝을 코드로 제어하는 체계이다.
+> 2. **가치**: 벤더 종속적인 비구조화된 CLI 설정 방식을 탈피하고, 사람의 개입을 배제하여 인적 오류 최소화 및 배포 시간 단축을 달성한다.
+> 3. **판단 포인트**: 기존 환경에서는 SSH/CLI 스크래핑을 탈피하여 YANG 데이터 모델 기반의 멱등성 있는 상태 관리가 가능한지가 성패를 가른다.
 
 ## 출제 의도 및 답안 포인트
-
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 자동화 구조 이해 확인 | Ansible, NETCONF, RESTCONF, YANG, GitOps | 단순 스크립트 실행으로 축소 |
-| 운영 통제 역량 확인 | dry-run, config backup, rollback, change window | 장애 전파와 승인 절차 누락 |
-| 검증 중심 사고 확인 | pre-check/post-check, idempotency, drift detection | 자동 변경 후 결과 검증 생략 |
+| 차세대 네트워크 관리 패러다임 이해 | YANG 모델, NETCONF/RESTCONF, Ansible의 상호 보완 관계 | 단순히 스크립트 작성 기술로 국한해 서술 |
+| 레거시 CLI 관리의 문제점 극복 | 스크린 스크래핑 탈피, 구조화된 데이터(XML/JSON), 멱등성 보장 | 도구 이름만 나열하고 이들의 역할을 분리하지 않음 |
 
-> 요약: 이 문제는 도구 이름보다 변경 전·중·후 검증과 롤백이 포함된 네트워크 운영 파이프라인을 요구한다.
+> 요약: 자동화는 단순한 반복 작업 축소가 아니라, 네트워크를 코드(IaC)로 취급하여 버전 관리와 상태 검증(멱등성)을 달성하는 엔지니어링 패러다임 전환이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-
-네트워크 자동화는 장비 구성과 검증을 코드·API 기반으로 처리하는 운영 방식이다. 수동 CLI 변경은 오타, 순서 불일치, 변경 이력 누락을 만든다. Ansible, NETCONF/RESTCONF, YANG을 적용하면 반복 변경을 표준화하고 승인·검증·복구 절차를 자동 실행할 수 있다.
+- 정의: 프로그래밍 방식의 API와 IaC 도구를 통해 네트워크 기기 프로비저닝, 구성, 검증을 자동화하는 프레임워크
+- 배경: 비구조화된 CLI 출력에 의존하는 스크립트는 펌웨어 업데이트 시 쉽게 깨지며 벤더 파편화가 극심함
+- 필요성: 클라우드 시대의 민첩성(Agility) 요구를 맞추기 위해 설정 소요 시간을 주 단위에서 분 단위로 단축 및 배포 롤백 기능 요구
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
-
 ```text
-Git Change Request -> CI Validation -> Automation Engine Ansible
--> Device API NETCONF/RESTCONF -> Network Device Config/State
--> Post-check Telemetry -> Rollback/Approval Log
+[운영자/CI 파이프라인] -> [Ansible Playbook (YAML)] -> [NETCONF / RESTCONF API 호출] -> [Network Device]
+                                                          | (YANG 데이터 모델 기반 XML/JSON 포맷)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소 | 역할 | 기술 스택 / 규격 |
 |:---|:---|:---|
-| Git Repository | 의도한 설정과 변경 이력 저장 | MR/PR 승인, diff 추적 |
-| Ansible | playbook 기반 실행 엔진 | agentless, idempotent task |
-| NETCONF | XML RPC 기반 설정 관리 | SSH 830, candidate datastore |
-| RESTCONF | HTTP REST 기반 설정·상태 API | JSON/XML, YANG data tree |
-| YANG Model | 설정·상태 데이터 스키마 | vendor-neutral, vendor-specific 병행 |
+| 데이터 모델 (Data Model) | 설정 및 상태 데이터를 구조화하여 정의하는 스키마 언어 | YANG (RFC 6020) |
+| 전송 프로토콜 (Transport) | 컨트롤러와 장비 간 모델링된 데이터를 안전하게 전송 | NETCONF (XML/SSH), RESTCONF (JSON/HTTP) |
+| 오케스트레이션 도구 | 절차 지향적 또는 선언적으로 다수 장비의 작업을 실행 제어 | Ansible (Agentless), Terraform (Stateful) |
 
-> 요약: 자동화 구조는 Git 변경 요청을 API 기반 장비 설정으로 반영하고, telemetry와 rollback으로 결과를 통제한다.
+> 요약: Ansible이 절차적 작업 지시를 내리면, NETCONF/RESTCONF가 YANG 규격에 맞춰 구조화된 페이로드를 장비에 전달한다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
-
 ```text
-Intent/Config Change -> Syntax/Policy Lint -> Pre-check
--> Dry-run -> Commit via NETCONF/RESTCONF -> Post-check
--> Drift Detection -> Rollback if KPI Violation
+Playbook 작성 -> 인벤토리 확인 -> 장비 연결 및 프로토콜 협상 -> 설정 페이로드 전송 -> 장비 적용 및 결과 수신 -> 멱등성 검증
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | 변경 요청을 YAML/JSON 변수와 playbook으로 작성 | schema validation 통과 |
-| 2 | 사전 점검으로 장비 상태·백업 확보 | reachability, config backup 100% |
-| 3 | dry-run과 diff로 변경 영향 확인 | unexpected diff 0건 |
-| 4 | NETCONF edit-config 또는 RESTCONF PATCH 실행 | API status 2xx, RPC ok |
-| 5 | 사후 점검과 필요 시 rollback 실행 | packet loss, BGP state, config drift |
+| 1 | 운영자가 YAML로 상태 정의 (VLAN 생성 등) 및 Ansible 실행 | 문법 오류 검증 및 소스코드 버전(Git) 확인 |
+| 2 | Ansible이 장비에 SSH/HTTPS로 연결 후 NETCONF Hello 메시지 교환 | 지원하는 YANG 모델 및 Capability 확인 |
+| 3 | 멱등성 확인 및 설정 변경을 `<edit-config>` RPC로 전송 | XML(NETCONF) 또는 JSON(RESTCONF) 포맷 페이로드 전송 |
+| 4 | 장비가 설정 커밋 후 성공/실패 응답을 컨트롤러에 반환 | `<ok>` 태그 수신, 적용 후 상태값 일치 확인 |
 
-> 요약: 네트워크 자동화는 작성, 검증, 실행, 사후 확인, 복구를 한 흐름으로 연결해야 운영 사고를 줄인다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 수동 CLI 운영 | 네트워크 자동화 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 변경 방식 | 장비별 직접 입력 | playbook/API 일괄 실행 | 40대 장비 45분에서 5분 목표 |
-| 데이터 모델 | 벤더별 명령어 | YANG schema | RFC 7950, OpenConfig |
-| 검증 | 작업자 눈검사 | pre/post-check 자동 수집 | BGP Established 100%, drift 0건 |
-| 감사 | 터미널 로그 의존 | Git commit, job log | 변경자·승인자·시간 추적 |
-
-> 요약: 네트워크 자동화는 속도보다 모델 기반 검증, 변경 이력, 롤백 가능성을 답안의 중심에 둔다.
+> 요약: 자동화 파이프라인은 장비에 접속해 설정을 덮어쓰기 전에 현재 상태를 조회하고, 변경이 필요할 때만 표준 API를 통해 멱등하게 커밋한다.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+## Ⅳ. 심화 비교 및 적용 판단
+| 비교 축 | NETCONF | RESTCONF | 선택 기준 |
 |:---|:---|:---|:---|
-| 실행 방식 | CLI 스크립트 | Ansible + NETCONF/RESTCONF | 장비 20대 이상 반복 변경 |
-| 모델 | 텍스트 명령 | YANG/OpenConfig | 벤더 혼합 환경 |
-| 운영/위험 | 작업자 숙련도 의존 | 승인·검증·rollback 파이프라인 | 변경 실패 허용 시간 10분 이하 |
+| 트랜스포트 | SSH | HTTP/HTTPS | 레거시 망 보안(SSH) vs 웹 애플리케이션 연동(HTTP) |
+| 데이터 포맷 | XML | JSON, XML | 정밀한 트랜잭션(XML) vs 가볍고 친숙한 파싱(JSON) |
+| 트랜잭션 제어 | Candidate Datastore (Rollback 용이) | REST API 방식 (POST/PUT/PATCH/DELETE) | 복잡한 다중 변경 커밋 안전성 요구 수준 |
 
-> 요약: 자동화는 장비 수와 변경 빈도가 증가하고, 벤더 혼합과 감사 요구가 존재할 때 우선 적용한다.
+> 요약: 복잡하고 엄격한 트랜잭션과 롤백이 필요한 코어 장비는 NETCONF를, 외부 웹 시스템과 가볍게 연동할 때는 RESTCONF를 사용한다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| 오류 일괄 전파 | 잘못된 변수·템플릿 | staged rollout, canary device | 실패 장비 비율 0% 목표 |
-| Drift 누락 | 수동 변경과 코드 불일치 | scheduled get-config diff | drift count 0건 |
-| API 호환성 | 벤더 YANG 차이 | OpenConfig 우선, vendor module mapping | RPC error rate 1% 이하 |
+| 파급 폭발 (Blast Radius) | 잘못된 코드가 자동화 도구를 통해 전체 장비에 즉시 일괄 배포됨 | Dry-Run 모드 의무화, Canary 배포 체계(점진적 배포) 적용 | 배포 실패 시 RTO, 롤백 소요 시간 |
+| 상태 불일치 (Drift) | 긴급 장애 시 운영자가 CLI로 직접 설정을 수정하여 코드와 실제 장비 상태 괴리 | 주기적인 Ansible Check 모드 실행 및 강제 동기화 (GitOps) | 설정 드리프트 감지 건수 |
 
-> 요약: 자동화 리스크는 속도보다 오류 전파이며, 단계 배포와 drift 검출로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 변경 성공률 | job success 99% 이상 | CI/CD job result |
-| 롤백 시간 | MTTR 10분 이하 | rollback playbook timestamp |
-| 설정 일치 | desired vs running diff 0건 | NETCONF get-config, Git diff |
-
-> 요약: 네트워크 자동화 성과는 성공률, 롤백 시간, 설정 일치율로 판단한다.
+> 요약: 자동화의 속도는 치명적 사고 전파 속도와 같으므로, CI/CD 파이프라인 상의 Dry-run 검증과 GitOps 기반의 단일 진실 공급원(SSOT) 유지가 필수다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅴ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. VLAN, BGP, ACL, VXLAN 변경을 Git 변수 파일과 Ansible role로 표준화하고 schema lint를 필수 gate로 둠
-2. NETCONF candidate datastore와 confirmed-commit, RESTCONF PATCH, 사전 백업으로 변경 실패 시 10분 내 rollback 수행
-3. post-check에 BGP state, interface error, packet loss, config drift를 포함해 변경 전후 자동 비교 보고서를 생성함
+**적용 방안 3개:**
+1. GitOps 기반 프로세스 수립: 장비 설정 파일(Playbook, YANG 파라미터)을 Git 레포지토리에 올리고, PR 리뷰 승인 시 자동으로 배포 파이프라인(Jenkins 등)이 실행되게 한다.
+2. 장비 설정 멱등성(Idempotency) 준수: '명령어 실행' 모듈(command) 대신 장비 상태를 선언하는 '전용 모듈(netconf_config)'을 사용하여 여러 번 실행해도 동일한 결과를 보장한다.
+3. 설정 드리프트 방지 알람 구축: 매일 야간에 Ansible Check 모드를 스케줄링 실행하여, Git 코드와 장비 실제 상태가 불일치할 시 슬랙/메일로 경보를 발생시킨다.
 
 **결론 (2줄):**
-- 기술사 판단: 장비 20대 이상 반복 변경과 감사 요구가 있으면 CLI 수동 운영보다 API·YANG 기반 자동화 체계를 선택함
-- 향후 방향: 자동화는 Intent-Based Networking과 결합해 의도 입력, 정책 검증, 폐루프 복구 구조로 확장됨
+- 기술사 판단: 네트워크 규모 확장이 가속화되는 현 시점에서는 CLI 스크립트 장인을 양성하는 것보다, 소프트웨어 엔지니어링 룰(CI/CD, IaC)을 도입하는 것이 조직의 핵심 경쟁력이다.
+- 향후 방향: 최근에는 단순 설정 배포를 넘어, 텔레메트리로 망 상태를 분석하고 AI가 스스로 판단해 설정을 변경하는 '인텐트 기반 네트워킹(IBN)'으로 발전하고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅲ/Ⅳ 강조 | Ⅴ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "설명하시오", "기술하시오" | Git, Ansible, NETCONF/RESTCONF, YANG 흐름 | 수동 CLI 대비 변경·검증·감사 차이 |
-| 요구사항 명시형 | "방안을 제시하시오", "운영하시오", "설계하시오" | dry-run, staged rollout, rollback 절차 | drift, API 호환성, MTTR 지표 |
-
-> 요약: 설명형은 도구와 API 관계, 운영형은 변경 실패 통제와 검증 지표를 중심으로 구성한다.
+| 포괄형 | "NETCONF와 RESTCONF를 설명하시오" | YANG 모델 중심, NETCONF/RESTCONF 동작 원리 및 비교 표 | Ansible 연동 구조 및 이점 |
+| 요구사항 명시형 | "자동화 파이프라인(IaC) 구축 방안을 제시하시오" | Ansible 중심의 CI/CD 흐름도 | 드리프트 방지, GitOps, Canary 배포 적용 방안 |

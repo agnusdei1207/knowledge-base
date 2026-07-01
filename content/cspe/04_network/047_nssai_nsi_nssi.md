@@ -1,6 +1,6 @@
 ---
 title: "NSSAI·NSI·NSSI (NSSAI NSI NSSI)"
-date: "2026-07-01"
+date: "2026-06-30"
 tags:
   - "cspe-network"
 weight: 47
@@ -8,155 +8,137 @@ weight: 47
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: NSSAI·NSI·NSSI를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 5G 네트워크 슬라이싱을 구현하기 위해 단말이 슬라이스를 어떻게 지정하고, 관리 시스템이 이를 어떻게 식별/조립하는지 계층적 구조를 이해한다.
 
 ## 한눈에
-- **개요**: NSSAI는 단말이 사용할 slice 목록, NSI는 전체 네트워크 슬라이스 인스턴스, NSSI는 RAN·Core·Transport별 하위 slice 인스턴스
-- **왜 필요한가**: 슬라이싱은 이름만으로 운영할 수 없다. 단말 요청, 전체 slice 인스턴스, 도메인별 하위 인스턴스를 구분해야 생성·선택·장애 분석이 가능하다.
-- **핵심 직관**: NSSAI는 주문서, NSI는 완성된 코스 요리, NSSI는 주방·홀·배달 팀별 담당 파트이다.
+- **개요**: 5G 슬라이싱에서 논리망(슬라이스)을 구분하고 관리하기 위한 식별자(NSSAI)와 인스턴스 체계(NSI, NSSI)
+- **왜 필요한가**: 수많은 논리적 전용망이 생기면, "단말이 어떤 망에 접속할지 표를 보여주고(NSSAI)", "통신사가 망을 찍어내고 관리할(NSI/NSSI)" 체계적인 이름표와 설계도가 필요하기 때문
+- **핵심 직관**: NSSAI는 고객이 내미는 'VIP 전용 출입증', NSI는 고객에게 제공된 'VIP 전용 라운지 전체', NSSI는 라운지를 구성하는 '의자, 바, 조명 등 개별 공간 인스턴스'다.
 
 ## 깊이 이해
-- **배경·문제의식**: 5G slicing은 사용자별 요청과 운영자별 인프라 구성이 분리된다. 단말은 S-NSSAI 목록을 요청하지만, 실제 제공은 NSI와 도메인별 NSSI 조합으로 이루어진다.
-- **작동 원리**: UE는 Requested NSSAI를 보낸다. AMF와 NSSF는 가입자·위치·정책을 확인해 Allowed NSSAI를 정하고, 해당 S-NSSAI에 맞는 NSI를 선택한다. NSI는 RAN NSSI, CN NSSI, TN NSSI로 구성될 수 있다.
-- **비유**: 고객은 메뉴 번호를 주문하지만, 식당 운영자는 주방 조리 라인, 서빙 라인, 배달 라인을 조합해 주문을 수행한다.
-- **구체 예시**: S-NSSAI는 SST와 SD로 구성된다. SST 1은 eMBB, SST 2는 URLLC, SST 3은 MIoT 계열로 사용되며 SD는 세부 구분에 쓰인다.
-- **흔한 오해·주의점**: NSSAI와 NSI는 같은 것이 아니다. NSSAI는 식별자 목록이고, NSI는 실제 운영되는 slice 인스턴스이다.
+- **NSSAI (Network Slice Selection Assistance Info)**: 단말(UE)이 망에 접속할 때 "나는 자율주행(URLLC) 슬라이스가 필요해"라고 코어망에 알려주는 식별자. S-NSSAI(Single NSSAI)들의 묶음임.
+- **S-NSSAI**: 개별 슬라이스 하나를 가리키는 고유 ID. 슬라이스 타입(SST: eMBB, URLLC 등)과 특정 기업 구분용(SD: Slice Differentiator)으로 구성됨.
+- **NSI (Network Slice Instance)**: 고객 요구에 맞춰 생성되어 실제 동작 중인 '완전한 End-to-End 네트워크 슬라이스 실체(인스턴스)'.
+- **NSSI (Network Slice Subnet Instance)**: NSI를 구성하는 하위 부품. 전체 E2E 망을 한 번에 만들 수 없으니 무선(RAN), 전송(Transport), 코어(Core) 영역별로 각각 만든 인스턴스(서브넷)들.
+- **비유**: 고객이 주문서(NSSAI)를 내면, 공장장은 빵/패티/야채 부품(NSSI)들을 조립하여 완성된 햄버거 세트(NSI)를 제공하는 것과 같다.
+- **흔한 오해·주의점**: NSSAI는 단말이 망에 접속할 때 쓰는 통신 프로토콜 수준의 '식별표'고, NSI/NSSI는 통신사 관리 서버(MANO)가 내부 인프라 자원을 다룰 때 부르는 '클라우드 가상 자원 덩어리'다.
 
 ## 연결 개념
-- S-NSSAI - 단일 slice 식별자, SST + SD
-- NSSF - Allowed NSSAI와 NSI 선택을 지원
-- NSMF/NSSMF - NSI와 NSSI 생명주기 관리
+- 네트워크 슬라이싱(Network Slicing) — 단일 물리망을 가상화 기반으로 쪼개는 기술 전체
+- 3GPP 및 3GPP MANO — 5G 통신 표준화 기구 및 네트워크 오케스트레이션 시스템
+- AMF (Access and Mobility Management Function) — 단말의 NSSAI를 받아 적절한 슬라이스로 꽂아주는 5G 코어 진입점
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: NSSAI·NSI·NSSI를 용어 암기로 쓰지 않고 단말 요청, slice 선택, 인스턴스 구성, 도메인별 운영 책임으로 연결한다.
+> 목적: 5G 네트워크 슬라이스의 식별과 생성, 관리 생애주기를 NSSAI(단말 관점)와 NSI/NSSI(인프라 관리 관점)로 구조화하여 서술한다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: NSSAI는 S-NSSAI 목록, NSI는 end-to-end network slice instance, NSSI는 RAN/CN/TN 등 하위 도메인 slice instance이다.
-> 2. **가치**: 단말의 slice 요청과 운영자의 실제 인프라 인스턴스를 분리해 selection, orchestration, assurance를 수행한다.
-> 3. **판단 포인트**: Requested/Allowed/Configured NSSAI, S-NSSAI, NSI-NSSI 매핑, NSSF/NSMF/NSSMF 역할을 구분해야 한다.
+> 1. **본질**: NSSAI, NSI, NSSI는 5G 망에서 고객이 원하는 슬라이스를 식별하고, 사업자가 이를 E2E로 생성·관리하기 위한 계층적 식별자 및 자원 인스턴스 체계다.
+> 2. **가치**: 단말 식별자(NSSAI)와 내부 조립 부품(NSSI)의 명확한 분리를 통해, 다종다양한 B2B 맞춤형 가상망을 동적으로 묶고 재사용하는 유연한 오케스트레이션이 가능해진다.
+> 3. **판단 포인트**: 단말은 NSSAI만 알 뿐 망의 세부 구성을 모르고, 통신사 MANO는 NSSI들을 조립해 하나의 NSI를 완성하므로, 도메인 간(RAN-Core) 호환성과 NSSI 재사용률 극대화가 운영 효율의 핵심이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| slicing 식별 체계 이해 확인 | NSSAI, S-NSSAI, NSI, NSSI 계층 | NSSAI와 NSI를 동일 용어로 처리 |
-| 5GC 절차 이해 확인 | UE 요청, AMF/NSSF 선택, SMF 세션 | NSSF 역할 누락 |
-| 운영·장애 분석 판단 확인 | NSI와 RAN/CN/TN NSSI 매핑 | 도메인별 SLA 지표 누락 |
+| 슬라이싱 식별 체계와 인프라 객체의 계층적 관계 이해 | 식별자(NSSAI) vs 자원 덩어리(NSI) 구분, 조립 구조(NSI = RAN NSSI + Core NSSI) | 세 용어를 단순 동의어로 혼용하여 서술 |
+| S-NSSAI의 세부 구조 확인 | SST(Slice/Service Type)와 SD(Slice Differentiator) | 단말 관점의 접속 절차 누락 |
+| 통신망 가상화 관리(MANO) 관점 도출 | 라이프사이클 관리, NSSI 재사용을 통한 인프라 자원 최적화 | 단순히 개념 약어 풀이만 나열하고 끝냄 |
 
-> 요약: 이 문제는 slice 식별자와 실제 인스턴스 계층을 구분하는 정확한 용어 운용이 핵심이다.
+> 요약: 고객(단말)의 요청 식별 체계(NSSAI)와 사업자의 백엔드 자원 조립 체계(NSI/NSSI)를 분리하여 하나의 시스템 다이어그램으로 통합 설명해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-NSSAI·NSI·NSSI는 5G 네트워크 슬라이스를 식별·선택·운영하기 위한 계층적 개념이다. 단말은 NSSAI로 slice를 요청하고, 사업자는 NSI와 NSSI로 실제 자원을 구성한다. 답안은 식별자와 인스턴스의 차이를 먼저 고정해야 한다.
+- 정의: 5G 네트워크 슬라이스를 단말 측면에서 식별(NSSAI)하고 인프라 측면에서 생성·관리(NSI, NSSI)하기 위한 3GPP 표준 식별/관리 객체 체계
+- 배경: E2E 네트워크 슬라이스는 기지국, 전송, 코어망 자원이 복합적으로 얽혀 있어 하나의 단일 모놀리식 덩어리로 관리할 수 없음
+- 필요성: 단말이 접속할 슬라이스를 정확히 라우팅하고, 사업자가 도메인별 가상 자원(NSSI)을 모듈화하여 신속히 전체 슬라이스(NSI)를 조립·재사용하기 위함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 구조 및 구성요소 (계층적 관리 아키텍처)
 
 ```text
-UE -> Requested NSSAI -> AMF -> NSSF
-NSSF -> Allowed NSSAI -> NSI Selection
-NSI
-  / RAN NSSI
-  / Core NSSI
-  / Transport NSSI
+[ 단말 관점 (식별) ]                     [ 사업자 MANO 관점 (생성·관리) ]
+ UE -> [접속요청 + NSSAI] -> AMF 
+                                       +=============================+
+    * NSSAI = S-NSSAI 1 + S-NSSAI 2    | NSI (E2E 전체 슬라이스 실체)|
+       (SST:타입, SD:고객식별)         +=============================+
+                                        /             |             \
+                               [RAN NSSI]  +  [Trans NSSI]  +  [Core NSSI]
+                               (기지국 가상화) (망 대역폭 분할)  (AMF/UPF 분리)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구분 | 구성요소 (풀네임) | 주요 역할 및 특징 |
 |:---|:---|:---|
-| NSSAI | S-NSSAI 목록 | Configured, Requested, Allowed NSSAI로 구분 |
-| S-NSSAI | 단일 slice 식별자 | SST + SD 구조 |
-| NSI | end-to-end slice instance | 서비스별 SLA와 연결 |
-| NSSI | 도메인별 하위 slice instance | RAN, CN, TN resource mapping |
+| **식별자** | NSSAI (NW Slice Selection Assistance Info) | 단말이 AMF에 전달하는 슬라이스 선택 지원 정보 (최대 8개 S-NSSAI 포함) |
+| | S-NSSAI (Single NSSAI) | 개별 슬라이스 ID. SST(표준 서비스타입: eMBB 등) + SD(특정 고객 세부 구분자) |
+| **자원 객체** | NSI (NW Slice Instance) | 고객 요구사항을 만족하는 E2E 네트워크 가상 자원의 집합 실체 |
+| | NSSI (NW Slice Subnet Instance) | NSI를 구성하는 도메인별(RAN, Core 등) 논리적 하위 가상 자원 묶음 |
 
-> 요약: NSSAI는 요청·허용 목록, NSI는 전체 slice 인스턴스, NSSI는 도메인별 구성 단위이다.
+> 요약: 단말은 NSSAI를 통해 원하는 망을 지칭하고, 5G 시스템은 하위 서브넷(NSSI)들을 레고 블록처럼 조립해 E2E 망(NSI) 인스턴스를 단말에 매핑한다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 흐름도 (식별부터 인스턴스 매핑까지)
 
 ```text
-Configured NSSAI 저장 -> UE Requested NSSAI 전송 -> AMF 수신
--> NSSF 조회 -> Allowed NSSAI 결정 -> NSI 선택
--> SMF/UPF와 NSSI 매핑 -> SLA assurance
+1. [사업자] NSSI 인스턴스 준비 및 조합 -> E2E NSI 생성 대기
+2. [단말] 접속(Attach) 시 S-NSSAI 포함 Request -> [코어망 AMF] 수신
+3. [코어망 NSSF] S-NSSAI 해석 -> 최적의 NSI(및 해당 AMF/SMF) 선택 라우팅
+4. [데이터 통신] 단말은 선택된 NSI 내부의 가상 자원을 통해 격리된 통신 수행
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+| 단계 | 처리 주체 | 처리 내용 (검증 기준) |
 |:---:|:---|:---|
-| 1 | 단말에 Configured NSSAI 저장 | USIM/UE policy 일관성 |
-| 2 | Registration 시 Requested NSSAI 전달 | AMF log, reject cause |
-| 3 | AMF가 NSSF에 slice selection 요청 | NSSF response time |
-| 4 | Allowed NSSAI와 NSI를 결정 | S-NSSAI 정책 매핑 |
-| 5 | NSI를 RAN/CN/TN NSSI와 연결해 운영 | SLA violation, domain KPI |
+| 1 | 오케스트레이터(MANO) | 코어 NSSI와 RAN NSSI를 연결하여 E2E NSI 프로비저닝 |
+| 2 | 단말 (UE) | RRC 접속 및 NAS 메시지에 자신이 가입된 S-NSSAI 삽입 전송 |
+| 3 | AMF / NSSF | 전달받은 S-NSSAI를 기반으로 단말을 처리할 특정 코어 인스턴스로 연결 |
+| 4 | SMF / UPF | PDU 세션 수립 시 해당 NSI에 할당된 격리된 데이터 경로 생성 |
 
-> 요약: NSSAI 처리 흐름은 단말 요청에서 NSSF 선택, NSI/NSSI 매핑, SLA 검증으로 이어진다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | NSSAI | NSI | NSSI |
-|:---|:---|:---|:---|
-| 성격 | 식별자 목록 | end-to-end 인스턴스 | 도메인별 하위 인스턴스 |
-| 위치 | UE·AMF·NSSF 절차 | NSMF 관리 대상 | NSSMF 관리 대상 |
-| 구성 | S-NSSAI 1개 이상 | RAN/CN/TN NSSI 조합 | RAN, Core, Transport |
-| 수치·판단 | SST 1/2/3, SD 24-bit | SLA 단위 | domain KPI 단위 |
-
-> 요약: NSSAI는 선택을 위한 목록, NSI는 서비스 제공 단위, NSSI는 인프라 도메인 운영 단위이다.
+> 요약: 단말이 던진 식별표(NSSAI)를 코어망 지휘소(NSSF)가 확인하고, 사전에 준비된 조립 망(NSI)의 입구로 트래픽을 정확히 안내하는 흐름이다.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅳ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | NSSAI·NSI·NSSI | 선택 기준 |
+| 비교 축 | 단말/제어평면 (NSSAI 기반) | 관리/인프라평면 (NSI/NSSI 기반) | 운영 효율화 기준 |
 |:---|:---|:---|:---|
-| 구조 | APN/DNN 중심 구분 | S-NSSAI와 NSI 계층 구분 | 서비스별 SLA와 다중 도메인 관리 |
-| 비용/성능 | 단일 QoS 정책 | slice별 인스턴스·자원 매핑 | 격리 수준과 자원 예약 비용 |
-| 운영/위험 | 장비별 관리 | NSMF/NSSMF orchestration | lifecycle 자동화와 장애 범위 |
+| 주체/위치 | 단말(UE) ~ 코어망(AMF/NSSF) 제어 메시지 | 통신사 MANO 시스템 내부 및 NFV 인프라 | 제어 오버헤드 최소화 |
+| 생애주기 | 단말 접속~해제 시 동적 할당 | B2B 계약 체결 시 프로비저닝 ~ 폐기 시점 유지 | 인스턴스 시작/종료 리드타임 단축 |
+| 설계 철학 | "어느 망에 접속할지 선택 라우팅" 집중 | "어떻게 물리 자원을 가상화하여 조립할지" 집중 | 자원 격리(Isolation) 100% 달성 |
 
-> 요약: 다중 slice 운영에서는 NSSAI·NSI·NSSI를 분리해야 고객 요청과 도메인 장애를 정확히 연결할 수 있다.
+> 요약: 통신 규격(NSSAI)과 자원 관리 규격(NSI)이 톱니바퀴처럼 맞물려야 슬라이싱 비즈니스(Network-as-a-Service)가 동작한다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| slice 접속 실패 | Requested NSSAI와 가입자 정책 불일치 | UDM/PCF/NSSF 정책 검증 | reject cause, attach fail |
-| SLA 원인 추적 실패 | NSI와 NSSI 매핑 누락 | topology inventory, correlation ID | MTTR, alarm correlation |
-| 자원 경합 | NSSI 공유 자원 과다 | quota, admission control | PRB usage, UPF load |
+| 자원 낭비 및 고갈 | 고객마다 신규 E2E NSI 생성 시 오버헤드 폭증 | **NSSI 재사용 (Reuse)**: 범용 Core NSSI를 여러 NSI가 공유 조립 | NSSI 재사용률, 가상머신 점유율 |
+| 도메인 간 조립 실패 | 멀티 벤더 장비 간 NSSI 인터페이스 불일치 | 3GPP 및 ETSI NFV MANO 표준 인터페이스(REST API) 엄수 준수 | E2E 프로비저닝 성공률 |
 
-> 요약: 식별·매핑 오류가 주요 리스크이며 reject cause와 도메인 KPI를 함께 추적해야 한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 정책 일관성 | S-NSSAI, DNN, 5QI 매핑 100% 검증 | 정책 카탈로그, CI 검사 |
-| 접속 품질 | slice registration/PDU success 99% 이상 | AMF/SMF/NSSF 로그 |
-| 도메인 SLA | RAN/CN/TN KPI 목표 충족 | NSMF/NSSMF dashboard |
-
-> 요약: NSSAI·NSI·NSSI 운영 평가는 정책 일관성, 접속 성공률, 도메인별 SLA 달성률로 수행한다.
+> 요약: 모든 NSI를 0부터 새로 만들면 인프라가 파탄 나므로, 공통 서브넷(NSSI)을 최대한 재사용하면서 보안이 필요한 구간(SD)만 격리 생성하는 설계가 필수다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅴ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 설계: 서비스 카탈로그별 S-NSSAI(SST/SD), DNN, 5QI, 가입자 그룹을 정책 테이블로 관리함
-2. 구축: NSSF, AMF, SMF, NSMF/NSSMF 간 NSI·NSSI 매핑 정보를 inventory와 동기화함
-3. 운영: slice reject cause, NSSF latency, NSI별 SLA, NSSI별 자원 사용률을 상관 분석함
+**적용 방안 3개:**
+1. 엔터프라이즈 맞춤형 슬라이스 할당: 자율주행 기업 고객에게 SST=URLLC, SD=기업식별코드로 구성된 S-NSSAI를 발급하고, 코어망에서 해당 트래픽을 전용 엣지(MEC) NSI로 라우팅
+2. 인프라 운영 자동화(Zero-Touch): B2B 포털에서 고객이 슬라이스 용량을 증설하면, MANO가 기존 Core NSSI 자원을 HPA(자동 스케일아웃)하여 전체 NSI 용량을 무중단 확장
+3. 다중 슬라이스 동시 접속: 스마트폰 1대에서 NSSAI 내에 S-NSSAI 1(일반 인터넷), S-NSSAI 2(업무망 VPN 대체)를 동시에 요청하여, 하나의 기기로 공인/사설 NSI 트래픽 완벽 분리
 
 **결론 (2줄):**
-- 기술사 판단: NSSAI는 요청 식별, NSI는 서비스 인스턴스, NSSI는 도메인 자원 단위로 구분해 써야 감점이 없음
-- 향후 방향: slicing 자동화는 NSI/NSSI inventory와 NWDAF 기반 assurance의 연동 범위를 확대하는 방향임
+- 기술사 판단: NSSAI/NSI 체계는 물리적 통신 인프라를 '주문형 소프트웨어 상품'으로 탈바꿈시키는 핵심 메커니즘이며, NSSI 모듈의 표준화와 재사용 설계가 통신사 원가 경쟁력의 핵심이다.
+- 향후 방향: 현재의 사전 정적 프로비저닝 단계를 넘어, AI 엔진이 트래픽 패턴을 예측해 단말이 요청하기도 전에 최적의 NSI를 실시간으로 자동 조립해 두는 자동화 체계(NWDAF 결합)로 발전할 것이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "NSSAI, NSI, NSSI를 설명하시오" | UE 요청에서 NSSF 선택까지 흐름 | 세 용어의 계층·역할 비교 |
-| 요구사항 명시형 | "slice 운영 방안을 제시하시오" | 정책 카탈로그와 NSI/NSSI 매핑 절차 | 접속 실패·SLA 추적 리스크 |
-
-> 요약: 설명형은 용어 계층, 운영형은 정책·인벤토리·SLA 상관분석 중심으로 답안을 전환한다.
+| 포괄형 | "NSSAI, NSI, NSSI를 설명하시오" | 세 개념의 상관관계 및 단말 접속 절차 흐름도 | 단말 식별 관점과 MANO 관리 관점의 비교 |
+| 설계형 | "B2B 네트워크 슬라이싱 아키텍처를 설계하시오" | NSSI 조립을 통한 유연한 NSI(E2E) 생성 과정 | 도메인별 자원 격리 방안 및 NSSI 재사용을 통한 리스크 통제 |

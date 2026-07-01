@@ -1,6 +1,6 @@
 ---
 title: "링크 상태 라우팅 — OSPF·OSPFv3 (OSPF Link State Routing)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 13
@@ -8,154 +8,142 @@ weight: 13
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: OSPF와 OSPFv3를 처음 봐도 링크 상태 라우팅의 지도 작성 방식과 SPF 계산을 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 라우터가 링크 상태 정보를 공유하고 각자 최단 경로 트리를 계산하는 IGP
-- **왜 필요한가**: 거리 벡터 방식은 이웃이 알려준 거리만 믿기 때문에 수렴 지연과 루프 위험이 있다. OSPF는 네트워크 지도를 각 라우터가 보유해 장애 시 SPF 계산으로 경로를 갱신한다.
-- **핵심 직관**: 모든 라우터가 같은 지도를 받아 각자 현재 위치에서 최단 경로를 다시 그리는 방식이다.
+- **개요**: 네트워크 전체 지도를 모든 라우터가 동일하게 보유하고, 최단 경로를 독자적으로 계산하는 동적 라우팅 프로토콜
+- **왜 필요한가**: 이웃이 주는 정보만 믿고 길을 찾는 방식(거리 벡터)의 루프 문제와 느린 수렴 속도를 극복하기 위함
+- **핵심 직관**: 내비게이션(OSPF 라우터)에 전국 도로망(LSDB)을 미리 다운받아 놓고, 각자 현재 위치에서 목적지까지 최단 시간(Cost) 경로를 다익스트라(Dijkstra) 알고리즘으로 계산한다.
 
 ## 깊이 이해
-- **배경·문제의식**: 기업 내부망은 수십~수백 개 라우터와 다중 링크를 가진다. OSPF는 Area 구조, LSA 홍수, Dijkstra SPF로 내부 라우팅을 빠르게 수렴시키기 위해 설계되었다.
-- **작동 원리**: 라우터는 Hello로 이웃을 맺고, LSA(Link State Advertisement)를 교환해 LSDB(Link State Database)를 동기화한다. 각 라우터는 동일 LSDB에서 SPF를 계산해 라우팅 테이블을 만든다.
-- **비유**: 각 지점이 자기 주변 도로 공사 정보를 본사 지도 시스템에 알리고, 모든 지점이 같은 최신 지도를 내려받아 이동 경로를 다시 계산하는 구조다.
-- **구체 예시**: OSPF 기본 reference bandwidth 100 Mbps일 때 100 Mbps 링크는 cost 1, 10 Mbps 링크는 cost 10으로 자동 계산된다. SPF는 총 cost가 낮은 경로를 선택한다. 기준 bandwidth를 100 Gbps로 조정하지 않으면 고속 링크 차이가 반영되지 않을 수 있다.
-- **흔한 오해·주의점**: OSPFv3는 단순히 IPv6 주소만 추가한 것이 아니다. 링크 로컬 주소 사용, 주소 패밀리 확장, 인증 방식 변화까지 함께 고려해야 한다.
+- **배경·문제의식**: RIP 같은 거리 벡터(Distance Vector) 라우팅은 주기적으로 테이블 전체를 교환해 대역폭 낭비가 컸고(최대 15홉 제한), 중간에 링크가 끊어지면 소문이 퍼지는 데 오래 걸려 라우팅 루프가 자주 발생함.
+- **작동 원리**: 
+  1. 라우터는 주변 장비와 인사(Hello)하여 이웃(Neighbor)을 맺음.
+  2. 자신이 연결된 링크의 상태(대역폭, 상태 등) 정보인 LSA(Link State Advertisement)를 네트워크 전체에 플러딩(Flooding)함.
+  3. 모든 라우터는 동일한 상태 데이터베이스(LSDB)를 구성함.
+  4. SPF 알고리즘(다익스트라)을 돌려 자신을 루트로 하는 최단 경로 트리를 생성하고 라우팅 테이블에 등록함.
+- **비유**: 동네 사람(거리 벡터)에게 길을 물어보는 대신, 모두가 정확한 '지도'를 나눠 갖고(LSA 교환) 각자 뇌(CPU)로 최적 경로를 계산.
+- **구체 예시**: 10G 링크와 1G 링크가 병렬로 있을 때, OSPF는 홉 수(거쳐가는 개수)가 같아도 대역폭을 기반으로 계산한 Cost가 낮은 10G 링크를 최적 경로로 선택함.
+- **흔한 오해·주의점**: 모든 라우터가 지도를 가져야 하므로 메모리/CPU 소모가 큼. 따라서 망이 커지면 지역(Area 0, Area 1)을 나누어 다른 지역의 상세 지도는 요약본만 받도록 설계해야 함.
 
 ## 연결 개념
-- Dijkstra SPF — LSDB 기반 최단 경로 계산 알고리즘
-- Area 0 Backbone — OSPF 영역 간 라우팅의 중심 영역
-- BFD — OSPF 장애 감지를 수백 ms 단위로 보완
+- 다익스트라(Dijkstra) 알고리즘
+- 거리 벡터 라우팅(RIP, BGP)
+- OSPF Area 및 DR/BDR
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: OSPF 답안은 Hello/LSA/SPF 순서와 Area 설계, DR/BDR, OSPFv2·v3 차이를 함께 제시해야 한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: OSPF는 라우터 간 링크 상태를 LSA로 공유하고 LSDB를 동기화한 뒤 SPF로 최단 경로를 계산하는 링크 상태 IGP이다.
-> 2. **가치**: Area 구조, cost 기반 경로 선택, 장애 수렴(BFD 300ms~dead 40초 기준)으로 대규모 내부망의 라우팅 테이블과 LSA 범위를 통제한다.
-> 3. **판단 포인트**: Area 0 연결성, DR/BDR, hello/dead timer, LSA flooding 범위, OSPFv3 IPv6 링크 로컬 동작을 확인한다.
+> 1. **본질**: 다익스트라(SPF) 알고리즘 기반으로 토폴로지 맵(LSDB)을 구성하는 내부 라우팅 프로토콜(IGP)
+> 2. **가치**: 변화 시점에만(Triggered Update) 상태를 부분 전송하여 대역폭 낭비를 줄이고, 토폴로지 변경 시 빠른 수렴 보장
+> 3. **판단 포인트**: 대규모 망 적용 시 Area 분할(계층적 설계)과 DR/BDR 선출을 통한 플러딩 트래픽 통제 여부
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 링크 상태 라우팅 원리 확인 | Hello, adjacency, LSA, LSDB, SPF | 거리 벡터처럼 이웃 거리 전달로 설명 |
-| OSPF 설계 역량 확인 | Area 0, ABR, ASBR, DR/BDR | 단일 Area만 전제 |
-| OSPFv3 차이 확인 | IPv6, link-local, IPSec 또는 인증 방식 | OSPFv2와 동일하다고 서술 |
+| 대규모 기업망 라우팅 표준 기술 이해 | LSDB 동기화 과정, 다익스트라 최단경로트리, 계층적 Area 설계 | 알고리즘 자체 설명에만 치중 (실제 Area 설계, OSPFv3(IPv6) 연계 누락 금지) |
 
-> 요약: OSPF 문제는 LSA 기반 지도 동기화와 Area 설계, OSPFv3 차이를 함께 쓰는 것이 채점 포인트다.
+> 요약: LSA 플러딩 구조의 오버헤드를 제어하기 위한 계층적 Area 모델과 DR/BDR 동작 메커니즘을 핵심으로 서술해야 함.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 링크 상태 정보를 교환해 내부망 최단 경로를 계산하는 IGP
-- 배경: 라우터 간 LSDB를 동기화하고 Dijkstra SPF로 목적지별 next-hop을 산출함
-- 필요성: 대규모 기업망은 Area 분할과 route summarization으로 LSA 범위와 라우팅 규모를 통제해야 함
+- 정의: 링크 상태 정보를 멀티캐스트로 교환하고 SPF 알고리즘으로 최단 경로를 산출하는 동적 라우팅 프로토콜
+- 배경: 거리 벡터 라우팅(RIP)의 홉 수 제한(15) 및 느린 컨버전스, 잦은 라우팅 루프 문제 발생
+- 필요성: 엔터프라이즈 환경에서 무한대 확장이 가능하고(대역폭 기반 Metric), 링크 단절 시 수 초 이내 고속 우회 가능한 IGP 필요
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-OSPF Router -> Hello Neighbor Discovery -> Adjacency
-  / LSA Flooding -> LSDB
-  / SPF Calculation -> Routing Table
-Area 0 -> ABR -> Non-Backbone Area
+[Hello 패킷] -> 이웃 관계(Neighbor) -> [LSA 플러딩] -> [LSDB 구성] -> [SPF(Dijkstra) 연산] -> 최적 경로 도출
+                |                           |             |                 |
+                +-> 224.0.0.5(멀티캐스트)     +-> DR/BDR    +-> 동일 토폴로지    +-> OSPF Cost (대역폭 반비례)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Hello Protocol | 이웃 탐색과 dead 판단 | hello 10초, dead 40초 예시 |
-| LSA/LSDB | 링크 상태 광고와 데이터베이스 | Area 내 동일 LSDB 유지 |
-| SPF Engine | Dijkstra 알고리즘으로 경로 계산 | cost 합산 기준 |
-| Area/ABR | LSA 범위 분리와 요약 | Area 0 backbone 필수 |
+| Hello Packet | Neighbor 발견 및 관계 유지 (Keepalive) | 주기: LAN 10초, WAN 30초 |
+| LSA (Link State Advertisement) | 라우터의 인터페이스 상태, IP, 서브넷 마스크, Metric 정보 | 변화 발생 시 Triggered Update |
+| LSDB (Link State Database) | 수집된 LSA들의 집합체 (전체 네트워크 토폴로지 맵) | 동일 Area 내 라우터는 LSDB가 동일 |
+| DR / BDR (Designated Router) | 다중 접속(MA) 환경에서 LSA 중계 및 동기화 대표 라우터 | N:N 플러딩 과부하 방지 (DR 중심 허브앤스포크 교환) |
 
-> 요약: OSPF 구조는 Hello 인접성, LSA/LSDB 동기화, SPF 계산, Area 분리로 구성된다.
+> 요약: OSPF는 Hello로 이웃을 찾고, DR을 통해 LSA 플러딩 트래픽을 최소화하며, 개별적으로 LSDB를 기반으로 SPF 연산을 수행함.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Interface Up -> Hello Exchange -> Neighbor State Form
-  -> DBD/LSR/LSU Exchange -> LSDB Sync
-  -> SPF Run -> Route Install -> LSA Refresh or Triggered Update
+Neighbor 탐색 (Init) -> 양방향 통신 (2-Way) -> DR/BDR 선출 -> 요약본 교환 (ExStart/Exchange) -> LSA 요청/수신 (Loading) -> 완전 동기화 (Full)
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | Hello 패킷으로 이웃 발견 | neighbor state 2-Way 이상 |
-| 2 | DBD, LSR, LSU로 LSDB 동기화 | LSDB checksum 일치 |
-| 3 | SPF 계산으로 최단 cost 경로 산출 | 누적 OSPF cost |
-| 4 | 장애 발생 시 LSA 재홍수와 SPF 재계산 | convergence time 측정 |
+| 1 | Neighbor / Adjacency 형성 | Hello 패킷 교환 (Area ID, Subnet 일치 확인) |
+| 2 | DR / BDR 선출 (Broadcast 환경) | OSPF Priority, Router ID 비교 |
+| 3 | DBD(Database Description) 교환 | LSDB 요약 정보 교환 및 누락된 LSA(LSR) 요청 |
+| 4 | LSU 전송 및 SPF 연산 | 완전한 LSA 정보 수신 후 다익스트라(Cost 산출) 수행 |
 
-> 요약: OSPF는 이웃 형성 후 LSDB를 맞추고, 장애 이벤트마다 SPF 재계산으로 라우팅 테이블을 갱신한다.
+> 요약: 단순 이웃(Neighbor) 단계를 넘어, 실제 LSA를 주고받아 완벽히 동기화된 상태(Full Adjacency)에 도달해야 경로 연산이 가능함.
 
 ---
 
 ## Ⅳ. 특징
 
-| 구분 | OSPF | RIP/정적 라우팅 | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 경로 기준 | cost 기반 누적 비용 | hop count 또는 수동 경로 | RFC 2328, RFC 5340 |
-| 수렴 방식 | triggered LSA와 SPF | 주기 업데이트 또는 수동 변경 | hello/dead 10/40초 예시 |
-| 규모 제어 | Area, ABR, summarization | 단순 테이블 관리 | Area 0 backbone |
-| LAN 최적화 | DR/BDR로 LSA 교환 감소 | 모든 노드 직접 교환 | multi-access network |
+| 구분 | 내용 | 판단 포인트 |
+|:---|:---|:---|
+| Metric 산출 | 링크 대역폭을 기준(Cost = 기준 대역폭 / 인터페이스 대역폭) | 10G/40G 링크 적용 시 기준 대역폭(Reference Bandwidth) 상향 필수 |
+| 계층적 구조 | Backbone(Area 0)과 일반 Area로 2계층 분할 | ABR(Area Border Router)을 통한 LSA 필터링 및 요약 |
+| OSPFv3 지원 | IPv6 지원을 위해 프로토콜 구조 분리 및 확장 | IP 프로토콜 종속성 제거 (LSA 페이로드 분리) |
 
-> 요약: OSPF는 cost, LSA, Area, DR/BDR을 통해 내부망 규모와 수렴 시간을 통제한다.
+> 요약: 대역폭 기반 Metric으로 최적 경로를 보장하며, 복잡도 제어를 위해 Area 분할 구조를 강제함.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | OSPFv2 | OSPFv3 | 선택 기준 |
+| 비교 축 | 거리 벡터 (RIPv2) | 링크 상태 (OSPF) | 하이브리드 (EIGRP) |
 |:---|:---|:---|:---|
-| 주소 체계 | IPv4 라우팅 | IPv6 라우팅, 주소 패밀리 확장 | IPv6 전환 구간은 OSPFv3 |
-| 이웃 형성 | IPv4 인터페이스 주소 | link-local 주소 사용 | 링크 로컬 도달성 점검 |
-| 인증 | OSPF 자체 인증 | IPsec 또는 구현별 인증 | 장비 지원 방식 확인 |
+| 시야(Topology View) | 이웃 라우터 시야 의존 (부분 정보) | 네트워크 전체 지도 보유 | DUAL 알고리즘 기반 융합 |
+| Metric (비용) | 홉 수 (Hop Count) | Cost (대역폭 역수) | 대역폭, 지연, 신뢰성 등 복합 |
+| 수렴 속도 | 느림 (루프 방지 타이머 대기) | 빠름 (LSA 즉시 플러딩) | 매우 빠름 (Feasible Successor 활용) |
 
-> 요약: IPv6 내부망은 OSPFv3의 링크 로컬 동작과 인증 방식을 별도 검증해야 한다.
+> 요약: OSPF는 전체 지도를 유지하여 최적 경로를 보장하나 메모리를 많이 쓰며, 단일 벤더 환경에서는 EIGRP가 대안이 될 수 있음.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| SPF 폭증 | 링크 flap 반복 | SPF throttle, BFD dampening | SPF run count |
-| Area 불연속 | Area 0 미연결 | virtual link 또는 설계 수정 | inter-area route 누락 |
-| DR 장애 | multi-access DR 단일 장애점 | BDR 구성, priority 설정 | neighbor state Full |
+| LSA 플러딩 스톰 | 불안정한 링크(Flapping)가 잦은 상태 업데이트 유발 | SPF Delay 타이머 조정, Area 분할 | LSA 업데이트 빈도(회/sec) |
+| 라우터 CPU 고갈 | 거대 Area 내 수백 대 라우터의 잦은 다익스트라 연산 | 단일 Area 라우터 수 50대 이하 통제, Stub Area 구성 | 라우터 OSPF 프로세스 CPU 사용률 |
+| 비인가 OSPF 라우터 주입 | 외부에서 위조된 Hello/LSA 패킷 주입 | OSPF Area 메시지 MD5/HMAC-SHA 인증 적용 | OSPF Neighbor 상태 로그 |
 
-> 요약: OSPF 리스크는 SPF 부하, Area 설계 오류, DR/BDR 장애이며 로그와 neighbor 상태로 확인한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 인접성 | 핵심 링크 neighbor Full | show ospf neighbor |
-| 수렴 시간 | 링크 장애 후 1초~40초 범위 목표 | failover test, BFD |
-| LSDB 일관성 | Area 내 LSA checksum 일치 | LSDB compare |
-
-> 요약: OSPF 운영은 neighbor Full, convergence time, LSDB 일관성으로 검증한다.
+> 요약: OSPF의 아킬레스건은 잦은 링크 플래핑에 의한 CPU 과부하이므로, Stub Area 설정과 타이머 튜닝으로 연산 반경을 격리해야 함.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 백본은 Area 0으로 고정하고 지점·부서는 Area 10, 20처럼 분리해 LSA flooding 범위를 제한함
-2. 고속 링크는 reference bandwidth를 100 Gbps 이상으로 조정해 1G/10G/100G cost 차이를 반영함
-3. 장애 감지는 OSPF timer만 의존하지 않고 BFD 300ms~1s와 SPF throttle을 함께 적용함
+1. [계층 설계] 전사 백본은 반드시 Area 0로 구성하고, 지역/지사 네트워크는 일반 Area 또는 Totally Stubby Area로 묶어 LSA(Type 3,4,5) 유입 차단
+2. [메트릭 튜닝] 최근 10G/40G/100G 링크 도입 환경에서는 `auto-cost reference-bandwidth` 값을 기본(100Mbps)에서 상향 조정하여 고속 링크 간 Cost 변별력 확보
+3. [IPv6 전환] 기존 OSPFv2(IPv4) 환경 위에 듀얼 스택을 구성할 경우, LSA 구조가 IPv6에 맞게 분리된 OSPFv3(RFC 5340)를 독립 프로세스로 가동
 
 **결론 (2줄):**
-- 기술사 판단: 단일 AS 내부 대규모망은 OSPF, AS 간 정책 라우팅은 BGP를 선택하고 경계 구간은 재분배 정책을 제한함
-- 향후 방향: OSPFv3, BFD, telemetry 기반 LSDB 검증으로 IPv6 전환망의 수렴성과 운영 가시성을 확보해야 함
+- 기술사 판단: OSPF는 엔터프라이즈 망의 사실상 표준 IGP이나, 단일 Area가 비대해질 경우 SPF 연산 부하로 장애가 확산될 수 있어 계층적 분할 설계가 필수적이다.
+- 향후 방향: 최근 데이터센터 스파인-리프(Spine-Leaf) 구조에서는 OSPF 대신 속도와 확장성이 더 뛰어난 BGP(eBGP)를 언더레이(Underlay) 라우팅으로 채택하는 추세이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "OSPF를 설명하시오" | Hello, LSA, LSDB, SPF 동작 | OSPF와 RIP 차이, Area 구조 |
-| 요구사항 명시형 | "OSPFv3 설계 방안을 제시하시오" | link-local, IPv6, Area 설계 | OSPFv2/v3 차이, BFD 적용 |
-
-> 요약: OSPF는 설명형이면 링크 상태 원리, 설계형이면 Area와 OSPFv3 운영 조건을 중심으로 전환한다.
+| 포괄형 | "OSPF의 동작원리를 설명하시오" | LSA 교환부터 SPF 연산까지의 상태 변화 | Area 구조 및 DR/BDR 역할 |
+| 요구사항 명시형 | "OSPFv3 특징을 비교하시오", "거리벡터와 링크상태 비교" | OSPFv2와 v3의 LSA 헤더 포맷 차이 | RIP 대비 수렴 메커니즘 차이 및 메모리 요구량 |

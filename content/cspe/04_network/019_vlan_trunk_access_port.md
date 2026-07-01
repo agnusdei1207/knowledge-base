@@ -1,6 +1,6 @@
 ---
 title: "VLAN·트렁크·액세스 포트 (VLAN Trunk Access Port)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 19
@@ -8,157 +8,138 @@ weight: 19
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: VLAN, trunk, access port를 처음 봐도 같은 스위치 안에서 논리적 LAN을 나누는 원리를 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 하나의 물리 스위치 인프라를 VLAN ID 기준으로 여러 L2 브로드캐스트 도메인으로 분리하는 기술
-- **왜 필요한가**: 모든 단말이 같은 L2 도메인에 있으면 ARP, broadcast, 장애 영향 범위가 커진다. VLAN은 부서·서비스·보안 구역별로 L2 범위를 나누고, trunk는 여러 VLAN을 스위치 간 한 링크로 전달한다.
-- **핵심 직관**: 같은 건물에 여러 회사가 입주해도 출입증 색상으로 층과 구역을 구분하는 방식이다.
+- **개요**: 물리적인 하나의 스위치를 논리적으로 여러 대의 스위치처럼 나누어 쓰는 기술(VLAN)과 이를 연결하는 포트 방식(Access/Trunk)
+- **왜 필요한가**: 부서별로 스위치를 따로 사면 돈이 많이 들고, 하나의 스위치에 다 꽂으면 불필요한 방송(Broadcast)이 전체로 퍼져 네트워크가 느려지고 보안이 취약해짐
+- **핵심 직관**: 하나의 큰 회의실(스위치)에 유리벽(VLAN)을 세워 영업팀, 개발팀 방을 분리하는 것. 방 안에서만 소리(Broadcast)가 들린다.
 
 ## 깊이 이해
-- **배경·문제의식**: 물리 스위치를 부서별로 따로 두면 포트와 케이블이 늘어난다. VLAN은 같은 물리 장비를 공유하면서 논리적 브로드캐스트 도메인을 분리한다. 서로 다른 VLAN 간 통신은 L3 라우팅이 필요하다.
-- **작동 원리**: Access port는 하나의 VLAN에 속하며 단말 프레임은 보통 tag 없이 들어온다. Trunk port는 802.1Q tag 4바이트를 삽입해 여러 VLAN 프레임을 한 링크로 전달한다. Native VLAN은 tag 없는 프레임 처리에 사용된다.
-- **비유**: Access port는 한 부서 전용 출입문이고, trunk는 여러 부서 물품을 색상 라벨로 구분해 나르는 공용 엘리베이터다.
-- **구체 예시**: VLAN ID는 12비트로 1~4094 범위를 사용한다. 802.1Q tag는 TPID 0x8100과 TCI를 포함하며, PCP 3비트로 우선순위를 표시한다.
-- **흔한 오해·주의점**: VLAN은 L2 분리 기술이지 완전한 보안 경계가 아니다. inter-VLAN 라우팅, ACL, DHCP snooping, DAI 같은 통제를 함께 적용해야 한다.
+- **배경·문제의식**: ARP 요청 등 브로드캐스트 패킷은 스위치의 모든 포트로 퍼짐. PC가 100대, 1000대로 늘어나면 브로드캐스트 쓰레기 트래픽만으로 망이 마비됨(브로드캐스트 스톰). 
+- **작동 원리 (VLAN & Access)**: 스위치 포트 1~10번은 VLAN 10(영업팀), 11~20번은 VLAN 20(개발팀)으로 할당(Access Port). 서로 다른 VLAN끼리는 L3 라우터 없이는 절대 통신할 수 없어 보안이 유지됨.
+- **작동 원리 (Trunk)**: 스위치 A와 스위치 B를 연결할 때, 영업팀 선 따로, 개발팀 선 따로 연결하면 포트 낭비가 됨. 한 가닥의 선(Trunk Port)으로 모든 팀 데이터를 보내되, 이더넷 프레임에 "이건 10번 팀 꺼(VLAN Tag)"라는 꼬리표를 붙여서 구분함(IEEE 802.1Q).
+- **비유**: 트렁크 포트는 여러 부서의 우편물을 한 번에 나르는 배달 트럭. 택배 상자(프레임)에 부서 스티커(802.1Q 태그)를 붙여서 하차 시 분류함.
+- **구체 예시**: IP 전화기(Voice VLAN 50)와 PC(Data VLAN 10)를 하나의 스위치 포트에 꽂아 쓸 때, 스위치는 태그를 보고 음성과 데이터를 논리적으로 찢어서 처리함.
+- **흔한 오해·주의점**: VLAN 간 통신은 L2 스위치만으로는 불가능하며 반드시 L3 기능(Inter-VLAN 라우팅)이 필요함.
 
 ## 연결 개념
-- IEEE 802.1Q — VLAN tagging 표준
-- Inter-VLAN Routing — 서로 다른 VLAN 간 L3 통신
-- STP/RSTP — VLAN trunk 환경의 L2 루프 방지
+- IEEE 802.1Q (VLAN 태깅)
+- 브로드캐스트 도메인 (Broadcast Domain)
+- 인터블랜 라우팅 (Inter-VLAN Routing)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: VLAN 답안은 access와 trunk의 tag 처리 차이, VLAN ID 범위, native VLAN, inter-VLAN routing까지 연결해야 한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: VLAN은 802.1Q VLAN ID로 L2 브로드캐스트 도메인을 논리 분리하고, trunk는 여러 VLAN을 tag로 식별해 전달한다.
-> 2. **가치**: 물리 인프라를 공유하면서 부서·서비스별 ARP/broadcast 범위와 장애 영향을 제한한다.
-> 3. **판단 포인트**: VLAN ID 1~4094, 802.1Q tag 4B, access/trunk mode, native VLAN, inter-VLAN ACL을 확인해야 한다.
+> 1. **본질**: 물리적 1대의 L2 스위치를 논리적으로 다수의 브로드캐스트 도메인으로 분할하는 기술
+> 2. **가치**: 불필요한 브로드캐스트 트래픽 차단으로 망 대역폭을 절약하고, 부서 간 논리적 망 분리(보안) 구현
+> 3. **판단 포인트**: Access 포트와 Trunk 포트의 프레임 태깅(802.1Q) 동작 차이와 Native VLAN 취약점 통제
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| VLAN 기본 원리 확인 | 브로드캐스트 도메인 분리, VLAN ID | 서브넷과 VLAN을 동일 개념으로 서술 |
-| 포트 모드 이해 확인 | access untagged, trunk tagged | trunk에 단일 VLAN만 흐른다고 서술 |
-| 운영 리스크 판단 확인 | native VLAN, allowed VLAN, VLAN hopping | VLAN만으로 보안 경계 완성이라고 서술 |
+| L2 스위칭 환경에서의 논리적 망 분리와 트렁크 연결 원리 | 802.1Q 태그(4바이트) 삽입 위치, Access vs Trunk 차이, VLAN 간 통신(L3) | 개념 설명에 그치고 802.1Q 프레임 구조와 태깅 동작 원리를 누락함 |
 
-> 요약: VLAN 문제는 L2 분리 원리와 802.1Q tag 처리, L3 통제 필요성을 함께 써야 한다.
+> 요약: 스위치 포트별 할당 방식(Access)과 다중 VLAN 전송 방식(Trunk, 802.1Q)을 프레임 관점에서 구분하여 서술해야 함.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 스위치 인프라에서 L2 브로드캐스트 도메인을 논리적으로 분리하는 기술
-- 배경: access port는 단말을 단일 VLAN에 연결하고, trunk port는 여러 VLAN 프레임을 802.1Q tag로 구분해 전달함
-- 필요성: 대규모 LAN은 VLAN과 L3 ACL로 업무 구역을 분리해야 함
+- 정의: 물리적 배치와 무관하게 논리적인 브로드캐스트 도메인을 구성하는 L2 스위칭 분할 기술
+- 배경: 단일 평면(Flat) 네트워크에서 브로드캐스트 트래픽 증가에 따른 성능 저하 및 전체 망 장애 위험 노출
+- 필요성: 스위치 자원의 효율적 사용, 부서별/용도별 논리적 보안 격리, 유연한 토폴로지 변경 지원
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-End Host -> Access Port VLAN 10 -> Switch
-Switch -> Trunk Port 802.1Q Tag -> Switch
-  / VLAN ID
-  / Native VLAN
-  / Allowed VLAN List
-Inter-VLAN Routing -> L3 Gateway
+[PC A (VLAN 10)] ---- (Access) ---- [스위치 1] ==== (Trunk / 802.1Q) ==== [스위치 2] ---- (Access) ---- [PC B (VLAN 10)]
+                                    |                               |
+[PC C (VLAN 20)] ---- (Access) -----+                               +---- (Access) ---- [PC D (VLAN 20)]
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소 | 역할 | 프레임 태깅 여부 |
 |:---|:---|:---|
-| VLAN ID | 논리 LAN 식별자 | 12비트, 1~4094 |
-| Access Port | 단일 VLAN 단말 연결 | 일반적으로 untagged |
-| Trunk Port | 복수 VLAN 전달 | 802.1Q tag 사용 |
-| L3 Gateway | VLAN 간 라우팅 | SVI, router-on-a-stick |
+| Access Port | 단말(PC, 서버)이 연결되는 포트로, 단일 VLAN 트래픽만 수용 | 태그 없음 (Untagged) |
+| Trunk Port | 스위치 간 연결 시 다수의 VLAN 트래픽을 단일 물리 링크로 전송 | IEEE 802.1Q 태그 삽입 (Tagged) |
+| Native VLAN | 트렁크 링크에서 예외적으로 태그 없이 전송되는 기본 VLAN (보통 VLAN 1) | 태그 없음 (Untagged) |
+| 802.1Q Tag | 이더넷 헤더(Src MAC 뒤)에 4바이트 크기로 추가되어 VLAN ID(12비트) 식별 | 스위치가 덧붙이고(Push) 뗌(Pop) |
 
-> 요약: VLAN 구조는 access 단말 연결, trunk 다중 VLAN 전달, L3 gateway를 통한 VLAN 간 통신으로 구성된다.
+> 요약: 단말과 스위치 사이(Access)는 순수 이더넷 프레임을 쓰고, 스위치 간(Trunk)에는 식별자(Tag)를 붙여 다중 VLAN을 전송함.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Host Frame In -> Access Port Assign VLAN ID
-  -> Switch MAC Table Lookup per VLAN
-  -> Trunk Add 802.1Q Tag -> Remote Switch Remove Tag
-  -> Inter-VLAN Traffic -> L3 Gateway and ACL
+단말 프레임 송신 -> 스위치 인입 (VLAN 할당) -> 트렁크 포트 출력 (802.1Q Tag 추가) -> 대향 스위치 인입 (Tag 제거) -> 동일 VLAN 포트 출력
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | Access port가 수신 프레임에 VLAN ID 부여 | port VLAN 설정 |
-| 2 | 스위치가 VLAN별 MAC table 조회 | MAC address table VLAN |
-| 3 | Trunk 구간에서 802.1Q tag 삽입 | TPID 0x8100 |
-| 4 | 다른 VLAN 목적지는 L3 gateway로 전달 | SVI, ACL hit count |
+| 1 | Access 포트 수신 | 인입된 프레임에 내부적으로 설정된 포트의 VLAN ID(PVID) 부여 |
+| 2 | MAC 테이블 참조 및 포워딩 결정 | 동일 VLAN 내의 MAC 주소만 검색 (서로 다른 VLAN 격리) |
+| 3 | Trunk 포트 출력 (태깅) | 이더넷 프레임에 4바이트 802.1Q 헤더를 강제 삽입하여 전송 |
+| 4 | 대향 스위치 수신 및 출력 | 태그를 읽어 VLAN을 식별하고, 태그 제거(Untagged) 후 Access 포트로 전달 |
 
-> 요약: VLAN은 포트에서 VLAN ID를 부여하고 trunk에서 tag로 보존하며, VLAN 간 통신은 L3에서 제어한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | Access Port | Trunk Port | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| VLAN 수 | 단일 VLAN | 복수 VLAN | VLAN ID 1~4094 |
-| 프레임 처리 | 보통 untagged | 802.1Q tagged | tag 4바이트 |
-| 연결 대상 | PC, 프린터, AP 단말 | 스위치, 라우터, 서버 NIC | allowed VLAN list |
-| 위험 | 잘못된 VLAN 배정 | native VLAN mismatch | DTP 비활성 권장 |
-
-> 요약: Access는 단말용 단일 VLAN, trunk는 장비 간 복수 VLAN 전달이며 tag와 native VLAN 정책이 다르다.
+> 요약: 스위치는 내부적으로 태그를 관리하며, 스위치 밖을 나설 때 트렁크면 태그를 붙이고 액세스면 태그를 떼어 단말을 속임.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅳ. 특징 및 프레임 변화
 
-| 비교 축 | 물리 분리 | VLAN 논리 분리 | 선택 기준 |
+| 구분 | 내용 | 판단 포인트 |
+|:---|:---|:---|
+| 브로드캐스트 제어 | VLAN이 다르면 MAC 테이블 공간 자체가 물리적으로 분리됨 | ARP, DHCP 패킷의 전파 범위 격리 |
+| Inter-VLAN 라우팅 | 서로 다른 VLAN 간 통신은 L3 스위치의 SVI(Switch Virtual Interface)나 라우터를 거쳐야 함 | 논리적 망 간의 접근 제어(ACL) 포인트 |
+| 802.1Q 프레임 구조 | `Dst MAC(6)` + `Src MAC(6)` + **`802.1Q(4)`** + `Type(2)` + `Payload` | 프레임 최대 크기 증가(1518 -> 1522 Byte) |
+
+> 요약: VLAN은 L2 수준의 완벽한 단절을 제공하며, 부서 간 통신이 필요할 때만 L3 장비(라우터)를 통해 통제된 연결을 허용함.
+
+---
+
+## Ⅴ. 심화 비교 및 적용 판단 (VLAN 매핑 방식)
+
+| 비교 축 | Port-based VLAN (정적) | MAC-based VLAN (동적) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | 스위치·케이블 별도 | 동일 인프라에서 VLAN 분리 | 일반 업무망은 VLAN, 고위험망은 물리 분리 |
-| 비용/성능 | 장비 수 증가 | 포트 활용률 증가 | 장애 영향과 규제 기준 비교 |
-| 운영/위험 | 구성 단순 | trunk, ACL, DHCP 보안 필요 | 변경 관리 체계 필요 |
+| 할당 기준 | 스위치의 물리적 포트 번호 | 단말의 고유 MAC 주소 | 이동성 요구 수준 |
+| 장점 | 설정과 직관적 관리가 매우 쉬움 | 사용자가 자리(포트)를 옮겨도 동일 VLAN 유지 | 관리 편의성 vs 단말 이동성 |
+| 단점 | 자리 이동 시 스위치 포트 설정 수동 변경 필요 | VMPS 서버 등 별도 인프라 및 관리 부담 | 운영 오버헤드 |
 
-> 요약: VLAN은 일반 업무 구역 분리에 적합하지만 고위험 구역은 물리 분리와 방화벽 통제를 검토한다.
+> 요약: 기업 환경의 90% 이상은 관리 직관성이 높은 포트 기반 VLAN을 사용하며, 무선(WLAN) 802.1x 인증과 결합 시에만 동적 할당을 제한적으로 사용함.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| VLAN Hopping | native VLAN, DTP 악용 | native VLAN 미사용 대역, DTP off | 비인가 VLAN 통신 0건 |
-| Broadcast 확산 | VLAN 범위 과대 | VLAN 크기 제한, storm-control | broadcast pps |
-| Trunk 오류 | allowed VLAN 누락 | trunk allowed list 표준화 | VLAN mismatch log |
+| VLAN Hopping 공격 | 해커가 가짜 스위치로 위장(DTP 악용)하여 트렁크 포트로 협상 후 타 VLAN 침투 | 스위치 포트의 DTP(Dynamic Trunking Protocol) 비활성화(`switchport nonegotiate`) | 스위치 트렁크 포트 협상 로그 |
+| Native VLAN 악용 | 태그 없는 Native VLAN(기본 1번)을 경유하여 이중 태깅(Double Tagging) 공격 | Native VLAN 번호를 사용하지 않는 더미 번호(예: 999)로 변경 | 미사용 VLAN 트래픽 유입량 |
 
-> 요약: VLAN 리스크는 hopping, broadcast, trunk 오류이며 native VLAN과 allowed list 관리로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| VLAN 배정 | 포트별 업무 VLAN 100% 일치 | switch config audit |
-| Trunk 정책 | 허용 VLAN 목록 문서 일치 | show interface trunk |
-| L3 통제 | VLAN 간 ACL hit 검증 | SVI ACL log |
-
-> 요약: VLAN 운영 품질은 포트 배정, trunk 허용 목록, inter-VLAN ACL로 판단한다.
+> 요약: 스위치의 기본 편의 기능(자동 트렁크 협상, Native VLAN 1번)은 보안 취약점이므로, 명시적인 수동 할당으로 통제해야 함.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 사용자, 서버, 관리, 무선, 음성 VLAN을 분리하고 VLAN ID와 IP subnet을 1:1로 매핑해 운영 문서화함
-2. Trunk는 필요한 VLAN만 allowed list에 포함하고 native VLAN은 사용자 VLAN과 분리된 미사용 대역으로 설정함
-3. Inter-VLAN 통신은 L3 gateway ACL, DHCP snooping, Dynamic ARP Inspection으로 제어함
+1. [보안망 분리] 콜센터 망 구성 시 단일 스위치에서 고객 정보망(VLAN 10)과 일반 인터넷망(VLAN 20)을 포트 기반으로 완전 격리하고, 망 간 L3 통신 라우팅을 차단
+2. [음성/데이터 통합] IP 전화기 도입 시, 단말 연결 포트에 Data VLAN(10)과 Voice VLAN(50)을 동시 할당하여, IP 전화기가 스위치 역할을 하며 트래픽을 분류하도록 구성
+3. [가상화 연동] VMware ESXi 호스트와 연결되는 물리 스위치 포트는 여러 VM의 VLAN을 수용해야 하므로 802.1Q Trunk 포트로 설정하고 `switchport trunk allowed vlan`으로 필요 대역만 허용
 
 **결론 (2줄):**
-- 기술사 판단: 일반 사무망은 VLAN 기반 논리 분리, 규제·고위험 구간은 물리 분리 또는 방화벽 zone 분리를 선택함
-- 향후 방향: NAC, SDN fabric, microsegmentation과 연계해 VLAN 중심 분리를 사용자·애플리케이션 정책 기반으로 확장해야 함
+- 기술사 판단: VLAN은 브로드캐스트 도메인을 논리적으로 쪼개어 성능과 보안을 동시에 해결하는 엔터프라이즈 LAN의 핵심 기반 기술이다.
+- 향후 방향: 최근 멀티 테넌트 클라우드 환경에서는 4,096개라는 802.1Q VLAN ID의 개수 한계를 극복하기 위해, 1,600만 개를 지원하는 L3 기반 오버레이 기술인 VXLAN으로 진화하였다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "VLAN을 설명하시오" | access, trunk, inter-VLAN 흐름 | 포트 모드와 802.1Q 비교 |
-| 요구사항 명시형 | "망 분리 방안을 제시하시오" | VLAN ID, ACL, trunk 정책 | VLAN hopping, broadcast 대응 |
-
-> 요약: VLAN은 설명형이면 tag 처리, 설계형이면 업무 구역 분리와 L3 통제 중심으로 전환한다.
+| 포괄형 | "VLAN의 개념과 프레임 구조를 설명하시오" | 포트/트렁크 간 프레임 이동 및 태깅 과정 | 802.1Q 프레임 구조 (4바이트 위치) |
+| 요구사항 명시형 | "망 분리 방안을 제시하시오", "보안 이슈" | 물리적 망분리 vs 논리적 망분리(VLAN) 비교 | VLAN Hopping 공격 원리와 예방(DTP 차단) |

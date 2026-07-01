@@ -1,6 +1,6 @@
 ---
 title: "MPLS 레이블 스위칭 (MPLS Label Switching)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 16
@@ -8,155 +8,136 @@ weight: 16
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: MPLS를 처음 봐도 IP 주소 대신 레이블로 경로를 바꾸는 이유와 VPN, TE 활용을 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: IP 패킷에 짧은 레이블을 붙여 LSR이 레이블 값으로 전달 경로를 결정하는 스위칭 기술
-- **왜 필요한가**: 라우터가 매 홉마다 긴 IP prefix를 조회하면 서비스별 경로 제어와 VPN 분리가 복잡해진다. MPLS는 FEC 단위로 레이블을 붙여 L3 VPN, Traffic Engineering, QoS 경로를 구현한다.
-- **핵심 직관**: 택배 상자 주소를 매번 읽지 않고, 물류센터가 붙인 색상 라벨만 보고 컨베이어 라인을 바꾸는 방식이다.
+- **개요**: 패킷의 목적지 IP를 일일이 확인하지 않고, 패킷에 붙은 짧은 꼬리표(Label)만 보고 초고속으로 스위칭하는 기술 (L2.5 기술)
+- **왜 필요한가**: 과거 라우터는 IP 주소를 소프트웨어로 검색하느라 속도가 너무 느렸음. 또한 고객별로 트래픽을 분리(VPN)하거나 품질(QoS)을 보장하기 어려웠음
+- **핵심 직관**: 지하철 환승(MPLS)과 같다. 역무원(라우터)에게 매번 "부산 가려면 어디로 가야 해?"(IP 검색) 묻지 않고, 바닥에 그어진 "초록색 선(Label)만 따라가세요" 하면 뇌를 안 거치고 초고속으로 이동할 수 있다.
 
 ## 깊이 이해
-- **배경·문제의식**: 통신사업자 백본은 고객 VPN, 음성, 데이터, 전용회선을 같은 물리망에서 분리해야 한다. MPLS는 IP 라우팅 위에 label switched path를 만들어 고객별 VRF와 경로 정책을 분리한다.
-- **작동 원리**: Edge LSR은 IP prefix를 FEC로 분류하고 label을 push한다. Core LSR은 label swap만 수행한다. Egress LSR은 label을 pop하고 원래 IP 패킷을 목적지로 전달한다.
-- **비유**: 공항 수하물이 최종 주소가 아니라 목적지 코드 태그로 분류되는 방식과 같다.
-- **구체 예시**: MPLS label은 20비트, TC 3비트, S 1비트, TTL 8비트로 구성된다. Ethernet 위 MPLS unicast EtherType은 0x8847이다.
-- **흔한 오해·주의점**: MPLS는 암호화 기술이 아니다. VPN 분리는 label과 VRF 기반 논리 분리이며, 암호화가 필요하면 IPsec, MACsec 등 별도 통제가 필요하다.
+- **배경·문제의식**: IP 라우팅(L3)은 최장 일치 규칙(Longest Prefix Match)이라는 복잡한 연산을 거치며, 최적 경로 한 곳으로만 트래픽이 몰림. 프레임 릴레이/ATM 같은 고속 L2 스위칭의 속도와 IP 라우팅의 유연성을 결합할 기술이 필요해짐.
+- **작동 원리**: 망 입구 라우터(Ingress LER)가 패킷의 IP를 보고 20비트 레이블을 끼워 넣음(Push). 중간 라우터(LSR)들은 IP는 아예 안 보고 레이블 번호만 스왑(Swap)하며 전달함. 출구 라우터(Egress LER)가 레이블을 떼고(Pop) 원래 IP 패킷으로 내보냄.
+- **비유**: 우체국 택배 분류. 입구에서 바코드(레이블)를 붙이면, 중간 물류센터(LSR)는 주소(IP)를 읽지 않고 바코드 스캐너로만 고속 릴레이함.
+- **구체 예시**: SKT 백본망에서 기업 A와 기업 B의 사설 IP 대역이 10.1.1.0/24로 똑같더라도, 서로 다른 VPN 레이블을 부여하여 섞이지 않게 분리 전송함 (MPLS VPN).
+- **흔한 오해·주의점**: 하드웨어 발달로 '속도 향상' 자체는 큰 의미가 없어졌으나, 트래픽 엔지니어링(TE: 원하는 경로로 트래픽 유도)과 L3/L2 VPN 구현 수단으로서 통신사 망의 절대적인 표준 기술임.
 
 ## 연결 개념
-- LDP/RSVP-TE — 레이블 배포와 TE 경로 예약 방식
-- VRF/MPLS L3VPN — 고객별 라우팅 테이블 분리
-- Segment Routing — MPLS label stack 또는 SRv6 SID로 경로를 명시하는 발전 방향
+- MPLS VPN (L3 VPN, L2 VPN)
+- 트래픽 엔지니어링 (MPLS TE, RSVP-TE)
+- 최장 일치 규칙(Longest Prefix Match)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: MPLS 답안은 레이블 push/swap/pop 동작과 FEC, LSP, VPN/TE 적용 판단을 연결해야 한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MPLS(Multiprotocol Label Switching)는 IP 패킷 앞에 label stack을 붙여 LSR이 label 기반으로 전달하는 2.5계층 스위칭 기술이다.
-> 2. **가치**: FEC, LSP, VRF를 이용해 사업자 백본에서 L3VPN, Traffic Engineering, QoS 경로 분리를 구현한다.
-> 3. **판단 포인트**: label 20비트, TTL propagation, MTU 증가, PHP, LDP/RSVP-TE, VRF route leaking을 점검해야 한다.
+> 1. **본질**: L2(데이터링크) 헤더와 L3(IP) 헤더 사이에 32비트 심(Shim) 헤더를 삽입하여 레이블 기반 고속 스위칭을 수행하는 기술
+> 2. **가치**: 통신사 백본망에서 고객별 트래픽 격리(VPN)와 명시적 경로 지정(Traffic Engineering) 기능 제공
+> 3. **판단 포인트**: IP 라우팅(L3)의 복잡성과 ATM(L2)의 고정성을 어떻게 결합했는지(L2.5 구조), Label Push/Swap/Pop 동작 메커니즘
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| MPLS 동작 원리 확인 | push, swap, pop, FEC, LSP | IP 라우팅과 동일하게 서술 |
-| 적용 영역 판단 확인 | L3VPN, TE, QoS, 백본 분리 | MPLS를 암호화 VPN으로 단정 |
-| 운영 리스크 이해 확인 | MTU, label 고갈, LSP 장애 | TTL, PHP, OAM 누락 |
+| 라우팅 속도 한계 극복 및 통신사 차세대 백본 기술 이해 | MPLS 헤더(Label, Exp, S, TTL) 구조, LER/LSR 역할 분담, LDP 프로토콜 | 단순히 '속도가 빠르다'로만 서술 (현대는 하드웨어 발전으로 TE와 VPN 목적이 더 큼을 명시) |
 
-> 요약: MPLS는 label 기반 전달 원리와 VPN/TE 적용 조건, MTU·OAM 리스크를 함께 써야 한다.
+> 요약: MPLS 헤더의 구조와 레이블 스위치 경로(LSP) 형성 과정을 서술하고, VPN과 TE 응용 분야를 제시해야 함.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: IP 패킷에 레이블을 부여해 label 기반으로 전달하는 2.5계층 스위칭 기술
-- 배경: IP prefix 조회와 서비스별 정책을 분리해 고객 VPN과 트래픽 엔지니어링을 구현해야 함
-- 필요성: 대규모 백본은 LSP와 VRF 단위로 경로·고객·품질을 통제해야 함
+- 정의: IP 패킷에 고정 길이의 레이블을 부여하고, 라우터가 레이블 매핑 테이블만 참조하여 고속 포워딩을 수행하는 L2.5 기술
+- 배경: 기존 IP 라우팅의 홉 바이 홉(Hop-by-hop) 검색 오버헤드와 혼잡 경로 트래픽 집중 문제 심화
+- 필요성: 다양한 L2 매체(Ethernet, SONET) 위에서 프로토콜 독립적으로 동작하며 QoS와 트래픽 엔지니어링을 지원하는 통합 전송 인프라 필요
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Customer Edge -> Provider Edge Push Label -> Core LSR Swap
-  / FEC
-  / LSP
-  / Label Stack
-Provider Edge Pop Label -> Customer Network
+[L2 헤더 (Ethernet)] | [MPLS Header (32bit)] | [L3 헤더 (IP)] | [Payload]
+                       + Label (20) / Exp (3) / S (1) / TTL (8)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| FEC | 동일 전달 처리를 받는 패킷 집합 | prefix, VPN, QoS 기준 |
-| LER/PE | label push/pop 수행 | 고객망과 MPLS망 경계 |
-| LSR/P Router | label swap 수행 | core에서 IP lookup 최소화 |
-| LSP | label switched path | LDP 또는 RSVP-TE로 구성 |
+| LER (Label Edge Router) | MPLS 망의 진입/진출점, IP 검사 후 레이블 부여(Push) 또는 제거(Pop) | IP 라우팅 테이블(FIB) 참조 |
+| LSR (Label Switch Router) | MPLS 망 내부 라우터, 레이블만 보고 스왑(Swap) 포워딩 | LFIB (Label FIB) 100% 하드웨어 스위칭 |
+| LDP (Label Distribution Protocol) | 라우터 간 레이블 바인딩 정보를 분배하고 LSP를 형성하는 컨트롤 프로토콜 | OSPF/IS-IS 등 IGP와 연동됨 |
+| LSP (Label Switched Path) | 레이블에 의해 미리 확립된 단방향 전송 경로 | 목적지 지향적 가상 회선 |
 
-> 요약: MPLS 구조는 Ingress PE가 label push, P가 label swap, Egress PE가 label pop하는 경계-코어 모델이다.
+> 요약: LER이 IP를 식별해 레이블을 붙이면, 망 내부의 LSR은 레이블 포워딩(LFIB)만 수행하여 속도를 극대화함.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Packet Ingress -> FEC Classification -> Label Push
-  -> Label Swap per LSR -> Penultimate Hop Pop or Egress Pop
-  -> IP Forwarding to Destination
+IP 패킷 유입 -> Ingress LER (Label Push) -> 중간 LSR 1, 2 (Label Swap) -> Egress LER 앞 (Label Pop) -> IP 패킷 유출
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+| 단계 | 처리 내용 | 동작 명칭 |
 |:---:|:---|:---|
-| 1 | PE가 IP prefix, VRF, QoS로 FEC 분류 | LFIB entry 존재 |
-| 2 | MPLS label stack 부여 | label 20비트, TTL 8비트 |
-| 3 | Core LSR이 label swap 수행 | LSP next-hop 일치 |
-| 4 | Egress에서 label pop 후 IP 전달 | ping mpls, traceroute mpls |
+| 1 | 망 진입 시 목적지 IP 확인 및 레이블 할당 | Push (Insert Label) |
+| 2 | 망 내부 통과 시 레이블 값 변경(매핑 테이블 참조) | Swap (Change Label) |
+| 3 | 출구 전 라우터(Penultimate Hop)에서 레이블 제거 | PHP (Penultimate Hop Popping) |
+| 4 | 출구 라우터에서 순수 IP 패킷으로 외부 라우팅 | Pop (Remove Label) |
 
-> 요약: MPLS는 ingress 분류, label push, core swap, egress pop 순서로 IP 전달 경로를 제어한다.
+> 요약: Ingress에서 Push, 코어에서 Swap, Egress 직전 PHP를 통해 레이블을 떼어내 Egress 라우터의 부하(레이블 확인 후 다시 IP 검색)를 이중으로 줄임.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 주요 적용 응용 기술 (특징)
 
-| 구분 | MPLS | 순수 IP 라우팅 | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 전달 기준 | label lookup | longest prefix match | label 20비트 |
-| 서비스 분리 | VRF, label stack | ACL, VRF-lite | EtherType 0x8847 |
-| 경로 제어 | RSVP-TE, SR-MPLS | IGP metric 중심 | explicit path 가능 |
-| 패킷 영향 | label당 4바이트 추가 | IP 헤더만 사용 | MTU 여유 필요 |
+| 구분 | 기술 내용 | 판단 포인트 |
+|:---|:---|:---|
+| MPLS TE (Traffic Engineering) | 최단 경로를 무시하고 RSVP-TE로 혼잡이 없는 우회 LSP를 명시적 강제 할당 | 망 내 대역폭 활용률 극대화, SLA 준수 |
+| MPLS L3 VPN | VRF(Virtual Routing)와 BGP를 결합하여 여러 고객의 중복 IP 대역을 분리 | 기업 전용선(Leased Line) 대체 및 보안성 |
+| MPLS L2 VPN (VPLS) | 여러 지사를 마치 하나의 큰 이더넷 스위치(VLAN)에 묶인 것처럼 투명하게 연결 | 브로드캐스트 패킷 전송 및 L2 투명성 보장 |
 
-> 요약: MPLS는 IP 라우팅 위에서 label 기반 서비스 분리와 경로 제어를 제공하지만 MTU 증가를 반영해야 한다.
+> 요약: MPLS는 단순 고속 전송을 넘어, 물리적 망 하나를 논리적으로 쪼개어(VPN) 최적의 경로로 유도(TE)하는 캐리어 인프라의 핵심임.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | LDP 기반 MPLS | RSVP-TE/SR-MPLS | 선택 기준 |
+| 비교 축 | 전통적 IP 라우팅 (L3) | MPLS 라우팅 (L2.5) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | IGP 경로를 따라 label 배포 | 명시 경로 또는 segment 지정 | 단순 VPN은 LDP, TE는 RSVP-TE/SR |
-| 비용/성능 | 설정 부담 낮음 | 정책·상태 관리 증가 | 회선 사용률 70% 기준 |
-| 운영/위험 | IGP 장애 영향 | 경로 정책 오류 가능 | OAM과 path validation 필수 |
+| 검색/포워딩 | 목적지 IP, 최장 일치(Longest Match) | 20비트 고정 레이블, Exact Match | 하드웨어 스위칭 속도 |
+| 경로 제어 | IGP Metric에 의한 단일 최적 경로 고정 | LDP/RSVP를 이용한 다중 터널/우회 경로 | 혼잡 구간 회피 및 대역폭 분산 |
+| 고객 분리 | 터널링(GRE/IPsec) 별도 구성 필요 | VPN Label을 통한 본원적 격리 지원 | 통신사 고객 분리 유연성 |
 
-> 요약: 일반 L3VPN은 LDP, 특정 회선 우회와 TE가 필요하면 RSVP-TE 또는 Segment Routing을 선택한다.
+> 요약: 엔터프라이즈 내부는 IP 라우팅으로 충분하나, 수백만 고객 트래픽을 처리하는 ISP/통신사 백본은 MPLS TE/VPN 도입이 필수적임.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| MTU 초과 | label stack 4바이트 이상 추가 | core MTU 1500 초과 설계, PMTUD | fragmentation, drop count |
-| LSP 단절 | LDP neighbor 장애 | LDP sync, BFD, FRR | LSP up/down event |
-| VPN 혼선 | VRF route leaking 오류 | RT/RD 정책 검토 | 잘못된 prefix 유입 0건 |
+| 블랙홀 현상 | LDP와 IGP(OSPF) 간 수렴 속도 불일치로 라우팅은 우회했으나 LSP가 미형성 | LDP-IGP Synchronization 기능 활성화 | 패킷 손실률, LDP 세션 상태 |
+| 링크 단절 장애 | 단일 LSP 경로 중간의 광케이블 단선 | MPLS FRR (Fast Reroute) 50ms 이내 절체 우회 | 절체 지연 시간(ms) |
 
-> 요약: MPLS 리스크는 MTU, LSP 단절, VRF 혼선이며 OAM과 정책 점검으로 제어한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| LSP 상태 | 핵심 LSP 100% up | mpls lsp ping |
-| MTU | label stack 포함 무손실 전달 | DF ping, PMTUD |
-| VPN 분리 | VRF 간 비인가 route 0건 | route-target audit |
-
-> 요약: MPLS 운영 품질은 LSP 상태, MTU 여유, VRF 분리 정확성으로 판단한다.
+> 요약: LDP 프로토콜과 기반 라우팅(IGP) 간의 상태 불일치를 막기 위한 동기화 메커니즘과 FRR 구성이 서비스 안정성의 핵심임.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. MPLS 코어 MTU는 label stack과 서비스 헤더를 고려해 1500바이트보다 큰 jumbo MTU로 설계함
-2. L3VPN은 고객별 VRF, RD, RT를 분리하고 route-target import/export 정책을 변경 승인 대상으로 관리함
-3. 백본 장애 대응은 MPLS OAM, BFD, Fast Reroute로 LSP 단절 시간을 목표 범위 내로 줄임
+1. [기업 통신망] 전국망을 가진 기업은 통신사의 MPLS L3 VPN 서비스를 구독하여, 사설 IP 변경 없이 지사 간 보안 터널을 확보 (IPsec 암호화 오버헤드 절감)
+2. [장애 복구] 백본 코어 라우터 간 RSVP-TE 기반의 MPLS Fast Reroute(FRR) 터널을 사전 구성하여, 링크 다운 시 50ms 이내에 즉각 우회 경로로 트래픽 절체
+3. [망 분리] 클라우드 환경 접속용 VRF와 내부 행정망 VRF를 단일 물리 라우터 상에서 MPLS VPN 구조로 논리적 분리 구성
 
 **결론 (2줄):**
-- 기술사 판단: 고객 VPN과 TE가 필요한 사업자·대기업 백본은 MPLS, 단순 인터넷 edge는 IP 라우팅과 VRF-lite를 선택함
-- 향후 방향: SR-MPLS와 SRv6로 label distribution 상태를 줄이고 intent 기반 경로 검증을 적용해야 함
+- 기술사 판단: 최근 실리콘(ASIC) 성능 향상으로 IP 라우팅 자체도 선속도(Line-rate)를 지원하나, MPLS가 제공하는 L3 VPN과 Traffic Engineering 역량은 여전히 통신사 망에서 대체 불가하다.
+- 향후 방향: 최근 클라우드 네이티브 환경에서는 복잡한 MPLS 대신 IPv6 헤더를 확장 활용하는 SRv6(Segment Routing over IPv6)로 통신사 백본 구조가 단순화/진화하고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "MPLS를 설명하시오" | push, swap, pop 흐름 | MPLS와 IP 라우팅 비교 |
-| 요구사항 명시형 | "VPN 백본 설계 방안을 제시하시오" | VRF, LSP, MTU 검증 | LDP/TE 선택, 리스크 대응 |
-
-> 요약: MPLS는 설명형이면 레이블 동작, 설계형이면 VRF·MTU·OAM 중심으로 목차를 전환한다.
+| 포괄형 | "MPLS의 개념과 동작절차를 설명하시오" | Label Push/Swap/Pop 동작 과정 | LER, LSR, LDP 등 구성 요소 |
+| 요구사항 명시형 | "MPLS VPN을 설계하시오", "트래픽 제어(TE) 방안" | VRF와 BGP 레이블 분배 메커니즘 | RSVP-TE의 명시적 경로 제어와 FRR |

@@ -1,6 +1,6 @@
 ---
 title: "TCP 혼잡 제어 — AIMD·Slow Start (TCP Congestion Control)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 29
@@ -8,159 +8,148 @@ weight: 29
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: TCP 혼잡 제어를 처음 봐도 cwnd가 왜 천천히 또는 급격히 변하고 AIMD가 왜 필요한지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 혼잡 제어의 4단계 알고리즘과 네트워크 병목 현상을 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **개요**: TCP 송신자가 네트워크 경로의 혼잡 상태를 추정해 전송량(cwnd)을 조절하는 알고리즘
-- **왜 필요한가**: 여러 송신자가 동시에 패킷을 밀어 넣으면 라우터 큐가 넘치고 packet loss와 RTO가 발생한다. 혼잡 제어는 네트워크 경로가 처리 가능한 수준으로 전송량을 조정한다.
-- **핵심 직관**: 도로에 차를 조금씩 늘려 보내다가 정체 신호가 보이면 차로 투입량을 줄이는 방식이다.
+- **개요**: 네트워크 회선(라우터)이 처리할 수 있는 양을 초과하여 패킷 유실이 발생하는 '혼잡(Congestion)'을 막기 위해 송신측의 데이터 전송량을 통제하는 기법
+- **왜 필요한가**: 수신측 버퍼가 넉넉해도(흐름 제어 OK), 그 사이를 잇는 고속도로(네트워크 라우터)가 꽉 막히면 패킷이 폐기되므로, 전체 망의 붕괴(Congestion Collapse)를 막아야 함
+- **핵심 직관**: 명절 고속도로 진입 램프 신호등. 차가 잘 달리면 서서히 더 진입시키고(Slow Start), 막혀서 빵빵거리면 즉시 진입량을 반으로 팍 줄인다(AIMD).
 
 ## 깊이 이해
-- **배경·문제의식**: 흐름 제어가 수신자 버퍼를 보호한다면 혼잡 제어는 네트워크 경로를 보호한다. TCP는 명시적 대역폭 예약 없이 loss, duplicate ACK, RTT 증가를 보고 혼잡을 추정한다.
-- **작동 원리**: Slow Start는 cwnd를 ACK마다 증가시켜 RTT마다 대략 2배로 키운다. ssthresh에 도달하면 Congestion Avoidance로 전환하고 AIMD에 따라 additive increase, multiplicative decrease를 수행한다. loss가 발생하면 cwnd를 줄이고 재전송한다.
-- **비유**: 처음 가는 도로에서 차를 1대, 2대, 4대씩 보내며 수용량을 찾다가 막히면 절반으로 줄이고 다시 조금씩 늘리는 과정이다.
-- **구체 예시**: cwnd가 1 MSS에서 시작해 RTT마다 2, 4, 8, 16 MSS로 증가하다가 loss가 발생하면 ssthresh를 8 MSS로 낮추고 cwnd를 조정한다.
-- **흔한 오해·주의점**: 혼잡 제어는 수신자 window만 키운다고 해결되지 않는다. 실제 송신량은 `min(rwnd, cwnd)`이고, loss·RTT·RTO가 cwnd를 제한한다.
+- **배경·문제의식**: 1980년대 인터넷 마비 사태. 각 단말이 내 수신자만 보고 데이터를 쏟아붓자 라우터 큐가 넘쳐 패킷이 버려지고, 이에 단말들이 "아! 패킷이 안 갔네? 다시 쏴!" 하며 재전송 폭주를 일으켜 전체 통신이 멈추는 악순환이 발생함.
+- **작동 원리**: 송신자는 자신이 파악한 네트워크 상태 한계치인 `cwnd (Congestion Window)`를 관리한다. 
+  - **Slow Start (합의점 찾기)**: 처음엔 1개, 2개, 4개(지수 증가)로 빠르게 쏘며 한계를 찾는다.
+  - **Congestion Avoidance (조심하기)**: 특정 임계치(ssthresh)에 도달하면 선형으로(1개씩) 살살 늘린다 (AIMD의 Additive Increase).
+  - **혼잡 발생 감지**: 타임아웃(응답 없음)이나 3 Duplicate ACK(중복 응답 수신)로 패킷 유실을 감지한다.
+  - **혼잡 대처**: 꽉 막혔다 판단되면 윈도우 크기를 절반(또는 1)으로 대폭 줄여 전송을 억제한다 (AIMD의 Multiplicative Decrease).
+- **비유**: 뜨거운 물에 손 넣기. 처음엔 확 넣다가(Slow Start) 따뜻해지면 아주 조금씩 더 넣고(Avoidance), 데일 것 같으면 확 뺀다(Decrease).
+- **구체 예시**: 윈도우(cwnd)가 16일 때 패킷 유실 발생 -> 임계치(ssthresh)를 8(절반)로 낮추고 cwnd를 1(Tahoe 방식)이나 8(Reno 방식)로 뚝 떨어뜨려 혼잡 회피.
+- **흔한 오해·주의점**: "Slow Start니까 진짜 느린 거다?" 아니다. 2의 지수승(1, 2, 4, 8..)으로 증가하기 때문에 초반에 대역폭을 매우 '빠르게' 점유하는 기법이다. 시작점(1)이 작을 뿐 속도는 폭발적으로 늘어난다.
 
 ## 연결 개념
-- TCP 흐름 제어 — rwnd로 수신 버퍼를 보호
-- RTO·재전송 — loss 감지와 복구 지표
-- BBR·CUBIC — 현대 TCP 혼잡 제어 알고리즘
+- 흐름 제어 (Flow Control) — 단말 간 버퍼 크기 제어 (rwnd). TCP 실제 윈도우 = MIN(rwnd, cwnd)
+- 3-Duplicate ACK — 타임아웃 전에 빠르게 유실을 알아채는 신호 (Fast Retransmit 유발)
+- TCP BBR — 패킷 손실이 아니라 RTT 지연을 기준으로 혼잡을 판단하는 구글의 최신 알고리즘
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: TCP 혼잡 제어 답안은 cwnd, ssthresh, Slow Start, AIMD, Fast Retransmit, RTO를 상태 전이와 지표로 써야 한다.
+> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TCP 혼잡 제어는 packet loss와 ACK 패턴을 근거로 congestion window(cwnd)를 조절해 네트워크 경로 혼잡을 완화하는 기능이다.
-> 2. **가치**: 송신자가 경로 수용량을 탐색하고 loss 발생 시 전송량을 줄여 라우터 큐 overflow와 재전송 폭증을 억제한다.
-> 3. **판단 포인트**: Slow Start는 지수 증가, AIMD는 선형 증가·곱셈 감소, 실제 전송량은 `min(rwnd, cwnd)`이다.
+> 1. **본질**: TCP 혼잡 제어는 송신측이 네트워크 중간 라우터의 큐 오버플로우로 인한 패킷 손실(Congestion)을 감지하고, 송신 윈도우(cwnd) 크기를 자율 조절하는 알고리즘이다.
+> 2. **가치**: 글로벌 네트워크의 붕괴(Congestion Collapse)를 방지하고, 다수의 TCP 세션 간 대역폭 점유를 공평하게(Fairness) 유지한다.
+> 3. **판단 포인트**: 전통적 손실 기반(Loss-based: Reno, CUBIC) 제어는 버퍼블로트(Bufferbloat) 문제를 낳았으며, 이를 RTT 기반(BBR) 기법으로 전환하여 고속망 지연을 해결하는 것이 최신 동향이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 혼잡 제어 원리 확인 | cwnd, ssthresh, Slow Start, AIMD | 흐름 제어 rwnd와 혼동 |
-| loss 복구 이해 확인 | duplicate ACK, Fast Retransmit, RTO | loss 발생 후 cwnd 변화 누락 |
-| 성능 분석 역량 확인 | RTT, packet loss, throughput, BDP | 대역폭만 보고 판단 |
+| 혼잡 제어 4단계 상태 전이 이해 | Slow Start, Congestion Avoidance, Fast Retransmit, Fast Recovery | 흐름 제어(수신 버퍼 한계)와 혼잡 제어(회선 병목) 혼용 서술 |
+| AIMD 원리 및 제어 임계치 파악 | 지수적 증가 후 선형 증가(AI) 전환, 손실 시 지수적 감소(MD), ssthresh | Slow Start를 "서서히 느리게 증가한다"고 오답 기재 |
+| 알고리즘 진화 및 최신 동향 역량 | Tahoe -> Reno -> CUBIC(Linux 기본) -> BBR(Google) 발전 | TCP BBR 등 딜레이 기반 튜닝 최신 트렌드 누락 |
 
-> 요약: 이 문제는 cwnd 변화와 loss 대응을 상태 전이로 설명하고 흐름 제어와 구분해야 한다.
+> 요약: 혼잡 윈도우(cwnd)의 톱니바퀴형(Saw-tooth) 그래프 변화를 4단계(Slow Start ~ Recovery)와 연결하여 정확히 시각화·설명해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 송신자가 네트워크 경로 혼잡을 추정해 cwnd로 송신량을 조절하는 기능
-- 배경: 송신자가 cwnd와 ssthresh를 기준으로 Slow Start, Congestion Avoidance, Fast Recovery 상태를 전이함
-- 필요성: packet loss, RTO, RTT 증가가 발생하는 WAN·인터넷 서비스에서 성능을 좌우하는 핵심 요인임
+- 정의: 송신측이 네트워크 처리 상태를 유추하여, 패킷 폐기가 발생하지 않도록 혼잡 윈도우(cwnd, Congestion Window) 크기를 동적 조절하는 제어 기법
+- 배경: 독립된 수많은 노드가 각자의 최대 대역폭으로 전송 시 라우터 큐 포화로 패킷 손실 및 재전송 폭주(망 붕괴) 발생
+- 필요성: 네트워크 인프라 보호 및 공유 대역폭의 형평성(Fairness)을 보장하며, 최종 전송량은 `MIN(수신 윈도우 rwnd, 혼잡 윈도우 cwnd)`로 결정
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 구조 및 구성요소 (제어 변수)
 
 ```text
-Sender -> cwnd Control
-  / Slow Start
-  / Congestion Avoidance
-  / Fast Retransmit
-  / Fast Recovery
-Network Path -> ACK/Loss/RTT Signal -> cwnd Update
+송신량 결정 구조: Send Window = MIN ( rwnd(흐름 제어 피드백), cwnd(혼잡 제어 추정치) )
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소 | 기능 설명 | 특이사항 |
 |:---|:---|:---|
-| cwnd | 네트워크 기준 송신 허용량 | sender 내부 변수 |
-| ssthresh | Slow Start와 회피 구간 경계 | loss 시 조정 |
-| ACK/Dup ACK | 전송 성공과 손실 신호 | 3 duplicate ACK 기준 |
-| RTO | ACK 미수신 timeout | 재전송과 cwnd 감소 |
-| MSS | cwnd 증가 단위 | TCP option으로 협상 |
+| cwnd (Congestion Window) | 송신측이 추정한 네트워크가 처리 가능한 최대 전송량 | 혼잡 발생 시 절반(또는 1)으로 급감 |
+| ssthresh (Slow Start Threshold) | 지수적 증가(Slow Start)를 멈추고 선형 증가(Avoidance)로 전환하는 임계점 | 초기엔 최대치, 혼잡 발생 시 절반으로 갱신 |
+| Timeout (RTO) | 송신 후 정해진 시간 내 응답(ACK) 없음 (심각한 혼잡) | cwnd를 즉시 1로 초기화 (치명적 성능 저하) |
+| 3-Dup ACK | 타임아웃 전, 동일 ACK 3번 중복 수신 (경미한 혼잡/부분 유실) | Fast Retransmit / Fast Recovery 트리거 |
 
-> 요약: 혼잡 제어는 cwnd, ssthresh, ACK/loss 신호, RTO, MSS를 이용해 송신량을 조절한다.
+> 요약: 송신측은 네트워크가 명시적으로 상태를 안 알려주므로, 패킷 유실(Timeout/3-Dup ACK) 여부로 cwnd 임계점(ssthresh)을 자율 탐색한다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 흐름도 (4단계 상태 전이)
 
 ```text
-Connection Start -> Slow Start cwnd Exponential Increase
-  -> ssthresh Reach -> Congestion Avoidance AIMD
-  -> Loss Detect -> cwnd Reduce
-  -> Retransmit -> Recovery
+[상태 변화 흐름: TCP Reno 기준]
+cwnd=1 -> (Slow Start: 지수 증가) -> ssthresh 도달 -> (Congestion Avoidance: 선형 증가)
+  |-- [3 Dup ACK 발생] -> (Fast Retransmit & Recovery) -> ssthresh 반토막, cwnd 반토막 -> 선형 증가
+  |-- [Timeout 발생] -> ssthresh 반토막, cwnd=1 초기화 -> Slow Start 재시작
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+| 단계 | 제어 기법 | cwnd 윈도우 변화 동작 |
 |:---:|:---|:---|
-| 1 | 초기 cwnd에서 Slow Start 시작 | cwnd per RTT 증가 |
-| 2 | ACK 수신마다 cwnd 증가, ssthresh까지 탐색 | throughput ramp-up |
-| 3 | Congestion Avoidance에서 additive increase | cwnd linear growth |
-| 4 | dup ACK 3회 loss는 ssthresh=cwnd/2로 multiplicative decrease(cwnd=ssthresh), RTO timeout은 cwnd를 1 MSS로 초기화 후 Slow Start 재시작 | packet loss, RTO count |
-| 5 | Fast Retransmit/Recovery로 손실 segment 복구 | duplicate ACK count |
+| 1 | 느린 시작 (Slow Start) | 1 MSS로 시작, 매 ACK 수신 시 윈도우 크기를 2배씩 지수적(Exponential) 증가 |
+| 2 | 혼잡 회피 (Congestion Avoidance) | ssthresh 초과 시, RTT당 1 MSS씩 선형적(Additive) 증가 (AIMD의 AI) |
+| 3 | 빠른 재전송 (Fast Retransmit) | 3-Dup ACK 수신 시 타임아웃(RTO) 기다리지 않고 해당 패킷 즉시 재전송 |
+| 4 | 빠른 회복 (Fast Recovery) | 3-Dup ACK 시 cwnd를 1로 안 내리고 절반으로 줄여 선형 증가(AIMD의 MD) 재개 |
 
-> 요약: TCP는 Slow Start로 경로 용량을 탐색하고, AIMD로 혼잡 발생 시 cwnd를 줄인 뒤 회복한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | Slow Start | AIMD/Congestion Avoidance | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 증가 방식 | RTT마다 cwnd 대략 2배 | RTT마다 선형 증가 | cwnd, MSS |
-| 적용 시점 | 연결 시작, timeout 후 | ssthresh 이후 | ssthresh |
-| 손실 대응 | timeout 시 cwnd 초기화 가능 | loss 시 cwnd 감소 | RTO, dup ACK |
-| 장점·한계 | ramp-up 시간 단축 | 공정성 확보 | long fat network BDP |
-
-> 요약: Slow Start는 초기 탐색, AIMD는 공정한 장기 전송을 위한 cwnd 조절 방식이다.
+> 요약: 타임아웃은 회선 단절 수준으로 간주해 바닥(1)부터 재시작하고, 3-Dup ACK는 덜 붐비는 것으로 간주해 절반에서 선형 재시작(Reno)한다.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅳ. 주요 특징 (AIMD 원리 및 알고리즘 진화)
 
-| 비교 축 | Reno/NewReno | CUBIC/BBR | 선택 기준 |
+| 발전 단계 | 알고리즘 명 | 혼잡 통제(감소) 핵심 메커니즘 | 판단 포인트 |
 |:---|:---|:---|:---|
-| 구조 | loss 기반 AIMD | CUBIC은 cubic 함수, BBR은 bandwidth/RTT 추정 | Linux 기본 CUBIC, 지연 민감 서비스는 BBR 검토 |
-| 비용/성능 | loss로 혼잡 판단 | 고 BDP 경로에서 throughput 확보 | RTT, loss, fairness 기준 |
-| 운영/위험 | high loss 환경에서 throughput 감소 | BBR 공정성 논쟁, bufferbloat | A/B test와 SLO 측정 |
+| 1세대 | TCP Tahoe | 3-Dup ACK나 Timeout 모두 cwnd를 1로 하락 (Slow Start 재개) | 치명적인 처리량(Throughput) 저하 발생 |
+| 2세대 | TCP Reno | 3-Dup ACK 발생 시 빠른 회복(Fast Recovery) 적용, cwnd 절반 감소 | 범용 표준, Saw-tooth(톱니) 형태 트래픽 생성 |
+| 3세대 | TCP CUBIC | cwnd 증가 곡선을 3차 함수(Cubic)로 부드럽게 조정, 고속망에 최적화 | 현대 Linux/Android 커널의 기본값 |
 
-> 요약: 알고리즘 선택은 OS 기본값보다 RTT, packet loss, fairness, SLO 측정 결과로 판단해야 한다.
+> 요약: 혼잡 제어의 진화는 "유실 감지 시 전송량을 어떻게 떨어뜨리고, 얼마나 빨리 기존 속도로 복구할 것인가"를 최적화하는 과정이다.
+
+---
+
+## Ⅴ. 심화 비교 및 적용 판단 (손실 기반 vs 지연 기반)
+
+| 비교 축 | 손실 기반 제어 (Loss-based: Reno/CUBIC) | 지연 기반 제어 (Delay-based: TCP BBR) | 선택 기준 |
+|:---|:---|:---|:---|
+| 혼잡 판단 기준 | 큐 포화로 인한 '패킷 유실(Drop)' 발생 시 | 큐 대기로 인한 'RTT 지연(Delay)' 증가 시 | 딥 버퍼 스위치 사용 환경 여부 |
+| Bufferbloat 대응 | 라우터 버퍼가 꽉 찰 때까지 계속 증속하여 지연 최악 | 큐가 쌓이기 직전의 대역폭(BDP) 추정하여 전송 유지 | 실시간 스트리밍, 클라우드 트래픽 |
+| 공평성 (Fairness) | RTT가 짧은 플로우가 대역폭 불공정 독점 | 주기적 탐색으로 대역폭 셰이핑, 병목 대역폭 최적 할당 | 글로벌 CDN, 롱 팻 네트워크(LFN) |
+
+> 요약: CUBIC은 라우터 버퍼를 가득 채워 지연(버퍼블로트)을 유발하는 태생적 한계가 있어, Google은 지연 기반의 BBR로 유튜브 체감 속도를 혁신했다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| Throughput 저하 | loss와 RTO로 cwnd 감소 | 경로 품질 개선, ECN, CUBIC/BBR 검토 | packet loss rate, cwnd |
-| Bufferbloat | 큐 과다로 RTT 증가 | AQM, CoDel, pacing | RTT p95, queue delay |
-| 공정성 문제 | 알고리즘 혼재 | per-flow limit, QoS | flow throughput variance |
+| TCP Global Synchronization | 라우터 Tail Drop 시 수많은 TCP 세션이 동시 cwnd 반토막 및 일제 재전송 | 라우터 단에 RED(Random Early Detection) 알고리즘 적용 | 네트워크 대역폭 Utilization 톱니파 동기화 현상 |
+| Bufferbloat 현상 | 딥 버퍼 스위치가 패킷 유실을 막고 대기시켜 극도의 RTT 지연 유발 | BBR 혼잡 제어 알고리즘 전환, fq_codel 큐잉 튜닝 | P99 Latency 급증 여부 |
 
-> 요약: 혼잡 제어 리스크는 loss, 큐 지연, 알고리즘 공정성으로 나누어 관리한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 손실률 | packet loss 0.1% 이하 목표 | pcap, NetFlow, synthetic test |
-| 지연 | RTT p95 기준선 유지 | ping, TCP timestamp, APM |
-| 전송량 | BDP 대비 throughput 목표 충족 | iperf, OS tcp_info |
-
-> 요약: 혼잡 제어 성과는 packet loss, RTT p95, BDP 대비 throughput으로 검증한다.
+> 요약: 혼잡 제어는 단말(TCP) 알고리즘 튜닝과 인프라(라우터 RED/AQM)의 큐 관리가 상호 보완되어야 전체 효율이 최적화된다.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. WAN 전송 성능 분석 시 OS `tcp_info`, pcap, iperf로 cwnd, RTT, retransmission, RTO를 함께 수집함
-2. 고 RTT·고 대역폭 구간은 BDP를 계산하고 CUBIC, BBR, pacing, ECN 적용 효과를 A/B test로 검증함
-3. packet loss가 있는 회선은 QoS, AQM, 회선 오류율, duplex mismatch를 점검하고 애플리케이션 retry와 구분함
+**적용 방안 3개:**
+1. 커널 기본 알고리즘 튜닝: 리눅스 서버에서 BDP가 큰 고속/장거리 구간(CDN, 해외망) 통신 시, 혼잡 제어 알고리즘을 기본 CUBIC에서 `tcp_bbr`로 전환하여 RTT 지연 최소화 및 대역폭 효율 극대화
+2. 라우터 인프라 최적화: 네트워크 장비 큐 꼬리에 병목이 쌓이는 현상(Tail Drop)을 막기 위해 RED(Random Early Detection)를 적용하여 TCP의 동기적 대규모 패킷 재전송(Global Synchronization) 억제
+3. 맞춤형 Init cwnd 설정: 1 MSS로 시작하는 Slow Start 초반 지연을 극복하기 위해 프론트엔드 웹 서버의 `initcwnd`를 10 이상(약 14KB)으로 튜닝하여 1-RTT 내에 초기 화면 렌더링 완료 유도
 
 **결론 (2줄):**
-- 기술사 판단: rwnd가 충분해도 cwnd가 작으면 혼잡 제어가 병목이며 loss·RTT·RTO를 우선 확인함
-- 향후 방향: QUIC, BBR, ECN, AQM 기반으로 손실 중심 제어에서 지연·대역폭 추정 중심 제어로 확장됨
+- 기술사 판단: TCP 혼잡 제어는 이기적인 단말들의 자율적 대역폭 공정 분배 메커니즘이며, "어떻게 패킷을 유실 없이 꽉 채워 보낼까"라는 설계 사상이 담겨 있다.
+- 향후 방향: 현대망에서는 전통적인 손실 기반(CUBIC)의 버퍼블로트 리스크를 피하기 위해 딜레이 기반(BBR) 기법과 머신러닝 기반 대역폭 추정 알고리즘으로 발전 중이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ/Ⅴ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "TCP 혼잡 제어를 설명하시오" | Slow Start, AIMD, loss 복구 흐름 | 흐름 제어와 혼잡 제어 차이 |
-| 요구사항 명시형 | "WAN 성능 개선 방안을 제시하시오" | cwnd, RTT, RTO, BDP 분석 | CUBIC/BBR, AQM, ECN 적용 기준 |
+| 설명형 | "TCP 혼잡 제어 4단계를 설명하시오" | Slow Start ~ Fast Recovery의 cwnd/ssthresh 상태 전이 곡선 | 3-Dup ACK와 Timeout의 처벌(감소) 강도 차이 |
+| 비교형 | "TCP Tahoe, Reno, CUBIC 비교" | Fast Recovery 유무 및 증가 곡선(선형 vs 3차 함수) 차이 | 고속 롱-팻(LFN) 망에서의 대역폭 회복 속도 트레이드오프 |
+| 트렌드형| "Bufferbloat 문제와 혼잡 제어 최신 동향" | 딥 버퍼 라우터에 패킷이 쌓여 핑(Ping)이 치솟는 구조 | 손실 기반(CUBIC) 한계와 지연 기반(BBR) 대응 아키텍처 |
 
-> 요약: 설명형은 cwnd 변화, 방안형은 손실·지연 지표와 알고리즘 선택 기준 중심으로 전환한다.
+> 요약: 상태 전이 설명(기본)에 그치지 않고, Bufferbloat 극복을 위한 BBR 알고리즘 도입을 5/6단락에 배치하면 차별화된 고득점이 가능하다.

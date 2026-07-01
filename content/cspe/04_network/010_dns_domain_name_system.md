@@ -1,6 +1,6 @@
 ---
 title: "DNS 구조·동작 (DNS Domain Name System)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 10
@@ -8,157 +8,146 @@ weight: 10
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: DNS를 이름을 IP 주소로 바꾸는 전역 분산 데이터베이스로 이해하게 만든다. 시험 답안 양식이 아니라, 질의 흐름과 캐시의 의미를 설명한다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: DNS는 도메인 이름을 IP 주소와 서비스 정보로 변환하는 계층형 분산 시스템이다.
-- **왜 필요한가**: 사용자는 IP 주소보다 이름을 사용하고, 서비스 운영자는 IP 변경·로드 분산·메일 라우팅을 이름 기반으로 관리해야 한다.
-- **핵심 직관**: 전 세계 전화번호부를 root, TLD, authoritative 서버가 나누어 관리하고 resolver가 대신 찾아주는 구조이다.
+- **개요**: 사람이 읽기 쉬운 도메인 이름(www.naver.com)을 기계가 읽는 IP 주소(192.168.1.1)로 변환해 주는 인터넷 전화번호부
+- **왜 필요한가**: 사람은 12자리 숫자로 된 IP 주소(특히 128비트 IPv6)를 다 외울 수 없기 때문에, 기억하기 쉬운 영문 주소를 써야 한다.
+- **핵심 직관**: 스마트폰 연락처와 같다. '홍길동'이라고 검색하면 스마트폰이 '010-1234-5678'로 전화를 걸어주는 시스템이다.
 
 ## 깊이 이해
-- **배경·문제의식**: hosts 파일 방식은 인터넷 규모에서 관리 한계가 있었다. DNS는 도메인 계층과 위임, 캐시를 이용해 전역 이름 해석을 분산 처리한다.
-- **작동 원리**: 클라이언트는 recursive resolver에 질의하고, resolver는 root, TLD, authoritative DNS를 순차 조회한다. 결과는 TTL 동안 캐시에 저장되어 반복 질의 지연과 부하를 줄인다.
-- **비유**: 회사 대표 번호로 전화하면 부서 안내, 팀 안내, 담당자 번호를 차례로 받아 최종 연결되는 구조와 같다.
-- **구체 예시**: `www.example.com`의 A 레코드는 IPv4 주소를, AAAA 레코드는 IPv6 주소를, MX 레코드는 메일 서버를 제공한다.
-- **흔한 오해·주의점**: DNS는 단순 IP 변환만 수행하지 않는다. CNAME, MX, TXT, SRV, NS, SOA 등 서비스 운영과 검증 레코드를 포함한다.
+- **배경·문제의식**: 초기 인터넷(ARPANET)에서는 `hosts.txt` 파일 하나에 모든 IP와 이름을 적어 공유했다. 컴퓨터가 수백만 대로 늘어나자 파일 하나로는 관리가 불가능해져 분산형 계층 구조인 DNS가 탄생했다.
+- **작동 원리**: 역트리(Inverted Tree) 계층 구조다. 
+  1. 클라이언트가 통신사 DNS(Local DNS)에 묻는다.
+  2. 모르면 전 세계 최상위인 **Root DNS**에 묻고,
+  3. Root가 ".com" 관리자(TLD)에게 가라고 알려준다.
+  4. ".com" 관리자가 "naver.com" 관리자(Authoritative)에게 가라고 알려준다.
+- **비유**: 시골 우체국(Local DNS)에서 모르는 주소를 본청(Root)에 물어보고, 본청이 "서울시(TLD)로 가봐", 서울시가 "강남구(Authoritative)로 가봐"라며 차례로 위임하며 주소를 좁혀가는 과정.
+- **구체 예시**: 브라우저에 `google.com`을 입력하면 PC는 먼저 자신의 로컬 캐시를 뒤지고, 없으면 8.8.8.8(구글 DNS)에 물어봐서 IP(142.250.xxx.xxx)를 받아온 후 통신을 시작한다.
+- **흔한 오해·주의점**: DNS 서버 1대가 전 세계 모든 주소를 다 아는 것이 아니다. 철저하게 권한을 위임(Delegation)하여 분산 관리하며, 성능을 위해 결과를 한동안 저장(Cache)해 두는 것이 핵심이다.
 
 ## 연결 개념
-- DHCP: 단말에 DNS resolver 주소를 배포
-- CDN/GSLB: DNS 응답을 이용한 위치 기반 서비스 분산
-- DNSSEC: DNS 응답 위변조 검증
+- FQDN (Fully Qualified Domain Name) — `www.google.com.` 처럼 끝에 루트(.)가 포함된 절대 주소
+- DNS 레코드 (Record) — A(IPv4), AAAA(IPv6), CNAME(별칭), MX(메일) 등 주소 매핑 데이터 형식
+- 재귀적/반복적 질의 (Recursive/Iterative) — 끝까지 대신 찾아주는 방식 vs 어디로 가라고 힌트만 주는 방식
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 준수한다.
-> 핵심: DNS는 계층 구조, recursive/iterative 질의, 주요 레코드, TTL 캐시, 보안 리스크를 함께 써야 한다.
+> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DNS는 도메인 이름을 IP 주소와 서비스 레코드로 해석하는 계층형·분산형 이름 시스템이다.
-> 2. **가치**: 사용자는 사람이 읽는 이름을 사용하고, 운영자는 TTL, 레코드, 위임으로 서비스 이전·분산·검증을 관리한다.
-> 3. **판단 포인트**: root-TLD-authoritative 구조, recursive resolver, TTL 캐시, DNSSEC·DoH·DoT 보안 이슈를 포함해야 한다.
+> 1. **본질**: DNS는 사람이 식별 가능한 도메인 네임(FQDN)과 기계가 식별하는 IP 주소를 상호 변환(Resolution)하는 분산 계층형 네임 서비스 아키텍처이다.
+> 2. **가치**: 단일 실패점(SPOF)이 없는 계층적 위임 구조와 캐싱(Caching)을 통해, 수십억 기기의 인터넷 접속 요청을 지연 없이 분산 처리한다.
+> 3. **판단 포인트**: DNS는 단순 주소 변환을 넘어 GSLB 기반의 로드 밸런싱과 CDN 라우팅의 근간이 되나, 평문 전송으로 인한 위변조 위험(Spoofing)을 DNSSEC 및 DoH로 방어해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| DNS 계층 구조 이해 확인 | root, TLD, authoritative, resolver | DNS 서버를 단일 서버로 설명 |
-| 질의·캐시 동작 확인 | recursive query, iterative query, TTL | TTL과 propagation 지연 누락 |
-| 보안·운영 리스크 인식 확인 | cache poisoning, DNSSEC, DoH/DoT | A 레코드만 설명하고 레코드 유형 누락 |
+| DNS 계층 구조와 분산 원리 파악 | Root → TLD → Authoritative 서버로 이어지는 계층적 위임(Delegation) | DNS 서버 1대가 모두 처리하는 것처럼 중앙집중식으로 서술 |
+| 주소 해석 질의 과정 | 재귀적 질의(Recursive)와 반복적 질의(Iterative)의 결합 동작 | 호스트와 Local DNS 구간, Local DNS와 외부망 구간의 차이 누락 |
+| DNS 보안 및 가용성 실무 적용 | DNS Spoofing 방어(DNSSEC, DoH/DoT) 및 GSLB 로드 밸런싱 연계 | 도메인 이름 변환 역할만 쓰고 트래픽 분산 및 보안 통제 누락 |
 
-> 요약: DNS 답안은 이름 해석 흐름과 캐시·보안·운영 지표를 함께 제시해야 한다.
+> 요약: DNS 문제는 '계층 분산'과 '캐싱'이라는 설계 철학을 질의 흐름도(Iterative)로 증명하고, 응용인 GSLB와 보안(DNSSEC)으로 결론지어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 도메인 이름을 IP 주소·서비스 레코드로 변환하는 분산 이름 시스템
-- 배경: IP 주소는 사람이 기억하기 어렵고 서비스 이전 시 변경될 수 있음
-- 필요성: 계층 위임과 TTL 캐시로 전역 규모 이름 해석과 운영 변경(서비스 이전·장애 조치)을 지원
+- 정의: 영문자로 된 도메인 네임(FQDN)과 IP 주소를 매핑하여 전 세계 네트워크 노드에 분산 제공하는 디렉터리 시스템
+- 배경: 인터넷 초기의 단일 `hosts` 파일 관리 방식은 노드 수 기하급수적 증가 시 병목과 동기화 실패(SPOF)를 유발
+- 필요성: 계층적 위임과 캐싱을 통해 전 세계 어디서든 수 ms 내에 대상 IP를 해석(Resolution)하고 트래픽을 분산하기 위함
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client Stub Resolver
--> Recursive Resolver
--> Root DNS
--> TLD DNS
--> Authoritative DNS
--> DNS Cache with TTL
--> Application Connection
+Root DNS ( 최상위 `.` 관리, 전 세계 13개 )
+  |
+  +-> TLD DNS ( 최상위 도메인 `.com`, `.kr` 등 관리 )
+        |
+        +-> Authoritative DNS ( 실제 `naver.com` 레코드 보유 서버 )
+              ^ (반복적 질의)
+Local DNS (ISP/기업 내부에 위치, 단말을 대신하여 질의 수행)
 ```
 
-| 구성요소 | 역할 | 대표 예시 |
+| 서버 분류 | 역할 | 특징 |
 |:---|:---|:---|
-| Stub Resolver | 단말의 DNS 질의 시작 | OS resolver |
-| Recursive Resolver | 클라이언트 대신 전체 조회 수행 | ISP DNS, public DNS |
-| Root DNS | TLD 위치 안내 | root zone |
-| TLD DNS | .com, .kr 등 zone 위임 | NS referral |
-| Authoritative DNS | 실제 레코드 보유 | A, AAAA, MX, TXT |
-| Cache | TTL 동안 응답 저장 | TTL 60~86400초 |
+| Root DNS | 전 세계 도메인 트리의 최상위 노드 | 13개(A~M)의 논리적 서버 묶음 (Anycast 적용) |
+| TLD DNS | Top-Level Domain(.com, .net, 국가코드) 관리 | 하위 Authoritative 서버의 위치 정보 위임 |
+| Authoritative DNS | 실제 특정 도메인의 IP 레코드(A, CNAME)를 최종 보유 | 해당 도메인에 대한 '권한 있는' 정답 제공 |
+| Local DNS (Resolver) | 클라이언트의 요청을 받아 캐시를 뒤지거나 외부로 질의 | 통신사(KT, SKT)나 8.8.8.8, 재귀적 질의 수행 |
 
-> 요약: DNS는 단말 resolver부터 authoritative 서버까지 계층 위임으로 동작하고 TTL 캐시로 반복 질의를 줄인다.
+> 요약: DNS는 권한을 철저히 하위 계층으로 위임(Delegation)하여 Root 서버의 부하를 최소화하는 극단적인 분산 아키텍처다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Application이 www.example.com 요청
--> Stub resolver가 recursive resolver 질의
--> resolver가 root -> TLD -> authoritative 순서 조회
--> A/AAAA record와 TTL 수신
--> cache 저장
--> client가 IP로 TCP/UDP 연결
+PC -> (1. 질의) -> Local DNS -> (2. 질의) -> Root DNS -> (3. .com 주소 반환) 
+-> Local DNS -> (4. 질의) -> TLD(.com) -> (5. naver 주소 반환) 
+-> Local DNS -> (6. 질의) -> Auth(naver) -> (7. IP 1.1.1.1 반환) -> Local DNS -> PC
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+| 단계 | 질의 구분 | 처리 내용 (www.test.com 해석 시) |
 |:---:|:---|:---|
-| 1 | 클라이언트가 resolver로 질의 | UDP/TCP 53, DoH 443 |
-| 2 | root가 TLD NS를 응답 | referral, NS record |
-| 3 | TLD가 authoritative NS를 응답 | delegation, glue record |
-| 4 | authoritative가 record 반환 | A, AAAA, CNAME, MX, TXT |
-| 5 | resolver가 TTL 동안 cache 저장 | cache hit ratio, TTL 만료 |
+| 1 | **Recursive Query** | PC가 Local DNS에게 "무조건 최종 IP 정답을 찾아줘"라고 요청 |
+| 2 | **Iterative Query** | Local DNS가 Root에 질의 → Root는 .com TLD 서버 IP 힌트 반환 |
+| 3 | **Iterative Query** | Local DNS가 TLD에 질의 → TLD는 test.com Auth 서버 IP 힌트 반환 |
+| 4 | **최종 응답 & 캐싱** | Auth 서버가 최종 IP 반환, Local DNS는 이를 캐싱(TTL 유지) 후 PC에 전달 |
 
-> 요약: DNS 질의는 recursive resolver가 계층 위임을 따라 최종 레코드를 얻고 TTL 동안 캐시하는 흐름이다.
+> 요약: 단말은 Local DNS에 재귀적(Recursive)으로 떠넘기고, Local DNS는 상위 계층부터 반복적(Iterative)으로 추적하여 IP를 캐싱한다.
 
 ---
 
 ## Ⅳ. 특징
 
-| 구분 | hosts 파일 | DNS | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 구조 | 단일 파일 | 계층형 분산 DB | RFC 1034, RFC 1035 |
-| 변경 | 단말별 수정 | zone file과 TTL 기반 반영 | TTL 60~86400초 |
-| 레코드 | 이름-IP 중심 | A, AAAA, CNAME, MX, TXT, SRV | UDP/TCP 53 |
-| 보안 | 파일 변조 | cache poisoning, DNSSEC 필요 | DNSSEC RRSIG, DS |
+| 구분 | 내용 | 판단 포인트 |
+|:---|:---|:---|
+| 캐싱 (Caching) | 단말 캐시 → OS 캐시 → Local DNS 캐시 순으로 조회하여 질의 속도 단축 | DNS 레코드의 TTL(Time to Live) 값으로 캐시 유지 시간 통제 |
+| 레코드 타입 확장성 | A(IPv4), AAAA(IPv6), CNAME(별칭), MX(메일 라우팅), TXT(보안 인증) 등 다양 | 단순 주소를 넘어 도메인 소유권 검증 및 메일 보안(SPF)에 활용 |
+| UDP 53 기반 통신 | TCP의 핸드셰이크 오버헤드를 없애고 빠른 질의응답 처리 (응답 512바이트 이하) | 응답 데이터가 크거나 존 트랜스퍼(Zone Transfer) 시에는 TCP 53 사용 |
 
-> 요약: DNS는 hosts 파일 한계를 계층 위임과 TTL 캐시로 해결하지만 캐시 위변조와 설정 오류 통제가 필요하다.
+> 요약: 캐싱은 DNS 성능의 핵심이지만, 변경된 IP가 전파되는 데 TTL만큼의 지연(Propagation Delay)을 유발하는 트레이드오프를 갖는다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Recursive Resolver | Authoritative DNS | 선택 기준 |
+| 비교 축 | Legacy DNS | GSLB (Global Server Load Balancing) | 선택 기준 |
 |:---|:---|:---|:---|
-| 역할 | 클라이언트 대신 조회·캐시 | zone의 원본 레코드 제공 | 사용자 질의는 resolver, 도메인 운영은 authoritative |
-| 운영 지표 | cache hit, latency, SERVFAIL | zone serial, query rate, availability | 장애 원인에 따라 분리 점검 |
-| 보안 | DoH/DoT, filtering | DNSSEC signing, ACL | 내부 사용자 보호와 도메인 무결성 분리 |
+| 응답 기준 | 정적으로 등록된 고정 IP 반환 (Round Robin) | 접속자의 지리적 위치, 서버 헬스체크 상태 반영 | 글로벌 CDN 및 무중단 재해복구(DR) |
+| 가용성 제어 | 서버 장애 시에도 캐시(TTL) 동안 과거 IP 반환 | 장애 서버 IP를 응답에서 즉시 제외 (TTL=짧게) | Active-Active 이중화 요구사항 |
+| 트래픽 분산 | 단순 균등 분산 | 최단 거리 지연시간 기반 최적 라우팅 | 사용자 체감 응답 속도(ms) |
 
-> 요약: DNS 장애 분석은 resolver 문제와 authoritative zone 문제를 분리해야 조치 시간이 줄어든다.
+> 요약: 현대의 DNS는 단순한 이름 해석기를 넘어, GSLB와 결합하여 글로벌 트래픽을 통제하는 L7 스위치 역할을 수행한다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| cache poisoning | 위조 응답 주입 | DNSSEC validation, source port randomization | bogus validation count |
-| propagation 지연 | TTL 과다 | 변경 전 TTL 60~300초 조정 | old record hit ratio |
-| 단일 장애점 | authoritative 이중화 부족 | multi-NS, multi-region DNS | DNS availability 99.99% |
+| DNS Cache Poisoning | 로컬 DNS가 응답을 기다릴 때 해커가 가짜 IP 응답을 먼저 보내 캐시 오염 | DNSSEC 적용 (디지털 서명을 통한 무결성 검증) | BIND/Unbound 취약점 스캔, 서명 유효성 |
+| 프라이버시 침해 | DNS 질의 패킷(UDP 53)이 평문으로 전송되어 감청 및 차단 가능 | DoH(DNS over HTTPS), DoT(TLS) 적용으로 패킷 암호화 | 53번 포트 대신 TCP 443 캡처 여부 |
+| DNS DDoS 공격 | 출발지 IP를 위조하여 DNS 서버에 대량 질의 (Amplification 공격) | Anycast 기반 DNS 증설 및 Rate Limiting 적용 | DNS 초당 질의 수 (QPS) 이상 징후 |
 
-> 요약: DNS 리스크는 캐시 위변조, TTL 지연, authoritative 가용성이며 보안 검증과 다중화로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 응답 지연 | DNS query p95 50ms 이하 | dig, synthetic monitoring |
-| 오류율 | SERVFAIL/NXDOMAIN 비정상 증가 0건 | resolver log |
-| 무결성 | DNSSEC validation 성공률 99.9% 이상 | DNSSEC validator, SIEM |
-
-> 요약: DNS 운영 품질은 p95 응답, 오류율, DNSSEC 검증률로 판단한다.
+> 요약: DNS는 인프라의 첫 관문으로 공격 시 서비스 전체가 마비되므로, 데이터 위변조(DNSSEC)와 암호화(DoH)로 약점을 보완해야 한다.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 변경 관리: 서비스 이전 24시간 전 TTL을 60~300초로 낮추고, 변경 후 A/AAAA/CNAME 응답을 여러 resolver에서 검증
-2. 가용성: authoritative DNS를 2개 이상 NS와 multi-region으로 구성하고 zone serial, SOA, glue record를 배포 전 점검
-3. 보안 통제: DNSSEC 서명, resolver filtering, DoH/DoT 정책, query log 기반 DGA·tunneling 탐지를 적용
+1. **GSLB 기반 트래픽 분산**: 클라우드 Route53 환경에서 Latency-based Routing 정책을 적용하여 미국 사용자는 US 리전 IP로, 한국 사용자는 AP 리전 IP로 DNS 동적 응답
+2. **사내망 Private DNS 구성**: AWS Route53 Resolver를 활용하여, 온프레미스와 VPC 간 사설 도메인 질의를 조건부 포워딩(Conditional Forwarding)으로 안전하게 연동
+3. **DNSSEC 무결성 검증 도입**: 금융권 등 고보안 도메인에 DNSSEC을 적용, 공개키 기반의 서명(RRSIG)을 통해 Cache Poisoning 공격을 원천 차단하고 파밍 사이트 유도 방지
 
 **결론 (2줄):**
-- 기술사 판단: 서비스 가용성 문제는 DNS TTL·resolver·authoritative를 분리해 보고, 도메인 무결성 요구가 있으면 DNSSEC를 적용함
-- 향후 방향: DoH/DoT 확산으로 네트워크 장비 기반 DNS 가시성이 낮아져 endpoint·resolver 로그 중심 관측이 필요함
+- 기술사 판단: DNS는 단순 주소 변환을 넘어, GSLB 및 CDN 아키텍처의 트래픽 라우팅을 통제하는 글로벌 트래픽 디스패처(Dispatcher) 역할을 수행한다.
+- 향후 방향: 최근 브라우저들이 DoH(DNS over HTTPS)를 기본 활성화함에 따라, 기업 보안 장비(방화벽)에서 유해 사이트 DNS 차단 기능이 무력화되는 것에 대한 아키텍처 재검토가 필요하다.
 
 ---
 
@@ -166,7 +155,7 @@ Application이 www.example.com 요청
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "DNS 구조와 동작을 설명하시오" | root -> TLD -> authoritative 질의 흐름 | 주요 레코드와 TTL 캐시 |
-| 요구사항 명시형 | "DNS 장애 대응 방안을 제시하시오", "보안 대책을 설명하시오" | resolver와 authoritative 분리 절차 | DNSSEC, TTL, multi-NS, 지표 |
+| 동작원리 | "DNS의 질의 과정을 설명하시오" | Recursive와 Iterative 질의 분리 흐름도 | Root, TLD, Auth 서버의 역할 및 캐싱(TTL) 체계 |
+| 방안형 | "DNS 보안 취약점과 차세대 대책을 제시하시오" | Cache Poisoning 및 평문 전송 취약점 노출 흐름 | DNSSEC(무결성) 및 DoH/DoT(기밀성) 비교표 |
 
-> 요약: 설명형은 질의 흐름을, 장애·보안형은 resolver/authoritative 분리와 TTL·DNSSEC 대응을 중심으로 전환한다.
+> 요약: 동작 원리는 계층적 위임을 통한 Iterative 탐색 구조를 증명하고, 보안 문제는 무결성과 기밀성을 확보하는 최신 프로토콜 진화 방향으로 대응한다.

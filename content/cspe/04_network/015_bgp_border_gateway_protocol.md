@@ -1,6 +1,6 @@
 ---
 title: "BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 15
@@ -8,155 +8,131 @@ weight: 15
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: BGP를 처음 봐도 인터넷이 AS 단위 정책으로 경로를 선택하는 구조를 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: AS 간 IP prefix 도달성을 교환하고 정책으로 경로를 선택하는 인터넷 경계 라우팅 프로토콜
-- **왜 필요한가**: 인터넷은 하나의 관리자가 운영하지 않는다. 각 ISP, 클라우드, 기업은 AS 번호를 갖고 자신이 소유하거나 위임받은 prefix를 광고하며, 비용·정책·계약에 따라 경로를 선택한다.
-- **핵심 직관**: 가장 짧은 길만 고르는 내비게이션이 아니라, 계약된 도로와 통행료, 경유 금지 구간을 반영하는 국제 물류 경로 선택이다.
+- **개요**: 서로 다른 AS(자율 시스템, 통신사/대기업 망) 간에 라우팅 정보를 교환하여 전 세계 인터넷을 하나로 연결하는 EGP 프로토콜
+- **왜 필요한가**: 인터넷은 너무 거대해서 OSPF(속도 최우선)로는 감당할 수 없음. 회사 대 회사(통신사 간)의 '정책'과 '비용'에 따라 통신 경로를 제어해야 함
+- **핵심 직관**: 국가 간 무역 협정(BGP)과 같다. 단순히 '제일 빠른 길'이 아니라, '어느 나라(AS)를 거쳐갈 것인가', '누구에게 통행료를 안 낼 것인가'를 정책(Path Attribute)으로 결정한다.
 
 ## 깊이 이해
-- **배경·문제의식**: OSPF 같은 IGP는 단일 조직 내부 최단 경로 계산에 적합하다. BGP는 AS 간 규모, 정책, 장애 격리, prefix 필터링, 다중 ISP 연결을 처리하기 위해 TCP 기반 path vector로 동작한다.
-- **작동 원리**: BGP 라우터는 TCP 179로 세션을 맺고 OPEN, KEEPALIVE, UPDATE, NOTIFICATION 메시지를 사용한다. 경로 선택은 LOCAL_PREF, AS_PATH 길이, ORIGIN, MED, eBGP/iBGP, IGP metric 등 순서로 진행된다.
-- **비유**: 택배사가 목적지까지 여러 운송사를 경유할 때, 단순 거리보다 계약 우선순위와 경유 회사 목록을 보고 노선을 선택하는 방식이다.
-- **구체 예시**: `203.0.113.0/24 AS_PATH 64500 64496` 경로와 `203.0.113.0/24 AS_PATH 64510 64520 64496` 경로가 있으면, 다른 조건이 같을 때 AS_PATH 길이 2인 전자가 우선된다.
-- **흔한 오해·주의점**: BGP는 최단 지연시간을 자동 보장하지 않는다. 정책 라우팅이므로 더 긴 AS_PATH라도 LOCAL_PREF가 높으면 선택될 수 있다.
+- **배경·문제의식**: OSPF 같은 IGP는 '가장 빠른 경로(대역폭)'가 최우선임. 하지만 SKT와 KT가 연결할 때, 단순히 물리적으로 가깝다고 트래픽을 남의 망으로 마구 던지면 상업적 분쟁이 생김.
+- **작동 원리**: BGP 라우터들은 TCP 포트 179번으로 연결(피어링)을 맺음. 단순히 "이 IP로 갈 수 있어"가 아니라, "이 IP로 가려면 AS 100 → AS 200 → AS 300을 거쳐야 해(AS-Path)"라는 상세 경로 이력서를 주고받음(Path Vector).
+- **비유**: BGP는 내비게이션(OSPF)이 아니라 고속도로 톨게이트 요금소. "이 길로 가면 빠르지만 남의 민자고속도로를 타야 하니, 조금 돌아가도 무료 국도로 가라"고 정책을 거는 것.
+- **구체 예시**: 한국 AWS(AS 16509)에서 사용자 망으로 트래픽을 보낼 때, Local Preference 속성을 조작하여 해저 케이블 A망(주회선)을 우선하고, B망을 백업으로 쓰도록 강제함.
+- **흔한 오해·주의점**: BGP는 엄청나게 수렴 속도가 느림(최적 경로 찾는 데 분 단위 소요). 속도보다 '안정성'과 '경로 통제'가 목적이기 때문임.
 
 ## 연결 개념
-- AS(Autonomous System) — 독립 라우팅 정책을 가진 관리 도메인
-- RPKI/ROA — prefix와 origin AS의 정합성을 검증하는 체계
-- iBGP/eBGP — AS 내부 BGP와 AS 간 BGP 세션 구분
+- AS (Autonomous System) 번호
+- EGP(Exterior Gateway Protocol)와 IGP(Interior Gateway Protocol) 차이
+- BGP 속성(Attributes: AS-Path, Local_Pref, MED)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: BGP는 인터넷 라우팅의 최단 경로 프로토콜이 아니라 AS 간 정책·신뢰·prefix 통제 프로토콜로 답안을 구성한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BGP(Border Gateway Protocol)는 AS 간 prefix 도달성을 TCP 179 기반 UPDATE로 교환하는 path vector 라우팅 프로토콜이다.
-> 2. **가치**: 다중 ISP, 클라우드 연결, 인터넷 edge에서 경로 정책, 트래픽 엔지니어링, 장애 우회를 구현한다.
-> 3. **판단 포인트**: LOCAL_PREF, AS_PATH, MED, community, prefix-list, RPKI, flap damping을 기준으로 경로 품질과 보안을 통제한다.
+> 1. **본질**: AS 간의 라우팅 테이블(전 세계 약 90만 개 이상 경로)을 TCP 179번 포트를 통해 교환하는 경로 벡터(Path Vector) 라우팅
+> 2. **가치**: 대역폭 중심의 최단 경로가 아닌, 비즈니스 정책(통신비용, 보안)에 기반한 정교한 트래픽 엔지니어링 구현
+> 3. **판단 포인트**: 다양한 BGP 속성(Attributes)을 활용한 인바운드/아웃바운드 트래픽 제어 능력과 라우팅 루프 차단 원리(AS-Path)
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| BGP 동작 원리 확인 | TCP 179, OPEN/UPDATE/KEEPALIVE, AS_PATH | OSPF처럼 SPF 계산으로 설명 |
-| 경로 선택 정책 이해 확인 | LOCAL_PREF, AS_PATH, MED, community | hop count만 기준으로 서술 |
-| 인터넷 라우팅 리스크 판단 | prefix hijack, route leak, RPKI | 보안 검증 누락 |
+| 전 세계 인터넷 연동의 핵심 프로토콜 이해 및 트래픽 제어 | eBGP/iBGP 차이, BGP Attributes(Local Preference, MED, AS-Path), 라우팅 루프 방지 | OSPF와 같은 최단거리 알고리즘으로 설명 (정책 기반 라우팅임을 누락하면 오답) |
 
-> 요약: BGP 문제는 경로 속성 순서와 prefix 검증 체계를 함께 써야 고득점 답안이 된다.
+> 요약: BGP는 성능(속도)이 아닌 정책(Policy) 기반 라우팅이며, 이를 제어하는 3대 주요 속성을 정확히 매핑하여 설명해야 함.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: AS 간 IP prefix 도달성과 경로 속성을 교환하는 인터넷 경계 라우팅 프로토콜
-- 배경: 각 AS가 자신이 도달 가능한 prefix와 경로 속성을 이웃 AS에 광고함
-- 필요성: 다중 회선·클라우드 연결·인터넷 edge에서 비용·계약·보안 정책에 따른 경로 제어가 필요함
+- 정의: 자율 시스템(AS) 간 경로 정보를 교환하여 정책 기반의 트래픽 라우팅을 수행하는 EGP 표준 프로토콜 (BGP-4)
+- 배경: 인터넷 규모의 폭발적 증가로 단일 다익스트라(OSPF) 알고리즘으로는 글로벌 라우팅 테이블(Full Routing) 처리 불가
+- 필요성: 통신 사업자 및 엔터프라이즈 망 간 상업적/보안적 이유로 강제적인 우회 경로 설정 등 유연한 트래픽 제어 요구
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-AS Border Router -> BGP Peer TCP 179 -> Route Update
-  / NLRI Prefix
-  / Path Attributes
-  / Policy Filter
-Best Path -> RIB -> FIB -> Packet Forwarding
+[AS 100] (eBGP 연동) ---> [AS 200]
+   | iBGP 연동               | BGP Table 
+[내부 라우터]             (목적지 IP / AS-Path / Local_Pref / MED) ---> 최상의 1개 경로만 라우팅 테이블(RIB)에 등록
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| NLRI | 도달 가능한 prefix 정보 | IPv4/IPv6 address family |
-| Path Attributes | 경로 선택 속성 | LOCAL_PREF, AS_PATH, MED |
-| BGP Peer | eBGP 또는 iBGP 세션 | TCP 179, keepalive 사용 |
-| Policy Filter | 광고·수신 prefix 제어 | prefix-list, route-map |
+| AS (Autonomous System) | 동일한 라우팅 정책을 공유하는 라우터 집단 | 16비트(1~65535) 또는 32비트 고유 번호 할당 |
+| eBGP (External BGP) | 서로 다른 AS 간 BGP 피어링 | AD값 20, TTL 1 (직접 연결 필요) |
+| iBGP (Internal BGP) | 동일 AS 내 BGP 피어링 | AD값 200, Split Horizon 룰 적용(Full Mesh 필요) |
+| BGP Attributes | 목적지까지 가는 경로에 붙은 다양한 옵션 꼬리표 | Well-known, Optional 등 분류 |
 
-> 요약: BGP 구조는 prefix 정보, 경로 속성, peer 세션, 정책 필터를 통해 AS 간 경로를 선택한다.
+> 요약: 내부망 연동은 iBGP, 외부 망 연동은 eBGP로 구분하며, 다양한 경로 속성(Attributes)을 기반으로 최적 경로를 뽑음.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. BGP 주요 속성 및 최적 경로 산출 알고리즘
 
 ```text
-TCP Session Establish -> OPEN Exchange -> KEEPALIVE
-  -> UPDATE Receive -> Policy Filter -> Best Path Selection
-  -> RIB Install -> Advertisement to Peers
+경로 수신 -> 1. Weight 비교 -> 2. Local Preference 비교 -> 3. Local 발생 경로 -> 4. AS-Path 길이 비교 -> 5. MED 비교
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | TCP 179 세션과 BGP OPEN 교환 | Established state |
-| 2 | NLRI와 path attributes 수신 | prefix, AS_PATH, next-hop |
-| 3 | import policy와 best path 알고리즘 적용 | LOCAL_PREF 우선순위 |
-| 4 | 선택 경로를 RIB/FIB에 반영 후 광고 | advertised-routes 확인 |
+| 판단 순위 | BGP 속성 (Attribute) | 적용 범위 / 목적 | 판단 기준 (우선순위) |
+|:---:|:---|:---|:---|
+| 1 | Weight (Cisco 전용) | 라우터 로컬 내부 / 아웃바운드 제어 | 값이 **클수록** 우선 |
+| 2 | Local Preference | 단일 AS 내부(iBGP) 전파 / 아웃바운드 제어 | 값이 **클수록** 우선 (기본 100) |
+| 4 | AS-Path | 전체 인터넷 망 / 루프 방지 | 지나온 AS 개수가 **적을수록** 우선 |
+| 5 | MED (Multi-Exit Discriminator) | 인접한 상대 AS / 인바운드 제어 | 값이 **작을수록** 우선 (OSPF Metric 성격) |
 
-> 요약: BGP는 세션 수립, 경로 수신, 정책 평가, 최적 경로 반영, 재광고 순서로 동작한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | BGP | OSPF 등 IGP | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 적용 범위 | AS 간, 인터넷 edge | 단일 AS 내부 | RFC 4271, TCP 179 |
-| 경로 기준 | 정책 속성 기반 | cost 기반 최단 경로 | LOCAL_PREF, AS_PATH |
-| 수렴 특성 | 정책 반영으로 지연 가능 | 내부 링크 중심 수렴 | hold timer 180초 예시 |
-| 보안 이슈 | hijack, route leak | 내부 오설정 중심 | RPKI, max-prefix |
-
-> 요약: BGP는 최단 경로보다 AS 정책과 prefix 신뢰성을 우선하는 인터넷 경계 라우팅 프로토콜이다.
+> 요약: 내부에서 밖으로 나가는 트래픽은 Local Preference로 제어하고, 밖에서 내부로 들어오는 트래픽은 MED나 AS-Path Prepending으로 제어함.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅳ. 동작원리 및 흐름도
 
-| 비교 축 | eBGP | iBGP | 선택 기준 |
-|:---|:---|:---|:---|
-| 연결 범위 | 서로 다른 AS 간 | 동일 AS 내부 | ISP 연동은 eBGP, 내부 전달은 iBGP |
-| next-hop 처리 | 기본 변경 | 기본 유지 | next-hop-self 필요 여부 |
-| 확장 구조 | peer 직접 연결 중심 | full mesh 또는 route reflector | peer 수 증가 시 RR 적용 |
+| 단계 | BGP 메시지 | 처리 내용 | 검증 기준 |
+|:---:|:---|:---|:---|
+| 1 | Open | TCP 179 세션 수립 후 버전, AS 번호, BGP 식별자 교환 | BGP 피어 상태: Established |
+| 2 | Update | 목적지 네트워크 경로(NLRI)와 BGP 속성(Path Attributes) 전송 | 트리거 업데이트 (전체 전송 아님) |
+| 3 | Keepalive | 60초 주기 피어링 유지 확인 | Hold 타임아웃(180초) 감시 |
+| 4 | Notification | 에러 발생 시 피어링 종료 및 세션 절단 | 에러 코드 분석 |
 
-> 요약: eBGP는 AS 경계, iBGP는 AS 내부 경로 전달이며 next-hop과 route reflector 설계가 다르다.
+> 요약: 신뢰성 있는 TCP 179를 기반으로 최초 연결 후에는 변경된 경로(Update)만 교환하여 대역폭을 절약함.
+
+---
+
+## Ⅴ. 심화 트러블슈팅 및 적용 판단
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| Prefix Hijack | 잘못된 origin AS 광고 | RPKI ROA, prefix-list | invalid route 0건 |
-| Route Leak | provider/customer 정책 오류 | AS_PATH filter, community | unexpected transit route |
-| 세션 장애 | keepalive 손실, TCP 차단 | BFD, MD5/TCP-AO, max-prefix | BGP state Established |
+| BGP 라우팅 루프 | iBGP로 받은 경로를 다른 iBGP 피어에게 전달 시 발생 | Route Reflector(RR) 또는 BGP Confederation 구성 | iBGP Full Mesh 연결성, RR 클라이언트 설정 |
+| 라우터 메모리 고갈 (OOM) | 90만 개 이상의 Full Routing Table 수신 | 디폴트 라우트만 수신 또는 Prefix 필터링 적용 | BGP Table 사이즈, 라우터 여유 메모리 |
+| 비대칭 라우팅 (Asymmetric) | 인바운드와 아웃바운드 경로가 달러 방화벽에서 세션 차단 | 양쪽 라우터의 Local Pref 및 MED 동기화 조정 | 방화벽 Out-of-State Drop 로그 |
 
-> 요약: BGP 리스크는 잘못된 prefix 광고와 세션 장애이며 RPKI, 필터, 세션 보호로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| Prefix 검증 | 수신 prefix 100% 정책 매칭 | prefix-list audit |
-| 세션 가용성 | 주요 peer Established 유지 | BGP session monitor |
-| 경로 품질 | AS_PATH, latency, loss 기준 충족 | route table, active probe |
-
-> 요약: BGP 운영은 prefix 검증, peer 상태, 경로 품질을 동시에 점검해야 한다.
+> 요약: 글로벌 인터넷 정보(Full Route)를 다루므로 메모리 관리와 피어링 확장성(Route Reflector) 구조 설계가 필수적임.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 외부 peer에는 prefix-list, max-prefix, AS_PATH filter를 적용해 허용된 NLRI만 수신·광고함
-2. 트래픽 엔지니어링은 inbound AS_PATH prepending, outbound LOCAL_PREF 조정으로 회선별 정책을 분리함
-3. RPKI ROA 검증과 BGP monitoring을 적용해 hijack·leak 탐지 시간을 분 단위로 줄임
+1. [클라우드/멀티홈 구성] 엔터프라이즈 망과 2개 이상의 통신사(ISP) 연동 시, BGP 멀티호밍을 구성하여 ISP-A로 80%, ISP-B로 20% 트래픽 로드밸런싱(비대칭)을 Local Preference로 구현
+2. [인바운드 제어] 외부에서 자사 망으로 들어오는 트래픽이 특정 회선으로 몰리지 않도록, 보조 회선의 BGP 알림(Advertisement) 시 AS-Path Prepending(자신의 AS 번호를 3~4번 반복 추가) 적용하여 억제
+3. [iBGP 확장성] 수십 대의 데이터센터 라우터 간 Full-Mesh iBGP 피어링 횟수를 줄이기 위해 Route Reflector(RR) 2대를 이중화 배치하여 허브-스포크 형태로 경로 중계
 
 **결론 (2줄):**
-- 기술사 판단: 인터넷 edge와 다중 ISP 연동은 BGP가 필수이며, 내부 최단 경로 계산은 OSPF/IS-IS로 분리함
-- 향후 방향: RPKI, BGPsec, 자동 정책 검증으로 AS 간 라우팅 신뢰성을 운영 지표로 관리해야 함
+- 기술사 판단: BGP는 가장 느리지만 가장 정교한 정책 제어가 가능한 유일한 EGP이며, 엔터프라이즈의 멀티 클라우드 연동(Direct Connect/ExpressRoute) 시 필수적인 라우팅 표준이다.
+- 향후 방향: BGP는 IPv4뿐 아니라 EVPN 주소 체계를 전달하는 MP-BGP(Multi-Protocol)로 진화하여 최신 데이터센터 VXLAN 패브릭의 핵심 컨트롤 플레인으로 사용되고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "BGP를 설명하시오" | 세션, UPDATE, best path 흐름 | BGP와 IGP 비교 |
-| 요구사항 명시형 | "BGP 보안 방안을 제시하시오" | prefix filter, RPKI 검증 | hijack·route leak 리스크 대응 |
-
-> 요약: BGP는 설명형이면 path vector 원리, 보안형이면 prefix 신뢰성과 정책 필터를 중심으로 목차를 전환한다.
+| 포괄형 | "BGP-4의 특징과 속성을 설명하시오" | BGP 4가지 메시지(Open, Update 등) 동작 | Path Vector 속성(Local Pref, MED) |
+| 요구사항 명시형 | "트래픽 엔지니어링 방안", "iBGP 확장성(RR)" | 인바운드/아웃바운드 트래픽 제어 알고리즘 | Route Reflector / Confederation 적용 구조 |

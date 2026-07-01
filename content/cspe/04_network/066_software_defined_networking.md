@@ -1,6 +1,6 @@
 ---
 title: "SDN 소프트웨어 정의 네트워킹 (Software Defined Networking)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 66
@@ -11,150 +11,147 @@ weight: 66
 > 목적: SDN을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 네트워크 제어 평면을 장비에서 분리해 중앙 컨트롤러가 정책과 경로를 제어하는 구조
-- **왜 필요한가**: 장비별 CLI 설정은 변경 시간이 길고 오류가 많아 클라우드·가상화 환경의 빠른 네트워크 변경을 따라가기 어려움
-- **핵심 직관**: 각 교차로가 스스로 신호를 정하지 않고, 교통관제센터가 전체 교통 흐름을 보고 신호 정책을 내려주는 방식임
+- **개요**: 네트워크 장비(라우터/스위치)에서 '두뇌(제어부)'를 분리해 중앙 서버로 올리고, 장비들은 '팔다리(데이터 전달)' 역할만 하는 구조.
+- **왜 필요한가**: 클라우드 시대에 가상 머신(VM) 수백 개가 몇 초 만에 생기고 꺼진다. 기존처럼 관리자가 스위치마다 CLI(명령어)로 접속해 라우팅 테이블을 고치는 방식은 너무 느리고 인건비가 든다.
+- **핵심 직관**: 교차로마다 교통경찰(라우터)이 직접 신호를 조작하던 방식에서, 중앙 통제실(SDN 컨트롤러)이 서울시 전체 지도를 보고 원격으로 모든 신호등(스위치)을 한 번에 제어하는 방식으로 바뀐 것.
 
 ## 깊이 이해
-- **배경·문제의식**: 기존 네트워크는 장비마다 Control Plane과 Data Plane이 결합되어 있음. VLAN, ACL, 라우팅 정책을 장비별로 설정하면 변경 일관성과 자동화가 어려움.
-- **작동 원리**: SDN Controller가 전체 토폴로지와 정책을 계산하고, 스위치·라우터의 Forwarding Plane에 Flow Rule을 설치함. Northbound API는 애플리케이션과 연동하고, Southbound API는 OpenFlow, NETCONF, gNMI 등으로 장비를 제어함.
-- **비유**: 물류 창고의 모든 컨베이어 벨트 방향을 작업자가 각자 정하는 대신, 중앙 WMS가 주문 흐름을 보고 경로를 배치하는 구조와 같음.
-- **구체 예시**: 데이터센터에서 신규 테넌트가 생성되면 Controller가 VNI, ACL, QoS 정책을 계산하고 ToR 스위치에 VXLAN 터널과 Flow Rule을 자동 반영함.
-- **흔한 오해·주의점**: SDN은 OpenFlow 하나만 의미하지 않음. 핵심은 제어·전달 분리와 API 기반 자동화이며, 구현은 OpenFlow, EVPN, NETCONF 기반 등으로 다양함.
+- **배경·문제의식**: 레거시 네트워크 장비는 시스코, 주니퍼 같은 벤더가 제어부(OS)와 데이터 전달부(하드웨어)를 묶어서 닫힌 상자(Black box)로 팔았다. 장비 종속성이 심하고 유연한 제어가 불가능했다.
+- **작동 원리**: 제어 평면(Control Plane)과 데이터 평면(Data Plane)을 분리한다. 중앙의 SDN 컨트롤러가 전체 망 상태를 뷰잉(Viewing)하고, 최적 경로를 계산한 뒤, 밑에 있는 깡통 스위치(White box)들에게 "이 IP가 오면 3번 포트로 보내"라고 규칙(Flow Table)을 내려준다.
+- **비유**: 회사의 중앙 관리 시스템. 예전엔 부서장(개별 라우터)이 각자 알아서 결재를 했다면, SDN은 CEO(컨트롤러) 한 명이 전체 현황을 보고 실무자(스위치)에게 구체적인 작업 지시를 내리는 것이다.
+- **구체 예시**: 블랙 프라이데이 때 웹 서버 트래픽이 폭주하면, 컨트롤러가 이를 감지하고 API를 통해 즉각적으로 방화벽 정책과 로드밸런싱 경로를 백엔드 서버 10대로 분산하는 소프트웨어 스크립트를 실행한다.
+- **흔한 오해·주의점**: SDN이 가상화(Virtualization) 자체를 의미하진 않는다. NFV가 하드웨어를 소프트웨어로 바꾸는 것(가상화)이라면, SDN은 망의 '제어권'을 분리하여 중앙에 모으는 아키텍처다.
 
 ## 연결 개념
-- OpenFlow — SDN Southbound 프로토콜의 대표 사례
-- NFV — 네트워크 기능을 소프트웨어 VNF/CNF로 실행하는 구조
-- Network Automation — API·IaC 기반 네트워크 변경 관리
+- OpenFlow — SDN 컨트롤러와 밑의 스위치가 통신할 때 쓰는 대표적인 남향(Southbound) 표준 API 프로토콜.
+- NFV (Network Functions Virtualization) — 방화벽, L4 스위치 같은 전용 하드웨어 기능을 범용 x86 서버의 VM(소프트웨어)으로 구현하는 기술. SDN과 단짝이다.
+- White box 스위치 — 벤더 종속 OS가 없는 저렴한 깡통 네트워크 장비. SDN 통제 하에 움직인다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: SDN은 장비 교체 기술이 아니라 Control/Data Plane 분리와 API 기반 정책 자동화 구조임을 명확히 제시한다.
+> 핵심: 제어/데이터 평면 분리와 중앙 집중형 아키텍처(Northbound/Southbound API)를 명확히 도식화하고, 클라우드 민첩성 확보를 강조한다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SDN은 Control Plane을 중앙 Controller로 분리하고 Data Plane 장비에 정책·Flow를 프로그램하는 네트워크 아키텍처이다.
-> 2. **가치**: API 기반 자동화로 VLAN·ACL·QoS·경로 정책을 서비스 요구와 연동해 분 단위로 배포한다.
-> 3. **판단 포인트**: Controller 가용성, Southbound 프로토콜, 정책 충돌, 벤더 종속, 관측성 지표를 함께 설계해야 한다.
+> 1. **본질**: SDN은 네트워크 장비의 Control Plane과 Data Plane을 분리하여, 중앙 컨트롤러가 소프트웨어 기반으로 망을 제어하는 아키텍처다.
+> 2. **가치**: 벤더 종속(Lock-in)을 탈피해 White Box 스위치를 활용할 수 있으며, API 기반 프로그래밍으로 클라우드 자원 변경에 즉각 대응한다.
+> 3. **판단 포인트**: 중앙 컨트롤러 장애 시 전체 망이 마비되는 SPOF 위험이 존재하므로, 컨트롤러 이중화/클러스터링과 보안 통제 체계가 필수적이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| SDN 구조 이해 확인 | Control/Data Plane 분리, Controller, API | OpenFlow만 SDN으로 단정 금지 |
-| 자동화 가치 판단 확인 | Northbound/Southbound API, 정책 기반 제어 | 장비 CLI 자동화와 동일시 금지 |
-| 운영 리스크 인식 확인 | Controller 장애, 정책 충돌, 보안 경계 | 중앙 제어의 장애 영향 누락 금지 |
+| 기존 네트워크의 한계와 극복 원리 인지 | Control / Data Plane 분리, 벤더 종속 탈피 | 단순히 "소프트웨어로 네트워크를 만든다" 식 서술 |
+| SDN 계층적 아키텍처 이해 | Application - Control - Infrastructure 3계층 | NFV(기능 가상화)와 SDN(제어 중앙화) 혼동 |
+| 인터페이스 표준 지식 확인 | Northbound API (REST), Southbound API (OpenFlow) | 방향과 API 매핑 오류 |
 
-> 요약: 이 문제는 SDN을 제어 구조, API, 운영 리스크까지 연결해 설명하는지를 평가한다.
+> 요약: 분산 자율 라우팅이 중앙 집중 제어로 패러다임이 전환되었음을 3계층 구조와 API 인터페이스를 통해 논리적으로 설명해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SDN은 네트워크 제어 기능을 장비에서 분리해 소프트웨어 Controller가 중앙 제어하는 아키텍처이다. 클라우드·가상화 환경은 테넌트, 보안정책, 경로가 수시로 바뀌므로 장비별 수동 설정으로는 변경 일관성 확보가 어렵다. SDN은 정책 기반 자동화와 전체 토폴로지 관점의 제어를 제공함.
+- 정의: 네트워크 장비의 제어부(Control Plane)를 중앙의 소프트웨어 컨트롤러로 분리하여 프로그래밍 기반으로 망을 동적 제어하는 아키텍처
+- 배경: 클라우드 환경에서 VM의 잦은 생성/삭제에 대응하기 위해, 관리자가 장비마다 CLI로 설정하는 수동 라우팅 방식의 한계 도달
+- 필요성: 벤더 종속적인 닫힌 생태계를 개방형 표준 API로 전환하여 Opex/Capex를 절감하고 네트워크 민첩성(Agility) 확보
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 구조 및 구성요소 (SDN 3계층 아키텍처)
 
 ```text
-Application/Policy -> Northbound API -> SDN Controller
--> Southbound API -> Switch/Router Data Plane -> Packet Forwarding
-Telemetry/Events -> Controller State -> Policy Recalculation
+[Application Layer]    방화벽 / 로드밸런서 / 트래픽 모니터링 앱
+          |            (Northbound API : RESTful, Java API)
+[Control Layer]        SDN Controller (전체 망 토폴로지 관리, Flow 규칙 계산)
+          |            (Southbound API : OpenFlow, NETCONF)
+[Infrastructure Layer] White Box Switches (단순 패킷 포워딩 및 Flow Table 적용)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소 | 계층 | 역할 및 특이사항 |
 |:---|:---|:---|
-| Application Plane | 보안, QoS, 경로 정책 요구 | Intent, Service Chain |
-| SDN Controller | 토폴로지·정책 계산 | HA Cluster, State Store |
-| Northbound API | 외부 시스템 연동 | REST, gRPC, Intent API |
-| Southbound API | 장비 제어 | OpenFlow, NETCONF, gNMI, P4Runtime |
-| Data Plane | 패킷 전달 | Flow Table, TCAM, ASIC |
+| SDN Application | 최상위 | 비즈니스 로직에 따른 네트워크 정책 정의 및 컨트롤러에 요구 |
+| SDN Controller | 중간 | 인프라 가상화 뷰 제공, 패킷 처리 규칙(Flow Table) 하달 (SDN의 두뇌) |
+| SDN Switch | 최하위 | 컨트롤러 지시에 따라 패킷을 매칭하고 포워딩(Data Plane) |
+| North/South API | 인터페이스 | 응용-컨트롤러(North, REST), 컨트롤러-스위치(South, OpenFlow) 통신 표준 |
 
-> 요약: SDN은 애플리케이션 정책을 Controller가 해석해 Data Plane 장비의 전달 규칙으로 변환하는 구조이다.
+> 요약: 제어 로직을 장비에서 떼어내 중간 컨트롤러에 집중시키고, 위아래를 개방형 API로 묶어 프로그래밍이 가능한 망을 구성한다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 흐름도 (패킷 포워딩 프로세스)
 
 ```text
-서비스 요구 -> 정책 변환 -> 토폴로지/상태 조회
--> 경로·ACL·QoS 계산 -> Flow/Config 배포
--> 패킷 전달 -> Telemetry 수집 -> 정책 재계산
+패킷 유입 -> Switch Flow Table 매칭 -> (Match 성공) -> 즉시 포워딩(H/W)
+                                 -> (Match 실패) -> Controller에 Packet-in 요청
+Controller 경로 계산 -> Switch로 Flow-mod 하달 -> Switch Table 갱신 -> 포워딩
 ```
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | 서비스·보안 정책 입력 | Intent, ACL, QoS Profile |
-| 2 | Controller가 토폴로지와 장비 상태 조회 | LLDP, BGP-LS, Telemetry |
-| 3 | 경로와 Flow Rule 계산 | Loop Free, Policy Conflict Check |
-| 4 | Southbound API로 장비에 규칙 배포 | Config Commit, Flow Install Success |
-| 5 | 트래픽과 장애 이벤트를 수집해 재계산 | p95 지연, Drop Count, Link Event |
+| 1 | Table 매칭 | 스위치 유입 패킷의 헤더(MAC, IP, TCP 포트)를 Flow Table과 비교 |
+| 2 | 규칙 부재 (Miss) | 일치하는 규칙이 없으면 패킷 헤더를 컨트롤러로 전송 (Packet-in) |
+| 3 | 경로 계산 및 하달 | 컨트롤러가 전체 망 상태를 보고 최적 경로를 계산, 규칙 전송 (Flow-mod) |
+| 4 | 포워딩 적용 | 스위치가 수신한 규칙을 캐싱하고 후속 패킷들을 하드웨어 라인 레이트로 처리 |
 
-> 요약: SDN은 정책 입력부터 장비 규칙 배포와 Telemetry 기반 재계산까지 폐루프 제어를 수행한다.
+> 요약: 스위치는 모르는 패킷이 오면 중앙 컨트롤러에 물어보고, 지시받은 규칙을 기억해 후속 패킷을 초고속으로 처리한다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 특징 (레거시 라우팅 vs SDN 비교)
 
-| 구분 | 기존 네트워크 | SDN | 수치·표준 포인트 |
+| 구분 | 레거시 라우팅 (OSPF/BGP) | SDN 아키텍처 | 판단 포인트 |
 |:---|:---|:---|:---|
-| 제어 구조 | 장비별 Control Plane | 중앙 Controller | Control/Data Plane 분리 |
-| 변경 방식 | CLI 수동 설정 | API·정책 자동 배포 | REST, gRPC, NETCONF |
-| 경로 판단 | 분산 라우팅 수렴 | 전체 토폴로지 기반 계산 | BGP-LS, Telemetry |
-| 운영 위험 | 장비별 오류 | Controller 장애·정책 오류 | Controller HA, Rollback |
+| 제어 구조 | 분산 자율 제어 (장비별 연산) | 중앙 집중 제어 (Controller) | 뷰잉(Viewing)의 통합 여부 |
+| 의사 결정 | 각 라우터가 인접 정보로 계산 | 컨트롤러가 글로벌 토폴로지 인지 | 트래픽 최적화(Traffic Engineering) 용이성 |
+| 장비 종속성 | 특정 벤더 H/W + S/W 결합 | White box H/W + 오픈 S/W | CAPEX 절감 및 벤더 락인 해소 |
+| 변경 민첩성 | 박스별 수동 CLI 설정 (수십 분) | API 기반 동적 프로그래밍 (수 초) | 클라우드 오토스케일링 연동 |
 
-> 요약: SDN은 중앙 정책 제어와 자동화를 제공하지만 Controller와 정책 저장소를 핵심 장애 도메인으로 관리해야 한다.
+> 요약: SDN은 망 전체를 한눈에 보는 전지적 시점을 제공하므로, 지엽적 최적화에 머무는 분산 라우팅보다 글로벌 트래픽 엔지니어링에 탁월하다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | SDN | 선택 기준 |
-|:---|:---|:---|:---|
-| 데이터센터 | VLAN/STP 수동 운영 | Controller 기반 Overlay/Policy | 테넌트 수, 변경 빈도, 자동화 요구 |
-| WAN | 정적 경로·MPLS 중심 | SD-WAN/Policy Routing | 애플리케이션별 경로·SLA 필요 |
-| 보안 | 장비별 ACL | 중앙 정책·마이크로세그먼트 | 동서 트래픽 통제, 감사로그 |
-
-> 요약: SDN은 변경 빈도와 정책 복잡도가 높은 데이터센터·WAN·보안 세그먼트에 우선 적용한다.
-
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| Controller 장애 | 중앙 제어 의존 | 3노드 HA, State Replication, Failover Test | Controller Quorum, RTO |
-| 정책 충돌 | 다중 앱 정책 중복 | Policy Validation, Dry-run, Rollback | Conflict Count, Failed Commit |
-| 장비 호환 | Southbound 구현 차이 | 표준 API 매트릭스, 벤더 검증 | Flow Install Failure |
+| SPOF (단일 장애점) | Controller 장애 시 망 전체 마비 | 컨트롤러 다중화(Active-Standby 클러스터링) | 컨트롤러 Fail-over Time 1초 이내 |
+| 대역폭 포화 | 잦은 Packet-in 요청 폭주 | Flow Table Rule 세분화, Wildcard Rule 적용 | Southbound 대역폭 사용률 |
+| 보안 위협 | North/South API 탈취, 위조 규칙 | TLS 암호화 채널, Controller RBAC 접근통제 | 인가되지 않은 Flow 수정 시도 0건 |
 
-> 요약: SDN 리스크는 중앙 제어, 정책 충돌, 장비 호환이며 HA와 사전 검증 파이프라인으로 통제한다.
+> 요약: 중앙 집중 제어는 컨트롤러 하나가 무너지면 재앙이므로, 고가용성(HA) 클러스터 구성과 API 구간 암호화가 SDN 도입의 선결 조건이다.
 
 | 점검 항목 | 목표 기준 | 측정 방법 |
 |:---|:---|:---|
-| 변경 배포 | 정책 배포 5분 이하 | CI/CD 로그, Controller Audit |
-| 가용성 | Controller 99.9% 이상 | Health Check, Failover Drill |
-| 전달 품질 | p95 지연·Drop Count 기준 충족 | Telemetry, Flow Counter |
+| 배포 민첩성 | VM 생성 시 네트워크 설정 자동 반영 5초 이내 | 오케스트레이터(OpenStack) 연동 로그 |
+| 플로우 적용 | Flow-mod 규칙 하달 지연시간 50ms 이내 | 컨트롤러-스위치 간 제어 응답 시간 |
+| 벤더 독립성 | 서로 다른 3사 제조사 스위치 동시 제어 | OpenFlow 호환성 테스트 통과율 |
 
-> 요약: SDN 운영은 배포시간, Controller 가용성, 전달 품질 Counter를 지속 측정해야 한다.
+> 요약: 클라우드 컴퓨팅과 동일한 속도로 네트워크 인프라가 변형되고 프로비저닝되는지(Agility)가 도입 성패를 가른다.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 데이터센터는 SDN Controller 3노드 HA와 역할 기반 접근제어를 구성하고 정책 변경을 Git 기반 승인 절차와 연결함
-2. Southbound는 장비별 OpenFlow/NETCONF/gNMI 지원 범위를 매트릭스로 검증하고 Rollback 가능한 Commit 방식을 적용함
-3. Telemetry는 Flow Counter, Link Event, p95 지연, Drop Count를 수집해 정책 오류를 5분 이내 탐지하도록 구성함
+**적용 방안 3개:**
+1. 데이터센터 클라우드(SDDC): OpenStack과 SDN 컨트롤러를 연동하여, 테넌트별 가상 네트워크(VLAN/VXLAN) 생성을 API로 100% 자동화
+2. 트래픽 엔지니어링(SD-WAN): 본사-지사 간 다중 회선(MPLS, 인터넷) 상태를 중앙에서 모니터링하고, 회선 장애 시 100ms 내 우회 경로로 규칙 일괄 변경
+3. 동적 보안 대응(SecaaS): 디도스(DDoS) 공격 탐지 시스템이 Application Layer에서 공격을 인지하면, Northbound API를 호출해 스위치 단에서 IP를 즉시 Drop
 
 **결론 (2줄):**
-- 기술사 판단: 변경 빈도와 정책 복잡도가 높으면 SDN, 단순 고정망이면 표준 라우팅과 자동화 도구 조합을 우선 검토함
-- 향후 방향: SDN은 Intent 기반 네트워킹, P4 Programmable Data Plane, AIOps 관측성과 결합해 폐루프 운영으로 발전함
+- 기술사 판단: 클라우드 인프라의 민첩성 병목이 네트워크에 집중되는 환경이라면, 벤더 종속을 끊고 중앙 제어를 제공하는 SDN 도입이 필수 불가결하다.
+- 향후 방향: SDN은 NFV(기능 가상화)와 결합하여 소프트웨어 정의 데이터센터(SDDC)를 완성하고, AI를 접목한 인텐트 기반 네트워크(IBN)로 자율 운용 체계로 진화할 것이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "SDN을 설명하시오" | 정책 입력부터 Flow 배포까지 원리 | 기존 네트워크 대비 Control/Data 분리 |
-| 요구사항 명시형 | "SDN 도입 방안을 제시하시오" | HA, 정책 검증, Telemetry 흐름 | 리스크·지표·운영 자동화 |
+| 포괄/설명형 | "SDN의 원리와 구조를 설명하시오" | Packet-in, Flow-mod 동작 흐름 | 3계층 아키텍처와 South/North API 역할 |
+| 비교형 | "레거시 네트워크와 비교하시오" | 분산 자율 vs 중앙 집중 제어 차이 | 하드웨어 종속성, 프로그래밍 민첩성 비교표 |
+| 방안형 | "클라우드(SDDC) 적용 시 고려사항" | 오토스케일링 시 규칙 동적 자동 적용 | 컨트롤러 SPOF 장애 대비책, OpenFlow 부하 통제 |
 
-> 요약: 설명형은 구조와 원리, 방안형은 Controller 운영과 정책 검증 중심으로 목차를 전환한다.
+> 요약: 구조를 물으면 3계층과 API, 비교를 물으면 분산vs중앙과 벤더 락인, 설계를 물으면 SPOF 리스크와 가용성 대응으로 목차를 조정한다.

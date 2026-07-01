@@ -1,6 +1,6 @@
 ---
-title: "5G 코어 네트워크 SBA - AMF·SMF·UPF (5G Core SBA)"
-date: "2026-07-01"
+title: "5G 코어 네트워크 SBA — AMF·SMF·UPF (5G Core SBA)"
+date: "2026-06-30"
 tags:
   - "cspe-network"
 weight: 45
@@ -8,154 +8,135 @@ weight: 45
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 5G Core SBA를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 5G 코어망(5GC)이 기존 하드웨어 중심 구조에서 어떻게 클라우드 중심의 서비스 기반 아키텍처(SBA)로 혁신되었는지 이해한다.
 
 ## 한눈에
-- **개요**: 5G Core는 AMF·SMF·UPF 등 Network Function이 서비스 기반 인터페이스로 연동되는 클라우드 네이티브 코어망 구조
-- **왜 필요한가**: EPC는 MME·SGW·PGW 중심의 장비 단위 구조라 slicing, MEC, API 노출, 기능 확장에 제약이 있다. 5GC는 NF를 분리해 서비스별로 조합한다.
-- **핵심 직관**: EPC가 고정된 교환기 묶음이라면, SBA는 여러 마이크로서비스가 필요한 기능을 API로 호출하는 구조이다.
+- **개요**: 5G 전용 코어망(5GC)을 소프트웨어 모듈(마이크로서비스) 형태로 잘게 쪼개어 HTTP/REST API로 통신하게 만든 구조
+- **왜 필요한가**: 4G 코어망은 특정 장비(MME, SGW 등)가 1:1 케이블로 딱딱하게 연결되어, 새로운 기능을 추가하거나 일부 기능만 확장(Scale-out)하기 매우 어려웠기 때문
+- **핵심 직관**: 4G 코어가 기능별로 고정된 부품을 납땜해 만든 '일체형 전축'이라면, 5G SBA는 언제든 앱을 깔고 지울 수 있고 API로 소통하는 '스마트폰 운영체제'다.
 
 ## 깊이 이해
-- **배경·문제의식**: 5G는 eMBB·URLLC·mMTC처럼 서로 다른 요구사항을 수용해야 한다. 이를 위해 제어면 기능을 NF 단위로 쪼개고, 사용자 평면 UPF를 서비스 위치에 맞게 분산할 필요가 있다.
-- **작동 원리**: UE가 등록하면 AMF가 접근·이동성을 처리하고 AUSF/UDM과 인증을 수행한다. PDU Session 요청은 SMF가 처리하며, SMF는 UPF를 선택해 N3/N6 데이터 경로를 만든다.
-- **비유**: 공항에서 AMF는 입국 심사·이동 동선 안내, SMF는 탑승권과 게이트 배정, UPF는 실제 수하물 이동 컨베이어 역할을 한다.
-- **구체 예시**: SBA는 Namf, Nsmf, Npcf, Nudm 같은 서비스 기반 인터페이스를 사용하고, UPF는 MEC 근처에 배치해 local breakout을 구성할 수 있다.
-- **흔한 오해·주의점**: SBA는 제어면 구조이고, UPF는 사용자 평면 패킷 전달 기능이다. 모든 NF가 HTTP API만으로 데이터 패킷을 전달하는 것은 아니다.
+- **배경·문제의식**: 자율주행, IoT 등 5G의 요구사항(Network Slicing 등)에 유연하게 대응하려면 코어망 전체가 IT 클라우드 생태계처럼 바뀌어야 함(NFV/SDN 도입 가속).
+- **CP/UP 분리(CUPS)**: 5G 코어는 제어 신호(Control Plane, 어디로 보낼지 결정)와 실제 데이터 트래픽(User Plane, 짐을 나르는 차)을 완벽히 분리함. 
+- **AMF (접속 및 이동성 관리)**: 단말이 망에 접속하고 이동할 때 끊기지 않게 관리(4G MME 역할).
+- **SMF (세션 관리)**: IP 주소를 할당하고 데이터가 지나갈 길(PDU 세션)을 만들어 UPF를 조종함.
+- **UPF (사용자 평면 기능)**: SMF의 명령을 받아 실제 대용량 데이터를 인터넷이나 MEC(엣지 컴퓨팅) 서버로 빠르게 전달하는 역할(4G SGW/PGW 역할).
+- **비유**: AMF는 출입증을 검사하는 경비원, SMF는 화물이 갈 길을 짜주는 관제사, UPF는 실제 짐을 나르는 화물차다.
 
 ## 연결 개념
-- AMF - UE 등록, 접근, 이동성 관리
-- SMF - PDU Session, IP 주소, UPF 선택, QoS Flow 제어
-- UPF - 사용자 패킷 포워딩, QoS enforcement, local breakout
+- CUPS (Control and User Plane Separation) — 제어부와 전송부를 물리적/논리적으로 분리하는 아키텍처 원칙
+- 마이크로서비스 아키텍처 (MSA) — SBA를 소프트웨어적으로 구현하기 위한 백엔드 구조
+- 네트워크 슬라이싱 (Network Slicing) — SBA의 유연성을 바탕으로 코어망 인스턴스를 독립적으로 찍어내는 기술
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 5GC SBA를 NF 명칭 나열로 끝내지 않고 AMF·SMF·UPF 역할 분리, 서비스 기반 인터페이스, 세션 흐름, 운영 지표로 답안을 구성한다.
+> 목적: 5G SA 구조의 핵심인 SBA와 CUPS의 원리를 설명하고, 주요 Network Function(AMF, SMF, UPF)의 역할과 IT 친화적 인터페이스(HTTP/2)를 명시한다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 5G Core SBA는 제어면 NF가 서비스 기반 인터페이스로 기능을 제공하고, UPF가 사용자 평면을 분산 처리하는 3GPP 코어망 구조이다.
-> 2. **가치**: AMF·SMF·UPF 분리로 이동성, 세션 제어, 패킷 전달을 독립 확장하고 slicing·MEC·API exposure를 지원한다.
-> 3. **판단 포인트**: NF discovery, SBI 보안, UPF 위치, PDU Session 성공률, control/user plane 분리 효과를 함께 검증해야 한다.
+> 1. **본질**: 5G SBA(Service Based Architecture)는 코어망 기능(NF)을 모듈화하고 REST API(HTTP/2) 기반 메시지 버스로 통신하는 클라우드 네이티브 아키텍처다.
+> 2. **가치**: CP/UP 분리(CUPS)와 컨테이너화를 통해 트래픽 증감에 따른 특정 기능만의 독립적 스케일아웃과 MEC(Edge) 전진 배치가 가능해졌다.
+> 3. **판단 포인트**: IT(Web) 기술이 통신 코어(Telco)에 도입됨에 따라 확장성은 극대화되었으나, API 보안 취약점과 마이크로서비스 간 오버헤드 통제가 과제로 대두되었다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 5GC 구조 이해 확인 | AMF·SMF·UPF 역할과 N1/N2/N3/N4/N6 | NF 이름만 나열하고 흐름 누락 |
-| SBA 원리 확인 | NRF discovery, 서비스 기반 인터페이스 | EPC 장비 구조와 구분 실패 |
-| 운영 판단 확인 | UPF 분산, MEC, slicing, observability | 제어면·사용자 평면 혼동 |
+| 5G 코어망 구조적 혁신(SBA)에 대한 이해 | REST API, HTTP/2, JSON 기반 NF 통신 | 단순히 "SW로 바꿨다" 식의 비전문적 서술 |
+| 5G NF 주요 컴포넌트 역할 규명 | AMF, SMF, UPF의 정확한 역할 분담 및 CUPS 구조 | 4G 노드(MME, PGW) 명칭과 혼용하여 설명 |
+| 타 기술(슬라이싱, MEC)과의 연계성 도출 | NRF를 통한 서비스 디스커버리, UPF 엣지 분산 배치 | 코어망 단독으로만 설명하고 시너지 누락 |
 
-> 요약: 이 문제는 5GC NF 역할과 SBA 호출 구조를 PDU Session 흐름으로 설명하는 답안을 요구한다.
+> 요약: 통신 전용 프로토콜(GTP/Diameter)에서 웹 표준(HTTP/REST)으로의 패러다임 전환과, CP(AMF, SMF)/UP(UPF) 완벽 분리를 중심축으로 답안을 전개해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-5G Core SBA는 AMF·SMF·UPF 등 NF가 서비스 기반으로 연동되는 3GPP 5GC 구조이다. 5G SA, network slicing, MEC, private 5G는 EPC보다 세밀한 제어면 분리와 UPF 분산을 요구한다. 답안은 NF 역할과 세션 흐름을 함께 제시해야 한다.
+- 정의: 5G 코어망(5GC)의 제어 평면 기능(NF)들을 독립된 서비스로 정의하고 버스(Bus) 형태의 API로 상호 연동하는 3GPP 표준 아키텍처
+- 배경: 기존 4G EPC의 점대점(Point-to-Point) 단일 결합 구조는 새로운 기능 추가 및 트래픽 폭증에 따른 부분 확장이 불가
+- 필요성: 네트워크 슬라이싱의 동적 생성 및 트래픽 급증 시 제어부(CP)와 데이터부(UP)의 독립적 자원 확장(Scale-out) 역량 필수
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 5G SBA 구조 및 핵심 컴포넌트
 
 ```text
-UE -> gNB -> AMF
-AMF -> AUSF/UDM/PCF/NRF
-AMF -> SMF -> UPF -> Data Network
-SMF -> UPF over N4
-gNB -> UPF over N3
+[Service Based Interface (Bus)] --- HTTP/2, REST API 기반 통신
+   |            |            |            |
++-----+      +-----+      +-----+      +-----+
+| NRF |      | AMF |      | SMF |      | UDM | (Control Plane)
++-----+      +-----+      +-----+      +-----+
+                 |            | (N4 Interface)
+[단말 UE] ━(NAS)━┛            V 
+ ┗━━━━━ (데이터 트래픽) ━━━━━> [ UPF ] ━━━━━━> [인터넷 / MEC] (User Plane)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 컴포넌트 (NF) | 역할 및 특징 | 4G 대응 장비 |
 |:---|:---|:---|
-| AMF | UE 등록, 접근 인증 연계, 이동성 관리 | N1/N2 termination |
-| SMF | PDU Session 생성, IP 주소, QoS Flow, UPF 선택 | N4로 UPF 제어 |
-| UPF | 사용자 패킷 포워딩, QoS 적용, N6 연결 | MEC local breakout 가능 |
-| NRF/PCF/UDM | NF discovery, 정책, 가입자 데이터 제공 | SBI 기반 서비스 호출 |
+| **AMF** (Access & Mobility) | 단말 인증, 등록 관리, 이동성 제어(Handover) | MME |
+| **SMF** (Session Management) | PDU 세션 관리, IP 할당, UPF 경로 선택 및 제어 | SGW-C, PGW-C |
+| **UPF** (User Plane Function)| 패킷 라우팅 및 포워딩, QoS 처리, 트래픽 측정 | SGW-U, PGW-U |
+| **NRF** (NF Repository) | 각 NF의 서비스 등록/검색(Service Discovery) 기능 | (신규/DNS 유사) |
 
-> 요약: AMF는 접근·이동성, SMF는 세션 제어, UPF는 패킷 전달을 담당하며 SBI로 주변 NF와 연동한다.
+> 요약: 제어(CP) 기능들은 NRF를 통해 서로를 동적으로 찾아 REST API로 통신하며, 데이터(UP)는 UPF를 통해서만 처리된다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-UE Registration -> AMF Selection -> Authentication with AUSF/UDM
--> PDU Session Request -> SMF Selection -> UPF Selection
--> N4 Rule Install -> N3/N6 User Plane Forwarding -> QoS Monitoring
+단말(UE) 접속 요청 -> AMF가 NRF를 통해 적합한 SMF 검색 -> AMF-SMF 세션 생성 요청
+-> SMF가 정책(PCF/UDM) 확인 후 UPF 설정(N4) -> UE 트래픽이 UPF 통과
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+| 단계 | 서비스 기반 연동 처리 내용 | 아키텍처 원칙(CUPS) 적용 |
 |:---:|:---|:---|
-| 1 | UE가 gNB를 통해 AMF에 registration 수행 | registration success rate |
-| 2 | AMF가 AUSF/UDM과 인증·가입자 정보 확인 | auth failure rate |
-| 3 | SMF가 DNN·S-NSSAI 기준 PDU Session 처리 | PDU session success rate |
-| 4 | SMF가 UPF를 선택하고 N4 forwarding rule 설치 | PFCP session success |
-| 5 | UPF가 N3/N6 패킷 전달 및 QoS enforcement 수행 | packet loss, latency |
+| 1 | 서비스 등록 | 모든 NF 인스턴스는 기동 시 NRF에 자신의 IP와 프로필 등록 |
+| 2 | 서비스 디스커버리 | AMF는 NRF를 조회하여 특정 슬라이스에 할당된 SMF를 동적 검색 |
+| 3 | 세션 및 제어 설정 | SMF는 HTTP/2(JSON) API를 통해 UPF에 트래픽 전달 규칙 하달 |
+| 4 | 데이터 분산 전송 (UP) | UPF는 기지국 근처(MEC)로 전진 배치되어 최단 경로로 패킷 라우팅 |
 
-> 요약: 5GC는 등록, 인증, 세션 제어, UPF 규칙 설치, 사용자 평면 전달 순서로 동작한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | EPC | 5GC SBA | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 구조 | MME·SGW·PGW 장비 중심 | AMF·SMF·UPF NF 분리 | CUPS, SBI, cloud native |
-| 인터페이스 | S1/S5/S11 참조점 중심 | Namf/Nsmf/Npcf 등 서비스 호출 | OAuth2, TLS, NRF |
-| 사용자 평면 | SGW/PGW 중심 | UPF 분산 배치 | MEC latency, N6 breakout |
-| 운영 | APN/QCI | DNN, S-NSSAI, 5QI | slicing·QoS Flow |
-
-> 요약: 5GC SBA는 제어면을 NF 서비스로 분리하고 UPF를 분산해 slicing과 MEC 적용 기반을 제공한다.
+> 요약: NRF 기반의 동적 디스커버리 덕분에 특정 모듈(NF)에 장애가 발생하거나 증설되어도 코어망 전체를 멈추지 않고 실시간 대응이 가능하다.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅳ. 심화 비교 및 적용 판단 (4G EPC vs 5GC)
 
-| 비교 축 | 기존/대안 | 5GC SBA | 선택 기준 |
+| 비교 축 | 4G EPC 구조 | 5GC SBA 구조 | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | EPC monolithic appliance | cloud native NF, SBI | SA 전환, slicing 요구 |
-| 비용/성능 | 중앙 PGW 경로 | local UPF, N6 breakout | E2E latency와 회선 비용 |
-| 운영/위험 | 장비별 장애 관리 | NF별 관측성·오케스트레이션 | NF scaling, service mesh |
+| 연동 방식 | P2P (특정 노드 간 고정 인터페이스) | Bus (Service Based Interface) | 신규 모듈 및 기능 추가 유연성 |
+| 제어 프로토콜 | Diameter, GTP-C (통신 특화) | HTTP/2, REST/JSON (웹 표준) | IT 클라우드 생태계 개발자 접근성 |
+| 구조적 특징 | 하드웨어 기반 어플라이언스 | 컨테이너 기반 마이크로서비스 (MSA) | 클라우드 인프라(K8s) 상 이식성 |
 
-> 요약: 5GC SBA는 SA·slicing·MEC 요구가 있을 때 필요하며 NF 관측성과 자동화가 성공 조건이다.
+> 요약: 5G 코어망은 사실상 거대한 웹 백엔드 시스템과 동일한 아키텍처로 진화하여, 통신장비 종속성(Vendor Lock-in)을 탈피하였다.
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| SBI 장애 | NRF 조회 실패, TLS 인증서 오류 | NRF 이중화, mTLS, health check | SBI 5xx rate, NF heartbeat |
-| 세션 실패 | SMF/UPF N4 규칙 불일치 | PFCP 로그 상관분석, rollback | PDU success, PFCP failure |
-| UPF 병목 | local breakout 트래픽 집중 | UPF scale-out, QoS policing | UPF CPU, packet drop |
+| API 보안 위협 | 웹 기술(HTTP) 도입으로 기존 DDoS, 인젝션 공격 등 웹 취약점 노출 | SEPP(보안 엣지 보호 프록시) 도입, mTLS 상호 인증 필수화 | 비인가 API 호출 차단율, 인증서 만료 |
+| MSA 통신 오버헤드 | 수많은 NF 간 HTTP/2 메시지 폭증에 따른 지연시간 발생 | 서비스 메시(Service Mesh, Istio 등) 기반 트래픽 제어 및 gRPC 전환 검토 | 코어망 내부 NF 간 지연시간(Latency) |
 
-> 요약: 5GC 운영 리스크는 SBI·세션·UPF 병목이며 NF별 로그와 PM 카운터를 연결해야 한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 접속·세션 | registration/PDU success 99% 이상 | AMF/SMF PM, CDR |
-| 사용자 평면 | latency, packet loss, throughput | UPF counter, probe |
-| 제어면 | SBI error rate, NF discovery time | NRF/SCP 로그, tracing |
-
-> 요약: 5GC 품질은 접속 성공률, 사용자 평면 지표, SBI 제어면 지표를 함께 보아야 한다.
+> 요약: 개방형 API와 웹 통신 방식 도입은 확장성을 주었으나, 통신망에 IT 보안 수준 이상의 엄격한 API 게이트웨이 통제를 요구하게 되었다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅴ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. NF 배치: AMF/SMF는 지역 이중화, UPF는 MEC·기업망 근처에 배치해 N3/N6 경로와 E2E latency를 측정함
-2. SBA 보안: SBI 구간 mTLS, OAuth2 token, NRF 접근통제를 적용하고 SBI 4xx/5xx rate를 모니터링함
-3. 세션 검증: DNN·S-NSSAI·5QI별 PDU Session 성공률, PFCP N4 실패율, UPF drop counter를 대시보드화함
+**적용 방안 3개:**
+1. MEC 전진 배치: CUPS 원칙에 따라 CP(AMF, SMF)는 중앙 센터 클라우드에 배치하고, UP(UPF)만 지역 국사나 공장 내부에 분산 배치하여 자율주행 등 초저지연 확보
+2. 맞춤형 슬라이스 찍어내기: NRF 기반 동적 연동을 활용해, IoT용 슬라이스는 경량화된 AMF/SMF 인스턴스로, 초고속용은 고성능 UPF 인스턴스로 조합하여 프로비저닝
+3. CI/CD 배포 자동화: NF들이 컨테이너 이미지로 제공되므로 K8s(Kubernetes) 환경에서 무중단 배포(Rolling Update) 및 트래픽 폭증 시 자동 스케일아웃(HPA) 적용
 
 **결론 (2줄):**
-- 기술사 판단: 5GC SBA는 SA, slicing, MEC 요구가 명확할 때 AMF·SMF·UPF 분리와 UPF 위치가 설계 핵심임
-- 향후 방향: 5G-Advanced는 NWDAF, SCP, 자동 스케일링과 결합해 NF 단위 폐루프 운영으로 발전함
+- 기술사 판단: 5G SBA는 통신망(Telco)과 IT 클라우드의 경계를 완전히 허문 아키텍처 혁신이며, 진정한 5G B2B 융합은 SA 기반 5GC가 완성되어야 비로소 실현된다.
+- 향후 방향: 6G에서는 코어망의 분산화가 더욱 심화되어, 위성이나 소형 드론 기지국 내부에도 초경량화된 코어(NF)가 내장되는 분산 클라우드 네이티브로 진화할 것이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "5G Core SBA를 설명하시오" | registration, PDU Session, UPF forwarding 흐름 | EPC 대비 NF 분리와 SBI 비교 |
-| 요구사항 명시형 | "5GC 구축 방안을 제시하시오" | NF 배치, SBI 보안, UPF 분산 절차 | 세션 실패·UPF 병목 리스크와 지표 |
-
-> 요약: 설명형은 NF 역할과 흐름, 구축형은 배치·보안·운영 지표 중심으로 목차를 바꾼다.
+| 포괄형 | "5G 코어망 아키텍처 SBA를 설명하시오" | NRF를 매개로 한 동적 연동(디스커버리) 원리 폭넓게 | 4G EPC와의 비교표, HTTP/2 REST 도입 의의 |
+| 요구사항 명시형 | "5G CUPS 구조 관점에서 AMF, SMF, UPF의 역할을 설명하시오" | CP(AMF, SMF)와 UP(UPF)의 N4 인터페이스 분리 원리 | UPF 엣지 분산 배치를 통한 응답지연 감소 방안 |

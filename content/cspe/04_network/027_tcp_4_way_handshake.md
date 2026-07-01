@@ -1,6 +1,6 @@
 ---
 title: "TCP 4-way handshake·연결 해제 (TCP 4-way Handshake)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 27
@@ -8,156 +8,146 @@ weight: 27
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: TCP 4-way handshake를 처음 봐도 왜 종료는 연결 시작보다 단계가 많고 TIME_WAIT이 왜 필요한지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: TCP 연결 종료 과정을 처음 봐도 완벽히 이해하게 만든다.
 
 ## 한눈에
-- **개요**: TCP 연결 종료 시 양쪽 송신 방향을 각각 닫기 위해 FIN과 ACK를 교환하는 절차
-- **왜 필요한가**: TCP 연결은 전이중 통신이다. 한쪽이 보낼 데이터가 없어도 상대는 아직 보낼 데이터가 남아 있을 수 있으므로 방향별 종료 확인이 필요하다.
-- **핵심 직관**: 통화 종료에서 한 사람이 "저는 할 말 끝났습니다"라고 말해도 상대가 마지막 말을 마친 뒤 끊는 과정이다.
+- **개요**: TCP 통신을 마칠 때, 양쪽 모두 전송할 데이터가 없음을 확인하고 안전하게 세션을 종료하는 4단계 과정
+- **왜 필요한가**: 한쪽이 일방적으로 전화를 끊으면(RST), 상대방이 미처 다 보내지 못한 데이터가 허공으로 증발해버릴 수 있음
+- **핵심 직관**: A: "나 이제 할 말 다 했어 끊자(FIN)" -> B: "알았어 잠깐만(ACK), 내가 하던 말 마저 하고.. 나도 끝(FIN)" -> A: "오케이 끊는다(ACK)".
 
 ## 깊이 이해
-- **배경·문제의식**: TCP는 byte stream 신뢰성을 보장하므로 종료 중에도 남은 데이터와 ACK가 유실되지 않도록 상태를 관리한다. FIN은 송신 종료를 의미하고, ACK는 상대 FIN 수신 확인이다.
-- **작동 원리**: Active close 측이 FIN을 보내고 FIN_WAIT_1로 간다. 상대는 ACK 후 CLOSE_WAIT가 되고, 애플리케이션 정리 후 FIN을 보낸다. 최초 종료자는 ACK 후 TIME_WAIT에 머물러 지연 패킷과 마지막 ACK 재전송을 처리한다.
-- **비유**: 회의록을 마감할 때 한쪽이 먼저 제출 종료를 선언하고, 상대가 남은 문서를 제출한 뒤 양쪽이 접수 확인을 끝내는 절차다.
-- **구체 예시**: 웹 클라이언트가 FIN을 보내고 서버가 ACK한다. 서버가 응답 잔여 데이터를 보낸 뒤 FIN을 보내면 클라이언트가 ACK하고 TIME_WAIT 2MSL 동안 대기한다.
-- **흔한 오해·주의점**: TIME_WAIT은 무의미한 낭비 상태가 아니다. 같은 4-tuple 재사용 전 지연 세그먼트 제거와 마지막 ACK 재전송을 위해 필요하다.
+- **배경·문제의식**: TCP는 전이중(Full-Duplex) 통신이다. 양방향으로 독립된 파이프가 뚫려 있기 때문에, 클라이언트가 데이터를 다 보냈더라도 서버는 아직 클라이언트에게 보낼 데이터가 남아있을 수 있다. 즉, 각 방향마다 따로따로 종료 선언(FIN)을 해야 안전하다.
+- **작동 원리**:
+  1. **FIN (Client -> Server)**: 통신을 먼저 끝내려는 쪽(Active Close)이 "내 쪽 전송은 끝"이라며 FIN 전송 (상태: FIN_WAIT_1).
+  2. **ACK (Server -> Client)**: 상대방(Passive Close)이 일단 받았다고 응답 (상태: CLOSE_WAIT). 이 상태에서 남은 데이터를 마저 전송함. Client는 ACK를 받고 FIN_WAIT_2 상태가 됨.
+  3. **FIN (Server -> Client)**: 남은 전송을 마친 후 상대방도 "나도 끝"이라며 FIN 전송 (상태: LAST_ACK).
+  4. **ACK (Client -> Server)**: 최초 요청자가 "알았어"라고 최종 ACK 전송. 서버는 즉시 CLOSED 되지만, 클라이언트는 혹시 모를 패킷 지연을 대비해 일정 시간(TIME_WAIT) 대기 후 CLOSED 됨.
+- **비유**: 식당 영업 종료. 손님: "저희 다 먹었어요 갈게요(FIN)." 사장: "네(ACK), 남은 음식 포장해 드릴게요(CLOSE_WAIT)... 자 포장 다 됐습니다 안녕히 가세요(FIN)." 손님: "감사합니다(ACK)."
+- **구체 예시**: 서버 장애 시 `netstat`을 쳐보면, 백엔드 DB와 통신을 맺고 제대로 끊지 못한 프로세스들 때문에 `CLOSE_WAIT` 소켓이 수만 개 쌓여 시스템 자원이 고갈되는 현상을 자주 볼 수 있다.
+- **흔한 오해·주의점**: "TIME_WAIT은 낭비니까 무조건 없애야 한다"고 생각하기 쉽다. 하지만 TIME_WAIT이 없으면, 늦게 도착한 과거 세션의 패킷이 동일 포트를 재사용하는 새로운 세션의 패킷으로 둔갑해 데이터가 꼬이는 참사가 발생한다.
 
 ## 연결 개념
-- TCP 3-way handshake — 연결 성립 절차
-- TIME_WAIT·CLOSE_WAIT — 종료 상태와 운영 장애 지표
-- RST — 비정상 연결 종료와 애플리케이션 오류 분석
+- TIME_WAIT — 4-way handshake의 최종 단계에서, 늦게 도착하는 패킷을 기다리는 잉여 시간(보통 2 MSL)
+- CLOSE_WAIT — 수신 측이 애플리케이션의 종료(close()) 호출을 기다리는 상태. 소켓 누수 버그의 주범
+- TCP Reset (RST) — 4-way 절차를 무시하고 즉각적으로 강제 종료하는 비정상 종료 패킷
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: TCP 종료 답안은 FIN/ACK 4단계, half-close, TIME_WAIT, CLOSE_WAIT 누수, RST 차이를 함께 제시한다.
+> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TCP 4-way handshake는 전이중 연결의 각 송신 방향을 FIN과 ACK로 독립 종료하는 절차이다.
-> 2. **가치**: 잔여 데이터 전송과 지연 세그먼트 처리를 보장해 연결 종료 중 데이터 손실과 포트 재사용 충돌을 줄인다.
-> 3. **판단 포인트**: TIME_WAIT은 정상 대기, CLOSE_WAIT 증가는 애플리케이션 close 누락, RST는 비정상 종료 신호로 분리한다.
+> 1. **본질**: TCP 4-way Handshake는 전이중(Full-Duplex) 통신 환경에서 송수신 양측의 독립적인 연결 종료를 보장하는 절차다.
+> 2. **가치**: 종료 요청 후에도 잔여 데이터를 안전하게 수신할 수 있게(Half-Close) 하며, 패킷 지연 도달로 인한 다음 세션의 데이터 오염을 방지한다(TIME_WAIT).
+> 3. **판단 포인트**: 애플리케이션의 `close()` 누락은 CLOSE_WAIT 고갈을, 대량의 짧은 세션은 TIME_WAIT 고갈을 유발하므로 커널 파라미터 튜닝과 코드 점검이 필수다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| TCP 종료 원리 확인 | FIN, ACK, half-close, 상태 전이 | 3-way handshake와 동일하게 서술 |
-| 운영 장애 분석 확인 | TIME_WAIT, CLOSE_WAIT, FIN_WAIT | TIME_WAIT을 오류로 단정 |
-| 비정상 종료 구분 확인 | FIN 정상 종료 vs RST 강제 종료 | RST 원인과 로그 분석 누락 |
+| TCP 종료 논리 및 상태 전이 이해 | FIN, ACK 교환 및 FIN_WAIT, CLOSE_WAIT, TIME_WAIT 전이 | "그냥 4번 주고받고 끝난다" 식의 빈 서술 |
+| TIME_WAIT의 존재 이유와 리스크 통제 | 2 MSL 대기의 필요성 (패킷 오염 방지), 포트 고갈 현상 | TIME_WAIT을 무조건 나쁜 버그로 취급 |
+| 서버 장애 트러블슈팅(Troubleshooting) 역량 | CLOSE_WAIT 소켓 누수의 원인 (애플리케이션 버그) | 네트워크 장비 문제로 원인을 오판 |
 
-> 요약: 이 문제는 TCP 종료 상태를 애플리케이션 close 처리와 포트 자원 관리 관점으로 설명해야 한다.
+> 요약: 4-way 문제는 정상적인 종료 과정보다 TIME_WAIT과 CLOSE_WAIT 상태가 유발하는 '자원 고갈 장애'와 그 원인을 얼마나 명확히 짚어내는지가 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: FIN/ACK 교환으로 TCP 연결을 양방향 종료하는 절차
-- 배경: TCP는 전이중 통신이라 양쪽 송신 방향을 각각 확인해야 함
-- 필요성: TIME_WAIT·CLOSE_WAIT·RST 상태 해석이 접속 장애와 포트 고갈 분석의 핵심 판단 기준이 됨
+- 정의: TCP 세션을 종료하기 위해 양 종단 간 FIN(종료)과 ACK(확인) 플래그를 두 번씩 교환하는 절차
+- 배경: 전이중(Full-Duplex) 방식에서 한쪽의 전송 완료가 상대방의 전송 완료를 의미하지 않음
+- 필요성: 네트워크 상의 패킷 지연·유실로 인한 데이터 무결성 훼손을 막고, 안전하게 포트(Socket) 자원을 커널에 반환하기 위해 필수적
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 구조 및 구성요소 (제어 플래그)
 
 ```text
-Active Closer ESTABLISHED -> FIN -> FIN_WAIT_1
-  <- ACK -> FIN_WAIT_2
-  <- FIN -> TIME_WAIT
-  -> ACK -> CLOSED after 2MSL
-Passive Closer: CLOSE_WAIT -> LAST_ACK -> CLOSED
+[TCP 헤더 Control Flags] : URG | ACK | PSH | RST | SYN | FIN
+- 4-way Handshake는 FIN(연결 종료)과 ACK(확인) 플래그 조합으로 구성됨
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 제어 플래그 | 목적 및 동작 | 특이사항 |
 |:---|:---|:---|
-| FIN | 한쪽 송신 종료 알림 | 데이터 수신은 계속 가능 |
-| ACK | FIN 수신 확인 | FIN이 시퀀스 번호 1을 소비하므로 ack 번호 = 수신한 FIN의 seq + 1 |
-| TIME_WAIT | 지연 세그먼트와 마지막 ACK 처리 | 일반적으로 2MSL 대기 |
-| CLOSE_WAIT | 상대 FIN 수신 후 앱 close 대기 | 누적 시 애플리케이션 누수 의심 |
-| RST | 연결 강제 종료 | 포트 미수신, 정책 차단, 앱 reset |
+| FIN (Finish) | "나의 송신 데이터를 모두 보냈음"을 선언 | 수신은 계속 가능 (Half-Close 상태) |
+| ACK (Acknowledgment) | 상대방의 FIN 패킷을 정상 수신했음을 확인 | 상대방 상태를 WAIT로 전이시킴 |
+| RST (Reset) | 비정상 시 4-way 생략하고 즉시 커넥션 강제 파기 | 에러 발생 또는 방화벽에 의한 강제 차단 |
 
-> 요약: TCP 종료 구조는 방향별 FIN/ACK와 TIME_WAIT·CLOSE_WAIT 상태 관리로 구성된다.
+> 요약: FIN 패킷은 '송신'의 끝을 의미할 뿐 '수신'의 끝을 의미하지 않으므로, 양쪽 모두 FIN을 전송해야 완전한 종료가 이루어진다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 흐름도 (상태 전이)
 
 ```text
-Application Close -> FIN Send -> Peer ACK
-  -> Peer Data Drain -> Peer FIN
-  -> Final ACK -> TIME_WAIT -> CLOSED
+Active Close (먼저 끊는 쪽)           Passive Close (나중에 끊는 쪽)
+  | --- 1. FIN --------------------> | (CLOSE_WAIT)
+(FIN_WAIT_1)                         | : 남은 데이터 마저 전송 및 앱 close() 호출
+  | <--- 2. ACK -------------------- |
+(FIN_WAIT_2)                         |
+  | <--- 3. FIN -------------------- | (LAST_ACK)
+(TIME_WAIT)                          |
+  | --- 4. ACK --------------------> | (CLOSED) - 서버 즉시 자원 반환
+  (2 MSL 대기 후 CLOSED)               |
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+| 단계 | 플래그 | 상태 전이 (Active / Passive) |
 |:---:|:---|:---|
-| 1 | active closer가 FIN 전송 | FIN_WAIT_1, seq 증가 |
-| 2 | passive closer가 ACK 후 CLOSE_WAIT 진입 | ACK number, socket state |
-| 3 | passive closer 애플리케이션 종료 후 FIN 전송 | LAST_ACK, close call |
-| 4 | active closer가 ACK 후 TIME_WAIT 대기 | TIME_WAIT count, 2MSL |
+| 1 | `FIN=1` | `ESTABLISHED` -> `FIN_WAIT_1` / 수신측은 `CLOSE_WAIT` |
+| 2 | `ACK=1` | `FIN_WAIT_1` -> `FIN_WAIT_2` / 수신측 남은 처리 진행 |
+| 3 | `FIN=1` | 수신측 애플리케이션 종료 처리 후 `LAST_ACK` 전이 |
+| 4 | `ACK=1` | Active측은 `TIME_WAIT` 후 종료 / Passive측 즉시 `CLOSED` |
 
-> 요약: TCP 종료는 먼저 닫은 쪽과 나중에 닫은 쪽의 상태가 다르며, TIME_WAIT과 CLOSE_WAIT을 분리 해석해야 한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 정상 FIN 종료 | RST 종료 | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 절차 | FIN/ACK 4단계 | 즉시 연결 제거 | TCP flag FIN/RST |
-| 데이터 처리 | 잔여 데이터 전송 가능 | 버퍼 데이터 폐기 가능 | seq/ack 확인 |
-| 운영 상태 | TIME_WAIT, CLOSE_WAIT | connection reset log | 2MSL, socket count |
-| 장애 신호 | CLOSE_WAIT 누적 | 방화벽 reset, 앱 crash | netstat, ss |
-
-> 요약: FIN은 정상 종료, RST는 강제 종료이며 socket 상태와 패킷 flag를 함께 분석해야 한다.
+> 요약: 능동 종료자(주로 클라이언트)는 마지막 ACK 유실과 늦은 패킷 도달을 대비해 TIME_WAIT 상태에 머물러야 한다.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅳ. 주요 특징 및 한계 (TIME_WAIT vs CLOSE_WAIT)
 
-| 비교 축 | Active Close 측 | Passive Close 측 | 선택 기준 |
+| 구분 | TIME_WAIT | CLOSE_WAIT | 판단 포인트 |
 |:---|:---|:---|:---|
-| 구조 | FIN_WAIT, TIME_WAIT 보유 | CLOSE_WAIT, LAST_ACK 보유 | 어느 쪽이 먼저 close 했는지 pcap으로 확인 |
-| 비용/성능 | TIME_WAIT socket과 ephemeral port 사용 | CLOSE_WAIT 누수 시 FD 고갈 | socket count, port range |
-| 운영/위험 | 포트 재사용 지연 | 애플리케이션 close 누락 | sysctl 조정 전 앱 원인 확인 |
+| 주체 | 능동 종료자 (먼저 끊자고 한 쪽) | 수동 종료자 (나중에 끊는 쪽) | 누가 자원 부족에 빠졌는가 파악 |
+| 발생 원인 | 정상적인 TCP 종료 절차의 마지막 대기 (보통 60초) | 상대방의 FIN을 받았으나, 내 애플리케이션이 `close()` 미호출 | 정상 설계 vs 코드 결함 |
+| 주요 문제점 | 대량의 짧은 세션 발생 시 포트 고갈 현상 (65535개 한계) | 커널 자원(파일 디스크립터) 누수 및 신규 접속 불가 장애 | 커널 튜닝 vs 앱 로직 패치 |
 
-> 요약: 종료 장애는 TIME_WAIT 조정보다 CLOSE_WAIT 원인과 active closer 위치를 먼저 확인해야 한다.
+> 요약: TIME_WAIT은 프로토콜상 '정상'이지만 과부하의 원인이 되고, 대량의 CLOSE_WAIT은 100% 애플리케이션의 '로직 결함(비정상)'이다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+---
+
+## Ⅴ. 심화 판단 (장애 대처 기준)
+
+| 징후 | 원인 | 대응 방안 (커널 튜닝 / 아키텍처) | 확인 지표 |
 |:---|:---|:---|:---|
-| CLOSE_WAIT 누적 | 애플리케이션 socket close 누락 | connection pool 코드 점검 | CLOSE_WAIT count |
-| TIME_WAIT 과다 | 짧은 연결 대량 생성 | keep-alive, connection reuse | TIME_WAIT count, port usage |
-| RST 증가 | LB idle timeout, 앱 crash, 방화벽 reset | timeout 정렬, 로그 상관분석 | TCP reset rate |
+| TIME_WAIT 포트 고갈 | 리버스 프록시(Nginx 등)와 백엔드 간 짧은 연결(Short-lived) 빈발 | HTTP Keep-Alive 설정으로 세션 재사용 (Connection Pooling) | `netstat` 내 TIME_WAIT 소켓 수 |
+| 커널 포트 부족(EADDRNOTAVAIL) | 로컬 포트 범위 제약 및 TIME_WAIT 미반환 | 커널 `tcp_tw_reuse = 1` 활성화, `ip_local_port_range` 확장 | 사용 가능 Ephemeral Port 개수 |
+| CLOSE_WAIT 무한 누수 | 개발 오류(예외 처리 시 소켓 닫기 누락), DB 쿼리 무한 대기 타임아웃 부재 | 애플리케이션 코드 내 `finally` 블록의 명시적 `socket.close()` 검증 | 프로세스 파일 디스크립터 한계치 접근율 |
 
-> 요약: 종료 리스크는 앱 close 누락, 짧은 연결 폭증, timeout 불일치로 분류해 대응한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| Socket 상태 | CLOSE_WAIT 지속 증가 0건 | ss, netstat, eBPF |
-| 포트 사용률 | ephemeral port 사용률 80% 이하 | OS metric, connection table |
-| 종료 오류 | RST rate 기준선 초과 시 알림 | LB log, pcap, APM |
-
-> 요약: TCP 종료 품질은 CLOSE_WAIT, ephemeral port, RST rate로 관리한다.
+> 요약: 포트 고갈 장애 발생 시, L4/프록시 서버 단의 튜닝(tw_reuse)과 백엔드의 연결 풀(Connection Pool) 설계 최적화를 동시에 수행해야 한다.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 접속 종료 장애는 pcap으로 FIN/ACK/RST 송신 주체를 확인하고 애플리케이션 로그의 close 호출 시점과 대조함
-2. CLOSE_WAIT 누적 시 connection pool, socket close, thread leak을 점검하고 FD 사용률과 GC pause를 함께 확인함
-3. 짧은 HTTP 요청은 keep-alive, HTTP/2 multiplexing, LB idle timeout 정렬로 TIME_WAIT과 포트 사용률을 낮춤
+**적용 방안 3개:**
+1. 아키텍처 개선(Keep-Alive): HTTP/1.1 Keep-Alive 및 DB Connection Pool을 적극 활용하여 매 요청마다 3-way/4-way가 반복되는 오버헤드를 근본적으로 제거
+2. 커널 튜닝(TIME_WAIT 완화): Linux 커널 파라미터 `net.ipv4.tcp_tw_reuse = 1`을 설정하여, 안전성이 확인된 TIME_WAIT 포트를 신규 아웃바운드 연결에 재사용
+3. 개발 표준 준수(CLOSE_WAIT 방지): 소스코드 정적 분석(SAST) 및 리뷰를 통해 네트워크/DB 예외 발생 시 반드시 소켓 자원을 해제(`close()`)하도록 컴플라이언스 적용
 
 **결론 (2줄):**
-- 기술사 판단: TIME_WAIT은 정상 보호 상태, CLOSE_WAIT 증가는 애플리케이션 종료 처리 결함 신호로 판단함
-- 향후 방향: eBPF socket tracing과 APM을 결합해 FIN/RST 원인과 코드 경로를 함께 관측해야 함
+- 기술사 판단: 4-way Handshake 장애의 핵심은 네트워크 인프라가 아니라 시스템 파라미터(TIME_WAIT)와 애플리케이션 로직(CLOSE_WAIT) 간섭이다.
+- 향후 방향: 최근 마이크로서비스(MSA) 통신 폭증에 따른 커넥션 고갈을 막기 위해 gRPC(HTTP/2 다중화) 및 eBPF 기반 고속 소켓 처리 기술이 필수적이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ/Ⅴ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "TCP 연결 해제를 설명하시오" | FIN/ACK 상태 전이와 TIME_WAIT | FIN 종료와 RST 종료 비교 |
-| 요구사항 명시형 | "Socket 고갈 대응 방안을 제시하시오" | CLOSE_WAIT, TIME_WAIT 원인 분리 | 포트·FD·timeout 지표 |
+| 설명형 | "TCP 연결 해제 4단계를 설명하시오" | FIN, ACK 교환 및 4가지 상태 전이 명시 | Half-Close 구조 및 TIME_WAIT의 필수 불가결성 |
+| 문제해결형| "TIME_WAIT으로 인한 서비스 장애 원인 및 대책" | 능동 종료 시 TIME_WAIT 돌입 경로 확정 | 포트 범위 확장, tcp_tw_reuse 적용 및 Connection Pool |
+| 비교/트러블형| "TIME_WAIT과 CLOSE_WAIT을 비교하시오" | 능동 종료(Client) vs 수동 종료(Server) 분기 | 커널 튜닝(정상 최적화) vs 애플리케이션 패치(버그 수정) 대조 |
 
-> 요약: 설명형은 종료 절차, 방안형은 socket 상태별 원인과 운영 지표 중심으로 전환한다.
+> 요약: 단순 순서 나열을 넘어, TIME_WAIT과 CLOSE_WAIT이 시스템 자원(포트, FD)에 미치는 영향과 해결책을 다루어야 변별력이 생긴다.

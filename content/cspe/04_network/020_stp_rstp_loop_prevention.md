@@ -1,6 +1,6 @@
 ---
 title: "STP·RSTP·PVST+ 루프 방지 (STP RSTP Loop Prevention)"
-date: "2026-07-01"
+date: "2026-07-02"
 tags:
   - "cspe-network"
 weight: 20
@@ -8,155 +8,139 @@ weight: 20
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: STP, RSTP, PVST+를 처음 봐도 L2 루프가 왜 치명적이고 BPDU로 어떻게 루프를 막는지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 이 개념을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 스위치 이중화 링크에서 루프를 방지하기 위해 일부 포트를 차단하고 장애 시 대체 경로를 여는 L2 프로토콜
-- **왜 필요한가**: 이더넷 프레임에는 IP TTL 같은 수명 제한이 없다. L2 루프가 생기면 broadcast storm, MAC table flapping, CPU 과부하가 발생한다.
-- **핵심 직관**: 여러 다리가 있는 섬에서 평소에는 한 다리를 막아 순환도로를 없애고, 주 다리가 끊기면 막아둔 다리를 여는 방식이다.
+- **개요**: L2 스위치 망에서 물리적으로 우회(이중화) 경로가 있을 때, 브로드캐스트 트래픽이 무한 회전하는 루프(Loop)를 막기 위해 특정 경로를 논리적으로 차단하는 프로토콜
+- **왜 필요한가**: 이더넷 프레임은 IP 패킷과 달리 "수명(TTL)" 필드가 없어, 원형으로 연결된 스위치들 사이에서 트래픽이 평생 맴돌며 망을 마비시킴(브로드캐스트 스톰).
+- **핵심 직관**: 스위치를 삼각형으로 연결해두고(가용성), 스위치끼리 대화(BPDU)를 나눠 대장(Root)을 뽑은 뒤, 가장 비효율적인 길목 하나를 "사용 금지(Block)" 팻말을 세워 논리적 끊음(Tree) 상태를 만든다.
 
 ## 깊이 이해
-- **배경·문제의식**: 스위치망은 장애 대비를 위해 중복 링크를 구성한다. 그러나 L2는 루프를 자동 폐기하지 못하므로 STP가 루트 브리지를 선출하고 포트 역할을 정해 루프 없는 트리를 만든다.
-- **작동 원리**: 스위치들은 BPDU를 교환해 가장 낮은 Bridge ID를 가진 장비를 root bridge로 선택한다. 각 스위치는 root port, designated port, blocked port를 정하고, RSTP는 포트 역할과 상태 전환을 단순화해 수렴 시간을 줄인다.
-- **비유**: 교통 관제소가 여러 우회도로 중 하나만 열어 교차로 순환 정체를 막고, 사고 시 예비도로 신호를 바꾸는 구조다.
-- **구체 예시**: IEEE 802.1D STP는 listening 15초, learning 15초, max age 20초로 수렴이 30~50초 걸릴 수 있다. IEEE 802.1w RSTP는 proposal/agreement로 수 초 이내 전환을 목표로 한다.
-- **흔한 오해·주의점**: STP를 끄면 이중화 링크가 즉시 모든 대역폭을 쓰는 것이 아니라, L2 루프와 broadcast storm 위험이 커진다. 대역폭 활용은 LACP, MLAG, L3 ECMP로 설계해야 한다.
+- **배경·문제의식**: 스위치 한 대가 고장 나면 전체 망이 멈추는 걸 막으려고 선을 2~3가닥씩 엮음(이중화). 그런데 누군가 "모두에게 전해!"(브로드캐스트) 하면 스위치들이 서로에게 끝없이 복사해서 돌리며 1초 만에 CPU 100%를 치고 망이 다운됨.
+- **작동 원리 (STP)**: 스위치끼리 BPDU(Bridge Protocol Data Unit)라는 명함을 2초마다 교환함. Priority가 가장 낮은 놈이 Root Bridge가 되고, Root로 가는 가장 먼 길 하나를 찾아 차단(Blocking) 포트로 만듦. 끊어진 선이 생기면 차단 포트를 열어 살림(Listening → Learning → Forwarding, 50초 소요).
+- **작동 원리 (RSTP)**: 50초는 너무 길어서, 포트 상태를 대폭 줄이고 링크 절체 시 즉각(1초 이내) 포워딩 상태로 전환하도록 개선한 프로토콜(IEEE 802.1w).
+- **비유**: 골목길이 원형 교차로로 연결되어 사고(루프)가 나니, 바리케이드(Blocking)를 쳐서 강제로 막다른 길(Tree)을 만들었다가 메인 도로가 공사 중일 때만 바리케이드를 치워주는 것.
+- **흔한 오해·주의점**: 블로킹 포트는 물리적으로 닫힌 게 아니라 데이터 프레임만 버릴 뿐, BPDU 명함은 계속 주고받으며 메인 경로의 생사를 모니터링함.
 
 ## 연결 개념
-- BPDU — STP 제어 프레임, root bridge와 포트 역할 결정
-- VLAN/PVST+ — VLAN별 별도 spanning tree로 경로 분산
-- LACP/MLAG — 루프 없는 링크 집계와 이중화 대안
+- 브로드캐스트 스톰(Broadcast Storm)
+- BPDU(Bridge Protocol Data Unit)
+- 스택(Stacking) 및 vPC/VSS (STP 대안 기술)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
 > 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: STP 답안은 root bridge 선출, 포트 역할, BPDU guard, RSTP 수렴 차이, PVST+ VLAN별 트리까지 써야 한다.
+> 핵심: 이 시험은 정보를 많이 나열하는 시험이 아니라, 문제 신호어에서 출제자 의도를 읽고 핵심 논점을 선별해 쓰는 시험이다.
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: STP는 BPDU를 교환해 root bridge를 선출하고 일부 포트를 차단해 L2 루프 없는 spanning tree를 만드는 프로토콜이다.
-> 2. **가치**: 중복 링크를 유지하면서 broadcast storm, MAC flapping, frame duplication을 방지한다.
-> 3. **판단 포인트**: 802.1D, 802.1w, PVST+, root priority, port cost, BPDU Guard, convergence time을 비교해야 한다.
+> 1. **본질**: L2 브로드캐스트 스톰을 막기 위해 잉여 경로를 논리적으로 차단(Blocking)하여 루프 프리(Loop-Free) 트리를 구성하는 프로토콜
+> 2. **가치**: 스위치 간 이중화/다중화 링크를 구성(가용성 확보)하면서도 프레임 무한 순환에 의한 망 마비 리스크를 제거
+> 3. **판단 포인트**: 기존 STP(802.1D)의 느린 수렴 시간(50초) 한계를 RSTP(802.1w)로 어떻게 극복했는지(Proposal/Agreement) 구조적 변화
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| L2 루프 원인 이해 확인 | TTL 없음, broadcast storm, MAC flapping | 라우팅 루프와 동일하게 서술 |
-| STP 동작 원리 확인 | Root bridge, BPDU, root/designated/blocked port | 포트 역할 없이 차단만 설명 |
-| RSTP/PVST+ 비교 확인 | 802.1D vs 802.1w, VLAN별 tree | STP를 대역폭 집계 기술로 서술 |
+| L2 스위칭 루프 원리와 방지(STP) 메커니즘 이해 | L2 프레임의 TTL 부재, BPDU 교환, Root 선출 및 포트 차단, 수렴 시간(50초) | 알고리즘(STA)만 나열 (현대 망은 복구를 위해 RSTP가 필수임을 누락하면 감점) |
 
-> 요약: STP 문제는 루프 피해, BPDU 기반 트리 구성, RSTP·PVST+ 차이를 수렴 시간과 VLAN 관점으로 써야 한다.
+> 요약: 스위치 이중화의 딜레마(루프)를 설명하고, BPDU 기반의 포트 차단 원리(STP)와 고속 절체(RSTP) 과정을 명확히 대비해야 함.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 정의: 이더넷 스위치망의 L2 루프를 방지하는 프로토콜
-- 배경: 중복 링크가 있는 LAN에서 일부 포트를 차단해 loop-free tree를 구성함
-- 필요성: RSTP는 수렴 지연을 줄이고, PVST+는 VLAN별 spanning tree로 경로를 분산해야 함
+- 정의: 다중 L2 스위치 환경에서 물리적 루프를 감지하고 특정 포트를 논리적으로 차단해 트리를 구성하는 IEEE 표준(802.1D 등)
+- 배경: 이더넷 프레임은 L3 패킷과 달리 TTL(Time To Live) 필드가 없어 브로드캐스트 플러딩 시 무한 루핑 및 망 마비 발생
+- 필요성: 네트워크 고가용성(HA)을 위한 링크 이중화를 달성함과 동시에 브로드캐스트 스톰 원천 차단
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 구조 및 구성요소 (STP 선출 기준)
 
 ```text
-Switches Exchange BPDU -> Elect Root Bridge
-  / Root Port
-  / Designated Port
-  / Alternate or Blocked Port
-Loop-Free Tree -> Data Forwarding
+[스위치 A (Root)] <--- (Cost 19) ---> [스위치 B] 
+        |                              |
+    (Cost 19)                      (Cost 19)
+        |                              |
+        +-----> [스위치 C] <---- (Block)+
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소 | 역할 | 특이사항 (선출 우선순위) |
 |:---|:---|:---|
-| BPDU | STP 제어 정보 교환 | root ID, bridge ID, cost 포함 |
-| Root Bridge | 트리 기준점 | 낮은 priority와 MAC 기준 |
-| Port Role | 전달·차단 역할 결정 | root, designated, alternate |
-| Port State | 프레임 전달 상태 | blocking, learning, forwarding |
+| BPDU (Bridge Protocol Data Unit) | 스위치 간 2초 주기로 멀티캐스트하는 제어 프레임 | Root ID, Bridge ID, Cost 정보 포함 |
+| Root Bridge | 논리적 트리의 최상위 중심 스위치 | 1순위: Bridge Priority 낮음 (기본 32768), 2순위: MAC 주소 낮음 |
+| Root Port (RP) | Non-Root 스위치에서 Root로 가는 가장 빠른(Cost) 포트 | 포워딩(Forwarding) 상태 |
+| Designated Port (DP) | 세그먼트 당 하나씩 존재하는 데이터 포워딩 포트 | 포워딩(Forwarding) 상태 |
+| Non-Designated Port (NDP)| 루프 방지를 위해 논리적으로 차단된 잉여 포트 | 차단(Blocking) 상태 (데이터 불가, BPDU 수신 가능) |
 
-> 요약: STP 구조는 BPDU, root bridge, 포트 역할·상태 결정으로 루프 없는 트리를 만든다.
+> 요약: BPDU를 통해 대장(Root)을 뽑고, 각 스위치는 대장으로 가는 최단 거리(RP/DP)를 뺀 나머지 경로(NDP)를 모두 차단함.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 흐름도 (기존 STP 802.1D)
 
 ```text
-BPDU Receive -> Root Bridge Election -> Root Path Cost Compare
-  -> Port Role Assign -> Non-Selected Port Block
-  -> Link Failure -> Recalculate and Forward
+Root 선출 -> RP/DP 선출 -> NDP 차단 완료 -> 장애 감지 (BPDU 누락) -> Blocking 해제 대기 (50초) -> 포워딩 재개
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 스위치가 BPDU를 교환해 root bridge 선출 | lowest bridge ID |
-| 2 | 각 스위치가 root port 결정 | lowest root path cost |
-| 3 | 세그먼트별 designated port 선정 | port cost, bridge ID |
-| 4 | 대체 포트 차단 및 장애 시 전환 | convergence time |
+| 상태 (State) | 유지 시간 | 처리 내용 | MAC 학습 여부 |
+|:---:|:---:|:---|:---:|
+| Blocking | 20초 (Max Age) | 데이터 포워딩 차단, BPDU만 수신 대기 (장애 인지 시간) | 불가 |
+| Listening | 15초 (Forward Delay) | BPDU를 전송하며 루프 여부 재확인 (새 구조 연산) | 불가 |
+| Learning | 15초 (Forward Delay) | 실제 데이터 전송 전 MAC 어드레스 테이블 사전 학습 | 가능 |
+| Forwarding | 지속 | 정상적인 데이터 프레임 송수신 및 BPDU 처리 | 가능 |
 
-> 요약: STP는 root를 기준으로 최저 cost 경로만 forwarding 상태로 두고 나머지 경로를 차단한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | STP 802.1D | RSTP 802.1w | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 수렴 방식 | listening, learning 단계 | proposal/agreement | STP 30~50초 가능 |
-| 포트 역할 | root, designated, blocked | root, designated, alternate, backup | RSTP 수 초 목표 |
-| VLAN 처리 | 공통 tree | 구현별 VLAN 연계 | PVST+는 VLAN별 tree |
-| 운영 보호 | 기본 BPDU 처리 | edge port, BPDU guard | root guard, loop guard |
-
-> 요약: RSTP는 802.1D보다 포트 전환 절차를 줄이고, PVST+는 VLAN별 경로 분산을 가능하게 한다.
+> 요약: 기존 STP는 장애 감지 후 Blocking에서 Forwarding으로 넘어가기까지 타이머 기반으로 최대 50초를 허비하여 서비스 단절이 긺.
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅳ. 주요 발전 규격 (특징)
 
-| 비교 축 | STP/RSTP | LACP/MLAG/L3 ECMP | 선택 기준 |
+| 규격 | 표준 | 내용 | 판단 포인트 |
 |:---|:---|:---|:---|
-| 구조 | 일부 링크 차단 | 링크 병렬 사용 | L2 단순 이중화는 RSTP, 대역폭 활용은 LACP/MLAG |
-| 비용/성능 | 구성 단순, 차단 링크 발생 | 장비 기능 요구 | 회선 활용률과 장비 지원 비교 |
-| 운영/위험 | root 오설정, BPDU 공격 | split-brain, L3 설계 필요 | 보호 기능과 장애 도메인 기준 |
+| STP | 802.1D | 타이머 의존형 상태 변화 (최대 50초 수렴 지연) | 과거 기술로 현재 거의 미사용 |
+| RSTP | 802.1w | 타이머 대기 없이 BDPU Proposal/Agreement 교환으로 즉각(수 초 내) 절체 | 현대 스위치의 기본 활성화 프로토콜 |
+| PVST+ | Cisco 전용 | VLAN마다 개별적인 STP 트리를 구성하여 로드 밸런싱 수행 | 스위치 CPU/메모리 부하 큼 |
+| MSTP | 802.1s | 여러 VLAN을 그룹(Instance)으로 묶어 STP 트리를 생성하여 부하 경감 | 대규모 엔터프라이즈 환경 표준 |
 
-> 요약: 루프 방지만 필요하면 RSTP, 대역폭 활용과 수 초 이내 이중화 전환이 필요하면 LACP, MLAG, L3 ECMP를 검토한다.
+> 요약: 50초의 느린 속도는 RSTP로 해결하였고, 자원 낭비(VLAN별 일괄 차단)는 PVST+와 MSTP를 통해 로드 밸런싱으로 극복함.
+
+---
+
+## Ⅴ. 심화 비교 (STP vs RSTP) 및 리스크 통제
+
+| 비교 축 | STP (IEEE 802.1D) | RSTP (IEEE 802.1w) | 판단 포인트 |
+|:---|:---|:---|:---|
+| 포트 역할 | Root, Designated, Non-Designated | Root, Designated, **Alternate(백업), Backup** | 사전 백업 포트 지정 여부 |
+| 상태 천이 | 5단계 (Block-Listen-Learn-Forward-Disable) | 3단계 (Discarding - Learning - Forwarding) | 타이머 생략 및 간소화 |
+| 수렴 방식 | 수동적 타이머 대기 (20+15+15 = 50초) | 능동적 협상 (Proposal & Agreement 핸드셰이크) | 1초 이내 고속 절체 |
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| Broadcast Storm | STP 차단 실패, BPDU 손실 | storm-control, loop guard | broadcast pps |
-| Root 탈취 | 낮은 priority 장비 접속 | root guard, priority 고정 | root bridge 변경 로그 |
-| Edge 포트 루프 | 사용자 스위치 연결 | BPDU guard, portfast 제한 | err-disable event |
+| 단말 연결 지연 | PC 부팅 시 STP Listening/Learning(30초) 대기로 IP 할당(DHCP) 실패 | 종단 PC 포트에 PortFast 설정 활성화 (즉시 Forwarding) | PC 연결 후 통신 개시 지연 시간 |
+| Root Bridge 탈취 공격 | 공격자가 임의의 스위치를 붙여 Priority 0인 BPDU 유포 | BPDU Guard (PortFast 포트에 BPDU 수신 시 포트 즉시 err-disable 차단) | 스위치 포트 err-disable 로그 |
 
-> 요약: STP 운영 리스크는 storm, root 변경, edge 루프이며 guard 기능과 포트 정책으로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| Root 일관성 | 지정 core switch가 root | show spanning-tree root |
-| 수렴 시간 | 장애 후 목표 시간 이내 | link failover test |
-| 보호 기능 | access port BPDU guard 적용 | config audit, event log |
-
-> 요약: STP 품질은 root 일관성, 수렴 시간, BPDU 보호 기능 적용률로 판단한다.
+> 요약: RSTP는 백업 포트(Alternate)를 미리 계산해두고 즉각 절체하며, PC 연결 포트는 PortFast와 BPDU Guard로 보호해야 함.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. Core 스위치의 bridge priority를 낮게 설정해 VLAN별 root bridge를 의도한 장비로 고정함
-2. 사용자 access port에는 portfast와 BPDU guard를 적용하고 trunk에는 root guard, loop guard를 적용함
-3. 대역폭 활용이 필요한 uplink는 STP 차단 링크 대신 LACP, MLAG 또는 L3 ECMP 구조로 설계함
+1. [루트 강제 지정] 백본 스위치 2대의 Bridge Priority 값을 각각 4096(Root)과 8192(Secondary)로 강제 고정하여, 저사양 엑세스 스위치가 대장(Root)이 되는 토폴로지 붕괴 방지
+2. [엣지 포트 최적화] 서버나 PC가 연결되는 엑세스 스위치의 단말 포트는 `spanning-tree portfast edge` 모드로 설정하여 30초 대기 없이 즉각 링크 활성화 및 불필요한 TCN(토폴로지 변경 알림) 플러딩 차단
+3. [VLAN 로드밸런싱] 홀수 VLAN(10,30)은 백본 A를 Root로, 짝수 VLAN(20,40)은 백본 B를 Root로 구성(MSTP/PVST+)하여 차단 포트를 교차 분산시키고 업링크 대역폭 100% 활용
 
 **결론 (2줄):**
-- 기술사 판단: 단순 L2 이중화는 RSTP, VLAN별 경로 분산은 PVST+, 대역폭 병렬 활용은 LACP/MLAG/L3 ECMP를 선택함
-- 향후 방향: Fabric 기반 EVPN/VXLAN 환경에서도 loop guard, storm-control, telemetry로 L2 장애 전파를 지속 감시해야 함
+- 기술사 판단: 루프 방지 목적의 STP/RSTP는 필수적이나 경로 절반을 버려야 하는 근본적 한계가 있으므로, 향후 코어망 설계 시 물리적 루프를 제거하는 대안 기술 검토가 병행되어야 한다.
+- 향후 방향: 최근 데이터센터에서는 STP의 블로킹 낭비를 없애기 위해 여러 스위치를 묶는 L2 다중화(VSS, vPC) 기술이나, L3 패브릭 기반의 VXLAN/EVPN으로 100% Active-Active 경로를 사용하는 추세이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
 | 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "STP를 설명하시오" | root 선출, port role, BPDU 흐름 | STP/RSTP/PVST+ 비교 |
-| 요구사항 명시형 | "L2 루프 방지 방안을 제시하시오" | BPDU guard, root guard, storm-control | LACP/MLAG/L3 ECMP 선택 기준 |
-
-> 요약: STP는 설명형이면 BPDU 기반 트리 구성, 방안형이면 보호 기능과 대체 이중화 구조 중심으로 전환한다.
+| 포괄형 | "STP의 동작 원리와 상태 변화를 설명하시오" | BPDU 기반 Root 선출 및 5단계 상태 천이 | Listening/Learning의 50초 지연 문제 |
+| 요구사항 명시형 | "RSTP 비교", "VLAN 로드밸런싱 방안" | RSTP의 Proposal/Agreement 즉시 절체 | PVST+/MSTP 기반의 스위치 부하 분산 구조 설계 |
