@@ -1,6 +1,6 @@
 base_url = "https://agnusdei1207.github.io/study"
-title = "컴퓨터시스템응용기술사 준비"
-description = "컴퓨터시스템응용기술사(CSPE) 합격 전용 — 전략·기출·답안 템플릿·핵심 키워드"
+title = "Study Hub"
+description = "개인 CS 공부와 컴퓨터시스템응용기술사(CSPE) 시험 준비를 분리해 관리하는 학습 허브"
 compile_sass = false
 build_search_index = false
 minify_html = false

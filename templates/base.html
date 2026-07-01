@@ -68,25 +68,10 @@
                         <li><a href="{{ get_url(path='/') }}">Home</a></li>
                     </ul>
 
-                    <details class="explorer-group" {% if current_path is starting_with("/cspe/") %}open{% endif %}>
-                        <summary><span>CSPE 키워드 노트</span></summary>
-                        <ul>
-                            <li><a href="{{ get_url(path='/cspe/') }}">키워드 노트 허브</a></li>
-                            <li><a href="{{ get_url(path='/cspe/01_basic_theory/') }}">1. 컴퓨터 기초이론</a></li>
-                            <li><a href="{{ get_url(path='/cspe/02_hardware/') }}">2. 하드웨어 시스템</a></li>
-                            <li><a href="{{ get_url(path='/cspe/03_software/') }}">3. 시스템·응용 SW</a></li>
-                            <li><a href="{{ get_url(path='/cspe/04_network/') }}">4. 통신·네트워크</a></li>
-                            <li><a href="{{ get_url(path='/cspe/05_security/') }}">5. 시스템 보안</a></li>
-                            <li><a href="{{ get_url(path='/cspe/06_evaluation/') }}">6. 시스템 평가</a></li>
-                            <li><a href="{{ get_url(path='/cspe/07_law_policy/') }}">7. 법규·정책·표준</a></li>
-                            <li><a href="{{ get_url(path='/cspe/08_latest_tech/') }}">8. 최신 기술 동향</a></li>
-                        </ul>
-                    </details>
-
                     <details class="explorer-group" {% if current_path is starting_with("/studynote/") %}open{% endif %}>
-                        <summary><span>CS 16과목 학습 노트</span></summary>
+                        <summary><span>개인 CS 공부</span></summary>
                         <ul>
-                            <li><a href="{{ get_url(path='/studynote/') }}">학습 노트 허브</a></li>
+                            <li><a href="{{ get_url(path='/studynote/') }}">CS 16과목 학습 노트</a></li>
                             <li><a href="{{ get_url(path='/studynote/01_computer_architecture/') }}">01. 컴퓨터 구조</a></li>
                             <li><a href="{{ get_url(path='/studynote/02_operating_system/') }}">02. 운영체제</a></li>
                             <li><a href="{{ get_url(path='/studynote/03_network/') }}">03. 네트워크</a></li>
@@ -106,8 +91,23 @@
                         </ul>
                     </details>
 
+                    <details class="explorer-group" {% if current_path is starting_with("/cspe/") %}open{% endif %}>
+                        <summary><span>CSPE 시험 키워드</span></summary>
+                        <ul>
+                            <li><a href="{{ get_url(path='/cspe/') }}">키워드 노트 허브</a></li>
+                            <li><a href="{{ get_url(path='/cspe/01_basic_theory/') }}">1. 컴퓨터 기초이론</a></li>
+                            <li><a href="{{ get_url(path='/cspe/02_hardware/') }}">2. 하드웨어 시스템</a></li>
+                            <li><a href="{{ get_url(path='/cspe/03_software/') }}">3. 시스템·응용 SW</a></li>
+                            <li><a href="{{ get_url(path='/cspe/04_network/') }}">4. 통신·네트워크</a></li>
+                            <li><a href="{{ get_url(path='/cspe/05_security/') }}">5. 시스템 보안</a></li>
+                            <li><a href="{{ get_url(path='/cspe/06_evaluation/') }}">6. 시스템 평가</a></li>
+                            <li><a href="{{ get_url(path='/cspe/07_law_policy/') }}">7. 법규·정책·표준</a></li>
+                            <li><a href="{{ get_url(path='/cspe/08_latest_tech/') }}">8. 최신 기술 동향</a></li>
+                        </ul>
+                    </details>
+
                     <details class="explorer-group" {% if current_path is starting_with("/exam/cs/") %}open{% endif %}>
-                        <summary><span>실전 문서</span></summary>
+                        <summary><span>CSPE 실전 문서</span></summary>
                         <ul>
                             <li><a href="{{ get_url(path='/exam/cs/') }}">실전 문서 허브</a></li>
                             <li><a href="{{ get_url(path='/exam/cs/integrated-strategy/') }}">통합 학습 전략</a></li>
