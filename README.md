@@ -137,7 +137,6 @@ weight: NNN
 | `03_network` | `studynote-network` |
 | `04_software_engineering` | `studynote-software-engineering` |
 | `05_database` | `studynote-database` |
-| `06_ict_convergence` | `studynote-ict-convergence` |
 | `07_enterprise_systems` | `studynote-enterprise-systems` |
 | `08_algorithm_stats` | `studynote-algorithm-stats` |
 | `09_security` | `studynote-security` |
@@ -186,7 +185,6 @@ weight: 50
 | 03 | `03_network` | 네트워크 |
 | 04 | `04_software_engineering` | 소프트웨어 공학 |
 | 05 | `05_database` | 데이터베이스 |
-| 06 | `06_ict_convergence` | ICT 융합 |
 | 07 | `07_enterprise_systems` | 경영정보시스템 |
 | 08 | `08_algorithm_stats` | 알고리즘·통계 |
 | 09 | `09_security` | 정보보안 |
