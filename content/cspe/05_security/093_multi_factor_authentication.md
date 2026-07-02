@@ -129,7 +129,7 @@ User -> IdP -> Primary Auth -> Risk Engine -> MFA Challenge -> Session
 | SIM swap | SMS 번호 탈취 | SMS 제외, TOTP/FIDO2 전환 | 전화번호 변경 후 위험 이벤트 |
 | 우회 계정 | 예외 정책 방치 | break-glass 계정 2개 이하, 금고 보관 | MFA 예외 계정 수 |
 
-> 요약: MFA 운영 위험은 Push 피로, SMS 탈취, 예외 계정이며 정책과 로그로 통제해야 한다.
+> 요약: MFA 운영 위험은 Push 피로, SMS 탈취, 예외 계정이며 예외 정책 축소와 이벤트 로그 감사로 통제해야 한다.
 
 | 점검 항목 | 목표 기준 | 측정 방법 |
 |:---|:---|:---|
