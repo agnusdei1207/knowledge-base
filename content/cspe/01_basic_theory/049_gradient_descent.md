@@ -124,6 +124,14 @@ weight: 49
 
 > 요약: 최적화 과정의 주요 위험인 기울기 소실과 과적합은 Batch Norm 및 Weight Decay를 통해 통제해야 한다.
 
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 수렴 속도 | 목표 Epoch 내 Train Loss 임계치 도달 | Epoch별 Train/Val Loss 곡선 비교 |
+| 그래디언트 안정성 | 레이어별 Gradient Norm이 발산(NaN)·소실(0 근접) 없이 유지 | 학습 중 Gradient Norm 히스토그램(TensorBoard) |
+| 일반화 격차 | Train Accuracy와 Val/Test Accuracy 차이 관리 | K-Fold 교차 검증, Test Set 최종 평가 |
+
+> 요약: 옵티마이저 선정 효과는 수렴 속도만이 아니라 그래디언트 안정성과 일반화 격차를 함께 측정해야 판단 가능하다.
+
 ---
 
 ## Ⅵ. 실무 적용 및 결론

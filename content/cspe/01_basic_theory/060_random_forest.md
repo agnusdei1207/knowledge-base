@@ -126,6 +126,8 @@ weight: 60
 | 설명력(Interpretability) 소실 | 500개 트리의 경로 추적 불가 (블랙박스화) | SHAP (Shapley Additive exPlanations) 등 사후 XAI 프레임워크 결합 | Feature Importance 일치성 |
 | 메모리 초과 (OOM) | 트리 깊이 무제한 허용 시 트리 객체 용량 기가바이트(GB) 단위 폭증 | `max_depth` 또는 `min_samples_leaf` 제약 조건 추가 | 배포 시 모델 파일(Pickle) 크기 |
 
+> 요약: 랜덤 포레스트의 실무 리스크는 성능 저하가 아니라 트리 수 증가에 따른 설명력 소실과 모델 용량 폭증이며, XAI 도구와 깊이 제약으로 통제한다.
+
 ---
 
 ## Ⅵ. 실무 적용 및 결론

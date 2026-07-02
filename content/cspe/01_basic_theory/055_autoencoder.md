@@ -142,7 +142,7 @@ weight: 55
 
 | 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "오토인코더의 원리와 종류를 설명하시오" | Encoder-Latent-Decoder 흐름과 복원 오차 수식 | Denoising, Sparse 파생형 특징(Ⅳ 강조) |
+| 포괄형 | "오토인코더의 원리와 종류를 설명하시오" | Encoder-Latent-Decoder 흐름과 복원 오차 수식 | Denoising, Sparse 파생형 특징(Ⅴ 강조) |
 | 요구사항 명시형 | "Autoencoder를 활용한 이상 탐지 메커니즘과 생성 모델(VAE)과의 차이를 비교하시오" | 정상 데이터 학습 후 비정상 데이터의 복원 오차 증폭 메커니즘 | AE와 VAE 구조적 차이 및 손실 함수(KL Divergence) 비교표(Ⅴ 강조) |
 
 > 요약: 이상 탐지 적용을 묻는 요구사항 명시형의 경우, Ⅲ 원리 부분에서 복원 오차(Reconstruction Error)가 어떻게 Anomaly Score로 작동하는지 실무 로직을 집중 타격해야 한다.

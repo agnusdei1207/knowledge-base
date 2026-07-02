@@ -109,11 +109,19 @@ weight: 50
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 리스크 (문제) | 발생 원인 (조건) | 해결 손실 함수 / 적용 기준 |
-|:---|:---|:---|
-| 이상치(Outlier) 민감성 | 데이터 내 극단치가 존재할 때 MSE 제곱 연산으로 오차 폭발 | MAE 적용 또는 MSE+MAE 결합형인 Huber Loss 선택 |
-| 클래스 불균형 (Imbalance) | 암 진단(99:1)처럼 소수 클래스 데이터가 절대 부족 | 오답(Minority)에 높은 가중치를 주는 Focal Loss 적용 |
-| 기울기 소실 (Vanishing) | 분류 문제 출력(Sigmoid)에 MSE 적용 시 미분값 0에 수렴 | 출력층 Softmax/Sigmoid + Cross-Entropy 강제 결합 적용 |
+| 비교 축 | 지도학습 손실(MSE/CE 계열) | 메트릭러닝 손실(Contrastive/InfoNCE) | 선택 기준 |
+|:---|:---|:---|:---|
+| 학습 목표 | 정답 레이블과 예측값의 직접 오차 최소화 | 임베딩 공간에서 유사 샘플 간 거리 축소·비유사 샘플 간 거리 확대 | 레이블 형태(단일 정답 vs 유사도 관계) |
+| 필요 데이터 구조 | (입력, 정답) 단일 쌍 | Anchor-Positive-Negative 또는 대조쌍(Contrastive Pair) | 유사도 쌍 구성 가능 여부, 레이블링 비용 |
+| 대표 적용 사례 | 회귀·분류 지도학습 전반 | 얼굴 인식(Triplet Loss), 자기지도학습(SimCLR InfoNCE) | 표현학습(Representation Learning) 필요 여부 |
+
+> 요약: 정답 레이블이 명확한 회귀·분류는 MSE/CE 계열로 충분하나, 표현 학습이 목표인 과업은 임베딩 거리 기반 Contrastive/InfoNCE 계열로 전환해야 한다.
+
+| 리스크 (문제) | 발생 원인 (조건) | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 이상치(Outlier) 민감성 | 데이터 내 극단치가 존재할 때 MSE 제곱 연산으로 오차 폭발 | MAE 적용 또는 MSE+MAE 결합형인 Huber Loss로 교체 | 이상치 포함 시 Max Error 감소율 |
+| 클래스 불균형 (Imbalance) | 암 진단(99:1)처럼 소수 클래스 데이터가 절대 부족 | 오답(Minority)에 높은 가중치를 주는 Focal Loss 적용 | 소수 클래스 재현율(Recall) 개선폭 |
+| 기울기 소실 (Vanishing) | 분류 문제 출력(Sigmoid)에 MSE 적용 시 미분값 0에 수렴 | 출력층 Softmax/Sigmoid + Cross-Entropy 강제 결합 적용 | 출력층 Gradient Norm의 0 근접 여부 |
 
 > 요약: 데이터의 잡음(이상치)이나 클래스 불균형이 심할 경우 표준 MSE/CEE 대신 Huber Loss나 Focal Loss를 적용해 편향된 최적화를 막아야 한다.
 

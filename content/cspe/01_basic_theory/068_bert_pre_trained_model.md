@@ -125,6 +125,14 @@ Input (Token+Segment+Position) -> Transformer Encoder Stack -> Hidden States
 
 > 요약: BERT의 O(n^2) 연산 비용과 도메인 한계는 경량화 모델(DistilBERT) 도입 및 도메인 특화 사전학습으로 통제한다.
 
+| 점검 항목 | 목표 기준 | 측정 방법 |
+|:---|:---|:---|
+| 분류/추출 정확도 | 태스크별 F1-score, EM(Exact Match) 목표치 이상 | GLUE/KLUE 등 벤치마크 검증 |
+| 추론 지연시간 | p95 Inference Latency 실시간 서비스 SLA 이내 | 추론 서버 부하 테스트 |
+| 도메인 적합도 | 도메인 특화 코퍼스 추가 학습 후 정확도 개선폭 | 도메인 테스트셋 Before/After 비교 |
+
+> 요약: BERT 적용 효과는 태스크 정확도, 추론 지연시간, 도메인 적합도 개선폭을 함께 확인해야 검증된다.
+
 ---
 
 ## Ⅵ. 실무 적용 및 결론
