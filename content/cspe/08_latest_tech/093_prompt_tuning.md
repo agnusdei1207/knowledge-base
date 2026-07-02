@@ -37,6 +37,16 @@ weight: 93
 > 2. **가치**: 모델 가중치 변경 없이 소량 파라미터로 task별 출력 성향을 조정함.
 > 3. **판단 포인트**: prompt length, 초기화, 해석 불가능성, hard prompt와 평가 로그 병행이 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| PEFT 계열 구분 확인 | soft prompt만 학습·base frozen, LoRA/Adapter와의 차이 | Prompt Engineering(수작업)과 Prompt Tuning(학습) 혼동 |
+| 적용 판단 확인 | task 적응 강도별 기법 선택(soft prompt < LoRA < full FT) | 모든 상황에 경량 기법 우위로 단정 |
+| 운영·감사 인식 확인 | soft prompt 해석 불가, artifact 버전 관리 | 해석 불가능성·감사 이슈 누락 |
+
+> 요약: 이 문제는 기법 정의가 아니라 PEFT 스펙트럼에서의 위치와 감사 가능성 보완 설계를 묻는다.
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: soft prompt 기반 경량 튜닝 기법
@@ -86,7 +96,25 @@ soft prompt 초기화 -> 입력 embedding 결합 -> task loss 계산
 
 > 요약: Prompt Tuning은 수작업 prompt보다 최적화 가능성이 높지만, soft prompt 해석 불가능성을 보완해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Prompt Tuning | Prefix Tuning | LoRA | 선택 기준 |
+|:---|:---|:---|:---|:---|
+| 학습 위치 | 입력 embedding 앞 | 각 layer K/V 앞 | attention 가중치 저랭크 | 적응 강도 요구 수준 |
+| 파라미터 규모 | 최소 (수만) | 소량 | 소~중량 (수백만) | 저장·서빙 비용 한도 |
+| 성능 | 단순 task 적합 | 중간 | 도메인 적응 강함 | 목표 품질 격차 |
+
+> 요약: 출력 성향 조정은 Prompt Tuning, 도메인 지식 주입은 LoRA로 적응 강도에 따라 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 감사 불가 | soft prompt는 자연어 해석 불가 | hard prompt 병행, 출력 평가 로그 | 평가 통과율, 감사 로그 |
+| base 모델 교체 파손 | prompt가 특정 모델에 종속 | model hash와 함께 버전 관리, 재학습 | 교체 후 회귀 테스트 |
+| 컨텍스트 잠식 | prompt length만큼 입력 축소 | length 최소화 실험(20~100) | 유효 컨텍스트 잔량 |
+
+> 요약: soft prompt 리스크는 해석·종속성·컨텍스트 소비이며, 병행 프롬프트와 버전 관리로 통제함.
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 분류·요약 task에서 prompt length 20/50/100을 비교하고 accuracy·latency 기준으로 선택
