@@ -37,6 +37,16 @@ weight: 145
 > 2. **가치**: 이미지·영상·음성에서 고품질 생성과 텍스트 조건 제어를 제공함.
 > 3. **판단 포인트**: 생성 품질과 denoising 지연의 트레이드오프를 sampler·latent·distillation으로 조정함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| 생성 원리 이해 확인 | forward noise 추가, reverse denoising, noise ε 예측 학습 | 학습 T step과 추론 sampler step(20~50) 혼동 |
+| GAN 대비 차별점 판단 확인 | MSE 기반 안정 학습, mode collapse 해소, 다양성 확보 | 반복 denoising 추론 지연 단점 누락 |
+| 최적화 설계 역량 확인 | latent diffusion, DDIM·DPM-Solver, distillation | 품질-지연 트레이드오프를 무시한 품질 일변도 서술 |
+
+> 요약: 이 문제는 노이즈 제거 원리 암기가 아니라 GAN 대비 장단점과 추론 최적화 판단을 묻는다.
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: 노이즈 제거 기반 생성모델
@@ -86,7 +96,25 @@ Noisy xt + Condition -> Denoising U-Net -> x(t-1) -> Generated Data
 
 > 요약: Diffusion Model은 품질과 안정성이 강점이지만 반복 denoising으로 인한 지연을 최적화해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Autoregressive 생성(Transformer) | Diffusion Model | 선택 기준 |
+|:---|:---|:---|:---|
+| 생성 방식 | 토큰 단위 순차 생성 | 전체 샘플을 반복 정제(병렬 denoising) | 출력 데이터의 순차성 여부 |
+| 편집 유연성 | 생성 후 부분 수정 제약 | inpainting·img2img 등 부분 편집 용이 | 편집 워크플로우 필요성 |
+| 주력 도메인 | 언어·코드 생성 표준 | 이미지·영상·음성 생성 표준 | 도메인 데이터 특성 |
+
+> 요약: 순차 구조 데이터는 autoregressive, 공간 구조의 이미지·음성 생성과 편집은 diffusion이 적합함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| 추론 지연·GPU 비용 | 다단계 denoising 반복 | DPM-Solver, distillation, consistency model | inference step 수, 생성 지연 |
+| 학습 데이터 복제 재현 | 중복 학습 샘플 암기 | 학습 데이터 중복 제거, 유사도 검사 | 근접 복제 검출률 |
+| 조건 반영 실패 | CFG scale 부적정, 프롬프트 모호 | CFG 7~12 튜닝, alignment 평가 | CLIP score |
+
+> 요약: 핵심 위험은 추론 비용과 학습 데이터 복제이며, 고속 sampler와 중복 제거·유사도 검사로 통제함.
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. 이미지 생성: Stable Diffusion 기반 Text-to-Image, CFG 7~12, 30 step 기준으로 품질·지연 균형 설정
@@ -99,7 +127,7 @@ Noisy xt + Condition -> Denoising U-Net -> x(t-1) -> Generated Data
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | "Diffusion Model을 설명하시오" | forward noise->reverse denoising 흐름 | GAN 대비 차이 |
 | 요구사항 명시형 | "이미지 생성 모델 적용 방안을 제시하시오" | sampler·CFG·안전 필터 기준 | 품질·지연·권리 리스크 |

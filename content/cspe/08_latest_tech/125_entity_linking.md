@@ -138,7 +138,7 @@ Text -> Mention Detection -> Candidate Generation
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | "Entity Linking을 설명하시오" | mention->candidate->disambiguation->NIL 흐름 | NER 대비 차이 |
 | 요구사항 명시형 | "지식그래프 구축 방안을 제시하시오" | 후보 재현율·오연결률·검수 큐 기준 | KG 중복·검색 누락 방지 방안 |
