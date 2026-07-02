@@ -37,6 +37,16 @@ weight: 83
 > 2. **가치**: 총 파라미터를 늘리면서 활성 FLOPs를 제한해 대형 모델의 비용 효율을 높임.
 > 3. **판단 포인트**: top-k, load balancing, expert capacity, all-to-all 통신, expert parallelism이 핵심임.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| 조건부 계산 구조 이해 확인 | router top-k 선택, 총 파라미터-활성 FLOPs 분리 | "전문가 여러 명" 비유 수준에서 그침 |
+| 분산 실행 판단 확인 | expert parallelism, all-to-all 통신 병목 | 통신 비용 언급 없이 계산 절감만 서술 |
+| 운영 통제 역량 확인 | load balance loss, capacity factor, drop token | router collapse·편중 리스크 누락 |
+
+> 요약: 이 문제는 MoE 개념이 아니라 routing 품질·부하 균형·통신 비용의 통합 운영 판단을 묻는다.
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: 조건부 전문가 선택 모델 구조
@@ -86,7 +96,25 @@ Token Hidden State -> Router -> Top-k Experts
 
 > 요약: MoE는 모델 용량 확장에 유리하지만 router·통신·부하 균형을 운영 지표로 관리해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Dense 확장 (70B급) | MoE 확장 (총량↑·활성 고정) | 선택 기준 |
+|:---|:---|:---|:---|
+| 추론 비용 | 파라미터 비례 증가 | active FLOPs 고정 | 추론 트래픽이 크면 MoE |
+| 인프라 요구 | TP/PP 병렬 | EP+all-to-all 고대역 통신 | NVLink·IB 대역폭 보유 여부 |
+| 운영 복잡도 | 낮음, 지연 예측 용이 | router·capacity 튜닝 필요 | 운영 인력·관측성 성숙도 |
+
+> 요약: 추론 물량이 크고 고대역 인터커넥트가 있으면 MoE, 소규모·안정 운영이면 Dense 확장을 선택함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| router collapse | 소수 expert로 선택 집중 | auxiliary load balance loss | expert load variance |
+| token drop | expert capacity 초과 | capacity factor 상향·재라우팅 | drop token rate 1% 미만 |
+| 통신 병목 | all-to-all이 GPU 계산 추월 | EP 배치 최적화, 통신-계산 중첩 | all-to-all latency 비중 |
+
+> 요약: MoE 리스크는 선택 편중·drop·통신이며, 균형 손실·capacity·배치 최적화로 통제함.
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. MoE 모델 배포 시 expert별 token 분포, drop rate, all-to-all latency를 대시보드화

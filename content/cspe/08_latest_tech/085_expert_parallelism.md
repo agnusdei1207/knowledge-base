@@ -37,6 +37,16 @@ weight: 85
 > 2. **가치**: 총 expert 파라미터를 여러 GPU 메모리에 분산해 대규모 MoE 학습·추론을 가능하게 함.
 > 3. **판단 포인트**: all-to-all 통신, expert load balance, capacity factor, TP/DP 조합이 성능을 결정함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| 병렬화 기법 구분 확인 | EP vs TP/PP/DP 분할 대상·통신 패턴 차이 | 병렬화 4종을 구분 없이 나열 |
+| 통신 병목 판단 확인 | all-to-all dispatch/combine이 지연의 핵심 변수 | 메모리 분산 효과만 쓰고 통신 비용 누락 |
+| 클러스터 설계 역량 확인 | NVLink/IB topology 기반 expert placement | 토폴로지 무관한 배치 서술 |
+
+> 요약: 이 문제는 EP 정의가 아니라 통신 병목을 전제한 GPU 배치·병렬화 조합 설계를 묻는다.
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: MoE expert 분산 병렬화 기법
@@ -86,7 +96,26 @@ router top-k 선택 -> token을 expert GPU로 dispatch
 
 > 요약: Expert Parallelism은 MoE 확장에 필수이나, all-to-all 통신과 expert 부하 편차가 지연의 핵심 변수임.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 병렬화 | 분할 대상 | 주 통신 | 적용 위치 판단 |
+|:---|:---|:---|:---|
+| EP (Expert) | expert 단위 FFN | all-to-all | MoE FFN 계층 전용 |
+| TP (Tensor) | 행렬 연산 내부 | all-reduce | attention·dense 계층 |
+| PP (Pipeline) | layer 블록 | P2P activation | 노드 간 대규모 분할 |
+| DP (Data) | batch 복제 | gradient all-reduce | 처리량 확장 |
+
+> 요약: MoE 클러스터는 attention은 TP, MoE FFN은 EP, 노드 간은 PP, 확장은 DP로 계층별 조합 설계함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| all-to-all 병목 | 노드 간 저대역 링크 경유 | topology-aware placement, 통신-계산 중첩 | all-to-all latency 비중 |
+| expert 부하 편차 | routing 쏠림 | capacity factor, 재배치 | expert utilization variance |
+| 장애 전파 | expert 보유 GPU 1대 장애 | expert 복제·재라우팅 | 장애 시 성능 저하율 |
+
+> 요약: EP 리스크는 통신·편차·단일 장애이며, 토폴로지 배치와 복제·중첩으로 통제함.
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. expert 수, GPU 수, GPU당 VRAM으로 expert placement를 산정하고 NVLink/IB topology 기준으로 배치

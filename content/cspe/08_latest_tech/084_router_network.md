@@ -37,6 +37,16 @@ weight: 84
 > 2. **가치**: 적합한 expert만 활성화해 모델 용량과 추론 비용의 균형을 만든다.
 > 3. **판단 포인트**: top-k, capacity factor, load balance loss, expert collapse, routing latency를 관리해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| gating 메커니즘 이해 확인 | logits->softmax->top-k->capacity 처리 순서 | router를 로드밸런서(인프라)와 혼동 |
+| 학습 안정화 판단 확인 | load balance loss, router z-loss, collapse 방지 | 선택 정확도만 쓰고 균형 통제 누락 |
+| 운영 지표 역량 확인 | entropy, drop rate, load variance 관측 | 지표 없이 "잘 분산된다" 서술 |
+
+> 요약: 이 문제는 router 구조가 아니라 선택 정확도와 부하 균형을 동시에 만족시키는 통제 설계를 묻는다.
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: MoE expert 선택 모듈
@@ -86,7 +96,25 @@ token 입력 -> expert score 계산 -> top-k 선택
 
 > 요약: Learned Router는 expert 적합도를 높이지만, 부하 쏠림과 routing latency를 운영 지표로 통제해야 함.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 비교 축 | Static Routing (해시·규칙) | Learned Router (gating) | 선택 기준 |
+|:---|:---|:---|:---|
+| 선택 품질 | 입력 무관 균등 분배 | token 적합 expert 선택 | 품질 우선이면 learned |
+| 부하 예측성 | 완전 균등 보장 | 쏠림 가능, loss로 보정 | 지연 예측성 우선이면 static 검토 |
+| 학습 비용 | 없음 | auxiliary loss·튜닝 필요 | 학습 인프라·운영 성숙도 |
+
+> 요약: 품질은 learned router가 우위이나, 부하 예측성이 최우선인 환경은 static/hybrid routing도 검토함.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| expert collapse | 초기 우세 expert로 선택 고착 | load balance loss, routing temperature | router entropy 하한 유지 |
+| token drop | capacity 초과 dispatch | capacity factor 상향, 재라우팅 | drop rate 1% 미만 |
+| routing 지연 | 대규모 expert logits 계산 | router 경량화, fused kernel | routing latency 비중 |
+
+> 요약: router 리스크는 고착·drop·지연이며, 균형 손실과 capacity 튜닝으로 통제함.
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. MoE 학습 시 load balance loss와 router z-loss를 적용해 expert load variance를 제한
