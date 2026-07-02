@@ -137,7 +137,7 @@ Constitution Principles -> Initial Answer -> AI Critique
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | 원칙->critique->revision 흐름 | RLHF 대비 특징 |
 | 요구사항 명시형 | 적용 방안을 제시하시오 | constitution 작성·감사 절차 | 법규·원칙충돌·과거부 기준 |

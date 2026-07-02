@@ -144,7 +144,7 @@ Request Queue -> Scheduler -> Active Decode Batch
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | step 단위 배치 재구성 흐름 | Static 대비 처리량·지연 |
 | 요구사항 명시형 | 운영 방안을 제시하시오 | queue·priority·batch token 설정 | p95 지연·tokens/s 선택 기준 |

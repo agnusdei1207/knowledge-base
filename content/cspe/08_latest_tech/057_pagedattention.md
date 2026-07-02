@@ -143,7 +143,7 @@ Logical Token Sequence -> Block Table -> Physical KV Blocks (B0/B1/B2/.../Bn)
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | block table 기반 KV 조회 흐름 | 연속 cache 대비 단편화 |
 | 요구사항 명시형 | 설계하시오, 최적화하시오 | vLLM 적용·지표 측정 절차 | req/s·OOM·TPOT 기준 |

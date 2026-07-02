@@ -137,7 +137,7 @@ FP16 LLM -> Calibration Activations -> Important Channel Detection
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | activation 통계·channel 보호 흐름 | GPTQ 대비 특징 |
 | 요구사항 명시형 | 비교하시오, 최적화하시오 | calibration·mixed precision 절차 | 정확도·VRAM·kernel 기준 |

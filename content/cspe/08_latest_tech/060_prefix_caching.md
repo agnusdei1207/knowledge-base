@@ -145,7 +145,7 @@ Request Prefix -> Token Hash -> Prefix Cache Lookup
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | hit/miss 기반 prefill 재사용 흐름 | 미적용 대비 TTFT |
 | 요구사항 명시형 | 최적화 방안을 제시하시오 | prefix 분리·cache key·격리 절차 | hit rate·보안·eviction 기준 |
