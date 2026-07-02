@@ -37,6 +37,16 @@ weight: 63
 > 2. **가치**: GPU당 수용 요청 수와 token당 원가를 산정하여 LLM 서비스 TCO를 결정함.
 > 3. **판단 포인트**: prefill/decode 분리, batch token, latency SLA, cache hit rate를 함께 최적화해야 함.
 
+## 출제 의도 및 답안 포인트
+
+| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+|:---|:---|:---|
+| LLM 성능 지표 체계 이해 확인 | tokens/s, prefill/decode 분리, TTFT·TPOT와의 관계 | 처리량과 지연 지표 혼동 |
+| 트레이드오프 판단 확인 | batch 확대 시 처리량↑·tail latency↑ 관계 | 처리량 극대화를 무조건 정답으로 단정 |
+| 용량·비용 산정 역량 확인 | GPU util, $/1K tokens, 워크로드별 목표 지표 | 수치 근거 없는 용량 계획 서술 |
+
+> 요약: 이 문제는 지표 정의 암기가 아니라 처리량-지연-비용의 균형 설계 판단을 묻는다.
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: LLM 초당 토큰 처리량 지표
@@ -86,7 +96,25 @@ Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
 
 > 요약: Token Throughput은 비용 최적화 지표이며, latency SLA와 함께 관리해야 운영 품질이 유지됨.
 
-## Ⅴ. 실무 적용 및 결론
+## Ⅴ. 심화 비교 및 적용 판단
+
+| 워크로드 | 우선 지표 | 배치 전략 | 선택 기준 |
+|:---|:---|:---|:---|
+| 대화형 챗봇 | TTFT·TPOT p95 | 작은 batch + latency-aware | SLA 위반률 1% 이하 유지 |
+| 배치 분석·요약 | tokens/s, $/1K tokens | 대형 batch, 큐 허용 | 단가 최소화, 마감시간 내 완료 |
+| 스트리밍 에이전트 | TPOT 일정성 | continuous batching | 토큰 간 간격 편차 최소화 |
+
+> 요약: 워크로드 유형이 처리량-지연 우선순위를 결정하며, 단일 클러스터에 혼합하면 SLA가 무너짐.
+
+| 리스크 | 원인 | 대응 방안 | 확인 지표 |
+|:---|:---|:---|:---|
+| tail latency 악화 | batch 과대 확대 | max waiting time 상한(20~50ms) | p99 TTFT/TPOT |
+| GPU OOM | 긴 컨텍스트 요청 혼입 | max batch token·max model len 제한 | OOM 발생 0건 |
+| 지표 왜곡 | 평균값만 관측 | p50/p95/p99 분위수 분리 관측 | 분위수 대시보드 |
+
+> 요약: 처리량 최적화의 리스크는 꼬리 지연과 OOM이며, 배치 상한과 분위수 관측으로 통제함.
+
+## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
 1. input/output tokens/s, req/s, GPU util, $/1K tokens를 대시보드로 분리해 용량 계획 수립
@@ -99,7 +127,7 @@ Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | 토큰 계측·스케줄링 흐름 | 지연 지표 대비 차이 |
 | 요구사항 명시형 | 용량 산정하시오, 최적화하시오 | tokens/s 기반 비용 산정 | batch·SLA·GPU 원가 기준 |

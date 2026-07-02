@@ -99,7 +99,7 @@ token 입력 -> expert score 계산 -> top-k 선택
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | score->top-k->dispatch 흐름 | static 대비 learned router |
 | 요구사항 명시형 | 개선 방안을 제시하시오 | collapse·load imbalance 대응 | entropy·drop rate·latency 기준 |

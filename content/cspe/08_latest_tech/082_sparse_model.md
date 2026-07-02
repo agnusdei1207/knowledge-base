@@ -99,7 +99,7 @@ Input Token -> Router/Mask -> Active Weights/Experts
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | 활성 subset 선택·계산 흐름 | Dense 대비 특징 |
 | 요구사항 명시형 | 비교하시오, 설계하시오 | sparsity ratio·kernel 검증 절차 | 비용·지연·load balance 기준 |

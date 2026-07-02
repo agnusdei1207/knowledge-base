@@ -99,7 +99,7 @@ router top-k 선택 -> token을 expert GPU로 dispatch
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
 | 포괄형 | 설명하시오, 기술하시오 | dispatch->expert compute->combine 흐름 | TP 대비 특징 |
 | 요구사항 명시형 | 설계하시오, 최적화하시오 | expert placement·통신 측정 절차 | all-to-all·load balance 기준 |
