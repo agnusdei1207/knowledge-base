@@ -11,21 +11,54 @@ weight: 203
 > 목적: OAuth 2.0과 OIDC를 처음 봐도 완전히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 설명이다.
 
 ## 한눈에
-- **개요**: OAuth 2.0은 권한 위임, OIDC는 사용자 인증을 위한 ID 계층
-- **왜 필요한가**: 사용자가 비밀번호를 여러 서비스에 맡기지 않고, 필요한 범위(scope)의 접근 권한만 제3자 애플리케이션에 줄 수 있어야 한다.
-- **핵심 직관**: OAuth는 호텔 키카드처럼 특정 방만 열게 하는 권한표이고, OIDC는 체크인한 사람이 누구인지 확인하는 신분 확인서이다.
+- **개요**: OAuth 2.0은 사용자 리소스에 대한 접근 권한을 제한된 범위로 위임하는 **인가(Authorization) 프레임워크**이고, OIDC(OpenID Connect)는 그 위에 사용자가 누구인지 검증하는 **인증(Authentication) 계층**이다.
+- **왜 필요한가**: 제3자 앱에 아이디·비밀번호를 그대로 넘기면 앱이 사용자 권한 전체를 갖게 된다. OAuth 2.0은 "무엇을 할 수 있는지"만 담은 토큰을 발급해 이 문제를 없앤다.
+- **핵심 직관**: OAuth는 호텔의 특정 층만 열리는 카드키(권한 위임)이고, OIDC는 체크인할 때 여권으로 신원을 확인하는 절차(신원 확인)이다. 카드키가 있다고 그 사람이 누구인지 알 수 없듯, access token만으로는 로그인이 되지 않는다 — 그래서 OIDC가 ID token을 추가한다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 인가 (Authorization) | "무엇을 할 수 있는가" — 권한 범위 부여, OAuth 2.0의 본질 | 카드키로 열 수 있는 문 |
+| 인증 (Authentication) | "누구인가" — 신원 확인, OIDC가 추가하는 계층 | 여권으로 신원 확인 |
+| Resource Owner | 리소스(데이터)를 소유한 사용자 본인 | 집주인 |
+| Client | 토큰을 요청해 API를 대신 호출하는 애플리케이션 | 대리인(제3자 앱) |
+| Authorization Server | code·token 발급 주체 | 카드키 발급 프런트데스크 |
+| Resource Server | access token을 검증하고 실제 API·데이터를 제공 | 카드키로 열리는 방 |
+| Access Token | 리소스 서버 API 호출에 쓰는 권한 증표 | 카드키 자체 |
+| Refresh Token | access token 만료 시 재발급용 장기 토큰 | 카드키 재발급 예약증 |
+| ID Token | 로그인한 사용자가 누구인지 담은 JWT(OIDC 전용) | 여권 사본 |
+| Authorization Code | 1회용 임시 코드, token으로 교환하기 전 단계 | 프런트데스크가 주는 대기표 |
+| PKCE(code_verifier/code_challenge) | code 탈취 후 재사용을 막는 검증 쌍 | 대기표에 찍는 일회용 비밀 도장 |
+| Scope | 위임 권한의 범위(예: read:email) | "몇 층까지만 열리는 카드" |
+| state / nonce | CSRF 방지용 난수(state), 재생공격 방지용 난수(nonce, OIDC) | 대기표 위조·재사용 방지 도장 |
 
 ## 깊이 이해
-- **배경·문제의식**: 비밀번호 공유 방식은 계정 탈취와 권한 과다 부여 문제가 발생한다. OAuth 2.0은 access token으로 위임 범위를 제한하고, OIDC는 ID token으로 로그인 주체를 검증한다.
-- **작동 원리**: Client가 Authorization Server에 사용자를 보낸 뒤 authorization code를 받는다. Client는 code를 token endpoint에 제출해 access token, refresh token, ID token을 획득한다.
-- **비유**: 주차 대행 직원에게 집 열쇠를 주지 않고, 주차장 출입만 가능한 임시 카드만 주는 방식임.
-- **구체 예시**: 모바일 앱은 Authorization Code + PKCE를 사용해 `code_verifier`와 `code_challenge`를 검증하고, 탈취된 code 단독 재사용을 차단함.
-- **흔한 오해·주의점**: OAuth 2.0만으로 로그인 인증이 완성되지 않는다. 사용자 식별은 OIDC의 ID token, nonce, issuer, audience 검증이 필요하다.
+
+### 왜 이 구조가 필요했나 (배경)
+- 예전 방식은 제3자 앱이 사용자의 아이디·비밀번호를 직접 입력받아 서버에 대신 로그인했다(비밀번호 안티패턴). 이러면 앱이 비밀번호를 저장·유출할 위험이 있고, 권한을 일부만 주고 싶어도(예: 이메일 읽기만) 전체 권한이 그대로 넘어간다.
+- OAuth 2.0(2012, RFC 6749)은 비밀번호 대신 제한된 권한의 토큰을 넘기는 방식으로 이 문제를 해결했다. 하지만 OAuth 2.0 자체는 "이 토큰을 가진 사람이 누구인지"는 정의하지 않는다 — 그래서 로그인(인증) 용도로 쓰면 취약점이 생긴다. 이 공백을 메우려고 2014년 OIDC가 OAuth 2.0 위에 ID Token을 얹어 표준화되었다.
+
+### 동작 원리 — Authorization Code + PKCE를 단계로
+1. Client가 사용자를 Authorization Server의 로그인 화면으로 redirect한다. 이때 `state`(CSRF 방지)와 PKCE의 `code_challenge`를 함께 보낸다.
+2. 사용자가 로그인하고 동의(consent)하면, Authorization Server는 Client의 redirect_uri로 1회용 authorization code를 돌려준다.
+3. Client는 이 code와 자신만 아는 `code_verifier`(1단계 code_challenge의 원본값)를 token endpoint에 함께 제출한다.
+4. 서버는 code_verifier를 해시해 code_challenge와 일치하는지 검증한 뒤 access token(+refresh token, ID token)을 발급한다.
+- **PKCE가 막는 공격을 수치로**: code_verifier 없이 code만 있으면, 공격자가 redirect 과정에서 code를 가로채(예: 악성 앱이 커스텀 URL 스킴을 가로챔) 자기 token endpoint 요청에 재사용할 수 있다. code_verifier는 Client 로컬에만 생성·보관되는 값이라, code를 훔쳐도 이 값이 없으면 4단계에서 해시 불일치로 거부된다.
+
+### OAuth 2.0과 OIDC를 구분하는 판별 원리
+- 질문이 "제3자 앱이 내 캘린더에 접근해도 되는가"이면 인가 → OAuth 2.0. 질문이 "로그인한 사람이 진짜 이 사용자인가"이면 인증 → OIDC.
+- 판별 신호: OIDC를 쓰면 scope에 `openid`가 반드시 들어가고, 응답에 access token 외에 **ID Token**(JWT)이 추가된다. ID Token 안에는 `sub`(사용자 고유 ID), `iss`(발급자), `aud`(대상 Client), `exp`(만료), `nonce`가 들어있어 이를 검증한다.
+- **자주 하는 실수**: access token 발급만으로 "로그인 성공"을 판단하는 것. access token은 리소스 서버 접근용일 뿐 신원 보증이 없다. 신원 확인은 반드시 ID Token의 서명·iss·aud·nonce 검증으로 해야 한다.
+
+### 구체 예시로 보는 scope와 refresh token
+- 예: 사용자가 캘린더 앱에 `scope=calendar.readonly`로 동의하면, 발급된 access token은 캘린더 "읽기"만 가능하고 "쓰기"나 이메일 접근은 불가능하다.
+- access token은 보통 TTL을 15분~1시간처럼 짧게 잡는다. 탈취돼도 피해 시간을 줄이기 위해서다. 만료될 때마다 재로그인시키는 대신, TTL이 훨씬 긴(수일~수개월) refresh token으로 access token만 조용히 재발급한다.
 
 ## 연결 개념
-- JWT — access token 또는 ID token 표현 형식
-- PKCE — public client의 authorization code 탈취 방지
-- Zero Trust — 토큰 기반 접근통제와 연계
+- JWT — ID Token, 그리고 흔히 access token의 표현 형식
+- PKCE — public client(모바일·SPA)의 code 탈취 방지 확장
+- SSO(Single Sign-On) — OIDC ID Token으로 여러 서비스에 한 번 로그인 상태를 공유하는 응용
 
 ---
 

@@ -11,20 +11,51 @@ weight: 145
 > 목적: Delta Lake를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Delta Lake는 Parquet 파일 위에 transaction log를 더해 ACID, time travel, schema evolution을 제공하는 레이크하우스 테이블 포맷임
-- **왜 필요한가**: 객체 스토리지 파일만으로는 동시 쓰기, 부분 실패, 업데이트, 삭제, 버전 복구를 다루기 어렵다. Delta Lake는 `_delta_log`로 테이블 상태를 관리함.
-- **핵심 직관**: 파일 창고에 변경 이력 장부를 붙여 어느 파일이 현재 유효한지 정확히 알려주는 방식임.
+- **개요**: Delta Lake는 객체 스토리지 위 Parquet 데이터 파일에 **`_delta_log`라는 트랜잭션 로그**를 더해 **ACID**, time travel, schema evolution을 제공하는 오픈 테이블 포맷이다.
+- **왜 필요한가**: 순수 Parquet 레이크는 "지금 어떤 파일이 유효한가"를 파일 목록(listing)에 의존해 판단하므로 동시 쓰기·부분 실패·삭제 요구에 취약하다. Delta Lake는 이 판단을 `_delta_log`라는 단일 진실 소스(source of truth)로 옮긴다.
+- **핵심 직관**: 서가의 책을 직접 바꿔치기하지 않고, "몇 번 서가에 어떤 책을 추가/제거했다"는 이력을 장부에 적어, 장부만 보면 현재 서가 상태를 정확히 알 수 있게 하는 방식이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| `_delta_log` | 테이블이 겪은 모든 변경(add/remove file)을 기록한 로그 디렉터리 — Delta Lake의 **정체성**인 트랜잭션 로그 | 창고 입출고를 한 줄씩 적는 장부 |
+| Commit | 하나의 트랜잭션을 순번 있는 JSON 파일(`00000000000000000010.json` 등)로 기록하는 단위 | 장부의 한 페이지(거래 1건) |
+| Action (add/remove) | 커밋 안에서 "이 파일을 추가/제거했다"를 나타내는 최소 기록 단위 | 장부 한 줄: "입고 A박스" / "출고 B박스" |
+| Checkpoint | 로그가 길어지면 지금까지의 상태를 요약해 Parquet로 스냅샷 저장(기본 10커밋마다) | 매달 장부를 정리해 요약본을 만드는 것 |
+| Snapshot | 특정 버전까지의 add/remove를 모두 적용한 "현재 유효 파일 목록" | 장부를 처음부터 다 읽어 계산한 현재 재고 |
+| Optimistic Concurrency Control | 커밋 전에 충돌 여부만 확인하고, 충돌 시에만 재시도하는 동시성 제어 방식 | 일단 써보고, 남이 먼저 썼으면 그때 다시 쓰기 |
+| MERGE INTO | 키 매칭 여부에 따라 UPDATE/INSERT/DELETE를 한 문장으로 처리 | 명부에서 기존 항목 수정, 신규 항목 추가를 동시에 처리 |
+| Time Travel | `VERSION AS OF n` 또는 시각 지정으로 과거 snapshot을 조회 | 장부를 거슬러 올라가 특정 날짜의 재고 확인 |
+| VACUUM | commit에서 remove된, 더 이상 참조되지 않는 물리 파일을 실제 삭제 | 장부에서 폐기 처리된 물건을 실제로 창고에서 치우기 |
+| OPTIMIZE / Z-ORDER | 작은 파일을 큰 파일로 병합(compaction)하고, 자주 필터링하는 컬럼 기준으로 파일 내 데이터를 재정렬 | 흩어진 소포를 큰 상자로 재포장하고, 자주 찾는 물건순으로 정리 |
 
 ## 깊이 이해
-- **배경·문제의식**: 데이터 레이크는 파일 append에는 적합하지만 CDC upsert, GDPR 삭제, BI 일관성 조회에는 트랜잭션 단위 관리가 필요함.
-- **작동 원리**: Parquet 데이터 파일과 JSON/Checkpoint 형태의 `_delta_log`가 commit 이력을 기록하고, 쿼리 엔진은 최신 snapshot에 포함된 파일만 읽음.
-- **비유**: 도서관 서가에 책을 직접 덮어쓰지 않고, 대출·폐기·추가 이력을 장부에 기록해 현재 목록을 산출하는 방식임.
-- **구체 예시**: 주문 CDC를 `MERGE INTO`로 반영하고 오류 발생 시 version 120에서 119로 time travel 조회해 장애 전 데이터를 검증 가능함.
-- **흔한 오해·주의점**: Delta Lake는 Databricks 전용 개념이 아님. 다만 엔진별 기능 지원 범위와 catalog 연동 수준은 배포판에 따라 차이 있음.
+
+### commit이 정합성을 만드는 방식 — 워크드 예제(충돌 시나리오)
+- writer A, B가 동시에 버전 v10에서 시작. A가 파일 추가 커밋(v11)에 먼저 성공. B는 자신의 트랜잭션이 v10을 읽었는데 실제 최신이 v11임을 감지 → B의 변경이 A와 실제로 겹치는지(같은 파일을 건드렸는지) 검사한 뒤, 안 겹치면 자동 재시도로 v12 커밋, 겹치면 충돌 예외로 실패시킨다.
+- 예: v11에서 `file_003.parquet`를 추가했고 B도 동일 파일을 remove하려 했다면 충돌 → 실패. B가 다른 파티션의 `file_099.parquet`를 추가하는 거라면 충돌 없이 v12로 성공한다.
+
+### `_delta_log`를 실제로 읽어보며 이해하기
+- 예: 테이블에 처음 100개 파일을 쓰면 `00000000000000000000.json`에 add action 100개가 기록된다. 이후 MERGE로 5개 파일을 remove, 5개를 add하면 다음 커밋 파일에 add 5 + remove 5가 기록된다. 현재 snapshot을 계산하려면 로그를 처음부터 재생(replay)해 "add된 것 − remove된 것"을 구해야 한다.
+- 커밋이 1,000개 쌓이면 매번 처음부터 재생하는 게 느려지므로, 기본 10커밋마다 checkpoint(누적 상태를 Parquet로 요약)를 만들어 재생 범위를 최근 커밋 구간으로 줄인다.
+
+### CDC MERGE와 time travel 워크드 예제
+- 주문 CDC 이벤트 1일 50만 건이 들어올 때, `MERGE INTO orders USING cdc ON orders.id = cdc.id WHEN MATCHED AND cdc.op='D' THEN DELETE WHEN MATCHED THEN UPDATE SET * WHEN NOT MATCHED THEN INSERT *`로 upsert/delete를 한 번에 반영한다.
+- 배포 후 집계 오류를 발견하면 `SELECT * FROM orders VERSION AS OF 119`로 문제 발생 직전 버전(예: v120이 오류 버전이면 v119)을 조회해 정상 값과 비교하고, 필요 시 `RESTORE TABLE orders TO VERSION AS OF 119`로 되돌린다.
+
+### 파일 관리 — OPTIMIZE/VACUUM 수치 예제
+- 스트리밍 적재가 5분마다 작은 파일(평균 8MB)을 만들면 하루 288개 파일이 쌓여 쿼리 시 파일 오픈 오버헤드가 커진다. OPTIMIZE를 야간에 실행하면 target size(예: 256MB)로 병합해 파일 수를 1/30 수준으로 줄일 수 있다.
+- VACUUM은 기본 retention 168시간(7일) 이전에 remove된 파일만 실제 삭제한다. retention을 너무 짧게(예: 1시간) 잡으면, 아직 조회 중인 time travel 쿼리나 진행 중인 리더가 참조하는 파일이 삭제되어 조회 실패가 날 수 있다 — 그래서 최소 7일을 권장한다.
+
+### 비유와 오해
+- **비유**: 도서관 서가를 직접 뒤지지 않고 장부(로그)만 보고 "지금 몇 번 서가에 어떤 책이 있는지" 정확히 아는 시스템이다.
+- **오해 1**: Delta Lake가 Databricks 전용 상용 기능이다 — 아니다. 오픈소스 스펙이며 Spark·Flink·Trino 등에서 커넥터로 읽고 쓸 수 있다(다만 기능 성숙도는 엔진마다 차이가 있다).
+- **오해 2**: `_delta_log`만 있으면 파일 관리가 저절로 된다 — 아니다. OPTIMIZE·VACUUM을 주기적으로 실행하지 않으면 작은 파일과 로그가 계속 쌓여 조회 성능이 떨어진다.
 
 ## 연결 개념
-- 데이터 레이크하우스: Delta Lake가 구현하는 아키텍처
-- Apache Iceberg: manifest와 snapshot metadata 중심의 대안 포맷
+- 데이터 레이크하우스: Delta Lake가 구현하는 상위 아키텍처 (144에서 상세)
+- Apache Iceberg: manifest·snapshot metadata 중심의 대안 오픈 테이블 포맷 (146에서 상세)
 - 메달리온 아키텍처: Delta 테이블을 Bronze/Silver/Gold로 계층화하는 패턴
 
 ---

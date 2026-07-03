@@ -11,21 +11,57 @@ weight: 178
 > 목적: Kubernetes 스토리지를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Pod가 사라져도 데이터를 보존하기 위해 PVC, PV, StorageClass로 외부 저장소를 연결하는 구조
-- **왜 필요한가**: Pod의 로컬 파일시스템은 재생성 때 사라질 수 있으므로 DB, 로그, 파일 업로드 같은 상태 데이터에는 영속 저장소가 필요하다.
-- **핵심 직관**: Pod는 임시 작업자이고, PVC는 저장소 신청서, PV는 실제 창고, StorageClass는 창고 자동 배정 규칙이다.
+- **개요**: Kubernetes 스토리지는 Pod의 생명주기와 데이터를 분리하는 **영속 볼륨(Persistent Volume) 추상화 계층**이며, PVC(요청)·PV(실제 자원)·StorageClass(동적 프로비저닝 정책)·CSI(표준 연결 인터페이스)로 구성된다.
+- **왜 필요한가**: Pod의 로컬 파일시스템(overlay fs)은 Pod가 재생성되면 사라진다. 하지만 DB, 메시지 큐, 파일 업로드처럼 Pod 교체와 무관하게 유지되어야 하는 데이터가 있어, 저장소를 Pod 바깥으로 분리해야 한다.
+- **핵심 직관**: Pod는 임시 작업자, PVC는 저장소 신청서, PV는 실제 창고, StorageClass는 "필요할 때마다 창고를 새로 지어주는 자동 발주 규정", CSI는 어느 창고 브랜드든 꽂히는 표준 규격 잠금장치다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 영속 볼륨(Persistent Volume) 추상화 | Pod 생명주기와 무관하게 유지되는 저장소 구조 전체 — 이 개념이 속하는 상위 카테고리 | Pod와 분리된 별도 창고 체계 |
+| PVC (PersistentVolumeClaim) | 사용자가 용량·접근모드를 "요청"하는 오브젝트, namespace 범위 | 사물함 신청서 |
+| PV (PersistentVolume) | 실제 저장소 자원을 나타내는 cluster 범위 오브젝트 | 실제로 배정된 사물함 |
+| StorageClass | provisioner와 reclaimPolicy 등 정책을 담아 PV를 동적으로 생성시키는 템플릿 | 필요할 때 창고를 새로 짓는 자동 발주 규정 |
+| CSI (Container Storage Interface) | Kubernetes와 외부 스토리지 벤더(EBS, Ceph 등)를 연결하는 표준 플러그인 인터페이스 | 브랜드 상관없이 꽂히는 표준 커넥터 |
+| accessMode (RWO/ROX/RWX) | 볼륨을 몇 개의 노드가 어떤 방식(읽기/쓰기)으로 동시에 마운트할 수 있는지 | 1인 전용실 / 열람 전용 도서관 / 공용 회의실 |
+| reclaimPolicy (Retain/Delete) | PVC 삭제 시 PV와 실제 데이터를 남길지 지울지 정하는 정책 | 계약 해지 시 짐을 보관할지 폐기할지 |
+| volumeBindingMode (Immediate/WaitForFirstConsumer) | PV를 PVC 생성 즉시 만들지, Pod 스케줄링 후 만들지 결정 | 방을 미리 배정 vs 입주자 확정 후 배정 |
 
 ## 깊이 이해
-- **배경·문제의식**: 컨테이너는 stateless 배포에 적합하지만 모든 애플리케이션이 무상태는 아니다. 데이터베이스, 메시지 큐, 분석 작업은 Pod 교체와 무관하게 데이터가 유지되어야 한다.
-- **작동 원리**: 사용자가 PVC로 용량과 접근 모드를 요청하면 Kubernetes가 기존 PV를 bind하거나 StorageClass와 CSI 드라이버를 통해 동적 PV를 만든다. Pod는 PVC를 volume으로 mount한다.
-- **비유**: 직원이 사물함 신청서(PVC)를 내면 관리자가 빈 사물함(PV)을 배정하거나 새 사물함을 설치(StorageClass)하고, 직원은 사물함 번호만 사용한다.
-- **구체 예시**: `ReadWriteOnce`, 100Gi, `fast-ssd` PVC를 생성하면 CSI 드라이버가 SSD 볼륨을 만들고 Pod에 mount한다. StatefulSet은 replica별 PVC를 만들어 `data-web-0`, `data-web-1`처럼 보관한다.
-- **흔한 오해·주의점**: PVC가 삭제되어도 reclaimPolicy가 Retain이면 실제 PV 데이터가 남는다. Delete이면 클라우드 디스크가 제거될 수 있어 백업 정책이 필요하다.
+
+### 왜 이 구조가 필요했나 (배경)
+- 컨테이너는 기본적으로 stateless 배포에 최적화되어 있다. Pod가 재생성되면 컨테이너 내부 파일시스템(overlay fs)은 통째로 사라진다. 그런데 DB, 메시지 큐, 로그 저장, 사용자 업로드 파일은 Pod 교체와 무관하게 데이터가 살아 있어야 한다.
+- 그래서 Kubernetes는 "저장소를 원하는 요청(PVC)"과 "실제 저장소 자원(PV)"을 분리했다 — 애플리케이션 개발자는 "100Gi RWO SSD 하나 주세요"만 선언하고, 그것이 어느 클라우드의 어떤 디스크인지는 신경 쓰지 않는다.
+
+### PVC-PV-StorageClass-CSI 관계를 수치로 이해
+- **정적 프로비저닝(옛 방식)**: 관리자가 미리 PV 여러 개를 만들어두고 PVC가 조건에 맞는 PV와 bind된다. 규모가 커지면 사람이 미리 다 만들어야 해 관리 비용이 커진다.
+- **동적 프로비저닝(현재 표준)**: PVC가 StorageClass 이름(예: `fast-ssd`)만 지정하면, 그 StorageClass의 provisioner(CSI 드라이버)가 즉석에서 볼륨을 만들어 PV로 등록하고 bind한다. 예: `ReadWriteOnce, 100Gi, storageClassName: fast-ssd` PVC를 생성하면 AWS EBS CSI 드라이버가 실제 100GiB gp3 볼륨을 만드는 데 보통 수 초~수십 초(운영 목표 p95 60초 이내) 걸린다.
+- StatefulSet은 replica마다 별도 PVC를 volumeClaimTemplates로 자동 생성한다. 3-replica StatefulSet `web`이면 `data-web-0`, `data-web-1`, `data-web-2` PVC가 각각 별도 PV에 bind되고, Pod가 재시작돼도 같은 순번의 PVC를 다시 mount해 데이터가 유지된다.
+
+### accessMode를 실제 상황으로 구분
+- **RWO(ReadWriteOnce)**: 한 번에 노드 1개만 read-write로 마운트. EBS, GCP PD 같은 대부분의 블록 스토리지가 이 방식 — DB 인스턴스 하나가 자기 디스크를 독점하는 상황에 맞는다.
+- **ROX(ReadOnlyMany)**: 여러 노드가 동시에 읽기 전용으로 마운트. 정적 자산 배포 등 드물게 쓰인다.
+- **RWX(ReadWriteMany)**: 여러 노드가 동시에 read-write. NFS, EFS, CephFS 같은 파일 스토리지에서만 지원 — 여러 Pod가 업로드 파일을 함께 써야 하는 공유 폴더 시나리오에 쓴다.
+- **판별 원리**: "이 볼륨을 몇 개의 Pod가 동시에 쓰기까지 해야 하는가"로 결정한다. DB는 RWO, 공유 파일 서버는 RWX.
+
+### reclaimPolicy를 시나리오로 이해
+- **Delete(동적 프로비저닝의 기본값)**: PVC 삭제 -> PV도 삭제 -> 클라우드 디스크(EBS 등)도 실제로 삭제된다. 실수로 PVC를 지우면 데이터가 영구 손실될 수 있다.
+- **Retain**: PVC를 삭제해도 PV와 실제 디스크는 남고 상태가 `Released`로 바뀐다 — 관리자가 수동으로 회수·재바인딩해야 한다. DB처럼 손실 피해가 큰 워크로드는 Retain과 VolumeSnapshot(예: 15분 주기)을 함께 쓴다.
+- **판별 원리**: 재현 불가능한 데이터(DB, 사용자 업로드)는 Retain, 캐시성 임시 데이터는 Delete.
+
+### volumeBindingMode가 필요한 이유 (zone mismatch)
+- **Immediate**: PVC 생성 즉시 PV를 만든다. 클라우드 디스크는 특정 가용영역(AZ)에 종속되는데, Pod가 나중에 다른 AZ 노드에 스케줄링되면 볼륨을 마운트하지 못해 Pending 상태에 빠질 수 있다.
+- **WaitForFirstConsumer**: PV 생성을 Pod가 스케줄링될 때까지 미룬다 — 스케줄러가 정한 노드의 AZ에 맞춰 볼륨을 만들어 zone mismatch를 원천적으로 막는다. 멀티 AZ 클러스터에서는 사실상 필수 설정이다.
+
+### 비유와 흔한 오해
+- **비유**: PVC는 사물함 신청서, PV는 실제로 배정된 사물함, StorageClass는 "SSD형/HDD형 사물함을 필요할 때마다 새로 설치해주는 자동 발주 규정", CSI는 어느 제조사 사물함이든 꽂을 수 있는 표준 규격 잠금장치다.
+- **오해**: "PVC를 지우면 Pod만 못 쓰게 될 뿐 데이터는 항상 안전하다" — 틀렸다. reclaimPolicy가 Delete면 실제 데이터까지 사라진다. 백업(VolumeSnapshot)은 PVC/PV 구조와 별개로 반드시 설계해야 한다.
 
 ## 연결 개념
-- CSI - Kubernetes와 외부 저장소를 연결하는 표준 인터페이스
-- StatefulSet - Pod별 고유 PVC와 네트워크 ID 제공
-- VolumeSnapshot - PV 백업과 복구에 사용하는 스냅샷 객체
+- CSI - PV 생성을 실제 스토리지 벤더에 연결하는 표준 인터페이스
+- StatefulSet - volumeClaimTemplates로 Pod별 PVC를 자동 생성해 이 구조를 그대로 활용
+- VolumeSnapshot - reclaimPolicy와 별개로 데이터 복구를 보장하는 백업 메커니즘
 
 ---
 

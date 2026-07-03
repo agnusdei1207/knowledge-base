@@ -11,21 +11,48 @@ weight: 185
 > 목적: Cilium CNI를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: eBPF를 활용해 Kubernetes 네트워킹, 네트워크 정책, 관측, 로드밸런싱을 제공하는 CNI
-- **왜 필요한가**: 컨테이너 네트워크는 pod가 계속 이동하므로 IP 기반 방화벽만으로 서비스 정체성과 L7 정책을 관리하기 어렵다.
-- **핵심 직관**: 단순 도로망이 아니라 차량 신분, 목적지, 운행 기록까지 커널 센서로 확인하는 클러스터 네트워크이다.
+- **개요**: Cilium은 **eBPF**를 데이터 플레인으로 쓰는 **Kubernetes CNI**(Container Network Interface)로, IP 대신 **보안 아이덴티티**(label 기반)로 네트워크 정책을 적용하고 **kube-proxy를 대체**하는 서비스 로드밸런싱과 관측(Hubble)을 함께 제공한다.
+- **왜 필요한가**: 컨테이너 환경은 Pod가 끊임없이 재생성·재배치돼 IP가 수시로 바뀌므로, IP 기반 방화벽 규칙만으로는 "이 서비스가 누구인지"를 안정적으로 표현할 수 없다.
+- **핵심 직관**: 단순 도로망이 아니라, 차량(패킷)의 신분증·목적지·운행 기록까지 커널 센서(eBPF)로 즉시 확인하는 클러스터 네트워크다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| CNI (Container Network Interface) | Kubernetes Pod에 네트워크를 붙여주는 표준 플러그인 인터페이스 — Cilium이 구현하는 **역할** | 건물에 전기·수도를 연결하는 배관 표준 |
+| eBPF | Cilium의 데이터 플레인을 이루는 커널 내 프로그램 실행 기술 (184 참고) | Cilium이 도로에 심는 센서 기술 자체 |
+| Cilium Agent | 노드마다 실행되며 Kubernetes API를 감시해 정책을 eBPF 프로그램·map으로 컴파일하는 데몬 | 각 동네 파출소 |
+| Security Identity | Pod IP가 아니라 label 조합(예: `app=frontend`)에 부여하는 숫자 ID — IP가 바뀌어도 정책이 유지되는 핵심 | 주소가 아니라 직원증 번호로 신원 확인 |
+| CiliumNetworkPolicy | identity 기반으로 L3/L4/L7(HTTP 메서드·경로 등)까지 표현하는 확장 네트워크 정책 | 부서·직급·방문 목적까지 규정한 출입 규칙 |
+| kube-proxy replacement | iptables 기반 kube-proxy 대신 eBPF map 조회로 서비스 로드밸런싱을 수행하는 기능 | 순차 확인 명부 대신 즉시 조회되는 색인 |
+| Hubble | Cilium이 수집한 flow(연결 단위 로그)를 시각화하고 drop 원인을 보여주는 관측 도구 | 교통 CCTV와 사고 기록 열람 시스템 |
+| TC / XDP hook | 패킷 처리 eBPF 프로그램이 부착되는 커널 위치 (184 참고) | 패킷이 실제로 검문받는 지점 |
 
 ## 깊이 이해
-- **배경·문제의식**: iptables 기반 kube-proxy와 CNI는 rule 수가 많아질수록 정책 추적과 장애 분석이 어려워진다. 서비스 간 보안은 IP보다 identity와 label 기반이 더 적합하다.
-- **작동 원리**: Cilium agent가 pod label을 security identity로 바꾸고, eBPF program을 TC/XDP hook에 적재해 패킷 포워딩, 정책 적용, service load balancing을 수행한다.
-- **비유**: 출입문에서 주소만 보는 경비가 아니라 직원증, 부서, 방문 목적, 이동 기록을 함께 확인하는 보안 게이트이다.
-- **구체 예시**: `app=frontend` pod는 `app=payment`의 443/TCP만 호출하도록 L3/L4 정책을 적용하고, Hubble로 flow drop 원인을 namespace 단위로 확인한다.
-- **흔한 오해·주의점**: Cilium은 CNI만이 아니다. kube-proxy replacement, network policy, Hubble observability, service mesh 일부 기능까지 포함하나 커널 버전과 운영 복잡도를 검토해야 한다.
+
+### iptables 방식의 한계 (수치로 이해)
+- 전통 CNI(Flannel, 초기 Calico)는 kube-proxy가 Service를 iptables 규칙 체인으로 구현한다. 규칙은 **순차 매칭**(선형 탐색)이라서 서비스·엔드포인트 수가 늘수록 매 패킷마다 확인해야 할 규칙 수가 비례해 늘어난다. 서비스가 수천 개인 대형 클러스터에서는 iptables 규칙이 수만 줄에 달해 규칙 갱신 자체가 지연되고 패킷 처리 지연도 커진다.
+- Cilium은 이를 eBPF map의 **해시 조회**(hash lookup)로 대체한다. 규칙 수가 늘어도 조회는 거의 일정한 시간(대략 O(1))에 끝나므로, 서비스·엔드포인트가 늘어나는 대규모 클러스터에서 성능 저하 폭이 훨씬 작다.
+
+### Security Identity가 IP 대신 신원을 쓰는 이유
+- Pod는 재시작·스케일링마다 새 IP를 받는다. "10.0.3.15를 허용"이라는 규칙은 몇 분 뒤 다른 Pod가 그 IP를 재사용하면 의도와 다른 트래픽을 허용할 위험이 있다.
+- Cilium Agent는 Pod의 label 조합(예: `app=payment, env=prod`)마다 고유한 숫자 identity를 부여하고, 패킷 헤더 확장 필드(또는 터널 인캡슐레이션)에 이 identity를 실어 나른다. 목적지 노드의 eBPF 프로그램은 IP가 아니라 **identity 값**으로 "이 패킷이 payment 서비스에서 왔다"를 확인한다 — Pod가 재배치돼 IP가 바뀌어도 label이 같으면 identity와 정책은 그대로 유지된다.
+
+### 정책 적용을 구체 예로 보기
+- 예: `app=frontend` Pod는 `app=payment` Pod의 443/TCP만 호출하도록 CiliumNetworkPolicy를 정의하면, Agent는 이를 컴파일해 eBPF map에 "frontend identity → payment identity, port 443 허용, 나머지 deny"로 반영한다. frontend가 payment의 8080 포트를 시도하면 애플리케이션에 도달하기 전에 커널 단에서 drop되고, Hubble이 `policy_deny` 이유와 함께 flow를 기록한다.
+- L7까지 확장하면 "GET /api/v1/orders만 허용, POST는 차단"처럼 HTTP 메서드·경로 단위 정책도 가능하다 — 이 경우 Envoy 유사 프록시가 개입해 L7 파싱을 수행하므로 순수 eBPF만으로 처리하는 L3/L4보다 오버헤드가 크다.
+
+### kube-proxy replacement 동작
+- kube-proxy replacement를 켜면 ClusterIP·NodePort 트래픽도 iptables NAT 체인을 거치지 않고 eBPF 프로그램이 소켓 레벨(socket hook) 또는 TC 레벨에서 곧바로 목적지 Pod IP로 변환(DNAT)한다. 홉이 줄어드는 만큼 서비스 호출 지연이 줄고, kube-proxy 자체가 필요 없어져 운영 구성요소도 하나 줄어든다.
+
+### 비유와 흔한 오해
+- **비유**: 출입문에서 주소만 보는 경비가 아니라, 직원증·부서·방문 목적·이동 기록까지 확인하는 보안 게이트다.
+- **오해**: "Cilium = 그냥 또 다른 CNI"라는 생각은 범위를 축소한 것이다. 기본 Pod 네트워킹 위에 kube-proxy replacement, identity 기반 L3~L7 정책, Hubble 관측, 일부 서비스 메시 유사 기능(mTLS, L7 라우팅)까지 포함하는 통합 네트워킹 계층이며, 그만큼 커널 버전 요구사항과 운영 복잡도도 함께 커진다.
 
 ## 연결 개념
-- Kubernetes NetworkPolicy - Cilium 정책 모델의 기본
-- eBPF - Cilium data plane 기반
-- 서비스 메시 - L7 정책과 관측 일부 영역에서 비교
+- Kubernetes NetworkPolicy - Cilium이 확장하는 표준 정책 모델의 기반
+- eBPF - Cilium 데이터 플레인의 기반 기술 (184 참고)
+- Service Mesh(Istio) - L7 정책·관측 영역에서 기능이 일부 겹치는 비교 대상
 
 ---
 

@@ -11,21 +11,51 @@ weight: 204
 > 목적: OpenAPI와 Swagger를 처음 봐도 완전히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 설명이다.
 
 ## 한눈에
-- **개요**: REST API 계약을 기계가 읽을 수 있는 문서로 정의하는 표준과 도구 생태계
-- **왜 필요한가**: API 문서가 코드와 달라지면 클라이언트 개발, 테스트, 운영 장애 분석이 지연된다. OpenAPI는 경로·메서드·파라미터·응답·보안을 계약으로 고정한다.
-- **핵심 직관**: API의 설계도면을 YAML/JSON으로 만들고, 문서·테스트·SDK를 같은 도면에서 생성하는 방식이다.
+- **개요**: OpenAPI(구 Swagger Specification)는 REST API의 엔드포인트·요청·응답·인증 방식을 사람과 기계가 함께 읽을 수 있는 **API 명세(Specification)**로 정의하는 표준이다.
+- **왜 필요한가**: 코드가 바뀌어도 문서는 그대로인 경우가 흔하다. 문서와 실제 동작이 어긋나면 클라이언트 개발자는 잘못된 문서를 믿고 코드를 짜고, 그 불일치는 운영 장애로 이어진다. OpenAPI는 문서 자체를 기계가 검증 가능한 파일로 만들어 이 어긋남을 CI에서 잡아낸다.
+- **핵심 직관**: 건축 설계도면과 같다. 시공사(구현), 감리(테스트), 자재 산출(SDK 생성)이 모두 같은 도면 한 장을 근거로 움직이면 서로 다른 말을 할 수 없다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| API 명세 (Specification) | API 구조를 사람·기계가 함께 읽는 형식으로 고정한 것 — OpenAPI가 만드는 결과물 | 건축 설계도면 |
+| OpenAPI Specification (OAS) | 표준 자체의 정식 명칭(현재 버전 3.x) | 도면 규격(표준 규격서) |
+| Swagger | OAS의 옛 명칭이자, 지금은 관련 도구 모음(Swagger UI 등)의 브랜드명 | 예전 회사명이 남은 상표 |
+| paths | URI와 HTTP 메서드별로 어떤 요청·응답이 오가는지 정의하는 최상위 블록 | 도면 위 각 방의 출입구 표시 |
+| operationId | 각 API 동작에 붙는 고유 이름, SDK 메서드명으로 그대로 쓰임 | 방마다 붙은 고유 호실 번호 |
+| components/schemas | 요청·응답에서 반복되는 데이터 구조를 정의해 재사용 | 표준 부품 도면(문·창문 규격) |
+| securitySchemes | API Key, OAuth2, OIDC 등 인증 방식을 명세에 선언 | 출입 통제 방식 표기 |
+| JSON Schema | schemas가 실제로 따르는 데이터 검증 문법(타입·필수값·형식) | 부품 치수 허용오차 규격 |
+| Swagger UI | 명세 파일을 읽어 웹에서 클릭해볼 수 있는 문서 화면으로 렌더링하는 도구 | 도면을 입체로 보여주는 뷰어 |
+| Mock Server | 명세만으로 가짜 응답을 돌려주는 서버 — 구현 전 클라이언트 개발 가능 | 완공 전 모델하우스 |
+| Codegen (SDK 생성) | 명세에서 클라이언트 SDK·서버 스텁 코드를 자동 생성 | 도면에서 자재 발주서를 뽑아냄 |
+| Contract Test | 실제 API 응답이 명세와 일치하는지 자동 검증 | 준공 시 도면대로 지어졌는지 감리 |
+| Breaking Change | 기존 소비자를 깨뜨리는 명세 변경(필드 삭제·타입 변경 등) | 이미 지은 문의 위치를 바꾸는 것 |
 
 ## 깊이 이해
-- **배경·문제의식**: REST API가 증가하면 문서 누락, 응답 예시 불일치, breaking change 탐지가 어려워진다.
-- **작동 원리**: OpenAPI Specification에 `paths`, `components`, `securitySchemes`, `responses`를 정의하고 Swagger UI, codegen, mock server, contract test가 이를 활용한다.
-- **비유**: 건물 시공 전에 도면을 만들고, 감리·자재 산출·완공 검사를 같은 도면으로 수행하는 구조임.
-- **구체 예시**: `/orders/{id}`의 200·404 응답 schema를 정의하면 CI에서 실제 API 응답이 schema와 다른 경우 배포를 차단할 수 있음.
-- **흔한 오해·주의점**: Swagger는 표준 자체가 아니라 도구 이름으로 쓰이는 경우가 많다. 표준 명칭은 OpenAPI Specification이며, 문서 생성만으로 계약 관리가 완성되지 않는다.
+
+### 왜 필요했나 — 문서와 코드가 갈라지는 문제
+- API가 수십 개로 늘어나면 담당자가 바뀌고, 급한 배포에 문서 갱신이 밀리는 일이 반복된다. 그 결과 "문서엔 선택값인데 실제론 필수", "문서엔 없는 필드가 응답에 나옴" 같은 불일치가 쌓인다.
+- OpenAPI의 해법은 문서를 사람이 나중에 쓰는 글이 아니라, YAML/JSON 파일 자체를 유일한 원천(single source of truth)으로 두는 것이다. 이 파일에서 문서·mock·SDK·테스트를 모두 자동 생성하면, 파일이 곧 진실이 되어 따로 갱신할 대상이 사라진다.
+
+### 명세 구조를 실제 조각으로 이해하기
+- 예를 들어 `/orders/{id}` GET을 정의한다면, `paths./orders/{id}.get`에 `parameters`(id는 path의 정수), `responses.200`(주문 정보 schema), `responses.404`(주문 없음 schema)를 각각 선언한다.
+- 이때 200 응답의 schema는 `components/schemas/Order`를 `$ref`로 참조해 재사용한다 — 주문 정보가 다른 API 5곳에서도 쓰인다면, 필드 하나를 바꿀 때 정의를 5번이 아니라 1번만 고치면 된다.
+- CI 파이프라인은 실제 서버가 돌려준 응답 JSON을 이 schema로 검증한다. 만약 실제 응답에 명세에 없는 `internalNote` 필드가 섞여 나오면, contract test가 실패해 배포를 막는다 — 이것이 "문서가 코드를 감시"하는 방식이다.
+
+### Swagger와 OpenAPI를 구분하는 판별 원리
+- 흔히 "Swagger로 문서 짠다"고 말하지만, 표준의 정식 이름은 OpenAPI Specification이다. Swagger는 2010년대 초 이 명세를 처음 만든 회사·도구의 이름이었고, 2015년 명세 자체가 Linux Foundation 산하 OpenAPI Initiative로 넘어가며 표준 명칭이 OpenAPI로 바뀌었다. Swagger UI, Swagger Codegen 같은 도구 이름에만 옛 이름이 남아있다.
+- 판별: "이 파일(.yaml/.json)이 API 구조를 정의하는가?" → OpenAPI 명세. "이 화면(UI)이 명세를 보여주는가?" → Swagger UI(도구).
+
+### 비유와 흔한 오해
+- **비유**: 설계도면 하나로 시공(구현)·감리(contract test)·모델하우스(mock server)·자재발주서(SDK)를 전부 뽑아내는 구조다. 도면이 틀리면 그 오류가 모든 산출물에 그대로 퍼지므로, 도면(명세) 품질 자체를 CI에서 lint로 관리한다.
+- **오해**: "OpenAPI 파일을 만들면 문서화가 끝났다"고 여기는 것. 파일이 실제 코드와 어긋나지 않게 유지하려면 PR마다 diff 검증, breaking change 탐지, contract test 같은 지속적 통제가 필요하다 — 문서 생성은 시작일 뿐이다.
 
 ## 연결 개념
-- Contract Test — API 제공자·소비자 계약 검증
-- API Gateway — OpenAPI 기반 라우팅·인가·검증 적용
-- REST — OpenAPI의 주된 기술 대상
+- Contract Test — 명세와 실제 구현 응답의 일치 여부를 자동 검증하는 절차
+- API Gateway — OpenAPI 명세를 기반으로 라우팅·인가·요청 검증을 수행
+- REST — OpenAPI가 주로 다루는 API 스타일(gRPC는 .proto로 별도 관리)
 
 ---
 

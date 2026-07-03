@@ -8,24 +8,53 @@ weight: 134
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Spark가 Hadoop MapReduce의 어떤 한계를 보완하는지 이해하게 만든다.
+> 목적: Spark가 Hadoop MapReduce의 어떤 한계를 메모리 기반으로 보완하는지, 내부 실행 모델 용어를 이해하게 만든다.
 
 ## 한눈에
-- **개요**: 메모리 기반 분산 데이터 처리 엔진
-- **왜 필요한가**: MapReduce는 단계마다 디스크에 중간 결과를 쓰므로 반복 연산·대화형 분석·ML 작업에서 지연이 커짐.
-- **핵심 직관**: 매 계산마다 창고에 갔다 오는 대신, 자주 쓰는 재료를 작업대 위에 올려두고 연속 계산하는 방식임.
+- **개요**: Apache Spark는 **메모리 기반 분산 데이터 처리 엔진**으로, **DAG**(방향성 비순환 그래프) 실행 모델을 통해 배치·SQL·스트림·ML을 하나의 엔진에서 처리하는 범용 빅데이터 처리 프레임워크다.
+- **왜 필요한가**: MapReduce는 map→reduce 각 단계마다 중간 결과를 디스크에 쓰고 읽는다. 같은 데이터를 여러 번 스캔하는 반복 연산(머신러닝 iteration, 대화형 분석)에서는 이 디스크 I/O가 반복될 때마다 지연이 누적된다.
+- **핵심 직관**: 매 계산마다 창고(디스크)에 갔다 오는 대신, 자주 쓰는 재료(데이터)를 작업대(메모리) 위에 올려두고 연속 계산하는 방식이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 분산 처리 | 하나의 작업을 여러 서버에 나눠 동시에 수행하는 방식 — Spark가 속한 상위 범주 | 여러 일꾼이 나눠서 일하기 |
+| 인메모리 컴퓨팅 | 중간 결과를 디스크가 아니라 메모리에 유지해 반복 접근 속도를 높이는 방식 | 작업대 위에 재료를 올려두고 씀 |
+| RDD | Resilient Distributed Dataset — 분산·불변 데이터 집합. lineage(생성 계보)로 노드 장애 시 재계산 복구 | 조리 과정 레시피를 기억해 재료를 잃어도 다시 만듦 |
+| DataFrame | 스키마(컬럼명·타입)를 가진 구조화 데이터 API, Catalyst 최적화의 대상 | 엑셀 표처럼 열 이름이 있는 데이터 |
+| DAG | Directed Acyclic Graph — 연산 순서를 노드(연산)와 엣지(데이터 흐름)로 표현한 방향성 비순환 그래프 | 여행 동선을 미리 그려둔 지도 |
+| Driver | 애플리케이션 전체 실행 계획을 세우고 DAG를 만드는 마스터 프로세스 | 현장 전체를 지휘하는 감독 |
+| Executor | Driver의 지시를 받아 실제 task를 실행하고 데이터를 캐시하는 워커 프로세스 | 현장에서 일하는 작업자 |
+| Transformation | 새 RDD/DataFrame을 "정의만" 하는 지연 연산(map, filter, select 등) — 즉시 실행되지 않음 | 요리 레시피를 적어두기만 함 |
+| Action | 실제 계산을 트리거하는 연산(collect, count, save 등) | "지금 요리 시작" 지시 |
+| Lazy Evaluation | Action이 호출되기 전까지 Transformation을 실행하지 않고 계획만 누적하는 방식 | 주문을 다 받은 뒤 한꺼번에 조리 순서를 짜기 |
+| Stage | shuffle 경계를 기준으로 나뉜 task들의 묶음 | 공정 단계별 작업 구간 |
+| Shuffle | partition 간 데이터를 key 기준으로 재분배하는 과정(네트워크+디스크 비용 발생) | 여러 창고에 흩어진 물건을 품목별로 재정리 |
+| Catalyst Optimizer | SQL/DataFrame 쿼리를 논리 계획→물리 계획으로 최적화하는 엔진 | 최단 동선을 미리 계산해주는 내비게이션 |
+| Data Skew | 특정 key에 데이터가 몰려 일부 task만 유독 오래 걸리는 현상 | 한 계산대에만 줄이 길게 늘어섬 |
 
 ## 깊이 이해
-- **배경·문제의식**: ETL, SQL 분석, 머신러닝은 같은 데이터를 여러 번 스캔함. Spark는 RDD lineage와 DataFrame Catalyst optimizer, Tungsten 실행 엔진으로 메모리 중심 계산을 수행함.
-- **작동 원리**: Driver가 DAG를 생성하고 Cluster Manager가 Executor를 할당함. Transformation은 lazy evaluation으로 누적되고, Action이 호출되면 stage와 task로 나뉘어 실행됨.
-- **비유**: 여행 계획을 모두 모아 최적 동선을 만든 뒤, 각 지역 담당자에게 일감을 나눠 실행하는 방식임.
-- **구체 예시**: 1TB Parquet를 필터링 후 groupBy할 때 predicate pushdown과 column pruning으로 읽는 column과 row group을 줄임.
-- **흔한 오해·주의점**: Spark는 메모리만 쓰는 도구가 아님. shuffle·spill이 발생하면 disk I/O가 생기며, skew key 하나가 stage 지연을 만들 수 있음.
+
+### 왜 Spark가 필요했나 — MapReduce와의 수치 비교
+로지스틱 회귀처럼 같은 데이터를 10회 반복 스캔하는 알고리즘을 생각해보자. MapReduce는 iteration마다 별도의 job으로 나뉘어, 매번 결과를 HDFS(디스크)에 쓰고 다음 job이 다시 디스크에서 읽는다 — 10회 반복이면 디스크 read/write가 10번 반복된다. Spark는 최초 1회만 원본 데이터를 읽어 메모리에 캐시(`.cache()`)해두고, 나머지 9회는 메모리에서 바로 재사용한다. 디스크 I/O가 메모리 접근보다 수십~수백 배 느리기 때문에, 반복 연산에서 Spark가 MapReduce보다 훨씬 빠른 이유가 여기에 있다.
+
+### Lazy Evaluation과 DAG 최적화
+`df.filter(...).select(...).groupBy(...).count()`처럼 연산을 연쇄로 작성해도, `count()`(Action)가 호출되기 전까지는 아무 계산도 일어나지 않는다. Driver는 이 연쇄를 DAG로 만든 뒤, Catalyst Optimizer가 예를 들어 "filter를 최대한 앞으로 당겨(predicate pushdown) 불필요한 row를 일찍 제거"하는 식으로 실행 순서를 재배치한다. 즉 개발자가 작성한 순서 그대로 실행하는 게 아니라, 최적화된 순서로 다시 짜서 실행한다.
+
+### Stage와 Shuffle — 왜 비용이 큰가
+DAG는 shuffle이 필요한 지점(groupBy, join, repartition 등)마다 Stage로 쪼개진다. `reduceByKey`는 map 단계에서 미리 부분 합산 후 셔플하지만, `groupByKey`는 원본 값을 그대로 셔플한다. 예를 들어 키당 값이 평균 1,000개라면 `groupByKey`는 네트워크로 1,000개 값을 모두 보내지만, `reduceByKey`는 미리 합산된 값 1개만 보낸다 — Hadoop의 combiner와 같은 원리다.
+
+### Data Skew — 수치로 보는 병목
+1TB 데이터를 200개 partition으로 나누면 partition당 평균 5GB다. 그런데 특정 key 하나가 전체의 40%(400GB)를 차지한다면, 그 key를 처리하는 task 1개가 나머지 199개 task보다 압도적으로 오래 걸리고, 전체 job은 가장 느린 이 task가 끝날 때까지 기다린다. 이를 완화하는 기법이 salting(key에 임의 접미사를 붙여 여러 partition으로 분산)이다.
+
+### 흔한 오해
+Spark가 "메모리만 쓰는 도구"라는 것은 오해다. 캐시할 데이터가 executor 메모리보다 크면 디스크로 spill되고, shuffle 자체도 항상 디스크에 중간 파일을 남긴다. Spark의 강점은 "메모리를 최대한 활용해 불필요한 디스크 I/O를 줄이는 것"이지, 디스크를 아예 쓰지 않는다는 뜻이 아니다.
 
 ## 연결 개념
-- Hadoop MapReduce — Spark의 비교 대상
-- RDD·DataFrame — Spark 데이터 추상화
-- Lambda/Kappa Architecture — batch·stream 처리 구성
+- Hadoop MapReduce — Spark가 개선한 disk 기반 실행 모델(133)
+- RDD·DataFrame — Spark의 두 가지 데이터 추상화 계층
+- Lambda/Kappa Architecture — Spark가 batch/speed 엔진으로 편입되는 상위 아키텍처(135, 136)
 
 ---
 

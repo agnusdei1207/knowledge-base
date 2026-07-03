@@ -11,21 +11,55 @@ weight: 177
 > 목적: Kubernetes NetworkPolicy와 CNI를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: CNI는 Pod 네트워크를 연결하고, NetworkPolicy는 Pod 간 허용 트래픽을 선언하는 정책
-- **왜 필요한가**: 기본 Kubernetes 네트워크는 Pod 간 통신을 넓게 허용하므로 업무, 보안 등급, 네임스페이스 기준의 흐름 통제가 필요하다.
-- **핵심 직관**: CNI는 도로를 깔고, NetworkPolicy는 어느 차량이 어느 구역으로 갈 수 있는지 정하는 통행 규칙이다.
+- **개요**: NetworkPolicy·CNI는 Pod 간 통신을 다루는 두 계층으로, **CNI(Container Network Interface)**가 Pod 네트워크 연결 자체를 만들고, 그 위에서 **NetworkPolicy**가 허용된 트래픽만 통과시키는 방화벽 정책을 선언한다.
+- **왜 필요한가**: 기본 Kubernetes 네트워크 모델은 모든 Pod가 서로 자유롭게 통신 가능한 flat network를 전제로 한다. 결제·관리자·데이터베이스 Pod까지 임의 접근이 가능하면, 하나가 침해됐을 때 확산 경로가 그대로 넓게 열려 있다.
+- **핵심 직관**: CNI는 도로와 배관을 깔아 통신 자체를 가능하게 만드는 인프라이고, NetworkPolicy는 그 도로 위에서 "어느 차량이 어느 구역으로 갈 수 있는지"를 정하는 통행 규칙이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| CNI | Pod에 네트워크 인터페이스와 IP를 부여하고 패킷 경로(datapath)를 구성하는 표준 플러그인 규격 — 이 개념이 속한 **상위 개념** | 도로·배관 공사 |
+| NetworkPolicy | 어떤 Pod가 어떤 Pod와 통신 가능한지 선언하는 API 객체(선언일 뿐, 실제 집행자는 아님) — 또 다른 **상위 개념** | 출입 규정 문서 |
+| podSelector | 정책을 적용할 대상 Pod를 label로 지정 | 규정이 적용되는 인원 명단 |
+| namespaceSelector | 특정 namespace 전체를 대상·출처로 지정 | 특정 부서 전체 |
+| ipBlock | CIDR 대역으로 대상을 지정(클러스터 외부 IP 등) | 특정 우편번호 구역 |
+| ingress rule | 들어오는(inbound) 트래픽 허용 규칙 | 입장 허용 명단 |
+| egress rule | 나가는(outbound) 트래픽 허용 규칙 | 외출 허용 명단 |
+| default deny | 정책이 하나라도 selector에 걸리면, 명시되지 않은 트래픽은 전부 차단되는 화이트리스트 원칙 | "명단에 없으면 출입 금지" |
+| Enforcement(집행) | 선언된 정책을 실제 패킷 레벨(iptables·eBPF)에서 적용하는 동작 — CNI가 이 기능을 지원해야만 동작함 | 규정을 실제로 검문하는 경비원 |
+| Lateral Movement | 공격자가 침해된 Pod를 발판 삼아 내부의 다른 Pod로 옮겨가는 것 | 한 집이 뚫리면 옆집도 뚫리는 것 |
 
 ## 깊이 이해
-- **배경·문제의식**: Kubernetes는 모든 Pod가 서로 통신할 수 있다는 모델을 전제로 한다. 그러나 운영 환경에서는 결제, 관리자, 데이터베이스 Pod가 임의 접근을 허용하면 침해 확산 경로가 커진다.
-- **작동 원리**: CNI 플러그인은 Pod IP 할당, route, bridge, overlay, eBPF datapath를 구성한다. NetworkPolicy는 podSelector, namespaceSelector, ipBlock, ingress/egress rule로 허용 흐름을 선언하며 Calico, Cilium 같은 CNI가 실제 적용한다.
-- **비유**: 사무실 네트워크에서 케이블과 스위치가 CNI이고, 출입 카드 권한표가 NetworkPolicy이다.
-- **구체 예시**: `frontend` Pod는 `backend:8080`만 호출하고, `backend`는 `db:5432`만 접근하도록 egress rule을 만들면 lateral movement 경로를 줄일 수 있다.
-- **흔한 오해·주의점**: NetworkPolicy 객체만 만들면 항상 적용되는 것은 아니다. 사용하는 CNI가 NetworkPolicy enforcement를 지원해야 한다.
+
+### 왜 기본이 "다 허용"인가 (배경)
+- Kubernetes 네트워킹 표준(CNI 모델)은 "모든 Pod가 NAT 없이 서로 직접 통신 가능"을 전제로 설계됐다. 이는 마이크로서비스 간 자유로운 호출을 단순하게 만들지만, 결제나 DB처럼 민감한 Pod까지 아무 Pod에서나 접근 가능하다는 뜻이기도 하다. NetworkPolicy가 없으면 이 flat network가 그대로 보안 노출면이 된다.
+
+### CNI 동작 원리 — 수치로 이해
+- Pod가 생성되면 CNI 플러그인이 호출되어 ① 가상 네트워크 인터페이스(veth pair)를 만들고 ② Pod CIDR 대역(예: `10.244.0.0/16`)에서 IP 하나(예: `10.244.1.7`)를 할당하고 ③ 라우팅 테이블이나 오버레이(VXLAN) 경로를 구성한다.
+- 구현 방식은 CNI마다 다르다 — Calico는 BGP로 라우팅 정보를 전파하고, Cilium은 eBPF로 커널 레벨에서 패킷을 처리하며, Flannel은 VXLAN 오버레이로 캡슐화한다. 이 구현 차이가 바로 다음의 NetworkPolicy 지원 여부를 가른다.
+
+### default deny 판정 원리 — 수치 워크드 예제
+- 정책이 하나도 없으면 모든 Pod 간 통신이 허용된다(flat). `frontend` Pod에 "egress는 `backend:8080`만 허용"이라는 NetworkPolicy를 걸면, 그 순간부터 frontend는 이 규칙에 명시된 목적지 외에는(예: `db:5432` 직접 접근) 나갈 수 없게 된다.
+- 즉 default deny는 클러스터 전체에 자동 적용되는 게 아니라 **podSelector에 걸린 Pod에 한해서만** "명시 안 된 것은 거부"로 전환된다는 것이 핵심 판별 원리다.
+
+### Lateral Movement 축소 — 수치로 이해
+- 정책이 없을 때 침해된 frontend Pod 1개가 도달 가능한 목적지가 backend 3개, db 2개, admin 1개 등 총 6개라고 하자.
+- `frontend → backend:8080만, backend → db:5432만` 허용하는 정책을 걸면, frontend가 도달 가능한 목적지는 6개에서 backend 3개로 줄어들고, backend가 뚫리더라도 다시 db 2개로 제한된다. 이렇게 공격 표면이 계단식으로 축소된다.
+
+### Enforcement 여부 확인하기
+- NetworkPolicy 객체는 어떤 CNI를 쓰든 생성 자체는 된다. 하지만 Flannel처럼 NetworkPolicy enforcement를 지원하지 않는 CNI에서는 객체만 존재할 뿐 실제로 아무 트래픽도 차단되지 않는다 — 이것이 가장 흔한 운영 실수다. Calico, Cilium, Weave Net 등은 enforcement를 지원한다.
+
+### 비유
+- 사무실 네트워크에서 케이블과 스위치를 까는 것이 CNI이고, 출입 카드 권한표를 만드는 것이 NetworkPolicy다. 권한표만 만들고 카드 리더기(enforcement)가 없는 문이라면, 표를 아무리 정교하게 써도 문은 그냥 열려 있다.
+
+### 흔한 오해·주의점
+- NetworkPolicy 객체를 만들었다고 자동으로 보안이 강화되는 것은 아니다. 사용 중인 CNI가 enforcement를 지원하는지, 그리고 대상 Pod에 default deny 정책이 실제로 걸려 있는지를 함께 확인해야 한다.
 
 ## 연결 개념
-- Pod Networking - Pod IP, Service, Endpoint 연결 모델
-- Zero Trust - 명시적 허용 기반 동서 트래픽 통제
-- Service Mesh - L7 인증과 암호화 통제 보완
+- Service/Ingress(176) — Service로 전달된 트래픽도 결국 이 CNI datapath를 거쳐 Pod에 도달함
+- 쿠버네티스 아키텍처(173) — CNI는 Control Plane 밖의 Add-on으로 클러스터 네트워크를 구성
+- Zero Trust / Service Mesh — NetworkPolicy는 L3/L4 통제이며, L7 인증·암호화는 Service Mesh가 보완
 
 ---
 

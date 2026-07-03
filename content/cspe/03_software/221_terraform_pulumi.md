@@ -11,21 +11,60 @@ weight: 221
 > 목적: Terraform·Pulumi를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Terraform과 Pulumi는 클라우드 인프라를 코드로 선언·배포·변경 통제하는 IaC 도구
-- **왜 필요한가**: 콘솔 수동 작업은 환경 재현, 변경 승인, drift 탐지, 감사 추적을 어렵게 만든다
-- **핵심 직관**: Terraform은 HCL 설계도, Pulumi는 TypeScript·Python 같은 범용 언어 설계도로 인프라를 만든다
+- **개요**: Terraform과 Pulumi는 IaC(220 참조 — 선언형 코드로 목표 상태를 정의하고 실제 상태와의 차이를 계산해 적용하는 방식)를 구현하는 대표적 **IaC 도구**로, Terraform은 HCL이라는 전용 선언형 언어를, Pulumi는 TypeScript·Python 같은 **범용 프로그래밍 언어**를 사용한다는 점이 가장 큰 차이다.
+- **왜 필요한가**: 여러 클라우드(AWS/GCP/Azure)와 SaaS(Datadog, GitHub 등) API를 각각 따로 다루면 리소스 생성 방식이 제각각이라, 하나의 공통된 도구·문법으로 다루는 추상화 계층이 필요하다.
+- **핵심 직관**: Terraform은 정해진 양식(HCL)에 값만 채우는 표준 설계도이고, Pulumi는 프로그래밍 언어로 직접 짜는 설계 프로그램이다 — 둘 다 "목표 상태"를 만들어 도구에 넘긴다는 점은 같다.
+
+## 핵심 용어 정리
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| Provider | 특정 클라우드/서비스의 API를 호출하도록 만든 플러그인(AWS Provider, GCP Provider 등) | 특정 브랜드 전용 어댑터 |
+| HCL(HashiCorp Configuration Language) | Terraform 전용의 선언형 설정 언어 | 정해진 서식의 신청서 |
+| 범용 프로그래밍 언어 | Pulumi가 쓰는 TypeScript·Python·Go·C# 등 — 반복문·함수·클래스 사용 가능 | 자유 양식 기획서 |
+| State Backend | State 파일을 저장하는 위치(S3, Terraform Cloud, Pulumi Cloud 등) | 준공 대장을 보관하는 서고 |
+| State Lock | 동시에 두 사람이 apply하지 못하게 잠그는 장치(DynamoDB lock 등) | 회의실 예약 시스템의 중복 예약 방지 |
+| Plan(Terraform) / Preview(Pulumi) | apply/update 전에 변경 diff를 미리 계산해 보여주는 단계 | 시공 전 견적서 확인 |
+| Resource Graph | 리소스 간 의존관계(A가 있어야 B를 만들 수 있음)를 표현한 그래프 | 선행 공정을 표시한 공정표 |
+| Module(Terraform) / Stack(Pulumi) | 리소스 묶음을 재사용 단위로 캡슐화한 것 | 표준 조립 부품 세트 |
+| Policy Pack / Sentinel / OPA | apply 전 보안·비용·명명 규칙을 코드로 강제 검증하는 정책 엔진 | 시공 전 건축 법규 자동 심사 |
 
 ## 깊이 이해
-- **배경·문제의식**: 멀티 클라우드와 Kubernetes 환경은 VPC, IAM, DB, Secret, Helm chart가 함께 바뀐다. 사람이 순서를 기억해 배포하면 누락·권한 과다·환경 차이가 생긴다.
-- **작동 원리**: Terraform은 Provider와 state를 기준으로 `plan` 차이를 계산한 뒤 `apply`한다. Pulumi는 범용 언어 런타임으로 리소스 그래프를 만들고 preview 후 update한다.
-- **비유**: Terraform은 표준 양식 도면, Pulumi는 프로그래밍 언어로 쓰는 설계 프로그램에 가깝다.
-- **구체 예시**: AWS VPC, EKS, RDS를 Terraform module로 만들면 PR에서 destroy 1건 여부를 검토한다. Pulumi는 TypeScript 함수로 dev/prod 리소스 수와 태그 정책을 재사용한다.
-- **흔한 오해·주의점**: Pulumi가 프로그래밍 언어를 쓴다고 임의 절차 스크립트가 되는 것은 아니다. 두 도구 모두 목표 상태, state, provider, preview 검증이 핵심임.
+
+### Provider — 클라우드 API를 다루는 공통 창구
+- Terraform이든 Pulumi든, 실제로 AWS나 GCP에 리소스를 만드는 것은 도구 자체가 아니라 **Provider**라는 플러그인이다. 예를 들어 "AWS에 VPC를 만들어라"라는 코드를 실행하면, AWS Provider가 내부적으로 AWS SDK/API를 호출해 실제 VPC 생성 요청을 보낸다. 그래서 GCP 리소스를 다루려면 GCP Provider를 추가하면 되고, 코드의 나머지 구조(선언·plan·apply)는 동일하게 유지된다 — 이것이 "멀티 클라우드를 하나의 도구로 다룬다"는 말의 실체다.
+
+### HCL vs 범용 언어 — 실제로 무엇이 다른가(코드로 이해)
+- Terraform(HCL)은 아래처럼 "리소스 종류와 속성값"을 고정된 블록 문법으로 채운다.
+  ```hcl
+  resource "aws_instance" "web" {
+    count         = 3
+    instance_type = "t3.micro"
+  }
+  ```
+  3대를 만들려면 `count = 3`처럼 Terraform이 제공하는 반복 문법(`count`, `for_each`)을 써야 하고, 복잡한 조건 분기는 표현력이 제한적이다.
+- Pulumi(TypeScript)는 프로그래밍 언어의 반복문·조건문·함수를 그대로 쓴다.
+  ```typescript
+  for (const env of ["dev", "staging", "prod"]) {
+    new aws.ec2.Instance(`web-${env}`, { instanceType: "t3.micro" });
+  }
+  ```
+  환경마다 다른 개수·설정을 만들 때 일반 for문, 함수 재사용, 외부 npm 패키지 활용까지 가능해 표현력이 크다. 대신 "언어를 잘못 쓰면 선언형의 예측 가능성이 깨질 위험"(예: 실행마다 다른 무작위 값 생성)도 함께 커진다.
+
+### State Lock — 동시 apply 충돌을 막는 장치(수치 예)
+- 담당자 A와 B가 동시에 같은 환경에 `apply`를 실행하면 State 파일에 서로 다른 변경이 동시에 쓰여 파일이 깨질 수 있다. 그래서 실무에서는 S3(state 저장) + DynamoDB(lock 테이블) 조합을 쓴다. A가 apply를 시작하면 DynamoDB에 lock 레코드가 생성되고, B가 동시에 apply를 시도하면 "이미 lock 되어 있음" 오류를 받고 대기하거나 취소된다. Pulumi는 Pulumi Cloud 또는 자체 backend가 같은 역할의 lock을 제공한다.
+
+### Plan/Preview 결과를 읽는 법(수치 예)
+- `terraform plan` 실행 결과가 `Plan: 2 to add, 1 to change, 1 to destroy`로 나왔다면, 이 중 "1 to destroy"가 프로덕션 DB 인스턴스라면 즉시 apply를 멈추고 코드를 재검토해야 한다. PR 리뷰 단계에서 이 diff를 첨부해 리뷰어가 destroy 항목을 반드시 확인하게 하는 것이 실무 표준이다. Pulumi의 `pulumi preview`도 동일하게 add/change/delete 개수를 보여준다.
+
+### 비유와 흔한 오해
+- **비유**: Terraform은 관공서 표준 양식(HCL)에 정해진 칸을 채우는 것이고, Pulumi는 워드 프로세서로 자유롭게 문서를 작성하는 것과 같다 — 둘 다 최종적으로는 같은 형식의 "신청 결과"(리소스 그래프)를 만들어 제출(apply/update)한다.
+- **오해**: "Pulumi는 범용 언어니까 임의 순서로 아무 작업이나 실행하는 절차형 스크립트가 된다"는 오해가 흔하다. 실제로는 Pulumi도 내부적으로 선언한 리소스들을 그래프로 만들어 State와 비교한 뒤 diff만 적용한다 — 언어만 다를 뿐 "목표 상태 선언 + diff 적용"이라는 IaC의 본질은 Terraform과 동일하다.
 
 ## 연결 개념
-- IaC - 목표 상태와 실제 상태 차이를 코드로 조정
-- Policy as Code - OPA, Sentinel, Pulumi Policy Pack으로 배포 전 검증
-- GitOps - Git PR을 인프라 변경 승인 기준으로 사용
+- IaC(220) — 이 둘이 공통으로 구현하는 상위 원리(선언형·State·Plan/Apply)
+- Policy as Code — OPA, Sentinel, Pulumi Policy Pack으로 apply/update 전 정책 위반을 차단
+- Ansible·Chef·Puppet(222) — Terraform·Pulumi가 인프라를 "만든다"면, 이들은 만들어진 서버 "내부" 설정을 관리 — 역할이 다름
 
 ---
 

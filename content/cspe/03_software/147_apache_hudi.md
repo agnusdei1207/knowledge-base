@@ -11,21 +11,52 @@ weight: 147
 > 목적: Apache Hudi를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Apache Hudi는 데이터 레이크에서 upsert, delete, incremental query를 지원하는 오픈 테이블 포맷임
-- **왜 필요한가**: 레이크는 append 파일 저장에는 적합하지만 변경 데이터 반영과 증분 조회가 어렵다. Hudi는 record key와 timeline으로 변경 이력을 관리함.
-- **핵심 직관**: 창고에 물건을 계속 추가만 하지 않고, 바코드 기준으로 교체·삭제·변경분 조회를 지원하는 재고 시스템임.
+- **개요**: Apache Hudi는 데이터 레이크 위에서 **record key 기반 upsert·delete**와 **incremental query**(변경분만 조회)를 지원하는 오픈 테이블 포맷이다.
+- **왜 필요한가**: 순수 레이크는 파일을 append하는 데는 강하지만, CDC처럼 "특정 레코드 하나를 갱신·삭제"하려면 파일 전체를 재작성해야 한다. Hudi는 레코드를 키로 식별해 해당 레코드가 속한 파일만 갱신하도록 만든다.
+- **핵심 직관**: 매일 전체 회원 명부를 새로 인쇄하는 대신, 회원번호(record key)를 기준으로 바뀐 카드만 교체하는 카드형 인덱스 시스템이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| Record Key | 레코드를 유일하게 식별하는 키(PK) — Hudi upsert의 **정체성**을 이루는 핵심 | 회원번호 |
+| Precombine Field | 같은 키의 레코드가 여럿일 때 "어느 것이 최신인지" 고르는 기준 컬럼(보통 timestamp) | 여러 이력 카드 중 발급일이 가장 최근인 카드를 채택 |
+| Timeline | commit·delta commit·compaction·clean 등 테이블에 가해진 모든 행위를 순서대로 기록한 이력 | 회원 카드 시스템의 전체 작업 로그 |
+| File Group | 하나의 논리 레코드 그룹이 속하는 base file(+log file) 묶음, file id로 식별 | 특정 구역을 담당하는 서랍 하나 |
+| Index | record key가 어느 file group에 있는지 빠르게 찾는 조회 구조(Bloom filter, metadata table 등) | 회원번호로 서랍 위치를 즉시 알려주는 색인 카드 |
+| Copy-on-Write (CoW) | upsert 시 base file(Parquet)을 바로 재작성 — 쓰기 비용↑, 읽기 빠름 | 카드를 수정할 때마다 새 카드를 통째로 다시 인쇄 |
+| Merge-on-Read (MoR) | upsert를 log file(델타)에 append만 하고, 읽을 때 base+log를 병합 — 쓰기 빠름, 읽기 시 병합 비용 | 카드는 그대로 두고 "정정 스티커"만 붙였다가, 열람 시 같이 보여줌 |
+| Compaction | MoR의 log file들을 base file에 병합해 log 누적을 정리하는 작업 | 쌓인 정정 스티커를 새 카드로 정식 반영 |
+| Incremental Query | 특정 시점 이후 변경된 레코드만 조회하는 쿼리 모드 | "지난 커밋 이후 바뀐 회원만" 필터링해서 보기 |
 
 ## 깊이 이해
-- **배경·문제의식**: CDC 데이터를 레이크에 적재하려면 기존 파일을 모두 재작성하지 않고 특정 키의 최신 값을 반영해야 함.
-- **작동 원리**: record key, precombine field, partition path로 레코드를 식별하고 timeline에 commit을 기록함. Copy-on-Write와 Merge-on-Read 테이블 타입을 선택함.
-- **비유**: 매일 전체 회원 명단을 새로 만들지 않고 회원번호 기준으로 주소 변경, 탈퇴, 신규 가입만 반영하는 방식임.
-- **구체 예시**: 주문 CDC 이벤트를 Hudi MoR 테이블에 쓰고, read optimized view는 집계용, incremental query는 downstream 처리용으로 사용 가능함.
-- **흔한 오해·주의점**: Hudi는 스트리밍 엔진 자체가 아님. Spark/Flink 엔진, metadata table, compaction 계획이 함께 필요함.
+
+### 왜 upsert가 어려운 문제였나 — 수치 예제
+- 예: 파티션 하나에 파일 1,000개(각 256MB, 총 256GB)가 있는데 CDC로 들어온 변경 레코드는 그중 5,000건뿐(변경률 0.5% 수준)이라 하자. 전통적 append-only 레이크는 "어느 파일에 있는지 모르니" 파티션 전체(256GB)를 다시 읽고 다시 써야 할 수 있다.
+- Hudi는 Index로 5,000건의 record key가 어느 file group(예: 20개 파일, 5GB)에 속하는지 먼저 찾아, 그 20개 파일만 갱신한다 — 재작성 범위가 256GB에서 5GB로, 약 1/50 수준으로 줄어든다.
+
+### CoW vs MoR 선택 — 워크드 비교
+- **CoW**: 위 예에서 20개 파일(5GB)을 매번 Parquet로 통째 재작성한다. 쓰기 지연은 크지만(재작성 비용) 읽기는 순수 Parquet라 빠르다(별도 병합 불필요). 배치성 CDC 반영(예: 1시간마다)에 적합하다.
+- **MoR**: 같은 변경분(5,000건)을 log file(예: Avro, 수십 MB)에 append만 한다. 쓰기는 수 초 내로 매우 빠르지만, real-time view로 읽을 때는 base file + 누적된 log file을 병합해야 하므로 log가 쌓일수록(예: compaction 없이 delta commit 50회 누적) 읽기 지연이 커진다. 초 단위 스트리밍 반영에 적합하다.
+- 판별 기준: 쓰기 빈도가 분 단위 이하로 잦고 읽기 지연을 어느 정도 감내 가능하면 MoR, 조회 성능이 최우선이고 배치 주기가 시간 단위면 CoW를 선택한다.
+
+### Timeline과 commit — 예제로 이해
+- CDC 이벤트가 5분마다 batch로 들어온다면, 매 batch가 timeline에 하나의 (delta) commit으로 기록된다. `.commit`(CoW) 또는 `.deltacommit`(MoR) 파일이 timeline 디렉터리에 쌓이고, 각 commit은 어떤 file group이 갱신됐는지 기록한다.
+- Downstream 파이프라인은 "마지막으로 처리한 커밋 시각 이후"만 incremental query로 가져가면 되므로 매번 전체 테이블을 다시 읽을 필요가 없다 — 예: 하루 1억 건 테이블에서 변경분만 5만 건이면 조회량이 약 1/2,000로 줄어든다.
+
+### Compaction 지연이 만드는 문제 — 수치 예제
+- MoR에서 compaction을 안 돌리고 하루 288개(5분마다) delta commit이 log file로 계속 쌓이면, 하나의 file group을 읽을 때 base file 1개 + log file 288개를 병합해야 해서 조회 시간이 log 수에 비례해 늘어난다.
+- compaction을 4시간마다(하루 6회) 실행하도록 스케줄링하면 병합해야 할 log 수가 최대 48개 수준으로 줄어 읽기 지연을 통제할 수 있다 — 이것이 compaction backlog 관리다.
+
+### 비유와 오해
+- **비유**: 매일 전체 회원 명부를 새로 찍어내지 않고, 회원번호(record key) 기준으로 바뀐 카드만 교체·삭제·조회하는 카드형 재고 시스템이다.
+- **오해 1**: Hudi가 스트리밍 엔진이다 — 아니다. Hudi는 테이블 포맷·라이브러리이고, 실제 쓰기·읽기는 Spark나 Flink 엔진이 수행한다.
+- **오해 2**: upsert만 쓰면 끝이다 — 아니다. precombine 기준이 잘못되면(예: timestamp 대신 도착 순서로 판단) 늦게 도착한 오래된 이벤트가 최신 값을 덮어써 데이터가 역행할 수 있다. 순서 보장·idempotent 처리가 함께 필요하다.
 
 ## 연결 개념
-- CDC: Hudi upsert와 incremental query의 주요 입력
-- Delta Lake: transaction log 기반 대안 포맷
-- Apache Iceberg: 다중 엔진·snapshot 중심 대안 포맷
+- CDC: Hudi upsert와 incremental query의 주요 입력원
+- Delta Lake: `_delta_log` 트랜잭션 로그 기반 대안 포맷 (145에서 상세)
+- Apache Iceberg: 다중 엔진·snapshot 중심 대안 포맷 (146에서 상세)
 
 ---
 

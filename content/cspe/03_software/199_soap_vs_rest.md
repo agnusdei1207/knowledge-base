@@ -8,24 +8,62 @@ weight: 199
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: SOAP와 REST를 처음 보는 사람도 프로토콜 중심 방식과 리소스 중심 아키텍처 스타일의 차이를 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 설명이다.
+> 목적: SOAP와 REST를 처음 보는 사람도 프로토콜 중심 방식과 리소스 중심 아키텍처 스타일의 차이를 완전히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: SOAP는 XML 메시지 기반 프로토콜이고, REST는 HTTP 리소스와 메서드를 활용하는 아키텍처 스타일이다.
+- **개요**: SOAP(Simple Object Access Protocol)는 XML 메시지를 정해진 봉투 구조로 감싸 주고받는 **메시징 프로토콜**이고, REST(Representational State Transfer)는 HTTP의 자원과 메서드를 그대로 활용하는 **아키텍처 스타일**이다 — 둘 다 시스템 간 데이터를 주고받는 **API 통신 방식**이라는 같은 상위 범주에 속하지만, "반드시 지켜야 할 고정 규격(프로토콜)"과 "따르면 이점을 얻는 설계 제약(스타일)"이라는 서로 다른 층위에 있다.
 - **왜 필요한가**: API 설계에서 보안·트랜잭션·계약 엄격성이 필요한지, 웹·모바일 연동과 캐시가 필요한지에 따라 선택이 달라진다.
-- **핵심 직관**: SOAP는 규격이 촘촘한 공문서 교환, REST는 URL과 HTTP 동사로 자원을 다루는 웹 방식이다.
+- **핵심 직관**: SOAP는 정해진 서식을 갖춘 등기우편이고, REST는 표준 주소(URI)와 동작 규칙(HTTP 메서드)만으로 처리하는 일반 웹 요청이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| API 통신 방식 (상위 개념) | 시스템 간 데이터 교환 규약을 통칭 — SOAP·REST·gRPC·GraphQL이 모두 여기 속함 | 사람 사이의 "대화 방식" 전체 |
+| 프로토콜 vs 아키텍처 스타일 | 프로토콜=반드시 지켜야 할 고정 규격, 아키텍처 스타일=지키면 이점을 얻는 설계 제약의 모음 | 법 조문 vs 요리 레시피 가이드라인 |
+| SOAP Envelope / Header / Body | 요청 전체를 감싸는 봉투(Envelope) 안에 인증·트랜잭션 등 부가정보(Header)와 실제 요청 내용(Body)이 들어감 | 편지 봉투 / 발신인 메모 / 편지 본문 |
+| WSDL (Web Services Description Language) | SOAP 서비스가 제공하는 함수 시그니처·타입을 XML로 정의한 계약서 | 기계가 읽을 수 있는 API 사용설명서 |
+| WS-Security | 메시지 자체에 서명·암호화를 적용하는 SOAP 확장 표준 | 편지 내용에 봉인 인장을 찍는 것 |
+| URI | REST에서 자원(Resource)을 식별하는 주소 | 도서관 책의 청구기호 |
+| HTTP 메서드 (GET/POST/PUT/PATCH/DELETE) | REST에서 자원에 가할 행위를 표현하는 표준 동사 | 책을 "본다 / 새로 등록한다 / 통째로 바꾼다 / 일부만 고친다 / 반납한다" |
+| 무상태성 (Stateless) | 서버가 요청 사이에 클라이언트 상태를 기억하지 않는 REST 제약 — 매 요청에 필요한 정보를 모두 담아 보냄 | 매번 신분증을 다시 보여줘야 들어가는 창구 |
+| 멱등성 (Idempotency) | 같은 요청을 여러 번 보내도 결과가 한 번 보낸 것과 같은 성질 | 엘리베이터 버튼 — 몇 번 눌러도 도착 층은 같다 |
 
 ## 깊이 이해
-- **배경·문제의식**: 기업 시스템은 이기종 연동과 계약 안정성이 필요했고 SOAP는 WSDL, WS-Security, WS-ReliableMessaging을 제공했다. 웹 API 확산 후 REST는 단순한 HTTP 활용과 JSON 기반 경량 연동으로 널리 쓰였다.
-- **작동 원리**: SOAP는 Envelope, Header, Body로 XML 메시지를 만들고 WSDL로 서비스 계약을 정의한다. REST는 URI로 자원을 식별하고 GET, POST, PUT, PATCH, DELETE로 상태를 전송한다.
-- **비유**: SOAP는 양식이 정해진 등기우편이고, REST는 표준 주소와 동작 규칙으로 처리하는 웹 요청이다.
-- **구체 예시**: 금융기관 간 정산처럼 메시지 무결성, 서명, 재전송 보장이 필요한 업무는 SOAP가 남아 있고, 모바일 상품 조회 API는 REST+JSON이 일반적이다.
-- **흔한 오해·주의점**: REST는 단순히 JSON을 쓰는 API가 아니다. 리소스 식별, 무상태성, 표준 메서드, 캐시 가능성 같은 제약을 만족해야 한다.
+
+### 왜 이 둘이 다른 시대에 나왔나 (배경)
+- 1998년 Microsoft 주도로 SOAP가 발표됐다. 당시 기업 시스템은 서로 다른 언어·플랫폼(Java, .NET, 메인프레임)을 쓰는 시스템끼리 안전하게 연동해야 했고, SOAP는 WSDL로 계약을 못 박고 WS-Security·WS-ReliableMessaging 같은 확장으로 서명·재전송 보장까지 표준화했다.
+- 2000년 Roy Fielding 박사 논문에서 REST가 정의됐다. 웹(HTTP)이 이미 URI·캐시·상태 코드라는 검증된 인프라를 갖췄으니, 새 프로토콜을 만들지 말고 **웹의 기존 제약을 그대로 API에 적용**하자는 발상이다. 이후 모바일·웹 API가 폭증하며 REST+JSON의 단순함이 SOAP의 무거운 XML 계약을 대체해 나갔다.
+
+### 메시지 구조를 실제로 비교하기 (워크드 예제)
+동일한 "주문 123 조회, 상태는 SHIPPED" 정보를 표현한다고 하자.
+
+- **REST + JSON**: `{"orderId":123,"status":"SHIPPED"}` → 약 34바이트.
+- **SOAP + XML**: `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><GetOrderResponse><orderId>123</orderId><status>SHIPPED</status></GetOrderResponse></soapenv:Body></soapenv:Envelope>` → 약 210바이트.
+- 같은 정보인데 SOAP는 Envelope·Body 태그와 네임스페이스 선언 때문에 **약 6배** 커진다. 이 오버헤드는 WSDL 계약 검증, WS-Security 서명 같은 안정성의 대가이지, 설계 실수가 아니다 — 무엇을 얻기 위해 무엇을 지불하는지가 선택 기준이 된다.
+
+### REST의 6가지 제약 조건 (아키텍처 스타일의 실체)
+REST는 프로토콜이 아니라 "이 제약들을 지키면 확장성 있는 웹 API가 된다"는 6가지 설계 원칙의 모음이다.
+1. **Client-Server**: UI(클라이언트)와 데이터 저장(서버)을 분리 — 서로 독립적으로 발전 가능
+2. **Stateless (무상태성)**: 서버는 요청 간 세션을 기억하지 않음 — 어떤 서버가 응답해도 결과가 같아 수평 확장이 쉬움
+3. **Cacheable (캐시 가능성)**: 응답에 캐시 가능 여부를 명시해 같은 요청 재사용
+4. **Uniform Interface (일관된 인터페이스)**: URI로 자원 식별, 표준 HTTP 메서드로 행위 표현
+5. **Layered System (계층화)**: 클라이언트는 프록시·게이트웨이가 중간에 있는지 몰라도 됨
+6. **Code-on-Demand (선택)**: 서버가 실행 가능한 코드(예: 스크립트)를 보내줄 수 있음 — 유일하게 선택적인 제약
+
+### 멱등성으로 SOAP vs REST 오류 처리 이해하기
+- REST는 HTTP 메서드 자체에 멱등성 규칙이 있다. `PUT /orders/123 {"status":"SHIPPED"}`를 두 번 연속 보내도 주문 123의 상태는 여전히 SHIPPED다(멱등). 반면 `POST /orders {"item":"A"}`를 실수로 두 번 보내면 주문이 2건 생성된다(비멱등) — 그래서 재시도 로직은 POST에 멱등키(Idempotency Key)를 별도로 붙여야 한다.
+- SOAP는 메서드 자체에 이런 규칙이 없다. 모든 요청이 같은 HTTP POST로 전송되기 때문에, 멱등성·재시도 안전성은 애플리케이션 로직(WS-ReliableMessaging 등)이 직접 보장해야 한다.
+
+### 비유와 흔한 오해
+- **비유**: SOAP는 양식이 정해진 등기우편(발신인 확인, 서명, 배달 증명까지 포함)이고, REST는 표준 주소와 동작 규칙만으로 처리하는 일반 웹 요청이다.
+- **오해 1**: REST는 단순히 JSON을 쓰는 API가 아니다. 리소스 식별(URI), 무상태성, 표준 메서드, 캐시 가능성 같은 제약을 만족해야 "RESTful"이라 부를 수 있다. JSON을 쓰지만 이 제약을 어기면 그냥 "HTTP API"일 뿐이다.
+- **오해 2**: SOAP가 "구식"이라 사라진 것이 아니다. 금융기관 간 정산처럼 메시지 무결성·서명·재전송 보장이 법적으로 요구되는 업무는 지금도 SOAP+WS-Security를 쓴다. 모바일 상품 조회처럼 캐시와 경량 연동이 중요한 업무는 REST+JSON이 유리할 뿐이다.
 
 ## 연결 개념
-- RESTful API 설계 원칙: REST의 구체 설계 기준
-- WSDL/WS-Security: SOAP의 계약과 보안 확장
-- gRPC/GraphQL: REST 이후 API 대안
+- RESTful API 설계 원칙 — REST 6대 제약을 실제 API에 구현하는 구체 기준
+- WSDL / WS-Security — SOAP의 계약과 보안 확장 표준
+- gRPC / GraphQL — REST 이후 등장한 내부 통신·질의 언어 대안
 
 ---
 

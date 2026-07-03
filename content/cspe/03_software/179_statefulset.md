@@ -11,21 +11,49 @@ weight: 179
 > 목적: StatefulSet을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Pod별 고정 이름, 순서 있는 배포, 고유 PVC를 제공하는 Kubernetes 상태 저장 워크로드 컨트롤러
-- **왜 필요한가**: 데이터베이스, 메시지 큐, 분산 저장소는 Pod가 교체되어도 같은 이름과 같은 디스크가 유지되어야 한다.
-- **핵심 직관**: Deployment가 번호표 없는 임시 직원을 뽑는 방식이라면 StatefulSet은 직원별 사번, 자리, 개인 사물함을 유지하는 방식이다.
+- **개요**: StatefulSet은 Pod마다 **고정된 정체성(ordinal identity)**과 **전용 PVC**를 보장하는 Kubernetes **상태 저장 워크로드 컨트롤러**다. PVC/PV/StorageClass 자체의 구조는 178(Kubernetes Storage)을 참조하고, 여기서는 "Pod의 정체성을 어떻게 고정하는가"가 핵심이다.
+- **왜 필요한가**: Deployment는 replica가 서로 완전히 동일·교체 가능하다는 전제로 동작한다. 하지만 DB replica, Kafka broker, ZooKeeper/etcd 노드는 각자 고유 ID·역할·데이터를 가지므로, 이름과 디스크가 무작위로 바뀌면 quorum이 깨지거나 클러스터 재구성에 실패한다.
+- **핵심 직관**: Deployment가 "번호표 없는 임시 인력 파견"이라면 StatefulSet은 "사번, 지정석, 개인 사물함이 있는 정규직 배치"다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 상태 저장 워크로드(Stateful Workload) | 인스턴스마다 고유 식별자·데이터를 가져 서로 교체 불가능한 워크로드 — 이 개념의 상위 카테고리 | 지정석 승객 |
+| Ordinal Identity | `<name>-0`, `<name>-1`처럼 0부터 순번이 매겨진 고정 Pod 이름 | 사번 |
+| Headless Service | ClusterIP를 `None`으로 두어 각 Pod에 개별 DNS(`pod-0.svc.ns.svc.cluster.local`)를 부여하는 Service | 대표 전화번호 대신 내선번호 직통 연결 |
+| volumeClaimTemplates | StatefulSet이 Pod별로 자동 생성하는 PVC 템플릿(PVC 자체는 178 참조) | 사물함 자동 배정 규정 |
+| OrderedReady (기본 podManagementPolicy) | `pod-0`이 Ready 되어야 `pod-1` 생성을 시작하는 순차 생성·삭제 방식 | 줄 서서 한 명씩 입장 |
+| Parallel (podManagementPolicy) | 순서 없이 모든 Pod를 동시에 생성 | 동시 입장 |
+| quorum | 분산 시스템이 정상 동작하려면 필요한 최소 생존 노드 수(대개 과반) | 회의 성사에 필요한 최소 출석 인원 |
 
 ## 깊이 이해
-- **배경·문제의식**: Deployment는 replica가 서로 동일하고 어느 Pod가 사라져도 대체 가능하다는 전제에 적합하다. 하지만 DB replica, Kafka broker, ZooKeeper node처럼 각 인스턴스가 고유 ID와 데이터를 가지면 무작위 교체가 장애 원인이 된다.
-- **작동 원리**: StatefulSet은 `web-0`, `web-1` 같은 ordinal identity를 부여하고 headless Service로 고정 DNS를 제공한다. volumeClaimTemplates로 Pod별 PVC를 만들며 생성, 업데이트, 삭제 순서를 제어한다.
-- **비유**: 같은 역할의 상담원이라도 개인 내선번호와 보관함이 있으면 아무 자리나 바꿔 앉을 수 없는 것과 같다.
-- **구체 예시**: 3개 replica MongoDB를 StatefulSet으로 구성하면 `mongo-0`, `mongo-1`, `mongo-2`가 각각 `data-mongo-0` PVC를 사용하고, 재시작 후에도 같은 PVC를 다시 mount한다.
-- **흔한 오해·주의점**: StatefulSet이 데이터 백업을 대신하지 않는다. 고유 PVC를 유지할 뿐이며 스냅샷, 복구, quorum 관리는 별도 설계가 필요하다.
+
+### Deployment로는 왜 부족한가 (배경)
+- Deployment의 Pod는 ReplicaSet이 임의 해시 이름(`web-7d8f9c-x2k1p`)으로 만들고, 어느 Pod가 죽어도 아무 이름의 새 Pod로 대체하면 그만이다. 로드밸런서 뒤의 stateless API 서버라면 문제없다.
+- 하지만 3대짜리 MongoDB replica set을 Deployment로 운영하면, Pod가 재시작될 때마다 이름과 (기본 설정이라면) 연결되는 PVC가 달라질 수 있어 "어느 replica가 primary였는지" 식별이 깨지고, 최악의 경우 replica가 서로 다른 디스크를 계속 새로 붙잡아 데이터 정합성이 무너진다.
+
+### ordinal identity + headless Service가 정체성을 고정하는 방식
+- StatefulSet `mongo`를 3 replica로 만들면 Pod 이름은 항상 `mongo-0`, `mongo-1`, `mongo-2`로 고정된다. Pod가 죽어도 재생성된 Pod는 같은 순번 이름을 그대로 받는다.
+- headless Service(`mongo`)를 붙이면 `mongo-0.mongo.default.svc.cluster.local`처럼 Pod별 고정 DNS가 생겨, 클러스터 안의 다른 노드가 "0번은 항상 이 DNS"로 접속할 수 있다 — Pod IP가 바뀌어도 DNS 레코드가 갱신되어 재접속 로직이 단순해진다.
+
+### volumeClaimTemplates가 178의 PVC 구조를 그대로 재사용하는 방식
+- StatefulSet은 Pod마다 별도 PVC를 volumeClaimTemplates로 자동 생성한다. `mongo-0`은 `data-mongo-0`, `mongo-1`은 `data-mongo-1` PVC를 갖는다(PVC/PV/StorageClass 자체 구조는 178 참조).
+- 핵심 차이: Pod가 삭제·재생성돼도 같은 순번의 Pod는 같은 이름의 PVC를 다시 mount한다. `mongo-1`이 재시작되면 새 `mongo-1` Pod는 반드시 기존 `data-mongo-1`을 다시 붙잡는다 — 이 "Pod 순번 - PVC 이름"의 1:1 고정이 StatefulSet만의 특징이다.
+
+### 순차 배포(OrderedReady)를 수치로 이해 — quorum 보호
+- 기본 정책 OrderedReady에서는 `pod-0`이 Running+Ready 상태가 되어야 `pod-1` 생성을 시작한다. 업데이트(rolling update)도 마찬가지로 번호가 큰 것부터 역순으로 하나씩 교체한다.
+- 예: 5노드 etcd 클러스터는 과반(quorum) 3대 이상이 살아 있어야 쓰기가 가능하다. Deployment처럼 여러 Pod를 동시에 재시작하면 순간적으로 생존 노드가 2대로 떨어져 쓰기 불가 상태에 빠질 수 있다. OrderedReady와 PodDisruptionBudget(`maxUnavailable: 1`)을 함께 쓰면 한 번에 1대씩만 내려가게 강제해 quorum 3/5을 항상 유지한다.
+
+### 비유와 흔한 오해
+- **비유**: 콜센터 상담원 전원이 동일 업무를 하는 것이 Deployment라면, 상담원마다 개인 내선번호·개인 서류함·담당 고객 이력을 유지해야 하는 전담팀이 StatefulSet이다.
+- **오해 1**: "StatefulSet을 쓰면 백업이 자동으로 된다" — 틀렸다. StatefulSet은 이름과 PVC 연결만 고정할 뿐이고, 실제 스냅샷·백업·failover 로직은 Operator나 별도 자동화가 필요하다.
+- **오해 2**: "상태가 있으면 무조건 StatefulSet" — 틀렸다. 상태가 외부 관리형 DB(RDS 등)에 있고 Pod 자체는 무상태 API 서버라면 Deployment로 충분하다. 판별 기준은 "Pod 자신이 고유 ID·로컬 디스크·순서를 필요로 하는가"다.
 
 ## 연결 개념
-- Headless Service - Pod별 고정 DNS 제공
-- PVC/PV - Pod별 고유 저장소 유지
-- Operator - DB 클러스터 생성, 백업, failover 자동화 보완
+- PVC/PV/StorageClass (178) - StatefulSet이 volumeClaimTemplates로 그대로 활용하는 저장소 구조
+- Headless Service - ordinal DNS를 제공하는 기반 오브젝트
+- Operator - StatefulSet이 다루지 않는 백업·failover·quorum 자동화를 보완
 
 ---
 

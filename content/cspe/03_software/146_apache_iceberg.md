@@ -11,21 +11,52 @@ weight: 146
 > 목적: Apache Iceberg를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Apache Iceberg는 대규모 분석 테이블을 snapshot, manifest, metadata 파일로 관리하는 오픈 테이블 포맷임
-- **왜 필요한가**: Hive 테이블은 파티션 변경, schema evolution, 다중 엔진 동시 접근에 한계가 있음. Iceberg는 테이블 메타데이터를 명시적으로 관리해 엔진 독립성을 높임.
-- **핵심 직관**: 거대한 파일 묶음에 목차, 판본, 변경 이력, 찾기 색인을 붙여 현재 표준판을 정확히 가리키는 방식임.
+- **개요**: Apache Iceberg는 **오픈 테이블 포맷**의 하나로, **metadata file → manifest list → manifest**라는 3단 메타데이터 계층으로 데이터 파일을 관리해 여러 처리 엔진이 동일한 테이블을 안전하게 동시에 읽고 쓰게 한다.
+- **왜 필요한가**: Hive 테이블은 "파티션 = 디렉터리 경로"로 파일과 스키마 정보를 암묵적으로 표현해, 파티션 구조를 바꾸면 기존 쿼리가 깨지고 파일이 수백만 개면 디렉터리 리스팅 자체가 느려진다. Iceberg는 파일 목록과 통계를 메타데이터 파일 안에 명시적으로 저장해 이 문제를 없앤다.
+- **핵심 직관**: 창고 바닥을 걸어 다니며 상자를 세는 대신, 사무실 장부(메타데이터)만 보고 "어느 구역에 몇 개 상자가 있는지" 즉시 계산하는 방식이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 오픈 테이블 포맷 | Parquet/ORC 파일 위에 메타데이터 계층을 얹어 ACID·버전 관리를 제공하는 표준 규격 — Iceberg가 속하는 **상위 범주** | 낱장 문서 더미에 표지·목차를 붙인 정식 문서철 |
+| Metadata File | 테이블의 현재 스키마·파티션 규칙·최신 snapshot 목록을 담은 최상위 파일 — Iceberg **정체성**의 핵심 | 회사의 최신 정관·조직도 |
+| Snapshot | 특정 시점 테이블의 "유효 데이터 파일 전체 집합" | 특정 시각의 재고 스냅샷 사진 |
+| Manifest List | 하나의 snapshot을 구성하는 manifest 파일들의 목록(파티션 범위 요약 포함) | 여러 창고 구역별 요약 인덱스 |
+| Manifest | 실제 data/delete file 경로와 컬럼 통계(min/max, null count)를 담은 파일 | 각 구역의 상세 물품 목록표 |
+| Catalog | 테이블 이름 → 현재 metadata file 위치를 가리키는 포인터를 관리 | 건물 안내데스크의 사무실 호수 대장 |
+| Hidden Partitioning | 사용자는 논리 컬럼(예: event_time)으로만 쿼리하고, 실제 파티션 경로 변환은 Iceberg가 대신 처리 | 우편번호만 적으면 집배원이 알아서 배송 구역을 찾아줌 |
+| Partition Evolution | 기존 데이터를 재작성하지 않고 앞으로의 파티션 규칙만 바꾸는 기능 | 앞으로는 새 분류법 적용, 옛 재고는 그대로 |
+| Position/Equality Delete File | 행을 물리적으로 지우지 않고 "이 파일의 N번째 행은 삭제됨"을 기록하는 파일 | 삭제 스티커만 붙이고 실물은 나중에 치움 |
 
 ## 깊이 이해
-- **배경·문제의식**: 레이크하우스 환경은 Spark, Flink, Trino, Presto가 같은 테이블을 읽고 써야 하므로 파일 목록과 파티션 정보를 엔진별로 다르게 해석하면 오류가 발생함.
-- **작동 원리**: metadata file이 현재 snapshot을 가리키고, snapshot은 manifest list, manifest는 data/delete file 목록과 통계를 보관함.
-- **비유**: 창고 물품을 직접 뒤지는 대신 최신 재고 장부, 구역별 목록, 물품별 위치표를 따라 필요한 상자만 찾는 방식임.
-- **구체 예시**: 날짜 파티션을 월 단위에서 일 단위로 바꿔도 hidden partitioning으로 쿼리 사용자는 파티션 구조 변경을 직접 알 필요가 없음.
-- **흔한 오해·주의점**: Iceberg는 처리 엔진이 아니라 테이블 포맷임. Spark나 Flink 같은 엔진과 catalog가 함께 있어야 읽기·쓰기 수행 가능함.
+
+### 왜 Hive 방식이 한계였나 — 수치로 이해
+- Hive 테이블에서 파일이 100만 개면, "특정 날짜 데이터를 찾아라"는 쿼리도 디렉터리를 나열(list)하는 데만 수 분이 걸릴 수 있다(객체 스토리지는 파일시스템과 달리 디렉터리 개념이 없어 prefix 나열이 느리다). Iceberg는 이 나열을 메타데이터 파일 읽기로 대체해 계획(planning) 시간을 초 단위로 줄인다.
+
+### 3단 메타데이터로 필요한 파일만 골라내는 과정 — 워크드 예제
+- 예: 전체 테이블에 파일 100만 개, 파티션은 일 단위(365개)로 나뉘어 있다고 하자. `WHERE event_date = '2026-07-03' AND amount > 1000` 쿼리가 들어오면:
+  1) Metadata file에서 최신 snapshot(v87)을 찾는다.
+  2) Manifest list에서 각 manifest가 담당하는 파티션 범위(min/max event_date)를 보고, event_date=2026-07-03을 포함하지 않는 manifest(전체의 약 99.7%)는 즉시 스킵한다.
+  3) 남은 manifest 안에서 각 파일의 컬럼 통계(amount의 min/max)를 보고, amount>1000이 될 수 없는 파일(예: max가 500인 파일)도 스킵한다.
+- 결과적으로 100만 개 파일 중 실제로 열어보는 파일은 수십~수백 개 수준으로 줄어든다 — 이것이 metadata pruning이다.
+
+### Hidden Partitioning — 예제
+- Hive 방식이면 사용자가 `WHERE year=2026 AND month=07 AND day=03`처럼 파티션 컬럼을 직접 알고 써야 한다. 파티션을 월별에서 일별로 바꾸면 기존 쿼리가 깨진다.
+- Iceberg는 `PARTITIONED BY (days(event_time))`처럼 변환 함수를 테이블 정의에 넣어두므로, 사용자는 그냥 `WHERE event_time = '2026-07-03'`이라고만 쓰면 된다. 나중에 파티션을 `days`에서 `hours`로 바꿔도(Partition Evolution) 과거 데이터는 재작성 없이 그대로 두고, 새로 들어오는 데이터부터 시간 단위로 나뉜다.
+
+### 삭제 처리 — Position/Equality Delete 예제
+- GDPR 요청으로 회원 1명(파일 하나의 1,000행 중 3행)을 삭제해야 할 때, 전통 방식은 해당 파일 전체를 재작성해야 한다. Iceberg는 "파일 X의 15, 302, 981번째 행 삭제"라는 작은 delete file만 추가하고, 다음 읽기 시 원본 파일과 delete file을 merge-on-read로 합쳐 보여준다 — 대용량 파일 재작성 없이 즉시 반영된다.
+
+### 비유와 오해
+- **비유**: 사무실 장부(메타데이터)만 보고 창고 전체를 뒤지지 않고도 필요한 상자 위치를 즉시 아는 방식이다.
+- **오해 1**: Iceberg가 처리 엔진이다 — 아니다. Iceberg는 파일 형식·메타데이터 규격일 뿐이고, 실제 읽기/쓰기는 Spark·Flink·Trino 같은 엔진과 Catalog가 수행한다.
+- **오해 2**: snapshot이 많아도 무해하다 — 아니다. snapshot·manifest가 만료 없이 계속 쌓이면 metadata 자체가 커져 planning이 느려지므로 expire snapshot·rewrite manifest 같은 유지보수가 필요하다.
 
 ## 연결 개념
-- 오픈 테이블 포맷: Delta Lake, Iceberg, Hudi 비교 축
-- 데이터 레이크하우스: Iceberg가 제공하는 ACID·snapshot 기반 아키텍처
-- Catalog: Iceberg 테이블 위치와 metadata pointer를 관리하는 계층
+- 오픈 테이블 포맷: Delta Lake, Apache Hudi와 함께 비교되는 상위 범주 (145·147에서 상세)
+- 데이터 레이크하우스: Iceberg가 제공하는 ACID·snapshot 기반 아키텍처 (144에서 상세)
+- Catalog: Iceberg 테이블 위치와 metadata pointer를 관리하는 계층(Hive, Glue, REST, Nessie)
 
 ---
 

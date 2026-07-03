@@ -11,21 +11,60 @@ weight: 175
 > 목적: Kubernetes Pod 스케줄링을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Pod를 어떤 Node에 배치할지 자원, 정책, 제약, 선호도를 기준으로 결정하는 과정
-- **왜 필요한가**: 모든 Pod를 빈 노드에만 놓으면 CPU 경합, 장애 도메인 집중, GPU 미사용, 규제 위반이 발생한다.
-- **핵심 직관**: 스케줄러는 단순 자리 배정자가 아니라 요구 조건을 만족하는 좌석을 고르는 배치 심사관이다.
+- **개요**: Pod 스케줄링은 **Scheduler**가 대기 중인 Pod를 **자원 요청(Resource Request)**과 배치 정책을 기준으로 특정 Node에 배정하는 **Filter → Score → Bind** 3단계 과정이다.
+- **왜 필요한가**: 클러스터의 노드는 CPU·Memory·GPU·Zone·보안 등급·비용이 서로 다르다. 이를 무시하고 아무 빈 노드에나 배치하면 자원 경합, 장애 도메인 집중, GPU 미사용, 규제 위반이 발생한다.
+- **핵심 직관**: Scheduler는 빈 자리에 아무나 앉히는 단순 배정자가 아니라, 조건을 만족 못 하는 곳을 먼저 걸러내고 남은 곳 중 가장 적합한 자리를 골라주는 배치 심사관이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| Scheduler | Pending Pod를 감지해 적합한 Node를 결정하는 Control Plane 컴포넌트 — 이 개념이 속한 **상위 개념** | 배치 심사관 |
+| Resource Request | 컨테이너가 최소한 보장받는 CPU/Memory 양 — Scheduler의 배치 판단 **기준**이 됨 | 예약된 좌석 수 |
+| Resource Limit | 컨테이너가 쓸 수 있는 최대 CPU/Memory — 실행 중 제한일 뿐 배치 판단에는 쓰이지 않음 | 좌석의 정원 상한 |
+| Filter (Predicate) | 조건을 만족 못 하는 Node를 걸러내는 1단계 | 예약 조건 미달 객실 제외 |
+| Score (Priority) | Filter를 통과한 Node에 점수를 매겨 순위를 매기는 2단계 | 남은 객실 중 랭킹 매기기 |
+| Bind | 최종 선택된 Node에 Pod를 확정 할당하는 3단계 | 객실 배정 확정 |
+| NodeAffinity / PodAffinity | 특정 라벨을 가진 Node/Pod에 붙거나(Affinity) 떨어지려는(Anti-Affinity) 선호·강제 조건 | 팀원끼리 같은 구역에 앉기 |
+| Taint / Toleration | Node가 "허가받지 않은 Pod는 못 온다"를 선언(Taint)하고, Pod가 "나는 이 조건을 견딘다"를 선언(Toleration)해야 배치가 허용되는 방식 | 출입 제한 구역 + 출입증 |
+| topologySpreadConstraints | 장애 도메인(Zone·Node)별로 Pod를 고르게 분산 배치하는 제약 | 계란을 한 바구니에 담지 않기 |
+| Priority / Preemption | 우선순위가 낮은 기존 Pod를 축출(evict)해서라도 우선순위 높은 Pod를 배치하는 기법 | 응급환자 새치기 |
 
 ## 깊이 이해
-- **배경·문제의식**: Kubernetes 클러스터에는 CPU, Memory, GPU, Zone, 보안 등급, 비용이 다른 노드가 섞인다. Pod마다 request, affinity, taint toleration 요구가 달라서 자동 배치 기준이 필요하다.
-- **작동 원리**: Scheduler는 Pending Pod를 감지하고 Filter 단계에서 배치 불가능 노드를 제거한다. Score 단계에서 적합한 노드에 점수를 매긴 뒤 Bind 단계에서 Pod를 Node에 할당한다.
-- **비유**: 호텔 예약에서 금연실, 침대 수, 전망, 가격 조건을 먼저 거르고 남은 객실 중 점수가 높은 방을 배정하는 방식이다.
-- **구체 예시**: GPU request `nvidia.com/gpu: 1`이 있는 Pod는 GPU 노드만 통과하고, zone anti-affinity가 있으면 동일 장애 도메인에 replica가 몰리지 않게 배치한다.
-- **흔한 오해·주의점**: limit만 설정하면 스케줄링 기준이 되지 않는다. Scheduler는 주로 request와 정책을 기준으로 배치 가능성을 계산한다.
+
+### 왜 자동 배치 기준이 필요한가 (배경)
+- 클러스터에는 CPU·Memory 여유가 다르고, GPU가 달린 노드와 아닌 노드가 섞이고, Zone(가용영역)이 다르고, 결제처럼 보안 등급이 높은 워크로드 전용 노드가 따로 있을 수 있다. Pod마다 요구하는 자원·정책이 다르므로, 사람이 매번 수동으로 고르는 대신 Scheduler가 일관된 규칙으로 판단해야 한다.
+
+### Filter → Score → Bind — 수치 워크드 예제
+- 노드 5대 클러스터에서, GPU 1개와 CPU 2코어·Memory 4Gi를 요구하는 Pod가 Pending으로 들어왔다고 하자.
+1. **Filter**: 5대 중 GPU가 없는 노드 3대는 즉시 제외된다 → 후보 2대(NodeA, NodeB)로 좁혀진다.
+2. **Score**: 남은 2대에 점수를 매긴다. 예를 들어 NodeA는 CPU 여유율 80%로 80점, NodeB는 CPU 여유율 50%로 50점을 받으면 NodeA가 선정된다.
+3. **Bind**: API Server에 해당 Pod의 nodeName을 NodeA로 기록해 배치를 확정한다.
+
+### request 기준 bin-packing — 수치로 이해
+- 8코어 노드에 이미 CPU 5코어가 request된 상태라고 하자. 신규 Pod가 CPU 2코어를 request하면 여유 3코어 안에 들어가므로 Filter를 통과해 배치 가능하다. 반대로 신규 Pod가 CPU 4코어를 request하면 여유(3코어)를 넘으므로 이 노드에서는 Filter에서 제외되고, 클러스터 전체에 여유 노드가 없으면 Pod는 Pending으로 남는다.
+- 이때 판단 기준은 Limit이 아니라 Request다. Limit만 설정하고 Request를 비워두면 Scheduler는 사실상 자원을 거의 안 쓰는 것처럼 계산해 과밀 배치(overcommit)를 일으킬 수 있다.
+
+### Taint/Toleration — GPU 전용 노드 예제
+- GPU 노드에 `nvidia.com/gpu=true:NoSchedule`이라는 Taint를 걸면, 이 Toleration이 없는 일반 Pod는 Filter 단계에서부터 배치 후보에서 제외된다. GPU 워크로드에 해당 Toleration을 부여해야만 그 노드에 배치될 수 있다.
+- Affinity는 "끌어당기는" 선호(있으면 유리)인 반면, Taint/Toleration은 "막는" 방식(허가 없으면 아예 배치 불가)이라는 점이 핵심 차이다.
+
+### topologySpreadConstraints — 수치로 이해
+- replicas=6인 서비스가 Zone 3개에 걸쳐 있고 topologySpreadConstraints(maxSkew=1)를 적용하면, Zone당 2개씩 균등 배치된다. Zone 1개에 장애가 나도 전체 6개 중 2개(약 33%)만 손실되어 서비스가 유지된다. 이 제약이 없으면 6개가 한 Zone에 몰려 그 Zone 장애 시 전체가 사라질 수 있다.
+
+### Priority/Preemption — 수치로 이해
+- 클러스터 자원이 꽉 찬 상태에서 priority=1000인 Pod가 배치를 요청하면, Scheduler는 priority=100인 기존 Pod를 축출(evict)해 공간을 확보한 뒤 우선순위 높은 Pod를 배치한다. 핵심 업무(P1)를 보호하고 부가 업무(배치 작업 등)를 밀어내는 데 쓰인다.
+
+### 비유
+- 호텔 예약에서 금연실·침대 수·전망·가격 조건을 먼저 걸러내고(Filter), 남은 객실 중 점수가 높은 방을 고르는(Score) 뒤 최종 배정(Bind)하는 절차와 같다.
+
+### 흔한 오해·주의점
+- Limit만 설정하고 Request를 비워두면 스케줄링 기준으로 반영되지 않는다. Scheduler는 Request를 기준으로 배치 가능성을 계산하며 Limit은 실행 중 자원 상한일 뿐이다.
 
 ## 연결 개념
-- Resource Request/Limit - 배치 기준과 실행 제한의 차이
-- Affinity/Anti-Affinity - 노드 또는 Pod 간 배치 선호와 제약
-- Taint/Toleration - 특정 노드에 허용된 Pod만 배치하는 통제
+- Pod 생명주기(174) — 여기서 Filter를 통과 못 하면 Pod는 Pending Phase에 계속 머무름
+- 쿠버네티스 아키텍처(173) — Scheduler는 Control Plane의 한 컴포넌트
+- Service/Ingress(176) — Bind되어 Ready가 된 Pod가 Endpoint에 편입돼 실제 트래픽 대상이 됨
 
 ---
 

@@ -8,24 +8,51 @@ weight: 137
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Kafka가 메시지 큐와 다른 event log 플랫폼인 이유를 이해하게 만든다.
+> 목적: Kafka가 왜 "사라지는 메시지 큐"가 아니라 "다시 읽을 수 있는 로그"인지, 내부 용어를 이해하게 만든다.
 
 ## 한눈에
-- **개요**: 이벤트를 topic partition에 append-only log로 저장하고 여러 consumer가 독립적으로 읽는 분산 스트리밍 플랫폼
-- **왜 필요한가**: MSA·로그·CDC·실시간 분석에서 시스템 간 직접 호출을 줄이고, 이벤트를 재사용·재처리할 수 있어야 함.
-- **핵심 직관**: 방송국이 시간순 녹화본을 보관하고, 각 부서가 필요한 시점부터 다시 보는 구조임.
+- **개요**: Apache Kafka는 이벤트를 **topic의 partition**에 **append-only log**로 저장하고, 여러 consumer가 각자 독립된 위치(offset)에서 읽을 수 있게 하는 **분산 이벤트 스트리밍 플랫폼**이다.
+- **왜 필요한가**: 전통적인 메시지 큐는 소비되면 메시지가 사라지는 모델이 많아, 같은 이벤트를 여러 시스템이 각자 다른 속도로 재사용·재처리하기 어렵다. MSA·CDC·실시간 분석은 "한 번 발생한 이벤트를 여러 팀이 서로 다른 시점에 반복해서 읽는" 요구가 흔하다.
+- **핵심 직관**: 여러 계산대의 영수증이 시간순으로 파일(로그)에 계속 쌓이고, 회계팀·마케팅팀·감사팀이 각자 자기가 읽은 위치(offset)를 따로 표시해두며 원하는 시점부터 다시 읽는 구조다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 분산 이벤트 스트리밍 플랫폼 | 이벤트를 지속 저장하고 여러 소비자가 재사용하도록 중계하는 상위 범주 | 방송국의 시간순 녹화·재생 시스템 |
+| topic | 같은 종류의 이벤트를 모으는 논리적 채널(이름) | 방송 채널 이름 |
+| partition | topic을 병렬 처리 단위로 나눈 물리적 하위 로그. partition 내부는 순서 보장 | 채널 안의 개별 녹화 테이프 |
+| offset | partition 안에서 각 레코드의 순번(위치) | 테이프의 재생 시간 지점 |
+| producer | 이벤트(record)를 topic에 발행하는 클라이언트 | 계산대에서 영수증을 발행하는 직원 |
+| consumer | topic에서 이벤트를 읽는 클라이언트 | 영수증철을 읽는 담당자 |
+| consumer group | 여러 consumer가 partition을 나눠 병렬로 읽는 논리적 묶음. group당 partition 하나는 consumer 1개만 담당 | 부서별로 구역을 나눠 담당 |
+| broker | 실제 partition 데이터를 저장·서빙하는 Kafka 서버 | 방송국의 개별 송출국 |
+| replication / ISR | partition을 여러 broker에 복제(기본 3개)하고, 그중 최신 상태를 따라가는 복제본 집합(In-Sync Replica) | 원본 테이프의 백업본들 |
+| leader / follower | partition마다 쓰기를 담당하는 broker(leader)와 그 복제를 받는 broker(follower) | 원본 담당자와 백업 담당자 |
+| retention | 이벤트를 얼마나 오래(또는 얼마나 많이) 보관할지 정하는 정책(기간·용량 기준) | 녹화본 보관 기한 |
+| exactly-once semantics | producer의 idempotence(중복 전송 무시)와 transaction으로 "정확히 한 번만 처리됨"을 보장하는 기능 | 같은 주문을 두 번 접수하지 않도록 확인하는 절차 |
 
 ## 깊이 이해
-- **배경·문제의식**: 전통 큐는 메시지를 소비하면 사라지는 모델이 많아 재처리와 다중 구독이 어렵다. Kafka는 partition log와 offset으로 이벤트 보존과 소비 위치를 분리함.
-- **작동 원리**: producer가 key 기준으로 partition에 record를 append함. broker는 replication으로 leader/follower를 유지하고, consumer group은 partition을 나눠 읽으며 offset을 commit함.
-- **비유**: 여러 계산대 영수증이 시간순 파일에 쌓이고, 회계팀·마케팅팀·감사팀이 각자 읽은 위치를 따로 표시함.
-- **구체 예시**: 주문 topic을 12 partition으로 만들고 `order_id` key를 사용하면 같은 주문의 이벤트 순서는 partition 내에서 보장됨.
-- **흔한 오해·주의점**: Kafka는 전체 topic 순서를 보장하지 않음. 순서는 partition 내부에서만 보장되며, key 설계가 잘못되면 순서·부하 분산 문제가 발생함.
+
+### 왜 Kafka가 "메시지 큐"와 다른가 (배경)
+전통적 메시지 큐(RabbitMQ 등)는 "소비하면 사라지는" point-to-point 모델이 기본이라, 한 메시지를 여러 시스템이 각자 재사용하려면 큐를 여러 개 복제해야 했다. Kafka(2011년 LinkedIn에서 개발)는 메시지를 소비해도 지우지 않고 retention 기간 동안 로그에 그대로 남긴다. 그 결과 "발행은 한 번, 구독은 여러 팀이 각자 원하는 시점부터"가 가능해졌다 — 이것이 메시지 큐가 아니라 "분산 커밋 로그"로 불리는 이유다.
+
+### partition과 순서 보장 — key 설계 수치 예제
+주문 이벤트를 담는 topic을 12개 partition으로 만들고, producer가 `order_id`를 key로 사용한다고 하자. Kafka는 `partition = hash(key) % 12` 방식으로 partition을 정하므로, 같은 `order_id`를 가진 이벤트(주문 생성→결제→배송)는 항상 같은 partition에 들어가고, 그 partition 안에서는 발행 순서대로 저장·소비된다. 하지만 Kafka는 topic 전체의 순서는 보장하지 않는다 — 12개 partition에 걸쳐 있는 서로 다른 주문끼리는 어느 것이 먼저 처리될지 순서가 섞일 수 있다. key를 잘못 설계하면(예: 모든 이벤트에 같은 key를 써서 1개 partition에만 몰림) 병렬성이 사라지고 특정 partition에 부하가 집중된다.
+
+### replication과 내구성 — ISR 수치 예제
+partition의 replication factor를 3으로 설정하면, 하나의 leader broker와 2개의 follower broker가 같은 데이터를 갖는다. `min.insync.replicas=2`, `acks=all`로 설정하면, producer는 leader를 포함해 최소 2개 broker(ISR 내)에 데이터가 쓰였다는 응답을 받아야 "성공"으로 간주한다. 이 상태에서 broker 1대가 죽어도 나머지 2대 중 1대가 leader로 승격되어 데이터 유실 없이 서비스가 계속된다. 반대로 `acks=1`(leader만 확인)로 설정하면 leader가 응답 직후 죽었을 때 follower에 아직 복제되지 않은 데이터가 유실될 수 있다.
+
+### consumer group과 병렬 소비 — 수치 예제
+12개 partition을 가진 topic을 consumer 5개로 구성된 group이 읽는다면, Kafka는 partition을 consumer들에게 최대한 고르게 분배한다(예: 3개 consumer가 partition 2개씩, 2개 consumer가 partition 3개씩, 합계 12개). 초당 12,000건이 유입되는 topic이라면 partition당 평균 1,000건/초이므로, 각 consumer는 자신이 담당한 partition 수만큼(2,000건/초 또는 3,000건/초)을 처리해야 한다. consumer 수를 partition 수보다 늘려도(예: consumer 13개) 13번째 consumer는 담당할 partition이 없어 유휴 상태가 된다 — **partition 수가 consumer 병렬성의 상한**이다.
+
+### 흔한 오해
+"Kafka는 topic 전체의 순서를 보장한다"는 오해가 가장 흔하다. 순서는 partition 내부에서만 보장되며, 전체 순서가 필요하면 partition을 1개로 제한해야 하는데 그러면 병렬성을 포기하게 된다. 또한 "Kafka는 메시지가 영구 보존된다"는 것도 오해다 — retention 정책(기간 또는 용량)을 지나면 오래된 세그먼트는 삭제되거나, compaction 설정 시 key별 최신 값만 남긴다.
 
 ## 연결 개념
-- Exactly-Once Semantics — producer idempotence와 transaction
-- Kafka Connect — CDC·외부 시스템 연계
-- Kappa Architecture — durable log 기반 처리
+- Kappa Architecture — Kafka의 durable log와 replay를 기반으로 하는 상위 아키텍처(136)
+- Lambda Architecture — batch·speed 양쪽이 공유하는 원천 로그로 Kafka를 사용(135)
+- Kafka Connect·Schema Registry — CDC 연계·스키마 호환성을 다루는 주변 생태계
 
 ---
 

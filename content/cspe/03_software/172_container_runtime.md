@@ -11,16 +11,47 @@ weight: 172
 > 목적: 컨테이너 런타임을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 컨테이너 이미지를 내려받고 프로세스 격리, 파일시스템, 네트워크, 자원 제한을 적용해 실행하는 계층
-- **왜 필요한가**: Kubernetes는 Pod를 선언하지만 실제 프로세스를 만들고 cgroup과 namespace를 적용하는 구성요소가 별도로 필요하다.
-- **핵심 직관**: Kubernetes가 배차 명령을 내리면 런타임은 실제 차량 문을 열고 승객을 태워 출발시키는 운행 담당자이다.
+- **개요**: **CRI(Container Runtime Interface)** 표준을 통해 쿠버네티스 **kubelet**과, 실제 컨테이너 프로세스를 만드는 **컨테이너 런타임** 계층을 연결하는 구조를 가리킨다 — containerd·CRI-O가 대표 구현체다.
+- **왜 필요한가**: Kubernetes는 "이런 Pod를 띄워라"라고 선언만 할 뿐, 실제로 프로세스를 만들고 namespace·cgroup을 적용하는 일은 별도 구성요소가 해야 한다. 이 실행 담당 계층이 없으면 선언은 선언으로 그친다.
+- **핵심 직관**: Kubernetes가 "이런 손님을 태운 차를 준비하라"는 배차 명령이라면, 런타임은 실제 차 문을 열고 승객을 태워 출발시키는 운행 담당자다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| CRI(Container Runtime Interface) | kubelet과 런타임 구현체를 분리하는 gRPC 표준 인터페이스 — 이 개념의 핵심 상위 표준 | 전기 콘센트 규격(어떤 제조사 플러그든 꽂히게 함) |
+| OCI(Open Container Initiative) | 이미지 형식(Image Spec)과 실행 방식(Runtime Spec)을 정한 업계 공통 규격 | 만국 공통 도량형 |
+| kubelet | 각 노드에서 PodSpec을 해석해 CRI 요청으로 바꾸는 에이전트 | 배차 지시를 받는 운행 관리자 |
+| containerd | Docker에서 분리돼 CNCF에 기부된 범용 CRI 런타임 구현체 | 종합 운행 대행사 |
+| CRI-O | Kubernetes 전용으로 처음부터 설계된 경량 CRI 런타임 구현체 | 택시 회사 전용 배차 시스템 |
+| runc | OCI Runtime Spec의 기준 구현체 — 실제 격리 프로세스를 만드는 도구 | 실제로 차 시동을 걸고 문을 여는 기사 |
+| shim | 컨테이너 프로세스를 감독하며 runc가 종료돼도 계속 살아있는 중간 프로세스 | 기사가 내린 뒤에도 승객을 지켜보는 보조 요원 |
+| sandbox(pause 컨테이너) | Pod 안 여러 컨테이너가 네트워크 namespace를 공유하도록 붙잡아두는 최소 프로세스 | 여러 승객이 함께 탈 차체(껍데기)만 먼저 세워둠 |
+| dockershim | 과거 kubelet에 내장돼 있던 Docker 전용 연결 코드(현재는 제거됨) | 예전에 쓰던 특정 회사 전용 어댑터 |
 
 ## 깊이 이해
-- **배경·문제의식**: Docker는 개발자 경험을 통합했지만 오케스트레이션에서는 이미지 pull, container create, start, stop 같은 실행 기능만 필요하다. Kubernetes는 CRI(Container Runtime Interface)로 kubelet과 런타임을 분리했다.
-- **작동 원리**: kubelet이 CRI gRPC로 Pod sandbox와 container 생성을 요청하면 containerd 또는 CRI-O가 OCI runtime인 runc를 호출해 Linux namespace, cgroup, mount를 적용한다.
-- **비유**: 레스토랑 주문서가 Kubernetes manifest라면, 런타임은 주방에서 실제 재료를 꺼내 요리하고 접시에 담는 역할이다.
-- **구체 예시**: kubelet -> containerd -> runc 경로에서 image pull, snapshot mount, container start가 수행되며, cgroup v2로 CPU 500m, Memory 512Mi 제한을 적용한다.
-- **흔한 오해·주의점**: containerd와 CRI-O는 Docker CLI 대체가 아니라 Kubernetes 노드에서 컨테이너 실행을 담당하는 런타임 계층이다.
+
+### 배경 — Docker 중심에서 CRI 표준으로
+- Kubernetes 초기(2014~2016)에는 Docker Engine 전용으로 설계되어 kubelet 안에 Docker를 직접 호출하는 dockershim 코드가 내장돼 있었다. 하지만 Docker Engine은 컨테이너 실행 외에 이미지 빌드, CLI, 네트워크 관리까지 포함한 무거운 데몬이라, 오케스트레이션 입장에서는 불필요한 기능이 많았다.
+- 그래서 2016년 Kubernetes 1.5에서 **CRI(Container Runtime Interface)**라는 gRPC 표준을 도입해 kubelet과 런타임 구현체를 분리했다. 이후 2022년 Kubernetes 1.24에서 내장 dockershim이 완전히 제거되어, 이제는 containerd나 CRI-O처럼 CRI를 직접 구현한 런타임만 노드에서 쓸 수 있다.
+
+### CRI 실행 흐름 — 단계로 이해
+- kubelet이 PodSpec을 해석해 CRI gRPC 호출(`RunPodSandbox`, `CreateContainer`, `StartContainer`)을 런타임에 보낸다.
+- containerd(또는 CRI-O)가 이 요청을 받아 ① registry에서 OCI 이미지를 pull하고, ② pause 컨테이너로 sandbox(네트워크 namespace의 기준점)를 먼저 만들고, ③ 실제 컨테이너는 `containerd-shim`을 통해 OCI Runtime Spec을 만족하는 `runc`를 호출한다.
+- 하나의 Pod 안에 컨테이너가 여러 개 있으면(사이드카 패턴 등) 모두 같은 sandbox의 네트워크 namespace를 공유한다 — 그래서 Pod 안의 컨테이너들은 `localhost`로 서로 통신할 수 있다.
+
+### runc 작동 원리 — 커널 관점에서 이해
+- `runc`는 Linux의 `clone()` 시스템콜에 `CLONE_NEWPID`, `CLONE_NEWNET` 등 namespace 플래그를 넘겨 격리된 프로세스를 만들고, cgroup 파일시스템에 CPU·메모리 제한 값을 쓴 뒤(예: cgroup v2 기준 CPU 500m는 `cpu.max`에 `50000 100000`으로 기록, Memory 512Mi는 `memory.max`에 `536870912` 바이트로 기록) `execve()`로 실제 애플리케이션 프로세스를 실행한다.
+- `runc`는 이 작업을 마치면 곧바로 종료된다 — 오래 떠 있는 데몬이 아니라 "한 번 실행되고 사라지는" 도구다. 그래서 만들어진 컨테이너 프로세스가 부모 없이 남지 않도록 `shim` 프로세스가 계속 붙어서 표준출력·종료 코드를 감독하고 kubelet에 상태를 보고한다.
+
+### containerd vs CRI-O — 언제 무엇을 쓰나 (판별 원리)
+- **containerd**는 원래 Docker Engine 내부의 실행 엔진을 떼어내 CNCF에 기부한 것으로, 이미지 관리·스토리지 스냅샷 기능까지 포함해 범용성이 넓다(Docker Desktop과 Kubernetes 양쪽에서 쓰인다).
+- **CRI-O**는 Red Hat이 Kubernetes 전용으로 처음부터 설계해 CRI·OCI 표준만 최소로 구현한 경량 런타임이다(OpenShift 기본 런타임).
+- 판별 기준: 기존 Docker 생태계 도구·워크플로를 그대로 쓰고 싶다면 containerd, Kubernetes에만 특화된 최소 구성과 좁은 공격 표면을 원한다면 CRI-O를 선택한다.
+
+### 비유와 흔한 오해
+- **비유**: kubelet이 "이런 방과 가구를 갖춘 컨테이너를 만들어달라"는 주문서(PodSpec)를 CRI라는 공통 양식으로 넘기면, containerd/CRI-O는 이 주문서를 받아 재료(이미지)를 창고(registry)에서 꺼내오는 총괄 매니저이고, runc는 그 재료로 실제 벽(namespace)을 세우고 전기 용량(cgroup)을 배정하는 시공팀이다. 시공이 끝나면 시공팀(runc)은 철수하고, 완성된 방(컨테이너 프로세스)만 남아 감독자(shim)가 지켜본다.
+- **오해**: containerd·CRI-O는 "Docker CLI의 대체품"이 아니다. 사용자가 직접 명령어를 치는 도구가 아니라 kubelet이 내부적으로 호출하는 실행 계층이며, 사람은 보통 `crictl` 같은 저수준 디버깅 도구로만 직접 접한다.
 
 ## 연결 개념
 - OCI Image/Runtime - 이미지 형식과 실행 표준

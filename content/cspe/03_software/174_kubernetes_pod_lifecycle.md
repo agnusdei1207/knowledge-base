@@ -11,21 +11,61 @@ weight: 174
 > 목적: Kubernetes Pod 생명주기를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Pod가 생성 요청부터 스케줄링, 실행, 준비, 종료, 재시작까지 거치는 상태 변화
-- **왜 필요한가**: 장애 복구와 무중단 배포는 Pod 상태, probe, restartPolicy, termination 처리를 이해해야 설계할 수 있다.
-- **핵심 직관**: Pod는 한 번 태어나면 상태를 보고하고, 준비되면 트래픽을 받고, 종료 신호를 처리한 뒤 사라지는 실행 생명체이다.
+- **개요**: Pod 생명주기는 쿠버네티스의 최소 배포 단위인 **Pod**가 생성부터 소멸까지 거치는 **상태 전이(Phase)**와, 그 위에서 트래픽 수신 가능 여부를 판정하는 **Probe** 체계를 함께 부르는 말이다.
+- **왜 필요한가**: 컨테이너가 "시작된 시점"과 "실제로 요청을 받아도 되는 시점"은 다르다. 이 둘을 구분하지 않으면 배포 중이나 장애 복구 중에 아직 준비 안 된 Pod로 트래픽이 들어가 오류가 발생한다.
+- **핵심 직관**: Pod는 태어나서(Pending) 자리를 잡고(Running) 스스로 "영업 준비 완료"를 알린 뒤(Ready)에만 손님(트래픽)을 받고, 문 닫을 때는 정리 시간을 갖고(Terminating) 사라지는 실행 생명체다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| Pod | 하나 이상의 컨테이너를 묶어 함께 스케줄링·실행하는 쿠버네티스 최소 배포 단위 — 이 개념이 속한 **상위 개념** | 한 방에 같이 사는 룸메이트들 |
+| Phase | Pod의 대분류 상태(Pending·Running·Succeeded·Failed·Unknown) | 신호등의 큰 색 구분 |
+| Condition | Phase보다 세밀한 상태 플래그(PodScheduled·Initialized·ContainersReady·Ready) | 체크리스트의 개별 항목 |
+| Ready Condition | Service가 이 Pod로 트래픽을 보내도 되는지 판단하는 최종 기준 | "영업 준비 완료" 표시등 |
+| startupProbe | 느린 초기 부팅 시간을 봐주는 점검 — 성공 전까지는 readiness·liveness 점검을 유예 | 신입사원 수습기간 |
+| readinessProbe | 트래픽 받을 준비가 됐는지 점검 — 실패하면 재시작이 아니라 Endpoint에서만 제외 | 손님 받을 준비가 됐는지 확인 |
+| livenessProbe | 컨테이너가 정상 동작 중인지(살아있는지) 점검 — 실패하면 kubelet이 컨테이너를 재시작 | 맥박 체크 |
+| restartPolicy | 컨테이너 종료 시 재시작 여부·조건(Always·OnFailure·Never) | 재도전 규칙 |
+| terminationGracePeriodSeconds | SIGTERM 전달 후 SIGKILL 강제종료까지 주는 유예 시간(기본 30초) | 퇴근 인수인계 시간 |
+| preStop hook | SIGTERM 직전에 실행되는 종료 준비 작업(예: LB에서 빠질 시간 벌기) | 퇴근 전 마지막 정리 |
+| CrashLoopBackOff | 재시작이 반복 실패할 때 재시도 간격을 지수적으로 늘리는 상태 | 계속 실패하는 문 앞에서 점점 오래 기다렸다 두드리기 |
 
 ## 깊이 이해
-- **배경·문제의식**: 컨테이너는 프로세스 실행 단위지만 Kubernetes는 Pod를 스케줄링 단위로 다룬다. Pod가 언제 트래픽을 받아도 되는지, 언제 재시작해야 하는지, 언제 종료할지 명확히 해야 서비스 중단을 줄일 수 있다.
-- **작동 원리**: Pending 단계에서 스케줄링과 이미지 다운로드가 수행되고, Running 단계에서 컨테이너가 시작된다. readinessProbe가 성공해야 Service endpoint에 포함되고, livenessProbe 실패 시 kubelet이 재시작한다.
-- **비유**: 매장 직원이 출근(Pending), 업무 준비(Ready), 고객 응대(Running), 건강 점검(liveness), 퇴근 인수인계(preStop)를 거치는 절차와 같다.
-- **구체 예시**: readinessProbe `/health/ready`가 200을 반환하기 전에는 Service가 트래픽을 보내지 않는다. 종료 시 terminationGracePeriodSeconds 30초 동안 SIGTERM 처리 후 SIGKILL이 발생한다.
-- **흔한 오해·주의점**: Running은 트래픽 수신 가능 상태가 아니다. Service 트래픽은 Ready condition과 endpoint 반영 여부로 판단해야 한다.
+
+### 왜 Phase와 Ready를 구분하나 (배경)
+- Kubernetes는 컨테이너가 아니라 Pod를 스케줄링 단위로 다룬다(사이드카처럼 네트워크·스토리지를 공유하는 컨테이너 묶음을 하나로 배치해야 하기 때문). 문제는 "컨테이너 프로세스가 시작됨(Running)"과 "이 Pod가 실제 요청을 처리할 준비가 됨(Ready)" 사이에 시간차가 있다는 점이다. 이 둘을 하나로 취급하면 DB 커넥션도 안 맺은 Pod로 트래픽이 몰려 500 에러가 난다.
+
+### Phase 흐름 — 수치로 이해
+- Pending: 스케줄링 결정 + 이미지 다운로드가 일어나는 구간. 예를 들어 이미지 크기가 500MB면 캐시가 없는 노드에서는 pull에만 수십 초가 걸릴 수 있어, 이 시간 동안 Pod는 계속 Pending으로 남는다.
+- Running: 컨테이너 프로세스가 시작된 상태. 하지만 아직 Ready는 아닐 수 있다(예: 스프링 부트 앱이 기동 후 초기화에 15초를 더 쓴다면, 그 15초 동안 Running이지만 Ready는 false).
+- Succeeded/Failed: 1회성 Job처럼 종료를 전제로 한 Pod의 최종 상태. 계속 떠 있어야 하는 Deployment의 Pod는 정상 동작 중이면 Running에 머문다.
+
+### Probe 파라미터로 판정 원리 이해하기
+- 각 probe는 initialDelaySeconds(첫 점검까지 대기)·periodSeconds(점검 주기)·timeoutSeconds(응답 대기 한도)·failureThreshold(연속 실패 허용 횟수)로 판정 시점을 조절한다.
+- 예: periodSeconds=10, failureThreshold=3이면 10초마다 점검하다 3회 연속 실패해야 "실패"로 확정되므로, 최대 30초의 감지 지연이 생긴다. 이 지연 동안 readinessProbe라면 계속 트래픽이 들어가고, livenessProbe라면 아직 재시작되지 않는다.
+- readinessProbe가 `/health/ready` 경로에서 200을 반환하기 전까지는 Service의 Endpoint 목록에 이 Pod가 등록되지 않아, 트래픽이 아예 도달하지 않는다.
+
+### 종료 시퀀스 — 워크드 예제 (grace period 30초 vs 정리 시간 35초)
+1. Pod 삭제 요청이 오면 Pod는 즉시 Terminating 상태가 되고, **동시에** Service의 Endpoint 목록에서 제외된다(이 시점부터 새 트래픽이 안 들어옴).
+2. preStop hook이 실행된다(예: 5초 sleep — 로드밸런서가 Endpoint 변경을 반영할 시간을 벌기 위함).
+3. 컨테이너에 SIGTERM이 전달되고, 애플리케이션은 진행 중인 요청을 마무리한다.
+4. terminationGracePeriodSeconds(기본 30초)가 지나도 프로세스가 안 끝나면 SIGKILL로 강제 종료된다.
+- 만약 preStop 5초 + 요청 마무리에 실제로 35초가 걸리는데 grace period가 기본값 30초라면, 5초분의 처리 중 요청이 SIGKILL로 강제 종료돼 유실된다. 이런 서비스는 grace period를 60초처럼 여유 있게 늘려야 한다.
+
+### 재시작 백오프 — CrashLoopBackOff 수치
+- livenessProbe 실패나 프로세스 크래시로 재시작이 반복되면, kubelet은 재시도 간격을 10초 → 20초 → 40초 → … 최대 5분까지 지수적으로 늘린다. 짧은 시간에 재시작이 반복될수록 복구까지 더 오래 걸리게 만들어 장애 컨테이너가 시스템을 계속 두드리는 것을 막는 장치다.
+
+### 비유
+- 매장 직원이 출근(Pending) → 업무 준비(Running이지만 아직 Ready 아님) → "영업 준비 완료" 표시(Ready, 손님 응대 시작) → 정기 건강 점검(liveness) → 퇴근 인수인계(preStop) → 퇴근(Terminated) 절차를 거치는 것과 같다.
+
+### 흔한 오해·주의점
+- Running은 트래픽을 받아도 되는 상태가 아니다. Service가 트래픽을 보낼지는 오직 Ready Condition과 Endpoint 반영 여부로 판단해야 한다.
 
 ## 연결 개념
-- Probe - startup, readiness, liveness 상태 점검
-- Deployment - Pod 생명주기를 rollout 단위로 관리
-- Service Endpoint - Ready Pod만 트래픽 대상으로 등록
+- 쿠버네티스 아키텍처(173) — kubelet이 이 Phase 전이를 실행·보고하는 주체
+- Pod 스케줄링(175) — Pending 단계에서 Scheduler가 Node를 결정하는 과정
+- Service/Ingress(176) — Ready Pod만 Endpoint에 등록돼 실제 트래픽 대상이 되는 연결점
 
 ---
 

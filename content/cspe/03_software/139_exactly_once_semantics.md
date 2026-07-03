@@ -11,21 +11,54 @@ weight: 139
 > 목적: Exactly-Once가 실제로는 source·state·sink가 함께 맞아야 하는 처리 보장임을 이해하게 만든다.
 
 ## 한눈에
-- **개요**: 장애·재시도 후에도 결과 상태가 이벤트를 한 번 처리한 것과 같게 보장하는 의미론
-- **왜 필요한가**: 결제·정산·포인트 적립은 중복 처리 시 금액 오류가 발생하고, 누락 처리 시 고객 피해가 발생함.
-- **핵심 직관**: 택배 송장을 다시 스캔해도 재고 차감은 한 번만 반영되도록 장부와 스캔 위치를 같이 저장하는 방식임.
+- **개요**: Exactly-Once Semantics는 분산 스트림·메시징 시스템에서 장애·재시도가 있어도 최종 결과가 각 이벤트를 정확히 한 번 반영한 것과 동일하도록 만드는 **메시지 처리 보장 수준**(Delivery Guarantee)이다 — 코드가 물리적으로 한 번만 실행됨을 뜻하는 게 아니라, 재실행되더라도 눈에 보이는 결과가 한 번 처리한 상태와 같다는 뜻이다.
+- **왜 필요한가**: 분산 시스템은 네트워크 단절, 컨슈머 재시작, sink 커밋 실패가 일상적으로 발생한다. 이런 장애 후 이벤트를 재시도하면 중복(같은 결제가 두 번 반영)되거나, 확인 없이 넘어가면 유실(결제가 아예 반영 안 됨)될 수 있다. 결제·정산·재고처럼 금액이 걸린 업무는 두 오류 모두 치명적이다.
+- **핵심 직관**: 이체 버튼을 실수로 두 번 눌러도, "이 거래 번호는 이미 처리했다"는 표(멱등성 키)를 확인해 두 번째 요청은 무시하는 것과 같다 — 요청은 두 번 왔어도 결과는 한 번만 반영된다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 전달 보장(Delivery Guarantee) | 메시지가 몇 번 전달·반영되는지에 대한 시스템의 약속 — exactly-once가 속하는 상위 분류 | 택배 배송 규정(분실 없음/중복 없음 등) |
+| At-Most-Once | 최대 한 번 — 실패해도 재전송 안 함, 유실 가능 | "한 번 던지고 안 던져도 그만" |
+| At-Least-Once | 최소 한 번 — 확인 안 되면 재전송, 중복 가능 | "받았다는 답 올 때까지 계속 다시 보냄" |
+| Exactly-Once | 정확히 한 번 반영된 것과 동일한 결과 | "몇 번 보내도 최종 장부엔 한 줄만" |
+| 오프셋(Offset) | 컨슈머가 어디까지 읽었는지 가리키는 위치 | 책갈피 |
+| 멱등성(Idempotency) | 같은 연산을 여러 번 적용해도 결과가 한 번 적용한 것과 같은 성질 | "켜기" 스위치는 몇 번 눌러도 결과는 항상 켜짐 |
+| 멱등성 키(Idempotency Key) | 같은 요청·이벤트를 식별해 중복 반영을 막는 고유 값 | 거래 번호, 주문 번호 |
+| 트랜잭션(Transaction) | 여러 작업(오프셋 커밋 + 결과 쓰기)을 하나의 원자적 단위로 묶는 것 | "전부 성공 또는 전부 취소" |
+| 2단계 커밋(Two-Phase Commit) | 준비(prepare) 후 확정(commit)하는 2단계 절차로 여러 시스템 간 원자성을 맞추는 방식 | 계약서에 먼저 가서명 후 최종 도장 |
 
 ## 깊이 이해
-- **배경·문제의식**: 분산 시스템은 네트워크 실패, consumer 재시작, sink commit 실패가 발생함. at-least-once는 중복 가능성이 있고, at-most-once는 유실 가능성이 있음. exactly-once는 처리 결과가 한 번 반영된 상태와 동일하도록 설계함.
-- **작동 원리**: source offset, processing state, sink transaction commit을 checkpoint 또는 transaction으로 묶음. Kafka는 idempotent producer와 transaction id를 제공하고, Flink는 checkpoint와 two-phase commit sink를 사용함.
-- **비유**: 은행 이체에서 버튼을 두 번 눌러도 idempotency key로 같은 거래는 한 번만 승인하는 구조임.
-- **구체 예시**: Kafka Streams에서 producer idempotence와 transaction을 켜면 input offset commit과 output record write가 하나의 transaction으로 묶임.
-- **흔한 오해·주의점**: Exactly-Once는 "코드가 한 번만 실행됨"이 아님. 장애 시 코드는 재실행될 수 있으나 최종 결과가 한 번 처리한 상태와 같다는 의미임.
+
+### 세 가지 보장 수준이 왜 나뉘나 — 어디서 실패가 나는지로 구분
+- 이벤트 처리는 "읽기(source) → 계산(processing) → 쓰기(sink)" 3단계다. 각 단계 사이 장애에 대한 재시도 여부에 따라 결과가 달라진다.
+- At-most-once: 장애 시 재시도하지 않는다. 읽었는데 처리 중 죽으면 그 이벤트는 그냥 사라진다 — 유실.
+- At-least-once: 장애 시 마지막으로 확인(ack)되지 않은 지점부터 다시 읽는다. 이미 처리했지만 offset commit 전에 죽었다면 같은 이벤트를 또 처리한다 — 중복.
+- Exactly-once: at-least-once처럼 재시도는 하되(유실 방지), 재시도로 생긴 중복을 트랜잭션이나 멱등키로 걸러내(중복 방지) 결과만 한 번 반영된 것처럼 만든다.
+
+### Kafka에서 exactly-once를 만드는 방법 — 수치로 이해
+- **Producer 중복 방지(Idempotent Producer)**: 각 producer에 고유 PID(Producer ID)를 부여하고 메시지마다 sequence number를 붙인다. 같은 PID+sequence number가 브로커에 다시 오면 브로커가 중복으로 판단해 버린다. 예: producer가 네트워크 타임아웃으로 같은 레코드를 재전송해도 sequence number가 같으므로 브로커에는 한 번만 저장된다.
+- **Transaction**: transactional.id를 설정하면 "input offset commit"과 "output record 쓰기"를 하나의 트랜잭션으로 묶는다. consumer는 read_committed 격리 수준으로 읽어, 커밋되지 않은(진행 중이거나 abort된) 트랜잭션의 레코드는 보이지 않는다.
+- 예: 주문 이벤트를 읽어 결제 이벤트를 쓰는 job이 output 쓰기 중 죽으면 해당 트랜잭션은 미완료(abort) 상태로 남고, read_committed consumer는 그 output을 아예 보지 못한다. job이 재시작되어 같은 주문을 다시 처리하고 트랜잭션을 성공적으로 커밋해야만 output이 보인다 — 결과적으로 정확히 한 번만 반영된 것처럼 보인다.
+
+### Flink의 2단계 커밋 sink — 수치 예제
+- Flink는 체크포인트(138 참고)와 2단계 커밋을 결합한다. 체크포인트 시작 시 sink는 "새 트랜잭션을 준비(pre-commit)"만 해두고 실제 커밋은 하지 않는다. 체크포인트가 성공적으로 완료됐다는 통지(notifyCheckpointComplete)를 받은 뒤에야 트랜잭션을 확정 커밋한다.
+- 예: 체크포인트 간격 30초, 세 번째 체크포인트(90초 시점)에서 job이 실패했다고 하자. 아직 커밋되지 않은 90초 시점 트랜잭션은 자동 폐기(abort)되고, job은 두 번째 체크포인트(60초 시점) 상태로 복구되어 60초~90초 구간 이벤트를 재처리한다. sink에는 90초 시점의 미완료 쓰기가 반영되지 않으므로 중복이 생기지 않는다.
+
+### sink가 트랜잭션을 지원하지 않을 때 — 멱등키로 대체
+- 모든 sink가 트랜잭션을 지원하지는 않는다(예: 단순 REST API, 일부 NoSQL). 이때는 비즈니스 키(예: order_id)에 DB unique constraint를 걸어 같은 order_id로 두 번 insert하면 두 번째는 실패·무시되도록 멱등 쓰기로 exactly-once와 동일한 효과를 낸다.
+- 예: `INSERT INTO orders (order_id, amount) VALUES (...) ON CONFLICT (order_id) DO NOTHING` — order_id가 이미 있으면 재시도로 들어온 중복 이벤트를 조용히 무시한다.
+
+### 비유와 흔한 오해
+- **비유**: 은행 창구에서 이체 요청서를 두 번 제출해도, 요청서에 적힌 접수번호(멱등키)로 "이미 처리됨"을 확인하고 두 번째 요청서는 처리하지 않고 돌려보내는 것과 같다. 요청은 두 번 왔지만 계좌 잔액 변화는 한 번뿐이다.
+- **흔한 오해 1**: "exactly-once는 코드가 정확히 한 번 실행된다는 뜻이다" — 틀렸다. 장애 시 코드·task는 몇 번이고 재실행될 수 있다. 보장하는 것은 "재실행 결과가 최종적으로 한 번 처리한 상태와 같다"는 것뿐이다.
+- **흔한 오해 2**: "exactly-once를 켜면 모든 문제가 끝난다" — source부터 sink까지 오프셋·상태·트랜잭션이 전부 연결되어야 end-to-end exactly-once가 성립한다. 중간에 트랜잭션을 지원하지 않는 sink가 하나라도 끼면 그 지점에서 보장이 깨진다.
 
 ## 연결 개념
-- Idempotency — 중복 요청 결과 동일화
-- Kafka Transaction — source offset과 output write 원자화
-- Flink Checkpoint — state와 source offset snapshot
+- Idempotency(멱등성) — 중복 요청이 와도 결과가 동일하게 유지되는 성질, sink에서 exactly-once를 구현하는 대체 수단
+- Kafka Transaction — producer의 오프셋 커밋과 output 쓰기를 원자화하는 메커니즘
+- Flink Checkpoint(138) — 상태와 소스 오프셋을 일관된 시점으로 스냅샷해 2단계 커밋과 연결하는 메커니즘
 
 ---
 

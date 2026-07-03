@@ -11,21 +11,49 @@ weight: 189
 > 목적: OpenTelemetry를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 메트릭, 로그, 트레이스를 수집·전송하기 위한 벤더 중립 관측성 표준
-- **왜 필요한가**: APM 도구마다 SDK와 데이터 형식이 다르면 서비스 변경과 도구 교체 때 계측을 반복해야 한다.
-- **핵심 직관**: 여러 택배사가 쓰던 송장 양식을 표준 송장으로 통일해 배송 추적을 어느 시스템에서도 읽게 하는 방식이다.
+- **개요**: **OpenTelemetry(OTel)**는 메트릭·로그·트레이스를 계측(instrument)·수집·가공·전송하기 위한 **CNCF 벤더 중립 관측성 표준**이다.
+- **왜 필요한가**: 벤더 전용 APM agent만 쓰면 도구를 바꿀 때마다 애플리케이션 코드의 계측 부분을 다시 심어야 한다. OTel은 "계측은 표준으로 한 번, 전송 대상은 언제든 교체"를 가능하게 한다.
+- **핵심 직관**: 항공사마다 다르던 수하물 태그를 국제표준 바코드로 통일해, 어느 공항 스캐너로도 같은 짐을 추적하게 만드는 것과 같다.
+
+## 핵심 용어 정리
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| OpenTelemetry(OTel) | 관측 데이터 생성·수집·전송의 벤더 중립 표준 — 이 개념의 정체성 | 만국 공통 수하물 태그 규격 |
+| API/SDK | 애플리케이션이 span·metric·log를 만드는 언어별 라이브러리 | 태그를 붙이는 프린터 |
+| Instrumentation(계측) | 코드에 관측 지점을 심는 것(auto 자동/manual 수동) | 짐마다 태그를 붙이는 작업 |
+| Collector | 신호를 수신·가공·전송하는 별도 프로세스(Receiver→Processor→Exporter) | 공항의 중앙 분류 컨베이어 |
+| OTLP | OpenTelemetry Protocol — 표준 전송 프로토콜(gRPC/HTTP) | 태그를 읽는 공통 스캐너 규격 |
+| Semantic Convention | 속성 이름을 표준화한 명명 규칙(예: http.status_code) | 모든 공항이 같은 필드명으로 짐 정보를 적는 규칙 |
+| Context Propagation | 서비스 경계를 넘어 trace 문맥을 전달하는 것 | 환승할 때도 같은 수하물 번호가 따라가는 것 |
+| Resource | 신호를 만든 주체를 식별하는 속성(service.name 등) | 짐에 붙은 소유자 이름표 |
 
 ## 깊이 이해
-- **배경·문제의식**: 분산 시스템은 요청이 여러 언어와 플랫폼을 지나간다. 각 벤더 전용 에이전트만 쓰면 계측 방식이 흩어지고 데이터 이동성이 떨어진다.
-- **작동 원리**: 애플리케이션은 OTel SDK와 auto-instrumentation으로 span, metric, log를 생성하고, Collector가 수신, 처리, 샘플링, 변환 후 OTLP나 vendor exporter로 backend에 전송한다.
-- **비유**: 공항 수하물 태그를 표준화해 항공사와 공항이 바뀌어도 이동 경로를 추적하는 구조이다.
-- **구체 예시**: Java 서비스에 OTel agent를 적용해 HTTP server span, DB client span, JVM metric을 생성하고 Collector에서 tail sampling 후 Tempo와 Prometheus로 전송한다.
-- **흔한 오해·주의점**: OpenTelemetry는 저장소나 대시보드 제품이 아니다. 수집 표준과 파이프라인이며, backend 선택, cardinality, sampling, PII 제거는 별도 설계가 필요하다.
+
+### 왜 만들어졌나 — OpenTracing + OpenCensus 통합
+- 2019년 이전에는 트레이싱 표준(OpenTracing)과 메트릭·트레이싱 SDK(OpenCensus)가 따로 있어 라이브러리 개발자가 둘 중 하나만 지원하면 사용자가 갈라졌다. 두 프로젝트가 합쳐져 OpenTelemetry가 되었고 지금은 메트릭·로그·트레이스 3대 신호를 모두 표준화한다.
+
+### 계측 → Collector → Backend, 수치로 흐름 이해
+- 자바 결제 서비스에 OTel Java agent(자동 계측)를 붙이면 HTTP server span, DB client span, JVM GC metric이 코드 수정 없이 생성된다. 여기에 "결제 승인 금액" 같은 업무 속성은 manual instrumentation으로 한 줄 추가한다.
+- 이 신호들은 OTLP(포트 gRPC 4317 / HTTP 4318)로 Collector에 전송된다. Collector가 초당 10,000 span을 받는다고 하면, tail sampling processor가 에러이거나 900ms를 넘는 span만 보존해 최종 backend 저장량을 원래의 5~10% 수준으로 줄인다.
+- 이후 exporter가 Tempo(트레이스), Prometheus(메트릭) 등 서로 다른 backend로 동시에 내보낼 수 있다 — 코드는 한 번만 계측했는데 backend는 자유롭게 교체·복수 운용이 가능한 이유가 이 Collector 계층의 분리 구조다.
+
+### Semantic Convention이 왜 필요한가
+- 서비스 A가 지연 속성을 `latency_ms`로, 서비스 B가 `duration`으로 각자 이름 붙이면 backend에서 서비스 간 비교 쿼리가 불가능하다.
+- OTel은 `http.request.method`, `http.response.status_code`, `db.system`처럼 이름을 표준화해, 어느 언어·프레임워크로 계측했든 같은 필드로 조회·집계할 수 있게 한다.
+
+### Context Propagation — traceparent 형식
+- 서비스 간 호출에서 문맥을 전달하지 않으면 trace가 서비스 경계에서 끊긴다. OTel은 W3C Trace Context 표준의 `traceparent` HTTP 헤더로 이를 해결한다.
+- 형식은 `버전-traceid(32자리 16진수)-spanid(16자리 16진수)-flags(2자리)`다. 예: `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01` — 맨 끝 `01`은 "이 trace를 샘플링해서 기록하라"는 플래그다. 이 한 줄만 다음 서비스로 전달되면 어디서든 같은 trace에 span을 이어붙일 수 있다.
+
+### 비유와 흔한 오해
+- **비유**: 여러 항공사가 각자 다른 수하물 태그를 쓰던 시절엔 환승할 때마다 짐을 새로 등록해야 했다. 국제표준 바코드로 통일하니 어느 공항 스캐너(backend)로도 같은 짐(요청)을 추적할 수 있게 된 것이 OTel이다.
+- **오해**: OpenTelemetry는 대시보드나 저장소 제품이 아니다. 데이터를 표준 형식으로 만들고 나르는 계측·전송 계층일 뿐이고, 실제 저장·조회·알림은 Prometheus, Tempo, Jaeger 같은 별도 backend가 담당한다.
 
 ## 연결 개념
-- Cloud Native Observability - OTel이 구현하는 수집 표준
-- Distributed Tracing - OTel trace API와 context propagation
-- OTLP - OpenTelemetry Protocol
+- Cloud Native Observability — OTel이 표준화해서 채워주는 3대 신호 체계(188에서 상세)
+- Distributed Tracing — OTel의 trace API·context propagation이 구현하는 대상(190에서 상세)
+- SRE — OTel로 수집한 신호가 SLI 측정의 데이터 소스가 됨(191에서 상세)
 
 ---
 

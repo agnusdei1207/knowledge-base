@@ -11,21 +11,61 @@ weight: 173
 > 목적: 쿠버네티스 아키텍처를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 컨테이너 애플리케이션을 선언형으로 배포, 스케줄링, 복구, 확장하는 오케스트레이션 구조
-- **왜 필요한가**: 컨테이너 수가 수십 개를 넘으면 배치 위치, 장애 복구, 설정, 네트워크, 저장소를 수동으로 맞추기 어렵다.
-- **핵심 직관**: 사용자는 원하는 상태를 제출하고, Kubernetes는 현재 상태를 관찰해 차이를 계속 줄이는 제어 시스템이다.
+- **개요**: 쿠버네티스 아키텍처는 다수 컨테이너의 배치·복구·확장·설정을 자동으로 관리하는 **컨테이너 오케스트레이션** 구조이며, 그 핵심 동작 방식은 **선언형 API**와 **제어 루프(Reconciliation Loop)**다.
+- **왜 필요한가**: 컨테이너는 실행 단위일 뿐이라 배치 위치·장애 복구·롤링 배포·서비스 발견을 스스로 처리하지 않는다. 컨테이너 수가 수십 개를 넘으면 이 조합을 사람이 수동으로 맞추기 어렵다.
+- **핵심 직관**: 사용자는 "원하는 최종 상태(Desired State)"만 선언하고, Kubernetes는 "지금 상태(Current State)"를 계속 관찰해 그 차이를 줄여나가는 제어 시스템이다 — 명령을 하나하나 실행시키는 게 아니라 목표를 유지시킨다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 컨테이너 오케스트레이션 | 다수 컨테이너의 배치·복구·확장·설정을 자동으로 관리하는 체계 — 이 아키텍처가 속한 **상위 개념** | 공장의 자동 생산관리 시스템 |
+| 선언형 API | "어떻게 할지"가 아니라 "무엇이 되길 원하는지"만 기술하면 시스템이 알아서 그 상태를 만들어내는 방식 | 목적지만 말하면 경로는 알아서 찾는 내비게이션 |
+| Control Plane | 클러스터의 두뇌 — 상태를 저장하고 배치·복구를 결정하는 컴포넌트 묶음(API Server·etcd·Scheduler·Controller Manager) | 건물의 관리사무소 |
+| Worker Node | 실제 컨테이너(Pod)가 실행되는 서버 | 건물의 각 층 사무실 |
+| API Server | 모든 요청이 반드시 거치는 단일 관문. 인증·인가·admission 검증 후 etcd에 기록 | 민원 접수창구 |
+| etcd | Key-Value 분산 저장소이자 클러스터의 유일한 상태 저장소(Single Source of Truth) | 마을 등기소의 원본 장부 |
+| Scheduler | Pending 상태 Pod를 감지해 어느 Node에 배치할지 결정하는 컴포넌트 | 배치 담당 심사관 |
+| Controller Manager | Deployment·ReplicaSet 등 각 객체의 Desired State를 감시하며 Current State를 맞추는 여러 제어 루프의 묶음 | 유지보수팀장 |
+| kubelet | Worker Node에 상주하는 에이전트. API Server가 지시한 Pod를 실제로 실행·감시·보고 | 각 층 현장관리자 |
+| Container Runtime (CRI) | kubelet의 지시를 받아 실제 컨테이너 프로세스를 뜨고 내리는 엔진(containerd, CRI-O) | 엔진룸 |
+| Desired State / Reconciliation Loop | "원하는 상태"와 "현재 상태"의 차이를 반복 관찰해 계속 줄이는 제어 원리 | 설정온도(목표)와 현재온도를 비교하는 온도조절기 |
 
 ## 깊이 이해
-- **배경·문제의식**: 컨테이너는 실행 단위일 뿐 클러스터 배치, 장애 감지, 롤링 배포, 서비스 발견을 스스로 처리하지 않는다. Kubernetes는 Desired State와 Controller Reconciliation으로 이 문제를 해결한다.
-- **작동 원리**: API Server가 모든 요청의 관문이고, etcd가 상태를 저장한다. Scheduler는 Pod를 Node에 배치하고, Controller Manager는 Deployment, ReplicaSet 등 객체 상태를 맞춘다. kubelet은 노드에서 Pod를 실행한다.
-- **비유**: 건물 관리 시스템에서 입주 신청(API), 장부(etcd), 배정 담당(Scheduler), 유지보수팀(Controller), 현장 관리자(kubelet)가 나뉜 구조와 같다.
-- **구체 예시**: 사용자가 replicas 3의 Deployment를 제출하면 API Server에 저장되고 Controller가 ReplicaSet을 만들며 Scheduler가 3개 Pod를 Node에 배치하고 kubelet이 containerd를 통해 실행한다.
-- **흔한 오해·주의점**: Kubernetes는 애플리케이션 코드를 대신 수정하지 않는다. health check, resource request, 보안 정책, rollout 전략을 명세해야 자동화가 작동한다.
+
+### 왜 이런 구조가 됐나 (배경)
+- 컨테이너(Docker 등)는 프로세스를 격리 실행하는 단위일 뿐, "어느 서버에 놓을지", "죽으면 누가 다시 살릴지", "새 버전을 어떻게 무중단으로 바꿀지"는 스스로 해결하지 못한다.
+- Kubernetes는 Google 내부의 대규모 클러스터 관리 시스템 Borg의 운영 경험을 바탕으로 2014년 공개됐고, 이 문제를 "사용자는 목표 상태를 선언하고, 여러 제어 루프가 그 목표에 계속 수렴시킨다"는 방식으로 표준화했다.
+
+### API Server 요청 처리 파이프라인 — 수치로 이해
+- `kubectl apply -f deployment.yaml`(replicas=3)을 실행하면 API Server는 ① 인증(누가 요청했나, 인증서/토큰 확인) ② 인가(RBAC — 이 사용자가 Deployment를 만들 권한이 있나) ③ Admission Controller(정책 검증·기본값 주입, 예: resource request가 없으면 LimitRange로 기본값을 채움) 순으로 처리한 뒤 etcd에 최종 기록한다.
+- 이때 etcd에 저장된 객체는 resourceVersion이라는 버전 번호를 새로 부여받는다(예: 1024 → 1025). Controller Manager는 이 변화를 폴링이 아니라 **Watch**(변경 시 즉시 통보받는 구독 방식)로 감지하므로 실제 반응 지연은 보통 수십 ms 수준이다.
+
+### etcd와 쿼럼(정족수) — 왜 홀수 대수로 구성하나
+- etcd는 Raft 합의 알고리즘으로 여러 노드 간 데이터를 복제한다. 쓰기가 확정되려면 "과반수(정족수)"가 동의해야 한다.
+- 노드 3대 구성이면 과반수는 2대이므로 1대까지 장애를 견딘다. 노드 5대 구성이면 과반수는 3대이므로 2대까지 장애를 견딘다.
+- 노드 4대는 과반수가 3대가 되어 여전히 1대 장애만 견디는데(3대와 동일한 내결함성) 노드 수만 늘어난다 — 그래서 짝수 구성은 이득이 없고 3 또는 5 같은 홀수를 쓴다.
+
+### Reconciliation Loop — Deployment(replicas=3) 워크드 예제
+1. 사용자가 replicas=3 Deployment를 제출 → etcd에 Desired State(3)로 저장.
+2. ReplicaSet Controller가 현재 Pod 수(0)와 목표(3)의 차이를 감지 → Pod 3개 생성을 API Server에 요청.
+3. Scheduler가 Pending Pod 3개를 각각 Node1, Node2, Node3에 배치(Bind).
+4. kubelet이 각 Node에서 Pod를 실행 → Running으로 상태 보고.
+5. 이후 Node2가 장애로 다운되면, Controller Manager는 기본값 node-monitor-grace-period(약 40초) 뒤에 Node2를 NotReady로 판정하고 그 안의 Pod를 비정상 처리한다. ReplicaSet Controller는 다시 Current(2) vs Desired(3)의 차이를 감지해 다른 정상 Node에 Pod 1개를 재생성 요청한다. 이 "감지 → 차이 계산 → 조정 요청"의 반복이 Reconciliation Loop다.
+
+### kubelet과 Container Runtime (CRI)
+- kubelet은 Docker를 직접 다루지 않는다(1.24부터 dockershim 제거). 대신 CRI(Container Runtime Interface) 표준을 통해 containerd나 CRI-O 같은 런타임에 "이 이미지를 이 스펙으로 띄워라"를 지시하고, 런타임이 다시 runc를 호출해 실제 컨테이너 프로세스를 만든다.
+
+### 비유
+- 건물 관리 시스템에서 입주 신청(API Server), 등기 장부(etcd), 방 배정 담당(Scheduler), 유지보수팀(Controller Manager), 각 층 현장관리자(kubelet)가 역할을 나눠 맡는 구조와 같다.
+
+### 흔한 오해·주의점
+- Kubernetes는 애플리케이션 코드의 버그를 대신 고쳐주지 않는다. health check(probe), resource request, 보안 정책, rollout 전략을 사용자가 명시해야만 자동 복구·자동 확장이 실제로 작동한다.
 
 ## 연결 개념
-- Pod - Kubernetes의 최소 배포 단위
-- Controller - Desired State와 Current State를 맞추는 제어 루프
-- Service/Ingress - Pod IP 변동을 감추는 접근 계층
+- Pod 생명주기(174) — 여기서 배치된 Pod가 Pending → Running → Ready로 전이하는 과정
+- Pod 스케줄링(175) — Scheduler가 Node를 고르는 세부 알고리즘(Filter-Score-Bind)
+- Service/Ingress(176) — kubelet이 실행한 Pod의 IP 변동을 감추는 접근 계층
 
 ---
 

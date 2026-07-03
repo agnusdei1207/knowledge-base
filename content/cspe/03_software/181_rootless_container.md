@@ -11,21 +11,52 @@ weight: 181
 > 목적: Rootless 컨테이너를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 호스트 root 권한 없이 사용자 네임스페이스로 컨테이너를 실행하는 방식
-- **왜 필요한가**: 컨테이너 탈출이나 런타임 취약점이 발생해도 호스트 root 권한 획득으로 이어지는 경로를 줄인다.
-- **핵심 직관**: 건물 관리자 열쇠 없이 자기 방 안에서만 도구를 쓰게 만드는 컨테이너 실행 방식이다.
+- **개요**: Rootless 컨테이너는 호스트에 root 권한을 전혀 요구하지 않고 **user namespace**로 컨테이너 내부 UID 0(root)을 호스트의 일반 사용자 UID 범위에 매핑해 실행하는 방식이다.
+- **왜 필요한가**: 전통적 Docker는 daemon 자체가 root로 동작해, daemon socket 탈취나 컨테이너 탈출 취약점이 곧바로 호스트 root 권한 획득으로 이어질 수 있었다 — 180(컨테이너 보안)의 여러 통제 축 중에서도 "애초에 root가 아니면 탈출해도 얻을 게 없다"는 근본적인 축이다.
+- **핵심 직관**: 컨테이너 안에서는 UID 0(사장님처럼) 보이지만, 건물(호스트) 등기부등본에는 평범한 직원으로 등록된 상태다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| User Namespace | 프로세스가 보는 UID/GID와 커널이 실제로 다루는 UID/GID를 분리하는 리눅스 namespace — 이 개념의 핵심 메커니즘 | 사내 직함과 실제 등본상 신분이 다른 것 |
+| UID/GID 매핑 | 컨테이너 내부 UID 0~65535를 호스트의 특정 구간(예: 100000~165535)에 1:1 대응시키는 표 | 사내 직급 - 실제 신분증 번호 대응표 |
+| /etc/subuid, /etc/subgid | 사용자별로 위임받은 서브 UID/GID 범위를 정의하는 시스템 파일(보통 사용자당 65,536개) | 개인에게 배정된 가짜 사번 발급 대장 |
+| RootlessKit | rootless 환경에서 user namespace·네트워크·마운트를 조율하는 도구 | 실행을 대행하는 관리업체 |
+| slirp4netns | 커널 권한 없이 사용자 공간에서 네트워크 NAT를 에뮬레이션하는 도구 | 정식 통신 인프라 대신 쓰는 사설 중계기 |
+| fuse-overlayfs | 커널 overlay 마운트 권한 없이 FUSE(사용자 공간 파일시스템)로 레이어를 합치는 도구 | 정식 창고 시스템 대신 쓰는 임시 조립 선반 |
+| CAP_SYS_ADMIN | 마운트, namespace 조작 등 강력한 권한을 포괄하는 capability — rootless에서는 호스트 레벨로 위임되지 않음 | 마스터키 중 가장 강력한 한 개 |
 
 ## 깊이 이해
-- **배경·문제의식**: 전통적 Docker daemon은 root 권한으로 동작해 daemon socket 노출, privileged 실행, 런타임 취약점이 호스트 전체 권한 문제로 확대될 수 있다.
-- **작동 원리**: user namespace가 컨테이너 내부 UID 0을 호스트 일반 UID 범위에 매핑하고, RootlessKit·slirp4netns·fuse-overlayfs가 네트워크와 스토리지 제약을 보완한다.
-- **비유**: 컨테이너 내부에서는 사장처럼 보이지만 건물 밖 계약서에는 일반 직원으로 등록된 상태이다.
-- **구체 예시**: 개발자 노트북에서 rootless Docker를 사용하면 `/var/run/docker.sock` root 접근 없이 이미지 빌드와 Pod 실행을 수행하고, `CAP_SYS_ADMIN` 의존 작업은 차단된다.
-- **흔한 오해·주의점**: rootless는 모든 권한 문제를 제거하지 않는다. hostPath, setuid binary, 커널 취약점, 네트워크 포트 1024 미만 제약을 별도로 검토해야 한다.
+
+### root daemon 모델의 구조적 위험 (배경)
+- 기존 Docker는 `dockerd`가 root로 상시 실행되고, `docker` CLI는 `/var/run/docker.sock`을 통해 이 daemon에 명령을 보낸다. 이 소켓에 접근할 수 있는 사용자는 사실상 host root와 동등하다 — 컨테이너에 호스트 루트 디렉터리를 마운트하고 `chroot`하면 호스트 파일시스템 전체를 조작할 수 있기 때문이다.
+- 즉 "컨테이너 이미지 자체는 안전"해도, daemon socket 접근권한이나 런타임 취약점 하나가 곧장 host root로 직결되는 구조적 약점이 있었다.
+
+### user namespace의 UID 매핑을 수치로 이해
+- `/etc/subuid`에 `alice:100000:65536`이라고 적혀 있으면, 사용자 alice에게 호스트 UID 100000번부터 65,536개(100000~165535)가 위임된다.
+- alice가 rootless 컨테이너를 실행하면, 컨테이너 내부에서 `id`를 쳤을 때는 `uid=0(root)`로 보이지만, 실제로 호스트 프로세스 테이블에서 `ps aux`로 보면 그 프로세스는 UID 100000으로 돌고 있다. 컨테이너 내부에서 새 파일을 만들면 소유자가 내부에서는 `root:root`, 호스트에서는 `100000:100000`으로 보인다.
+- 결과: 컨테이너 안에서 "root 권한으로" 무엇을 해도, 커널이 실제로 검사하는 권한은 host UID 100000 — 즉 일반 사용자 권한이다. 컨테이너를 탈출해도 호스트에서는 평범한 비특권 프로세스일 뿐이다.
+
+### 네트워크·스토리지 보완 계층이 필요한 이유 (구체 예시)
+- 일반 컨테이너는 root 권한으로 커널의 네트워크 네임스페이스에 직접 veth를 만들고 브리지에 연결한다(CNI). rootless는 이 커널 조작 권한이 없으므로, slirp4netns가 사용자 공간 TCP/IP 스택으로 NAT를 흉내낸다 — 대가로 처리량이 커널 네이티브 경로보다 떨어질 수 있어, 고성능 네트워크 워크로드는 기준선 대비 처리량·p95 지연을 벤치마크(iperf3 등)로 확인해야 한다.
+- 마찬가지로 overlayfs 커널 마운트도 root 권한이 필요해, rootless는 FUSE 기반 fuse-overlayfs로 대체한다. 파일 I/O가 잦은 워크로드는 기준선 대비 지연을 fio 등으로 측정해봐야 한다.
+- 1024 미만의 특권 포트(예: 80, 443)도 커널이 root에게만 bind를 허용하므로, rootless 컨테이너는 기본적으로 1024 이상 포트만 열 수 있다 — 앞단에 리버스 프록시를 두거나 `net.ipv4.ip_unprivileged_port_start` 커널 파라미터를 조정해 우회한다.
+
+### rootless가 막는 것과 막지 못하는 것 (판별 원리)
+- **막는 것**: daemon socket 탈취가 host root로 직행하는 경로, `--privileged` 류의 명령이 호스트 커널 자원을 직접 건드리는 경로.
+- **막지 못하는 것**: 컨테이너 내부 애플리케이션 취약점 자체(컨테이너 안에서는 여전히 UID 0이므로 컨테이너 내부 파일은 자유롭게 건드림), user namespace 관련 커널 자체의 취약점, hostPath로 민감 디렉터리를 마운트하면 매핑된 UID 권한 내에서 여전히 접근 가능.
+- **판별 원리**: "이 워크로드가 host 커널 자원(네트워크 device, 커널 모듈, host 포트 등)을 직접 다뤄야 하는가"를 먼저 묻는다. 그렇다면 rootless 예외(제한적 rootful) 대상, 아니면 rootless 기본값.
+
+### 비유와 흔한 오해
+- **비유**: 계약직 사원이 사내에서는 "팀장" 직함으로 불려도, 회사 밖 등기부등본이나 은행 거래에서는 원래 신분(평사원)으로만 인정되는 것과 같다 — 사내 호칭(컨테이너 내부 root)이 외부 실권(호스트 권한)을 만들어주지 않는다.
+- **오해 1**: "rootless면 완전히 안전하다" — 틀렸다. 180에서 다룬 seccomp, AppArmor, capability drop, admission 통제와 별개 축이며 이들을 대체하지 않는다. rootless는 "권한 상승의 최종 도착지"를 없애는 것이지, 컨테이너 내부 취약점 자체를 막지 않는다.
+- **오해 2**: "rootless는 성능이 항상 동일하다" — 네트워크(slirp4netns)와 스토리지(fuse-overlayfs)는 사용자 공간 에뮬레이션이라 커널 네이티브 대비 오버헤드가 있을 수 있어, 고처리량 워크로드는 반드시 벤치마크로 검증해야 한다.
 
 ## 연결 개념
-- User Namespace - 컨테이너 UID와 호스트 UID를 분리하는 기반
-- 컨테이너 보안 - seccomp, AppArmor, capability drop과 결합
-- Pod Security Standards - runAsNonRoot, restricted profile 적용 기준
+- 컨테이너 보안 (180) - seccomp·AppArmor·capability drop 등 다른 통제 축과 결합해 다층 방어를 구성
+- User Namespace - 리눅스 namespace 중 rootless의 핵심 메커니즘
+- Pod Security Standards - `runAsNonRoot: true` 등 restricted 등급이 요구하는 권한 최소화 기준
 
 ---
 
