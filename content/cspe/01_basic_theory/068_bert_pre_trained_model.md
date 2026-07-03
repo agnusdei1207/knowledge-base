@@ -120,10 +120,10 @@ Input (Token+Segment+Position) -> Transformer Encoder Stack -> Hidden States
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| 메모리/지연시간 초과 | 트랜스포머의 O(n^2) 연산 복잡도 | ALBERT(파라미터 공유), DistilBERT 도입 | 파라미터 수, p95 Inference Latency |
+| 메모리/지연시간 초과 | 트랜스포머의 $O(n^2)$ 연산 복잡도 | ALBERT(파라미터 공유), DistilBERT 도입 | 파라미터 수, p95 Inference Latency |
 | 도메인 어휘 인식 실패 | 범용 코퍼스(위키) 위주의 사전학습 | 도메인 특화 코퍼스로 추가 사전학습 | 도메인 테스트셋 분류 정확도 |
 
-> 요약: BERT의 O(n^2) 연산 비용과 도메인 한계는 경량화 모델(DistilBERT) 도입 및 도메인 특화 사전학습으로 통제한다.
+> 요약: BERT의 $O(n^2)$ 연산 비용과 도메인 한계는 경량화 모델(DistilBERT) 도입 및 도메인 특화 사전학습으로 통제한다.
 
 | 점검 항목 | 목표 기준 | 측정 방법 |
 |:---|:---|:---|

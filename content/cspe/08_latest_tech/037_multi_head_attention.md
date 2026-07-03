@@ -42,7 +42,7 @@ weight: 37
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| MHA 구조와 병렬 Attention 원리 이해 확인 | Head별 Q/K/V 분할, Concat+Wo 재투영, d_k=d_model/h | 단일 Attention과 혼동, Head 수 무조건 증가 서술 |
+| MHA 구조와 병렬 Attention 원리 이해 확인 | Head별 Q/K/V 분할, Concat+Wo 재투영, $d_k = d_{model}/h$ | 단일 Attention과 혼동, Head 수 무조건 증가 서술 |
 | 서빙 최적화 관점 MQA/GQA 판단력 확인 | GQA KV Head 축소(32→8), KV Cache 75% 절감, Head pruning 20~40% | MHA와 GQA 차이 미언급, KV Cache 비용 누락 |
 
 > 요약: MHA 구조 원리와 GQA/MQA 기반 KV Cache 최적화 판단력을 동시에 평가하는 문제임.

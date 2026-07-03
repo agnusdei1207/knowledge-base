@@ -110,7 +110,7 @@ weight: 53
 | 비교 축 | CNN (ResNet 중심) | ViT (Vision Transformer) | 선택 기준 |
 |:---|:---|:---|:---|
 | Inductive Bias | 국소적 특징(Local) 중심, 이동 불변성 가정함 | 패치 간 Global Attention 연산, 편향 없음 | 학습 데이터 규모 (ViT는 대규모 필수) |
-| 연산 및 파라미터 | Convolution 연산에 집중, 효율성 높음 | Self-Attention 연산량 O(n^2)로 부하 큼 | 추론 지연시간(Latency) 제약 |
+| 연산 및 파라미터 | Convolution 연산에 집중, 효율성 높음 | Self-Attention 연산량 $O(n^2)$로 부하 큼 | 추론 지연시간(Latency) 제약 |
 | 특징 추출 방식 | 하위 층(선) → 상위 층(형태) 계층적 추출 | 첫 층부터 이미지 전체의 전역적 문맥 파악 | 작업 특성 (세분화 vs 분류) |
 
 > 요약: 데이터가 수백만 장 단위로 확보된 거대 모델 환경에서는 ViT가 유리하나, 소규모 데이터와 에지 기기(Edge Device) 환경에서는 CNN의 귀납적 편향(Inductive Bias)이 여전히 압도적 효율을 낸다.

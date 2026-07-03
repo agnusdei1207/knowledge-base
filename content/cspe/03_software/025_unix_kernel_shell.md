@@ -129,7 +129,7 @@ weight: 25
 ## Ⅴ. 실무 적용 방안 및 결론
 
 **적용 방안 3개:**
-1. [쉘 파이프라인(Pipe) 기반 서버 로그 실시간 분석] WAS 서버 장애 조사 시 무거운 APM 솔루션 기동 대신, 유닉스의 철학(KISS)대로 `tail -f error.log | grep "Exception" | awk '{print 4}' | sort | uniq -c` 형태의 쉘 유틸리티 파이프 조합만으로 실시간 에러 통계 즉시 도출
+1. [쉘 파이프라인(Pipe) 기반 서버 로그 실시간 분석] WAS 서버 장애 조사 시 무거운 APM 솔루션 기동 대신, 유닉스의 철학(KISS)대로 `tail -f error.log | grep "Exception" | awk '{print $4}' | sort | uniq -c` 형태의 쉘 유틸리티 파이프 조합만으로 실시간 에러 통계 즉시 도출
 2. [장치 파일(Device File) 튜닝으로 보안 격리] 악성 스크립트가 실행되더라도 실제 디스크를 타격하지 못하도록, 쿠버네티스 보안 설정 시 컨테이너 내부의 `/dev/sda` 장치 파일 마운트를 차단하고 `/dev/null`(블랙홀) 또는 읽기 전용 가상 파일만 노출해 탈옥(Escape) 원천 차단
 3. [커널 LKM 및 Sysctl 파라미터 동적 튜닝] 트래픽 100만 TPS가 몰리는 Nginx 앞단 리눅스 서버에서 네트워크 병목 발생 시, 커널 재부팅(다운타임) 없이 쉘에서 `sysctl -w net.core.somaxconn=65535` 명령으로 커널의 TCP 백로그(Backlog) 장부를 실시간 확장해 부하 즉시 수용
 

@@ -42,7 +42,7 @@ weight: 36
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| Attention 수식 원리 이해 확인 | `softmax(QKᵀ/√d_k)V` 수식, √d_k 스케일링 이유, Softmax 포화 방지 | Attention을 단순 유사도로만 서술, 스케일링 생략 |
+| Attention 수식 원리 이해 확인 | `softmax(QKᵀ/√d_k)V` 수식, √$d_k$ 스케일링 이유, Softmax 포화 방지 | Attention을 단순 유사도로만 서술, 스케일링 생략 |
 | Mask·복잡도 설계 판단력 확인 | causal mask 미래 토큰 차단, padding mask, O(N²) 시간·공간 복잡도 | Mask 종류 미구분, 장문맥 O(N²) 병목 미언급 |
 
 > 요약: Attention 수식의 수학적 근거와 Mask·복잡도 통제 능력을 동시에 평가하는 문제임.
@@ -67,7 +67,7 @@ Input Embedding -> Wq/Wk/Wv 선형변환
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Query(Q) | 현재 토큰이 찾는 정보 표현 | 질의 벡터, 차원 d_k |
+| Query(Q) | 현재 토큰이 찾는 정보 표현 | 질의 벡터, 차원 $d_k$ |
 | Key(K) | 각 토큰의 색인·주소 표현 | Q와 내적해 관련도 산출 |
 | Value(V) | 실제 전달할 내용 표현 | Softmax 가중치로 합산 |
 | Scale/Mask | 분산·접근 범위 제어 | `√d_k`, causal/padding mask |
@@ -84,10 +84,10 @@ Input Embedding -> Wq/Wk/Wv 선형변환
 
 | 단계 | 처리 내용 | 검증 기준 |
 |:---:|:---|:---|
-| 1 | 입력 임베딩을 Wq·Wk·Wv로 선형변환 | Q/K/V shape = N×d_k |
+| 1 | 입력 임베딩을 Wq·Wk·Wv로 선형변환 | Q/K/V shape = N×$d_k$ |
 | 2 | `QKᵀ`로 토큰 쌍 점수 계산 | Attention matrix = N×N |
 | 3 | `√d_k` 스케일링 및 Mask 적용 | 미래 토큰 차단, padding 제외 |
-| 4 | Softmax 후 V 가중합 | 확률합 1.0, 출력 N×d_v |
+| 4 | Softmax 후 V 가중합 | 확률합 1.0, 출력 N×$d_v$ |
 
 > 요약: Attention은 유사도 행렬을 확률분포로 바꾼 뒤 Value를 가중합해 문맥 벡터를 생성함.
 
@@ -116,7 +116,7 @@ Input Embedding -> Wq/Wk/Wv 선형변환
 
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
-| Softmax 포화 | d_k 증가 시 내적값 분산 확대 | `√d_k` 스케일링 적용 | gradient norm, loss 수렴 추이 |
+| Softmax 포화 | $d_k$ 증가 시 내적값 분산 확대 | `√d_k` 스케일링 적용 | gradient norm, loss 수렴 추이 |
 | O(N²) 메모리 폭증 | N=8K 이상 시 attention matrix 64M 이상 | FlashAttention 블록 단위 계산, PagedAttention | GPU HBM 사용률 |
 | 미래 토큰 누출 | 디코더에서 causal mask 미적용 | causal mask로 t+1 이후 차단 | 생성 결과 일관성, 평가 perplexity |
 

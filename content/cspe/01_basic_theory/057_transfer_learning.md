@@ -88,7 +88,7 @@ Pre-trained 모델 다운로드 -> 분류 층(Head) 교체 -> 가중치 동결(F
 | 1 | 타겟 태스크와 도메인이 유사한 사전 학습 모델 선정 | ImageNet 기반 ResNet, VGG 등 로드 |
 | 2 | 기존 모델의 마지막 FC 층 제거 및 타겟 클래스용 FC 층 결합 | 분류 노드 수 N개로 재설정 |
 | 3 | Feature Extractor(하위 층)의 Gradient 계산 비활성화 (Freeze) | 기존 학습된 가중치 훼손(Catastrophic Forgetting) 방지 |
-| 4 | 아주 작은 학습률(Learning Rate)로 Target 데이터 Fine-tuning | 10^{-4}$ 이하 LR로 분류기 가중치만 갱신 |
+| 4 | 아주 작은 학습률(Learning Rate)로 Target 데이터 Fine-tuning | $10^{-4}$ 이하 LR로 분류기 가중치만 갱신 |
 
 > 요약: 범용 지식이 파괴되지 않도록 앞쪽 층을 단단히 고정하고, 매우 작은 보폭(학습률)으로 출력층만 섬세하게 미세 조정한다.
 
@@ -112,7 +112,7 @@ Pre-trained 모델 다운로드 -> 분류 층(Head) 교체 -> 가중치 동결(F
 | 리스크 | 발생 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
 | 부정 전이 (Negative Transfer) | 자율주행 모델을 현미경 세포 분석에 적용하는 등 소스/타겟 도메인 간 특징 교집합 부재 | Domain Adaptation 적용, 전이 거부 및 바닥(Scratch) 학습 | Target Test Accuracy 폭락 |
-| 파국적 망각 (Catastrophic Forgetting) | 큰 학습률(LR)로 튜닝하여 기존 사전 학습 모델이 가진 우수한 일반화 특성을 모두 잃어버림 | LR을 10^{-5}$로 축소, 하위 층 강력히 동결 | Validation Loss 급증 |
+| 파국적 망각 (Catastrophic Forgetting) | 큰 학습률(LR)로 튜닝하여 기존 사전 학습 모델이 가진 우수한 일반화 특성을 모두 잃어버림 | LR을 $10^{-5}$로 축소, 하위 층 강력히 동결 | Validation Loss 급증 |
 
 > 요약: 전이 학습의 실패는 억지로 맞지 않는 지식을 끼워 넣거나(부정 전이), 너무 세게 학습시켜 원래 똑똑했던 뇌를 망치는(파국적 망각) 데서 온다.
 

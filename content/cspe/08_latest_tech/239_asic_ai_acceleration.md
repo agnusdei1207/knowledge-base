@@ -132,7 +132,7 @@ Model Quantization -> Hardware Mapping -> Fabrication -> Fixed Logic Compute
 | 점검 항목 | 목표 기준 | 측정 방법 |
 |:---|:---|:---|
 | 에너지 효율성 | 100 TOPS/W 이상 (INT8) | Power Analyzer 연동 측정 |
-| 칩 면적 효율 | GPU 대비 동일 면적 3배 연산력 | mm^2 당 TOPS/TFLOPS 계산 |
+| 칩 면적 효율 | GPU 대비 동일 면적 3배 연산력 | mm² 당 TOPS/TFLOPS 계산 |
 | 추론 지연 시간 | 7B 모델 기준 20ms 이하 | End-to-End Latency 측정 |
 
 > 요약: 도입 효과는 단위 면적/전력당 연산 성능과 실제 서비스 응답 속도로 검증한다.

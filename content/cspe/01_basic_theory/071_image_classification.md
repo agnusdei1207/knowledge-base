@@ -70,7 +70,7 @@ Input (x) -> [ Weight Layer ] -> ReLU -> [ Weight Layer ] -> (+) -> ReLU -> Outp
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| 3x3 Conv Layer (VGG 도입) | 작은 필터를 연속 겹쳐 사용하여 비선형성을 늘리고 파라미터는 감축 | 5\times5$ 1개보다 3\times3$ 2개가 전체 연산량 더 저렴 |
+| 3x3 Conv Layer (VGG 도입) | 작은 필터를 연속 겹쳐 사용하여 비선형성을 늘리고 파라미터는 감축 | $5\times5$ 1개보다 $3\times3$ 2개가 전체 연산량 더 저렴 |
 | Skip Connection (ResNet) | 층 입력값 $x$를 층 출력 연산 결과 $F(x)$에 우회하여 더함 ($F(x) + x$) | 최소한 항등(Identity) 함수 매핑은 안정적으로 보장 |
 | Residual Block (ResNet) | 원본 대신 잔차(목표와 입력의 차이인 $F(x)$)만을 학습하도록 목적 함수 튜닝 | 네트워크를 152층(ResNet-152) 이상 심층 적층 가능 |
 | Compound Scaling (Efficient) | 망 깊이(Depth), 너비(Width), 입력 해상도(Resolution)의 확장 비율 고정 | 제한된 FLOPs 하에서 특징 추출 효율 극대화 |
