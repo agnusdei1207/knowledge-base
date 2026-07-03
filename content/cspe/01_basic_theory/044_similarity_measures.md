@@ -77,8 +77,8 @@ weight: 44
 | 구성요소 | 수식 구조 | 특이사항 |
 |:---|:---|:---|
 | 유클리드 거리 (Euclidean) | $d(x,y) = \sqrt{\sum (x_i - y_i)^2}$ | L2 Norm, 피타고라스 정리 기반 (거리의 최단선) |
-| 코사인 유사도 (Cosine) | $sim(x,y) = \frac{x \cdot y}{||x|| ||y||}$ | 두 벡터의 내적을 각각의 L2 Norm 크기로 정규화 |
-| 자카드 유사도 (Jaccard) | $J(A,B) = \frac{|A \cap B|}{|A \cup B|}$ | 0과 1로 구성된 이진 집합(Boolean)에 최적화 |
+| 코사인 유사도 (Cosine) | $sim(x,y) = \frac{x \cdot y}{\mid \mid x\mid \mid  \mid \mid y\mid \mid }$ | 두 벡터의 내적을 각각의 L2 Norm 크기로 정규화 |
+| 자카드 유사도 (Jaccard) | $J(A,B) = \frac{\mid A \cap B\mid }{\mid A \cup B\mid }$ | 0과 1로 구성된 이진 집합(Boolean)에 최적화 |
 | 피어슨 상관계수 | $r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\text{분산}}$ | 코사인 유사도에서 각 벡터의 평균(Bias)을 중심화한 변형 |
 
 > 요약: 유사도는 절대적 크기 차이, 방향(패턴)의 일치, 요소의 교집합 비율이라는 세 가지 기하학적 관점에서 데이터를 정량화한다.

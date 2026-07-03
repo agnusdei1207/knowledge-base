@@ -71,7 +71,7 @@ weight: 55
 | 인코더 (Encoder) | 입력 차원 D를 저차원 d로 맵핑 ($Z = f(W X + b)$) | 차원 축소를 통해 핵심 의미(Feature) 압축 |
 | 잠재 공간 (Latent Space, $Z$) | 원본의 압축된 특징(Representation)을 담는 벡터 영역 | 네트워크 내 최소 차원(Bottleneck) 층 |
 | 디코더 (Decoder) | 잠재 벡터 $Z$로부터 원본 크기 데이터 재생성 ($X' = g(W' Z + b')$) | 인코더와 대칭적인(Symmetric) 구조를 가짐 |
-| 손실 함수 (Reconstruction Loss) | 입력 $X$와 출력 $X'$ 간의 차이 최소화 (MSE 또는 Cross Entropy) | $L(X, X') = ||X - X'||^2$ (비지도 학습) |
+| 손실 함수 (Reconstruction Loss) | 입력 $X$와 출력 $X'$ 간의 차이 최소화 (MSE 또는 Cross Entropy) | $L(X, X') = \lVert X - X' \rVert^2$ (비지도 학습) |
 
 > 요약: 인코더-병목-디코더의 모래시계형 구조가 입력값을 강제로 요약하게 만들어, 의미 없는 노이즈 정보가 병목을 통과하지 못하고 탈락되게 유도한다.
 

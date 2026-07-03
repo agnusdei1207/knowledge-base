@@ -43,7 +43,7 @@ weight: 63
 |:---|:---|:---|
 | LLM 성능 지표 체계 이해 확인 | tokens/s, prefill/decode 분리, TTFT·TPOT와의 관계 | 처리량과 지연 지표 혼동 |
 | 트레이드오프 판단 확인 | batch 확대 시 처리량↑·tail latency↑ 관계 | 처리량 극대화를 무조건 정답으로 단정 |
-| 용량·비용 산정 역량 확인 | GPU util, $/1K tokens, 워크로드별 목표 지표 | 수치 근거 없는 용량 계획 서술 |
+| 용량·비용 산정 역량 확인 | GPU util, /1K tokens, 워크로드별 목표 지표 | 수치 근거 없는 용량 계획 서술 |
 
 > 요약: 이 문제는 지표 정의 암기가 아니라 처리량-지연-비용의 균형 설계 판단을 묻는다.
 
@@ -51,7 +51,7 @@ weight: 63
 
 - 개요: LLM 초당 토큰 처리량 지표
 - 배경: 생성형 AI 호출량이 늘면 GPU-hour 비용과 큐 대기 시간이 함께 증가함.
-- 필요성: tokens/s, GPU utilization, $/1K tokens를 기준으로 배치 크기·스케줄러·용량 계획을 결정해야 함.
+- 필요성: tokens/s, GPU utilization, /1K tokens를 기준으로 배치 크기·스케줄러·용량 계획을 결정해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -65,7 +65,7 @@ Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
 | Input Throughput | prefill 입력 토큰 처리량 | prompt 길이에 비례 |
 | Output Throughput | decode 출력 토큰 처리량 | KV bandwidth 영향 |
 | Scheduler | batch token·우선순위 제어 | latency와 trade-off |
-| Cost Meter | token당 GPU 비용 산정 | $/1K tokens, GPU-hour |
+| Cost Meter | token당 GPU 비용 산정 | /1K tokens, GPU-hour |
 
 > 요약: Token Throughput은 입력·출력 토큰 처리량과 GPU 비용을 연결하는 LLM 용량 계획 지표임.
 
@@ -81,7 +81,7 @@ Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
 | 1 | 요청별 input/output token 수 계측 | tokenizer 기준 |
 | 2 | prefill/decode batch 스케줄링 | max batch token |
 | 3 | GPU 실행률과 tokens/s 계산 | GPU util 70~90% |
-| 4 | 지연 SLA와 비용 동시 평가 | p95 latency, $/1K tokens |
+| 4 | 지연 SLA와 비용 동시 평가 | p95 latency, /1K tokens |
 
 > 요약: 토큰 계측->스케줄링->GPU 실행->비용 환산을 반복해 처리량과 SLA 균형점을 찾음.
 
@@ -91,7 +91,7 @@ Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
 |:---|:---|:---|:---|
 | 대표 지표 | TTFT, TPOT | tokens/s, req/s | 사용자 vs 운영자 관점 |
 | 최적화 방향 | batch 축소 | batch 확대 | trade-off 관리 |
-| 비용 영향 | SLA 위반 방지 | GPU당 원가 절감 | $/1K token |
+| 비용 영향 | SLA 위반 방지 | GPU당 원가 절감 | /1K token |
 | 리스크 | 과소 활용 | tail latency 증가 | p95/p99 동시 관측 |
 
 > 요약: Token Throughput은 비용 최적화 지표이며, latency SLA와 함께 관리해야 운영 품질이 유지됨.
@@ -101,7 +101,7 @@ Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
 | 워크로드 | 우선 지표 | 배치 전략 | 선택 기준 |
 |:---|:---|:---|:---|
 | 대화형 챗봇 | TTFT·TPOT p95 | 작은 batch + latency-aware | SLA 위반률 1% 이하 유지 |
-| 배치 분석·요약 | tokens/s, $/1K tokens | 대형 batch, 큐 허용 | 단가 최소화, 마감시간 내 완료 |
+| 배치 분석·요약 | tokens/s, /1K tokens | 대형 batch, 큐 허용 | 단가 최소화, 마감시간 내 완료 |
 | 스트리밍 에이전트 | TPOT 일정성 | continuous batching | 토큰 간 간격 편차 최소화 |
 
 > 요약: 워크로드 유형이 처리량-지연 우선순위를 결정하며, 단일 클러스터에 혼합하면 SLA가 무너짐.
@@ -117,7 +117,7 @@ Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. input/output tokens/s, req/s, GPU util, $/1K tokens를 대시보드로 분리해 용량 계획 수립
+1. input/output tokens/s, req/s, GPU util, /1K tokens를 대시보드로 분리해 용량 계획 수립
 2. Continuous Batching으로 GPU 유휴 시간을 줄이되 max waiting time 20~50ms로 tail latency 제한
 3. 모델별 처리량 벤치마크를 기준으로 7B/13B/70B 라우팅 정책을 구성해 GPU 비용 30% 이상 절감
 

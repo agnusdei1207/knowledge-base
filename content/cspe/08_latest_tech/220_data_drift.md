@@ -116,7 +116,7 @@ Training Set (Reference) vs Live Stream (Current)
 
 | 비교 축 | Data Drift (Covariate Shift) | Concept Drift (Prior Probability Shift) | 선택 기준 |
 |:---|:---|:---|:---|
-| 변화 대상 | 입력값의 분포 $P(X)$ | 입력-정답 간 관계 $P(Y\|X)$ | 변화의 위치 |
+| 변화 대상 | 입력값의 분포 $P(X)$ | 입력-정답 간 관계 $P(Y \mid X)$ | 변화의 위치 |
 | 정답 필요성 | 불필요 (입력만으로 탐지 가능) | 필수 (실제 결과 확인 필요) | 탐지 신속성 |
 | 탐지 시점 | 운영 초기 즉시 탐지 가능 | 정답 확보 후 사후 탐지 | 대응 골든타임 |
 

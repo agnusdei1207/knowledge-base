@@ -108,7 +108,7 @@ Live Data -> ML Model -> Predictions vs Ground Truth
 
 | 구분 | Data Drift (원인 1) | Concept Drift (원인 2) | Model Drift (결과) |
 |:---|:---|:---|:---|
-| 현상 | 입력 $X$의 분포 변화 | 관계 $P(Y\|X)$의 변화 | 모델 정확도 $P(Y_{pred} \neq Y)$ 증가 |
+| 현상 | 입력 $X$의 분포 변화 | 관계 $P(Y \mid X)$의 변화 | 모델 정확도 $P(Y_{pred} \neq Y)$ 증가 |
 | 탐지 지표 | PSI, KS-test, KL-div | Accuracy, F1-Score, RMSE | 전반적 성능 퇴화(Decay) |
 | 탐지 시점 | 정답 없이도 사전 탐지 가능 | 정답 확보 후 사후 탐지 가능 | 최종 성능 지표 기반 판단 |
 | 대응 방향 | 데이터 재샘플링, 가중치 조정 | 모델 구조 변경, 전면 재학습 | 모델 생명주기(Life-cycle) 갱신 |

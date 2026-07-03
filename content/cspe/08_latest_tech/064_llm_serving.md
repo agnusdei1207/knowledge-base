@@ -34,7 +34,7 @@ weight: 64
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LLM Serving은 모델 추론을 API로 안정 제공하기 위한 런타임·스케줄러·관측성·보안 운영 체계임.
-> 2. **가치**: GPU idle time과 KV cache 낭비를 줄여 p95 지연, tokens/s, $/1K tokens를 서비스 목표에 맞춤.
+> 2. **가치**: GPU idle time과 KV cache 낭비를 줄여 p95 지연, tokens/s, /1K tokens를 서비스 목표에 맞춤.
 > 3. **판단 포인트**: 모델 크기, 병렬화, 배칭, KV Cache, 가드레일, FinOps를 통합 설계해야 함.
 
 ## 출제 의도 및 답안 포인트
@@ -43,7 +43,7 @@ weight: 64
 |:---|:---|:---|
 | LLM 운영 아키텍처 설계 역량 확인 | Gateway-엔진-GPU워커-관측성 4계층, TTFT/TPOT SLA | 모델 정확도만 서술하고 운영 계층 누락 |
 | 일반 ML Serving과 차별점 확인 | KV Cache 메모리, 토큰 단위 스케줄링, streaming | 웹 API 스케일링 일반론으로 대체 |
-| 비용·보안 통합 판단 확인 | $/1K tokens, quota, prompt injection·PII 통제 | 성능 얘기만 하고 보안·FinOps 누락 |
+| 비용·보안 통합 판단 확인 | /1K tokens, quota, prompt injection·PII 통제 | 성능 얘기만 하고 보안·FinOps 누락 |
 
 > 요약: 이 문제는 추론 API 구축이 아니라 지연·비용·보안을 동시에 만족하는 운영 체계 설계를 묻는다.
 
@@ -51,7 +51,7 @@ weight: 64
 
 - 개요: LLM 운영 배포·추론 체계
 - 배경: 생성형 AI 서비스는 GPU 메모리, KV cache, 토큰 단가가 운영 비용과 지연의 주 제약이 됨.
-- 필요성: vLLM·TensorRT-LLM, 스케줄링, 관측성, RBAC·감사로그를 함께 설계해 p95 지연과 $/1K tokens를 관리해야 함.
+- 필요성: vLLM·TensorRT-LLM, 스케줄링, 관측성, RBAC·감사로그를 함께 설계해 p95 지연과 /1K tokens를 관리해야 함.
 
 ## Ⅱ. 구조 및 구성요소
 
@@ -83,7 +83,7 @@ Client -> API Gateway -> Serving Engine -> GPU Workers
 | 1 | 인증·quota·prompt 정책 확인 | RBAC, rate limit |
 | 2 | 토큰화·batch scheduling | queue time, batch token |
 | 3 | prefill/decode 실행 | TTFT, TPOT, GPU util |
-| 4 | 응답 streaming·로그 기록 | error rate, $/1K tokens |
+| 4 | 응답 streaming·로그 기록 | error rate, /1K tokens |
 
 > 요약: 요청 진입부터 응답 streaming까지 지연·비용·안전성을 계측하며 GPU 추론을 운영함.
 
@@ -111,7 +111,7 @@ Client -> API Gateway -> Serving Engine -> GPU Workers
 | 리스크 | 원인 | 대응 방안 | 확인 지표 |
 |:---|:---|:---|:---|
 | GPU OOM·장애 | KV Cache 폭증, 긴 컨텍스트 | max model len 제한, TP 분산 | OOM 0건, 가용성 99.9% |
-| 비용 폭주 | 무제한 호출·긴 프롬프트 | tenant quota, prompt 길이 상한 | $/1K tokens, 월 예산 준수 |
+| 비용 폭주 | 무제한 호출·긴 프롬프트 | tenant quota, prompt 길이 상한 | /1K tokens, 월 예산 준수 |
 | 프롬프트 보안 사고 | injection·PII 유입 | 입력 필터+출력 Guard, 감사로그 | 차단율, 유출 0건 |
 
 > 요약: LLM Serving 리스크는 메모리·비용·보안 3축이며, 상한 설정과 이중 방어로 통제함.
@@ -121,7 +121,7 @@ Client -> API Gateway -> Serving Engine -> GPU Workers
 **적용 방안 3개:**
 1. vLLM/TensorRT-LLM 중 모델·GPU 지원성을 비교하고 TTFT·TPOT·tokens/s 기준으로 엔진 선택
 2. API Gateway에서 tenant별 quota, prompt length limit, RBAC를 적용해 비용 폭주와 데이터 오염 차단
-3. Grafana/Prometheus로 TTFT p95, TPOT p95, GPU util, cache hit, $/1K tokens를 관측
+3. Grafana/Prometheus로 TTFT p95, TPOT p95, GPU util, cache hit, /1K tokens를 관측
 
 **결론 (2줄):**
 - 기술사 판단: 대화형 API는 latency-aware serving, 배치 분석은 throughput-optimized serving으로 분리함.

@@ -87,7 +87,7 @@ weight: 59
 
 | 단계 | 처리 내용 | 검증 기준 / 수식 |
 |:---:|:---|:---|
-| 1 | 부모 노드 데이터의 현재 불순도(Impurity) 계산 | Gini = $1 - \sum (P_i)^2$ 또는 Entropy 연산 |
+| 1 | 부모 노드 데이터의 현재 불순도(Impurity) 계산 | Gini = 1 - \sum (P_i)^2$ 또는 Entropy 연산 |
 | 2 | 모든 피처와 임계값을 시뮬레이션하여 분할 후 자식 노드의 불순도 계산 | 불순도의 가중 평균 도출 |
 | 3 | 부모와 자식 간의 불순도 차이(Information Gain) 도출 | $IG = Impurity(Parent) - Impurity(Children)$ |
 | 4 | IG가 최대가 되는 피처로 분할하고 정지 조건까지 재귀 반복 | `max_depth` 도달 시 분할 정지 |
