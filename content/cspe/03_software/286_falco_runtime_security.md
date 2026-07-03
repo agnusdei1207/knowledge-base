@@ -11,16 +11,42 @@ weight: 286
 > 목적: Falco 런타임 보안을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 컨테이너와 호스트의 시스템 콜을 감시해 이상 행위를 탐지하는 런타임 보안 도구
-- **왜 필요한가**: 이미지 스캔은 배포 전 취약점을 찾지만, 실행 중 쉘 실행, 권한 상승, 민감 파일 접근 같은 침해 행위는 런타임에서 탐지해야 한다.
-- **핵심 직관**: Falco는 서버의 CCTV와 같다. 프로세스가 어떤 파일을 열고 어떤 네트워크 연결을 만드는지 실시간으로 관찰한다.
+- **개요**: Falco는 **런타임 보안**(Runtime Security)을 수행하는 도구로, **시스템 콜**(System Call) 이벤트를 실시간 수집해 규칙과 대조하는 **이상 행위 탐지**(Anomaly Detection) 방식으로 동작한다.
+- **왜 필요한가**: 컨테이너 이미지 스캔(284)은 "배포 전 정적인 내용물"만 본다. 그러나 취약점이 하나도 없는 이미지라도, 실행 중 공격자가 쉘을 열거나 `/etc/shadow`를 읽는 것 같은 "행위"는 배포 시점엔 존재하지 않았다 — 이건 실행 중에만 관찰 가능하다.
+- **핵심 직관**: 이미지 스캔이 "출고 전 도면·성분 검사"라면, Falco는 "설치 후 CCTV"다. 건물이 설계도대로 지어졌는지가 아니라, 실제로 누가 어느 문을 열고 어느 금고에 손을 대는지를 실시간으로 지켜본다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| 런타임 보안 | 애플리케이션이 "실행되는 동안"의 행위를 감시하는 보안 영역 — 배포 전 스캔과 대비되는 상위 개념 | 입주 후 보안 |
+| System Call(시스템 콜) | 프로세스가 파일 열기·네트워크 연결·프로세스 실행 등을 하려면 반드시 거쳐야 하는, 커널에 거는 요청 | 프로세스가 커널에 거는 내선 전화 |
+| eBPF | 커널을 재컴파일하지 않고도 커널 내부에서 안전하게 소규모 프로그램을 실행해 이벤트를 관찰하는 리눅스 기술 | 커널에 설치하는, 안전장치가 달린 도청 마이크 |
+| Kernel Module 방식 | eBPF 이전에 쓰던 방식으로, 커널에 직접 적재되는 드라이버로 이벤트를 수집 | 마이크를 배선 공사로 직결하는 구식 방법 |
+| Rule(규칙) | "어떤 system call 조합이 위험 행위인가"를 정의한 조건식(Sysdig filter 문법) | 감시 카메라의 경보 트리거 조건 |
+| Priority/Severity | 규칙 위반의 심각도(Emergency~Debug 8단계) | 경보의 위급도 등급 |
+| DaemonSet | Kubernetes에서 클러스터의 모든 노드에 자동으로 하나씩 배포되는 워크로드 형태 | 각 층마다 한 명씩 배치하는 경비원 |
 
 ## 깊이 이해
-- **배경·문제의식**: Kubernetes 환경에서는 pod가 짧게 생성·삭제되고, 공격자는 컨테이너 내부에서 쉘을 열거나 hostPath를 악용할 수 있다. 사전 스캔만으로 실행 중 행위를 알 수 없다.
-- **작동 원리**: Falco는 kernel module, eBPF, audit log 등을 통해 system call 이벤트를 수집하고 rule 조건과 대조한다. 위반 시 stdout, webhook, SIEM, Slack 등으로 alert를 보낸다.
-- **비유**: 건물 도면 검사는 이미지 스캔이고, 출입문과 금고 앞 감시는 Falco 런타임 탐지다.
-- **구체 예시**: 운영 pod에서 `/bin/sh`가 실행되거나 `/etc/shadow` 접근이 발생하면 Falco rule이 `Terminal shell in container` 또는 `Read sensitive file` 이벤트로 탐지한다.
-- **흔한 오해·주의점**: Falco는 차단 도구가 아니라 탐지 중심 도구다. 차단은 Kubernetes policy, network policy, response automation과 연계해야 한다.
+
+### eBPF가 어떻게 "매번 재부팅 없이" 커널을 들여다보는가
+- 과거에는 커널 이벤트를 수집하려면 커널 모듈을 직접 적재해야 했고, 이는 커널 버전에 강하게 종속되고 커널을 오염시킬 위험이 있었다. eBPF는 커널 안에 작은 가상머신을 두고, 검증기(verifier)가 "이 프로그램은 무한루프에 빠지지 않고 커널을 망가뜨리지 않는다"를 로드 시점에 증명한 코드만 실행시킨다. Falco는 이 eBPF probe를 syscall 진입점에 걸어(hook) 이벤트를 사용자 공간의 Falco 프로세스로 전달한다.
+
+### Rule이 실제로 어떻게 생겼는가 — 워크드 예제
+```
+- rule: Terminal shell in container
+  desc: 컨테이너 안에서 대화형 쉘이 실행됨
+  condition: container and proc.name in (bash, sh, zsh) and spawned_process
+  output: "쉘 실행 감지 (user=%user.name container=%container.name shell=%proc.name)"
+  priority: WARNING
+```
+- 흐름: 운영 중인 pod 안에서 공격자가 `/bin/sh`를 실행하면(1) 이 프로세스 생성이 system call(`execve`)로 커널에 전달되고(2) eBPF probe가 이 이벤트를 가로채 pod 이름·namespace 같은 Kubernetes 메타데이터를 붙여(3) rule engine이 "container and proc.name in (bash, sh)" 조건과 대조해 참으로 판정하고(4) WARNING 우선순위로 "쉘 실행 감지" alert를 stdout·webhook·SIEM에 전송한다. `/etc/shadow` 파일을 읽는 행위도 같은 방식으로 "Read sensitive file" rule이 별도로 탐지한다.
+
+### 탐지 시점의 차이를 수치로 이해하기
+- 이미지 스캔은 "빌드~배포 전" 단 한 번(또는 주기적 재스캔)만 실행되고 결과는 정적이다. Falco는 파드가 살아있는 내내 초 단위로 이벤트를 관찰한다. 그래서 운영 목표도 다르다 — 이미지 스캔은 "critical CVE 0건으로 배포 차단"이 목표라면, Falco는 "이상 행위 발생부터 탐지까지 걸리는 시간(MTTD, Mean Time To Detect)을 5분 이하로 줄이는 것"이 목표다.
+
+### 왜 Falco는 "차단"이 아니라 "탐지" 중심인가
+- Falco는 이벤트를 관찰하고 alert만 만든다 — 프로세스를 직접 kill하거나 네트워크를 끊지 않는다(직접 차단 액션도 일부 가능하지만 기본 설계 사상은 관찰과 경보다). 실제 격리·차단은 SOAR(Security Orchestration, Automation and Response) playbook이 alert를 받아 pod를 격리하거나 NetworkPolicy로 네트워크를 끊는 후속 자동화로 이어진다. Falco 혼자 "모든 차단을 수행한다"고 서술하면 탐지와 대응 계층을 혼동한 것이다.
 
 ## 연결 개념
 - 컨테이너 이미지 스캔 - 배포 전 취약점 탐지

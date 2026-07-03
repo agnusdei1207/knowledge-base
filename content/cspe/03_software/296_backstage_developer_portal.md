@@ -8,24 +8,59 @@ weight: 296
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Backstage 개발자 포털을 처음 봐도 완전히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 설명이다.
+> 목적: Backstage 개발자 포털을 처음 보는 사람도 개념과 내부 용어를 완전히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 서비스 카탈로그, 문서, 템플릿, 플러그인을 한곳에 묶는 오픈소스 내부 개발자 포털
-- **왜 필요한가**: 서비스가 많아지면 소유자, API, 배포 상태, 문서가 흩어져 장애 대응과 온보딩 시간이 길어진다.
-- **핵심 직관**: 회사의 모든 서비스에 대한 전화번호부, 신청 창구, 매뉴얼, 상태판을 한 화면에 모은 것이다.
+- **개요**: Backstage는 295에서 설명한 **내부 개발자 플랫폼(IDP)** 개념을 실제로 구현하는 **오픈소스 개발자 포털 프레임워크**로, **소프트웨어 카탈로그(Software Catalog)**를 핵심 데이터 모델 삼아 서비스 소유자·문서·템플릿·운영 도구를 한 화면에 연결한다.
+- **왜 필요한가**: 마이크로서비스가 수십~수백 개로 늘면 "이 서비스는 누가 담당하지?", "배포는 어떻게 하지?", "문서가 어디 있지?"에 답하는 데 시간이 든다. 이 탐색 비용이 장애 대응 시간(MTTR)과 신규 개발자 온보딩 시간을 직접 늘린다.
+- **핵심 직관**: 회사의 모든 서비스에 대한 전화번호부(누가 담당?), 신청 창구(새로 만들려면?), 매뉴얼(문서는?), 상태판(지금 상태는?)을 한 화면에 모은 것이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| IDP(295와 연결) | Backstage가 구현하는 상위 개념 — 셀프서비스 개발자 플랫폼 | Backstage는 IDP라는 개념의 대표 제품 |
+| Software Catalog | 조직의 모든 서비스·API·시스템·팀을 등록·조회하는 핵심 데이터 저장소 | 회사 전체 조직도 겸 서비스 명부 |
+| catalog-info.yaml | 각 저장소에 두는, 그 서비스의 메타데이터(소유자·타입·수명주기)를 선언하는 파일 | 서비스의 신분증 |
+| Entity(Kind) | 카탈로그에 등록되는 개체 단위 — Component(서비스), API, System(묶음), Resource(DB 등), Group(팀), User | 명부에 등록되는 항목의 종류 |
+| Ownership | 어떤 팀(Group)이 어떤 Entity를 소유하는지의 관계 | 담당자 지정 |
+| Lifecycle | 서비스의 성숙 단계 — experimental / production / deprecated | 제품의 생애주기 라벨 |
+| TechDocs | 코드 저장소 안 마크다운 문서를 MkDocs로 빌드해 포털에서 바로 보여주는 기능 | 코드 옆에 붙어 다니는 자동 갱신 매뉴얼 |
+| Scaffolder | 템플릿 기반으로 새 저장소·CI·배포 설정을 자동 생성하는 기능(295의 Golden Path 구현체) | 붕어빵 틀을 실제로 눌러 찍는 기계 |
+| Plugin | Backstage에 외부 도구(CI, Kubernetes, SonarQube 등) 데이터를 붙이는 확장 모듈 | 스마트폰 앱 하나하나 |
 
 ## 깊이 이해
-- **배경·문제의식**: MSA와 클라우드 전환 후 서비스 수와 도구 수가 증가했다. 개발자는 소유자를 찾고 배포 방법을 확인하는 데 시간을 쓴다.
-- **작동 원리**: Backstage는 `catalog-info.yaml`로 서비스 메타데이터를 수집하고, TechDocs로 문서를 제공하며, Scaffolder 템플릿으로 새 서비스를 생성한다. 플러그인으로 CI, Kubernetes, SonarQube, PagerDuty를 연결한다.
-- **비유**: 대학 포털에서 수강신청, 강의계획서, 성적, 공지를 한 번에 보는 것처럼 개발자가 서비스 정보를 한곳에서 확인한다.
-- **구체 예시**: `owner: team-payments`, `system: billing`, `lifecycle: production`을 catalog에 등록하면 소유팀, 의존성, 배포 상태를 포털에서 조회한다.
-- **흔한 오해·주의점**: Backstage 설치 자체가 플랫폼 엔지니어링은 아니다. 카탈로그 품질, 템플릿 관리, 플러그인 운영, ownership 정합성이 더 큰 과제이다.
+
+### catalog-info.yaml — 실제 구조로 이해하기
+- 모든 서비스 저장소 루트에 `catalog-info.yaml`을 두면, Backstage의 catalog processor가 주기적으로 이를 읽어 카탈로그에 등록한다. 최소 예시는 다음과 같다.
+  - `apiVersion: backstage.io/v1alpha1`
+  - `kind: Component`
+  - `metadata.name: order-service`
+  - `spec.type: service`
+  - `spec.owner: team-payments` (Group Entity 참조)
+  - `spec.lifecycle: production`
+  - `spec.system: billing` (System Entity 참조)
+- 이 필드들이 곧 카탈로그 그래프의 노드와 간선이 된다: `order-service`는 `team-payments`가 소유하고(ownedBy), `billing` 시스템에 속하며(partOf), 다른 서비스와의 의존 관계도 `spec.dependsOn: [resource:orders-db]`처럼 선언한다.
+- 이 관계 데이터 덕분에 "이 DB가 죽으면 어떤 서비스가 영향받는가"를 그래프 탐색으로 즉시 답할 수 있다 — 장애 대응(MTTR) 시간이 줄어드는 핵심 이유다.
+
+### Scaffolder 동작 — 신규 서비스가 만들어지는 과정
+1. 개발자가 포털에서 "Spring Boot Microservice" 템플릿을 선택하고 서비스 이름·소유팀 같은 파라미터를 입력한다.
+2. Scaffolder는 `template.yaml`에 정의된 단계(steps)를 순서대로 실행한다 — 예: `fetch:template`(뼈대 코드 복제) → `publish:github`(신규 저장소 생성) → `catalog:register`(방금 만든 저장소의 catalog-info.yaml을 자동으로 카탈로그에 등록).
+3. 결과적으로 몇 분 안에 Git 저장소, CI 파이프라인 설정, catalog 등록, (연동돼 있다면) Kubernetes 네임스페이스까지 표준 상태로 생성된다 — 이것이 295에서 말한 "리드타임 5일 → 수 분" 셀프서비스의 실제 구현 지점이다.
+
+### Plugin 아키텍처 — 왜 "포털"이 아니라 "프레임워크"인가
+- Backstage 자체는 카탈로그·문서·템플릿 코어만 제공하고, CI 상태·Kubernetes pod 상태·SonarQube 코드 품질·PagerDuty 알림 이력 등은 각각 별도 Plugin이 외부 API를 호출해 포털 화면에 끼워 넣는다.
+- 예: Kubernetes 플러그인은 카탈로그의 `order-service` Entity와 실제 클러스터의 `order-service` 배포를 라벨로 매칭해, 포털 화면에 pod 개수·재시작 횟수를 실시간으로 보여준다.
+- 이 구조 때문에 Backstage는 "고정된 대시보드"가 아니라, 조직마다 필요한 도구를 꽂아 넣는 "포털을 만드는 프레임워크"로 봐야 한다.
+
+### 비유와 흔한 오해
+- **비유**: 대학 포털에서 수강신청(Scaffolder), 강의계획서(TechDocs), 성적·수강 이력(Catalog), 공지·연동 시스템(Plugin)을 한 화면에서 보는 것과 같다.
+- **오해**: "Backstage를 설치하면 플랫폼 엔지니어링이 완성된다"가 아니다. Backstage는 그릇일 뿐이고, catalog-info.yaml을 팀마다 정확히 채워 넣는 **데이터 품질**(ownership 정합성, lifecycle 최신화)과 템플릿을 계속 관리하는 **거버넌스**가 없으면 곧 정보가 낡은(stale) 빈 포털이 된다. 293~295에서 다룬 서명·재현성·정책 통제도 결국 이 카탈로그의 owner·lifecycle 데이터를 기준으로 누구에게 책임을 물을지 정해진다.
 
 ## 연결 개념
-- Service Catalog - 서비스 소유자·의존성·수명주기 관리
-- TechDocs - 문서를 코드 저장소와 함께 관리
-- Scaffolder - 표준 서비스 템플릿 자동 생성
+- Service Catalog — Backstage의 핵심 데이터 모델(소유자·의존성·수명주기)
+- TechDocs — 문서를 코드와 함께 최신 상태로 유지하는 서브시스템
+- Platform Engineering Self-Service(295) — Backstage가 구현하는 상위 운영 모델, Scaffolder가 그 실행 도구
 
 ---
 

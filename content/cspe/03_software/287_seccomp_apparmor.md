@@ -11,16 +11,48 @@ weight: 287
 > 목적: Seccomp·AppArmor를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: Linux 컨테이너의 시스템 콜과 파일 접근을 제한하는 커널 보안 통제
-- **왜 필요한가**: 컨테이너는 호스트 커널을 공유한다. 컨테이너 내부 프로세스가 과도한 system call이나 파일 접근 권한을 가지면 권한 상승과 호스트 침해로 이어질 수 있다.
-- **핵심 직관**: Seccomp는 사용할 수 있는 도구 목록을 줄이고, AppArmor는 접근할 수 있는 방과 서랍을 제한한다.
+- **개요**: Seccomp와 AppArmor는 리눅스 커널이 제공하는 **강제적 접근 제어**(MAC, Mandatory Access Control) 계열의 **공격면 축소**(Attack Surface Reduction) 통제다 — 컨테이너 프로세스가 "무엇을 할 수 있는가"를 커널 차원에서 제한한다.
+- **왜 필요한가**: 컨테이너는 namespace로 "보이는 범위"를, cgroup으로 "쓸 수 있는 자원량"을 제한하지만, 둘 다 호스트와 같은 커널을 그대로 공유한다는 사실은 바꾸지 못한다. 컨테이너 프로세스가 커널 취약점을 건드릴 수 있는 system call을 자유롭게 호출할 수 있다면, 격리를 뚫고 호스트로 넘어가는 "컨테이너 탈출(Container Escape)"이 가능해진다.
+- **핵심 직관**: namespace·cgroup이 "어디까지 보이고 얼마나 쓸 수 있는지"를 정하는 울타리라면, Seccomp는 "작업자에게 공구 5개만 지급"(쓸 수 있는 시스템 콜 자체를 줄임)이고, AppArmor는 "출입 가능한 방과 열 수 있는 서랍을 지정"(경로 기준으로 리소스 접근을 줄임)이다. 울타리 안에서도 손에 쥔 도구와 열 수 있는 문을 한 번 더 좁히는 것이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| MAC(강제적 접근 제어) | 리소스 소유자가 아니라 시스템 정책이 접근 가능 여부를 강제로 결정하는 방식 — Seccomp·AppArmor가 속하는 상위 범주 | 회사 보안 규정(개인 재량 아님) |
+| DAC(임의적 접근 제어) | 파일 소유자가 chmod로 권한을 정하는 기존 리눅스 방식 — MAC과 대비된다 | 내 방 열쇠는 내가 관리 |
+| System Call(시스템 콜) | 프로세스가 커널에 파일·네트워크·프로세스 관련 작업을 요청하는 통로 | 커널에 거는 전화 |
+| Seccomp(SECure COMPuting mode) | 프로세스가 호출할 수 있는 system call 목록을 화이트/블랙리스트로 제한하는 커널 기능 | 지급되는 공구 개수 제한 |
+| BPF Filter | Seccomp이 "이 system call을 허용/차단할지"를 판단하는 데 쓰는 소형 필터 프로그램 형식 | 공구함 검수 체크리스트 |
+| AppArmor | 파일 경로·capability·네트워크 접근을 프로파일(텍스트 규칙)로 제한하는 LSM 구현체 | 방·서랍 단위 출입증 |
+| LSM(Linux Security Module) | 커널에 보안 훅을 심어 접근 제어 모듈을 꽂을 수 있게 하는 프레임워크 — AppArmor·SELinux가 이 위에서 동작하는 구현체 | 다양한 자물쇠를 꽂을 수 있는 공용 문틀 |
+| Capability | root 권한을 세분화한 단위(예: 네트워크 설정 권한만 있는 `CAP_NET_ADMIN`) | 만능키를 용도별 열쇠로 쪼갠 것 |
+| Enforce / Complain(Permissive) 모드 | 위반 시 실제로 차단하는 모드(enforce)와 로그만 남기고 허용하는 모드(complain) | 실전 배치 전의 리허설 |
+| RuntimeDefault | 컨테이너 런타임(containerd 등)이 기본 제공하는 Seccomp 프로파일 | 기본 안전벨트 |
 
 ## 깊이 이해
-- **배경·문제의식**: 컨테이너 격리는 namespace와 cgroup만으로 충분하지 않다. 커널 취약점이나 잘못된 권한 설정이 있으면 컨테이너 탈출 위험이 생긴다.
-- **작동 원리**: Seccomp는 BPF 필터로 허용 또는 차단할 system call을 정의한다. AppArmor는 프로파일로 파일 경로, capability, 네트워크 접근을 제한한다.
-- **비유**: 작업자에게 필요한 공구 5개만 지급하는 것이 Seccomp이고, 작업 구역 출입증을 제한하는 것이 AppArmor다.
-- **구체 예시**: Kubernetes pod에 `seccompProfile: RuntimeDefault`를 적용하고 AppArmor profile로 `/proc`, `/sys`, `/etc/shadow` 접근을 제한해 컨테이너 탈출 공격면을 줄인다.
-- **흔한 오해·주의점**: Seccomp와 AppArmor는 취약점을 패치하지 않는다. 공격면을 줄이는 hardening 통제이며 이미지 스캔, RBAC, 네트워크 정책과 함께 적용해야 한다.
+
+### 왜 namespace·cgroup만으로는 부족한가 — 실제 컨테이너 탈출 사례
+- namespace는 "이 프로세스가 볼 수 있는 프로세스 목록·파일시스템·네트워크"를 격리하고, cgroup은 "CPU·메모리를 얼마나 쓸 수 있는지"를 제한한다. 그러나 둘 다 "커널 코드 자체를 실행할 수 있는가"는 막지 않는다. 실제로 CVE-2019-5736(runc 취약점)은 컨테이너 안에서 조작한 프로세스가 호스트의 runc 바이너리를 덮어써 호스트를 장악하는 탈출을 가능하게 했다 — namespace가 완벽히 걸려 있어도 커널 레벨의 결함이나 과도한 권한이 있으면 뚫린다는 것을 보여준 사례다. Seccomp·AppArmor는 이런 탈출에 필요한 위험 system call·경로 접근 자체를 원천 차단해 공격면을 줄인다.
+
+### Seccomp가 실제로 무엇을 차단하는가 — 구체 수치
+- 리눅스 커널은 300개가 넘는 system call을 제공하지만, 일반적인 애플리케이션은 그중 극히 일부만 쓴다. Docker의 기본 Seccomp 프로파일은 약 44개의 system call을 명시적으로 차단한다. 대표적으로 `unshare`(새 namespace 생성), `mount`(파일시스템 마운트), `reboot`(시스템 재부팅), `ptrace`(다른 프로세스 감시·조작), `kexec_load`(커널 교체) 등이 막힌다 — 이 목록의 공통점은 "정상적인 웹 서버·배치 작업이라면 쓸 일이 없지만, 컨테이너 탈출·권한 상승에는 핵심적으로 쓰이는 system call"이라는 점이다.
+- Kubernetes pod에 `securityContext.seccompProfile.type: RuntimeDefault`를 지정하면 이 기본 차단 목록이 바로 그 파드에 적용된다. 별도 설정이 없으면(구버전 기준) Seccomp가 아예 적용되지 않아 300개 넘는 system call이 전부 열려 있는 상태로 실행될 수 있다.
+
+### AppArmor 프로파일은 실제로 어떻게 생겼는가
+```
+profile docker-nginx flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+  network inet tcp,
+  deny /etc/shadow rwklx,
+  deny /proc/sys/** wklx,
+  /var/log/nginx/*.log w,
+}
+```
+- 이 프로파일은 "TCP 네트워크는 허용하되, `/etc/shadow`는 읽기·쓰기·잠금·실행 전부 금지, `/proc/sys` 하위 쓰기도 금지, nginx 로그 파일에는 쓰기만 허용"을 선언한다. Seccomp가 "어떤 동작(system call)을 할 수 있는가"를 본다면, AppArmor는 "어떤 경로·자원에 접근할 수 있는가"를 경로 단위로 통제한다는 차이가 여기서 드러난다.
+
+### enforce로 바로 넘어가면 안 되는 이유 — 운영 판단
+- 새 프로파일을 처음부터 enforce(위반 시 즉시 차단) 모드로 걸면, 미처 예상 못 한 정상 동작(로그 회전 스크립트가 특정 경로에 접근하는 것 등)까지 막혀 서비스 오류가 난다. 그래서 실무에서는 먼저 complain(로그만 남기고 허용) 모드로 최소 며칠~1주 이상 운영하며 "정상적으로 어떤 접근이 발생하는가"의 audit log를 충분히 모은 뒤, 그 패턴에 맞춰 프로파일을 다듬고 나서야 enforce로 전환한다.
 
 ## 연결 개념
 - Linux Capability - root 권한 세분화

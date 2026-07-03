@@ -8,24 +8,61 @@ weight: 298
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: TOGAF ADM을 처음 봐도 완전히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 설명이다.
+> 목적: TOGAF ADM의 단계별 절차와 반복(iteration) 구조를 처음 봐도 완전히 이해하게 만든다. 233번 TOGAF 문서가 프레임워크 전체(ADM+Architecture Content+Governance) 구성을 다룬다면, 이 문서는 **ADM 자체의 단계 진행·반복 메커니즘**에 집중해 차별화한다.
 
 ## 한눈에
-- **개요**: 기업 아키텍처를 비즈니스 목표부터 기술 구현까지 반복적으로 수립·전환·관리하는 방법론
-- **왜 필요한가**: 부서별 시스템이 따로 움직이면 중복 투자, 데이터 불일치, 기술 표준 미준수가 발생한다.
-- **핵심 직관**: 도시 전체 교통·상하수도·전력 계획을 세우고 단계별 공사와 변경 관리를 수행하는 도시계획 절차이다.
+- **개요**: TOGAF ADM(Architecture Development Method)은 **엔터프라이즈 아키텍처(EA)**를 Preliminary부터 H단계까지 순서대로, 필요하면 되돌아가며 반복 수립하는 **원형(cyclic) 단계 절차**이다.
+- **왜 필요한가**: EA는 범위가 너무 넓어 "어디서부터 손대야 하는가"가 항상 문제다. ADM은 그 순서(비전→업무→정보시스템→기술→전환계획→거버넌스)를 표준화해 프로젝트마다 절차를 재발명하지 않게 한다.
+- **핵심 직관**: ADM은 한 바퀴 돌면 끝나는 직선 절차가 아니라, 중심에 Requirements Management를 둔 **원형 시계**다. A~H는 시계 눈금이고, 요구사항 변경이 생기면 중심을 거쳐 관련 눈금으로 되돌아가 재작업한다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| EA (Enterprise Architecture) | ADM이 만들어내는 결과물 — 업무·데이터·응용·기술을 아우르는 전사 설계도 | 도시 전체 마스터플랜 |
+| ADM (Architecture Development Method) | EA를 만드는 표준 절차(Preliminary + A~H) | 마스터플랜을 그리는 작업 순서표 |
+| Requirements Management | 원 중심에서 전 단계 요구사항을 계속 추적·통제하는 상시 활동(고유 phase 번호 없음) | 시계 중심축 — 모든 바늘이 여기를 기준으로 돈다 |
+| Preliminary | 원칙·범위·거버넌스 프레임을 준비하는 0단계 | 공사 착수 전 인허가·규정 확인 |
+| Phase A (Architecture Vision) | 이해관계자 합의, 사업 목표, 상위 범위 확정 | 리모델링 전 "무엇을 왜 바꾸는가" 합의서 |
+| Phase B (Business Architecture) | 업무 프로세스·조직·역량의 현행/목표 정의 | 부서 배치도 |
+| Phase C (Information Systems Architecture) | 데이터+애플리케이션 아키텍처(현행/목표) | 배관·전선 설계도 |
+| Phase D (Technology Architecture) | 인프라·플랫폼 기술 구조(현행/목표) | 건물 골조·설비 사양 |
+| Phase E (Opportunities & Solutions) | B~D의 gap을 묶어 solution building block·실행 패키지로 그룹화 | 공사 항목을 발주 단위로 묶기 |
+| Phase F (Migration Planning) | 실행 패키지에 우선순위·일정·비용을 부여해 로드맵 확정 | 웨이브별 공사 일정표 |
+| Phase G (Implementation Governance) | 실제 구현 프로젝트가 목표 아키텍처를 지키는지 준수 심의 | 감리 |
+| Phase H (Architecture Change Management) | 완료 후 변경 요청을 평가해 새 ADM 사이클 착수 여부 결정 | 준공 후 리모델링 요청 접수창구 |
+| Gap Analysis | 현행(Baseline)과 목표(Target) 아키텍처를 항목별로 대조해 빠지거나 달라진 부분을 표로 뽑는 기법 | 이사 전 체크리스트 대조 |
+| Iteration(반복) | Preliminary~H를 한 번에 완주하지 않고, 필요한 범위만 좁혀 여러 번 도는 것(4가지 유형) | 리모델링을 방 하나씩 여러 번 도는 것 |
 
 ## 깊이 이해
-- **배경·문제의식**: 기업 시스템은 업무, 데이터, 애플리케이션, 기술이 얽혀 있다. 프로젝트 단위 최적화만 하면 전체 표준과 전략 정렬이 깨진다.
-- **작동 원리**: Preliminary에서 아키텍처 원칙을 정하고, Architecture Vision에서 목표를 합의한다. Business, Data, Application, Technology Architecture를 정의한 뒤 기회·솔루션, 마이그레이션 계획, 구현 거버넌스, 변경 관리를 반복한다.
-- **비유**: 회사 이전을 할 때 새 건물 구조, 부서 배치, 네트워크, 이사 순서, 공사 감독, 변경 요청을 한 계획에서 관리하는 것과 같다.
-- **구체 예시**: 고객 360 플랫폼 구축 시 비즈니스 프로세스, 고객 데이터 모델, CRM·DW 애플리케이션, 클라우드 기술 표준을 ADM 단계별 산출물로 정리한다.
-- **흔한 오해·주의점**: TOGAF는 문서 양산 절차가 아니다. gap analysis와 migration roadmap을 통해 투자 우선순위와 변경 통제를 만드는 것이 목적이다.
+
+### 왜 원형(cycle)인가 — 직선 절차의 한계
+- 전통적 SDLC처럼 A→B→C→D를 한 번에 끝까지 밀고 나가면, D단계(기술 구조)에서 발견한 제약이 B단계(업무 설계)를 다시 바꿔야 하는 상황을 받아내지 못한다.
+- ADM은 그래서 Preliminary~H를 하나의 **원(cycle)**으로 그리고, 중심에 Requirements Management를 둔다. 어느 단계에서든 새 요구사항·제약이 나오면 중심을 거쳐 관련 단계로 되돌아간다 — H단계(변경관리)에서 나온 변경 요청이 다시 Preliminary/A로 이어져 다음 사이클을 여는 것이 대표 사례다.
+
+### Gap Analysis를 숫자로 이해하기
+- 절차: 현행(Baseline) 구성요소 목록과 목표(Target) 구성요소 목록을 같은 항목 축으로 늘어놓고 4가지로 분류한다 — ① 유지(현행=목표) ② 폐기(현행에만 존재) ③ 신규(목표에만 존재) ④ 변경(둘 다 존재하나 속성이 다름).
+- **예시**: 고객 데이터 플랫폼 전환 프로젝트에서 애플리케이션 축을 정리했더니 현행 12개, 목표 9개 애플리케이션이 나왔다. 대조 결과 유지 5개, 폐기 7개(레거시 CRM 등), 신규 4개(고객 360 API 등)로 분류됐다. 이 표가 Phase E의 solution building block 묶음의 입력이 된다.
+- gap이 없는 축(현행=목표)은 더 반복할 필요가 없고, gap이 가장 많은 축(위 예시에서는 애플리케이션)이 Migration Planning에서 1순위가 된다.
+
+### Phase E~F: gap을 실행 로드맵으로 바꾸는 계산
+- Phase E는 gap 항목들을 "함께 바꿔야 실익이 나는" 단위(work package)로 묶는다. 예: 레거시 CRM 폐기 + 고객 360 API 신규 + 고객 데이터 통합은 서로 의존하므로 하나의 work package로 묶인다.
+- Phase F는 work package에 비용·리스크·의존성을 매겨 우선순위를 정하고 마이그레이션 웨이브(wave)로 나눈다. 예: 18개월 전환 계획을 6개월 단위 3개 웨이브로 나누고, 의존성이 없는 신규 API부터 웨이브 1에 배치해 리스크를 낮춘다.
+
+### Iteration의 4가지 유형 — "매번 A~H를 다 돌지 않는다"
+- **Architecture Capability iteration**: Preliminary~Vision을 반복해 EA 조직·원칙 자체를 성숙시킨다.
+- **Architecture Development iteration**: B~D(업무·정보시스템·기술)를 반복해 목표 아키텍처 상세도를 높인다.
+- **Transition Planning iteration**: E~F를 반복해 로드맵을 구체화한다.
+- **Architecture Governance iteration**: G~H를 반복해 구현 프로젝트를 감리·통제한다.
+- "한 번 사이클을 완주해야 다음 프로젝트를 시작할 수 있다"는 오해가 흔하지만, 실제로는 이미 확정된 Vision(A) 위에서 B~D만 여러 번 도는 식으로 조직·프로젝트 상황에 맞게 범위를 좁혀 반복한다(233의 tailoring 개념과 연결).
+
+### 왜 답안에서 "단계 명칭 나열"이 감점인가
+- ADM 문제의 채점 포인트는 phase 이름 암기가 아니라 "Requirements Management가 중심에서 전 단계를 통제한다"는 원형 구조 이해와, "gap → work package → 로드맵" 흐름을 수치로 설명할 수 있는가이다. 이름만 나열하면 절차를 이해하지 못했다는 신호로 읽힌다.
 
 ## 연결 개념
-- Enterprise Architecture - 비즈니스·데이터·애플리케이션·기술 아키텍처 통합
-- Architecture Repository - 표준·원칙·산출물 저장소
-- Architecture Governance - 아키텍처 준수와 변경 승인 체계
+- 233 TOGAF (상위 개념 — TOGAF 프레임워크 전체 중 ADM은 절차 축, Architecture Content·Governance는 별도 축)
+- Architecture Repository — ADM 각 단계 산출물이 축적되는 저장소
+- Architecture Governance (Phase G/H) — 구현 프로젝트의 목표 아키텍처 준수를 심의하는 별도 상시 체계
 
 ---
 

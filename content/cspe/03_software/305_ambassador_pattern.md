@@ -11,21 +11,50 @@ weight: 305
 > 목적: 앰배서더 패턴을 처음 봐도 외부 통신 대리 계층의 의미를 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 설명이다.
 
 ## 한눈에
-- **개요**: 애플리케이션 대신 외부 서비스 호출의 네트워크·보안·복원 기능을 처리하는 프록시 패턴
-- **왜 필요한가**: 외부 API 호출에는 인증, Retry, Timeout, Circuit Breaker, 프로토콜 변환이 반복되며 이를 서비스 코드에 넣으면 중복과 오류가 증가함
-- **핵심 직관**: 외교관이 국가를 대표해 협상하듯, Ambassador가 애플리케이션을 대표해 외부 시스템과 통신함
+- **개요**: Ambassador 패턴은 **Sidecar 패턴의 특수한 형태**로, 애플리케이션을 대신해 **외부(outbound) 서비스 호출**의 네트워크·보안·복원력 기능을 처리하는 로컬 프록시 패턴이다.
+- **왜 필요한가**: 외부 API 호출에는 인증, Retry, Timeout, Circuit Breaker, 프로토콜 변환이 반복되며 이를 서비스 코드에 넣으면 중복과 오류가 증가한다.
+- **핵심 직관**: 외교관이 국가를 대표해 협상하듯, Ambassador가 애플리케이션을 대표해 외부 시스템과 통신한다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| Sidecar 패턴 | Ambassador가 배치되는 방식 — 애플리케이션과 같은 Pod에 놓인 보조 컨테이너(상위 개념) | 사이드카의 한 특화 유형 |
+| Outbound(발신) | 애플리케이션이 외부로 나가는 요청 방향 — Ambassador가 대리하는 방향 | 내가 밖으로 거는 전화 |
+| Inbound(수신) | 외부에서 애플리케이션으로 들어오는 요청 방향 — API Gateway가 담당하는 방향 | 밖에서 나에게 걸려오는 전화 |
+| Ambassador Proxy | outbound 호출을 가로채 인증·재시도·변환을 대행하는 로컬 프록시 | 외교관, 국제협력 부서 |
+| Circuit Breaker (회로 차단기) | 외부 서비스 실패율이 임계치를 넘으면 호출을 일시 차단해 장애 전파를 막는 장치 | 누전 시 두꺼비집을 내려 화재를 예방 |
+| Exponential Backoff + Jitter | 재시도 간격을 지수적으로 늘리고 무작위성을 더해 재시도 폭주(retry storm)를 막는 기법 | 문을 두드리다 안 열리면 점점 간격을 늘려 다시 두드림 |
+| Secret Store (예: Vault) | API Key·OAuth secret을 코드 밖에서 안전하게 관리·회전하는 저장소 | 은행 금고 |
 
 ## 깊이 이해
-- **배경·문제의식**: 클라우드 앱은 결제, 알림, 지도, 인증 같은 외부 API에 의존함. 각 서비스가 외부 API 호출 규칙을 직접 구현하면 토큰 갱신, 재시도, 장애 차단 방식이 제각각이 됨.
-- **작동 원리**: Ambassador는 보통 sidecar 또는 로컬 프록시로 배치되어 outbound 호출을 받음. 인증 헤더 추가, TLS, Retry, 캐시, 프로토콜 변환을 처리한 뒤 외부 API로 전달함.
-- **비유**: 회사 임직원이 각자 해외 기관과 연락하지 않고, 국제협력 부서가 문서 양식과 보안 절차를 맞춰 대리 송신하는 것과 같음.
-- **구체 예시**: 주문 서비스가 `localhost:9000/payment`로 호출하면 Ambassador가 OAuth client credential 토큰을 받아 결제사 API에 mTLS로 전송하고 429 응답은 backoff 처리함.
-- **흔한 오해·주의점**: Ambassador는 API Gateway의 inbound 관문과 반대 방향인 outbound 대리 역할이 핵심임. 내부 업무 규칙을 넣으면 프록시가 도메인 로직을 침범함.
+
+### 왜 필요했나 (배경)
+- 클라우드 앱은 결제, 지도, 알림 같은 여러 외부 API에 의존한다. 각 서비스가 직접 이 API들을 호출하면 토큰 갱신 주기, 재시도 횟수, 타임아웃 값이 서비스마다 제각각 구현된다. 예를 들어 어떤 팀은 Retry를 5회, 어떤 팀은 0회로 구현하면, 외부 API에 장애가 났을 때 5회 재시도하는 서비스가 트래픽을 폭증(retry storm)시켜 오히려 장애를 키울 수 있다.
+- Ambassador는 이 외부 호출 정책을 로컬 프록시 하나로 표준화해, "재시도는 2회, timeout 300ms, jitter backoff"라는 규칙을 모든 서비스가 동일하게 따르게 만든다.
+
+### 작동 원리 (요청이 거치는 5단계)
+- ① App이 `localhost:9000/payment`처럼 로컬 엔드포인트로 요청 → ② Ambassador가 수신 → ③ Secret Store에서 OAuth 토큰 발급·캐시 → ④ mTLS로 실제 외부 API 호출(Timeout 300ms, Retry 1~2회) → ⑤ 429(Rate Limit 초과) 응답이면 backoff 후 재시도, 응답을 표준 형식으로 변환해 App에 반환.
+- 수치 예: 외부 결제 API가 p95 200ms, 오류율 0.5%라면, Ambassador가 timeout 300ms + retry 1회를 적용해도 최악의 경우 600ms까지 늘어날 수 있다. 이 상한을 SLA(예: p95 500ms 이하)와 비교해 retry 정책을 조정한다.
+
+### Circuit Breaker의 판별 원리 — 언제 열리는가
+- Circuit Breaker는 "닫힘(정상 호출) → 열림(호출 차단) → 반열림(일부만 시험 호출)" 3상태로 동작한다. 예: 최근 10회 호출 중 실패율이 50%를 넘으면 회로가 "열림"으로 전환되어 이후 요청은 즉시 실패 처리(fail fast)하고 외부 API에 아예 요청을 보내지 않는다. 일정 시간(예: 30초) 후 "반열림" 상태로 한두 건만 시험 호출해 정상화 여부를 확인한다.
+- 이 장치가 없으면, 외부 API가 느려질 때 모든 요청이 timeout까지 대기하며 스레드·커넥션을 붙잡아 애플리케이션 자체가 함께 멈추는 "연쇄 장애(cascading failure)"가 발생한다.
+
+### 판별 원리 — API Gateway·Sidecar와 무엇이 다른가
+- API Gateway: inbound(외부→내부) 트래픽의 관문 — 인증, 라우팅, Rate Limit을 담당한다.
+- Ambassador: outbound(내부→외부) 트래픽의 대리인 — 인증정보 주입, Retry, Circuit Breaker를 담당한다.
+- Sidecar: Ambassador가 배치되는 방식(패턴)이며, Ambassador는 그중 "외부 통신 대리"라는 목적에 특화된 Sidecar다. 즉 모든 Ambassador는 Sidecar로 배치될 수 있지만, 모든 Sidecar가 Ambassador는 아니다(로깅만 하는 sidecar도 있다).
+
+### 비유와 흔한 오해
+- 비유: 해외 파견 외교관이 본국 정부(App)를 대신해 현지 언어·절차·서류 양식을 처리하듯, Ambassador가 애플리케이션을 대신해 외부 API의 인증·프로토콜을 처리한다.
+- 오해 1: Ambassador에 비즈니스 로직(예: 결제 금액 계산)을 넣으면 안 된다 — 통신 대행만 담당하며, 도메인 규칙은 여전히 애플리케이션에 있어야 한다.
+- 오해 2: Ambassador가 있다고 무제한 재시도가 안전해지는 게 아니다 — 재시도 정책을 중앙에서 잘못 설정하면 모든 서비스가 동시에 재시도 폭주를 일으켜 장애를 증폭시킨다(retry storm).
 
 ## 연결 개념
-- Sidecar Pattern: Ambassador의 배치 방식
-- Circuit Breaker: 외부 장애 전파 차단
-- API Gateway: 외부 클라이언트의 inbound 관문
+- Sidecar Pattern (Ambassador가 배치되는 상위 배치 방식)
+- Circuit Breaker (외부 장애 전파를 막는 핵심 복원력 장치)
+- API Gateway (반대 방향인 inbound 관문 — Ambassador는 outbound)
 
 ---
 

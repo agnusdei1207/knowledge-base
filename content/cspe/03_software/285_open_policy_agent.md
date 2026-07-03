@@ -11,16 +11,47 @@ weight: 285
 > 목적: OPA 정책 엔진을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
 
 ## 한눈에
-- **개요**: 애플리케이션과 인프라 정책을 코드로 평가하는 범용 정책 엔진
-- **왜 필요한가**: 권한, 배포, 네트워크, 데이터 접근 정책을 각 시스템에 흩어 두면 일관된 통제가 어렵다. OPA는 정책 결정을 중앙화하고 실행 지점은 분산한다.
-- **핵심 직관**: OPA는 심판이고, Rego 정책은 경기 규칙이다. 서비스나 Kubernetes는 요청 사실을 보내고 OPA는 허용 또는 거부를 판정한다.
+- **개요**: OPA(Open Policy Agent)는 **Policy as Code**를 구현하는 범용 **정책 결정 엔진**(PDP, Policy Decision Point)이다 — 인가·배포·네트워크 정책을 코드(Rego)로 작성해 어떤 시스템에서도 같은 방식으로 평가한다.
+- **왜 필요한가**: 마이크로서비스마다, Kubernetes마다, API Gateway마다 정책을 각자의 언어와 형식(if문, YAML, 방화벽 룰)으로 흩어 두면 정책이 바뀔 때마다 여러 곳을 손대야 하고 감사도 어렵다. OPA는 "정책을 판단하는 곳(PDP)"을 하나로 모으고, "실제로 막는 곳(PEP, Policy Enforcement Point)"은 각 시스템에 남긴다.
+- **핵심 직관**: OPA는 심판이고 Rego 정책은 경기 규칙집이다. 선수(서비스·Kubernetes)는 "이런 상황인데 되나요?"라는 사실만 심판에게 보내고, 심판은 규칙집을 펴서 허용·거부만 판정해 돌려준다. 심판은 선수를 직접 잡아 끌어내지 않는다 — 퇴장시키는 건 경기 진행요원(집행 지점)의 몫이다.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+| 용어 | 의미 | 비유 |
+|:---|:---|:---|
+| Policy as Code | 정책을 텍스트 코드로 작성해 버전 관리·테스트·리뷰하는 방식 — OPA가 구현하는 상위 패러다임 | 판례가 아니라 성문법으로 관리 |
+| PDP / PEP | 정책을 **판단**하는 곳(Policy Decision Point=OPA)과 실제로 **집행**하는 곳(Policy Enforcement Point=Gateway·Kubernetes)의 역할 분리 | 판사(PDP)와 집행관(PEP) |
+| Rego | OPA 전용 선언형 정책 언어 — "이 조건이면 deny"를 규칙으로 적는다 | 법 조문 |
+| Input | 매 요청마다 OPA에 전달하는 JSON — 누가, 무엇을, 어떤 리소스에 하려는지 | 심판에게 제출하는 상황 설명서 |
+| Data Document | 정책 평가에 참조하는 정적 데이터(역할 목록, 예외 리스트) — input과 별개로 미리 로드해 둔다 | 규칙집에 딸린 부록 명단 |
+| Decision API | input과 정책을 평가해 allow/deny/reason을 반환하는 OPA의 REST 엔드포인트 | 심판의 판정 방송 |
+| Bundle | Rego 정책과 data document를 묶어 배포하는 단위 | 개정된 규칙집 한 세트 |
+| Admission Controller | Kubernetes가 리소스를 실제로 만들기 직전에 외부(OPA)에 "이거 만들어도 되나요?" 물어보는 webhook 지점 | 입국 심사대 |
 
 ## 깊이 이해
-- **배경·문제의식**: 마이크로서비스, Kubernetes, API Gateway 환경에서는 정책이 코드, YAML, 방화벽, 애플리케이션 내부에 분산된다. 정책 변경과 감사가 어려워 Policy as Code가 필요하다.
-- **작동 원리**: 시스템은 JSON 입력을 OPA에 전달하고, OPA는 Rego 정책과 data document를 평가해 allow, deny, reason 같은 결정을 반환한다. Kubernetes에서는 admission controller로 배포 전 리소스를 검증한다.
-- **비유**: 건물 출입 게이트에서 신분증, 방문 목적, 출입 구역을 확인해 입장을 허용하는 보안 데스크와 같다.
-- **구체 예시**: Kubernetes에서 `runAsNonRoot=true`, `image tag latest 금지`, `resource limits 필수` 정책을 Rego로 작성해 위반 Pod 생성 요청을 admission 단계에서 거부한다.
-- **흔한 오해·주의점**: OPA는 인증 시스템이 아니다. 인증 후 전달된 사용자, 리소스, 행위 정보를 바탕으로 인가와 정책 결정을 수행한다.
+
+### 왜 "정책 결정"과 "정책 집행"을 나누는가
+- 인증(내가 누구인지 확인)은 IdP가, 인가·정책 판단(내가 이걸 해도 되는지)은 OPA가, 실제 차단은 API Gateway나 Kubernetes API 서버가 담당하도록 3단으로 나눈다. 이렇게 나누면 정책 하나(예: "latest 태그 금지")를 바꿀 때 OPA에 새 Rego bundle 하나만 배포하면 되고, Gateway·Kubernetes·CI 어디에서 이 정책을 쓰든 로직을 중복 구현할 필요가 없다.
+
+### Rego 정책이 실제로 어떻게 생겼는가 — 워크드 예제
+- Kubernetes admission에서 "latest 태그 이미지 금지" 정책은 대략 이렇게 작성한다.
+```
+package kubernetes.admission
+
+deny[msg] {
+  input.request.kind.kind == "Pod"
+  image := input.request.object.spec.containers[_].image
+  endswith(image, ":latest")
+  msg := "latest 태그 이미지는 배포할 수 없습니다"
+}
+```
+- 흐름: 새 Pod 생성 요청이 오면(1) Kubernetes API 서버가 admission webhook으로 요청 JSON을 OPA에 보낸다(2) OPA는 이 JSON을 `input`으로 받아 위 규칙을 평가한다(3) 컨테이너 이미지가 `nginx:latest`면 `deny` 규칙이 참이 되어 msg가 채워지고, OPA는 "거부, 사유: latest 태그 금지"를 반환한다(4) Kubernetes API 서버는 이 결정을 받아 실제로 Pod 생성을 막는다 — 여기서 "막는 행위"는 OPA가 아니라 Kubernetes(PEP)가 한다.
+
+### 왜 속도가 설계 이슈가 되는가
+- OPA는 매 요청(API 호출, Pod 생성)마다 호출되므로 결정 지연이 곧 서비스 지연이 된다. 예컨대 API Gateway가 초당 수천 건의 요청마다 원격 OPA 서버를 호출하면 네트워크 왕복이 병목이 된다. 그래서 실무에서는 OPA를 sidecar로 각 서비스 옆에 붙이거나, bundle을 로컬에 미리 캐시해 두어 판정을 메모리 내 연산으로 끝내고 p95 응답을 10ms 이하로 유지한다.
+
+### 흔한 오해
+- OPA는 로그인·비밀번호 검증 같은 인증(Authentication) 시스템이 아니다. "이 사용자는 누구다"라는 사실이 이미 확정된 뒤, "이 사용자가 이 행위를 해도 되는가"를 판단하는 인가(Authorization)·정책 계층이다. 인증까지 OPA가 한다고 서술하면 역할을 잘못 이해한 것이다.
 
 ## 연결 개념
 - Policy as Code - 정책을 버전 관리하고 테스트하는 방식
