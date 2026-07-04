@@ -1,6 +1,6 @@
 ---
 title: "트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 96
@@ -8,188 +8,148 @@ weight: 96
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 트랜잭션 격리 수준을 처음 보는 사람도 Read Uncommitted부터 Serializable까지의 차이를 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 설명이다.
-
 ## 한눈에
-- **개요**: 트랜잭션 격리 수준은 **동시성 제어(Concurrency Control)**에서 여러 트랜잭션이 서로의 변경을 얼마나 볼 수 있는지 정하는 **ANSI SQL 표준 4단계**(Read Uncommitted → Read Committed → Repeatable Read → Serializable)다.
-- **왜 필요한가**: 모든 트랜잭션을 완전히 직렬(한 번에 하나씩)로 실행하면 정합성은 완벽하지만 대기 시간이 커져 처리량이 떨어진다. 반대로 격리를 낮추면 처리량은 늘지만 Dirty Read·Phantom Read 같은 읽기 이상이 생긴다. 격리 수준은 이 둘 사이의 손잡이다.
-- **핵심 직관**: 격리 수준은 "남이 지금 고치고 있는 장부를, 확정되기 전까지 어디까지 보여줄 것인가"를 정하는 4단계 눈금이다 — 많이 보여줄수록 빠르지만 위험하고, 적게 보여줄수록 느리지만 안전하다.
+- **개요**: 복수의 트랜잭션이 동시 실행될 때, 한 트랜잭션이 다른 트랜잭션의 변경 데이터를 어디까지 볼 수 있게 할지 결정하는 4단계 타협점
+- **왜 필요한가**: (095 ACID 참조) 고립성(I)을 100% 지키면(순차 실행) 성능이 심각하게 저하된다. 따라서 데이터 정확성을 조금 포기하더라도 동시 처리 성능(속도)을 높이기 위해 필요하다.
+- **핵심 직관**: 보안 검색대와 같다. "가방을 다 열어보고 몸수색까지 한다(Serializable = 속도 느림, 안전함) vs 겉옷만 훑고 패스한다(Read Uncommitted = 속도 빠름, 위험함)" 사이의 선택이다.
 
-## 핵심 용어 정리 (내부에 등장하는 것들)
+## 핵심 용어 정리
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| 동시성 제어 (Concurrency Control) | 여러 트랜잭션이 동시에 실행될 때 결과가 어긋나지 않게 조율하는 기법 — 격리 수준의 **상위 개념** | 교차로 신호 체계 |
-| ACID의 Isolation | 트랜잭션이 서로 간섭받지 않아야 한다는 ACID 4원칙 중 하나 — 격리 수준은 이를 **4단계로 구체화**한 것 | 원칙(격리성)을 실제 손잡이(격리 수준)로 만든 것 |
-| Read Uncommitted | 다른 트랜잭션이 아직 Commit하지 않은 값도 읽을 수 있는 가장 낮은 격리 | 옆 사람이 쓰다 만 초안까지 훔쳐봄 |
-| Read Committed | 다른 트랜잭션이 Commit을 완료한 값만 읽는 격리 (문장 단위 스냅샷) | 최종 저장본만 봄, 저장 중간은 안 보임 |
-| Repeatable Read | 트랜잭션 시작 시점 기준으로, 같은 행을 다시 읽어도 항상 같은 값이 보장되는 격리 (트랜잭션 단위 스냅샷) | 내가 처음 읽은 페이지를 고정해서 계속 그 버전만 봄 |
-| Serializable | 동시 실행 결과가 어떤 직렬(순차) 실행 순서와 동일하도록 보장하는 가장 높은 격리 | 한 줄로 줄 세워 한 명씩 처리한 것과 같은 결과 |
-| MVCC (Multi-Version Concurrency Control) | 값의 여러 버전을 동시에 보관해 읽기가 쓰기를 기다리지 않게 하는 구현 방식 | 서로 다른 시점의 스냅샷 사진첩 |
-| 2PL (Two-Phase Locking) | 잠금을 확장 단계에 걸고 축소 단계에만 푸는 방식으로 직렬 가능성을 보장하는 구현 기법 | 회의 중엔 자료 잠그고 끝나야 풀어줌 |
-| Snapshot Isolation | 트랜잭션 시작 시점 스냅샷만 보고, 먼저 Commit한 쪽이 이기는 MVCC 기반 격리 구현 | 내가 시작한 시점 사진 한 장만 보고 작업 |
-| Dirty Read | 미확정(Rollback 가능) 값을 읽는 현상 | 옆 사람이 취소할 수도 있는 초안을 읽음 |
-| Non-Repeatable Read | 같은 행을 두 번 읽었는데 값이 달라지는 현상 | 아까 본 문장이 다시 보니 바뀌어 있음 |
-| Phantom Read | 같은 조건으로 다시 조회했는데 행 개수(집합)가 달라지는 현상 | 아까 목록에 없던 항목이 새로 나타남 |
-| Lost Update | 두 트랜잭션의 갱신 중 하나가 덮어써져 사라지는 현상 | 동시에 고친 문서에서 한쪽 수정이 사라짐 |
+| 격리 수준 (Isolation Level) | 트랜잭션 간의 데이터 가시성(Visibility)을 제어하는 단계 | 보안 검색의 깐깐함 정도 |
+| Read Uncommitted | 다른 트랜잭션이 커밋하지 않은 임시 데이터도 읽음 (Level 0) | 결제 중인 화면 훔쳐보기 |
+| Read Committed | 커밋이 완료된 데이터만 읽음 (Level 1, Oracle 기본) | 결제 완료 영수증만 보기 |
+| Repeatable Read | 한 트랜잭션 내에서 같은 조회는 항상 같은 결과를 보장 (Level 2, MySQL 기본) | 시험 중엔 책이 안 바뀌게 고정 |
+| Serializable | 트랜잭션들을 완전히 순차적으로 실행 (Level 3) | 1명씩만 방에 들어가서 작업 |
 
 ## 깊이 이해
-
-### 왜 4단계로 나뉘었나 (배경)
-- OLTP 시스템은 수백~수천 TPS로 동시에 같은 데이터를 읽고 쓴다. "완전히 안전하게(Serializable)"만 고집하면 잠금 대기·충돌 재시도가 늘어 처리량이 급감하고, "무조건 빠르게(Read Uncommitted)"만 고집하면 잘못된 값을 근거로 업무를 처리하게 된다. ANSI SQL은 이 트레이드오프를 4단계로 표준화해 업무 성격에 맞게 고를 수 있게 했다.
-
-### 4단계를 계좌 잔액 100만원 예제로 순서대로 이해하기
-- 전제: T1이 `balance=100`인 계좌를 다루는 도중, T2가 같은 계좌에 10을 더해 `balance=110`으로 Commit하려 한다.
-- **Read Uncommitted**: T2가 아직 Commit하지 않고 `balance=110`으로만 바꿔 둔 순간에도 T1이 조회하면 110이 보인다. 만약 T2가 이후 Rollback하면 T1은 존재한 적 없는 값(Dirty Read)을 근거로 판단한 것이 된다.
-- **Read Committed**: T1은 T2가 Commit을 완료하기 전까지는 100만 본다. T2가 Commit하는 순간 T1이 다시 조회하면 110으로 바뀌어 보인다 — 조회할 때마다(문장 단위) 최신 Commit 값을 새로 스냅샷하기 때문에, 같은 트랜잭션 안에서도 두 번 읽은 값이 다를 수 있다(Non-Repeatable Read).
-- **Repeatable Read**: T1이 트랜잭션을 시작한 시점(예: balance=100)의 스냅샷을 고정해서, T2가 그 사이 Commit해도 T1은 트랜잭션이 끝날 때까지 계속 100을 본다. 같은 행의 값은 보장되지만, `WHERE amount > 50`처럼 범위 조회를 하면 T2가 새로 삽입한 행이 뒤늦게 나타날 수 있다(Phantom Read, DBMS 구현에 따라 다름).
-- **Serializable**: T1과 T2가 동시에 실행돼도, 마치 T1 → T2 또는 T2 → T1 순서로 하나씩 실행한 것과 똑같은 최종 결과만 허용한다. 이를 위해 범위 전체에 Predicate Lock을 걸거나(2PL 기반), Commit 시점에 충돌을 감지해 하나를 실패시킨다(SSI, Serializable Snapshot Isolation).
-
-### 구현 방식 — Lock 기반 vs MVCC 기반
-- 잠금 기반(2PL): 읽기·쓰기 시 실제로 잠금을 걸어 다른 트랜잭션의 접근을 대기시킨다. 정확하지만 대기 시간이 늘어난다.
-- MVCC 기반: 값의 여러 버전을 보관해 "읽기는 잠금 없이, 자신이 볼 자격이 있는 버전만" 읽게 한다. PostgreSQL·MySQL InnoDB·Oracle이 널리 사용하며, 읽기가 쓰기를 막지 않아 처리량이 높다. 다만 두 트랜잭션이 서로 다른 조건으로 동시에 갱신하면 Write Skew(각자 조건은 만족했지만 합쳐서 보면 규칙 위반)가 생길 수 있다.
-
-### 재고 1개 동시 구매 워크드 예제
-- 재고가 1개 남은 상품을 두 사용자가 거의 동시에 `SELECT stock` 후 `stock=stock-1` 방식으로 처리한다고 하자. Read Committed에서는 두 트랜잭션이 모두 "재고 1"을 읽고 각각 0으로 갱신할 수 있어 재고가 -1(또는 이중 판매)이 될 수 있다(Lost Update).
-- 해결: `UPDATE product SET stock = stock - 1 WHERE id=1 AND stock > 0` 같은 조건부 UPDATE를 쓰면 두 번째 트랜잭션은 조건이 거짓이 되어 실패하고, 애플리케이션이 이를 감지해 "품절"로 처리한다. 또는 Serializable로 격상해 DBMS가 충돌을 감지하게 할 수도 있다.
-
-### 비유와 흔한 오해
-- **비유**: 공동 문서 편집에서, 임시 저장본까지 보는지(RU), 저장 완료본만 보는지(RC), 내가 처음 열었을 때 문단을 고정해서 보는지(RR), 아예 한 명씩 순서대로 편집하게 줄 세우는지(Serializable)의 차이다.
-- **오해**: Repeatable Read가 항상 Phantom Read를 막는 것은 아니다 — ANSI 표준상으로는 RR에서 Phantom이 허용되지만, MySQL InnoDB는 Next-Key Lock이라는 자체 구현으로 많은 Phantom 상황을 추가로 차단한다. 반대로 PostgreSQL의 Snapshot Isolation은 Dirty/Non-Repeatable/Phantom을 막아도 Write Skew는 막지 못할 수 있다. 즉 이름이 같아도 DBMS마다 실제 보장 범위가 다르므로 반드시 대상 DBMS 문서를 확인해야 한다.
+- **배경·문제의식**: ACID 원칙 중 '격리성'은 트랜잭션 병행 처리 시 데이터 간섭을 막아야 함을 의미한다. 하지만 엄격한 Lock 기반 제어는 대기 시간(Stall)을 발생시켜 TPS(초당 트랜잭션)를 급감시킨다. ANSI SQL-92 표준은 이를 해결하기 위해 4단계 격리 수준을 정의했다.
+- **작동 원리 (어떤 이상 현상을 막는가)**: 
+  - 각 단계는 위로 갈수록 엄격해지며, 특정 이상 현상(097 이상 현상 참조)을 하나씩 차단한다.
+  - **Level 0 (Read Uncommitted)**: 속도는 최고. 하지만 Dirty Read(커밋 안 된 가짜 데이터 읽기) 발생.
+  - **Level 1 (Read Committed)**: Dirty Read 차단. 하지만 Non-Repeatable Read(동일 조회 결과 달라짐) 발생 가능.
+  - **Level 2 (Repeatable Read)**: Non-Repeatable Read 차단. MySQL은 이 단계에서 MVCC로 Phantom Read(유령 레코드 출현)도 일부 차단.
+  - **Level 3 (Serializable)**: 모든 이상 현상 차단. 완벽한 고립성 달성, 하지만 성능 최악.
+- **흔한 오해·주의점**: "높은 격리 수준이 무조건 좋다?" 아니다. Serializable은 성능 이슈로 실무에서 거의 쓰이지 않는다. 대다수 서비스는 Read Committed나 Repeatable Read를 선택하고, 부족한 정합성은 애플리케이션 로직(Optimistic Lock 등)으로 푼다.
 
 ## 연결 개념
-- Read Anomalies (읽기 이상현상): 격리 수준이 낮을 때 실제로 관찰되는 4가지 현상
-- MVCC: 읽기 잠금 없이 Snapshot을 제공하는 구현 방식
-- 2PL: 잠금 기반으로 직렬 가능성을 보장하는 구현 방식
-- 트랜잭션 ACID: 격리 수준이 구체화하는 상위 원칙(Isolation)
+- **읽기 이상 현상 (Read Anomalies)**: 각 격리 수준에서 발생하는 구체적인 에러 상황 (097 키워드)
+- **MVCC**: 격리 수준을 Lock 없이 달성하게 해주는 핵심 기술 (098 키워드)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 격리 수준별 허용 이상현상과 Lock/MVCC 구현 차이를 함께 제시한다.
-> 핵심: 격리 수준 답안은 4단계 암기가 아니라 업무 위험에 맞는 선택 기준을 제시해야 한다.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 트랜잭션 격리 수준은 동시 실행 트랜잭션 간 읽기·쓰기 가시성과 충돌 제어 강도를 정하는 단계이다.
-> 2. **가치**: Dirty Read, Non-Repeatable Read, Phantom Read, Lost Update를 업무 허용 범위에 맞게 통제한다.
-> 3. **판단 포인트**: 정합성 위험, 잠금 대기, MVCC 버전 보관, 재시도 비용을 함께 고려해 수준을 선택한다.
+> 1. **본질**: 트랜잭션 격리 수준은 병행 처리 시 발생할 수 있는 데이터 정합성 문제(이상 현상)를 차단하기 위해 4단계로 규정한 데이터 가시성 제어 표준이다.
+> 2. **가치**: 데이터의 무결성(안전성)과 병행 처리 성능(동시성) 사이의 트레이드오프(Trade-off)를 비즈니스 성격에 맞게 조절할 수 있도록 한다.
+> 3. **판단 포인트**: DBMS별 기본값(MySQL은 Repeatable Read, Oracle은 Read Committed)이 다르므로 환경에 맞춘 설정이 필수적이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| ANSI SQL 격리 수준 이해 확인 | RU, RC, RR, Serializable | 단계 이름만 나열하고 읽기 이상 매핑 누락 |
-| 동시성 제어 선택 역량 확인 | Lock 기반 vs MVCC Snapshot | DBMS별 구현 차이를 일반 원칙처럼 단정 |
-| 실무 트레이드오프 판단 확인 | 정합성 위험, TPS, 대기 시간, 재시도 | Serializable을 모든 업무에 적용한다고 작성 |
-> 요약: 격리 수준 문제는 이상현상 방지 범위와 구현 비용을 표로 연결해야 한다.
+| 데이터 정합성과 동시성 간의 트레이드오프 이해 | 4단계 격리 수준 명칭과 허용/차단되는 이상 현상 매핑 | 격리 수준만 나열하고 이상 현상 방어 여부 누락 |
+| 실무 환경에서의 DBMS별 기본값 인식 | DB별 기본 격리 수준 (Oracle, MySQL)의 차이 | Serializable이 실무 표준이라고 단정하는 오류 |
+
+> 요약: 4단계 격리 수준이 각각 차단하는 이상 현상(Dirty, Non-repeatable, Phantom Read)과의 매핑이 채점의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: 격리 수준은 트랜잭션 가시성 규칙이다.
-- 배경: 다수 사용자가 같은 데이터를 동시에 접근하면 Dirty Read, Non-Repeatable Read, Phantom Read, Lost Update가 발생한다.
-- 필요성: 업무별 오류 허용 범위와 TPS 목표에 맞춰 Read Committed, Repeatable Read, Serializable을 선택해야 한다.
+- 개요: 트랜잭션 격리 수준(Isolation Levels)은 복수의 트랜잭션이 동시 실행될 때 상호 간섭을 제어하기 위해 ANSI SQL-92에서 정의한 4단계 고립화 표준임
+- 배경: 엄격한 직렬화(Serializable)를 강제할 경우 Lock 경합으로 인해 동시 처리 성능(Throughput)이 급감하는 문제 발생
+- 필요성: 애플리케이션의 성격(성능 우선 vs 정합성 우선)에 따라 동시성과 데이터 정합성 간의 최적 타협점을 선택하기 위해 필요함
 
 ---
 
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 구조 및 구성요소 (4단계 격리 수준)
 
 ```text
-Concurrent Transactions -> Isolation Policy
-  / Read Uncommitted -> Dirty Read 허용
-  / Read Committed -> Commit 데이터만 읽기
-  / Repeatable Read -> 동일 행 반복 읽기 유지
-  / Serializable -> 직렬 실행과 동등
-Lock / MVCC -> Anomaly Control -> Commit / Retry
+Performance (High) <-------------------------------------> Consistency (High)
+Read Uncommitted -> Read Committed -> Repeatable Read -> Serializable
+ (Level 0)           (Level 1)         (Level 2)          (Level 3)
 ```
 
-| 격리 수준 | 허용 가능 이상현상 | 대표 구현 |
+| 격리 수준 | 허용/차단 기준 | 실무 적용 |
 |:---|:---|:---|
-| Read Uncommitted | Dirty Read 가능 | 잠금 검사 최소 |
-| Read Committed | Non-Repeatable, Phantom 가능 | Statement Snapshot, 짧은 Shared Lock |
-| Repeatable Read | Phantom 가능 여부 DBMS 의존 | Transaction Snapshot, Next-Key Lock |
-| Serializable | Dirty/Non-Repeatable/Phantom 차단 | Predicate Lock, SSI, Strict 2PL |
-| Snapshot Isolation | Dirty Read 차단, Write Skew 가능 | MVCC Snapshot, First-Committer-Wins |
-> 요약: 격리 수준은 읽기 가시성 규칙이며, DBMS는 Lock 또는 MVCC로 각 단계의 이상현상을 통제한다.
+| Read Uncommitted | 커밋되지 않은 데이터도 읽기 허용 (격리 안 함) | 로깅, 통계 추출 등 정합성이 덜 중요한 곳 |
+| Read Committed | 커밋이 완료된 데이터만 읽기 허용 | Oracle 기본값, 일반적인 웹 서비스 |
+| Repeatable Read | 트랜잭션 내 동일 쿼리는 동일 결과 보장 | MySQL 기본값, 금융/결제 일부 로직 |
+| Serializable | 모든 트랜잭션을 순차적으로 직렬화하여 실행 | 완벽한 무결성이 요구되는 제한적 특수 상황 |
+
+> 요약: 성능을 중시하는 Level 0부터 정합성을 중시하는 Level 3까지 4단계 스펙트럼으로 구성된다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 방어 흐름도 (이상 현상 매핑)
 
 ```text
-Transaction Begin -> Isolation Level Set -> Read Snapshot / Lock Acquire
--> SQL Execute -> Conflict Detect
--> Commit Validation -> Commit / Abort / Retry
+Tx 동시 실행 -> Isolation Level 설정 확인 -> 발생 가능한 Read Anomaly 필터링
+           |-> Level 0: Dirty Read, Non-Repeatable Read, Phantom Read 방치
+           |-> Level 1: Dirty Read 차단
+           |-> Level 2: Non-Repeatable Read 차단 (일부 Phantom 방어)
+           |-> Level 3: Phantom Read까지 모두 차단 (Lock/MVCC 직렬화)
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 트랜잭션 시작과 격리 수준 설정 | 세션·트랜잭션 설정값 확인 |
-| 2 | 읽기 시점 결정 | Statement 또는 Transaction Snapshot |
-| 3 | 쓰기 충돌 탐지 | Row Lock, Version Conflict |
-| 4 | Commit 검증 | Predicate 충돌, Write Skew 여부 |
-| 5 | 실패 시 재시도 | Retry 횟수, Abort rate |
-> 요약: 격리 수준은 읽기 시점과 쓰기 충돌 검증 시점을 달리해 동시성 오류를 제한한다.
+- 1단계 [격리 기준 판단]: 트랜잭션 A가 읽는 도중 트랜잭션 B가 데이터를 변경/커밋함
+- 2단계 [Level 1 방어]: Read Committed는 B가 '커밋'할 때까지 A에게 변경 전 데이터를 보여주어 Dirty Read 방어
+- 3단계 [Level 2 방어]: Repeatable Read는 B가 커밋하더라도, A가 시작될 당시의 스냅샷만 보여주어 Non-Repeatable Read 방어
+- 4단계 [Level 3 방어]: Serializable은 A가 읽은 영역에 B가 새로 삽입(Insert)하는 것까지 락으로 막아 Phantom Read 원천 차단
+
+> 요약: 격리 수준이 올라갈수록 DB 엔진은 Read Lock 유지 범위를 늘리거나 더 오래된 MVCC 스냅샷을 유지하여 이상 현상을 차단한다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 특징 (비교)
 
-| 구분 | 낮은 격리(RU/RC) | 높은 격리(RR/SR) | 정량·판단 기준 |
-|:---|:---|:---|:---|
-| 읽기 일관성 | Statement 단위 | Transaction 또는 직렬 순서 | Dirty Read 0건, Phantom 재현 여부 |
-| 처리량 | 잠금 대기 감소 | 충돌 대기·Abort 증가 | TPS, Lock wait p95 |
-| 구현 방식 | 짧은 잠금·MVCC 읽기 | Predicate Lock·SSI·2PL | Deadlock, Serialization failure |
-| 적용 업무 | 조회·로그성 업무 | 결제·재고·정산 업무 | 오류 허용 0건 업무 여부 |
-> 요약: 낮은 격리는 대기 시간을 줄이고 높은 격리는 업무 정합성 오류를 줄이므로 데이터 중요도에 따라 선택한다.
+| 비교 축 | Read Committed (Level 1) | Repeatable Read (Level 2) |
+|:---|:---|:---|
+| 구현 방식 | 쿼리문이 실행될 때마다 새 스냅샷(버전) 생성 | 트랜잭션이 시작될 때 단 한 번 스냅샷 생성 |
+| 이상 현상 노출 | Dirty Read 방어 / NRR, Phantom 발생 | NRR 방어 / Phantom 발생 (MySQL은 완화) |
+| 대표적 기본값 | Oracle, PostgreSQL | MySQL (InnoDB) |
+| 성능 병목 | 적음 (잠금 최소화) | 스냅샷 유지로 인한 UNDO 테이블스페이스 증가 |
+
+> 요약: 실무에서 가장 많이 고민하는 구간은 Level 1과 Level 2 사이이며, DBMS의 MVCC 구현 방식에 따라 방어 범위가 미세하게 다르다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 비교 축 | 동시성 (Concurrency) | 데이터 정합성 (Consistency) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | 단일 기본 격리 일괄 적용 | 업무별 격리 수준 차등 적용 | 조회, 결제, 정산 단위 위험 분리 |
-| 비용/성능 | Serializable 일괄 적용 | RC 기본 + 중요 구간 격상 | p95 300ms, Abort rate 1% 이하 |
-| 운영/위험 | 애플리케이션 재시도 없음 | 재시도·Idempotency 포함 | Serialization failure 처리 가능 여부 |
-> 요약: 실무에서는 Read Committed를 기본값으로 두고 재고·정산 같은 충돌 구간만 격리 수준을 높인다.
+| Read Uncommitted | 최고 (Lock 없음) | 최하 (Dirty Read) | 1초 단위 실시간 대시보드 통계 |
+| Read Committed | 높음 | 보통 | 일반적인 게시판, 이커머스 상품 조회 |
+| Repeatable Read | 보통 | 높음 | 정산, 리포트 생성, 결제 트랜잭션 |
+| Serializable | 최하 (테이블/범위 Lock) | 최고 | 재고 차감 등 초정밀 동시성 제어 필요 시 |
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Dirty Read | 미확정 변경 노출 | Read Committed 이상 적용 | Dirty Read 테스트 0건 |
-| Lost Update | 동시 갱신 덮어쓰기 | SELECT FOR UPDATE, 조건부 UPDATE | 갱신 충돌 탐지율 |
-| Serialization Failure | Serializable 검증 실패 | 지수 Backoff, 최대 3회 Retry | Abort rate, retry success rate |
-> 요약: 격리 리스크는 읽기 오염, 갱신 손실, 직렬화 실패이며 잠금·조건부 갱신·재시도로 통제한다.
+> 요약: 격리 수준을 높이는 것은 성능 저하를 직결하므로, 비즈니스 성격이 허용하는 가장 낮은 수준의 격리를 선택하는 것이 유리하다.
 
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 정합성 | Dirty/Lost Update 0건 | 동시성 시나리오 테스트 |
-| 대기 시간 | Lock wait p95 100ms 이하 | DB wait event, APM |
-| 재시도 | Serialization retry 성공률 99% 이상 | 애플리케이션 로그 |
-> 요약: 격리 수준 선택은 정합성 테스트와 Lock 대기, 재시도 성공률로 검증한다.
+**리스크·대응 (기본은 불릿):**
+- MySQL Phantom Read: 표준에서는 Level 2에서 Phantom Read가 발생하나, MySQL InnoDB는 넥스트 키 락(Next-Key Lock)과 MVCC를 통해 이를 자체 차단함 (지표: Deadlock 발생 빈도)
+- Undo 영역 비대화: Repeatable Read 환경에서 장기 실행 트랜잭션(Long Transaction) 존재 시 과거 스냅샷 유지로 디스크 풀(Disk Full) 장애 위험 → 트랜잭션 타임아웃 설정 및 배치 분할
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. 기본 정책: 일반 OLTP는 Read Committed를 기본값으로 두고 Dirty Read 0건과 p95 응답 300ms 이하를 함께 측정함
-2. 중요 구간: 재고 차감·포인트 사용은 SELECT FOR UPDATE 또는 Serializable 적용, 충돌 시 최대 3회 Idempotent Retry 수행함
-3. DBMS 검증: PostgreSQL SSI, MySQL InnoDB RR, Oracle RC/Snapshot 동작 차이를 테스트 케이스로 확인 후 운영 표준에 반영함
+1. 기본 격리수준 유지 및 낙관적 락(Optimistic Lock): DB는 Read Committed/Repeatable Read를 유지하고, 애플리케이션 계층에서 버전(Version) 컬럼을 이용한 낙관적 락으로 동시 갱신 방어
+2. 분리 아키텍처 (CQRS): 쓰기(Command) DB는 Repeatable Read 이상으로 엄격히 관리하고, 읽기(Query) DB는 복제본을 활용해 Read Uncommitted 수준으로 성능 극대화
+3. 조회 특화 분리: 배치 리포트처럼 일관된 조회가 필요한 경우 의도적으로 세션 단위 격리 수준을 Repeatable Read로 상향 설정하여 실행
 
 **결론 (2줄):**
-- 기술사 판단: 읽기 위주 업무는 RC/MVCC, 금전·재고 충돌 업무는 RR/SR 또는 명시 잠금을 선택함
-- 향후 방향: MVCC 기반 Snapshot과 애플리케이션 재시도 패턴을 함께 설계해 정합성과 처리량 균형을 맞추는 방향임
+- 기술사 판단: 격리 수준은 동시성과 정합성의 시소게임이므로, 맹목적으로 Serializable을 선택하기보다는 발생 가능한 이상 현상(Anomalies)을 애플리케이션 레벨에서 허용/제어할 수 있는지 먼저 판단해야 한다
+- 향후 방향: 최근 분산 DB(Spanner 등)에서는 TrueTime API를 활용하여 성능 저하 없이 직렬화 가능(Strict Serializable) 수준을 제공하는 방향으로 진화하고 있다
 
 ---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "격리 수준을 설명하시오" | RU/RC/RR/SR별 읽기 가시성 흐름 | 이상현상 매핑과 Lock/MVCC 비교 |
-| 요구사항 명시형 | "비교하시오", "선택 방안을 제시하시오" | 업무별 격리 수준·재시도 설계 | 정합성 위험, Lock 대기, Abort 비용 선택 기준 |
-> 요약: 설명형은 4단계와 이상현상, 비교형은 업무별 선택 기준과 운영 지표로 목차를 바꾼다.
+| 설명형 | "격리 수준 4단계 설명", "차이점" | 단계별 허용 이상 현상 차단 메커니즘 | 동시성/정합성 트레이드오프 표 |
+| 방안형 | "동시성 제어 시 문제점과 방안" | Lock 경합으로 인한 성능 저하 원리 | 격리 수준 하향 + 낙관적 락 복합 적용 방안 |
