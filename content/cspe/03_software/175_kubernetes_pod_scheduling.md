@@ -1,6 +1,6 @@
 ---
 title: "쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 175
@@ -8,193 +8,126 @@ weight: 175
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Kubernetes Pod 스케줄링을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: Pod 스케줄링은 **Scheduler**가 대기 중인 Pod를 **자원 요청(Resource Request)**과 배치 정책을 기준으로 특정 Node에 배정하는 **Filter → Score → Bind** 3단계 과정이다.
-- **왜 필요한가**: 클러스터의 노드는 CPU·Memory·GPU·Zone·보안 등급·비용이 서로 다르다. 이를 무시하고 아무 빈 노드에나 배치하면 자원 경합, 장애 도메인 집중, GPU 미사용, 규제 위반이 발생한다.
-- **핵심 직관**: Scheduler는 빈 자리에 아무나 앉히는 단순 배정자가 아니라, 조건을 만족 못 하는 곳을 먼저 걸러내고 남은 곳 중 가장 적합한 자리를 골라주는 배치 심사관이다.
+- **개요**: 새롭게 생성된 파드(Pod)를 실행하기 위해 클러스터 내 수많은 워커 노드 중 가장 적합한 노드를 찾아 할당(Binding)하는 일련의 의사결정 과정이다.
+- **왜 필요한가**: 수천 개의 노드가 존재할 때 특정 노드의 자원 고갈을 막고, GPU 전용 파드나 고가용성이 필요한 파드를 지능적으로 분산 배치해야 하기 때문이다.
+- **핵심 직관**: 이삿짐센터 직원이 냉장고(파드)를 어느 방(노드)에 둘지 결정하는 과정이다. 문이 너무 좁은 방은 거르고(Filtering), 남은 방 중 콘센트가 가까운 최고의 방을 골라 점수를 매겨(Scoring) 확정한다.
 
-## 핵심 용어 정리 (내부에 등장하는 것들)
+## 핵심 용어 정리
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| Scheduler | Pending Pod를 감지해 적합한 Node를 결정하는 Control Plane 컴포넌트 — 이 개념이 속한 **상위 개념** | 배치 심사관 |
-| Resource Request | 컨테이너가 최소한 보장받는 CPU/Memory 양 — Scheduler의 배치 판단 **기준**이 됨 | 예약된 좌석 수 |
-| Resource Limit | 컨테이너가 쓸 수 있는 최대 CPU/Memory — 실행 중 제한일 뿐 배치 판단에는 쓰이지 않음 | 좌석의 정원 상한 |
-| Filter (Predicate) | 조건을 만족 못 하는 Node를 걸러내는 1단계 | 예약 조건 미달 객실 제외 |
-| Score (Priority) | Filter를 통과한 Node에 점수를 매겨 순위를 매기는 2단계 | 남은 객실 중 랭킹 매기기 |
-| Bind | 최종 선택된 Node에 Pod를 확정 할당하는 3단계 | 객실 배정 확정 |
-| NodeAffinity / PodAffinity | 특정 라벨을 가진 Node/Pod에 붙거나(Affinity) 떨어지려는(Anti-Affinity) 선호·강제 조건 | 팀원끼리 같은 구역에 앉기 |
-| Taint / Toleration | Node가 "허가받지 않은 Pod는 못 온다"를 선언(Taint)하고, Pod가 "나는 이 조건을 견딘다"를 선언(Toleration)해야 배치가 허용되는 방식 | 출입 제한 구역 + 출입증 |
-| topologySpreadConstraints | 장애 도메인(Zone·Node)별로 Pod를 고르게 분산 배치하는 제약 | 계란을 한 바구니에 담지 않기 |
-| Priority / Preemption | 우선순위가 낮은 기존 Pod를 축출(evict)해서라도 우선순위 높은 Pod를 배치하는 기법 | 응급환자 새치기 |
+| Kube-Scheduler | 파드 배치를 전담하는 컨트롤 플레인 핵심 컴포넌트 | "최적 방 배정 담당자" |
+| Node Affinity (어피니티) | 파드가 "이런 조건의 노드를 선호해"라고 지정하는 속성 | "창문이 남향인 방 선호" |
+| Taint (테인트) | 노드가 "내 조건에 안 맞으면 파드 오지마"라고 쫓아내는 얼룩 | "이 방은 고양이 출입 금지" |
+| Toleration (톨러레이션) | 파드가 노드의 Taint(얼룩)를 무시하고 들어갈 수 있는 면역력 | "나는 고양이 면역 조끼 입음" |
 
 ## 깊이 이해
-
-### 왜 자동 배치 기준이 필요한가 (배경)
-- 클러스터에는 CPU·Memory 여유가 다르고, GPU가 달린 노드와 아닌 노드가 섞이고, Zone(가용영역)이 다르고, 결제처럼 보안 등급이 높은 워크로드 전용 노드가 따로 있을 수 있다. Pod마다 요구하는 자원·정책이 다르므로, 사람이 매번 수동으로 고르는 대신 Scheduler가 일관된 규칙으로 판단해야 한다.
-
-### Filter → Score → Bind — 수치 워크드 예제
-- 노드 5대 클러스터에서, GPU 1개와 CPU 2코어·Memory 4Gi를 요구하는 Pod가 Pending으로 들어왔다고 하자.
-1. **Filter**: 5대 중 GPU가 없는 노드 3대는 즉시 제외된다 → 후보 2대(NodeA, NodeB)로 좁혀진다.
-2. **Score**: 남은 2대에 점수를 매긴다. 예를 들어 NodeA는 CPU 여유율 80%로 80점, NodeB는 CPU 여유율 50%로 50점을 받으면 NodeA가 선정된다.
-3. **Bind**: API Server에 해당 Pod의 nodeName을 NodeA로 기록해 배치를 확정한다.
-
-### request 기준 bin-packing — 수치로 이해
-- 8코어 노드에 이미 CPU 5코어가 request된 상태라고 하자. 신규 Pod가 CPU 2코어를 request하면 여유 3코어 안에 들어가므로 Filter를 통과해 배치 가능하다. 반대로 신규 Pod가 CPU 4코어를 request하면 여유(3코어)를 넘으므로 이 노드에서는 Filter에서 제외되고, 클러스터 전체에 여유 노드가 없으면 Pod는 Pending으로 남는다.
-- 이때 판단 기준은 Limit이 아니라 Request다. Limit만 설정하고 Request를 비워두면 Scheduler는 사실상 자원을 거의 안 쓰는 것처럼 계산해 과밀 배치(overcommit)를 일으킬 수 있다.
-
-### Taint/Toleration — GPU 전용 노드 예제
-- GPU 노드에 `nvidia.com/gpu=true:NoSchedule`이라는 Taint를 걸면, 이 Toleration이 없는 일반 Pod는 Filter 단계에서부터 배치 후보에서 제외된다. GPU 워크로드에 해당 Toleration을 부여해야만 그 노드에 배치될 수 있다.
-- Affinity는 "끌어당기는" 선호(있으면 유리)인 반면, Taint/Toleration은 "막는" 방식(허가 없으면 아예 배치 불가)이라는 점이 핵심 차이다.
-
-### topologySpreadConstraints — 수치로 이해
-- replicas=6인 서비스가 Zone 3개에 걸쳐 있고 topologySpreadConstraints(maxSkew=1)를 적용하면, Zone당 2개씩 균등 배치된다. Zone 1개에 장애가 나도 전체 6개 중 2개(약 33%)만 손실되어 서비스가 유지된다. 이 제약이 없으면 6개가 한 Zone에 몰려 그 Zone 장애 시 전체가 사라질 수 있다.
-
-### Priority/Preemption — 수치로 이해
-- 클러스터 자원이 꽉 찬 상태에서 priority=1000인 Pod가 배치를 요청하면, Scheduler는 priority=100인 기존 Pod를 축출(evict)해 공간을 확보한 뒤 우선순위 높은 Pod를 배치한다. 핵심 업무(P1)를 보호하고 부가 업무(배치 작업 등)를 밀어내는 데 쓰인다.
-
-### 비유
-- 호텔 예약에서 금연실·침대 수·전망·가격 조건을 먼저 걸러내고(Filter), 남은 객실 중 점수가 높은 방을 고르는(Score) 뒤 최종 배정(Bind)하는 절차와 같다.
-
-### 흔한 오해·주의점
-- Limit만 설정하고 Request를 비워두면 스케줄링 기준으로 반영되지 않는다. Scheduler는 Request를 기준으로 배치 가능성을 계산하며 Limit은 실행 중 자원 상한일 뿐이다.
+- **배경·문제의식**: 클러스터 자원은 한정되어 있고 워크로드는 다양하다. 머신러닝 파드는 GPU 노드에 가야 하고, 웹 파드 3개는 한 노드가 죽을 때를 대비해 서로 다른 노드에 흩어져야 한다. 단순 라운드로빈으로는 이 제약조건을 풀 수 없다.
+- **작동 원리**: 스케줄러는 2단계로 동작한다. 1단계 **Filtering(선별)**: 메모리 부족이나 Taint 제약으로 파드를 수용할 수 없는 노드를 후보에서 뺀다. 2단계 **Scoring(채점)**: 남은 노드 중 빈 공간이 많거나 Affinity 점수가 높은 노드를 고른다.
+- **비유**: 대입 원서 쓸 때. 1단계 필터링(수능 최저학력 미달 대학 탈락) -> 2단계 스코어링(남은 대학 중 집체 가깝고 취업률 높은 곳 최고점 부여).
+- **구체 예시**: `nodeSelector: disktype: ssd`를 주면 SSD가 없는 노드는 필터링 탈락. `podAntiAffinity`를 주면 이미 똑같은 파드가 돌고 있는 노드는 감점을 받거나 필터링되어 자연스럽게 파드가 다중 노드에 분산 배치(고가용성)된다.
+- **흔한 오해·주의점**: 스케줄러는 "한 번 배치하면 끝"이다. 실행 중인 파드를 더 좋은 노드로 런타임에 스스로 이사(마이그레이션)시키지 않는다. (재배치를 원하면 Descheduler를 별도로 써야 한다)
 
 ## 연결 개념
-- Pod 생명주기(174) — 여기서 Filter를 통과 못 하면 Pod는 Pending Phase에 계속 머무름
-- 쿠버네티스 아키텍처(173) — Scheduler는 Control Plane의 한 컴포넌트
-- Service/Ingress(176) — Bind되어 Ready가 된 Pod가 Endpoint에 편입돼 실제 트래픽 대상이 됨
+- NodeSelector — 가장 단순하고 명시적인 노드 선택 라벨 매칭
+- 데몬셋 (DaemonSet) — 스케줄링 점수와 무관하게 모든 노드에 파드를 무조건 1개씩 꽂아넣는 컨트롤러
+- 팟 디스럽션 버짓 (PDB) — 스케줄러나 관리자가 파드를 쫓아낼 때 최소한 살려둬야 할 파드 수를 보장
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 스케줄링 답안은 Filter, Score, Bind 흐름과 request/affinity/taint 정책을 장애 도메인·비용·자원 활용 관점으로 연결해야 함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Pod 스케줄링은 Pending Pod를 자원과 정책 조건에 맞는 Node에 binding하는 의사결정 과정임.
-> 2. **가치**: CPU/Memory/GPU request, affinity, taint로 자원 경합과 장애 집중을 통제함.
-> 3. **판단 포인트**: 배치 실패는 용량 부족뿐 아니라 정책 충돌, taint 미허용, PVC zone 제약으로 분석해야 함.
+> 1. **본질**: 쿠버네티스 파드 스케줄링은 노드의 리소스 여유분과 사용자의 제약조건(라벨, Taint)을 계산하여 최적의 노드를 할당(Binding)하는 알고리즘 루프다.
+> 2. **가치**: 이기종 노드 자원(GPU 등)의 낭비를 막고, 파드 간 분산 배치를 통해 클러스터 전체의 고가용성(HA)과 처리 효율을 극대화한다.
+> 3. **판단 포인트**: 단순 지정(NodeSelector)을 넘어, 선호도(Affinity)와 배척(Taint/Toleration)을 결합해 워크로드 격리와 집적도 트레이드오프를 정밀 제어해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 스케줄러 원리 이해 확인 | Filter, Score, Bind | 라운드로빈 배치로 설명 |
-| 배치 정책 설계 확인 | request, affinity, taint, topology spread | limit와 request 혼동 |
-| 장애 분석 역량 확인 | Pending 원인, event, resource pressure | CPU 부족만 원인으로 단정 |
+| 자원 할당 최적화 알고리즘 이해 | Filtering(Predicate) -> Scoring(Priority) -> Binding 흐름 | 스케줄러가 파드를 '이동'시킨다고 표현 (한 번 할당되면 고정) |
+| 고급 스케줄링 제어 역량 평가 | Node/Pod Affinity 통제, Taint와 Toleration의 방어적 짝맞춤 설계 | 특정 기법만 나열하고 서로의 사용 목적 차이(끌어당김 vs 배척) 누락 |
 
-> 요약: 스케줄링 문제는 배치 알고리즘과 정책 충돌 분석을 함께 써야 함.
+> 요약: 스케줄러의 2단계 의사결정 프로세스를 설명하고, Affinity(당김)와 Taint(배척)의 상호 보완적 제어 방안을 제시해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: Pod 스케줄링은 Pod를 Node에 배치하는 과정임.
-- 배경: 클러스터에는 자원, Zone, 보안 등급, 비용이 다른 노드가 존재한다.
-- 필요성: request, affinity, taint, topology spread 기준으로 Pending, 자원 경합, 장애 도메인 집중을 통제한다.
+- 개요: 새롭게 생성된 파드(Pending)를 실행하기 위해 클러스터 내 자원 가용성과 제약조건을 평가하여 최적의 워커 노드에 바인딩하는 과정
+- 배경: 이기종 컴퓨팅 자원(GPU, 고성능 디스크)의 혼재와, 마이크로서비스 간의 고가용성 분산 배치(Anti-affinity) 요구 증가
+- 필요성: 클러스터 전체의 리소스 파편화를 방지하고 워크로드 간 충돌을 막아 자원 효율과 서비스 안정성을 동시 달성하기 위함
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Pending Pod -> Scheduler Queue -> Filter -> Score -> Bind -> kubelet 실행
-  / Filter: resource, taint, volume
-  / Score: spread, affinity, utilization
+API Server (Pending Pod) -> Kube-Scheduler
+                              |-> 1. Filtering (적격 노드 선별: 리소스, 포트, Taint)
+                              |-> 2. Scoring (최적 노드 채점: Affinity, 가용 자원)
+                              +-> 3. Binding (API Server에 노드 할당 기록)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+| 구성요소/기법 | 역할 및 동작 방식 | 특이사항 |
 |:---|:---|:---|
-| Scheduling Queue | 배치 대기 Pod 관리 | priority 반영 |
-| Filter Plugin | 배치 불가 노드 제거 | NodeResourcesFit, TaintToleration |
-| Score Plugin | 후보 노드 점수화 | topology spread |
-| Bind | 선택 노드에 Pod 할당 | API Server binding |
+| NodeSelector | 노드의 Label과 일치하는 단순 매칭 필터링 | 가장 직관적이나 유연성 부족 |
+| Node Affinity | "이 조건 노드 선호" (Required/Preferred 규칙 지원) | 파드 입장에서 노드를 끌어당김 |
+| Pod Anti-Affinity | "특정 파드와 같은 노드 회피" (장애 격리용) | 파드 간 밀어내기로 HA 보장 |
+| Taint & Toleration | 노드가 "특정 얼룩(Taint) 없는 파드 배척" -> 면역(Toleration) 파드만 허용 | 노드 입장에서 원치 않는 파드 방어 |
 
-> 요약: Scheduler는 대기 Pod를 필터링, 점수화, 바인딩 단계로 처리함.
+> 요약: Kube-Scheduler는 파드 입장의 끌어당김(Affinity)과 노드 입장의 배척(Taint) 규칙을 종합 평가하여 최적 배치를 도출한다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Pod 생성 -> request/정책 확인 -> 노드 필터링 -> 노드 점수화 -> 바인딩 -> kubelet 실행
-  / 후보 없음 -> Pending
-  / preemption 가능 -> 낮은 priority Pod 축출
+Watch (Pending 감지) -> Filtering (부적격 제거) -> Scoring (점수 부여) -> Binding (노드 확정)
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | Pending Pod 감지 | scheduling queue 입력 |
-| 2 | request, nodeSelector, affinity, taint 확인 | 후보 노드 수 |
-| 3 | Filter로 부적합 노드 제외 | Unschedulable event |
-| 4 | Score로 최종 노드 선정 | plugin score |
-| 5 | Bind 후 kubelet 실행 | assigned node, Ready |
+- 1단계 [상태 감지]: Scheduler가 API Server를 감시(Watch)하다가 `nodeName` 필드가 비어있는 새 파드(Pending) 발견
+- 2단계 [필터링(Predicate)]: 가용 CPU/Memory 검사, 포트 충돌, Taint 위반 노드를 후보군에서 배제 (통과 노드 없으면 무한 대기)
+- 3단계 [스코어링(Priority)]: 통과된 노드들을 대상으로 Preferred Affinity, 이미지 캐시 유무, 남은 리소스 비율을 종합해 0~100점 채점
+- 4단계 [바인딩(Binding)]: 최고점 노드를 선택하여 API Server의 파드 스펙에 `nodeName` 업데이트 후 해당 노드 Kubelet에 위임
 
-> 요약: 스케줄러는 배치 불가 노드를 제거한 뒤 정책 점수를 반영해 최종 노드를 결정함.
+> 요약: 필터링으로 하드 리밋 불가 노드를 거르고, 스코어링으로 소프트 리밋 우선순위를 평가하여 가장 높은 점수의 노드를 최종 할당한다.
 
 ---
 
-## Ⅳ. 특징
+## Ⅳ. 심화 비교 및 적용 판단
 
-| 구분 | 기본 배치 | 정책 기반 스케줄링 | 수치/판단 포인트 |
+| 비교 축 | Node Affinity | Taint & Toleration | 선택 기준 |
 |:---|:---|:---|:---|
-| 자원 | request 기준 | CPU/Memory/GPU request | Pending 0건 |
-| 장애 분산 | 노드 여유 기준 | topology spread, anti-affinity | Zone별 replica 분산 |
-| 전용 노드 | 구분 약함 | taint/toleration | GPU/보안 노드 |
-| 우선순위 | 동일 처리 | priority, preemption | P1 workload 보호 |
+| 제어 주체 | 파드(Pod) 중심 제어 | 노드(Node) 중심 방어 | 워크로드 선택 vs 인프라 통제 |
+| 동작 성격 | 끌어당김 (해당 노드로 가고 싶음) | 밀어냄 (조건 안 맞으면 들어오지 마) | 배치 유도 vs 격리 보호 |
+| 주요 활용 | SSD 장착 노드, GPU 노드 선택 배치 | Master 노드 보호, 특정 팀 전용 노드 격리 | 리소스 활용 최적화 특성 |
 
-> 요약: Kubernetes 스케줄링은 자원 충족, 장애 분산, 전용 노드, 우선순위를 함께 판단함.
+> 요약: 파드가 원하는 환경을 찾을 때는 Affinity를 사용하고, 인프라 관리자가 중요 노드를 워크로드 혼재로부터 보호할 때는 Taint를 사용한다.
+
+**리스크·대응:**
+- 리소스 파편화 및 핫스팟(Hotspot): 파드 삭제/재배치 반복으로 특정 노드만 꽉 차고 일부는 비는 불균형 발생 → Descheduler를 도입해 런타임에 주기적으로 파드를 퇴거(Evict)시켜 재배치 유도 (지표: 노드 간 CPU 사용률 편차 15% 이내)
+- 과도한 Anti-Affinity로 인한 Pending: 파드를 무조건 분산하라는 강제(Required) 조건 때문에 띄울 노드가 부족해짐 → 'Required' 대신 'Preferred' 조건 활용으로 가용성을 우선 확보 (지표: 파드 Pending 상태 1분 이내 해소)
 
 ---
 
-## Ⅴ. 심화 비교 및 적용 판단
+## Ⅴ. 실무 적용 및 결론
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | 수동 서버 지정 | Scheduler plugin 기반 배치 | 노드 10대 이상 |
-| 비용/처리 | 과잉 증설 | request 기반 bin packing | CPU 사용률 40~70% |
-| 운영/위험 | 장애 도메인 집중 | topology spread | Zone 장애 영향 |
-
-> 요약: 대규모 클러스터는 request와 topology 정책을 함께 적용해야 비용과 장애 영향을 통제함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Pending 증가 | request 과다, taint 미허용 | event 분석, request 조정 | unschedulable Pod 수 |
-| 노드 경합 | request 미설정 | LimitRange, VPA 권고 | CPU throttling |
-| 장애 집중 | anti-affinity 부재 | topologySpreadConstraints | Zone별 replica 편차 |
-
-> 요약: 스케줄링 리스크는 Pending, 자원 경합, 장애 집중 지표로 조기 식별함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 배치 지연 | scheduling latency p95 5초 이하 | scheduler metric |
-| 자원 모델 | request 설정률 100% | policy report |
-| 장애 분산 | Zone별 replica 편차 1 이하 | kube-state-metrics |
-
-> 요약: 스케줄링 품질은 지연, request 설정률, topology 분산으로 검증함.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 자원 기준화: 모든 Pod에 CPU/Memory request를 설정하고 LimitRange로 request 누락 0건 유지
-2. 배치 정책화: P1 서비스는 topologySpreadConstraints와 podAntiAffinity로 Zone별 replica 편차 1 이하 적용
-3. 전용 노드 운영: GPU, 보안, 배치 노드는 taint/toleration과 nodeSelector로 workload를 분리
+**적용 방안 3개:**
+1. 데디케이티드(전용) 노드 풀 구성: ML 학습용 GPU 노드에 `taint: gpu=true:NoSchedule`을 걸어 일반 웹 파드 유입을 막고, ML 파드에만 Toleration 부여하여 자원 독점 체계 구현
+2. 고가용성(HA) 스프레드 배치: 웹 서버 ReplicaSet 배포 시 `podAntiAffinity` 라벨을 `topologyKey: kubernetes.io/hostname`으로 설정해 3개의 파드가 무조건 서로 다른 노드에 분산되도록 강제
+3. 스케줄러 프로파일링 다중화: 배치 작업용과 실시간 서비스용으로 요구사항이 다를 경우, 기본 Kube-Scheduler 외에 사용자 정의 Custom Scheduler를 병렬로 띄워 파드별로 지정 사용
 
 **결론 (2줄):**
-- 기술사 판단: Scheduler는 빈 노드 선택기가 아니라 자원, 정책, 장애 도메인을 동시에 평가하는 제어 구성요소임
-- 향후 방향: Scheduler Framework, VPA, Cluster Autoscaler가 결합되어 정책 기반 용량 관리로 발전함
+- 기술사 판단: 스케줄링은 클러스터 가용성과 비용 최적화를 결정짓는 핵심이므로, Affinity와 Taint를 정교하게 결합하여 노드 집적도와 서비스 장애 격리를 동시에 달성해야 한다.
+- 향후 방향: 전통적인 리소스 기반 정적 스케줄링을 넘어, 예측 기반 ML 모델을 활용해 미래의 부하 변동까지 고려하는 지능형 스케줄러로 진화할 것이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Pod 스케줄링을 설명하시오" | Filter, Score, Bind 흐름 | request, affinity, taint 비교 |
-| 요구사항 명시형 | "배치 정책을 설계하시오", "Pending 원인을 설명하시오" | 정책 충돌과 event 분석 | topology, priority, 전용 노드 기준 |
-
-> 요약: 설명형은 알고리즘 흐름, 설계형은 정책 조합과 장애 분석 중심으로 전환함.
+| 포괄형 | "K8s 파드 스케줄링 과정을 설명하시오" | Filtering과 Scoring의 단계별 평가 원리 | 스케줄링 기법 간 비교표, 커스텀 스케줄러 |
+| 요구사항 명시형 | "고가용성과 자원 최적화 스케줄링 방안" | Affinity, Taint 기법별 구성요소 | Anti-Affinity 분산 적용, 노드 전용화 방안 |
