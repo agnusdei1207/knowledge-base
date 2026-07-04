@@ -1,6 +1,6 @@
 ---
 title: "정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 139
@@ -8,184 +8,145 @@ weight: 139
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Exactly-Once가 실제로는 source·state·sink가 함께 맞아야 하는 처리 보장임을 이해하게 만든다.
-
 ## 한눈에
-- **개요**: Exactly-Once Semantics는 분산 스트림·메시징 시스템에서 장애·재시도가 있어도 최종 결과가 각 이벤트를 정확히 한 번 반영한 것과 동일하도록 만드는 **메시지 처리 보장 수준**(Delivery Guarantee)이다 — 코드가 물리적으로 한 번만 실행됨을 뜻하는 게 아니라, 재실행되더라도 눈에 보이는 결과가 한 번 처리한 상태와 같다는 뜻이다.
-- **왜 필요한가**: 분산 시스템은 네트워크 단절, 컨슈머 재시작, sink 커밋 실패가 일상적으로 발생한다. 이런 장애 후 이벤트를 재시도하면 중복(같은 결제가 두 번 반영)되거나, 확인 없이 넘어가면 유실(결제가 아예 반영 안 됨)될 수 있다. 결제·정산·재고처럼 금액이 걸린 업무는 두 오류 모두 치명적이다.
-- **핵심 직관**: 이체 버튼을 실수로 두 번 눌러도, "이 거래 번호는 이미 처리했다"는 표(멱등성 키)를 확인해 두 번째 요청은 무시하는 것과 같다 — 요청은 두 번 왔어도 결과는 한 번만 반영된다.
+- **개요**: 분산 시스템이나 메시지 큐에서 네트워크 장애나 서버 다운이 발생하더라도 데이터가 유실되지 않고 중복 처리되지도 않게, 정확히 한 번만 연산에 반영됨을 보장하는 최고 수준의 메시지 전송 보증 방식이다.
+- **왜 필요한가**: 신용카드 결제나 포인트 적립을 처리할 때 메시지가 날아가면(유실) 결제가 안 되고, 두 번 처리되면(중복) 돈이 두 번 빠져나가는 치명적 사고가 발생하기 때문이다.
+- **핵심 직관**: "보냈는데 답이 없어 다시 보낸 메일"을 상대방 서버가 구별해서 "이거 아까 받았던 거네" 하고 한 번만 기록(멱등성)하거나, 완료 전엔 아무도 못 보게 막아두다 한방에 확정(트랜잭션) 짓는다.
 
 ## 핵심 용어 정리 (내부에 등장하는 것들)
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| 전달 보장(Delivery Guarantee) | 메시지가 몇 번 전달·반영되는지에 대한 시스템의 약속 — exactly-once가 속하는 상위 분류 | 택배 배송 규정(분실 없음/중복 없음 등) |
-| At-Most-Once | 최대 한 번 — 실패해도 재전송 안 함, 유실 가능 | "한 번 던지고 안 던져도 그만" |
-| At-Least-Once | 최소 한 번 — 확인 안 되면 재전송, 중복 가능 | "받았다는 답 올 때까지 계속 다시 보냄" |
-| Exactly-Once | 정확히 한 번 반영된 것과 동일한 결과 | "몇 번 보내도 최종 장부엔 한 줄만" |
-| 오프셋(Offset) | 컨슈머가 어디까지 읽었는지 가리키는 위치 | 책갈피 |
-| 멱등성(Idempotency) | 같은 연산을 여러 번 적용해도 결과가 한 번 적용한 것과 같은 성질 | "켜기" 스위치는 몇 번 눌러도 결과는 항상 켜짐 |
-| 멱등성 키(Idempotency Key) | 같은 요청·이벤트를 식별해 중복 반영을 막는 고유 값 | 거래 번호, 주문 번호 |
-| 트랜잭션(Transaction) | 여러 작업(오프셋 커밋 + 결과 쓰기)을 하나의 원자적 단위로 묶는 것 | "전부 성공 또는 전부 취소" |
-| 2단계 커밋(Two-Phase Commit) | 준비(prepare) 후 확정(commit)하는 2단계 절차로 여러 시스템 간 원자성을 맞추는 방식 | 계약서에 먼저 가서명 후 최종 도장 |
+| At-Most-Once (최대 한 번) | 실패 시 재전송 안 함 (유실 가능성 있음) | "전단지 배포 (안 받아도 그만)" |
+| At-Least-Once (최소 한 번) | 확답(ACK) 올 때까지 재전송 (중복 가능성 있음) | "등기 우편 (받을 때까지 계속 배달)" |
+| Exactly-Once (정확히 한 번) | 재전송해도 최종 결과는 1번만 적용 (유실, 중복 없음) | "계좌 이체 (결과 무결성 보장)" |
+| Idempotence (멱등성) | 같은 연산을 여러 번 반복해도 결과가 달라지지 않는 성질 | "전원 끄기 버튼 여러 번 누르기" |
+| 2PC (Two-Phase Commit) | 분산된 노드가 모두 준비(Prepare)되었을 때만 확정(Commit) | "결혼식 주례: 둘 다 '네' 해야 부부 선언" |
 
 ## 깊이 이해
-
-### 세 가지 보장 수준이 왜 나뉘나 — 어디서 실패가 나는지로 구분
-- 이벤트 처리는 "읽기(source) → 계산(processing) → 쓰기(sink)" 3단계다. 각 단계 사이 장애에 대한 재시도 여부에 따라 결과가 달라진다.
-- At-most-once: 장애 시 재시도하지 않는다. 읽었는데 처리 중 죽으면 그 이벤트는 그냥 사라진다 — 유실.
-- At-least-once: 장애 시 마지막으로 확인(ack)되지 않은 지점부터 다시 읽는다. 이미 처리했지만 offset commit 전에 죽었다면 같은 이벤트를 또 처리한다 — 중복.
-- Exactly-once: at-least-once처럼 재시도는 하되(유실 방지), 재시도로 생긴 중복을 트랜잭션이나 멱등키로 걸러내(중복 방지) 결과만 한 번 반영된 것처럼 만든다.
-
-### Kafka에서 exactly-once를 만드는 방법 — 수치로 이해
-- **Producer 중복 방지(Idempotent Producer)**: 각 producer에 고유 PID(Producer ID)를 부여하고 메시지마다 sequence number를 붙인다. 같은 PID+sequence number가 브로커에 다시 오면 브로커가 중복으로 판단해 버린다. 예: producer가 네트워크 타임아웃으로 같은 레코드를 재전송해도 sequence number가 같으므로 브로커에는 한 번만 저장된다.
-- **Transaction**: transactional.id를 설정하면 "input offset commit"과 "output record 쓰기"를 하나의 트랜잭션으로 묶는다. consumer는 read_committed 격리 수준으로 읽어, 커밋되지 않은(진행 중이거나 abort된) 트랜잭션의 레코드는 보이지 않는다.
-- 예: 주문 이벤트를 읽어 결제 이벤트를 쓰는 job이 output 쓰기 중 죽으면 해당 트랜잭션은 미완료(abort) 상태로 남고, read_committed consumer는 그 output을 아예 보지 못한다. job이 재시작되어 같은 주문을 다시 처리하고 트랜잭션을 성공적으로 커밋해야만 output이 보인다 — 결과적으로 정확히 한 번만 반영된 것처럼 보인다.
-
-### Flink의 2단계 커밋 sink — 수치 예제
-- Flink는 체크포인트(138 참고)와 2단계 커밋을 결합한다. 체크포인트 시작 시 sink는 "새 트랜잭션을 준비(pre-commit)"만 해두고 실제 커밋은 하지 않는다. 체크포인트가 성공적으로 완료됐다는 통지(notifyCheckpointComplete)를 받은 뒤에야 트랜잭션을 확정 커밋한다.
-- 예: 체크포인트 간격 30초, 세 번째 체크포인트(90초 시점)에서 job이 실패했다고 하자. 아직 커밋되지 않은 90초 시점 트랜잭션은 자동 폐기(abort)되고, job은 두 번째 체크포인트(60초 시점) 상태로 복구되어 60초~90초 구간 이벤트를 재처리한다. sink에는 90초 시점의 미완료 쓰기가 반영되지 않으므로 중복이 생기지 않는다.
-
-### sink가 트랜잭션을 지원하지 않을 때 — 멱등키로 대체
-- 모든 sink가 트랜잭션을 지원하지는 않는다(예: 단순 REST API, 일부 NoSQL). 이때는 비즈니스 키(예: order_id)에 DB unique constraint를 걸어 같은 order_id로 두 번 insert하면 두 번째는 실패·무시되도록 멱등 쓰기로 exactly-once와 동일한 효과를 낸다.
-- 예: `INSERT INTO orders (order_id, amount) VALUES (...) ON CONFLICT (order_id) DO NOTHING` — order_id가 이미 있으면 재시도로 들어온 중복 이벤트를 조용히 무시한다.
-
-### 비유와 흔한 오해
-- **비유**: 은행 창구에서 이체 요청서를 두 번 제출해도, 요청서에 적힌 접수번호(멱등키)로 "이미 처리됨"을 확인하고 두 번째 요청서는 처리하지 않고 돌려보내는 것과 같다. 요청은 두 번 왔지만 계좌 잔액 변화는 한 번뿐이다.
-- **흔한 오해 1**: "exactly-once는 코드가 정확히 한 번 실행된다는 뜻이다" — 틀렸다. 장애 시 코드·task는 몇 번이고 재실행될 수 있다. 보장하는 것은 "재실행 결과가 최종적으로 한 번 처리한 상태와 같다"는 것뿐이다.
-- **흔한 오해 2**: "exactly-once를 켜면 모든 문제가 끝난다" — source부터 sink까지 오프셋·상태·트랜잭션이 전부 연결되어야 end-to-end exactly-once가 성립한다. 중간에 트랜잭션을 지원하지 않는 sink가 하나라도 끼면 그 지점에서 보장이 깨진다.
+- **배경·문제의식**: 분산 환경에서는 네트워크 단절, 브로커 재부팅, 컨슈머 사망이 일상이다. 발신자(Producer)가 메시지를 보냈는데 수신자(Broker)로부터 ACK(응답)를 못 받았다 치자. 1) 수신자가 진짜 못 받은 건지, 2) 받았는데 ACK만 오다 유실된 건지 알 길이 없다. 재전송하면 중복 처리되고, 안 하면 유실된다.
+- **작동 원리**: Kafka나 Flink는 멱등성과 2PC 트랜잭션을 섞어 이 문제를 푼다.
+  1. **멱등성 프로듀서**: 발신자가 메시지에 '고유 번호(PID + Sequence)'를 붙여 보낸다. 브로커는 이미 받은 번호면 무시한다(중복 방지).
+  2. **트랜잭션 (2PC)**: 스트림 파이프라인(Read-Process-Write) 전체를 묶는다. 계산 중간 결과를 임시로(상태 스냅샷, 트랜잭션 로그) 저장해 두다가, 모든 처리가 완벽히 끝나는 순간에만 커밋 마커(Commit Marker)를 찍어 구독자들에게 "이제 읽어가도 됨"이라고 푼다.
+- **비유**: 투표함에 표를 넣을 때. At-Least-Once는 "넣은 거 확답 못 들었으니 또 넣을래"(표 중복 됨). Exactly-Once는 "내 신분증 번호가 적힌 표"라 관리자가 "이 번호는 아까 접수했음"하고 걸러내고, 집계도 완전 마감 도장이 찍혀야 발표하는 것이다.
+- **구체 예시**: 카프카에서 A 토픽을 읽어(Read) B 토픽으로 결제완료 로그를 쓰는(Write) 앱이 중간에 죽었다. 다시 살아났을 때 트랜잭션 롤백(Abort)이 작동해 B 토픽에 임시로 쓰였던 로그를 숨기고 읽기 오프셋도 복구하여 중복 결제를 막는다.
+- **흔한 오해·주의점**: "Exactly-Once"라는 말이 기계적으로 네트워크 전송 자체가 딱 1번만 일어난다는 뜻이 아니다. 네트워크 재전송은 여러 번 일어날 수 있지만, 시스템의 최종 상태(잔고, 로그 결과)에 **반영되는 효과가 딱 1번**이라는 의미(Effectively-Once)다.
 
 ## 연결 개념
-- Idempotency(멱등성) — 중복 요청이 와도 결과가 동일하게 유지되는 성질, sink에서 exactly-once를 구현하는 대체 수단
-- Kafka Transaction — producer의 오프셋 커밋과 output 쓰기를 원자화하는 메커니즘
-- Flink Checkpoint(138) — 상태와 소스 오프셋을 일관된 시점으로 스냅샷해 2단계 커밋과 연결하는 메커니즘
+- 138. Apache Flink (체크포인트를 통해 내부 Exactly-Once 보장)
+- 137. Apache Kafka (트랜잭션 API로 엔드투엔드 Exactly-Once 보장)
+- 095. 트랜잭션 ACID (DB 밖의 분산 메시징에서 ACID의 원자성 확보)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: Exactly-Once 문제에서 보장 수준, 구현 조건, 비용·한계를 명확히 판단함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Exactly-Once Semantics는 장애·재시도 후 최종 결과가 각 이벤트를 한 번 반영한 상태와 같도록 하는 처리 보장임.
-> 2. **가치**: 결제·정산·포인트·재고처럼 중복·누락 비용이 큰 이벤트 처리에서 결과 정합성을 확보함.
-> 3. **판단 포인트**: source offset, state checkpoint, sink transaction, idempotency key 중 하나라도 빠지면 end-to-end 보장이 깨짐.
+> 1. **본질**: Exactly-Once는 분산 스트리밍 환경에서 네트워크 장애나 프로세스 강제 종료 시에도 메시지의 유실(Loss)과 중복(Duplication) 처리를 원천 차단하는 최종 상태 보증 모델이다.
+> 2. **가치**: 멱등성(Idempotence) 기록과 2단계 커밋(2PC) 분산 트랜잭션을 결합하여 금융 결제, 정밀 로그 집계 등 1건의 오차도 허용되지 않는 미션 크리티컬 파이프라인 구축을 가능케 한다.
+> 3. **판단 포인트**: 이 보장 수준을 켜면 트랜잭션 코디네이터 통신과 임시 마커 대기로 인해 처리 지연(Latency)과 Throughput 저하가 필연적으로 발생하므로 요구사항별 트레이드오프 판단이 필수적이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 메시징 보장 수준 이해 확인 | at-most-once, at-least-once, exactly-once | 정확히 한 번 실행으로 오해 |
-| 구현 조건 판단 확인 | idempotent producer, transaction, checkpoint | sink DB idempotency 누락 |
-| 비용·한계 확인 | latency, throughput, transaction timeout | 모든 이벤트에 무조건 적용한다고 단정 |
+| 메시지 전송 보증 3단계 (QoS) 이해 | At-most, At-least, Exactly-once 의미 명확화 | Exactly-once를 "네트워크 1번 송신"으로 오해 서술 |
+| 중복/유실 없는 무결성 기술 원리 파악 | 멱등성(PID+Seq 번호), 트랜잭션(2PC), 상태 스냅샷 | 단순 개념 나열에 그치고 구현 기술(2PC) 누락 |
+| 엔드투엔드(End-to-End) 파이프라인 적용 역량 | Read-Process-Write 전체 구간 동기화 | 특정 컴포넌트(DB 단독) 내부 기술로 국한 |
 
-> 요약: Exactly-Once 답안은 처리 실행 횟수가 아니라 결과 상태 보장이라는 점을 명확히 해야 함.
+> 요약: 장애가 일상인 분산 환경에서 어떻게 식별자(멱등성)와 커밋(트랜잭션)을 통해 "1번 반영"의 논리적 무결성을 증명하는지 서술해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: Exactly-Once는 처리 결과를 한 번 반영된 상태로 보장하는 의미론임.
-- 배경: 스트리밍 시스템은 장애·재시도·네트워크 오류로 중복 처리와 유실이 발생할 수 있음.
-- 필요성: 금액·재고·정산 업무는 source부터 sink까지 end-to-end 정합성 설계가 필요함.
+- 개요: 네트워크 파티션이나 노드 장애 상황에서도 스트림 데이터가 유실되지 않고 시스템의 최종 상태에 오직 한 번만 연산·반영되는 것을 보증하는 전달 의미(Semantics)
+- 배경: 분산 브로커 환경에서 수신자 ACK 유실로 인한 재전송 시 데이터가 중복 처리(At-least-once)되는 정합성 훼손 문제 상존
+- 필요성: 과금, 전자상거래 주문, 정밀 광고 클릭 집계 등 1%의 데이터 중복이나 유실도 비즈니스 치명타로 이어지는 서비스에 필수 적용
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Source Offset -> Processor State -> Checkpoint/Transaction
-                              / Idempotency Key -> Sink Commit
-                              / Recovery -> Replay from Offset
+Producer (Transaction API / PID 부여) -> [Kafka Broker (Tx Coordinator)] -> Consumer (Read_Committed 모드)
+       [1. 멱등성 재전송]                            |                              [3. 확정 데이터만 소비]
+       [2. 트랜잭션 Prepare]                        v
+                                            Transaction Log / State Snapshot
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Source Offset | 읽은 위치 추적 | commit 시점이 보장 수준 결정 |
-| Processor State | 중간 집계 상태 | checkpoint와 함께 저장 |
-| Transaction | output과 offset 원자화 | Kafka transaction, 2PC sink |
-| Idempotency Key | 중복 반영 차단 | business key 기반 unique constraint |
+| Idempotence (멱등성) | 동일 메시지의 반복 수신을 필터링 (고유 PID + 시퀀스 번호 대조) | 단일 파티션 내 생산자의 중복 기록 방지 |
+| Transaction Coordinator | 여러 파티션과 토픽에 걸친 원자적(Atomic) 쓰기를 관리 | Kafka 브로커나 Flink 마스터가 역할 수행 |
+| Two-Phase Commit (2PC) | 준비(Prepare) 후 확정(Commit)을 통해 전체 과정의 원자성 확보 | 스트림 처리의 Read-Process-Write 묶음 |
+| Isolation Level | 컨슈머가 `Read_Committed` 모드로 읽어 진행 중인 임시 트랜잭션 무시 | 커밋 마커(Marker)가 찍힌 로그만 가시화 |
 
-> 요약: Exactly-Once는 offset, state, sink commit을 하나의 일관된 경계로 묶을 때 성립함.
+> 요약: 보내는 쪽은 멱등성으로 중복을 막고, 처리하는 쪽은 2PC 트랜잭션으로 임시 상태를 확정(Commit)지어 읽는 쪽을 통제한다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이벤트 읽기 -> state 갱신 -> sink write 준비
--> checkpoint/transaction 시작 -> offset+output commit -> 장애 시 replay
+[Read] 원본 데이터 수신 -> [Process] 상태 연산 및 저장 -> [Write] 타겟 파티션에 임시 쓰기 -> [Commit] 마커 발행 및 오프셋 확정
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | source에서 이벤트와 offset 수신 | offset monotonicity |
-| 2 | processor state 갱신 | checkpoint 포함 여부 |
-| 3 | sink에 transaction 또는 idempotent write | unique key, transaction id |
-| 4 | commit 후 offset 확정 | duplicate output 0건 |
+- 1단계 [고유 식별자 부여]: Producer가 메시지를 보낼 때 고유한 Producer ID와 시퀀스 번호를 붙여 브로커의 중복 적재 방지
+- 2단계 [트랜잭션 개시 및 연산]: Read-Process-Write 구간을 하나의 트랜잭션으로 묶어 상태 변경(State)과 결과 출력을 진행 (임시 기록)
+- 3단계 [2PC Prepare 및 Snapshot]: 브로커(또는 분산 처리 엔진)가 내부 상태와 기록 오프셋의 스냅샷(Checkpoint)을 분산 저장소에 동기화
+- 4단계 [Commit 마커 발행]: 모든 저장이 성공하면 트랜잭션 코디네이터가 'Commit' 마커를 발행하여 Consumer가 결과를 읽어갈 수 있도록 가시화
 
-> 요약: 장애 시 이벤트는 다시 읽힐 수 있으나, sink commit과 idempotency가 중복 결과를 차단함.
+> 요약: 전체 파이프라인 과정을 하나의 트랜잭션 논리 블록으로 묶어, 성공 시에만 마커를 찍고 실패 시 롤백하여 오염을 막는다.
 
 ---
 
 ## Ⅳ. 특징
+- [비즈니스 무결성]: 인프라의 잦은 재시작이나 일시적 네트워크 단절이 비즈니스 데이터(잔고, 수량) 오차로 직결되지 않음
+- [엔드투엔드(E2E) 커버리지]: 카프카와 Flink/Spark 등 이기종 조합 파이프라인 전체 구간을 원자적으로 보장 가능
+- [성능 오버헤드]: 2PC 동기화 통신, 디스크 스냅샷 저장(I/O), 커밋 대기로 인해 At-least-once 대비 처리 지연 시간(Latency) 최소 10~30% 증가
 
-| 구분 | At-Least-Once | Exactly-Once | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 유실 | 낮음 | 낮음 | replay 가능 |
-| 중복 | 발생 가능 | 결과 중복 차단 | duplicate output 0건 |
-| 비용 | 구조 단순 | transaction·checkpoint 비용 | p95 latency 증가 측정 |
-| 적용 | 로그·알림 | 결제·정산·재고 | 업무 손실 금액 기준 |
-
-> 요약: Exactly-Once는 중복 반영 비용이 큰 업무에 적용하고, 단순 로그는 at-least-once+dedup으로 충분할 수 있음.
+> 요약: 장애에 대한 완벽한 정합성을 담보하지만, 필연적인 트랜잭션 프로토콜 오버헤드가 발생하므로 모든 시스템에 남용할 수는 없다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | at-least-once + 수동 dedup | transaction/checkpoint 기반 | 금액·재고 정합성 필수 |
-| 비용/성능 | 낮은 지연 | commit 경계 비용 | 지연 증가 허용치 10~30% |
-| 운영/위험 | 중복 보정 필요 | transaction timeout 관리 | timeout, retry, poison message |
+| 비교 축 | At-Most-Once (최대 1번) | At-Least-Once (최소 1번) | 본 키워드 (Exactly-Once) | 선택 기준 |
+|:---|:---|:---|:---|:---|
+| 데이터 유실 | 가능 (ACK 안 기다림) | 없음 (재전송) | 없음 | 데이터 손실 허용 여부 |
+| 데이터 중복 | 없음 | 가능 (재전송 중복) | 없음 (시스템 내부 필터링) | 중복 갱신 비즈니스 치명도 |
+| 성능(처리량) | 최상 (지연 없음) | 우수 | 낮음 (트랜잭션 부하) | 시스템 SLA(지연/정합성) |
 
-> 요약: Exactly-Once는 정합성 비용이 처리 지연 증가보다 클 때 선택함.
+> 요약: 단순 IoT 센서 통계는 At-Most/At-Least로 충분하나, 결제/정산 파이프라인은 성능을 희생해서라도 Exactly-Once를 선택해야 한다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| end-to-end 단절 | sink가 transaction 미지원 | idempotent write, unique key | duplicate key violation |
-| 처리 지연 | checkpoint·transaction 대기 | interval 조정, batch commit | p95 latency |
-| poison message | 반복 실패 이벤트 | DLQ, retry limit | retry count, DLQ rate |
+**리스크·대응 (기본은 불릿):**
+- [외부 시스템 연동 시 정합성 붕괴]: Sink(최종 목적지)가 RDBMS나 NoSQL일 경우 브로커 트랜잭션과 연동되지 않아 중복 기록 발생 → 외부 DB의 기본키(PK)를 활용한 UPSERT(멱등성 쓰기) 쿼리로 브로커 트랜잭션 의존성 탈피
+- [트랜잭션 지연(Zombie Transaction)]: 특정 노드 지연으로 커밋 마커 발행이 늦어져 Consumer 읽기 대기열(Lag) 폭증 → `transaction.timeout.ms` 최적화 설정으로 고아 트랜잭션 빠른 Abort 후 롤백 (지표: 커밋 대기 트랜잭션 수)
 
-> 요약: Exactly-Once의 약점은 sink 연계와 지연이며, DLQ와 idempotency key로 운영 통제를 추가함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 중복 결과 | duplicate output 0건 | reconciliation query |
-| 유실 결과 | missing event 0건 | source-sink count 비교 |
-| 복구 | checkpoint restore 5분 이하 | 장애 주입 테스트 |
-
-> 요약: 보장 수준은 장애 주입 후 중복·누락·복구 시간을 실제로 측정해야 확인됨.
+**도입 후 점검 지표 (기본은 불릿):**
+- 성능/효율: 파이프라인 E2E 지연 시간(트랜잭션 대기 포함) 목표치 달성률 — APM 분산 트레이스 모니터링
+- 품질/운영: 카오스 테스트(노드 강제 종료) 주입 시 타겟 DB의 최종 집계 일치율 100% — 정합성 검증 자동화 스크립트
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. business event_id를 전 구간 표준화하고 sink DB에 unique constraint 또는 idempotency table을 둠
-2. Kafka는 idempotent producer, transactional.id, read_committed consumer를 적용하고 transaction timeout을 SLA에 맞춤
-3. Flink는 checkpoint interval 30초, two-phase commit sink, DLQ topic을 적용해 장애·독성 이벤트를 분리함
+1. 아키텍처 식별: 서비스 도메인을 분석해 금융, 빌링, 주문 파이프라인에만 제한적으로 E2E Exactly-Once 모드(`isolation.level=read_committed`) 적용
+2. 엔진 결합: 카프카(Source/Sink)와 플링크(연산 엔진)의 트랜잭션 API를 연동한 2PC 융합 파이프라인 구성으로 스트리밍 장애 복구 완전성 확보
+3. 보상 트랜잭션 결합: 완전한 Exactly-Once 구현이 불가능한 레거시 외부 API 연동 시, 차선책으로 At-Least-Once와 백그라운드 멱등성 보정(Saga 패턴) 데몬 결합
 
 **결론 (2줄):**
-- 기술사 판단: 금액·재고·정산은 Exactly-Once, 모니터링 로그·추천 노출 이벤트는 at-least-once+dedup을 선택함
-- 향후 방향: streaming platform은 exactly-once 보장을 기본 제공하되, 최종 DB와 외부 API idempotency 설계가 계속 핵심임
+- 기술사 판단: Exactly-Once는 '전송'의 횟수가 아닌 '상태 변경'의 원자성을 보장하는 기술로, 성능과 정합성의 명확한 트레이드오프 비용을 인지하고 도입해야 한다.
+- 향후 방향: 마이크로서비스 간 비동기 메시징이 기본이 되면서 메시지 인프라 레벨에서 트랜잭션을 캡슐화해주는 기술(e.g., Apache Pulsar, 최신 Kafka)이 필수 기반으로 자리 잡고 있다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Exactly-Once를 설명하시오" | offset, state, sink commit 흐름 | 보장 수준별 차이 |
-| 요구사항 명시형 | "구현 방안을 제시하시오", "비교하시오" | Kafka/Flink transaction, idempotency | 비용·지연·업무 중요도 선택 기준 |
-
-> 요약: 설명형은 의미론, 방안형은 source-state-sink end-to-end 조건을 중심으로 작성함.
+| 비교형 | "메시지 전송 보장 3단계를 비교하시오" | 각 방식의 ACK 구조 및 처리 흐름도 | 성능-정합성 트레이드오프 기반 적용 기준 |
+| 방안형 | "분산 스트림 데이터 정합성 보장 방안" | 멱등성과 2PC를 통한 무결성 확보 단계 | 타겟 DB 멱등성(UPSERT) 처리 등 실무 적용 팁 |

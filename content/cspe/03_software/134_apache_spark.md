@@ -1,6 +1,6 @@
 ---
 title: "Apache Spark (Apache Spark)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 134
@@ -8,180 +8,144 @@ weight: 134
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Spark가 Hadoop MapReduce의 어떤 한계를 메모리 기반으로 보완하는지, 내부 실행 모델 용어를 이해하게 만든다.
-
 ## 한눈에
-- **개요**: Apache Spark는 **메모리 기반 분산 데이터 처리 엔진**으로, **DAG**(방향성 비순환 그래프) 실행 모델을 통해 배치·SQL·스트림·ML을 하나의 엔진에서 처리하는 범용 빅데이터 처리 프레임워크다.
-- **왜 필요한가**: MapReduce는 map→reduce 각 단계마다 중간 결과를 디스크에 쓰고 읽는다. 같은 데이터를 여러 번 스캔하는 반복 연산(머신러닝 iteration, 대화형 분석)에서는 이 디스크 I/O가 반복될 때마다 지연이 누적된다.
-- **핵심 직관**: 매 계산마다 창고(디스크)에 갔다 오는 대신, 자주 쓰는 재료(데이터)를 작업대(메모리) 위에 올려두고 연속 계산하는 방식이다.
+- **개요**: 인메모리(In-Memory) 기반 분산 병렬 데이터 처리 프레임워크로 빅데이터 분석 속도를 극대화한다.
+- **왜 필요한가**: 기존 하둡 MapReduce는 단계마다 디스크에 중간 결과를 써야 해서 기계학습이나 반복적인 데이터 조회 작업에 너무 느렸다. 
+- **핵심 직관**: 디스크에 쓰고 읽는 시간을 없애고, 데이터를 메모리에 띄워놓은 채 연산을 연쇄적으로 처리한다. 게다가 데이터를 바로 계산하지 않고 "계획"만 세워두었다가 결과가 진짜 필요할 때 한방에 최적화하여 연산한다(Lazy Evaluation).
 
 ## 핵심 용어 정리 (내부에 등장하는 것들)
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| 분산 처리 | 하나의 작업을 여러 서버에 나눠 동시에 수행하는 방식 — Spark가 속한 상위 범주 | 여러 일꾼이 나눠서 일하기 |
-| 인메모리 컴퓨팅 | 중간 결과를 디스크가 아니라 메모리에 유지해 반복 접근 속도를 높이는 방식 | 작업대 위에 재료를 올려두고 씀 |
-| RDD | Resilient Distributed Dataset — 분산·불변 데이터 집합. lineage(생성 계보)로 노드 장애 시 재계산 복구 | 조리 과정 레시피를 기억해 재료를 잃어도 다시 만듦 |
-| DataFrame | 스키마(컬럼명·타입)를 가진 구조화 데이터 API, Catalyst 최적화의 대상 | 엑셀 표처럼 열 이름이 있는 데이터 |
-| DAG | Directed Acyclic Graph — 연산 순서를 노드(연산)와 엣지(데이터 흐름)로 표현한 방향성 비순환 그래프 | 여행 동선을 미리 그려둔 지도 |
-| Driver | 애플리케이션 전체 실행 계획을 세우고 DAG를 만드는 마스터 프로세스 | 현장 전체를 지휘하는 감독 |
-| Executor | Driver의 지시를 받아 실제 task를 실행하고 데이터를 캐시하는 워커 프로세스 | 현장에서 일하는 작업자 |
-| Transformation | 새 RDD/DataFrame을 "정의만" 하는 지연 연산(map, filter, select 등) — 즉시 실행되지 않음 | 요리 레시피를 적어두기만 함 |
-| Action | 실제 계산을 트리거하는 연산(collect, count, save 등) | "지금 요리 시작" 지시 |
-| Lazy Evaluation | Action이 호출되기 전까지 Transformation을 실행하지 않고 계획만 누적하는 방식 | 주문을 다 받은 뒤 한꺼번에 조리 순서를 짜기 |
-| Stage | shuffle 경계를 기준으로 나뉜 task들의 묶음 | 공정 단계별 작업 구간 |
-| Shuffle | partition 간 데이터를 key 기준으로 재분배하는 과정(네트워크+디스크 비용 발생) | 여러 창고에 흩어진 물건을 품목별로 재정리 |
-| Catalyst Optimizer | SQL/DataFrame 쿼리를 논리 계획→물리 계획으로 최적화하는 엔진 | 최단 동선을 미리 계산해주는 내비게이션 |
-| Data Skew | 특정 key에 데이터가 몰려 일부 task만 유독 오래 걸리는 현상 | 한 계산대에만 줄이 길게 늘어섬 |
+| RDD | 회복력을 가진 분산 데이터셋 (Resilient Distributed Dataset), 스파크의 뼈대 | "메모리에 떠 있는 불변의 데이터 조각들" |
+| DataFrame / Dataset | RDD 위에 스키마(표 구조)를 입혀 SQL처럼 쓰게 만든 고수준 API | "엑셀 표나 데이터베이스 테이블" |
+| In-Memory | 데이터를 하드디스크가 아닌 RAM(메모리)에 올려 처리 | "책상 서랍(디스크)이 아닌 책상 위(RAM)에서 작업" |
+| Lazy Evaluation | 당장 연산하지 않고 계보(Lineage)만 기록하다 Action이 떨어질 때 실행 | "계획서만 모아두었다가 마감일 직전에 몰아서 최적화 작업" |
+| DAG (유향 비순환 그래프) | 데이터 처리 작업의 의존성을 그물망 형태로 스케줄링 | "작업 공정도(흐름도)" |
 
 ## 깊이 이해
-
-### 왜 Spark가 필요했나 — MapReduce와의 수치 비교
-로지스틱 회귀처럼 같은 데이터를 10회 반복 스캔하는 알고리즘을 생각해보자. MapReduce는 iteration마다 별도의 job으로 나뉘어, 매번 결과를 HDFS(디스크)에 쓰고 다음 job이 다시 디스크에서 읽는다 — 10회 반복이면 디스크 read/write가 10번 반복된다. Spark는 최초 1회만 원본 데이터를 읽어 메모리에 캐시(`.cache()`)해두고, 나머지 9회는 메모리에서 바로 재사용한다. 디스크 I/O가 메모리 접근보다 수십~수백 배 느리기 때문에, 반복 연산에서 Spark가 MapReduce보다 훨씬 빠른 이유가 여기에 있다.
-
-### Lazy Evaluation과 DAG 최적화
-`df.filter(...).select(...).groupBy(...).count()`처럼 연산을 연쇄로 작성해도, `count()`(Action)가 호출되기 전까지는 아무 계산도 일어나지 않는다. Driver는 이 연쇄를 DAG로 만든 뒤, Catalyst Optimizer가 예를 들어 "filter를 최대한 앞으로 당겨(predicate pushdown) 불필요한 row를 일찍 제거"하는 식으로 실행 순서를 재배치한다. 즉 개발자가 작성한 순서 그대로 실행하는 게 아니라, 최적화된 순서로 다시 짜서 실행한다.
-
-### Stage와 Shuffle — 왜 비용이 큰가
-DAG는 shuffle이 필요한 지점(groupBy, join, repartition 등)마다 Stage로 쪼개진다. `reduceByKey`는 map 단계에서 미리 부분 합산 후 셔플하지만, `groupByKey`는 원본 값을 그대로 셔플한다. 예를 들어 키당 값이 평균 1,000개라면 `groupByKey`는 네트워크로 1,000개 값을 모두 보내지만, `reduceByKey`는 미리 합산된 값 1개만 보낸다 — Hadoop의 combiner와 같은 원리다.
-
-### Data Skew — 수치로 보는 병목
-1TB 데이터를 200개 partition으로 나누면 partition당 평균 5GB다. 그런데 특정 key 하나가 전체의 40%(400GB)를 차지한다면, 그 key를 처리하는 task 1개가 나머지 199개 task보다 압도적으로 오래 걸리고, 전체 job은 가장 느린 이 task가 끝날 때까지 기다린다. 이를 완화하는 기법이 salting(key에 임의 접미사를 붙여 여러 partition으로 분산)이다.
-
-### 흔한 오해
-Spark가 "메모리만 쓰는 도구"라는 것은 오해다. 캐시할 데이터가 executor 메모리보다 크면 디스크로 spill되고, shuffle 자체도 항상 디스크에 중간 파일을 남긴다. Spark의 강점은 "메모리를 최대한 활용해 불필요한 디스크 I/O를 줄이는 것"이지, 디스크를 아예 쓰지 않는다는 뜻이 아니다.
+- **배경·문제의식**: 2010년대 기계학습과 대화형 데이터 탐색 수요가 늘었다. 하둡 MapReduce는 한 바퀴 연산이 끝날 때마다 디스크에 저장해야 해서 반복 연산 속도가 처참했다. 이를 해결하기 위해 UC Berkeley AMPLab에서 메모리 기반의 스파크를 만들었다.
+- **작동 원리**: 스파크는 데이터를 RDD라는 읽기 전용 구조로 메모리에 올린다. 사용자가 데이터를 필터링하거나 맵(Map) 연산을 지시하면(Transformation) 진짜 연산을 하지 않고 족보(Lineage)만 기록한다. 나중에 총합을 구하라(Action)고 지시하면, 스파크 엔진(Catalyst)이 전체 공정(DAG)을 최적화해 불필요한 중간 단계를 건너뛰고 메모리에서 빠르게 연산을 완료한다.
+- **비유**: 식당에서 손님이 "양파 빼주세요(Filter), 맵게 해주세요(Map)"라고 주문할 때마다 요리사가 요리를 새로 시작하고 그릇에 담았다가(디스크 기록) 다시 꺼내 양념하는 게 MapReduce다. 반면 스파크는 종업원이 손님 요구사항을 주문서(Lineage)에 다 적어둔 뒤, 마지막에 "가져다 줘(Action)" 할 때 요리사가 주문서를 보고 최적의 순서로 한 번에 요리(DAG 실행)를 완성하는 것이다.
+- **구체 예시**: 100GB 로그에서 한국 유저만 걸러내고(Filter), 체류 시간을 2배 곱한 뒤(Map), 합산(Action)하는 코드를 짜면 논리적으로 3단계지만 스파크는 메모리 위에서 한 파이프라인으로 합쳐 수 초 만에 끝낸다. 하둡보다 수십 배 빠르다.
+- **흔한 오해·주의점**: "인메모리"라고 해서 램(RAM)보다 큰 데이터를 처리 못 하는 것은 아니다. 메모리가 부족하면 디스크에 흘려보내는(Spill) 기능이 있어 뻗지 않고 동작한다. 단, 디스크 스필이 잦으면 스파크의 속도 장점이 사라진다.
 
 ## 연결 개념
-- Hadoop MapReduce — Spark가 개선한 disk 기반 실행 모델(133)
-- RDD·DataFrame — Spark의 두 가지 데이터 추상화 계층
-- Lambda/Kappa Architecture — Spark가 batch/speed 엔진으로 편입되는 상위 아키텍처(135, 136)
+- 133. 빅데이터 분산 처리 — Hadoop MapReduce (스파크 이전 기술)
+- 167. 카파 아키텍처 (스트리밍 파이프라인)
+- 108. 쿼리 최적화 (Catalyst 옵티마이저)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: Spark 문제에서 DAG 실행, memory 처리, SQL/stream/ML 통합, 운영 리스크를 연결함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Apache Spark는 DAG 기반으로 배치·SQL·스트림·ML을 처리하는 분산 데이터 처리 엔진임.
-> 2. **가치**: in-memory cache와 최적화 엔진으로 반복 분석과 ETL 처리 시간을 MapReduce 대비 줄임.
-> 3. **판단 포인트**: shuffle, skew, executor memory, checkpoint 정책이 대규모 job의 품질을 좌우함.
+> 1. **본질**: 아파치 스파크는 RDD와 DAG(유향비순환그래프) 기반의 In-Memory 병렬 처리 엔진으로, 맵리듀스의 디스크 I/O 병목을 제거한 빅데이터 처리 표준이다.
+> 2. **가치**: 지연 평가(Lazy Evaluation)와 Catalyst 옵티마이저를 통해 복잡한 데이터 파이프라인을 최적화하고, 배치·스트림·SQL·ML 연산을 단일 프레임워크로 통합 제공한다.
+> 3. **판단 포인트**: 데이터 크기에 맞는 메모리 용량 산정과 셔플(Shuffle) 튜닝, 데이터 쏠림(Data Skew) 해소가 스파크 성능을 극대화하는 실무 핵심이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| Spark 구조 이해 확인 | Driver, Executor, DAG Scheduler, Catalyst | Spark를 단순 Hadoop 대체재로만 설명 |
-| 처리 원리 확인 | lazy evaluation, stage, task, shuffle | cache와 checkpoint 차이 누락 |
-| 도입 판단 확인 | batch, streaming, ML, SQL 통합 | 모든 job이 memory에서만 실행된다고 단정 |
+| 맵리듀스와 스파크의 성능 차이 원리 규명 | In-Memory 처리, DAG 스케줄러, 지연 평가(Lazy Evaluation) | "디스크를 안 쓴다"는 단정 (Spill 기능 존재) |
+| 스파크의 핵심 자료구조와 진화 이해 | RDD의 불변성/계보(Lineage), DataFrame/Dataset과 Catalyst | RDD만 설명하고 DataFrame 누락 |
+| 실무 병목 요인 및 튜닝 통제 역량 | 데이터 스큐 해소, OOM 방지, 셔플 파티션 최적화 | 단순히 기능 나열에 그친 서술 |
 
-> 요약: Spark 답안은 DAG 최적화와 shuffle 리스크를 함께 제시해야 실무 판단형 답안이 됨.
+> 요약: 스파크는 단순히 메모리를 써서 빠른 것이 아니라 지연 평가와 DAG 최적화가 결합된 아키텍처임을 서술해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: Apache Spark는 범용 분산 데이터 처리 엔진임.
-- 배경: Hadoop MapReduce는 중간 결과를 디스크에 기록해 반복 분석·머신러닝 작업에서 지연이 커짐.
-- 필요성: DAG 실행, in-memory cache, Spark SQL 최적화로 배치·스트림·ML 파이프라인을 통합함.
+- 개요: 대용량 데이터의 분산 처리를 In-Memory 기반으로 수행하는 통합 데이터 분석 엔진
+- 배경: 하둡 MapReduce의 잦은 디스크 I/O로 인한 Latency 한계와 머신러닝 반복 연산 처리 비효율 대두
+- 필요성: 배치, 스트리밍, 대화형 쿼리를 하나의 엔진에서 단일 API로 통합하여 데이터 엔지니어링 생산성 향상 필요
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Application -> Driver -> DAG Scheduler -> Task Scheduler
-                          / Cluster Manager -> Executor -> Cache/Shuffle
-                          / Data Source -> DataFrame/RDD
+Spark Application
+  Driver Program (SparkContext 생성 / DAG 논리적 실행계획 수립) -> Cluster Manager (YARN, K8s 자원 할당)
+      |
+      +-> Executor 1 (Memory + CPU Cores) -> Task 수행 (캐싱 / 연산)
+      +-> Executor 2 (Memory + CPU Cores) -> Task 수행 (결과 반환)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Driver | job 계획·DAG 생성 | driver OOM 방지 필요 |
-| Executor | task 실행·cache 저장 | core·memory sizing 필요 |
-| Catalyst | SQL logical/physical plan 최적화 | predicate pushdown 적용 |
-| Shuffle Manager | partition 재분배 | skew와 spill 감시 필요 |
+| Driver | 사용자 코드 해석, 논리적 DAG를 물리적 Task로 분할 후 스케줄링 | OOM 주의 (결과 수집 크기 제한 필요) |
+| Executor | 워커 노드에서 띄워지는 JVM 프로세스로 실제 Task 분산 수행 | RDD 블록을 메모리나 디스크에 캐싱 |
+| RDD / DataFrame | 불변성(Immutable)과 파티션으로 분할된 논리적 데이터 추상화 | DataFrame은 Catalyst 옵티마이저 혜택 제공 |
+| Cluster Manager | 분산 환경의 컴퓨팅 자원 스케줄링 (YARN, Mesos, K8s) | 하둡 생태계와 독립적 또는 통합 운영 가능 |
 
-> 요약: Spark는 Driver가 DAG를 만들고 Executor가 task를 병렬 실행하며, Catalyst와 shuffle 관리가 처리 품질을 결정함.
+> 요약: Driver가 연산 계획(DAG)을 세워 클러스터 자원 관리자를 통해 여러 Executor의 메모리 위에서 Task를 병렬 수행한다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-DataFrame 생성 -> Transformation 누적 -> Action 호출
--> DAG 생성 -> Stage 분리 -> Task 실행 -> 결과 저장
+Data Load -> Transformation 지시 (지연 평가) -> Action 호출 -> DAG Scheduler 최적화 -> Task 실행
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | DataFrame/RDD 생성 | schema inference, partition 수 |
-| 2 | lazy transformation 누적 | logical plan 확인 |
-| 3 | action 호출 후 stage 분리 | shuffle boundary 수 |
-| 4 | executor task 실행 및 결과 저장 | task skew, spill bytes |
+- 1단계 [계보 기록]: 데이터 필터링·변환 등 Transformation 호출 시 실제 연산 없이 RDD 계보(Lineage) 논리적 파이프라인 기록
+- 2단계 [액션 트리거]: Count, Collect 등 Action이 호출되면 그 시점에 Driver가 실제 작업 계획(Job) 생성
+- 3단계 [DAG 최적화 및 분할]: 셔플(Shuffle)이 필요한 구간(Wide Dependency)을 기준으로 DAG를 여러 Stage로 쪼개어 스케줄링
+- 4단계 [태스크 수행 및 반환]: Executor 단위로 쪼개진 파티션 병렬 연산(In-Memory) 후 결과를 Driver나 저장소로 출력
 
-> 요약: Spark는 action 전까지 실행을 미루고, DAG를 stage 단위로 나눈 뒤 executor에서 병렬 처리함.
+> 요약: 지연 평가(Lazy Evaluation)를 통해 쓸데없는 중간 연산을 줄이고, 필요 시 전체 과정을 가장 빠른 경로로 묶어 계산한다.
 
 ---
 
 ## Ⅳ. 특징
+- [인메모리 처리]: 디스크 I/O 배제 및 중간 결과 메모리 캐싱으로 MapReduce 대비 최대 100배 속도 향상
+- [장애 복구력]: RDD 계보(Lineage) 정보를 통해 특정 노드 데이터 유실 시 조상 데이터를 역산하여 재계산(Fault Tolerance)
+- [메모리 압박]: 무리한 캐싱이나 그룹핑 시 Executor 메모리 한계를 초과하여 OOM(Out of Memory)으로 인한 잦은 실패 유발
 
-| 구분 | Hadoop MapReduce | Apache Spark | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 실행 모델 | map-reduce 고정 | DAG 기반 다단계 연산 | stage 수와 shuffle boundary |
-| 저장 | 중간 결과 disk 기록 | cache/persist 선택 | executor memory 사용률 70% 이하 |
-| API | MapReduce 중심 | SQL, DataFrame, MLlib, Streaming | 하나의 engine에 통합 |
-| 한계 | 반복 연산 지연 | skew·spill·OOM 리스크 | spill bytes, GC time |
-
-> 요약: Spark는 반복·대화형 분석에 유리하나, shuffle skew와 memory sizing을 관리하지 않으면 job 지연이 발생함.
+> 요약: 압도적 성능 우위가 있으나 클러스터 메모리 크기 설계와 데이터 쏠림 방지에 대한 정교한 튜닝이 필수적이다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 비교 축 | 기존/대안 (MapReduce) | 본 키워드 (Apache Spark) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | MapReduce batch | DAG + executor | 다단계 ETL, ML 반복 연산 |
-| 비용/성능 | disk I/O 중심 | memory cache + spill 제어 | cache hit, shuffle read/write |
-| 운영/위험 | job 단순 | executor sizing 복잡 | OOM, skew, dynamic allocation |
+| 처리 구조 | Map/Reduce 2단계 디스크 I/O | DAG 기반 다단계 In-Memory 파이프라인 | 반복 연산, 대화형 질의 여부 |
+| 데이터 추상화 | 물리적 <Key, Value> | 논리적 RDD, DataFrame (스키마 지원) | SQL 지원 및 개발 생산성 요구 |
+| 장애 복구 | 디스크 복제본 의존 | 계보(Lineage) 기반 재계산 | 스토리지 병목 해소 필요성 |
 
-> 요약: Spark는 다단계 분석에 적합하고, 단순 일회성 scan은 SQL engine이나 MapReduce와 비용을 비교함.
+> 요약: 최신 데이터 파이프라인과 레이크하우스 구성에서 스파크는 사실상의 산업 표준 엔진(De Facto)으로 선택된다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| executor OOM | partition 과대·collect 사용 | repartition, limit, driver collect 금지 | OOM 0건, GC time 10% 이하 |
-| data skew | 특정 key 집중 | salting, skew join hint | max task time/median 3 이하 |
-| shuffle spill | memory 부족 | adaptive query execution, partition 조정 | spill bytes, shuffle wait time |
+**리스크·대응 (기본은 불릿):**
+- [데이터 스큐(Data Skew)]: 특정 파티션에 조인 키가 몰려 1개 Task만 비정상 지연 → Salting(더미 키 추가 분산) 적용 또는 AQE(Adaptive Query Execution) 스큐 완화 켜기 (지표: Task 간 실행 시간 표준편차)
+- [OOM 장애 발생]: Executor 메모리 부족으로 작업 중단 → `spark.sql.shuffle.partitions` 조정을 통한 파티션 크기 감소, 비효율적 Broadcast Join 제한 (지표: GC Pause Time 및 Spill 횟수)
 
-> 요약: Spark 운영 리스크는 OOM, skew, spill이며 Spark UI 지표로 원인을 분리함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| job SLA | batch 완료 30분 이하 | Spark History Server |
-| 자원 사용 | executor memory 70% 이하 | metrics, Prometheus |
-| 데이터 품질 | row count·null rate 기준 충족 | Great Expectations, SQL 검증 |
-
-> 요약: Spark 도입 효과는 job SLA, executor 자원, 데이터 품질 검증으로 판단함.
+**도입 후 점검 지표 (기본은 불릿):**
+- 성능/효율: 데이터 100GB 단위 변환 배치(ETL) p95 완료 시간 5분 이내 — Spark UI 스테이지/태스크 모니터링
+- 품질/운영: 디스크 Spill 발생량 클러스터 메모리 대비 5% 미만 — 셔플 읽기/쓰기 용량 메트릭 확인
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. Parquet/ORC, partition pruning, predicate pushdown으로 scan bytes를 원천 데이터 대비 30% 이하로 제한함
-2. Spark UI에서 skew stage를 식별하고 salting·broadcast join·AQE로 max task time 편차 3배 이하 유지함
-3. checkpoint는 long lineage와 streaming state에 적용하고, cache는 반복 참조 DataFrame에 한정함
+1. 아키텍처 현대화: 기존 HDFS 데이터 위에 Spark SQL을 적용하여 데이터 웨어하우스 수준의 분석(ETL) 파이프라인 구축
+2. 스트리밍 통합: Spark Structured Streaming을 활용해 카프카 토픽과 결합, 마이크로 배치 단위 실시간 대시보드 인입 구현
+3. 옵티마이저 적극 활용: 성능 향상을 위해 저수준 RDD API 사용을 지양하고 Catalyst 최적화 엔진 혜택을 받는 DataFrame/SQL API로 코드 표준화
 
 **결론 (2줄):**
-- 기술사 판단: 반복 분석·ETL·ML 통합은 Spark, event-by-event 저지연 처리는 Flink·Kafka Streams를 선택함
-- 향후 방향: Spark는 lakehouse, Delta/Iceberg, Kubernetes 기반 운영과 결합해 데이터 플랫폼 실행 엔진으로 확장됨
+- 기술사 판단: 스파크는 In-Memory 속도 혁신으로 빅데이터 분석을 범용화했으나, 셔플 오버헤 통제와 파티션 전략이 성능의 8할을 결정한다.
+- 향후 방향: 최근 클라우드 네이티브 환경에 맞춰 컨테이너(K8s) 상에서 Serverless Spark로 구동되는 방식과, Photon 엔진(C++ 벡터화) 같은 차세대 엔진 도입으로 진화 중이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Spark를 설명하시오" | lazy evaluation, DAG, stage/task 흐름 | MapReduce 대비 특징 |
-| 요구사항 명시형 | "성능 개선 방안을 제시하시오", "비교하시오" | shuffle·skew·executor 지표 | 처리 유형별 Spark/Flink/Hadoop 선택 |
-
-> 요약: 설명형은 실행 모델, 개선형은 Spark UI 지표와 튜닝 방안을 중심으로 작성함.
+| 포괄형 | "Apache Spark 특징과 구조를 설명하시오" | RDD 특성, DAG와 지연 평가 메커니즘 | MapReduce 비교, DataFrame 편의성 |
+| 요구사항 명시형 | "스파크 OOM 원인과 최적화 방안을 제시하시오" | Driver와 Executor 간 구조적 메모리 흐름 | 스큐 대책, 파티셔닝, 메모리 지표 관리 |

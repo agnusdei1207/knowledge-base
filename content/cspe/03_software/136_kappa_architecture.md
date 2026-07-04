@@ -1,6 +1,6 @@
 ---
 title: "카파 아키텍처 (Kappa Architecture)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 136
@@ -8,171 +8,141 @@ weight: 136
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 카파 아키텍처가 람다 아키텍처의 이중 구현 문제를 어떻게 없애는지, replay 원리를 이해하게 만든다.
-
 ## 한눈에
-- **개요**: 카파 아키텍처는 **batch layer 없이 stream processing 하나만으로** 실시간 처리와 재처리(reprocessing)를 모두 수행하는 **stream-only 데이터 처리 아키텍처 패턴**이다.
-- **왜 필요한가**: 람다 아키텍처는 batch layer와 speed layer에 같은 집계 로직을 두 번(서로 다른 코드베이스로) 구현해야 해서, 로직 불일치와 이중 운영 부담이 생긴다. Kafka처럼 이벤트를 오래 보존하고 다시 읽을 수 있는 durable log가 등장하면서, "처음부터 다시 재생(replay)"으로 batch의 역할까지 대신할 수 있게 됐다.
-- **핵심 직관**: CCTV 원본 영상을 통째로 보관해 두고, 분석 규칙이 바뀌면 같은 영상을 처음부터 다시 돌려 새로운 결과를 뽑아내는 방식이다 — 별도의 "정산팀"(batch layer)을 두지 않는다.
+- **개요**: 실시간 처리와 배치 처리를 스트림(Stream) 엔진 하나로 완전히 통합하여 데이터 파이프라인을 단순화한 아키텍처다.
+- **왜 필요한가**: 이전의 람다 아키텍처는 정확도와 속도를 위해 코드베이스를 2벌(배치용, 스트림용)로 나눠야 했다. 한 번 수정하면 양쪽을 고쳐야 하는 끔찍한 유지보수 부담을 없애기 위해 등장했다.
+- **핵심 직관**: "모든 데이터는 끊임없이 흐르는 스트림(강물)이다. 과거의 방대한 데이터(배치)도 그저 아주 빠른 속도로 다시 흐르는 스트림일 뿐이다."
 
 ## 핵심 용어 정리 (내부에 등장하는 것들)
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| stream-only 아키텍처 | batch 계층 없이 스트림 처리 하나로 모든 처리를 수행하는 상위 설계 방식 | 정산팀 없이 실황팀 하나로 운영 |
-| durable log | 이벤트를 오랜 기간(수일~수개월) 순서대로 보존하는 append-only 저장소 | 지우지 않는 CCTV 녹화 보관함 |
-| replay | 저장된 로그를 처음(또는 특정 시점) offset부터 다시 읽어 재처리하는 동작 | 녹화 영상을 처음부터 다시 재생 |
-| offset | 로그에서 각 이벤트의 위치(순번)를 가리키는 값 | 영상의 재생 시간 지점(타임코드) |
-| state store | stream processor가 집계 중간값을 유지하는 저장소 | 계산 중인 장부 |
-| checkpoint | 처리 중 상태를 주기적으로 저장해, 장애 시 복구 지점으로 쓰는 스냅샷 | 저장 게임 지점 |
-| savepoint | 사용자가 명시적으로 만드는 상태 스냅샷 — job 코드 배포·업그레이드 시 사용 | 수동으로 찍어두는 백업 지점 |
-| retention | 로그를 얼마나 오래 보존할지 정하는 정책(기간 또는 용량 기준) | 창고 보관 기한 |
-| consumer group | 여러 stream processor가 partition을 나눠 병렬로 읽는 논리적 묶음 | 여러 팀이 구역을 나눠 담당 |
+| Kappa Architecture | 배치(Batch) 레이어를 걷어내고 스트림 엔진 하나로 통합한 구조 | "투 트랙(람다)을 원 트랙으로 합친 도로" |
+| 메시지 브로커 (Kafka) | 모든 데이터를 며칠/몇 주간 유실 없이 순서대로 보관하는 버퍼 | "데이터를 저장해두는 거대한 수도관" |
+| 스트림 처리 (Stream Processing) | 데이터를 조각(Event) 단위로 끊임없이 실시간 연산 | "물이 흐르는 족족 물레방아 돌리기" |
+| 이벤트 재처리 (Re-processing) | 장애나 버그 발생 시 과거부터 저장된 이벤트를 다시 처음부터 스트림으로 흘려보내 계산 | "테이프를 뒤로 감아서 다시 빠르게 재생" |
 
 ## 깊이 이해
-
-### 왜 카파가 가능해졌나 (배경)
-2014년 Jay Kreps(Kafka 공동 개발자)가 "Questioning the Lambda Architecture"라는 글에서 제안했다. 핵심 전제는 "Kafka 같은 durable log가 있으면, 과거 이벤트를 마치 batch의 원본 파일처럼 몇 주~몇 달 뒤에도 다시 읽을 수 있다"는 것이다. 그렇다면 batch layer가 하던 일(전체 데이터를 다시 계산해 정확한 결과를 만드는 것)을, "새로운 stream job이 로그의 처음부터 replay"하는 것으로 똑같이 해낼 수 있다 — 별도의 batch 코드가 필요 없어진다.
-
-### replay로 로직을 바꾸는 절차 — 수치 예제
-클릭 집계 로직에 버그가 있어 수정했다고 하자. Kafka topic의 retention이 90일이면, 최근 90일치 이벤트가 모두 로그에 남아 있다. 새로 배포한 stream job(새 consumer group)이 offset 0(90일 전)부터 다시 읽기 시작한다. 이 job의 처리 속도가 실시간 유입 속도의 10배라면(예: 초당 유입 1,000건인데 재처리 시 초당 10,000건 처리 가능), 90일치 데이터를 재처리하는 데 걸리는 시간은 대략 90일 ÷ 10 = 9일이다. 재처리가 최신 시점을 따라잡으면(caught up), 새 job의 결과를 정답으로 승격하고 기존 job은 폐기한다 — 이를 dual run(신규·기존 병행 실행 후 결과 diff 확인)이라 부른다.
-
-### state와 checkpoint — 장애가 나면 어떻게 되나
-stream processor는 "지금까지 집계한 값"을 state store(예: RocksDB)에 유지한다. 이 state가 메모리·로컬 디스크에만 있으면 서버가 죽는 순간 사라지므로, 일정 간격(예: 30초)마다 checkpoint로 외부 저장소(HDFS, S3)에 스냅샷을 남긴다. 장애가 나면 마지막 checkpoint 시점의 state를 복구하고, 그 checkpoint 이후의 offset부터 로그를 다시 읽어 이어서 처리한다 — 정확히 이 메커니즘이 "batch 재계산 없이도 정확성을 회복"할 수 있게 해준다.
-
-### 흔한 오해
-카파가 batch를 완전히 대체하는 만능 구조는 아니다. 수년치 데이터를 통째로 replay하려면 그만큼 로그를 오래 보존해야 하는데, retention이 길어질수록 저장 비용이 커지고 replay 자체도 오래 걸린다(위 예제처럼 9일이 걸릴 수도 있다). 이런 대규모 backfill이나 규제상 장기 확정 재계산이 자주 필요하다면, 여전히 별도 batch 계층(람다)이나 lakehouse batch 처리를 병행하는 것이 현실적이다.
+- **배경·문제의식**: 람다 아키텍처는 스피드(실시간)와 배치(야간 정산) 두 가지 파이프라인을 가졌다. 개발자는 로직 하나를 구현할 때 하둡(Java) 코드와 스트림(Storm) 코드를 두 번 짰다(중복 구현). 링크드인의 제이 크렙스(Jay Kreps, Kafka 창시자)는 이 낭비를 지적하며 "데이터를 영구 보관할 수 있는 튼튼한 스트림 큐(Kafka)가 있다면 굳이 배치를 따로 둘 필요가 없다"고 카파를 제안했다.
+- **작동 원리**: 데이터를 모두 Kafka 같은 로직스토어에 넣는다. Flink나 Spark Streaming 같은 단일 스트림 엔진이 이 큐에서 실시간으로 데이터를 꺼내 처리한다. 만약 로직을 바꾸거나 과거 뷰를 재계산해야(배치처럼) 할 경우, 새 스트림 앱을 하나 더 띄워 Kafka의 오프셋(Offset)을 맨 과거로 돌린다. 그러면 스트림 엔진이 과거 데이터를 엄청난 속도로 다시 빨아들여 새로운 결과(View)를 만들고, 완성이 되면 기존 앱을 내린다. 즉 배치를 별도 시스템이 아닌 "빠른 스트림 재처리"로 해결한다.
+- **비유**: 공장에 2개의 생산라인(람다 - 수제작, 기계작)이 있어 관리하기 힘든 상황이다. 카파는 엄청 빠르고 똑똑한 최신 기계(스트림 단일 엔진) 1대만 두고 평소엔 실시간 생산을 한다. 만약 작년 불량을 다시 뜯어고쳐야 하면, 기계의 입력 롤(Kafka)을 작년 위치로 되감은 뒤 배속 재생으로 쫙 돌려버리는 것이다.
+- **구체 예시**: 사용자가 클릭 이벤트를 발생시키면 Kafka에 무조건 저장. Flink 앱 버전1이 실시간 집계 대시보드를 만든다. 내일 분석 로직이 바뀌면 버전2를 배포해 Kafka 처음부터 데이터를 재집계한다. 버전2가 현행 시간대까지 따라잡으면 클라이언트를 버전2로 스위칭한다.
+- **흔한 오해·주의점**: 카파가 완벽한 건 아니다. Kafka에 과거 데이터를 장기간 영구 보존하는 스토리지 비용이 매우 비싸다. 또한 엄청난 과거 데이터를 실시간 엔진으로 재처리(Replay)하려면 순간적인 연산 파워 부하(Spike)를 감당해야 한다.
 
 ## 연결 개념
-- Lambda Architecture — 카파가 단순화한 batch+speed 이중 구조(135)
-- Apache Kafka — replay를 가능하게 하는 durable event log의 대표 구현(137)
-- Apache Flink — state store·checkpoint·savepoint를 지원하는 대표 stream processor
+- 135. 람다 아키텍처 (카파의 극복 대상)
+- 137. Apache Kafka (카파 구조의 핵심 버퍼 저장소)
+- 138. Apache Flink (상태 기반 완벽 스트림 처리 엔진)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: Kappa Architecture 문제에서 stream-only 구조, replay, state 관리, Lambda 대비 선택 기준을 제시함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카파 아키텍처는 immutable event log와 stream processor만으로 실시간 처리와 재처리를 수행하는 구조임.
-> 2. **가치**: batch/speed 이중 로직을 제거해 결과 불일치와 운영 경로 수를 줄임.
-> 3. **판단 포인트**: log retention, replay 시간, state size, exactly-once 보장을 기준으로 적용 여부를 판단함.
+> 1. **본질**: 카파 아키텍처는 배치 파이프라인을 완전히 제거하고, 단일 스트림 처리 엔진으로 실시간 분석과 과거 데이터 재처리를 모두 통합한 데이터 아키텍처다.
+> 2. **가치**: 람다 아키텍처의 최대 약점인 이중 코드베이스 관리(유지보수 부채)를 해결하여 개발 생산성을 높이고 시스템 인프라를 단순화했다.
+> 3. **판단 포인트**: 메시지 브로커(Kafka)의 장기 저장 비용과 대량의 과거 데이터 재처리(Replay) 시 발생하는 순간 연산 부하가 트레이드오프 대상이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| Lambda 대안 이해 확인 | stream-only, event log, replay | batch layer 제거만 쓰고 재처리 원리 누락 |
-| stream 처리 설계 확인 | offset, state store, checkpoint | state 복구와 exactly-once 누락 |
-| 적용 한계 판단 확인 | retention 비용, replay SLA | 모든 데이터 웨어하우스 대체로 서술 |
+| 람다 아키텍처의 한계와 진화 방안 확인 | 이중 코드 유지보수 문제(DRY 원칙 위배), 스트림 단일화 | 람다와 카파의 처리 경로 개수를 혼동 |
+| 모든 데이터를 스트림으로 바라보는 사상 이해 | 배치 처리를 스트림 엔진의 빠른 Replay로 대체 | "배치 처리를 아예 못한다"는 식의 서술 |
+| 카파 아키텍처 성립의 필수 인프라 요건 | Kafka 중심의 불변 로그 보관(Retention), 새 인스턴스 띄우기 | 저장소(Broker)의 중요성 누락 |
 
-> 요약: 카파 답안은 단일 stream 로직의 장점과 replay·state 운영 제약을 함께 써야 함.
+> 요약: 두 갈래 길(람다)을 단일 길(카파)로 합쳤으며, 핵심은 과거 데이터 재처리를 별도 엔진 없이 스트림 엔진의 오프셋(Offset) 되감기로 해결한 것이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: 카파 아키텍처는 스트림 중심 데이터 처리 구조임.
-- 배경: 람다 아키텍처의 batch/speed 이중 구현은 코드 불일치와 운영 비용을 만든다.
-- 필요성: immutable event log와 stream processor replay로 실시간 처리와 재처리를 하나의 경로로 통합함.
+- 개요: 빅데이터의 배치 레이어를 제거하고 모든 데이터 파이프라인을 스트림(Stream) 처리 엔진 하나로 단일화한 아키텍처
+- 배경: 람다 아키텍처 운용 시 동일 비즈니스 로직을 배치용과 실시간용 2세트로 개발·동기화해야 하는 심각한 운영 부채 발생
+- 필요성: 시스템 구조를 단순화하고 DRY(Don't Repeat Yourself) 원칙을 준수하여 데이터 엔지니어링 개발 생산성 및 민첩성 확보 필요
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Event Source -> Durable Log -> Stream Processor -> State Store -> Serving View
-                         / Replay from Offset -> New Processor -> New View
+Incoming Data -> [Immutable Log Storage (Kafka)] -> [단일 Stream Processing (Flink/Spark)] -> Serving DB -> Query
+                                    | (오프셋 되감기)      (로직 변경 시 신규 앱 병렬 실행)
+                                    +--------------> [단일 Stream Processing 신규 버전] -> 신규 Serving DB
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Durable Log | 이벤트 순서·보존 | Kafka retention, compaction |
-| Stream Processor | 연속 처리 | Flink, Kafka Streams |
-| State Store | 집계 상태 저장 | checkpoint와 snapshot 필요 |
-| Serving View | 조회용 결과 제공 | materialized view, OLAP store |
+| Immutable Log Storage | 과거부터 현재까지 모든 이벤트를 유실 없이 순서대로 영구 보존 | Kafka 중심, 높은 디스크 비용 발생 |
+| Stream Processing | 데이터 유입 즉시 실시간 연산, 필요시 과거 데이터 고속 재생(Replay) | Flink, Spark Streaming 등 사용 |
+| Serving Layer | 스트림 연산 결과가 실시간으로 반영된 최종 뷰 제공 | 앱 전환 시 기존 뷰와 신규 뷰 간 스위칭 |
 
-> 요약: 카파는 event log를 원본으로 삼고 stream processor와 state store가 실시간 view와 재처리 view를 생성함.
+> 요약: 람다의 무거운 배치 경로가 사라지고, Kafka 같은 버퍼와 튼튼한 스트림 엔진 1개가 전담하는 단일 구조다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-이벤트 수집 -> log append -> processor consume -> state update
--> checkpoint 저장 -> serving view 갱신 -> 필요 시 offset replay
+정상 실시간 처리: 이벤트 유입 -> 메시지 브로커(Log) 기록 -> 스트림 엔진 연산 -> 서빙 DB 반영
+로직 변경(재처리): 로직 수정 -> 브로커 Offset 0으로 되감기 -> 새 스트림 앱 기동 -> 과거 데이터 고속 재생 -> 서빙 스위칭
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 이벤트를 log에 append | partition key, retention |
-| 2 | processor가 offset 순서로 consume | consumer lag |
-| 3 | state와 view 갱신 | checkpoint interval |
-| 4 | 로직 변경 시 replay 수행 | replay 완료 시간, 결과 diff |
+- 1단계 [로그 보존]: 유입되는 모든 데이터 이벤트를 불변(Immutable) 상태로 메시지 브로커(Kafka) 파티션에 장기 보관
+- 2단계 [실시간 연산]: 스트림 처리 엔진이 데이터 인입 즉시 연산을 수행하여 서빙 레이어 뷰를 실시간 갱신
+- 3단계 [과거 데이터 재처리]: 비즈니스 로직 변경이나 버그 복구 시, 수정된 스트림 앱(V2)을 기동하고 Kafka 오프셋을 맨 처음으로 재설정(Rewind)
+- 4단계 [고속 재생 및 스위칭]: V2 앱이 과거 데이터를 초고속(배치 수준)으로 다시 빨아들여 신규 뷰를 만들고, 현행 시점을 따라잡으면 V1 앱과 교체(Switch)
 
-> 요약: 카파의 재처리는 batch job이 아니라 event log를 다시 읽는 stream job으로 수행됨.
+> 요약: 평소에는 실시간 처리를 하다가, 전체 재계산이 필요하면 스트림 입력 포인트를 과거로 돌려 고속으로 다시 돌린다.
 
 ---
 
 ## Ⅳ. 특징
+- [개발 단순화]: 단일 프레임워크, 단일 코드베이스 사용으로 개발, 테스트, 디버깅 비용 획기적 절감
+- [재처리 유연성]: 과거 데이터를 통한 A/B 테스트나 머신러닝 피처(Feature) 재생성 시 손쉽게 백필(Backfill) 가능
+- [인프라 부하]: 재처리(Replay) 시 엄청난 데이터를 스트림 엔진이 순간적으로 감당해야 하므로 CPU 자원 스파이크 발생
 
-| 구분 | Lambda Architecture | Kappa Architecture | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 처리 경로 | batch+speed 2개 | stream 1개 | 코드 경로 1개 |
-| 재처리 | batch recompute | log replay | retention 7~90일 정책 |
-| 최신성 | speed layer | stream processor | end-to-end lag 5초 이하 |
-| 한계 | 로직 중복 | 대규모 replay 비용 | replay SLA 4시간 이하 |
-
-> 요약: 카파는 운영 경로를 줄이지만, 장기 보존·대용량 재처리 요구가 크면 람다 또는 lakehouse batch를 병행함.
+> 요약: 아키텍처 파편화 문제를 깔끔히 해결했지만, 과거 데이터를 실시간 엔진으로 욱여넣을 때의 컴퓨팅 파워와 스토리지 비용 부담이 크다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 비교 축 | 기존/대안 (Lambda) | 본 키워드 (Kappa) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | Lambda 이중 경로 | 단일 stream 경로 | 동일 로직 재사용 요구가 큰 경우 |
-| 비용/성능 | batch cluster 추가 | log retention·state 비용 | replay 데이터량과 보존기간 |
-| 운영/위험 | 결과 병합 복잡 | state 복구 복잡 | checkpoint, savepoint 운영 역량 |
+| 데이터 경로 수 | Batch, Speed 2개 경로 분리 | Stream 단일 경로 | 코드 유지보수 복잡도 허용 한계 |
+| 재처리 (배치) 주체 | HDFS + Hadoop/Spark | Kafka (Replay) + Flink | 과거 데이터 장기 저장 매체 비용 |
+| 상태 일관성 병합 | Serving에서 이종 뷰 Merge 필요 | 단일 엔진 결과만 보여줌 | 실시간 로직과 배치 로직 간 동일성 유지 중요도 |
 
-> 요약: 카파는 이벤트 중심 서비스에 적합하고, 규제상 장기 확정 재계산이 필요하면 batch 계층을 보완함.
+> 요약: 스토리지와 컴퓨팅 자원이 충분하고 엔지니어 공수가 부족한 현대 환경에서는 카파가 압도적으로 효율적이다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| replay 지연 | topic 보존량 증가 | parallelism 증설, compacted topic | replay 완료 4시간 이하 |
-| state 손상 | checkpoint 실패 | savepoint, dual run 검증 | checkpoint success 99.9% |
-| 순서 오류 | partition key 설계 오류 | entity_id key 고정 | out-of-order rate |
+**리스크·대응 (기본은 불릿):**
+- [스토리지 비용 폭증]: Kafka에 수년 치 빅데이터를 모두 저장하기엔 SSD/HDD 유지 비용 한계 도달 → Tiered Storage(계층화 스토리지)를 도입해 최근 데이터는 Kafka 브로커에, 오래된 데이터는 S3/HDFS 등 값싼 객체 스토리지로 자동 이관(Offload) (지표: GB당 스토리지 TCO)
+- [데이터 순서 섞임]: 재처리 시 과거 이벤트의 Out-of-Order 지연 발생 → 스트림 엔진의 Watermark 및 Event-Time 프로세싱을 적용하여 도착 시간 기반 윈도우 정합성 보호
 
-> 요약: 카파 리스크는 replay와 state이며, checkpoint 성공률과 replay SLA로 통제함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 처리 지연 | consumer lag 1000건 이하 | Kafka/Flink metrics |
-| 상태 복구 | checkpoint 복구 5분 이하 | failure drill |
-| 결과 검증 | old/new view diff 0.1% 이하 | dual run reconciliation |
-
-> 요약: 카파 도입 효과는 lag, 복구 시간, replay 결과 차이로 판단함.
+**도입 후 점검 지표 (기본은 불릿):**
+- 성능/효율: 대규모 로직 변경 후 과거 데이터 백필(Replay) 완료 소요 시간 — 클러스터 CPU 사용률 추이
+- 품질/운영: 이중 코드베이스 제거를 통한 신규 로직 배포 주기(Lead Time for Changes) 단축 — DORA 메트릭스 측정
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
 **적용 방안 3개:**
-1. Kafka topic은 entity_id 기준 partition key와 retention 30일 이상을 설정해 replay 범위를 보장함
-2. Flink savepoint 기반 배포 절차를 표준화하고 checkpoint interval 30초, state backend를 RocksDB로 구성함
-3. 로직 변경 시 old/new processor를 병행 실행해 view diff 0.1% 이하 확인 후 traffic을 전환함
+1. 엔진 표준화: 복잡한 상태 관리와 Exactly-Once 트랜잭션 처리가 지원되는 Apache Flink를 단일 연산 코어 엔진으로 도입
+2. 스토리지 최적화: Kafka의 장기 보관 비용 한계를 극복하기 위해 Confluent Tiered Storage나 Pulsar 채택으로 핫/콜드 데이터 분리 아키텍처 구성
+3. CI/CD 파이프라인 연계: 로직 변경 시 구버전과 신버전 스트림 앱의 섀도 배포(Shadow Deploy) 및 결과 비교 검증 자동화 구축
 
 **결론 (2줄):**
-- 기술사 판단: 이벤트 보존과 replay SLA가 충족되면 Kappa, 장기 확정 재계산과 대규모 backfill이 필수면 Lambda를 선택함
-- 향후 방향: stream-table duality와 lakehouse streaming table 확산으로 batch와 stream 경계가 줄어듦
+- 기술사 판단: 카파 아키텍처는 "배치는 스트리밍의 특수한 부분집합"이라는 사상으로 현대 데이터 엔지니어링의 패러다임을 바꾼 모범 해답이다.
+- 향후 방향: 최근에는 람다와 카파의 장점을 섞은 델타 레이크(Delta Lake) 기반의 차세대 람파(Kappa/Lambda 융합형 데이터 레이크하우스) 아키텍처로 더욱 진화 중이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "카파 아키텍처를 설명하시오" | log append, state update, replay 흐름 | Lambda 대비 단일 경로 |
-| 요구사항 명시형 | "Lambda와 비교하시오", "설계하시오" | retention, offset replay, checkpoint | replay SLA와 state 리스크 |
-
-> 요약: 설명형은 stream-only 원리, 비교형은 Lambda 대비 운영 경로와 재처리 제약 중심으로 작성함.
+| 포괄형 | "카파 아키텍처를 설명하시오" | 단일 스트림 경로 및 Offset 되감기 원리 | 람다와의 비교 분석표 중심 |
+| 방안형 | "이중 파이프라인 운영 한계 개선 방안" | 스트림 통합으로 복잡도 제거 흐름도 | 재처리 스파이크 및 스토리지 비용 대응 방안 |
