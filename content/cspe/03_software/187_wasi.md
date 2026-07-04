@@ -1,6 +1,6 @@
 ---
-title: "WASI (WASI)"
-date: "2026-07-01"
+title: "WASI (WebAssembly System Interface)"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 187
@@ -8,177 +8,143 @@ weight: 187
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: WASI를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: WASI(WebAssembly System Interface)는 브라우저 밖에서 실행되는 WASM 모듈이 파일·시간·난수·네트워크 같은 **시스템 자원**에 접근할 때 지켜야 할 **capability 기반 보안 모델**의 표준 API다.
-- **왜 필요한가**: WASM 모듈은 기본적으로 자신의 선형 메모리 밖은 아무것도 볼 수 없는 순수 sandbox라서, 파일을 열거나 시간을 읽는 함수조차 내장돼 있지 않다 — 이런 기능을 "안전하게" 여는 표준 규칙이 필요하다.
-- **핵심 직관**: WASM 모듈에게 집 열쇠를 통째로 주는 대신, 필요한 방(자원)의 출입증만 미리 발급하는 규칙이다.
+- **개요**: WebAssembly(WASM) 코드가 운영체제의 파일, 네트워크, 시스템 클록 등의 자원에 안전하게 접근할 수 있도록 해주는 표준 시스템 인터페이스다.
+- **왜 필요한가**: WASM 자체는 철저히 샌드박스되어 있어 밖(OS)으로 나가는 문이 아예 없다. 서버나 로컬에서 유용한 앱을 만드려면 파일을 읽고 통신을 해야 하는데, 이 '문'을 안전하고 표준화된 방식으로 열어주기 위해 등장했다.
+- **핵심 직관**: 아무것도 없는 독방(WASM)에 수감된 죄수에게, 간수(WASI)를 통해서만 정해진 물건(파일 읽기 권한 등)을 주고받게 하는 안전 통신 창구다.
 
-## 핵심 용어 정리 (내부에 등장하는 것들)
+## 핵심 용어 정리
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| WASI (WebAssembly System Interface) | WASM 모듈이 OS 자원을 호출하는 방식을 정의한 표준 인터페이스 — 이 문서가 다루는 **대상** | 캡슐 밖 세상과 통하는 표준 배관 규격 |
-| Capability 기반 보안 | 프로세스가 자원 경로를 알기만 하면 접근 가능한 방식이 아니라, 실행 전에 **명시적으로 건네받은 핸들**만 사용할 수 있는 보안 모델 | 주소를 안다고 들어갈 수 없고, 발급된 카드가 있어야 들어감 |
-| Preopen (사전 개방) | 모듈 실행을 시작하기 전에 runtime이 특정 디렉터리를 파일 디스크립터로 미리 열어 넘겨주는 절차 | 체크인 때 미리 지정된 객실 카드만 발급 |
-| Ambient Authority (주변 권한) | POSIX처럼 프로세스가 파일 경로 문자열만으로 시스템 전체에 접근 가능한 전통 모델 — WASI가 지양하는 대상 | 마스터키 한 장으로 건물 전체 출입 |
-| Preview 1 | 초기 WASI 표준 — POSIX와 유사한 flat 함수 목록(open, read, write 등) | 1세대 규격, 기능은 되지만 조합이 어려움 |
-| Preview 2 / Component Model | WIT(WebAssembly Interface Type)로 인터페이스를 기술해 모듈 간 조합성을 높인 차세대 표준 | 부품 규격을 통일해 서로 끼워 맞추게 함 |
-| Runtime | WASI API를 실제로 구현하고 capability를 검사하는 실행 엔진 (Wasmtime, WasmEdge) | 카드 인식기 — 카드 발급 규격을 실제로 구현 |
+| WASM 샌드박스 | 메모리 밖으로 접근할 수 없는 WASM의 기본 격리 환경 | 창문 없는 독방 |
+| Capability-based Security | 명시적으로 부여된 권한(Capability)만 사용할 수 있는 보안 모델 | 특정 서랍만 열 수 있는 열쇠 |
+| POSIX | 유닉스 계열 운영체제의 표준 API (WASI가 지향하는 인터페이스 형태) | 전 세계 공용 콘센트 규격 |
 
 ## 깊이 이해
-
-### 왜 "권한을 명시적으로 준다"는 게 특별한가 (배경)
-- 전통 POSIX 프로그램은 **ambient authority**로 동작한다. 프로세스가 `/etc/passwd`라는 경로 문자열만 알면(그리고 OS 권한이 맞으면) 별도 허가 없이 바로 열 수 있다. 문제는 이 모델에서는 코드 어디에 숨어 있는 라이브러리든 프로세스 권한 범위 안의 파일을 임의로 읽고 쓸 수 있다는 것 — 신뢰할 수 없는 서드파티 WASM 모듈을 실행할 때 이 모델을 그대로 쓰면 sandbox의 의미가 사라진다.
-- WASI는 이를 **capability 기반**으로 뒤집는다. 모듈은 실행 시작 시 runtime이 건네준 파일 디스크립터(핸들) 목록에 있는 자원만 쓸 수 있고, 경로 문자열을 안다고 해서 임의 파일에 접근할 수 없다. "권한이 있는가"의 기준이 "경로를 아는가"에서 "핸들을 받았는가"로 바뀌는 것이다.
-
-### Preopen을 구체 예로 이해하기
-- 예: 이미지 변환 WASM 모듈을 실행할 때 runtime 설정에서 `/input`, `/output` 두 디렉터리만 preopen하고 네트워크 capability는 부여하지 않는다고 하자. 모듈 코드 안에 `/etc/passwd`를 여는 로직이 있어도, 애초에 그 경로에 대한 파일 디스크립터가 전달되지 않았으므로 시스템 콜 자체가 "그런 핸들은 없다"는 오류로 즉시 실패한다 — 접근 거부가 아니라 **접근 대상이 애초에 존재하지 않는** 형태의 차단이다.
-- 같은 모듈이 이미지를 외부 서버로 전송하려 시도해도, 네트워크 capability를 받지 못했으므로 소켓을 열 수 없다. 결과적으로 이 모듈은 `/input`을 읽고 `/output`에 쓰는 일만 할 수 있는, 기능이 물리적으로 제한된 실행 단위가 된다.
-
-### Preview 1과 Preview 2의 차이
-- Preview 1은 POSIX와 비슷한 형태의 개별 함수(파일 열기·읽기·쓰기, clock 조회, 난수 생성 등)를 하나씩 나열한 API였다. 동작은 하지만 여러 모듈을 조합하거나 언어를 넘나들며 인터페이스를 재사용하기가 번거로웠다.
-- Preview 2는 WIT(WebAssembly Interface Type)라는 인터페이스 기술 언어로 자원·함수 시그니처를 정의하고, 이를 기반으로 한 **Component Model**이 서로 다른 언어로 만든 WASM 모듈끼리도 명확한 계약으로 조합될 수 있게 한다 — 예를 들어 Rust로 만든 로깅 컴포넌트를 Go로 만든 HTTP 핸들러 컴포넌트가 표준 인터페이스로 호출하는 식이다.
-
-### 비유와 흔한 오해
-- **비유**: 호텔 투숙객에게 마스터키를 주는 대신, 객실·헬스장·조식장처럼 필요한 곳만 카드에 담아 발급하는 방식이다.
-- **오해**: "WASI가 곧 WASM 런타임"이라고 착각하기 쉽지만, WASI는 규격(무엇을 어떻게 요청하는가)일 뿐이고 실제로 그 요청을 처리하는 것은 Wasmtime·WasmEdge 같은 **runtime의 구현**이다. 같은 모듈이라도 runtime과 지원 Preview 버전에 따라 실제로 쓸 수 있는 API 범위가 달라질 수 있다.
+- **배경·문제의식**: 브라우저 안에서는 자바스크립트 엔진이 웹 API를 통해 통신이나 DOM 접근을 도와준다. 하지만 서버에서는 이런 브라우저 API가 없다. WASM을 서버용 컨테이너 대체재로 쓰려면, 맥이든 리눅스든 윈도우든 똑같이 동작하는 파일/네트워크 접근 표준이 필요했다.
+- **작동 원리**: 개발자가 C/Rust로 코드를 짜고 `wasi-libc` 같은 라이브러리를 써서 빌드한다. 실행 시 호스트 런타임(Wasmtime 등)은 WASI 호환 인터페이스를 통해 시스템 콜을 대리 수행한다. 이때 실행할 때 `--dir=/app/data`처럼 허용한 디렉터리 외에는 절대 접근할 수 없다.
+- **비유**: 해외 여행(다른 OS)을 갈 때마다 그 나라 언어(OS별 시스템 콜)를 배우는 대신, WASI라는 공용어 통역기를 거치는 것이다. 통역기는 허락된 장소(권한) 밖으로는 안내를 거부한다.
+- **구체 예시**: 서버리스 함수에서 `fs.readFileSync("/etc/passwd")`를 호출하면, 도커에서는 권한 탈취로 읽힐 위험이 있지만, WASM+WASI 환경에서는 해당 디렉터리 접근 권한을 명시적으로 주지 않았으므로 커널에 도달하기도 전에 차단된다.
+- **흔한 오해·주의점**: WASI는 리눅스의 1:1 복제품이 아니다. POSIX와 비슷해 보이지만, 보안 모델이 근본적으로 달라서 (Capability 기반), 레거시 리눅스 앱을 그대로 WASI 타겟으로 컴파일하면 권한 문제로 안 돌아가는 경우가 많다.
 
 ## 연결 개념
-- WebAssembly Server-side - WASI가 자원 접근을 표준화해주는 실행 환경 (186 참고)
-- Capability Security - WASI가 채택한 명시 허용 권한 모델의 일반 이론
-- Component Model - Preview 2 기반 WASM 모듈 간 인터페이스 조합 방식
+- **WebAssembly Server-side**: WASI를 활용하여 백엔드 로직을 실행하는 전체 아키텍처 (186번)
+- **Component Model**: WASI의 다음 단계로, 서로 다른 언어로 만들어진 WASM 모듈들을 레고 블록처럼 조립하는 표준
+- **Sandbox Security**: 호스트 운영체제를 보호하기 위한 애플리케이션 격리 기법
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: WASI 답안은 WASM sandbox와 OS API 사이의 capability 기반 표준 인터페이스라는 점을 중심으로 구성해야 함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: WASI는 WebAssembly module이 브라우저 밖에서 시스템 자원을 안전하게 호출하도록 정의한 표준 인터페이스임.
-> 2. **가치**: preopen directory, clock, random, socket 같은 capability를 명시해 sandbox와 서버 실행 요구를 조정함.
-> 3. **판단 포인트**: Preview 버전, runtime 구현 범위, capability 최소화, host function 경계, API 호환성을 기준으로 설계해야 함.
+> 1. **본질**: WASI는 호스트 OS 독립적으로 파일, 네트워크 등 시스템 자원에 안전하게 접근하기 위한 WebAssembly의 표준 시스템 인터페이스다.
+> 2. **가치**: 플랫폼 비종속성(Portability)을 유지하면서도, Capability 기반 보안 모델을 통해 기존 OS 시스템 콜보다 훨씬 강력한 격리 보안을 제공한다.
+> 3. **판단 포인트**: 초경량 서버리스 및 엣지 컴퓨팅의 런타임 표준으로 자리 잡고 있으나, 아직 네트워킹과 스레딩 API의 표준화가 완성되지 않은 점을 고려해야 한다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| WASM 서버 실행 이해 확인 | sandbox, system interface, capability | WASM runtime과 혼동 |
-| 보안 모델 판단 확인 | preopen, least privilege, host call | POSIX 전체 노출 주장 |
-| 표준·호환성 확인 | Preview 1/2, component model, runtime 차이 | API 지원 범위 누락 |
+| 브라우저 외곽으로 WASM이 확장되는 핵심 고리 파악 | OS 의존성 제거, POSIX 유사 인터페이스 | 브라우저 내의 웹 API(DOM 등)와 혼동 |
+| 권한 제어 방식의 차별성 이해 | Capability-based Security, 명시적 권한 위임 | "리눅스 커널 시스템 콜을 직접 호출한다"는 오류 |
+| 클라우드 네이티브 발전 방향 전망 | Docker 대체/보완, Component Model | 프론트엔드 최적화 기술로만 국한하는 설명 |
 
-> 요약: 이 문제는 WASI를 WASM의 OS 접근 표준과 권한 최소화 모델로 설명해야 함.
+> 요약: 컨테이너의 한계(OS 부팅 오버헤드, 넓은 공격면)를 극복하기 위해, WASM의 샌드박스를 안전하게 외부와 연결하는 '문'의 역할을 명시해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: WASM 시스템 인터페이스
-- 배경: 서버사이드 WASM은 파일, 시간, 난수, 네트워크 같은 시스템 기능이 필요하지만 sandbox 경계를 유지해야 한다.
-- 필요성: WASI capability API로 preopen directory, env, clock, random 등 필요한 자원만 명시 허용한다.
+- 개요: WASI(WebAssembly System Interface)는 샌드박스된 WASM 모듈이 호스트 운영체제의 파일, 네트워크 자원에 안전하게 접근하도록 추상화한 표준 API임
+- 배경: WASM 자체는 메모리 격리 공간에서만 실행되어 입출력(I/O)이 불가능하므로, 서버사이드 활용을 위한 범용 시스템 인터페이스가 요구됨
+- 필요성: 다양한 OS 환경에서 수정 없이 실행되는 이식성(Portability)과, 호스트 자원 탈취를 원천 차단하는 제로 트러스트 실행 환경 확보 필요
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-WASM Module -> WASI API -> Runtime Implementation -> Host OS Resource
-  / Capability: preopen dir, env, clock, random
-  / Control: policy, signing, audit
+[WASM 애플리케이션 (Rust, C++)]
+         | (WASI API 호출: fd_read, path_open)
+[WASI Layer (wasi-libc 등 런타임 인터페이스)]
+         | (Capability 검증 후 시스템 콜 변환)
+[Host OS (Linux, Windows, macOS)]
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| WASI API | 표준 시스템 호출 인터페이스 | 파일, clock, random, socket |
-| Runtime | WASI 구현과 권한 검사 | Wasmtime, WasmEdge |
-| Capability | 자원 접근 허용 범위 | preopen directory, env allowlist |
-| Component Model | module 간 인터페이스 조합 | Preview 2와 연계 |
+| WASM Module | 비즈니스 로직과 WASI 호출 규격을 포함하는 이진 파일 | OS 독립적 동작 보장 |
+| WASI API | 파일 입출력, 시간, 무작위 수 생성 등 OS 자원을 추상화한 인터페이스 모음 | POSIX와 유사하나 보안 모델 다름 |
+| WASM Runtime | Wasmtime 등에서 WASI 호출을 가로채어 호스트 시스템 콜로 매핑 | 샌드박스 경계선 통제 역할 |
+| 호스트 OS | 최종적으로 물리적 자원 접근을 수행하는 기저 환경 | 런타임에 의해 간접 접근 |
 
-> 요약: WASI는 WASM module과 Host OS 사이에 runtime이 구현하는 capability 기반 시스템 API 계층임.
+> 요약: 애플리케이션은 OS를 직접 호출하지 않고 WASI 표준을 거치며, 런타임이 이를 호스트 시스템 콜로 대리 매핑하여 완전한 추상화를 이룬다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-module 실행 요청 -> capability 설정 -> runtime load -> WASI call 발생 -> 권한 검사 -> host resource 접근 -> audit 기록
-  / 권한 없음 -> deny
-  / API 미지원 -> trap/error
+권한 부여 후 런타임 시작 -> 파일 열기 시도 -> WASI 권한(Capability) 검증 -> 호스트 I/O 수행 -> 결과 반환
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 실행 전 directory, env, network capability 설정 | 허용 목록 승인 |
-| 2 | runtime이 module을 load하고 WASI import 연결 | import resolution 100% |
-| 3 | module이 WASI API 호출 | call count, error rate |
-| 4 | runtime이 capability와 policy 검사 | deny event 기록 |
-| 5 | host OS resource 접근 후 결과 반환 | audit log 보관 |
+- 1단계 [실행 및 권한 위임]: 런타임 구동 시 `--dir=/app/data`와 같이 명시적으로 허용된 파일 디렉터리나 자원 접근 권한만 부여
+- 2단계 [인터페이스 호출]: WASM 앱 내부에서 `fopen()` 등을 호출하면 컴파일된 WASI API(`path_open`)로 매핑되어 런타임에 전달
+- 3단계 [Capability 평가]: 런타임이 해당 자원 접근이 최초에 부여받은 권한 목록(Capability) 내에 있는지 평가
+- 4단계 [호스트 매핑]: 권한이 유효하면 호스트 OS의 실제 시스템 콜로 변환하여 I/O를 수행하고 결과를 샌드박스 내로 반환
 
-> 요약: WASI는 실행 전 부여된 capability만 검사해 host resource 접근을 허용함.
+> 요약: 런타임 외부의 자원 접근 시마다 명시적으로 위임받은 권한(Capability)만을 엄격히 대조하여 호스트 시스템을 안전하게 보호한다.
 
 ---
 
 ## Ⅳ. 특징
+- [보안 격리 심화]: 기존 UID/GID 기반의 커널 통제가 아닌, Capability-based Security로 디렉터리 단위의 초정밀 접근 통제 구현
+- [극강의 이식성]: "Write Once, Run Anywhere"를 브라우저 밖으로 확장하여 x86/ARM, Windows/Linux 환경에서 단일 바이너리 구동
+- [빠른 구동 속도]: 무거운 OS 게스트 커널 부팅(VM)이나 네임스페이스 초기화(컨테이너) 없이 밀리초(ms) 단위의 런타임 환경 구성
+- [표준화 진행 한계]: 비동기 I/O, 멀티스레딩, 본격적인 네트워크 소켓 API 등이 아직 W3C 표준화 진행 중이라 레거시 포팅이 까다로움
 
-| 구분 | POSIX 직접 노출 | WASI | 수치/판단 포인트 |
-|:---|:---|:---|:---|
-| 권한 | OS API 범위 넓음 | capability 기반 허용 | preopen dir 최소화 |
-| 이식성 | OS별 차이 | runtime API 표준화 | runtime 2종 이상 검증 |
-| 보안 | 접근 경계 넓음 | sandbox 유지 | deny event 추적 |
-| 성숙도 | 생태계 풍부 | Preview별 차이 | Preview 1/2 지원 확인 |
-
-> 요약: WASI는 이식성과 권한 최소화를 제공하지만 Preview 버전과 runtime 지원 범위를 확인해야 함.
+> 요약: 호스트 독립성과 강력한 권한 통제라는 이점을 제공하나, 미성숙한 네트워크 표준이 현재 실무 도입의 병목으로 작용한다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 비교 축 | Linux POSIX | WASI | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | host API 직접 구현 | WASI 표준 API | WASM runtime 이식성 필요 |
-| 비용/처리 | runtime별 custom binding | 표준 import | 개발 언어 2종 이상 |
-| 운영/위험 | 권한 범위 불명확 | capability 명시 | 보안 감사 요구 업무 |
+| 접근 통제 | 사용자(UID) 기반 전체 파일시스템 권한 | Capability 기반 디렉터리별 명시적 권한 | 샌드박스 격리 요구 수준 |
+| 이식성 | 커널/CPU 아키텍처 종속 | OS/CPU 완전히 독립적 | 엣지/멀티클라우드 환경 여부 |
+| 레거시 호환성 | 기존 C/C++ 앱 완벽 동작 | 소켓/스레드 사용 시 수정 필요 | 기존 앱 이관 vs 신규 마이크로서비스 |
 
-> 요약: 여러 runtime과 언어를 쓰는 서버사이드 WASM은 WASI를 기준 인터페이스로 삼아야 함.
+> 요약: 기존 모놀리식 레거시 시스템은 컨테이너(POSIX) 유지가 적합하며, 신규 개발되는 경량 분산 엣지 워크로드는 WASI 기반이 압도적으로 유리하다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| API 불일치 | Preview와 runtime 차이 | 호환성 매트릭스, conformance test | API error rate |
-| 권한 과다 | 넓은 preopen directory | 최소 directory, env allowlist | 허용 capability 수 |
-| 감사 누락 | host call 추적 부재 | runtime audit, OTLP log | audit event coverage |
+**리스크·대응 (기본은 불릿):**
+- [라이브러 생태계 부족]: 네트워크 통신이 잦은 서비스의 경우 WASI 소켓 표준 미비로 빌드 실패 → WasmEdge 등 비표준 확장 API 지원 런타임 우회 활용 (지표: 호환 라이브러리 빌드 성공률)
+- [I/O 성능 오버헤드]: WASI 인터페이스 변환 과정의 컨텍스트 스위치 지연 발생 → JIT 컴파일 최적화 및 AOT(Ahead-of-Time) 컴파일 사전 적용 (지표: 디스크 I/O Latency)
 
-> 요약: WASI 리스크는 API 호환, capability 과다, host call 감사로 관리함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 호환성 | 대상 runtime 2종 통과 | conformance test |
-| 권한 | 미사용 capability 0건 | policy review |
-| 보안 | deny event 100% 기록 | runtime audit log |
-
-> 요약: WASI 품질은 runtime 호환성, capability 최소화, 감사 기록으로 판단함.
+**도입 후 점검 지표 (기본은 불릿):**
+- 콜드 스타트 지연: 인스턴스 기동부터 최초 I/O 완료까지 지연 시간 10ms 이하 — APM 트레이싱
+- 보안 격리성: 비인가 디렉터리 접근 시도 시 런타임 거부율 100% — 침투 테스트 스크립트
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 인터페이스 기준화: Wasmtime과 WasmEdge에서 Preview 1/2 지원 범위를 확인하고 WASI API 사용 목록을 문서화
-2. 권한 최소화: preopen directory를 `/input`, `/output`처럼 업무별로 제한하고 env, clock, random 권한을 allowlist로 관리
-3. 감사 체계 구성: WASI call, deny event, trap error를 OTLP log로 수집하고 module 서명 검증을 배포 조건으로 설정
+**적용 방안 3개 (필수 — 단계별 또는 항목별):**
+1. [서버리스 엣지 함수 배포]: CDN 엣지 노드(Cloudflare 등)에서 WASI 기반 모듈을 구동하여 초저지연 이미지 리사이징 및 JWT 검증 오프로딩
+2. [플러그인 아키텍처 도입]: 메인 애플리케이션(예: 데이터베이스 프록시)의 확장 로직을 WASI 모듈로 받아들여, 호스트 다운 없이 서드파티 로직 안전 실행
+3. [마이크로 인프라 통합]: Docker Desktop, Kubernetes(Kwasm) 인프라에 WASM 런타임을 결합하여 기존 컨테이너와 WASM 워크로드를 하이브리드로 통합 관리
 
 **결론 (2줄):**
-- 기술사 판단: 서버사이드 WASM이 파일·시간·네트워크 등 시스템 기능을 요구하면 WASI를 적용하고, POSIX 전체 의존 업무는 컨테이너를 선택함
-- 향후 방향: WASI Preview 2와 component model이 WASM module 이식성과 권한 모델의 표준 축이 됨
+- 기술사 판단: WASI는 WASM을 장난감(브라우저)에서 엔터프라이즈 서버 런타임으로 끌어올린 핵심 연결고리이며, 포스트 컨테이너 시대의 게임 체인저다.
+- 향후 방향: WASI Preview 2 (Component Model)가 완성되면, 언어 제약 없이 모듈을 레고 조립하듯 연결하는 분산 MSA 혁신이 가속화될 것이다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "WASI를 설명하시오", "기술하시오" | capability 설정과 WASI call 흐름 | POSIX 직접 노출 대비 권한·이식성 |
-| 요구사항 명시형 | "WASM 실행 보안을 설계하시오", "비교하시오" | preopen, host call, audit 설계 | runtime 호환과 최소 권한 기준 |
+| 포괄형 | "설명하시오", "기술하시오" | WASM과 호스트 OS 간의 추상화 계층 | POSIX와의 비교, 엣지 서버 활용 방안 |
+| 요구사항 명시형 | "보안 모델을 설계하시오" | Capability 부여 및 시스템 콜 변환 통제 흐름 | 권한 탈취 방어 지표, 마이크로 격리 방안 |
 
-> 요약: 설명형은 표준 인터페이스, 보안형은 capability와 감사 체계 중심으로 전환함.
+> 요약: POSIX와의 결정적 차이인 'Capability 기반 보안'을 부각하고, 이것이 클라우드 네이티브에서 왜 컨테이너보다 안전한지를 논증한다.

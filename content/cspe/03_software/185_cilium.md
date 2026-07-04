@@ -1,6 +1,6 @@
 ---
 title: "Cilium CNI (Cilium)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 185
@@ -8,181 +8,142 @@ weight: 185
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Cilium CNI를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: Cilium은 **eBPF**를 데이터 플레인으로 쓰는 **Kubernetes CNI**(Container Network Interface)로, IP 대신 **보안 아이덴티티**(label 기반)로 네트워크 정책을 적용하고 **kube-proxy를 대체**하는 서비스 로드밸런싱과 관측(Hubble)을 함께 제공한다.
-- **왜 필요한가**: 컨테이너 환경은 Pod가 끊임없이 재생성·재배치돼 IP가 수시로 바뀌므로, IP 기반 방화벽 규칙만으로는 "이 서비스가 누구인지"를 안정적으로 표현할 수 없다.
-- **핵심 직관**: 단순 도로망이 아니라, 차량(패킷)의 신분증·목적지·운행 기록까지 커널 센서(eBPF)로 즉시 확인하는 클러스터 네트워크다.
+- **개요**: 리눅스 커널의 eBPF 기술을 기반으로 설계된 차세대 쿠버네티스 컨테이너 네트워크 인터페이스(CNI) 플러그인이다.
+- **왜 필요한가**: 쿠버네티스에서 기본적으로 트래픽을 제어하는 kube-proxy(iptables 기반)는 서비스와 룰이 수천 개로 늘어나면 극심한 성능 저하와 병목을 일으킨다. 이를 eBPF를 통해 근본적으로 해결하기 위해 등장했다.
+- **핵심 직관**: 기존 방식이 우편물 주소를 보고 일일이 목록(수천 줄의 규칙)을 처음부터 끝까지 뒤져서 길을 찾는 것이라면, Cilium(eBPF)은 우편물 목적지 ID만 보고 O(1) 해시 테이블로 한 번에 정확한 배송지로 바로 쏴주는 고속도로 하이패스다.
 
-## 핵심 용어 정리 (내부에 등장하는 것들)
+## 핵심 용어 정리
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| CNI (Container Network Interface) | Kubernetes Pod에 네트워크를 붙여주는 표준 플러그인 인터페이스 — Cilium이 구현하는 **역할** | 건물에 전기·수도를 연결하는 배관 표준 |
-| eBPF | Cilium의 데이터 플레인을 이루는 커널 내 프로그램 실행 기술 (184 참고) | Cilium이 도로에 심는 센서 기술 자체 |
-| Cilium Agent | 노드마다 실행되며 Kubernetes API를 감시해 정책을 eBPF 프로그램·map으로 컴파일하는 데몬 | 각 동네 파출소 |
-| Security Identity | Pod IP가 아니라 label 조합(예: `app=frontend`)에 부여하는 숫자 ID — IP가 바뀌어도 정책이 유지되는 핵심 | 주소가 아니라 직원증 번호로 신원 확인 |
-| CiliumNetworkPolicy | identity 기반으로 L3/L4/L7(HTTP 메서드·경로 등)까지 표현하는 확장 네트워크 정책 | 부서·직급·방문 목적까지 규정한 출입 규칙 |
-| kube-proxy replacement | iptables 기반 kube-proxy 대신 eBPF map 조회로 서비스 로드밸런싱을 수행하는 기능 | 순차 확인 명부 대신 즉시 조회되는 색인 |
-| Hubble | Cilium이 수집한 flow(연결 단위 로그)를 시각화하고 drop 원인을 보여주는 관측 도구 | 교통 CCTV와 사고 기록 열람 시스템 |
-| TC / XDP hook | 패킷 처리 eBPF 프로그램이 부착되는 커널 위치 (184 참고) | 패킷이 실제로 검문받는 지점 |
+| CNI (Container Network Interface) | 컨테이너 간 네트워크 연결을 설정하는 쿠버네티스 플러그인 표준 | 네트워크 랜선 연결 기사 |
+| kube-proxy Replacement | 기존 iptables를 사용하는 kube-proxy를 완전히 대체하여 eBPF로 라우팅 처리 | 낡은 신호등 철거 후 입체교차로 건설 |
+| Identity-based Security | IP가 아닌 애플리케이션 라벨(신원)을 기반으로 네트워크 접근을 통제하는 정책 | 차량 번호판(IP) 대신 운전자 신분증(라벨) 검사 |
 
 ## 깊이 이해
-
-### iptables 방식의 한계 (수치로 이해)
-- 전통 CNI(Flannel, 초기 Calico)는 kube-proxy가 Service를 iptables 규칙 체인으로 구현한다. 규칙은 **순차 매칭**(선형 탐색)이라서 서비스·엔드포인트 수가 늘수록 매 패킷마다 확인해야 할 규칙 수가 비례해 늘어난다. 서비스가 수천 개인 대형 클러스터에서는 iptables 규칙이 수만 줄에 달해 규칙 갱신 자체가 지연되고 패킷 처리 지연도 커진다.
-- Cilium은 이를 eBPF map의 **해시 조회**(hash lookup)로 대체한다. 규칙 수가 늘어도 조회는 거의 일정한 시간(대략 O(1))에 끝나므로, 서비스·엔드포인트가 늘어나는 대규모 클러스터에서 성능 저하 폭이 훨씬 작다.
-
-### Security Identity가 IP 대신 신원을 쓰는 이유
-- Pod는 재시작·스케일링마다 새 IP를 받는다. "10.0.3.15를 허용"이라는 규칙은 몇 분 뒤 다른 Pod가 그 IP를 재사용하면 의도와 다른 트래픽을 허용할 위험이 있다.
-- Cilium Agent는 Pod의 label 조합(예: `app=payment, env=prod`)마다 고유한 숫자 identity를 부여하고, 패킷 헤더 확장 필드(또는 터널 인캡슐레이션)에 이 identity를 실어 나른다. 목적지 노드의 eBPF 프로그램은 IP가 아니라 **identity 값**으로 "이 패킷이 payment 서비스에서 왔다"를 확인한다 — Pod가 재배치돼 IP가 바뀌어도 label이 같으면 identity와 정책은 그대로 유지된다.
-
-### 정책 적용을 구체 예로 보기
-- 예: `app=frontend` Pod는 `app=payment` Pod의 443/TCP만 호출하도록 CiliumNetworkPolicy를 정의하면, Agent는 이를 컴파일해 eBPF map에 "frontend identity → payment identity, port 443 허용, 나머지 deny"로 반영한다. frontend가 payment의 8080 포트를 시도하면 애플리케이션에 도달하기 전에 커널 단에서 drop되고, Hubble이 `policy_deny` 이유와 함께 flow를 기록한다.
-- L7까지 확장하면 "GET /api/v1/orders만 허용, POST는 차단"처럼 HTTP 메서드·경로 단위 정책도 가능하다 — 이 경우 Envoy 유사 프록시가 개입해 L7 파싱을 수행하므로 순수 eBPF만으로 처리하는 L3/L4보다 오버헤드가 크다.
-
-### kube-proxy replacement 동작
-- kube-proxy replacement를 켜면 ClusterIP·NodePort 트래픽도 iptables NAT 체인을 거치지 않고 eBPF 프로그램이 소켓 레벨(socket hook) 또는 TC 레벨에서 곧바로 목적지 Pod IP로 변환(DNAT)한다. 홉이 줄어드는 만큼 서비스 호출 지연이 줄고, kube-proxy 자체가 필요 없어져 운영 구성요소도 하나 줄어든다.
-
-### 비유와 흔한 오해
-- **비유**: 출입문에서 주소만 보는 경비가 아니라, 직원증·부서·방문 목적·이동 기록까지 확인하는 보안 게이트다.
-- **오해**: "Cilium = 그냥 또 다른 CNI"라는 생각은 범위를 축소한 것이다. 기본 Pod 네트워킹 위에 kube-proxy replacement, identity 기반 L3~L7 정책, Hubble 관측, 일부 서비스 메시 유사 기능(mTLS, L7 라우팅)까지 포함하는 통합 네트워킹 계층이며, 그만큼 커널 버전 요구사항과 운영 복잡도도 함께 커진다.
+- **배경·문제의식**: 컨테이너 생태계는 짧은 생명주기로 인해 IP가 수시로 변한다. 기존 iptables는 IP 기반으로 순차 탐색(O(N))을 하므로, 룰이 많아지고 IP 변경 갱신이 잦을수록 CPU 부하와 패킷 지연이 기하급수적으로 증가했다.
+- **작동 원리**: Cilium은 eBPF 프로그램을 각 노드의 커널 네트워크 스택 깊숙한 곳(XDP, TC)에 주입한다. 컨테이너 패킷이 발생하면 커널 복잡한 스택을 거치지 않고, eBPF 해시 테이블을 통해 곧바로 대상 컨테이너로 우회 전달(Bypass)한다.
+- **비유**: 건물의 1층에서 50층으로 갈 때, 층마다 서는 완행 엘리베이터(리눅스 표준 네트워크 스택)를 타는 대신, eBPF라는 직통 특급 엘리베이터를 타고 커널 수준에서 바로 쏴주는 것이다.
+- **구체 예시**: 수만 개의 서비스를 운영하는 데이터센터에서 Cilium을 도입하면, kube-proxy iptables 환경 대비 레이턴시(지연)를 절반 이하로 줄이고, CPU 사용량을 크게 절감할 수 있다.
+- **흔한 오해·주의점**: "Cilium을 쓰면 무조건 사이드카 서비스 메시(Istio)가 필요 없다"는 것은 오해다. Cilium 자체가 훌륭한 네트워크 성능을 내고 L7 제어를 일부 지원하지만, 복잡한 트래픽 셰이핑(카나리 등)은 여전히 Envoy와 결합(Cilium Service Mesh)해야 시너지가 난다. (단, L7 영역이 점점 eBPF로 흡수되는 추세임)
 
 ## 연결 개념
-- Kubernetes NetworkPolicy - Cilium이 확장하는 표준 정책 모델의 기반
-- eBPF - Cilium 데이터 플레인의 기반 기술 (184 참고)
-- Service Mesh(Istio) - L7 정책·관측 영역에서 기능이 일부 겹치는 비교 대상
+- **eBPF (Extended BPF)**: Cilium의 압도적 성능을 가능하게 하는 기저 리눅스 커널 기술 (184번 키워드 참조)
+- **Hubble**: Cilium 플랫폼 위에 올라가 L3~L7 네트워크 트래픽 흐름을 시각화해주는 관측성 도구
+- **Calico / Flannel**: 과거 세대의 대표적인 대안 CNI 플러그인
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: Cilium 답안은 CNI 설치가 아니라 eBPF data plane, identity policy, kube-proxy replacement, Hubble 지표를 연결해야 함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Cilium은 eBPF 기반 data plane으로 Kubernetes pod 네트워킹, policy enforcement, load balancing, observability를 제공하는 CNI임.
-> 2. **가치**: label 기반 identity와 커널 경로 정책 적용으로 L3/L4/L7 네트워크 통제와 flow 관측을 결합함.
-> 3. **판단 포인트**: 커널 버전, kube-proxy replacement, policy drop, p99 지연, Hubble flow coverage를 기준으로 적용해야 함.
+> 1. **본질**: Cilium은 eBPF를 활용해 쿠버네티스의 네트워킹, 보안 통제, 관측성을 커널 레벨에서 초고속으로 처리하는 CNI(Container Network Interface) 솔루션이다.
+> 2. **가치**: 기존 O(N) 탐색을 하는 iptables 기반 kube-proxy를 완전 대체하여 대규모 클러스터에서 극적인 지연 감소와 성능 향상을 이룬다.
+> 3. **판단 포인트**: IP가 아닌 컨테이너 라벨(Identity) 기반의 보안 통제와 L7 가시성을 제공하여 제로 트러스트 클라우드 환경 구현에 필수적이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| CNI 역할 이해 확인 | pod IP, routing, policy, service load balancing | 단순 네트워크 플러그인으로 축소 |
-| eBPF 적용 이해 확인 | TC/XDP hook, identity, BPF map | iptables와 차이 누락 |
-| 운영 판단 확인 | Hubble, drop reason, kernel 호환 | 도입 효과만 나열 |
+| 기존 K8s 네트워크(kube-proxy)의 병목 한계 분석 | iptables 순차 탐색 오버헤드, 룰 갱신 병목 | 기존 CNI를 깎아내리기만 하고 대안 원리 누락 |
+| eBPF 기반 CNI의 성능 우위 원리 확인 | kube-proxy replacement, BPF 해시맵 (O(1)) | Cilium과 eBPF 개념의 완전 동치화 (Cilium은 응용 사례) |
+| 클라우드 네이티브 네트워크 보안 패러다임 이해 | Identity 기반 정책, Hubble 가시성 확보 | IP/Port 방화벽 관점의 구시대적 보안 서술 |
 
-> 요약: 이 문제는 Cilium을 eBPF 기반 Kubernetes 네트워크·보안·관측 통합 계층으로 설명해야 함.
+> 요약: 쿠버네티스 대규모 환경에서 필연적으로 겪는 네트워크 병목을 구조적으로 지적하고, 커널 우회 기술(eBPF)을 접목한 해결 원리를 명확히 제시해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: eBPF 기반 Kubernetes CNI
-- 배경: pod 이동과 서비스 확장이 빈번한 환경에서 IP·iptables 중심 정책은 추적과 운영 비용이 증가한다.
-- 필요성: label identity 기반 정책과 eBPF data plane으로 L3/L4/L7 통제와 flow 관측을 결합한다.
+- 개요: Cilium은 eBPF 기술을 기반으로 클라우드 네이티브 워크로드 간의 투명한 네트워킹, L7 보안, 관측성을 제공하는 오픈소스 소프트웨어임
+- 배경: K8s 기본 네트워크 컴포넌트(kube-proxy/iptables)는 규칙 수가 수만 개로 늘어나면 패킷 처리 지연(O(N)) 및 규칙 동기화 성능이 급감함
+- 필요성: 단명하는 컨테이너 환경에서 IP 변동에 구애받지 않는 신원(Identity) 기반의 고속 네트워크 라우팅 및 제로 트러스트 정책 통제 필요
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Kubernetes API -> Cilium Agent -> eBPF Program/Map -> Pod Network/Service LB
-  / Policy: identity, L3/L4/L7
-  / Observe: Hubble flow, drop reason
+[Kubernetes API] -> [Cilium Operator / Agent] -> eBPF 프로그램 컴파일 및 주입
+                           |
+[Container A] -> (XDP / TC 커널 훅 지점) -> BPF Map 고속 라우팅 -> [Container B]
+                           +-> Hubble (트래픽 시각화/메트릭 추출)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Cilium Agent | 정책 변환과 eBPF program 관리 | node 단위 daemon |
-| eBPF Data Plane | 패킷 포워딩, 정책, 로드밸런싱 | TC/XDP hook |
-| Security Identity | label 기반 서비스 정체성 | IP 변경과 분리 |
-| Hubble | flow 관측과 drop 원인 확인 | UI, relay, metric |
+| Cilium Agent | 데몬셋으로 동작, K8s 이벤트를 수신해 노드별 eBPF 코드 컴파일 및 적재 | 노드 내 네트워크 제어 핵심 |
+| eBPF Datapath | 커널 훅(TC, XDP)에 부착되어 실제 패킷 고속 필터링 및 전달 수행 | iptables 커널 스택 우회 |
+| BPF Maps | Endpoint IP, 신원(Identity), 정책 규칙을 O(1) 조회 구조로 저장 | 고성능 라우팅의 원천 |
+| Hubble | eBPF가 수집한 데이터를 기반으로 서비스 맵 및 텔레메트리 대시보드 제공 | 분산 L7 네트워크 관측 |
 
-> 요약: Cilium은 Kubernetes API의 label과 정책을 eBPF data plane으로 변환해 패킷 처리와 관측을 수행함.
+> 요약: 쿠버네티스 정책을 eBPF 프로그램으로 변환하여 커널에 주입하며, 복잡한 네트워킹 스택을 생략한 최단 경로 통신을 구성한다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-Pod 생성 -> label identity 할당 -> policy compile -> eBPF map 갱신 -> packet 처리 -> Hubble flow 기록
-  / 허용 조건 일치 -> forwarding
-  / 정책 위반 -> drop reason 기록
+Pod 생성 이벤트 -> 라벨 기반 Identity 할당 -> eBPF 룰 컴파일/적재 -> 통신 시 BPF Map 참조 고속 전달
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | Pod와 label을 감지해 identity 할당 | identity sync 100% |
-| 2 | NetworkPolicy와 CiliumPolicy 해석 | policy import error 0건 |
-| 3 | eBPF map에 정책과 service entry 반영 | map pressure 측정 |
-| 4 | packet을 TC/XDP hook에서 처리 | drop count, latency |
-| 5 | Hubble이 flow와 drop reason 수집 | flow coverage 95% 이상 |
+- 1단계 [엔드포인트 식별]: 신규 컨테이너 배포 시 쿠버네티스 라벨 정보를 추출하여 고유의 Identity ID 부여
+- 2단계 [정책 주입]: Cilium Agent가 네트워크 정책을 바탕으로 맞춤형 eBPF 바이트코드를 컴파일하고 커널에 Attach
+- 3단계 [고속 라우팅]: 송신 컨테이너 패킷이 커널에 도달 즉시 XDP/TC 훅에서 가로채어, iptables 우회 후 BPF Map 참조(O(1) 라우팅)
+- 4단계 [보안 및 관측]: 수신 측 훅에서 Identity 기반 방화벽 정책을 평가하고, 통과된 트래픽 메트릭을 Hubble로 비동기 전송
 
-> 요약: Cilium은 identity 기반 정책을 eBPF map에 반영하고 커널 경로에서 허용·차단·관측을 수행함.
+> 요약: IP 대신 라벨 기반 Identity를 통해 정책을 관리하고, 커널 네트워킹 스택을 거치지 않는 eBPF Datapath로 패킷을 직접 전달한다.
 
 ---
 
 ## Ⅳ. 특징
+- [Kube-proxy 완전 대체]: 극단적 성능 지연을 유발하는 iptables 없이 eBPF 해시맵 기반 라우팅으로 교체(Kube-proxy Replacement)
+- [Identity 기반 통제]: 동적으로 변하는 IP가 아닌 컨테이너 라벨과 메타데이터로 정책을 정의하여 IP 관리 복잡도 제거
+- [심층 가시성 (Hubble)]: 커널 모듈을 통한 패킷 복사 없이, eBPF 레벨에서 HTTP URL, gRPC 코드 등 L7 메타데이터 초저지연 수집
+- [서비스 메시 통합]: 사이드카(Envoy) 없이 커널 레벨에서 라우팅과 암호화를 일부 제공하여 아키텍처 단순화(Ambient Mesh 지향)
 
-| 구분 | iptables 기반 CNI | Cilium CNI | 수치/판단 포인트 |
-|:---|:---|:---|:---|
-| 정책 기준 | IP, port 중심 | label identity 중심 | pod 이동 시 정책 유지 |
-| data plane | iptables rule 탐색 | eBPF map lookup | service 수 증가 영향 측정 |
-| 관측 | 별도 도구 필요 | Hubble flow 내장 | drop reason 확인 |
-| 확장 | kube-proxy 의존 | kube-proxy replacement 가능 | p99 service latency |
-
-> 요약: Cilium은 identity 정책과 eBPF 처리로 Kubernetes 네트워크 정책과 관측을 같은 계층에서 수행함.
+> 요약: 극강의 네트워크 성능 향상과 더불어, 클라우드 환경에 최적화된 신원 기반 보안 및 깊은 수준의 서비스 관측성을 동시 제공한다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 비교 축 | Flannel / Calico (iptables) | Cilium (eBPF) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | Flannel/Calico iptables | Cilium eBPF | 정책 수와 service 수 증가 환경 |
-| 비용/처리 | rule chain 증가 | map lookup | p99 latency와 CPU 측정 |
-| 운영/위험 | 별도 observability | Hubble 통합 | flow 기반 장애 분석 필요 |
+| 라우팅 구조 | 커널 Netfilter 스택 의존 (O(N)) | eBPF BPF Map 직접 조회 (O(1)) | 노드 및 서비스 규모(Scale) |
+| 보안 정책 | IP/Port 기반 L3/L4 통제 | 라벨 기반 L3~L7 통제 가능 | 규제 준수(제로 트러스트) 요구 |
+| 관측성 | 별도 에이전트/서비스 메시 필요 | Hubble 통해 네이티브 지원 | 모니터링 아키텍처 통합 여부 |
 
-> 요약: 정책과 서비스 규모가 큰 클러스터는 Cilium이 적합하나 커널 지원과 운영 역량을 사전 확인해야 함.
+> 요약: 50 노드 이하 소규모는 설정이 쉬운 Flannel/Calico가 유리할 수 있으나, 대규모 엔터프라이즈 및 보안 중요 환경에서는 Cilium이 표준이다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 커널 기능 부족 | eBPF helper, BTF 미지원 | 지원 버전 표준화 | node compatibility |
-| 정책 오탐 | label selector 오류 | dry-run, staged policy | drop reason count |
-| map pressure | endpoint, service 증가 | map size tuning | BPF map usage |
+**리스크·대응 (기본은 불릿):**
+- [최신 커널 요구]: eBPF의 최신 기능(XDP 등) 활용을 위해 커널 4.19 이상 강제 → 클러스터 인프라 업그레이드 선행 기획 (지표: OS 커널 버전 컴플라이언스)
+- [디버깅 난이도 상승]: 전통적인 tcpdump나 iptables 명령어로 트래픽 추적 불가 → Hubble CLI 및 UI를 활용한 디버깅 파이프라인 재교육 (지표: 인시던트 평균 MTTR)
 
-> 요약: Cilium 리스크는 커널 호환, 정책 정확도, BPF map 용량으로 관리함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 네트워크 | p99 latency 기준선 대비 10ms 이하 증가 | Hubble, Prometheus |
-| 정책 | 의도치 않은 drop 0건 | Hubble drop reason |
-| 운영 | flow coverage 95% 이상 | Hubble relay, UI |
-
-> 요약: Cilium 운영 품질은 지연, drop reason, flow coverage로 판단함.
+**도입 후 점검 지표 (기본은 불릿):**
+- 네트워크 지연(Latency): 기존 CNI 대비 서비스 간 통신 p99 지연 시간 30% 단축 — netperf 벤치마크
+- 제어 평면 성능: 서비스 1만 개 증가 시 라우팅 룰 갱신 소요 시간 1초 이내 방어 — 스케일링 테스트 부하 도구
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 도입 전 점검: 노드 커널 5.x, BTF, CAP_BPF, kube-proxy replacement 가능 여부를 클러스터별로 확인
-2. 정책 전환: namespace 단위 default deny 후 L3/L4 허용 정책부터 적용하고 L7 HTTP 정책은 핵심 API에 한정
-3. 관측 운영: Hubble로 flow coverage 95% 이상, 의도치 않은 drop 0건, p99 latency 증가 10ms 이하를 관리
+**적용 방안 3개 (필수 — 단계별 또는 항목별):**
+1. [CNI 마이그레이션]: 신규 클러스터 구축 시 kube-proxy 비활성화 옵션(strict 모드)으로 Cilium을 배포하여 아키텍처 근본 성능 향상 도모
+2. [제로 트러스트 네트워크 정책 강제]: K8s 기본 NetworkPolicy 대신 CiliumNetworkPolicy(CRD)를 도입하여 L7(HTTP Path 등) 수준 세밀한 접근 제어 적용
+3. [Hubble 통합 모니터링]: Hubble 데이터를 OpenTelemetry를 통해 중앙 Prometheus 및 Jaeger로 연동하여 클러스터 전역 네트워크 토폴로지 맵 가시화
 
 **결론 (2줄):**
-- 기술사 판단: label 기반 정책과 flow 관측이 필요한 Kubernetes 환경은 Cilium, 단순 overlay 네트워크는 경량 CNI를 선택함
-- 향후 방향: eBPF 기반 CNI, kube-proxy replacement, mesh-lite 기능이 클라우드 네이티브 네트워킹의 운영 축이 됨
+- 기술사 판단: 마이크로서비스 확장으로 인한 네트워크 병목은 구조적 필연이며, eBPF를 활용한 Cilium 도입은 대형 클러스터의 필수 선결 과제임
+- 향후 방향: 서비스 메시의 무거운 사이드카 패턴을 벗어나, 네트워크와 보안 통제가 커널(Cilium)로 하방 통폐합되는 인프라 슬림화가 가속될 것임
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Cilium을 설명하시오", "기술하시오" | identity, policy compile, eBPF map 처리 흐름 | iptables CNI 대비 차이 |
-| 요구사항 명시형 | "Kubernetes 네트워크를 설계하시오", "비교하시오" | policy, kube-proxy replacement, Hubble 관측 | 커널 조건, drop, latency 기준 |
+| 포괄형 | "설명하시오", "기술하시오" | iptables 병목 구조와 eBPF 우회 원리 | 기존 CNI 대비 성능/보안 우위 비교표 |
+| 방안형 | "컨테이너 네트워크 성능 최적화 방안" | XDP/TC 훅을 통한 고속 Datapath | kube-proxy 교체 절차 및 검증 지표 |
 
-> 요약: 설명형은 eBPF CNI 구조, 설계형은 정책과 관측 지표 중심으로 전환함.
+> 요약: 쿠버네티스 네트워크의 고질적 한계(iptables) 해결이라는 출제 의도에 맞춰 비교 분석을 집중적으로 서술한다.
