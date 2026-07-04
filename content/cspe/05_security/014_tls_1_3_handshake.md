@@ -1,6 +1,6 @@
 ---
 title: "TLS 1.3 핸드셰이크 (TLS 1.3 Handshake)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-security"
 weight: 14
@@ -8,155 +8,168 @@ weight: 14
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: TLS 1.3 핸드셰이크를 처음 봐도 TLS 1.2와 무엇이 달라졌는지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: TLS 1.3 핸드셰이크는 1-RTT로 서버 인증과 키교환을 완료하고 초기부터 주요 메시지를 암호화하는 절차
-- **왜 필요한가**: TLS 1.2는 RSA key transport, CBC, 복잡한 cipher suite, 2-RTT 지연 등 운영 위험과 지연 비용이 있었음
-- **핵심 직관**: TLS 1.3은 오래된 선택지를 삭제하고, 안전한 재료(ECDHE, AEAD, HKDF)만 남겨 협상을 단순화한 방식임
+- **개요**: **TLS 1.3 핸드셰이크(RFC 8446)는 ClientHello에 키공유를 미리 실어 1-RTT로 세션키를 합의하고, 재접속 시 0-RTT로 지연을 없애며 취약 알고리즘을 대거 제거한 최신 협상 절차**임. TLS 계층 구조·버전 역사는 (013 참조).
+- **왜 필요한가**: TLS 1.2는 키공유 재료를 왕복 2번(2-RTT) 주고받아 접속 지연이 크고 RSA 키교환·CBC 등 취약 옵션이 남아 있었음. TLS 1.3은 왕복을 1회로 줄이고 PFS를 강제해 성능과 보안을 동시에 개선함.
+- **핵심 직관**: 예전엔 "무슨 자물쇠 쓸지 물어보고 → 답 듣고 → 열쇠 재료 보내는" 3턴이었다면, 이제는 "쓸 만한 자물쇠 후보로 잠근 열쇠 재료를 첫 인사에 바로 동봉"해 한 번 왕복으로 끝냄.
+
+## 핵심 용어 정리 (내부에 등장하는 것들)
+
+답안에 등장하는 확장·메시지·RTT·삭제 항목을 먼저 풀어 둠. 상위 핵심 키워드는 **1-RTT 핸드셰이크** 로, ClientHello에 key_share를 선반영해 왕복 1회로 키합의를 끝내는 것이 본질임.
+
+| 용어/표기 | 의미 | 비유·예 |
+|:---|:---|:---|
+| RTT(왕복시간) | 요청-응답 1회 왕복 지연 | 편지 한 번 오고감 |
+| 1-RTT | 왕복 1회로 핸드셰이크 완료 | 첫 인사에 열쇠 동봉 |
+| 0-RTT | 재접속 시 첫 패킷에 데이터 동봉 | 단골이라 바로 주문 |
+| key_share | (EC)DHE 공개값을 담는 확장 | 미리 보낸 열쇠 재료 |
+| supported_groups | 지원 곡선·그룹 목록(X25519 등) | 쓸 수 있는 자물쇠 종류 |
+| signature_algorithms | 인증서·서명에 쓸 알고리즘 목록 | 허용 서명 방식 |
+| PSK(사전공유키) | 이전 세션에서 파생한 재개용 키 | 단골 회원권 |
+| EncryptedExtensions | 서버 파라미터를 암호화해 전달 | 봉인된 안내문 |
+| CertificateVerify | 서버가 개인키 보유를 증명하는 서명 | 본인 서명 확인 |
+| Finished | 핸드셰이크 전체 무결성 확인 MAC | 협상 내용 봉인 도장 |
+| HKDF | 키 유도 함수(핸드셰이크·트래픽 키 파생) | 하나의 씨앗에서 여러 열쇠 |
+| Anti-replay | 0-RTT 재전송 공격 방어 조치 | 중복 주문 거르기 |
 
 ## 깊이 이해
-- **배경·문제의식**: TLS 1.2는 구현 선택지가 많아 약한 암호군 허용, 다운그레이드, 핸드셰이크 지연 문제가 반복됨. TLS 1.3은 RFC 8446에서 구버전 암호군을 제거하고 PFS를 기본화함
-- **작동 원리**: ClientHello에 key_share를 포함해 첫 메시지부터 키교환 재료를 보냄. 서버는 ServerHello와 key_share로 shared secret을 만들고, Certificate 이후 Finished까지 transcript hash로 검증함
-- **비유**: 예전에는 회의 전에 규칙을 여러 번 주고받았지만, TLS 1.3은 첫 봉투에 가능한 규칙과 임시 공개키를 같이 넣어 왕복 횟수를 줄임
-- **구체 예시**: TLS 1.2 풀 핸드셰이크는 일반적으로 2-RTT, TLS 1.3 풀 핸드셰이크는 1-RTT, 재개 시 0-RTT Early Data를 사용할 수 있음
-- **흔한 오해·주의점**: 0-RTT는 재전송 공격(Replay)에 노출될 수 있으므로 결제·상태변경 요청에는 적용하지 않아야 함
+- **배경·문제의식**: TLS 1.2는 ClientHello→ServerHello로 파라미터를 정한 뒤 다시 키교환 메시지를 주고받아 2-RTT가 걸렸고, 정적 RSA 키교환은 서버 개인키 유출 시 과거 트래픽까지 복호(HNDL)되는 약점이 있었음. TLS 1.3은 이를 구조적으로 없애도록 재설계됨.
+- **작동 원리(어떻게+왜)**: 클라이언트가 ClientHello에 supported_groups로 곤(EC)DHE 그룹을 알리면서 그중 하나의 key_share(공개값)를 함께 실어 보냄. 서버는 같은 그룹의 key_share만 골라 회신하면 즉시 공유 비밀이 정해지므로 왕복이 1회로 준다. 곧이어 EncryptedExtensions·Certificate·CertificateVerify·Finished가 모두 암호화되어 전달됨 — 핸드셰이크 대부분이 암호화된다는 점이 1.2와의 큰 차이임.
+- **비유**: 1.2가 "어떤 열쇠 규격 쓸까요? → 이거요 → 그럼 재료 보냅니다"의 3턴 통화라면, 1.3은 "이 규격들 중 하나로 잠근 재료 동봉합니다"라고 첫 편지에 다 넣어 한 번에 끝내는 것과 같음.
+- **구체 예시**: 최신 브라우저-서버 접속은 대개 X25519 key_share로 1-RTT에 세션키를 합의함. 세션 티켓을 받아둔 재접속에서는 early_data로 0-RTT 요청을 첫 패킷에 실어 보내지만, GET 같은 멱등 요청에만 쓰고 결제 등은 재전송(replay) 위험 때문에 금지함.
+- **흔한 오해·주의점**: (1) 0-RTT는 재전송 방어가 불완전해 상태 변경 요청에 쓰면 안 됨 — 멱등 요청 한정임. (2) TLS 1.3은 PFS가 강제라 정적 RSA·정적 DH 키교환이 삭제됨. (3) Change Cipher Spec는 기능상 제거됐고 중간장비 호환용 더미로만 남음(middlebox compatibility).
 
 ## 연결 개념
-- TLS·SSL 프로토콜 - TLS 1.3이 개선한 상위 주제
-- ECDHE - TLS 1.3 PFS 제공의 기본 키교환 방식
-- PQC 하이브리드 키교환 - 양자 위협 대응을 위해 TLS key_share에 PQC KEM을 결합하는 흐름
+- TLS·SSL 프로토콜 — 핸드셰이크가 속한 상위 프로토콜·버전 역사 (013 참조)
+- (EC)DHE·전방향비밀성 — 1.3이 강제하는 임시 키교환 (006·007 참조)
+- PQC 하이브리드 키교환 — key_share를 X25519+ML-KEM으로 확장 (015·019 참조)
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: TLS 1.3은 지연 감소만 쓰면 감점이며, 제거된 취약 기능, 키 스케줄, 0-RTT 리스크까지 함께 써야 함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TLS 1.3 Handshake는 ECDHE key_share, HKDF key schedule, AEAD Record 보호로 1-RTT 인증 키교환을 수행하는 절차임.
-> 2. **가치**: RSA key transport, CBC, SHA-1, static DH를 제거하고 PFS와 초기 핸드셰이크 암호화를 기본 제공함.
-> 3. **판단 포인트**: 1-RTT, 0-RTT, downgrade sentinel, transcript hash, OCSP Stapling, Early Data 재전송 통제가 핵심임.
+> 1. **본질**: TLS 1.3 핸드셰이크는 ClientHello에 key_share를 선반영해 1-RTT로 키를 합의하는 재설계된 협상 절차임.
+> 2. **가치**: 왕복을 2회에서 1회로 줄이고 PFS 강제·취약 알고리즘 제거로 지연과 공격 표면을 동시에 낮춤.
+> 3. **판단 포인트**: 0-RTT는 성능 이득이 크나 재전송 위험이 있어 멱등 요청에 한정해야 실효·안전이 양립함.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| TLS 1.2 대비 차이 확인 | 2-RTT에서 1-RTT, cipher suite 단순화, PFS 기본 | "TLS 1.3은 암호화만 더함" 식 답안 금지 |
-| 핸드셰이크 원리 설명 | ClientHello key_share, ServerHello, Certificate, Finished | Record 계층과 Handshake 계층 혼동 금지 |
-| 운영 리스크 판단 | 0-RTT replay, 구버전 호환, 인증서 검증 | 0-RTT를 모든 API에 적용한다는 답안 금지 |
+| RTT 개선 이해 확인 | key_share 선반영·1-RTT 원리 | 1.2도 1-RTT라고 혼동 |
+| 0-RTT 이해 확인 | PSK 재개·early_data·재전송 위험 | 0-RTT를 모든 요청에 안전하다고 단정 |
+| 알고리즘 정비 이해 | RSA·CBC·정적 DH 삭제, AEAD·PFS 강제 | 삭제 항목·PFS 강제 누락 |
 
-> 요약: TLS 1.3 답안은 메시지 흐름, 제거 기능, 키 스케줄, 0-RTT 통제를 함께 제시해야 함.
+> 요약: 1.3 답안은 1-RTT 원리·0-RTT 재개와 재전송 위험·삭제된 취약 알고리즘과 PFS 강제를 함께 써야 함.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: RFC 8446 기반 핸드셰이크
-- 배경: TLS 1.2는 2-RTT 협상, 정적 RSA, CBC 등 레거시 암호군 선택으로 지연과 다운그레이드 위험이 존재함.
-- 필요성: TLS 1.3은 1-RTT 기본, PFS 필수, AEAD 중심 협상으로 웹·API·모바일 서비스의 핸드셰이크 지연과 레거시 암호군 노출을 줄임.
+- 개요: key_share 선반영으로 1-RTT에 세션키를 합의하는 TLS 최신 핸드셰이크임.
+- 배경: TLS 1.2는 2-RTT 지연과 정적 RSA·CBC 등 취약 옵션의 잔존이라는 한계가 있었음.
+- 필요성: 왕복 축소와 PFS 강제·취약 알고리즘 제거로 접속 지연과 공격 표면을 동시에 줄임.
+- 전제: TLS 계층 구조·버전 역사·인증서 검증은 (013·010 참조)로 위임하고 핸드셰이크 절차·RTT에 집중함.
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-ClientHello/key_share -> ServerHello/key_share -> EncryptedExtensions
--> Certificate -> CertificateVerify -> Finished -> Application Data
-                         +-> PSK/0-RTT Early Data 선택
+ClientHello
+  -> supported_groups / key_share((EC)DHE 공개값) / signature_algorithms / (PSK)
+ServerHello
+  -> 선택한 key_share / 이후 메시지 암호화 시작
+  -> {EncryptedExtensions} / {Certificate} / {CertificateVerify} / {Finished}
+Client -> {Finished} -> 이후 Application Data (0-RTT면 early_data 선전송)
+   ( { } = 핸드셰이크 키로 암호화된 메시지 )
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| ClientHello | 버전, cipher suites, key_share, SNI, ALPN 제안 | SupportedVersions로 TLS 1.3 표시 |
-| ServerHello | 선택 버전·암호군·key_share 반환 | shared secret 생성 시작 |
-| EncryptedExtensions | ALPN 등 추가 협상 정보 전달 | ServerHello 이후 암호화 |
-| Certificate/Verify | 서버 인증서와 개인키 소유 증명 | X.509 체인, transcript 서명 |
-| Finished | 전체 핸드셰이크 무결성 검증 | HKDF 기반 finished_key 사용 |
+| key_share | (EC)DHE 공개값 선전송 | 1-RTT 핵심, PFS 강제 |
+| supported_groups | 곡선·그룹 협상 | X25519·P-256, PQC 하이브리드 확장 |
+| CertificateVerify | 서버 개인키 보유 증명 | 인증서만으론 부족, 서명으로 확인 |
+| Finished | 핸드셰이크 무결성 봉인 | 협상 조작·다운그레이드 검출 |
+| PSK/early_data | 세션 재개·0-RTT | 재전송 위험, 멱등 요청 한정 |
 
-> 요약: TLS 1.3 구조는 key_share로 공유비밀을 조기 생성하고, 이후 핸드셰이크 메시지를 암호화해 검증함.
+> 요약: ClientHello의 key_share 선반영과 이후 메시지의 암호화가 핵심이며, PSK·early_data가 재개·0-RTT를 담당함.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-ClientHello 전송 -> ServerHello 수신 -> ECDHE shared secret 생성
--> HKDF key schedule -> 인증서/서명 검증 -> Finished 검증
--> AEAD application traffic key 사용
+클라이언트: ClientHello + key_share((EC)DHE) + supported_groups -> 서버
+서버: 그룹 선택 + ServerHello key_share -> 공유 비밀 확정 -> 핸드셰이크 키 파생
+서버: {인증서·CertificateVerify·Finished}(암호화) -> 클라이언트
+클라이언트: 인증서·서명 검증 -> {Finished} -> 1-RTT 완료 -> Application Data
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 클라이언트가 key_share 포함 ClientHello 전송 | X25519, secp256r1 등 허용 그룹 |
-| 2 | 서버가 key_share 선택 후 shared secret 생성 | supported_versions TLS 1.3 |
-| 3 | HKDF로 handshake/application traffic key 파생 | transcript hash 일치 |
-| 4 | 인증서와 CertificateVerify 검증 | SAN, EKU, CA 체인, 서명 알고리즘 |
-| 5 | Finished 후 애플리케이션 데이터 송수신 | AES-GCM 또는 ChaCha20-Poly1305 |
+1. 클라이언트가 ClientHello에 (EC)DHE key_share와 지원 그룹·서명 알고리즘을 함께 실어 보냄.
+2. 서버가 같은 그룹의 key_share를 회신해 공유 비밀을 확정하고, 이를 HKDF로 핸드셰이크 키로 파생함.
+3. 서버가 EncryptedExtensions·Certificate·CertificateVerify·Finished를 암호화해 전달하고, 클라이언트가 인증서·서명을 검증함.
+4. 클라이언트가 Finished를 보내 1-RTT 핸드셰이크를 완료하며, 세션 티켓 보유 시 재접속에서 early_data로 0-RTT 요청을 선전송함.
 
-> 요약: TLS 1.3은 첫 왕복에서 키교환을 끝내고 HKDF로 용도별 키를 분리해 Record 보호에 사용함.
+> 요약: key_share 선반영으로 1왕복에 키가 확정되고 핸드셰이크 대부분이 암호화되며, 0-RTT는 재개 시에만 멱등 요청에 적용함.
 
 ---
 
 ## Ⅳ. 특징
 
-| 구분 | TLS 1.2 | TLS 1.3 | 수치·표준 판단 |
-|:---|:---|:---|:---|
-| 왕복 횟수 | 풀 핸드셰이크 2-RTT | 풀 핸드셰이크 1-RTT, 재개 0-RTT 가능 | RFC 8446 |
-| 키교환 | RSA, DHE, ECDHE 선택 | (EC)DHE·PSK 중심, PFS 기본 | static RSA 제거 |
-| 암호군 | 키교환+인증+암호+해시 결합 | AEAD+Hash 중심 단순화 | TLS_AES_128_GCM_SHA256 |
-| 메시지 보호 | 많은 핸드셰이크 평문 | ServerHello 이후 주요 메시지 암호화 | 트래픽 분석 노출 감소 |
-
-> 요약: TLS 1.3은 왕복 횟수와 취약 선택지를 줄이고, PFS와 AEAD를 기본 구조로 고정함.
+- 1-RTT 기본: ClientHello의 key_share 선반영으로 첫 왕복에 세션키를 합의해 접속 지연을 절반으로 줄임.
+- PFS 강제: (EC)DHE 임시 키교환만 허용해 장기키 유출 시에도 과거 세션이 안전함.
+- 취약 알고리즘 제거: 정적 RSA·정적 DH·CBC·RC4·3DES·MD5·SHA-1·재협상·압축을 삭제해 공격 표면을 축소함.
+- AEAD 전용: AES-GCM·AES-CCM·ChaCha20-Poly1305만 허용해 패딩 오라클(POODLE류)을 원천 차단함.
+- 핸드셰이크 암호화: ServerHello 이후 인증서·확장까지 암호화해 메타데이터 노출을 줄임.
+- 0-RTT 트레이드오프: 재개 시 지연 0이나 재전송 방어가 불완전해 멱등 요청 한정으로 써야 함.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | TLS 1.3 Handshake | 선택 기준 |
-|:---|:---|:---|:---|
-| 호환성 | TLS 1.2 유지 | TLS 1.3 우선, TLS 1.2 fallback | 구형 단말 비율 1% 이상이면 병행 운영 |
-| 지연 | 2-RTT 풀 핸드셰이크 | 1-RTT, 0-RTT 재개 | 모바일 p95 handshake 100ms 목표 |
-| 위험 | 다양한 암호군 | 제한된 AEAD cipher suite | 규제·레거시 연동 시 cipher 허용표 관리 |
+TLS 1.2와 1.3 핸드셰이크를 왕복·키교환·암호화 축으로 비교함(다대상×다축이므로 표 사용).
 
-> 요약: TLS 1.3은 기본 선택지이나, 레거시 단말과 규제 연동 여부에 따라 TLS 1.2 병행 기간을 정함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 0-RTT Replay | Early Data 재전송 가능 | GET·읽기 요청만 허용, anti-replay cache | 0-RTT state-changing 요청 0건 |
-| Fallback 오류 | 중간장비 TLS 1.3 미지원 | TLS 1.2 fallback, canary 배포 | handshake_failure 비율 0.1% 이하 |
-| 인증서 검증 누락 | 클라이언트 구현 오류 | hostname·SAN·OCSP 검증 강제 | 검증 우회 테스트 0건 |
-
-> 요약: TLS 1.3 운영 리스크는 0-RTT 재전송, 레거시 호환, 검증 누락이며 정책과 관측 지표로 통제함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
+| 구분 | TLS 1.2 핸드셰이크 | TLS 1.3 핸드셰이크 |
 |:---|:---|:---|
-| 적용률 | TLS 1.3 연결 비율 80% 이상 | LB 로그, JA3/JA4, APM |
-| 지연 | handshake p95 100ms 이하 | synthetic test, RUM |
-| 안전 설정 | RSA key transport·CBC·TLS 1.0/1.1 0건 | sslyze, nmap, CI 보안 스캔 |
+| 왕복 지연 | 2-RTT(재개 시 1-RTT) | 1-RTT(재개 시 0-RTT) |
+| 키 교환 | RSA·(EC)DHE 선택 가능 | (EC)DHE 강제, key_share 선반영 |
+| 전방향비밀성 | 옵션(정적 RSA면 없음) | 항상 보장 |
+| 암호 방식 | CBC·AEAD 혼재 | AEAD 전용 |
+| 핸드셰이크 노출 | 인증서 등 평문 | ServerHello 이후 암호화 |
 
-> 요약: TLS 1.3 전환 성과는 연결 비율, 핸드셰이크 지연, 취약 설정 제거율로 판단함.
+> 요약: 신규·성능·프라이버시 중시 서비스는 TLS 1.3을 기본 채택하고, 0-RTT는 캐시 조회 등 멱등 요청에만 선별 적용함.
+
+리스크 관리는 불릿으로 정리함.
+- 리스크: 0-RTT 재전송 — 원인: early_data를 상태변경 요청에 사용 — 대응: 멱등 요청 한정·anti-replay 창, 비멱등 0-RTT 0건.
+- 리스크: 다운그레이드 유도 — 원인: 1.2 이하 혼용 협상 — 대응: downgrade sentinel·최소버전 1.2, 강제 하향 0건.
+- 리스크: PSK 티켓 유출 — 원인: 세션 티켓 키 관리 소홀 — 대응: 티켓키 주기 회전·수명 제한, 티켓 재사용 차단.
+
+지표 관리도 불릿으로 정리함.
+- 지표: 1.3 채택률 — 목표: 신규 트래픽 TLS 1.3 우선 — 측정: 핸드셰이크 버전 통계.
+- 지표: 접속 지연 — 목표: 1-RTT·재개 0-RTT 확보 — 측정: TLS 핸드셰이크 시간 모니터링.
+- 지표: 0-RTT 안전성 — 목표: 비멱등 요청 차단 100% — 측정: early_data 처리 정책 감사.
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 전환 설정: 서버·LB에서 TLS 1.3 우선, TLS_AES_128_GCM_SHA256·TLS_CHACHA20_POLY1305_SHA256 허용, TLS 1.0/1.1 차단
-2. 0-RTT 통제: Early Data는 GET·HEAD 등 멱등 요청에만 허용, 결제·로그인·권한변경 API는 1-RTT 강제
-3. 운영 검증: canary 5%부터 적용, handshake_failure·p95 지연·TLS version 분포를 24시간 단위로 확인
+**적용 방안 3개 (필수 — 단계별 또는 항목별):**
+1. 버전 우선순위: TLS 1.3을 기본 활성화하고 X25519·P-256 key_share를 우선 협상, 1.2는 호환 목적만 허용.
+2. 0-RTT 통제: early_data를 GET·캐시 조회 등 멱등 요청에만 허용하고 anti-replay 창·세션 티켓키 회전을 적용.
+3. 미래 대비: key_share를 X25519MLKEM768 등 PQC 하이브리드(015·019)로 확장해 HNDL 위협에 선대응.
 
 **결론 (2줄):**
-- 기술사 판단: 신규 공개 서비스는 TLS 1.3 우선 적용이 원칙이며, 레거시 단말 요구가 있으면 TLS 1.2를 제한된 기간 병행함
-- 향후 방향: PQC 하이브리드 KEM, Encrypted ClientHello, 자동 인증서 갱신과 결합해 암호 민첩성을 확보해야 함
+- 기술사 판단: 대외 서비스는 TLS 1.3+1-RTT를 표준화하고, 0-RTT는 멱등 요청에 한정해 성능과 안전을 양립시킴.
+- 향후 방향: PFS 강제 위에 PQC 하이브리드 key_share를 얹어 양자 시대까지 견디는 핸드셰이크로 진화가 필요함.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "TLS 1.3 핸드셰이크를 설명하시오" | ClientHello부터 Finished까지 메시지 흐름 | TLS 1.2 대비 제거 기능과 1-RTT |
-| 요구사항 명시형 | "TLS 1.3 전환 방안을 제시하시오", "0-RTT 위험을 설명하시오" | 전환·fallback·anti-replay 흐름 | 0-RTT 제한, 지표, 호환성 선택 기준 |
+| 포괄형 | "TLS 1.3 핸드셰이크를 설명하시오" | key_share 선반영·1-RTT 흐름 | 1.2 대비 개선·삭제 알고리즘 |
+| 요구사항 명시형 | "성능/보안 개선 방안 제시" | 0-RTT·PSK 재개·암호화 흐름 | 0-RTT 통제·PQC 하이브리드 확장 |
 
-> 요약: 설명형은 메시지와 키 스케줄, 방안형은 전환 절차와 0-RTT 통제를 중심으로 작성함.
+> 요약: 설명형은 1-RTT 원리와 흐름, 개선형은 1.2 대비 이점·0-RTT 안전 통제와 PQC 확장을 강조함.
