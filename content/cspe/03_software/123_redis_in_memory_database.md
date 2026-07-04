@@ -149,7 +149,7 @@ Cache Miss -> DB Read -> Redis Set with TTL -> Reply
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | DB 직접 조회 | cache-aside Redis | 동일 키 반복 조회 비율 60% 이상 |
 | 비용/성능 | DB read replica 증설 | 메모리 캐시 | 캐시 hit ratio 90% 이상 목표 |

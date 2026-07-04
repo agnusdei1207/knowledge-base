@@ -129,7 +129,7 @@ Training Code -> Run ID -> Parameters/Metrics -> Artifacts -> Tracking Server ->
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 실험 추적 | 선택 기준 |
+| 구분 | 기존/대안 | 실험 추적 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 엑셀·문서 기록 | Tracking Server와 Artifact Store | 실험 20회 이상 반복 |
 | 비용/성능 | 초기 구성 없음 | 저장소와 서버 운영 필요 | 협업 인원 3명 이상 |

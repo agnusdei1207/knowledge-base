@@ -117,7 +117,7 @@ Connect -> List -> User Query -> LLM Inference -> Tool Call -> Server Execution 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 데스크톱 클라이언트 (Claude 등) | 프레임워크 클라이언트 (LangChain 등) | 선택 기준 |
+| 구분 | 데스크톱 클라이언트 (Claude 등) | 프레임워크 클라이언트 (LangChain 등) | 선택 기준 |
 |:---|:---|:---|:---|
 | 사용 주체 | 일반 사용자 (End-user) | 개발자/시스템 (Developer) | 서비스 제공 대상 |
 | 구현 복잡도 | 설정 기반 간편 연결 | 코드 기반 정밀 제어 | 비즈니스 로직의 복잡도 |

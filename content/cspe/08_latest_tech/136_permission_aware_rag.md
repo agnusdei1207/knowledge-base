@@ -99,7 +99,7 @@ User Query + Auth Token -> Policy Engine -> ACL Filter
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 사후 필터 (Post-filtering) | 사전 필터 (Pre-filtering) | 선택 기준 |
+| 구분 | 사후 필터 (Post-filtering) | 사전 필터 (Pre-filtering) | 선택 기준 |
 |:---|:---|:---|:---|
 | 유출 경로 | 미권한 문서가 검색 결과·컨텍스트에 유입 가능 | 검색 시점 metadata filter로 유입 원천 차단 | 보안 요구 수준, 규제 대상 여부 |
 | 결과 품질 | top-k 필터 후 잔여 결과 부족 발생 | 허용 문서 집합 내 top-k 보장 | recall 안정성 요구 |

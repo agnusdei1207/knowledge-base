@@ -114,7 +114,7 @@ ClientHello -> ServerHello -> Certificate/Verify -> Finished
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | TLS 적용 | 선택 기준 |
+| 구분 | 기존/대안 | TLS 적용 | 선택 기준 |
 |:---|:---|:---|:---|
 | 평문 통신 | HTTP, Telnet, FTP | HTTPS, SMTPS, LDAPS | 개인정보·인증정보 포함 시 TLS 필수 |
 | 인증 방식 | 서버 인증만 | mTLS 양방향 인증 | 서비스 간 호출, 관리자 API는 mTLS |

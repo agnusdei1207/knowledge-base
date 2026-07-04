@@ -141,7 +141,7 @@ Source/Architecture/Operation -> Debt Detection
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 코드 부채 | 긴 메서드·중복 | 리팩터링 | complexity 15 초과, duplication 5% 초과 |
 | 테스트 부채 | 회귀 테스트 부족 | test automation | change failure rate 15% 초과 |

@@ -136,7 +136,7 @@ Business Requirement -> IaaS VM/Storage/Network
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | IaaS | PaaS | SaaS |
+| 구분 | IaaS | PaaS | SaaS |
 |:---|:---|:---|:---|
 | 선택 조건 | 레거시 이전, OS 제어 필요 | 신규 개발, 표준 런타임 | CRM, 협업, 회계 등 표준 업무 |
 | 비용 구조 | VM·디스크·트래픽 과금 | 요청·인스턴스·DB 과금 | 사용자 수·기능 등급 과금 |

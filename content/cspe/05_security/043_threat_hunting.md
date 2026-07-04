@@ -111,7 +111,7 @@ CTI/ATT&CK -> Hunting Hypothesis -> Data Source -> Query
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 탐지 방식 | signature, alert | hypothesis-driven query | APT, insider threat, cloud misuse |
 | 데이터 요구 | 단일 장비 로그 | EDR, identity, DNS, proxy, cloud | 다중 로그 90일 보존 시 |

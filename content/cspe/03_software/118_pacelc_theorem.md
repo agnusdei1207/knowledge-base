@@ -144,7 +144,7 @@ Request 수신 -> partition 상태 판단
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | Dynamo 계열 | PC/EC | PA/EL | 장바구니·피드처럼 응답 지속과 낮은 지연 |
 | Cassandra | tunable consistency | PA/EL~PC/EC 조정 | QUORUM, ONE, ALL 선택 |

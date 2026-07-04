@@ -114,7 +114,7 @@ Falco Engine -> Alerts -> Falcosidekick/SIEM/SOAR -> Incident Response
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Falco 런타임 보안 | 선택 기준 |
+| 구분 | 기존/대안 | Falco 런타임 보안 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Trivy·Gatekeeper 중심 사전 통제 | 실행 중 syscall 기반 탐지 | 운영 Pod 100개 이상, 침해 탐지 필요 |
 | 비용/성능 | 로그 사후 분석 | 노드별 센서와 경보 파이프라인 | event drop 1% 이하, CPU overhead 5% 이하 |

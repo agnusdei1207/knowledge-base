@@ -106,7 +106,7 @@ weight: 7
 * 매 순간 큐를 털어서 마감 시간이 가장 급한 놈으로 신분을 바꿈 (High Overhead)
 ```
 
-| 비교 축 | Rate Monotonic (RM) 알고리즘 | Earliest Deadline First (EDF) |
+| 구분 | Rate Monotonic (RM) 알고리즘 | Earliest Deadline First (EDF) |
 |:---|:---|:---|
 | **우선순위 결정 룰** | **정적(Static)**: 실행 주기가 짧을수록 높은 우선순위 영구 부여 | **동적(Dynamic)**: 현재 시점에서 마감 시간이 가장 근접한 프로세스 1위 |
 | **스케줄링 가능 한계율** | $\Sigma(C_i/T_i) \leq n(2^{1/n} - 1)$ <br> (태스크가 많아지면 **약 69.3%**로 수렴) | $\Sigma(C_i/T_i) \leq 1$ <br> (**100%** CPU 활용률 보장) |

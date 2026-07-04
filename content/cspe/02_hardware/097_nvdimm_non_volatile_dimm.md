@@ -142,7 +142,7 @@ weight: 97
 
 ## Ⅴ. 심화 비교: NVMe SSD와의 I/O 병목 갭 분석
 
-| 비교 축 | NVMe SSD 기반 로깅 | NVDIMM-N 기반 로깅 | 선택 기준 |
+| 구분 | NVMe SSD 기반 로깅 | NVDIMM-N 기반 로깅 | 선택 기준 |
 |:---|:---|:---|:---|
 | 연결 인터페이스 위치 | PCIe 버스 및 스토리지 컨트롤러 경유 | 메인 메모리 버스 (DIMM 슬롯 직결) | 지연(Latency) 민감도 및 CPU 홉(Hop) 거리 |
 | 호스트 접근 단위 | 블록 단위 (Block, 4KB 인터럽트 기반) | 바이트 단위 (Byte Addressable) | 애플리케이션의 메모리 직접 접근(DAX) 필요성 |

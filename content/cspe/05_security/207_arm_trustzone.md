@@ -112,7 +112,7 @@ TEE OS -> Trusted Application 실행 -> 키 연산
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 격리 방식 | OS 권한 분리, SELinux | 하드웨어 Secure World | 커널 exploit을 위협 모델에 포함할 때 |
 | 외장 장비 | HSM, Secure Element | SoC 내 TEE | 모바일·IoT 원가와 지연 조건 고려 |

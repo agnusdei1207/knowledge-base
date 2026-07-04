@@ -114,7 +114,7 @@ Workload Start -> Identity Authenticate -> Policy Authorize
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 환경변수·Kubernetes Secret 단독 | Vault 또는 AWS Secrets Manager | 멀티클라우드·동적 DB는 Vault, AWS 단일 계정은 Secrets Manager |
 | 비용/성능 | 조회 지연 없음, 노출 범위 큼 | API 조회·캐시 필요 | p95 secret fetch 100ms 이하 목표 |

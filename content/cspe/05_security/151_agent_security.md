@@ -115,7 +115,7 @@ User Request -> Agent Runtime -> Policy Enforcement Point -> Tool Proxy -> Enter
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 프롬프트 기반 금지문 | IAM+PDP/PEP+Tool Proxy | 외부 API·파일 쓰기 권한이 있으면 필수 |
 | 권한 | 장기 API Key | short-lived token, JIT scope | 토큰 TTL 15분 이하, scope 최소화 |

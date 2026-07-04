@@ -136,7 +136,7 @@ CPU 메모리 주소 요청 발생 -> [ 메모리 컨트롤러 라우팅 판별 
 
 ## Ⅳ. 심화 비교: UMA (SMP) vs NUMA 대조표
 
-| 비교 축 | UMA (Uniform Memory Access) | NUMA (Non-Uniform Memory Access) | 성능 판단 기준 |
+| 구분 | UMA (Uniform Memory Access) | NUMA (Non-Uniform Memory Access) | 성능 판단 기준 |
 |:---|:---|:---|:---|
 | 시스템 구조 | 다수 CPU + 1개 공용 버스 + 1개 램 | 각 CPU마다 로컬 메모리 할당 후 결합 | 버스 병목 유발 여부 |
 | 접근 지연시간| 어떤 CPU든, 어떤 주소든 **항상 동일** | 로컬은 **빠르고**, 원격은 **느림** | S/W 스케줄러의 복잡성 |

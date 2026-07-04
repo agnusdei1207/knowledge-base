@@ -98,7 +98,7 @@ Query -> Query Understanding -> Hybrid Retrieval -> Reranker
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | LLM 단독 챗봇 | AI Search(검색+RAG) | 선택 기준 |
+| 구분 | LLM 단독 챗봇 | AI Search(검색+RAG) | 선택 기준 |
 |:---|:---|:---|:---|
 | 정보 최신성 | 학습 시점 지식에 고정 | 색인 갱신 즉시 최신 문서 반영 | 최신 사내 문서 의존 업무 여부 |
 | 근거 제시 | 출처 제시 불가, 환각 검증 곤란 | citation으로 원문 검증 가능 | 검증·감사 요구 수준 |

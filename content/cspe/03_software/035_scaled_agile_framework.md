@@ -148,7 +148,7 @@ Portfolio Epic -> Feature Breakdown -> PI Planning
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Scrum of Scrums | SAFe | 선택 기준 |
+| 구분 | Scrum of Scrums | SAFe | 선택 기준 |
 |:---|:---|:---|:---|
 | 조정 범위 | 팀 간 실행 이슈 | 포트폴리오-프로그램-팀 정렬 | 예산·전략까지 연결 필요 시 SAFe |
 | 릴리스 | 팀별 release | ART cadence 기반 release | 통합 릴리스 2개월 단위 |

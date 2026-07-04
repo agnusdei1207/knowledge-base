@@ -112,7 +112,7 @@ CTI Producer -> STIX Bundle -> TAXII Server/Collection
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 공유 형식 | CSV, PDF, 메일 | STIX 객체와 relationship | 공격자-악성코드-기법 관계 표현 필요 |
 | 전송 방식 | 포털 수동 조회 | TAXII API collection | 실시간 수집과 자동 배포 필요 |

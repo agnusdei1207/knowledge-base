@@ -119,7 +119,7 @@ Request -> Ingress GW -> Sidecar A (Outbound) -> [mTLS] -> Sidecar B (Inbound) -
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | API Gateway | Service Mesh | 선택 기준 |
+| 구분 | API Gateway | Service Mesh | 선택 기준 |
 |:---|:---|:---|:---|
 | 관리 범위 | 외부 -> 내부 통신 (North-South) | 내부 -> 내부 통신 (East-West) | 통신의 방향 및 목적 |
 | 주요 기능 | 인증, 과금, API 노출, 포털 | 재시도, 서킷브레이커, mTLS | 제어의 세밀함(Granularity) |

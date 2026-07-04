@@ -112,7 +112,7 @@ Verifier 요청 -> TPM Quote 생성 -> AK로 서명
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 신뢰 근거 | OS agent 보고 | TPM quote, PCR, event log | 제로트러스트 단말 검증 시 TPM |
 | 키 저장 | 파일·KMS 호출 | sealed storage, NV index | 오프라인 부팅 키 보호 필요 시 |

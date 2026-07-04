@@ -145,7 +145,7 @@ Code Smell -> Test Safety Net -> Refactoring Pattern
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | Extract Method | 긴 메서드 유지 | 책임 단위 분리 | 50줄 이상·분기 10개 이상 |
 | Move Class | 순환 의존 유지 | 응집도 높은 모듈 이동 | package cycle 검출 |

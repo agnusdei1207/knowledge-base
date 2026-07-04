@@ -143,7 +143,7 @@ Source -> Bronze Raw -> Silver Cleaned -> Gold Business Mart -> BI / ML / API
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 메달리온 아키텍처 | 선택 기준 |
+| 구분 | 기존/대안 | 메달리온 아키텍처 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Raw와 Mart 혼재 | Bronze/Silver/Gold 분리 | 소비자가 3개 조직 이상 |
 | 비용/성능 | 중복 정제 쿼리 반복 | 공통 Silver 재사용 | 정제 로직 중복 2개 이상 |

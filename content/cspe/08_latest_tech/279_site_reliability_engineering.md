@@ -113,7 +113,7 @@ Observability -> Alert -> Response -> Postmortem -> Automation
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | DevOps | SRE | 선택 기준 |
+| 구분 | DevOps | SRE | 선택 기준 |
 |:---|:---|:---|:---|
 | 중심 개념 | 개발·운영 협업 | SLO 기반 신뢰성 공학 | 대규모 서비스 운영 |
 | 지표 | 배포 빈도, lead time | SLI, error budget, toil | 사용자 영향 측정 필요 |

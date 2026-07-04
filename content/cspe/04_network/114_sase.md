@@ -117,7 +117,7 @@ User/Branch -> SASE PoP -> SD-WAN Routing
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 전통 WAN+보안 | SASE | 선택 기준 |
+| 구분 | 전통 WAN+보안 | SASE | 선택 기준 |
 |:---|:---|:---|:---|
 | 회선 구조 | MPLS 중심 | 인터넷+SD-WAN+PoP | 지사 수와 해외 트래픽 비중 |
 | 보안 위치 | 본사 보안 장비 | 분산 PoP | SaaS 직접 접속 비중 |

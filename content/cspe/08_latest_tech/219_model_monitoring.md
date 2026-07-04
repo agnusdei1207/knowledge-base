@@ -119,7 +119,7 @@ Prediction Request/Response -> Data Collector (Streaming/Batch)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 데이터 드리프트 (Data Drift) | 컨셉 드리프트 (Concept Drift) | 선택 기준 |
+| 구분 | 데이터 드리프트 (Data Drift) | 컨셉 드리프트 (Concept Drift) | 선택 기준 |
 |:---|:---|:---|:---|
 | 변화 주체 | 입력 데이터 $P(X)$ | 입력-정답 관계 $P(Y \mid X)$ | 변화의 근원 |
 | 탐지 용이성 | 높음 (정답 필요 없음) | 낮음 (정답 확보 필요) | 피드백 가용성 |

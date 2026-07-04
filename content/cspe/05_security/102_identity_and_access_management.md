@@ -116,7 +116,7 @@ HR Event -> Identity Create/Change/Disable -> Authentication
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 시스템별 계정 저장소 | 중앙 IdP+IGA+분산 집행 | SaaS 20개 이상 또는 클라우드 2개 이상 |
 | 인증 | 비밀번호·VPN 중심 | SSO, MFA, FIDO2, Conditional Access | 관리자·원격접속 MFA 100% |

@@ -119,7 +119,7 @@ Discovery -> LLM Reasoning -> Argument Gen -> Client Dispatch -> Server Validati
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 조회형 도구 (Read-only) | 변경형 도구 (State-changing) | 설계 고려 사항 |
+| 구분 | 조회형 도구 (Read-only) | 변경형 도구 (State-changing) | 설계 고려 사항 |
 |:---|:---|:---|:---|
 | 위험도 | 낮음 (정보 유출 위주) | 높음 (데이터 파손, 오작동 위주) | 리스크 기반 등급 분류 |
 | 승인 정책 | 자동 실행 가능 (Auto-exec) | 명시적 사용자 승인 (Manual) | User-in-the-loop 적용 범위 |

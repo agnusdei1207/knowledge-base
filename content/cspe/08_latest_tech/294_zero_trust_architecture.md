@@ -122,7 +122,7 @@ weight: 294
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | VPN (Virtual Private Network) | SDP (Software Defined Perimeter) | 선택 기준 |
+| 구분 | VPN (Virtual Private Network) | SDP (Software Defined Perimeter) | 선택 기준 |
 |:---|:---|:---|:---|
 | 보안성 | IP 노출, 횡적 이동 가능 | IP 은닉(Black Cloud), 횡적 이동 불가 | 보안 요구 수준 (금융, 국방 등) |
 | 확장성 | 하드웨어 기반, 확장성 한계 | 클라우드 네이티브, 유연한 확장 | 대규모 재택근무 수용 필요성 |

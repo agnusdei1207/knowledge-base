@@ -151,7 +151,7 @@ weight: 51
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Batch Normalization | Layer Normalization | 선택 기준 |
+| 구분 | Batch Normalization | Layer Normalization | 선택 기준 |
 |:---|:---|:---|:---|
 | 정규화 단위 | 미니 배치의 동일 채널(Feature) 축 기준 정규화 | 단일 데이터 1개의 모든 피처 축 기준 정규화 | 처리 데이터의 차원 구조 |
 | 배치 크기 의존도 | Batch Size 16 미만 시 평균 신뢰도 하락(성능 저하) | Batch Size와 무관하게 개별 샘플별 동작 | 메모리 제약 하의 Batch Size 한계 |

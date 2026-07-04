@@ -98,7 +98,7 @@ Metadata/ACL -> Filter -> Top-K Search -> Document ID
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | IVF-PQ | HNSW | 선택 기준 |
+| 구분 | IVF-PQ | HNSW | 선택 기준 |
 |:---|:---|:---|:---|
 | 메모리 사용 | PQ 양자화로 원본 대비 수십 배 절감 | 그래프 구조와 원본 벡터로 메모리 소요 큼 | 억 단위 벡터·메모리 예산 제약이면 IVF-PQ |
 | 검색 품질 | 양자화 손실로 Recall 저하 가능 | 고 Recall(95% 이상) 달성 용이 | Recall@10 95% 이상 요구 시 HNSW |

@@ -112,7 +112,7 @@ Packet Capture -> Session Reassembly -> Rule/Anomaly 검사
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 방화벽 로그 중심 | IDS/IPS 심층 탐지 | 허용 포트 내부 공격 탐지 필요 시 적용 |
 | 비용/성능 | TAP 기반 IDS | inline IPS | 업무 p95 지연 20ms 이하, HA bypass 필요 |

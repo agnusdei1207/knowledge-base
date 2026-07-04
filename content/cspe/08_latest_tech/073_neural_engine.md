@@ -100,7 +100,7 @@ App -> Core ML Model -> ML Runtime Scheduler
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | GPU 실행 | Neural Engine 실행 | 선택 기준 |
+| 구분 | GPU 실행 | Neural Engine 실행 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Metal/MPS 직접 제어 | Core ML 런타임 자동 배치 | 개발 유연성 vs 전력 효율 |
 | 비용/성능 | TDP 높음, FP32 고성능 | TDP 1~5W, INT8/FP16 추론 | 배터리 장치면 NE |

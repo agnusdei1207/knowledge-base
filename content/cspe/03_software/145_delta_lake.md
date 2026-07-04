@@ -144,7 +144,7 @@ Object Storage -> Parquet Data Files
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Delta Lake | 선택 기준 |
+| 구분 | 기존/대안 | Delta Lake | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Hive Parquet 테이블 | `_delta_log` 기반 snapshot | Spark/Databricks 중심 분석 |
 | 비용/성능 | 전체 파일 스캔 | data skipping, optimize | 파티션·통계 컬럼 활용 |

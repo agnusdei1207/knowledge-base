@@ -109,7 +109,7 @@ Input -> Step 1 -> Condition -> Tool/Agent -> Approval -> Output
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 자유형 Agent | Agent Workflow | 선택 기준 |
+| 구분 | 자유형 Agent | Agent Workflow | 선택 기준 |
 |:---|:---|:---|:---|
 | 절차 통제 | 모델 자율 판단 | 단계·분기·승인 명시 | 업무 반복성과 위험도 |
 | 품질 편차 | 실행마다 결과 상이 | 출력 schema 표준화 | schema 통과율 95% 이상 |

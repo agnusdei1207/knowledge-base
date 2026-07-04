@@ -105,7 +105,7 @@ Request Prefix -> Token Hash -> Prefix Cache Lookup
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Prefix Caching 미적용 | Prefix Caching 적용 | 선택 기준 |
+| 구분 | Prefix Caching 미적용 | Prefix Caching 적용 | 선택 기준 |
 |:---|:---|:---|:---|
 | Prefill 비용 | 매 요청 전체 prefix 계산 | 공통 prefix 생략, suffix만 계산 | 공통 prefix 토큰 수 1K 이상 |
 | TTFT | prompt 길이에 비례 증가 | hit 시 suffix 중심, 800ms→80ms | hit rate 50% 이상 기대 여부 |

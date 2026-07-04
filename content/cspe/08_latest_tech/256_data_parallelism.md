@@ -121,7 +121,7 @@ Data Sharding -> Forward Pass -> Backward Pass (Local Grad) -> All-Reduce (Globa
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Data Parallel (DP) | Distributed Data Parallel (DDP) | 선택 기준 |
+| 구분 | Data Parallel (DP) | Distributed Data Parallel (DDP) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구현 방식 | Single-Process, Multi-Thread | Multi-Process (노드당 프로세스) | 확장성 요구 수준 |
 | 통신 효율 | 마스터 GPU 병목 발생 | 링 알리듀스(Ring All-Reduce)로 병목 제거 | GPU 수 (4개 이상은 DDP 필수) |

@@ -121,7 +121,7 @@ App Data -> RDMA Layer (IB Trans) -> UDP/IP Encapsulation -> Ethernet Fabric (PF
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | InfiniBand | RoCE v2 | 선택 기준 |
+| 구분 | InfiniBand | RoCE v2 | 선택 기준 |
 |:---|:---|:---|:---|
 | 지연 시간 | < 1us | 1 ~ 2us | 극초단 지연 시간 필요성 |
 | 도입 비용 | 높음 (전용 스위치/HBA) | 상대적 낮음 (기존 이더넷 활용) | 예산 규모 및 가성비 |

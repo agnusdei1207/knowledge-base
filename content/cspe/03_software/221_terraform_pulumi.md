@@ -152,7 +152,7 @@ Git Repo -> IaC Code(HCL/Language) -> Provider SDK
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Terraform·Pulumi | 선택 기준 |
+| 구분 | 기존/대안 | Terraform·Pulumi | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 콘솔·Shell | 목표 상태 기반 리소스 그래프 | 리소스 20개 이상, 환경 2개 이상 |
 | 비용/성능 | 작업 시간 누적 | module/stack 재사용 | 신규 환경 생성 30분 이하 목표 |

@@ -117,7 +117,7 @@ Runtime Sensor -> Detection Policy -> Alert/Block/Quarantine -> SIEM/SOAR
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 서버 EDR 중심 | VM+컨테이너+서버리스 통합 보호 | Kubernetes 클러스터 3개 이상, 컨테이너 비중 증가 |
 | 비용/운영 | 호스트별 에이전트 | eBPF/DaemonSet/서버리스 센서 조합 | 성능 오버헤드 CPU 5% 이하 관리 |

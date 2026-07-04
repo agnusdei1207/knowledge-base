@@ -98,7 +98,7 @@ weight: 113
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 완전탐색(Flat/Exhaustive Search) | 근사탐색(ANN: HNSW·IVF-PQ) | 선택 기준 |
+| 구분 | 완전탐색(Flat/Exhaustive Search) | 근사탐색(ANN: HNSW·IVF-PQ) | 선택 기준 |
 |:---|:---|:---|:---|
 | 정확도 | 100% 정확한 최근접 이웃 | 근사치, Recall@10 95~99% | 완전 정확도가 규제 요구사항이면 Flat |
 | 검색 지연 | 벡터 수에 선형 비례 | 로그 수준 지연(HNSW 그래프 탐색) | 100만 벡터 이상은 ANN 필수 |

@@ -131,7 +131,7 @@ NVLink가 왜 필수인지 이해하려면, 분산 딥러닝에서 역전파(Bac
 
 ## Ⅳ. 심화 비교: 멀티 GPU 인터커넥트 기술 철저 대조표
 
-| 비교 축 | PCIe (Peripheral Component Interconnect Express) | NVLink (NVIDIA 독자 규격) | Infinity Fabric (AMD 독자 규격) |
+| 구분 | PCIe (Peripheral Component Interconnect Express) | NVLink (NVIDIA 독자 규격) | Infinity Fabric (AMD 독자 규격) |
 |:---|:---|:---|:---|
 | 프로토콜 범용성 | **100% 범용 (표준)**. 모든 제조사, 모든 부품 꽂힘 | **철저한 폐쇄형 (NVIDIA 전용)** | 자사 CPU(EPYC)와 GPU(Instinct) 전용 |
 | 토폴로지 구조 | 트리(Tree) 계층 구조. 루트(CPU) 경유 필수 | **Point-to-Point, Mesh 스위칭 직결** | P2P 링/메시 복합 토폴로지 |

@@ -114,7 +114,7 @@ User -> Knowledge / Possession / Inherence -> Verifier -> Session/Token
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 신원 보증 | password 단독 | 요소별 신뢰 수준 분리 | 관리자, 결제, 개인정보 접근 |
 | 피싱 저항성 | OTP 코드 입력 | FIDO2/WebAuthn origin binding | 원격 피싱 위험 계정 |

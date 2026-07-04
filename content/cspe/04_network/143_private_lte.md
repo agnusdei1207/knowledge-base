@@ -119,7 +119,7 @@ Sensors -> Robot Client -> 5G gNB -> UPF (Local Gate) -> Control AI (MEC) -> Act
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 직접 구축형 (Standalone) | 상용 망 공유형 (Slicing) | 선택 기준 |
+| 구분 | 직접 구축형 (Standalone) | 상용 망 공유형 (Slicing) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구축 비용 | 높음 (CAPEX 중심) | 낮음 (OPEX/구독형) | 가용 예산 |
 | 운영 권한 | 기업 직접 통제 | 통신사 관리 | 운영 인력 보유 여부 |

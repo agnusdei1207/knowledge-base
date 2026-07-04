@@ -113,7 +113,7 @@ Policy -> IEC 62443 Zone -> Conduit -> Monitoring -> Response
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | ICS·SCADA 보안 | 선택 기준 |
+| 구분 | 기존/대안 | ICS·SCADA 보안 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 평면 OT망 | Purdue Level 0~5, Level 3.5 DMZ | IT/OT 직접 연결 제거 |
 | 탐지 | 시그니처 IDS | 공정 변수·프로토콜 명령 이상탐지 | PLC 쓰기 명령 감시 필요 시 |

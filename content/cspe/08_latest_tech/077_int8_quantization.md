@@ -98,7 +98,7 @@ FP Model -> Calibration Dataset -> Scale/Zero-point
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | FP16(기존) | INT8 | 선택 기준 |
+| 구분 | FP16(기존) | INT8 | 선택 기준 |
 |:---|:---|:---|:---|
 | 메모리 | 2 byte/param | 1 byte/param(50% 절감) | VRAM 목표 |
 | 정확도 | 기준선 | 하락 1~2%p(PTQ), <1%p(QAT) | 업무 허용 회귀폭 |

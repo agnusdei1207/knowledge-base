@@ -112,7 +112,7 @@ Witness/Secret -> Prover -> Proof -> Verifier -> Accept/Reject
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 원본 제출·DB 조회 | proof 검증 | 개인정보 최소수집 요구 |
 | 비용/성능 | 조회 ms 단위 | proving ms~분, verify ms~초 | 증명 빈도와 검증 비용 |

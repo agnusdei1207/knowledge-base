@@ -116,7 +116,7 @@ getUserMedia -> SDP offer 생성 -> signaling 교환
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | WebRTC | 선택 기준 |
+| 구분 | 기존/대안 | WebRTC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | HLS/DASH 단방향 스트리밍 | P2P/SFU 실시간 통신 | 양방향 지연 요구 300ms 이하 |
 | 비용/성능 | CDN 중심 egress | TURN/SFU egress | relay ratio와 동시 접속자 |

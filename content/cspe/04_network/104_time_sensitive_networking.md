@@ -117,7 +117,7 @@ Talker -> TSN End Station -> TSN Bridge -> TSN Bridge -> Listener
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | TSN | 선택 기준 |
+| 구분 | 기존/대안 | TSN | 선택 기준 |
 |:---|:---|:---|:---|
 | 제어망 | 전용 Fieldbus | 표준 Ethernet 기반 결정형 통신 | 벤더 혼재, IP 통합 |
 | 지연 관리 | 평균 지연 관리 | 최악 지연·지터 관리 | safety/control traffic |

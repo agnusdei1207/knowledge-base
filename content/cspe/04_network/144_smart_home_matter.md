@@ -131,7 +131,7 @@ Controller (App/Hub) -> [Local Network (IPv6)] -> Matter Device: Command (Invoke
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Wi-Fi 연동 | Thread 연동 | 선택 기준 |
+| 구분 | Wi-Fi 연동 | Thread 연동 | 선택 기준 |
 |:---|:---|:---|:---|
 | 전력 소모 | 높음 | 매우 낮음 | 배터리 사용 여부 |
 | 대역폭 | 높음 (영상/음성 적합) | 낮음 (센서/조명 적합) | 데이터 전송량 |

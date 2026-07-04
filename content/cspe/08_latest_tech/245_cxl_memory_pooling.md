@@ -113,7 +113,7 @@ Pool Creation -> Resource Request -> Switch Mapping -> Memory Mounting -> Releas
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 메모리 확장 (Expansion) | 메모리 풀링 (Pooling) | 기술적 수준 |
+| 구분 | 메모리 확장 (Expansion) | 메모리 풀링 (Pooling) | 기술적 수준 |
 |:---|:---|:---|:---|
 | 연결 형태 | 1:1 (Host to Device) | N:M (Multi-host to Multi-device) | CXL 1.1 vs CXL 2.0+ |
 | 핵심 부품 | CXL 컨트롤러 카드 | CXL 스위치 + 패브릭 매니저 | 인프라 복잡도 |

@@ -113,7 +113,7 @@ Enclave -> Sealed Storage / Key Release -> Result
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 앱 암호화, VM 격리 | enclave/VM memory encryption | 사용 중 데이터 보호 요구 |
 | 비용/성능 | 일반 실행 | enclave 전환·메모리 암호화 비용 | p95 지연 5%~30% 증가 허용 |

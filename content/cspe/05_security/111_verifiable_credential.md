@@ -111,7 +111,7 @@ Issuer -> Verifiable Credential -> Holder Wallet -> Verifiable Presentation -> V
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | VC | 선택 기준 |
+| 구분 | 기존/대안 | VC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 중앙 DB 조회, PDF 제출 | Issuer-Holder-Verifier 증명 교환 | 다기관 자격 확인, 개인정보 최소 수집 |
 | 비용/성능 | API 연동 기관별 개발 | 지갑·검증 API·status list 구축 | 검증 p95 500ms, 실패율 1% 이하 |

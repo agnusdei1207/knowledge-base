@@ -144,7 +144,7 @@ Cloud Workload Inventory -> TCO/Latency/Regulation Assessment
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Public Cloud | On-prem/Private/Colocation | 고정 부하와 규제 데이터 |
 | 비용/성능 | egress·관리형 비용 누적 | 장비 투자와 전용 성능 | 3년 TCO 20% 이상 차이 |

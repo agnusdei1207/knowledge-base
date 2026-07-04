@@ -115,7 +115,7 @@ Defense -> Output Clipping / DP / Rate Limit / Audit
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | label-only API | confidence/embedding 제공 모델 | 설명가능성·검색 API가 필요한 경우 |
 | 비용/성능 | DP 미적용 학습 | DP-SGD, gradient clipping | 민감 데이터 포함 시 epsilon 예산 필요 |

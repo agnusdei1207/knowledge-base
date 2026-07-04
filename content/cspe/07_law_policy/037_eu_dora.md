@@ -112,7 +112,7 @@ ICT Asset Inventory -> Risk Assessment -> Control Implementation
 ---
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안(NIS2, 일반 ICT BCP) | DORA | 선택 기준 |
+| 구분 | 기존/대안(NIS2, 일반 ICT BCP) | DORA | 선택 기준 |
 |:---|:---|:---|:---|
 | 적용 범위 | NIS2는 필수·중요 섹터 전반 적용 | 금융기관과 critical ICT 3자로 한정 | 금융 라이선스 보유 여부 |
 | 3자 통제 강도 | 계약서 조항과 감사권 중심 | EU 감독기구의 직접 감독·현장점검 | 공급자 집중도와 대체 가능성 |

@@ -146,7 +146,7 @@ Health Check -> Failure Detector -> Quorum/Fencing
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 판정 | 운영자 확인 | 임계값·quorum 자동 판정 | RTO 5분 이하 요구 시 |
 | 전환 | 수동 DNS/LB 변경 | controller 기반 route 변경 | 24x7 무중단 요구 시 |

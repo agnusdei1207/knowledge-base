@@ -108,7 +108,7 @@ weight: 35
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | RNN Attention | Self-Attention | 선택 기준 |
+| 구분 | RNN Attention | Self-Attention | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 인코더→디코더 Cross-Attention | 동일 시퀀스 내 전위치 참조 | 자기참조 필요 시 Self-Attention |
 | 비용/성능 | O(N·d²), 순차 처리 | O(N²·d), 완전 병렬 | N<d이면 Self-Attention 효율적 |

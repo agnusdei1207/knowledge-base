@@ -113,7 +113,7 @@ Business Objective -> Scope/ROE -> Recon/Scanning -> Vulnerability Analysis
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 평가 방식 | 정기 취약점 스캔 | 수동 exploit 검증 | 중요 서비스 출시 전, 연 1회 이상 |
 | 깊이 | CVE와 설정 오류 | exploit chain과 권한 상승 | crown jewel 접근 경로 확인 필요 시 |

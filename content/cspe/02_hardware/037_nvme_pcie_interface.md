@@ -149,7 +149,7 @@ Host (CPU/OS) <-> NVMe Driver <-> PCIe Controller (Lanes) <-> NVMe Controller
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 소비자용 (Client) | 기업용 (Enterprise) | 선택 기준 |
+| 구분 | 소비자용 (Client) | 기업용 (Enterprise) | 선택 기준 |
 |:---|:---|:---|:---|
 | 인터페이스 | M.2 (PCIe x4) | U.2 / EDSFF (PCIe x4/x8) | 핫플러그 및 슬롯 밀도 |
 | 내구성 (DWPD) | 0.3 ~ 0.5 (낮음) | 1.0 ~ 3.0 (높음) | 쓰기 집약도 (Write Intensity) |

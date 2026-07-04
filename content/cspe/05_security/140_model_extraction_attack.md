@@ -115,7 +115,7 @@ Collected Pairs -> Student Training -> Substitute Model -> Fidelity Test
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 내부 전용 모델 | 공개 API 모델 | 외부 고객에게 예측 API 제공 시 |
 | 비용/성능 | top-k 확률 제공 | top-1 label, confidence rounding | 설명가능성 요구와 IP 보호 균형 |

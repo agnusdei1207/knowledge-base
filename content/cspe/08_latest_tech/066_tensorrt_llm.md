@@ -106,7 +106,7 @@ HF Checkpoint -> Model Convert -> TensorRT Engine Build
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | vLLM (범용) | TensorRT-LLM (NVIDIA 최적화) | 선택 기준 |
+| 구분 | vLLM (범용) | TensorRT-LLM (NVIDIA 최적화) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Python 기반, PagedAttention | C++ kernel fusion, engine build | 빠른 교체 vs 고처리량 |
 | 비용/성능 | 다중 GPU 벤더 지원 | H100 FP8 기준 tokens/s 1.5~2× | NVIDIA 고정 시 TRT-LLM |

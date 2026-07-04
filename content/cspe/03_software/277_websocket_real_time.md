@@ -150,7 +150,7 @@ Client Connect -> HTTP Upgrade Request -> 101 Response
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | Polling | 구현 단순 | WebSocket | 업데이트 주기 1초 이하, 양방향 필요 |
 | SSE | 서버 단방향 | WebSocket | 클라이언트 입력 이벤트 빈번 |

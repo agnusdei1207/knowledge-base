@@ -112,7 +112,7 @@ Model 초기화 -> State Sharding -> Forward 시 Parameter Gather
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | DDP full replica | ZeRO sharded state | peak memory 부족 여부 |
 | 비용/성능 | 통신 단순 | collective와 offload 비용 추가 | memory 절감 대비 step time |

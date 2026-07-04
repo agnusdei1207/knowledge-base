@@ -152,7 +152,7 @@ Read Request -> Replica Read -> SSTable Merge -> Read Repair -> Response
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RDB master-replica | peer-to-peer ring | 단일 리더 쓰기 병목 발생 |
 | 비용/성능 | 수직 증설 | 노드 추가 수평 분산 | 파티션별 쓰기 균등성 |

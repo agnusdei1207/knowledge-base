@@ -123,7 +123,7 @@ weight: 346
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | XMSS (Stateful Hash) | SLH-DSA (Stateless Hash) | 선택 기준 |
+| 구분 | XMSS (Stateful Hash) | SLH-DSA (Stateless Hash) | 선택 기준 |
 |:---|:---|:---|:---|
 | 상태 관리 | 필수 (서명 횟수 카운팅) | 불필요 (무작위성 활용) | 운영 환경의 복잡도 및 장애 복구 능력 |
 | 관리 리스크 | 중복 번호 서명 시 개인키 노출 | 리스크 없음 | 시스템 안정성 및 보안 최우선 여부 |

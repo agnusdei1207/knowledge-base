@@ -149,7 +149,7 @@ Step 함수(미분 불가) -> Sigmoid(기울기 소멸) -> Tanh(영점 보완, �
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | ReLU (Rectified Linear Unit) | Leaky ReLU | GELU (Gaussian Error Linear Unit) | 선택 기준 |
+| 구분 | ReLU (Rectified Linear Unit) | Leaky ReLU | GELU (Gaussian Error Linear Unit) | 선택 기준 |
 |:---|:---|:---|:---|:---|
 | 동작 방식 | $x \lt 0$ 이면 무조건 0 출력 | $x \lt 0$ 이면 0.01 등 작은 음수 기울기 부여 | 정규분포 CDF를 융합하여 원점에서 부드럽게(Smooth) 곡선 처리 | 비선형 처리의 매끄러움 |
 | 치명적 리스크 | Dying ReLU (노드가 영구 비활성화되어 죽어버림) | 튜닝 파라미터($\alpha$) 추가 필요 | 연산량 증가 (지수/가우시안 연산 복구) | 노드 사멸 현상 발생 여부 |

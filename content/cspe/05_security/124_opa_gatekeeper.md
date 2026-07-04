@@ -114,7 +114,7 @@ Gatekeeper/OPA -> deny/warn/dryrun -> Audit Violations -> SIEM/Ticket
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | OPA Gatekeeper | 선택 기준 |
+| 구분 | 기존/대안 | OPA Gatekeeper | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | kubectl 리뷰, CI lint | API Server Admission 통제 | 멀티팀 클러스터, prod namespace 운영 |
 | 비용/성능 | 리뷰 비용 증가 | 정책 평가 지연 추가 | p95 admission latency 100ms 이하 허용 |

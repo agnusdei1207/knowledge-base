@@ -137,7 +137,7 @@ weight: 53
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | CNN (ResNet 중심) | ViT (Vision Transformer) | 선택 기준 |
+| 구분 | CNN (ResNet 중심) | ViT (Vision Transformer) | 선택 기준 |
 |:---|:---|:---|:---|
 | Inductive Bias | 국소적 특징(Local) 중심, 이동 불변성 가정함 | 패치 간 Global Attention 연산, 편향 없음 | 학습 데이터 규모 (ViT는 대규모 필수) |
 | 연산 및 파라미터 | Convolution 연산에 집중, 효율성 높음 | Self-Attention 연산량 $O(n^2)$로 부하 큼 | 추론 지연시간(Latency) 제약 |

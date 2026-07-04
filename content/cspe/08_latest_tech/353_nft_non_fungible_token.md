@@ -112,7 +112,7 @@ User Wallet -> Marketplace -> Transfer / Approval / Event
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 소유 기록 | 플랫폼 DB | 온체인 owner | 외부 검증 필요 |
 | 원본 저장 | 서버 파일 | IPFS/Arweave/HTTPS URI | 지속성 요구 |

@@ -98,7 +98,7 @@ Instruction Dataset -> SFT Training -> Instruction-tuned Model
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Pretraining | Instruction Tuning | 선택 기준 |
+| 구분 | Pretraining | Instruction Tuning | 선택 기준 |
 |:---|:---|:---|:---|
 | 목표 | 언어·지식 형성 | 지시 수행·형식 준수 | 범용 지식 vs 업무 수행 |
 | 데이터 | 대규모 비지도 텍스트 | 지시-응답 쌍 10K~1M | 라벨 비용·task 커버리지 |

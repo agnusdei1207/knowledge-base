@@ -117,7 +117,7 @@ weight: 110
 
 ## Ⅲ. 모바일 보안 아키텍처 진화 심화 비교
 
-| 비교 축 | 소프트웨어 샌드박스 (OS 가상화) | TEE (TrustZone) | SE (Secure Element / USIM) |
+| 구분 | 소프트웨어 샌드박스 (OS 가상화) | TEE (TrustZone) | SE (Secure Element / USIM) |
 |:---|:---|:---|:---|
 | 구현 방식 | OS 커널 위에서 논리적 분리 | 메인 CPU 내 하드웨어 모드(World) 분리 | 메인 CPU와 물리적으로 완전 분리된 별도 칩 |
 | 성능 및 속도 | 매우 빠름 (메인 CPU 100% 사용) | 매우 빠름 (메인 CPU 100% 사용) | 매우 느림 (수 MHz 저성능 자체 칩 연산) |

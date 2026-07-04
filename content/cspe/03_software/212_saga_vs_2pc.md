@@ -150,7 +150,7 @@ Order Request -> Reserve Inventory -> Authorize Payment -> Create Shipment
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Saga vs 2PC | 선택 기준 |
+| 구분 | 기존/대안 | Saga vs 2PC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 DB ACID | 서비스별 DB + 이벤트/Coordinator | 서비스 소유권 분리 여부 |
 | 비용/성능 | 전역 락·동기 커밋 | 비동기 이벤트·보상 | p95 업무 완료 3초 이하, 락 최소화 |

@@ -143,7 +143,7 @@ CDC 이벤트 수신 -> record key / precombine 적용 -> index 조회
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Apache Hudi | 선택 기준 |
+| 구분 | 기존/대안 | Apache Hudi | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | append-only Parquet | record key+timeline | CDC upsert 필수 |
 | 비용/성능 | 전체 파티션 재작성 | key 기반 부분 반영 | 변경률 20% 이하 |

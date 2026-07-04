@@ -142,7 +142,7 @@ Configuration Item -> Version Identification -> Baseline Approval
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 개발 기준선 | 임시 문서 | 요구사항·설계 승인 | 외주·감리·규제 프로젝트 |
 | 릴리스 기준선 | 단순 Git tag | artifact+config+test 묶음 | 운영 배포·롤백 필요 |

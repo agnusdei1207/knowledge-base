@@ -147,7 +147,7 @@ ARM Architecture (v8, v9)
 
 ## Ⅴ. 심화 비교 및 적용 판단 (ARM vs x86)
 
-| 비교 축 | x86 (Intel/AMD) | ARM (Cortex-A) | 서버 환경 선택 기준 |
+| 구분 | x86 (Intel/AMD) | ARM (Cortex-A) | 서버 환경 선택 기준 |
 |:---|:---|:---|:---|
 | 라이선스/확장 | 폐쇄형, 칩 단위 판매 | 개방형 IP 라이선스, 맞춤형 SoC 설계 | 자사 클라우드 전용 칩(Graviton) 개발 |
 | 명령어(ISA) | CISC 융합 (무겁고 복잡함) | 순수 RISC 기반 (가볍고 전력비 우수) | Rack 당 상면 전력 및 냉각 비용 감소 |

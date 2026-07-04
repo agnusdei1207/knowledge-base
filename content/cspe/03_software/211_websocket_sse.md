@@ -146,7 +146,7 @@ Client Connect -> Auth Validate -> Channel Subscribe
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | WebSocket·SSE | 선택 기준 |
+| 구분 | 기존/대안 | WebSocket·SSE | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Polling, Long Polling | 장기 연결 기반 이벤트 전송 | 빈 응답 비율 50% 이상이면 전환 |
 | 비용/성능 | 요청당 헤더·인증 반복 | 연결 유지 후 이벤트만 전송 | p95 지연 1초 이하, req/s 70% 감소 목표 |

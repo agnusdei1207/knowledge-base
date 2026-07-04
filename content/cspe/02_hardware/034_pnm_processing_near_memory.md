@@ -142,7 +142,7 @@ Host CPU/GPU <-> CXL/Memory Bus <-> PNM Controller (Processor Near Memory)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | PIM (In-Memory) | PNM (Near-Memory) | 선택 기준 |
+| 구분 | PIM (In-Memory) | PNM (Near-Memory) | 선택 기준 |
 |:---|:---|:---|:---|
 | 연산 위치 | 메모리 뱅크 내부 (Cell 근처) | 메모리 칩 외부 (Controller/DIMM) | 연산 유닛의 크기/성능 요구치 |
 | 공정 | 메모리 공정 (DRAM) | 로직 공정 (TSMC/삼성 파운드리) | 제조 원가 및 연산 복잡도 |

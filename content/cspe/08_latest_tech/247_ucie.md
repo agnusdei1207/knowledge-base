@@ -115,7 +115,7 @@ Protocol Data -> Adapter Framing -> Flit Generation -> Physical Signaling -> Die
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Standard Package (2D) | Advanced Package (2.5D) | 비고 |
+| 구분 | Standard Package (2D) | Advanced Package (2.5D) | 비고 |
 |:---|:---|:---|:---|
 | 범프 피치 (Bump Pitch) | 100um ~ 130um | 25um ~ 55um | 배선 밀도 차이 |
 | 데이터 속도 (per lane) | 16 ~ 32 GT/s | 16 ~ 32 GT/s | 동일하나 선로 수 차이 |

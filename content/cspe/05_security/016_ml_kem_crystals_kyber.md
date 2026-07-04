@@ -114,7 +114,7 @@ Private Key + Ciphertext -> Decaps -> Shared Secret
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | ECDHE 단독 | X25519+ML-KEM-768 hybrid | 인터넷 TLS 전환기 상호운용성 |
 | 비용/성능 | 32B 키 교환 | 1KB급 pk/ct 추가 | ClientHello MTU, CPU decaps p95 |

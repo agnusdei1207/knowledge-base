@@ -116,7 +116,7 @@ Full Dataset -> Data Splitter (Hold-out/K-fold)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Hold-out Method | K-fold Cross Validation | 선택 기준 |
+| 구분 | Hold-out Method | K-fold Cross Validation | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 활용도 | 낮음 (일부만 학습 사용) | 높음 (모든 데이터가 학습/평가 활용) | 전체 데이터 양 |
 | 계산 비용 | 낮음 (1회 학습) | 높음 (K회 반복 학습) | 가용 리소스 및 시간 |

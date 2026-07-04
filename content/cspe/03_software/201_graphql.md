@@ -136,7 +136,7 @@ Query 작성 -> 스키마 검증 -> 인증/인가 -> Resolver 실행 -> 응답 �
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | REST 리소스 API | GraphQL schema + resolver | 클라이언트 채널 3개 이상, 응답 모양 차이 큼 |
 | 비용/성능 | endpoint 수 증가 | resolver fan-out 증가 | p95 200ms, DB query count 20회 이하 |

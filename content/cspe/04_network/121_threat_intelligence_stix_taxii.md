@@ -114,7 +114,7 @@ Threat Source -> STIX Bundle -> TAXII Server -> Collection -> SIEM/SOAR/EDR
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | STIX·TAXII | 선택 기준 |
+| 구분 | 기존/대안 | STIX·TAXII | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 파일 기반 IOC 전달 | 객체·관계·컬렉션 기반 교환 | 다기관 공유, 자동 룰 배포 필요 시 |
 | 비용/성능 | 수동 분석 시간 증가 | API 수집, 중복 제거, 델타 조회 | 일 IOC 10만 건 이상이면 자동화 필요 |

@@ -112,7 +112,7 @@ Source DB -> Transaction Log / Binlog / WAL -> CDC Connector
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 동기화 주기 | 일/시간 단위 batch | 초~분 단위 변경 스트림 | 데이터 지연 SLA |
 | 원천 부하 | full scan | log read | 운영 DB 여유 |

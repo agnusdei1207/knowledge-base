@@ -153,7 +153,7 @@ weight: 62
 
 가장 흔한 MIMD(멀티 프로세서)도 "여러 개의 코어가 메모리(RAM)를 어떻게 나눠 쓰느냐"에 따라 다시 두 갈래로 찢어진다.
 
-| 비교 축 | 공유 메모리 (Shared Memory) 구조 / 강결합(Tightly Coupled) | 분산 메모리 (Distributed Memory) 구조 / 약결합(Loosely Coupled) |
+| 구분 | 공유 메모리 (Shared Memory) 구조 / 강결합(Tightly Coupled) | 분산 메모리 (Distributed Memory) 구조 / 약결합(Loosely Coupled) |
 |:---|:---|:---|
 | 시스템 명칭 | **SMP (Symmetric Multiprocessor) / UMA, NUMA** | **클러스터 (Cluster) / 그리드(Grid) 컴퓨팅** |
 | 물리적 메모리 위치| 여러 코어가 1개의 거대한 메인보드(RAM) 버스를 공유 | 컴퓨터가 여러 대. 각자 자기 램(RAM)을 따로 가짐 |

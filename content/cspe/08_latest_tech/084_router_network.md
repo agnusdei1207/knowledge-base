@@ -98,7 +98,7 @@ token 입력 -> expert score 계산 -> top-k 선택
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Static Routing (해시·규칙) | Learned Router (gating) | 선택 기준 |
+| 구분 | Static Routing (해시·규칙) | Learned Router (gating) | 선택 기준 |
 |:---|:---|:---|:---|
 | 선택 품질 | 입력 무관 균등 분배 | token 적합 expert 선택 | 품질 우선이면 learned |
 | 부하 예측성 | 완전 균등 보장 | 쏠림 가능, loss로 보정 | 지연 예측성 우선이면 static 검토 |

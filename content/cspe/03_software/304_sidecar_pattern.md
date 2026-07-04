@@ -143,7 +143,7 @@ Pod 시작 -> Sidecar 준비 -> App 준비 -> Traffic Intercept -> Policy 적용
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 공통 기능 | 언어별 SDK | Sidecar 공통 적용 | 서비스 언어 3개 이상 |
 | 통신 제어 | 앱 코드 Retry | Envoy/Istio 정책 | mTLS·Retry 표준화 필요 |

@@ -114,7 +114,7 @@ Malicious Text Inject -> Prompt Context Merge -> Instruction Conflict
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단순 챗봇 필터 | prompt isolation+tool policy | 외부 문서·agent tool 사용 시 필수 |
 | 비용/성능 | system prompt 보강만 적용 | retrieval filter, DLP, approval, sandbox | 민감 데이터 접근 시 비용 감수 |

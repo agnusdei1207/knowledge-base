@@ -119,7 +119,7 @@ Stream Source -> [ 1. Barrier 주입 ] -> [ 2. Operator 연산 ] -> [ 3. State �
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Apache Spark Streaming | Apache Flink | 선택 기준 |
+| 구분 | Apache Spark Streaming | Apache Flink | 선택 기준 |
 |:---|:---|:---|:---|
 | 처리 방식 | 마이크로 배치 (Micro-batch) | 네이티브 스트리밍 (Event-at-a-time) | 지연 시간 요건 (ms vs sec) |
 | 지연 시간 | 초 단위 (Seconds) | 밀리초 단위 (Milliseconds) | 실시간성 중요도 |

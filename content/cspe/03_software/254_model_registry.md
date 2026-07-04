@@ -129,7 +129,7 @@ Training Run -> Model Artifact -> Metadata -> Registry Stage -> Deployment Targe
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 모델 레지스트리 | 선택 기준 |
+| 구분 | 기존/대안 | 모델 레지스트리 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | S3 경로와 문서 관리 | Registry API와 Stage | 운영 모델 2개 이상 |
 | 비용/성능 | 관리 비용 낮음 | 메타데이터와 승인 워크플로 추가 | 감사·재현 요구 존재 |

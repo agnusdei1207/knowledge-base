@@ -109,7 +109,7 @@ Agent Proposal -> Risk Scoring -> Human Review -> Execute/Reject
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 완전 자동 Agent | Human-in-the-Loop Agent | 선택 기준 |
+| 구분 | 완전 자동 Agent | Human-in-the-Loop Agent | 선택 기준 |
 |:---|:---|:---|:---|
 | 실행 지연 | 즉시(ms 단위) | 승인 SLA 의존(분~시간) | 업무 긴급도와 위험도 |
 | 오류 통제 | 정책 엔진 자동판단 | 사람 검토로 환각·오작동 차단 | 거부율, 오류 차단률 |

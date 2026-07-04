@@ -111,7 +111,7 @@ Interaction -> Short Memory -> Memory Manager -> Long Memory
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Agent Memory | 선택 기준 |
+| 구분 | 기존/대안 | Agent Memory | 선택 기준 |
 |:---|:---|:---|:---|
 | 맥락 보존 | 컨텍스트 윈도우(128K 토큰 한도) | 벡터DB+RDB 장기 저장 | 세션 초과 이력 필요 시 Agent Memory |
 | 검색 정확도 | 전문 검색(BM25, recall 60~70%) | 임베딩 유사도(recall 85%+) | 의미 검색 필요 시 벡터 기반 |

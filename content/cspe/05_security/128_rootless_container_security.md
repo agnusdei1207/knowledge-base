@@ -115,7 +115,7 @@ Container Process -> Non-root Host UID -> Audit
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | rootful Docker daemon | rootless Podman·Docker·BuildKit | 개발자 PC, CI 빌더, SaaS 일반 워크로드 |
 | 비용/성능 | 커널 네트워크·overlayfs 직접 사용 | 사용자 공간 네트워크·fuse 계층 | 네트워크 처리량 요구와 보안 요구 비교 |

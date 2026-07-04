@@ -145,7 +145,7 @@ Git Commit -> CI/CD Deploy -> Production Change -> Incident/Recovery -> DORA Das
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 배포 횟수 수동 집계 | Git-CI-incident 자동 연결 | 서비스 수 5개 이상 |
 | 비용/성능 | 릴리스 회고 중심 | 실시간 DORA dashboard | 배포 빈도 주 1회 이상 |

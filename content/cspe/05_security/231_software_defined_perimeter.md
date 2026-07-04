@@ -114,7 +114,7 @@ Controller -> Gateway Policy Push -> Private App Access -> Audit Log
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | VPN concentrator 중심 | Controller+Gateway 분리 | 앱별 접근통제와 멀티클라우드 연결 필요 시 |
 | 비용/성능 | 전체 트래픽 터널링 | 앱 프록시·분산 Gateway | p95 접속 지연 300ms 이하, Gateway CPU 70% 이하 |

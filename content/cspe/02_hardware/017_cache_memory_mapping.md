@@ -137,7 +137,7 @@ CPU 주소 발행 -> [ Index 분리 ] -> 해당 번호의 집합(Set)으로 접�
 
 ## Ⅳ. 심화 비교: 매핑 방식 3종 비교
 
-| 비교 축 | 직접 매핑 (Direct Mapping) | 완전 연관 (Fully Associative) | 집합 연관 (Set Associative) |
+| 구분 | 직접 매핑 (Direct Mapping) | 완전 연관 (Fully Associative) | 집합 연관 (Set Associative) |
 |:---|:---|:---|:---|
 | 매핑 위치 | 정해진 단 1개의 캐시 라인 | 캐시 내부 어디든 제약 없음 | 정해진 1개의 Set 내 N개의 라인 |
 | 주소 분할 | Tag + Index + Offset | Tag + Offset (Index 없음) | Tag + Set Index + Offset |

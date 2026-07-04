@@ -146,7 +146,7 @@ Service A -> Envoy Proxy -> Envoy Proxy -> Service B
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | API Gateway 중심 | east-west service mesh | 내부 서비스 20개 이상 |
 | 비용/처리 | 애플리케이션 직접 호출 | Envoy proxy 경유 | p99 지연 증가 10ms 이하 |

@@ -115,7 +115,7 @@ Data Source -> Training Pipeline -> Model Artifact -> Model Registry -> Serving 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | DevSecOps SBOM | MLOps SBOM+ML-BOM | 외부 모델·데이터 사용 시 필수 |
 | 무결성 | 이미지 서명 | 데이터·모델·adapter 서명 | 모델 registry 운영 조직 |

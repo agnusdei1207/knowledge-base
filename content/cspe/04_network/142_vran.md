@@ -120,7 +120,7 @@ Generic Hardware (COTS Server: CPU, Memory, NIC) + Hardware Accelerator (FPGA/GP
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Look-aside 가속 | Inline 가속 | 선택 기준 |
+| 구분 | Look-aside 가속 | Inline 가속 | 선택 기준 |
 |:---|:---|:---|:---|
 | 처리 방식 | 필요한 연산만 가속기로 보냄 | 전체 수신 패킷을 가속기가 먼저 처리 | 실시간성 요구 수준 |
 | CPU 부하 | 상대적으로 높음 | 매우 낮음 | 서버 CPU 성능 |

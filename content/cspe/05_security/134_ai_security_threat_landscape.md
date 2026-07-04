@@ -114,7 +114,7 @@ Asset Inventory -> Threat Modeling -> Control Mapping
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 모델 API 보안 단독 | 생명주기 기반 AI threat landscape | RAG·agent·fine-tuning 포함 시 필수 |
 | 비용/성능 | 출시 후 로그 대응 | 사전 red team+런타임 guardrail | 고객 데이터 처리 AI는 사전 평가 필수 |

@@ -98,7 +98,7 @@ Query + Candidate Doc -> [CLS] Q [SEP] D [SEP]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | ColBERT(Late Interaction) | Cross-Encoder | 선택 기준 |
+| 구분 | ColBERT(Late Interaction) | Cross-Encoder | 선택 기준 |
 |:---|:---|:---|:---|
 | 상호작용 시점 | 문서 토큰 벡터 사전 계산 후 MaxSim 결합 | 추론 시 질의-문서 전 토큰 cross-attention | 최고 정밀도 요구 시 Cross-Encoder |
 | 지연·확장성 | 문서 측 사전 계산으로 후보 수천 건 처리 | 후보당 전체 추론, Top-50~100 제한 필요 | 재정렬 후보 수 많으면 ColBERT |

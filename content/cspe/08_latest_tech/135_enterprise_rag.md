@@ -99,7 +99,7 @@ Data Sources -> Ingestion/Chunking -> Index(BM25+Vector)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | SaaS형 RAG 서비스 도입 | 자체 구축 Enterprise RAG | 선택 기준 |
+| 구분 | SaaS형 RAG 서비스 도입 | 자체 구축 Enterprise RAG | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 위치 | 외부 클라우드에서 색인·생성 처리 | 사내망·전용 VPC 내 처리 | 민감정보·규제 데이터 포함 여부 |
 | 권한 연동 | 벤더 제공 커넥터 범위 내 연동 | 사내 IAM·레거시 ACL 직접 연동 | 권한 체계 복잡도·커스텀 필요성 |

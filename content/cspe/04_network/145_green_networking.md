@@ -124,7 +124,7 @@ New Data Arrives -> [Wake-up Signal] -> PHY Active (1ms 이내 복구) -> [Data 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | LPI (Low Power Idle) | ALR (Adaptive Link Rate) | 선택 기준 |
+| 구분 | LPI (Low Power Idle) | ALR (Adaptive Link Rate) | 선택 기준 |
 |:---|:---|:---|:---|
 | 제어 대상 | 물리 계층 전원 (On/Off) | 전송 속도 (1G -> 100M) | 트래픽 연속성 |
 | 응답 시간 | 매우 빠름 (Micro-sec) | 상대적으로 느림 (Milli-sec) | 지연 시간 민감도 |

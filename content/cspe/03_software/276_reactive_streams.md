@@ -149,7 +149,7 @@ Subscriber 구독 -> onSubscribe 수신 -> request(n)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | Blocking I/O | 스레드당 요청 | event loop+stream | 동시 연결 1만 이상 |
 | 단순 Queue | 무제한 적재 위험 | demand 기반 제한 | consumer lag 관리 필요 |

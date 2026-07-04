@@ -109,7 +109,7 @@ Workflow Definition -> Orchestrator -> Agent/Tool Step
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 단순 Agent 호출 | Agent Orchestration | 선택 기준 |
+| 구분 | 단순 Agent 호출 | Agent Orchestration | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 요청-응답 | 다단계 Workflow + 상태 저장 | 실행 단계 3개 이상이면 Orchestration |
 | 비용/성능 | 지연 1회분 | Step별 timeout·retry 포함 | Step당 p95 지연 2초, 전체 30초 이내 |

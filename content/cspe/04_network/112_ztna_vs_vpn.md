@@ -116,7 +116,7 @@ ZTNA: User -> IdP/MFA -> Policy Engine -> ZTNA Broker -> Approved App
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | VPN 유지 | ZTNA 전환 | 선택 기준 |
+| 구분 | VPN 유지 | ZTNA 전환 | 선택 기준 |
 |:---|:---|:---|:---|
 | 업무 유형 | 지사, 운영망, L3 라우팅 | 웹·SaaS·업무 포털 | 프로토콜과 접속 범위 |
 | 보안 통제 | 터널 인증, ACL | IdP, 단말 상태, 정책 엔진 | 사용자별 최소 권한 필요성 |

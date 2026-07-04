@@ -111,7 +111,7 @@ DID 생성 -> DID Document 게시 -> Resolver 조회
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | W3C DID | 선택 기준 |
+| 구분 | 기존/대안 | W3C DID | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | IdP 계정, X.509 Subject | DID URI, DID Document | 사용자·기관·사물 식별자 독립성 필요 |
 | 비용/성능 | 중앙 API 단순 조회 | resolver, method driver, 캐시 필요 | resolver p95 300ms, 가용성 99.9% |

@@ -119,7 +119,7 @@ Individual Feature (xi) -> Distribution Profiling (Training)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 수치형 특징 (Numerical) | 범주형 특징 (Categorical) | 선택 기준 |
+| 구분 | 수치형 특징 (Numerical) | 범주형 특징 (Categorical) | 선택 기준 |
 |:---|:---|:---|:---|
 | 탐지 알고리즘 | KS-test, JS-divergence | PSI, Chi-square test | 데이터의 자료형 |
 | 주요 지표 | 평균 이동, 분산 변화 | 신규 카테고리 등장, 비율 변화 | 변화의 양상 |

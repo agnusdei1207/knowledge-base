@@ -114,7 +114,7 @@ Policy -> RBAC/ABAC -> Object Ownership -> Tenant Boundary -> Audit Log
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 컨트롤러별 수동 if문 | 중앙 policy engine과 middleware | API 수 50개 이상 또는 다중 역할 서비스 |
 | 비용/성능 | 매 요청 DB 권한 조회 | 캐시+짧은 TTL+정책 버전 | 권한 변경 반영 5분 이내 |

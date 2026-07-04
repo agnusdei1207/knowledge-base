@@ -106,7 +106,7 @@ Input Embedding -> Wq/Wk/Wv 선형변환
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | RNN Attention | Scaled Dot-Product Attention | 선택 기준 |
+| 구분 | RNN Attention | Scaled Dot-Product Attention | 선택 기준 |
 |:---|:---|:---|:---|
 | 계산 구조 | 순차 hidden state 참조 | 행렬곱 기반 전체 토큰 병렬 | GPU GEMM 활용 가능 여부 |
 | 스케일링 | 별도 보정 없음 | `1/√d_k` 적용으로 Softmax 포화 방지 | `d_k=64`이면 1/8 |

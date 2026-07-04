@@ -115,7 +115,7 @@ Agent Planner -> Sandbox Orchestrator -> Isolated Runtime -> Tool Execution
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 격리 방식 | 프로세스 격리 | container + seccomp | 낮은 위험, 내부 데이터 없음 |
 | 격리 방식 | microVM | Firecracker/Kata/gVisor | 외부 코드 실행, 민감 데이터 접근 |

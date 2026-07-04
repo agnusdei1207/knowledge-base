@@ -141,7 +141,7 @@ User Query -> Prompt Template -> Retrieval Context -> LLM Gateway -> Guardrail -
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | LLMOps | 선택 기준 |
+| 구분 | 기존/대안 | LLMOps | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 모델 API 호출 | Gateway, RAG, Guardrail, 평가 체계 | 업무 답변 자동화 서비스 |
 | 비용/성능 | 요청별 API 호출 관리 | 토큰 예산, 캐시, 모델 라우팅 | 월 토큰 예산 초과 위험 |

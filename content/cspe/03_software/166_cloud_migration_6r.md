@@ -135,7 +135,7 @@ Application Portfolio -> Assessment -> 6R Decision
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Rehost/Replatform | Repurchase/Refactor | Retire/Retain |
+| 구분 | Rehost/Replatform | Repurchase/Refactor | Retire/Retain |
 |:---|:---|:---|:---|
 | 적용 조건 | 단기 이전, 구조 변경 최소화 | 기능 대체 또는 구조 개선 필요 | 미사용, 규제, 이전 보류 |
 | 비용/성능 | 이전 비용 낮음, 운영비 최적화 필요 | 초기 비용 높음, 장기 기술부채 감소 | 유지 비용과 보안 패치 검토 |

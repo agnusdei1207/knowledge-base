@@ -151,7 +151,7 @@ REST Client -> URI Resource -> HTTP Method -> JSON/XML Response
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | SOAP | REST | 웹·모바일·MSA 조회 API |
 | 비용/성능 | XML 파싱 비용 | JSON과 HTTP 캐시 | p95 지연·대역폭 제약 |

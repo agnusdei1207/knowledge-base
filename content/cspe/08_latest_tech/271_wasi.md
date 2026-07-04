@@ -119,7 +119,7 @@ Runtime: Load Wasm -> Grant Capabilities -> Instantiate -> Execute
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Docker / Container | WebAssembly + WASI | 선택 기준 |
+| 구분 | Docker / Container | WebAssembly + WASI | 선택 기준 |
 |:---|:---|:---|:---|
 | 격리 단위 | OS 커널 레벨 (Namespace/Cgroup) | 가상머신/샌드박스 레벨 | 멀티테넌시 보안 강도 요구사항 |
 | 기동 속도 | 초(Seconds) 단위 | 밀리초(Milliseconds) 단위 | 서버리스, 스케일아웃 민감도 |

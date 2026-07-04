@@ -113,7 +113,7 @@ Data Sharding -> Model Parallelism -> Compute/Sync -> Gradient All-Reduce -> Upd
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | GPU Cluster (On-Premise) | Cloud AI Supercomputer | AI-ASIC Cluster (Dojo 등) |
+| 구분 | GPU Cluster (On-Premise) | Cloud AI Supercomputer | AI-ASIC Cluster (Dojo 등) |
 |:---|:---|:---|:---|
 | 유연성 | 특정 모델 최적화 유리 | 자원 확장이 매우 용이 | 전용 아키텍처로 효율 극대화 |
 | 비용 | 초기 투자비(CAPEX) 높음 | 사용량 기반(OPEX) | 개발 및 유지 비용 매우 높음 |

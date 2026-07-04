@@ -147,7 +147,7 @@ Pre-training (Next Token 예측) -> SFT (지도학습 미세조정) -> Reward Mo
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Greedy/Beam Search 디코딩 | Sampling 기반 디코딩 (Top-k/Top-p) | 선택 기준 |
+| 구분 | Greedy/Beam Search 디코딩 | Sampling 기반 디코딩 (Top-k/Top-p) | 선택 기준 |
 |:---|:---|:---|:---|
 | 생성 방식 | 매 스텝 최고 확률 토큰(Beam은 상위 N개 후보) 선택 | 확률 분포에서 무작위 추출, temperature로 다양성 조절 | 정답 고정형 출력 vs 창작형 출력 |
 | 출력 특성 | 결정적(Deterministic), 반복·단조 표현 위험 | 비결정적, 다양성 확보되나 일관성 저하 가능 | 번역/요약(정확성) vs 대화/창작(다양성) |

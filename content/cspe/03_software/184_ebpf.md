@@ -142,7 +142,7 @@ Kernel Hook -> eBPF Program -> Verifier -> BPF Map/Ring Buffer -> User Agent -> 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | SDK instrumentation | kernel-level 관측 | 다언어 서비스와 legacy binary |
 | 비용/처리 | sidecar hop | hook event 처리 | CPU overhead 5% 이하 |

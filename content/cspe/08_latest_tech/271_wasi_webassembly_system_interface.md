@@ -112,7 +112,7 @@ Wasm 컴파일 -> WASI target 지정 -> runtime 실행
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | container sandbox | Wasm+WASI runtime | 작은 모듈과 짧은 실행 |
 | 비용/성능 | OS 프로세스·이미지 | 모듈 단위 실행 | startup latency |

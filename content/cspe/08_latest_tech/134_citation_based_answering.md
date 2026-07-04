@@ -99,7 +99,7 @@ Retrieved Context(source_id/page) -> Answer Claims
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 사후 인용 (Post-hoc) | 생성 시 인용 (Inline) | 선택 기준 |
+| 구분 | 사후 인용 (Post-hoc) | 생성 시 인용 (Inline) | 선택 기준 |
 |:---|:---|:---|:---|
 | 연결 방식 | 답변 생성 후 유사도로 근거 문장 매칭 | 컨텍스트 청크 ID를 생성 중 직접 인용 | 기존 시스템 개조 vs 신규 설계 |
 | correctness | 유사 문장 오매칭 위험 존재 | 청크 ID 기반으로 오매칭 가능성 낮음 | 규제·법무 도메인은 inline 우선 |

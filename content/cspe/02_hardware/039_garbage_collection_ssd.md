@@ -135,7 +135,7 @@ weight: 39
 
 ## Ⅳ. 심화 비교: 백그라운드(BGC) vs 포그라운드(FGC) GC 대조표
 
-| 비교 축 | Background GC (백그라운드 GC) | Foreground GC (포그라운드 / On-demand GC) | 성능 튜닝 판단 기준 |
+| 구분 | Background GC (백그라운드 GC) | Foreground GC (포그라운드 / On-demand GC) | 성능 튜닝 판단 기준 |
 |:---|:---|:---|:---|
 | 발동 조건 | 호스트 I/O가 없는 **유휴 상태(Idle)** 일 때 | SSD 공간이 고갈되어 **당장 쓰기(Write) 요청을 처리할 수 없을 때** | 펌웨어 스케줄링 |
 | 동작 주체 | SSD 컨트롤러가 백그라운드로 남몰래 수행 | 호스트의 쓰기 요청 파이프라인 안에서 강제 수행 | 사용자 체감 |

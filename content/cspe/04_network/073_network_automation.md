@@ -87,7 +87,7 @@ Playbook 작성 -> 인벤토리 확인 -> 장비 연결 및 프로토콜 협상 
 ---
 
 ## Ⅳ. 심화 비교 및 적용 판단
-| 비교 축 | NETCONF | RESTCONF | 선택 기준 |
+| 구분 | NETCONF | RESTCONF | 선택 기준 |
 |:---|:---|:---|:---|
 | 트랜스포트 | SSH | HTTP/HTTPS | 레거시 망 보안(SSH) vs 웹 애플리케이션 연동(HTTP) |
 | 데이터 포맷 | XML | JSON, XML | 정밀한 트랜잭션(XML) vs 가볍고 친숙한 파싱(JSON) |

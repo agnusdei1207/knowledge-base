@@ -116,7 +116,7 @@ Input -> [Split Matrix] -> Parallel MatMul (GPU 0/1) -> [All-Reduce Result] -> O
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 데이터 병렬화 (DP) | 모델 병렬화 (MP) | 선택 기준 |
+| 구분 | 데이터 병렬화 (DP) | 모델 병렬화 (MP) | 선택 기준 |
 |:---|:---|:---|:---|
 | 목적 | 학습 속도 가속 (Throughput) | 거대 모델 적재 (Memory) | 모델 크기 및 메모리 가용량 |
 | 분할 대상 | 학습 데이터 (Sample) | 모델 가중치 (Weight) | 병목 지점 (Compute vs Memory) |

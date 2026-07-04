@@ -110,7 +110,7 @@ OWASP LLM Top 10 -> Threat Mapping -> Control Design -> Audit Evidence
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 범위 | 웹 취약점 진단 | LLM 위험 모델링과 통제 설계 | RAG·Agent·업무 API 연결 시 필수 |
 | 검증 | SAST/DAST 중심 | prompt red-team, leakage test, tool sandbox | 자연어 입력이 실행 권한에 영향 |

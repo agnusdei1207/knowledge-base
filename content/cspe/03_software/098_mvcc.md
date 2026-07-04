@@ -142,7 +142,7 @@ Transaction Begin -> Snapshot Capture
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 2PL Shared/Exclusive Lock | Snapshot + Version Chain | 읽기 비중 70% 이상 OLTP |
 | 비용/성능 | Lock wait 중심 | 버전 탐색·Vacuum 비용 | p95 read latency, bloat ratio |

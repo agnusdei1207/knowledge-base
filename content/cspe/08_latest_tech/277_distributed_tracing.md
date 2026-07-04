@@ -123,7 +123,7 @@ User Request (Trace ID: T1)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 분산 로깅 (Distributed Logging) | 분산 추적 (Distributed Tracing) | 선택 기준 |
+| 구분 | 분산 로깅 (Distributed Logging) | 분산 추적 (Distributed Tracing) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 관점 | 개별 서비스의 이벤트 기록 (결과) | 요청의 흐름과 소요 시간 (과정) | 분석 대상의 범위 |
 | 연결 고리 | 주로 타임스탬프, 서비스명 | Trace ID, Span ID (인과 관계) | 인과 관계 필요성 |

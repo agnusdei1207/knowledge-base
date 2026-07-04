@@ -115,7 +115,7 @@ Login Request -> Auth Code + PKCE -> Token Exchange
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | OAuth 2.0·OIDC | 선택 기준 |
+| 구분 | 기존/대안 | OAuth 2.0·OIDC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | SAML XML Assertion | JSON/JWT 토큰과 REST API | 모바일·SPA·API 중심이면 OIDC |
 | 비용/성능 | 세션 중앙 조회 | 로컬 JWT 검증 또는 introspection | p95 인증 확인 100ms 목표면 JWKS 캐시 |

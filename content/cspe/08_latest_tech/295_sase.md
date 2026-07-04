@@ -119,7 +119,7 @@ weight: 295
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | SSE (Security Service Edge) | SASE (Secure Access Service Edge) | 선택 기준 |
+| 구분 | SSE (Security Service Edge) | SASE (Secure Access Service Edge) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구성 | 보안 기능 중심 (Net 제외) | 보안 + 네트워크(SD-WAN) 통합 | 기존 네트워크 장비의 교체 주기 |
 | 복잡성 | 상대적 낮음 (보안 전환) | 높음 (전체 네트워크 혁신) | IT 조직의 통합 운영 역량 |

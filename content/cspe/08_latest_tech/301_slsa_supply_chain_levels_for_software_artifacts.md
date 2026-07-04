@@ -112,7 +112,7 @@ Source Repo -> Build Platform -> Provenance Attestation -> Artifact Registry
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 통제 대상 | 릴리스 파일 서명 | 빌드 과정과 provenance | 위조 산출물 차단 필요 |
 | 적용 방식 | 수동 릴리스 승인 | CI/CD 자동 attest | 배포 빈도 |

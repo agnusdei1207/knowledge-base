@@ -114,7 +114,7 @@ Business Scope -> Asset/Attack Surface Discover -> Exposure Prioritize
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Vulnerability Management | CTEM 프로그램 | 자산, 공격면, 검증, 조치 owner가 분리된 조직 |
 | 비용/성과 | 전체 패치율 중심 | 고위험 노출 감소 중심 | critical backlog 100건 이상일 때 |

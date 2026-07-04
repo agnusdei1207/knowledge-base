@@ -106,7 +106,7 @@ System Prompt(역할·제약) -> User Prompt(맥락·예시) -> Output Parser(�
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Fine-tuning | Prompt Engineering | 선택 기준 |
+| 구분 | Fine-tuning | Prompt Engineering | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 모델 가중치 업데이트 | 입력 텍스트 설계만 | 모델 수정 권한·데이터 유무 |
 | 비용/성능 | GPU 수백~수천 달러, 정확도 상한 높음 | GPU 비용 0원, F1 0.52→0.78 | 데이터 1K건 이하면 PE, 이상이면 FT |

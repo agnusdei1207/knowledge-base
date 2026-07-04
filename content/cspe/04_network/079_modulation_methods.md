@@ -115,7 +115,7 @@ Bit Stream -> Symbol Mapping -> Carrier Modulation -> Channel
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 전송률 | QPSK | 64/256-QAM | SNR margin, EVM 기준 충족 |
 | 오류율 | 고차 QAM 고정 | adaptive modulation | BLER 10% 이하 유지 |

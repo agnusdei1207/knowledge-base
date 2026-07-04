@@ -140,7 +140,7 @@ Developer -> CI/CD -> Delivery Controller -> Traffic Router -> Stable/Canary -> 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | Blue/Green | 즉시 전체 전환 | 단계별 트래픽 전환 | 사용자 영향 최소화 필요 |
 | Canary | 소량 검증 | 자동 분석·승격 포함 | SLO 기반 자동화 필요 |

@@ -119,7 +119,7 @@ Traffic In -> Ingress Gateway -> VirtualService(Route) -> DestinationRule(Subset
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Sidecar 모드 (기본) | Ambient Mesh 모드 (최신) | 선택 기준 |
+| 구분 | Sidecar 모드 (기본) | Ambient Mesh 모드 (최신) | 선택 기준 |
 |:---|:---|:---|:---|
 | 배포 방식 | 모든 Pod 옆에 프록시 배치 | 노드당 하나(ztunnel) + 공유 웨이포인트 | 자원 오버헤드 민감도 |
 | 성능 영향 | Pod별 지연 시간 누적 | 상대적 낮은 오버헤드 | 서비스 간 홉(Hop) 수 |

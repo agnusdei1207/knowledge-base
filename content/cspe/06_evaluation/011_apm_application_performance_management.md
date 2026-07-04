@@ -112,7 +112,7 @@ Client Request -> App Agent -> Trace/Metric/Log Collector -> Storage -> Evaluati
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 로그·메트릭 분리 | Trace 중심 상관분석 | MSA 호출 깊이 3단계 이상 |
 | 비용/성능 | 전체 요청 수집 | 샘플링·tail sampling | 저장 비용과 평가 누락 위험 |

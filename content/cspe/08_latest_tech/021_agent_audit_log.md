@@ -107,7 +107,7 @@ User Request -> Agent Trace -> Tool Call -> Approval -> Result
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존 앱 로그 | Agent Audit Log | 선택 기준 |
+| 구분 | 기존 앱 로그 | Agent Audit Log | 선택 기준 |
 |:---|:---|:---|:---|
 | 기록 범위 | API 요청·응답 | 모델버전·프롬프트·도구·승인 포함 | 모델 판단 재현 필요 여부 |
 | 무결성 | DB 로그, 파일 로그 | WORM, hash chain, 감사 보존기간 | 규제·감사 요구 수준 |

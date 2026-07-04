@@ -139,7 +139,7 @@ weight: 55
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Autoencoder (AE) | Variational Autoencoder (VAE) | 선택 기준 |
+| 구분 | Autoencoder (AE) | Variational Autoencoder (VAE) | 선택 기준 |
 |:---|:---|:---|:---|
 | 목적 | 데이터 차원 축소, 특징 추출, 이상 탐지 | 연속적인 Latent Space를 통한 **새로운 데이터 생성** | 기존 특징 활용 vs 신규 데이터 합성 |
 | 잠재 변수(Z) 형태 | 단일 고정 벡터 (결정론적) | 평균($\mu$)과 분산($\sigma$)의 확률 분포 (확률론적) | 결과의 다양성 요구 |

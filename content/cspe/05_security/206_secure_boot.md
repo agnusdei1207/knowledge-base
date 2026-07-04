@@ -112,7 +112,7 @@ Measured Boot -> Hash Extend -> PCR 누적 -> 원격 검증
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 신뢰 시작점 | Flash bootloader | ROM RoT, eFuse key hash | 물리 접근 가능 장비는 ROM RoT 필요 |
 | 검증 범위 | 부트로더 일부 | kernel, DTB, initramfs, module | 커널 모듈 위협 있으면 범위 확대 |

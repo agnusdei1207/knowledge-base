@@ -135,7 +135,7 @@ Ring 3 (유저 모드) <--- [게스트 애플리케이션]
 
 ## Ⅳ. 소프트웨어 가상화(BT) vs 하드웨어 가상화 비교
 
-| 비교 축 | 소프트웨어 전가상화 (Binary Translation) | 하드웨어 가상화 (Intel VT-x / AMD-V) | 도입 선택 기준 |
+| 구분 | 소프트웨어 전가상화 (Binary Translation) | 하드웨어 가상화 (Intel VT-x / AMD-V) | 도입 선택 기준 |
 |:---|:---|:---|:---|
 | 게스트 특권명령 처리 | 하이퍼바이저가 실시간으로 코드를 스캔 및 번역하여 실행 | 하드웨어가 VM Exit를 통해 자동 가로채기(Trap & Emulate) | CPU 사이클 낭비율 (수율) |
 | 게스트 OS 권한 할당 | 강제로 Ring 1 수준으로 하향 조정 (Ring Deprivileging) | VMX Non-Root 환경의 Ring 0 보장 | OS 커널 소스코드 수정 불필요 |

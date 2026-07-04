@@ -143,7 +143,7 @@ Request -> Edge Route -> Cache Key Build
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | CDN | 선택 기준 |
+| 구분 | 기존/대안 | CDN | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Origin 단일 제공 | Edge POP + Origin Shield | 해외 트래픽 30% 이상 |
 | 비용/성능 | origin bandwidth 과금 | edge 전송과 offload | hit ratio 80% 이상 가능 콘텐츠 |

@@ -115,7 +115,7 @@ Analyst -> Event 생성 -> Attribute/Object 등록 -> Tag/TLP 지정
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 공유 방식 | 이메일, CSV, 메신저 | MISP sync, API, STIX export | 다기관 공유와 이력 추적 필요 시 |
 | 탐지 연계 | 수동 룰 작성 | to_ids attribute 기반 SIEM 연동 | 일 1,000건 이상 IoC 갱신 |

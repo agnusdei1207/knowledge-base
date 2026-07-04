@@ -104,7 +104,7 @@ Request Queue -> Scheduler -> Active Decode Batch
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Static Batching | Continuous Batching | 선택 기준 |
+| 구분 | Static Batching | Continuous Batching | 선택 기준 |
 |:---|:---|:---|:---|
 | 배치 구성 | 시작 시 고정, 전체 종료까지 유지 | step마다 완료 제거·신규 삽입 | 요청 길이 편차 |
 | GPU 활용 | 짧은 요청 종료 후 slot 유휴 | slot 즉시 재사용 | GPU utilization 비교 |

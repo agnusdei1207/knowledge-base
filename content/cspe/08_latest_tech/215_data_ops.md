@@ -113,7 +113,7 @@ Requirement -> Data Dev (Code) -> Pipeline CI/CD -> Data Ingestion & Transformat
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | ETL (기존) | ELT (최신) | 선택 기준 |
+| 구분 | ETL (기존) | ELT (최신) | 선택 기준 |
 |:---|:---|:---|:---|
 | 처리 위치 | 별도 스테이징 서버 | 목적지(Data Warehouse) 내부 | 인프라 성능 및 비용 |
 | 유연성 | 낮음 (변환 로직 고정) | 높음 (원천 데이터 보존) | 분석 요구사항 변경 빈도 |

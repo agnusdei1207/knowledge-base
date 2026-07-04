@@ -114,7 +114,7 @@ Local gradient 계산 -> tensor chunk 분할 -> Reduce-Scatter
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | All-Reduce | 선택 기준 |
+| 구분 | 기존/대안 | All-Reduce | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Parameter Server | Ring/Tree collective | GPU 수 증가 시 중앙 병목 여부 |
 | 비용/성능 | 서버 확장 비용 | 네트워크 대역폭 의존 | all-reduce time이 step time의 20% 이상 |

@@ -118,7 +118,7 @@ weight: 81
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | safe language 전환 | C/C++ hardening | 레거시 ABI와 성능 제약 존재 시 hardening |
 | 비용/성능 | 보호 옵션 off | stack protector, PIE, RELRO, CFI | 외부 입력 parser, daemon, setuid binary |

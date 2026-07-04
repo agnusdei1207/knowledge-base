@@ -116,7 +116,7 @@ Read: Consumer (Pull) -> Page Cache -> Zero Copy -> Network Card -> Consumer
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | RabbitMQ (전통적 MQ) | Apache Kafka | 선택 기준 |
+| 구분 | RabbitMQ (전통적 MQ) | Apache Kafka | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 처리 | 전달 후 즉시 삭제 (Queue) | 보관 기간 동안 유지 (Log) | 데이터 재처리 필요성 |
 | 통신 모델 | Smart Broker (복잡한 라우팅) | Dumb Broker / Smart Consumer | 라우팅 복잡도 vs 처리량 |

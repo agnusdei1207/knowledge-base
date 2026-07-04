@@ -144,7 +144,7 @@ Request CS -> Check Lock / Flag -> Acquire Atomicity
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | lock 없는 공유 갱신 | 임계 구역 보호 | 복합 상태 2개 이상 갱신 시 |
 | 비용/성능 | 동기화 비용 0 | lock wait, cache coherence 비용 | contention 5% 이하 목표 |

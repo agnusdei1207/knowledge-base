@@ -124,7 +124,7 @@ Request -> Message Broker (Queue) -> Subscriber 1 (Processing)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 전통적 시스템 (Imperative) | 리액티브 시스템 (Reactive) | 선택 기준 |
+| 구분 | 전통적 시스템 (Imperative) | 리액티브 시스템 (Reactive) | 선택 기준 |
 |:---|:---|:---|:---|
 | 통신 방식 | 동기식 RPC / HTTP (Blocking) | 비동기 메시지 (Non-blocking) | 응답 지연 민감도 |
 | 장애 대응 | 전체 장애 전이 위험 (Cascade) | 장애 격리 및 자가 복구 | 시스템 신뢰도 목표 |

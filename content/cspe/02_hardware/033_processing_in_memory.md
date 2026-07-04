@@ -133,7 +133,7 @@ weight: 33
 
 ## Ⅳ. 심화 비교: 폰 노이만 아키텍처 vs PIM 대조표
 
-| 비교 축 | 폰 노이만 (Von Neumann) 아키텍처 | PIM (Processing-in-Memory) 아키텍처 | 시스템 평가 기준 |
+| 구분 | 폰 노이만 (Von Neumann) 아키텍처 | PIM (Processing-in-Memory) 아키텍처 | 시스템 평가 기준 |
 |:---|:---|:---|:---|
 | 설계 철학 | 연산(Processor)과 저장(Memory)의 엄격한 분리 | 연산과 저장의 공간적 융합 (In-situ) | 물리적 레이아웃 |
 | 성능 병목점 | 메모리 대역폭 한계 (Memory Wall) | 연산 유닛(MAC) 집적도로 인한 발열 및 면적 | 아키텍처 페인 포인트 |

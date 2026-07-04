@@ -113,7 +113,7 @@ Assertion 발급 -> SOAP Header 삽입 -> Body/Assertion 서명
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 보호 범위 | TLS | WS-Security 메시지 보안 | ESB 중계, 저장 후 검증, B2B 연계 |
 | 인증 방식 | 세션·API Key | SAML Assertion | 기업 SSO, 속성 기반 권한 전달 |

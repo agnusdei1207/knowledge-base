@@ -112,7 +112,7 @@ Root 선출 -> RP/DP 선출 -> NDP 차단 완료 -> 장애 감지 (BPDU 누락) 
 
 ## Ⅴ. 심화 비교 (STP vs RSTP) 및 리스크 통제
 
-| 비교 축 | STP (IEEE 802.1D) | RSTP (IEEE 802.1w) | 판단 포인트 |
+| 구분 | STP (IEEE 802.1D) | RSTP (IEEE 802.1w) | 판단 포인트 |
 |:---|:---|:---|:---|
 | 포트 역할 | Root, Designated, Non-Designated | Root, Designated, **Alternate(백업), Backup** | 사전 백업 포트 지정 여부 |
 | 상태 천이 | 5단계 (Block-Listen-Learn-Forward-Disable) | 3단계 (Discarding - Learning - Forwarding) | 타이머 생략 및 간소화 |

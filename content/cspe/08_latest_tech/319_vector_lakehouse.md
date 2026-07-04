@@ -122,7 +122,7 @@ Raw Data -> [ 1. Embedding ] -> [ 2. Unified Storage ] -> [ 3. Hybrid Search ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 전용 벡터 DB (Pinecone, Milvus 등) | 벡터 레이크하우스 (Databricks, Snowflake 등) | 선택 기준 |
+| 구분 | 전용 벡터 DB (Pinecone, Milvus 등) | 벡터 레이크하우스 (Databricks, Snowflake 등) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 연동 | 복잡 (별도 파이프라인 필요) | 네이티브 (동일 테이블) | 데이터 최신성 및 관리 역량 |
 | 검색 기능 | 벡터 전용 기능에 특화 | 정형/비정형 하이브리드 검색에 강점 | 쿼리 복잡도 |

@@ -115,7 +115,7 @@ Threat Objective -> Red Team Scenario/ROE -> Attack Simulation
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 평가 방식 | 연 1회 모의해킹 | Red/Blue/Purple 반복 훈련 | SOC와 중요 시스템이 있는 조직 |
 | 결과 활용 | 취약점 보고서 | 탐지 룰, SOAR playbook, analyst training | 탐지 공백 개선이 목표일 때 |

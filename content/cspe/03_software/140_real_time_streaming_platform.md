@@ -142,7 +142,7 @@ Stream Processor -> Serving Store/Data Lake -> API/Dashboard/ML Feature
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Batch ETL | event-driven streaming | freshness SLA 5분 이하 |
 | 비용/성능 | 낮은 상시 비용 | 상시 broker·processor 비용 | fraud·추천 등 지연 손실이 큰 업무 |

@@ -140,7 +140,7 @@ weight: 57
 
 InfiniBand 장비가 너무 비싸서, 현업에서는 기존 이더넷 랜선을 재활용하려는 꼼수(RoCE)가 대안으로 각광받고 있다.
 
-| 비교 축 | InfiniBand (네이티브) | RoCE v2 (RDMA over Ethernet) | iWARP (Internet Wide Area RDMA) |
+| 구분 | InfiniBand (네이티브) | RoCE v2 (RDMA over Ethernet) | iWARP (Internet Wide Area RDMA) |
 |:---|:---|:---|:---|
 | 물리적 네트워크 망 | 전용 스위치 / 전용 광케이블 필수 | **기존 이더넷(Ethernet) 스위치 재활용** | 기존 이더넷 스위치 재활용 |
 | 프로토콜 캡슐화 | InfiniBand 전용 무손실 프로토콜 | InfiniBand 패킷을 UDP/IP로 감싸서 이더넷에 던짐 | RDMA를 일반 TCP/IP로 감싸서 던짐 |

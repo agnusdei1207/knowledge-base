@@ -151,7 +151,7 @@ Developer -> Source Repo -> Dependency Registry
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Software Supply Chain Security | 선택 기준 |
+| 구분 | 기존/대안 | Software Supply Chain Security | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 보안팀 사후 점검 | pipeline 내 자동 gate | 배포 주 1회 이상 서비스 |
 | 비용/성능 | 릴리스 직전 결함 발견 | 개발 단계 조기 차단 | 보안 피드백 15분 이하 |

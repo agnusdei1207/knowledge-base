@@ -134,7 +134,7 @@ Client -> cursor token -> API -> SQL Predicate
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | page number + offset | cursor + sort key | 무한 스크롤, deep page 조회 |
 | 비용/성능 | 후반 페이지 스캔 증가 | index range scan | p95 목록 API 100ms 이하 목표 |

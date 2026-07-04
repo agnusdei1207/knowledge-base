@@ -113,7 +113,7 @@ Source Code -> Dependency -> Build Pipeline -> Artifact Registry -> Deployment
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 스캐너 단독 운영 | SBOM+VEX+서명+정책 게이트 | 제품·서비스 다수, 의존성 추적 필요 |
 | 비용/성능 | 배포 후 취약점 발견 | 빌드 단계 차단 | critical CVE 배포 전 차단 필요 시 |

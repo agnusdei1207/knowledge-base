@@ -114,7 +114,7 @@ Core Network -> [Backhaul] -> CU (Central Unit) -> [Midhaul] -> DU (Distributed 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 옵션 2 (CU-DU 분리) | 옵션 7 (DU-RU 분리) | 선택 기준 |
+| 구분 | 옵션 2 (CU-DU 분리) | 옵션 7 (DU-RU 분리) | 선택 기준 |
 |:---|:---|:---|:---|
 | 분리 지점 | PDCP / RLC 사이 | High-PHY / Low-PHY 사이 | 처리 부하 지점 |
 | 전송 요구량 | 상대적으로 낮음 (IP 기반) | 매우 높음 (User-bit 기반) | Fronthaul 대역폭 |

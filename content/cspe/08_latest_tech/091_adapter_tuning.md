@@ -98,7 +98,7 @@ base model freeze -> adapter 삽입 -> adapter만 학습
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | LoRA | Adapter Tuning | 선택 기준 |
+| 구분 | LoRA | Adapter Tuning | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 저랭크 branch (W+ΔW) | bottleneck module 삽입 | 모듈 격리 vs merge 용이성 |
 | 추론 비용 | merge 후 추가 비용 0 | 삽입 모듈로 p95 latency 5~15% 증가 | 실시간 서빙 지연 허용 범위 |

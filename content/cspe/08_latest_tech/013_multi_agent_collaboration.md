@@ -109,7 +109,7 @@ User Goal -> Planner -> Executor -> Critic -> Aggregator
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 단일 Agent | 멀티 Agent 협업 | 선택 기준 |
+| 구분 | 단일 Agent | 멀티 Agent 협업 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 컨텍스트 처리 | Planner-Executor-Critic 분업 | 검증 필요 단계 2개 이상이면 멀티 Agent |
 | 비용/성능 | 1회 호출, 토큰 절약 | Agent당 호출, 조정 비용 발생 | 작업당 총 토큰 50,000 이내 통제 |

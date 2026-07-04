@@ -115,7 +115,7 @@ Input -> [Col-Parallel Linear 1] -> [GeLU Activation] -> [Row-Parallel Linear 2]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 파이프라인 병렬화 (PP) | 텐서 병렬화 (TP) | 선택 기준 |
+| 구분 | 파이프라인 병렬화 (PP) | 텐서 병렬화 (TP) | 선택 기준 |
 |:---|:---|:---|:---|
 | 병렬화 방향 | 수직적 (Layer-wise) | 수평적 (Intra-layer) | 모델의 너비 vs 깊이 |
 | 통신 대역폭 | 낮음 (Inter-node 가능) | 매우 높음 (Intra-node 한정) | 인터커넥트 인프라 수준 |

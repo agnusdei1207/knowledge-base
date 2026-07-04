@@ -114,7 +114,7 @@ Client -> DoH HTTPS 443 / DoT TLS 853 -> Recursive Resolver
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | DoH·DoT | 선택 기준 |
+| 구분 | 기존/대안 | DoH·DoT | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 평문 DNS 53 | TLS 보호 DNS | 질의 프라이버시 요구 |
 | 비용/성능 | 낮은 handshake 비용 | TLS 연결·재사용 필요 | DNS latency, connection reuse |

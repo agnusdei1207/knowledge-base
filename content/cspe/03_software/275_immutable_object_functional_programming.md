@@ -144,7 +144,7 @@ Input Value -> Pure Function -> New Value
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 도메인 모델 | setter 기반 엔티티 | value object, record | 값 동일성·검증 규칙 명확한 영역 |
 | 병렬 처리 | 공유 컬렉션 변경 | map/filter/reduce | 데이터 독립 작업 |

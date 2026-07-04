@@ -117,7 +117,7 @@ weight: 300
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | SCA (Software Composition Analysis) | SBOM (Bill of Materials) | 선택 기준 |
+| 구분 | SCA (Software Composition Analysis) | SBOM (Bill of Materials) | 선택 기준 |
 |:---|:---|:---|:---|
 | 성격 | 보안 분석 행위/도구 | 분석의 결과물 (산출물/데이터) | 분석 도구 도입 여부 vs 데이터 공유 여부 |
 | 범위 | 현재 프로젝트 내 분석 | 공급망 전체에 걸친 데이터 유통 | 외부 파트너와의 협업 필요성 |

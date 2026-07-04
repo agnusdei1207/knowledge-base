@@ -115,7 +115,7 @@ ClientHello 전송 -> ServerHello 수신 -> ECDHE shared secret 생성
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | TLS 1.3 Handshake | 선택 기준 |
+| 구분 | 기존/대안 | TLS 1.3 Handshake | 선택 기준 |
 |:---|:---|:---|:---|
 | 호환성 | TLS 1.2 유지 | TLS 1.3 우선, TLS 1.2 fallback | 구형 단말 비율 1% 이상이면 병행 운영 |
 | 지연 | 2-RTT 풀 핸드셰이크 | 1-RTT, 0-RTT 재개 | 모바일 p95 handshake 100ms 목표 |

@@ -111,7 +111,7 @@ Device Verifier -> A/B Partition -> Rollback Counter -> Secure Storage
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 배포 검증 | checksum, HTTPS 다운로드 | device-side signature verification | 오프라인 공격 가능 장비는 서명 필수 |
 | 취약점 관리 | 수동 라이브러리 목록 | SBOM+SCA 자동 게이트 | CVE SLA 요구 조직에 적용 |

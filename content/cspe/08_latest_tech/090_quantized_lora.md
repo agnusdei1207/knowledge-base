@@ -98,7 +98,7 @@ base 4-bit 로드 -> LoRA 삽입 -> dequant 기반 forward/backward
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | LoRA (FP16 base) | QLoRA (4-bit base) | 선택 기준 |
+| 구분 | LoRA (FP16 base) | QLoRA (4-bit base) | 선택 기준 |
 |:---|:---|:---|:---|
 | Base 메모리 | FP16/BF16 전체 | NF4 4-bit 압축 | VRAM ≤ 24GB 여부 |
 | 학습 안정성 | 일반 optimizer | paged optimizer 필요 | OOM 빈도 |

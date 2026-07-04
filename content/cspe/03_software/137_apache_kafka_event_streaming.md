@@ -139,7 +139,7 @@ record 생성 -> key 기반 partition 선택 -> leader append
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | MQ point-to-point | partitioned log | 다중 소비와 replay 요구 |
 | 비용/성능 | 낮은 운영 복잡도 | broker cluster 운영 | 초당 10만건 이상 이벤트 |

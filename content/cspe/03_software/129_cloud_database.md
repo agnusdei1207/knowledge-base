@@ -138,7 +138,7 @@ Requirement -> Data Model Classify -> Consistency/Scale Check -> Service Select 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 자체 설치 DB | 관리형 DB | 패치·백업 운영 부담 이전 |
 | 비용/성능 | 고정 인프라 | 인스턴스·IO·요청량 과금 | 월 비용, TPS, IOPS |

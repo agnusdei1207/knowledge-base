@@ -112,7 +112,7 @@ App: Post Send -> HCA: Read Mem (DMA) -> Network: Transmit -> HCA: Write Mem (DM
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | TCP/IP (전통) | RDMA (고성능) | 선택 기준 |
+| 구분 | TCP/IP (전통) | RDMA (고성능) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 복사 | 2~3회 (App->Kernel->NIC) | 0회 (App->NIC 직접 DMA) | 메모리 대역폭 활용 효율 |
 | CPU 부하 | 데이터당 비례 증가 (Heavy) | 전송량과 무관하게 낮음 (Light) | 고부하 연산 병행 여부 |

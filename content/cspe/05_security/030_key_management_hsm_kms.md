@@ -113,7 +113,7 @@ Rotation Policy -> Key Versioning -> Re-encryption / Lazy Rotation
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 보안 경계 | 소프트웨어 키 저장 | HSM-backed KMS | 루트 키 노출 허용 불가 업무 |
 | 비용/성능 | 로컬 암복호화 | envelope encryption | KMS API p95 100ms 이하 |

@@ -115,7 +115,7 @@ Remote Vendor -> VPN/MFA -> Jump Server -> Allowlist
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단순 망분리 | Purdue+OT DMZ+zone/conduit | MES·원격정비 연결 존재 |
 | 비용/성능 | 라인별 개별 관리 | 중앙 관제와 passive sensor | 라인 정지 비용과 탐지 범위 |

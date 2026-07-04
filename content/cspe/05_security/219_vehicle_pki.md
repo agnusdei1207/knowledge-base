@@ -114,7 +114,7 @@ Misbehavior Report -> RA/MA -> CRL/OCSP -> Vehicle Trust Store
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Vehicle PKI | 선택 기준 |
+| 구분 | 기존/대안 | Vehicle PKI | 선택 기준 |
 |:---|:---|:---|:---|
 | 인증 방식 | 사전 공유키 | 공개키·전자서명 | 다수 제조사 차량 상호운용 필요 시 |
 | 프라이버시 | 고정 인증서 | pseudonym certificate | 위치 추적 위험 통제 필요 시 |

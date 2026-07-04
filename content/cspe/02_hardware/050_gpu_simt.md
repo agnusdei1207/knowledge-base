@@ -154,7 +154,7 @@ weight: 50
 
 똑같이 "하나의 명령으로 여러 데이터를 처리"하지만, x86 CPU의 AVX(SIMD)와 엔비디아의 SIMT는 프로그래머가 체감하는 유연성에서 천지차이다.
 
-| 비교 축 | SIMD (Single Instruction Multiple Data) | SIMT (Single Instruction Multiple Threads) | GPGPU 진화의 핵심 |
+| 구분 | SIMD (Single Instruction Multiple Data) | SIMT (Single Instruction Multiple Threads) | GPGPU 진화의 핵심 |
 |:---|:---|:---|:---|
 | 제어 대상의 최소 단위| 거대한 1개의 긴 레지스터(Vector) 통째로 제어 | **각각 독립적인 32개의 스레드(Thread)** | 하드웨어적 유연성 확보 |
 | 데이터 접근 방식 | 데이터가 메모리에 반드시 연속적(연달아)이어야 함 | 32개 스레드가 **제각각 다른 메모리 주소(흩어짐) 참조 가능** | 메모리 Gather/Scatter 지원 |

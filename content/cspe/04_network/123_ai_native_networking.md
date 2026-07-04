@@ -115,7 +115,7 @@ Controller -> Verification -> Feedback -> Model Monitoring
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | AI 네이티브 네트워킹 | 선택 기준 |
+| 구분 | 기존/대안 | AI 네이티브 네트워킹 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | NMS 경보와 수동 조치 | telemetry, inference, controller 폐루프 | 장비 수 1,000대 이상, 경보 상관분석 필요 시 |
 | 비용/성능 | 운영자 분석 시간 증가 | 모델 학습·데이터 파이프라인 비용 발생 | MTTR 30% 이상 감소 목표 |

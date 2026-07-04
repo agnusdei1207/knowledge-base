@@ -115,7 +115,7 @@ stale pointer 사용 -> 필드 변조/간접 호출 -> sanitizer 또는 CFI 검�
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | raw pointer + manual free | RAII, smart pointer, borrow checker | C++ 신규 코드, Rust 전환 가능 영역 |
 | 비용/성능 | sanitizer 미적용 | ASan CI, hardened allocator | 외부 입력 처리, parser, browser engine |

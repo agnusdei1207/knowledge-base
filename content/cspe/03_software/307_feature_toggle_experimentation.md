@@ -142,7 +142,7 @@ User Request -> Toggle SDK -> Rule Engine -> Variant Decision -> App Response ->
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 릴리스 | Blue/Green 배포 | 사용자 비율 제어 | 기능 단위 공개 필요 |
 | 실험 | 로그 사후 분석 | A/B variant 배정 | 제품 지표 검증 필요 |

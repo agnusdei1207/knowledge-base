@@ -117,7 +117,7 @@ Fetch .wasm -> Compile (Streaming) -> Instantiate -> Invoke (via JS) -> Execute 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | JavaScript | WebAssembly | 선택 기준 |
+| 구분 | JavaScript | WebAssembly | 선택 기준 |
 |:---|:---|:---|:---|
 | 실행 방식 | 인터프리터 / JIT (텍스트) | 가상 머신 (이진 포맷) | 연산 복잡도 |
 | 타입 시스템 | 동적 타입 (Weak) | 정적 타입 (Strong) | 코드 안정성 및 최적화 |

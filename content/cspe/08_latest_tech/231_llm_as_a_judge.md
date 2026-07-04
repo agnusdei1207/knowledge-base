@@ -114,7 +114,7 @@ Prompt Design -> Model Response -> Judge Inference -> Bias Calibration -> Result
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Single Answer Grading | Pairwise Comparison | Reference-based Eval |
+| 구분 | Single Answer Grading | Pairwise Comparison | Reference-based Eval |
 |:---|:---|:---|:---|
 | 방식 | 1개 답변에 1~10점 부여 | 2개 답변 중 승자 선택 | 정답(Gold)과 비교 평가 |
 | 장점 | 개별 품질 정량화 용이 | 상대적 우위 판별 명확 | 객관적 정확도 측정 유리 |

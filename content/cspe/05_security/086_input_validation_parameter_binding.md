@@ -112,7 +112,7 @@ Client Input -> API Gateway -> Controller Validation -> Service Rule
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 검증 방식 | blacklist 필터 | allowlist+schema validation | 허용 값이 명확한 업무 필드 |
 | DB 접근 | 문자열 concatenation | prepared/named parameter | 사용자 입력 포함 질의 전부 적용 |

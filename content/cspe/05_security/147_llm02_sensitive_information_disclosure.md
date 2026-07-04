@@ -114,7 +114,7 @@ LLM Output -> DLP Masking -> Response / Log Store / Evaluation Dataset
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 일반 DLP 게이트웨이 | LLM 입력·RAG·출력·로그 DLP | 내부 문서 기반 RAG면 chunk ACL 필수 |
 | 비용/통제 | 전체 마스킹 | 민감도별 masking/tokenization | 업무 정확도와 규제 요구를 함께 판단 |

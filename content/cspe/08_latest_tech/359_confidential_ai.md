@@ -112,7 +112,7 @@ Encrypted Data / Model -> Confidential VM / TEE -> AI Runtime
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 개인정보 처리 | 익명화·마스킹 | TEE 내부 처리 | 원본 필요 여부 |
 | 공동 분석 | 데이터 반출 | confidential collaboration | 기관 간 데이터 공유 |

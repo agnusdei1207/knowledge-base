@@ -119,7 +119,7 @@ User Input -> [ 1. Feature Extraction ] -> [ 2. Local Inference ] -> [ 3. Post-p
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 클라우드 AI (Cloud AI) | 온디바이스 AI (On-device AI) | 선택 기준 |
+| 구분 | 클라우드 AI (Cloud AI) | 온디바이스 AI (On-device AI) | 선택 기준 |
 |:---|:---|:---|:---|
 | 모델 규모 | 초대규모 (Trillion 파라미터) | 소규모 (Billion 이하) | 연산 복잡도 및 정확도 요건 |
 | 가용 리스크 | 네트워크 장애, 서버 다운 | 배터리 소모, 발열 관리 | 서비스 환경 및 기기 특성 |

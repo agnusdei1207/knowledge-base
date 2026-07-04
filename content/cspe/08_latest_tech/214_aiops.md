@@ -113,7 +113,7 @@ CMDB/Topology -> Correlation Engine
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | NMS와 threshold 알람 | 데이터 lake와 AI correlation | 이벤트 일 10만 건 이상 |
 | 비용/성능 | 관제 인력 증원 | 알람 압축과 runbook 자동화 | alert noise 50% 이상 목표 |

@@ -109,7 +109,7 @@ Ciphertext -> Tag Verify -> Decryption -> Plaintext
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 비대칭 암호 본문 암호화 | 대칭키 세션 암호 | MB/GB 단위 본문은 AES·ChaCha20 선택 |
 | 비용/성능 | RSA 연산 | AES-NI·ARMv8 Crypto Extension | TLS 본문, DB TDE, 파일 암호화 |

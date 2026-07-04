@@ -116,7 +116,7 @@ RP -> Public Key Store -> Session -> Recovery/Audit
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 소비자 서비스 | password+SMS OTP | synced passkey | 가입 전환율, 분실 복구 빈도 |
 | 관리자 계정 | TOTP MFA | device-bound passkey 또는 보안키 | 피싱 위험, 장치 통제 가능성 |

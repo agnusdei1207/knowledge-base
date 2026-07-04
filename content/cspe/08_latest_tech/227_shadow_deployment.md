@@ -120,7 +120,7 @@ User Request -> Traffic Mirroring (Tee / Proxy)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Proxy 기반 (Istio/Envoy) | Application 기반 (Async Call) | 선택 기준 |
+| 구분 | Proxy 기반 (Istio/Envoy) | Application 기반 (Async Call) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구현 위치 | 인프라 레이어 (네트워크) | 애플리케이션 레이어 (코드) | 개발 및 운영 환경 |
 | 구현 난이도 | 중간 (설정 기반) | 높음 (비동기 로직 구현) | 인프라 제어 권한 |

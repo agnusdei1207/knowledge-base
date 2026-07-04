@@ -118,7 +118,7 @@ User Request -> Traffic Splitter (Experiment Engine)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 오프라인 평가 (Offline) | 온라인 평가 (Online) | 선택 기준 |
+| 구분 | 오프라인 평가 (Offline) | 온라인 평가 (Online) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 특성 | 과거 고정 데이터 (Historical) | 현재 실시간 데이터 (Live) | 데이터의 시의성 |
 | 평가 지표 | Accuracy, F1, RMSE | CTR, CVR, 매출, Latency | 비즈니스 가치 직결 여부 |

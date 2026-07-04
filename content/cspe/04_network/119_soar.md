@@ -115,7 +115,7 @@ SIEM/EDR/Email Alert -> SOAR Case -> Playbook Engine
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | SIEM 중심 대응 | SOAR 연계 대응 | 선택 기준 |
+| 구분 | SIEM 중심 대응 | SOAR 연계 대응 | 선택 기준 |
 |:---|:---|:---|:---|
 | 역할 | 탐지·경보 생성 | 조사·조치·보고 자동화 | 반복 작업 비율 |
 | 데이터 | 로그와 correlation | 경보, 자산, TI, 티켓 | API 연동 범위 |

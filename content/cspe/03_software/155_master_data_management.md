@@ -152,7 +152,7 @@ Source Systems -> Standardization -> Match/Merge -> Golden Record -> Publish/API
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 개별 시스템 기준 | 공통 master hub | 고객/상품 중복률 3% 이상 |
 | 비용/처리 | 수동 정정 | 매칭 엔진+steward | 변경 건수 일 1,000건 이상 |

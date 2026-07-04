@@ -150,7 +150,7 @@ Application/Platform -> Metric/Log/Trace Collector -> Storage -> Query/Alert -> 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 인프라 모니터링 | service-centric observability | MSA 서비스 10개 이상 |
 | 비용/처리 | 전체 로그 보관 | sampling, retention | 월 수집 비용 예산 |

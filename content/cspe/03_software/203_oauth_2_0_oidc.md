@@ -144,7 +144,7 @@ User -> Client -> Authorization Server -> Token
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | ID/PW 직접 전달 | Authorization Server token 위임 | 외부 연계·SSO·모바일 앱 존재 |
 | 비용/성능 | 세션 DB 조회 | JWT local validation 또는 introspection | token TTL 5~15분, revocation 요구 여부 |

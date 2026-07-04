@@ -116,7 +116,7 @@ Completion Queue -> Application Notification
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | RDMA | 선택 기준 |
+| 구분 | 기존/대안 | RDMA | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | TCP 소켓, 커널 네트워크 스택 | RNIC, verbs, registered memory | 대량 데이터 이동과 낮은 CPU 사용률 필요 시 |
 | 비용/성능 | 일반 NIC 사용 | RNIC와 RDMA 지원 스위치 필요 | 100GbE 이상, p99 지연 목표 |

@@ -98,7 +98,7 @@ Prompt/Image/Audio -> Condition Encoder
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Text-to-Video 직접 생성 | Image-to-Video(keyframe 기반) | 선택 기준 |
+| 구분 | Text-to-Video 직접 생성 | Image-to-Video(keyframe 기반) | 선택 기준 |
 |:---|:---|:---|:---|
 | 제어성 | 프롬프트 의존, 구도 재현 곤란 | 시작 프레임으로 구도·객체 외형 고정 | 제품·브랜드 외형 고정 필요 여부 |
 | 객체 일관성 | 장면 전체 생성으로 편차 큼 | keyframe 기준 identity 유지 유리 | 객체 일관성 요구 수준 |

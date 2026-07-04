@@ -147,7 +147,7 @@ User -> Identity Provider -> Token(SAML/JWT) -> Service Provider/API -> Resource
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 서버 세션 공유 | 토큰 기반 인증·인가 | 다중 서비스·API 연동 |
 | 비용/성능 | 중앙 세션 조회 | stateless 검증 가능 | JWKS 캐시 TTL 5~30분 |

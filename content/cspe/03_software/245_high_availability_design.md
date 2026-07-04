@@ -146,7 +146,7 @@ Client -> Load Balancer -> Active Node A / Active Node B
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 웹 계층 | 단일 서버 | Active-Active 다중 AZ | 무상태 API, 세션 외부화 가능 |
 | DB 계층 | 단일 DB | Active-Standby 또는 Multi-writer | 쓰기 충돌 허용 여부 |

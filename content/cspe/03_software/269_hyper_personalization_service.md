@@ -142,7 +142,7 @@ User Event -> CDP/Profile -> Feature Store -> Recommendation/Ranking
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 세그먼트 캠페인 | 개인별 decision API | 월 활성 사용자 100만 이상 |
 | 비용/성능 | 배치 분석 | 실시간 feature+ranking | p95 100ms 이하 필요 |

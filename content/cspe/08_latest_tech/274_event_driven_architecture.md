@@ -117,7 +117,7 @@ Capture Event -> Append to Log (Broker) -> Push/Pull to Consumer
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Request-Response (REST) | Event-Driven (Pub/Sub) | 선택 기준 |
+| 구분 | Request-Response (REST) | Event-Driven (Pub/Sub) | 선택 기준 |
 |:---|:---|:---|:---|
 | 결합도 | 강함 (주소, 인터페이스 의존) | 느슨함 (이벤트 규격에만 의존) | 시스템 변경 빈도 |
 | 응답성 | 동기적 (결과 즉시 확인) | 비동기적 (결과 지연 확인) | 즉시 응답 필요성 |

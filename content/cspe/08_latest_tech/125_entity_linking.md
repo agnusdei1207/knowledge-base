@@ -99,7 +99,7 @@ Text -> Mention Detection -> Candidate Generation
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 규칙·사전 기반 연결(Dictionary/Rule-based) | 신경망 기반 연결(Neural EL) | 선택 기준 |
+| 구분 | 규칙·사전 기반 연결(Dictionary/Rule-based) | 신경망 기반 연결(Neural EL) | 선택 기준 |
 |:---|:---|:---|:---|
 | 연결 방식 | alias table 문자열 매칭 | 문맥 임베딩 기반 유사도·재랭킹 | 신조어·비표준 표기가 많으면 Neural |
 | 동명이인 처리 | 문맥 반영 어려워 오연결 위험 | 문맥·그래프 관계로 판별 정확도 높음 | 다의어 빈도 높은 도메인은 Neural |

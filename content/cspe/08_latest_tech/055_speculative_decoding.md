@@ -111,7 +111,7 @@ Prompt -> Draft Model -> 후보 토큰 t1..tk -> Target Model 검증 -> Accept/R
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 일반 디코딩 | Speculative Decoding | 선택 기준 |
+| 구분 | 일반 디코딩 | Speculative Decoding | 선택 기준 |
 |:---|:---|:---|:---|
 | 처리량 | target 1토큰/step | 1.5~3×(acceptance 70% 기준) | 장문 비율 50% 이상 시 적용 |
 | 품질 | target 분포 그대로 | 확률 보정 시 분포 유지 | quality parity 검증 필수 |

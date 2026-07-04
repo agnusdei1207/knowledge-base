@@ -114,7 +114,7 @@ Program Policy -> Scope/Safe Harbor -> Researcher Report -> Triage
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 평가 방식 | 정기 침투 테스트 | 상시 crowd testing | 대외 서비스와 API 변경이 월 1회 이상 |
 | 비용 구조 | 고정 계약 | 유효 finding별 reward | 품질 기반 보상 선호 시 |

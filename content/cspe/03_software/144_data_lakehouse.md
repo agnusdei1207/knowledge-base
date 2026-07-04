@@ -141,7 +141,7 @@ Object Storage -> Open Table Format -> Catalog -> Query / ML / Streaming Engine
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 데이터 레이크하우스 | 선택 기준 |
+| 구분 | 기존/대안 | 데이터 레이크하우스 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 레이크+DW 이중 적재 | 객체 스토리지 단일 원천 | BI와 ML이 동일 데이터셋 사용 |
 | 비용/성능 | DW 저장 중복 | Parquet+metadata pruning | 원시 데이터 일 1TB 이상 |

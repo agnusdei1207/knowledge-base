@@ -125,7 +125,7 @@ Define SLO -> Calculate Budget -> Track Errors (Burn Rate) -> Check Remaining
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 전통적 장애 관리 | 에러 예산 기반 관리 (SRE) |
+| 구분 | 전통적 장애 관리 | 에러 예산 기반 관리 (SRE) |
 |:---|:---|:---|
 | 목표 | 장애 0건 지향 (현실적 불가능) | 목표 가용성 준수 (현실적 타당) |
 | 장애 발생 시 | 책임자 문책 및 비난 발생 | 예산 소진 확인 및 원인 학습 (Post-mortem) |

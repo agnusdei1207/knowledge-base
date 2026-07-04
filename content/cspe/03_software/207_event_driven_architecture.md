@@ -144,7 +144,7 @@ Domain Service -> Event Producer -> Broker/Stream -> Consumer A/B/C
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Request/Response 체인 | Publish/Subscribe | 후속 처리 3개 이상, 독립 배포 필요 |
 | 비용/성능 | 호출 지연 누적 | 비동기 지연 분산 | API p95 300ms 이하, consistency delay 허용 |

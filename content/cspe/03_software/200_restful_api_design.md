@@ -157,7 +157,7 @@ Client -> API Gateway -> Resource URI -> HTTP Method
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RPC, SOAP | RESTful API | 웹·모바일·MSA 공개 API |
 | 비용/성능 | 메서드 의미 불명확 | 캐시·Gateway·CDN 활용 | 조회 비율 70% 이상 |

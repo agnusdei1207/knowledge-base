@@ -93,7 +93,7 @@ MQMS는 코어마다 Run Queue를 두어 락 경합을 코어별로 분리한다
 * 한계: P1은 무조건 CPU 1만 타므로 캐시는 완벽하지만, CPU 2가 노는 기아(Starvation) 발생.
 ```
 
-| 비교 축 | SQMS (Single Queue MS) | MQMS (Multi Queue MS) |
+| 구분 | SQMS (Single Queue MS) | MQMS (Multi Queue MS) |
 |:---|:---|:---|
 | **큐(Queue) 구조** | 전체 시스템 1개의 Global Queue | CPU 코어 개수만큼의 Local Queue |
 | **캐시 친화성 (Affinity)** | **최악** (매번 다른 코어에 할당되어 L1/L2 플러시) | **최고** (태어난 코어에서 평생 실행되어 캐시 히트) |

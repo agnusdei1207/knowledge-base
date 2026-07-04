@@ -111,7 +111,7 @@ Client Connect -> Subscribe Topic -> Publish Message
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 메시징 | HTTP polling | MQTT pub/sub | 장치 수 1,000대 이상 |
 | 전달 보장 | fire-and-forget | QoS 0/1/2 | telemetry vs command 구분 |

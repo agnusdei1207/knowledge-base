@@ -98,7 +98,7 @@ Trained Model -> Importance Scoring -> Pruning Mask/Removal
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Unstructured Pruning | Structured Pruning | 선택 기준 |
+| 구분 | Unstructured Pruning | Structured Pruning | 선택 기준 |
 |:---|:---|:---|:---|
 | 제거 단위 | 개별 weight 0 처리 | channel/head/layer 단위 삭제 | HW 가속 지원 여부 |
 | 압축률 | sparsity 90%까지 가능 | 30~50% 제거가 일반적 | 정확도 허용 범위 |

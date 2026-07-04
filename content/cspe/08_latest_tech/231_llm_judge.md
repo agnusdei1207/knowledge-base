@@ -108,7 +108,7 @@ Eval Sample -> Judge Prompt(Rubric) -> Judge LLM -> Score/Rationale -> Calibrati
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 평가 방식 | 자동 지표는 표면 유사도 중심 | LLM judge는 의미·근거 평가 | 생성형 답변 평가 시 judge |
 | 비용/성능 | 사람 평가는 비용 높음 | judge는 token 비용으로 반복 가능 | 대량 regression test |

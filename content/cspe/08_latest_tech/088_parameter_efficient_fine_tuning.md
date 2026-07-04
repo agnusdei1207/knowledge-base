@@ -98,7 +98,7 @@ base model 고정 -> PEFT 모듈 삽입 -> task 데이터 학습
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Full Fine-Tuning | PEFT | 선택 기준 |
+| 구분 | Full Fine-Tuning | PEFT | 선택 기준 |
 |:---|:---|:---|:---|
 | 학습 대상 | 전체 weight | 0.1~5% adapter/LoRA | GPU 메모리 ≤ 24GB 여부 |
 | 저장 비용 | 모델 사본 | adapter만 저장(MB~GB) | 도메인 수 × 모델 크기 |

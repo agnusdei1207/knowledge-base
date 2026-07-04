@@ -99,7 +99,7 @@ Document -> Sentence Split -> Sentence Embedding
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 선분할 후임베딩(Semantic Chunking) | 선임베딩 후분할(Late Chunking) | 선택 기준 |
+| 구분 | 선분할 후임베딩(Semantic Chunking) | 선임베딩 후분할(Late Chunking) | 선택 기준 |
 |:---|:---|:---|:---|
 | 처리 순서 | 문장 분리 후 개별 임베딩 계산 | 문서 전체를 먼저 임베딩 후 토큰 단위 분할 | 장문 문맥 의존도가 높으면 Late Chunking |
 | 문맥 보존 | 청크 경계 밖 문맥 손실 가능 | 전체 문서 문맥이 각 청크 벡터에 반영 | 대명사·생략 참조가 많은 문서 |

@@ -117,7 +117,7 @@ Event 발생 (t1) -> [ Network Delay ] -> [ Ingestion (t2) ] -> [ Processing ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 배치 처리 (Batch) | 실시간 스트리밍 (Streaming) | 선택 기준 |
+| 구분 | 배치 처리 (Batch) | 실시간 스트리밍 (Streaming) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 범위 | 유한함 (Bounded) | 무한함 (Unbounded) | 데이터 발생 형태 |
 | 처리 지연 | 수분 ~ 수시간 (High) | 수밀리초 ~ 수초 (Low) | 요구 반응 속도 |

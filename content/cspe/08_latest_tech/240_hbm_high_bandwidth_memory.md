@@ -112,7 +112,7 @@ GPU memory request -> HBM controller -> channel / pseudo-channel 선택
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | GDDR PCB 배치 | HBM 2.5D 적층 | 메모리 대역폭 요구량 |
 | 비용/성능 | 낮은 비용, 낮은 대역폭 밀도 | 높은 비용, 높은 대역폭 밀도 | GPU ASP와 TCO |

@@ -98,7 +98,7 @@ Prompt + Chosen/Rejected Pair -> DPO Loss
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | RLHF | DPO | 선택 기준 |
+| 구분 | RLHF | DPO | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RM + PPO 2단계 | 단일 loss 직접 최적화 | 운영 단순성 우선 시 DPO |
 | 비용 | GPU 2배 이상 (RM+PPO) | SFT 대비 GPU 20~30% 추가 | 비용 제약 시 DPO |

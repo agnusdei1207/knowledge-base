@@ -107,7 +107,7 @@ Tokenizer -> Transformer Block (N Layers) -> LM Head (Softmax)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | LLM | 선택 기준 |
+| 구분 | 기존/대안 | LLM | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 태스크별 BERT/LSTM | 단일 Transformer 자기회귀 | 멀티태스크 요구 시 LLM 선택 |
 | 비용/성능 | 모델당 학습·배포 각각 | 사전학습 1회+SFT 적응 | GPU 예산 7B=A100 1장, 70B=8장 |

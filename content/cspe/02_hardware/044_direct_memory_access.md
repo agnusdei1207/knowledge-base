@@ -144,7 +144,7 @@ weight: 44
 
 DMA가 버스(고속도로)를 어떻게 점유하느냐에 따라, 무식한 독점 방식(Burst)과 눈치 보는 얌체 방식(Cycle Stealing)으로 나뉜다.
 
-| 비교 축 | 버스트 전송 (Burst Mode) | 사이클 스틸링 (Cycle Stealing) | 투명 전송 (Transparent / Interleaved) |
+| 구분 | 버스트 전송 (Burst Mode) | 사이클 스틸링 (Cycle Stealing) | 투명 전송 (Transparent / Interleaved) |
 |:---|:---|:---|:---|
 | 버스 점유 방식 | 지정된 데이터 블록 **전송이 끝날 때까지 버스 완전 독점** | CPU가 버스를 사용하지 않는 **1사이클만 훔쳐서** 1 워드씩 전송 | CPU 클럭의 하반기(안 쓰는 시간)에만 몰래 전송 |
 | CPU 상태 영향 | DMA가 끝날 때까지 메모리 접근 100% 차단 (CPU 멈춤) | 거의 지장 없음 (미세한 지연만 발생) | CPU 성능 저하 완벽히 0% |

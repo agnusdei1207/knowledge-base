@@ -98,7 +98,7 @@ Input Token -> Router/Mask -> Active Weights/Experts
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Pruning (정적 희소화) | MoE (동적 희소화) | 선택 기준 |
+| 구분 | Pruning (정적 희소화) | MoE (동적 희소화) | 선택 기준 |
 |:---|:---|:---|:---|
 | 희소성 결정 시점 | 학습 후 고정 | 추론 시 token별 선택 | 입력 다양성이 크면 동적 |
 | 효과 조건 | sparse kernel HW 지원 | expert parallel 인프라 | 보유 인프라 지원성 |

@@ -114,7 +114,7 @@ Training Set (Reference) vs Live Stream (Current)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Data Drift (Covariate Shift) | Concept Drift (Prior Probability Shift) | 선택 기준 |
+| 구분 | Data Drift (Covariate Shift) | Concept Drift (Prior Probability Shift) | 선택 기준 |
 |:---|:---|:---|:---|
 | 변화 대상 | 입력값의 분포 $P(X)$ | 입력-정답 간 관계 $P(Y \mid X)$ | 변화의 위치 |
 | 정답 필요성 | 불필요 (입력만으로 탐지 가능) | 필수 (실제 결과 확인 필요) | 탐지 신속성 |

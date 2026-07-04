@@ -98,7 +98,7 @@ Source Spec/Seed Data -> Generator/Simulator/LLM
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 실제 데이터 수집 | Data Augmentation | Synthetic Data | 선택 기준 |
+| 구분 | 실제 데이터 수집 | Data Augmentation | Synthetic Data | 선택 기준 |
 |:---|:---|:---|:---|:---|
 | 원천 | 현장 수집·라벨링 | 기존 데이터 변형 | 생성모델·시뮬레이션 | 원본 존재 여부 |
 | 적합 상황 | 기준 성능 확보 | 데이터 부족·불균형 | 원본이 없는 희귀·민감 케이스 | coverage gap 유형 |

@@ -149,7 +149,7 @@ Pod 생성 -> CNI가 IP/route 설정 -> Policy 생성 -> Selector 매칭 -> data
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | flat Pod network | default deny + allowlist | 민감 업무 분리 |
 | 비용/처리 | 보안그룹 외곽 통제 | Pod label 단위 통제 | namespace 10개 이상 |

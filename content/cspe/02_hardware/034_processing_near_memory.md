@@ -133,7 +133,7 @@ weight: 34
 
 ## Ⅳ. 심화 비교: PIM vs PNM 대조표 (반도체 전략 차이)
 
-| 비교 축 | PIM (Processing In Memory) | PNM (Processing Near Memory) | 아키텍처 선택 기준 |
+| 구분 | PIM (Processing In Memory) | PNM (Processing Near Memory) | 아키텍처 선택 기준 |
 |:---|:---|:---|:---|
 | 연산기 위치 | DRAM 셀 **내부 (다이)** | 메모리 모듈 **기판** (컨트롤러) | 칩 내부 vs 칩 외부 |
 | 최고 대역폭(성능)| 압도적 1위 (다이 내부 초병렬 통신) | 2위 (DRAM과 컨트롤러 간 통신 병목 존재) | 성능 극대화 vs 비용 최적화 |

@@ -113,7 +113,7 @@ Model Quantization -> Hardware Mapping -> Fabrication -> Fixed Logic Compute
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 데이터센터용 ASIC (TPU 등) | 모바일/엣지용 ASIC (NPU) | 기술적 차이 |
+| 구분 | 데이터센터용 ASIC (TPU 등) | 모바일/엣지용 ASIC (NPU) | 기술적 차이 |
 |:---|:---|:---|:---|
 | 주요 지표 | 처리량 (Throughput) | 저전력 (Low Power) | 확장성 vs 에너지 효율 |
 | 메모리 방식 | HBM (고대역폭) | LPDDR / SRAM 중심 | 비용 vs 대역폭 |

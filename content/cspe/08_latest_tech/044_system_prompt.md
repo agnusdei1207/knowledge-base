@@ -102,7 +102,7 @@ System Prompt 설정 -> User 입력 수신 -> 컨텍스트 조립
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Fine-tuning(RLHF) | System Prompt | 선택 기준 |
+| 구분 | Fine-tuning(RLHF) | System Prompt | 선택 기준 |
 |:---|:---|:---|:---|
 | 적용 속도·비용 | 재학습 필요, 고비용 | 즉시 반영, 무비용 | 정책 변경 주기가 짧으면 system prompt |
 | 통제 강도 | 가중치에 내재, 우회 어려움 | 인젝션으로 우회 가능 | 규제·안전 필수 규칙은 학습+Guard 병행 |

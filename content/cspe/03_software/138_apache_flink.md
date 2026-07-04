@@ -146,7 +146,7 @@ Kafka Source -> Operator Chain -> Keyed State -> Window/Timer -> Sink
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Spark Structured Streaming | continuous stateful stream | sub-second, event time 요구 |
 | 비용/성능 | micro-batch 운영 | checkpoint와 state 비용 | state size와 checkpoint SLA |

@@ -119,7 +119,7 @@ PK/SK 생성 -> 메시지 해싱 -> 서명 후보 생성 -> 보안 검사(Reject
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존 ECDSA (Elliptic Curve) | ML-DSA (Post-Quantum) | 선택 기준 |
+| 구분 | 기존 ECDSA (Elliptic Curve) | ML-DSA (Post-Quantum) | 선택 기준 |
 |:---|:---|:---|:---|
 | 서명 크기 | 매우 작음 (약 64 Bytes) | 큼 (약 3.3KB) | 통신 대역폭 및 패킷 크기 제약 |
 | 서명 생성 속도 | 보통 | 매우 빠름 | 서버 측 대규모 서명 처리량 |

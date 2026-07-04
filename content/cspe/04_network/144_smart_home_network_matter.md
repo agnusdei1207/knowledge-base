@@ -115,7 +115,7 @@ Controller App -> Matter Fabric -> Device Commissioning
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 제조사 클라우드 중심 | 로컬 Matter Fabric 중심 | 로컬 제어와 다중 관리자 요구 시 선택 |
 | 비용/성능 | 허브별 중복 구매 | Thread Border Router와 Matter 기기 조합 | 기존 기기 호환성과 신규 기기 비율로 판단 |

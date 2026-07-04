@@ -121,7 +121,7 @@ Wake up -> Ready Queue -> Mount(to any Carrier) -> Resume -> End
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Platform Thread (OS) | Reactive (WebFlux) | Virtual Thread |
+| 구분 | Platform Thread (OS) | Reactive (WebFlux) | Virtual Thread |
 |:---|:---|:---|:---|
 | 프로그래밍 모델 | 동기(Synchronous) | 비동기(Asynchronous) | 동기(Synchronous) |
 | 확장성 | 낮음 (스레드 수 제한) | 높음 (이벤트 루프) | 매우 높음 (경량 스레드) |

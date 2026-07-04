@@ -114,7 +114,7 @@ Prefix 보유자 ROA 생성 -> Repository 게시 -> Validator 검증
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | RPKI ROV | 선택 기준 |
+| 구분 | 기존/대안 | RPKI ROV | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | IRR prefix filter | ROA/VRP 기반 검증 | 자동화와 신뢰 체계 필요 |
 | 비용/성능 | 수작업 갱신 부담 | validator 운영 필요 | ROA coverage와 운영 인력 |

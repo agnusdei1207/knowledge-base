@@ -98,7 +98,7 @@ Policy Model -> Candidate Answers -> AI Evaluator/Rubric
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | RLHF | RLAIF | 선택 기준 |
+| 구분 | RLHF | RLAIF | 선택 기준 |
 |:---|:---|:---|:---|
 | 라벨 비용·속도 | 인간 라벨러, 고비용·저속 | AI 평가, 저비용·대량 | 목표 데이터 규모와 예산 |
 | 품질 신뢰 | 인간 판단 기준선 | judge 정확도에 종속 | gold label 대비 judge 일치율 |

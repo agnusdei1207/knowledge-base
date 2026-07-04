@@ -141,7 +141,7 @@ Manifest -> Resolver -> Registry Download -> Lock/Tree -> Build/Test -> Vulnerab
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 수동 jar 복사 | registry 기반 의존성 해석 | 전이 의존성 수 50개 이상 |
 | 비용/성능 | 공개 저장소 직접 접근 | 사설 mirror와 cache | CI 다운로드 시간 5분 초과 |

@@ -131,7 +131,7 @@ weight: 3
 
 ## Ⅳ. 심화 비교: CISC vs RISC
 
-| 비교 축 | CISC (Complex Instruction Set) | RISC (Reduced Instruction Set) | 판단 포인트 |
+| 구분 | CISC (Complex Instruction Set) | RISC (Reduced Instruction Set) | 판단 포인트 |
 |:---|:---|:---|:---|
 | 파이프라이닝 | 명령어 길이가 다르고 복잡해 비효율적 | 고정 길이 및 1사이클 실행으로 최고 효율 | 처리량(Throughput) 극대화 |
 | 코드 크기 | 복합 명령어로 실행 파일 크기 작음 | 명령어 개수가 많아 파일 크기 팽창 | 메모리 병목 시대의 선택 |

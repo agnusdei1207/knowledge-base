@@ -98,7 +98,7 @@ Base Model -> Training Data -> Fine-Tuning Job
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Prompt/RAG | Fine-Tuning | 선택 기준 |
+| 구분 | Prompt/RAG | Fine-Tuning | 선택 기준 |
 |:---|:---|:---|:---|
 | 적용 대상 | 최신 사실·문서 기반 답변 | 행동·형식·도메인 패턴 | 지식 vs 행동 분리 |
 | 비용 | 검색 인프라 비용 | GPU-hour 학습 비용 | 데이터 1K~100K 규모 |

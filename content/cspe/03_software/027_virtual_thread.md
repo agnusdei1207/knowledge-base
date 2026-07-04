@@ -107,7 +107,7 @@ Unmount는 오직 "블로킹 I/O로 대기하는 순간"에만 일어난다. 동
 
 ## Ⅲ. 패러다임 비교: 블로킹(MVC) vs 비동기(WebFlux) vs 가상 스레드
 
-| 비교 축 | Spring MVC (Thread per Request) | Spring WebFlux (리액티브, 비동기) | Spring Boot 3.2 (Virtual Thread) |
+| 구분 | Spring MVC (Thread per Request) | Spring WebFlux (리액티브, 비동기) | Spring Boot 3.2 (Virtual Thread) |
 |:---|:---|:---|:---|
 | **I/O 대기 시 처리** | 스레드 전체 블로킹 (OS 컨텍스트 스위칭 낭비) | 콜백(Callback)이나 Event-Loop 통보로 우회 | **Unmount** 후 다른 가상 스레드가 캐리어 스레드 재점유 |
 | **동시성 처리량 (Scale)** | 수천 개 수준 (그 이상은 OOM 및 스레싱) | 수십만 개 처리 가능 | **수백만 개 처리 가능** |

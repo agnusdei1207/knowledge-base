@@ -120,7 +120,7 @@ IDE (Lint) -> Commit -> CI Pipeline (SAST/SCA) -> Artifact (Image Scan)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 전통적 보안 (Water-fall) | DevSecOps (Agile) |
+| 구분 | 전통적 보안 (Water-fall) | DevSecOps (Agile) |
 |:---|:---|:---|
 | 점검 시점 | 개발 완료 후 배포 직전 | 개발 전 과정 (Continuous) |
 | 점검 방식 | 보안 팀에 의한 수동 전수 검사 | 툴에 의한 자동화된 가드레일 |

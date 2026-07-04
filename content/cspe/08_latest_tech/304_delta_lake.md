@@ -116,7 +116,7 @@ Write 요청 -> [ 1. Begin ] -> [ 2. Read ] -> [ 3. Write ] -> [ 4. Commit ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존 Parquet (Data Lake) | Delta Lake | 선택 기준 |
+| 구분 | 기존 Parquet (Data Lake) | Delta Lake | 선택 기준 |
 |:---|:---|:---|:---|
 | 업데이트 | 전체 재작성 필요 | MERGE INTO (Upsert) 지원 | 데이터 수정 빈도 |
 | 트랜잭션 | 없음 (Partial Write 위험) | 있음 (ACID 보장) | 데이터 무결성 중요도 |

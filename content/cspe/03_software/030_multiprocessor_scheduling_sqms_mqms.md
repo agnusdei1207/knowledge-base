@@ -140,7 +140,7 @@ Task runnable 전환 -> run queue 삽입 -> CPU 선택
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | SQMS 전역 큐 | MQMS per-CPU 큐 | 코어 수, run queue lock 경합 |
 | 비용/성능 | 큐 경합 증가 | migration과 balancing 비용 | context switch, cache miss |

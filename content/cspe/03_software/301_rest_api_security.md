@@ -150,7 +150,7 @@ Request 수신 -> TLS/mTLS 검증 -> Key/Token 검증 -> Scope 판단 -> Service
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 외부 연동 | API Key 단독 | API Key+mTLS | 파트너 서버 고정, B2B 계약 |
 | 사용자 위임 | ID/PW 전달 | OAuth 2.0 Authorization Code+PKCE | 모바일·SPA 사용자 권한 위임 |

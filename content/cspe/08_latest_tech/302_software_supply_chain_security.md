@@ -114,7 +114,7 @@ Upstream (오픈소스) -> Ingestion (검증) -> Inner-source (개발) -> Build/
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존 앱 보안 (AppSec) | 공급망 보안 (Supply Chain Sec) | 선택 기준 |
+| 구분 | 기존 앱 보안 (AppSec) | 공급망 보안 (Supply Chain Sec) | 선택 기준 |
 |:---|:---|:---|:---|
 | 보호 대상 | 자체 작성 코드 (First-party) | 종속성 및 프로세스 (Third-party/Infra) | 개발자 실수 vs 외부 위협 |
 | 핵심 도구 | SAST, DAST | SCA, SBOM, SLSA | 분석 범위 및 생태계 신뢰도 |

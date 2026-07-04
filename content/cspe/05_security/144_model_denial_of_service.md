@@ -110,7 +110,7 @@ Model Runtime -> Tool / RAG / Agent Loop -> Response / Cost Log
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 제한 단위 | IP·요청 수 | 사용자·토큰·GPU초·비용 | LLM API와 RAG 서비스 |
 | 격리 방식 | 공통 서버 풀 | tenant별 queue, priority, circuit breaker | 유료/무료 사용자 혼재 |

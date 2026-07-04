@@ -155,7 +155,7 @@ TRNG는 반도체의 물리적 특성, 예를 들어 저항의 열잡음(Johnson
 
 내 윈도우 PC 메인보드에 공짜로 박힌 TPM 칩과 은행 서버 랙에 꽂는 1억 원짜리 HSM 장비의 극단적인 아키텍처(타겟) 차이를 대조한다.
 
-| 비교 축 | TPM (Trusted Platform Module) | 범용/결제형 거대 HSM (PCIe/Network Type) |
+| 구분 | TPM (Trusted Platform Module) | 범용/결제형 거대 HSM (PCIe/Network Type) |
 |:---|:---|:---|
 | **설계 철학 및 사용 타겟** | **저가형/대량 배포 (개인 PC, 스마트폰, IoT 엣지)** | **극단적 성능/중앙 통제 (금융망, PKI 인증 센터, AWS 클라우드)** |
 | **주요 방어 역할** | 기기 1대의 **Secure Boot 무결성 증명** 및 디스크 락(BitLocker) | 초당 수십만 건의 대용량 트랜잭션 서명 및 전사 **마스터 키 발급(Root CA)** |

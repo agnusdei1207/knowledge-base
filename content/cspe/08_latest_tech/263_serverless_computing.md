@@ -116,7 +116,7 @@ Event Detect -> Instance Provisioning (Cold Start) -> Code Execution -> Result R
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 서버 기반 (IaaS/PaaS) | 서버리스 (FaaS) | 선택 기준 |
+| 구분 | 서버 기반 (IaaS/PaaS) | 서버리스 (FaaS) | 선택 기준 |
 |:---|:---|:---|:---|
 | 제어권 | 높음 (OS, 네트워크 설정 가능) | 낮음 (런타임만 선택 가능) | 커스텀 환경 필요성 |
 | 비용 구조 | 고정 비용 + 사용료 | 순수 사용량 기반 | 트래픽의 예측 가능성 및 불규칙성 |

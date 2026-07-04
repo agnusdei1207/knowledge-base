@@ -116,7 +116,7 @@ RP Server -> Challenge -> Assertion Verification -> Session
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 인증 강도 | password+TOTP | FIDO2 security key | 관리자, 개발자, 금융 업무 |
 | 사용자 경험 | 매번 OTP 입력 | platform authenticator | 소비자 서비스, 모바일 앱 |

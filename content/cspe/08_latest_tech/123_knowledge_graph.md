@@ -98,7 +98,7 @@ Data Source -> Entity/Relation Extraction -> Graph Store
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 속성 그래프(Property Graph: Neo4j) | RDF 트리플스토어(Neptune·GraphDB) | 선택 기준 |
+| 구분 | 속성 그래프(Property Graph: Neo4j) | RDF 트리플스토어(Neptune·GraphDB) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 모델 | 노드·엣지에 속성 직접 부여 | 주어-술어-목적어 트리플 단위 | 기존 스키마·속성 중심 모델링이면 Property Graph |
 | 질의 언어 | Cypher(직관적 경로 질의) | SPARQL(W3C 표준 시맨틱 질의) | 외부 표준 연동·추론 필요 시 RDF |

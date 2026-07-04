@@ -143,7 +143,7 @@ StatefulSet 생성 -> web-0 생성/Ready -> web-1 생성/Ready -> PVC bind -> �
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Deployment + PVC | StatefulSet + Headless Service | 고정 ID 필요 |
 | 비용/처리 | 수동 DB VM 운영 | Kubernetes 상태 저장 운영 | replica 3개 이상 |

@@ -147,7 +147,7 @@ Pod label 지정 -> Service selector 매칭 -> EndpointSlice 생성 -> DNS 등�
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Pod IP 직접 호출 | Service/Ingress 추상화 | Pod 교체 빈도 |
 | 비용/처리 | 서비스별 LoadBalancer | Ingress 공통 진입 | 공인 IP 비용 |

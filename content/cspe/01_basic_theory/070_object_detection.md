@@ -143,7 +143,7 @@ Input Image -> Backbone (특징 추출) -> Neck (다중 스케일 융합) -> Hea
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 2-Stage (Faster R-CNN) | 1-Stage (YOLO) | 선택 기준 |
+| 구분 | 2-Stage (Faster R-CNN) | 1-Stage (YOLO) | 선택 기준 |
 |:---|:---|:---|:---|
 | 아키텍처 | Region Proposal + RoI + Classification | Single Network Regression | 파이프라인 복잡도 및 튜닝 난이도 |
 | 성능 특성 | 고정확도 (High mAP), 속도 느림 (<10 FPS) | 실시간 속도 (High FPS, >45 FPS), 정확도 양호 | 30ms 이내 실시간 응답 요구사항 여부 |

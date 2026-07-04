@@ -112,7 +112,7 @@ Cloud API / IaC Repo / Image Registry / Kubernetes / Runtime
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | CSPM·CWPP 개별 도입 | 통합 CNAPP | 멀티클라우드·Kubernetes 사용 |
 | 비용 | 도구별 라이선스 | 플랫폼 통합 구독 | 중복 기능과 운영 인력 |

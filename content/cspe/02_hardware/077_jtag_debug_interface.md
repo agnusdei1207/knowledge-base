@@ -146,7 +146,7 @@ Instruction Load (IR) -> Data Load (DR) -> Boundary Scan 실행 -> Result Shift-
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | JTAG (IEEE 1149.1) | SWD (Serial Wire Debug) | 선택 기준 |
+| 구분 | JTAG (IEEE 1149.1) | SWD (Serial Wire Debug) | 선택 기준 |
 |:---|:---|:---|:---|
 | 핀 수 | 최소 4핀 (보통 10~20핀 커넥터) | 2핀 (Clock, Data) | 보드 면적 및 핀 여유 |
 | 호환성 | 범용 (FPGA, CPU, DSP 등) | ARM Cortex 시리즈 전용 | 타겟 칩 종류 |

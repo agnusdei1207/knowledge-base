@@ -128,7 +128,7 @@ weight: 11
 
 ## Ⅳ. 심화 비교: VLIW vs 슈퍼스칼라
 
-| 비교 축 | 슈퍼스칼라 (Superscalar) | VLIW (Very Long Instruction Word) | 판단 포인트 |
+| 구분 | 슈퍼스칼라 (Superscalar) | VLIW (Very Long Instruction Word) | 판단 포인트 |
 |:---|:---|:---|:---|
 | 의존성 검사 | 런타임(H/W) 동적 검사 | 컴파일 타임(S/W) 정적 검사 | 트랜지스터 자원 투입 주체 |
 | H/W 복잡도 | 극도로 높음 (Issue/ROB 버퍼) | 매우 단순 (디코딩 및 포워딩 최소화) | 전력 소비 및 발열 한계 돌파 |

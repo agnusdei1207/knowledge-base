@@ -113,7 +113,7 @@ Training Script -> Tracking API (Log) -> Central Tracking Server (Storage)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | MLflow (오픈소스) | Weights & Biases (SaaS) | 선택 기준 |
+| 구분 | MLflow (오픈소스) | Weights & Biases (SaaS) | 선택 기준 |
 |:---|:---|:---|:---|
 | 설치 및 운영 | 직접 서버 구축/운영 | 별도 설치 없음 (Cloud) | 운영 리소스 가용성 |
 | 시각화 기능 | 표준적 (기본 차트) | 강력함 (Deep Analysis 툴) | 분석 정교함 요구 수준 |

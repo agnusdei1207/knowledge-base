@@ -148,7 +148,7 @@ proto 정의 -> 코드 생성 -> 메시지 직렬화 -> RPC 호출 -> status 처
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | REST + JSON + OpenAPI | gRPC + Protobuf + proto registry | 내부 서비스 20개 이상, 언어 3종 이상 |
 | 비용/성능 | JSON parsing·수동 client | codegen·binary serialization | p95 100ms, payload 1KB 이상 반복 호출 |

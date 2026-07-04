@@ -143,7 +143,7 @@ Change Request -> Code Commit -> Plan Diff
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Infrastructure as Code | 선택 기준 |
+| 구분 | 기존/대안 | Infrastructure as Code | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 콘솔 수동 생성 | 선언형 코드와 state | 리소스 20개 이상 또는 환경 2개 이상 |
 | 비용/성능 | 작업 시간 누적 | module 재사용과 pipeline | 신규 환경 생성 30분 이하 목표 |

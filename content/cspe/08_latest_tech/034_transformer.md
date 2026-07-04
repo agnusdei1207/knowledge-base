@@ -107,7 +107,7 @@ weight: 34
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | RNN/LSTM | Transformer | 선택 기준 |
+| 구분 | RNN/LSTM | Transformer | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 순환 셀 기반 순차 처리 | Self-Attention 기반 병렬 처리 | 시퀀스 길이·GPU 병렬화 요구 |
 | 비용/성능 | O(N·d²), GPU 활용률 30% | O(N²·d), GPU 활용률 90%+ | N<d이면 Transformer 효율적 |

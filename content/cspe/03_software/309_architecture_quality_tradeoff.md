@@ -139,7 +139,7 @@ Business Goal -> Quality Scenario -> Architectural Tactic -> Tradeoff Analysis -
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 평가 방식 | 체크리스트 | ATAM·품질 시나리오 | 대규모 아키텍처 의사결정 |
 | 산출물 | 아키텍처 그림 | ADR·Risk·Sensitivity | 변경 추적 필요 |

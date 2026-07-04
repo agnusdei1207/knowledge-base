@@ -147,7 +147,7 @@ Dockerfile -> Image Layer -> Registry -> Container Runtime
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | VM | Docker 컨테이너 | 선택 기준 |
+| 구분 | VM | Docker 컨테이너 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Guest OS 포함 | 호스트 커널 공유 | 강한 격리 vs 배포 반복성 |
 | 비용/성능 | 자원 오버헤드 큼 | 밀도 높은 배치 가능 | CPU·메모리 limit와 노드 밀도 |

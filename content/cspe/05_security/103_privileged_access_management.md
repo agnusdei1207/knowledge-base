@@ -116,7 +116,7 @@ Privileged Request -> MFA -> Approval -> JIT Credential
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 공유 admin 계정 | 개인 신원+PAM Proxy+Vault | root 공유 계정이 존재하면 우선 도입 |
 | 비용/운영 | 직접 접속 허용 | 승인·녹화·순환 절차 추가 | 운영 DB, AD, Cloud Owner부터 단계 적용 |

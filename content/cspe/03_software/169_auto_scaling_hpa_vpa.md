@@ -146,7 +146,7 @@ Metric Source -> Autoscaler Controller -> HPA Replica 조정
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | HPA | VPA | 선택 기준 |
+| 구분 | HPA | VPA | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | replica 수 증가·감소 | CPU·메모리 request 조정 | 무상태 서비스 vs 자원 크기 불일치 |
 | 비용/성능 | 처리량 증가, 노드 비용 증가 | 과소/과대 request 보정 | p95 지연과 OOMKilled 빈도 |

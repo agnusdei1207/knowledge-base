@@ -152,7 +152,7 @@ Cypher Query -> Start Node Index Seek -> Relationship Traversal -> Path Filter -
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RDB 조인 테이블 | property graph | 관계 타입 5개 이상, 가변 hop 질의 |
 | 비용/성능 | 다중 self-join | 인접 관계 traversal | 시작 노드 선택도 1% 이하 |

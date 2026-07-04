@@ -120,7 +120,7 @@ Domain Source -> [ Ingest & Clean ] -> [ Data Product Publishing ] -> Consumer
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 데이터 메시 (Data Mesh) | 데이터 패브릭 (Data Fabric) | 선택 기준 |
+| 구분 | 데이터 메시 (Data Mesh) | 데이터 패브릭 (Data Fabric) | 선택 기준 |
 |:---|:---|:---|:---|
 | 핵심 접근 | 조직 및 아키텍처의 분산 (Organizational) | 메타데이터 기반 기술적 자동화 (Technological) | 조직 변경 가능 여부 |
 | 주요 동력 | 사람과 도메인 (Social) | AI 및 메타데이터 엔진 (AI-driven) | 기술 자동화 성숙도 |

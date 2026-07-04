@@ -117,7 +117,7 @@ ASLR/PIE 우회 시도 -> CFI/Shadow Stack 검증 -> 차단/침해 판정
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | DEP/NX 단독 | NX, ASLR, PIE, CFI, shadow stack | 외부 입력 네이티브 서비스 |
 | 비용/성능 | CFI 미적용 | compiler CFI, Intel CET, ARM PAC/SCS | 간접 호출이 많은 C/C++ 서비스 |

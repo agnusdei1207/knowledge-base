@@ -112,7 +112,7 @@ Sensor / Actuator / PLC -> Edge Gateway -> Industrial Network
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 수집 | 수동 점검·SCADA 한정 | 센서·edge·cloud 연계 | 고장 예측 필요 |
 | 분석 위치 | 중앙 서버 | edge+cloud 분산 | 지연·대역폭 제약 |

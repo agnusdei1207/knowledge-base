@@ -103,7 +103,7 @@ Q/K/V 로드 -> 타일 분할 -> SRAM에서 QKᵀ 계산
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 표준 Attention | FlashAttention | 선택 기준 |
+| 구분 | 표준 Attention | FlashAttention | 선택 기준 |
 |:---|:---|:---|:---|
 | 중간 저장 | N×N score HBM 저장 | score 저장 회피(SRAM only) | 시퀀스 길이 4K 이상 여부 |
 | 병목 | HBM read/write bandwidth | SRAM compute bound | GPU SRAM 크기 |

@@ -101,7 +101,7 @@ Query -> Decomposer -> Hop-1 Retriever -> Evidence
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 고정 hop 수 순차 검색(Rule-based) | Agentic RAG(LLM 자율 반복 판단) | 선택 기준 |
+| 구분 | 고정 hop 수 순차 검색(Rule-based) | Agentic RAG(LLM 자율 반복 판단) | 선택 기준 |
 |:---|:---|:---|:---|
 | 종료 조건 | 사전 정의된 max_hop 도달 시 종료 | LLM이 근거 충분성을 매 스텝 판단 | 지연 예측 가능성이 우선이면 고정 hop |
 | 적응력 | 질문 유형별 hop 수 고정 | 질의 복잡도에 따라 반복 횟수 동적 조정 | 질의 난이도 편차가 크면 Agentic |

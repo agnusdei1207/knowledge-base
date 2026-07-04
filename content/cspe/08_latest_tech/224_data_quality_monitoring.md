@@ -117,7 +117,7 @@ Data Source -> Data Collector -> Data Quality Engine (Testing) -> Quality Dashbo
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 수동 품질 관리 | 자동 품질 모니터링 (DataOps) | 선택 기준 |
+| 구분 | 수동 품질 관리 | 자동 품질 모니터링 (DataOps) | 선택 기준 |
 |:---|:---|:---|:---|
 | 점검 빈도 | 필요 시 수시 (Silo 단위) | 실시간/배치 상시 감시 (End-to-End) | 데이터 가변성 정도 |
 | 확장성 | 낮음 (사람의 수동 쿼리) | 높음 (자동화된 테스트 스크립트) | 데이터 소스 및 양 |

@@ -140,7 +140,7 @@ Source Code -> WASM Compile -> Module Registry -> WASM Runtime -> Host Function/
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 컨테이너 서비스 | WASM module | plugin, edge, short-lived task |
 | 비용/처리 | image pull, runtime start | module load | cold start 100ms 이하 필요 |

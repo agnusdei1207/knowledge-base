@@ -108,7 +108,7 @@ Input Data -> Teacher Model -> Soft Label/Rationale/Feature
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 직접 SFT/Fine-tuning | Knowledge Distillation | 선택 기준 |
+| 구분 | 직접 SFT/Fine-tuning | Knowledge Distillation | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 정답 라벨 기반 학습 | teacher soft label·rationale 학습 | 학습 신호 풍부도 |
 | 비용/성능 | 라벨링 인건비 높음 | teacher 추론 API 비용 | 10K 샘플 기준 비용 비교 |

@@ -132,7 +132,7 @@ Packet Arrival -> [Port Security Enabled?] -> No -> Normal Forwarding
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 포트 보안 (Port Security) | 802.1X 인증 | 선택 기준 |
+| 구분 | 포트 보안 (Port Security) | 802.1X 인증 | 선택 기준 |
 |:---|:---|:---|:---|
 | 인증 주체 | MAC 주소 (하드웨어 식별자) | 사용자 계정/인증서 (사람) | 보안 신뢰 수준 |
 | 우회 가능성 | MAC Spoofing으로 우회 가능 | 우회 매우 어려움 | 위협 모델 |

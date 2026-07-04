@@ -112,7 +112,7 @@ Business Strategy -> Model Inventory -> Governance Gate -> Model Lifecycle (DevO
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | MLOps (Bottom-up) | ModelOps (Top-down) | 선택 기준 |
+| 구분 | MLOps (Bottom-up) | ModelOps (Top-down) | 선택 기준 |
 |:---|:---|:---|:---|
 | 조직 성숙도 | 초기 개발 중심 팀 | 전사 AI 도입 성숙 기업 | 조직 규모 및 모델 수 |
 | 주요 목표 | 배포 속도, 모델 정확도 | 거버넌스 체계, 전사 가시성 | 전략적 우선순위 |

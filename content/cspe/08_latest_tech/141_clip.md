@@ -99,7 +99,7 @@ Text  -> Text Encoder  -> text embedding
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Cross-Encoder/VLM 매칭 | CLIP Dual-Encoder | 선택 기준 |
+| 구분 | Cross-Encoder/VLM 매칭 | CLIP Dual-Encoder | 선택 기준 |
 |:---|:---|:---|:---|
 | 검색 확장성 | 이미지-질의 쌍마다 공동 추론, 사전 인덱싱 불가 | 임베딩 사전 계산 후 ANN 벡터 검색 가능 | 후보 규모(수십만~수백만 이미지) |
 | 매칭 정밀도 | 토큰 수준 상호작용으로 세밀 속성 구분 | 전역 의미 수준 매칭 | 세부 속성 구분 요구 수준 |

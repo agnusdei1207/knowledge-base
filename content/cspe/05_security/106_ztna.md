@@ -111,7 +111,7 @@ User/Device -> IdP/MFA -> Policy Engine -> ZTNA Broker -> Application Connector 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | ZTNA | 선택 기준 |
+| 구분 | 기존/대안 | ZTNA | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | VPN + 방화벽 ACL | IdP + Policy Engine + Broker | 원격 사용자 30% 이상, SaaS·VPC 혼재 |
 | 비용/성능 | 장비 증설과 터널 백홀 | 클라우드 PoP, 앱 커넥터 | p95 접속 지연 300ms 이하 |

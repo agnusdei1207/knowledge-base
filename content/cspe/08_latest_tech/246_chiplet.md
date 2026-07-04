@@ -114,7 +114,7 @@ Functional Partitioning -> Individual Fab -> D2D Interconnect -> Advanced Packag
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 2.5D 패키징 (CoWoS 등) | 3D 패키징 (Foveros 등) | 기술적 수준 |
+| 구분 | 2.5D 패키징 (CoWoS 등) | 3D 패키징 (Foveros 등) | 기술적 수준 |
 |:---|:---|:---|:---|
 | 연결 방식 | 수평 배치 (인터포저 위) | 수직 적층 (다이 위에 다이) | 집적도 및 배선 길이 |
 | 장점 | 성숙된 기술, 열 관리 유리 | 대역폭 극대화, 공간 절약 | 성능 향상 잠재력 |

@@ -140,7 +140,7 @@ Web/Mobile Client -> API Gateway -> Web BFF/Mobile BFF -> Domain Services -> DB
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | Gateway | 공통 인증·라우팅 | 채널별 API 조합 | 화면 데이터 조합 필요 시 BFF |
 | GraphQL | 클라이언트 쿼리 주도 | 서버 주도 DTO | 쿼리 유연성 vs 서버 통제 |

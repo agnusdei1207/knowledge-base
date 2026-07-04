@@ -109,7 +109,7 @@ weight: 61
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존(정적 prefill) | TTFT 최적화 적용 | 선택 기준 |
+| 구분 | 기존(정적 prefill) | TTFT 최적화 적용 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 전체 프롬프트 일괄 prefill | Prefix Caching + chunked prefill | 반복 프롬프트 비율 50% 이상 시 적용 |
 | 비용/성능 | GPU 1장 800ms | TP 4-way 분산 시 250ms | SLA p99 500ms 기준 GPU 수 산정 |

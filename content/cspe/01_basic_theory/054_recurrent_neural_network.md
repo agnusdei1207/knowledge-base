@@ -130,7 +130,7 @@ weight: 54
 
 ## Ⅳ. RNN vs LSTM vs GRU 심화 비교
 
-| 비교 축 | 기본 RNN (Vanilla) | LSTM (Long Short-Term Memory) | GRU (Gated Recurrent Unit) |
+| 구분 | 기본 RNN (Vanilla) | LSTM (Long Short-Term Memory) | GRU (Gated Recurrent Unit) |
 |:---|:---|:---|:---|
 | 장기 기억력 | 문장 10단어 이상 시 기울기 0 소실 | 100단어 이상의 장기 맥락 유지 | LSTM과 유사한 장기 기억 성능 |
 | 내부 구조 | 단순 가중치 행렬 1개 곱합 연산 | Cell State + 3 Gate (Input, Forget, Output) | Hidden State 통합 + 2 Gate (Update, Reset) |

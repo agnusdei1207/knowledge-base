@@ -110,7 +110,7 @@ User Problem -> Reasoning Planner -> Candidate Solver
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 일반 LLM | o3 Reasoning Model | 선택 기준 |
+| 구분 | 일반 LLM | o3 Reasoning Model | 선택 기준 |
 |:---|:---|:---|:---|
 | 추론 정확도 | ARC-AGI 42% 수준 | ARC-AGI 75.7~87.5% | 고난도 추론 비율 20% 이상 시 o3 |
 | 비용 구조 | 토큰 생성량 과금 | 추론 토큰·지연 추가 과금 | SLA별 모델 분리, FinOps 태그 |

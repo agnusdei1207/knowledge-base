@@ -146,7 +146,7 @@ System Context -> Hazard Identification -> Risk Estimation
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 기능 요구 중심 | hazard-risk-evidence 중심 | 인명·재산 피해 가능 시스템 |
 | 비용/규모 | 결함 수정 비용 중심 | 위험 저감 비용 포함 | Safety Integrity 목표 존재 |

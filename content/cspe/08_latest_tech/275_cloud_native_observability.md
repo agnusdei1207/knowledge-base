@@ -121,7 +121,7 @@ Application -> OTel SDK -> OTel Collector -> Backend (Storage) -> Grafana
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 모니터링 (Monitoring) | 관측성 (Observability) | 선택 기준 |
+| 구분 | 모니터링 (Monitoring) | 관측성 (Observability) | 선택 기준 |
 |:---|:---|:---|:---|
 | 주요 질문 | 시스템이 정상인가? (Is it up?) | 왜 문제가 발생했는가? (Why?) | 분석의 깊이 |
 | 대응 대상 | 알고 있는 문제 (Known-Unknowns) | 예기치 못한 문제 (Unknown-Unknowns) | 장애 예측 가능성 |

@@ -98,7 +98,7 @@ soft prompt 초기화 -> 입력 embedding 결합 -> task loss 계산
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Prompt Tuning | Prefix Tuning | LoRA | 선택 기준 |
+| 구분 | Prompt Tuning | Prefix Tuning | LoRA | 선택 기준 |
 |:---|:---|:---|:---|:---|
 | 학습 위치 | 입력 embedding 앞 | 각 layer K/V 앞 | attention 가중치 저랭크 | 적응 강도 요구 수준 |
 | 파라미터 규모 | 최소 (수만) | 소량 | 소~중량 (수백만) | 저장·서빙 비용 한도 |

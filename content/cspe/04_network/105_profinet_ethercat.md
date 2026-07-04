@@ -115,7 +115,7 @@ EtherCAT: Master -> Slave 1 -> Slave 2 -> Slave N -> return
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Profinet·EtherCAT | 선택 기준 |
+| 구분 | 기존/대안 | Profinet·EtherCAT | 선택 기준 |
 |:---|:---|:---|:---|
 | Fieldbus | Profibus, CANopen | Ethernet 기반 실시간 제어 | 대역폭, 진단, 상위 연계 |
 | 다축 제어 | PLC 스캔 의존 | EtherCAT distributed clock | 서보축 수, cycle time |

@@ -112,7 +112,7 @@ Link initialization -> CXL mode negotiation -> CXL.io enumeration
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | PCIe DMA·copy | CXL coherent load/store | shared memory 필요 여부 |
 | 비용/성능 | 낮은 복잡도 | switch·controller 비용 추가 | 복사 제거 이득 대비 latency |

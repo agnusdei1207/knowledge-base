@@ -114,7 +114,7 @@ Data / System / AI Model / OT Process -> C / I / A Weighting
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | CIA Triad 적용 | 선택 기준 |
+| 구분 | 기존/대안 | CIA Triad 적용 | 선택 기준 |
 |:---|:---|:---|:---|
 | OT | 기밀성 우선 보안 | 가용성·무결성 우선 | 안전·생산 중단 영향 존재 시 |
 | 클라우드 | 단일 보안통제 | Multi-AZ, IAM, 암호화 조합 | RTO/RPO와 개인정보 동시 요구 시 |

@@ -145,7 +145,7 @@ Source DB -> Change Log -> CDC Connector -> Event Broker -> Sink Connector -> Ta
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | CDC | 선택 기준 |
+| 구분 | 기존/대안 | CDC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 야간 ETL, API polling | 로그 기반 이벤트 추출 | 변경 반영 목표 5분 이하 |
 | 비용/성능 | 전체 스캔 I/O 증가 | 변경률만큼 읽기 감소 | 일 변경률 10% 이하일 때 우선 검토 |

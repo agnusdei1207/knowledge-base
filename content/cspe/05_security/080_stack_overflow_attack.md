@@ -113,7 +113,7 @@ weight: 80
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | C/C++ 경계 수동관리 | safe API, Rust/Go, memory sanitizer | 신규 모듈은 safe language 우선 |
 | 비용/성능 | 보호 옵션 off | canary, PIE, RELRO, ASLR | latency 영향보다 RCE 위험이 큰 서비스 |

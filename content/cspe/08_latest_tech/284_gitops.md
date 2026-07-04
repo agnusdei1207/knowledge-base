@@ -121,7 +121,7 @@ Git Commit -> Sync Event -> Compare (Desired vs Actual) -> Apply Diff
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Push 기반 CD (Jenkins, GitLab CI) | Pull 기반 CD (GitOps - ArgoCD) |
+| 구분 | Push 기반 CD (Jenkins, GitLab CI) | Pull 기반 CD (GitOps - ArgoCD) |
 |:---|:---|:---|
 | 실행 주체 | 외부 CI 도구가 명령을 보냄 | 내부 에이전트가 Git을 읽어옴 |
 | 보안 | 배포 대상의 자격증명이 CI 도구에 필요 | 자격증명이 내부에서만 관리됨 |

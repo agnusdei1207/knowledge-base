@@ -112,7 +112,7 @@ PubSub -> Broker / UDP / TSN -> Edge / Cloud
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 프로토콜 | Modbus 태그 | OPC UA 정보 모델 | 의미 데이터 필요 |
 | 메시징 | MQTT payload | OPC UA PubSub | 산업 모델 유지 |

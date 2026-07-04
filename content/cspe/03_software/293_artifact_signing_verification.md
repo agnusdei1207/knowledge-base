@@ -142,7 +142,7 @@ Runtime Admission -> Signature Verify -> Policy Decision -> Deploy/Reject
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 태그 기반 배포 | digest+signature 기반 배포 | 컨테이너 운영, 다중 팀 배포 |
 | 비용/성능 | 검증 지연 없음 | admission 검증 수십 ms | p95 admission 200ms 이하 |

@@ -147,7 +147,7 @@ Request -> Extract User/IP/API Key -> Load Policy
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Rate Limiting/Throttling | 선택 기준 |
+| 구분 | 기존/대안 | Rate Limiting/Throttling | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | backend 내부 방어 | gateway/edge 선제 제한 | 공개 API, 인증 전 endpoint |
 | 비용/성능 | 과부하 후 실패 | 진입점 차단 | backend CPU 70% 이상 전 차단 |

@@ -111,7 +111,7 @@ Device/Sensor -> Gateway/Edge -> Network -> IoT Platform
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 처리 위치 | cloud-only | edge+cloud hybrid | 지연 100ms 이하 제어 |
 | 프로토콜 | HTTP polling | MQTT/CoAP pub-sub | 저전력·저대역폭 장치 |

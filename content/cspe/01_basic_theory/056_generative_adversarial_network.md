@@ -141,7 +141,7 @@ min_G max_D V(D, G) = E_x[log D(x)] + E_z[log(1 - D(G(z)))]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | VAE (Variational Autoencoder) | GAN | Diffusion Model |
+| 구분 | VAE (Variational Autoencoder) | GAN | Diffusion Model |
 |:---|:---|:---|:---|
 | 생성 원리 | 인코딩 후 정규분포에서 샘플링(디코딩) 복원 | 판별자를 속이는 적대적 학습 생성 | 노이즈 주입(Forward) 후 반복 제거(Reverse) |
 | 품질과 속도 | 빠르고 안정적이나 이미지가 뭉개짐(Blurry) | 선명한 고품질(Sharp) 이나 모드 붕괴 위험 | 품질 최고 수준이나 반복 연산으로 추론 매우 느림 |

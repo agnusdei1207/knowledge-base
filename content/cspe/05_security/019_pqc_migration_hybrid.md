@@ -113,7 +113,7 @@ Crypto Inventory -> Risk Scoring -> Target Profile
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RSA/ECC 단독 | ECDHE+ML-KEM, ECDSA+ML-DSA | 외부 노출·장기 기밀성 |
 | 비용/성능 | 작은 메시지 | KB급 키·서명 증가 | MTU 1500, handshake p95 |

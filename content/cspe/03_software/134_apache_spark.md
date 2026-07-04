@@ -140,7 +140,7 @@ DataFrame 생성 -> Transformation 누적 -> Action 호출
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | MapReduce batch | DAG + executor | 다단계 ETL, ML 반복 연산 |
 | 비용/성능 | disk I/O 중심 | memory cache + spill 제어 | cache hit, shuffle read/write |

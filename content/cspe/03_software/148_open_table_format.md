@@ -150,7 +150,7 @@ Object Storage -> Data Files -> Table Metadata Layer -> Catalog -> Engines
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 오픈 테이블 포맷 | 선택 기준 |
+| 구분 | 기존/대안 | 오픈 테이블 포맷 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Hive/파일 listing | ACID metadata layer | update/delete와 snapshot 필요 |
 | 비용/성능 | 파일 스캔·파티션 의존 | pruning, statistics, compaction | 파일 수 100만 개 이상 |

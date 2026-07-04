@@ -139,7 +139,7 @@ Service Transaction -> Business Table + Outbox Table
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 트랜잭션 | 2PC | local transaction + outbox | 서비스 독립성과 브로커 분리 필요 시 |
 | 발행 | API 처리 중 직접 publish | 비동기 publisher/CDC | DB commit 이후 재시도 필요 시 |

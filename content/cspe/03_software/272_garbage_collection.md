@@ -151,7 +151,7 @@ GC Roots -> Object Graph -> Reachability Analysis
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 수동 관리 | `malloc/free` | 자동 GC | use-after-free 위험을 런타임으로 이전 |
 | 처리량 우선 | Parallel GC | G1/ZGC | 배치 처리량 vs p99 pause 기준 |

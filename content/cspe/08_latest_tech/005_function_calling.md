@@ -108,7 +108,7 @@ User Intent -> LLM -> Function Schema -> Function Call JSON
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 자연어 출력 | Function Calling | 선택 기준 |
+| 구분 | 자연어 출력 | Function Calling | 선택 기준 |
 |:---|:---|:---|:---|
 | 형식 | 자유 텍스트 | JSON 인자 (함수명·타입·enum) | API 연계 필요 여부 |
 | 검증 | 프롬프트 의존 | 스키마+서버 재검증 | 입력 오류 허용 범위 |

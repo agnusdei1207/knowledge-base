@@ -108,7 +108,7 @@ Prefill 완료 -> Decode Loop
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존(기본 decode) | TPOT 최적화 적용 | 선택 기준 |
+| 구분 | 기존(기본 decode) | TPOT 최적화 적용 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 1-step-1-token 순차 | Speculative Decoding(draft+verify) | 출력 500토큰 이상 장문 시 적용 |
 | 비용/성능 | 70B A100 TPOT 30ms/token | INT8 양자화 시 18ms/token | 정확도 회귀 MMLU 1% 이내 |

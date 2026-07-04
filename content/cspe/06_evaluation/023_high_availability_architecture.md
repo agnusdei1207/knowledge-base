@@ -117,7 +117,7 @@ Client -> LB/VIP -> Active Node A / Active Node B (Active-Active)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Active-Active | Active-Standby | 선택 기준 |
+| 구분 | Active-Active | Active-Standby | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 다중 노드 동시 처리 | 주-대기 노드 구조 | 처리량 요구와 정합성 요구 |
 | 비용/성능 | 유휴 자원 최소, 인프라 비용 효율 | Standby 자원 유휴로 비용 증가 | 자원 활용률 목표 |

@@ -109,7 +109,7 @@ Agent Task -> Sandbox Runtime -> Policy Guard -> Limited Resources
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 호스트 직접 실행 | Agent Sandbox | 선택 기준 |
+| 구분 | 호스트 직접 실행 | Agent Sandbox | 선택 기준 |
 |:---|:---|:---|:---|
 | 권한 범위 | 호스트 전체 권한 노출 | read-only FS, 비특권 UID | 데이터 민감도·변경 영향 |
 | 네트워크 | 외부망 자유 접근 | egress allowlist, 내부망 제한 | 외부 API 호출 필요 여부 |

@@ -142,7 +142,7 @@ Change Commit -> Build Image -> Test/Scan/Sign
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Immutable Infrastructure | 선택 기준 |
+| 구분 | 기존/대안 | Immutable Infrastructure | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 장기 운영 서버 | 폐기 가능한 runtime | auto scaling, container 환경 |
 | 비용/성능 | 현장 패치 시간 | 빌드·배포 pipeline 시간 | 배포 10분 이하, rollback 5분 이하 |

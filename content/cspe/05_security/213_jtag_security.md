@@ -115,7 +115,7 @@ JTAG pins TCK/TMS/TDI/TDO -> TAP controller -> boundary scan/debug access
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 헤더 미장착 | 인증·fuse·lifecycle 기반 통제 | test point 재연결 가능성 |
 | 비용/성능 | 생산 검사 중심 | 보안 부팅과 debug auth 연계 | ATE 시간 증가 1~3초 허용 |

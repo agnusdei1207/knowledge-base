@@ -115,7 +115,7 @@ Action Result -> SIEM/SOAR Feedback -> Rule/Playbook Tuning
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | SIEM 우선 개선 | SOAR 우선 도입 | 선택 기준 |
+| 구분 | SIEM 우선 개선 | SOAR 우선 도입 | 선택 기준 |
 |:---|:---|:---|:---|
 | 현재 문제 | 탐지 공백, 로그 누락 | 경보 처리 지연, 반복 작업 | MTTD와 MTTR 병목 |
 | 데이터 조건 | 로그 소스와 파서 필요 | SIEM 경보와 API 도구 필요 | 데이터 품질과 연동 가능성 |

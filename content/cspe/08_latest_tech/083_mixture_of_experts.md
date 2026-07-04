@@ -98,7 +98,7 @@ Token Hidden State -> Router -> Top-k Experts
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Dense 확장 (70B급) | MoE 확장 (총량↑·활성 고정) | 선택 기준 |
+| 구분 | Dense 확장 (70B급) | MoE 확장 (총량↑·활성 고정) | 선택 기준 |
 |:---|:---|:---|:---|
 | 추론 비용 | 파라미터 비례 증가 | active FLOPs 고정 | 추론 트래픽이 크면 MoE |
 | 인프라 요구 | TP/PP 병렬 | EP+all-to-all 고대역 통신 | NVLink·IB 대역폭 보유 여부 |

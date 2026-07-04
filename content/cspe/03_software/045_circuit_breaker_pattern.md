@@ -141,7 +141,7 @@ Metrics -> failure rate / slow call rate / timeout -> State Transition
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | timeout+retry만 적용 | breaker+fallback+bulkhead | 외부 호출 p95 500ms 초과 또는 5xx 급증 |
 | 비용/성능 | 호출 지속으로 부하 누적 | fail-fast로 대기 시간 제한 | p99 지연 1초 이하 목표 |

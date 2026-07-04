@@ -103,7 +103,7 @@ Logical Token Sequence -> Block Table -> Physical KV Blocks (B0/B1/B2/.../Bn)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 연속 KV Cache | PagedAttention | 선택 기준 |
+| 구분 | 연속 KV Cache | PagedAttention | 선택 기준 |
 |:---|:---|:---|:---|
 | 메모리 배치 | 세션별 연속 공간, 단편화 발생 | 고정 블록 분산, 단편화 제거 | OOM 발생률 비교 |
 | 동시 세션 | 단편화로 세션 수 제한 | 블록 회수로 세션 수 증가 | 동일 GPU req/s 측정 |

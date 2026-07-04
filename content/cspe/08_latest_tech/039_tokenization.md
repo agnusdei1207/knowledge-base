@@ -109,7 +109,7 @@ Raw Text -> Normalizer -> Pre-tokenizer -> Subword Tokenizer
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 단어 단위 토큰화 | 부분단어 토큰화(BPE/SentencePiece) | 선택 기준 |
+| 구분 | 단어 단위 토큰화 | 부분단어 토큰화(BPE/SentencePiece) | 선택 기준 |
 |:---|:---|:---|:---|
 | OOV 대응 | 미등록어 UNK 처리 | 부분문자열로 분해, UNK율 0% 근접 | 전문 용어·신조어 빈도 |
 | 어휘 크기 | 수백K 이상, 임베딩 파라미터 비용 증가 | 32K~128K 범위 | 모델 파라미터 예산 |

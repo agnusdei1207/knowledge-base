@@ -122,7 +122,7 @@ App 배포 -> Execution Mgmt가 App 실행 -> Service Provider 등록 -> Service
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 하이퍼바이저 가상화 | AUTOSAR Adaptive | 선택 기준 |
+| 구분 | 하이퍼바이저 가상화 | AUTOSAR Adaptive | 선택 기준 |
 |:---|:---|:---|:---|
 | 격리 수준 | HW 레벨 격리 (강력함) | 프로세스 레벨 격리 (유연함) | 안전 등급(ASIL) 혼재 시 가상화 병행 |
 | 오버헤드 | 높음 (전체 가상화) | 낮음 (라이브러리 방식) | 자원 제약 상황에서 Adaptive 우위 |

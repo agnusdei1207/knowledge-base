@@ -99,7 +99,7 @@ Query -> Rewrite/Decompose -> Hybrid Search -> Reranker
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Advanced RAG | Agentic RAG | 선택 기준 |
+| 구분 | Advanced RAG | Agentic RAG | 선택 기준 |
 |:---|:---|:---|:---|
 | 실행 구조 | 고정 단계 파이프라인으로 지연 예측 가능 | 계획 기반 반복 호출로 지연 가변 | 응답 지연 SLA 2초 이내면 Advanced |
 | 질의 복잡도 대응 | 단일 주제 질의에 최적 | 질의 분해·다중 도구 결합 대응 | 다단계 추론 질의 비율 높으면 Agentic |

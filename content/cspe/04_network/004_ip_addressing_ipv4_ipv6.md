@@ -113,7 +113,7 @@ IPv6 주소 (128비트) : Routing Prefix (48) | Subnet ID (16) | Interface ID (6
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | NAT 적용 IPv4 | Native IPv6 | 선택 기준 |
+| 구분 | NAT 적용 IPv4 | Native IPv6 | 선택 기준 |
 |:---|:---|:---|:---|
 | 통신 방향성 | 내부 -> 외부만 원활 (포트 포워딩 필요) | 양방향 End-to-End 직접 통신 | P2P, WebRTC, VoIP 등 실시간 세션 요구사항 |
 | 네트워크 복잡도 | NAT 라우터 유지 및 세션 테이블 관리 | NAT 불필요, 단순한 라우팅 | 관문 라우터의 메모리 및 세션 한계(Port Exhaustion) |

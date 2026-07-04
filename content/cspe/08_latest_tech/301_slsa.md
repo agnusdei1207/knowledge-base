@@ -117,7 +117,7 @@ Source -> Build -> Distribution -> Deployment
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | SBOM (Software Bill of Materials) | SLSA (Supply-chain Levels) | 선택 기준 |
+| 구분 | SBOM (Software Bill of Materials) | SLSA (Supply-chain Levels) | 선택 기준 |
 |:---|:---|:---|:---|
 | 중심 영역 | 아티팩트 구성 성분 (What) | 빌드 및 배포 프로세스 (How) | 성분 분석 vs 프로세스 신뢰 |
 | 표준 포맷 | SPDX, CycloneDX | SLSA Provenance (In-toto) | 호환성 및 자동화 요건 |

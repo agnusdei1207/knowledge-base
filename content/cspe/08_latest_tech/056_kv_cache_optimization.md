@@ -103,7 +103,7 @@ Prompt Prefill -> K/V Tensor 생성 -> KV Cache 저장
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | KV Cache 미적용 | KV Cache 최적화 적용 | 선택 기준 |
+| 구분 | KV Cache 미적용 | KV Cache 최적화 적용 | 선택 기준 |
 |:---|:---|:---|:---|
 | 계산량 | 과거 토큰 매번 재계산 O(T²) | 신규 토큰만 계산 O(T) | decode FLOPs 감소율 |
 | 메모리 | 낮음(저장 없음) | 세션당 수 GB(FP16, 32L/32H/128d) | GPU VRAM 대비 동시 세션 수 |

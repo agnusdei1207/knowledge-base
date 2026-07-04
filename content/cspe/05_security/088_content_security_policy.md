@@ -112,7 +112,7 @@ Web Server -> CSP Header -> Browser Policy Engine
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | XSS 대응 | 입력 검증·출력 인코딩 | 브라우저 실행 정책 추가 | 저장형·DOM XSS 피해 제한 |
 | inline 허용 | `unsafe-inline` | nonce 또는 hash | SSR/템플릿 기반 앱은 nonce 우선 |

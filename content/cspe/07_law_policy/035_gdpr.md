@@ -120,7 +120,7 @@ Personal Data Collection -> Lawful Basis Confirm
 ---
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | GDPR | 선택 기준 |
+| 구분 | 기존/대안 | GDPR | 선택 기준 |
 |:---|:---|:---|:---|
 | 법 체계 | 1995년 Directive(회원국별 이행) | Regulation(EU 전역 직접 적용) | 통일 규제 필요 여부 |
 | 적용 범위 | EU 역내 사업자 중심 | 역외 적용(EU 거주자 데이터 처리 시) | EU 거주자 대상 서비스 여부 |

@@ -116,7 +116,7 @@ Sensor/Actuator -> PLC/RTU -> Edge Gateway -> IIoT Platform -> MES/ERP/CMMS
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | IIoT | 선택 기준 |
+| 구분 | 기존/대안 | IIoT | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | SCADA 단독 모니터링 | Edge+Platform+MES 연계 | 설비 수 100대 이상 또는 다공장 통합 |
 | 통신 | Fieldbus 폐쇄망 | OPC UA/MQTT over IP | 벤더 혼재, 원격 분석 필요 |

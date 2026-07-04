@@ -114,7 +114,7 @@ Victim Prefix / Attacker AS -> BGP Advertisement -> Upstream / IX
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 방지 체계 | 선택 기준 |
+| 구분 | 기존/대안 | 방지 체계 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 수동 prefix-list | RPKI+IRR+monitoring | AS 운영 규모와 prefix 수 |
 | 비용/성능 | 운영 부담 낮음 | validator·모니터링 비용 | hijack 피해 비용과 MTTR |

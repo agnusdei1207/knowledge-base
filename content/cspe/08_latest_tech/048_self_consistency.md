@@ -108,7 +108,7 @@ Prompt+문제 -> CoT 경로1 -> 답: 42
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안(Greedy CoT) | 본 키워드(Self-Consistency) | 선택 기준 |
+| 구분 | 기존/대안(Greedy CoT) | 본 키워드(Self-Consistency) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 경로, temperature=0 | 다중 경로(n=5~40), temperature=0.5~0.7 | 이산 답변이면 SC, 자유형이면 USC |
 | 비용/성능 | 1회 호출 | n회 호출(비용 n배) | GSM8K +18%p 대비 비용 증가 감내 시 적용 |

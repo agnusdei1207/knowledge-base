@@ -146,7 +146,7 @@ weight: 49
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | SGD with Momentum | Adam / RMSProp | 선택 기준 |
+| 구분 | SGD with Momentum | Adam / RMSProp | 선택 기준 |
 |:---|:---|:---|:---|
 | 활용 분야 | 컴퓨터 비전 (ResNet, VGG) | 자연어 처리 (Transformer), 강화학습 | 일반화 성능 vs 수렴 속도 |
 | 파라미터 튜닝 | 학습률, 모멘텀 계수 수동 튜닝 민감 | β1=0.9, β2=0.999 디폴트값 안정 | 자원 제약 시 Adam 우선 적용 |

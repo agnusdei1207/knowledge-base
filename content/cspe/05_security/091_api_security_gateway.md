@@ -115,7 +115,7 @@ Client -> TLS/mTLS -> API Gateway -> Policy/WAF/Rate Limit -> Backend API -> Aud
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 서비스별 보안 코드 | Gateway 공통 정책+서비스 재검증 | API 30개 이상, 파트너 연계 |
 | 비용/성능 | 직접 구현 | 관리형 Gateway 또는 Envoy 기반 | p95 gateway latency 20ms 이하 |

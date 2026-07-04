@@ -141,7 +141,7 @@ Pod 생성 -> label identity 할당 -> policy compile -> eBPF map 갱신 -> pack
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Flannel/Calico iptables | Cilium eBPF | 정책 수와 service 수 증가 환경 |
 | 비용/처리 | rule chain 증가 | map lookup | p99 latency와 CPU 측정 |

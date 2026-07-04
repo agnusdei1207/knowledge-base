@@ -119,7 +119,7 @@ Training Concept: P(Y|X) at t0 -> Prediction Service -> Feedback Loop
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Data Drift (P(X)) | Concept Drift (P(Y\|X)) | 선택 기준 |
+| 구분 | Data Drift (P(X)) | Concept Drift (P(Y\|X)) | 선택 기준 |
 |:---|:---|:---|:---|
 | 핵심 현상 | 입력 분포의 변화 | 관계/규칙의 변화 | 변화의 근본 원인 |
 | 탐지 지표 | PSI, KS-test (입력값 중심) | Accuracy, F1 (결과값 중심) | 데이터 확보 상태 |

@@ -138,7 +138,7 @@ CPU 코어 [ 논리 주소 (VPN + Offset) 발행 ]
 
 ## Ⅳ. 심화 비교 (MMU vs MPU, 그리고 역할 분담)
 
-| 비교 축 | MPU (Memory Protection Unit) | MMU (Memory Management Unit) | 판단 포인트 |
+| 구분 | MPU (Memory Protection Unit) | MMU (Memory Management Unit) | 판단 포인트 |
 |:---|:---|:---|:---|
 | 주 역할 | 메모리 '보호' 전담 | 메모리 '보호' + 가상 주소 '변환' | 가상 메모리(페이징) 지원 여부 |
 | 적용 타겟 | 소형 임베디드 칩 (Cortex-M) | 범용 프로세서 (Cortex-A, x86) | OS의 복잡도 (RTOS vs 범용 Linux) |

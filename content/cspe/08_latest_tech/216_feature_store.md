@@ -115,7 +115,7 @@ Data Source -> Ingestion (ETL) -> Feature Registry (Metadata)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | DIY (자체 구축) | Managed/OSS (Feast/Tecton) | 선택 기준 |
+| 구분 | DIY (자체 구축) | Managed/OSS (Feast/Tecton) | 선택 기준 |
 |:---|:---|:---|:---|
 | 초기 구축 비용 | 높음 (인프라 엔지니어링 필요) | 낮음 (표준 인터페이스 제공) | 전문 인력 및 예산 |
 | 유연성 | 최고 (사내 환경 최적화) | 높음 (표준 기능 활용) | 특수 요구사항 유무 |

@@ -146,7 +146,7 @@ weight: 63
 
 ## Ⅳ. 심화 비교: SIMD(가속기) vs MIMD(멀티코어) 아키텍처 철저 대조표
 
-| 비교 축 | SIMD (Single Inst. Multiple Data) | MIMD (Multiple Inst. Multiple Data) |
+| 구분 | SIMD (Single Inst. Multiple Data) | MIMD (Multiple Inst. Multiple Data) |
 |:---|:---|:---|
 | 병렬성(Parallelism) 기준 | **데이터(Data) 병렬성** (같은 동작 반복) | **태스크(Task) 병렬성** (독립적 프로그램 실행) |
 | 트랜지스터 칩 다이(Die) 배분 | 제어부 극소화, **연산부(ALU) 최대화 극단적 효율** | **제어부/거대 캐시 할당 증가**, 연산부 밀도 낮음 |

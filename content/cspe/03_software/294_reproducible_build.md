@@ -142,7 +142,7 @@ Source Commit -> Pinned Dependency -> Hermetic Build Env -> Artifact -> Hash Com
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 일반 CI 빌드 | hermetic + deterministic build | 배포 산출물 무결성 요구 |
 | 비용/성능 | 설정 단순 | 캐시·고정 저장소 운영 | 빌드 시간 증가 20% 이하 |

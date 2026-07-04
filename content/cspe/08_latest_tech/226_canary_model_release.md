@@ -119,7 +119,7 @@ User Request -> Traffic Router (Load Balancer/API Gateway)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 사용자 그룹 기반 (Targeted) | 가중치 기반 (Weighted) | 선택 기준 |
+| 구분 | 사용자 그룹 기반 (Targeted) | 가중치 기반 (Weighted) | 선택 기준 |
 |:---|:---|:---|:---|
 | 분할 방식 | 특정 ID, 지역, 디바이스 기준 | 단순 트래픽 비율 (Round Robin) | 테스트 대상의 특수성 |
 | 장점 | 특정 계층 영향도 정밀 파악 | 구현이 단순하고 부하 분산 용이 | 인프라 제어 편의성 |

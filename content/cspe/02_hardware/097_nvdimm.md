@@ -143,7 +143,7 @@ Host (CPU/Memory Controller) <-> [ DDR Bus Interface ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 일반 DRAM | NVDIMM | NVMe SSD |
+| 구분 | 일반 DRAM | NVDIMM | NVMe SSD |
 |:---|:---|:---|:---|
 | 지연 시간 (Latency) | ~100ns | ~100ns | ~100us (1000배 차이) |
 | 데이터 보존 | 전원 차단 시 소멸 | 보존 가능 | 보존 가능 |

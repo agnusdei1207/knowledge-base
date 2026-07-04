@@ -114,7 +114,7 @@ Experiment Tracking -> Model Registration -> Model Registry (Central Hub)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 오픈소스 (MLflow Registry) | 클라우드 전용 (SageMaker/Vertex) | 선택 기준 |
+| 구분 | 오픈소스 (MLflow Registry) | 클라우드 전용 (SageMaker/Vertex) | 선택 기준 |
 |:---|:---|:---|:---|
 | 확장성 | 직접 구축/관리 필요 | 자동 확장 및 관리형 서비스 | 운영 리소스 가용성 |
 | 통합성 | 다양한 플랫폼 연동 가능 | 해당 클라우드 서비스 최적화 | 기존 인프라 환경 |

@@ -115,7 +115,7 @@ Client -> IdP/MFA -> SDP Controller -> Policy Decision
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | VPN/방화벽 | SDP | 선택 기준 |
+| 구분 | VPN/방화벽 | SDP | 선택 기준 |
 |:---|:---|:---|:---|
 | 보호 대상 | 네트워크 대역 | 애플리케이션, 관리 포트 | 앱 단위 권한 분리 필요성 |
 | 통제 위치 | 경계 장비 | Controller와 Gateway | 클라우드·재택 분산 환경 |

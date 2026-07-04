@@ -117,7 +117,7 @@ weight: 22
 
 ## Ⅲ. 현대 운영체제별 상용 파일 시스템 비교 (NTFS, ext4, APFS)
 
-| 비교 축 | NTFS (Windows 표준) | ext4 (Linux 표준) | APFS (macOS/iOS 표준) |
+| 구분 | NTFS (Windows 표준) | ext4 (Linux 표준) | APFS (macOS/iOS 표준) |
 |:---|:---|:---|:---|
 | **핵심 철학** | 완벽한 권한 제어와 복구(저널링) | 서버 스토리지 대용량 처리 안정성 | **플래시 메모리(SSD) 맞춤형 최적화** |
 | **데이터 구조** | MFT (Master File Table) 트리에 메타 보관 | Extents 기법 도입으로 대형 연속 블록 포인터 압축 할당 | 64비트 Inode 체계, Space Sharing (파티션 간 남는 공간 공유) |

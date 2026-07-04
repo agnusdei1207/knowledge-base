@@ -146,7 +146,7 @@ User Process -> Rootless Runtime -> User Namespace -> Container Process
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | root daemon | rootless runtime | 개발자 워크스테이션, 다중 사용자 서버 |
 | 비용/처리 | CNI 직접 경로 | 사용자 공간 네트워크 | p95 지연 기준선 대비 20% 이내 |

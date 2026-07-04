@@ -115,7 +115,7 @@ SIEM 경보 수신 -> 중복 제거 -> CTI/자산 enrichment
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 자동화 대상 | L1 수동 triage | enrichment, dedup, ticket, containment | 반복 경보 월 500건 이상 |
 | 대응 통제 | 담당자 판단 | approval gate, RBAC, rollback | 업무 영향 action 포함 시 |

@@ -98,7 +98,7 @@ Text -> Text Normalization -> Acoustic Model
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 자기회귀 TTS(Tacotron 계열) | 비자기회귀 TTS(FastSpeech 계열) | 선택 기준 |
+| 구분 | 자기회귀 TTS(Tacotron 계열) | 비자기회귀 TTS(FastSpeech 계열) | 선택 기준 |
 |:---|:---|:---|:---|
 | 생성 방식 | mel 프레임 순차 생성 | 길이 예측 후 병렬 생성 | 실시간 응답 요구 수준 |
 | 합성 안정성 | 정렬 실패 시 단어 건너뜀·반복 발생 가능 | duration 기반 정렬로 안정적 | 장문 낭독 안정성 요구 |

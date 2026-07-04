@@ -98,7 +98,7 @@ Answer -> Claim Decomposition -> Context Matching
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 인간 평가(수동) | Faithfulness(LLM Judge 자동) | 선택 기준 |
+| 구분 | 인간 평가(수동) | Faithfulness(LLM Judge 자동) | 선택 기준 |
 |:---|:---|:---|:---|
 | 평가 방식 | 인간 평가: 3~5인 전문가 판정, 1건당 10분 | LLM Judge + NLI 자동 판정, 1건당 0.3초 | 평가셋 1,000건 이상이면 자동화 |
 | 환각 탐지 | 답변 수준 이진 분류 | claim 단위 분해 후 개별 판정 | 문장별 원인 추적이 필요하면 Faithfulness |

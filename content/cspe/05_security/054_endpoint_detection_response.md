@@ -113,7 +113,7 @@ Endpoint Agent -> Telemetry 수집 -> 행위 분석 -> Alert/Timeline -> Respons
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | EDR | 선택 기준 |
+| 구분 | 기존/대안 | EDR | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | AV/NGAV 단독 | agent telemetry와 중앙 분석 | 서버·PC 관리 자산 500대 이상 |
 | 비용/처리 | 낮은 저장량, 낮은 조사 정보 | telemetry 저장·분석 비용 발생 | 보존 30일 이상 필요 |

@@ -141,7 +141,7 @@ Git Repo -> Playbook/Recipe/Manifest -> Inventory/Node
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Ansible·Chef·Puppet | 선택 기준 |
+| 구분 | 기존/대안 | Ansible·Chef·Puppet | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 수동 SSH 작업 | 코드 기반 구성 수렴 | 서버 50대 이상 또는 감사 대상 시스템 |
 | 비용/성능 | 작업자별 편차 | 반복 실행과 리포트 | 월 패치 작업 8시간 이하 목표 |

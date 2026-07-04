@@ -143,7 +143,7 @@ Map Task -> Shuffle/Sort -> Reduce Task -> HDFS Output
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RDBMS batch | HDFS+MapReduce | 비정형 로그 TB 단위 처리 |
 | 비용/성능 | scale-up 서버 | commodity cluster | 처리시간 목표가 분~시간 단위 |

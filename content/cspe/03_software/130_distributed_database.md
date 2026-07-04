@@ -135,7 +135,7 @@ Request -> Shard Key Resolve -> Replica Select -> Local Execute -> Consensus/Com
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 RDB | sharding + replication | 저장량 TB 단위, TPS 증가율 |
 | 비용/성능 | 고사양 서버 | 노드 수평 확장 | cross-shard 비율 10% 이하 |

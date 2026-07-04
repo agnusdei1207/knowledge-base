@@ -115,7 +115,7 @@ User -> DNS GSLB / Anycast -> Edge POP -> Cache lookup
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Global CDN | 선택 기준 |
+| 구분 | 기존/대안 | Global CDN | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 리전 오리진 | 다중 POP edge | 글로벌 사용자 비율 30% 이상 |
 | 비용/성능 | 클라우드 egress 집중 | CDN egress·request 과금 | origin egress 절감액과 CDN 비용 비교 |

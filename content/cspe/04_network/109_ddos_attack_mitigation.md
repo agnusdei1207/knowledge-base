@@ -117,7 +117,7 @@ HTTP Flood -> application worker
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | DDoS 대응 | 선택 기준 |
+| 구분 | 기존/대안 | DDoS 대응 | 선택 기준 |
 |:---|:---|:---|:---|
 | 온프레미스 장비 | 방화벽·IPS | scrubbing+CDN 연계 | 회선 용량 초과 공격 |
 | 네트워크 계층 | ACL·RTBH | BGP diversion, Flowspec | 대용량 pps/bps |

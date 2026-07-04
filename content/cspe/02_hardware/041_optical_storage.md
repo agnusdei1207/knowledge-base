@@ -126,7 +126,7 @@ weight: 41
 
 광디스크 기술을 수백 장의 랙(Rack)으로 묶은 엔터프라이즈 ODA(Optical Disc Archive)와 기존 HDD 아카이빙 시스템의 비교.
 
-| 비교 축 | HDD(Nearline SAS) Array | ODA (Optical Disc Archive 라이브러리) | 데이터센터 TCO 선택 기준 |
+| 구분 | HDD(Nearline SAS) Array | ODA (Optical Disc Archive 라이브러리) | 데이터센터 TCO 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 보존 수명 | 5 ~ 10년 (자력 소실, 모터 고장) | **50 ~ 100년 (물리적 열화 거의 없음)** | 마이그레이션(주기적 데이터 이사) 비용 제거 |
 | 대기 전력 / 발열 | 매우 높음 (디스크 회전 항시 대기) | **제로(0) (전원 뽑힌 채 서랍장에 보관됨)** | 데이터센터 전력 효율(PUE) 극단적 하락 |

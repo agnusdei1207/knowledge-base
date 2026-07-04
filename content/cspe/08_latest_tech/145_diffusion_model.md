@@ -98,7 +98,7 @@ Noisy xt + Condition -> Denoising U-Net -> x(t-1) -> Generated Data
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Autoregressive 생성(Transformer) | Diffusion Model | 선택 기준 |
+| 구분 | Autoregressive 생성(Transformer) | Diffusion Model | 선택 기준 |
 |:---|:---|:---|:---|
 | 생성 방식 | 토큰 단위 순차 생성 | 전체 샘플을 반복 정제(병렬 denoising) | 출력 데이터의 순차성 여부 |
 | 편집 유연성 | 생성 후 부분 수정 제약 | inpainting·img2img 등 부분 편집 용이 | 편집 워크플로우 필요성 |

@@ -114,7 +114,7 @@ GPU 0 (Memory) -> NVLink Port -> NVSwitch -> NVLink Port -> GPU 1 (Memory)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | PCIe (표준) | NVLink (전용) | 선택 기준 |
+| 구분 | PCIe (표준) | NVLink (전용) | 선택 기준 |
 |:---|:---|:---|:---|
 | 통신 방식 | CPU 경유 (Root Complex) | GPU 간 직접 통신 (P2P) | 지연 시간 민감도 |
 | 대역폭 | 128GB/s (Gen5 x16) | 900GB/s ~ 1.8TB/s | 데이터 전송량 (LLM 학습) |

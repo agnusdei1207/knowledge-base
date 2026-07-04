@@ -111,7 +111,7 @@ User Session -> Signal Collector -> Risk Scoring Engine -> Policy Decision
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 연속 인증 | 선택 기준 |
+| 구분 | 기존/대안 | 연속 인증 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 로그인 시 MFA | 세션 신호+위험 점수+정책 집행 | SaaS·원격 세션 8시간 이상 |
 | 비용/성능 | IdP 중심 단순 로그 | UEBA·SIEM·IdP 연계 | 정책 판단 p95 150ms 이하 |

@@ -114,7 +114,7 @@ Finding -> Risk Rating -> Remediation -> Regression Test -> Report
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 보안 스캐너 중심 | 수동 공격+자동 prompt regression | LLM/RAG/Agent 포함 서비스는 AI 레드팀 적용 |
 | 범위 | 인프라·웹 취약점 | 모델 평가, 구현 테스트, 인프라 평가, 런타임 분석 | OWASP GenAI Red Teaming 4영역 |

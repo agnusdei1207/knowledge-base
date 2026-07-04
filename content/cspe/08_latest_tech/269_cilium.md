@@ -119,7 +119,7 @@ Packet In -> NIC Driver (XDP) -> eBPF Hook -> Identity Lookup -> Policy Check ->
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Calico (기본 CNI) | Cilium (eBPF CNI) | 선택 기준 |
+| 구분 | Calico (기본 CNI) | Cilium (eBPF CNI) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 처리 | iptables / IPVS / BGP | eBPF (Direct Data Path) | 대규모 트래픽 처리 성능 |
 | 보안 정책 | IP / CIDR 기반 | Identity / Label / DNS 기반 | 동적 환경의 정책 관리 편의성 |

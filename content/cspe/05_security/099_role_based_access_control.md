@@ -115,7 +115,7 @@ User Login -> Identity Verify -> Role Load
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | RBAC | 선택 기준 |
+| 구분 | 기존/대안 | RBAC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | ACL | User-Role-Permission | 직무 반복성이 높고 감사 필요 |
 | 비용/성능 | 권한 직접 관리 | role engineering 초기 비용 | 사용자 500명 이상, 업무 역할 20개 이상 |

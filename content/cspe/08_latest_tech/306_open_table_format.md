@@ -120,7 +120,7 @@ Read (Trino)  <- [ Metadata Query ] <- [ Snapshot 확인 ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 파일 포맷 (File Format) | 오픈 테이블 포맷 (Table Format) | 선택 기준 |
+| 구분 | 파일 포맷 (File Format) | 오픈 테이블 포맷 (Table Format) | 선택 기준 |
 |:---|:---|:---|:---|
 | 관리 단위 | 개별 파일 (Row/Column) | 파일들의 집합 (Table) | 관리 복잡도 |
 | ACID 지원 | 지원 안 함 | 지원함 | 트랜잭션 필요성 |

@@ -114,7 +114,7 @@ OSINT 정찰 -> spear phishing/zero-day 침투 -> persistence 등록
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 탐지 | 경계 IDS 중심 | EDR + SIEM + UEBA + CTI | 내부 이동과 계정 오남용 탐지 필요 시 |
 | 분석 | IoC 차단 | ATT&CK 기반 TTP 분석 | 해시 변경 변종·fileless 공격 |

@@ -145,7 +145,7 @@ Write Request -> DB Commit -> Cache Delete/Update -> Event Audit
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Caching Strategy | 선택 기준 |
+| 구분 | 기존/대안 | Caching Strategy | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | DB 직접 조회 | Cache -> DB 계층화 | 동일 key 반복 조회 10회/min 이상 |
 | 비용/성능 | DB I/O 증가 | hit ratio로 DB QPS 감소 | hit 90%, DB QPS 70% 감소 목표 |

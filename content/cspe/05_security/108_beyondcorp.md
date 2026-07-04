@@ -111,7 +111,7 @@ User Browser -> Access Proxy -> Policy Engine -> Enterprise App
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | BeyondCorp | 선택 기준 |
+| 구분 | 기존/대안 | BeyondCorp | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | VPN Concentrator + 내부망 ACL | Access Proxy + Policy Engine | 웹 기반 업무 앱 비율 60% 이상 |
 | 비용/성능 | VPN 백홀·장비 증설 | 프록시 PoP·IdP 연계 | 정책 결정 p95 200ms 이하 |

@@ -98,7 +98,7 @@ Test Set -> Retriever Eval -> Generator Eval -> Judge/Evaluator
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 정답(Ground Truth) 기반 평가 | LLM-as-Judge 기반 평가 | 선택 기준 |
+| 구분 | 정답(Ground Truth) 기반 평가 | LLM-as-Judge 기반 평가 | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 준비 | 정답·근거 라벨링 비용 발생 | 라벨 없이 답변-컨텍스트만으로 판정 가능 | 라벨링 예산 부족 시 Judge 병행 |
 | 신뢰도 | 결정적 계산, 재현 가능 | Judge 모델 편향·점수 변동 존재 | 배포 게이트 기준은 정답 기반 우선 |

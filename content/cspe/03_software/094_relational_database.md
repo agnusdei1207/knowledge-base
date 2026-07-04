@@ -152,7 +152,7 @@ SQL -> Optimizer -> Execution Engine -> Result Set
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 모델 | Key-Value·Document | Relation·Schema·SQL | 다중 테이블 Join과 강한 정합성 요구 |
 | 비용/성능 | 스키마 자유도 | 정규화와 인덱스 관리 | 쓰기 TPS, Join 비용, 스토리지 중복률 |

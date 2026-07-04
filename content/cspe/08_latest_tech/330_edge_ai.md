@@ -123,7 +123,7 @@ Raw Data -> [ 1. Local Sensing ] -> [ 2. Edge Inference ] -> [ 3. Real-time Act 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 클라우드 AI (Centralized) | 에지 AI (Distributed) | 선택 기준 |
+| 구분 | 클라우드 AI (Centralized) | 에지 AI (Distributed) | 선택 기준 |
 |:---|:---|:---|:---|
 | 연산 능력 | 무제한에 가까운 고성능 (GPU) | 제한적 성능 (NPU, MCU) | 알고리즘 복잡도 |
 | 지연 시간 | 가변적 (수백 ms 이상) | 고정적 (수 ms 이내) | 실시간성 필요도 |

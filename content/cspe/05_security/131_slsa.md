@@ -113,7 +113,7 @@ Commit -> Protected Review -> Hosted Build -> Provenance Generate
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | SCA·이미지 스캔 단독 | SLSA+SBOM+Cosign 체인 | 배포 전 provenance 검증 필요 시 |
 | 비용/성능 | CI 단계 1~2분 스캔 추가 | attestation·서명·정책 검증 추가 | 릴리스 빈도 일 10회 이상이면 자동화 필수 |

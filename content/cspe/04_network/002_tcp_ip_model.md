@@ -113,7 +113,7 @@ HTTP Request -> TCP Header(Port) 부착 -> IP Header(IP) 부착 -> Ethernet Head
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | OSI 7계층 | TCP/IP 4계층 | 선택 기준 |
+| 구분 | OSI 7계층 | TCP/IP 4계층 | 선택 기준 |
 |:---|:---|:---|:---|
 | 표준 주체 | ISO (국제 표준화 기구) | IETF / 미 국방부(DoD) | 이론 분석(OSI) vs 실제 구현(TCP/IP) |
 | 계층 분리도 | 엄격한 7단계 분리 | 실용적 4단계 병합 | 세션/표현 계층 기능 분리 필요성 |

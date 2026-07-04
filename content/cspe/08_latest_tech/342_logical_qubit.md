@@ -122,7 +122,7 @@ weight: 342
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | NISQ (Noisy Intermediate-Scale) | FTQC (Fault-Tolerant) | 선택 기준 |
+| 구분 | NISQ (Noisy Intermediate-Scale) | FTQC (Fault-Tolerant) | 선택 기준 |
 |:---|:---|:---|:---|
 | 사용 큐비트 | 물리 큐비트 (약 수십~수백 개) | 논리 큐비트 (약 수백~수천 개) | 알고리즘의 복잡도 및 정밀도 |
 | 오류 대응 | 오류 억제(Mitigation) 및 근사치 | 오류 정정(Correction) 및 정확치 | 금융, 암호 등 무결성 필수 분야 |

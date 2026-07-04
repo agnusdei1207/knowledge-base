@@ -116,7 +116,7 @@ Client -> List Resources -> Server Response -> LLM Needs Data -> Read Request ->
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 정적 리소스 (Static) | 동적 리소스 (Template) | 선택 기준 |
+| 구분 | 정적 리소스 (Static) | 동적 리소스 (Template) | 선택 기준 |
 |:---|:---|:---|:---|
 | 정의 | 고정된 경로의 데이터 (config 등) | 변수를 포함한 경로 (log/{id} 등) | 데이터의 가변성 및 규모 |
 | 발견 방식 | List Resources로 즉시 확인 | List Resource Templates로 확인 | 경로 미리 알기 가능 여부 |

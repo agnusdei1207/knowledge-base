@@ -113,7 +113,7 @@ Runtime -> Observability / Security / Cost -> Feedback
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 티켓 기반 운영 | IDP 기반 운영 | 선택 기준 |
+| 구분 | 티켓 기반 운영 | IDP 기반 운영 | 선택 기준 |
 |:---|:---|:---|:---|
 | 요청 처리 | 운영팀 수동 처리 | self-service workflow | 반복 요청량 |
 | 표준 준수 | 문서 확인 | template과 policy 내장 | 감사 요구 |

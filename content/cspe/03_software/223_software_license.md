@@ -146,7 +146,7 @@ Source Component -> License Identification -> Obligation Analysis
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Software License 관리 | 선택 기준 |
+| 구분 | 기존/대안 | Software License 관리 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 개발자 임의 사용 | 중앙 정책과 승인 workflow | 제품 배포 전 license gate |
 | 비용/성능 | 사후 법무 검토 | SCA 자동 식별 | 릴리스 지연 1일 이하 목표 |

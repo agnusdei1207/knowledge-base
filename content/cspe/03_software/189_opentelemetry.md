@@ -142,7 +142,7 @@ Application -> OTel SDK/Agent -> OTel Collector -> Processor -> Exporter -> Back
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | APM agent 직접 전송 | SDK -> Collector -> backend | 멀티 backend, 벤더 교체 |
 | 비용/처리 | 전체 trace 저장 | sampling/filter 처리 | trace volume 예산 |

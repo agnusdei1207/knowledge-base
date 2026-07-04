@@ -113,7 +113,7 @@ Alice/Bob -> Authenticated Classical Channel -> Sifting/Error Correction
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | ECDHE/PQC KEM | QKD 전용 링크 | 폐쇄망·전용 회선 보유 |
 | 비용/성능 | 소프트웨어 업데이트 | QKD 장비·광 회선 비용 | 키율 kbps~Mbps와 트래픽 수요 |

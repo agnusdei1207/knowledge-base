@@ -118,7 +118,7 @@ Control: DAI / uRPF / DNSSEC / monitoring
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 계층별 대응 | 선택 기준 |
+| 구분 | 기존/대안 | 계층별 대응 | 선택 기준 |
 |:---|:---|:---|:---|
 | LAN 내부 | 정적 ARP 일부 적용 | DHCP Snooping+DAI | 사용자 단말 많은 VLAN |
 | 경계 라우팅 | ACL 수동 적용 | uRPF, BCP 38 필터 | 출발지 위조 차단 |

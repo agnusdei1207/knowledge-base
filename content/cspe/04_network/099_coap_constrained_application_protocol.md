@@ -112,7 +112,7 @@ Resource 요청 생성 -> UDP 전송 -> CON/NON 처리
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | IoT 메시징 | MQTT broker | CoAP REST resource | device-to-device REST 필요 |
 | 전송 계층 | TCP | UDP | 저전력·작은 MTU 환경 |

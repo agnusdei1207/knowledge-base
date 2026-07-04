@@ -134,7 +134,7 @@ Cooling Tech -> [ PUE (Energy) Down ] -> [ WUE (Water) Up ] : 증발식 냉각
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 공랭식 (Air Cooling) | 수랭식 (Water Cooling) | 액침 냉각 (Immersion) |
+| 구분 | 공랭식 (Air Cooling) | 수랭식 (Water Cooling) | 액침 냉각 (Immersion) |
 |:---|:---|:---|:---|
 | WUE | 0 (물 거의 안 씀) | 1.8 (증발량 많음) | 0 (밀폐형 유체) |
 | PUE | 1.3 ~ 1.5 (높음) | 1.1 ~ 1.2 (낮음) | 1.03 ~ 1.05 (매우 낮음) |

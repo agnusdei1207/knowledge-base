@@ -111,7 +111,7 @@ Test-Time Compute
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안(Train-time Scaling) | 본 키워드(Test-Time Compute) | 선택 기준 |
+| 구분 | 기존/대안(Train-time Scaling) | 본 키워드(Test-Time Compute) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 파라미터 수·데이터 확대 | 추론 시 연산(사고·샘플·정제·탐색) 증가 | 학습 비용 한계 시 TTC로 보완 |
 | 비용/성능 | 학습 100M+, 수개월 | 추론 토큰 10~100배, 실시간 비용 | 14B+TTC ≈ GPT-4o, API 비용 3~6배 |

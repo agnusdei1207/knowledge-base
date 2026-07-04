@@ -98,7 +98,7 @@ Constitution Principles -> Initial Answer -> AI Critique
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | RLHF | Constitutional AI | 선택 기준 |
+| 구분 | RLHF | Constitutional AI | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 | 인간 선호 쌍 수집 | AI critique/revision 자동 생성 | 라벨 비용 제약 시 CAI |
 | 일관성 | 라벨러 편차 존재 | 원칙 기반 일관성 확보 | 안전 기준 표준화 필요 시 CAI |

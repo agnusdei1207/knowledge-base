@@ -134,7 +134,7 @@ weight: 58
 
 ## Ⅳ. 심화 비교: 패키징 집적 기술 철저 대조표 (SoC vs SiP vs Chiplet)
 
-| 비교 축 | Monolithic SoC | SIP (System In Package) | 2.5D / 3D Chiplet 패키징 |
+| 구분 | Monolithic SoC | SIP (System In Package) | 2.5D / 3D Chiplet 패키징 |
 |:---|:---|:---|:---|
 | 정의 / 집적 위치 | 모든 기능을 1개의 실리콘 다이(Die)에 집적 | 독립된 여러 완성 칩을 1개의 패키징 플라스틱 기판에 묶음 | **분할 제조된 기능 조각을 실리콘 인터포저(TSV)에 정밀 융합** |
 | 칩 간(D2D) 통신 속도 | 최고 속도 (On-chip Bus) | 느림 (일반 PCB 배선 한계 노출) | **단일 SoC 속도와 거의 동일 (초광대역 병렬 배선)** |

@@ -98,7 +98,7 @@ target module 선택 -> rank/alpha 설정 -> A·B 학습
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Full FT | LoRA | 선택 기준 |
+| 구분 | Full FT | LoRA | 선택 기준 |
 |:---|:---|:---|:---|
 | 학습 대상 | 전체 weight | A·B 저랭크 행렬(<1%) | GPU 메모리 제약 여부 |
 | 저장·배포 | 모델 사본 필요 | adapter 파일(MB~수백MB) | 도메인 수 × 모델 크기 |

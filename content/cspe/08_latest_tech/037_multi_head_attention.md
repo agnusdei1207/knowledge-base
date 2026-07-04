@@ -107,7 +107,7 @@ Input X -> Wq/Wk/Wv 투영
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존(Single-Head) | Multi-Head Attention | 선택 기준 |
+| 구분 | 기존(Single-Head) | Multi-Head Attention | 선택 기준 |
 |:---|:---|:---|:---|
 | 표현력 | 단일 관련도 행렬 | h개 관련도 행렬 병렬 | 문법·의미·위치 분리 필요 시 MHA |
 | 서빙 메모리 | KV Cache 1세트 | KV Cache h세트(GQA로 축소) | KV Head 32→8 축소 시 GQA |

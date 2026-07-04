@@ -98,7 +98,7 @@ FP16 LLM -> Calibration Activations -> Important Channel Detection
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | GPTQ | AWQ | 선택 기준 |
+| 구분 | GPTQ | AWQ | 선택 기준 |
 |:---|:---|:---|:---|
 | 보정 기준 | Hessian 역행렬(수학적 오차) | activation 통계(입력 중요도) | outlier 심한 모델은 AWQ 유리 |
 | 변환 비용 | layer별 Hessian 계산 | activation 통계 수집 | AWQ가 변환 시간 짧음 |

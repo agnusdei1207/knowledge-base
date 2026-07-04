@@ -99,7 +99,7 @@ Trained Model -> Importance Analysis
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Quantization | Pruning | Distillation | 선택 기준 |
+| 구분 | Quantization | Pruning | Distillation | 선택 기준 |
 |:---|:---|:---|:---|:---|
 | 목적 | 정밀도 축소 | 파라미터 제거 | 모델 축소 | 배포 병목에 따라 선택 |
 | 크기 감소 | FP16→INT4 시 4배 | sparsity 50% 시 구조 제거 | student 모델 크기 결정 | 메모리 병목이면 quantization |

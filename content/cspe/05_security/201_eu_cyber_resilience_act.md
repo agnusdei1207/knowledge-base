@@ -114,7 +114,7 @@ Product with Digital Elements -> Manufacturer Duty -> Conformity Assessment
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | CRA | 선택 기준 |
+| 구분 | 기존/대안 | CRA | 선택 기준 |
 |:---|:---|:---|:---|
 | 규제 성격 | 자율 보안 가이드 | EU 직접 적용 Regulation | EU 시장 출시 여부 |
 | 공급망 | 벤더 설문·계약 조항 | SBOM·취약점 처리 증거 | 제품 구성요소 추적 필요 |

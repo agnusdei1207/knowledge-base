@@ -149,7 +149,7 @@ Application -> Workload Identity -> Secret Manager -> KMS Encryption -> Secret V
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | .env, config file | Secret Manager + KMS | 서비스 5개 이상, 배포 환경 2개 이상 |
 | 비용/성능 | 조회 지연 없음 | 캐시·TTL로 조회 제어 | p95 조회 100ms 이하 |

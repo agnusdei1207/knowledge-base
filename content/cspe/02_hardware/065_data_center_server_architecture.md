@@ -152,7 +152,7 @@ weight: 65
 
 ## Ⅳ. 심화 비교: 엔터프라이즈 전산실 vs 클라우드 데이터센터 아키텍처 철저 대조표
 
-| 비교 축 | 전통적 온프레미스 (Legacy Enterprise 전산실) | 하이퍼스케일 클라우드 데이터 센터 (Hyperscale Cloud) |
+| 구분 | 전통적 온프레미스 (Legacy Enterprise 전산실) | 하이퍼스케일 클라우드 데이터 센터 (Hyperscale Cloud) |
 |:---|:---|:---|
 | 하드웨어 소싱(조달) 사상 | 하이엔드 벤더(IBM, Oracle, HP)의 **고가 독점 장비 소량 도입** (서버가 죽지 않게 튜닝) | 대만/중국(Quanta 등) 화이트박스 범용(Commodity) 조립식 랙 서버 **대량 병렬 투입 (고장 나면 버림)** |
 | 네트워크 계층 아키텍처 | Core -> Distribution -> Access **수직 3계층 (북-남 트래픽 중심)** | Spine -> Leaf **수평 2계층 Fat-Tree (동-서 서버 간 트래픽 무한 가속)** |

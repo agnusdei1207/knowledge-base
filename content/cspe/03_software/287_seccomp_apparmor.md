@@ -145,7 +145,7 @@ Pod 생성 -> securityContext 확인 -> 프로파일 로드 -> system call/파�
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | privileged container | RuntimeDefault와 custom profile | 민감 업무 pod |
 | 비용/성능 | 제한 없음 | profile 적용과 audit tuning | 정상 요청 오류율 1% 이하 |

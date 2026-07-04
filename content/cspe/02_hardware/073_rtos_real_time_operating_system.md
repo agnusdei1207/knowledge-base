@@ -144,7 +144,7 @@ RTOS: "(L) 모가지 쳐! 진행 상태 당장 백업하고 멈춰! CPU 당장 (
 
 ## Ⅳ. 심화 비교: 범용 시스템(GPOS) vs 실시간 운영체제(RTOS) 설계 사상 철저 대조표
 
-| 비교 축 | GPOS (General Purpose OS) | RTOS (Real-Time OS) |
+| 구분 | GPOS (General Purpose OS) | RTOS (Real-Time OS) |
 |:---|:---|:---|
 | **핵심 설계 철학** | **공평성(Fairness)** 및 **전체 처리량(Throughput)** 극대화 | **데드라인 엄수(Deadline)** 및 **시간 결정성(Determinism)** 방어 |
 | **스케줄링 알고리즘** | 라운드 로빈(Round-Robin), 시분할 할당(Time-slicing) | **절대적 우선순위 기반 선점형(Preemptive Priority) 독식** |

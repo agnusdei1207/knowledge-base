@@ -115,7 +115,7 @@ Instruction Fetch -> Data Loading (HBM to SRAM) -> Parallel Compute (MAC) -> Res
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | GPU | FPGA | ASIC (TPU 등) |
+| 구분 | GPU | FPGA | ASIC (TPU 등) |
 |:---|:---|:---|:---|
 | 개발 기간 | 짧음 (표준 라이브러리) | 중간 (HDL 설계) | 매우 긺 (설계-공정-생산) |
 | 유연성 | 소프트웨어 업데이트 대응 | 하드웨어 로직 재구성 가능 | 고정된 기능만 수행 |

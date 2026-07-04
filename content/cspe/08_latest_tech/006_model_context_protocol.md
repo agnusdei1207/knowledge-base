@@ -114,7 +114,7 @@ Initialize -> List Tools/Resources -> Tool Call -> Input Validation -> Backend E
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 로컬 Transport (Stdio) | 원격 Transport (SSE) | 선택 기준 |
+| 구분 | 로컬 Transport (Stdio) | 원격 Transport (SSE) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구현 방식 | 표준 입출력 스트림 기반 | HTTP 기반 SSE (Server-Sent Events) | 네트워크 경계 존재 여부 |
 | 보안성 | 프로세스 격리 환경 | TLS 기반 암호화 통신 필요 | 데이터 민감도 및 격리 요건 |

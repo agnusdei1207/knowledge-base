@@ -109,7 +109,7 @@ Goal -> Constraints -> Task Graph -> Tool Mapping -> Stop Rule
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 직접 Tool Use | Agent Planning | 선택 기준 |
+| 구분 | 직접 Tool Use | Agent Planning | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 즉시 도구 호출 | 목표→Task Graph→도구 매핑 | 실행 단계 3개 이상이면 Planning |
 | 비용/성능 | 호출 즉시 결과 | 계획 생성 토큰 + 실행 토큰 | 계획 비용 대비 불필요 호출 40% 감소 |

@@ -115,7 +115,7 @@ Log Source -> SIEM -> L1 Triage -> L2 Analysis -> L3 Hunting
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 운영 방식 | 부서별 개별 대응 | 중앙 SOC와 escalation 체계 | 다수 보안 장비와 다수 사업부 운영 시 |
 | 분석 깊이 | 경보 단건 처리 | 상관분석, threat hunting, root cause | APT·내부 이동 탐지 필요 시 |

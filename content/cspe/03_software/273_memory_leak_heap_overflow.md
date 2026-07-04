@@ -147,7 +147,7 @@ Application Code -> Heap Allocator/GC -> Heap Object
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | GC 언어 | 자동 회수 | 참조 유지 누수 가능 | retained heap 기준 분석 |
 | C/C++ | 수동 해제 | use-after-free·overflow 가능 | RAII, smart pointer, sanitizer |

@@ -120,7 +120,7 @@ Manifest 정의 -> API 제출 -> 스케줄링(Node 선정) -> 컨테이너 기�
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Kubernetes (K8s) | Docker Swarm | HashiCorp Nomad |
+| 구분 | Kubernetes (K8s) | Docker Swarm | HashiCorp Nomad |
 |:---|:---|:---|:---|
 | 복잡도 | 매우 높음 (학습 곡선 가파름) | 낮음 (도커 네이티브) | 중간 (단일 바이너리) |
 | 확장성 | 최상 (5,000노드 이상) | 중간 (1,000노드 미만) | 높음 (10,000노드 이상) |

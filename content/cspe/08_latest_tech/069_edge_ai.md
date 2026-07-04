@@ -98,7 +98,7 @@ Sensors/Cameras -> Edge Gateway/IPC -> AI Inference
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | On-Device AI | Edge AI | Cloud AI | 선택 기준 |
+| 구분 | On-Device AI | Edge AI | Cloud AI | 선택 기준 |
 |:---|:---|:---|:---|:---|
 | 처리 위치 | 개인 단말 내부 | 현장 게이트웨이·서버 | 중앙 데이터센터 | 데이터 발생-판단 거리 |
 | 지연 | 수십 ms | 10~50ms (LAN) | WAN 왕복 100ms+ | 제어 루프 요구 시간 |

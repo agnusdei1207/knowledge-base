@@ -122,7 +122,7 @@ Go-Back-N (수신 윈도우=1)          Selective Repeat (수신 윈도우>1)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Go-Back-N (GBN) | Selective Repeat (SR) | 선택 기준 |
+| 구분 | Go-Back-N (GBN) | Selective Repeat (SR) | 선택 기준 |
 |:---|:---|:---|:---|
 | ACK 방식 | 누적 ACK (Cumulative) | 개별 ACK (Independent) | 응답 패킷 유실 시의 강건성 (누적 ACK가 유리) |
 | 수신 윈도우 크기 | 1 | N (송신 윈도우 크기와 동일) | 수신 단말의 메모리(버퍼) 가용량 |

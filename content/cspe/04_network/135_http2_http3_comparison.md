@@ -113,7 +113,7 @@ Client 요청 -> ALPN/Alt-Svc 확인 -> h3 가능 시 QUIC 연결
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | HTTP/3 | 선택 기준 |
+| 구분 | 기존/대안 | HTTP/3 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | HTTP/2 over TCP | HTTP/3 over QUIC | 모바일·무선 손실률, CDN 지원 |
 | 비용/성능 | 기존 L7 장비 활용 | QUIC termination 필요 | p95 TTFB 개선과 장비 교체 비용 |

@@ -113,7 +113,7 @@ External Stimulus -> Input Encoding (Spikes) -> Neuron Integration -> Threshold 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 디지털 뉴로모픽 (Intel Loihi 등) | 아날로그 뉴로모픽 (In-memory 기반) | 기술적 차이 |
+| 구분 | 디지털 뉴로모픽 (Intel Loihi 등) | 아날로그 뉴로모픽 (In-memory 기반) | 기술적 차이 |
 |:---|:---|:---|:---|
 | 구현 방식 | 기존 CMOS 로직으로 뇌 모사 | 멤리스터 등 소자 특성 활용 | 정확도 vs 집적도/전력 |
 | 장점 | 검증된 공정, 높은 정확도 | 극단적 저전력, 초고집적 | 하드웨어 성숙도 |

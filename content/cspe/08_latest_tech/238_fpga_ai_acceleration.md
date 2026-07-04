@@ -114,7 +114,7 @@ Algorithm Model -> High-Level Synthesis -> Bitstream Gen -> Hardware Mapping -> 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | CPU/GPU (범용) | FPGA (유연/고성능) | ASIC (고정/최고성능) |
+| 구분 | CPU/GPU (범용) | FPGA (유연/고성능) | ASIC (고정/최고성능) |
 |:---|:---|:---|:---|
 | 설계 유연성 | 매우 높음 (S/W만 변경) | 높음 (H/W 재구성 가능) | 없음 (H/W 고정) |
 | 개발 비용 | 낮음 | 중간 | 매우 높음 (천억 단위) |

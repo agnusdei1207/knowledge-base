@@ -143,7 +143,7 @@ Catalog -> Metadata File -> Snapshot -> Manifest List -> Manifest -> Data / Dele
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Apache Iceberg | 선택 기준 |
+| 구분 | 기존/대안 | Apache Iceberg | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Hive metastore+파일 listing | snapshot/manifest 메타데이터 | 파일 수 100만 개 이상 |
 | 비용/성능 | 파티션 경로 스캔 | metadata pruning | 필터 컬럼 통계 활용 |

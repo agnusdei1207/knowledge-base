@@ -122,7 +122,7 @@ CPU 100% |        /---(최적점)
 
 ## Ⅲ. 스레싱 극복 아키텍처: 워킹 셋(Working Set) vs PFF 
 
-| 비교 축 | 워킹 셋 (Working Set) | 페이지 부재 빈도 (PFF, Page Fault Frequency) |
+| 구분 | 워킹 셋 (Working Set) | 페이지 부재 빈도 (PFF, Page Fault Frequency) |
 |:---|:---|:---|
 | **제어 철학** | **참조 지역성**: 과거 $\Delta$(Window Size) 동안 참조된 페이지 번호들의 집합 추적 | **비율 통제**: 단위 시간당 Page Fault 발생 횟수(비율) 추적 |
 | **프레임 할당 룰** | $\Sigma W_i$(요구 프레임 총합) > 물리 램 크기면, 초과 프로세스를 강제 스왑 아웃 | 폴트율 > 상한선(UB)이면 프레임 추가 증정. 폴트율 < 하한선(LB)이면 프레임 회수 |

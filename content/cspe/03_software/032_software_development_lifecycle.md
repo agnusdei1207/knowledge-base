@@ -148,7 +148,7 @@ Business Goal -> Planning -> Analysis -> Design -> Implementation
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Waterfall/V-Model | Iterative/Agile/DevOps | 선택 기준 |
+| 구분 | Waterfall/V-Model | Iterative/Agile/DevOps | 선택 기준 |
 |:---|:---|:---|:---|
 | 요구사항 | 초기 기준선 고정 | backlog 기반 반복 정제 | 규제·계약 요구가 명확하면 V-Model |
 | 릴리스 | 단계 종료 후 일괄 배포 | sprint 또는 CI/CD 단위 배포 | 월 1회 이상 릴리스면 DevOps |

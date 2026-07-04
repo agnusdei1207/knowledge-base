@@ -142,7 +142,7 @@ Request Receive -> Policy Check -> Header Normalize
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Proxy/Reverse Proxy | 선택 기준 |
+| 구분 | 기존/대안 | Proxy/Reverse Proxy | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 직접 연결 | 중앙 중계 계층 | 공통 정책 3개 이상 중복 시 도입 |
 | 비용/성능 | 각 서버 기능 중복 | TLS·캐시·로그 중앙 처리 | TLS CPU, cache hit, p95 지연 측정 |

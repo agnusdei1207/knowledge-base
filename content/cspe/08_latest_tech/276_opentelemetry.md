@@ -117,7 +117,7 @@ Exporter (Prometheus, Elastic, Datadog) <----+
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 수동 Instrumentation | 자동 Instrumentation | 선택 기준 |
+| 구분 | 수동 Instrumentation | 자동 Instrumentation | 선택 기준 |
 |:---|:---|:---|:---|
 | 구현 방식 | 개발자가 직접 코드에 API 호출 삽입 | Java Agent 등을 사용하여 런타임 주입 | 개발 리소스 가용성 |
 | 정밀도 | 매우 높음 (특정 비즈니스 데이터 포함) | 높음 (표준 라이브러리 호출 위주) | 분석 요구사항 상세 수준 |

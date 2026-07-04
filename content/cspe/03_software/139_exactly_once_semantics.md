@@ -144,7 +144,7 @@ Source Offset -> Processor State -> Checkpoint/Transaction
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | at-least-once + 수동 dedup | transaction/checkpoint 기반 | 금액·재고 정합성 필수 |
 | 비용/성능 | 낮은 지연 | commit 경계 비용 | 지연 증가 허용치 10~30% |

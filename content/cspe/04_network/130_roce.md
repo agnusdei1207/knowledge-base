@@ -115,7 +115,7 @@ Switch -> PFC / ECN Marking -> CNP -> DCQCN Rate Control
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | RoCEv2 | 선택 기준 |
+| 구분 | 기존/대안 | RoCEv2 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | TCP/IP 또는 InfiniBand | UDP/IP 기반 RDMA over Ethernet | Ethernet 표준 운영과 RDMA 성능이 모두 필요 시 |
 | 비용/성능 | TCP는 CPU 비용, IB는 전용망 비용 | RNIC와 lossless Ethernet 필요 | 100/200/400GbE AI 패브릭 |

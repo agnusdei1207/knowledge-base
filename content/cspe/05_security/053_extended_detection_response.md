@@ -113,7 +113,7 @@ Email/Endpoint/Network/Cloud/Identity -> Data Lake -> Correlation -> Incident Gr
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | XDR | 선택 기준 |
+| 구분 | 기존/대안 | XDR | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | SIEM+개별 보안 콘솔 | 공통 incident graph 기반 통합 콘솔 | 보안 도구 5종 이상 운영 |
 | 비용/처리 | 장기 로그 저장 비용 중심 | 데이터 소스 연동·상관분석 튜닝 비용 | 알림 중복률 30% 이상 |

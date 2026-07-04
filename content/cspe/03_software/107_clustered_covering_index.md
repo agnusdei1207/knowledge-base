@@ -142,7 +142,7 @@ Query Predicate -> Index Seek -> Leaf Page -> Row Data 또는 Included Columns -
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 일반 B+Tree+table fetch | clustered 또는 covering | lookup 비율 30% 이상인 SQL |
 | 비용/성능 | 랜덤 I/O 반복 | index-only 또는 연속 page scan | buffer read 50% 감소 목표 |

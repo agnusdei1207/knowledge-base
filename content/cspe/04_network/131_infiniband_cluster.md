@@ -113,7 +113,7 @@ Buffer 등록 -> QP 생성 -> Work Request 등록 -> HCA DMA 전송
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | InfiniBand | 선택 기준 |
+| 구분 | 기존/대안 | InfiniBand | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Ethernet + TCP/RoCE | Native IB + SM | 운용 조직의 RDMA·SM 역량 |
 | 비용/성능 | 범용 스위치 활용 | 전용 HCA·스위치 필요 | GPU idle time 감소액과 장비 비용 비교 |

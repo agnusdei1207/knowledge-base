@@ -116,7 +116,7 @@ Botnet/Reflector -> Internet -> ISP/Transit -> Scrubbing/CDN
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | On-prem 방화벽 중심 | ISP scrubbing + CDN/WAF | 공격 트래픽이 회선 용량의 70% 초과 시 |
 | 비용/성능 | 상시 scrubbing | On-demand scrubbing | 활성화 시간 5분, p95 지연 100ms 기준 |

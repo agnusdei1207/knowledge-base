@@ -106,7 +106,7 @@ q-vec + d-vec -> ANN Index(FAISS/ScaNN) -> Top-k
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Bi-Encoder(단일 벡터) | ColBERT(토큰 벡터) | 선택 기준 |
+| 구분 | Bi-Encoder(단일 벡터) | ColBERT(토큰 벡터) | 선택 기준 |
 |:---|:---|:---|:---|
 | 표현 단위 | 문서당 768-d 벡터 1개 | 토큰별 128-d 벡터 집합 | 세밀 토큰 매칭 요구 시 ColBERT |
 | 저장·인덱스 | 문서당 약 3KB, 표준 ANN 인덱스 활용 | 토큰 수 비례 저장, 압축·pruning 필수 | 저장 예산·기존 벡터DB 활용이면 Bi-Encoder |

@@ -146,7 +146,7 @@ App/Infra Logs -> Collector -> Parser/Normalizer -> Feature/Embedding
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | ELK 검색 중심 | Observability+AIOps | 서비스 50개 이상, 알람 1일 500건 이상 |
 | 비용/성능 | 사람이 대시보드 확인 | AI 상관분석 자동화 | MTTD 1분, MTTR 30분 목표 |

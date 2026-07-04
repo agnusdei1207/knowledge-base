@@ -136,7 +136,7 @@ weight: 18
 
 ## Ⅴ. 심화 비교 및 탐색-활용 딜레마(MAB) 제어
 
-| 비교 축 | 활용 (Exploitation) | 탐색 (Exploration) | 트레이드오프 조정 기준 (UCB) |
+| 구분 | 활용 (Exploitation) | 탐색 (Exploration) | 트레이드오프 조정 기준 (UCB) |
 |:---|:---|:---|:---|
 | 철학 | "지금까지 승률이 제일 높은 노드만 판다" | "가보지 않은 미지의 노드를 판다" | 상수 $C$ (Exploration Constant) 조절 |
 | 수식 항 | $\frac{W_i}{N_i}$ (승리 수 / 방문 수) | $C \sqrt{\frac{\ln N}{N_i}}$ ($N$: 부모 방문수) | 두 항의 합이 가장 높은 노드를 다음 탐색지로 선택 |

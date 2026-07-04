@@ -151,7 +151,7 @@ Join Query -> Optimizer -> Join Order -> Join Algorithm -> Joined Result
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 조인 방식 고정 | 통계 기반 알고리즘 선택 | 데이터 분포와 필터 조건 변화 |
 | 비용/성능 | full scan 조인 | index lookup, hash, sort 병행 | buffer read와 temp I/O 최소 |

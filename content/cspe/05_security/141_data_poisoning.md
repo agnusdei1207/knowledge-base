@@ -110,7 +110,7 @@ Training Set -> Model Training -> Clean Validation -> Deployment Gate
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 학습 후 모델 취약점 점검 | 학습 전 데이터 공급망 통제 | 외부 데이터 비중 30% 이상 |
 | 검증 | 전체 accuracy 중심 | class별 recall, ASR, clean set 회귀 | 보안 탐지·금융 사기처럼 미탐 비용 큰 경우 |

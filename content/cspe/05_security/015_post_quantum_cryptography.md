@@ -114,7 +114,7 @@ Crypto Inventory -> 위험분류 -> PQC 알고리즘 선택 -> 하이브리드 �
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | PQC 적용 | 선택 기준 |
+| 구분 | 기존/대안 | PQC 적용 | 선택 기준 |
 |:---|:---|:---|:---|
 | 키교환 | ECDHE, RSA key transport | ML-KEM 또는 ECDHE+ML-KEM | 장기 기밀 데이터와 인터넷 공개 서비스 우선 |
 | 전자서명 | RSA-PSS, ECDSA | ML-DSA, SLH-DSA | 코드서명·펌웨어는 장기 검증 기간 기준 |

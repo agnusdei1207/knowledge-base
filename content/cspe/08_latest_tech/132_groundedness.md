@@ -98,7 +98,7 @@ Answer Sentence -> Citation Link -> Evidence Context
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 생성 시 통제(citation 강제 프롬프트) | 사후 검증(Grounding Judge) | 선택 기준 |
+| 구분 | 생성 시 통제(citation 강제 프롬프트) | 사후 검증(Grounding Judge) | 선택 기준 |
 |:---|:---|:---|:---|
 | 개입 시점 | 프롬프트 단계에서 출처 표기 유도 | 생성 후 claim-근거 entailment 판정 | 고위험 도메인은 두 방식 병행 |
 | 보증 수준 | 형식상 citation 확보, 내용 일치 미보장 | 내용 일치까지 판정, 미근거 답변 차단 가능 | 감사 대응 요구 시 사후 검증 필수 |

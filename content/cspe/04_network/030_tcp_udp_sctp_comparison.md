@@ -103,7 +103,7 @@ SCTP: Stream 1 (Data A 유실 -> 대기) | Stream 2 (Data B 도착 -> 앱 전달
 
 ## Ⅳ. 특징 (3대 프로토콜 총괄 비교)
 
-| 비교 축 | TCP | UDP | SCTP |
+| 구분 | TCP | UDP | SCTP |
 |:---|:---|:---|:---|
 | 전송 단위 | Byte-Stream (경계 없음) | Datagram (경계 유지) | Message (경계 유지) |
 | 연결 방식 | 1:1 연결형 (Single IP) | 비연결형 | 연결형 (Multi-Homing, 다중 IP) |

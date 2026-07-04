@@ -98,7 +98,7 @@ Policy/Values -> SFT/RLHF/DPO/Constitutional AI
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 성능 최적화 중심 | Alignment 중심 | 선택 기준 |
+| 구분 | 성능 최적화 중심 | Alignment 중심 | 선택 기준 |
 |:---|:---|:---|:---|
 | 목표 | accuracy, throughput | HHH(유용·무해·정직) | 서비스 도메인 위험도 |
 | 비용 | pretraining 집중 | 학습+guardrail+감사 추가 | 규제 요건 수준 |

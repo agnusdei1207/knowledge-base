@@ -111,7 +111,7 @@ Client Action -> CAPTCHA Widget / Risk Script -> Token
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | CAPTCHA·reCAPTCHA | 선택 기준 |
+| 구분 | 기존/대안 | CAPTCHA·reCAPTCHA | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | rate limit, IP 차단 | challenge, token, risk score | IP 회전·프록시 봇 대응 필요 |
 | 비용/성능 | 자체 룰 운영 | 외부 검증 API, JS 로딩 | verify p95 300ms 이하 |

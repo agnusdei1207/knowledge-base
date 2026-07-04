@@ -109,7 +109,7 @@ Receiver -> Recompute Tag -> Constant-Time Compare -> Accept/Reject
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | `hash(message)` | `HMAC(key, message)` | 송신자 인증 필요 시 HMAC |
 | 비용/성능 | 전자서명 | HMAC-SHA-256 | 내부 API, 초당 요청 수 1,000건 이상 |

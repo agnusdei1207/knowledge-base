@@ -98,7 +98,7 @@ Noise zT + Condition -> Denoising U-Net -> z0 -> VAE Decoder -> Image
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Cascaded Diffusion(저해상도+초해상 단계) | Latent Diffusion | 선택 기준 |
+| 구분 | Cascaded Diffusion(저해상도+초해상 단계) | Latent Diffusion | 선택 기준 |
 |:---|:---|:---|:---|
 | 고해상도 달성 방식 | 저해상도 생성 후 super-resolution 단계 적층 | 압축 latent 생성 후 VAE 복원 | 파이프라인 단순성 요구 |
 | 세부 품질 특성 | 픽셀 공간 유지로 세부 보존 유리 | VAE 복원 손실 관리 필요 | 문자·얼굴 정확도 요구 |

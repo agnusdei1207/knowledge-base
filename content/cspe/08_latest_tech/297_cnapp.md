@@ -118,7 +118,7 @@ IaC 코드 스캔(Build) -> 이미지 취약점 점검(Deploy) -> 설정 오류 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | CSPM (Configuration) | CWPP (Workload) | CNAPP (Unified) |
+| 구분 | CSPM (Configuration) | CWPP (Workload) | CNAPP (Unified) |
 |:---|:---|:---|:---|
 | 초점 | 제어 평면 (Control Plane) | 데이터 평면 (Data Plane) | 전 영역 (Full Stack) |
 | 주요 위험 | S3 오픈, API 노출 | 랜섬웨어, 채굴기, 익스플로잇 | 공격 경로 (Attack Path) |

@@ -114,7 +114,7 @@ cwnd=1 -> (Slow Start: 지수 증가) -> ssthresh 도달 -> (Congestion Avoidanc
 
 ## Ⅴ. 심화 비교 및 적용 판단 (손실 기반 vs 지연 기반)
 
-| 비교 축 | 손실 기반 제어 (Loss-based: Reno/CUBIC) | 지연 기반 제어 (Delay-based: TCP BBR) | 선택 기준 |
+| 구분 | 손실 기반 제어 (Loss-based: Reno/CUBIC) | 지연 기반 제어 (Delay-based: TCP BBR) | 선택 기준 |
 |:---|:---|:---|:---|
 | 혼잡 판단 기준 | 큐 포화로 인한 '패킷 유실(Drop)' 발생 시 | 큐 대기로 인한 'RTT 지연(Delay)' 증가 시 | 딥 버퍼 스위치 사용 환경 여부 |
 | Bufferbloat 대응 | 라우터 버퍼가 꽉 찰 때까지 계속 증속하여 지연 최악 | 큐가 쌓이기 직전의 대역폭(BDP) 추정하여 전송 유지 | 실시간 스트리밍, 클라우드 트래픽 |

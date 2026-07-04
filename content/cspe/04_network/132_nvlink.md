@@ -113,7 +113,7 @@ CUDA kernel -> NCCL collective -> topology selection
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | NVLink | 선택 기준 |
+| 구분 | 기존/대안 | NVLink | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | PCIe peer-to-peer | NVLink + NVSwitch | GPU 간 통신 비율 20% 이상 워크로드 |
 | 비용/성능 | 범용 서버 비용 | DGX/NVL 계열 비용 | training step time 감소액 |

@@ -136,7 +136,7 @@ weight: 66
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | BPE (Byte Pair Encoding) | SentencePiece (Unigram LM) | 선택 기준 |
+| 구분 | BPE (Byte Pair Encoding) | SentencePiece (Unigram LM) | 선택 기준 |
 |:---|:---|:---|:---|
 | 분할 알고리즘 | 빈도수 높은 인접 글자쌍을 반복 병합(Greedy) | 유니그램 언어모델 기반 확률 최적 분할 탐색 | 어휘 품질 대비 학습 비용 |
 | 사전 토큰화 의존성 | 공백 기준 사전 분리 후 병합, 언어별 전처리 필요 | 원문을 공백 포함 그대로 처리, 언어 독립적 | 다국어·비공백 언어(한국어·중국어) 지원 여부 |

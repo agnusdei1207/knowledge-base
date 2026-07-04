@@ -131,7 +131,7 @@ Raw Data -> Feature Engineering -> Feature Registry -> Offline Store -> Training
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 피처 스토어 | 선택 기준 |
+| 구분 | 기존/대안 | 피처 스토어 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 모델별 ETL | 중앙 Registry와 Store | 모델 5개 이상 피처 공유 |
 | 비용/성능 | 중복 계산 | 재사용, 캐시, 온라인 조회 | 피처 재사용률 30% 이상 |

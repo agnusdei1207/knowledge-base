@@ -139,7 +139,7 @@ Local Write -> Metadata Attach -> State/Op Replicate -> Merge Rule Apply -> Same
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 일관성 | 2PC, 단일 리더 | AP 지향 최종 수렴 | 오프라인·협업 쓰기 비중 30% 이상 |
 | 데이터 모델 | 일반 행·문서 | Counter, Set, Register | 병합 규칙을 수학적으로 정의 가능 |

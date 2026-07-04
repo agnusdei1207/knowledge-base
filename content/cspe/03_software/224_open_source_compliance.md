@@ -142,7 +142,7 @@ OSS Policy -> Developer Request -> SCA Scan
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Open Source Compliance | 선택 기준 |
+| 구분 | 기존/대안 | Open Source Compliance | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 사후 법무 검토 | CI gate와 승인 workflow | 월 릴리스 1회 이상 제품 |
 | 비용/성능 | 릴리스 직전 지연 | 개발 중 자동 검출 | 정책 위반 피드백 10분 이하 |

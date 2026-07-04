@@ -143,7 +143,7 @@ DB/Cache/Session -> Compatibility Control
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Rolling update | Canary/Blue-Green | SLO 99.9%, 무중단 요구 |
 | 비용/성능 | 단일 환경 | 병렬 환경 또는 부분 트래픽 | 비용 2배 허용 여부 |

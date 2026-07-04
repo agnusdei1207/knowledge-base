@@ -148,7 +148,7 @@ weight: 61
 
 ## Ⅳ. 심화 비교: 디스크 기반 RDBMS vs 인메모리 HTAP 플랫폼 철저 대조표
 
-| 비교 축 | 전통적 디스크 기반 RDBMS (Oracle, MySQL) | 인메모리 기반 데이터베이스 (SAP HANA, Redis) |
+| 구분 | 전통적 디스크 기반 RDBMS (Oracle, MySQL) | 인메모리 기반 데이터베이스 (SAP HANA, Redis) |
 |:---|:---|:---|
 | 데이터 거주(Residency) 위치| 디스크 (자주 쓰는 데이터만 램 버퍼 캐시로 올림) | **전체 데이터가 100% 메인 메모리(DRAM)에 상주** |
 | 주 병목(Bottleneck) 포인트 | 디스크 I/O (물리적 탐색 지연) | CPU 성능 및 메모리 대역폭 (I/O 병목 없음) |

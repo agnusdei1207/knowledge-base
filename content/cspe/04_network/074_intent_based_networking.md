@@ -115,7 +115,7 @@ Intent Input -> Validate Policy -> Translate to Config -> Deploy
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 운영 방식 | 장비 중심 자동화 | 의도 중심 폐루프 | 정책 수 1,000개 이상 |
 | 검증 | 사후 점검표 | assurance engine | telemetry coverage 95% 이상 |

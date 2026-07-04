@@ -140,7 +140,7 @@ Source Repo -> Controlled Build Service -> Artifact
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | SLSA | 선택 기준 |
+| 구분 | 기존/대안 | SLSA | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | CI 로그와 registry 태그 | provenance+signature+policy | 외부 배포·금융·공공 서비스 |
 | 비용/성능 | 배포 경로 단순 | 서명·검증 단계 추가 | 검증 지연 p95 2초 이하 |

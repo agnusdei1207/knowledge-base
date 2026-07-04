@@ -142,7 +142,7 @@ proto 작성 -> Stub 생성 -> 요청 직렬화 -> HTTP/2 전송 -> 서버 실�
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | REST endpoint | RPC method + proto | 내부 서비스 20개 이상, 다국어 3종 이상 |
 | 비용/성능 | JSON parsing | Protobuf binary | payload 1KB 이상 반복 호출, p95 100ms 목표 |

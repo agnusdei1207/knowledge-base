@@ -149,7 +149,7 @@ LSM-Tree: WAL -> MemTable -> Immutable MemTable -> SSTable Levels -> Compaction
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | B-Tree 저장 엔진 | LSM-Tree 저장 엔진 | OLTP read-heavy vs write-heavy |
 | 비용/성능 | point read, range scan 중심 | sequential write, compaction 중심 | read:write 비율 8:2 또는 2:8 |

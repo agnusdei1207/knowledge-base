@@ -98,7 +98,7 @@ base freeze -> prefix 초기화 -> task 학습
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Prompt Tuning | Prefix Tuning | 선택 기준 |
+| 구분 | Prompt Tuning | Prefix Tuning | 선택 기준 |
 |:---|:---|:---|:---|
 | 삽입 위치 | 입력 embedding 앞 | layer별 attention K/V | 제어 깊이 요구 수준 |
 | 파라미터 수 | 수백~수천 | 수천~수만 (layer 수 비례) | KV Cache 증가 허용 범위 |

@@ -140,7 +140,7 @@ Event Trigger ---------------------------+ -> [ ISR Execution ] -> [ High-Priori
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | GPOS (범용 OS) | RTOS (실시간 OS) | 선택 기준 |
+| 구분 | GPOS (범용 OS) | RTOS (실시간 OS) | 선택 기준 |
 |:---|:---|:---|:---|
 | 스케줄링 | 시분할 (Time-sharing) | 우선순위 기반 선점 | 응답의 긴급성 |
 | 최적화 목표 | 처리량 (Throughput) 극대화 | 응답 시간 (Latency) 보장 | 시간 제약 존재 여부 |

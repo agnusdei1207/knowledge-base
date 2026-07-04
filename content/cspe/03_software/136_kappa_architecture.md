@@ -131,7 +131,7 @@ Event Source -> Durable Log -> Stream Processor -> State Store -> Serving View
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Lambda 이중 경로 | 단일 stream 경로 | 동일 로직 재사용 요구가 큰 경우 |
 | 비용/성능 | batch cluster 추가 | log retention·state 비용 | replay 데이터량과 보존기간 |

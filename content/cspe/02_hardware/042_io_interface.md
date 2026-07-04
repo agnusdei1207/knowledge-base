@@ -130,7 +130,7 @@ weight: 42
 
 ## Ⅳ. 심화 비교: I/O 제어 4단계 철저 대조표
 
-| 비교 축 | 폴링 (Polling / PIO) | 인터럽트 기반 (Interrupt) | DMA (Direct Memory Access) | 채널 I/O (Channel / IOP) |
+| 구분 | 폴링 (Polling / PIO) | 인터럽트 기반 (Interrupt) | DMA (Direct Memory Access) | 채널 I/O (Channel / IOP) |
 |:---|:---|:---|:---|:---|
 | 핵심 매커니즘 | CPU가 루프를 돌며 검사| I/O 모듈이 CPU를 호출 | DMA 컨트롤러가 버스 장악 | 별도 I/O 전용 프로세서가 지휘 |
 | CPU 상태 | Busy-Wait (낭비 심각)| I/O 완료 전까지 다른 프로세스 실행 | I/O 전체 과정에서 연산 전념 | 완전히 I/O에서 해방 (Offloaded)|

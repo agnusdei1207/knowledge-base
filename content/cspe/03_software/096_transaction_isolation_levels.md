@@ -150,7 +150,7 @@ Transaction Begin -> Isolation Level Set -> Read Snapshot / Lock Acquire
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 기본 격리 일괄 적용 | 업무별 격리 수준 차등 적용 | 조회, 결제, 정산 단위 위험 분리 |
 | 비용/성능 | Serializable 일괄 적용 | RC 기본 + 중요 구간 격상 | p95 300ms, Abort rate 1% 이하 |

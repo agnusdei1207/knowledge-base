@@ -112,7 +112,7 @@ App Buffer -> HCA (Queue Pair) -> IB Network -> HCA (Queue Pair) -> App Buffer
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 이더넷 (Ethernet) | 인피니밴드 (InfiniBand) | 선택 기준 |
+| 구분 | 이더넷 (Ethernet) | 인피니밴드 (InfiniBand) | 선택 기준 |
 |:---|:---|:---|:---|
 | 통신 스택 | TCP/IP (S/W 처리) | RDMA (H/W 처리) | CPU 가용 자원 확보 필요성 |
 | 전송 보장 | 패킷 드랍 후 재전송 (Lossy) | 흐름 제어로 드랍 방지 (Lossless) | 네트워크 혼잡 시 성능 안정성 |

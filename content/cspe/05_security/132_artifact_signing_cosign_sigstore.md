@@ -114,7 +114,7 @@ Build Artifact -> Calculate Digest -> Request OIDC Token
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | GPG key, KMS 서명 | Sigstore keyless signing | CI OIDC 신원 활용 가능 시 |
 | 비용/성능 | 키 생성·보관·회전 운영 | Fulcio·Rekor 연동, 검증 자동화 | 릴리스 월 50회 이상이면 keyless 선호 |

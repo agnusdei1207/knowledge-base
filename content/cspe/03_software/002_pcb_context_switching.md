@@ -125,7 +125,7 @@ weight: 2
 
 컨텍스트 스위칭은 CPU가 사용자 연산을 1비트도 하지 않는 100% 버려지는 낭비(Overhead)다.
 
-| 비교 축 | 프로세스 컨텍스트 스위칭 (Heavy-weight) | 스레드 컨텍스트 스위칭 (Light-weight) |
+| 구분 | 프로세스 컨텍스트 스위칭 (Heavy-weight) | 스레드 컨텍스트 스위칭 (Light-weight) |
 |:---|:---|:---|
 | 자원 공유 | 서로 다른 가상 주소 공간을 가짐 (격리) | 동일한 주소 공간(Code/Data/Heap)을 완벽히 공유 |
 | 교체 대상 장부 | **PCB (Process Control Block)** 전체 교체 | **TCB (Thread Control Block)** (스택과 레지스터만) 교체 |

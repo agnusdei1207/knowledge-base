@@ -145,7 +145,7 @@ Host CPU/GPU <-> Memory Controller <-> PIM Chip (HBM/DDR)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 전통적 메모리 | PIM (본 키워드) | 선택 기준 |
+| 구분 | 전통적 메모리 | PIM (본 키워드) | 선택 기준 |
 |:---|:---|:---|:---|
 | 연산 위치 | CPU / GPU | 메모리 내부 (Inside) | 데이터 집약도(Intensity) |
 | 데이터 이동 | 전량 이동 (Heavy) | 최소 이동 (Light) | 데이터 전송 비용(Latency/Power) |

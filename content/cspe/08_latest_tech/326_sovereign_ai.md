@@ -119,7 +119,7 @@ Local Data -> [ 1. Curating ] -> [ 2. Pre-training ] -> [ 3. Alignment ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 글로벌 범용 AI (Global AI) | 소버린 AI (Sovereign AI) | 선택 기준 |
+| 구분 | 글로벌 범용 AI (Global AI) | 소버린 AI (Sovereign AI) | 선택 기준 |
 |:---|:---|:---|:---|
 | 주도 세력 | 글로벌 빅테크 (MS, Google, OpenAI) | 국가 정부, 로컬 빅테크, 지역 연합 | 데이터 민감도 및 국가 전략 |
 | 학습 데이터 | 영어 중심의 방대한 웹 데이터 | 자국어 및 현지 특화 고품질 데이터 | 언어적 특수성 및 전문성 |

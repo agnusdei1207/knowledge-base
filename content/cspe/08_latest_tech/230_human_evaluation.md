@@ -115,7 +115,7 @@ Model Output -> Annotation Platform (UI) -> Human Annotators (Experts/Crowd)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 자동 평가 (Automatic) | 사람 평가 (Human) | 선택 기준 |
+| 구분 | 자동 평가 (Automatic) | 사람 평가 (Human) | 선택 기준 |
 |:---|:---|:---|:---|
 | 평가 지표 | BLEU, ROUGE, Perplexity | Helpfulness, Honesty, Harmless | 지표의 정성적 수준 |
 | 비용/속도 | 매우 저렴 / 실시간 | 매우 비쌈 / 수일 소요 | 가용 예산 및 시급성 |

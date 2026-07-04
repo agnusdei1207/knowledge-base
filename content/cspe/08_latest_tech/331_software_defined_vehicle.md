@@ -115,7 +115,7 @@ Cloud / Edge -> [ Connectivity (OTA) ] -> [ SDV Platform ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존 Legacy 차량 | SDV (Software Defined Vehicle) | 선택 기준 |
+| 구분 | 기존 Legacy 차량 | SDV (Software Defined Vehicle) | 선택 기준 |
 |:---|:---|:---|:---|
 | 제어 구조 | ECU별 독립 제어 (Siloed) | SOA 기반 통합 제어 (Service) | 기능 간 연계성 요구 시 SDV 선택 |
 | 비용 구조 | 판매 시 수익 확정 (One-time) | 구독 및 서비스 기반 지속 수익 (Recurring) | 비즈니스 모델 다각화 목표 시 적용 |

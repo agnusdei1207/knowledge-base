@@ -116,7 +116,7 @@ Client --- 3. request(10) "일단 10개만 줘!"-->
 
 스프링 프레임워크 생태계는 블로킹 모델과 리액티브 모델로 양분되었다.
 
-| 비교 축 | Spring MVC (Thread per Request) | Spring WebFlux (리액티브 논블로킹) |
+| 구분 | Spring MVC (Thread per Request) | Spring WebFlux (리액티브 논블로킹) |
 |:---|:---|:---|
 | **I/O 처리 모델** | 동기 / **블로킹 (Blocking)** | 비동기 / **논블로킹 (Non-blocking)** |
 | **스레드 운용 방식** | 요청 1개당 1개의 전용 스레드(Tomcat 200개) 할당 후 대기 | 코어 수만큼의 소수 스레드(Netty Event Loop)가 대기 없이 콜백 위임 |

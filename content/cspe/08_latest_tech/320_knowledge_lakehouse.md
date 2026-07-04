@@ -121,7 +121,7 @@ User Question -> [ 1. Semantic Parsing ] -> [ 2. Graph Traversal ] -> [ 3. Conte
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 벡터 레이크하우스 (Vector-only) | 지식 레이크하우스 (Knowledge-based) | 선택 기준 |
+| 구분 | 벡터 레이크하우스 (Vector-only) | 지식 레이크하우스 (Knowledge-based) | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 모델 | 숫자 배열 (Vector) | 엔티티 및 관계 (Graph) | 데이터의 논리적 복잡도 |
 | 검색 방식 | 유사도 기반 (Similarity) | 논리 및 관계 기반 (Reasoning) | 답변의 정밀도 요건 |

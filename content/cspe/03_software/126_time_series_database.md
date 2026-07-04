@@ -145,7 +145,7 @@ Metric Collect -> Timestamp Normalize -> Tag Index Update -> Block Write -> Rang
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RDB 파티션 테이블 | time partition + tag index | 메트릭 1억 포인트/일 이상 |
 | 비용/성능 | 원본 장기 보관 | downsampling + compression | 저장 비용 GB/day |

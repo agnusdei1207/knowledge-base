@@ -98,7 +98,7 @@ TFLite Model -> Edge TPU Compiler -> INT8 Model
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | CPU 엣지 추론 | Edge TPU | 선택 기준 |
+| 구분 | CPU 엣지 추론 | Edge TPU | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 범용 ISA, 모든 op 실행 | INT8 전용 MAC, 지원 op 한정 | 모델 op coverage 기준 |
 | 비용/성능 | FPS 제한, 전력 증가 | 4 TOPS/W, 30 FPS 비전 모델 | 카메라 실시간 기준 |

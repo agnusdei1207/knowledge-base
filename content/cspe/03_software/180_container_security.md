@@ -148,7 +148,7 @@ Source/Image -> Registry Scan -> Admission OPA -> Runtime Policy -> Audit/Detect
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 배포 후 점검 | admission 전 차단 | CI/CD 자동 배포 |
 | 비용/처리 | 수동 보안 리뷰 | policy as code | 배포 일 10회 이상 |

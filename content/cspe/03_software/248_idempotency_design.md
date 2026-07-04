@@ -140,7 +140,7 @@ Client -> Idempotency-Key -> API Gateway -> Key Store
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | API | POST 단순 처리 | POST + Idempotency-Key | 결제·주문 생성 API |
 | 메시지 | 소비 후 단순 ack | processed message table | at-least-once 큐 사용 시 |

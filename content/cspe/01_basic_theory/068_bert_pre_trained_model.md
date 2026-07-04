@@ -149,7 +149,7 @@ Input (Token+Segment+Position) -> Transformer Encoder Stack -> Hidden States
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Word2Vec / GloVe | BERT (Transformer Encoder) | GPT (Transformer Decoder) |
+| 구분 | Word2Vec / GloVe | BERT (Transformer Encoder) | GPT (Transformer Decoder) |
 |:---|:---|:---|:---|
 | 문맥 반영 | 정적(고정) 임베딩 | 동적(양방향) 임베딩 | 동적(단방향 Autoregressive) |
 | 주 활용 분야 | 단어 간 유사도 계산 | 분류, 추출, QA (NLU) | 문장 생성, 대화 모델 (NLG) |

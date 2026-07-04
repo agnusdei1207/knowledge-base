@@ -114,7 +114,7 @@ Policy Engine -> Approval / Sandbox -> Execution API -> Audit Log
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 사람이 UI에서 직접 실행 | Agent가 API를 자동 호출 | write/delete/payment 포함 시 정책 엔진 필수 |
 | 권한 | 단일 서비스 계정 | 사용자 위임 토큰+scope 제한 | 사용자별 감사가 필요하면 위임 토큰 선택 |

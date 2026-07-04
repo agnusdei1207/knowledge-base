@@ -114,7 +114,7 @@ Cloud -> Cluster -> Container -> Code
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 4C 모델 | 선택 기준 |
+| 구분 | 기존/대안 | 4C 모델 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 이미지 취약점 스캔 단독 | Cloud/Cluster/Container/Code 방어 계층 | Kubernetes 운영 클러스터 3개 이상 |
 | 비용/성능 | 점검 도구별 개별 운영 | CI/CD, Admission, Runtime 통합 | 배포 차단 기준과 예외 SLA 필요 시 |

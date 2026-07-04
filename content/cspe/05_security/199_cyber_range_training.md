@@ -114,7 +114,7 @@ Training Objective -> Scenario -> Virtual Range Infra
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 훈련 유형 | tabletop | cyber range | 도구 조작과 로그 분석 검증 필요 시 |
 | 팀 운영 | red/blue 분리 | purple feedback 포함 | 탐지 룰과 playbook 개선 목표 |

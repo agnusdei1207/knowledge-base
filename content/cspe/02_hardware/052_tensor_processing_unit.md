@@ -165,7 +165,7 @@ AI 모델 학습 시 엔비디아의 FP32(32비트)를 사용하면 정확하지
 
 TPU의 엄청난 성공에 기겁한 NVIDIA는 범용 GPU 내부에 '미니 TPU' 격인 텐서 코어(Tensor Core) 블록을 강제로 박아 넣기 시작했다.
 
-| 비교 축 | NVIDIA GPU (Tensor Core 탑재) | Google TPU (ASIC 전용) | 아키텍처 선택 기준 |
+| 구분 | NVIDIA GPU (Tensor Core 탑재) | Google TPU (ASIC 전용) | 아키텍처 선택 기준 |
 |:---|:---|:---|:---|
 | 하드웨어 정체성 | 범용 SIMT 기반 + 부분적 행렬 가속 회로 | **오직 행렬 텐서 연산만을 위한 시스톨릭 고정 회로** | 유연성(NVIDIA) vs 전성비(Google) |
 | 가용 프레임워크 | CUDA 기반 모든 S/W (PyTorch 등 생태계 100%) | **TensorFlow, JAX 중심** (코드 호환성 제약 존재) | 개발 편의 및 벤더 종속성(Lock-in) |

@@ -98,7 +98,7 @@ FP Model -> Calibration/Scale 계산 -> INT8/INT4 변환
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | FP16(기존) | Quantized(INT8/INT4) | 선택 기준 |
+| 구분 | FP16(기존) | Quantized(INT8/INT4) | 선택 기준 |
 |:---|:---|:---|:---|
 | 메모리 | 2 byte/param, 7B≈14GB | 1 byte(INT8), 0.5 byte(INT4) | VRAM 목표에 따라 bit 결정 |
 | 정확도 | 기준선 | INT8 1~2%p, INT4 2~3%p 하락 | 업무 허용 회귀폭 |

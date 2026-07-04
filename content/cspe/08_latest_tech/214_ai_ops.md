@@ -114,7 +114,7 @@ Data Sources (Log/Metric/Trace) -> Data Ingestion & Preprocessing
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Domain-Agnostic (범용) | Domain-Specific (전용) | 선택 기준 |
+| 구분 | Domain-Agnostic (범용) | Domain-Specific (전용) | 선택 기준 |
 |:---|:---|:---|:---|
 | 적용 범위 | IT 전반 인프라 통합 | 특정 벤더 장비/DB 집중 | 통합 관제 vs 심층 관제 |
 | 구축 비용 | 높음 (데이터 정제 필수) | 낮음 (빌트인 모델 제공) | 가용 예산 및 인력 |

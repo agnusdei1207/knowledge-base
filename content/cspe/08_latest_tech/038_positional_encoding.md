@@ -106,7 +106,7 @@ Position Index -> PE 계산/조회 -+
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 절대 PE(학습/Sinusoidal) | RoPE/ALiBi | 선택 기준 |
+| 구분 | 절대 PE(학습/Sinusoidal) | RoPE/ALiBi | 선택 기준 |
 |:---|:---|:---|:---|
 | 외삽 능력 | 학습 길이 초과 시 정확도 급락 | RoPE scaling으로 32K→128K 확장 | 최대 입력 길이 고정 여부 |
 | 구현 위치 | 임베딩에 Add | Q/K 회전 또는 Attention bias | 모델 구조 변경 범위 |

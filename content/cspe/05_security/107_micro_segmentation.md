@@ -111,7 +111,7 @@ Workload Inventory -> Traffic Discovery -> Policy Engine -> Enforcement Point
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 마이크로 세그멘테이션 | 선택 기준 |
+| 구분 | 기존/대안 | 마이크로 세그멘테이션 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 중앙 방화벽, VLAN ACL | 호스트·SDN·CNI enforcement | VM·컨테이너 혼재, 앱 수 50개 이상 |
 | 비용/성능 | 방화벽 경유로 hairpin 발생 | 로컬 정책 적용 | p95 앱 지연 증가 5ms 이하 |

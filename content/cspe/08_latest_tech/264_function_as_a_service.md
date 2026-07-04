@@ -116,7 +116,7 @@ Event Detect -> Auth/Limit Check -> Warm/Cold Start -> Code Download -> Executio
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | PaaS (기존 컨테이너) | FaaS (서버리스 함수) | 선택 기준 |
+| 구분 | PaaS (기존 컨테이너) | FaaS (서버리스 함수) | 선택 기준 |
 |:---|:---|:---|:---|
 | 추상화 단위 | 애플리케이션 (Service) | 코드 조각 (Function) | 로직의 분할 가능 수준 |
 | 확장 방식 | 인스턴스/파드 단위 확장 | 요청/호출 단위 즉시 확장 | 트래픽의 급격한 변동성 |

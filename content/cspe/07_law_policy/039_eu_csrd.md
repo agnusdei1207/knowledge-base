@@ -123,7 +123,7 @@ Materiality Assessment(Impact/Financial) -> Data Collection
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안(NFRD, GRI 등 자율 프레임워크) | CSRD | 선택 기준 |
+| 구분 | 기존/대안(NFRD, GRI 등 자율 프레임워크) | CSRD | 선택 기준 |
 |:---|:---|:---|:---|
 | 적용 범위 | NFRD는 좁은 대기업군 한정 | 대기업·상장 중소기업으로 확대 | 기업 규모·상장 여부 기준 |
 | 평가 관점 | 단일 관점(주로 재무 영향) 중심 | 이중 중대성(impact+financial) | 이해관계자 범위와 투자자 요구 |

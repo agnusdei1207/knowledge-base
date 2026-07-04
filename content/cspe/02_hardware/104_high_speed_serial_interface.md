@@ -124,7 +124,7 @@ weight: 104
 
 ## Ⅳ. 주요 고속 직렬 인터페이스 규격 심화 비교
 
-| 비교 축 | USB 4 (Universal Serial Bus) | Thunderbolt 4 | PCIe (단말 내부) / NVMe |
+| 구분 | USB 4 (Universal Serial Bus) | Thunderbolt 4 | PCIe (단말 내부) / NVMe |
 |:---|:---|:---|:---|
 | 타겟 토폴로지 | 트리형 (허브 분기) 데이지 체인 | 데이지 체인 (최대 6대 연속 연결) | 내부 버스 점대점 (스위치 기반) |
 | 최대 대역폭 | 40 Gbps (동적 프로토콜 할당) | 40 Gbps (엄격한 대역폭 보장 설계) | Gen5 기준 레인당 32 GT/s (수백 GB/s 확장) |

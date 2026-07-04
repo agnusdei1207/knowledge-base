@@ -113,7 +113,7 @@ AAD + Ciphertext -> GHASH(GCM) -> Authentication Tag
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 기밀성 | ECB 금지 | CBC/CTR/GCM | 패턴 노출 제거 필요 |
 | 인증 | CBC/CTR + HMAC | GCM AEAD | 신규 프로토콜은 AEAD 기본 |

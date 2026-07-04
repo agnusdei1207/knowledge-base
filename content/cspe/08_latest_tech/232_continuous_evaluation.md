@@ -111,7 +111,7 @@ Data Ingestion -> Model Inference -> Metric Collection -> Drift Detection -> Ale
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Offline Evaluation | Online Evaluation | 선택 기준 |
+| 구분 | Offline Evaluation | Online Evaluation | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터셋 | 고정된 골든 데이터셋 | 실제 유입되는 라이브 데이터 | 데이터 확보 가능 여부 |
 | 평가 모델 | 전문가 검수 답변 | 사용자 피드백, LLM Judge | 비용 및 실시간성 요구도 |

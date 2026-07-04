@@ -118,7 +118,7 @@ GPU 4(d4) --+                                     |--> GPU 3(D)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Parameter Server | All-Reduce (Ring) | 선택 기준 |
+| 구분 | Parameter Server | All-Reduce (Ring) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 중앙 집중형 (Master-Worker) | 분산 협력형 (Peer-to-Peer) | 중앙 서버 성능 병목 여부 |
 | 통신량 | 노드 수 증가 시 마스터 부하 폭증 | 노드 수와 관계없이 노드당 통신량 일정 | 클러스터 규모 (대규모는 All-Reduce) |

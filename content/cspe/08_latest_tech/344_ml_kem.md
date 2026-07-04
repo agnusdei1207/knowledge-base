@@ -119,7 +119,7 @@ weight: 344
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존 ECDH (Elliptic Curve) | ML-KEM (Post-Quantum) | 선택 기준 |
+| 구분 | 기존 ECDH (Elliptic Curve) | ML-KEM (Post-Quantum) | 선택 기준 |
 |:---|:---|:---|:---|
 | 양자 내성 | 없음 (즉시 해독 가능) | 있음 (양자 저항성 확보) | 미래 보안 위협 대응 필요성 |
 | 키 크기 | 작음 (약 32~64 Bytes) | 큼 (약 1,184 Bytes) | 네트워크 대역폭 제한 여부 |

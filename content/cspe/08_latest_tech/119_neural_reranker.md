@@ -98,7 +98,7 @@ Query -> BM25/Dense Retriever -> Top-N Candidates
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Cross-Encoder Reranker | LLM-as-Reranker(프롬프트 기반) | 선택 기준 |
+| 구분 | Cross-Encoder Reranker | LLM-as-Reranker(프롬프트 기반) | 선택 기준 |
 |:---|:---|:---|:---|
 | 판단 방식 | 전용 학습된 relevance 모델 | 범용 LLM에 프롬프트로 순위 지시 | 전용 모델 학습·운영 여력 |
 | 추론 비용 | 소형 모델, 저비용 배치 처리 | LLM 호출 비용, 후보당 토큰 과금 | 후보 수 많으면 Cross-Encoder가 경제적 |

@@ -142,7 +142,7 @@ Client Command -> Leader/Proposer -> Follower/Acceptor Quorum -> Commit Log -> S
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 primary | consensus cluster | 메타데이터 RPO 0, leader 장애 자동 복구 필요 |
 | 비용/성능 | 로컬 쓰기 | quorum commit | 3노드 기준 2개 ACK 지연 허용 |

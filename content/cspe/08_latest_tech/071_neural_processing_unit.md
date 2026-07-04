@@ -98,7 +98,7 @@ CPU Control -> NPU Compiler -> MAC/Systolic Array
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | GPU | NPU | 선택 기준 |
+| 구분 | GPU | NPU | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | CUDA 코어 수천 개, 범용 병렬 | MAC Array, AI 전용 파이프라인 | 추론 전용이면 NPU |
 | 비용/성능 | TDP 150~350W, FP32 고성능 | TDP 5~15W, INT8 TOPS/W 우위 | 배터리 제약 시 NPU |

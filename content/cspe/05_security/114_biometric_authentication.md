@@ -111,7 +111,7 @@ Sensor -> Feature Extraction -> Template Store -> Matcher -> Decision
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 생체 인증 | 선택 기준 |
+| 구분 | 기존/대안 | 생체 인증 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 비밀번호, OTP, 인증서 | 센서, 템플릿, matcher, PAD | 로컬 사용자 검증과 피싱 저항 필요 |
 | 비용/성능 | 서버 검증 중심 | 센서·TEE·PAD 모델 필요 | unlock p95 1초 이하, FRR 1% 이하 |

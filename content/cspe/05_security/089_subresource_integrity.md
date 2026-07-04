@@ -112,7 +112,7 @@ Browser -> CDN Resource Download -> Hash Compare -> Execute or Block
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 전송 보호 | HTTPS | HTTPS+SRI | 전송 암호화와 내용 무결성 동시 필요 |
 | 출처 제한 | CSP source allowlist | SRI integrity hash | 허용 CDN 내부 파일 변조 대응 |

@@ -151,7 +151,7 @@ production deploy -> monitoring -> rollback 판단
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | CI 중심 | CI/CD 통합 | 선택 기준 |
+| 구분 | CI 중심 | CI/CD 통합 | 선택 기준 |
 |:---|:---|:---|:---|
 | 범위 | build, test | deploy, rollback 포함 | 운영 배포 자동화 필요 여부 |
 | 승인 | 개발자 검증 | 품질·보안·운영 게이트 | 규제·감사 요구 |

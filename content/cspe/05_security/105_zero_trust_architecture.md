@@ -116,7 +116,7 @@ Access Request -> Identity Verify -> Device Posture Check
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | VPN+방화벽 경계 | IdP+Device+Policy Engine+PEP | 원격근무·SaaS 비중 50% 이상 |
 | 비용/운영 | 네트워크 중심 통제 | 신원·단말·로그 통합 운영 | IdP, EDR, SIEM 선행 필요 |

@@ -114,7 +114,7 @@ Measure Bandwidth B -> Measure SNR dB -> Convert S/N Linear
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 성능 평가 | 속도 측정값 | Shannon 용량 상한 | 링크 예산과 이론 한계 비교 |
 | 개선 수단 | 송신 전력 증가 | B, SNR, coding, MIMO 조합 | 전력 규제와 spectrum 비용 |

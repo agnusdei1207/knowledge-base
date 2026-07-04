@@ -116,7 +116,7 @@ Request Capture -> Attribute Collect -> Policy Evaluate
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | ABAC | 선택 기준 |
+| 구분 | 기존/대안 | ABAC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | RBAC 역할 매핑 | 속성+정책 평가 | 위치·시간·데이터 등급 조건 필요 |
 | 비용/성능 | 단순 role lookup | PDP 호출과 속성 조회 | PDP p95 50ms, cache TTL 5분 |

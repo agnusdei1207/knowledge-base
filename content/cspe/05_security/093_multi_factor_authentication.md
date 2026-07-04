@@ -115,7 +115,7 @@ User -> IdP -> Primary Auth -> Risk Engine -> MFA Challenge -> Session
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 일반 사용자 | password only | TOTP 또는 Push number matching | 비용과 사용성, 피싱 노출 |
 | 관리자 | TOTP | FIDO2 보안키 2개 등록 | 콘솔, CI/CD, VPN 접근 |

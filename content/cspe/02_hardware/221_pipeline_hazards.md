@@ -119,7 +119,7 @@ Hazard Detection -> Stall / Forwarding / Flush -> CPI 손실 통제
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 사이클 CPU | 5단 이상 파이프라인 | 명령어 처리량 목표 IPC 1.0 근접 시 적용 |
 | 비용/성능 | 자원 복제 없음 | I/D Cache 분리, forwarding path 추가 | 면적 증가 대비 Stall cycle 감소 |

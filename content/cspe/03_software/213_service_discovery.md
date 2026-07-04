@@ -145,7 +145,7 @@ Instance Start -> Register Endpoint -> Heartbeat Update
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Service Discovery | 선택 기준 |
+| 구분 | 기존/대안 | Service Discovery | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 정적 IP, hosts 파일 | 동적 registry와 health 기반 endpoint | 배포 빈도 일 1회 이상이면 필요 |
 | 비용/성능 | 수동 변경, 장애 호출 | lookup cache와 health exclusion | endpoint 갱신 p95 10초 이하 |

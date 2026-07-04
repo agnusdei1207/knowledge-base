@@ -98,7 +98,7 @@ Client/OpenAI API -> vLLM Server -> Scheduler
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | vLLM | TensorRT-LLM | 선택 기준 |
+| 구분 | vLLM | TensorRT-LLM | 선택 기준 |
 |:---|:---|:---|:---|
 | 하드웨어 | NVIDIA·AMD 등 폭넓음 | NVIDIA 전용 | 이기종 GPU 혼용이면 vLLM |
 | 최적화 방식 | 런타임 스케줄링 중심 | 커널 컴파일 극한 최적화 | 고정 모델·최대 성능이면 TensorRT-LLM |

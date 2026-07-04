@@ -115,7 +115,7 @@ HTTP 요청 수신 -> TLS 복호화 -> 정규화/디코딩
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Signature WAF | Positive Security WAF | 선택 기준 |
+| 구분 | Signature WAF | Positive Security WAF | 선택 기준 |
 |:---|:---|:---|:---|
 | 탐지 방식 | 알려진 공격 패턴 매칭 | 허용된 요청 형태만 통과 | API 스키마 보유 여부 |
 | 운영 난이도 | 룰 업데이트 중심 | 업무별 학습·예외 관리 | 서비스 변경 빈도 |

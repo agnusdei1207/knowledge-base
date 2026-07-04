@@ -139,7 +139,7 @@ Kernel/System Call -> Falco Driver/eBPF -> Rule Engine -> Alert Output -> SIEM/S
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 로그 기반 사후 분석 | system call 기반 실시간 탐지 | Kubernetes 운영 workload |
 | 비용/성능 | 에이전트 없는 관측 | node 단위 Falco daemonset | CPU overhead 5% 이하 검증 |

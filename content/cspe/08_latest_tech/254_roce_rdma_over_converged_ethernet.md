@@ -111,7 +111,7 @@ Memory 등록 -> RDMA Work Request -> RNIC가 RoCE packet 생성
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | TCP/IP Ethernet | RoCE RDMA over Ethernet | CPU overhead와 p99 latency |
 | 비용/성능 | 장비 공용화 | RNIC, DCB switch, 설정 검증 | 기존 Ethernet 자산 활용 |

@@ -132,7 +132,7 @@ UCIe는 백지상태에서 새로운 언어를 만든 게 아니다. 위쪽은 �
 
 "통일 규격(UCIe)" 진영과 "우린 우리 규격만 쓴다(NVLink/Apple)" 진영의 아키텍처 패권 전쟁.
 
-| 비교 축 | UCIe (Universal Chiplet Interconnect Express) | Apple UltraFusion (독자 규격) | NVIDIA NVLink / NV-HBI (독자 규격)|
+| 구분 | UCIe (Universal Chiplet Interconnect Express) | Apple UltraFusion (독자 규격) | NVIDIA NVLink / NV-HBI (독자 규격)|
 |:---|:---|:---|:---|
 | 철학 및 포지셔닝 | **오픈 실리콘 생태계 (민주화)** | **완전한 수직 계열화 폐쇄 생태계** | AI 헤게모니 독점을 위한 수직 통합 |
 | 주도(참여) 기업 | 인텔, 삼성, TSMC, AMD, ARM, Google 연합 | 애플 독단 설계 (TSMC InFO 패키징) | NVIDIA 독단 설계 (TSMC CoWoS 패키징) |

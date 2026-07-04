@@ -138,7 +138,7 @@ weight: 61
 
 ## Ⅴ. 심화 비교 및 한계 판단
 
-| 비교 축 | SVM (Support Vector Machine) | 로지스틱 회귀 (Logistic Regression) | 선택 기준 |
+| 구분 | SVM (Support Vector Machine) | 로지스틱 회귀 (Logistic Regression) | 선택 기준 |
 |:---|:---|:---|:---|
 | 결정 경계 기준 | 서포트 벡터(최전방 소수 데이터)만 의존 | 전체 데이터의 확률 분포와 거리 의존 | 데이터 내 노이즈 분포 상태 |
 | 확률 반환 | 0과 1 이진 분류만 수행, 확률 미제공 | 0~1 사이의 확률값 반환 (Softmax) | 최종 시스템의 신뢰도/확률(%) 요구 여부 |

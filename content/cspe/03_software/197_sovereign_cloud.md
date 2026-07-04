@@ -138,7 +138,7 @@ Data Classification -> Sovereign Region/Zone -> Customer Key/HSM
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Public Cloud | Sovereign Cloud | 국외 이전 제한 데이터 |
 | 비용/성능 | 글로벌 리전·서비스 활용 | 국내 주권 구역과 제한 서비스 | 규제 위반 비용이 클 때 |

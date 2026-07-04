@@ -115,7 +115,7 @@ Log Sources -> Collector -> Parser/Normalizer -> SIEM Data Lake
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 전통 SIEM | 차세대 SIEM/융합 관제 | 선택 기준 |
+| 구분 | 전통 SIEM | 차세대 SIEM/융합 관제 | 선택 기준 |
 |:---|:---|:---|:---|
 | 데이터 | Syslog 중심 | Cloud, EDR, NDR, SaaS API | 클라우드·SaaS 사용 비중 |
 | 분석 | 룰 기반 correlation | UEBA, ML, TI, ATT&CK | 오탐률과 탐지 공백 |

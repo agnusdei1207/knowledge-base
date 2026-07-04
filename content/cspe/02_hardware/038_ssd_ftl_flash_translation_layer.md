@@ -138,7 +138,7 @@ weight: 38
 
 FTL이 맵핑 수첩(테이블)을 작성할 때, 어떤 크기 단위로 기록하느냐에 따라 SSD 성능과 제조 원가(DRAM 캐시 용량)가 갈린다.
 
-| 비교 축 | Page Mapping (페이지 맵핑) | Block Mapping (블록 맵핑) | Hybrid Mapping (하이브리드) |
+| 구분 | Page Mapping (페이지 맵핑) | Block Mapping (블록 맵핑) | Hybrid Mapping (하이브리드) |
 |:---|:---|:---|:---|
 | 매핑 단위 | 가장 작은 Page 단위 매핑 | 거대한 Block 단위 매핑 | 데이터 특성에 따라 혼용 |
 | 테이블 크기 (DRAM)| **가장 크고 비쌈** (수많은 주소 기록) | 가장 작고 저렴 (요약 기록) | 적절한 타협점 |

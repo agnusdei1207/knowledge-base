@@ -125,7 +125,7 @@ Source -> (Data Stream) -> [Shared Tree] -> Designated Router -> Receiver
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 유니캐스트 (Unicast) | 브로드캐스트 (Broadcast) | 멀티캐스트 (Multicast) |
+| 구분 | 유니캐스트 (Unicast) | 브로드캐스트 (Broadcast) | 멀티캐스트 (Multicast) |
 |:---|:---|:---|:---|
 | 전송 부하 | 수신자 수에 비례 (1:N) | 수신자 수와 무관 (1:All) | 수신자 수와 무관 (1:Group) |
 | 네트워크 부하 | 매우 높음 | 전체 세그먼트에 영향 | 가입된 경로만 영향 |

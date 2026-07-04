@@ -110,7 +110,7 @@ Defense Layer -> Detection / Preprocessing / Robust Model -> Decision
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 공격면 | 학습 데이터 조작 | 추론 입력 조작 | 공개 API·센서 입력 노출 시 우선 |
 | 방어 | 입력 필터·정규화 | adversarial training + detection | 안전 중요 모델, 오분류 비용 상위 |

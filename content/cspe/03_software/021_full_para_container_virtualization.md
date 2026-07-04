@@ -110,7 +110,7 @@ Guest OS (수정된 Linux) ---> 하드웨어 찌르지 않고 "Hypercall(API)" �
                          [ 물리 하드웨어 ]
 ```
 
-| 비교 축 | 전가상화 (Full Virt.) | 반가상화 (Para Virt.) |
+| 구분 | 전가상화 (Full Virt.) | 반가상화 (Para Virt.) |
 |:---|:---|:---|
 | **Guest OS 커널** | **수정 불필요** (Unmodified) | **하이퍼콜 지원용 수정 필수** (Modified) |
 | **특권 명령 처리** | VMM이 Trap 후 Binary Translation(에뮬레이트) | OS가 스스로 VMM에 Hypercall로 명시적 요청 |

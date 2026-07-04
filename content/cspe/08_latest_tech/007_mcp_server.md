@@ -119,7 +119,7 @@ Connect -> List Capabilities -> Call Tool Request -> Schema Validation -> Execut
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 로컬 서버 (Stdio) | 원격 서버 (SSE) | 선택 기준 |
+| 구분 | 로컬 서버 (Stdio) | 원격 서버 (SSE) | 선택 기준 |
 |:---|:---|:---|:---|
 | 구동 환경 | 동일 머신 내 프로세스 | 별도 호스트/컨테이너 | 서비스 가용성 및 확장 요건 |
 | 통신 방식 | Pipe (stdin/stdout) | HTTP/HTTPS (SSE) | 네트워크 지연 및 암호화 필요성 |

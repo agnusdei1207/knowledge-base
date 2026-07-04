@@ -119,7 +119,7 @@ Query -> [ 1. Metadata File 읽기 ] -> [ 2. Manifest List 필터링 ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | Apache Hive (기존) | Apache Iceberg | 선택 기준 |
+| 구분 | Apache Hive (기존) | Apache Iceberg | 선택 기준 |
 |:---|:---|:---|:---|
 | 파일 탐색 방식 | 디렉터리 전체 리스팅 | 메타데이터 파일 트리 탐색 | 파일 개수 및 데이터 규모 |
 | 파티션 관리 | 물리적 경로(Folder) 고정 | 논리적 매핑 (Hidden Partitioning) | 데이터 구조 변경 빈도 |

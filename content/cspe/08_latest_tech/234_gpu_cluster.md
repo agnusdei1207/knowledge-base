@@ -114,7 +114,7 @@ Batch Input -> Forward Pass -> Backward Pass -> Gradient Sync (All-Reduce) -> Up
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | InfiniBand 기반 클러스터 | RoCE (Ethernet) 기반 클러스터 | 선택 기준 |
+| 구분 | InfiniBand 기반 클러스터 | RoCE (Ethernet) 기반 클러스터 | 선택 기준 |
 |:---|:---|:---|:---|
 | 성능 | 초저지연, 무손실(Lossless) 보장 | 인피니밴드 대비 약 5~10% 지연 | 절대적 성능 중시 시 IB 선택 |
 | 비용/호환성 | 고가, 전용 스위치 필요 | 상대적 저렴, 기존 스위치 활용 | 가성비 및 운영 편의성 중시 |

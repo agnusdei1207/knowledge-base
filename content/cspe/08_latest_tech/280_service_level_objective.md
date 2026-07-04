@@ -113,7 +113,7 @@ SLO Document -> Owner / Exclusion / Review Cycle
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 내부 지표 중심 | SLO 중심 | 선택 기준 |
+| 구분 | 내부 지표 중심 | SLO 중심 | 선택 기준 |
 |:---|:---|:---|:---|
 | 목표 | 서버 정상 여부 | 사용자 경험 달성 | 고객 영향 측정 |
 | 알림 | CPU, memory 임계치 | burn rate alert | 대응 필요성 |

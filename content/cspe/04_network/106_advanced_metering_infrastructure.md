@@ -116,7 +116,7 @@ Smart Meter -> NAN/PLC/RF Mesh/NB-IoT -> DCU/HES -> MDMS -> Billing/OMS/DR
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | AMI | 선택 기준 |
+| 구분 | 기존/대안 | AMI | 선택 기준 |
 |:---|:---|:---|:---|
 | 도시 고밀도 | PLC, RF Mesh | 미터 간 mesh·전력선 활용 | 건물 밀집도, 지하 커버리지 |
 | 농어촌 | 장거리 무선 | LTE-M, NB-IoT | 기지국 커버리지, 회선비 |

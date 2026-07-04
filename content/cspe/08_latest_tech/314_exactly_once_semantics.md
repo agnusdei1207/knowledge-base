@@ -118,7 +118,7 @@ Begin Trans -> [ 1. Write Data ] -> [ 2. Offset Commit ] -> [ 3. End Trans ]
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 멱등성 (Idempotence) | Exactly-Once Semantics | 선택 기준 |
+| 구분 | 멱등성 (Idempotence) | Exactly-Once Semantics | 선택 기준 |
 |:---|:---|:---|:---|
 | 범위 | 단일 쓰기 작업 | 전 주기 파이프라인 (End-to-End) | 시스템 전체 무결성 요건 |
 | 구현 방식 | 시퀀스 번호 중복 체크 | 트랜잭션, 2PC, 스냅샷 결합 | 처리 로직의 복잡성 |

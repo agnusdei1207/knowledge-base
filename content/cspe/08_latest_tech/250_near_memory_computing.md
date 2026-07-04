@@ -114,7 +114,7 @@ Data Request -> Internal TSV Load -> Logic Die Compute -> Result Return
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | HBM 기반 PNM | CXL 기반 PNM (CMM-P) | 비고 |
+| 구분 | HBM 기반 PNM | CXL 기반 PNM (CMM-P) | 비고 |
 |:---|:---|:---|:---|
 | 구현 형태 | 가속기 내 적층 메모리 통합 | PCIe 슬롯형 메모리 카드 | 폼팩터 차이 |
 | 주요 강점 | 극단적인 대역폭 활용 | 서버 확장성 및 유연한 교체 | 성능 vs 운영 |

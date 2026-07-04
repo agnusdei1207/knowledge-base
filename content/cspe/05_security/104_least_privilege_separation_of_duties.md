@@ -116,7 +116,7 @@ Job Analysis -> Role Mining -> Permission Mapping
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 부서별 일괄 권한 | 직무 기반 권한+SoD Matrix | 동일 권한 사용자 100명 이상이면 Role Mining |
 | 운영 | 수동 요청·승인 | Workflow+JIT+Access Review | 권한 변경 월 50건 이상이면 자동화 |

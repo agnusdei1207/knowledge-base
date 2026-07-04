@@ -135,7 +135,7 @@ Container Image -> Layer Extract -> Package Detect -> CVE DB Match -> Policy Gat
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 수동 보안 점검 | CI/registry 자동 스캔 | 이미지 배포 빈도 일 1회 이상 |
 | 비용/성능 | 운영 후 패치 | build-time 차단 | critical CVE 운영 반입 0건 목표 |

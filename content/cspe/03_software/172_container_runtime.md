@@ -146,7 +146,7 @@ PodSpec 수신 -> 이미지 확인 -> Pod sandbox 생성 -> 컨테이너 생성 
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | Docker Engine 의존 | containerd/CRI-O 직접 연동 | Kubernetes 표준 노드 |
 | 비용/처리 | daemon 기능 범위 큼 | 실행 기능 집중 | 노드 부하, pull latency |

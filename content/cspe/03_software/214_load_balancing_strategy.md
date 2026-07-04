@@ -149,7 +149,7 @@ Request In -> TLS Termination -> Rule Match
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | Load Balancing | 선택 기준 |
+| 구분 | 기존/대안 | Load Balancing | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | 단일 서버, DNS RR | health 기반 backend pool | 5xx 1% 초과 또는 CPU 70% 지속 시 필요 |
 | 비용/성능 | 수동 증설 | 오토스케일링 연계 | p95 지연 300ms 이하 목표 |

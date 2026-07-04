@@ -112,7 +112,7 @@ Kernel Hook -> eBPF Program -> Helper Function / Map -> Event Output
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | user-space agent | kernel hook eBPF | syscall·packet 수준 이벤트 필요 |
 | 비용/성능 | context switch 발생 | 커널 경로에서 처리 | 패킷 처리 지연 예산 |

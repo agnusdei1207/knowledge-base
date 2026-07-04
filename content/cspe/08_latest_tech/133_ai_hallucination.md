@@ -99,7 +99,7 @@ User Query -> LLM/RAG -> Generated Claims
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | AI Hallucination 통제 | 선택 기준 |
+| 구분 | 기존/대안 | AI Hallucination 통제 | 선택 기준 |
 |:---|:---|:---|:---|
 | 검색 품질 | 단일 벡터 검색(Recall 0.6) | Hybrid+Reranker(Context Recall ≥0.85) | 도메인 문서 10만 건 이상 시 Hybrid 필수 |
 | 답변 검증 | 사후 수동 검토 | claim 단위 Faithfulness ≥0.9 자동 게이트 | 일 1,000건 이상 시 자동 검증 필수 |

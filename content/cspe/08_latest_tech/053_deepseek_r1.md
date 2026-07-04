@@ -110,7 +110,7 @@ Base Model -> Cold-start SFT -> Reasoning RL(GRPO)
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 폐쇄형 Reasoning API | DeepSeek-R1 | 선택 기준 |
+| 구분 | 폐쇄형 Reasoning API | DeepSeek-R1 | 선택 기준 |
 |:---|:---|:---|:---|
 | 배포 방식 | 외부 API 호출, 벤더 종속 | 공개 가중치, 온프레미스 배포 가능 | 데이터 주권·반출 규제 여부 |
 | 비용 구조 | 호출량 과금, 운영 부담 낮음 | GPU·운영비 자체 부담, 월 10만건 이상 시 TCO 유리 | 월 호출량 손익분기점 산정 |

@@ -114,7 +114,7 @@ Client stub 호출 -> protobuf 직렬화 -> HTTP/2 stream 생성
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 비교 축 | 기존/대안 | gRPC | 선택 기준 |
+| 구분 | 기존/대안 | gRPC | 선택 기준 |
 |:---|:---|:---|:---|
 | 구조 | REST/JSON | RPC/protobuf | 내부 서비스 간 타입 계약 필요 |
 | 비용/성능 | 텍스트 payload | binary payload | payload 크기, CPU decode 비용 |
