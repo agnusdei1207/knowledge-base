@@ -1,6 +1,6 @@
 ---
-title: "다중 프로세서 스케줄링 — SQMS·MQMS (Multiprocessor Scheduling SQMS MQMS)"
-date: "2026-07-01"
+title: "다중 프로세서 스케줄링 — SQMS·MQMS (Multiprocessor Scheduling)"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 30
@@ -8,180 +8,136 @@ weight: 30
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 다중 프로세서 스케줄링과 SQMS·MQMS를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: SQMS(Single Queue Multiprocessor Scheduling)와 MQMS(Multi Queue Multiprocessor Scheduling)는 다중 CPU 코어 환경에서 실행 가능한 프로세스를 담는 Run Queue를 몇 개 둘지에 대한 두 가지 스케줄러 설계 방식이며, 이 큐 구조 선택이 락 경합·캐시 지역성(Cache Locality)·부하 균형이라는 세 지표를 동시에 좌우한다.
-- **왜 필요한가**: 코어 수가 늘어날수록 큐 접근에 걸리는 락 대기 시간과, 프로세스가 실행 코어를 옮길 때 발생하는 캐시·TLB 재적재 비용(Migration Cost)이 시스템 처리량을 갉아먹기 시작한다. 어떤 큐 구조를 쓰느냐에 따라 이 두 비용의 크기가 정반대로 나타난다.
-- **핵심 직관**: 큐가 1개면 락 대기가 코어 수에 비례해 커지고, 큐가 코어별이면 락은 사라지지만 대신 큐 사이의 작업 이동(마이그레이션)을 관리하는 로직이 별도로 필요해진다.
+- **개요**: 여러 개의 CPU 코어가 존재하는 시스템에서, 수많은 작업(프로세스/스레드)을 어떤 코어에 어떻게 분배할지 결정하는 스케줄링 기법이다. (단일 큐 vs 다중 큐)
+- **왜 필요한가**: CPU가 하나일 때는 고민 없이 순서대로 주면 됐지만, 여러 코어가 생기면서 '캐시 공유(Cache Affinity)'와 '락(Lock) 경합', '부하 불균형'이라는 복잡한 문제가 생겼기 때문이다.
+- **핵심 직관**: 마트 계산대(CPU 코어)가 여러 개 있을 때, 줄을 하나(SQMS)로 서서 순서대로 빈 계산대로 갈지, 각 계산대마다 줄(MQMS)을 따로 설지의 문제다.
 
-## 핵심 용어 정리 (내부에 등장하는 것들)
+## 핵심 용어 정리
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| Run Queue | 실행 가능 상태 프로세스의 대기열 자료구조 | 번호표 대기열 |
-| SQMS | 전역 Run Queue 1개를 모든 코어가 공유 | 창구 여러 개, 대기줄 1개 |
-| MQMS | 코어(또는 스케줄링 그룹)마다 독립된 Run Queue | 창구마다 별도 대기줄 |
-| Lock Contention(락 경합) | 여러 코어가 동시에 같은 큐 자료구조를 수정하려 할 때 상호배제 락 획득을 놓고 대기하는 현상 | 문이 1개뿐인 창고에 여러 명이 동시에 들어가려는 것 |
-| CPU Affinity | 특정 프로세스를 특정 CPU(또는 코어 집합)에 우선 배정하도록 지정하는 속성 | 지정 좌석제 |
-| Migration Cost | 프로세스가 실행 코어를 옮길 때 캐시·TLB(주소 변환 캐시)가 비워져 재적재하는 데 드는 비용 | 이사할 때 짐을 다시 푸는 시간 |
-| Load Balancer(로드 밸런서) | 코어별 큐 길이를 주기적으로 비교해 불균형 시 프로세스를 이동시키는 스케줄러 서브모듈 | 줄 길이를 보고 손님을 옮겨주는 안내원 |
-| sched_domain(스케줄링 도메인) | 리눅스 커널이 SMT-물리코어-패키지(소켓)-NUMA 노드 단계로 코어 근접도를 계층화한 구조 | 팀-부서-본부-지사로 나뉜 조직도 |
+| SQMS (Single Queue Multiprocessor Scheduling) | 시스템에 단 하나의 거대한 큐를 두고, 모든 CPU가 이 큐에서 작업을 꺼내어 가는 방식 | 은행 창구의 번호표 단일 대기열 |
+| MQMS (Multi Queue Multiprocessor Scheduling) | 각 CPU 코어마다 전용 큐를 두고 독립적으로 스케줄링하는 방식 | 대형 마트의 계산대별 개별 대기열 |
+| CPU 선호도 (Cache Affinity) | 프로세스가 이전에 실행되었던 CPU 코어에 다시 할당되기를 선호하는 특성 (캐시 재사용) | 늘 가던 단골 미용사에게 머리를 맡기는 것 |
 
 ## 깊이 이해
-
-### SQMS의 락 경합을 정량적으로 보기
-전역 큐 1개를 코어 N개가 동시에 두드리면, 큐 접근이 상호배제(mutual exclusion)로 직렬화되므로 스케줄링 결정 자체의 처리량이 큐 락을 잡고 있는 시간의 역수 수준으로 상한이 걸린다. 코어가 4개면 락을 짧게 잡는 구현에서는 체감 병목이 작지만, 코어가 수십 개로 늘어나면 동시에 스케줄링을 시도하는 코어 수가 늘어 락 대기 행렬이 길어지고 스케줄링 지연(wakeup latency)이 눈에 띄게 악화될 수 있다. SQMS가 소규모 SMP(코어 수 개 이하)에는 적합하지만 대규모 서버에는 쓰이지 않는 이유다.
-
-### MQMS와 CFS의 실제 구현 — Per-CPU Run Queue와 vruntime
-리눅스 CFS는 코어마다 Run Queue(`struct rq`)를 두고, 그 안의 실행 가능 프로세스를 vruntime(가상 실행 시간, 실제 실행 시간을 우선순위 가중치로 나눈 값) 순으로 정렬된 레드-블랙 트리에 보관한다. 코어는 자신의 큐에서만 트리를 탐색하므로 다른 코어와 락을 공유하지 않는다. 새 프로세스는 기본적으로 부모가 마지막에 실행된 코어의 큐(또는 상대적으로 한가한 큐)에 놓이고, 이후 실행 코어를 옮기지 않는 한 그 큐에 남는다.
-
-### sched_domain 계층과 로드 밸런싱 주기
-리눅스 커널은 코어 근접도를 SMT(같은 물리 코어의 논리 스레드) → MC(같은 소켓의 물리 코어들) → NUMA(코어 소켓 간)의 계층으로 나눈 `sched_domain`을 구성한다. 로드 밸런서는 계층 하위(SMT)일수록 자주(매 스케줄링 틱 또는 코어가 유휴 상태가 되는 즉시), 계층 상위(NUMA)일수록 드물게 균형을 점검한다 — 가까운 코어끼리는 옮겨도 비용이 작지만, NUMA 노드를 넘는 이동은 원격 메모리 접근 지연까지 함께 유발하기 때문에 더 신중하게 판단해야 한다.
-
-### Migration Cost가 발생하는 구체 지점
-프로세스가 코어 0에서 코어 1로 옮겨지면 세 가지 비용이 함께 발생한다. ① 코어 0의 L1/L2 캐시에 있던 데이터를 코어 1에서 다시 채워야 하는 캐시 미스 비용, ② TLB(가상-물리 주소 변환 캐시)가 초기화되어 페이지 테이블 워크가 다시 발생하는 비용, ③ NUMA 환경이면 메모리 자체가 이전 코어의 로컬 노드에 남아있어 이후 접근이 전부 원격 접근이 되는 비용. 이 때문에 로드 밸런서는 큐 길이 차이가 일정 임계치를 넘을 때만 마이그레이션을 수행하도록 설계된다 — 사소한 불균형마다 옮기면 마이그레이션 비용이 락 경합 절감 이득을 상쇄하기 때문이다.
-
-### SQMS와 MQMS 중 무엇을 고를까 — 판별 기준
-코어 수가 적고(수 개 이하) 워크로드가 짧고 균일하게 도착해 로드 밸런싱이 중요할 때는 SQMS의 단순성과 완벽한 균형이 유리하다. 코어 수가 많고(8개 이상) 워크로드가 캐시 재사용에 민감할 때는 MQMS와 로드 밸런서의 조합이 유리하다. 현대 범용 OS(리눅스, 윈도우)는 사실상 전부 MQMS 계열을 채택하고 있다 — 서버·데스크톱 모두 코어 수가 계속 늘어나는 추세이기 때문이다.
+- **배경·문제의식**: 코어 수가 늘어남에 따라 단일 큐(SQMS) 방식은 프로세스가 큐에서 나올 때마다 락(Lock)을 걸어야 해서 극심한 병목이 발생했다. 또한 A코어에서 돌던 프로세스가 B코어로 가면 A코어에 쌓아둔 L1/L2 캐시를 못 쓰게 되어 느려진다. 그래서 코어별로 큐를 쪼개는 MQMS가 대세가 되었다.
+- **작동 원리 및 한계**:
+  - **SQMS (단일 큐)**: 구현이 직관적이고 큐가 1개라 부하 균형(Load Balancing)이 완벽하다. 하지만 큐 접근 시 락(Lock) 경합이 심하고, 프로세스가 코어를 이리저리 옮겨 다녀 캐시 효율(Cache Affinity)이 엉망이 된다.
+  - **MQMS (다중 큐)**: 각 코어가 자기 큐만 보므로 락 경합이 없고 캐시 선호도가 뛰어나다. 하지만 1번 코어 큐에는 작업이 100개, 2번 코어 큐는 텅 빌 수 있는 부하 불균형(Load Imbalance) 문제가 생긴다.
+- **비유**: 단일 큐는 공평하지만 줄 서는 곳(Lock)이 미어터지고, 다중 큐는 빠르지만 어느 줄은 텅 비고 어느 줄은 꽉 막히는 복불복이 생긴다.
+- **해결책**: MQMS의 부하 불균형을 해결하기 위해, 바쁜 코어의 큐에서 한가한 코어의 큐로 작업을 훔쳐오는 **작업 훔치기(Work Stealing)** 기법을 사용한다.
+- **흔한 오해·주의점**: 현대의 리눅스(CFS)나 윈도우는 단일 큐 방식을 전혀 쓰지 않는다. 무조건 다중 큐(MQMS) 기반에 워크 스틸링을 결합한 하이브리드 방식을 사용한다.
 
 ## 연결 개념
-- CFS(Completely Fair Scheduler) — MQMS 구조 위에서 vruntime 기반 공정성을 구현하는 리눅스 기본 스케줄러.
-- NUMA-aware 스케줄링(031) — `sched_domain`의 NUMA 계층을 활용해 마이그레이션이 원격 메모리 접근을 유발하지 않도록 제약하는 확장.
-- CPU Affinity / cpuset — 마이그레이션 범위를 특정 코어 집합으로 제한해 캐시 지역성을 강제로 보존하는 운영 기법.
+- 리눅스 CFS 스케줄러, 멀티코어 아키텍처, 캐시 일관성, 스레드 풀
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: SQMS와 MQMS는 큐 개수 비교가 아니라 lock contention, load balancing, affinity, migration cost 관점에서 판단해야 한다.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 다중 프로세서 스케줄링은 여러 CPU에 runnable task를 배치하고, 큐 경합과 부하 균형을 조정하는 OS 기능이다.
-> 2. **가치**: SQMS는 단순성과 전역 공정성을 제공하고, MQMS는 코어별 큐로 lock contention과 cache miss를 줄인다.
-> 3. **판단 포인트**: 코어 수, run queue lock, task affinity, load imbalance, migration cost를 함께 고려해야 한다.
+> 1. **본질**: 멀티코어 환경에서 락 경합(Lock Contention)과 캐시 친화성(Cache Affinity)을 최적화하기 위한 작업 큐 분리 및 할당 전략.
+> 2. **가치**: 단일 큐(SQMS)의 락 병목을 다중 큐(MQMS)로 해결하고, 다중 큐의 부하 불균형을 워크 스틸링(Work Stealing)으로 상쇄하여 시스템 전체 스루풋 극대화.
+> 3. **판단 포인트**: 코어 수가 적을 때는 부하 분산이 확실한 SQMS가 유리할 수 있으나, 현대의 매니코어(Many-core) 시스템에서는 확장성을 위해 MQMS 구조 적용이 필수적이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 멀티코어 스케줄링 이해 확인 | SQMS, MQMS, run queue, load balancing | 단일 CPU 스케줄링 알고리즘만 서술 |
-| 성능 병목 분석 확인 | lock contention, cache locality, migration cost | MQMS를 무조건 우위로 단정 |
-| 운영 튜닝 판단 확인 | affinity, CPU isolation, scheduler domain | CPU 사용률만 보고 판단 |
+| 멀티프로세서 스케줄링의 2대 난제 해결 구조 이해 | Cache Affinity, Lock Contention, Load Imbalance, Work Stealing | SQMS와 MQMS의 장단점이 정확히 대칭(반대)됨을 명확히 대조하지 못하면 감점 |
 
-> 요약: 이 문제는 큐 구조와 작업 이동 비용을 멀티코어 성능 지표로 연결해야 한다.
+> 요약: 큐 공유로 인한 락 경합(SQMS)과 큐 분리로 인한 부하 불균형(MQMS)이라는 트레이드오프와 이를 극복하는 최적화 기법을 서술한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: 다중 프로세서 스케줄링은 CPU별 태스크 배치이다.
-- 배경: 멀티코어 환경은 ready queue lock 경합, 코어별 부하 불균형, task migration에 따른 cache locality 손실을 만든다.
-- 필요성: SQMS와 MQMS는 run queue lock wait, CPU utilization 편차 10% 이하, migration/sec 기준으로 선택해야 한다.
+- 개요: 2개 이상의 CPU 코어가 존재하는 시스템에서 레디 큐(Ready Queue)의 프로세스들을 각 코어에 효율적으로 할당하기 위한 운영체제 스케줄링 알고리즘.
+- 배경: 단일 코어용 스케줄러를 멀티코어에 그대로 적용 시, 데이터 동기화로 인한 심각한 락(Lock) 경합과 L1/L2 캐시 무효화 발생.
+- 필요성: 매니코어(Many-core) 프로세서 성능을 100% 끌어내기 위해 동기화 비용 최소화, 캐시 적중률 극대화, 코어 간 부하 분산을 달성해야 함.
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Runnable Task -> Scheduler
-  / SQMS: Global Run Queue -> CPU0 / CPU1 / CPU2
-  / MQMS: CPU0 Queue / CPU1 Queue / CPU2 Queue -> Load Balancer
-  -> Affinity / Migration Cost -> Dispatch
+[SQMS (Single Queue)]                     [MQMS (Multi Queue)]
+ 프로세스 A, B, C, D                        프로세스 A, B       프로세스 C, D
+        |  (Global Lock)                           |                   |  (No Lock / Local Lock)
+  +-----+-----+                             [CPU 1 큐]          [CPU 2 큐]
+  |           |                                    |                   |
+CPU 1       CPU 2                                CPU 1               CPU 2
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Global Run Queue | 모든 CPU가 공유하는 큐 | SQMS, lock contention 가능 |
-| Per-CPU Run Queue | CPU별 runnable task 저장 | MQMS, cache locality 유지 |
-| Load Balancer | 큐 길이와 부하를 비교해 task 이동 | periodic/idle balancing |
-| CPU Affinity | 태스크 실행 CPU 선호도 지정 | cache warmth 유지 |
-| Migration Cost | 태스크 이동 시 캐시·TLB 손실 비용 | 과도한 이동 억제 |
+| Global Run Queue (SQMS) | 시스템 내 유일한 큐에서 모든 CPU가 작업을 가져감 | 완벽한 부하 균형 보장 |
+| Local Run Queue (MQMS) | 각 CPU별로 할당된 독립적인 작업 대기열 | Lock 경합 제거, 확장성 우수 |
+| 캐시 친화성 (Affinity) | 프로세스를 이전에 수행했던 코어에 다시 할당하려는 성질 | 하드웨어 캐시(L1/L2) 재사용률 극대화 |
 
-> 요약: SQMS는 전역 큐, MQMS는 CPU별 큐와 load balancer를 중심으로 구성된다.
+> 요약: SQMS는 큐를 공유하여 동기화 병목이 발생하고, MQMS는 큐를 분리하여 독립성과 확장성을 확보한다.
 
 ---
 
-## Ⅲ. 동작원리 및 흐름도
+## Ⅲ. 동작원리 및 흐름도 (MQMS와 워크 스틸링)
 
 ```text
-Task runnable 전환 -> run queue 삽입 -> CPU 선택
-  -> SQMS는 global queue lock 획득
-  -> MQMS는 per-CPU queue 선택 / load balance
-  -> dispatch -> affinity와 migration cost 갱신
+작업 생성 -> [Local 큐 해시 할당] -> CPU 실행(Cache 힛) -> 부하 불균형 감지 -> [Work Stealing 수행]
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | I/O 완료 또는 wakeup으로 task runnable 전환 | wakeup latency |
-| 2 | SQMS는 전역 큐에 삽입 후 CPU가 dequeue | run queue lock wait |
-| 3 | MQMS는 현재 CPU 또는 선호 CPU 큐에 삽입 | per-CPU queue length |
-| 4 | load balancer가 불균형 시 task migration | migration count |
-| 5 | CPU가 task를 dispatch하고 실행 통계 갱신 | context switch, cache miss |
+- 1단계 [초기 할당]: 새로 생성된 프로세스/스레드는 시스템 부하 상태나 특정 해싱 알고리즘에 의해 특정 CPU의 Local 큐에 삽입됨.
+- 2단계 [독립 실행]: 각 CPU는 전역 락 없이 자신의 큐에서만 작업을 꺼내어 수행하므로, 캐시 친화성(Cache Affinity)이 극대화됨.
+- 3단계 [불균형 감지]: 주기적인 모니터링 데몬이 특정 CPU 큐는 비어있고, 다른 CPU 큐에는 대기 작업이 넘치는 상황을 감지함.
+- 4단계 [작업 훔치기 (Work Stealing)]: 유휴 상태의 CPU가 바쁜 CPU의 큐 뒤쪽에서 작업(스레드)을 훔쳐와(마이그레이션) 스스로 실행하여 부하 균형을 맞춤.
 
-> 요약: MQMS는 per-CPU 큐로 경합을 줄이고 load balancing으로 불균형을 조정하지만 migration cost를 통제해야 한다.
+> 요약: 기본적으로 MQMS를 통해 캐시 효율과 병렬성을 유지하면서, 예외적으로 부하 불균형이 발생할 때만 워크 스틸링으로 개입한다.
 
 ---
 
 ## Ⅳ. 특징
 
-| 구분 | 기존/대안 | 본 기술 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| SQMS | 단일 전역 큐 | 구현 단순, 전역 공정성 | 코어 수 4개 이하에서 부담 제한 |
-| MQMS | CPU별 큐 | lock contention 감소 | 코어 수 8개 이상에서 유리 |
-| Load balancing | 주기적 task 이동 | 부하 균형 확보 | imbalance 10% 이하 목표 |
-| Affinity | 선호 CPU 유지 | cache locality 보존 | LLC miss rate |
+- 동기화 오버헤드 (SQMS 단점): 큐 접근 시마다 Lock/Unlock이 발생하여, 코어 수가 8개, 16개로 늘어날수록 성능 향상률(Scalability)이 급감함.
+- 캐시 친화성 붕괴 (SQMS 단점): 프로세스가 실행될 때마다 임의의 CPU에 스케줄링되므로, 이전에 적재된 CPU 캐시를 버리고 메모리에서 다시 읽어야 함 (Cache Bounce).
+- 뛰어난 확장성 (MQMS 장점): 코어 수 증가에 비례하여 큐 개수도 늘어나므로, 락 경합 없이 코어 확장에 선형적으로 성능이 증가함.
+- 마이그레이션 오버헤드 (MQMS 한계): 작업 훔치기 발생 시, 캐시 미스(Cache Miss) 및 프로세스 정보 복사에 따른 일시적 문맥 교환 오버헤드 발생.
 
-> 요약: 코어 수가 작으면 SQMS 단순성이 장점이고, 코어 수가 커질수록 MQMS의 경합 감소와 affinity 유지가 유효하다.
+> 요약: SQMS는 설계의 단순함과 부하 균형의 장점이 있으나 성능 확장에 치명적 한계가 있어 현대 OS는 워크 스틸링이 결합된 MQMS 구조를 표준으로 채택한다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 비교 축 | SQMS (Single Queue) | MQMS (Multi Queue) | 선택 기준 / 트레이드오프 |
 |:---|:---|:---|:---|
-| 구조 | SQMS 전역 큐 | MQMS per-CPU 큐 | 코어 수, run queue lock 경합 |
-| 비용/성능 | 큐 경합 증가 | migration과 balancing 비용 | context switch, cache miss |
-| 운영/위험 | 자동 스케줄러 기본값 | affinity, CPU set, isolation | 지연 민감 서비스와 배치 분리 |
+| Lock 병목 / 확장성 | 매우 큼 / 확장에 불리 | 없음 (로컬락) / 선형적 확장 가능 | CPU 코어 수 (소수 vs 다수) |
+| 캐시 친화성 (Affinity) | 보장 불가 (낮음) | 매우 높음 (캐시 힛 극대화) | 메모리 I/O 속도 민감도 |
+| 부하 분산 (Load Balance)| 완벽히 균등함 | 불균형 발생 위험 (스틸링 필요) | 스케줄링 오버헤드 vs 작업 불균형도 |
 
-> 요약: MQMS는 경합 감소 효과와 migration 비용을 함께 비교해 선택해야 한다.
+> 요약: 확장성(Scalability)과 캐시 아키텍처 특성상 멀티코어 환경에서는 MQMS가 기술적 우위를 점한다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 큐 경합 | SQMS global lock 집중 | per-CPU queue, lock 분산 | run queue lock wait |
-| 부하 불균형 | MQMS 큐 분리로 특정 CPU 집중 | periodic/idle load balancing | CPU utilization 편차 10% 이하 |
-| 캐시 손실 | task migration 과다 | affinity, migration threshold | LLC miss rate, migration/sec |
-
-> 요약: 멀티코어 스케줄링 리스크는 큐 경합, 부하 불균형, 캐시 손실이며 각 지표를 동시에 본다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 성능/지연 | wakeup latency p95 1ms 이하 | perf sched, eBPF |
-| 품질/균형 | CPU utilization 편차 10% 이하 | mpstat, scheduler trace |
-| 운영/자원 | migration/sec 기준선 대비 20% 이내 | perf stat, ftrace |
-
-> 요약: 도입 효과는 wakeup latency, CPU 편차, migration과 cache miss 지표로 판단한다.
+**도입 및 운영 튜닝 포인트:**
+- CPU 선호도 하드 코딩: 실시간 처리가 필요한 중요 데몬이나 DB 워커 스레드는 `taskset` 등의 명령어로 특정 CPU 코어에 바인딩(Pinning)하여 캐시 플러시와 워크 스틸링 방지 (지표: 캐시 미스율)
+- NUMA 아키텍처 인식: MQMS 적용 시, 로컬 노드의 메모리와 연결된 CPU 큐에 우선 할당(NUMA-aware Scheduling)하여 메모리 접근 지연 시간 단축 (지표: 메모리 대역폭 사용률)
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 코어 수 8개 이상 서버는 per-CPU run queue 기반 스케줄러를 사용하고 CPU utilization 편차 10% 이하를 목표로 load balancing을 점검한다.
-2. 지연 민감 프로세스는 CPU affinity와 cpuset으로 고정하고 배치 작업은 별도 CPU 그룹에 배치한다.
-3. perf sched, ftrace, eBPF로 wakeup latency, migration/sec, LLC miss rate를 수집해 migration threshold를 조정한다.
+**적용 방안 3개:**
+1. 리눅스 CFS 기반 매니코어 최적화: 현대 Linux의 완전 공정 스케줄러(CFS)는 MQMS를 채택하고 있으므로, 커널 파라미터(`sched_migration_cost_ns`)를 튜닝하여 불필요한 작업 훔치기(캐시 파괴) 억제.
+2. 고성능 병렬 프로그래밍 (Fork/Join Pool): Java의 `ForkJoinPool` 등 애플리케이션 레벨 스레드 풀 설계 시, 각 스레드별 Deque(다중 큐)와 Work-Stealing 알고리즘을 적용하여 내부 병렬 처리 극대화.
+3. K8s 컨테이너 CPU 매니저 튜닝: Kubernetes에서 성능에 민감한 파드(Pod) 배포 시 `CPU Manager` 정책을 `static`으로 설정하여, 컨테이너 프로세스가 특정 물리 코어에 독점 바인딩(Affinity)되도록 구성.
 
 **결론 (2줄):**
-- 기술사 판단: 소규모 SMP는 SQMS 단순성이 유효하고, 다코어 서버는 MQMS와 affinity 기반 부하 조정이 적합하다.
-- 향후 방향: 스케줄러는 NUMA, 에너지, 캐시 계층을 함께 고려하는 topology-aware scheduling으로 확장된다.
+- 기술사 판단: 무어의 법칙이 클럭 속도 향상에서 매니코어(Many-core) 확장으로 전환됨에 따라, OS뿐 아니라 미들웨어 계층에서도 Lock-free 다중 큐(MQMS) 아키텍처 수용이 필수적임.
+- 향후 방향: 하드웨어 토폴로지(NUMA 홉 수, 캐시 공유 트리)를 스케줄러가 정밀하게 인식하고, ML 예측 모델을 통해 마이그레이션 이득을 사전 계산하는 지능형 스케줄링으로 진화할 것임.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "다중 프로세서 스케줄링을 설명하시오" | SQMS/MQMS 큐 처리 흐름 | 경합·균형·affinity 특징 |
-| 요구사항 명시형 | "비교하시오", "개선 방안을 제시하시오" | load balancing과 migration 흐름 | 코어 수별 선택 기준과 지표 |
-
-> 요약: 설명형은 큐 구조와 동작을, 비교형은 lock contention과 migration cost 기준을 중심으로 작성한다.
+| 비교형 | "SQMS와 MQMS를 비교하시오" | 단일 큐 Lock 병목 vs 다중 큐 캐시 친화성 대조 | 상세 3자 비교표 및 Work Stealing 메커니즘 |
+| 심화/아키텍처 | "캐시 일관성과 멀티코어 스케줄링" | 캐시 메모리와 CPU의 물리적 구조 연동 다이어그램 | CPU Pinning 및 NUMA 인지형 스케줄링 튜닝 방안 |
