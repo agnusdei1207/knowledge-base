@@ -641,8 +641,10 @@ table {
 .post-content table,
 .section-content table {
     display: block;
-    width: 100%;
+    max-width: 100%;
+    width: max-content;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 th {
@@ -653,6 +655,20 @@ th {
 
 td {
     padding: 0.2rem 0.7rem;
+}
+
+/* 한글이 열 압축 시 글자 단위로 꺾여 세로로 흐르는 것 방지:
+   단어 중간에서는 줄바꿈하지 않고, 대신 표 자체가 가로 스크롤된다. */
+th,
+td {
+    word-break: keep-all;
+}
+
+.post-content th,
+.post-content td,
+.section-content th,
+.section-content td {
+    min-width: 4.5rem;
 }
 
 tr {
