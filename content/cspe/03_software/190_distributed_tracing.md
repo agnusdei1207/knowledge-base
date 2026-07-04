@@ -1,6 +1,6 @@
 ---
 title: "분산 추적 (Distributed Tracing)"
-date: "2026-07-01"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 190
@@ -8,189 +8,146 @@ weight: 190
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: 분산 추적을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: **분산 추적(Distributed Tracing)**은 하나의 요청이 여러 서비스·DB를 거치는 경로를 **trace**와 **span**으로 기록해 지연·오류 발생 지점을 요청 단위로 찾는 관측 기법이다.
-- **왜 필요한가**: 모놀리식은 로그 한 곳만 봐도 요청 흐름을 알 수 있지만, MSA는 API Gateway→서비스→큐→DB로 호출이 흩어져 로그 타임스탬프만으로는 어느 서비스가 병목인지 알 수 없다.
-- **핵심 직관**: 택배 송장 번호 하나로 물류센터·차량·배송지 각 구간의 체류 시간을 이어붙여 보는 것과 같다.
+- **개요**: 마이크로서비스 아키텍처(MSA)에서 요청(Request)이 여러 서비스를 거쳐 처리되는 전체 경로와 시간을 추적하는 모니터링 기술.
+- **왜 필요한가**: 수많은 서비스가 얽혀있는 MSA 환경에서는 장애나 지연이 발생했을 때 어느 서비스에서 병목이 생겼는지 직관적으로 파악하기 어렵기 때문.
+- **핵심 직관**: 택배 배송 조회처럼 사용자의 요청이 시스템에 들어와서 나갈 때까지 거치는 모든 서버와 서비스에 꼬리표(Trace ID)를 달아 전체 처리 과정을 기록하고 시각화한다.
 
 ## 핵심 용어 정리
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| 분산 추적(Distributed Tracing) | 요청 경로를 서비스 경계를 넘어 추적하는 기법 — 이 개념의 정체성 | 송장 번호로 전체 배송 경로 조회 |
-| Trace | 하나의 요청 전체를 나타내는 컨테이너(span들의 집합) | 배송 전체 여정 |
-| Span | trace 안의 한 작업 구간(시작·종료 시각, 속성 포함) | 여정 중 한 구간(집하→터미널) |
-| root span | 요청이 시작된 최초 span(보통 Gateway) | 최초 접수 지점 |
-| child span / parent span | 상위 span이 호출한 하위 span, 그 상위 span | 상위 물류센터가 하위 배송기사에게 위탁 |
-| trace_id | trace 전체를 식별하는 공통 키 | 송장 번호 |
-| span_id / parent_id | span 자신의 ID와 자신을 호출한 span의 ID | 구간 코드와 이전 구간 코드 |
-| Context Propagation | trace_id 등을 다음 서비스로 넘기는 것 | 환승할 때도 같은 송장 번호를 넘김 |
-| traceparent(W3C Trace Context) | context propagation을 위한 표준 HTTP 헤더 형식 | 송장에 인쇄된 표준 바코드 |
-| Sampling | 전체 trace 중 저장할 것을 고르는 정책 | 전수조사 대신 표본 조사 |
-| Critical Path | 전체 지연을 결정하는, 병렬이 아닌 순차 구간의 합 | 여러 줄 중 가장 늦게 끝나는 줄 |
+| Trace | 사용자 요청 1개의 처음부터 끝까지 전체 호출 경로 | 택배 접수부터 배송 완료까지의 전체 과정 |
+| Span | 하나의 서비스 또는 컴포넌트에서 수행된 단일 작업 단위 | 각 지역 물류센터나 대리점에서의 작업 과정 |
+| Trace ID | 전체 Trace를 하나로 묶어 식별하기 위한 고유 ID | 택배 운송장 번호 |
+| Span ID | 각 Span을 식별하기 위한 고유 ID | 각 물류센터의 작업 번호 |
+| Context Propagation | 서비스 간 호출 시 Trace ID 등을 헤더에 담아 전달하는 과정 (문맥 전파) | 다음 작업자에게 택배와 함께 운송장 번호 넘겨주기 |
 
 ## 깊이 이해
-
-### 로그만으로 부족한 이유 — 수치로 이해
-- 주문 요청이 order-api → payment → fraud-db를 거친다고 하자. 각 서비스 로그의 타임스탬프만 보면 이 세 로그가 같은 요청에서 나왔는지 알 방법이 없다. 초당 수백 건이 겹치면 시간 순서로 짝짓는 것 자체가 불가능하다.
-- trace_id라는 공통 키로 세 로그(정확히는 세 span)를 묶으면, 이 요청 하나에 대해 `order-api 40ms → payment 900ms → fraud-db 700ms`처럼 구간별 소요 시간을 정확히 재구성할 수 있다.
-
-### span 계층 구조 — parent-child로 병목 찾기
-- payment span(900ms) 안에 fraud-db span(700ms)이 child로 들어있다면, payment 자체 로직은 900-700=200ms만 쓰고 나머지 700ms는 DB 호출을 기다린 것이다. 즉 병목은 payment 서비스 코드가 아니라 fraud-db 쿼리다.
-- 이런 부모-자식 관계를 시간축으로 늘어놓은 그림이 waterfall이며, 여러 서비스의 span을 노드로 그린 것이 service map이다.
-
-### Critical Path — 병렬 구간은 지연에 안 더해진다
-- 만약 payment가 fraud-db 조회와 inventory 조회를 병렬로 동시에 호출한다면(fraud-db 700ms, inventory 300ms), 전체 지연은 700+300=1000ms가 아니라 둘 중 더 오래 걸리는 700ms만 더해진다.
-- Critical Path는 "병렬로 겹치는 구간을 제외하고, 실제로 전체 지연을 늘리는 순차 구간만 합산한 경로"다. 최적화 우선순위는 span 개수가 아니라 이 critical path 위에 있는 span부터 잡아야 한다.
-
-### traceparent 형식과 전파 원리
-- W3C Trace Context 표준 헤더 형식은 `버전-traceid(32자리 16진수)-spanid(16자리 16진수)-flags(2자리)`다. 예: `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01`.
-- order-api가 이 헤더를 만들어 payment 호출 시 HTTP 헤더로 실어 보내고, payment는 이를 받아 자신의 새 span_id를 만들되 같은 trace_id를 유지한 채 fraud-db 호출에도 실어 보낸다. 이 헤더가 큐(Kafka 등)를 거치는 비동기 구간에서 누락되면 trace가 그 지점에서 끊긴다(broken trace).
-
-### Sampling — head vs tail, 왜 정책이 다른가
-- head-based sampling: 요청이 시작되는 순간(root span 생성 시점)에 예컨대 1% 확률로 저장을 결정한다. 구현은 간단하지만, 문제가 된 느린 요청이 99% 확률로 우연히 누락될 수 있다.
-- tail-based sampling: 요청이 끝난 뒤 "에러였다", "p95 300ms를 넘었다" 같은 조건을 보고 그 trace만 우선 저장한다. 초당 10,000건 중 정상 요청은 1%만 남기고, 문제 있는 요청은 100% 남기는 식으로 저장 비용은 줄이면서 정작 필요한 trace는 놓치지 않는다. 대신 요청이 끝날 때까지 Collector가 span을 버퍼링해야 해서 자원 부담이 더 크다.
-
-### 비유와 흔한 오해
-- **비유**: 병원 진료에서 접수번호 하나로 접수·검사·진료·수납 각 단계의 대기 시간을 모두 조회할 수 있는 것과 같다. 각 부서 기록을 따로 보면 어느 단계에서 환자가 오래 기다렸는지 맞추기 어렵다.
-- **오해**: 트레이스가 로그를 대체하지 않는다. 트레이스는 "어디서, 얼마나" 걸렸는지(경로와 시간)를 보여줄 뿐, 실패의 구체적 원인(에러 메시지, 스택트레이스)은 여전히 trace_id로 연결된 로그에서 찾아야 한다.
+- **배경·문제의식**: 모놀리식 구조에서는 단일 로그 파일만 분석하면 디버깅이 가능했다. 하지만 MSA에서는 수십 개의 분산된 서비스가 협력하여 하나의 요청을 처리하므로, 서비스별 로그가 파편화되어 장애 원인 파악과 응답 지연 구간 식별이 불가능하다.
+- **작동 원리**: 사용자의 최초 요청 시 API 게이트웨이에서 고유한 Trace ID를 생성한다. 각 서비스는 자신의 작업을 수행하며 고유한 Span ID를 만들고 부모 Span ID와 묶어 기록한다. 서비스가 다른 서비스를 호출할 때 HTTP 헤더 등에 Trace ID를 주입해 넘겨준다(Context Propagation). 각 서비스의 에이전트가 이 기록들을 수집기(Collector)로 비동기 전송하고, 시각화 도구가 이를 조립하여 트리(Tree) 형태로 렌더링한다.
+- **비유**: 대형 병원에서 환자가 접수(게이트웨이)부터 진료, 검사(각 마이크로서비스), 약국 수령까지 거치는 모든 과정에 같은 접수번호(Trace ID)를 부여하여, 환자의 총 소요 시간과 유독 대기가 길었던 부서(병목)를 병원장이 한눈에 파악하는 것과 같다.
+- **구체 예시**: 사용자의 결제 요청(Trace ID: A123) → 프론트엔드(Span 1: 50ms) → 주문 서비스(Span 2: 100ms) → 재고 서비스(Span 3: 500ms - 병목) → 결제 서비스(Span 4: 200ms)로 이어질 때, 재고 서비스에서 지연이 발생했음을 즉시 식별한다.
+- **흔한 오해·주의점**: 분산 추적은 로그 수집(Logging)이나 메트릭(Metrics)을 대체하는 것이 아니다. 메트릭이 "어디가 아픈가(경고)"를, 로그가 "왜 아픈가(원인)"를 알려준다면, 분산 추적은 전체 흐름 중 "어느 부위가 아픈가(위치)"를 알려주는 역할이다(Observability의 3대 요소).
 
 ## 연결 개념
-- OpenTelemetry — trace/span을 생성하고 전파하는 표준 SDK·프로토콜(189에서 상세)
-- Cloud Native Observability — 트레이스가 메트릭·로그와 함께 이루는 3대 신호 중 하나(188에서 상세)
-- SRE — SLO 위반 요청을 trace로 원인 분석하는 운영 활용(191에서 상세)
+- OpenTelemetry — 분산 추적, 메트릭, 로그의 수집을 위한 오픈소스 표준화 프레임워크
+- 마이크로서비스 아키텍처(MSA) — 분산 추적이 필수적으로 요구되는 아키텍처 환경
+- API Gateway — 외부 요청을 받아 Trace ID를 최초 생성하고 하위로 전파하는 주체
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 분산 추적 답안은 trace/span 구조, context propagation, sampling, 로그 상관, SLO 분석을 연결해야 함.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Distributed Tracing은 하나의 요청을 trace ID로 묶고 서비스별 처리 구간을 span으로 기록해 분산 호출 경로와 지연을 분석하는 기법임.
-> 2. **가치**: p95 latency와 error trace를 서비스·DB·외부 API span으로 분해해 장애 원인 탐색 시간을 30분에서 10분 이하로 줄이는 근거를 제공함.
-> 3. **판단 포인트**: W3C Trace Context, sampling 전략, span attribute, trace-log correlation, coverage, 저장 비용을 기준으로 설계해야 함.
+> 1. **본질**: 분산 추적(Distributed Tracing)은 MSA에서 단일 요청이 여러 서비스를 관통하는 전체 호출 경로와 소요 시간을 Trace ID 기반으로 연결하는 가시성(Observability) 확보 기술이다.
+> 2. **가치**: 파편화된 서비스 환경에서 장애 위치 식별 시간(MTTR)을 단축하고 성능 병목 구간을 시각적으로 도출하여 복잡한 분산 시스템의 통제력을 회복한다.
+> 3. **판단 포인트**: 추적 데이터 수집에 따른 오버헤드를 통제하기 위해 샘플링(Sampling) 기법과 비동기 전송 구조를 도입해야 하며, 벤더 종속성 탈피를 위한 OpenTelemetry 표준 적용이 필수적이다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 분산 시스템 장애 분석 이해 확인 | trace, span, parent-child, propagation | 로그 수집과 동일시 |
-| 표준 적용 확인 | traceparent, tracestate, OpenTelemetry | proprietary header만 언급 |
-| 운영 판단 확인 | sampling, coverage, storage cost, PII | 모든 요청 100% 저장 주장 |
+| MSA 가시성 확보 원리 이해 확인 | Trace, Span, Context Propagation, OpenTelemetry | 로그 수집(ELK)이나 일반 APM 모니터링만으로 한정 |
+| 동작 메커니즘과 구성 요소 도출 | Trace ID 전파 흐름, Collector 수집 구조, Sampling | 데이터 전달 흐름(헤더 주입 등) 누락 |
+| 실무 적용 시 성능 리스크 인지 | 샘플링 전략(Head/Tail-based), 비동기 아키텍처 | 성능 오버헤드를 언급하지 않고 무조건적 도입 단정 |
 
-> 요약: 이 문제는 요청 경로 분석 구조와 비용·개인정보 통제를 함께 제시해야 함.
+> 요약: 분산 시스템 장애 해결의 핵심인 Observability 확보를 위해 Trace ID 전파 원리와 샘플링 기반 오버헤드 통제 방안을 묻는 문제다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: 요청 경로 분석 기법
-- 배경: MSA와 클라우드 네이티브 환경은 요청이 여러 서비스와 비동기 큐를 통과한다.
-- 필요성: trace_id, span_id, parent_id로 지연·오류 발생 구간을 요청 단위로 식별한다.
+- 개요: 마이크로서비스 환경에서 하나의 트랜잭션이 거치는 여러 서비스 간의 호출 경로와 소요 시간을 Trace ID 기반으로 가시화하는 분산 모니터링 기술
+- 배경: 분산 환경에서는 수많은 서비스가 상호 작용하여 요청을 처리하므로, 개별 노드 로그만으로는 시스템 전체의 병목(Bottleneck) 추적이 불가능
+- 필요성: 시스템 가시성(Observability) 확보를 통해 장애 원인 파악 시간(MTTR)을 단축하고 분산 트랜잭션 성능 최적화(기준: 지연 구간 5초 이내 식별)
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Client Request -> Trace Context -> Service Span -> DB/External Span -> Trace Backend
-  / Correlation: trace_id, span_id, parent_id
-  / Control: sampling, attribute, retention
+Client -> API Gateway -> Service A -> Service B -> Database
+  [Context 전파: Trace ID / Span ID HTTP 헤더 주입]
+             |             |            |
+             +---- 비동기 전송(Agent) ---+
+                           |
+                     [Collector 수집] -> [Storage (DB/Elasticsearch)] -> [UI 시각화]
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Trace | 요청 전체 경로 식별 | trace_id로 묶음 |
-| Span | 서비스 또는 작업 단위 구간 | start/end time, attribute |
-| Context Propagation | 서비스 간 문맥 전달 | W3C traceparent |
-| Trace Backend | 저장, 검색, service map 제공 | Jaeger, Tempo, Zipkin |
+| Trace | 사용자 요청 1개의 전체 호출 경로 논리적 묶음 | 시스템 전역 동일한 Trace ID 공유 |
+| Span | 단일 서비스 또는 컴포넌트 내에서의 작업 단위 | Span ID 및 부모 Span ID 포함 |
+| Context Propagation | 서비스 간 Trace ID/Span ID를 전달하는 과정 | W3C Trace Context, B3 헤더 활용 |
+| Collector | 각 서비스(Agent)에서 발생한 Trace 데이터를 수집/정제 | 트래픽 부하 분산 큐잉(Kafka 등) 필요 |
 
-> 요약: 분산 추적은 trace, span, context propagation, backend로 요청 경로와 지연을 구조화함.
+> 요약: Trace ID를 기반으로 각 서비스의 Span을 연결(Propagation)하고, Collector를 통해 수집하여 전체 호출 트리를 구성한다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-요청 수신 -> trace_id 생성/추출 -> root span 생성 -> child span 전파 -> backend export -> service map 분석
-  / 오류 발생 -> error span 표시
-  / sampling 제외 -> metric만 유지
+요청 수신 -> Trace ID 생성 -> 헤더 주입 및 전파 -> 비동기 데이터 수집 -> 연관성 분석 및 렌더링
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | gateway 또는 첫 서비스가 trace ID 생성 | traceparent 생성률 |
-| 2 | 서비스 호출마다 child span 생성 | span attribute 표준 준수 |
-| 3 | HTTP/gRPC/Queue header로 context 전파 | propagation success |
-| 4 | Collector가 sampling 후 backend 저장 | sampled trace 비율 |
-| 5 | waterfall과 service map으로 병목 분석 | p95 span latency |
+- 1단계 [요청 수신 및 ID 생성]: API Gateway 등 최초 진입점이 사용자 요청을 받으면 고유 식별자(Trace ID)와 최초 Span 생성
+- 2단계 [헤더 주입 및 전파]: HTTP/gRPC 헤더에 Trace/Span ID를 담아 다음 서비스 호출 (Context Propagation)
+- 3단계 [Span 기록 및 수집]: 각 서비스는 작업 시작/종료 시간을 Span에 기록하고, Agent를 통해 Collector로 비동기 전송
+- 4단계 [연결 및 시각화]: Collector가 수집된 Span들을 Trace ID 기준으로 묶어 부모-자식 트리 구성 후 대시보드(UI) 출력
 
-> 요약: 분산 추적은 문맥 전파와 span 계층을 통해 서비스별 지연과 오류를 요청 단위로 분석함.
+> 요약: 최초 진입점에서 Trace ID를 부여하고 서비스 간 호출 시 헤더로 전파한 뒤, 각 Span 기록을 비동기 수집하여 시각화한다.
 
 ---
 
 ## Ⅳ. 특징
+- 가시성(Observability) 향상: 분산 환경에서 사용자 요청 경로, 구간별 지연 시간(Latency), 에러 발생 서비스 위치를 직관적으로 파악
+- 성능 오버헤드 수반: 모든 요청을 추적할 경우 네트워크 대역폭 증가 및 애플리케이션 CPU/메모리 성능 저하 발생
+- 샘플링(Sampling) 필수: 전체 트래픽 중 일부 비율만 데이터로 수집하여 오버헤드를 방어 (예: 1% 고정 샘플링)
+- 이기종 환경 표준화 지원: OpenTelemetry 등 표준을 통해 다국어(Java, Go, Node.js) 및 다양한 프레임워크 혼재 환경 지원
 
-| 구분 | 로그 중심 분석 | 분산 추적 | 수치/판단 포인트 |
-|:---|:---|:---|:---|
-| 분석 단위 | 이벤트 행 | 요청 경로 | trace_id 기반 |
-| 시간 관계 | 수동 정렬 | span waterfall | critical path 확인 |
-| 적용 범위 | 서비스별 로그 | 서비스 간 호출 | trace coverage 95% |
-| 비용 | 로그량 중심 | span 수와 sampling | tail sampling 정책 |
-
-> 요약: 분산 추적은 로그보다 요청 경로와 시간 관계를 파악하는 데 적합하며 sampling과 저장 비용을 설계해야 함.
+> 요약: MSA 환경의 가시성을 획기적으로 높이지만 필연적인 성능 오버헤드가 발생하므로 샘플링 전략과 표준화가 동반되어야 한다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
+| 비교 축 | 로그 수집 (Logging) | 분산 추적 (Tracing) | 선택 기준 |
 |:---|:---|:---|:---|
-| 구조 | 중앙 로그 분석 | trace/span graph | MSA 호출 깊이 3단계 이상 |
-| 비용/처리 | 전체 로그 보관 | head/tail sampling | 월 span 저장 예산 |
-| 운영/위험 | 장애 후 수동 추정 | SLO 위반 trace 분석 | MTTR 단축 목표 |
+| 목적 | "왜(Why)" 오류가 났는가 확인 | "어디서(Where)" 지연/오류가 났는가 | 상세 원인 분석 vs 병목 구간 도출 |
+| 데이터 형태 | 타임스탬프 기반 이벤트 문자열 | Trace ID 기반 호출 트리 (Span) | 텍스트 검색 용이성 vs 경로 시각화 |
+| 부하 발생 특성 | 디스크 I/O 오버헤드 집중 | 네트워크 및 메모리 오버헤드 발생 | 시스템 자원 여유도에 따른 샘플링 수준 조절 |
 
-> 요약: 서비스 호출 깊이가 깊고 SLO 위반 원인 분석이 필요하면 분산 추적을 우선 적용함.
+> 요약: MSA 관제(Observability)를 완성하려면 로그(Logging), 메트릭(Metrics), 분산 추적(Tracing) 3요소를 상호 연계하여 구성해야 한다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 추적 단절 | header 전파 누락 | W3C Trace Context 표준화 | broken trace 비율 |
-| 비용 증가 | 모든 요청 저장 | tail sampling, retention | ingest span count |
-| 개인정보 노출 | span attribute 과다 | attribute denylist, masking | PII 검출 0건 |
+**리스크·대응:**
+- 성능 오버헤드(CPU/Network): 모든 요청 추적 시 서비스 처리 지연 → Head-based(확률) 또는 Tail-based(에러 시) 샘플링 적용 (지표: Agent CPU 점유율)
+- 추적 단절(Context Loss): 특정 레거시 서비스가 헤더 전파를 누락 → W3C Trace Context 표준 준수 강제 및 프록시 활용 (지표: Trace 단절 비율 1% 이하)
 
-> 요약: 분산 추적 리스크는 전파 단절, 저장 비용, 개인정보 노출을 기준으로 통제함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 적용 | trace coverage 95% 이상 | backend service map |
-| 품질 | broken trace 1% 이하 | trace validation |
-| 운영 | MTTR 10분 이하 | incident record |
-
-> 요약: 분산 추적 품질은 coverage, broken trace, MTTR로 판단함.
+**도입 후 점검 지표:**
+- 품질/운영: 장애 원인 식별 시간 (MTTR) — 도입 전 대비 50% 이상 단축 여부
+- 성능/효율: 에이전트 성능 오버헤드 — 애플리케이션 응답 시간 지연(Latency overhead) 5ms 이내 유지
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 전파 표준화: HTTP, gRPC, Kafka 메시지에 W3C `traceparent`를 적용하고 gateway에서 trace ID를 생성
-2. 계측 적용: OpenTelemetry auto instrumentation으로 기본 span을 만들고 결제, 주문, 인증은 manual span attribute를 추가
-3. 비용·보안 통제: tail sampling, 30일 retention, PII attribute denylist, trace coverage 95% 이상을 운영 기준으로 설정
+**적용 방안 3개:**
+1. 계측(Instrumentation) 표준화: 벤더 종속성 탈피를 위해 애플리케이션 내에 OpenTelemetry SDK를 적용하여 Trace 데이터를 통합 수집
+2. 효율적 샘플링(Sampling) 정책 수립: 평시 트래픽은 1% Head-based 샘플링을, 결제 등 주요 트랜잭션이나 에러 시에는 100% Tail-based 샘플링 적용
+3. 로그·메트릭 상호 연계(Correlation): 식별된 Trace ID를 애플리케이션 로그 스레드 문맥(MDC)에 자동 주입하여 대시보드 클릭 시 즉각적인 상세 로그 분석 연결
 
 **결론 (2줄):**
-- 기술사 판단: MSA 호출 깊이 3단계 이상이고 p95 지연 원인 분석이 필요하면 분산 추적을 필수 관측 신호로 채택함
-- 향후 방향: OpenTelemetry, eBPF auto-instrumentation, exemplars가 metric과 trace 상관 분석을 확장함
+- 기술사 판단: MSA 환경에서 분산 추적은 선택이 아닌 필수 생존 도구이며, 도입 초기부터 OpenTelemetry 표준과 샘플링 전략을 설계해야 성능 리스크를 피할 수 있다.
+- 향후 방향: 최근 eBPF 기반의 커널 레벨 추적으로 애플리케이션 코드 수정(Zero-Code Instrumentation) 없이도 가시성을 확보하는 방향으로 기술이 진화 중이다.
+
+---
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "분산 추적을 설명하시오", "기술하시오" | trace ID, span, context propagation 흐름 | 로그 중심 분석 대비 요청 경로 분석 |
-| 요구사항 명시형 | "MSA 장애 분석 방안을 제시하시오", "설계하시오" | W3C 전파, sampling, backend 설계 | coverage, broken trace, MTTR 기준 |
-
-> 요약: 설명형은 trace/span 원리, 운영형은 장애 분석 지표와 비용 통제 중심으로 전환함.
+| 포괄형 | "분산 추적 기술에 대해 설명하시오" | Trace/Span 구조와 Context 전파 흐름 폭넓게 | Logging/Metric과의 비교, 적용 사례 및 발전 방향(eBPF) |
+| 요구사항 명시형 | "가시성 확보 방안과 오버헤드 통제 방안을 제시하시오" | Trace 전파 원리와 Collector 비동기 수집 아키텍처 | 샘플링 전략(Head/Tail-based) 상세 비교, 단계별 적용 방안 |
