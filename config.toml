@@ -9,9 +9,6 @@ ignored_content = [
     "**/.git/**",
     "**/.gitignore",
     "**/README.md",
-    "studynote",
-    "studynote/**",
-    "*/studynote/**"
 ]
 
 taxonomies = [
