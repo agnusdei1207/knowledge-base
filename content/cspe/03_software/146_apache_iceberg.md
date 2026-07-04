@@ -1,6 +1,6 @@
 ---
-title: "Apache Iceberg (Apache Iceberg)"
-date: "2026-07-01"
+title: "Apache Iceberg"
+date: "2026-07-04"
 tags:
   - "cspe-software"
 weight: 146
@@ -8,183 +8,147 @@ weight: 146
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Apache Iceberg를 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
 ## 한눈에
-- **개요**: Apache Iceberg는 **오픈 테이블 포맷**의 하나로, **metadata file → manifest list → manifest**라는 3단 메타데이터 계층으로 데이터 파일을 관리해 여러 처리 엔진이 동일한 테이블을 안전하게 동시에 읽고 쓰게 한다.
-- **왜 필요한가**: Hive 테이블은 "파티션 = 디렉터리 경로"로 파일과 스키마 정보를 암묵적으로 표현해, 파티션 구조를 바꾸면 기존 쿼리가 깨지고 파일이 수백만 개면 디렉터리 리스팅 자체가 느려진다. Iceberg는 파일 목록과 통계를 메타데이터 파일 안에 명시적으로 저장해 이 문제를 없앤다.
-- **핵심 직관**: 창고 바닥을 걸어 다니며 상자를 세는 대신, 사무실 장부(메타데이터)만 보고 "어느 구역에 몇 개 상자가 있는지" 즉시 계산하는 방식이다.
+- **개요**: 거대한 데이터 레이크 파일들을 빠르고 안전하게 쿼리할 수 있도록 관리해주는, 크고 느린 데이터셋에 최적화된 오픈 테이블 포맷이다.
+- **왜 필요한가**: 페타바이트급 데이터에서 특정 데이터를 찾으려면 기존 Hive 폴더 구조(디렉터리 리스팅)로는 수십 분이 걸린다. 이를 해결하기 위해 파일 단위가 아니라 정밀한 '트리 구조의 메타데이터'로 데이터 위치를 관리해야 했다.
+- **핵심 직관**: 도서관(데이터 레이크)에 책 수십만 권이 분류 없이 꽂혀 있다면 찾기 불가능하다. Iceberg는 이 도서관에 정밀한 '목차와 색인(Manifest)' 카드를 만들어, 책을 일일이 뒤지지 않고도 색인만 보고 원하는 책을 1초 만에 뽑아내게 해준다.
 
-## 핵심 용어 정리 (내부에 등장하는 것들)
+## 핵심 용어 정리
 
-| 용어 | 의미 | 비유 |
+| 용어/표기 | 의미 | 비유·예 |
 |:---|:---|:---|
-| 오픈 테이블 포맷 | Parquet/ORC 파일 위에 메타데이터 계층을 얹어 ACID·버전 관리를 제공하는 표준 규격 — Iceberg가 속하는 **상위 범주** | 낱장 문서 더미에 표지·목차를 붙인 정식 문서철 |
-| Metadata File | 테이블의 현재 스키마·파티션 규칙·최신 snapshot 목록을 담은 최상위 파일 — Iceberg **정체성**의 핵심 | 회사의 최신 정관·조직도 |
-| Snapshot | 특정 시점 테이블의 "유효 데이터 파일 전체 집합" | 특정 시각의 재고 스냅샷 사진 |
-| Manifest List | 하나의 snapshot을 구성하는 manifest 파일들의 목록(파티션 범위 요약 포함) | 여러 창고 구역별 요약 인덱스 |
-| Manifest | 실제 data/delete file 경로와 컬럼 통계(min/max, null count)를 담은 파일 | 각 구역의 상세 물품 목록표 |
-| Catalog | 테이블 이름 → 현재 metadata file 위치를 가리키는 포인터를 관리 | 건물 안내데스크의 사무실 호수 대장 |
-| Hidden Partitioning | 사용자는 논리 컬럼(예: event_time)으로만 쿼리하고, 실제 파티션 경로 변환은 Iceberg가 대신 처리 | 우편번호만 적으면 집배원이 알아서 배송 구역을 찾아줌 |
-| Partition Evolution | 기존 데이터를 재작성하지 않고 앞으로의 파티션 규칙만 바꾸는 기능 | 앞으로는 새 분류법 적용, 옛 재고는 그대로 |
-| Position/Equality Delete File | 행을 물리적으로 지우지 않고 "이 파일의 N번째 행은 삭제됨"을 기록하는 파일 | 삭제 스티커만 붙이고 실물은 나중에 치움 |
+| Apache Iceberg | 대규모 분석을 위한 고성능 오픈 테이블 포맷 (Netflix 개발) | 정밀 색인 시스템 |
+| Snapshot | 특정 시점에 테이블이 포함하고 있는 모든 파일의 상태 | 현재 도서관 재고 목록 |
+| Manifest File | 파티션 정보, 컬럼 통계값(Min/Max) 등 개별 파일의 상세 정보를 담은 문서 | 서가의 구체적인 책 목록표 |
+| Hidden Partitioning | 사용자가 쿼리할 때 파티션 컬럼을 몰라도, Iceberg가 알아서 파티션을 잘라주는 기능 | 자동 분류 |
+| Schema Evolution | 파일 전체를 다시 쓰지 않고도 컬럼명 변경, 타입 변경 등을 안전하게 수행하는 기능 | 목차 이름만 바꾸기 |
 
 ## 깊이 이해
-
-### 왜 Hive 방식이 한계였나 — 수치로 이해
-- Hive 테이블에서 파일이 100만 개면, "특정 날짜 데이터를 찾아라"는 쿼리도 디렉터리를 나열(list)하는 데만 수 분이 걸릴 수 있다(객체 스토리지는 파일시스템과 달리 디렉터리 개념이 없어 prefix 나열이 느리다). Iceberg는 이 나열을 메타데이터 파일 읽기로 대체해 계획(planning) 시간을 초 단위로 줄인다.
-
-### 3단 메타데이터로 필요한 파일만 골라내는 과정 — 워크드 예제
-- 예: 전체 테이블에 파일 100만 개, 파티션은 일 단위(365개)로 나뉘어 있다고 하자. `WHERE event_date = '2026-07-03' AND amount > 1000` 쿼리가 들어오면:
-  1) Metadata file에서 최신 snapshot(v87)을 찾는다.
-  2) Manifest list에서 각 manifest가 담당하는 파티션 범위(min/max event_date)를 보고, event_date=2026-07-03을 포함하지 않는 manifest(전체의 약 99.7%)는 즉시 스킵한다.
-  3) 남은 manifest 안에서 각 파일의 컬럼 통계(amount의 min/max)를 보고, amount>1000이 될 수 없는 파일(예: max가 500인 파일)도 스킵한다.
-- 결과적으로 100만 개 파일 중 실제로 열어보는 파일은 수십~수백 개 수준으로 줄어든다 — 이것이 metadata pruning이다.
-
-### Hidden Partitioning — 예제
-- Hive 방식이면 사용자가 `WHERE year=2026 AND month=07 AND day=03`처럼 파티션 컬럼을 직접 알고 써야 한다. 파티션을 월별에서 일별로 바꾸면 기존 쿼리가 깨진다.
-- Iceberg는 `PARTITIONED BY (days(event_time))`처럼 변환 함수를 테이블 정의에 넣어두므로, 사용자는 그냥 `WHERE event_time = '2026-07-03'`이라고만 쓰면 된다. 나중에 파티션을 `days`에서 `hours`로 바꿔도(Partition Evolution) 과거 데이터는 재작성 없이 그대로 두고, 새로 들어오는 데이터부터 시간 단위로 나뉜다.
-
-### 삭제 처리 — Position/Equality Delete 예제
-- GDPR 요청으로 회원 1명(파일 하나의 1,000행 중 3행)을 삭제해야 할 때, 전통 방식은 해당 파일 전체를 재작성해야 한다. Iceberg는 "파일 X의 15, 302, 981번째 행 삭제"라는 작은 delete file만 추가하고, 다음 읽기 시 원본 파일과 delete file을 merge-on-read로 합쳐 보여준다 — 대용량 파일 재작성 없이 즉시 반영된다.
-
-### 비유와 오해
-- **비유**: 사무실 장부(메타데이터)만 보고 창고 전체를 뒤지지 않고도 필요한 상자 위치를 즉시 아는 방식이다.
-- **오해 1**: Iceberg가 처리 엔진이다 — 아니다. Iceberg는 파일 형식·메타데이터 규격일 뿐이고, 실제 읽기/쓰기는 Spark·Flink·Trino 같은 엔진과 Catalog가 수행한다.
-- **오해 2**: snapshot이 많아도 무해하다 — 아니다. snapshot·manifest가 만료 없이 계속 쌓이면 metadata 자체가 커져 planning이 느려지므로 expire snapshot·rewrite manifest 같은 유지보수가 필요하다.
+- **배경·문제의식**: 기존 Apache Hive 기반 레이크는 HDFS 폴더 디렉터리로 파티션을 관리했다. 데이터가 페타바이트 단위로 커지자, Amazon S3 같은 객체 스토리지에서 디렉터리 목록(List)을 불러오는 데만 쿼리 시간의 절반이 쓰이는 병목이 발생했다.
+- **작동 원리**: Iceberg는 폴더가 아니라 파일(Manifest)로 메타데이터를 관리한다. 트랜잭션이 발생하면 새로운 Snapshot을 만들고, 이 Snapshot은 여러 Manifest List를, Manifest List는 여러 Manifest File을 가리킨다. 각 Manifest File은 실제 Parquet 파일의 경로와 Min/Max 통계값을 가지고 있다.
+- **비유**: 폴더 방식(Hive)은 "2023년 방에 들어가서 파일이 몇 개 있는지 세어봐라"고 시키는 반면, Iceberg는 방에 들어갈 필요 없이 "2023년 방에는 1번 파일(값 10~50), 2번 파일(값 60~100)이 있다"는 장부(Manifest)를 밖에서 바로 읽고 필요한 파일만 쏙 집어온다.
+- **구체 예시**: `WHERE id = 75`로 쿼리하면, Iceberg는 디렉터리를 스캔하지 않고 Manifest를 읽어 Min=60, Max=100인 2번 파일만 정확히 타겟팅(Pruning)하여 읽는다.
+- **흔한 오해·주의점**: Delta Lake와 목적(테이블 포맷)은 같지만 뼈대가 다르다. Delta는 로그(Log) 기반의 연속된 변경 기록에 강점이 있고, Iceberg는 스냅샷과 트리 구조 기반의 무거운 쿼리 최적화와 파일 프루닝(Pruning)에 강점이 있다.
 
 ## 연결 개념
-- 오픈 테이블 포맷: Delta Lake, Apache Hudi와 함께 비교되는 상위 범주 (145·147에서 상세)
-- 데이터 레이크하우스: Iceberg가 제공하는 ACID·snapshot 기반 아키텍처 (144에서 상세)
-- Catalog: Iceberg 테이블 위치와 metadata pointer를 관리하는 계층(Hive, Glue, REST, Nessie)
+- 데이터 레이크하우스 — Iceberg가 구현하는 아키텍처 환경
+- Hidden Partitioning — 기존 Hive의 파티셔닝 불편함을 제거한 Iceberg만의 강력한 기능
+- Apache Parquet — Iceberg가 관리하는 실제 데이터의 컬럼형 파일 포맷
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: Iceberg 답안은 snapshot/manifest 구조와 다중 엔진 호환성, hidden partitioning, schema evolution 판단을 분리해야 한다.
-
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Apache Iceberg는 객체 스토리지 파일을 snapshot과 manifest 메타데이터로 관리하는 오픈 테이블 포맷이다.
-> 2. **가치**: 다중 엔진 접근, hidden partitioning, schema/partition evolution, time travel로 레이크하우스 운영 범위를 넓힌다.
-> 3. **판단 포인트**: Spark·Flink·Trino 동시 사용, 벤더 종속 축소, 대규모 테이블 metadata pruning 요구를 기준으로 선택한다.
+> 1. **본질**: 대규모 데이터 레이크 스토리지 위에서 파일 트리를 통해 ACID 트랜잭션과 고성능 쿼리를 제공하는 개방형 테이블 포맷(Open Table Format)이다.
+> 2. **가치**: 기존 Hive 디렉터리 기반 파티셔닝의 성능 병목(List 연산 지연)을 제거하고, 숨겨진 파티셔닝(Hidden Partitioning)과 스키마 진화를 통해 데이터 엔지니어링의 복잡성을 낮춘다.
+> 3. **판단 포인트**: 특정 벤더(Databricks)에 종속되지 않는 진정한 오픈 생태계(Trino, Flink, Spark 통합)를 구축하고자 할 때 Delta Lake 대신 최우선으로 고려된다.
 
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| Iceberg 구조 이해 | metadata file, snapshot, manifest list, manifest | Parquet 포맷으로만 설명 |
-| 오픈 포맷 선택 판단 | 다중 엔진, hidden partition, schema evolution | Delta와 동일 기능으로 뭉뚱그림 |
-| 운영 리스크 인식 | snapshot expire, orphan file, compaction | catalog 장애와 metadata 증가 누락 |
+| 데이터 레이크 메타데이터 관리의 한계와 해결책 이해 | Hive 디렉터리 방식의 한계, Manifest 파일 트리 구조, Hidden Partitioning | 막연한 '빠르다' 표현 지양, 프루닝(Pruning) 메커니즘 구체화 |
 
-> 요약: Iceberg는 엔진 독립성과 메타데이터 기반 pruning을 강조해야 채점 포인트를 충족한다.
+> 요약: Iceberg가 디렉터리 기반 레이크의 한계를 어떻게 극복했는지, 특히 스냅샷과 Manifest를 이용한 쿼리 최적화 원리를 정확히 서술해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 개요: Apache Iceberg는 대규모 분석용 오픈 테이블 포맷이다.
-- 배경: 객체 스토리지의 Parquet/ORC/Avro 파일은 테이블 단위 스냅샷과 파티션 변경 관리가 필요하다.
-- 필요성: snapshot과 manifest 메타데이터로 다중 엔진 분석, 파티션 변경, schema evolution을 지원한다.
+- 개요: Apache Iceberg는 페타바이트급 데이터 레이크에서 거대한 테이블을 빠르고 안전하게 쿼리할 수 있도록 지원하는 고성능 오픈 테이블 포맷이다.
+- 배경: 기존 Hive 구조는 파티션을 폴더(디렉터리)로 관리하여, 클라우드 객체 스토리지(S3 등)에서 폴더 리스팅(List API) 호출 시 극심한 병목과 지연을 유발함
+- 필요성: 파일 개수와 무관하게 O(1) 수준의 메타데이터 조회 성능을 확보하고, 동시 읽기/쓰기에 대한 완전한 ACID 트랜잭션 보장 필수
 
 ---
 
 ## Ⅱ. 구조 및 구성요소
 
 ```text
-Catalog -> Metadata File -> Snapshot -> Manifest List -> Manifest -> Data / Delete Files
-                              +-> Schema / Partition Spec
-                              +-> Statistics / Metrics
+Catalog (Hive Metastore / AWS Glue) -> 최신 Snapshot 포인터
+  |
+  +-> Snapshot (현재 테이블 상태)
+        |
+        +-> Manifest List (다수의 Manifest 파일 위치)
+              |
+              +-> Manifest File (Parquet 파일 경로 및 Min/Max 통계)
+                    |
+                    +-> Data Files (실제 Parquet 데이터)
 ```
 
 | 구성요소 | 역할 | 특이사항 |
 |:---|:---|:---|
-| Catalog | 현재 metadata 위치 관리 | Hive, Glue, REST, Nessie |
-| Metadata File | schema, partition, snapshot 목록 저장 | table version 기준 |
-| Snapshot | 특정 시점 테이블 상태 | time travel, rollback |
-| Manifest | data/delete file 목록과 통계 | pruning, delete file |
+| Catalog | 테이블의 최신 메타데이터 포인터(Snapshot)를 추적 | 원자적 커밋(Atomic Commit)의 진입점 |
+| Snapshot | 특정 트랜잭션 시점의 테이블 전체 상태 | Time Travel 및 Rollback의 기준 |
+| Manifest List | 하나의 스냅샷을 구성하는 매니페스트 파일들의 목록 및 통계 | 파티션 수준의 프루닝(Pruning) 지원 |
+| Manifest File | 실제 데이터 파일(Parquet)의 경로, 컬럼별 Min/Max, Null 카운트 기록 | 파일 수준의 정밀한 프루닝(Pruning) 지원 |
 
-> 요약: Iceberg는 catalog가 metadata를 가리키고 snapshot·manifest 계층이 유효 파일과 통계를 관리한다.
+> 요약: Iceberg는 디렉터리를 스캔하는 대신, 스냅샷 -> 매니페스트 리스트 -> 매니페스트로 이어지는 트리 구조의 메타데이터만 읽어 타겟 파일을 확정한다.
 
 ---
 
 ## Ⅲ. 동작원리 및 흐름도
 
 ```text
-쓰기 요청 -> data file 생성 -> manifest 갱신 -> snapshot 생성
--> metadata pointer commit -> engine snapshot 조회 -> 필요한 파일만 scan
+쿼리 인입 -> Catalog에서 최신 Snapshot 확인 -> Manifest 기반 Data Pruning -> 필터링된 파일만 스캔
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | writer가 data/delete file 생성 | 파일 완성, checksum |
-| 2 | manifest에 파일 경로·통계 기록 | column stats 존재 |
-| 3 | snapshot과 metadata file 생성 | snapshot id 연속성 |
-| 4 | catalog pointer를 원자적으로 갱신 | commit conflict 검출 |
+- 1단계 [스냅샷 확인]: 쿼리 엔진(Trino, Spark)이 Iceberg Catalog에 질의하여 테이블의 최신 스냅샷(버전)을 확인
+- 2단계 [파티션 프루닝]: Manifest List를 읽어 쿼리의 파티션 조건에 맞지 않는 Manifest File들을 스캔 대상에서 즉시 제외(Skip)
+- 3단계 [파일 프루닝]: 남은 Manifest File에 기록된 데이터 파일별 Min/Max 통계값을 확인하여, 조건에 부합하는 Parquet 파일 목록만 최종 확정
+- 4단계 [데이터 스캔]: 확정된 소수의 Parquet 파일에 대해서만 실제 I/O를 발생시켜 데이터를 읽고 결과를 반환
 
-> 요약: Iceberg는 파일 변경을 manifest와 snapshot으로 묶고 catalog pointer를 갱신해 일관된 테이블 상태를 제공한다.
+> 요약: S3 폴더를 뒤지는 I/O 작업 없이, 메타데이터 트리의 통계값(Min/Max)을 이용해 읽을 파일을 획기적으로 줄여(Pruning) 쿼리 속도를 극대화한다.
 
 ---
 
 ## Ⅳ. 특징
+- Hidden Partitioning (숨겨진 파티셔닝): 사용자가 쿼리에 파티션 컬럼을 명시하지 않아도(예: `WHERE timestamp = ...`), Iceberg가 내부적으로 파티션 키(일/월 등)를 매핑해 자동으로 프루닝을 수행
+- 스키마 진화(Schema Evolution): 컬럼명 변경, 추가, 삭제, 타입 승격 시 파일 재작성(Rewrite) 없이 메타데이터 ID 매핑만으로 O(1) 시간에 즉시 변경 반영
+- Time Travel & Versioning: 매 커밋마다 독립된 스냅샷이 생성되어 과거 시점 쿼리, 롤백, A/B 테스트가 가능
+- 벤더 중립성: 특정 엔진(Spark 등)에 종속되지 않고 Trino, Flink, Dremio 등 다양한 컴퓨팅 엔진과 동등한 수준으로 완벽하게 통합됨
 
-| 구분 | Hive Table | Apache Iceberg | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 파티션 | 사용자가 경로 구조 인지 | hidden partitioning | partition evolution 가능 |
-| 메타데이터 | 디렉터리 listing 의존 | manifest 기반 pruning | 대규모 파일 목록 조회 감소 |
-| 엔진 | Hive 중심 | Spark, Flink, Trino 지원 | 다중 엔진 PoC 필요 |
-| 삭제 | 파티션 재작성 중심 | position/equality delete | GDPR 삭제·CDC 반영 |
-
-> 요약: Iceberg는 파티션과 메타데이터를 테이블 포맷이 관리해 대규모 다중 엔진 분석에 적합하다.
+> 요약: Iceberg는 파티셔닝과 스키마 관리의 책임을 사용자가 아닌 시스템 내부로 감춤(Hidden)으로써 데이터 엔지니어링의 복잡도를 낮춘다.
 
 ---
 
 ## Ⅴ. 심화 비교 및 적용 판단
 
-| 구분 | 기존/대안 | Apache Iceberg | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | Hive metastore+파일 listing | snapshot/manifest 메타데이터 | 파일 수 100만 개 이상 |
-| 비용/성능 | 파티션 경로 스캔 | metadata pruning | 필터 컬럼 통계 활용 |
-| 운영/위험 | 단일 엔진 최적화 | 다중 엔진 호환성 관리 | Spark/Flink/Trino 공동 사용 |
+| 비교 축 | Apache Hive 포맷 | Apache Iceberg | Delta Lake (참고) | 선택 기준 |
+|:---|:---|:---|:---|:---|
+| 메타데이터 구조 | 디렉터리 (폴더 List 기반) | 계층형 파일 (Manifest 트리) | 트랜잭션 로그 (JSON 기반) | 파일 개수 및 성능 병목 |
+| 파티셔닝 방식 | 명시적 (사용자 쿼리 의존) | 숨겨짐 (Hidden Partitioning) | 생성 컬럼(Generated Column) | 쿼리 작성 편의성 |
+| 주력 에코시스템 | Hadoop 레거시 | Trino, Flink 중심 오픈 생태계 | Spark, Databricks 생태계 | 플랫폼의 엔진 종속성 배제 여부 |
 
-> 요약: Iceberg는 파일 수가 많고 다중 엔진 접근이 필요한 레이크하우스에서 선택 가치가 크다.
+> 요약: 페타바이트급 데이터에서 벤더 종속 없이 다양한 엔진(Trino 등)을 활용한 고속 SQL 쿼리가 목적이라면 Iceberg를 선택한다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 메타데이터 증가 | snapshot·manifest 누적 | expire snapshot, rewrite manifest | metadata size, query planning time |
-| 고아 파일 | commit 실패 후 파일 잔존 | remove orphan files | orphan file count |
-| 엔진별 결과 차이 | 커넥터 버전 불일치 | 호환성 매트릭스, 회귀 테스트 | query mismatch 0건 |
+**리스크·대응 (기본 불릿):**
+- 스냅샷 팽창: 잦은 쓰기로 스냅샷과 매니페스트 파일이 무한 증식해 메타데이터 I/O 저하 → 주기적인 `expire_snapshots()` 및 매니페스트 병합 수행 (지표: 메타데이터 스캔 소요 시간)
+- 파편화된 파일(Small Files): 스트리밍 인입 시 작은 데이터 파일이 다수 생성됨 → 백그라운드로 `rewrite_data_files()` 실행하여 파일 컴팩션 적용 (지표: 평균 데이터 파일 크기 128MB 유지율)
+- 카탈로그 단일 장애점: Catalog 병목 시 전체 테이블 접근 불가 → AWS Glue Catalog나 고가용성 Nessie/REST Catalog 등 안정적인 백엔드 구성 적용 (지표: 카탈로그 API 응답률)
 
-> 요약: Iceberg 운영은 snapshot 정리, 고아 파일 제거, 엔진 호환성 테스트가 필수 통제 항목이다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 계획 시간 | query planning p95 3초 이하 | engine query profile |
-| 메타데이터 | snapshot 보관 7~30일 | metadata table 조회 |
-| 호환성 | 주요 쿼리 결과 불일치 0건 | Spark/Trino/Flink regression |
-
-> 요약: Iceberg는 쿼리 실행보다 planning time과 metadata 규모까지 지표로 봐야 한다.
+**도입 후 점검 지표 (기본 불릿):**
+- 성능/효율: 디렉터리 리스팅 대기 시간 제거 및 쿼리 플랜 최적화로 인한 파티션 프루닝 비율 90% 이상 — 쿼리 플랜 점검
+- 품질/운영: 동시 쓰기(Write) 작업 시 충돌(Conflict)로 인한 트랜잭션 재시도 성공률 — 트랜잭션 커밋 로그 분석
 
 ---
 
 ## Ⅵ. 실무 적용 및 결론
 
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. Glue/REST Catalog 기반 Iceberg 테이블을 구성하고 Spark 쓰기, Trino 조회, Flink 스트림 반영 시나리오를 PoC로 검증
-2. hidden partitioning과 column statistics를 설계해 파일 수 100만 개 이상 테이블의 planning p95 3초 이하 목표 설정
-3. expire snapshot, rewrite manifest, remove orphan files를 주 1회 실행하고 엔진별 회귀 쿼리 결과 불일치 0건 확인
+**적용 방안 3개:**
+1. 레거시 Hive 레이크하우스 마이그레이션: 기존 Hive 메타스토어의 테이블을 데이터 복사 없이(in-place) Iceberg 스냅샷으로 전환하여 즉각적인 쿼리 성능 향상 도모
+2. 실시간/배치 통합 멀티 엔진 분석: Flink를 사용해 스트리밍 데이터를 Iceberg에 실시간 적재하고, 동시에 Trino를 통해 분석가들이 대화형 SQL(Ad-hoc) 쿼리 수행
+3. GDPR 준수를 위한 정밀 삭제(Row-level Delete): Iceberg의 Position/Equality Delete 파일을 활용하여, 원본 데이터 파일의 물리적 변경 없이 특정 개인정보 레코드만 논리적 삭제 처리
 
-**결론 (2줄):**
-- 기술사 판단: 다중 엔진 개방성과 partition evolution이 필요하면 Iceberg, Spark 중심 MERGE 운영이면 Delta Lake 우선 검토
-- 향후 방향: Iceberg는 REST Catalog와 Nessie 같은 표준 catalog 생태계와 결합해 벤더 종속 축소 방향으로 발전
+**결론:**
+- 기술사 판단: 클라우드 객체 스토리지 기반 레이크에서 파일 리스팅 병목을 제거하고 멀티 컴퓨팅 엔진 체제를 구축하려면, 벤더 중립성이 가장 높은 Apache Iceberg 도입이 필수적이다.
+- 향후 방향: 오픈 테이블 포맷 경쟁 속에서 Iceberg는 Snowflake, AWS, GCP 등 주요 클라우드 벤더의 기본 지원 포맷으로 채택되며 데이터 레이크하우스의 실질적 표준으로 굳어지고 있다.
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
 
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
 |:---|:---|:---|:---|
-| 포괄형 | "Apache Iceberg를 설명하시오" | snapshot, manifest, catalog commit 흐름 | Hive 테이블 대비 파티션·메타데이터 차이 |
-| 요구사항 명시형 | "Delta와 비교", "도입 방안", "설계하시오" | 다중 엔진, hidden partitioning, metadata 운영 | 엔진 호환성·planning time·snapshot 관리 |
-
-> 요약: 설명형은 내부 메타데이터 구조, 비교형은 다중 엔진과 partition evolution 선택 기준으로 전환한다.
+| 포괄형 | "설명하시오" | 메타데이터 트리 구조와 프루닝 원리 | Hidden Partitioning과 도입 이점 |
+| 비교형 | "Hive, Delta Lake와 비교하시오" | 디렉터리 vs Manifest 관리 방식 차이 | 벤더 종속성과 생태계(Trino/Flink) 차이 비교표 |
+| 설계형 | "레이크하우스 아키텍처를 설계하시오" | Catalog 기반 ACID 트랜잭션 흐름 | Small file 컴팩션 절차 및 멀티 엔진 적용 사례 |
