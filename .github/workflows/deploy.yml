@@ -58,8 +58,25 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      # Pages 백엔드가 간헐적으로 "Deployment failed, try again later"를 뱉으므로
+      # 실패 시 두 번까지 자동 재시도한다.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        continue-on-error: true
         with:
-          timeout: 1800000
+          timeout: 600000
+
+      - name: Retry deploy (attempt 2)
+        id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+        with:
+          timeout: 600000
+
+      - name: Retry deploy (attempt 3)
+        if: steps.deployment.outcome == 'failure' && steps.deployment-retry.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 600000
