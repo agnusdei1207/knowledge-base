@@ -1,135 +1,70 @@
 ---
-title: "쿠버네티스 서비스·인그레스 (Kubernetes Service Ingress)"
-date: "2026-07-04"
+title: "쿠버네티스 서비스와 인그레스 (Service & Ingress)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-software"
 weight: 176
 ---
 
-# 📖 【암기용】 개념 완전 이해
-
-## 한눈에
-- **개요**: 쿠버네티스에서 변동성이 심한 파드(Pod)들에게 고정된 진입점을 제공(Service)하고, 외부의 HTTP/HTTPS 트래픽을 도메인/경로 기반으로 라우팅(Ingress)하는 네트워크 리소스이다.
-- **왜 필요한가**: 파드는 수시로 죽고 새로 생기면서 IP가 계속 바뀐다. 클라이언트가 파드의 임시 IP를 직접 바라보면 통신이 끊어지므로 고정된 연락처(Service)와 외부 접수창구(Ingress)가 필수적이다.
-- **핵심 직관**: Service는 회사 내 부서별 "대표 내선번호"(고정 IP)이고, Ingress는 회사 밖에서 들어오는 요청을 내선번호로 연결해 주는 "건물 로비 안내데스크"(L7 라우팅)이다.
-
-## 핵심 용어 정리
-
-| 용어/표기 | 의미 | 비유·예 |
-|:---|:---|:---|
-| ClusterIP (서비스 기본형) | 클러스터 내부에서만 통신 가능한 고정 가상 IP | "회사 내부망 전용 내선번호" |
-| NodePort (서비스) | 클러스터의 모든 워커 노드의 동일한 포트를 열어 외부 노출 | "어느 층(노드)이든 특정 번호 누르면 연결" |
-| LoadBalancer (서비스) | 클라우드 제공자의 외부 로드밸런서(ELB 등)를 동적 할당 | "외부망 직통 대표 번호 신설" |
-| 인그레스 (Ingress) | L7 기반(HTTP/HTTPS) 외부 트래픽 라우팅 및 SSL 종단 규칙 모음 | "로비 안내데스크 및 간판" |
-
-## 깊이 이해
-- **배경·문제의식**: MSA 환경에서 파드 A가 파드 B와 통신하려 할 때 파드 B의 IP는 매번 바뀐다. 이를 해결하기 위해 DNS 이름과 고정 IP를 묶어주는 Service가 등장했다. 그러나 외부로 노출할 웹 서비스가 수십 개인데 모두 LoadBalancer 서비스로 열면 클라우드 비용이 폭증하고 관리(SSL 등)가 파편화되는 문제가 생겼다.
-- **작동 원리**:
-  - **Service**: Label Selector를 통해 뒤에 연결될 파드들을 묶는다. Kube-proxy가 노드의 iptables/IPVS 규칙을 갱신해 고정 IP(VIP)로 들어온 트래픽을 살아있는 파드들로 분산(L4 로드밸런싱)한다.
-  - **Ingress**: 컨트롤러(예: Nginx Ingress Controller)가 1개의 외부 LoadBalancer만 점유한 뒤, 들어오는 HTTP 헤더(도메인 `api.com` 또는 경로 `/auth`)를 분석해 알맞은 내부 Service로 트래픽을 넘긴다 (L7 라우팅).
-- **비유**: 쇼핑몰 서버 10개마다 각각 비싼 외부 간판(LoadBalancer)을 다는 대신, 건물 입구에 큰 안내데스크(Ingress) 하나만 두고 "옷은 1층(Service A), 신발은 2층(Service B)"으로 길을 안내하는 것이 효율적이다.
-- **구체 예시**: 사용자가 `https://myapp.com/api`로 접속 -> Ingress Controller(80/443 포트 수신) -> `/api` 규칙 매칭 -> `api-service` (ClusterIP)로 전달 -> `api-pod`에 도달.
-- **흔한 오해·주의점**: Ingress 객체 자체는 단순한 "설정 파일(규칙)"일 뿐이다. 이 규칙을 읽고 실제로 동작하는 프로세스인 "Ingress Controller(Nginx 등)"를 별도로 배포하지 않으면 아무 일도 일어나지 않는다.
-
-## 연결 개념
-- Kube-Proxy — 노드 넷단에서 서비스 IP 패킷을 실제 파드로 가로채서 넘겨주는 핵심 컴포넌트
-- 엔드포인트 (Endpoints) — 서비스 셀렉터에 매칭된 살아있는 파드의 실제 IP:Port 목록
-- 서비스 디스커버리 (CoreDNS) — 서비스 이름(`my-svc.default.svc.cluster.local`)을 ClusterIP로 변환
-
----
-
-# 📝 【답안용】 시험 답안 템플릿
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: 쿠버네티스 네트워킹은 파드의 휘발성 IP를 추상화하는 L4 밸런서(Service)와 외부 HTTP 트래픽을 쪼개주는 L7 라우터(Ingress)의 결합이다.
-> 2. **가치**: 파드 재생성 시 통신 단절을 막고, 서비스 디스커버리를 제공하며, 단일 진입점(Ingress)을 통한 인프라 비용 절감과 SSL 중앙 관리를 가능하게 한다.
-> 3. **판단 포인트**: 클러스터 내부 통신, 외부 단순 노출, 복잡한 URL 라우팅 요구에 따라 ClusterIP, NodePort, LoadBalancer, Ingress를 단계적으로 선택 설계해야 한다.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 컨테이너 네트워크 추상화 기법 이해 | Service(L4, IP/Port) vs Ingress(L7, Domain/Path) 역할 차이 | Ingress를 단순히 또 다른 Service 타입 중 하나로 잘못 분류 |
-
-> 요약: 변동성이 큰 파드 환경에서 안정적 내부 통신을 보장하는 Service의 구조와, 외부 트래픽을 효율적으로 통제하는 Ingress의 차별화된 역할을 설계 관점에서 제시해야 한다.
-
+- 쿠버네티스의 파드(Pod)는 에러가 나면 죽고 새 IP로 부활하기 때문에 직접 IP로 통신하면 안 됨. 이 죽다 살아나는 파드들을 하나의 **고정된 간판(IP/DNS)으로 묶어주는 로드 밸런서가 '서비스(Service)'**임.
+- **클러스터 내부 통신**은 ClusterIP로, **외부 공개**는 NodePort나 LoadBalancer 타입으로 뚫어주어 네트워크 길을 열어줌.
+- 수백 개의 서비스(도메인, URL 경로)를 라우터 1개로 똑똑하게 분기 처리해 주는 **'클러스터의 대문(L7 라우터)' 역할이 바로 '인그레스(Ingress)'**임.
 ---
-
 ## Ⅰ. 개요 및 필요성
-
-- 개요: 동적 파드 묶음에 고정된 접근 IP/도메인을 부여하는 Service와 외부 HTTP(S) 트래픽을 이 서비스들로 스마트하게 라우팅하는 Ingress 리소스
-- 배경: 컨테이너 생명주기 특성상 파드 IP는 지속 변경되므로 클라이언트가 파드에 직접 의존할 수 없는 네트워크 단절 문제 발생
-- 필요성: 클러스터 내/외부 서비스 디스커버리(DNS) 자동화, 로드밸런싱, 그리고 다중 웹 서비스 노출 시 비용 및 SSL 인증서 관리의 일원화
-
+- **개요**: 쿠버네티스 환경에서 동적으로 변하는 파드(Pod)들에 대한 안정적인 네트워크 접근점(Endpoint)을 제공하는 객체(Service)와, 외부 HTTP/HTTPS 트래픽을 내부 서비스로 라우팅하는 규칙 모음(Ingress).
+- **필요성**: 장바구니 파드가 결제 파드(IP: 10.0.0.5)를 호출함. 근데 결제 파드가 죽고 10.0.0.9로 새로 부활함. 장바구니 파드는 바뀐 IP를 몰라서 통신이 끊김(장애). **"파드 IP가 맨날 바뀌니까, 파드 3대를 하나로 묶어서 절대 안 바뀌는 '대표 가상 IP(간판)'를 세우자!"** ➡️ 이것이 **Service**의 탄생. 나아가 "외부에서 `aaa.com/login`으로 오면 로그인 서비스로, `/pay`로 오면 결제 서비스로 보내주는 대문지기가 필요해!" ➡️ 이것이 **Ingress**임.
 ---
-
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 아키텍처 및 핵심 원리
+- **1. K8s Service의 4가지 타입**:
+  - **ClusterIP (기본값)**: 클러스터 '내부'에서만 통신 가능한 가상 IP. (예: 프론트엔드가 백엔드 DB를 찌를 때 사용. 외부 해커 접근 불가).
+  - **NodePort**: 워커 노드의 껍데기에 구멍(포트 30000~32767)을 뚫어서 외부에서 접속하게 함. 보안상 안 좋음.
+  - **LoadBalancer**: AWS ALB 같은 외부 클라우드의 진짜 로드 밸런서를 자동으로 생성해서 붙여줌. 외부 공개용으로 가장 많이 씀.
+  - **ExternalName**: K8s 내부에서 외부(On-premise DB)의 도메인을 찾을 때 쓰는 DNS 별칭.
+- **2. Ingress (L7 라우팅 대문)**:
+  - LoadBalancer 타입은 서비스 1개당 비싼 AWS 로드 밸런서 1개가 생겨서 돈이 엄청 깨짐 (100개 서비스면 로드밸런서 100개).
+  - **Ingress**를 1개만 딱 세워두면, 로드 밸런서 1개만 비용을 내면서 URL 경로에 따라(`/cart` ➡️ 카트 서비스, `/pay` ➡️ 결제 서비스) 트래픽을 찢어주는 공유기(L7) 역할을 완벽하게 수행함.
 
 ```text
-External Client -> LoadBalancer (클라우드 인프라)
-                     |
-                   Ingress Controller (L7 규칙 판단: 도메인/경로)
-                     |-> 매칭 -> Service A (ClusterIP: L4 가상 IP) -> Pod 1, Pod 2
-                     |-> 매칭 -> Service B (ClusterIP: L4 가상 IP) -> Pod 3
+[ 쿠버네티스 네트워크 관문 (외부 ➡️ 내부 흐름) ]
+
+ 🌐 [ 외부 인터넷 사용자 ] ➡️ "www.shop.com/pay" 로 접속
+
+ 🚪 [ Ingress (대문 / L7 라우터) ] 
+ - 룰 1: "/login"으로 오면 ➡️ Login Service 로 보내라
+ - 룰 2: "/pay"로 오면 ➡️ Pay Service 로 보내라 (현재 룰 2 매칭!)
+       ⬇️
+ 🛡️ [ Pay Service (ClusterIP: 고정된 대표 간판) ]
+ - "어? 나한테 트래픽이 왔네? 내 밑에 Pay Pod가 3대 있으니까 라운드로빈으로 나눠줘야지!"
+       ⬇️ (Load Balancing)
+ 🫛 [ Pay Pod 1 (10.0.0.5) ]  🫛 [ Pay Pod 2 (10.0.0.9) ]  🫛 [ Pay Pod 3 (10.0.0.12) ]
+ - Pod가 죽어서 IP가 10.0.0.99로 바뀌어도, Service 간판은 절대 안 바뀌므로 외부 트래픽은 끊기지 않음!
 ```
-
-| 구성요소 | 프로토콜 | 주요 역할 및 특징 |
-|:---|:---|:---|
-| Service (ClusterIP) | L4 (TCP/UDP) | 클러스터 내부용 기본 고정 IP, CoreDNS 자동 등록 |
-| Service (LoadBalancer) | L4 (TCP/UDP) | 클라우드 벤더의 ELB 연동을 통한 외부 직접 노출 |
-| Ingress Resource | L7 (HTTP/S) | 도메인, URL 경로 라우팅 규칙 및 SSL 설정 명세서 |
-| Ingress Controller | L7 (HTTP/S) | Ingress 규칙을 읽어 실제 리버스 프록시(Nginx 등) 수행 |
-
-> 요약: 외부 트래픽은 Ingress 컨트롤러의 L7 라우팅을 거쳐 내부 Service의 고정 L4 VIP로 분배된 후 최종 엔드포인트 파드로 전달된다.
-
 ---
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-서비스 생성 -> CoreDNS 등록 -> Kube-proxy 규칙 갱신 -> Ingress 라우팅 -> 파드 도달
-```
-
-- 1단계 [엔드포인트 동기화]: `selector` 라벨에 맞는 파드가 생성/삭제되면, K8s 컨트롤러가 `Endpoints` 객체의 파드 IP 목록을 자동 갱신
-- 2단계 [가상 IP 맵핑]: 노드별 Kube-proxy 데몬이 iptables/IPVS 규칙을 조작하여 Service VIP로 들어오는 패킷을 실제 파드 IP로 NAT 변환
-- 3단계 [외부 트래픽 유입]: Ingress Controller가 도메인 주소(`host`)나 URL 경로(`/api`)를 분석하여 백엔드 Service 지정
-- 4단계 [최종 라우팅]: Ingress -> Service(VIP) -> Kube-proxy 분산 -> 정상 Readiness Probe를 통과한 파드에 트래픽 전달
-
-> 요약: 상태 변화는 Endpoints를 통해 실시간 동기화되며, Kube-proxy의 커널 네트워크 제어(iptables)를 통해 트래픽 분산이 투명하게 일어난다.
-
+## Ⅲ. 비교 및 연결
+| 구분 | Service (NodePort / LoadBalancer) | Ingress |
+|---|---|---|
+| **역할** | 외부의 요청을 특정 파드 그룹으로 묶어줌 | **도메인이나 URL 경로에 따라 여러 Service로 길안내** |
+| **OSI 7계층** | **L4 (IP, Port 기반 라우팅)** | **L7 (HTTP/HTTPS URL, 헤더 기반 라우팅)** |
+| **비용 (AWS 환경)**| 10개 서비스 열면 LoadBalancer 10개 돈 냄 | **Ingress 1개로 10개 서비스 다 커버 가능 (돈 절약)** |
+| **비유** | 식당 안방 테이블의 **고정된 호출벨** | 건물 1층 입구의 **종합 인포메이션 안내데스크** |
 ---
-
-## Ⅳ. 심화 비교 및 적용 판단
-
-| 비교 축 | NodePort / LoadBalancer | Ingress | 선택 기준 |
-|:---|:---|:---|:---|
-| 라우팅 계층 | L4 중심 (IP 및 포트 매핑) | L7 중심 (HTTP 도메인, 헤더, 경로) | 취급 프로토콜 특성 |
-| 배포 비용 | 서비스 노출마다 LB 비용 별도 발생 | 1개의 LB로 여러 웹 서비스 통합 노출 | 클라우드 인프라 운영 비용 |
-| 기능 확장성 | 단순 분산 | SSL 종단(Termination), 리다이렉트, Auth | L7 페이로드 조작 필요 여부 |
-
-> 요약: TCP/UDP 등 비-웹 트래픽은 LoadBalancer 서비스로 노출하고, 복수의 HTTP 마이크로서비스 노출과 SSL 관리는 Ingress로 일원화한다.
-
-**리스크·대응:**
-- Kube-proxy(iptables) 병목: 수만 개의 서비스 등록 시 iptables의 순차 검색 구조(O(N))로 인해 네트워크 지연 급증 → O(1) 해시 기반의 IPVS 모드로 Kube-proxy 전환 (지표: 서비스 간 통신 레이턴시 5ms 이하)
-- Ingress 단일 장애점(SPOF): 컨트롤러 파드 장애 시 클러스터 외부 진입 전면 마비 → Nginx Ingress Controller를 다중 복제(ReplicaSet) 및 Anti-affinity로 노드 분산 배치 (지표: 외부 인입 가용성 99.99%)
-
+## Ⅳ. 실무 적용 및 기술사 판단
+- **Ingress Controller의 필수 선택**: 많은 주니어가 `Ingress` YAML 파일만 만들고 "왜 작동 안 하죠?"라고 묻는데, Ingress는 단순한 '안내판(규칙)'일 뿐임. 이 규칙을 보고 실제로 트래픽을 분배하는 **Ingress Controller(Nginx, HAProxy, AWS ALB Controller)**를 반드시 클러스터에 띄워두어야 아키텍처가 완성됨.
+- **서비스 디스커버리 (Service Discovery)**: 쿠버네티스 내부 통신 시 IP를 외울 필요가 없음. 결제 파드가 DB 파드를 찾을 때 IP 대신 `db-service.default.svc.cluster.local` 이라는 DNS 이름만 찌르면, 쿠버네티스의 내장 DNS(CoreDNS)가 자동으로 IP로 변환해 줌. 이는 마이크로서비스(MSA) 간의 완벽한 느슨한 결합(Loose Coupling)을 보장하는 핵심 메커니즘임.
 ---
+## Ⅴ. 기대효과 및 결론
+- "컨테이너는 일회용"이라는 쿠버네티스의 본질적 한계를 '고정된 네트워크 간판(Service)'으로 감싸서 완벽하게 해결함.
+- 복잡한 L7 로드 밸런싱과 SSL 인증서 처리를 Ingress 하나로 중앙 통제함으로써, 수백 개의 마이크로서비스가 외부와 통신하는 비용과 복잡도를 획기적으로 낮춘 네트워크 마스터피스임.
+---
+### 📌 관련 개념 맵
+- Pod ➡️ Service (ClusterIP/NodePort/LoadBalancer) ➡️ Ingress / Ingress Controller ➡️ CoreDNS (Service Discovery)
 
-## Ⅴ. 실무 적용 및 결론
+### 📈 관련 키워드 및 발전 흐름도
+- 죽으면 IP가 바뀌는 파드의 문제 ➡️ 고정 간판(Service) 등장 ➡️ 외부 노출을 위한 NodePort ➡️ 클라우드 종속적인 LoadBalancer ➡️ L7 기반 중앙 집중형 라우팅을 위한 Ingress 도입 ➡️ API Gateway 패턴으로 진화
 
-**적용 방안 3개:**
-1. 아키텍처별 계층 노출: Frontend 웹 서버는 Ingress로 외부 노출 및 SSL 처리, Backend API와 DB 파드는 보안을 위해 ClusterIP 서비스로 내부에서만 격리 통신
-2. 블루-그린/카나리 배포 제어: Nginx Ingress Controller의 Annotations(`canary-weight: 10%`)를 활용해 신버전 Service로 외부 트래픽의 10%만 가중치 기반 라우팅
-3. 차세대 API Gateway(Gateway API) 전환: 기존 Ingress 리소스의 단일화된 한계를 극복하기 위해, 인프라 관리자와 개발자 권한이 분리된 K8s Gateway API 도입으로 네트워크 제어권 분산
-
-**결론 (2줄):**
-- 기술사 판단: 서비스와 인그레스 설계는 단순한 연결을 넘어, 클라우드 비용 효율성(단일 LB), L7 라우팅 통제, 사설망 격리 보안을 결정짓는 핵심 아키텍처 요소이다.
-- 향후 방향: 전통적인 Ingress 방식에서 벗어나 롤 기반 관리가 뛰어난 Gateway API 규격이 새로운 K8s 트래픽 라우팅 표준으로 대체될 것이다.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "설명하시오", "기술하시오" | Service와 Ingress의 연결 구성도, Endpoints 원리 | 4가지 서비스 타입 비교, Gateway API 진화 |
-| 요구사항 명시형 | "외부 노출 방안을 설계하시오" | L7 라우팅 흐름과 Kube-proxy 처리 | 비용 효율적인 Ingress 통제, 카나리 트래픽 분산 방안 |
+### 👶 어린이를 위한 3줄 비유 설명
+1. 아이돌 가수(파드) 3명이 있는데, 매일 화장과 옷(IP)이 바뀌어서 팬들이 누군지 못 알아봐요.
+2. 그래서 **서비스(Service)**라는 '고정된 그룹 이름표(예: BTS)'를 달아줬어요. 그룹 이름만 부르면 알아서 3명 중 1명에게 편지(트래픽)가 전달돼요!
+3. **인그레스(Ingress)**는 소속사 1층 안내데스크예요. "싸인회 가려면 2층으로 가고, 굿즈 사려면 3층으로 가세요~"라며 여러 그룹(서비스)으로 길을 나눠준답니다!

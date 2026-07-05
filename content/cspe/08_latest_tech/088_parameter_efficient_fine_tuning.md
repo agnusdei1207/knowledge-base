@@ -1,145 +1,97 @@
 ---
 title: "PEFT 파라미터 효율 튜닝 (Parameter-Efficient Fine-Tuning)"
-date: "2026-07-01"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
-  - "cspe-latest-tech"
+  - "cspe-08_latest_tech"
 weight: 88
 ---
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: PEFT를 처음 봐도 완벽히 이해하게 만든다.
-
 ## 한눈에
-- **개요**: 전체 모델 가중치를 업데이트하지 않고 작은 추가 파라미터만 학습해 모델을 적응시키는 Fine-Tuning 방식
-- **왜 필요한가**: LLM 전체 파인튜닝은 GPU 메모리·학습 시간·모델 복사 비용이 커서 도메인별 운영이 어렵다.
-- **핵심 직관**: 원본 교재를 다시 쓰지 않고, 과목별 포스트잇과 보충 노트만 붙여 맞춤형 교재로 쓰는 방식임.
+- **정의**: 거대 언어 모델(LLM)의 방대한 가중치(Base Weight)는 고정(Freeze)해 두고, 극소수의 추가 파라미터만 학습하여 모델을 특정 도메인에 적응시키는 효율적 튜닝 기법 모음.
+- **필요성**: 70B 급 LLM을 전체 파인튜닝(Full Fine-Tuning)하려면 수백 GB의 VRAM(A100 수십 대)과 엄청난 학습 시간이 필요하며, 도메인마다 수십 GB의 모델 복사본을 저장해야 하는 운영 최악의 시나리오가 발생함.
+- **핵심 직관**: 1,000페이지짜리 두꺼운 원본 전공서적을 밑줄 그어가며 다시 찍어내는 대신(Full FT), 전공서적은 그대로 두고 10페이지짜리 얇은 '요약 노트(Adapter)'만 따로 만들어서 책 사이에 끼워 읽는 방식.
 
 ## 깊이 이해
-- **배경·문제의식**: 7B~70B 모델 전체를 도메인마다 fine-tuning하면 모델 사본과 optimizer state가 폭증함. PEFT는 base model은 고정하고 adapter, LoRA, prefix 등 작은 모듈만 학습함.
-- **작동 원리**: frozen base model 위에 task-specific trainable parameter를 삽입함. 추론 시 base model과 adapter를 함께 로드하거나 merge해 사용함.
-- **비유**: 공통 본사 규정은 그대로 두고, 부서별 업무 지침만 얇은 부록으로 추가하는 것과 같음.
-- **구체 예시**: LoRA는 W 행렬 업데이트를 저랭크 A·B 행렬로 분해해 학습 파라미터를 전체 대비 1% 미만으로 줄일 수 있음.
-- **흔한 오해·주의점**: PEFT가 항상 full fine-tuning과 같은 정확도를 보장하지 않음. 데이터 규모와 도메인 차이가 크면 full FT나 continued pretraining이 필요할 수 있음.
+- **배경**: LLM 스케일링으로 인해 도메인 특화 모델 개발의 진입 장벽이 너무 높아짐. 이를 타개하기 위해 학습 파라미터 수를 1% 미만으로 줄이면서도 Full FT와 거의 유사한 성능을 내는 연구가 폭발적으로 진행됨.
+- **작동 원리**: 
+  1. Base Model의 가중치 업데이트(Gradient)를 비활성화(Freeze).
+  2. 트랜스포머 아키텍처의 특정 층(주로 Attention 모듈이나 FFN)에 작은 크기의 추가 파라미터 텐서(Adapter, LoRA 등)를 부착.
+  3. 역전파(Backpropagation) 과정에서 이 부착된 소규모 파라미터만 학습됨.
+- **비유**: 자동차 전체(Base Model)를 새로 튜닝하는 것이 아니라, 엔진의 메인 부품은 두고 점화 플러그나 필터 같은 소형 커스텀 부품(PEFT Module)만 교체하여 성능을 최적화.
+- **구체 예시**: 고객센터, 인사팀, 법무팀이 각각 자신만의 AI를 원할 때, 70B 모델 복사본 3개를 띄우는 대신(수백 GB 차지), 1개의 70B 베이스 모델 위에 부서별 100MB짜리 LoRA 어댑터 3개만 로드(Adapter Routing)하여 무한 확장이 가능함.
+- **흔한 오해/주의점**: PEFT가 항상 만능은 아님. 완전히 새로운 언어(예: 한국어를 전혀 모르는 모델에 한국어 학습)를 가르치거나, 코딩을 전혀 모르는 모델에 코딩을 가르치는 등 근본적인 지식 체계 변경에는 Full FT 또는 Continued Pretraining이 필요함.
 
 ## 연결 개념
-- LoRA/QLoRA — 대표 PEFT 기법
-- Adapter/Prefix/Prompt Tuning — PEFT 변형
-- Fine-Tuning — PEFT의 상위 개념
+- **LoRA (Low-Rank Adaptation)**: 현재 PEFT의 제왕이자 가장 널리 쓰이는 기법.
+- **Adapter / Prefix Tuning**: LoRA 이전/유사 카테고리의 대표적 PEFT 기술들.
+- **Multi-tenant Serving**: PEFT를 통해 하나의 베이스 모델로 다수 고객(Tenant)에게 맞춤형 모델을 제공하는 서빙 기법.
+
+---
 
 # 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: PEFT는 base model을 고정하고 소량의 task-specific 파라미터만 학습하는 비용 절감형 fine-tuning임.
-> 2. **가치**: GPU 메모리, 학습 시간, 모델 저장 비용을 줄여 다도메인 LLM 운영을 가능하게 함.
-> 3. **판단 포인트**: 기법 선택, trainable parameter 비율, adapter 관리, full FT 대비 정확도 회귀를 검증해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| PEFT 원리와 Full FT 대비 판단 역량 | freeze/adapter 구조, trainable params 비율, adapter 관리 | Full FT와 혼동, 정확도 회귀 검증 누락, 추상적 "비용 절감" 표현 |
-
-> 요약: 출제자는 base model 고정·소량 파라미터 학습 원리와 Full FT 대비 비용·정확도 판단을 확인함.
-
----
+- **본질**: 거대 사전학습 모델의 지식(Frozen Weights)을 보존하면서, 어텐션 블록 등에 소규모 훈련 가능 모듈(Trainable Parameters)을 삽입해 최적화하는 기법.
+- **가치**: VRAM 한계를 극복하여 소비자용 GPU에서도 대형 모델 튜닝을 가능케 하고, 다중 도메인 배포 시 스토리지 및 서빙 비용을 극적으로 절감(Multi-tenancy 확보).
+- **판단 포인트**: 도메인 복잡도에 따른 PEFT 기법(LoRA, P-Tuning 등) 선정, 학습 안정성(Rank 설정), 운영 환경에서의 어댑터 로딩(Merge vs Dynamic Loading) 전략.
 
 ## Ⅰ. 개요 및 필요성
+- **정의**: 전체 모델 파라미터의 0.1% ~ 5% 수준에 해당하는 소규모 모듈만 학습하여 Full Fine-Tuning에 필적하는 도메인 적응(Domain Adaptation)을 이루는 기법.
+- **배경**: 파라미터 수백억~수천억 개 규모의 LLM은 역전파 시 필요한 옵티마이저 상태(Optimizer State), 그래디언트(Gradient) 저장 등에 모델 크기의 3~4배에 달하는 VRAM을 요구함.
+- **필요성**: 메모리(VRAM), 학습 시간, 스토리지 제약이라는 3대 병목을 타개하여 기업 맞춤형(Custom) SLM/LLM의 경제적 확산을 달성하기 위함.
 
-- 정의: base model을 고정하고 소량의 task-specific 파라미터만 학습하는 비용 절감형 fine-tuning
-- 배경: LLM 전체를 도메인별로 학습·저장하면 GPU 메모리·복사 비용이 폭증함
-- 필요성: adapter, LoRA, prefix 등 작은 모듈만 학습해 다도메인 운영 비용을 절감함
-
-## Ⅱ. 구조 및 구성요소
-
+## Ⅱ. 핵심 아키텍처 및 원리
 ```text
-Frozen Base Model + Trainable PEFT Module
-      -> Task Training -> Adapter/LoRA Weights -> Inference
+[ Input ]
+   |
++--|---------------------------------------+
+|  v                                       |
+| [ Frozen Base Layer (Gradient OFF) ]     |
+|  |                                       |
+|  +-> [ PEFT Module (Adapter/LoRA) ] -+   |
+|      (Gradient ON, Trainable)        |   |
+|  +-----------------------------------+   |
+|  v                                       |
++--|---------------------------------------+
+   |
+[ Output ]
 ```
+- **Frozen Base Model**: 사전 학습된 거대 파라미터. 학습 연산에서 제외되어 VRAM 극적 절감.
+- **Trainable PEFT Module**: 태스크 특화 지식이 업데이트되는 작고 가벼운 신경망 조각.
+- **Residual Connection**: Base Layer의 출력과 PEFT Module의 출력을 더해 다음 층으로 전달.
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Frozen Base | 사전학습 지식 보존 | gradient 미계산 |
-| PEFT Module | 작은 학습 파라미터 | LoRA, Adapter |
-| Task Data | 도메인 적응 데이터 | 1K~100K 샘플 |
-| Adapter Registry | 업무별 모듈 관리 | 버전·권한 필요 |
+## Ⅲ. PEFT의 주요 방법론 분류
+1. **Additive Methods (추가형)**:
+   - **Adapter Tuning**: 트랜스포머 층 내부에 작은 Bottleneck 구조의 FFN을 직렬/병렬로 추가.
+   - **Soft Prompts (Prefix Tuning, Prompt Tuning)**: 입력 시퀀스 앞단에 학습 가능한 가상의 토큰(Continuous Embeddings)을 부착.
+2. **Reparameterization Methods (재매개변수화형)**:
+   - **LoRA (Low-Rank Adaptation)**: 가중치 변화량($\Delta W$)을 두 개의 저랭크 행렬($A \times B$)의 곱으로 분해하여 근사(Approximation) 학습. (가장 주류 기술)
+3. **Selective Methods (선택형)**:
+   - **BitFit**: 모델의 Weight는 고정하고 편향(Bias) 파라미터만 학습.
 
-> 요약: PEFT는 base model과 작은 task module을 분리해 학습·저장·배포 비용을 낮춤.
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-base model 고정 -> PEFT 모듈 삽입 -> task 데이터 학습
-    -> adapter 저장 -> 추론 시 로드/merge -> 평가
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
+## Ⅳ. Full FT vs PEFT 심화 비교
+| 구분 | Full Fine-Tuning | PEFT (예: LoRA) |
 |:---:|:---|:---|
-| 1 | PEFT 기법과 삽입 위치 선택 | LoRA rank, adapter layer |
-| 2 | base freeze 후 모듈 학습 | trainable params % |
-| 3 | adapter 저장·버전 관리 | MB 단위 artifact |
-| 4 | 정확도·지연 회귀 평가 | full FT 대비 gap |
+| **학습 대상** | 모델 파라미터 100% | 전체 파라미터의 1% 미만 |
+| **하드웨어 요구** | 다수의 고성능 GPU (A100/H100) | 소비자급 단일 GPU (RTX 3090/4090) 가능 |
+| **저장 용량** | 도메인별 수십 GB의 모델 복제본 필요 | 도메인별 수백 MB의 어댑터 가중치만 저장 |
+| **서빙(Serving)**| 도메인별로 독립된 컨테이너/인프라 구성 | 베이스 모델 1개 메모리 상주 + 요청별 어댑터 스위칭 |
 
-> 요약: PEFT는 학습 대상을 작은 모듈로 제한하므로 adapter 관리와 정확도 회귀 검증이 운영 핵심임.
-
-## Ⅳ. 특징
-
-| 구분 | Full Fine-Tuning | PEFT | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 학습 파라미터 | 전체 모델 | 0.1~5% 수준 | GPU 메모리 절감 |
-| 저장 | 모델 사본 필요 | adapter만 저장 | MB~GB 단위 |
-| 정확도 | 상한 높음 | 도메인 차이 의존 | 회귀 평가 |
-| 운영 | 단순 | adapter 라우팅 필요 | registry 관리 |
-
-> 요약: PEFT는 비용과 저장 효율이 높지만, adapter 운영과 full FT 대비 정확도 차이를 관리해야 함.
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | Full Fine-Tuning | PEFT | 선택 기준 |
-|:---|:---|:---|:---|
-| 학습 대상 | 전체 weight | 0.1~5% adapter/LoRA | GPU 메모리 ≤ 24GB 여부 |
-| 저장 비용 | 모델 사본 | adapter만 저장(MB~GB) | 도메인 수 × 모델 크기 |
-| 정확도 | 상한 높음 | 도메인 차이에 의존 | F1 하락 2%p 이내 기준 |
-
-> 요약: GPU 메모리·저장 제약이 크면 PEFT, 정확도 최우선이면 Full FT를 선택함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 정확도 회귀 | adapter 용량 부족 | rank·layer 탐색, full FT 전환 | F1 gap ≤ 2%p |
-| Adapter 충돌 | 다도메인 adapter 버전 관리 미흡 | registry + base hash + rollback 정책 | 배포 일치율 |
-| 서빙 지연 | 동적 adapter 로딩 오버헤드 | merge 또는 캐시 정책 적용 | p95 latency |
-
-> 요약: 정확도 회귀·adapter 충돌·서빙 지연을 rank 탐색, registry 관리, merge 정책으로 통제함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 도메인 정확도 | F1 ≥ 0.85, Full FT 대비 gap ≤ 2%p | holdout 평가셋 |
-| Adapter 저장 | tenant별 adapter ≤ 500MB | artifact size 모니터링 |
-| 서빙 성능 | p95 latency ≤ 200ms | 로드 테스트 |
-
-> 요약: 도메인 F1, adapter 크기, 서빙 latency를 정량 기준으로 PEFT 도입 성공을 판단함.
-
----
+## Ⅴ. 운영 리스크 및 설계 고려사항
+- **리스크 1: 성능 한계 (Capacity Bottleneck)**:
+  - 완전히 새로운 지식이나 문법 체계를 주입하기에는 PEFT 모듈의 용량(Rank)이 부족할 수 있음.
+  - **대응**: 도메인 격차가 크면 LoRA의 Rank를 늘리거나, Base Model에 대한 Continued Pre-training 선행 검토.
+- **리스크 2: 서빙 레이턴시 (Inference Overhead)**:
+  - Adapter 구조는 추론 시 추가 연산 단계를 발생시켜 미세한 지연(Latency) 유발.
+  - **대응**: LoRA의 경우 추론 시점에 $W = W + \Delta W(A \times B)$ 형태로 병합(Merge)하여 Base Model과 동일한 추론 속도 달성.
 
 ## Ⅵ. 실무 적용 및 결론
+- **판단 지표**: 도메인 벤치마크 F1 Score(Full FT 대비 $98\%$ 이상 유지), Adapter 크기(MB), 튜닝 소요 GPU Hours.
+- **실무 설계 (Multi-tenant AI)**: B2B SaaS 기업에서 고객사(A, B, C)별 맞춤형 AI 제공 시, 공통 LLaMA Base를 GPU에 올려두고, 고객사 A 요청 시 A사의 LoRA 어댑터 가중치만 동적으로 캐싱(Dynamic Adapter Loading)하여 연산 처리.
+- **결론**: PEFT는 LLM 튜닝의 '민주화(Democratization)'를 이끈 혁신 기술이며, 온디바이스 AI(On-device AI)와 기업 맞춤형 AI 서비스 배포를 위한 디팩토 표준(De facto standard) 아키텍처임.
 
-**적용 방안 3개:**
-1. 부서별 assistant는 공통 13B base model에 LoRA adapter를 분리해 저장하고 tenant별 로드 정책 적용
-2. rank, learning rate, target module을 grid search하고 사내 평가셋 F1 하락 2%p 이내 기준으로 선택
-3. adapter registry에 모델 버전, 데이터 버전, 승인자, rollback 정보를 기록해 감사 가능성 확보
-
-**결론 (2줄):**
-- 기술사 판단: 다도메인·저비용 적응은 PEFT, 근본 지식 변화와 큰 도메인 이동은 full FT/continued pretraining을 선택함.
-- 향후 방향: PEFT는 QLoRA, multi-adapter routing, on-device SLM 튜닝과 결합해 표준 운영 방식이 됨.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | freeze·adapter 학습 흐름 | Full FT 대비 특징 |
-| 요구사항 명시형 | 도입 방안을 제시하시오 | adapter registry·평가 절차 | 비용·정확도·운영 기준 |
-
-> 요약: 설명형은 작은 모듈 학습 원리, 도입형은 adapter 운영과 평가 기준 중심으로 목차를 전환함.
+### 🔀 문제 유형별 목차 전환
+- **Ⅱ·Ⅲ 강조 (개념/원리형)**: Adapter, Prefix, LoRA 등 다양한 PEFT 기법들의 구조적 차이와 메모리 절감 수학적 원리 중심으로 서술.
+- **Ⅴ·Ⅵ 강조 (실무/설계형)**: 다테넌트(Multi-tenant) 서빙 아키텍처, Base Model Merge 전략, 클라우드 운영 비용(FinOps) 최적화 관점에서 작성.

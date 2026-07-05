@@ -1,165 +1,89 @@
 ---
-title: "컨테이너 이미지 취약점 스캔 - Trivy (Container Image Scan)"
-date: "2026-07-01"
+title: "컨테이너 이미지 취약점 스캔: Trivy (Container Image Scan)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 123
 ---
-# 📖 【암기용】 개념 완전 이해
 
-> 목적: 컨테이너 이미지 취약점 스캔과 Trivy의 역할을 처음 보는 사람도 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-## 한눈에
-- **개요**: Trivy는 컨테이너 이미지와 코드 저장소에서 CVE, 설정 오류, Secret, 라이선스 위험을 탐지하는 보안 스캐너임
-- **왜 필요한가**: 컨테이너 이미지는 OS 패키지, 언어 라이브러리, 애플리케이션 파일, 설정 파일이 한 번에 묶인다. 취약한 base image나 Secret이 이미지에 들어가면 모든 배포 환경으로 복제된다.
-- **핵심 직관**: 택배 상자를 출고하기 전에 내용물, 송장, 위험물, 금지 물품을 검사하고 기준을 넘으면 출고를 막는 절차임
-## 깊이 이해
-- **배경·문제의식**: 컨테이너는 동일 이미지를 개발, 테스트, 운영에 배포하므로 이미지 단계에서 취약점을 잡지 못하면 클러스터 전체에 동일 위험이 퍼진다. 운영 중 패치보다 빌드 단계 차단이 조치 비용을 줄인다.
-- **작동 원리**: Trivy는 이미지 레이어를 분석해 OS 패키지와 애플리케이션 의존성을 식별하고 NVD, vendor advisory, GitHub Advisory 등 취약점 DB와 대조한다. Dockerfile/IaC 설정 오류, 하드코딩 Secret, SBOM 생성·검증도 함께 수행할 수 있다.
-- **비유**: 공항 보안검색처럼 짐을 분해해 금속, 액체, 위험물을 검사하고 위험 등급별로 탑승 허용 여부를 결정하는 방식임
-- **구체 예시**: `nginx:1.21` 이미지에서 OpenSSL Critical CVE와 Dockerfile `USER root`가 발견되면 CI 파이프라인에서 실패 처리하고 `nginx:1.25-alpine` 또는 distroless 기반으로 교체함
-- **흔한 오해·주의점**: 스캔 결과 0건이 무취약을 뜻하지 않는다. 패키지 식별 실패, vendor patch backport, DB 갱신 지연, 오탐 예외 정책을 같이 관리해야 함
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: 개발자가 만든 프로그램 꾸러미(컨테이너 이미지, Docker Image)를 서버에 배포하기 전에, **그 꾸러미 안에 해커가 뚫고 들어올 수 있는 '치명적인 버그(취약점)'나 실수로 적어둔 '비밀번호'가 없는지 엑스레이(X-ray)로 쫙 스캔하는 오픈소스 보안 검사기(대표적 도구: Trivy)** 입니다.
+- **필요성**: 클라우드 시대 개발자들은 처음부터 모든 코드를 짜지 않습니다. 남이 만든 오픈소스(알파인 리눅스, 파이썬 라이브러리)를 블록 장난감처럼 조립해서 '컨테이너 이미지'를 만듭니다. 그런데 남이 만든 블록에 이미 치명적인 해킹 구멍(취약점)이 뚫려있다면? 이걸 그대로 운영 서버에 올리면 1초 만에 해킹당합니다. 폭탄이 배포되기 전에 걸러낼 촘촘한 컨베이어 벨트 검사기가 필요했습니다.
+- **핵심 직관**: **"항구(서버)에 들어오기 전, 수출입 화물선(컨테이너)의 폭발물 엑스레이 검사대"**. 
+  - 과거: 화물통(프로그램) 안에 폭탄(버그)이 있든 말든 일단 항구(운영 서버)에 내려놓고 봅니다. 폭탄이 터지면 그제야 허둥지둥 막습니다 (사후 약방문).
+  - **이미지 스캔 (Trivy)**: 개발자가 짐을 싸서 항구로 보내는 순간(빌드/CI 단계), 강력한 엑스레이(Trivy)를 투과시킵니다. "잠깐! 화물통 2층에 치명적 버그(Log4j) 발견! 3층 구석에 AWS 비밀키(Secret) 노출 발견!" $\rightarrow$ 이 화물은 폭발물로 간주되어 배포가 즉각 **거절(Block)** 되고, 개발자에게 반송 조치됩니다.
 
-## 연결 개념
-- SBOM — 이미지 구성요소를 CycloneDX/SPDX로 기록
-- CI/CD Security Gate — Critical CVE와 Secret을 배포 전 차단
-- OPA Gatekeeper — 스캔·서명 결과를 Admission 정책으로 검증
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 쿠버네티스 환경에서는 '도커 이미지(Docker Image)'라는 불변(Immutable)의 파일 덩어리가 운영 서버에 배포됩니다. 이미 한 번 굽혀져 서버에 뜬 컨테이너 안에 들어가서 백신을 돌리거나 버그를 패치하는 건 멍청한 짓(안티 패턴)입니다. **서버에 뜨기 전에 '원본 이미지 파일' 자체를 검사하는 것(Shift-Left)** 이 컨테이너 보안의 알파이자 오메가이기 때문에 이 시장이 엄청나게 커졌습니다.
+- **가치**: "안전한 붕어빵 틀 확보". 운영 환경에 해커가 들어올 수 있는 길목(알려진 취약점, CVE)의 99%를 코딩/빌드 단계에서 사전에 차단함으로써, 골치 아픈 런타임 보안의 짐을 획기적으로 덜어줍니다.
 
----
+## 3. 어떻게 작동하는가? (Mechanism)
+Trivy 같은 스캐너는 이미지를 실행(Run)하지 않고 정적으로 파일 덩어리를 뜯어봅니다.
 
-# 📝 【답안용】 시험 답안 템플릿
+1. **이미지 분해 (Layer Parsing)**
+   - 도커 이미지는 여러 겹의 양파 껍질(레이어)로 되어 있습니다. 
+   - 스캐너가 이 이미지를 한 꺼풀씩 뜯어 OS(알파인, 우분투) 패키지, 자바(JAR), 파이썬, Node.js 라이브러리 목록을 싹 추출합니다.
+2. **취약점 DB 대조 (CVE Matching)**
+   - 뽑아낸 라이브러리 버전을 글로벌 해킹 구멍 장부(CVE 데이터베이스, NVD 등)와 눈부신 속도로 대조합니다.
+   - "이 이미지가 쓰는 Python 버전 3.8.1에는 해커가 원격으로 뚫을 수 있는 Critical(치명적) 버그 번호 CVE-2022-XXXX가 존재합니다!"
+3. **시크릿 및 설정 오류 탐지 (Secrets & Misconfiguration)**
+   - 취약점만 잡는 게 아닙니다. 개발자가 실수로 코드 안에 적어둔 `AWS_ACCESS_KEY=1234abcd` 같은 패스워드 패턴을 찾아냅니다.
+   - 또, 도커를 빌드하는 설계도(Dockerfile)에 "이 컨테이너는 킹왕짱 마스터 권한(root)으로 실행하시오"라고 적힌 위험천만한 설정 오류(Misconfiguration)도 잡아냅니다.
+4. **파이프라인 차단 (Block Pipeline)**
+   - 발견된 위험도가 'High'나 'Critical'이면 CI/CD 파이프라인(Jenkins, 깃허브 액션)을 빨간불 띄우며 강제로 정지시켜 버립니다.
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: Trivy 답안은 도구 사용법이 아니라 이미지 공급망에서 취약점·Secret·설정 오류를 빌드 단계에서 차단하고 운영 증거로 연결하는 구조로 써야 한다.
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례**: 
+  - 세계에서 가장 유명한 이미지 스캐너 오픈소스가 바로 아쿠아 시큐리티(Aqua Security)가 만든 **Trivy(트리비)** 입니다. 정말 미치도록 가볍고 빨라서 CI/CD에 연동하기 최적입니다. 
+  - 신입 개발자가 깃허브에서 주워온 구형 도커 파일(베이스 이미지)로 앱을 구워(Build)서 운영 서버로 쏘려(Push)고 합니다. 그 순간 깃허브 액션(파이프라인)에 심어진 Trivy가 돌아가면서 "치명적 취약점 15개 발견! 님 배포 금지!" 에러를 내뿜습니다. 개발자는 어쩔 수 없이 이미지를 최신 버전으로 업데이트(패치)한 뒤에야 다시 배포할 수 있습니다.
+- **주의점 및 흔한 오해**: 
+  - "스캔 한 번 해서 통과하면 영원히 안전한가요?" $\rightarrow$ **절대 아닙니다.** 오늘 스캔 통과(Clean)된 이미지라도, 내일 전 세계를 뒤흔드는 신종 해킹 기법(예: Log4j 사태)이 터지면 하루아침에 치명적 폭탄으로 변합니다. 따라서 레지스트리(보관소)에 쌓여있는 이미지들을 **'매일 주기적으로 계속' 스캔(Continuous Scanning)** 해야 합니다.
 
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: 컨테이너 이미지 스캔은 이미지 레이어의 OS 패키지, 언어 라이브러리, 설정, Secret을 분석해 배포 전 위험을 식별하는 공급망 보안 통제이다.
-> 2. **가치**: Trivy는 Container Image, Filesystem, Git Repository, Kubernetes 대상에서 CVE, IaC Misconfiguration, Secret, License 위험을 탐지해 CI/CD 게이트로 사용할 수 있다.
-> 3. **판단 포인트**: Critical CVE 0건, Secret 0건, SBOM 생성, 서명 검증, 예외 만료일을 기준으로 배포 허용 여부를 결정해야 한다.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 컨테이너 공급망 위험 이해 확인 | base image, OS package, language dependency, Secret | 컨테이너 런타임 보안으로만 설명 |
-| CI/CD 보안 게이트 설계 확인 | Trivy scan, SBOM, severity threshold, fail pipeline | CVE 목록만 나열하고 차단 기준 누락 |
-| 운영 예외 관리 역량 확인 | false positive, vendor backport, allowlist, 만료일 | "스캔하면 안전"으로 단정 |
-
-> 요약: Trivy 문제는 이미지 분석 결과를 배포 차단 기준, SBOM, 예외 관리, Admission 검증으로 연결해야 한다.
+## 5. 핵심 비교 및 연결 개념 (Relation)
+- **런타임 보안 (Falco/CWPP)**: 서버에서 프로그램이 '돌아가는 중(Runtime)'에 일어나는 이상 행동(채굴 봇, 파일 파괴)을 방어. (비용/성능 많이 듦).
+- **이미지 스캔 (Trivy)**: 서버에서 돌아가기 '전(Build/Pre-deploy)'에 프로그램 자체의 타고난 질병(취약점 버그)을 진단. (빠르고 비용 적게 듦. Shift-Left).
+- 모범 답안은 둘 다 써야 합니다(Defense in Depth).
 
 ---
 
-## Ⅰ. 개요 및 필요성
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-- 개요: 배포 전 이미지 취약점 검증
-- 배경: 이미지는 OS 패키지, 라이브러리, 설정, Secret을 포함하므로 동일 위험이 여러 Pod로 확산될 수 있음.
-- 필요성: CI/CD에서 Trivy로 CVSS 9.0 이상 Critical CVE, Secret, 설정 오류를 차단 기준으로 운영해야 함.
+### Ⅰ. 핵심 인사이트
+- **본질**: 컨테이너 이미지(Docker Image) 내부의 OS 패키지, 애플리케이션 종속성(Dependencies), 구성 파일(Dockerfile)을 정적 분석하여, **알려진 CVE(Common Vulnerabilities and Exposures) 취약점, 하드코딩된 시크릿(Secrets), IaC 설정 오류(Misconfiguration)를 탐지해 내는 빌드 타임(Build-time) 중심의 보안 스캐닝 메커니즘.** (대표 오픈소스: Trivy, Clair).
+- **가치**: 클라우드 네이티브 보안 4C 프레임워크 중 'Container'와 'Code' 영역 방어의 핵심 기술. 개발과 배포의 완전 자동화 경로(CI/CD) 상에 통합되어, 취약한 컨테이너 이미지가 라이브 운영 환경(Runtime)으로 유입되는 것을 원천 차단하는 **시프트 레프트(Shift-Left) 보안**의 실질적 집행 도구.
+- **판단 포인트**: IT 아키텍트는 컨테이너의 불변성(Immutability) 원칙을 명심해야 합니다. 런타임에 실행 중인 컨테이너에 접속(SSH 등)하여 `apt-get update`로 취약점을 패치하는 행위는 절대로 금지됩니다(안티 패턴). 취약점이 발견되면, **원본 이미지를 수정하여 처음부터 새로 빌드(Re-build)하고 재배포하는 파이프라인 프로세스**만이 유일한 정답입니다.
 
----
+### Ⅱ. 컨테이너 이미지 스캐닝의 3대 핵심 탐지 영역 (Trivy 기준)
+Trivy와 같은 모던 스캐너는 단순한 CVE 매칭을 넘어 다차원적 분석을 수행함.
+1. **취약점 (Vulnerability / CVE 스캐닝)**
+   - **OS 패키지 스캔**: Alpine, Ubuntu, CentOS 등 베이스 이미지(Base Image) 계층의 라이브러리 구멍 탐지.
+   - **애플리케이션 종속성 스캔 (SCA)**: Java(pom.xml), Python(requirements.txt), Node.js(package.json) 등 개발자가 불러다 쓴 외부 오픈소스 라이브러리의 취약점 매칭.
+2. **시크릿 검사 (Secret Scanning)**
+   - 이미지 빌드 과정이나 소스코드 내부에 하드코딩된(평문) AWS Access Key, 데이터베이스 암호, 개인키(Private Key) 등 1급 기밀 정보의 노출을 정규표현식으로 스캔하여 적발.
+3. **설정 오류 (Misconfiguration)**
+   - Dockerfile 분석: 불필요한 `root` 권한 실행 지시어(`USER root`), 외부에 노출된 치명적 포트, `ADD` 대신 취약한 `wget` 사용 여부 등 컨테이너 생성 시점의 보안 베스트 프랙티스 위반(CIS Benchmarks) 적발.
 
-## Ⅱ. 구조 및 구성요소
+### Ⅲ. 데브섹옵스(DevSecOps) 파이프라인 내 이미지 스캐닝 3단계 연동 지점
+완벽한 심층 방어를 위해 라이프사이클 3곳 모두에 스캐너를 매핑해야 함.
+1. **CI 단계 (Build & Commit)**
+   - 개발자가 깃허브에 코드를 푸시하고 빌드(Jenkins/GitHub Actions)가 도는 찰나.
+   - 액션: Trivy를 젠킨스 파이프라인 플러그인으로 연동. 심각도 `CRITICAL` 취약점 발견 시 Exit Code 1을 발생시켜 **빌드(Build) 파이프라인 강제 실패(Fail) 및 차단**.
+2. **레지스트리 단계 (Store)**
+   - 빌드된 이미지가 도커 허브나 ECR, Harbor 같은 보관소(Registry)에 저장되는 순간.
+   - 액션: 레지스트리 자체에 내장된 스캐닝 기능 활용. 특히 어제는 안전했던 이미지가 오늘 새로 발간된 신규 CVE로 인해 취약해질 수 있으므로 **주기적 상시 스캔(Continuous Scanning)** 수행.
+3. **배포 단계 (Deploy / CD)**
+   - 쿠버네티스가 레지스트리에서 이미지를 땡겨와 운영 서버(Pod)에 띄우기 직전.
+   - 액션: Admission Controller(예: OPA Gatekeeper)와 연동하여, "최근 24시간 내 스캔을 통과하지 않았거나 Critical 취약점이 있는 이미지"는 쿠버네티스 스케줄링 자체를 **어드미션 거부(Reject)**.
 
-```text
-Source/Dockerfile -> Image Build -> Trivy Scan -> SBOM/Report
-  / Vulnerability DB, Misconfig Rules, Secret Rules, License Rules
-SBOM/Report -> CI Gate -> Registry -> Admission/Runtime Evidence
-```
+### Ⅳ. 대표적 오픈소스 스캐너: Trivy의 아키텍처적 우수성
+수많은 스캐너(Clair, Anchore) 중 Trivy가 클라우드 네이티브의 사실상 표준(De-facto)이 된 이유.
+- **포괄성 (All-in-one)**: OS 패키지뿐 아니라 애플리케이션 종속성, IaC(Terraform), 클라우드 설정(AWS)까지 단일 바이너리로 통합 스캔 가능.
+- **초경량 및 CI/CD 친화성**: 별도의 거대한 백엔드 DB 서버(PostgreSQL 등) 구축이 필수였던 구형 스캐너들과 달리, Trivy는 바이너리 하나만 파이프라인에 다운로드하면 로컬 캐시 DB로 수십 초 만에 스탠드얼론(Standalone) 초고속 스캔 수행.
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Image Analyzer | 레이어, OS 패키지, 언어 의존성 식별 | dpkg, rpm, apk, pip, npm, Maven |
-| Vulnerability DB | 패키지 버전과 CVE 매칭 | NVD, vendor advisory, GitHub Advisory |
-| Misconfig Scanner | Dockerfile, Kubernetes YAML, Terraform 오류 탐지 | root 실행, Privileged, 공개 포트 |
-| Secret Scanner | 토큰, API Key, Private Key 패턴 탐지 | Git history와 이미지 파일 모두 점검 |
-| CI Gate | Severity, CVSS, allowlist 기준으로 배포 차단 | Critical 0건, High 예외 승인 |
-| SBOM Reporter | CycloneDX/SPDX 산출 및 감사 증거 보관 | 이미지 digest와 함께 저장 |
+### Ⅴ. 결론 및 실무적 판단 포인트
+- 인프라 리더는 "취약점 0개"를 목표로 삼으면 데브옵스 조직의 속도를 마비시킨다는 것을 명심해야 합니다. 컨테이너 이미지에는 수천 개의 자잘한 취약점이 항상 존재합니다. 따라서 스캐닝 결과 중 **"CVSS Score가 높은(Critical/High) 것"**, 그중에서도 **"실제로 네트워크와 통신하는 런타임 환경에서 악용 가능한 패키지"**, 그리고 **"제조사의 패치(Fix) 파일이 이미 배포된 취약점"** 부터 파이프라인 차단 임계치(Threshold)로 설정하여 개발자의 패치 피로도(Fatigue)를 덜어주는 스마트한 형상 관리가 핵심입니다.
 
-> 요약: Trivy는 이미지 구성요소를 식별해 취약점 DB와 정책 룰에 대조하고 CI/CD 게이트와 SBOM 증거로 연결한다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-이미지 빌드 -> 이미지 digest 고정 -> Trivy DB 갱신
--> OS/라이브러리/설정/Secret 분석 -> 심각도 산정
--> 기준 위반 시 Pipeline Fail -> SBOM/리포트 보관
--> Registry Push 또는 배포 차단
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | Dockerfile과 base image로 이미지 빌드 | digest 고정, latest 태그 금지 |
-| 2 | Trivy 취약점 DB 갱신 후 이미지 분석 | DB age 24시간 이하 |
-| 3 | CVE, Misconfig, Secret, License 스캔 | Critical CVE 0건, Secret 0건 |
-| 4 | 예외 정책과 severity threshold 적용 | 예외 만료 30일, 승인자 기록 |
-| 5 | SBOM, JSON, SARIF 리포트 저장 | CycloneDX/SPDX와 CI 로그 보관 |
-
-> 요약: Trivy 스캔은 빌드 직후 digest 기준으로 수행하고 기준 위반 시 파이프라인을 실패 처리한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 기존/대안 | Trivy 이미지 스캔 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 검사 범위 | OS 패키지 위주 CVE 점검 | CVE, IaC Misconfig, Secret, License | Critical 0건, Secret 0건 |
-| 적용 시점 | 운영 배포 후 취약점 점검 | Pull Request, Build, Registry, Cluster | 배포 전 차단률 100% |
-| 증거 | 텍스트 리포트 | SBOM, JSON, SARIF, image digest | CycloneDX/SPDX 보관 |
-| 한계 | DB와 매칭 품질 의존 | 오탐·누락·vendor backport 검토 필요 | 예외 만료 30일, 재스캔 24시간 |
-
-> 요약: Trivy는 이미지 위험을 배포 전에 정량 기준으로 차단하지만 DB 품질과 예외 관리 절차가 함께 필요하다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | Trivy 이미지 스캔 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | 수동 CVE 확인 | CI/CD 자동 스캔과 Registry 재스캔 | 일 배포 10회 이상, 이미지 50개 이상 |
-| 비용/성능 | 운영 패치 중심 | 빌드 단계 실패 처리로 조치 비용 감소 | 빌드 지연 허용 2분 이내 |
-| 운영/위험 | 운영 중 탐지 후 조치 | 배포 전 차단, SBOM 증거, 예외 만료 | 규제·감사 대상 워크로드 |
-
-> 요약: 컨테이너 배포 빈도가 높으면 운영 사후 조치보다 Trivy 기반 CI/CD 게이트가 조치 비용을 줄인다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 오탐 | vendor backport, CVE 매칭 오류 | allowlist, 근거 URL, 만료일 지정 | 예외 30일 만료율 100% |
-| 누락 | 패키지 식별 실패, 정적 링크 바이너리 | SBOM 보강, 다중 스캐너 교차검증 | 미식별 패키지 비율 5% 이하 |
-| DB 지연 | 취약점 DB 갱신 지연 | DB age 24시간 이하, 재스캔 | DB 갱신 실패 0건 |
-| 우회 배포 | CI 외부 Registry Push | Registry 정책, Admission digest 검증 | unsigned image 0건 |
-
-> 요약: 스캔 품질은 오탐·누락·DB 지연·우회 배포를 예외 정책과 Admission 검증으로 통제해야 한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 취약점 기준 | Critical 0건, High는 승인 예외만 허용 | Trivy JSON, CI 로그 |
-| Secret 기준 | API Key·Private Key 0건 | Trivy secret scan, Git secret scan |
-| SBOM 기준 | 운영 이미지 100% CycloneDX/SPDX 보관 | Registry digest와 SBOM 매핑 |
-| 재스캔 기준 | 운영 이미지 24시간 또는 신규 CVE 발생 시 | Registry scheduled scan |
-
-> 요약: Trivy 운영 성과는 Critical·Secret 0건, SBOM 100%, 재스캔 주기 준수로 판단한다.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 1단계: Pull Request에서 Dockerfile, IaC, Secret Scan을 수행하고 Secret 0건 기준 미달 시 병합 차단
-2. 2단계: Build 후 Trivy image scan으로 Critical CVE 0건, High CVE 예외 30일, DB age 24시간 이하 기준 적용
-3. 3단계: SBOM을 CycloneDX/SPDX로 저장하고 Cosign 서명, OPA Gatekeeper Admission 정책으로 서명·스캔 증거 검증
-
-**결론 (2줄):**
-- 기술사 판단: 테스트용 이미지 10개 미만은 수동 재스캔으로 시작 가능하나, 운영 배포는 Trivy 기반 CI/CD 게이트와 Admission 검증을 결합해야 함
-- 향후 방향: SBOM, VEX, 이미지 서명, 런타임 탐지를 연결해 빌드 시점 위험과 실행 시점 위험을 동일 증거 체계로 관리해야 함
-
----
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "컨테이너 이미지 스캔을 설명하시오", "Trivy를 기술하시오" | 이미지 분석, CVE 매칭, SBOM 산출 흐름 | Trivy의 검사 범위와 한계 |
-| 요구사항 명시형 | "CI/CD 적용 방안을 제시하시오", "이미지 보안 게이트를 설계하시오" | Pipeline Fail 기준, 예외 만료, Registry 재스캔 | Critical 0건, Secret 0건, 서명 100% 방안 |
-
-> 요약: 설명형은 스캔 원리를 쓰고, 설계형은 CI/CD 차단 기준과 예외 관리 지표를 중심으로 답안을 전개한다.
+### 💡 문제 유형별 목차 전환 포인트
+- **[컨테이너 생태계의 보안 위협 분석 및 데브섹옵스(DevSecOps) CI/CD 연동 방안]**: Ⅰ과 Ⅱ번(탐지 영역 3요소)을 바탕으로, 기존 물리 서버 패치 방식과 대비되는 '불변성(Immutability)' 원칙을 강조하고 이미지 빌드 타임 사전 차단의 효과성 기술.
+- **[소프트웨어 공급망 공격(Supply Chain Attack) 방어 및 취약점 통합 관리 프레임워크]**: Ⅲ번 항목의 파이프라인 3단계 맵핑을 도식화하여, 외부에서 끌어다 쓰는 오픈소스 라이브러리의 취약점 유입을 레지스트리 단계와 배포 단계(Admission Controller)에서 어떻게 이중 방어하는지 논리 전개.

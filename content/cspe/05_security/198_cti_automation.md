@@ -1,163 +1,92 @@
 ---
 title: "인텔리전스 기반 CTI 자동화 (CTI Automation)"
-date: "2026-07-01"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 198
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: 사내 관제 화면(CCTV)만 뚫어지게 쳐다보는 것을 넘어, 다크웹, 해커 포럼, 트위터, 글로벌 백신 회사(카스퍼스키, 구글)에서 쏟아지는 **"지금 해커들이 쓰는 최신 악성 IP와 유행하는 공격 수법(위협 인텔리전스, CTI)"을 24시간 실시간으로 긁어모은 뒤, 사내 방화벽과 백신에 기계(API)가 알아서 업데이트(자동화)시키는 초거대 첩보 레이더 시스템**입니다.
+- **필요성**: 북한 해커가 어제 미국 국방부를 뚫을 때 썼던 신종 악성코드(해시값)가 오늘 아침 뉴스에 떴습니다. 한국 기업의 보안 담당자가 뉴스 보고 그 해시값을 복사해서 회사 방화벽에 타이핑으로 넣고 있으면 이미 늦습니다. 해커들은 1초마다 IP를 바꾸며 공격합니다. 외부의 '적 정보(첩보)'를 사람의 손을 거치지 않고 기계의 속도로 즉각 우리 방패(솔루션)에 이식해야만 공격을 막을 수 있습니다.
+- **핵심 직관**: **"전 세계 경찰서의 지명수배 전단지 실시간 동기화"**. 
+  - 과거 (수동 방어): 동네 파출소 경찰이 어제 뉴스에 나온 범인 몽타주를 외워서 순찰함. (뉴스 안 본 경찰은 범인을 눈앞에 두고도 놓침).
+  - **CTI 자동화**: 전 세계 경찰청(다크웹, 보안 벤더)의 DB가 인터폴(CTI 플랫폼)로 실시간 취합됨 $\rightarrow$ 그 즉시 모든 경찰관의 스마트 글래스(방화벽, EDR)에 몽타주(IoC)가 자동으로 다운로드됨 $\rightarrow$ 길 가던 사람 얼굴이 몽타주와 일치하면 스캐너가 자동으로 삐용삐용 울림. (인간의 인지와 속도의 한계를 초월).
 
-> 목적: CTI 자동화를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 해킹 기술이 발전하며, 어제 쓰던 해커의 IP 주소를 차단해 봐야 해커는 오늘 1만 개의 다른 IP로 공격을 들어옵니다. 파편화된 침해 지표(IoC) 방어의 한계에 부딪힌 보안 업계는, 글로벌 기관(CISA)과 민간 벤더(CrowdStrike 등)들이 수집한 적의 첩보(TTPs)를 서로 공유하기 위해 STIX/TAXII라는 통일된 언어를 만들었고, 이를 통해 수백만 개의 첩보를 기계들끼리 사고파는 글로벌 생태계를 구축했습니다.
+- **가치**: "사후 약방문에서 선제적 방어(Proactive Defense)로의 진화". 우리 회사가 털리기 전에, 남의 회사를 턴 해커의 족적(CTI)을 미리 가져와 우리 방화벽을 코팅합니다. 이는 해커의 공격을 미리 읽어내는 '예지력'을 회사에 부여하여, 무의미한 방화벽 오탐(False Positive) 분석에 쏟는 보안팀의 야근을 획기적으로 줄여줍니다.
 
-## 한눈에
-- **개요**: 위협 인텔리전스를 STIX/TAXII, TIP, SIEM, SOAR로 자동 수집·정규화·배포하는 운영 체계
-- **왜 필요한가**: IP, domain, hash, TTP, 취약점 정보가 수동 보고서로 머물면 차단과 탐지 룰 반영이 늦어진다. 자동화는 confidence, TLP, valid_until을 기준으로 쓸 수 있는 정보만 SOC 조치로 전환함.
-- **핵심 직관**: 뉴스 기사를 사람이 모두 읽는 대신, 내 회사 관련 기사만 점수화해 경보 룰과 차단 목록으로 자동 전달하는 필터와 배관임.
+## 3. 어떻게 작동하는가? (Mechanism)
+이 시스템은 '수집 $\rightarrow$ 가공 $\rightarrow$ 투약'이라는 파이프라인으로 움직입니다.
 
-## 깊이 이해
-- **배경·문제의식**: CTI feed는 양이 많고 IoC 만료 시간이 짧다. OASIS STIX는 CTI 표현 형식, TAXII는 HTTPS 기반 교환 API를 제공해 조직 간 공유와 도구 연동을 기계 처리 가능하게 함.
-- **작동 원리**: source를 수집하고 STIX object로 정규화한다. confidence, TLP 2.0, valid_from, valid_until, ATT&CK mapping을 평가한 뒤 SIEM Sigma 룰, EDR block, SOAR playbook, vulnerability SLA로 배포함.
-- **비유**: 물류 창고에서 바코드가 없는 물품은 분류가 늦다. STIX/TAXII는 위협 정보에 바코드와 운송 규격을 붙여 창고, 매장, 계산대가 같은 정보를 읽게 하는 표준임.
-- **구체 예시**: 랜섬웨어 캠페인의 C2 domain이 TAXII collection으로 들어오면 TIP가 confidence 85, TLP:AMBER, ATT&CK T1071로 저장하고 4시간 내 SIEM 탐지 룰과 DNS 차단 후보를 생성함.
-- **흔한 오해·주의점**: 자동 수집은 자동 차단과 다르다. confidence 70 미만, 만료 IoC, 업무 도메인 충돌, TLP:RED 정보는 자동 배포에서 제외해야 함.
+1. **위협 데이터 수집 (Collection)**
+   - 기계가 전 세계의 첩보 사이트(VirusTotal, 해커 포럼, OSINT 블로그)와 피드(Threat Feed)에서 하루에 수십만 개의 악성 IP, 악성 도메인, 파일 해시값(지문)을 쫙 빨아들입니다.
+2. **TIP (위협 인텔리전스 플랫폼)의 정제/가공 (Enrichment)**
+   - 긁어온 첩보엔 쓰레기도 많습니다. 구글의 정상 IP를 해커 IP라고 잘못 적어둔 것을 방화벽에 그대로 넣으면 사내 인터넷이 마비됩니다.
+   - 그래서 중앙의 똑똑한 플랫폼(TIP)이 "이건 진짜 악성 IP 맞음(스코어 90점)"이라고 점수를 매기고 걸러냅니다.
+3. **SOAR 및 방어 장비로의 투약 (Automation & Response)**
+   - 정제된 악성 리스트(블랙리스트)를 파이썬 스크립트나 **SOAR(자동화 로봇)** 가 1분마다 사내의 모든 방화벽(FW), IPS, 백신 서버에 API를 쏴서 업데이트해 버립니다.
+   - "이 IP 대역에서 오는 트래픽은 묻지도 따지지도 말고 Drop(차단)해라!"
 
-## 연결 개념
-- STIX/TAXII - CTI 구조화와 자동 교환 표준
-- TIP/MISP - CTI 수집, 중복 제거, scoring, 배포 플랫폼
-- SOAR - CTI hit를 대응 플레이북으로 전환
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례 (Log4j 사태의 CTI 자동 방어)**: 
+  - 과거: Log4j 해킹 사태가 터지자, 보안팀은 인터넷 기사를 뒤져가며 "이 IP가 해커 꺼래!"라며 엑셀로 정리하고 방화벽에 수동으로 한 줄씩 넣었습니다.
+  - CTI 자동화 도입 후: CISA나 KISA에서 STIX 규격으로 "Log4j 해커 IP 및 도메인 1,000개" 파일을 배포(TAXII 프로토콜)합니다. 사내 CTI 봇(Bot)이 이걸 실시간으로 빨아들여 검증한 뒤, 1분 만에 전국의 지사 방화벽 100대에 자동으로 룰을 추가합니다. 보안팀은 커피를 마시며 차단 성공 로그만 구경합니다.
+- **주의점 및 흔한 오해**: 
+  - "이거 하면 백신이나 침입탐지시스템(IPS)은 안 사도 되나요?" $\rightarrow$ **아닙니다.** 
+  - CTI는 '똑똑한 뇌(첩보)'일 뿐, 결국 그 첩보를 들고 적을 때려잡는 '손발(근육)'인 IPS, 방화벽, EDR 장비가 사내에 깔려있어야만 지시를 내릴 수 있습니다. 인텔리전스는 기존 방어 장비를 슈퍼맨으로 만들어주는 각성제(버프)입니다.
 
----
+## 5. 핵심 비교 및 연결 개념 (Relation)
+기계들끼리 첩보를 주고받기 위해 만든 2가지 외계어 (글로벌 표준 프로토콜):
+| 용어 | 풀이 | 역할 | 비유 |
+|---|---|---|---|
+| **STIX** | Structured Threat Information eXpression | **첩보를 쓰는 양식/언어** (JSON이나 XML 형태). "해커 IP는 1.1.1.1이고, 랜섬웨어 이름은 록빗이다"라고 규격화. | 편지지에 글씨를 쓰는 **문법과 단어** |
+| **TAXII** | Trusted Automated eXchange of Indicator Information | 작성된 STIX 문서를 기계들끼리 암호화해서 안전하게 **전송하는 통신 프로토콜**. | 편지를 전달해 주는 **우체부/택배망** |
 
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: CTI 자동화 답안은 feed 연동이 아니라 품질 평가, TLP 통제, STIX/TAXII, ATT&CK 매핑, 룰 전환률을 써야 함.
-
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: CTI 자동화는 위협 정보를 표준 형식과 API로 수집·평가·배포해 탐지와 대응에 연결하는 체계임.
-> 2. **가치**: critical IoC 4시간 내 배포, 룰 전환률 30%, false positive 10% 이하를 목표로 SOC 조치 시간을 줄임.
-> 3. **판단 포인트**: STIX/TAXII, TLP 2.0, confidence, valid_until, ATT&CK mapping, 자동 차단 승인 기준을 함께 제시해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| CTI 운영 자동화 이해 확인 | STIX object, TAXII collection, TIP, SIEM/SOAR 배포 | CTI feed 구매와 동일시 |
-| 품질 통제 확인 | confidence, source reliability, freshness, TLP, false positive | 수집량만 많게 쓰고 검증 기준 누락 |
-| 보안 운영 연결 확인 | Sigma/YARA 룰, EDR 차단, 취약점 우선순위 | 보고서 생성으로 답안 종료 |
-
-> 요약: 이 문제는 CTI를 표준화해 탐지·차단·패치로 전환하는 자동 운영 설계를 요구함.
+*(즉, CTI 플랫폼은 "STIX라는 언어로 적어서, TAXII라는 우체부를 통해" 전 세계 보안 장비에 첩보를 실시간으로 뿌립니다.)*
 
 ---
 
-## Ⅰ. 개요 및 필요성
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-- 개요: 위협정보 수집·검증·배포 자동화
-- 배경: IoC, TTP, 취약점 피드가 늘어나면 만료 지표와 중복 지표가 SIEM·EDR 오탐과 분석 지연을 유발한다.
-- 필요성: STIX/TAXII, TIP, TLP, 품질 점수로 위협정보를 검증하고 SIEM·EDR·SOAR·취약점 관리에 배포한다.
+### Ⅰ. 핵심 인사이트
+- **본질**: 내부 네트워크의 알람(Log)만 바라보는 고립된 관제(SIEM)의 한계를 탈피하기 위해, 외부의 다크웹, OSINT, 상용 보안 벤더로부터 **사이버 위협 인텔리전스(CTI: Cyber Threat Intelligence)** 피드(Feed)를 기계 판독 가능한 표준 포맷(STIX/TAXII)으로 지속 수집/정제(TIP)하고, 이를 SOAR나 내부 보안 인프라(방화벽, EDR)의 정책(Policy)에 사람의 개입 없이 **실시간으로 동기화(Integration)하여 선제적 방어 체계를 구축하는 자동화 아키텍처(CTI Automation).**
+- **가치**: "방어의 비대칭성을 해소하는 예지적(Predictive) 인프라의 완성". 해커는 수만 개의 봇넷(Botnet) IP를 매 분 변경하며 공격합니다. 관제 요원이 IoC(침해 지표)를 엑셀표(CSV)로 다운받아 방화벽에 타이핑하는 동안 회사는 이미 털립니다. CTI 자동화는 이 첩보-투사 리드타임(Lead Time)을 수십 시간에서 수 초 단위로 단축시키며, 오탐(False Positive)을 제거하여 관제 인력의 경보 피로도(Alert Fatigue)를 극적으로 해소하는 넥스트 제너레이션 보안 관제 센터(NG-SOC)의 심장입니다.
+- **판단 포인트**: IT 아키텍트는 "CTI 피드(Feed)를 많이 구독할수록 좋다"는 착각을 경계해야 합니다. 100만 개의 악성 IP를 방화벽 ACL에 밀어 넣으면 방화벽의 메모리가 터져서(Overload) 네트워크 병목이 발생합니다. 진정한 CTI 자동화는 **위협 인텔리전스 플랫폼(TIP)** 이라는 중간 두뇌(Broker)를 아키텍처에 삽입하여, 수집된 외부 첩보를 사내의 '자산 중요도' 및 '비즈니스 맥락(Context)'과 교차 분석(Enrichment)한 뒤, 점수(Scoring)가 높은 진성 위협(Actionable Intelligence)만 선별하여 방화벽에 주입하는 **'정제(Curation) 알고리즘 설계 역량'** 이 성패를 좌우합니다.
 
----
+### Ⅱ. 위협 인텔리전스(CTI)의 3대 레벨 
+수집하는 첩보의 수준. (위로 갈수록 고급).
+1. **전술적/기술적 인텔리전스 (Tactical/Technical CTI) ★자동화의 주 타겟**
+   - **형태**: 악성코드의 해시값(MD5, SHA-256), C2 서버 IP, 피싱 도메인 주소 등 기계가 즉각적으로 인식하고 차단할 수 있는 **침해 지표(IoC: Indicators of Compromise)**.
+   - **활용**: STIX/TAXII를 통해 FW/EDR에 분 단위로 자동 주입.
+2. **운영적 인텔리전스 (Operational CTI)**
+   - **형태**: 특정 APT 그룹(예: Kimsuky)이 주로 사용하는 공격 기법, 취약점(CVE), 권한 상승 루트 등 **TTPs (Tactics, Techniques, and Procedures)**. 
+   - **활용**: 보안 분석가(Threat Hunter)가 사내 망에서 이런 기법이 쓰였는지 헌팅(Hunting)할 때 쓰거나, MITRE ATT&CK 프레임워크와 매핑하여 방어 논리를 짬.
+3. **전략적 인텔리전스 (Strategic CTI)**
+   - **형태**: "러시아-우크라이나 전쟁으로 에너지 기업 대상 랜섬웨어가 증가 중" 같은 거시적 동향 보고서.
+   - **활용**: 비전문가인 최고 경영진(CISO, CEO)이 다음 해 보안 예산(사이버 보험 가입 등)을 짤 때 활용.
 
-## Ⅱ. 구조 및 구성요소
+### Ⅲ. CTI 자동화를 위한 글로벌 표준 규격 (STIX & TAXII)
+이기종 장비 간 첩보 공유를 위한 공용어 (반드시 암기).
+- **STIX (Structured Threat Information Expression)**
+   - **정의**: 구조화된 위협 정보 표현 규격 (언어/양식). JSON 기반.
+   - **기능**: 누가(공격자), 무엇을(타겟), 어떻게(TTPs), 어떤 증거(IoC)로 공격했는지를 객체(Object) 관계로 표준화하여 기계가 읽을 수 있게 함.
+- **TAXII (Trusted Automated Exchange of Intelligence Information)**
+   - **정의**: 신뢰할 수 있는 위협 정보 자동 교환 프로토콜 (우체부/택배망). HTTPS 통신 기반.
+   - **기능**: 서버-클라이언트 모델 또는 Publish-Subscribe(Pub/Sub) 모델을 통해, 작성된 STIX 데이터를 보안 장비나 정부 기관(CISA) 간에 안전하게 전달(Transport).
 
-```text
-CTI Source -> TAXII/API Ingestion -> TIP Normalization
-  / Scoring/TLP/Freshness -> ATT&CK Mapping
-  / SIEM Rule -> EDR Block -> SOAR Playbook -> Feedback
-```
+### Ⅳ. 엔터프라이즈 통합 아키텍처: CTI + SOAR + SIEM의 융합
+현대 관제 센터의 무인화(Automation) 파이프라인.
+1. **SIEM의 경보 발생**: "A 직원의 PC가 1.1.1.1로 수상한 패킷을 보냄."
+2. **SOAR의 정보 보강 (Enrichment via CTI)**: SOAR가 즉각 1.1.1.1을 들고 **사내 TIP(위협 인텔리전스 플랫폼) API**나 VirusTotal에 쿼리를 던짐. "이 IP가 최근 해커들이 쓰는 C2 서버가 맞니?"
+3. **TIP의 판정**: "STIX DB 조회 결과, 러시아 랜섬웨어 조직의 IP로 스코어 100점 만점에 99점 악성임."
+4. **SOAR의 자동 차단 (Playbook Execution)**: 즉각 방화벽에 API를 쏴서 1.1.1.1을 영구 Block하고, EDR을 통해 A 직원의 PC를 네트워크 격리(Containment)한 후, 슬랙(Slack)으로 CISO에게 사후 보고. **(이 모든 과정이 5초 이내에 사람 개입 없이 완료됨)**.
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Source | OSINT, ISAC, vendor, internal IR 정보 제공 | source reliability, collection scope |
-| STIX/TAXII | CTI 표현과 HTTPS 교환 표준 | STIX 2.1, TAXII 2.1, collection API |
-| TIP | 중복 제거, scoring, TLP, 만료 관리 | MISP, OpenCTI, commercial TIP |
-| Detection Pipeline | Sigma, YARA, SIEM, EDR 룰 생성 | ATT&CK tactic/technique mapping |
-| Feedback Loop | hit count, false positive, analyst verdict 반영 | confidence 재계산, feed 품질 평가 |
+### Ⅴ. 결론 및 실무적 판단 포인트
+- 보안 인프라 수석 설계자는 CTI 자동화를 도입할 때 "Garbage In, Garbage Out(쓰레기를 넣으면 쓰레기가 나온다)"의 함정을 철저히 경계해야 합니다. 구글 DNS(8.8.8.8)가 악성 IP 피드에 실수로 포함되어 사내 망화벽에 자동 주입되는 순간, 전사의 인터넷망이 다운되는 참사가 발생합니다. 진정한 지능화 아키텍처는 외부에서 긁어온 수백만 개의 IoC를 바로 방화벽에 직결하는 것이 아니라, 반드시 **'사내 화이트리스트 DB(예: 오피스 365 대역, 협력사 IP)'와 크로스체크(충돌 방지 로직)를 수행하는 샌드박싱/검증 게이트웨이를 코드(Python Playbook) 내에 구축**하는 데브섹옵스의 극단적 섬세함(Fineness)에서 완성됩니다.
 
-> 요약: CTI 자동화는 표준 수집, 품질 평가, 탐지 배포, 피드백을 하나의 폐루프로 운영함.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-PIR 정의 -> TAXII/API 수집 -> STIX 정규화 -> 중복 제거
--> confidence/TLP/valid_until 평가 -> 룰·차단 후보 생성
--> 승인 배포 -> hit/오탐 피드백
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | PIR과 feed source 선정 | feed별 owner, use case 지정 |
-| 2 | STIX/TAXII, API, MISP sync로 수집 | ingestion 지연 30분 이하 |
-| 3 | confidence, TLP, valid_until, 중복 제거 | confidence 70 이상 우선 |
-| 4 | ATT&CK 매핑 후 SIEM/EDR/SOAR 배포 | critical IoC 4시간 내 배포 |
-| 5 | hit count, false positive, analyst verdict 반영 | false positive 10% 이하 |
-
-> 요약: CTI 자동화는 PIR에서 시작해 품질 검증을 거친 정보만 보안 도구에 배포하고 운영 결과로 점수를 보정함.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 수동 CTI 운영 | CTI 자동화 | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 수집 | PDF, 메일, CSV 수동 반영 | STIX/TAXII, API, MISP sync | TAXII 2.1, STIX 2.1 |
-| 품질 | 분석가 경험 기반 | confidence, TLP, valid_until scoring | confidence 70 이상 |
-| 배포 | 보고서 중심 | SIEM 룰, EDR 차단, SOAR playbook | 4시간 내 critical 배포 |
-| 개선 | 사후 회의 중심 | hit count와 오탐 피드백 자동 반영 | false positive 10% 이하 |
-
-> 요약: CTI 자동화는 위협정보를 표준 형식과 품질 기준으로 걸러 보안 도구 실행 항목으로 바꿈.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 공유 방식 | 이메일·PDF 보고서 | TAXII collection, API, MISP sync | 다수 조직·도구 연동 필요 시 |
-| 탐지 전환 | 수동 룰 작성 | Sigma/YARA 후보 자동 생성 | 월 1,000개 이상 IoC 처리 |
-| 통제 기준 | 전량 수집 | TLP, confidence, freshness 필터 | 오탐·민감정보 공유 위험 존재 시 |
-
-> 요약: CTI 자동화는 피드 양이 많고 탐지 전환 지연이 큰 SOC에서 우선 적용함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 오탐 확산 | 저신뢰·만료 IoC 자동 배포 | confidence 70, valid_until, allowlist | false positive 10% 이하 |
-| 공유 위반 | TLP:RED/AMBER 정보 무단 배포 | TLP 2.0 policy, recipient control | TLP violation 0건 |
-| 탐지 부하 | 룰 과다 배포로 SIEM 비용·지연 증가 | priority queue, TTL, rule pruning | rule latency p95 5분 이하 |
-| 공급망 위험 | 외부 feed 조작·poisoning | source reputation, signature, sandbox 검증 | poisoned feed 0건 |
-
-> 요약: CTI 자동화 리스크는 오탐, 공유 위반, 룰 부하, feed poisoning이며 품질 점수와 배포 통제로 줄임.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 시간 | critical IoC 4시간 내 배포 | ingestion/deploy timestamp |
-| 활용 | CTI 룰 전환률 30%, hit rate 추적 | TIP, SIEM rule backlog |
-| 품질 | false positive 10% 이하, TLP 위반 0건 | analyst verdict, audit log |
-
-> 요약: CTI 자동화 성과는 배포 시간, 룰 전환률, 오탐과 공유 위반 지표로 판단함.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 표준 수집: OASIS STIX 2.1/TAXII 2.1, MISP sync, vendor API를 TIP에 연결하고 feed별 source reliability와 owner를 지정함.
-2. 품질 필터: confidence 70 이상, valid_until 유효, TLP:CLEAR/GREEN 우선, TLP:AMBER는 내부 need-to-know 배포로 제한함.
-3. 운영 연계: ATT&CK ID를 붙여 Sigma/YARA/EDR/SOAR 후보를 만들고 critical IoC 4시간, false positive 10% 이하, 룰 전환률 30%를 월간 검토함.
-
-**결론 (2줄):**
-- 기술사 판단: CTI 자동화는 feed 수집량보다 품질 필터와 SOC 실행 전환률이 성패를 결정함.
-- 향후 방향: AI 기반 요약은 analyst verdict 보조에 쓰고, 차단 배포는 TLP·confidence·승인 정책을 통과한 항목으로 제한해야 함.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "CTI 자동화를 설명하시오", "STIX/TAXII 활용을 기술하시오" | 수집, 정규화, scoring, 배포, 피드백 흐름 | 수동 CTI와 자동화 차이 |
-| 요구사항 명시형 | "구축 방안을 제시하시오", "운영 리스크를 설명하시오" | TLP, confidence, valid_until, 승인 배포 절차 | 오탐, 공유 위반, SIEM 부하 통제 |
-
-> 요약: 설명형은 표준과 흐름, 설계형은 품질 필터와 배포 통제 기준으로 답안을 구성함.
+### 💡 문제 유형별 목차 전환 포인트
+- **[지능형 위협 대응 체계(NG-SOC) 고도화 및 위협 인텔리전스(CTI) 플랫폼 구축 방안]**: Ⅰ과 Ⅱ번(CTI의 3대 레벨)을 핵심으로 세워, 왜 단순한 로그(SIEM) 분석을 넘어 해커의 동향(TTPs)을 추적하는 예지적 방어 시스템이 필요한지 보안 패러다임의 시프트를 증명.
+- **[침해 지표(IoC) 자동화 배포 체계(STIX/TAXII) 및 SOAR 연계 아키텍처 구현 전략]**: Ⅲ번(표준 언어 및 프로토콜)을 짚고, Ⅳ번의 시스템 간 통신(API) 융합 시나리오를 엮어, "CTI 첩보가 어떻게 사람을 거치지 않고 방화벽(FW) 룰셋으로 치환되어 골든타임(MTTR)을 단축하는가"에 대한 실무 엔지니어링 해법 전개.

@@ -1,165 +1,105 @@
 ---
-title: "OpenTelemetry (OTel)"
-date: "2026-07-02"
+title: "OpenTelemetry (OpenTelemetry)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
-  - "cspe-latest-tech"
+  - "cspe-08_latest_tech"
 weight: 276
 ---
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: OpenTelemetry를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+> 목적: 클라우드 네이티브 환경에서 Datadog, Splunk 같은 벤더의 '노예(Lock-in)'가 되지 않기 위해, 관측성 데이터 수집의 전 세계 통일 표준인 OpenTelemetry를 이해한다.
 
 ## 한눈에
-- **개요**: 클라우드 네이티브 소프트웨어의 관측성 데이터(로그, 메트릭, 트레이스)를 수집, 가공, 전송하기 위한 오픈소스 표준 프레임워크
-- **왜 필요한가**: 예전에는 모니터링 도구(Datadog, New Relic 등)마다 수집 방식이 달라서, 도구를 바꾸려면 소스코드를 다 고쳐야 했다(Vendor Lock-in). OpenTelemetry는 "수집 방식"을 하나로 통일해서 어떤 도구든 갈아 끼울 수 있게 해준다.
-- **핵심 직관**: 관측성 데이터 수집계의 "USB 표준"이다. 어떤 기기(언어/앱)든 USB 포트(OTel SDK)만 있으면 어떤 충전기(분석 도구)에도 연결할 수 있다.
+- **정의**: 애플리케이션의 메트릭(Metrics), 로그(Logs), 트레이스(Traces) 등 '원격 측정 데이터(Telemetry)'를 생성, 수집, 처리, 전송하기 위한 **CNCF의 오픈소스 관측성 프레임워크 및 글로벌 표준**
+- **필요성**: 예전에는 모니터링 툴을 바꿀 때마다 개발자가 수만 줄의 코드에서 옛날 툴 전용 라이브러리를 지우고 새 툴 라이브러리를 깔아야 하는 미친 짓(Vendor Lock-in)을 해야 했기 때문
+- **핵심 직관**: "대한민국(A툴), 미국(B툴), 일본(C툴) 전원 콘센트 모양이 다 달라서 고통받다가, 전 세계 모든 전자기기를 꽂을 수 있는 '글로벌 초전도 멀티탭(OTel)'을 국제 표준으로 만들어 버린 것"
 
 ## 깊이 이해
-- **배경·문제의식**: OpenTracing과 OpenCensus라는 두 개의 비슷한 프로젝트가 통합되어 탄생했다. CNCF(Cloud Native Computing Foundation)에서 Kubernetes 다음으로 가장 활발하게 기여가 일어나는 프로젝트일 만큼 클라우드 시대의 필수 기술이 되었다.
-- **작동 원리**: **OTLP(OpenTelemetry Protocol)**라는 표준 프로토콜을 사용한다. 앱에 심어진 **SDK**가 데이터를 뽑아내면, **Collector**가 이를 받아서 정해진 형식으로 가공한 뒤, 실제 데이터를 저장하고 보여줄 백엔드(Prometheus, Jaeger 등)로 쏘아준다.
-- **비유**: 통역관과 같다. 앱들은 각자 자기 언어(Java, Go, Python 등)로 말하지만, OTel SDK라는 통역관이 이를 "국제 공용어(OTLP)"로 바꿔준다. 덕분에 듣는 사람(분석 도구)이 누구든 상관없이 대화가 통한다.
-- **구체 예시**: Java Spring Boot 앱에 OTel Agent를 붙이면 코드 수정 없이도 HTTP 호출 경로(Trace), 메모리 사용량(Metric), 에러 기록(Log)이 자동으로 수집된다.
-- **흔한 오해·주의점**: OpenTelemetry는 데이터를 **보여주는(Visualization) 도구가 아니다.** 데이터를 **모아서 전달하는(Collection & Export)** 표준 도구다. 보여주는 건 Grafana 같은 다른 도구의 몫이다.
+- **배경(왜 등장했나?)**: 구글은 OpenCensus라는 라이브러리를 밀었고, 다른 진영은 OpenTracing을 밀었다. 관측성 표준이 두 개로 갈라져 피 터지게 싸우다가, "우리 싸우지 말고 그냥 합치자!" 하고 탄생한 것이 OpenTelemetry(OTel)다. CNCF 생태계에서 K8s 다음으로 가장 활발하게 기여가 일어나는 초대형 프로젝트가 되었다.
+- **작동 원리(어떻게 달성했나?)**: 
+  1. **API/SDK**: 개발자는 OTel이 제공하는 표준 API로만 에러 로그나 소요 시간을 코딩한다. 벤더 코드는 1줄도 안 들어간다.
+  2. **Collector (수집기)**: 모든 서버에서 뿜어져 나오는 데이터(OTLP 포맷)를 OTel Collector라는 중앙 수집기가 다 빨아들인다.
+  3. **Export (전송)**: Collector가 빨아들인 데이터를 설정 파일(YAML)에 따라 Datadog, Prometheus, ElasticSearch 등으로 입맛에 맞게 뿌려준다.
+- **일상 비유**: 예전에는 택배를 보낼 때 우체국 전용 박스, CJ 전용 박스, 한진 전용 박스를 따로 사서 포장해야 했다(Vendor Lock-in). OTel은 '국제 표준 규격 박스'다. 이 박스 하나로 포장해서 물류 허브(Collector)에 던져두면, 허브가 알아서 목적지에 맞는 택배사 트럭으로 실어 보내준다. 택배사를 바꿔도 내 포장 방식을 바꿀 필요가 없다.
+- **구체 예시**: Java Spring Boot 앱을 띄울 때 `opentelemetry-javaagent.jar`를 껴서 실행하기만 하면(Auto-instrumentation), 내가 코드 한 줄 짜지 않아도 모든 HTTP 요청 시간, DB 쿼리 실행 시간이 OTel 표준 포맷으로 줄줄 흘러나온다.
+- **흔한 오해/주의점**: "OTel을 깔면 그 자체로 예쁜 대시보드 그래프를 볼 수 있나?" → 절대 아니다! OTel은 데이터를 '수집해서 배달'하는 우체부(파이프라인)일 뿐이다. 데이터를 저장하고 그래프로 그려주는 '백엔드(Jaeger, Grafana, Datadog)'는 반드시 따로 구성해야 한다.
 
 ## 연결 개념
-- CNCF — OpenTelemetry가 소속된 오픈소스 재단
-- OTLP — 관측성 데이터 전송을 위한 표준 프로토콜
-- Sidecar Pattern — OTel Collector를 컨테이너 옆에 띄우는 흔한 배포 방식
-- Semantic Conventions — 데이터에 붙이는 이름(태그)을 통일한 규약
+- **Observability (관측성)**: OTel이 달성하고자 하는 궁극적인 철학이자 시스템의 상태 파악 능력.
+- **Trace ID / Span ID**: OTel이 분산된 시스템들의 호출 관계를 하나로 묶기 위해 HTTP 헤더에 강제로 쑤셔 넣는 추적용 꼬리표.
+- **Vendor Lock-in 탈피**: OTel을 도입하는 가장 결정적이고 재무적인 이유. 모니터링 벤더의 가격 협상력에 끌려다니지 않을 수 있다.
 
 ---
 
 # 📝 【답안용】 시험 답안 템플릿
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 벤더 독립성(Vendor-neutral)과 통합 수집 구조(Unified Collection)를 중심으로 기술 체계를 서술한다.
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: OpenTelemetry는 분산 시스템의 관측성 데이터(Metrics, Logs, Traces)를 생성, 수집, 가공, 전송하기 위한 공급업체 중립적인(Vendor-neutral) 오픈소스 표준 프레임워크이다.
-> 2. **가치**: 단일 표준 프로토콜(OTLP)과 API를 통해 도구 교체 시의 코드 수정 비용을 제거하고, 마이크로서비스 간의 데이터 상관관계(Correlation)를 통합 가시화한다.
-> 3. **판단 포인트**: 라이브러리 기반의 SDK 방식과 인프라 기반의 Collector 방식을 조합하여 성능 오버헤드와 운영 유연성 간의 균형을 확보해야 한다.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| OpenTelemetry의 탄생 배경 및 목적 확인 | 벤더 독립성, OpenTracing+OpenCensus 통합 | 특정 상용 솔루션의 기능으로 오해 |
-| 주요 구성요소 및 기술 아키텍처 확인 | API, SDK, Collector, OTLP | 구성요소 간의 흐름(Flow) 누락 |
-| 실무 적용 시의 이점 및 고려사항 확인 | 코드 수정 최소화(Auto-instrumentation), 샘플링 | 성능 오버헤드에 대한 언급 누락 |
-
-> 요약: 관측성 데이터의 표준화 규격인 OTLP와 이를 처리하는 구성요소들의 유기적 결합을 설명한다.
-
----
+> 1. **본질**: OpenTelemetry(OTel)는 분산 시스템의 텔레메트리 데이터(Metrics, Logs, Traces)를 생성, 수집, 처리, 전송하기 위해 벤더 중립적(Vendor-agnostic)인 단일 API와 아키텍처를 제공하는 CNCF 표준 프레임워크이다.
+> 2. **가치**: 특정 관측성 도구(Datadog, Splunk 등)에 대한 종속성(Vendor Lock-in)을 원천 차단하며, '데이터의 계측(Instrumentation)'과 '데이터의 저장/시각화(Backend)'를 완벽히 디커플링(Decoupling)한다.
+> 3. **판단 포인트**: OTel의 핵심 구성요소인 OTel Collector(Receiver, Processor, Exporter)의 동작 메커니즘을 명확히 이해하고, Auto-instrumentation을 통한 코드 침투성 최소화 전략을 제시해야 한다.
 
 ## Ⅰ. 개요 및 필요성
+- **정의**: 클라우드 네이티브 관측성 확보를 위해, 텔레메트리 데이터의 생성 및 수집 방식을 통일한 글로벌 오픈소스 표준 (OpenCensus와 OpenTracing의 병합)
+- **배경**: MSA 파편화로 인해 서비스마다 관측성 에이전트와 라이브러리가 난립함. 모니터링 백엔드 솔루션 교체 시 엄청난 수준의 소스 코드 리팩토링 비용(Instrumentation Cost) 발생
+- **필요성**: 관측성 데이터 포맷의 표준화(OTLP), 계측 로직의 벤더 종속성 제거, 대규모 데이터의 효율적 파이프라인(버퍼링/필터링) 처리
 
-- 정의: 클라우드 네이티브 환경에서 분산된 서비스들의 관측성 데이터(Traces, Metrics, Logs)를 수집 및 전송하기 위한 CNCF 표준 기술 세트
-- 배경: 모니터링 벤더별 파편화된 SDK 사용으로 인한 기술 부채(Lock-in) 증가 및 MSA 환경의 통합 가시성 확보 난항
-- 필요성: 일관된 데이터 수집 규격을 통한 시스템 가시성 강화, 도구 선택의 자유도 보장, 운영 복잡성 감소
-
----
-
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. OpenTelemetry 아키텍처 및 동작 매커니즘
+OTel 아키텍처의 핵심은 애플리케이션의 계측(Instrumentation)과 파이프라인 허브인 **Collector**다.
 
 ```text
-[ Application ] --(API)--> [ SDK ] --(OTLP)--> [ OTel Collector ] --(Export)--> [ Backend ]
-      |                      |                       |                            |
-(Instrumentation)       (Processing)            (Aggregation)               (Storage/UI)
-
-[핵심 요소: API/SDK, OTLP, Collector, Instrumentation]
+  [ Application ]
+  ┌────────────────────────────────────────────────────────┐
+  │ 1. API & SDK (벤더 중립적 표준 계측)                       │
+  │    (수동 계측 + Auto-Instrumentation Agent)            │
+  └─────┬──────────────────────────────────────────────────┘
+        │ OTLP (OpenTelemetry Protocol) 전송
+  ┌─────▼──────────────────────────────────────────────────┐
+  │ 2. OTel Collector (텔레메트리 허브/파이프라인)              │
+  │  ┌────────────┐   ┌────────────┐   ┌─────────────┐ │
+  │  │ Receiver   │ ➔ │ Processor  │ ➔ │ Exporter    │ │
+  │  │(OTLP, Zipkin)│   │(배치, 필터링)│   │(다양한 벤더)  │ │
+  │  └────────────┘   └────────────┘   └─────────────┘ │
+  └─────┬───────────────────┬────────────────────┬─────┘
+        ▼                   ▼                    ▼
+ [ 백엔드 A (Datadog) ]  [ 백엔드 B (Jaeger) ]  [ 백엔드 C (Grafana) ]
+   (메트릭/트레이스)         (분산 추적 시각화)       (메트릭 대시보드)
 ```
 
-| 구성요소 | 역할 | 특이사항 |
+## Ⅲ. OTel의 핵심 구성요소 (Collector 중심)
+1. **API / SDK / Agent**
+   - 개발 언어(Java, Go, Python 등)별로 지원. 비즈니스 코드에 OTel API만 사용. 특히 Java Agent의 경우 바이트코드 조작을 통해 코드 수정 없이 자동 계측(Auto-Instrumentation) 지원.
+2. **OTel Collector (데이터 파이프라인)**
+   - **Receiver**: OTLP, Jaeger, Prometheus 등 다양한 포맷의 데이터를 수신.
+   - **Processor**: 데이터를 백엔드로 보내기 전에 가공. (예: 개인정보 마스킹, 과다 데이터 드랍, 배치 묶음 처리, 속성 태깅)
+   - **Exporter**: 가공된 데이터를 최종 목적지(Datadog, Splunk, Elastic 등)의 포맷에 맞게 변환하여 발송.
+
+## Ⅳ. OTel 프로토콜 (OTLP) 및 3대 기둥(Pillars) 지원
+OTel은 Observability의 3대 요소를 단일 프로토콜(OTLP - HTTP/gRPC)로 일원화했다.
+| 요소 | OTel의 역할 및 특징 |
+|:---|:---|
+| **Traces (추적)** | `Trace Context`를 W3C 표준 기반으로 HTTP 헤더에 주입(Context Propagation)하여 마이크로서비스 간 흐름 완벽 연결 |
+| **Metrics (메트릭)**| 기존 Prometheus 생태계와의 완벽한 양방향 호환성(Pull/Push 모두 지원) 제공 |
+| **Logs (로그)** | 가장 늦게 표준화 편입. Trace ID를 Log 데이터에 자동 주입(Correlation)하여, 에러 로그 발생 시 즉시 해당 트레이스 화면으로 연동 구현 |
+
+## Ⅴ. 기술적 한계(리스크) 및 해결 방안
+| 리스크 요인 | 현상 및 문제점 | 대응 방안 (엔지니어링 가이드) |
 |:---|:---|:---|
-| API & SDK | 데이터 생성 및 전송 라이브러리 | 언어별(Java, Go 등) 구현체 제공 |
-| OTLP | 데이터를 주고받는 표준 프로토콜 | gRPC 및 HTTP/JSON 기반 |
-| Collector | 데이터 수집, 가공, 다중 백엔드 전송 중계기 | Receiver, Processor, Exporter 구성 |
-| Instrumentation | 소스 코드에 수집 코드를 삽입하는 행위 | 자동(Auto) 및 수동(Manual) 방식 |
-
-> 요약: 애플리케이션 내의 SDK와 외부의 Collector가 표준 프로토콜(OTLP)로 연결되는 구조를 가진다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-[동작 흐름: 수집(Receive) -> 가공(Process) -> 전송(Export)]
-Receiver (OTLP, Jaeger, Prometheus) -> Processor (Batch, Filter, Attribute)
-                                             |
-Exporter (Prometheus, Elastic, Datadog) <----+
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | Instrumentation | 자동 에이전트 또는 SDK를 통해 요청 시작/종료 시점 데이터 캡처 |
-| 2 | 수집(Receive) | Collector가 다양한 포맷의 데이터를 수집하여 내부 공용 포맷으로 변환 |
-| 3 | 가공(Process) | 민감 정보 마스킹, 데이터 압축, 메타데이터(Cloud 정보 등) 태깅 |
-| 4 | 전송(Export) | 가공된 데이터를 분석 도구(Prometheus, Jaeger 등)가 요구하는 포맷으로 변환 전송 |
-
-> 요약: 다양한 입력 포맷을 표준 형식으로 정규화한 후, 다시 목적지에 맞는 포맷으로 변환하여 전달한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 내용 | 판단 포인트 |
-|:---|:---|:---|
-| 중립성 | 특정 모니터링 벤더에 종속되지 않는 독립적 표준 | Vendor Lock-in 방지 |
-| 통합성 | 트레이스, 메트릭, 로그를 하나의 SDK/프로토콜로 처리 | 데이터 간 상관관계 분석 용이 |
-| 유연성 | 소스 수정 없이 Java Agent 등을 통한 자동 수집 지원 | 도입 장벽 및 운영 공수 절감 |
-| 확장성 | 커스텀 Processor나 Exporter를 통해 기능 확장 가능 | 복잡한 기업 환경 요구사항 대응 |
-
-> 요약: '표준화'를 통해 관측성 데이터의 수집 효율성과 활용 자유도를 극대화하는 특징을 가진다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 수동 Instrumentation | 자동 Instrumentation | 선택 기준 |
-|:---|:---|:---|:---|
-| 구현 방식 | 개발자가 직접 코드에 API 호출 삽입 | Java Agent 등을 사용하여 런타임 주입 | 개발 리소스 가용성 |
-| 정밀도 | 매우 높음 (특정 비즈니스 데이터 포함) | 높음 (표준 라이브러리 호출 위주) | 분석 요구사항 상세 수준 |
-| 유지보수 | 라이브러리 업데이트 시 코드 수정 필요 | 소스 수정 불필요 | 장기적 운영 비용 |
-
-> 요약: 표준 지표 수집은 자동 방식을 기본으로 하고, 핵심 비즈니스 로직에만 수동 방식을 가미하는 전략이 주효하다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 자원 오버헤드 | Collector의 과도한 CPU/메모리 사용 | 샘플링 및 리소스 제한(Limit) 설정 | Collector 노드의 자원 사용률 |
-| 네트워크 부하 | 방대한 관측 데이터 전송으로 인한 대역폭 점유 | 데이터 압축 및 로컬 수집(Sidecar) 활용 | 애플리케이션 대비 관측 데이터 트래픽 비중 |
-| 버전 호환성 | API/SDK와 Collector 간의 버전 불일치 | Semantic Conventions 준수 및 버전 동기화 | 데이터 전송 실패 및 드랍(Drop) 횟수 |
-
-> 요약: 성능 영향을 최소화하기 위한 샘플링과 배포 모델(Sidecar vs Gateway) 선정이 실무의 핵심이다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 데이터 유실률 | 전체 생성 데이터 대비 수집 성공률 99% 이상 | Collector In/Out 메트릭 비교 |
-| 전송 지연 | 수집 후 백엔드 도달까지 5초 이내 | End-to-End 지연 시간 측정 |
-| SDK 오버헤드 | 앱 성능 저하(지연 시간 증가) 3% 이내 | 수집 활성화 전후 부하 테스트 비교 |
-
-> 요약: 데이터의 완결성과 함께 애플리케이션 성능에 미치는 영향을 주기적으로 점검해야 한다.
-
----
+| **Collector 병목 및 SPOF** | 클러스터 내의 모든 트래픽 데이터가 1대의 OTel Collector로 몰려 리소스 고갈 및 데이터 유실 발생 | **Gateway 패턴(Collector 다중화)** 적용 및 로드 밸런싱을 통한 파이프라인 스케일 아웃 |
+| **디버깅 데이터 폭증 (비용)**| 모든 Trace 데이터를 수집(100% Sampling)하면 OTel 파이프라인과 백엔드 저장소(S3/DB) 비용 폭발 | Collector의 **Tail-based Sampling** 기능을 활용하여, 응답이 1초 이상 지연되거나 에러가 난 트레이스만 선별하여 수집 |
 
 ## Ⅵ. 실무 적용 및 결론
+**적용 방안 및 실무 가이드:**
+1. **Zero-Code Instrumentation (코드 무수정 계측)**: K8s 환경에서 OpenTelemetry Operator를 도입하면, 기존 Pod에 Sidecar나 Init 컨테이너 형태로 Agent를 자동 주입하여 소스 코드 수정 없이 텔레메트리 수집 인프라를 구축할 수 있다.
+2. **Vendor 전환의 무기**: OTel이 구축되면, "올해 Datadog 구독료가 너무 비싸니 내일부터는 오픈소스인 Grafana Tempo/Loki로 모니터링을 돌려라"라는 경영진의 지시를 단 5분의 Collector YAML 설정 변경만으로 완수할 수 있다.
 
-**적용 방안 3개:**
-1. 다중 클라우드 모니터링 통합: AWS, Azure 등 이기종 환경의 지표를 OTel로 단일화하여 통합 대시보드 구축
-2. 분산 서비스 추적: MSA 환경에서 서비스 간 호출 경로를 Trace ID로 엮어 장애 지점을 수초 내에 특정
-3. 벤더 전환 전략: 상용 솔루션 비용 최적화를 위해 OTel Collector의 Exporter 설정만 변경하여 다른 솔루션으로 즉시 전환
+**결론:**
+- OpenTelemetry는 관측성 데이터의 통일된 언어(Esperanto)이자, 벤더의 독점에서 사용자를 해방시킨 클라우드 네이티브의 위대한 진보이다.
+- MSA, K8s, Serverless 등 어떠한 아키텍처든 OTel 생태계를 기반으로 파이프라인을 구축하는 것이 현대 인프라 설계의 가장 확고한 **'Best Practice'**이다.
 
-**결론 (2줄):**
-- 기술사 판단: OpenTelemetry는 관측성 데이터 수집의 사실상 표준(De-facto Standard)으로 자리 잡았으며, 이제는 선택이 아닌 필수 인프라 요소이다.
-- 향후 방향: 로그(Logs) 지원이 안정화됨에 따라 3대 기둥의 완벽한 통합이 이루어지고, AI 기반 분석 도구들과의 연동이 가속화될 것이다.
-
----
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
+### 🔀 문제 유형별 목차 전환
+| 문제 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 (아키텍처/컴포넌트) | Ⅳ·Ⅴ 강조 (OTLP/운영전략) |
 |:---|:---|:---|:---|
-| 포괄형 | "OpenTelemetry에 대해 설명하시오" | API, SDK, Collector 아키텍처 및 OTLP | 벤더 독립성 및 데이터 통합 이점 |
-| 요구사항 명시형 | "벤더 종속성 없는 관측성 체계 구축 방안" | Collector의 Receiver/Exporter 구성 전략 | 도구 전환(Migration) 용이성 및 고려사항 |
-| 기술 심화형 | "분산 시스템 가시성 확보 기술" | Trace Context Propagation(문맥 전파) 원리 | 자동 수집(Auto-instrumentation) 메커니즘 |
+| **관측성 기술/표준형** | "Vendor Lock-in", "표준화" | OTel API/SDK 계층과 Collector 구조(Receiver/Processor/Exporter) 중심 도식화 및 역할 서술 | W3C Trace Context 규격과 OTLP 단일 프로토콜의 장점 부각 |
+| **SRE 및 인프라 운영형**| "대규모 로그 수집", "Sampling" | Collector의 배치(Batch) 및 필터링 기능 강조 | Ⅴ Collector 다중화 아키텍처 및 Tail-based Sampling을 통한 비용 절감 전략 전면 배치 |

@@ -1,167 +1,87 @@
 ---
 title: "AI 공급망 보안 (AI Supply Chain Security)"
-date: "2026-07-01"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 156
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: 우리 회사 AI를 똑똑하게 만들기 위해 바깥(오픈소스 등)에서 주워 온 **'데이터, AI 모델 파일(가중치), 외부 플러그인(도구)'들 속에 해커가 독이나 스파이웨어를 몰래 묻혀놓지 않았는지, AI의 탄생부터 운영까지의 모든 재료(공급망)를 철저히 검사하고 추적하는 보안 체계**입니다.
+- **필요성**: 요즘 기업들은 처음부터 AI를 만들지 않습니다. 허깅페이스(Hugging Face)라는 AI 마트에서 누군가 잘 만들어둔 뼈대 모델을 공짜로 다운받아 씁니다. 그런데 해커가 이 마트에 평범한 모델로 위장한 **'백도어(스파이) 모델'** 이나 **'랜섬웨어가 숨겨진 파이썬 코드'** 를 진열해 둔다면? 이걸 다운받아 사내 서버에 설치하는 순간, 회사 전체가 해커의 손에 넘어가는 거대한 재앙(공급망 공격)이 터지기 때문입니다.
+- **핵심 직관**: **"식당 주방장의 식자재 독살 방지 검수"**. 
+  - 과거 (전통적 소프트웨어): 식자재(코드)가 썩었는지(버그) 확인하는 위생 검사(소스코드 리뷰)면 충분함.
+  - **AI 공급망 보안**: 요리(AI)를 만드는데 식자재(오픈소스 데이터와 모델)가 너무 방대해서 사람이 다 뜯어볼 수가 없습니다. 누군가 양배추(오픈소스 모델) 속에 눈에 안 띄게 독(백도어, 피클(Pickle) 악성코드)을 주사해 놨을지도 모릅니다. 그래서 양배추가 **"어느 밭(작성자)에서 자랐고, 유통 과정에서 누가 포장을 뜯은 적은 없는지(무결성 서명, SBOM/AI-BOM)"** 영수증을 깐깐하게 따져보고 주방에 들이는 검수 과정입니다.
 
-> 목적: AI 공급망 보안을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 세계 최대의 오픈소스 AI 모델 공유 사이트인 '허깅페이스'에서 최근 수백 개의 악성 모델이 무더기로 적발되었습니다. 해커들은 사람들이 유명 모델인 줄 알고 다운받도록 철자를 교묘하게 바꾼(Typosquatting) 가짜 모델을 올려두었습니다. 이 가짜 모델을 로딩하는 순간 서버에 백도어가 설치되거나 비밀번호가 털렸습니다 (PyTorch의 Pickle 역직렬화 취약점 악용).
+- **가치**: "사일로(Silo) 보안의 종말". 내 회사 방화벽을 아무리 높게 쳐봤자, 외부에서 들여오는 핵심 부품(모델 가중치 파일) 자체가 오염되어 있으면 보안은 0%가 됩니다. AI 서비스의 신뢰성을 담보하기 위한 MLOps(머신러닝 운영 파이프라인)의 가장 첫 단추이자, 국가 차원의 AI 인프라 안보와 직결되는 핵심 영역입니다.
 
-## 한눈에
-- **개요**: 데이터·모델·코드·패키지·학습환경·배포경로 전반의 변조와 취약점을 통제하는 보안 체계
-- **왜 필요한가**: AI 서비스는 오픈소스 모델, 학습 데이터, 파이썬 패키지, 컨테이너, GPU 클러스터, 모델 레지스트리를 연결한다. 어느 한 지점의 변조가 전체 추론 결과와 고객 데이터에 영향을 준다.
-- **핵심 직관**: AI 모델도 소프트웨어 제품처럼 원재료, 조립 과정, 서명, 출하 검사를 기록해야 한다.
+## 3. 어떻게 작동하는가? (Mechanism)
+AI 공급망 보안은 크게 **3가지 재료(데이터, 모델 파일, 인프라)** 의 위협을 차단합니다.
 
-## 깊이 이해
-- **배경·문제의식**: 기존 SW 공급망은 소스코드와 빌드 산출물 중심이었다. AI는 여기에 데이터셋, pretrained model, fine-tuning adapter, prompt template, vector index, evaluation set이 추가되어 변조 지점이 늘어난다.
-- **작동 원리**: 데이터 출처를 검증하고, 모델·패키지 SBOM/ML-BOM을 작성하며, 학습·빌드 provenance를 SLSA 방식으로 서명한다. 모델 레지스트리에서는 hash, 서명, 취약점 스캔, 라이선스, 평가 결과를 gate로 확인한다.
-- **비유**: 의약품 생산처럼 원료 입고, 배합, 제조시설, 품질검사, 출하번호를 기록하는 방식이다. AI에서는 데이터와 모델이 원료이고 학습 파이프라인이 제조 공정이다.
-- **구체 예시**: 오픈소스 LLM을 도입할 때 model hash, license, dataset card, 안전성 평가, dependency CVE, container image scan을 통과해야 운영 레지스트리에 승격한다.
-- **흔한 오해·주의점**: 모델 파일만 스캔하면 끝이 아니다. poisoned dataset, malicious pickle, dependency confusion, backdoor adapter, vector DB 오염까지 공급망 범위에 포함해야 한다.
+1. **모델 파일 악성코드 감염 (Model Serialization Attack)**
+   - **위협**: 파이썬에서 AI 모델을 저장할 때 쓰는 `Pickle(피클)` 포맷은 사실 '실행 가능한 코드 덩어리'입니다. 해커가 이 피클 파일 속에 랜섬웨어 코드를 몰래 구워 넣을 수 있습니다.
+   - **방어 (Safetensors)**: 피클을 쓰지 말고, 오직 '순수한 숫자 덩어리'만 저장하여 코드가 실행될 위험을 원천 차단한 안전 포맷(Safetensors)으로만 모델을 저장하고 다운로드하도록 강제합니다.
+2. **모델 출처 위장 및 변조 (Tampering & Typosquatting)**
+   - **위협**: 해커가 `Llama-3` 모델을 살짝 변형한 백도어 모델을 `Llama-3-Fast`라는 이름으로 올려 사람들을 낚습니다 (타이포스쿼팅).
+   - **방어 (AI-BOM / Sigstore)**: 구글이나 메타 같은 진짜 원작자가 모델을 올릴 때, "우리가 만든 진짜 모델이 맞다"는 **암호화된 전자 서명(Cosign)** 을 찍습니다. 회사는 이 서명이 일치하는 명품(원본) 모델만 서버에 받도록 파이프라인(SLSA)을 구축합니다.
+3. **훈련 데이터 오염 (Data Poisoning)**
+   - **위협**: 모델 학습에 쓰이는 외부 인터넷 데이터(위키백과 등)를 해커가 조작해 두어 AI를 바보로 만듭니다.
+   - **방어 (Data Provenance)**: 데이터를 긁어올 때 출처를 기록하고, 데이터 안에 숨겨진 이상한 패턴(노이즈)이 없는지 통계적으로 걸러내는 정제 툴을 돌립니다.
 
-## 연결 개념
-- SLSA·SBOM - 빌드 provenance와 구성요소 목록 관리
-- 모델 보안 - backdoor, model stealing, prompt injection, evaluation poisoning
-- MLOps 보안 - 학습·검증·배포 파이프라인 통제
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례 (Hugging Face의 보안 강화)**: 
+  - 허깅페이스는 공급망 공격을 맞고 나서 대대적인 방어 체계를 도입했습니다. 악성코드를 퍼뜨리는 원흉이었던 `Pickle` 포맷 대신, 자체 개발한 안전 포맷인 `Safetensors`를 표준으로 밀어붙였습니다. 또한, 사용자가 모델을 올리면 백그라운드에서 백신 검사(Malware Scanning)를 싹 돌려서, 악성코드가 섞인 모델 파일은 아예 다운로드할 수 없게 차단하는 '공급망 클린 존' 정책을 실시하고 있습니다.
+- **주의점 및 흔한 오해**: 
+  - "이거 그냥 기존 소프트웨어 망분리(Supply Chain Security)랑 똑같은 거 아닌가요?" $\rightarrow$ **다릅니다.** 기존에는 소스코드(텍스트)를 검사하는 'SAST(정적 분석)' 툴을 돌리면 버그가 보였습니다. 하지만 AI 모델은 수십 기가바이트의 **'숫자(가중치) 덩어리'** 라서, 정적 분석 툴로 훑어봐도 이 숫자가 백도어(스파이)를 품고 있는지 절대 알 수 없습니다. 철저한 '이력 관리(Provenance)'만이 답입니다.
 
----
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: AI 공급망 보안은 코드 취약점 관리가 아니라 데이터, 모델, 학습 파이프라인, 레지스트리, 추론 서비스를 하나의 provenance 체계로 묶는 문제임.
-
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: AI 공급망 보안은 AI 생명주기 전반의 구성요소와 산출물에 대해 출처, 무결성, 취약점, 라이선스, 평가 결과를 검증하는 체계임.
-> 2. **가치**: 데이터 오염, 모델 백도어, 악성 패키지, 레지스트리 변조가 운영 추론 결과로 확산되는 경로를 차단함.
-> 3. **판단 포인트**: SBOM/ML-BOM, SLSA provenance, 서명 검증, 모델 레지스트리 gate, 데이터 lineage를 함께 구축해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| AI 공급망 공격면 식별 | 데이터, 모델, 코드, 패키지, 컨테이너, registry, vector index | 일반 SW 공급망만 설명하고 데이터·모델 누락 |
-| 통제 기술 설계 | SBOM, ML-BOM, SLSA, Sigstore, model signing, lineage | 백신 스캔만 제시 |
-| 운영 지표 판단 | provenance coverage, scan gate, eval gate, rollback | 학습·배포 승인 기준 누락 |
-
-> 요약: 이 문제는 AI 산출물의 원재료부터 운영 배포까지 변조를 추적·검증하는 공급망 설계를 요구함.
+## 5. 핵심 비교 및 연결 개념 (Relation)
+| 구분 | 기존 소프트웨어 공급망 보안 (SBOM) | AI/ML 공급망 보안 (AI-BOM) |
+|---|---|---|
+| **위협의 근원** | 오픈소스 코드(NPM, PyPI 라이브러리) 취약점 | **학습 데이터(Data), 가중치 모델(Weight), 파이프라인** |
+| **방어의 무기** | 소스코드 취약점 스캐너 (SAST/SCA) | **Safetensors, 암호학적 서명(Sigstore), Data Provenance** |
+| **주요 위협** | 백도어 코드 삽입, SolarWinds 사태 | **데이터 오염(Poisoning), 모델 역직렬화 공격(Pickle)** |
 
 ---
 
-## Ⅰ. 개요 및 필요성
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-- 개요: AI 구성요소 무결성 통제
-- 배경: AI 시스템은 데이터셋, 오픈소스 모델, 패키지, 컨테이너, GPU 학습환경, 모델 레지스트리를 연결한다.
-- 필요성: SLSA, SBOM/ML-BOM, 서명된 모델 아티팩트로 출처와 hash를 검증해 백도어·개인정보 유출·추론 오류를 차단해야 한다.
+### Ⅰ. 핵심 인사이트
+- **본질**: 인공지능(AI) 서비스의 생명주기(기획, 데이터 수집, 훈련, 배포) 전반에 걸쳐 유입되는 3rd Party 의존성(오픈소스 모델, 외부 데이터셋, ML 라이브러리)의 무결성(Integrity)과 가용성(Availability)이 공격자에 의해 타협(Compromise)되어, 최종 시스템이 악의적 동작을 수행하거나 런타임 호스트(Host RCE)가 탈취되는 것을 막는 **포괄적인 MLOps 신뢰 구축(Trust-building) 아키텍처.** (OWASP LLM05 위협).
+- **가치**: 기존 소프트웨어 공급망 공격(SolarWinds 등)이 소스코드/바이너리 레벨에 국한되었다면, AI 공급망 공격은 **'데이터 오염(Data Poisoning)'과 '모델 가중치(Weight) 백도어'** 라는 비결정론적이고 스캐닝이 불가능한(Unscannable) 블랙박스 위협으로 스케일업 됨. AI 서비스 자체의 신뢰도를 뿌리부터 무너뜨리는 가장 근원적인 0-Day 위협 벡터임.
+- **판단 포인트**: 보안 설계자는 AI 플랫폼(Hugging Face, TensorFlow Hub)에서 다운받은 파일(예: `.pkl`, `.h5`)이 단순한 데이터 파일(Data Asset)이 아니라, 파이썬 인터프리터를 통해 OS 레벨의 **'원격 코드 실행(RCE)'을 유발할 수 있는 잠재적 악성 실행 파일(Executable)** 임을 명확히 인지하고, 제로 트러스트(ZTA) 기반의 검증 파이프라인(Ingest Pipeline)을 사내망 입구에 구축해야 합니다.
 
----
+### Ⅱ. AI 공급망 보안의 3대 취약성 벡터 (위협 모델링)
+기존 소프트웨어 개발 생명주기(SDLC)와 구별되는 ML 전용 위협점.
+1. **모델 역직렬화 공격 (Model Deserialization Attack)**
+   - 현상: PyTorch나 Scikit-learn 모델을 저장할 때 사용하는 파이썬 표준 내장 모듈인 `Pickle(피클)` 포맷 악용.
+   - 메커니즘: Pickle은 객체를 직렬화(Serialize)할 때 임의의 파이썬 코드를 포함할 수 있는 태생적 결함(Unsafe)이 있음. 공격자가 모델 파일 내부의 `__reduce__` 매직 메서드를 오버라이딩하여, 피해자가 모델을 메모리에 로드(Load)하는 순간 악성 쉘 스크립트(Reverse Shell)가 즉각 실행되게 만듦.
+2. **허깅페이스 타이포스쿼팅 (Typosquatting & Backdooring)**
+   - 공격자가 인기 오픈소스 모델 이름 철자를 교묘하게 섞어(예: `Llama-3` $\rightarrow$ `Llama-3-fast`) 리포지토리를 파고, 그 안에 트리거 발동 시 유해 콘텐츠를 뿜어내는 백도어 모델(Neural Trojan)을 업로드하여 다운로드를 유도.
+3. **데이터 공급망 타협 (Data Supply Chain Compromise)**
+   - RAG(검색 증강) 파이프라인이나 재학습(Fine-tuning)을 위해 외부 S3 버킷이나 위키(Wiki)에서 데이터를 긁어올 때, 해당 소스 자체가 오염 공격(Data Poisoning)에 당해 있거나 악의적 프롬프트 인젝션 코드(Indirect Injection)가 심어져 있는 상태.
 
-## Ⅱ. 구조 및 구성요소
+### Ⅲ. 파급 효과 (Impact)
+- **ML 인프라 붕괴**: 데이터 사이언티스트가 자신의 주피터 노트북(Jupyter Notebook)이나 사내 쿠버네티스(K8s) 클러스터 환경에서 악성 모델(`Pickle`)을 로드하는 순간, 인프라의 마스터 권한이 해커에게 넘어가며 전사적 횡적 이동(Lateral Movement)의 교두보를 내어줌.
+- **AI-BOM(AI 명세서) 부재에 따른 컴플라이언스 위반**: 시스템에서 에러가 발생해도, 해당 모델이 어떤 라이선스를 가진 데이터를 먹고 자랐는지 이력(Provenance)이 없어 저작권 소송 패소 및 시스템 원복 불가.
 
-```text
-Data Source -> Training Pipeline -> Model Artifact -> Model Registry -> Serving Runtime
-                    +-> SBOM/ML-BOM
-                    +-> Provenance/Signature
-                    +-> Security/Eval Gate
-```
+### Ⅳ. 아키텍처적 방어 및 완화(Mitigation) 전략 (MLOps 파이프라인 방어)
+단일 백신이 아닌 워크플로우(Workflow) 관점의 보안 스택.
+1. **안전한 모델 직렬화 포맷 강제 (Safetensors)**
+   - 사내 ML 플랫폼에 `Pickle` 또는 `PyTorch (.pt)` 형식의 모델 업로드/다운로드를 전면 차단.
+   - 오직 상태 없는 순수 텐서 데이터(Weight Numbers)만 저장하여 코드 실행 취약점이 원천적으로 존재하지 않는 안전한 규격인 **`Safetensors` 포맷**만 사용하도록 사내 표준 런타임(Runtime) 환경 강제.
+2. **AI-BOM (AI Bill of Materials) 및 SLSA/Sigstore 연동**
+   - 오픈소스 모델 도입 시, 해당 모델이 어느 깃허브 커밋에서 파생되었고 훈련 데이터는 무엇인지 명시한 명세서(AI-BOM) 징구.
+   - 다운로드한 모델 파일의 해시값이 메타(Meta)나 구글 등 원본 작성자의 **암호학적 전자 서명(Cosign / Sigstore)** 과 일치하는지 자동 검증하는 CI/CD 파이프라인(SLSA Framework) 구축.
+3. **허니팟 및 동적 샌드박싱 스캐닝 (Dynamic Sandbox Analysis)**
+   - 외부에서 가져온 모델은 무조건 사내 넥서스(Nexus) 서버에 넣기 전, 격리된 가상 머신(Sandbox) 환경에서 1회 런타임 로드(Load)를 수행. 
+   - 모델이 로드될 때 비정상적인 아웃바운드 네트워크(C&C 연결 시도)나 파일 시스템 엑세스가 발생하는지 동적 분석(EDR) 후 반입(Ingest).
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Data Lineage | 데이터 출처·동의·품질·오염 여부 추적 | datasheet, hash, PII scan |
-| Build/Train Provenance | 학습 코드·환경·파라미터·실행자 기록 | SLSA, in-toto, attestation |
-| Model Artifact Control | 모델 파일·adapter·tokenizer 무결성 검증 | SHA-256, Sigstore, safe format |
-| Registry Gate | 취약점·라이선스·평가 기준 통과 여부 결정 | CVE scan, license policy, eval score |
-| Serving Guard | 배포 후 drift·abuse·rollback 통제 | canary, audit log, model version |
+### Ⅴ. 결론 및 실무적 판단 포인트
+- 인프라 보안 리더(CISO)는 데브섹옵스(DevSecOps)의 범위를 코드(Source)에서 **모델 가중치(Weight)와 데이터셋(Dataset)이라는 새로운 에셋(Asset)** 으로 즉각 확장해야 합니다. 데이터 과학자(Data Scientist)들이 보안 검토 없이 인터넷에서 `.pkl` 파편 모델을 긁어다 쓰는 섀도우 AI(Shadow AI) 관행을 차단하고, 사내 프라이빗 모델 레지스트리(Private Model Registry)를 구축하여 **'서명 검증(Sigstore)과 Safetensors 포맷 변환'을 통과한 무결성 모델만 서비스 환경에 배포되게 하는 허가제 파이프라인(Ingress Control)** 구축이 AI 방어의 최우선 마일스톤입니다.
 
-> 요약: AI 공급망은 데이터 lineage에서 serving guard까지 provenance와 gate를 연결해야 함.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-구성요소 수집 -> hash/SBOM 생성 -> 학습 provenance 서명
--> 보안·품질 gate -> registry 승격 -> 배포·감시 -> rollback
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 데이터·코드·모델·패키지 수집 | 출처, license, hash, PII scan |
-| 2 | 학습·빌드 환경 재현 정보 기록 | container digest, GPU image, parameter |
-| 3 | SBOM/ML-BOM과 provenance 서명 | SLSA attestation, Sigstore |
-| 4 | 보안·품질 gate 수행 | critical CVE 0건, backdoor test, eval threshold |
-| 5 | 레지스트리 승격·배포·감시 | signed artifact only, canary, rollback |
-
-> 요약: AI 공급망 보안은 산출물 생성 시 증적을 만들고 배포 전 gate에서 검증한 뒤 운영 감시로 폐쇄 루프를 구성함.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 일반 SW 공급망 | AI 공급망 보안 | 수치·표준 포인트 |
-|:---|:---|:---|:---|
-| 구성요소 | 소스코드, 패키지, 이미지 | 데이터, 모델, tokenizer, adapter, vector index | SBOM+ML-BOM |
-| 공격 | dependency confusion, tampering | data poisoning, model backdoor, pickle RCE | OWASP ML/LLM risks |
-| 검증 | 빌드 provenance 중심 | 학습 provenance+평가 gate | SLSA, in-toto, Sigstore |
-| 운영 | 버전 배포 | 모델 drift, abuse, rollback | critical CVE 0건, signed only |
-
-> 요약: AI 공급망은 SW 공급망 통제에 데이터·모델 lineage와 평가 gate가 추가된 형태임.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | DevSecOps SBOM | MLOps SBOM+ML-BOM | 외부 모델·데이터 사용 시 필수 |
-| 무결성 | 이미지 서명 | 데이터·모델·adapter 서명 | 모델 registry 운영 조직 |
-| 품질 | 단위 테스트 | 안전성 eval, backdoor test, drift test | 고객 영향 모델, 규제 대상 모델 |
-| 운영 | 수동 승인 | policy-as-code gate | 배포 빈도 주 1회 이상 |
-
-> 요약: 외부 모델과 데이터가 포함되면 일반 SBOM만으로 부족하며 ML-BOM과 평가 gate가 필요함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Data Poisoning | 학습 데이터 오염·라벨 조작 | lineage, anomaly scan, holdout eval | 오염 샘플 탐지율 95% 이상 |
-| Model Backdoor | pretrained model·adapter 변조 | signed model, trigger test, safe format | backdoor test 통과율 100% |
-| Malicious Dependency | typosquatting, dependency confusion | private registry, lockfile, CVE scan | critical CVE 0건 |
-| Registry Tampering | 모델 교체·권한 남용 | RBAC, MFA, immutable version, audit log | 미서명 배포 0건 |
-
-> 요약: AI 공급망 리스크는 데이터 오염, 모델 백도어, 악성 의존성, 레지스트리 변조로 나누어 통제함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| provenance coverage | 배포 모델 100% attestation 보유 | registry query, CI/CD gate |
-| 취약점 기준 | critical CVE 0건, high CVE 예외승인 100% | SBOM scan, ticket audit |
-| 모델 무결성 | signed artifact only, hash mismatch 0건 | Sigstore verify, registry policy |
-| 평가 gate | 안전성·정확도·편향 기준 통과율 100% | eval report, approval workflow |
-
-> 요약: 공급망 성숙도는 provenance 보유율, CVE 기준, 서명 검증, 평가 gate 통과로 측정함.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. AI BOM 구축: 데이터셋, 모델, tokenizer, adapter, 패키지, 컨테이너 digest를 SBOM/ML-BOM으로 관리
-2. 서명·증적 gate 적용: SLSA provenance, in-toto attestation, Sigstore 서명을 CI/CD와 모델 레지스트리 승격 조건으로 설정
-3. 보안 평가 운영: data poisoning scan, backdoor trigger test, critical CVE 0건, 안전성 eval 통과를 배포 승인 기준으로 적용
-
-**결론 (2줄):**
-- 기술사 판단: 내부 모델만 쓰면 lineage와 registry gate를 우선하고, 외부 pretrained model 사용 시 서명·라이선스·backdoor test를 필수로 둠
-- 향후 방향: AI 공급망 보안은 DevSecOps, MLOps, AI governance를 결합한 signed AI artifact 운영체계로 발전함
-
----
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "AI 공급망 보안을 설명하시오", "기술하시오" | 수집, provenance, gate, registry, 배포 흐름 | 일반 SW 공급망과 AI 공급망 차이 |
-| 요구사항 명시형 | "도입 방안을 제시하시오", "설계하시오" | SBOM/ML-BOM, SLSA, Sigstore, eval gate | CVE 0건, signed only, provenance 100% |
-
-> 요약: 설명형은 생명주기와 공격면을, 설계형은 증적·서명·평가 gate 지표를 중심으로 작성함.
+### 💡 문제 유형별 목차 전환 포인트
+- **[오픈소스 인공지능(AI) 생태계의 공급망 위협(Supply Chain Attack) 및 방어 프레임워크]**: Ⅰ과 Ⅱ번(Pickle 역직렬화, 타이포스쿼팅)을 핵심으로 다루며, 기존 소프트웨어(Log4j) 공급망 해킹과 동일한 RCE(원격 코드 실행) 위협이 MLOps 파이프라인에 어떻게 침투하는지 증명.
+- **[안전하고 신뢰할 수 있는 AI(Trustworthy AI) 개발 환경(DevSecOps) 및 거버넌스 수립]**: Ⅲ번(인프라 붕괴 타격)을 지적한 후, Ⅳ번의 방어 기법인 'Safetensors 강제', 'AI-BOM 명세화', 'Sigstore 서명 검증'을 결합한 사내 프라이빗 레지스트리 아키텍처 제시.

@@ -1,152 +1,92 @@
 ---
-title: "연속 배칭 (Continuous Batching)"
-date: "2026-07-01"
+title: "Continuous Batching (연속 배치 처리)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
-  - "cspe-latest-tech"
+  - "cspe-latest_tech"
 weight: 58
 ---
 
-# 📖 【암기용】 개념 완전 이해
-
-> 목적: Continuous Batching을 처음 봐도 완벽히 이해하게 만든다.
-
-## 한눈에
-- **개요**: LLM 서빙 중 완료된 요청은 즉시 배치에서 제거하고 새 요청을 계속 넣는 동적 배칭 방식
-- **왜 필요한가**: 생성 길이가 요청마다 달라 고정 배치는 짧은 요청이 끝나도 긴 요청 때문에 GPU 자리가 비는 문제가 생김.
-- **핵심 직관**: 버스가 종점까지 한 번에 가는 것이 아니라, 정류장마다 내린 사람 자리에 새 승객을 태우는 방식임.
-
-## 깊이 이해
-- **배경·문제의식**: LLM decode는 토큰 단위 반복 작업임. 고정 배칭은 배치 내 가장 긴 출력에 맞춰 진행되어 짧은 요청의 자원이 낭비됨.
-- **작동 원리**: 스케줄러가 매 decode step마다 active sequence를 재구성함. 종료된 sequence의 KV block을 반환하고, 대기열의 새 요청을 prefill 또는 decode batch에 삽입함.
-- **비유**: 식당 좌석 회전처럼 식사가 끝난 자리를 바로 다음 손님에게 배정해 좌석 공백을 줄이는 것과 같음.
-- **구체 예시**: 짧은 질의 50토큰과 긴 질의 500토큰이 섞인 트래픽에서 continuous batching은 GPU 유휴 시간을 줄여 req/s를 높임.
-- **흔한 오해·주의점**: 배치를 계속 키우면 지연이 줄어드는 것이 아님. 과도한 배치는 대기시간과 tail latency를 증가시킴.
-
-## 연결 개념
-- LLM Serving — Continuous Batching 적용 영역
-- PagedAttention — 가변 sequence KV 관리 기반
-- TTFT/TPOT — 배칭 정책으로 영향을 받는 지연 지표
-
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: Continuous Batching은 decode step마다 active request를 재구성하는 LLM 동적 배칭 스케줄링임.
-> 2. **가치**: 출력 길이 편차로 인한 GPU 유휴 시간을 줄여 req/s와 토큰 처리량을 높임.
-> 3. **판단 포인트**: batch size, queue delay, prefill/decode 분리, tail latency가 운영 기준임.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| LLM 서빙 스케줄링 이해 | Static vs Continuous 비교, step 단위 배치 재구성 원리, prefill/decode 분리 | 배치를 키우면 지연이 줄어든다는 오해 금지, tail latency 증가 리스크 명시 |
-
-> 요약: Continuous Batching은 가변 길이 트래픽의 GPU 유휴 시간을 줄이는 스케줄링이며, queue 정책과 tail latency 관리가 운영 핵심임.
+> 1. **본질**: 여러 사용자의 질문을 한데 묶어서(Batch) GPU에 밀어 넣을 때, **가장 긴 대답이 끝날 때까지 멍청하게 기다리지 않고, 빨리 끝난 유저의 자리에 새로 들어온 유저를 실시간으로 끼워 넣어(Continuous) GPU 연산 효율을 100%로 쥐어짜는 스케줄링 기술**이다.
+> 2. **가치**: 기존 정적 배치(Static Batching)에서는 대답이 짧은 유저는 긴 유저가 끝날 때까지 갇혀있어야 해서 GPU의 연산기(ALU)가 수십 초간 놀았다. 이 잉여 시간을 0(Zero)으로 만들면서, 동일한 GPU 하드웨어에서 처리할 수 있는 유저 처리량(Throughput)을 최소 10배 이상 폭발시켰다.
+> 3. **판단 포인트**: 이 기술이 성립하기 위해 딥러닝 서버 엔진 내부에서 어떻게 이터레이션 단위(Iteration-level) 스케줄링이 작동하는지, 그리고 왜 앞서 다룬 **PagedAttention** 메모리 관리와 결합되어야만 진정한 성능을 내는지를 아키텍처적으로 연결해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-
-- 정의: 완료된 요청을 즉시 제거하고 새 요청을 매 decode step마다 배치에 투입하는 LLM 동적 배칭
-- 배경: 고정 배치는 가장 긴 출력에 맞춰 진행되어 짧은 요청 종료 후 GPU slot이 유휴 상태로 낭비됨
-- 필요성: step 단위 배치 재편성으로 GPU utilization을 높이고 req/s·tokens/s를 개선
-
-
-## Ⅱ. 구조 및 구성요소
-
-```text
-Request Queue -> Scheduler -> Active Decode Batch
-  -> Finished Req 제거 -> New Req 삽입 -> 다음 Decode Step
-  -> KV Cache Manager가 종료 요청 block 반환
-```
-
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Request Queue | 대기 요청 보관 | priority, timeout |
-| Scheduler | 매 step 배치 재구성 | prefill/decode 분리 |
-| Active Batch | 현재 decode 중 sequence 집합 | 길이·상태 가변 |
-| KV Manager | 종료 요청 cache 반환 | PagedAttention과 결합 |
-
-> 요약: 스케줄러가 요청 큐와 active batch를 토큰 step마다 조정해 GPU 공백 시간을 줄임.
-
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-요청 유입 -> prefill batch 편성 -> decode step 실행
-    -> 완료 요청 제거 -> 신규 요청 삽입 -> 다음 decode step
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 신규 요청 큐 적재·우선순위 설정 | queue length, wait time |
-| 2 | prefill과 decode 작업 스케줄링 | TTFT, GPU utilization |
-| 3 | decode step마다 완료 sequence 제거 | finished/request ratio |
-| 4 | 빈 slot에 신규 sequence 삽입 | tokens/s, p95 latency |
-
-> 요약: Continuous Batching은 batch를 요청 단위가 아니라 토큰 step 단위로 재편성해 처리량과 지연을 조정함.
-
-
-## Ⅳ. 특징
-
-| 구분 | Static Batching | Continuous Batching | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 배치 구성 | 시작 시 고정 | step마다 변경 | active sequence 동적 |
-| 자원 활용 | 짧은 요청 종료 후 공백 | slot 즉시 재사용 | GPU utilization 상승 |
-| 지연 특성 | batch 대기 증가 | queue 정책 영향 | p95/p99 감시 |
-| 구현 조건 | 단순 | KV 동적 관리 필요 | PagedAttention 적합 |
-
-> 요약: Continuous Batching은 혼합 길이 트래픽에서 처리량을 높이나, 대기열 정책이 tail latency를 좌우함.
-
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | Static Batching | Continuous Batching | 선택 기준 |
-|:---|:---|:---|:---|
-| 배치 구성 | 시작 시 고정, 전체 종료까지 유지 | step마다 완료 제거·신규 삽입 | 요청 길이 편차 |
-| GPU 활용 | 짧은 요청 종료 후 slot 유휴 | slot 즉시 재사용 | GPU utilization 비교 |
-| 구현 요건 | 단순, 별도 KV 관리 불필요 | PagedAttention·동적 KV 관리 필요 | 엔진 지원 여부 |
-
-> 요약: 길이 편차가 큰 대화형 트래픽은 Continuous Batching, 균일 길이 일괄 처리는 Static Batching이 적합함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Tail Latency 증가 | 과도한 batch size로 대기열 지연 누적 | max batch token 제한, max waiting time 20~50ms | p95/p99 TTFT |
-| Prefill-Decode 경합 | 긴 프롬프트 prefill이 짧은 decode를 블로킹 | prefill/decode 분리 스케줄링 | 짧은 요청 TTFT 회귀 |
-| KV 메모리 부족 | 동시 active sequence 급증 | max concurrent requests 제한, PagedAttention 블록 관리 | OOM 건수, free block 비율 |
-
-> 요약: tail latency·prefill 경합·KV 메모리 세 리스크를 batch 파라미터와 스케줄러 분리로 통제함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| tokens/s | Static 대비 1.5~3배 향상 | 벤치마크(ShareGPT 데이터셋) |
-| p95 TTFT | 500ms 이내 (7B 모델 기준) | 추론 서버 APM |
-| GPU Utilization | 80% 이상 유지 | nvidia-smi 모니터링 |
-
-> 요약: tokens/s·TTFT·GPU utilization 세 지표로 Continuous Batching 도입 효과를 정량 판단함.
+- **개요**: 연속 배치 처리(Continuous Batching, 또는 In-flight Batching)는 대규모 언어 모델 서빙 시스템에서, 새로운 요청(Request)이 들어오면 기존에 처리 중인 배치(Batch)가 모두 끝나기를 기다리지 않고, 단일 토큰 생성 단위(Step)마다 새 요청을 배치에 병합하여 실행하는 동적 스케줄링 기법이다.
+- **배경**: AI 서버 효율을 높이려면 A, B, C 유저의 질문 3개를 하나로 묶어(Batch=3) GPU에 던지는 게 국룰이다. 그런데 A는 "네(1토큰)", B는 "안녕(2토큰)", C는 "책 한 권(1만 토큰)" 분량의 대답이 필요한 질문을 했다고 치자.
+- **필요성**: 기존 방식(Static Batching)은 A와 B의 대답이 0.1초 만에 끝났는데도, C의 1만 토큰이 다 만들어질 때까지 A와 B의 빈자리에 다른 유저를 못 넣고 GPU 리소스를 텅텅 비워둔 채 병목에 걸렸다. **식당에서 한 테이블 손님이 밥을 다 안 먹었더라도, 빈자리가 나면 즉시 다른 손님을 채워 넣는 합석(Iteration-level) 스케줄러**가 절실했다.
 
 ---
 
-## Ⅵ. 실무 적용 및 결론
+## Ⅱ. 아키텍처 및 핵심 원리
 
-**적용 방안 3개:**
-1. vLLM/TGI 등 dynamic batching 지원 엔진을 적용하고 tokens/s, req/s, p95 TTFT를 배포 전후 비교
-2. prefill 우선순위와 decode 우선순위를 분리해 긴 프롬프트가 짧은 대화형 요청을 막지 않게 조정
-3. max batch token, max waiting time(예: 20~50ms), priority queue로 처리량과 tail latency 균형 설정
+```text
+  [ 정적 배치 vs 연속 배치(Continuous Batching)의 GPU 활용도 비교 ]
 
-**결론 (2줄):**
-- 기술사 판단: 요청 길이 편차가 큰 대화형 LLM API는 Continuous Batching, 오프라인 일괄 작업은 Static Batching을 선택함.
-- 향후 방향: SLA-aware scheduler가 요청 유형별 TTFT·TPOT 목표에 따라 배치를 자동 조정함.
+  (상황: 유저 1은 3글자, 유저 2는 5글자, 유저 3은 대기 중)
 
+  1. ❌ [ 기존 정적 배치 (Static Batching) ]
+     Step 1: [유저1 (글자 1)] / [유저2 (글자 1)] 
+     Step 2: [유저1 (글자 2)] / [유저2 (글자 2)]
+     Step 3: [유저1 (글자 3) 끝!] / [유저2 (글자 3)]
+     Step 4: [ 텅~ 빔 (낭비) ] / [유저2 (글자 4)]  ◀── 유저 1이 끝났는데 유저 3이 못 들어옴!
+     Step 5: [ 텅~ 빔 (낭비) ] / [유저2 (글자 5) 끝!]
+     Step 6: (이제야 배치 종료, 유저 3 입장)
 
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
+  2. ✅ [ 연속 배치 (Continuous Batching - ORCA 엔진 등) ] ★
+     Step 1: [유저1 (글자 1)] / [유저2 (글자 1)] 
+     Step 2: [유저1 (글자 2)] / [유저2 (글자 2)]
+     Step 3: [유저1 (글자 3) 끝!] / [유저2 (글자 3)]
+     Step 4: [유저3 (새 유저 쏙 들어옴!)] / [유저2 (글자 4)] ◀── 낭비 0%! GPU 연산기 100% 가동!
+     Step 5: [유저3 (글자 2)] / [유저2 (글자 5) 끝!]
+     Step 6: [유저3 (글자 3)] / [유저4 (새 유저 또 들어옴!)] ... 무한 반복!
+```
 
-| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | step 단위 배치 재구성 흐름 | Static 대비 처리량·지연 |
-| 요구사항 명시형 | 운영 방안을 제시하시오 | queue·priority·batch token 설정 | p95 지연·tokens/s 선택 기준 |
+- **1단계 [토큰 단위 스케줄링 (Iteration-level Scheduling)]**: 기존 백엔드는 '문장 단위(Request-level)'로 처리를 기다렸다. 연속 배치는 챗봇이 "글자 1개"를 뱉어내는 찰나의 순간(Iteration)마다 스케줄러가 개입하여 배치 큐(Queue)를 점검한다.
+- **2단계 [동적 병합 (In-flight Merge)]**: 특정 유저의 생성이 끝나(EOS 토큰 발생) 배치의 빈자리가 생기면, 즉시 대기열(Queue)에 있는 새로운 유저의 프롬프트(Prefill 단계)를 끌어와서 현재 돌고 있는 디코딩(Decode) 묶음에 융합(Merge)시켜버린다.
+- **3단계 [메모리와의 결합 (PagedAttention 필수)]**: 새로 들어온 유저를 빈자리에 쑤셔 넣으려면, VRAM에 여유 공간이 있어야 한다. 기존에 메모리를 무식하게 선점해 두는 방식으로는 연속 배치가 불가능하다. 즉, **PagedAttention으로 메모리 파편화를 없애야만 연속 배치 알고리즘이 완벽하게 돌아가는 바늘과 실의 관계**다.
 
-> 요약: 설명형은 동적 배치 원리, 운영형은 스케줄러 파라미터와 SLA 지표 중심으로 목차를 전환함.
+---
+
+## Ⅲ. 비교 및 연결
+
+| 비교 축 | 정적 배치 (Static Batching) | 연속 배치 (Continuous Batching) |
+|:---:|:---|:---|
+| **스케줄링 단위** | 요청(Request) 단위 (문장 전체 끝날 때까지) | **토큰(Token) 단위 (글자 하나 뱉을 때마다)** |
+| **GPU 가동률(ALU)** | 30% 이하 (짧은 응답 끝나면 놀고 있음) | **90% 이상 (빈자리 나면 즉각 채워 넣음)** |
+| **Throughput(처리량)** | 1x | **최대 20x ~ 40x 폭발적 상승** |
+| **대표 프레임워크** | 구형 HuggingFace Transformers | **vLLM, TGI (Text Generation Inference), ORCA** |
+
+> ※ **연결 포인트**: 이 기술이 처음 세상에 빛을 본 것은 2022년 OSDI 학회에서 발표된 서울대 연구진의 **'ORCA(오르카)'** 논문이다. 이 ORCA의 연속 배치 사상에 버클리 대학팀의 PagedAttention 메모리 기법이 결합되면서, 현재 실리콘밸리 표준이 된 'vLLM'이라는 괴물 프레임워크가 탄생하게 된 것이다.
+
+---
+
+## Ⅳ. 실무 적용 및 기술사 판단
+
+- **적용 사례 1 (B2C 대규모 트래픽 챗봇 서빙)**: 오픈소스 Llama 모델로 자체 챗봇을 만든 A 기업. 정적 배치(Static) 엔진을 썼을 때는 유저 10명만 들어와도 서로 큐(Queue)에 갇혀 병목이 걸려 응답 시간이 10초씩 걸렸다. 엔진을 HuggingFace `TGI(Text Generation Inference)`로 바꾸자, Continuous Batching이 백그라운드에서 작동하며 100명의 유저가 들어와도 타이핑 치듯(0.5초) 매끄럽게 응답이 튀어나오는 엔터프라이즈급 인프라 최적화가 이루어졌다.
+- **적용 사례 2 (비대칭 트래픽 처리 - Code Copilot)**: 개발자 비서 AI는 코드를 아주 짧게 "네" 하고 던질 때도 있고(코드 완성), 전체 코드를 5분 동안 짤 때도 있다. 이런 비대칭성(Length Variation)이 심한 워크로드에서 연속 배치 엔진은 긴 놈이 GPU를 독점하는 현상(Head-of-Line Blocking)을 타파하여, 짧은 질문을 한 수천 명의 유저가 긴 질문을 한 유저 때문에 무한정 대기하는 병목을 뚫어버린다.
+- **기술사 판단**: 아키텍트는 연속 배치의 가장 큰 부작용인 **'Prefill-Decode 간섭(Interference)' 현상**을 고려해야 한다. 기존 유저는 한 글자씩 가볍게 뱉고(Decode) 있는데, 큐에서 갓 들어온 새 유저는 첫 질문(Prefill)을 수백 글자 통째로 연산해야 한다. 이 무거운 Prefill 덩어리가 가벼운 Decode 배치에 갑자기 난입하면 GPU 연산이 버벅거리며 기존 유저들의 타이핑 속도가 뚝 끊기는(Stuttering) 현상이 발생한다. 이를 막기 위해 최신 서빙 엔진들은 아예 Prefill 연산과 Decode 연산을 쪼개어 스케줄링하는 **'Chunked Prefill'** 기법을 고급 설정으로 지원하고 있다.
+
+---
+
+## Ⅴ. 기대효과 및 결론
+
+- **기대효과**: 수백만 원짜리 GPU 클러스터의 연산 자원(ALU) 낭비를 수학적으로 제거하여, 클라우드 사업자와 엔터프라이즈 기업들이 AI 서빙 시스템 유지 비용(TCO)을 극단적으로 낮출 수 있는 혁명적 알고리즘을 제공했다.
+- **향후 발전 방향**: 현재는 단일 GPU나 노드 안에서 배치를 조립하지만, 향후 클라우드 환경에서는 여러 대의 서버 팜(Server Farm)을 넘나들며 유저의 상태(Token)를 이주(Migration)시키고 배치를 실시간으로 재조립하는 **'글로벌 스케줄링 분산 아키텍처'**로 발전하여, 구글 검색과 동일한 수준의 AI 스트리밍 무한 인프라가 구축될 것이다.
+
+---
+
+### 📌 관련 개념 맵
+- **배치(Batch) 처리**: 머신러닝의 진리. "A 질문 하나 풀고, B 질문 하나 풀고" 따로따로 처리하면 메모리 불러오다 시간이 다 간다. "A, B, C 질문을 하나로 묶어서(Batch)" 한 번에 GPU 행렬 곱셈기에 던져야만 GPU가 가진 수천 개의 코어가 100% 가동되며 미친 가성비를 뿜어낸다.
+- **Head-of-Line Blocking (HoL 블로킹)**: 편의점 계산대에서 내 앞에 선 손님이 영수증 100장을 처리하느라, 껌 하나 사러 온 내(짧은 응답)가 10분을 기다려야 하는 짜증 나는 큐(Queue) 병목 현상. 연속 배치(Continuous Batching)는 이 현상을 박살 내고 '껌 하나 사는 손님'을 0.1초 만에 틈새로 쓱 빼주는 다이내믹 계산대다.
+
+### 📈 관련 키워드 및 발전 흐름도
+`Request-level 정적 배치` $\to$ `비대칭 응답 길이로 인한 GPU 낭비(HoL 블로킹) 발생` $\to$ `ORCA (최초의 토큰 단위 연속 배치 도입)` $\to$ `PagedAttention (메모리 파편화 해결)` $\to$ `vLLM/TGI (엔터프라이즈 서빙 엔진 천하통일)` $\to$ `Chunked Prefill (병목 간섭 분리)`
+
+### 👶 어린이를 위한 3줄 비유 설명
+1. 롤러코스터(GPU)에 손님을 태울 때, 옛날엔 맨 앞자리 손님이 아직 안 내렸다고 **뒷자리 빈 곳이 텅텅 비었는데도 새 손님을 안 태우고 멍청하게 기다렸어요.** (정적 배치)
+2. **'연속 배치(Continuous Batching)'**는 롤러코스터가 한 바퀴(글자 하나) 돌 때마다, **내린 손님 빈자리에 즉시 대기 줄에 있던 새 손님을 번개처럼 끼워 태우는** 마법의 스케줄러예요.
+3. 이렇게 단 한 자리의 빈자리도 없이 꽉꽉 채워서 무한으로 돌리니까, 놀이공원(서버)이 똑같은 롤러코스터 한 대로 수십 배 많은 손님을 처리할 수 있게 된 거랍니다!

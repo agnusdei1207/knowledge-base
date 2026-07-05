@@ -1,136 +1,95 @@
 ---
 title: "전문가 병렬 (Expert Parallelism)"
-date: "2026-07-01"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
-  - "cspe-latest-tech"
+  - "cspe-08_latest_tech"
 weight: 85
 ---
 
 # 📖 【암기용】 개념 완전 이해
 
-> 목적: Expert Parallelism을 처음 봐도 완벽히 이해하게 만든다.
-
 ## 한눈에
-- **개요**: MoE 모델의 여러 expert를 여러 GPU/노드에 분산 배치해 병렬 실행하는 방식
-- **왜 필요한가**: expert 수가 많아지면 단일 GPU 메모리에 담기 어렵고, token routing 결과를 여러 장치에서 처리해야 함.
-- **핵심 직관**: 각 전문의를 다른 진료실에 배치하고, 접수창구가 환자를 해당 진료실로 보내는 운영 방식임.
+- **정의**: MoE(Mixture of Experts) 모델에서 수많은 전문가 네트워크(Expert)를 여러 장의 GPU나 노드에 분산 배치하고, 통신을 통해 토큰을 주고받으며 병렬 처리하는 기법.
+- **필요성**: MoE 모델은 총 파라미터 수가 막대하여(수백B ~ Trillion) 단일 GPU 메모리에 적재할 수 없으며, 기존의 텐서 병렬화(TP)만으로는 효율적인 확장이 불가능함.
+- **핵심 직관**: 백화점의 각 매장(Expert)을 층별/건물별(GPU)로 나누어 입점시키고, 고객(Token)이 안내 데스크(Router)의 지시를 받아 엘리베이터(All-to-All 통신)를 타고 해당 매장 건물로 이동하게 만드는 물류 시스템.
 
 ## 깊이 이해
-- **배경·문제의식**: MoE는 총 파라미터가 크고 expert가 많다. Expert Parallelism은 expert를 GPU별로 나누어 저장하고, token을 선택된 expert가 있는 GPU로 전송함.
-- **작동 원리**: router가 token별 expert를 선택하면 all-to-all 통신으로 token hidden state를 expert 보유 GPU에 보냄. expert 계산 후 결과를 다시 원래 순서로 모아 다음 layer로 전달함.
-- **비유**: 물류센터에서 상품 종류별 창고가 다르고, 주문서에 따라 해당 창고로 물건을 보내 포장 후 다시 배송 라인으로 합치는 것과 같음.
-- **구체 예시**: expert 64개를 GPU 8장에 나누면 GPU당 expert 8개를 보유하고, token은 top-2 expert 위치로 dispatch됨.
-- **흔한 오해·주의점**: Expert Parallelism은 계산을 나누지만 통신을 늘림. 네트워크 bandwidth와 expert load balance가 맞지 않으면 TPOT가 증가함.
+- **배경**: 딥러닝 분산 학습의 3대장(Data, Tensor, Pipeline Parallelism)에 더해, MoE 모델의 등장으로 '전문가' 단위로 모델을 쪼개는 새로운 패러다임(EP)이 필수 불가결해짐.
+- **작동 원리**: 
+  1. 모델 가중치 분산: 64개의 Expert가 있다면, 8장의 GPU에 각각 8개씩의 Expert를 배치. (Non-expert 레이어인 Attention 등은 복제되거나 TP로 분할됨).
+  2. All-to-All Dispatch: 라우터가 토큰 배정을 마치면, GPU 1에 있는 토큰 중 GPU 3의 Expert가 필요한 토큰들을 GPU 3으로 전송(모든 GPU가 서로 데이터를 주고받음).
+  3. Expert 연산: 각 GPU가 자신이 보유한 Expert를 사용하여 도착한 토큰들에 대해 FFN 연산 수행.
+  4. All-to-All Combine: 연산이 끝난 토큰들을 다시 원래의 문장 순서(원래 GPU)에 맞게 돌려보냄.
+- **비유**: 전국 8도의 각 우편집중국(GPU)이 각 지역 전문 우체부(Expert)를 데리고 있고, 다른 지역 우편물이 오면 각 지역 집중국끼리 대규모로 교환(All-to-All)한 뒤 배달하는 시스템.
+- **구체 예시**: GPT-4 (추정 1.7T, 16 Experts). 16개의 Expert를 8개의 GPU를 가진 여러 노드에 나누어 배치. 토큰 연산 시 NVLink나 Infiniband를 통해 노드 간 극심한 데이터 교환이 발생.
+- **흔한 오해/주의점**: EP는 연산을 분산시켜 주지만, 그 대가로 '네트워크 통신 비용'을 크게 지불함. 통신 대역폭(Bandwidth)이 좁거나 토큰 쏠림(Imbalance)이 생기면 병렬화 효율이 급감하여 오히려 Dense 모델보다 느려질 수 있음.
 
 ## 연결 개념
-- Mixture of Experts — Expert Parallelism 적용 모델
-- All-to-All Communication — token dispatch 통신
-- Tensor Parallelism — matrix 내부 분할 방식
+- **Mixture of Experts (MoE)**: 전문가 병렬화가 적용되는 대상 아키텍처.
+- **All-to-All Communication**: EP 구현 시 GPU 간 데이터를 N:N으로 교환하는 집단 통신 연산.
+- **3D Parallelism (TP + PP + DP)**: EP와 결합하여 대규모 클러스터(4D Parallelism)를 구성하는 기본 병렬화 기법.
+
+---
 
 # 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: Expert Parallelism은 MoE expert를 GPU/노드에 분산 배치하고 token을 expert 위치로 dispatch하는 병렬화 방식임.
-> 2. **가치**: 총 expert 파라미터를 여러 GPU 메모리에 분산해 대규모 MoE 학습·추론을 가능하게 함.
-> 3. **판단 포인트**: all-to-all 통신, expert load balance, capacity factor, TP/DP 조합이 성능을 결정함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 병렬화 기법 구분 확인 | EP vs TP/PP/DP 분할 대상·통신 패턴 차이 | 병렬화 4종을 구분 없이 나열 |
-| 통신 병목 판단 확인 | all-to-all dispatch/combine이 지연의 핵심 변수 | 메모리 분산 효과만 쓰고 통신 비용 누락 |
-| 클러스터 설계 역량 확인 | NVLink/IB topology 기반 expert placement | 토폴로지 무관한 배치 서술 |
-
-> 요약: 이 문제는 EP 정의가 아니라 통신 병목을 전제한 GPU 배치·병렬화 조합 설계를 묻는다.
+- **본질**: MoE 아키텍처에서 전문가(Expert) 파라미터들을 물리적으로 분리된 디바이스(GPU)에 할당하는 특화된 분산 병렬화 기법.
+- **가치**: 모델의 메모리 풋프린트를 극복하여 Trillion 파라미터 스케일의 초거대 AI 학습 및 서빙을 가능케 하는 핵심 인프라 기술.
+- **판단 포인트**: GPU 간 통신(All-to-All) 병목의 해소, Expert 쏠림 현상(Load Imbalance) 제어, TP/PP/DP/EP의 최적 텐서 병렬화 전략 조합.
 
 ## Ⅰ. 개요 및 필요성
+- **정의**: MoE 내의 여러 하위 신경망(Experts)을 다수의 GPU 가속기에 분산 배치하여 메모리 사용량을 줄이고 연산을 병렬화하는 분산 처리 기법.
+- **배경**: 매개변수 수백 빌리언 이상인 MoE 모델은 단일 GPU VRAM(예: H100 80GB) 적재 불가능. 기존 병렬화 방식(TP, PP)은 MoE의 조건부 라우팅 특성을 반영하지 못함.
+- **필요성**: 메모리 한계를 극복함과 동시에 토큰 라우팅에 따른 통신 오버헤드를 최소화하기 위한 MoE 맞춤형 분산 아키텍처 필요.
 
-- 개요: MoE expert 분산 병렬화 기법
-- 배경: expert 수와 총 파라미터가 큰 MoE 모델은 단일 GPU VRAM에 적재하기 어렵고 expert별 부하도 불균등함.
-- 필요성: expert shard, all-to-all dispatch/combine, EP/TP/DP 조합으로 GPU 메모리와 통신 병목을 함께 계획해야 함.
-
-## Ⅱ. 구조 및 구성요소
-
+## Ⅱ. 병렬화 아키텍처 (EP의 구조)
 ```text
-Tokens -> Router -> All-to-All Dispatch
-      -> GPU별 Experts -> Expert Compute -> All-to-All Combine
+[Tokens in GPU 0, 1] 
+        | (Router 결정)
+        v
+[ All-to-All Dispatch (Network) ] <--- 핵심 병목 구간! (NVLink / Infiniband)
+        | (토큰을 해당 Expert가 있는 GPU로 물리적 전송)
+        v
++-------+-------+  +-------+-------+
+| GPU 0 (Exp 1) |  | GPU 1 (Exp 2) | ---> (각자 보유한 Expert로 FFN 독립 연산 수행)
++-------+-------+  +-------+-------+
+        | (연산 완료)
+        v
+[ All-to-All Combine (Network) ]  <--- (원래 문장 순서로 복구하기 위해 재전송)
+        |
+        v
+[Next Layer in GPU 0, 1]
 ```
+- **Expert Sharding**: 총 $E$개의 Expert를 $N$개의 GPU에 $E/N$개씩 분할(Shard)하여 적재.
+- **All-to-All 통신**: 분산 딥러닝 통신 중 가장 무거운 연산. 모든 디바이스가 다른 모든 디바이스와 토큰 텐서를 송수신함.
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Expert Shard | GPU별 expert 배치 | expert 수/GPU |
-| Dispatch | token을 expert GPU로 전송 | all-to-all |
-| Combine | expert 출력 재조립 | token order 복원 |
-| Parallel Planner | EP/TP/DP 조합 결정 | cluster topology |
+## Ⅲ. 통신-연산 흐름 (동작원리)
+1. **Local Gating**: 각 GPU에서 자신에게 할당된 배치(Batch) 토큰들에 대해 라우터 연산을 수행하여 목적지 Expert 산출.
+2. **Dispatch (GPU 간 통신)**: 목적지 Expert가 자신이 아닌 다른 GPU에 있다면, All-to-All 통신을 통해 해당 토큰 텐서를 원격 GPU로 전송.
+3. **Expert FFN (GPU 내 연산)**: 각 GPU는 외부에서 도착한 토큰과 내부 토큰을 모아, 자신이 가진 Expert 파라미터를 이용해 행렬 곱 연산 수행.
+4. **Combine (GPU 간 통신)**: 연산된 결과(Activation)를 다시 본래 토큰이 있던 원본 GPU로 All-to-All 전송하여 Residual Stream에 결합.
 
-> 요약: Expert Parallelism은 expert 저장 위치와 token 이동 경로를 설계해 MoE를 분산 실행함.
+## Ⅳ. 주요 특징 및 다른 병렬화 기법과의 비교
+- **Tensor Parallelism (TP) vs EP**:
+  - TP: 행렬 자체를 쪼개어 연산(All-Reduce 통신 발생). Attention 레이어에 적합.
+  - EP: 완전한 형태의 부분 신경망(Expert)을 분배(All-to-All 통신 발생). MoE FFN 레이어에만 적용.
+- **확장성**: GPU를 늘릴수록 총 파라미터 용량(Capacity)이 선형적으로 늘어나므로 LLM 확장에 가장 유리.
+- **병목 이동**: 연산 병목(Compute Bound)에서 통신 병목(Network Bound)으로 시스템의 병목 구간이 전환됨.
 
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-router top-k 선택 -> token을 expert GPU로 dispatch
-    -> expert FFN 계산 -> 결과 combine -> 다음 layer 진행
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | expert를 GPU/노드에 분산 배치 | memory/GPU |
-| 2 | token routing 결과로 dispatch 수행 | all-to-all bytes |
-| 3 | expert별 FFN 병렬 계산 | expert utilization |
-| 4 | 결과 combine·순서 복원 | TPOT, load variance |
-
-> 요약: EP는 expert 메모리를 분산하지만 token 이동 통신이 병목이므로 topology-aware 배치가 필요함.
-
-## Ⅳ. 특징
-
-| 구분 | Tensor Parallelism | Expert Parallelism | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 분할 대상 | 행렬 연산 내부 | expert 단위 | MoE 전용 |
-| 통신 | all-reduce 중심 | all-to-all 중심 | 네트워크 민감 |
-| 장점 | dense layer 확장 | expert 파라미터 분산 | GPU당 expert 수 |
-| 리스크 | matmul 통신 | load imbalance | capacity factor |
-
-> 요약: Expert Parallelism은 MoE 확장에 필수이나, all-to-all 통신과 expert 부하 편차가 지연의 핵심 변수임.
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 병렬화 | 분할 대상 | 주 통신 | 적용 위치 판단 |
-|:---|:---|:---|:---|
-| EP (Expert) | expert 단위 FFN | all-to-all | MoE FFN 계층 전용 |
-| TP (Tensor) | 행렬 연산 내부 | all-reduce | attention·dense 계층 |
-| PP (Pipeline) | layer 블록 | P2P activation | 노드 간 대규모 분할 |
-| DP (Data) | batch 복제 | gradient all-reduce | 처리량 확장 |
-
-> 요약: MoE 클러스터는 attention은 TP, MoE FFN은 EP, 노드 간은 PP, 확장은 DP로 계층별 조합 설계함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| all-to-all 병목 | 노드 간 저대역 링크 경유 | topology-aware placement, 통신-계산 중첩 | all-to-all latency 비중 |
-| expert 부하 편차 | routing 쏠림 | capacity factor, 재배치 | expert utilization variance |
-| 장애 전파 | expert 보유 GPU 1대 장애 | expert 복제·재라우팅 | 장애 시 성능 저하율 |
-
-> 요약: EP 리스크는 통신·편차·단일 장애이며, 토폴로지 배치와 복제·중첩으로 통제함.
+## Ⅴ. 심화: EP 최적화 및 복합 병렬화 전략
+- **문제점 1: 막대한 All-to-All 통신 오버헤드**:
+  - **대응 (Topology-aware EP)**: 클러스터 토폴로지를 인지하여, 고속 통신망(NVLink) 내부에 속한 GPU들끼리만 EP를 구성하고, 노드 간(Infiniband) 통신은 지양하는 계층형 라우팅 설계 적용.
+- **문제점 2: 특정 GPU 통신/연산 집중 (Imbalance)**:
+  - **대응 (Expert Capacity & Dropping)**: 특정 Expert(특정 GPU)로 토큰이 쏠릴 경우 허용 용량(Capacity)을 초과한 토큰은 Drop 처리하거나, 가벼운 다른 GPU로 재배정.
+- **4D Parallelism (TP + PP + DP + EP)**:
+  - 실제 대규모 학습 시: Attention은 TP, 레이어 분할은 PP, 배치 분할은 DP, FFN 계층은 EP를 혼합하는 복합 분산 아키텍처(예: DeepSpeed MoE, Megatron-LM)를 채택.
 
 ## Ⅵ. 실무 적용 및 결론
+- **판단 지표**: 통신 대비 연산 비율(Computation-to-Communication Ratio), 네트워크 대역폭(Bandwidth), 노드 간 지연시간(Latency).
+- **실무 설계**: GPU 8대로 구성된 단일 노드 섀시 내에서는 NVLink를 활용하여 EP를 최대 8-way로 설정하고, 노드 간 확장 시에는 DP(Data Parallelism)를 사용하여 All-to-All 통신이 이더넷 스위치 병목을 타지 않도록 아키텍처를 제한.
+- **결론**: 전문가 병렬(EP)은 트릴리언(Trillion) 규모의 AI 모델 시대를 여는 열쇠이며, 알고리즘(Router)과 인프라(Network Topology) 간의 공동 설계(Co-design) 역량이 기업의 초거대 AI 경쟁력을 결정함.
 
-**적용 방안 3개:**
-1. expert 수, GPU 수, GPU당 VRAM으로 expert placement를 산정하고 NVLink/IB topology 기준으로 배치
-2. expert별 token count, all-to-all bytes, p95 TPOT, dropped token을 모니터링
-3. EP는 TP/DP와 조합해 dense attention은 TP, MoE FFN은 EP, batch 복제는 DP로 분리 설계
-
-**결론 (2줄):**
-- 기술사 판단: MoE 모델은 Expert Parallelism을 기본으로 두고, 통신 병목이 크면 expert 수·top-k·capacity를 재조정함.
-- 향후 방향: MoE runtime은 topology-aware routing과 communication overlap으로 all-to-all 병목을 줄이는 방향으로 발전함.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | dispatch->expert compute->combine 흐름 | TP 대비 특징 |
-| 요구사항 명시형 | 설계하시오, 최적화하시오 | expert placement·통신 측정 절차 | all-to-all·load balance 기준 |
-
-> 요약: 설명형은 MoE 분산 실행 원리, 설계형은 GPU 배치와 통신 병목 기준으로 목차를 전환함.
+### 🔀 문제 유형별 목차 전환
+- **Ⅱ·Ⅲ 강조 (개념/원리형)**: All-to-All Dispatch 및 Combine 과정에서 토큰 데이터가 GPU 사이를 이동하는 과정을 시각적/단계적으로 설명.
+- **Ⅴ·Ⅵ 강조 (실무/설계형)**: NVLink vs Infiniband 대역폭 차이를 고려한 Topology-aware 배치 전략, TP/PP/EP/DP의 혼합(Hybrid) 아키텍처 최적화 중심으로 작성.

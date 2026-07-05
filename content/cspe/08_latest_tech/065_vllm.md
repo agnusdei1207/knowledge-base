@@ -1,135 +1,92 @@
 ---
-title: "vLLM"
-date: "2026-07-01"
+title: "vLLM (버추얼 LLM 서빙 프레임워크)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
-  - "cspe-latest-tech"
+  - "cspe-latest_tech"
 weight: 65
 ---
 
-# 📖 【암기용】 개념 완전 이해
-
-> 목적: vLLM을 처음 봐도 완벽히 이해하게 만든다.
-
-## 한눈에
-- **개요**: PagedAttention과 continuous batching을 중심으로 LLM 추론 처리량을 높이는 오픈소스 서빙 엔진
-- **왜 필요한가**: 기본 Transformers 추론은 KV Cache 단편화와 정적 배치 한계로 고동시성 서비스 처리량이 낮음.
-- **핵심 직관**: GPU 메모리를 페이지처럼 잘게 나누고, 빈 자리에 새 요청을 계속 넣어 LLM API 처리량을 높이는 런타임임.
-
-## 깊이 이해
-- **배경·문제의식**: 대화형 LLM은 요청 길이와 출력 길이가 모두 달라 GPU 메모리 낭비가 크다. vLLM은 KV Cache를 OS 페이지처럼 관리해 단편화를 줄이고, 동적 배칭으로 GPU 유휴 시간을 줄임.
-- **작동 원리**: 요청 큐를 scheduler가 관리하고, PagedAttention이 KV block table을 통해 가변 길이 sequence를 처리함. OpenAI-compatible API 서버로 애플리케이션 연동이 가능함.
-- **비유**: 호텔 객실을 통째로 장기 배정하지 않고, 필요한 객실만 배정·회수해 객실 회전율을 높이는 방식임.
-- **구체 예시**: 동일 GPU에서 PagedAttention과 continuous batching 적용 시 naive serving 대비 동시 요청 수와 tokens/s가 증가함.
-- **흔한 오해·주의점**: vLLM은 모든 모델·GPU에서 항상 최적은 아님. 모델 아키텍처, quantization, LoRA, tensor parallel 지원성을 확인해야 함.
-
-## 연결 개념
-- PagedAttention — vLLM의 핵심 KV Cache 관리 기법
-- Continuous Batching — vLLM 처리량 개선 축
-- LLM Serving — vLLM 적용 영역
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
-
 ## 핵심 인사이트 (3줄 요약)
+> 1. **본질**: 앞서 배운 PagedAttention(메모리 파편화 제거)과 Continuous Batching(연속 배치 스케줄링)이라는 두 가지 강력한 무기를 하나로 합쳐서 오픈소스로 배포해 버린 **전 세계 1위의 LLM 추론 서빙(Inference Serving) 파이썬 엔진**이다.
+> 2. **가치**: 기존 허깅페이스(HuggingFace)의 기본 코드(Transformers)로 서버를 띄울 때보다, vLLM을 쓰면 동시 접속 유저(Throughput)를 최대 24배 더 많이 감당하면서도 응답 속도는 더 빠르다. 인프라 엔지니어가 수주 동안 깎아야 할 CUDA 최적화를 `vllm serve` 명령어 한 줄로 거저먹게 해 준 MLOps 생태계의 구원자다.
+> 3. **판단 포인트**: 단순히 '서버 띄우는 툴'로 얕게 보면 안 된다. 이 엔진 내부에서 어떻게 OS의 **가상 메모리(Virtual Memory)** 개념을 GPU VRAM에 매핑했는지(PagedAttention 블록 테이블), 그리고 OpenAI API와 100% 호환되는 엔드포인트를 제공하여 엔터프라이즈 전환(Migration) 비용을 0으로 만든 비즈니스적 설계를 짚어야 한다.
 
-> 1. **본질**: vLLM은 PagedAttention 기반 KV Cache 가상화와 동적 배칭을 제공하는 LLM 서빙 엔진임.
-> 2. **가치**: 가변 길이 요청의 메모리 낭비를 줄여 동일 GPU에서 tokens/s와 동시성을 높임.
-> 3. **판단 포인트**: 모델 지원성, tensor parallel, quantization, LoRA, OpenAI-compatible API 연동을 검토해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 서빙 엔진 핵심 기법 이해 확인 | PagedAttention(KV block 가상화), continuous batching | 제품 소개만 하고 기법 원리 누락 |
-| 엔진 선택 판단 확인 | vLLM vs TensorRT-LLM 비교 축(범용성 vs NVIDIA 극한 최적화) | 특정 엔진을 무조건 우위로 단정 |
-| 도입 검증 역량 확인 | baseline 대비 TTFT·TPOT·정확도 회귀 검증 절차 | 벤치마크 없이 도입 결론 서술 |
-
-> 요약: 이 문제는 도구 사용법이 아니라 KV 메모리 관리 원리와 엔진 선택·검증 기준을 묻는다.
+---
 
 ## Ⅰ. 개요 및 필요성
+- **개요**: vLLM은 2023년 UC 버클리 대학의 연구진이 개발하여 공개한 고성능 오픈소스 대규모 언어 모델 서빙 프레임워크로, PagedAttention 알고리즘을 코어로 삼아 LLM의 처리량(Throughput)과 메모리 효율을 극한으로 최적화한 시스템 소프트웨어다.
+- **배경**: AI 기업들이 Llama나 Mistral 같은 오픈소스 모델을 다운받아 자사 서비스(B2C 챗봇)를 만들려고 했다. 하지만 파이썬 기본 코드(`generate()`)로 API 서버를 열자, 유저가 5명만 들어와도 GPU(A100) VRAM이 메모리 파편화(Fragmentation)로 인해 터져버리는 끔찍한 병목(OOM 에러)에 시달렸다.
+- **필요성**: AI 모델 개발자(Data Scientist)는 메모리 최적화를 할 줄 모른다. 누군가 C++과 CUDA 커널 바닥까지 내려가서, GPU 램을 16토큰 단위로 쪼개고 실시간으로 조립해 주는 복잡한 인프라 최적화 코드를 대신 짜서 **"설치만 하면 알아서 20배 빨라지는 마법의 박스"**로 포장해 줄 프레임워크가 절실히 필요했다.
 
-- 개요: 오픈소스 LLM 서빙 엔진
-- 배경: 고동시성 LLM API는 KV cache 단편화와 정적 배치로 GPU 메모리 낭비와 큐 대기가 발생함.
-- 필요성: PagedAttention과 continuous batching으로 KV block을 관리하고 throughput·p95 latency를 동시에 측정해야 함.
+---
 
-## Ⅱ. 구조 및 구성요소
-
-```text
-Client/OpenAI API -> vLLM Server -> Scheduler
-       -> PagedAttention KV Blocks -> GPU Executor -> Streaming
-```
-
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| OpenAI API Server | REST 호환 엔드포인트 제공 | 기존 앱 연동 용이 |
-| Scheduler | 요청 큐·continuous batching | prefill/decode 조정 |
-| PagedAttention | KV Cache block 관리 | 단편화 감소 |
-| GPU Executor | 모델 실행·병렬화 | TP, quantization 지원 |
-
-> 요약: vLLM은 API 서버, 스케줄러, PagedAttention, GPU 실행기로 구성된 LLM 추론 런타임임.
-
-## Ⅲ. 동작원리 및 흐름도
+## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-요청 수신 -> 토큰화 -> scheduler 배치 편성
-    -> PagedAttention KV 할당 -> GPU decode -> streaming 반환
+  [ vLLM의 내부 3계층(Tier) 아키텍처 흐름 ]
+
+  1. [ API 프론트엔드 (호환성 계층) ]
+     - FastAPI 기반으로 띄워지며, "OpenAI API 형식"과 100% 동일하게 요청을 받음.
+     - 유저: `POST /v1/chat/completions` (OpenAI 라이브러리 그대로 사용 가능!)
+               │
+               ▼ (비동기 처리)
+  2. [ 스케줄러 & 블록 매니저 (핵심 두뇌 계층 - CPU) ]
+     - Continuous Batching: 빈자리가 나면 큐(Queue)의 새 유저를 즉시 끼워 넣음.
+     - Block Manager (PagedAttention): OS처럼 메모리 주소 매핑(가상 주소 ↔ 물리 GPU 주소)
+       수행하고 16토큰 블록을 할당/회수함. 만약 VRAM이 터지려 하면 CPU 램으로 스왑(Swap-out).
+               │
+               ▼ (CUDA 최적화 명령)
+  3. [ 고속 실행기 엔진 (Execution Engine - GPU) ]
+     - FlashAttention-2 등 하드웨어 최적화 커널을 호출하여 병렬 행렬 곱셈을 무자비하게 수행.
+     - Tensor Parallelism(멀티 GPU 쪼개기)를 통해 모델 가중치를 여러 GPU에서 동시 연산.
+               │
+               ▼
+  [ 유저에게 SSE(Server-Sent Events)로 타자 치듯 토큰 스트리밍 응답! ]
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+- **1단계 [OpenAI 호환 API 서버 구동]**: `python -m vllm.entrypoints.openai.api_server --model Llama-3-8B` 명령어 한 줄이면 서버가 뜬다. 가장 무서운 점은 엔드포인트(URL 구조)가 OpenAI와 완벽히 같아서, 프론트엔드 개발자가 기존 코드를 1도 고칠 필요 없이 `Base URL`만 자사 서버 주소로 바꾸면 끝난다(Vendor Lock-in 탈피).
+- **2단계 [PagedAttention 코어 가동]**: 앞서 057번에서 배운 대로, 들어오는 모든 요청의 KV 캐시를 16~32토큰 크기의 '페이지(Page)'로 분할하여 관리한다. 남는 VRAM의 파편화 낭비율을 4% 미만으로 억제한다.
+- **3단계 [Preemption & Swapping (생존 로직)]**: 유저가 너무 쏟아져서 잘게 쪼갠 VRAM마저 100% 꽉 찼다. 서버가 죽을까? vLLM은 제일 덜 급한 유저의 연산을 멈추고(Preemption), 그 유저의 캐시 짐을 느린 CPU 시스템 램으로 쫓아낸다(Swap-out). 급한 유저 처리가 끝나 VRAM이 비면, 쫓겨난 유저의 짐을 다시 가져와서(Swap-in) 살려내는 끈질긴 생존 메커니즘을 갖췄다.
+
+---
+
+## Ⅲ. 비교 및 연결
+
+| 비교 축 | HuggingFace 기본 (Transformers) | vLLM 프레임워크 |
 |:---:|:---|:---|
-| 1 | OpenAI-compatible 요청 수신 | endpoint, auth proxy |
-| 2 | continuous batching으로 배치 구성 | queue time, active seq |
-| 3 | PagedAttention으로 KV block 관리 | block utilization, OOM |
-| 4 | GPU 실행·streaming 응답 | TTFT, TPOT, tokens/s |
+| **설계 목적** | 연구 및 실험용 (쉬운 코드 확인) | **프로덕션 서빙 (극한의 트래픽 처리)** |
+| **메모리 할당** | 유저별 최대 길이 통째로 사전 예약 | **PagedAttention 기반 16토큰씩 동적 쪼개기** |
+| **스케줄링** | 정적 배치 (끝날 때까지 기다림) | **연속 배치 (빈자리 나면 즉시 끼워 넣기)** |
+| **처리량 (Throughput)**| 1x (기준점, OOM 밥먹듯 남) | **최대 24배 (동일 GPU로 24배의 트래픽 감당)** |
 
-> 요약: vLLM은 동적 배치와 KV block 관리를 결합해 고동시성 요청의 GPU idle time을 줄임.
+> ※ **연결 포인트**: 오픈소스 서빙 프레임워크 천하 삼분지계에서 **vLLM**이 범용성 1위(버클리)라면, 경쟁자인 허깅페이스의 **TGI (Text Generation Inference)**는 러스트(Rust) 언어로 짜여 보안과 속도에 더 특화되어 있으며, 엔비디아의 **TensorRT-LLM**은 엔비디아 GPU 하드웨어에 한해 영혼까지 쥐어짜는 최고 속도를 내지만 세팅이 지옥같이 어렵다는 아키텍처적 차이점(Trade-off)이 있다.
 
-## Ⅳ. 특징
+---
 
-| 구분 | Transformers 기본 서빙 | vLLM | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| KV 관리 | 연속 메모리 | PagedAttention | OOM·단편화 감소 |
-| 배칭 | 정적/제한적 | continuous batching | 혼합 길이 트래픽 적합 |
-| API | 직접 구현 필요 | OpenAI-compatible | 전환 비용 감소 |
-| 한계 | 단순 | 커널·모델 지원성 확인 | 신규 모델 검증 필요 |
+## Ⅳ. 실무 적용 및 기술사 판단
 
-> 요약: vLLM은 범용 LLM API 처리량 개선에 강점이 있으나, 모델별 지원성과 품질 회귀 검증이 필요함.
+- **적용 사례 1 (스타트업의 자체 LLM 구축)**: B2B 법률 AI 스타트업이 있다. 매달 OpenAI에 내는 API 비용이 수천만 원을 돌파하자 자체 모델 도입을 결정했다. 오픈소스 Llama 3를 미세조정(Fine-Tuning)한 후, 클라우드에 RTX A6000 2대를 빌려 vLLM으로 띄웠다. Tensor Parallelism(`--tensor-parallel-size 2`) 옵션 하나로 두 GPU가 묶여 연산 속도가 두 배가 되었고, 사내 직원 수백 명의 동시 접속을 에러 한 번 없이 처리하며 인프라 비용을 월 2백만 원으로 90% 이상 절감했다.
+- **적용 사례 2 (다중 LoRA 동적 서빙 지원)**: 최근 vLLM은 여러 개의 페르소나(LoRA 어댑터)를 하나의 베이스 모델 위에서 스위칭하는 기능(Multi-LoRA)을 정식 지원한다. 유저 A가 "의사 봇"을 호출하고, 유저 B가 "변호사 봇"을 호출하면, vLLM은 거대한 베이스 뇌(70B)는 메모리에 한 개만 두고, 의사 지식(100MB)과 변호사 지식(100MB) 껍데기만 실시간으로 갈아 끼우며 처리한다. 다품종 소량 AI 서비스를 하나의 GPU로 커버하는 극강의 아키텍처다.
+- **기술사 판단**: 아키텍트는 vLLM 도입 시 **`gpu_memory_utilization` 튜닝의 양날의 검**을 철저히 계산해야 한다. 기본값이 0.9(90%)인데, 이는 VRAM의 90%를 오직 PagedAttention 캐시 저장고(Pool)로 쓰겠다는 무식한 선언이다. 만약 동시에 띄운 모델의 덩치가 크거나, 100만 토큰급의 롱 컨텍스트 요청이 훅 들어오면 모델 자체의 연산 공간(Activation Memory)이 부족해 뻗어버릴 수 있다. 따라서 프롬프트가 매우 긴 시스템을 설계할 때는 이 값을 0.8 이하로 낮추고, 부족한 캐시는 **Prefix Caching 켬(--enable-prefix-caching)**으로 상쇄하는 고도화된 메모리 튜닝 플랜을 백엔드 설계도에 명시해야 한다.
 
-## Ⅴ. 심화 비교 및 적용 판단
+---
 
-| 구분 | vLLM | TensorRT-LLM | 선택 기준 |
-|:---|:---|:---|:---|
-| 하드웨어 | NVIDIA·AMD 등 폭넓음 | NVIDIA 전용 | 이기종 GPU 혼용이면 vLLM |
-| 최적화 방식 | 런타임 스케줄링 중심 | 커널 컴파일 극한 최적화 | 고정 모델·최대 성능이면 TensorRT-LLM |
-| 도입 난이도 | pip 설치, OpenAI 호환 | 엔진 빌드 필요 | 빠른 도입·모델 교체 잦으면 vLLM |
+## Ⅴ. 기대효과 및 결론
 
-> 요약: 모델 교체가 잦고 범용성이 필요하면 vLLM, NVIDIA 고정 스택의 극한 성능이면 TensorRT-LLM을 선택함.
+- **기대효과**: 쿠버네티스(Kubernetes)가 컨테이너 오케스트레이션의 표준이 되었듯, vLLM은 복잡한 하드웨어 커널 제어와 스케줄링을 추상화(Abstraction)하여 LLM 서빙 백엔드의 글로벌 표준 플랫폼으로 자리 잡았다.
+- **향후 발전 방향**: 현재는 텍스트 위주의 LLM 서빙에 집중하고 있으나, 향후 LLaVA나 GPT-4o 같은 멀티모달(비전, 오디오) 모델들의 거대한 이미지 캐시 토큰까지 PagedAttention으로 쪼개고 공유하는 **'멀티모달 vLLM 통합 서빙 플랫폼'**으로 생태계를 맹렬하게 집어삼키고 있다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 신규 모델 미지원 | 아키텍처별 커널 의존 | 지원 매트릭스 사전 확인, fallback 경로 | 배포 전 호환성 체크 통과 |
-| 품질 회귀 | quantization·커널 차이 | baseline 대비 정확도 회귀 테스트 | 벤치마크 점수 편차 1% 이내 |
-| 버전 업그레이드 파손 | 빠른 릴리스 주기 | 카나리 배포, 성능·정확도 게이트 | 롤백 시간, 게이트 통과율 |
+---
 
-> 요약: vLLM 리스크는 지원성과 회귀이며, 사전 호환 확인과 카나리 게이트로 통제함.
+### 📌 관련 개념 맵
+- **OpenAI API 호환 (OpenAI Compatible API)**: vLLM이 1등이 된 최고의 비즈니스 꼼수. 개발자가 랭체인이나 앱을 만들 때 기존에 쓰던 `openai.ChatCompletion.create()` 코드에서, 서버 URL 주소만 `http://localhost:8000/v1` 로 바꿔치기하면 내 로컬 vLLM 서버가 마치 OpenAI인 것처럼 똑같이 응답을 내려준다. (API 규격의 천하통일).
+- **Out of Memory (OOM)**: 딥러닝 서버 개발자의 영원한 트라우마. GPU의 램(VRAM)이 꽉 차서 "할당할 수 없다"며 파이썬 프로세스가 폭발해 죽어버리는 현상. vLLM은 OS처럼 CPU 램으로 데이터를 쫓아내는(Swap) 기술을 통해 OOM에 의한 서버 다운을 원천 봉쇄했다.
 
-## Ⅵ. 실무 적용 및 결론
+### 📈 관련 키워드 및 발전 흐름도
+`HuggingFace 기본 서빙 (OOM 밥먹듯 터짐)` $\to$ `PagedAttention (메모리 쪼개기 마법 논문 발표)` $\to$ `Continuous Batching (빈자리 쑤셔넣기 알고리즘 결합)` $\to$ `vLLM (이 둘을 합친 오픈소스 프레임워크 출시)` $\to$ `Prefix Caching, Multi-LoRA 기능 통합 (엔터프라이즈 기능 진화)`
 
-**적용 방안 3개:**
-1. 사내 LLM API를 vLLM OpenAI-compatible endpoint로 구성하고 기존 SDK 연동 비용을 축소
-2. 배포 전 모델별 TTFT, TPOT, tokens/s, OOM, 정확도 회귀를 Transformers baseline과 비교
-3. tenant별 max model len, max num seqs, max batch tokens를 설정해 비용 폭주와 tail latency 제한
-
-**결론 (2줄):**
-- 기술사 판단: 오픈모델 기반 대화형 API는 vLLM을 우선 검토하고, NVIDIA 전용 극한 최적화는 TensorRT-LLM과 비교함.
-- 향후 방향: vLLM은 serving engine을 넘어 LoRA serving, speculative decoding, distributed inference 기능을 확장함.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | scheduler·PagedAttention 흐름 | 기본 서빙 대비 차이 |
-| 요구사항 명시형 | 도입 방안을 제시하시오, 비교하시오 | 벤치마크·설정·검증 절차 | vLLM vs TensorRT-LLM 선택 기준 |
-
-> 요약: 설명형은 vLLM 구조, 도입형은 엔진 선택과 운영 파라미터 중심으로 목차를 전환함.
+### 👶 어린이를 위한 3줄 비유 설명
+1. 천재 요리사(LLM)를 모셔와 식당을 열었는데, 주방(서빙 프로그램)이 엉망이라 손님이 5명만 와도 그릇이 모자라서(OOM) 식당 문을 닫아야 했어요.
+2. **'vLLM'**은 이 식당에 나타난 **'세계 최고의 주방 매니저 프로그램'**이에요.
+3. 그릇을 절대 낭비하지 않게 작은 접시(PagedAttention)로 쪼개주고, 손님이 나가자마자 새 손님을 빈자리에 척척 앉혀서(연속 배치), 똑같은 주방 크기로도 **손님을 24배나 더 많이 받을 수 있게 만들어준 구세주**랍니다!

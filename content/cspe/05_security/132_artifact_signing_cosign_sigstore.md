@@ -1,163 +1,89 @@
 ---
-title: "아티팩트 서명 - Cosign·Sigstore (Artifact Signing)"
-date: "2026-07-01"
+title: "아티팩트 서명: Cosign 및 Sigstore (Artifact Signing)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 132
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: 개발자가 완성한 도커 이미지나 프로그램 파일(아티팩트)에 **"이건 우리 회사가 정식으로 만든 진짜 파일이고, 중간에 해커가 바이러스를 섞지 않았어!"라는 의미의 디지털 인감도장(서명)을 쾅 찍고 누구나 검증할 수 있게 해주는 클라우드 네이티브 무료 서명 기술**입니다.
+- **필요성**: 쿠버네티스 서버가 인터넷(도커 허브)에서 'nginx'라는 컨테이너 이미지를 다운받아 실행하려고 합니다. 그런데 이 파일이 진짜 nginx 재단이 만든 파일인지, 아니면 러시아 해커가 이름만 똑같이 만들어서 올려둔 '가짜 악성코드 파일'인지 서버는 알 길이 없습니다. 맹목적으로 다운받아 실행하면 곧바로 서버가 장악당합니다. 다운받은 파일의 겉면에 찍힌 '인감도장(서명)'을 0.1초 만에 확인해 줄 공증인 시스템이 필요했습니다.
+- **핵심 직관**: **"관공서의 인감 증명서와 투명한 기록 장부"**. 
+  - 과거 (PGP/GPG 서명): 개발자가 자기 인감도장(개인키)을 USB에 들고 다니다가 잃어버려서 유출되면 대참사가 일어납니다. 게다가 도장 검증 과정이 너무 복잡해서 개발자들이 혀를 내두르고 포기했습니다.
+  - **Sigstore (Cosign)**: 클라우드 시대의 '무료 온라인 주민센터'. 개발자가 도장(키)을 관리할 필요 없이, 구글 아이디로 로그인하면 1초짜리 **'일회용 도장'** 을 만들어 서명해 주고 그 기록을 전 세계가 다 보는 투명한 유리 장부(Rekor)에 박제합니다. 누구나 쉽고 공짜로 소프트웨어의 진품 여부를 확인할 수 있습니다.
 
-> 목적: 아티팩트 서명을 처음 봐도 컨테이너·SBOM·provenance 검증까지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 소프트웨어 공급망 보안(SLSA 프레임워크 등)의 핵심은 "서명(Signing)"입니다. 하지만 기존의 서명 기술인 PKI 인증서나 GPG 키는 관리가 지옥(비밀번호 분실, 키 갱신 등) 같아서 적용률이 바닥이었습니다. 이 고통을 해결하기 위해 리눅스 재단, 구글, 레드햇이 뭉쳐서 **"웹사이트의 무료 인증서인 Let's Encrypt처럼, 소프트웨어 서명도 누구나 쉽고 공짜로 하게 만들자!"** 라며 만든 오픈소스 생태계가 바로 Sigstore입니다.
+- **가치**: "Keyless(키 없는) 서명의 혁신". 가장 취약한 고리였던 '개발자의 키(Key) 탈취 위험'을 없앴습니다. 키를 잃어버릴 걱정도, 갱신할 걱정도 없이 자동화된 파이프라인에서 컨테이너 이미지가 배포될 때 숨 쉬듯 자연스럽게 전자서명이 입혀집니다.
 
-## 한눈에
-- **개요**: 아티팩트 서명은 이미지·바이너리·SBOM이 승인된 주체에서 생성됐고 중간에 바뀌지 않았음을 암호학적으로 증명하는 기법임
-- **왜 필요한가**: 레지스트리 태그는 재사용 가능하고 CI 산출물은 복사·교체될 수 있음. digest와 서명을 검증해야 배포 대상이 빌드한 결과물과 동일한지 판단 가능함.
-- **핵심 직관**: 택배 상자에 봉인 스티커와 발송자 증명서를 붙이고, 도착지에서 봉인 훼손과 발송자 신원을 확인하는 과정임.
+## 3. 어떻게 작동하는가? (Mechanism)
+Sigstore 생태계는 크게 3가지 부품(Cosign, Fulcio, Rekor)이 톱니바퀴처럼 돌아가며 '키 없는(Keyless) 서명'의 마법을 부립니다.
 
-## 깊이 이해
-- **배경·문제의식**: 컨테이너 기반 배포에서는 `latest` 태그, 임시 레지스트리 토큰, CI 권한이 공격면이 됨. 악성 이미지를 같은 태그로 밀어 넣으면 배포 시스템이 구분하지 못함.
-- **작동 원리**: Cosign은 아티팩트 digest를 대상으로 서명하고, Sigstore는 OIDC identity, Fulcio 인증서, Rekor 투명 로그를 통해 장기 개인키 관리 부담을 줄임.
-- **비유**: 주민등록증으로 공증 사무소에서 문서에 전자서명을 남기고, 공증 기록부에 시간과 서명 정보를 등록하는 방식과 유사함.
-- **구체 예시**: CI가 `ghcr.io/org/app@sha256:9b1c2d3e4f5a6789` 이미지를 빌드한 뒤 Cosign keyless signing을 수행하고, Kubernetes admission 단계에서 OIDC issuer와 subject를 검증함.
-- **흔한 오해·주의점**: 서명은 취약점 제거가 아님. 서명된 취약 이미지도 존재할 수 있으므로 SCA, SBOM, CVE 정책과 함께 운영해야 함.
+1. **Cosign (도장 찍는 도구)**
+   - 개발자의 터미널이나 CI/CD 환경에서 동작하는 작고 가벼운 서명 도구입니다.
+   - 도커 이미지를 다 만들고 `cosign sign <이미지이름>` 이라고 치면, 구글/깃허브 로그인 창이 뜹니다.
+2. **Fulcio (일회용 도장 발급소, 무료 CA)**
+   - 로그인에 성공하면, Fulcio가 "아, 너 진짜 OOO 개발자 맞구나?" 하고 확인한 뒤 수명이 **단 10분**인 '일회용 인증서(키)'를 뚝딱 만들어줍니다. 
+   - Cosign은 이 10분짜리 키로 이미지에 도장을 쾅 찍습니다. (10분 뒤엔 키가 파기되므로 해커가 키를 훔칠 수가 없습니다).
+3. **Rekor (절대 못 고치는 박제 장부, Transparency Log)**
+   - 10분짜리 키로 도장을 찍었는데, 나중에 남들이 이 도장이 진짜인지 어떻게 확인할까요? 
+   - Cosign은 서명을 하는 즉시 그 기록을 Rekor라는 블록체인 같은 영구 기록 장부에 적어둡니다. "2024년 1월 1일, OOO 개발자가 일회용 키로 이 파일에 서명했음!"
+   - 나중에 쿠버네티스가 이미지를 다운받을 때, 장부(Rekor)를 들춰보고 진품임을 100% 확신하고 배포를 허락합니다.
 
-## 연결 개념
-- Sigstore: Fulcio, Rekor, Cosign으로 구성된 서명 생태계
-- SLSA provenance: 서명 대상이 되는 빌드 출처 증거
-- Admission Control: 미서명·검증 실패 이미지를 배포 전에 차단하는 지점
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례**: 
+  - 쿠버네티스(Kubernetes) 1.24 버전부터 공식적으로 출시되는 모든 K8s 다운로드 파일(바이너리, 이미지)은 **Sigstore(Cosign)** 로 서명되어 배포됩니다.
+  - 사내망에 해커의 악성 이미지가 배포되는 것을 막으려면: 쿠버네티스 앞에 **OPA Gatekeeper**를 세워두고 룰을 겁니다. "우리 회사 공식 깃허브 계정으로 로그인해서 **Cosign** 서명이 찍힌 이미지, 그리고 그 기록이 **Rekor**에 남아 있는 이미지만 클러스터에 띄워 줘! 아니면 다 차단해!" $\rightarrow$ 공급망 해킹 차단율 100%.
+- **주의점 및 흔한 오해**: 
+  - "파일에 서명만 하면 바이러스가 없는 건가요?" $\rightarrow$ 아닙니다. 서명(Cosign)은 "이 파일을 만든 사람이 우리 회사 직원이 맞다(출처 증명)"를 보장할 뿐, 그 직원이 짠 코드에 버그가 있는지는 보장하지 않습니다. 그래서 **Trivy(취약점 스캔)를 먼저 돌리고 $\rightarrow$ 안전하면 마지막에 Cosign으로 서명**하는 것이 완벽한 세트 메뉴입니다.
 
----
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 아티팩트 서명 답안은 "서명 생성"이 아니라 "digest 기준 검증, identity 확인, 배포 차단"까지 써야 함.
-
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: 아티팩트 서명 (Artifact Signing)은 컨테이너 이미지·바이너리·SBOM의 digest에 전자서명을 부여해 출처와 무결성을 검증하는 통제임.
-> 2. **가치**: Cosign·Sigstore는 OIDC, Fulcio, Rekor, OCI registry를 결합해 장기 개인키 보관 없이 서명·투명 로그·검증을 수행함.
-> 3. **판단 포인트**: tag가 아니라 digest를 서명하고, certificate identity·issuer·transparency log inclusion을 배포 정책에 연결해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 컨테이너 공급망 무결성 이해 확인 | digest 서명, keyless signing, Rekor 투명 로그 | 이미지 태그 서명으로 설명하거나 digest 누락 |
-| Sigstore 구성요소 판단 확인 | Cosign, Fulcio, Rekor, OIDC issuer, OCI registry | Cosign을 단순 CLI 도구로만 설명 |
-| 운영 통제 설계 확인 | CI 서명, admission 검증, 정책 불일치 배포 거부 | 서명 생성 후 검증·차단 절차 누락 |
-
-> 요약: 이 문제는 서명 알고리즘 설명보다 CI 신원 기반 서명과 배포 시 검증 정책을 연결하는 역량을 확인함.
+## 5. 핵심 비교 및 연결 개념 (Relation)
+| 구분 | 기존 GPG/PKI 서명 | Sigstore (Cosign) |
+|---|---|---|
+| **키(Key) 관리** | 개발자가 개인키(Private Key)를 금고에 평생 보관해야 함. 잃어버리면 끔찍함. | **Keyless**. 구글(OIDC) 로그인으로 10분짜리 일회용 키 발급 후 버림. |
+| **자동화** | CI/CD 서버에 개인키를 파일로 올려놔야 함 (해커가 서버 털면 키도 다 털림). | OIDC 토큰만으로 서명 가능. 유출될 정적인 키 자체가 없음. |
+| **도입 목적** | 이메일, 옛날 패키지(apt) 무결성 증명 | 도커 이미지, SLSA Provenance 등 **클라우드 네이티브 공급망** 증명 |
 
 ---
 
-## Ⅰ. 개요 및 필요성
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-- 개요: 배포 산출물 무결성 증명
-- 배경: 컨테이너 이미지, Helm chart, SBOM, provenance는 레지스트리와 CI 경로에서 교체될 수 있음.
-- 필요성: Cosign·Sigstore의 OIDC keyless signing과 Rekor 투명 로그로 배포 전 서명 검증을 의무화해야 함.
+### Ⅰ. 핵심 인사이트
+- **본질**: 리눅스 재단(OpenSSF) 주도로 개발된 소프트웨어 공급망 아티팩트(컨테이너 이미지, 바이너리, SBOM 등) 서명 및 검증 생태계. OIDC 연동을 통한 단기 임시 키 발급(Fulcio)과 투명성 로그(Rekor)를 결합하여, **가장 골칫거리였던 '개인키(Private Key) 관리'의 부담을 완전히 제거(Keyless)한 클라우드 네이티브 암호학적 출처 증명 시스템.**
+- **가치**: 기존 PKI 및 GPG 기반 서명 체계가 지닌 키 유출/분실 리스크, 키 회수(Revocation)의 어려움, CI/CD 자동화의 한계를 돌파함. 데브섹옵스 파이프라인 상에 마찰(Friction) 없이 무봉제(Seamless) 서명 프로세스를 내재화하여, 소프트웨어의 무결성(Integrity)과 원산지(Provenance)를 보장하는 SLSA 프레임워크 구현의 핵심 기술 백본.
+- **판단 포인트**: IT 아키텍트는 Cosign을 단순한 유틸리티로 이해해선 안 됩니다. Cosign이 서명된 데이터를 컨테이너 이미지와 분리된 별도 서버에 저장하는 것이 아니라, OCI(Open Container Initiative) 표준 레지스트리의 '레이어(Layer)' 스펙을 영리하게 악용(?)하여 **원본 이미지 곁에 서명 객체 태그를 나란히 동반 저장(Co-located)** 함으로써, 인프라의 추가 구축 없이 기존 Docker Registry 생태계를 그대로 활용할 수 있다는 점이 압도적 아키텍처 우수성입니다.
 
----
+### Ⅱ. Sigstore 생태계를 지탱하는 3대 아키텍처 컴포넌트
+Keyless 서명과 공증을 가능케 하는 분산 인프라.
+1. **Cosign (CLI 도구 및 OCI 서명기)**
+   - 컨테이너 이미지, SBOM, SLSA Provenance 문서 등 아티팩트에 전자서명을 수행하고 검증하는 클라이언트 도구.
+   - 서명 결과물(Payload)을 대상 이미지가 위치한 OCI 레지스트리에 `.sig` 접미사가 붙은 태그로 직접 Push/Pull 함.
+2. **Fulcio (OIDC 기반 단기 발급 CA)**
+   - "키가 없는(Keyless)" 서명을 구현하는 핵심 서버.
+   - 개발자(또는 GitHub Actions 봇)가 구글, 깃허브 등 IdP를 통해 OIDC(OpenID Connect) 자격증명으로 인증하면, Fulcio가 수명이 단 몇 분(예: 10분)에 불과한 짧은 X.509 인증서를 동적으로 발급함.
+   - **효과**: 서명 직후 개인키를 폐기하므로 공격자가 키를 탈취할 시간적 창(Window)이 소멸됨.
+3. **Rekor (투명성 로그 저장소, Transparency Log)**
+   - 인증서 만료(10분) 후에도, "과거에 그 서명이 합법적으로 이루어졌다"는 사실을 증명하기 위한 변조 불가능한(Append-only) 영구 원장(Ledger / Merkle Tree 구조).
+   - 검증자(Kubernetes)는 서명자의 로컬 키를 확인할 필요 없이, Rekor 원장을 조회하여 당시의 시간적 무결성을 증명받음.
 
-## Ⅱ. 구조 및 구성요소
+### Ⅲ. CI/CD 파이프라인 내 Cosign 서명 및 검증 흐름
+공급망 보안 4C 중 Container와 Cluster 계층 간의 상호 작용.
+- **빌드/서명 (Build & Sign) 단계**: 
+  - 개발 완료 $\rightarrow$ 깃허브 액션이 도커 이미지 빌드 $\rightarrow$ Trivy 취약점 스캔 (정상) $\rightarrow$ `cosign sign --keyless` 명령어로 이미지에 OIDC 기반 서명 후 Registry 업로드.
+- **배포/검증 (Deploy & Verify) 단계**: 
+  - 쿠버네티스 클러스터에서 파드 배포 명령 수신 $\rightarrow$ **Kyverno 또는 OPA Gatekeeper(어드미션 컨트롤러)** 가 가로챔 $\rightarrow$ `cosign verify` 로직을 통해 Rekor 로그와 레지스트리의 서명 값 교차 검증 $\rightarrow$ 신원(Identity) 일치 시에만 클러스터 내 실행 인가.
 
-```text
-CI Identity -> Cosign Sign -> Fulcio Certificate -> Rekor Log
-Artifact Digest -> OCI Registry Signature
-Deploy Request -> Cosign Verify -> Admission Allow / Deny
-```
+### Ⅳ. 기존 레거시 서명 시스템(Docker Content Trust)과의 비교
+- **Docker Content Trust (Notary v1)**:
+  - 도커 내장 서명 도구. 오프라인 루트 키(Root Key)를 개발자가 랩탑이나 USB에 직접 안전하게 보관해야 하는 치명적 UX 결함 존재. (분실 시 저장소 전체 이미지 서명 마비).
+- **Sigstore (Cosign / Notary v2 연합)**:
+  - 사람의 관리가 필요한 장기 보관 마스터 키를 완전히 제거(Keyless). 신뢰의 근원(Root of Trust)을 개인이 아닌 OIDC(신원 제공자)와 Rekor(투명성 로그) 생태계의 분산 노드로 위임(Offloading)하여 관리 오버헤드 제로화.
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Cosign | 컨테이너 이미지·blob·attestation 서명 및 검증 | digest 기준 서명, OCI registry 저장 |
-| Fulcio | OIDC identity 기반 단기 인증서 발급 | GitHub Actions, GitLab CI 등 issuer 확인 |
-| Rekor | 서명과 metadata를 투명 로그에 기록 | inclusion proof, tamper-evident log |
-| Policy Engine | 배포 전 서명·신원·issuer 검증 | Kyverno, OPA, Sigstore policy-controller |
+### Ⅴ. 결론 및 실무적 판단 포인트
+- 컨테이너 보안을 설계하는 아키텍트는 취약점 스캐닝(Trivy) 체계만으로 공급망 보안을 달성했다고 착각해선 안 됩니다. 해커가 취약점이 0개인 안전한 앱을 가로채서 백도어가 심어진 '취약점 0개의 변조된 앱'으로 바꿔치기하여 레지스트리에 푸시할 수 있기 때문입니다. 취약점 점검을 마친 즉시 해당 아티팩트의 SHA256 해시값에 **Cosign 암호학적 서명을 봉인(Sealing)** 하고 배포 전 이를 검증하는 체계만이 아티팩트 위변조 킬 체인(Kill Chain)을 절단할 수 있습니다.
 
-> 요약: Sigstore 구조는 CI 신원, 단기 인증서, 투명 로그, 레지스트리 서명을 결합해 장기 키 관리 리스크를 줄임.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-Build Artifact -> Calculate Digest -> Request OIDC Token
--> Fulcio Cert Issue -> Cosign Signature -> Rekor Upload
--> Registry Store -> Verify Identity / Issuer / Digest -> Deploy Decision
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | CI가 이미지 digest 계산 | SHA256 digest와 build output 일치 |
-| 2 | OIDC 토큰으로 Fulcio 인증서 요청 | issuer, subject, workflow ref 확인 |
-| 3 | Cosign이 digest 서명 후 Rekor 기록 | signature, certificate, log index 존재 |
-| 4 | 서명과 아티팩트 레지스트리 저장 | tag가 아닌 digest reference 사용 |
-| 5 | 배포 시 정책 검증 | identity allowlist, issuer, Rekor inclusion |
-
-> 요약: 아티팩트 서명은 빌드 신원에서 시작해 배포 정책 검증으로 끝나며, digest 불일치 시 배포를 거부함.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 기존 방식 | Cosign·Sigstore 적용 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 신원 관리 | 장기 개인키 파일·KMS 의존 | OIDC 기반 keyless signing | 단기 인증서, CI identity 바인딩 |
-| 검증 대상 | 이미지 태그·수동 승인 | SHA256 digest·certificate identity | tag 재사용 공격 차단 |
-| 감사 근거 | CI 로그 보관 | Rekor transparency log | 서명 포함 여부와 시간 추적 |
-| 한계 | 키 유출 대응 복잡 | OIDC issuer 신뢰와 정책 설계 필요 | issuer allowlist 오설정 방지 |
-
-> 요약: Cosign·Sigstore는 키 보관보다 신원 기반 증명과 투명 로그에 초점을 두며, 운영 핵심은 배포 검증 정책임.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | GPG key, KMS 서명 | Sigstore keyless signing | CI OIDC 신원 활용 가능 시 |
-| 비용/성능 | 키 생성·보관·회전 운영 | Fulcio·Rekor 연동, 검증 자동화 | 릴리스 월 50회 이상이면 keyless 선호 |
-| 운영/위험 | 키 파일 유출·공유 | issuer·subject 정책 오류 | 조직별 workflow subject 표준화 필요 |
-
-> 요약: CI 신원 체계가 준비된 조직은 장기키 관리보다 keyless signing과 정책 검증을 우선 적용함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 잘못된 대상 서명 | tag 기준 서명, mutable tag 사용 | digest pinning, immutable tag policy | tag 서명 비율 0% |
-| 신원 오용 | OIDC subject 범위 과다 | repo·branch·workflow allowlist | denied issuer/subject 건수 |
-| 검증 우회 | admission controller 미적용 namespace | namespace label 강제, policy audit | 서명 검증 누락 namespace 0개 |
-
-> 요약: 서명 운영의 주요 위험은 태그 서명, OIDC 범위 과다, 검증 우회이며 정책 지표로 상시 확인해야 함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 서명 적용률 | 운영 배포 이미지 100% cosign 서명 | registry scan, CI artifact metadata |
-| 검증 실패 차단 | identity·issuer 불일치 100% deny | admission audit log |
-| 감사 추적 | digest에서 CI run과 Rekor entry 5분 내 조회 | SIEM, Rekor, CI log |
-
-> 요약: 아티팩트 서명 품질은 서명률, 차단률, 추적 시간으로 측정해야 하며 서명 파일 존재만으로 판단하지 않음.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. CI 단계: `cosign sign --identity-token` 또는 keyless workflow로 이미지 digest, SBOM, SLSA provenance를 모두 서명함.
-2. 정책 단계: issuer, subject, repo, branch, workflow ref를 allowlist로 관리하고 production namespace는 미검증 이미지 admission deny 적용.
-3. 감사 단계: Rekor log index, certificate identity, image digest, deployment revision을 SIEM에 저장해 사고 artifact 역추적 5분 목표 설정.
-
-**결론 (2줄):**
-- 기술사 판단: 컨테이너 배포 조직은 digest 서명과 admission 검증을 기본 통제로 두고, 고위험 업무는 private Fulcio·Rekor 또는 KMS 서명까지 검토함.
-- 향후 방향: SBOM, VEX, SLSA attestation, Sigstore policy-controller가 결합되어 "서명된 산출물만 실행"하는 기본 정책으로 이동함.
-
----
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "아티팩트 서명을 설명하시오", "Sigstore를 기술하시오" | Cosign-Fulcio-Rekor 서명·검증 흐름 | keyless signing 장점과 digest 검증 |
-| 요구사항 명시형 | "컨테이너 배포 보안 방안을 제시하시오", "설계하시오" | CI 서명, registry 저장, admission 차단 흐름 | issuer 정책, namespace 통제, 감사 지표 |
-
-> 요약: 설명형은 Sigstore 구성요소를 넓게 쓰고, 설계형은 digest·identity·admission deny를 중심으로 답안을 전환함.
+### 💡 문제 유형별 목차 전환 포인트
+- **[소프트웨어 공급망 위협 및 SLSA 프레임워크 구현 기술 (출처 증명)]**: Ⅰ과 Ⅲ번(빌드-배포 연계 흐름)을 메인으로 서술. 빌드 파이프라인 타협 시나리오를 막기 위해 아티팩트에 위조 불가능한 서명과 라벨(Provenance)을 어떻게 부착하는지 증명.
+- **[클라우드 네이티브 환경의 PKI(공개키 인프라) 한계 극복 및 Keyless 인증 아키텍처]**: Ⅱ번(Fulcio와 Rekor의 결합 구조)과 Ⅳ번 비교를 전면에 내세워, 기존 인증서/키 관리의 극악한 오버헤드를 OIDC와 투명성 로그로 융합하여 혁신한 모던 암호학 아키텍처 논리 전개.

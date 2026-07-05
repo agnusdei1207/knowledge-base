@@ -1,163 +1,89 @@
 ---
-title: "LLM10 무제한 소비 (LLM10 Unbounded Consumption)"
-date: "2026-07-01"
+title: "LLM 무제한 소비 (OWASP LLM Unbounded Consumption)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 149
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: OWASP AI 위협 리스트 중 하나로, 해커나 악성 사용자가 챗봇(LLM)에게 어마어마하게 길고 복잡한 질문 폭탄을 던져서, **회사가 클라우드 제공자(OpenAI, AWS 등)에게 지불해야 할 AI API 요금과 컴퓨터 자원(GPU/메모리)을 무제한으로 쭉쭉 빨아먹어 결국 회사를 파산 상태나 서비스 마비로 몰고 가는 고비용 자원 고갈 공격**입니다.
+- **필요성**: 기존 웹사이트는 해커가 백만 번 새로고침 버튼을 눌러도 그냥 "트래픽 초과" 에러가 뜨고 끝났습니다(서버 비용 1만 원 증가). 하지만 LLM은 대답 한 글자(토큰)를 짜낼 때마다 비싼 GPU 연산 요금(토큰당 과금)이 발생합니다. 해커가 챗봇에게 "원주율(파이)을 끝까지 말해봐" 또는 "해리포터 전권을 영어로 통째로 번역해 줘"라고 무식한 요구를 던지면, 챗봇은 밤새 GPU를 돌리며 대답을 짜내고 **회사에는 하룻밤 새 1억 원의 API 청구서**가 날아오는 끔찍한 경제적 재앙이 터지기 때문입니다.
+- **핵심 직관**: **"무한 리필 고기집에서의 푸드 파이터 1만 명 회식"**. 
+  - 과거 (일반 서버 트래픽): 뷔페 문 앞에 깡패 1만 명이 서서 문을 막아버림(입장 방해, 단순 디도스).
+  - **LLM 무제한 소비**: 교묘한 푸드 파이터 1명이 식당(AI 챗봇)에 들어옵니다. 무한 리필이라는 약점을 노리고 **"주방장(GPU)에게 세상에서 제일 손이 많이 가고 비싼 코스 요리를 10만 인분 계속 갖다주라고 해!"** 라고 끝이 없는 쿼리를 날립니다. 식당 주인은 식자재비(API 청구서)를 감당 못하고 하룻밤 만에 파산(Denial of Wallet)합니다.
 
-> 목적: LLM10 무제한 소비를 가용성·비용·모델 보호 관점에서 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 생성형 AI 비즈니스 모델은 거의 100% '토큰(Token) 수 단위의 종량제 과금(Pay-as-you-go)'으로 운영됩니다. 해커들이 시스템을 뚫어 DB를 빼낼 실력이 안 될 때, 그냥 이 회사를 괴롭히기 위해(경쟁사 붕괴 목적 등) 아주 적은 노력(단 몇 줄의 악성 텍스트)으로 수천만 원의 경제적 타격을 입힐 수 있는 '가성비 끝판왕 파괴술'로 악용하기 시작했습니다.
+- **가치**: "사이버 공격의 패러다임 변화 (E-DoS)". 데이터를 파괴하는 것이 아니라, 클라우드 자동 확장(Auto-scaling)의 약점을 찔러 **기업의 지갑(Wallet)을 털어버리는 경제적 테러**입니다. 기술적 방화벽이 아닌 '비즈니스 아키텍처와 과금 한도(Limit) 설계'의 중요성을 깨우쳐 줍니다.
 
-## 한눈에
-- **개요**: LLM 사용량을 제한하지 않아 과도한 추론 요청, 긴 컨텍스트, 반복 호출로 서비스 중단·비용 폭증·모델 추출이 발생하는 취약점
-- **왜 필요한가**: LLM은 요청 1건도 토큰 수, 컨텍스트 길이, 도구 호출 횟수에 따라 비용과 GPU 시간이 크게 달라진다.
-- **핵심 직관**: 전통 DoS가 서버 CPU를 고갈시키는 공격이라면, LLM10은 토큰과 추론 비용을 고갈시키는 DoS와 Denial of Wallet이다.
+## 3. 어떻게 작동하는가? (Mechanism)
+이 위협은 AI의 '연산 횟수(토큰)'를 극한까지 끌어올리는 3가지 꼼수로 작동합니다.
 
-## 깊이 이해
-- **배경·문제의식**: 클라우드 LLM API는 입력·출력 토큰, 이미지, tool call, 검색 호출마다 비용이 붙는다. 공격자는 긴 프롬프트, 반복 질의, 병렬 세션, 자동 재시도를 이용해 예산과 quota를 소모시킨다.
-- **작동 원리**: variable-length input flood, context window overflow, resource-heavy prompt, model extraction, retry storm이 대표 경로이다. 방어는 rate limit, token budget, queue, circuit breaker, billing alert로 구성된다.
-- **비유**: 수도요금 종량제 건물에서 수도꼭지를 무제한 개방하고 입주자별 계량기를 두지 않은 상황과 같다.
-- **구체 예시**: 128K 컨텍스트 모델에 10만 토큰 입력을 초당 20건 보내면, 일반 1K 토큰 질의 대비 GPU 시간과 API 비용이 수십 배 증가해 정상 사용자의 p95 지연이 기준 SLO를 초과할 수 있다.
-- **흔한 오해·주의점**: WAF rate limit만으로 충분하지 않다. 요청 수가 적어도 토큰 수와 tool call이 크면 비용이 폭증하므로 token-aware limit이 필요함.
+1. **입력 토큰 폭탄 (Context Overflow)**
+   - 해커가 챗봇 대화창에 수만 페이지 분량의 쓰레기 텍스트(예: 아무 의미 없는 영문자 조합 10만 자)를 복사해서 붙여넣습니다. 
+   - LLM은 이 거대한 텍스트의 맥락(Attention)을 파악하려 수학 계산을 돌리다가 서버 GPU 메모리를 통째로 집어삼키고 터져버립니다.
+2. **무한 출력 유도 (Infinite Generation)**
+   - "내가 멈추라고 할 때까지 절대 멈추지 말고, 세상의 모든 도시 이름을 알파벳순으로 끝없이 나열해."
+   - AI가 끝도 없이 단어를 토해냅니다(Output Token 폭발). 출력 토큰 요금이 계속 올라가며, 다른 정상 사용자들이 사용할 API 대역폭을 혼자 100% 독식합니다.
+3. **재귀/연속 플러그인 호출 (Agent Loop)**
+   - AI 에이전트(플러그인)에게 인터넷 검색 권한이 있을 때, "구글에서 사과를 검색하고, 그 결과에 나온 모든 링크를 하나씩 다 들어가서 또 요약해"라고 끝없는 다단계(재귀적) 꼬리 물기 명령을 내립니다. API 호출 비용이 기하급수적으로 폭발합니다.
 
-## 연결 개념
-- OWASP LLM Top 10 2025 — LLM10 Unbounded Consumption으로 분류
-- FinOps — 사용자·테넌트·기능별 예산 통제와 연결
-- API Gateway·Queue·Circuit Breaker — 추론 가용성 보호 수단
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례 (스타트업 파산 시나리오)**: 
+  - 한 AI 튜터 스타트업이 OpenAI API를 연동하여 학생들에게 무료 챗봇 서비스를 런칭했습니다. 그런데 악의적인 해커 봇(Bot) 무리가 야심한 새벽에 챗봇에 접속해 수만 개의 극도로 난해한 프롬프트를 쏘아 올렸습니다. 회사 시스템에는 클라우드 서버 자동 증가(Auto-scaling)가 걸려있어서 다운되지는 않았지만, 다음 날 아침 사장님이 출근해 보니 단 6시간 만에 OpenAI API 요금 청구서에 5천만 원이 찍혀 있었습니다. 결국 회사는 문을 닫아야 했습니다 (Denial of Wallet).
+- **주의점 및 흔한 오해**: 
+  - "이거 아까 배운 '모델 DoS(서비스 거부 공격)'랑 똑같은 거 아니에요?" $\rightarrow$ 본질은 비슷하지만 타격의 **'결과'** 가 조금 다릅니다. 
+    - **모델 DoS**: GPU를 무리하게 돌려서 서버가 뻗게 만들어 다른 손님이 못 들어오게 **가용성(서비스 마비)** 을 박살 내는 목적.
+    - **무제한 소비**: 클라우드가 죽진 않더라도 계속 연산하게 놔둬서, 회사의 **지갑(돈, 예산)** 을 쪽쪽 빨아먹는 경제적/금전적 고갈에 방점이 찍힌 OWASP의 분류 명칭입니다.
 
----
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 무제한 소비는 단순 트래픽 폭주가 아니라 토큰·GPU·API 비용·모델 지식재산을 동시에 보호하는 자원 통제 문제이다.
-
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: LLM10 Unbounded Consumption은 추론 요청·토큰·컨텍스트·도구 호출에 제한이 없어 가용성 저하, 비용 폭증, 모델 추출이 발생하는 취약점이다.
-> 2. **가치**: token budget, per-tenant quota, adaptive rate limit, circuit breaker를 적용하면 비용과 SLO를 계량 지표로 통제함.
-> 3. **판단 포인트**: 요청 수 기반 제한이 아니라 입력 토큰, 출력 토큰, 동시성, tool call, 재시도 횟수를 함께 제한해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| LLM 가용성 공격 이해 확인 | DoS, Denial of Wallet, model extraction, retry storm | 일반 DDoS 설명만 쓰고 토큰 비용 누락 금지 |
-| 자원 통제 설계 확인 | token-aware limit, quota, queue, circuit breaker, budget alert | WAF rate limit 한 줄로 끝내지 않음 |
-| 운영 지표 판단 확인 | p95 지연, token/sec, cost/user, quota exhaustion | 비용·SLO 지표 없이 보안 통제만 나열 금지 |
-
-> 요약: 이 문제는 LLM 추론 자원을 토큰·동시성·비용 단위로 제한하는 운영 보안 설계를 요구한다.
+## 5. 핵심 비교 및 연결 개념 (Relation)
+| 구분 | 네트워크 디도스 (Network DDoS) | 무제한 소비 공격 (Denial of Wallet) |
+|---|---|---|
+| **사용 무기** | 좀비 PC 1만 대의 무차별 통신 연결 | 단 1명의 해커가 날린 **기다란 악성 프롬프트** |
+| **타격 목표** | 웹사이트 마비 (접속 불가) | **API 요금 폭탄 청구 (회사 재정 파산)** |
+| **기본 방어책**| L4/L7 방화벽, 대역폭 증설 | **글자 수(토큰) 제한, 사용자별 일일 예산 캡(Cap) 씌우기** |
 
 ---
 
-## Ⅰ. 개요 및 필요성
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-- 개요: LLM10 추론 자원 무제한 사용
-- 배경: LLM은 요청 수보다 토큰 길이, 컨텍스트 크기, 도구 호출, 재시도가 GPU 시간과 비용을 좌우함.
-- 필요성: OWASP LLM10 기준으로 사용자·테넌트별 토큰 예산, rate limit, 재시도 한도, SLO 기반 차단 정책을 운영해야 함.
+### Ⅰ. 핵심 인사이트
+- **본질**: OWASP LLM 위협 리스트의 주요 취약점으로, 공격자가 악의적으로 길거나 계산 집약적인 프롬프트를 주입하여 거대 언어 모델(LLM)의 트랜스포머(Transformer) 어텐션 연산(Computation)을 극대화함으로써, **애플리케이션의 GPU/CPU 리소스를 고갈시키고 타사 API 과금 체계를 악용해 엄청난 재무적 손실(Economic Denial of Service, E-DoS / Denial of Wallet)을 유발하는 자원 소비 남용(Resource Abuse) 공격.**
+- **가치**: 기존 웹 보안의 레이트 리미트(Rate Limit)가 "초당 HTTP 요청 수(Requests per Second)"라는 네트워크 관점에 머물렀다면, LLM 생태계에서는 **"프롬프트의 의미론적 복잡도(Semantic Complexity)와 토큰(Token)의 양"** 이라는 전혀 새로운 단위의 리소스 통제 거버넌스가 필요함을 입증함. 클라우드 오토 스케일링(Auto-scaling)의 이점이 오히려 해커의 요금 폭탄 무기로 역이용되는 클라우드 네이티브의 맹점을 폭로.
+- **판단 포인트**: 아키텍처 설계 시 OpenAI, Anthropic 등의 B2B API를 백엔드에 연동할 때 애플리케이션 단의 통제망(Throttling)을 누락하면 치명적입니다. 공격자는 단순히 텍스트만 길게 치는 것이 아니라 모델이 끊임없이 생각(Chain of Thought)하게 만들거나 무한 재귀(Recursive) 답변을 유도하여, 단일 HTTP 요청만으로도 API 서버 후단에서 수백만 토큰을 소모하는 스폰지(Sponge) 증폭 공격을 가할 수 있음을 경계해야 합니다.
 
----
+### Ⅱ. 무제한 소비를 촉발하는 3대 취약성 벡터
+LLM의 $O(N^2)$ 연산 복잡도와 토큰 종량제를 파고드는 기법.
+1. **과도한 입력 토큰 컨텍스트 (Input Token Exhaustion)**
+   - 현상: 사용자 입력 폼(Input Form)에 글자 수 제한이 없거나, 파일(PDF) 업로드 용량 제한이 없는 경우.
+   - 결과: 공격자가 10만 단어 분량의 무의미한 데이터를 주입하면, 트랜스포머의 어텐션 매커니즘이 전체 토큰 간의 상관관계를 파악하느라 VRAM을 급격히 점유하고 엄청난 프롬프트 토큰 요금을 발생시킴.
+2. **출력 토큰 무한 생성 유도 (Output Generation Loop)**
+   - 현상: 백엔드 API 콜 시 `max_tokens`(최대 생성 제한) 파라미터를 하드코딩으로 막아두지 않음.
+   - 결과: 공격자가 "네가 생성할 수 있는 가장 긴 문장으로 난수(Random Number)를 무한히 출력해"라고 지시하여 한 쿼리당 최고 과금 구간까지 모델을 가동시킴.
+3. **오토노머스 에이전트 루프 (Recursive Agent Actions)**
+   - 현상: AutoGPT나 LangChain 툴이 검색 플러그인과 결합되었을 때, 작업 종료(Exit Condition) 조건이 명확하지 않은 경우.
+   - 결과: "특정 단어가 들어간 웹사이트 링크를 찾고, 그 링크를 또 타고 들어가서 계속 요약해"라는 지시로 인해 에이전트가 무한 루프(Infinite Loop)에 빠져 구글 검색 API와 LLM API 요금을 쌍방으로 폭발시킴.
 
-## Ⅱ. 구조 및 구성요소
+### Ⅲ. 파급 효과 (Impact) 및 클라우드 아키텍처의 역설
+- **E-DoS (Economic Denial of Service)**: 시스템 가용성(Availability)은 탄력적 오토 스케일링으로 버텨내지만, 그로 인해 수십 대의 GPU 인스턴스가 프로비저닝(Provisioning)되며 스타트업이나 기업의 예산을 완전히 소진시켜 비즈니스를 강제 셧다운하게 만듦.
+- **자원 고갈 파생 장애 (Noisy Neighbor)**: 온프레미스(On-prem) 멀티 테넌트 환경일 경우, 특정 악성 프롬프트가 GPU VRAM 100%를 독점하여, 정상 사용자들의 추론 요청에 OOM(Out of Memory) 및 타임아웃 장애 연쇄 유발.
 
-```text
-Client -> API Gateway -> Token Meter -> Quota Manager -> Inference Queue
-                  +-> Risk Scorer -> Circuit Breaker
-LLM / Tool Calls -> Cost Monitor -> Alert / Throttle / Block
-```
+### Ⅳ. 아키텍처적 방어 및 완화(Mitigation) 전략 (자원 샌드박싱)
+인프라 보호와 재정(Budget) 보호를 결합한 핀옵스(FinOps) 관점의 보안 설계.
+1. **엄격한 하드 리밋(Hard Limits) 파라미터 강제**
+   - **입력 제한**: 프론트엔드와 API 게이트웨이 양쪽에서 사용자 입력 텍스트의 페이로드 크기(Length)를 절대적 임계치(예: 최대 4096 토큰)로 잘라냄(Truncation).
+   - **출력 제한**: OpenAI API 호출 시 페이로드에 `max_tokens` (예: 1000)를 반드시 설정하여 모델이 폭주하지 않고 지정된 길이에서 무조건 멈추도록(Stop Sequence) 설계.
+2. **사용자별 토큰 및 예산 캡(Cap) 씌우기 (Token-based Throttling)**
+   - 기존의 '초당 클릭 수(Rate Limit)'가 아닌 **'일일 토큰 할당량(Token Quota)'** 시스템 구축.
+   - API 게이트웨이 후단(Redis 연동)에서 "유저 A가 오늘 소모한 토큰이 10,000개를 초과하면 오늘 남은 시간 동안 서비스 접근 차단" 로직 필수 적용.
+3. **에이전트(Agent) 워크플로우의 탈출 조건(Exit Condition) 명시**
+   - 다중 루프를 도는 LangChain 에이전트 설계 시, "최대 API 호출 횟수(max_iterations = 5)"를 명시적으로 걸어 무한 재귀 검색을 하드웨어적으로 끊어내는 서킷 브레이커(Circuit Breaker) 설치.
 
-| 구성요소 | 역할 | 통제 포인트 |
-|:---|:---|:---|
-| API Gateway | 인증·요청 수 제한 | IP/user/token rate limit |
-| Token Meter | 입력·출력 토큰 추정 | max input 8K, max output 2K 같은 정책 |
-| Quota Manager | 사용자·테넌트별 예산 관리 | daily token quota, monthly cost cap |
-| Inference Queue | 동시성·우선순위 제어 | concurrency limit, priority class |
-| Cost Monitor | 비용·SLO 감시 | cost/min, p95 latency, error budget |
+### Ⅴ. 결론 및 실무적 판단 포인트
+- LLM 서비스를 기획하는 PM과 백엔드 리더는 "클라우드 서비스가 알아서 방어해 주겠지"라는 기대를 접어야 합니다. CSP(클라우드 벤더) 입장에서는 트래픽 폭증이 곧 자사 수익의 증가이므로, 지갑을 털어가는 E-DoS 공격을 선제적으로 막아줄 유인이 덜합니다. 따라서 기업 스스로 **과금 알림(Billing Alerts) 임계치를 타이트하게 설정**하고, API 게이트웨이 단에서 **토큰 단위의 쿼터(Quota) 제어기**를 독자적으로 구축하는 것만이 재무적 파산을 막는 유일한 백엔드 방탄조끼입니다.
 
-> 요약: LLM10 방어 구조는 요청 수가 아니라 토큰·동시성·비용을 측정하고, quota 초과 시 throttle 또는 block을 수행한다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-요청 수신 -> 인증/사용자 식별 -> 토큰·도구 비용 예측
--> quota·동시성 확인 -> queue 배치 또는 차단 -> 추론 실행 -> 비용·SLO 로그 갱신
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | API key, user, tenant 식별 | 인증 성공, abuse history |
-| 2 | 입력 토큰과 예상 출력 토큰 계산 | token count, context window limit |
-| 3 | quota와 동시성 한도 확인 | daily quota, concurrent request limit |
-| 4 | queue, throttle, circuit breaker 적용 | queue depth, p95 latency, error rate |
-| 5 | 사용량·비용·차단 로그 저장 | cost/user, token/sec, quota hit |
-
-> 요약: 무제한 소비 대응은 요청 전 비용 예측, 실행 전 quota 검증, 실행 후 비용 로그 갱신의 폐루프로 동작한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 일반 API DoS | LLM10 무제한 소비 | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| 자원 단위 | 요청 수, CPU, 메모리 | 입력·출력 토큰, GPU time, tool call, 비용 | tokens/sec, GPU queue |
-| 공격 형태 | 대량 요청 | 긴 컨텍스트, 반복 질의, retry storm, model extraction | 128K context abuse |
-| 피해 | 서비스 지연 | 비용 폭증, quota 고갈, 모델 복제 위험 | Denial of Wallet |
-| 방어 | IP rate limit | token budget, quota, circuit breaker, anomaly detection | per-tenant cost cap |
-
-> 요약: LLM10은 요청 수 제한만으로 식별하기 어렵고, 토큰·비용·동시성 지표를 합산해야 차단 가능하다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | 단순 rate limit | token-aware gateway+quota manager | 긴 컨텍스트 모델 또는 유료 API 사용 시 필수 |
-| 비용/성능 | 무제한 재시도 | bounded retry+backoff+circuit breaker | p95 지연 SLO 2초 초과 시 차단 |
-| 운영/위험 | 월말 비용 확인 | 실시간 cost alert+tenant budget | cost/user가 기준 대비 3배 초과 시 throttle |
-
-> 요약: LLM10 통제는 클라우드 비용이 추론량에 비례하는 환경에서 FinOps와 보안 운영을 결합해 적용한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| Denial of Wallet | 무제한 토큰·API 호출 | cost cap, prepaid quota, anomaly alert | cost/min, cost/user |
-| 서비스 지연 | 긴 입력·동시 요청 | max context, queue, priority class | p95 latency, queue depth |
-| 모델 추출 | 반복 질의로 경계 학습 | query similarity limit, watermark, output cap | similar query burst 건수 |
-
-> 요약: 비용 고갈, 서비스 지연, 모델 추출은 각각 비용·지연·유사 질의 지표로 조기 탐지한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 토큰 한도 | 사용자별 daily token quota, 요청별 max input/output | gateway token counter |
-| 가용성 | p95 latency 2초 이하, error rate 1% 이하 | APM, inference queue metric |
-| 비용 통제 | tenant별 monthly cap, 이상 비용 10분 내 알림 | billing API, FinOps dashboard |
-
-> 요약: LLM10 성공 기준은 토큰 한도 준수, p95 지연 SLO, 비용 알림 MTTA 10분 이하로 판단한다.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. Token-aware Gateway: 요청별 입력 8K·출력 2K 등 모델별 한도를 적용하고 초과 요청은 요약·분할·차단으로 처리
-2. Quota·예산 통제: 사용자·테넌트별 daily token quota와 monthly cost cap을 설정하고 80%·100% 도달 시 알림·throttle 적용
-3. 가용성 보호: inference queue, priority class, exponential backoff, circuit breaker를 적용해 p95 지연 2초 초과 시 저우선 요청 차단
-
-**결론 (2줄):**
-- 기술사 판단: 내부 업무 보조는 quota 중심, 대외 공개 서비스는 token-aware gateway와 circuit breaker를 필수 통제로 선택함
-- 향후 방향: Agent가 다중 tool call을 수행하면서 비용 단위가 복합화되므로 요청 단위보다 workflow 단위 예산 통제가 필요함
-
----
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "무제한 소비를 설명하시오", "기술하시오" | 토큰·quota·queue 기반 동작 흐름 | 일반 DoS와 LLM10 차이 |
-| 요구사항 명시형 | "대응 방안을 제시하시오", "운영 방안을 논하시오", "설계하시오" | gateway·quota·circuit breaker 설계 | 비용·SLO·모델 추출 대응 지표 |
-
-> 요약: 설명형은 소비 자원 구조를, 운영형은 토큰 예산과 SLO 차단 정책을 중심으로 목차를 전환한다.
+### 💡 문제 유형별 목차 전환 포인트
+- **[생성형 AI(LLM) 환경의 재무적 위협(E-DoS) 및 자원 남용 방어 전략]**: Ⅰ과 Ⅱ번(토큰 무한 루프, 에이전트 재귀 호출)을 중심으로 다루며, 해커가 트래픽 물량(DDoS) 없이 프롬프트의 복잡도만으로 어떻게 클라우드 과금 체계를 무너뜨리는지 증명.
+- **[안전한 LLM API 아키텍처 설계 및 FinOps 연계 거버넌스]**: Ⅲ번(클라우드 오토 스케일링의 역설)을 비판적으로 짚은 후, Ⅳ번 방어 기법(max_tokens 하드 리밋 강제, 토큰 기반 Throttling 서킷 브레이커)을 제시하여 인프라 가용성과 재정 건전성을 동시 확보하는 실무 대책 전개.

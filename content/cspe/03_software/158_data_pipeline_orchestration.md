@@ -1,188 +1,72 @@
 ---
-title: "데이터 파이프라인 오케스트레이션 - Airflow (Data Pipeline Orchestration)"
-date: "2026-07-01"
+title: "데이터 파이프라인 오케스트레이션 (Apache Airflow)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-software"
 weight: 158
 ---
 
-# 📖 【암기용】 개념 완전 이해
-
-> 목적: 데이터 파이프라인 오케스트레이션을 처음 보는 사람도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
-## 한눈에
-- **개요**: **워크플로우 오케스트레이션**(Workflow Orchestration) — 여러 데이터 작업(Task)의 실행 순서·의존성·일정을 **DAG**(방향성 비순환 그래프)로 정의하고, 실행 상태와 실패 복구를 통제하는 체계
-- **왜 필요한가**: 추출→검증→변환→적재처럼 순서가 틀리면 결과가 깨지는 작업을 Cron만으로 돌리면 의존성을 "시간 간격 추정"으로만 관리하게 되어, 앞 작업이 늦어지면 뒤 작업이 미완성 데이터를 참조하는 사고가 난다. 오케스트레이션은 이 의존성을 코드로 명시하고 실패 시 자동으로 재시도·알림한다.
-- **핵심 직관**: 공항 관제탑처럼, 비행기(작업) 하나하나의 이착륙 순서·활주로 배정·지연 시 재조정을 중앙에서 관제한다.
-
-## 핵심 용어 정리 (내부에 등장하는 것들)
-
-| 용어 | 의미 | 비유 |
-|:---|:---|:---|
-| 워크플로우 오케스트레이션 | 작업 순서·의존성·일정·실패복구를 코드로 관리하는 상위 개념 | 관제탑의 항공 스케줄 총괄 |
-| DAG (방향성 비순환 그래프) | Task 간 의존관계를 순환 없이 방향으로 표현한 그래프 | "A 끝나야 B 시작"을 그린 순서도 |
-| Task / Operator | DAG를 구성하는 개별 작업 단위 / 그 작업의 실행 로직을 담은 템플릿(PythonOperator 등) | 순서도의 한 칸 / 그 칸의 작업 매뉴얼 |
-| Scheduler | DAG를 주기적으로 읽어 실행 시점이 된 Task를 큐에 올리는 프로세스 | 스케줄표를 보고 이륙 시간을 알리는 관제사 |
-| Executor / Worker | 큐에 올라온 Task를 실제로 실행하는 주체(단일 프로세스 또는 분산 노드) | 관제 지시를 받아 실제 유도하는 지상 요원 |
-| Metadata DB | DAG 실행 이력, Task 상태, 로그를 저장하는 저장소 | 관제 기록 로그북 |
-| Retry / Backoff | 실패한 Task를 정해진 횟수·간격으로 재시도 | 이륙 실패 시 재점검 후 재시도 |
-| Backfill | 과거 특정 기간에 대해 DAG를 소급 실행 | 결항된 과거 편을 뒤늦게 재운항 |
-| SLA | Task/DAG가 완료돼야 하는 기한 | "이 시간까지는 끝나야 한다"는 약속 |
-| 멱등성 (Idempotency) | 같은 Task를 여러 번 실행해도 결과가 같도록 보장하는 성질 | 몇 번 눌러도 결과가 같은 리모컨 버튼 |
-
-## 깊이 이해
-
-### 왜 Cron이 아니라 오케스트레이션이 필요했나 (배경)
-- Cron은 "몇 시 몇 분에 실행"만 알 뿐 앞 작업의 성공 여부를 모른다. 예: `extract_orders`가 보통 5분 만에 끝난다고 가정해 `transform_sales`를 5분 뒤로 걸어둬도, 그날따라 extract가 20분 걸리면 transform은 미완성 데이터를 읽는다.
-- Airflow는 이 관계를 "시간"이 아니라 "완료 이벤트"로 정의한다 — extract의 Task 상태가 success가 되어야 transform이 트리거된다. 2014년 Airbnb가 사내 배치 난립 문제를 해결하려 만들었고, 이후 Apache 프로젝트로 표준화됐다.
-
-### DAG 실행 흐름을 수치로 추적하기
-- DAG: `extract_orders(5분) → dq_check(2분) → transform_sales(10분) → publish_mart(3분)`, `schedule_interval="0 6 * * *"`(매일 06:00 실행)라고 하자.
-- 06:00 extract 시작 → 06:05 완료 → dq_check 시작 → 06:07 완료(정상 시) → transform 시작 → 06:17 완료 → publish 시작 → 06:20 완료. 전체 20분 소요.
-- dq_check가 실패하면 이후 transform·publish는 실행되지 않고 파이프라인이 멈춘다 — 나쁜 데이터가 마트까지 전파되는 것을 막는 핵심 지점이다.
-
-### Retry와 Backfill을 수치로 이해하기
-- `retries=2, retry_delay=5분`이면 최초 실패 → 5분 뒤 1차 재시도 → 또 실패 → 5분 뒤(또는 exponential backoff면 10분 뒤) 2차 재시도 → 그래도 실패하면 최종 실패로 기록하고 Slack 알림.
-- Backfill: DAG를 3월 1일에 새로 배포했는데 `start_date`를 2월 1일로 설정하면, `catchup=True`일 때 스케줄러가 2/1~2/28까지 28회분을 소급 실행한다. 과거 데이터 보정이나 로직 변경 후 재계산에 쓴다.
-
-### Executor 종류에 따른 처리량 차이
-- LocalExecutor는 한 서버 안에서 코어 수만큼 병렬 실행하고, CeleryExecutor·KubernetesExecutor는 여러 워커 노드로 분산해 수백~수천 Task를 동시에 처리한다. 하루 Task 수가 30개 수준이면 LocalExecutor로 충분하지만, 수백 개 이상이면 분산 Executor가 필요하다.
-
-### 흔한 오해
-- Airflow 자체는 데이터를 변환하지 않는다. `transform_sales` Task는 내부적으로 Spark job이나 SQL을 호출만 할 뿐, 대용량 연산은 외부 엔진이 수행한다. Airflow는 제어(control plane), Spark/SQL은 처리(data plane)로 역할이 분리된다.
-
-## 연결 개념
-- ETL/ELT 파이프라인 — 오케스트레이션이 순서를 통제하는 대상 작업
-- 데이터 품질 관리 — DAG 중간의 dq_check 같은 검증 단계
-- 데이터 계보(Lineage) — DAG 실행과 변환 의존성의 기록
-
----
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 오케스트레이션 답안은 DAG, scheduler, executor, retry, SLA, backfill, 관측 지표를 작업 제어 관점으로 제시해야 한다.
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: 데이터 파이프라인 오케스트레이션은 작업 의존성, 일정, 실행 상태, 재시도, 알림을 DAG 기반으로 관리하는 체계임.
-> 2. **가치**: 크론 배치의 의존성 누락과 장애 복구 공백을 줄이고 task 성공률, SLA miss, retry count를 지표화함.
-> 3. **판단 포인트**: Airflow는 제어 plane이고 Spark/DBT/SQL 엔진은 처리 plane이므로 역할 분리를 명확히 해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 배치 운영 구조 이해 확인 | DAG, scheduler, executor, metadata DB | Airflow를 변환 엔진으로 설명 |
-| 장애 복구 판단 확인 | retry, backfill, alert, SLA | 실행 순서만 서술 |
-| 운영 지표 확인 | task success rate, SLA miss, duration | 관측 지표 누락 |
-
-> 요약: 오케스트레이션 문제는 작업 순서와 장애 복구를 코드와 지표로 관리하는 구조가 핵심임.
-
+- 1) MySQL에서 데이터를 긁어와서, 2) Spark로 가공하고, 3) Snowflake에 넣고, 4) 슬랙으로 알림을 보내는 **수백 개의 복잡한 데이터 작업 순서를 지휘자처럼 완벽하게 통제하고 스케줄링하는 시스템**.
+- 과거 리눅스의 `cron`이나 사내 배치 시스템이 "밤 12시에 무조건 실행해!"라는 무식한 시간 기반 스케줄러였다면, 오케스트레이션 도구(Airflow)는 **"앞의 A작업이 100% 성공하면 그제야 B를 실행해!"**라는 의존성(DAG) 기반의 스마트 실행기임.
+- 에어비앤비(Airbnb)에서 만든 Apache Airflow가 'Python 코드로 파이프라인을 짠다(Configuration as Code)'는 철학으로 시장을 천하 통일하였으며, 현재 모든 데이터 엔지니어링의 표준 스케줄러임.
 ---
-
 ## Ⅰ. 개요 및 필요성
-
-- 개요: 오케스트레이션은 데이터 작업 실행 제어 체계임.
-- 배경: 데이터 파이프라인은 다수 작업의 순서와 성공 조건에 의존한다.
-- 필요성: Airflow의 DAG 기반 일정, 의존성, 재시도, 알림, backfill로 배치 실행 기준을 관리한다.
-
+- **개요**: 수많은 데이터 처리 작업(Task)들의 실행 순서, 의존성, 스케줄링, 재시도, 모니터링을 중앙에서 코드로 관리하는 워크플로우 자동화 프레임워크.
+- **필요성**: 개발자가 `cron`을 써서 "밤 1시에 데이터 추출, 2시에 데이터 가공"을 걸어둠. 그런데 추출 작업이 에러가 나서 멈췄는데, 가공 작업은 2시가 됐다고 텅 빈 데이터를 냅다 가공해버리고 100만 건의 매출 데이터를 0원으로 엎어버림. "앞의 작업이 끝난 걸 확인하고 다음 작업을 실행하는(의존성 맵), 실패하면 3번만 자동으로 다시 시도하는 똑똑한 매니저가 필요해!"
 ---
-
-## Ⅱ. 구조 및 구성요소
+## Ⅱ. 아키텍처 및 핵심 원리
+- **1. DAG (Directed Acyclic Graph, 방향성 비순환 그래프)**:
+  - 파이프라인을 설계하는 핵심 개념.
+  - 작업(Task) 간의 순서(방향)가 있고, 절대 무한 루프(순환)에 빠지지 않게 단방향으로만 흐르게 만든 작업 흐름도.
+  - A가 끝나야 B와 C를 병렬로 실행하고, B와 C가 둘 다 끝나야 D를 실행한다는 룰을 Python 코드로 선언함.
+- **2. Airflow 아키텍처 (Scheduler & Executor)**:
+  - **Scheduler**: DAG를 1초마다 읽어서 "지금 실행할 시간인가? 앞선 작업이 성공했나?"를 감시함.
+  - **Executor & Worker**: 스케줄러가 "실행해!"라고 던져준 일을 큐(Celery, Kubernetes)에서 꺼내어 실제로 힘쓰는 일꾼 노드들. (무한대 확장 가능).
+- **3. 멱등성 (Idempotency)과 Backfill (과거 채우기)**:
+  - 멱등성: 오케스트레이션에서 가장 중요한 철학. "2024년 7월 5일 배치를 100번 다시 눌러도, 결과는 1번 눌렀을 때와 똑같이 나와야 한다."
+  - Backfill: 만약 1월부터 3월까지 파이프라인이 잘못 돌았을 때, Airflow에서 `backfill` 명령어 하나만 치면 1월 1일부터 3월 31일까지 90일 치의 파이프라인을 알아서 순서대로 재수행해 줌.
 
 ```text
-DAG Code -> Scheduler -> Executor/Worker -> Task Operator -> Metadata DB/UI
-                     +-> Alert/SLA
-                     +-> External Engine
+[ 단순 Cron 스케줄러 vs Airflow(DAG) 오케스트레이션 비교 ]
+
+ ⏰ [ 기존 Cron 방식 (시한폭탄) ]
+ 01:00 실행 ➡️ [ A: 데이터 추출 ] (네트워크 끊겨서 멈춤!)
+ 02:00 실행 ➡️ [ B: 통계 산출 ] (A가 멈춘 줄도 모르고 실행 ➡️ 쓰레기 데이터 생성 💥)
+
+ 🎼 [ Apache Airflow (지휘자) ]
+ Python 코드: `Task_A >> [Task_B, Task_C] >> Task_D` (A가 성공해야 B, C 병렬 실행)
+ 
+ [ A: 데이터 추출 ] ➡️ (에러 발생!) 
+ ➡️ Airflow: "잠깐! A 실패했네? 5분 뒤에 3번만 다시 해봐(Retry)!"
+ ➡️ (그래도 실패) ➡️ Airflow: "B, C 실행 중지! 담당자 슬랙으로 에러 로그 발송! 🚨"
+ ➡️ (다음 날 개발자가 A 고치고 재시작 누름) ➡️ A 성공 후 자연스럽게 B, C, D 이어서 실행 완료! 🚀
 ```
-
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| DAG | 작업과 의존성 정의 | Python code, schedule |
-| Scheduler | 실행 시점과 task 상태 계산 | catchup, SLA |
-| Executor/Worker | task 실행 분산 | Celery, Kubernetes |
-| Metadata DB/UI | 상태, 로그, 이력 조회 | retry, duration 추적 |
-
-> 요약: Airflow는 DAG 정의, 스케줄링, 실행 분배, 상태 저장의 구성요소로 파이프라인을 제어함.
-
 ---
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-DAG 파싱 -> 실행 일정 계산 -> task 큐잉 -> worker 실행 -> 상태 기록 -> 알림/backfill
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | DAG 파일 파싱과 dependency 확인 | parse error 0건 |
-| 2 | schedule interval과 catchup 계산 | 예정 실행 누락 0건 |
-| 3 | task 큐잉과 worker 할당 | queue delay 1분 이하 |
-| 4 | 성공/실패 상태와 로그 기록 | task success rate 99% |
-| 5 | 실패 retry, alert, backfill 수행 | SLA miss 1% 이하 |
-
-> 요약: 오케스트레이션은 DAG 파싱부터 실패 복구까지 상태 기반으로 제어됨.
-
+## Ⅲ. 비교 및 연결
+| 구분 | Cron / 일반 스케줄러 | Apache Airflow (오케스트레이터) |
+|---|---|---|
+| **트리거 방식** | 철저하게 시간 기반 (Time-based) | **시간 + 의존성 + 센서(파일 도착) 기반** |
+| **파이프라인 관리** | 수십 개의 쉘 스크립트가 흩어짐 | **모든 흐름을 한눈에 보는 시각화된 DAG 웹 UI** |
+| **재시도 / 복구** | 실패하면 사람이 직접 스크립트 재실행 | **자동 Retry, 특정 노드부터 이어서 재실행 기능** |
+| **선언 방식** | UI 클릭이나 Crontab 텍스트 | **순수 Python 코드로 작성 (버전 관리 가능)** |
 ---
-
-## Ⅳ. 특징
-
-| 구분 | Cron 배치 | Airflow 오케스트레이션 | 판단 포인트 |
-|:---|:---|:---|:---|
-| 의존성 | 시간 기반 추정 | DAG 기반 명시 | dependency 누락 |
-| 복구 | 수동 재실행 | retry/backfill | 재처리 시간 |
-| 관측 | 로그 파일 분산 | UI/metadata DB | duration, SLA |
-| 한계 | 구조 단순 | DAG 복잡도 관리 필요 | task 수, parse time |
-
-> 요약: Airflow는 작업 의존성과 복구를 명시하지만 DAG 설계와 메타DB 운영이 필요함.
-
+## Ⅳ. 실무 적용 및 기술사 판단
+- **"Airflow는 일꾼이 아니라 지휘자다"**: 초보 데이터 엔지니어가 가장 많이 하는 실수는 Airflow Worker 서버에 메모리를 16GB씩 잡아두고 거기서 Python Pandas로 1억 건을 직접 연산하는 것임. 기술사는 반드시 **"Airflow에서는 연산(Compute)을 절대 하지 말고, Spark나 Snowflake에게 API로 '일해라!'라고 지시(Trigger)만 하고 끝날 때까지 기다리는 오케스트레이션 역할에만 집중해야 한다"**고 아키텍처 가이드를 내려야 워커 노드가 터지는 걸 막을 수 있음.
+- **쿠버네티스(K8s) 위에서의 실행 (KubernetesExecutor)**: Airflow 워커 노드를 항상 켜두면 클라우드 비용이 많이 나옴. 최근 실무에서는 KubernetesExecutor를 도입하여, 작업이 있을 때만 Pod(도커 컨테이너)를 띄워서 일을 시키고 작업이 끝나면 Pod를 죽여버리는 클라우드 네이티브 아키텍처로 비용을 최적화함.
 ---
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | Cron, shell script | DAG 기반 Airflow | task 30개 이상 |
-| 비용/처리 | 단일 서버 | worker 분산 실행 | 동시 실행 수 |
-| 운영/위험 | 실패 추적 어려움 | retry, alert, SLA | SLA miss 관리 필요 |
-
-> 요약: 작업 수와 의존성이 증가하면 Cron보다 Airflow 기반 DAG 관리가 적합함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| DAG 폭증 | 과도한 세분화 | domain별 DAG, naming rule | DAG parse time |
-| 재처리 오류 | 멱등성 미확보 | idempotent task, partition overwrite | duplicate 0건 |
-| 메타DB 병목 | task instance 증가 | DB 튜닝, log retention | scheduler lag |
-
-> 요약: 오케스트레이션 리스크는 DAG 복잡도와 멱등성 부족이며 설계 규칙과 상태 지표로 관리함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 실행 | task success rate 99% 이상 | Airflow metadata |
-| 일정 | SLA miss 1% 이하 | SLA callback log |
-| 복구 | retry 후 성공률 95% 이상 | retry history |
-
-> 요약: Airflow 운영은 성공률, SLA miss, retry 후 성공률로 판단함.
-
+## Ⅴ. 기대효과 및 결론
+- "아침에 출근했는데 간밤에 배치가 멈춰서 데이터가 없다"는 엔지니어의 악몽을 끝내고, 수천 개의 데이터 톱니바퀴가 완벽하게 맞물려 돌아가게 만드는 공장장.
+- 단순한 스케줄링을 넘어 '인프라를 코드로 관리(IaC)'하는 철학을 데이터 파이프라인에 적용함으로써, 파이프라인 자체를 Git으로 형상 관리하고 테스트할 수 있게 한 현대 데이터 스택의 절대적 심장임.
 ---
+### 📌 관련 개념 맵
+- Data Pipeline ➡️ ETL/ELT ➡️ Orchestration ➡️ DAG (방향성 비순환 그래프) ➡️ Apache Airflow / Prefect
 
-## Ⅵ. 실무 적용 및 결론
+### 📈 관련 키워드 및 발전 흐름도
+- Cron / Oozie / Luigi의 한계 ➡️ Airbnb의 Apache Airflow 오픈소스 공개 ➡️ Python 기반의 Configuration as Code 철학 대유행 ➡️ AWS MWAA, Google Cloud Composer 등 매니지드 서비스로 표준화
 
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. DAG 표준화: extract, validate, transform, publish task naming과 owner, retry, SLA 필수값을 코드 리뷰 기준으로 지정
-2. 멱등 처리: partition 단위 overwrite, merge key, checkpoint를 적용해 backfill 시 duplicate 0건 보장
-3. 관측 운영: task success 99%, SLA miss 1%, queue delay 1분 이하를 Airflow UI와 Prometheus로 점검
-
-**결론 (2줄):**
-- 기술사 판단: 단순 1~2개 배치는 Cron, 의존성 30개 이상과 재처리 요구가 있으면 Airflow를 선택함
-- 향후 방향: 오케스트레이션은 데이터 품질, 계보, 데이터 계약 검증과 결합되어 파이프라인 신뢰 제어점이 됨
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "Airflow를 설명하시오" | DAG 파싱부터 알림까지 흐름 | Cron과 Airflow 비교 |
-| 요구사항 명시형 | "운영 방안을 제시하시오", "설계하시오" | retry, backfill, SLA, 멱등 흐름 | task 지표와 장애 대응 기준 |
-
-> 요약: 설명형은 구성 원리, 운영형은 재처리와 SLA 지표를 중심으로 전환함.
+### 👶 어린이를 위한 3줄 비유 설명
+1. 로봇 조립 공장에서 팔을 조립하기 전에 머리를 붙여버리면 불량품이 나오겠죠? 옛날엔 시계(Cron)만 보고 "1시엔 팔 조립, 2시엔 머리 붙여"라고 대충 일했어요.
+2. **오케스트레이션(Airflow)**은 아주 꼼꼼한 '로봇 공장 지휘자'예요.
+3. 지휘자가 "다리 조립이 100% 끝나기 전에는 절대로 몸통 조립 시작하지 마!"라고 지시하고, 만약 나사가 빠지면 3번 다시 끼워보라고 자동으로 명령해서 매일 밤 완벽한 로봇(데이터)을 완성한답니다!

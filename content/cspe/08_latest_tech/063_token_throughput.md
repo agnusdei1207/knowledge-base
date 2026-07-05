@@ -1,135 +1,86 @@
 ---
-title: "토큰 처리량 (Token Throughput)"
-date: "2026-07-01"
+title: "Token Throughput (토큰 처리량)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
-  - "cspe-latest-tech"
+  - "cspe-latest_tech"
 weight: 63
 ---
 
-# 📖 【암기용】 개념 완전 이해
-
-> 목적: Token Throughput을 처음 봐도 완벽히 이해하게 만든다.
-
-## 한눈에
-- **개요**: LLM 서빙 시스템이 단위 시간당 처리하는 입력·출력 토큰 수
-- **왜 필요한가**: 개별 사용자 지연이 SLA라면, 처리량은 GPU당 수용 가능한 트래픽과 비용을 결정함.
-- **핵심 직관**: 식당에서 손님 한 명 대기시간이 지연이라면, 시간당 몇 접시를 내는지가 처리량임.
-
-## 깊이 이해
-- **배경·문제의식**: LLM 비용은 GPU 시간과 토큰 수에 비례함. 같은 모델이라도 batch scheduling, KV Cache, quantization에 따라 GPU 1장당 tokens/s가 크게 달라짐.
-- **작동 원리**: prefill throughput은 입력 토큰 행렬곱 성능, decode throughput은 KV Cache memory bandwidth와 active batch 크기에 좌우됨. serving engine은 두 작업을 섞어 GPU 유휴 시간을 줄임.
-- **비유**: 공장의 컨베이어 처리량처럼 개별 제품 시간이 아니라 전체 라인이 초당 몇 개를 생산하는지 보는 지표임.
-- **구체 예시**: output throughput 10,000 tokens/s인 클러스터는 평균 500토큰 응답을 초당 20건 처리함.
-- **흔한 오해·주의점**: tokens/s를 높이려고 batch를 키우면 p95 TTFT·TPOT가 악화될 수 있음. 처리량과 지연은 함께 봐야 함.
-
-## 연결 개념
-- TTFT/TPOT — 사용자 지연 지표
-- Continuous Batching — 처리량 향상 스케줄링
-- LLM Serving — 처리량 최적화 적용 영역
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
-
 ## 핵심 인사이트 (3줄 요약)
+> 1. **본질**: 앞선 TTFT와 TPOT이 '한 명의 유저'가 체감하는 개별적인 속도 지표라면, **Token Throughput은 '서버 1대(GPU 1대)'가 1초 동안 수십 명의 유저에게 얼마나 많은 토큰(글자)을 뿜어낼 수 있는지를 따지는 '시스템 전체의 가성비(공장 생산량)' 지표**다.
+> 2. **가치**: "우리 GPU 서버는 1초에 토큰 5,000개를 찍어낼 수 있다(Throughput: 5000 tok/s)"는 말은 곧 "이 서버 1대면 동접자 100명을 동시에 소화할 수 있으므로, 서버 10대 살 돈을 아꼈다"는 억 단위의 인프라 비용(TCO) 절감과 직결된다.
+> 3. **판단 포인트**: 유저 한 명의 응답 속도(Latency)를 극대화하는 것과, 서버 전체의 처리량(Throughput)을 극대화하는 것은 **서로 정반대(Trade-off)의 성질**을 가진다. 이 모순을 조율하기 위해 **'배치 사이즈(Batch Size) 조절'과 'Continuous Batching(연속 배치)'** 기술이 어떻게 적용되는지 시스템 아키텍처 관점에서 서술해야 한다.
 
-> 1. **본질**: Token Throughput은 LLM 시스템이 초당 처리하는 input/output token 수로 GPU 효율을 나타내는 지표임.
-> 2. **가치**: GPU당 수용 요청 수와 token당 원가를 산정하여 LLM 서비스 TCO를 결정함.
-> 3. **판단 포인트**: prefill/decode 분리, batch token, latency SLA, cache hit rate를 함께 최적화해야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| LLM 성능 지표 체계 이해 확인 | tokens/s, prefill/decode 분리, TTFT·TPOT와의 관계 | 처리량과 지연 지표 혼동 |
-| 트레이드오프 판단 확인 | batch 확대 시 처리량↑·tail latency↑ 관계 | 처리량 극대화를 무조건 정답으로 단정 |
-| 용량·비용 산정 역량 확인 | GPU util, /1K tokens, 워크로드별 목표 지표 | 수치 근거 없는 용량 계획 서술 |
-
-> 요약: 이 문제는 지표 정의 암기가 아니라 처리량-지연-비용의 균형 설계 판단을 묻는다.
+---
 
 ## Ⅰ. 개요 및 필요성
+- **개요**: Token Throughput(토큰 처리량)은 LLM 서빙 클러스터나 단일 하드웨어가 단위 시간(보통 1초)당 생성하거나 처리해 내는 총 토큰의 개수(Tokens/sec)로, 시스템의 전체 연산 효율성(Capacity)과 경제성을 나타내는 백엔드 지표다.
+- **배경**: AI 기업이 챗봇을 출시해 대박이 났다. 동시 접속 유저가 10명에서 10,000명으로 폭증했다. 유저 한 명에게 빠르게 대답해 주려고 GPU 1대에 유저 1명씩만 배정했더니(Latency 최적화), GPU를 10,000대 사야 해서 회사가 바로 파산하게 생겼다.
+- **필요성**: 어떻게든 GPU 1대에 유저 50명, 100명을 한꺼번에 우겨넣어(Batching) 동시에 처리하게 만들어야 했다. 개별 유저의 글자 나오는 속도(TPOT)는 조금 버벅거리고 느려지더라도, **서버 한 대가 초당 찍어내는 전체 글자 수(Throughput)를 극한으로 끌어올려 '서버 대여비'를 뽑아 먹는 스케줄링 마법**이 필요했다.
 
-- 개요: LLM 초당 토큰 처리량 지표
-- 배경: 생성형 AI 호출량이 늘면 GPU-hour 비용과 큐 대기 시간이 함께 증가함.
-- 필요성: tokens/s, GPU utilization, /1K tokens를 기준으로 배치 크기·스케줄러·용량 계획을 결정해야 함.
+---
 
-## Ⅱ. 구조 및 구성요소
-
-```text
-Requests -> Scheduler -> Prefill Tokens/s + Decode Tokens/s
-       -> GPU Utilization -> Cost per 1K Tokens
-```
-
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Input Throughput | prefill 입력 토큰 처리량 | prompt 길이에 비례 |
-| Output Throughput | decode 출력 토큰 처리량 | KV bandwidth 영향 |
-| Scheduler | batch token·우선순위 제어 | latency와 trade-off |
-| Cost Meter | token당 GPU 비용 산정 | /1K tokens, GPU-hour |
-
-> 요약: Token Throughput은 입력·출력 토큰 처리량과 GPU 비용을 연결하는 LLM 용량 계획 지표임.
-
-## Ⅲ. 동작원리 및 흐름도
+## Ⅱ. 아키텍처 및 핵심 원리
 
 ```text
-트래픽 수집 -> 입력/출력 토큰 계측 -> batch 구성
-    -> GPU 실행 -> tokens/s 산출 -> 비용·SLA 비교
+  [ Latency(지연)와 Throughput(처리량)의 피 튀기는 줄다리기 ]
+
+  (상황: A100 GPU 1대로 챗봇을 서빙함)
+
+  1. [ 유저 최우선 모드 (Batch Size = 1) ]
+     - 방식: 유저 1명의 질문만 VIP처럼 단독으로 GPU에 올림.
+     - 결과: TTFT(첫 글자) 광속! TPOT(타자 속도) 초당 100글자! (유저 대만족)
+     - 공장 처리량(Throughput): 총 100 Tok/s. ◀── (GPU 연산기 90%가 텅텅 놀고 있음. 사장님 오열)
+
+  2. [ 공장 풀가동 모드 (Batch Size = 100) ] ★ Throughput 최적화
+     - 방식: 유저 100명의 질문을 꽉꽉 묶어 1개의 배치로 GPU에 던짐.
+     - 결과: TTFT 3초 대기, TPOT 초당 10글자로 타자 속도 버벅임. (유저 약간 빡침)
+     - 공장 처리량(Throughput): 100명 × 10글자 = 총 1,000 Tok/s! ◀── (생산량 10배 폭발! 사장님 함박웃음)
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
+- **1단계 [배치 크기(Batch Size) 팽창]**: Throughput을 높이는 가장 무식하고 확실한 방법은, 한 번 GPU 연산(행렬 곱)을 칠 때 여러 유저의 입력을 다발로 묶어서(Batch) 한 방에 계산하는 것이다. GPU는 1개를 곱하나 100개를 곱하나 연산 속도는 비슷하기 때문이다(행렬 연산의 병렬성).
+- **2단계 [VRAM 메모리 장벽(Memory Wall) 돌파]**: 배치를 100으로 늘리면 연산기는 좋아하지만, 유저 100명 분의 KV 캐시가 VRAM에 꽉 차서 OOM(메모리 초과 에러)으로 서버가 뻗는다. 이때 앞서 배운 **'PagedAttention'**을 적용해 메모리 파편화를 없애고 낭비를 줄이면, 배치 사이즈를 4배 이상 더 늘려 욱여넣을 수 있어 Throughput이 4배 폭발한다.
+- **3단계 [유휴 연산기 척결 (Continuous Batching)]**: 배치를 묶어놔도, 짧은 대답이 먼저 끝나면 GPU 일부가 놀게 된다. 이때 **'연속 배치(Continuous Batching)'** 엔진이 0.1초마다 빈자리에 새 유저를 계속 끼워 넣어 GPU 연산기(ALU) 가동률을 100%로 꽉 채워 돌리면 Throughput의 극한을 달성하게 된다.
+
+---
+
+## Ⅲ. 비교 및 연결
+
+| 비교 축 | 사용자 관점 지표 (Latency) | 인프라 관점 지표 (Throughput) |
 |:---:|:---|:---|
-| 1 | 요청별 input/output token 수 계측 | tokenizer 기준 |
-| 2 | prefill/decode batch 스케줄링 | max batch token |
-| 3 | GPU 실행률과 tokens/s 계산 | GPU util 70~90% |
-| 4 | 지연 SLA와 비용 동시 평가 | p95 latency, /1K tokens |
+| **핵심 지표명** | TTFT, TPOT | **Token Throughput (Tokens/s)** |
+| **최적화 목표** | 내 화면에 글자가 얼마나 빨리/부드럽게 찍히는가 | **우리 서버 1대가 초당 총 몇 글자를 찍어내는가** |
+| **GPU 배정 방식**| 소수의 유저에게 자원 몰빵 (Batch Size 작게) | **다수의 유저를 꾸역꾸역 우겨넣음 (Batch Size 크게)** |
+| **비유** | 승용차 (나 혼자 타서 엄청 빠름) | **만원 버스 (느리고 좁지만, 수송량은 최고)** |
 
-> 요약: 토큰 계측->스케줄링->GPU 실행->비용 환산을 반복해 처리량과 SLA 균형점을 찾음.
+> ※ **연결 포인트**: LLM 백엔드 엔진(vLLM, TGI, TensorRT-LLM)들의 벤치마크 점수 대결은 결국 **"누가 유저의 응답 속도(TPOT)가 답답해지기 전(Threshold)까지, 가장 많은 동접자(Batch Size)를 밀어 넣어 Throughput을 극대화할 수 있느냐"**의 싸움이다.
 
-## Ⅳ. 특징
+---
 
-| 구분 | 지연 중심 지표 | 처리량 중심 지표 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 대표 지표 | TTFT, TPOT | tokens/s, req/s | 사용자 vs 운영자 관점 |
-| 최적화 방향 | batch 축소 | batch 확대 | trade-off 관리 |
-| 비용 영향 | SLA 위반 방지 | GPU당 원가 절감 | /1K token |
-| 리스크 | 과소 활용 | tail latency 증가 | p95/p99 동시 관측 |
+## Ⅳ. 실무 적용 및 기술사 판단
 
-> 요약: Token Throughput은 비용 최적화 지표이며, latency SLA와 함께 관리해야 운영 품질이 유지됨.
+- **적용 사례 1 (B2B 데이터 정제 파이프라인 - 오프라인 서빙)**: 실시간 챗봇이 아니라, 밤사이에 100만 건의 리뷰 데이터를 요약해야 하는 배치(Offline Batch) 시스템이 있다. 여긴 유저가 챗봇을 보며 기다리는 게 아니므로(Latency 상관없음), 엔진 설정에서 `max_num_batched_tokens` 옵션을 메모리가 터지기 직전 수치인 최대치(예: 32,000)로 때려 박는다. 응답이 나오는 데 1분이 걸리든 말든 상관없이, GPU 1대가 하룻밤에 수억 개의 토큰(Throughput)을 미친 듯이 뽑아내도록 극한의 '공장 모드'로 튜닝한다.
+- **적용 사례 2 (클라우드 GPU 인스턴스 원가 절감 계산)**: 스타트업이 Llama 3 8B 모델을 서비스한다. AWS의 A10G(24GB) 인스턴스는 한 달에 약 100만 원이다. 일반 엔진(HuggingFace)을 쓰면 Throughput이 초당 200토큰이라, 동접자 10명을 감당하려면 인스턴스 2대(200만 원)가 필요하다. 엔진을 TensorRT-LLM이나 vLLM으로 바꾸어 Throughput을 1,000토큰으로 5배 뻥튀기하면? 인스턴스 1대(100만 원)로 동접자 50명을 감당하므로 클라우드 비용이 극단적으로 삭감된다.
+- **기술사 판단**: 아키텍트는 **'Latency-Throughput 커브(Curve)'**의 교차점을 찾아야 한다. 배치 사이즈를 늘려 Throughput을 올리다 보면 어느 순간 메모리 대역폭(Memory Bandwidth)이 찢어지면서 유저의 타자 속도(TPOT)가 100ms 이상으로 박살 나는 절벽 구간이 온다. 시스템 설계 시 반드시 Apache JMeter 등의 부하 테스트 도구로 벤치마크를 돌려, **"P99 TPOT < 50ms를 만족하는 선에서의 최대 Batch Size"**를 산출하여 오토스케일링(Auto-scaling) 임계점으로 삼아야 한다.
 
-## Ⅴ. 심화 비교 및 적용 판단
+---
 
-| 워크로드 | 우선 지표 | 배치 전략 | 선택 기준 |
-|:---|:---|:---|:---|
-| 대화형 챗봇 | TTFT·TPOT p95 | 작은 batch + latency-aware | SLA 위반률 1% 이하 유지 |
-| 배치 분석·요약 | tokens/s, /1K tokens | 대형 batch, 큐 허용 | 단가 최소화, 마감시간 내 완료 |
-| 스트리밍 에이전트 | TPOT 일정성 | continuous batching | 토큰 간 간격 편차 최소화 |
+## Ⅴ. 기대효과 및 결론
 
-> 요약: 워크로드 유형이 처리량-지연 우선순위를 결정하며, 단일 클러스터에 혼합하면 SLA가 무너짐.
+- **기대효과**: 단순히 'AI가 똑똑한가'를 넘어 'AI를 얼마나 싸게 서비스할 수 있는가(Cost per Token)'의 기준점을 제시하여, 생성형 AI의 지속 가능한 비즈니스(BM) 모델을 성립시키는 원동력이 되었다.
+- **향후 발전 방향**: 현재는 단일 GPU의 구조적 한계로 Throughput을 늘리는 데 한계가 있다. 이를 타파하기 위해, 연산(Compute)을 잘하는 GPU와 메모리(KV Cache)가 빵빵한 별도의 메모리 서버를 네트워크로 쪼개서 구성하는 **'Disaggregated Architecture (자원 분리형 아키텍처)'**가 엔터프라이즈 빅테크의 차세대 서빙 트렌드로 떠오르고 있다.
 
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| tail latency 악화 | batch 과대 확대 | max waiting time 상한(20~50ms) | p99 TTFT/TPOT |
-| GPU OOM | 긴 컨텍스트 요청 혼입 | max batch token·max model len 제한 | OOM 발생 0건 |
-| 지표 왜곡 | 평균값만 관측 | p50/p95/p99 분위수 분리 관측 | 분위수 대시보드 |
+---
 
-> 요약: 처리량 최적화의 리스크는 꼬리 지연과 OOM이며, 배치 상한과 분위수 관측으로 통제함.
+### 📌 관련 개념 맵
+- **오버부킹 (Overbooking)**: 항공사가 자리가 100개인데 110명에게 표를 파는 짓. vLLM 엔진도 VRAM 여유보다 유저를 더 많이 받아(Overbooking) Throughput을 극한으로 땡긴다. 그러다 유저들이 대답을 너무 길게 생성해서 VRAM이 터지려 하면, 재빨리 10명의 유저 데이터를 느린 CPU 램으로 강제 추방(Swapping/Preemption)시켜 서버 다운을 막는 묘기를 부린다.
+- **Cost per Token (토큰당 비용)**: 토큰 1,000개를 생성하는 데 드는 전기세와 인프라 비용. Throughput을 높여 서버 1대에서 토큰을 많이 뽑아낼수록, 이 토큰당 단가가 바닥으로 떨어져 기업의 마진율이 좋아진다.
 
-## Ⅵ. 실무 적용 및 결론
+### 📈 관련 키워드 및 발전 흐름도
+`개별 응답 속도 중심 (TTFT, TPOT)` $\to$ `비싼 GPU 임대료 문제 봉착` $\to$ `정적 배치(Static Batching) 도입` $\to$ `PagedAttention / 연속 배치 적용` $\to$ `Token Throughput (시스템 총 처리량) 극대화` $\to$ `분리형(Disaggregated) 서빙 인프라 (미래)`
 
-**적용 방안 3개:**
-1. input/output tokens/s, req/s, GPU util, /1K tokens를 대시보드로 분리해 용량 계획 수립
-2. Continuous Batching으로 GPU 유휴 시간을 줄이되 max waiting time 20~50ms로 tail latency 제한
-3. 모델별 처리량 벤치마크를 기준으로 7B/13B/70B 라우팅 정책을 구성해 GPU 비용 30% 이상 절감
-
-**결론 (2줄):**
-- 기술사 판단: 대화형 SLA는 TTFT/TPOT 우선, 배치 분석·백오피스는 Token Throughput 우선으로 설계함.
-- 향후 방향: 서빙 엔진은 latency-aware batching과 FinOps 계측을 결합해 token당 원가를 자동 최적화함.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | 설명하시오, 기술하시오 | 토큰 계측·스케줄링 흐름 | 지연 지표 대비 차이 |
-| 요구사항 명시형 | 용량 산정하시오, 최적화하시오 | tokens/s 기반 비용 산정 | batch·SLA·GPU 원가 기준 |
-
-> 요약: 설명형은 처리량 개념, 산정형은 GPU 용량과 token당 비용 계산 중심으로 목차를 전환함.
+### 👶 어린이를 위한 3줄 비유 설명
+1. 택시(GPU)에 손님을 한 명만 태우고 출발(Latency 최적화)하면 그 손님은 빨리 가서 좋겠지만, 기름값이 너무 많이 나와서 택시 회사는 망해요.
+2. **'토큰 처리량(Throughput)'**은 택시를 큰 버스로 바꿔서 **손님(유저 질문) 100명을 꾸역꾸역 한 번에 태우고 달리는 '수송 능력'**을 말해요.
+3. 승객들은 버스가 이곳저곳 들르느라 목적지에 조금 늦게 도착(응답 지연)해서 짜증이 나겠지만, 버스 회사(서버 운영자)는 한 번에 엄청난 승객을 처리해서 돈을 긁어모을 수 있는 최고의 최적화 방법이랍니다!

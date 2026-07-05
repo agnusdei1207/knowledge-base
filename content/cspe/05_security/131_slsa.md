@@ -1,162 +1,86 @@
 ---
-title: "SLSA 공급망 보안 프레임워크 (SLSA)"
-date: "2026-07-01"
+title: "SLSA 공급망 보안 프레임워크 (Supply chain Levels for Software Artifacts)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 131
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: 구글(Google)이 만들고 리눅스 재단이 표준화한, **소프트웨어 개발부터 빌드, 배포까지의 모든 과정(공급망)이 얼마나 안전하게 지켜지고 있는지를 Level 1부터 Level 4까지 평가하는 '소프트웨어 공장 위생 등급제'** 입니다.
+- **필요성**: 솔라윈즈 사태 이후 SBOM(재료 영수증)이 유행했지만, 한 가지 문제가 남았습니다. **"영수증 내용(재료)은 안전하다고 적혀있는데, 이 영수증 자체를 누군가 중간에 위조한 거면 어떡해?"** 또는 **"재료는 좋은데, 공장(빌드 서버) 자체가 해킹당해서 나쁜 걸 몰래 섞었으면?"** 결국 영수증(SBOM)을 넘어, 소프트웨어를 찍어내는 '공장의 자동화 공정(CI/CD)' 자체를 해커가 조작할 수 없게 막는 강력한 가이드라인이 필요했습니다.
+- **핵심 직관**: **"식당 위생 등급 마크 (SLSA)"**. 
+  - SBOM: "이 햄버거에는 호주산 소고기와 국산 양상추가 들어갔습니다" (단순 재료 명세서).
+  - **SLSA**: "이 햄버거는 손을 안 씻고는 절대 출입할 수 없는 멸균 주방(빌드 환경 격리)에서 만들어졌으며, CCTV(출처 서명)가 전 과정을 녹화했고, 요리법(소스코드)은 두 명 이상의 요리사(2-Person Review)가 승인한 대로만 만들어졌음을 Level 3 등급으로 보장합니다."
 
-> 목적: SLSA를 처음 봐도 소프트웨어 공급망 보안 관점에서 완전히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 소프트웨어 해킹의 트렌드가 "다 만들어진 앱을 뚫는 것"에서 "앱을 만드는 과정(Supply Chain)에 바이러스를 섞는 것"으로 바뀌었습니다. 구글은 자사 내부에서 쓰던 공급망 방어 체계인 'Binary Authorization for Borg'를 오픈소스화하여, 전 세계 기업들이 자사의 개발 파이프라인 안전도를 스스로 진단하고 강화할 수 있는 체크리스트(SLSA)를 세상에 내놓았습니다.
+- **가치**: "출처의 증명(Provenance)". SLSA는 내가 다운받은 이 프로그램이 "정확히 어떤 소스코드 저장소(GitHub)에서, 어떤 빌드 서버(Jenkins)를 거쳐, 어떤 컴파일러로 만들어졌는지"에 대한 100% 위조 불가능한 증명서를 제공하여 파이프라인 타협(Compromise) 위협을 원천 봉쇄합니다.
 
-## 한눈에
-- **개요**: SLSA는 소스부터 빌드·배포 아티팩트까지 변조를 막기 위한 공급망 보안 성숙도 프레임워크임
-- **왜 필요한가**: 개발자가 작성한 코드가 운영 이미지가 되기 전까지 CI, 패키지 저장소, 빌드 스크립트, 의존성이 모두 공격면이 됨. SolarWinds, Codecov, 의존성 탈취 같은 사고는 결과물 서명만으로 설명되지 않음.
-- **핵심 직관**: 제품에 원산지 증명서와 제조 공정 기록을 붙여, "누가·어디서·무엇으로·어떻게 만들었는지"를 검증하는 방식임.
+## 3. 어떻게 작동하는가? (Mechanism)
+SLSA는 소프트웨어의 무결성을 증명하기 위해 Level 1(기초)부터 4(최상위)까지의 체크리스트를 통과해야 합니다.
 
-## 깊이 이해
-- **배경·문제의식**: 기존 취약점 관리는 CVE 패치와 이미지 스캔에 치우쳐 있었으나, 공격자는 빌드 서버·CI 토큰·오픈소스 의존성을 노림. SLSA는 결과물이 아니라 생산 과정의 신뢰를 단계별로 올림.
-- **작동 원리**: Build Track은 provenance 존재, hosted build platform, hardened build 순으로 보증 수준을 높임. Source Track은 소스 제어, 리뷰, 브랜치 보호, 변경 이력 통제를 다룸.
-- **비유**: 약품 제조에서 원료 입고, 생산 설비, 배치 번호, 검사 기록을 남기는 GMP와 유사함. 소프트웨어도 소스·빌드·아티팩트의 이력을 남겨야 리콜과 책임 추적이 가능함.
-- **구체 예시**: GitHub Actions에서 커밋 SHA로 컨테이너 이미지를 빌드하고, SLSA provenance를 발급한 뒤 배포 단계에서 subject digest·builder id·source repo를 검증함.
-- **흔한 오해·주의점**: SLSA는 취약점 스캐너가 아님. CVE 탐지는 SBOM·SCA가 담당하고, SLSA는 빌드 무결성·출처·조작 방지 수준을 증명함.
+1. **Level 1 (문서화 - Documentation)**
+   - "이 프로그램이 어떻게 만들어졌는지 기록(Provenance)을 남겨라."
+   - 빌드 과정이 스크립트로 자동화되어 있고, 그 기록이 존재하면 통과. (위조는 가능한 수준).
+2. **Level 2 (변조 방지 - Tamper Resistant)**
+   - "기록된 문서(Provenance)에 도장(전자 서명)을 찍어서 위조를 막아라."
+   - 소스 코드는 반드시 버전 관리 시스템(Git)에 있어야 하고, 빌드는 사람의 손을 타지 않는 전용 빌드 서비스(GitHub Actions 등)에서 이뤄져야 함.
+3. **Level 3 (추가 검증 - Extra Defenses)**
+   - **★엔터프라이즈 권장 목표.**
+   - "빌드하는 기계(공장) 자체를 격리해라."
+   - 빌드 서버는 외부 인터넷과 차단되어야 하고(격리), 빌드 서버가 생성한 증명서(Provenance)는 절대 해커나 심지어 개발자도 조작할 수 없는 구조여야 함.
+4. **Level 4 (최고 수준 - Highest Levels)**
+   - "모든 코드는 무조건 두 사람의 눈(2-Person Review)을 거쳐야만 승인된다."
+   - 완벽한 재현성(Hermetic/Reproducible Build). 똑같은 소스코드를 넣으면 100번 돌려도 바이트 단위로 100% 똑같은 결과물이 나와야 통과. (국방/금융 수준).
 
-## 연결 개념
-- SBOM·VEX: 구성요소와 취약점 영향 여부를 설명하는 자료
-- Sigstore·Cosign: provenance와 아티팩트 서명을 검증하는 구현 수단
-- DevSecOps: CI/CD 단계에 정책 검증과 배포 차단을 넣는 운영 방식
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례**: 
+  - 최근 오픈소스 생태계(npm, PyPI)에서는 이 SLSA 프레임워크를 의무화하는 움직임이 활발합니다. 
+  - 쿠버네티스(Kubernetes) 릴리즈 팀은 최근 "우리 K8s 1.24 버전부터는 **SLSA Level 3**을 달성했습니다!"라고 발표했습니다. 즉, 전 세계 누구나 K8s 설치 파일을 다운로드할 때 겉면에 붙은 'SLSA 증명서(서명)'를 확인하면, 이 파일이 구글/CNCF의 공식 격리된 빌드 서버에서 사람의 개입 없이 안전하게 뽑혀 나온 100% 진본임을 확신할 수 있습니다.
+- **주의점 및 흔한 오해**: 
+  - "SLSA Level 4면 악성코드가 절대 없다는 뜻인가요?" $\rightarrow$ **아닙니다.** SLSA는 "레시피(소스코드)대로 100% 투명하게 요리(빌드)되었다"는 공정의 위생을 보장할 뿐입니다. 만약 요리사(개발자)가 작정하고 처음부터 레시피(소스코드) 자체에 독(해킹 코드)을 타서 올렸다면, SLSA는 그 독이 든 요리를 아주 투명하고 깨끗하게(위조 없이) 만들어줄 뿐입니다. (그래서 Code Review와 SCA 스캔이 별도로 필요한 것입니다).
 
----
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: SLSA는 도구명이 아니라 소스·빌드·아티팩트 provenance를 검증 가능한 증거로 만드는 공급망 보안 성숙도 모델임.
-
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: SLSA (Supply-chain Levels for Software Artifacts)는 소프트웨어 생산 과정의 출처·빌드·아티팩트 무결성을 단계별 요구사항으로 통제하는 프레임워크임.
-> 2. **가치**: provenance, isolated build, tamper-resistant log, policy gate를 통해 CI 토큰 탈취·빌드 스크립트 변조·패키지 바꿔치기를 탐지·차단함.
-> 3. **판단 포인트**: SLSA Level 자체보다 builder 신뢰, provenance 검증 자동화, 배포 차단 정책, SBOM·서명 연계 여부가 채점 포인트임.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 공급망 공격면 식별 역량 확인 | 소스, 의존성, 빌드, 아티팩트, 배포 단계별 변조 지점 | SLSA를 단순 오픈소스 보안 캠페인으로 설명 |
-| 성숙도 모델 적용 판단 확인 | Build Track L1~L3, Source Track, provenance 검증 | 레벨 번호만 암기하고 통제 요건 누락 |
-| DevSecOps 통제 설계 확인 | SBOM, Sigstore, OPA, admission control 연계 | 서명 생성만 쓰고 배포 시 검증·차단 누락 |
-
-> 요약: SLSA 문제는 공급망 공격 시나리오를 provenance 기반 통제와 배포 정책으로 연결하는 답안이 요구됨.
+## 5. 핵심 비교 및 연결 개념 (Relation)
+소프트웨어 공급망 방어 3대장:
+- **SBOM (무엇이 들었나?)**: "밀가루, 설탕, 땅콩이 들어있음" (재료 명세서).
+- **VEX (독이 퍼졌나?)**: "땅콩에 곰팡이가 피었지만, 오븐에 바싹 구워서 안전함" (취약점 악용 가능성 해명).
+- **SLSA (공장이 깨끗한가?)**: "오븐과 주방이 멸균실이고 CCTV가 돌아감" (파이프라인 무결성 증명).
 
 ---
 
-## Ⅰ. 개요 및 필요성
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-- 개요: SW 공급망 무결성 프레임워크
-- 배경: 오픈소스 의존성, CI/CD, 컨테이너 레지스트리, 배포 자동화가 연결되면서 코드 작성 후 배포 전까지 변조 지점이 증가함.
-- 필요성: SLSA v1.0 provenance와 build level 요구사항으로 산출물이 검증된 절차에서 생성됐는지 확인해야 함.
+### Ⅰ. 핵심 인사이트
+- **본질**: 구글 주도 하에 OpenSSF(오픈소스 보안 재단)가 표준화한 소프트웨어 공급망 보안 프레임워크. 소스코드 작성부터 빌드, 패키징, 배포에 이르는 데브옵스(DevOps) 전 과정의 무결성(Integrity)과 추적성(Traceability)을 확보하기 위해 **출처(Provenance)의 서명과 빌드 환경의 격리 요건을 4단계 레벨로 정의한 평가 지표.**
+- **가치**: 단순한 취약점 스캐닝(SCA)이나 SBOM 산출만으로는 방어할 수 없는 **"빌드 서버(CI/CD Pipeline) 타협 및 아티팩트 위변조 공격(예: SolarWinds, Codecov 사태)"** 을 원천적으로 방어함. 소프트웨어의 빌드 파이프라인이 오염되지 않았음을 수학적(암호학적 서명)으로 증명(Attestation)하여 소비자에게 신뢰를 제공함.
+- **판단 포인트**: IT 설계자는 SBOM과 SLSA를 혼동해선 안 됩니다. SBOM은 컴포넌트의 '정적인 목록'을 나열할 뿐입니다. 반면 SLSA는 그 컴포넌트가 조립된 '동적인 컨베이어 벨트(Build System)'가 해커에 의해 무단 변경되지 않았음을 입증하는 **출처(Provenance) 메타데이터**에 방점이 찍혀 있는 보다 상위의 아키텍처적 거버넌스입니다.
 
----
+### Ⅱ. SLSA 프레임워크의 3대 핵심 보안 속성
+공급망 위협을 막아내기 위한 SLSA의 3가지 철학.
+1. **소스 무결성 (Source Integrity)**
+   - 소스 코드 저장소(Git)의 변경 이력이 100% 추적 가능해야 하며, 악의적인 코드 커밋을 막기 위해 2인 이상의 코드 리뷰(Two-Person Review) 강제 및 브랜치 보호(Branch Protection)가 설정되어야 함.
+2. **빌드 무결성 (Build Integrity)**
+   - 빌드(컴파일) 프로세스가 개발자 로컬 PC가 아닌, 격리된 전용 빌드 환경(Ephemeral Environment)에서 스크립트 기반(As Code)으로 사람의 개입 없이 완전 자동화되어 실행되어야 함.
+3. **출처 증명 (Provenance Attestation)**
+   - 완성된 아티팩트(바이너리, 컨테이너 이미지)가 정확히 어떤 소스코드 해시(Commit Hash)에서 출발하여 어떤 빌드 도구를 거쳤는지를 기록한 문서(Provenance)에 암호학적 서명을 부착하여 배포해야 함.
 
-## Ⅱ. 구조 및 구성요소
+### Ⅲ. SLSA 성숙도 레벨 4단계 (L1 ~ L4)
+조직의 데브섹옵스 역량에 따라 점진적으로 적용하는 마일스톤.
+- **Level 1 (문서화)**: 빌드 과정이 스크립트로 자동화되고 출처(Provenance) 데이터가 생성됨. (위조 가능).
+- **Level 2 (변조 방지)**: 소스코드 버전 관리(Git) 필수. 출처 데이터에 **서명(Signing)** 이 추가되어 소비자 측에서 위변조 여부 검증 가능.
+- **Level 3 (격리된 빌드 - 엔터프라이즈 모범 사례)**: 빌드 플랫폼 인프라가 임시(Ephemeral) 환경으로 구동되어 한 번 빌드 후 소멸됨. 빌드 환경 간 격리(Isolation) 보장으로 파이프라인 해킹 시도 차단.
+- **Level 4 (완벽한 신뢰)**: 소스코드에 대한 2인 이상 리뷰(Two-Person Review) 필수. **재현 가능한 빌드(Hermetic/Reproducible Build)** 보장(동일 소스코드를 넣으면 항상 바이트 단위까지 100% 일치하는 해시값을 가진 아티팩트가 생성됨).
 
-```text
-Source Repo -> Build Platform -> Provenance Attestation -> Artifact Registry
-                    +-> SBOM / Signature / Policy Gate
-Consumer Verify -> Deploy Allow / Reject
-```
+### Ⅳ. SLSA 출처(Provenance)와 Sigstore 연동 아키텍처
+SLSA Level 2 이상을 구현하기 위한 기술적 구현체.
+- SLSA는 프레임워크(개념)일 뿐, 이를 코드로 구현하려면 **Sigstore(Cosign, Rekor)** 같은 오픈소스 도구가 필수적입니다.
+- **작동 흐름**: GitHub Actions(빌드 머신)가 코드를 컴파일하여 도커 이미지를 만듭니다. $\rightarrow$ 빌드 환경 파라미터를 수집하여 JSON 형태의 SLSA Provenance 문서를 생성합니다. $\rightarrow$ 이 문서에 Cosign으로 전자 서명을 한 뒤 OCI 레지스트리에 이미지와 함께 Push 합니다. $\rightarrow$ 쿠버네티스의 OPA Gatekeeper는 파드 배포 전 이 서명된 Provenance를 검증하여 일치할 때만 컨테이너를 구동합니다.
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Source Track | 소스 제어, 변경 승인, 브랜치 보호 통제 | 코드 리뷰 2인 승인, protected branch 기준 |
-| Build Track | 빌드 플랫폼과 provenance 보증 수준 정의 | L1 provenance, L2 hosted build, L3 hardened build |
-| Provenance | builder, source, materials, subject digest 기록 | SLSA provenance, in-toto attestation 활용 |
-| Policy Gate | 배포 전 서명·출처·빌더 검증 | OPA, Kyverno, admission controller 연계 |
+### Ⅴ. 결론 및 실무적 판단 포인트
+- 데브옵스 리더는 CI/CD 파이프라인을 구축할 때 개발자의 생산성만 고려해선 안 됩니다. 개발자가 자신의 로컬 랩탑에서 `docker build`를 수행하여 운영 환경에 직접 Push하는 행위는 SLSA의 '빌드 격리' 및 '추적성' 요건을 완전히 위반하는 최악의 안티 패턴입니다. 무조건 중앙화된 CI 툴(GitLab CI, GitHub Actions)을 통해서만 빌드가 수행되고 아티팩트가 서명(Signing)되는 **통제된 빌드 파이프라인 병목(Choke Point)** 설계가 클라우드 공급망 보안의 핵심입니다.
 
-> 요약: SLSA 구조는 소스 통제, 신뢰 빌드, provenance 발급, 소비자 검증을 하나의 공급망 신뢰 체인으로 묶음.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-Commit -> Protected Review -> Hosted Build -> Provenance Generate
--> Artifact Sign -> Registry Store -> Deploy Policy Verify -> Runtime Deploy
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 커밋·태그 생성 및 변경 승인 | branch protection, CODEOWNERS, 2인 리뷰 |
-| 2 | 격리된 CI 빌드 수행 | reusable workflow, ephemeral runner, secret scope |
-| 3 | provenance·SBOM·서명 생성 | subject digest, builder id, source URI 일치 |
-| 4 | 배포 전 정책 검증 | trusted builder allowlist, signature verification |
-| 5 | 감사·사후 추적 | immutable log, build run id, artifact digest 보관 |
-
-> 요약: SLSA는 생성 시점의 증거를 배포 시점의 정책 검증으로 연결해 미승인 아티팩트 실행을 차단함.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 기존 방식 | SLSA 적용 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 통제 범위 | 이미지 스캔·CVE 중심 | 소스·빌드·아티팩트 전 단계 | 빌드 provenance 100% 첨부 |
-| 신뢰 근거 | 레지스트리 태그·수동 승인 | digest·builder id·attestation | tag 대신 SHA256 digest 검증 |
-| 운영 방식 | 배포 후 탐지 | 배포 전 정책 차단 | 미서명 이미지 admission deny |
-| 한계 | 취약점 영향 설명 부족 | SBOM·VEX와 결합 필요 | CVE false positive는 VEX로 보완 |
-
-> 요약: SLSA는 "무엇이 들어있는가"보다 "어떻게 만들어졌는가"를 검증하며, SBOM·서명과 결합해야 공급망 통제가 완성됨.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | SCA·이미지 스캔 단독 | SLSA+SBOM+Cosign 체인 | 배포 전 provenance 검증 필요 시 |
-| 비용/성능 | CI 단계 1~2분 스캔 추가 | attestation·서명·정책 검증 추가 | 릴리스 빈도 일 10회 이상이면 자동화 필수 |
-| 운영/위험 | 담당자 승인 중심 | 정책 기반 허용·거부 | 미승인 builder 사용률 0% 목표 |
-
-> 요약: SLSA는 릴리스가 잦고 외부 의존성이 많은 조직에서 수동 승인보다 정책 검증 비용 대비 추적성이 높음.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 위조 provenance | self-hosted runner 탈취, signing key 유출 | ephemeral runner, OIDC keyless signing, key rotation | trusted builder mismatch 0건 |
-| 정책 우회 | 긴급 배포 예외 남용 | break-glass 승인 2인, TTL 24시간, 감사 로그 | 예외 배포 월 3건 이하 |
-| 의존성 변조 | lockfile 미고정, package hijacking | lockfile, private mirror, SCA, VEX | dependency drift 0건 |
-
-> 요약: SLSA 운영 리스크는 증거 위조와 예외 남용이므로 빌더 신뢰와 예외 TTL을 지표로 통제해야 함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| provenance 적용률 | 운영 배포 아티팩트 100% | registry metadata, CI attestation scan |
-| 검증 차단률 | 미서명·불일치 artifact 100% deny | admission controller audit |
-| 추적성 | 사고 artifact에서 commit·builder 5분 내 역추적 | SIEM, build log, Rekor log |
-
-> 요약: SLSA 성공 여부는 레벨 선언이 아니라 provenance 적용률, 정책 차단률, 역추적 시간으로 판단함.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. CI/CD: GitHub Actions OIDC, ephemeral runner, protected branch, reusable workflow로 SLSA Build L2 이상 빌드 경로 고정.
-2. 아티팩트: SBOM(SPDX 또는 CycloneDX), SLSA provenance, Cosign 서명을 SHA256 digest 기준으로 레지스트리에 저장.
-3. 배포 통제: OPA Gatekeeper 또는 Kyverno로 trusted builder, certificate identity, source repo allowlist 불일치 시 admission deny.
-
-**결론 (2줄):**
-- 기술사 판단: 외부 의존성과 자동 배포가 많은 서비스는 SLSA+SBOM+서명 검증을 최소 기준으로 두고, 핵심 업무는 hardened build까지 적용함.
-- 향후 방향: SLSA Source Track, 하드웨어 attestation, VEX 자동화가 결합되어 공급망 증거를 지속 검증하는 방향으로 전개됨.
-
----
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "SLSA를 설명하시오", "공급망 보안을 기술하시오" | Source·Build Track과 provenance 생성 흐름 | SBOM·서명·정책 게이트 연계 |
-| 요구사항 명시형 | "설계하시오", "도입 방안을 제시하시오", "비교하시오" | CI/CD 단계별 검증 지점과 배포 차단 흐름 | 레벨 선택 기준, 리스크 대응, 점검 지표 |
-
-> 요약: 설명형은 SLSA 구조와 레벨을 넓게 쓰고, 설계·방안형은 provenance 검증과 admission deny 정책을 중심으로 목차를 전환함.
+### 💡 문제 유형별 목차 전환 포인트
+- **[소프트웨어 공급망 보안 체계 및 빌드 파이프라인 타협 위협 대응 방안]**: Ⅰ번과 Ⅱ번(3대 보안 속성)을 전면에 세워, 솔라윈즈 사태처럼 빌드 서버 자체가 해킹당하는 위협을 출처 증명(Provenance)과 격리(Isolation)로 어떻게 막아내는지 논증.
+- **[데브섹옵스(DevSecOps) 환경의 성숙도 모델 및 파이프라인 무결성 확보 기술]**: Ⅲ번(L1~L4 레벨)의 마일스톤을 구체적으로 제시하고, 이를 Ⅳ번(Sigstore 서명 생태계)과 엮어 단순한 룰을 넘어 실제 IT 인프라에서 어떻게 증명서를 자동화 검증하는지 서술.

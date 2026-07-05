@@ -1,169 +1,89 @@
 ---
-title: "영지식 증명 ZKP (Zero-Knowledge Proof)"
+title: "영지식 증명 (Zero-Knowledge Proof, ZKP)"
 date: "2026-07-05"
-author: "Claude Opus 4.6"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 22
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: 내가 어떤 비밀 정보(비밀번호, 잔고, 나이 등)를 알고 있다는 사실을, **상대방에게 그 비밀 정보를 전혀(Zero-Knowledge) 노출하지 않고도 완벽하게 증명**하는 암호학적 프로토콜입니다.
+- **필요성**: 술집에서 "나 성인 맞다"는 걸 증명하기 위해 민증을 주면, 술집 사장은 내 주민번호, 주소지까지 모두 알게 되는 프라이버시 침해가 발생합니다. 그저 "20살이 넘었음(True/False)"만 팩트로 증명하기 위해 필요합니다.
+- **핵심 직관**: **"알리바바의 동굴 비유"**. 
+  - 동굴 안에 갈림길(A, B)이 있고 그 끝에 암호문으로 잠긴 문이 있습니다. 앨리스는 암호를 압니다.
+  - 밥은 동굴 밖에서 기다리다가, 앨리스가 동굴에 들어간 후 "A로 나와!" 또는 "B로 나와!" 하고 무작위로 외칩니다.
+  - 암호를 아는 앨리스는 어느 쪽으로 외치든 문을 열고 통과해서 밥이 원하는 길로 100% 나올 수 있습니다.
+  - 이 짓을 40번 반복해서 앨리스가 다 성공한다면, 밥은 **"앨리스가 암호가 무엇인지는 나한테 말 안 했지만, 암호를 알고 있는 건 100% 확실하군"** 하고 믿게 됩니다. 
 
-## 한눈에
-- **개요**: ZKP는 **암호 프로토콜**의 하나로, 증명자(Prover)가 비밀 자체를 공개하지 않고 어떤 명제가 참임을 검증자(Verifier)에게 증명하는 기술임.
-- **왜 필요한가**: 신원·자격·거래 유효성을 확인할 때 주민번호·잔액·비밀키 같은 원본을 제출하면 유출 피해가 커짐. ZKP는 원본 노출 없이 "참/거짓"만 전달하여 개인정보 최소수집 원칙과 내부자 위협 문제를 동시에 해결함.
-- **핵심 직관**: 금고 비밀번호를 말하지 않고도 금고를 열 수 있음을 상대에게 납득시키는 방식임.
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 1985년 Shafi Goldwasser 등이 처음 제안했습니다. 초기에는 통신 횟수가 너무 많아 비효율적이었으나, 비대화형(Non-interactive)으로 발전하면서 블록체인 시대의 황태자로 부상했습니다.
+- **가치**: 정보 유출 없는 완벽한 프라이버시 보장, 확장성(수만 개의 거래 내역을 100바이트 증명서 하나로 압축 증명)이라는 두 가지 강력한 무기를 가져, 현재 이더리움 등 웹3 생태계의 레이어2 확장 솔루션과 익명 송금의 핵심 구원투수입니다.
 
-## 핵심 용어 정리 (내부에 등장하는 것들)
+## 3. 어떻게 작동하는가? (Mechanism)
+- **3가지 필수 조건 (보안 증명)**:
+  1. **완전성 (Completeness)**: 앨리스가 진짜 암호를 알면, 밥은 "얘가 암호를 아는구나" 하고 무조건 설득당해야 한다.
+  2. **건실성 (Soundness)**: 앨리스가 암호를 모르면서 거짓말을 치면, 밥은 무조건 "거짓말이네" 하고 알아채야 한다. (속일 확률은 0.00000000001% 미만).
+  3. **영지식성 (Zero-Knowledge)**: 밥은 이 과정이 끝난 후에도 앨리스의 암호가 "무엇"인지는 단 한 글자도 얻어낼 수 없어야 한다.
 
-| 용어/표기 | 의미 | 비유·예 |
-|:---|:---|:---|
-| 암호 프로토콜 (상위 키워드) | 비밀 보호를 위해 당사자 간 교환하는 메시지 절차 | 금고를 열고 닫는 규칙서 |
-| Prover | 비밀을 알고 있음을 증명하는 측 | 금고 비번을 아는 사람 |
-| Verifier | proof를 검증하는 측 | 금고가 열렸는지 확인하는 사람 |
-| Witness | 명제를 참으로 만드는 비밀 입력값 | 금고 비밀번호 자체 |
-| Statement / Public Input | 증명할 명제와 공개 입력값 | "이 사람은 19세 이상이다" |
-| Proof | Prover가 생성하는 증명 데이터 | 금고 열림을 보여주는 영상 |
-| Completeness (완전성) | 참인 명제는 반드시 검증을 통과함 | 진짜 비번이면 항상 열림 |
-| Soundness (건전성) | 거짓 명제는 검증을 통과할 수 없음(확률 무시) | 가짜 비번은 절대 안 열림 |
-| Zero-knowledge (영지식성) | 검증 과정에서 witness 외 정보가 유출되지 않음 | 비번 자체는 전혀 안 보임 |
-| Circuit | 명제를 산술·논리 회로로 변환한 것 | 계산 순서를 회로도로 표현 |
-| zk-SNARK | Succinct Non-interactive Argument of Knowledge — 짧은 proof, 비대화형 | 작은 증명서, trusted setup 필요 |
-| zk-STARK | Scalable Transparent Argument of Knowledge — 투명 setup, 해시 기반 | 큰 증명서, setup 신뢰 불필요 |
-| Trusted Setup | SNARK에서 증명·검증 키를 생성하는 초기 의식(ceremony) | 금고 틀을 만드는 공동 작업 |
-| Toxic Waste | trusted setup에서 생성되는 비밀값 — 유출 시 위조 proof 생성 가능 | 금고 틀의 마스터키 조각 |
+- **발전 모델 (대화형 $\rightarrow$ 비대화형)**:
+  - **대화형 (Interactive ZKP)**: 앨리스와 밥이 계속 핑퐁처럼 질문과 답을 주고받아야 함. (동굴 비유). 통신 지연 낭비가 큼.
+  - **비대화형 (Non-Interactive ZKP, NIZK)**: 해시 함수(Fiat-Shamir 변환) 등을 이용해 밥이 할 무작위 질문을 수학적으로 미리 만들어 버립니다. 앨리스는 혼자서 수학 문제를 다 푼 뒤, **짧은 영수증(Proof) 한 장만** 밥에게 던져주면 끝납니다. (Zk-SNARKs가 대표적).
 
-## 깊이 이해
-- **배경·문제의식**: 인증·감사는 보통 원본 데이터 제출을 요구하지만, 원본 제출은 개인정보 최소수집 원칙, 내부자 위협, 로그 유출과 충돌함. 동형 암호(021)가 "암호문 상태에서 계산"이라면, ZKP는 "비밀을 공개하지 않고 명제의 참·거짓만 증명"하는 접근으로 목적이 다름.
-- **작동 원리**: (1) 증명할 조건(예: "잔액 ≥ 100만 원")을 산술 회로(circuit)로 변환함. (2) Prover가 비밀 witness(실제 잔액)와 public input(기준 금액)을 회로에 입력해 proof를 생성함. (3) Verifier가 proof와 public input만으로 명제 참 여부를 검증함 — witness는 전달되지 않음. 핵심 3성질(completeness·soundness·zero-knowledge)이 모두 만족해야 유효한 ZKP임.
-- **zk-SNARK vs zk-STARK**: SNARK는 proof 크기가 수백 byte~수 KB로 작고 검증이 빠르지만, 타원곡선 기반이라 trusted setup이 필요하고 양자 취약성이 있음. STARK는 해시 기반으로 transparent setup(신뢰 불필요)이고 양자내성이 있지만, proof 크기가 수십~수백 KB로 큼.
-- **비유**: 미로의 정답 길을 아는 사람이 검증자가 지정하는 출구로 매번 정확히 나옴 — 100번 연속 성공하면 "이 사람은 정답 길을 안다"고 납득하지만, 정답 길 자체는 공개되지 않음.
-- **구체 예시**: 만 19세 이상 여부를 증명할 때 생년월일 전체를 제공하지 않고 "19세 이상" proof만 제출함. 블록체인에서는 Zcash(zk-SNARK)가 거래 금액·송수신자를 숨기면서 이중지불 없음을 증명함. zk-rollup은 수천 건의 거래를 하나의 proof로 압축해 온체인 검증 비용을 줄임.
-- **흔한 오해·주의점**: (1) ZKP는 거짓 명제를 참으로 만드는 기술이 아님 — soundness가 이를 보장함. (2) 회로 설계가 틀리면(조건 누락·범위 오류) proof가 통과해도 시스템 보안이 깨짐 — circuit audit이 필수임. (3) trusted setup의 toxic waste가 유출되면 위조 proof 생성이 가능하므로 multi-party ceremony와 transcript 공개가 필요함.
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례**: 
+  - **익명 가상화폐 (Zcash)**: 돈을 보낸 사람, 받는 사람, 송금 액수가 전부 블록체인에서 숨겨집니다. 하지만 네트워크 참여자들은 ZKP 수학 영수증을 보고 "이 송금이 위조되진 않았고 잔액이 충분하다"는 것을 100% 확신하고 장부에 기록합니다.
+  - **이더리움 Zk-Rollup (확장성)**: 수천 건의 트랜잭션을 레이어2 서버에서 혼자 다 처리한 뒤, 그 결과가 정당하다는 ZKP 영수증(약 수백 바이트) 한 장만 이더리움 메인넷에 올립니다. 이더리움 메인넷의 가스비(수수료)가 혁신적으로 절약됩니다.
+  - **DID (분산 신원 증명)**: 모바일 신분증에서 나이나 신용점수 숫자 그 자체를 넘기지 않고, "19세 이상인가요?" "신용점수 800점 이상인가요?"에 대한 T/F 증명 영수증만 제출.
 
-## 연결 개념
-- **DID·VC(110~112)**: 선택적 공개(selective disclosure)에 ZKP를 적용해 자격 검증 시 원본 노출을 최소화
-- **동형 암호(021)**: 암호문 연산 기반 PET — ZKP는 증명, HE는 연산으로 목적이 다름
-- **MPC(023)**: trusted setup의 multi-party ceremony, 분산 witness 생성 등에서 연결
+## 5. 핵심 비교 및 연결 개념 (Relation)
+- **동형 암호 vs 영지식 증명 (PET 기술)**:
+  - 동형 암호: 안 보이는 상자 안에서 데이터를 조물조물 "연산(Computation)"하는 기술.
+  - 영지식 증명: 안 보여주고도 내 말이 진실임을 "증명(Proof/Verification)"하는 기술.
 
 ---
 
-# 📝 【답안용】 시험 답안 템플릿
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-## 핵심 인사이트 (3줄 요약)
+### Ⅰ. 핵심 인사이트
+- **본질**: 증명자(Prover)가 검증자(Verifier)에게 자신의 비밀 정보(Secret)를 전혀 노출하지 않고, 오직 특정 명제(Statement)가 참(True)이라는 사실만을 확률적/수학적으로 확신시키는 암호학적 프로토콜.
+- **가치**: Privacy-Enhancing Technology(PET)의 정점이자, 블록체인의 '투명성(Privacy 부족)'과 '느린 연산 속도(Scalability 부족)' 문제를 모두 해결하는 마법의 수학적 영수증(Proof) 아키텍처.
+- **판단 포인트**: 초창기 Interactive 통신 비용의 한계를 극복하기 위해, NIZK(Non-interactive) 계열인 **zk-SNARKs**와 **zk-STARKs**로 진화하였으며, 다항식 기반의 증명 크기(Proof Size)와 검증 속도가 실무 적용의 핵심 성능 지표임.
 
-> 1. **본질**: ZKP는 witness를 공개하지 않고 명제의 참 여부만 검증하게 하는 증명 체계임.
-> 2. **가치**: 인증·자격·거래 검증에서 개인정보·비밀키·거래 세부값 노출을 최소화함.
-> 3. **판단 포인트**: 3성질(completeness·soundness·zero-knowledge)·trusted setup·proof size·verification time·회로 취약점을 함께 평가해야 함.
+### Ⅱ. ZKP의 3대 필수 속성 및 기본 메커니즘
+어떤 프로토콜이 영지식 증명이 되기 위해서는 다음 3가지를 반드시 만족해야 함.
+1. **완전성 (Completeness)**: 조건이 참이라면(증명자가 정직하다면), 정직한 검증자는 압도적 확률로 이를 승인(Accept)해야 함.
+2. **건실성 (Soundness)**: 조건이 거짓이라면(증명자가 악의적이라면), 정직한 검증자를 속여 승인을 받아낼 확률은 무시할 수 있을 만큼 작아야 함 (Negligible).
+3. **영지식성 (Zero-Knowledge)**: 검증자는 명제의 참/거짓 외에는 어떠한 추가 정보(비밀 정보 등)도 유추할 수 없어야 함.
 
-## 출제 의도 및 답안 포인트
+### Ⅲ. 영지식 증명의 기술적 진화: zk-SNARKs vs zk-STARKs
+현대의 영지식 증명은 비대화형(NIZK) 기반의 다항식 약정(Polynomial Commitment) 기법을 사용하여, 수만 줄의 프로그램 실행 코드를 단 수백 바이트의 압축된 증명(Succinct Proof)으로 변환함.
 
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| ZKP 3성질 이해 | completeness·soundness·zero-knowledge 정의 | "비밀을 숨긴다" 한 줄로 끝내고 3성질 누락 |
-| 방식 비교 | zk-SNARK·zk-STARK·Bulletproof | trusted setup·proof size·검증 비용 비교 누락 |
-| 적용 설계 | Prover·Verifier·public input·witness·circuit | 회로 버그·키 ceremony 리스크 누락 |
+| 비교 요소 | zk-SNARKs (Succinct Non-interactive ARgument of Knowledge) | zk-STARKs (Scalable Transparent ARgument of Knowledge) |
+|---|---|---|
+| **투명성 (초기 셋업)** | **Trusted Setup(신뢰 셋업) 필수**. 셋업 시 사용된 비밀 쓰레기 값(Toxic waste) 유출 시 증명 위조 가능. | Trusted Setup 불필요 (투명함). 해시 함수 기반으로 작동. |
+| **증명(Proof) 크기** | **매우 작음** (수백 Bytes). 이더리움 온체인 저장에 유리. | 상당히 큼 (수십~수백 KB). 대역폭 오버헤드 큼. |
+| **양자 내성** | 타원곡선(ECC) 기반이라 양자 공격에 취약함. | 해시 함수 기반이라 양자 공격에 내성(PQC)을 가짐. |
+| **검증 속도 및 응용** | 극도로 빠름. Zcash 등 프라이버시 코인의 표준. | 증명 크기가 커서 롤업(Rollup) 솔루션 등에 주로 사용(StarkNet). |
 
-> 요약: ZKP 답안은 3성질과 증명 구조를 먼저 고정하고, 방식별 비용·신뢰 경계를 비교해야 함.
+### Ⅳ. 아키텍처 실무 적용 (Use-Cases)
+**1. ZK-Rollup (블록체인 확장성 레이어 2)**
+- 오프체인(Off-chain) 서버에서 수천 개의 트랜잭션(이체 기록 등)을 한꺼번에 묶어서(Rollup) 처리하고, "모든 연산이 정당하게 실행되었다"는 **1개의 짧은 ZK-SNARK 증명(Validity Proof)** 만 메인넷 장부에 기록.
+- 영지식 증명의 '검증 비용이 실행 비용보다 압도적으로 싸다'는 비대칭적(Asymmetry) 효율성을 극대화한 아키텍처.
+**2. 분산 신원 증명 (DID) 및 Verifiable Credential**
+- W3C DID 아키텍처에 ZKP를 결합하여 선택적 정보 공개(Selective Disclosure) 구현.
+- 은행 대출 시 급여 내역 전체를 내는 대신, "월소득이 500만 원 이상인가?"에 대한 ZKP 증명서(True)만 API로 전송.
+**3. 규제 준수 프라이버시 플랫폼**
+- 믹싱(Tornado Cash) 등 자금 세탁 악용을 막기 위해, 자신의 신원을 밝히지 않으면서도 "나는 테러리스트 블랙리스트(OFAC 등)에 포함된 지갑이 아니다"라는 것을 ZKP로 증명하는 시스템 도입 중.
 
----
+### Ⅴ. 주요 구현 한계 및 보안 고려사항
+- **증명 생성(Prover)의 막대한 컴퓨팅 오버헤드**: 검증(Verification)은 밀리초 단위로 끝나지만, 증명 생성(Prover) 과정은 거대한 다항식을 연산해야 하므로 CPU/메모리 부하가 엄청남. 
+  - $\rightarrow$ 최근 하드웨어 가속(GPU, FPGA ZK 마이닝 장비) 및 효율적인 다항식 구조(Halo2, Plonk 등 범용 SNARK) 연구가 가속화 중.
+- **Trusted Setup의 위험성**: SNARKs 생성 시 참여한 기관들이 초기 엔트로피를 완벽히 파기하지 않고 담합하면, 가짜 영수증을 찍어낼 수 있는 백도어가 열림 (Multi-Party Computation 세리머니로 위험 분산 필요).
 
-## Ⅰ. 개요 및 필요성
+### Ⅵ. 결론 및 실무적 판단 포인트
+- 차세대 마이데이터, DID, CBDC 플랫폼 아키텍트라면, 사용자의 동의율을 획기적으로 높이고 GDPR 등 프라이버시 규제 대응 비용을 없앨 수 있는 **zk-SNARKs 기반의 검증 게이트웨이** 설계를 1순위로 고려해야 합니다.
 
-- 개요: 비밀 입력(witness)을 공개하지 않고 명제의 참 여부만 증명하는 암호 프로토콜임.
-- 배경: 디지털 신원·블록체인·금융 검증에서 원본 데이터 제출은 유출·내부자 위협·최소수집 원칙과 충돌함.
-- 필요성: ZKP는 witness를 숨기고 proof와 public input만 제공해 최소공개·검증가능성·감사 대응 근거를 제공함.
-
----
-
-## Ⅱ. 구조 및 구성요소
-
-```text
-Statement/Public Input -> Circuit/Constraint 변환 -> Prover
-Witness(비밀) -> Prover -> Proof 생성 -> Verifier -> Accept/Reject
-  / Setup -> Proving Key / Verification Key (SNARK 시)
-```
-
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Statement | 증명할 명제(공개 입력) | "잔액 ≥ 100만 원", 거래 유효성 등 |
-| Witness | 명제를 참으로 만드는 비밀 값 | 생년월일, 비밀키, 원장 세부값 |
-| Circuit | 명제를 산술·논리 회로로 변환한 것 | R1CS, Plonk, AIR 등 표현 방식 |
-| Prover/Proof | witness 기반 증명 생성 | proving time·proof size 관리 |
-| Verifier | proof와 public input으로 검증 | verification time·soundness error 확인 |
-
-> 요약: ZKP는 공개 명제와 비밀 witness를 분리하고, proof를 통해 검증자에게 참·거짓만 전달하는 구조임.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-명제 정의 -> 산술 회로 변환 -> Witness 입력
-  -> Proof 생성 -> Public Input 전달
-  -> Verifier 검증 -> Accept/Reject -> 감사로그
-```
-
-1. 회로 변환: 검증 명제를 산술 회로(R1CS/Plonk)·constraint로 변환하고 회로 테스트 coverage 100%를 확보함.
-2. Witness 분리: witness(비밀)와 public input(공개)을 분리하고, 비밀 필드가 로그에 노출되지 않도록 통제함.
-3. Proof 생성·검증: Prover가 witness를 이용해 proof를 생성하고, Verifier가 proof·public input만으로 검증함 — soundness error 2^-80 이하를 보장함.
-4. 감사 기록: 결과(accept/reject)·키 버전·proof hash를 감사로그에 남기고, trusted setup ceremony transcript를 보관함.
-
-> 요약: ZKP 품질은 proof 알고리즘보다 명제 회로의 정확성과 검증 입력의 무결성에 좌우됨.
-
----
-
-## Ⅳ. 특징
-
-- 최소 공개: witness를 전혀 공개하지 않고 명제의 참·거짓만 전달해 개인정보 노출을 원천 차단함.
-- SNARK vs STARK 트레이드오프: SNARK는 proof 수백 byte·검증 ms 단위이나 trusted setup과 양자 취약성이 있고, STARK는 transparent setup·양자내성이나 proof 수십~수백 KB로 큼.
-- 회로 의존성: 모든 검증 조건을 산술 회로로 변환해야 하며, 회로 설계 오류(조건 누락·범위 오류)는 proof 통과 시에도 보안을 깨뜨림.
-- 비대화형 전환: Fiat-Shamir 변환으로 대화형 프로토콜을 비대화형으로 전환해 블록체인·API 검증에 적용 가능함.
-- 결과 보안: proof 제출 시점·주소 등 메타데이터에서 Prover 정체가 추론될 수 있어 batching·relayer 등 추가 통제가 필요함.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-zk-SNARK와 zk-STARK를 신뢰 설정·크기·검증 비용·양자내성 축으로 비교함.
-
-| 구분 | zk-SNARK | zk-STARK | 선택 기준 |
-|:---|:---|:---|:---|
-| 신뢰 설정 | trusted setup 필요(multi-party ceremony) | transparent setup(해시 기반) | ceremony 운영 가능성 |
-| Proof 크기 | 수백 byte~수 KB | 수십~수백 KB | 온체인 gas·네트워크 비용 |
-| 검증 비용 | ms 단위(pairing 연산) | proof 크기에 비례해 증가 | p95 검증 시간 요구 |
-| 양자내성 | 타원곡선 의존 — 양자 취약 | 해시·FRI 기반 — 양자내성 | PQC 전환 요구 여부 |
-
-> 요약: 온체인·모바일은 작은 proof의 SNARK를, setup 신뢰 최소화·양자내성이 요구되는 환경은 STARK를 선택함.
-
-**리스크·대응:**
-- 회로 오류: 조건 누락·범위 검증 실패 → circuit audit·property test·음성 테스트 통과율 100% (지표: audit 결함 0건)
-- Trusted setup 노출: toxic waste 유출 시 위조 proof 생성 가능 → multi-party ceremony·transcript 공개·참여자 5인 이상 (지표: ceremony 검증 로그)
-- 메타데이터 노출: proof 제출 시점·주소 추적 → batching·relayer·unlinkable identifier (지표: 상관분석 탐지 건수)
-
-**도입 후 점검 지표:**
-- 보안성: soundness error 2^-80 이하·회로 결함 0건 — 형식검증·audit report
-- 성능: proof size·proving time·verification p95 — 벤치마크·온체인 gas 측정
-- 프라이버시: witness 로그 노출 0건·linkability 점검 — DLP·privacy test
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안:**
-1. 검증 요구를 "성인 여부"·"잔액 범위"·"거래 합계 일치"처럼 명제로 고정하고 public input과 witness를 분리함.
-2. 모바일·온체인은 proof size가 작은 zk-SNARK를, setup 신뢰 최소화가 요구되는 감사 환경은 zk-STARK를 우선 검토함.
-3. Circuit audit·multi-party ceremony·proving/verification p95·witness 로그 DLP를 배포 전 승인 기준으로 설정함.
-
-**결론:**
-- 기술사 판단: 원본 제출을 줄여야 하는 신원·거래 검증은 ZKP를, 단순 내부 시스템 조회는 RBAC·토큰화를 우선 적용함.
-- 향후 방향: DID·VC 선택적 공개, zk-rollup 확장성, 개인정보 최소공개 서비스에서 회로 감사와 표준화된 proof 검증 API가 핵심이 될 것임.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅱ·Ⅲ 강조 | Ⅴ·Ⅵ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "ZKP를 설명하시오" | 3성질·Prover/Verifier·회로 변환 흐름 | SNARK/STARK 비교·적용 사례 |
-| 요구사항 명시형 | "비교하시오", "설계하시오" | 회로·setup·검증 API 설계 | proof size·trusted setup·privacy risk 선택 기준 |
-
-> 요약: 설명형은 3성질과 증명 구조를, 설계형은 회로·키 ceremony·검증 지표를 중심으로 전개함.
+### 💡 문제 유형별 목차 전환 포인트
+- **[블록체인(Web3) 프라이버시/확장성 해결 유형]**: Ⅲ번의 SNARK vs STARK 비교표와 Ⅳ번의 Zk-Rollup 확장성 원리를 결합하여 블록체인 트릴레마(확장성-보안-탈중앙화)의 해법으로 서술.
+- **[ZKP의 3대 속성 및 영지식 개념 묻는 유형]**: Ⅱ번의 완전성/건실성/영지식성의 대수적 성질을 상세히 풀고, Interactive에서 Non-Interactive(NIZK, Fiat-Shamir)로 진화한 과정을 도식화.

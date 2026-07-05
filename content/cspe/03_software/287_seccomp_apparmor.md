@@ -1,194 +1,71 @@
 ---
-title: "Seccomp·AppArmor (Seccomp AppArmor)"
-date: "2026-07-01"
+title: "Seccomp·AppArmor (리눅스 커널 보안 장벽)"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-software"
 weight: 287
 ---
 
-# 📖 【암기용】 개념 완전 이해
-
-> 목적: Seccomp·AppArmor를 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-
-## 한눈에
-- **개요**: Seccomp와 AppArmor는 리눅스 커널이 제공하는 **강제적 접근 제어**(MAC, Mandatory Access Control) 계열의 **공격면 축소**(Attack Surface Reduction) 통제다 — 컨테이너 프로세스가 "무엇을 할 수 있는가"를 커널 차원에서 제한한다.
-- **왜 필요한가**: 컨테이너는 namespace로 "보이는 범위"를, cgroup으로 "쓸 수 있는 자원량"을 제한하지만, 둘 다 호스트와 같은 커널을 그대로 공유한다는 사실은 바꾸지 못한다. 컨테이너 프로세스가 커널 취약점을 건드릴 수 있는 system call을 자유롭게 호출할 수 있다면, 격리를 뚫고 호스트로 넘어가는 "컨테이너 탈출(Container Escape)"이 가능해진다.
-- **핵심 직관**: namespace·cgroup이 "어디까지 보이고 얼마나 쓸 수 있는지"를 정하는 울타리라면, Seccomp는 "작업자에게 공구 5개만 지급"(쓸 수 있는 시스템 콜 자체를 줄임)이고, AppArmor는 "출입 가능한 방과 열 수 있는 서랍을 지정"(경로 기준으로 리소스 접근을 줄임)이다. 울타리 안에서도 손에 쥔 도구와 열 수 있는 문을 한 번 더 좁히는 것이다.
-
-## 핵심 용어 정리 (내부에 등장하는 것들)
-
-| 용어 | 의미 | 비유 |
-|:---|:---|:---|
-| MAC(강제적 접근 제어) | 리소스 소유자가 아니라 시스템 정책이 접근 가능 여부를 강제로 결정하는 방식 — Seccomp·AppArmor가 속하는 상위 범주 | 회사 보안 규정(개인 재량 아님) |
-| DAC(임의적 접근 제어) | 파일 소유자가 chmod로 권한을 정하는 기존 리눅스 방식 — MAC과 대비된다 | 내 방 열쇠는 내가 관리 |
-| System Call(시스템 콜) | 프로세스가 커널에 파일·네트워크·프로세스 관련 작업을 요청하는 통로 | 커널에 거는 전화 |
-| Seccomp(SECure COMPuting mode) | 프로세스가 호출할 수 있는 system call 목록을 화이트/블랙리스트로 제한하는 커널 기능 | 지급되는 공구 개수 제한 |
-| BPF Filter | Seccomp이 "이 system call을 허용/차단할지"를 판단하는 데 쓰는 소형 필터 프로그램 형식 | 공구함 검수 체크리스트 |
-| AppArmor | 파일 경로·capability·네트워크 접근을 프로파일(텍스트 규칙)로 제한하는 LSM 구현체 | 방·서랍 단위 출입증 |
-| LSM(Linux Security Module) | 커널에 보안 훅을 심어 접근 제어 모듈을 꽂을 수 있게 하는 프레임워크 — AppArmor·SELinux가 이 위에서 동작하는 구현체 | 다양한 자물쇠를 꽂을 수 있는 공용 문틀 |
-| Capability | root 권한을 세분화한 단위(예: 네트워크 설정 권한만 있는 `CAP_NET_ADMIN`) | 만능키를 용도별 열쇠로 쪼갠 것 |
-| Enforce / Complain(Permissive) 모드 | 위반 시 실제로 차단하는 모드(enforce)와 로그만 남기고 허용하는 모드(complain) | 실전 배치 전의 리허설 |
-| RuntimeDefault | 컨테이너 런타임(containerd 등)이 기본 제공하는 Seccomp 프로파일 | 기본 안전벨트 |
-
-## 깊이 이해
-
-### 왜 namespace·cgroup만으로는 부족한가 — 실제 컨테이너 탈출 사례
-- namespace는 "이 프로세스가 볼 수 있는 프로세스 목록·파일시스템·네트워크"를 격리하고, cgroup은 "CPU·메모리를 얼마나 쓸 수 있는지"를 제한한다. 그러나 둘 다 "커널 코드 자체를 실행할 수 있는가"는 막지 않는다. 실제로 CVE-2019-5736(runc 취약점)은 컨테이너 안에서 조작한 프로세스가 호스트의 runc 바이너리를 덮어써 호스트를 장악하는 탈출을 가능하게 했다 — namespace가 완벽히 걸려 있어도 커널 레벨의 결함이나 과도한 권한이 있으면 뚫린다는 것을 보여준 사례다. Seccomp·AppArmor는 이런 탈출에 필요한 위험 system call·경로 접근 자체를 원천 차단해 공격면을 줄인다.
-
-### Seccomp가 실제로 무엇을 차단하는가 — 구체 수치
-- 리눅스 커널은 300개가 넘는 system call을 제공하지만, 일반적인 애플리케이션은 그중 극히 일부만 쓴다. Docker의 기본 Seccomp 프로파일은 약 44개의 system call을 명시적으로 차단한다. 대표적으로 `unshare`(새 namespace 생성), `mount`(파일시스템 마운트), `reboot`(시스템 재부팅), `ptrace`(다른 프로세스 감시·조작), `kexec_load`(커널 교체) 등이 막힌다 — 이 목록의 공통점은 "정상적인 웹 서버·배치 작업이라면 쓸 일이 없지만, 컨테이너 탈출·권한 상승에는 핵심적으로 쓰이는 system call"이라는 점이다.
-- Kubernetes pod에 `securityContext.seccompProfile.type: RuntimeDefault`를 지정하면 이 기본 차단 목록이 바로 그 파드에 적용된다. 별도 설정이 없으면(구버전 기준) Seccomp가 아예 적용되지 않아 300개 넘는 system call이 전부 열려 있는 상태로 실행될 수 있다.
-
-### AppArmor 프로파일은 실제로 어떻게 생겼는가
-```
-profile docker-nginx flags=(attach_disconnected,mediate_deleted) {
-  #include <abstractions/base>
-  network inet tcp,
-  deny /etc/shadow rwklx,
-  deny /proc/sys/** wklx,
-  /var/log/nginx/*.log w,
-}
-```
-- 이 프로파일은 "TCP 네트워크는 허용하되, `/etc/shadow`는 읽기·쓰기·잠금·실행 전부 금지, `/proc/sys` 하위 쓰기도 금지, nginx 로그 파일에는 쓰기만 허용"을 선언한다. Seccomp가 "어떤 동작(system call)을 할 수 있는가"를 본다면, AppArmor는 "어떤 경로·자원에 접근할 수 있는가"를 경로 단위로 통제한다는 차이가 여기서 드러난다.
-
-### enforce로 바로 넘어가면 안 되는 이유 — 운영 판단
-- 새 프로파일을 처음부터 enforce(위반 시 즉시 차단) 모드로 걸면, 미처 예상 못 한 정상 동작(로그 회전 스크립트가 특정 경로에 접근하는 것 등)까지 막혀 서비스 오류가 난다. 그래서 실무에서는 먼저 complain(로그만 남기고 허용) 모드로 최소 며칠~1주 이상 운영하며 "정상적으로 어떤 접근이 발생하는가"의 audit log를 충분히 모은 뒤, 그 패턴에 맞춰 프로파일을 다듬고 나서야 enforce로 전환한다.
-
-## 연결 개념
-- Linux Capability - root 권한 세분화
-- Kubernetes Pod Security Standards - 컨테이너 보안 기준
-- Falco - 런타임 행위 탐지
-
----
-
-# 📝 【답안용】 시험 답안 템플릿
-
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: Seccomp와 AppArmor의 통제 대상을 구분하고, Kubernetes 보안 컨텍스트와 운영 검증 지표로 연결한다.
-
 ## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: Seccomp는 system call을 제한하고 AppArmor는 파일·capability 접근을 프로파일로 제한하는 Linux 커널 보안 기능이다.
-> 2. **가치**: 컨테이너가 호스트 커널을 공유하는 구조에서 권한 상승과 컨테이너 탈출 공격면을 줄인다.
-> 3. **판단 포인트**: RuntimeDefault, custom profile, permissive/complain mode를 workload 특성에 맞게 선택해야 한다.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| Linux 컨테이너 보안 통제 이해 확인 | system call 제한과 MAC 프로파일 차이 | 둘을 동일한 접근통제라고 처리 |
-| Kubernetes 적용 역량 확인 | securityContext, seccompProfile, AppArmor annotation | Pod Security와 런타임 정책 연결 누락 |
-| 운영 리스크 판단 확인 | profile tuning, 차단 로그, 예외 승인 | 업무 프로세스 중단 위험 누락 |
-
-> 요약: 이 키워드는 컨테이너 격리의 한계를 커널 통제로 보완하는 구조를 묻는다.
-
+- 도커 컨테이너는 가상머신(VM)과 달리 호스트의 리눅스 커널을 함께 공유함. 컨테이너 하나가 뚫려서 커널 명령을 마구 내리면, 호스트와 옆에 있는 다른 컨테이너까지 싹 다 털림.
+- **Seccomp**은 프로세스가 사용할 수 있는 '시스템 콜(커널 명령)'의 종류를 제한하는 방패이고, **AppArmor**는 파일이나 네트워크 같은 '자원'에 대한 접근 권한을 엄격히 통제하는 MAC(강제 접근 제어) 방패임.
+- 쿠버네티스 보안을 구축할 때, 컨테이너가 **"자기가 딱 필요한 최소한의 행동"만 할 수 있도록 족쇄(Security Profile)를 채워, 해커가 침투해도 아무 짓도 못 하게 만드는 최후의 커널 방어선**임.
 ---
-
 ## Ⅰ. 개요 및 필요성
-
-- 개요: Seccomp·AppArmor는 커널 기반 접근 제한이다.
-- 배경: 컨테이너는 호스트 커널을 공유하므로 system call과 파일 접근을 최소화해야 한다.
-- 필요성: Kubernetes securityContext와 프로파일로 컨테이너 탈출 공격면을 줄여야 한다.
-
+- **개요**: 리눅스 커널에서 제공하는 보안 모듈로, 컨테이너나 프로세스가 운영체제 커널과 상호작용하는 권한을 최소화(Least Privilege)하여 잠재적 취약점 공격의 피해 반경을 줄이는 기술.
+- **필요성**: 해커가 Nginx 컨테이너의 취약점을 뚫고 들어옴. 해커는 컨테이너 안에서 리눅스 커널에 `chmod`(권한 변경)나 `mount`(하드디스크 연결) 같은 강력한 시스템 콜(명령어)을 날려서 커널 전체를 장악하려 함. **"아니, 애초에 Nginx 웹 서버는 `네트워크 읽기/쓰기`만 하면 되지, 왜 디스크 마운트 같은 커널 명령까지 쓸 수 있게 냅둬? 처음부터 Nginx는 딱 필요한 커널 명령 50개만 쓸 수 있게 아예 족쇄를 채워버리면 안 돼?"**
 ---
+## Ⅱ. 핵심 아키텍처 및 동작 원리 (Seccomp vs AppArmor)
+두 기술은 "무엇을 통제하는가"의 포커스가 다름.
 
-## Ⅱ. 구조 및 구성요소
+### 1. Seccomp (Secure Computing Mode) - '행동(동사)' 통제
+- **원리**: 리눅스는 약 330여 개의 시스템 콜을 가짐. Seccomp은 프로세스가 호출할 수 있는 시스템 콜의 **화이트리스트/블랙리스트 필터**를 만듦.
+- **예시**: 도커의 기본 Seccomp 프로필은 330개 중 44개의 위험한 시스템 콜(`mount`, `reboot`, `ptrace` 등)을 아예 막아버림.
+- 해커가 컨테이너를 뚫고 `reboot`(재부팅) 콜을 날려도, 커널이 "너 금지된 콜 불렀네? 넌 즉시 사망(Kill)이다!" 하고 프로세스를 죽여버림.
+
+### 2. AppArmor (Application Armor) - '목적지(명사)' 통제
+- **원리**: MAC(Mandatory Access Control, 강제 접근 제어). 프로세스가 특정 파일 경로, 디렉토리, 네트워크 포트에 접근하는 것을 프로필 기반으로 차단함.
+- **예시**: Nginx 프로세스에는 "너는 `/var/www/html` 폴더만 읽을 수 있고, `/etc/shadow`(비밀번호 파일)는 절대 못 읽어!"라는 AppArmor 프로필을 씌움.
+- 해커가 들어와서 `/etc/shadow`를 열려고 해도 "Permission Denied(권한 없음)"가 뜸 (루트 계정으로 탈취해도 얄짤없이 막힘).
 
 ```text
-Container Process -> Linux Kernel -> Seccomp Filter / AppArmor Profile -> Allow/Deny -> Audit Log
-                              +-> Kubernetes securityContext
-                              +-> RuntimeDefault Profile
+[ 컨테이너 방어의 2중 족쇄 ]
+
+ 🥷 [ 해커의 공격 시나리오 ]
+ 해커가 컨테이너 침투 ➡️ "1. 시스템 폴더를 마운트해서 (행동) ➡️ 2. 패스워드 파일을 훔쳐야지 (목적지)!"
+
+ 🛡️ [ 커널의 방어 (Seccomp + AppArmor) ]
+ - Seccomp: "어딜 감히 `mount` 명령어(시스템 콜)를 써? 행동 기각!"
+ - AppArmor: "어딜 감히 루트 권한이라고 `/etc` 폴더에 접근해? 파일 읽기 기각!"
+ - 결과: 해커는 컨테이너를 뚫었지만, 족쇄에 묶여서 아무것도 못 하고 갇힘 (Sandboxing).
 ```
-
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Seccomp Profile | 허용·차단 system call 정의 | BPF filter, RuntimeDefault |
-| AppArmor Profile | 파일 경로, capability, network 접근 제한 | enforce/complain mode |
-| securityContext | Kubernetes pod/container 보안 설정 | seccompProfile, capabilities drop |
-| Audit Log | 차단 이벤트와 프로파일 위반 기록 | dmesg, auditd, kube event |
-| Runtime | 프로파일을 컨테이너 실행에 적용 | containerd, CRI-O |
-
-> 요약: Seccomp는 system call, AppArmor는 리소스 접근을 제한하고 Kubernetes securityContext가 이를 pod 실행에 연결한다.
-
 ---
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-Pod 생성 -> securityContext 확인 -> 프로파일 로드 -> system call/파일 접근 평가 -> 허용/차단/로그
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | workload에 적용할 프로파일 선택 | RuntimeDefault 적용률 100% |
-| 2 | 컨테이너 런타임이 프로파일 로드 | load failure 0건 |
-| 3 | system call 또는 파일 접근 발생 | syscall allowlist와 경로 규칙 평가 |
-| 4 | 위반 행위 차단 또는 기록 | deny log 수집률 100% |
-| 5 | 업무 영향 분석 후 profile 조정 | 정상 요청 오류율 1% 이하 |
-
-> 요약: 커널은 컨테이너 실행 중 발생하는 system call과 리소스 접근을 프로파일 기준으로 평가한다.
-
+## Ⅲ. 오해와 진실
+| 오해 | 진실 |
+|---|---|
+| "Seccomp, AppArmor 설정은 너무 어려우니까 안 쓸래!" | **기본으로 이미 켜져 있음.** Docker와 Kubernetes는 실행될 때 이미 훌륭하게 세팅된 '기본(Default) Seccomp/AppArmor 프로필'을 알아서 적용함. 이것만으로도 대다수의 치명적 공격이 막힘. (기본 프로필을 강제로 끄는 옵션 `--privileged`를 쓰는 게 최악의 안티 패턴임). |
+| "둘 중 하나만 쓰면 되나요?" | **상호 보완적임.** Seccomp은 커널 수준의 '명령어 종류'를 필터링하고, AppArmor는 '파일/네트워크 접근 규칙'을 통제함. 두 개를 같이 겹쳐 입어야 방탄조끼 효과가 극대화됨. |
 ---
-
-## Ⅳ. 특징
-
-| 구분 | Seccomp | AppArmor | 수치·기술 포인트 |
-|:---|:---|:---|:---|
-| 통제 대상 | system call | 파일, capability, network | Linux LSM |
-| 정책 형식 | JSON profile, BPF filter | text profile | RuntimeDefault |
-| 적용 방식 | Kubernetes seccompProfile | annotation 또는 runtime profile | enforce/complain |
-| 한계 | 업무 syscall 차단 위험 | 경로 기반 정책 관리 부담 | audit 기반 tuning 필요 |
-
-> 요약: Seccomp는 커널 호출면, AppArmor는 리소스 접근면을 줄이며 둘을 함께 써야 컨테이너 hardening 효과가 커진다.
-
+## Ⅳ. 실무 적용 및 기술사 판단
+- **Kubernetes Pod Security Admission (PSA) 의무화**: 과거 K8s에선 컨테이너를 올릴 때 개발자가 귀찮다고 `--privileged`(모든 커널 권한 오픈) 옵션으로 띄우는 경우가 잦았음. 기술사는 K8s 1.25 이상에서 기본 제공되는 **PSA(Pod Security Admission)의 'Restricted(가장 엄격한 모드)' 정책을 네임스페이스 단위로 강제**하여, Seccomp/AppArmor 프로필이 없는 위험한 파드는 아예 클러스터에 띄울 수 없도록 원천 차단 아키텍처를 설계해야 함.
+- **프로필 생성의 자동화**: Nginx에 딱 맞는 맞춤형 Seccomp 필터를 사람이 300개를 뒤지며 만드는 건 불가능함. 기술사는 **Falco나 OCI seccomp-bpf-hook 같은 도구를 이용해 개발/테스트 환경에서 컨테이너의 정상적인 시스템 콜 패턴을 며칠간 자동 수집(Profiling)**한 뒤, 그 결과물을 바탕으로 화이트리스트 기반의 최적화된 보안 프로필을 자동 생성하여 배포하는 파이프라인을 구축해야 함.
 ---
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | privileged container | RuntimeDefault와 custom profile | 민감 업무 pod |
-| 비용/성능 | 제한 없음 | profile 적용과 audit tuning | 정상 요청 오류율 1% 이하 |
-| 운영/위험 | 공격면 과다 | 최소 syscall과 파일 접근 | 규제·멀티테넌트 cluster |
-
-> 요약: 민감 업무와 멀티테넌트 클러스터는 RuntimeDefault를 기본값으로 두고 예외 workload만 custom profile을 적용한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 업무 중단 | 필요한 syscall 차단 | complain mode 검증 후 enforce | 정상 트랜잭션 오류율 1% 이하 |
-| 정책 미적용 | pod securityContext 누락 | admission policy로 기본값 강제 | 미적용 pod 0개 |
-| 과도한 권한 | privileged, CAP_SYS_ADMIN 허용 | capabilities drop ALL, 예외 승인 | privileged pod 0개 |
-
-> 요약: 운영 리스크는 사전 검증, admission 기본값, capability 최소화로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 적용률 | RuntimeDefault 적용 pod 100% | Kubernetes audit, policy report |
-| 권한 최소화 | privileged pod 0개, CAP_SYS_ADMIN 0건 | admission log |
-| 차단 품질 | 업무 오류율 1% 이하 | APM, audit deny log |
-
-> 요약: Seccomp·AppArmor 적용은 적용률, 권한 최소화, 업무 영향 지표를 함께 봐야 한다.
-
+## Ⅴ. 기대효과 및 결론
+- "컨테이너가 뚫려도, 커널(호스트)까지 장악당하지는 않는다"는 격리성(Isolation)과 샌드박싱(Sandboxing)의 최종 마지노선을 제공함.
+- 수많은 오픈소스 라이브러리와 애플리케이션이 공존하는 클라우드 환경에서, 최후의 보루인 운영체제 커널을 보호하는 최소 권한 원칙(Principle of Least Privilege)의 기술적 완성형임.
 ---
+### 📌 관련 개념 맵
+- Container Security ➡️ Linux Kernel Namespace/Cgroups ➡️ Least Privilege ➡️ Seccomp (System Call Filter) ➡️ AppArmor / SELinux (MAC) ➡️ K8s Pod Security Admission
 
-## Ⅵ. 실무 적용 및 결론
+### 📈 관련 키워드 및 발전 흐름도
+- 리눅스 DAC(소유자 기반 접근 제어)의 한계 ➡️ 미국 NSA 주도로 강력한 MAC 기반의 `SELinux` 개발 (너무 설정이 복잡해서 사람들이 다 끔) ➡️ 경로 기반의 좀 더 직관적인 `AppArmor` 유행 ➡️ 시스템 콜 자체를 샌드박싱하는 `Seccomp` 기술 발전 ➡️ 컨테이너(Docker/K8s) 시대가 오면서 커널 공유로 인한 보안 위험이 폭증하자, Docker가 기본적으로 Seccomp/AppArmor 프로필을 강제 장착하여 컨테이너 보안의 표준으로 정착 (현재)
 
-**적용 방안 3개:**
-1. Kubernetes namespace 기본 정책으로 `seccompProfile: RuntimeDefault`와 `allowPrivilegeEscalation: false`를 적용함
-2. 민감 workload는 complain mode에서 7일 이상 audit log를 수집한 뒤 custom AppArmor profile을 enforce mode로 전환함
-3. OPA Gatekeeper 또는 Kyverno로 privileged container, hostPID, CAP_SYS_ADMIN, seccomp 미설정을 admission 단계에서 차단함
-
-**결론 (2줄):**
-- 기술사 판단: 일반 workload는 RuntimeDefault, 고위험 workload는 custom Seccomp·AppArmor profile과 admission policy를 적용함
-- 향후 방향: 컨테이너 hardening은 Pod Security Standards, eBPF 탐지, Policy as Code와 결합한 기본 보안선으로 정착함
-
----
+### 👶 어린이를 위한 3줄 비유 설명
+1. 컨테이너 로봇을 빌딩(호스트 서버)에 들여보냈어요. 이 로봇이 바이러스에 걸리면 막무가내로 빌딩 전체를 부술 수 있어요!
+2. **Seccomp**은 로봇에게 씌우는 **'명령어 입마개'**예요. "너는 앞으로 '청소해'라는 말만 할 수 있고, '부숴'라는 말은 절대 못 해!"라고 명령어 자체를 막아요.
+3. **AppArmor**는 로봇에게 채우는 **'방 족쇄'**예요. "너는 화장실만 들어갈 수 있고, 안방(중요 파일)에는 절대 못 들어가!"라고 막아놔서, 바이러스에 걸려도 빌딩은 안전하답니다!
 
 ### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "Seccomp와 AppArmor를 설명하시오" | 프로파일 적용과 커널 평가 흐름 | system call 제한과 MAC 차이 |
-| 요구사항 명시형 | "컨테이너 보안 강화 방안을 제시하시오" | securityContext, admission, audit 흐름 | RuntimeDefault, privilege 차단, 업무 영향 기준 |
-
-> 요약: 설명형은 기능 차이, 보안형은 Kubernetes 적용과 운영 검증 지표 중심으로 전개한다.
+- **개념/비교형 (Ⅱ·Ⅲ 강조)**: Seccomp(시스템 콜 BPF 필터, 행위 중심)과 AppArmor/SELinux(MAC, 자원 경로 중심)의 동작 원리와 차이점 비교표 작성. 도커의 디폴트 보안 프로필 작동 방식 설명.
+- **K8s 보안/실무형 (Ⅳ·Ⅴ 강조)**: 컨테이너 런타임 보안 아키텍처. K8s 환경에서 SecurityContext를 통한 Seccomp/AppArmor 프로필 적용 방안. `--privileged` 컨테이너의 위험성 및 PSA(Pod Security Admission)를 통한 통제 전략 수립.

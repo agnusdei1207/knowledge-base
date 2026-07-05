@@ -1,165 +1,94 @@
 ---
 title: "Falco 런타임 보안 (Falco Runtime Security)"
-date: "2026-07-01"
+date: "2026-07-05"
+author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "cspe-security"
 weight: 125
 ---
-# 📖 【암기용】 개념 완전 이해
 
-> 목적: Falco 런타임 보안을 처음 보는 사람도 실행 중 컨테이너 위협 탐지가 어떻게 동작하는지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
-## 한눈에
-- **개요**: Falco는 Linux syscall, eBPF, 컨테이너·Kubernetes 메타데이터를 분석해 실행 중 비정상 행위를 탐지하는 런타임 보안 도구임
-- **왜 필요한가**: 이미지 스캔과 Admission 정책은 배포 전 통제이다. 배포 후 웹셸 실행, 민감 파일 읽기, 패키지 설치, 컨테이너 탈출 시도는 런타임에서 탐지해야 한다.
-- **핵심 직관**: 건물 출입 심사를 통과한 사람이 안에서 금고를 열거나 비상문을 조작하면 CCTV와 경보가 감지하는 방식임
+## 1. 한눈에 이해하기 (Core Intuition)
+- **정의**: 쿠버네티스(Kubernetes) 환경의 개별 컨테이너(서버)들이 **실제로 살아서 숨 쉬고 작동하는 순간(Runtime)에, 그 안에서 벌어지는 비정상적이고 악의적인 행위(예: 갑자기 암호 파일 열람, 뜬금없는 외부 통신)를 실시간으로 탐지해 내는 '클라우드 네이티브용 초경량 CCTV 보안 요원'** 입니다.
+- **필요성**: 빌드할 때 이미지 스캔(Trivy)을 다 통과했고, 배포할 때 보안 룰(OPA)도 다 통과해서 컨테이너가 무사히 서버에 떴습니다. 그런데 며칠 뒤, 제로데이(아무도 모르는 신종 해킹 기법) 공격으로 해커가 결국 컨테이너 안에 침투해 버렸습니다. **사전 검사를 다 뚫고 들어온 해커가 서버 안에서 돌아다니며 데이터를 빼내고 코인을 채굴할 때**, 이를 눈치채고 비상벨을 울려줄 런타임 최후의 방어선이 필요했습니다.
+- **핵심 직관**: **"무인 금고(컨테이너) 내부의 적외선 동작 감지 센서"**. 
+  - Trivy, OPA: 금고에 물건을 넣기 전 밖에서 하는 폭발물 검사.
+  - **Falco**: 일단 금고 문이 닫히고 운영이 시작된(Runtime) 후의 감시자. 금고 안에는 원래 정해진 기계(웹 서버 앱)만 정해진 움직임을 해야 합니다. 그런데 갑자기 **"어? 누군가 어둠 속에서 금고 바닥을 드릴로 뚫으려(권한 상승) 하네? 누군가 금고 안에서 터미널(쉘) 창을 몰래 띄웠네?"** 이 기이한 동작(시스템 콜)을 커널(OS 바닥) 레벨에서 적외선 센서처럼 귀신같이 감지하고 사이렌을 울립니다.
 
-## 깊이 이해
-- **배경·문제의식**: Kubernetes 워크로드는 짧게 생성·삭제되고 컨테이너 내부 접근이 제한적이다. 침해가 발생해도 프로세스 실행, 파일 접근, 네트워크 연결을 실시간으로 보지 않으면 사고 시점을 놓친다.
-- **작동 원리**: Falco는 kernel module 또는 eBPF probe로 syscall 이벤트를 수집하고 컨테이너 런타임과 Kubernetes 메타데이터를 붙인다. 규칙(rule)은 조건과 출력 메시지, 우선순위를 정의하며, 매칭 시 stdout, webhook, gRPC, SIEM으로 경보를 보낸다.
-- **비유**: 공장 설비에 센서를 붙여 허가되지 않은 야간 작업, 위험 구역 접근, 금지 도구 사용을 즉시 알리는 방식임
-- **구체 예시**: 운영 Pod 내부에서 `/bin/sh` 실행, `/etc/shadow` 읽기, `apk add curl` 실행이 감지되면 Falco가 namespace, pod, container, user, command를 포함한 경보를 발생시킴
-- **흔한 오해·주의점**: Falco는 취약점 스캐너가 아니다. CVE를 직접 고치는 도구가 아니라 실행 중 행위를 탐지하고 대응 프로세스를 시작하는 탐지 계층임
+## 2. 왜 중요한가? (Background & Value)
+- **등장 배경**: 컨테이너 100개가 한 대의 리눅스 서버 커널(OS 심장부)을 공유하는 쿠버네티스 환경에서는, 1개의 컨테이너가 뚫려 커널을 장악당하면 나머지 99개도 모조리 털립니다(컨테이너 이스케이프). 그러나 기존 백신(EDR)은 휙휙 생겼다 사라지는 컨테이너 구조를 이해하지 못해 뻗어버립니다. 이에 Sysdig(시스딕)이라는 회사가 **리눅스 커널에서 발생하는 모든 행동(System Call)을 감청**하여 위협을 찾아내는 혁신적 오픈소스 Falco를 만들었고, CNCF 클라우드 재단의 런타임 보안 표준으로 자리 잡았습니다.
+- **가치**: "Behavioral(행위 기반) 탐지의 끝판왕". 이미 알려진 악성코드(시그니처)만 잡는 게 아닙니다. "평소엔 A만 하던 웹 서버가 왜 갑자기 B(패스워드 파일 읽기)를 해?"라는 정상 행위 이탈(Anomaly)을 실시간으로 감지하여, 제로데이 위협까지 모조리 적발해 내는 CWPP(클라우드 워크로드 방어)의 핵심 심장입니다.
 
-## 연결 개념
-- eBPF — 커널 이벤트 수집을 위한 저오버헤드 관측 기술
-- CWPP — 워크로드 실행 보안과 런타임 위협 탐지 영역
-- SIEM/SOAR — Falco 경보를 상관분석·자동 대응으로 확장
+## 3. 어떻게 작동하는가? (Mechanism)
+Falco는 컨테이너 안에 무거운 프로그램을 깔지 않고, 운영체제(OS)의 가장 밑바닥(커널)에서 모든 것을 내려다봅니다.
 
----
+1. **커널 이벤트 감청 (eBPF / Kernel Module)**
+   - 컨테이너가 뭔가 행동(파일 읽기, 네트워크 통신, 프로그램 실행)을 하려면 무조건 리눅스 OS의 심장인 '커널'에게 허락을 구해야 합니다(이것을 **시스템 콜, System Call**이라 부름).
+   - Falco는 eBPF(최신 초경량 커널 탐지 기술)를 이용해 이 수백만 개의 시스템 콜 요청을 0.001초의 딜레이만 주고 싹 다 가로채서(도청해서) 모니터링합니다. 컨테이너는 자신이 감시당하는 줄도 모릅니다.
+2. **규칙 엔진 대조 (Rules Engine)**
+   - 도청한 행동 데이터를 Falco의 수많은 "악성 행위 규칙(Rules)"과 대조합니다.
+   - 룰 예시: "누군가 `/etc/shadow`(비밀번호 파일)를 읽으려 한다면 $\rightarrow$ 해킹 의심!"
+   - 룰 예시: "원래 nginx(웹 서버)만 도는 컨테이너에서 갑자기 `bash`(터미널)나 `curl`(외부 다운로드) 명령어 쳐지면 $\rightarrow$ 100% 해킹!"
+3. **실시간 경보 발송 (Alerting)**
+   - 룰을 위반하는 이상 행위가 포착되면 즉시 슬랙(Slack), 메일, 보안 관제 시스템(SIEM)으로 빨간색 알람을 쏩니다.
+   - (참고: 오픈소스 Falco 자체는 '알람'만 울리고 차단(Kill) 기능은 없습니다. 차단을 원하면 다른 도구와 연동해야 함).
 
-# 📝 【답안용】 시험 답안 템플릿
+## 4. 실전 활용 및 예시 (Real-world Application)
+- **구체적 사례**: 
+  - 최근 해커의 유행 기법인 **크립토재킹(코인 채굴)** 공격 상황. 
+  - 해커가 Log4j 취약점을 뚫고 컨테이너에 접속해 몰래 비트코인 채굴 스크립트(miner.sh)를 다운받아 실행합니다. 방화벽, OPA 다 무사통과했죠. 
+  - 하지만 그 스크립트가 커널에 "CPU 좀 쓰게 해줘, 그리고 채굴 서버랑 통신할게"라고 시스템 콜을 요청하는 찰나! 밑바닥에 숨어있던 **Falco**가 이를 낚아챕니다. "경고! 웹 서버 컨테이너가 알 수 없는 외부 IP와 채굴 포트(Mining Port)로 통신 시도!" $\rightarrow$ 보안팀이 이 알람을 보고 즉시 해당 파드(Pod)를 격리/삭제시켜 클라우드 요금 폭탄을 막아냅니다.
+- **주의점 및 흔한 오해**: 
+  - "알람이 너무 많이 와서 귀찮아요" $\rightarrow$ Falco 도입 실패의 1순위 원인입니다. 기본 룰셋을 그대로 켜두면, 개발자가 잠깐 디버깅하려고 터미널(bash)에 접속해도 해킹 알람이 수천 개 폭주합니다. 회사 앱의 정상적인 행동 패턴에 맞춰 룰을 정교하게 깎아내는(Tuning) 과정이 필수적입니다.
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: Falco는 "컨테이너 이상행위 탐지"라고만 쓰지 말고 syscall 기반 이벤트, 규칙 엔진, Kubernetes 메타데이터, SIEM 대응 지표를 함께 써야 한다.
-
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: Falco는 Linux syscall과 Kubernetes 메타데이터를 규칙 기반으로 분석해 컨테이너·호스트 런타임 위협을 탐지하는 클라우드 네이티브 보안 도구이다.
-> 2. **가치**: 이미지 스캔·Admission 정책을 통과한 워크로드에서 셸 실행, 민감 파일 접근, 권한 상승, 비정상 네트워크 연결을 실행 시점에 탐지한다.
-> 3. **판단 포인트**: eBPF/kernel module 수집, rule tuning, alert routing, false positive 관리, MTTD/MTTR 지표를 제시해야 한다.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 런타임 보안 위치 이해 확인 | Build/Deploy 통제와 Run 탐지 구분 | Trivy, Gatekeeper와 동일 기능으로 설명 |
-| 탐지 아키텍처 설계 확인 | syscall, eBPF, rules, Kubernetes metadata, output | "이상행위 탐지"만 쓰고 이벤트 원천 누락 |
-| 운영 대응 역량 확인 | rule tuning, severity, SIEM/SOAR, triage SLA | 경보 발생 후 조치 절차 누락 |
-
-> 요약: Falco 답안은 런타임 이벤트 원천, 규칙 평가, 경보 라우팅, 대응 지표를 연결해야 한다.
+## 5. 핵심 비교 및 연결 개념 (Relation)
+클라우드 네이티브 보안 방어 사슬 (Life Cycle):
+- 빌드/저장(Build): **Trivy** (이미지 안의 폭탄(버그) 사전 검사).
+- 배포(Deploy): **OPA Gatekeeper** (폭탄 이미지의 클러스터 진입 서류 심사).
+- 실행(Runtime): **Falco** (다 뚫고 들어온 스파이의 실제 악당 짓(행위) 실시간 적발).
 
 ---
 
-## Ⅰ. 개요 및 필요성
+# ✍️ 단답형 / 서술형 시험장 출격 준비
 
-- 개요: 클라우드 네이티브 런타임 탐지
-- 배경: 배포 전 스캔과 정책 차단만으로는 운영 중 웹셸, 권한 상승, 민감 파일 접근을 식별하기 어려움.
-- 필요성: Falco 규칙을 MITRE ATT&CK for Containers 전술에 매핑하고 syscall 이벤트를 SIEM·SOAR 대응으로 연결해야 함.
+### Ⅰ. 핵심 인사이트
+- **본질**: 클라우드 네이티브 환경(Kubernetes) 워크로드의 **런타임(Runtime) 시점에 발생하는 비정상적인 행위를 리눅스 커널 레벨(System Call)에서 감청하여 탐지해 내는 행위 기반(Behavioral) 런타임 위협 탐지 엔진.** (CNCF 인큐베이팅 졸업 프로젝트).
+- **가치**: 기존 정적(Static) 이미지 스캐닝(Trivy)이나 배포 통제(OPA) 체계를 우회한 제로데이 공격 및 내부자 위협을 방어하는 최후의 심층 방어(Defense in Depth) 계층(4C 프레임워크의 Container 방어). 마이크로서비스 구조에서 가시성이 극도로 제한된 컨테이너 뱃속의 블랙박스 상황을 **OS 시스템 콜 트레이싱**이라는 강력한 기법으로 투명화함.
+- **판단 포인트**: IT 설계자는 Falco를 단순한 침입 탐지 시스템(IDS)으로 오해하면 안 됩니다. Falco의 핵심 경쟁력은 무거운 에이전트 구동 방식이 아니라, 최신 리눅스 커널 기술인 **eBPF(Extended Berkeley Packet Filter)** 를 활용하여 애플리케이션 코드를 1도 건드리지 않고(Transparent) 퍼포먼스 오버헤드를 극소화하면서 시스템 콜을 인터셉트(Intercept)하는 차세대 옵저버빌리티(Observability) 아키텍처에 있습니다.
 
----
+### Ⅱ. Falco의 런타임 위협 탐지 핵심 아키텍처 흐름
+컨테이너의 모든 행위는 OS 커널을 통과한다는 불변의 원리를 이용한 아키텍처.
+1. **이벤트 수집 (Data Collection via eBPF)**
+   - 리눅스 커널 공간(Kernel Space)에 eBPF 프로그램(또는 커널 모듈)을 주입.
+   - 유저 공간(User Space)의 컨테이너 앱이 커널에 요청하는 수백만 개의 **시스템 콜(예: `execve` 실행, `open` 파일 열기, `socket` 네트워크 통신)** 의 흐름과 컨텍스트(PID, UID, 네임스페이스)를 실시간 복제(Tracing).
+2. **이벤트 필터링 및 엔진 분석 (Sysdig Libraries)**
+   - 수집된 원시 시스템 콜 스트림을 `libsinsp` / `libscap` 라이브러리가 컨테이너 및 K8s 메타데이터(파드 이름, 네임스페이스 라벨)와 조인(Enrichment)하여 의미 있는 이벤트 객체로 가공.
+3. **정책 룰 엔진 매칭 (Rules Engine)**
+   - 관리자가 작성한 YAML 포맷의 룰셋 파일과 이벤트를 비교. 정규표현식, 매크로 등을 통해 "의도하지 않은 악의적 행위 조건"을 고속 매칭.
+4. **알림 출력 (Alert Forwarding)**
+   - 룰 위반 시 gRPC, Webhook, Fluentd 등을 통해 SIEM, Slack, 또는 차단 트리거(Response Engine) 장치로 JSON 형태의 얼럿(Alert) 이벤트 전달.
 
-## Ⅱ. 구조 및 구성요소
+### Ⅲ. Falco가 탐지하는 클라우드 워크로드의 5대 치명적 위협 (Rule Examples)
+Falco가 가장 빛을 발하는 핵심 모니터링 대상 행위.
+1. **리버스 쉘 및 터미널 팝업 (Privilege Escalation)**
+   - 컨테이너 내부에서 인터랙티브 쉘(`bash`, `sh`, `zsh`)이 실행되는 행위 감지. (대부분의 해킹 초기 침투 성공 징후).
+2. **비정상적 네트워크 소켓 통신 (C&C 통신 / 크립토재킹)**
+   - 웹 서버(Nginx) 컨테이너가 뜬금없이 외부 광부(Mining) 서버 포트(예: 3333)나 알려지지 않은 C&C 서버(외부 IP)로 연결(Outbound `connect` 시스템 콜)을 시도하는 행위.
+3. **중요 시스템 파일 변조 및 탈취 (FIM)**
+   - 허가받지 않은 프로세스가 `/etc/shadow`(패스워드 파일), `/etc/kubernetes/pki` (K8s 인증서) 등 민감 경로를 읽거나(Read) 덮어쓰려(Write) 하는 시도.
+4. **네임스페이스 이스케이프 (Container Escape)**
+   - 컨테이너가 마운트된 호스트 노드의 루트 디렉터리(`/host`)를 건드려 가상화 격리벽(Isolation)을 부수고 상위 OS를 통제하려는 시도.
+5. **예기치 않은 바이너리 실행 (Malicious Payload)**
+   - 원래 이미지에 없던 해커가 다운받은 실행 파일(예: `wget`, `curl`, 봇넷 바이너리)이 `execve`를 통해 메모리에 적재되는 찰나의 행위.
 
-```text
-Host/Container Syscalls -> eBPF or Kernel Module -> Falco Engine
-  / Rules, Macros, Lists, Exceptions
-  / Kubernetes Metadata, Container Runtime Metadata
-Falco Engine -> Alerts -> Falcosidekick/SIEM/SOAR -> Incident Response
-```
+### Ⅳ. Falco의 한계점과 대응 설계 (탐지 vs 차단)
+- **한계점 (탐지 전용)**: 오픈소스 Falco는 본질적으로 옵저버빌리티 탐지 도구(IDS)일 뿐, 악성 프로세스를 직접 죽이는 차단(Prevention/IPS) 기능은 제공하지 않음.
+- **아키텍처 확장 (Falco Sidekick 및 Response 엔진)**:
+  - 위협 알람이 울리면, 알람 수신 전용 도구인 **Falco Sidekick**이 이벤트를 가로채어 쿠버네티스 API나 서버리스 함수(FaaS)를 트리거함.
+  - "알람 수신 $\rightarrow$ 해당 파드를 클러스터 네트워크에서 격리(NetworkPolicy 적용) $\rightarrow$ 파드 강제 삭제(Kill)" 로 이어지는 **자동 조치(Auto-remediation) 파이프라인**을 스크립트로 구축하는 것이 모던 SecOps의 완성이자 실무적 해답.
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Event Source | syscall, k8s audit, cloud event 수집 | eBPF probe 또는 kernel module |
-| Falco Engine | 이벤트를 rule 조건과 매칭 | rule, macro, list, exception 사용 |
-| Metadata Enricher | namespace, pod, container, image, user 정보 결합 | Kubernetes API, container runtime |
-| Output Channel | 경보를 stdout, webhook, gRPC, SIEM으로 전송 | Falcosidekick 연동 |
-| Response Process | triage, 격리, 포렌식, 룰 튜닝 | SOAR playbook, ticket SLA |
+### Ⅴ. 결론 및 실무적 판단 포인트
+- 인프라 보안 담당자는 쿠버네티스 워크로드 보호(CWPP) 전략 수립 시, 컨테이너 내부의 파일 해시(Hash)를 검사하는 낡은 EPP 시그니처 백신 방식을 즉각 폐기해야 합니다. 짧은 생명주기를 지닌 컨테이너 해킹을 방어하는 유일한 기술적 대안은 **시스템 콜 레벨의 동적 행위 모니터링**입니다. eBPF 기반의 Falco 엔진을 클러스터 워커 노드(DaemonSet) 전역에 배포하여, 런타임 위협 가시성 100%를 확보하는 것이 제로 트러스트(ZTA) 달성의 필수 요건입니다.
 
-> 요약: Falco는 커널 이벤트와 Kubernetes 메타데이터를 결합해 규칙 기반 경보를 생성하고 대응 체계로 전달한다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
-
-```text
-워크로드 실행 -> syscall 이벤트 수집 -> 메타데이터 보강
--> Falco rule 조건 평가 -> priority 산정
--> alert 출력 -> SIEM/SOAR triage -> 격리/조사/룰 튜닝
-```
-
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | eBPF 또는 kernel module로 syscall 수집 | event drop rate 1% 이하 |
-| 2 | Pod, namespace, image, user 메타데이터 부착 | 미매핑 이벤트 5% 이하 |
-| 3 | rule, macro, list 조건으로 행위 평가 | 기본 룰+업무 룰 30개 이상 |
-| 4 | priority 기반 경보 라우팅 | Critical 5분 내 triage |
-| 5 | SOAR 조치와 rule tuning 반영 | 오탐률 10% 이하 |
-
-> 요약: Falco는 syscall 수집부터 경보 triage까지 실행 행위를 규칙과 운영 지표로 통제한다.
-
----
-
-## Ⅳ. 특징
-
-| 구분 | 기존/대안 | Falco 런타임 보안 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 탐지 시점 | 이미지 스캔·Admission 전 단계 | 운영 중 프로세스·파일·네트워크 행위 | Critical triage 5분 |
-| 이벤트 원천 | 로그 중심 사후 분석 | syscall, k8s audit, cloud event | event drop 1% 이하 |
-| 맥락 정보 | 호스트 프로세스 정보 | namespace, pod, image, user 결합 | 미매핑 5% 이하 |
-| 한계 | 차단보다 탐지 중심 | 오탐 튜닝과 대응 자동화 필요 | 오탐률 10% 이하 |
-
-> 요약: Falco는 실행 중 행위를 Kubernetes 맥락으로 탐지하지만 경보 품질과 대응 절차가 함께 설계되어야 한다.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | Falco 런타임 보안 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | Trivy·Gatekeeper 중심 사전 통제 | 실행 중 syscall 기반 탐지 | 운영 Pod 100개 이상, 침해 탐지 필요 |
-| 비용/성능 | 로그 사후 분석 | 노드별 센서와 경보 파이프라인 | event drop 1% 이하, CPU overhead 5% 이하 |
-| 운영/위험 | 사고 후 수동 조사 | 실시간 경보, SOAR 격리, 포렌식 | MTTD 5분, MTTR 30분 목표 |
-
-> 요약: 배포 전 통제만으로 런타임 침해를 볼 수 없으므로 운영 클러스터에는 Falco 기반 탐지 계층이 필요하다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 오탐 폭증 | 기본 룰과 업무 행위 충돌 | namespace별 exception, 튜닝 주기 | 오탐률 10% 이하 |
-| 이벤트 손실 | 노드 부하, probe 설정 오류 | eBPF 설정 검증, buffer tuning | event drop 1% 이하 |
-| 맥락 부족 | Kubernetes 메타데이터 연동 실패 | API 권한 점검, 캐시 모니터링 | 미매핑 이벤트 5% 이하 |
-| 대응 지연 | 경보 라우팅 부재 | SIEM/SOAR, Slack, ticket 자동화 | Critical 5분 triage |
-
-> 요약: Falco 운영 리스크는 오탐, 이벤트 손실, 맥락 부족, 대응 지연이며 튜닝·모니터링·자동화 지표로 통제한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 탐지 품질 | 기본+업무 룰 30개 이상, 오탐률 10% 이하 | Falco rule metrics, triage 결과 |
-| 수집 품질 | event drop rate 1% 이하, CPU overhead 5% 이하 | Falco metrics, node exporter |
-| 대응 품질 | Critical MTTD 5분, MTTR 30분 | SIEM/SOAR incident timeline |
-| 감사 증거 | 경보 원문, Pod 정보, command, user 보관 1년 | 로그 저장소, 티켓 첨부 |
-
-> 요약: Falco 도입 효과는 탐지 품질, 수집 손실, 대응 시간, 감사 증거 보관으로 판단한다.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 - 단계별 또는 항목별):**
-1. 1단계: DaemonSet으로 Falco를 배포하고 eBPF 모드, event drop 1% 이하, Kubernetes 메타데이터 미매핑 5% 이하 기준 설정
-2. 2단계: shell in container, sensitive file read, package manager run, outbound connection 등 업무 룰 30개 이상과 namespace별 exception 구성
-3. 3단계: Falcosidekick으로 SIEM/SOAR 연동, Critical 5분 triage, MTTR 30분, 경보·command·pod 증거 1년 보관 운영
-
-**결론 (2줄):**
-- 기술사 판단: 개발 클러스터는 Admission 정책 중심으로 시작하고, 운영·규제 클러스터는 Trivy, Gatekeeper, Falco를 Build/Deploy/Run 3단계로 결합해야 함
-- 향후 방향: eBPF 기반 관측, Kubernetes Audit, 클라우드 API 이벤트를 통합해 런타임 탐지와 자동 격리 플레이북을 함께 운영해야 함
-
----
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "Falco 런타임 보안을 설명하시오", "컨테이너 런타임 탐지를 기술하시오" | syscall 수집, 룰 평가, 경보 라우팅 흐름 | 사전 통제와 런타임 탐지 차이 |
-| 요구사항 명시형 | "Kubernetes 런타임 보안 방안을 제시하시오", "침해 탐지 체계를 설계하시오" | eBPF 수집, SIEM/SOAR 연동, triage SLA | MTTD 5분, event drop 1%, 오탐률 10% 기준 |
-
-> 요약: 설명형은 런타임 탐지 원리를 쓰고, 설계형은 경보 품질·대응 시간·오탐 튜닝 지표를 중심으로 구성한다.
+### 💡 문제 유형별 목차 전환 포인트
+- **[클라우드 워크로드 방어(CWPP) 및 컨테이너 런타임 보안 위협 대응 기술]**: Ⅰ과 Ⅲ번(5대 치명적 위협)을 메인으로 세워, 이미지 스캐닝(Trivy)과 접근 제어(OPA)를 우회한 런타임 환경의 블랙박스 상태를 Falco가 어떻게 투명화하고 비정상 행위를 적발하는지 증명.
+- **[클라우드 네이티브옵스(Observability) 및 eBPF 기술을 활용한 심층 방어 아키텍처]**: Ⅱ번(eBPF 기반 시스템 콜 가로채기 아키텍처)의 경량화/고성능 이점을 기술적으로 강조하고, Ⅳ번(탐지를 넘어선 자동 조치 연동) 파이프라인 설계안을 제시하여 차세대 침입 탐지/차단(IDS/IPS) 모델 논증.
