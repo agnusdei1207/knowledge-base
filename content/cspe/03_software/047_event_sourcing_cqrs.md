@@ -61,7 +61,7 @@ weight: 47
 |---|---|---|
 | **상태 저장 방식** | 최종 상태만 덮어쓰기 (Update/Delete) | 발생한 모든 이벤트를 순차 기록 (Insert Only) |
 | **읽기/쓰기 모델** | 동일한 모델(Entity) 공유 | 완벽히 분리된 모델 (Write Model vs Read Model) |
-| **성능 최적화** | 조인(Join), 인덱스 의존 | 읽기 전용 뷰(Materialized View)를 통한 O(1) 검색 |
+| **성능 최적화** | 조인(Join), 인덱스 의존 | 읽기 전용 뷰(Materialized View)를 통한 $O(1)$ 검색 |
 | **데이터 일관성** | 강한 일관성 (ACID) | 최종 일관성 (Eventual Consistency) |
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
