@@ -7,6 +7,14 @@ tags:
 weight: 250
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Near-Memory Computing 근접 메모리 컴** | Near-Memory Computing 근접 메모리 컴퓨팅 (Near-Memory Computing)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 폰 노이만 병목을 해결하기 위한 PIM의 '현실적이고 상용화에 가장 근접한 대안'인 PNM의 본질을 완벽히 이해한다.

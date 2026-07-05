@@ -14,6 +14,15 @@ weight: 301
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **SLSA 공급망 보안 프레임워크** | SLSA 공급망 보안 프레임워크 (Supply-chain Levels for Software Artifacts)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
+
 ### Ⅰ. 개요 및 필요성 (Context & Necessity)
 최근 SolarWinds 해킹 사태처럼, 공격자가 최종 시스템을 직접 공격하는 대신 개발 파이프라인이나 의존성 라이브러리에 악성 코드를 주입하는 '소프트웨어 공급망 공격(Supply Chain Attack)'이 급증하고 있다. 이에 대응하여, 개발부터 배포까지 아티팩트의 변조 여부를 추적하고 증명하는 체계적인 가이드라인이 필요해졌다.
 SLSA(Supply-chain Levels for Software Artifacts)는 이러한 요구에 부응하여, 소프트웨어 빌드 과정의 무결성을 4단계의 레벨로 평가하고 보장하는 프레임워크이다.

@@ -14,6 +14,14 @@ weight: 12
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Agent to Agent Protocol** | Agent to Agent Protocol (에이전트 간 통신 프로토콜)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개요**: Agent-to-Agent Protocol(A2A Protocol)은 다수의 자율형 AI 에이전트가 협업, 경쟁, 협상을 통해 복잡한 과업을 공동으로 수행할 수 있도록 메시지 포맷, 통신 규칙, 상태 동기화 방법을 정의한 표준 규약이다. (예: FIPA-ACL의 현대적 부활).
 - **배경**: AI 발전 초기에는 '하나의 거대한 만능 모델(Super Model)'을 추구했으나, 프롬프트가 길어지면 인지 과부하(Context Window Overflow)가 걸려 AI가 지시를 까먹거나 환각을 일으켰다.

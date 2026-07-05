@@ -52,6 +52,14 @@ weight: 346
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **SLH-DSA** | SLH-DSA (Stateless Hash-Based Digital Signature Algorithm)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 정의: 해시 함수의 일방향성 및 충돌 저항성을 근거로 설계된, 상태 관리가 필요 없는 NIST 표준 양자내성 전자서명 알고리즘 (FIPS 205)

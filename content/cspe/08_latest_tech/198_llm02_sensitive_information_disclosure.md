@@ -7,6 +7,14 @@ tags:
 weight: 198
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **LLM02 민감 정보 노출** | LLM02 민감 정보 노출 (OWASP LLM02 Sensitive Information Disclosure)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 ## 한눈에

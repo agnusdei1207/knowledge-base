@@ -7,6 +7,14 @@ tags:
 weight: 164
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **NIST AI RMF** | NIST AI RMF (NIST AI Risk Management Framework)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 ## 한눈에

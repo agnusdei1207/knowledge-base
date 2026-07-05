@@ -22,6 +22,15 @@ weight: 26
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **RTO와 RPO** | RTO와 RPO (Recovery Time Objective & Recovery Point Objective)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
+
 ## 📝 【답안용】 서술 골격
 
 > **💡 핵심 인사이트**

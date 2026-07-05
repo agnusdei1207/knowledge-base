@@ -7,6 +7,14 @@ tags:
 weight: 275
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Cloud Native Observability 클라우** | Cloud Native Observability 클라우드 네이티브 관측성 (Cloud Native Observability)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 모놀리식 시절의 단순한 '모니터링(Monitoring)'을 넘어, 수백 개로 쪼개진 MSA 환경에서 "도대체 어디서 왜 터졌는지"를 파악하기 위한 3대 기둥(Metrics, Logs, Traces)과 관측성 사상을 이해한다.

@@ -52,6 +52,14 @@ weight: 318
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Lakehouse Medallion Architectu** | Lakehouse Medallion Architecture 메달리온 아키텍처 (Medallion Architecture)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: 레이크하우스 계층화 패턴

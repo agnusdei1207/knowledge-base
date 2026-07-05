@@ -12,6 +12,15 @@ weight: 37
 - 명령 큐(Command Queue)의 개수를 1개(AHCI)에서 64,000개로 획기적으로 늘려, 낸드 플래시의 본질적인 병렬 처리 능력을 100% 활용할 수 있게 한다.
 - NVMe-oF(Over Fabrics)로 진화하며 데이터 센터 네트워크(이더넷, 파이버 채널)를 통해서도 로컬 PCIe 수준의 초저지연 스토리지 접근을 가능하게 만들고 있다.
 ---
+
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **NVMe** | NVMe (Non-Volatile Memory Express) 및 PCIe 인터페이스의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개념:** 비휘발성 메모리(SSD 등)를 PCIe(Peripheral Component Interconnect Express) 버스를 통해 직접 CPU와 연결하여 통신하도록 만든 논리적 장치 제어 표준 프로토콜.
 - **필요성:** 

@@ -32,6 +32,15 @@ weight: 232
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Data Security: DRM vs DLP** | Data Security: DRM vs DLP의 핵심 개념 | 이 주제의 본질 |
+
+---
+
+
 # ✍️ 답안용 골격 (Exam Preparation)
 
 ### Ⅰ. 핵심 인사이트

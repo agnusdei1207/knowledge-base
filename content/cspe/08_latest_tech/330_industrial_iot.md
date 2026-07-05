@@ -52,6 +52,14 @@ weight: 330
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Industrial IoT 산업용 사물인터넷** | Industrial IoT 산업용 사물인터넷 (Industrial Internet of Things)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: 산업 설비 연결 IoT

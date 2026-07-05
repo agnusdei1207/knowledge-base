@@ -52,6 +52,14 @@ weight: 325
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Power Usage Effectiveness 전력사용** | Power Usage Effectiveness 전력사용효율 (Power Usage Effectiveness)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: 데이터센터 전력 비율 지표

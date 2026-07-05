@@ -14,6 +14,14 @@ weight: 80
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **AWQ** | AWQ (Activation-aware Weight Quantization)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개요**: AWQ(Activation-aware Weight Quantization)는 MIT와 주요 연구진이 2023년 발표한 LLM 전용 4비트 양자화 기법으로, 가중치 크기가 아닌 '활성화(Activation) 분포'를 기준으로 상위 1%의 주요 가중치(Salient weights)를 선별한 뒤, 스케일링을 통해 양자화 오차를 극소화하는 하드웨어 친화적(Hardware-friendly) 최적화 기술이다.
 - **배경**: GPTQ가 허깅페이스를 지배하고 있었지만 맹점이 있었다. GPTQ는 복잡한 역행렬 연산으로 모델의 가중치를 요리조리 뒤틀어 놨기 때문에, 이걸 실서비스(vLLM)에서 수만 명에게 서빙하려니 GPU 안에서 압축을 풀 때 스파게티처럼 꼬인 커널(Kernel) 병목이 발생해 타자 속도가 느려졌다.

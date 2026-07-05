@@ -52,6 +52,14 @@ weight: 344
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **ML-KEM** | ML-KEM (Module-Lattice Key Encapsulation Mechanism)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 정의: 모듈 격자 기반 학습 오차(MLWE) 문제를 활용하여 설계된 NIST 표준 양자내성 키 캡슐화 메커니즘 (FIPS 203)

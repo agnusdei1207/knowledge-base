@@ -7,6 +7,14 @@ tags:
 weight: 238
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **FPGA AI Acceleration** | FPGA AI Acceleration (FPGA AI 가속)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 ## 한눈에

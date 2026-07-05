@@ -7,6 +7,14 @@ tags:
 weight: 274
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Event-Driven Architecture 이벤트 ** | Event-Driven Architecture 이벤트 기반 아키텍처 (Event-Driven Architecture)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 마이크로서비스들이 서로 직접 호출(API)하며 거대한 스파게티 덩어리가 되는 것을 막기 위해, '이벤트(사건)'를 중앙에 던지고 각자 알아서 주워가는 극단적인 결합도 분리(Decoupling) 패턴을 이해한다.

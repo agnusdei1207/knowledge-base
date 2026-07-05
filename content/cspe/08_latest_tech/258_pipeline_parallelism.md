@@ -7,6 +7,14 @@ tags:
 weight: 258
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Pipeline Parallelism 파이프라인 병렬** | Pipeline Parallelism 파이프라인 병렬 (Pipeline Parallelism)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 모델 병렬화의 치명적 단점인 'GPU 노는 시간(Bubble)'을 마이크로 배치(Micro-batch)라는 기발한 아이디어로 어떻게 극복했는지 완벽히 이해한다.

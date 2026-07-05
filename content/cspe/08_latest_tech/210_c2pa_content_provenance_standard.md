@@ -7,6 +7,14 @@ tags:
 weight: 210
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **C2PA 콘텐츠 출처 표준** | C2PA 콘텐츠 출처 표준 (C2PA: Coalition for Content Provenance and Authenticity)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 ## 한눈에

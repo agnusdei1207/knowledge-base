@@ -7,6 +7,14 @@ tags:
 weight: 264
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Function as a Service 서비스형 함수** | Function as a Service 서비스형 함수 (Function as a Service)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 서버리스(Serverless)의 심장부이자, 개발자가 오직 '함수(Function)' 하나만 짜서 던지면 전 세계 수백만 명의 요청을 처리해주는 FaaS의 본질을 이해한다.

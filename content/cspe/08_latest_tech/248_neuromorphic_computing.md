@@ -7,6 +7,14 @@ tags:
 weight: 248
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Neuromorphic Computing 뉴로모픽 컴퓨** | Neuromorphic Computing 뉴로모픽 컴퓨팅 (Neuromorphic Computing)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 인간의 뇌를 모방하여 전력 소모를 극한으로 줄이는 뉴로모픽 컴퓨팅의 원리와 아키텍처를 완벽히 이해한다.

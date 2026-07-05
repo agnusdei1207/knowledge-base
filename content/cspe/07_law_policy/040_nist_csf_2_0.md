@@ -6,6 +6,14 @@ tags:
 weight: 40
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **NIST Cybersecurity Framework 2** | NIST Cybersecurity Framework 2.0 (NIST CSF 2.0)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: NIST CSF 2.0을 처음 봐도 왜 Govern 기능이 추가됐고 조직이 이 프레임워크로 무엇을 판단하는지 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.

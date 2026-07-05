@@ -7,6 +7,14 @@ tags:
 weight: 263
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Serverless Computing 서버리스** | Serverless Computing 서버리스 (Serverless Computing)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 개발자가 "서버(Server)를 신경 쓸(Less) 필요 없이" 오직 비즈니스 로직(코드)에만 집중할 수 있게 해주는 클라우드 컴퓨팅의 진화형을 이해한다.

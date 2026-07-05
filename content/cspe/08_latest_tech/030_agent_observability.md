@@ -14,6 +14,14 @@ weight: 30
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Agent Observability** | Agent Observability (에이전트 관측성)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개요**: 에이전트 관측성(Agent Observability)은 멀티 턴(Multi-turn)으로 이어지는 AI의 추론 과정, 외부 도구(Tool) 실행 로그, 상태(State) 변화, 지연 시간(Latency) 및 비용(Token) 데이터를 종합적으로 수집, 시각화, 분석하는 LLMOps 체계다.
 - **배경**: AI 에이전트가 한 번 실행되면, 속으로 혼자 계획을 짜고(Planning), 인터넷을 검색하고(Tool), 자기 교정(Self-Correction)을 하느라 30초가 훅 지나간다. 결과가 틀렸을 때 이 30초 동안 내부에서 무슨 일이 벌어졌는지 알 길이 없었다.

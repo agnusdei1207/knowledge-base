@@ -52,6 +52,14 @@ weight: 322
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Software Carbon Intensity 소프트웨** | Software Carbon Intensity 소프트웨어 탄소집약도 (Software Carbon Intensity)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: 기능 단위 탄소 지표

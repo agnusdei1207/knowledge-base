@@ -52,6 +52,14 @@ weight: 87
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **보안 API 설계 - JWT·OAuth·mTLS** | 보안 API 설계 - JWT·OAuth·mTLS (Secure API Design)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: API 요청 보안 통제 구조

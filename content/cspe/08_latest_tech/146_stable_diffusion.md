@@ -7,6 +7,14 @@ tags:
 weight: 146
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Stable Diffusion** | Stable Diffusion (Stable Diffusion)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 ## 한눈에

@@ -14,6 +14,14 @@ weight: 55
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Speculative Decoding** | Speculative Decoding (추측 디코딩)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개요**: 추측 디코딩(Speculative Decoding / Speculative Execution)은 작은 초안 모델(Draft Model)이 다음 K개의 토큰을 빠르게 미리 예측해 던지면, 크고 강력한 타겟 모델(Target Model)이 병렬(Parallel) 연산으로 이 초안의 확률값을 검증하여 한 번에 여러 토큰을 채택(Accept)함으로써 디코딩(생성) 속도를 비약적으로 높이는 추론 최적화 기법이다.
 - **배경**: LLM(트랜스포머 디코더)은 태생적으로 "한 글자 뱉고, 그 글자 넣어서 또 한 글자 뱉고(Autoregressive)" 하는 순차적 노가다를 한다. GPU는 수천 개의 연산을 동시에 하는 '병렬 처리' 기계인데, 한 글자씩 계산하느라 GPU 메모리 대역폭(Memory Bandwidth)만 잡아먹고 연산기(ALU)는 펑펑 놀고 있는(Memory-bound) 끔찍한 비효율이 발생했다.

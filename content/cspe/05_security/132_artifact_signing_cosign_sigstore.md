@@ -48,6 +48,15 @@ Sigstore 생태계는 크게 3가지 부품(Cosign, Fulcio, Rekor)이 톱니바�
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **아티팩트 서명: Cosign 및 Sigstore** | 아티팩트 서명: Cosign 및 Sigstore (Artifact Signing)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
+
 # ✍️ 단답형 / 서술형 시험장 출격 준비
 
 ### Ⅰ. 핵심 인사이트

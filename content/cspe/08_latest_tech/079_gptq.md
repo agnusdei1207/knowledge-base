@@ -14,6 +14,14 @@ weight: 79
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **GPTQ** | GPTQ (Generative Pre-trained Transformer Quantization)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개요**: GPTQ(Generative Pre-trained Transformer Quantization)는 2022년 발표된 Post-Training Quantization (PTQ, 학습 후 양자화) 기법으로, 각 레이어의 가중치(Weight)를 양자화할 때 생기는 활성화 오차(Activation Error)를 최소화하기 위해 나머지 가중치 값을 역행렬 기반으로 보정(Update)하는 고성능 3/4비트 압축 알고리즘이다.
 - **배경**: LLM 시대가 오기 전에는 모델 크기가 작아서, 바보같이 4비트로 대충 찌그러뜨린(RTN, 반올림) 다음 데이터 수만 개를 다시 먹여서 재학습(QAT)시켜 뇌를 치료하면 그만이었다. 하지만 70B, 175B 모델을 재학습시키려면 GPU 서버 렌탈비만 수억 원이 깨졌다.

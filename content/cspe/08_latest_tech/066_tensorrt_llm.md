@@ -14,6 +14,14 @@ weight: 66
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **TensorRT-LLM** | TensorRT-LLM (텐서RT-LLM)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개요**: TensorRT-LLM(TRT-LLM)은 엔비디아가 자사의 GPU 아키텍처 특성(Tensor Core, TMA 등)을 극한으로 활용하기 위해 개발한 오픈소스 LLM 서빙 프레임워크로, 커스텀 CUDA 커널과 인플라이트 배치(In-flight Batching)를 결합하여 압도적인 처리량(Throughput)과 최저 지연 시간(Low Latency)을 제공한다.
 - **배경**: AI 기업들이 Llama 같은 모델을 PyTorch 코드로 그냥 돌리니까, 비싼 H100 GPU를 사놓고도 연산기(ALU)를 30%밖에 못 쓰는 참사가 벌어졌다. vLLM 같은 외부 엔진들이 20배 빠르다며 시장을 장악하자, 칩 제조사인 엔비디아가 자존심이 상했다.

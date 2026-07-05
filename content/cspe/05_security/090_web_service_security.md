@@ -52,6 +52,14 @@ weight: 90
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **웹 서비스 보안 - SAML·WS-Security** | 웹 서비스 보안 - SAML·WS-Security (Web Service Security)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: SOAP 메시지 보안 통제

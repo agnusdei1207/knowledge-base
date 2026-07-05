@@ -7,6 +7,14 @@ tags:
 weight: 276
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **OpenTelemetry** | OpenTelemetry (OpenTelemetry)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 > 목적: 클라우드 네이티브 환경에서 Datadog, Splunk 같은 벤더의 '노예(Lock-in)'가 되지 않기 위해, 관측성 데이터 수집의 전 세계 통일 표준인 OpenTelemetry를 이해한다.

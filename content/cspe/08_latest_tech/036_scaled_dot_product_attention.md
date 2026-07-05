@@ -14,6 +14,14 @@ weight: 36
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Scaled Dot-Product Attention** | Scaled Dot-Product Attention (스케일드 닷 프로덕트 어텐션)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 - **개요**: 스케일드 닷 프로덕트 어텐션은 트랜스포머 모델에서 입력된 Query(Q), Key(K), Value(V) 벡터를 사용하여 어텐션 가중치(Attention Weight)를 계산하고 최종 컨텍스트 벡터를 도출하는 가장 기본적이고 빠른 어텐션 함수다.
 - **배경**: 과거에 단어 간 연관성을 구할 때는 가중치 행렬을 따로 두는 덧셈 어텐션(Additive Attention, Bahdanau 방식)을 썼다. 하지만 행렬 곱셈(내적, Dot-Product) 방식이 GPU 연산에 훨씬 빠르고 메모리 효율이 좋아서 이를 도입하려 했다.

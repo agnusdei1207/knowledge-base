@@ -7,6 +7,14 @@ tags:
 weight: 224
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Data Quality Monitoring** | Data Quality Monitoring (데이터 품질 모니터링)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 # 📖 【암기용】 개념 완전 이해
 
 ## 한눈에

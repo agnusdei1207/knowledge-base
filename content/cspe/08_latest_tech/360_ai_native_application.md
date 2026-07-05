@@ -52,6 +52,14 @@ weight: 360
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **AI-Native Application AI 네이티브 ** | AI-Native Application AI 네이티브 애플리케이션 (AI-Native Application)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 개요: AI 중심 실행 앱

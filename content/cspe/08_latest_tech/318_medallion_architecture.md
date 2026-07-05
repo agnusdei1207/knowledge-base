@@ -52,6 +52,14 @@ weight: 318
 
 ---
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **Lakehouse Medallion Architectu** | Lakehouse Medallion Architecture 메달리온 아키텍처의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - 정의: 데이터의 정제 수준과 가용성에 따라 Bronze(Raw), Silver(Validated), Gold(Enriched) 3단계로 구분하는 계층형 데이터 아키텍처
