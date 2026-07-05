@@ -56,9 +56,16 @@ weight: 87
 
 | 용어 | 뜻 | 비유 |
 |:---|:---|:---|
-| **보안 API 설계 - JWT·OAuth·mTLS** | 보안 API 설계 - JWT·OAuth·mTLS (Secure API Design)의 핵심 개념 | 이 주제의 본질 |
+| **개요** | API 호출자를 인증하고 권한·토큰·전송 구간·호출량을 통제하는 설계 방식 | "식당 메뉴판" |
+| **왜 필요한가** | API는 내부 서비스, 모바일 앱, 파트너 시스템이 직접 호출한다 | "식당 메뉴판" |
+| **핵심 직관** | API 보안은 "누가", "어떤 서비스에", "얼마나", "어떤 채널로" 들어오는지 계속 확인하는 검문소임 | "식당 메뉴판" |
+| **배경·문제의식** | 세션 기반 웹과 달리 API는 Stateless 호출이 많아 매 요청마다 JWT, scope, client certificate, quot... | "식당 메뉴판" |
+| **작동 원리** | Client가 Authorization Server에서 access token을 발급받고 API Gateway에 제시한다 | "입장권" |
+| **비유** | 건물 출입증(JWT), 방문 목적(scope), 출입문별 허용 구역(audience), 회사 배지(mTLS), 혼잡 제한(rate limi... | "이 개념의 핵심" |
+| **구체 예시** | `aud=payment-api`, `iss=https://idp | "식당 메뉴판" |
 
 ---
+
 
 ## Ⅰ. 개요 및 필요성
 

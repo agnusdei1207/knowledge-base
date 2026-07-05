@@ -17,9 +17,16 @@ weight: 113
 
 | 용어 | 뜻 | 비유 |
 |:---|:---|:---|
-| **데이터베이스 복제** | 데이터베이스 복제 (Replication)와 Read Replica의 핵심 개념 | 이 주제의 본질 |
+| **필요성** | 단일 DB(SPOF)가 터지면 서비스 전체가 죽어버리는 위험을 막기 위한 백업(가용성) 용도 | "이 개념의 핵심" |
+| **Master (쓰기 전용)** | 클라이언트의 INSERT/UPDATE 요청을 받아 실제 데이터를 수정하고, 그 변경 이력을 **바이너리 로그(Binary Log, Binl... | "일지 기록" |
+| **Relay & I/O Thread** | Slave DB의 I/O 쓰레드가 Master의 Binlog를 주기적으로 훔쳐와서(Pull), 자신의 릴레이 로그(Relay Log)에 복사함 | "한 사무실의 여러 직원" |
+| **Slave (읽기 전용)** | Slave의 SQL 쓰레드가 릴레이 로그를 읽고, 그대로 자신의 디스크에 재실행(Replay)하여 Master와 똑같은 상태를 만듦 | "이 개념의 핵심" |
+| **동기화(Sync) vs 비동기화(Async) 방식** | - **비동기(Asynchronous)**: Master는 Binlog만 던져놓고 즉시 클라이언트에게 "성공!"을 응답함 | "일지 기록" |
+| **반동기(Semi-Sync)** | 최소 1대의 Slave가 "로그 잘 받았다"고 응답할 때까지 Master가 대기함 | "이 개념의 핵심" |
+| **복제 지연 (Replication Lag) 대처법** | 비동기 복제 환경에서는 Master에 글을 쓰고 0 | "이 개념의 핵심" |
 
 ---
+
 
 ## Ⅰ. 개요 및 필요성
 - **개요**: 하나의 DB 서버(Primary/Master)에 저장된 데이터를 다른 1개 이상의 DB 서버(Secondary/Slave/Replica)에 실시간으로 복사하여 동일한 데이터를 유지하는 기술.

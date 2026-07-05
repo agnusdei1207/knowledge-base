@@ -40,6 +40,18 @@ weight: 135
 > 2. **가치**: HTTP/3는 QUIC stream으로 TCP 계층 HOL 영향을 줄이고 0-RTT·connection migration을 지원한다.
 > 3. **판단 포인트**: UDP 허용률, CDN 지원, fallback 성공률, p95 TTFB, packet loss 환경을 함께 판단한다.
 
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **HTTP/2** | TCP 위 binary framing + multiplexing으로 HTTP/1.1의 연결 수 문제를 해결한 프로토콜 | "한 도로에 여러 차선" |
+| **HTTP/3** | QUIC(UDP 기반) 위에 HTTP semantics를 매핑한 프로토콜. stream별 손실 분리 | "차선별 독립 도로" |
+| **QUIC** | UDP 위에 다중화·암호화·0-RTT를 구현한 전송 프로토콜 (RFC 9000) | "고속 전용 터널" |
+| **HOL Blocking** | Head-of-Line Blocking. 앞 패킷 지연이 뒤 패킷까지 막는 현상 | "좁은 길 앞차 정체" |
+| **HPACK / QPACK** | HTTP/2·HTTP/3의 헤더 압축 방식. QPACK은 순서 무관 디코딩 지원 | "주소 약어 사전" |
+
+---
+
 ## 출제 의도 및 답안 포인트
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |

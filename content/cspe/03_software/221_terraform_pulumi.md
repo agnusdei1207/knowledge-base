@@ -17,9 +17,16 @@ weight: 221
 
 | 용어 | 뜻 | 비유 |
 |:---|:---|:---|
-| **테라폼과 풀루미** | 테라폼과 풀루미 (Terraform vs Pulumi)의 핵심 개념 | 이 주제의 본질 |
+| **개요** | 클라우드 인프라 리소스를 프로비저닝하고 관리하기 위한 오픈소스 기반의 Infrastructure as Code (IaC) 도구들 | "이 개념의 핵심" |
+| **필요성** | AWS CloudFormation은 AWS에서만 쓸 수 있어서 멀티 클라우드(AWS+GCP)를 쓰면 멘붕이 옴 | "전기처럼 빌려 쓰는 컴퓨팅" |
+| **1. Terraform (테라폼) - 선언형 HCL의 마스터피스** | - `main.tf`라는 파일에 **HCL(HashiCorp Configuration Language)**이라는 언어로 "EC2 1대 만들... | "지문" |
+| **2. Pulumi (풀루미) - 진짜 코딩으로 인프라 굽기** | - HCL을 버리고, **TypeScript, Python, Go** 같은 일반 프로그래밍 언어를 그대로 씀 | "이 개념의 핵심" |
+| **3. Provider (플러그인 생태계)** | - 두 도구 모두 '프로바이더'라는 플러그인을 다운받아 씀 | "이 개념의 핵심" |
+| **State File (상태 파일) 관리 아키텍처의 중요성** | 테라폼이나 풀루미나 가장 골치 아픈 건 현실 클라우드와 코드 사이의 간극을 기록해 두는 'State 파일'임 | "이 개념의 핵심" |
+| **CDK (Cloud Development Kit)와의 관계** | 풀루미처럼 진짜 언어로 인프라를 짜는 트렌드가 거세지자, HashiCorp도 'CDKTF(CDK for Terraform)'를, AWS도 ... | "지문" |
 
 ---
+
 
 ## Ⅰ. 개요 및 필요성
 - **개요**: 클라우드 인프라 리소스를 프로비저닝하고 관리하기 위한 오픈소스 기반의 Infrastructure as Code (IaC) 도구들.

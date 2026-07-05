@@ -11,9 +11,16 @@ weight: 156
 
 | 용어 | 뜻 | 비유 |
 |:---|:---|:---|
-| **Graph Transformer** | Graph Transformer (Graph Transformer)의 핵심 개념 | 이 주제의 본질 |
+| **필요성** | 기존 GNN은 "내 바로 옆에 붙어 있는 이웃"의 정보만 모으는 근시안(Local) 모델임 | "이 개념의 핵심" |
+| **배경** | Transformer는 본래 문장의 단어들이 서로 얼마나 중요한지(Self-Attention)를 $O(N^2)$으로 계산함 | "이 개념의 핵심" |
+| **구조적 위치 인코딩 (Positional Encoding)** | 단어 순서 대신, 노드 간의 '최단 경로 거리(Shortest Path)'나 '그래프 내 중요도(Centrality)'를 수학적으로 계산해... | "품질 검사" |
+| **Global Self-Attention** | 그래프 내의 모든 노드($N$개)가 서로를 한 번씩 다 바라봄 | "이 개념의 핵심" |
+| **구체 예시** | 신약 개발(AI 신약) | "학습하는 기계" |
+| **흔한 오해/주의점** | "그럼 무조건 GNN보다 좋네?" $\rightarrow$ 단점이 명확함 | "이 개념의 핵심" |
+| **Self-Attention (셀프 어텐션)** | Transformer의 핵심 심장 | "이 개념의 핵심" |
 
 ---
+
 
 # 📖 【암기용】 개념 완전 이해
 

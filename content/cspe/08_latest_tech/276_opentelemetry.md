@@ -11,9 +11,16 @@ weight: 276
 
 | 용어 | 뜻 | 비유 |
 |:---|:---|:---|
-| **OpenTelemetry** | OpenTelemetry (OpenTelemetry)의 핵심 개념 | 이 주제의 본질 |
+| **배경(왜 등장했나?)** | 구글은 OpenCensus라는 라이브러리를 밀었고, 다른 진영은 OpenTracing을 밀었다 | "자동 품질 검사 라인" |
+| **작동 원리(어떻게 달성했나?)** | 1. **API/SDK**: 개발자는 OTel이 제공하는 표준 API로만 에러 로그나 소요 시간을 코딩한다 | "식당 메뉴판" |
+| **Collector (수집기)** | 모든 서버에서 뿜어져 나오는 데이터(OTLP 포맷)를 OTel Collector라는 중앙 수집기가 다 빨아들인다 | "이 개념의 핵심" |
+| **Export (전송)** | Collector가 빨아들인 데이터를 설정 파일(YAML)에 따라 Datadog, Prometheus, ElasticSearch 등으로 입... | "경험으로 배우는 프로그램" |
+| **일상 비유** | 예전에는 택배를 보낼 때 우체국 전용 박스, CJ 전용 박스, 한진 전용 박스를 따로 사서 포장해야 했다(Vendor Lock-in) | "화장실 잠금" |
+| **구체 예시** | Java Spring Boot 앱을 띄울 때 `opentelemetry-javaagent | "이 개념의 핵심" |
+| **흔한 오해/주의점** | "OTel을 깔면 그 자체로 예쁜 대시보드 그래프를 볼 수 있나?" → 절대 아니다! OTel은 데이터를 '수집해서 배달'하는 우체부(파이... | "이 개념의 핵심" |
 
 ---
+
 
 # 📖 【암기용】 개념 완전 이해
 

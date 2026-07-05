@@ -11,9 +11,16 @@ weight: 275
 
 | 용어 | 뜻 | 비유 |
 |:---|:---|:---|
-| **Cloud Native Observability 클라우** | Cloud Native Observability 클라우드 네이티브 관측성 (Cloud Native Observability)의 핵심 개념 | 이 주제의 본질 |
+| **배경(왜 등장했나?)** | 옛날에는 서버가 1대여서 죽으면 그냥 그 서버 로그만 까보면 됐다(모니터링) | "이 개념의 핵심" |
+| **작동 원리(어떻게 달성했나?) - 3대 기둥(Three Pillars)** | 1. **Metrics (메트릭)**: '무엇(What)이 문제인가?' (예: 결제 서버 CPU가 99%다, HTTP 500 에러가 1초에... | "두뇌" |
+| **Logs (로그)** | '왜(Why) 문제인가?' (예: C 서버 로그를 까보니 "NullPointerException"이 발생했네 | "일지 기록" |
+| **일상 비유** | 범죄(장애) 수사와 같다 | "이 개념의 핵심" |
+| **Monitoring (모니터링)** | 시스템이 멈췄는지 안 멈췄는지 대시보드로 보는 행위 | "CCTV" |
+| **OpenTelemetry (OTel)** | 관측성 데이터(메트릭, 로그, 트레이스)를 수집하는 방식을 하나로 통일한 CNCF의 거대한 오픈소스 표준 (De-facto) | "이 개념의 핵심" |
+| **Service Mesh (Istio)** | 개발자가 코드에 추적 로직을 심지 않아도, 인프라 단에서 강제로 관측성 데이터를 뽑아내주는(Zero-instrumentation) 고마운 기술 | "이 개념의 핵심" |
 
 ---
+
 
 # 📖 【암기용】 개념 완전 이해
 

@@ -17,9 +17,16 @@ weight: 61
 
 | 용어 | 뜻 | 비유 |
 |:---|:---|:---|
-| **깃옵스** | 깃옵스 (GitOps)의 핵심 개념 | 이 주제의 본질 |
+| **개요** | Weaveworks에서 2017년에 창안한 개념으로, Kubernetes 환경에 최적화된 지속적 배포(CD) 및 인프라 관리 방법론 | "자동 배송 시스템" |
+| **필요성** | 기존에는 Jenkins(CI 서버)가 클러스터의 관리자 권한(Kubeconfig)을 통째로 들고 밖에서 안으로 밀어 넣는(Push) 방식이... | "자동 품질 검사 라인" |
+| **Push vs Pull 방식** | - **기존 (CIOps / Push)**: CI 서버 ➡️ `kubectl apply` ➡️ K8s 클러스터 | "자동 품질 검사 라인" |
+| **GitOps (Pull)** | K8s 내부의 Controller(ArgoCD) ➡️ Git 저장소를 주기적으로 `git pull` ➡️ 상태 동기화 | "자동 배송 시스템" |
+| **선언적 인프라** | YAML 파일로 "어떤 상태가 되어야 하는지"만 Git에 명시하면, GitOps 에이전트가 알아서 그 상태를 만듦 | "경험으로 배우는 프로그램" |
+| **App Repo와 Config Repo의 분리** | 실무에서는 소스코드가 있는 Git(App Repo)과 K8s 배포 YAML이 있는 Git(Config Repo)을 반드시 분리해야 함 | "경험으로 배우는 프로그램" |
+| **깃옵스** | 깃옵스 (GitOps)의 핵심 개념 | "이 개념의 핵심" |
 
 ---
+
 
 ## Ⅰ. 개요 및 필요성
 - **개요**: Weaveworks에서 2017년에 창안한 개념으로, Kubernetes 환경에 최적화된 지속적 배포(CD) 및 인프라 관리 방법론.
