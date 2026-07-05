@@ -222,9 +222,10 @@ mark,
 .center {
     grid-area: grid-center;
     max-width: 100%;
-    min-width: 100%;
+    min-width: 0;
     margin-left: auto;
     margin-right: auto;
+    overflow-x: hidden;
 }
 
 .page-home .center {
@@ -526,6 +527,8 @@ header h1 {
 
 article {
     color: var(--darkgray);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 article > h1 {
@@ -605,6 +608,7 @@ pre {
     margin: 1rem 0;
     padding: 0 0.5rem;
     overflow-x: auto;
+    max-width: 100%;
     border: 1px solid var(--lightgray);
     border-radius: 5px;
     font-family: var(--codeFont);
@@ -620,6 +624,9 @@ pre code.hljs {
     color: inherit;
     border: none;
     font-weight: normal;
+    white-space: pre;
+    word-break: normal;
+    overflow-wrap: normal;
 }
 
 code {
@@ -927,15 +934,20 @@ img {
     transition: width 0.2s ease;
 }
 
-@media (min-width: 800px) and (max-width: 1200px) {
+@media (min-width: 1000px) and (max-width: 1200px) {
     .page > #page-body {
-        grid-template-columns: var(--side-panel-width) auto;
+        grid-template-columns: 240px auto;
         grid-template-rows: auto auto auto auto;
         grid-template-areas:
             "grid-sidebar-left grid-header"
             "grid-sidebar-left grid-center"
             "grid-sidebar-left grid-sidebar-right"
             "grid-sidebar-left grid-footer";
+    }
+
+    .sidebar.left {
+        padding-left: 1rem;
+        padding-right: 0.5rem;
     }
 
     .sidebar.right {
@@ -955,9 +967,14 @@ img {
     footer {
         margin-right: 0;
     }
+
+    pre code,
+    pre code.hljs {
+        font-size: 0.78rem;
+    }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 999px) {
     html {
         scroll-padding-top: 4rem;
     }
@@ -1075,6 +1092,19 @@ img {
 
     .subject-strip {
         grid-template-columns: 1fr;
+    }
+
+    pre code,
+    pre code.hljs {
+        font-size: 0.78rem;
+    }
+
+    .post-content th,
+    .post-content td,
+    .section-content th,
+    .section-content td {
+        min-width: 3.5rem;
+        font-size: 0.88rem;
     }
 }
 
