@@ -23,7 +23,7 @@ weight: 61
 | **GitOps (Pull)** | K8s 내부의 Controller(ArgoCD) ➡️ Git 저장소를 주기적으로 `git pull` ➡️ 상태 동기화 | "자동 배송 시스템" |
 | **선언적 인프라** | YAML 파일로 "어떤 상태가 되어야 하는지"만 Git에 명시하면, GitOps 에이전트가 알아서 그 상태를 만듦 | "경험으로 배우는 프로그램" |
 | **App Repo와 Config Repo의 분리** | 실무에서는 소스코드가 있는 Git(App Repo)과 K8s 배포 YAML이 있는 Git(Config Repo)을 반드시 분리해야 함 | "경험으로 배우는 프로그램" |
-| **깃옵스** | 깃옵스 (GitOps)의 핵심 개념 | "이 개념의 핵심" |
+| **깃옵스** | 깃옵스 (GitOps)의 핵심 개념 | "핵심 기술 요소" |
 
 ---
 
