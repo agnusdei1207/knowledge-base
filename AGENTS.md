@@ -64,7 +64,7 @@ title: "개념명 (영문명)"
 date: "YYYY-MM-DD"   # 실제 작성일
 tags:
   - "cspe-{영역키}"   # 예: cspe-hardware, cspe-latest-tech (studynote-* 태그 금지)
-weight: NNN
+weight: NNN   # 반드시 따옴표 없는 정수. "020"처럼 문자열로 쓰면 Zola 빌드 실패(YAML usize 요구)
 ---
 
 ## 핵심 인사이트 (3줄 요약)
@@ -203,7 +203,7 @@ weight: NNN
 
 | # | 필수 요건 | 정본 | 불충족 예시 |
 |:---:|:---|:---|:---|
-| 18 | frontmatter — title 영문병기 · date(실제 작성일) · tags `cspe-{영역키}` · weight=NNN | 본 문서 파일 작성 포맷 | weight 누락, `studynote-*` 태그 |
+| 18 | frontmatter — title 영문병기 · date(실제 작성일) · tags `cspe-{영역키}` · weight=NNN(따옴표 없는 정수) | 본 문서 파일 작성 포맷 | weight 누락, `studynote-*` 태그, `weight: "020"`처럼 문자열로 써서 Zola 빌드 실패 |
 | 19 | **3쪽 답안 밀도** — Ⅳ~Ⅵ 확장을 갖추되 서론·중복 없이 표·도식·단문 중심. **답안용(Ⅰ~Ⅵ) ≤ 약 170줄**(암기용은 스터디노트 깊이로 별도 — writing-method Ⅷ) | writing-method 대전제(0)·Ⅷ | 답안용이 Ⅲ에서 끝남, 암기용이 얕은 요약 |
 
 **최소 정량 기준: 암기용 블록 1개(스터디노트 깊이 — writing-method Ⅷ) + 답안용(선형 도식 2개, Ⅴ 심화 판단, 방안 3개, 결론 2줄, 유형 전환 표). 답안용 ≤ 170줄, 암기용은 이해에 필요한 만큼(패딩 금지).**
@@ -596,3 +596,5 @@ weight: {NNN}
   - 템플릿(AGENTS.md)·작성법(writing-method.md Ⅷ)은 **작성자 지침(주석)으로 이미 수정**해 재발을 막았다. 남은 것은 **기존 파일 청소** — 재작성 트래커 진행 시 파일당 점검 10-1번으로 함께 제거하거나 위 sed로 일괄 청소한다.
 
 **작업 방식 메모:** 동시 실행 서브에이전트 최대 2개, 10개 파일마다 커밋·푸시(`zola build` 통과 확인 후). push 전 `git fetch`로 diverge 확인 — conflict 없으면 merge, 있으면 사용자에게 확인.
+
+**빌드 실패 사고 이력 — weight 타입 오류 (2026-07-05):** `01_basic_theory/020_automata_theory.md`의 frontmatter가 `weight: "020"`(따옴표+0패딩 문자열)로 작성되어 Zola가 `YAML deserialize error: weight: invalid type: string "020", expected usize`로 3회 연속 빌드 실패(커밋 3개 연속 CI 빨간불). 원인: 파일명 접두어 `{NNN}`(3자리, 0패딩)을 frontmatter `weight` 값에 그대로 문자열로 복사. **weight는 파일명과 별개로 항상 따옴표 없는 순수 정수**(`weight: 20`, `020`이나 `"020"` 금지)여야 함 — 위 "출력 골격"과 체크리스트 18번에 반영 완료. 재발 방지: 커밋 전 `grep -rnE '^weight: *"?0[0-9]' content/` 로 0패딩·따옴표 weight 없는지 확인 후 push.
