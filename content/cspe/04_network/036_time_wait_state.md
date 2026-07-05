@@ -13,6 +13,15 @@ weight: 36
 > 3. **판단/해결**: 단순 대기 시간을 줄이는 것보다 `tcp_tw_reuse` 파라미터 적용, Connection Pool 기법(Keep-Alive), 또는 로드밸런서의 SNAT IP/Port 풀 확장을 통해 근본적인 소켓 자원 부족 문제를 해결해야 함.
 
 ---
+
+### 🔑 핵심 용어 정리
+
+| 용어 | 뜻 | 비유 |
+|:---|:---|:---|
+| **TCP TIME_WAIT 상태** | TCP TIME_WAIT 상태 (TIME_WAIT State)의 핵심 개념 | 이 주제의 본질 |
+
+---
+
 ## Ⅰ. 개요 및 필요성
 
 - **개요**: TCP 연결 종료 후 소켓이 즉각 소멸하지 않고, `2 MSL (Maximum Segment Lifetime)` 동안 소멸을 유예하는 마지막 소켓 상태.
