@@ -3,7 +3,7 @@ title: "오토마타 이론 — DFA·NFA (Automata Theory)"
 date: "2026-07-05"
 tags:
   - "cspe-basic-theory"
-weight: 020
+weight: 20
 ---
 
 ## 핵심 인사이트 (3줄 요약)
