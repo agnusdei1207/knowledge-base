@@ -8,10 +8,11 @@ weight: 95
 
 ## 미리 알고가기
 
-- DAS: 서버에 직접 연결된 블록 스토리지임
-- NAS: 파일 프로토콜로 네트워크를 통해 공유하는 스토리지임
-- SAN: 전용 스토리지 네트워크로 블록 디바이스를 제공하는 구조임
+- DAS(Direct-Attached Storage): 서버에 직접 연결된 블록 스토리지임
+- NAS(Network-Attached Storage): 파일 프로토콜로 네트워크를 통해 공유하는 스토리지임
+- SAN(Storage Area Network): 전용 스토리지 네트워크로 블록 디바이스를 제공하는 구조임
 - 블록/파일: 블록은 디스크 단위 접근, 파일은 디렉터리와 파일명 기반 접근 방식임
+- I/O(Input/Output): 서버와 저장장치 사이에서 발생하는 읽기·쓰기 요청임
 
 ## Ⅰ. 개요
 
@@ -29,10 +30,10 @@ weight: 95
 
 | 판단 기준 | DAS | NAS | SAN |
 |:---|:---|:---|:---|
-| 연결 방식 | 서버 내부 또는 직접 연결 | TCP/IP 네트워크 파일 공유 | FC/iSCSI/NVMe-oF 블록 네트워크 |
+| 연결 방식 | 서버 내부 또는 직접 연결 | TCP/IP(Transmission Control Protocol/Internet Protocol) 네트워크 파일 공유 | FC(Fibre Channel)/iSCSI(Internet Small Computer Systems Interface)/NVMe-oF(Non-Volatile Memory Express over Fabrics) 블록 네트워크 |
 | 접근 단위 | 블록 디바이스 | 파일·디렉터리 | 블록 디바이스 |
 | 장점 기준 | 낮은 지연, 단순 구성 | 공유와 관리 편의 | 고성능·고가용성·집중 관리 |
-| 적합 업무 | 단일 서버, 로컬 DB, 부트 디스크 | 문서 공유, 홈 디렉터리, 백업 | 대규모 DB, 가상화, 미션 크리티컬 |
+| 적합 업무 | 단일 서버, 로컬 DB(Database), 부트 디스크 | 문서 공유, 홈 디렉터리, 백업 | 대규모 DB, 가상화, 미션 크리티컬 |
 
 > 요약: 스토리지 계층은 성능만이 아니라 공유 방식과 운영 책임 범위를 기준으로 나누어야 함.
 
@@ -50,15 +51,15 @@ weight: 95
       |
       v
 +----------+      +----------+      +----------+
-| SAN fabric| --->| Storage  | ---> | Block LUN|
+| SAN fabric| --->| Storage  | ---> | Block vol|
 +----------+      +----------+      +----------+
 ```
 
 | 구성요소 | 설명 | 비유 |
 |:---|:---|:---|
 | 호스트 서버 | 애플리케이션이 I/O 요청을 발생시키고 파일시스템 또는 블록 디바이스를 사용함 | 자료를 요청하는 직원 |
-| 연결 네트워크 | SATA/SAS, Ethernet, FC, iSCSI, NVMe-oF처럼 경로를 제공함 | 이동 통로 |
-| 스토리지 컨트롤러 | 캐시, RAID, LUN, snapshot, 파일 공유 기능을 제공함 | 창고 관리자 |
+| 연결 네트워크 | SATA(Serial Advanced Technology Attachment)/SAS(Serial Attached SCSI), Ethernet, FC, iSCSI, NVMe-oF처럼 경로를 제공함 | 이동 통로 |
+| 스토리지 컨트롤러 | 캐시, RAID(Redundant Array of Independent Disks), LUN(Logical Unit Number), snapshot, 파일 공유 기능을 제공함 | 창고 관리자 |
 | 관리 계층 | 권한, 용량, 백업, 장애 조치를 통합 관리함 | 운영 규정 |
 
 > 요약: 스토리지 계층은 호스트, 연결 경로, 컨트롤러, 관리 기능의 배치 방식으로 구분됨.
@@ -67,11 +68,11 @@ weight: 95
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 요구분석 | ---> | 계층선택 | ---> | 구성/매핑 | ---> | 운영관리 |
+| Analyze  | ---> | Select   | ---> | Map      | ---> | Operate  |
 +----------+      +----------+      +----------+      +----------+
 ```
 
-1. **요구 분석** — IOPS, throughput, latency, 공유 사용자, 가용성, 비용 조건을 정리함
+1. **요구 분석** — IOPS(Input/Output Operations Per Second), throughput, latency, 공유 사용자, 가용성, 비용 조건을 정리함
 2. **계층 선택** — 로컬성은 DAS, 파일 공유는 NAS, 고성능 블록 공유는 SAN을 우선 검토함
 3. **구성·매핑** — LUN, export, mount, multipath, 권한, 네트워크 분리를 설정함
 4. **운영 관리** — 용량, 성능, 백업, 장애 조치, 수명주기를 모니터링함
@@ -89,7 +90,7 @@ weight: 95
 ## Ⅵ. 개선방안
 
 - **P1 대응**: 업무별 I/O profile을 측정해 블록·파일·객체 접근 단위를 재선정함 (확인: workload latency)
-- **P2 대응**: 전용 VLAN/fabric, multipath, QoS, queue depth 튜닝으로 경로 병목을 제거함 (확인: path utilization)
+- **P2 대응**: 전용 VLAN(Virtual Local Area Network)/fabric, multipath, QoS(Quality of Service), queue depth 튜닝으로 경로 병목을 제거함 (확인: path utilization)
 - **P3 대응**: 중앙 백업, 용량 풀링, 표준 provisioning 정책으로 분산 관리를 줄임 (확인: storage admin effort)
 
 > 요약: 스토리지 개선은 계층 재선정과 경로 최적화, 관리 표준화가 함께 이루어져야 함.

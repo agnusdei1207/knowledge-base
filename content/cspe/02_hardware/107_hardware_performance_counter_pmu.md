@@ -8,15 +8,17 @@ weight: 107
 
 ## 미리 알고가기
 
-- PMU: CPU 내부 이벤트를 측정하는 Performance Monitoring Unit임
+- PMU(Performance Monitoring Unit): CPU(Central Processing Unit) 내부 이벤트를 측정하는 성능 모니터링 장치임
 - 성능 카운터: cache miss, branch miss, cycle, instruction 같은 이벤트 횟수를 세는 레지스터임
-- CPI: 한 명령어를 실행하는 데 소요된 평균 cycle 수임
+- CPI(Cycles Per Instruction): 한 명령어를 실행하는 데 소요된 평균 cycle 수임
+- IPC(Instructions Per Cycle): 한 cycle 동안 평균 몇 개 명령어가 완료되는지를 나타내는 지표임
+- TLB(Translation Lookaside Buffer): 가상 주소와 물리 주소 변환 결과를 캐시하는 버퍼임
 - Sampling: 모든 이벤트를 기록하지 않고 일정 주기나 조건에 따라 대표 데이터를 수집하는 방식임
 
 ## Ⅰ. 개요
 
-- **정의**: 하드웨어 성능 카운터와 PMU는 프로세서 내부에서 발생하는 cycle, instruction, cache miss, branch miss, TLB miss 같은 이벤트를 하드웨어 레지스터로 측정하는 성능 분석 기능임. 시스템 병목을 추측이 아니라 CPU 이벤트 기준으로 진단하기 위해 사용함.
-- **배경/필요성**: 애플리케이션 지연은 CPU, 메모리, 캐시, 분기, I/O 중 어느 요인인지 외부 시간 측정만으로 구분하기 어려움. PMU는 낮은 오버헤드로 마이크로아키텍처 이벤트를 수집해 최적화 근거를 제공함.
+- **정의**: 하드웨어 성능 카운터와 PMU는 프로세서 내부에서 발생하는 cycle, instruction, cache miss, branch miss, TLB miss 같은 이벤트를 하드웨어 레지스터로 측정하는 성능 분석 기능임.
+- **배경/필요성**: 애플리케이션 지연은 CPU, 메모리, 캐시, 분기, I/O(Input/Output) 중 어느 요인인지 외부 시간 측정만으로 구분하기 어려움. PMU는 낮은 오버헤드로 마이크로아키텍처 이벤트를 수집해 시스템 병목을 추측이 아니라 CPU 이벤트 기준으로 진단하게 함.
 - **비유**: 자동차 속도계만 보는 것이 아니라 엔진 회전수, 연료 분사, 브레이크 사용 횟수까지 기록하는 계기판과 같음.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
@@ -66,7 +68,7 @@ weight: 107
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 이벤트선택 | ---> | 카운터설정 | ---> | 실행측정 | ---> | 병목해석 |
+| Select   | ---> | Configure| ---> | Measure  | ---> | Analyze  |
 +----------+      +----------+      +----------+      +----------+
 ```
 
@@ -95,6 +97,6 @@ weight: 107
 
 ## Ⅶ. 전망
 
-- **발전 방향**: eBPF, cloud observability, heterogeneous CPU/GPU PMU, confidential computing 환경의 제한 계측과 결합해 운영 분석으로 확대됨
+- **발전 방향**: eBPF(Extended Berkeley Packet Filter), cloud observability, heterogeneous CPU/GPU(Graphics Processing Unit) PMU, confidential computing 환경의 제한 계측과 결합해 운영 분석으로 확대됨
 - **기술사적 판단**: 성능 개선 주장은 wall-clock 시간뿐 아니라 PMU 기반 원인 지표와 재현 가능한 측정 조건을 함께 제시해야 함
 - **기술사 제언**: 주요 서비스의 성능 기준선에는 IPC, cache miss, branch miss, memory bandwidth 같은 PMU 지표를 포함해야 함

@@ -9,14 +9,15 @@ weight: 106
 ## 미리 알고가기
 
 - 3D 적층: 여러 메모리 다이를 수직으로 쌓아 연결하는 패키징 방식임
-- TSV: 실리콘 관통 전극으로 다이 사이를 수직 연결하는 배선임
-- HBM: 여러 DRAM 다이를 적층하고 넓은 I/O로 GPU·가속기에 연결하는 고대역폭 메모리임
+- TSV(Through-Silicon Via): 실리콘 관통 전극으로 다이 사이를 수직 연결하는 배선임
+- HBM(High Bandwidth Memory): 여러 DRAM(Dynamic Random Access Memory) 다이를 적층하고 넓은 I/O(Input/Output)로 GPU(Graphics Processing Unit)·가속기에 연결하는 고대역폭 메모리임
 - 인터포저: 로직 칩과 메모리 스택을 고밀도로 연결하는 중간 기판임
+- ECC(Error-Correcting Code): 메모리 오류를 검출·정정하기 위한 부호 체계임
 
 ## Ⅰ. 개요
 
-- **정의**: 3D 적층 메모리는 메모리 다이를 수직으로 쌓고 TSV, micro-bump, 인터포저로 연결해 용량과 대역폭을 높이는 메모리 패키징 기술임. AI 가속기와 HPC에서 메모리 대역폭 병목과 배선 길이 문제를 완화하기 위해 사용함.
-- **배경/필요성**: 평면 배치 메모리는 핀 수, 배선 길이, 전력 소모 때문에 고성능 연산 장치에 충분한 대역폭을 공급하기 어려움. 수직 적층은 짧고 넓은 연결을 제공해 단위 전력당 대역폭을 높일 수 있음.
+- **정의**: 3D 적층 메모리는 메모리 다이를 수직으로 쌓고 TSV, micro-bump, 인터포저로 연결해 용량과 대역폭을 높이는 메모리 패키징 기술임.
+- **배경/필요성**: 평면 배치 메모리는 핀 수, 배선 길이, 전력 소모 때문에 AI(Artificial Intelligence) 가속기와 HPC(High Performance Computing)에 충분한 대역폭을 공급하기 어려움. 수직 적층은 짧고 넓은 연결을 제공해 메모리 대역폭 병목과 배선 길이 문제를 완화함.
 - **비유**: 넓은 단층 창고 대신 엘리베이터가 있는 고층 창고를 세워 같은 부지에서 더 많은 물건을 빠르게 옮기는 구조임.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
@@ -68,7 +69,7 @@ weight: 106
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 다이제조 | ---> | 적층접합 | ---> | 패키징   | ---> | 테스트   |
+| Die fab  | ---> | Bonding  | ---> | Package  | ---> | Test     |
 +----------+      +----------+      +----------+      +----------+
 ```
 
@@ -91,12 +92,12 @@ weight: 106
 
 - **P1 대응**: thermal-aware floorplan, heat spreader, 동적 refresh·throttling으로 온도를 관리함 (확인: stack temperature)
 - **P2 대응**: known good die 선별, redundancy row/column, repair fuse로 스택 수율을 개선함 (확인: stack yield)
-- **P3 대응**: built-in self-test, TSV test access, 패키지 후 burn-in으로 결함을 단계별 분리함 (확인: defect escape rate)
+- **P3 대응**: BIST(Built-In Self-Test), TSV test access, 패키지 후 burn-in으로 결함을 단계별 분리함 (확인: defect escape rate)
 
 > 요약: 3D 적층 메모리 개선은 제조 전 선별과 적층 후 열·테스트 체계를 함께 요구함.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: HBM3E/HBM4, hybrid bonding, logic-in-memory, chiplet 패키징과 결합해 AI 메모리 대역폭의 핵심 기술로 지속됨
+- **발전 방향**: HBM 계열, hybrid bonding, logic-in-memory, chiplet 패키징과 결합해 AI 메모리 대역폭의 핵심 기술로 지속됨
 - **기술사적 판단**: 도입 평가는 peak bandwidth뿐 아니라 capacity, thermal design power, 공급 안정성, 패키지 수율을 함께 봐야 함
 - **기술사 제언**: 시스템 설계 초기부터 냉각, 전력, 메모리 병목 profile을 반영해 3D 메모리 적용 범위를 정해야 함

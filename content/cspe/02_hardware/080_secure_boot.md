@@ -16,7 +16,7 @@ weight: 80
 
 ## Ⅰ. 개요
 
-- **정의**: Secure Boot는 전원이 켜진 직후부터 ROM, 부트로더, 펌웨어, 커널, OS 이미지가 순차적으로 암호학적 검증을 통과해야 실행되도록 하는 부팅 신뢰 체계임. 코드 무결성, 서명 키, 버전, 부팅 정책을 기준으로 악성 펌웨어와 변조된 OS 실행을 차단하기 위해 사용함
+- **정의**: Secure Boot는 전원이 켜진 직후부터 ROM, 부트로더, 펌웨어, 커널, OS 이미지가 코드 무결성·서명 키·버전·부팅 정책 검증을 순차적으로 통과해야 실행되도록 하는 부팅 신뢰 체계임
 - **배경/필요성**: 부팅 초기 코드는 OS 보안 기능보다 먼저 실행되므로 이 단계가 변조되면 백신, 접근 통제, 로그가 우회될 수 있음. 따라서 가장 이른 시점에서 신뢰할 수 있는 코드만 실행되도록 해야 함
 - **비유**: 건물 경비가 입구에서 방문증을 확인하고, 각 구역 문도 이전 구역에서 확인된 사람만 통과시키는 절차와 같음
 
@@ -103,6 +103,6 @@ weight: 80
 
 ## Ⅶ. 전망
 
-- **발전 방향**: Secure Boot는 measured boot, remote attestation, SBOM, device identity와 결합해 IoT·차량·서버의 장치 신뢰 증명 기반으로 확대됨
-- **기술사적 판단**: root of trust, key ladder, boot stage별 signature, rollback counter, recovery partition, 제조 키 주입 절차를 함께 설계함; tampered image 차단, rollback attack, key revocation, recovery boot, power-fail update, debug unlock 상태를 테스트함; Secure Boot는 부팅 무결성만 보장하므로 runtime attestation, secure update, key compromise 대응, 공급망 검증과 함께 적용해야 함
+- **발전 방향**: Secure Boot는 measured boot, 원격 검증, SBOM, 장치 식별과 결합해 IoT·차량·서버의 장치 신뢰 증명 기반으로 확대됨
+- **기술사적 판단**: 신뢰 루트, 키 계층, 부팅 단계별 서명, 롤백 카운터, 복구 파티션, 제조 키 주입 절차를 함께 설계함; 변조 이미지 차단, 롤백 공격, 키 폐기, 복구 부팅, 전원 차단 업데이트, 디버그 잠금 해제 상태를 테스트함; Secure Boot는 부팅 무결성만 보장하므로 런타임 검증, 보안 업데이트, 키 유출 대응, 공급망 검증과 함께 적용해야 함
 - **기술사 제언**: Secure Boot는 암호화 기능이 아니라 신뢰 루트에서 시작해 단계별 무결성을 확인하는 부팅 체인으로 설명함

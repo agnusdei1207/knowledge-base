@@ -11,11 +11,13 @@ weight: 103
 - 하이퍼바이저: 물리 서버 자원을 가상머신에 분할·격리해 제공하는 계층임
 - Type 1: 하드웨어 위에서 직접 동작하는 bare-metal 하이퍼바이저임
 - Type 2: 호스트 운영체제 위에서 애플리케이션처럼 동작하는 hosted 하이퍼바이저임
-- VM: 가상 CPU, 메모리, 디스크, 네트워크를 가진 논리 서버 인스턴스임
+- VM(Virtual Machine): 가상 CPU(Central Processing Unit), 메모리, 디스크, 네트워크를 가진 논리 서버 인스턴스임
+- OS(Operating System): 하드웨어 자원 관리와 애플리케이션 실행 환경을 제공하는 운영체제임
+- I/O(Input/Output): 스토리지·네트워크·주변장치 입출력 경로를 통칭함
 
 ## Ⅰ. 개요
 
-- **정의**: Type 1·Type 2 하이퍼바이저는 가상머신 관리 계층이 물리 하드웨어에 직접 위치하는지, 호스트 OS 위에 위치하는지를 기준으로 구분한 서버 가상화 방식임. 성능, 격리, 운영 편의, 개발 테스트 목적에 맞는 가상화 플랫폼을 선택하기 위해 사용함.
+- **정의**: Type 1·Type 2 하이퍼바이저는 가상머신 관리 계층이 물리 하드웨어에 직접 위치하는지, 호스트 OS 위에 위치하는지를 기준으로 구분한 서버 가상화 방식임.
 - **배경/필요성**: 서버 통합과 클라우드 운영은 강한 격리와 고성능이 필요하지만, 개발·교육 환경은 설치 편의와 호스트 OS 연동이 중요할 수 있음. 위치 계층을 구분하면 장애 범위와 성능 오버헤드를 명확히 판단할 수 있음.
 - **비유**: Type 1은 건물 전체를 관리하는 전용 관리실이고, Type 2는 기존 사무실 안에 추가로 설치한 임시 관리 데스크와 같음.
 
@@ -66,14 +68,14 @@ weight: 103
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 자원등록 | ---> | VM생성   | ---> | 스케줄링 | ---> | 운영관리 |
+| Register | ---> | Create   | ---> | Schedule | ---> | Operate  |
 +----------+      +----------+      +----------+      +----------+
 ```
 
 1. **자원 등록** — CPU, 메모리, 스토리지, 네트워크를 가상화 플랫폼에 등록함
-2. **VM 생성** — vCPU, vRAM, 가상 디스크, 가상 NIC, 게스트 OS 이미지를 구성함
+2. **VM 생성** — vCPU(Virtual CPU), vRAM(Virtual RAM), 가상 디스크, 가상 NIC(Network Interface Card), 게스트 OS 이미지를 구성함
 3. **자원 스케줄링** — 하이퍼바이저가 VM별 CPU 시간, 메모리, I/O 요청을 배분함
-4. **운영 관리** — snapshot, migration, HA, monitoring, patching으로 수명주기를 관리함
+4. **운영 관리** — snapshot, migration, HA(High Availability), monitoring, patching으로 수명주기를 관리함
 
 > 요약: 서버 가상화는 물리 자원을 등록하고 VM에 논리 자원으로 배분한 뒤 지속 운영하는 과정임.
 
@@ -87,9 +89,9 @@ weight: 103
 
 ## Ⅵ. 개선방안
 
-- **P1 대응**: 적정 overcommit, paravirtual driver, NUMA affinity, I/O passthrough를 적용함 (확인: CPU ready and p99 latency)
-- **P2 대응**: 하이퍼바이저 패치, 관리망 분리, RBAC, secure boot, side-channel 완화 설정을 운영함 (확인: hardening compliance)
-- **P3 대응**: VM lifecycle policy, snapshot retention, template 표준화, CMDB 연계를 적용함 (확인: orphan VM count)
+- **P1 대응**: 적정 overcommit, paravirtual driver, NUMA(Non-Uniform Memory Access) affinity, I/O passthrough를 적용함 (확인: CPU ready and p99 latency)
+- **P2 대응**: 하이퍼바이저 패치, 관리망 분리, RBAC(Role-Based Access Control), secure boot, side-channel 완화 설정을 운영함 (확인: hardening compliance)
+- **P3 대응**: VM lifecycle policy, snapshot retention, template 표준화, CMDB(Configuration Management Database) 연계를 적용함 (확인: orphan VM count)
 
 > 요약: 가상화 품질은 하이퍼바이저 종류보다 자원·보안·수명주기 운영 규율로 확보됨.
 

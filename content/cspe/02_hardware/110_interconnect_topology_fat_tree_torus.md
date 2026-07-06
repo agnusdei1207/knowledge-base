@@ -11,12 +11,13 @@ weight: 110
 - 토폴로지: 노드와 링크가 어떤 구조로 연결되는지를 나타내는 네트워크 형태임
 - 팻트리: 상위 계층으로 갈수록 더 넓은 대역폭을 제공해 병목을 줄이는 트리형 구조임
 - 토러스: 노드를 격자로 배치하고 양 끝을 연결해 순환 경로를 만든 구조임
+- HPC(High Performance Computing): 대규모 병렬 계산을 수행하는 고성능 컴퓨팅 환경임
 - Bisection Bandwidth: 네트워크를 둘로 나눴을 때 양쪽 사이를 연결하는 총 대역폭임
 
 ## Ⅰ. 개요
 
-- **정의**: 인터커넥트 토폴로지는 서버, 스위치, 가속기, 노드가 링크로 연결되는 구조이며, 팻트리와 토러스는 각각 계층적 무차단 대역폭과 규칙적 근접 연결을 목표로 하는 대표 구조임. HPC, AI 클러스터, 데이터센터에서 통신 패턴과 비용 기준으로 네트워크를 설계하기 위해 사용함.
-- **배경/필요성**: 대규모 병렬 시스템은 연산 성능보다 노드 간 통신 지연과 대역폭이 전체 처리 시간을 제한할 수 있음. 토폴로지 선택은 collective communication, shuffle, nearest-neighbor 계산의 성능과 비용을 직접 좌우함.
+- **정의**: 인터커넥트 토폴로지는 서버, 스위치, 가속기, 노드가 링크로 연결되는 구조이며, 팻트리와 토러스는 각각 계층적 무차단 대역폭과 규칙적 근접 연결을 목표로 하는 대표 구조임.
+- **배경/필요성**: HPC, AI(Artificial Intelligence) 클러스터, 데이터센터의 대규모 병렬 시스템은 연산 성능보다 노드 간 통신 지연과 대역폭이 전체 처리 시간을 제한할 수 있음. 토폴로지 선택은 collective communication, shuffle, nearest-neighbor 계산의 성능과 비용을 직접 좌우함.
 - **비유**: 팻트리는 큰 간선도로를 계층적으로 넓히는 도시 도로망이고, 토러스는 격자형 골목을 순환 연결한 계획도시와 같음.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
@@ -64,7 +65,7 @@ Torus:
 
 | 구성요소 | 설명 | 비유 |
 |:---|:---|:---|
-| 노드 | 서버, GPU, 스토리지, 계산 장치처럼 통신의 말단임 | 도시의 건물 |
+| 노드 | 서버, GPU(Graphics Processing Unit), 스토리지, 계산 장치처럼 통신의 말단임 | 도시의 건물 |
 | 링크 | 노드와 스위치 사이 데이터가 이동하는 물리·논리 경로임 | 도로 |
 | 스위치·라우터 | 패킷을 목적지 방향으로 전달하고 혼잡을 제어함 | 교차로 관제 |
 | 라우팅 정책 | 경로 선택, 부하 분산, 장애 우회를 결정함 | 내비게이션 규칙 |
@@ -75,7 +76,7 @@ Torus:
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 패턴분석 | ---> | 토폴로지선택 | ---> | 경로설계 | ---> | 운영검증 |
+| Profile  | ---> | Select   | ---> | Plan     | ---> | Validate |
 +----------+      +----------+      +----------+      +----------+
 ```
 
@@ -97,7 +98,7 @@ Torus:
 ## Ⅵ. 개선방안
 
 - **P1 대응**: workload trace 기반 시뮬레이션과 topology-aware scheduling으로 통신이 가까운 노드를 함께 배치함 (확인: link hotspot count)
-- **P2 대응**: oversubscription ratio, cable plan, port speed를 TCO 기준으로 최적화함 (확인: cost per effective bandwidth)
+- **P2 대응**: oversubscription ratio, cable plan, port speed를 TCO(Total Cost of Ownership) 기준으로 최적화함 (확인: cost per effective bandwidth)
 - **P3 대응**: adaptive routing, redundant link, failure domain 설계와 장애 훈련을 적용함 (확인: degraded throughput)
 
 > 요약: 인터커넥트 개선은 토폴로지 자체보다 워크로드 배치와 장애 시 경로 제어를 포함해야 함.
@@ -106,4 +107,4 @@ Torus:
 
 - **발전 방향**: InfiniBand, Ethernet fabric, NVLink/NVSwitch, optical interconnect가 결합해 AI 클러스터용 계층형 토폴로지가 고도화됨
 - **기술사적 판단**: 네트워크 설계는 포트 속도보다 collective 성능, bisection bandwidth, 장애 격리, 증설 단위를 기준으로 평가해야 함
-- **기술사 제언**: 대규모 클러스터는 애플리케이션 통신 trace를 기반으로 토폴로지를 선정하고, link utilization과 collective latency를 운영 SLO로 관리해야 함
+- **기술사 제언**: 대규모 클러스터는 애플리케이션 통신 trace를 기반으로 토폴로지를 선정하고, link utilization과 collective latency를 운영 SLO(Service Level Objective)로 관리해야 함

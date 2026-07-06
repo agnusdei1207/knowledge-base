@@ -8,7 +8,8 @@ weight: 96
 
 ## 미리 알고가기
 
-- 논리 볼륨: 여러 물리 디스크나 LUN을 추상화해 제공하는 저장 단위임
+- 논리 볼륨: 여러 물리 디스크나 LUN(Logical Unit Number)을 추상화해 제공하는 저장 단위임
+- I/O(Input/Output): 호스트와 저장장치 사이에서 발생하는 읽기·쓰기 요청임
 - Thin Provisioning: 실제 사용량만큼 물리 용량을 할당하면서 큰 논리 용량을 보이는 방식임
 - Snapshot: 특정 시점의 데이터 상태를 논리적으로 보존하는 기능임
 - Pooling: 여러 저장장치의 용량과 성능을 하나의 자원 풀로 묶는 방식임
@@ -49,7 +50,7 @@ weight: 96
                          |                         |
                          v                         v
                   +--------------+          +--------------+
-                  | Mapping table|          | Physical LUN |
+| Mapping table|          | Physical vol |
                   +--------------+          +--------------+
 ```
 
@@ -66,20 +67,20 @@ weight: 96
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 풀구성   | ---> | 볼륨할당 | ---> | 주소매핑 | ---> | 정책운영 |
+| Pool     | ---> | Allocate | ---> | Map      | ---> | Policy   |
 +----------+      +----------+      +----------+      +----------+
 ```
 
 1. **풀 구성** — 성능, 용량, 보호 수준이 다른 물리 저장장치를 자원 풀로 등록함
 2. **볼륨 할당** — 업무 요구에 따라 논리 볼륨, thin/thick 속성, 접근 권한을 설정함
-3. **주소 매핑** — 호스트 논리 블록 주소를 물리 위치와 RAID/tier 정책에 연결함
+3. **주소 매핑** — 호스트 논리 블록 주소를 물리 위치와 RAID(Redundant Array of Independent Disks)/tier 정책에 연결함
 4. **정책 운영** — snapshot, replication, migration, capacity threshold를 관리함
 
 > 요약: 가상화된 스토리지는 물리 자원을 풀링한 뒤 논리 볼륨과 정책으로 업무에 제공됨.
 
 ## Ⅴ. 문제점
 
-- **P1 매핑 계층 병목**: 가상화 엔진의 CPU, 캐시, 메타데이터 I/O가 전체 경로의 병목이 될 수 있음
+- **P1 매핑 계층 병목**: 가상화 엔진의 CPU(Central Processing Unit), 캐시, 메타데이터 I/O가 전체 경로의 병목이 될 수 있음
 - **P2 용량 과할당 위험**: thin provisioning을 과도하게 사용하면 물리 용량 부족 시 쓰기 실패가 발생함
 - **P3 장애 영향 확대**: 중앙 가상화 계층 장애가 여러 업무 볼륨에 동시에 영향을 줄 수 있음
 
@@ -89,12 +90,12 @@ weight: 96
 
 - **P1 대응**: 가상화 엔진 이중화, 캐시 sizing, 메타데이터 분리, I/O profile 튜닝을 수행함 (확인: virtualization latency overhead)
 - **P2 대응**: thin pool threshold, 자동 증설, quota, capacity forecasting을 적용함 (확인: physical free capacity)
-- **P3 대응**: controller HA, multipath, 정기 failover test로 가상화 계층 장애 범위를 검증함 (확인: failover time)
+- **P3 대응**: controller HA(High Availability), multipath, 정기 failover test로 가상화 계층 장애 범위를 검증함 (확인: failover time)
 
 > 요약: 스토리지 가상화는 추상화 계층을 별도 운영 대상과 장애 도메인으로 관리해야 함.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: SDS, HCI, cloud block storage, NVMe-oF와 결합해 정책 기반 저장 자원 자동화로 확장됨
+- **발전 방향**: SDS(Software-Defined Storage), HCI(Hyper-Converged Infrastructure), cloud block storage, NVMe-oF(Non-Volatile Memory Express over Fabrics)와 결합해 정책 기반 저장 자원 자동화로 확장됨
 - **기술사적 판단**: 도입 평가는 기능 수보다 데이터 경로 지연, 장애 격리, 벤더 종속, 운영 자동화 수준을 기준으로 해야 함
 - **기술사 제언**: 용량 풀링을 시작하기 전에 critical workload별 성능 기준선과 복구 절차를 문서화해야 함

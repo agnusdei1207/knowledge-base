@@ -8,15 +8,15 @@ weight: 83
 
 ## 미리 알고가기
 
-- PUF: 제조 공정 미세 편차에서 장치마다 다른 응답을 생성하는 물리적 복제 불가 함수임
-- Challenge-Response Pair: 입력 challenge와 그에 대한 고유 response의 쌍임
-- SRAM PUF: 전원 인가 시 SRAM 셀이 0 또는 1로 초기화되는 편향을 활용하는 PUF 방식임
+- PUF(Physical Unclonable Function): 제조 공정 미세 편차에서 장치마다 다른 응답을 생성하는 물리적 복제 불가 함수임
+- CRP(Challenge-Response Pair): 입력 challenge와 그에 대한 고유 response의 쌍임
+- SRAM(Static Random Access Memory) PUF: 전원 인가 시 SRAM 셀이 0 또는 1로 초기화되는 편향을 활용하는 PUF 방식임
 - Fuzzy Extractor: 잡음이 있는 PUF 응답에서 안정적인 키를 재구성하는 오류 보정 기법임
 - Helper Data: 키 복원을 돕기 위해 저장하는 공개 보조 데이터로 원본 키를 직접 드러내지 않아야 함
 
 ## Ⅰ. 개요
 
-- **정의**: PUF는 반도체 제조 공정의 미세한 물리적 편차를 이용해 같은 설계의 칩이라도 서로 다른 응답이나 키를 생성하게 하는 하드웨어 보안 기술임. 고유성, 재현성, 예측 불가능성, 환경 안정성을 기준으로 장치 인증과 키 보호에 사용함
+- **정의**: PUF는 반도체 제조 공정의 미세한 물리적 편차를 이용해 같은 설계의 칩이라도 서로 다른 응답이나 키를 생성하게 하는 하드웨어 보안 기술로, 고유성, 재현성, 예측 불가능성, 환경 안정성을 기준으로 장치 인증과 키 보호에 사용함
 - **배경/필요성**: 장치 내부에 고정 키를 저장하면 추출, 복제, 유출 위험이 존재함. PUF는 키를 저장하기보다 필요할 때 장치 물리 특성에서 재구성해 복제와 추출을 어렵게 만들 수 있음
 - **비유**: 같은 도면으로 만든 자물쇠라도 금속 표면의 미세한 결 때문에 각 자물쇠가 고유한 지문을 갖는 것과 같음
 
@@ -31,7 +31,7 @@ weight: 83
 
 | 판단 기준 | 저장형 키 | PUF 기반 키 |
 |:---|:---|:---|
-| 비밀 보관 | Flash, fuse, EEPROM 등에 키 값을 저장함 | 물리 특성에서 키를 재구성하고 평상시 저장하지 않음 |
+| 비밀 보관 | Flash, fuse, EEPROM(Electrically Erasable Programmable Read-Only Memory) 등에 키 값을 저장함 | 물리 특성에서 키를 재구성하고 평상시 저장하지 않음 |
 | 복제 저항 | 저장 매체가 복사되면 키도 복제될 수 있음 | 공정 편차 복제가 어려워 동일 응답 재현이 어려움 |
 | 안정성 요구 | 저장값은 환경 변화에 비교적 안정적임 | 온도, 전압, 노화에 따른 응답 흔들림 보정이 필요함 |
 | 운영 부담 | 키 주입과 보관 절차가 중요함 | 등록, helper data, 오류 보정, 재현성 시험이 중요함 |
@@ -105,6 +105,6 @@ weight: 83
 
 ## Ⅶ. 전망
 
-- **발전 방향**: PUF는 IoT, 차량, FPGA, 공급망 인증에서 key injection 부담을 줄이는 hardware root of trust 후보로 확대됨
-- **기술사적 판단**: entropy source, helper data, error correction, enrollment 절차, 온도·전압 변화 범위를 기준으로 PUF 구조를 선택함; uniqueness, reliability, bit error rate, aging drift, challenge-response modeling attack 저항성을 샘플 수와 환경 조건별로 측정함
+- **발전 방향**: PUF는 IoT(Internet of Things), 차량, FPGA(Field-Programmable Gate Array), 공급망 인증에서 키 주입 부담을 줄이는 하드웨어 루트 신뢰 후보로 확대됨
+- **기술사적 판단**: 엔트로피 원천, helper data, 오류 보정, 등록 절차, 온도·전압 변화 범위를 기준으로 PUF 구조를 선택함. 고유성, 재현성, 비트 오류율, 노화 편차, CRP 모델링 공격 저항성을 샘플 수와 환경 조건별로 측정함
 - **기술사 제언**: PUF는 복제 불가 표어보다 고유성, 재현성, 오류 보정, 모델링 공격 방어 지표로 평가해야 함

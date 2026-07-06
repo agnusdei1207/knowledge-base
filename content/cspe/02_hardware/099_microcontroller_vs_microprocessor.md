@@ -8,15 +8,16 @@ weight: 99
 
 ## 미리 알고가기
 
-- MCU: CPU, 메모리, 주변장치를 단일 칩에 통합한 제어용 반도체임
-- MPU: CPU 연산 기능을 중심으로 외부 메모리와 주변장치를 연결해 쓰는 프로세서임
-- 주변장치: GPIO, ADC, PWM, UART, timer처럼 제어 기능을 담당하는 블록임
+- MCU(Microcontroller Unit): CPU(Central Processing Unit), 메모리, 주변장치를 단일 칩에 통합한 제어용 반도체임
+- MPU(Microprocessor Unit): CPU 연산 기능을 중심으로 외부 메모리와 주변장치를 연결해 쓰는 프로세서임
+- 주변장치: GPIO(General-Purpose Input/Output), ADC(Analog-to-Digital Converter), PWM(Pulse Width Modulation), UART(Universal Asynchronous Receiver/Transmitter), timer처럼 제어 기능을 담당하는 블록임
+- RTOS(Real-Time Operating System): 제한 시간 안에 태스크를 처리하도록 설계된 실시간 운영체제임
 - 실시간성: 정해진 시간 안에 입력을 처리하고 출력을 내야 하는 성질임
 
 ## Ⅰ. 개요
 
-- **정의**: 마이크로컨트롤러는 제어 업무에 필요한 CPU·메모리·주변장치를 단일 칩에 통합한 장치이고, 마이크로프로세서는 고성능 연산 CPU를 중심으로 외부 메모리·I/O와 결합해 시스템을 구성하는 장치임. 임베디드 시스템에서 비용, 전력, 성능, 실시간성 기준으로 선택함.
-- **배경/필요성**: 센서 제어, 모터 구동, 가전처럼 단순 제어는 낮은 전력과 즉시 응답이 중요하고, 게이트웨이·멀티미디어·범용 OS 업무는 높은 연산 성능과 메모리 확장이 중요함. MCU와 MPU를 구분해야 시스템 비용과 복잡도를 줄일 수 있음.
+- **정의**: 마이크로컨트롤러는 제어 업무에 필요한 CPU·메모리·주변장치를 단일 칩에 통합한 장치이고, 마이크로프로세서는 고성능 연산 CPU를 중심으로 외부 메모리·I/O(Input/Output)와 결합해 시스템을 구성하는 장치임. 임베디드 시스템에서 비용, 전력, 성능, 실시간성 기준으로 선택함.
+- **배경/필요성**: 센서 제어, 모터 구동, 가전처럼 단순 제어는 낮은 전력과 즉시 응답이 중요하고, 게이트웨이·멀티미디어·범용 OS(Operating System) 업무는 높은 연산 성능과 메모리 확장이 중요함. MCU와 MPU를 구분해야 시스템 비용과 복잡도를 줄일 수 있음.
 - **비유**: MCU는 주방과 도구가 포함된 작은 작업실이고, MPU는 큰 공장의 핵심 엔진에 주변 설비를 붙여 운영하는 방식임.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
@@ -29,10 +30,10 @@ weight: 99
 
 | 판단 기준 | 마이크로컨트롤러 | 마이크로프로세서 |
 |:---|:---|:---|
-| 집적 구조 | CPU, SRAM/Flash, 주변장치 내장 | CPU 중심, 외부 DRAM/Flash/I/O 필요 |
+| 집적 구조 | CPU, SRAM(Static Random-Access Memory)/Flash, 주변장치 내장 | CPU 중심, 외부 DRAM(Dynamic Random-Access Memory)/Flash/I/O 필요 |
 | 성능·전력 | 낮은 전력과 예측 가능한 응답 | 높은 연산 성능과 풍부한 메모리 |
 | 소프트웨어 | bare-metal 또는 RTOS 중심 | Linux, Android, 범용 OS 가능 |
-| 적용 업무 | 센서, 모터, 계측, 저전력 제어 | UI, 네트워크, AI, 멀티미디어 처리 |
+| 적용 업무 | 센서, 모터, 계측, 저전력 제어 | UI(User Interface), 네트워크, AI(Artificial Intelligence), 멀티미디어 처리 |
 
 > 요약: MCU는 제어성과 비용, MPU는 성능과 확장성을 기준으로 선택함.
 
@@ -66,11 +67,11 @@ weight: 99
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 요구정의 | ---> | 후보선정 | ---> | 보드설계 | ---> | 검증운영 |
+| Req def  | ---> | Select   | ---> | Board    | ---> | Verify   |
 +----------+      +----------+      +----------+      +----------+
 ```
 
-1. **요구 정의** — 처리량, 응답시간, 전력, 인터페이스, BOM 비용, OS 필요성을 정리함
+1. **요구 정의** — 처리량, 응답시간, 전력, 인터페이스, BOM(Bill of Materials) 비용, OS 필요성을 정리함
 2. **후보 선정** — 단순 제어와 저전력은 MCU, 고성능·고메모리는 MPU를 우선 검토함
 3. **보드 설계** — 전원, 클럭, 메모리, 주변장치, 디버깅 인터페이스를 구성함
 4. **검증 운영** — 실시간 응답, 발열, 소비전력, 펌웨어 업데이트, 생산 테스트를 검증함
@@ -81,20 +82,20 @@ weight: 99
 
 - **P1 과소·과대 선정**: MCU로 복잡한 UI와 네트워크를 처리하거나 MPU를 단순 센서 제어에 쓰면 비용과 품질 문제가 생김
 - **P2 실시간성 저하**: MPU와 범용 OS는 인터럽트 지연과 스케줄링 변동으로 hard real-time 제어가 어려울 수 있음
-- **P3 보드 복잡도 증가**: MPU는 외부 DRAM, PMIC, 고속 배선이 필요해 설계·검증 비용이 커짐
+- **P3 보드 복잡도 증가**: MPU는 외부 DRAM, PMIC(Power Management Integrated Circuit), 고속 배선이 필요해 설계·검증 비용이 커짐
 
 > 요약: 임베디드 프로세서 선택 실패는 성능 부족보다 요구와 구조의 불일치에서 발생함.
 
 ## Ⅵ. 개선방안
 
-- **P1 대응**: workload profile과 BOM target을 기준으로 MCU, MPU, hybrid SoC 후보를 정량 비교함 (확인: cost-performance fit)
-- **P2 대응**: real-time 요구는 RTOS MCU, MPU+RT core, PREEMPT_RT 조합으로 분리 설계함 (확인: worst-case latency)
-- **P3 대응**: reference design, SI/PI 검증, production test point를 초기 설계에 포함함 (확인: board bring-up defect rate)
+- **P1 대응**: workload profile과 BOM target을 기준으로 MCU, MPU, hybrid SoC(System on Chip) 후보를 정량 비교함 (확인: cost-performance fit)
+- **P2 대응**: real-time 요구는 RTOS MCU, MPU+real-time core, 실시간 Linux 커널 옵션 조합으로 분리 설계함 (확인: worst-case latency)
+- **P3 대응**: reference design, SI(Signal Integrity)/PI(Power Integrity) 검증, production test point를 초기 설계에 포함함 (확인: board bring-up defect rate)
 
 > 요약: 선택 리스크는 요구 분석과 실시간 분리, 보드 검증 표준화로 낮출 수 있음.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: MCU에도 AI accelerator, 보안 enclave, 무선 통신이 통합되고 MPU는 저전력 SoC로 확장되며 경계가 일부 흐려짐
+- **발전 방향**: MCU에도 AI(Artificial Intelligence) accelerator, 보안 enclave, 무선 통신이 통합되고 MPU는 저전력 SoC로 확장되며 경계가 일부 흐려짐
 - **기술사적 판단**: 최종 선택은 최고 성능보다 수명주기 비용, 전력 예산, 소프트웨어 유지보수, 공급망 안정성을 기준으로 해야 함
 - **기술사 제언**: 제품군별 표준 MCU/MPU 플랫폼을 정해 펌웨어 재사용성과 인증 비용을 관리해야 함

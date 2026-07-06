@@ -8,7 +8,7 @@ weight: 88
 
 ## 미리 알고가기
 
-- 양자 오류 정정: 여러 물리 큐비트로 하나의 논리 큐비트를 표현해 오류를 검출·보정하는 기술임
+- 양자 오류 정정(QEC, Quantum Error Correction): 여러 물리 큐비트로 하나의 논리 큐비트를 표현해 오류를 검출·보정하는 기술임
 - 표면 코드: 2차원 격자에 데이터 큐비트와 측정 큐비트를 배치해 안정자 측정으로 오류를 추적하는 대표 오류 정정 코드임
 - 안정자: 양자 상태를 직접 붕괴시키지 않고 오류 징후를 측정하기 위한 연산 집합임
 - 코드 거리: 논리 오류가 발생하기 위해 필요한 최소 물리 오류 수와 관련된 보호 수준임
@@ -16,7 +16,7 @@ weight: 88
 
 ## Ⅰ. 개요
 
-- **정의**: 양자 오류 정정 표면 코드는 다수의 물리 큐비트를 2차원 격자로 배치하고 안정자 syndrome을 반복 측정해 하나의 논리 큐비트를 보호하는 오류 정정 방식임. 물리 오류율, threshold, 코드 거리, syndrome 측정 주기, 디코더 지연을 기준으로 결함 허용 양자컴퓨팅을 구현하기 위해 사용함
+- **정의**: 양자 오류 정정 표면 코드는 다수의 물리 큐비트를 2차원 격자로 배치하고 안정자 syndrome을 반복 측정해 하나의 논리 큐비트를 보호하는 오류 정정 방식으로, 물리 오류율, 임계값, 코드 거리, syndrome 측정 주기, 디코더 지연을 기준으로 결함 허용 양자컴퓨팅을 구현하기 위해 사용함
 - **배경/필요성**: 물리 큐비트는 탈동조, 게이트 오류, 측정 오류에 취약해 긴 양자 회로를 그대로 실행하기 어렵음. 유용한 대규모 알고리즘을 실행하려면 오류가 누적되어도 논리 정보가 유지되는 구조가 필요함
 - **비유**: 중요한 문서를 한 장에만 쓰지 않고 여러 칸에 나누어 보관한 뒤, 주변 감시자가 어느 칸이 손상됐는지 계속 보고해 원본 의미를 유지하는 것과 같음
 
@@ -97,14 +97,14 @@ weight: 88
 2. **중기**: 코드 거리 선택, leakage 제거, 오류 모델 기반 디코더, lattice surgery 기법을 적용함
 3. **장기**: 논리 큐비트 공장, 실시간 디코더 하드웨어, 모듈형 양자컴퓨터 아키텍처를 구축함
 
-- **P1 대응**: 물리 게이트 충실도를 높여 필요한 코드 거리를 줄이고 논리 큐비트 자원 예산을 산정함 (확인: logical error rate)
-- **P2 대응**: 상관 오류 모델링, 누화 보정, leakage reset, 칩 배치 최적화를 수행함 (확인: syndrome correlation)
-- **P3 대응**: FPGA/GPU/ASIC 기반 저지연 디코더와 Pauli frame 추적을 적용함 (확인: decoder latency)
+- **P1 대응**: 물리 게이트 충실도를 높여 필요한 코드 거리를 줄이고 논리 큐비트 자원 예산을 산정함 (확인: 논리 오류율)
+- **P2 대응**: 상관 오류 모델링, 누화 보정, 누설 상태 초기화, 칩 배치 최적화를 수행함 (확인: syndrome 상관도)
+- **P3 대응**: FPGA(Field-Programmable Gate Array), GPU(Graphics Processing Unit), ASIC(Application-Specific Integrated Circuit) 기반 저지연 디코더와 Pauli frame 추적을 적용함 (확인: 디코더 지연)
 
 > 요약: 표면 코드 개선은 물리 오류율 저감, 현실 오류 모델 반영, 고속 디코딩 체계가 함께 필요함.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: 표면 코드는 fault-tolerant quantum computing에서 logical qubit 구현 후보로 남고 LDPC code, better decoder, modular architecture와 경쟁·보완함
-- **기술사적 판단**: physical error rate, code distance, syndrome cycle time, nearest-neighbor connectivity, decoder latency, cryogenic control overhead를 기준으로 규모를 산정함; logical error rate, threshold crossing, syndrome extraction fidelity, leakage error, decoder backlog, logical gate fidelity를 반복 실험으로 확인함
+- **발전 방향**: 표면 코드는 결함 허용 양자컴퓨팅에서 논리 큐비트 구현 후보로 남고 LDPC(Low-Density Parity-Check) 코드, 개선된 디코더, 모듈형 아키텍처와 경쟁·보완함
+- **기술사적 판단**: 물리 오류율, 코드 거리, syndrome 주기, 근접 연결성, 디코더 지연, 극저온 제어 오버헤드를 기준으로 규모를 산정함. 논리 오류율, 임계값 통과 여부, syndrome 추출 충실도, 누설 오류, 디코더 적체, 논리 게이트 충실도를 반복 실험으로 확인함
 - **기술사 제언**: 표면 코드는 중복 저장이 아니라 안정자 측정과 디코더로 논리 큐비트를 보호하는 시스템 구조로 설명함

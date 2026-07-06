@@ -9,19 +9,21 @@ weight: 104
 ## 미리 알고가기
 
 - 직렬 인터페이스: 데이터를 적은 수의 차동 신호선으로 고속 전송하는 연결 방식임
-- USB: 범용 주변장치 연결, 전력 공급, 데이터 전송을 지원하는 표준 인터페이스임
-- Thunderbolt: PCIe와 DisplayPort 전송을 터널링해 고속 확장과 디스플레이 연결을 제공하는 인터페이스임
+- USB(Universal Serial Bus): 범용 주변장치 연결, 전력 공급, 데이터 전송을 지원하는 표준 인터페이스임
+- Thunderbolt: PCIe(Peripheral Component Interconnect Express)와 DisplayPort 전송을 터널링해 고속 확장과 디스플레이 연결을 제공하는 인터페이스임
 - Lane: 고속 직렬 신호의 독립 전송 경로임
+- PD(Power Delivery): USB 계열 포트에서 전력 공급 방향과 전력 수준을 협상하는 기능임
+- PHY(Physical Layer): 전기 신호, 링크 훈련, 오류 검출 같은 물리 계층 전송 기능임
 
 ## Ⅰ. 개요
 
-- **정의**: 고속 직렬 인터페이스는 USB·Thunderbolt처럼 차동 lane과 패킷 프로토콜을 이용해 데이터, 전력, 영상, PCIe 트래픽을 외부 케이블로 전송하는 연결 기술임. 주변장치 확장, 고속 저장장치, 도킹, 디스플레이 연결을 단일 포트로 제공하기 위해 사용함.
-- **배경/필요성**: 병렬 버스는 핀 수와 신호 skew 문제로 고속화에 한계가 있고, 사용자 장치는 얇은 폼팩터와 통합 포트를 요구함. 고속 직렬화와 프로토콜 협상은 적은 핀으로 높은 대역폭과 다기능 연결을 가능하게 함.
+- **정의**: 고속 직렬 인터페이스는 USB·Thunderbolt처럼 차동 lane과 패킷 프로토콜을 이용해 데이터, 전력, 영상, PCIe 트래픽을 외부 케이블로 전송하는 연결 기술임.
+- **배경/필요성**: 병렬 버스는 핀 수와 신호 skew 문제로 고속화에 한계가 있고, 사용자 장치는 얇은 폼팩터와 통합 포트를 요구함. 고속 직렬화와 프로토콜 협상은 주변장치 확장, 고속 저장장치, 도킹, 디스플레이 연결을 단일 포트로 제공하게 함.
 - **비유**: 하나의 고속 복합 터널 안에 화물차, 버스, 전력선, 영상 케이블을 규칙에 따라 함께 통과시키는 것과 같음.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 외부 고속 I/O 선택 기준 | lane, protocol tunneling, power delivery, compatibility | 커넥터 모양만 비교 |
+| 외부 고속 I/O(Input/Output) 선택 기준 | lane, protocol tunneling, power delivery, compatibility | 커넥터 모양만 비교 |
 
 > 요약: USB와 Thunderbolt는 고속 직렬 전송 위에 데이터·전력·영상·확장 기능을 결합한 인터페이스임.
 
@@ -32,7 +34,7 @@ weight: 104
 | 주요 목적 | 범용 주변장치와 충전, 데이터 전송 | PCIe/DisplayPort 터널링과 고성능 도킹 |
 | 호환성 | 폭넓은 장치와 하위 호환성 중심 | 고성능이나 인증·케이블 조건 영향 큼 |
 | 전송 특성 | 버전별 속도와 alternate mode가 다양함 | 고대역폭 양방향 연결과 daisy chain 지원 |
-| 보안 고려 | 장치 인증과 데이터 접근 통제 필요 | DMA 기반 확장으로 IOMMU 보안이 중요함 |
+| 보안 고려 | 장치 인증과 데이터 접근 통제 필요 | DMA(Direct Memory Access) 기반 확장으로 IOMMU(Input-Output Memory Management Unit) 보안이 중요함 |
 
 > 요약: USB는 범용성, Thunderbolt는 고성능 확장을 우선하는 선택 기준을 가짐.
 
@@ -66,21 +68,21 @@ weight: 104
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 연결감지 | ---> | 협상/훈련 | ---> | 전송수행 | ---> | 오류관리 |
+| Detect   | ---> | Train    | ---> | Transfer | ---> | Recover  |
 +----------+      +----------+      +----------+      +----------+
 ```
 
 1. **연결 감지** — 포트가 케이블 방향, 장치 연결, 전력 역할을 감지함
 2. **협상·링크 훈련** — 속도, lane 수, alternate mode, 전력 공급 조건을 협상함
 3. **전송 수행** — 데이터, 영상, PCIe 터널, 전력 제어 메시지를 프로토콜 규칙에 따라 전송함
-4. **오류 관리** — CRC, link retry, thermal throttling, 장치 분리 이벤트를 처리함
+4. **오류 관리** — CRC(Cyclic Redundancy Check), link retry, thermal throttling, 장치 분리 이벤트를 처리함
 
 > 요약: 연결 후 협상과 링크 훈련이 성공해야 고속 전송과 전력 공급이 안정적으로 유지됨.
 
 ## Ⅴ. 문제점
 
 - **P1 호환성 혼란**: 같은 커넥터라도 지원 속도, PD 전력, alternate mode, 케이블 인증이 달라 사용자 기대와 다를 수 있음
-- **P2 신호 무결성 한계**: 케이블 길이, 품질, EMI, equalization 실패가 고속 link error를 증가시킴
+- **P2 신호 무결성 한계**: 케이블 길이, 품질, EMI(Electromagnetic Interference), equalization 실패가 고속 link error를 증가시킴
 - **P3 DMA 보안 위험**: Thunderbolt 같은 PCIe 터널링은 장치가 메모리에 접근할 수 있어 DMA 공격 위험이 있음
 
 > 요약: 고속 직렬 인터페이스의 문제는 포트 모양보다 기능 협상, 신호 품질, DMA 보안에서 발생함.
@@ -88,13 +90,13 @@ weight: 104
 ## Ⅵ. 개선방안
 
 - **P1 대응**: 포트별 지원 기능, 케이블 등급, PD profile을 명확히 표기하고 인증 부품을 사용함 (확인: compatibility matrix)
-- **P2 대응**: SI test, active cable, retimer, EMI 설계로 link margin을 확보함 (확인: link error rate)
-- **P3 대응**: IOMMU, security level, device authorization, OS 정책으로 외부 DMA를 제한함 (확인: unauthorized DMA blocked)
+- **P2 대응**: SI(Signal Integrity) test, active cable, retimer, EMI 설계로 link margin을 확보함 (확인: link error rate)
+- **P3 대응**: IOMMU, security level, device authorization, OS(Operating System) 정책으로 외부 DMA를 제한함 (확인: unauthorized DMA blocked)
 
 > 요약: 안정적인 고속 인터페이스는 사용자 기능 명세, 물리 신호 검증, DMA 보호를 함께 요구함.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: USB4, Thunderbolt 5, 고출력 PD, external GPU와 고속 스토리지 연결 확대로 단일 포트 통합이 강화됨
+- **발전 방향**: USB4, Thunderbolt 계열, 고출력 PD, external GPU(Graphics Processing Unit)와 고속 스토리지 연결 확대로 단일 포트 통합이 강화됨
 - **기술사적 판단**: 장비 선정은 최대 속도보다 실제 케이블 조건, 전력 요구, 보안 정책, 하위 호환성을 기준으로 해야 함
 - **기술사 제언**: 조직 표준 단말에는 승인 케이블·독·보안 설정 목록을 관리해 현장 장애와 보안 예외를 줄여야 함

@@ -8,20 +8,20 @@ weight: 93
 
 ## 미리 알고가기
 
-- AMBA: ARM 기반 SoC 내부 IP를 연결하기 위한 온칩 버스 프로토콜 계열임
-- AXI: 고성능 메모리 매핑 트랜잭션을 지원하는 AMBA 프로토콜임
-- AHB/APB: 각각 고성능 주변 버스와 저전력 저속 주변 버스에 쓰이는 AMBA 프로토콜임
+- AMBA(Advanced Microcontroller Bus Architecture): Arm 기반 SoC(System on Chip) 내부 IP(Intellectual Property)를 연결하기 위한 온칩 버스 프로토콜 계열임
+- AXI(Advanced eXtensible Interface): 고성능 메모리 매핑 트랜잭션을 지원하는 AMBA 프로토콜임
+- AHB(Advanced High-performance Bus)/APB(Advanced Peripheral Bus): 각각 고성능 주변 버스와 저전력 저속 주변 버스에 쓰이는 AMBA 프로토콜임
 - 인터커넥트: 여러 master와 slave IP 사이 주소 디코딩, 중재, 라우팅을 수행하는 연결 구조임
 
 ## Ⅰ. 개요
 
-- **정의**: AMBA는 SoC 내부의 CPU, DMA, 메모리 컨트롤러, 주변장치 IP를 주소 매핑과 트랜잭션 규칙 기준으로 연결하는 온칩 버스 프로토콜 표준임. 재사용 가능한 IP 통합과 성능·전력 특성별 버스 선택을 위해 사용함.
+- **정의**: AMBA는 SoC 내부의 CPU(Central Processing Unit), DMA(Direct Memory Access), 메모리 컨트롤러, 주변장치 IP를 주소 매핑과 트랜잭션 규칙 기준으로 연결하는 온칩 버스 프로토콜 표준임. 재사용 가능한 IP 통합과 성능·전력 특성별 버스 선택을 위해 사용함.
 - **배경/필요성**: SoC는 여러 공급자의 IP가 한 칩 안에서 함께 동작하므로 공통 인터페이스가 없으면 통합 검증과 재사용 비용이 커짐. AMBA는 고성능 데이터 경로와 저속 제어 경로를 분리해 설계 복잡도를 낮춤.
 - **비유**: 한 건물 안에서 고속 엘리베이터, 화물 엘리베이터, 사무실 복도를 역할별로 나누어 사람과 물건을 이동시키는 구조임.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| SoC 내부 버스 구조와 선택 기준 | AXI, AHB, APB, master/slave, 주소 디코딩 | ARM CPU 전용 기술로 한정 |
+| SoC 내부 버스 구조와 선택 기준 | AXI, AHB, APB, master/slave, 주소 디코딩 | Arm CPU 전용 기술로 한정 |
 
 > 요약: AMBA는 SoC 내부 IP 연결을 표준화해 성능 경로와 제어 경로를 분리하는 프로토콜 계열임.
 
@@ -32,7 +32,7 @@ weight: 93
 | 주요 용도 | 고성능 메모리·DMA 트랜잭션 | 중간 성능 시스템 버스 | 저속 레지스터 제어 |
 | 채널 구조 | 읽기/쓰기 주소·데이터·응답 채널 분리 | 단일 파이프라인 버스 중심 | 단순 setup/access 단계 |
 | 성능 특성 | outstanding, burst, out-of-order 지원 | 구조가 단순하고 예측 가능 | 저전력·저면적에 유리 |
-| 선택 기준 | 고대역폭 master 연결 | 범용 내부 연결 | UART, timer, GPIO 등 주변 제어 |
+| 선택 기준 | 고대역폭 master 연결 | 범용 내부 연결 | UART(Universal Asynchronous Receiver/Transmitter), timer, GPIO(General-Purpose Input/Output) 등 주변 제어 |
 
 > 요약: AMBA 선택은 모든 IP에 AXI를 쓰는 것이 아니라 성능 요구와 제어 단순성에 따라 AXI/AHB/APB를 나누는 것임.
 
@@ -44,7 +44,7 @@ weight: 93
 
 ```text
 +----------+      +---------------+      +-------------+
-| CPU/DMA  | ---> | AXI interconn | ---> | DDR/NPU     |
+| CPU/DMA  | ---> | AXI interconn | ---> | Mem/Accel   |
 +----------+      +---------------+      +-------------+
                          |
                          v
@@ -55,7 +55,7 @@ weight: 93
 
 | 구성요소 | 설명 | 비유 |
 |:---|:---|:---|
-| Master IP | CPU, DMA, GPU처럼 버스 요청을 생성하는 주체임 | 이동을 요청하는 승객 |
+| Master IP | CPU, DMA, GPU(Graphics Processing Unit)처럼 버스 요청을 생성하는 주체임 | 이동을 요청하는 승객 |
 | Interconnect | 주소 디코딩, 중재, 라우팅, 응답 반환을 처리함 | 건물 교통 관제 |
 | Slave IP | 메모리, 레지스터, 주변장치처럼 요청을 처리하는 대상임 | 목적지 사무실 |
 | Bridge | AXI-AHB-APB 간 프로토콜과 속도 차이를 변환함 | 환승 통로 |
@@ -66,7 +66,7 @@ weight: 93
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 요청발행 | ---> | 주소해석 | ---> | 전송수행 | ---> | 응답반환 |
+| Request  | ---> | Decode   | ---> | Transfer | ---> | Response |
 +----------+      +----------+      +----------+      +----------+
 ```
 
@@ -80,8 +80,8 @@ weight: 93
 ## Ⅴ. 문제점
 
 - **P1 인터커넥트 병목**: 여러 고성능 master가 같은 메모리나 인터커넥트 포트를 공유하면 지연과 starvation이 발생함
-- **P2 CDC·타이밍 복잡도**: IP별 클럭 도메인과 버스 폭이 다르면 bridge와 FIFO 검증 부담이 증가함
-- **P3 QoS 설정 오류**: burst 길이, outstanding 수, priority 정책이 맞지 않으면 실시간 IP 성능이 흔들림
+- **P2 CDC(Clock Domain Crossing)·타이밍 복잡도**: IP별 클럭 도메인과 버스 폭이 다르면 bridge와 FIFO(First-In First-Out) 검증 부담이 증가함
+- **P3 QoS(Quality of Service) 설정 오류**: burst 길이, outstanding 수, priority 정책이 맞지 않으면 실시간 IP 성능이 흔들림
 
 > 요약: AMBA 설계의 위험은 프로토콜 자체보다 공유 경로, 클럭 경계, QoS 정책에서 주로 발생함.
 
@@ -95,6 +95,6 @@ weight: 93
 
 ## Ⅶ. 전망
 
-- **발전 방향**: AXI 기반 NoC, chiplet 내부 연결, coherency extension과 결합해 복잡한 SoC 통합의 기본 인프라로 지속됨
+- **발전 방향**: AXI 기반 NoC(Network-on-Chip), chiplet 내부 연결, coherency extension과 결합해 복잡한 SoC 통합의 기본 인프라로 지속됨
 - **기술사적 판단**: SoC 버스 설계는 IP 수보다 트래픽 특성, 실시간성, 전력, 검증 가능성을 기준으로 선택해야 함
 - **기술사 제언**: 설계 초기부터 address map, QoS, CDC, protocol assertion을 산출물로 관리해 통합 후 재작업을 줄여야 함

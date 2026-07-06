@@ -12,11 +12,13 @@ weight: 105
 - 광 변조기: 전기 신호를 빛의 세기·위상 변화로 바꾸는 소자임
 - 포토디텍터: 광 신호를 전기 신호로 변환하는 수신 소자임
 - 실리콘 포토닉스: 실리콘 공정 위에 광 도파로와 광소자를 집적하는 기술임
+- SerDes(Serializer/Deserializer): 병렬 데이터를 고속 직렬 데이터로 바꾸거나 다시 복원하는 회로임
+- PHY(Physical Layer)/TIA(Transimpedance Amplifier): 물리 계층 전송 기능과 광 수신 전류 증폭 회로를 뜻함
 
 ## Ⅰ. 개요
 
-- **정의**: 광 인터커넥트는 전기 신호 대신 광 신호를 이용해 칩·보드·서버·데이터센터 장비 사이 데이터를 전송하는 연결 기술임. 전기 배선의 대역폭, 거리, 전력, 발열 한계를 완화하기 위해 사용함.
-- **배경/필요성**: AI 학습, HPC, 대규모 스토리지에서는 장치 간 데이터 이동이 연산 성능을 제한하고 전기 인터커넥트는 고속화할수록 손실과 전력 소모가 증가함. 광 전송은 장거리·고대역폭에서 낮은 손실과 높은 집적 가능성을 제공함.
+- **정의**: 광 인터커넥트는 전기 신호 대신 광 신호를 이용해 칩·보드·서버·데이터센터 장비 사이 데이터를 전송하는 연결 기술임.
+- **배경/필요성**: AI(Artificial Intelligence) 학습, HPC(High Performance Computing), 대규모 스토리지에서는 장치 간 데이터 이동이 연산 성능을 제한하고 전기 인터커넥트는 고속화할수록 손실과 전력 소모가 증가함. 광 전송은 전기 배선의 대역폭, 거리, 전력, 발열 한계를 완화하는 대안이 됨.
 - **비유**: 혼잡한 구리 도로 대신 빛이 지나가는 전용 고속철로 데이터를 이동시키는 구조임.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
@@ -30,14 +32,14 @@ weight: 105
 | 판단 기준 | 전기 인터커넥트 | 광 인터커넥트 |
 |:---|:---|:---|
 | 전송 손실 | 거리와 주파수 증가에 따라 손실·왜곡 증가 | 장거리 고속 전송에서 손실이 낮음 |
-| 대역폭 확장 | lane 수와 equalization 부담 증가 | WDM 등으로 파장 다중화 가능 |
+| 대역폭 확장 | lane 수와 equalization 부담 증가 | WDM(Wavelength Division Multiplexing) 등으로 파장 다중화 가능 |
 | 전력·발열 | 고속 SerDes 전력과 발열이 커짐 | 광전 변환 비용은 있으나 거리당 효율이 유리 |
-| 집적 난이도 | CMOS와 통합이 성숙함 | 레이저, 패키징, 정렬 공정이 어려움 |
+| 집적 난이도 | CMOS(Complementary Metal-Oxide-Semiconductor)와 통합이 성숙함 | 레이저, 패키징, 정렬 공정이 어려움 |
 
 > 요약: 광 인터커넥트는 고대역폭·장거리에서 유리하지만 광소자 집적과 패키징이 핵심 난제임.
 
 - **적용 조건**: 전기 연결의 전력·거리 한계가 광전 변환 비용보다 커야 함
-- **선택 지표**: pJ/bit, coupling loss, optical power margin을 함께 봐야 함
+- **선택 지표**: pJ(picojoule)/bit, coupling loss, optical power margin을 함께 봐야 함
 - **운영 관점**: 광 모듈은 성능 부품이면서 교체·재고·열 관리 대상임
 
 ## Ⅲ. 구성요소
@@ -66,7 +68,7 @@ weight: 105
 
 ```text
 +----------+      +----------+      +----------+      +----------+
-| 전기입력 | ---> | 광변조   | ---> | 광전송   | ---> | 전기복원 |
+| Input    | ---> | Modulate | ---> | Transmit | ---> | Output   |
 +----------+      +----------+      +----------+      +----------+
 ```
 
@@ -88,13 +90,13 @@ weight: 105
 ## Ⅵ. 개선방안
 
 - **P1 대응**: 적용 거리를 rack/board/package 단위로 구분하고 전기 대비 energy per bit를 비교함 (확인: pJ/bit)
-- **P2 대응**: co-packaged optics, passive alignment, wafer-level test로 패키징 수율을 높임 (확인: coupling loss)
+- **P2 대응**: CPO(Co-Packaged Optics), passive alignment, wafer-level test로 패키징 수율을 높임 (확인: coupling loss)
 - **P3 대응**: thermal control, wavelength locking, redundancy channel로 광소자 변동을 보정함 (확인: optical power margin)
 
 > 요약: 광 인터커넥트 도입은 대역폭보다 거리별 에너지 효율과 패키징 신뢰성 검증이 우선임.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: co-packaged optics, silicon photonics, optical I/O chiplet이 AI cluster와 데이터센터 스위치에서 확대됨
+- **발전 방향**: co-packaged optics, silicon photonics, optical I/O(Input/Output) chiplet이 AI cluster와 데이터센터 스위치에서 확대됨
 - **기술사적 판단**: 광 인터커넥트는 모든 연결의 대체재가 아니라 전기 배선의 전력·거리 한계가 명확한 구간에 적용해야 함
 - **기술사 제언**: 네트워크와 서버 설계에서 bandwidth per watt, serviceability, spare optics 정책을 함께 수립해야 함

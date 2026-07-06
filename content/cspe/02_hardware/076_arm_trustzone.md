@@ -16,7 +16,7 @@ weight: 76
 
 ## Ⅰ. 개요
 
-- **정의**: ARM TrustZone은 프로세서, 메모리, 주변장치 접근을 보안 세계와 일반 세계로 분리해 민감 코드와 데이터를 일반 OS 침해로부터 격리하는 하드웨어 보안 아키텍처임. 접근 권한, 부팅 신뢰 체인, TEE 서비스 경계를 기준으로 모바일·임베디드 장치의 키 보호와 보안 기능 실행에 사용함
+- **정의**: ARM TrustZone은 프로세서·메모리·주변장치 접근을 보안 세계와 일반 세계로 분리하고 접근 권한·부팅 신뢰 체인·TEE 서비스 경계를 기준으로 민감 코드와 데이터를 일반 OS 침해로부터 격리하는 하드웨어 보안 아키텍처임
 - **배경/필요성**: 스마트폰, 자동차, IoT 장치는 일반 OS가 복잡해 공격면이 넓지만 키, 인증, 결제, 보안 부팅은 더 강한 격리가 필요함. 소프트웨어 권한 분리만으로는 커널 침해 시 민감 자산을 보호하기 어려움
 - **비유**: 같은 건물 안에서 일반 사무실과 금고실을 별도 출입문, 별도 경비, 별도 통로로 분리하는 것과 같음
 
@@ -105,6 +105,6 @@ weight: 76
 
 ## Ⅶ. 전망
 
-- **발전 방향**: ARM TrustZone은 모바일, IoT, 차량, 결제 단말에서 TEE, secure boot, remote attestation, key management와 결합해 장치 신뢰 기반으로 확장됨
-- **기술사적 판단**: secure world에 둘 코드와 데이터, SMC interface, memory carve-out, interrupt routing, secure peripheral 접근권한을 최소화해 설계함; secure monitor 호출 경계, shared memory validation, rollback protection, side-channel 노출, secure storage 무결성을 테스트함; TrustZone은 하드웨어 격리만 제공하므로 SMC fuzzing, secure world 권한 남용, debug unlock, fault injection을 별도 통제해야 함
+- **발전 방향**: ARM TrustZone은 모바일, IoT, 차량, 결제 단말에서 TEE, 보안 부팅, 원격 검증, 키 관리와 결합해 장치 신뢰 기반으로 확장됨
+- **기술사적 판단**: Secure World에 둘 코드와 데이터, SMC 인터페이스, 메모리 분할, 인터럽트 라우팅, 보안 주변장치 접근권한을 최소화해 설계함; Secure Monitor 호출 경계, 공유 메모리 검증, 롤백 방지, 사이드채널 노출, 보안 저장소 무결성을 테스트함; TrustZone은 하드웨어 격리만 제공하므로 SMC 퍼징, Secure World 권한 남용, 디버그 잠금 해제, 결함 주입을 별도 통제해야 함
 - **기술사 제언**: TrustZone은 만능 보안 기능이 아니라 최소 신뢰 코드와 검증된 인터페이스를 설계하는 하드웨어 격리 구조로 설명함
