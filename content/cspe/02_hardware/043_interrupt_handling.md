@@ -1,5 +1,5 @@
 ---
-title: "인터럽트 처리 방식 - 벡터·데이지체인 (Interrupt Handling)"
+title: "인터럽트 처리 방식 — 벡터·데이지체인 (Interrupt Handling)"
 date: "2026-07-06"
 tags:
   - "cspe-hardware"
@@ -8,8 +8,10 @@ weight: 43
 
 ## 미리 알고가기
 
+- CPU: 중앙처리장치(Central Processing Unit, CPU)는 인터럽트 발생 시 현재 실행 흐름을 저장하고 처리 루틴으로 분기하는 주체임
 - 인터럽트: 장치나 내부 이벤트가 CPU의 현재 흐름을 중단시키고 처리를 요청하는 신호임
-- ISR: interrupt service routine의 약자로 인터럽트 원인별 처리 루틴임
+- ISR: 인터럽트 서비스 루틴(Interrupt Service Routine, ISR)은 인터럽트 원인별 처리 루틴임
+- IRQ: 인터럽트 요청(Interrupt Request, IRQ)은 장치가 CPU에 이벤트 처리를 요구하는 신호임
 - 벡터: 인터럽트 원인에 대응하는 ISR 주소 또는 식별 번호임
 - 데이지체인: 여러 장치를 직렬 우선순위 순서로 연결해 인터럽트 승인 신호를 전달하는 방식임
 
@@ -36,7 +38,7 @@ weight: 43
 
 > 요약: 벡터 방식은 빠른 원인 식별과 유연성이 강점이고 데이지체인은 단순한 하드웨어 우선순위가 강점임.
 
-- 인터럽트 컨트롤러는 여러 IRQ를 수집하고 mask, priority, acknowledge, EOI 처리를 담당함
+- 인터럽트 컨트롤러는 여러 IRQ를 수집하고 mask, priority, acknowledge, 인터럽트 종료(End Of Interrupt, EOI) 처리를 담당함
 - ISR은 짧게 처리하고 긴 작업은 bottom half, tasklet, workqueue 같은 지연 처리로 넘기는 구조가 일반적임
 - 실시간 시스템에서는 interrupt latency와 jitter가 응답 시간 보장의 핵심 지표임
 
@@ -66,7 +68,7 @@ weight: 43
 
 ```text
 +-----------+      +-----------+      +-----------+      +-----------+
-| IRQ발생   | ---> | 우선순위결정 | ---> | ISR분기  | ---> | 복귀/EOI |
+| IRQ       | ---> | Priority  | ---> | ISR       | ---> | Return    |
 +-----------+      +-----------+      +-----------+      +-----------+
 ```
 
@@ -91,9 +93,9 @@ weight: 43
 2. **중기**: ISR 최소화, interrupt coalescing, affinity, 우선순위 재조정을 적용함
 3. **장기**: 실시간 요구에 맞는 interrupt controller 설정과 드라이버 작성 표준을 수립함
 
-- **P1 대응**: ISR을 짧게 유지하고 긴 작업은 지연 처리로 넘김 (확인: max interrupt latency)
-- **P2 대응**: coalescing, rate limit, 장치 오류 격리로 인터럽트 폭주를 완화함 (확인: IRQ/sec)
-- **P3 대응**: priority와 affinity 정책을 워크로드에 맞게 조정함 (확인: starvation과 deadline miss)
+- **P1 대응**: ISR을 짧게 유지하고 긴 작업은 지연 처리로 넘김 (확인: 최대 인터럽트 지연시간)
+- **P2 대응**: coalescing, rate limit, 장치 오류 격리로 인터럽트 폭주를 완화함 (확인: 초당 IRQ 수)
+- **P3 대응**: priority와 affinity 정책을 워크로드에 맞게 조정함 (확인: 기아 상태와 마감시간 위반)
 
 > 요약: 인터럽트 개선은 ISR 시간 축소, 이벤트 빈도 제어, 우선순위 정책 정비로 이루어짐.
 

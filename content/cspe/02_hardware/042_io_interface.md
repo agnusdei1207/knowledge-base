@@ -1,5 +1,5 @@
 ---
-title: "I/O 인터페이스 - 폴링·인터럽트·DMA·채널 I/O (I/O Interface)"
+title: "I/O 인터페이스 — 폴링·인터럽트·DMA·채널 I/O (I/O Interface)"
 date: "2026-07-06"
 tags:
   - "cspe-hardware"
@@ -8,9 +8,11 @@ weight: 42
 
 ## 미리 알고가기
 
+- I/O: 입출력(Input/Output, I/O)은 프로세서와 주변장치가 데이터와 제어 신호를 주고받는 동작임
+- CPU: 중앙처리장치(Central Processing Unit, CPU)는 I/O 요청 설정, 완료 처리, 예외 처리를 담당하는 주체임
 - 폴링: CPU가 장치 상태 레지스터를 반복 조회해 준비 여부를 확인하는 방식임
 - 인터럽트: 장치가 이벤트 발생 시 CPU에 신호를 보내 처리를 요청하는 방식임
-- DMA: 장치와 메모리 사이의 데이터 전송을 CPU 개입 없이 컨트롤러가 수행하는 방식임
+- DMA: 직접 메모리 접근(Direct Memory Access, DMA)은 장치와 메모리 사이의 데이터 전송을 CPU 개입 없이 컨트롤러가 수행하는 방식임
 - 채널 I/O: 독립 I/O 프로세서가 여러 입출력 명령을 처리해 CPU 부담을 줄이는 방식임
 
 ## Ⅰ. 개요
@@ -29,7 +31,7 @@ weight: 42
 
 | 판단 기준 | 폴링 | 인터럽트 | DMA | 채널 I/O |
 |:---|:---|:---|:---|:---|
-| CPU 개입 | 지속 조회로 큼 | 이벤트 시 ISR 실행 | 설정과 완료 처리 중심 | 입출력 프로그램 위임 |
+| CPU 개입 | 지속 조회로 큼 | 이벤트 시 인터럽트 서비스 루틴(Interrupt Service Routine, ISR) 실행 | 설정과 완료 처리 중심 | 입출력 프로그램 위임 |
 | 적합 조건 | 단순·짧은 대기 | 비동기 이벤트 | 대용량 블록 전송 | 대형 시스템 다중 I/O |
 | 주요 비용 | busy waiting | context switch와 interrupt storm | 버스 경쟁과 캐시 일관성 | 별도 하드웨어·제어 복잡도 |
 
@@ -48,7 +50,7 @@ weight: 42
       |                  |
       v                  v
 +-----------+      +-----------+
-| Memory    |      | IRQ/DMA   |
+| Memory    |      | Int/DMA   |
 +-----------+      +-----------+
 ```
 
@@ -65,11 +67,11 @@ weight: 42
 
 ```text
 +-----------+      +-----------+      +-----------+      +-----------+
-| 요청발행  | ---> | 준비확인  | ---> | 데이터전송 | ---> | 완료통지 |
+| IssueReq  | ---> | CheckReady| ---> | Transfer  | ---> | Complete  |
 +-----------+      +-----------+      +-----------+      +-----------+
 ```
 
-1. **요청 발행**: CPU나 OS 드라이버가 장치 레지스터에 명령, 주소, 길이를 설정함
+1. **요청 발행**: CPU나 운영체제(Operating System, OS) 드라이버가 장치 레지스터에 명령, 주소, 길이를 설정함
 2. **준비 확인**: 폴링 또는 인터럽트로 장치 준비 상태와 오류 상태를 확인함
 3. **데이터 전송**: CPU 직접 전송, DMA, 채널 I/O 중 선택된 방식으로 데이터를 이동함
 4. **완료 통지와 정리**: 완료 인터럽트, 상태 레지스터, 오류 코드를 확인하고 버퍼와 큐를 정리함
@@ -87,8 +89,8 @@ weight: 42
 ## Ⅵ. 개선방안
 
 1. **단기**: interrupt rate, CPU busy, DMA error, I/O latency를 측정해 방식별 병목을 확인함
-2. **중기**: interrupt coalescing, NAPI식 polling 전환, DMA buffer 관리, queue affinity를 적용함
-3. **장기**: IOMMU, 드라이버 검증, 장치 가상화와 표준 I/O 프레임워크를 운영 기준으로 삼음
+2. **중기**: interrupt coalescing, 새 API(New API, NAPI)식 polling 전환, DMA buffer 관리, queue affinity를 적용함
+3. **장기**: 입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU), 드라이버 검증, 장치 가상화와 표준 I/O 프레임워크를 운영 기준으로 삼음
 
 - **P1 대응**: 이벤트 빈도에 따라 폴링과 인터럽트를 혼합하고 coalescing을 적용함 (확인: CPU 사용률과 p99 지연)
 - **P2 대응**: DMA 전후 cache flush/invalidate와 coherent DMA 정책을 적용함 (확인: 데이터 불일치 오류)
@@ -98,6 +100,6 @@ weight: 42
 
 ## Ⅶ. 전망
 
-- **발전 방향**: 고속 NIC, NVMe, GPU 가속기가 늘면서 I/O 인터페이스는 단순 장치 연결보다 큐, DMA, NUMA 배치가 성능을 좌우함
-- **기술사적 판단**: 가상화와 클라우드 환경에서는 SR-IOV, vDPA, IOMMU처럼 장치 직접 접근과 격리의 균형이 중요해짐
+- **발전 방향**: 고속 네트워크 인터페이스 카드(Network Interface Card, NIC), 비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe), 그래픽 처리 장치(Graphics Processing Unit, GPU) 가속기가 늘면서 I/O 인터페이스는 단순 장치 연결보다 큐, DMA, 비균일 메모리 접근(Non-Uniform Memory Access, NUMA) 배치가 성능을 좌우함
+- **기술사적 판단**: 가상화와 클라우드 환경에서는 단일 루트 I/O 가상화(Single Root I/O Virtualization, SR-IOV), 가상 데이터 경로 가속(Virtual Data Path Acceleration, vDPA), IOMMU처럼 장치 직접 접근과 격리의 균형이 중요해짐
 - **기술사 제언**: 기술사는 I/O 방식을 암기식으로 나열하지 말고 CPU 개입도, 데이터량, 지연 요구, 보호 요구를 기준으로 선택해야 함
