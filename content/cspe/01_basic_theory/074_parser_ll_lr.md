@@ -101,7 +101,7 @@ lookahead          table lookup       tree update       parse result
 - **P2 대응**: LALR(1), precedence 선언, parser generator 경고 분석으로 충돌과 상태 수를 통제함 (확인: conflict count, table size)
 - **P3 대응**: panic mode, phrase-level recovery, IDE용 incremental parsing으로 오류 위치와 복구 품질을 개선함 (확인: 연쇄 오류 수)
 
-> 요약: 문법을 파서 계열에 맞게 정리하고 충돌과 오류 복구를 지표로 관리해야 파서를 안정적으로 운영할 수 있음
+> 요약: 문법을 파서 계열에 맞게 정리하고 충돌과 오류 복구를 지표로 관리해야 파서 결과를 일관되게 유지할 수 있음
 
 ## Ⅶ. 전망
 

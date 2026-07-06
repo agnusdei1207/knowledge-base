@@ -24,7 +24,7 @@ weight: 80
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
 | 쇼어·그로버 차이 설명 | QFT 기반 주기 탐색, 진폭 증폭 | 두 알고리즘을 모두 지수 가속으로 서술 |
-| 보안·복잡도 영향 설명 | RSA/ECC 위협, 탐색 이차 가속 | NP-Complete를 모두 쉽게 푼다고 오해 |
+| 보안·복잡도 영향 설명 | RSA/ECC 위협, 탐색 이차 가속 | NP-Complete를 모두 다항 시간에 푼다고 오해 |
 
 > 요약: 쇼어는 주기 구조를 이용한 지수적 가속, 그로버는 비정렬 탐색의 이차적 가속을 제공하는 대표 양자 알고리즘임
 
@@ -97,7 +97,7 @@ equal states       oracle/mod exp      useful amplitude  classical ans
 
 ## Ⅵ. 개선방안
 
-- **P1 대응**: 회로 깊이 축소, 오류 완화, 동적 디커플링, 안정적 제어 장치로 잡음 영향을 줄임 (확인: gate fidelity, coherence time)
+- **P1 대응**: 회로 깊이 축소, 오류 완화, 동적 디커플링, 피드백 제어 장치로 잡음 영향을 줄임 (확인: gate fidelity, coherence time)
 - **P2 대응**: surface code 등 오류 정정, 논리 큐비트 아키텍처, fault-tolerant gate 설계를 단계적으로 적용함 (확인: logical error rate)
 - **P3 대응**: 문제를 BQP, 탐색, 최적화, 시뮬레이션 영역으로 분류하고 고전-양자 하이브리드 알고리즘을 검토함 (확인: 고전 대비 speedup)
 

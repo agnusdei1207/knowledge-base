@@ -33,7 +33,7 @@ weight: 71
 | 판단 기준 | VGG | ResNet | EfficientNet |
 |:---|:---|:---|:---|
 | 구조 특징 | 3x3 합성곱을 깊게 쌓은 단순 구조 | skip connection으로 잔차를 학습함 | 깊이·너비·해상도를 복합 스케일링함 |
-| 강점 | 구조가 단순해 이해와 구현이 쉬움 | 매우 깊은 모델도 안정적으로 학습함 | 정확도 대비 FLOPs 효율이 높음 |
+| 강점 | 구조가 단순해 구현 복잡도가 낮음 | skip connection으로 깊은 층의 기울기 전달을 유지함 | 정확도 대비 FLOPs가 낮음 |
 | 약점 | 파라미터와 연산량이 큼 | 구조가 깊어 추론 비용이 커질 수 있음 | 입력 해상도와 스케일링 설정이 중요함 |
 | 선택 기준 | 교육·기준 모델 | 고정확도 범용 분류 | 엣지·클라우드 비용 균형 |
 
@@ -97,7 +97,7 @@ weight: 71
 
 ## Ⅵ. 개선방안
 
-- **P1 대응**: ResNet skip connection, BatchNorm, 적절한 초기화와 learning rate schedule을 적용함 (확인: 학습 손실 수렴)
+- **P1 대응**: ResNet skip connection, BatchNorm, He/Xavier 초기화와 learning rate schedule을 적용함 (확인: 학습 손실 수렴)
 - **P2 대응**: 전이 학습, 데이터 증강, 클래스 가중치, stratified validation으로 일반화를 높임 (확인: 클래스별 F1)
 - **P3 대응**: EfficientNet, MobileNet, pruning, quantization으로 모델 크기와 연산량을 줄임 (확인: p95 지연, Top-1 유지율)
 
