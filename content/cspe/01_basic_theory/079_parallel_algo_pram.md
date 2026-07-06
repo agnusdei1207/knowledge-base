@@ -72,8 +72,8 @@ weight: 79
 
 ```text
 +-----------+     +-----------+     +-----------+     +-----------+
-| Partition | --> | Compute   | --> | Synchronize| --> | Reduce   |
-| Data      |     | Parallel  |     | Steps      |     | Results  |
+| Partition | --> | Compute   | --> | Sync      | --> | Reduce    |
+| Data      |     | Parallel  |     | Steps     |     | Results   |
 +-----------+     +-----------+     +-----------+     +-----------+
       |                 |                 |                 |
       v                 v                 v                 v
