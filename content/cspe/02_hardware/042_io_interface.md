@@ -78,25 +78,26 @@ weight: 42
 
 > 요약: I/O는 요청 설정, 준비 확인, 데이터 이동, 완료 처리의 공통 흐름을 방식별 주체가 나누어 수행함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
-- **P1 CPU 낭비와 지연**: 폴링은 CPU 시간을 소모하고 인터럽트는 빈도가 높을 때 응답 지연을 키움
-- **P2 데이터 일관성 문제**: DMA가 메모리를 직접 갱신하면 CPU 캐시와 메모리 값이 불일치할 수 있음
-- **P3 장치 격리 부족**: 잘못된 I/O 주소, DMA 범위, 드라이버 오류가 메모리 손상이나 장애로 이어질 수 있음
-
-> 요약: I/O 인터페이스의 핵심 위험은 CPU 오버헤드, 메모리 일관성, 장치 접근 격리 문제임.
-
-## Ⅵ. 개선방안
-
-1. **단기**: interrupt rate, CPU busy, DMA error, I/O latency를 측정해 방식별 병목을 확인함
-2. **중기**: interrupt coalescing, 새 API(New API, NAPI)식 polling 전환, DMA buffer 관리, queue affinity를 적용함
-3. **장기**: 입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU), 드라이버 검증, 장치 가상화와 표준 I/O 프레임워크를 운영 기준으로 삼음
-
+- **P1 CPU 낭비와 지연**: 폴링은 중앙처리장치(Central Processing Unit, CPU) 시간을 소모하고 인터럽트는 빈도가 높을 때 응답 지연을 키움
 - **P1 대응**: 이벤트 빈도에 따라 폴링과 인터럽트를 혼합하고 coalescing을 적용함 (확인: CPU 사용률과 p99 지연)
+- **P2 데이터 일관성 문제**: 직접 메모리 접근(Direct Memory Access, DMA)이 메모리를 직접 갱신하면 CPU 캐시와 메모리 값이 불일치할 수 있음
 - **P2 대응**: DMA 전후 cache flush/invalidate와 coherent DMA 정책을 적용함 (확인: 데이터 불일치 오류)
-- **P3 대응**: IOMMU와 권한 분리로 장치의 메모리 접근 범위를 제한함 (확인: DMA fault 로그)
+- **P3 장치 격리 부족**: 잘못된 입출력(Input/Output, I/O) 주소, DMA 범위, 드라이버 오류가 메모리 손상이나 장애로 이어질 수 있음
+- **P3 대응**: 입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)와 권한 분리로 장치의 메모리 접근 범위를 제한함 (확인: DMA fault 로그)
 
 > 요약: I/O 개선은 전송량과 이벤트 빈도에 맞는 방식 선택, 캐시 일관성, 장치 격리를 함께 적용해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 고속 네트워크 수신 경로 | 인터럽트 폭주 구간은 새 API(New API, NAPI) 방식의 polling과 interrupt coalescing을 결합하고 큐 affinity를 중앙처리장치(Central Processing Unit, CPU) 코어에 맞춤 | CPU 사용률, p99 패킷 처리 지연, interrupt rate |
+| 스토리지 블록 전송 | 비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe) 큐와 직접 메모리 접근(Direct Memory Access, DMA) 버퍼를 정렬해 대용량 전송을 오프로딩함 | 입출력(Input/Output, I/O) 처리량, DMA 오류, 큐 대기시간 |
+| 가상화 장치 직접 할당 | 단일 루트 I/O 가상화(Single Root I/O Virtualization, SR-IOV) 장치에 입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU) 매핑과 권한 분리를 적용함 | DMA fault 로그, 가상머신 격리 위반 건수 |
+
+> 요약: I/O 인터페이스 적용은 이벤트 빈도, 데이터 전송량, 장치 격리 요구를 지표로 확인하며 방식 조합을 선택함.
 
 ## Ⅶ. 전망
 

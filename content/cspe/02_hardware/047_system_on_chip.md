@@ -73,25 +73,26 @@ weight: 47
 
 > 요약: SoC 개발은 요구사항을 IP 통합 구조로 바꾸고 제조 전 검증으로 리스크를 줄이는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
-- **P1 검증 복잡도**: 이종 IP와 내부 버스가 많아질수록 상태 조합이 폭증해 미검출 결함 가능성이 커짐
-- **P2 전력·열 결합**: CPU, GPU, NPU가 한 다이에 밀집되어 전력 피크와 열 집중이 성능 제한을 유발함
-- **P3 IP 공급망 위험**: 외부 IP 재사용 시 라이선스, 보안 취약점, 버전 호환성 문제가 제품 전체에 전파됨
-
-> 요약: SoC 리스크는 통합 이점의 반대편인 검증, 열, IP 관리 복잡도에서 발생함.
-
-## Ⅵ. 개선방안
-
-1. **단기**: IP별 검증 커버리지, 전력 피크, 라이선스 상태를 점검함
-2. **중기**: 통합 검증 자동화, 전원 도메인 분리, IP 승인 절차를 설계 흐름에 반영함
-3. **장기**: PPA 기준과 IP 공급망 거버넌스를 제품군 공통 기준으로 운영함
-
+- **P1 검증 복잡도**: 이종 지식재산(Intellectual Property, IP)과 내부 버스가 많아질수록 상태 조합이 폭증해 미검출 결함 가능성이 커짐
 - **P1 대응**: 범용 검증 방법론(Universal Verification Methodology, UVM), 형식 검증, 에뮬레이션, 회귀 테스트를 IP 통합 단계부터 자동화함 (확인: 커버리지와 결함 재현율)
-- **P2 대응**: 전원 도메인 분리, DVFS, 열 시뮬레이션, throttling 정책을 설계에 반영함 (확인: 최대 접합 온도)
+- **P2 전력·열 결합**: 중앙처리장치(Central Processing Unit, CPU), 그래픽 처리 장치(Graphics Processing Unit, GPU), 신경망 처리 장치(Neural Processing Unit, NPU)가 한 다이에 밀집되어 전력 피크와 열 집중이 성능 제한을 유발함
+- **P2 대응**: 전원 도메인 분리, 동적 전압 주파수 조정(Dynamic Voltage and Frequency Scaling, DVFS), 열 시뮬레이션, throttling 정책을 설계에 반영함 (확인: 최대 접합 온도)
+- **P3 IP 공급망 위험**: 외부 IP 재사용 시 라이선스, 보안 취약점, 버전 호환성 문제가 제품 전체에 전파됨
 - **P3 대응**: IP 소프트웨어 자재 명세서(Software Bill of Materials, SBOM), 보안 평가, 라이선스 검토, 버전 고정 정책을 운영함 (확인: 승인된 IP 비율)
 
 > 요약: SoC 개선은 검증 자동화, 전력·열 설계, IP 거버넌스를 함께 적용해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 모바일 애플리케이션 프로세서 | 중앙처리장치(Central Processing Unit, CPU), 그래픽 처리 장치(Graphics Processing Unit, GPU), 신경망 처리 장치(Neural Processing Unit, NPU), 메모리 컨트롤러를 시스템온칩(System on Chip, SoC)에 통합하고 전력·성능·면적(Power, Performance, Area, PPA)을 기준으로 전원 도메인을 분리함 | 배터리 전력, 최대 접합 온도, 프레임 지연 |
+| 차량용 임베디드 제어 | 안전 등급 지식재산(Intellectual Property, IP)과 보안 부팅 블록을 통합하고 범용 검증 방법론(Universal Verification Methodology, UVM) 회귀 테스트와 형식 검증으로 결함을 제거함 | 검증 커버리지, 결함 재현율, 부팅 무결성 결과 |
+| 온디바이스 인공지능(Artificial Intelligence, AI) 단말 | NPU와 메모리 계층을 가까이 배치해 데이터 이동 전력을 줄이고 열 throttling 조건을 검증함 | 추론 지연, 전력당 처리량, throttling 발생률 |
+
+> 요약: SoC 적용은 통합 이득보다 검증 커버리지, PPA, IP 승인 상태를 기준으로 판단해야 함.
 
 ## Ⅶ. 전망
 

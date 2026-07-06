@@ -74,25 +74,26 @@ weight: 50
 
 > 요약: GPU 실행은 커널을 스레드 격자로 펼친 뒤 워프 단위로 스케줄링해 결과를 모음.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 분기 발산**: 같은 워프 안의 스레드가 서로 다른 분기 경로를 타면 경로를 순차 실행해 병렬 효율이 떨어짐
-- **P2 메모리 접근 비효율**: 비연속 접근과 낮은 데이터 재사용은 고대역폭 메모리에서도 병목을 만듦
-- **P3 점유율 불균형**: 레지스터와 공유 메모리 사용량이 크면 동시에 실행 가능한 워프 수가 줄어 지연 숨김이 어려움
-
-> 요약: GPU 성능은 연산 유닛 수보다 분기, 메모리 접근, 자원 점유율에 의해 좌우됨.
-
-## Ⅵ. 개선방안
-
-1. **단기**: 분기 효율, 메모리 처리량, occupancy, 커널 지연시간을 측정함
-2. **중기**: 데이터 배치, shared memory tiling, 블록 크기와 레지스터 사용량을 튜닝함
-3. **장기**: 병렬화 가능성, 데이터 이동 비용, GPU 운영 비용을 도입 기준으로 표준화함
-
 - **P1 대응**: 워프 단위 분기 정렬, predication, 데이터 재배치로 발산을 줄임 (확인: branch efficiency)
+- **P2 메모리 접근 비효율**: 비연속 접근과 낮은 데이터 재사용은 고대역폭 메모리(High Bandwidth Memory, HBM)에서도 병목을 만듦
 - **P2 대응**: coalescing, shared memory tiling, prefetch로 메모리 접근 패턴을 정렬함 (확인: 메모리 처리량)
+- **P3 점유율 불균형**: 레지스터와 공유 메모리 사용량이 크면 동시에 실행 가능한 워프 수가 줄어 지연 숨김이 어려움
 - **P3 대응**: 레지스터 사용량 조정, 블록 크기 튜닝, occupancy 분석을 수행함 (확인: achieved occupancy)
 
 > 요약: GPU 최적화는 워프 흐름을 맞추고 메모리 접근과 자원 사용량을 균형화하는 작업임.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 인공지능(Artificial Intelligence, AI) 학습 행렬 연산 | 그래픽 처리 장치(Graphics Processing Unit, GPU) 커널을 단일 명령 다중 스레드(Single Instruction Multiple Threads, SIMT) 구조에 맞춰 타일링하고 tensor core 사용 조건을 맞춤 | 처리량, 고대역폭 메모리(High Bandwidth Memory, HBM) 대역폭 사용률, achieved occupancy |
+| 영상·과학 계산 | 동일 연산이 반복되는 픽셀·격자 데이터를 워프 단위로 배치하고 분기 조건을 데이터 전처리로 정렬함 | branch efficiency, 커널 실행시간, 메모리 coalescing 효율 |
+| 호스트-가속기 혼합 서비스 | 중앙처리장치(Central Processing Unit, CPU)는 제어와 전처리를 담당하고 GPU는 대량 병렬 커널만 수행하도록 데이터 이동 비용을 측정함 | 주변 장치 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe) 전송 시간, end-to-end 지연, GPU 사용률 |
+
+> 요약: GPU SIMT 적용은 병렬화 가능성, 메모리 접근 패턴, CPU-GPU 전송 비용이 지표로 확인될 때 효과가 큼.
 
 ## Ⅶ. 전망
 

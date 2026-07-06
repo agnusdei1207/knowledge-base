@@ -79,25 +79,26 @@ weight: 43
 
 > 요약: 인터럽트는 요청 발생, 우선순위 선정, ISR 실행, 완료 통지와 복귀 순서로 처리됨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
-- **P1 interrupt latency 증가**: 높은 우선순위 작업, 긴 ISR, interrupt disable 구간이 응답 시간을 늘림
-- **P2 interrupt storm**: 장치 오류나 과도한 이벤트가 계속 발생하면 CPU가 ISR 처리에 묶임
-- **P3 우선순위 역전·기아**: 우선순위 설정이 부적절하면 낮은 우선순위 장치가 장시간 처리되지 못함
-
-> 요약: 인터럽트의 핵심 문제는 응답 지연, 이벤트 폭주, 우선순위 관리 실패임.
-
-## Ⅵ. 개선방안
-
-1. **단기**: IRQ rate, ISR 실행 시간, interrupt disabled time, missed interrupt를 측정함
-2. **중기**: ISR 최소화, interrupt coalescing, affinity, 우선순위 재조정을 적용함
-3. **장기**: 실시간 요구에 맞는 interrupt controller 설정과 드라이버 작성 표준을 수립함
-
+- **P1 interrupt latency 증가**: 높은 우선순위 작업, 긴 인터럽트 서비스 루틴(Interrupt Service Routine, ISR), interrupt disable 구간이 응답 시간을 늘림
 - **P1 대응**: ISR을 짧게 유지하고 긴 작업은 지연 처리로 넘김 (확인: 최대 인터럽트 지연시간)
-- **P2 대응**: coalescing, rate limit, 장치 오류 격리로 인터럽트 폭주를 완화함 (확인: 초당 IRQ 수)
+- **P2 interrupt storm**: 장치 오류나 과도한 이벤트가 계속 발생하면 중앙처리장치(Central Processing Unit, CPU)가 ISR 처리에 묶임
+- **P2 대응**: coalescing, rate limit, 장치 오류 격리로 인터럽트 폭주를 완화함 (확인: 초당 인터럽트 요청(Interrupt Request, IRQ) 수)
+- **P3 우선순위 역전·기아**: 우선순위 설정이 부적절하면 낮은 우선순위 장치가 장시간 처리되지 못함
 - **P3 대응**: priority와 affinity 정책을 워크로드에 맞게 조정함 (확인: 기아 상태와 마감시간 위반)
 
 > 요약: 인터럽트 개선은 ISR 시간 축소, 이벤트 빈도 제어, 우선순위 정책 정비로 이루어짐.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 실시간 제어 장치 | 타이머와 센서 인터럽트 요청(Interrupt Request, IRQ)에 높은 우선순위를 부여하고 인터럽트 서비스 루틴(Interrupt Service Routine, ISR)은 상태 저장 후 지연 처리로 넘김 | 최악 인터럽트 지연시간, jitter, 마감시간 위반 건수 |
+| 고속 네트워크 카드 | 패킷 수신 IRQ를 coalescing하고 큐별 중앙처리장치(Central Processing Unit, CPU) affinity를 지정해 interrupt storm을 완화함 | 초당 IRQ 수, p99 패킷 지연, CPU softirq 사용률 |
+| 임베디드 다중 장치 버스 | 벡터 인터럽트와 데이지체인 우선순위를 장치 중요도에 맞춰 설계함 | 우선순위 기아 건수, missed interrupt 건수 |
+
+> 요약: 인터럽트 사례는 평균 처리량보다 최악 지연, 이벤트 빈도, 우선순위 공정성을 확인해야 함.
 
 ## Ⅶ. 전망
 
