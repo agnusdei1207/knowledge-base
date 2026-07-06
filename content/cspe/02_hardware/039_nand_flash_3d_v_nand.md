@@ -11,7 +11,7 @@ weight: 39
 - NAND 플래시: 전원이 꺼져도 전하 상태로 데이터를 보존하는 비휘발성 반도체 메모리임
 - page/block: NAND에서 읽기·쓰기의 기본 단위는 page, 지우기의 기본 단위는 block임
 - 3D V-NAND: 셀을 평면이 아니라 수직 방향으로 여러 층 쌓아 집적도를 높인 NAND 구조임
-- P/E cycle: program/erase 반복 횟수로 플래시 셀 수명 판단에 쓰임
+- P/E cycle: program/erase(P/E) 반복 횟수로 플래시 셀 수명 판단에 쓰임
 
 ## Ⅰ. 개요
 
@@ -21,7 +21,7 @@ weight: 39
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 플래시 메모리의 물리 제약과 3D 적층 발전 방향을 설명하는 역량 확인 | 비휘발성, page/block, erase-before-write, 3D 적층, ECC | RAM과 혼동, page/block 단위 누락, 3D를 단순 속도 개선으로 설명 |
+| 플래시 메모리의 물리 제약과 3D 적층 발전 방향을 설명하는 역량 확인 | 비휘발성, page/block, erase-before-write, 3D 적층, 오류 정정 코드(Error Correction Code, ECC) | 램(Random Access Memory, RAM)과 혼동, page/block 단위 누락, 3D를 단순 속도 개선으로 설명 |
 
 > 요약: 3D V-NAND는 NAND 플래시의 용량과 신뢰성을 수직 적층으로 개선한 비휘발성 메모리 구조임.
 
@@ -36,8 +36,8 @@ weight: 39
 
 > 요약: 3D V-NAND는 평면 미세화 한계를 수직 적층으로 전환해 용량과 신뢰성의 균형을 맞춤.
 
-- NAND는 덮어쓰기 전에 block erase가 필요해 SSD FTL과 garbage collection이 필수임
-- SLC, MLC, TLC, QLC처럼 셀당 저장 비트가 늘수록 용량은 커지지만 지연, 내구성, 오류 관리가 어려워짐
+- NAND는 덮어쓰기 전에 block erase가 필요해 솔리드 스테이트 드라이브 플래시 변환 계층(Solid State Drive Flash Translation Layer, SSD FTL)과 garbage collection이 필수임
+- 단일 레벨 셀(Single-Level Cell, SLC), 다중 레벨 셀(Multi-Level Cell, MLC), 삼중 레벨 셀(Triple-Level Cell, TLC), 사중 레벨 셀(Quad-Level Cell, QLC)처럼 셀당 저장 비트가 늘수록 용량은 커지지만 지연, 내구성, 오류 보정 부담이 커짐
 - 3D 적층은 용량을 키우지만 층 수 증가에 따른 공정 균일성, 수율, 열 관리가 중요함
 
 ## Ⅲ. 구성요소
@@ -49,7 +49,7 @@ weight: 39
       |                  |
       v                  v
 +-----------+      +-----------+
-| ECC/FTL   |      | Page/Block|
+| Protect   |      | Page/Block|
 +-----------+      +-----------+
 ```
 
@@ -66,7 +66,7 @@ weight: 39
 
 ```text
 +-----------+      +-----------+      +-----------+      +-----------+
-| 주소요청  | ---> | 읽기/쓰기 | ---> | 오류보정  | ---> | 상태관리  |
+| Request   | ---> | ReadWrite | ---> | Correct   | ---> | Manage    |
 +-----------+      +-----------+      +-----------+      +-----------+
 ```
 
@@ -81,7 +81,7 @@ weight: 39
 
 - **P1 수명 제한**: P/E cycle이 누적되면 셀 절연 특성이 약해져 오류율과 bad block이 증가함
 - **P2 데이터 보존과 읽기 교란**: 장기 보관, 반복 읽기, 온도 변화가 전하 상태를 흔들어 오류를 유발함
-- **P3 지연 변동**: program/erase, GC, ECC 재시도가 겹치면 SSD 응답시간이 크게 흔들릴 수 있음
+- **P3 지연 변동**: program/erase, 가비지 컬렉션(Garbage Collection, GC), ECC 재시도가 겹치면 SSD 응답시간이 크게 흔들릴 수 있음
 
 > 요약: NAND의 문제는 비휘발성 저장을 가능하게 하는 셀 물리 특성이 수명과 지연 변동으로 드러나는 점임.
 
@@ -92,13 +92,13 @@ weight: 39
 3. **장기**: 워크로드별 NAND 유형, SSD 등급, 백업·교체 주기 기준을 수립함
 
 - **P1 대응**: 동적·정적 wear leveling으로 block 사용 횟수를 분산함 (확인: erase count 분포)
-- **P2 대응**: read disturb 감지와 refresh, 온도 관리, ECC 여유를 확보함 (확인: corrected error 추세)
-- **P3 대응**: QoS SSD와 충분한 over-provisioning을 선택하고 GC 영향을 모니터링함 (확인: p99 latency)
+- **P2 대응**: read disturb 감지와 refresh, 온도 관리, ECC 여유를 확보함 (확인: corrected error와 uncorrectable error 추세)
+- **P3 대응**: 서비스 품질(Quality of Service, QoS) SSD와 충분한 over-provisioning을 선택하고 GC 영향을 모니터링함 (확인: p99 latency)
 
 > 요약: NAND 신뢰성은 셀 수명 지표와 오류 보정 상태를 지속적으로 관찰해 관리해야 함.
 
 ## Ⅶ. 전망
 
 - **발전 방향**: 3D NAND는 층 수 증가와 셀당 비트 수 확대를 통해 용량을 늘리지만 컨트롤러와 ECC의 역할이 계속 커짐
-- **기술사적 판단**: 데이터센터 SSD는 단순 TB당 가격보다 endurance, QoS, power loss protection, telemetry 기준으로 차별화됨
+- **기술사적 판단**: 데이터센터 SSD는 단순 테라바이트(Terabyte, TB)당 가격보다 endurance, QoS, 전원 손실 보호(Power Loss Protection, PLP), telemetry 기준으로 차별화됨
 - **기술사 제언**: 기술사는 NAND를 저장 매체로만 보지 말고 FTL, ECC, 수명 관리가 결합된 비휘발성 메모리 시스템으로 설명해야 함

@@ -12,10 +12,11 @@ weight: 40
 - mirroring: 같은 데이터를 둘 이상의 디스크에 복제해 장애를 견디는 방식임
 - parity: 일부 디스크 장애 시 데이터를 재구성하기 위한 검증 정보임
 - rebuild: 장애 디스크 교체 후 남은 데이터와 parity로 내용을 복원하는 과정임
+- I/O: 입출력(Input/Output, I/O)은 저장장치의 읽기·쓰기 요청과 응답 흐름을 의미함
 
 ## Ⅰ. 개요
 
-- **정의**: RAID는 여러 저장장치를 하나의 논리 볼륨으로 묶고 striping, mirroring, parity를 조합해 성능, 용량 효율, 장애 허용 수준을 요구사항에 맞게 선택하는 저장장치 구성 기술임
+- **정의**: 독립 디스크 중복 배열(Redundant Array of Independent Disks, RAID)은 여러 저장장치를 하나의 논리 볼륨으로 묶고 striping, mirroring, parity를 조합해 성능, 용량 효율, 장애 허용 수준을 요구사항에 맞게 선택하는 저장장치 구성 기술임
 - **배경/필요성**: 단일 디스크는 성능, 용량, 장애 허용성에 한계가 있으며 디스크 장애는 서비스 중단과 데이터 손실로 이어질 수 있음. RAID는 여러 장치를 병렬·중복 구성해 워크로드와 가용성 요구에 맞는 저장 계층을 만들기 위해 필요함
 - **비유**: 중요한 서류를 여러 서랍에 나누어 빠르게 찾거나, 복사본과 검산표를 함께 둬 한 서랍이 망가져도 복원하는 방식과 같음
 
@@ -67,7 +68,7 @@ weight: 40
 
 ```text
 +-----------+      +-----------+      +-----------+      +-----------+
-| 요구분석  | ---> | 레벨선택  | ---> | I/O처리   | ---> | 장애복구  |
+| Analyze   | ---> | Select    | ---> | I/O       | ---> | Rebuild   |
 +-----------+      +-----------+      +-----------+      +-----------+
 ```
 
@@ -88,18 +89,18 @@ weight: 40
 
 ## Ⅵ. 개선방안
 
-1. **단기**: 디스크 상태, rebuild 예상 시간, URE, write latency, 백업 성공 여부를 점검함
+1. **단기**: 디스크 상태, rebuild 예상 시간, 복구 불가능 읽기 오류(Unrecoverable Read Error, URE), write latency, 백업 성공 여부를 점검함
 2. **중기**: hot spare, patrol read, scrubbing, RAID 6/10 전환, SSD 기반 구성을 검토함
 3. **장기**: RAID, 스냅샷, 오프사이트 백업, 객체 스토리지 erasure coding을 계층적으로 설계함
 
-- **P1 대응**: hot spare와 정기 scrubbing으로 rebuild 시작 시간을 줄이고 잠재 오류를 조기 발견함 (확인: rebuild time)
-- **P2 대응**: 랜덤 쓰기 많은 워크로드는 RAID 10 또는 write-back cache를 검토함 (확인: p99 write latency)
-- **P3 대응**: RAID와 별개로 백업·스냅샷·복구 훈련을 운영함 (확인: RPO/RTO 복구 테스트)
+- **P1 대응**: hot spare와 정기 scrubbing으로 rebuild 시작 시간을 줄이고 잠재 읽기 오류를 조기 발견함 (확인: rebuild time과 URE 발생)
+- **P2 대응**: 랜덤 쓰기 많은 워크로드는 RAID 10 또는 전원 보호 write-back cache를 검토함 (확인: p99 write latency)
+- **P3 대응**: RAID와 별개로 백업·스냅샷·복구 훈련을 운영함 (확인: 복구 시점 목표(Recovery Point Objective, RPO)와 복구 시간 목표(Recovery Time Objective, RTO) 복구 테스트)
 
 > 요약: RAID는 장애 허용 계층으로 쓰고 백업과 무결성 검증을 별도 계층으로 결합해야 함.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: 대용량 HDD와 SSD가 혼재된 환경에서는 RAID 레벨보다 rebuild 시간, endurance, 컨트롤러 QoS가 더 중요한 판단 기준이 됨
+- **발전 방향**: 대용량 하드 디스크 드라이브(Hard Disk Drive, HDD)와 SSD가 혼재된 환경에서는 RAID 레벨보다 rebuild 시간, endurance, 컨트롤러 서비스 품질(Quality of Service, QoS)이 더 중요한 판단 기준이 됨
 - **기술사적 판단**: 분산 스토리지는 전통 RAID 대신 erasure coding과 복제 정책을 사용하지만 stripe, parity, rebuild 사고방식은 계속 활용됨
 - **기술사 제언**: 기술사는 RAID를 레벨 암기표로 끝내지 말고 워크로드, 복구 목표, 백업 체계와 함께 선택해야 함
