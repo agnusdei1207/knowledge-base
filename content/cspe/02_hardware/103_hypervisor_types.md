@@ -79,21 +79,26 @@ weight: 103
 
 > 요약: 서버 가상화는 물리 자원을 등록하고 VM에 논리 자원으로 배분한 뒤 지속 운영하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 성능 오버헤드**: CPU ready time, I/O emulation, 메모리 ballooning이 워크로드 지연을 증가시킬 수 있음
-- **P2 격리·보안 위험**: VM escape, side-channel, 관리 콘솔 침해가 다중 테넌트 환경에 큰 영향을 줄 수 있음
-- **P3 운영 복잡도**: VM sprawl, snapshot 남용, 라이선스·패치 관리 누락이 비용과 위험을 증가시킴
-
-> 요약: 하이퍼바이저 운영 위험은 기술 선택보다 자원 경합, 격리, 수명주기 관리에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 적정 overcommit, paravirtual driver, NUMA(Non-Uniform Memory Access) affinity, I/O passthrough를 적용함 (확인: CPU ready and p99 latency)
+- **P2 격리·보안 위험**: VM escape, side-channel, 관리 콘솔 침해가 다중 테넌트 환경에 큰 영향을 줄 수 있음
 - **P2 대응**: 하이퍼바이저 패치, 관리망 분리, RBAC(Role-Based Access Control), secure boot, side-channel 완화 설정을 운영함 (확인: hardening compliance)
+- **P3 운영 복잡도**: VM sprawl, snapshot 남용, 라이선스·패치 관리 누락이 비용과 위험을 증가시킴
 - **P3 대응**: VM lifecycle policy, snapshot retention, template 표준화, CMDB(Configuration Management Database) 연계를 적용함 (확인: orphan VM count)
 
-> 요약: 가상화 품질은 하이퍼바이저 종류보다 자원·보안·수명주기 운영 규율로 확보됨.
+> 요약: 하이퍼바이저 운영 위험은 자원 경합, 격리, 수명주기 관리에서 발생하며 표준 운영 규율로 통제해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 운영 서버 통합 | Type 1 하이퍼바이저로 VM(Virtual Machine)을 집적하고 overcommit, NUMA affinity, HA(High Availability)를 표준화함 | CPU ready time, p99 latency |
+| 개발·검증 환경 | Type 2 하이퍼바이저로 호스트 OS(Operating System)와 파일·네트워크를 쉽게 연동하고 데이터 등급을 제한함 | VM provision time, host impact |
+| 다중 테넌트 클라우드 | 관리망 분리, RBAC, 패치 기준선, side-channel 완화를 운영 통제에 포함함 | hardening compliance, audit finding count |
+
+> 요약: Type 선택은 용도별 격리 수준, 운영 자동화, 성능 지표가 함께 맞을 때 타당함.
 
 ## Ⅶ. 전망
 

@@ -79,21 +79,26 @@ weight: 104
 
 > 요약: 연결 후 협상과 링크 훈련이 성공해야 고속 전송과 전력 공급이 안정적으로 유지됨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 호환성 혼란**: 같은 커넥터라도 지원 속도, PD 전력, alternate mode, 케이블 인증이 달라 사용자 기대와 다를 수 있음
-- **P2 신호 무결성 한계**: 케이블 길이, 품질, EMI(Electromagnetic Interference), equalization 실패가 고속 link error를 증가시킴
-- **P3 DMA 보안 위험**: Thunderbolt 같은 PCIe 터널링은 장치가 메모리에 접근할 수 있어 DMA 공격 위험이 있음
-
-> 요약: 고속 직렬 인터페이스의 문제는 포트 모양보다 기능 협상, 신호 품질, DMA 보안에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 포트별 지원 기능, 케이블 등급, PD profile을 명확히 표기하고 인증 부품을 사용함 (확인: compatibility matrix)
+- **P2 신호 무결성 한계**: 케이블 길이, 품질, EMI(Electromagnetic Interference), equalization 실패가 고속 link error를 증가시킴
 - **P2 대응**: SI(Signal Integrity) test, active cable, retimer, EMI 설계로 link margin을 확보함 (확인: link error rate)
+- **P3 DMA 보안 위험**: Thunderbolt 같은 PCIe 터널링은 장치가 메모리에 접근할 수 있어 DMA 공격 위험이 있음
 - **P3 대응**: IOMMU, security level, device authorization, OS(Operating System) 정책으로 외부 DMA를 제한함 (확인: unauthorized DMA blocked)
 
-> 요약: 안정적인 고속 인터페이스는 사용자 기능 명세, 물리 신호 검증, DMA 보호를 함께 요구함.
+> 요약: 고속 직렬 인터페이스의 문제는 기능 협상, 신호 품질, DMA 보안에서 발생하며 표준 부품과 정책 검증으로 완화함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 업무용 노트북 도킹 | USB(Universal Serial Bus) PD와 DisplayPort alternate mode 지원 독·케이블을 표준 품목으로 제한함 | compatibility matrix, helpdesk incident count |
+| 외장 고속 저장장치 | Thunderbolt 또는 USB4 링크에서 cable 인증, link training, retimer 적용 여부를 검증함 | negotiated speed, link error rate |
+| 보안 구역 단말 | 외부 PCIe(Peripheral Component Interconnect Express) 터널링 장치에 IOMMU(Input-Output Memory Management Unit)와 device authorization을 적용함 | unauthorized DMA blocked |
+
+> 요약: 실무 적용은 최대 속도보다 실제 협상 속도, 전력 조건, 외부 장치 보안 통제로 판단함.
 
 ## Ⅶ. 전망
 

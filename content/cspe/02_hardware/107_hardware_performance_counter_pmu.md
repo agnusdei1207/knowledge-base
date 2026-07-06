@@ -79,21 +79,26 @@ weight: 107
 
 > 요약: PMU 분석은 목표 이벤트를 선택하고 측정 조건을 고정한 뒤 비율 지표로 해석해야 함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 이벤트 해석 오류**: CPU 세대별 이벤트 정의가 달라 같은 이름의 counter도 의미와 정확도가 다를 수 있음
-- **P2 카운터 자원 제한**: 동시에 측정 가능한 이벤트 수가 제한되어 multiplexing 시 오차가 생김
-- **P3 관측 교란**: sampling interrupt, context switch, CPU frequency 변화가 측정값을 왜곡할 수 있음
-
-> 요약: PMU 값은 원시 숫자가 아니라 CPU 문서와 측정 조건을 함께 해석해야 신뢰할 수 있음.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: CPU vendor event guide와 errata를 기준으로 이벤트 의미를 확인함 (확인: event mapping version)
+- **P2 카운터 자원 제한**: 동시에 측정 가능한 이벤트 수가 제한되어 multiplexing 시 오차가 생김
 - **P2 대응**: 측정 목적별 이벤트 세트를 나누고 반복 실행으로 multiplexing 오차를 낮춤 (확인: counter scaling error)
+- **P3 관측 교란**: sampling interrupt, context switch, CPU frequency 변화가 측정값을 왜곡할 수 있음
 - **P3 대응**: CPU pinning, 고정 주파수, warm-up, baseline 측정으로 환경 변동을 통제함 (확인: run-to-run variance)
 
-> 요약: PMU 계측 신뢰도는 이벤트 정의 검증, 측정 세트 분리, 환경 통제로 확보함.
+> 요약: PMU 값은 원시 숫자가 아니라 이벤트 정의 검증, 측정 세트 분리, 환경 통제를 거쳐 해석해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 서비스 지연 분석 | perf 같은 분석 도구로 cache miss, branch miss, CPI(Cycles Per Instruction)를 측정해 코드 병목 원인을 분리함 | IPC, cache miss rate |
+| 데이터베이스 튜닝 | CPU(Central Processing Unit) pinning 후 PMU sampling으로 lock 경합, 메모리 대기, branch miss를 비교함 | CPI, run-to-run variance |
+| 클라우드 용량 기준선 | 인스턴스 유형별 PMU 지표를 기준선으로 저장해 배포 전후 성능 변화를 검증함 | IPC change, counter scaling error |
+
+> 요약: 실무에서는 wall-clock 지연과 PMU 원인 지표를 연결해 성능 개선의 근거를 검증함.
 
 ## Ⅶ. 전망
 

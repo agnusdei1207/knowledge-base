@@ -78,21 +78,26 @@ weight: 102
 
 > 요약: IOMMU는 DMA 요청마다 장치별 매핑과 권한을 확인해 메모리 접근을 중재함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 성능 오버헤드**: IOTLB miss, 페이지 테이블 walk, map/unmap 호출이 고속 I/O 지연을 늘릴 수 있음
-- **P2 설정 복잡도**: passthrough, SR-IOV, interrupt remapping 설정이 잘못되면 VM 격리가 깨지거나 장치가 동작하지 않음
-- **P3 우회 경로 위험**: 펌웨어 버그, ACS(Access Control Services) 미설정, peer-to-peer DMA가 IOMMU 보호 범위를 약화시킬 수 있음
-
-> 요약: IOMMU는 보안을 강화하지만 고속 I/O 성능과 플랫폼 설정 검증이 함께 필요함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: large page, IOTLB sizing, batching map/unmap, passthrough mode를 워크로드별로 조정함 (확인: IOTLB miss rate)
+- **P2 설정 복잡도**: passthrough, SR-IOV, interrupt remapping 설정이 잘못되면 VM 격리가 깨지거나 장치가 동작하지 않음
 - **P2 대응**: IOMMU group, interrupt remapping, SR-IOV VF(Virtual Function) 정책을 표준 구성으로 검증함 (확인: device isolation matrix)
+- **P3 우회 경로 위험**: 펌웨어 버그, ACS(Access Control Services) 미설정, peer-to-peer DMA가 IOMMU 보호 범위를 약화시킬 수 있음
 - **P3 대응**: PCIe ACS, firmware update, DMA protection test로 우회 경로를 점검함 (확인: unauthorized DMA blocked)
 
-> 요약: IOMMU 개선은 변환 비용 최적화와 장치·펌웨어 격리 검증을 동시에 수행해야 함.
+> 요약: IOMMU는 DMA 격리를 제공하지만 변환 비용 최적화와 장치·펌웨어 우회 경로 검증을 함께 수행해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| GPU 패스스루 가상화 | IOMMU group을 분리하고 SR-IOV 또는 PCIe passthrough 장치를 VM(Virtual Machine)에 직접 할당함 | device isolation matrix, DMA fault count |
+| 고속 네트워크 장치 | large page와 map/unmap batching으로 NIC(Network Interface Card) DMA 변환 오버헤드를 줄임 | IOTLB miss rate, packet p99 latency |
+| 외부 포트 보안 | Thunderbolt 같은 외부 PCIe 장치에 DMA remapping과 device authorization을 적용함 | unauthorized DMA blocked |
+
+> 요약: IOMMU 적용은 장치 직접 할당의 성능 이득과 DMA 격리 검증을 같은 기준으로 평가해야 함.
 
 ## Ⅶ. 전망
 

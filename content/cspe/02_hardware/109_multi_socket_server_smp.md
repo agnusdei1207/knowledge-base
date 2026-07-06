@@ -80,21 +80,26 @@ weight: 109
 
 > 요약: 멀티소켓 운영은 자원 인식 후 NUMA locality를 유지하며 병렬 실행을 조정하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 원격 메모리 지연**: 스레드가 다른 소켓 메모리에 자주 접근하면 latency와 inter-socket traffic이 증가함
-- **P2 일관성 트래픽 증가**: 공유 데이터와 lock 경합이 많으면 cache coherence 메시지가 성능을 제한함
-- **P3 라이선스·전력 비용**: 소켓 수 기반 라이선스와 높은 전력·냉각 요구가 총비용을 증가시킴
-
-> 요약: 멀티소켓의 병목은 코어 부족보다 NUMA locality, 공유 데이터, 비용 구조에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: NUMA-aware scheduling, memory binding, first-touch 정책으로 로컬 접근을 늘림 (확인: remote memory access ratio)
+- **P2 일관성 트래픽 증가**: 공유 데이터와 lock 경합이 많으면 cache coherence 메시지가 성능을 제한함
 - **P2 대응**: lock sharding, per-socket queue, read-mostly data 복제로 일관성 트래픽을 줄임 (확인: inter-socket bandwidth)
+- **P3 라이선스·전력 비용**: 소켓 수 기반 라이선스와 높은 전력·냉각 요구가 총비용을 증가시킴
 - **P3 대응**: scale-up과 scale-out TCO(Total Cost of Ownership)를 비교하고 workload별 소켓 수 표준을 정함 (확인: cost per transaction)
 
-> 요약: 멀티소켓 최적화는 하드웨어 증설보다 NUMA 친화적 소프트웨어 배치와 비용 평가가 중요함.
+> 요약: 멀티소켓의 병목은 코어 부족보다 NUMA locality, 공유 데이터, 비용 구조에서 발생하며 배치와 비용 평가로 통제해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 대형 DB(Database) 서버 | DB 프로세스와 buffer pool을 NUMA(Non-Uniform Memory Access) 노드에 맞춰 배치해 원격 메모리 접근을 줄임 | remote memory access ratio, p99 latency |
+| 가상화 호스트 | VM(Virtual Machine)의 vCPU(Virtual CPU), 메모리, PCIe(Peripheral Component Interconnect Express) 장치를 같은 소켓에 가깝게 배치함 | CPU ready time, inter-socket bandwidth |
+| 상용 소프트웨어 플랫폼 | 소켓 수 기반 라이선스와 전력 비용을 scale-out 대안과 비교해 표준 서버 구성을 정함 | cost per transaction, power draw |
+
+> 요약: 실무에서는 소켓 수 증가가 아니라 NUMA 배치 효과와 총비용을 측정해 멀티소켓 도입을 판단함.
 
 ## Ⅶ. 전망
 

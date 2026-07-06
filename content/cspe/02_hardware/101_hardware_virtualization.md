@@ -79,21 +79,26 @@ weight: 101
 
 > 요약: 게스트는 대부분 직접 실행되고, 통제가 필요한 순간에만 하이퍼바이저가 개입함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 VM Exit 비용**: 빈번한 특권 명령, I/O, timer interrupt가 발생하면 전환 비용으로 성능이 저하됨
-- **P2 주소 변환 오버헤드**: 2단계 page walk와 TLB miss가 메모리 집약 워크로드 지연을 증가시킴
-- **P3 격리 취약점**: CPU 마이크로아키텍처 공유 자원과 speculative execution이 VM 간 정보 노출 경로가 될 수 있음
-
-> 요약: 하드웨어 가상화 병목은 직접 실행 자체보다 exit, address translation, 공유 자원 격리에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: paravirtual driver, interrupt coalescing, timer 최적화로 exit 빈도를 줄임 (확인: VM exit rate)
+- **P2 주소 변환 오버헤드**: 2단계 page walk와 TLB miss가 메모리 집약 워크로드 지연을 증가시킴
 - **P2 대응**: huge page, EPT/NPT tuning, TLB shootdown 최소화로 주소 변환 비용을 낮춤 (확인: EPT miss rate)
+- **P3 격리 취약점**: CPU 마이크로아키텍처 공유 자원과 speculative execution이 VM 간 정보 노출 경로가 될 수 있음
 - **P3 대응**: CPU microcode, core scheduling, cache partitioning, side-channel mitigation을 적용함 (확인: isolation test)
 
-> 요약: 가상화 성능과 보안은 하드웨어 기능 활성화와 워크로드별 exit·메모리·격리 튜닝으로 확보함.
+> 요약: 하드웨어 가상화 병목은 직접 실행 자체보다 exit, address translation, 공유 자원 격리에서 발생하며 워크로드별 튜닝으로 완화함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 클라우드 VM 집적 | VT-x(Intel Virtualization Technology for x86)/AMD-V(AMD Virtualization), EPT/NPT, paravirtual driver를 표준 이미지에 적용해 게스트 OS(Operating System)를 무수정 실행함 | VM exit rate, CPU ready time |
+| 데이터베이스 가상화 | huge page와 NUMA(Non-Uniform Memory Access) affinity를 적용해 2단계 주소 변환과 원격 메모리 접근을 줄임 | EPT miss rate, p99 latency |
+| 다중 테넌트 보안 | microcode, side-channel 완화, core scheduling 정책을 하이퍼바이저 기준선에 포함함 | isolation test pass, mitigation compliance |
+
+> 요약: 실무에서는 VM 밀도보다 exit 빈도, 메모리 변환 비용, 격리 검증을 함께 확인해야 함.
 
 ## Ⅶ. 전망
 

@@ -80,21 +80,26 @@ weight: 106
 
 > 요약: 3D 적층 메모리는 개별 다이 품질과 적층 후 패키지 검증이 모두 필요한 공정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 열 집중**: 수직으로 쌓인 다이 내부 열이 빠져나가기 어려워 retention과 수명에 영향을 줌
-- **P2 수율 저하**: 여러 다이를 묶기 때문에 한 층의 결함이 전체 스택 수율과 비용을 악화시킬 수 있음
-- **P3 테스트 복잡도**: 적층 전후 불량 위치, TSV 결함, 패키지 연결 문제를 분리 진단하기 어려움
-
-> 요약: 3D 적층 메모리의 병목은 대역폭보다 열, 수율, 테스트 가능성에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: thermal-aware floorplan, heat spreader, 동적 refresh·throttling으로 온도를 관리함 (확인: stack temperature)
+- **P2 수율 저하**: 여러 다이를 묶기 때문에 한 층의 결함이 전체 스택 수율과 비용을 악화시킬 수 있음
 - **P2 대응**: known good die 선별, redundancy row/column, repair fuse로 스택 수율을 개선함 (확인: stack yield)
+- **P3 테스트 복잡도**: 적층 전후 불량 위치, TSV 결함, 패키지 연결 문제를 분리 진단하기 어려움
 - **P3 대응**: BIST(Built-In Self-Test), TSV test access, 패키지 후 burn-in으로 결함을 단계별 분리함 (확인: defect escape rate)
 
-> 요약: 3D 적층 메모리 개선은 제조 전 선별과 적층 후 열·테스트 체계를 함께 요구함.
+> 요약: 3D 적층 메모리의 병목은 대역폭보다 열, 수율, 테스트 가능성에서 발생하며 제조 전후 검증으로 낮춰야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| AI(Artificial Intelligence) 가속기 | GPU(Graphics Processing Unit) 옆에 HBM(High Bandwidth Memory) 스택을 배치해 모델 학습의 메모리 대역폭 병목을 완화함 | memory bandwidth, stack temperature |
+| HPC(High Performance Computing) 노드 | 프로세서와 3D 적층 메모리를 인터포저로 연결해 병렬 계산 데이터 공급량을 높임 | bandwidth per watt, thermal throttling count |
+| 패키지 양산 검증 | 적층 전 known good die 선별과 적층 후 BIST·burn-in을 단계별로 수행함 | stack yield, defect escape rate |
+
+> 요약: 실무 적용은 peak bandwidth보다 열 설계, 적층 수율, 테스트 가능성을 함께 확인해야 함.
 
 ## Ⅶ. 전망
 

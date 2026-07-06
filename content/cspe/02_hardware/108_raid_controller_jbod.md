@@ -79,21 +79,26 @@ weight: 108
 
 > 요약: 구성 선택 이후 RAID는 컨트롤러가, JBOD는 상위 소프트웨어가 장애와 배치를 주도함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 컨트롤러 단일 장애점**: RAID metadata와 cache가 특정 컨트롤러에 의존하면 장애 시 복구가 어려울 수 있음
-- **P2 쓰기 홀·캐시 위험**: write-back cache와 정전 보호가 맞지 않으면 패리티 불일치나 데이터 손실이 발생함
-- **P3 JBOD 운영 부담**: 디스크가 그대로 노출되어 장애 감지, 복제, 재배치 정책을 소프트웨어가 정확히 수행해야 함
-
-> 요약: RAID/JBOD 위험은 데이터 보호 책임이 어느 계층에 있는지 불명확할 때 커짐.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: dual controller, metadata export, 교체 절차, controller firmware 표준화를 적용함 (확인: controller failover test)
-- **P2 대응**: BBU/supercap 상태 감시, write-through fallback, patrol read와 consistency check를 운영함 (확인: cache protection status)
+- **P2 쓰기 홀·캐시 위험**: write-back cache와 정전 보호가 맞지 않으면 패리티 불일치나 데이터 손실이 발생함
+- **P2 대응**: BBU(Battery Backup Unit)/supercap 상태 감시, write-through fallback, patrol read와 consistency check를 운영함 (확인: cache protection status)
+- **P3 JBOD 운영 부담**: 디스크가 그대로 노출되어 장애 감지, 복제, 재배치 정책을 소프트웨어가 정확히 수행해야 함
 - **P3 대응**: SDS health check, disk inventory, 자동 재복제, failure domain 정책을 적용함 (확인: degraded recovery time)
 
-> 요약: RAID/JBOD 운영은 컨트롤러 보호와 소프트웨어 장애 처리 책임을 명확히 나눠야 함.
+> 요약: RAID/JBOD 위험은 데이터 보호 책임이 어느 계층에 있는지 불명확할 때 커지므로 컨트롤러와 소프트웨어 책임을 분리해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 단일 서버 부트 볼륨 | RAID 1 또는 RAID 10을 컨트롤러에서 구성하고 cache 보호와 spare 정책을 운영함 | rebuild time, cache protection status |
+| 분산 스토리지 노드 | JBOD/HBA(Host Bus Adapter)로 디스크를 개별 노출하고 SDS(Software-Defined Storage)가 복제와 장애 배치를 수행함 | degraded recovery time, disk visibility |
+| 장비 교체 복구 | controller metadata export와 firmware 표준화로 장애 컨트롤러 교체 절차를 검증함 | controller failover test, recovery success rate |
+
+> 요약: 실무에서는 보호 책임을 하드웨어 RAID에 둘지 SDS에 둘지 정하고 복구 지표로 검증해야 함.
 
 ## Ⅶ. 전망
 

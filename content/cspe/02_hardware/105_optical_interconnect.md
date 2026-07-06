@@ -79,21 +79,26 @@ weight: 105
 
 > 요약: 광 인터커넥트는 전기 데이터를 빛으로 바꾸어 전송한 뒤 다시 전기 신호로 복원함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 광전 변환 오버헤드**: 짧은 거리에서는 변조기, 레이저, 수신기의 전력과 지연이 이득을 줄일 수 있음
-- **P2 패키징·정렬 난이도**: 칩과 광섬유, 레이저 결합 정렬이 미세하게 어긋나면 손실과 수율 문제가 발생함
-- **P3 열·신뢰성 문제**: 레이저와 광소자는 온도 변화에 민감해 파장 drift와 출력 저하가 생길 수 있음
-
-> 요약: 광 인터커넥트는 매체보다 광소자 집적, 패키징, 열 안정성이 실용화 병목임.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 적용 거리를 rack/board/package 단위로 구분하고 전기 대비 energy per bit를 비교함 (확인: pJ/bit)
+- **P2 패키징·정렬 난이도**: 칩과 광섬유, 레이저 결합 정렬이 미세하게 어긋나면 손실과 수율 문제가 발생함
 - **P2 대응**: CPO(Co-Packaged Optics), passive alignment, wafer-level test로 패키징 수율을 높임 (확인: coupling loss)
+- **P3 열·신뢰성 문제**: 레이저와 광소자는 온도 변화에 민감해 파장 drift와 출력 저하가 생길 수 있음
 - **P3 대응**: thermal control, wavelength locking, redundancy channel로 광소자 변동을 보정함 (확인: optical power margin)
 
-> 요약: 광 인터커넥트 도입은 대역폭보다 거리별 에너지 효율과 패키징 신뢰성 검증이 우선임.
+> 요약: 광 인터커넥트는 매체보다 광소자 집적, 패키징, 열 안정성이 실용화 병목이며 거리별 효율 검증이 우선임.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 데이터센터 스위치 연결 | 랙 간 고속 uplink에 광 모듈을 적용해 전기 케이블 손실과 전력 소모를 줄임 | pJ/bit, optical power margin |
+| AI(Artificial Intelligence) 클러스터 | CPO와 silicon photonics를 스위치 주변에 배치해 GPU(Graphics Processing Unit) 간 대역폭 병목을 완화함 | bandwidth per watt, coupling loss |
+| HPC(High Performance Computing) 운영 | 광 모듈 온도, link flap, 예비 모듈 재고를 운영 기준으로 관리함 | module failure rate, link availability |
+
+> 요약: 실무에서는 광 적용 구간의 거리, 전력, 패키징 손실, 교체 가능성을 함께 판단해야 함.
 
 ## Ⅶ. 전망
 

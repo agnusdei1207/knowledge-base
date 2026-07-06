@@ -87,21 +87,26 @@ Torus:
 
 > 요약: 토폴로지 설계는 워크로드 통신 패턴을 기준으로 구조와 용량을 선택한 뒤 실측으로 검증함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 트래픽 패턴 불일치**: 토폴로지와 워크로드 통신 패턴이 맞지 않으면 특정 링크에 혼잡이 집중됨
-- **P2 케이블·포트 비용**: 고대역폭 팻트리는 스위치 포트와 케이블 수가 급증해 구축 비용과 장애 지점이 늘어남
-- **P3 장애 영향 경로**: 토러스나 oversubscribed 구조에서는 일부 링크 장애가 우회 경로 지연과 혼잡을 크게 만들 수 있음
-
-> 요약: 토폴로지 문제는 평균 대역폭보다 패턴 적합성, 물리 구축 비용, 장애 시 경로 변화에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: workload trace 기반 시뮬레이션과 topology-aware scheduling으로 통신이 가까운 노드를 함께 배치함 (확인: link hotspot count)
+- **P2 케이블·포트 비용**: 고대역폭 팻트리는 스위치 포트와 케이블 수가 급증해 구축 비용과 장애 지점이 늘어남
 - **P2 대응**: oversubscription ratio, cable plan, port speed를 TCO(Total Cost of Ownership) 기준으로 최적화함 (확인: cost per effective bandwidth)
+- **P3 장애 영향 경로**: 토러스나 oversubscribed 구조에서는 일부 링크 장애가 우회 경로 지연과 혼잡을 크게 만들 수 있음
 - **P3 대응**: adaptive routing, redundant link, failure domain 설계와 장애 훈련을 적용함 (확인: degraded throughput)
 
-> 요약: 인터커넥트 개선은 토폴로지 자체보다 워크로드 배치와 장애 시 경로 제어를 포함해야 함.
+> 요약: 토폴로지 문제는 패턴 적합성, 물리 구축 비용, 장애 시 경로 변화에서 발생하므로 워크로드 배치와 우회 제어를 함께 설계해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| AI(Artificial Intelligence) 학습 클러스터 | 팻트리 또는 계층형 fabric으로 all-reduce 트래픽의 bisection bandwidth를 확보함 | collective latency, link utilization |
+| HPC(High Performance Computing) 시뮬레이션 | 토러스 계열 구조와 topology-aware scheduling으로 nearest-neighbor 통신 노드를 가깝게 배치함 | hop count, link hotspot count |
+| 데이터센터 증설 계획 | oversubscription ratio, 케이블 길이, 장애 도메인을 증설 단위별로 비교함 | cost per effective bandwidth, degraded throughput |
+
+> 요약: 실무에서는 애플리케이션 통신 패턴과 장애 시 처리량을 기준으로 팻트리와 토러스 적용성을 판단함.
 
 ## Ⅶ. 전망
 
