@@ -10,12 +10,13 @@ weight: 64
 
 - Vector: 같은 타입의 데이터 요소를 순서대로 묶은 배열형 데이터임
 - Vector Register: 여러 데이터 요소를 한 번에 보관하는 레지스터 파일임
+- Vector FU: 벡터 기능 유닛(Vector Functional Unit, Vector FU)은 벡터 원소의 산술·논리 연산을 파이프라인으로 수행함
 - Stride: 연속 원소 사이의 메모리 주소 간격임
 - Mask: 조건에 맞는 벡터 원소만 연산하도록 선택하는 비트 집합임
 
 ## Ⅰ. 개요
 
-- **정의**: 벡터 프로세서는 하나의 벡터 명령으로 여러 데이터 원소를 벡터 레지스터와 파이프라인 연산기에 연속 처리하는 프로세서 구조임. 데이터 수준 병렬성, 벡터 길이, 메모리 stride를 기준으로 과학 계산, 신호처리, 행렬 연산을 가속하기 위해 사용함.
+- **정의**: 벡터 프로세서는 데이터 수준 병렬성이 높은 배열 연산을 하나의 벡터 명령, 벡터 레지스터, 파이프라인 연산기로 연속 처리해 반복 제어 오버헤드와 원소별 명령 실행 비용을 줄이는 프로세서 구조임.
 - **배경/필요성**: 스칼라 프로세서는 반복문 안의 동일 연산을 원소마다 명령 fetch와 제어를 반복해 오버헤드가 큼. 벡터 프로세서는 반복 제어를 줄이고 파이프라인을 채워 대량 수치 연산 처리량을 높임.
 - **비유**: 계산기를 원소마다 누르는 대신 긴 계산 목록을 한 번에 넣어 순서대로 처리하게 하는 것과 같음.
 
@@ -61,7 +62,7 @@ weight: 64
 
 ```text
 +----------+     +----------+     +----------+     +----------+
-| 루프분석 | --> | 벡터로드 | --> | 벡터연산 | --> | 저장완료 |
+| Analyze  | --> | VLoad    | --> | VCompute | --> | Store    |
 +----------+     +----------+     +----------+     +----------+
 ```
 
@@ -83,13 +84,13 @@ weight: 64
 ## Ⅵ. 개선방안
 
 - **P1 대응**: 메모리 인터리빙, prefetch, blocking, 스트리밍 접근을 적용함 (확인: 메모리 대역폭 활용률)
-- **P2 대응**: vector-length agnostic ISA와 컴파일러 자동 벡터화를 활용함 (확인: 하드웨어별 성능 편차)
+- **P2 대응**: vector-length agnostic 명령어 집합 구조(Instruction Set Architecture, ISA)와 컴파일러 자동 벡터화를 활용함 (확인: 하드웨어별 성능 편차)
 - **P3 대응**: mask 연산, 데이터 재배치, gather/scatter 최소화, 알고리즘 구조 변경을 수행함 (확인: vectorization ratio)
 
 > 요약: 개선은 벡터 연산기보다 데이터 공급과 코드 벡터화 가능성을 높이는 데 집중해야 함.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: 벡터 프로세서는 RISC-V V extension, ARM SVE, GPU tensor path와 연결되어 가변 vector length와 compiler auto-vectorization 중심으로 확장됨
+- **발전 방향**: 벡터 프로세서는 가변 길이 벡터 ISA, 컴파일러 자동 벡터화, 행렬 연산 가속 경로와 결합해 하드웨어 폭에 덜 종속적인 데이터 병렬 처리로 확장됨
 - **기술사적 판단**: vector length, memory stride, register pressure, mask 처리, cache bandwidth를 기준으로 scalar 대비 이득을 계산함; vectorization ratio, achieved memory bandwidth, tail handling overhead, lane utilization, numerical variance를 벤치마크별로 확인함
 - **기술사 제언**: 벡터 프로세서는 연산기 폭보다 메모리 공급과 컴파일러 지원이 성능을 좌우한다는 관점으로 설명함

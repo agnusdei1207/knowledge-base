@@ -8,14 +8,14 @@ weight: 63
 
 ## 미리 알고가기
 
-- SIMD: 하나의 명령어가 여러 데이터 요소에 동시에 적용되는 데이터 병렬 실행 방식임
-- MIMD: 여러 처리기가 서로 다른 명령어를 독립적으로 실행하는 병렬 실행 방식임
+- SIMD: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)는 하나의 명령어가 여러 데이터 요소에 동시에 적용되는 데이터 병렬 실행 방식임
+- MIMD: 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 여러 처리기가 서로 다른 명령어를 독립적으로 실행하는 병렬 실행 방식임
 - Vector Lane: SIMD 명령이 동시에 처리하는 데이터 요소별 실행 경로임
 - Synchronization: MIMD에서 여러 스레드나 프로세스의 실행 순서를 맞추는 제어임
 
 ## Ⅰ. 개요
 
-- **정의**: SIMD와 MIMD 프로세서는 병렬 실행을 데이터 스트림 중심으로 묶을지, 독립 명령 스트림 중심으로 나눌지에 따라 구분되는 병렬 처리 구조임. 워크로드의 규칙성, 분기, 데이터 의존성, 동기화 비용을 기준으로 적합한 병렬 방식을 선택하기 위해 사용함.
+- **정의**: SIMD와 MIMD 프로세서는 병렬 실행을 하나의 명령이 여러 데이터에 적용되는 데이터 병렬 구조로 묶을지, 여러 처리기가 독립 명령을 수행하는 작업 병렬 구조로 나눌지 판단하는 병렬 처리 구조임.
 - **배경/필요성**: 영상, 행렬, 신호처리처럼 같은 연산을 반복하는 작업과 서버, 시뮬레이션처럼 독립 작업이 많은 문제는 최적 구조가 다름. SIMD와 MIMD 비교는 병렬화 전략을 하드웨어 특성에 맞추게 함.
 - **비유**: SIMD는 한 구령에 맞춰 여러 사람이 같은 동작을 하는 것이고, MIMD는 여러 팀이 각자 다른 작업을 동시에 수행하는 것과 같음.
 
@@ -62,7 +62,7 @@ weight: 63
 
 ```text
 +----------+     +----------+     +----------+     +----------+
-| 작업분해 | --> | 구조선택 | --> | 병렬실행 | --> | 결과통합 |
+| Split    | --> | Select   | --> | Execute  | --> | Merge    |
 +----------+     +----------+     +----------+     +----------+
 ```
 
@@ -85,12 +85,12 @@ weight: 63
 
 - **P1 대응**: 데이터 정렬, predication, mask 연산, gather/scatter 최소화를 적용함 (확인: lane utilization)
 - **P2 대응**: 작업 분할, lock-free 구조, work stealing, 메시지 batch 처리를 적용함 (확인: 동기화 대기시간)
-- **P3 대응**: NUMA-aware 배치, 캐시 blocking, prefetch, 메모리 대역폭 측정을 수행함 (확인: bandwidth utilization)
+- **P3 대응**: 비균일 메모리 접근(Non-Uniform Memory Access, NUMA)-aware 배치, 캐시 blocking, prefetch, 메모리 대역폭 측정을 수행함 (확인: bandwidth utilization)
 
 > 요약: 개선은 실행 구조보다 데이터 배치와 동기화 비용을 먼저 최적화해야 효과가 큼.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: SIMD/MIMD는 CPU vector extension, GPU SIMT, many-core NPU가 결합된 heterogeneous parallelism의 기본 비교 축으로 남음
-- **기술사적 판단**: 데이터 규칙성, 분기 비율, 작업 독립성, 공유 메모리 경합, 스케줄러 비용을 기준으로 SIMD와 MIMD 영역을 나눔; vector lane utilization, branch divergence, thread imbalance, cache miss rate, synchronization wait를 측정해 병렬화 효과를 검증함
+- **발전 방향**: SIMD/MIMD는 중앙처리장치(Central Processing Unit, CPU) vector extension, 그래픽 처리 장치(Graphics Processing Unit, GPU) 단일 명령 다중 스레드(Single Instruction Multiple Threads, SIMT), many-core 신경망 처리 장치(Neural Processing Unit, NPU)가 결합된 heterogeneous parallelism의 기본 판단 기준으로 남음
+- **기술사적 판단**: 데이터 규칙성, 분기 비율, 작업 독립성, 공유 메모리 경합, 스케줄러 비용을 기준으로 SIMD와 MIMD 영역을 나눔; vector lane utilization, branch divergence, thread imbalance, cache miss rate, synchronization wait를 같은 입력 규모에서 측정해 병렬화 효과를 검증함
 - **기술사 제언**: SIMD/MIMD 답안은 Flynn 분류에 머물지 말고 알고리즘 특성과 측정 지표로 병렬 구조 선택을 설명해야 함

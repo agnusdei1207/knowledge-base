@@ -10,13 +10,13 @@ weight: 62
 
 - Instruction Stream: 제어 장치가 실행하는 명령 흐름의 수를 의미함
 - Data Stream: 명령이 적용되는 데이터 흐름의 수를 의미함
-- SISD/SIMD/MISD/MIMD: 명령 흐름과 데이터 흐름의 단일·다중 여부로 나눈 4분류임
+- SISD/SIMD/MISD/MIMD: 단일 명령 단일 데이터(Single Instruction Single Data, SISD), 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD), 다중 명령 단일 데이터(Multiple Instruction Single Data, MISD), 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 명령 흐름과 데이터 흐름의 단일·다중 여부로 나눈 4분류임
 - 병렬성: 여러 연산을 동시에 수행해 처리량이나 응답시간을 개선하는 특성임
 
 ## Ⅰ. 개요
 
-- **정의**: Flynn 분류는 컴퓨터 아키텍처를 명령어 스트림 수와 데이터 스트림 수라는 두 기준으로 SISD, SIMD, MISD, MIMD로 나누는 병렬 컴퓨터 분류 체계임. 하드웨어가 어떤 방식의 병렬성을 제공하는지 비교하고 적합한 워크로드를 판단하기 위해 사용함.
-- **배경/필요성**: 병렬 컴퓨터는 CPU, GPU, 벡터 프로세서, 클러스터처럼 구조가 다양해 단순 성능 수치만으로 차이를 설명하기 어려움. Flynn 분류는 명령과 데이터 흐름이라는 공통 축으로 아키텍처 차이를 빠르게 정리하게 함.
+- **정의**: Flynn 분류는 컴퓨터 아키텍처가 제공하는 병렬성을 명령어 스트림 수와 데이터 스트림 수라는 두 기준으로 SISD, SIMD, MISD, MIMD로 나누어 워크로드 적합성을 판단하는 병렬 컴퓨터 분류 체계임.
+- **배경/필요성**: 병렬 컴퓨터는 중앙처리장치(Central Processing Unit, CPU), 그래픽 처리 장치(Graphics Processing Unit, GPU), 벡터 프로세서, 클러스터처럼 구조가 다양해 단순 성능 수치만으로 차이를 설명하기 어려움. Flynn 분류는 명령과 데이터 흐름이라는 공통 축으로 아키텍처 차이를 빠르게 정리하게 함.
 - **비유**: 한 지휘자와 한 연주자, 한 지휘자와 여러 연주자, 여러 지휘자와 여러 연주자로 공연 형태를 나누는 것과 같음.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
@@ -61,7 +61,7 @@ weight: 62
 
 ```text
 +----------+     +----------+     +----------+     +----------+
-| 구조확인 | --> | 흐름계수 | --> | 유형분류 | --> | 적용판단 |
+| Inspect  | --> | Count    | --> | Classify | --> | Assess   |
 +----------+     +----------+     +----------+     +----------+
 ```
 
@@ -76,20 +76,20 @@ weight: 62
 
 - **P1 현대 하이브리드 표현 한계**: GPU 클러스터처럼 SIMD와 MIMD가 결합된 구조는 단일 범주로 설명하기 어려움
 - **P2 MISD 모호성**: 실무 사례가 적고 해석이 다양해 시험 답안에서 구체 예시 제시가 어렵음
-- **P3 메모리·인터커넥트 누락**: 분류가 명령과 데이터 흐름에 집중해 캐시, NUMA, 네트워크 병목을 설명하지 못함
+- **P3 메모리·인터커넥트 누락**: 분류가 명령과 데이터 흐름에 집중해 캐시, 비균일 메모리 접근(Non-Uniform Memory Access, NUMA), 네트워크 병목을 설명하지 못함
 
 > 요약: Flynn 분류는 기본 틀로 유용하지만 현대 시스템의 혼합 구조와 메모리 병목까지 설명하지는 못함.
 
 ## Ⅵ. 개선방안
 
 - **P1 대응**: CPU-GPU, 노드-클러스터처럼 계층별로 SIMD/MIMD를 병기함 (확인: 계층별 분류 명확성)
-- **P2 대응**: MISD는 fault-tolerant pipeline 같은 제한적 예시로 설명하고 핵심은 SIMD/MIMD에 둠 (확인: 예시의 구조 일치)
+- **P2 대응**: MISD는 중복 실행이나 파이프라인형 특수 사례로 한정해 설명하고 핵심 비교는 SIMD/MIMD에 둠 (확인: 예시의 구조 일치)
 - **P3 대응**: 메모리 계층, 공유/분산 메모리, 인터커넥트 토폴로지를 보조 축으로 추가함 (확인: 병목 설명 가능성)
 
 > 요약: Flynn 분류는 단독 결론이 아니라 계층, 메모리, 인터커넥트 관점과 함께 사용할 때 실무성이 높아짐.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: Flynn 분류는 CPU SIMD, GPU SIMT, MIMD cluster, AI accelerator가 혼합된 현대 병렬 구조를 설명하는 상위 분류 틀로 계속 활용됨
+- **발전 방향**: Flynn 분류는 CPU SIMD, GPU 단일 명령 다중 스레드(Single Instruction Multiple Threads, SIMT), MIMD cluster, 인공지능(Artificial Intelligence, AI) accelerator가 혼합된 현대 병렬 구조를 설명하는 상위 분류 틀로 계속 활용됨
 - **기술사적 판단**: 명령 흐름, 데이터 흐름, 메모리 공유 방식, 통신 비용을 분리해 워크로드를 어느 병렬 모델에 배치할지 결정함; speedup, lane utilization, synchronization overhead, memory bandwidth, communication latency를 측정해 분류와 실제 성능의 차이를 확인함
 - **기술사 제언**: Flynn 분류는 암기 표가 아니라 병렬성 선택의 출발점이며, 현대 시스템에서는 메모리와 인터커넥트 병목까지 연결해야 함
