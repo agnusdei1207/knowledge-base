@@ -81,21 +81,26 @@ Virtual Address
 
 > 요약: 가상 메모리는 주소 변환과 보호 검사를 거쳐 물리 메모리에 접근하거나 예외를 발생시킴.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 변환 오버헤드**: TLB miss와 page table walk가 잦으면 메모리 접근 지연이 크게 증가함
-- **P2 page fault·thrashing**: working set이 물리 메모리보다 크면 page fault가 반복되어 실행보다 swap I/O가 많아짐
-- **P3 단편화와 보호 설정 오류**: page 내부 단편화, segment 외부 단편화, 잘못된 권한 bit가 공간 낭비나 보안 취약점으로 이어짐
-
-> 요약: 가상 메모리 문제는 변환 지연, 물리 메모리 부족, 보호·단편화 관리 실패에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: TLB 확장, huge page, multi-level page table 최적화, page walk cache를 적용함 (확인: TLB miss, walk cycle)
+- **P2 page fault·thrashing**: working set이 물리 메모리보다 크면 page fault가 반복되어 실행보다 swap I/O가 많아짐
 - **P2 대응**: working set 모니터링, 적절한 page replacement, memory cgroup, swap 입출력(Input/Output, I/O) 상한을 운영함 (확인: major fault, swap-in/out)
+- **P3 단편화와 보호 설정 오류**: page 내부 단편화, segment 외부 단편화, 잘못된 권한 bit가 공간 낭비나 보안 취약점으로 이어짐
 - **P3 대응**: 주소 공간 배치 난수화(Address Space Layout Randomization, ASLR), 실행 방지(No-eXecute, NX) bit, 쓰기와 실행 분리(Write XOR Execute, W^X), guard page, compaction과 page size 정책을 적용함 (확인: 권한 위반 테스트, fragmentation)
 
 > 요약: 가상 메모리 개선은 변환 캐시, working set 관리, 권한 정책을 함께 조정해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 컨테이너 플랫폼 | memory control group으로 프로세스별 working set과 swap 상한을 분리해 thrashing 확산을 막음 | major fault, swap-in/out, p99 latency |
+| 데이터베이스 서버 | buffer pool과 huge page를 함께 설계하고 TLB miss가 낮은 페이지 크기를 선택함 | TLB miss, page walk cycles, buffer hit ratio |
+| 보안 실행 환경 | ASLR, NX bit, W^X, guard page를 권한 템플릿으로 적용해 page fault를 검증함 | 권한 위반 테스트, crash dump, fragmentation |
+
+> 요약: 실무 가상 메모리는 격리, 성능, 보호 정책을 page fault와 변환 지표로 검증해야 함.
 
 ## Ⅶ. 전망
 

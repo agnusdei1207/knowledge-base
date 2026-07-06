@@ -78,25 +78,26 @@ weight: 28
 
 > 요약: 실제 시스템은 SRAM 캐시로 빠른 접근을 제공하고 miss 시 DRAM의 큰 용량을 활용하는 흐름으로 동작함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 DRAM 지연 병목**: 캐시 miss가 많으면 DRAM 접근 지연과 대역폭 한계가 CPU 성능을 제한함
-- **P2 refresh 전력·가용성 부담**: DRAM은 refresh로 전력과 시간 자원을 사용하며 고밀도 환경에서 영향이 커짐
-- **P3 SRAM 면적 비용**: 캐시 용량을 크게 늘리면 칩 면적, 누설 전력, 수율 비용이 증가함
-
-> 요약: DRAM은 지연과 refresh, SRAM은 면적과 비용이 핵심 제약임.
-
-## Ⅵ. 개선방안
-
-1. **단기**: 캐시 miss, DRAM bandwidth, refresh 영향, 전력 지표를 측정해 병목 계층을 분리함
-2. **중기**: 캐시 친화적 자료구조, prefetch, 메모리 채널 병렬화, 적정 캐시 크기를 적용함
-3. **장기**: HBM, 임베디드 DRAM(embedded DRAM, eDRAM), 3D 적층, 컴퓨트 익스프레스 링크(Compute Express Link, CXL) 메모리 등 워크로드별 메모리 계층 전략을 수립함
-
 - **P1 대응**: locality 개선과 메모리 병렬성을 높여 DRAM 접근을 줄임 (확인: 최종 레벨 캐시(Last-Level Cache, LLC) miss와 memory stall)
+- **P2 refresh 전력·가용성 부담**: DRAM은 refresh로 전력과 시간 자원을 사용하며 고밀도 환경에서 영향이 커짐
 - **P2 대응**: refresh 스케줄 최적화와 저전력 DRAM 모드를 적용함 (확인: refresh overhead와 전력)
+- **P3 SRAM 면적 비용**: 캐시 용량을 크게 늘리면 칩 면적, 누설 전력, 수율 비용이 증가함
 - **P3 대응**: 캐시 용량보다 적중률 개선 효과가 큰 구조를 우선 선택함 (확인: 성능 대비 면적 비용)
 
 > 요약: 두 메모리의 한계는 계층 설계와 접근 패턴 최적화로 완화해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| CPU 캐시 설계 | L1/L2/L3는 SRAM으로 구성하고 용량 증설보다 hit rate 대비 면적 증가를 기준으로 계층을 정함 | cache hit ratio, access latency, die area |
+| 서버 주기억장치 | 대용량 working set은 DRAM 채널·rank 병렬성과 비균등 메모리 접근(Non-Uniform Memory Access, NUMA) 배치로 대역폭을 확보함 | memory bandwidth, LLC miss, p99 latency |
+| 인공지능(Artificial Intelligence, AI) 가속기 메모리 계층 | SRAM scratchpad에는 재사용 타일을 두고 DRAM/HBM에는 대량 tensor를 배치함 | on-chip reuse ratio, DRAM traffic, accelerator utilization |
+
+> 요약: 실무 선택은 SRAM의 저지연과 DRAM의 대용량을 계층별 비용·성능 지표로 배치하는 것임.
 
 ## Ⅶ. 전망
 

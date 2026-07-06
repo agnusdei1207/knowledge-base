@@ -79,25 +79,26 @@ weight: 26
 
 > 요약: NUMA 최적화는 토폴로지를 이해하고 스레드와 메모리를 같은 노드에 가깝게 배치하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 원격 접근 지연**: 스레드와 데이터가 다른 노드에 배치되면 메모리 접근 지연과 인터커넥트 트래픽이 증가함
-- **P2 스케줄러 이동 영향**: 스레드가 노드 간 이동하면 캐시 locality와 first-touch 메모리 배치 효과가 깨짐
-- **P3 I/O locality 불일치**: 네트워크 인터페이스 카드(Network Interface Card, NIC), 그래픽 처리 장치(Graphics Processing Unit, GPU), 비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe) 장치와 처리 스레드가 다른 노드에 있으면 직접 메모리 접근(Direct Memory Access, DMA)과 인터럽트 처리 비용이 증가함
-
-> 요약: NUMA 문제는 계산, 데이터, I/O가 서로 다른 위치에 놓일 때 발생하는 locality 손실임.
-
-## Ⅵ. 개선방안
-
-1. **단기**: `numactl`, 성능 카운터, 운영체제(Operating System, OS) 지표로 원격 메모리 접근과 노드별 부하를 측정함
-2. **중기**: CPU affinity, memory binding, interleave 정책을 워크로드 특성에 맞게 적용함
-3. **장기**: 애플리케이션, 가상 머신(Virtual Machine, VM), 컨테이너, 장치 배치를 NUMA topology 기반 표준으로 운영함
-
 - **P1 대응**: 데이터 초기화와 처리 스레드를 같은 노드에 배치함 (확인: remote memory access 비율)
+- **P2 스케줄러 이동 영향**: 스레드가 노드 간 이동하면 캐시 locality와 first-touch 메모리 배치 효과가 깨짐
 - **P2 대응**: 핵심 스레드 pinning과 NUMA-aware 스케줄링을 적용함 (확인: context migration 건수)
+- **P3 I/O locality 불일치**: 네트워크 인터페이스 카드(Network Interface Card, NIC), 그래픽 처리 장치(Graphics Processing Unit, GPU), 비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe) 장치와 처리 스레드가 다른 노드에 있으면 직접 메모리 접근(Direct Memory Access, DMA)과 인터럽트 처리 비용이 증가함
 - **P3 대응**: I/O 장치와 처리 큐를 같은 노드에 매핑함 (확인: I/O p99 지연과 인터럽트 요청(Interrupt Request, IRQ) 분포)
 
 > 요약: NUMA 개선은 로컬 메모리 접근률을 높이고 스케줄링과 I/O 배치를 함께 고정하는 방향으로 진행함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 인메모리 데이터베이스 | shard와 worker thread를 같은 NUMA 노드에 배치하고 first-touch로 로컬 메모리를 확보함 | remote memory access 비율, transaction p99 latency |
+| 가상화 호스트 | 가상 머신(Virtual Machine, VM)의 가상 중앙처리장치(Virtual Central Processing Unit, vCPU)와 할당 메모리를 동일 노드에 고정하고 overcommit을 제한함 | vCPU migration, VM p99 latency |
+| 고속 네트워크 서버 | NIC queue, IRQ, 처리 스레드, DMA buffer를 같은 노드에 매핑함 | packet drop, I/O p99 latency, IRQ 분포 |
+
+> 요약: 실무 NUMA 적용은 계산 스레드, 데이터, I/O 장치의 위치 일치를 지표로 검증함.
 
 ## Ⅶ. 전망
 

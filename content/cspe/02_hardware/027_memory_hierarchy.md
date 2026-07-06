@@ -74,25 +74,26 @@ weight: 27
 
 > 요약: 메모리 접근은 가까운 계층부터 확인하고 실패할 때마다 아래 계층으로 내려가 데이터를 가져오는 흐름임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 계층 간 속도 격차**: CPU와 DRAM, DRAM과 SSD의 지연 차이가 커 miss 비용이 성능을 지배할 수 있음
-- **P2 캐시 오염과 충돌**: 재사용 가능성이 낮은 데이터가 캐시에 들어오거나 같은 세트에 몰리면 유효 적중률이 낮아짐
-- **P3 일관성 관리 비용**: 멀티코어와 직접 메모리 접근(Direct Memory Access, DMA) 장치가 같은 데이터를 접근하면 캐시 일관성과 동기화 비용이 발생함
-
-> 요약: 메모리 계층의 성능은 miss 비용, 캐시 유효 적중률, 일관성 관리 부담에 의해 제한됨.
-
-## Ⅵ. 개선방안
-
-1. **단기**: 캐시 miss, 메모리 대역폭, 페이지 폴트, I/O 대기 지표를 계층별로 분리 측정함
-2. **중기**: 데이터 배치, prefetch, cache blocking, huge page, 적절한 스토리지 캐시 정책을 적용함
-3. **장기**: 워크로드별 메모리 계층 사용 기준과 성능 카운터 기반 튜닝 절차를 표준화함
-
 - **P1 대응**: locality를 높이는 자료구조와 prefetch 정책을 적용함 (확인: 최종 레벨 캐시(Last-Level Cache, LLC) miss와 stall cycles)
+- **P2 캐시 오염과 충돌**: 재사용 가능성이 낮은 데이터가 캐시에 들어오거나 같은 세트에 몰리면 유효 적중률이 낮아짐
 - **P2 대응**: 캐시 친화적 접근 순서와 교체·우회 정책을 적용함 (확인: cache hit ratio)
+- **P3 일관성 관리 비용**: 멀티코어와 직접 메모리 접근(Direct Memory Access, DMA) 장치가 같은 데이터를 접근하면 캐시 일관성과 동기화 비용이 발생함
 - **P3 대응**: 공유 데이터 최소화와 일관성 프로토콜 영향 분석을 수행함 (확인: coherence traffic)
 
 > 요약: 계층 구조 개선은 상위 적중률을 높이고 하위 접근의 지연을 숨기는 방향으로 진행함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 데이터 분석 엔진 | columnar scan, cache blocking, prefetch로 공간 지역성과 순차 접근을 높임 | LLC miss, memory bandwidth, query time |
+| 온라인 트랜잭션 처리(Online Transaction Processing, OLTP) 서버 | hot index는 DRAM과 cache 친화 구조에 두고 cold data는 SSD 계층으로 분리함 | buffer hit ratio, page fault, p99 latency |
+| 멀티코어 장치 드라이버 | DMA buffer와 공유 queue의 cache line padding, flush, invalidate 정책을 명확히 함 | coherence traffic, false sharing count |
+
+> 요약: 실무 메모리 계층 설계는 hot data 위치, 접근 순서, 일관성 비용을 계층별 지표로 확인함.
 
 ## Ⅶ. 전망
 
