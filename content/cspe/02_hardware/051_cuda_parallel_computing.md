@@ -8,28 +8,29 @@ weight: 51
 
 ## 미리 알고가기
 
-- CUDA: NVIDIA GPU에서 범용 병렬 연산을 수행하기 위한 프로그래밍 모델과 런타임임
+- CUDA: 컴퓨트 통합 장치 아키텍처(Compute Unified Device Architecture, CUDA)는 NVIDIA 그래픽 처리 장치(Graphics Processing Unit, GPU)에서 범용 병렬 연산을 수행하기 위한 프로그래밍 모델과 런타임임
+- CPU: 중앙처리장치(Central Processing Unit, CPU)는 CUDA에서 호스트로서 커널 실행과 데이터 이동을 지시함
 - Kernel: GPU에서 병렬 실행되는 함수이며 많은 스레드가 같은 코드를 실행함
 - Grid/Block/Thread: CUDA가 병렬 작업을 계층적으로 배치하는 실행 단위임
 - Stream: 커널 실행과 메모리 복사를 비동기로 겹치게 하는 실행 큐임
 
 ## Ⅰ. 개요
 
-- **정의**: CUDA 병렬 컴퓨팅은 CPU가 호스트로 작업을 지시하고 NVIDIA GPU가 디바이스로 커널을 실행하는 병렬 프로그래밍 모델임. 스레드 계층, 메모리 계층, 런타임 API를 기준으로 데이터 병렬 작업을 GPU 처리량에 맞게 실행하기 위해 사용함.
-- **배경/필요성**: AI, 영상처리, 과학계산은 같은 연산을 대량 데이터에 반복 적용하므로 CPU만으로는 처리량과 전력 효율이 부족함. CUDA는 GPU 하드웨어 구조를 소프트웨어가 직접 활용할 수 있게 해 병렬 구현을 체계화함.
+- **정의**: CUDA 병렬 컴퓨팅은 CPU가 호스트로 작업을 지시하고 NVIDIA GPU가 디바이스로 커널을 실행하도록 스레드 계층, 메모리 계층, 런타임 응용 프로그램 인터페이스(Application Programming Interface, API)를 제공해 데이터 병렬 작업의 처리량을 높이는 병렬 프로그래밍 모델임.
+- **배경/필요성**: 인공지능(Artificial Intelligence, AI), 영상처리, 과학계산은 같은 연산을 대량 데이터에 반복 적용하므로 CPU만으로는 처리량과 전력 효율이 부족함. CUDA는 GPU 하드웨어 구조를 소프트웨어가 직접 활용할 수 있게 해 병렬 구현을 체계화함.
 - **비유**: CPU 관리자가 일을 잘게 나누고 GPU 작업반 수천 명에게 같은 작업 지시서를 배포하는 것과 같음.
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
 | GPU 프로그래밍 모델과 실행 구조 설명 | Host/Device, Grid/Block/Thread, 메모리 계층 | CUDA를 단순 라이브러리로 설명 |
 
-> 요약: CUDA는 GPU SIMT 구조를 프로그래밍 모델로 노출해 대량 데이터 병렬 연산을 실행하게 함.
+> 요약: CUDA는 GPU 단일 명령 다중 스레드(Single Instruction Multiple Threads, SIMT) 구조를 프로그래밍 모델로 노출해 대량 데이터 병렬 연산을 실행하게 함.
 
 ## Ⅱ. 특징/비교
 
 | 판단 기준 | CPU 스레드 병렬 | CUDA 병렬 컴퓨팅 |
 |:---|:---|:---|
-| 실행 단위 | OS 스레드와 코어 중심으로 비교적 큰 작업을 병렬화함 | 그리드, 블록, 스레드로 작은 작업을 대량 실행함 |
+| 실행 단위 | 운영체제(Operating System, OS) 스레드와 코어 중심으로 비교적 큰 작업을 병렬화함 | 그리드, 블록, 스레드로 작은 작업을 대량 실행함 |
 | 메모리 관점 | 캐시 일관성과 주소 공간 추상화가 강함 | 전역, 공유, 상수, 레지스터 메모리를 의식한 배치가 중요함 |
 | 적용 기준 | 분기와 순차 의존성이 큰 작업에 적합함 | 규칙적 데이터 병렬성과 높은 산술 강도가 있는 작업에 적합함 |
 
@@ -61,7 +62,7 @@ weight: 51
 
 ```text
 +----------+     +----------+     +----------+     +----------+
-| 데이터준비| --> | 커널실행 | --> | GPU처리  | --> | 결과동기 |
+| DataPrep | --> | Launch   | --> | GPU Work | --> | Sync     |
 +----------+     +----------+     +----------+     +----------+
 ```
 
@@ -82,9 +83,9 @@ weight: 51
 
 ## Ⅵ. 개선방안
 
-- **P1 대응**: 핵심 알고리즘과 디바이스 API를 분리하고 필요한 경우 OpenCL, HIP, 표준 라이브러리 대안을 검토함 (확인: 이식 대상 수)
+- **P1 대응**: 핵심 알고리즘과 디바이스 API를 분리하고 필요한 경우 오픈 컴퓨팅 언어(Open Computing Language, OpenCL), 이기종 컴퓨팅 인터페이스(Heterogeneous-Compute Interface for Portability, HIP), 표준 라이브러리 대안을 검토함 (확인: 이식 대상 수)
 - **P2 대응**: racecheck, sanitizer, 원자 연산 검토, 블록 단위 동기화 규칙을 적용함 (확인: 동시성 결함 재현 건수)
-- **P3 대응**: pinned memory, stream overlap, unified memory prefetch, 커널 fusion으로 전송을 줄임 (확인: PCIe/NVLink 전송 시간)
+- **P3 대응**: pinned memory, stream overlap, unified memory prefetch, 커널 fusion으로 전송을 줄임 (확인: 주변 장치 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)/NVLink 전송 시간)
 
 > 요약: 개선은 포터블 구조, 병렬 검증, 데이터 이동 최소화로 CUDA 적용 리스크를 줄임.
 

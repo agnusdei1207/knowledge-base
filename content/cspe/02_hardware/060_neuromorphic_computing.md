@@ -8,14 +8,15 @@ weight: 60
 
 ## 미리 알고가기
 
-- SNN: Spiking Neural Network로 신호를 연속값 대신 spike 이벤트로 표현하는 신경망임
+- SNN: 스파이킹 신경망(Spiking Neural Network, SNN)은 신호를 연속값 대신 spike 이벤트로 표현하는 신경망임
+- ANN: 인공 신경망(Artificial Neural Network, ANN)은 연속값 텐서 기반으로 학습·추론을 수행하는 일반 신경망 구조임
 - Event-driven: 이벤트가 발생한 시점에만 연산과 통신을 수행하는 방식임
 - Synapse: 뉴런 사이의 연결 가중치이며 뉴로모픽 칩에서는 메모리와 연산 역할을 함께 가짐
 - Plasticity: 입력 패턴에 따라 연결 강도가 변하는 학습 특성임
 
 ## Ⅰ. 개요
 
-- **정의**: 뉴로모픽 컴퓨팅은 생물학적 신경계의 spike, synapse, event-driven 처리 방식을 회로와 아키텍처로 모사해 낮은 전력으로 감각·패턴 인식 문제를 처리하는 컴퓨팅 방식임. 이벤트 희소성, 시간 정보, 전력 효율을 기준으로 엣지 지능형 처리를 구현하기 위해 사용함.
+- **정의**: 뉴로모픽 컴퓨팅은 생물학적 신경계의 spike, synapse, event-driven 처리 방식을 회로와 아키텍처로 모사해 이벤트 희소성, 시간 정보, 전력 효율 기준으로 감각·패턴 인식 문제를 낮은 전력으로 처리하는 컴퓨팅 방식임.
 - **배경/필요성**: 기존 폰 노이만 구조는 메모리와 연산 장치 사이 데이터 이동 비용이 크고, 항상 클록에 맞춰 동작해 희소 이벤트 처리에 비효율적임. 뉴로모픽은 데이터가 발생할 때만 계산해 초저전력 지능형 센서 처리 가능성을 제공함.
 - **비유**: 계속 켜진 공장 조명이 아니라 움직임이 감지된 구역의 조명만 켜지는 자동 조명 시스템과 같음.
 
@@ -62,7 +63,7 @@ weight: 60
 
 ```text
 +----------+     +----------+     +----------+     +----------+
-| 이벤트변환| --> | Spike전파| --> | 가중치갱신| --> | 결과해석 |
+| Encode   | --> | Spike    | --> | Update   | --> | Decode   |
 +----------+     +----------+     +----------+     +----------+
 ```
 
@@ -83,7 +84,7 @@ weight: 60
 
 ## Ⅵ. 개선방안
 
-- **P1 대응**: SNN 프레임워크, 시뮬레이터, 하드웨어 추상화 API를 표준 개발 흐름에 통합함 (확인: 모델 배포 성공률)
+- **P1 대응**: SNN 프레임워크, 시뮬레이터, 하드웨어 추상화 응용 프로그램 인터페이스(Application Programming Interface, API)를 표준 개발 흐름에 통합함 (확인: 모델 배포 성공률)
 - **P2 대응**: 이벤트 기반 지연, 에너지 per inference, spike sparsity를 포함한 벤치마크를 사용함 (확인: 작업별 에너지)
 - **P3 대응**: ANN-SNN 변환 보정, surrogate gradient 학습, 하이브리드 ANN/SNN 구조를 적용함 (확인: 기준 정확도 대비 차이)
 
@@ -92,5 +93,5 @@ weight: 60
 ## Ⅶ. 전망
 
 - **발전 방향**: 뉴로모픽 컴퓨팅은 event camera, robot control, wearable sensor, edge inference와 결합해 spike 기반 저전력 처리 영역을 넓힘
-- **기술사적 판단**: 입력 이벤트 희소성, synapse memory 위치, on-chip learning 필요성, 배터리 전력 예산을 기준으로 기존 NPU와 역할을 나눔; energy per spike, inference latency, 정확도 손실률, noise 내성, spike sparsity를 동일 데이터셋과 센서 조건에서 측정함
-- **기술사 제언**: 뉴로모픽은 범용 AI 대체가 아니라 데이터 표현과 전력 제약이 맞을 때 선택하는 특화 아키텍처로 설명함
+- **기술사적 판단**: 입력 이벤트 희소성, synapse memory 위치, on-chip learning 필요성, 배터리 전력 예산을 기준으로 기존 신경망 처리 장치(Neural Processing Unit, NPU)와 역할을 나눔; energy per spike, inference latency, 정확도 손실률, noise 내성, spike sparsity를 동일 데이터셋과 센서 조건에서 측정함
+- **기술사 제언**: 뉴로모픽은 범용 인공지능(Artificial Intelligence, AI) 대체가 아니라 데이터 표현과 전력 제약이 맞을 때 선택하는 특화 아키텍처로 설명함

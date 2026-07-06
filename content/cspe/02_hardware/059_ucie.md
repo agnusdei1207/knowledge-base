@@ -9,13 +9,14 @@ weight: 59
 ## 미리 알고가기
 
 - Die-to-Die: 같은 패키지 안의 칩렛 사이를 연결하는 고속 통신 방식임
-- PHY: 전기 신호와 배선을 실제로 구동하는 물리 계층임
+- UCIe: 범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)는 칩렛 간 연결을 표준화한 인터커넥트 규격임
+- PHY: 물리 계층(Physical Layer, PHY)은 전기 신호와 배선을 실제로 구동하는 계층임
 - Flit: 링크에서 전송되는 고정 크기 데이터 단위임
-- Protocol Mapping: PCIe, CXL 같은 상위 프로토콜을 칩렛 링크에 실어 보내는 방식임
+- Protocol Mapping: 주변 장치 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe), 컴퓨트 익스프레스 링크(Compute Express Link, CXL) 같은 상위 프로토콜을 칩렛 링크에 실어 보내는 방식임
 
 ## Ⅰ. 개요
 
-- **정의**: UCIe는 서로 다른 벤더와 공정의 칩렛을 하나의 패키지 안에서 연결하기 위해 물리 계층, 어댑터, 프로토콜 매핑을 표준화한 die-to-die 인터커넥트 규격임. 상호운용성, 대역폭, 지연, 전력, 패키지 호환성을 기준으로 칩렛 생태계를 확장하기 위해 사용함.
+- **정의**: UCIe는 서로 다른 벤더와 공정의 칩렛을 하나의 패키지 안에서 연결하도록 물리 계층, 어댑터, 프로토콜 매핑을 표준화해 상호운용성, 대역폭, 지연, 전력, 패키지 호환성 기준으로 칩렛 생태계를 확장하는 die-to-die 인터커넥트 규격임.
 - **배경/필요성**: 칩렛 설계가 확산되면 독자 인터커넥트만으로는 벤더 간 조합과 재사용이 어렵고 검증 비용이 커짐. UCIe는 표준 연결을 제공해 칩렛 조립 시장과 이종 통합을 가능하게 함.
 - **비유**: 서로 다른 회사가 만든 부품도 같은 규격의 커넥터를 쓰면 한 장비 안에서 조립할 수 있는 것과 같음.
 
@@ -61,14 +62,14 @@ weight: 59
 
 ```text
 +----------+     +----------+     +----------+     +----------+
-| 능력협상 | --> | 링크훈련 | --> | Flit전송 | --> | 오류처리 |
+| Negotiate| --> | Train    | --> | Flit     | --> | Recover  |
 +----------+     +----------+     +----------+     +----------+
 ```
 
 1. **능력 협상**: 연결된 칩렛이 지원 속도, lane 수, 프로토콜, 패키지 조건을 확인함
 2. **링크 훈련**: PHY가 신호 품질과 타이밍을 맞춰 안정적인 전송 상태를 구성함
 3. **Flit 전송**: 어댑터가 상위 트래픽을 flit으로 나누고 흐름제어와 순서를 관리함
-4. **오류 처리**: CRC, 재전송, 링크 상태 감시로 데이터 무결성과 복구를 수행함
+4. **오류 처리**: 순환 중복 검사(Cyclic Redundancy Check, CRC), 재전송, 링크 상태 감시로 데이터 무결성과 복구를 수행함
 
 > 요약: UCIe 동작은 칩렛 간 능력을 맞춘 뒤 링크를 훈련하고 flit 단위로 안전하게 전송하는 흐름임.
 
@@ -83,13 +84,13 @@ weight: 59
 ## Ⅵ. 개선방안
 
 - **P1 대응**: compliance test, golden model, 상호운용성 테스트 매트릭스를 운영함 (확인: 조합별 통과율)
-- **P2 대응**: SI/PI 공동 시뮬레이션, 패키지 설계 규칙, 링크 margin 측정을 적용함 (확인: eye margin과 BER)
+- **P2 대응**: 신호 무결성(Signal Integrity, SI)/전원 무결성(Power Integrity, PI) 공동 시뮬레이션, 패키지 설계 규칙, 링크 margin 측정을 적용함 (확인: eye margin과 비트 오류율(Bit Error Rate, BER))
 - **P3 대응**: 칩렛 인증, secure boot chain, 오류 격리, 공급자 책임 기준을 정의함 (확인: 인증된 die 비율)
 
 > 요약: 개선은 표준 적합성 검증과 패키지 물리 설계, 공급망 보안 체계를 함께 갖추는 것임.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: UCIe는 chiplet interconnect의 PHY, adapter, protocol 계층을 표준화해 멀티벤더 CPU/GPU/NPU/I/O die 조합을 넓힘
-- **기술사적 판단**: package type, bump pitch, reach, latency budget, PCIe/CXL protocol mapping을 기준으로 die 배치와 link width를 결정함; compliance test, eye margin, BER, protocol interoperability, reset·power sequencing을 die 조합별로 확인해야 함
+- **발전 방향**: UCIe는 칩렛 인터커넥트의 PHY, adapter, protocol 계층을 표준화해 멀티벤더 중앙처리장치(Central Processing Unit, CPU)/그래픽 처리 장치(Graphics Processing Unit, GPU)/신경망 처리 장치(Neural Processing Unit, NPU)/입출력(Input/Output, I/O) die 조합 가능성을 넓히는 방향으로 활용됨
+- **기술사적 판단**: 패키지 유형, bump pitch, reach, latency budget, PCIe/CXL protocol mapping을 기준으로 die 배치와 link width를 결정함; compliance test, eye margin, BER, protocol interoperability, reset·power sequencing을 die 조합별로 확인해야 함
 - **기술사 제언**: UCIe는 칩렛을 조립 가능하게 하는 표준 연결 계층으로 보고 성능, 검증, 공급망 위험을 동시에 제시함
