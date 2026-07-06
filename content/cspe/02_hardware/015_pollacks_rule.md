@@ -34,7 +34,7 @@ weight: 15
 | 소프트웨어 조건 | 순차 프로그램에 유리함 | 병렬화 가능한 workload가 필요함 |
 | 적용 기준 | latency-critical core, big core | throughput server, many-core, heterogeneous SoC |
 
-> 요약: 큰 코어는 지연시간, 작은 코어 다수는 병렬 처리량과 전력 효율을 선택하는 방향임.
+> 요약: 큰 코어는 지연시간, 작은 코어 다수는 병렬 처리량과 perf/W를 선택하는 방향임.
 
 ## Ⅲ. 구성요소
 

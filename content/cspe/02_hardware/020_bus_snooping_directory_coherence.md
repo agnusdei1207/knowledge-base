@@ -63,9 +63,9 @@ Directory:
 ## Ⅳ. 절차
 
 ```text
-+----------+     +----------+     +----------+     +----------+
++----------+     +----------+     +-----------+     +----------+
 | Request  | --> | Locate   | --> | Invalidate| --> | Grant    |
-+----------+     +----------+     +----------+     +----------+
++----------+     +----------+     +-----------+     +----------+
  read/write       bus or dir       sharers         data/permission
 ```
 
@@ -78,8 +78,8 @@ Directory:
 
 ## Ⅴ. 문제점
 
-- **P1 스누핑 확장성 한계**: 코어 수가 늘면 모든 캐시가 모든 transaction을 감시해 bus bandwidth와 전력이 증가함
-- **P2 디렉터리 저장·지연 비용**: sharer vector와 directory lookup이 메모리 오버헤드와 추가 지연을 만든다
+- **P1 스누핑 확장성 한계**: 소규모 공유 버스 전제의 스누핑을 코어 수가 많은 시스템에 적용하면 모든 캐시가 모든 transaction을 감시해 bus bandwidth와 전력이 급증함
+- **P2 디렉터리 저장·지연 비용**: sharer vector와 directory lookup이 메모리 오버헤드와 추가 지연을 만듦
 - **P3 메시지 순서·교착 위험**: NoC에서 invalidate, ack, data response 순서가 꼬이면 deadlock 또는 livelock이 발생할 수 있음
 
 > 요약: 스누핑은 broadcast 비용, 디렉터리는 메타데이터와 메시지 제어 비용이 핵심 문제임.
