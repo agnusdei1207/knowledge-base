@@ -8,10 +8,11 @@ weight: 26
 
 ## 미리 알고가기
 
-- UMA: 모든 CPU가 메모리에 거의 같은 지연으로 접근하는 대칭형 구조임
-- NUMA 노드: CPU 소켓과 해당 소켓에 가까운 로컬 메모리의 묶음임
+- UMA: 균등 메모리 접근(Uniform Memory Access, UMA)은 모든 중앙처리장치(Central Processing Unit, CPU)가 메모리에 거의 같은 지연으로 접근하는 대칭형 구조임
+- NUMA 노드: 비균등 메모리 접근(Non-Uniform Memory Access, NUMA) 노드는 CPU 소켓과 해당 소켓에 가까운 로컬 메모리의 묶음임
 - 원격 메모리: 현재 CPU가 다른 노드의 메모리에 인터커넥트를 통해 접근하는 영역임
 - 메모리 locality: 작업 스레드가 실행되는 CPU와 데이터가 위치한 메모리의 근접성임
+- I/O locality: 입출력(Input/Output, I/O) 장치와 처리 스레드, 메모리가 같은 NUMA 노드에 가까운 정도임
 
 ## Ⅰ. 개요
 
@@ -67,7 +68,7 @@ weight: 26
 
 ```text
 +--------------+      +------------+      +------------+      +----------+
-| 토폴로지파악 | ---> | 스레드배치 | ---> | 메모리배치 | ---> | 지연검증 |
+| Topology     | ---> | Thread Map | ---> | Memory Map | ---> | Validate |
 +--------------+      +------------+      +------------+      +----------+
 ```
 
@@ -82,24 +83,24 @@ weight: 26
 
 - **P1 원격 접근 지연**: 스레드와 데이터가 다른 노드에 배치되면 메모리 접근 지연과 인터커넥트 트래픽이 증가함
 - **P2 스케줄러 이동 영향**: 스레드가 노드 간 이동하면 캐시 locality와 first-touch 메모리 배치 효과가 깨짐
-- **P3 I/O locality 불일치**: NIC, GPU, NVMe 장치와 처리 스레드가 다른 노드에 있으면 DMA와 인터럽트 처리 비용이 증가함
+- **P3 I/O locality 불일치**: 네트워크 인터페이스 카드(Network Interface Card, NIC), 그래픽 처리 장치(Graphics Processing Unit, GPU), 비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe) 장치와 처리 스레드가 다른 노드에 있으면 직접 메모리 접근(Direct Memory Access, DMA)과 인터럽트 처리 비용이 증가함
 
 > 요약: NUMA 문제는 계산, 데이터, I/O가 서로 다른 위치에 놓일 때 발생하는 locality 손실임.
 
 ## Ⅵ. 개선방안
 
-1. **단기**: `numactl`, 성능 카운터, OS 지표로 원격 메모리 접근과 노드별 부하를 측정함
+1. **단기**: `numactl`, 성능 카운터, 운영체제(Operating System, OS) 지표로 원격 메모리 접근과 노드별 부하를 측정함
 2. **중기**: CPU affinity, memory binding, interleave 정책을 워크로드 특성에 맞게 적용함
-3. **장기**: 애플리케이션, VM, 컨테이너, 장치 배치를 NUMA topology 기반 표준으로 운영함
+3. **장기**: 애플리케이션, 가상 머신(Virtual Machine, VM), 컨테이너, 장치 배치를 NUMA topology 기반 표준으로 운영함
 
 - **P1 대응**: 데이터 초기화와 처리 스레드를 같은 노드에 배치함 (확인: remote memory access 비율)
 - **P2 대응**: 핵심 스레드 pinning과 NUMA-aware 스케줄링을 적용함 (확인: context migration 건수)
-- **P3 대응**: I/O 장치와 처리 큐를 같은 노드에 매핑함 (확인: I/O p99 지연과 IRQ 분포)
+- **P3 대응**: I/O 장치와 처리 큐를 같은 노드에 매핑함 (확인: I/O p99 지연과 인터럽트 요청(Interrupt Request, IRQ) 분포)
 
 > 요약: NUMA 개선은 로컬 메모리 접근률을 높이고 스케줄링과 I/O 배치를 함께 고정하는 방향으로 진행함.
 
 ## Ⅶ. 전망
 
-- **발전 방향**: 대규모 서버, CXL 메모리, GPU 가속기가 결합되며 CPU 소켓 내부를 넘어 장치와 확장 메모리까지 locality 관리 대상이 넓어짐
+- **발전 방향**: 대규모 서버, 컴퓨트 익스프레스 링크(Compute Express Link, CXL) 메모리, GPU 가속기가 결합되며 CPU 소켓 내부를 넘어 장치와 확장 메모리까지 locality 관리 대상이 넓어짐
 - **기술사적 판단**: 컨테이너와 가상화 플랫폼은 NUMA topology를 숨기기보다 워크로드 배치 힌트로 노출하는 방향이 중요해짐
 - **기술사 제언**: 기술사는 NUMA를 하드웨어 구조 문제로만 보지 말고 운영 배치, 성능 측정, I/O 경로 최적화까지 연결해 설명해야 함

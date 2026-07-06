@@ -8,9 +8,9 @@ weight: 29
 
 ## 미리 알고가기
 
-- SDRAM: 외부 클록에 동기화해 명령과 데이터를 주고받는 동적 RAM임
-- DDR: 클록 상승·하강 에지에서 모두 데이터를 전송해 전송률을 높이는 방식임
-- refresh: DRAM 셀의 전하 누설로 데이터가 사라지기 전에 주기적으로 다시 기록하는 동작임
+- SDRAM: 동기식 동적 램(Synchronous Dynamic Random Access Memory, SDRAM)은 외부 클록에 동기화해 명령과 데이터를 주고받는 동적 메모리임
+- DDR: 더블 데이터 레이트(Double Data Rate, DDR)는 클록 상승·하강 에지에서 모두 데이터를 전송해 전송률을 높이는 방식임
+- refresh: 동적 램(Dynamic Random Access Memory, DRAM) 셀의 전하 누설로 데이터가 사라지기 전에 주기적으로 다시 기록하는 동작임
 - bank: DRAM 내부를 병렬 접근이 가능한 여러 메모리 영역으로 나눈 단위임
 
 ## Ⅰ. 개요
@@ -43,7 +43,7 @@ weight: 29
 
 ```text
 +-----------+      +-----------+      +-----------+
-| CPU/SoC   | ---> | Mem Ctrl  | ---> | DDR SDRAM |
+| CPU       | ---> | Mem Ctrl  | ---> | DDR SDRAM |
 +-----------+      +-----------+      +-----------+
                          |
                          v
@@ -66,11 +66,11 @@ weight: 29
 
 ```text
 +-----------+      +-----------+      +------------+      +-----------+
-| 요청수신  | ---> | 행활성화  | ---> | 데이터전송 | ---> | 갱신/대기 |
+| Request   | ---> | Row Open  | ---> | Burst Xfer | ---> | Refresh   |
 +-----------+      +-----------+      +------------+      +-----------+
 ```
 
-1. **요청 수신**: CPU나 DMA 장치의 메모리 읽기·쓰기 요청을 컨트롤러가 큐에 적재함
+1. **요청 수신**: 중앙처리장치(Central Processing Unit, CPU)나 직접 메모리 접근(Direct Memory Access, DMA) 장치의 메모리 읽기·쓰기 요청을 컨트롤러가 큐에 적재함
 2. **행과 bank 선택**: 주소를 채널, rank, bank, row, column으로 해석하고 필요한 행을 활성화함
 3. **DDR 데이터 전송**: burst 단위로 클록 양 에지에 맞춰 데이터를 주고받음
 4. **precharge와 refresh 조정**: 행 닫기와 refresh 명령을 스케줄링해 데이터 보존과 대역폭을 관리함
@@ -80,7 +80,7 @@ weight: 29
 ## Ⅴ. 문제점
 
 - **P1 refresh 대역폭 손실**: refresh 중인 bank나 rank는 일반 접근이 제한되어 지연과 처리량 저하가 발생함
-- **P2 타이밍 제약 복잡도**: activate, precharge, CAS, refresh 간 제약이 많아 컨트롤러 설계와 검증이 어려움
+- **P2 타이밍 제약 복잡도**: activate, precharge, 열 주소 선택(Column Address Strobe, CAS), refresh 간 제약이 많아 컨트롤러 설계와 검증이 어려움
 - **P3 온도와 전력 민감성**: 온도 상승과 고밀도 모듈은 refresh 빈도, 전력, 오류율에 영향을 줌
 
 > 요약: DDR SDRAM은 고속 전송을 제공하지만 refresh와 타이밍 제약이 실효 대역폭을 제한함.
@@ -89,16 +89,16 @@ weight: 29
 
 1. **단기**: 메모리 대역폭, row buffer hit, refresh stall, 온도 지표를 수집해 병목을 분리함
 2. **중기**: bank 병렬성, 명령 큐 스케줄링, per-bank refresh, 저전력 모드를 워크로드에 맞게 조정함
-3. **장기**: 메모리 채널 구성, 냉각, ECC, 용량 계획을 플랫폼 기준으로 표준화함
+3. **장기**: 메모리 채널 구성, 냉각, 오류 정정 코드(Error Correction Code, ECC), 용량 계획을 플랫폼 기준으로 표준화함
 
 - **P1 대응**: refresh를 bank 단위로 분산하고 메모리 요청 스케줄링을 최적화함 (확인: refresh stall cycles)
-- **P2 대응**: JEDEC 타이밍 파라미터 기반 검증과 컨트롤러 QoS 정책을 적용함 (확인: 타이밍 위반 로그)
-- **P3 대응**: 온도 기반 refresh와 냉각 정책, ECC 모니터링을 결합함 (확인: corrected error와 DIMM 온도)
+- **P2 대응**: 국제 반도체 표준화 기구(Joint Electron Device Engineering Council, JEDEC) 타이밍 파라미터 기반 검증과 컨트롤러 서비스 품질(Quality of Service, QoS) 정책을 적용함 (확인: 타이밍 위반 로그)
+- **P3 대응**: 온도 기반 refresh와 냉각 정책, ECC 모니터링을 결합함 (확인: corrected error와 듀얼 인라인 메모리 모듈(Dual In-line Memory Module, DIMM) 온도)
 
 > 요약: DDR SDRAM 운영은 전송률보다 실효 대역폭과 refresh 영향을 측정해 조정해야 함.
 
 ## Ⅶ. 전망
 
 - **발전 방향**: DDR 세대가 올라갈수록 신호 무결성, 전력, 메모리 컨트롤러 복잡도가 커져 플랫폼 설계의 영향이 확대됨
-- **기술사적 판단**: AI·HPC 영역은 DDR만으로 부족한 대역폭을 HBM과 CXL 메모리 등 보완 계층으로 확장하는 흐름이 강해짐
+- **기술사적 판단**: 인공지능(Artificial Intelligence, AI)·고성능 컴퓨팅(High Performance Computing, HPC) 영역은 DDR만으로 부족한 대역폭을 고대역폭 메모리(High Bandwidth Memory, HBM)와 컴퓨트 익스프레스 링크(Compute Express Link, CXL) 메모리 등 보완 계층으로 확장하는 흐름이 강해짐
 - **기술사 제언**: 기술사는 DDR을 단순 세대 암기가 아니라 refresh, 타이밍, 채널 구성으로 실효 대역폭을 판단하는 문제로 설명해야 함
