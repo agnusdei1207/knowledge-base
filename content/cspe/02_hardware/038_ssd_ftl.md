@@ -37,7 +37,7 @@ weight: 38
 > 요약: FTL은 NAND를 범용 블록 장치로 보이게 하지만 내부 관리 정책이 SSD 성능을 좌우함.
 
 - page-level mapping은 유연하지만 DRAM 매핑 테이블이 커지고, block-level mapping은 공간은 줄지만 쓰기 증폭이 커질 수 있음
-- TRIM 명령은 OS가 더 이상 쓰지 않는 LBA를 알려 FTL의 GC 효율을 높이는 데 도움을 줌
+- TRIM 명령은 OS가 더 이상 쓰지 않는 LBA를 알려 GC가 옮길 유효 page 수를 줄이는 데 도움을 줌
 - over-provisioning은 사용자가 보지 못하는 여유 NAND를 확보해 GC와 wear leveling 여지를 제공함
 
 ## Ⅲ. 구성요소
@@ -46,11 +46,11 @@ weight: 38
 +-----------+      +-----------+      +-----------+
 | Host LBA  | ---> | FTL Map   | ---> | NAND PBA  |
 +-----------+      +-----------+      +-----------+
-                        |
-                        v
-                  +-----------+
-                  | GC/WL/ECC |
-                  +-----------+
+                         |
+                         v
+                   +-----------+
+                   | GC/WL/ECC |
+                   +-----------+
 ```
 
 | 구성요소 | 설명 | 비유 |
@@ -60,7 +60,7 @@ weight: 38
 | garbage collection | 유효 page를 옮기고 무효 page가 많은 block을 지워 여유 공간을 만듦 | 창고 빈 칸 정리 |
 | wear leveling | block별 지우기 횟수를 고르게 분산해 수명을 늘림 | 칸별 사용 횟수 균등화 |
 
-> 요약: FTL은 매핑, 쓰기 조정, GC, wear leveling을 통해 NAND를 안정적인 블록 장치로 운영함.
+> 요약: FTL은 매핑, 쓰기 조정, GC, wear leveling을 통해 NAND를 수명이 관리되는 블록 장치로 운영함.
 
 ## Ⅳ. 절차
 
