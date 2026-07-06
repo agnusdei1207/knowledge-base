@@ -79,25 +79,26 @@ weight: 40
 
 > 요약: RAID 운영은 요구사항 기반 레벨 선택, I/O 분산, 장애 감지, rebuild 관리 순서로 진행됨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 rebuild 중 위험 증가**: 복구 시간이 길수록 추가 디스크 장애나 읽기 오류로 데이터 손실 가능성이 커짐
+- **P1 대응**: hot spare와 정기 scrubbing으로 rebuild 시작 시간을 줄이고 잠재 읽기 오류를 조기 발견함 (확인: rebuild time과 복구 불가능 읽기 오류(Unrecoverable Read Error, URE) 발생)
 - **P2 parity write penalty**: RAID 5/6은 작은 랜덤 쓰기에서 parity 갱신 때문에 지연과 I/O 증폭이 발생함
+- **P2 대응**: 랜덤 쓰기 많은 워크로드는 RAID 10 또는 전원 보호 write-back cache를 검토함 (확인: p99 write latency와 write amplification)
 - **P3 백업 대체 오해**: RAID는 물리 디스크 장애 대응일 뿐 논리 삭제와 데이터 변조를 복구하지 못함
-
-> 요약: RAID의 핵심 문제는 복구 중 취약성, parity 쓰기 비용, 백업과의 역할 혼동임.
-
-## Ⅵ. 개선방안
-
-1. **단기**: 디스크 상태, rebuild 예상 시간, 복구 불가능 읽기 오류(Unrecoverable Read Error, URE), write latency, 백업 성공 여부를 점검함
-2. **중기**: hot spare, patrol read, scrubbing, RAID 6/10 전환, SSD 기반 구성을 검토함
-3. **장기**: RAID, 스냅샷, 오프사이트 백업, 객체 스토리지 erasure coding을 계층적으로 설계함
-
-- **P1 대응**: hot spare와 정기 scrubbing으로 rebuild 시작 시간을 줄이고 잠재 읽기 오류를 조기 발견함 (확인: rebuild time과 URE 발생)
-- **P2 대응**: 랜덤 쓰기 많은 워크로드는 RAID 10 또는 전원 보호 write-back cache를 검토함 (확인: p99 write latency)
 - **P3 대응**: RAID와 별개로 백업·스냅샷·복구 훈련을 운영함 (확인: 복구 시점 목표(Recovery Point Objective, RPO)와 복구 시간 목표(Recovery Time Objective, RTO) 복구 테스트)
 
 > 요약: RAID는 장애 허용 계층으로 쓰고 백업과 무결성 검증을 별도 계층으로 결합해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 데이터베이스 볼륨 | 작은 랜덤 쓰기와 낮은 지연이 중요하면 RAID 10을 선택하고 write-back cache의 전원 보호 조건을 확인함 | p99 write latency, cache flush 실패, 디스크 장애 시 I/O 저하율 |
+| 대용량 파일 저장 | 읽기 중심 대용량 데이터는 RAID 6을 적용하되 rebuild 시간과 URE 위험을 기준으로 hot spare와 scrubbing을 운영함 | rebuild time, URE 발생, degraded mode 처리량 |
+| 업무 연속성 저장 계층 | RAID는 디스크 장애 허용층으로 두고 스냅샷, 오프사이트 백업, 복구 훈련을 별도 설계함 | RPO/RTO 복구 테스트, 백업 성공률, 무결성 검증 결과 |
+
+> 요약: RAID 레벨은 성능·용량·장애 허용 조건으로 고르고, rebuild 위험과 백업 복구 지표로 운영 가능성을 확인해야 함.
 
 ## Ⅶ. 전망
 

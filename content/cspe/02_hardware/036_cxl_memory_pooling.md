@@ -78,25 +78,26 @@ weight: 36
 
 > 요약: CXL 풀링은 물리 메모리를 발견하고 논리 풀로 구성한 뒤 호스트에 동적으로 배정·회수하는 흐름임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 원격 메모리 지연**: CXL 경로의 추가 지연으로 latency-sensitive 데이터의 응답 시간이 늘어날 수 있음
+- **P1 대응**: hot data는 로컬 DRAM에 유지하고 cold data와 burst capacity를 CXL에 배치함 (확인: hot page migration과 p99 memory latency)
 - **P2 격리와 장애 전파**: 공유 메모리 풀의 오류나 권한 설정 실패가 여러 호스트에 영향을 줄 수 있음
+- **P2 대응**: 테넌트별 권한, 오류 이벤트 격리, failover 정책을 적용함 (확인: 장애 영향 범위와 권한 위반 이벤트)
 - **P3 운영 자동화 부족**: 워크로드별 hot/cold 판단, 할당 회수, 장애 대응이 수동이면 풀링 이점이 줄어듦
-
-> 요약: CXL 메모리 풀링은 공유 자원화에 따른 지연, 격리, 자동화가 핵심 운영 리스크임.
-
-## Ⅵ. 개선방안
-
-1. **단기**: 로컬 DRAM과 CXL 메모리의 지연·대역폭 차이를 측정하고 적용 데이터를 분류함
-2. **중기**: 메모리 tiering, quota, access control, 장애 도메인 분리를 적용함
-3. **장기**: 스케줄러, 하이퍼바이저, 패브릭 매니저를 연계한 자동 할당 정책을 구축함
-
-- **P1 대응**: hot data는 로컬 DRAM에 유지하고 cold data와 burst capacity를 CXL에 배치함 (확인: hot page migration)
-- **P2 대응**: 테넌트별 권한, 오류 이벤트 격리, failover 정책을 적용함 (확인: 장애 영향 범위)
-- **P3 대응**: 사용률·지연 기반 자동 배정과 회수 정책을 운영함 (확인: pool utilization과 서비스 수준 협약(Service Level Agreement, SLA))
+- **P3 대응**: 사용률·지연 기반 자동 배정과 회수 정책을 운영함 (확인: pool utilization과 서비스 수준 협약(Service Level Agreement, SLA) 위반률)
 
 > 요약: CXL 메모리 풀링은 계층 배치와 패브릭 운영 자동화가 함께 있어야 자원 활용률을 높일 수 있음.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 메모리 집약 분석 클러스터 | 로컬 DRAM 부족 시 cold column, shuffle buffer, cache 확장 영역을 CXL 풀에서 할당함 | pool utilization, p99 query latency, 로컬 DRAM pressure |
+| 가상화·클라우드 호스트 | 패브릭 매니저가 VM별 quota와 권한을 적용하고 idle host의 CXL 메모리를 필요한 호스트에 재배정함 | VM allocation success rate, SLA 위반률, 회수 시간 |
+| AI 추론 capacity burst | 키-값 캐시(Key-Value Cache, KV cache) 중 cold segment를 CXL 풀에 두고 hot segment는 로컬 DRAM·HBM에 유지함 | token latency, CXL access ratio, page migration 비용 |
+
+> 요약: CXL 메모리 풀링은 지연 민감도를 기준으로 데이터를 계층 배치하고 활용률·SLA·장애 격리 지표로 효과를 검증해야 함.
 
 ## Ⅶ. 전망
 
