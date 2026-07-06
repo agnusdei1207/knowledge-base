@@ -32,7 +32,7 @@ weight: 51
 | 판단 기준 | 정규화 없음·Layer Norm | Batch Normalization |
 |:---|:---|:---|
 | 기준 통계 | 정규화 없음은 분포 변화를 그대로 두고 Layer Norm은 샘플 내부 특징 기준으로 정규화함 | 미니배치 전체의 평균과 분산으로 정규화함 |
-| 적용 위치 | 정규화 없음은 구현이 단순하고 Layer Norm은 배치 크기 영향이 작음 | CNN·MLP에서 배치 기반 학습 안정화에 강점이 있음 |
+| 적용 위치 | 정규화 없음은 구현이 단순하고 Layer Norm은 배치 크기 영향이 작음 | 합성곱 신경망(Convolutional Neural Network, CNN)·다층 퍼셉트론(Multi-Layer Perceptron, MLP)에서 배치 기반 학습 안정화에 강점이 있음 |
 | 훈련·추론 차이 | Layer Norm은 훈련과 추론 계산 기준이 거의 같음 | 훈련은 배치 통계, 추론은 이동 평균을 사용함 |
 | 선택 조건 | 작은 배치, 시퀀스 모델, 온라인 추론에는 Layer Norm이 유리할 수 있음 | 충분한 배치 크기와 이미지·정형 딥러닝 학습에 적합함 |
 
@@ -84,25 +84,30 @@ weight: 51
 - **검증 기준**: 훈련 모드와 평가 모드의 성능 차이가 허용 범위여야 함
 - **운영 기록**: batch size, momentum, 정규화 위치를 모델 설정으로 관리해야 함
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 작은 배치 불안정**: 배치 크기가 작으면 평균·분산 추정이 흔들려 정규화 값과 검증 성능이 불안정해짐
+- **P1 대응**: 배치 크기를 확보하거나 고스트 배치 정규화(Ghost Batch Normalization, Ghost BatchNorm), 그룹 정규화(Group Normalization, GroupNorm), 계층 정규화(Layer Normalization, LayerNorm)를 비교 적용함 (확인: 배치 크기별 검증 성능 분산)
 - **P2 훈련·추론 불일치**: 이동 평균이 실제 운영 데이터 분포를 대표하지 못하면 추론 성능이 학습 성능과 달라짐
-- **P3 모델 구조 제약**: RNN, 온라인 추론, 배치 의존성이 민감한 환경에서는 배치 통계 사용 자체가 부적합할 수 있음
-
-> 요약: BatchNorm은 배치 통계가 전제이므로 작은 배치, 분포 변화, 구조 제약에서 문제가 집중됨.
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: 배치 크기를 확보하거나 Ghost BatchNorm, GroupNorm, LayerNorm을 비교 적용함 (확인: 배치 크기별 검증 성능 분산)
 - **P2 대응**: 학습·추론 모드 전환을 점검하고 이동 평균 momentum, 재보정 캘리브레이션을 수행함 (확인: train/eval 모드 성능 차이)
-- **P3 대응**: 시퀀스·온라인 모델에는 LayerNorm, RMSNorm, WeightNorm 등 배치 비의존 정규화를 선택함 (확인: 단일 샘플 추론 안정성)
+- **P3 모델 구조 제약**: 순환 신경망(Recurrent Neural Network, RNN), 온라인 추론, 배치 의존성이 민감한 환경에서는 배치 통계 사용 자체가 부적합할 수 있음
+- **P3 대응**: 시퀀스·온라인 모델에는 LayerNorm, RMS 정규화(Root Mean Square Normalization, RMSNorm), 가중치 정규화(Weight Normalization, WeightNorm) 등 배치 비의존 정규화를 선택함 (확인: 단일 샘플 추론 안정성)
 
-> 요약: BatchNorm 개선은 배치 통계 신뢰성을 확보하거나 배치 비의존 정규화로 대체하는 방향으로 설계함.
+> 요약: 배치 정규화는 배치 통계 신뢰성을 먼저 확보하고, 구조상 맞지 않으면 배치 비의존 정규화로 대체해야 함.
 
 - **우선순위**: 작은 배치와 추론 모드 전환 문제를 먼저 확인함
 - **확인 지표**: train/eval accuracy gap, activation variance, 배치 크기별 성능을 사용함
 - **재평가 조건**: 배치 크기, 추론 방식, 모델 구조가 바뀌면 정규화 방식을 재검토함
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 이미지 분류 학습 | 그래픽 처리 장치(Graphics Processing Unit, GPU) 메모리 기준으로 배치 크기를 확보한 뒤 CNN의 합성곱 블록 뒤에 배치 정규화를 배치하고, 작은 배치에서는 그룹 정규화(Group Normalization, GroupNorm)와 비교함 | 배치 크기별 검증 정확도 분산, 학습 수렴 epoch, train/eval gap |
+| 온라인 단건 추론 API | 응용 프로그램 인터페이스(Application Programming Interface, API) 호출 단위로 학습 시 저장한 이동 평균·분산을 평가 모드로 고정하고 운영 데이터 샘플로 캘리브레이션을 재검증함 | 동일 입력 반복 추론 일관성, 운영 accuracy, drift 구간별 activation variance |
+| 시퀀스 모델 학습 | 순환 신경망(Recurrent Neural Network, RNN)·트랜스포머(Transformer)처럼 배치 통계가 불안정한 구조는 계층 정규화(Layer Normalization, LayerNorm)·RMS 정규화(Root Mean Square Normalization, RMSNorm)를 우선 후보로 두고 지연시간과 성능을 비교함 | 단일 샘플 추론 안정성, 길이별 검증 성능, p95 latency |
+
+> 요약: 실무에서는 배치 크기와 추론 방식이 배치 통계를 신뢰할 수 있는지 확인한 뒤 정규화 방식을 선택함.
 
 ## Ⅶ. 전망
 
