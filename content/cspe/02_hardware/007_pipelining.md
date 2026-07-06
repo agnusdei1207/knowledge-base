@@ -10,12 +10,12 @@ weight: 7
 
 - 처리량: 단위 시간에 완료되는 명령어 수로 파이프라이닝의 주된 개선 대상임
 - 지연시간: 명령어 하나가 시작부터 완료까지 걸리는 시간임
-- Pipeline register: 단계 사이 결과를 클록 단위로 보관하는 임시 저장소임
-- CPI: 명령어당 평균 클록 수로 stall과 flush가 증가하면 커짐
+- 파이프라인 레지스터(Pipeline Register): 단계 사이 결과를 클록 단위로 보관하는 임시 저장소임
+- 명령어당 클록 수(Cycles Per Instruction, CPI): 명령어당 평균 클록 수로 stall과 flush가 증가하면 커짐
 
 ## Ⅰ. 개요
 
-- **정의**: 파이프라이닝은 명령어 실행을 IF, ID, EX, MEM, WB 같은 단계로 나누고 서로 다른 명령어를 각 단계에서 겹쳐 처리하는 CPU 성능 향상 기법임. 단계 균형, 해저드, CPI를 기준으로 처리량 개선 효과를 판단하는 데 쓰임.
+- **정의**: 파이프라이닝은 명령어 실행을 명령어 인출(Instruction Fetch, IF), 명령어 해독(Instruction Decode, ID), 실행(Execute, EX), 메모리 접근(Memory Access, MEM), 결과 기록(Write Back, WB) 단계로 나누고 서로 다른 명령어를 각 단계에서 겹쳐 처리하는 CPU 성능 향상 기법임. 단계 균형, 해저드, CPI를 기준으로 처리량 개선 효과를 판단하는 데 쓰임.
 - **배경/필요성**: 단일 명령어를 끝까지 처리한 뒤 다음 명령어를 시작하면 실행 유닛과 메모리 경로가 대기하는 시간이 많음. 파이프라이닝은 조립 라인처럼 단계를 겹쳐 CPU 자원을 계속 사용하게 하여 전체 처리량을 높임.
 - **비유**: 세차장에서 세척, 헹굼, 건조를 한 차가 모두 끝낸 뒤 다음 차를 받는 대신 각 단계에 차를 동시에 넣는 방식임.
 
@@ -72,21 +72,26 @@ Inst3:                IF --> ID --> EX --> MEM -> WB
 
 > 요약: 파이프라인은 단계 분할, 중간 저장, 중첩 실행, 해저드 제어로 처리량을 만듦.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 단계 불균형**: 가장 느린 단계가 전체 클록 주기를 결정해 빠른 단계의 여유 시간이 낭비됨
-- **P2 해저드로 인한 stall**: 데이터 의존성, 분기, 자원 충돌이 발생하면 pipeline bubble이 삽입되어 CPI가 증가함
-- **P3 과도한 깊이의 비용**: deep pipeline은 clock은 높일 수 있지만 branch miss penalty와 latch 전력이 증가함
-
-> 요약: 파이프라인 성능은 이상적 단계 수가 아니라 불균형과 해저드 비용을 뺀 실제 CPI로 판단해야 함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 단계별 지연을 측정해 stage balancing, critical path 분해, pipeline register 위치를 조정함 (확인: cycle time, slack)
+- **P2 해저드로 인한 stall**: 데이터 의존성, 분기, 자원 충돌이 발생하면 pipeline bubble이 삽입되어 CPI가 증가함
 - **P2 대응**: forwarding, hazard detection, branch prediction, compiler scheduling을 함께 적용함 (확인: stall cycle, branch miss penalty)
+- **P3 과도한 깊이의 비용**: deep pipeline은 clock은 높일 수 있지만 branch miss penalty와 latch 전력이 증가함
 - **P3 대응**: workload별 최적 pipeline depth를 정하고 clock gating과 predictor 품질을 같이 설계함 (확인: perf/W, flush 횟수)
 
 > 요약: 파이프라인 개선은 단계 수 확대보다 실제 stall 원인과 전력 비용을 줄이는 방향이어야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 5단계 교육용 CPU 검증 | IF-ID-EX-MEM-WB 단계별 지연과 해저드 시나리오를 분리해 CPI 증가 원인을 설명함 | CPI, stall cycle, stage slack |
+| 고성능 코어 설계 | 파이프라인 깊이를 늘리기 전 branch penalty와 latch 전력을 함께 평가해 clock 상승 이득을 검증함 | clock frequency, flush cycle, perf/W |
+| 실시간 MCU | 예측 불가능한 deep pipeline보다 단순 pipeline과 deterministic stall 정책을 선택해 최악 지연을 관리함 | worst-case execution time, interrupt latency, jitter |
+
+> 요약: 파이프라이닝은 단계 수가 아니라 단계 균형, 해저드 비용, 최악 지연 조건으로 실무 적용성을 판단함.
 
 ## Ⅶ. 전망
 

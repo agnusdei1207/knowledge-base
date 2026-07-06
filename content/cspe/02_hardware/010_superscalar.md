@@ -9,13 +9,13 @@ weight: 10
 ## 미리 알고가기
 
 - Issue width: 한 클록에 실행 유닛으로 보낼 수 있는 명령어 수임
-- ILP: 하나의 명령어 흐름 안에서 동시에 실행 가능한 독립 명령어 수준 병렬성임
+- 명령어 수준 병렬성(Instruction-Level Parallelism, ILP): 하나의 명령어 흐름 안에서 동시에 실행 가능한 독립 명령어 수준 병렬성임
 - Rename: 레지스터 이름 충돌을 제거해 병렬 실행 가능한 명령을 늘리는 기법임
-- ROB: reorder buffer로 비순서 실행 결과를 프로그램 순서대로 확정하는 구조임
+- 재정렬 버퍼(Reorder Buffer, ROB): 비순서 실행 결과를 프로그램 순서대로 확정하는 구조임
 
 ## Ⅰ. 개요
 
-- **정의**: 슈퍼스칼라 아키텍처는 한 클록에 여러 명령어를 fetch, decode, issue, execute할 수 있도록 다수 실행 유닛과 동적 스케줄링 구조를 갖춘 CPU 마이크로아키텍처임. issue width, ILP, 의존성, 전력 비용을 기준으로 성능 향상 가능성을 판단함.
+- **정의**: 슈퍼스칼라 아키텍처는 한 클록에 여러 명령어를 fetch, decode, issue, execute할 수 있도록 다수 실행 유닛과 동적 스케줄링 구조를 갖춘 중앙처리장치(Central Processing Unit, CPU) 마이크로아키텍처임. issue width, ILP, 의존성, 전력 비용을 기준으로 성능 향상 가능성을 판단함.
 - **배경/필요성**: 클록 주파수만으로 성능을 높이기 어려워지면서 같은 명령어 stream 안의 독립 명령어를 동시에 처리할 필요가 커짐. 슈퍼스칼라는 단일 스레드 성능을 높이기 위해 pipeline 위에 병렬 issue 기능을 추가함.
 - **비유**: 한 명의 접수원이 작업을 하나씩 넘기던 공장을 여러 접수원과 여러 설비가 동시에 처리하는 공장으로 바꾸는 방식임.
 
@@ -78,21 +78,26 @@ weight: 10
 
 > 요약: 슈퍼스칼라는 명령어 묶음에서 독립성을 찾아 동시에 실행하고 순서대로 확정함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 ILP 한계**: 프로그램에 실제 독립 명령어가 부족하면 issue width를 넓혀도 실행 유닛이 비게 됨
+- **P1 대응**: 비순서 실행(Out-of-Order, OoO), register renaming, compiler scheduling으로 독립 명령어 노출을 늘림 (확인: IPC, issue slot utilization)
 - **P2 하드웨어 복잡도**: wide decode, wakeup/select, bypass network가 면적과 전력을 급격히 증가시킴
-- **P3 메모리 병목**: load/store 의존성과 cache miss가 많으면 넓은 실행 유닛을 충분히 활용하지 못함
-
-> 요약: 슈퍼스칼라 성능은 설계 폭이 아니라 실제 ILP와 메모리 공급 능력에 의해 제한됨.
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: OoO 실행, register renaming, compiler scheduling으로 독립 명령어 노출을 늘림 (확인: IPC, issue slot utilization)
 - **P2 대응**: clustered execution, selective wakeup, power gating으로 복잡도와 전력을 제어함 (확인: area, dynamic power)
+- **P3 메모리 병목**: load/store 의존성과 cache miss가 많으면 넓은 실행 유닛을 충분히 활용하지 못함
 - **P3 대응**: non-blocking cache, prefetcher, memory disambiguation으로 메모리 대기를 줄임 (확인: LLC miss, memory stall)
 
 > 요약: 슈퍼스칼라 개선은 폭 확대보다 ILP 노출과 메모리 지연 숨김이 핵심임.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 고성능 단일 스레드 CPU | issue width와 실행 유닛 수를 workload의 ILP 수준에 맞추고 유휴 slot을 PMU로 확인함 | IPC, issue slot utilization, dependency stall |
+| 서버 코어 전력 최적화 | wide decode와 bypass network 전력 증가를 clustered execution과 power gating으로 제한함 | dynamic power, area, perf/W |
+| 메모리 중심 workload | non-blocking cache와 prefetcher를 적용해 넓은 실행 유닛이 cache miss로 멈추지 않게 함 | LLC miss, memory stall, MLP |
+
+> 요약: 슈퍼스칼라는 설계 폭 자체가 아니라 실제 ILP, 전력 예산, 메모리 공급 능력을 함께 검증해야 함.
 
 ## Ⅶ. 전망
 

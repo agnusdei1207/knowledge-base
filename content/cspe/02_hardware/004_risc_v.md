@@ -8,9 +8,9 @@ weight: 4
 
 ## 미리 알고가기
 
-- Base ISA: RV32I, RV64I처럼 반드시 구현해야 하는 기본 정수 명령어 집합임
+- 기본 명령어 집합 구조(Base Instruction Set Architecture, Base ISA): RV32I, RV64I처럼 반드시 구현해야 하는 기본 정수 명령어 집합임
 - Extension: M, A, F, D, C, V처럼 기능별로 선택해 결합하는 표준 확장임
-- Privileged ISA: OS, hypervisor, interrupt, page table 같은 권한 동작을 정의함
+- 권한 명령어 집합 구조(Privileged Instruction Set Architecture, Privileged ISA): 운영체제(Operating System, OS), hypervisor, interrupt, page table 같은 권한 동작을 정의함
 - Profile: 소프트웨어 호환성을 위해 필요한 확장 조합을 묶은 구현 기준임
 
 ## Ⅰ. 개요
@@ -81,21 +81,26 @@ weight: 4
 
 > 요약: RISC-V 설계는 기능 확장 선택과 소프트웨어 호환성 검증을 반복하는 절차임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 확장 파편화**: 업체별 custom extension이 많아지면 binary 호환성과 toolchain 최적화가 어려워짐
-- **P2 검증 성숙도 격차**: 고성능 out-of-order, coherency, security 구현은 상용 ISA 수준의 검증 비용이 필요함
-- **P3 생태계 부족**: 일부 영역은 driver, middleware, debugging, long-term support가 ARM/x86보다 약함
-
-> 요약: RISC-V 리스크는 ISA 공개성보다 제품 수준 호환성과 검증 생태계에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 표준 확장 우선, profile 준수, custom extension의 compiler intrinsic과 fallback 경로를 제공함 (확인: ABI 호환성, profile test)
-- **P2 대응**: formal verification, UVM, fuzzing, compliance suite를 tape-out 전 필수 게이트로 둠 (확인: coverage, errata)
-- **P3 대응**: GCC/LLVM, Linux, RTOS, debug probe, SDK를 제품 출시 조건에 포함함 (확인: BSP 품질, upstream 반영률)
+- **P2 검증 성숙도 격차**: 고성능 out-of-order, coherency, security 구현은 상용 ISA 수준의 검증 비용이 필요함
+- **P2 대응**: formal verification, 범용 검증 방법론(Universal Verification Methodology, UVM), fuzzing, compliance suite를 tape-out 전 필수 게이트로 둠 (확인: coverage, errata)
+- **P3 생태계 부족**: 일부 영역은 driver, middleware, debugging, long-term support가 ARM/x86보다 약함
+- **P3 대응**: GNU Compiler Collection(GCC)/LLVM, Linux, 실시간 운영체제(Real-Time Operating System, RTOS), debug probe, 소프트웨어 개발 키트(Software Development Kit, SDK)를 제품 출시 조건에 포함함 (확인: BSP 품질, upstream 반영률)
 
 > 요약: RISC-V 도입은 공개 사양 채택보다 표준 조합과 검증 체계 구축이 성공 조건임.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 산업용 MCU 개발 | 표준 RISC-V profile과 필요한 확장만 선택하고 SDK·debug probe·RTOS 지원을 출시 조건으로 둠 | compliance test, BSP 품질, 디버깅 성공률 |
+| AI 가속기 제어 코어 | custom extension은 compiler intrinsic과 fallback 경로를 함께 제공해 펌웨어 이식성을 보존함 | extension 사용률, fallback 성능, ABI 호환성 |
+| 반도체 tape-out 검증 | UVM, formal verification, fuzzing으로 ISA compliance와 예외·권한 상태를 검증함 | coverage, errata count, compliance pass rate |
+
+> 요약: RISC-V는 개방성 자체보다 표준 확장 선택, 검증 체계, 소프트웨어 생태계 준비도가 실무 채점 핵심임.
 
 ## Ⅶ. 전망
 

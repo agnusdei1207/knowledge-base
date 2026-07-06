@@ -8,14 +8,14 @@ weight: 5
 
 ## 미리 알고가기
 
-- Cortex-A: 애플리케이션 프로세서로 Linux, Android 같은 범용 OS 실행에 적합함
+- Cortex-A: 애플리케이션 프로세서로 Linux, Android 같은 범용 운영체제(Operating System, OS) 실행에 적합함
 - Cortex-R: 낮은 지연과 예측 가능성을 중시하는 실시간 제어용 프로세서임
 - Cortex-M: 저전력 마이크로컨트롤러용 프로세서 계열임
 - TrustZone: 보안 세계와 일반 세계를 하드웨어로 분리하는 ARM 보안 기능임
 
 ## Ⅰ. 개요
 
-- **정의**: ARM 아키텍처는 RISC 기반 ISA, 권한 모드, 예외 처리, 메모리 모델, 보안 확장을 정의하고 이를 Cortex 계열과 SoC IP로 구현하는 프로세서 아키텍처임. 전력 대비 성능, IP 라이선스, 생태계 성숙도를 기준으로 모바일, 임베디드, 서버 적용을 판단함.
+- **정의**: ARM 아키텍처는 축소 명령어 집합 컴퓨터(Reduced Instruction Set Computer, RISC) 기반 명령어 집합 구조(Instruction Set Architecture, ISA), 권한 모드, 예외 처리, 메모리 모델, 보안 확장을 정의하고 이를 Cortex 계열과 시스템 온 칩(System on Chip, SoC) 지식재산(Intellectual Property, IP)으로 구현하는 프로세서 아키텍처임. 전력 대비 성능, IP 라이선스, 생태계 성숙도를 기준으로 모바일, 임베디드, 서버 적용을 판단함.
 - **배경/필요성**: 배터리 기반 모바일과 임베디드 기기는 낮은 전력으로 충분한 성능과 주변장치 통합이 필요함. ARM은 설계 IP와 표준 인터커넥트를 제공해 제조사가 SoC 설계 기간을 단축하도록 함.
 - **비유**: ARM은 엔진 설계도와 전장 배선 표준을 제공하고, 제조사가 차량 종류에 맞게 엔진을 골라 조립하는 방식임.
 
@@ -81,21 +81,26 @@ weight: 5
 
 > 요약: ARM 도입은 코어 선택에서 끝나지 않고 SoC 통합과 BSP 품질까지 포함하는 절차임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 라이선스 종속성**: IP 사용 조건과 비용, 수출 통제, 공급자 정책 변화가 제품 전략에 영향을 줌
-- **P2 SoC 통합 복잡도**: 캐시 일관성, AMBA QoS, interrupt routing, 전력 도메인 설계가 어려움
-- **P3 보안 경계 오용**: TrustZone을 적용해도 secure world 코드와 key 관리가 부실하면 공격면이 남음
-
-> 요약: ARM 리스크는 코어 자체보다 라이선스, SoC 통합, 보안 운영에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 장기 라이선스 조건, 대체 코어 전략, RISC-V 보조 검토를 조달 계획에 포함함 (확인: BOM, 공급망 리스크)
+- **P2 SoC 통합 복잡도**: 캐시 일관성, AMBA QoS, interrupt routing, 전력 도메인 설계가 어려움
 - **P2 대응**: AMBA 검증 IP, coherency test, power intent 검증, reference design 재사용을 적용함 (확인: SoC 검증 coverage)
-- **P3 대응**: secure boot, TEE 최소 권한, key ladder, secure firmware update 절차를 표준화함 (확인: penetration test, audit log)
+- **P3 보안 경계 오용**: TrustZone을 적용해도 secure world 코드와 key 관리가 부실하면 공격면이 남음
+- **P3 대응**: secure boot, 신뢰 실행 환경(Trusted Execution Environment, TEE) 최소 권한, key ladder, secure firmware update 절차를 표준화함 (확인: penetration test, audit log)
 
 > 요약: ARM 시스템 품질은 IP 선정 후 통합 검증과 보안 운영 절차에서 결정됨.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 모바일 SoC 통합 | ARM 코어와 AMBA 인터커넥트를 전력 도메인·캐시 일관성·interrupt routing 기준으로 통합 검증함 | coherency coverage, QoS latency, power intent error |
+| 보안 결제 단말 | TrustZone secure world에 키 처리와 인증 로직만 두고 normal world와 호출 경계를 최소화함 | secure call audit, key access log, penetration test |
+| 장기 제품 조달 | ARM 라이선스·공급 조건과 RISC-V 대안을 함께 검토해 공급망 중단 시나리오를 관리함 | BOM risk, 대체 코어 PoC, toolchain readiness |
+
+> 요약: ARM은 코어 선택보다 SoC 통합 검증, 보안 경계 운영, 라이선스 리스크 관리가 실무 적용 핵심임.
 
 ## Ⅶ. 전망
 

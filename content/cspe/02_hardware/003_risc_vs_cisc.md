@@ -8,10 +8,10 @@ weight: 3
 
 ## 미리 알고가기
 
-- ISA: 명령어, 레지스터, 주소 지정, 예외, 메모리 모델을 정의한 하드웨어-소프트웨어 계약임
-- RISC: 단순하고 고정 길이에 가까운 명령어를 파이프라인으로 연속 처리하는 설계 철학임
-- CISC: 복잡한 기능을 하나의 명령어로 제공해 코드 밀도와 하위 호환성을 중시하는 설계 철학임
-- CPI: 명령어 하나를 실행하는 데 필요한 평균 클록 수로 성능 판단에 쓰임
+- 명령어 집합 구조(Instruction Set Architecture, ISA): 명령어, 레지스터, 주소 지정, 예외, 메모리 모델을 정의한 하드웨어-소프트웨어 계약임
+- 축소 명령어 집합 컴퓨터(Reduced Instruction Set Computer, RISC): 단순하고 고정 길이에 가까운 명령어를 파이프라인으로 연속 처리하는 설계 철학임
+- 복합 명령어 집합 컴퓨터(Complex Instruction Set Computer, CISC): 복잡한 기능을 하나의 명령어로 제공해 코드 밀도와 하위 호환성을 중시하는 설계 철학임
+- 명령어당 클록 수(Cycles Per Instruction, CPI): 명령어 하나를 실행하는 데 필요한 평균 클록 수로 성능 판단에 쓰임
 
 ## Ⅰ. 개요
 
@@ -75,21 +75,26 @@ weight: 3
 
 > 요약: ISA는 소스 코드가 회로 동작으로 바뀌는 과정에서 의미를 유지시키는 중간 규칙임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 CISC decode 복잡도**: 가변 길이와 복합 addressing mode가 front-end 전력과 지연을 증가시킴
+- **P1 대응**: micro-operation cache, macro-operation fusion, decode 병렬화로 CISC front-end 병목을 완화함 (확인: decode bandwidth, front-end stall)
 - **P2 RISC 코드 밀도 문제**: 단순 명령어 조합이 많아지면 instruction cache와 메모리 대역폭 부담이 커짐
+- **P2 대응**: 압축 명령어, 링크 타임 최적화(Link-Time Optimization, LTO), 프로파일 기반 최적화(Profile-Guided Optimization, PGO)로 코드 크기를 줄임 (확인: I-cache miss, binary size)
 - **P3 생태계 전환 비용**: ISA가 바뀌면 컴파일러, OS, 드라이버, 바이너리 호환성을 함께 해결해야 함
-
-> 요약: ISA 문제는 명령어 형식보다 구현 비용과 소프트웨어 생태계 비용에서 크게 나타남.
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: u-op cache, macro-op fusion, decode 병렬화로 CISC front-end 병목을 완화함 (확인: decode bandwidth, front-end stall)
-- **P2 대응**: 압축 명령어, link-time optimization, profile-guided optimization으로 코드 크기를 줄임 (확인: I-cache miss, binary size)
-- **P3 대응**: ABI 안정화, 에뮬레이션, cross-compiler, 장기 지원 toolchain을 함께 제공함 (확인: 포팅 성공률, 호환성 테스트)
+- **P3 대응**: 응용 바이너리 인터페이스(Application Binary Interface, ABI) 안정화, 에뮬레이션, cross-compiler, 장기 지원 toolchain을 함께 제공함 (확인: 포팅 성공률, 호환성 테스트)
 
 > 요약: ISA 개선은 명령어 추가보다 구현 병목과 생태계 호환성을 함께 관리해야 효과가 있음.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 서버 아키텍처 선정 | x86-64 CISC 호환성과 ARM/RISC-V RISC 전력 효율을 같은 workload와 compiler 조건에서 비교함 | perf/W, p95 latency, binary compatibility |
+| 임베디드 펌웨어 | 코드 크기가 제한된 MCU는 RISC 압축 명령어와 link-time optimization을 적용해 instruction cache와 flash 사용량을 줄임 | binary size, I-cache miss, flash 사용률 |
+| 플랫폼 전환 프로젝트 | ABI, driver, toolchain, emulator 준비도를 기준으로 ISA 전환 위험을 단계적으로 검증함 | 포팅 성공률, 회귀 테스트 통과율, toolchain defect |
+
+> 요약: RISC/CISC 선택은 명령어 철학보다 호환성, 코드 밀도, 전력, toolchain 성숙도를 같은 조건에서 검증해야 함.
 
 ## Ⅶ. 전망
 

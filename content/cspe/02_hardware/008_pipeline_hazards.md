@@ -10,7 +10,7 @@ weight: 8
 
 - Stall: 파이프라인 진행을 일시 정지해 의존성이나 자원 충돌을 해소하는 동작임
 - Bubble: stall 때문에 파이프라인에 삽입되는 무효 작업 슬롯임
-- RAW: 앞 명령의 결과를 뒤 명령이 읽어야 하는 실제 데이터 의존성임
+- 읽기 후 쓰기(Read After Write, RAW): 앞 명령의 결과를 뒤 명령이 읽어야 하는 실제 데이터 의존성임
 - Flush: 잘못 인출한 명령어를 파이프라인에서 제거하는 동작임
 
 ## Ⅰ. 개요
@@ -71,21 +71,26 @@ I2:            IF --> ID --> ST  -> EX  -> MEM -> WB
 
 > 요약: 해저드 처리는 탐지 후 원인별 제어를 적용하고 정합성이 보장될 때 진행하는 절차임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 CPI 증가**: bubble과 flush가 많아지면 이상적 CPI 1에서 멀어지고 처리량이 감소함
-- **P2 정합성 오류 위험**: 탐지 로직이 누락되면 이전 명령 결과가 확정되기 전에 잘못된 operand로 실행될 수 있음
-- **P3 제어 로직 복잡도**: forwarding mux, 비교기, predictor, flush 경로가 늘면 전력과 검증 부담이 증가함
-
-> 요약: 해저드는 성능 저하뿐 아니라 잘못된 실행을 막기 위한 검증 복잡도를 증가시킴.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: compiler scheduling, forwarding, branch prediction으로 bubble 삽입 빈도를 낮춤 (확인: CPI, stall cycle)
+- **P2 정합성 오류 위험**: 탐지 로직이 누락되면 이전 명령 결과가 확정되기 전에 잘못된 operand로 실행될 수 있음
 - **P2 대응**: interlock 조건, dependency checker, pipeline assertion을 설계 검증에 포함함 (확인: formal check, simulation failure)
-- **P3 대응**: 단순 in-order 코어와 고성능 OoO 코어를 요구사항별로 분리하고 로직을 모듈화함 (확인: area, power, coverage)
+- **P3 제어 로직 복잡도**: forwarding mux, 비교기, predictor, flush 경로가 늘면 전력과 검증 부담이 증가함
+- **P3 대응**: 단순 in-order 코어와 고성능 비순서 실행(Out-of-Order, OoO) 코어를 요구사항별로 분리하고 로직을 모듈화함 (확인: area, power, coverage)
 
 > 요약: 해저드 개선은 성능 최적화와 정합성 검증을 분리하지 않고 함께 설계해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| in-order 임베디드 코어 | load-use와 branch 해저드를 interlock과 compiler scheduling으로 제어해 정합성과 최악 지연을 확보함 | stall cycle, WCET, interlock coverage |
+| OoO 서버 코어 | renaming, speculation, forwarding으로 해저드를 숨기되 rollback과 exception 정합성을 검증함 | IPC, rollback 오류, formal property pass |
+| CPU 검증 환경 | RAW/WAR/WAW, 구조 충돌, branch flush 조합 테스트를 regression에 포함함 | coverage, assertion failure, bug escape rate |
+
+> 요약: 해저드는 성능 기법보다 정합성 보장이 우선이며, 대응 방식은 코어 목적과 검증 비용에 맞춰 선택함.
 
 ## Ⅶ. 전망
 

@@ -8,9 +8,9 @@ weight: 2
 
 ## 미리 알고가기
 
-- ALU: 산술 연산과 논리 연산을 수행하는 실행 장치임
-- CU: 명령어를 해석하고 각 장치에 제어 신호를 내보내는 장치임
-- 레지스터: CPU 내부에서 operand, 주소, 상태값을 1클록 접근으로 저장하는 저장소임
+- 산술 논리 장치(Arithmetic Logic Unit, ALU): 산술 연산과 논리 연산을 수행하는 실행 장치임
+- 제어 장치(Control Unit, CU): 명령어를 해석하고 각 장치에 제어 신호를 내보내는 장치임
+- 레지스터: 중앙처리장치(Central Processing Unit, CPU) 내부에서 operand, 주소, 상태값을 1클록 접근으로 저장하는 저장소임
 - 버스: 주소, 데이터, 제어 신호가 이동하는 공통 통로임
 
 ## Ⅰ. 개요
@@ -80,21 +80,26 @@ weight: 2
 
 > 요약: CPU 실행은 제어 신호가 데이터 경로를 열고 ALU 결과를 상태로 확정하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 메모리 벽**: ALU 처리 속도보다 메모리 접근 지연이 커서 실행 유닛이 데이터를 기다리는 시간이 발생함
+- **P1 대응**: 캐시 계층, prefetch, 비순서 실행(out-of-order execution)으로 메모리 대기 중 독립 명령을 처리함 (확인: memory stall cycle, IPC)
 - **P2 제어 흐름 병목**: 분기와 예외가 많으면 CU와 파이프라인이 다음 명령어 흐름을 확정하지 못함
+- **P2 대응**: 분기 예측기, 분기 대상 버퍼(Branch Target Buffer, BTB), 예외 처리 경로 검증을 강화함 (확인: branch miss rate, flush 횟수)
 - **P3 전력·발열 한계**: 레지스터 파일, bypass, 실행 유닛을 키우면 동적 전력과 누설 전력이 증가함
-
-> 요약: CPU 병목은 연산 능력 부족보다 데이터 공급, 제어 예측, 전력 예산에서 자주 발생함.
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: 캐시 계층, prefetch, out-of-order 실행으로 메모리 대기 중 독립 명령을 처리함 (확인: memory stall cycle, IPC)
-- **P2 대응**: 분기 예측기, branch target buffer, 예외 처리 경로 검증을 강화함 (확인: branch miss rate, flush 횟수)
-- **P3 대응**: clock gating, power gating, DVFS, 실행 유닛 선택적 활성화로 전력 예산을 관리함 (확인: TDP, perf/W)
+- **P3 대응**: clock gating, power gating, 동적 전압 주파수 조정(Dynamic Voltage and Frequency Scaling, DVFS), 실행 유닛 선택적 활성화로 전력 예산을 관리함 (확인: TDP, perf/W)
 
 > 요약: CPU 개선은 연산기 증설보다 병목 지표를 기준으로 제어와 데이터 경로를 함께 조정해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 서버 성능 병목 분석 | 성능 모니터링 유닛(Performance Monitoring Unit, PMU) 이벤트로 ALU utilization, cache miss, branch miss를 분리해 병목 구성요소를 찾음 | IPC, memory stall cycle, branch miss rate |
+| 저전력 모바일 SoC | 실행 유닛과 레지스터 파일 활성 구간을 줄이고 DVFS 정책으로 성능·전력 균형을 맞춤 | perf/W, thermal throttling, battery drain |
+| 컴파일러 최적화 검증 | 명령어 선택과 레지스터 할당이 ALU·레지스터·버스 병목을 줄이는지 벤치마크로 확인함 | register spill count, instruction mix, p95 latency |
+
+> 요약: CPU 구성요소는 명칭보다 병목 위치를 지표로 분해해 개선 조치를 연결할 때 답안 가치가 높음.
 
 ## Ⅶ. 전망
 

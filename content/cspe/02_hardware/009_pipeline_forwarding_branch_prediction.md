@@ -10,12 +10,12 @@ weight: 9
 
 - Forwarding: 결과를 레지스터에 쓰기 전에 필요한 파이프라인 단계로 직접 전달하는 기법임
 - Branch prediction: 분기 결과와 목표 주소를 미리 예측해 instruction fetch를 지속하는 기법임
-- BTB: branch target buffer로 분기 명령의 목표 주소를 저장하는 캐시임
+- 분기 대상 버퍼(Branch Target Buffer, BTB): 분기 명령의 목표 주소를 저장하는 캐시임
 - Misprediction penalty: 잘못 예측한 명령어를 flush하고 다시 채우는 데 드는 클록 비용임
 
 ## Ⅰ. 개요
 
-- **정의**: 파이프라인 포워딩과 분기 예측은 데이터 해저드와 제어 해저드로 인한 stall을 줄이기 위해 결과값과 다음 PC를 미리 공급하는 성능 개선 기법임. forwarding 가능 여부, 분기 예측 정확도, miss penalty를 기준으로 파이프라인 효율을 판단함.
+- **정의**: 파이프라인 포워딩과 분기 예측은 데이터 해저드와 제어 해저드로 인한 stall을 줄이기 위해 결과값과 다음 프로그램 카운터(Program Counter, PC)를 미리 공급하는 성능 개선 기법임. forwarding 가능 여부, 분기 예측 정확도, miss penalty를 기준으로 파이프라인 효율을 판단함.
 - **배경/필요성**: 파이프라인은 이전 명령 결과와 분기 방향이 확정되기 전에도 다음 명령어를 처리하려고 하므로 대기 시간이 발생함. 포워딩은 operand 대기를 줄이고, 분기 예측은 fetch 중단을 줄여 처리량을 높임.
 - **비유**: 포워딩은 완성품을 창고에 넣기 전에 다음 작업자에게 바로 넘기는 것이고, 분기 예측은 갈림길에서 목적지를 미리 고르는 것임.
 
@@ -77,21 +77,26 @@ Control path:
 
 > 요약: 파이프라인은 데이터는 우회하고 제어 흐름은 예측한 뒤 틀린 부분만 회복함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 load-use 한계**: 메모리 load 결과는 MEM 단계 후에야 준비되어 바로 다음 명령에는 stall이 필요할 수 있음
-- **P2 분기 오예측 비용**: deep pipeline에서 오예측 시 많은 명령어를 flush해 성능 손실이 커짐
-- **P3 보안 부작용**: 투기 실행과 공유 predictor 상태가 cache side channel 공격에 이용될 수 있음
-
-> 요약: 우회와 예측은 평균 성능을 높이지만 해결 불가능한 대기와 잘못 예측한 회복 비용이 남음.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: compiler instruction scheduling, load delay slot 회피, non-blocking cache로 load-use stall을 줄임 (확인: load-use stall)
+- **P2 분기 오예측 비용**: deep pipeline에서 오예측 시 많은 명령어를 flush해 성능 손실이 커짐
 - **P2 대응**: hybrid predictor, global/local history, BTB 용량 조정, return address stack을 적용함 (확인: prediction accuracy, MPKI)
+- **P3 보안 부작용**: 투기 실행과 공유 predictor 상태가 cache side channel 공격에 이용될 수 있음
 - **P3 대응**: predictor partitioning, speculation barrier, microcode mitigation, 민감 workload의 SMT 제한을 적용함 (확인: 취약점 점검, 성능 영향)
 
 > 요약: 포워딩과 분기 예측은 성능 지표와 보안 완화 비용을 함께 측정해 적용해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| load-use 해저드 최적화 | forwarding으로 해결 가능한 ALU 결과와 stall이 필요한 load 결과를 구분해 scheduling을 적용함 | load-use stall, CPI, forwarding hit |
+| branch-heavy workload | BTB와 global/local predictor를 조정해 오예측 flush 비용을 낮추고 branch miss를 PMU로 확인함 | branch miss rate, MPKI, flush cycle |
+| 보안 민감 서비스 | speculation barrier와 predictor 격리를 적용하고 성능 감소와 side-channel 위험을 함께 평가함 | 취약점 테스트, p95 latency, 성능 감소율 |
+
+> 요약: 포워딩과 분기 예측은 해저드 유형별로 성능 이득과 실패 비용을 분리해 측정해야 함.
 
 ## Ⅶ. 전망
 
