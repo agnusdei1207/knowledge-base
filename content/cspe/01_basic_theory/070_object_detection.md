@@ -36,7 +36,7 @@ weight: 70
 | Neck(FPN) | 다중 해상도 특징 맵을 피라미드로 융합하여 소형 객체 대응 | 다초점 렌즈 |
 | Head | 앵커 박스 기반 좌표 회귀 + 클래스 분류를 동시 수행 | 판정관 |
 
-> 요약: Backbone→Neck→Head 파이프라인으로 다중 스케일 특징을 추출하고 박스+클래스를 예측함.
+> 요약: Backbone->Neck->Head 파이프라인으로 다중 스케일 특징을 추출하고 박스+클래스를 예측함.
 
 ## Ⅲ. 절차
 ```text
@@ -65,9 +65,9 @@ weight: 70
 2. 중기: DINO·RT-DETR 등 Transformer 기반 탐지기로 소형 객체 전역 문맥 활용
 3. 장기: Domain Adaptation + 합성 데이터 증강으로 야간·우천 등 미지 환경 견고성 확보
 
-- **속도-정확도**: 구조 한계 → Anchor-Free + 경량 백본 (지표: FPS vs mAP 파레토)
-- **소형 객체**: 저해상도 특징 → FPN 고도화 + Sliced Inference (지표: AP_small > 0.3)
-- **도메인 이동**: 분포 차이 → 적대적 도메인 적응 (지표: Cross-domain mAP 하락률 < 10%)
+- **속도-정확도**: 구조 한계 -> Anchor-Free + 경량 백본 (지표: FPS vs mAP 파레토)
+- **소형 객체**: 저해상도 특징 -> FPN 고도화 + Sliced Inference (지표: AP_small > 0.3)
+- **도메인 이동**: 분포 차이 -> 적대적 도메인 적응 (지표: Cross-domain mAP 하락률 < 10%)
 
 > 요약: Anchor-Free·Transformer 탐지·도메인 적응으로 단계적 개선함.
 
